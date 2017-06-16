@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
-  enum role: [:user, :vip, :admin]
-  after_initialize :set_default_role, :if => :new_record?
+  enum role: %i[user vip admin]
+  after_initialize :set_default_role, if: :new_record?
 
   def set_default_role
     self.role ||= :user

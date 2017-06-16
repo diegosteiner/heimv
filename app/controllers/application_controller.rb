@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
+  include Pundit
   protect_from_forgery with: :exception
+  rescue_from Pundit::NotAuthorizedError, with: :unauthorized
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
@@ -9,4 +13,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:name])
   end
 
+  private
+
+  def unauthorized
+    flash[:alert] = 'Access denied.'
+    redirect_to(request.referer || root_path)
+  end
 end

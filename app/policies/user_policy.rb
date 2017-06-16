@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserPolicy
   attr_reader :current_user, :model
 
@@ -11,7 +13,7 @@ class UserPolicy
   end
 
   def show?
-    @current_user.admin? or @current_user == @user
+    @current_user.admin? || @current_user == @user
   end
 
   def update?
@@ -22,5 +24,4 @@ class UserPolicy
     return false if @current_user == @user
     @current_user.admin?
   end
-
 end
