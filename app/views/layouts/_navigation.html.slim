@@ -1,4 +1,4 @@
-nav.navbar.navbar-dark.bg-inverse.fixed-top.bg-fade.navbar-toggleable-md
+nav.navbar.fixed-top.navbar-inverse.navbar-toggleable-md.navbar-main
   button.navbar-toggler.navbar-toggler-right[
     aria-controls="navbarSupportedContent"
     aria-expanded="false"
@@ -8,7 +8,7 @@ nav.navbar.navbar-dark.bg-inverse.fixed-top.bg-fade.navbar-toggleable-md
     type="button"]
     span.navbar-toggler-icon
   = link_to root_path, class: 'navbar-brand' do
-    = image_tag 'logo.png', class: "d-inline-block align-top"
+    = image_tag 'logo.png', class: "d-inline-block align-top", width: 30, height: 30
   #navbarSupportedContent.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
       = render 'layouts/navigation_links'
