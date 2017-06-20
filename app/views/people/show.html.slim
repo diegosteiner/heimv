@@ -1,0 +1,37 @@
+.card
+  .card-block
+    p
+      strong=  Person.human_attribute_name(:firstname)
+      br
+      = @person.firstname
+    p
+      strong=  Person.human_attribute_name(:lastname)
+      br
+      = @person.lastname
+    p
+      strong=  Person.human_attribute_name(:street_address)
+      br
+      = @person.street_address
+    p
+      strong=  Person.human_attribute_name(:zipcode)
+      br
+      = @person.zipcode
+    p
+      strong=  Person.human_attribute_name(:city)
+      br
+      = @person.city
+
+br
+
+= link_to edit_person_path(@person), class: 'btn btn-primary' do
+  .fa.fa-pencil
+  '
+  = t('edit')
+
+'
+= link_to @person, data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
+  .fa.fa-trash
+  '
+  = t('destroy')
+
+= link_to t('back'), people_path, class: 'btn btn-default'

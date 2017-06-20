@@ -22,15 +22,15 @@ module Heimverwaltung
                        controller_specs: false,
                        request_specs: false
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
-  g.stylesheets     false
-  g.javascripts     false
-  g.helpers     false
+      g.stylesheets     false
+      g.javascripts     false
+      g.helpers false
     end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-    config.i18n.available_locales = %w{de en}
+    config.i18n.available_locales = %w[de en]
     config.i18n.default_locale = :de
   end
 end

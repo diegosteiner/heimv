@@ -1,0 +1,13 @@
+= simple_form_for(@person) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :firstname
+    = f.input :lastname
+    = f.input :street_address
+    = f.input :zipcode
+    = f.input :city
+
+  .form-actions
+    = f.button :submit
+    = link_to t('back'), people_path, class: 'btn btn-default'
