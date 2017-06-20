@@ -1,23 +1,43 @@
 @import 'variables';
 @import 'bootstrap';
-@import 'devise';
+@import "font-awesome-sprockets";
+@import 'font-awesome';
 
 img {
   @extend .img-fluid;
   margin: 0 auto;
 }
+
 .navbar-main {
   box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
   font-size: inherit;
   background-color: $brand-primary;
 }
 
+.card > .table {
+  margin: 0;
+}
+
+.breadcrumb {
+  padding-left: 0;
+}
+
 main {
   @extend .container;
-  margin-top: 80px; // accommodate the navbar
+  margin-top: 40px; // accommodate the navbar
 }
 
 section {
   @extend .row;
   margin-top: 20px;
+}
+
+.sm-breakout {
+  @include media-breakpoint-down(sm) {
+    margin-left: -($grid-gutter-width-base / 2 + 1);
+    margin-right: -($grid-gutter-width-base / 2 + 1);
+    border-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+  }
 }

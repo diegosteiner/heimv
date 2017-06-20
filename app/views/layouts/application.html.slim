@@ -5,7 +5,6 @@ html
     meta[name='viewport' content='width=device-width, initial-scale=1.0']
     meta[name='description' content=t('Heimverwaltung')]
     == stylesheet_link_tag 'application', :media => 'all', 'data-turbolinks-track' => 'reload'
-    == javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
     == csrf_meta_tags
   body
     header
@@ -13,8 +12,13 @@ html
     main[role='main']
       == render 'layouts/messages'
       .row
-        .col-md-2
-          ul
-            li Heime
-        .col-md-10
+        .col-md-2.hidden-sm-down
+          = link_to Person.model_name.human, people_path, class: 'btn btn-block'
+        .col-md-10.col-sm-12
+          ol.breadcrumb
+            - breadcrumbs.items.each do |(text, url)|
+              li.breadcrumb-item
+                = link_to_if url.present?, text, url
           == yield
+    == javascript_include_tag 'https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js'
+    == javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'

@@ -4,10 +4,12 @@ source 'https://rubygems.org'
 ruby File.read('.ruby-version')
 
 gem 'bootstrap', '~> 4.0.0.alpha6'
+gem 'breadcrumbs'
 gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise_invitable'
+gem 'font-awesome-sass'
 gem 'jquery-rails'
 gem 'pg'
 gem 'puma', '~> 3.0'
@@ -22,6 +24,7 @@ gem 'uglifier', '>= 1.3.0'
 
 group :development do
   gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'foreman'
   gem 'letter_opener'
   gem 'listen', '~> 3.0.5'

@@ -11,7 +11,12 @@
 // about supported directives.
 //
 //= require jquery3
-//= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .
+
+$(document).on('turbolinks:load', function() {
+  $('[data-href]').click(function(e) {
+    window.location = $(this).data('href');
+  });
+});

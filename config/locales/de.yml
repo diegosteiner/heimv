@@ -1,1 +1,8 @@
 de:
+  new: 'Neu'
+  edit: 'Bearbeiten'
+  destroy: 'Löschen'
+  home: Home
+  back: 'Zurück'
+  confirm: 'Sind Sie sicher?'
+  or: oder
