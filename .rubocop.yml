@@ -11,6 +11,7 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'config/routes.rb'
     - 'config/environments/*'
+    - 'config/initializers/*'
 
 Style/Documentation:
   Enabled: false
