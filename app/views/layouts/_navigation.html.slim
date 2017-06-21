@@ -11,4 +11,17 @@ nav.navbar.fixed-top.navbar-inverse.navbar-toggleable-md.navbar-main
     = image_tag 'logo.png', class: "d-inline-block align-top", width: 30, height: 30
   #navbarSupportedContent.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
-      = render 'layouts/navigation_links'
+      li.nav-item
+        = link_to Person.model_name.human(count: :other), people_path, class: 'nav-link'
+      li.nav-item.dropdown
+        a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
+          = User.model_name.human
+        .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
+          - if user_signed_in?
+              = link_to 'Edit account', edit_user_registration_path, class: 'dropdown-item'
+              = link_to 'Sign out', destroy_user_session_path, :method=>'delete', class: 'dropdown-item'
+          - else
+              = link_to 'Sign in', new_user_session_path, class: 'dropdown-item'
+              = link_to 'Sign up', new_user_registration_path, class: 'dropdown-item'
+          - if user_signed_in? && current_user.try(:admin?)
+            = link_to 'Users', users_path, class: 'dropdown-item'

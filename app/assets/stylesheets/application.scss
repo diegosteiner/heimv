@@ -14,6 +14,10 @@ img {
   background-color: $brand-primary;
 }
 
+[data-href] {
+  cursor: pointer;
+}
+
 .card > .table {
   margin: 0;
 }
