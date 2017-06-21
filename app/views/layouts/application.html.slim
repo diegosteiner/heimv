@@ -11,14 +11,10 @@ html
       == render 'layouts/navigation'
     main[role='main']
       == render 'layouts/messages'
-      .row
-        .col-md-2.hidden-sm-down
-          = link_to Person.model_name.human, people_path, class: 'btn btn-block'
-        .col-md-10.col-sm-12
-          ol.breadcrumb
-            - breadcrumbs.items.each do |(text, url)|
-              li.breadcrumb-item
-                = link_to_if url.present?, text, url
-          == yield
+      ol.breadcrumb
+        - breadcrumbs.items.each do |(text, url)|
+          li.breadcrumb-item
+            = link_to_if url.present?, text, url
+      == yield
     == javascript_include_tag 'https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js'
     == javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'

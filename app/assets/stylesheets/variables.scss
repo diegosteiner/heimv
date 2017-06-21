@@ -27,7 +27,7 @@ $enable-shadows: true;
 // $gray-lightest:             #f7f7f9;
 
 // Reassign color vars to semantic color scheme
-// $brand-primary:             $blue;
+$brand-primary:             #333399;
 // $brand-success:             $green;
 // $brand-info:                $teal;
 // $brand-warning:             $orange;
@@ -268,8 +268,8 @@ $body-bg:       $gray-lighter;
 // $btn-active-box-shadow:          inset 0 3px 5px rgba($black,.125);
 
 // $btn-primary-color:              $white;
-// $btn-primary-bg:                 $brand-primary;
-// $btn-primary-border-color:       $btn-primary-bg;
+$btn-primary-bg:                 $brand-primary;
+$btn-primary-border-color:       $btn-primary-bg;
 
 // $btn-secondary-color:            $gray-dark;
 // $btn-secondary-bg:               $white;
@@ -318,7 +318,7 @@ $body-bg:       $gray-lighter;
 // $input-border-radius-sm:         $border-radius-sm;
 
 // $input-bg-focus:                 $input-bg;
-// $input-border-color-focus:       lighten($brand-primary, 25%);
+$input-border-color-focus:       lighten($brand-primary, 25%);
 // $input-box-shadow-focus:         $input-box-shadow, rgba($input-border-color-focus, .6);
 // $input-color-focus:              $input-color;
 
@@ -358,19 +358,19 @@ $body-bg:       $gray-lighter;
 // $custom-control-disabled-description-color:  $gray-light;
 
 // $custom-control-checked-indicator-color:      $white;
-// $custom-control-checked-indicator-bg:         $brand-primary;
+$custom-control-checked-indicator-bg:         $brand-primary;
 // $custom-control-checked-indicator-box-shadow: none;
 
-// $custom-control-focus-indicator-box-shadow: 0 0 0 1px $body-bg, 0 0 0 3px $brand-primary;
+$custom-control-focus-indicator-box-shadow: 0 0 0 1px $body-bg, 0 0 0 3px $brand-primary;
 
 // $custom-control-active-indicator-color:      $white;
-// $custom-control-active-indicator-bg:         lighten($brand-primary, 35%);
+$custom-control-active-indicator-bg:         lighten($brand-primary, 35%);
 // $custom-control-active-indicator-box-shadow: none;
 
 // $custom-checkbox-radius: $border-radius;
 // $custom-checkbox-checked-icon: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{$custom-control-checked-indicator-color}' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E"), "#", "%23");
 
-// $custom-checkbox-indeterminate-bg: $brand-primary;
+$custom-checkbox-indeterminate-bg: $brand-primary;
 // $custom-checkbox-indeterminate-indicator-color: $custom-control-checked-indicator-color;
 // $custom-checkbox-indeterminate-icon: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3E%3Cpath stroke='#{$custom-checkbox-indeterminate-indicator-color}' d='M0 2h4'/%3E%3C/svg%3E"), "#", "%23");
 // $custom-checkbox-indeterminate-box-shadow: none;
@@ -393,14 +393,14 @@ $body-bg:       $gray-lighter;
 // $custom-select-border-color:  $input-border-color;
 // $custom-select-border-radius: $border-radius;
 
-// $custom-select-focus-border-color: lighten($brand-primary, 25%);
+$custom-select-focus-border-color: lighten($brand-primary, 25%);
 // $custom-select-focus-box-shadow:   inset 0 1px 2px rgba($black, .075), 0 0 5px rgba($custom-select-focus-border-color, .5);
 
 // $custom-select-sm-font-size:  75%;
 
 // $custom-file-height:           2.5rem;
 // $custom-file-width:            14rem;
-// $custom-file-focus-box-shadow: 0 0 0 .075rem $white, 0 0 0 .2rem $brand-primary;
+$custom-file-focus-box-shadow: 0 0 0 .075rem $white, 0 0 0 .2rem $brand-primary;
 
 // $custom-file-padding-y:     1rem;
 // $custom-file-padding-x:     .5rem;
@@ -509,8 +509,8 @@ $body-bg:       $gray-lighter;
 // $navbar-toggler-font-size:           $font-size-lg;
 // $navbar-toggler-border-radius:       $btn-border-radius;
 
-// $navbar-inverse-color:                 rgba($white,.5);
-// $navbar-inverse-hover-color:           rgba($white,.75);
+$navbar-inverse-color:                 rgba($white,1);
+$navbar-inverse-hover-color:           rgba($white,.75);
 // $navbar-inverse-active-color:          rgba($white,1);
 // $navbar-inverse-disabled-color:        rgba($white,.25);
 // $navbar-inverse-toggler-icon-bg: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-inverse-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"), "#", "%23");
@@ -543,8 +543,8 @@ $body-bg:       $gray-lighter;
 // $pagination-hover-border-color:        #ddd;
 
 // $pagination-active-color:              $white;
-// $pagination-active-bg:                 $brand-primary;
-// $pagination-active-border-color:       $brand-primary;
+$pagination-active-bg:                 $brand-primary;
+$pagination-active-border-color:       $brand-primary;
 
 // $pagination-disabled-color:            $gray-light;
 // $pagination-disabled-bg:               $white;
@@ -646,7 +646,7 @@ $body-bg:       $gray-lighter;
 // Badges
 
 // $badge-default-bg:            $gray-light;
-// $badge-primary-bg:            $brand-primary;
+$badge-primary-bg:            $brand-primary;
 // $badge-success-bg:            $brand-success;
 // $badge-info-bg:               $brand-info;
 // $badge-warning-bg:            $brand-warning;
@@ -732,7 +732,7 @@ $body-bg:       $gray-lighter;
 // $progress-border-radius:        $border-radius;
 // $progress-box-shadow:           inset 0 .1rem .1rem rgba($black,.1);
 // $progress-bar-color:            $white;
-// $progress-bar-bg:               $brand-primary;
+$progress-bar-bg:               $brand-primary;
 // $progress-bar-animation-timing: 1s linear infinite;
 // $progress-bar-transition:       width .6s ease;
 

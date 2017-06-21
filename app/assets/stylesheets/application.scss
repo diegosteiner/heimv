@@ -32,7 +32,7 @@ section {
   margin-top: 20px;
 }
 
-.sm-breakout {
+.breakout-sm {
   @include media-breakpoint-down(sm) {
     margin-left: -($grid-gutter-width-base / 2 + 1);
     margin-right: -($grid-gutter-width-base / 2 + 1);

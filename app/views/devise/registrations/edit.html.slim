@@ -1,38 +1,21 @@
-.authform
-  h3
-    | Edit
-    = resource_name.to_s.humanize
-  = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :role => 'form'}) do |f|
-    = devise_error_messages!
-    .form-group
-      = f.label :name
-      = f.text_field :name, :autofocus => true, class: 'form-control'
-    .form-group
-      = f.label :email
-      = f.email_field :email, class: 'form-control'
-      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-        div
-          | Currently waiting confirmation for:
-          = resource.unconfirmed_email
-    fieldset
-      p
-        | Leave these fields blank if you don't want to change your password.
-      .form-group
-        = f.label :password
-        = f.password_field :password, :autocomplete => 'off', class: 'form-control'
-      .form-group
-        = f.label :password_confirmation
-        = f.password_field :password_confirmation, class: 'form-control'
-    fieldset
-      p
-        | You must enter your current password to make changes.
-      .form-group
-        = f.label :current_password
-        = f.password_field :current_password, class: 'form-control'
-    = f.submit 'Update', :class => 'button right'
-.authform
-  h3
-    | Cancel Account
-  p
-    | Unhappy? We'll be sad to see you go.
-  = button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button right'
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  = devise_error_messages!
+  = f.input :email, as: :email
+  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+    p.form-text.text-muted
+      | Currently waiting confirmation for:
+      = resource.unconfirmed_email
+  fieldset
+    p.form-text.text-muted
+      | Leave these fields blank if you don't want to change your password.
+    = f.input :password, as: :password, autocomplete: 'off', class: 'form-control'
+  fieldset
+    p.form-text.text-muted
+      | You must enter your current password to make changes.
+    = f.input :current_password, as: :password
+  = f.button :submit
+
+br
+p.form-text.text-muted
+  | Unhappy? We'll be sad to see you go.
+= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button right'
