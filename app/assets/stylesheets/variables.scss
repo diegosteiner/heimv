@@ -269,7 +269,7 @@ $btn-focus-box-shadow:           0 0 0 2px rgba($brand-primary, .25);
 
 // $btn-primary-color:              $white;
 $btn-primary-bg:                 $brand-primary;
-$btn-primary-border-color:       $btn-primary-bg;
+$btn-primary-border:       $btn-primary-bg;
 
 // $btn-secondary-color:            $gray-dark;
 // $btn-secondary-bg:               $white;
@@ -318,7 +318,8 @@ $btn-primary-border-color:       $btn-primary-bg;
 // $input-border-radius-sm:         $border-radius-sm;
 
 // $input-bg-focus:                 $input-bg;
-$input-border-color-focus:       lighten($brand-primary, 25%);
+$input-border-focus:                lighten($brand-primary, 25%);
+// $input-border-color-focus:       lighten($brand-primary, 25%);
 // $input-box-shadow-focus:         $input-box-shadow, rgba($input-border-color-focus, .6);
 // $input-color-focus:              $input-color;
 
