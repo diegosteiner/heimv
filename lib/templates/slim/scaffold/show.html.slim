@@ -1,10 +1,13 @@
 .card
   .card-block
-    <% attributes.each do |attribute| -%>
+<% attributes.each do |attribute| -%>
     p
       strong= <%= class_name %>.human_attribute_name(:<%= attribute.human_name %>)
+      br
       = @<%= singular_table_name %>.<%= attribute.name %>
-    <% end -%>
+<% end -%>
+
+br
 
 = link_to edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: 'btn btn-primary' do
   .fa.fa-pencil

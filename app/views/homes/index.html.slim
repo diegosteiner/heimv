@@ -1,0 +1,24 @@
+.card
+  table.table.table-hover
+    thead
+      tr
+        th= Home.human_attribute_name(:name)
+        th= Home.human_attribute_name(:ref)
+        th
+        th
+
+    tbody
+      - @homes.each do |home|
+        tr[data-href=home_path(home)]
+          td = home.name
+          td = home.ref
+          td = link_to edit_home_path(home) do
+            span.fa.fa-pencil
+          td = link_to home_path(home), data: { confirm: t('confirm') }, method: :delete do
+            span.fa.fa-trash
+
+br
+= link_to new_home_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t('.new')

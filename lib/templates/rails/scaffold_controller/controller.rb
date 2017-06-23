@@ -24,7 +24,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   end
 
   def edit
-    breadcrumbs.add @<%= singular_table_name %>.to_s, @<%= singular_table_name %>_path(@<%= singular_table_name %>)
+    breadcrumbs.add @<%= singular_table_name %>.to_s, <%= singular_table_name %>_path(@<%= singular_table_name %>)
     breadcrumbs.add t('edit')
   end
 
@@ -49,7 +49,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   def destroy
     @<%= orm_instance.destroy %>
-    redirect_to <%= index_helper %>, notice: t('actions.destroy.success', model_name: <%= class_name %>.model_name.human)
+    redirect_to <%= index_helper %>_path, notice: t('actions.destroy.success', model_name: <%= class_name %>.model_name.human)
   end
 
   private
@@ -60,7 +60,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
     def set_breadcrumbs
       super
-      breadcrumbs.add <%= class_name %>.model_name.human(count: :other), index_helper
+      breadcrumbs.add <%= class_name %>.model_name.human(count: :other), <%= index_helper %>_path
     end
 
     def <%= "#{singular_table_name}_params" %>
