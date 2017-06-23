@@ -25,6 +25,8 @@ module Heimverwaltung
       g.stylesheets     false
       g.javascripts     false
       g.helpers false
+      g.assets false
+      g.system_tests false
     end
 
     # Settings in config/environments/* take precedence over those specified here.

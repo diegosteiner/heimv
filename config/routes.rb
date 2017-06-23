@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :bookings
   resources :people
   get 'pages/home'
   get 'pages/about'

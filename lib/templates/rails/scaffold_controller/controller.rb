@@ -10,6 +10,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   def index
     @<%= plural_table_name %> = <%= orm_class.all(class_name) %>
+    authorize <%= class_name %>
   end
 
   def show
@@ -17,6 +18,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   end
 
   def new
+    authorize <%= class_name %>
     breadcrumbs.add t('new')
     @<%= singular_table_name %> = <%= orm_class.build(class_name) %>
   end
@@ -27,6 +29,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   end
 
   def create
+    authorize <%= class_name %>
     @<%= singular_table_name %> = <%= orm_class.build(class_name, "#{singular_table_name}_params") %>
 
     if @<%= orm_instance.save %>
@@ -46,12 +49,13 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   def destroy
     @<%= orm_instance.destroy %>
-      redirect_to <%= index_helper %>, notice: t('actions.destroy.success', model_name: <%= class_name %>.model_name.human)
+    redirect_to <%= index_helper %>, notice: t('actions.destroy.success', model_name: <%= class_name %>.model_name.human)
   end
 
   private
     def set_<%= singular_table_name %>
       @<%= singular_table_name %> = <%= orm_class.find(class_name, "params[:id]") %>
+      authorize @<%= singular_table_name %>
     end
 
     def set_breadcrumbs
