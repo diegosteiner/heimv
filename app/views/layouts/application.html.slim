@@ -1,9 +1,10 @@
 doctype html
-html
+html[lang=I18n.locale]
   head
     title= title
     meta[name='viewport' content='width=device-width, initial-scale=1.0']
     meta[name='description' content=t('Heimverwaltung')]
+    meta[lan]
     == stylesheet_link_tag 'application', :media => 'all', 'data-turbolinks-track' => 'reload'
     == csrf_meta_tags
     == javascript_include_tag 'https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js'

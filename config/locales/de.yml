@@ -6,3 +6,6 @@ de:
   back: 'Zurück'
   confirm: 'Sind Sie sicher?'
   or: oder
+
+  titles:
+    application: Heimverwaltung

@@ -17,7 +17,8 @@
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
-  $('[data-href]').click(function() {
-    window.location = $(this).data('href');
+  $('[data-href]').click(function(e) {
+    console.log(e);
+    //window.location = $(this).data('href');
   });
 });
