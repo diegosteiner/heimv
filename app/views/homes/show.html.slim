@@ -1,4 +1,4 @@
-.card
+.card.breakout-sm
   .card-block
     p
       strong= Home.human_attribute_name(:Name)
@@ -8,8 +8,19 @@
       strong= Home.human_attribute_name(:Ref)
       br
       = @home.ref
+    p
+      strong= t('.documents')
+      br
+      ul
+        li
+          = link_to t('.rulesheet'), '#'
+          '
+          = link_to '#' do
+            span.fa.fa-pencil
 
 br
+
+h2=
 
 = link_to edit_home_path(@home), class: 'btn btn-primary' do
   .fa.fa-pencil

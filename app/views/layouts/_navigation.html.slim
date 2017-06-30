@@ -13,6 +13,8 @@ nav.navbar.fixed-top.navbar-inverse.navbar-toggleable-md.navbar-main
     ul.navbar-nav.mr-auto
       li.nav-item
         = link_to Person.model_name.human(count: :other), people_path, class: 'nav-link'
+      li.nav-item
+        = link_to Home.model_name.human(count: :other), homes_path, class: 'nav-link'
       li.nav-item.dropdown
         a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
           = User.model_name.human

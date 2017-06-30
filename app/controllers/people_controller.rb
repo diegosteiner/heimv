@@ -47,7 +47,7 @@ class PeopleController < ApplicationController
 
   def set_breadcrumbs
     super
-    breadcrumbs.add Person.model_name.human(count: :other), people_path
+    breadcrumbs.add(Person.model_name.human(count: 2), people_path)
   end
 
   def set_person

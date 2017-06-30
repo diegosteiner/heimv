@@ -9,3 +9,12 @@ de:
 
   titles:
     application: Heimverwaltung
+
+  activerecord:
+    models:
+      home:
+        one: Heim
+        other: Heime
+      person:
+        one: Person
+        other: Personen
