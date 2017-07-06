@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe "bookings/show", type: :view do
+RSpec.describe 'bookings/show', type: :view do
   before(:each) do
     @booking = assign(:booking, Booking.create!(
-      :occupancy => nil,
-      :home => nil,
-      :state => "State",
-      :customer => nil
+                                  occupancy: nil,
+                                  home: nil,
+                                  state: 'State',
+                                  customer: nil
     ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     expect(rendered).to match(//)
     expect(rendered).to match(//)

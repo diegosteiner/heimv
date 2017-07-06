@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: [:show, :edit, :update, :destroy]
+  before_action :set_booking, only: %i[show edit update destroy]
   before_action :authenticate_user!
   after_action :verify_authorized
 
@@ -48,17 +48,18 @@ class BookingsController < ApplicationController
   end
 
   private
-    def set_booking
-      @booking = Booking.find(params[:id])
-      authorize @booking
-    end
 
-    def set_breadcrumbs
-      super
-      breadcrumbs.add Booking.model_name.human(count: :other), bookings_path
-    end
+  def set_booking
+    @booking = Booking.find(params[:id])
+    authorize @booking
+  end
 
-    def booking_params
-      params.require(:booking).permit(:occupancy_id, :home_id, :state, :customer_id)
-    end
+  def set_breadcrumbs
+    super
+    breadcrumbs.add Booking.model_name.human(count: :other), bookings_path
+  end
+
+  def booking_params
+    params.require(:booking).permit(:occupancy_id, :home_id, :state, :customer_id)
+  end
 end

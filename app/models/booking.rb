@@ -13,9 +13,9 @@ class Booking < ApplicationRecord
   validates :home, :customer, presence: true
   validates :state, inclusion: { in: ->(booking) { booking.state_machine.allowed_or_current_transitions } }
   validate do
-     if state_changed? && !state_machine.can_transition_to?(state)
-    errors.add(:state, I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition'))
-  end
+    if state_changed? && !state_machine.can_transition_to?(state)
+      errors.add(:state, I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition'))
+    end
   end
 
   before_save :state_transition, if: ->(booking) { booking.state_changed? }
@@ -31,9 +31,9 @@ class Booking < ApplicationRecord
 
   def state_transition
     return true unless state_changed?
-      transition_success = state_machine.transition_to(state)
-      self.state = state_machine.current_state
-      return transition_success
+    transition_success = state_machine.transition_to(state)
+    self.state = state_machine.current_state
+    transition_success
   end
 
   def set_initial_state
