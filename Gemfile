@@ -18,6 +18,7 @@ gem 'rails', '~> 5.1.0'
 gem 'sass-rails', '~> 5.0'
 gem 'simple_form'
 gem 'slim-rails'
+gem 'statesman'
 gem 'title'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
@@ -38,8 +39,8 @@ group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'byebug', platform: :mri
-  gem 'factory_girl_rails'
-  gem 'faker'
+  gem 'factory_girl_rails', require: false
+  gem 'faker', require: false
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'

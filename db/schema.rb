@@ -10,10 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170623100857) do
+ActiveRecord::Schema.define(version: 20170706134217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "booking_transitions", force: :cascade do |t|
+    t.string "to_state", null: false
+    t.json "metadata", default: {}
+    t.integer "sort_key", null: false
+    t.integer "booking_id", null: false
+    t.boolean "most_recent", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id", "most_recent"], name: "index_booking_transitions_parent_most_recent", unique: true, where: "most_recent"
+    t.index ["booking_id", "sort_key"], name: "index_booking_transitions_parent_sort", unique: true
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.bigint "occupancy_id"
+    t.bigint "home_id"
+    t.string "state"
+    t.integer "customer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["home_id"], name: "index_bookings_on_home_id"
+    t.index ["occupancy_id"], name: "index_bookings_on_occupancy_id"
+  end
 
   create_table "homes", force: :cascade do |t|
     t.string "name"
@@ -21,6 +44,19 @@ ActiveRecord::Schema.define(version: 20170623100857) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ref"], name: "index_homes_on_ref", unique: true
+  end
+
+  create_table "occupancies", force: :cascade do |t|
+    t.datetime "begins_at", null: false
+    t.datetime "ends_at", null: false
+    t.boolean "blocking", default: false, null: false
+    t.bigint "home_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["begins_at"], name: "index_occupancies_on_begins_at"
+    t.index ["blocking"], name: "index_occupancies_on_blocking"
+    t.index ["ends_at"], name: "index_occupancies_on_ends_at"
+    t.index ["home_id"], name: "index_occupancies_on_home_id"
   end
 
   create_table "people", force: :cascade do |t|
@@ -67,4 +103,8 @@ ActiveRecord::Schema.define(version: 20170623100857) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "booking_transitions", "bookings"
+  add_foreign_key "bookings", "homes"
+  add_foreign_key "bookings", "occupancies"
+  add_foreign_key "occupancies", "homes"
 end

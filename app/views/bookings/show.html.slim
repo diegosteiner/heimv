@@ -1,0 +1,34 @@
+.card
+  .card-block
+    p
+      strong= Booking.human_attribute_name(:Occupancy)
+      br
+      = @booking.occupancy
+    p
+      strong= Booking.human_attribute_name(:Home)
+      br
+      = @booking.home
+    p
+      strong= Booking.human_attribute_name(:State)
+      br
+      = @booking.state
+    p
+      strong= Booking.human_attribute_name(:Customer)
+      br
+      = @booking.customer
+
+br
+
+= link_to edit_booking_path(@booking), class: 'btn btn-primary' do
+  .fa.fa-pencil
+  '
+  = t('edit')
+
+'
+= link_to booking_path(@booking), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
+  .fa.fa-trash
+  '
+  = t('destroy')
+
+'
+= link_to t('back'), bookings_path, class: 'btn btn-default'

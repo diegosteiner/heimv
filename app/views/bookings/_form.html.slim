@@ -1,0 +1,11 @@
+= simple_form_for(@booking) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :occupancy
+    = f.association :home
+    = f.input :state
+    = f.association :customer
+
+  .form-actions
+    = f.button :submit
