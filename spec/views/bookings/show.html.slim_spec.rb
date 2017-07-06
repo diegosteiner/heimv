@@ -2,12 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'bookings/show', type: :view do
   before(:each) do
-    @booking = assign(:booking, Booking.create!(
-                                  occupancy: nil,
-                                  home: nil,
-                                  state: 'State',
-                                  customer: nil
-    ))
+    @booking = assign(:booking, create(:booking)
   end
 
   it 'renders attributes in <p>' do

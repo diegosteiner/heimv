@@ -2,12 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'bookings/edit', type: :view do
   before(:each) do
-    @booking = assign(:booking, Booking.create!(
-                                  occupancy: nil,
-                                  home: nil,
-                                  state: 'MyString',
-                                  customer: nil
-    ))
+    @booking = assign(:booking, create(:booking)
   end
 
   it 'renders the edit booking form' do
