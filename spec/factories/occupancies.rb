@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :occupancy do
-    begins_at "2017-07-06 09:20:06"
-    ends_at "2017-07-06 09:20:06"
+    begins_at { Time.zone.now + 1.month}
+    ends_at { begins_at + 1.week }
     blocking false
-    home nil
+    home
   end
 end
