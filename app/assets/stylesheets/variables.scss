@@ -85,7 +85,7 @@ $body-bg:       $gray-lighter;
 
 $link-color:            $brand-primary;
 // $link-decoration:       none;
-// $link-hover-color:      darken($link-color, 15%);
+$link-hover-color:      darken($link-color, 15%);
 // $link-hover-decoration: underline;
 
 
@@ -230,8 +230,8 @@ $component-active-bg:    $brand-primary;
 
 // $table-bg:                      transparent;
 // $table-bg-accent:               rgba($black,.05);
-// $table-bg-hover:                rgba($black,.075);
-// $table-bg-active:               $table-bg-hover;
+$table-bg-hover:                rgba($brand-primary,.075);
+$table-bg-active:               $table-bg-hover;
 
 // $table-border-width:            $border-width;
 // $table-border-color:            $gray-lighter;

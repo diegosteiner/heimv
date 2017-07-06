@@ -1,23 +1,25 @@
-.card
+.card.breakout-sm
   .card-block
     p
-      strong= Booking.human_attribute_name(:Occupancy)
+      span.badge.badge-default= t(@booking.state, scope: 'activerecord.values.bookings.states')
+    p
+      strong= Booking.human_attribute_name(:occupancy)
       br
       = @booking.occupancy
     p
-      strong= Booking.human_attribute_name(:Home)
+      strong= Booking.human_attribute_name(:home)
       br
-      = @booking.home
+      = link_to @booking.home, home_path(@booking.home)
     p
-      strong= Booking.human_attribute_name(:State)
+      strong= Booking.human_attribute_name(:customer)
       br
-      = @booking.state
-    p
-      strong= Booking.human_attribute_name(:Customer)
-      br
-      = @booking.customer
+      = link_to @booking.customer, person_path(@booking.customer)
 
 br
+
+= button_to 'Vertrag ausstellen', booking_path(@booking), method: :patch, params: { booking: { state: 'awaiting_preconditions' } }, class: 'btn btn-default'
+
+hr
 
 = link_to edit_booking_path(@booking), class: 'btn btn-primary' do
   .fa.fa-pencil

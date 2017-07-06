@@ -12,6 +12,8 @@ nav.navbar.fixed-top.navbar-inverse.navbar-toggleable-md.navbar-main
   #navbarSupportedContent.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
       li.nav-item
+        = link_to Booking.model_name.human(count: :other), bookings_path, class: 'nav-link'
+      li.nav-item
         = link_to Person.model_name.human(count: :other), people_path, class: 'nav-link'
       li.nav-item
         = link_to Home.model_name.human(count: :other), homes_path, class: 'nav-link'

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'bookings/new', type: :view do
   before(:each) do
-    @booking = assign(:booking, create(:booking)
+    @booking = assign(:booking, create(:booking))
   end
 
   it 'renders new booking form' do

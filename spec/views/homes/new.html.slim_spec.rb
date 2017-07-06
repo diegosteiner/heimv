@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'homes/new', type: :view do
   before(:each) do
-    assign(:home, Home.new(
-                    name: 'MyString',
-                    ref: 'MyString'
-    ))
+    @home = assign(:home, create(:home))
   end
 
   it 'renders new home form' do

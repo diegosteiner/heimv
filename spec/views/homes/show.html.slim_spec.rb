@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'homes/show', type: :view do
   before(:each) do
-    @home = assign(:home, Home.create!(
-                            name: 'Name',
-                            ref: 'Ref'
-    ))
+    @home = assign(:home, create(:home))
   end
 
   it 'renders attributes in <p>' do

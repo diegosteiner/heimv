@@ -2,16 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'homes/index', type: :view do
   before(:each) do
-    assign(:homes, [
-             Home.create!(
-               name: 'Name',
-               ref: 'Ref'
-             ),
-             Home.create!(
-               name: 'Name',
-               ref: 'Ref'
-             )
-           ])
+    @home = assign(:homes, create_list(:home, 2))
   end
 
   it 'renders a list of homes' do

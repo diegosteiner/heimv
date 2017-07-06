@@ -19,7 +19,7 @@ class BookingStateMachine
       booking.contracts.all?(:signed?) &&
       booking.bills.deposits.all?(:payed?)
   rescue NoMethodError
-    return true
+    next true
   end
   end
 
@@ -28,12 +28,8 @@ class BookingStateMachine
     booking.contracts.all?(:signed?) &&
       booking.bills.all?(:payed?)
   rescue NoMethodError
-    return true
+    next true
   end
-  end
-
-  after_transition do |model, transition|
-    # model.update!(state: transition.to_state)
   end
 
   def allowed_or_current_transitions

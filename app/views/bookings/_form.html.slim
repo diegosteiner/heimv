@@ -4,7 +4,7 @@
   .form-inputs
     = f.association :occupancy
     = f.association :home
-    = f.input :state
+    = f.input :state, collection: Booking.states.values
     = f.association :customer
 
   .form-actions

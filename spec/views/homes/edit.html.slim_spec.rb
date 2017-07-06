@@ -2,10 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'homes/edit', type: :view do
   before(:each) do
-    @home = assign(:home, Home.create!(
-                            name: 'MyString',
-                            ref: 'MyString'
-    ))
+    @home = assign(:home, create(:home))
   end
 
   it 'renders the edit home form' do
