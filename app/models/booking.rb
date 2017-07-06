@@ -11,7 +11,10 @@ class Booking < ApplicationRecord
   before_validation :set_initial_state
 
   validates :home, :customer, presence: true
-  validates :state, inclusion: { in: ->(booking) { booking.state_machine.allowed_or_current_transitions }, message: I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition') }
+  validates :state, inclusion: {
+    in: ->(booking) { booking.state_machine.allowed_or_current_transitions },
+    message: I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition')
+  }
   validate do
     if state_changed? && !state_machine.can_transition_to?(state)
       errors.add(:state, I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition'))
