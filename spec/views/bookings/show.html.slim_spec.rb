@@ -1,15 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'bookings/show', type: :view do
-  before(:each) do
-    @booking = assign(:booking, create(:booking))
-  end
+  let(:booking) { create(:booking) }
+  before(:each) { assign(:booking, booking) }
 
-  it 'renders attributes in <p>' do
+  it do
     render
-    expect(rendered).to match(//)
-    expect(rendered).to match(//)
-    expect(rendered).to match(/State/)
-    expect(rendered).to match(//)
+    expect(rendered).to have_content(booking.home.to_s)
+    expect(rendered).to have_content(booking.customer.to_s)
+    expect(rendered).to have_content(booking.occupancy.to_s)
   end
 end

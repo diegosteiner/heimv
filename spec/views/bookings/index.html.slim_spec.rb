@@ -7,9 +7,6 @@ RSpec.describe 'bookings/index', type: :view do
 
   it 'renders a list of bookings' do
     render
-    assert_select 'tr>td', text: nil.to_s, count: 2
-    assert_select 'tr>td', text: nil.to_s, count: 2
-    assert_select 'tr>td', text: 'State'.to_s, count: 2
-    assert_select 'tr>td', text: nil.to_s, count: 2
+    assert_select 'tr', count: 3
   end
 end

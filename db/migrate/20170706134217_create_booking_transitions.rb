@@ -4,7 +4,7 @@ class CreateBookingTransitions < ActiveRecord::Migration[5.1]
       t.string :to_state, null: false
       t.json :metadata, default: {}
       t.integer :sort_key, null: false
-      t.integer :booking_id, null: false
+      t.integer :booking_id, null: false, foreign_key: true
       t.boolean :most_recent, null: false
       t.timestamps null: false
     end

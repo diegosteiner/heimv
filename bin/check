@@ -38,7 +38,7 @@ fi
 ##fi
 
 echo -e '\n\033[35mRunning tests\033[0m'
-bundle exec rspec
+bin/rspec
 if [ ! $? -eq 0 ]; then
   echo -e '\033[31mRspec did not run successfully, commit aborted\033[0m'
   exit 1

@@ -26,6 +26,15 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank
   accepts_nested_attributes_for :customer, reject_if: :all_blank
 
+  def state_changed?
+    super && state != state_machine.current_state
+  end
+
+  def ref
+    #TODO: Save this as an attribute
+    RefService.new.booking(self)
+  end
+
   def state_machine
     @state_machine ||= STATE_MACHINE.new(self, transition_class: BookingTransition)
   end
