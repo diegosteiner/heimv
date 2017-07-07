@@ -1,11 +1,22 @@
 = simple_form_for(@booking) do |f|
   = f.error_notification
+  = f.object.errors.inspect
 
   .form-inputs
-    = f.association :occupancy
+    = f.association :occupancy, required: false
+    = f.simple_fields_for :occupancy do |of|
+      = of.input :begins_at
+      = of.input :ends_at
     = f.association :home
     = f.input :state, collection: Booking.states.values
-    = f.association :customer
+    = f.association :customer, required: false
+    = f.simple_fields_for :customer do |of|
+      = of.input :first_name
+      = of.input :last_name
+      = of.input :street_address
+      = of.input :zipcode
+      = of.input :city
 
   .form-actions
     = f.button :submit
+    = link_to t('back'), bookings_path, class: 'btn btn-default'

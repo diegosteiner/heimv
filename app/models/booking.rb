@@ -8,7 +8,7 @@ class Booking < ApplicationRecord
   belongs_to :customer, class_name: :Person, inverse_of: :bookings
   has_many :booking_transitions, dependent: :destroy, autosave: false
 
-  before_validation :set_initial_state
+  before_validation :set_initial_state, :set_dependent_attributes
 
   validates :home, :customer, presence: true
   validates :state, inclusion: {
@@ -48,6 +48,10 @@ class Booking < ApplicationRecord
   def state_transition
     state_machine.transition_to(state) if state_changed?
     self.state = state_machine.current_state
+  end
+
+  def set_dependent_attributes
+    occupancy.home ||= home
   end
 
   def set_initial_state

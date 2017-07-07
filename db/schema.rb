@@ -28,14 +28,15 @@ ActiveRecord::Schema.define(version: 20170706134217) do
   end
 
   create_table "bookings", force: :cascade do |t|
-    t.bigint "occupancy_id"
-    t.bigint "home_id"
+    t.bigint "occupancy_id", null: false
+    t.bigint "home_id", null: false
     t.string "state"
     t.integer "customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["occupancy_id"], name: "index_bookings_on_occupancy_id"
+    t.index ["state"], name: "index_bookings_on_state"
   end
 
   create_table "homes", force: :cascade do |t|
@@ -60,8 +61,8 @@ ActiveRecord::Schema.define(version: 20170706134217) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.string "firstname"
-    t.string "lastname"
+    t.string "first_name"
+    t.string "last_name"
     t.string "street_address"
     t.string "zipcode"
     t.string "city"
@@ -69,7 +70,7 @@ ActiveRecord::Schema.define(version: 20170706134217) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -82,7 +83,6 @@ ActiveRecord::Schema.define(version: 20170706134217) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20170706134217) do
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

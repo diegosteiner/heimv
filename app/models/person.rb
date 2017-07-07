@@ -1,10 +1,10 @@
 class Person < ApplicationRecord
   has_many :bookings
 
-  validates :firstname, :lastname, presence: true
+  validates :first_name, :last_name, presence: true
 
   def name
-    "#{firstname} #{lastname}"
+    "#{first_name} #{last_name}"
   end
 
   def to_s

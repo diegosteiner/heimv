@@ -16,6 +16,8 @@ class BookingsController < ApplicationController
     authorize Booking
     breadcrumbs.add t('new')
     @booking = Booking.new
+    @booking.build_customer
+    @booking.build_occupancy
   end
 
   def edit
@@ -60,6 +62,6 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(:occupancy_id, :home_id, :state, :customer_id)
+    params.require(:booking).permit(:occupancy_id, :home_id, :state, :customer_id, occupancy_attributes: [ :begins_at, :ends_at ], customer_attributes: [ :first_name, :last_name, :street_address, :zipcode, :city ])
   end
 end
