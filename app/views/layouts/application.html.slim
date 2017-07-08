@@ -12,8 +12,8 @@ html[lang=I18n.locale]
   body
     header
       == render 'layouts/navigation'
+    == render 'layouts/messages'
     main[role='main']
-      == render 'layouts/messages'
       ol.breadcrumb
         - breadcrumbs.items.each do |(text, url)|
           li.breadcrumb-item

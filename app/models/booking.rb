@@ -31,7 +31,7 @@ class Booking < ApplicationRecord
   end
 
   def ref
-    #TODO: Save this as an attribute
+    # TODO: Save this as an attribute
     RefService.new.booking(self)
   end
 

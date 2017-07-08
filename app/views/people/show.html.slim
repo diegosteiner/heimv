@@ -1,13 +1,13 @@
 .card.breakout-sm
   .card-block
     p
-      strong=  Person.human_attribute_name(:firstname)
+      strong=  Person.human_attribute_name(:first_name)
       br
-      = @person.firstname
+      = @person.first_name
     p
-      strong=  Person.human_attribute_name(:lastname)
+      strong=  Person.human_attribute_name(:last_name)
       br
-      = @person.lastname
+      = @person.last_name
     p
       strong=  Person.human_attribute_name(:street_address)
       br

@@ -2,10 +2,19 @@
 @import 'bootstrap';
 @import "font-awesome-sprockets";
 @import 'font-awesome';
+@import 'select2/dist/css/select2';
 
 img {
   @extend .img-fluid;
   margin: 0 auto;
+}
+
+body {
+  margin-top: 56px; // accommodate the navbar
+}
+
+.alert {
+  border-radius: 0;
 }
 
 .navbar-main {
@@ -28,7 +37,6 @@ img {
 
 main {
   @extend .container;
-  margin-top: 60px; // accommodate the navbar
 }
 
 section {

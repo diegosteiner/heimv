@@ -62,6 +62,8 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(:occupancy_id, :home_id, :state, :customer_id, occupancy_attributes: [ :begins_at, :ends_at ], customer_attributes: [ :first_name, :last_name, :street_address, :zipcode, :city ])
+    params.require(:booking).permit(:home_id, :state, :customer_id,
+                                    occupancy_attributes: %i[begins_at ends_at],
+                                    customer_attributes: %i[first_name last_name street_address zipcode city])
   end
 end

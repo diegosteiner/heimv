@@ -14,12 +14,18 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require select2/dist/js/select2
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
   $('[data-href]').click(function(e) {
     if($(e.target).parents('a').length == 0) {
-    Turbolinks.visit($(this).data('href'))
-  }
+      Turbolinks.visit($(this).data('href'))
+    }
+  });
+
+  $('select.tags').select2({
+    tags: true,
+    theme: 'bootstrap4'
   });
 });
