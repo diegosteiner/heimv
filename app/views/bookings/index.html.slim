@@ -12,8 +12,10 @@ table.table.table-hover.table-card
     - @bookings.each do |booking|
       tr[data-href=booking_path(booking)]
         td = booking.occupancy
-        td = booking.home
-        td = booking.state
+        td
+          = link_to booking.home, home_path(booking.home)
+        td
+          span.badge.badge-default= booking.state
         td = booking.customer
         td = link_to edit_booking_path(booking) do
           span.fa.fa-pencil

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170706134217) do
+ActiveRecord::Schema.define(version: 20170709122528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,17 @@ ActiveRecord::Schema.define(version: 20170706134217) do
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["occupancy_id"], name: "index_bookings_on_occupancy_id"
     t.index ["state"], name: "index_bookings_on_state"
+  end
+
+  create_table "contracts", force: :cascade do |t|
+    t.bigint "booking_id"
+    t.datetime "sent_at"
+    t.datetime "signed_at"
+    t.string "title"
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_contracts_on_booking_id"
   end
 
   create_table "homes", force: :cascade do |t|
@@ -107,5 +118,6 @@ ActiveRecord::Schema.define(version: 20170706134217) do
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "occupancies"
+  add_foreign_key "contracts", "bookings"
   add_foreign_key "occupancies", "homes"
 end

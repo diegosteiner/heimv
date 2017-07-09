@@ -1,0 +1,12 @@
+= simple_form_for(@contract) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :booking
+    = f.input :sent_at
+    = f.input :signed_at
+    = f.input :title
+    = f.input :text
+
+  .form-actions
+    = f.button :submit

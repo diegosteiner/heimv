@@ -2,6 +2,7 @@
 @import 'bootstrap';
 @import "font-awesome-sprockets";
 @import 'font-awesome';
+@import 'datetimepicker';
 
 img {
   @extend .img-fluid;
@@ -18,6 +19,10 @@ body {
 
 .hidden {
   display: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 1rem;
 }
 
 .navbar-main {

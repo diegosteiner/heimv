@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require flatpickr/dist/flatpickr
+//= require flatpickr/dist/l10n/de
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
@@ -21,5 +23,12 @@ $(document).on('turbolinks:load', function() {
     if($(e.target).parents('a').length == 0) {
       Turbolinks.visit($(this).data('href'))
     }
+  });
+
+  flatpickr('.datetimepicker', {
+    enableTime: true,
+    minuteIncrement: 15,
+    time_24hr: true,
+    locale: $('html').attr('lang')
   });
 });

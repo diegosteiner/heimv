@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   resources :homes
+  resources :contracts
   resources :bookings
   resources :people
   get 'pages/home'

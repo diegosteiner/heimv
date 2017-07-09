@@ -16,8 +16,8 @@ class BookingStateMachine
   guard_transition(to: :reserved) do |booking|
     begin
     booking.contracts.any? &&
-      booking.contracts.all?(:signed?) &&
-      booking.bills.deposits.all?(:payed?)
+      booking.contracts.all?(&:signed?) &&
+      booking.bills.deposits.all?(&:payed?)
   rescue NoMethodError
     next true
   end
