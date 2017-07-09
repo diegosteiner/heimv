@@ -7,9 +7,9 @@ FactoryGirl.define do
     trait :sent do
       sent_at { 1.week.ago }
 
-    trait :signed do
-      signed_at { 3.days.ago }
-    end
+      trait :signed do
+        signed_at { 3.days.ago }
+      end
     end
   end
 end
