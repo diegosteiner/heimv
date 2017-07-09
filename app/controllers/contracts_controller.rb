@@ -1,5 +1,5 @@
 class ContractsController < ApplicationController
-  before_action :set_contract, only: [:show, :edit, :update, :destroy]
+  before_action :set_contract, only: %i[show edit update destroy]
   before_action :set_booking
   before_action :authenticate_user!
   before_action :set_breadcrumbs
@@ -50,23 +50,24 @@ class ContractsController < ApplicationController
   end
 
   private
-    def set_booking
-      @booking = @contract&.booking || Booking.find(params[:booking_id])
-    end
 
-    def set_contract
-      @contract = Contract.find(params[:id])
-      authorize @contract
-    end
+  def set_booking
+    @booking = @contract&.booking || Booking.find(params[:booking_id])
+  end
 
-    def set_breadcrumbs
-      super
-      breadcrumbs.add Booking.model_name.human(count: :other), bookings_path
-      breadcrumbs.add @booking.to_s, booking_path(@booking)
-      breadcrumbs.add Contract.model_name.human(count: :other)
-    end
+  def set_contract
+    @contract = Contract.find(params[:id])
+    authorize @contract
+  end
 
-    def contract_params
-      params.require(:contract).permit(:sent_at, :signed_at, :title, :text)
-    end
+  def set_breadcrumbs
+    super
+    breadcrumbs.add Booking.model_name.human(count: :other), bookings_path
+    breadcrumbs.add @booking.to_s, booking_path(@booking)
+    breadcrumbs.add Contract.model_name.human(count: :other)
+  end
+
+  def contract_params
+    params.require(:contract).permit(:sent_at, :signed_at, :title, :text)
+  end
 end
