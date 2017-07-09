@@ -1,10 +1,12 @@
 class ContractsController < ApplicationController
   before_action :set_contract, only: [:show, :edit, :update, :destroy]
+  before_action :set_booking
   before_action :authenticate_user!
+  before_action :set_breadcrumbs
   after_action :verify_authorized
 
   def index
-    @contracts = Contract.all
+    @contracts = @booking.contracts
     authorize Contract
   end
 
@@ -15,17 +17,17 @@ class ContractsController < ApplicationController
   def new
     authorize Contract
     breadcrumbs.add t('new')
-    @contract = Contract.new(contract_params)
+    @contract = Contract.new(params[:contract])
   end
 
   def edit
-    breadcrumbs.add @contract.to_s, contract_path(@contract)
+    breadcrumbs.add @contract.to_s, booking_contract_path(@booking, @contract)
     breadcrumbs.add t('edit')
   end
 
   def create
     authorize Contract
-    @contract = Contract.new(contract_params)
+    @contract = Contract.new(contract_params.merge(booking: @booking))
 
     if @contract.save
       redirect_to @contract, notice: t('actions.create.success', model_name: Contract.model_name.human)
@@ -48,6 +50,10 @@ class ContractsController < ApplicationController
   end
 
   private
+    def set_booking
+      @booking = @contract&.booking || Booking.find(params[:booking_id])
+    end
+
     def set_contract
       @contract = Contract.find(params[:id])
       authorize @contract
@@ -55,10 +61,12 @@ class ContractsController < ApplicationController
 
     def set_breadcrumbs
       super
-      breadcrumbs.add Contract.model_name.human(count: :other), contracts_path
+      breadcrumbs.add Booking.model_name.human(count: :other), bookings_path
+      breadcrumbs.add @booking.to_s, booking_path(@booking)
+      breadcrumbs.add Contract.model_name.human(count: :other)
     end
 
     def contract_params
-      params.require(:contract).permit(:booking_id, :sent_at, :signed_at, :title, :text)
+      params.require(:contract).permit(:sent_at, :signed_at, :title, :text)
     end
 end

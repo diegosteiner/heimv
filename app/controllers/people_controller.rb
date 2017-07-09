@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: %i[show edit update destroy]
   before_action :authenticate_user!
+  before_action :set_breadcrumbs
 
   def index
     @people = Person.all

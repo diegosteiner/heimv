@@ -12,7 +12,7 @@ RSpec.describe "contracts/edit", type: :view do
   it "renders the edit contract form" do
     render
 
-    assert_select "form[action=?][method=?]", contract_path(@contract), "post" do
+    assert_select "form[action=?][method=?]", booking_contract_path(@booking, @contract), "post" do
 
       assert_select "input[name=?]", "contract[booking_id]"
 

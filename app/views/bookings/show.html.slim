@@ -1,65 +1,6 @@
-.card.breakout-sm
-  .card-block
-    p
-      span.badge.badge-default= t(@booking.state, scope: 'activerecord.values.bookings.states')
-    p
-      strong= Booking.human_attribute_name(:occupancy)
-      br
-      = @booking.occupancy
-    p
-      strong= Booking.human_attribute_name(:home)
-      br
-      = link_to @booking.home, home_path(@booking.home)
-    p
-      strong= Booking.human_attribute_name(:customer)
-      br
-      = link_to @booking.customer, person_path(@booking.customer)
+= render partial: 'bookings/show/booking', locals: { booking: @booking }
 
-    br
+= render partial: 'bookings/show/contracts', locals: { booking: @booking }
 
-    = link_to edit_booking_path(@booking), class: 'btn btn-primary'
-      span.fa.fa-pencil
-      '
-      = t('edit')
-    '
-    = link_to booking_path(@booking), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
-      span.fa.fa-trash
-      '
-      = t('destroy')
-
-h2= Contract.model_name.human(count: :other)
-
-table.table.table-hover.table-card
-  thead
-    tr
-      th= Contract.human_attribute_name(:title)
-      th= Contract.human_attribute_name(:sent_at)
-      th= Contract.human_attribute_name(:signed_at)
-      th
-      th
-
-  tbody
-    - @booking.contracts.each do |contract|
-      tr[data-href=contract_path(contract)]
-        td = contract.title
-        td
-          - if contract.sent?
-            = l(contract.sent_at)
-          - else
-            = button_to contract_path(contract), method: :patch, params: { contract: { sent_at: Time.zone.now } } do
-              span.fa.fa-check
-        td = contract.signed_at
-        td = link_to edit_contract_path(contract) do
-          span.fa.fa-pencil
-        td = link_to contract_path(contract), data: { confirm: t('confirm') }, method: :delete do
-          span.fa.fa-trash
-
-br
-= link_to new_contract_path, class: 'btn btn-primary' do
-  span.fa.fa-file-o
-  '
-  = t('.new')
-
-/= button_to 'Vertrag ausstellen', booking_path(@booking), method: :patch, params: { booking: { state: 'awaiting_preconditions' } }, class: 'btn btn-default'
-
-= link_to t('back'), bookings_path, class: 'btn btn-default'
+section
+  = link_to t('back'), bookings_path, class: 'btn btn-default'

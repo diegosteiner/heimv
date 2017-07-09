@@ -11,15 +11,15 @@ table.table.table-hover.table-card
 
   tbody
     - @contracts.each do |contract|
-      tr[data-href=contract_path(contract)]
+      tr[data-href=booking_contract_path(@booking, contract)]
         td = contract.booking
         td = contract.sent_at
         td = contract.signed_at
         td = contract.title
         td = contract.text
-        td = link_to edit_contract_path(contract) do
+        td = link_to edit_booking_contract_path(@booking, contract) do
           span.fa.fa-pencil
-        td = link_to contract_path(contract), data: { confirm: t('confirm') }, method: :delete do
+        td = link_to booking_contract_path(@booking, contract), data: { confirm: t('confirm') }, method: :delete do
           span.fa.fa-trash
 
 br

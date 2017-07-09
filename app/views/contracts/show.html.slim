@@ -1,10 +1,6 @@
 .card
   .card-block
     p
-      strong= Contract.human_attribute_name(:booking)
-      br
-      = @contract.booking
-    p
       strong= Contract.human_attribute_name(:sent_at)
       br
       /= l @contract.sent_at if @contract.sent?
@@ -13,11 +9,11 @@
       br
       /= l @contract.signed_at if @contract.signed?
     p
-      strong= Contract.human_attribute_name(:Title)
+      strong= Contract.human_attribute_name(:title)
       br
       = @contract.title
     p
-      strong= Contract.human_attribute_name(:Text)
+      strong= Contract.human_attribute_name(:text)
       br
       = @contract.text
 
@@ -35,4 +31,4 @@
       = t('destroy')
 
 br
-= link_to t('back'), contracts_path, class: 'btn btn-default'
+= link_to t('back'), booking_path(@booking), class: 'btn btn-default'

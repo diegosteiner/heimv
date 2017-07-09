@@ -1,6 +1,7 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: %i[show edit update destroy]
   before_action :authenticate_user!
+  before_action :set_breadcrumbs
   after_action :verify_authorized
 
   def index

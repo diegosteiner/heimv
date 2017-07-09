@@ -14,8 +14,9 @@ html[lang=I18n.locale]
       == render 'layouts/navigation'
     == render 'layouts/messages'
     main[role='main']
-      ol.breadcrumb
-        - breadcrumbs.items.each do |(text, url)|
-          li.breadcrumb-item
-            = link_to_if url.present?, text, url
+      header
+        ol.breadcrumb
+          - breadcrumbs.items.each do |(text, url)|
+            li.breadcrumb-item
+              = link_to_if url.present?, text, url
       == yield

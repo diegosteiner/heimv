@@ -6,6 +6,6 @@ class Contract < ApplicationRecord
   end
 
   def signed?
-    sent_at.present?
+    signed_at.present?
   end
 end

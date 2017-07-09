@@ -2,8 +2,9 @@
 
 Rails.application.routes.draw do
   resources :homes
-  resources :contracts
-  resources :bookings
+  resources :bookings do
+    resources :contracts, shallow: true
+  end
   resources :people
   get 'pages/home'
   get 'pages/about'

@@ -5,7 +5,8 @@ de:
   home: Home
   back: 'Zurück'
   confirm: 'Sind Sie sicher?'
-  or: oder
+  add_model: '%{model_name} hinzufügen'
+
 
   titles:
     application: Heimverwaltung
@@ -18,3 +19,30 @@ de:
       person:
         one: Person
         other: Personen
+      booking:
+        one: Buchung
+        other: Buchungen
+      contract:
+        one: Vertrag
+        other: Verträge
+      occupancy:
+        one: Belegung
+        other: Belegungen
+
+    attributes:
+      booking:
+        home: Heim
+        customer: Kunde
+        occupancy: Belegung
+        ref: Buchungsreferenz
+        state: Status
+
+    values:
+      booking:
+        state:
+          pending: 'Neu'
+          awaiting_preconditions: 'Provisorisch Reserviert'
+          reserved: 'Reserviert'
+          awaiting_postconditions: 'in Abschluss'
+          cancelled: 'Storniert'
+          completed: 'Abgeschlossen'
