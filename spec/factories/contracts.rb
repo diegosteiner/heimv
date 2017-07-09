@@ -1,9 +1,15 @@
 FactoryGirl.define do
   factory :contract do
-    booking nil
-    sent_at '2017-07-09 14:25:28'
-    signed_at '2017-07-09 14:25:28'
-    title 'MyString'
-    text 'MyText'
+    booking
+    title 'Mietvertrag'
+    text 'Lorem Ipsum'
+
+    trait :sent do
+      sent_at { 1.week.ago }
+
+    trait :signed do
+      signed_at { 3.days.ago }
+    end
+    end
   end
 end
