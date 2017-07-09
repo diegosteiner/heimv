@@ -25,7 +25,7 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
-  flatpickr('.datetimepicker', {
+  flatpickr('.input-group.datetime', {
     enableTime: true,
     minuteIncrement: 15,
     time_24hr: true,
