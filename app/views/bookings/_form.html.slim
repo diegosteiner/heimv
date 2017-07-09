@@ -3,8 +3,8 @@
 
   .form-inputs
     = f.simple_fields_for :occupancy do |of|
-      = of.input :begins_at, as: :string, input_html: { class: 'datetimepicker' }
-      = of.input :ends_at, as: :string, input_html: { class: 'datetimepicker' }
+      = of.input :begins_at, as: :datetime_picker
+      = of.input :ends_at, as: :datetime_picker
     = f.association :home
     = f.input :state, collection: Booking.states.values
     = f.association :customer, required: false
