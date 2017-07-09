@@ -7,9 +7,9 @@
       = of.input :ends_at
     = f.association :home
     = f.input :state, collection: Booking.states.values
-    = f.association :customer, required: false, input_html: { class: 'tags' }
-    .hidden.invisible
-      = f.simple_fields_for :customer, class: 'hidden' do |cf|
+    = f.association :customer, required: false
+    .hidden
+      = f.simple_fields_for :customer do |cf|
         = cf.input :first_name
         = cf.input :last_name
         = cf.input :street_address

@@ -2,7 +2,6 @@
 @import 'bootstrap';
 @import "font-awesome-sprockets";
 @import 'font-awesome';
-@import 'select2/dist/css/select2';
 
 img {
   @extend .img-fluid;
@@ -17,10 +16,23 @@ body {
   border-radius: 0;
 }
 
+.hidden {
+  display: none;
+}
+
 .navbar-main {
   box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
   font-size: inherit;
   background-color: $brand-primary;
+}
+
+.table-card {
+  tbody {
+    background-color: $card-bg;
+    background-clip: border-box;
+    border: $card-border-width solid $card-border-color;
+    @include border-radius($card-border-radius);
+  }
 }
 
 [data-href] {

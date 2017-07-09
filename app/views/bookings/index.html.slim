@@ -1,4 +1,4 @@
-table.table.table-hover
+table.table.table-hover.table-card
   thead
     tr
       th= Booking.human_attribute_name(:occupancy)
@@ -8,7 +8,7 @@ table.table.table-hover
       th
       th
 
-  tbody.card
+  tbody
     - @bookings.each do |booking|
       tr[data-href=booking_path(booking)]
         td = booking.occupancy

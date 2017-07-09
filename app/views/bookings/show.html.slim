@@ -15,22 +15,18 @@
       br
       = link_to @booking.customer, person_path(@booking.customer)
 
-br
+    br
+
+    = link_to edit_booking_path(@booking), class: 'btn btn-primary'
+      span.fa.fa-pencil
+      '
+      = t('edit')
+    '
+    = link_to booking_path(@booking), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t('destroy')
 
 = button_to 'Vertrag ausstellen', booking_path(@booking), method: :patch, params: { booking: { state: 'awaiting_preconditions' } }, class: 'btn btn-default'
 
-hr
-
-= link_to edit_booking_path(@booking), class: 'btn btn-primary' do
-  .fa.fa-pencil
-  '
-  = t('edit')
-
-'
-= link_to booking_path(@booking), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
-  .fa.fa-trash
-  '
-  = t('destroy')
-
-'
 = link_to t('back'), bookings_path, class: 'btn btn-default'

@@ -17,21 +17,19 @@
           '
           = link_to '#' do
             span.fa.fa-pencil
+    br
+
+    = link_to edit_home_path(@home), class: 'btn btn-primary' do
+      span.fa.fa-pencil
+      '
+      = t('edit')
+
+    '
+    = link_to home_path(@home), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t('destroy')
 
 br
 
-h2=
-
-= link_to edit_home_path(@home), class: 'btn btn-primary' do
-  .fa.fa-pencil
-  '
-  = t('edit')
-
-'
-= link_to home_path(@home), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
-  .fa.fa-trash
-  '
-  = t('destroy')
-
-'
 = link_to t('back'), homes_path, class: 'btn btn-default'

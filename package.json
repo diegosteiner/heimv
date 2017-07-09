@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "flatpickr": "^3.0.6",
-    "select2": "^4.0.3",
-    "select2-bootstrap-theme": "^0.1.0-beta.10"
+    "chosen-js": "^1.7.0",
+    "flatpickr": "^3.0.6"
   }
 }
