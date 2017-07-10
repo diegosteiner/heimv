@@ -36,6 +36,13 @@ de:
         occupancy: Belegung
         ref: Buchungsreferenz
         state: Status
+      person:
+        first_name: Vorname
+        last_name: Nachname
+        street_address: Strasse / Nr.
+        zipcode: PLZ
+        city: Ort
+        address: Adresse
 
     values:
       booking:
