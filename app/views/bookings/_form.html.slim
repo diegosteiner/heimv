@@ -7,7 +7,7 @@
       = of.input :ends_at, as: :datetime_picker
     = f.association :home
     = f.input :state, collection: Booking.states.values
-    = f.association :customer, required: false
+    = f.input :customer, as: :select, collection: people_for_select, required: false, include_blank: false, input_html: { data: { tags: true } }
     .hidden
       = f.simple_fields_for :customer do |cf|
         = cf.input :first_name

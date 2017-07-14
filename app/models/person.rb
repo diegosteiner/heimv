@@ -8,6 +8,6 @@ class Person < ApplicationRecord
   end
 
   def to_s
-    name
+    "##{id} #{name}"
   end
 end

@@ -2,8 +2,7 @@
 @import 'bootstrap';
 @import "font-awesome-sprockets";
 @import 'font-awesome';
-@import 'datetimepicker';
-
+@import 'forms';
 img {
   @extend .img-fluid;
   margin: 0 auto;
@@ -21,12 +20,17 @@ body {
   display: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 1rem;
 }
 
 .navbar-main {
-  box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+  box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
   font-size: inherit;
   background-color: $brand-primary;
 }
@@ -44,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
-.card > .table {
+.card>.table {
   margin: 0;
 }
 

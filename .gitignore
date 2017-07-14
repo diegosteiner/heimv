@@ -3,6 +3,7 @@
 /vendor/bundle/
 /vendor/ruby/
 /node_modules
+yarn-error.log
 
 # minimal Rails specific artifacts
 db/*.sqlite3

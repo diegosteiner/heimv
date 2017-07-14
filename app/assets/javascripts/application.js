@@ -16,11 +16,12 @@
 //= require bootstrap-sprockets
 //= require flatpickr/dist/flatpickr
 //= require flatpickr/dist/l10n/de
+//= require select2/dist/js/select2
 //= require_tree .
 
-$(document).on('turbolinks:load', function() {
-  $('[data-href]').click(function(e) {
-    if($(e.target).parents('a').length == 0) {
+$(document).on('turbolinks:load', function () {
+  $('[data-href]').click(function (e) {
+    if ($(e.target).parents('a').length == 0) {
       Turbolinks.visit($(this).data('href'))
     }
   });
@@ -31,4 +32,9 @@ $(document).on('turbolinks:load', function() {
     time_24hr: true,
     locale: $('html').attr('lang')
   });
+
+  $('select').select2({
+    theme: 'bootstrap'
+  });
+
 });

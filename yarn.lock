@@ -2,10 +2,25 @@
 # yarn lockfile v1
 
 
-chosen-js@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/chosen-js/-/chosen-js-1.7.0.tgz#8ceb2e929e2a072886edd384d78989dfbffa58c3"
+almond@~0.3.1:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20"
 
 flatpickr@^3.0.6:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.0.6.tgz#81540f1a0f010fa3b96d929943b6396bbb25b1b6"
+
+jquery-mousewheel@~3.1.13:
+  version "3.1.13"
+  resolved "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
+
+"select2-bootstrap-theme@https://github.com/rchavik/select2-bootstrap-theme.git#bs4":
+  version "0.1.0-beta.10"
+  resolved "https://github.com/rchavik/select2-bootstrap-theme.git#70743b1058cb97cc2acf26863bb18ea448e47cfe"
+
+select2@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.3.tgz#207733fe91eacb9cb1a13f12463401f472449e0f"
+  dependencies:
+    almond "~0.3.1"
+    jquery-mousewheel "~3.1.13"

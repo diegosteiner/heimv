@@ -65,8 +65,8 @@ SimpleForm.setup do |config|
 
     b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
       ba.use :input, class: 'form-control'
-    ba.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
-    ba.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
+      ba.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
     end
   end
 
@@ -80,8 +80,8 @@ SimpleForm.setup do |config|
 
     b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
       ba.use :input
-    ba.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
-    ba.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
+      ba.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
     end
   end
 
@@ -94,8 +94,8 @@ SimpleForm.setup do |config|
         ba.use :label_input
       end
 
-    b.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
-    b.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      b.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
+      b.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
     end
   end
 
@@ -107,8 +107,8 @@ SimpleForm.setup do |config|
 
     b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
       ba.use :input
-    ba.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
-    ba.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
+      ba.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
     end
   end
 
@@ -133,8 +133,8 @@ SimpleForm.setup do |config|
     b.use :label, class: 'form-control-label'
     b.wrapper tag: 'div', class: 'form-inline' do |ba|
       ba.use :input, class: 'form-control'
-    ba.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
-    ba.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :error, wrap_with: { tag: 'div', class: 'form-control-feedback' }
+      ba.use :hint,  wrap_with: { tag: 'small', class: 'form-text text-muted' }
     end
   end
   # Wrappers for forms and inputs using the Bootstrap toolkit.
