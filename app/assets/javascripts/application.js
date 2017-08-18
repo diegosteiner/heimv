@@ -37,4 +37,21 @@ $(document).on('turbolinks:load', function () {
     theme: 'bootstrap'
   });
 
+  $('select[data-new-tag-triggers]').each(function (e) {
+      var target = $(this).data('new-tag-triggers');
+      $(target).hide();
+      $(target).find('.required').attr('required', false);
+  });
+
+  $('select[data-new-tag-triggers]').on("select2:select", function (e) {
+    if (e.params.data.element === undefined) {
+      var target = $(this).data('new-tag-triggers');
+      $(target).show();
+      $(this).attr('required', false);
+      $(target).find('.required').attr('required', true);
+      $(this).hide();
+    } else {
+      console.log(e.params.data);
+    }
+  });
 });

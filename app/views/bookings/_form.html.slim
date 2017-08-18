@@ -7,8 +7,8 @@
       = of.input :ends_at, as: :datetime_picker
     = f.association :home
     = f.input :state, collection: Booking.states.values
-    = f.input :customer, as: :select, collection: people_for_select, required: false, include_blank: false, input_html: { data: { tags: true } }
-    .hidden
+    = f.input :customer, as: :select, collection: people_for_select, include_blank: false, input_html: { data: { tags: true, new_tag_triggers: '.new_customer_fields'  } }
+    .new_customer_fields.hidden
       = f.simple_fields_for :customer do |cf|
         = cf.input :first_name
         = cf.input :last_name
