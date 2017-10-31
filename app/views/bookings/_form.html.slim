@@ -7,9 +7,11 @@
       = of.input :ends_at, as: :datetime_picker
     = f.association :home
     = f.input :state, collection: Booking.states.values
-    = f.input :customer, as: :select, collection: people_for_select, include_blank: false, input_html: { data: { tags: true, new_tag_triggers: '.new_customer_fields'  } }
-    .new_customer_fields.hidden
-      = f.simple_fields_for :customer do |cf|
+  .form-inputs
+    strong= Booking.human_attribute_name(:customer)
+    = f.input :customer_id, as: :select, label: false, collection: people_for_select, input_html: { data: { tags: true } }
+    .customer_attributes
+      = f.simple_fields_for :customer, Person.new do |cf|
         = cf.input :first_name
         = cf.input :last_name
         = cf.input :street_address
