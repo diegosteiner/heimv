@@ -17,10 +17,10 @@ chdir APP_ROOT do
   puts '== Installing dependencies =='
   system! 'gem install bundler --conservative'
   system('bundle check') || system!('bundle install')
-  system('yarn install') 
 
   # Install JavaScript dependencies if using Yarn
-  # system('bin/yarn')
+  system('nvm use')
+  system('yarn install')
 
   # puts "\n== Copying sample files =="
   # unless File.exist?('config/database.yml')
@@ -32,7 +32,4 @@ chdir APP_ROOT do
 
   puts "\n== Removing old logs and tempfiles =="
   system! 'bin/rails log:clear tmp:clear'
-
-  puts "\n== Restarting application server =="
-  system! 'bin/rails restart'
 end
