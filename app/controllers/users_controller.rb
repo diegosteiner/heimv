@@ -1,39 +1,27 @@
-# frozen_string_literal: true
-
 class UsersController < ApplicationController
-  before_action :authenticate_user!
-  after_action :verify_authorized
+  load_and_authorize_resource
 
   def index
-    @users = User.all
-    authorize User
+    respond_with @users
   end
 
   def show
-    @user = User.find(params[:id])
-    authorize @user
+    respond_with @user
   end
 
   def update
-    @user = User.find(params[:id])
-    authorize @user
-    if @user.update_attributes(secure_params)
-      redirect_to users_path, notice: 'User updated.'
-    else
-      redirect_to users_path, alert: 'Unable to update user.'
-    end
+    @user.update(user_params)
+    respond_with @user
   end
 
   def destroy
-    user = User.find(params[:id])
-    authorize user
-    user.destroy
-    redirect_to users_path, notice: 'User deleted.'
+    @user.destroy
+    respond_with @user, location: users_path
   end
 
   private
 
-  def secure_params
+  def user_params
     params.require(:user).permit(:role)
   end
 end

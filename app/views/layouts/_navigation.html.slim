@@ -1,16 +1,15 @@
-nav.navbar.fixed-top.navbar-inverse.navbar-toggleable-md.navbar-main
+nav#navbar-main.navbar.fixed-top.navbar-light.bg-white.navbar-expand-lg
   button.navbar-toggler.navbar-toggler-right[
-    aria-controls="navbarSupportedContent"
+    aria-controls="navbar-main-nav"
     aria-expanded="false"
-    aria-label=("Toggle navigation")
-    data-target="#navbarSupportedContent"
+    data-target="#navbar-main-nav"
     data-toggle="collapse"
     type="button"]
     span.navbar-toggler-icon
   = link_to root_path, class: 'navbar-brand' do
-    = image_tag 'logo.png', class: "d-inline-block align-top", width: 30, height: 30
-  #navbarSupportedContent.collapse.navbar-collapse
-    ul.navbar-nav.mr-auto
+    = image_tag 'logo.svg', class: "d-inline-block align-top", width: 120
+  #navbar-main-nav.collapse.navbar-collapse
+    ul.navbar-nav.ml-auto
       li.nav-item
         = link_to Booking.model_name.human(count: :other), bookings_path, class: 'nav-link'
       li.nav-item

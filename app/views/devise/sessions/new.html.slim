@@ -3,7 +3,7 @@
     h3
       | Sign in
     .card.breakout-sm
-      .card-block
+      .card-body
         = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
           = devise_error_messages!
           = f.input :email, as: :email, autofocus: true, class: 'form-control'

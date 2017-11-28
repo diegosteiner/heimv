@@ -1,7 +1,7 @@
 @import 'variables';
 @import 'flatpickr/dist/flatpickr';
 .flatpickr-day {
-  @include border-radius($card-border-radius);
+    @include border-radius($card-border-radius);
 }
 
 .flatpickr-day.selected,
@@ -22,14 +22,14 @@
 .flatpickr-day.selected.nextMonthDay,
 .flatpickr-day.startRange.nextMonthDay,
 .flatpickr-day.endRange.nextMonthDay {
-  background: $brand-primary;
-  border-color: $brand-primary;
+    background: $primary;
+    border-color: $primary;
 }
 
 @import 'select2/dist/css/select2';
 $caret-width: .3rem;
-$s2bs-dropdown-link-hover-bg: $brand-primary !default;
-$s2bs-dropdown-link-active-bg: $brand-primary !default;
+$s2bs-dropdown-link-hover-bg: $primary !default;
+$s2bs-dropdown-link-active-bg: $primary !default;
 $s2bs-dropdown-link-hover-color: $component-active-color;
 $s2bs-dropdown-link-active-color: $component-active-color;
 @import "select2-bootstrap-theme/src/select2-bootstrap4.vars";

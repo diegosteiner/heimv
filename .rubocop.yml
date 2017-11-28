@@ -34,3 +34,4 @@ AllCops:
     - 'db/**/*'
     - 'vendor/**/*'
     - 'lib/**/*'
+    - 'node_modules/**/*'

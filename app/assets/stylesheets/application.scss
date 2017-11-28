@@ -1,23 +1,27 @@
 @import 'variables';
-@import 'bootstrap';
-@import "font-awesome-sprockets";
+@import 'bootstrap/scss/bootstrap';
+@import 'font-awesome-sprockets';
 @import 'font-awesome';
-@import 'forms';
+// @import 'forms';
 img {
-  @extend .img-fluid;
-  margin: 0 auto;
+    @extend .img-fluid;
+    margin: 0 auto;
 }
 
 body {
-  margin-top: 56px; // accommodate the navbar
+    padding-top: 56px;
+}
+
+.breadcrumb {
+    margin: 1rem 0;
 }
 
 .alert {
-  border-radius: 0;
+    border-radius: 0;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 h1,
@@ -26,51 +30,57 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 1rem;
+    margin-top: 1rem;
 }
 
-.navbar-main {
-  box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
-  font-size: inherit;
-  background-color: $brand-primary;
+#navbar-main {
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
 }
 
 .table-card {
-  tbody {
-    background-color: $card-bg;
-    background-clip: border-box;
-    border: $card-border-width solid $card-border-color;
-    @include border-radius($card-border-radius);
-  }
+    thead th {
+        border-top: none;
+    }
+    tbody {
+        background-color: $card-bg;
+        background-clip: border-box;
+        border: $card-border-width solid $card-border-color;
+        @include border-radius($card-border-radius);
+        @include box-shadow($box-shadow);
+    }
+}
+
+.card {
+    @include box-shadow($box-shadow);
 }
 
 [data-href] {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .card>.table {
-  margin: 0;
+    margin: 0;
 }
 
 .breadcrumb {
-  padding-left: 0;
+    padding-left: 0;
 }
 
 main {
-  @extend .container;
+    @extend .container;
 }
 
 section {
-  // @extend .row;
-  margin-top: 20px;
+    // @extend .row;
+    margin-top: 20px;
 }
 
 .breakout-sm {
-  @include media-breakpoint-down(sm) {
-    margin-left: -($grid-gutter-width-base / 2 + 1);
-    margin-right: -($grid-gutter-width-base / 2 + 1);
-    border-radius: 0;
-    border-left-width: 0;
-    border-right-width: 0;
-  }
+    @include media-breakpoint-down(sm) {
+        margin-left: -($grid-gutter-width / 2 + 1);
+        margin-right: -($grid-gutter-width / 2 + 1);
+        border-radius: 0;
+        border-left-width: 0;
+        border-right-width: 0;
+    }
 }

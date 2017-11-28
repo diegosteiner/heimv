@@ -1,6 +1,15 @@
-= render partial: 'bookings/show/booking', locals: { booking: @booking }
+ul.nav.nav-pills
+  li.nav-item
+    a.nav-link.active[href='#booking-booking' data-toggle='tab' role='tab']= Booking.model_name.human
+  li.nav-item
+    a.nav-link[href='#booking-contracts' data-toggle='tab' role='tab']= Contract.model_name.human
 
-= render partial: 'bookings/show/contracts', locals: { booking: @booking }
+.tab-content
+  #booking-booking.tab-pane.active
+    = render partial: 'bookings/show/booking', locals: { booking: @booking }
+
+  #booking-contracts.tab-pane.active
+    = render partial: 'bookings/show/contracts', locals: { booking: @booking }
 
 section
   = link_to t('back'), bookings_path, class: 'btn btn-default'

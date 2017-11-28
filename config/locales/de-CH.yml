@@ -213,7 +213,9 @@ de:
   time:
     am: vormittags
     formats:
-      default: "📅 %d.%m.%Y  🕐 %H:%M"
+      default: "%d.%m.%Y %H:%M"
       long: "%A, %d. %B %Y, %H:%M Uhr"
       short: "%d. %B, %H:%M Uhr"
+      date: "%d.%m.%Y"
+      time: "%H:%M"
     pm: nachmittags

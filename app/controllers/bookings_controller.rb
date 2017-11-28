@@ -1,5 +1,5 @@
 class BookingsController < CrudController
-  before_action :set_breadcrumbs
+  self.crud_model = Booking
 
   def index
     respond_with @bookings
@@ -7,7 +7,7 @@ class BookingsController < CrudController
 
   def show
     respond_with @booking
-end
+  end
 
   def new
     @booking.build_customer
@@ -34,18 +34,7 @@ end
   private
 
   def set_breadcrumbs
-    super
-    breadcrumbs.add Booking.model_name.human(count: :other), bookings_path
-
-    case params[:action].to_sym
-    when :new
-      breadcrumbs.add t('new')
-    when :show
-      breadcrumbs.add @booking.to_s
-    when :edit
-      breadcrumbs.add @booking.to_s, booking_path(@booking)
-      breadcrumbs.add t('edit')
-    end
+    set_crud_breadcrumbs(bookings_path, @booking)
   end
 
   def booking_params

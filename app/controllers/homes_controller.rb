@@ -1,33 +1,25 @@
-class HomesController < ApplicationController
-  before_action :set_home, only: %i[show edit update destroy]
-  before_action :authenticate_user!
-  before_action :set_breadcrumbs
-  after_action :verify_authorized
-
+class HomesController < CrudController
   def index
-    @homes = Home.all
-    authorize Home
+    respond_with @homes
   end
 
   def show
     breadcrumbs.add @home.to_s
+    respond_with @home
   end
 
   def new
-    authorize Home
     breadcrumbs.add t('new')
-    @home = Home.new
+    respond_with @home
   end
 
   def edit
     breadcrumbs.add @home.to_s, home_path(@home)
     breadcrumbs.add t('edit')
+    respond_with @home
   end
 
   def create
-    authorize Home
-    @home = Home.new(home_params)
-
     if @home.save
       redirect_to @home, notice: t('actions.create.success', model_name: Home.model_name.human)
     else
@@ -36,11 +28,8 @@ class HomesController < ApplicationController
   end
 
   def update
-    if @home.update(home_params)
-      redirect_to @home, notice: t('actions.update.success', model_name: Home.model_name.human)
-    else
-      render :edit
-    end
+    @home.update(home_params)
+    respond_with @home
   end
 
   def destroy
@@ -49,11 +38,6 @@ class HomesController < ApplicationController
   end
 
   private
-
-  def set_home
-    @home = Home.find(params[:id])
-    authorize @home
-  end
 
   def set_breadcrumbs
     super

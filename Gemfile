@@ -3,7 +3,6 @@
 source 'https://rubygems.org'
 ruby File.read('.ruby-version')
 
-gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'breadcrumbs'
 gem 'cancancan'
 gem 'coffee-rails', '~> 4.2'
@@ -40,7 +39,7 @@ group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'byebug', platform: :mri
-  gem 'factory_girl_rails', require: false
+  gem 'factory_bot_rails', require: false
   gem 'faker', require: false
   gem 'pry-rails'
   gem 'pry-rescue'
