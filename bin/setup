@@ -19,7 +19,7 @@ chdir APP_ROOT do
   system('bundle check') || system!('bundle install')
 
   # Install JavaScript dependencies if using Yarn
-  system('nvm use')
+  system('nvm use 9.2.0')
   system('yarn install')
 
   # puts "\n== Copying sample files =="
