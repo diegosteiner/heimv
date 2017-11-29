@@ -57,4 +57,4 @@ group :test do
 end
 
 # Added at 2017-11-29 10:32:25 +0100 by digi:
-gem "figaro", "~> 1.1"
+gem 'figaro', '~> 1.1'
