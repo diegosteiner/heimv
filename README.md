@@ -1,50 +1,48 @@
-Heimverwaltung
-================
+# Heimverwaltung
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+## Environments
 
-This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
-provided by the [RailsApps Project](http://railsapps.github.io/).
+| Branch  | Domain                                | Deployment | CI                                      |
+| ------- | ------------------------------------- | ---------- | --------------------------------------- |
+| develop | https://heimverwaltung-develop.herokuapp.com | auto       | [![Build Status](https://semaphoreci.com/api/v1/projects/87b971b5-ffa5-46f9-8a5d-c9e5cb19fa2d/1371806/badge.svg)](https://semaphoreci.com/pfadiheime/heimverwaltung)|
+| master  | https://heimverwaltung-master.herokuapp.com  | release    | [![Build Status]()](https://semaphoreci.com/pfadiheime/heimverwaltung)  |
 
-Rails Composer is supported by developers who purchase our RailsApps tutorials.
+## Prequisites
 
-Problems? Issues?
------------
+You'll need at least:
 
-Need help? Ask on Stack Overflow with the tag 'railsapps.'
+* A working ruby >= 2.4.2 installation
+* A working node >= 9.2.0 installation
 
-Your application contains diagnostics in the README file. Please provide a copy of the README file when reporting any issues.
+## Setup
 
-If the application doesn't work as expected, please [report an issue](https://github.com/RailsApps/rails_apps_composer/issues)
-and include the diagnostics.
+```sh
+git clone git@github.com:diegosteiner/heimverwaltung.git
+cd heimverwaltung
+bin/setup
+```
 
-Ruby on Rails
--------------
+### Configuration
 
-This application requires:
+Configure the following:
 
-- Ruby 2.3.1
-- Rails 5.0.2
+* .env
 
-Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
+### Run
 
-Getting Started
----------------
+For development run:
 
-Documentation and Support
--------------------------
+```sh
+bin/dev
+```
 
-Issues
--------------
+### Tests / Checks
 
-Similar Projects
-----------------
+```sh
+bin/check
+```
 
-Contributing
-------------
+## Copyright
 
-Credits
--------
-
-License
--------
+Coypright 2017 Diego P. Steiner
+MIT License

@@ -1,21 +1,23 @@
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  = devise_error_messages!
-  = f.input :email, as: :email
-  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-    p.form-text.text-muted
-      | Currently waiting confirmation for:
-      = resource.unconfirmed_email
-  fieldset
-    p.form-text.text-muted
-      | Leave these fields blank if you don't want to change your password.
-    = f.input :password, as: :password, autocomplete: 'off', class: 'form-control'
-  fieldset
-    p.form-text.text-muted
-      | You must enter your current password to make changes.
-    = f.input :current_password, as: :password
-  = f.button :submit
+.row
+  .col-md-6
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+      = devise_error_messages!
+      = f.input :email, as: :email
+      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+        small.form-text.text-muted
+          | Currently waiting confirmation for:
+          = resource.unconfirmed_email
+      fieldset
+        small.form-text.text-muted
+          | Leave these fields blank if you don't want to change your password.
+        = f.input :password, as: :password, autocomplete: 'off'
+      fieldset
+        small.form-text.text-muted
+          | You must enter your current password to make changes.
+        = f.input :current_password, as: :password
+      = f.button :submit
 
-br
-p.form-text.text-muted
-  | Unhappy? We'll be sad to see you go.
-= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button right'
+    br
+    small.form-text.text-muted
+      | Unhappy? We'll be sad to see you go.
+    = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger'

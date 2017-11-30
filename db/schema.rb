@@ -17,12 +17,12 @@ ActiveRecord::Schema.define(version: 20170709122528) do
 
   create_table "booking_transitions", force: :cascade do |t|
     t.string "to_state", null: false
-    t.json "metadata", default: {}
     t.integer "sort_key", null: false
     t.integer "booking_id", null: false
     t.boolean "most_recent", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "metadata", default: {}
     t.index ["booking_id", "most_recent"], name: "index_booking_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["booking_id", "sort_key"], name: "index_booking_transitions_parent_sort", unique: true
   end
@@ -87,11 +87,6 @@ ActiveRecord::Schema.define(version: 20170709122528) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "confirmation_token"

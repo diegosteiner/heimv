@@ -1993,8 +1993,8 @@ find-up@^2.0.0, find-up@^2.1.0:
     locate-path "^2.0.0"
 
 flatpickr@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.0.6.tgz#81540f1a0f010fa3b96d929943b6396bbb25b1b6"
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.1.5.tgz#32b13ac2361c5f9d01484353a4f34cf5f079bc6e"
 
 flatten@^1.0.2:
   version "1.0.2"
@@ -2621,8 +2621,8 @@ is-path-in-cwd@^1.0.0:
     is-path-inside "^1.0.0"
 
 is-path-inside@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/is-path-inside/-/is-path-inside-1.0.0.tgz#fc06e5a1683fbda13de667aff717bbc10a48f37f"
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/is-path-inside/-/is-path-inside-1.0.1.tgz#8ef5b7de50437a3fdca6b4e865ef7aa55cb48036"
   dependencies:
     path-is-inside "^1.0.1"
 
@@ -2715,8 +2715,8 @@ jquery-mousewheel@~3.1.13:
   resolved "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
 
 js-base64@^2.1.8, js-base64@^2.1.9:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.3.2.tgz#a79a923666372b580f8e27f51845c6f7e8fbfbaf"
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.0.tgz#9e566fee624751a1d720c966cd6226d29d4025aa"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -3131,8 +3131,8 @@ miller-rabin@^4.0.0:
     brorand "^1.0.1"
 
 "mime-db@>= 1.30.0 < 2":
-  version "1.31.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.31.0.tgz#a49cd8f3ebf3ed1a482b60561d9105ad40ca74cb"
+  version "1.32.0"
+  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.32.0.tgz#485b3848b01a3cda5f968b4882c0771e58e09414"
 
 mime-db@~1.30.0:
   version "1.30.0"
@@ -4689,8 +4689,8 @@ select-hose@^2.0.0:
   resolved "https://github.com/rchavik/select2-bootstrap-theme.git#70743b1058cb97cc2acf26863bb18ea448e47cfe"
 
 select2@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.3.tgz#207733fe91eacb9cb1a13f12463401f472449e0f"
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.5.tgz#7aac50692561985b34d3b82ec55e226f8960d40a"
   dependencies:
     almond "~0.3.1"
     jquery-mousewheel "~3.1.13"
@@ -5380,8 +5380,8 @@ webpack-sources@^1.0.1:
     source-map "~0.6.1"
 
 webpack@^3.5.5:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.8.1.tgz#b16968a81100abe61608b0153c9159ef8bb2bd83"
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.9.0.tgz#7d65ca4ba92ae1b67be2c00b217fb990b8ffa97f"
   dependencies:
     acorn "^5.0.0"
     acorn-dynamic-import "^2.0.0"

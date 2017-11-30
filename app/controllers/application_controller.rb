@@ -20,7 +20,11 @@ class ApplicationController < ActionController::Base
   private
 
   def unauthorized
-    flash[:alert] = 'Access denied.'
-    redirect_to(request.referer || root_path)
+    if current_user.nil?
+      session[:next] = request.fullpath
+      redirect_to login_url, alert: 'You have to log in to continue.'
+    else
+      render 'pages/about', status: 403
+    end
   end
 end

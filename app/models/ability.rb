@@ -1,8 +1,9 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(_user)
-    can :manage, :all
+  def initialize(user)
+    default_abilities(user)
+    admin_abilities(user) if user.admin?
 
     # Define abilities for the passed in user here. For example:
     #
@@ -30,5 +31,15 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+  end
+
+  private
+
+  def admin_abilities(_user)
+    can :manage, :all
+  end
+
+  def default_abilities(user)
+    can :manage, :user, id: user.id
   end
 end

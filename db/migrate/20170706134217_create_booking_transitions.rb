@@ -2,11 +2,16 @@ class CreateBookingTransitions < ActiveRecord::Migration[5.1]
   def change
     create_table :booking_transitions do |t|
       t.string :to_state, null: false
-      t.json :metadata, default: {}
       t.integer :sort_key, null: false
       t.integer :booking_id, null: false, foreign_key: true
       t.boolean :most_recent, null: false
       t.timestamps null: false
+
+      if t.respond_to?(:json)
+        t.json :metadata, default: {}
+      else
+        t.string :metadata, default: '{}'
+      end
     end
 
     # Foreign keys are optional, but highly recommended

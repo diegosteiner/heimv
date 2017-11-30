@@ -27,11 +27,7 @@
 }
 
 @import 'select2/dist/css/select2';
-$caret-width: .3rem;
-$s2bs-dropdown-link-hover-bg: $primary !default;
-$s2bs-dropdown-link-active-bg: $primary !default;
-$s2bs-dropdown-link-hover-color: $component-active-color;
-$s2bs-dropdown-link-active-color: $component-active-color;
-@import "select2-bootstrap-theme/src/select2-bootstrap4.vars";
-@import "select2-bootstrap-theme/src/select2-bootstrap";
-@import "select2-bootstrap-theme/src/select2-bootstrap4.after";
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: .5rem;
+}

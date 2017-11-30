@@ -1,0 +1,10 @@
+= simple_form_for(@user) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :email
+    = f.input :role, collection: User.roles
+
+  .form-actions
+    = f.button :submit
+    =<> link_to t('back'), users_path, class: 'btn btn-default'

@@ -1,11 +1,18 @@
-class UsersController < ApplicationController
-  load_and_authorize_resource
+class UsersController < CrudController
+  before_action { breadcrumbs.add(User.model_name.human(count: :other), users_path) }
+  before_action(only: :new) { breadcrumbs.add(t('new')) }
+  before_action(only: %i[show edit]) { breadcrumbs.add(@user.to_s, user_path(@user)) }
+  before_action(only: :edit) { breadcrumbs.add(t('edit')) }
 
   def index
     respond_with @users
   end
 
   def show
+    respond_with @user
+  end
+
+  def edit
     respond_with @user
   end
 

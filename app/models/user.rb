@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  enum role: %i[user vip admin]
+  ROLES = %i[user admin].freeze
+  enum role: ROLES
   after_initialize :set_default_role, if: :new_record?
 
   def set_default_role
@@ -11,5 +12,5 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :validatable
 end
