@@ -1,8 +1,7 @@
-@import 'variables';
-@import 'bootstrap/scss/bootstrap';
-@import 'font-awesome-sprockets';
-@import 'font-awesome';
-@import 'forms';
+@import './variables';
+@import '~bootstrap/scss/bootstrap';
+@import '~font-awesome/scss/font-awesome';
+@import './forms';
 img {
     @extend .img-fluid;
     margin: 0 auto;

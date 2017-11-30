@@ -1,5 +1,5 @@
 @import 'variables';
-@import 'flatpickr/dist/flatpickr';
+@import '~flatpickr/dist/flatpickr';
 .flatpickr-day {
     @include border-radius($card-border-radius);
 }
@@ -26,7 +26,7 @@
     border-color: $primary;
 }
 
-@import 'select2/dist/css/select2';
+@import '~select2/dist/css/select2';
 input[type="radio"],
 input[type="checkbox"] {
     margin-right: .5rem;

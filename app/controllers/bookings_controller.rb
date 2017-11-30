@@ -1,6 +1,4 @@
 class BookingsController < CrudController
-  self.crud_model = Booking
-
   def index
     respond_with @bookings
   end
@@ -18,6 +16,9 @@ class BookingsController < CrudController
   def edit; end
 
   def create
+    @booking.build_customer
+    @booking.build_occupancy
+    @booking.update(booking_params)
     respond_with @booking
   end
 

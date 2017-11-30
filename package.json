@@ -5,8 +5,11 @@
     "coffeescript": "1.12.7",
     "flatpickr": "^3.0.6",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "jquery-ujs": "^1.2.2",
     "select2": "^4.0.3",
-    "select2-bootstrap-theme": "https://github.com/rchavik/select2-bootstrap-theme.git#bs4"
+    "select2-bootstrap-theme": "https://github.com/rchavik/select2-bootstrap-theme.git#bs4",
+    "turbolinks": "^5.0.3"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.9.5"
