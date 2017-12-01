@@ -39,7 +39,7 @@ module Heimverwaltung
       g.system_tests false
     end
 
-    config.assets.enabled = false
+    # config.assets.enabled = false
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
