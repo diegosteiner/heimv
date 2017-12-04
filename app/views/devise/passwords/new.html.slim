@@ -1,14 +1,11 @@
 .row.justify-content-center
   .col-md-6
     h3
-      | Forgot your password?
+      = t(".forgot_your_password")
     .card.breakout-sm
       .card-body
         = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-          p
-            | We'll send password reset instructions.
-          = devise_error_messages!
-          .form-group
-            = f.input :email, autofocus: true
+          = f.input :email, autofocus: true
+          = f.button :submit, value: t(".send_me_reset_password_instructions")
 
-          = f.button :submit
+    = render "devise/shared/links"

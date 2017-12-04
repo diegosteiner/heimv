@@ -1,23 +1,21 @@
 .row
   .col-md-6
     = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-      = devise_error_messages!
       = f.input :email, as: :email
       - if devise_mapping.confirmable? && resource.pending_reconfirmation?
         small.form-text.text-muted
-          | Currently waiting confirmation for:
+          p
+            = t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email)
           = resource.unconfirmed_email
-      fieldset
-        small.form-text.text-muted
-          | Leave these fields blank if you don't want to change your password.
-        = f.input :password, as: :password, autocomplete: 'off'
-      fieldset
-        small.form-text.text-muted
-          | You must enter your current password to make changes.
-        = f.input :current_password, as: :password
+      = f.input :password, as: :password, autocomplete: 'off', hint: t(".leave_blank_if_you_don_t_want_to_change_it")
+      = f.input :current_password, as: :password, hint: t(".we_need_your_current_password_to_confirm_your_changes")
       = f.button :submit
 
+    .card.border-danger.my-4
+      .card-header.bg-danger.text-white
+        = "Danger zone"
+      .card-body
+        = button_to t(".cancel_my_account"), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger'
+
     br
-    small.form-text.text-muted
-      | Unhappy? We'll be sad to see you go.
-    = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger'
+    = link_to t("devise.shared.links.back"), :back
