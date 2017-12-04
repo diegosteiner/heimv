@@ -24,12 +24,12 @@ if [ ! $? -eq 0 ]; then
   exit 1
 fi
 
-# echo -e '\n\033[35mRunning i18n-tasks health\033[0m'
-# bundle exec i18n-tasks health
-# if [ ! $? -eq 0 ]; then
-#   echo -e '\033[31mFound translation problems, commit aborted\033[0m'
-#   exit 1
-# fi
+echo -e '\n\033[35mRunning i18n-tasks health\033[0m'
+bundle exec i18n-tasks health
+if [ ! $? -eq 0 ]; then
+  echo -e '\033[31mFound translation problems, commit aborted\033[0m'
+  exit 1
+fi
 
 ##echo -e '\n\033[35mRunning scss-lint\033[0m'
 ##bundle exec scss-lint app/assets/stylesheets/**/*.scss
