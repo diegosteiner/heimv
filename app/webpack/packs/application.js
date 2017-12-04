@@ -8,6 +8,7 @@ import flatpickr from 'flatpickr/dist/flatpickr'
 import 'flatpickr/dist/l10n/de'
 import 'select2/dist/js/select2'
 import 'src/bookings'
+import Forms from 'src/forms'
 
 Turbolinks.start()
 
@@ -47,6 +48,8 @@ let load = (function() {
             console.log(e.params.data);
         }
     });
+
+    Forms.initialize();
 });
 
 $(document).on('turbolinks:load', load)
