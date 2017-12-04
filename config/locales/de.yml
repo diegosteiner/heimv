@@ -1,5 +1,5 @@
 ---
-en:
+de:
   actions:
     create:
       success: Success
@@ -27,7 +27,7 @@ en:
         booking:
           attributes:
             state:
-              invalid_transition: Invalid transition
+              invalid_transition: Ungültiger Statusübergang
     models:
       booking:
         one: Buchung
@@ -53,17 +53,17 @@ en:
           completed: Abgeschlossen
           pending: Neu
           reserved: Reserviert
-  add_model: Add model
-  back: Back
+  add_model: "%{model_name} hinzufügen"
+  back: Zurück
   bookings:
     index:
       new: New
-  confirm: Confirm
+  confirm: Sind Sie sicher?
   contracts:
     index:
       new: New
-  destroy: Destroy
-  edit: Edit
+  destroy: Löschen
+  edit: Bearbeiten
   flash:
     actions:
       create:
@@ -81,18 +81,10 @@ en:
     show:
       documents: Documents
       rulesheet: Rulesheet
-  new: New
+  new: Neu
   people:
     index:
       new: New
-  simple_form:
-    error_notification:
-      default_message: 'Please review the problems below:'
-    'no': 'No'
-    required:
-      mark: "*"
-      text: required
-    'yes': 'Yes'
   time:
     formats:
       date: "%d.%m.%Y"

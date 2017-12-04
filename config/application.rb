@@ -46,7 +46,7 @@ module Heimverwaltung
     # -- all .rb files in that directory are automatically loaded.
     config.i18n.available_locales = %w[de-CH en]
     config.i18n.default_locale = 'de-CH'
-    config.i18n.fallbacks = { de: [:'de-CH', :en] }
+    config.i18n.fallbacks = { de: %i[de-CH en] }
 
     Rails.application.routes.default_url_options[:host] = Rails.application.secrets.app_host
   end

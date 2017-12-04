@@ -20,9 +20,9 @@ gem 'webpacker'
 
 group :development do
   gem 'better_errors'
-  gem 'i18n-tasks'
   gem 'binding_of_caller'
   gem 'foreman'
+  gem 'i18n-tasks'
   gem 'letter_opener'
   gem 'listen', '~> 3.0.5'
   gem 'spring'
