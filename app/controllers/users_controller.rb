@@ -17,6 +17,7 @@ class UsersController < CrudController
   end
 
   def update
+    @user.skip_reconfirmation!
     @user.update(user_params)
     respond_with @user
   end
@@ -29,6 +30,6 @@ class UsersController < CrudController
   private
 
   def user_params
-    params.require(:user).permit(:role)
+    Params::UserParamsService.new(params, current_user).process
   end
 end

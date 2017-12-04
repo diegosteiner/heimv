@@ -81,6 +81,11 @@ en:
     show:
       documents: Documents
       rulesheet: Rulesheet
+  nav:
+    edit_account: Account
+    sign_in: Anmelden
+    sign_out: Abmelden
+    sign_up: Neuen Account erstellen
   new: New
   people:
     index:
