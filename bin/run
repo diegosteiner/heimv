@@ -1,1 +1,14 @@
-foreman start
+#!/usr/bin/env ruby
+
+cmd = 'foreman start'
+
+case ARGV.first
+when 'dev'
+  cmd << ' -f Procfile.dev'
+end
+
+# cmd << ' 2>&1'
+
+puts cmd
+IO.popen(cmd) { |io| while (line = io.gets) do puts line end }
+
