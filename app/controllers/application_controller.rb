@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
       session[:next] = request.fullpath
       redirect_to login_url, alert: 'You have to log in to continue.'
     else
-      render 'pages/about', status: 403
+      render text: 'oops!', status: 403
     end
   end
 end

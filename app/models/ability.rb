@@ -39,7 +39,7 @@ class Ability
     can :manage, :all
   end
 
-  def default_abilities(user)
-    can :manage, :user, id: user.id
+  def default_abilities(_user)
+    can :manage, Home
   end
 end

@@ -9,13 +9,16 @@
 
     tbody
       - @homes.each do |home|
-        tr[data-href=home_path(home)]
-          td = home.name
+        tr[data-href=home_path(home) data-id=home.to_param]
+          td
+            = link_to home.name, home_path(home)
           td = home.ref
-          td = link_to edit_home_path(home) do
-            span.fa.fa-pencil
-          td = link_to home_path(home), data: { confirm: t('confirm') }, method: :delete do
-            span.fa.fa-trash
+          td
+            = link_to edit_home_path(home) do
+              span.fa.fa-pencil
+          td
+            = link_to home_path(home), data: { confirm: t('confirm') }, method: :delete, title: t('destroy') do
+              span.fa.fa-trash
 
 br
 = link_to new_home_path, class: 'btn btn-primary' do

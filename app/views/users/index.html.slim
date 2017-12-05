@@ -9,12 +9,14 @@
 
     tbody
       - @users.each do |user|
-        tr
+        tr[data-href=user_path(user) data-id=user.to_param]
           td
             = link_to user.email, user
           td
             = user.role
-          td = link_to edit_user_path(user) do
-            span.fa.fa-pencil
-          td = link_to user_path(user), data: { confirm: t('confirm') }, method: :delete do
-            span.fa.fa-trash
+          td
+            = link_to edit_user_path(user) do
+              span.fa.fa-pencil
+          td
+            = link_to user_path(user), data: { confirm: t('confirm') }, method: :delete, title: t('destroy') do
+              span.fa.fa-trash
