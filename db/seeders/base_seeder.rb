@@ -1,4 +1,5 @@
 require 'factory_bot_rails'
+require 'faker'
 
 module Seeders
     class BaseSeeder
