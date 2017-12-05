@@ -1,0 +1,37 @@
+.card.breakout-sm
+  .card-body
+    p
+      strong=  Customer.human_attribute_name(:first_name)
+      br
+      = @customer.first_name
+    p
+      strong=  Customer.human_attribute_name(:last_name)
+      br
+      = @customer.last_name
+    p
+      strong=  Customer.human_attribute_name(:street_address)
+      br
+      = @customer.street_address
+    p
+      strong=  Customer.human_attribute_name(:zipcode)
+      br
+      = @customer.zipcode
+    p
+      strong=  Customer.human_attribute_name(:city)
+      br
+      = @customer.city
+
+    br
+
+    = link_to edit_customer_path(@customer), class: 'btn btn-primary' do
+      span.fa.fa-pencil
+      '
+      = t('edit')
+
+    '
+    = link_to @customer, data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t('destroy')
+
+= link_to t('back'), customers_path, class: 'btn btn-default'

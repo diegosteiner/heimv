@@ -41,5 +41,6 @@ class Ability
 
   def default_abilities(_user)
     can :manage, Home
+    can :manage, Customer
   end
 end

@@ -1,5 +1,4 @@
-= simple_form_for(@person) do |f|
-  = f.error_notification
+= simple_form_for(@customer) do |f|
 
   .form-inputs
     = f.input :first_name
@@ -10,4 +9,4 @@
 
   .form-actions
     = f.button :submit
-    = link_to t('back'), people_path, class: 'btn btn-default'
+    = link_to t('back'), customers_path, class: 'btn btn-default'

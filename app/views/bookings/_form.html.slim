@@ -9,9 +9,9 @@
     = f.input :state, collection: Booking.states.values
   .form-inputs
     strong= Booking.human_attribute_name(:customer)
-    = f.input :customer_id, as: :select, label: false, collection: people_for_select, input_html: { data: { tags: true } }
+    = f.input :customer_id, as: :select, label: false, collection: customers_for_select, input_html: { data: { tags: true } }
     .customer_attributes
-      = f.simple_fields_for :customer, Person.new do |cf|
+      = f.simple_fields_for :customer, Customer.new do |cf|
         = cf.input :first_name
         = cf.input :last_name
         = cf.input :street_address

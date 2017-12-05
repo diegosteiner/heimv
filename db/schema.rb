@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 20170709122528) do
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "street_address"
+    t.string "zipcode"
+    t.string "city"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "homes", force: :cascade do |t|
     t.string "name"
     t.string "ref"
@@ -69,16 +79,6 @@ ActiveRecord::Schema.define(version: 20170709122528) do
     t.index ["blocking"], name: "index_occupancies_on_blocking"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
-  end
-
-  create_table "people", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "street_address"
-    t.string "zipcode"
-    t.string "city"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

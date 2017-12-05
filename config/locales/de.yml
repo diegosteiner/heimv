@@ -2,11 +2,11 @@
 de:
   actions:
     create:
-      success: Success
+      success: DEPRECATED Success
     destroy:
-      success: Success
+      success: DEPRECATED Success
     update:
-      success: Success
+      success: DEPRECATED Success
   activerecord:
     attributes:
       booking:
@@ -15,7 +15,7 @@ de:
         occupancy: Belegung
         ref: Buchungsreferenz
         state: Status
-      person:
+      customer:
         address: Adresse
         city: Ort
         first_name: Vorname
@@ -35,15 +35,15 @@ de:
       contract:
         one: Vertrag
         other: Verträge
+      customer:
+        one: Kunde
+        other: Kunden
       home:
         one: Heim
         other: Heime
       occupancy:
         one: Belegung
         other: Belegungen
-      person:
-        one: Person
-        other: Personen
     values:
       booking:
         state:
@@ -57,39 +57,39 @@ de:
   back: Zurück
   bookings:
     index:
-      new: New
+      new: Neue Buchung
   confirm: Sind Sie sicher?
   contracts:
     index:
-      new: New
+      new: Neuer Vertrag
+  customers:
+    index:
+      new: Neuer Kunde
   destroy: Löschen
   edit: Bearbeiten
   flash:
     actions:
       create:
-        alert: "%{resource_name} could not be created."
-        notice: "%{resource_name} was successfully created."
+        alert: "%{resource_name} konnte nicht erstellt werden."
+        notice: "%{resource_name} wurde erfolgreich erstellt."
       destroy:
-        alert: "%{resource_name} could not be destroyed."
-        notice: "%{resource_name} was successfully destroyed."
+        alert: "%{resource_name} konnte nicht gelöscht werden."
+        notice: "%{resource_name} wurde erfolgreich gelöscht."
       update:
-        alert: "%{resource_name} could not be updated."
-        notice: "%{resource_name} was successfully updated."
+        alert: "%{resource_name} konnte nicht upgedatet werden."
+        notice: "%{resource_name} wurde erfolgreich upgedatet."
   homes:
     index:
-      new: New
+      new: Neues Heim
     show:
-      documents: Documents
-      rulesheet: Rulesheet
+      documents: Dokumente
+      rulesheet: Hausordnung
   nav:
     edit_account: Account
     sign_in: Anmelden
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: Neu
-  people:
-    index:
-      new: New
   time:
     formats:
       date: "%d.%m.%Y"

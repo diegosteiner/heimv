@@ -5,7 +5,7 @@ class Booking < ApplicationRecord
 
   belongs_to :occupancy, dependent: :destroy
   belongs_to :home
-  belongs_to :customer, class_name: :Person, inverse_of: :bookings
+  belongs_to :customer, class_name: :Customer, inverse_of: :bookings
   has_many :booking_transitions, dependent: :destroy, autosave: false
   has_many :contracts, dependent: :destroy, autosave: false
 

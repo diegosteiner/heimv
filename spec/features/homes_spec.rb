@@ -3,7 +3,7 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'Session', :devise do
+feature 'Home', :devise do
   before(:each) { login_as(user, scope: :user) }
   after(:each) { Warden.test_reset! }
 

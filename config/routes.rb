@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :bookings do
     resources :contracts, shallow: true
   end
-  resources :people
+  resources :customers
   get 'pages/home'
   get 'pages/about'
 

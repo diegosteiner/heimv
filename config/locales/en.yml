@@ -15,7 +15,7 @@ en:
         occupancy: Belegung
         ref: Buchungsreferenz
         state: Status
-      person:
+      customer:
         address: Adresse
         city: Ort
         first_name: Vorname
@@ -35,15 +35,15 @@ en:
       contract:
         one: Vertrag
         other: Verträge
+      customer:
+        one: Customer
+        other: Customeren
       home:
         one: Heim
         other: Heime
       occupancy:
         one: Belegung
         other: Belegungen
-      person:
-        one: Person
-        other: Personen
     values:
       booking:
         state:
@@ -60,6 +60,9 @@ en:
       new: New
   confirm: Confirm
   contracts:
+    index:
+      new: New
+  customers:
     index:
       new: New
   destroy: Destroy
@@ -87,9 +90,6 @@ en:
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: New
-  people:
-    index:
-      new: New
   simple_form:
     error_notification:
       default_message: 'Please review the problems below:'
