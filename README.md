@@ -33,7 +33,7 @@ Configure the following:
 For development run:
 
 ```sh
-bin/dev
+bin/run dev
 ```
 
 ### Tests / Checks
