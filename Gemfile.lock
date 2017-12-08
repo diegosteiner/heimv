@@ -68,9 +68,7 @@ GEM
     capybara-screenshot (1.0.18)
       capybara (>= 1.0, < 3)
       launchy
-    capybara-webkit (1.14.0)
-      capybara (>= 2.3.0, < 2.14.0)
-      json
+    cliver (0.3.2)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
@@ -144,6 +142,10 @@ GEM
     parser (2.4.0.2)
       ast (~> 2.3)
     pg (0.21.0)
+    poltergeist (1.16.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
     pry (0.11.3)
       coderay (~> 1.1.0)
@@ -283,7 +285,6 @@ DEPENDENCIES
   cancancan
   capybara
   capybara-screenshot
-  capybara-webkit
   database_cleaner
   devise
   devise-i18n
@@ -295,6 +296,7 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.0.5)
   pg
+  poltergeist
   pry-rails
   pry-rescue
   puma (~> 3.0)
