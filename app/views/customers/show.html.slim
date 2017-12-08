@@ -1,37 +1,16 @@
 .card.breakout-sm
   .card-body
-    p
-      strong=  Customer.human_attribute_name(:first_name)
-      br
-      = @customer.first_name
-    p
-      strong=  Customer.human_attribute_name(:last_name)
-      br
-      = @customer.last_name
-    p
-      strong=  Customer.human_attribute_name(:street_address)
-      br
-      = @customer.street_address
-    p
-      strong=  Customer.human_attribute_name(:zipcode)
-      br
-      = @customer.zipcode
-    p
-      strong=  Customer.human_attribute_name(:city)
-      br
-      = @customer.city
-
+    = render_hash_as_dl(@customer.attributes.slice(*%w(first_name last_name street_address zipcode city)), Customer)
     br
 
     = link_to edit_customer_path(@customer), class: 'btn btn-primary' do
       span.fa.fa-pencil
       '
       = t('edit')
-
     '
     = link_to @customer, data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
       span.fa.fa-trash
       '
       = t('destroy')
-
+br
 = link_to t('back'), customers_path, class: 'btn btn-default'

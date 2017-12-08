@@ -1,22 +1,6 @@
 .card.breakout-sm
   .card-body
-    p
-      strong= Home.human_attribute_name(:Name)
-      br
-      = @home.name
-    p
-      strong= Home.human_attribute_name(:Ref)
-      br
-      = @home.ref
-    p
-      strong= t('.documents')
-      br
-      ul
-        li
-          = link_to t('.rulesheet'), '#'
-          '
-          = link_to '#' do
-            span.fa.fa-pencil
+    = render_hash_as_dl(@home.attributes.slice(*%w(name ref)), Home)
     br
 
     = link_to edit_home_path(@home), class: 'btn btn-primary' do
@@ -31,5 +15,4 @@
       = t('destroy')
 
 br
-
 = link_to t('back'), homes_path, class: 'btn btn-default'

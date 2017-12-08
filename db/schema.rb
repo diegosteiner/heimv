@@ -28,14 +28,12 @@ ActiveRecord::Schema.define(version: 20170709122528) do
   end
 
   create_table "bookings", force: :cascade do |t|
-    t.bigint "occupancy_id", null: false
     t.bigint "home_id", null: false
     t.string "state"
     t.integer "customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["home_id"], name: "index_bookings_on_home_id"
-    t.index ["occupancy_id"], name: "index_bookings_on_occupancy_id"
     t.index ["state"], name: "index_bookings_on_state"
   end
 
@@ -73,12 +71,15 @@ ActiveRecord::Schema.define(version: 20170709122528) do
     t.datetime "ends_at", null: false
     t.boolean "blocking", default: false, null: false
     t.bigint "home_id", null: false
+    t.string "subject_type"
+    t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
     t.index ["blocking"], name: "index_occupancies_on_blocking"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
+    t.index ["subject_type", "subject_id"], name: "index_occupancies_on_subject_type_and_subject_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -112,7 +113,6 @@ ActiveRecord::Schema.define(version: 20170709122528) do
 
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
-  add_foreign_key "bookings", "occupancies"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "occupancies", "homes"
 end

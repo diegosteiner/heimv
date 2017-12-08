@@ -42,5 +42,7 @@ class Ability
   def default_abilities(_user)
     can :manage, Home
     can :manage, Customer
+    can :manage, Booking
+    can :manage, Occupancy
   end
 end

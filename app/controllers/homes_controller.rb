@@ -1,4 +1,6 @@
 class HomesController < CrudController
+  load_and_authorize_resource :home
+
   before_action { breadcrumbs.add(Home.model_name.human(count: :other), homes_path) }
   before_action(only: :new) { breadcrumbs.add(t('new')) }
   before_action(only: %i[show edit]) { breadcrumbs.add(@home.to_s, home_path(@home)) }
@@ -38,6 +40,6 @@ class HomesController < CrudController
   private
 
   def home_params
-    params.require(:home).permit(:name, :ref)
+    Params::HomeParamsService.new(params, current_user).process
   end
 end

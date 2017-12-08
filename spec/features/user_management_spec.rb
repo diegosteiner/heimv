@@ -38,6 +38,7 @@ feature 'User Management', :devise do
       fill_in :user_email, with: changed_user.email
       submit_form
       expect(page).to have_http_status 200
+      expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: User.model_name.human)
       expect(page).to have_content changed_user.email
     end
 
@@ -47,6 +48,7 @@ feature 'User Management', :devise do
       within find_resource_in_table(user) do
         click_link I18n.t('destroy')
       end
+      expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: User.model_name.human)
       expect(page).not_to have_content user.email
     end
   end

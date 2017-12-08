@@ -1,4 +1,6 @@
 class UsersController < CrudController
+  load_and_authorize_resource :user
+
   before_action { breadcrumbs.add(User.model_name.human(count: :other), users_path) }
   before_action(only: :new) { breadcrumbs.add(t('new')) }
   before_action(only: %i[show edit]) { breadcrumbs.add(@user.to_s, user_path(@user)) }

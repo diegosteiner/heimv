@@ -37,7 +37,7 @@ en:
         other: Verträge
       customer:
         one: Customer
-        other: Customeren
+        other: Customers
       home:
         one: Heim
         other: Heime
@@ -81,9 +81,6 @@ en:
   homes:
     index:
       new: New
-    show:
-      documents: Documents
-      rulesheet: Rulesheet
   nav:
     edit_account: Account
     sign_in: Anmelden

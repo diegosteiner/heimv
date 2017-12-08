@@ -4,7 +4,7 @@ FactoryBot.define do
     association :customer, factory: :customer
 
     after(:build) do |booking|
-      booking.occupancy ||= create(:occupancy, home: booking.home)
+      booking.occupancy ||= build(:occupancy, home: booking.home)
     end
   end
 end

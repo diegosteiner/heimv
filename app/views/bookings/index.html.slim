@@ -4,16 +4,14 @@
       tr
         th= Booking.human_attribute_name(:occupancy)
         th= Booking.human_attribute_name(:home)
-        th= Booking.human_attribute_name(:state)
         th= Booking.human_attribute_name(:customer)
-        th
         th
 
     tbody
       - @bookings.each do |booking|
-        tr[data-href=booking_path(booking)]
+        tr[data-href=booking_path(booking) data-id=booking.to_param]
           td
-            .d-inline
+            .left
               i.fa.fa-calendar
             .d-inline
               strong<>
@@ -28,13 +26,9 @@
                   = l(booking.occupancy.ends_at, format: :time)
           td
             = link_to booking.home, home_path(booking.home)
-          td
-            span.badge.badge-info= booking.state
           td = booking.customer
           td = link_to edit_booking_path(booking) do
             span.fa.fa-pencil
-          td = link_to booking_path(booking), data: { confirm: t('confirm') }, method: :delete do
-            span.fa.fa-trash
 
 br
 = link_to new_booking_path, class: 'btn btn-primary' do

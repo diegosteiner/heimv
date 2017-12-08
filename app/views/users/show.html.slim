@@ -1,1 +1,6 @@
-= render_hash_as_dl(@user.attributes.slice('email'), User)
+.card.breakout-sm
+  .card-body
+    = render_hash_as_dl(@user.attributes.slice('email'), User)
+
+br
+= link_to t('back'), users_path, class: 'btn btn-default'

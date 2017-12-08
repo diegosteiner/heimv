@@ -3,7 +3,7 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'Customer', :devise do
+feature 'Customer CRUD', :devise do
   before(:each) { login_as(user, scope: :user) }
   after(:each) { Warden.test_reset! }
 
@@ -17,6 +17,7 @@ feature 'Customer', :devise do
     fill_in :customer_last_name, with: new_customer.last_name
     submit_form
     expect(page).to have_http_status(200)
+    expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Customer.model_name.human)
     expect(page).to have_content new_customer.first_name
     expect(page).to have_content new_customer.last_name
   end
@@ -38,6 +39,7 @@ feature 'Customer', :devise do
     fill_in :customer_last_name, with: new_customer.last_name
     submit_form
     expect(page).to have_http_status(200)
+    expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Customer.model_name.human)
     expect(page).to have_content new_customer.first_name
     expect(page).to have_content new_customer.last_name
   end
@@ -48,6 +50,7 @@ feature 'Customer', :devise do
     within find_resource_in_table(customer) do
       click_link I18n.t('destroy')
     end
+    expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Customer.model_name.human)
     expect(page).not_to have_content customer.name
   end
 end

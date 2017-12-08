@@ -1,4 +1,6 @@
 class CustomersController < CrudController
+  load_and_authorize_resource :customer
+
   before_action { breadcrumbs.add(Customer.model_name.human(count: :other), customers_path) }
   before_action(only: :new) { breadcrumbs.add(t('new')) }
   before_action(only: %i[show edit]) { breadcrumbs.add(@customer.to_s, customer_path(@customer)) }
@@ -17,7 +19,7 @@ class CustomersController < CrudController
   end
 
   def create
-    @customer.update(customer_params)
+    @customer.save
     respond_with @customer
   end
 

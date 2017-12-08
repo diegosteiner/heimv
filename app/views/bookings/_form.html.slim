@@ -1,13 +1,11 @@
 = simple_form_for(@booking) do |f|
-  = f.error_notification
 
   .form-inputs
+    = f.input :state, collection: Booking.states.values, input_html: { class: 'input-pills' }
     = f.simple_fields_for :occupancy do |of|
-      = of.input :begins_at, as: :datetime_picker
-      = of.input :ends_at, as: :datetime_picker
+      = of.input :begins_at, as: :datetime, html5: true
+      = of.input :ends_at, as: :datetime, html5: true
     = f.association :home
-    = f.input :state, collection: Booking.states.values
-  .form-inputs
     strong= Booking.human_attribute_name(:customer)
     = f.input :customer_id, as: :select, label: false, collection: customers_for_select, input_html: { data: { tags: true } }
     .customer_attributes
@@ -20,4 +18,4 @@
 
   .form-actions
     = f.button :submit
-    = link_to t('back'), bookings_path, class: 'btn btn-default'
+    =<> link_to t('back'), bookings_path, class: 'btn btn-default'

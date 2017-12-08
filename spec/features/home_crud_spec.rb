@@ -2,8 +2,9 @@
 
 include Warden::Test::Helpers
 Warden.test_mode!
+I18n.locale = 'de-CH'
 
-feature 'Home', :devise do
+feature 'Home CRUD', :devise do
   before(:each) { login_as(user, scope: :user) }
   after(:each) { Warden.test_reset! }
 
@@ -17,6 +18,7 @@ feature 'Home', :devise do
     fill_in :home_ref, with: new_home.ref
     submit_form
     expect(page).to have_http_status(200)
+    expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Home.model_name.human)
     expect(page).to have_content new_home.name
   end
 
@@ -37,6 +39,7 @@ feature 'Home', :devise do
     fill_in :home_ref, with: new_home.ref
     submit_form
     expect(page).to have_http_status(200)
+    expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Home.model_name.human)
     expect(page).to have_content new_home.name
   end
 
@@ -46,6 +49,7 @@ feature 'Home', :devise do
     within find_resource_in_table(home) do
       click_link I18n.t('destroy')
     end
+    expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Home.model_name.human)
     expect(page).not_to have_content home.name
   end
 end

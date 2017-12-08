@@ -81,9 +81,6 @@ de:
   homes:
     index:
       new: Neues Heim
-    show:
-      documents: Dokumente
-      rulesheet: Hausordnung
   nav:
     edit_account: Account
     sign_in: Anmelden

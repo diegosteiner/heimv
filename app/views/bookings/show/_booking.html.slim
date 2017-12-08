@@ -19,12 +19,15 @@ section.breakout-sm
 
       br
 
-      .text-right
-        = link_to edit_booking_path(booking), class: 'btn btn-primary'
-          | "TODO: Next step"
+      = link_to edit_booking_path(booking), class: 'btn btn-primary'
+        | "TODO: Next step"
+
+      hr
+
+      = link_to edit_booking_path(booking), class: 'btn btn-default'
+        span.fa.fa-pencil
+      '
+      = link_to booking_path(booking), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger', title: t('destroy') do
+        span.fa.fa-trash
         '
-        = link_to edit_booking_path(booking), class: 'btn btn-default'
-          span.fa.fa-pencil
-        '
-        = link_to booking_path(booking), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-default' do
-          span.fa.fa-trash
+        = t('destroy')
