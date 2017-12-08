@@ -18,6 +18,11 @@ chdir APP_ROOT do
   system! 'gem install bundler --conservative'
   system('bundle check') || system!('bundle install')
 
+  if ENV['CI'] == 'true'
+    system('nvm use')
+    system('change-phantomjs-version 2.1.1')
+  end
+
   # Install JavaScript dependencies if using Yarn
   system('which yarn') || system!('npm install -g yarn')
   system('bin/yarn install')
