@@ -1,0 +1,56 @@
+%% Generated with bin/rails docs:generate_state_machine_diagram
+graph TD;
+
+%% States
+initial('-')
+new_request('Neue Mietanfrage')
+provisional_request('Provisorische Mietanfrage')
+definitive_request('Definitive Mietanfrage')
+overdue_request('Überfällige Mietanfrage')
+cancelled('Annulierte Reservation')
+confirmed('Bestätigte Reservation')
+upcoming('Geplante Belegung')
+overdue('Überfällige Reservation')
+active('Aktive Belegung')
+past('Durchgeführte Belegung')
+payment_due('Rechnung ausstehend')
+payment_overdue('Rechnung überfällig')
+completed('Abgeschlossene Belegung')
+initial('-')
+
+%% Additional Helpers
+start((start))
+end1((ende))
+end2((ende))
+start-->initial
+cancelled-->end1
+completed-->end2
+
+%% Transitions
+initial-->new_request
+initial-->provisional_request
+initial-->definitive_request
+new_request-->provisional_request
+new_request-->definitive_request
+new_request-->cancelled
+
+%% Styles
+style start1 fill:#aaa,stroke:#000;
+style end1  fill:#aaa,stroke:#000;
+style end2  fill:#aaa,stroke:#000;
+
+style initial fill:#9CADBF,stroke:#496684
+style new_request fill:#9CADBF,stroke:#496684
+style provisional_request fill:#9CADBF,stroke:#496684
+style definitive_request fill:#9CADBF,stroke:#496684
+style overdue_request fill:#9CADBF,stroke:#496684
+style cancelled fill:#9CADBF,stroke:#496684
+style confirmed fill:#9CADBF,stroke:#496684
+style upcoming fill:#9CADBF,stroke:#496684
+style overdue fill:#9CADBF,stroke:#496684
+style active fill:#9CADBF,stroke:#496684
+style past fill:#9CADBF,stroke:#496684
+style payment_due fill:#9CADBF,stroke:#496684
+style payment_overdue fill:#9CADBF,stroke:#496684
+style completed fill:#9CADBF,stroke:#496684
+style initial fill:#9CADBF,stroke:#496684

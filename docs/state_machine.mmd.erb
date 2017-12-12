@@ -1,0 +1,34 @@
+%% Generated with bin/rails docs:generate_state_machine_diagram
+graph TD;
+
+%% States
+<% @states.each do |state| %>
+<%= "#{state}('#{I18n.t(state, scope: 'activerecord.values.booking.state')}')" %>
+
+<% end %>
+
+%% Additional Helpers
+start((start))
+end1((ende))
+end2((ende))
+start-->initial
+cancelled-->end1
+completed-->end2
+
+%% Transitions
+<% @transitions.each do |begin_state, end_states| %>
+<% end_states.each do |end_state| %>
+<%= "#{begin_state}-->#{end_state}" %>
+
+<% end %>
+<% end %>
+
+%% Styles
+style start fill:#aaa,stroke:#000;
+style end1  fill:#aaa,stroke:#000;
+style end2  fill:#aaa,stroke:#000;
+
+<% @states.each do |state| %>
+<%= "style #{state} fill:#9CADBF,stroke:#496684" %>
+
+<% end %>
