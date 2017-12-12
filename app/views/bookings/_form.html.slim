@@ -1,7 +1,7 @@
 = simple_form_for(@booking) do |f|
 
   .form-inputs
-    = f.input :state, collection: Booking.states.values, input_html: { class: 'input-pills' }
+    = f.input :state, collection: states_for_select(@booking), input_html: { class: 'input-pills' }
     = f.simple_fields_for :occupancy do |of|
       = of.input :begins_at, as: :datetime, html5: true
       = of.input :ends_at, as: :datetime, html5: true

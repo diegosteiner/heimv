@@ -1,5 +1,11 @@
 require 'rails_helper'
 
+RSpec::Matchers.define :have_state do |expected|
+  match do |actual|
+    actual.state_machine.in_state?(expected)
+  end
+end
+
 describe Booking, type: :model do
   let(:customer) { create(:customer) }
   let(:home) { create(:home) }
@@ -31,22 +37,42 @@ describe Booking, type: :model do
     end
   end
 
-  describe '#state_transition' do
-    it do
-      expect(booking).to be_valid
-      expect(booking).to be_pending
-      expect(booking.save).to be true
-      expect(booking).to be_pending
+  describe '#state_changed?' do
+    let(:booking) { create(:booking, initial_state: :new_request) }
+    it { expect { booking.state = :new_request }.not_to(change { booking.state_changed? }) }
+    it { expect { booking.state = '' }.not_to(change { booking.state_changed? }) }
+    it { expect { booking.state = :provisional_request }.to(change { booking.state_changed? }) }
+  end
 
-      expect { booking.completed! }.to raise_error(ActiveRecord::RecordInvalid)
+  describe '#state' do
+    context 'with default state' do
+      it 'sets initial as default state' do
+        expect(booking).to be_valid
+        expect(booking).to have_state(:initial)
+        expect(booking.save).to be true
+        expect(booking.state).to eq('initial')
+      end
 
-      booking.state = :awaiting_preconditions
-      expect(booking).to be_valid
-      expect(booking.save).to be true
-      expect(booking).to be_awaiting_preconditions
+      it 'will not transition into invalid state' do
+        expect { booking.update!(state: :completed) }.to raise_error(ActiveRecord::RecordInvalid)
+      end
 
-      booking.cancelled!
-      expect(booking).to be_cancelled
+      it 'will transition into valid state' do
+        booking.state = :new_request
+        expect(booking).to be_valid
+        expect(booking.save).to be true
+        expect(booking).to have_state(:new_request)
+        expect(booking.state).to eq('new_request')
+      end
+    end
+
+    context 'with "new_request" state' do
+      let(:booking) { create(:booking, initial_state: :new_request) }
+
+      it 'will transition into valid state' do
+        booking.update(state: :cancelled)
+        expect(booking).to have_state(:cancelled)
+      end
     end
   end
 end

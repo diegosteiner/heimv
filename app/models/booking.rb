@@ -1,7 +1,13 @@
 class Booking < ApplicationRecord
-  STATE_MACHINE = BookingStateMachine
-  STATES = STATE_MACHINE.states_enum_hash.freeze
-  enum state: STATES
+  class << self
+    def transition_class
+      BookingTransition
+    end
+
+    def state_machine_class
+      BookingStateMachine
+    end
+  end
 
   has_one :occupancy, dependent: :destroy, as: :subject, autosave: true
   belongs_to :home
@@ -10,50 +16,50 @@ class Booking < ApplicationRecord
   has_many :contracts, dependent: :destroy, autosave: false
 
   validates :home, :customer, :occupancy, presence: true
-  validates :state, inclusion: {
-    in: ->(booking) { booking.state_machine.allowed_or_current_transitions },
-    message: I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition')
-  }
   validate do
     if state_changed? && !state_machine.can_transition_to?(state)
-      errors.add(:state, I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition'))
+      transition = "#{state_was}-->#{state}"
+      errors.add(
+        :state,
+        I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition', transition: transition)
+      )
     end
   end
 
   before_validation :set_state_attributes, :set_occupancy_attributes
-  before_save :state_transition, if: ->(booking) { booking.state_changed? }
+  after_save :state_transition
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank
   accepts_nested_attributes_for :customer, reject_if: :all_blank
 
-  # delegate :begins_at, :begins_at=, :ends_at, :ends_at=, to: :occupancy
+  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state,
+           to: :state_machine
 
   def state_changed?
-    super && state != state_machine.current_state
+    super && state.present? && state != state_machine.current_state
   end
 
   def ref
     # TODO: Save this as an attribute
-    RefService.new.booking(self)
-  end
-
-  def state_machine
-    @state_machine ||= STATE_MACHINE.new(self, transition_class: BookingTransition)
+    @ref ||= RefService.new.booking(self)
   end
 
   def to_s
     ref
   end
 
-  # def occupancy
-  #   @occupancy ||= build_occupancy
-  # end
+  def state_machine
+    @state_machine ||= self.class.state_machine_class.new(self, transition_class: self.class.transition_class)
+  end
 
   private
 
   def state_transition
-    state_machine.transition_to(state) if state_changed?
-    self.state = state_machine.current_state
+    return unless state_machine.current_state != state
+    state_machine.transition_to(state)
+    # rubocop:disable Rails/SkipsModelValidations
+    update_columns(state: state_machine.current_state)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def set_occupancy_attributes

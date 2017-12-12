@@ -8,6 +8,7 @@ en:
     update:
       success: Success
   activerecord:
+    add_model: "%{model_name} hinzufügen"
     attributes:
       booking:
         customer: Kunde
@@ -22,6 +23,18 @@ en:
         last_name: Nachname
         street_address: Strasse / Nr.
         zipcode: PLZ
+    back: Zurück
+    bookings:
+      index:
+        new: Neue Buchung
+    confirm: Sind Sie sicher?
+    contracts:
+      index:
+        new: Neuer Vertrag
+    customers:
+      index:
+        new: Neuer Kunde
+    destroy: Löschen
     errors:
       models:
         booking:
@@ -47,12 +60,20 @@ en:
     values:
       booking:
         state:
-          awaiting_postconditions: in Abschluss
-          awaiting_preconditions: Provisorisch Reserviert
+          active: Aktive Belegung
           cancelled: Storniert
           completed: Abgeschlossen
-          pending: Neu
-          reserved: Reserviert
+          confirmed: Bestätigte Reservation
+          definitive_request: Definitive Mietanfrage
+          initial: "-"
+          new_request: Neue Mietanfrage
+          overdue: Überfällige Reservation
+          overdue_request: Überfällige Mietanfrage
+          past: Durchgeführte Belegung
+          payment_due: Rechnung ausstehend
+          payment_overdue: Rechnung überfällig
+          provisional_request: Provisorische Mietanfrage
+          upcoming: Geplante Belegung
   add_model: Add model
   back: Back
   bookings:

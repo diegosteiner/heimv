@@ -8,6 +8,7 @@ de:
     update:
       success: DEPRECATED Success
   activerecord:
+    add_model: "%{model_name} hinzufügen"
     attributes:
       booking:
         customer: Kunde
@@ -22,12 +23,24 @@ de:
         last_name: Nachname
         street_address: Strasse / Nr.
         zipcode: PLZ
+    back: Zurück
+    bookings:
+      index:
+        new: Neue Buchung
+    confirm: Sind Sie sicher?
+    contracts:
+      index:
+        new: Neuer Vertrag
+    customers:
+      index:
+        new: Neuer Kunde
+    destroy: Löschen
     errors:
       models:
         booking:
           attributes:
             state:
-              invalid_transition: Ungültiger Statusübergang
+              invalid_transition: 'Ungültiger Statusübergang: %{transition}'
     models:
       booking:
         one: Buchung
@@ -47,24 +60,32 @@ de:
     values:
       booking:
         state:
-          awaiting_postconditions: in Abschluss
-          awaiting_preconditions: Provisorisch Reserviert
-          cancelled: Storniert
-          completed: Abgeschlossen
-          pending: Neu
-          reserved: Reserviert
-  add_model: "%{model_name} hinzufügen"
-  back: Zurück
+          active: Aktive Belegung
+          cancelled: Annulierte Reservation
+          completed: Abgeschlossene Belegung
+          confirmed: Bestätigte Reservation
+          definitive_request: Definitive Mietanfrage
+          initial: "-"
+          new_request: Neue Mietanfrage
+          overdue: Überfällige Reservation
+          overdue_request: Überfällige Mietanfrage
+          past: Durchgeführte Belegung
+          payment_due: Rechnung ausstehend
+          payment_overdue: Rechnung überfällig
+          provisional_request: Provisorische Mietanfrage
+          upcoming: Geplante Belegung
+  add_model: Add model
+  back: Back
   bookings:
     index:
-      new: Neue Buchung
-  confirm: Sind Sie sicher?
+      new: Neu
+  confirm: Sind sie sicher?
   contracts:
     index:
-      new: Neuer Vertrag
+      new: New
   customers:
     index:
-      new: Neuer Kunde
+      new: New
   destroy: Löschen
   edit: Bearbeiten
   flash:
