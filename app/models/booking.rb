@@ -52,6 +52,10 @@ class Booking < ApplicationRecord
     @state_machine ||= self.class.state_machine_class.new(self, transition_class: self.class.transition_class)
   end
 
+  def bills
+    raise NotImplementedError
+  end
+
   private
 
   def state_transition

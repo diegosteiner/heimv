@@ -30,12 +30,36 @@ completed-->end2
 initial-->new_request
 initial-->provisional_request
 initial-->definitive_request
+overdue_request-->cancelled
+overdue_request-->definitive_request
+overdue_request-->provisional_request
+new_request-->cancelled
 new_request-->provisional_request
 new_request-->definitive_request
-new_request-->cancelled
+provisional_request-->definitive_request
+provisional_request-->overdue_request
+provisional_request-->cancelled
+definitive_request-->cancelled
+definitive_request-->confirmed
+confirmed-->confirmed
+confirmed-->cancelled
+confirmed-->upcoming
+confirmed-->overdue
+overdue-->cancelled
+overdue-->upcoming
+upcoming-->cancelled
+upcoming-->upcoming
+upcoming-->active
+active-->past
+past-->payment_due
+payment_due-->payment_due
+payment_due-->payment_overdue
+payment_due-->completed
+payment_overdue-->payment_overdue
+payment_overdue-->completed
 
 %% Styles
-style start1 fill:#aaa,stroke:#000;
+style start fill:#aaa,stroke:#000;
 style end1  fill:#aaa,stroke:#000;
 style end2  fill:#aaa,stroke:#000;
 
