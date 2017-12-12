@@ -68,6 +68,7 @@ describe Booking, type: :model do
 
     context 'with "new_request" state' do
       let(:booking) { create(:booking, initial_state: :new_request) }
+      before { allow(booking).to receive_message_chain(:bills, :open, :none?).and_return(true) }
 
       it 'will transition into valid state' do
         booking.update(state: :cancelled)

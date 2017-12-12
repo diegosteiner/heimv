@@ -60,10 +60,10 @@ describe BookingStateMachine do
     end
 
     describe 'guarded transitions' do
-      let(:bills) { double("Bills") }
+      let(:bills) { double('Bills') }
 
       describe '-->upcoming' do
-        let(:contracts) { double("Contracts") }
+        let(:contracts) { double('Contracts') }
         before do
           allow(booking).to receive(:contracts).and_return(contracts)
           allow(booking).to receive(:bills).and_return(bills)
