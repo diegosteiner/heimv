@@ -1,4 +1,5 @@
-import 'stylesheets/application.scss'
+import 'stylesheets/application'
+import 'font-awesome-webpack'
 import 'images/logo.svg'
 
 import 'jquery-ujs'
