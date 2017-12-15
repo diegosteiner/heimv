@@ -23,13 +23,14 @@ ActiveRecord::Schema.define(version: 20170709122528) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "metadata", default: {}
+    t.json "booking_data", default: {}
     t.index ["booking_id", "most_recent"], name: "index_booking_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["booking_id", "sort_key"], name: "index_booking_transitions_parent_sort", unique: true
   end
 
   create_table "bookings", force: :cascade do |t|
     t.bigint "home_id", null: false
-    t.string "state"
+    t.string "state", default: "initial", null: false
     t.integer "customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

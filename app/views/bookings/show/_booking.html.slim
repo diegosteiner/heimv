@@ -3,7 +3,7 @@ section.breakout-sm
     .card-body
       p
         span.badge.badge-info
-          = t(booking.state, scope: 'activerecord.values.booking.state')
+          = t(booking.state, scope: 'activerecord.values.booking.state') if booking.state
       p
         strong= Booking.human_attribute_name(:occupancy)
         br

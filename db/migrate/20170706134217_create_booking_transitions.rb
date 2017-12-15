@@ -9,8 +9,10 @@ class CreateBookingTransitions < ActiveRecord::Migration[5.1]
 
       if t.respond_to?(:json)
         t.json :metadata, default: {}
+        t.json :booking_data, default: {}
       else
         t.string :metadata, default: '{}'
+        t.string :booking_data, default: '{}'
       end
     end
 
