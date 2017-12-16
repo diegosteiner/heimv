@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe BookingTransition, type: :model do
- let(:booking) { create(:booking) }
- let(:transition) { build(:booking_transition, booking: booking, to_state: to_state) }
- let(:to_state) { :any }
+  let(:booking) { create(:booking) }
+  let(:transition) { build(:booking_transition, booking: booking, to_state: to_state) }
+  let(:to_state) { :any }
 
   describe '#serialize_booking' do
     let(:booking_attrs) { %i[id home_id customer_id state] }

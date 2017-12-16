@@ -12,7 +12,7 @@ shared_examples 'transition' do |transition_expr, validity|
   end
 end
 
-describe StateMachines::DefaultBookingStateMachine do
+describe BookingStateMachines::Default do
   let(:booking) { build_stubbed(:booking) }
   let(:state_machine) { described_class.new(booking, transition_class: BookingTransition) }
 
@@ -138,15 +138,4 @@ describe StateMachines::DefaultBookingStateMachine do
       end
     end
   end
-end
-
-describe '::state_enum' do
-  let(:states) do
-    %i[initial new_request provisional_request definitive_request overdue_request cancelled
-       confirmed upcoming overdue active past payment_due payment_overdue completed]
-  end
-
-  let(:states_hash) { Hash[states.map { |state| [state, state.to_s] }] }
-  subject { StateMachines::DefaultBookingStateMachine.states_enum_hash }
-  it { is_expected.to eq(states_hash) }
 end

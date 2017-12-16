@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec::Matchers.define :have_state do |expected|
   match do |actual|
-    actual.state_machine.in_state?(expected)
+    BookingStateManager.new(actual).in_state?(expected.to_s)
   end
 end
 
@@ -16,13 +16,13 @@ describe BookingState do
   context 'with default state' do
     it 'sets initial as default state' do
       expect(booking).to be_valid
-      expect(booking).to have_state(:initial)
+      expect(booking).to have_state(initial_state)
       expect(booking.save).to be true
-      expect(booking.state).to eq('initial')
+      expect(booking.state).to eq(initial_state.to_s)
     end
 
     it 'will not transition into invalid state' do
-      expect { booking.update!(state: :nonexistent) }.to raise_error(ActiveRecord::RecordInvalid)
+      expect { booking.update!(transition_to: :nonexistent) }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
     it 'will transition into valid state' do

@@ -22,9 +22,7 @@ class Booking < ApplicationRecord
     ref
   end
 
-  def bills
-    raise NotImplementedError
-  end
+  def bills; end
 
   private
 

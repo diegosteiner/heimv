@@ -9,7 +9,7 @@ module BookingState
     after_save :state_transition
 
     validate do
-      if state_changed? && !state_machine.can_transition_to?(transition_to)
+      if transition_to.present? && !state_manager.can_transition_to?(transition_to)
         transition = "#{state_was}-->#{state}"
         errors.add(
           :state,
@@ -19,24 +19,14 @@ module BookingState
     end
   end
 
-  class_methods do
-    def transition_class
-      BookingTransition
-    end
-
-    def state_machine_class
-      StateMachines::DefaultBookingStateMachine
-    end
-  end
-
-  def state_machine
-    @state_machine ||= self.class.state_machine_class.new(self, transition_class: self.class.transition_class)
+  def state_manager
+    @state_manager = BookingStateManager.new(self)
   end
 
   private
 
   def state_transition
-    return unless state_machine.current_state != transition_to
-    state_machine.transition_to(transition_to)
+    return unless state_manager.current_state != transition_to
+    state_manager.transition_to(transition_to)
   end
 end
