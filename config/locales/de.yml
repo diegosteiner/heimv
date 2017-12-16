@@ -16,6 +16,7 @@ de:
         occupancy: Belegung
         ref: Buchungsreferenz
         state: Status
+        transition_to: Neuer Status
       customer:
         address: Adresse
         city: Ort
@@ -23,6 +24,9 @@ de:
         last_name: Nachname
         street_address: Strasse / Nr.
         zipcode: PLZ
+      occupancy:
+        begins_at: Beginn der Belegung
+        ends_at: Ende der Belegung
     back: Zurück
     bookings:
       index:

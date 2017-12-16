@@ -5,7 +5,7 @@ module BookingHelper
 
   def states_for_select(booking, _current_user = nil)
     BookingStateManager.new(booking).allowed_transitions.map do |transition|
-      [transition, t(transition, scope: 'activerecord.values.booking.state')]
+      [t(transition, scope: 'activerecord.values.booking.state'), transition]
     end
   end
 end

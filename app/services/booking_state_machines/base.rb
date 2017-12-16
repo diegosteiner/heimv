@@ -4,8 +4,8 @@ module BookingStateMachines
 
     state :initial, initial: true
 
-    def allowed_or_current_transitions
-      allowed_transitions + [current_state]
+    def prefered_transition
+      raise NotImplementedError
     end
   end
 end

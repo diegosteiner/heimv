@@ -10,4 +10,8 @@ describe BookingStateMachines::Base do
     it { expect(described_class.initial_state).to eq(initial_state) }
     it { expect(state_machine.current_state).to eq(initial_state) }
   end
+
+  describe '#prefered_transition' do
+    it { expect { state_machine.prefered_transition }.to raise_error(NotImplementedError) }
+  end
 end

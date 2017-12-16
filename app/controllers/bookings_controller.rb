@@ -43,7 +43,7 @@ class BookingsController < CrudController
 
   def booking_params
     params.require(:booking).permit(:home_id, :transition_to, :customer_id,
-                                    occupancy_attributes: %i[begins_at ends_at],
-                                    customer_attributes: %i[first_name last_name street_address zipcode city])
+                                    occupancy_attributes: %i[id begins_at ends_at],
+                                    customer_attributes: %i[id first_name last_name street_address zipcode city])
   end
 end
