@@ -14,7 +14,7 @@ describe BookingStateManager do
   describe 'delegates' do
     let(:delegates) do
       %i[transition_to transition_to! can_transition_to? in_state?
-         current_state allowed_transitions]
+         current_state allowed_transitions prefered_transition]
     end
     it do
       state_machine = double

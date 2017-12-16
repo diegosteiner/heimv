@@ -13,7 +13,6 @@ shared_examples 'transition' do |transition_expr, validity|
 end
 
 describe BookingStateMachines::Default do
-  let(:booking) { build_stubbed(:booking) }
   let(:state_machine) { described_class.new(booking, transition_class: BookingTransition) }
 
   describe 'allowed transitions' do
@@ -27,30 +26,39 @@ describe BookingStateMachines::Default do
     it_behaves_like 'transition', 'initial-->provisional_request', true
     it_behaves_like 'transition', 'overdue_request-->definitive_request', true
     it_behaves_like 'transition', 'overdue_request-->cancelled', true
+    it_behaves_like 'transition', 'provisional_request-->overdue_request', true
     it_behaves_like 'transition', 'provisional_request-->definitive_request', true
     it_behaves_like 'transition', 'provisional_request-->cancelled', true
     it_behaves_like 'transition', 'initial-->definitive_request', true
     it_behaves_like 'transition', 'overdue_request-->provisional_request', true
     it_behaves_like 'transition', 'definitive_request-->confirmed', true
     it_behaves_like 'transition', 'definitive_request-->cancelled', true
-    it_behaves_like 'transition', 'upcoming-->active', true
     it_behaves_like 'transition', 'upcoming-->cancelled', true
-    it_behaves_like 'transition', 'active-->past', true
     it_behaves_like 'transition', 'past-->payment_due', true
-    it_behaves_like 'transition', 'payment_due-->payment_due', true
-    it_behaves_like 'transition', 'payment_overdue-->payment_overdue', true
     it_behaves_like 'transition', 'confirmed-->cancelled', true
   end
 
   describe 'automatic transitions' do
-    it_behaves_like 'transition', 'provisional_request-->overdue_request', true
+    it_behaves_like 'transition', 'active-->past', true
+    it_behaves_like 'transition', 'upcoming-->active', true
     it_behaves_like 'transition', 'overdue_request-->cancelled', true
     it_behaves_like 'transition', 'confirmed-->overdue', true
     it_behaves_like 'transition', 'payment_due-->payment_overdue', true
   end
 
+  describe 'prefered transitions' do
+    subject { state_machine.prefered_transition }
+
+    let(:initial_state) { :provisional_request }
+    let(:booking) { create(:booking, initial_state: initial_state) }
+
+    it { is_expected.to eq(:definitive_request) }
+  end
+
   describe 'prohibited transitions' do
+    it_behaves_like 'transition', 'payment_due-->payment_due', false
     it_behaves_like 'transition', 'payment_overdue-->cancelled', false
+    it_behaves_like 'transition', 'payment_overdue-->payment_overdue', false
     it_behaves_like 'transition', 'confirmed-->confirmed', false
     it_behaves_like 'transition', 'past-->confirmed', false
   end

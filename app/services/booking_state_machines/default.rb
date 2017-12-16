@@ -7,6 +7,20 @@ module BookingStateMachines
     ].freeze
     STATES.each { |s| state(s) }
 
+    PREFERED_TRANSITIONS = {
+      new_request: :provisional_request,
+      provisional_request: :definitive_request,
+      definitive_request: :confirmed,
+      overdue_request: :confirmed,
+      confirmed: :upcoming,
+      overdue: :upcoming,
+      upcoming: :active,
+      active: :past,
+      past: :payment_due,
+      payment_due: :completed,
+      payment_overdue: :completed
+    }.with_indifferent_access.freeze
+
     transition from: :initial, to: %i[new_request provisional_request definitive_request]
     transition from: :overdue_request, to: %i[cancelled definitive_request provisional_request]
     transition from: :new_request, to: %i[cancelled provisional_request definitive_request]
@@ -17,8 +31,8 @@ module BookingStateMachines
     transition from: :upcoming, to: %i[cancelled active]
     transition from: :active, to: %i[past]
     transition from: :past, to: %i[payment_due]
-    transition from: :payment_due, to: %i[payment_due payment_overdue completed]
-    transition from: :payment_overdue, to: %i[payment_overdue completed]
+    transition from: :payment_due, to: %i[payment_overdue completed]
+    transition from: :payment_overdue, to: %i[completed]
 
     guard_transition(to: :upcoming) do |_booking|
       true
@@ -44,6 +58,10 @@ module BookingStateMachines
 
     after_transition(to: %i[confirmed upcoming active overdue]) do |booking|
       booking.occupancy.update(blocking: true)
+    end
+
+    def prefered_transition
+      PREFERED_TRANSITIONS[current_state]
     end
   end
 end

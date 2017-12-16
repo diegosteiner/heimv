@@ -2,7 +2,7 @@ class BookingStateManager
   attr_accessor :booking
 
   delegate :transition_to, :can_transition_to?, :transition_to!, :current_state, :allowed_transitions, :in_state?,
-           to: :state_machine
+           :prefered_transition, to: :state_machine
 
   def initialize(booking)
     @booking = booking
