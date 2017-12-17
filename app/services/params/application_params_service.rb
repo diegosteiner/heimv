@@ -1,10 +1,12 @@
 module Params
   class ApplicationParamsService
-    def initialize(params, user)
+    def initialize(params, current_user)
       @params = params
-      @user = user
+      @current_user = current_user
     end
 
     def process; end
+
+    def permitted_params; end
   end
 end

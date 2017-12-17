@@ -36,6 +36,6 @@ class CustomersController < CrudController
   private
 
   def customer_params
-    params.require(:customer).permit(:first_name, :last_name, :street_address, :zipcode, :city)
+    Params::CustomerParamsService.new(params, current_user).process
   end
 end
