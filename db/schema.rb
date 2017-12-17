@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20170709122528) do
     t.string "street_address"
     t.string "zipcode"
     t.string "city"
+    t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

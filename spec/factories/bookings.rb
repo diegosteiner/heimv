@@ -12,7 +12,7 @@ FactoryBot.define do
     end
 
     after(:create) do |booking, evaluator|
-      if evaluator.initial_state != :initial
+      unless [nil, :initial].include?(evaluator.initial_state)
         create(:booking_transition, booking: booking, to_state: evaluator.initial_state)
       end
     end

@@ -5,7 +5,7 @@ module Params
     end
 
     def self.permitted_params
-      %i[first_name last_name street_address zipcode city]
+      %i[first_name last_name street_address zipcode city email]
     end
   end
 end
