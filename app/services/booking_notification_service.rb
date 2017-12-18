@@ -1,15 +1,24 @@
 # rubocop:disable Metrics/ClassLength
 class BookingNotificationService
+  def initialize(booking)
+    @booking = booking
+  end
+
+  def confirm_request_notification
+    BookingMailer.confirm_request(BookingMailerViewModel.new(@booking))
+                 .deliver_now
+  end
+
   @raw = <<~RAW_MAILS
-      E-Mail: E-Mail-Adresse bestätigen
-      Geschäftsfall: Mietanfrage>Benutzer stellt Mietanfrage
+    E-Mail: E-Mail-Adresse bestätigen
+    Geschäftsfall: Mietanfrage>Benutzer stellt Mietanfrage
     Betreff: Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse
     Hallo
     Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
     untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
     Mietanfrage abzuschliessen.
     Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
-    E-Mail: Reservationswunsch entgegengenommen
+     E-Mail: Reservationswunsch entgegengenommen
     Geschäftsfall: Mietanfrage>Benutzer stellt Mietanfrage, Punkt 7
     Betreff: Pfadi-heime.ch: Bestätigung Deiner Mietanfrage
     Hallo Murmel
@@ -32,7 +41,7 @@ class BookingNotificationService
     Verein Pfadiheime St. Georg, Zürich Seite 45
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Provisorische Reservation bestätigt
+     E-Mail: Provisorische Reservation bestätigt
     Geschäftsfall: Mietanfrage>Heimverwalter prüft neue Mietanfrage, Punkt 6
     Betreff: Pfadi-heime.ch: Bestätigung Deiner provisorischen Reservation
     Hallo Murmel
@@ -51,7 +60,7 @@ class BookingNotificationService
     wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Reservation abgelehnt
+     E-Mail: Reservation abgelehnt
     Geschäftsfall 1: Mietanfrage>Heimverwalter prüft neue Mietanfrage, Punkt 10
     Geschäftsfall 2: Vertragsausstellung>Heimverwalter stellt Mietvertrag aus, Punkt 13
     Geschäftsfall 3: Vertragsausstellung>Heimverwalter stellt Mietvertrag aus, Punkt 14
@@ -76,7 +85,7 @@ class BookingNotificationService
     Bemerkungen: Wir benötigen eine Bewilligung für die Autozufahrt.
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Definitive Reservation bestätigt
+     E-Mail: Definitive Reservation bestätigt
     Geschäftsfall 1: Mietanfrage>Heimverwalter prüft neue Mietanfrage, Punkt 13
     Geschäftsfall 2: Mietanfrage>Benutzer erklärt Mietanfrage als definitiv, Punkt 7
     Betreff: Pfadi-heime.ch: Bestätigung Deiner definitiven Reservation
@@ -95,7 +104,7 @@ class BookingNotificationService
     wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Definitive Vermittlung bestätigt
+     E-Mail: Definitive Vermittlung bestätigt
     Geschäftsfall 1: Mietanfrage>Heimverwalter prüft neue Mietanfrage, Punkt 14
     Geschäftsfall 2: Mietanfrage>Benutzer erklärt Mietanfrage als definitiv, Punkt 8
     Betreff: Pfadi-heime.ch: Bestätigung Deiner Vermittlung
@@ -124,7 +133,7 @@ class BookingNotificationService
     wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Provisorische Reservation überfällig
+     E-Mail: Provisorische Reservation überfällig
     Geschäftsfall: Mietanfrage>System prüft provisorische Mietanfrage, Punkt 3
     Betreff: Pfadi-heime.ch: Deine Reservation läuft ab
     Hallo Murmel
@@ -152,7 +161,7 @@ class BookingNotificationService
     wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Provisorische Reservation abgelaufen und annulliert
+     E-Mail: Provisorische Reservation abgelaufen und annulliert
     Geschäftsfall 1: Mietanfrage>System prüft überfällige Mietanfrage, Punkt 4
     Geschäftsfall 2: Mietanfrage>Benutzer zieht seine Mietanfrage zurück, Punkt 5
     <falls Geschäftsfall 1>Betreff: Pfadi-heime.ch: Deine Reservation ist abgelaufen</1>
@@ -177,7 +186,7 @@ class BookingNotificationService
     wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Reservationsbestätigung und Mietvertrag
+     E-Mail: Reservationsbestätigung und Mietvertrag
     Geschäftsfall: Vertragsausstellung>Heimverwalter stellt Mietvertrag aus, Punkt 7
     Geschäftsfall: Vertragsausstellung>Heimverwalter modifiziert Reservation, Punkt 3
     Anforderungen für neue Heimverwaltungs-Software Version 3 vom 2.11.2017
@@ -204,7 +213,7 @@ class BookingNotificationService
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
     Attachment: Mietvertrag.pdf, Hausordnung.pdf, evtl. mehr
-    E-Mail: Anzahlung/Vertragsdoppel eingegangen
+     E-Mail: Anzahlung/Vertragsdoppel eingegangen
     Geschäftsfall 1: Vertragsausstellung>Benutzer bestätigt Anzahlung, Punkt 5
     Geschäftsfall 2: Vertragsausstellung>Benutzer bestätigt Anzahlung, Punkt 8
     Geschäftsfall 3: Vertragsausstellung>Heimverwalter erhält Vertrag zurück, Punkt 4
@@ -240,7 +249,7 @@ class BookingNotificationService
     wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Anzahlung und/oder Vertragsdoppel noch ausstehend
+     E-Mail: Anzahlung und/oder Vertragsdoppel noch ausstehend
     Geschäftsfall: Vertragsausstellung>System prüft bestätigte Reservation, Punkt 3
     Geschäftsfall: Vertragsausstellung>Heimverwalter moniert Vertragserfüllung, Punkt 6
     Betreff: Pfadi-heime.ch: Anzahlung/Vertrag für Dein Lagerhaus
@@ -279,7 +288,7 @@ class BookingNotificationService
     wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Bestätigte/überfällige Reservation abgelaufen und annulliert
+     E-Mail: Bestätigte/überfällige Reservation abgelaufen und annulliert
     Geschäftsfall 1: Vertragsausstellung>Mieter tritt vom Vertrag zurück, Punkt 5
     Geschäftsfall 2: Vertragsausstellung>Mieter tritt vom Vertrag zurück, Punkt 6
     Geschäftsfall 3: Vertragsausstellung>Heimverwalter moniert Vertragserfüllung, Punkt 10
@@ -306,7 +315,7 @@ class BookingNotificationService
     Verein Pfadiheime St. Georg, Zürich Seite 52
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Rechnung
+     E-Mail: Rechnung
     Geschäftsfall: Abrechnung>Heimverwalter erstellt und verschickt Rechnung, Punkt 6
     Betreff: Pfadi-heime.ch: Rechnung für Dein Lagerhaus
     Hallo Murmel
@@ -325,7 +334,7 @@ class BookingNotificationService
     wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Zahlungseingang
+     E-Mail: Zahlungseingang
     Geschäftsfall: Abrechnung>Benutzer bestätigt Zahlungseingang, Punkt 6
     Betreff: Pfadi-heime.ch: Vielen Dank für Deine Zahlung
     Hallo Murmel
@@ -345,7 +354,7 @@ class BookingNotificationService
     Mietzweck: Lager/Kurs
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
-    E-Mail: Zahlungserinnerung
+     E-Mail: Zahlungserinnerung
     Geschäftsfall: Abrechnung>System prüft Zahlungsausstände, Punkt 3
     Geschäftsfall: Abrechnung>Heimverwalter moniert ausstehende Zahlungen, Punkt 5
     Betreff: Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung

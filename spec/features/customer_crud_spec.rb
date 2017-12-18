@@ -15,11 +15,13 @@ feature 'Customer CRUD', :devise do
     visit new_customer_path
     fill_in :customer_first_name, with: new_customer.first_name
     fill_in :customer_last_name, with: new_customer.last_name
+    fill_in :customer_email, with: new_customer.email
     submit_form
     expect(page).to have_http_status(200)
     expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Customer.model_name.human)
     expect(page).to have_content new_customer.first_name
     expect(page).to have_content new_customer.last_name
+    expect(page).to have_content new_customer.email
   end
 
   scenario 'can see a customer' do
@@ -37,11 +39,13 @@ feature 'Customer CRUD', :devise do
     visit edit_customer_path(customer)
     fill_in :customer_first_name, with: new_customer.first_name
     fill_in :customer_last_name, with: new_customer.last_name
+    fill_in :customer_email, with: new_customer.email
     submit_form
     expect(page).to have_http_status(200)
     expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Customer.model_name.human)
     expect(page).to have_content new_customer.first_name
     expect(page).to have_content new_customer.last_name
+    expect(page).to have_content new_customer.email
   end
 
   scenario 'can delete existing customer' do

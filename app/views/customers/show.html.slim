@@ -1,6 +1,6 @@
 .card.breakout-sm
   .card-body
-    = render_hash_as_dl(@customer.attributes.slice(*%w(first_name last_name street_address zipcode city)), Customer)
+    = render_hash_as_dl(@customer.attributes.slice(*%w(first_name last_name street_address zipcode city email)), Customer)
     br
 
     = link_to edit_customer_path(@customer), class: 'btn btn-primary' do

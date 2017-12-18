@@ -115,6 +115,7 @@ GEM
       terminal-table (>= 1.5.1)
     interception (0.5)
     json (2.1.0)
+    kramdown (1.16.2)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.4.1)
@@ -292,6 +293,7 @@ DEPENDENCIES
   faker
   foreman
   i18n-tasks
+  kramdown
   launchy
   letter_opener
   listen (~> 3.0.5)

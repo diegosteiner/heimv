@@ -80,6 +80,17 @@ en:
           upcoming: Geplante Belegung
   add_model: Add model
   back: Back
+  booking_mailer:
+    confirm_request:
+      body: |-
+        Hallo
+
+        Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
+        untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
+        Mietanfrage abzuschliessen.
+
+        Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
+      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
   bookings:
     index:
       new: New
