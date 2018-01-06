@@ -20,13 +20,13 @@ class CreateBookingTransitions < ActiveRecord::Migration[5.1]
     add_foreign_key :booking_transitions, :bookings
 
     add_index(:booking_transitions,
-              [:booking_id, :sort_key],
+              %i[booking_id sort_key],
               unique: true,
-              name: "index_booking_transitions_parent_sort")
+              name: 'index_booking_transitions_parent_sort')
     add_index(:booking_transitions,
-              [:booking_id, :most_recent],
+              %i[booking_id most_recent],
               unique: true,
               where: 'most_recent',
-              name: "index_booking_transitions_parent_most_recent")
+              name: 'index_booking_transitions_parent_most_recent')
   end
 end
