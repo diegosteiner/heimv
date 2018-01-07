@@ -6,8 +6,13 @@ Rails:
 Metrics/LineLength:
   Max: 120
 
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+
 Metrics/BlockLength:
   Exclude:
+    - 'db/migrate/*'
     - 'spec/**/*'
     - 'config/routes.rb'
     - 'config/environments/*'
@@ -18,6 +23,10 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/MixinUsage:
+  Exclude:
+    - 'spec/features/*'
 
 AllCops:
   TargetRubyVersion: 2.4
@@ -31,7 +40,7 @@ AllCops:
     - 'log/**/*'
     - 'public/**/*'
     - 'tmp/**/*'
-    - 'db/**/*'
+    - 'db/schema.rb'
     - 'vendor/**/*'
     - 'lib/**/*'
     - 'node_modules/**/*'

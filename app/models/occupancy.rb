@@ -1,6 +1,6 @@
 class Occupancy < ApplicationRecord
   belongs_to :home
-  belongs_to :subject, polymorphic: true
+  belongs_to :subject, polymorphic: true, inverse_of: :occupancy
 
   validates :begins_at, :ends_at, :home, presence: true
 
