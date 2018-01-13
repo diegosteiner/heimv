@@ -123,6 +123,12 @@ en:
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: New
+  public:
+    bookings:
+      edit:
+        title: Title
+      new:
+        title: Title
   simple_form:
     error_notification:
       default_message: 'Please review the problems below:'

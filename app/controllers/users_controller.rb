@@ -32,6 +32,6 @@ class UsersController < CrudController
   private
 
   def user_params
-    Params::UserParamsService.new(params, current_user).process
+    Params::UserParamsService.new.call(params)
   end
 end

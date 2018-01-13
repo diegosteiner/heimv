@@ -1,7 +1,7 @@
 module Params
   class BookingParamsService < ApplicationParamsService
-    def process
-      @params.require(:booking).permit(*self.class.permitted_params)
+    def call(params)
+      params.require(:booking).permit(*self.class.permitted_params)
     end
 
     def self.permitted_params

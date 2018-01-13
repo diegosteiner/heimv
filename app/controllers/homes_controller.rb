@@ -40,6 +40,6 @@ class HomesController < CrudController
   private
 
   def home_params
-    Params::HomeParamsService.new(params, current_user).process
+    Params::HomeParamsService.new.call(params)
   end
 end

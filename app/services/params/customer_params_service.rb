@@ -1,7 +1,7 @@
 module Params
   class CustomerParamsService < ApplicationParamsService
-    def process
-      @params.require(:customer).permit(*self.class.permitted_params)
+    def call(params)
+      params.require(:customer).permit(*self.class.permitted_params)
     end
 
     def self.permitted_params

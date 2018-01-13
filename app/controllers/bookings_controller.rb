@@ -42,6 +42,6 @@ class BookingsController < CrudController
   private
 
   def booking_params
-    Params::BookingParamsService.new(params, current_user).process
+    Params::BookingParamsService.new.call(params)
   end
 end

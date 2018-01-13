@@ -12,4 +12,8 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   devise_for :users
   resources :users
+
+  scope module: :public do
+    resources :bookings, only: %i[new create edit update], path: 'b', as: :public_booking
+  end
 end

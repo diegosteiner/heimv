@@ -123,6 +123,12 @@ de:
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: Neu
+  public:
+    bookings:
+      edit:
+        title: Title
+      new:
+        title: Title
   time:
     formats:
       date: "%d.%m.%Y"

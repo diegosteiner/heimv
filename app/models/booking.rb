@@ -9,9 +9,10 @@ class Booking < ApplicationRecord
   validates :home, :customer, :occupancy, presence: true
 
   before_validation :set_occupancy_attributes
+  before_create :generate_public_id
 
-  accepts_nested_attributes_for :occupancy, reject_if: :all_blank
-  accepts_nested_attributes_for :customer, reject_if: :all_blank
+  accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :customer, reject_if: :all_blank, update_only: true
 
   def ref
     # TODO: Save this as an attribute
@@ -25,6 +26,10 @@ class Booking < ApplicationRecord
   def bills; end
 
   private
+
+  def generate_public_id
+    # self.public_id ||= SecureRandom.urlsafe_base64(32)
+  end
 
   def set_occupancy_attributes
     self.occupancy ||= build_occupancy

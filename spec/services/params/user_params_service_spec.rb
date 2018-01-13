@@ -3,11 +3,10 @@ require 'rails_helper'
 describe Params::UserParamsService do
   let(:params_hash) { { user: attributes_for(:user) } }
   let(:params) { ActionController::Parameters.new(params_hash) }
-  let(:current_user) { build(:user) }
-  let(:service) { described_class.new(params, current_user) }
+  let(:service) { described_class.new }
 
-  describe '#process' do
-    subject { service.process }
+  describe '#call' do
+    subject { service.call(params) }
 
     it do
       is_expected.to be_permitted

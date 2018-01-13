@@ -1,0 +1,25 @@
+- url ||= @booking.new_record? ? public_booking_index_path : public_booking_path(@booking.public_id)
+= simple_form_for(@booking, url: url) do |f|
+
+  .form-inputs
+    = f.association :home
+    = f.simple_fields_for :occupancy do |of|
+      = of.input :begins_at, as: :datetime, html5: true
+      = of.input :ends_at, as: :datetime, html5: true
+    = f.simple_fields_for :customer do |cf|
+      = cf.input :email
+      = cf.input :first_name
+      = cf.input :last_name
+      = cf.input :street_address
+      .row
+        .col-md-4
+          = cf.input :zipcode
+        .col-md-8
+          = cf.input :city
+
+  .form-inputs
+    hr
+    = f.input :organisation
+
+  .form-actions
+    = f.button :submit

@@ -36,6 +36,6 @@ class CustomersController < CrudController
   private
 
   def customer_params
-    Params::CustomerParamsService.new(params, current_user).process
+    Params::CustomerParamsService.new.call(params)
   end
 end

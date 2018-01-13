@@ -2,6 +2,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    public_abilities
+    return if user.nil?
     default_abilities(user)
     admin_abilities(user) if user.admin?
 
@@ -34,6 +36,10 @@ class Ability
   end
 
   private
+
+  def public_abilities
+    # can :manage, :all
+  end
 
   def admin_abilities(_user)
     can :manage, :all

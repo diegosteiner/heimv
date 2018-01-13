@@ -5,7 +5,7 @@ module Seeders
     def seed
       return {} if production?
       {
-        requests: create_list(:bookings, 10, initial_state: :request)
+        requests: create_list(:booking, 10, initial_state: :request)
       }
     end
   end

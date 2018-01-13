@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe Params::HomeParamsService do
-  let(:params_hash) { { home: attributes_for(:home) } }
+describe Params::BookingParamsService do
+  let(:params_hash) { { booking: build(:booking).attributes } }
   let(:params) { ActionController::Parameters.new(params_hash) }
   let(:service) { described_class.new }
 
@@ -10,7 +10,7 @@ describe Params::HomeParamsService do
 
     it do
       is_expected.to be_permitted
-      expect(subject.to_h).to include(name: params_hash.dig(:home, :name))
+      expect(subject.to_h.keys).to include('home_id')
     end
   end
 end
