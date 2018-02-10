@@ -1,0 +1,32 @@
+section.breakout-sm
+  .card
+    .card-body
+      p
+        span.badge.badge-info
+          = t(booking.state, scope: 'activerecord.values.booking.state') if booking.state
+      p
+        strong= Booking.human_attribute_name(:occupancy)
+        br
+        = booking.occupancy
+      p
+        strong= Booking.human_attribute_name(:home)
+        br
+        = link_to booking.home, manage_home_path(booking.home)
+      p
+        strong= Booking.human_attribute_name(:customer)
+        br
+        = link_to booking.customer, manage_customer_path(booking.customer)
+
+      br
+
+      = prefered_transition_button(booking)
+
+      hr
+
+      = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
+        span.fa.fa-pencil
+      '
+      = link_to manage_booking_path(booking), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger', title: t('destroy') do
+        span.fa.fa-trash
+        '
+        = t('destroy')

@@ -14,7 +14,7 @@ feature 'User Management', :devise do
     before(:each) { login_as(admin, scope: :user) }
 
     scenario 'see all email addresses on the index' do
-      visit users_path
+      visit admin_users_path
       expect(page).to have_content admin.email
       users.each do |u|
         expect(page).to have_content(u.email)
@@ -23,18 +23,18 @@ feature 'User Management', :devise do
 
     scenario 'show a user' do
       user
-      visit users_path
+      visit admin_users_path
       within find_resource_in_table(user) do
         click_link user.email
       end
-      expect(page).to have_current_path(user_path(user))
+      expect(page).to have_current_path(admin_user_path(user))
       expect(page).to have_http_status(200)
       expect(page).to have_content user.email
     end
 
     scenario 'edit a user' do
       changed_user = build(:user)
-      visit edit_user_path(user)
+      visit edit_admin_user_path(user)
       fill_in :user_email, with: changed_user.email
       submit_form
       expect(page).to have_http_status 200
@@ -44,7 +44,7 @@ feature 'User Management', :devise do
 
     scenario 'can delete existing user' do
       user
-      visit users_path
+      visit admin_users_path
       within find_resource_in_table(user) do
         click_link I18n.t('destroy')
       end
@@ -56,11 +56,11 @@ feature 'User Management', :devise do
   context 'as unprivileged user' do
     scenario 'get denied' do
       login_as(user, scope: :user)
-      visit users_path
+      visit admin_users_path
       expect(page).to have_http_status(403)
-      visit user_path(user)
+      visit admin_user_path(user)
       expect(page).to have_http_status(403)
-      visit edit_user_path(user)
+      visit edit_admin_user_path(user)
       expect(page).to have_http_status(403)
     end
   end

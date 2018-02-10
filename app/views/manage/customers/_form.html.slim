@@ -1,0 +1,13 @@
+= simple_form_for([:manage, @customer]) do |f|
+
+  .form-inputs
+    = f.input :first_name
+    = f.input :last_name
+    = f.input :street_address
+    = f.input :zipcode
+    = f.input :city
+    = f.input :email
+
+  .form-actions
+    = f.button :submit
+    = link_to t('back'), manage_customers_path, class: 'btn btn-default'

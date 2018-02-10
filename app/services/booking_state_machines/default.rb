@@ -12,10 +12,7 @@ module BookingStateMachines
     ].freeze
 
     PREFERED_TRANSITIONS = {
-      initial: {
-        request: :new_request,
-        reservation: :confirmed
-      },
+      initial: :new_request,
       new_request: :provisional_request,
       provisional_request: :definitive_request,
       definitive_request: :confirmed,

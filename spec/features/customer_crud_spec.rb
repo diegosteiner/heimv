@@ -12,7 +12,7 @@ feature 'Customer CRUD', :devise do
   let(:new_customer) { build(:customer) }
 
   scenario 'can create new customer' do
-    visit new_customer_path
+    visit new_manage_customer_path
     fill_in :customer_first_name, with: new_customer.first_name
     fill_in :customer_last_name, with: new_customer.last_name
     fill_in :customer_email, with: new_customer.email
@@ -26,17 +26,17 @@ feature 'Customer CRUD', :devise do
 
   scenario 'can see a customer' do
     customer
-    visit customers_path
+    visit manage_customers_path
     within find_resource_in_table(customer) do
       click_link customer.name
     end
-    expect(page).to have_current_path(customer_path(customer))
+    expect(page).to have_current_path(manage_customer_path(customer))
     expect(page).to have_http_status(200)
     expect(page).to have_content customer.name
   end
 
   scenario 'can edit existing customer' do
-    visit edit_customer_path(customer)
+    visit edit_manage_customer_path(customer)
     fill_in :customer_first_name, with: new_customer.first_name
     fill_in :customer_last_name, with: new_customer.last_name
     fill_in :customer_email, with: new_customer.email
@@ -50,7 +50,7 @@ feature 'Customer CRUD', :devise do
 
   scenario 'can delete existing customer' do
     customer
-    visit customers_path
+    visit manage_customers_path
     within find_resource_in_table(customer) do
       click_link I18n.t('destroy')
     end

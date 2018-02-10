@@ -11,11 +11,11 @@ nav#navbar-main.navbar.fixed-top.navbar-light.bg-white.navbar-expand-lg
   #navbar-main-nav.collapse.navbar-collapse
     ul.navbar-nav.ml-auto
       li.nav-item
-        = link_to Booking.model_name.human(count: :other), bookings_path, class: 'nav-link'
+        = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
       li.nav-item
-        = link_to Customer.model_name.human(count: :other), customers_path, class: 'nav-link'
+        = link_to Customer.model_name.human(count: :other), manage_customers_path, class: 'nav-link'
       li.nav-item
-        = link_to Home.model_name.human(count: :other), homes_path, class: 'nav-link'
+        = link_to Home.model_name.human(count: :other), manage_homes_path, class: 'nav-link'
       li.nav-item.dropdown
         a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
           = User.model_name.human
@@ -27,4 +27,4 @@ nav#navbar-main.navbar.fixed-top.navbar-light.bg-white.navbar-expand-lg
               = link_to t('nav.sign_in'), new_user_session_path, class: 'dropdown-item'
               = link_to t('nav.sign_up'), new_user_registration_path, class: 'dropdown-item'
           - if user_signed_in? && current_user.try(:admin?)
-            = link_to User.model_name.human, users_path, class: 'dropdown-item'
+            = link_to User.model_name.human, admin_users_path, class: 'dropdown-item'

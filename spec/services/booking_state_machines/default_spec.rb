@@ -41,7 +41,7 @@ describe BookingStateMachines::Default do
   describe 'allowed_public_transitions' do
     subject { state_machine.allowed_public_transitions }
 
-    let(:initial_state) { }
+    let(:initial_state){}
     let(:booking) { create(:booking, initial_state: initial_state) }
 
     describe 'new_request' do
@@ -49,8 +49,6 @@ describe BookingStateMachines::Default do
       it { is_expected.to eq(%w[cancelled provisional_request]) }
     end
   end
-
-
 
   describe 'automatic transitions' do
     it_behaves_like 'transition', 'active-->past', true

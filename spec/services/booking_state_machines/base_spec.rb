@@ -29,30 +29,24 @@ describe BookingStateMachines::Base do
 
   describe '#automatic' do
     context 'with conditions being fulfilled' do
-      before do
+      it 'adds a callback' do
         described_class.class_eval do
           state :final
           transition from: :initial, to: :final
           automatic_transition(from: :initial, to: :final) { true }
         end
-      end
-
-      it 'adds a callback' do
         expect(state_machine).to receive(:transition_to).with([:final.to_s]).and_return(true)
         expect(state_machine.automatic).to be true
       end
     end
 
     context 'with conditions not being fulfilled' do
-      before do
+      it 'adds a callback' do
         described_class.class_eval do
           state :final
           transition from: :initial, to: :final
           automatic_transition(from: :initial, to: :final) { false }
         end
-      end
-
-      it 'adds a callback' do
         expect(state_machine).not_to receive(:transition_to)
         expect(state_machine.automatic).to be false
       end

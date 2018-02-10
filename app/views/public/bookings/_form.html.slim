@@ -24,5 +24,5 @@
   .form-actions
     = f.button :submit
 
-    - @booking.state_manager.state_machine.allowed_public_transitions.each do |t|
-      = f.button :button, 'text', value: t, name: 'booking[transition_to]'
+    - @booking.state_manager.state_machine.allowed_public_transitions.each do |transition|
+      =<> f.button :button, t(transition, scope: 'activerecord.values.booking.state'), value: transition, name: 'booking[transition_to]'

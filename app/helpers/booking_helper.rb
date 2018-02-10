@@ -13,7 +13,7 @@ module BookingHelper
     transition = BookingStateManager.new(booking).prefered_transition
     return if transition.blank?
     params = { booking: { transition_to: transition } }
-    button_to booking_path(booking), method: :patch, params: params, class: 'btn btn-primary' do
+    button_to manage_booking_path(booking), method: :patch, params: params, class: 'btn btn-primary' do
       t(transition, scope: 'activerecord.values.booking.state')
     end
   end

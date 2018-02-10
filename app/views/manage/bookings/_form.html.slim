@@ -1,0 +1,21 @@
+= simple_form_for([:manage, @booking]) do |f|
+
+  .form-inputs
+    = f.input :transition_to, collection: transitions_for_select(@booking), input_html: { class: 'input-pills' }
+    = f.simple_fields_for :occupancy do |of|
+      = of.input :begins_at, as: :datetime, html5: true
+      = of.input :ends_at, as: :datetime, html5: true
+    = f.association :home
+    strong= Booking.human_attribute_name(:customer)
+    = f.input :customer_id, as: :select, label: false, collection: customers_for_select, input_html: { data: { tags: true } }
+    .customer_attributes
+      = f.simple_fields_for :customer, Customer.new do |cf|
+        = cf.input :first_name
+        = cf.input :last_name
+        = cf.input :street_address
+        = cf.input :zipcode
+        = cf.input :city
+
+  .form-actions
+    = f.button :submit
+    =<> link_to t('back'), manage_bookings_path, class: 'btn btn-default'

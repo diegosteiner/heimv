@@ -7,8 +7,8 @@ module BookingStateMachines
 
     state :initial, initial: true
 
-    def prefered_transition(hint = nil)
-      self.class::PREFERED_TRANSITIONS.with_indifferent_access.dig(*[current_state, hint].compact)
+    def prefered_transition
+      self.class::PREFERED_TRANSITIONS.with_indifferent_access.fetch(current_state, nil)
     end
 
     def allowed_public_transitions
@@ -16,9 +16,9 @@ module BookingStateMachines
     end
 
     def automatic
-      ts = select_callbacks_for(self.class.callbacks[:automatic], from: current_state)
-      ts.any? do |t|
-        transition_to(t.to) if t.call
+      transitions = select_callbacks_for(self.class.callbacks[:automatic], from: current_state)
+      transitions.any? do |automatic_transition|
+        transition_to(automatic_transition.to) if automatic_transition.call
       end
     end
 

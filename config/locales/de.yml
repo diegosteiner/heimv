@@ -79,7 +79,7 @@ de:
           provisional_request: Provisorische Mietanfrage
           upcoming: Geplante Belegung
   add_model: Add model
-  back: Back
+  back: Zurück
   booking_mailer:
     confirm_request:
       body: |-
@@ -91,16 +91,7 @@ de:
 
         %{link}
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-  bookings:
-    index:
-      new: Neu
   confirm: Sind sie sicher?
-  contracts:
-    index:
-      new: New
-  customers:
-    index:
-      new: New
   destroy: Löschen
   edit: Bearbeiten
   flash:
@@ -118,9 +109,19 @@ de:
       bookings:
         create:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
-  homes:
-    index:
-      new: Neues Heim
+  manage:
+    bookings:
+      index:
+        new: New
+    contracts:
+      index:
+        new: New
+    customers:
+      index:
+        new: New
+    homes:
+      index:
+        new: New
   nav:
     edit_account: Account
     sign_in: Anmelden

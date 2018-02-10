@@ -1,0 +1,11 @@
+= simple_form_for([:manage, @booking, @contract]) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :sent_at, as: :datetime_picker
+    = f.input :signed_at, as: :datetime_picker
+    = f.input :title
+    = f.input :text
+
+  .form-actions
+    = f.button :submit

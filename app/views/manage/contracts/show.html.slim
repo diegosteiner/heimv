@@ -1,0 +1,34 @@
+.card
+  .card-body
+    p
+      strong= Contract.human_attribute_name(:sent_at)
+      br
+      /= l @contract.sent_at if @contract.sent?
+    p
+      strong= Contract.human_attribute_name(:signed_at)
+      br
+      /= l @contract.signed_at if @contract.signed?
+    p
+      strong= Contract.human_attribute_name(:title)
+      br
+      = @contract.title
+    p
+      strong= Contract.human_attribute_name(:text)
+      br
+      = @contract.text
+
+    br
+
+    = link_to edit_contract_path(@contract), class: 'btn btn-primary' do
+      span.fa.fa-pencil
+      '
+      = t('edit')
+
+    '
+    = link_to contract_path(@contract), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t('destroy')
+
+br
+= link_to t('back'), manage_booking_path(@booking), class: 'btn btn-default'

@@ -91,16 +91,7 @@ en:
 
         Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-  bookings:
-    index:
-      new: New
   confirm: Confirm
-  contracts:
-    index:
-      new: New
-  customers:
-    index:
-      new: New
   destroy: Destroy
   edit: Edit
   flash:
@@ -118,9 +109,19 @@ en:
       bookings:
         create:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
-  homes:
-    index:
-      new: New
+  manage:
+    bookings:
+      index:
+        new: New
+    contracts:
+      index:
+        new: New
+    customers:
+      index:
+        new: New
+    homes:
+      index:
+        new: New
   nav:
     edit_account: Account
     sign_in: Anmelden
