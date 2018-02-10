@@ -24,5 +24,8 @@ describe Params::Public::BookingParamsService do
         expect(subject.to_h.keys).not_to include('home_id')
       end
     end
+
+    context 'with unpermitted tranistion_value' do
+      expect
   end
 end

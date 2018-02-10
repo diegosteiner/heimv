@@ -1,18 +1,21 @@
 .row.justify-content-center
   .col-md-6
-    h3 = t('.title')
-    .card
-      .card-body
-        = simple_form_for(@booking, url: public_booking_index_path) do |f|
-          .form-inputs
-            = f.association :home
-            = f.simple_fields_for :occupancy do |of|
-              = of.input :begins_at, as: :datetime, html5: true
-              = of.input :ends_at, as: :datetime, html5: true
-            = f.simple_fields_for :customer do |cf|
-              = cf.input :email
-            = f.input :organisation
+    - unless @booking.new_record?
+      = image_tag asset_pack_path('images/logo.svg'), class: 'etched'
+    - else
+      h3 = t('.title')
+      .card
+        .card-body
+          = @booking.errors.inspect
+          = simple_form_for(@booking, url: public_booking_index_path) do |f|
+            .form-inputs
+              = f.association :home
+              = f.simple_fields_for :occupancy do |of|
+                = of.input :begins_at, as: :datetime, html5: true
+                = of.input :ends_at, as: :datetime, html5: true
+              = f.input :email
+              = f.input :organisation
 
-          .form-actions
-            = f.button :submit
+            .form-actions
+              = f.button :submit
 

@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :booking do
     home
     association :customer, factory: :customer
+    organisation { Faker::Company.name }
 
     transient do
       initial_state :initial

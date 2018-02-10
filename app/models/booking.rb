@@ -9,7 +9,8 @@ class Booking < ApplicationRecord
   validates :home, :customer, :occupancy, presence: true
 
   before_validation :set_occupancy_attributes
-  before_create :generate_public_id
+  before_validation :assign_customer_from_email
+  after_create :reload
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :customer, reject_if: :all_blank, update_only: true
@@ -27,8 +28,9 @@ class Booking < ApplicationRecord
 
   private
 
-  def generate_public_id
-    # self.public_id ||= SecureRandom.urlsafe_base64(32)
+  def assign_customer_from_email
+    return if email.blank?
+    self.customer ||= Customer.find_or_initialize_by(email: email)
   end
 
   def set_occupancy_attributes

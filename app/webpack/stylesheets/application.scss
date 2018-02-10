@@ -82,3 +82,9 @@ section {
         border-right-width: 0;
     }
 }
+
+.etched {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    opacity: 0.1;
+}

@@ -2,10 +2,10 @@
 = simple_form_for(@booking, url: url) do |f|
 
   .form-inputs
-    = f.association :home
+    = f.association :home, disabled: true
     = f.simple_fields_for :occupancy do |of|
-      = of.input :begins_at, as: :datetime, html5: true
-      = of.input :ends_at, as: :datetime, html5: true
+      = of.input :begins_at, as: :datetime, html5: true, disabled: true
+      = of.input :ends_at, as: :datetime, html5: true, disabled: true
     = f.simple_fields_for :customer do |cf|
       = cf.input :email
       = cf.input :first_name
@@ -23,3 +23,6 @@
 
   .form-actions
     = f.button :submit
+
+    - @booking.state_manager.state_machine.allowed_public_transitions.each do |t|
+      = f.button :button, 'text', value: t, name: 'booking[transition_to]'

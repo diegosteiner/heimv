@@ -4,7 +4,6 @@ module Public
 
     def new
       @booking.build_occupancy
-      @booking.build_customer
       respond_with @booking
     end
 
@@ -13,8 +12,9 @@ module Public
     end
 
     def create
+      @booking.transition_to = @booking.state_manager.prefered_transition(:request)
       @booking.save
-      respond_with @booking
+      respond_with @booking, location: root_path
     end
 
     def update
@@ -25,11 +25,11 @@ module Public
     private
 
     def create_params
-      Params::Public::BookingParamsService.new.call(params, true)
+      Params::Public::BookingParamsService.new.call(params, @booking)
     end
 
     def update_params
-      Params::Public::BookingParamsService.new.call(params, false)
+      Params::Public::BookingParamsService.new.call(params, @booking)
     end
   end
 end

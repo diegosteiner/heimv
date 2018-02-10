@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20170709122528) do
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_customers_on_email"
   end
 
   create_table "homes", force: :cascade do |t|

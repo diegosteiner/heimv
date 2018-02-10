@@ -3,4 +3,5 @@
     h3 = t('.title')
     .card
       .card-body
+        = @booking.state_manager.current_state
         == render 'form'

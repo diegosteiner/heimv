@@ -38,21 +38,26 @@ describe BookingStateMachines::Default do
     it_behaves_like 'transition', 'confirmed-->cancelled', true
   end
 
+  describe 'allowed_public_transitions' do
+    subject { state_machine.allowed_public_transitions }
+
+    let(:initial_state) { }
+    let(:booking) { create(:booking, initial_state: initial_state) }
+
+    describe 'new_request' do
+      let(:initial_state) { :new_request }
+      it { is_expected.to eq(%w[cancelled provisional_request]) }
+    end
+  end
+
+
+
   describe 'automatic transitions' do
     it_behaves_like 'transition', 'active-->past', true
     it_behaves_like 'transition', 'upcoming-->active', true
     it_behaves_like 'transition', 'overdue_request-->cancelled', true
     it_behaves_like 'transition', 'confirmed-->overdue', true
     it_behaves_like 'transition', 'payment_due-->payment_overdue', true
-  end
-
-  describe 'prefered transitions' do
-    subject { state_machine.prefered_transition }
-
-    let(:initial_state) { :provisional_request }
-    let(:booking) { create(:booking, initial_state: initial_state) }
-
-    it { is_expected.to eq(:definitive_request) }
   end
 
   describe 'prohibited transitions' do
@@ -64,18 +69,27 @@ describe BookingStateMachines::Default do
   end
 
   describe 'sideeffects' do
-    describe 'booking.occupancy.blocking' do
-      context 'blocking states' do
-        let(:states) { { confirmed: :overdue, overdue: :upcoming, upcoming: :active } }
-        let(:occupancy) { build(:occupancy, blocking: false) }
+    describe '-->request' do
+      it 'sends email-confirmation' do
+        booking = create(:booking)
+        state_machine = described_class.new(booking, transition_class: BookingTransition)
+        notification_service = double
+        expect(notification_service).to receive(:confirm_request_notification)
+        expect(BookingNotificationService).to receive(:new).and_return(notification_service)
+        expect(state_machine.transition_to!(:new_request)).to be true
+      end
+    end
 
-        it 'sets occupancy to blocking for all blocking states' do
-          states.each do |initial_state, state|
-            booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
-            state_machine = described_class.new(booking, transition_class: BookingTransition)
-            expect(state_machine.transition_to(state)).to be true
-            expect(booking.occupancy.blocking).to be true
-          end
+    describe 'blocking states' do
+      let(:states) { { confirmed: :overdue, overdue: :upcoming, upcoming: :active } }
+      let(:occupancy) { build(:occupancy, blocking: false) }
+
+      it 'sets occupancy to blocking for all blocking states' do
+        states.each do |initial_state, state|
+          booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
+          state_machine = described_class.new(booking, transition_class: BookingTransition)
+          expect(state_machine.transition_to(state)).to be true
+          expect(booking.occupancy.blocking).to be true
         end
       end
 

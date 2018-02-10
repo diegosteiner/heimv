@@ -114,6 +114,10 @@ en:
       update:
         alert: "%{resource_name} could not be updated."
         notice: "%{resource_name} was successfully updated."
+    public:
+      bookings:
+        create:
+          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
   homes:
     index:
       new: New

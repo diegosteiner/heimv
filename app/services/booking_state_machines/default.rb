@@ -7,7 +7,15 @@ module BookingStateMachines
     ].freeze
     STATES.each { |s| state(s) }
 
+    PUBLIC_TRANSITIONS = %w[
+      new_request provisional_request definitve_request cancelled
+    ].freeze
+
     PREFERED_TRANSITIONS = {
+      initial: {
+        request: :new_request,
+        reservation: :confirmed
+      },
       new_request: :provisional_request,
       provisional_request: :definitive_request,
       definitive_request: :confirmed,
@@ -52,6 +60,10 @@ module BookingStateMachines
       # booking.bills.open.none?
     end
 
+    after_transition(to: %i[new_request]) do |booking|
+      BookingNotificationService.new(booking).confirm_request_notification
+    end
+
     after_transition(to: %i[cancelled]) do |booking|
       booking.occupancy.update(blocking: false)
     end
@@ -60,8 +72,6 @@ module BookingStateMachines
       booking.occupancy.update(blocking: true)
     end
 
-    def prefered_transition
-      PREFERED_TRANSITIONS[current_state]
-    end
+    # automatic_transition(from: :new_request, to: :p)
   end
 end
