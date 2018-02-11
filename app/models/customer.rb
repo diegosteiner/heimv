@@ -11,4 +11,8 @@ class Customer < ApplicationRecord
   def to_s
     "##{id} #{name}"
   end
+
+  def complete?
+    [first_name, last_name, street_address, zipcode, city].all?(&:present?)
+  end
 end

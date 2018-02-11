@@ -6,7 +6,7 @@ class Booking < ApplicationRecord
   belongs_to :customer, inverse_of: :bookings
   has_many :contracts, dependent: :destroy, autosave: false
 
-  validates :home, :customer, :occupancy, presence: true
+  validates :home, :customer, :occupancy, :email, presence: true
 
   before_validation :set_occupancy_attributes
   before_validation :assign_customer_from_email
@@ -25,6 +25,10 @@ class Booking < ApplicationRecord
   end
 
   def bills; end
+
+  def email
+    customer&.email || self[:email]
+  end
 
   private
 

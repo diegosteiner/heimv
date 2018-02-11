@@ -12,7 +12,7 @@ shared_examples 'transition' do |transition_expr, validity|
   end
 end
 
-describe BookingStateMachines::Default do
+describe BookingStrategy::Default::StateMachine do
   let(:state_machine) { described_class.new(booking, transition_class: BookingTransition) }
 
   describe 'allowed transitions' do

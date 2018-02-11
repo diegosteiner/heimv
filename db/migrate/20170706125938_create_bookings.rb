@@ -9,6 +9,7 @@ class CreateBookings < ActiveRecord::Migration[5.1]
       t.string :email, null: true
       t.uuid :public_id, null: false, unique: true, index: true, default: 'uuid_generate_v4()'
       t.integer :customer_id, foreign_key: true
+      t.json :strategy_data
 
       t.timestamps
     end

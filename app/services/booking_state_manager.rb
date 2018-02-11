@@ -13,6 +13,6 @@ class BookingStateManager
   end
 
   def state_machine_class
-    BookingStateMachines::Default
+    BookingStrategy::Default::StateMachine
   end
 end

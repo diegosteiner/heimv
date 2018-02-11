@@ -3,6 +3,7 @@ FactoryBot.define do
     home
     association :customer, factory: :customer
     organisation { Faker::Company.name }
+    email { Faker::Internet.safe_email }
 
     transient do
       initial_state :initial

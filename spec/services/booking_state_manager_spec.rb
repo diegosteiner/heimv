@@ -7,7 +7,7 @@ describe BookingStateManager do
   describe '#state_machine' do
     subject { service.state_machine }
 
-    it { is_expected.to be_a(BookingStateMachines::Default) }
+    it { is_expected.to be_a(BookingStrategy::Default::StateMachine) }
     it { expect(service.state_machine.object).to eq(booking) }
   end
 
