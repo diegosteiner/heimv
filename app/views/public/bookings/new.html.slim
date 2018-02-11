@@ -6,7 +6,7 @@
       h3 = t('.title')
       .card
         .card-body
-          = @booking.errors.inspect
+          = @render_service.current_state_help
           = simple_form_for(@booking, url: public_booking_index_path) do |f|
             .form-inputs
               = f.association :home

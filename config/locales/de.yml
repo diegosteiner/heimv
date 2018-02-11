@@ -65,8 +65,8 @@ de:
       booking:
         state:
           active: Aktive Belegung
-          cancelled: Annulierte Reservation
-          completed: Abgeschlossene Belegung
+          cancelled: Storniert
+          completed: Abgeschlossen
           confirmed: Bestätigte Reservation
           definitive_request: Definitive Mietanfrage
           initial: "-"
@@ -91,6 +91,54 @@ de:
 
         %{link}
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
+  booking_strategy:
+    default:
+      state:
+        active:
+          help: 
+          label: Aktive Belegung
+        cancelled:
+          help: 
+          label: Annulierte Reservation
+        completed:
+          help: 
+          label: Abgeschlossene Belegung
+        confirmed:
+          help: 
+          label: Bestätigte Reservation
+        definitive_request:
+          help: 
+          label: Definitive Mietanfrage
+        initial:
+          help: 
+          label: "-"
+        new_request:
+          help: 
+          label: Neue Mietanfrage
+        overdue:
+          help: 
+          label: Überfällige Reservation
+        overdue_request:
+          help: 
+          label: Überfällige Mietanfrage
+        past:
+          help: 
+          label: Durchgeführte Belegung
+        payment_due:
+          help: 
+          label: Rechnung ausstehend
+        payment_overdue:
+          help: 
+          label: Rechnung überfällig
+        provisional_request:
+          help: 
+          label: Provisorische Mietanfrage
+        upcoming:
+          help: 
+          label: Geplante Belegung
+      transition:
+        initial-->new_request:
+          label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
   destroy: Löschen
   edit: Bearbeiten

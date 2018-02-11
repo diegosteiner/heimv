@@ -18,7 +18,7 @@ module BookingState
   end
 
   def state_manager
-    @state_manager = BookingStateManager.new(self)
+    @state_manager = BookingStrategy.infer(self).state_manager
   end
 
   private

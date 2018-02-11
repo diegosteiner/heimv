@@ -1,6 +1,7 @@
 module Public
   class BookingsController < BaseController
     load_and_authorize_resource :booking, find_by: :public_id
+    before_action :initialize_render_service
 
     def new
       @booking.build_occupancy
@@ -23,6 +24,10 @@ module Public
     end
 
     private
+
+    def initialize_render_service
+      @render_service = BookingStrategy.infer(@booking).render_service
+    end
 
     def create_params
       Rails.logger.debug "Called create_params with #{@booking.inspect}"

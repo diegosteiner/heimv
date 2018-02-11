@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe BookingStateManager do
+describe BookingStrategy::Default::StateManager do
   let(:booking) { build_stubbed(:booking) }
   let(:service) { described_class.new(booking) }
 

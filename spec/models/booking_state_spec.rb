@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec::Matchers.define :have_state do |expected|
   match do |actual|
-    BookingStateManager.new(actual).in_state?(expected.to_s)
+    BookingStrategy::Base::StateManager.new(actual).in_state?(expected.to_s)
   end
 end
 

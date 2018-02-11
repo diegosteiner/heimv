@@ -26,8 +26,10 @@ module Params
       protected
 
       def permit_values(params, booking)
+        # TODO: use dry-validation
         return if booking.present? &&
-                  BookingStateManager.new(booking).allowed_public_transitions.include?(params[:transition_to])
+                  BookingStrategy.infer(booking).state_manager
+                                 .allowed_public_transitions.include?(params[:transition_to])
         params.delete(:transition_to)
       end
     end

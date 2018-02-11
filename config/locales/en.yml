@@ -91,6 +91,54 @@ en:
 
         Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
+  booking_strategy:
+    default:
+      state:
+        active:
+          help: Help
+          label: Aktive Belegung
+        cancelled:
+          help: Help
+          label: Annulierte Reservation
+        completed:
+          help: Help
+          label: Abgeschlossene Belegung
+        confirmed:
+          help: Help
+          label: Bestätigte Reservation
+        definitive_request:
+          help: Help
+          label: Definitive Mietanfrage
+        initial:
+          help: Help
+          label: "-"
+        new_request:
+          help: Help
+          label: Neue Mietanfrage
+        overdue:
+          help: Help
+          label: Überfällige Reservation
+        overdue_request:
+          help: Help
+          label: Überfällige Mietanfrage
+        past:
+          help: Help
+          label: Durchgeführte Belegung
+        payment_due:
+          help: Help
+          label: Rechnung ausstehend
+        payment_overdue:
+          help: Help
+          label: Rechnung überfällig
+        provisional_request:
+          help: Help
+          label: Provisorische Mietanfrage
+        upcoming:
+          help: Help
+          label: Geplante Belegung
+      transition:
+        initial-->new_request:
+          label: Neue Buchungsanfrage stellen
   confirm: Confirm
   destroy: Destroy
   edit: Edit

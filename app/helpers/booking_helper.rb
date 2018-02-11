@@ -4,13 +4,12 @@ module BookingHelper
   end
 
   def transitions_for_select(booking, _current_user = nil)
-    BookingStateManager.new(booking).allowed_transitions.map do |transition|
-      [t(transition, scope: 'activerecord.values.booking.state'), transition]
-    end
+    BookingStrategy.infer(booking).render_service.allowed_transitions_for_select
   end
 
   def prefered_transition_button(booking)
-    transition = BookingStateManager.new(booking).prefered_transition
+    # transition = BookingStrategy::StateManager.new(booking).prefered_transition
+    transition = nil
     return if transition.blank?
     params = { booking: { transition_to: transition } }
     button_to manage_booking_path(booking), method: :patch, params: params, class: 'btn btn-primary' do
