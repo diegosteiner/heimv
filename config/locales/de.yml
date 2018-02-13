@@ -95,46 +95,46 @@ de:
     default:
       state:
         active:
-          help: 
+          help: Help
           label: Aktive Belegung
         cancelled:
-          help: 
+          help: Help
           label: Annulierte Reservation
         completed:
-          help: 
+          help: Help
           label: Abgeschlossene Belegung
         confirmed:
-          help: 
+          help: Help
           label: Bestätigte Reservation
         definitive_request:
-          help: 
+          help: Help
           label: Definitive Mietanfrage
         initial:
-          help: 
+          help: Help
           label: "-"
         new_request:
-          help: 
+          help: Help
           label: Neue Mietanfrage
         overdue:
-          help: 
+          help: Help
           label: Überfällige Reservation
         overdue_request:
-          help: 
+          help: Help
           label: Überfällige Mietanfrage
         past:
-          help: 
+          help: Help
           label: Durchgeführte Belegung
         payment_due:
-          help: 
+          help: Help
           label: Rechnung ausstehend
         payment_overdue:
-          help: 
+          help: Help
           label: Rechnung überfällig
         provisional_request:
-          help: 
+          help: Help
           label: Provisorische Mietanfrage
         upcoming:
-          help: 
+          help: Help
           label: Geplante Belegung
       transition:
         initial-->new_request:
@@ -180,6 +180,11 @@ de:
     bookings:
       edit:
         title: Reservation bearbeiten
+      form:
+        liability:
+          definitive_request: Definitive request
+          label: Label
+          provisional_request: Provisional request
       new:
         title: Reservation
   time:

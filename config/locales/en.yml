@@ -180,6 +180,11 @@ en:
     bookings:
       edit:
         title: Title
+      form:
+        liability:
+          definitive_request: Definitive request
+          label: Label
+          provisional_request: Provisional request
       new:
         title: Title
   simple_form:

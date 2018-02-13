@@ -1,7 +1,7 @@
 module BookingStrategy
   module Default
     class ViewModel < BookingViewModel
-      I18N_SCOPE = [:booking_strategy, :default, :state].freeze
+      I18N_SCOPE = %i[booking_strategy default state].freeze
 
       def current_state_help
         tk = I18N_SCOPE + [booking.state_machine.current_state]
@@ -13,8 +13,6 @@ module BookingStrategy
       def homes_for_select
         Home.all
       end
-
-
     end
   end
 end

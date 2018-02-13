@@ -3,6 +3,9 @@
 source 'https://rubygems.org'
 ruby '2.4.2'
 
+gem 'bootstrap_form',
+    git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
+    ref: 'master'
 gem 'breadcrumbs'
 gem 'cancancan'
 gem 'devise'
@@ -19,9 +22,6 @@ gem 'slim-rails'
 gem 'statesman'
 gem 'title'
 gem 'webpacker'
-gem "bootstrap_form",
-    git: "https://github.com/bootstrap-ruby/bootstrap_form.git",
-    ref: "master"
 
 group :development do
   gem 'better_errors'
