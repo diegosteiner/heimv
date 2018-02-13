@@ -19,6 +19,9 @@ gem 'slim-rails'
 gem 'statesman'
 gem 'title'
 gem 'webpacker'
+gem "bootstrap_form",
+    git: "https://github.com/bootstrap-ruby/bootstrap_form.git",
+    ref: "master"
 
 group :development do
   gem 'better_errors'

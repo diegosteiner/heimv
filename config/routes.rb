@@ -19,6 +19,6 @@ Rails.application.routes.draw do
   devise_for :users
 
   scope module: :public do
-    resources :bookings, only: %i[new create edit update], path: 'b', as: :public_booking
+    resources :bookings, only: %i[new create edit update], path: 'b', as: :public_bookings
   end
 end

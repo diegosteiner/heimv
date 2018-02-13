@@ -6,16 +6,16 @@
       h3 = t('.title')
       .card
         .card-body
-          = @render_service.current_state_help
-          = simple_form_for(@booking, url: public_booking_index_path) do |f|
+          = @view_model.current_state_help
+          = bootstrap_form_with(model: @booking, url: public_bookings_path, local: true) do |f|
             .form-inputs
-              = f.association :home
-              = f.simple_fields_for :occupancy do |of|
-                = of.input :begins_at, as: :datetime, html5: true
-                = of.input :ends_at, as: :datetime, html5: true
-              = f.input :email
-              = f.input :organisation
+              = f.collection_select :home_id, @view_model.homes_for_select, :to_param, :to_s
+              = f.fields_for :occupancy, @booking.occupancy do |of|
+                = of.datetime_local_field :begins_at
+                = of.datetime_local_field :ends_at
+              = f.email_field :email
+              = f.text_field :organisation
 
             .form-actions
-              = f.button :submit
+              = f.submit
 

@@ -1,10 +1,12 @@
 module Public
   class BookingsController < BaseController
     load_and_authorize_resource :booking, find_by: :public_id
-    before_action :initialize_render_service
+    before_action :initialize_view_model
 
     def new
       @booking.build_occupancy
+      @booking.occupancy.begins_at = Time.zone.now
+      @booking.occupancy.ends_at = @booking.occupancy.begins_at + 7.days
       respond_with :public, @booking
     end
 
@@ -13,7 +15,7 @@ module Public
     end
 
     def create
-      @booking.transition_to = @booking.state_manager.prefered_transition
+      @booking.transition_to = @booking.state_machine.prefered_transition
       @booking.save
       respond_with :public, @booking, location: root_path
     end
@@ -25,12 +27,11 @@ module Public
 
     private
 
-    def initialize_render_service
-      @render_service = BookingStrategy.infer(@booking).render_service
+    def initialize_view_model
+      @view_model = BookingStrategy.infer(@booking).view_model
     end
 
     def create_params
-      Rails.logger.debug "Called create_params with #{@booking.inspect}"
       Params::Public::BookingParams.new.call(params, @booking)
     end
 

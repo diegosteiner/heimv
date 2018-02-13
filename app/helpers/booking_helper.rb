@@ -4,7 +4,7 @@ module BookingHelper
   end
 
   def transitions_for_select(booking, _current_user = nil)
-    BookingStrategy.infer(booking).render_service.allowed_transitions_for_select
+    BookingStrategy.infer(booking).view_model.allowed_transitions_for_select
   end
 
   def prefered_transition_button(booking)

@@ -1,28 +1,31 @@
-- url ||= @booking.new_record? ? public_booking_index_path : public_booking_path(@booking.public_id)
-= simple_form_for(@booking, url: url) do |f|
+= bootstrap_form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
 
   .form-inputs
-    = f.association :home, disabled: true
-    = f.simple_fields_for :occupancy do |of|
-      = of.input :begins_at, as: :datetime, html5: true, disabled: true
-      = of.input :ends_at, as: :datetime, html5: true, disabled: true
-    = f.simple_fields_for :customer do |cf|
-      = cf.input :email
-      = cf.input :first_name
-      = cf.input :last_name
-      = cf.input :street_address
+    = f.select :home_id, options_from_collection_for_select(@view_model.homes_for_select, :id, :to_s, @booking.home_id), {}, disabled: true
+    = f.fields_for :occupancy, @booking.occupancy do |of|
+      = of.datetime_local_field :begins_at, disabled: true
+      = of.datetime_local_field :ends_at, disabled: true
+    = f.fields_for :customer, @booking.customer do |cf|
+      = cf.email_field :email
+      = cf.text_field :first_name
+      = cf.text_field :last_name
+      = cf.text_area :street_address
       .row
         .col-md-4
-          = cf.input :zipcode
+          = cf.text_field :zipcode
         .col-md-8
-          = cf.input :city
+          = cf.text_field :city
 
   .form-inputs
     hr
-    = f.input :organisation
+    = f.text_field :organisation
+    - confirmed = @booking.confirmed_definitive_request
+    = f.form_group :confirmed_definitive_request, label: { text: t('.liability.label') }
+      = f.radio_button :confirmed_definitive_request, false, label: t('.liability.provisional_request'), id: 'booking_definitive_request_false', disabled: confirmed
+      = f.radio_button :confirmed_definitive_request, true, label: t('.liability.definitive_request'), id: 'booking_definitive_request_true'
 
   .form-actions
-    = f.button :submit
+    = f.submit
 
-    - @booking.state_manager.state_machine.allowed_public_transitions.each do |transition|
-      =<> f.button :button, t(transition, scope: 'activerecord.values.booking.state'), value: transition, name: 'booking[transition_to]'
+    - @booking.state_machine.allowed_public_transitions.each do |transition|
+      =<> f.submit t(transition, scope: 'activerecord.values.booking.state'), value: transition, name: 'booking[transition_to]'
