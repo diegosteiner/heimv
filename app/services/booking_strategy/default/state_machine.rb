@@ -40,8 +40,8 @@ module BookingStrategy
       transition from: :payment_due, to: %i[payment_overdue completed]
       transition from: :payment_overdue, to: %i[completed]
 
-      guard_transition(to: %i[definitive_request]) do |booking|
-        booking.customer.complete?
+      guard_transition(to: %i[provisional_request definitive_request]) do |booking|
+        # booking.customer.complete?
       end
 
       guard_transition(to: :upcoming) do |_booking|

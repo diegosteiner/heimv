@@ -19,7 +19,7 @@ module Params
       end
 
       def self.permitted_update_params
-        [:organisation, :transition_to,
+        [:organisation, :transition_to, :confirmed_definitive_request,
          customer_attributes: CustomerParams.permitted_params]
       end
 
@@ -28,7 +28,7 @@ module Params
       def permit_values(params, booking)
         # TODO: use dry-validation
         return if booking.present? &&
-                  BookingStrategy.infer(booking).state_manager
+                  BookingStrategy.infer(booking).state_machine
                                  .allowed_public_transitions.include?(params[:transition_to])
         params.delete(:transition_to)
       end

@@ -5,12 +5,16 @@ module BookingStrategy
         @booking = booking
       end
 
-      def render_service
-        @render_service ||= RenderService.new(@booking)
+      def view_model
+        @view_model ||= strategy::ViewModel.new(@booking)
       end
 
-      def state_manager
-        @state_manager ||= StateManager.new(@booking)
+      def state_machine
+        @state_machine ||= strategy::StateMachine.new(@booking, transition_class: @booking.booking_transitions.klass)
+      end
+
+      def strategy
+        BookingStrategy::Base
       end
     end
   end
