@@ -24,6 +24,14 @@ class Booking < ApplicationRecord
     ref
   end
 
+  def confirmed_definitive_request
+    confirmed_definitive_request_at.present?
+  end
+
+  def confirmed_definitive_request=(confirmed)
+    self.confirmed_definitive_request_at ||= Time.zone.now if confirmed
+  end
+
   def bills; end
 
   def email
@@ -34,7 +42,9 @@ class Booking < ApplicationRecord
 
   def assign_customer_from_email
     return if email.blank?
-    self.customer ||= Customer.find_or_initialize_by(email: email)
+    self.customer ||= Customer.find_or_initialize_by(email: email).tap do |customer|
+      customer.email_only = true
+    end
   end
 
   def set_occupancy_attributes

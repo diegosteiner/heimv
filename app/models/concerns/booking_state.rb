@@ -7,9 +7,10 @@ module BookingState
     attr_accessor :transition_to
     has_many :booking_transitions, dependent: :destroy, autosave: false
     after_save :state_transition
+    delegate :state_machine, to: :booking_strategy
 
     validate do
-      if transition_to.present? && !state_manager.can_transition_to?(transition_to)
+      if transition_to.present? && !state_machine.can_transition_to?(transition_to)
         errors.add(:transition_to,
                    I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition',
                           transition: "#{state_was}-->#{state}"))
@@ -17,14 +18,14 @@ module BookingState
     end
   end
 
-  def state_manager
-    @state_manager = BookingStrategy.infer(self).state_manager
+  def booking_strategy
+    @booking_strategy ||= BookingStrategy.infer(self)
   end
 
   private
 
   def state_transition
-    return unless state_manager.current_state != transition_to
-    state_manager.transition_to(transition_to)
+    return unless state_machine.current_state != transition_to
+    state_machine.transition_to(transition_to)
   end
 end
