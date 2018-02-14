@@ -15,7 +15,9 @@ module Public
     end
 
     def create
-      @booking.transition_to = @booking.state_machine.prefered_transition
+      # Make automatic
+      # @booking.transition_to = @booking.state_machine.prefered_transition
+      @booking.initial = true
       @booking.save
       respond_with :public, @booking, location: root_path
     end
@@ -28,7 +30,7 @@ module Public
     private
 
     def initialize_view_model
-      @view_model = BookingStrategy.infer(@booking).view_model
+      @view_model = @booking.booking_strategy::ViewModel.new(@booking)
     end
 
     def create_params

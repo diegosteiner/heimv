@@ -11,6 +11,7 @@ class CreateBookings < ActiveRecord::Migration[5.1]
       t.integer :customer_id, foreign_key: true
       t.json :strategy_data
       t.datetime :confirmed_definitive_request_at, null: true
+      t.datetime :confirmed_request_at, null: true
 
       t.timestamps
     end

@@ -1,21 +1,27 @@
-= simple_form_for([:manage, @booking]) do |f|
+= bootstrap_form_with(model: [:manage, @booking], local: true) do |f|
 
   .form-inputs
-    = f.input :transition_to, collection: transitions_for_select(@booking), input_html: { class: 'input-pills' }
-    = f.simple_fields_for :occupancy do |of|
-      = of.input :begins_at, as: :datetime, html5: true
-      = of.input :ends_at, as: :datetime, html5: true
-    = f.association :home
+    = f.select :transition_to, @view_model.allowed_transitions_for_select
+
+    = f.fields_for :occupancy, @booking.occupancy do |of|
+      = of.datetime_local_field :begins_at
+      = of.datetime_local_field :ends_at
+
     strong= Booking.human_attribute_name(:customer)
-    = f.input :customer_id, as: :select, label: false, collection: customers_for_select, input_html: { data: { tags: true } }
-    .customer_attributes
-      = f.simple_fields_for :customer, Customer.new do |cf|
-        = cf.input :first_name
-        = cf.input :last_name
-        = cf.input :street_address
-        = cf.input :zipcode
-        = cf.input :city
+
+    / = f. :customer_id, as: :select, label: false, collection: customers_for_select, input_html: { data: { tags: true } }
+
+    = f.fields_for :customer, @booking.customer do |cf|
+      = cf.email_field :email
+      = cf.text_field :first_name
+      = cf.text_field :last_name
+      = cf.text_area :street_address
+      .row
+        .col-md-4
+          = cf.text_field :zipcode
+        .col-md-8
+          = cf.text_field :city
 
   .form-actions
-    = f.button :submit
+    = f.submit
     =<> link_to t('back'), manage_bookings_path, class: 'btn btn-default'

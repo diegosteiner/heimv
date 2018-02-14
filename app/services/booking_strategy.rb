@@ -1,9 +1,9 @@
 module BookingStrategy
   class << self
-    def infer(booking)
-      BookingStrategy::Default::Instance.new(booking)
+    def infer(_booking)
+      BookingStrategy::Default
     end
 
-    alias [] infer
+    # alias [] infer
   end
 end

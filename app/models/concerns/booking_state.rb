@@ -7,7 +7,6 @@ module BookingState
     attr_accessor :transition_to
     has_many :booking_transitions, dependent: :destroy, autosave: false
     after_save :state_transition
-    delegate :state_machine, to: :booking_strategy
 
     validate do
       if transition_to.present? && !state_machine.can_transition_to?(transition_to)
@@ -20,6 +19,10 @@ module BookingState
 
   def booking_strategy
     @booking_strategy ||= BookingStrategy.infer(self)
+  end
+
+  def state_machine
+    @state_machine ||= booking_strategy::StateMachine.new(self, transition_class: booking_transitions.klass)
   end
 
   private

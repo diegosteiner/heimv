@@ -38,8 +38,8 @@ describe BookingStrategy::Default::StateMachine do
     it_behaves_like 'transition', 'confirmed-->cancelled', true
   end
 
-  describe 'allowed_public_transitions' do
-    subject { state_machine.allowed_public_transitions }
+  describe 'public allowed_transitions' do
+    subject { state_machine.allowed_transitions(true) }
 
     let(:initial_state){}
     let(:booking) { create(:booking, initial_state: initial_state) }

@@ -1,7 +1,7 @@
 = bootstrap_form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
 
   .form-inputs
-    = f.select :home_id, options_from_collection_for_select(@view_model.homes_for_select, :id, :to_s, @booking.home_id), {}, disabled: true
+    = f.select :home_id, @view_model.homes_for_select, {}, disabled: true
     = f.fields_for :occupancy, @booking.occupancy do |of|
       = of.datetime_local_field :begins_at, disabled: true
       = of.datetime_local_field :ends_at, disabled: true

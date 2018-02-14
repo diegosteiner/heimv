@@ -9,7 +9,7 @@
           = @view_model.current_state_help
           = bootstrap_form_with(model: @booking, url: public_bookings_path, local: true) do |f|
             .form-inputs
-              = f.collection_select :home_id, @view_model.homes_for_select, :to_param, :to_s
+              = f.select :home_id, @view_model.homes_for_select
               = f.fields_for :occupancy, @booking.occupancy do |of|
                 = of.datetime_local_field :begins_at
                 = of.datetime_local_field :ends_at

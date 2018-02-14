@@ -11,14 +11,15 @@ module BookingStrategy
         self.class::PREFERED_TRANSITIONS.with_indifferent_access.fetch(current_state, nil)
       end
 
-      def allowed_public_transitions
-        allowed_transitions & self.class::PUBLIC_TRANSITIONS
+      def allowed_transitions(public = false)
+        super & self.class::PUBLIC_TRANSITIONS
       end
 
       def automatic
-        transitions = select_callbacks_for(self.class.callbacks[:automatic], from: current_state)
-        transitions.any? do |automatic_transition|
-          transition_to(automatic_transition.to) if automatic_transition.call
+        loop do
+          conditions = select_callbacks_for(self.class.callbacks[:automatic], from: current_state)
+        break unless conditions.any? do |condition|
+          transition_to(condition.to) if condition.call
         end
       end
 

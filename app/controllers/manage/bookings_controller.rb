@@ -9,6 +9,8 @@ module Manage
     before_action(only: %i[show edit]) { breadcrumbs.add(@booking.to_s, manage_booking_path(@booking)) }
     before_action(only: :edit) { breadcrumbs.add(t('edit')) }
 
+    before_action :initialize_view_model, except: %i[index]
+
     def index
       respond_with :manage, @bookings
     end
@@ -41,6 +43,9 @@ module Manage
     end
 
     private
+    def initialize_view_model
+      @view_model = @booking.booking_strategy::ViewModel.new(@booking)
+    end
 
     def booking_params
       Params::Manage::BookingParams.new.call(params)
