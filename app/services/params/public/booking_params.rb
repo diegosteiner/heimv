@@ -12,13 +12,12 @@ module Params
 
       def self.permitted_create_params
         [:organisation, :home_id, :email,
-         customer_attributes: CustomerParams.permitted_params,
          occupancy_attributes: %i[begins_at ends_at]]
       end
 
       def self.permitted_update_params
-        [:organisation, :confirmed_definitive_request,
-         customer_attributes: CustomerParams.permitted_params]
+        [:organisation, :definitive_request, :cancellation_reason,
+         customer_attributes: CustomerParams.permitted_params.without(:email)]
       end
     end
   end

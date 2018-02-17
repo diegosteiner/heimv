@@ -1,7 +1,7 @@
 class Booking < ApplicationRecord
   include BookingState
 
-  attr_accessor :initial
+  attr_accessor :skip_exact_validation
 
   has_one :occupancy, dependent: :destroy, as: :subject, autosave: true
   belongs_to :home
@@ -9,7 +9,7 @@ class Booking < ApplicationRecord
   has_many :contracts, dependent: :destroy, autosave: false
 
   validates :home, :customer, :occupancy, :email, presence: true
-  # validates
+  validates :cancellation_reason, presence: true, allow_nil: true
 
   before_validation :set_occupancy_attributes
   before_validation :assign_customer_from_email
@@ -27,19 +27,14 @@ class Booking < ApplicationRecord
     ref
   end
 
-  def confirmed_definitive_request
-    confirmed_definitive_request_at.present?
-  end
-
-  def confirmed_definitive_request=(confirmed)
-    self.confirmed_request_at ||= Time.zone.now if confirmed.present?
-    self.confirmed_definitive_request_at ||= Time.zone.now if confirmed
-  end
-
   def bills; end
 
   def email
     customer&.email || self[:email]
+  end
+
+  def skip_exact_validation?
+    skip_exact_validation || cancellation_reason.present?
   end
 
   private
@@ -47,7 +42,7 @@ class Booking < ApplicationRecord
   def assign_customer_from_email
     return if email.blank?
     self.customer ||= Customer.find_or_initialize_by(email: email).tap do |customer|
-      customer.initial = true
+      customer.skip_exact_validation ||= skip_exact_validation?
     end
   end
 

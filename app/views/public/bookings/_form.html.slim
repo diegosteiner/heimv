@@ -6,7 +6,7 @@
       = of.datetime_local_field :begins_at, disabled: true
       = of.datetime_local_field :ends_at, disabled: true
     = f.fields_for :customer, @booking.customer do |cf|
-      = cf.email_field :email
+      = cf.email_field :email, disabled: true
       = cf.text_field :first_name
       = cf.text_field :last_name
       = cf.text_area :street_address
@@ -19,29 +19,28 @@
   .form-inputs
     hr
     = f.text_field :organisation
-    - confirmed = @booking.confirmed_definitive_request
-    = f.form_group :confirmed_definitive_request, label: { text: t('.liability.label') }
-      = f.radio_button :confirmed_definitive_request, false, label: t('.liability.provisional_request'), id: 'booking_definitive_request_false', disabled: confirmed
-      = f.radio_button :confirmed_definitive_request, true, label: t('.liability.definitive_request'), id: 'booking_definitive_request_true'
+    = f.form_group :definitive_request, label: { text: t('.liability.label') }
+      = f.radio_button :definitive_request, false, label: t('.liability.provisional_request'), id: 'booking_definitive_request_false', disabled: @booking.definitive_request?
+      = f.radio_button :definitive_request, true, label: t('.liability.definitive_request'), id: 'booking_definitive_request_true'
 
   .form-actions
-    = f.submit
-    button.btn.btn-danger[data-toggle="modal" data-target="#cancelModel"]
+    =<> f.submit
+    button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
       | Cancel
 
-#cancelModal
-  .modal role="dialog" tabindex="-1"
-  .modal-dialog role="document"
-    = form_with(url: public_booking_path(@booking.public_id), local: true) do |f|
+
+#cancelModal.modal[role="dialog" tabindex="-1"]
+  .modal-dialog[role="document"]
+    = bootstrap_form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
       .modal-content
         .modal-header
           h5.modal-title= t('.cancel')
           button.close aria-label="Close" data-dismiss="modal" type="button"
             span aria-hidden="true" &times;
         .modal-body
-          = f.text_area :cancel_reason
+          = f.text_area :cancellation_reason
         .modal-footer
           = f.submit
-          button.btn.btn-secondary data-dismiss="modal" type="button"
+          button.btn.btn-secondary[data-dismiss="modal" type="button"]
             | Back
 

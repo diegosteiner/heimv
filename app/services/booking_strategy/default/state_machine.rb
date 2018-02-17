@@ -65,7 +65,21 @@ module BookingStrategy
         booking.occupancy.update(blocking: true)
       end
 
-      # automatic_transition(from: :new_request, to: :p)
+      automatic_transition(from: :initial, to: :new_request) do |booking|
+        booking.email.present?
+      end
+
+      automatic_transition(to: :cancelled) do |booking|
+        booking.cancellation_reason.present?
+      end
+
+      automatic_transition(from: :new_request, to: :provisional_request) do |booking|
+        booking.definitive_request === false
+      end
+
+      automatic_transition(from: %i(new_request provisional_request), to: :definitive_request) do |booking|
+        booking.definitive_request === true
+      end
     end
   end
 end

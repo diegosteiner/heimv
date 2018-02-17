@@ -15,9 +15,7 @@ module Public
     end
 
     def create
-      # Make automatic
-      # @booking.transition_to = @booking.state_machine.prefered_transition
-      @booking.initial = true
+      @booking.skip_exact_validation = true
       @booking.save
       respond_with :public, @booking, location: root_path
     end

@@ -1,7 +1,7 @@
 = bootstrap_form_with(model: [:manage, @booking], local: true) do |f|
 
   .form-inputs
-    = f.select :transition_to, @view_model.allowed_transitions_for_select
+    = f.select :transition_to, @view_model.allowed_transitions_for_select, include_blank: true
 
     = f.fields_for :occupancy, @booking.occupancy do |of|
       = of.datetime_local_field :begins_at
@@ -9,8 +9,7 @@
 
     strong= Booking.human_attribute_name(:customer)
 
-    / = f. :customer_id, as: :select, label: false, collection: customers_for_select, input_html: { data: { tags: true } }
-
+    / = f.collection_select :customer_id, customers_for_select, :first, :last, data: { tags: true }
     = f.fields_for :customer, @booking.customer do |cf|
       = cf.email_field :email
       = cf.text_field :first_name

@@ -3,9 +3,11 @@ module BookingStrategy
     module Automator
       module ClassMethods
         def automatic_transition(options = {}, &block)
+          from = array_to_s_or_nil(options.fetch(:from, states))
+          to = to_s_or_nil(options[:to])
+
           callbacks[:automatic] ||= []
-          add_callback(callback_type: :automatic, callback_class: Statesman::Callback,
-                       from: options[:from], to: options[:to], &block)
+          callbacks[:automatic] << Statesman::Callback.new(from: from, to: to, callback: block)
         end
       end
 
@@ -16,7 +18,8 @@ module BookingStrategy
       def automatic
         [].tap do |passed_transitions|
           while (to = automatic_step_to)
-            raise StandardError if passed_transitions.include?(to)
+            # raise StandardError if passed_transitions.include?(to)
+            break if passed_transitions.include?(to)
             transition_to(to)
             passed_transitions << to
           end
@@ -24,9 +27,11 @@ module BookingStrategy
       end
 
       def automatic_step_to
-        condition = select_callbacks_for(self.class.callbacks[:automatic], from: current_state).find(&:call)
-        return nil unless condition
-        condition.to.first
+        self.class.callbacks[:automatic].each do |callback|
+          next unless Array.wrap(callback.from).include?(current_state)
+          return callback.to.first if callback.call(@object)
+        end
+        nil
       end
     end
   end

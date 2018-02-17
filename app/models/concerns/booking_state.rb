@@ -4,7 +4,7 @@ module BookingState
   extend ActiveSupport::Concern
 
   included do
-    attr_accessor :transition_to
+    attr_accessor :transition_to, :skip_automatic_transition
     has_many :booking_transitions, dependent: :destroy, autosave: false
     after_save :state_transition
 
@@ -28,7 +28,7 @@ module BookingState
   private
 
   def state_transition
-    return unless state_machine.current_state != transition_to
-    state_machine.transition_to(transition_to)
+    state_machine.transition_to(transition_to) if state_machine.current_state != transition_to
+    Rails.logger.debug state_machine.automatic unless skip_automatic_transition
   end
 end
