@@ -2,15 +2,10 @@ module BookingStrategy
   module Default
     class StateMachine < Base::StateMachine
       state :initial, initial: true
-      STATES = %i[
+      %i[
         new_request provisional_request definitive_request overdue_request cancelled
         confirmed upcoming overdue active past payment_due payment_overdue completed
-      ].freeze
-      STATES.each { |s| state(s) }
-
-      PUBLIC_TRANSITIONS = %w[
-        new_request provisional_request definitve_request cancelled
-      ].freeze
+      ].each { |s| state(s) }
 
       PREFERED_TRANSITIONS = {
         initial: :new_request,

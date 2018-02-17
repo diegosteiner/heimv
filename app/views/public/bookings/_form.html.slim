@@ -26,6 +26,22 @@
 
   .form-actions
     = f.submit
+    button.btn.btn-danger[data-toggle="modal" data-target="#cancelModel"]
+      | Cancel
 
-    - @booking.state_machine.allowed_public_transitions.each do |transition|
-      =<> f.submit t(transition, scope: 'activerecord.values.booking.state'), value: transition, name: 'booking[transition_to]'
+#cancelModal
+  .modal role="dialog" tabindex="-1"
+  .modal-dialog role="document"
+    = form_with(url: public_booking_path(@booking.public_id), local: true) do |f|
+      .modal-content
+        .modal-header
+          h5.modal-title= t('.cancel')
+          button.close aria-label="Close" data-dismiss="modal" type="button"
+            span aria-hidden="true" &times;
+        .modal-body
+          = f.text_area :cancel_reason
+        .modal-footer
+          = f.submit
+          button.btn.btn-secondary data-dismiss="modal" type="button"
+            | Back
+

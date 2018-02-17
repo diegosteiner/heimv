@@ -22,7 +22,7 @@ module BookingState
   end
 
   def state_machine
-    @state_machine ||= booking_strategy::StateMachine.new(self, transition_class: booking_transitions.klass)
+    @state_machine ||= booking_strategy::StateMachine.new(self)
   end
 
   private

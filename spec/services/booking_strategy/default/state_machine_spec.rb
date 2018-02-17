@@ -13,7 +13,7 @@ shared_examples 'transition' do |transition_expr, validity|
 end
 
 describe BookingStrategy::Default::StateMachine do
-  let(:state_machine) { described_class.new(booking, transition_class: BookingTransition) }
+  let(:state_machine) { described_class.new(booking) }
 
   describe 'allowed transitions' do
     it_behaves_like 'transition', 'initial-->new_request', true
@@ -38,18 +38,6 @@ describe BookingStrategy::Default::StateMachine do
     it_behaves_like 'transition', 'confirmed-->cancelled', true
   end
 
-  describe 'public allowed_transitions' do
-    subject { state_machine.allowed_transitions(true) }
-
-    let(:initial_state){}
-    let(:booking) { create(:booking, initial_state: initial_state) }
-
-    describe 'new_request' do
-      let(:initial_state) { :new_request }
-      it { is_expected.to eq(%w[cancelled provisional_request]) }
-    end
-  end
-
   describe 'automatic transitions' do
     it_behaves_like 'transition', 'active-->past', true
     it_behaves_like 'transition', 'upcoming-->active', true
@@ -70,7 +58,7 @@ describe BookingStrategy::Default::StateMachine do
     describe '-->request' do
       it 'sends email-confirmation' do
         booking = create(:booking)
-        state_machine = described_class.new(booking, transition_class: BookingTransition)
+        state_machine = described_class.new(booking)
         notification_service = double
         expect(notification_service).to receive(:confirm_request_notification)
         expect(BookingNotificationService).to receive(:new).and_return(notification_service)
@@ -85,7 +73,7 @@ describe BookingStrategy::Default::StateMachine do
       it 'sets occupancy to blocking for all blocking states' do
         states.each do |initial_state, state|
           booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
-          state_machine = described_class.new(booking, transition_class: BookingTransition)
+          state_machine = described_class.new(booking)
           expect(state_machine.transition_to(state)).to be true
           expect(booking.occupancy.blocking).to be true
         end
@@ -98,7 +86,7 @@ describe BookingStrategy::Default::StateMachine do
         it 'sets occupancy to not blocking for all non-blocking states' do
           states.each do |initial_state, state|
             booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
-            state_machine = described_class.new(booking, transition_class: BookingTransition)
+            state_machine = described_class.new(booking)
             expect(state_machine.transition_to(state)).to be true
             expect(booking.occupancy.blocking).to be false
           end
