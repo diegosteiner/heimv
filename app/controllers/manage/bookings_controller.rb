@@ -43,6 +43,7 @@ module Manage
     end
 
     private
+
     def initialize_view_model
       @view_model = @booking.booking_strategy::ViewModel.new(@booking)
     end

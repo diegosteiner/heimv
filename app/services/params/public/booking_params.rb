@@ -29,7 +29,7 @@ module Params
         # TODO: use dry-validation
         return if booking.present? &&
                   booking.state_machine
-                                 .allowed_transitions(true).include?(params[:transition_to])
+                         .allowed_transitions(true).include?(params[:transition_to])
         params.delete(:transition_to)
       end
     end

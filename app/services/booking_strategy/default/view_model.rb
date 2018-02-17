@@ -18,7 +18,6 @@ module BookingStrategy
         ActionController::Base.helpers.options_for_select(homes.map { |h| [h.to_s, h.to_param] }, @booking.home_id)
       end
 
-
       def self.i18n_state(state)
         I18n.t(state, scope: I18N_SCOPE)
       end

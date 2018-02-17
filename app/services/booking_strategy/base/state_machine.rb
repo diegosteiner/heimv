@@ -16,12 +16,29 @@ module BookingStrategy
       end
 
       def automatic
-        loop do
-          conditions = select_callbacks_for(self.class.callbacks[:automatic], from: current_state)
-        break unless conditions.any? do |condition|
-          transition_to(condition.to) if condition.call
+        [].tap do |passed_transitions|
+          while (to = automatic_step_to)
+            raise StandardError if passed_transitions.include?(to)
+            transition_to(to)
+            passed_transitions << to
+          end
         end
       end
+
+      def automatic_step_to
+        condition = select_callbacks_for(self.class.callbacks[:automatic], from: current_state).find(&:call)
+        return nil unless condition
+        condition.to.first
+      end
+
+      # def automatic(passed_transitions = [])
+      #   conditions = select_callbacks_for(self.class.callbacks[:automatic], from: current_state)
+      #   to = automatic_step_to
+      #   return passed_transitions unless to
+      #   raise StandardError if passed_transitions.include?(to)
+      #   transition_to(to)
+      #   automatic(passed_transitions + [to])
+      # end
 
       class << self
         def automatic_transition(options = {}, &block)
