@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.4.2'
+ruby '2.5.0'
 
 gem 'bootstrap_form',
     git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
@@ -14,7 +14,7 @@ gem 'dotenv'
 gem 'kramdown'
 gem 'pg'
 gem 'puma', '~> 3.0'
-gem 'rails', '~> 5.1.0'
+gem 'rails', '>= 5.2.0.beta'
 gem 'rails-i18n', '~> 5.0.0'
 gem 'responders'
 gem 'simple_form'
