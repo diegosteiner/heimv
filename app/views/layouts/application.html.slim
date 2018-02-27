@@ -13,7 +13,7 @@ html[lang=I18n.locale]
     header
       == render 'layouts/navigation'
     == render 'layouts/messages'
-    main[role='main']
+    main.container[role='main']
       header
         ol.breadcrumb
           - breadcrumbs.items.each do |(text, url)|

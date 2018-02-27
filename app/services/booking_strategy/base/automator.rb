@@ -28,7 +28,7 @@ module BookingStrategy
 
       def automatic_step_to
         self.class.callbacks[:automatic].each do |callback|
-          next unless Array.wrap(callback.from).include?(current_state)
+          next unless Array.wrap(callback.from).include?(current_state.to_s)
           return callback.to.first if callback.call(@object)
         end
         nil

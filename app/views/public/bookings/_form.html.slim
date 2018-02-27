@@ -19,14 +19,14 @@
   .form-inputs
     hr
     = f.text_field :organisation
-    = f.form_group :definitive_request, label: { text: t('.liability.label') }
+    = f.form_group :definitive_request, label: nil
       = f.radio_button :definitive_request, false, label: t('.liability.provisional_request'), id: 'booking_definitive_request_false', disabled: @booking.definitive_request?
       = f.radio_button :definitive_request, true, label: t('.liability.definitive_request'), id: 'booking_definitive_request_true'
 
   .form-actions
     =<> f.submit
     button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
-      | Cancel
+      = @view_model.i18n_transition('-->cancelled')[:label]
 
 
 #cancelModal.modal[role="dialog" tabindex="-1"]
@@ -34,7 +34,8 @@
     = bootstrap_form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
       .modal-content
         .modal-header
-          h5.modal-title= t('.cancel')
+          h5.modal-title
+            = @view_model.i18n_transition('-->cancelled')[:label]
           button.close aria-label="Close" data-dismiss="modal" type="button"
             span aria-hidden="true" &times;
         .modal-body
@@ -42,5 +43,5 @@
         .modal-footer
           = f.submit
           button.btn.btn-secondary[data-dismiss="modal" type="button"]
-            | Back
+            = @view_model.i18n_transition('-->cancelled')[:label]
 

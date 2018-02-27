@@ -13,6 +13,7 @@ shared_examples 'transition' do |transition_expr, validity|
 end
 
 describe BookingStrategy::Default::StateMachine do
+  let(:booking) { create(:booking, skip_automatic_transition: true) }
   let(:state_machine) { described_class.new(booking) }
 
   describe 'allowed transitions' do
@@ -57,8 +58,6 @@ describe BookingStrategy::Default::StateMachine do
   describe 'sideeffects' do
     describe '-->request' do
       it 'sends email-confirmation' do
-        booking = create(:booking)
-        state_machine = described_class.new(booking)
         notification_service = double
         expect(notification_service).to receive(:confirm_request_notification)
         expect(BookingNotificationService).to receive(:new).and_return(notification_service)

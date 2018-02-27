@@ -4,11 +4,12 @@ FactoryBot.define do
     association :customer, factory: :customer
     organisation { Faker::Company.name }
     email { Faker::Internet.safe_email }
-    skip_automatic_transition { ![nil, :initial].include?(initial_state) }
-    defintive_request { false }
+    skip_automatic_transition { initial_state_present? }
+    definitive_request { false }
 
     transient do
       initial_state :initial
+      initial_state_present? { ![nil, :initial].include?(initial_state) }
     end
 
     after(:build) do |booking|
@@ -16,7 +17,7 @@ FactoryBot.define do
     end
 
     after(:create) do |booking, evaluator|
-      if booking.skip_automatic_transition
+      if evaluator.initial_state_present?
         create(:booking_transition, booking: booking, to_state: evaluator.initial_state)
       end
     end

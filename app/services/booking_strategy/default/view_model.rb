@@ -1,7 +1,7 @@
 module BookingStrategy
   module Default
     class ViewModel < BookingViewModel
-      I18N_SCOPE = %i[booking_strategy default state].freeze
+      I18N_SCOPE = %i[booking_strategy default].freeze
 
       def current_state_help
         self.class.i18n_state(@booking.state_machine.current_state)[:label]
@@ -18,8 +18,12 @@ module BookingStrategy
         ActionController::Base.helpers.options_for_select(homes.map { |h| [h.to_s, h.to_param] }, @booking.home_id)
       end
 
-      def self.i18n_state(state)
-        I18n.t(state, scope: I18N_SCOPE)
+      def i18n_state(state)
+        I18n.t(state, scope: I18N_SCOPE + [:state])
+      end
+
+      def i18n_transition(transition)
+        I18n.t(transition, scope: I18N_SCOPE + [:transition])
       end
     end
   end

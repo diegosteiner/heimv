@@ -74,12 +74,10 @@ module BookingStrategy
       end
 
       automatic_transition(from: :new_request, to: :provisional_request) do |booking|
-        booking.definitive_request === false
+        !booking.definitive_request.nil? && !booking.definitive_request
       end
 
-      automatic_transition(from: %i(new_request provisional_request), to: :definitive_request) do |booking|
-        booking.definitive_request === true
-      end
+      automatic_transition(from: %i[new_request provisional_request], to: :definitive_request, &:definitive_request)
     end
   end
 end

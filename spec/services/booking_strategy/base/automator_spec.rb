@@ -5,13 +5,6 @@ describe BookingStrategy::Base::Automator do
   let(:state_machine_class) { Class.new(BookingStrategy::Base::StateMachine) }
   let(:state_machine) { state_machine_class.new(object) }
 
-  describe '::automatic_transition' do
-    it do
-      expect(state_machine_class).to receive(:add_callback).and_return(true)
-      expect(state_machine_class.automatic_transition).to be true
-    end
-  end
-
   describe '#automatic' do
     before do
       allow(state_machine).to receive(:current_state) do
@@ -53,7 +46,7 @@ describe BookingStrategy::Base::Automator do
         end
 
         state_machine.object.instance_variable_set(:@current_state, :one)
-        expect { state_machine.automatic }.to raise_error(StandardError)
+        expect(state_machine.automatic).to eq(%w[two one])
       end
     end
   end

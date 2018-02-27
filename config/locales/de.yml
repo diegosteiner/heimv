@@ -137,6 +137,8 @@ de:
           help: Help
           label: Geplante Belegung
       transition:
+        "-->cancelled":
+          label: Annulieren
         initial-->new_request:
           label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
@@ -183,7 +185,6 @@ de:
       form:
         liability:
           definitive_request: Definitive request
-          label: Label
           provisional_request: Provisional request
       new:
         title: Reservation

@@ -4,10 +4,10 @@ section.breakout-sm
       p
         span.badge.badge-info
           = t(booking.state, scope: 'activerecord.values.booking.state') if booking.state
+
       p
-        strong= Booking.human_attribute_name(:occupancy)
-        br
-        = booking.occupancy
+        = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+
       p
         strong= Booking.human_attribute_name(:home)
         br
