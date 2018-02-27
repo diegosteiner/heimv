@@ -3,7 +3,7 @@ class Booking < ApplicationRecord
 
   attr_accessor :skip_exact_validation
 
-  has_one :occupancy, dependent: :destroy, as: :subject, autosave: true
+  has_one :occupancy, dependent: :destroy, as: :subject, inverse_of: :subject, autosave: true
   belongs_to :home
   belongs_to :customer, inverse_of: :bookings
   has_many :contracts, dependent: :destroy, autosave: false
