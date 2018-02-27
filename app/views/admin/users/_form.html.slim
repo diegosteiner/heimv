@@ -1,9 +1,9 @@
-= simple_form_for([:admin, @user]) do |f|
+= bootstrap_form_with(model: [:admin, @user], local: true) do |f|
 
   .form-inputs
-    = f.input :email
-    = f.input :role, collection: User.roles
+    = f.email_field :email
+    = f.select :role, User.roles.keys.map { |role| [role, role]}
 
   .form-actions
-    = f.button :submit
+    = f.submit
     =<> link_to t('back'), admin_users_path, class: 'btn btn-default'

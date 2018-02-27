@@ -1,0 +1,19 @@
+.breakout-sm
+  table.table.table-hover.table-card
+    thead
+      tr
+        th= Booking.human_attribute_name(:occupancy)
+        th= Booking.human_attribute_name(:home)
+        th= Booking.human_attribute_name(:customer)
+        th
+
+    tbody
+      - bookings.each do |booking|
+        tr[data-href=manage_booking_path(booking) data-id=booking.to_param]
+          td
+            = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+          td
+            = link_to booking.home, manage_home_path(booking.home)
+          td = booking.customer
+          td = link_to edit_manage_booking_path(booking) do
+            span.fa.fa-pencil

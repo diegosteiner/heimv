@@ -1,8 +1,7 @@
-= simple_form_for([:manage, @home]) do |f|
-
+= bootstrap_form_with(model: [:manage, @home], local: true) do |f|
   .form-inputs
-    = f.input :name
-    = f.input :ref
+    = f.text_field :name
+    = f.text_field :ref
 
   .form-actions
-    = f.button :submit
+    = f.submit

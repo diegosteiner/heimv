@@ -1,2 +1,196 @@
 ---
 de-CH:
+  actions:
+    create:
+      success: DEPRECATED Success
+    destroy:
+      success: DEPRECATED Success
+    update:
+      success: DEPRECATED Success
+  activerecord:
+    add_model: "%{model_name} hinzufügen"
+    attributes:
+      booking:
+        customer: Kunde
+        home: Heim
+        occupancy: Belegung
+        ref: Buchungsreferenz
+        state: Status
+        transition_to: Neuer Status
+      customer:
+        address: Adresse
+        city: Ort
+        first_name: Vorname
+        last_name: Nachname
+        street_address: Strasse / Nr.
+        zipcode: PLZ
+      occupancy:
+        begins_at: Beginn der Belegung
+        ends_at: Ende der Belegung
+    back: Zurück
+    bookings:
+      index:
+        new: Neue Buchung
+    confirm: Sind Sie sicher?
+    contracts:
+      index:
+        new: Neuer Vertrag
+    customers:
+      index:
+        new: Neuer Kunde
+    destroy: Löschen
+    errors:
+      models:
+        booking:
+          attributes:
+            state:
+              invalid_transition: 'Ungültiger Statusübergang: %{transition}'
+    models:
+      booking:
+        one: Buchung
+        other: Buchungen
+      contract:
+        one: Vertrag
+        other: Verträge
+      customer:
+        one: Kunde
+        other: Kunden
+      home:
+        one: Heim
+        other: Heime
+      occupancy:
+        one: Belegung
+        other: Belegungen
+    values:
+      booking:
+        state:
+          active: Aktive Belegung
+          cancelled: Storniert
+          completed: Abgeschlossen
+          confirmed: Bestätigte Reservation
+          definitive_request: Definitive Mietanfrage
+          initial: "-"
+          new_request: Neue Mietanfrage
+          overdue: Überfällige Reservation
+          overdue_request: Überfällige Mietanfrage
+          past: Durchgeführte Belegung
+          payment_due: Rechnung ausstehend
+          payment_overdue: Rechnung überfällig
+          provisional_request: Provisorische Mietanfrage
+          upcoming: Geplante Belegung
+  add_model: Add model
+  back: Zurück
+  booking_mailer:
+    confirm_request:
+      body: |-
+        Hallo
+
+        Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
+        untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
+        Mietanfrage abzuschliessen.
+
+        %{link}
+      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
+  booking_strategy:
+    default:
+      state:
+        active:
+          help: Help
+          label: Aktive Belegung
+        cancelled:
+          help: Help
+          label: Annulierte Reservation
+        completed:
+          help: Help
+          label: Abgeschlossene Belegung
+        confirmed:
+          help: Help
+          label: Bestätigte Reservation
+        definitive_request:
+          help: Help
+          label: Definitive Mietanfrage
+        initial:
+          help: Help
+          label: "-"
+        new_request:
+          help: Help
+          label: Neue Mietanfrage
+        overdue:
+          help: Help
+          label: Überfällige Reservation
+        overdue_request:
+          help: Help
+          label: Überfällige Mietanfrage
+        past:
+          help: Help
+          label: Durchgeführte Belegung
+        payment_due:
+          help: Help
+          label: Rechnung ausstehend
+        payment_overdue:
+          help: Help
+          label: Rechnung überfällig
+        provisional_request:
+          help: Help
+          label: Provisorische Mietanfrage
+        upcoming:
+          help: Help
+          label: Geplante Belegung
+      transition:
+        "-->cancelled":
+          label: Annulieren
+        initial-->new_request:
+          label: Neue Buchungsanfrage stellen
+  confirm: Sind sie sicher?
+  destroy: Löschen
+  edit: Bearbeiten
+  flash:
+    actions:
+      create:
+        alert: "%{resource_name} konnte nicht erstellt werden."
+        notice: "%{resource_name} wurde erfolgreich erstellt."
+      destroy:
+        alert: "%{resource_name} konnte nicht gelöscht werden."
+        notice: "%{resource_name} wurde erfolgreich gelöscht."
+      update:
+        alert: "%{resource_name} konnte nicht upgedatet werden."
+        notice: "%{resource_name} wurde erfolgreich upgedatet."
+    public:
+      bookings:
+        create:
+          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
+  manage:
+    bookings:
+      index:
+        new: New
+    contracts:
+      index:
+        new: New
+    customers:
+      index:
+        new: New
+    homes:
+      index:
+        new: New
+  nav:
+    edit_account: Account
+    sign_in: Anmelden
+    sign_out: Abmelden
+    sign_up: Neuen Account erstellen
+  new: Neu
+  public:
+    bookings:
+      edit:
+        title: Reservation bearbeiten
+      form:
+        liability:
+          definitive_request: Definitive request
+          provisional_request: Provisional request
+      new:
+        title: Reservation
+  time:
+    formats:
+      date: "%d.%m.%Y"
+      time: "%H:%M"
+  titles:
+    application: Heimverwaltung
