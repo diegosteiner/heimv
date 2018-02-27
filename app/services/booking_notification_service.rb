@@ -5,7 +5,7 @@ class BookingNotificationService
   end
 
   def confirm_request_notification
-    BookingMailer.confirm_request(BookingMailerViewModel.new(@booking))
+    BookingMailer.confirm_request(BookingMailerViewModel.new(@booking, @booking.customer.email))
                  .deliver_now
   end
 

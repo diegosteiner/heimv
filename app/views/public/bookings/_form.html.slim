@@ -1,0 +1,47 @@
+= bootstrap_form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
+
+  .form-inputs
+    = f.select :home_id, @view_model.homes_for_select, {}, disabled: true
+    = f.fields_for :occupancy, @booking.occupancy do |of|
+      = of.datetime_local_field :begins_at, disabled: true
+      = of.datetime_local_field :ends_at, disabled: true
+    = f.fields_for :customer, @booking.customer do |cf|
+      = cf.email_field :email, disabled: true
+      = cf.text_field :first_name
+      = cf.text_field :last_name
+      = cf.text_area :street_address
+      .row
+        .col-md-4
+          = cf.text_field :zipcode
+        .col-md-8
+          = cf.text_field :city
+
+  .form-inputs
+    hr
+    = f.text_field :organisation
+    = f.form_group :definitive_request, label: nil
+      = f.radio_button :definitive_request, false, label: t('.liability.provisional_request'), id: 'booking_definitive_request_false', disabled: @booking.definitive_request?
+      = f.radio_button :definitive_request, true, label: t('.liability.definitive_request'), id: 'booking_definitive_request_true'
+
+  .form-actions
+    =<> f.submit
+    button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
+      = @view_model.i18n_transition('-->cancelled')[:label]
+
+
+#cancelModal.modal[role="dialog" tabindex="-1"]
+  .modal-dialog[role="document"]
+    = bootstrap_form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
+      .modal-content
+        .modal-header
+          h5.modal-title
+            = @view_model.i18n_transition('-->cancelled')[:label]
+          button.close aria-label="Close" data-dismiss="modal" type="button"
+            span aria-hidden="true" &times;
+        .modal-body
+          = f.text_area :cancellation_reason
+        .modal-footer
+          = f.submit
+          button.btn.btn-secondary[data-dismiss="modal" type="button"]
+            = @view_model.i18n_transition('-->cancelled')[:label]
+

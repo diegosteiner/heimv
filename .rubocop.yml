@@ -14,6 +14,7 @@ Metrics/BlockLength:
   Exclude:
     - 'db/migrate/*'
     - 'spec/**/*'
+    - 'features/**/*'
     - 'config/routes.rb'
     - 'config/environments/*'
     - 'config/initializers/*'
@@ -26,7 +27,7 @@ Style/FrozenStringLiteralComment:
 
 Style/MixinUsage:
   Exclude:
-    - 'spec/features/*'
+    - 'features/*'
 
 AllCops:
   TargetRubyVersion: 2.4

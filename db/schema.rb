@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 20170709122528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
   create_table "booking_transitions", force: :cascade do |t|
     t.string "to_state", null: false
@@ -31,10 +32,17 @@ ActiveRecord::Schema.define(version: 20170709122528) do
   create_table "bookings", force: :cascade do |t|
     t.bigint "home_id", null: false
     t.string "state", default: "initial", null: false
+    t.string "organisation"
+    t.string "email"
+    t.uuid "public_id", default: -> { "uuid_generate_v4()" }, null: false
     t.integer "customer_id"
+    t.json "strategy_data"
+    t.boolean "definitive_request"
+    t.text "cancellation_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["home_id"], name: "index_bookings_on_home_id"
+    t.index ["public_id"], name: "index_bookings_on_public_id"
     t.index ["state"], name: "index_bookings_on_state"
   end
 
@@ -58,6 +66,7 @@ ActiveRecord::Schema.define(version: 20170709122528) do
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_customers_on_email"
   end
 
   create_table "homes", force: :cascade do |t|

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe BookingTransition, type: :model do
-  let(:booking) { create(:booking) }
+  let(:booking) { create(:booking, skip_automatic_transition: true) }
   let(:transition) { build(:booking_transition, booking: booking, to_state: to_state) }
   let(:to_state) { :any }
 

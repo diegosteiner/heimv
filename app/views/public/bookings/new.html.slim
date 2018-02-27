@@ -1,0 +1,21 @@
+.row.justify-content-center
+  .col-md-6
+    - unless @booking.new_record?
+      = image_tag asset_pack_path('images/logo.svg'), class: 'etched'
+    - else
+      h3 = t('.title')
+      .card
+        .card-body
+          = @view_model.current_state_help
+          = bootstrap_form_with(model: @booking, url: public_bookings_path, local: true) do |f|
+            .form-inputs
+              = f.select :home_id, @view_model.homes_for_select
+              = f.fields_for :occupancy, @booking.occupancy do |of|
+                = of.datetime_local_field :begins_at
+                = of.datetime_local_field :ends_at
+              = f.email_field :email
+              = f.text_field :organisation
+
+            .form-actions
+              = f.submit
+

@@ -91,16 +91,57 @@ en:
 
         Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-  bookings:
-    index:
-      new: New
+  booking_strategy:
+    default:
+      state:
+        active:
+          help: Help
+          label: Aktive Belegung
+        cancelled:
+          help: Help
+          label: Annulierte Reservation
+        completed:
+          help: Help
+          label: Abgeschlossene Belegung
+        confirmed:
+          help: Help
+          label: Bestätigte Reservation
+        definitive_request:
+          help: Help
+          label: Definitive Mietanfrage
+        initial:
+          help: Help
+          label: "-"
+        new_request:
+          help: Help
+          label: Neue Mietanfrage
+        overdue:
+          help: Help
+          label: Überfällige Reservation
+        overdue_request:
+          help: Help
+          label: Überfällige Mietanfrage
+        past:
+          help: Help
+          label: Durchgeführte Belegung
+        payment_due:
+          help: Help
+          label: Rechnung ausstehend
+        payment_overdue:
+          help: Help
+          label: Rechnung überfällig
+        provisional_request:
+          help: Help
+          label: Provisorische Mietanfrage
+        upcoming:
+          help: Help
+          label: Geplante Belegung
+      transition:
+        "-->cancelled":
+          label: Annulieren
+        initial-->new_request:
+          label: Neue Buchungsanfrage stellen
   confirm: Confirm
-  contracts:
-    index:
-      new: New
-  customers:
-    index:
-      new: New
   destroy: Destroy
   edit: Edit
   flash:
@@ -114,15 +155,39 @@ en:
       update:
         alert: "%{resource_name} could not be updated."
         notice: "%{resource_name} was successfully updated."
-  homes:
-    index:
-      new: New
+    public:
+      bookings:
+        create:
+          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
+  manage:
+    bookings:
+      index:
+        new: New
+    contracts:
+      index:
+        new: New
+    customers:
+      index:
+        new: New
+    homes:
+      index:
+        new: New
   nav:
     edit_account: Account
     sign_in: Anmelden
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: New
+  public:
+    bookings:
+      edit:
+        title: Title
+      form:
+        liability:
+          definitive_request: Definitive request
+          provisional_request: Provisional request
+      new:
+        title: Title
   simple_form:
     error_notification:
       default_message: 'Please review the problems below:'

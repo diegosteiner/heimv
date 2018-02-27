@@ -3,10 +3,14 @@
 source 'https://rubygems.org'
 ruby '2.4.2'
 
+gem 'bootstrap_form',
+    git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
+    ref: 'master'
 gem 'breadcrumbs'
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
+gem 'dotenv'
 gem 'kramdown'
 gem 'pg'
 gem 'puma', '~> 3.0'
@@ -45,6 +49,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'capybara-paparazzi'
   gem 'capybara-screenshot'
   gem 'database_cleaner'
   gem 'launchy'

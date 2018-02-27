@@ -98,8 +98,9 @@ ignore_unused:
 - '{time,datetime,date,support,number}.*'
 - '{simple_form,errors}.*'
 - 'locales.*'
-- 'flash.actions.*'
+- 'flash.*'
 - 'titles.*'
+- 'booking_strategy.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:

@@ -65,8 +65,8 @@ de:
       booking:
         state:
           active: Aktive Belegung
-          cancelled: Annulierte Reservation
-          completed: Abgeschlossene Belegung
+          cancelled: Storniert
+          completed: Abgeschlossen
           confirmed: Bestätigte Reservation
           definitive_request: Definitive Mietanfrage
           initial: "-"
@@ -79,7 +79,7 @@ de:
           provisional_request: Provisorische Mietanfrage
           upcoming: Geplante Belegung
   add_model: Add model
-  back: Back
+  back: Zurück
   booking_mailer:
     confirm_request:
       body: |-
@@ -89,18 +89,59 @@ de:
         untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
         Mietanfrage abzuschliessen.
 
-        Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
+        %{link}
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-  bookings:
-    index:
-      new: Neu
+  booking_strategy:
+    default:
+      state:
+        active:
+          help: Help
+          label: Aktive Belegung
+        cancelled:
+          help: Help
+          label: Annulierte Reservation
+        completed:
+          help: Help
+          label: Abgeschlossene Belegung
+        confirmed:
+          help: Help
+          label: Bestätigte Reservation
+        definitive_request:
+          help: Help
+          label: Definitive Mietanfrage
+        initial:
+          help: Help
+          label: "-"
+        new_request:
+          help: Help
+          label: Neue Mietanfrage
+        overdue:
+          help: Help
+          label: Überfällige Reservation
+        overdue_request:
+          help: Help
+          label: Überfällige Mietanfrage
+        past:
+          help: Help
+          label: Durchgeführte Belegung
+        payment_due:
+          help: Help
+          label: Rechnung ausstehend
+        payment_overdue:
+          help: Help
+          label: Rechnung überfällig
+        provisional_request:
+          help: Help
+          label: Provisorische Mietanfrage
+        upcoming:
+          help: Help
+          label: Geplante Belegung
+      transition:
+        "-->cancelled":
+          label: Annulieren
+        initial-->new_request:
+          label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
-  contracts:
-    index:
-      new: New
-  customers:
-    index:
-      new: New
   destroy: Löschen
   edit: Bearbeiten
   flash:
@@ -114,15 +155,39 @@ de:
       update:
         alert: "%{resource_name} konnte nicht upgedatet werden."
         notice: "%{resource_name} wurde erfolgreich upgedatet."
-  homes:
-    index:
-      new: Neues Heim
+    public:
+      bookings:
+        create:
+          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
+  manage:
+    bookings:
+      index:
+        new: New
+    contracts:
+      index:
+        new: New
+    customers:
+      index:
+        new: New
+    homes:
+      index:
+        new: New
   nav:
     edit_account: Account
     sign_in: Anmelden
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: Neu
+  public:
+    bookings:
+      edit:
+        title: Reservation bearbeiten
+      form:
+        liability:
+          definitive_request: Definitive request
+          provisional_request: Provisional request
+      new:
+        title: Reservation
   time:
     formats:
       date: "%d.%m.%Y"

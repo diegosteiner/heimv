@@ -1,0 +1,26 @@
+= bootstrap_form_with(model: [:manage, @booking], local: true) do |f|
+
+  .form-inputs
+    = f.select :transition_to, @view_model.allowed_transitions_for_select, include_blank: true
+
+    = f.fields_for :occupancy, @booking.occupancy do |of|
+      = of.datetime_local_field :begins_at
+      = of.datetime_local_field :ends_at
+
+    strong= Booking.human_attribute_name(:customer)
+
+    / = f.collection_select :customer_id, customers_for_select, :first, :last, data: { tags: true }
+    = f.fields_for :customer, @booking.customer do |cf|
+      = cf.email_field :email
+      = cf.text_field :first_name
+      = cf.text_field :last_name
+      = cf.text_area :street_address
+      .row
+        .col-md-4
+          = cf.text_field :zipcode
+        .col-md-8
+          = cf.text_field :city
+
+  .form-actions
+    = f.submit
+    =<> link_to t('back'), manage_bookings_path, class: 'btn btn-default'
