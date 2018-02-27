@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 ruby '2.5.0'
 
+gem 'bootsnap'
 gem 'bootstrap_form',
     git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
     ref: 'master'

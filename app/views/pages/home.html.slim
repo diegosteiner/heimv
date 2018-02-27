@@ -1,2 +1,9 @@
-h1 Pages#home
-p Find me in app/views/pages/home.html.slim
+dl
+  dt= Home.model_name.human(count: :other)
+  dd= link_to Home.all.count, manage_homes_path
+
+  dt= Customer.model_name.human(count: :other)
+  dd= link_to Customer.all.count, manage_customers_path
+
+  dt= Booking.model_name.human(count: :other)
+  dd= link_to Booking.all.count, manage_bookings_path
