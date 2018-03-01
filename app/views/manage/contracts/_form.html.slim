@@ -1,11 +1,11 @@
-= simple_form_for([:manage, @booking, @contract]) do |f|
-  = f.error_notification
+= bootstrap_form_with(model: [:manage, @booking, @contract]) do |f|
+  = f.error_summary
 
   .form-inputs
-    = f.input :sent_at, as: :datetime_picker
-    = f.input :signed_at, as: :datetime_picker
-    = f.input :title
-    = f.input :text
+    = f.datetime_local_field :sent_at
+    = f.datetime_local_field :signed_at
+    = f.text_field :title
+    = f.text_area :text
 
   .form-actions
-    = f.button :submit
+    = f.submit

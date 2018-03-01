@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   rescue_from CanCan::AccessDenied, with: :unauthorized
   before_action :configure_permitted_parameters, if: :devise_controller?
+  default_form_builder BootstrapForm::FormBuilder
 
   protected
 
