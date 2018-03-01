@@ -1,0 +1,8 @@
+section.breakout-sm
+  ul.list-group
+    - booking.booking_transitions.each do |transition|
+      li.list-group-item
+        time<>[datetime=transition.created_at] = l(transition.created_at)
+        span.badge.badge-primary
+          = booking.booking_strategy::ViewModel.i18n_state(transition.to_state)[:label]
+

@@ -59,6 +59,9 @@ de-CH:
       booking:
         one: Buchung
         other: Buchungen
+      booking_transition:
+        one: Statusübergang
+        other: Statusübergänge
       contract:
         one: Vertrag
         other: Verträge
@@ -73,6 +76,13 @@ de-CH:
         other: Belegungen
     values:
       booking:
+        event_kind:
+          camp: Lager
+          course: Kurs
+          event: Privater Anlass
+        committed_request:
+          definitive_request: Definitive Mietanfrage
+          provisional_request: Provisorische Mietanfrage
         state:
           active: Aktive Belegung
           cancelled: Storniert
@@ -171,13 +181,6 @@ de-CH:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
   manage:
     bookings:
-      form:
-        event_kind:
-          camp: Camp
-          event: Event
-        liability:
-          committed_request: Committed request
-          provisional_request: Provisional request
       index:
         new: New
     contracts:
@@ -200,13 +203,6 @@ de-CH:
       edit:
         title: Reservation bearbeiten
       form:
-        event_kind:
-          camp: Lager
-          course: Kurs
-          event: Privater Anlass
-        liability:
-          definitive_request: Definitive Mietanfrage
-          provisional_request: Provisorische Mietanfrage
       new:
         title: Reservation
   time:

@@ -6,7 +6,7 @@ module Params
       end
 
       def self.permitted_params
-        [:home_id, :transition_to, :customer_id,
+        [:home_id, :transition_to, :customer_id, :organisation, :committed_request, :event_kind, :approximate_headcount, :remarks,
          occupancy_attributes: %i[id begins_at ends_at],
          customer_attributes: (%i[id] + CustomerParams.permitted_params)]
       end

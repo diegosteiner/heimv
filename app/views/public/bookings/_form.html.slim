@@ -21,15 +21,14 @@
   .form-inputs
     hr
     = f.text_field :organisation
-    / = f.collection_radio_buttons :committed_request, [[t('.liability.provisional_request'), false], [t('.liability.committed_request'), true]], :last, :first
     = f.form_group :committed_request
       = f.label :committed_request, Booking.human_attribute_name(:committed_request)
-      = f.radio_button :committed_request, false, label: t('.liability.provisional_request'), disabled: @booking.committed_request?
-      = f.radio_button :committed_request, true, label: t('.liability.definitive_request')
+      = f.radio_button :committed_request, false, label: t('activerecord.values.booking.committed_request.provisional_request'), disabled: @booking.committed_request?
+      = f.radio_button :committed_request, true, label: t('activerecord.values.booking.committed_request.definitive_request')
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error
 
-    = f.select :event_kind, [[t('.event_kind.camp'), :camp], [t('.event_kind.course'), :course], [t('.event_kind.event'), :event]]
+    = f.select :event_kind, [[t('activerecord.values.booking.event_kind.camp'), :camp], [t('activerecord.values.booking.event_kind.course'), :course], [t('activerecord.values.booking.event_kind.event'), :event]]
     = f.number_field :approximate_headcount
     = f.text_area :remarks
 

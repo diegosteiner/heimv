@@ -59,6 +59,9 @@ en:
       booking:
         one: Buchung
         other: Buchungen
+      booking_transition:
+        one: Statusübergang
+        other: Statusübergänge
       contract:
         one: Vertrag
         other: Verträge
@@ -174,9 +177,11 @@ en:
       form:
         event_kind:
           camp: Camp
+          course: Course
           event: Event
         liability:
           committed_request: Committed request
+          definitive_request: Definitive request
           provisional_request: Provisional request
       index:
         new: New
