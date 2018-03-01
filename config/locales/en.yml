@@ -76,6 +76,13 @@ en:
         other: Belegungen
     values:
       booking:
+        committed_request:
+          definitive_request: Definitive Mietanfrage
+          provisional_request: Provisorische Mietanfrage
+        event_kind:
+          camp: Lager
+          course: Kurs
+          event: Privater Anlass
         state:
           active: Aktive Belegung
           cancelled: Storniert
@@ -174,15 +181,6 @@ en:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
   manage:
     bookings:
-      form:
-        event_kind:
-          camp: Camp
-          course: Course
-          event: Event
-        liability:
-          committed_request: Committed request
-          definitive_request: Definitive request
-          provisional_request: Provisional request
       index:
         new: New
     contracts:
@@ -204,14 +202,6 @@ en:
     bookings:
       edit:
         title: Title
-      form:
-        event_kind:
-          camp: Lager
-          course: Kurs
-          event: Privater Anlass
-        liability:
-          definitive_request: Definitive request
-          provisional_request: Provisional request
       new:
         title: Title
   time:

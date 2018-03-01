@@ -17,13 +17,13 @@ module Manage
 
     def new
       authorize Contract
-      breadcrumbs.add t(:'new')
+      breadcrumbs.add t(:new)
       @contract = Contract.new(params[:contract])
     end
 
     def edit
       breadcrumbs.add @contract.to_s, manage_booking_contract_path(@booking, @contract)
-      breadcrumbs.add t(:'edit')
+      breadcrumbs.add t(:edit)
     end
 
     def create

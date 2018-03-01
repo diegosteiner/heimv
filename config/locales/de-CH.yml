@@ -76,13 +76,13 @@ de-CH:
         other: Belegungen
     values:
       booking:
+        committed_request:
+          definitive_request: Definitive Mietanfrage
+          provisional_request: Provisorische Mietanfrage
         event_kind:
           camp: Lager
           course: Kurs
           event: Privater Anlass
-        committed_request:
-          definitive_request: Definitive Mietanfrage
-          provisional_request: Provisorische Mietanfrage
         state:
           active: Aktive Belegung
           cancelled: Storniert
@@ -202,7 +202,6 @@ de-CH:
     bookings:
       edit:
         title: Reservation bearbeiten
-      form:
       new:
         title: Reservation
   time:
