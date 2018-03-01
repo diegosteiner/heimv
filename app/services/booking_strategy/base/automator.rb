@@ -20,8 +20,7 @@ module BookingStrategy
           while (to = automatic_step_to)
             # raise StandardError if passed_transitions.include?(to)
             break if passed_transitions.include?(to)
-            transition_to(to)
-            passed_transitions << to
+            passed_transitions << to if transition_to(to)
           end
         end
       end
@@ -29,7 +28,8 @@ module BookingStrategy
       def automatic_step_to
         self.class.callbacks[:automatic].each do |callback|
           next unless Array.wrap(callback.from).include?(current_state.to_s)
-          return callback.to.first if callback.call(@object)
+          to = callback.to.first
+          return to if callback.call(@object) && can_transition_to?(to)
         end
         nil
       end

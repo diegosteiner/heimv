@@ -1,5 +1,6 @@
 = bootstrap_form_with(model: [:manage, @booking], local: true) do |f|
 
+
   .form-inputs
     = f.select :transition_to, @view_model.allowed_transitions_for_select, include_blank: true
 
@@ -20,6 +21,16 @@
           = cf.text_field :zipcode
         .col-md-8
           = cf.text_field :city
+
+  .form-inputs
+    hr
+    = f.text_field :organisation
+    = f.form_group :committed_request, label: nil
+      = f.radio_button :committed_request, false, label: t('.liability.provisional_request'), id: 'booking_committed_request_false'
+      = f.radio_button :committed_request, true, label: t('.liability.committed_request'), id: 'booking_committed_request_true'
+    = f.select :event_kind, [[t('.event_kind.camp'), :camp], [t('.event_kind.camp'), :course], [t('.event_kind.event'), :event]]
+    = f.number_field :approximate_headcount
+    = f.text_area :remarks
 
   .form-actions
     = f.submit

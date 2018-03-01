@@ -1,6 +1,7 @@
 .row.justify-content-center
   .col-md-6
     - unless @booking.new_record?
+      / Display the email-confirmation message
       = image_tag asset_pack_path('images/logo.svg'), class: 'etched'
     - else
       h3 = t('.title')

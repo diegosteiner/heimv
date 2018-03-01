@@ -58,8 +58,12 @@ ActiveRecord::Schema.define(version: 2018_02_27_163323) do
     t.uuid "public_id", default: -> { "uuid_generate_v4()" }, null: false
     t.integer "customer_id"
     t.json "strategy_data"
-    t.boolean "definitive_request"
+    t.boolean "committed_request"
     t.text "cancellation_reason"
+    t.datetime "request_deadline"
+    t.integer "approximate_headcount"
+    t.text "remarks"
+    t.string "event_kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["home_id"], name: "index_bookings_on_home_id"

@@ -17,6 +17,7 @@ module Params
 
       def self.permitted_update_params
         [:organisation, :definitive_request, :cancellation_reason,
+         :committed_request, :event_kind, :approximate_headcount, :remarks,
          customer_attributes: CustomerParams.permitted_params.without(:email)]
       end
     end

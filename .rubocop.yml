@@ -19,6 +19,10 @@ Metrics/BlockLength:
     - 'config/environments/*'
     - 'config/initializers/*'
 
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/*'
+
 Style/Documentation:
   Enabled: false
 
@@ -30,7 +34,7 @@ Style/MixinUsage:
     - 'features/*'
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   Include:
     - '**/Rakefile'
     - '**/Gemfile'

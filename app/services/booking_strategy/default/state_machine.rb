@@ -35,6 +35,14 @@ module BookingStrategy
       transition from: :payment_due, to: %i[payment_overdue completed]
       transition from: :payment_overdue, to: %i[completed]
 
+      # guard_transition(from: :new_request, to: %i[provisional_request definitive_request]) do |booking|
+      # booking.errors.add(:kind, I18n.t('errors.messages.blank')) if booking.event_kind.blank?
+      # if booking.approximate_headcount.blank?
+      #   booking.errors.add(:approximate_headcount, I18n.t('errors.messages.blank'))
+      # end
+      # booking.valid?
+      # end
+
       guard_transition(to: :upcoming) do |_booking|
         true
         # booking.contracts.any? &&
@@ -74,10 +82,10 @@ module BookingStrategy
       end
 
       automatic_transition(from: :new_request, to: :provisional_request) do |booking|
-        !booking.definitive_request.nil? && !booking.definitive_request
+        booking.valid? && !booking.committed_request.nil? && !booking.committed_request
       end
 
-      automatic_transition(from: %i[new_request provisional_request], to: :definitive_request, &:definitive_request)
+      automatic_transition(from: %i[new_request provisional_request], to: :definitive_request, &:committed_request)
     end
   end
 end

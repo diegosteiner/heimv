@@ -28,11 +28,13 @@ module Manage
     def edit; end
 
     def create
+      @booking.validation_strictness = :initial
       @booking.save
       respond_with :manage, @booking
     end
 
     def update
+      @booking.validation_strictness = :manage
       @booking.update(booking_params)
       respond_with :manage, @booking
     end

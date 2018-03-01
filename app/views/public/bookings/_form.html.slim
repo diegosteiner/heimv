@@ -1,5 +1,7 @@
 = bootstrap_form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
 
+  = f.alert_message nil
+
   .form-inputs
     = f.select :home_id, @view_model.homes_for_select, {}, disabled: true
     = f.fields_for :occupancy, @booking.occupancy do |of|
@@ -19,14 +21,22 @@
   .form-inputs
     hr
     = f.text_field :organisation
-    = f.form_group :definitive_request, label: nil
-      = f.radio_button :definitive_request, false, label: t('.liability.provisional_request'), id: 'booking_definitive_request_false', disabled: @booking.definitive_request?
-      = f.radio_button :definitive_request, true, label: t('.liability.definitive_request'), id: 'booking_definitive_request_true'
+    / = f.collection_radio_buttons :committed_request, [[t('.liability.provisional_request'), false], [t('.liability.committed_request'), true]], :last, :first
+    = f.form_group :committed_request
+      = f.label :committed_request, Booking.human_attribute_name(:committed_request)
+      = f.radio_button :committed_request, false, label: t('.liability.provisional_request'), disabled: @booking.committed_request?
+      = f.radio_button :committed_request, true, label: t('.liability.definitive_request')
+      - @booking.errors[:committed_request].each do |error|
+        .invalid-feedback.d-block = error
+
+    = f.select :event_kind, [[t('.event_kind.camp'), :camp], [t('.event_kind.course'), :course], [t('.event_kind.event'), :event]]
+    = f.number_field :approximate_headcount
+    = f.text_area :remarks
 
   .form-actions
     =<> f.submit
     button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
-      = @view_model.i18n_transition('-->cancelled')[:label]
+      = @view_model.class.i18n_transition('-->cancelled')[:label]
 
 
 #cancelModal.modal[role="dialog" tabindex="-1"]
@@ -35,7 +45,7 @@
       .modal-content
         .modal-header
           h5.modal-title
-            = @view_model.i18n_transition('-->cancelled')[:label]
+            = @view_model.class.i18n_transition('-->cancelled')[:label]
           button.close aria-label="Close" data-dismiss="modal" type="button"
             span aria-hidden="true" &times;
         .modal-body
@@ -43,5 +53,5 @@
         .modal-footer
           = f.submit
           button.btn.btn-secondary[data-dismiss="modal" type="button"]
-            = @view_model.i18n_transition('-->cancelled')[:label]
+            = @view_model.class.i18n_transition('-->cancelled')[:label]
 

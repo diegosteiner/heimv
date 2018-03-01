@@ -5,7 +5,7 @@ FactoryBot.define do
     organisation { Faker::Company.name }
     email { Faker::Internet.safe_email }
     skip_automatic_transition { initial_state_present? }
-    definitive_request { false }
+    committed_request { false }
 
     transient do
       initial_state :initial

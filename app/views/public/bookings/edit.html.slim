@@ -3,5 +3,5 @@
     h3 = t('.title')
     .card
       .card-body
-        = @booking.state_machine.current_state
+        = @view_model.current_state_help
         == render 'form'
