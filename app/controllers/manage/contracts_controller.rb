@@ -17,13 +17,13 @@ module Manage
 
     def new
       authorize Contract
-      breadcrumbs.add t('new')
+      breadcrumbs.add t(:'new')
       @contract = Contract.new(params[:contract])
     end
 
     def edit
       breadcrumbs.add @contract.to_s, manage_booking_contract_path(@booking, @contract)
-      breadcrumbs.add t('edit')
+      breadcrumbs.add t(:'edit')
     end
 
     def create
@@ -31,7 +31,7 @@ module Manage
       @contract = Contract.new(contract_params.merge(booking: @booking))
 
       if @contract.save
-        redirect_to @contract, notice: t('actions.create.success', model_name: Contract.model_name.human)
+        redirect_to @contract, notice: t(:'actions.create.success', model_name: Contract.model_name.human)
       else
         render :new
       end
@@ -39,7 +39,7 @@ module Manage
 
     def update
       if @contract.update(contract_params)
-        redirect_to @contract, notice: t('actions.update.success', model_name: Contract.model_name.human)
+        redirect_to @contract, notice: t(:'actions.update.success', model_name: Contract.model_name.human)
       else
         render :edit
       end
@@ -47,7 +47,7 @@ module Manage
 
     def destroy
       @contract.destroy
-      redirect_to contracts_path, notice: t('actions.destroy.success', model_name: Contract.model_name.human)
+      redirect_to contracts_path, notice: t(:'actions.destroy.success', model_name: Contract.model_name.human)
     end
 
     private

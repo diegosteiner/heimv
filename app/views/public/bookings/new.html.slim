@@ -4,7 +4,7 @@
       / Display the email-confirmation message
       = image_tag asset_pack_path('images/logo.svg'), class: 'etched'
     - else
-      h3 = t('.title')
+      h3 = t(:'.title')
       .card
         .card-body
           = @view_model.current_state_help

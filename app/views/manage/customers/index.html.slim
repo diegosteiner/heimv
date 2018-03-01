@@ -12,11 +12,11 @@
             = link_to edit_manage_customer_path(customer) do
               span.fa.fa-pencil
           td
-            = link_to manage_customer_path(customer), data: { confirm: t('confirm') }, method: :delete, title: t('destroy') do
+            = link_to manage_customer_path(customer), data: { confirm: t(:'confirm') }, method: :delete, title: t(:'destroy') do
               span.fa.fa-trash
 
 br
 = link_to new_manage_customer_path, class: 'btn btn-primary' do
   span.fa.fa-file-o
   '
-  = t('.new')
+  = t(:'.new')

@@ -11,7 +11,7 @@ module BookingState
     validate do
       if transition_to.present? && !state_machine.can_transition_to?(transition_to)
         errors.add(:transition_to,
-                   I18n.t('activerecord.errors.models.booking.attributes.state.invalid_transition',
+                   I18n.t(:'activerecord.errors.models.booking.attributes.state.invalid_transition',
                           transition: "#{state_was}-->#{state}"))
       end
     end

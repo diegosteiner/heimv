@@ -21,9 +21,9 @@ module BookingStrategy
       transition from: :payment_overdue, to: %i[completed]
 
       # guard_transition(from: :new_request, to: %i[provisional_request definitive_request]) do |booking|
-      # booking.errors.add(:kind, I18n.t('errors.messages.blank')) if booking.event_kind.blank?
+      # booking.errors.add(:kind, I18n.t(:'errors.messages.blank')) if booking.event_kind.blank?
       # if booking.approximate_headcount.blank?
-      #   booking.errors.add(:approximate_headcount, I18n.t('errors.messages.blank'))
+      #   booking.errors.add(:approximate_headcount, I18n.t(:'errors.messages.blank'))
       # end
       # booking.valid?
       # end

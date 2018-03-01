@@ -23,7 +23,7 @@ section.breakout-sm
       = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
         span.fa.fa-pencil
       '
-      = link_to manage_booking_path(booking), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger', title: t('destroy') do
+      = link_to manage_booking_path(booking), data: { confirm: t(:'confirm') }, method: :delete, class: 'btn btn-danger', title: t(:'destroy') do
         span.fa.fa-trash
         '
-        = t('destroy')
+        = t(:'destroy')

@@ -26,10 +26,10 @@ section
                 span.fa.fa-check
           td = link_to edit_contract_path(contract) do
             span.fa.fa-pencil
-          td = link_to contract_path(contract), data: { confirm: t('confirm') }, method: :delete do
+          td = link_to contract_path(contract), data: { confirm: t(:'confirm') }, method: :delete do
             span.fa.fa-trash
 
   = link_to new_manage_booking_contract_path(booking), class: 'btn btn-primary' do
     span.fa.fa-file-o
     '
-    = t('add_model', model_name: Contract.model_name.human)
+    = t(:'add_model', model_name: Contract.model_name.human)

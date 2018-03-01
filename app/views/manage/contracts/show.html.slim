@@ -22,13 +22,13 @@
     = link_to edit_contract_path(@contract), class: 'btn btn-primary' do
       span.fa.fa-pencil
       '
-      = t('edit')
+      = t(:'edit')
 
     '
-    = link_to contract_path(@contract), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
+    = link_to contract_path(@contract), data: { confirm: t(:'confirm') }, method: :delete, class: 'btn btn-danger' do
       span.fa.fa-trash
       '
-      = t('destroy')
+      = t(:'destroy')
 
 br
-= link_to t('back'), manage_booking_path(@booking), class: 'btn btn-default'
+= link_to t(:'back'), manage_booking_path(@booking), class: 'btn btn-default'

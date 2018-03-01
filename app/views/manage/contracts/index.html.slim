@@ -19,11 +19,11 @@ table.table.table-hover.table-card
         td = contract.text
         td = link_to edit_manage_booking_contract_path(@booking, contract) do
           span.fa.fa-pencil
-        td = link_to manage_booking_contract_path(@booking, contract), data: { confirm: t('confirm') }, method: :delete do
+        td = link_to manage_booking_contract_path(@booking, contract), data: { confirm: t(:'confirm') }, method: :delete do
           span.fa.fa-trash
 
 br
 = link_to new_contract_path, class: 'btn btn-primary' do
   span.fa.fa-file-o
   '
-  = t('.new')
+  = t(:'.new')
