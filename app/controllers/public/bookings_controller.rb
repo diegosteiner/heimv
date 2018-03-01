@@ -15,13 +15,12 @@ module Public
     end
 
     def create
-      @booking.validation_strictness = :initial
       @booking.save
       respond_with :public, @booking, location: root_path
     end
 
     def update
-      @booking.validation_strictness = :public
+      @booking.strict_validation = true
       @booking.update(update_params)
       respond_with :public, @booking, location: edit_public_booking_path(@booking.public_id)
     end
