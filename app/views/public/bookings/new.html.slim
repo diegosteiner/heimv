@@ -8,7 +8,7 @@
       .card
         .card-body
           = @view_model.current_state_help
-          = bootstrap_form_with(model: @booking, url: public_bookings_path, local: true) do |f|
+          = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
             .form-inputs
               = f.select :home_id, @view_model.homes_for_select
               = f.fields_for :occupancy, @booking.occupancy do |of|

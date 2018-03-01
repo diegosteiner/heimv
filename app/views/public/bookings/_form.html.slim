@@ -1,4 +1,4 @@
-= bootstrap_form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
+= form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
 
   = f.alert_message nil
 
@@ -41,7 +41,7 @@
 
 #cancelModal.modal[role="dialog" tabindex="-1"]
   .modal-dialog[role="document"]
-    = bootstrap_form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
+    = form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
       .modal-content
         .modal-header
           h5.modal-title

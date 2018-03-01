@@ -4,9 +4,9 @@
       = t(".forgot_your_password")
     .card.breakout-sm
       .card-body
-        = bootstrap_form_with(model: resource, scope: resource_name, url: password_path(resource_name), method: :post, local: true) do |f|
+        = form_with(model: resource, scope: resource_name, url: password_path(resource_name), method: :post, local: true) do |f|
           = f.email_field :email, autofocus: true
-          = f.submit value: t(".send_me_reset_password_instructions")
+          = f.submit t(".send_me_reset_password_instructions")
 
     br
     = render "devise/shared/links"

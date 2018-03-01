@@ -1,4 +1,4 @@
-= bootstrap_form_with(model: [:manage, @booking, @contract]) do |f|
+= form_with(model: [:manage, @booking, @contract], local: true) do |f|
   = f.error_summary
 
   .form-inputs

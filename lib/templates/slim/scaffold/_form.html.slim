@@ -1,10 +1,10 @@
-= simple_form_for(@<%= singular_table_name %>) do |f|
-  = f.error_notification
+= form_with(model: @<%= singular_table_name %>, local: true) do |f|
+  = f.error_summary
 
   .form-inputs
 <%- attributes.each do |attribute| -%>
-    = f.<%= attribute.reference? ? :association : :input %> :<%= attribute.name %>
+    = f.text_field :<%= attribute.name %>
 <%- end -%>
 
   .form-actions
-    = f.button :submit
+    = f.submit

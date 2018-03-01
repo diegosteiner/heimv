@@ -1,6 +1,6 @@
 .row
   .col-md-6
-    = bootstrap_form_with(model: resource, scope: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+    = form_with(model: resource, scope: resource_name, url: registration_path(resource_name), method: :put, local: true) do |f|
       = f.email_field :email
       - if devise_mapping.confirmable? && resource.pending_reconfirmation?
         small.form-text.text-muted
@@ -9,7 +9,7 @@
           = resource.unconfirmed_email
       = f.password_field :password, autocomplete: 'off', hint: t(".leave_blank_if_you_don_t_want_to_change_it")
       = f.password_field :current_password, hint: t(".we_need_your_current_password_to_confirm_your_changes")
-      = f.button :submit
+      = f.submit
 
     .card.border-danger.my-4
       .card-header.bg-danger.text-white
