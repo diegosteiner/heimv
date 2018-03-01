@@ -4,11 +4,11 @@
       = t(".sign_in")
     .card.breakout-sm
       .card-body
-        = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-          = f.input :email, as: :email, autofocus: true
-          = f.input :password
-          = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
-          = f.button :submit, t(".sign_in")
+        = bootstrap_form_with(model: resource, scope: resource_name, url: session_path(resource_name)) do |f|
+          = f.email_field :email, autofocus: true
+          = f.password_field :password
+          = f.check_box :remember_me if devise_mapping.rememberable?
+          = f.submit t(".sign_in")
 
     br
     = render 'devise/shared/links'

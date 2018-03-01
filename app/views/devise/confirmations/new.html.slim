@@ -4,9 +4,9 @@
       = t(".resend_confirmation_instructions")
     .card.breakout-sm
       .card-body
-        = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-          = f.full_error :confirmation_token
-          = f.input :email, required: true, autofocus: true
-          = f.button :submit, t(".resend_confirmation_instructions")
+        = bootstrap_form_with(model: resource, scope: resource_name, url: confirmation_path(resource_name), method: :post, local: true) do |f|
+          = f.error_on :confirmation_token
+          = f.email_field :email, required: true, autofocus: true
+          = f.submit t(".resend_confirmation_instructions")
     br
     = render "devise/shared/links"

@@ -4,10 +4,10 @@
       = t(".sign_up")
     .card.breakout-sm
       .card-body
-        = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-          = f.input :email, as: :email, autofocus: true
-          = f.input :password, as: :password
-          = f.button :submit, value: t(".sign_up")
+        = bootstrap_form_with(model: resource, scope: resource_name, url: registration_path(resource_name)) do |f|
+          = f.email_field :email, autofocus: true
+          = f.password_field :password
+          = f.submit value: t(".sign_up")
 
     br
     = render "devise/shared/links"
