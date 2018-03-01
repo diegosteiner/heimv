@@ -25,6 +25,7 @@ module Manage
 
     def create
       @home.update(home_params)
+      @home.house_rules.attach(home_params[:house_rules])
       respond_with :manage, @home
     end
 

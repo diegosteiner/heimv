@@ -9,7 +9,7 @@ Capybara.javascript_driver = :poltergeist
 
 Capybara::Paparazzi.config do |config|
   # config.screenshot_sizes = [ config.screenshot_sizes.first, (config.screenshot_sizes.last + [ :EXTRA_DATA ]) ]
-  # config.file_dir = '../tmp/screenshots'
+  # config.file_dir = '../docs/screenshots'
   # config.make_fewer_directories = true
   # config.make_shorter_filenames = true
   # config.path_and_suffix_generator = ->(shooter, url) {

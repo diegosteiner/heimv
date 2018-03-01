@@ -30,6 +30,10 @@ en:
         last_name: Nachname
         street_address: Strasse / Nr.
         zipcode: PLZ
+      home:
+        house_rules: Hausordnung (PDF)
+        name: name
+        ref: Kurzname / Referenz
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
