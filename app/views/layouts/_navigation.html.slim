@@ -16,6 +16,8 @@ nav#navbar-main.navbar.fixed-top.navbar-light.bg-white.navbar-expand-lg
         = link_to Customer.model_name.human(count: :other), manage_customers_path, class: 'nav-link'
       li.nav-item
         = link_to Home.model_name.human(count: :other), manage_homes_path, class: 'nav-link'
+      li.nav-item
+        = link_to BookingAgent.model_name.human(count: :other), manage_booking_agents_path, class: 'nav-link'
       li.nav-item.dropdown
         a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
           = User.model_name.human

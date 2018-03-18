@@ -1,10 +1,10 @@
 require_relative './base_seeder'
 
 module Seeders
-  class CustomerSeeder < BaseSeeder
+  class BookingAgentSeeder < BaseSeeder
     def seed_development
       {
-        customers: create_list(:customer, 10)
+        booking_agents: create_list(:booking_agent, 2)
       }
     end
   end

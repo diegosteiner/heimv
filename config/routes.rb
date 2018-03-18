@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resources :contracts, shallow: true
     end
     resources :customers
+    resources :booking_agents
   end
 
   get 'pages/home'

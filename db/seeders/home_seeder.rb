@@ -2,8 +2,7 @@ require_relative './base_seeder'
 
 module Seeders
   class HomeSeeder < BaseSeeder
-    def seed
-      return {} if production?
+    def seed_development
       {
         homes: [
           create(:home, name: 'Birchli', ref: 'bir'),

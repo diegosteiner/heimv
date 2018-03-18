@@ -11,7 +11,18 @@ module Seeders
       @seeds = seeds
     end
 
-    def seed; end
+    def seed
+      return seed_production if production?
+      seed_development
+    end
+
+    def seed_production
+      {}
+    end
+
+    def seed_development
+      {}
+    end
 
     protected
 

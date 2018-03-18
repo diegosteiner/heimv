@@ -1,0 +1,16 @@
+.card.breakout-sm
+  .card-body
+    = render_hash_as_dl(@booking_agent.attributes.slice(*%w(name code email)), Customer)
+    br
+
+    = link_to edit_manage_booking_agent_path(@booking_agent), class: 'btn btn-primary' do
+      span.fa.fa-pencil
+      '
+      = t(:edit)
+    '
+    = link_to manage_booking_agent_path(@booking_agent), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t(:destroy)
+br
+= link_to t(:back), manage_booking_agents_path, class: 'btn btn-default'

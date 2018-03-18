@@ -23,6 +23,10 @@ de-CH:
         remarks: Bemerkungen
         state: Status
         transition_to: Neuer Status
+      booking_agent:
+        code: Code
+        email: Email
+        name: Name
       customer:
         address: Adresse
         city: Ort
@@ -59,6 +63,9 @@ de-CH:
       booking:
         one: Buchung
         other: Buchungen
+      booking_agent:
+        one: Vermittler
+        other: Vermittler
       booking_transition:
         one: Statusübergang
         other: Statusübergänge

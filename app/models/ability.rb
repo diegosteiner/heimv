@@ -32,6 +32,7 @@ module Ability
       can :manage, Customer
       can :manage, Booking
       can :manage, Occupancy
+      can :manage, BookingAgent
     end
   end
 
