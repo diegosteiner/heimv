@@ -1,0 +1,20 @@
+table.table.table-hover.table-card
+  thead
+    tr
+      th= Invoice.model_name.human(count: :other)
+      th
+      th
+
+  tbody
+    - @booking.invoices.each do |invoice|
+      tr[data-href=manage_invoice_path(invoice)]
+        td = invoice.esr_number
+        td = link_to edit_manage_invoice_path(invoice) do
+          span.fa.fa-pencil
+        td = link_to manage_invoice_path(invoice), data: { confirm: t(:confirm) }, method: :delete do
+          span.fa.fa-trash
+
+= link_to new_manage_booking_invoice_path(booking), class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_model, model_name: Invoice.model_name.human)

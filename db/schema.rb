@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_18_153344) do
+ActiveRecord::Schema.define(version: 2018_03_18_172645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,18 @@ ActiveRecord::Schema.define(version: 2018_03_18_153344) do
     t.index ["ref"], name: "index_homes_on_ref", unique: true
   end
 
+  create_table "invoices", force: :cascade do |t|
+    t.bigint "booking_id"
+    t.datetime "issued_at"
+    t.datetime "payable_until"
+    t.text "text"
+    t.integer "invoice_type"
+    t.string "esr_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_invoices_on_booking_id"
+  end
+
   create_table "occupancies", force: :cascade do |t|
     t.datetime "begins_at", null: false
     t.datetime "ends_at", null: false
@@ -160,5 +172,6 @@ ActiveRecord::Schema.define(version: 2018_03_18_153344) do
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "contracts", "bookings"
+  add_foreign_key "invoices", "bookings"
   add_foreign_key "occupancies", "homes"
 end

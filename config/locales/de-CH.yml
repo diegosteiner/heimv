@@ -8,7 +8,6 @@ de-CH:
     update:
       success: DEPRECATED Success
   activerecord:
-    add_model: "%{model_name} hinzufügen"
     attributes:
       booking:
         approximate_headcount: Erwartete Anzahl Personen
@@ -39,6 +38,12 @@ de-CH:
         house_rules: Hausordnung (PDF)
         name: name
         ref: Kurzname / Referenz
+      invoice:
+        esr_number: ESR Nummer
+        invoice_type: Rechnungsart
+        issued_at: Ausgestellt am
+        payable_until: Zahlung bis
+        text: Text
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
@@ -79,6 +84,9 @@ de-CH:
       home:
         one: Heim
         other: Heime
+      invoice:
+        one: Rechnung
+        other: Rechnungen
       occupancy:
         one: Belegung
         other: Belegungen
@@ -106,7 +114,12 @@ de-CH:
           payment_overdue: Rechnung überfällig
           provisional_request: Provisorische Mietanfrage
           upcoming: Geplante Belegung
-  add_model: Add model
+      invoice:
+        invoice_type:
+          deposit: Anzahlung
+          invoice: Rechnung
+          late_notice: Mahnung
+  add_model: "%{model_name} hinzufügen"
   back: Zurück
   booking_mailer:
     booking_agent_request:
@@ -198,8 +211,32 @@ de-CH:
           help: Help
           label: Geplante Belegung
       transition:
+        "-->active":
+          label: Aktive Belegung
         "-->cancelled":
           label: Annulieren
+        "-->completed":
+          label: Abgeschlossene Belegung
+        "-->confirmed":
+          label: Bestätigte Reservation
+        "-->definitive_request":
+          label: Definitive Mietanfrage
+        "-->new_request":
+          label: Neue Mietanfrage
+        "-->overdue":
+          label: Überfällige Reservation
+        "-->overdue_request":
+          label: Überfällige Mietanfrage
+        "-->past":
+          label: Durchgeführte Belegung
+        "-->payment_due":
+          label: Rechnung ausstehend
+        "-->payment_overdue":
+          label: Rechnung überfällig
+        "-->provisional_request":
+          label: Provisorische Mietanfrage
+        "-->upcoming":
+          label: Geplante Belegung
         initial-->new_request:
           label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
@@ -223,16 +260,16 @@ de-CH:
   manage:
     bookings:
       index:
-        new: New
+        new: Neu
     contracts:
       index:
-        new: New
+        new: Neu
     customers:
       index:
-        new: New
+        new: Neu
     homes:
       index:
-        new: New
+        new: Neu
   nav:
     edit_account: Account
     sign_in: Anmelden

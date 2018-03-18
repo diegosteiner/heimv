@@ -6,10 +6,11 @@ Rails.application.routes.draw do
   end
 
   namespace :manage do
-    get 'dashboard', to: 'dashboard#index'
+    get '/', to: 'dashboard#index', as: :manage_dashboard
     resources :homes
     resources :bookings do
       resources :contracts, shallow: true
+      resources :invoices, shallow: true
     end
     resources :customers
     resources :booking_agents
