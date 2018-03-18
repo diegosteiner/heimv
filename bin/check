@@ -1,6 +1,6 @@
 #!/bin/bash
 echo -e '\n\033[35mRunning rubocop\033[0m'
-bundle exec rubocop -D --fail-fast
+bundle exec rubocop -D -a
 if [ ! $? -eq 0 ]; then
   echo 'rubocop detected issues!'
   bundle exec rubocop -a -D

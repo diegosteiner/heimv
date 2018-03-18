@@ -33,6 +33,10 @@ Style/MixinUsage:
   Exclude:
     - 'features/*'
 
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - 'to'
+
 AllCops:
   TargetRubyVersion: 2.5
   Include:
