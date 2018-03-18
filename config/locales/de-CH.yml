@@ -39,6 +39,8 @@ de-CH:
         name: name
         ref: Kurzname / Referenz
       invoice:
+        esr_number: ESR Nummer
+        invoice_type: Rechnungsart
         text: Text
         payable_until: Zahlung bis
         issued_at: Ausgestellt am
@@ -112,6 +114,11 @@ de-CH:
           payment_overdue: Rechnung überfällig
           provisional_request: Provisorische Mietanfrage
           upcoming: Geplante Belegung
+      invoice:
+        invoice_type:
+          deposit: Anzahlung
+          invoice: Rechnung
+          late_notice: Mahnung
   add_model: "%{model_name} hinzufügen"
   back: Zurück
   booking_mailer:
@@ -204,6 +211,30 @@ de-CH:
           help: Help
           label: Geplante Belegung
       transition:
+        "-->active":
+          label: Aktive Belegung
+        "-->completed":
+          label: Abgeschlossene Belegung
+        "-->confirmed":
+          label: Bestätigte Reservation
+        "-->definitive_request":
+          label: Definitive Mietanfrage
+        "-->new_request":
+          label: Neue Mietanfrage
+        "-->overdue":
+          label: Überfällige Reservation
+        "-->overdue_request":
+          label: Überfällige Mietanfrage
+        "-->past":
+          label: Durchgeführte Belegung
+        "-->payment_due":
+          label: Rechnung ausstehend
+        "-->payment_overdue":
+          label: Rechnung überfällig
+        "-->provisional_request":
+          label: Provisorische Mietanfrage
+        "-->upcoming":
+          label: Geplante Belegung
         "-->cancelled":
           label: Annulieren
         initial-->new_request:

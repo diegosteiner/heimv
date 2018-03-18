@@ -1,6 +1,6 @@
 .card.breakout-sm
   .card-body
-    = render_hash_as_dl(@invoice.attributes.slice(*%w(text issued_at payable_until)), Invoice)
+    = render_hash_as_dl(@invoice.attributes.slice(*%w(invoice_type esr_number issued_at payable_until text)), Invoice)
     br
 
     = link_to edit_manage_invoice_path(@invoice), class: 'btn btn-primary' do
