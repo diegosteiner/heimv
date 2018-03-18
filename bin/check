@@ -1,0 +1,46 @@
+#!/bin/bash
+echo -e '\n\033[35mRunning rubocop\033[0m'
+bundle exec rubocop -D -a
+if [ ! $? -eq 0 ]; then
+  echo 'rubocop detected issues!'
+  bundle exec rubocop -a -D
+  echo -e '\033[31mTried to auto correct the issues, but must be reviewed manually, commit aborted\033[0m'
+  exit 1
+fi
+
+echo -e '\n\033[35mRunning brakeman\033[0m'
+bundle exec brakeman -q -z --summary -c ./config/brakeman.yml > /dev/null
+if [ ! $? -eq 0 ]; then
+  bundle exec brakeman -q -z --summary -c ./config/brakeman.yml
+  echo -e '\033[31mBrakeman has detected one or more security vulnerabilities, please review them and re-commit your
+  changes, commit aborted\033[0m'
+  exit 1
+fi
+
+echo -e '\n\033[35mRunning bundle-audit\033[0m'
+bundle exec bundle-audit check --update
+if [ ! $? -eq 0 ]; then
+  echo -e '\033[31mFound insecure gems, commit aborted\033[0m'
+  exit 1
+fi
+
+echo -e '\n\033[35mRunning i18n-tasks health\033[0m'
+bundle exec i18n-tasks health
+if [ ! $? -eq 0 ]; then
+  echo -e '\033[31mFound translation problems, commit aborted\033[0m'
+  exit 1
+fi
+
+##echo -e '\n\033[35mRunning scss-lint\033[0m'
+##bundle exec scss-lint app/assets/stylesheets/**/*.scss
+##if [ ! $? -eq 0 ]; then
+##	echo -e '\033[31mscss-lint did not run successfully, commit aborted\033[0m'
+##	exit 1
+##fi
+
+echo -e '\n\033[35mRunning tests\033[0m'
+bin/rspec
+if [ ! $? -eq 0 ]; then
+  echo -e '\033[31mRspec did not run successfully, commit aborted\033[0m'
+  exit 1
+fi

@@ -1,0 +1,12 @@
+@import 'variables';
+@import '~select2/dist/css/select2';
+// input[type="radio"],
+// input[type="checkbox"] {
+//     margin-right: .5rem;
+// }
+
+.form-actions {
+    @extend .mt-5;
+    @extend .pt-4;
+    border-top: 1px solid $gray-300;
+}

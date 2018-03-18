@@ -1,33 +1,292 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
+---
 en:
-  hello: "Hello world"
+  actions:
+    create:
+      success: Success
+    destroy:
+      success: Success
+    update:
+      success: Success
+  activerecord:
+    attributes:
+      booking:
+        approximate_headcount: Erwartete Anzahl Personen
+        booking_agent_code: Vermittler-Code
+        committed_request: Verbindlichkeit der Mietanfrage
+        customer: Kunde
+        customer_id: Kunde
+        event_kind: Zweck der Miete
+        home: Heim
+        home_id: Heim
+        occupancy: Belegung
+        ref: Buchungsreferenz
+        remarks: Bemerkungen
+        state: Status
+        transition_to: Neuer Status
+      booking_agent:
+        code: Code
+        email: Email
+        name: Name
+      customer:
+        address: Adresse
+        city: Ort
+        first_name: Vorname
+        last_name: Nachname
+        street_address: Strasse / Nr.
+        zipcode: PLZ
+      home:
+        house_rules: Hausordnung (PDF)
+        name: name
+        ref: Kurzname / Referenz
+      invoice:
+        esr_number: ESR Nummer
+        invoice_type: Rechnungsart
+        issued_at: Ausgestellt am
+        payable_until: Zahlung bis
+        text: Text
+      occupancy:
+        begins_at: Beginn der Belegung
+        ends_at: Ende der Belegung
+    back: Zurück
+    bookings:
+      index:
+        new: Neue Buchung
+    confirm: Sind Sie sicher?
+    contracts:
+      index:
+        new: Neuer Vertrag
+    customers:
+      index:
+        new: Neuer Kunde
+    destroy: Löschen
+    errors:
+      models:
+        booking:
+          attributes:
+            state:
+              invalid_transition: Invalid transition
+    models:
+      booking:
+        one: Buchung
+        other: Buchungen
+      booking_agent:
+        one: Vermittler
+        other: Vermittler
+      booking_transition:
+        one: Statusübergang
+        other: Statusübergänge
+      contract:
+        one: Vertrag
+        other: Verträge
+      customer:
+        one: Customer
+        other: Customers
+      home:
+        one: Heim
+        other: Heime
+      invoice:
+        one: Rechnung
+        other: Rechnungen
+      occupancy:
+        one: Belegung
+        other: Belegungen
+    values:
+      booking:
+        committed_request:
+          definitive_request: Definitive Mietanfrage
+          provisional_request: Provisorische Mietanfrage
+        event_kind:
+          camp: Lager
+          course: Kurs
+          event: Privater Anlass
+        state:
+          active: Aktive Belegung
+          cancelled: Storniert
+          completed: Abgeschlossen
+          confirmed: Bestätigte Reservation
+          definitive_request: Definitive Mietanfrage
+          initial: "-"
+          new_request: Neue Mietanfrage
+          overdue: Überfällige Reservation
+          overdue_request: Überfällige Mietanfrage
+          past: Durchgeführte Belegung
+          payment_due: Rechnung ausstehend
+          payment_overdue: Rechnung überfällig
+          provisional_request: Provisorische Mietanfrage
+          upcoming: Geplante Belegung
+      invoice:
+        invoice_type:
+          deposit: Anzahlung
+          invoice: Rechnung
+          late_notice: Mahnung
+  add_model: Add model
+  back: Back
+  booking_mailer:
+    booking_agent_request:
+      body: |-
+        Hallo <Name des Vermittlers>
+
+        <falls Geschäftsfall 1>Vielen Dank für Deine Vermittlung auf pfadi-heime.ch. Wir
+        Anforderungen für neue Heimverwaltungs-Software Version 3 vom 2.11.2017
+        Verein Pfadiheime St. Georg, Zürich Seite 47
+        haben die Angaben des Mieters geprüft und nun eine definitive Reservation erstellt.
+        Unser Heimverwalter wird ihm in den nächsten Tagen den Mietvertrag zustellen. </1>
+
+        <falls Geschäftsfall 2>Die Reservation zu Deiner Vermittlung auf pfadi-heime.ch ist
+        nun definitiv. Unser Heimverwalter wird dem Mieter in den nächsten Tagen den
+        Mietvertrag zustellen.</2>
+
+        Reservationsdetails:
+        Lagerhaus: Birchli, Einsiedeln
+        Reservation: 12.3.2018 18:00h bis 14.3.2018 18:00h
+        Organisation: Pfadi Laupen
+        Mietzweck: Lager/Kurs
+        Kontaktperson:
+        Christian Kaiser / Murmel
+        Stadtturmstrasse 15
+        5400 Baden
+        079 759 13 12
+        murmel@pfadi-laupen.ch
+        Bemerkungen: Referenz Gruppenhaus: GH255-2018-11-24
+        Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+        wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
+        Freundliche Grüsse
+        Verein Pfadiheime St. Georg
+
+        %{link}
+      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
+    confirm_request:
+      body: |-
+        Hallo
+
+        Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
+        untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
+        Mietanfrage abzuschliessen.
+
+        Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
+      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
+  booking_strategy:
+    default:
+      state:
+        active:
+          help: Help
+          label: Aktive Belegung
+        cancelled:
+          help: Help
+          label: Annulierte Reservation
+        completed:
+          help: Help
+          label: Abgeschlossene Belegung
+        confirmed:
+          help: Help
+          label: Bestätigte Reservation
+        definitive_request:
+          help: Help
+          label: Definitive Mietanfrage
+        initial:
+          help: Help
+          label: "-"
+        new_request:
+          help: Help
+          label: Neue Mietanfrage
+        overdue:
+          help: Help
+          label: Überfällige Reservation
+        overdue_request:
+          help: Help
+          label: Überfällige Mietanfrage
+        past:
+          help: Help
+          label: Durchgeführte Belegung
+        payment_due:
+          help: Help
+          label: Rechnung ausstehend
+        payment_overdue:
+          help: Help
+          label: Rechnung überfällig
+        provisional_request:
+          help: Help
+          label: Provisorische Mietanfrage
+        upcoming:
+          help: Help
+          label: Geplante Belegung
+      transition:
+        "-->active":
+          label: Aktive Belegung
+        "-->cancelled":
+          label: Annulieren
+        "-->completed":
+          label: Abgeschlossene Belegung
+        "-->confirmed":
+          label: Bestätigte Reservation
+        "-->definitive_request":
+          label: Definitive Mietanfrage
+        "-->new_request":
+          label: Neue Mietanfrage
+        "-->overdue":
+          label: Überfällige Reservation
+        "-->overdue_request":
+          label: Überfällige Mietanfrage
+        "-->past":
+          label: Durchgeführte Belegung
+        "-->payment_due":
+          label: Rechnung ausstehend
+        "-->payment_overdue":
+          label: Rechnung überfällig
+        "-->provisional_request":
+          label: Provisorische Mietanfrage
+        "-->upcoming":
+          label: Geplante Belegung
+        initial-->new_request:
+          label: Neue Buchungsanfrage stellen
+  confirm: Confirm
+  destroy: Destroy
+  edit: Edit
+  flash:
+    actions:
+      create:
+        alert: "%{resource_name} could not be created."
+        notice: "%{resource_name} was successfully created."
+      destroy:
+        alert: "%{resource_name} could not be destroyed."
+        notice: "%{resource_name} was successfully destroyed."
+      update:
+        alert: "%{resource_name} could not be updated."
+        notice: "%{resource_name} was successfully updated."
+    public:
+      bookings:
+        create:
+          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
+  manage:
+    bookings:
+      index:
+        new: New
+    contracts:
+      index:
+        new: New
+    customers:
+      index:
+        new: New
+    homes:
+      index:
+        new: New
+  nav:
+    edit_account: Account
+    sign_in: Anmelden
+    sign_out: Abmelden
+    sign_up: Neuen Account erstellen
+  new: New
+  public:
+    bookings:
+      edit:
+        title: Title
+      form:
+        booking_details: Booking details
+      new:
+        title: Title
+  time:
+    formats:
+      date: "%d.%m.%Y"
+      time: "%H:%M"
+  titles:
+    application: Heimverwaltung

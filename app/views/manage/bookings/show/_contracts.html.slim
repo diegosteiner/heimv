@@ -1,0 +1,35 @@
+section
+  table.table.table-hover.table-card
+    thead
+      tr
+        th= Contract.model_name.human(count: :other)
+        th.hidden-sm-down= Contract.human_attribute_name(:sent_at)
+        th.hidden-sm-down= Contract.human_attribute_name(:signed_at)
+        th
+        th
+
+    tbody
+      - @booking.contracts.each do |contract|
+        tr[data-href=contract_path(contract)]
+          td = contract.title
+          td.hidden-sm-down
+            - if contract.sent?
+              = l(contract.sent_at)
+            - else
+              = button_to contract_path(contract), method: :patch, params: { contract: { sent_at: Time.zone.now } }, class: 'btn btn-success btn-sm' do
+                span.fa.fa-check
+          td.hidden-sm-down
+            - if contract.signed?
+              = l(contract.signed_at)
+            - else
+              = button_to contract_path(contract), method: :patch, params: { contract: { signed_at: Time.zone.now } }, class: 'btn btn-success btn-sm' do
+                span.fa.fa-check
+          td = link_to edit_contract_path(contract) do
+            span.fa.fa-pencil
+          td = link_to contract_path(contract), data: { confirm: t(:confirm) }, method: :delete do
+            span.fa.fa-trash
+
+  = link_to new_manage_booking_contract_path(booking), class: 'btn btn-primary' do
+    span.fa.fa-file-o
+    '
+    = t(:add_model, model_name: Contract.model_name.human)

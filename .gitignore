@@ -2,6 +2,8 @@
 /.bundle
 /vendor/bundle/
 /vendor/ruby/
+/node_modules
+yarn-error.log
 
 # minimal Rails specific artifacts
 db/*.sqlite3
@@ -57,6 +59,7 @@ pickle-email-*.html
 
 # RubyMine project files
 .idea
+/.vscode/
 
 # Textmate project files
 /*.tmproj
@@ -70,3 +73,13 @@ pickle-email-*.html
 
 # tilde files are usually backup files from a text editor
 *~
+/public/packs
+/public/packs-test
+/node_modules
+
+/storage/*
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity

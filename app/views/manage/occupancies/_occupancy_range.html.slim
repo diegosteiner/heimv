@@ -1,0 +1,13 @@
+.d-flex
+  div.mr-2.pt-2
+    i.fa.fa-calendar
+  div
+    strong
+      time
+        =<> l(occupancy.begins_at, format: :date)
+        = l(occupancy.begins_at, format: :time)
+    br
+    .small
+      time
+        =<> l(occupancy.ends_at, format: :date)
+        = l(occupancy.ends_at, format: :time)

@@ -1,11 +1,32 @@
-/ navigation styled for Bootstrap 4.0
-.container
-  nav.navbar.navbar-dark.bg-inverse
-    ul.nav.navbar-nav.clearfix
+nav#navbar-main.navbar.fixed-top.navbar-light.bg-white.navbar-expand-lg
+  button.navbar-toggler.navbar-toggler-right[
+    aria-controls="navbar-main-nav"
+    aria-expanded="false"
+    data-target="#navbar-main-nav"
+    data-toggle="collapse"
+    type="button"]
+    span.navbar-toggler-icon
+  = link_to root_path, class: 'navbar-brand' do
+    = image_tag asset_pack_path('images/logo.svg'), class: "d-inline-block align-top", width: 120, height: 32
+  #navbar-main-nav.collapse.navbar-collapse
+    ul.navbar-nav.ml-auto
       li.nav-item
-        button.navbar-toggler.hidden-sm-up.nav-link aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label=("Toggle navigation") data-target="#exCollapsingNavbar2" data-toggle="collapse" type="button"
-          | &#9776;
-    #exCollapsingNavbar2.collapse.navbar-toggleable-xs
-      = link_to "Rails bootstrap", root_path, class: 'navbar-brand'
-      ul.nav.navbar-nav
-        = render 'layouts/navigation_links'
+        = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
+      li.nav-item
+        = link_to Customer.model_name.human(count: :other), manage_customers_path, class: 'nav-link'
+      li.nav-item
+        = link_to Home.model_name.human(count: :other), manage_homes_path, class: 'nav-link'
+      li.nav-item
+        = link_to BookingAgent.model_name.human(count: :other), manage_booking_agents_path, class: 'nav-link'
+      li.nav-item.dropdown
+        a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
+          = User.model_name.human
+        .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
+          - if user_signed_in?
+              = link_to t(:'nav.edit_account'), edit_user_registration_path, class: 'dropdown-item'
+              = link_to t(:'nav.sign_out'), destroy_user_session_path, :method=>'delete', class: 'dropdown-item'
+          - else
+              = link_to t(:'nav.sign_in'), new_user_session_path, class: 'dropdown-item'
+              = link_to t(:'nav.sign_up'), new_user_registration_path, class: 'dropdown-item'
+          - if user_signed_in? && current_user.try(:admin?)
+            = link_to User.model_name.human, admin_users_path, class: 'dropdown-item'

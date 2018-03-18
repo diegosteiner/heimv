@@ -1,0 +1,81 @@
+@import './variables';
+@import '~bootstrap/scss/bootstrap';
+@import './forms';
+img {
+    @extend .img-fluid;
+    margin: 0 auto;
+}
+
+body {
+    padding-top: 56px;
+}
+
+.breadcrumb {
+    margin: 1rem 0;
+}
+
+.alert {
+    border-radius: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 1rem;
+}
+
+#navbar-main {
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+}
+
+.table-card {
+    thead th {
+        border-top: none;
+    }
+    tbody {
+        background-color: $card-bg;
+        background-clip: border-box;
+        border: $card-border-width solid $card-border-color;
+        @include border-radius($card-border-radius);
+        @include box-shadow($box-shadow);
+    }
+}
+
+.card {
+    @include box-shadow($box-shadow);
+}
+
+[data-href] {
+    cursor: pointer;
+}
+
+.card>.table {
+    margin: 0;
+}
+
+.breadcrumb {
+    padding-left: 0;
+}
+
+section {
+    margin-top: 20px;
+}
+
+.breakout-sm {
+    @include media-breakpoint-down(sm) {
+        margin-left: -($grid-gutter-width / 2 + 1);
+        margin-right: -($grid-gutter-width / 2 + 1);
+        border-radius: 0;
+        border-left-width: 0;
+        border-right-width: 0;
+    }
+}
+
+.etched {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    opacity: 0.1;
+}

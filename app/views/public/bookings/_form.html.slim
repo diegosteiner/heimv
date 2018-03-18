@@ -1,0 +1,73 @@
+= form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
+
+  = f.alert_message nil
+
+  .form-inputs
+    = f.select :home_id, @view_model.homes_for_select, {}, disabled: true
+    = f.fields_for :occupancy, @booking.occupancy do |of|
+      .row
+        .col
+          = of.datetime_local_field :begins_at, disabled: true
+        .col
+          = of.datetime_local_field :ends_at, disabled: true
+    = f.fields_for :customer, @booking.customer do |cf|
+      = cf.email_field :email, disabled: true
+      .row
+        .col
+          = cf.text_field :first_name
+        .col
+          = cf.text_field :last_name
+      = cf.text_area :street_address
+      .row
+        .col-md-4
+          = cf.text_field :zipcode
+        .col-md-8
+          = cf.text_field :city
+
+  hr.my-4
+
+  .form-inputs
+    h5= t('.booking_details')
+    = f.text_field :organisation
+    = f.form_group :committed_request
+      = f.label :committed_request, Booking.human_attribute_name(:committed_request)
+      = f.radio_button :committed_request, false, label: t(:'activerecord.values.booking.committed_request.provisional_request'), disabled: @booking.committed_request?
+      = f.radio_button :committed_request, true, label: t(:'activerecord.values.booking.committed_request.definitive_request')
+      - @booking.errors[:committed_request].each do |error|
+        .invalid-feedback.d-block = error
+
+    = f.select :event_kind, [[t(:'activerecord.values.booking.event_kind.camp'), :camp], [t(:'activerecord.values.booking.event_kind.course'), :course], [t(:'activerecord.values.booking.event_kind.event'), :event]]
+    = f.number_field :approximate_headcount
+    = f.text_area :remarks
+
+  hr.my-4
+
+  - if @booking.booking_agent.present?
+    .form-inputs
+      h5= BookingAgent.model_name.human
+      = f.fields_for :booking_agent, @booking.booking_agent do |af|
+        = af.text_field :name, disabled: true
+        = af.email_field :email, disabled: true
+
+  .form-actions
+    =<> f.submit
+    button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
+      = @view_model.class.i18n_transition('-->cancelled')[:label]
+
+
+#cancelModal.modal[role="dialog" tabindex="-1"]
+  .modal-dialog[role="document"]
+    = form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
+      .modal-content
+        .modal-header
+          h5.modal-title
+            = @view_model.class.i18n_transition('-->cancelled')[:label]
+          button.close aria-label="Close" data-dismiss="modal" type="button"
+            span aria-hidden="true" &times;
+        .modal-body
+          = f.text_area :cancellation_reason
+        .modal-footer
+          = f.submit
+          button.btn.btn-secondary[data-dismiss="modal" type="button"]
+            = @view_model.class.i18n_transition('-->cancelled')[:label]
+

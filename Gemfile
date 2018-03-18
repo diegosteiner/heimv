@@ -1,35 +1,46 @@
-source 'https://rubygems.org'
-ruby File.read('.ruby-version')
+# frozen_string_literal: true
 
-gem 'rails', '~> 5.1.0'
-gem 'puma', '~> 3.0'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.2'
-gem 'jquery-rails'
-gem 'turbolinks', '~> 5'
-gem 'bootstrap', '~> 4.0.0.alpha6'
+source 'https://rubygems.org'
+ruby '2.5.0'
+
+gem 'bootsnap'
+gem 'bootstrap_form',
+    git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
+    ref: 'master'
+gem 'breadcrumbs'
+gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
-gem 'devise_invitable'
+gem 'dotenv'
+gem 'kramdown'
 gem 'pg'
-gem 'pundit'
+gem 'puma', '~> 3.0'
+gem 'rails', '>= 5.2.0.beta'
+gem 'rails-i18n', '~> 5.0.0'
+gem 'responders'
 gem 'slim-rails'
+gem 'statesman'
+gem 'title'
+gem 'webpacker'
 
 group :development do
   gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'foreman'
-  gem 'rails_layout'
-  gem 'spring-commands-rspec'
+  gem 'i18n-tasks'
+  gem 'letter_opener'
   gem 'listen', '~> 3.0.5'
   gem 'spring'
+  gem 'spring-commands-rspec'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :development, :test do
+  gem 'brakeman'
+  gem 'bundler-audit'
   gem 'byebug', platform: :mri
-  gem 'factory_girl_rails'
-  gem 'faker'
+  gem 'factory_bot_rails', require: false
+  gem 'faker', require: false
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'
@@ -38,7 +49,9 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'capybara-paparazzi'
+  gem 'capybara-screenshot'
   gem 'database_cleaner'
   gem 'launchy'
-  gem 'capybara-webkit'
+  gem 'poltergeist'
 end

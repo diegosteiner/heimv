@@ -1,10 +1,55 @@
-AllCops:
-  RunRailsCops: true
-  Include:
-    - '**/Gemfile'
-    - '**/Rakefile'
+inherit_from: .rubocop_todo.yml
+
+Rails:
+  Enabled: true
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
   Exclude:
-   - 'bin/*'
-   - 'db/seeds.rb'
-   - 'db/schema.rb'
-   - 'vendor/bundle/**/*'
+    - 'db/migrate/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'db/migrate/*'
+    - 'spec/**/*'
+    - 'features/**/*'
+    - 'config/routes.rb'
+    - 'config/environments/*'
+    - 'config/initializers/*'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/MixinUsage:
+  Exclude:
+    - 'features/*'
+
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - 'to'
+
+AllCops:
+  TargetRubyVersion: 2.5
+  Include:
+    - '**/Rakefile'
+    - '**/Gemfile'
+    - '**/config.ru'
+  Exclude:
+    - 'bin/**/*'
+    - 'script/**/*'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+    - 'db/schema.rb'
+    - 'vendor/**/*'
+    - 'lib/**/*'
+    - 'node_modules/**/*'

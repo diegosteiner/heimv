@@ -1,0 +1,25 @@
+.row
+  .col
+    .card
+      .card-body
+        h5.card-title
+          = Home.model_name.human(count: :other)
+        = link_to manage_homes_path, class: 'btn btn-primary'
+          ' Verwalten
+          span.badge.badge-light= Home.all.count
+  .col
+    .card
+      .card-body
+        h5.card-title
+          = Customer.model_name.human(count: :other)
+        = link_to manage_customers_path, class: 'btn btn-primary'
+          ' Verwalten
+          span.badge.badge-light= Customer.all.count
+  .col
+    .card
+      .card-body
+        h5.card-title
+          = Booking.model_name.human(count: :other)
+        = link_to manage_bookings_path, class: 'btn btn-primary'
+          ' Verwalten
+          span.badge.badge-light= Booking.all.count

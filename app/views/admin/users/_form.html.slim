@@ -1,0 +1,9 @@
+= form_with(model: [:admin, @user], local: true) do |f|
+
+  .form-inputs
+    = f.email_field :email
+    = f.select :role, User.roles.keys.map { |role| [role, role]}
+
+  .form-actions
+    = f.submit
+    =<> link_to t(:back), admin_users_path, class: 'btn btn-default'

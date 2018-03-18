@@ -1,0 +1,14 @@
+.row.justify-content-center
+  .col-md-6
+    h3
+      = t(".sign_in")
+    .card.breakout-sm
+      .card-body
+        = form_with(model: resource, scope: resource_name, url: session_path(resource_name), local: true) do |f|
+          = f.email_field :email, autofocus: true
+          = f.password_field :password
+          = f.check_box :remember_me if devise_mapping.rememberable?
+          = f.submit t(".sign_in")
+
+    br
+    = render 'devise/shared/links'

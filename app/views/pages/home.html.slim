@@ -1,0 +1,6 @@
+- Home.all.each do |home|
+  .card.my-3
+    .card-body
+      h5= home
+      = link_to new_public_booking_path(booking: { home_id: home.to_param })
+        | Reservieren

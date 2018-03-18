@@ -1,0 +1,24 @@
+.card
+  .card-body
+<% attributes.each do |attribute| -%>
+    p
+      strong= <%= class_name %>.human_attribute_name(:<%= attribute.human_name %>)
+      br
+      = @<%= singular_table_name %>.<%= attribute.name %>
+<% end -%>
+
+    br
+
+    = link_to edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: 'btn btn-primary' do
+      span.fa.fa-pencil
+      '
+      = t('edit')
+
+    '
+    = link_to <%= singular_table_name %>_path(@<%= singular_table_name %>), data: { confirm: t('confirm') }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t('destroy')
+
+br
+= link_to t('back'), <%= index_helper %>_path, class: 'btn btn-default'

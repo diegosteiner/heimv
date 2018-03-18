@@ -1,0 +1,22 @@
+.breakout-sm
+  table.table.table-hover.table-card
+    thead
+      tr
+        th= User.human_attribute_name(:email)
+        th= User.human_attribute_name(:role)
+        th
+        th
+
+    tbody
+      - @users.each do |user|
+        tr[data-href=admin_user_path(user) data-id=user.to_param]
+          td
+            = link_to user.email, admin_user_path(user)
+          td
+            = user.role
+          td
+            = link_to edit_admin_user_path(user) do
+              span.fa.fa-pencil
+          td
+            = link_to admin_user_path(user), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
+              span.fa.fa-trash

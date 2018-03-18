@@ -1,0 +1,29 @@
+table.table.table-hover.table-card
+  thead
+    tr
+      th= Contract.human_attribute_name(:booking)
+      th= Contract.human_attribute_name(:sent_at)
+      th= Contract.human_attribute_name(:signed_at)
+      th= Contract.human_attribute_name(:title)
+      th= Contract.human_attribute_name(:text)
+      th
+      th
+
+  tbody
+    - @contracts.each do |contract|
+      tr[data-href=manage_booking_contract_path(@booking, contract)]
+        td = contract.booking
+        td = contract.sent_at
+        td = contract.signed_at
+        td = contract.title
+        td = contract.text
+        td = link_to edit_manage_booking_contract_path(@booking, contract) do
+          span.fa.fa-pencil
+        td = link_to manage_booking_contract_path(@booking, contract), data: { confirm: t(:confirm) }, method: :delete do
+          span.fa.fa-trash
+
+br
+= link_to new_contract_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:'.new')

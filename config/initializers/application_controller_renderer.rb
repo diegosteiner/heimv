@@ -1,6 +1,12 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
-# ApplicationController.renderer.defaults.merge!(
-#   http_host: 'example.org',
-#   https: false
-# )
+# ActiveSupport::Reloader.to_prepare do
+#   ApplicationController.renderer.defaults.merge!(
+#     http_host: 'example.org',
+#     https: false
+#   )
+# end
+
+Rails.application.routes.default_url_options[:host] = Rails.application.secrets.app_host

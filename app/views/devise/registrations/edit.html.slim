@@ -1,0 +1,21 @@
+.row
+  .col-md-6
+    = form_with(model: resource, scope: resource_name, url: registration_path(resource_name), method: :put, local: true) do |f|
+      = f.email_field :email
+      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+        small.form-text.text-muted
+          p
+            = t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email)
+          = resource.unconfirmed_email
+      = f.password_field :password, autocomplete: 'off', hint: t(".leave_blank_if_you_don_t_want_to_change_it")
+      = f.password_field :current_password, hint: t(".we_need_your_current_password_to_confirm_your_changes")
+      = f.submit
+
+    .card.border-danger.my-4
+      .card-header.bg-danger.text-white
+        = "Danger zone"
+      .card-body
+        = button_to t(".cancel_my_account"), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger'
+
+    br
+    = link_to t("devise.shared.links.back"), :back
