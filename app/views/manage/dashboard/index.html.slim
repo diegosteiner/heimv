@@ -1,9 +1,19 @@
-dl
-  dt= Home.model_name.human(count: :other)
-  dd= link_to Home.all.count, manage_homes_path
-
-  dt= Customer.model_name.human(count: :other)
-  dd= link_to Customer.all.count, manage_customers_path
-
-  dt= Booking.model_name.human(count: :other)
-  dd= link_to Booking.all.count, manage_bookings_path
+.row
+  .col
+    .card
+      .card-body
+        h5.card-title
+          = Home.model_name.human(count: :other)
+        = link_to Home.all.count, manage_homes_path, class: 'btn btn-primary'
+  .col
+    .card
+      .card-body
+        h5.card-title
+          = Customer.model_name.human(count: :other)
+        = link_to Customer.all.count, manage_customers_path, class: 'btn btn-primary'
+  .col
+    .card
+      .card-body
+        h5.card-title
+          = Booking.model_name.human(count: :other)
+        = link_to Booking.all.count, manage_bookings_path, class: 'btn btn-primary'

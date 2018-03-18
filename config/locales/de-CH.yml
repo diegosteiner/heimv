@@ -260,16 +260,16 @@ de-CH:
   manage:
     bookings:
       index:
-        new: New
+        new: Neu
     contracts:
       index:
-        new: New
+        new: Neu
     customers:
       index:
-        new: New
+        new: Neu
     homes:
       index:
-        new: New
+        new: Neu
   nav:
     edit_account: Account
     sign_in: Anmelden
