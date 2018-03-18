@@ -4,7 +4,7 @@ module Seeders
   class ApplicationSeeder < BaseSeeder
     def seed
       [UserSeeder, HomeSeeder, CustomerSeeder, BookingSeeder].inject({}) do |seeds, seeder|
-        seeds.tap { |s| s[seeder] = seeder.new(@options, s).seed }
+        seeds.merge(seeder.new(@options, seeds).seed)
       end
     end
   end

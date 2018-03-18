@@ -5,7 +5,11 @@ module Seeders
     def seed
       return {} if production?
       {
-        homes: create_list(:home, 3)
+        homes: [
+          create(:home, name: 'Birchli', ref: 'bir'),
+          create(:home, name: 'Mühlebächli', ref: 'muehli'),
+          create(:home, name: 'Villa Kunterbunt', ref: 'villa')
+        ]
       }
     end
   end

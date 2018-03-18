@@ -4,6 +4,7 @@ require 'faker'
 module Seeders
   class BaseSeeder
     include FactoryBot::Syntax::Methods
+    attr_accessor :seeds, :options
 
     def initialize(options = {}, seeds = {})
       @options = options

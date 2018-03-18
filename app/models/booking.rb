@@ -9,6 +9,7 @@ class Booking < ApplicationRecord
   has_many :contracts, dependent: :destroy, autosave: false
 
   validates :home, :customer, :occupancy, :email, presence: true
+  validates :email, format: Devise.email_regexp
   validates :cancellation_reason, presence: true, allow_nil: true
 
   validates :committed_request, inclusion: { in: [true, false] }, if: :strict_validation
