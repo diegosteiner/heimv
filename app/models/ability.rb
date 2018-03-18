@@ -33,6 +33,7 @@ module Ability
       can :manage, Booking
       can :manage, Occupancy
       can :manage, BookingAgent
+      can :manage, Dashboard
     end
   end
 

@@ -1,9 +1,6 @@
-dl
-  dt= Home.model_name.human(count: :other)
-  dd= link_to Home.all.count, manage_homes_path
-
-  dt= Customer.model_name.human(count: :other)
-  dd= link_to Customer.all.count, manage_customers_path
-
-  dt= Booking.model_name.human(count: :other)
-  dd= link_to Booking.all.count, manage_bookings_path
+- Home.all.each do |home|
+  .card.my-3
+    .card-body
+      h5= home
+      = link_to new_public_booking_path(booking: { home_id: home.to_param })
+        | Reservieren

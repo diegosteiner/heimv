@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
 
   namespace :manage do
+    get 'dashboard', to: 'dashboard#index'
     resources :homes
     resources :bookings do
       resources :contracts, shallow: true

@@ -31,6 +31,10 @@ module Public
       @view_model = @booking.booking_strategy::ViewModel.new(@booking)
     end
 
+    def new_params
+      Params::Public::BookingParams.new.call(params, Booking.new)
+    end
+
     def create_params
       Params::Public::BookingParams.new.call(params, @booking)
     end
