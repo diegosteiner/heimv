@@ -41,9 +41,9 @@ de-CH:
       invoice:
         esr_number: ESR Nummer
         invoice_type: Rechnungsart
-        text: Text
-        payable_until: Zahlung bis
         issued_at: Ausgestellt am
+        payable_until: Zahlung bis
+        text: Text
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
@@ -213,6 +213,8 @@ de-CH:
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->cancelled":
+          label: Annulieren
         "-->completed":
           label: Abgeschlossene Belegung
         "-->confirmed":
@@ -235,8 +237,6 @@ de-CH:
           label: Provisorische Mietanfrage
         "-->upcoming":
           label: Geplante Belegung
-        "-->cancelled":
-          label: Annulieren
         initial-->new_request:
           label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
