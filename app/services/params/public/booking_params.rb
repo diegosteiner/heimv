@@ -11,7 +11,7 @@ module Params
       end
 
       def self.permitted_create_params
-        [:organisation, :home_id, :email,
+        [:organisation, :home_id, :email, :booking_agent_code,
          occupancy_attributes: %i[begins_at ends_at]]
       end
 

@@ -12,6 +12,7 @@ en:
     attributes:
       booking:
         approximate_headcount: Erwartete Anzahl Personen
+        booking_agent_code: Vermittler-Code
         committed_request: Verbindlichkeit der Mietanfrage
         customer: Kunde
         customer_id: Kunde
@@ -108,6 +109,39 @@ en:
   add_model: Add model
   back: Back
   booking_mailer:
+    booking_agent_request:
+      body: |-
+        Hallo <Name des Vermittlers>
+
+        <falls Geschäftsfall 1>Vielen Dank für Deine Vermittlung auf pfadi-heime.ch. Wir
+        Anforderungen für neue Heimverwaltungs-Software Version 3 vom 2.11.2017
+        Verein Pfadiheime St. Georg, Zürich Seite 47
+        haben die Angaben des Mieters geprüft und nun eine definitive Reservation erstellt.
+        Unser Heimverwalter wird ihm in den nächsten Tagen den Mietvertrag zustellen. </1>
+
+        <falls Geschäftsfall 2>Die Reservation zu Deiner Vermittlung auf pfadi-heime.ch ist
+        nun definitiv. Unser Heimverwalter wird dem Mieter in den nächsten Tagen den
+        Mietvertrag zustellen.</2>
+
+        Reservationsdetails:
+        Lagerhaus: Birchli, Einsiedeln
+        Reservation: 12.3.2018 18:00h bis 14.3.2018 18:00h
+        Organisation: Pfadi Laupen
+        Mietzweck: Lager/Kurs
+        Kontaktperson:
+        Christian Kaiser / Murmel
+        Stadtturmstrasse 15
+        5400 Baden
+        079 759 13 12
+        murmel@pfadi-laupen.ch
+        Bemerkungen: Referenz Gruppenhaus: GH255-2018-11-24
+        Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+        wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
+        Freundliche Grüsse
+        Verein Pfadiheime St. Georg
+
+        %{link}
+      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
     confirm_request:
       body: |-
         Hallo
@@ -209,6 +243,8 @@ en:
     bookings:
       edit:
         title: Title
+      form:
+        booking_details: Booking details
       new:
         title: Title
   time:

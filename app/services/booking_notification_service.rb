@@ -9,6 +9,11 @@ class BookingNotificationService
                  .deliver_now
   end
 
+  def booking_agent_request_notification
+    BookingMailer.booking_agent_request(BookingMailerViewModel.new(@booking, @booking.booking_agent.email))
+                 .deliver_now
+  end
+
   @raw = <<~RAW_MAILS
     E-Mail: E-Mail-Adresse bestätigen
     Geschäftsfall: Mietanfrage>Benutzer stellt Mietanfrage

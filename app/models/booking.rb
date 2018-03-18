@@ -6,6 +6,8 @@ class Booking < ApplicationRecord
   has_one :occupancy, dependent: :destroy, as: :subject, inverse_of: :subject, autosave: true
   belongs_to :home
   belongs_to :customer, inverse_of: :bookings
+  belongs_to :booking_agent, foreign_key: :booking_agent_code, primary_key: :code,
+    inverse_of: :bookings, required: false
   has_many :contracts, dependent: :destroy, autosave: false
 
   validates :home, :customer, :occupancy, :email, presence: true

@@ -47,7 +47,12 @@ module BookingStrategy
       end
 
       after_transition(to: %i[new_request]) do |booking|
-        BookingNotificationService.new(booking).confirm_request_notification
+        notification_service = BookingNotificationService.new(booking)
+        if booking.booking_agent.present?
+          notification_service.booking_agent_request_notification
+        else
+          notification_service.confirm_request_notification
+        end
       end
 
       after_transition(to: %i[cancelled]) do |booking|
