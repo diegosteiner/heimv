@@ -22,8 +22,11 @@ module BookingStrategy
         I18n.t(state, scope: I18N_SCOPE + [:state])
       end
 
-      def self.i18n_transition(transition)
-        I18n.t(transition, scope: I18N_SCOPE + [:transition])
+      def self.i18n_transition(from = nil, to)
+        scope = I18N_SCOPE + [:transition]
+        I18n.t("#{from}-->#{to}", scope: scope, raise: true)
+      rescue I18n::MissingTranslationData
+        I18n.t("-->#{to}", scope: scope, raise: true)
       end
     end
   end
