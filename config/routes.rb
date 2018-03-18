@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :homes
     resources :bookings do
       resources :contracts, shallow: true
+      resources :invoices, shallow: true
     end
     resources :customers
     resources :booking_agents

@@ -8,7 +8,6 @@ de-CH:
     update:
       success: DEPRECATED Success
   activerecord:
-    add_model: "%{model_name} hinzufügen"
     attributes:
       booking:
         approximate_headcount: Erwartete Anzahl Personen
@@ -39,6 +38,10 @@ de-CH:
         house_rules: Hausordnung (PDF)
         name: name
         ref: Kurzname / Referenz
+      invoice:
+        text: Text
+        payable_until: Zahlung bis
+        issued_at: Ausgestellt am
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
@@ -79,6 +82,9 @@ de-CH:
       home:
         one: Heim
         other: Heime
+      invoice:
+        one: Rechnung
+        other: Rechnungen
       occupancy:
         one: Belegung
         other: Belegungen
@@ -106,7 +112,7 @@ de-CH:
           payment_overdue: Rechnung überfällig
           provisional_request: Provisorische Mietanfrage
           upcoming: Geplante Belegung
-  add_model: Add model
+  add_model: "%{model_name} hinzufügen"
   back: Zurück
   booking_mailer:
     booking_agent_request:
