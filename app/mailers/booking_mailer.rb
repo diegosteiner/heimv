@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class BookingMailer < ApplicationMailer
   default from: Rails.application.secrets.mail_from
 
@@ -39,8 +40,6 @@ class BookingMailer < ApplicationMailer
       # format.html { Kramdown::Document.new(body).to_html }
     end
   end
-
-# rubocop:disable Metrics/ClassLength
   @raw = <<~RAW_MAILS
     E-Mail: E-Mail-Adresse bestätigen
     Geschäftsfall: Mietanfrage>Benutzer stellt Mietanfrage
@@ -409,5 +408,5 @@ class BookingMailer < ApplicationMailer
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
 RAW_MAILS
-# rubocop:enable Metrics/ClassLength
 end
+# rubocop:enable Metrics/ClassLength

@@ -30,8 +30,10 @@ en:
       customer:
         address: Adresse
         city: Ort
+        email: Email
         first_name: Vorname
         last_name: Nachname
+        reservations_allowed: Darf Reservationsanfragen schicken
         street_address: Strasse / Nr.
         zipcode: PLZ
       home:
@@ -180,6 +182,9 @@ en:
         confirmed:
           help: Help
           label: Bestätigte Reservation
+        confirmed_new_request:
+          help: Help
+          label: Neue Mietanfrage
         definitive_request:
           help: Help
           label: Definitive Mietanfrage
@@ -219,6 +224,8 @@ en:
           label: Abgeschlossene Belegung
         "-->confirmed":
           label: Bestätigte Reservation
+        "-->confirmed_new_request":
+          label: Neue Mietanfrage
         "-->definitive_request":
           label: Definitive Mietanfrage
         "-->new_request":
