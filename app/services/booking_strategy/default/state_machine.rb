@@ -3,13 +3,14 @@ module BookingStrategy
     class StateMachine < Base::StateMachine
       state :initial, initial: true
       %i[
-        new_request provisional_request definitive_request overdue_request cancelled
+        new_request confirmed_new_request provisional_request definitive_request overdue_request cancelled
         confirmed upcoming overdue active past payment_due payment_overdue completed
       ].each { |s| state(s) }
 
       transition from: :initial, to: %i[new_request provisional_request definitive_request]
       transition from: :overdue_request, to: %i[cancelled definitive_request provisional_request]
-      transition from: :new_request, to: %i[cancelled provisional_request definitive_request]
+      transition from: :new_request, to: %i[cancelled confirmed_new_request]
+      transition from: :confirmed_new_request, to: %i[cancelled provisional_request definitive_request]
       transition from: :provisional_request, to: %i[definitive_request overdue_request cancelled]
       transition from: :definitive_request, to: %i[cancelled confirmed]
       transition from: :confirmed, to: %i[cancelled upcoming overdue]
@@ -47,12 +48,17 @@ module BookingStrategy
       end
 
       after_transition(to: %i[new_request]) do |booking|
-        notification_service = BookingNotificationService.new(booking)
         if booking.booking_agent.present?
-          notification_service.booking_agent_request_notification
+          BookingMailer.booking_agent_request(BookingMailerViewModel.new(booking, booking.booking_agent.email))
+                       .deliver_now
         else
-          notification_service.confirm_request_notification
+          BookingMailer.confirm_request(BookingMailerViewModel.new(booking, booking.customer.email))
+                       .deliver_now
         end
+      end
+
+      after_transition(to: %i[provisional_request definitive_request]) do |booking|
+        booking.occupancy.update(blocking: false)
       end
 
       after_transition(to: %i[cancelled]) do |booking|
@@ -67,15 +73,23 @@ module BookingStrategy
         booking.email.present?
       end
 
+      automatic_transition(from: :new_request, to: :confirmed_new_request) do |booking|
+        booking.customer.valid?
+      end
+
+      automatic_transition(from: :confirm_new_request, to: :provisional_request) do |booking|
+        booking.customer.reservations_allowed
+      end
+
       automatic_transition(to: :cancelled) do |booking|
         booking.cancellation_reason.present?
       end
 
-      automatic_transition(from: :new_request, to: :provisional_request) do |booking|
-        booking.valid? && !booking.committed_request.nil? && !booking.committed_request
-      end
+      # automatic_transition(from: :confirmed_new_request, to: :provisional_request) do |booking|
+      #   booking.valid? && !booking.committed_request.nil? && !booking.committed_request
+      # end
 
-      automatic_transition(from: %i[new_request provisional_request], to: :definitive_request, &:committed_request)
+      automatic_transition(from: :provisional_request, to: :definitive_request, &:committed_request)
     end
   end
 end

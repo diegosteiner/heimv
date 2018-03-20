@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 2018_03_18_172645) do
     t.string "street_address"
     t.string "zipcode"
     t.string "city"
+    t.boolean "reservations_allowed"
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -1,5 +1,7 @@
 = form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
 
+  = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:label]
+
   = f.alert_message nil
 
   .form-inputs
@@ -52,7 +54,7 @@
   .form-actions
     =<> f.submit
     button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
-      = @view_model.class.i18n_transition('-->cancelled')[:label]
+      = @view_model.class.i18n_transition('cancelled')[:label]
 
 
 #cancelModal.modal[role="dialog" tabindex="-1"]
@@ -61,7 +63,7 @@
       .modal-content
         .modal-header
           h5.modal-title
-            = @view_model.class.i18n_transition('-->cancelled')[:label]
+            = @view_model.class.i18n_transition('cancelled')[:label]
           button.close aria-label="Close" data-dismiss="modal" type="button"
             span aria-hidden="true" &times;
         .modal-body
@@ -69,5 +71,5 @@
         .modal-footer
           = f.submit
           button.btn.btn-secondary[data-dismiss="modal" type="button"]
-            = @view_model.class.i18n_transition('-->cancelled')[:label]
+            = @view_model.class.i18n_transition('cancelled')[:label]
 

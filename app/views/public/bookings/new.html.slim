@@ -8,6 +8,7 @@
       .card
         .card-body
           = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
+            = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:label]
             .form-inputs
               = f.select :home_id, @view_model.homes_for_select
               = f.fields_for :occupancy, @booking.occupancy do |of|

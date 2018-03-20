@@ -11,6 +11,8 @@
       .col-md-8
         = f.text_field :city
 
+    = f.checkbox_field :reservations_allowed
+
   .form-actions
     = f.submit
     = link_to t(:back), manage_customers_path, class: 'btn btn-default'

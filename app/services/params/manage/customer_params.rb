@@ -6,7 +6,7 @@ module Params
       end
 
       def self.permitted_params
-        Params::Public::CustomerParams.permitted_params
+        Params::Public::CustomerParams.permitted_params + %i[reservations_allowed]
       end
     end
   end

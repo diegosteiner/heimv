@@ -5,6 +5,7 @@
         th= Booking.human_attribute_name(:occupancy)
         th= Booking.human_attribute_name(:home)
         th= Booking.human_attribute_name(:customer)
+        th= Booking.human_attribute_name(:state)
         th
 
     tbody
@@ -15,5 +16,8 @@
           td
             = link_to booking.home, manage_home_path(booking.home)
           td = booking.customer
+          td
+            span.badge.badge-info
+              = booking.booking_strategy::ViewModel.i18n_state(booking.state_machine.current_state)[:label]
           td = link_to edit_manage_booking_path(booking) do
             span.fa.fa-pencil

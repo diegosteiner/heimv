@@ -60,7 +60,7 @@ describe BookingStrategy::Default::StateMachine do
       it 'sends email-confirmation' do
         notification_service = double
         expect(notification_service).to receive(:confirm_request_notification)
-        expect(BookingNotificationService).to receive(:new).and_return(notification_service)
+        # expect(BookingNotificationService).to receive(:new).and_return(notification_service)
         expect(state_machine.transition_to!(:new_request)).to be true
       end
     end

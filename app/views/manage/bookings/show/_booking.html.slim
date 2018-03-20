@@ -3,7 +3,7 @@ section.breakout-sm
     .card-body
       p
         span.badge.badge-info
-          = t(booking.state, scope: 'activerecord.values.booking.state') if booking.state
+          = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:label]
 
       p
         = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
@@ -22,7 +22,7 @@ section.breakout-sm
 
       - @booking.state_machine.allowed_transitions.each do |state|
         '
-        = link_to manage_booking_path(booking, booking: { transition_to: state }), method: :patch, class: 'btn btn-primary' do
+        = link_to manage_booking_path(booking, booking: { transition_to: state }), method: :patch, class: 'btn btn-outline-primary' do
           = @booking.booking_strategy::ViewModel.i18n_transition(@booking.state_machine.current_state, state)[:label]
 
       = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
