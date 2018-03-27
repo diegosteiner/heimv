@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
       session[:next] = request.fullpath
       redirect_to login_url, alert: 'You have to log in to continue.'
     else
-      render text: 'oops!', status: 403
+      render text: 'oops!', status: :forbidden
     end
   end
 end

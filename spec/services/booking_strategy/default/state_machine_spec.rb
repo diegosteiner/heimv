@@ -21,8 +21,10 @@ describe BookingStrategy::Default::StateMachine do
     it_behaves_like 'transition', 'initial-->provisional_request', true
     it_behaves_like 'transition', 'initial-->definitive_request', true
     it_behaves_like 'transition', 'initial-->new_request', true
-    it_behaves_like 'transition', 'new_request-->provisional_request', true
-    it_behaves_like 'transition', 'new_request-->definitive_request', true
+    it_behaves_like 'transition', 'new_request-->provisional_request', false
+    it_behaves_like 'transition', 'new_request-->definitive_request', false
+    it_behaves_like 'transition', 'confirmed_new_request-->provisional_request', true
+    it_behaves_like 'transition', 'confirmed_new_request-->definitive_request', true
     it_behaves_like 'transition', 'new_request-->cancelled', true
     it_behaves_like 'transition', 'initial-->provisional_request', true
     it_behaves_like 'transition', 'overdue_request-->definitive_request', true
@@ -58,9 +60,7 @@ describe BookingStrategy::Default::StateMachine do
   describe 'sideeffects' do
     describe '-->request' do
       it 'sends email-confirmation' do
-        notification_service = double
-        expect(notification_service).to receive(:confirm_request_notification)
-        # expect(BookingNotificationService).to receive(:new).and_return(notification_service)
+        expect(BookingMailer).to receive_message_chain(:confirm_request, :deliver_now)
         expect(state_machine.transition_to!(:new_request)).to be true
       end
     end
