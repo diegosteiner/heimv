@@ -11,7 +11,6 @@ gem 'breadcrumbs'
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
-gem 'dotenv'
 gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'kramdown'
@@ -41,6 +40,7 @@ group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'byebug', platform: :mri
+  gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'
