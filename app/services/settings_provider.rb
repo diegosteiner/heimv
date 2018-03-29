@@ -1,7 +1,7 @@
 class SettingsProvider
   def self.mailer_settings
     scheme, url = ENV.fetch('MAILER_URL').split('://')
-    uri = URI(url)
+    uri = URI("//#{url}")
     {
       delivery_method: scheme.to_sym,
       address: uri.host,

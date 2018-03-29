@@ -6,6 +6,7 @@ class BookingMailer < ApplicationMailer
     body = I18n.t(:'booking_mailer.confirm_request.body',
                   link: edit_public_booking_url(booking_mailer_view_model.public_id))
     subject = I18n.t(:'booking_mailer.confirm_request.subject')
+    binding.pry
     mail(to: booking_mailer_view_model.to, subject: subject) do |format|
       format.text { body }
       # format.html { Kramdown::Document.new(body).to_html }
