@@ -1,7 +1,5 @@
 # rubocop:disable Metrics/ClassLength
 class BookingMailer < ApplicationMailer
-  default from: Rails.application.secrets.mail_from
-
   def confirm_request(booking_mailer_view_model)
     body = I18n.t(:'booking_mailer.confirm_request.body',
                   link: edit_public_booking_url(booking_mailer_view_model.public_id))
