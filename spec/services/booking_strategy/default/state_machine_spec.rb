@@ -60,7 +60,7 @@ describe BookingStrategy::Default::StateMachine do
   describe 'sideeffects' do
     describe '-->request' do
       it 'sends email-confirmation' do
-        expect(BookingMailer).to receive_message_chain(:confirm_request, :deliver_now)
+        expect(BookingStateMailer).to receive_message_chain(:state_changed, :deliver_now)
         expect(state_machine.transition_to!(:new_request)).to be true
       end
     end
