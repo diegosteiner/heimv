@@ -26,8 +26,7 @@
         .col-md-8
           = cf.text_field :city
 
-  hr.my-4
-
+  hr.my-3
   fieldset
     h5= t('.booking_details')
     = f.text_field :organisation
@@ -42,9 +41,9 @@
     = f.number_field :approximate_headcount
     = f.text_area :remarks
 
-  hr.my-4
 
   - if @booking.booking_agent.present?
+    hr.my-3
     fieldset
       h5= BookingAgent.model_name.human
       = f.fields_for :booking_agent, @booking.booking_agent do |af|

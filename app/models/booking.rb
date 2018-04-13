@@ -40,6 +40,10 @@ class Booking < ApplicationRecord
     customer&.email || self[:email]
   end
 
+  def to_param
+    public_id
+  end
+
   private
 
   def assign_customer_from_email

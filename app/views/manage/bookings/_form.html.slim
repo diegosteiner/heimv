@@ -1,6 +1,5 @@
 = form_with(model: [:manage, @booking], local: true) do |f|
 
-
   fieldset
     = f.select :transition_to, @view_model.allowed_transitions_for_select, include_blank: true
 

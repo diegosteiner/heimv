@@ -5,8 +5,8 @@ module Public
 
     def new
       @booking.build_occupancy
-      @booking.occupancy.begins_at = Time.zone.now
-      @booking.occupancy.ends_at = @booking.occupancy.begins_at + 7.days
+      @booking.occupancy.begins_at = Time.zone.now.change({ hour: 11, min: 0, sec: 0 })
+      @booking.occupancy.ends_at = (@booking.occupancy.begins_at + 7.days).change({ hour: 17 })
       respond_with :public, @booking
     end
 

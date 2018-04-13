@@ -52,9 +52,12 @@ module BookingStrategy
           BookingMailer.booking_agent_request(BookingMailerViewModel.new(booking, booking.booking_agent.email))
                        .deliver_now
         else
-          BookingMailer.confirm_request(BookingMailerViewModel.new(booking, booking.customer.email))
-                       .deliver_now
+          BookingStateMailer.state_changed(booking, :new_request).deliver_now
         end
+      end
+
+      after_transition(to: %i[confirmed_new_request]) do |booking|
+        BookingStateMailer.state_changed(booking, :confirmed_new_request).deliver_now
       end
 
       after_transition(to: %i[provisional_request definitive_request]) do |booking|

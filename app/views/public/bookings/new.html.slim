@@ -12,8 +12,9 @@
             fieldset
               = f.select :home_id, @view_model.homes_for_select
               = f.fields_for :occupancy, @booking.occupancy do |of|
-                = of.datetime_local_field :begins_at
-                = of.datetime_local_field :ends_at
+                .row
+                  .col= of.datetime_local_field :begins_at
+                  .col= of.datetime_local_field :ends_at
               = f.email_field :email
               = f.text_field :organisation
               = f.text_field :booking_agent_code

@@ -1,6 +1,6 @@
 export default class {
     static initialize() {
-        $('.form-check-input').addClass('form-check-control').removeClass('form-check-input')
+        $('.form-check-input').addClass('form-check-control')
         $('.form-group.is-invalid .form-control').addClass('is-invalid')
     }
 

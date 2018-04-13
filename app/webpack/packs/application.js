@@ -13,20 +13,23 @@ import Forms from 'src/forms'
 
 Turbolinks.start()
 
-let load = (function() {
+let load = (function () {
 
-    $('[data-href]').click(function(e) {
+    $('[data-href]').click(function (e) {
         if ($(e.target).parents('a').length == 0) {
             Turbolinks.visit($(this).data('href'))
         }
     });
 
-    // flatpickr('.input-group.datetime', {
-    //     enableTime: true,
-    //     minuteIncrement: 15,
-    //     time_24hr: true,
-    //     locale: $('html').attr('lang')
-    // });
+    flatpickr('input[type="datetime-local"]', {
+        enableTime: true,
+        altInput: true,
+        altFormat: "d.m.Y H:i",
+        dateFormat: "Y-m-d H:i",
+        minuteIncrement: 15,
+        time_24hr: true,
+        locale: $('html').attr('lang').split('-')[0]
+    });
 
     // $('select').select2({
     //     theme: 'bootstrap'
