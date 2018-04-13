@@ -6,11 +6,11 @@ module Params
       end
 
       def permit_create(params)
-        params.require(:booking).permit(permitted_keys_create)
+        params.require(:booking).permit(self.class.permitted_keys_create)
       end
 
       def permit_update(params)
-        params.require(:booking).permit(permitted_keys_create)
+        params.require(:booking).permit(self.class.permitted_keys_update)
       end
 
       def self.permitted_keys_create

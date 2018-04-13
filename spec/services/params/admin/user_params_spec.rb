@@ -5,8 +5,8 @@ describe Params::Admin::UserParams do
   let(:params) { ActionController::Parameters.new(params_hash) }
   let(:service) { described_class.new }
 
-  describe '#call' do
-    subject { service.call(params) }
+  describe '#permit' do
+    subject { service.permit(params) }
 
     it do
       is_expected.to be_permitted
