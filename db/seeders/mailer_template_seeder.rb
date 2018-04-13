@@ -2,6 +2,7 @@ require_relative './base_seeder'
 
 module Seeders
   class MailerTemplateSeeder < BaseSeeder
+    # rubocop:disable Metrics/MethodLength
     def seed
       {
         mailer_templates: [
@@ -49,5 +50,6 @@ module Seeders
         ]
       }
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

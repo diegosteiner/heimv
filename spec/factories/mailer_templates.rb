@@ -3,7 +3,7 @@ FactoryBot.define do
     mailer { BookingStateMailer.to_s }
     action :test
     locale { I18n.available_locales.sample }
-    subject "Test Template"
+    subject 'Test Template'
     body { Faker::Lorem.paragraph }
   end
 end
