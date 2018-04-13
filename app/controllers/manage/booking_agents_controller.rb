@@ -39,7 +39,7 @@ module Manage
     private
 
     def booking_agent_params
-      Params::Manage::BookingAgentParams.new.call(params)
+      Params::Manage::BookingAgentParams.new.permit(params)
     end
   end
 end

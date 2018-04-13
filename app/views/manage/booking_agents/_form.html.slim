@@ -1,10 +1,10 @@
 = form_with(model: [:manage, @booking_agent], local: true) do |f|
 
-  .form-inputs
+  fieldset
     = f.text_field :name
     = f.text_field :code
     = f.email_field :email
 
-  .form-actions
+  .form-actions.pt-4.mt-3.border-top
     = f.submit
     = link_to t(:back), manage_booking_agents_path, class: 'btn btn-default'

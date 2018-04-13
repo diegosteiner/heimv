@@ -32,15 +32,15 @@ module Public
     end
 
     def new_params
-      Params::Public::BookingParams.new.call(params, Booking.new)
+      Params::Public::BookingParams.new.permit_create(params)
     end
 
     def create_params
-      Params::Public::BookingParams.new.call(params, @booking)
+      Params::Public::BookingParams.new.permit_create(params)
     end
 
     def update_params
-      Params::Public::BookingParams.new.call(params, @booking)
+      Params::Public::BookingParams.new.permit_update(params)
     end
   end
 end

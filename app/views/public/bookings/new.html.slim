@@ -9,7 +9,7 @@
         .card-body
           = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
             = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:label]
-            .form-inputs
+            fieldset
               = f.select :home_id, @view_model.homes_for_select
               = f.fields_for :occupancy, @booking.occupancy do |of|
                 = of.datetime_local_field :begins_at
@@ -18,6 +18,6 @@
               = f.text_field :organisation
               = f.text_field :booking_agent_code
 
-            .form-actions
+            .form-actions.pt-4.mt-3.border-top
               = f.submit
 

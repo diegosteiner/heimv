@@ -1,11 +1,11 @@
 = form_with(model: [:manage, @booking, @invoice], local: true) do |f|
 
-  .form-inputs
+  fieldset
     = f.select :invoice_type, options_for_select(Invoice.invoice_types.keys.map { |type| [t(type, scope: 'activerecord.values.invoice.invoice_type'), type] })
     = f.text_field :esr_number
     = f.text_area :text
     = f.date_field :issued_at
     = f.date_field :payable_until
 
-  .form-actions
+  .form-actions.pt-4.mt-3.border-top
     = f.submit

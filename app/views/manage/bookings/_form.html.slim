@@ -1,7 +1,7 @@
 = form_with(model: [:manage, @booking], local: true) do |f|
 
 
-  .form-inputs
+  fieldset
     = f.select :transition_to, @view_model.allowed_transitions_for_select, include_blank: true
 
     = f.fields_for :occupancy, @booking.occupancy do |of|
@@ -21,8 +21,8 @@
         .col-md-8
           = cf.text_field :city
 
-  .form-inputs
-    hr
+  hr
+  fieldset
     = f.text_field :organisation
     = f.form_group :committed_request
       = f.label :committed_request, Booking.human_attribute_name(:committed_request)
@@ -35,6 +35,6 @@
     = f.number_field :approximate_headcount
     = f.text_area :remarks
 
-  .form-actions
+  .form-actions.pt-4.mt-3.border-top
     = f.submit
     =<> link_to t(:back), manage_bookings_path, class: 'btn btn-default'

@@ -1,7 +1,7 @@
 module Params
   module Manage
     class HomeParams < ApplicationParams
-      def call(params)
+      def permit(params)
         params.require(:home).permit(:name, :ref, :house_rules)
       end
     end

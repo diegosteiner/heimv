@@ -55,7 +55,7 @@ module Manage
     end
 
     def booking_params
-      Params::Manage::BookingParams.new.call(params)
+      Params::Manage::BookingParams.new.permit(params)
     end
   end
 end

@@ -1,12 +1,12 @@
 module Params
   module Manage
     class CustomerParams < ApplicationParams
-      def call(params)
-        params.require(:customer).permit(*self.class.permitted_params)
+      def permit(params)
+        params.require(:customer).permit(*self.class.permitted_keys)
       end
 
-      def self.permitted_params
-        Params::Public::CustomerParams.permitted_params + %i[reservations_allowed]
+      def self.permitted_keys
+        Params::Public::CustomerParams.permitted_keys + %i[reservations_allowed]
       end
     end
   end

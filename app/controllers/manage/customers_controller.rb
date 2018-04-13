@@ -37,7 +37,7 @@ module Manage
     private
 
     def customer_params
-      Params::Manage::CustomerParams.new.call(params)
+      Params::Manage::CustomerParams.new.permit(params)
     end
   end
 end

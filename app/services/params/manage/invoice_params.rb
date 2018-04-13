@@ -1,11 +1,11 @@
 module Params
   module Manage
     class InvoiceParams < ApplicationParams
-      def call(params)
-        params.require(:invoice).permit(*self.class.permitted_params)
+      def permit(params)
+        params.require(:invoice).permit(*self.class.permitted_keys)
       end
 
-      def self.permitted_params
+      def self.permitted_keys
         %i[invoice_type text issued_at payable_until esr_number]
       end
     end

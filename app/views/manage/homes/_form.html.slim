@@ -1,8 +1,8 @@
 = form_with(model: [:manage, @home], local: true) do |f|
-  .form-inputs
+  fieldset
     = f.text_field :name
     = f.text_field :ref
     = f.file_field :house_rules
 
-  .form-actions
+  .form-actions.pt-4.mt-3.border-top
     = f.submit

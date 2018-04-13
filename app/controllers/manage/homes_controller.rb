@@ -42,7 +42,7 @@ module Manage
     private
 
     def home_params
-      Params::Manage::HomeParams.new.call(params)
+      Params::Manage::HomeParams.new.permit(params)
     end
   end
 end

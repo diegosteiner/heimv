@@ -1,24 +1,27 @@
 module Params
   module Public
     class BookingParams < ApplicationParams
-      def call(params, booking)
-        permitted_params = if booking.blank? || booking.new_record?
-                             self.class.permitted_create_params
-                           else
-                             self.class.permitted_update_params
-                           end
-        params.require(:booking).permit(*permitted_params)
+      def permit(params)
+        permit_create(params)
       end
 
-      def self.permitted_create_params
+      def permit_create(params)
+        params.require(:booking).permit(permitted_keys_create)
+      end
+
+      def permit_update(params)
+        params.require(:booking).permit(permitted_keys_create)
+      end
+
+      def self.permitted_keys_create
         [:organisation, :home_id, :email, :booking_agent_code,
          occupancy_attributes: %i[begins_at ends_at]]
       end
 
-      def self.permitted_update_params
+      def self.permitted_keys_update
         [:organisation, :definitive_request, :cancellation_reason,
          :committed_request, :event_kind, :approximate_headcount, :remarks,
-         customer_attributes: CustomerParams.permitted_params.without(:email)]
+         customer_attributes: CustomerParams.permitted_keys.without(:email)]
       end
     end
   end

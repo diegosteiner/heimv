@@ -4,7 +4,7 @@
 
   = f.alert_message nil
 
-  .form-inputs
+  fieldset
     = f.select :home_id, @view_model.homes_for_select, {}, disabled: true
     = f.fields_for :occupancy, @booking.occupancy do |of|
       .row
@@ -28,7 +28,7 @@
 
   hr.my-4
 
-  .form-inputs
+  fieldset
     h5= t('.booking_details')
     = f.text_field :organisation
     = f.form_group :committed_request
@@ -45,13 +45,13 @@
   hr.my-4
 
   - if @booking.booking_agent.present?
-    .form-inputs
+    fieldset
       h5= BookingAgent.model_name.human
       = f.fields_for :booking_agent, @booking.booking_agent do |af|
         = af.text_field :name, disabled: true
         = af.email_field :email, disabled: true
 
-  .form-actions
+  .form-actions.pt-4.mt-3.border-top
     =<> f.submit
     button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
       = @view_model.class.i18n_transition('cancelled')[:label]

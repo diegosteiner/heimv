@@ -42,7 +42,7 @@ module Manage
     private
 
     def invoice_params
-      Params::Manage::InvoiceParams.new.call(params)
+      Params::Manage::InvoiceParams.new.permit(params)
     end
   end
 end

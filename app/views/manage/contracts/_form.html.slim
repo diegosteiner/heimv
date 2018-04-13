@@ -1,11 +1,11 @@
 = form_with(model: [:manage, @booking, @contract], local: true) do |f|
   = f.error_summary
 
-  .form-inputs
+  fieldset
     = f.datetime_local_field :sent_at
     = f.datetime_local_field :signed_at
     = f.text_field :title
     = f.text_area :text
 
-  .form-actions
+  .form-actions.pt-4.mt-3.border-top
     = f.submit

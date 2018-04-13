@@ -1,7 +1,7 @@
 module Params
   module Admin
     class UserParams < ApplicationParams
-      def call(params)
+      def permit(params)
         params.require(:user).permit(:email, :role)
       end
     end

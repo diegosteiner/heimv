@@ -16,7 +16,7 @@ gem 'faker', require: false
 gem 'kramdown'
 gem 'pg'
 gem 'puma', '~> 3.0'
-gem 'rails', '>= 5.2.0.beta'
+gem 'rails', '~> 5.2.0'
 gem 'rails-i18n', '~> 5.0.0'
 gem 'responders'
 gem 'slim-rails'

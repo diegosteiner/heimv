@@ -1,11 +1,11 @@
 module Params
   module Manage
     class BookingAgentParams < ApplicationParams
-      def call(params)
-        params.require(:booking_agent).permit(*self.class.permitted_params)
+      def permit(params)
+        params.require(:booking_agent).permit(*self.class.permitted_keys)
       end
 
-      def self.permitted_params
+      def self.permitted_keys
         %i[name code email]
       end
     end

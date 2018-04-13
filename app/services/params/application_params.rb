@@ -1,7 +1,7 @@
 module Params
   class ApplicationParams
-    def call; end
+    def permit; end
 
-    def permitted_params; end
+    def permitted_keys; end
   end
 end
