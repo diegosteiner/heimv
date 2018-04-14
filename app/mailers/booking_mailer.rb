@@ -2,7 +2,7 @@
 class BookingMailer < ApplicationMailer
   def confirm_request(booking_mailer_view_model)
     body = I18n.t(:'booking_mailer.confirm_request.body',
-                  link: edit_public_booking_url(booking_mailer_view_model.public_id))
+                  link: edit_public_booking_url(booking_mailer_view_model.booking))
     subject = I18n.t(:'booking_mailer.confirm_request.subject')
     mail(to: booking_mailer_view_model.to, subject: subject) do |format|
       format.text { body }
@@ -12,7 +12,7 @@ class BookingMailer < ApplicationMailer
 
   def booking_agent_request(booking_mailer_view_model)
     body = I18n.t(:'booking_mailer.booking_agent_request.body',
-                  link: edit_public_booking_url(booking_mailer_view_model.public_id))
+                  link: edit_public_booking_url(booking_mailer_view_model.booking))
     subject = I18n.t(:'booking_mailer.booking_agent_request.subject')
     mail(to: booking_mailer_view_model.to, subject: subject) do |format|
       format.text { body }

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_13_115019) do
+ActiveRecord::Schema.define(version: 2018_04_14_083035) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
@@ -49,7 +50,7 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
   create_table "booking_transitions", force: :cascade do |t|
     t.string "to_state", null: false
     t.integer "sort_key", null: false
-    t.integer "booking_id", null: false
+    t.uuid "booking_id", null: false
     t.boolean "most_recent", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -57,14 +58,14 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.json "booking_data", default: {}
     t.index ["booking_id", "most_recent"], name: "index_booking_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["booking_id", "sort_key"], name: "index_booking_transitions_parent_sort", unique: true
+    t.index ["booking_id"], name: "index_booking_transitions_on_booking_id"
   end
 
-  create_table "bookings", force: :cascade do |t|
+  create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "home_id", null: false
     t.string "state", default: "initial", null: false
     t.string "organisation"
     t.string "email"
-    t.uuid "public_id", default: -> { "uuid_generate_v4()" }, null: false
     t.integer "customer_id"
     t.json "strategy_data"
     t.boolean "committed_request"
@@ -77,12 +78,11 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"
     t.index ["home_id"], name: "index_bookings_on_home_id"
-    t.index ["public_id"], name: "index_bookings_on_public_id"
     t.index ["state"], name: "index_bookings_on_state"
   end
 
   create_table "contracts", force: :cascade do |t|
-    t.bigint "booking_id"
+    t.uuid "booking_id"
     t.datetime "sent_at"
     t.datetime "signed_at"
     t.string "title"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.bigint "booking_id"
+    t.uuid "booking_id"
     t.datetime "issued_at"
     t.datetime "payable_until"
     t.text "text"
@@ -135,13 +135,13 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "occupancies", force: :cascade do |t|
+  create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "begins_at", null: false
     t.datetime "ends_at", null: false
     t.boolean "blocking", default: false, null: false
     t.bigint "home_id", null: false
     t.string "subject_type"
-    t.bigint "subject_id"
+    t.string "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
@@ -149,6 +149,18 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
     t.index ["subject_type", "subject_id"], name: "index_occupancies_on_subject_type_and_subject_id"
+  end
+
+  create_table "tarifs", force: :cascade do |t|
+    t.string "type"
+    t.string "label"
+    t.boolean "appliable"
+    t.uuid "booking_id"
+    t.string "unit"
+    t.decimal "price_per_unit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_tarifs_on_booking_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -185,4 +197,5 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
   add_foreign_key "contracts", "bookings"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "occupancies", "homes"
+  add_foreign_key "tarifs", "bookings"
 end

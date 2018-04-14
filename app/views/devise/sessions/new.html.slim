@@ -5,10 +5,13 @@
     .card.breakout-sm
       .card-body
         = form_with(model: resource, scope: resource_name, url: session_path(resource_name), local: true) do |f|
-          = f.email_field :email, autofocus: true
-          = f.password_field :password
-          = f.check_box :remember_me if devise_mapping.rememberable?
-          = f.submit t(".sign_in")
+          fieldset
+            = f.email_field :email, autofocus: true
+            = f.password_field :password
+            = f.check_box :remember_me if devise_mapping.rememberable?
+
+          .form-actions.pt-4.mt-3.border-top
+            = f.submit t(".sign_in")
 
     br
     = render 'devise/shared/links'

@@ -10,6 +10,7 @@ class Booking < ApplicationRecord
                              inverse_of: :bookings, required: false
   has_many :contracts, dependent: :destroy, autosave: false
   has_many :invoices, dependent: :destroy, autosave: false
+  has_many :tarifs, dependent: :destroy, autosave: false
 
   validates :home, :customer, :occupancy, :email, presence: true
   validates :email, format: Devise.email_regexp
@@ -38,10 +39,6 @@ class Booking < ApplicationRecord
 
   def email
     customer&.email || self[:email]
-  end
-
-  def to_param
-    public_id
   end
 
   private

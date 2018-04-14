@@ -1,0 +1,28 @@
+section.breakout-sm
+  .card.shadow
+    .card-body
+      ol
+        - booking.tarifs.each do |tarif|
+          li
+            = form_with(model: [:manage, tarif]) do |f|
+              .d-flex.flex-row
+                .px-2[style='flex: 1 0 5%;']= f.check_box :appliable, skip_label: true
+                .px-2[style='flex: 1 0 40%;']= f.text_field :label, skip_label: true
+                .px-2[style='flex: 1 0 30%;']= f.text_field :unit, skip_label: true
+                .px-2[style='flex: 1 0 10%;']= f.number_field :price_per_unit, step: 0.1 , skip_label: true
+                .px-2[style='flex: 1 0 15%;']= f.submit
+        li
+          = form_with(model: [:manage, booking, Tarif.new]) do |f|
+            .d-flex.flex-row
+              / div= f.select :type, [], :first, :last
+              .px-2[style='flex: 1 0 5%;']= f.check_box :appliable, skip_label: true
+              .px-2[style='flex: 1 0 40%;']= f.text_field :label, skip_label: true
+              .px-2[style='flex: 1 0 30%;']= f.text_field :unit, skip_label: true
+              .px-2[style='flex: 1 0 10%;']= f.number_field :price_per_unit, step: 0.1 , skip_label: true
+              .px-2[style='flex: 1 0 15%;']= f.submit
+
+
+      = link_to new_manage_booking_tarif_path(booking), class: 'btn btn-primary' do
+        span.fa.fa-file-o
+        '
+        = t(:add_model, model_name: Tarif.model_name.human)
