@@ -157,16 +157,6 @@ de-CH:
 
         %{link}
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-    confirm_request:
-      body: |-
-        Hallo
-
-        Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
-        untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
-        Mietanfrage abzuschliessen.
-
-        %{link}
-      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
   booking_strategy:
     default:
       state:
