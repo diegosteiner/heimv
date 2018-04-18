@@ -156,11 +156,19 @@ ActiveRecord::Schema.define(version: 2018_04_14_083035) do
     t.string "label"
     t.boolean "appliable"
     t.uuid "booking_id"
+    t.bigint "home_id"
+    t.bigint "template_tarif_id"
     t.string "unit"
     t.decimal "price_per_unit"
+    t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "valid_until"
+    t.integer "position"
+    t.string "tarif_group"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
+    t.index ["home_id"], name: "index_tarifs_on_home_id"
+    t.index ["template_tarif_id"], name: "index_tarifs_on_template_tarif_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -197,5 +205,4 @@ ActiveRecord::Schema.define(version: 2018_04_14_083035) do
   add_foreign_key "contracts", "bookings"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "occupancies", "homes"
-  add_foreign_key "tarifs", "bookings"
 end

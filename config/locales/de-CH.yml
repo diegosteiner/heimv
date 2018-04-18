@@ -38,7 +38,7 @@ de-CH:
         zipcode: PLZ
       home:
         house_rules: Hausordnung (PDF)
-        name: name
+        name: Name
         ref: Kurzname / Referenz
       invoice:
         esr_number: ESR Nummer
@@ -49,6 +49,12 @@ de-CH:
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
+      tarif:
+        label: Tarif
+        tarif_group: Tarifgruppe
+        unit: Einheit
+        price_per_unit: Preis pro Einheit
+        type: Typ
     back: Zurück
     bookings:
       index:

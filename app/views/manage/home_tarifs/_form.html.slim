@@ -1,7 +1,7 @@
-= form_with(model: [:manage, @booking, @invoice], local: true) do |f|
+= form_with(model: [:manage, @tarif.parent, @tarif], local: true) do |f|
 
   fieldset
-    = f.select :type, [], :first, :last
+    = f.select :type, Tarif::TYPES.map { |t| [t.model_name.human, t] }
     = f.check_box :appliable
     = f.text_field :label
     = f.text_field :unit

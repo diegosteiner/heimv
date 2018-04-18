@@ -6,6 +6,7 @@ module Seeders
       [
         UserSeeder,
         HomeSeeder,
+        TarifSeeder,
         CustomerSeeder,
         BookingAgentSeeder,
         BookingSeeder,

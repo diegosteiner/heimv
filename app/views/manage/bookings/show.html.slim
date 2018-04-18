@@ -15,7 +15,7 @@ ul.nav.nav-pills
     = render partial: 'manage/bookings/show/booking', locals: { booking: @booking }
 
   #booking-tarifs.tab-pane
-    = render partial: 'manage/tarifs/list', locals: { booking: @booking }
+    = render partial: 'manage/tarifs/list', locals: { parent: @booking }
 
   #booking-contracts.tab-pane
     = render partial: 'manage/bookings/show/contracts', locals: { booking: @booking }
