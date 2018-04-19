@@ -9,7 +9,9 @@ module Manage
       breadcrumbs.add(Tarif.model_name.human(count: :other))
     end
     before_action(only: :new) { breadcrumbs.add(t(:new)) }
-    before_action(only: %i[show edit]) { breadcrumbs.add(@tarif.to_s, manage_home_tarif_path(home_id: @home.to_param, tarif: @tarif)) }
+    before_action(only: %i[show edit]) do
+      breadcrumbs.add(@tarif.to_s, manage_home_tarif_path(home_id: @home.to_param, tarif: @tarif))
+    end
     before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
     def index

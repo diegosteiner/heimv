@@ -6,6 +6,6 @@ class MailerTemplate < ApplicationRecord
   end
 
   def html_body(interpolation = {})
-    Kramdown::Document.new(sprintf(body, interpolation)).to_html
+    Kramdown::Document.new(format(body, interpolation)).to_html
   end
 end

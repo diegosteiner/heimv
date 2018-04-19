@@ -49,6 +49,12 @@ en:
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
+      tarif:
+        label: Tarif
+        price_per_unit: Preis pro Einheit
+        tarif_group: Tarifgruppe
+        type: Typ
+        unit: Einheit
     back: Zurück
     bookings:
       index:
@@ -92,6 +98,13 @@ en:
       occupancy:
         one: Belegung
         other: Belegungen
+      tarif:
+        one: Tarif
+        other: Tarife
+      tarif/amount:
+        one: nach Gebrauch
+      tarif/flat:
+        one: Pauschale
     values:
       booking:
         committed_request:

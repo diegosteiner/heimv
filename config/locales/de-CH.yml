@@ -51,10 +51,10 @@ de-CH:
         ends_at: Ende der Belegung
       tarif:
         label: Tarif
-        tarif_group: Tarifgruppe
-        unit: Einheit
         price_per_unit: Preis pro Einheit
+        tarif_group: Tarifgruppe
         type: Typ
+        unit: Einheit
     back: Zurück
     bookings:
       index:
@@ -101,10 +101,10 @@ de-CH:
       tarif:
         one: Tarif
         other: Tarife
-      tarif/flat:
-        one: Pauschale
       tarif/amount:
         one: nach Gebrauch
+      tarif/flat:
+        one: Pauschale
     values:
       booking:
         committed_request:
@@ -169,6 +169,16 @@ de-CH:
         Verein Pfadiheime St. Georg
 
         %{link}
+      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
+    confirm_request:
+      body: |-
+        Hallo
+
+        Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
+        untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
+        Mietanfrage abzuschliessen.
+
+        Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
   booking_strategy:
     default:

@@ -1,6 +1,5 @@
 class CreateBookings < ActiveRecord::Migration[5.1]
   def change
-
     create_table :bookings, id: :uuid do |t|
       t.references :home, foreign_key: true, null: false
       t.string :state, index: true, null: false, default: 'initial'

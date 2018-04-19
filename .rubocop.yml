@@ -53,3 +53,4 @@ AllCops:
     - 'vendor/**/*'
     - 'lib/**/*'
     - 'node_modules/**/*'
+    - 'db/seeders/*'

@@ -52,11 +52,4 @@ describe Booking, type: :model do
       expect(update_booking.update(booking_params)).to be true
     end
   end
-
-  describe '#public_id' do
-    it 'generates a public_id when created' do
-      expect(booking.save).to be true
-      expect(booking.public_id).not_to be_nil
-    end
-  end
 end
