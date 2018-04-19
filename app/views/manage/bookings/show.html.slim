@@ -2,7 +2,9 @@ ul.nav.nav-pills
   li.nav-item
     a.nav-link.active[href='#booking-booking' data-toggle='tab' role='tab']= Booking.model_name.human
   li.nav-item
-    a.nav-link[href='#booking-tarifs' data-toggle='tab' role='tab']= Tarif.model_name.human(count: :other)
+    / a.nav-link[href='#booking-tarifs' data-toggle='tab' role='tab']= Tarif.model_name.human(count: :other)
+    = link_to manage_booking_tarifs_path(@booking), class: 'nav-link'
+      = Tarif.model_name.human(count: :other)
   li.nav-item
     a.nav-link[href='#booking-contracts' data-toggle='tab' role='tab']= Contract.model_name.human(count: :other)
   li.nav-item
@@ -15,7 +17,7 @@ ul.nav.nav-pills
     = render partial: 'manage/bookings/show/booking', locals: { booking: @booking }
 
   #booking-tarifs.tab-pane
-    = render partial: 'manage/tarifs/list', locals: { parent: @booking }
+    / = render partial: 'manage/tarifs/list', locals: { parent: @booking }
 
   #booking-contracts.tab-pane
     = render partial: 'manage/bookings/show/contracts', locals: { booking: @booking }

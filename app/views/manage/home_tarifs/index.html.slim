@@ -1,19 +1,13 @@
-section.breakout-sm
-  .card.shadow
-    .card-body
-      = form_with(model: [:manage, @home]) do |f|
-        = f.fields_for :tarifs, @home.tarifs do |ft|
-          = ft.hidden_field :id
-          .d-flex
-            .px-2[style='flex: 1 0']= ft.check_box :appliable, skip_label: true
-            .px-2[style='flex: 6 0']= ft.text_field :label, skip_label: true
-            .px-2[style='flex: 4 0']= ft.text_field :unit, skip_label: true
-            .px-2[style='flex: 2 0']= ft.number_field :price_per_unit, step: 0.1 , skip_label: true
-            .px-2[style='flex: 1 0']= ft.number_field :position, step: 1, skip_label: true
-            .px-2[style='flex: 1 0']
-              .btn-group
-                / = link_to edit_manage_home_tarif_path(tf.object.tarif.home, )
-        =<> link_to t('add_model', model_name: Tarif.model_name.human), url_for([:new, :manage, @home, :tarif]), class: 'btn btn-primary'
-        = f.submit
+= form_with(model: [:manage, @home], local: true) do |f|
+  = hidden_field_tag :return_path, manage_home_tarifs_path(@home)
+  - @home.tarifs.group_by(&:tarif_group).each do |group_name, tarifs|
+    h5= group_name
+    ul.m-0.p-0
+      = f.fields_for :tarifs, tarifs do |ft|
+        li.d-flex[draggable='true']
+          == render partial: "manage/home_tarifs/tarif", locals: { f: ft }
+  p= link_to t('add_model', model_name: Tarif.model_name.human), url_for([:new, :manage, @home, :tarif]), class: 'btn btn-primary'
+  .form-actions.pt-4.mt-3.border-top
+    = f.submit
 
 

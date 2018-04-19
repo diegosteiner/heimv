@@ -98,6 +98,13 @@ de-CH:
       occupancy:
         one: Belegung
         other: Belegungen
+      tarif:
+        one: Tarif
+        other: Tarife
+      tarif/flat:
+        one: Pauschale
+      tarif/amount:
+        one: nach Gebrauch
     values:
       booking:
         committed_request:
@@ -254,8 +261,8 @@ de-CH:
         alert: "%{resource_name} konnte nicht gelöscht werden."
         notice: "%{resource_name} wurde erfolgreich gelöscht."
       update:
-        alert: "%{resource_name} konnte nicht upgedatet werden."
-        notice: "%{resource_name} wurde erfolgreich upgedatet."
+        alert: "%{resource_name} konnte nicht aktualisiert werden."
+        notice: "%{resource_name} wurde erfolgreich aktualisiert."
     public:
       bookings:
         create:

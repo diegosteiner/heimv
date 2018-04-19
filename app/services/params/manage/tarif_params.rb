@@ -6,7 +6,7 @@ module Params
       end
 
       def self.permitted_keys
-        %i[type label unit price_per_unit appliable]
+        %i[type label unit price_per_unit position tarif_group]
       end
     end
   end
