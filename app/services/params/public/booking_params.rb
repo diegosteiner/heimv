@@ -19,7 +19,7 @@ module Params
       end
 
       def self.permitted_keys_update
-        [:organisation, :definitive_request, :cancellation_reason,
+        [:organisation, :definitive_request, :cancellation_reason, :invoice_address,
          :committed_request, :event_kind, :approximate_headcount, :remarks,
          customer_attributes: CustomerParams.permitted_keys.without(:email)]
       end

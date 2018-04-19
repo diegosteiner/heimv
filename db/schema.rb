@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 2018_04_14_083035) do
     t.string "name"
     t.string "code"
     t.string "email"
+    t.text "address"
+    t.decimal "provision"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_booking_agents_on_code"
@@ -73,6 +75,7 @@ ActiveRecord::Schema.define(version: 2018_04_14_083035) do
     t.datetime "request_deadline"
     t.integer "approximate_headcount"
     t.text "remarks"
+    t.text "invoice_address"
     t.string "event_kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

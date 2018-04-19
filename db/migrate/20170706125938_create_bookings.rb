@@ -13,6 +13,7 @@ class CreateBookings < ActiveRecord::Migration[5.1]
       t.datetime :request_deadline, null: true
       t.integer :approximate_headcount, null: true
       t.text :remarks, null: true
+      t.text :invoice_address, null: true
       t.string :event_kind, null: true
 
       t.timestamps

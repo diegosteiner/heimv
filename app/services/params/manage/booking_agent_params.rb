@@ -6,7 +6,7 @@ module Params
       end
 
       def self.permitted_keys
-        %i[name code email]
+        %i[name code email address provision]
       end
     end
   end
