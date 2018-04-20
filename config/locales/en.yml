@@ -32,6 +32,7 @@ en:
         zipcode: PLZ
       home:
         house_rules: Hausordnung (PDF)
+        janitor: Abwart
         name: name
         ref: Kurzname / Referenz
       invoice:
