@@ -32,9 +32,9 @@ de-CH:
         zipcode: PLZ
       home:
         house_rules: Hausordnung (PDF)
+        janitor: Abwart
         name: Name
         ref: Kurzname / Referenz
-        janitor: Abwart
       invoice:
         esr_number: ESR Nummer
         invoice_type: Rechnungsart
