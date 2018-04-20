@@ -34,6 +34,7 @@ de-CH:
         house_rules: Hausordnung (PDF)
         name: Name
         ref: Kurzname / Referenz
+        janitor: Abwart
       invoice:
         esr_number: ESR Nummer
         invoice_type: Rechnungsart

@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 2018_04_20_120752) do
     t.string "zipcode"
     t.string "city"
     t.boolean "reservations_allowed"
+    t.string "phone"
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -113,6 +114,7 @@ ActiveRecord::Schema.define(version: 2018_04_20_120752) do
   create_table "homes", force: :cascade do |t|
     t.string "name"
     t.string "ref"
+    t.text "janitor"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ref"], name: "index_homes_on_ref", unique: true

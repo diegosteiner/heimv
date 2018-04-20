@@ -20,7 +20,9 @@ module Seeders
               [%{edit_public_booking_url}](%{edit_public_booking_url})
 
               Freundliche Grüsse
+
               Verein Pfadiheime St. Georg
+
               BODY
           ),
           MailerTemplate.create(
@@ -40,7 +42,9 @@ module Seeders
               [%{edit_public_booking_url}](%{edit_public_booking_url})
 
               Freundliche Grüsse
+
               Verein Pfadiheime St. Georg
+
               BODY
           ),
           MailerTemplate.create(
@@ -81,7 +85,9 @@ module Seeders
               %{booking_details}
 
               Freundliche Grüsse
+
               Verein Pfadiheime St. Georg
+
               BODY
           )
         ]

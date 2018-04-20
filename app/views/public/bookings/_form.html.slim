@@ -1,6 +1,6 @@
 = form_with(model: [:public, @booking], local: true) do |f|
 
-  = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:help]
+  p.text-info= @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:help]
 
   = f.alert_message nil
 

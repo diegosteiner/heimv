@@ -8,7 +8,7 @@ ul.nav.nav-pills.mb-3
 
 .card.breakout-sm
   .card-body
-    = render_hash_as_dl(@home.attributes.slice(*%w(name ref)), Home)
+    = render_hash_as_dl(@home.attributes.slice(*%w(name ref janitor)), Home)
     dl
       dt = Home.human_attribute_name(:house_rules)
       dd
