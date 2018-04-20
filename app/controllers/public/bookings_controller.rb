@@ -1,6 +1,6 @@
 module Public
   class BookingsController < BaseController
-    load_and_authorize_resource :booking, find_by: :public_id
+    load_and_authorize_resource :booking
     before_action :initialize_view_model
 
     def new
@@ -22,7 +22,7 @@ module Public
     def update
       @booking.strict_validation = true
       @booking.update(update_params)
-      respond_with :public, @booking, location: edit_public_booking_path(@booking.public_id)
+      respond_with :public, @booking, location: edit_public_booking_path
     end
 
     private

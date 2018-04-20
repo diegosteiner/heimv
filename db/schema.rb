@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_14_083035) do
+ActiveRecord::Schema.define(version: 2018_04_20_120752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(version: 2018_04_14_083035) do
     t.datetime "signed_at"
     t.string "title"
     t.text "text"
+    t.datetime "valid_from"
+    t.datetime "valid_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
@@ -154,13 +156,21 @@ ActiveRecord::Schema.define(version: 2018_04_14_083035) do
     t.index ["subject_type", "subject_id"], name: "index_occupancies_on_subject_type_and_subject_id"
   end
 
+  create_table "stays", force: :cascade do |t|
+    t.uuid "booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_stays_on_booking_id"
+  end
+
   create_table "tarifs", force: :cascade do |t|
     t.string "type"
     t.string "label"
     t.boolean "appliable"
     t.uuid "booking_id"
+    t.bigint "stay_id"
     t.bigint "home_id"
-    t.bigint "template_tarif_id"
+    t.bigint "template_id"
     t.string "unit"
     t.decimal "price_per_unit"
     t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
@@ -171,7 +181,8 @@ ActiveRecord::Schema.define(version: 2018_04_14_083035) do
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
-    t.index ["template_tarif_id"], name: "index_tarifs_on_template_tarif_id"
+    t.index ["stay_id"], name: "index_tarifs_on_stay_id"
+    t.index ["template_id"], name: "index_tarifs_on_template_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

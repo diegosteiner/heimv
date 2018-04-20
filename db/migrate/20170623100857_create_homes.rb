@@ -3,6 +3,7 @@ class CreateHomes < ActiveRecord::Migration[5.1]
     create_table :homes do |t|
       t.string :name
       t.string :ref
+      t.text :janitor
 
       t.timestamps
     end

@@ -18,6 +18,7 @@ de-CH:
         event_kind: Zweck der Miete
         home: Heim
         home_id: Heim
+        invoice_address: Rechnungsadresse (falls abweichend)
         occupancy: Belegung
         ref: Buchungsreferenz
         remarks: Bemerkungen

@@ -1,11 +1,12 @@
 class Tarif < ApplicationRecord
   TYPES = [Tarif::Amount, Tarif::Flat, Tarif::Metered].freeze
-  belongs_to :booking, optional: true
+  belongs_to :stay, optional: true
+  has_one :booking, through: :stay, autosave: false
   belongs_to :home, optional: true
   belongs_to :template, class_name: :Tarif, optional: true, inverse_of: :template_instances
-  has_many :template_instances, class_name: :Tarif, dependent: :nullify, inverse_of: :template
+  has_many :template_instances, class_name: :Tarif, dependent: :nullify, inverse_of: :template, foreign_key: :template_id
 
-  scope :ordered, -> { order(position: :ASC) }
+  scope :ordered, -> { order(position: :ASC, created_at: :ASC) }
 
   def parent
     booking || home
