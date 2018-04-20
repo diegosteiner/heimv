@@ -4,7 +4,7 @@ module Seeders
   class BookingSeeder < BaseSeeder
     def seed_development
       {
-        invoices: seeds[:bookings].map do |booking|
+        invoices: seeds.fetch(:bookings, []).map do |booking|
           create(:invoice, booking: booking)
         end
       }
