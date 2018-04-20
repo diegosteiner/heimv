@@ -1,12 +1,5 @@
 ---
 de-CH:
-  actions:
-    create:
-      success: DEPRECATED Success
-    destroy:
-      success: DEPRECATED Success
-    update:
-      success: DEPRECATED Success
   activerecord:
     attributes:
       booking:
@@ -171,16 +164,6 @@ de-CH:
 
         %{link}
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-    confirm_request:
-      body: |-
-        Hallo
-
-        Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
-        untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
-        Mietanfrage abzuschliessen.
-
-        Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
-      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
   booking_strategy:
     default:
       state:
@@ -197,7 +180,7 @@ de-CH:
           help: Help
           label: Bestätigte Reservation
         confirmed_new_request:
-          help: Help
+          help: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
           label: Neue Mietanfrage
         definitive_request:
           help: Help
@@ -206,13 +189,13 @@ de-CH:
           help: Help
           label: "-"
         new_request:
-          help: Help
+          help: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
           label: Unbestätigte Mietanfrage
         overdue:
           help: Help
           label: Überfällige Reservation
         overdue_request:
-          help: Help
+          help: Deine Mietanfrage ist überfällig. Bitte setzte Sie entweder auf definitiv oder annuliere die Anfrage ganz.
           label: Überfällige Mietanfrage
         past:
           help: Help
@@ -224,7 +207,7 @@ de-CH:
           help: Help
           label: Rechnung überfällig
         provisional_request:
-          help: Help
+          help: Deine provisorische Mietanfrage ist bestätigt.
           label: Provisorische Mietanfrage
         upcoming:
           help: Help

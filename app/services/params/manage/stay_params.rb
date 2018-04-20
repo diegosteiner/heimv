@@ -6,7 +6,7 @@ module Params
       end
 
       def self.permitted_keys
-        %i[booking_id, tarifs_attributes: TarifParams.permitted_keys + [:id]]
+        %i[booking_id tarifs_attributes: TarifParams.permitted_keys + [:id]]
       end
     end
   end

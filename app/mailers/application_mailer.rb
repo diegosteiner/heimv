@@ -11,4 +11,14 @@ class ApplicationMailer < ActionMailer::Base
   end
   default from: Rails.application.secrets.mail_from
   layout 'mailer'
+
+  def mail_from_template(action, interpolation_params, options = {})
+    template = MailerTemplate.where(mailer: self.class.to_s, action: action).take
+    return unless template
+
+    mail(options.merge(subject: template.subject)) do |format|
+      format.text { template.text_body(interpolation_params) }
+      format.html { template.html_body(interpolation_params) }
+    end
+  end
 end

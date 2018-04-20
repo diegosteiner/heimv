@@ -1,12 +1,5 @@
 ---
 en:
-  actions:
-    create:
-      success: Success
-    destroy:
-      success: Success
-    update:
-      success: Success
   activerecord:
     attributes:
       booking:
@@ -18,6 +11,7 @@ en:
         event_kind: Zweck der Miete
         home: Heim
         home_id: Heim
+        invoice_address: Rechnungsadresse (falls abweichend)
         occupancy: Belegung
         ref: Buchungsreferenz
         remarks: Bemerkungen
@@ -169,16 +163,6 @@ en:
         Verein Pfadiheime St. Georg
 
         %{link}
-      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-    confirm_request:
-      body: |-
-        Hallo
-
-        Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
-        untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
-        Mietanfrage abzuschliessen.
-
-        Link: www.pfadi-heime.ch/reservationen/mailconfirm.html
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
   booking_strategy:
     default:
