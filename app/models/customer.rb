@@ -15,6 +15,10 @@ class Customer < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def address_lines
+    [name, street_address, "#{zipcode} #{city}"]
+  end
+
   def to_s
     "##{id} #{name}"
   end

@@ -23,6 +23,7 @@
   hr
   fieldset
     = f.text_field :organisation
+    = f.text_area :invoice_address
     = f.form_group :committed_request
       = f.label :committed_request, Booking.human_attribute_name(:committed_request)
       = f.radio_button :committed_request, false, label: t(:'activerecord.values.booking.committed_request.provisional_request')

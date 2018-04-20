@@ -1,12 +1,5 @@
 ---
 de-CH:
-  actions:
-    create:
-      success: DEPRECATED Success
-    destroy:
-      success: DEPRECATED Success
-    update:
-      success: DEPRECATED Success
   activerecord:
     attributes:
       booking:
@@ -18,6 +11,7 @@ de-CH:
         event_kind: Zweck der Miete
         home: Heim
         home_id: Heim
+        invoice_address: Rechnungsadresse (falls abweichend)
         occupancy: Belegung
         ref: Buchungsreferenz
         remarks: Bemerkungen
@@ -38,7 +32,8 @@ de-CH:
         zipcode: PLZ
       home:
         house_rules: Hausordnung (PDF)
-        name: name
+        janitor: Abwart
+        name: Name
         ref: Kurzname / Referenz
       invoice:
         esr_number: ESR Nummer
@@ -49,6 +44,12 @@ de-CH:
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
+      tarif:
+        label: Tarif
+        price_per_unit: Preis pro Einheit
+        tarif_group: Tarifgruppe
+        type: Typ
+        unit: Einheit
     back: Zurück
     bookings:
       index:
@@ -92,6 +93,13 @@ de-CH:
       occupancy:
         one: Belegung
         other: Belegungen
+      tarif:
+        one: Tarif
+        other: Tarife
+      tarif/amount:
+        one: nach Gebrauch
+      tarif/flat:
+        one: Pauschale
     values:
       booking:
         committed_request:
@@ -157,16 +165,6 @@ de-CH:
 
         %{link}
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-    confirm_request:
-      body: |-
-        Hallo
-
-        Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
-        untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
-        Mietanfrage abzuschliessen.
-
-        %{link}
-      subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
   booking_strategy:
     default:
       state:
@@ -183,7 +181,7 @@ de-CH:
           help: Help
           label: Bestätigte Reservation
         confirmed_new_request:
-          help: Help
+          help: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
           label: Neue Mietanfrage
         definitive_request:
           help: Help
@@ -192,13 +190,13 @@ de-CH:
           help: Help
           label: "-"
         new_request:
-          help: Help
+          help: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
           label: Unbestätigte Mietanfrage
         overdue:
           help: Help
           label: Überfällige Reservation
         overdue_request:
-          help: Help
+          help: Deine Mietanfrage ist überfällig. Bitte setzte Sie entweder auf definitiv oder annuliere die Anfrage ganz.
           label: Überfällige Mietanfrage
         past:
           help: Help
@@ -210,7 +208,7 @@ de-CH:
           help: Help
           label: Rechnung überfällig
         provisional_request:
-          help: Help
+          help: Deine provisorische Mietanfrage ist bestätigt.
           label: Provisorische Mietanfrage
         upcoming:
           help: Help
@@ -258,8 +256,8 @@ de-CH:
         alert: "%{resource_name} konnte nicht gelöscht werden."
         notice: "%{resource_name} wurde erfolgreich gelöscht."
       update:
-        alert: "%{resource_name} konnte nicht upgedatet werden."
-        notice: "%{resource_name} wurde erfolgreich upgedatet."
+        alert: "%{resource_name} konnte nicht aktualisiert werden."
+        notice: "%{resource_name} wurde erfolgreich aktualisiert."
     public:
       bookings:
         create:

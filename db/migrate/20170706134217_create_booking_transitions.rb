@@ -3,7 +3,7 @@ class CreateBookingTransitions < ActiveRecord::Migration[5.1]
     create_table :booking_transitions do |t|
       t.string :to_state, null: false
       t.integer :sort_key, null: false
-      t.integer :booking_id, null: false, foreign_key: true
+      t.belongs_to :booking, null: false, type: :uuid
       t.boolean :most_recent, null: false
       t.timestamps null: false
 

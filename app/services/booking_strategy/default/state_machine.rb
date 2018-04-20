@@ -57,6 +57,7 @@ module BookingStrategy
       end
 
       after_transition(to: %i[confirmed_new_request]) do |booking|
+        BookingMailer.new_booking(booking).deliver_now
         BookingStateMailer.state_changed(booking, :confirmed_new_request).deliver_now
       end
 

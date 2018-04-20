@@ -31,7 +31,7 @@ module Manage
 
     def update
       @home.update(home_params)
-      respond_with :manage, @home
+      respond_with :manage, @home, location: params[:return_path]
     end
 
     def destroy

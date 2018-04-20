@@ -1,10 +1,10 @@
 require_relative './base_seeder'
 
 module Seeders
-  class BookingSeeder < BaseSeeder
+  class InvoiceSeeder < BaseSeeder
     def seed_development
       {
-        invoices: seeds[:bookings].map do |booking|
+        invoices: seeds.fetch(:bookings, []).map do |booking|
           create(:invoice, booking: booking)
         end
       }

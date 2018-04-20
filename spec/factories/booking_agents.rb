@@ -5,5 +5,7 @@ FactoryBot.define do
     name { "#{Faker::Company.name} #{Faker::Company.suffix}" }
     code { generate(:agent_code) }
     email { Faker::Internet.email }
+    provision { (1..10).to_a.sample - 0.25 }
+    address { [Faker::Address.street_address, "#{Faker::Address.zip_code} #{Faker::Address.city}"].join('\n') }
   end
 end

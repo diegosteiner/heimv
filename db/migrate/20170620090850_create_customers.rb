@@ -7,6 +7,7 @@ class CreateCustomers < ActiveRecord::Migration[5.1]
       t.string :zipcode
       t.string :city
       t.boolean :reservations_allowed, null: true
+      t.string :phone, null: true
       t.string :email, null: false, unique: true, index: true
 
       t.timestamps

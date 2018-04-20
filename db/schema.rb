@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_13_115019) do
+ActiveRecord::Schema.define(version: 2018_04_20_120752) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
@@ -41,6 +42,8 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.string "name"
     t.string "code"
     t.string "email"
+    t.text "address"
+    t.decimal "provision"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_booking_agents_on_code"
@@ -49,7 +52,7 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
   create_table "booking_transitions", force: :cascade do |t|
     t.string "to_state", null: false
     t.integer "sort_key", null: false
-    t.integer "booking_id", null: false
+    t.uuid "booking_id", null: false
     t.boolean "most_recent", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -57,14 +60,14 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.json "booking_data", default: {}
     t.index ["booking_id", "most_recent"], name: "index_booking_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["booking_id", "sort_key"], name: "index_booking_transitions_parent_sort", unique: true
+    t.index ["booking_id"], name: "index_booking_transitions_on_booking_id"
   end
 
-  create_table "bookings", force: :cascade do |t|
+  create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "home_id", null: false
     t.string "state", default: "initial", null: false
     t.string "organisation"
     t.string "email"
-    t.uuid "public_id", default: -> { "uuid_generate_v4()" }, null: false
     t.integer "customer_id"
     t.json "strategy_data"
     t.boolean "committed_request"
@@ -72,21 +75,23 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.datetime "request_deadline"
     t.integer "approximate_headcount"
     t.text "remarks"
+    t.text "invoice_address"
     t.string "event_kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"
     t.index ["home_id"], name: "index_bookings_on_home_id"
-    t.index ["public_id"], name: "index_bookings_on_public_id"
     t.index ["state"], name: "index_bookings_on_state"
   end
 
   create_table "contracts", force: :cascade do |t|
-    t.bigint "booking_id"
+    t.uuid "booking_id"
     t.datetime "sent_at"
     t.datetime "signed_at"
     t.string "title"
     t.text "text"
+    t.datetime "valid_from"
+    t.datetime "valid_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
@@ -99,6 +104,7 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.string "zipcode"
     t.string "city"
     t.boolean "reservations_allowed"
+    t.string "phone"
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -108,13 +114,14 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
   create_table "homes", force: :cascade do |t|
     t.string "name"
     t.string "ref"
+    t.text "janitor"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ref"], name: "index_homes_on_ref", unique: true
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.bigint "booking_id"
+    t.uuid "booking_id"
     t.datetime "issued_at"
     t.datetime "payable_until"
     t.text "text"
@@ -135,13 +142,13 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "occupancies", force: :cascade do |t|
+  create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "begins_at", null: false
     t.datetime "ends_at", null: false
     t.boolean "blocking", default: false, null: false
     t.bigint "home_id", null: false
     t.string "subject_type"
-    t.bigint "subject_id"
+    t.string "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
@@ -149,6 +156,35 @@ ActiveRecord::Schema.define(version: 2018_04_13_115019) do
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
     t.index ["subject_type", "subject_id"], name: "index_occupancies_on_subject_type_and_subject_id"
+  end
+
+  create_table "stays", force: :cascade do |t|
+    t.uuid "booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_stays_on_booking_id"
+  end
+
+  create_table "tarifs", force: :cascade do |t|
+    t.string "type"
+    t.string "label"
+    t.boolean "appliable"
+    t.uuid "booking_id"
+    t.bigint "stay_id"
+    t.bigint "home_id"
+    t.bigint "template_id"
+    t.string "unit"
+    t.decimal "price_per_unit"
+    t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "valid_until"
+    t.integer "position"
+    t.string "tarif_group"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_tarifs_on_booking_id"
+    t.index ["home_id"], name: "index_tarifs_on_home_id"
+    t.index ["stay_id"], name: "index_tarifs_on_stay_id"
+    t.index ["template_id"], name: "index_tarifs_on_template_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

@@ -1,6 +1,6 @@
-= form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
+= form_with(model: [:public, @booking], local: true) do |f|
 
-  = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:label]
+  p.text-info= @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:help]
 
   = f.alert_message nil
 
@@ -30,6 +30,7 @@
   fieldset
     h5= t('.booking_details')
     = f.text_field :organisation
+    = f.text_area :invoice_address
     = f.form_group :committed_request
       = f.label :committed_request, Booking.human_attribute_name(:committed_request)
       = f.radio_button :committed_request, false, label: t(:'activerecord.values.booking.committed_request.provisional_request'), disabled: @booking.committed_request?
@@ -58,7 +59,7 @@
 
 #cancelModal.modal[role="dialog" tabindex="-1"]
   .modal-dialog[role="document"]
-    = form_with(model: @booking, url: public_booking_path(@booking.public_id), local: true) do |f|
+    = form_with(model: @booking, url: public_booking_path(@booking), local: true) do |f|
       .modal-content
         .modal-header
           h5.modal-title
