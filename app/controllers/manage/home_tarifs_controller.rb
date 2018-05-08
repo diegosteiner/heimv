@@ -40,6 +40,11 @@ module Manage
       respond_with :manage, @home, @tarif
     end
 
+    def update_all
+      @home.update(tarifs_attributes: Params::Manage::TarifParams.new.permit_update_all(params))
+      respond_with :manage, @tarif, location: manage_home_tarifs_path(@home)
+    end
+
     def update
       @tarif.update(tarif_params)
       respond_with :manage, @tarif, location: manage_home_tarifs_path(@home)

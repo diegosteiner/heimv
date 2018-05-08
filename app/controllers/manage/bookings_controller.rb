@@ -15,7 +15,7 @@ module Manage
     before_action :initialize_view_model, except: %i[index]
 
     def index
-      @bookings = @bookings.includes(:occupancy, :customer, :home, :booking_transitions)
+      @bookings = @bookings.includes(:occupancy, :customer, :home, :booking_transitions).order(updated_at: :DESC)
       respond_with :manage, @bookings
     end
 
@@ -32,12 +32,14 @@ module Manage
     def edit; end
 
     def create
+      @booking.initiator = :tenant
       @booking.strict_validation = false
       @booking.save
       respond_with :manage, @booking
     end
 
     def update
+      @booking.initiator = :tenant
       @booking.strict_validation = false
       @booking.update(booking_params)
       respond_with :manage, @booking
@@ -51,6 +53,7 @@ module Manage
     private
 
     def initialize_view_model
+      @booking_stategry = @booking.booking_strategy
       @view_model = @booking.booking_strategy::ViewModel.new(@booking)
     end
 

@@ -1,5 +1,5 @@
 class BookingTransition < ApplicationRecord
-  belongs_to :booking, inverse_of: :booking_transitions
+  belongs_to :booking, inverse_of: :booking_transitions, touch: true
 
   after_destroy :update_most_recent, if: :most_recent?
   before_save :serialize_booking

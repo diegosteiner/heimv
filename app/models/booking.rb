@@ -1,7 +1,7 @@
 class Booking < ApplicationRecord
   include BookingState
 
-  attr_accessor :strict_validation
+  attr_accessor :strict_validation, :initiator
 
   has_one :occupancy, dependent: :destroy, as: :subject, inverse_of: :subject, autosave: true
   belongs_to :home
@@ -34,8 +34,6 @@ class Booking < ApplicationRecord
   def to_s
     ref
   end
-
-  def bills; end
 
   def email
     customer&.email || self[:email]

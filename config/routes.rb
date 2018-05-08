@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   namespace :manage do
     get '/', to: 'dashboard#index', as: :manage_dashboard
     resources :homes do
-      resources :tarifs, controller: 'home_tarifs'
+      resources :tarifs, controller: 'home_tarifs' do
+        collection do
+          put '/', action: :update_all
+        end
+      end
     end
     resources :bookings do
       resources :contracts, shallow: true

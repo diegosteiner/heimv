@@ -20,6 +20,7 @@ module BookingStrategy
       transition from: :past, to: %i[payment_due]
       transition from: :payment_due, to: %i[payment_overdue completed]
       transition from: :payment_overdue, to: %i[completed]
+      transition from: :past, to: %i[completed]
 
       # guard_transition(from: :new_request, to: %i[provisional_request definitive_request]) do |booking|
       # booking.errors.add(:kind, I18n.t(:'errors.messages.blank')) if booking.event_kind.blank?
@@ -78,7 +79,7 @@ module BookingStrategy
       end
 
       automatic_transition(from: :new_request, to: :confirmed_new_request) do |booking|
-        booking.customer.valid?
+        booking.customer.valid? && booking.initiator == :tenant
       end
 
       automatic_transition(from: :confirm_new_request, to: :provisional_request) do |booking|
