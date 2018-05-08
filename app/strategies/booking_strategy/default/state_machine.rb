@@ -70,6 +70,12 @@ module BookingStrategy
         booking.occupancy.update(blocking: false)
       end
 
+      after_transition(to: %i[confirmed]) do |booking|
+        # This does not belong here, should be called when creating a new contract
+        TarifService.new.attach_tarifs_to_booking(booking)
+        true
+      end
+
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|
         booking.occupancy.update(blocking: true)
       end
