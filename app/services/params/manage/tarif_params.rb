@@ -9,7 +9,6 @@ module Params
         params.dig(:home).permit(tarifs_attributes: (self.class.permitted_keys + [:id]))[:tarifs_attributes]
       end
 
-
       def self.permitted_keys
         %i[type label unit price_per_unit position tarif_group]
       end
