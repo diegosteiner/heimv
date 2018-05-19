@@ -17,7 +17,8 @@ Rails.application.routes.draw do
     resources :bookings do
       resources :contracts, shallow: true
       resources :tarifs, controller: 'booking_tarifs'
-      resources :stays
+      # resources :stays
+      resources :usages
       resources :invoices, shallow: true
     end
     resources :customers

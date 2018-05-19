@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_20_120752) do
+ActiveRecord::Schema.define(version: 2018_05_17_081254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -187,6 +187,17 @@ ActiveRecord::Schema.define(version: 2018_04_20_120752) do
     t.index ["template_id"], name: "index_tarifs_on_template_id"
   end
 
+  create_table "usages", force: :cascade do |t|
+    t.bigint "tarif_id"
+    t.decimal "used_units"
+    t.text "remarks"
+    t.uuid "booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_usages_on_booking_id"
+    t.index ["tarif_id"], name: "index_usages_on_tarif_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -221,4 +232,6 @@ ActiveRecord::Schema.define(version: 2018_04_20_120752) do
   add_foreign_key "contracts", "bookings"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "occupancies", "homes"
+  add_foreign_key "usages", "bookings"
+  add_foreign_key "usages", "tarifs"
 end

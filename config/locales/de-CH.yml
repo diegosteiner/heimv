@@ -44,6 +44,9 @@ de-CH:
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
+      usage:
+        used_units: Verbrauchte Anzahl
+        remarks: Bemerkungen
       tarif:
         label: Tarif
         price_per_unit: Preis pro Einheit
@@ -78,6 +81,9 @@ de-CH:
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
+      usage:
+        one: Verbrauch
+        other: Verbrauch
       contract:
         one: Vertrag
         other: Verträge

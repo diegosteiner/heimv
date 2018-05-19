@@ -5,17 +5,19 @@ html[lang=I18n.locale]
     meta[name='viewport' content='width=device-width, initial-scale=1.0']
     meta[name='description' content=title]
     == stylesheet_pack_tag 'application'
+    == stylesheet_pack_tag 'app'
     == csrf_meta_tags
-    == javascript_include_tag 'https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js'
     == javascript_pack_tag 'application'
+    == javascript_pack_tag 'app'
   body
-    header
-      == render 'layouts/navigation'
-    == render 'layouts/messages'
-    main.container.pb-5[role='main']
+    #app
       header
-        ol.breadcrumb
-          - breadcrumbs.items.each do |(text, url)|
-            li.breadcrumb-item
-              = link_to_if url.present?, text, url
-      == yield
+        == render 'layouts/navigation'
+      == render 'layouts/messages'
+      main.container.pb-5[role='main']
+        header
+          ol.breadcrumb
+            - breadcrumbs.items.each do |(text, url)|
+              li.breadcrumb-item
+                = link_to_if url.present?, text, url
+        == yield

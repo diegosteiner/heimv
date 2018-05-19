@@ -279,7 +279,7 @@ GEM
     unicode-display_width (1.3.2)
     warden (1.2.7)
       rack (>= 1.0)
-    webpacker (3.5.3)
+    webpacker (4.0.0.pre.pre.2)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
       railties (>= 4.2)
@@ -333,7 +333,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   statesman
   title
-  webpacker
+  webpacker (>= 4.0.x)
 
 RUBY VERSION
    ruby 2.5.0p0

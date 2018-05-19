@@ -22,7 +22,7 @@ gem 'responders'
 gem 'slim-rails'
 gem 'statesman'
 gem 'title'
-gem 'webpacker'
+gem 'webpacker', '>= 4.0.x'
 
 group :development do
   gem 'better_errors'

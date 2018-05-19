@@ -1,0 +1,16 @@
+.card.breakout-sm
+  .card-body
+    = render_hash_as_dl(@usage.attributes.slice(*%w(usage_type esr_number issued_at payable_until text)), Usage)
+    br
+
+    = link_to edit_manage_usage_path(@usage), class: 'btn btn-primary' do
+      span.fa.fa-pencil
+      '
+      = t(:edit)
+    '
+    = link_to manage_usage_path(@usage), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t(:destroy)
+br
+= link_to t(:back), manage_booking_path(@usage.booking), class: 'btn btn-default'

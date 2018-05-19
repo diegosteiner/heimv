@@ -44,10 +44,6 @@ h6 {
     }
 }
 
-.card {
-    @include box-shadow($box-shadow);
-}
-
 [data-href] {
     cursor: pointer;
 }
