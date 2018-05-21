@@ -1,1 +1,13 @@
-= @booking.tarifs.inspect
+section.breakout-sm
+  = form_with(model: [:manage, @booking], url: manage_booking_tarifs_path(@booking), method: :put, local: true) do |f|
+    = hidden_field_tag :return_path, manage_booking_tarifs_path(@booking)
+    - @booking.tarifs.group_by(&:tarif_group).each do |group_name, tarifs|
+      h5= group_name
+      ul.m-0.p-0
+        = f.fields_for :tarifs, tarifs do |ft|
+          li.d-flex[draggable='true']
+            == render partial: "manage/booking_tarifs/tarif", locals: { f: ft }
+    p= link_to t('add_model', model_name: Tarif.model_name.human), url_for([:new, :manage, @booking, :tarif]), class: 'btn btn-primary'
+    .form-actions.pt-4.mt-3.border-top
+    = f.submit
+

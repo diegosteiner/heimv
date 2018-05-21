@@ -1,32 +1,4 @@
-ul.nav.nav-pills
-  li.nav-item
-    a.nav-link.active[href='#booking-booking' data-toggle='tab' role='tab']= Booking.model_name.human
-  li.nav-item
-    / a.nav-link[href='#booking-tarifs' data-toggle='tab' role='tab']= Tarif.model_name.human(count: :other)
-    = link_to manage_booking_tarifs_path(@booking), class: 'nav-link'
-      = Tarif.model_name.human(count: :other)
-  li.nav-item
-    a.nav-link[href='#booking-contracts' data-toggle='tab' role='tab']= Contract.model_name.human(count: :other)
-  li.nav-item
-    a.nav-link[href='#booking-invoices' data-toggle='tab' role='tab']= Invoice.model_name.human(count: :other)
-  li.nav-item
-    a.nav-link[href='#booking-transitions' data-toggle='tab' role='tab']= BookingTransition.model_name.human(count: :other)
-
-.tab-content
-  #booking-booking.tab-pane.active
-    = render partial: "manage/bookings/show/#{@booking.booking_strategy.name.underscore}/booking", locals: { booking: @booking }
-
-  #booking-tarifs.tab-pane
-    / = render partial: 'manage/tarifs/list', locals: { parent: @booking }
-
-  #booking-contracts.tab-pane
-    = render partial: 'manage/bookings/show/contracts', locals: { booking: @booking }
-
-  #booking-invoices.tab-pane
-    = render partial: 'manage/invoices/list', locals: { booking: @booking }
-
-  #booking-transitions.tab-pane
-    = render partial: 'manage/bookings/show/transitions', locals: { booking: @booking }
+= render partial: "manage/bookings/show/#{@booking.booking_strategy.name.underscore}/booking", locals: { booking: @booking }
 
 section
   = link_to t(:back), manage_bookings_path, class: 'btn btn-default'

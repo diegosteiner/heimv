@@ -11,8 +11,9 @@ module Manage
     before_action(only: :new) { breadcrumbs.add(t(:new)) }
     before_action(only: %i[show edit]) { breadcrumbs.add(@booking.to_s, manage_booking_path(@booking)) }
     before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
-
     before_action :initialize_view_model, except: %i[index]
+
+    layout 'manage/booking', except: %i[index]
 
     def index
       @bookings = @bookings.includes(:occupancy, :customer, :home, :booking_transitions).order(updated_at: :DESC)

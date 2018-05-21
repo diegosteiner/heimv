@@ -11,6 +11,7 @@ class Booking < ApplicationRecord
   has_many :contracts, dependent: :destroy, autosave: false
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :tarifs, dependent: :destroy, autosave: false
+  has_many :usages, dependent: :destroy, autosave: false
 
   validates :home, :customer, :occupancy, :email, presence: true
   validates :email, format: Devise.email_regexp
@@ -25,6 +26,7 @@ class Booking < ApplicationRecord
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :customer, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :tarifs, reject_if: :all_blank, update_only: true
 
   def ref
     # TODO: Save this as an attribute

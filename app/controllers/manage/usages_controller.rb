@@ -1,11 +1,13 @@
 module Manage
   class UsagesController < BaseController
     load_and_authorize_resource :booking
-    load_and_authorize_resource :usage, through: :booking, shallow: true
+    load_and_authorize_resource :usage, through: :booking
+
+    layout 'manage/booking'
 
     before_action do
       breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
-      breadcrumbs.add(@usage.booking, manage_booking_path(@usage.booking))
+      breadcrumbs.add(@booking, manage_booking_path(@booking))
       breadcrumbs.add(Usage.model_name.human(count: :other))
     end
     before_action(only: :new) { breadcrumbs.add(t(:new)) }
@@ -26,17 +28,17 @@ module Manage
 
     def create
       @usage.save
-      respond_with :manage, @usage
+      respond_with :manage, @usage, location: manage_booking_usages_path(@usage.booking)
     end
 
     def update
       @usage.update(usage_params)
-      respond_with :manage, @usage
+      respond_with :manage, @usage, location: manage_booking_usages_path(@usage.booking)
     end
 
     def destroy
       @usage.destroy
-      respond_with :manage, @usage, location: manage_booking_path(@usage.booking)
+      respond_with :manage, @usage, location: manage_booking_usages_path(@usage.booking)
     end
 
     private

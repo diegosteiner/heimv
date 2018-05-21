@@ -4,6 +4,7 @@ class TarifService
       tarif = base_tarif.dup
       tarif.home = nil
       tarif.template = base_tarif
+      tarif.usages = [tarif.usages.build(booking: booking)]
       tarif
     end
   end

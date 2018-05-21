@@ -1,0 +1,37 @@
+table.table.table-hover.table-card
+  thead
+    tr
+      th= Tarif.model_name.human(count: :other)
+      th= Tarif.human_attribute_name(:price_per_unit)
+      th= Tarif.human_attribute_name(:unit)
+      th= Usage.model_name.human
+      th
+      th
+      th
+
+  - @usages.group_by { |usage| usage.tarif.tarif_group }.each do |group_name, usages|
+    tbody
+      tr
+        th[colspan='7']= group_name
+      - usages.each do |usage|
+        tr
+          td
+            .py-2= usage.tarif.label
+          td
+            .py-2= usage.tarif.price_per_unit
+          td
+            .py-2= usage.tarif.unit
+          td
+            = bootstrap_form_with(model: [:manage, @booking, usage], layout: :inline) do |f|
+              = f.number_field :used_units, skip_label: true
+          td
+            .py-2
+              span.fa.fa-comment
+          td
+            .py-2
+              = link_to edit_manage_booking_usage_path(@booking, usage) do
+                span.fa.fa-pencil
+          td
+            .py-2
+              = link_to manage_booking_usage_path(@booking, usage), data: { confirm: t(:confirm) }, method: :delete do
+                span.fa.fa-trash
