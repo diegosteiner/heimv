@@ -50,6 +50,9 @@ en:
         tarif_group: Tarifgruppe
         type: Typ
         unit: Einheit
+      usage:
+        remarks: Bemerkungen
+        used_units: Verbrauchte Anzahl
     back: Zurück
     bookings:
       index:
@@ -100,6 +103,9 @@ en:
         one: nach Gebrauch
       tarif/flat:
         one: Pauschale
+      usage:
+        one: Verbrauch
+        other: Verbrauch
     values:
       booking:
         committed_request:
