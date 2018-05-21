@@ -1,7 +1,7 @@
 const {
   environment
 } = require('@rails/webpacker')
-const { VueLoaderPlugin } = require('vue-loader')
+// const { VueLoaderPlugin } = require('vue-loader')
 const vue = require('./loaders/vue')
 const webpack = require('webpack')
 
@@ -21,12 +21,7 @@ environment.loaders.insert('font-awesome', {
   loader: "file-loader"
 })
 
-module.exports = {
-  resolve: {
-    alias: {
-      jquery: 'jquery/src/jquery'
-    }
-  }
-}
+// environment.plugins.append('VueLoaderPlugin', new VueLoaderPlugin())
+environment.loaders.append('vue', vue)
 module.exports = environment
 

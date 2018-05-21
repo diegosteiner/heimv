@@ -88,8 +88,8 @@ de-CH:
         one: Vertrag
         other: Verträge
       customer:
-        one: Kunde
-        other: Kunden
+        one: Mieter
+        other: Mieter
       home:
         one: Heim
         other: Heime
