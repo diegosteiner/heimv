@@ -4,8 +4,6 @@ module Manage
     load_and_authorize_resource :booking
     load_and_authorize_resource :usage, through: :booking
 
-    layout 'manage/booking'
-
     before_action do
       breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
       breadcrumbs.add(@booking, manage_booking_path(@booking))

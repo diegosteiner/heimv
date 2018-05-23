@@ -6,7 +6,6 @@ module Manage
     load_and_authorize_resource :contract, through: :booking
 
     layout false, only: :show
-    # layout 'manage/booking', except: %i[show]
 
     before_action do
       breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)

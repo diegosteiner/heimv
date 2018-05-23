@@ -3,7 +3,7 @@ class CreateTarifs < ActiveRecord::Migration[5.2]
     create_table :tarifs do |t|
       t.string :type
       t.string :label
-      t.boolean :appliable
+      t.boolean :floating, default: false
       t.belongs_to :booking, type: :uuid, null: true
       t.belongs_to :home, null: true
       t.belongs_to :template, null: true

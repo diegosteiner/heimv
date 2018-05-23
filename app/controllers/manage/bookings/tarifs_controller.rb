@@ -3,7 +3,6 @@ module Manage
   class TarifsController < ::Manage::TarifsController
     load_and_authorize_resource :booking
     load_and_authorize_resource :tarif, through: :booking, parent: false
-    layout 'manage/booking'
 
     before_action do
       breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)

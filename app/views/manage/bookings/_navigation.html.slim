@@ -1,5 +1,4 @@
-= render layout: 'layouts/base'
-
+nav
   ul.nav.nav-tabs
     li.nav-item
       a.nav-link.active[href=manage_booking_path(@booking)]= Booking.model_name.human
@@ -17,5 +16,3 @@
         = Invoice.model_name.human(count: :other)
     li.nav-item
       a.nav-link[href='#booking-transitions']= BookingTransition.model_name.human(count: :other)
-
-  = yield
