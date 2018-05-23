@@ -1,14 +1,17 @@
 
 module Manage
+  module Bookings
   class ContractsController < BaseController
     load_and_authorize_resource :booking
-    load_and_authorize_resource :contract, through: :booking, shallow: true
+    load_and_authorize_resource :contract, through: :booking
+
     layout false, only: :show
+    # layout 'manage/booking', except: %i[show]
 
     before_action do
       breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
       breadcrumbs.add(@booking, manage_booking_path(@booking))
-      breadcrumbs.add(Contract.model_name.human(count: :other))
+      breadcrumbs.add(Contract.model_name.human(count: :other), manage_booking_contracts_path)
     end
     before_action(only: :new) { breadcrumbs.add(t(:new)) }
     before_action(only: %i[show edit]) { breadcrumbs.add(@contract.to_s, manage_booking_contract_path(@booking, @contract)) }
@@ -55,4 +58,5 @@ module Manage
       Params::Manage::ContractParams.new.permit(params)
     end
   end
+end
 end

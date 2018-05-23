@@ -1,4 +1,5 @@
 module Manage
+  module Bookings
   class UsagesController < BaseController
     load_and_authorize_resource :booking
     load_and_authorize_resource :usage, through: :booking
@@ -8,7 +9,7 @@ module Manage
     before_action do
       breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
       breadcrumbs.add(@booking, manage_booking_path(@booking))
-      breadcrumbs.add(Usage.model_name.human(count: :other))
+      breadcrumbs.add(Usage.model_name.human(count: :other), manage_booking_usages_path)
     end
     before_action(only: :new) { breadcrumbs.add(t(:new)) }
     before_action(only: %i[show edit]) { breadcrumbs.add(@usage.to_s, manage_usage_path(@usage)) }
@@ -47,4 +48,5 @@ module Manage
       Params::Manage::UsageParams.new.permit(params)
     end
   end
+end
 end

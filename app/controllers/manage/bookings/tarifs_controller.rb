@@ -1,5 +1,6 @@
 module Manage
-  class BookingTarifsController < TarifsController
+  module Bookings
+  class TarifsController < ::Manage::TarifsController
     load_and_authorize_resource :booking
     load_and_authorize_resource :tarif, through: :booking, parent: false
     layout 'manage/booking'
@@ -46,4 +47,5 @@ module Manage
       Params::Manage::TarifParams.new.permit(params)
     end
   end
+end
 end

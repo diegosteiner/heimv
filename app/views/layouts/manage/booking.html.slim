@@ -13,7 +13,8 @@
       = link_to manage_booking_usages_path(@booking), class: 'nav-link'
         = Usage.model_name.human(count: :other)
     li.nav-item
-      a.nav-link[href='#booking-invoices']= Invoice.model_name.human(count: :other)
+      = link_to manage_booking_tarifs_path(@booking), class: 'nav-link'
+        = Invoice.model_name.human(count: :other)
     li.nav-item
       a.nav-link[href='#booking-transitions']= BookingTransition.model_name.human(count: :other)
 

@@ -1,4 +1,6 @@
-= render partial: 'list', locals: { bookings: @bookings }
+- @bookings.group_by(&:state).each do |state, bookings|
+  h3.mt-5= BookingStrategy::Default::ViewModel.i18n_state(state)[:label]
+  = render partial: 'list', locals: { bookings: bookings }
 
 br
 = link_to new_manage_booking_path, class: 'btn btn-primary' do

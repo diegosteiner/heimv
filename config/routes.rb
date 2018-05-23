@@ -15,11 +15,12 @@ Rails.application.routes.draw do
       end
     end
     resources :bookings do
-      resources :contracts
-      resources :tarifs, controller: 'booking_tarifs'
-      # resources :stays
-      resources :usages
-      resources :invoices, shallow: true
+      scope module: :bookings do
+        resources :contracts
+        resources :tarifs
+        resources :usages
+        resources :invoices
+      end
     end
     resources :customers
     resources :booking_agents

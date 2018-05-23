@@ -101,6 +101,10 @@ module BookingStrategy
       # end
 
       automatic_transition(from: :provisional_request, to: :definitive_request, &:committed_request)
+
+      automatic_transition(from: :definitive_request, to: :confirmed) do |booking|
+        booking.contracts.sent.any?
+      end
     end
   end
 end

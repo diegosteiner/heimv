@@ -1,6 +1,12 @@
 class Contract < ApplicationRecord
   belongs_to :booking
 
+  after_save do
+    booking.state_transition
+  end
+
+  scope :sent, -> { where.not(sent_at: nil) }
+
   def html_body
     markdown_service.html_body(body_interpolation_arguments)
   end
