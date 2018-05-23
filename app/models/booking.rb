@@ -12,6 +12,7 @@ class Booking < ApplicationRecord
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :tarifs, dependent: :destroy, autosave: false
   has_many :usages, dependent: :destroy, autosave: false
+  # has_many :appliable_tarifs, -> {  } polymorhic: true
 
   validates :home, :customer, :occupancy, :email, presence: true
   validates :email, format: Devise.email_regexp

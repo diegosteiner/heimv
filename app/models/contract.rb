@@ -6,6 +6,7 @@ class Contract < ApplicationRecord
   end
 
   scope :sent, -> { where.not(sent_at: nil) }
+  scope :signed, -> { where.not(signed_at: nil) }
 
   def html_body
     markdown_service.html_body(body_interpolation_arguments)
@@ -22,7 +23,7 @@ class Contract < ApplicationRecord
       ends_at: booking.occupancy.ends_at,
       home: booking.home,
       tenant: booking.customer.to_s,
-      janitor: booking.home.janitor
+      janitor: booking.home.janitor&.lines&.join(', ')
     }
   end
 

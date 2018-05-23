@@ -105,6 +105,10 @@ module BookingStrategy
       automatic_transition(from: :definitive_request, to: :confirmed) do |booking|
         booking.contracts.sent.any?
       end
+
+      automatic_transition(from: :confirmed, to: :upcoming) do |booking|
+        booking.contracts.signed.any?
+      end
     end
   end
 end

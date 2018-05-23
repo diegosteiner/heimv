@@ -2,8 +2,12 @@ section.breakout-sm
   .card
     .card-body
       p
-        span.badge.badge-info
-          = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:label]
+        - @booking.booking_transitions.each do |booking_transition|
+            span.badge[class=(booking_transition.most_recent ? 'badge-success' : 'badge-light')]
+              = @booking.booking_strategy::ViewModel.i18n_state(booking_transition.to_state)[:label]
+            small.text-muted
+              | >
+
 
       p
         = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }

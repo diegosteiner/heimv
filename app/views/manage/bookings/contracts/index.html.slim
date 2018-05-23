@@ -14,8 +14,21 @@ table.table.table-hover.table-card
     - @contracts.each do |contract|
       tr[data-href=manage_booking_contract_path(@booking, contract)]
         td = contract.booking
-        td = contract.sent_at
-        td = contract.signed_at
+        td.py-2
+          - if contract.sent?
+            = l(contract.sent_at, format: :short)
+          - else
+            = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { sent_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
+              | Versenden!
+
+        td.py-2
+          - if contract.signed?
+            = l(contract.signed_at, format: :short)
+          - else
+            = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { signed_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
+              | Unterschrieben zurückerhalten
+        td = link_to manage_booking_contract_path(@booking, contract, format: :pdf) do
+          span.fa.fa-print
         td = link_to manage_booking_contract_path(@booking, contract) do
           span.fa.fa-eye
         td = link_to edit_manage_booking_contract_path(@booking, contract) do
