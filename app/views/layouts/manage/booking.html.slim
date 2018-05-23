@@ -7,7 +7,8 @@
       = link_to manage_booking_tarifs_path(@booking), class: 'nav-link'
         = Tarif.model_name.human(count: :other)
     li.nav-item
-      a.nav-link[href='#booking-contracts']= Contract.model_name.human(count: :other)
+      = link_to manage_booking_contracts_path(@booking), class: 'nav-link'
+        = Contract.model_name.human(count: :other)
     li.nav-item
       = link_to manage_booking_usages_path(@booking), class: 'nav-link'
         = Usage.model_name.human(count: :other)

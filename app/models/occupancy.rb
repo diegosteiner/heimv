@@ -8,5 +8,9 @@ class Occupancy < ApplicationRecord
     "#{I18n.l(begins_at)} - #{I18n.l(ends_at)}"
   end
 
+  def span
+    begins_at..ends_at
+  end
+
   delegate :ref, to: :home
 end

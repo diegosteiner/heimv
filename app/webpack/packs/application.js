@@ -1,6 +1,7 @@
 import 'stylesheets/application'
 import 'font-awesome-webpack'
 import 'images/logo.svg'
+import 'images/logo_hvs.png'
 
 import 'jquery-ujs'
 import Turbolinks from 'turbolinks'

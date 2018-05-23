@@ -1,11 +1,8 @@
 class MailerTemplate < ApplicationRecord
   validates :mailer, :action, presence: true
+  delegate :html_body, :text_body, to: :markdown_service
 
-  def text_body(interpolation = {})
-    ActionView::Base.full_sanitizer.sanitize(html_body(interpolation))
-  end
-
-  def html_body(interpolation = {})
-    Kramdown::Document.new(format(body, interpolation)).to_html
+  def markdown_service
+    @markdown_service ||= MarkdownService.new(body)
   end
 end

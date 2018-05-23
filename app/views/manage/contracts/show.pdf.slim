@@ -1,0 +1,19 @@
+html
+  head
+    title= title
+    / meta[name='viewport' content='width=device-width, initial-scale=1.0']
+    / meta[name='description' content=title]
+    meta[charset='utf-8']
+    == stylesheet_link_tag asset_pack_url('application.css')
+    / == stylesheet_pack_tag 'app'
+    / == javascript_pack_tag 'application'
+    / == javascript_pack_tag 'app'
+  body
+    #pdf
+      header
+        img[src=asset_pack_url('images/logo_hvs.png') style='position: absolute; top: 2rem; left: 2rem;']
+        h1[style='text-align: center;']
+          = Contract.model_name.human
+          small= @booking.home.name
+
+        = asset_pack_url('images/logo_hvs.png')

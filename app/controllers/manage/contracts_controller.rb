@@ -3,14 +3,15 @@ module Manage
   class ContractsController < BaseController
     load_and_authorize_resource :booking
     load_and_authorize_resource :contract, through: :booking, shallow: true
+    layout false, only: :show
 
     before_action do
       breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
-      breadcrumbs.add(@contract.booking, manage_booking_path(@contract.booking))
+      breadcrumbs.add(@booking, manage_booking_path(@booking))
       breadcrumbs.add(Contract.model_name.human(count: :other))
     end
     before_action(only: :new) { breadcrumbs.add(t(:new)) }
-    before_action(only: %i[show edit]) { breadcrumbs.add(@contract.to_s, manage_contract_path(@contract)) }
+    before_action(only: %i[show edit]) { breadcrumbs.add(@contract.to_s, manage_booking_contract_path(@booking, @contract)) }
     before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
     def index
@@ -18,7 +19,15 @@ module Manage
     end
 
     def show
-      respond_with :manage, @contract
+      respond_to do |format|
+        format.html
+        format.pdf do
+          render pdf: "Your_filename",
+          show_as_html: true
+          # template: "manage/contracts/show"
+          # layout: 'pdf.html'
+        end
+  end
     end
 
     def edit
@@ -27,17 +36,17 @@ module Manage
 
     def create
       @contract.save
-      respond_with :manage, @contract
+      respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
     end
 
     def update
       @contract.update(contract_params)
-      respond_with :manage, @contract
+      respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
     end
 
     def destroy
       @contract.destroy
-      respond_with :manage, @contract, location: manage_booking_path(@contract.booking)
+      respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
     end
 
     private
