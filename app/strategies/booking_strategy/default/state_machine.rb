@@ -72,7 +72,7 @@ module BookingStrategy
 
       after_transition(to: %i[confirmed]) do |booking|
         # This does not belong here, should be called when creating a new contract
-        TarifService.new.attach_tarifs_to_booking(booking)
+        TarifGenerator.new.from_booking(booking)
         true
       end
 

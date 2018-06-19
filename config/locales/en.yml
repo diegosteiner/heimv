@@ -21,6 +21,11 @@ en:
         code: Code
         email: Email
         name: Name
+      contract:
+        sent_at: Verschickt am
+        signed_at: Unterschrieben am
+        text: Vertragstext
+        title: Titel
       customer:
         address: Adresse
         city: Ort

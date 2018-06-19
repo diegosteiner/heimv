@@ -158,19 +158,11 @@ ActiveRecord::Schema.define(version: 2018_05_17_081254) do
     t.index ["subject_type", "subject_id"], name: "index_occupancies_on_subject_type_and_subject_id"
   end
 
-  create_table "stays", force: :cascade do |t|
-    t.uuid "booking_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["booking_id"], name: "index_stays_on_booking_id"
-  end
-
   create_table "tarifs", force: :cascade do |t|
     t.string "type"
     t.string "label"
-    t.boolean "appliable"
+    t.boolean "transient", default: false
     t.uuid "booking_id"
-    t.bigint "stay_id"
     t.bigint "home_id"
     t.bigint "template_id"
     t.string "unit"
@@ -183,7 +175,6 @@ ActiveRecord::Schema.define(version: 2018_05_17_081254) do
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
-    t.index ["stay_id"], name: "index_tarifs_on_stay_id"
     t.index ["template_id"], name: "index_tarifs_on_template_id"
   end
 

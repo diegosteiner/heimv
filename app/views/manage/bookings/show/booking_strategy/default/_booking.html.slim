@@ -1,51 +1,54 @@
-section.breakout-sm
-  .card
-    .card-body
-      p
-        - @booking.booking_transitions.each do |booking_transition|
-            span.badge[class=(booking_transition.most_recent ? 'badge-success' : 'badge-light')]
-              = @booking.booking_strategy::ViewModel.i18n_state(booking_transition.to_state)[:label]
-            small.text-muted
-              | >
+.row.mt-4
+  .col-9
+    .card
+      .card-body
+        p
+          strong= Occupancy.model_name.human
+          = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+
+        p
+          strong= Booking.human_attribute_name(:home)
+          br
+          = link_to booking.home, manage_home_path(booking.home)
+        p
+          strong= Booking.human_attribute_name(:customer)
+          br
+          = link_to booking.customer, manage_customer_path(booking.customer)
 
 
-      p
-        = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+        hr
 
-      p
-        strong= Booking.human_attribute_name(:home)
-        br
-        = link_to booking.home, manage_home_path(booking.home)
-      p
-        strong= Booking.human_attribute_name(:customer)
-        br
-        = link_to booking.customer, manage_customer_path(booking.customer)
+        - case @booking.state_machine.current_state.to_sym
+          - when :confirmed_new_request
+            - if @booking.committed_request
+              = link_to manage_booking_path(booking, booking: { transition_to: :definitive_request }), method: :patch, class: 'btn btn-primary' do
+                | Anfrage akzeptieren
 
-
-      hr
-
-      - case @booking.state_machine.current_state.to_sym
-        - when :confirmed_new_request
-          - if @booking.committed_request
-            = link_to manage_booking_path(booking, booking: { transition_to: :definitive_request }), method: :patch, class: 'btn btn-primary' do
-              | Anfrage akzeptieren
-
-          - else
-            = link_to manage_booking_path(booking, booking: { transition_to: :provisional_request }), method: :patch, class: 'btn btn-primary' do
-              | Anfrage akzeptieren
+            - else
+              = link_to manage_booking_path(booking, booking: { transition_to: :provisional_request }), method: :patch, class: 'btn btn-primary' do
+                | Anfrage akzeptieren
 
 
-      - @booking.state_machine.allowed_transitions.each do |state|
-        - next if state.to_sym == :cancelled
+        - @booking.state_machine.allowed_transitions.each do |state|
+          - next if state.to_sym == :cancelled
+          '
+          = link_to manage_booking_path(booking, booking: { transition_to: state }), method: :patch, class: 'btn btn-outline-primary' do
+            = @booking.booking_strategy::ViewModel.i18n_transition(@booking.state_machine.current_state, state)[:label]
+
+        - if @booking.state_machine.allowed_transitions.include?('cancelled')
+          '
+          = link_to manage_booking_path(booking, booking: { transition_to: :cancelled }), method: :patch, class: 'btn btn-outline-danger' do
+            = @booking.booking_strategy::ViewModel.i18n_transition(@booking.state_machine.current_state, :cancelled)[:label]
+
+        = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
+          span.fa.fa-pencil
         '
-        = link_to manage_booking_path(booking, booking: { transition_to: state }), method: :patch, class: 'btn btn-outline-primary' do
-          = @booking.booking_strategy::ViewModel.i18n_transition(@booking.state_machine.current_state, state)[:label]
-
-      - if @booking.state_machine.allowed_transitions.include?('cancelled')
-        '
-        = link_to manage_booking_path(booking, booking: { transition_to: :cancelled }), method: :patch, class: 'btn btn-outline-danger' do
-          = @booking.booking_strategy::ViewModel.i18n_transition(@booking.state_machine.current_state, :cancelled)[:label]
-
-      = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
-        span.fa.fa-pencil
-      '
+  .col-3
+    ul.list-group
+      - booking.booking_transitions.order(created_at: :DESC).each do |transition|
+        li.list-group-item
+          span.badge.badge-primary
+            = booking.booking_strategy::ViewModel.i18n_state(transition.to_state)[:label]
+          br
+          small
+            time<>[datetime=transition.created_at] = l(transition.created_at)
