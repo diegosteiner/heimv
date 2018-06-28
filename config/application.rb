@@ -29,5 +29,7 @@ module Heimverwaltung
     # the framework and any gems in your application.
 
     config.active_storage.service = :local
+
+    config.time_zone = 'Zurich'
   end
 end
