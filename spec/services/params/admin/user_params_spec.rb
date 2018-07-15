@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe Params::Admin::UserParams do
+describe Admin::UserParams do
   let(:params_hash) { { user: attributes_for(:user) } }
   let(:params) { ActionController::Parameters.new(params_hash) }
-  let(:service) { described_class.new }
+  let(:service) { described_class }
 
   describe '#permit' do
-    subject { service.permit(params) }
+    subject { service.permit(params.require(:user)) }
 
     it do
       is_expected.to be_permitted

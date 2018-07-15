@@ -1,27 +1,30 @@
 require 'rails_helper'
 
-describe Params::Public::BookingParams do
+describe Public::BookingParams do
   let(:params_hash) { { booking: build(:booking).attributes } }
   let(:params) { ActionController::Parameters.new(params_hash) }
-  let(:service) { described_class.new }
   let(:booking) { build_stubbed(:booking) }
 
-  describe '#permit_create' do
-    subject { service.permit_create(params) }
-    before { allow(booking).to receive(:new_record?).and_return(true) }
-    it do
-      is_expected.to be_permitted
-      expect(subject.to_h.keys).to include('home_id', 'organisation')
+  describe Public::BookingParams::Create do
+    describe '#permit' do
+      subject { described_class.permit(params.require(:booking)) }
+      # before { allow(booking).to receive(:new_record?).and_return(true) }
+      it do
+        is_expected.to be_permitted
+        expect(subject.to_h.keys).to include('home_id', 'organisation')
+      end
     end
   end
 
-  describe '#permit_update' do
-    subject { service.permit_update(params) }
-    before { allow(booking).to receive(:new_record?).and_return(false) }
-    it do
-      is_expected.to be_permitted
-      expect(subject.to_h.keys).to include('organisation')
-      expect(subject.to_h.keys).not_to include('home_id')
+  describe Public::BookingParams::Update do
+    describe '#permit_update' do
+      subject { described_class.permit(params.require(:booking)) }
+      # before { allow(booking).to receive(:new_record?).and_return(false) }
+      it do
+        is_expected.to be_permitted
+        expect(subject.to_h.keys).to include('organisation')
+        expect(subject.to_h.keys).not_to include('home_id')
+      end
     end
   end
 end
