@@ -1,5 +1,7 @@
 module Manage
   class TarifsController < BaseController
+    self.abstract_class = true
+
     def create
       @tarif.save
       respond_with :manage, @tarif.parent, @tarif
@@ -13,7 +15,7 @@ module Manage
     private
 
     def tarif_params
-      Params::Manage::TarifParams.new.permit(params)
+      TarifParams.permit(params.require(:tarif))
     end
   end
 end

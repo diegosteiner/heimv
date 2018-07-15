@@ -37,7 +37,7 @@ module Manage
     private
 
     def customer_params
-      Params::Manage::CustomerParams.new.permit(params)
+      CustomerParams.permit(params[:customer])
     end
   end
 end

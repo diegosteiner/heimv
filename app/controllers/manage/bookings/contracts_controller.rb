@@ -7,14 +7,14 @@ module Manage
 
     layout false, only: :show
 
-    before_action do
-      breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
-      breadcrumbs.add(@booking, manage_booking_path(@booking))
-      breadcrumbs.add(Contract.model_name.human(count: :other), manage_booking_contracts_path)
-    end
-    before_action(only: :new) { breadcrumbs.add(t(:new)) }
-    before_action(only: %i[show edit]) { breadcrumbs.add(@contract.to_s, manage_booking_contract_path(@booking, @contract)) }
-    before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
+    # before_action do
+    #   breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
+    #   breadcrumbs.add(@booking, manage_booking_path(@booking))
+    #   breadcrumbs.add(Contract.model_name.human(count: :other), manage_booking_contracts_path)
+    # end
+    # before_action(only: :new) { breadcrumbs.add(t(:new)) }
+    # before_action(only: %i[show edit]) { breadcrumbs.add(@contract.to_s, manage_booking_contract_path(@booking, @contract)) }
+    # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
     def index
       respond_with :manage, @contracts
@@ -91,7 +91,7 @@ module Manage
     private
 
     def contract_params
-      Params::Manage::ContractParams.new.permit(params)
+      ContractParams.permit(params.require(:contract))
     end
   end
 end

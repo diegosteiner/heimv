@@ -25,6 +25,10 @@ module BookingState
     @state_machine ||= booking_strategy::StateMachine.new(self)
   end
 
+  def transition_class
+    BookingTransition
+  end
+
   def state_transition
     state_machine.transition_to(transition_to) if state_machine.current_state != transition_to
     Rails.logger.debug state_machine.automatic unless skip_automatic_transition

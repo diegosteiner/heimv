@@ -7,11 +7,11 @@ module Manage
     # load_and_authorize_resource :booking_transition, through: :booking
     # before_action :load_associations, only: %i[index]
 
-    before_action { breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path) }
-    before_action(only: :new) { breadcrumbs.add(t(:new)) }
-    before_action(only: %i[show edit]) { breadcrumbs.add(@booking.to_s, manage_booking_path(@booking)) }
-    before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
-    before_action :initialize_view_model, except: %i[index]
+    # before_action { breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path) }
+    # before_action(only: :new) { breadcrumbs.add(t(:new)) }
+    # before_action(only: %i[show edit]) { breadcrumbs.add(@booking.to_s, manage_booking_path(@booking)) }
+    # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
+    # before_action :initialize_view_model, except: %i[index]
 
     def index
       @bookings = @bookings.includes(:occupancy, :customer, :home, :booking_transitions).order(updated_at: :DESC)
@@ -57,7 +57,7 @@ module Manage
     end
 
     def booking_params
-      Params::Manage::BookingParams.new.permit(params)
+      BookingParams.permit(params[:booking])
     end
   end
 end

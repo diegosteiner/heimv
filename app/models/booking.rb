@@ -1,7 +1,8 @@
 class Booking < ApplicationRecord
   include BookingState
+  include Statesman::Adapters::ActiveRecordQueries
 
-  attr_accessor :strict_validation, :initiator
+  attr_accessor :strict_validation, :initiator # TODO: Replace with validation context
 
   has_one :occupancy, dependent: :destroy, as: :subject, inverse_of: :subject, autosave: true
   belongs_to :home

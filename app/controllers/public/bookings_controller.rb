@@ -31,16 +31,12 @@ module Public
       @view_model = @booking.booking_strategy::ViewModel.new(@booking)
     end
 
-    def new_params
-      Params::Public::BookingParams.new.permit_create(params)
-    end
-
-    def create_params
-      Params::Public::BookingParams.new.permit_create(params)
+    def booking_params
+      BookingParams::Create.permit(params[:booking])
     end
 
     def update_params
-      Params::Public::BookingParams.new.permit_update(params)
+      BookingParams::Update.permit(params.require(:booking))
     end
   end
 end

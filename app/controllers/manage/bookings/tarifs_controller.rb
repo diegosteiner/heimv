@@ -4,14 +4,14 @@ module Manage
     load_and_authorize_resource :booking
     load_and_authorize_resource :tarif, through: :booking, parent: false
 
-    before_action do
-      breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
-      breadcrumbs.add(@booking, manage_booking_path(@booking))
-      breadcrumbs.add(Tarif.model_name.human(count: :other))
-    end
-    before_action(only: :new) { breadcrumbs.add(t(:new)) }
-    before_action(only: %i[show edit]) { breadcrumbs.add(@tarif.to_s, manage_booking_tarif_path(@tarif)) }
-    before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
+    # before_action do
+    #   breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
+    #   breadcrumbs.add(@booking, manage_booking_path(@booking))
+    #   breadcrumbs.add(Tarif.model_name.human(count: :other))
+    # end
+    # before_action(only: :new) { breadcrumbs.add(t(:new)) }
+    # before_action(only: %i[show edit]) { breadcrumbs.add(@tarif.to_s, manage_booking_tarif_path(@tarif)) }
+    # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
     def index
       respond_with :manage, @tarifs
@@ -43,7 +43,7 @@ module Manage
     private
 
     def tarif_params
-      Params::Manage::TarifParams.new.permit(params)
+      TarifParams.permit(params)
     end
   end
 end

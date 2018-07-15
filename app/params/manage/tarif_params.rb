@@ -1,10 +1,5 @@
-module Params
   module Manage
     class TarifParams < ApplicationParams
-      def permit(params)
-        params.require(:tarif).permit(*self.class.permitted_keys)
-      end
-
       def permit_update_all(params)
         params.dig(:home).permit(tarifs_attributes: (self.class.permitted_keys + [:id]))[:tarifs_attributes]
       end
@@ -14,4 +9,3 @@ module Params
       end
     end
   end
-end

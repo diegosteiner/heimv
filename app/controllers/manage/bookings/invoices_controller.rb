@@ -4,14 +4,14 @@ module Manage
     load_and_authorize_resource :booking
     load_and_authorize_resource :invoice, through: :booking
 
-    before_action do
-      breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
-      breadcrumbs.add(@booking, manage_booking_path(@booking))
-      breadcrumbs.add(Invoice.model_name.human(count: :other), manage_booking_invoices_path)
-    end
-    before_action(only: :new) { breadcrumbs.add(t(:new)) }
-    before_action(only: %i[show edit]) { breadcrumbs.add(@invoice.to_s, manage_invoice_path(@invoice)) }
-    before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
+    # before_action do
+    #   breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
+    #   breadcrumbs.add(@booking, manage_booking_path(@booking))
+    #   breadcrumbs.add(Invoice.model_name.human(count: :other), manage_booking_invoices_path)
+    # end
+    # before_action(only: :new) { breadcrumbs.add(t(:new)) }
+    # before_action(only: %i[show edit]) { breadcrumbs.add(@invoice.to_s, manage_invoice_path(@invoice)) }
+    # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
     def index
       respond_with :manage, @invoices
@@ -43,7 +43,7 @@ module Manage
     private
 
     def invoice_params
-      Params::Manage::InvoiceParams.new.permit(params)
+      InvoiceParams.permit(params.require(:invoice))
     end
   end
 end

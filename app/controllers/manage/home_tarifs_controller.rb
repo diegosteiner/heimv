@@ -3,16 +3,16 @@ module Manage
     load_and_authorize_resource :home
     load_and_authorize_resource :tarif, through: :home, parent: false
 
-    before_action do
-      breadcrumbs.add(Home.model_name.human(count: :other), manage_bookings_path)
-      breadcrumbs.add(@home, manage_home_path(@home))
-      breadcrumbs.add(Tarif.model_name.human(count: :other))
-    end
-    before_action(only: :new) { breadcrumbs.add(t(:new)) }
-    before_action(only: %i[show edit]) do
-      breadcrumbs.add(@tarif.to_s, manage_home_tarif_path(home_id: @home.to_param, tarif: @tarif))
-    end
-    before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
+    # before_action do
+    #   breadcrumbs.add(Home.model_name.human(count: :other), manage_bookings_path)
+    #   breadcrumbs.add(@home, manage_home_path(@home))
+    #   breadcrumbs.add(Tarif.model_name.human(count: :other))
+    # end
+    # before_action(only: :new) { breadcrumbs.add(t(:new)) }
+    # before_action(only: %i[show edit]) do
+    #   breadcrumbs.add(@tarif.to_s, manage_home_tarif_path(home_id: @home.to_param, tarif: @tarif))
+    # end
+    # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
     def index
       respond_with :manage, @home, @tarifs
@@ -41,7 +41,7 @@ module Manage
     end
 
     def update_all
-      @home.update(tarifs_attributes: Params::Manage::TarifParams.new.permit_update_all(params))
+      @home.update(tarifs_attributes: TarifParams.permit_update_all(params))
       respond_with :manage, @tarif, location: manage_home_tarifs_path(@home)
     end
 
@@ -58,7 +58,7 @@ module Manage
     private
 
     def tarif_params
-      Params::Manage::TarifParams.new.permit(params)
+      TarifParams.permit(params.require(:tarif))
     end
   end
 end

@@ -4,14 +4,14 @@ module Manage
     load_and_authorize_resource :booking
     load_and_authorize_resource :usage, through: :booking
 
-    before_action do
-      breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
-      breadcrumbs.add(@booking, manage_booking_path(@booking))
-      breadcrumbs.add(Usage.model_name.human(count: :other), manage_booking_usages_path)
-    end
-    before_action(only: :new) { breadcrumbs.add(t(:new)) }
-    before_action(only: %i[show edit]) { breadcrumbs.add(@usage.to_s, manage_usage_path(@usage)) }
-    before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
+    # before_action do
+    #   breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
+    #   breadcrumbs.add(@booking, manage_booking_path(@booking))
+    #   breadcrumbs.add(Usage.model_name.human(count: :other), manage_booking_usages_path)
+    # end
+    # before_action(only: :new) { breadcrumbs.add(t(:new)) }
+    # before_action(only: %i[show edit]) { breadcrumbs.add(@usage.to_s, manage_usage_path(@usage)) }
+    # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
     def index
       respond_with :manage, @usages
@@ -43,7 +43,7 @@ module Manage
     private
 
     def usage_params
-      Params::Manage::UsageParams.new.permit(params)
+      UsageParams.permit(params.require(:usages))
     end
   end
 end
