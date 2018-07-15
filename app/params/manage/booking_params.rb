@@ -1,4 +1,4 @@
-  module Manage
-    class BookingParams < Public::BookingParams::Create
-    end
+module Manage
+  class BookingParams < Public::BookingParams::Create
   end
+end

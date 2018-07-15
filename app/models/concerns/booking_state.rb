@@ -33,5 +33,4 @@ module BookingState
     state_machine.transition_to(transition_to) if state_machine.current_state != transition_to
     Rails.logger.debug state_machine.automatic unless skip_automatic_transition
   end
-
 end

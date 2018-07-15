@@ -2,7 +2,7 @@
 
 class DeviseInvitableAddToUsers < ActiveRecord::Migration[5.0]
   def up
-    change_table :users do |t|
+    change_table :users, bulk: true do |t|
       t.string     :invitation_token
       t.datetime   :invitation_created_at
       t.datetime   :invitation_sent_at

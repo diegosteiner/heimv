@@ -39,10 +39,6 @@ Naming/UncommunicativeMethodParamName:
 
 AllCops:
   TargetRubyVersion: 2.5
-  Include:
-    - '**/Rakefile'
-    - '**/Gemfile'
-    - '**/config.ru'
   Exclude:
     - 'bin/**/*'
     - 'script/**/*'

@@ -16,6 +16,7 @@ class Contract < ApplicationRecord
     markdown_service.text_body(body_interpolation_arguments)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def body_interpolation_arguments
     {
       ref: booking.ref,
@@ -26,6 +27,7 @@ class Contract < ApplicationRecord
       janitor: booking.home.janitor&.lines&.join(', ')
     }
   end
+  # rubocop:enable Metrics/AbcSize
 
   def sent?
     sent_at.present?

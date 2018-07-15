@@ -29,9 +29,9 @@ module BookingStrategy
         self.class.callbacks[:automatic].each do |callback|
           next unless Array.wrap(callback.from).include?(current_state.to_s)
           to = callback.to.first
-          Rails.logger.debug "Candidate for automatic transition: #{to} ..."
+          # Rails.logger.debug "Candidate for automatic transition: #{to} ..."
           return to if callback.call(@object) && can_transition_to?(to)
-          Rails.logger.debug "no"
+          # Rails.logger.debug 'no'
         end
         nil
       end
