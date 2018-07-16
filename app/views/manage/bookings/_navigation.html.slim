@@ -1,18 +1,19 @@
 nav
   ul.nav.nav-tabs
-    li.nav-item
-      a.nav-link.active[href=manage_booking_path(@booking)]= Booking.model_name.human
-    li.nav-item
-      = link_to manage_booking_tarifs_path(@booking), class: 'nav-link'
-        = Tarif.model_name.human(count: :other)
-    li.nav-item
-      = link_to manage_booking_contracts_path(@booking), class: 'nav-link'
-        = Contract.model_name.human(count: :other)
-    li.nav-item
-      = link_to manage_booking_usages_path(@booking), class: 'nav-link'
-        = Usage.model_name.human(count: :other)
-    li.nav-item
-      = link_to manage_booking_tarifs_path(@booking), class: 'nav-link'
-        = Invoice.model_name.human(count: :other)
-    li.nav-item
-      a.nav-link[href='#booking-transitions']= BookingTransition.model_name.human(count: :other)
+    - if @booking.to_param
+      li.nav-item
+        a.nav-link.active[href=manage_booking_path(@booking)]= Booking.model_name.human
+      li.nav-item
+        = link_to manage_booking_tarifs_path(@booking), class: 'nav-link'
+          = Tarif.model_name.human(count: :other)
+      li.nav-item
+        = link_to manage_booking_contracts_path(@booking), class: 'nav-link'
+          = Contract.model_name.human(count: :other)
+      li.nav-item
+        = link_to manage_booking_usages_path(@booking), class: 'nav-link'
+          = Usage.model_name.human(count: :other)
+      li.nav-item
+        = link_to manage_booking_tarifs_path(@booking), class: 'nav-link'
+          = Invoice.model_name.human(count: :other)
+      li.nav-item
+        a.nav-link[href='#booking-transitions']= BookingTransition.model_name.human(count: :other)

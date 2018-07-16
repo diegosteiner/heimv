@@ -15,6 +15,7 @@ module Public
     end
 
     def create
+      @booking.initiator = :tenant
       @booking.save
       respond_with :public, @booking, location: root_path
     end

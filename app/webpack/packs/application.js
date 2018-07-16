@@ -22,15 +22,15 @@ let load = (function () {
         }
     });
 
-    flatpickr('input[type="datetime-local"]', {
-        enableTime: true,
-        altInput: true,
-        altFormat: "d.m.Y H:i",
-        dateFormat: "Y-m-d H:i",
-        minuteIncrement: 15,
-        time_24hr: true,
-        locale: $('html').attr('lang').split('-')[0]
-    });
+    // flatpickr('input[type="datetime-local"]', {
+    //     enableTime: true,
+    //     altInput: true,
+    //     altFormat: "d.m.Y H:i",
+    //     dateFormat: "Y-m-d H:i",
+    //     minuteIncrement: 15,
+    //     time_24hr: true,
+    //     locale: $('html').attr('lang').split('-')[0]
+    // });
 
     // $('select').select2({
     //     theme: 'bootstrap'

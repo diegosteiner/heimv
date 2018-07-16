@@ -1,6 +1,6 @@
 = form_with(model: [:public, @booking], local: true) do |f|
 
-  p.text-info= @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:help]
+  / p.text-info= @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:help]
 
   = f.alert_message nil
 
@@ -8,10 +8,15 @@
     = f.select :home_id, @view_model.homes_for_select, {}, disabled: true
     = f.fields_for :occupancy, @booking.occupancy do |of|
       .row
-        .col
-          = of.datetime_local_field :begins_at, disabled: true
-        .col
-          = of.datetime_local_field :ends_at, disabled: true
+        .col-md-6
+          = of.date_field :begins_at_date, disabled: true
+        .col-md-6
+          = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: true
+      .row
+        .col-md-6
+          = of.date_field :ends_at_date, disabled: true
+        .col-md-6
+          = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: true
     = f.fields_for :customer, @booking.customer do |cf|
       = cf.email_field :email, disabled: true
       .row

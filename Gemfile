@@ -9,6 +9,7 @@ gem 'bootstrap_form',
     ref: 'master'
 gem 'breadcrumbs'
 gem 'cancancan'
+gem 'date_time_attribute'
 gem 'devise'
 gem 'devise-i18n'
 gem 'factory_bot_rails', require: false

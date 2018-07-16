@@ -72,7 +72,8 @@ module BookingStrategy
 
       after_transition(to: %i[confirmed]) do |booking|
         # This does not belong here, should be called when creating a new contract
-        TarifGenerator.new.for_booking(booking).all?(&:save)
+        tarifs = TarifGenerator.new.for_booking(booking).all?(&:save)
+        binding.pry
       end
 
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|

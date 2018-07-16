@@ -18,6 +18,18 @@ body {
     border-radius: 0;
 }
 
+label.required:after {
+  content:" *";
+  color:red;
+}
+
+.rails-bootstrap-forms-date-select select,
+.rails-bootstrap-forms-time-select select,
+.rails-bootstrap-forms-datetime-select select {
+  display: inline-block;
+  width: auto;
+}
+
 h1,
 h2,
 h3,

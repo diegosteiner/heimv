@@ -21,7 +21,7 @@ module Manage
       end
 
       def new
-        @contract.text = text
+        # @contract.text = text
         respond_with :manage, @booking, @contract
       end
 

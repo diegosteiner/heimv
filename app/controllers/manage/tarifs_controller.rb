@@ -1,7 +1,5 @@
 module Manage
   class TarifsController < BaseController
-    self.abstract_class = true
-
     def create
       @tarif.save
       respond_with :manage, @tarif.parent, @tarif

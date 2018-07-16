@@ -3,6 +3,8 @@ require 'active_support/concern'
 module BookingState
   extend ActiveSupport::Concern
 
+  delegate :current_state, to: :state_machine
+
   included do
     attr_accessor :transition_to, :skip_automatic_transition
     has_many :booking_transitions, dependent: :destroy, autosave: false

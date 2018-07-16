@@ -8,7 +8,6 @@ describe Public::BookingParams do
   describe Public::BookingParams::Create do
     describe '#permit' do
       subject { described_class.permit(params.require(:booking)) }
-      # before { allow(booking).to receive(:new_record?).and_return(true) }
       it do
         is_expected.to be_permitted
         expect(subject.to_h.keys).to include('home_id', 'organisation')
@@ -19,7 +18,6 @@ describe Public::BookingParams do
   describe Public::BookingParams::Update do
     describe '#permit_update' do
       subject { described_class.permit(params.require(:booking)) }
-      # before { allow(booking).to receive(:new_record?).and_return(false) }
       it do
         is_expected.to be_permitted
         expect(subject.to_h.keys).to include('organisation')
