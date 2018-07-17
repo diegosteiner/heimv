@@ -1,4 +1,4 @@
-class TarifGenerator
+class TarifBuilder
   def for_booking(booking, tarifs = booking.home.tarifs)
     booking.tarifs = tarifs.map do |template_tarif|
       next if template_tarif.transient

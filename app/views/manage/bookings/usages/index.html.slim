@@ -1,6 +1,7 @@
-table.table.table-hover.table-card
+table.table
   thead
-    tr
+    tr.bg-white
+      th
       th= Tarif.model_name.human(count: :other)
       th= Tarif.human_attribute_name(:price_per_unit)
       th= Tarif.human_attribute_name(:unit)
@@ -10,11 +11,12 @@ table.table.table-hover.table-card
       th
 
   - @usages.group_by { |usage| usage.tarif.tarif_group }.each do |group_name, usages|
-    tbody
+    tbody[data-group-name=group_name]
       tr
-        th[colspan='7']= group_name
+        th.pt-5[colspan='8']= group_name
       - usages.each do |usage|
-        tr
+        tr.bg-white
+          td
           td
             .py-2= usage.tarif.label
           td
@@ -22,16 +24,19 @@ table.table.table-hover.table-card
           td
             .py-2= usage.tarif.unit
           td
-            = bootstrap_form_with(model: [:manage, @booking, usage], layout: :inline) do |f|
+            = bootstrap_form_with(model: [:manage, @booking, usage], layout: :inline, local: true) do |f|
+              = f.hidden_field :tarif_id
               = f.number_field :used_units, skip_label: true
+              span.mr-1
+              = f.submit
           td
             .py-2
               span.fa.fa-comment
           td
             .py-2
-              = link_to edit_manage_booking_usage_path(@booking, usage) do
+              / = link_to edit_manage_booking_usage_path(@booking, usage) do
                 span.fa.fa-pencil
           td
             .py-2
-              = link_to manage_booking_usage_path(@booking, usage), data: { confirm: t(:confirm) }, method: :delete do
-                span.fa.fa-trash
+              / = link_to manage_booking_usage_path(@booking, usage), data: { confirm: t(:confirm) }, method: :delete do
+              /   span.fa.fa-trash

@@ -14,6 +14,7 @@ module Manage
       # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
       def index
+        @usages = UsageBuilder.new.for_booking(@booking)
         respond_with :manage, @usages
       end
 
@@ -43,7 +44,7 @@ module Manage
       private
 
       def usage_params
-        UsageParams.permit(params.require(:usages))
+        UsageParams.permit(params.require(:usage))
       end
     end
   end

@@ -87,3 +87,7 @@ section {
     filter: grayscale(100%);
     opacity: 0.1;
 }
+
+th.spacer {
+    background-color: $body-bg;
+}

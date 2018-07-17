@@ -11,9 +11,8 @@ class Booking < ApplicationRecord
                              inverse_of: :bookings, required: false
   has_many :contracts, dependent: :destroy, autosave: false
   has_many :invoices, dependent: :destroy, autosave: false
-  has_many :usages, dependent: :destroy, autosave: false
-  has_many :applicable_tarifs, ->(booking) { Tarif.of_booking(booking).ordered },
-           class_name: :Tarif #, inverse_of: :parent
+  has_many :usages, dependent: :destroy # , autosave: false
+  has_many :applying_tarifs, class_name: :Tarif, through: :usages
   has_many :tarifs, dependent: :destroy, autosave: false
 
   validates :home, :customer, :occupancy, :email, presence: true

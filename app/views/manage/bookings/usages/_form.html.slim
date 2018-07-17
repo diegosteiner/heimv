@@ -1,9 +1,10 @@
 = form_with(model: [:manage, @booking, @usage], local: true) do |f|
+  = f.error_summary
 
   fieldset
     = f.hidden_field :tarif_id
     = f.number_field :used_units
-    = f.text_area
+    = f.text_area :remarks
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit
