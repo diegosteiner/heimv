@@ -9,4 +9,12 @@ module ApplicationHelper
       end)
     end
   end
+
+  def type_options_for_select(types_array)
+    types_array.map { |type| [type.model_name.human, type] }
+  end
+
+  def enum_options_for_select(klass, enum, selected, values = klass.send(enum))
+    options_for_select(values.map { |e, _v| [klass.human_enum(enum, e), e] }, selected)
+  end
 end

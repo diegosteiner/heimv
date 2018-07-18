@@ -1,5 +1,4 @@
 class Tarif < ApplicationRecord
-  TYPES = [Tarifs::Amount, Tarifs::Flat, Tarifs::Metered].freeze
   belongs_to :booking, autosave: false, optional: true
   belongs_to :home, optional: true
   belongs_to :template, class_name: :Tarif, optional: true, inverse_of: :template_instances

@@ -28,6 +28,8 @@ class Booking < ApplicationRecord
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :customer, reject_if: :all_blank, update_only: true
+
+  # TODO remove
   accepts_nested_attributes_for :tarifs, reject_if: :all_blank, update_only: true
 
   def ref

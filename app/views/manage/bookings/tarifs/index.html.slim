@@ -30,19 +30,17 @@ section.breakout-sm
               /   = f.number_field :used_units, skip_label: true
               /   span.mr-1
               /   = f.submit
-            td
-              .py-1.text-right
-
-                .btn-group
-                  / = button_to admin_campsite_campsite_medium_path(@campsite, medium), method: :patch, params: { tarif: { position: medium.position - 1 } }, class: 'btn btn-default'
-                  /   span.fa.fa-angle-up
-                  / = button_to admin_campsite_campsite_medium_path(@campsite, medium), method: :patch, params: { tarif: { position: medium.position + 1 } }, class: 'btn btn-default'
-                  /   span.fa.fa-angle-down
-                  - unless tarif.transient
-                    = link_to edit_manage_booking_tarif_path(@booking, tarif), class: 'btn btn-default' do
-                      span.fa.fa-pencil
-                    = link_to manage_booking_tarif_path(@booking, tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                      span.fa.fa-trash
+            td.py-2.text-right
+              .btn-group
+                / = button_to admin_campsite_campsite_medium_path(@campsite, medium), method: :patch, params: { tarif: { position: medium.position - 1 } }, class: 'btn btn-default'
+                /   span.fa.fa-angle-up
+                / = button_to admin_campsite_campsite_medium_path(@campsite, medium), method: :patch, params: { tarif: { position: medium.position + 1 } }, class: 'btn btn-default'
+                /   span.fa.fa-angle-down
+                - unless tarif.transient
+                  = link_to edit_manage_booking_tarif_path(@booking, tarif), class: 'btn btn-default' do
+                    span.fa.fa-pencil
+                  = link_to manage_booking_tarif_path(@booking, tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                    span.fa.fa-trash
 
   / = form_with(model: [:manage, @booking], url: manage_booking_tarifs_path(@booking), method: :put, local: true) do |f|
   /   = hidden_field_tag :return_path, manage_booking_tarifs_path(@booking)

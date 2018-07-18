@@ -1,18 +1,16 @@
-= render partial: 'manage/bookings/navigation'
+= render partial: 'manage/bookings/navigation', locals: { active: :invoices }
 
 .card.breakout-sm
   .card-body
     = render_hash_as_dl(@invoice.attributes.slice(*%w(invoice_type esr_number issued_at payable_until text)), Invoice)
     br
 
-    = link_to edit_manage_invoice_path(@invoice), class: 'btn btn-primary' do
+    = link_to edit_manage_booking_invoice_path(@booking, @invoice), class: 'btn btn-primary' do
       span.fa.fa-pencil
       '
       = t(:edit)
     '
-    = link_to manage_invoice_path(@invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
+    = link_to manage_booking_invoice_path(@booking, @invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
       span.fa.fa-trash
       '
       = t(:destroy)
-br
-= link_to t(:back), manage_booking_path(@invoice.booking), class: 'btn btn-default'

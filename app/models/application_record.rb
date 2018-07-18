@@ -2,4 +2,8 @@
 
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
+
+  def self.human_enum(enum, value)
+    I18n.t(value, scope: [:enums, model_name.singular, enum])
+  end
 end
