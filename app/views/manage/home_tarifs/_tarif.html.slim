@@ -4,7 +4,7 @@
 .px-2[style='flex: 2 0']= f.select :type, Tarif::TYPES.map { |t| [t.model_name.human, t] }, { skip_label: true }, { disabled: true }
 .px-2[style='flex: 6 0']= f.text_field :label, skip_label: true, disabled: true
 .px-2[style='flex: 4 0']
-  - if f.object.is_a?(Tarif::Flat)
+  - if f.object.is_a?(Tarifs::Flat)
     = 'Pauschale'
   - else
     = f.text_field :unit, skip_label: true, disabled: true
