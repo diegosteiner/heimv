@@ -19,7 +19,7 @@ RSpec.describe InvoicePartBuilder, type: :model do
 
       usage_ids = subject.map(&:usage_id)
       expect(usage_ids).to include(*usages.map(&:id))
-      expect(usage_ids).not_to include(existing_invoice_part.id)
+      expect(usage_ids).not_to include(existing_invoice_part.usage_id)
     end
   end
 end

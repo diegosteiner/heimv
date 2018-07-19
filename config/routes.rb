@@ -20,9 +20,8 @@ Rails.application.routes.draw do
         resources :tarifs
         resources :usages
         resources :invoices do
-          resources :invoice_parts, except: %i(index show)
+          resources :invoice_parts, except: %i[index show]
         end
-
       end
     end
     resources :customers

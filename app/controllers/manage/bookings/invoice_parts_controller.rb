@@ -15,12 +15,14 @@ module Manage
 
       def create
         @invoice_part.save
-        respond_with :manage, @booking, @invoice, @invoice_part, location: manage_booking_invoice_path(@booking, @invoice)
+        respond_with :manage, @booking, @invoice, @invoice_part, location:
+          manage_booking_invoice_path(@booking, @invoice)
       end
 
       def update
         @invoice_part.update(invoice_part_params)
-        respond_with :manage, @booking, @invoice, @invoice_part, location: manage_booking_invoice_path(@booking, @invoice)
+        respond_with :manage, @booking, @invoice, @invoice_part, location:
+          manage_booking_invoice_path(@booking, @invoice)
       end
 
       def destroy
