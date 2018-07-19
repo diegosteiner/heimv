@@ -1,0 +1,10 @@
+= form_with(model: [:manage, @booking, @invoice, @invoice_part.becomes(InvoicePart)], local: true) do |f|
+
+  fieldset
+    = f.select :type, type_options_for_select(InvoiceParts::TYPES)
+    = f.hidden_field :usage_id
+    = f.text_field :text
+    = f.number_field :amount
+
+  .form-actions.pt-4.mt-3.border-top
+    = f.submit

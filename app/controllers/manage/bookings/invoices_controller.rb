@@ -14,37 +14,37 @@ module Manage
       # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
       def index
-        respond_with :manage, @invoices
+        respond_with :manage, @booking, @invoices
       end
 
       def new
         @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking)
-        respond_with :manage, @invoice
+        respond_with :manage, @booking, @invoice
       end
 
       def show
-        respond_with :manage, @invoice
+        respond_with :manage, @booking, @invoice
       end
 
       def edit
         @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking, @invoice.invoice_parts)
-        respond_with :manage, @invoice
+        respond_with :manage, @booking, @invoice
       end
 
       def create
         @invoice.assign_attributes(invoice_params)
         @invoice.save!
-        respond_with :manage, @invoice, location: manage_booking_invoice_path(@booking, @invoice)
+        respond_with :manage, @booking, @invoice, location: manage_booking_invoice_path(@booking, @invoice)
       end
 
       def update
         @invoice.update(invoice_params)
-        respond_with :manage, @invoice, location: edit_manage_booking_invoice_path(@booking, @invoice)
+        respond_with :manage, @booking, @invoice, location: manage_booking_invoice_path(@booking, @invoice)
       end
 
       def destroy
         @invoice.destroy
-        respond_with :manage, @invoice, location: manage_booking_path(@invoice.booking)
+        respond_with :manage, @booking, @invoice, location: manage_booking_path(@invoice.booking)
       end
 
       private

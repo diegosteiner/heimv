@@ -3,7 +3,10 @@
 class ApplicationParams
   def self.permit(params)
     return if params.nil?
-    sanitize(params).permit(permitted_keys)
+    Rails.logger.debug(['Params [raw]: ', params])
+    params = sanitize(params).permit(permitted_keys)
+    Rails.logger.debug(['Params [permitted]: ', params])
+    params
   end
 
   def self.permitted_keys

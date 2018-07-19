@@ -2,8 +2,29 @@
 
 .card.breakout-sm
   .card-body
-    = render_hash_as_dl(@invoice.attributes.slice(*%w(invoice_type esr_number issued_at payable_until text amount)), Invoice)
+    = render_hash_as_dl(@invoice.attributes.slice(*%w(invoice_type esr_number issued_at payable_until text)), Invoice)
     br
+
+    dl
+      dt= Invoice.human_attribute_name(:invoice_parts)
+      dd
+        - @invoice.invoice_parts.each do |invoice_part|
+          .row
+            .col-5
+              = invoice_part.text
+            .col-3
+            .col-3.text-right
+              = number_to_currency(invoice_part.amount)
+            .col-1
+              = link_to edit_manage_booking_invoice_invoice_part_path(@booking, @invoice, invoice_part)
+                span.fa.fa-pencil
+
+        hr
+        .row
+          .col-8
+          .col-3.text-right
+            strong= number_to_currency(@invoice.amount)
+
 
     = link_to edit_manage_booking_invoice_path(@booking, @invoice), class: 'btn btn-primary' do
       span.fa.fa-pencil

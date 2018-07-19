@@ -55,7 +55,7 @@ module Manage
       private
 
       def tarif_params
-        TarifParams.permit(params)
+        TarifParams.permit(params.require('tarif'))
       end
     end
   end
