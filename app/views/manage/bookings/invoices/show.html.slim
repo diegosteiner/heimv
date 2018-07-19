@@ -1,8 +1,8 @@
-= render partial: 'manage/bookings/navigation', locals: { active: :invoices }
+= render partial: 'manage/bookings/navigation', locals: { active: :invoices }, locals: { active: :invoices }
 
 .card.breakout-sm
   .card-body
-    = render_hash_as_dl(@invoice.attributes.slice(*%w(invoice_type esr_number issued_at payable_until text)), Invoice)
+    = render_hash_as_dl(@invoice.attributes.slice(*%w(invoice_type esr_number issued_at payable_until text amount)), Invoice)
     br
 
     = link_to edit_manage_booking_invoice_path(@booking, @invoice), class: 'btn btn-primary' do

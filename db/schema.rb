@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 2018_07_17_192311) do
     t.string "type"
     t.decimal "amount"
     t.text "text"
-    t.integer "position"
+    t.integer "row_order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 2018_07_17_192311) do
     t.text "text"
     t.integer "invoice_type"
     t.string "esr_number"
+    t.decimal "amount", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
@@ -182,7 +183,7 @@ ActiveRecord::Schema.define(version: 2018_07_17_192311) do
     t.decimal "price_per_unit"
     t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until"
-    t.integer "position"
+    t.integer "row_order"
     t.string "tarif_group"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

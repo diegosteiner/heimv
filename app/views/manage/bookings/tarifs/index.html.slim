@@ -1,4 +1,4 @@
-= render partial: 'manage/bookings/navigation'
+= render partial: 'manage/bookings/navigation', locals: { active: :tarifs }
 
 section.breakout-sm
   table.table
@@ -32,10 +32,10 @@ section.breakout-sm
               /   = f.submit
             td.py-2.text-right
               .btn-group
-                / = button_to admin_campsite_campsite_medium_path(@campsite, medium), method: :patch, params: { tarif: { position: medium.position - 1 } }, class: 'btn btn-default'
-                /   span.fa.fa-angle-up
-                / = button_to admin_campsite_campsite_medium_path(@campsite, medium), method: :patch, params: { tarif: { position: medium.position + 1 } }, class: 'btn btn-default'
-                /   span.fa.fa-angle-down
+                = button_to manage_booking_tarif_path(@booking, tarif), method: :patch, params: { tarif: { row_order_position: :up } }, class: 'btn btn-default'
+                  span.fa.fa-angle-up
+                = button_to manage_booking_tarif_path(@booking, tarif), method: :patch, params: { tarif: { row_order_position: :down } }, class: 'btn btn-default'
+                  span.fa.fa-angle-down
                 - unless tarif.transient
                   = link_to edit_manage_booking_tarif_path(@booking, tarif), class: 'btn btn-default' do
                     span.fa.fa-pencil

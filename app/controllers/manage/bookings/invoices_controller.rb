@@ -18,7 +18,7 @@ module Manage
       end
 
       def new
-        @invoice.invoice_parts = InvoicePartBuilder.new.for_booking(@booking)
+        @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking)
         respond_with :manage, @invoice
       end
 
@@ -27,17 +27,19 @@ module Manage
       end
 
       def edit
+        @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking, @invoice.invoice_parts)
         respond_with :manage, @invoice
       end
 
       def create
-        @invoice.save
+        @invoice.assign_attributes(invoice_params)
+        @invoice.save!
         respond_with :manage, @invoice, location: manage_booking_invoice_path(@booking, @invoice)
       end
 
       def update
         @invoice.update(invoice_params)
-        respond_with :manage, @invoice, location: manage_booking_invoice_path(@booking, @invoice)
+        respond_with :manage, @invoice, location: edit_manage_booking_invoice_path(@booking, @invoice)
       end
 
       def destroy

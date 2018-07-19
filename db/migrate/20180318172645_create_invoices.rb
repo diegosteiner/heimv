@@ -7,6 +7,7 @@ class CreateInvoices < ActiveRecord::Migration[5.2]
       t.text :text, null: true
       t.integer :invoice_type
       t.string :esr_number, null: true
+      t.decimal :amount, default: 0
 
       t.timestamps
     end

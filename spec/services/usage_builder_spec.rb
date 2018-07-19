@@ -6,8 +6,8 @@ RSpec.describe UsageBuilder, type: :model do
   describe '#for_booking' do
     let(:home) { create(:home) }
     let(:booking) { create(:booking, initial_state: :confirmed, home: home) }
-    let!(:used_home_tarif) { create(:tarif, :for_home, home: home, transient: true) }
-    let!(:home_tarifs) { create_list(:tarif, 3, :for_home, home: home, transient: true) }
+    let!(:used_home_tarif) { create(:tarif, home: home, transient: true) }
+    let!(:home_tarifs) { create_list(:tarif, 3, home: home, transient: true) }
     let!(:booking_tarifs) { create_list(:tarif, 4, :for_booking, booking: booking) }
     let!(:existing_usage) { create(:usage, booking: booking, tarif: used_home_tarif) }
 
@@ -18,7 +18,7 @@ RSpec.describe UsageBuilder, type: :model do
       tarif_ids = subject.map(&:tarif_id)
       expect(tarif_ids).to include(*home_tarifs.map(&:id))
       expect(tarif_ids).to include(*booking_tarifs.map(&:id))
-      expect(tarif_ids).to include(existing_usage)
+      expect(tarif_ids).not_to include(existing_usage.id)
     end
   end
 end

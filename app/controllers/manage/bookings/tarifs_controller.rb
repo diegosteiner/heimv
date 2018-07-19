@@ -14,6 +14,7 @@ module Manage
       # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
       def index
+        @tarifs = @tarifs.rank(:row_order)
         respond_with :manage, @tarifs
       end
 
@@ -34,6 +35,17 @@ module Manage
         @tarif.update(tarif_params)
         respond_with :manage, @tarif, location: manage_booking_tarifs_path(@booking)
       end
+
+      # def update_many
+      #   tarif_ids = params[:tarifs].map(&:id)
+      #   @tarifs = Tarif.find(tarif_ids)
+
+      #   Tarif.transaction do
+      #     @tarif.each do |tarif|
+      #       tarif.update!(TarifParams.permit(params.require(:tarifs)[tarif.id]))
+      #     end
+      #   end
+      # end
 
       def destroy
         @tarif.destroy

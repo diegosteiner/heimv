@@ -42,10 +42,16 @@ de-CH:
         ref: Kurzname / Referenz
       invoice:
         esr_number: ESR Nummer
+        invoice_parts: Positionen
         invoice_type: Rechnungsart
         issued_at: Ausgestellt am
         payable_until: Zahlung bis
         text: Text
+      invoice_part:
+        amount: Betrag
+        apply: Anwenden
+        text: Text
+        type: Positionsart
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
@@ -70,6 +76,35 @@ de-CH:
       index:
         new: Neuer Kunde
     destroy: Löschen
+    enums:
+      booking:
+        committed_request:
+          definitive_request: Definitive Mietanfrage
+          provisional_request: Provisorische Mietanfrage
+        event_kind:
+          camp: Lager
+          course: Kurs
+          event: Privater Anlass
+        state:
+          active: Aktive Belegung
+          cancelled: Storniert
+          completed: Abgeschlossen
+          confirmed: Bestätigte Reservation
+          definitive_request: Definitive Mietanfrage
+          initial: "-"
+          new_request: Neue Mietanfrage
+          overdue: Überfällige Reservation
+          overdue_request: Überfällige Mietanfrage
+          past: Durchgeführte Belegung
+          payment_due: Rechnung ausstehend
+          payment_overdue: Rechnung überfällig
+          provisional_request: Provisorische Mietanfrage
+          upcoming: Geplante Belegung
+      invoice:
+        invoice_types:
+          deposit: Anzahlung
+          invoice: Rechnung
+          late_notice: Mahnung
     errors:
       models:
         booking:
@@ -98,6 +133,9 @@ de-CH:
       invoice:
         one: Rechnung
         other: Rechnungen
+      invoice_part:
+        one: Position
+        other: Positionen
       occupancy:
         one: Belegung
         other: Belegungen
@@ -111,6 +149,9 @@ de-CH:
       usage:
         one: Verbrauch
         other: Verbrauch
+      usage_calculator:
+        one: Berechnung
+        other: Berechnungen
     values:
       booking:
         committed_request:

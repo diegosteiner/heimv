@@ -1,19 +1,22 @@
+- active ||= nil
+
 nav
   ul.nav.nav-pills
     - if @booking.to_param
       li.nav-item
-        a.nav-link.active[href=manage_booking_path(@booking)]= Booking.model_name.human
+        a.nav-link[href=manage_booking_path(@booking) class=('active' if active.nil?)]
+          = Booking.model_name.human
       li.nav-item
-        = link_to manage_booking_tarifs_path(@booking), class: 'nav-link'
+        a.nav-link[href=manage_booking_tarifs_path(@booking) class=('active' if active == :tarifs)]
           = Tarif.model_name.human(count: :other)
       li.nav-item
-        = link_to manage_booking_contracts_path(@booking), class: 'nav-link'
+        a.nav-link[href=manage_booking_contracts_path(@booking) class=('active' if active == :contracts)]
           = Contract.model_name.human(count: :other)
       li.nav-item
-        = link_to manage_booking_usages_path(@booking), class: 'nav-link'
+        a.nav-link[href=manage_booking_usages_path(@booking) class=('active' if active == :usages)]
           = Usage.model_name.human(count: :other)
       li.nav-item
-        = link_to manage_booking_invoices_path(@booking), class: 'nav-link'
+        a.nav-link[href=manage_booking_invoices_path(@booking) class=('active' if active == :invoices)]
           = Invoice.model_name.human(count: :other)
       / li.nav-item
       /   a.nav-link[href='#booking-transitions']= BookingTransition.model_name.human(count: :other)

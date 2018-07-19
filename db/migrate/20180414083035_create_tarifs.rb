@@ -11,7 +11,7 @@ class CreateTarifs < ActiveRecord::Migration[5.2]
       t.decimal :price_per_unit
       t.datetime :valid_from, null: true, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :valid_until, null: true
-      t.integer :position
+      t.integer :row_order
       t.string :tarif_group, null: true
 
       t.timestamps

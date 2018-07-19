@@ -14,7 +14,7 @@ module Manage
       # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
 
       def index
-        @usages = UsageBuilder.new.for_booking(@booking)
+        @usages = @booking.usages + UsageBuilder.new.for_booking(@booking)
         respond_with :manage, @usages
       end
 

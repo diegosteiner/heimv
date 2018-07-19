@@ -1,3 +1,4 @@
+= render partial: 'manage/bookings/navigation', locals: { active: :usages }
 .card.breakout-sm
   .card-body
     = render_hash_as_dl(@usage.attributes.slice(*%w(usage_type esr_number issued_at payable_until text)), Usage)

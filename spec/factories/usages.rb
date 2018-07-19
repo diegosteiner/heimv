@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :usage do
-    tarif nil
+    tarif
     used_units '9.99'
-    remarks 'MyText'
-    booking nil
+    remarks 'Test'
+    booking { tarif.booking }
   end
 end

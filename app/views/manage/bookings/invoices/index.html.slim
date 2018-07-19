@@ -1,4 +1,4 @@
-= render partial: 'manage/bookings/navigation'
+= render partial: 'manage/bookings/navigation', locals: { active: :invoices }
 
 table.table.table-hover.table-card
   thead
@@ -9,11 +9,11 @@ table.table.table-hover.table-card
 
   tbody
     - @invoices.each do |invoice|
-      tr[data-href=manage_invoice_path(invoice)]
+      tr[data-href=manage_booking_invoice_path(@booking, invoice)]
         td = invoice.esr_number
-        td = link_to edit_manage_invoice_path(invoice) do
+        td = link_to edit_manage_booking_invoice_path(@booking, invoice) do
           span.fa.fa-pencil
-        td = link_to manage_invoice_path(invoice), data: { confirm: t(:confirm) }, method: :delete do
+        td = link_to manage_booking_invoice_path(@booking, invoice), data: { confirm: t(:confirm) }, method: :delete do
           span.fa.fa-trash
 
 = link_to new_manage_booking_invoice_path(@booking), class: 'btn btn-primary' do

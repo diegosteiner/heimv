@@ -17,4 +17,8 @@ module ApplicationHelper
   def enum_options_for_select(klass, enum, selected, values = klass.send(enum))
     options_for_select(values.map { |e, _v| [klass.human_enum(enum, e), e] }, selected)
   end
+
+  def class_if(hash)
+    hash.select { |_key, value| value }.keys
+  end
 end

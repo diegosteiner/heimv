@@ -9,13 +9,29 @@
 
     label= Invoice.human_attribute_name(:invoice_parts)
     = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
+      = ipf.hidden_field :id
+      = ipf.hidden_field :usage_id
       .row
         .col-1.pt-4
-          = ipf.check_box :apply
-        .col-8
-          = ipf.text_field :text
+          = ipf.check_box :_destroy, { checked: ipf.object.apply, label: InvoicePart.human_attribute_name(:apply) }, '0', '1'
+        .col-5
+          = ipf.text_field :text, label: false
         .col-3
-          = ipf.number_field :amount
+        .col-3
+          = ipf.number_field :amount, label: false
+
+    label= Invoice.human_attribute_name(:invoice_parts)
+    = f.fields_for :invoice_parts, @suggested_invoice_parts do |ipf|
+      = ipf.hidden_field :id
+      = ipf.hidden_field :usage_id
+      .row
+        .col-1.pt-4
+          = ipf.check_box :_destroy, { checked: ipf.object.apply, label: InvoicePart.human_attribute_name(:apply) }, '0', '1'
+        .col-5
+          = ipf.text_field :text, label: false
+        .col-3
+        .col-3
+          = ipf.number_field :amount, label: false
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit
