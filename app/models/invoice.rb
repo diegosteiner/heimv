@@ -6,9 +6,7 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
 
-  before_validation :calculate_amount
-
-  def calculate_amount
-    self.amount = invoice_parts.reduce(0) { |result, invoice_part| invoice_part.inject_self(result) }
+  def recalculate_amount
+    update(amount: invoice_parts.reduce(0) { |result, invoice_part| invoice_part.inject_self(result) })
   end
 end

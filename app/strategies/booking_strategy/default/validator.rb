@@ -1,6 +1,6 @@
 module BookingStrategy
-  module Default
-    class BookingValidator < ActiveModel::Validator
+  class Default
+    class Validator < BookingStrategy::Validator
       def validate(record); end
     end
   end

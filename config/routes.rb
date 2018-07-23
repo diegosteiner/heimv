@@ -35,5 +35,8 @@ Rails.application.routes.draw do
 
   scope module: :public do
     resources :bookings, only: %i[new create edit update], path: 'b', as: :public_bookings
+    resources :homes, only: [] do
+      resources :occupancies, only: %i[index show]
+    end
   end
 end

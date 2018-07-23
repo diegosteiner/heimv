@@ -297,6 +297,7 @@ de-CH:
         initial-->new_request:
           label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
+  date_format: Date format
   destroy: Löschen
   edit: Bearbeiten
   flash:
@@ -335,6 +336,7 @@ de-CH:
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: Neu
+  occupancy: Occupancy
   optional: optional
   public:
     bookings:

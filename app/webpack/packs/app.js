@@ -3,6 +3,7 @@ import TurbolinksAdapter from 'vue-turbolinks';
 
 // import 'popper.js/dist/popper.js'
 import Vue from 'vue/dist/vue.js'
+import AppOccupancyCalendar from '../components/calendar/AppOccupancyCalendar.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueI18n from 'vue-i18n'
 
@@ -20,16 +21,21 @@ Vue.use(VueI18n)
 
 $(document).on('turbolinks:load', function () {
 
-  // const locale = document.querySelector('html').getAttribute('lang')
-  // const i18n = new VueI18n({
-  //   locale: locale,
-  //   messages: {}
-  // });
+  const locale = document.querySelector('html').getAttribute('lang')
+  const i18n = new VueI18n({
+    locale: locale,
+    messages: {
+      'de-CH': {
+        next: 'Später',
+        prev: 'Früher'
+      }
+    }
+  });
 
   new Vue({
     el: '#app',
-    components: { Tarifs },
-    // i18n
+    components: { Tarifs, AppOccupancyCalendar },
+    i18n
   });
 });
 

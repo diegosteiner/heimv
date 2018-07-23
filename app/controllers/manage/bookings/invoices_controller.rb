@@ -32,8 +32,7 @@ module Manage
       end
 
       def create
-        @invoice.assign_attributes(invoice_params)
-        @invoice.save!
+        @invoice.save
         respond_with :manage, @booking, @invoice, location: manage_booking_invoice_path(@booking, @invoice)
       end
 

@@ -41,6 +41,8 @@ module Ability
     def anonymous_abilities
       can %i[create read update], Booking
       can %i[create read update], Customer
+      can %i[read index], Home
+      can %i[read index], Occupancy
     end
   end
 end

@@ -1,5 +1,5 @@
 module BookingStrategy
-  module Default
+  class Default
     class StateMachine < Base::StateMachine
       state :initial, initial: true
       %i[
@@ -63,11 +63,12 @@ module BookingStrategy
       end
 
       after_transition(to: %i[provisional_request definitive_request]) do |booking|
-        booking.occupancy.update(blocking: false)
+        booking.occupancy.tentative!
       end
 
+
       after_transition(to: %i[cancelled]) do |booking|
-        booking.occupancy.update(blocking: false)
+        booking.occupancy.free!
       end
 
       after_transition(to: %i[confirmed]) do |booking|
@@ -77,7 +78,7 @@ module BookingStrategy
       end
 
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|
-        booking.occupancy.update(blocking: true)
+        booking.occupancy.occupied!
       end
 
       automatic_transition(from: :initial, to: :new_request) do |booking|

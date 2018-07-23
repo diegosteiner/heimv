@@ -1,4 +1,4 @@
 module BookingStrategy
-  module Default
+  class Default < Base
   end
 end

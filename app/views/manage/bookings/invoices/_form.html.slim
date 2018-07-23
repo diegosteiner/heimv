@@ -35,8 +35,9 @@
           = ipf.number_field :amount, label: false
 
     div
-      = link_to new_manage_booking_invoice_invoice_part_path(@booking, @invoice), class: 'btn btn-outline-primary' do
-        = t(:add_model, model_name: InvoicePart.model_name.human)
+      - unless @invoice.new_record?
+        = link_to new_manage_booking_invoice_invoice_part_path(@booking, @invoice), class: 'btn btn-outline-primary' do
+          = t(:add_model, model_name: InvoicePart.model_name.human)
 
 
 

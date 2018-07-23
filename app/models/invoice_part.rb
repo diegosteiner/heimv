@@ -7,7 +7,7 @@ class InvoicePart < ApplicationRecord
   attribute :apply, :boolean, default: true
 
   after_save do
-    invoice.save
+    invoice.recalculate_amount
   end
 
   ranks :row_order, with_same: :invoice_id

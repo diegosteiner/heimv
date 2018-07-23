@@ -4,9 +4,10 @@ module Public
     before_action :initialize_view_model
 
     def new
-      @booking.build_occupancy
-      @booking.occupancy.begins_at = Time.zone.now.change(hour: 11, min: 0, sec: 0)
-      @booking.occupancy.ends_at = (@booking.occupancy.begins_at + 7.days).change(hour: 17)
+      @booking.assign_attributes(booking_params)
+      # @booking.build_occupancy
+      @booking.occupancy.begins_at ||= Time.zone.now.change(hour: 11, min: 0, sec: 0)
+      @booking.occupancy.ends_at ||= (@booking.occupancy.begins_at + 7.days).change(hour: 17)
       respond_with :public, @booking
     end
 
@@ -21,6 +22,7 @@ module Public
     end
 
     def update
+      @booking.initiator = :tenant
       @booking.strict_validation = true
       @booking.update(update_params)
       respond_with :public, @booking, location: edit_public_booking_path

@@ -10,7 +10,7 @@ table.table.table-hover.table-card
   tbody
     - @invoices.each do |invoice|
       tr[data-href=manage_booking_invoice_path(@booking, invoice)]
-        td = invoice.esr_number
+        td = Invoice.human_enum(:invoice_types, invoice.invoice_type)
         td = link_to edit_manage_booking_invoice_path(@booking, invoice) do
           span.fa.fa-pencil
         td = link_to manage_booking_invoice_path(@booking, invoice), data: { confirm: t(:confirm) }, method: :delete do

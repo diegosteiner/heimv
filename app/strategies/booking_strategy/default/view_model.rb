@@ -1,5 +1,5 @@
 module BookingStrategy
-  module Default
+  class Default
     class ViewModel < BookingViewModel
       I18N_SCOPE = %i[booking_strategy default].freeze
 

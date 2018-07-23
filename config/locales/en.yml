@@ -297,6 +297,7 @@ en:
         initial-->new_request:
           label: Neue Buchungsanfrage stellen
   confirm: Confirm
+  date_format: Date format
   destroy: Destroy
   edit: Edit
   flash:
@@ -335,6 +336,7 @@ en:
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: New
+  occupancy: Occupancy
   optional: optional
   public:
     bookings:
