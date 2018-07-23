@@ -3,6 +3,8 @@ class Usage < ApplicationRecord
   belongs_to :booking, inverse_of: :usages
   has_many :invoice_parts, dependent: :nullify
 
+  attribute :apply, default: true
+
   scope :ordered, -> { order(tarif: { row_order: :ASC, created_at: :ASC }) }
 
   def price

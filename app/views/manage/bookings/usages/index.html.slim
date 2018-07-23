@@ -1,44 +1,50 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :usages }
 
-table.table
-  thead
-    tr.bg-white
-      th
-      th= Tarif.model_name.human(count: :other)
-      th= Tarif.human_attribute_name(:price_per_unit)
-      th= Tarif.human_attribute_name(:unit)
-      th= Usage.model_name.human
-      th
-      th
-      th
+= form_with(url: manage_booking_usages_path(@booking), scope: :usages, method: :PUT, local: true, layout: :inline) do |f|
+  table.table
+    thead
+      tr.bg-white
+        th
+        th
+        th= Tarif.model_name.human(count: :other)
+        th= Tarif.human_attribute_name(:price_per_unit)
+        th= Tarif.human_attribute_name(:unit)
+        th= Usage.model_name.human
+        th
+        th
 
-  - @usages.group_by { |usage| usage.tarif.tarif_group }.each do |group_name, usages|
-    tbody[data-group-name=group_name]
-      tr
-        th.pt-5[colspan='8']= group_name
-      - usages.each do |usage|
-        tr.bg-white
-          td
-          td
-            .py-2= usage.tarif.label
-          td
-            .py-2= usage.tarif.price_per_unit
-          td
-            .py-2= usage.tarif.unit
-          td
-            = bootstrap_form_with(model: [:manage, @booking, usage], layout: :inline, local: true) do |f|
-              = f.hidden_field :tarif_id
-              = f.number_field :used_units, skip_label: true
-              span.mr-1
-              = f.submit
-          td
-            .py-2
-              span.fa.fa-comment
-          td
-            .py-2
-              / = link_to edit_manage_booking_usage_path(@booking, usage) do
-                span.fa.fa-pencil
-          td
-            .py-2
-              / = link_to manage_booking_usage_path(@booking, usage), data: { confirm: t(:confirm) }, method: :delete do
-              /   span.fa.fa-trash
+    - i = -1
+    - @usages.group_by { |usage| usage.tarif.tarif_group }.each do |group_name, usages|
+      tbody[data-group-name=group_name]
+        tr
+          th.pt-5[colspan='8']= group_name
+        - usages.each do |usage|
+          - i += 1
+          = f.fields_for i.to_s, usage do |uf|
+            tr.bg-white
+              td
+              td
+                = uf.hidden_field :id
+                = uf.check_box :_destroy, { checked: uf.object.apply, label: Usage.human_attribute_name(:apply) }, '0', '1'
+              td
+                = usage.tarif.label
+              td
+                = usage.tarif.price_per_unit
+              td
+                = usage.tarif.unit
+              td.py-1
+                / = bootstrap_form_with(model: [:manage, @booking, usage], layout: :inline, local: true) do |uf|
+                = uf.hidden_field :tarif_id
+                = uf.number_field :used_units, skip_label: true, style: 'width: 80px;'
+                  / = uf.text_field :remarks, skip_label: true
+                  / span.mr-1
+                  / = uf.submit
+              td
+                / .py-2
+                  / = link_to edit_manage_booking_usage_path(@booking, usage) do
+                    span.fa.fa-pencil
+              td
+                / .py-2
+                  / = link_to manage_booking_usage_path(@booking, usage), data: { confirm: t(:confirm) }, method: :delete do
+                  /   span.fa.fa-trash
+  = f.submit

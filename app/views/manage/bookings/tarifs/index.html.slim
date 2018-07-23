@@ -11,26 +11,26 @@ section.breakout-sm
         / th
         th
 
-    - @tarifs.group_by { |tarif| tarif.tarif_group }.each do |group_name, tarifs|
+    - @tarifs.group_by { |tarif| tarif.tarif_group }.sort_by { |group| group }.each do |group_name, tarifs|
       tbody[data-group-name=group_name]
         tr
-          th.pt-5[colspan='8']= group_name
+          th.pt-4[colspan='8']= group_name
         - tarifs.each do |tarif|
           tr.bg-white
             td
             td
-              .py-2= tarif.label
+              .py-0= tarif.label
             td
-              .py-2= tarif.price_per_unit
+              .py-0= tarif.price_per_unit
             td
-              .py-2= tarif.unit
+              .py-0= tarif.unit
             / td
               / = bootstrap_form_with(model: [:manage, @booking, usage], layout: :inline, local: true) do |f|
               /   = f.hidden_field :tarif_id
               /   = f.number_field :used_units, skip_label: true
               /   span.mr-1
               /   = f.submit
-            td.py-2.text-right
+            td.py-1.text-right
               .btn-group
                 = button_to manage_booking_tarif_path(@booking, tarif), method: :patch, params: { tarif: { row_order_position: :up } }, class: 'btn btn-default'
                   span.fa.fa-angle-up

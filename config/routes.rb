@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :homes do
       resources :tarifs, controller: 'home_tarifs' do
         collection do
-          put '/', action: :update_all
+          put '/', action: :update_many
         end
       end
     end
@@ -18,7 +18,11 @@ Rails.application.routes.draw do
       scope module: :bookings do
         resources :contracts
         resources :tarifs
-        resources :usages
+        resources :usages do
+          collection do
+            put '/', action: :update_many
+          end
+        end
         resources :invoices do
           resources :invoice_parts, except: %i[index show]
         end

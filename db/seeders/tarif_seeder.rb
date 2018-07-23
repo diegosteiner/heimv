@@ -16,7 +16,12 @@ module Seeders
           Tarifs::Amount.create(home: home, label: 'Strom (Niedertarif)', unit: 'kWh', price_per_unit: 0.35, tarif_group: 'Nebenkosten')
           Tarifs::Amount.create(home: home, label: 'Brennholz', unit: 'Harass', price_per_unit: 12.0, tarif_group: 'Nebenkosten')
           Tarifs::Amount.create(home: home, label: 'Abfall', unit: 'pro 60 L Sack', price_per_unit: 2.0, tarif_group: 'Nebenkosten')
-          Tarifs::Flat.create(home: home, label: 'Anzahlung', price_per_unit: 250.0, tarif_group: 'Anzahlung')
+          Tarifs::Flat.create(home: home, label: 'Anzahlung (2 Nächte)', price_per_unit: 250.0, tarif_group: 'Anzahlung')
+          Tarifs::Flat.create(home: home, label: 'Anzahlung (3 Nächte)', price_per_unit: 500.0, tarif_group: 'Anzahlung')
+          Tarifs::Flat.create(home: home, label: 'Anzahlung (4 Nächte)', price_per_unit: 750.0, tarif_group: 'Anzahlung')
+          Tarifs::Flat.create(home: home, label: 'Gutschrift Anzahlung (2 Nächte)', price_per_unit: -250.0, tarif_group: 'Anzahlung')
+          Tarifs::Flat.create(home: home, label: 'Gutschrift Anzahlung (3 Nächte)', price_per_unit: -500.0, tarif_group: 'Anzahlung')
+          Tarifs::Flat.create(home: home, label: 'Gutschrift Anzahlung (4 Nächte)', price_per_unit: -750.0, tarif_group: 'Anzahlung')
         end
       }
     end
