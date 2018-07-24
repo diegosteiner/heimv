@@ -143,6 +143,10 @@ de-CH:
       tarif:
         one: Tarif
         other: Tarife
+      tarif/amount:
+        one: nach Gebrauch
+      tarif/flat:
+        one: Pauschale
       tarifs/amount:
         one: nach Gebrauch
       tarifs/flat:
@@ -322,11 +326,15 @@ de-CH:
         form:
           save_and_send: Speichern und versenden
         index:
+          add_tarifs: Tarife jetzt zuweisen
           new: Neu
           no_applying_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
-          add_tarifs: Tarife jetzt zuweisen
       index:
         new: Neu
+      tarifs:
+        index:
+          applicable_tarifs: Applicable tarifs
+          applying_tarifs: Applying tarifs
     customers:
       index:
         new: Neu

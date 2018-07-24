@@ -58,7 +58,6 @@ module BookingStrategy
         booking.occupancy.tentative!
       end
 
-
       after_transition(to: %i[cancelled]) do |booking|
         booking.occupancy.free!
       end

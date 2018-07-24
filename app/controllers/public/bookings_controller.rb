@@ -4,10 +4,13 @@ module Public
     before_action :initialize_view_model
 
     def new
-      @booking.assign_attributes(booking_params)
-      # @booking.build_occupancy
-      @booking.occupancy.begins_at ||= Time.zone.now.change(hour: 11, min: 0, sec: 0)
-      @booking.occupancy.ends_at ||= (@booking.occupancy.begins_at + 7.days).change(hour: 17)
+      @booking.assign_attributes(booking_params) if booking_params
+      unless @booking.occupancy
+        @booking.build_occupancy(
+          begins_at_time: '11:00',
+          ends_at_time: '17:00'
+        )
+      end
       respond_with :public, @booking
     end
 

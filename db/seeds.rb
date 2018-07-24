@@ -1,3 +1,3 @@
 Dir[Rails.root.join('db', 'seeders', '**', '*.rb')].each { |f| require f }
 
-pp Seeders::ApplicationSeeder.new.seed
+Rails.logger.debug Seeders::ApplicationSeeder.new.seed
