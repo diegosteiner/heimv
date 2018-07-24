@@ -1,43 +1,51 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :contracts }
 
-table.table.table-hover.table-card
-  thead
-    tr
-      th= Contract.human_attribute_name(:booking)
-      th= Contract.human_attribute_name(:sent_at)
-      th= Contract.human_attribute_name(:signed_at)
-      th
-      th
-      th
 
-  tbody
-    - @contracts.each do |contract|
-      tr[data-href=manage_booking_contract_path(@booking, contract)]
-        td = contract.booking
-        td.py-2
-          - if contract.sent?
-            = l(contract.sent_at, format: :short)
-          - else
-            = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { sent_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
-              | Versenden!
+- if @booking.applying_tarifs.none?
+  p.text-center
+    = t('.no_applying_tarifs_yet')
+    =<> link_to t('.add_tarifs'), manage_booking_tarifs_path(@booking)
 
-        td.py-2
-          - if contract.signed?
-            = l(contract.signed_at, format: :short)
-          - else
-            = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { signed_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
-              | Unterschrieben zurückerhalten
-        td = link_to manage_booking_contract_path(@booking, contract, format: :pdf) do
-          span.fa.fa-print
-        td = link_to manage_booking_contract_path(@booking, contract) do
-          span.fa.fa-eye
-        td = link_to edit_manage_booking_contract_path(@booking, contract) do
-          span.fa.fa-pencil
-        td = link_to manage_booking_contract_path(@booking, contract), data: { confirm: t(:confirm) }, method: :delete do
-          span.fa.fa-trash
+- else
+  section.breakout-sm
+    table.table.table-hover.table-card
+      thead
+        tr
+          th= Contract.human_attribute_name(:booking)
+          th= Contract.human_attribute_name(:sent_at)
+          th= Contract.human_attribute_name(:signed_at)
+          th
+          th
+          th
 
-br
-= link_to new_manage_booking_contract_path(@booking), class: 'btn btn-primary' do
-  span.fa.fa-file-o
-  '
-  = t(:'.new')
+      tbody
+        - @contracts.each do |contract|
+          tr[data-href=manage_booking_contract_path(@booking, contract)]
+            td = contract.booking
+            td.py-2
+              - if contract.sent?
+                = l(contract.sent_at, format: :short)
+              - else
+                = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { sent_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
+                  | Versenden!
+
+            td.py-2
+              - if contract.signed?
+                = l(contract.signed_at, format: :short)
+              - else
+                = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { signed_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
+                  | Unterschrieben zurückerhalten
+            td = link_to manage_booking_contract_path(@booking, contract, format: :pdf) do
+              span.fa.fa-print
+            td = link_to manage_booking_contract_path(@booking, contract) do
+              span.fa.fa-eye
+            td = link_to edit_manage_booking_contract_path(@booking, contract) do
+              span.fa.fa-pencil
+            td = link_to manage_booking_contract_path(@booking, contract), data: { confirm: t(:confirm) }, method: :delete do
+              span.fa.fa-trash
+
+    br
+    = link_to new_manage_booking_contract_path(@booking), class: 'btn btn-primary' do
+      span.fa.fa-file-o
+      '
+      = t(:'.new')

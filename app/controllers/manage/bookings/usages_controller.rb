@@ -27,7 +27,7 @@ module Manage
       end
 
       def update
-        @usage.update(usage_params) + UsageBuilder.new.for_booking(@booking)
+        @usage.update(usage_params)
         respond_with :manage, @booking, @usage, location: manage_booking_usages_path(@usage.booking)
       end
 

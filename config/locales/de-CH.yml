@@ -323,6 +323,8 @@ de-CH:
           save_and_send: Speichern und versenden
         index:
           new: Neu
+          no_applying_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
+          add_tarifs: Tarife jetzt zuweisen
       index:
         new: Neu
     customers:

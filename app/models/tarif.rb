@@ -21,4 +21,12 @@ class Tarif < ApplicationRecord
   def booking_copy?
     booking_id.present?
   end
+
+  def override_used_units?
+    false
+  end
+
+  def override_used_units(usage)
+    usage[:used_units]
+  end
 end

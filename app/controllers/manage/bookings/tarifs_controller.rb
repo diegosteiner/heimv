@@ -3,12 +3,11 @@ module Manage
     class TarifsController < ::Manage::TarifsController
       load_and_authorize_resource :booking
       load_and_authorize_resource :tarif, through: :booking, through_association: :booking_copy_tarifs
-      load_and_authorize_resource :usage, through: :booking
+      load_and_authorize_resource :usage, through: :booking, parent: false
 
       def index
         # @tarifs = @tarifs.rank(:row_order)
         @suggested_usages = UsageBuilder.new.for_booking(@booking, @booking.home.tarifs)
-        binding.pry
         respond_with :manage, @usages
       end
 

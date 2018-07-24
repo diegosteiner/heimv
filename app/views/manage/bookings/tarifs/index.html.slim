@@ -5,6 +5,7 @@
   section.breakout-sm
     = render partial: 'manage/bookings/usages/table', locals: { usages: @usages, tarif_links: true }
 
-h1= t('.applicable_tarifs', default: 'Verfügbare Tarife')
+
+h1.mt-5= t('.applicable_tarifs', default: 'Verfügbare Tarife')
 section.breakout-sm
   = render partial: 'manage/bookings/usages/table', locals: { usages: @suggested_usages }
