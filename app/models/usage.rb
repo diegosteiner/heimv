@@ -10,4 +10,14 @@ class Usage < ApplicationRecord
   def price
     (used_units || 1) * tarif.price_per_unit
   end
+
+  def used_units
+    return 1 if tarif.is_a?(Tarifs::Flat)
+  end
+
+  before_create do
+    unless tarif.booking_copy? || tarif.transient?
+      self.tarif = TarifBuilder.new.booking_copy_for(tarif, booking).tap(&:save)
+    end
+  end
 end

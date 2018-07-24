@@ -1,9 +1,15 @@
 class TarifBuilder
   def for_booking(booking, tarifs = booking.home.tarifs)
-    booking.tarifs = tarifs.map do |template_tarif|
-      next if template_tarif.transient
-      tarif = template_tarif.dup
-      tarif.template = template_tarif
+    booking.tarifs = tarifs.reject.map do |tarif|
+      booking_copy_for(tarif, booking) unless tarif.transient?
     end.compact
+  end
+
+  def booking_copy_for(tarif, booking)
+    return tarif if tarif.booking == booking
+    tarif.dup.tap do |booking_copy|
+      booking_copy.booking = booking
+      booking_copy.booking_copy_template = tarif
+    end
   end
 end

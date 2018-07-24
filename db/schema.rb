@@ -179,7 +179,7 @@ ActiveRecord::Schema.define(version: 2018_07_17_192311) do
     t.boolean "transient", default: false
     t.uuid "booking_id"
     t.bigint "home_id"
-    t.bigint "template_id"
+    t.bigint "booking_copy_template_id"
     t.string "unit"
     t.decimal "price_per_unit"
     t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
@@ -188,9 +188,9 @@ ActiveRecord::Schema.define(version: 2018_07_17_192311) do
     t.string "tarif_group"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
-    t.index ["template_id"], name: "index_tarifs_on_template_id"
   end
 
   create_table "usage_calculators", force: :cascade do |t|

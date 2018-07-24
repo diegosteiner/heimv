@@ -143,9 +143,9 @@ de-CH:
       tarif:
         one: Tarif
         other: Tarife
-      tarif/amount:
+      tarifs/amount:
         one: nach Gebrauch
-      tarif/flat:
+      tarifs/flat:
         one: Pauschale
       usage:
         one: Verbrauch

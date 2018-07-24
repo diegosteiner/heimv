@@ -6,7 +6,7 @@ class CreateTarifs < ActiveRecord::Migration[5.2]
       t.boolean :transient, default: false
       t.belongs_to :booking, type: :uuid, null: true
       t.belongs_to :home, null: true
-      t.belongs_to :template, null: true
+      t.belongs_to :booking_copy_template, null: true
       t.string :unit
       t.decimal :price_per_unit
       t.datetime :valid_from, null: true, default: -> { 'CURRENT_TIMESTAMP' }

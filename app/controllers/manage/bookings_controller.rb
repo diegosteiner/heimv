@@ -1,7 +1,7 @@
 module Manage
   class BookingsController < BaseController
     load_and_authorize_resource :booking
-    load_and_authorize_resource :occupancy, through: :booking
+    # load_and_authorize_resource :occupancy, through: :booking, parent: false
     # load_and_authorize_resource :customer, through: :booking
     # load_and_authorize_resource :home, through: :booking
     # load_and_authorize_resource :booking_transition, through: :booking

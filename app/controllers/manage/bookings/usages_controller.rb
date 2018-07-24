@@ -4,17 +4,7 @@ module Manage
       load_and_authorize_resource :booking
       load_and_authorize_resource :usage, through: :booking
 
-      # before_action do
-      #   breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
-      #   breadcrumbs.add(@booking, manage_booking_path(@booking))
-      #   breadcrumbs.add(Usage.model_name.human(count: :other), manage_booking_usages_path)
-      # end
-      # before_action(only: :new) { breadcrumbs.add(t(:new)) }
-      # before_action(only: %i[show edit]) { breadcrumbs.add(@usage.to_s, manage_usage_path(@usage)) }
-      # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
-
       def index
-        @usages = @booking.usages + UsageBuilder.new.for_booking(@booking)
         respond_with :manage, @booking, @usages
       end
 

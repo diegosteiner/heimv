@@ -2,9 +2,9 @@ class Tarif < ApplicationRecord
   include RankedModel
   belongs_to :booking, autosave: false, optional: true
   belongs_to :home, optional: true
-  belongs_to :template, class_name: :Tarif, optional: true, inverse_of: :template_instances
-  has_many :template_instances, class_name: :Tarif, dependent: :nullify, inverse_of: :template,
-                                foreign_key: :template_id
+  belongs_to :booking_copy_template, class_name: :Tarif, optional: true, inverse_of: :booking_copies
+  has_many :booking_copies, class_name: :Tarif, dependent: :nullify, inverse_of: :booking_copy_template,
+                                foreign_key: :booking_copy_template_id
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
   has_one :usage_calculator, -> { UsageCalculator.where(tarif: [self, template].compact) }, inverse_of: :tarif
 
@@ -16,5 +16,9 @@ class Tarif < ApplicationRecord
 
   def parent
     booking || home
+  end
+
+  def booking_copy?
+    booking_id.present?
   end
 end
