@@ -45,6 +45,10 @@ class Booking < ApplicationRecord
     customer&.email || self[:email]
   end
 
+  def self.transition_class
+    BookingTransition
+  end
+
   private
 
   def assign_customer_from_email

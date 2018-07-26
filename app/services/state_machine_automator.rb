@@ -1,35 +1,38 @@
-module StateMachineAutomator
-  module ClassMethods
-    def automatic_transition(options = {}, &block)
-      from = array_to_s_or_nil(options.fetch(:from, states))
-      to = to_s_or_nil(options[:to])
+class StateMachineAutomator
+  Callback = Struct.new(:from, :to, :callback)
 
-      callbacks[:automatic] ||= []
-      callbacks[:automatic] << Statesman::Callback.new(from: from, to: to, callback: block)
+  attr_accessor :state_machine
+  delegate :current_state, :transition_to, :object, to: :state_machine
+
+  def initialize(state_machine)
+    @state_machine = state_machine
+  end
+
+  class << self
+    def automatic_transition(from: [], to:, &block)
+      callbacks << Callback.new(Array.wrap(from).map(&:to_sym), to, block)
+    end
+
+    def callbacks
+      @callbacks ||= []
     end
   end
 
-  def self.included(base)
-    base.extend(ClassMethods)
-  end
-
-  def automatic
+  def run(max_steps = 10)
     [].tap do |passed_transitions|
-      while (to = automatic_step_to)
+      while (to = next_state) && passed_transitions.count <= max_steps
         # raise StandardError if passed_transitions.include?(to)
         break if passed_transitions.include?(to)
-        passed_transitions << to if transition_to(to)
+        passed_transitions << to if @state_machine.transition_to(to)
       end
     end
   end
 
-  def automatic_step_to
-    self.class.callbacks[:automatic].each do |callback|
-      next unless Array.wrap(callback.from).include?(current_state.to_s)
-      to = callback.to.first
-      # Rails.logger.debug "Candidate for automatic transition: #{to} ..."
-      return to if callback.call(@object) && can_transition_to?(to)
-      # Rails.logger.debug 'no'
+  def next_state
+    self.class.callbacks.each do |callback|
+      next unless callback.from.include?(@state_machine.current_state&.to_sym)
+      to = callback.to
+      return to if callback.callback.call(@state_machine.object) && @state_machine.can_transition_to?(to)
     end
     nil
   end

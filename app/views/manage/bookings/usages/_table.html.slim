@@ -1,4 +1,5 @@
 = form_with(url: manage_booking_usages_path(@booking), scope: :usages, method: :PUT, local: true, layout: :inline) do |f|
+  = hidden_field_tag :return_to, return_to if defined?(return_to)
   table.table
     thead
       tr.bg-white

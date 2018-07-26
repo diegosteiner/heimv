@@ -1,97 +1,131 @@
 require 'rails_helper'
-
-shared_examples 'transition' do |transition_expr, validity|
-  transition_data = transition_expr.match(/(\w+)-->(\w+)/ix)
-  let(:initial_state) { transition_data[1] }
-  let(:target_state) { transition_data[2] }
-  let(:booking) { create(:booking, initial_state: initial_state) }
-
-  it transition_expr do
-    expect(state_machine.transition_to(target_state)).to be(validity)
-    expect(state_machine.current_state).to eq((validity ? target_state : initial_state))
-  end
-end
-
 describe BookingStrategy::Default::StateMachine do
-  let(:booking) { create(:booking, skip_automatic_transition: true) }
-  let(:state_machine) { described_class.new(booking) }
+  def state_machine_in_state(initial_state, options = {})
+    booking = create(:booking, options.merge(initial_state: initial_state))
+    state_machine = BookingStrategy::Default::StateMachine.new(booking)
+    binding.pry unless state_machine.is_a?(BookingStrategy::Default::StateMachine)
+    state_machine
+  end
 
   describe 'allowed transitions' do
-    it_behaves_like 'transition', 'initial-->new_request', true
-    it_behaves_like 'transition', 'initial-->provisional_request', true
-    it_behaves_like 'transition', 'initial-->definitive_request', true
-    it_behaves_like 'transition', 'initial-->new_request', true
-    it_behaves_like 'transition', 'new_request-->provisional_request', false
-    it_behaves_like 'transition', 'new_request-->definitive_request', false
-    it_behaves_like 'transition', 'confirmed_new_request-->provisional_request', true
-    it_behaves_like 'transition', 'confirmed_new_request-->definitive_request', true
-    it_behaves_like 'transition', 'new_request-->cancelled', true
-    it_behaves_like 'transition', 'initial-->provisional_request', true
-    it_behaves_like 'transition', 'overdue_request-->definitive_request', true
-    it_behaves_like 'transition', 'overdue_request-->cancelled', true
-    it_behaves_like 'transition', 'provisional_request-->overdue_request', true
-    it_behaves_like 'transition', 'provisional_request-->definitive_request', true
-    it_behaves_like 'transition', 'provisional_request-->cancelled', true
-    it_behaves_like 'transition', 'initial-->definitive_request', true
-    it_behaves_like 'transition', 'overdue_request-->provisional_request', true
-    it_behaves_like 'transition', 'definitive_request-->confirmed', true
-    it_behaves_like 'transition', 'definitive_request-->cancelled', true
-    it_behaves_like 'transition', 'upcoming-->cancelled', true
-    it_behaves_like 'transition', 'past-->payment_due', true
-    it_behaves_like 'transition', 'confirmed-->cancelled', true
+    describe 'initial-->' do
+      subject { state_machine_in_state(:initial, skip_automatic_transition: true) }
+
+      it do
+        binding.pry
+      end
+      it { is_expected.to transition_to(:new_request) }
+      it { is_expected.to transition_to(:provisional_request) }
+      it { is_expected.to transition_to(:definitive_request) }
+      it { is_expected.to transition_to(:new_request) }
+      it { is_expected.to transition_to(:definitive_request) }
+      it { is_expected.to transition_to(:provisional_request) }
+
+      it 'sends email-confirmation' do
+        expect(BookingStateMailer).to receive_message_chain(:state_changed, :deliver_now)
+        is_expected.to transition_to(:new_request)
+      end
+    end
+
+    describe 'new_request-->' do
+      subject { state_machine_in_state(:new_request) }
+
+      it { is_expected.to transition_to(:confirmed_new_request) }
+      it { is_expected.to transition_to(:cancelled) }
+    end
+
+    describe 'confirmed_new_request-->' do
+      subject { state_machine_in_state(:confirmed_new_request) }
+
+      it { is_expected.to transition_to(:provisional_request) }
+      it { is_expected.to transition_to(:definitive_request) }
+    end
+
+    describe 'overdue_request-->' do
+      subject { state_machine_in_state(:overdue_request) }
+
+      it { is_expected.to transition_to(:definitive_request) }
+      it { is_expected.to transition_to(:cancelled) }
+      it { is_expected.to transition_to(:provisional_request) }
+    end
+
+    describe 'provisional_request-->' do
+      subject { state_machine_in_state(:provisional_request) }
+
+      it { is_expected.to transition_to(:overdue_request) }
+      it { is_expected.to transition_to(:definitive_request) }
+      it { is_expected.to transition_to(:cancelled) }
+    end
+
+    describe 'definitive_request-->' do
+      subject { state_machine_in_state(:definitive_request) }
+
+      it { is_expected.to transition_to(:confirmed) }
+      it { is_expected.to transition_to(:cancelled) }
+    end
+
+    describe 'upcoming-->' do
+      subject { state_machine_in_state(:upcoming) }
+
+      it { is_expected.to transition_to(:cancelled) }
+    end
+
+    describe 'past-->' do
+      subject { state_machine_in_state(:past) }
+      it { is_expected.to transition_to(:payment_due) }
+      it { is_expected.not_to transition_to(:confirmed) }
+    end
+
+    describe 'confirmed-->' do
+      subject { state_machine_in_state(:confirmed) }
+
+      it { is_expected.to transition_to(:cancelled) }
+      it { is_expected.not_to transition_to(:confirmed) }
+    end
   end
 
   describe 'automatic transitions' do
-    it_behaves_like 'transition', 'active-->past', true
-    it_behaves_like 'transition', 'upcoming-->active', true
-    it_behaves_like 'transition', 'overdue_request-->cancelled', true
-    it_behaves_like 'transition', 'confirmed-->overdue', true
-    it_behaves_like 'transition', 'payment_due-->payment_overdue', true
+    it { expect(state_machine_in_state(:active)).to transition_to(:past) }
+    it { expect(state_machine_in_state(:upcoming)).to transition_to(:active) }
+    it { expect(state_machine_in_state(:overdue_request)).to transition_to(:cancelled) }
+    it { expect(state_machine_in_state(:payment_due)).to transition_to(:payment_overdue) }
+    it { expect(state_machine_in_state(:confirmed)).to transition_to(:overdue) }
   end
 
   describe 'prohibited transitions' do
-    it_behaves_like 'transition', 'payment_due-->payment_due', false
-    it_behaves_like 'transition', 'payment_overdue-->cancelled', false
-    it_behaves_like 'transition', 'payment_overdue-->payment_overdue', false
-    it_behaves_like 'transition', 'confirmed-->confirmed', false
-    it_behaves_like 'transition', 'past-->confirmed', false
+    it { expect(state_machine_in_state(:payment_due)).not_to transition_to(:payment_due) }
+    it { expect(state_machine_in_state(:payment_overdue)).not_to transition_to(:cancelled) }
+    it { expect(state_machine_in_state(:payment_overdue)).not_to transition_to(:payment_overdue) }
   end
 
   describe 'sideeffects' do
-    describe '-->request' do
-      it 'sends email-confirmation' do
-        expect(BookingStateMailer).to receive_message_chain(:state_changed, :deliver_now)
-        expect(state_machine.transition_to!(:new_request)).to be true
-      end
-    end
+    # describe 'blocking states' do
+    #   let(:states) { { confirmed: :overdue, overdue: :upcoming, upcoming: :active } }
+    #   let(:occupancy) { build(:occupancy, blocking: false) }
 
-    describe 'blocking states' do
-      let(:states) { { confirmed: :overdue, overdue: :upcoming, upcoming: :active } }
-      let(:occupancy) { build(:occupancy, blocking: false) }
+    #   it 'sets occupancy to blocking for all blocking states' do
+    #     states.each do |initial_state, state|
+    #       booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
+    #       state_machine = described_class.new(booking)
+    #       expect(state_machine.transition_to(state)).to be true
+    #       expect(booking.occupancy.occ).to be true
+    #     end
+    #   end
 
-      it 'sets occupancy to blocking for all blocking states' do
-        states.each do |initial_state, state|
-          booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
-          state_machine = described_class.new(booking)
-          expect(state_machine.transition_to(state)).to be true
-          expect(booking.occupancy.blocking).to be true
-        end
-      end
+    #   context 'unblocking states' do
+    #     let(:states) { { confirmed: :cancelled } }
+    #     let(:occupancy) { build(:occupancy, blocking: true) }
 
-      context 'unblocking states' do
-        let(:states) { { confirmed: :cancelled } }
-        let(:occupancy) { build(:occupancy, blocking: true) }
-
-        it 'sets occupancy to not blocking for all non-blocking states' do
-          states.each do |initial_state, state|
-            booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
-            state_machine = described_class.new(booking)
-            expect(state_machine.transition_to(state)).to be true
-            expect(booking.occupancy.blocking).to be false
-          end
-        end
-      end
-    end
+    #     it 'sets occupancy to not blocking for all non-blocking states' do
+    #       states.each do |initial_state, state|
+    #         booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
+    #         state_machine = described_class.new(booking)
+    #         expect(state_machine.transition_to(state)).to be true
+    #         expect(booking.occupancy.blocking).to be false
+    #       end
+    #     end
+    #   end
+    # end
   end
 
   describe 'guarded transitions' do
@@ -111,8 +145,10 @@ describe BookingStrategy::Default::StateMachine do
             allow(contracts).to receive(:all?).and_return(true)
             allow(bills).to receive_message_chain(:deposits, :all?).and_return(true)
           end
-          it_behaves_like 'transition', 'confirmed-->upcoming', true
-          it_behaves_like 'transition', 'overdue-->upcoming', true
+          it do
+            it { expect(state_machine_in_state(:confirmed)).to transition_to(:upcoming) }
+            it { expect(state_machine_in_state(:overdue)).to transition_to(:upcoming) }
+          end
         end
 
         context 'with unmet preconditions' do
@@ -121,8 +157,10 @@ describe BookingStrategy::Default::StateMachine do
             allow(contracts).to receive(:all?).and_return(false)
             allow(bills).to receive_message_chain(:deposits, :all?).and_return(false)
           end
-          it_behaves_like 'transition', 'confirmed-->upcoming', false
-          it_behaves_like 'transition', 'overdue-->upcoming', false
+          it do
+            it { expect(state_machine_in_state(:confirmed)).not_to transition_to(:upcoming) }
+            it { expect(state_machine_in_state(:overdue)).not_to transition_to(:upcoming) }
+          end
         end
       end
 
@@ -136,8 +174,10 @@ describe BookingStrategy::Default::StateMachine do
             allow(bills).to receive(:any?).and_return(true)
             allow(bills).to receive_message_chain(:open, :none?).and_return(true)
           end
-          it_behaves_like 'transition', 'payment_due-->completed', true
-          it_behaves_like 'transition', 'payment_overdue-->completed', true
+          it do
+            it { expect(state_machine_in_state(:payment_due)).to transition_to(:completed) }
+            it { expect(state_machine_in_state(:payment_overdue)).to transition_to(:completed) }
+          end
         end
 
         context 'with unmet preconditions' do
@@ -145,9 +185,11 @@ describe BookingStrategy::Default::StateMachine do
             allow(bills).to receive(:any?).and_return(false)
             allow(bills).to receive_message_chain(:open, :none?).and_return(false)
           end
-          it_behaves_like 'transition', 'payment_due-->completed', false
-          it_behaves_like 'transition', 'payment_overdue-->completed', false
-          it_behaves_like 'transition', 'past-->completed', false
+          it do
+            it { expect(state_machine_in_state(:payment_due)).not_to transition_to(:completed) }
+            it { expect(state_machine_in_state(:payment_overdue)).not_to transition_to(:completed) }
+            it { expect(state_machine_in_state(:past)).not_to transition_to(:completed) }
+          end
         end
       end
 
@@ -161,26 +203,30 @@ describe BookingStrategy::Default::StateMachine do
             allow(bills).to receive_message_chain(:open, :none?).and_return(true)
           end
 
-          it_behaves_like 'transition', 'overdue_request-->cancelled', true
-          it_behaves_like 'transition', 'new_request-->cancelled', true
-          it_behaves_like 'transition', 'provisional_request-->cancelled', true
-          it_behaves_like 'transition', 'definitive_request-->cancelled', true
-          it_behaves_like 'transition', 'confirmed-->cancelled', true
-          it_behaves_like 'transition', 'overdue-->cancelled', true
-          it_behaves_like 'transition', 'upcoming-->cancelled', true
+          it do
+            it { expect(state_machine_in_state(:overdue_request)).to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:new_request)).to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:provisional_request)).to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:definitive_request)).to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:confirmed)).to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:overdue)).to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:upcoming)).to transition_to(:cancelled) }
+          end
         end
 
         context 'with unmet preconditions' do
           before do
             allow(bills).to receive_message_chain(:open, :none?).and_return(false)
           end
-          it_behaves_like 'transition', 'overdue_request-->cancelled', false
-          it_behaves_like 'transition', 'new_request-->cancelled', false
-          it_behaves_like 'transition', 'provisional_request-->cancelled', false
-          it_behaves_like 'transition', 'definitive_request-->cancelled', false
-          it_behaves_like 'transition', 'confirmed-->cancelled', false
-          it_behaves_like 'transition', 'overdue-->cancelled', false
-          it_behaves_like 'transition', 'upcoming-->cancelled', false
+          it do
+            it { expect(state_machine_in_state(:overdue_request)).not_to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:new_request)).not_to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:provisional_request)).not_to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:definitive_request)).not_to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:confirmed)).not_to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:overdue)).not_to transition_to(:cancelled) }
+            it { expect(state_machine_in_state(:upcoming)).not_to transition_to(:cancelled) }
+          end
         end
       end
     end

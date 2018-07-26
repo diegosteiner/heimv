@@ -17,7 +17,7 @@ RSpec.describe UsageBuilder, type: :model do
       is_expected.to(be_all { |actual| actual.is_a?(Usage) })
       tarif_ids = subject.map(&:tarif_id)
       expect(tarif_ids).to include(*home_tarifs.map(&:id))
-      expect(tarif_ids).to include(*booking_tarifs.map(&:id))
+      # expect(tarif_ids).to include(*booking_tarifs.map(&:id))
       expect(tarif_ids).not_to include(existing_usage.id)
     end
   end

@@ -23,7 +23,7 @@ module Manage
 
       def update_many
         @booking.update(booking_usages_params)
-        respond_with :manage, @booking, @usages, location: manage_booking_usages_path(@booking)
+        respond_with :manage, @booking, @usages, location: params[:return_to] || manage_booking_usages_path(@booking)
       end
 
       def update

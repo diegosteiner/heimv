@@ -95,6 +95,7 @@ export default {
   margin: 1px;
   padding: 0.25rem;
   border: 1px solid transparent;
+  transition: opacity 1.5s;
 }
 .calendar-day a.occupied-allday {
   background: #ffa8a8;
@@ -117,7 +118,7 @@ export default {
 
 .calendar-day a.disabled {
   cursor: default;
-  opacity: 0.3;
+  opacity: 0.2;
 }
 </style>
 

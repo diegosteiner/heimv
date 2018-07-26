@@ -1,13 +1,12 @@
 module BookingStrategy
   class Base
     class StateMachine
-      TRANSITION_CLASS = BookingTransition
+      OBJECT_CLASS = Booking
 
       include Statesman::Machine
-      include StateMachineAutomator
 
       def initialize(booking)
-        super(booking, transition_class: TRANSITION_CLASS)
+        super(booking, transition_class: OBJECT_CLASS.transition_class)
       end
     end
   end
