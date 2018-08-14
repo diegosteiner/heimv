@@ -6,6 +6,7 @@ class Tarif < ApplicationRecord
   has_many :booking_copies, class_name: :Tarif, dependent: :nullify, inverse_of: :booking_copy_template,
                             foreign_key: :booking_copy_template_id
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
+  has_many :tarif_usage_calculators, dependent: :destroy, inverse_of: :tarif
   has_one :usage_calculator, -> { UsageCalculator.where(tarif: [self, template].compact) }, inverse_of: :tarif
 
   ranks :row_order, with_same: :home_id

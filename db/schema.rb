@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_17_192311) do
+ActiveRecord::Schema.define(version: 2018_08_14_142754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -173,6 +173,17 @@ ActiveRecord::Schema.define(version: 2018_07_17_192311) do
     t.index ["subject_type", "subject_id"], name: "index_occupancies_on_subject_type_and_subject_id"
   end
 
+  create_table "tarif_usage_calculators", force: :cascade do |t|
+    t.bigint "tarif_id"
+    t.bigint "usage_calculator_id"
+    t.string "role"
+    t.jsonb "params"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tarif_id"], name: "index_tarif_usage_calculators_on_tarif_id"
+    t.index ["usage_calculator_id"], name: "index_tarif_usage_calculators_on_usage_calculator_id"
+  end
+
   create_table "tarifs", force: :cascade do |t|
     t.string "type"
     t.string "label"
@@ -194,11 +205,11 @@ ActiveRecord::Schema.define(version: 2018_07_17_192311) do
   end
 
   create_table "usage_calculators", force: :cascade do |t|
-    t.bigint "tarif_id"
+    t.bigint "home_id"
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tarif_id"], name: "index_usage_calculators_on_tarif_id"
+    t.index ["home_id"], name: "index_usage_calculators_on_home_id"
     t.index ["type"], name: "index_usage_calculators_on_type"
   end
 
@@ -249,7 +260,9 @@ ActiveRecord::Schema.define(version: 2018_07_17_192311) do
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "occupancies", "homes"
-  add_foreign_key "usage_calculators", "tarifs"
+  add_foreign_key "tarif_usage_calculators", "tarifs"
+  add_foreign_key "tarif_usage_calculators", "usage_calculators"
+  add_foreign_key "usage_calculators", "homes"
   add_foreign_key "usages", "bookings"
   add_foreign_key "usages", "tarifs"
 end
