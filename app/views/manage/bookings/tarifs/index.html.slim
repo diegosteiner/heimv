@@ -1,7 +1,7 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :tarifs }
 
 - if @usages.any?
-  h1= t('.applying_tarifs', default: 'Angewandte Tarife')
+  h1= t('.used_tarifs', default: 'Angewandte Tarife')
   section.breakout-sm
     = render partial: 'manage/bookings/usages/table', locals: { usages: @usages, tarif_links: true, return_to: manage_booking_tarifs_path(@booking) }
 

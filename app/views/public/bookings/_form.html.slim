@@ -43,7 +43,7 @@
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error
 
-    = f.select :event_kind, [[t(:'activerecord.enums.booking.event_kind.camp'), :camp], [t(:'activerecord.enums.booking.event_kind.course'), :course], [t(:'activerecord.enums.booking.event_kind.event'), :event]]
+    = f.select :purpose, [[t(:'activerecord.enums.booking.purpose.camp'), :camp], [t(:'activerecord.enums.booking.purpose.course'), :course], [t(:'activerecord.enums.booking.purpose.event'), :event]]
     = f.number_field :approximate_headcount
     = f.text_area :remarks, help: t('optional')
 

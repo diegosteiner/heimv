@@ -1,9 +1,9 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :contracts }
 
 
-- if @booking.applying_tarifs.none?
+- if @booking.used_tarifs.none?
   p.text-center
-    = t('.no_applying_tarifs_yet')
+    = t('.no_used_tarifs_yet')
     =<> link_to t('.add_tarifs'), manage_booking_tarifs_path(@booking)
 
 - else

@@ -5,7 +5,7 @@ module Public
     class Update < ApplicationParams
       def self.permitted_keys
         [:organisation, :definitive_request, :cancellation_reason, :invoice_address,
-         :committed_request, :event_kind, :approximate_headcount, :remarks,
+         :committed_request, :purpose, :approximate_headcount, :remarks,
          customer_attributes: CustomerParams.permitted_keys.without(:email)]
       end
     end

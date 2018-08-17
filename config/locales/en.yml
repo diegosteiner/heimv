@@ -8,11 +8,11 @@ en:
         committed_request: Verbindlichkeit der Mietanfrage
         customer: Kunde
         customer_id: Kunde
-        event_kind: Zweck der Miete
         home: Heim
         home_id: Heim
         invoice_address: Rechnungsadresse (falls abweichend)
         occupancy: Belegung
+        purpose: Zweck der Miete
         ref: Buchungsreferenz
         remarks: Bemerkungen
         state: Status
@@ -82,7 +82,7 @@ en:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
-        event_kind:
+        purpose:
           camp: Lager
           course: Kurs
           event: Privater Anlass
@@ -162,7 +162,7 @@ en:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
-        event_kind:
+        purpose:
           camp: Lager
           course: Kurs
           event: Privater Anlass
@@ -328,13 +328,13 @@ en:
         index:
           add_tarifs: Tarife jetzt zuweisen
           new: New
-          no_applying_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
+          no_used_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
       index:
         new: New
       tarifs:
         index:
           applicable_tarifs: Applicable tarifs
-          applying_tarifs: Applying tarifs
+          used_tarifs: Applying tarifs
     customers:
       index:
         new: New
