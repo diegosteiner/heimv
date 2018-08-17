@@ -6,8 +6,7 @@ module Manage
       load_and_authorize_resource :usage, through: :booking, parent: false
 
       def index
-        # @tarifs = @tarifs.rank(:row_order)
-        @suggested_usages = UsageBuilder.new.for_booking(@booking, @booking.home.tarifs)
+        @suggested_usages = UsageBuilder.new.for_booking(@booking)
         respond_with :manage, @usages
       end
 

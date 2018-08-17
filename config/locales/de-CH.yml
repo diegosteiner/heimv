@@ -334,7 +334,7 @@ de-CH:
       tarifs:
         index:
           applicable_tarifs: Applicable tarifs
-          applying_tarifs: Applying tarifs
+          used_tarifs: Applying tarifs
     customers:
       index:
         new: Neu

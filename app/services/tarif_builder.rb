@@ -1,6 +1,6 @@
 class TarifBuilder
   def for_booking(booking, tarifs = booking.home.tarifs)
-    booking.tarifs = tarifs.reject.map do |tarif|
+    tarifs.reject.map do |tarif|
       booking_copy_for(tarif, booking) unless tarif.transient?
     end.compact
   end

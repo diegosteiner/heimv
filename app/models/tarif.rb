@@ -7,7 +7,7 @@ class Tarif < ApplicationRecord
                             foreign_key: :booking_copy_template_id
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
   has_many :tarif_usage_calculators, dependent: :destroy, inverse_of: :tarif
-  has_one :usage_calculator, -> { UsageCalculator.where(tarif: [self, template].compact) }, inverse_of: :tarif
+  has_many :usage_calculators, through: :tarif_usage_calculators
 
   ranks :row_order, with_same: :home_id
   scope :transient, -> { where(transient: true) }
@@ -21,6 +21,10 @@ class Tarif < ApplicationRecord
 
   def booking_copy?
     booking_id.present?
+  end
+
+  def self_and_booking_copies(booking)
+    booking_copies.where(booking: booking).or(Tarif.where(id: id))
   end
 
   def override_used_units?

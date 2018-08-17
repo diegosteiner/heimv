@@ -176,7 +176,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
   create_table "tarif_usage_calculators", force: :cascade do |t|
     t.bigint "tarif_id"
     t.bigint "usage_calculator_id"
-    t.string "role"
+    t.string "distinction"
     t.jsonb "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

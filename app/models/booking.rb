@@ -12,7 +12,7 @@ class Booking < ApplicationRecord
   has_many :contracts, dependent: :destroy, autosave: false
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :usages, dependent: :destroy # , autosave: false
-  has_many :applying_tarifs, class_name: :Tarif, through: :usages, source: :tarif, inverse_of: :booking
+  has_many :used_tarifs, class_name: :Tarif, through: :usages, source: :tarif, inverse_of: :booking
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: :Tarif, inverse_of: :booking
   has_many :booking_copy_tarifs, class_name: :Tarif, dependent: :destroy
   has_many :transitive_tarifs, class_name: :Tarif, through: :home, source: :tarif

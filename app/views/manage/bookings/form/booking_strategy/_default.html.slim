@@ -1,7 +1,8 @@
 = form_with(model: [:manage, @booking], local: true) do |f|
 
   fieldset
-    = f.select :transition_to, @view_model.allowed_transitions_for_select, include_blank: true
+    / = f.select :transition_to, @view_model.allowed_transitions_for_select, include_blank: true
+    .alert.alert-error= @booking.errors.messages
 
     = f.fields_for :occupancy, @booking.occupancy do |of|
       = of.datetime_local_field :begins_at

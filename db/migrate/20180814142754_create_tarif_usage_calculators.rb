@@ -3,7 +3,7 @@ class CreateTarifUsageCalculators < ActiveRecord::Migration[5.2]
     create_table :tarif_usage_calculators do |t|
       t.references :tarif, foreign_key: true
       t.references :usage_calculator, foreign_key: true
-      t.string :role
+      t.string :distinction
       t.jsonb :params
 
       t.timestamps
