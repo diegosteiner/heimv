@@ -15,10 +15,8 @@ class UsageCalculator < ApplicationRecord
 
   def apply(booking, usages = booking.usages)
     tarif_usage_calculators.map do |tarif_usage_calculator|
-      next unless usage = usages.find do |usage|
-        tarif_usage_calculator.tarif.self_and_booking_copies(booking).include?(usage.tarif)
-      end
-      self.class::DISTINCTION_PROCS[tarif_usage_calculator.distinction].try(:call, usage)
+      usage = usages.find { |u| tarif_usage_calculator.tarif.self_and_booking_copies(booking).include?(u.tarif) }
+      self.class::DISTINCTION_PROCS[tarif_usage_calculator.distinction].try(:call, usage) if usage
     end
   end
 end

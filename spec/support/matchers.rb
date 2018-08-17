@@ -2,9 +2,9 @@ require 'rspec/expectations'
 
 RSpec::Matchers.define :transition_to do |expected|
   match do |actual|
-    initial_state = actual.current_state
+    # initial_state = actual.current_state
     result = actual.transition_to(expected) && actual.current_state.to_s == expected.to_s
-    binding.pry unless result
+    # binding.pry unless result
     result
   end
 
