@@ -6,7 +6,7 @@ module Manage
       load_and_authorize_resource :usage, through: :booking, parent: false
 
       def index
-        @suggested_usages = UsageBuilder.new.for_booking(@booking)
+        @suggested_usages = UsageBuilder.new.for_booking(@booking).reject { |usage| !usage.new_record? }
         respond_with :manage, @usages
       end
 

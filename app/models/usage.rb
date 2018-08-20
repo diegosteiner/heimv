@@ -3,9 +3,10 @@ class Usage < ApplicationRecord
   belongs_to :booking, inverse_of: :usages
   has_many :invoice_parts, dependent: :nullify
 
-  attribute :apply, default: false
+  attribute :apply, default: true
 
   scope :ordered, -> { order(tarif: { row_order: :ASC, created_at: :ASC }) }
+  scope :of_tarif, ->(tarif) { where(tarif_id: tarif.self_and_booking_copy_ids) }
 
   before_create :create_tarif_booking_copy
 
@@ -18,6 +19,10 @@ class Usage < ApplicationRecord
   def used_units
     super unless tarif.override_used_units?
     tarif.override_used_units(self)
+  end
+
+  def of_tarif?(other_tarif)
+    other_tarif.self_and_booking_copy_ids.include?(tarif_id)
   end
 
   def create_tarif_booking_copy

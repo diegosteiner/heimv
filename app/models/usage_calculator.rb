@@ -1,5 +1,5 @@
 class UsageCalculator < ApplicationRecord
-  DISTINCTIONS = {}.freeze
+  DISTINCTION_REGEX = %r(\A\w*\z)
 
   belongs_to :home, inverse_of: :usage_calculators
   has_many :tarif_usage_calculators, dependent: :destroy, inverse_of: :usage_calculator
@@ -7,16 +7,24 @@ class UsageCalculator < ApplicationRecord
 
   accepts_nested_attributes_for :tarif_usage_calculators
 
-  def build_tarif_usage_calculators
-    self.class::DISTINCTION_PROCS.keys.map do |distinction|
-      tarif_usage_calculators.build(distinction: distinction)
+  def calculate(booking, usages = booking.usages)
+    tarif_usage_calculators.map do |tarif_usage_calculator|
+      # usage = usages.of_tarif(tarif_usage_calculator.tarif).where(booking: booking).first
+      usage = usages.find { |u| u.of_tarif?(tarif_usage_calculator.tarif) }
+      # binding.pry if tarif_usage_calculator.tarif_id == 35
+      next unless usage
+      calculate_apply(usage, tarif_usage_calculator.distinction)
+      calculate_used_units(usage, tarif_usage_calculator.distinction)
     end
   end
 
-  def apply(booking, usages = booking.usages)
-    tarif_usage_calculators.map do |tarif_usage_calculator|
-      usage = usages.find { |u| tarif_usage_calculator.tarif.self_and_booking_copies(booking).include?(u.tarif) }
-      self.class::DISTINCTION_PROCS[tarif_usage_calculator.distinction].try(:call, usage) if usage
-    end
-  end
+  # def matching_tarif_usage_calculators(tarif_usage_calculators, &block)
+    # tarif_usage_calculators.map do |tarif_usage_calculator|
+
+
+    # distinction_match =
+  # end
+
+  def calculate_apply(_usage, _distinction); end
+  def calculate_used_units(_usage, _distinction); end
 end

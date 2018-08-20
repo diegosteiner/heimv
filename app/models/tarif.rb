@@ -23,8 +23,8 @@ class Tarif < ApplicationRecord
     booking_id.present?
   end
 
-  def self_and_booking_copies(booking)
-    booking_copies.where(booking: booking).or(Tarif.where(id: id))
+  def self_and_booking_copy_ids
+    [id] + booking_copy_ids
   end
 
   def override_used_units?

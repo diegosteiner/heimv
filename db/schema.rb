@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.integer "approximate_headcount"
     t.text "remarks"
     t.text "invoice_address"
-    t.string "event_kind"
+    t.string "purpose"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"

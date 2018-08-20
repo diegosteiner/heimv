@@ -45,6 +45,10 @@ class Booking < ApplicationRecord
     customer&.email || self[:email]
   end
 
+  def overnight_stays
+    occupancy.nights * approximate_headcount
+  end
+
   def self.transition_class
     BookingTransition
   end

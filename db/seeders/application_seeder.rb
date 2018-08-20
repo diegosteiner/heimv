@@ -10,7 +10,8 @@ module Seeders
         CustomerSeeder,
         BookingAgentSeeder,
         BookingSeeder,
-        MailerTemplateSeeder
+        MailerTemplateSeeder,
+        UsageCalculatorSeeder
       ].inject({}) do |seeds, seeder|
         seeds.merge(seeder.new(@options, seeds).seed)
       end
