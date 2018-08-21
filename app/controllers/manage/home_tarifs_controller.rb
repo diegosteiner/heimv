@@ -40,9 +40,9 @@ module Manage
       respond_with :manage, @home, @tarif
     end
 
-    def update_all
-      @home.update(tarifs_attributes: TarifParams.permit_update_all(params))
-      respond_with :manage, @tarif, location: manage_home_tarifs_path(@home)
+    def update_many
+      @home.update(home_tarifs_params)
+      respond_with :manage, @home, @tarifs, location: params[:return_to] || manage_home_tarifs_path(@home)
     end
 
     def update
@@ -59,6 +59,10 @@ module Manage
 
     def tarif_params
       TarifParams.permit(params.require(:tarif))
+    end
+
+    def home_tarifs_params
+      HomeParams.permit(ActionController::Parameters.new(tarifs_attributes: params.require(:tarifs)))
     end
   end
 end
