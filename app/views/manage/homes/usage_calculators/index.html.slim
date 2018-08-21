@@ -1,0 +1,22 @@
+= render partial: 'manage/homes/navigation', locals: { active: :usage_calculators }
+
+table.table.table-hover.table-card
+  thead
+    tr
+      th= UsageCalculator.model_name.human(count: :other)
+      th
+      th
+
+  tbody
+    - @usage_calculators.each do |usage_calculator|
+      tr[data-href=manage_home_usage_calculator_path(@home, usage_calculator)]
+        td = UsageCalculator.human_enum(:types, usage_calculator.type)
+        td = link_to edit_manage_home_usage_calculator_path(@home, usage_calculator) do
+          span.fa.fa-pencil
+        td = link_to manage_home_usage_calculator_path(@home, usage_calculator), data: { confirm: t(:confirm) }, method: :delete do
+          span.fa.fa-trash
+
+= link_to new_manage_home_usage_calculator_path(@home), class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_model, model_name: UsageCalculator.model_name.human)

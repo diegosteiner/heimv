@@ -1,3 +1,5 @@
+= render partial: 'manage/homes/navigation', locals: { active: :tarifs }
+
 .card.breakout-sm
   .card-body
     = render_hash_as_dl(@tarif.attributes.slice(*%w(type appliable unit price_per_unit label)), Tarif)

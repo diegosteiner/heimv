@@ -1,10 +1,4 @@
-ul.nav.nav-pills.mb-3
-  li.nav-item
-    a.nav-link.active[data-toggle='tab' role='tab']= Home.model_name.human
-  li.nav-item
-    / a.nav-link[href='#booking-tarifs' data-toggle='tab' role='tab']= Tarif.model_name.human(count: :other)
-    = link_to manage_home_tarifs_path(@home), class: 'nav-link'
-      = Tarif.model_name.human(count: :other)
+= render partial: 'manage/homes/navigation'
 
 .card.breakout-sm
   .card-body

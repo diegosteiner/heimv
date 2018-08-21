@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   namespace :manage do
     get '/', to: 'dashboard#index', as: :manage_dashboard
     resources :homes do
+      scope module: :homes do
+        resources :usage_calculators, except: %w[show]
+      end
       resources :tarifs, controller: 'home_tarifs' do
         collection do
           put '/', action: :update_many

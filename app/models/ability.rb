@@ -29,6 +29,8 @@ module Ability
   class Manage < Base
     def manage_abilities(_user)
       can :manage, Home
+      can :manage, UsageCalculator
+      can :manage, TarifUsageCalculator
       can :manage, Customer
       can :manage, Booking
       can :manage, Occupancy

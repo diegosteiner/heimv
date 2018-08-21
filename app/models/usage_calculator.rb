@@ -17,6 +17,11 @@ class UsageCalculator < ApplicationRecord
     end
   end
 
+  def self.types
+    %w[UsageCalculators::BookingNights UsageCalculators::BookingApproximateHeadcountPerNight
+       UsageCalculators::BookingOvernightStays UsageCalculators::BookingOvernightStays]
+  end
+
   def select_usage(_usage, _distinction); end
 
   def calculate_usage(_usage, _distinction); end
