@@ -2,8 +2,7 @@ require 'rails_helper'
 describe BookingStrategy::Default::StateMachine do
   def state_machine_in_state(initial_state, options = {})
     booking = create(:booking, options.merge(initial_state: initial_state))
-    state_machine = BookingStrategy::Default::StateMachine.new(booking)
-    # binding.pry unless state_machine.is_a?(BookingStrategy::Default::StateMachine)
+    state_machine = described_class.new(booking)
     state_machine
   end
 
@@ -11,9 +10,6 @@ describe BookingStrategy::Default::StateMachine do
     describe 'initial-->' do
       subject { state_machine_in_state(:initial, skip_automatic_transition: true) }
 
-      it do
-        # binding.pry
-      end
       it { is_expected.to transition_to(:new_request) }
       it { is_expected.to transition_to(:provisional_request) }
       it { is_expected.to transition_to(:definitive_request) }

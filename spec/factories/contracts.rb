@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :contract do
     booking
-    title 'Mietvertrag'
-    text <<~EOTEXT
+    title { 'Mietvertrag' }
+    text { <<~EOTEXT }
       ##### Allgemein
       Der Vermieter  überlässt  dem  Mieter  das  Pfadiheim  Birchli  in  Einsiedeln  für  den  nachfolgend  aufgeführten  Anlass  zur  alleinigen  Benutzung
         ##### Mietdauer

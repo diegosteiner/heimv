@@ -1,5 +1,5 @@
 module BookingStrategy
-  class Default
+  module Default
     class StateMachine < Base::StateMachine
       state :initial, initial: true
       %i[

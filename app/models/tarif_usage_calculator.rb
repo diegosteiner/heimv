@@ -8,6 +8,5 @@ class TarifUsageCalculator < ApplicationRecord
     errors.add(:distinction, :invalid)
   end
 
-  def usages
-  end
+  def usages; end
 end

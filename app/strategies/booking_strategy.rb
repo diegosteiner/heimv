@@ -4,6 +4,6 @@ module BookingStrategy
       BookingStrategy::Default
     end
 
-    # alias [] infer
+    alias [] infer
   end
 end

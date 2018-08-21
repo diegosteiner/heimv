@@ -9,7 +9,7 @@ FactoryBot.define do
     approximate_headcount { rand(30) }
 
     transient do
-      initial_state :initial
+      initial_state { :initial }
       initial_state_present? { ![nil, :initial].include?(initial_state) }
     end
 

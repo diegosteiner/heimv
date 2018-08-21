@@ -1,5 +1,5 @@
 module BookingStrategy
-  class Default
+  module Default
     class StateMachineAutomator < ::StateMachineAutomator
       automatic_transition(from: :initial, to: :new_request) do |booking|
         booking.email.present?

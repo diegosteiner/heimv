@@ -4,12 +4,12 @@ FactoryBot.define do
   sequence(:email) { |n| "user_#{n}@hv.dev" }
 
   factory :user do
-    confirmed_at Time.zone.now
+    confirmed_at { Time.zone.now }
     email { generate(:email) }
-    password 'heimverwaltung'
+    password { 'heimverwaltung' }
 
     trait :admin do
-      role 'admin'
+      role { 'admin' }
     end
   end
 end

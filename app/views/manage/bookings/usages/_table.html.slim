@@ -36,6 +36,8 @@
                     = uf.static_control :used_units, skip_label: true, wrapper_class: 'm-0'
                   - else
                     = uf.number_field :used_units, skip_label: true, wrapper_class: 'm-0'
+              - else
+                = uf.hidden_field :used_units
               td.py-2.text-right
                 .btn-group
                   - if defined?(usage_links) && usage_links && !usage.new_record?

@@ -9,7 +9,7 @@ module Seeders
             UsageCalculators::BookingPurpose.create(home: home).tap do |usage_calculator|
               usage_calculator.tarif_usage_calculators.create(tarif: tarifs[0], distinction: 'camp')
               usage_calculator.tarif_usage_calculators.create(tarif: tarifs[1], distinction: 'camp')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[3], distinction: 'event')
+              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[3], distinction: 'event', perform_calculate: false)
             end,
             UsageCalculators::AlwaysApply.create(home: home).tap do |usage_calculator|
               usage_calculator.tarif_usage_calculators.create(tarif: tarifs[4])
@@ -18,8 +18,9 @@ module Seeders
               usage_calculator.tarif_usage_calculators.create(tarif: tarifs[2], distinction: '<12')
             end,
             UsageCalculators::BookingNights.create(home: home).tap do |usage_calculator|
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[5], distinction: '>1')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[6], distinction: '>1')
+              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[3], perform_select: false)
+              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[5], distinction: '>0')
+              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[6], distinction: '>0')
               usage_calculator.tarif_usage_calculators.create(tarif: tarifs[11], distinction: '=2')
               usage_calculator.tarif_usage_calculators.create(tarif: tarifs[12], distinction: '=3')
               usage_calculator.tarif_usage_calculators.create(tarif: tarifs[13], distinction: '>3')

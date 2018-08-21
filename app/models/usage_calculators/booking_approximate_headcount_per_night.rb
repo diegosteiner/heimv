@@ -4,7 +4,7 @@ module UsageCalculators
       usage.booking.approximate_headcount
     end
 
-    def calculate_apply(usage, distinction)
+    def select_usage(usage, _distinction)
       return unless usage.apply
       usage.used_units ||= usage.booking.nights + 1
     end

@@ -42,7 +42,7 @@ class Occupancy < ApplicationRecord
   end
 
   def nights
-    (ends_at - begins_at) / 1.day - 1
+    (ends_at.to_date - begins_at.to_date).to_i
   end
 
   delegate :ref, to: :home

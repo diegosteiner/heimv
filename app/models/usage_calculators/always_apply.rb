@@ -1,6 +1,6 @@
 module UsageCalculators
   class AlwaysApply < UsageCalculator
-    def calculate_apply(usage, _)
+    def select_usage(usage, _distinction)
       usage.apply = true
     end
   end
