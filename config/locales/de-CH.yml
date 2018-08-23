@@ -62,8 +62,8 @@ de-CH:
         type: Typ
         unit: Einheit
       tarif_usage_calculator:
-        peform_calculate: Verbrauch automatisch ausrechnen
-        peform_select: Tarif automatisch auswählen
+        perform_calculate: Verbrauch automatisch ausrechnen
+        perform_select: Tarif automatisch auswählen
         tarif: Tarif
       usage:
         apply: Anwenden
@@ -115,7 +115,7 @@ de-CH:
       usage_calculator:
         types:
           always_apply: Immer-Ein Tarifrechner
-          booking_approximate_headcount_per_night: Übernachtungen Tarifrechner
+          booking_approximate_headcount_per_night: Anzahl TN Tarifrechner
           booking_nights: Nächte Tarifrechner
           booking_overnight_stays: Übernachtungen Tarifrechner
           booking_purpose: Mietzweck Tarifrechner

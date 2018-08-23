@@ -10,7 +10,8 @@ table.table.table-hover.table-card
   tbody
     - @usage_calculators.each do |usage_calculator|
       tr[data-href=manage_home_usage_calculator_path(@home, usage_calculator)]
-        td = UsageCalculator.human_enum(:types, usage_calculator.type)
+        td
+          = UsageCalculator.human_enum(:types, usage_calculator.type)
         td = link_to edit_manage_home_usage_calculator_path(@home, usage_calculator) do
           span.fa.fa-pencil
         td = link_to manage_home_usage_calculator_path(@home, usage_calculator), data: { confirm: t(:confirm) }, method: :delete do

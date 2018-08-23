@@ -5,7 +5,7 @@ class UsageCalculator < ApplicationRecord
   has_many :tarif_usage_calculators, dependent: :destroy, inverse_of: :usage_calculator
   has_many :tarifs, through: :tarif_usage_calculators
 
-  accepts_nested_attributes_for :tarif_usage_calculators
+  accepts_nested_attributes_for :tarif_usage_calculators, reject_if: :all_blank, allow_destroy: true
 
   def calculate(booking, usages = booking.usages)
     tarif_usage_calculators.map do |tuc|
@@ -19,7 +19,11 @@ class UsageCalculator < ApplicationRecord
 
   def self.types
     %w[UsageCalculators::BookingNights UsageCalculators::BookingApproximateHeadcountPerNight
-       UsageCalculators::BookingOvernightStays UsageCalculators::BookingOvernightStays]
+       UsageCalculators::AlwaysApply UsageCalculators::BookingOvernightStays UsageCalculator::BookingPurpose]
+  end
+
+  def allowed_tarifs
+    home.tarifs
   end
 
   def select_usage(_usage, _distinction); end

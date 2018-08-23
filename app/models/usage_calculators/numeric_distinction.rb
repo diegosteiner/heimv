@@ -3,7 +3,7 @@ module UsageCalculators
     DISTINCTION_REGEX = /\A([><=])?(\d*)\z/
 
     def select_usage(usage, distinction)
-      distinction_match = self.class::DISTINCTION_REGEX.match(distinction)
+      distinction_match = self.class::DISTINCTION_REGEX.match(distinction) || return
       value = presumable_usage(usage)
       usage.apply ||= case distinction_match[1]
                       when '<'

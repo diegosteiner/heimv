@@ -7,11 +7,9 @@ class UsageBuilder
   end
 
   def apply_calculators(booking, usage_calculators = booking.home.usage_calculators)
-    x = usage_calculators.map do |usage_calculator|
+    usage_calculators.map do |usage_calculator|
       usage_calculator.calculate(booking, booking.usages)
     end
-    Rails.logger.debug x.inspect
-    x
   end
 
   def for_booking(booking)

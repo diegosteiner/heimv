@@ -1,7 +1,5 @@
 = render partial: 'manage/bookings/navigation'
-= render partial: "manage/bookings/show/#{@booking.booking_strategy.name.underscore}/booking", locals: { booking: @booking }
-
-= render partial: BookingStrategy::Default::Template.template_path('hello_world')
+= render partial: BookingStrategy::Default::Template.template_path('manage/bookings/booking'), locals: { booking: @booking }
 
 section
   = link_to t(:back), manage_bookings_path, class: 'btn btn-default'

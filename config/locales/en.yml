@@ -62,8 +62,8 @@ en:
         type: Typ
         unit: Einheit
       tarif_usage_calculator:
-        peform_calculate: Verbrauch automatisch ausrechnen
-        peform_select: Tarif automatisch auswählen
+        perform_calculate: Verbrauch automatisch ausrechnen
+        perform_select: Tarif automatisch auswählen
         tarif: Tarif
       usage:
         apply: Anwenden

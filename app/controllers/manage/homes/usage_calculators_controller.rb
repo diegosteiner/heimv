@@ -9,10 +9,12 @@ module Manage
       end
 
       def new
+        @usage_calculator.tarif_usage_calculators.build
         respond_with :manage, @home, @usage_calculator
       end
 
       def edit
+        @usage_calculator.tarif_usage_calculators.build
         respond_with :manage, @home, @usage_calculator
       end
 
