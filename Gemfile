@@ -16,6 +16,7 @@ gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'kramdown'
 gem 'pg'
+gem 'prawn'
 gem 'puma', '~> 3.0'
 gem 'rails', '~> 5.2.0'
 gem 'rails-i18n', '~> 5.0.0'
@@ -27,7 +28,6 @@ gem 'title'
 gem 'webpacker', '>= 4.0.x'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
-gem 'prawn'
 
 group :development do
   gem 'better_errors'

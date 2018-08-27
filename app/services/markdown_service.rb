@@ -11,33 +11,41 @@ class MarkdownService
 
   def html_body(interpolation_args = {})
     interpolation_args = Hash.new { '' }.merge(interpolation_args)
-    Kramdown::Document.new(format(body, interpolation)).to_html
+    Kramdown::Document.new(format(body, interpolation_args)).to_html
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/MethodLength
   def pdf_body(interpolation_args = {})
     interpolation_args = Hash.new { '' }.merge(interpolation_args)
     format(body, interpolation_args).lines.map do |line|
-      line.gsub!( /__(.+)__/ ) { '<u>' + $1 + '</u>' }
-      line.gsub!( /\*\*(.+)\*\*/ ) { '<b>' + $1 + '</b>' }
+      # line.gsub!(/__(.+)__/) { '<u>' + Regexp.last_match(1) + '</u>' }
+      line.gsub!(/\*\*(.+)\*\*/) { '<b>' + Regexp.last_match(1) + '</b>' }
       # line.gsub!( /%%(.+?)%%/ ) { data[$1] }
 
-      if line.match /^== /
-        line.gsub! /^== /, ''
+      if /^== /.match?(line)
+        line.gsub! %r{/^== /}, ''
         next { text: line, style: :bold, size: 25, align: :center }
-      elsif line.match /^-- /
+      elsif /^-- /.match?(line)
         next { text: line, style: :bold, size: 18, align: :center }
-      elsif line.match /^#+ /
-        line.gsub!( /^#+ /, '')
+      elsif /^#+ /.match?(line)
+        line.gsub!(/^#+ /, '')
         next { text: line, style: :bold, size: 15 }
-      elsif line.match /^\s*[A-Z]\. /
+      elsif /^\s*[A-Z]\. /.match?(line)
         next { text: line, final_gap: true }
-      elsif line.match /^\s*\d{1,2}\. /
-        next { text: line, :indent_paragraphs => -15 }
-      elsif line.match /^\s*[a-z]\. /
-        next { text: line, :indent_paragraphs => -15 }
+      elsif /^\s*\d{1,2}\. /.match?(line)
+        next { text: line, indent_paragraphs: -15 }
+      elsif /^\s*[a-z]\. /.match?(line)
+        next { text: line, indent_paragraphs: -15 }
       else
         next { text: line, inline_format: true }
       end
     end.compact
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/MethodLength
 end
