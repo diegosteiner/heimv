@@ -166,12 +166,16 @@ GEM
     parallel (1.12.1)
     parser (2.5.1.2)
       ast (~> 2.4.0)
+    pdf-core (0.7.0)
     pg (1.0.0)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
     powerpack (0.1.2)
+    prawn (2.2.2)
+      pdf-core (~> 0.7.0)
+      ttfunk (~> 1.5)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -284,6 +288,7 @@ GEM
     title (0.0.7)
       i18n
       rails (>= 3.1)
+    ttfunk (1.5.1)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unicode-display_width (1.4.0)
@@ -332,6 +337,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   pg
   poltergeist
+  prawn
   pry-rails
   pry-rescue
   puma (~> 3.0)

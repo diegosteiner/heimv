@@ -27,6 +27,7 @@ gem 'title'
 gem 'webpacker', '>= 4.0.x'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'prawn'
 
 group :development do
   gem 'better_errors'

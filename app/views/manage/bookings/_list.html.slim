@@ -3,6 +3,7 @@
     thead
       tr
         th= Booking.human_attribute_name(:occupancy)
+        th= Booking.human_attribute_name(:ref)
         th= Booking.human_attribute_name(:home)
         th= Booking.human_attribute_name(:customer)
         th= Booking.human_attribute_name(:state)
@@ -14,6 +15,8 @@
           td
             = link_to manage_booking_path(booking)
               = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+          td
+            = link_to booking.ref, manage_booking_path(booking)
           td
             = link_to booking.home, manage_home_path(booking.home)
           td = booking.customer

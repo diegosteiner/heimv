@@ -29,7 +29,8 @@ module Manage
         respond_to do |format|
           format.html
           format.pdf do
-            render pdf: 'Your_filename'
+            pdf = PDF::Contract.new(@contract).build
+            send_data(pdf.render, content_type: 'application/pdf')
             # user_style_sheet: helpers.asset_pack_url('pdf.css')
             # print_media_type: false
             # show_as_html: true
