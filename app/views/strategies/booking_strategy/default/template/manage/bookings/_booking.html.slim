@@ -1,78 +1,19 @@
-.row.mt-4
-  .col-9
-    .card
-      .card-body
-        h4.m-0.text-center= booking.ref
-        p
-          strong= Occupancy.model_name.human
-          = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+- case @booking.state_machine.current_state.to_sym
+  - when :confirmed_new_request
+    - if @booking.committed_request
+      = link_to manage_booking_path(booking, booking: { transition_to: :definitive_request }), method: :patch, class: 'btn btn-primary' do
+        | Anfrage akzeptieren
 
-        p
-          strong= Booking.human_attribute_name(:home)
-          br
-          = link_to booking.home, manage_home_path(booking.home)
-        p
-          strong= Booking.human_attribute_name(:customer)
-          br
-          = link_to booking.customer, manage_customer_path(booking.customer)
-        p
-          strong= Booking.human_attribute_name(:organisation)
-          br
-          = booking.organisation
-        p
-          strong= Booking.human_attribute_name(:purpose)
-          br
-          = Booking.human_enum(:purpose, booking.purpose)
-        p
-          strong= Booking.human_attribute_name(:approximate_headcount)
-          br
-          = booking.approximate_headcount
-
-
-        hr
-
-        - case @booking.state_machine.current_state.to_sym
-          - when :confirmed_new_request
-            - if @booking.committed_request
-              = link_to manage_booking_path(booking, booking: { transition_to: :definitive_request }), method: :patch, class: 'btn btn-primary' do
-                | Anfrage akzeptieren
-
-            - else
-              = link_to manage_booking_path(booking, booking: { transition_to: :provisional_request }), method: :patch, class: 'btn btn-primary' do
-                | Anfrage akzeptieren
-          - when :definitive_request
-            - unless booking.used_tarifs.any?
-              = link_to manage_booking_tarifs_path(booking), class: 'btn btn-primary' do
-                | Tarife festlegen
-            - unless booking.invoices.any?
-              = link_to manage_booking_invoices_path(booking), class: 'btn btn-primary' do
-                | Anzahlung erstellen
-          - when :past
-            = link_to manage_booking_invoices_path(booking), class: 'btn btn-primary' do
-              | Rechnung verschicken
-
-
-
-        - @booking.state_machine.allowed_transitions.each do |state|
-          - next if state.to_sym == :cancelled
-          '
-          = link_to manage_booking_path(booking, booking: { transition_to: state }), method: :patch, class: 'btn btn-outline-primary' do
-            = @booking.booking_strategy::ViewModel.i18n_transition(@booking.state_machine.current_state, state)[:label]
-
-        - if @booking.state_machine.allowed_transitions.include?('cancelled')
-          '
-          = link_to manage_booking_path(booking, booking: { transition_to: :cancelled }), method: :patch, class: 'btn btn-outline-danger' do
-            = @booking.booking_strategy::ViewModel.i18n_transition(@booking.state_machine.current_state, :cancelled)[:label]
-
-        = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
-          span.fa.fa-pencil
-        '
-  .col-3
-    ul.list-group
-      - booking.booking_transitions.order(created_at: :DESC).each do |transition|
-        li.list-group-item
-          span.badge.badge-primary
-            = booking.booking_strategy::ViewModel.i18n_state(transition.to_state)[:label]
-          br
-          small
-            time<>[datetime=transition.created_at] = l(transition.created_at)
+    - else
+      = link_to manage_booking_path(booking, booking: { transition_to: :provisional_request }), method: :patch, class: 'btn btn-primary' do
+        | Anfrage akzeptieren
+  - when :definitive_request
+    - unless booking.used_tarifs.any?
+      = link_to manage_booking_tarifs_path(booking), class: 'btn btn-primary' do
+        | Tarife festlegen
+    - unless booking.invoices.any?
+      = link_to manage_booking_invoices_path(booking), class: 'btn btn-primary' do
+        | Anzahlung erstellen
+  - when :past
+    = link_to manage_booking_invoices_path(booking), class: 'btn btn-primary' do
+      | Rechnung verschicken

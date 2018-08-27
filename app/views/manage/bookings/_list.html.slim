@@ -15,13 +15,16 @@
           td
             = link_to manage_booking_path(booking)
               = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
-          td
+          td.py-3
             = link_to booking.ref, manage_booking_path(booking)
-          td
+          td.py-3
             = link_to booking.home, manage_home_path(booking.home)
-          td = booking.customer
-          td
+          td.py-3
+            = booking.customer
+          td.py-3
             span.badge.badge-info
               = booking.booking_strategy::ViewModel.i18n_state(booking.state_machine.current_state)[:label]
-          td = link_to edit_manage_booking_path(booking) do
-            span.fa.fa-pencil
+          td.py-2.text-right
+            .btn-group
+              = link_to edit_manage_booking_path(booking)
+                span.fa.fa-pencil
