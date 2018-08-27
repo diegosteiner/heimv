@@ -16,6 +16,10 @@
           br
           = link_to booking.customer, manage_customer_path(booking.customer)
         p
+          strong= Booking.human_attribute_name(:organisation)
+          br
+          = booking.organisation
+        p
           strong= Booking.human_attribute_name(:purpose)
           br
           = Booking.human_enum(:purpose, booking.purpose)

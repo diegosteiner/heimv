@@ -22,11 +22,10 @@ module PDF
       build_addresses
 
       move_down 20
-      text "Mietvertrag", size: 20, style: :bold
-      text @contract.booking.home.name, size: 12
+      text "Mietvertrag: #{@contract.booking.home.name}", size: 20, style: :bold
 
-      move_down 20
-      text @markdown.html_body, inline_format: true
+      move_down 10
+      formatted_text @markdown.pdf_body({ janitor: @contract.booking.home.janitor }), inline_format: true, size: 10
       self
     end
 

@@ -42,7 +42,7 @@ module Manage
     private
 
     def home_params
-      HomeParams.permit(params.require(:tarif))
+      HomeParams.permit(params[:home])
     end
   end
 end

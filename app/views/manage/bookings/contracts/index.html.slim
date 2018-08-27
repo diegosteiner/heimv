@@ -22,17 +22,18 @@
         - @contracts.each do |contract|
           tr[data-href=manage_booking_contract_path(@booking, contract)]
             td = contract.booking
-            td.py-2
-              - if contract.sent?
+            - if contract.sent?
+              td
                 = l(contract.sent_at, format: :short)
-              - else
+            - else
+              td.py-2
                 = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { sent_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
                   | Versenden!
-
-            td.py-2
-              - if contract.signed?
+            - if contract.signed?
+              td
                 = l(contract.signed_at, format: :short)
-              - else
+            - else
+              td.py-2
                 = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { signed_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
                   | Unterschrieben zurückerhalten
             td = link_to manage_booking_contract_path(@booking, contract, format: :pdf) do
