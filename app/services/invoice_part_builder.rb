@@ -1,16 +1,20 @@
 class InvoicePartBuilder
-  def for_booking(booking, invoice_parts = [])
+  def for_booking(booking, invoice, invoice_parts = invoice.invoice_parts)
     booking.usages.where.not(id: invoice_parts.map(&:usage_id)).map do |usage|
-      from_usage(usage, invoice_parts.none?)
+      InvoiceParts::Add.new(
+        apply: invoice.invoice_type == usage.tarif.invoice_type
+        usage: usage,
+        text: usage.tarif.label,
+        amount: usage.price
+      )
     end
   end
 
-  def from_usage(usage, apply = true)
+  def from_deposit(booking, deposits = booking.invoices.deposit)
     InvoiceParts::Add.new(
-      apply: apply,
-      usage: usage,
-      text: usage.tarif.label,
-      amount: usage.price
+      apply: true,
+      text: I18n.t(:deposit),
+      amount: deposits.sum(&:amount_payed)
     )
   end
 end

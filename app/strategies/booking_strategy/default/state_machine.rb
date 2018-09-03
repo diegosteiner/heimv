@@ -29,6 +29,10 @@ module BookingStrategy
         #   booking.bills.deposits.all?(&:payed_or_prolonged?)
       end
 
+      guard_transition(to: %i[confirmed]) do |booking|
+        booking.occupancy.conflicting.none?
+      end
+
       guard_transition(to: :completed) do |_booking|
         true
         # booking.bills.any? &&

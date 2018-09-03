@@ -13,6 +13,7 @@ class CreateTarifs < ActiveRecord::Migration[5.2]
       t.datetime :valid_until, null: true
       t.integer :row_order
       t.string :tarif_group, null: true
+      t.string :invoice_type, null: true
 
       t.timestamps
     end

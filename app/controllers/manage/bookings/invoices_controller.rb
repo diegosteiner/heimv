@@ -18,7 +18,8 @@ module Manage
       end
 
       def new
-        @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking)
+        @invoice.invoice_type = Invoice.invoice_types[:deposit]
+        @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking, @invoice)
         respond_with :manage, @booking, @invoice
       end
 
@@ -27,7 +28,7 @@ module Manage
       end
 
       def edit
-        @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking, @invoice.invoice_parts)
+        @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking, @invoice)
         respond_with :manage, @booking, @invoice
       end
 

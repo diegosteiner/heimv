@@ -9,4 +9,9 @@ class Invoice < ApplicationRecord
   def recalculate_amount
     update(amount: invoice_parts.reduce(0) { |result, invoice_part| invoice_part.inject_self(result) })
   end
+
+  def amount_payed
+    # payments.sum(&:amount)
+    0
+  end
 end
