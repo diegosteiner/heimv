@@ -26,6 +26,10 @@ module PDF
 
       move_down 10
       formatted_text @markdown.pdf_body(janitor: @contract.booking.home.janitor), inline_format: true, size: 10
+
+      move_down 10
+      build_tarifs
+
       self
     end
 
@@ -33,6 +37,17 @@ module PDF
       image Rails.root.join('app', 'webpack', 'images', 'logo_hvs.png'),
             at: [bounds.top_left[0] - 25, bounds.top_left[1] + 35],
             width: 120
+    end
+
+    def build_tarifs
+      table_data = @contract.booking.used_tarifs.map do |tarif|
+        [tarif.label, tarif.unit, 'CHF %.2f' % tarif.price_per_unit]
+      end
+
+      table table_data do
+        cells.style(size: 10)
+      end
+
     end
 
     # rubocop:disable Metrics/AbcSize

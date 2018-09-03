@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.datetime "valid_until"
     t.integer "row_order"
     t.string "tarif_group"
+    t.string "invoice_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"

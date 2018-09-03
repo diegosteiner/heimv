@@ -17,6 +17,7 @@ gem 'faker', require: false
 gem 'kramdown'
 gem 'pg'
 gem 'prawn'
+gem 'prawn-table'
 gem 'puma', '~> 3.0'
 gem 'rails', '~> 5.2.0'
 gem 'rails-i18n', '~> 5.0.0'
