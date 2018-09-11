@@ -19,8 +19,7 @@ class MarkdownService
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/MethodLength
   def pdf_body(interpolation_args = {})
-    interpolation_args = Hash.new { '' }.merge(interpolation_args)
-    format(body, interpolation_args).lines.map do |line|
+    format(body, Hash.new { '' }.merge(interpolation_args.symbolize_keys)).lines.map do |line|
       # line.gsub!(/__(.+)__/) { '<u>' + Regexp.last_match(1) + '</u>' }
       line.gsub!(/\*\*(.+)\*\*/) { '<b>' + Regexp.last_match(1) + '</b>' }
       # line.gsub!( /%%(.+?)%%/ ) { data[$1] }

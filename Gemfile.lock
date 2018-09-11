@@ -32,6 +32,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_model_serializers (0.10.7)
+      actionpack (>= 4.1, < 6)
+      activemodel (>= 4.1, < 6)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (5.2.1)
       activesupport (= 5.2.1)
       globalid (>= 0.3.6)
@@ -86,6 +91,8 @@ GEM
     capybara-screenshot (1.0.21)
       capybara (>= 1.0, < 4)
       launchy
+    case_transform (0.2)
+      activesupport
     cliver (0.3.2)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
@@ -134,6 +141,7 @@ GEM
       terminal-table (>= 1.5.1)
     interception (0.5)
     jaro_winkler (1.5.1)
+    jsonapi-renderer (0.2.0)
     kramdown (1.17.0)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -307,6 +315,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers (~> 0.10.0)
   acts_as_list
   better_errors
   binding_of_caller

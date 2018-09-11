@@ -4,7 +4,7 @@ module Public
   module BookingParams
     class Update < ApplicationParams
       def self.permitted_keys
-        [:organisation, :definitive_request, :cancellation_reason, :invoice_address,
+        [:organisation, :cancellation_reason, :invoice_address,
          :committed_request, :purpose, :approximate_headcount, :remarks,
          customer_attributes: CustomerParams.permitted_keys.without(:email)]
       end
