@@ -53,6 +53,8 @@
             tr
               td
                 = usage.tarif_id
-              td[colspan=4]
-                = usage.select_reason.inspect
+              td
+                = usage.select_votes.compact.all?
+              td[colspan=3]
+                = usage.select_votes.inspect
   = f.submit

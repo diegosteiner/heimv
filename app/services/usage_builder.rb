@@ -10,6 +10,10 @@ class UsageBuilder
     tarif_selectors.map do |tarif_selector|
       tarif_selector.apply_all(booking, booking.usages)
     end
+    booking.usages.map do |usage|
+      usage.apply ||= usage.select_votes.values.compact.any? && usage.select_votes.values.compact.all?
+      usage
+    end
   end
 
   def for_booking(booking)

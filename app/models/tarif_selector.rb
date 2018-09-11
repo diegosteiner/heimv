@@ -18,9 +18,8 @@ class TarifSelector < ApplicationRecord
   end
 
   def apply(usage, tuc)
-    usage.select_reason[self] = apply?(usage, tuc.distinction)
-    usage.apply = apply?(usage, tuc.distinction) if usage.apply.nil? || tuc.override
-    usage.apply
+    usage.select_votes[id] = apply?(usage, tuc.distinction)
+    # usage.apply = apply?(usage, tuc.distinction) if usage.apply.nil? || tuc.override
   end
 
   def self.types
