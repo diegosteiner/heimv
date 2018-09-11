@@ -1,0 +1,21 @@
+= form_with(model: [:manage, @home, @tarif_selector.becomes(TarifSelector)], local: true) do |f|
+
+  fieldset
+    = f.select :type, enum_options_for_select(TarifSelector, :types, @tarif_selector.type), prompt: true
+    = f.number_field :position
+
+    h5.mt-4= TarifTarifSelector.model_name.human(count: :other)
+    = f.fields_for :tarif_tarif_selectors, @tarif_selector.tarif_tarif_selectors do |tuc|
+      = tuc.hidden_field :id
+      .row
+        .col-1.pt-2
+          = tuc.check_box :_destroy, { checked: !tuc.object.new_record? || @tarif_selector.new_record?, skip_label: true }, '0', '1'
+        .col-4
+          = tuc.select :tarif_id, @tarif_selector.valid_tarifs.map { |t| [t.label, t.id] }, skip_label: true, prompt: true
+        .col-3
+          = tuc.text_field :distinction, skip_label: true
+        .col-2.pt-2
+          = tuc.check_box :override
+
+  .form-actions.pt-4.mt-3.border-top
+    = f.submit

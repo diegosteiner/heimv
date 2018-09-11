@@ -1,4 +1,4 @@
-module UsageCalculators
+module TarifSelectors
   class BookingApproximateHeadcountPerNight < NumericDistinction
     def presumable_usage(usage)
       usage.booking.approximate_headcount

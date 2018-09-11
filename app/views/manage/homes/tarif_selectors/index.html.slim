@@ -1,0 +1,26 @@
+= render partial: 'manage/homes/navigation', locals: { active: :tarif_selectors }
+
+table.table.table-hover.table-card
+  thead
+    tr
+      th= TarifSelector.model_name.human(count: :other)
+      th= TarifTarifSelector.model_name.human(count: :other)
+      th
+      th
+
+  tbody
+    - @tarif_selectors.each do |tarif_selector|
+      tr[data-href=manage_home_tarif_selector_path(@home, tarif_selector)]
+        td
+          = TarifSelector.human_enum(:types, tarif_selector.type)
+        td
+          = tarif_selector.tarif_tarif_selectors.count
+        td = link_to edit_manage_home_tarif_selector_path(@home, tarif_selector) do
+          span.fa.fa-pencil
+        td = link_to manage_home_tarif_selector_path(@home, tarif_selector), data: { confirm: t(:confirm) }, method: :delete do
+          span.fa.fa-trash
+
+= link_to new_manage_home_tarif_selector_path(@home), class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_model, model_name: TarifSelector.model_name.human)

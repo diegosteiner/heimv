@@ -61,16 +61,15 @@ de-CH:
         tarif_group: Tarifgruppe
         type: Typ
         unit: Einheit
-      tarif_usage_calculator:
-        perform_calculate: Verbrauch automatisch ausrechnen
-        perform_select: Tarif automatisch auswählen
+      tarif_selector:
+        type: Typ
+      tarif_tarif_selector:
+        override: Überschreiben
         tarif: Tarif
       usage:
         apply: Anwenden
         remarks: Bemerkungen
         used_units: Verbrauchte Anzahl
-      usage_calculator:
-        type: Typ
     back: Zurück
     bookings:
       index:
@@ -112,13 +111,13 @@ de-CH:
           deposit: Anzahlung
           invoice: Rechnung
           late_notice: Mahnung
-      usage_calculator:
+      tarif_selector:
         types:
-          always_apply: Immer-Ein Tarifrechner
-          booking_approximate_headcount_per_night: Anzahl TN Tarifrechner
-          booking_nights: Nächte Tarifrechner
-          booking_overnight_stays: Übernachtungen Tarifrechner
-          booking_purpose: Mietzweck Tarifrechner
+          always_apply: Immer-Ein Tarifwähler
+          booking_approximate_headcount_per_night: Anzahl TN Tarifwähler
+          booking_nights: Nächte Tarifwähler
+          booking_overnight_stays: Übernachtungen Tarifwähler
+          booking_purpose: Mietzweck Tarifwähler
     errors:
       models:
         booking:
@@ -160,9 +159,12 @@ de-CH:
         one: nach Gebrauch
       tarif/flat:
         one: Pauschale
-      tarif_usage_calculator:
-        one: Tarifrechner-Tarif
-        other: Tarifrechner-Tarife
+      tarif_selector:
+        one: Tarifwähler
+        other: Tarifwähler
+      tarif_tarif_selector:
+        one: Tarifwähler-Tarif
+        other: Tarifwähler-Tarife
       tarifs/amount:
         one: nach Gebrauch
       tarifs/flat:
@@ -170,9 +172,6 @@ de-CH:
       usage:
         one: Verbrauch
         other: Verbrauch
-      usage_calculator:
-        one: Tarifrechner
-        other: Tarifrechner
     values:
       booking:
         committed_request:

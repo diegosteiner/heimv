@@ -11,7 +11,7 @@ module Seeders
         BookingAgentSeeder,
         BookingSeeder,
         MailerTemplateSeeder,
-        UsageCalculatorSeeder
+        TarifSelectorSeeder
       ].inject({}) do |seeds, seeder|
         seeds.merge(seeder.new(@options, seeds).seed)
       end

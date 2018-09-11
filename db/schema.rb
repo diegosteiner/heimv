@@ -173,17 +173,26 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.index ["subject_type", "subject_id"], name: "index_occupancies_on_subject_type_and_subject_id"
   end
 
-  create_table "tarif_usage_calculators", force: :cascade do |t|
+  create_table "tarif_selectors", force: :cascade do |t|
+    t.bigint "home_id"
+    t.string "type"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["home_id"], name: "index_tarif_selectors_on_home_id"
+    t.index ["type"], name: "index_tarif_selectors_on_type"
+  end
+
+  create_table "tarif_tarif_selectors", force: :cascade do |t|
     t.bigint "tarif_id"
-    t.bigint "usage_calculator_id"
-    t.boolean "perform_select", default: true
-    t.boolean "perform_calculate", default: true
+    t.bigint "tarif_selector_id"
+    t.boolean "override", default: false
     t.string "distinction"
     t.jsonb "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tarif_id"], name: "index_tarif_usage_calculators_on_tarif_id"
-    t.index ["usage_calculator_id"], name: "index_tarif_usage_calculators_on_usage_calculator_id"
+    t.index ["tarif_id"], name: "index_tarif_tarif_selectors_on_tarif_id"
+    t.index ["tarif_selector_id"], name: "index_tarif_tarif_selectors_on_tarif_selector_id"
   end
 
   create_table "tarifs", force: :cascade do |t|
@@ -205,15 +214,6 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
-  end
-
-  create_table "usage_calculators", force: :cascade do |t|
-    t.bigint "home_id"
-    t.string "type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["home_id"], name: "index_usage_calculators_on_home_id"
-    t.index ["type"], name: "index_usage_calculators_on_type"
   end
 
   create_table "usages", force: :cascade do |t|
@@ -263,9 +263,9 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "occupancies", "homes"
-  add_foreign_key "tarif_usage_calculators", "tarifs"
-  add_foreign_key "tarif_usage_calculators", "usage_calculators"
-  add_foreign_key "usage_calculators", "homes"
+  add_foreign_key "tarif_selectors", "homes"
+  add_foreign_key "tarif_tarif_selectors", "tarif_selectors"
+  add_foreign_key "tarif_tarif_selectors", "tarifs"
   add_foreign_key "usages", "bookings"
   add_foreign_key "usages", "tarifs"
 end

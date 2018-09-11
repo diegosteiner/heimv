@@ -6,8 +6,8 @@ class Tarif < ApplicationRecord
   has_many :booking_copies, class_name: :Tarif, dependent: :nullify, inverse_of: :booking_copy_template,
                             foreign_key: :booking_copy_template_id
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
-  has_many :tarif_usage_calculators, dependent: :destroy, inverse_of: :tarif
-  has_many :usage_calculators, through: :tarif_usage_calculators
+  has_many :tarif_tarif_selectors, dependent: :destroy, inverse_of: :tarif
+  has_many :tarif_selectors, through: :tarif_tarif_selectors
 
   ranks :row_order, with_same: :home_id
   scope :transient, -> { where(transient: true) }

@@ -10,7 +10,7 @@ nav
         a.nav-link[href=manage_home_tarifs_path(@home) class=('active' if active == :tarifs)]
           = Tarif.model_name.human(count: :other)
       li.nav-item
-        a.nav-link[href=manage_home_usage_calculators_path(@home) class=('active' if active == :usage_calculators)]
-          = UsageCalculator.model_name.human(count: :other)
+        a.nav-link[href=manage_home_tarif_selectors_path(@home) class=('active' if active == :tarif_selectors)]
+          = TarifSelector.model_name.human(count: :other)
 
 hr.my-4

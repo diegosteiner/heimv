@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#index', as: :manage_dashboard
     resources :homes do
       scope module: :homes do
-        resources :usage_calculators, except: %w[show]
+        resources :tarif_selectors, except: %w[show]
       end
       resources :tarifs, controller: 'home_tarifs' do
         collection do

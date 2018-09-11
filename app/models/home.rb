@@ -4,7 +4,7 @@ class Home < ApplicationRecord
   has_many :occupancies, dependent: :destroy
   has_many :bookings, dependent: :destroy
   has_many :tarifs, ->(home) { Tarif.where(home: home, booking: nil) }, dependent: :destroy, inverse_of: :home
-  has_many :usage_calculators, inverse_of: :home, dependent: :destroy
+  has_many :tarif_selectors, -> { order(position: :ASC) }, inverse_of: :home, dependent: :destroy
 
   accepts_nested_attributes_for :tarifs, reject_if: :all_blank, update_only: true
 

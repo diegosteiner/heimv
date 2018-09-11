@@ -1,32 +1,32 @@
 require_relative './base_seeder'
 
 module Seeders
-  class UsageCalculatorSeeder < BaseSeeder
+  class TarifSelectorSeeder < BaseSeeder
     def seed_development
       {
-        usage_calculators: seeds[:tarifs].map do |home, tarifs|
+        tarif_selectors: seeds[:tarifs].map do |home, tarifs|
           [
-            UsageCalculators::BookingPurpose.create(home: home).tap do |usage_calculator|
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[0], distinction: 'camp')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[1], distinction: 'camp')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[3], distinction: 'event', perform_calculate: false)
+            TarifSelectors::BookingPurpose.create(home: home).tap do |tarif_selector|
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[0], distinction: 'camp', override: true)
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[1], distinction: 'camp', override: true)
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[3], distinction: 'event', override: true)
             end,
-            UsageCalculators::AlwaysApply.create(home: home).tap do |usage_calculator|
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[4])
+            TarifSelectors::AlwaysApply.create(home: home).tap do |tarif_selector|
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[4])
             end,
-            UsageCalculators::BookingApproximateHeadcountPerNight.create(home: home).tap do |usage_calculator|
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[2], distinction: '<12')
+            TarifSelectors::BookingApproximateHeadcountPerNight.create(home: home).tap do |tarif_selector|
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[2], distinction: '<12')
             end,
-            UsageCalculators::BookingNights.create(home: home).tap do |usage_calculator|
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[3], perform_select: false)
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[5], distinction: '>0')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[6], distinction: '>0')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[11], distinction: '=2')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[12], distinction: '=3')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[13], distinction: '>3')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[14], distinction: '=2')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[15], distinction: '=3')
-              usage_calculator.tarif_usage_calculators.create(tarif: tarifs[16], distinction: '>3')
+            TarifSelectors::BookingNights.create(home: home).tap do |tarif_selector|
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[3], override: false)
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[5], distinction: '>0')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[6], distinction: '>0')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[11], distinction: '=2')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[12], distinction: '=3')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[13], distinction: '>3')
+              # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[14], distinction: '=2')
+              # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[15], distinction: '=3')
+              # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[16], distinction: '>3')
             end
           ]
           # Tarifs::Amount.create(home: home, label: 'Preis pro Übernachtung', unit: 'Übernachtungen (unter 16 jährig)', price_per_unit: 13.0, tarif_group: 'Lager/Kurs')

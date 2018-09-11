@@ -61,16 +61,15 @@ en:
         tarif_group: Tarifgruppe
         type: Typ
         unit: Einheit
-      tarif_usage_calculator:
-        perform_calculate: Verbrauch automatisch ausrechnen
-        perform_select: Tarif automatisch auswählen
+      tarif_selector:
+        type: Typ
+      tarif_tarif_selector:
+        override: Tarif automatisch auswählen
         tarif: Tarif
       usage:
         apply: Anwenden
         remarks: Bemerkungen
         used_units: Verbrauchte Anzahl
-      usage_calculator:
-        type: Typ
     back: Zurück
     bookings:
       index:
@@ -112,7 +111,7 @@ en:
           deposit: Anzahlung
           invoice: Rechnung
           late_notice: Mahnung
-      usage_calculator:
+      tarif_selector:
         types:
           always_apply: Immer-Ein Tarifrechner
           booking_approximate_headcount_per_night: Übernachtungen Tarifrechner
@@ -160,7 +159,10 @@ en:
         one: nach Gebrauch
       tarif/flat:
         one: Pauschale
-      tarif_usage_calculator:
+      tarif_selector:
+        one: Berechnung
+        other: Berechnungen
+      tarif_tarif_selector:
         one: Tarifrechner-Tarif
         other: Tarifrechner-Tarife
       tarifs/amount:
@@ -170,9 +172,6 @@ en:
       usage:
         one: Verbrauch
         other: Verbrauch
-      usage_calculator:
-        one: Berechnung
-        other: Berechnungen
     values:
       booking:
         committed_request:
