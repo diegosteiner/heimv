@@ -7,12 +7,12 @@ class UsageBuilder
   end
 
   def select(booking, tarif_selectors = booking.home.tarif_selectors)
-    tarif_selectors.map do |tarif_selector|
-      tarif_selector.apply_all(booking, booking.usages)
-    end
     booking.usages.map do |usage|
-      usage.apply ||= usage.select_votes.values.compact.any? && usage.select_votes.values.compact.all?
-      usage
+      votes = tarif_selectors.map do |tarif_selector|
+        tarif_selector.vote_for(usage)
+      end.flatten
+
+      usage.apply ||= votes.compact.any? && votes.compact.all?
     end
   end
 

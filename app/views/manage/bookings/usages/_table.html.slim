@@ -50,11 +50,4 @@
                       span.fa.fa-pencil
                     = link_to manage_booking_tarif_path(@booking, usage.tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                       span.fa.fa-trash
-            tr
-              td
-                = usage.tarif_id
-              td
-                = usage.select_votes.compact.all?
-              td[colspan=3]
-                = usage.select_votes.inspect
   = f.submit
