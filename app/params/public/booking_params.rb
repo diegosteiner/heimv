@@ -13,6 +13,7 @@ module Public
     class Create < Update
       def self.sanitize(params)
         return params unless params[:occupancy_attributes]
+
         params.merge(occupancy_attributes: OccupancyParams.permit(params[:occupancy_attributes]))
       end
 

@@ -24,6 +24,9 @@ class Occupancy < ApplicationRecord
 
   validates :begins_at, :ends_at, :subject, presence: true
   validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
+  validate do
+    errors.add(:ends_at, :invalid) if begins_at >= ends_at
+  end
 
   def to_s
     "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)}"

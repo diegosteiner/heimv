@@ -319,6 +319,7 @@ en:
           label: Neue Buchungsanfrage stellen
   confirm: Confirm
   date_format: Date format
+  deposit: Deposit
   destroy: Destroy
   edit: Edit
   flash:

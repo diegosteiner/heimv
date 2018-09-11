@@ -24,6 +24,14 @@ class Booking < ApplicationRecord
   validates :committed_request, inclusion: { in: [true, false] }, if: :strict_validation
   validates :approximate_headcount, numericality: true, if: :strict_validation
 
+  validate(on: :public_update) do
+    # errors.add(:base, :invalid_tenant) unless tenant.valid?
+  end
+
+  validate(on: :public_create) do
+    errors.add(:base, :conflicting) if occupancy.conflicting.any?
+  end
+
   before_validation :set_occupancy_attributes
   before_validation :assign_customer_from_email
   after_create :reload
@@ -57,6 +65,7 @@ class Booking < ApplicationRecord
 
   def assign_customer_from_email
     return if email.blank?
+
     self.customer ||= Customer.find_or_initialize_by(email: email).tap do |customer|
       # customer.strict_validation ||= strict_validation
       customer.skip_exact_validation ||= strict_validation.nil?

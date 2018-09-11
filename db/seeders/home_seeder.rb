@@ -5,9 +5,9 @@ module Seeders
     def seed_development
       {
         homes: [
-          create(:home, name: 'Birchli', ref: 'bir'),
-          create(:home, name: 'Mühlebächli', ref: 'muehli'),
-          create(:home, name: 'Villa Kunterbunt', ref: 'villa')
+          create(:home, name: 'Birchli', ref: 'bir', janitor: 'Peter Muster, 079 999 99 99'),
+          create(:home, name: 'Mühlebächli', ref: 'muehli', janitor: 'Peter Muster, 079 999 99 99'),
+          create(:home, name: 'Villa Kunterbunt', ref: 'villa', janitor: 'Peter Muster, 079 999 99 99')
         ]
       }
     end

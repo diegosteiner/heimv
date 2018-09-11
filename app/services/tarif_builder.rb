@@ -7,6 +7,7 @@ class TarifBuilder
 
   def booking_copy_for(tarif, booking)
     return tarif if tarif.booking == booking
+
     tarif.dup.tap do |booking_copy|
       booking_copy.booking = booking
       booking_copy.booking_copy_template = tarif

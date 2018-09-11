@@ -4,12 +4,14 @@ class TarifUsageCalculator < ApplicationRecord
   has_many :usages, through: :tarif
 
   validate do
-    next if usage_calculator.allowed_tarifs.map(&:id).include?(tarif_id)
+    next if usage_calculator.valid_tarifs.map(&:id).include?(tarif_id)
+
     errors.add(:tarif_id, :invalid)
   end
 
   validate do
     next if distinction.blank? || usage_calculator.class::DISTINCTION_REGEX.match(distinction)
+
     errors.add(:distinction, :invalid)
   end
 end

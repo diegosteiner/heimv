@@ -5,6 +5,7 @@ module Ability
     def initialize(user)
       anonymous_abilities
       return if user.blank?
+
       user_abilities(user)
       admin_abilities(user) if user.admin?
       manage_abilities(user) if user.user?

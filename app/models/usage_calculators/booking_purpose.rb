@@ -4,7 +4,7 @@ module UsageCalculators
 
     def select_usage(usage, distinction)
       distinction_match = DISTINCTION_REGEX.match(distinction)
-      usage.apply ||= distinction_match[1] == usage.booking.purpose
+      distinction_match[1] == usage.booking.purpose
     end
   end
 end

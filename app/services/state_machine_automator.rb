@@ -23,6 +23,7 @@ class StateMachineAutomator
       while (to = next_state) && passed_transitions.count <= max_steps
         # raise StandardError if passed_transitions.include?(to)
         break if passed_transitions.include?(to)
+
         passed_transitions << to if @state_machine.transition_to(to)
       end
     end
@@ -31,6 +32,7 @@ class StateMachineAutomator
   def next_state
     self.class.callbacks.each do |callback|
       next unless callback.from.include?(@state_machine.current_state&.to_sym)
+
       to = callback.to
       return to if callback.callback.call(@state_machine.object) && @state_machine.can_transition_to?(to)
     end

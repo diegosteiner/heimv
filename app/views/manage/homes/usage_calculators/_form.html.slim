@@ -11,7 +11,7 @@
         .col-1.pt-2
           = tuc.check_box :_destroy, { checked: !tuc.object.new_record? || @usage_calculator.new_record?, skip_label: true }, '0', '1'
         .col-4
-          = tuc.select :tarif_id, @usage_calculator.allowed_tarifs.map { |t| [t.label, t.id] }, skip_label: true, prompt: true
+          = tuc.select :tarif_id, @usage_calculator.valid_tarifs.map { |t| [t.label, t.id] }, skip_label: true, prompt: true
         .col-3
           = tuc.text_field :distinction, skip_label: true
         .col-2.pt-2

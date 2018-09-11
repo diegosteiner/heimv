@@ -35,19 +35,18 @@ module PDF
 
     def build_header
       image Rails.root.join('app', 'webpack', 'images', 'logo_hvs.png'),
-            at: [bounds.top_left[0] - 25, bounds.top_left[1] + 35],
+            at: [bounds.top_left[0], bounds.top_left[1] + 35],
             width: 120
     end
 
     def build_tarifs
       table_data = @contract.booking.used_tarifs.map do |tarif|
-        [tarif.label, tarif.unit, 'CHF %.2f' % tarif.price_per_unit]
+        [tarif.label, tarif.unit, format('CHF %.2f', tarif.price_per_unit)]
       end
 
-      table table_data do
+      table table_data, column_widths: [200, 200, 94] do
         cells.style(size: 10)
       end
-
     end
 
     # rubocop:disable Metrics/AbcSize

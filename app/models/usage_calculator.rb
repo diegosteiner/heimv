@@ -11,8 +11,9 @@ class UsageCalculator < ApplicationRecord
     tarif_usage_calculators.map do |tuc|
       usages.to_a.find { |u| u.of_tarif?(tuc.tarif) }.tap do |usage|
         next unless usage
-        select_usage(usage, tuc.distinction) if tuc.perform_select
-        calculate_usage(usage, tuc.distinction) if tuc.perform_calculate && usage.apply
+
+        (usage.apply ||= select_usage(usage, tuc.distinction)) if tuc.perform_select
+        (usage.used_units ||= calculate_usage(usage, tuc.distinction)) if tuc.perform_calculate && usage.apply
       end
     end
   end
@@ -22,7 +23,7 @@ class UsageCalculator < ApplicationRecord
        UsageCalculators::AlwaysApply UsageCalculators::BookingOvernightStays UsageCalculator::BookingPurpose]
   end
 
-  def allowed_tarifs
+  def valid_tarifs
     home.tarifs
   end
 

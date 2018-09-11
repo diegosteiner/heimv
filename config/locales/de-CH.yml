@@ -319,6 +319,7 @@ de-CH:
           label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
   date_format: Date format
+  deposit: Deposit
   destroy: Löschen
   edit: Bearbeiten
   flash:
