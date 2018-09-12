@@ -23,34 +23,35 @@ module Manage
       # rubocop:disable Metrics/MethodLength
       def new
         @contract.text = <<~EOTEXT
-          ##### Allgemein
-          Der Vermieter  überlässt  dem  Mieter  das  Pfadiheim  Birchli  in  Einsiedeln  für  den  nachfolgend  aufgeführten  Anlass  zur  alleinigen  Benutzung
+##### Allgemein
+Der Vermieter überlässt dem Mieter das Pfadiheim Birchli in Einsiedeln für den nachfolgend aufgeführten Anlass zur alleinigen Benutzung
 
-          ##### Mietdauer
-          **Mietbeginn**: %<begins_at>s
-          **Mietende**: %<ends_at>s
+##### Mietdauer
+**Mietbeginn**: %<booking_occupancy_begins_at>s
+**Mietende**: %<booking_occupancy_ends_at>s
 
-          Die  Hausübergabe  bzw.  –rücknahme  erfolgt  durch  den  Heimwart.  Der  Mieter  hat  das  Haus  persönlich  zum  vereinbarten  Zeitpunkt  zu übernehmen  resp.  zu  übergeben.  Hierfür  sind  jeweils  ca.  30  Minuten  einzuplanen. Die  Übernahme-  und  Rückgabezeiten  sind  unbedingt  einzuhalten.
+Die Hausübergabe bzw. –rücknahme erfolgt durch den Heimwart. Der Mieter hat das Haus persönlich zum vereinbarten Zeitpunkt zu übernehmen resp. zu übergeben. Hierfür sind jeweils ca. 30 Minuten einzuplanen. Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten.
 
-          Verspätungen  ab  15  Minuten  werden  mit  CHF  20.-  pro  angebrochene  Viertelstunde  verrechnet!
+Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
 
-          Der  genaue  Zeitpunkt  der  Hausübernahme  ist  mit  dem  Heimwart  spätestens  5  Tage  vor  Mietbeginn  telefonisch  zu  vereinbaren:
+Der genaue Zeitpunkt der Hausübernahme ist mit dem Heimwart spätestens 5 Tage vor Mietbeginn telefonisch zu vereinbaren:
 
-          * %<janitor>s
+* %<booking_home_janitor>s
 
-          ##### Übernahme und Rückgabe
-          Die  Übernahme-  und  Rückgabezeiten  sind  unbedingt  einzuhalten.  Verspätungen  ab  15  Minuten  werden  mit  CHF  20.-  pro  angebrochene  Viertelstunde  verrechnet!
+##### Übernahme und Rückgabe
+Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten. Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
 
-          ##### Zweck der Miete
-          (durch den Mieter auszufüllen)
-          ___________________________________________________________________
-          ___________________________________________________________________
+##### Zweck der Miete
+(durch den Mieter auszufüllen)
+___________________________________________________________________
+___________________________________________________________________
 
-          ##### Tarife
-          Die  Mindestbelegung  beträgt  durchschnittlich  12  Personen  pro  Nacht.
+##### Tarife
+Die Mindestbelegung beträgt durchschnittlich 12 Personen pro Nacht.
 
-          ##### Anzahlung
-          Die  Anzahlung  wird  bei  Abschluss  des  Vertrages  fällig
+##### Anzahlung
+Die Anzahlung wird bei Abschluss des Vertrages fällig
+
         EOTEXT
 
         respond_with :manage, @booking, @contract
@@ -63,11 +64,6 @@ module Manage
           format.pdf do
             pdf = PDF::Contract.new(@contract).build
             send_data(pdf.render, content_type: 'application/pdf')
-            # user_style_sheet: helpers.asset_pack_url('pdf.css')
-            # print_media_type: false
-            # show_as_html: true
-            # template: "manage/contracts/show"
-            # layout: 'pdf.html'
           end
         end
       end
@@ -77,12 +73,22 @@ module Manage
       end
 
       def create
+        @contract.valid_from = Time.zone.now
         @contract.save
         respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
       end
 
       def update
-        @contract.update(contract_params)
+        @contract.assign_attributes(contract_params)
+        if @contract.was_sent? && (@contract.changed & ["text", "sent_at"]).any?
+          ousted_contract = Contract.find @contract.id
+          ousted_contract.valid_until = Time.zone.now
+          @contract = @contract.dup
+          @contract.assign_attributes(valid_from: ousted_contract.valid_until, sent_at: nil, signed_at: nil)
+          @contract.save && ousted_contract.save
+        else
+          @contract.update(contract_params)
+        end
         respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
       end
 

@@ -343,8 +343,10 @@ de-CH:
           save_and_send: Speichern und versenden
         index:
           add_tarifs: Tarife jetzt zuweisen
+          add_contract: Vertrag jetzt erstellen
           new: Neu
           no_used_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
+          no_contracts_yet: Es ist noch Vertrag für diese Buchung erstellt worden.
       index:
         new: Neu
       tarifs:

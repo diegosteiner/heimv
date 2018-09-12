@@ -9,7 +9,7 @@ class Booking < ApplicationRecord
   belongs_to :customer, inverse_of: :bookings
   belongs_to :booking_agent, foreign_key: :booking_agent_code, primary_key: :code,
                              inverse_of: :bookings, required: false
-  has_many :contracts, dependent: :destroy, autosave: false
+  has_many :contracts, -> { order(valid_from: :ASC)}, dependent: :destroy, autosave: false
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :usages, dependent: :destroy # , autosave: false
   has_many :used_tarifs, class_name: :Tarif, through: :usages, source: :tarif, inverse_of: :booking

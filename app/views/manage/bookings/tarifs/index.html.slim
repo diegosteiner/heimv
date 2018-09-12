@@ -8,4 +8,4 @@
 
 h1.mt-5= t('.applicable_tarifs', default: 'Verfügbare Tarife')
 section.breakout-sm
-  = render partial: 'manage/bookings/usages/table', locals: { usages: @suggested_usages, return_to: new_manage_booking_contract_path(@booking) }
+  = render partial: 'manage/bookings/usages/table', locals: { usages: @suggested_usages, return_to: manage_booking_contracts_path(@booking) }

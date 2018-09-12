@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
 
   create_table "contracts", force: :cascade do |t|
     t.uuid "booking_id"
+    t.bigint "successor_id"
     t.datetime "sent_at"
     t.datetime "signed_at"
     t.string "title"
@@ -95,6 +96,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
+    t.index ["successor_id"], name: "index_contracts_on_successor_id"
   end
 
   create_table "customers", force: :cascade do |t|

@@ -5,16 +5,17 @@ table.table.table-hover.table-card
     tr
       th= Invoice.model_name.human(count: :other)
       th
-      th
 
   tbody
     - @invoices.each do |invoice|
       tr[data-href=manage_booking_invoice_path(@booking, invoice)]
         td = Invoice.human_enum(:invoice_types, invoice.invoice_type)
-        td = link_to edit_manage_booking_invoice_path(@booking, invoice) do
-          span.fa.fa-pencil
-        td = link_to manage_booking_invoice_path(@booking, invoice), data: { confirm: t(:confirm) }, method: :delete do
-          span.fa.fa-trash
+        td.py-2.text-right
+          .btn-group
+            = link_to edit_manage_booking_invoice_path(@booking, invoice), class: 'btn btn-default' do
+              span.fa.fa-pencil
+            = link_to manage_booking_invoice_path(@booking, invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+              span.fa.fa-trash
 
 = link_to new_manage_booking_invoice_path(@booking), class: 'btn btn-primary' do
   span.fa.fa-file-o

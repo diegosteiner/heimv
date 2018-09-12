@@ -1,5 +1,7 @@
 class Contract < ApplicationRecord
   belongs_to :booking
+  belongs_to :successor, class_name: :Contract, optional: true
+  has_one :predecessor, class_name: :Contract
 
   after_save do
     booking.state_transition
@@ -33,8 +35,16 @@ class Contract < ApplicationRecord
     sent_at.present?
   end
 
+  def was_sent?
+    sent_at_was.present?
+  end
+
   def signed?
     signed_at.present?
+  end
+
+  def ousted?
+    valid_until.present?
   end
 
   private
