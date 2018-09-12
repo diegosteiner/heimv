@@ -24,14 +24,14 @@ class InterpolationService
 
   class Contract < Base
     def initialize(contract)
-      serializer = ContractSerializer.new(contract)
+      serializer = Public::ContractSerializer.new(contract)
       @data = flatten(serializer.serializable_hash(include: 'booking.occupancy,booking.customer,booking.home'))
     end
   end
 
   class Invoice < Base
     def initialize(invoice)
-      serializer = InvoiceSerializer.new(invoice)
+      serializer = Public::InvoiceSerializer.new(invoice)
       @data = flatten(serializer.serializable_hash(include: 'booking.occupancy,booking.customer,booking.home'))
     end
   end

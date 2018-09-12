@@ -14,5 +14,7 @@
       =<> link_to manage_booking_invoices_path(booking), class: 'btn btn-primary' do
         | Anzahlung erstellen
   - when :past
+    =<> link_to manage_booking_usages_path(booking), class: 'btn btn-primary' do
+      | Verbrauch erfassen
     =<> link_to manage_booking_invoices_path(booking), class: 'btn btn-primary' do
-      | Rechnung verschicken
+      | Rechnung erstellen

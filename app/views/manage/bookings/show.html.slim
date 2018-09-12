@@ -9,7 +9,6 @@ section.breakout-sm
           p
             strong= Occupancy.model_name.human
             = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: @booking.occupancy }
-
           p
             strong= Booking.human_attribute_name(:home)
             br
