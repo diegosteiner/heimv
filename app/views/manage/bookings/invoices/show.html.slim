@@ -35,3 +35,7 @@
       span.fa.fa-trash
       '
       = t(:destroy)
+    '
+    = link_to manage_booking_invoice_path(@booking, @invoice, format: :pdf), class: 'btn btn-outline' do
+      span.fa.fa-print<>
+      span= @invoice.filename

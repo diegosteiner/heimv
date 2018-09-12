@@ -63,7 +63,7 @@ module Manage
           format.html
           format.pdf do
             pdf = PDF::Contract.new(@contract).build
-            send_data(pdf.render, file_name: "Vertrag_#{@contract.booking.ref}", content_type: 'application/pdf')
+            send_data(pdf.render, filename: @contract.filename, content_type: 'application/pdf')
           end
         end
       end

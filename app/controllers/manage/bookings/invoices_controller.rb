@@ -24,7 +24,13 @@ module Manage
       end
 
       def show
-        respond_with :manage, @booking, @invoice
+        respond_to do |format|
+          format.html
+          format.pdf do
+            pdf = PDF::Invoice.new(@invoice).build
+            send_data(pdf.render, filename: @invoice.filename, content_type: 'application/pdf')
+          end
+        end
       end
 
       def edit

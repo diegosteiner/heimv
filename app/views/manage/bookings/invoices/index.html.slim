@@ -9,6 +9,10 @@ table.table.table-hover.table-card
   tbody
     - @invoices.each do |invoice|
       tr[data-href=manage_booking_invoice_path(@booking, invoice)]
+        td
+          = link_to manage_booking_invoice_path(@booking, invoice, format: :pdf) do
+            span.fa.fa-print<>
+            span= invoice.filename
         td = Invoice.human_enum(:invoice_types, invoice.invoice_type)
         td.py-2.text-right
           .btn-group

@@ -10,6 +10,10 @@ class Invoice < ApplicationRecord
     update(amount: invoice_parts.reduce(0) { |result, invoice_part| invoice_part.inject_self(result) })
   end
 
+  def filename
+    "#{self.class.model_name.human}_#{booking.ref}_#{id}"
+  end
+
   def amount_payed
     # payments.sum(&:amount)
     0

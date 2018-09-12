@@ -5,7 +5,7 @@ module PDF
     part :addresses do |_doc|
       bounding_box [0, 670], width: 200, height: 170 do
         default_leading 3
-        text 'Vermieter', size: 16, style: :bold
+        text 'Vermieter', size: 13, style: :bold
         move_down 5
         text 'vertreten durch:', size: 9
         text "Verein Pfadiheime St. Georg\nHeimverwaltung\nChristian Morger\nGeeringstr. 44\n8049 Zürich", size: 10
@@ -14,7 +14,7 @@ module PDF
 
       bounding_box [300, 670], width: 200, height: 170 do
         default_leading 4
-        text 'Mieter', size: 16, style: :bold
+        text 'Mieter', size: 13, style: :bold
         move_down 5
         text @booking.ref, size: 9
         text @booking.organisation, size: 9
