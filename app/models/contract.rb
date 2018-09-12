@@ -7,6 +7,20 @@ class Contract < ApplicationRecord
     booking.state_transition
   end
 
+  before_save :oust
+
+  def oust
+    return unless was_sent? && (changed & %w[text sent_at]).any?
+    new_contract = dup
+    new_contract.update!(valid_from: Time.zone.now, sent_at: nil, signed_at: nil)
+    restore_attributes
+    assign_attributes(valid_until: new_contract.valid_from)
+  end
+
+  def filename
+    "#{self.class.model_name.human}_#{booking.ref}_#{id}"
+  end
+
   scope :sent, -> { where.not(sent_at: nil) }
   scope :signed, -> { where.not(signed_at: nil) }
 

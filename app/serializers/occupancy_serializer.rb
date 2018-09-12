@@ -1,3 +1,3 @@
 class OccupancySerializer < ApplicationSerializer
-  attributes *%i[begins_at ends_at]
+  attributes :begins_at, :ends_at
 end

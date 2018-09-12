@@ -4,5 +4,5 @@ class BookingSerializer < ApplicationSerializer
   belongs_to :home
 
   attributes :organisation, :cancellation_reason, :invoice_address,
-         :committed_request, :purpose, :approximate_headcount, :remarks
+             :committed_request, :purpose, :approximate_headcount, :remarks
 end

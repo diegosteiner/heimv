@@ -1,4 +1,4 @@
-class ApplicationSerializer  < ActiveModel::Serializer
+class ApplicationSerializer < ActiveModel::Serializer
   # has_one :owner
 
   # attributes :id, :name, :zip, :place, :area, :address, :lv03_coordinates,
