@@ -342,8 +342,9 @@ en:
         form:
           save_and_send: Save and send
         index:
+          add_contract: Vertrag jetzt erstellen
           add_tarifs: Tarife jetzt zuweisen
-          new: New
+          no_contracts_yet: Es ist noch Vertrag für diese Buchung erstellt worden.
           no_used_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
       index:
         new: New

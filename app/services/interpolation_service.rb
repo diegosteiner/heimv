@@ -11,6 +11,7 @@ class InterpolationService
 
     def flatten(hash, prepend_keys = [], joint = '_')
       return { prepend_keys => hash } unless hash.is_a?(Hash)
+
       hash.inject({}) do |memo, pair|
         memo.merge!(flatten(pair.last, (Array.wrap(prepend_keys) + [pair.first]).join(joint), joint))
       end

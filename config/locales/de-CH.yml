@@ -342,11 +342,10 @@ de-CH:
         form:
           save_and_send: Speichern und versenden
         index:
-          add_tarifs: Tarife jetzt zuweisen
           add_contract: Vertrag jetzt erstellen
-          new: Neu
-          no_used_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
+          add_tarifs: Tarife jetzt zuweisen
           no_contracts_yet: Es ist noch Vertrag für diese Buchung erstellt worden.
+          no_used_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
       index:
         new: Neu
       tarifs:
