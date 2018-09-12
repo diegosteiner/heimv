@@ -11,6 +11,7 @@ class Contract < ApplicationRecord
 
   def oust
     return unless was_sent? && (changed & %w[text sent_at]).any?
+
     new_contract = dup
     new_contract.update!(valid_from: Time.zone.now, sent_at: nil, signed_at: nil)
     restore_attributes

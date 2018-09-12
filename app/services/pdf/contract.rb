@@ -11,8 +11,7 @@ module PDF
     part :body do
       move_down 10
       markdown = MarkdownService.new(@contract.text)
-      interpolation_arguments = HashFlattener.call(ContractSerializer.new(@contract).serializable_hash(include: 'booking.occupancy,booking.customer,booking.home'))
-      markdown.pdf_body(interpolation_arguments).each do |body|
+      markdown.pdf_body(InterpolationService.call(@contract)).each do |body|
         text body.delete(:text), body.reverse_merge(inline_format: true, size: 10)
       end
     end
