@@ -3,7 +3,8 @@
   fieldset
     = f.select :type, type_options_for_select(InvoiceParts::TYPES)
     = f.hidden_field :usage_id
-    = f.text_field :text
+    = f.text_field :label
+    = f.text_field :label_2
     = f.number_field :amount
 
   .form-actions.pt-4.mt-3.border-top

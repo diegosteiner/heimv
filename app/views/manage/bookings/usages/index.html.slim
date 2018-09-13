@@ -1,3 +1,3 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :usages }
 
-= render partial: 'manage/bookings/usages/table', locals: { usages: @usages, usage_links: true, used_units_field: true }
+= render partial: 'manage/bookings/usages/table', locals: { usages: @usages, usage_links: true, used_units_field: true, return_to: manage_booking_invoices_path(@booking) }

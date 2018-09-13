@@ -9,6 +9,7 @@ module PDF
     end
 
     part :body do
+      text @invoice.ref
       move_down 10
       markdown = MarkdownService.new(@invoice.text)
       markdown.pdf_body(InterpolationService.call(@invoice)).each do |body|
@@ -19,7 +20,7 @@ module PDF
 
     part :invoice_parts do
       table_data = @invoice.invoice_parts.map do |invoice_part|
-        [invoice_part.text, '', format('CHF %.2f', invoice_part.amount)]
+        [invoice_part.label, invoice_part.label_2, format('CHF %.2f', invoice_part.amount)]
       end
       table_data << ['Total', '', format('CHF %.2f', @invoice.amount)]
 

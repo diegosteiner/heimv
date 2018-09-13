@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.text "remarks"
     t.text "invoice_address"
     t.string "purpose"
+    t.string "ref"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"
@@ -124,7 +125,8 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.bigint "usage_id"
     t.string "type"
     t.decimal "amount"
-    t.text "text"
+    t.string "label"
+    t.string "label_2"
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

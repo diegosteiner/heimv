@@ -11,8 +11,9 @@
         - @invoice.invoice_parts.each do |invoice_part|
           .row
             .col-5
-              = invoice_part.text
+              = invoice_part.label
             .col-3
+              = invoice_part.label_2
             .col-3.text-right
               = number_to_currency(invoice_part.amount)
             .col-1

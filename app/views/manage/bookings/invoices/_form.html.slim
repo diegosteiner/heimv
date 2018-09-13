@@ -2,7 +2,7 @@
 
   fieldset
     = f.select :invoice_type, enum_options_for_select(Invoice, :invoice_types, @invoice.invoice_type)
-    = f.text_field :esr_number
+    = f.text_field :ref
     = f.text_area :text
     = f.date_field :issued_at
     = f.date_field :payable_until
@@ -15,8 +15,9 @@
         .col-1.pt-4
           = ipf.check_box :_destroy, { checked: ipf.object.apply, label: InvoicePart.human_attribute_name(:apply) }, '0', '1'
         .col-5
-          = ipf.text_field :text, label: false
+          = ipf.text_field :label, label: false
         .col-3
+          = ipf.text_field :label_2, label: false
         .col-3
           = ipf.number_field :amount, label: false
 
@@ -29,15 +30,16 @@
         .col-1.pt-4
           = ipf.check_box :_destroy, { checked: ipf.object.apply, label: InvoicePart.human_attribute_name(:apply) }, '0', '1'
         .col-5
-          = ipf.text_field :text, label: false
+          = ipf.text_field :label, label: false
         .col-3
+          = ipf.text_field :label_2, label: false
         .col-3
           = ipf.number_field :amount, label: false
 
     div
       - unless @invoice.new_record?
         = link_to new_manage_booking_invoice_invoice_part_path(@booking, @invoice), class: 'btn btn-outline-primary' do
-          = t(:add_model, model_name: InvoicePart.model_name.human)
+          = t(:add_record, model_name: InvoicePart.model_name.human)
 
 
 

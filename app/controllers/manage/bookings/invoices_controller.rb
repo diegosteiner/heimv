@@ -18,7 +18,8 @@ module Manage
       end
 
       def new
-        @invoice.invoice_type = Invoice.invoice_types[:deposit]
+        @invoice = Invoice.new(invoice_params)
+        @invoice.invoice_type ||= :invoice
         @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking, @invoice)
         respond_with :manage, @booking, @invoice
       end
@@ -40,7 +41,7 @@ module Manage
 
       def create
         @invoice.save
-        respond_with :manage, @booking, @invoice, location: manage_booking_invoice_path(@booking, @invoice)
+        respond_with :manage, @booking, @invoice, location: manage_booking_invoices_path(@booking, @invoice)
       end
 
       def update
@@ -56,7 +57,7 @@ module Manage
       private
 
       def invoice_params
-        InvoiceParams.permit(params.require(:invoice))
+        InvoiceParams.permit(params[:invoice])
       end
     end
   end

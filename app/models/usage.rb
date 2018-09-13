@@ -19,7 +19,7 @@ class Usage < ApplicationRecord
   }.with_indifferent_access.freeze
 
   def price
-    (used_units || 1) * tarif.price_per_unit
+    (used_units || 0) * tarif.price_per_unit
   end
 
   def used_units

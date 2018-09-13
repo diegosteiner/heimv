@@ -6,7 +6,7 @@ module PDF
     class_attribute :parts, instance_accessor: false, default: {}
 
     def self.part(name, &block)
-      self.parts[name] = block if block_given?
+      parts[name] = block if block_given?
     end
 
     def document
@@ -16,6 +16,9 @@ module PDF
         margin: [50] * 4,
         align: :left, kerning: true
       )
+      # font_families.update("OCR" => {
+        # :normal => Rails.root.join("app/assets/fonts/OpenSans-Regular.ttf"),
+      # })
     end
 
     def build

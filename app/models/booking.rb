@@ -25,7 +25,6 @@ class Booking < ApplicationRecord
   validates :approximate_headcount, numericality: true, if: :strict_validation
 
   validate(on: :public_update) do
-    # errors.add(:base, :invalid_tenant) unless tenant.valid?
   end
 
   validate(on: :public_create) do
@@ -41,8 +40,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
 
   def ref
-    # TODO: Save this as an attribute
-    @ref ||= RefService.new.booking(self)
+    @ref ||= RefService.new.call(self)
   end
 
   def to_s

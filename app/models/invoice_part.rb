@@ -1,5 +1,5 @@
 class InvoicePart < ApplicationRecord
-  belongs_to :invoice, inverse_of: :invoice_parts
+  belongs_to :invoice, inverse_of: :invoice_parts, touch: true
   belongs_to :usage, inverse_of: :invoice_parts, optional: true
 
   attribute :apply, :boolean, default: true

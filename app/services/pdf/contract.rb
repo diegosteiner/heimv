@@ -21,7 +21,7 @@ module PDF
         [tarif.label, tarif.unit, format('CHF %.2f', tarif.price_per_unit)]
       end
 
-      table table_data, column_widths: [200, 200, 94], cell_style: { } do
+      table table_data, column_widths: [200, 200, 94], cell_style: {} do
         cells.style(size: 10)
         column(2).style(align: :right)
       end

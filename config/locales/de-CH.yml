@@ -50,19 +50,20 @@ de-CH:
       invoice_part:
         amount: Betrag
         apply: Anwenden
-        text: Text
+        label: Text
+        label_2: Text
         type: Positionsart
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
       tarif:
+        invoice_type: Rechnungstyp
         label: Tarif
+        prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis pro Einheit
         tarif_group: Tarifgruppe
         type: Typ
         unit: Einheit
-        invoice_type: Rechnungstyp
-        prefill_usage_method: Vorausfüllmethode
       tarif_selector:
         type: Typ
       tarif_tarif_selector:
@@ -73,16 +74,7 @@ de-CH:
         remarks: Bemerkungen
         used_units: Verbrauchte Anzahl
     back: Zurück
-    bookings:
-      index:
-        new: Neue Buchung
     confirm: Sind Sie sicher?
-    contracts:
-      index:
-        new: Neuer Vertrag
-    customers:
-      index:
-        new: Neuer Kunde
     destroy: Löschen
     enums:
       booking:
@@ -100,9 +92,9 @@ de-CH:
           late_notice: Mahnung
       tarif:
         prefill_usage_methods:
+          headcount: "# Personen"
+          headcount_nights: Übernachtungen
           nights: Nächte
-          headcount: '# Personen'
-          headcount_nights: 'Übernachtungen'
       tarif_selector:
         types:
           always_apply: Immer-Ein Tarifwähler
@@ -180,7 +172,7 @@ de-CH:
           deposit: Anzahlung
           invoice: Rechnung
           late_notice: Mahnung
-  add_model: "%{model_name} hinzufügen"
+  add_record: "%{model_name} hinzufügen"
   back: Zurück
   booking_mailer:
     booking_agent_request:
@@ -323,8 +315,6 @@ de-CH:
         index:
           add_contract: Vertrag jetzt erstellen
           add_tarifs: Tarife jetzt zuweisen
-          no_contracts_yet: Es ist noch Vertrag für diese Buchung erstellt worden.
-          no_used_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
       index:
         new: Neu
       tarifs:
@@ -333,13 +323,14 @@ de-CH:
           used_tarifs: Angewandte Tarife
       usages:
         table:
-          save: '%{model_name} speichern'
+          save: "%{model_name} speichern"
     customers:
       index:
         new: Neu
     homes:
       index:
         new: Neu
+  no_records_yet: 'Es sind noch keine %{model_name} erstellt worden.'
   nav:
     edit_account: Account
     sign_in: Anmelden

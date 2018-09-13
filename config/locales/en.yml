@@ -56,7 +56,9 @@ en:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
       tarif:
+        invoice_type: Rechnungstyp
         label: Tarif
+        prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis pro Einheit
         tarif_group: Tarifgruppe
         type: Typ
@@ -96,6 +98,11 @@ en:
           deposit: Anzahlung
           invoice: Rechnung
           late_notice: Mahnung
+      tarif:
+        prefill_usage_methods:
+          headcount: "# Personen"
+          headcount_nights: Übernachtungen
+          nights: Nächte
       tarif_selector:
         types:
           always_apply: Immer-Ein Tarifrechner
@@ -144,6 +151,8 @@ en:
         one: nach Gebrauch
       tarif/flat:
         one: Pauschale
+      tarif/metered:
+        one: nach Zählerstand
       tarif_selector:
         one: Berechnung
         other: Berechnungen
@@ -171,7 +180,7 @@ en:
           deposit: Anzahlung
           invoice: Rechnung
           late_notice: Mahnung
-  add_model: Add model
+  add_record: Add model
   back: Back
   booking_mailer:
     booking_agent_request:

@@ -33,9 +33,9 @@
               - if defined?(used_units_field) && used_units_field
                 td.py-2
                   - if usage.tarif.override_used_units?
-                    = uf.static_control :used_units, skip_label: true, wrapper_class: 'm-0'
+                    = uf.static_control :used_units, skip_label: true, wrapper_class: 'm-0 pr-4', class: 'text-right'
                   - else
-                    = uf.number_field :used_units, skip_label: true, wrapper_class: 'm-0'
+                    = uf.number_field :used_units, skip_label: true, wrapper_class: 'm-0', class: 'text-right', tabindex: 1
               - else
                 = uf.hidden_field :used_units
               td.py-2.text-right

@@ -3,12 +3,12 @@
 
 - if @booking.used_tarifs.none?
   p.text-center
-    = t('.no_used_tarifs_yet')
-    =<> link_to t('.add_tarifs'), manage_booking_tarifs_path(@booking)
+    = t(:no_records_yet, model_name: Tarif.model_name.human(count: :other))
+    =<> link_to t(:add_record, model_name: Tarif.model_name.human(count: :other)), manage_booking_tarifs_path(@booking)
 - elsif @contracts.none?
   p.text-center
-    = t('.no_contracts_yet')
-    =<> link_to t('.add_contract'), new_manage_booking_contract_path(@booking)
+    = t(:no_records_yet, model_name: Contract.model_name.human(count: :other))
+    =<> link_to t(:add_record, model_name: Contract.model_name.human), new_manage_booking_contract_path(@booking)
 - else
   section.breakout-sm
     table.table.table-hover.table-card

@@ -4,7 +4,8 @@ class InvoicePartBuilder
       InvoiceParts::Add.new(
         apply: invoice.invoice_type == usage.tarif.invoice_type,
         usage: usage,
-        text: usage.tarif.label,
+        label: usage.tarif.label,
+        label_2: [format("%d %s", usage.used_units usage.tarif.unit), usage.used_units && usage.tarif.price_per_unit && format(" a CHF %0.2f", usage.tarif.price_per_unit)].join,
         amount: usage.price
       )
     end

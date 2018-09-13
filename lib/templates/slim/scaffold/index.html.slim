@@ -22,4 +22,4 @@ br
 = link_to new_<%= singular_table_name %>_path, class: 'btn btn-primary' do
   span.fa.fa-file-o
   '
-  = t('.new')
+  = t(:add_model, model_name: <%= class_name %>.model_name.human

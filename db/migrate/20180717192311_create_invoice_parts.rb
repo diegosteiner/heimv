@@ -5,7 +5,8 @@ class CreateInvoiceParts < ActiveRecord::Migration[5.2]
       t.references :usage, foreign_key: true
       t.string :type
       t.decimal :amount
-      t.text :text
+      t.string :label
+      t.string :label_2
       t.integer :position
 
       t.timestamps
