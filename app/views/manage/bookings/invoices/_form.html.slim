@@ -12,29 +12,29 @@
       = ipf.hidden_field :id
       = ipf.hidden_field :usage_id
       .row
-        .col-1.pt-4
-          = ipf.check_box :_destroy, { checked: ipf.object.apply, label: InvoicePart.human_attribute_name(:apply) }, '0', '1'
+        .col-1.pt-2
+          = ipf.check_box :_destroy, { checked: ipf.object.apply, hide_label: true }, '0', '1'
         .col-5
-          = ipf.text_field :label, label: false
-        .col-3
-          = ipf.text_field :label_2, label: false
-        .col-3
-          = ipf.number_field :amount, label: false
+          = ipf.text_field :label, hide_label: true
+        .col-4
+          = ipf.text_field :label_2, hide_label: true
+        .col-2
+          = ipf.number_field :amount, hide_label: true, class: 'text-right'
 
-    label= Invoice.human_attribute_name(:invoice_parts)
+    hr
     = f.fields_for :invoice_parts, @suggested_invoice_parts do |ipf|
       = ipf.hidden_field :id
       = ipf.hidden_field :usage_id
       = ipf.hidden_field :type
       .row
-        .col-1.pt-4
-          = ipf.check_box :_destroy, { checked: ipf.object.apply, label: InvoicePart.human_attribute_name(:apply) }, '0', '1'
+        .col-1.pt-2
+          = ipf.check_box :_destroy, { checked: ipf.object.apply, hide_label: true }, '0', '1'
         .col-5
-          = ipf.text_field :label, label: false
-        .col-3
-          = ipf.text_field :label_2, label: false
-        .col-3
-          = ipf.number_field :amount, label: false
+          = ipf.text_field :label, hide_label: true
+        .col-4
+          = ipf.text_field :label_2, hide_label: true
+        .col-2
+          = ipf.number_field :amount, hide_label: true, class: 'text-right'
 
     div
       - unless @invoice.new_record?

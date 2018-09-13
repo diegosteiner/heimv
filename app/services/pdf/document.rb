@@ -17,7 +17,7 @@ module PDF
         align: :left, kerning: true
       )
       # font_families.update("OCR" => {
-        # :normal => Rails.root.join("app/assets/fonts/OpenSans-Regular.ttf"),
+      # :normal => Rails.root.join("app/assets/fonts/OpenSans-Regular.ttf"),
       # })
     end
 

@@ -50,7 +50,8 @@ en:
       invoice_part:
         amount: Betrag
         apply: Anwenden
-        text: Text
+        label: Text
+        label_2: Text
         type: Positionsart
       occupancy:
         begins_at: Beginn der Belegung
@@ -73,16 +74,7 @@ en:
         remarks: Bemerkungen
         used_units: Verbrauchte Anzahl
     back: Zurück
-    bookings:
-      index:
-        new: Neue Buchung
     confirm: Sind Sie sicher?
-    contracts:
-      index:
-        new: Neuer Vertrag
-    customers:
-      index:
-        new: Neuer Kunde
     destroy: Löschen
     enums:
       booking:
@@ -320,13 +312,6 @@ en:
       contracts:
         form:
           save_and_send: Save and send
-        index:
-          add_contract: Vertrag jetzt erstellen
-          add_tarifs: Tarife jetzt zuweisen
-          no_contracts_yet: Es ist noch Vertrag für diese Buchung erstellt worden.
-          no_used_tarifs_yet: Es sind noch keine Tarife dieser Buchung zugewiesen.
-      index:
-        new: New
       tarifs:
         index:
           applicable_tarifs: Applicable tarifs
@@ -334,18 +319,13 @@ en:
       usages:
         table:
           save: Save
-    customers:
-      index:
-        new: New
-    homes:
-      index:
-        new: New
   nav:
     edit_account: Account
     sign_in: Anmelden
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: New
+  no_records_yet: Es sind noch keine %{model_name} erstellt worden.
   occupancy: Occupancy
   optional: optional
   public:

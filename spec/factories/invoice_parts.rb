@@ -4,7 +4,7 @@ FactoryBot.define do
     usage { nil }
     # type ''
     amount { '9.99' }
-    text { 'MyText' }
-    row_order_position { 1 }
+    label { 'MyText' }
+    label_2 { 'MyText' }
   end
 end

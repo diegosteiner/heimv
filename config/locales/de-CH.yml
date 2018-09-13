@@ -312,11 +312,6 @@ de-CH:
       contracts:
         form:
           save_and_send: Speichern und versenden
-        index:
-          add_contract: Vertrag jetzt erstellen
-          add_tarifs: Tarife jetzt zuweisen
-      index:
-        new: Neu
       tarifs:
         index:
           applicable_tarifs: Anwendbare Tarife
@@ -324,19 +319,13 @@ de-CH:
       usages:
         table:
           save: "%{model_name} speichern"
-    customers:
-      index:
-        new: Neu
-    homes:
-      index:
-        new: Neu
-  no_records_yet: 'Es sind noch keine %{model_name} erstellt worden.'
   nav:
     edit_account: Account
     sign_in: Anmelden
     sign_out: Abmelden
     sign_up: Neuen Account erstellen
   new: Neu
+  no_records_yet: Es sind noch keine %{model_name} erstellt worden.
   occupancy: Belegung
   optional: optional
   public:

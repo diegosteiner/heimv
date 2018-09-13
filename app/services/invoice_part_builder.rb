@@ -5,10 +5,21 @@ class InvoicePartBuilder
         apply: invoice.invoice_type == usage.tarif.invoice_type,
         usage: usage,
         label: usage.tarif.label,
-        label_2: [format("%d %s", usage.used_units usage.tarif.unit), usage.used_units && usage.tarif.price_per_unit && format(" a CHF %0.2f", usage.tarif.price_per_unit)].join,
+        label_2: label_2(usage),
         amount: usage.price
       )
     end
+  end
+
+  def label_2(usage)
+    return unless usage.used_units
+
+    [
+      usage.tarif.unit &&
+        format('%<used_units>d %<unit>s', used_units: usage.used_units, unit: usage.tarif.unit),
+      usage.tarif.price_per_unit &&
+        format(' a CHF %0.2f', usage.tarif.price_per_unit)
+    ].join
   end
 
   def from_deposit(booking, deposits = booking.invoices.deposit)
