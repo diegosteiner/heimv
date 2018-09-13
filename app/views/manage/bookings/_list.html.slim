@@ -22,8 +22,9 @@
           td.py-3
             = booking.customer
           td.py-3
-            span.badge.badge-info
-              = booking.booking_strategy::ViewModel.i18n_state(booking.state_machine.current_state)[:label]
+            h5.m-0
+              span.badge.badge-info
+                = booking.booking_strategy::ViewModel.i18n_state(booking.state_machine.current_state)[:label]
           td.py-2.text-right
             .btn-group
               = link_to edit_manage_booking_path(booking)

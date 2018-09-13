@@ -7,24 +7,31 @@ module Seeders
         tarif_selectors: seeds[:tarifs].map do |home, tarifs|
           [
             TarifSelectors::BookingPurpose.create(home: home).tap do |tarif_selector|
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[0], distinction: 'camp', override: true)
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[1], distinction: 'camp', override: true)
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[2], distinction: 'camp', override: true)
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[5], distinction: 'camp', override: true)
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[6], distinction: 'camp', override: true)
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[3], distinction: 'event', override: true)
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[0], distinction: 'camp')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[1], distinction: 'camp')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[2], distinction: 'camp')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[5], distinction: 'camp')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[6], distinction: 'camp')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[3], distinction: 'event')
             end,
             TarifSelectors::AlwaysApply.create(home: home).tap do |tarif_selector|
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[4])
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[7])
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[8])
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[9])
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[10])
             end,
             TarifSelectors::BookingApproximateHeadcountPerNight.create(home: home).tap do |tarif_selector|
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[2], distinction: '<12')
+              # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[2], distinction: '<12')
+              # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[2], distinction: '>11')
+              # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[0], distinction: '>11')
+              # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[1], distinction: '>11')
             end,
             TarifSelectors::BookingNights.create(home: home).tap do |tarif_selector|
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[3], override: false)
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[3], veto: false)
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[5], distinction: '>0')
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[6], distinction: '>0')
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[11], distinction: '=2')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[11], distinction: '<2')
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[12], distinction: '=3')
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[13], distinction: '>3')
               # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[14], distinction: '=2')

@@ -6,7 +6,7 @@ module PDF
     class_attribute :parts, instance_accessor: false, default: {}
 
     def self.part(name, &block)
-      parts[name] = block if block_given?
+      self.parts[name] = block if block_given?
     end
 
     def document

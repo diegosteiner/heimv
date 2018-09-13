@@ -12,6 +12,12 @@ class Usage < ApplicationRecord
 
   validates :tarif_id, uniqueness: { scope: :booking_id }, allow_nil: true
 
+  PREFILL_METHODS = {
+    nights: ->(booking) { booking.occupancy.nights },
+    headcount_nights: ->(booking) { booking.occupancy.nights * (booking.approximate_headcount || 0) },
+    headcount: ->(booking) { booking.approximate_headcount || 0 }
+  }.with_indifferent_access.freeze
+
   def price
     (used_units || 1) * tarif.price_per_unit
   end
@@ -19,6 +25,11 @@ class Usage < ApplicationRecord
   def used_units
     super unless tarif.override_used_units?
     tarif.override_used_units(self)
+  end
+
+  def prefill
+    # binding.pry
+    self.used_units ||= PREFILL_METHODS[tarif.prefill_usage_method]&.call(booking)
   end
 
   def of_tarif?(other_tarif)

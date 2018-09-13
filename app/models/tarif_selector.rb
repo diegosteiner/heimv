@@ -6,32 +6,9 @@ class TarifSelector < ApplicationRecord
   has_many :tarifs, through: :tarif_tarif_selectors
 
   accepts_nested_attributes_for :tarif_tarif_selectors, reject_if: :all_blank, allow_destroy: true
-  acts_as_list scope: [:home_id]
-
-  # def apply_all(booking, usages = booking.usages)
-  #   # TODO: Maybe swap these loops for better performance?
-  #   tarif_tarif_selectors.includes(tarif: :booking_copies).map do |tuc|
-  #     usages.to_a.map do |usage|
-  #       apply(usage, tuc) if usage.of_tarif?(tuc.tarif)
-  #     end
-  #   end
-  # end
-
-  def select_all(usages)
-    usages.map do |usage|
-      vote_for(usage)
-    end
-  end
 
   def vote_for(usage)
-    tarif_tarif_selectors.where(tarif: usage.tarif).includes(tarif: :booking_copies).map do |tuc|
-      apply?(usage, tuc.distinction)
-    end
-  end
-
-  def apply(usage, tuc)
-    usage.select_votes[id] = apply?(usage, tuc.distinction)
-    # usage.apply = apply?(usage, tuc.distinction) if usage.apply.nil? || tuc.override
+    tarif_tarif_selectors.includes(tarif: :booking_copies).map { |tuc| tuc.vote_for(usage) }.compact
   end
 
   def self.types

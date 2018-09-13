@@ -86,17 +86,14 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
 
   create_table "contracts", force: :cascade do |t|
     t.uuid "booking_id"
-    t.bigint "successor_id"
     t.datetime "sent_at"
     t.datetime "signed_at"
-    t.string "title"
     t.text "text"
-    t.datetime "valid_from"
+    t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
-    t.index ["successor_id"], name: "index_contracts_on_successor_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -128,7 +125,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.string "type"
     t.decimal "amount"
     t.text "text"
-    t.integer "row_order"
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
@@ -178,7 +175,6 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
   create_table "tarif_selectors", force: :cascade do |t|
     t.bigint "home_id"
     t.string "type"
-    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["home_id"], name: "index_tarif_selectors_on_home_id"
@@ -188,9 +184,8 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
   create_table "tarif_tarif_selectors", force: :cascade do |t|
     t.bigint "tarif_id"
     t.bigint "tarif_selector_id"
-    t.boolean "override", default: false
+    t.boolean "veto", default: true
     t.string "distinction"
-    t.jsonb "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tarif_id"], name: "index_tarif_tarif_selectors_on_tarif_id"
@@ -208,9 +203,10 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.decimal "price_per_unit"
     t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until"
-    t.integer "row_order"
+    t.integer "position"
     t.string "tarif_group"
     t.string "invoice_type"
+    t.string "prefill_usage_method"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"

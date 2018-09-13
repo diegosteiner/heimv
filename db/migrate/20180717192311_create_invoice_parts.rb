@@ -6,7 +6,7 @@ class CreateInvoiceParts < ActiveRecord::Migration[5.2]
       t.string :type
       t.decimal :amount
       t.text :text
-      t.integer :row_order
+      t.integer :position
 
       t.timestamps
     end

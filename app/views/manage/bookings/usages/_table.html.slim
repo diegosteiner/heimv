@@ -50,4 +50,4 @@
                       span.fa.fa-pencil
                     = link_to manage_booking_tarif_path(@booking, usage.tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                       span.fa.fa-trash
-  = f.submit
+  = f.submit t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human)

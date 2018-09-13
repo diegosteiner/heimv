@@ -91,21 +91,6 @@ en:
           camp: Lager
           course: Kurs
           event: Privater Anlass
-        state:
-          active: Aktive Belegung
-          cancelled: Storniert
-          completed: Abgeschlossen
-          confirmed: Bestätigte Reservation
-          definitive_request: Definitive Mietanfrage
-          initial: "-"
-          new_request: Neue Mietanfrage
-          overdue: Überfällige Reservation
-          overdue_request: Überfällige Mietanfrage
-          past: Durchgeführte Belegung
-          payment_due: Rechnung ausstehend
-          payment_overdue: Rechnung überfällig
-          provisional_request: Provisorische Mietanfrage
-          upcoming: Geplante Belegung
       invoice:
         invoice_types:
           deposit: Anzahlung
@@ -181,21 +166,6 @@ en:
           camp: Lager
           course: Kurs
           event: Privater Anlass
-        state:
-          active: Aktive Belegung
-          cancelled: Storniert
-          completed: Abgeschlossen
-          confirmed: Bestätigte Reservation
-          definitive_request: Definitive Mietanfrage
-          initial: "-"
-          new_request: Neue Mietanfrage
-          overdue: Überfällige Reservation
-          overdue_request: Überfällige Mietanfrage
-          past: Durchgeführte Belegung
-          payment_due: Rechnung ausstehend
-          payment_overdue: Rechnung überfällig
-          provisional_request: Provisorische Mietanfrage
-          upcoming: Geplante Belegung
       invoice:
         invoice_type:
           deposit: Anzahlung
@@ -352,6 +322,9 @@ en:
         index:
           applicable_tarifs: Applicable tarifs
           used_tarifs: Applying tarifs
+      usages:
+        table:
+          save: Save
     customers:
       index:
         new: New

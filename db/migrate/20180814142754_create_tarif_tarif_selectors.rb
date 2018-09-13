@@ -3,9 +3,9 @@ class CreateTarifTarifSelectors < ActiveRecord::Migration[5.2]
     create_table :tarif_tarif_selectors do |t|
       t.references :tarif, foreign_key: true
       t.references :tarif_selector, foreign_key: true
-      t.boolean :override, default: false
+      t.boolean :veto, default: true
       t.string :distinction
-      t.jsonb :params
+      # t.jsonb :params
 
       t.timestamps
     end

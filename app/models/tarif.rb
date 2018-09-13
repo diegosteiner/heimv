@@ -1,5 +1,4 @@
 class Tarif < ApplicationRecord
-  include RankedModel
   belongs_to :booking, autosave: false, optional: true
   belongs_to :home, optional: true
   belongs_to :booking_copy_template, class_name: :Tarif, optional: true, inverse_of: :booking_copies
@@ -9,9 +8,13 @@ class Tarif < ApplicationRecord
   has_many :tarif_tarif_selectors, dependent: :destroy, inverse_of: :tarif
   has_many :tarif_selectors, through: :tarif_tarif_selectors
 
-  ranks :row_order, with_same: :home_id
+  acts_as_list scope: [:home_id]
   scope :transient, -> { where(transient: true) }
+  scope :valid_now, -> { where(valid_until: nil) }
+  # scope :valid_at, ->(at = Time.zone.now) { where(valid_until: nil) }
   scope :applicable_to, ->(booking) { booking.home.tarifs.transient.or(where(booking: booking)).rank(:row_order) }
+
+  enum prefill_usage_method: Hash[Usage::PREFILL_METHODS.keys.map { |method| [method, method] }]
 
   validates :type, presence: true
 
