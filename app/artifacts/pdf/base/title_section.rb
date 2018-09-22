@@ -1,12 +1,12 @@
 module Pdf
-  module Sections
+  class Base
     class TitleSection
       def initialize(title)
         @title = title
       end
 
       def call(pdf)
-        pdf.move_down 20
+        pdf.move_down 10
         pdf.text @title, size: 20, style: :bold
       end
     end

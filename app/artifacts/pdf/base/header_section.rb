@@ -1,5 +1,5 @@
 module Pdf
-  module Sections
+  class Base
     class HeaderSection
       def call(pdf)
         pdf.image Rails.root.join('app', 'webpack', 'images', 'logo_hvs.png'),

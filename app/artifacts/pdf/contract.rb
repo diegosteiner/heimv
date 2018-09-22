@@ -1,7 +1,7 @@
 require 'prawn'
 
 module Pdf
-  class ContractPdf < BasePdf
+  class Contract < Base
     def initialize(contract)
       @contract = contract
       @booking = contract.booking
@@ -9,16 +9,16 @@ module Pdf
 
     def sections
       [
-        Sections::HeaderSection.new,
-        Sections::SenderAddressSection.new,
-        Sections::RecipientAddressSection.new(@booking),
-        Sections::TitleSection.new("Mietvertrag: #{@booking.home.name}"),
-        Sections::MarkdownSection.new(@contract.text, InterpolationService.call(@contract)),
+        Base::HeaderSection.new,
+        Base::SenderAddressSection.new,
+        Base::RecipientAddressSection.new(@booking),
+        Base::TitleSection.new("Mietvertrag: #{@booking.home.name}"),
+        Base::MarkdownSection.new(@contract.text, InterpolationService.call(@contract)),
         TarifSection.new(@booking.used_tarifs)
       ]
     end
 
-    class TarifSection < Sections::Section
+    class TarifSection < Base::Section
       def initialize(tarifs)
         @tarifs = tarifs
       end

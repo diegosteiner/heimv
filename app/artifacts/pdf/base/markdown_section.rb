@@ -1,5 +1,5 @@
 module Pdf
-  module Sections
+  class Base
     class MarkdownSection < Section
       def initialize(markdown, interpolation_arguments)
         @markdown_service = MarkdownService.new(markdown)

@@ -1,5 +1,5 @@
 module Pdf
-  module Sections
+  class Base
     class RecipientAddressSection < Section
       def initialize(booking)
         @booking = booking
