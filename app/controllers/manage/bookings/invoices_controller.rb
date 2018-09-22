@@ -28,7 +28,7 @@ module Manage
         respond_to do |format|
           format.html
           format.pdf do
-            pdf = InvoicePdf.new(@invoice).build
+            pdf = Pdf::Invoice.new(@invoice).build
             send_data(pdf.render, filename: @invoice.filename, content_type: 'application/pdf')
           end
         end

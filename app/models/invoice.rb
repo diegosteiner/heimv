@@ -18,6 +18,10 @@ class Invoice < ApplicationRecord
     "#{self.class.model_name.human}_#{booking.ref}_#{id}"
   end
 
+  def payment_slip_code
+    ref
+  end
+
   def amount_payed
     # payments.sum(&:amount)
     0
