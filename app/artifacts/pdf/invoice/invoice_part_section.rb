@@ -18,7 +18,7 @@ module Pdf
           pdf.table table_data, column_widths: [200, 200, 94], cell_style: { borders: [], padding: [0, 4, 4, 0] } do
             cells.style(size: 10)
             column(2).style(align: :right)
-            row(-1).style(borders: [:top], font_style: :bold)
+            row(-1).style(borders: [:top], font_style: :bold, padding: [4, 4, 4, 0])
           end
         end
       end
