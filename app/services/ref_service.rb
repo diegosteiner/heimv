@@ -7,7 +7,10 @@ class RefService
                          booking.occupancy.begins_at.month,
                          booking.id.last(3)).upcase
                 end),
-    Invoice => ->(invoice) { format('%04d%06d%012d', invoice.booking.home.id, invoice.booking.customer.id, invoice.id) }
+    Invoice => (lambda do |invoice|
+      ref = format('%03d%06d%012d', invoice.booking.home.id, invoice.booking.customer.id, invoice.id)
+      ref + EsrService.new.checksum(ref).to_s
+    end)
   }.freeze
 
   def call(subject)

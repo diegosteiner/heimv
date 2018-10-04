@@ -19,14 +19,7 @@ class PaymentSlip
   def checksums; end
 
   def checksum(number)
-    digits = number.to_s.reverse.scan(/\d/).map(&:to_i)
-    digits = digits.each_with_index.map do |d, i|
-      d *= 2 if i.even?
-      d > 9 ? d - 9 : d
-    end
-    sum = digits.inject(0) { |m, x| m + x }
-    mod = 10 - sum % 10
-    mod == 10 ? 0 : mod
+    EsrService.new.checksum(number)
   end
 
   def code
@@ -35,13 +28,12 @@ class PaymentSlip
       amount: amount * 100,
       checksum_1: checksum(@mode + format('%010d', amount * 100)),
       ref: @ref,
-      checksum_2: checksum(@ref),
       account: account_nr.scan(/\d/).join.to_i
     }
   end
 
   def code_line
-    format('%<mode>s%<amount>010d%<checksum_1>d>%<ref>d%<checksum_2>d+ %<account>08d', code)
+    format('%<mode>s%<amount>010d%<checksum_1>d>%<ref>s+ %<account>08d', code)
   end
 
   def amount
@@ -57,7 +49,7 @@ class PaymentSlip
   end
 
   def esr_ref
-    r = @invoice.ref
-    format('%02d %05d %05d %05d %05d %05d', r[0..1], r[2..6], r[7..11], r[12..16], r[17..21], checksum(r))
+    @ref.reverse.chars.in_groups_of(5).reverse.map { |group| group.reverse.join }.join(' ')
+    # format('%02d %05d %05d %05d %05d %05d', r[0..1], r[2..6], r[7..11], r[12..16], r[17..21], @ref)
   end
 end

@@ -7,7 +7,7 @@ module Pdf
 
       def call(pdf)
         pdf.bounding_box([-50, 252], width: 595, height: 302) do
-          # pdf.image open("http://www.kaeser.ch/images/442.05_orange.jpg"), width: 595
+          pdf.image open("http://www.kaeser.ch/images/442.05_orange.jpg"), width: 595
           pdf.stroke_bounds
           render_address(pdf)
           render_amount(pdf)
