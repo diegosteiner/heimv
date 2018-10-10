@@ -8,6 +8,10 @@ class InvoicePart < ApplicationRecord
     invoice.recalculate_amount
   end
 
+  before_validation do
+    self.amount = amount.floor(2)
+  end
+
   acts_as_list scope: [:invoice_id]
 
   validates :type, presence: true

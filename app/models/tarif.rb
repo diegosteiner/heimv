@@ -1,4 +1,6 @@
 class Tarif < ApplicationRecord
+  extend WithTemplate
+
   belongs_to :booking, autosave: false, optional: true
   belongs_to :home, optional: true
   belongs_to :booking_copy_template, class_name: :Tarif, optional: true, inverse_of: :booking_copies
@@ -15,12 +17,16 @@ class Tarif < ApplicationRecord
   # scope :valid_at, ->(at = Time.zone.now) { where(valid_until: nil) }
   scope :applicable_to, ->(booking) { booking.home.tarifs.transient.or(where(booking: booking)).order(position: :ASC) }
 
-  enum prefill_usage_method: Hash[Usage::PREFILL_METHODS.keys.map { |method| [method, method] }]
+  enum prefill_usage_method: Hash[TarifPrefiller::PREFILL_METHODS.keys.map { |method| [method, method] }]
 
   validates :type, presence: true
 
   def parent
     booking || home
+  end
+
+  def prefiller
+    TarifPrefiller.new
   end
 
   def booking_copy?

@@ -139,11 +139,7 @@ de-CH:
       tarif:
         one: Tarif
         other: Tarife
-      tarif/amount:
-        one: nach Gebrauch
-      tarif/flat:
-        one: Pauschale
-      tarif/metered:
+      tarifs/metered:
         one: nach Zählerstand
       tarif_selector:
         one: Tarifwähler
@@ -225,7 +221,7 @@ de-CH:
           label: Reservation (Vertrag ausstehend)
         confirmed_new_request:
           help: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
-          label: Mietanfrage (unbeantwortet)
+          label: Mietanfrage (offen)
         definitive_request:
           help: Help
           label: Mietanfrage (definitiv)

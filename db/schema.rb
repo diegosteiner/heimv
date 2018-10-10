@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
 
   create_table "invoices", force: :cascade do |t|
     t.uuid "booking_id"
-    t.datetime "issued_at"
+    t.datetime "issued_at", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "payable_until"
     t.text "text"
     t.integer "invoice_type"
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.string "tarif_group"
     t.string "invoice_type"
     t.string "prefill_usage_method"
+    t.string "meter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
@@ -221,6 +222,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.decimal "used_units"
     t.text "remarks"
     t.uuid "booking_id"
+    t.jsonb "data", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_usages_on_booking_id"

@@ -4,12 +4,8 @@ module Tarifs
       model_name.human
     end
 
-    def override_used_units?
-      true
-    end
-
-    def override_used_units(_usage)
-      1
+    def prefill_usage_method
+      :flat
     end
   end
 end

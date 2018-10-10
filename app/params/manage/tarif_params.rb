@@ -5,7 +5,7 @@ module Manage
     end
 
     def self.permitted_keys
-      %i[type label unit price_per_unit position tarif_group invoice_type prefill_usage_method transient]
+      %i[type label unit price_per_unit position tarif_group invoice_type prefill_usage_method transient meter]
     end
   end
 end

@@ -7,7 +7,7 @@ module Pdf
 
       def call(pdf)
         pdf.bounding_box([-50, 252], width: 595, height: 302) do
-          pdf.image open("http://www.kaeser.ch/images/442.05_orange.jpg"), width: 595
+          pdf.image open('http://www.kaeser.ch/images/442.05_orange.jpg'), width: 595
           pdf.stroke_bounds
           render_address(pdf)
           render_amount(pdf)
@@ -38,11 +38,11 @@ module Pdf
         [5, 178].each do |x|
           pdf.font('ocr') do
             pdf.bounding_box([x, 157], width: 111, height: 14) do
-              pdf.text format('%.0f', @payment_slip.amount), size: 12, align: :right
+              pdf.text format('%d', @payment_slip.amount.truncate), size: 12, align: :right
             end
 
             pdf.bounding_box([x + 130, 157], width: 25, height: 14) do
-              pdf.text format('00', @payment_slip.amount), size: 12, align: :center
+              pdf.text format('%02d', @payment_slip.amount - @payment_slip.amount.truncate), size: 12, align: :center
             end
           end
         end

@@ -33,7 +33,7 @@ section.breakout-sm
 
           hr
 
-          = render partial: BookingStrategy::Default::Template.template_path('manage/bookings/booking'), locals: { booking: @booking }
+          = render partial: BookingStrategy::Default.template_path('manage/bookings/booking'), locals: { booking: @booking }
 
           - @booking.state_machine.allowed_transitions.each do |state|
             - next if state.to_sym == :cancelled

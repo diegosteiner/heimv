@@ -50,6 +50,5 @@ class PaymentSlip
 
   def esr_ref
     @ref.reverse.chars.in_groups_of(5).reverse.map { |group| group.reverse.join }.join(' ')
-    # format('%02d %05d %05d %05d %05d %05d', r[0..1], r[2..6], r[7..11], r[12..16], r[17..21], @ref)
   end
 end

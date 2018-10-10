@@ -1,4 +1,8 @@
 class Usage < ApplicationRecord
+  after_initialize do
+    self.class.include(tarif.class::UsageDecorator) if tarif && defined?(tarif.class::UsageDecorator)
+  end
+
   belongs_to :tarif, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages
   has_many :invoice_parts, dependent: :nullify
@@ -12,14 +16,8 @@ class Usage < ApplicationRecord
 
   validates :tarif_id, uniqueness: { scope: :booking_id }, allow_nil: true
 
-  PREFILL_METHODS = {
-    nights: ->(booking) { booking.occupancy.nights },
-    headcount_nights: ->(booking) { booking.occupancy.nights * (booking.approximate_headcount || 0) },
-    headcount: ->(booking) { booking.approximate_headcount || 0 }
-  }.with_indifferent_access.freeze
-
   def price
-    (used_units || 0) * tarif.price_per_unit
+    ((used_units || 0) * tarif.price_per_unit || 1).floor(2)
   end
 
   def used_units
@@ -28,8 +26,7 @@ class Usage < ApplicationRecord
   end
 
   def prefill
-    # binding.pry
-    self.used_units ||= PREFILL_METHODS[tarif.prefill_usage_method]&.call(booking)
+    self.used_units ||= tarif.prefiller.alleged_units(self)
   end
 
   def of_tarif?(other_tarif)
