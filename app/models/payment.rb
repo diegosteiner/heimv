@@ -8,5 +8,4 @@ class Payment < ApplicationRecord
   after_save do
     invoice.set_paid
   end
-
 end

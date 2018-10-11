@@ -17,6 +17,7 @@ class MeterReadingPeriod < ApplicationRecord
 
   def used_units
     return nil unless end_value.present? && start_value.present?
+
     (end_value - start_value).abs
   end
 end

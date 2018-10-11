@@ -41,6 +41,8 @@ en:
         name: name
         ref: Kurzname / Referenz
       invoice:
+        amount: Betrag
+        amount_open: offener Betrag
         esr_number: ESR Nummer
         invoice_parts: Positionen
         invoice_type: Rechnungsart
@@ -56,6 +58,9 @@ en:
       occupancy:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
+      payment:
+        amount: Betrag
+        paid_at: Einbezahlt am
       tarif:
         invoice_type: Rechnungstyp
         label: Tarif
@@ -136,6 +141,9 @@ en:
       occupancy:
         one: Belegung
         other: Belegungen
+      payment:
+        one: Zahlung
+        other: Zahlungen
       tarif_selector:
         one: Berechnung
         other: Berechnungen
