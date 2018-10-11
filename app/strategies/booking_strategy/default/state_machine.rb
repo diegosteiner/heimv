@@ -26,22 +26,19 @@ module BookingStrategy
         true
         # booking.contracts.any? &&
         #   booking.contracts.all?(&:signed?) &&
-        #   booking.bills.deposits.all?(&:payed_or_prolonged?)
+        #   booking.bills.deposits.all?(&:paid_or_prolonged?)
       end
 
       guard_transition(to: %i[confirmed]) do |booking|
         booking.occupancy.conflicting.none?
       end
 
-      guard_transition(to: :completed) do |_booking|
-        true
-        # booking.bills.any? &&
-        #   booking.bills.open.none?
+      guard_transition(to: :completed) do |booking|
+        !booking.invoices.open.exists?
       end
 
-      guard_transition(to: :cancelled) do |_booking|
-        true
-        # booking.bills.open.none?
+      guard_transition(to: :cancelled) do |booking|
+        !booking.invoices.open.exists?
       end
 
       after_transition(to: %i[new_request]) do |booking|

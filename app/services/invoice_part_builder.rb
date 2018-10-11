@@ -26,7 +26,7 @@ class InvoicePartBuilder
     InvoiceParts::Add.new(
       apply: true,
       text: I18n.t(:deposit),
-      amount: deposits.sum(&:amount_payed)
+      amount: deposits.sum(&:amount_paid)
     )
   end
 end

@@ -30,8 +30,9 @@ class StateMachineAutomator
   end
 
   def next_state
+    current_state = @state_machine.current_state&.to_sym
     self.class.callbacks.each do |callback|
-      next unless callback.from.include?(@state_machine.current_state&.to_sym)
+      next unless callback.from.include?(current_state)
 
       to = callback.to
       return to if callback.callback.call(@state_machine.object) && @state_machine.can_transition_to?(to)

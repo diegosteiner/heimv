@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_10_185444) do
+ActiveRecord::Schema.define(version: 2018_10_11_175145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 2018_10_10_185444) do
     t.integer "invoice_type"
     t.string "esr_number"
     t.decimal "amount", default: "0.0"
+    t.boolean "paid", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
@@ -185,6 +186,19 @@ ActiveRecord::Schema.define(version: 2018_10_10_185444) do
     t.index ["home_id"], name: "index_occupancies_on_home_id"
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
     t.index ["subject_type", "subject_id"], name: "index_occupancies_on_subject_type_and_subject_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.decimal "amount"
+    t.date "paid_at"
+    t.bigint "invoice_id"
+    t.uuid "booking_id"
+    t.text "data"
+    t.text "remarks"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_payments_on_booking_id"
+    t.index ["invoice_id"], name: "index_payments_on_invoice_id"
   end
 
   create_table "tarif_selectors", force: :cascade do |t|
@@ -279,6 +293,8 @@ ActiveRecord::Schema.define(version: 2018_10_10_185444) do
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "occupancies", "homes"
+  add_foreign_key "payments", "bookings"
+  add_foreign_key "payments", "invoices"
   add_foreign_key "tarif_selectors", "homes"
   add_foreign_key "tarif_tarif_selectors", "tarif_selectors"
   add_foreign_key "tarif_tarif_selectors", "tarifs"

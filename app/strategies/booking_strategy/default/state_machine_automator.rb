@@ -13,8 +13,12 @@ module BookingStrategy
         booking.customer.reservations_allowed
       end
 
-      automatic_transition(to: :cancelled) do |booking|
-        booking.cancellation_reason.present?
+      automatic_transition(from: :past, to: :payment_due) do |booking|
+        booking.invoices.invoice.exists?
+      end
+
+      automatic_transition(from: %i[payment_due payment_overdue], to: :completed) do |booking|
+        !booking.invoices.open.exists?
       end
 
       # automatic_transition(from: :confirmed_new_request, to: :provisional_request) do |booking|

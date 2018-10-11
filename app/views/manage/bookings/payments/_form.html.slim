@@ -1,0 +1,10 @@
+= form_with(model: [:manage, @booking, @payment], local: true) do |f|
+
+  fieldset
+    = f.select :invoice_id, @booking.invoices.map { |i| [i.ref, i.id] }
+    = f.number_field :amount
+    = f.date_field :paid_at
+    = f.text_area :remarks
+
+  .form-actions.pt-4.mt-3.border-top
+    = f.submit

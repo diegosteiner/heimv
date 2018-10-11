@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         resources :invoices do
           resources :invoice_parts, except: %i[index show]
         end
+        resources :payments
       end
     end
     resources :customers

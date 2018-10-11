@@ -15,7 +15,6 @@
       thead
         tr
           th= Contract.model_name.human
-          th= Booking.model_name.human
           th= Contract.human_attribute_name(:sent_at)
           th= Contract.human_attribute_name(:signed_at)
           th
@@ -28,7 +27,6 @@
                 span.fa.fa-print<>
                 span= contract.filename
 
-            td = contract.booking
             - if contract.sent? || contract.ousted?
               td
                 = l(contract.sent_at, format: :short) if contract.sent?

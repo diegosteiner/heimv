@@ -9,6 +9,7 @@ module BookingState
     attr_accessor :transition_to, :skip_automatic_transition
     has_many :booking_transitions, dependent: :destroy, autosave: false
     after_save :state_transition
+    after_touch :state_transition
 
     validate do
       if transition_to.present? && !state_machine.can_transition_to?(transition_to)

@@ -40,12 +40,17 @@ de-CH:
         janitor: Abwart
         name: Name
         ref: Kurzname / Referenz
+      payment:
+        paid_at: Einbezahlt am
+        amount: Betrag
       invoice:
         esr_number: ESR Nummer
         invoice_parts: Positionen
         invoice_type: Rechnungsart
         issued_at: Ausgestellt am
         payable_until: Zahlung bis
+        amount: Betrag
+        amount_open: offener Betrag
         text: Text
       invoice_part:
         amount: Betrag
@@ -127,6 +132,9 @@ de-CH:
       home:
         one: Heim
         other: Heime
+      payment:
+        one: Zahlung
+        other: Zahlungen
       invoice:
         one: Rechnung
         other: Rechnungen

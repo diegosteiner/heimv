@@ -13,11 +13,10 @@ class MeterReadingPeriod < ApplicationRecord
     self.tarif ||= usage&.tarif&.original
   end
 
-  scope :last_of, (lambda do |tarif|
-    where(tarif: tarif).order(ends_at: :DESC).last
-  end)
+  scope :ordered, -> { order(ends_at: :ASC) }
 
   def used_units
-    [end_value, start_value].compact.inject(&:-).abs
+    return nil unless end_value.present? && start_value.present?
+    (end_value - start_value).abs
   end
 end

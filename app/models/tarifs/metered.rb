@@ -13,12 +13,9 @@ module Tarifs
         end
       end
 
-      def build_meter_reading_period(args)
-        super(args).tap do |_meter_reading_period|
-          last_reading = MeterReadingPeriod.last_of(tarif.original)
-          break unless last_reading
-
-          meter_reading_period.start_value = last_reading.end_value
+      def build_meter_reading_period(attrs = {})
+        super(attrs).tap do |meter_reading_period|
+          meter_reading_period.start_value ||= MeterReadingPeriod.where(tarif: tarif.original).ordered&.last
         end
       end
     end

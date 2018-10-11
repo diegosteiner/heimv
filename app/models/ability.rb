@@ -36,7 +36,8 @@ module Ability
       can :manage, Booking
       can :manage, Occupancy
       can :manage, BookingAgent
-      can :manage, Dashboard
+      can :manage, Invoice
+      can :manage, Payment
     end
   end
 
