@@ -40,6 +40,14 @@ class PaymentSlip
     @invoice.amount
   end
 
+  def amount_before_point
+    amount.truncate
+  end
+
+  def amount_after_point
+    amount - amount.truncate
+  end
+
   def account_nr
     '01-162-8'
   end

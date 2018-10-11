@@ -38,11 +38,11 @@ module Pdf
         [5, 178].each do |x|
           pdf.font('ocr') do
             pdf.bounding_box([x, 157], width: 111, height: 14) do
-              pdf.text format('%d', @payment_slip.amount.truncate), size: 12, align: :right
+              pdf.text format('%<amount>d', amount: @payment_slip.amount_before_point), size: 12, align: :right
             end
 
             pdf.bounding_box([x + 130, 157], width: 25, height: 14) do
-              pdf.text format('%02d', @payment_slip.amount - @payment_slip.amount.truncate), size: 12, align: :center
+              pdf.text format('%<amount>02d', amount: @payment_slip.amount_after_point), size: 12, align: :center
             end
           end
         end

@@ -20,15 +20,6 @@ class Usage < ApplicationRecord
     ((used_units || 0) * tarif.price_per_unit || 1).floor(2)
   end
 
-  def used_units
-    super unless tarif.override_used_units?
-    tarif.override_used_units(self)
-  end
-
-  def prefill
-    self.used_units ||= tarif.prefiller.alleged_units(self)
-  end
-
   def of_tarif?(other_tarif)
     other_tarif.self_and_booking_copy_ids.include?(tarif_id)
   end

@@ -5,8 +5,6 @@ module Manage
       load_and_authorize_resource :usage, through: :booking
 
       def index
-        # @usages += UsageBuilder.new(@booking).build # , @booking.home.tarifs.transient)
-        @usages.each(&:prefill)
         respond_with :manage, @booking, @usages
       end
 

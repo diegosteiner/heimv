@@ -136,11 +136,6 @@ de-CH:
       occupancy:
         one: Belegung
         other: Belegungen
-      tarif:
-        one: Tarif
-        other: Tarife
-      tarifs/metered:
-        one: nach Zählerstand
       tarif_selector:
         one: Tarifwähler
         other: Tarifwähler
@@ -151,6 +146,8 @@ de-CH:
         one: nach Gebrauch
       tarifs/flat:
         one: Pauschale
+      tarifs/metered:
+        one: nach Zählerstand
       usage:
         one: Verbrauch
         other: Verbrauch

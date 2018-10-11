@@ -136,15 +136,6 @@ en:
       occupancy:
         one: Belegung
         other: Belegungen
-      tarif:
-        one: Tarif
-        other: Tarife
-      tarif/amount:
-        one: nach Gebrauch
-      tarif/flat:
-        one: Pauschale
-      tarif/metered:
-        one: nach Zählerstand
       tarif_selector:
         one: Berechnung
         other: Berechnungen
@@ -155,6 +146,8 @@ en:
         one: nach Gebrauch
       tarifs/flat:
         one: Pauschale
+      tarifs/metered:
+        one: nach Zählerstand
       usage:
         one: Verbrauch
         other: Verbrauch

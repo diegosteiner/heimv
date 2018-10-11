@@ -1,12 +1,6 @@
 = form_with(url: manage_booking_usages_path(@booking), scope: :usages, method: :PUT, local: true, layout: :inline) do |f|
   = hidden_field_tag :return_to, return_to if defined?(return_to)
   table.table
-    col
-    col[style="width: 35%;"]
-    col
-    col
-    col[style="width: 35%;"]
-    col
     thead
       tr.bg-white
         th
@@ -14,7 +8,7 @@
         th= Tarif.human_attribute_name(:price_per_unit)
         th= Tarif.human_attribute_name(:unit)
         - if defined?(used_units_field) && used_units_field
-          th= Usage.model_name.human
+          th[style="width: 30%;"]= Usage.model_name.human
         th
 
     - tarif_groups = usages.group_by { |usage| usage.tarif.tarif_group }.sort_by { |group| group }

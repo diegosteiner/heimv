@@ -25,23 +25,15 @@ class Tarif < ApplicationRecord
     booking || home
   end
 
-  def prefiller
-    TarifPrefiller.new
-  end
-
   def booking_copy?
     booking_id.present?
   end
 
+  def original
+    booking_copy_template || self
+  end
+
   def self_and_booking_copy_ids
     [id] + booking_copy_ids
-  end
-
-  def override_used_units?
-    false
-  end
-
-  def override_used_units(usage)
-    usage[:used_units]
   end
 end
