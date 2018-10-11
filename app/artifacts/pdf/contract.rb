@@ -9,7 +9,7 @@ module Pdf
 
     def sections
       [
-        Base::HeaderSection.new,
+        Base::LogoSection.new,
         Base::SenderAddressSection.new,
         Base::RecipientAddressSection.new(@booking),
         Base::TitleSection.new("Mietvertrag: #{@booking.home.name}"),

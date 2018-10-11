@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_14_142754) do
+ActiveRecord::Schema.define(version: 2018_10_10_185444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -157,6 +157,19 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "meter_reading_periods", force: :cascade do |t|
+    t.bigint "tarif_id"
+    t.bigint "usage_id"
+    t.decimal "start_value"
+    t.decimal "end_value"
+    t.datetime "begins_at"
+    t.datetime "ends_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tarif_id"], name: "index_meter_reading_periods_on_tarif_id"
+    t.index ["usage_id"], name: "index_meter_reading_periods_on_usage_id"
+  end
+
   create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "begins_at", null: false
     t.datetime "ends_at", null: false
@@ -222,7 +235,6 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
     t.decimal "used_units"
     t.text "remarks"
     t.uuid "booking_id"
-    t.jsonb "data", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_usages_on_booking_id"
@@ -264,6 +276,8 @@ ActiveRecord::Schema.define(version: 2018_08_14_142754) do
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
+  add_foreign_key "meter_reading_periods", "tarifs"
+  add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "occupancies", "homes"
   add_foreign_key "tarif_selectors", "homes"
   add_foreign_key "tarif_tarif_selectors", "tarif_selectors"
