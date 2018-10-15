@@ -6,6 +6,7 @@ de-CH:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
         committed_request: Verbindlichkeit der Mietanfrage
+        created_at: Erstellt am
         customer: Mieter
         customer_id: Mieter
         home: Heim
@@ -17,7 +18,6 @@ de-CH:
         remarks: Bemerkungen
         state: Status
         transition_to: Neuer Status
-        created_at: Erstellt am
       booking_agent:
         code: Vermittler-Code
         email: Email
@@ -340,8 +340,8 @@ de-CH:
         title: Reservation
   time:
     formats:
-      short: "%d.%m.%Y %H:%M"
       date: "%d.%m.%Y"
+      short: "%d.%m.%Y %H:%M"
       time: "%H:%M"
   titles:
     application: Heimverwaltung

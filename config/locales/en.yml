@@ -6,6 +6,7 @@ en:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
         committed_request: Verbindlichkeit der Mietanfrage
+        created_at: Erstellt am
         customer: Kunde
         customer_id: Kunde
         home: Heim
@@ -340,6 +341,7 @@ en:
   time:
     formats:
       date: "%d.%m.%Y"
+      short: "%d.%m.%Y %H:%M"
       time: "%H:%M"
   titles:
     application: Heimverwaltung
