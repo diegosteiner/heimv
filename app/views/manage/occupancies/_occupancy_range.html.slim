@@ -3,11 +3,7 @@
     i.fa.fa-calendar
   div
     strong
-      time
-        =<> l(occupancy.begins_at, format: :date)
-        = l(occupancy.begins_at, format: :time)
+      = time_tag occupancy.begins_at, format: :short
     br
     .small
-      time
-        =<> l(occupancy.ends_at, format: :date)
-        = l(occupancy.ends_at, format: :time)
+      = time_tag occupancy.ends_at, format: :short

@@ -57,7 +57,7 @@ section.breakout-sm
               = @booking.booking_strategy::ViewModel.i18n_state(transition.to_state)[:label]
             br
             small
-              time<>[datetime=transition.created_at] = l(transition.created_at)
+              = time_tag transition.created_at
 
 section
   = link_to t(:back), manage_bookings_path, class: 'btn btn-default'

@@ -1,0 +1,33 @@
+= bookings_by_state_table(:confirmed_new_request, bookings[:confirmed_new_request], Booking.human_attribute_name(:created_at), "") do |booking|
+  = l(booking.created_at, format: :short)
+  br
+  = time_ago_in_words(booking.created_at)
+
+
+= bookings_by_state_table(:provisional_request, bookings[:provisional_request], Booking.human_attribute_name(:created_at), "") do |booking|
+  = l(booking.created_at, format: :short)
+  br
+  = time_ago_in_words(booking.created_at)
+
+= bookings_by_state_table(:definitive_request, bookings[:definitive_request], Booking.human_attribute_name(:created_at), "") do |booking|
+  = l(booking.created_at, format: :short)
+  br
+  = time_ago_in_words(booking.created_at)
+
+= bookings_by_state_table(:overdue_request, bookings[:overdue_request], Booking.human_attribute_name(:created_at), "") do |booking|
+  = l(booking.created_at, format: :short)
+  br
+  = time_ago_in_words(booking.created_at)
+
+
+= bookings_by_state_table(:confirmed, bookings[:confirmed], Contract.model_name.human, "") do |booking|
+  ul.small
+    li
+      = Contract.model_name.human
+      | :
+      =<> l(booking.contracts.last.created_at, format: :date)
+
+    li
+      = Invoice.model_name.human
+      | :
+      =<> l(booking.invoices.deposit.last.created_at, format: :date)

@@ -16,7 +16,7 @@ class Customer < ApplicationRecord
   end
 
   def address_lines
-    [name, street_address, "#{zipcode} #{city}"]
+    [name, street_address, "#{zipcode} #{city}"].reject(&:blank?)
   end
 
   def to_s

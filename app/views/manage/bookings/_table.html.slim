@@ -1,0 +1,58 @@
+- unless bookings && bookings.any?
+  p.mb-5= t(:no_records_yet, model_name: Booking.model_name.human(count: :other))
+
+- else
+  .breakout-sm
+    table.table.table-hover.table-card.mb-5
+      col[style='width: 15%;']
+      col[style='width: 20%;']
+      col[style='width: 25%;']
+      col[style='width: 15%;']
+      col[style='width: 20%;']
+      col[style='width: 5%;']
+      thead
+        tr
+          th= Booking.human_attribute_name(:ref)
+          th= Booking.human_attribute_name(:occupancy)
+          th= Booking.human_attribute_name(:organisation)
+          th= Booking.human_attribute_name(:customer)
+          - if defined?(special_column)
+            th= special_column
+          th
+
+      tbody
+        - bookings.each do |booking|
+          tr[data-href=manage_booking_path(booking) data-id=booking.to_param]
+            td.align-middle
+              = link_to booking.ref, manage_booking_path(booking)
+            td.align-middle
+              = link_to manage_booking_path(booking)
+                = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+              = link_to manage_home_path(booking.home)
+                .d-flex.mt-2
+                  div.mr-2
+                    i.fa.fa-home
+                  div
+                    = booking.home
+            td.align-middle
+              = booking.organisation
+              p.small.m-0
+                i.fa.fa-male
+                =<> booking.approximate_headcount
+                br
+                span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
+            td.align-middle
+              = link_to manage_customer_path(booking.customer) do
+                address.m-0= safe_join(booking.customer.address_lines, '<br>'.html_safe)
+
+            - if defined?(special_column)
+              td.align-middle
+                = yield(booking) if block_given?
+
+            td.py-1.text-right.align-middle
+              = render partial: BookingStrategy::Default.template_path('manage/bookings/booking'), locals: { booking: booking }
+
+            td.py-1.text-right.align-middle
+              .btn-group
+                = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
+                  span.fa.fa-pencil
