@@ -5,6 +5,6 @@ FactoryBot.define do
     street_address { Faker::Address.street_address }
     zipcode { Faker::Address.zip_code }
     city { Faker::Address.city }
-    email { Faker::Internet.email }
+    email { |c| "#{c.first_name}.#{c.last_name}@heimverwaltung.example.com".underscore.downcase }
   end
 end

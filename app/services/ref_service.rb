@@ -1,11 +1,11 @@
 class RefService
   REFS = {
     Booking => (lambda do |booking|
-                  format('%s%04d%02d-%s',
-                         booking.home.ref,
+                  format('%s%04d%02d%02d',
+                         booking.home.ref[0...1],
                          booking.occupancy.begins_at.year,
                          booking.occupancy.begins_at.month,
-                         booking.id.last(3)).upcase
+                         booking.occupancy.begins_at.day).upcase
                 end),
     Invoice => (lambda do |invoice|
       ref = format('%03d%06d%012d', invoice.booking.home.id, invoice.booking.customer.id, invoice.id)

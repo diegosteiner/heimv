@@ -1,6 +1,8 @@
 require 'factory_bot_rails'
 require 'faker'
 
+Faker::Config.locale = 'de-CH'
+
 module Seeders
   class BaseSeeder
     include FactoryBot::Syntax::Methods

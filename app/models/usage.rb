@@ -15,6 +15,7 @@ class Usage < ApplicationRecord
   before_create :create_tarif_booking_copy
 
   validates :tarif_id, uniqueness: { scope: :booking_id }, allow_nil: true
+  # validates :used_units, numericality: true, presence: true
 
   def price
     ((used_units || 0) * tarif.price_per_unit || 1).floor(2)

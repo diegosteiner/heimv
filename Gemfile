@@ -15,7 +15,7 @@ gem 'date_time_attribute'
 gem 'devise'
 gem 'devise-i18n'
 gem 'factory_bot_rails', require: false
-gem 'faker', require: false
+gem 'faker'
 gem 'kramdown'
 gem 'pg'
 gem 'prawn'
