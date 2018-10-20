@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :homes do
       scope module: :homes do
         resources :tarif_selectors, except: %w[show]
+        resources :meter_reading_periods, only: %w[index show]
       end
       resources :tarifs, controller: 'home_tarifs' do
         collection do

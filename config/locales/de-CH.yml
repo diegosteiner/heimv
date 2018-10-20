@@ -27,6 +27,11 @@ de-CH:
         signed_at: Unterschrieben am
         text: Vertragstext
         title: Titel
+      meter_reading_period:
+        begins_at: Beginn
+        ends_at: Ende
+        start_value: Startwert
+        end_value: Schlusswert
       customer:
         address: Adresse
         city: Ort
@@ -139,6 +144,9 @@ de-CH:
       invoice_part:
         one: Position
         other: Positionen
+      meter_reading_period:
+        one: Zählerstand
+        other: Zählerstände
       occupancy:
         one: Belegung
         other: Belegungen

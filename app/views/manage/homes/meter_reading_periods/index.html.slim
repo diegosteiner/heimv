@@ -1,0 +1,20 @@
+= render partial: 'manage/homes/navigation', locals: { active: :meter_reading_periods }
+
+table.table.table-hover.table-card
+  thead
+    tr
+      th= Tarif.model_name.human
+      th= MeterReadingPeriod.human_attribute_name(:ends_at)
+      th= MeterReadingPeriod.human_attribute_name(:end_value)
+
+  tbody
+    - @meter_reading_period_groups.each do |tarif, meter_reading_period_group|
+      - meter_reading_period = meter_reading_period_group.last
+      tr[data-href=manage_home_meter_reading_period_path(@home, meter_reading_period)]
+        td
+          = meter_reading_period.tarif.label
+        td
+          = l(meter_reading_period.ends_at, format: :short)
+        td
+          = meter_reading_period.end_value
+

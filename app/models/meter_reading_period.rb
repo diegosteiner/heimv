@@ -4,6 +4,8 @@ class MeterReadingPeriod < ApplicationRecord
   has_one :home, through: :tarif
   has_one :booking, through: :usage
 
+  scope :ordered, -> { order(ends_at: :ASC) }
+
   validates :start_value, :end_value, numericality: true, allow_nil: true
   validates :begins_at, :ends_at, presence: true
 
@@ -12,8 +14,6 @@ class MeterReadingPeriod < ApplicationRecord
     self.ends_at ||= booking&.occupancy&.ends_at
     self.tarif ||= usage&.tarif&.original
   end
-
-  scope :ordered, -> { order(ends_at: :ASC) }
 
   def used_units
     return nil unless end_value.present? && start_value.present?
