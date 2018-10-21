@@ -81,4 +81,3 @@ class Booking < ApplicationRecord
     occupancy.subject ||= self
   end
 end
-

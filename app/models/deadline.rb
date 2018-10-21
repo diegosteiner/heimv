@@ -1,6 +1,6 @@
 class Deadline < ApplicationRecord
   belongs_to :booking, inverse_of: :deadlines
-  belongs_to :responsible, polymorphic: :true, optional: true
+  belongs_to :responsible, polymorphic: true, optional: true
 
   scope :ordered, -> { order(at: :DESC) }
   scope :current, -> { where(current: true).ordered.last }
@@ -17,6 +17,8 @@ class Deadline < ApplicationRecord
     last_deadlines = booking.deadlines.where(current: true).where.not(id: id)
     return unless !current || last_deadlines.exists?
 
+    # rubocop:disable Rails/SkipsModelValidations
     last_deadlines.update_all(current: false)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 end

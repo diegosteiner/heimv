@@ -50,8 +50,8 @@ module BookingStrategy
         end
       end
 
-      after_transition(to: %i[new_request confirmed_new_request provisional_request definitive_request overdue_request confirmed
-        overdue payment_due payment_overdue]) do |booking|
+      after_transition(to: %i[new_request confirmed_new_request provisional_request definitive_request overdue_request
+                              confirmed overdue payment_due payment_overdue]) do |booking|
         booking.deadlines.create(at: 10.days.from_now)
       end
 
