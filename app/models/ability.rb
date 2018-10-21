@@ -38,6 +38,7 @@ module Ability
       can :manage, BookingAgent
       can :manage, Invoice
       can :manage, Payment
+      can :manage, Deadline
     end
   end
 

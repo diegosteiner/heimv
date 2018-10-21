@@ -30,6 +30,12 @@ section.breakout-sm
             br
             = @booking.approximate_headcount
 
+          - if @booking.deadlines.current.present?
+            p
+              strong= Deadline.model_name.human
+              br
+              = l(@booking.deadlines.current.at, format: :short)
+
 
           hr
 

@@ -12,7 +12,7 @@ module BookingStrategy
       transition from: :new_request, to: %i[cancelled confirmed_new_request]
       transition from: :confirmed_new_request, to: %i[cancelled provisional_request definitive_request]
       transition from: :provisional_request, to: %i[definitive_request overdue_request cancelled]
-      transition from: :definitive_request, to: %i[cancelled confirmed]
+      transition from: :definitive_request, to: %i[overdue_request cancelled confirmed]
       transition from: :confirmed, to: %i[cancelled upcoming overdue]
       transition from: :overdue, to: %i[cancelled upcoming]
       transition from: :upcoming, to: %i[cancelled active]
@@ -48,6 +48,11 @@ module BookingStrategy
         else
           BookingStateMailer.state_changed(booking, :new_request).deliver_now
         end
+      end
+
+      after_transition(to: %i[new_request confirmed_new_request provisional_request definitive_request overdue_request confirmed
+        overdue payment_due payment_overdue]) do |booking|
+        booking.deadlines.create(at: 10.days.from_now)
       end
 
       after_transition(to: %i[confirmed_new_request]) do |booking|

@@ -17,11 +17,11 @@ class Booking < ApplicationRecord
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: :Tarif, inverse_of: :booking
   has_many :booking_copy_tarifs, class_name: :Tarif, dependent: :destroy
   has_many :transitive_tarifs, class_name: :Tarif, through: :home, source: :tarif
+  has_many :deadlines, dependent: :destroy, inverse_of: :booking
 
   validates :home, :customer, :occupancy, :email, presence: true
   validates :email, format: Devise.email_regexp
   validates :cancellation_reason, presence: true, allow_nil: true
-
   validates :committed_request, inclusion: { in: [true, false] }, if: :strict_validation
   validates :approximate_headcount, numericality: true, if: :strict_validation
 
@@ -60,6 +60,10 @@ class Booking < ApplicationRecord
     BookingTransition
   end
 
+  def deadline_exceeded?
+    deadlines.current&.exceeded?
+  end
+
   private
 
   def assign_customer_from_email
@@ -77,3 +81,4 @@ class Booking < ApplicationRecord
     occupancy.subject ||= self
   end
 end
+

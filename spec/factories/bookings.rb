@@ -21,6 +21,7 @@ FactoryBot.define do
     after(:create) do |booking, evaluator|
       if evaluator.initial_state_present?
         create(:booking_transition, booking: booking, to_state: evaluator.initial_state)
+        create(:deadline, booking: booking)
       end
     end
   end

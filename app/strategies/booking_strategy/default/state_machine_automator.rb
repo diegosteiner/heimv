@@ -9,6 +9,14 @@ module BookingStrategy
         booking.customer.valid? && booking.initiator == :tenant
       end
 
+      automatic_transition(from: :confirmed_new_request, to: :overdue_request, &:deadline_exceeded?)
+      automatic_transition(from: :provisional_request, to: :overdue_request, &:deadline_exceeded?)
+      automatic_transition(from: :definitive_request, to: :overdue_request, &:deadline_exceeded?)
+      automatic_transition(from: :overdue_request, to: :cancelled, &:deadline_exceeded?)
+      automatic_transition(from: :confirmed, to: :overdue, &:deadline_exceeded?)
+      automatic_transition(from: :overdue, to: :cancelled, &:deadline_exceeded?)
+      automatic_transition(from: :payment_due, to: :payment_overdue, &:deadline_exceeded?)
+
       automatic_transition(from: :confirm_new_request, to: :provisional_request) do |booking|
         booking.customer.reservations_allowed
       end

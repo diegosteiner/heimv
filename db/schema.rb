@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_11_175145) do
+ActiveRecord::Schema.define(version: 2018_10_20_174048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -109,6 +109,19 @@ ActiveRecord::Schema.define(version: 2018_10_11_175145) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_customers_on_email"
+  end
+
+  create_table "deadlines", force: :cascade do |t|
+    t.datetime "at"
+    t.uuid "booking_id"
+    t.string "responsible_type"
+    t.bigint "responsible_id"
+    t.integer "extended", default: 0
+    t.boolean "current", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_deadlines_on_booking_id"
+    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible_type_and_responsible_id"
   end
 
   create_table "homes", force: :cascade do |t|
@@ -287,6 +300,7 @@ ActiveRecord::Schema.define(version: 2018_10_11_175145) do
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "contracts", "bookings"
+  add_foreign_key "deadlines", "bookings"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
