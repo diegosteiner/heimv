@@ -32,6 +32,14 @@ class Occupancy < ApplicationRecord
     "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)}"
   end
 
+  def today?(date = Time.zone.today)
+    ((begins_at.to_date)..(ends_at.to_date)).cover?(date)
+  end
+
+  def past?(at = Time.zone.now)
+    ends_at < at
+  end
+
   def overlapping
     home.occupancies.at(span)
   end

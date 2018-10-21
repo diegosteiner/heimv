@@ -17,6 +17,14 @@ module BookingStrategy
       automatic_transition(from: :overdue, to: :cancelled, &:deadline_exceeded?)
       automatic_transition(from: :payment_due, to: :payment_overdue, &:deadline_exceeded?)
 
+      automatic_transition(from: :upcoming, to: :active) do |booking|
+        booking.occupancy.today?
+      end
+
+      automatic_transition(from: :active, to: :past) do |booking|
+        booking.occupancy.past?
+      end
+
       automatic_transition(from: :confirm_new_request, to: :provisional_request) do |booking|
         booking.customer.reservations_allowed
       end

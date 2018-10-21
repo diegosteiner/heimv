@@ -36,6 +36,7 @@ Style/MixinUsage:
 Naming/UncommunicativeMethodParamName:
   AllowedNames:
     - 'to'
+    - 'at'
 
 AllCops:
   TargetRubyVersion: 2.5
