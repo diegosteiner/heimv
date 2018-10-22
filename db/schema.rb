@@ -204,6 +204,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
   create_table "payments", force: :cascade do |t|
     t.decimal "amount"
     t.date "paid_at"
+    t.string "ref"
     t.bigint "invoice_id"
     t.uuid "booking_id"
     t.text "data"

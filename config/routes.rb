@@ -7,7 +7,6 @@ Rails.application.routes.draw do
 
   namespace :manage do
     get '/', to: 'dashboard#index', as: :manage_dashboard
-    resources :payments
     resources :homes do
       scope module: :homes do
         resources :tarif_selectors, except: %w[show]
@@ -19,7 +18,12 @@ Rails.application.routes.draw do
         end
       end
     end
+    resources :payments, only: :index do
+      get :import, on: :collection
+      post :/, on: :collection, action: :bulk_create
+    end
     resources :bookings do
+      resources :payments, shallow: true
       scope module: :bookings do
         resources :contracts
         resources :tarifs
@@ -31,7 +35,6 @@ Rails.application.routes.draw do
         resources :invoices do
           resources :invoice_parts, except: %i[index show]
         end
-        resources :payments
       end
     end
     resources :customers

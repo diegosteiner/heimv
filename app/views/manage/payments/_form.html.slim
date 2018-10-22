@@ -1,7 +1,7 @@
-= form_with(model: [:manage, @booking, @payment], local: true) do |f|
+= form_with(model: [:manage, @payment], local: true) do |f|
 
   fieldset
-    = f.select :invoice_id, @booking.invoices.map { |i| [i.ref, i.id] }
+    = f.collection_select :invoice_id, @payment.booking.invoices, :id, :ref
     = f.number_field :amount
     = f.date_field :paid_at
     = f.text_area :remarks

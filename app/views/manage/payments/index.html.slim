@@ -3,19 +3,27 @@
 - if @payments.none?
   p.text-center
     = t(:no_records_yet, model_name: Payment.model_name.human(count: :other))
-    =<> link_to t(:add_record, model_name: Payment.model_name.human), new_manage_payment_path
+    =<> link_to t(:add_record, model_name: Payment.model_name.human), import_manage_payments_path
 - else
   table.table.table-hover.table-card
     thead
       tr
-        th= Payment.model_name.human(count: :other)
+        th= Payment.human_attribute_name(:paid_at)
+        th= Invoice.model_name.human
+        th= Booking.model_name.human
+        th= Payment.human_attribute_name(:amount)
         th
 
     tbody
       - @payments.each do |payment|
         tr[data-href=manage_payment_path(payment)]
           td
-            = link_to l(payment.paid_at, format: :short), manage_payment_path(payment)
+            = link_to l(payment.paid_at), manage_payment_path(payment)
+          td
+            - if payment.invoice
+              = link_to payment.invoice, manage_booking_invoice_path(payment.booking, payment.invoice)
+          td
+            = link_to payment.booking, manage_booking_path(payment.booking)
           td.text-right
             = number_to_currency(payment.amount)
           td.py-1.text-right
@@ -25,5 +33,5 @@
               = link_to manage_payment_path(payment), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                 span.fa.fa-trash
 
-= link_to new_manage_payment_path, class: 'btn btn-primary' do
+= link_to import_manage_payments_path, class: 'btn btn-primary' do
   = t(:add_record, model_name: Payment.model_name.human)
