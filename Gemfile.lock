@@ -78,6 +78,8 @@ GEM
       bundler (~> 1.2)
       thor (~> 0.18)
     byebug (10.0.2)
+    camt_parser (2.3.5)
+      nokogiri
     cancancan (2.3.0)
     capybara (2.18.0)
       addressable
@@ -325,6 +327,7 @@ DEPENDENCIES
   breadcrumbs
   bundler-audit
   byebug
+  camt_parser
   cancancan
   capybara
   capybara-paparazzi

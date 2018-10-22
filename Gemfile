@@ -10,6 +10,7 @@ gem 'bootstrap_form',
     git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
     ref: 'master'
 gem 'breadcrumbs'
+gem 'camt_parser'
 gem 'cancancan'
 gem 'date_time_attribute'
 gem 'devise'
