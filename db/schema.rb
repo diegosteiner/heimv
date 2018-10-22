@@ -97,20 +97,6 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
   end
 
-  create_table "tenants", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "street_address"
-    t.string "zipcode"
-    t.string "city"
-    t.boolean "reservations_allowed"
-    t.string "phone"
-    t.string "email", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_tenants_on_email"
-  end
-
   create_table "deadlines", force: :cascade do |t|
     t.datetime "at"
     t.uuid "booking_id"
@@ -256,6 +242,20 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
     t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
+  end
+
+  create_table "tenants", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "street_address"
+    t.string "zipcode"
+    t.string "city"
+    t.boolean "reservations_allowed"
+    t.string "phone"
+    t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_tenants_on_email"
   end
 
   create_table "usages", force: :cascade do |t|

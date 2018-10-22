@@ -7,8 +7,6 @@ en:
         booking_agent_code: Vermittler-Code
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
-        tenant: Kunde
-        tenant_id: Kunde
         home: Heim
         home_id: Heim
         invoice_address: Rechnungsadresse (falls abweichend)
@@ -17,6 +15,8 @@ en:
         ref: Buchungsreferenz
         remarks: Bemerkungen
         state: Status
+        tenant: Kunde
+        tenant_id: Kunde
         transition_to: Neuer Status
       booking_agent:
         code: Code
@@ -27,15 +27,6 @@ en:
         signed_at: Unterschrieben am
         text: Vertragstext
         title: Titel
-      tenant:
-        address: Adresse
-        city: Ort
-        email: Email
-        first_name: Vorname
-        last_name: Nachname
-        reservations_allowed: Darf Reservationsanfragen schicken
-        street_address: Strasse / Nr.
-        zipcode: PLZ
       deadline:
         at: Bis
         extended: Verlängert
@@ -84,6 +75,15 @@ en:
       tarif_tarif_selector:
         override: Tarif automatisch auswählen
         tarif: Tarif
+      tenant:
+        address: Adresse
+        city: Ort
+        email: Email
+        first_name: Vorname
+        last_name: Nachname
+        reservations_allowed: Darf Reservationsanfragen schicken
+        street_address: Strasse / Nr.
+        zipcode: PLZ
       usage:
         apply: Anwenden
         remarks: Bemerkungen
@@ -136,9 +136,6 @@ en:
       contract:
         one: Vertrag
         other: Verträge
-      tenant:
-        one: Tenant
-        other: Tenants
       deadline:
         one: Frist
         other: Fristen
@@ -172,6 +169,9 @@ en:
         one: Pauschale
       tarifs/metered:
         one: nach Zählerstand
+      tenant:
+        one: Tenant
+        other: Tenants
       usage:
         one: Verbrauch
         other: Verbrauch
