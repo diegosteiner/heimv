@@ -3,7 +3,10 @@ module Manage
     load_and_authorize_resource :booking
 
     def index
-      @bookings = @bookings.includes(:occupancy, :tenant, :home, :booking_transitions).order(updated_at: :DESC)
+      @filter = Booking::Filter.new(booking_filter_params)
+      @bookings = @filter.reduce(@bookings.includes(:occupancy, :tenant, :home, :booking_transitions)
+                                          .order(updated_at: :DESC)
+                                )
       @bookings_by_state = @bookings.group_by(&:state).with_indifferent_access
       respond_with :manage, @bookings
     end
@@ -48,6 +51,10 @@ module Manage
 
     def booking_params
       BookingParams.permit(params[:booking])
+    end
+
+    def booking_filter_params
+      params[:filter]&.permit(:begins_at, :ends_at, booking_states: [], homes: []) || {}
     end
   end
 end

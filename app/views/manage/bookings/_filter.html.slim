@@ -1,0 +1,10 @@
+= form_with(model: filter, url: manage_bookings_path, scope: :filter, method: :GET, local: true) do |f|
+  .row
+    .col-3
+      = f.datetime_local_field :begins_at
+    .col-3
+      = f.datetime_local_field :ends_at
+    .col-3
+      = f.collection_select :homes, Home.all, :id, :name, {}, multiple: true
+    .col-3.pt-4
+      = f.submit

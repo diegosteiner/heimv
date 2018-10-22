@@ -1,8 +1,10 @@
 / = render partial: BookingStrategy::Default.template_path('manage/bookings/index'), locals: { bookings: @bookings_by_state}
+= render partial: 'filter', locals: { filter: @filter }
 
 - @bookings_by_state.each do |state, bookings|
-  h3.mt-5= BookingStrategy::Default::ViewModel.i18n_state(state)[:label]
-  = render partial: 'table', locals: { bookings: bookings }
+  .mb-4
+    h3= BookingStrategy::Default::ViewModel.i18n_state(state)[:label]
+    = render partial: 'table', locals: { bookings: bookings }
 br
 = link_to new_manage_booking_path, class: 'btn btn-primary' do
   span.fa.fa-file-o
