@@ -1,21 +1,18 @@
 class Payment
   class Factory
     def from_camt_file(file)
-      camt = CamtParser::File.parse file
+      camt = CamtParser::String.parse file.read
       # puts camt.group_header.creation_date_time
       camt.notifications.map do |notification|
         # puts notification.account.iban
         notification.entries.map do |entry|
-          entry.currency
-          entry.booked?
-          entry.credit?
-          entry.description
+          next unless entry.booked? && entry.credit? && entry.currency == 'CHF'
+          # invoice = Invoice.where(ref: entry.???)
 
           # See https://github.com/Barzahlen/camt_parser/blob/master/lib/camt_parser/general/entry.rb
-          # binding.pry
-          Payment.build(paid_at: entry.value_date, amount: entry.amount)
+          Payment.new(paid_at: entry.value_date, amount: entry.amount, remarks: entry.description)
         end
-      end.flatten
+      end.flatten.compact
     end
   end
 end

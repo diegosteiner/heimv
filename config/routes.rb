@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   namespace :manage do
     get '/', to: 'dashboard#index', as: :manage_dashboard
+    resources :payments
     resources :homes do
       scope module: :homes do
         resources :tarif_selectors, except: %w[show]
