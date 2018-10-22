@@ -7,7 +7,7 @@ module Manage
 
       def index
         @usages = @booking.usages
-        @suggested_usages = UsageBuilder.new(@booking).build_and_select.select(&:new_record?)
+        @suggested_usages = Usage::Factory.new(@booking).build_and_select.select(&:new_record?)
         respond_with :manage, @usages
       end
 

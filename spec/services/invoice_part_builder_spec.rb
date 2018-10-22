@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe InvoicePartBuilder, type: :model do
+RSpec.describe InvoiceParts::Factory, type: :model do
   let(:builder) { described_class.new }
 
   describe '#for_booking' do

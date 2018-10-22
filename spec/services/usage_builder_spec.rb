@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UsageBuilder, type: :model do
+RSpec.describe Usage::Factory, type: :model do
   let(:booking) { create(:booking, initial_state: :confirmed, home: home) }
   let(:builder) { described_class.new(booking) }
 

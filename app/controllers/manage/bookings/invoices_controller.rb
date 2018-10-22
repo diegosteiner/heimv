@@ -20,7 +20,7 @@ module Manage
       def new
         @invoice = Invoice.new(invoice_params)
         @invoice.invoice_type ||= :invoice
-        @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking, @invoice)
+        @suggested_invoice_parts = InvoiceParts::Factory.new.for_booking(@booking, @invoice)
         respond_with :manage, @booking, @invoice
       end
 
@@ -35,7 +35,7 @@ module Manage
       end
 
       def edit
-        @suggested_invoice_parts = InvoicePartBuilder.new.for_booking(@booking, @invoice)
+        @suggested_invoice_parts = InvoiceParts::Factory.new.for_booking(@booking, @invoice)
         respond_with :manage, @booking, @invoice
       end
 
