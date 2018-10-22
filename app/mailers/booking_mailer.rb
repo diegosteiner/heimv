@@ -45,7 +45,7 @@ class BookingMailer < ApplicationMailer
             - **Reservation**: #{I18n.l(booking.occupancy.begins_at)} bis  #{I18n.l(booking.occupancy.ends_at)}
             - **Organisation**: #{booking.organisation}
             - **Kontaktperson**:
-              #{(booking.customer.address_lines + [booking.customer.phone, booking.customer.email]).join("\n")}
+              #{(booking.tenant.address_lines + [booking.tenant.phone, booking.tenant.email]).join("\n")}
             - Bemerkungen: #{booking.remarks}
           DETAILS
         rescue StandardError

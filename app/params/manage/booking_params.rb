@@ -4,7 +4,7 @@ module Manage
       super +
         %i[transition_to] +
         [usages_attributes: UsageParams.permitted_keys + %i[_destroy id]] +
-        [customer_attributes: CustomerParams.permitted_keys]
+        [tenant_attributes: TenantParams.permitted_keys]
     end
   end
 end

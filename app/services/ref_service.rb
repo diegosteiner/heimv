@@ -8,7 +8,7 @@ class RefService
                          booking.occupancy.begins_at.day).upcase
                 end),
     Invoice => (lambda do |invoice|
-      ref = format('%03d%06d%012d', invoice.booking.home.id, invoice.booking.customer.id, invoice.id)
+      ref = format('%03d%06d%012d', invoice.booking.home.id, invoice.booking.tenant.id, invoice.id)
       ref + EsrService.new.checksum(ref).to_s
     end)
   }.freeze

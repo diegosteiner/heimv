@@ -7,7 +7,7 @@ module Seeders
         UserSeeder,
         HomeSeeder,
         TarifSeeder,
-        CustomerSeeder,
+        TenantSeeder,
         BookingAgentSeeder,
         BookingSeeder,
         MailerTemplateSeeder,

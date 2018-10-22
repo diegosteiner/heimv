@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :booking do
     home
-    association :customer, factory: :customer
+    association :tenant, factory: :tenant
     organisation { Faker::Company.name }
     email { Faker::Internet.safe_email }
     skip_automatic_transition { initial_state_present? }

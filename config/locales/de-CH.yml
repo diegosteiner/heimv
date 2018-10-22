@@ -7,8 +7,8 @@ de-CH:
         booking_agent_code: Vermittler-Code
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
-        customer: Mieter
-        customer_id: Mieter
+        tenant: Mieter
+        tenant_id: Mieter
         home: Heim
         home_id: Heim
         invoice_address: Rechnungsadresse (falls abweichend)
@@ -27,7 +27,7 @@ de-CH:
         signed_at: Unterschrieben am
         text: Vertragstext
         title: Titel
-      customer:
+      tenant:
         address: Adresse
         city: Ort
         email: Email
@@ -136,7 +136,7 @@ de-CH:
       contract:
         one: Vertrag
         other: Verträge
-      customer:
+      tenant:
         one: Mieter
         other: Mieter
       deadline:

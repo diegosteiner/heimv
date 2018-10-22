@@ -1,6 +1,6 @@
 .card.breakout-sm
   .card-body
-    = render_hash_as_dl(@booking_agent.attributes.slice(*%w(name code email)), Customer)
+    = render_hash_as_dl(@booking_agent.attributes.slice(*%w(name code email)), Tenant)
     br
 
     = link_to edit_manage_booking_agent_path(@booking_agent), class: 'btn btn-primary' do

@@ -6,7 +6,7 @@ module BookingStrategy
       end
 
       automatic_transition(from: :new_request, to: :confirmed_new_request) do |booking|
-        booking.customer.valid? && booking.initiator == :tenant
+        booking.tenant.valid? && booking.initiator == :tenant
       end
 
       automatic_transition(from: :confirmed_new_request, to: :overdue_request, &:deadline_exceeded?)
@@ -26,7 +26,7 @@ module BookingStrategy
       end
 
       automatic_transition(from: :confirm_new_request, to: :provisional_request) do |booking|
-        booking.customer.reservations_allowed
+        booking.tenant.reservations_allowed
       end
 
       automatic_transition(from: :past, to: :payment_due) do |booking|

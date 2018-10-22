@@ -17,7 +17,7 @@
           = of.date_field :ends_at_date, disabled: true
         .col-md-6
           = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: true
-    = f.fields_for :customer, @booking.customer do |cf|
+    = f.fields_for :tenant, @booking.tenant do |cf|
       = cf.email_field :email, disabled: true
       .row
         .col

@@ -12,7 +12,7 @@ feature 'Booking', :devise, js: true do
         select home.name, from: :booking_home_id
         fill_in :booking_occupancy_attributes_begins_at, with: I18n.l(new_booking.occupancy.begins_at, format: :short)
         fill_in :booking_occupancy_attributes_ends_at, with: 'invalid'
-        fill_in :booking_email, with: new_booking.customer.email
+        fill_in :booking_email, with: new_booking.tenant.email
         fill_in :booking_organisation, with: new_booking.organisation
         submit_form
         expect(page).to have_http_status(200)
@@ -26,7 +26,7 @@ feature 'Booking', :devise, js: true do
         select home.name, from: :booking_home_id
         fill_in :booking_occupancy_attributes_begins_at, with: I18n.l(new_booking.occupancy.begins_at)
         fill_in :booking_occupancy_attributes_ends_at, with: I18n.l(new_booking.occupancy.ends_at)
-        fill_in :booking_email, with: new_booking.customer.email
+        fill_in :booking_email, with: new_booking.tenant.email
         fill_in :booking_organisation, with: new_booking.organisation
         submit_form
         expect(page).to have_http_status(200)

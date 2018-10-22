@@ -14,9 +14,9 @@ section.breakout-sm
             br
             = link_to @booking.home, manage_home_path(@booking.home)
           p
-            strong= Booking.human_attribute_name(:customer)
+            strong= Booking.human_attribute_name(:tenant)
             br
-            = link_to @booking.customer, manage_customer_path(@booking.customer)
+            = link_to @booking.tenant, manage_tenant_path(@booking.tenant)
           p
             strong= Booking.human_attribute_name(:organisation)
             br

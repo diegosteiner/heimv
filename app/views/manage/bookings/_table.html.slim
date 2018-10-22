@@ -15,7 +15,7 @@
           th= Booking.human_attribute_name(:ref)
           th= Booking.human_attribute_name(:occupancy)
           th= Booking.human_attribute_name(:organisation)
-          th= Booking.human_attribute_name(:customer)
+          th= Booking.human_attribute_name(:tenant)
           - if defined?(special_column)
             th= special_column
           th
@@ -42,8 +42,8 @@
                 br
                 span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
             td.align-middle
-              = link_to manage_customer_path(booking.customer) do
-                address.m-0= safe_join(booking.customer.address_lines, '<br>'.html_safe)
+              = link_to manage_tenant_path(booking.tenant) do
+                address.m-0= safe_join(booking.tenant.address_lines, '<br>'.html_safe)
 
             - if defined?(special_column)
               td.align-middle

@@ -38,7 +38,7 @@ class Contract < ApplicationRecord
       begins_at: booking.occupancy.begins_at,
       ends_at: booking.occupancy.ends_at,
       home: booking.home,
-      tenant: booking.customer.to_s,
+      tenant: booking.tenant.to_s,
       janitor: booking.home.janitor&.lines&.join(', ')
     }
   end

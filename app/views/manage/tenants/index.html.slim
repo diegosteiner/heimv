@@ -1,0 +1,22 @@
+.breakout-sm
+  table.table.table-hover.table-card
+
+    tbody
+      - @tenants.each do |tenant|
+        tr[data-href=manage_tenant_path(tenant) data-id=tenant.to_param]
+          td
+            = link_to tenant.name, manage_tenant_path(tenant)
+          td = tenant.zipcode
+          td = tenant.city
+          td
+            = link_to edit_manage_tenant_path(tenant) do
+              span.fa.fa-pencil
+          td
+            = link_to manage_tenant_path(tenant), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
+              span.fa.fa-trash
+
+br
+= link_to new_manage_tenant_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: Tenant.model_name.human)

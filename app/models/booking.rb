@@ -6,7 +6,7 @@ class Booking < ApplicationRecord
 
   has_one :occupancy, dependent: :destroy, as: :subject, inverse_of: :subject, autosave: true
   belongs_to :home
-  belongs_to :customer, inverse_of: :bookings
+  belongs_to :tenant, inverse_of: :bookings
   belongs_to :booking_agent, foreign_key: :booking_agent_code, primary_key: :code,
                              inverse_of: :bookings, required: false
   has_many :contracts, -> { order(valid_from: :ASC) }, dependent: :destroy, autosave: false, inverse_of: :booking
@@ -19,7 +19,7 @@ class Booking < ApplicationRecord
   has_many :transitive_tarifs, class_name: :Tarif, through: :home, source: :tarif
   has_many :deadlines, dependent: :destroy, inverse_of: :booking
 
-  validates :home, :customer, :occupancy, :email, presence: true
+  validates :home, :tenant, :occupancy, :email, presence: true
   validates :email, format: Devise.email_regexp
   validates :cancellation_reason, presence: true, allow_nil: true
   validates :committed_request, inclusion: { in: [true, false] }, if: :strict_validation
@@ -33,11 +33,11 @@ class Booking < ApplicationRecord
   end
 
   before_validation :set_occupancy_attributes
-  before_validation :assign_customer_from_email
+  before_validation :assign_tenant_from_email
   after_create :reload
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
-  accepts_nested_attributes_for :customer, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :tenant, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
 
   def ref
@@ -49,7 +49,7 @@ class Booking < ApplicationRecord
   end
 
   def email
-    customer&.email || self[:email]
+    tenant&.email || self[:email]
   end
 
   def overnight_stays
@@ -66,12 +66,12 @@ class Booking < ApplicationRecord
 
   private
 
-  def assign_customer_from_email
+  def assign_tenant_from_email
     return if email.blank?
 
-    self.customer ||= Customer.find_or_initialize_by(email: email).tap do |customer|
-      # customer.strict_validation ||= strict_validation
-      customer.skip_exact_validation ||= strict_validation.nil?
+    self.tenant ||= Tenant.find_or_initialize_by(email: email).tap do |tenant|
+      # tenant.strict_validation ||= strict_validation
+      tenant.skip_exact_validation ||= strict_validation.nil?
     end
   end
 

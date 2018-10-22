@@ -37,7 +37,7 @@ Rails.application.routes.draw do
         end
       end
     end
-    resources :customers
+    resources :tenants
     resources :booking_agents
   end
 

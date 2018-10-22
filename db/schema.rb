@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
     t.string "state", default: "initial", null: false
     t.string "organisation"
     t.string "email"
-    t.integer "customer_id"
+    t.integer "tenant_id"
     t.json "strategy_data"
     t.boolean "committed_request"
     t.text "cancellation_reason"
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
   end
 
-  create_table "customers", force: :cascade do |t|
+  create_table "tenants", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "street_address"
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_customers_on_email"
+    t.index ["email"], name: "index_tenants_on_email"
   end
 
   create_table "deadlines", force: :cascade do |t|

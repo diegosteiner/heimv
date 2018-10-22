@@ -32,7 +32,7 @@ module Ability
       can :manage, Home
       can :manage, TarifSelector
       can :manage, TarifTarifSelector
-      can :manage, Customer
+      can :manage, Tenant
       can :manage, Booking
       can :manage, Occupancy
       can :manage, BookingAgent
@@ -45,7 +45,7 @@ module Ability
   class Public < Base
     def anonymous_abilities
       can %i[create read update], Booking
-      can %i[create read update], Customer
+      can %i[create read update], Tenant
       can %i[read index], Home
       can %i[read index], Occupancy
     end

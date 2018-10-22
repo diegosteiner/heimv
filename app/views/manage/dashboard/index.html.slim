@@ -11,10 +11,10 @@
     .card
       .card-body
         h5.card-title
-          = Customer.model_name.human(count: :other)
-        = link_to manage_customers_path, class: 'btn btn-primary'
+          = Tenant.model_name.human(count: :other)
+        = link_to manage_tenants_path, class: 'btn btn-primary'
           ' Verwalten
-          span.badge.badge-light= Customer.all.count
+          span.badge.badge-light= Tenant.all.count
   .col
     .card
       .card-body

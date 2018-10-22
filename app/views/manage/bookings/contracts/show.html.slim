@@ -50,7 +50,7 @@ html
               small
                 = @booking.organisation
             p
-              - @booking.customer.address_lines.each do |line|
+              - @booking.tenant.address_lines.each do |line|
                 = line
                 br
 

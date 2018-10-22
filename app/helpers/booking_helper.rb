@@ -1,6 +1,6 @@
 module BookingHelper
-  def customers_for_select(_booking = nil, _current_user = nil)
-    Customer.all.map { |customer| ["#{customer.name}, #{customer.zipcode} #{customer.city}", customer.to_param] }
+  def tenants_for_select(_booking = nil, _current_user = nil)
+    Tenant.all.map { |tenant| ["#{tenant.name}, #{tenant.zipcode} #{tenant.city}", tenant.to_param] }
   end
 
   def transitions_for_select(view_model, _current_user = nil)

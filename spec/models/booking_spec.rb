@@ -1,28 +1,28 @@
 require 'rails_helper'
 
 describe Booking, type: :model do
-  let(:customer) { create(:customer) }
+  let(:tenant) { create(:tenant) }
   let(:home) { create(:home) }
-  let(:booking) { build(:booking, customer: customer, home: home) }
+  let(:booking) { build(:booking, tenant: tenant, home: home) }
 
-  describe 'Customer' do
-    context 'with new customer' do
-      it 'uses existing customer when email is correct' do
-        booking.email = build(:customer).email
+  describe 'Tenant' do
+    context 'with new tenant' do
+      it 'uses existing tenant when email is correct' do
+        booking.email = build(:tenant).email
         expect(booking.save).to be true
-        expect(booking.customer).not_to be_new_record
-        expect(booking.customer).to be_a Customer
+        expect(booking.tenant).not_to be_new_record
+        expect(booking.tenant).to be_a Tenant
       end
     end
 
-    context 'with existing customer' do
-      let(:existing_customer) { create(:customer) }
-      let(:customer) { nil }
+    context 'with existing tenant' do
+      let(:existing_tenant) { create(:tenant) }
+      let(:tenant) { nil }
 
-      it 'uses existing customer when email is correct' do
-        booking.email = existing_customer.email
+      it 'uses existing tenant when email is correct' do
+        booking.email = existing_tenant.email
         expect(booking.save).to be true
-        expect(booking.customer_id).to eq(existing_customer.id)
+        expect(booking.tenant_id).to eq(existing_tenant.id)
       end
     end
   end
@@ -30,7 +30,7 @@ describe Booking, type: :model do
   describe 'Occupancy' do
     let(:booking_params) do
       attributes_for(:booking).merge(occupancy_attributes: attributes_for(:occupancy),
-                                     customer: customer,
+                                     tenant: tenant,
                                      home: home)
     end
 

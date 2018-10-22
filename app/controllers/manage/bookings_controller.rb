@@ -3,7 +3,7 @@ module Manage
     load_and_authorize_resource :booking
 
     def index
-      @bookings = @bookings.includes(:occupancy, :customer, :home, :booking_transitions).order(updated_at: :DESC)
+      @bookings = @bookings.includes(:occupancy, :tenant, :home, :booking_transitions).order(updated_at: :DESC)
       @bookings_by_state = @bookings.group_by(&:state).with_indifferent_access
       respond_with :manage, @bookings
     end
@@ -14,7 +14,7 @@ module Manage
 
     def new
       @booking.build_occupancy
-      @booking.build_customer
+      @booking.build_tenant
       respond_with :manage, @booking
     end
 

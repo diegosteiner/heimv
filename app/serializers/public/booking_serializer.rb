@@ -1,7 +1,7 @@
 module Public
   class BookingSerializer < ApplicationSerializer
     has_one :occupancy
-    has_one :customer
+    has_one :tenant
     belongs_to :home
 
     attributes :organisation, :cancellation_reason, :invoice_address,

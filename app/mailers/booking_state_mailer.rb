@@ -16,7 +16,7 @@ class BookingStateMailer < ApplicationMailer
             - **Lagerhaus**: #{booking.home}
             - **Reservation**: #{I18n.l(booking.occupancy.begins_at)} bis  #{I18n.l(booking.occupancy.ends_at)}
             - **Organisation**: #{booking.organisation}
-            - **Kontaktperson**: #{(booking.customer.address_lines + [booking.customer.phone, booking.customer.email]).flatten.join(',')}
+            - **Kontaktperson**: #{(booking.tenant.address_lines + [booking.tenant.phone, booking.tenant.email]).flatten.join(',')}
             - **Bemerkungen**: #{booking.remarks}
 
           DETAILS

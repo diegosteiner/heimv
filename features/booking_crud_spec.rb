@@ -14,11 +14,11 @@ feature 'Booking CRUD', :devise, js: true do
 
   scenario 'can create new booking' do
     home
-    customer = create(:customer)
+    tenant = create(:tenant)
     visit new_manage_booking_path
     fill_in :booking_occupancy_attributes_begins_at, with: I18n.l(new_booking.occupancy.begins_at)
     fill_in :booking_occupancy_attributes_ends_at, with: I18n.l(new_booking.occupancy.ends_at)
-    select customer.name, from: :booking_customer_id
+    select tenant.name, from: :booking_tenant_id
     select home.name, from: :booking_home_id
     submit_form
     expect(page).to have_http_status(200)

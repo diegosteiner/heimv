@@ -1,4 +1,4 @@
-class Customer < ApplicationRecord
+class Tenant < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error
 
   attr_accessor :skip_exact_validation
