@@ -7,6 +7,7 @@ class Payment
         # puts notification.account.iban
         notification.entries.map do |entry|
           next unless entry.booked? && entry.credit? && entry.currency == 'CHF'
+
           # invoice = Invoice.where(ref: entry.???)
 
           # See https://github.com/Barzahlen/camt_parser/blob/master/lib/camt_parser/general/entry.rb

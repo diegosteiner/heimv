@@ -19,8 +19,8 @@ Rails.application.routes.draw do
       end
     end
     resources :payments, only: :index do
-      get :import, on: :collection
-      post :/, on: :collection, action: :bulk_create
+      match :new_import, via: %i[get post], on: :collection
+      post :import, on: :collection
     end
     resources :bookings do
       resources :payments, shallow: true

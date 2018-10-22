@@ -1,44 +1,34 @@
-- unless @payments.present?
-  .row.justify-content-center
-    .col-md-8
-      .card
-        .card-body
-          = form_with url: manage_payments_path, method: :POST do |f|
-            = f.file_field 'camt_file'
-            = f.submit
-- else
-  = form_with(url: manage_payments_path, scope: :payments, method: :POST, local: true, layout: :inline) do |f|
-    / = hidden_field_tag :return_to, return_to if defined?(return_to)
-    table.table
-      thead
-        tr.bg-white
-          th
-          th= Invoice.model_name.human
-          th= Booking.model_name.human
-          th= Payment.human_attribute_name(:amount)
-          th= Payment.human_attribute_name(:paid_at)
-          th= Payment.human_attribute_name(:remarks)
-          th
+= form_with(url: import_manage_payments_path, scope: :payments, method: :POST, local: true, layout: :inline) do |f|
+  / = hidden_field_tag :return_to, return_to if defined?(return_to)
+  table.table
+    thead
+      tr.bg-white
+        th
+        th= Invoice.model_name.human
+        th= Booking.model_name.human
+        th= Payment.human_attribute_name(:amount)
+        th= Payment.human_attribute_name(:paid_at)
+        th= Payment.human_attribute_name(:remarks)
+        th
 
-        - @payments.each_with_index do |payment, i|
-          = f.fields_for "#{i}", payment do |pf|
-            tr.bg-white
-              td.py-3
-                = pf.hidden_field :id
-                = pf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
-                = pf.hidden_field :ref
-              td.py-2
-                = pf.collection_select :invoice_id, Invoice.open, :id, :ref, skip_label: true, include_blank: true
-              td.py-2
-                = pf.collection_select :booking_id, Booking.open, :id, :ref, skip_label: true
-              td.py-2
-                = pf.number_field :amount, skip_label: true
-              td.py-2
-                = pf.static_control :paid_at, skip_label: true
-                  = l(payment.paid_at)
-              td.py-2
-                = pf.text_area :remarks, skip_label: true
-              td.py-2.text-right
-                .btn-group
-    = f.submit
+      - @payments.each_with_index do |payment, i|
+        = f.fields_for "#{i}", payment do |pf|
+          tr.bg-white
+            td.py-3
+              = pf.hidden_field :id
+              = pf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
+              = pf.hidden_field :ref
+            td.py-2
+              = pf.collection_select :invoice_id, Invoice.open, :id, :ref, skip_label: true, include_blank: true
+            td.py-2
+              = pf.collection_select :booking_id, Booking.open, :id, :ref, skip_label: true
+            td.py-2
+              = pf.number_field :amount, skip_label: true
+            td.py-2
+              = pf.date_field :paid_at, skip_label: true
+            td.py-2
+              = pf.text_area :remarks, skip_label: true
+            td.py-2.text-right
+              .btn-group
+  = f.submit
 
