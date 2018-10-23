@@ -5,8 +5,7 @@ module Manage
     def index
       @filter = Booking::Filter.new(booking_filter_params)
       @bookings = @filter.reduce(@bookings.includes(:occupancy, :tenant, :home, :booking_transitions)
-                                          .order(updated_at: :DESC)
-                                )
+                                          .order(updated_at: :DESC))
       @bookings_by_state = @bookings.group_by(&:state).with_indifferent_access
       respond_with :manage, @bookings
     end
@@ -54,7 +53,7 @@ module Manage
     end
 
     def booking_filter_params
-      params[:filter]&.permit(:begins_at, :ends_at, booking_states: [], homes: []) || {}
+      params[:filter]&.permit(:begins_at, :ends_at, :tenant, :ref, booking_states: [], homes: []) || {}
     end
   end
 end

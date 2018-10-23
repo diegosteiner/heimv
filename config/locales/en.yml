@@ -1,5 +1,11 @@
 ---
 en:
+  activemodel:
+    attributes:
+      booking/filter:
+        begins_at: Von
+        ends_at: Bis
+        homes: Heime
   activerecord:
     attributes:
       booking:

@@ -1,5 +1,7 @@
-/ = render partial: BookingStrategy::Default.template_path('manage/bookings/index'), locals: { bookings: @bookings_by_state}
-= render partial: 'filter', locals: { filter: @filter }
+a[href='#filter' data-toggle='collapse']
+  | /
+#filter.collapse
+  = render partial: 'filter', locals: { filter: @filter }
 
 - @bookings_by_state.each do |state, bookings|
   .mb-4

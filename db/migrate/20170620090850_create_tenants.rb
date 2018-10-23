@@ -7,8 +7,9 @@ class CreateTenants < ActiveRecord::Migration[5.1]
       t.string :zipcode
       t.string :city
       t.boolean :reservations_allowed, null: true
-      t.string :phone, null: true
+      t.text :phone, null: true
       t.string :email, null: false, unique: true, index: true
+      t.text   :search_cache, null: false, index: true
 
       t.timestamps
     end

@@ -1,4 +1,3 @@
-
 class ApplicationFilter
   include ActiveModel::Model
   extend ActiveModel::Naming
@@ -14,10 +13,15 @@ class ApplicationFilter
     end
   end
 
+  def active?
+    attributes.values.any?(&:present?)
+  end
+
   def reduce(relation)
     self.class.reducers.reduce(relation) do |rel, (params, block)|
       params = attributes.with_indifferent_access.slice(*params)
       next rel unless block.respond_to?(:call) && params.values.any?(&:present?)
+
       block.call(params, rel)
     end
   end
@@ -31,5 +35,4 @@ class ApplicationFilter
   def cache_key(relation)
     ([self.class] + relation.pluck(:id) + attributes.values).join('-')
   end
-
 end

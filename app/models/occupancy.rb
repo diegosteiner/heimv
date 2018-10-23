@@ -1,6 +1,6 @@
 class Occupancy < ApplicationRecord
   belongs_to :home
-  belongs_to :subject, polymorphic: true, inverse_of: :occupancy
+  belongs_to :booking, inverse_of: :occupancy
 
   date_time_attribute :begins_at, timezone: Time.zone.name
   date_time_attribute :ends_at, timezone: Time.zone.name
@@ -22,7 +22,7 @@ class Occupancy < ApplicationRecord
       .or(ends_at(at))
   end)
 
-  validates :begins_at, :ends_at, :subject, presence: true
+  validates :begins_at, :ends_at, :booking, presence: true
   validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
   validate do
     errors.add(:ends_at, :invalid) unless begins_at && ends_at && begins_at < ends_at

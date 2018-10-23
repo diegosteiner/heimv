@@ -174,17 +174,17 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
     t.datetime "begins_at", null: false
     t.datetime "ends_at", null: false
     t.bigint "home_id", null: false
-    t.string "subject_type"
-    t.string "subject_id"
+    t.string "booking_type"
+    t.uuid "booking_id"
     t.integer "occupancy_type", default: 0, null: false
     t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
+    t.index ["booking_type", "booking_id"], name: "index_occupancies_on_booking_type_and_booking_id"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
-    t.index ["subject_type", "subject_id"], name: "index_occupancies_on_subject_type_and_subject_id"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -251,11 +251,13 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
     t.string "zipcode"
     t.string "city"
     t.boolean "reservations_allowed"
-    t.string "phone"
+    t.text "phone"
     t.string "email", null: false
+    t.text "search_cache", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_tenants_on_email"
+    t.index ["search_cache"], name: "index_tenants_on_search_cache"
   end
 
   create_table "usages", force: :cascade do |t|

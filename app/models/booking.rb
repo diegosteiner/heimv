@@ -4,7 +4,7 @@ class Booking < ApplicationRecord
 
   attr_accessor :strict_validation, :initiator # TODO: Replace with validation context
 
-  has_one :occupancy, dependent: :destroy, as: :subject, inverse_of: :subject, autosave: true
+  has_one :occupancy, dependent: :destroy, inverse_of: :booking, autosave: true
   belongs_to :home
   belongs_to :tenant, inverse_of: :bookings
   belongs_to :booking_agent, foreign_key: :booking_agent_code, primary_key: :code,
@@ -78,6 +78,6 @@ class Booking < ApplicationRecord
   def set_occupancy_attributes
     self.occupancy ||= build_occupancy
     occupancy.home ||= home
-    occupancy.subject ||= self
+    occupancy.booking ||= self
   end
 end

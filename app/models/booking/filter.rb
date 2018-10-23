@@ -2,18 +2,29 @@ class Booking
   class Filter < ApplicationFilter
     attribute :begins_at
     attribute :ends_at
+    attribute :ref
+    attribute :tenant
     attribute :homes, default: []
     attribute :booking_states, default: []
 
     filter :begins_at, :ends_at do |params, bookings|
-      occupancy_booking_ids = Occupancy.where(subject_type: :Booking)
-                                       .at(params[:begins_at]..params[:ends_at])
-                                       .pluck(:subject_id)
+      occupancy_booking_ids = Occupancy.at(params[:begins_at]..params[:ends_at])
+                                       .pluck(:booking_id)
       bookings.where(id: occupancy_booking_ids)
     end
 
+    filter :ref do |params, bookings|
+      bookings.where(Booking.arel_table[:ref].matches("%#{params[:ref]}%"))
+    end
+
     filter :homes do |params, bookings|
-      bookings.where(home_id: params[:homes])
+      homes = params[:homes].reject(&:blank?)
+      next bookings if homes.blank?
+      bookings.where(home_id: homes)
+    end
+
+    filter :tenant do |params, bookings|
+      bookings.joins(:tenant).where(Tenant.arel_table[:search_cache].matches("%#{params[:tenant]}%"))
     end
 
     filter :booking_states do |params, bookings|
