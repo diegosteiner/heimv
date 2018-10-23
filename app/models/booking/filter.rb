@@ -20,6 +20,7 @@ class Booking
     filter :homes do |params, bookings|
       homes = params[:homes].reject(&:blank?)
       next bookings if homes.blank?
+
       bookings.where(home_id: homes)
     end
 
