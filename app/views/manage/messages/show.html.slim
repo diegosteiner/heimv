@@ -1,0 +1,10 @@
+= render partial: 'manage/bookings/navigation', locals: { active: :messages }
+
+.card.breakout-sm
+  .card-body
+    = render_hash_as_dl(@message.attributes.slice(*%w(subject body)), Invoice)
+
+    = link_to edit_manage_message_path(@message), class: 'btn btn-primary' do
+      span.fa.fa-pencil
+      '
+      = t(:edit)

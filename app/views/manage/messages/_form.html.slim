@@ -1,0 +1,9 @@
+= form_with(model: [:manage, @booking, @message], local: true) do |f|
+
+  fieldset
+    = f.text_field :subject
+    = f.datetime_local_field :sent_at
+    = f.text_area :body
+
+  .form-actions.pt-4.mt-3.border-top
+    = f.submit

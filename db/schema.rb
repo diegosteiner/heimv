@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_20_174048) do
+ActiveRecord::Schema.define(version: 2018_10_23_120820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -155,6 +155,16 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.uuid "booking_id"
+    t.datetime "sent_at"
+    t.string "subject"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_messages_on_booking_id"
   end
 
   create_table "meter_reading_periods", force: :cascade do |t|
@@ -307,6 +317,7 @@ ActiveRecord::Schema.define(version: 2018_10_20_174048) do
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
+  add_foreign_key "messages", "bookings"
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "occupancies", "homes"

@@ -18,6 +18,7 @@ class Booking < ApplicationRecord
   has_many :booking_copy_tarifs, class_name: :Tarif, dependent: :destroy
   has_many :transitive_tarifs, class_name: :Tarif, through: :home, source: :tarif
   has_many :deadlines, dependent: :destroy, inverse_of: :booking
+  has_many :messages, dependent: :destroy, inverse_of: :booking
 
   validates :home, :tenant, :occupancy, :email, presence: true
   validates :email, format: Devise.email_regexp
