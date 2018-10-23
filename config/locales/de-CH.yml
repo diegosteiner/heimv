@@ -6,8 +6,8 @@ de-CH:
         begins_at: Von
         ends_at: Bis
         homes: Heime
-        tenant: Mieter
         ref: Referenz
+        tenant: Mieter
   activerecord:
     attributes:
       booking:

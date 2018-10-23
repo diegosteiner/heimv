@@ -26,7 +26,7 @@ class Booking
 
     filter :tenant do |params, bookings|
       bookings.joins(:tenant)
-        .where(Tenant.arel_table[:search_cache].matches("%#{params[:tenant]}%")
+              .where(Tenant.arel_table[:search_cache].matches("%#{params[:tenant]}%")
           .or(Booking.arel_table[:organisation].matches("%#{params[:tenant]}%")))
     end
 
