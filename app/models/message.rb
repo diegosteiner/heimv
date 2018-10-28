@@ -6,7 +6,5 @@ class Message < ApplicationRecord
     [booking.email]
   end
 
-  def deliver
-  end
-
+  def deliver; end
 end
