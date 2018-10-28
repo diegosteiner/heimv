@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe MailerTemplate, type: :model do
+RSpec.describe RichTextTemplate, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

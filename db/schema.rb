@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
   end
 
-  create_table "mailer_templates", force: :cascade do |t|
+  create_table "rich_text_templates", force: :cascade do |t|
     t.string "mailer"
     t.string "action"
     t.string "locale"

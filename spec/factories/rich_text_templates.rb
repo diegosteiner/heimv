@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :mailer_template do
+  factory :rich_text_template do
     mailer { BookingStateMailer.to_s }
     action { :test }
     locale { I18n.available_locales.sample }

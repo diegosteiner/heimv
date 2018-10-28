@@ -10,7 +10,7 @@ module Seeders
         TenantSeeder,
         BookingAgentSeeder,
         BookingSeeder,
-        MailerTemplateSeeder,
+        RichTextTemplateSeeder,
         TarifSelectorSeeder
       ].inject({}) do |seeds, seeder|
         seeds.merge(seeder.new(@options, seeds).seed)

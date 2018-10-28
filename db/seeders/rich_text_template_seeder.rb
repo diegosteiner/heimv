@@ -1,12 +1,12 @@
 require_relative './base_seeder'
 
 module Seeders
-  class MailerTemplateSeeder < BaseSeeder
+  class RichTextTemplateSeeder < BaseSeeder
     # rubocop:disable Metrics/MethodLength
     def seed
       {
-        mailer_templates: [
-          MailerTemplate.create(
+        rich_text_templates: [
+          RichTextTemplate.create(
             mailer: BookingStateMailer,
             action: :new_request,
             subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
@@ -25,7 +25,7 @@ module Seeders
 
               BODY
           ),
-          MailerTemplate.create(
+          RichTextTemplate.create(
             mailer: BookingStateMailer,
             action: :confirmed_new_request,
             subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
@@ -47,7 +47,7 @@ module Seeders
 
               BODY
           ),
-          MailerTemplate.create(
+          RichTextTemplate.create(
             mailer: BookingStateMailer,
             action: :provisional_request,
             subject: 'Pfadi-heime.ch: Provisorische Reservation bestätigt',
@@ -70,7 +70,7 @@ module Seeders
               Verein Pfadiheime St. Georg
               BODY
           ),
-          MailerTemplate.create(
+          RichTextTemplate.create(
             mailer: BookingMailer,
             action: :new_booking,
             subject: 'Pfadi-heime.ch: Neue Mietanfrage',

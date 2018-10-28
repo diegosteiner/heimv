@@ -13,7 +13,7 @@ class ApplicationMailer < ActionMailer::Base
   layout 'mailer'
 
   def mail_from_template(action, interpolation_params, options = {})
-    template = MailerTemplate.where(mailer: self.class.to_s, action: action).take
+    template = RichTextTemplate.where(mailer: self.class.to_s, action: action).take
     return unless template
 
     mail(options.merge(subject: template.subject)) do |format|
