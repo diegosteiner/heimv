@@ -1,7 +1,7 @@
 FactoryBot.define do
-  factory :rich_text_template do
-    mailer { BookingStateMailer.to_s }
-    action { :test }
+  factory :markdown_template do
+    ref { [BookingStateMailer.to_s, :test].join('/') }
+    title { 'Test' }
     locale { I18n.available_locales.sample }
     subject { 'Test Template' }
     body { Faker::Lorem.paragraph }

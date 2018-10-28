@@ -1,15 +1,14 @@
 require_relative './base_seeder'
 
 module Seeders
-  class RichTextTemplateSeeder < BaseSeeder
+  class MarkdownTemplateSeeder < BaseSeeder
     # rubocop:disable Metrics/MethodLength
     def seed
       {
-        rich_text_templates: [
-          RichTextTemplate.create(
-            mailer: BookingStateMailer,
-            action: :new_request,
-            subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
+        markdown_templates: [
+          MarkdownTemplate.create(
+            key: MarkdownTemplate.key(BookingStateMailer, :new_request),
+            title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
             body: <<~BODY
               ### Hallo
 
@@ -25,10 +24,9 @@ module Seeders
 
               BODY
           ),
-          RichTextTemplate.create(
-            mailer: BookingStateMailer,
-            action: :confirmed_new_request,
-            subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
+          MarkdownTemplate.create(
+            key: MarkdownTemplate.key(BookingStateMailer, :confirmed_new_request),
+            title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
             body: <<~BODY
               Hallo
 
@@ -47,10 +45,9 @@ module Seeders
 
               BODY
           ),
-          RichTextTemplate.create(
-            mailer: BookingStateMailer,
-            action: :provisional_request,
-            subject: 'Pfadi-heime.ch: Provisorische Reservation bestätigt',
+          MarkdownTemplate.create(
+            key: MarkdownTemplate.key(BookingStateMailer, :provisional_request),
+            title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt',
             body: <<~BODY
               Hallo
 
@@ -70,10 +67,9 @@ module Seeders
               Verein Pfadiheime St. Georg
               BODY
           ),
-          RichTextTemplate.create(
-            mailer: BookingMailer,
-            action: :new_booking,
-            subject: 'Pfadi-heime.ch: Neue Mietanfrage',
+          MarkdownTemplate.create(
+            key: MarkdownTemplate.key(BookingMailer, :new_booking),
+            title: 'Pfadi-heime.ch: Neue Mietanfrage',
             body: <<~BODY
               Hallo
 

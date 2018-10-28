@@ -69,10 +69,8 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
     t.string "organisation"
     t.string "email"
     t.integer "tenant_id"
-    t.json "strategy_data"
     t.boolean "committed_request"
     t.text "cancellation_reason"
-    t.datetime "request_deadline"
     t.integer "approximate_headcount"
     t.text "remarks"
     t.text "invoice_address"
@@ -82,6 +80,7 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"
     t.index ["home_id"], name: "index_bookings_on_home_id"
+    t.index ["ref"], name: "index_bookings_on_ref"
     t.index ["state"], name: "index_bookings_on_state"
   end
 
@@ -147,14 +146,14 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
   end
 
-  create_table "rich_text_templates", force: :cascade do |t|
-    t.string "mailer"
-    t.string "action"
+  create_table "markdown_templates", force: :cascade do |t|
+    t.string "key"
+    t.string "title"
     t.string "locale"
-    t.string "subject"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_markdown_templates_on_key"
   end
 
   create_table "messages", force: :cascade do |t|
