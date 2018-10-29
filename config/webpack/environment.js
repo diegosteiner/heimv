@@ -6,8 +6,8 @@ const vue = require('./loaders/vue')
 const webpack = require('webpack')
 
 environment.plugins.prepend('Provide', new webpack.ProvidePlugin({
-  $: 'jquery',
-  jQuery: 'jquery',
+  // $: 'jquery',
+  // jQuery: 'jquery',
   // 'window.Tether': "tether",
   // Popper: ['popper.js', 'default'], // for Bootstrap 4
 }))
@@ -21,7 +21,17 @@ environment.loaders.insert('font-awesome', {
   loader: "file-loader"
 })
 
-// environment.plugins.append('VueLoaderPlugin', new VueLoaderPlugin())
+const envConfig = environment.loaders.append('vue', vue)
+module.exports = environment
+const aliasConfig = environment.loaders.append('vue', vue)
+module.exports = {
+  resolve: {
+    alias: {
+      jquery: 'jquery/src/jquery'
+    }
+  }
+}
+
 environment.loaders.append('vue', vue)
 module.exports = environment
 

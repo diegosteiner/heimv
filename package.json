@@ -31,5 +31,11 @@
     },
     "devDependencies": {
         "webpack-dev-server": "^2.11.1"
-    }
+    },
+    "name": "heimverwaltung",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:diegosteiner/heimverwaltung.git",
+    "author": "Diego Steiner <diego.steiner@u041.ch>",
+    "license": "MIT"
 }
