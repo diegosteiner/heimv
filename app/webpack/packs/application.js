@@ -3,12 +3,12 @@ import 'font-awesome-webpack'
 import 'images/logo.svg'
 import 'images/logo_hvs.png'
 
-import 'jquery-ujs'
+import Rails from 'rails-ujs'
 import Turbolinks from 'turbolinks'
 import 'bootstrap/dist/js/bootstrap.bundle'
-import flatpickr from 'flatpickr/dist/flatpickr'
-import 'flatpickr/dist/l10n/de'
-import 'select2/dist/js/select2'
+// import flatpickr from 'flatpickr/dist/flatpickr'
+// import 'flatpickr/dist/l10n/de'
+// import 'select2/dist/js/select2'
 import 'src/bookings'
 import Forms from 'src/forms'
 
@@ -54,7 +54,8 @@ let load = (function () {
     //     }
     // });
 
-    Forms.initialize();
+    Rails.start();
+    Forms.start();
 });
 
-$(document).on('turbolinks:load', load)
+document.addEventListener('turbolinks:load', load)

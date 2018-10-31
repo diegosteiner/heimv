@@ -6,8 +6,9 @@ module Seeders
     def seed
       {
         markdown_templates: [
-          MarkdownTemplate.create(
-            key: MarkdownTemplate.key(BookingStateMailer, :new_request),
+          MarkdownTemplate.create!(
+            key: MarkdownTemplate.composite_key(BookingStateMailer, :new_request),
+            locale: :de,
             title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
             body: <<~BODY
               ### Hallo
@@ -25,7 +26,8 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(BookingStateMailer, :confirmed_new_request),
+            key: MarkdownTemplate.composite_key(BookingStateMailer, :confirmed_new_request),
+            locale: :de,
             title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
             body: <<~BODY
               Hallo
@@ -46,7 +48,8 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(BookingStateMailer, :provisional_request),
+            key: MarkdownTemplate.composite_key(BookingStateMailer, :provisional_request),
+            locale: :de,
             title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt',
             body: <<~BODY
               Hallo
@@ -68,7 +71,8 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(BookingMailer, :new_booking),
+            key: MarkdownTemplate.composite_key(BookingMailer, :new_booking),
+            locale: :de,
             title: 'Pfadi-heime.ch: Neue Mietanfrage',
             body: <<~BODY
               Hallo

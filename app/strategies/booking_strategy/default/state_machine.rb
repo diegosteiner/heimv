@@ -46,7 +46,9 @@ module BookingStrategy
           BookingMailer.booking_agent_request(BookingMailerViewModel.new(booking, booking.booking_agent.email))
                        .deliver_now
         else
-          BookingStateMailer.state_changed(booking, :new_request).deliver_now
+          message = booking.messages.new_from_template(:new_request)
+          message&.mail&.deliver_now
+          # BookingStateMailer.state_changed(booking, :new_request).deliver_now
         end
       end
 

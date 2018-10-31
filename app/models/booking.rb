@@ -40,6 +40,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :tenant, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :deadlines, reject_if: :all_blank, update_only: true
 
   def ref
     @ref ||= RefService.new.call(self)

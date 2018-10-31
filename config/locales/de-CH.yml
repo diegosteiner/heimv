@@ -59,6 +59,10 @@ de-CH:
         label: Text
         label_2: Text
         type: Positionsart
+      message:
+        sent_at: Zuletzt gesendet am
+        subject: Betreff
+        body: Inhalt
       meter_reading_period:
         begins_at: Beginn
         end_value: Schlusswert
@@ -156,6 +160,9 @@ de-CH:
       invoice_part:
         one: Position
         other: Positionen
+      message:
+        one: Nachricht
+        other: Nachrichten
       meter_reading_period:
         one: Zählerstand
         other: Zählerstände

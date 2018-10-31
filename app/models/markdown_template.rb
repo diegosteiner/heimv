@@ -1,13 +1,12 @@
 class MarkdownTemplate < ApplicationRecord
   validates :key, :locale, presence: true
   validates :key, uniqueness: true
-  delegate :html_body, :text_body, to: :markdown_service
 
-  def markdown_service
-    @markdown_service ||= MarkdownService.new(body)
+  def interpolate(interpolation_source)
+    @interpolate ||= MarkdownService::Markdown.new(I18n.interpolate(body, InterpolationService.call(interpolation_source)))
   end
 
-  def self.key(klass, key)
-    [klass.to_s, key].join('/')
+  def self.composite_key(*partial_keys)
+    partial_keys.join('/')
   end
 end

@@ -4,6 +4,14 @@ class BookingMailer < ApplicationMailer
                        to: 'info@heimverwaltung.dev')
   end
 
+  def booking_message(message)
+    mail to: message.to, subject: message.subject do |format|
+      md = message.to_markdown
+      format.text { md.to_text }
+      format.html { md.to_html }
+    end
+  end
+
   # def confirm_request(booking_mailer_view_model)
   #   body = I18n.t(:'booking_mailer.confirm_request.body',
   #                 link: edit_public_booking_url(booking_mailer_view_model.booking))
@@ -30,29 +38,4 @@ class BookingMailer < ApplicationMailer
       # format.html { Kramdown::Document.new(body).to_html }
     end
   end
-
-  protected
-
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
-  def interpolation_params(booking)
-    {
-      edit_manage_booking_url: edit_manage_booking_url(booking.to_param),
-      booking_details: begin
-          <<~DETAILS
-
-            - **Lagerhaus**: #{booking.home}
-            - **Reservation**: #{I18n.l(booking.occupancy.begins_at)} bis  #{I18n.l(booking.occupancy.ends_at)}
-            - **Organisation**: #{booking.organisation}
-            - **Kontaktperson**:
-              #{(booking.tenant.address_lines + [booking.tenant.phone, booking.tenant.email]).join("\n")}
-            - Bemerkungen: #{booking.remarks}
-          DETAILS
-        rescue StandardError
-          ''
-        end
-    }
-  end
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
 end
