@@ -46,8 +46,10 @@ module BookingStrategy
           BookingMailer.booking_agent_request(BookingMailerViewModel.new(booking, booking.booking_agent.email))
                        .deliver_now
         else
-          message = booking.messages.new_from_template(:new_request)
-          message&.mail&.deliver_now
+          booking.messages.new_from_template(:new_request, Interpolator.new(booking), booking: booking)
+                          .save_and_deliver_now
+          # message = booking.messages.new_from_template(:new_request, booking: booking)
+          # message&.message_delivery&.deliver_now
           # BookingStateMailer.state_changed(booking, :new_request).deliver_now
         end
       end
@@ -63,6 +65,8 @@ module BookingStrategy
       end
 
       after_transition(to: %i[provisional_request definitive_request]) do |booking|
+        booking.messages.new_from_template(booking.current_state, Interpolator.new(booking), booking: booking)
+                        .save_and_deliver_now
         booking.occupancy.tentative!
       end
 

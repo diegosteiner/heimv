@@ -7,8 +7,9 @@ module Seeders
       {
         markdown_templates: [
           MarkdownTemplate.create!(
-            key: MarkdownTemplate.composite_key(BookingStateMailer, :new_request),
-            locale: :de,
+            key: MarkdownTemplate.key(:new_request),
+            interpolatable_type: Message,
+            locale: :'de-CH',
             title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
             body: <<~BODY
               ### Hallo
@@ -17,7 +18,7 @@ module Seeders
               untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
               Mietanfrage abzuschliessen.
 
-              [%{edit_public_booking_url}](%{edit_public_booking_url})
+              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
 
               Freundliche Grüsse
 
@@ -26,8 +27,9 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.composite_key(BookingStateMailer, :confirmed_new_request),
-            locale: :de,
+            key: MarkdownTemplate.key(:confirmed_new_request),
+						interpolatable_type: Message,
+            locale: :'de-CH',
             title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
             body: <<~BODY
               Hallo
@@ -35,11 +37,11 @@ module Seeders
               Hiermit bestätigen wir Deine Mietanfrage auf pfadi-heime.ch.
 
               Reservationsdetails:
-              %{booking_details}
+              {{booking_details}}
 
               Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
 
-              [%{edit_public_booking_url}](%{edit_public_booking_url})
+              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
 
               Freundliche Grüsse
 
@@ -48,8 +50,9 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.composite_key(BookingStateMailer, :provisional_request),
-            locale: :de,
+            key: MarkdownTemplate.key(:provisional_request),
+						interpolatable_type: Message,
+            locale: :'de-CH',
             title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt',
             body: <<~BODY
               Hallo
@@ -58,10 +61,10 @@ module Seeders
               Diese gilt für 14 Tage, danach verfällt sie und das Lagerhaus wird wieder freigegeben.
               Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.
 
-              [%{edit_public_booking_url}](%{edit_public_booking_url})
+              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
 
               Reservationsdetails:
-              %{booking_details}
+              {{booking_details}}
 
               Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
               wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
@@ -71,23 +74,22 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.composite_key(BookingMailer, :new_booking),
-            locale: :de,
+            key: MarkdownTemplate.key(:new_booking),
+						interpolatable_type: Message,
+            locale: :'de-CH',
             title: 'Pfadi-heime.ch: Neue Mietanfrage',
             body: <<~BODY
               Hallo
 
               Es ist eine neue Mietanfrage eingegangen
 
-              [%{edit_manage_booking_url}](%{edit_manage_booking_url})
+              [{{edit_manage_booking_url}}]({{edit_manage_booking_url}})
 
               Reservationsdetails:
-              %{booking_details}
+              {{booking_details}}
 
               Freundliche Grüsse
-
               Verein Pfadiheime St. Georg
-
               BODY
           )
         ]

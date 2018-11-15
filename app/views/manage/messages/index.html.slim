@@ -15,9 +15,12 @@
       - @messages.each do |message|
         tr[data-href=manage_message_path(message)]
           td
-            = link_to message.subject, manage_message_path(message)
+            - if message.sent_at
+              = l(message.sent_at, format: :short)
+            - else
+              = '-'
           td
-            = l(message.sent_at, format: :short)
+            = link_to message.subject, manage_message_path(message)
           td.py-1.text-right
             .btn-group
               = link_to edit_manage_message_path(message), class: 'btn btn-default' do

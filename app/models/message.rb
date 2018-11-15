@@ -1,4 +1,6 @@
 class Message < ApplicationRecord
+  attr_accessor :markdown
+
   belongs_to :booking, inverse_of: :messages
   has_one :tenant, through: :booking
 
@@ -6,22 +8,31 @@ class Message < ApplicationRecord
     [booking.email]
   end
 
-  def to_markdown
-    MardownService::Markdown.new(body)
+  def markdown
+    @markdown ||= Markdown.new(body)
   end
 
-  def mail
-    BookingStateMailer.booking_message(self)
-    # sent_at: Time.zone.now)
+  def markdown=(value)
+    self.body = value.body
+    @markdown = value
   end
 
-  def self.new_from_template(*keys)
-    template = MarkdownTemplate.find_by(key: MarkdownTemplate.composite_key(*keys), locale: I18n.locale)
-    return unless template
+  def save_and_deliver_now
+    save && message_delivery.deliver_now && update(sent_at: Time.zone.now)
+  end
 
-    new do |message|
-      message.subject = template.title
-      message.body = template.interpolate(booking)
+  def message_delivery
+    BookingMailer.booking_message(self)
+  end
+
+  def self.new_from_template(key, interpolator = nil, attributes = {})
+    template = MarkdownTemplate.find_by(interpolatable_type: Message.to_s, key: key, locale: I18n.locale)
+
+    new(attributes) do |message|
+      if template
+        message.subject = template.title
+        message.markdown = interpolator&.interpolate(template.to_markdown)
+      end
     end
   end
 end

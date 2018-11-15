@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
 
   create_table "markdown_templates", force: :cascade do |t|
     t.string "key"
+    t.string "interpolatable_type"
     t.string "title"
     t.string "locale"
     t.text "body"

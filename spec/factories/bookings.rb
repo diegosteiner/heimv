@@ -3,7 +3,7 @@ FactoryBot.define do
     home
     association :tenant, factory: :tenant
     organisation { Faker::Company.name }
-    email { Faker::Internet.safe_email }
+    sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
     skip_automatic_transition { initial_state_present? }
     committed_request { true }
     approximate_headcount { rand(30) }
