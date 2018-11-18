@@ -2,7 +2,7 @@ class Interpolator
   REGEX = /\{\{\s*([\w+_]+)(?>\s*\|\s*([\w\-\+]+))?\s*\}\}/ix.freeze
   FORMATTERS = {
     datetime: ->(value) { I18n.l(value, format: :short) }
-  }.with_indifferent_access.freeze
+  }.freeze
   CLASS_MAPPING = {
     Booking => BookingSerializer,
     Message => MessageSerializer,
@@ -36,7 +36,7 @@ class Interpolator
       placeholder = formatters.shift
       value = to_h.fetch(placeholder, '')
       formatters.inject(value) do |memo, formatter|
-        formatter = @formatters[formatter]
+        formatter = @formatters[formatter.to_sym]
         (formatter.respond_to?(:call) && formatter.call(memo)) || memo
       end
     end

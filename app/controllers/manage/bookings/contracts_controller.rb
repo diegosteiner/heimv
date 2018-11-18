@@ -21,7 +21,7 @@ module Manage
       end
 
       def new
-        @contract.text = MarkdownTemplate.find_by(key: :new, interpolatable_key: :Contract)&.body
+        @contract.text = MarkdownTemplate.find_by(key: :new, interpolatable_type: :Contract)&.body
         respond_with :manage, @booking, @contract
       end
 

@@ -17,8 +17,8 @@ module Pdf
         Base::LogoSection.new, Base::DocumentCodeSection.new('code'), Base::SenderAddressSection.new,
         Base::RecipientAddressSection.new(@booking), Base::TitleSection.new("Rechnung: #{@booking.home.name}"),
         ->(pdf) { pdf.text @booking.ref },
-        Base::MarkdownSection.new(Markdown.new(@invoice.text)), InvoicePartSection.new(@invoice),
-        PaymentSlipSection.new(PaymentSlip.new(@invoice))
+        Base::MarkdownSection.new(Interpolator.new(@invoice).interpolate(Markdown.new(@invoice.text))),
+        InvoicePartSection.new(@invoice), PaymentSlipSection.new(PaymentSlip.new(@invoice))
       ]
     end
   end

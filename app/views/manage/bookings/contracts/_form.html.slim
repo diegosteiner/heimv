@@ -1,7 +1,7 @@
 = form_with(model: [:manage, @booking, @contract], local: true) do |f|
   = f.error_summary
 
-  fieldset
+  fieldset[v-pre]
     = f.datetime_local_field :sent_at
     = f.datetime_local_field :signed_at
     = f.datetime_local_field :valid_from

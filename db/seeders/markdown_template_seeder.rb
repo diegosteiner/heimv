@@ -80,7 +80,7 @@ module Seeders
             title: 'Vertrag',
             body: <<~BODY
                 # Allgemein
-                Der Vermieter überlässt dem Mieter das Pfadiheim "{{ home_name }}"" für den nachfolgend aufgeführten Anlass zur alleinigen Benutzung
+                Der Vermieter überlässt dem Mieter das Pfadiheim "{{ booking_home_name }}"" für den nachfolgend aufgeführten Anlass zur alleinigen Benutzung
 
                 # Mietdauer
                 **Mietbeginn**: {{ booking_occupancy_begins_at | datetime }}
@@ -92,13 +92,13 @@ module Seeders
 
                 Der genaue Zeitpunkt der Hausübernahme ist mit dem Heimwart spätestens 5 Tage vor Mietbeginn telefonisch zu vereinbaren:
 
-                //{{ home_janitor }}//
+                *{{ booking_home_janitor }}*
 
                 # Übernahme und Rückgabe
                 Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten. Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
 
                 # Zweck der Miete
-                {{ booking_purpose }}
+                *{{ booking_purpose }}*
 
                 # Tarife
                 Die Mindestbelegung beträgt durchschnittlich 12 Personen pro Nacht.

@@ -13,7 +13,7 @@ module Pdf
         Base::SenderAddressSection.new,
         Base::RecipientAddressSection.new(@booking),
         Base::TitleSection.new("Mietvertrag: #{@booking.home.name}"),
-        Base::MarkdownSection.new(@contract.text, InterpolationService.call(@contract)),
+        Base::MarkdownSection.new(Interpolator.new(@contract).interpolate(Markdown.new(@contract.text))),
         TarifSection.new(@booking.used_tarifs)
       ]
     end

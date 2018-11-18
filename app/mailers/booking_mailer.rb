@@ -6,10 +6,7 @@ class BookingMailer < ApplicationMailer
   end
 
   def booking_message(message)
-    mail to: message.to, subject: message.subject do |format|
-      format.text { message.markdown.to_text }
-      format.html { message.markdown.to_html }
-    end
+    markdown_mail(message.to, message.subject , message.markdown)
   end
 
   def booking_agent_request(booking_mailer_view_model)
