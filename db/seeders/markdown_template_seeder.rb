@@ -12,7 +12,7 @@ module Seeders
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
             body: <<~BODY
-              ### Hallo
+              Hallo
 
               Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
               untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
@@ -74,22 +74,37 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:new_booking),
-						interpolatable_type: Message,
+            key: MarkdownTemplate.key(:new),
+						interpolatable_type: Contract,
             locale: :'de-CH',
-            title: 'Pfadi-heime.ch: Neue Mietanfrage',
+            title: 'Vertrag',
             body: <<~BODY
-              Hallo
+                # Allgemein
+                Der Vermieter überlässt dem Mieter das Pfadiheim "{{ home_name }}"" für den nachfolgend aufgeführten Anlass zur alleinigen Benutzung
 
-              Es ist eine neue Mietanfrage eingegangen
+                # Mietdauer
+                **Mietbeginn**: {{ booking_occupancy_begins_at | datetime }}
+                **Mietende**:   {{ booking_occupancy_ends_at | datetime }}
 
-              [{{edit_manage_booking_url}}]({{edit_manage_booking_url}})
+                Die Hausübergabe bzw. –rücknahme erfolgt durch den Heimwart. Der Mieter hat das Haus persönlich zum vereinbarten Zeitpunkt zu übernehmen resp. zu übergeben. Hierfür sind jeweils ca. 30 Minuten einzuplanen. Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten.
 
-              Reservationsdetails:
-              {{booking_details}}
+                Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
 
-              Freundliche Grüsse
-              Verein Pfadiheime St. Georg
+                Der genaue Zeitpunkt der Hausübernahme ist mit dem Heimwart spätestens 5 Tage vor Mietbeginn telefonisch zu vereinbaren:
+
+                //{{ home_janitor }}//
+
+                # Übernahme und Rückgabe
+                Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten. Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
+
+                # Zweck der Miete
+                {{ booking_purpose }}
+
+                # Tarife
+                Die Mindestbelegung beträgt durchschnittlich 12 Personen pro Nacht.
+
+                # Anzahlung
+                Die Anzahlung wird bei Abschluss des Vertrages fällig
               BODY
           )
         ]

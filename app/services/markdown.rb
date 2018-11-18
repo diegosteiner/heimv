@@ -4,11 +4,11 @@ class Markdown
 
   def initialize(body)
     @body = body
-    @engine = Kramdown::Document.new(body || "")
+    @engine = Kramdown::Document.new(body || '')
   end
 
-  def ==(other_markdown)
-    body == other_markdown.body
+  def ==(other)
+    body == other.body
   end
 
   def to_html
@@ -19,7 +19,6 @@ class Markdown
     ActionView::Base.full_sanitizer.sanitize(to_html)
   end
 
-  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/MethodLength
@@ -48,7 +47,7 @@ class Markdown
       end
     end.compact
   end
-  # rubocop:enable Metrics/AbcSize
+
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/MethodLength

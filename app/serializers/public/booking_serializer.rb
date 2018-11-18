@@ -1,6 +1,6 @@
 module Public
   class BookingSerializer < ApplicationSerializer
-    DEFAULT_INCLUDES = 'occupancy,tenant,home'
+    DEFAULT_INCLUDES = 'occupancy,tenant,home'.freeze
 
     has_one :occupancy
     has_one :tenant

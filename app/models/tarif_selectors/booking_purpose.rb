@@ -1,6 +1,6 @@
 module TarifSelectors
   class BookingPurpose < TarifSelector
-    DISTINCTION_REGEX = /\A(camp|event)\z/
+    DISTINCTION_REGEX = /\A(camp|event)\z/.freeze
 
     def apply?(usage, distinction)
       distinction_match = DISTINCTION_REGEX.match(distinction)

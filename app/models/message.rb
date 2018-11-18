@@ -1,6 +1,4 @@
 class Message < ApplicationRecord
-  attr_accessor :markdown
-
   belongs_to :booking, inverse_of: :messages
   has_one :tenant, through: :booking
 
@@ -25,14 +23,13 @@ class Message < ApplicationRecord
     BookingMailer.booking_message(self)
   end
 
-  def self.new_from_template(key, interpolator = nil, attributes = {})
+  def self.new_from_template(key, attributes = {})
     template = MarkdownTemplate.find_by(interpolatable_type: Message.to_s, key: key, locale: I18n.locale)
+    return nil unless template
 
     new(attributes) do |message|
-      if template
-        message.subject = template.title
-        message.markdown = interpolator&.interpolate(template.to_markdown)
-      end
+      message.subject = template.title
+      message.markdown = Interpolator.new(message).interpolate(template.to_markdown)
     end
   end
 end

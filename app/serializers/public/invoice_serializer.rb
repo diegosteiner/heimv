@@ -1,6 +1,6 @@
 module Public
   class InvoiceSerializer < ApplicationSerializer
-    DEFAULT_INCLUDES = 'booking.occupancy,booking.tenant,booking.home'
+    DEFAULT_INCLUDES = 'booking.occupancy,booking.tenant,booking.home'.freeze
 
     belongs_to :booking
 

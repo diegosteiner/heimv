@@ -12,8 +12,15 @@ class ApplicationMailer < ActionMailer::Base
   default from: Rails.application.secrets.mail_from
   layout 'mailer'
 
-  def mail_from_template(action, interpolation_params, options = {})
-    template = MarkdownTemplate.find_by(key: MarkdownTemplate.key(self.class, action))
+  def markdown_mail(to, subject, markdown)
+    mail(to: to, subject: subject) do |format|
+      format.text { markdown.to_text }
+      format.html { markdown.to_html }
+    end
+  end
+
+  def mail_from_template(key, _interpolator, options = {})
+    template = MarkdownTemplate.find_by(interpolatable_type: self.class.to_s, key: key, locale: I18n.locale)
     return unless template
 
     mail(options.merge(subject: template.title)) do |format|

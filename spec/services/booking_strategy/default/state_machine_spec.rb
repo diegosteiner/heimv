@@ -18,7 +18,7 @@ describe BookingStrategy::Default::StateMachine do
       it { is_expected.to transition_to(:provisional_request) }
 
       it 'sends email-confirmation' do
-        expect(BookingStateMailer).to receive_message_chain(:state_changed, :deliver_now)
+        expect(Message).to receive_message_chain(:new_from_template)
         is_expected.to transition_to(:new_request)
       end
     end

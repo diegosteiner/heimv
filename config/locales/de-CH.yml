@@ -60,9 +60,9 @@ de-CH:
         label_2: Text
         type: Positionsart
       message:
+        body: Inhalt
         sent_at: Zuletzt gesendet am
         subject: Betreff
-        body: Inhalt
       meter_reading_period:
         begins_at: Beginn
         end_value: Schlusswert
@@ -240,6 +240,19 @@ de-CH:
 
         %{link}
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
+    new_booking:
+      body: |-
+        Hallo
+
+        Es ist eine neue Mietanfrage eingegangen
+
+        [{{edit_manage_booking_url}}]({{edit_manage_booking_url}})
+
+        Reservationsdetails:
+
+        Freundliche Grüsse
+        Verein Pfadiheime St. Georg
+      subject: 'Pfadi-heime.ch: Neue Mietanfrage'
   booking_strategy:
     default:
       state:

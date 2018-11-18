@@ -1,16 +1,16 @@
 class Interpolator
-  REGEX = /\{\{\s*([\w+_]+)(?>\s*\|\s*([\w\-\+]+))?\s*\}\}/ix
+  REGEX = /\{\{\s*([\w+_]+)(?>\s*\|\s*([\w\-\+]+))?\s*\}\}/ix.freeze
   FORMATTERS = {
-    datetime: -> (value) { I18n.l(value, format: :short) }
+    datetime: ->(value) { I18n.l(value, format: :short) }
   }.with_indifferent_access.freeze
   CLASS_MAPPING = {
     Booking => BookingSerializer,
-    # Message => MessageInterpolator,
+    Message => MessageSerializer,
     Invoice => InvoiceSerializer,
     Contract => ContractSerializer
   }.freeze
 
-  attr_reader :subject
+  attr_reader :subject, :serializer
 
   def initialize(subject, formatters = {})
     @subject = subject
@@ -26,11 +26,15 @@ class Interpolator
     end
   end
 
+  def to_h
+    @serializer&.serializable_hash || {}
+  end
+
   def interpolate_string(original_string)
     original_string.dup.gsub(REGEX) do |match|
       formatters = match.delete('{ }').split('|')
       placeholder = formatters.shift
-      value = (@serializer&.serializable_hash || {}).fetch(placeholder, '')
+      value = to_h.fetch(placeholder, '')
       formatters.inject(value) do |memo, formatter|
         formatter = @formatters[formatter]
         (formatter.respond_to?(:call) && formatter.call(memo)) || memo
