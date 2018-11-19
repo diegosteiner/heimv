@@ -31,7 +31,10 @@ class Booking
     end
 
     filter :booking_states do |params, bookings|
-      bookings.where(booking_state: params[:booking_states])
+      states = params[:booking_states].reject(&:blank?)
+      next bookings if states.blank?
+
+      bookings.where(state: states)
     end
   end
 end

@@ -2,6 +2,7 @@ class Invoice < ApplicationRecord
   belongs_to :booking, inverse_of: :invoices, touch: true
   has_many :invoice_parts, -> { order(position: :ASC) }, inverse_of: :invoice
   has_many :payments, dependent: :nullify
+  has_one_attached :pdf
 
   enum invoice_type: %i[invoice deposit late_notice]
 
@@ -9,6 +10,15 @@ class Invoice < ApplicationRecord
   scope :paid, -> { where(paid: true) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
+  after_save :generatate_pdf
+
+  def generatate_pdf
+    pdf.attach(
+      io: StringIO.new(Pdf::Invoice.new(self).build.render),
+      filename: filename,
+      content_type: 'application/pdf'
+    )
+  end
 
   def ref
     @ref ||= RefService.new.call(self) unless new_record?
@@ -19,7 +29,7 @@ class Invoice < ApplicationRecord
   end
 
   def filename
-    "#{self.class.model_name.human}_#{booking.ref}_#{id}"
+    "#{self.class.model_name.human}_#{booking.ref}_#{id}.pdf"
   end
 
   def payment_slip_code

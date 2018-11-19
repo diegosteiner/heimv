@@ -29,8 +29,7 @@ module Manage
         respond_to do |format|
           format.html
           format.pdf do
-            pdf = Pdf::Contract.new(@contract).build
-            send_data(pdf.render, filename: @contract.filename, content_type: 'application/pdf')
+            reditect_to url_for(@contract.pdf)
           end
         end
       end

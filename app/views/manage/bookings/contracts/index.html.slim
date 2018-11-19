@@ -23,9 +23,10 @@
         - @contracts.each do |contract|
           tr[data-href=manage_booking_contract_path(@booking, contract) class=('text-secondary bg-light' if contract.ousted?)]
             td
-              = link_to manage_booking_contract_path(@booking, contract, format: :pdf) do
-                span.fa.fa-print<>
-                span= contract.filename
+              - if contract.pdf.attached?
+                = link_to url_for(contract.pdf) do
+                  span.fa.fa-print<>
+                  span= contract.filename
 
             - if contract.sent? || contract.ousted?
               td

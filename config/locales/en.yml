@@ -241,7 +241,17 @@ en:
         %{link}
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
     new_booking:
-      body: Body
+      body: |-
+        Hallo
+
+        Es ist eine neue Mietanfrage eingegangen
+
+        [%{edit_manage_booking_url}](%{edit_manage_booking_url})
+
+        Reservationsdetails:
+
+        Freundliche Grüsse
+        Verein Pfadiheime St. Georg
       subject: Subject
   booking_strategy:
     default:

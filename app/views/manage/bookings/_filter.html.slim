@@ -7,6 +7,8 @@
       = f.text_field :ref
       = f.text_field :tenant
     .col-3
-      = f.collection_select :homes, Home.all, :id, :name, { include_blank: true }, multiple: true
+      = f.collection_select:homes, Home.all, :id, :name, { include_blank: true }, multiple: true
+      - states = BookingStrategy::Default::StateMachine.states.map { |s| [s.to_s, s] }
+      = f.select :booking_states, states, { include_blank: true }, multiple: true
     .col-3.pt-4
       = f.submit

@@ -8,9 +8,4 @@
 
 # Offense count: 1
 Metrics/AbcSize:
-  Max: 17
-
-# Offense count: 1
-Security/Open:
-  Exclude:
-    - 'app/helpers/pdf_helper.rb'
+  Max: 18

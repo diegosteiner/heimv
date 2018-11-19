@@ -246,7 +246,7 @@ de-CH:
 
         Es ist eine neue Mietanfrage eingegangen
 
-        [{{edit_manage_booking_url}}]({{edit_manage_booking_url}})
+        [%{edit_manage_booking_url}](%{edit_manage_booking_url})
 
         Reservationsdetails:
 

@@ -1,6 +1,7 @@
 class Message < ApplicationRecord
   belongs_to :booking, inverse_of: :messages
   has_one :tenant, through: :booking
+  belongs_to :markdown_template, optional: true
 
   def to
     [booking.email]

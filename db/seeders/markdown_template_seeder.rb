@@ -50,7 +50,24 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:provisional_request),
+            key: MarkdownTemplate.key(:confirmed),
+						interpolatable_type: Message,
+            locale: :'de-CH',
+            title: 'Pfadi-heime.ch: Reservation bestätigt',
+            body: <<~BODY
+              Hallo
+
+              ???
+
+              Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+              wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
+
+              Freundliche Grüsse
+              Verein Pfadiheime St. Georg
+              BODY
+          ),
+          MarkdownTemplate.create(
+            key: MarkdownTemplate.key(:confirmed),
 						interpolatable_type: Message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt',
@@ -73,6 +90,30 @@ module Seeders
               Verein Pfadiheime St. Georg
               BODY
           ),
+          # MarkdownTemplate.create(
+          #   key: MarkdownTemplate.key(:definitive_request),
+					# 	interpolatable_type: Message,
+          #   locale: :'de-CH',
+          #   title: 'Pfadi-heime.ch: Definitive Reservation bestätigt',
+          #   body: <<~BODY
+          #     Hallo
+
+          #     Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir haben Deine Angaben geprüft und nun eine provisorische Reservation erstellt.
+          #     Diese gilt für 14 Tage, danach verfällt sie und das Lagerhaus wird wieder freigegeben.
+          #     Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.
+
+          #     [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+
+          #     Reservationsdetails:
+          #     {{booking_details}}
+
+          #     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+          #     wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
+
+          #     Freundliche Grüsse
+          #     Verein Pfadiheime St. Georg
+          #     BODY
+          # ),
           MarkdownTemplate.create(
             key: MarkdownTemplate.key(:new),
 						interpolatable_type: Contract,

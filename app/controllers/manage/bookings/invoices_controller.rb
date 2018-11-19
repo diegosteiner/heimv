@@ -28,8 +28,7 @@ module Manage
         respond_to do |format|
           format.html
           format.pdf do
-            pdf = Pdf::Invoice.new(@invoice).build
-            send_data(pdf.render, filename: @invoice.filename, content_type: 'application/pdf')
+            redirect_to url_for(@invoice.pdf)
           end
         end
       end

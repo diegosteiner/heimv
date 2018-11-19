@@ -57,11 +57,11 @@ module BookingStrategy
 
       after_transition(to: %i[confirmed_new_request]) do |booking|
         BookingMailer.new_booking(booking).deliver_now
-        booking.messages.new_from_template(booking.current_state, booking: booking)&.save_and_deliver_now
+        booking.messages.new_from_template(booking.current_state)&.save_and_deliver_now
       end
 
       after_transition(to: %i[provisional_request definitive_request]) do |booking|
-        booking.messages.new_from_template(booking.current_state, booking: booking)&.save_and_deliver_now
+        booking.messages.new_from_template(booking.current_state)&.save_and_deliver_now
         booking.occupancy.tentative!
       end
 
@@ -70,6 +70,7 @@ module BookingStrategy
       end
 
       after_transition(to: %i[confirmed]) do |booking|
+        booking.messages.new_from_template(booking.current_state)&.save_and_deliver_now
       end
 
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|
