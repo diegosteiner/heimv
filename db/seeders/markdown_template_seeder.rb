@@ -56,7 +56,7 @@ module Seeders
             key: MarkdownTemplate.key(:open_request),
 						interpolatable_type: Message,
             locale: :'de-CH',
-            title: 'Pfadi-heime.ch: Bestätigung Deiner Mietanfrag',
+            title: 'Pfadi-heime.ch: Bestätigung Deiner Mietanfrage',
             body: <<~BODY
               {{ booking_tenant_salutation_name }}
 
@@ -148,6 +148,41 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
+            key: MarkdownTemplate.key(:overdue_request),
+						interpolatable_type: Message,
+            locale: :'de-CH',
+            title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen',
+            body: <<~BODY
+              {{ booking_tenant_salutation_name }}
+
+              Du hast kürzlich auf pfadi-heime.cheine provisorische Reservation erstellt.
+              Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Lagerhaus wird wieder freigegeben.
+              Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zumachen.
+              Klicke dazu auf den untenstehenden Link
+
+              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+
+
+              **Reservationsdetails**
+
+              - Lagerhaus: {{booking_home_name}}, {{ booking_home_place }}
+              - Reservation: {{ booking_occupancy_begins_at | datetime }} bis {{ booking_occupancy_ends_at | datetime }}
+              - Organisation: {{ booking_organisation }}
+              - Mietzweck: {{ booking_purpose }}
+              - Bemerkungen: {{ booking_remarks }}
+
+
+              Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+
+              Freundliche Grüsse
+
+              Verein Pfadiheime St. Georg
+
+              BODY
+          ),
+          MarkdownTemplate.create(
             key: MarkdownTemplate.key(:definitive_request),
 						interpolatable_type: Message,
             locale: :'de-CH',
@@ -174,6 +209,36 @@ module Seeders
 
               Freundliche Grüsse
               Verein Pfadiheime St. Georg
+              BODY
+          ),
+          MarkdownTemplate.create(
+            key: MarkdownTemplate.key(:upcoming),
+						interpolatable_type: Message,
+            locale: :'de-CH',
+            title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen',
+            body: <<~BODY
+              {{ booking_tenant_salutation_name }}
+
+              Wir haben das von Dir unterzeichnete Vertragsdoppel erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Lagerhaus.
+
+
+              **Reservationsdetails**
+
+              - Lagerhaus: {{booking_home_name}}, {{ booking_home_place }}
+              - Reservation: {{ booking_occupancy_begins_at | datetime }} bis {{ booking_occupancy_ends_at | datetime }}
+              - Organisation: {{ booking_organisation }}
+              - Mietzweck: {{ booking_purpose }}
+              - Bemerkungen: {{ booking_remarks }}
+
+
+              Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+
+              Freundliche Grüsse
+
+              Verein Pfadiheime St. Georg
+
               BODY
           ),
           MarkdownTemplate.create(

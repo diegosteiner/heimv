@@ -6,7 +6,13 @@ module BookingStrategy
       end
 
       automatic_transition(from: :unconfirmed_request, to: :open_request) do |booking|
-        booking.tenant.valid? && booking.initiator == :tenant
+        # booking.tenant.valid? && booking.initiator == :tenant
+        booking.tenant.valid?(:public_update)
+      end
+
+      automatic_transition(to: :cancelled) do |booking|
+        # booking.tenant.valid? && booking.initiator == :tenant
+        booking.cancellation_reason.present?
       end
 
       automatic_transition(from: :provisional_request, to: :overdue_request, &:deadline_exceeded?)

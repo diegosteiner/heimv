@@ -57,12 +57,32 @@
         = af.email_field :email, disabled: true
 
   .form-actions.pt-4.mt-3.border-top
-    - if @booking.deadlines.current.extendable?
-      =<> f.submit name: 'extend_deadline', value: 'Verlängern', class: 'btn btn-primary'
     =<> f.submit
+    - if @booking.deadlines.current.extendable?
+      button.btn.btn-danger[type="button" data-toggle="modal" data-target="#extendDeadlineModal"]
+        | Frist verlängern
+    =<>
     button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
       = @view_model.class.i18n_transition('cancelled')[:label]
 
+
+#extendDeadlineModal.modal[role="dialog" tabindex="-1"]
+  .modal-dialog[role="document"]
+    = form_with(model: @booking, url: public_booking_path(@booking), local: true) do |f|
+      .modal-content
+        .modal-header
+          h5.modal-title
+            | Frist verlängern
+          button.close aria-label="Close" data-dismiss="modal" type="button"
+            span aria-hidden="true" &times;
+        .modal-body
+          = f.fields_for :deadlines, @booking.deadline do |fd|
+            = fd.hidden_field :extend, value: true
+          = l(14.days.from_now)
+        .modal-footer
+          = f.submit
+          button.btn.btn-secondary[data-dismiss="modal" type="button"]
+            = t(:close)
 
 #cancelModal.modal[role="dialog" tabindex="-1"]
   .modal-dialog[role="document"]
@@ -78,5 +98,5 @@
         .modal-footer
           = f.submit
           button.btn.btn-secondary[data-dismiss="modal" type="button"]
-            = @view_model.class.i18n_transition('cancelled')[:label]
+            = t(:close)
 

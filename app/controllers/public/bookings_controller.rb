@@ -19,15 +19,15 @@ module Public
     end
 
     def create
-      @booking.initiator = :tenant
-      @booking.save
+      # @booking.initiator = :tenant
+      @booking.save(context: :public_create)
       respond_with :public, @booking, location: root_path
     end
 
     def update
-      @booking.initiator = :tenant
-      @booking.strict_validation = true
-      @booking.update(update_params)
+      # @booking.initiator = :tenant
+      @booking.assign_attributes(update_params)
+      @booking.save(context: :public_update)
       respond_with :public, @booking, location: edit_public_booking_path
     end
 

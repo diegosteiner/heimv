@@ -9,7 +9,7 @@ class Payment < ApplicationRecord
   end
 
   before_validation do
-    booking ||= invoice&.booking
+    self.booking ||= invoice&.booking
   end
 
   after_save do

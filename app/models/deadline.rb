@@ -2,6 +2,8 @@ class Deadline < ApplicationRecord
   belongs_to :booking, inverse_of: :deadlines
   belongs_to :responsible, polymorphic: true, optional: true
 
+  attribute :extend
+
   scope :ordered, -> { order(at: :DESC) }
   scope :current, -> { where(current: true).ordered.last }
   scope :future, -> { where(arel_table[:at].gteq(Time.zone.now)) }
@@ -13,10 +15,15 @@ class Deadline < ApplicationRecord
     other > at
   end
 
-  def extend(extend_until)
+  def extend_until(extend_until)
     return unless extendable?
 
-    update(at: extend_until, extendable: extendable - 1)
+    assign_attributes(at: extend_until, extendable: extendable - 1)
+  end
+
+  def extend=(value)
+    super
+    extend_until(at + 14.days) if value.present?
   end
 
   def extendable?

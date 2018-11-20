@@ -43,12 +43,11 @@ module BookingStrategy
         end
       end
 
-      after_transition(to: %i[unconfirmed_request overdue_request confirmed
-                              overdue payment_due payment_overdue]) do |booking|
-        booking.deadlines.create(at: 14.days.from_now)
+      after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue]) do |booking|
+        booking.deadlines.create(at: 3.days.from_now)
       end
 
-      after_transition(to: %i[provisional_request]) do |booking|
+      after_transition(to: %i[provisional_request confirmed payment_due]) do |booking|
         booking.deadlines.create(at: 14.days.from_now, extendable: 1)
       end
 
@@ -57,7 +56,7 @@ module BookingStrategy
         booking.messages.new_from_template(booking.current_state)&.save_and_deliver_now
       end
 
-      after_transition(to: %i[upcoming]) do |booking|
+      after_transition(to: %i[upcoming overdue_request overdue]) do |booking|
         booking.messages.new_from_template(booking.current_state)&.save_and_deliver_now
       end
 

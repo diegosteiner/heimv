@@ -13,6 +13,7 @@ de-CH:
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
+        cancellation_reason: Annulierungsgrund
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         home: Heim
@@ -250,11 +251,18 @@ de-CH:
       body: |-
         Hallo
 
-        Es ist eine neue Mietanfrage eingegangen
+        Es ist eine neue Mietanfrage eingegangen für das Lagerhaus "%{booking_home_name}"
 
         [%{edit_manage_booking_url}](%{edit_manage_booking_url})
 
-        Reservationsdetails:
+        *Reservationsdetails*
+
+        - Lagerhaus: %{booking_home_name}
+        - Reservation: %{ booking_occupancy_begins_at | datetime } bis %{ booking_occupancy_ends_at | datetime }
+        - Organisation: %{ booking_organisation }
+        - Mietzweck: %{ booking_purpose }
+        - Bemerkungen: %{ booking_remarks }
+
 
         Freundliche Grüsse
         Verein Pfadiheime St. Georg
@@ -340,7 +348,6 @@ de-CH:
           label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
   date_format: Date format
-  deposit: Deposit
   destroy: Löschen
   edit: Bearbeiten
   faker:
@@ -1399,9 +1406,6 @@ de-CH:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
   manage:
     bookings:
-      contracts:
-        form:
-          save_and_send: Speichern und versenden
       tarifs:
         index:
           applicable_tarifs: Anwendbare Tarife
@@ -1418,6 +1422,7 @@ de-CH:
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
   occupancy: Belegung
   optional: optional
+  close: Schliessen
   public:
     bookings:
       edit:

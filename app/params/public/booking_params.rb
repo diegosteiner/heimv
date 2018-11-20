@@ -6,7 +6,8 @@ module Public
       def self.permitted_keys
         [:organisation, :cancellation_reason, :invoice_address,
          :committed_request, :purpose, :approximate_headcount, :remarks,
-         tenant_attributes: TenantParams.permitted_keys.without(:email)]
+         tenant_attributes: TenantParams.permitted_keys.without(:email),
+         deadlines_attributes: %i[id extend]]
       end
     end
 

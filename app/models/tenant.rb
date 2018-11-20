@@ -5,7 +5,7 @@ class Tenant < ApplicationRecord
 
   validates :email, presence: true
   validates :email, format: { with: Devise.email_regexp }
-  validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, unless: :skip_exact_validation?
+  validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
 
   before_save do
     self.search_cache = (address_lines + [email, phone]).join('\n')

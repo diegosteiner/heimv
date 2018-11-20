@@ -52,6 +52,8 @@ en:
         invoice_type: Rechnungsart
         issued_at: Ausgestellt am
         payable_until: Zahlung bis
+        print_payment_slip: Einzahlungsschein drucken
+        ref: Referenznummer
         text: Text
       invoice_part:
         amount: Betrag
@@ -338,7 +340,6 @@ en:
           label: Neue Buchungsanfrage stellen
   confirm: Confirm
   date_format: Date format
-  deposit: Deposit
   destroy: Destroy
   edit: Edit
   faker:
@@ -380,9 +381,6 @@ en:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
   manage:
     bookings:
-      contracts:
-        form:
-          save_and_send: Save and send
       tarifs:
         index:
           applicable_tarifs: Applicable tarifs

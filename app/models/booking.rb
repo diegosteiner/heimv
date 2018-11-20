@@ -2,8 +2,6 @@ class Booking < ApplicationRecord
   include BookingState
   include Statesman::Adapters::ActiveRecordQueries
 
-  attr_accessor :strict_validation, :initiator # TODO: Replace with validation context
-
   has_one :occupancy, dependent: :destroy, inverse_of: :booking, autosave: true
   belongs_to :home
   belongs_to :tenant, inverse_of: :bookings
@@ -23,11 +21,9 @@ class Booking < ApplicationRecord
   validates :home, :tenant, :occupancy, :email, presence: true
   validates :email, format: Devise.email_regexp
   validates :cancellation_reason, presence: true, allow_nil: true
-  validates :committed_request, inclusion: { in: [true, false] }, if: :strict_validation
-  validates :approximate_headcount, numericality: true, if: :strict_validation
-
-  validate(on: :public_update) do
-  end
+  validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
+  validates :purpose, presence: true, on: :public_update
+  validates :approximate_headcount, numericality: true, on: :public_update
 
   validate(on: :public_create) do
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
@@ -77,7 +73,7 @@ class Booking < ApplicationRecord
 
     self.tenant ||= Tenant.find_or_initialize_by(email: email).tap do |tenant|
       # tenant.strict_validation ||= strict_validation
-      tenant.skip_exact_validation ||= strict_validation.nil?
+      # tenant.skip_exact_validation ||= strict_validation.nil?
     end
   end
 

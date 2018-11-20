@@ -3,7 +3,7 @@
     h3 = t(:'.title')
     .card
       - if @booking.deadline
-        .card-header.text-center.bg-danger.text-white
+        .card-header.text-center.bg-secondary.text-white
           = l(@booking.deadline.at, format: :short)
       .card-body
         / = @view_model.current_state_help

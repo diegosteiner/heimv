@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
     t.string "esr_number"
     t.decimal "amount", default: "0.0"
     t.boolean "paid", default: false
+    t.boolean "print_payment_slip", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_invoices_on_booking_id"

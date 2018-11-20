@@ -23,15 +23,13 @@ module Manage
     def edit; end
 
     def create
-      @booking.initiator = :tenant
-      @booking.strict_validation = false
+      # @booking.initiator = :tenant
       @booking.save
       respond_with :manage, @booking
     end
 
     def update
-      @booking.initiator = :tenant
-      @booking.strict_validation = false
+      # @booking.initiator = :tenant
       @booking.update(booking_params)
       respond_with :manage, @booking
     end
