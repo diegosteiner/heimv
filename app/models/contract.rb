@@ -2,6 +2,8 @@ class Contract < ApplicationRecord
   belongs_to :booking
   has_one_attached :pdf
 
+  scope :valid, -> { where(valid_until: nil) }
+
   after_save do
     booking.state_transition
   end

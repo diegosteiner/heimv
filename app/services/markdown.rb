@@ -22,9 +22,10 @@ class Markdown
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def to_pdf
     lines.map do |line|
-      # line.gsub!(/__(.+)__/) { '<u>' + Regexp.last_match(1) + '</u>' }
+      line.gsub!(/_(.+)_/) { '<u>' + Regexp.last_match(1) + '</u>' }
       line.gsub!(/\*\*(.+)\*\*/) { '<b>' + Regexp.last_match(1) + '</b>' }
       # line.gsub!( /%%(.+?)%%/ ) { data[$1] }
 
@@ -47,7 +48,7 @@ class Markdown
       end
     end.compact
   end
-
+  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/MethodLength

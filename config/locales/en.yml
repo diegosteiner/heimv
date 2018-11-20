@@ -37,7 +37,7 @@ en:
         title: Titel
       deadline:
         at: Bis
-        extended: Verlängert
+        extendable: Verlängerbar
         responsible: Verantwortlich
       home:
         house_rules: Hausordnung (PDF)
@@ -70,7 +70,11 @@ en:
         start_value: Startwert
       occupancy:
         begins_at: Beginn der Belegung
+        begins_at_date: Beginn der Belegung (Datum)
+        begins_at_time: Beginn der Belegung (Zeit)
         ends_at: Ende der Belegung
+        ends_at_date: Ende der Belegung (Datum)
+        ends_at_time: Ende der Belegung (Zeit)
       payment:
         amount: Betrag
         paid_at: Einbezahlt am

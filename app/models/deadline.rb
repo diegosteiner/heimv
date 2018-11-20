@@ -13,6 +13,16 @@ class Deadline < ApplicationRecord
     other > at
   end
 
+  def extend(extend_until)
+    return unless extendable?
+
+    update(at: extend_until, extendable: extendable - 1)
+  end
+
+  def extendable?
+    extendable.positive?
+  end
+
   def set_current
     last_deadlines = booking.deadlines.where(current: true).where.not(id: id)
     return unless !current || last_deadlines.exists?

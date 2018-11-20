@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
     t.uuid "booking_id"
     t.string "responsible_type"
     t.bigint "responsible_id"
-    t.integer "extended", default: 0
+    t.integer "extendable", default: 0
     t.boolean "current", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -159,12 +159,14 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
 
   create_table "messages", force: :cascade do |t|
     t.uuid "booking_id"
+    t.bigint "markdown_template_id"
     t.datetime "sent_at"
     t.string "subject"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_messages_on_booking_id"
+    t.index ["markdown_template_id"], name: "index_messages_on_markdown_template_id"
   end
 
   create_table "meter_reading_periods", force: :cascade do |t|
@@ -318,6 +320,7 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "messages", "bookings"
+  add_foreign_key "messages", "markdown_templates"
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "occupancies", "homes"

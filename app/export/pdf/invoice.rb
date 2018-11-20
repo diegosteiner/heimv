@@ -12,14 +12,16 @@ module Pdf
       Rails.root.join('app', 'webpack', 'fonts', 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf')
     end
 
+    # rubocop:disable Metrics/AbcSize
     def sections
       [
-        Base::LogoSection.new, Base::DocumentCodeSection.new('code'), Base::SenderAddressSection.new,
+        Base::LogoSection.new, Base::SenderAddressSection.new,
         Base::RecipientAddressSection.new(@booking), Base::TitleSection.new("Rechnung: #{@booking.home.name}"),
         ->(pdf) { pdf.text @booking.ref },
         Base::MarkdownSection.new(Interpolator.new(@invoice).interpolate(Markdown.new(@invoice.text))),
         InvoicePartSection.new(@invoice), PaymentSlipSection.new(PaymentSlip.new(@invoice))
       ]
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end

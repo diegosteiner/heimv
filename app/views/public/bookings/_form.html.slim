@@ -57,6 +57,8 @@
         = af.email_field :email, disabled: true
 
   .form-actions.pt-4.mt-3.border-top
+    - if @booking.deadlines.current.extendable?
+      =<> f.submit name: 'extend_deadline', value: 'Verlängern', class: 'btn btn-primary'
     =<> f.submit
     button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
       = @view_model.class.i18n_transition('cancelled')[:label]

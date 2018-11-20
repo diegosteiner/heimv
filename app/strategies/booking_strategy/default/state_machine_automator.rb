@@ -25,7 +25,7 @@ module BookingStrategy
         booking.occupancy.past?
       end
 
-      automatic_transition(from: :confirm_new_request, to: :provisional_request) do |booking|
+      automatic_transition(from: :confirmed_new_request, to: :provisional_request) do |booking|
         booking.tenant.reservations_allowed
       end
 
@@ -44,7 +44,7 @@ module BookingStrategy
       automatic_transition(from: :provisional_request, to: :definitive_request, &:committed_request)
 
       automatic_transition(from: :definitive_request, to: :confirmed) do |booking|
-        booking.contracts.sent.any?
+        booking.contracts.sent.any? && booking.invoices.deposit.any?
       end
 
       automatic_transition(from: :confirmed, to: :upcoming) do |booking|

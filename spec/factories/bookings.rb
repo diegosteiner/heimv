@@ -5,7 +5,7 @@ FactoryBot.define do
     organisation { Faker::Company.name }
     sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
     skip_automatic_transition { initial_state_present? }
-    committed_request { true }
+    committed_request { [true, false].sample }
     approximate_headcount { rand(30) }
     purpose { :camp }
 

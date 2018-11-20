@@ -19,6 +19,10 @@ class Tenant < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def salutation_name
+    "Hallo #{first_name}"
+  end
+
   def address_lines
     [name, street_address, "#{zipcode} #{city}"].reject(&:blank?)
   end

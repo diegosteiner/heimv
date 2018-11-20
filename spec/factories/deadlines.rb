@@ -3,6 +3,6 @@ FactoryBot.define do
     at { 30.days.from_now }
     # booking { nil }
     responsible { nil }
-    extended { 0 }
+    extendable { 0 }
   end
 end

@@ -1,5 +1,6 @@
 class Payment
   class Factory
+    # rubocop:disable Metrics/AbcSize
     def from_camt_file(file)
       camt = CamtParser::String.parse file.read
       # puts camt.group_header.creation_date_time
@@ -15,5 +16,6 @@ class Payment
         end
       end.flatten.compact
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end

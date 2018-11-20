@@ -62,8 +62,12 @@ class Booking < ApplicationRecord
     BookingTransition
   end
 
+  def deadline
+    deadlines.current
+  end
+
   def deadline_exceeded?
-    deadlines.current&.exceeded?
+    deadline&.exceeded?
   end
 
   private
