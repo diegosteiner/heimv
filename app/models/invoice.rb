@@ -10,7 +10,7 @@ class Invoice < ApplicationRecord
   scope :paid, -> { where(paid: true) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
-  before_save :generatate_pdf
+  after_save :generatate_pdf
 
   def generatate_pdf
     pdf.attach(

@@ -11,7 +11,7 @@ RSpec.describe InvoiceParts::Factory, type: :model do
     let(:invoiced_usage) { create(:usage, booking: booking) }
     let(:existing_invoice_part) { create(:invoice_part, invoice: invoice, usage: invoiced_usage) }
 
-    subject { builder.for_booking(booking, invoice) }
+    subject { builder.for_booking(invoice) }
 
     it do
       is_expected.to(be_all { |actual| actual.is_a?(InvoiceParts::Add) })

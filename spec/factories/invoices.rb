@@ -5,6 +5,6 @@ FactoryBot.define do
     issued_at { 1.week.ago }
     payable_until { 3.months.from_now }
     text { Faker::Lorem.sentences(3) }
-    # invoice_type 1
+    invoice_type { :invoice }
   end
 end

@@ -13,6 +13,7 @@ en:
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
+        cancellation_reason: Annulierungsgrund
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         home: Heim
@@ -254,7 +255,14 @@ en:
 
         [%{edit_manage_booking_url}](%{edit_manage_booking_url})
 
-        Reservationsdetails:
+        *Reservationsdetails*
+
+        - Lagerhaus: %{booking_home_name}
+        - Reservation: %{ booking_occupancy_begins_at | datetime } bis %{ booking_occupancy_ends_at | datetime }
+        - Organisation: %{ booking_organisation }
+        - Mietzweck: %{ booking_purpose }
+        - Bemerkungen: %{ booking_remarks }
+
 
         Freundliche Grüsse
         Verein Pfadiheime St. Georg
@@ -338,6 +346,7 @@ en:
           label: Geplante Belegung
         initial-->unconfirmed_request:
           label: Neue Buchungsanfrage stellen
+  close: Schliessen
   confirm: Confirm
   date_format: Date format
   destroy: Destroy

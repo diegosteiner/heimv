@@ -28,9 +28,9 @@ module InvoiceParts
 
     def from_deposit(invoice, deposits = invoice.booking.invoices.deposit)
       InvoiceParts::Add.new(
-        apply: invoice.invoice_type.to_sym == :invoice,
+        apply: invoice.invoice_type&.to_sym == :invoice,
         label: I18n.t(:'activerecord.enums.invoice.invoice_types.deposit'),
-        amount: - deposits.sum(:amount_paid)
+        amount: - deposits.sum(&:amount_paid)
       )
     end
   end
