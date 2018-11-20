@@ -7,7 +7,7 @@ module Seeders
       {
         markdown_templates: [
           MarkdownTemplate.create!(
-            key: MarkdownTemplate.key(:new_request),
+            key: MarkdownTemplate.key(:unconfirmed_request),
             interpolatable_type: Message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
@@ -53,7 +53,7 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:confirmed_new_request),
+            key: MarkdownTemplate.key(:open_request),
 						interpolatable_type: Message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Bestätigung Deiner Mietanfrag',

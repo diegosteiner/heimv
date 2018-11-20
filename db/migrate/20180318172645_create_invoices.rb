@@ -9,6 +9,7 @@ class CreateInvoices < ActiveRecord::Migration[5.2]
       t.string :esr_number, null: true
       t.decimal :amount, default: 0
       t.boolean :paid, default: false
+      t.boolean :print_payment_slip, default: false
 
       t.timestamps
     end

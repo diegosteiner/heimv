@@ -1,6 +1,6 @@
 .btn-group
   - case booking.state_machine.current_state.to_sym
-    - when :confirmed_new_request
+    - when :open_request
       - if booking.committed_request
         =<> link_to manage_booking_path(booking, booking: { transition_to: :definitive_request }), method: :patch, class: 'btn btn-primary' do
           | Anfrage akzeptieren

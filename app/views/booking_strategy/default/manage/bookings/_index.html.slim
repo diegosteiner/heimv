@@ -1,4 +1,4 @@
-= bookings_by_state_table(:confirmed_new_request, bookings[:confirmed_new_request], Booking.human_attribute_name(:created_at), "") do |booking|
+= bookings_by_state_table(:open_request, bookings[:open_request], Booking.human_attribute_name(:created_at), "") do |booking|
   = l(booking.created_at, format: :short)
   br
   = time_ago_in_words(booking.created_at)

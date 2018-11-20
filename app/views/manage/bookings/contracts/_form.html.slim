@@ -2,12 +2,11 @@
   = f.error_summary
 
   fieldset[v-pre]
+    = f.text_area :text, rows: 25
     = f.datetime_local_field :sent_at
     = f.datetime_local_field :signed_at
-    = f.datetime_local_field :valid_from
-    = f.datetime_local_field :valid_until
-    = f.text_area :text, rows: 25
+    / = f.datetime_local_field :valid_from
+    / = f.datetime_local_field :valid_until
 
   .form-actions.pt-4.mt-3.border-top
-    = f.submit class: 'btn btn-outline-primary'
-    =<> f.button t('.save_and_send'), name: 'contract[sent_at]', value: Time.zone.now, class: 'btn btn-primary'
+    = f.submit class: 'btn btn-primary'

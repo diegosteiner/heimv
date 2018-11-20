@@ -1,4 +1,4 @@
-= form_with(model: [:manage, @payment], local: true) do |f|
+= form_with(model: [:manage, @booking, @payment], local: true) do |f|
 
   fieldset
     = f.collection_select :invoice_id, @payment.booking.invoices, :id, :ref

@@ -6,7 +6,7 @@ de-CH:
         begins_at: Von
         ends_at: Bis
         homes: Heime
-        ref: Referenz
+        ref: Buchungsreferenz
         tenant: Mieter
   activerecord:
     attributes:
@@ -52,6 +52,8 @@ de-CH:
         invoice_type: Rechnungsart
         issued_at: Ausgestellt am
         payable_until: Zahlung bis
+        print_payment_slip: Einzahlungsschein drucken
+        ref: Referenznummer
         text: Text
       invoice_part:
         amount: Betrag
@@ -272,18 +274,15 @@ de-CH:
         confirmed:
           help: Help
           label: Reservation (Vertrag ausstehend)
-        confirmed_new_request:
-          help: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
-          label: Mietanfrage (offen)
         definitive_request:
           help: Help
           label: Mietanfrage (definitiv)
         initial:
           help: Help
           label: "-"
-        new_request:
-          help: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
-          label: Mietanfrage (Email unbestätigt)
+        open_request:
+          help: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
+          label: Mietanfrage (offen)
         overdue:
           help: Help
           label: Reservation (Vertrag überfällig)
@@ -302,6 +301,9 @@ de-CH:
         provisional_request:
           help: Deine provisorische Mietanfrage ist bestätigt.
           label: Mietanfrage (provisorisch)
+        unconfirmed_request:
+          help: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
+          label: Mietanfrage (Email unbestätigt)
         upcoming:
           help: Help
           label: Belegung (zukünftig)
@@ -314,12 +316,10 @@ de-CH:
           label: Abgeschlossene Belegung
         "-->confirmed":
           label: Bestätigte Reservation
-        "-->confirmed_new_request":
-          label: Neue Mietanfrage
         "-->definitive_request":
           label: Definitive Mietanfrage
-        "-->new_request":
-          label: Unbestätigte Mietanfrage
+        "-->open_request":
+          label: Neue Mietanfrage
         "-->overdue":
           label: Überfällige Reservation
         "-->overdue_request":
@@ -332,9 +332,11 @@ de-CH:
           label: Rechnung überfällig
         "-->provisional_request":
           label: Provisorische Mietanfrage
+        "-->unconfirmed_request":
+          label: Unbestätigte Mietanfrage
         "-->upcoming":
           label: Geplante Belegung
-        initial-->new_request:
+        initial-->unconfirmed_request:
           label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
   date_format: Date format

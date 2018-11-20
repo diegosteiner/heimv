@@ -18,9 +18,9 @@ module Manage
       end
 
       def new
-        @invoice = Invoice.new(invoice_params)
-        @invoice.invoice_type ||= :invoice
-        @suggested_invoice_parts = InvoiceParts::Factory.new.for_booking(@booking, @invoice)
+        @invoice = Invoice.new({ booking: @booking, invoice_type: :invoice }.merge(invoice_params || {}))
+        # @invoice.invoice_type ||= :invoice
+        @suggested_invoice_parts = InvoiceParts::Factory.new.for_booking(@invoice)
         respond_with :manage, @booking, @invoice
       end
 
@@ -34,7 +34,7 @@ module Manage
       end
 
       def edit
-        @suggested_invoice_parts = InvoiceParts::Factory.new.for_booking(@booking, @invoice)
+        @suggested_invoice_parts = InvoiceParts::Factory.new.for_booking(@invoice)
         respond_with :manage, @booking, @invoice
       end
 

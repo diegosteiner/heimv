@@ -41,7 +41,7 @@ module Manage
 
     def create
       @payment.save
-      respond_with :manage, @payment, location: manage_booking_payments_path(@booking)
+      respond_with :manage, @payment, location: manage_booking_payments_path(@payment.booking)
     end
 
     def update

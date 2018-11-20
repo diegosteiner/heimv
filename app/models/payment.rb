@@ -5,7 +5,11 @@ class Payment < ApplicationRecord
   validates :amount, numericality: true
   validates :paid_at, :amount, :booking, presence: true
   validate do
-    errors.add(:base, :duplicate) if duplicats.exists?
+    errors.add(:base, :duplicate) if duplicates.exists?
+  end
+
+  before_validation do
+    booking ||= invoice&.booking
   end
 
   after_save do

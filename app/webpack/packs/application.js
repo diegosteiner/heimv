@@ -12,6 +12,7 @@ import 'bootstrap/dist/js/bootstrap.bundle'
 import 'src/bookings'
 import Forms from 'src/forms'
 
+Rails.start();
 Turbolinks.start()
 
 let load = (function () {
@@ -54,7 +55,6 @@ let load = (function () {
     //     }
     // });
 
-    Rails.start();
     Forms.start();
 });
 

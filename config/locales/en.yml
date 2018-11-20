@@ -272,16 +272,13 @@ en:
         confirmed:
           help: Help
           label: Bestätigte Reservation
-        confirmed_new_request:
-          help: Help
-          label: Neue Mietanfrage
         definitive_request:
           help: Help
           label: Definitive Mietanfrage
         initial:
           help: Help
           label: "-"
-        new_request:
+        open_request:
           help: Help
           label: Neue Mietanfrage
         overdue:
@@ -302,6 +299,9 @@ en:
         provisional_request:
           help: Help
           label: Provisorische Mietanfrage
+        unconfirmed_request:
+          help: Help
+          label: Neue Mietanfrage
         upcoming:
           help: Help
           label: Geplante Belegung
@@ -314,11 +314,9 @@ en:
           label: Abgeschlossene Belegung
         "-->confirmed":
           label: Bestätigte Reservation
-        "-->confirmed_new_request":
-          label: Neue Mietanfrage
         "-->definitive_request":
           label: Definitive Mietanfrage
-        "-->new_request":
+        "-->open_request":
           label: Neue Mietanfrage
         "-->overdue":
           label: Überfällige Reservation
@@ -332,9 +330,11 @@ en:
           label: Rechnung überfällig
         "-->provisional_request":
           label: Provisorische Mietanfrage
+        "-->unconfirmed_request":
+          label: Neue Mietanfrage
         "-->upcoming":
           label: Geplante Belegung
-        initial-->new_request:
+        initial-->unconfirmed_request:
           label: Neue Buchungsanfrage stellen
   confirm: Confirm
   date_format: Date format

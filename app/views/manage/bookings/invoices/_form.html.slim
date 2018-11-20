@@ -2,10 +2,13 @@
 
   fieldset
     = f.select :invoice_type, enum_options_for_select(Invoice, :invoice_types, @invoice.invoice_type)
-    = f.text_field :ref
+    = f.text_field :ref, help: "Automatisch generiert"
     = f.text_area :text
     = f.date_field :issued_at
     = f.date_field :payable_until
+    = f.check_box :print_payment_slip
+
+    hr
 
     label= Invoice.human_attribute_name(:invoice_parts)
     = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
