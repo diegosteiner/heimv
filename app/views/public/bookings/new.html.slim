@@ -5,10 +5,15 @@
       = image_tag asset_pack_path('images/logo.svg'), class: 'etched'
     - else
       h3 = t(:'.title')
-      .card
-        .card-body
-          = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
-            = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:label]
+      = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
+        .card
+          - if @booking.errors.any?
+            .card-header.alert-danger
+              = f.error_summary
+          - else
+            .card-header
+              = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:label]
+          .card-body
             fieldset
               = f.select :home_id, @view_model.homes_for_select
               = f.fields_for :occupancy, @booking.occupancy do |of|

@@ -1,4 +1,4 @@
-= form_with(model: [:public, @booking], local: true) do |f|
+= form_with(model: [:public, @booking], local: true, disabled: !@booking.editable) do |f|
 
   / p.text-info= @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:help]
 

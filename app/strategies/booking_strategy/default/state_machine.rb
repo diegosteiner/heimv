@@ -70,6 +70,7 @@ module BookingStrategy
       end
 
       after_transition(to: %i[confirmed]) do |booking|
+        booking.update(editable: false)
         booking.messages.new_from_template(:confirmed)&.tap do |message|
           message.attachments.attach booking.contracts.valid.last&.pdf&.blob
           booking.invoices.deposit.each do |deposit|

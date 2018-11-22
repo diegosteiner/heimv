@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
     t.text "invoice_address"
     t.string "purpose"
     t.string "ref"
+    t.boolean "editable", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"

@@ -15,6 +15,7 @@ class CreateBookings < ActiveRecord::Migration[5.1]
       t.text :invoice_address, null: true
       t.string :purpose, null: true
       t.string :ref, unique: true, index: true
+      t.boolean :editable, default: true
 
       t.timestamps
     end
