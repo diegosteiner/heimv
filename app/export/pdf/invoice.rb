@@ -21,9 +21,13 @@ module Pdf
         ->(pdf) { pdf.text @booking.ref },
         Base::MarkdownSection.new(Interpolator.new(@invoice).interpolate(Markdown.new(@invoice.text))),
         InvoicePartSection.new(@invoice),
-        (@invoice.print_payment_slip ? PaymentSlipSection.new(@payment_slip) : PaymentInformationSection.new(@payment_slip))
+        (print_payment_slip? ? PaymentSlipSection.new(@payment_slip) : PaymentInformationSection.new(@payment_slip))
       ]
     end
     # rubocop:enable Metrics/AbcSize
+
+    def print_payment_slip?
+      @invoice.print_payment_slip
+    end
   end
 end

@@ -7,20 +7,14 @@ module Pdf
 
       def call(pdf)
         pdf.bounding_box([0, 150], width: 300, height: 150) do
-
-          pdf.text "Zahlungsinformationen", size: 16
+          pdf.text 'Zahlungsinformationen', size: 16
 
           pdf.bounding_box([0, 120], width: 150, height: 120) do
-            pdf.text "Kontonummer"
-            pdf.text "Rechnungsbetrag"
-            pdf.text "ESR Referenznummer"
-            pdf.text "Zugunsten von"
+            pdf.text ['Kontonummer', 'Rechnungsbetrag', 'ESR Referenznummer', 'Zugunsten von'].join("\n")
           end
           pdf.bounding_box([150, 120], width: 150, height: 120) do
-            pdf.text @payment_slip.account_nr
-            pdf.text format('CHF %0.2f', @payment_slip.amount)
-            pdf.text @payment_slip.esr_ref
-            pdf.text @payment_slip.address
+            pdf.text [@payment_slip.account_nr, format('CHF %0.2f', @payment_slip.amount),
+                      @payment_slip.esr_ref, @payment_slip.address].join("\n")
           end
         end
       end
