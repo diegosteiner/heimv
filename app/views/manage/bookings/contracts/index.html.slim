@@ -24,7 +24,7 @@
           tr[data-href=manage_booking_contract_path(@booking, contract) class=('text-secondary bg-light' if contract.ousted?)]
             td
               - if contract.pdf.attached?
-                = link_to url_for(contract.pdf) do
+                = link_to url_for(contract.pdf), target: '_blank'
                   span.fa.fa-print<>
                   span= contract.filename
 
@@ -44,8 +44,6 @@
                   | Unterschrieben zurückerhalten
             td.py-1.text-right
               .btn-group
-                = link_to manage_booking_contract_path(@booking, contract), class: 'btn btn-default' do
-                  span.fa.fa-eye
                 - unless contract.ousted?
                   = link_to edit_manage_booking_contract_path(@booking, contract), class: 'btn btn-default' do
                     span.fa.fa-pencil

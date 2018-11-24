@@ -1,7 +1,11 @@
 class BookingMailer < ApplicationMailer
   def new_booking(booking, interpolator = Interpolator.new(booking))
     subject = I18n.t(:'booking_mailer.new_booking.subject')
-    markdown = Markdown.new(I18n.t(:'booking_mailer.new_booking.body', interpolator.to_h.with_indifferent_access))
+    begin
+      markdown = Markdown.new(I18n.t(:'booking_mailer.new_booking.body', interpolator.to_h.symbolize_keys))
+    rescue I18n::MissingInterpolationArgument => ex
+      markdown = Markdown.new(ex.message)
+    end
     markdown_mail('info@heimverwalung.example.com', subject, markdown)
   end
 

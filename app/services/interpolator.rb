@@ -1,7 +1,7 @@
 class Interpolator
   REGEX = /\{\{\s*([\w+_]+)(?>\s*\|\s*([\w\-\+]+))?\s*\}\}/ix.freeze
   FORMATTERS = {
-    datetime: ->(value) { I18n.l(value, format: :short) }
+    datetime: ->(value) { I18n.l(value, format: :short) rescue "" }
   }.freeze
   CLASS_MAPPING = {
     Booking => BookingSerializer,

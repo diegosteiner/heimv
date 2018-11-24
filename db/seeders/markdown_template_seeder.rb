@@ -151,7 +151,7 @@ module Seeders
             key: MarkdownTemplate.key(:overdue_request),
 						interpolatable_type: Message,
             locale: :'de-CH',
-            title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen',
+            title: 'Pfadi-heime.ch: Anfrage überfällig',
             body: <<~BODY
               {{ booking_tenant_salutation_name }}
 

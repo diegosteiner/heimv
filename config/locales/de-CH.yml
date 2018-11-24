@@ -42,7 +42,7 @@ de-CH:
         responsible: Verantwortlich
       home:
         house_rules: Hausordnung (PDF)
-        janitor: Abwart
+        janitor: Heimwart
         name: Name
         ref: Kurzname / Referenz
       invoice:
@@ -117,7 +117,6 @@ de-CH:
           provisional_request: Provisorische Mietanfrage
         purpose:
           camp: Lager
-          course: Kurs
           event: Privater Anlass
       invoice:
         invoice_types:
@@ -142,6 +141,7 @@ de-CH:
           attributes:
             state:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
+          conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
     models:
       booking:
         one: Buchung
@@ -204,7 +204,6 @@ de-CH:
           provisional_request: Provisorische Mietanfrage
         purpose:
           camp: Lager
-          course: Kurs
           event: Privater Anlass
       invoice:
         invoice_type:
@@ -1404,7 +1403,7 @@ de-CH:
     public:
       bookings:
         create:
-          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
+          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte deine Email-Addresse
   manage:
     bookings:
       tarifs:

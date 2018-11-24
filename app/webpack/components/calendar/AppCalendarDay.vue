@@ -104,10 +104,10 @@ export default {
   color: #9e2e2e;
 }
 .calendar-day a.tentative-allday {
-  background: #ffd1d1;
-  border: 1px solid #e69191;
+  background: #00bfff;
+  border: 1px solid #0033ff;
   font-weight: bold;
-  color: #9b6161;
+  color: #0033ff;
 }
 
 .calendar-day a.closed {

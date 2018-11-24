@@ -293,6 +293,7 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.8)
+    timecop (0.9.1)
     title (0.0.7)
       i18n
       rails (>= 3.1)
@@ -365,6 +366,7 @@ DEPENDENCIES
   spring-commands-rspec
   spring-watcher-listen (~> 2.0.0)
   statesman
+  timecop
   title
   webpacker (>= 4.0.x)
   wicked_pdf

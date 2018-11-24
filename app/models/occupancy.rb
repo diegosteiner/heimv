@@ -25,7 +25,7 @@ class Occupancy < ApplicationRecord
   validates :begins_at, :ends_at, :booking, presence: true
   validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
   validate do
-    unless begins_at && ends_at && begins_at < ends_at
+    unless begins_at && ends_at && begins_at < ends_at && ends_at < 18.months.from_now
       errors.add(:ends_at, :invalid)
       errors.add(:ends_at_date, :invalid)
       errors.add(:ends_at_time, :invalid)

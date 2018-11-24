@@ -117,7 +117,6 @@ en:
           provisional_request: Provisorische Mietanfrage
         purpose:
           camp: Lager
-          course: Kurs
           event: Privater Anlass
       invoice:
         invoice_types:
@@ -204,7 +203,6 @@ en:
           provisional_request: Provisorische Mietanfrage
         purpose:
           camp: Lager
-          course: Kurs
           event: Privater Anlass
       invoice:
         invoice_type:

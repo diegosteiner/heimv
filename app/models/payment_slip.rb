@@ -53,7 +53,7 @@ class PaymentSlip
   end
 
   def address
-    "Verein Pfadiheime St. Georg\nHeimverwaltung\nChristian Morger\nGeeringstr. 44\n8049 Zürich"
+    "Verein Pfadiheime St. Georg\nHeimverwaltung\n\n8000 Zürich"
   end
 
   def esr_ref

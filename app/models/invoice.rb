@@ -1,6 +1,6 @@
 class Invoice < ApplicationRecord
   belongs_to :booking, inverse_of: :invoices, touch: true
-  has_many :invoice_parts, -> { order(position: :ASC) }, inverse_of: :invoice
+  has_many :invoice_parts, -> { order(position: :ASC) }, inverse_of: :invoice, dependent: :destroy
   has_many :payments, dependent: :nullify
   has_one_attached :pdf
 

@@ -9,6 +9,7 @@
       span.navbar-toggler-icon
     = link_to root_path, class: 'navbar-brand' do
       = image_tag asset_pack_path('images/logo.svg'), class: "d-inline-block align-top", width: 120, height: 32
+    span.nav-item= l(Time.zone.now)
     #navbar-main-nav.collapse.navbar-collapse
       ul.navbar-nav.ml-auto
         li.nav-item

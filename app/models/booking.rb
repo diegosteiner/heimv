@@ -24,10 +24,12 @@ class Booking < ApplicationRecord
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :purpose, presence: true, on: :public_update
   validates :approximate_headcount, numericality: true, on: :public_update
-
-  validate(on: :public_create) do
+  validate do
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
+  # validate(on: :public_create) do
+  #   errors.add(:base, :conflicting) if occupancy.conflicting.any?
+  # end
 
   before_validation :set_occupancy_attributes
   before_validation :assign_tenant_from_email

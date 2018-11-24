@@ -48,11 +48,19 @@ module BookingStrategy
       automatic_transition(from: %i[provisional_request overdue_request], to: :definitive_request, &:committed_request)
 
       automatic_transition(from: :definitive_request, to: :confirmed) do |booking|
-        booking.contracts.sent.any? && booking.invoices.deposit.any?
+        # booking.contracts.sent.any? && booking.invoices.deposit.any?
       end
 
       automatic_transition(from: :confirmed, to: :upcoming) do |booking|
         booking.contracts.signed.any? && booking.invoices.deposit.all?(&:paid)
+      end
+
+      automatic_transition(from: :upcoming, to: :active) do |booking|
+        booking.occupancy.today? || booking.occupancy.past?
+      end
+
+      automatic_transition(from: :active, to: :past) do |booking|
+        booking.occupancy.past?
       end
     end
   end
