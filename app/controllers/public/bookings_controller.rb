@@ -27,6 +27,7 @@ module Public
     def update
       # @booking.initiator = :tenant
       @booking.assign_attributes(update_params)
+      @booking.deadline.extend_until(14.days.from_now) if @booking.deadline&.extendable? && params[:extend_deadline]
       @booking.save(context: :public_update)
       respond_with :public, @booking, location: edit_public_booking_path
     end
@@ -42,7 +43,7 @@ module Public
     end
 
     def update_params
-      BookingParams::Update.permit(params.require(:booking))
+      BookingParams::Update.permit(params[:booking]) || {}
     end
   end
 end

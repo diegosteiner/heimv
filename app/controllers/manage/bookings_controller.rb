@@ -30,7 +30,6 @@ module Manage
     end
 
     def update
-      # @booking.initiator = :tenant
       @booking.update(booking_params)
       respond_with :manage, @booking
     end

@@ -141,6 +141,7 @@ en:
           attributes:
             state:
               invalid_transition: 'Invalid transition: %{transition}'
+          conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
     models:
       booking:
         one: Buchung

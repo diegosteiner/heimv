@@ -5,6 +5,14 @@
   = f.alert_message nil
 
   fieldset
+    - if @booking.deadline
+      .form-group
+        label=Booking.human_attribute_name(:deadline)
+        div
+          =<> l(@booking.deadline.at, format: :short)
+          - if @booking.deadline.extendable?
+            a[href="#" data-toggle="modal" data-target="#extendDeadlineModal"]
+              | Frist verlängern
     = f.select :home_id, @view_model.homes_for_select, {}, disabled: true
     = f.fields_for :occupancy, @booking.occupancy do |of|
       .row
@@ -43,7 +51,7 @@
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error
 
-    = f.select :purpose, [[t(:'activerecord.enums.booking.purpose.camp'), :camp], [t(:'activerecord.enums.booking.purpose.course'), :course], [t(:'activerecord.enums.booking.purpose.event'), :event]]
+    = f.select :purpose, [[t(:'activerecord.enums.booking.purpose.camp'), :camp], [t(:'activerecord.enums.booking.purpose.event'), :event]]
     = f.number_field :approximate_headcount
     = f.text_area :remarks, help: t('optional')
 
@@ -58,17 +66,13 @@
 
   .form-actions.pt-4.mt-3.border-top
     =<> f.submit
-    - if @booking.deadlines.current.extendable?
-      button.btn.btn-danger[type="button" data-toggle="modal" data-target="#extendDeadlineModal"]
-        | Frist verlängern
-    =<>
-    button.btn.btn-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
+    button.btn.btn-outline-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
       = @view_model.class.i18n_transition('cancelled')[:label]
 
 
 #extendDeadlineModal.modal[role="dialog" tabindex="-1"]
   .modal-dialog[role="document"]
-    = form_with(model: @booking, url: public_booking_path(@booking), local: true) do |f|
+    = form_with(url: public_booking_path(@booking), method: :put, local: true) do |f|
       .modal-content
         .modal-header
           h5.modal-title
@@ -76,8 +80,7 @@
           button.close aria-label="Close" data-dismiss="modal" type="button"
             span aria-hidden="true" &times;
         .modal-body
-          = f.fields_for :deadlines, @booking.deadline do |fd|
-            = fd.hidden_field :extend, value: true
+          = f.hidden_field :extend_deadline, value: true
           = l(14.days.from_now)
         .modal-footer
           = f.submit

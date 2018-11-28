@@ -1,8 +1,8 @@
 class Deadline < ApplicationRecord
   belongs_to :booking, inverse_of: :deadlines
-  belongs_to :responsible, polymorphic: true, optional: true
+  # belongs_to :responsible, polymorphic: true, optional: true
 
-  attribute :extend
+  attribute :extended, default: false
 
   scope :ordered, -> { order(at: :DESC) }
   scope :current, -> { where(current: true).ordered.last }
@@ -18,16 +18,20 @@ class Deadline < ApplicationRecord
   def extend_until(extend_until)
     return unless extendable?
 
-    assign_attributes(at: extend_until, extendable: extendable - 1)
+    update(at: extend_until, extendable: extendable - 1)
   end
 
-  def extend=(value)
-    super
-    extend_until(at + 14.days) if value.present?
-  end
+  # def extend=(value)
+  #   self[]
+  #   extend_until(at + 14.days) if value.present?
+  # end
 
   def extendable?
     extendable.positive?
+  end
+
+  def clear
+    update(current: false)
   end
 
   def set_current

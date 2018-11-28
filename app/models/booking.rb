@@ -27,9 +27,6 @@ class Booking < ApplicationRecord
   validate do
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
-  # validate(on: :public_create) do
-  #   errors.add(:base, :conflicting) if occupancy.conflicting.any?
-  # end
 
   before_validation :set_occupancy_attributes
   before_validation :assign_tenant_from_email
@@ -39,6 +36,8 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :tenant, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :deadlines, reject_if: :all_blank, update_only: true
+
+  # enum purpose: { camp: :camp, event: :event }
 
   def ref
     @ref ||= RefService.new.call(self)
