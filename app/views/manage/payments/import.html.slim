@@ -25,7 +25,7 @@
             td.py-2
               = pf.number_field :amount, skip_label: true
             td.py-2
-              = pf.date_field :paid_at, skip_label: true
+              = pf.date_field :paid_at, skip_label: true, lang: I18n.locale
             td.py-2
               = pf.text_area :remarks, skip_label: true
             td.py-2.text-right

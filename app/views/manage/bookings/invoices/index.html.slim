@@ -19,7 +19,7 @@
         tr[data-href=manage_booking_invoice_path(@booking, invoice)]
           td
             - if invoice.pdf.attached?
-              = link_to url_for(invoice.pdf)
+              = link_to url_for(invoice.pdf), target: '_blank'
                 span.fa.fa-print<>
                 span= invoice.filename
           td

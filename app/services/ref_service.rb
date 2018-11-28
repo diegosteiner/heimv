@@ -1,7 +1,7 @@
 class RefService
   REFS = {
     Booking => (lambda do |booking|
-                  format('%s%04d%02d%02d',
+                  format('%s%04d%02d-%d',
                          booking.home.ref[0...1],
                          booking.occupancy.begins_at.year,
                          booking.occupancy.begins_at.month,

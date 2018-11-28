@@ -1,23 +1,26 @@
+import 'stylesheets/application'
+import 'font-awesome-webpack'
+import 'images/logo.svg'
+import 'images/logo_hvs.png'
+
+import Rails from 'rails-ujs'
 import Turbolinks from 'turbolinks'
 import TurbolinksAdapter from 'vue-turbolinks';
 
-// import 'popper.js/dist/popper.js'
 import Vue from 'vue/dist/vue.js'
 import AppOccupancyCalendar from '../components/calendar/AppOccupancyCalendar.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueI18n from 'vue-i18n'
 
-// import VueLocalStorage from "vue-localstorage";
-
 import 'bootstrap/dist/js/bootstrap.bundle'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Tarifs from 'src/components/tarifs/Tarifs.vue'
+import Forms from 'src/forms'
 
 Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue);
 Vue.use(VueI18n)
-// Vue.use(VueLocalStorage, { bind: true });
 
 $(document).on('turbolinks:load', function () {
 
@@ -37,6 +40,15 @@ $(document).on('turbolinks:load', function () {
     components: { Tarifs, AppOccupancyCalendar },
     i18n
   });
+
+  $('[data-href]').click(function (e) {
+    if ($(e.target).parents('a').length == 0) {
+      Turbolinks.visit($(this).data('href'))
+    }
+  });
+
+  Forms.start();
 });
 
+Rails.start();
 Turbolinks.start()

@@ -3,7 +3,7 @@
   fieldset
     = f.collection_select :invoice_id, @payment.booking.invoices, :id, :ref
     = f.number_field :amount
-    = f.date_field :paid_at
+    = f.date_field :paid_at, lang: I18n.locale
     = f.text_area :remarks
 
   .form-actions.pt-4.mt-3.border-top

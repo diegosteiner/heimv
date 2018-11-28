@@ -17,12 +17,12 @@
     = f.fields_for :occupancy, @booking.occupancy do |of|
       .row
         .col-md-6
-          = of.date_field :begins_at_date, disabled: true
+          = of.date_field :begins_at_date, disabled: true, lang: I18n.locale
         .col-md-6
           = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: true
       .row
         .col-md-6
-          = of.date_field :ends_at_date, disabled: true
+          = of.date_field :ends_at_date, disabled: true, lang: I18n.locale
         .col-md-6
           = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: true
     = f.fields_for :tenant, @booking.tenant do |cf|

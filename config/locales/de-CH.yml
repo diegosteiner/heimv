@@ -16,6 +16,7 @@ de-CH:
         cancellation_reason: Annulierungsgrund
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
+        deadline: Frist bis
         home: Heim
         home_id: Heim
         invoice_address: Rechnungsadresse (falls abweichend)
