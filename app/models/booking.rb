@@ -72,15 +72,12 @@ class Booking < ApplicationRecord
   def assign_tenant_from_email
     return if email.blank?
 
-    self.tenant ||= Tenant.find_or_initialize_by(email: email).tap do |tenant|
-      # tenant.strict_validation ||= strict_validation
-      # tenant.skip_exact_validation ||= strict_validation.nil?
-    end
+    self.tenant ||= Tenant.find_or_initialize_by(email: email)
   end
 
   def set_occupancy_attributes
-    self.occupancy ||= build_occupancy
-    occupancy.home ||= home
+    self.occupancy    ||= build_occupancy
+    occupancy.home    ||= home
     occupancy.booking ||= self
   end
 end

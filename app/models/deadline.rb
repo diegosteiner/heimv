@@ -21,11 +21,6 @@ class Deadline < ApplicationRecord
     update(at: extend_until, extendable: extendable - 1)
   end
 
-  # def extend=(value)
-  #   self[]
-  #   extend_until(at + 14.days) if value.present?
-  # end
-
   def extendable?
     extendable.positive?
   end

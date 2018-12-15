@@ -34,6 +34,10 @@ module BookingStrategy
         !booking.invoices.open.exists?
       end
 
+      after_transition do |booking|
+        booking.deadline.clear
+      end
+
       after_transition(to: %i[unconfirmed_request]) do |booking|
         if booking.booking_agent.present?
           BookingMailer.booking_agent_request(BookingMailerViewModel.new(booking, booking.booking_agent.email))
