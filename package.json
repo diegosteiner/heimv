@@ -2,6 +2,8 @@
     "dependencies": {
         "@rails/webpacker": "^3.5.3",
         "axios": "^0.18.0",
+        "better-dateinput-polyfill": "^3.2.2",
+        "better-dom": "^4.0.0",
         "bootstrap": "~4.1",
         "bootstrap-vue": "^2.0.0-rc.10",
         "caniuse-lite": "^1.0.30000843",

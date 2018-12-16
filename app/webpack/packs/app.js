@@ -18,8 +18,11 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Tarifs from 'src/components/tarifs/Tarifs.vue'
 import Forms from 'src/forms'
 
+require('better-dom/dist/better-dom')
+require('better-dateinput-polyfill/dist/better-dateinput-polyfill')
+
 Vue.use(TurbolinksAdapter)
-Vue.use(BootstrapVue);
+Vue.use(BootstrapVue)
 Vue.use(VueI18n)
 
 $(document).on('turbolinks:load', function () {
@@ -48,6 +51,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   Forms.start();
+
 });
 
 Rails.start();
