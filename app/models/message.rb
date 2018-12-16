@@ -26,7 +26,7 @@ class Message < ApplicationRecord
   end
 
   def self.new_from_template(key, attributes = {})
-    template = MarkdownTemplate.find_by_key(key)
+    template = MarkdownTemplate.find_by(key: key)
     return nil unless template
 
     new(attributes) do |message|

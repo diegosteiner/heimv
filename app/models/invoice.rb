@@ -6,7 +6,7 @@ class Invoice < ApplicationRecord
 
   enum invoice_type: %i[invoice deposit late_notice]
 
-  scope :open, -> { where(paid: false) }
+  scope :unpaid, -> { where(paid: false) }
   scope :paid, -> { where(paid: true) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true

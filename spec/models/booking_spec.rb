@@ -4,6 +4,7 @@ describe Booking, type: :model do
   let(:tenant) { create(:tenant) }
   let(:home) { create(:home) }
   let(:booking) { build(:booking, tenant: tenant, home: home) }
+  before { allow(BookingMailer).to receive_message_chain(:new_booking, :deliver_now) }
 
   describe 'Tenant' do
     context 'with new tenant' do

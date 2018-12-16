@@ -13,7 +13,7 @@ class InterpolationContext
   end
 
   def register(object, key: object.class.to_s.downcase)
-    @context[key.to_s] = CLASS_MAPPING[object.class]&.new(object)&.serializable_hash.deep_stringify_keys
+    @context[key.to_s] = CLASS_MAPPING[object.class]&.new(object)&.serializable_hash&.deep_stringify_keys
   end
 
   def self.[](*context)

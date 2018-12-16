@@ -9,7 +9,7 @@ module Manage
       end
 
       def new
-        @contract.text = MarkdownTemplate.find_by_key(:contract_text) % @booking
+        @contract.text = MarkdownTemplate.find_by(key: :contract_text) % @booking
         respond_with :manage, @booking, @contract
       end
 

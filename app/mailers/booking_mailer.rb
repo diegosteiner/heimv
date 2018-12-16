@@ -1,7 +1,8 @@
 class BookingMailer < ApplicationMailer
   def new_booking(booking)
-    template = MarkdownTemplate.find_by_key(:manage_booking_mail)
-    markdown_mail('info@heimverwalung.example.com', template.title, template % booking)
+    to = ENV.fetch('ADMIN_EMAIL', 'info@heimverwalung.example.com')
+    template = MarkdownTemplate.find_by(key: :manage_new_booking_mail)
+    markdown_mail(to, template.title, template % booking)
   end
 
   def booking_message(message)

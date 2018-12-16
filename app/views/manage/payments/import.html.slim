@@ -19,9 +19,9 @@
               = pf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
               = pf.hidden_field :ref
             td.py-2
-              = pf.collection_select :invoice_id, Invoice.open, :id, :ref, skip_label: true, include_blank: true
+              = pf.collection_select :invoice_id, Invoice.unpaid, :id, :ref, skip_label: true, include_blank: true
             td.py-2
-              = pf.collection_select :booking_id, Booking.open, :id, :ref, skip_label: true
+              = pf.collection_select :booking_id, Booking.unconcluded, :id, :ref, skip_label: true
             td.py-2
               = pf.number_field :amount, skip_label: true
             td.py-2

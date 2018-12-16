@@ -4,7 +4,12 @@ RSpec.describe Tarif, type: :model do
   let(:home) { create(:home) }
 
   describe 'scope "applicable_to"' do
-    let(:booking) { create(:booking, home: home) }
+    let(:booking) do
+      build(:booking, home: home).tap do |booking|
+        allow(booking).to receive(:state_transition)
+        booking.save
+      end
+    end
     let(:transient_tarifs) { create_list(:tarif, 2, home: home, transient: true) }
     let(:booking_tarifs) { create_list(:tarif, 2, home: home, booking: booking, transient: true) }
 

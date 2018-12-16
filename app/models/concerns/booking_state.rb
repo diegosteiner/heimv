@@ -9,7 +9,8 @@ module BookingState
     attr_accessor :transition_to, :skip_automatic_transition
     has_many :booking_transitions, dependent: :destroy, autosave: false
 
-    scope :open, -> { where.not(state: %i[cancelled completed]) }
+    scope :concluded, -> { where(state: %i[cancelled completed]) }
+    scope :inconcluded, -> { !concluded }
 
     after_save :state_transition
     after_touch :state_transition

@@ -38,7 +38,7 @@ module BookingStrategy
       end
 
       automatic_transition(from: %i[payment_due payment_overdue], to: :completed) do |booking|
-        !booking.invoices.open.exists?
+        !booking.invoices.unpaid.exists?
       end
 
       # automatic_transition(from: :open_request, to: :provisional_request) do |booking|

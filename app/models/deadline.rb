@@ -5,7 +5,7 @@ class Deadline < ApplicationRecord
   attribute :extended, default: false
 
   scope :ordered, -> { order(at: :DESC) }
-  scope :current, -> { where(current: true).ordered.last }
+  scope :current, -> { where(current: true).ordered.take }
   scope :future, -> { where(arel_table[:at].gteq(Time.zone.now)) }
 
   after_destroy :set_current, if: :current?

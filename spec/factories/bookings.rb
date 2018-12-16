@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :booking do
     home
-    association :tenant, factory: :tenant
+    tenant
     organisation { Faker::Company.name }
     sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
     skip_automatic_transition { initial_state_present? }
@@ -21,7 +21,7 @@ FactoryBot.define do
     after(:create) do |booking, evaluator|
       if evaluator.initial_state_present?
         create(:booking_transition, booking: booking, to_state: evaluator.initial_state)
-        create(:deadline, booking: booking)
+        # create(:deadline, booking: booking)
       end
     end
   end

@@ -27,15 +27,15 @@ module BookingStrategy
       end
 
       guard_transition(to: :completed) do |booking|
-        !booking.invoices.open.exists?
+        !booking.invoices.unpaid.exists?
       end
 
       guard_transition(to: :cancelled) do |booking|
-        !booking.invoices.open.exists?
+        !booking.invoices.unpaid.exists?
       end
 
       after_transition do |booking|
-        booking.deadline.clear
+        booking.deadline.try(:clear)
       end
 
       after_transition(to: %i[unconfirmed_request]) do |booking|

@@ -25,7 +25,7 @@ module Seeders
 
               BODY
           ),
-          MarkdownTemplate.create(
+          MarkdownTemplate.create!(
             key: :open_request_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Bestätigung Deiner Mietanfrage',
@@ -54,7 +54,7 @@ module Seeders
 
               BODY
           ),
-          MarkdownTemplate.create(
+          MarkdownTemplate.create!(
             key: :confirmed_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Reservation bestätigt',
@@ -87,7 +87,7 @@ module Seeders
               Verein Pfadiheime St. Georg
               BODY
           ),
-          MarkdownTemplate.create(
+          MarkdownTemplate.create!(
             key: :provisional_request_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt',
@@ -117,7 +117,7 @@ module Seeders
               Verein Pfadiheime St. Georg
               BODY
           ),
-          MarkdownTemplate.create(
+          MarkdownTemplate.create!(
             key: :overdue_request_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Anfrage überfällig',
@@ -151,7 +151,7 @@ module Seeders
 
               BODY
           ),
-          MarkdownTemplate.create(
+          MarkdownTemplate.create!(
             key: :definitive_request_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Definitive Reservation bestätigt',
@@ -179,7 +179,32 @@ module Seeders
               Verein Pfadiheime St. Georg
               BODY
           ),
-          MarkdownTemplate.create(
+          MarkdownTemplate.create!(
+            key: :manage_new_booking_mail,
+            locale: :'de-CH',
+            title: 'Pfadi-heime.ch: Neue Mietanfrage',
+            body: <<~BODY
+              Hallo
+
+              Es ist eine neue Mietanfrage eingegangen für das Lagerhaus "%{booking.home.name}"
+
+              [{{booking.links.edit}}]({{booking.links.edit}})
+
+              **Reservationsdetails**
+
+              - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+              - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+              - Organisation: {{ booking.organisation }}
+              - Mietzweck: {{ booking.purpose }}
+              - Bemerkungen: {{ booking.remarks }}
+
+              Freundliche Grüsse
+
+              Verein Pfadiheime St. Georg
+
+              BODY
+          ),
+          MarkdownTemplate.create!(
             key: :upcoming_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen',
@@ -208,7 +233,7 @@ module Seeders
 
               BODY
           ),
-          MarkdownTemplate.create(
+          MarkdownTemplate.create!(
             key: :contract_text,
             locale: :'de-CH',
             title: 'Vertrag',

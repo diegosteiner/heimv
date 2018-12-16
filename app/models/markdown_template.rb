@@ -1,5 +1,4 @@
 class MarkdownTemplate < ApplicationRecord
-
   KEYS = %w[
     contract_text
     upcoming_message
@@ -9,6 +8,7 @@ class MarkdownTemplate < ApplicationRecord
     confirmed_message
     open_request_message
     unconfirmed_request_message
+    manage_new_booking_mail
   ].freeze
 
   validates :key, :locale, presence: true
@@ -24,7 +24,7 @@ class MarkdownTemplate < ApplicationRecord
     Markdown.new(Liquid::Template.parse(body).render(context.to_h))
   end
 
-  alias_method :%, :interpolate
+  alias % interpolate
 
   def self.find_by_key(key, locale: I18n.locale)
     find_by(key: key, locale: locale)
