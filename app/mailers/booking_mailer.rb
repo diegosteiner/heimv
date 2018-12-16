@@ -1,12 +1,7 @@
 class BookingMailer < ApplicationMailer
-  def new_booking(booking, interpolator = Interpolator.new(booking))
-    subject = I18n.t(:'booking_mailer.new_booking.subject')
-    begin
-      markdown = Markdown.new(I18n.t(:'booking_mailer.new_booking.body', interpolator.to_h.symbolize_keys))
-    rescue I18n::MissingInterpolationArgument => ex
-      markdown = Markdown.new(ex.message)
-    end
-    markdown_mail('info@heimverwalung.example.com', subject, markdown)
+  def new_booking(booking)
+    template = MarkdownTemplate.find_by_key(:manage_booking_mail)
+    markdown_mail('info@heimverwalung.example.com', template.title, template % booking)
   end
 
   def booking_message(message)

@@ -33,14 +33,14 @@
                 = l(contract.sent_at, format: :short) if contract.sent?
             - else
               td.py-2
-                = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { sent_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
+                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { sent_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
                   | Versenden
             - if contract.signed? || contract.ousted?
               td
                 = l(contract.signed_at, format: :short) if contract.signed?
             - else
               td.py-2
-                = button_to manage_booking_contract_path(@booking, contract), method: :put, params: { contract: { signed_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
+                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { signed_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
                   | Unterschrieben zurückerhalten
             td.py-1.text-right
               .btn-group

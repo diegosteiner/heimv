@@ -4,30 +4,18 @@ module Manage
       load_and_authorize_resource :booking
       load_and_authorize_resource :contract, through: :booking
 
-      layout false, only: :show
-
-      # before_action do
-      #   breadcrumbs.add(Booking.model_name.human(count: :other), manage_bookings_path)
-      #   breadcrumbs.add(@booking, manage_booking_path(@booking))
-      #   breadcrumbs.add(Contract.model_name.human(count: :other), manage_booking_contracts_path)
-      # end
-      # before_action(only: :new) { breadcrumbs.add(t(:new)) }
-      # before_action(only: %i[show edit]) { breadcrumbs.add(@contract.to_s,
-      # manage_booking_contract_path(@booking, @contract)) }
-      # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
-
       def index
         respond_with :manage, @contracts
       end
 
       def new
-        @contract.text = MarkdownTemplate.find_by(key: :new, interpolatable_type: :Contract)&.body
+        @contract.text = MarkdownTemplate.find_by_key(:contract_text) % @booking
         respond_with :manage, @booking, @contract
       end
 
       def show
         respond_to do |format|
-          format.html
+          # format.html
           format.pdf do
             reditect_to url_for(@contract.pdf)
           end

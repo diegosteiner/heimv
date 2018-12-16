@@ -7,8 +7,7 @@ module Seeders
       {
         markdown_templates: [
           MarkdownTemplate.create!(
-            key: MarkdownTemplate.key(:unconfirmed_request),
-            interpolatable_type: Message,
+            key: :unconfirmed_request_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse',
             body: <<~BODY
@@ -18,7 +17,7 @@ module Seeders
               untenstehenden Link, um Deine E-Mail-Adresse zu bestätigen und um die
               Mietanfrage abzuschliessen.
 
-              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+              [{{booking.links.edit}}]({{booking.links.edit}})
 
               Freundliche Grüsse
 
@@ -27,54 +26,27 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:upcoming),
-						interpolatable_type: Message,
-            locale: :'de-CH',
-            title: 'Pfadi-heime.ch: Bestätigung deiner Reservation',
-            body: <<~BODY
-              {{ booking_tenant_salutation_name }}
-
-              Hiermit bestätigen wir Deine Reservation auf pfadi-heime.ch.
-
-
-              **Reservationsdetails**
-
-              - Lagerhaus: {{booking_home_name}}, {{ booking_home_place }}
-              - Reservation: {{ booking_occupancy_begins_at | datetime }} bis {{ booking_occupancy_ends_at | datetime }}
-              - Organisation: {{ booking_organisation }}
-              - Mietzweck: {{ booking_purpose }}
-              - Bemerkungen: {{ booking_remarks }}
-
-
-              Freundliche Grüsse
-
-              Verein Pfadiheime St. Georg
-
-              BODY
-          ),
-          MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:open_request),
-						interpolatable_type: Message,
+            key: :open_request_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Bestätigung Deiner Mietanfrage',
             body: <<~BODY
-              {{ booking_tenant_salutation_name }}
+              {{ booking.tenant.salutation_name }}
 
               Hiermit bestätigen wir Deine Mietanfrage auf pfadi-heime.ch.
 
 
               **Reservationsdetails**
 
-              - Lagerhaus: {{booking_home_name}}, {{ booking_home_place }}
-              - Reservation: {{ booking_occupancy_begins_at | datetime }} bis {{ booking_occupancy_ends_at | datetime }}
-              - Organisation: {{ booking_organisation }}
-              - Mietzweck: {{ booking_purpose }}
-              - Bemerkungen: {{ booking_remarks }}
+              - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+              - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+              - Organisation: {{ booking.organisation }}
+              - Mietzweck: {{ booking.purpose }}
+              - Bemerkungen: {{ booking.remarks }}
 
 
               Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
 
-              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+              [{{booking.links.edit}}]({{booking.links.edit}})
 
               Freundliche Grüsse
 
@@ -83,12 +55,11 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:confirmed),
-						interpolatable_type: Message,
+            key: :confirmed_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Reservation bestätigt',
             body: <<~BODY
-              {{ booking_tenant_salutation_name }}
+              {{ booking.tenant.salutation_name }}
 
               Mit dieser Nachricht erhältst Du die Unterlagen für Deine Lagerhaus-Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn an uns zurück.
               Falls im Vertrag eine Anzahlung vereinbart wurde, ist diese sofort fällig. Bitte beachte, dass der Vertrag erst zustande kommt, wenn Anzahlung und unterzeichnetes Vertragsdoppel bei uns angekommen sind.
@@ -96,11 +67,11 @@ module Seeders
 
               **Reservationsdetails**
 
-              - Lagerhaus: {{booking_home_name}}, {{ booking_home_place }}
-              - Reservation: {{ booking_occupancy_begins_at | datetime }} bis {{ booking_occupancy_ends_at | datetime }}
-              - Organisation: {{ booking_organisation }}
-              - Mietzweck: {{ booking_purpose }}
-              - Bemerkungen: {{ booking_remarks }}
+              - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+              - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+              - Organisation: {{ booking.organisation }}
+              - Mietzweck: {{ booking.purpose }}
+              - Bemerkungen: {{ booking.remarks }}
 
 
               **Zahlungsdetails**
@@ -117,27 +88,26 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:provisional_request),
-						interpolatable_type: Message,
+            key: :provisional_request_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt',
             body: <<~BODY
-              {{ booking_tenant_salutation_name }}
+              {{ booking.tenant.salutation_name }}
 
               Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir haben Deine Angaben geprüft und nun eine provisorische Reservation erstellt.
               Diese gilt für **14 Tage**, danach verfällt sie und das Lagerhaus wird wieder freigegeben.
               Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.
 
-              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+              [{{booking.links.edit}}]({{booking.links.edit}})
 
 
               **Reservationsdetails**
 
-              - Lagerhaus: {{booking_home_name}}, {{ booking_home_place }}
-              - Reservation: {{ booking_occupancy_begins_at | datetime }} bis {{ booking_occupancy_ends_at | datetime }}
-              - Organisation: {{ booking_organisation }}
-              - Mietzweck: {{ booking_purpose }}
-              - Bemerkungen: {{ booking_remarks }}
+              - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+              - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+              - Organisation: {{ booking.organisation }}
+              - Mietzweck: {{ booking.purpose }}
+              - Bemerkungen: {{ booking.remarks }}
 
 
               Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
@@ -148,33 +118,32 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:overdue_request),
-						interpolatable_type: Message,
+            key: :overdue_request_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Anfrage überfällig',
             body: <<~BODY
-              {{ booking_tenant_salutation_name }}
+              {{ booking.tenant.salutation_name }}
 
-              Du hast kürzlich auf pfadi-heime.cheine provisorische Reservation erstellt.
+              Du hast kürzlich auf pfadi-heime.ch eine provisorische Reservation erstellt.
               Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Lagerhaus wird wieder freigegeben.
               Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zumachen.
               Klicke dazu auf den untenstehenden Link
 
-              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+              [{{booking.links.edit}}]({{booking.links.edit}})
 
 
               **Reservationsdetails**
 
-              - Lagerhaus: {{booking_home_name}}, {{ booking_home_place }}
-              - Reservation: {{ booking_occupancy_begins_at | datetime }} bis {{ booking_occupancy_ends_at | datetime }}
-              - Organisation: {{ booking_organisation }}
-              - Mietzweck: {{ booking_purpose }}
-              - Bemerkungen: {{ booking_remarks }}
+              - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+              - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+              - Organisation: {{ booking.organisation }}
+              - Mietzweck: {{ booking.purpose }}
+              - Bemerkungen: {{ booking.remarks }}
 
 
               Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
 
-              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+              [{{booking.links.edit}}]({{booking.links.edit}})
 
               Freundliche Grüsse
 
@@ -183,8 +152,7 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:definitive_request),
-						interpolatable_type: Message,
+            key: :definitive_request_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Definitive Reservation bestätigt',
             body: <<~BODY
@@ -192,16 +160,16 @@ module Seeders
 
               Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.
 
-              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+              [{{booking.links.edit}}]({{booking.links.edit}})
 
 
               **Reservationsdetails**
 
-              - Lagerhaus: {{booking_home_name}}, {{ booking_home_place }}
-              - Reservation: {{ booking_occupancy_begins_at | datetime }} bis {{ booking_occupancy_ends_at | datetime }}
-              - Organisation: {{ booking_organisation }}
-              - Mietzweck: {{ booking_purpose }}
-              - Bemerkungen: {{ booking_remarks }}
+              - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+              - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+              - Organisation: {{ booking.organisation }}
+              - Mietzweck: {{ booking.purpose }}
+              - Bemerkungen: {{ booking.remarks }}
 
 
               Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
@@ -212,28 +180,27 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:upcoming),
-						interpolatable_type: Message,
+            key: :upcoming_message,
             locale: :'de-CH',
             title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen',
             body: <<~BODY
-              {{ booking_tenant_salutation_name }}
+              {{ booking.tenant.salutation_name }}
 
               Wir haben das von Dir unterzeichnete Vertragsdoppel erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Lagerhaus.
 
 
               **Reservationsdetails**
 
-              - Lagerhaus: {{booking_home_name}}, {{ booking_home_place }}
-              - Reservation: {{ booking_occupancy_begins_at | datetime }} bis {{ booking_occupancy_ends_at | datetime }}
-              - Organisation: {{ booking_organisation }}
-              - Mietzweck: {{ booking_purpose }}
-              - Bemerkungen: {{ booking_remarks }}
+              - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+              - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+              - Organisation: {{ booking.organisation }}
+              - Mietzweck: {{ booking.purpose }}
+              - Bemerkungen: {{ booking.remarks }}
 
 
               Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
 
-              [{{edit_public_booking_url}}]({{edit_public_booking_url}})
+              [{{booking.links.edit}}]({{booking.links.edit}})
 
               Freundliche Grüsse
 
@@ -242,18 +209,17 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create(
-            key: MarkdownTemplate.key(:new),
-						interpolatable_type: Contract,
+            key: :contract_text,
             locale: :'de-CH',
             title: 'Vertrag',
             body: <<~BODY
                 # Allgemein
-                Der Vermieter überlässt dem Mieter das Pfadiheim "{{ booking_home_name }}"" für den nachfolgend aufgeführten Anlass zur alleinigen Benutzung
+                Der Vermieter überlässt dem Mieter das Pfadiheim "{{ booking.home.name }}" für den nachfolgend aufgeführten Anlass zur alleinigen Benutzung
 
                 # Mietdauer
 
-                - Mietbeginn: {{ booking_occupancy_begins_at | datetime }}
-                - Mietende:   {{ booking_occupancy_ends_at | datetime }}
+                - Mietbeginn: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }}
+                - Mietende:   {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
 
                 Die Hausübergabe bzw. –rücknahme erfolgt durch den Heimwart. Der Mieter hat das Haus persönlich zum vereinbarten Zeitpunkt zu übernehmen resp. zu übergeben. Hierfür sind jeweils ca. 30 Minuten einzuplanen. Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten.
 
@@ -261,7 +227,7 @@ module Seeders
 
                 Der genaue Zeitpunkt der Hausübernahme ist mit dem Heimwart spätestens 5 Tage vor Mietbeginn telefonisch zu vereinbaren:
 
-                *{{ booking_home_janitor }}*
+                *{{ booking.home.janitor }}*
 
                 # Übernahme und Rückgabe
 
@@ -269,7 +235,7 @@ module Seeders
 
                 # Zweck der Miete
 
-                *{{ booking_purpose }}*
+                *{{ booking.purpose }}*
 
                 # Tarife
                 Die Mindestbelegung beträgt durchschnittlich 12 Personen pro Nacht.

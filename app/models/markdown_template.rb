@@ -1,21 +1,32 @@
 class MarkdownTemplate < ApplicationRecord
-  validates :key, :locale, presence: true
-  validates :key, uniqueness: true
 
-  def interpolatable_type
-    super&.constantize
-  end
+  KEYS = %w[
+    contract_text
+    upcoming_message
+    definitive_request_message
+    overdue_request_message
+    provisional_request_message
+    confirmed_message
+    open_request_message
+    unconfirmed_request_message
+  ].freeze
+
+  validates :key, :locale, presence: true
+  validates :key, uniqueness: true, inclusion: { in: KEYS }
 
   def to_markdown
     Markdown.new(body)
   end
 
-  def self.key(*partial_keys)
-    partial_keys.join('/')
+  def interpolate(context)
+    context = InterpolationContext.new(context) unless context.is_a?(InterpolationContext)
+
+    Markdown.new(Liquid::Template.parse(body).render(context.to_h))
   end
 
-  def self.find_by_key(*partial_keys)
-    conditions = partial_keys.last.is_a?(Hash) ? partial_keys.pop : { locale: I18n.locale }
-    find_by(conditions.merge(key: key(*partial_keys)))
+  alias_method :%, :interpolate
+
+  def self.find_by_key(key, locale: I18n.locale)
+    find_by(key: key, locale: locale)
   end
 end

@@ -1,5 +1,7 @@
 module Public
   class ApplicationSerializer < ActiveModel::Serializer
+    include Rails.application.routes.url_helpers
+
     # has_one :owner
 
     # attributes :id, :name, :zip, :place, :area, :address, :lv03_coordinates,

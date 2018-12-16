@@ -18,6 +18,7 @@ gem 'devise-i18n'
 gem 'factory_bot_rails', require: false
 gem 'faker'
 gem 'kramdown'
+gem 'liquid'
 gem 'pg'
 gem 'prawn'
 gem 'prawn-table'

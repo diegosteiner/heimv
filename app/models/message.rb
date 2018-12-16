@@ -26,12 +26,12 @@ class Message < ApplicationRecord
   end
 
   def self.new_from_template(key, attributes = {})
-    template = MarkdownTemplate.find_by(interpolatable_type: Message.to_s, key: key, locale: I18n.locale)
+    template = MarkdownTemplate.find_by_key(key)
     return nil unless template
 
     new(attributes) do |message|
       message.subject = template.title
-      message.markdown = Interpolator.new(message).interpolate(template.to_markdown)
+      message.markdown = template.interpolate(booking)
     end
   end
 end
