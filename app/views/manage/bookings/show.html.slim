@@ -4,8 +4,9 @@ section.breakout-sm
   .row.mt-4
     .col-9
       .card
+        .card-header.bg-primary.text-white
+          h5.card-title.m-0= @booking.ref
         .card-body
-          h4.m-0.text-center= @booking.ref
           p
             strong= Occupancy.model_name.human
             = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: @booking.occupancy }
@@ -30,11 +31,11 @@ section.breakout-sm
             br
             = @booking.approximate_headcount
 
-          - if @booking.deadlines.current.present?
+          - if @booking.deadline.present?
             p
               strong= Deadline.model_name.human
               br
-              = l(@booking.deadlines.current.at, format: :short)
+              = l(@booking.deadline.at, format: :short)
 
           - if @booking.remarks.present?
             p

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
     resources :bookings do
       resources :payments, shallow: true
-      resources :messages, shallow: true
+      resources :messages, shallow: true, only: %i[index show]
       scope module: :bookings do
         resources :contracts
         resources :tarifs

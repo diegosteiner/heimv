@@ -9,16 +9,15 @@
       col[style='width: 25%;']
       col[style='width: 15%;']
       col[style='width: 20%;']
-      col[style='width: 5%;']
+      / col[style='width: 5%;']
       thead
-        tr
-          th= Booking.human_attribute_name(:ref)
-          th= Booking.human_attribute_name(:occupancy)
-          th= Booking.human_attribute_name(:organisation)
-          th= Booking.human_attribute_name(:tenant)
-          - if defined?(special_column)
-            th= special_column
-          th
+        /   th= Booking.human_attribute_name(:ref)
+        /   th= Booking.human_attribute_name(:occupancy)
+        /   th= Booking.human_attribute_name(:organisation)
+        /   th= Booking.human_attribute_name(:tenant)
+        /   - if defined?(special_column)
+        /     th= special_column
+        /   th
 
       tbody
         - bookings.each do |booking|
@@ -52,7 +51,7 @@
             td.py-1.text-right.align-middle
               = render partial: BookingStrategy::Default.template_path('manage/bookings/booking'), locals: { booking: booking }
 
-            td.py-1.text-right.align-middle
-              .btn-group
-                = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
-                  span.fa.fa-pencil
+            / td.py-1.text-right.align-middle
+            /   .btn-group
+            /     = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
+            /       span.fa.fa-pencil

@@ -60,7 +60,7 @@ class Booking < ApplicationRecord
   end
 
   def deadline
-    deadlines.current
+    deadlines.where(current: true).ordered.take
   end
 
   def deadline_exceeded?

@@ -1,9 +1,10 @@
 <template>
   <a
-    :class='calendarDayClass'
-    :href='calendarDayLink'
-    v-b-popover.hover.bottom="tooltip" variant="primary"
-    >{{ date | dayOfMonth }}</a>
+    :class="calendarDayClass"
+    :href="calendarDayLink"
+    v-b-popover.hover.bottom="tooltip"
+    variant="primary"
+  >{{ date | dayOfMonth }}</a>
 </template>
 
 <script>
@@ -55,20 +56,18 @@ export default {
             })
           )
           .join(", ");
-      } else {
-        // return "Frei";
       }
     },
     calendarDayClass() {
       return {
-        disabled: this.disabledOrOutOfRange,
-        "occupied-allday": this.occupancies.some(
+        "disabled":          this.disabledOrOutOfRange,
+        "occupied": this.occupancies.some(
           occupancy => occupancy.occupancy_type == "occupied"
         ),
-        "tentative-allday": this.occupancies.some(
+        "tentative": this.occupancies.some(
           occupancy => occupancy.occupancy_type == "tentative"
         ),
-        closed: this.occupancies.some(
+        "closed":           this.occupancies.some(
           occupancy => occupancy.occupancy_type == "closed"
         )
       };
@@ -90,35 +89,59 @@ export default {
 };
 </script>
 
-<style>
-.calendar-day a {
-  margin: 1px;
-  padding: 0.25rem;
-  border: 1px solid transparent;
-  transition: opacity 1.5s;
-}
-.calendar-day a.occupied-allday {
-  background: #ffa8a8;
-  border: 1px solid #e85f5f;
-  font-weight: bold;
-  color: #9e2e2e;
-}
-.calendar-day a.tentative-allday {
-  background: #00bfff;
-  border: 1px solid #0033ff;
-  font-weight: bold;
-  color: #0033ff;
-}
+<style lang="scss">
+.calendar-day {
+  a {
+    width: 30px;
+    margin: 1px;
+    padding: 0.25rem;
+    border: 1px solid transparent;
+    transition: opacity 1s;
+  }
+  a.occupied {
+    background: #ffa8a8;
+    border: 1px solid #e85f5f;
+    font-weight: bold;
+    color: #9e2e2e;
 
-.calendar-day a.closed {
-  background: #ccc;
-  border: 1px solid #999;
-  color: #999;
-}
+    &.forenoon {
+      background: linear-gradient(315deg, #ffa8a8 50%, white 50%);
+      border-top: none;
+      border-left: none;
+    }
+    &.afternoon {
+      background: linear-gradient(45deg, #ffa8a8 50%, white 50%);
+      border-bottom: none;
+      border-right: none;
+    }
+  }
+  a.tentative {
+    background: #00bfff;
+    border: 1px solid #0033ff;
+    font-weight: bold;
+    color: #0033ff;
+    &.forenoon {
+      background: linear-gradient(315deg, #00bfff 50%, white 50%);
+      border-top: none;
+      border-left: none;
+    }
+    &.afternoon {
+      background: linear-gradient(45deg, #00bfff 50%, white 50%);
+      border-bottom: none;
+      border-right: none;
+    }
+  }
 
-.calendar-day a.disabled {
-  cursor: default;
-  opacity: 0.2;
+  a.closed {
+    background: #ccc;
+    border: 1px solid #999;
+    color: #999;
+  }
+
+  a.disabled {
+    cursor: default;
+    opacity: 0.2;
+  }
 }
 </style>
 

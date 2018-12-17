@@ -5,9 +5,3 @@
     h5.card-title= @message.subject
 
     == @message.markdown.to_html
-
-  .card-footer
-    = link_to edit_manage_message_path(@message), class: 'btn btn-primary' do
-      span.fa.fa-pencil
-      '
-      = t(:edit)

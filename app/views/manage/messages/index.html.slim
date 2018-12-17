@@ -21,12 +21,12 @@
               = '-'
           td
             = link_to message.subject, manage_message_path(message)
-          td.py-1.text-right
-            .btn-group
-              = link_to edit_manage_message_path(message), class: 'btn btn-default' do
-                span.fa.fa-pencil
-              = link_to manage_message_path(message), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                span.fa.fa-trash
+          / td.py-1.text-right
+          /   .btn-group
+          /     = link_to edit_manage_message_path(message), class: 'btn btn-default' do
+          /       span.fa.fa-pencil
+          /     = link_to manage_message_path(message), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+          /       span.fa.fa-trash
 
-= link_to new_manage_booking_message_path(@booking), class: 'btn btn-primary' do
-  = t(:add_record, model_name: Message.model_name.human)
+/ = link_to new_manage_booking_message_path(@booking), class: 'btn btn-primary' do
+/   = t(:add_record, model_name: Message.model_name.human)
