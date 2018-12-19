@@ -2,7 +2,7 @@ module Manage
   class MessagesController < BaseController
     load_and_authorize_resource :booking
     load_and_authorize_resource :message, through: :booking, shallow: true
-    before_action :set_booking, only: %i[show edit]
+    before_action :set_booking, only: %i[show]
 
     def index
       respond_with :manage, @messages

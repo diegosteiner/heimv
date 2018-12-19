@@ -4,7 +4,6 @@ module Manage
       load_and_authorize_resource :booking
       load_and_authorize_resource :invoice, through: :booking
 
-
       def index
         respond_with :manage, @booking, @invoices
       end
