@@ -31,6 +31,15 @@ class Occupancy < ApplicationRecord
       errors.add(:ends_at_time, :invalid)
     end
   end
+  validate on: :public_create do
+    acceptable_hours = (7.hours)..(22.hours)
+    unless acceptable_hours.include?(begins_at.seconds_since_midnight)
+      errors.add(:begins_at_time, :invalid)
+    end
+    unless acceptable_hours.include?(ends_at.seconds_since_midnight)
+      errors.add(:ends_at_time, :invalid)
+    end
+  end
 
   def to_s
     "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)}"

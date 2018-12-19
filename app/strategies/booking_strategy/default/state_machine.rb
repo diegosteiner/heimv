@@ -43,7 +43,7 @@ module BookingStrategy
           BookingMailer.booking_agent_request(BookingMailerViewModel.new(booking, booking.booking_agent.email))
                        .deliver_now
         else
-          booking.messages.new_from_template(:unconfirmed_request, booking: booking)&.save_and_deliver_now
+          booking.messages.new_from_template(:unconfirmed_request_message)&.save_and_deliver_now
         end
       end
 
@@ -57,7 +57,7 @@ module BookingStrategy
 
       after_transition(to: %i[open_request]) do |booking|
         BookingMailer.new_booking(booking).deliver_now
-        booking.messages.new_from_template(booking.current_state)&.save_and_deliver_now
+        booking.messages.new_from_template(:open_request_message)&.save_and_deliver_now
       end
 
       after_transition(to: %i[upcoming overdue_request overdue]) do |booking|

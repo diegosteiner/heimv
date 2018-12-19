@@ -19,7 +19,7 @@
               = f.fields_for :occupancy, @booking.occupancy do |of|
                 .row
                   .col-md-6
-                    = of.date_field :begins_at_date, lang: I18n.locale, data: { polyfill: :desktop }
+                    = of.date_field :begins_at_date, lang: I18n.locale
                   .col-md-6
                     = of.time_select :begins_at_time, ignore_date: true, minute_step: 15
                 .row

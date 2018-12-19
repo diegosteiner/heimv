@@ -234,6 +234,13 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create!(
+            key: :invoice_text,
+            locale: :'de-CH',
+            title: 'Vertrag',
+            body: <<~BODY
+              BODY
+          ),
+          MarkdownTemplate.create!(
             key: :contract_text,
             locale: :'de-CH',
             title: 'Vertrag',
@@ -262,11 +269,15 @@ module Seeders
 
                 *{{ booking.purpose }}*
 
-                # Tarife
+                # Mindestbelegung
                 Die Mindestbelegung beträgt durchschnittlich 12 Personen pro Nacht.
 
                 # Anzahlung
                 Die Anzahlung wird bei Abschluss des Vertrages fällig
+
+                # Tarife
+                Es gelten die nachfolgenden Tarife:
+
               BODY
           )
         ]

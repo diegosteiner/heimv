@@ -1,32 +1,27 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :messages }
 
-- if @booking.messages.none?
-  p.text-center
-    = t(:no_records_yet, model_name: Message.model_name.human(count: :other))
-    =<> link_to t(:add_record, model_name: Message.model_name.human), new_manage_booking_message_path(@booking)
-- else
-  table.table.table-hover.table-card
-    thead
-      tr
-        th= Message.model_name.human(count: :other)
-        th
+table.table.table-hover.table-card
+  thead
+    tr
+      th= Message.model_name.human(count: :other)
+      th
 
-    tbody
-      - @messages.each do |message|
-        tr[data-href=manage_message_path(message)]
-          td
-            - if message.sent_at
-              = l(message.sent_at, format: :short)
-            - else
-              = '-'
-          td
-            = link_to message.subject, manage_message_path(message)
-          / td.py-1.text-right
-          /   .btn-group
-          /     = link_to edit_manage_message_path(message), class: 'btn btn-default' do
-          /       span.fa.fa-pencil
-          /     = link_to manage_message_path(message), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-          /       span.fa.fa-trash
+  tbody
+    - @messages.each do |message|
+      tr[data-href=manage_message_path(message)]
+        td
+          - if message.sent_at
+            = l(message.sent_at, format: :short)
+          - else
+            = '-'
+        td
+          = link_to message.subject, manage_message_path(message)
+        / td.py-1.text-right
+        /   .btn-group
+        /     = link_to edit_manage_message_path(message), class: 'btn btn-default' do
+        /       span.fa.fa-pencil
+        /     = link_to manage_message_path(message), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+        /       span.fa.fa-trash
 
 / = link_to new_manage_booking_message_path(@booking), class: 'btn btn-primary' do
 /   = t(:add_record, model_name: Message.model_name.human)

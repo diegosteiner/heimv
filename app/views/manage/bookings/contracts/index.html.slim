@@ -28,13 +28,11 @@
                   span.fa.fa-print<>
                   span= contract.filename
 
-            - if contract.sent? || contract.ousted?
-              td
+            td
+              - if contract.sent? || contract.ousted?
                 = l(contract.sent_at, format: :short) if contract.sent?
-            - else
-              td.py-2
-                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { sent_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
-                  | Versenden
+              - else
+                | -
             - if contract.signed? || contract.ousted?
               td
                 = l(contract.signed_at, format: :short) if contract.signed?
