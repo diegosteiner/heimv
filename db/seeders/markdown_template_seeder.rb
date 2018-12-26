@@ -186,7 +186,7 @@ module Seeders
             body: <<~BODY
               Hallo
 
-              Es ist eine neue Mietanfrage eingegangen für das Lagerhaus "%{booking.home.name}"
+              Es ist eine neue Mietanfrage eingegangen für das Lagerhaus "{{ booking.home.name }}"
 
               [{{booking.links.edit}}]({{booking.links.edit}})
 

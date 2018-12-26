@@ -1,0 +1,15 @@
+div
+  - if booking.contracts.signed.any?
+    i.fa.fa-check.text-success<>
+    | Vertrag unterschrieben
+  - else
+    = link_to manage_booking_contracts_path(booking)
+      | Vertrag unterschrieben
+
+div
+  - if booking.invoices.deposit.all?(:paid)
+    i.fa.fa-check.text-success<>
+    | Anzahlung überwiesen
+  - else
+    = link_to manage_booking_invoices_path(booking)
+      | Anzahlung überwiesen

@@ -31,6 +31,7 @@ module Manage
 
     def update
       @booking.update(booking_params)
+      Rails.logger.debug(@booking.errors.messages) unless @booking.valid?
       respond_with :manage, @booking
     end
 

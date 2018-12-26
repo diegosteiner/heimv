@@ -1,6 +1,7 @@
 class MarkdownTemplate < ApplicationRecord
   KEYS = %w[
     contract_text
+    invoice_text
     upcoming_message
     definitive_request_message
     overdue_request_message

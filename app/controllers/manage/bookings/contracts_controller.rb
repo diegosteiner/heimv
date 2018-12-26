@@ -34,6 +34,7 @@ module Manage
 
       def update
         @contract.update(contract_params)
+        raise @contract.errors unless @contract.valid?
         respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
       end
 

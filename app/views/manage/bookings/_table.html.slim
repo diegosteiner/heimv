@@ -40,18 +40,14 @@
                 =<> booking.approximate_headcount
                 br
                 span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
-            td.align-middle
+
+            td.align-middle.small
               = link_to manage_tenant_path(booking.tenant) do
                 address.m-0= safe_join(booking.tenant.address_lines, '<br>'.html_safe)
 
-            - if defined?(special_column)
-              td.align-middle
-                = yield(booking) if block_given?
+            td.py-1.align-middle.small
+              / cache
+              - begin
+                = render partial: BookingStrategy::Default.template_path('state', booking.current_state, 'table_actions'), locals: { booking: booking }
+              - rescue ActionView::MissingTemplate
 
-            td.py-1.text-right.align-middle
-              = render partial: BookingStrategy::Default.template_path('manage/bookings/booking'), locals: { booking: booking }
-
-            / td.py-1.text-right.align-middle
-            /   .btn-group
-            /     = link_to edit_manage_booking_path(booking), class: 'btn btn-default'
-            /       span.fa.fa-pencil

@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "@rails/webpacker": "^3.5.3",
+        "@rails/webpacker": "^4.0.0-rc.2",
         "axios": "^0.18.0",
         "better-dateinput-polyfill": "^3.2.2",
         "better-dom": "^4.0.0",
@@ -17,6 +17,7 @@
         "less-loader": "^4.0.5",
         "moment": "^2.22.2",
         "moment-timezone": "^0.5.21",
+        "popper.js": "^1.14.3",
         "rails-ujs": "^5.2.1",
         "select2": "^4.0.3",
         "select2-bootstrap-theme": "https://github.com/rchavik/select2-bootstrap-theme.git#bs4",
@@ -26,14 +27,14 @@
         "vue-i18n": "^8.0.0",
         "vue-loader": "^14.2.2",
         "vue-occupancies-calendar": "https://github.com/diegosteiner/vue-occupancies-calendar.git",
-        "vue-template-compiler": "^2.5.16",
+        "vue-template-compiler": "2.5.21",
         "vue-turbolinks": "^2.0.3",
         "vuedraggable": "^2.16.0",
-        "webpack": "^3.0.0",
-        "webpack-cli": "^2.1.3"
+        "webpack": "^4.0.0",
+        "webpack-cli": "^3.1.2"
     },
     "devDependencies": {
-        "webpack-dev-server": "^2.11.1"
+        "webpack-dev-server": "3.1.4"
     },
     "name": "heimverwaltung",
     "version": "1.0.0",

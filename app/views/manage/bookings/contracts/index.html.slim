@@ -21,7 +21,7 @@
 
       tbody
         - @contracts.each do |contract|
-          tr[data-href=manage_booking_contract_path(@booking, contract) class=('text-secondary bg-light' if contract.ousted?)]
+          tr[data-href=manage_booking_contract_path(@booking, contract) class=('text-secondary bg-light disabled' if contract.ousted?)]
             td
               - if contract.pdf.attached?
                 = link_to url_for(contract.pdf), target: '_blank'
@@ -39,7 +39,7 @@
             - else
               td.py-2
                 = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { signed_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
-                  | Unterschrieben zurückerhalten
+                  | Vertrag unterschrieben
             td.py-1.text-right
               .btn-group
                 - unless contract.ousted?

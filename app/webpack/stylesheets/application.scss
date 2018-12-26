@@ -42,6 +42,7 @@ h6 {
 #navbar-main {
     // box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
     background-color: rgba(248,249,250,0.9);
+    border-bottom: 1px solid lightgray;
 
     a {
         font-family: $headings-font-family;
@@ -51,6 +52,11 @@ h6 {
 
 .btn {
         font-family: $headings-font-family;
+}
+
+.btn-link {
+    font-family: $font-family-sans-serif;
+    padding: 0;
 }
 
 .table-card {
