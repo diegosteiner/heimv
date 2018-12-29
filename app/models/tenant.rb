@@ -27,6 +27,10 @@ class Tenant < ApplicationRecord
     [name, street_address, "#{zipcode} #{city}"].reject(&:blank?)
   end
 
+  def contact_lines
+    address_lines + [phone, email].reject(&:blank?)
+  end
+
   def to_s
     "##{id} #{name}"
   end

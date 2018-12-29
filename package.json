@@ -1,7 +1,8 @@
 {
     "dependencies": {
-        "@rails/webpacker": "^4.0.0-rc.2",
+        "@rails/webpacker": "https://github.com/rails/webpacker",
         "axios": "^0.18.0",
+        "babel-plugin-syntax-dynamic-import": "^6.18.0",
         "better-dateinput-polyfill": "^3.2.2",
         "better-dom": "^4.0.0",
         "bootstrap": "~4.1",
@@ -10,7 +11,6 @@
         "css-loader": "^0.28.7",
         "flatpickr": "^3.0.6",
         "font-awesome": "^4.7.0",
-        "font-awesome-webpack": "^0.0.5-beta.2",
         "jquery": "^3.2.1",
         "jquery-ujs": "^1.2.2",
         "less": "^2.7.3",
@@ -23,18 +23,25 @@
         "select2-bootstrap-theme": "https://github.com/rchavik/select2-bootstrap-theme.git#bs4",
         "style-loader": "^0.19.0",
         "turbolinks": "^5.0.3",
-        "vue": "^2.5.16",
+        "vue": "^2.5.21",
         "vue-i18n": "^8.0.0",
-        "vue-loader": "^14.2.2",
+        "vue-loader": "^15.4.2",
         "vue-occupancies-calendar": "https://github.com/diegosteiner/vue-occupancies-calendar.git",
-        "vue-template-compiler": "2.5.21",
+        "vue-template-compiler": "^2.5.21",
         "vue-turbolinks": "^2.0.3",
         "vuedraggable": "^2.16.0",
         "webpack": "^4.0.0",
         "webpack-cli": "^3.1.2"
     },
     "devDependencies": {
-        "webpack-dev-server": "3.1.4"
+        "@babel/core": "^7.0.0",
+        "autoprefixer": "^9.4.3",
+        "cssnano": "^4.1.8",
+        "postcss-cssnext": "^3.1.0",
+        "postcss-import": "^12.0.1",
+        "postcss-loader": "^3.0.0",
+        "sugarss": "^2.0.0",
+        "webpack-dev-server": "^3.1.14"
     },
     "name": "heimverwaltung",
     "version": "1.0.0",

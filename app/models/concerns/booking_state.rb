@@ -37,7 +37,9 @@ module BookingState
   end
 
   def state_transition
-    state_machine.transition_to(transition_to) if state_machine.current_state != transition_to
+    if state_machine.current_state.to_s != transition_to.to_s
+      state_machine.transition_to(transition_to) && self.transition_to = nil
+    end
     Rails.logger.info state_machine_automator.run unless skip_automatic_transition
   end
 end

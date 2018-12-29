@@ -30,4 +30,8 @@ class Usage < ApplicationRecord
 
     self.tarif = Tarifs::Factory.new.booking_copy_for(tarif, booking).tap(&:save)
   end
+
+  def used?
+    used_units.present? && used_units.positive?
+  end
 end

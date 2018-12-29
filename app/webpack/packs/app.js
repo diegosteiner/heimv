@@ -1,7 +1,7 @@
 import 'stylesheets/application'
-import 'font-awesome-webpack'
 import 'images/logo.svg'
 import 'images/logo_hvs.png'
+import $ from 'jquery';
 
 import Rails from 'rails-ujs'
 import Turbolinks from 'turbolinks'
@@ -17,6 +17,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Tarifs from 'src/components/tarifs/Tarifs.vue'
 import Forms from 'src/forms'
+
+window.jQuery = $;
+window.$ = $;
 
 require('better-dom/dist/better-dom')
 require('better-dateinput-polyfill/dist/better-dateinput-polyfill')
@@ -44,15 +47,16 @@ $(document).on('turbolinks:load', function () {
     i18n
   });
 
-  $('[data-href]').click(function (e) {
-    if ($(e.target).parents('a').length == 0) {
-      Turbolinks.visit($(this).data('href'))
-    }
-  });
+  // TODO: ignore buttons as well
+  // $('[data-href]').click(function (e) {
+  //   if ($(e.target).parents('a').length == 0) {
+  //     Turbolinks.visit($(this).data('href'))
+  //   }
+  // });
 
   Forms.start();
+  Rails.start();
 
 });
 
-Rails.start();
 Turbolinks.start()

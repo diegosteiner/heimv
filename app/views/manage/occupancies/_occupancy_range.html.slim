@@ -3,7 +3,8 @@
     i.fa.fa-calendar
   div
     strong
-      = time_tag occupancy.begins_at, format: :short
+      = time_tag occupancy.begins_at, format: :short_with_weekday
     br
     .small
-      = time_tag occupancy.ends_at, format: :short
+      = t(:until)
+      =<> time_tag occupancy.ends_at, format: :short

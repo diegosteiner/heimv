@@ -42,12 +42,11 @@
                 span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
 
             td.align-middle.small
-              = link_to manage_tenant_path(booking.tenant) do
-                address.m-0= safe_join(booking.tenant.address_lines, '<br>'.html_safe)
+              = tenant_address(booking.tenant, email: false)
 
-            td.py-1.align-middle.small
+            td.align-middle
               / cache
               - begin
-                = render partial: BookingStrategy::Default.template_path('state', booking.current_state, 'table_actions'), locals: { booking: booking }
+                = render partial: BookingStrategy::Default.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
               - rescue ActionView::MissingTemplate
 

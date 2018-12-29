@@ -40,7 +40,7 @@ module Seeders
               - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
               - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
               - Organisation: {{ booking.organisation }}
-              - Mietzweck: {{ booking.purpose }}
+              - Mietzweck: {{ booking.purpose | booking_purpose }}
               - Bemerkungen: {{ booking.remarks }}
 
 
@@ -70,7 +70,7 @@ module Seeders
               - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
               - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
               - Organisation: {{ booking.organisation }}
-              - Mietzweck: {{ booking.purpose }}
+              - Mietzweck: {{ booking.purpose | booking_purpose }}
               - Bemerkungen: {{ booking.remarks }}
 
 
@@ -106,7 +106,7 @@ module Seeders
               - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
               - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
               - Organisation: {{ booking.organisation }}
-              - Mietzweck: {{ booking.purpose }}
+              - Mietzweck: {{ booking.purpose | booking_purpose }}
               - Bemerkungen: {{ booking.remarks }}
 
 
@@ -137,7 +137,7 @@ module Seeders
               - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
               - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
               - Organisation: {{ booking.organisation }}
-              - Mietzweck: {{ booking.purpose }}
+              - Mietzweck: {{ booking.purpose | booking_purpose }}
               - Bemerkungen: {{ booking.remarks }}
 
 
@@ -168,7 +168,7 @@ module Seeders
               - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
               - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
               - Organisation: {{ booking.organisation }}
-              - Mietzweck: {{ booking.purpose }}
+              - Mietzweck: {{ booking.purpose | booking_purpose }}
               - Bemerkungen: {{ booking.remarks }}
 
 
@@ -195,7 +195,7 @@ module Seeders
               - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
               - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
               - Organisation: {{ booking.organisation }}
-              - Mietzweck: {{ booking.purpose }}
+              - Mietzweck: {{ booking.purpose | booking_purpose }}
               - Bemerkungen: {{ booking.remarks }}
 
               Freundliche Grüsse
@@ -219,7 +219,7 @@ module Seeders
               - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
               - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
               - Organisation: {{ booking.organisation }}
-              - Mietzweck: {{ booking.purpose }}
+              - Mietzweck: {{ booking.purpose | booking_purpose }}
               - Bemerkungen: {{ booking.remarks }}
 
 
@@ -267,7 +267,7 @@ module Seeders
 
                 # Zweck der Miete
 
-                *{{ booking.purpose }}*
+                *{{ booking.purpose | booking_purpose }}*
 
                 # Mindestbelegung
                 Die Mindestbelegung beträgt durchschnittlich 12 Personen pro Nacht.

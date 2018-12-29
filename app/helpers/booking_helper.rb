@@ -14,4 +14,14 @@ module BookingHelper
                 render(layout: 'table', locals: { bookings: bookings, special_column: special_column }, &block)
               ])
   end
+
+  def tenant_address(tenant, phone: true, email: true)
+    tag.address(class: 'mb-0') do
+      safe_join([
+        tenant.address_lines,
+        (link_to(tenant.phone, "tel:#{tenant.phone}") if phone && tenant.phone),
+        (mail_to(tenant.email, tenant.email) if email)
+      ].reject(&:blank?), '<br>'.html_safe)
+    end
+  end
 end

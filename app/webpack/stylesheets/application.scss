@@ -72,9 +72,9 @@ h6 {
     }
 }
 
-[data-href] {
-    cursor: pointer;
-}
+// [data-href] {
+//     cursor: pointer;
+// }
 
 .card>.table {
     margin: 0;
@@ -106,4 +106,9 @@ section {
 
 th.spacer {
     background-color: $body-bg;
+}
+
+ul.checklist {
+    .fa-li {
+    }
 }

@@ -7,7 +7,7 @@ section.breakout-sm
         .card-header.bg-primary.text-white
           h5.card-title.m-0= @booking.ref
         .card-body
-          .row
+          .row.mb-3
             .col
               strong= Occupancy.model_name.human
               = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: @booking.occupancy }
@@ -15,17 +15,18 @@ section.breakout-sm
               strong= Booking.human_attribute_name(:home)
               br
               = link_to @booking.home, manage_home_path(@booking.home)
-          .row
+          .row.mb-3
             .col
               strong= Booking.human_attribute_name(:tenant)
               br
-              = link_to @booking.tenant, manage_tenant_path(@booking.tenant)
+              = tenant_address(@booking.tenant)
+
             .col
               strong= Booking.human_attribute_name(:organisation)
               br
               = @booking.organisation
 
-          .row
+          .row.mb-3
             .col
               strong= Booking.human_attribute_name(:purpose)
               br

@@ -1,0 +1,40 @@
+ul.fa-ul.mb-0
+  li
+    - if booking.booking_copy_tarifs.any?
+      span.fa-li
+        i.fa.fa-check-square-o
+      | Tarife zugewiesen
+    - else
+      span.fa-li
+        i.fa.fa-square-o
+      = link_to manage_booking_tarifs_path(booking)
+        | Tarife zuweisen
+
+  li
+    - if booking.contracts.any?
+      span.fa-li
+        i.fa.fa-check-square-o
+      | Vertrag erstellt
+    - else
+      span.fa-li
+        i.fa.fa-square-o
+      = link_to new_manage_booking_contract_path(booking)
+        | Vertrag erstellen
+
+  li
+    - if booking.invoices.deposit.any?
+      span.fa-li
+        i.fa.fa-check-square-o
+      | Anzahlung erstellt
+    - else
+      span.fa-li
+        i.fa.far.fa-square-o
+      = link_to new_manage_booking_invoice_path(booking, invoice: { invoice_type: :deposit })
+        | Anzahlung erstellen
+
+  li
+    - if booking.invoices.deposit.any? && booking.contracts.any?
+      span.fa-li
+        i.fa.fa-arrow-right
+      =<> button_to manage_booking_path(booking), params: { booking: { transition_to: :confirmed }}, method: :patch, class: 'btn btn-link'
+        | Vertrag und Anzahlung verschicken

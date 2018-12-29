@@ -22,12 +22,22 @@ class MarkdownTemplate < ApplicationRecord
   def interpolate(context)
     context = InterpolationContext.new(context) unless context.is_a?(InterpolationContext)
 
-    Markdown.new(Liquid::Template.parse(body).render(context.to_h))
+    Markdown.new(Liquid::Template.parse(body).render(context.to_h, [Filters]))
   end
 
   alias % interpolate
 
   def self.find_by_key(key, locale: I18n.locale)
     find_by(key: key, locale: locale)
+  end
+
+  module Filters
+    def t(input, scope = nil)
+      I18n.t(input, scope: scope, default: nil)
+    end
+
+    def booking_purpose(input)
+      t(input, :'activerecord.enums.booking.purpose')
+    end
   end
 end
