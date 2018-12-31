@@ -9,7 +9,7 @@ module Manage
       end
 
       def new
-        @contract.text = MarkdownTemplate.find_by(key: :contract_text) % @booking
+        @contract.text = MarkdownTemplate[:contract_text] % @booking
         respond_with :manage, @booking, @contract
       end
 
@@ -34,7 +34,6 @@ module Manage
 
       def update
         @contract.update(contract_params)
-        raise @contract.errors unless @contract.valid?
         respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
       end
 

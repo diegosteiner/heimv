@@ -3,12 +3,12 @@ ul.fa-ul.mb-0
     - if booking.contracts.signed.any?
       span.fa-li
         i.fa.fa-check-square-o
-      | Vertrag unterschrieben
+      | Vertrag eingegangen
     - else
       span.fa-li
         i.fa.fa-square-o
       = link_to manage_booking_contracts_path(booking)
-        | Vertrag unterschrieben
+        | Vertrag eingegangen
 
   li
     - if booking.invoices.deposit.all?(:paid)

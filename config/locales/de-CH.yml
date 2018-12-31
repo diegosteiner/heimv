@@ -104,6 +104,7 @@ de-CH:
         reservations_allowed: Darf Reservationsanfragen schicken
         street_address: Strasse / Nr.
         zipcode: PLZ
+        birth_date: Geburtsdatum
       usage:
         apply: Anwenden
         remarks: Bemerkungen

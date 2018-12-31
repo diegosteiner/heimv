@@ -4,7 +4,7 @@ p.mb-1
   | reserviert
 ul.fa-ul.mb-0
   span.fa-li
-    i.fa.fa-arrow-from-left
-  = link_to manage_booking_path(booking), params: { booking: { transition_to: :definitive_request }}, method: :patch, class: 'btn btn-link'
+    i.fa.fa-arrow-right
+  = button_to manage_booking_path(booking), params: { booking: { transition_to: :definitive_request }}, method: :patch, class: 'btn btn-link'
     | Anfrage definitiv setzen
 

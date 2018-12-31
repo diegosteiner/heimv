@@ -1,6 +1,6 @@
 ul.fa-ul.mb-0
   li
-    - if booking.usages.any?(&:used?)
+    - if booking.usages.amount.any?(&:used?)
       span.fa-li
         i.fa.fa-check-square-o
       | Verbrauch eingetragen

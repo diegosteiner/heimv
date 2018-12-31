@@ -25,10 +25,10 @@ FactoryBot.define do
     EOTEXT
 
     trait :sent do
-      sent_at { 1.week.ago }
+      sent_at { 1.week.ago.to_date }
 
       trait :signed do
-        signed_at { 3.days.ago }
+        signed_at { 3.days.ago.to_date }
       end
     end
   end

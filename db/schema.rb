@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
 
   create_table "contracts", force: :cascade do |t|
     t.uuid "booking_id"
-    t.datetime "sent_at"
-    t.datetime "signed_at"
+    t.date "sent_at"
+    t.date "signed_at"
     t.text "text"
     t.datetime "valid_from", default: -> { "now()" }
     t.datetime "valid_until"
@@ -267,6 +267,7 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
     t.text "phone"
     t.string "email", null: false
     t.text "search_cache", null: false
+    t.date "birth_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_tenants_on_email"

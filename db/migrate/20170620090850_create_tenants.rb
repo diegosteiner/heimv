@@ -10,6 +10,7 @@ class CreateTenants < ActiveRecord::Migration[5.1]
       t.text :phone, null: true
       t.string :email, null: false, unique: true, index: true
       t.text   :search_cache, null: false, index: true
+      t.date   :birth_date, null: true
 
       t.timestamps
     end

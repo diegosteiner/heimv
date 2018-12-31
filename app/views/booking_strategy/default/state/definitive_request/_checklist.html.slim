@@ -11,10 +11,10 @@ ul.fa-ul.mb-0
         | Tarife zuweisen
 
   li
-    - if booking.contracts.any?
+    - if booking.contracts.any?(&:sent?)
       span.fa-li
         i.fa.fa-check-square-o
-      | Vertrag erstellt
+      | Vertrag erstellt & verschickt
     - else
       span.fa-li
         i.fa.fa-square-o

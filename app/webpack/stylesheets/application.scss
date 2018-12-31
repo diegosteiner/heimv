@@ -112,3 +112,9 @@ ul.checklist {
     .fa-li {
     }
 }
+
+tr.disabled {
+    td, a {
+        color: #bbb;
+    }
+}

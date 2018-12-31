@@ -7,6 +7,9 @@ module Seeders
         requests: seeds[:homes].map { |home| create_list(:booking, 1, initial_state: :unconfirmed_request, home: home) },
         bookings: seeds[:homes].map { |home| create_list(:booking, 1, initial_state: :open_request, home: home) }
       }
+    rescue ActiveRecord::RecordInvalid
+      puts 'Error'
+      {}
     end
   end
 end

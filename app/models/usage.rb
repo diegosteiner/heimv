@@ -11,6 +11,7 @@ class Usage < ApplicationRecord
 
   scope :ordered, -> { order(tarif: { row_order: :ASC, created_at: :ASC }) }
   scope :of_tarif, ->(tarif) { where(tarif_id: tarif.self_and_booking_copy_ids) }
+  scope :amount, -> { joins(:tarif).where(tarifs: { type: Tarifs::Amount.to_s }) }
 
   before_create :create_tarif_booking_copy
 

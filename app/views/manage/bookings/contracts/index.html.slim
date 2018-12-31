@@ -21,24 +21,26 @@
 
       tbody
         - @contracts.each do |contract|
-          tr[data-href=manage_booking_contract_path(@booking, contract) class=('text-secondary bg-light disabled' if contract.ousted?)]
+          tr[data-href=manage_booking_contract_path(@booking, contract) class=('disabled' if contract.ousted?)]
             td
               - if contract.pdf.attached?
                 = link_to url_for(contract.pdf), target: '_blank'
                   span.fa.fa-print<>
                   span= contract.filename
 
-            td
-              - if contract.sent? || contract.ousted?
-                = l(contract.sent_at, format: :short) if contract.sent?
-              - else
-                | -
-            - if contract.signed? || contract.ousted?
+            - if contract.sent? || contract.ousted?
               td
-                = l(contract.signed_at, format: :short) if contract.signed?
+                = l(contract.sent_at) if contract.sent?
             - else
               td.py-2
-                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { signed_at: Time.zone.now }}, class: 'btn btn-sm btn-outline-success'
+                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { sent_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success'
+                  | Vertrag versendet
+            - if contract.signed? || contract.ousted?
+              td
+                = l(contract.signed_at) if contract.signed?
+            - else
+              td.py-2
+                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { signed_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success'
                   | Vertrag unterschrieben
             td.py-1.text-right
               .btn-group

@@ -17,8 +17,7 @@ module Pdf
     def sections
       [
         Base::LogoSection.new, Base::SenderAddressSection.new,
-        Base::RecipientAddressSection.new(@booking), Base::TitleSection.new("Rechnung: #{@booking.home.name}"),
-        ->(pdf) { pdf.text @booking.ref },
+        Base::RecipientAddressSection.new(@booking),
         Base::MarkdownSection.new(Markdown.new(@invoice.text)),
         InvoicePartSection.new(@invoice),
         (print_payment_slip? ? PaymentSlipSection.new(@payment_slip) : PaymentInformationSection.new(@payment_slip))

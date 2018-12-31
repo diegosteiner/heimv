@@ -234,10 +234,30 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create!(
-            key: :invoice_text,
+            key: :deposit_invoice_text,
+            locale: :'de-CH',
+            title: 'Anzahlung',
+            body: <<~BODY
+              # Anzahlung: {{ booking.home.name }}
+              {{ booking.ref }}
+
+              Anzahlungstext
+              BODY
+          ),
+          MarkdownTemplate.create!(
+            key: :invoice_invoice_text,
             locale: :'de-CH',
             title: 'Vertrag',
             body: <<~BODY
+              # Rechnung
+              BODY
+          ),
+          MarkdownTemplate.create!(
+            key: :late_notice_invoice_text,
+            locale: :'de-CH',
+            title: 'Vertrag',
+            body: <<~BODY
+              # Mahnung
               BODY
           ),
           MarkdownTemplate.create!(

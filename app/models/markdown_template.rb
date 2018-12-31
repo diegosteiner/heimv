@@ -1,7 +1,9 @@
 class MarkdownTemplate < ApplicationRecord
   KEYS = %w[
     contract_text
-    invoice_text
+    deposit_invoice_text
+    invoice_invoice_text
+    late_notice_invoice_text
     upcoming_message
     definitive_request_message
     overdue_request_message
@@ -27,8 +29,8 @@ class MarkdownTemplate < ApplicationRecord
 
   alias % interpolate
 
-  def self.find_by_key(key, locale: I18n.locale)
-    find_by(key: key, locale: locale)
+  def self.[](key, locale: I18n.locale)
+    find_by(key: key, locale: locale) || new(key: key)
   end
 
   module Filters
