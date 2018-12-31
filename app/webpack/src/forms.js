@@ -2,6 +2,11 @@ export default class {
     static start() {
         $('.form-check-input').addClass('form-check-control')
         $('.form-group.is-invalid .form-control').addClass('is-invalid')
+
+        $('.custom-file-input').on('change', function () {
+            let fileName = $(this).val();
+            $(this).next('.custom-file-label').html(fileName);
+        })
     }
 
     // static initializePills() {
