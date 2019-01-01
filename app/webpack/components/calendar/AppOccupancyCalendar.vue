@@ -1,15 +1,13 @@
 <template>
-  <calendar
-    :display-months='displayMonths'
-  >
-      <template slot-scope="date">
-        <app-calendar-day
-          :date="date"
-          :disabled="!loaded"
-          :occupancies="occupanciesOfDate(date)"
-          :href="reservationUrl"
-        ></app-calendar-day>
-      </template>
+  <calendar :display-months="displayMonths">
+    <template slot-scope="date">
+      <app-calendar-day
+        :date="date"
+        :disabled="!loaded"
+        :occupancies="occupanciesOfDate(date)"
+        :href="reservationUrl"
+      ></app-calendar-day>
+    </template>
   </calendar>
 </template>
 
@@ -68,5 +66,10 @@ export default {
 <style>
 .calendar-week {
   font-size: 0.8rem;
+}
+
+.calendar-month {
+  max-width: initial;
+  min-width: 182px !important;
 }
 </style>

@@ -34,16 +34,15 @@ export default {
     }
   },
   computed: {
-    disabledOrOutOfRange() {
+    isOutOfRange() {
       return (
-        this.disabled ||
         this.date.isBefore(moment().subtract(1, "day")) ||
         this.date.isAfter(moment().add(2, "years"))
       );
     },
     tooltip() {
       const date_format = this.$t("date_format");
-      if (this.occupancies.some(o => true)) {
+      if (this.occupancies.length) {
         return this.occupancies
           .filter(occupancy => occupancy.occupancy_type != "free")
           .map(occupancy =>
@@ -59,21 +58,25 @@ export default {
       }
     },
     calendarDayClass() {
-      return {
-        "disabled":          this.disabledOrOutOfRange,
-        "occupied": this.occupancies.some(
-          occupancy => occupancy.occupancy_type == "occupied"
-        ),
-        "tentative": this.occupancies.some(
-          occupancy => occupancy.occupancy_type == "tentative"
-        ),
-        "closed":           this.occupancies.some(
-          occupancy => occupancy.occupancy_type == "closed"
-        )
-      };
+      if(this.disabled || this.isOutOfRange) {
+        return ["disabled"];
+      }
+
+      return this.occupancies.map((occupancy) => {
+        let begins_at = moment.tz(occupancy.begins_at, "UTC");
+        let ends_at = moment.tz(occupancy.ends_at, "UTC");
+
+        if(ends_at.isBetween(moment(this.date.startOf("day")), moment(this.date.hour(12)), "minutes", "[)")) {
+          return `${occupancy.occupancy_type}-forenoon`;
+        }
+        if(begins_at.isBetween(moment(this.date.hour(10)), moment(this.date.endOf("day")), "minutes", "(]")) {
+          return `${occupancy.occupancy_type}-afternoon`;
+        }
+        return `${occupancy.occupancy_type}-fullday`;
+      })
     },
     calendarDayLink() {
-      if (this.disabledOrOutOfRange) {
+      if (this.disabled || this.isOutOfRange()) {
         return false;
       } else {
         return this.href.replace(
@@ -93,42 +96,75 @@ export default {
 .calendar-day {
   a {
     width: 30px;
-    margin: 1px;
+    margin: 1px auto;
     padding: 0.25rem;
     border: 1px solid transparent;
     transition: opacity 1s;
   }
-  a.occupied {
-    background: #ffa8a8;
+  a.occupied-forenoon,
+  a.occupied-afternoon,
+  a.occupied-fullday {
     border: 1px solid #e85f5f;
     font-weight: bold;
     color: #9e2e2e;
 
-    &.forenoon {
-      background: linear-gradient(315deg, #ffa8a8 50%, white 50%);
-      border-top: none;
-      border-left: none;
+    &.occupied-fullday {
+      background: #ffa8a8;
     }
-    &.afternoon {
-      background: linear-gradient(45deg, #ffa8a8 50%, white 50%);
-      border-bottom: none;
-      border-right: none;
+
+    &.occupied-afternoon {
+      background: linear-gradient(315deg, #ffa8a8 50%, white 50%);
+      border-top-color: white;
+      border-left-color: white;
+    }
+    &.occupied-forenoon {
+      background: linear-gradient(135deg, #ffa8a8 50%, white 50%);
+      border-bottom: white;
+      border-right: white;
+    }
+    &.occupied-forenoon.occupied-afternoon {
+      border: 1px solid #ffa8a8;
+      background: linear-gradient(
+        135deg,
+        #ffa8a8 49%,
+        white 49%,
+        white 51%,
+        #ffa8a8 51%
+      );
     }
   }
-  a.tentative {
-    background: #00bfff;
+
+  a.tentative-forenoon,
+  a.tentative-afternoon,
+  a.tentative-fullday {
     border: 1px solid #0033ff;
     font-weight: bold;
     color: #0033ff;
-    &.forenoon {
-      background: linear-gradient(315deg, #00bfff 50%, white 50%);
-      border-top: none;
-      border-left: none;
+
+    &.tentative-fullday {
+      background: #00bfff;
     }
-    &.afternoon {
-      background: linear-gradient(45deg, #00bfff 50%, white 50%);
-      border-bottom: none;
-      border-right: none;
+
+    &.tentative-afternoon {
+      background: linear-gradient(315deg, #00bfff 50%, white 50%);
+      border-top-color: white;
+      border-left-color: white;
+    }
+    &.tentative-forenoon {
+      background: linear-gradient(135deg, #00bfff 50%, white 50%);
+      border-bottom: white;
+      border-right: white;
+    }
+
+    &.tentative-forenoon.tentative-afternoon {
+      border: 1px solid #0033ff;
+      background: linear-gradient(
+        135deg,
+        #00bfff 49%,
+        white 49%,
+        white 51%,
+        #00bfff 51%
+      );
     }
   }
 

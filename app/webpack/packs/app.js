@@ -55,8 +55,8 @@ $(document).on('turbolinks:load', function () {
   // });
 
   Forms.start();
-  Rails.start();
 
 });
 
+Rails.start();
 Turbolinks.start()
