@@ -57,12 +57,12 @@ section.breakout-sm
             - next if state.to_sym == :cancelled
             '
             = link_to manage_booking_path(@booking, booking: { transition_to: state }), method: :patch, class: 'btn btn-outline-primary' do
-              = @booking.booking_strategy::ViewModel.i18n_transition(@booking.state_machine.current_state, state)[:label]
+              = transition_translation(to: state, from: @booking.state_machine.current_state)[:label]
 
           - if @booking.state_machine.allowed_transitions.include?('cancelled')
             '
             = link_to manage_booking_path(@booking, booking: { transition_to: :cancelled }), method: :patch, class: 'btn btn-outline-danger' do
-              = @booking.booking_strategy::ViewModel.i18n_transition(@booking.state_machine.current_state, :cancelled)[:label]
+              = transition_translation(to: :cancelled, from: @booking.state_machine.current_state)[:label]
 
           = link_to edit_manage_booking_path(@booking), class: 'btn btn-default'
             span.fa.fa-pencil
@@ -72,7 +72,7 @@ section.breakout-sm
         - @booking.booking_transitions.order(created_at: :DESC).each do |transition|
           li.list-group-item
             span.badge.badge-primary
-              = @booking.booking_strategy::ViewModel.i18n_state(transition.to_state)[:label]
+              = @booking.booking_strategy::t(transition.to_state, scope: :state, default: {})[:label]
             br
             small
               = time_tag transition.created_at

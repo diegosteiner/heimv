@@ -8,7 +8,6 @@ module Seeders
         bookings: seeds[:homes].map { |home| create_list(:booking, 1, initial_state: :open_request, home: home) }
       }
     rescue ActiveRecord::RecordInvalid
-      puts 'Error'
       {}
     end
   end

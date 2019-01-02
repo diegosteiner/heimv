@@ -38,3 +38,8 @@ ul.fa-ul.mb-0
         i.fa.fa-arrow-right
       =<> button_to manage_booking_path(booking), params: { booking: { transition_to: :confirmed }}, method: :patch, class: 'btn btn-link'
         | Vertrag und Anzahlung verschicken
+  li
+    span.fa-li
+      i.fa.fa-times
+    =<> button_to manage_booking_path(booking), params: { booking_command: :cancel }, method: :patch, class: 'btn btn-link'
+      | Absagen

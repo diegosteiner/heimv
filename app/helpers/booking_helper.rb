@@ -7,12 +7,14 @@ module BookingHelper
     view_model.allowed_transitions_for_select
   end
 
-  def bookings_by_state_table(state, bookings, special_column = nil, help_text = nil, &block)
-    safe_join([
-                tag.h3(BookingStrategy::Default::ViewModel.i18n_state(state)[:label]),
-                tag.span(help_text),
-                render(layout: 'table', locals: { bookings: bookings, special_column: special_column }, &block)
-              ])
+
+  def state_translation
+  end
+
+  def transition_translation(to:, from: nil)
+    @organisation.booking_strategy.t([from, to].join('-->'), scope: :transition, default: nil) ||
+    @organisation.booking_strategy.t("-->#{to}", scope: :transition, default: nil) ||
+    {}
   end
 
   def tenant_address(tenant, phone: true, email: true)
@@ -21,7 +23,7 @@ module BookingHelper
         tenant.address_lines,
         (link_to(tenant.phone, "tel:#{tenant.phone}") if phone && tenant.phone),
         (mail_to(tenant.email, tenant.email) if email)
-      ].reject(&:blank?), '<br>'.html_safe)
+      ].reject(&:blank?), tag.br)
     end
   end
 end

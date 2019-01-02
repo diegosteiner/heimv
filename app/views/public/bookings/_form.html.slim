@@ -1,7 +1,5 @@
 = form_with(model: [:public, @booking], local: true, disabled: !@booking.editable) do |f|
 
-  / p.text-info= @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:help]
-
   = f.alert_message nil
 
   fieldset
@@ -68,7 +66,7 @@
   .form-actions.pt-4.mt-3.border-top
     =<> f.submit
     button.btn.btn-outline-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
-      = @view_model.class.i18n_transition('cancelled')[:label]
+      = @view_model.class.i18n_transition('cancelled', default: {})[:label]
 
 
 #extendDeadlineModal.modal[role="dialog" tabindex="-1"]
@@ -81,10 +79,9 @@
           button.close aria-label="Close" data-dismiss="modal" type="button"
             span aria-hidden="true" &times;
         .modal-body
-          = f.hidden_field :extend_deadline, value: true
           = l(14.days.from_now)
         .modal-footer
-          = f.submit
+          = f.submit :booking_command, value: :extend_deadline
           button.btn.btn-secondary[data-dismiss="modal" type="button"]
             = t(:close)
 
@@ -94,7 +91,7 @@
       .modal-content
         .modal-header
           h5.modal-title
-            = @view_model.class.i18n_transition('cancelled')[:label]
+            = @view_model.class.i18n_transition('cancelled', default: {})[:label]
           button.close aria-label="Close" data-dismiss="modal" type="button"
             span aria-hidden="true" &times;
         .modal-body

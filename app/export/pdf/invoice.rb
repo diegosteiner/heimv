@@ -13,7 +13,6 @@ module Pdf
       Rails.root.join('app', 'webpack', 'fonts', 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf')
     end
 
-    # rubocop:disable Metrics/AbcSize
     def sections
       [
         Base::LogoSection.new, Base::SenderAddressSection.new,
@@ -23,7 +22,6 @@ module Pdf
         (print_payment_slip? ? PaymentSlipSection.new(@payment_slip) : PaymentInformationSection.new(@payment_slip))
       ]
     end
-    # rubocop:enable Metrics/AbcSize
 
     def print_payment_slip?
       @invoice.print_payment_slip

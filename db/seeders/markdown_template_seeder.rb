@@ -32,7 +32,7 @@ module Seeders
             body: <<~BODY
               {{ booking.tenant.salutation_name }}
 
-              Hiermit bestätigen wir Deine Mietanfrage auf pfadi-heime.ch.
+              Hiermit bestätigen wir den Eingang deiner Mietanfrage auf pfadi-heime.ch.
 
 
               **Reservationsdetails**

@@ -1,33 +1,7 @@
-= bookings_by_state_table(:inconcluded_request, bookings[:open_request], Booking.human_attribute_name(:created_at), "") do |booking|
-  = l(booking.created_at, format: :short)
-  br
-  = time_ago_in_words(booking.created_at)
+- bookings = @bookings.group_by(&:state).with_indifferent_access
 
-
-= bookings_by_state_table(:provisional_request, bookings[:provisional_request], Booking.human_attribute_name(:created_at), "") do |booking|
-  = l(booking.created_at, format: :short)
-  br
-  = time_ago_in_words(booking.created_at)
-
-= bookings_by_state_table(:definitive_request, bookings[:definitive_request], Booking.human_attribute_name(:created_at), "") do |booking|
-  = l(booking.created_at, format: :short)
-  br
-  = time_ago_in_words(booking.created_at)
-
-= bookings_by_state_table(:overdue_request, bookings[:overdue_request], Booking.human_attribute_name(:created_at), "") do |booking|
-  = l(booking.created_at, format: :short)
-  br
-  = time_ago_in_words(booking.created_at)
-
-
-= bookings_by_state_table(:confirmed, bookings[:confirmed], Contract.model_name.human, "") do |booking|
-  ul.small
-    li
-      = Contract.model_name.human
-      | :
-      =<> l(booking.contracts.last.created_at, format: :date)
-
-    li
-      = Invoice.model_name.human
-      | :
-      =<> l(booking.invoices.deposit.last.created_at, format: :date)
+- %i[open_request overdue_request provisional_request definitive_request confirmed upcoming active past payment_due payment_overdue cancelled].each do |state|
+  section
+    - title, help_text = @organisation.booking_strategy.t(state, scope: :state).slice(:label, :help).values
+    h3= title
+    == render partial: 'table', locals: { bookings: bookings[state] }

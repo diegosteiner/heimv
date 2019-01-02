@@ -12,7 +12,7 @@
               = f.error_summary
           - else
             .card-header
-              = @booking.booking_strategy::ViewModel.i18n_state(@booking.state_machine.current_state)[:label]
+              = @booking.booking_strategy.t(@booking.state_machine.current_state, scope: :state, default: {})[:label]
           .card-body
             fieldset
               = f.select :home_id, @view_model.homes_for_select

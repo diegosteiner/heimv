@@ -3,19 +3,13 @@ p.mb-1
   =<> time_ago_in_words(booking.created_at)
 ul.fa-ul.mb-0
   li
-    - if booking.committed_request
-      span.fa-li
-        i.fa.fa-check
-      =<> button_to manage_booking_path(booking), params: { booking: { transition_to: :definitive_request }}, method: :patch, class: 'btn btn-link'
-        | Anfrage akzeptieren
-    - else
-      span.fa-li
-        i.fa.fa-check
-      =<> button_to manage_booking_path(booking), params: { booking: { transition_to: :provisional_request }}, method: :patch, class: 'btn btn-link'
-        | Anfrage akzeptieren
+    span.fa-li
+      i.fa.fa-check
+    =<> button_to manage_booking_path(booking), params: { booking_command: :accept }, method: :patch, class: 'btn btn-link'
+      | Anfrage akzeptieren
   li
     span.fa-li
       i.fa.fa-times
-    =<> button_to manage_booking_path(booking), params: { booking: { transition_to: :cancelled }}, method: :patch, class: 'btn btn-link'
+    =<> button_to manage_booking_path(booking), params: { booking_command: :cancel }, method: :patch, class: 'btn btn-link'
       | Anfrage ablehnen
 

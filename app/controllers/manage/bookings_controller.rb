@@ -7,7 +7,7 @@ module Manage
       @bookings = @filter.reduce(@bookings.includes(:occupancy, :tenant, :home, :booking_transitions)
                                           .joins(:occupancy)
                                           .order(Occupancy.arel_table[:begins_at]))
-      @bookings_by_state = @bookings.group_by(&:state).with_indifferent_access
+      # @bookings_by_state = @bookings.group_by(&:state).with_indifferent_access
       respond_with :manage, @bookings
     end
 
@@ -24,14 +24,13 @@ module Manage
     def edit; end
 
     def create
-      # @booking.initiator = :tenant
       @booking.save
       respond_with :manage, @booking
     end
 
     def update
-      @booking.update(booking_params)
-      Rails.logger.debug(@booking.errors.messages) unless @booking.valid?
+      @booking.update(booking_params) if booking_params
+      @organisation.booking_strategy::Manage::Command.new(@booking).exec(booking_command)
       respond_with :manage, @booking
     end
 
@@ -42,13 +41,12 @@ module Manage
 
     private
 
-    def initialize_view_model
-      @booking_stategry = @booking.booking_strategy
-      @view_model = @booking.booking_strategy::ViewModel.new(@booking)
-    end
-
     def booking_params
       BookingParams.permit(params[:booking])
+    end
+
+    def booking_command
+      params[:booking_command]
     end
 
     def booking_filter_params

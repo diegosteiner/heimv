@@ -4,5 +4,5 @@ section.breakout-sm
       li.list-group-item
         time<>[datetime=transition.created_at] = l(transition.created_at)
         span.badge.badge-primary
-          = booking.booking_strategy::ViewModel.i18n_state(transition.to_state)[:label]
+          = booking.booking_strategy.t(transition.to_state scope: :state, default: {})[:label]
 

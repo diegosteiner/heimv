@@ -3,12 +3,4 @@ a[href='#filter' data-toggle='collapse']
 #filter.collapse
   = render partial: 'filter', locals: { filter: @filter }
 
-- @bookings_by_state.each do |state, bookings|
-  .mb-4
-    h3= BookingStrategy::Default::ViewModel.i18n_state(state)[:label]
-    = render partial: 'table', locals: { bookings: bookings }
-br
-= link_to new_manage_booking_path, class: 'btn btn-primary' do
-  span.fa.fa-file-o
-  '
-  = t(:add_record, model_name: Booking.model_name.human)
+= render partial: @organisation.booking_strategy.template_path('manage/bookings/index')

@@ -12,7 +12,7 @@ module BookingStrategy
       transition from: :open_request,        to: %i[cancelled provisional_request definitive_request]
       transition from: :provisional_request, to: %i[definitive_request overdue_request cancelled]
       transition from: :overdue_request,     to: %i[cancelled definitive_request provisional_request]
-      transition from: :definitive_request,  to: %i[overdue_request cancelled confirmed]
+      transition from: :definitive_request,  to: %i[cancelled confirmed]
       transition from: :confirmed,           to: %i[cancelled upcoming overdue]
       transition from: :overdue,             to: %i[cancelled upcoming]
       transition from: :upcoming,            to: %i[cancelled active]
@@ -34,10 +34,6 @@ module BookingStrategy
         !booking.invoices.unpaid.exists?
       end
 
-      after_transition do |booking|
-        booking.deadline.try(:clear)
-      end
-
       after_transition(to: %i[unconfirmed_request]) do |booking|
         if booking.booking_agent.present?
           BookingMailer.booking_agent_request(BookingMailerViewModel.new(booking, booking.booking_agent.email))
@@ -47,12 +43,12 @@ module BookingStrategy
         end
       end
 
-      after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue]) do |booking|
+      after_transition(to: %i[overdue_request overdue payment_overdue]) do |booking|
         booking.deadlines.create(at: 3.days.from_now)
       end
 
       after_transition(to: %i[provisional_request confirmed payment_due]) do |booking|
-        booking.deadlines.create(at: 14.days.from_now, extendable: 1)
+        booking.deadlines.create(at: 14.days.from_now, extendable: 1) unless booking.deadline
       end
 
       after_transition(to: %i[open_request]) do |booking|
@@ -60,7 +56,7 @@ module BookingStrategy
         booking.messages.new_from_template(:open_request_message)&.save_and_deliver_now
       end
 
-      after_transition(to: %i[upcoming overdue_request overdue]) do |booking|
+      after_transition(to: %i[overdue_request overdue]) do |booking|
         booking.messages.new_from_template("#{booking.current_state}_message")&.save_and_deliver_now
       end
 
@@ -75,17 +71,19 @@ module BookingStrategy
 
       after_transition(to: %i[confirmed]) do |booking|
         booking.update(editable: false)
-        booking.messages.new_from_template(:confirmed)&.tap do |message|
-          message.attachments.attach booking.contracts.valid.last&.pdf&.blob
-          booking.invoices.deposit.each do |deposit|
-            message.attachments.attach deposit.pdf.blob
-          end
-          message.save_and_deliver_now
-        end
+        BookingStrategy::Default::Manage::Command.new(booking).email_contract_and_deposit
       end
 
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|
         booking.occupancy.occupied!
+      end
+
+      after_transition(to: %i[upcoming]) do |booking|
+        booking.messages.new_from_template("upcoming_message")&.save_and_deliver_now
+      end
+
+      after_transition(to: %i[confirmed upcoming completed]) do |booking|
+        booking.deadline.try(:clear)
       end
     end
   end

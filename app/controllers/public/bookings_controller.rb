@@ -1,7 +1,7 @@
 module Public
   class BookingsController < BaseController
     load_and_authorize_resource :booking
-    before_action :initialize_view_model
+    # before_action :initialize_view_model
 
     def new
       @booking.assign_attributes(booking_params) if booking_params
@@ -19,24 +19,18 @@ module Public
     end
 
     def create
-      # @booking.initiator = :tenant
       @booking.save(context: :public_create)
       respond_with :public, @booking, location: root_path
     end
 
     def update
-      # @booking.initiator = :tenant
       @booking.assign_attributes(update_params)
-      @booking.deadline.extend_until(14.days.from_now) if @booking.deadline&.extendable? && params[:extend_deadline]
       @booking.save(context: :public_update)
+      @organisation.booking_strategy::Public::Command.new(@booking).exec(booking_command)
       respond_with :public, @booking, location: edit_public_booking_path
     end
 
     private
-
-    def initialize_view_model
-      @view_model = @booking.booking_strategy::ViewModel.new(@booking)
-    end
 
     def booking_params
       BookingParams::Create.permit(params[:booking])

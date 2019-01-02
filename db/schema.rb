@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_23_120820) do
+ActiveRecord::Schema.define(version: 2019_01_02_123308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -198,6 +198,14 @@ ActiveRecord::Schema.define(version: 2018_10_23_120820) do
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
+  end
+
+  create_table "organisations", force: :cascade do |t|
+    t.string "name"
+    t.string "ref"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ref"], name: "index_organisations_on_ref"
   end
 
   create_table "payments", force: :cascade do |t|

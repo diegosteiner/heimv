@@ -76,7 +76,7 @@ export default {
       })
     },
     calendarDayLink() {
-      if (this.disabled || this.isOutOfRange()) {
+      if (this.disabled || this.isOutOfRange) {
         return false;
       } else {
         return this.href.replace(

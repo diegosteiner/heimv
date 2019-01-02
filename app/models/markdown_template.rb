@@ -1,4 +1,5 @@
 class MarkdownTemplate < ApplicationRecord
+  # TODO remove state
   KEYS = %w[
     contract_text
     deposit_invoice_text
@@ -26,20 +27,20 @@ class MarkdownTemplate < ApplicationRecord
 
     Markdown.new(Liquid::Template.parse(body).render(context.to_h, [Filters]))
   end
-
-  alias % interpolate
+  alias_method :%, :interpolate
 
   def self.[](key, locale: I18n.locale)
     find_by(key: key, locale: locale) || new(key: key)
   end
 
   module Filters
-    def t(input, scope = nil)
+    def translate(input, scope = nil)
       I18n.t(input, scope: scope, default: nil)
     end
+    alias_method :t, :translate
 
     def booking_purpose(input)
-      t(input, :'activerecord.enums.booking.purpose')
+      translate(input, :'activerecord.enums.booking.purpose')
     end
   end
 end

@@ -2,11 +2,11 @@ class Booking < ApplicationRecord
   include BookingState
   include Statesman::Adapters::ActiveRecordQueries
 
-  has_one :occupancy, dependent: :destroy, inverse_of: :booking, autosave: true
   belongs_to :home
   belongs_to :tenant, inverse_of: :bookings
   belongs_to :booking_agent, foreign_key: :booking_agent_code, primary_key: :code,
                              inverse_of: :bookings, required: false
+  has_one  :occupancy, dependent: :destroy, inverse_of: :booking, autosave: true
   has_many :contracts, -> { order(valid_from: :ASC) }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :payments, dependent: :destroy, autosave: false
@@ -30,7 +30,8 @@ class Booking < ApplicationRecord
 
   before_validation :set_occupancy_attributes
   before_validation :assign_tenant_from_email
-  after_create :reload
+  before_create     :set_ref
+  after_create      :reload
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :tenant, reject_if: :all_blank, update_only: true
@@ -39,8 +40,8 @@ class Booking < ApplicationRecord
 
   # enum purpose: { camp: :camp, event: :event }
 
-  def ref
-    @ref ||= RefService.new.call(self)
+  def set_ref
+    self.ref ||= RefService.new.call(self)
   end
 
   def to_s

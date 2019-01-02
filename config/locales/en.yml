@@ -97,6 +97,7 @@ en:
         tarif: Tarif
       tenant:
         address: Adresse
+        birth_date: Geburtsdatum
         city: Ort
         email: Email
         first_name: Vorname
@@ -126,6 +127,7 @@ en:
           late_notice: Mahnung
       tarif:
         prefill_usage_methods:
+          flat: Fix
           headcount: "# Personen"
           headcount_nights: Übernachtungen
           nights: Nächte
@@ -198,19 +200,6 @@ en:
       usage:
         one: Verbrauch
         other: Verbrauch
-    values:
-      booking:
-        committed_request:
-          definitive_request: Definitive Mietanfrage
-          provisional_request: Provisorische Mietanfrage
-        purpose:
-          camp: Lager
-          event: Privater Anlass
-      invoice:
-        invoice_type:
-          deposit: Anzahlung
-          invoice: Rechnung
-          late_notice: Mahnung
   add_record: Add %{model_name}
   back: Back
   booking_mailer:
@@ -398,6 +387,8 @@ en:
     formats:
       date: "%d.%m.%Y"
       short: "%d.%m.%Y %H:%M"
+      short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"
   titles:
     application: Heimverwaltung
+  until: bis

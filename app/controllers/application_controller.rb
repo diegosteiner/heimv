@@ -1,9 +1,10 @@
 class ApplicationController < ActionController::Base
   responders :flash, :http_cache
-  respond_to :html
+  respond_to :html, :json
 
   protect_from_forgery with: :exception
   rescue_from CanCan::AccessDenied, with: :unauthorized
+  before_action :set_organisation
   before_action :configure_permitted_parameters, if: :devise_controller?
   default_form_builder BootstrapForm::FormBuilder
 
@@ -14,9 +15,15 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:name])
   end
 
-  def set_breadcrumbs; end
+  def current_organisation
+    @organisation
+  end
 
   private
+
+  def set_organisation
+    @organisation = Organisation.find_by(ref: params[:org])
+  end
 
   def unauthorized
     if current_user.nil?
