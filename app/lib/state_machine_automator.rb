@@ -1,4 +1,5 @@
 class StateMachineAutomator
+  class CircularTransitionError < StandardError; end
   Callback = Struct.new(:from, :to, :callback)
 
   attr_accessor :state_machine
@@ -21,8 +22,9 @@ class StateMachineAutomator
   def run(max_steps = 10)
     [].tap do |passed_transitions|
       while (to = next_state) && passed_transitions.count <= max_steps
-        raise StandardError if passed_transitions.include?(to)
-        break if passed_transitions.include?(to)
+        raise CircularTransitionError if passed_transitions.include?(to)
+
+        # break if passed_transitions.include?(to)
 
         passed_transitions << to if @state_machine.transition_to(to)
       end

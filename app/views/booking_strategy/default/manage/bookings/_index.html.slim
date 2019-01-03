@@ -1,7 +1,8 @@
 - bookings = @bookings.group_by(&:state).with_indifferent_access
 
-- %i[open_request overdue_request provisional_request definitive_request confirmed upcoming active past payment_due payment_overdue cancelled].each do |state|
-  section
-    - title, help_text = @organisation.booking_strategy.t(state, scope: :state).slice(:label, :help).values
-    h3= title
-    == render partial: 'table', locals: { bookings: bookings[state] }
+- %i[unconfirmed_request open_request overdue_request provisional_request definitive_request confirmed upcoming active past payment_due payment_overdue cancelled].each do |state|
+  - if bookings[state].present?
+    section
+        - title, help_text = @organisation.booking_strategy.t(state, scope: :state).slice(:label, :help).values
+        h3= title
+        == render partial: 'table', locals: { bookings: bookings[state] }

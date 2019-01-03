@@ -79,7 +79,7 @@ module BookingStrategy
       end
 
       after_transition(to: %i[upcoming]) do |booking|
-        booking.messages.new_from_template("upcoming_message")&.save_and_deliver_now
+        booking.messages.new_from_template('upcoming_message')&.save_and_deliver_now
       end
 
       after_transition(to: %i[confirmed upcoming completed]) do |booking|

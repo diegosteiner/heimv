@@ -2,19 +2,24 @@ require 'rails_helper'
 
 describe StateMachineAutomator do
   let(:object) { build_stubbed(:booking) }
-  let(:state_machine) { BookingStrategy::Base::StateMachine.new(object) }
+  let(:booking_strategy) { BookingStrategy::Base }
+  let(:state_machine) { booking_strategy::StateMachine.new(object) }
   let(:state_machine_automator_class) { Class.new(described_class) }
   let(:state_machine_automator) { state_machine_automator_class.new(state_machine) }
-
-  describe '#run' do
+  before do
+    object.state = :matching
+    allow(object).to receive(:booking_strategy).and_return(booking_strategy)
+    allow(object).to receive(:state_machine).and_return(state_machine)
+    allow(state_machine).to receive(:current_state) { object.state }
+    allow(state_machine).to receive(:can_transition_to?).and_return(true)
+    allow(state_machine).to receive(:transition_to) do |to|
+      state_machine.object.state = to
+      true
+    end
   end
 
   describe '#next_state' do
     subject { state_machine_automator.next_state }
-    before do
-      allow(state_machine).to receive(:current_state).and_return(:matching)
-      allow(state_machine).to receive(:can_transition_to?).and_return(true)
-    end
 
     context 'with matching state' do
       context 'and matching condition' do
@@ -36,11 +41,6 @@ describe StateMachineAutomator do
 
   describe '#run' do
     subject { state_machine_automator.run }
-    before do
-      allow(state_machine).to receive(:current_state).and_return(:matching)
-      allow(state_machine).to receive(:can_transition_to?).and_return(true)
-      expect(state_machine).to receive(:transition_to).and_return(true)
-    end
 
     context 'with no circular conditions' do
       before { state_machine_automator_class.automatic_transition(from: :matching, to: :next) { |_| true } }
@@ -48,19 +48,22 @@ describe StateMachineAutomator do
     end
 
     context 'with circular conditions' do
-      # it 'throws an error' do
-      #   state_machine_class.class_eval do
-      #     state :one
-      #     state :two
-      #     transition from: :one, to: :two
-      #     transition from: :two, to: :one
-      #     automatic_transition(from: :one, to: :two) { true }
-      #     automatic_transition(from: :two, to: :one) { true }
-      #   end
+      before do
+        state_machine_automator_class.automatic_transition(from: :one, to: :two) { |_| true }
+        state_machine_automator_class.automatic_transition(from: :two, to: :one) { |_| true }
+      end
 
-      #   state_machine.object.instance_variable_set(:@current_state, :one)
-      #   expect(state_machine.automatic).to eq(%w[two one])
-      # end
+      it 'throws an error' do
+        state_machine.class_eval do
+          state :one
+          state :two
+          transition from: :one, to: :two
+          transition from: :two, to: :one
+        end
+
+        state_machine.object.state = :one
+        expect { subject }.to raise_error StateMachineAutomator::CircularTransitionError
+      end
     end
   end
 end

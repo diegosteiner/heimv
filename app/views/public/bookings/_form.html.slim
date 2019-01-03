@@ -11,7 +11,7 @@
           - if @booking.deadline.extendable?
             a[href="#" data-toggle="modal" data-target="#extendDeadlineModal"]
               | Frist verlängern
-    = f.select :home_id, @view_model.homes_for_select, {}, disabled: true
+    = f.select :home_id, homes_for_select, {}, disabled: true
     = f.fields_for :occupancy, @booking.occupancy do |of|
       .row
         .col-md-6
@@ -66,7 +66,7 @@
   .form-actions.pt-4.mt-3.border-top
     =<> f.submit
     button.btn.btn-outline-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
-      = @view_model.class.i18n_transition('cancelled', default: {})[:label]
+      = transition_translation(to: :cancelled)[:label]
 
 
 #extendDeadlineModal.modal[role="dialog" tabindex="-1"]
@@ -91,7 +91,7 @@
       .modal-content
         .modal-header
           h5.modal-title
-            = @view_model.class.i18n_transition('cancelled', default: {})[:label]
+            = transition_translation(to: :cancelled)[:label]
           button.close aria-label="Close" data-dismiss="modal" type="button"
             span aria-hidden="true" &times;
         .modal-body

@@ -1,7 +1,7 @@
 class Booking
   class Filter < ApplicationFilter
-    attribute :begins_at, default: ->() { Time.zone.today.end_of_day }
-    attribute :ends_at, default: ->() { 3.years.from_now.end_of_day }
+    attribute :begins_at, default: -> { Time.zone.today.end_of_day }
+    attribute :ends_at, default: -> { 3.years.from_now.end_of_day }
     attribute :ref
     attribute :tenant
     attribute :homes, default: []

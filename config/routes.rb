@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-
-  scope "/(:org)", defaults: { org: ENV.fetch('DEFAULT_ORG') } do
+  scope '/(:org)', defaults: { org: nil } do
     namespace :admin do
       resources :users
     end

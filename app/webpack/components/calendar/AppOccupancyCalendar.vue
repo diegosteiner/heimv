@@ -68,8 +68,8 @@ export default {
   font-size: 0.8rem;
 }
 
-.calendar-month {
-  max-width: initial;
-  min-width: 182px !important;
+.calendar-days {
+  height: calc(36px * 6);
+  align-content: flex-start;
 }
 </style>

@@ -10,7 +10,6 @@ module BookingStrategy
 
         send(command_str)
       end
-
     end
   end
 end

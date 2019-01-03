@@ -60,6 +60,10 @@ class Booking < ApplicationRecord
     BookingTransition
   end
 
+  def contract
+    contracts.valid.last
+  end
+
   def deadline
     deadlines.where(current: true).ordered.take
   end

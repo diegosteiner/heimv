@@ -1,10 +1,25 @@
 <template>
-  <a
-    :class="calendarDayClass"
-    :href="calendarDayLink"
-    v-b-popover.hover.bottom="tooltip"
-    variant="primary"
-  >{{ date | dayOfMonth }}</a>
+  <div>
+    <button :id="id" :class="calendarDayClass" @click="click">{{ date | dayOfMonth }}</button>
+    <b-popover
+      v-if="occupancies.length && !isOutOfRange && !disabled"
+      :target="id"
+      triggers="hover focus"
+    >
+      <dl class="my-1" v-for="occupancy in occupancies" :key="occupancy.id">
+        <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
+        <dd>
+          {{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}
+          <a
+            v-if="(occupancy.links || {}).edit"
+            :href="occupancy.links.edit"
+          >
+            <i class="fa fa-link"></i>
+          </a>
+        </dd>
+      </dl>
+    </b-popover>
+  </div>
 </template>
 
 <script>
@@ -15,11 +30,11 @@ export default {
   i18n: {
     messages: {
       "de-CH": {
-        occupancy: "%{begins_at} - %{ends_at}: %{occupancy_type}",
         occupancy_types: {
           tentative: "provisorisch Besetzt",
           occupied: "definitiv Besetzt",
-          closed: "Geschlossen"
+          closed: "Geschlossen",
+          free: ""
         },
         date_format: "DD.MM.Y HH:mm"
       }
@@ -28,34 +43,27 @@ export default {
   filters: {
     dayOfMonth: function(value) {
       return moment(value).format("D");
+    }
+  },
+  methods: {
+    date_format(value) {
+      return moment(value).format(this.$t("date_format"));
     },
-    datetime(value) {
-      return moment(value).format("Y-MM-DD");
+    click() {
+      if (!this.disabled && !this.isOutOfRange && !this.occupancies.length > 0) {
+        window.location.href = this.link;
+      }
     }
   },
   computed: {
+    id() {
+      return this._uid + '_' + moment(this.date).format("Y-MM-DD");
+    },
     isOutOfRange() {
       return (
         this.date.isBefore(moment().subtract(1, "day")) ||
         this.date.isAfter(moment().add(2, "years"))
       );
-    },
-    tooltip() {
-      const date_format = this.$t("date_format");
-      if (this.occupancies.length) {
-        return this.occupancies
-          .filter(occupancy => occupancy.occupancy_type != "free")
-          .map(occupancy =>
-            this.$t("occupancy", {
-              begins_at: moment(occupancy.begins_at).format(date_format),
-              ends_at: moment(occupancy.ends_at).format(date_format),
-              occupancy_type: this.$t(
-                `occupancy_types.${occupancy.occupancy_type}`
-              )
-            })
-          )
-          .join(", ");
-      }
     },
     calendarDayClass() {
       if(this.disabled || this.isOutOfRange) {
@@ -75,18 +83,14 @@ export default {
         return `${occupancy.occupancy_type}-fullday`;
       })
     },
-    calendarDayLink() {
-      if (this.disabled || this.isOutOfRange) {
-        return false;
-      } else {
-        return this.href.replace(
-          "__DATE__",
-          moment(this.date)
-            .startOf("day")
-            .hour(13)
-            .toISOString()
-        );
-      }
+    link() {
+      return this.href.replace(
+        "__DATE__",
+        moment(this.date)
+          .startOf("day")
+          .hour(13)
+          .toISOString()
+      );
     }
   }
 };
@@ -94,87 +98,132 @@ export default {
 
 <style lang="scss">
 .calendar-day {
-  a {
+  button {
     width: 30px;
+    height: 30px;
     margin: 1px auto;
     padding: 0.25rem;
     border: 1px solid transparent;
     transition: opacity 1s;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
   }
-  a.occupied-forenoon,
-  a.occupied-afternoon,
-  a.occupied-fullday {
+
+  @media (max-width: 575px) {
+    button {
+      width: 40px;
+      height: 40px;
+      font-size: 1.25rem;
+      line-height: 2rem;
+    }
+  }
+
+  .occupied-forenoon,
+  .occupied-afternoon,
+  .occupied-fullday {
     border: 1px solid #e85f5f;
     font-weight: bold;
     color: #9e2e2e;
-
-    &.occupied-fullday {
-      background: #ffa8a8;
-    }
-
-    &.occupied-afternoon {
-      background: linear-gradient(315deg, #ffa8a8 50%, white 50%);
-      border-top-color: white;
-      border-left-color: white;
-    }
-    &.occupied-forenoon {
-      background: linear-gradient(135deg, #ffa8a8 50%, white 50%);
-      border-bottom: white;
-      border-right: white;
-    }
-    &.occupied-forenoon.occupied-afternoon {
-      border: 1px solid #ffa8a8;
-      background: linear-gradient(
-        135deg,
-        #ffa8a8 49%,
-        white 49%,
-        white 51%,
-        #ffa8a8 51%
-      );
-    }
+  }
+  .occupied-fullday {
+    background: #ffa8a8;
   }
 
-  a.tentative-forenoon,
-  a.tentative-afternoon,
-  a.tentative-fullday {
+  .occupied-afternoon {
+    background: linear-gradient(315deg, #ffa8a8 50%, white 50%);
+    border-top-color: white;
+    border-left-color: white;
+  }
+  .occupied-forenoon {
+    background: linear-gradient(135deg, #ffa8a8 50%, white 50%);
+    border-bottom: white;
+    border-right: white;
+  }
+  .occupied-forenoon.occupied-afternoon {
+    border: 1px solid #ffa8a8;
+    background: linear-gradient(
+      135deg,
+      #ffa8a8 49%,
+      white 49%,
+      white 51%,
+      #ffa8a8 51%
+    );
+  }
+
+  .tentative-forenoon,
+  .tentative-afternoon,
+  .tentative-fullday {
     border: 1px solid #0033ff;
     font-weight: bold;
     color: #0033ff;
-
-    &.tentative-fullday {
-      background: #00bfff;
-    }
-
-    &.tentative-afternoon {
-      background: linear-gradient(315deg, #00bfff 50%, white 50%);
-      border-top-color: white;
-      border-left-color: white;
-    }
-    &.tentative-forenoon {
-      background: linear-gradient(135deg, #00bfff 50%, white 50%);
-      border-bottom: white;
-      border-right: white;
-    }
-
-    &.tentative-forenoon.tentative-afternoon {
-      border: 1px solid #0033ff;
-      background: linear-gradient(
-        135deg,
-        #00bfff 49%,
-        white 49%,
-        white 51%,
-        #00bfff 51%
-      );
-    }
   }
 
-  a.closed {
+  .tentative-fullday {
+    background: #00bfff;
+  }
+
+  .tentative-afternoon {
+    background: linear-gradient(315deg, #00bfff 50%, white 50%);
+    border-top-color: white;
+    border-left-color: white;
+  }
+  .tentative-forenoon {
+    background: linear-gradient(135deg, #00bfff 50%, white 50%);
+    border-bottom-color: white;
+    border-right-color: white;
+  }
+
+  .tentative-forenoon.tentative-afternoon {
+    border: 1px solid #0033ff;
+    background: linear-gradient(
+      135deg,
+      #00bfff 49%,
+      white 49%,
+      white 51%,
+      #00bfff 51%
+    );
+  }
+
+  .occupied-forenoon.tentative-afternoon {
+    border: 1px solid white;
+    border-top-color: #e85f5f;
+    border-right-color: #0033ff;
+    border-bottom-color: #0033ff;
+    border-left-color: #e85f5f;
+    background: linear-gradient(
+      135deg,
+      #ffa8a8 49%,
+      white 49%,
+      white 51%,
+      #00bfff 51%
+    );
+  }
+
+  .tentative-forenoon.occupied-afternoon {
+    border: 1px solid white;
+    border-top-color: #0033ff;
+    border-right-color: #e85f5f;
+    border-bottom-color: #e85f5f;
+    border-left-color: #0033ff;
+    background: linear-gradient(
+      135deg,
+      #00bfff 49%,
+      white 49%,
+      white 51%,
+      #ffa8a8 51%
+    );
+  }
+
+  .closed {
     background: #ccc;
     border: 1px solid #999;
     color: #999;
   }
 
-  a.disabled {
+  .disabled {
     cursor: default;
     opacity: 0.2;
   }

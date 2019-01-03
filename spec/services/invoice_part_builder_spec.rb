@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe InvoiceParts::Factory, type: :model do
   let(:builder) { described_class.new }
 
-  describe '#for_booking' do
+  describe '#suggest' do
     let(:home) { create(:home) }
     let(:booking) { create(:booking, initial_state: :confirmed, home: home) }
     let(:invoice) { create(:invoice, booking: booking) }
@@ -11,7 +11,7 @@ RSpec.describe InvoiceParts::Factory, type: :model do
     let(:invoiced_usage) { create(:usage, booking: booking) }
     let(:existing_invoice_part) { create(:invoice_part, invoice: invoice, usage: invoiced_usage) }
 
-    subject { builder.for_booking(invoice) }
+    subject { builder.suggest(invoice) }
 
     it do
       is_expected.to(be_all { |actual| actual.is_a?(InvoiceParts::Add) })

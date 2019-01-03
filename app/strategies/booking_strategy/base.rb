@@ -3,7 +3,7 @@ module BookingStrategy
     extend WithTemplate
 
     def i18n_scope
-      self.name.split("::").map &:underscore
+      name.split('::').map(&:underscore)
     end
 
     def t(state, options = {})

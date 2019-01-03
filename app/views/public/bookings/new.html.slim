@@ -10,21 +10,18 @@
           - if @booking.errors.any?
             .card-header.alert-danger
               = f.error_summary
-          - else
-            .card-header
-              = @booking.booking_strategy.t(@booking.state_machine.current_state, scope: :state, default: {})[:label]
           .card-body
-            fieldset
-              = f.select :home_id, @view_model.homes_for_select
+            fieldset[data-range-role="unit"]
+              = f.select :home_id, homes_for_select
               = f.fields_for :occupancy, @booking.occupancy do |of|
                 .row
                   .col-md-6
-                    = of.date_field :begins_at_date, lang: I18n.locale
+                    = of.date_field :begins_at_date, lang: I18n.locale, data: { :'range-role' => :start }
                   .col-md-6
                     = of.time_select :begins_at_time, ignore_date: true, minute_step: 15
                 .row
                   .col-md-6
-                    = of.date_field :ends_at_date, lang: :de
+                    = of.date_field :ends_at_date, lang: :de, data: { :'range-role' => :end }
                   .col-md-6
                     = of.time_select :ends_at_time, ignore_date: true, minute_step: 15
               = f.email_field :email
