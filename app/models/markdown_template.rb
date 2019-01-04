@@ -24,8 +24,10 @@ class MarkdownTemplate < ApplicationRecord
 
   def interpolate(context)
     context = InterpolationContext.new(context) unless context.is_a?(InterpolationContext)
+    liquid_template = Liquid::Template.parse(body)
+    # binding.pry
 
-    Markdown.new(Liquid::Template.parse(body).render(context.to_h, [Filters]))
+    Markdown.new(liquid_template.render(context.to_h, [Filters]))
   end
   alias % interpolate
 

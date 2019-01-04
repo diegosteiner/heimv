@@ -315,7 +315,6 @@ en:
           label: Geplante Belegung
         initial-->unconfirmed_request:
           label: Neue Buchungsanfrage stellen
-  close: Schliessen
   confirm: Confirm
   date_format: Date format
   destroy: Destroy
@@ -373,14 +372,12 @@ en:
     sign_up: Neuen Account erstellen
   new: New
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
-  occupancy: Occupancy
   optional: optional
   public:
     bookings:
       edit:
-        title: Title
-      form:
         booking_details: Booking details
+        title: Title
       new:
         title: Title
   time:

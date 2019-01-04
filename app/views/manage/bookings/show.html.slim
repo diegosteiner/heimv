@@ -48,6 +48,11 @@ section.breakout-sm
               br
               = @booking.remarks
 
+          .row.mb-3
+            .col
+              strong= Booking.human_attribute_name(:state)
+              br
+              = render partial: BookingStrategy::Default.template_path('state', @booking.current_state, 'checklist'), locals: { booking: @booking }
 
           hr
 

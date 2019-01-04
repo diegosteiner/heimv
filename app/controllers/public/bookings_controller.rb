@@ -24,9 +24,13 @@ module Public
     end
 
     def update
-      @booking.assign_attributes(update_params)
-      @booking.save(context: :public_update)
-      @organisation.booking_strategy::Public::Command.new(@booking).exec(booking_command)
+      if @booking.editable?
+        @booking.assign_attributes(update_params)
+        @booking.save(context: :public_update)
+        @organisation.booking_strategy::Public::Command.new(@booking).exec(booking_command) if booking_command
+      else
+        @booking.errors.add(:base, :invalid)
+      end
       respond_with :public, @booking, location: edit_public_booking_path
     end
 
@@ -34,6 +38,10 @@ module Public
 
     def booking_params
       BookingParams::Create.permit(params[:booking])
+    end
+
+    def booking_command
+      params[:booking_command]
     end
 
     def update_params

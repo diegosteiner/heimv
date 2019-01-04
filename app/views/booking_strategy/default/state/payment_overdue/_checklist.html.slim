@@ -1,0 +1,11 @@
+ul.fa-ul.mb-0
+  li
+    - if booking.invoices.all?(:paid)
+      span.fa-li
+        i.fa.fa-check-square-o
+      | Rechnung beglichen
+    - else
+      span.fa-li
+        i.fa.fa-square-o
+      = link_to manage_booking_invoices_path(booking)
+        | Rechnung beglichen

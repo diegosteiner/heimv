@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
   create_table "homes", force: :cascade do |t|
     t.string "name"
     t.string "ref"
+    t.string "place"
     t.text "janitor"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

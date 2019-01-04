@@ -2,22 +2,16 @@
   - case booking.state_machine.current_state.to_sym
     - when :open_request
       - if booking.committed_request
-        =<> link_to manage_booking_path(booking, booking: { transition_to: :definitive_request }), method: :patch, class: 'btn btn-primary' do
-          | Anfrage akzeptieren
+        =<> button_to manage_booking_path(booking), params: { booking_command: :accept }, method: :patch, class: 'btn btn-primary'
+          | definitive Anfrage akzeptieren
       - else
-        = link_to manage_booking_path(booking, booking: { transition_to: :provisional_request }), method: :patch, class: 'btn btn-primary' do
-          | Anfrage akzeptieren
+        =<> button_to manage_booking_path(booking), params: { booking_command: :accept }, method: :patch, class: 'btn btn-primary'
+          | provisorische Anfrage akzeptieren
     - when :definitive_request
-      =<> link_to manage_booking_path(booking, booking: { transition_to: :confirmed }), method: :patch, class: 'btn btn-primary' do
+      =<> button_to manage_booking_path(booking), params: { booking: { transition_to: :confirmed } }, method: :patch, class: 'btn btn-primary'
         | Vertrag und Anzahlung verschicken
-      / - unless booking.used_tarifs.any?
-      /   =<> link_to manage_booking_tarifs_path(booking), class: 'btn btn-primary' do
-      /     | Tarife festlegen
-      / - unless booking.invoices.any?
-      /   =<> link_to manage_booking_invoices_path(booking), class: 'btn btn-primary' do
-      /     | Anzahlung erstellen
     - when :past
       =<> link_to manage_booking_usages_path(booking), class: 'btn btn-primary' do
         | Verbrauch erfassen
-      =<> link_to manage_booking_invoices_path(booking), class: 'btn btn-primary' do
-        | Rechnung erstellen
+      =<> button_to manage_booking_invoices_path(booking), class: 'btn btn-primary' do
+        | link erstellen

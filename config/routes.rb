@@ -43,12 +43,13 @@ Rails.application.routes.draw do
       resources :booking_agents
     end
 
-    get 'pages/home'
-    get 'pages/about'
     root to: 'pages#home'
     devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
 
     scope module: :public do
+      get 'pages/home'
+      get 'pages/about'
+      # get 'at/:t', to: 'pages/home', as: :occupancy_at
       resources :bookings, only: %i[new create edit update], path: 'b', as: :public_bookings
       resources :homes, only: [] do
         resources :occupancies, only: %i[index show]

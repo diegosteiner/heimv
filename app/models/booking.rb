@@ -20,7 +20,7 @@ class Booking < ApplicationRecord
 
   validates :home, :tenant, :occupancy, :email, presence: true
   validates :email, format: Devise.email_regexp
-  validates :cancellation_reason, presence: true, allow_nil: true
+  # validates :cancellation_reason, presence: true, allow_nil: true
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :purpose, presence: true, on: :public_update
   validates :approximate_headcount, numericality: true, on: :public_update

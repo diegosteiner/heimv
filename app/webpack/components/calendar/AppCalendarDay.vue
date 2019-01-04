@@ -9,13 +9,12 @@
       <dl class="my-1" v-for="occupancy in occupancies" :key="occupancy.id">
         <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
         <dd>
-          {{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}
-          <a
-            v-if="(occupancy.links || {}).edit"
-            :href="occupancy.links.edit"
-          >
+          <a v-if="(occupancy.links || {}).handle" :href="occupancy.links.handle">
             <i class="fa fa-link"></i>
+            {{ occupancy.ref }}
           </a>
+          <span>{{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}</span>
+          <span v-if="occupancy.deadline">(bis {{ date_format(occupancy.deadline) }})</span>
         </dd>
       </dl>
     </b-popover>

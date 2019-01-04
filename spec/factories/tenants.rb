@@ -5,6 +5,7 @@ FactoryBot.define do
     street_address { Faker::Address.street_address }
     zipcode { Faker::Address.zip_code }
     city { Faker::Address.city }
+    birth_date { 22.years.ago.to_date }
     email do |c|
       "#{[c.first_name, c.last_name].join('.').downcase.sub(/[^a-z_\.\d]/i, '')}@heimverwaltung.example.com"
     end

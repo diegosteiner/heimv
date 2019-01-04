@@ -3,8 +3,8 @@ class Markdown
   delegate :to_s, :lines, to: :body
 
   def initialize(body)
-    @body = body
-    @engine = Kramdown::Document.new(body || '')
+    @body = body || ''
+    @engine = Kramdown::Document.new(body)
   end
 
   def ==(other)

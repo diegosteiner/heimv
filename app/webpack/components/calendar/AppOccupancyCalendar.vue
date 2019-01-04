@@ -1,5 +1,5 @@
 <template>
-  <calendar :display-months="displayMonths">
+  <calendar :display-months="displayMonths" v-cloak>
     <template slot-scope="date">
       <app-calendar-day
         :date="date"
@@ -51,11 +51,15 @@ export default {
     },
     occupanciesOfDate(date) {
       return this.occupancies.filter(function(occupancy) {
-        let begins_at = moment.tz(occupancy.begins_at, "UTC");
-        let ends_at = moment.tz(occupancy.ends_at, "UTC");
+        const begins_at = moment.tz(occupancy.begins_at, "UTC");
+        const ends_at = moment.tz(occupancy.ends_at, "UTC");
+        const startOfDay = moment(date.startOf("day").utc());
+        const endOfDay = moment(date.endOf("day").utc());
         return (
-          date.startOf("day").isBetween(begins_at, ends_at, "hours", "[)") ||
-          date.endOf("day").isBetween(begins_at, ends_at, "hours", "(]")
+          startOfDay.isBetween(begins_at, ends_at, "hours", "[)") ||
+          endOfDay.isBetween(begins_at, ends_at, "hours", "(]") ||
+          begins_at.isBetween(startOfDay, endOfDay, "hours", "(]") &&
+          ends_at.isBetween(startOfDay, endOfDay, "hours", "(]")
         );
       });
     }

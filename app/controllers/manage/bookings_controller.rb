@@ -30,7 +30,7 @@ module Manage
 
     def update
       @booking.update(booking_params) if booking_params
-      @organisation.booking_strategy::Manage::Command.new(@booking).exec(booking_command)
+      @organisation.booking_strategy::Manage::Command.new(@booking).exec(booking_command) if booking_command
       respond_with :manage, @booking
     end
 

@@ -17,7 +17,8 @@ class Message < ApplicationRecord
     @markdown = value
   end
 
-  def save_and_deliver_now
+  def deliver_now
+    yield(self) if block_given?
     save && message_delivery.deliver_now && update(sent_at: Time.zone.now)
   end
 

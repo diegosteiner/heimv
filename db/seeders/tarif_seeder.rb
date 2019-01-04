@@ -20,6 +20,7 @@ module Seeders
             Tarifs::Flat.create(home: home, label: 'Anzahlung (2 Nächte)', price_per_unit: 250.0, tarif_group: 'Anzahlung', invoice_type: :deposit),
             Tarifs::Flat.create(home: home, label: 'Anzahlung (3 Nächte)', price_per_unit: 500.0, tarif_group: 'Anzahlung', invoice_type: :deposit),
             Tarifs::Flat.create(home: home, label: 'Anzahlung (4 Nächte)', price_per_unit: 750.0, tarif_group: 'Anzahlung', invoice_type: :deposit),
+            Tarifs::Flat.create(home: home, label: 'Schäden', price_per_unit: 0.0, tarif_group: 'Schäden', invoice_type: :invoice),
           ]]
         end.to_h
       }

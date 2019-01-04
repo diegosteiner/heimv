@@ -1,18 +1,12 @@
 class Tenant < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error
 
-  attr_accessor :skip_exact_validation
-
   validates :email, presence: true
   validates :email, format: { with: Devise.email_regexp }
-  validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
+  validates :first_name, :last_name, :street_address, :zipcode, :city, :birth_date, presence: true, on: :public_update
 
   before_save do
-    self.search_cache = (address_lines + [email, phone]).join('\n')
-  end
-
-  def skip_exact_validation?
-    skip_exact_validation && [first_name, last_name, street_address, zipcode, city].none?(&:present?)
+    self.search_cache = (address_lines + [email, phone]).flatten.join('\n')
   end
 
   def name

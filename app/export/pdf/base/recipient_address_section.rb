@@ -3,7 +3,7 @@ module Pdf
     class RecipientAddressSection < Section
       def initialize(booking)
         @booking = booking
-        @address = @booking.invoice_address || @booking.tenant.address_lines.join("\n")
+        @address = @booking.invoice_address.presence || @booking.tenant.address_lines.join("\n")
       end
 
       def call(pdf)

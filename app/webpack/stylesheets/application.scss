@@ -108,13 +108,10 @@ th.spacer {
     background-color: $body-bg;
 }
 
-ul.checklist {
-    .fa-li {
-    }
-}
-
 tr.disabled {
     td, a {
         color: #bbb;
     }
 }
+
+[v-cloak] {display: none}

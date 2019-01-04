@@ -47,6 +47,7 @@
             td.align-middle
               / cache
               - begin
+                / = render partial: BookingStrategy::Default.template_path('state', booking.current_state, 'timeframe'), locals: { booking: booking }
                 = render partial: BookingStrategy::Default.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
               - rescue ActionView::MissingTemplate
 

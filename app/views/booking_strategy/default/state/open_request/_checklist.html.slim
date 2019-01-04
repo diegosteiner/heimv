@@ -6,7 +6,10 @@ ul.fa-ul.mb-0
     span.fa-li
       i.fa.fa-check
     =<> button_to manage_booking_path(booking), params: { booking_command: :accept }, method: :patch, class: 'btn btn-link'
-      | Anfrage akzeptieren
+      - if booking.committed_request
+        | definitive Anfrage akzeptieren
+      - else booking.committed_request
+        | provisorische Anfrage akzeptieren
   li
     span.fa-li
       i.fa.fa-times
