@@ -5,7 +5,7 @@ module Seeders
     def seed_development
       {
         organisations: [
-          create(:organisation, name: 'Heimverein St. Georg', ref: 'st-georg')
+          create(:organisation, name: 'Heimverein St. Georg', ref: ENV.fetch('DEFAULT_ORG', 'st-georg'))
         ]
       }
     end
