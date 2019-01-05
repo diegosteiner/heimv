@@ -5089,7 +5089,7 @@ moment-timezone@^0.5.21:
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@^2.21.0, moment@^2.22.2:
+"moment@>= 2.9.0", moment@^2.22.2:
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
 
@@ -8429,7 +8429,7 @@ vue-loader@^15.4.2:
 
 "vue-occupancies-calendar@https://github.com/diegosteiner/vue-occupancies-calendar.git":
   version "1.4.0"
-  resolved "https://github.com/diegosteiner/vue-occupancies-calendar.git#04fd8d1d26c1b949dcdf3db9e95c8e1cc42a2f97"
+  resolved "https://github.com/diegosteiner/vue-occupancies-calendar.git#8ca6083a4ad44eb682a676f8194a8a1852c8c4dd"
   dependencies:
     babel-core "^6.26.0"
     babel-loader "^7.0.0"
@@ -8439,9 +8439,6 @@ vue-loader@^15.4.2:
     css-loader "^0.28.1"
     eslint "^3.7.1"
     eslint-config-spatie "^1.1.0"
-    moment "^2.21.0"
-    node-sass "^4.11.0"
-    sass-loader "^7.1.0"
     vue "^2.3.0"
     vue-loader "^12.0.3"
     vue-template-compiler "2.5.20"
