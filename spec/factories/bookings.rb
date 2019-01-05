@@ -12,10 +12,11 @@ FactoryBot.define do
     transient do
       initial_state { :initial }
       initial_state_present? { ![nil, :initial].include?(initial_state) }
+      initial_occupancy_type { :free }
     end
 
     after(:build) do |booking|
-      booking.occupancy ||= build(:occupancy, home: booking.home)
+      booking.occupancy ||= build(:occupancy, home: booking.home, occupancy_type: :free)
     end
 
     after(:create) do |booking, evaluator|
