@@ -1,4 +1,7 @@
 = form_with(model: [:manage, @booking], local: true) do |f|
+  - if @booking.errors
+    .alert.alert-danger
+      = f.error_summary
 
   fieldset
     = f.fields_for :occupancy, @booking.occupancy do |of|

@@ -8,8 +8,11 @@ class Invoice < ApplicationRecord
 
   scope :unpaid, -> { where(paid: false) }
   scope :paid, -> { where(paid: true) }
+  scope :sent, -> { where.not(sent_at: nil) }
+  scope :unsent, -> { where(sent_at: nil) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
+  before_save :set_paid
   after_save :generatate_pdf
 
   def generatate_pdf
@@ -29,7 +32,7 @@ class Invoice < ApplicationRecord
   end
 
   def filename
-    "#{self.class.model_name.human}_#{booking.ref}_#{id}.pdf"
+    "#{self.class.human_enum(:invoice_types, invoice_type)}_#{booking.ref}_#{id}.pdf"
   end
 
   def payment_slip_code
@@ -45,6 +48,10 @@ class Invoice < ApplicationRecord
   end
 
   def set_paid
-    update(paid: amount_paid >= amount)
+    self.paid = amount_paid.zero?
+  end
+
+  def sent!
+    update(sent_at: Time.zone.now)
   end
 end

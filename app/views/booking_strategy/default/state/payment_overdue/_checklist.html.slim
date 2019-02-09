@@ -1,3 +1,6 @@
+p.mb-1
+  | Offener Betrag:
+  =<> number_to_currency(booking.invoices.sum { |invoice| invoice.amount_open })
 ul.fa-ul.mb-0
   li
     - if booking.invoices.all?(:paid)

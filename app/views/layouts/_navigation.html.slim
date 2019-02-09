@@ -11,6 +11,8 @@
       = image_tag asset_pack_path('images/logo.svg'), class: "d-inline-block align-top", width: 120, height: 32
     span.navbar-text
       = @organisation.name
+    span.navbar-text.pl-2
+      = l(Time.zone.now)
     #navbar-main-nav.collapse.navbar-collapse
       ul.navbar-nav.ml-auto
         li.nav-item

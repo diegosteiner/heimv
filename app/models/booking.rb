@@ -5,7 +5,7 @@ class Booking < ApplicationRecord
   belongs_to :home
   belongs_to :tenant, inverse_of: :bookings
   belongs_to :booking_agent, foreign_key: :booking_agent_code, primary_key: :code,
-                             inverse_of: :bookings, required: false
+                             inverse_of: :bookings, optional: true
   has_one  :occupancy, dependent: :destroy, inverse_of: :booking, autosave: true
   has_many :contracts, -> { order(valid_from: :ASC) }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :invoices, dependent: :destroy, autosave: false
@@ -70,6 +70,10 @@ class Booking < ApplicationRecord
 
   def deadline_exceeded?
     deadline&.exceeded?
+  end
+
+  def to_liquid
+    Manage::BookingSerializer.new(self).serializable_hash.deep_stringify_keys
   end
 
   private

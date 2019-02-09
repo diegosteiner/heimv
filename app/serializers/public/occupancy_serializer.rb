@@ -11,10 +11,6 @@ module Public
       object.booking&.deadline&.at
     end
 
-    attribute :links do
-      {
-        # handle: occupancy_at_path(t: object.begins_at.to_s)
-      }
-    end
+    link(:handle) { occupancy_at_path(t: object.begins_at.to_s) }
   end
 end

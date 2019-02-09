@@ -1,13 +1,17 @@
 module BookingStrategy
-  module Base
-    extend WithTemplate
+  class Base
+    extend TemplateRenderable
+    extend Translatable
 
-    def i18n_scope
-      name.split('::').map(&:underscore)
-    end
+    class << self
+      # TODO move
+      def t(state, options = {})
+        I18n.t(state, options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
+      end
 
-    def t(state, options = {})
-      I18n.t(state, options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
+      def booking_actions
+        self::BookingActions
+      end
     end
   end
 end

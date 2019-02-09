@@ -12,9 +12,15 @@ export default class {
 
         $('[data-range-role="unit"]').each(function () {
             const unit = $(this);
-            unit.find('[data-range-role="start"]').on('change', function () {
-                unit.find('[data-range-role="end"]').val($(this).val());
-            })
+            const startInput = unit.find('[data-range-role="start"]');
+            const endInput = unit.find('[data-range-role="end"]');
+            const updateEndInput = function (value) {
+                if (!endInput.val()) {
+                    endInput.val(value);
+                }
+            }
+            startInput.on('change', function () { updateEndInput($(this).val()) });
+            updateEndInput(startInput.val());
         })
     }
 }

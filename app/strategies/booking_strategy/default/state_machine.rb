@@ -1,5 +1,5 @@
 module BookingStrategy
-  module Default
+  class Default
     class StateMachine < Base::StateMachine
       state :initial, initial: true
       %i[
@@ -43,15 +43,20 @@ module BookingStrategy
         end
       end
 
-      after_transition(to: %i[overdue_request overdue payment_overdue]) do |booking|
+      after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue]) do |booking|
         booking.deadlines.create(at: 3.days.from_now)
       end
 
-      after_transition(to: %i[provisional_request confirmed payment_due]) do |booking|
+      after_transition(to: %i[provisional_request confirmed]) do |booking|
         booking.deadlines.create(at: 14.days.from_now, extendable: 1) unless booking.deadline
       end
 
+      after_transition(to: %i[definitive_request]) do |booking|
+        booking.deadline&.clear
+      end
+
       after_transition(to: %i[open_request]) do |booking|
+        booking.deadline&.clear
         BookingMailer.new_booking(booking).deliver_now
         booking.messages.new_from_template(:open_request_message)&.deliver_now
       end
@@ -73,7 +78,7 @@ module BookingStrategy
 
       after_transition(to: %i[confirmed]) do |booking|
         booking.update(editable: false)
-        BookingStrategy::Default::Manage::Command.new(booking).email_contract_and_deposit
+        # BookingActions::EmailContractAndDeposit.new.call(booking)
       end
 
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|
@@ -82,6 +87,14 @@ module BookingStrategy
 
       after_transition(to: %i[upcoming]) do |booking|
         booking.messages.new_from_template('upcoming_message')&.deliver_now
+      end
+
+      after_transition(to: %i[payment_due]) do |booking|
+        booking.deadlines.create(at: 30.days.from_now, extendable: 1) unless booking.deadline
+      end
+
+      after_transition(to: %i[payment_overdue]) do |booking|
+        booking.messages.new_from_template(:payment_overdue_message)&.deliver_now
       end
 
       after_transition(to: %i[confirmed upcoming completed]) do |booking|

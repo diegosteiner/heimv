@@ -20,6 +20,9 @@ section.breakout-sm
               strong= Booking.human_attribute_name(:tenant)
               br
               = tenant_address(@booking.tenant)
+              br
+              - if @booking.tenant.birth_date
+                = l(@booking.tenant.birth_date)
 
             .col
               strong= Booking.human_attribute_name(:organisation)
@@ -56,22 +59,24 @@ section.breakout-sm
 
           hr
 
-          = render partial: BookingStrategy::Default.template_path('manage/bookings/booking'), locals: { booking: @booking }
-
-          - @booking.state_machine.allowed_transitions.each do |state|
-            - next if state.to_sym == :cancelled
+          = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
+            .btn-group[role="group"]
+              - @organisation.booking_strategy.booking_actions.available_actions(@booking).each do |action|
+                = f.button name: :booking_action, value: action.to_s, class: "btn btn-#{action.variant}"
+                  =  t(action.class.i18n_scope.join('.'))
             '
-            = link_to manage_booking_path(@booking, booking: { transition_to: state }), method: :patch, class: 'btn btn-outline-primary' do
-              = transition_translation(to: state, from: @booking.state_machine.current_state)[:label]
+            .dropdown.d-inline
+              button.btn.btn-outline-primary.dropdown-toggle[type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
+                = Booking.human_attribute_name(:transition_to)
+              .dropdown-menu aria-labelledby="dropdownMenuButton"
+                - @booking.state_machine.allowed_transitions.each do |state|
+                  = f.button name: :transition_to, value: state, class: 'btn'
+                    = transition_translation(to: state, from: @booking.state_machine.current_state)[:label]
 
-          - if @booking.state_machine.allowed_transitions.include?('cancelled')
+
+            = link_to edit_manage_booking_path(@booking), class: 'btn btn-default'
+              span.fa.fa-pencil
             '
-            = link_to manage_booking_path(@booking, booking: { transition_to: :cancelled }), method: :patch, class: 'btn btn-outline-danger' do
-              = transition_translation(to: :cancelled, from: @booking.state_machine.current_state)[:label]
-
-          = link_to edit_manage_booking_path(@booking), class: 'btn btn-default'
-            span.fa.fa-pencil
-          '
     .col-3
       ul.list-group
         - @booking.booking_transitions.order(created_at: :DESC).each do |transition|

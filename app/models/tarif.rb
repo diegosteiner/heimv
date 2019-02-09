@@ -1,5 +1,5 @@
 class Tarif < ApplicationRecord
-  extend WithTemplate
+  extend TemplateRenderable
 
   belongs_to :booking, autosave: false, optional: true
   belongs_to :home, optional: true

@@ -2,15 +2,4 @@ p.mb-1
   | Noch
   =<> time_ago_in_words(booking.deadline.at)
   | reserviert
-ul.fa-ul.mb-0
-  li
-    span.fa-li
-      i.fa.fa-check
-    = button_to manage_booking_path(booking), params: { booking: { transition_to: :definitive_request }}, method: :patch, class: 'btn btn-link'
-      | Anfrage definitiv setzen
-  li
-    span.fa-li
-      i.fa.fa-times
-    =<> button_to manage_booking_path(booking), params: { booking_command: :cancel }, method: :patch, class: 'btn btn-link'
-      | Absagen
 

@@ -47,7 +47,7 @@
                 .col-md-8
                   = cf.text_field :city, disabled: !@booking.editable
 
-              = cf.date_field :birth_date, disabled: !@booking.editable
+              = cf.text_field :birth_date, disabled: !@booking.editable
 
 
           hr.my-3
@@ -95,7 +95,7 @@
                 .modal-body
                   = l(14.days.from_now)
                 .modal-footer
-                  button.btn.btn-primary[type="submit" name="booking_command" value="extend_deadline"]
+                  button.btn.btn-primary[type="submit" name="booking_action" value="extend_deadline"]
                     | Frist verlängern
 
         #cancelModal.modal[role="dialog" tabindex="-1"]
@@ -110,7 +110,7 @@
                 .modal-body
                   = f.text_area :cancellation_reason
                 .modal-footer
-                  button.btn.btn-primary[type="submit" name="booking_command" value="cancel"]
+                  button.btn.btn-primary[type="submit" name="booking_action" value="cancel"]
                     | Anfrage zurückziehen
                   / button.btn.btn[data-dismiss="modal" type="button"]
                   /   = t(:close)

@@ -13,4 +13,8 @@ class Home < ApplicationRecord
   def to_s
     name
   end
+
+  def to_liquid
+    Public::HomeSerializer.new(self).serializable_hash.deep_stringify_keys
+  end
 end

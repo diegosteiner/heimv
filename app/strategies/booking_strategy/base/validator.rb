@@ -1,5 +1,5 @@
 module BookingStrategy
-  module Base
+  class Base
     class Validator < ActiveModel::Validator
       def validate(record); end
     end

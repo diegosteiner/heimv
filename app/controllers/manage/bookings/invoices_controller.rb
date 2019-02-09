@@ -26,7 +26,7 @@ module Manage
       end
 
       def edit
-        @suggested_invoice_parts = InvoiceParts::Factory.new.for_booking(@invoice)
+        @suggested_invoice_parts = InvoiceParts::Factory.new.suggest(@invoice)
         respond_with :manage, @booking, @invoice
       end
 

@@ -3,6 +3,8 @@ class Contract < ApplicationRecord
   has_one_attached :pdf
 
   scope :valid, -> { where(valid_until: nil) }
+  scope :sent, -> { where.not(sent_at: nil) }
+  scope :unsent, -> { where(sent_at: nil) }
 
   after_save do
     booking.state_transition
@@ -41,6 +43,10 @@ class Contract < ApplicationRecord
 
   def text_body
     markdown_service.text_body(body_interpolation_arguments)
+  end
+
+  def sent!
+    update(sent_at: Time.zone.now)
   end
 
   def sent?

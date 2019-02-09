@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
     t.uuid "booking_id"
     t.datetime "issued_at", default: -> { "now()" }
     t.datetime "payable_until"
+    t.datetime "sent_at"
     t.text "text"
     t.integer "invoice_type"
     t.string "esr_number"
@@ -226,6 +227,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
   create_table "tarif_selectors", force: :cascade do |t|
     t.bigint "home_id"
     t.string "type"
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["home_id"], name: "index_tarif_selectors_on_home_id"

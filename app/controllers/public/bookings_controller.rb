@@ -27,7 +27,7 @@ module Public
       if @booking.editable?
         @booking.assign_attributes(update_params)
         @booking.save(context: :public_update)
-        @organisation.booking_strategy::Public::Command.new(@booking).exec(booking_command) if booking_command
+        @organisation.booking_strategy::BookingAction.new(@booking).call(booking_action) if booking_action
       else
         @booking.errors.add(:base, :invalid)
       end
@@ -40,8 +40,8 @@ module Public
       BookingParams::Create.permit(params[:booking])
     end
 
-    def booking_command
-      params[:booking_command]
+    def booking_action
+      params[:booking_action]
     end
 
     def update_params

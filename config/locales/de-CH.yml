@@ -4,6 +4,7 @@ de-CH:
     attributes:
       booking/filter:
         begins_at: Von
+        booking_states: Status
         ends_at: Bis
         homes: Heime
         ref: Buchungsreferenz
@@ -45,6 +46,7 @@ de-CH:
         house_rules: Hausordnung (PDF)
         janitor: Heimwart
         name: Name
+        place: Ort
         ref: Kurzname / Referenz
       invoice:
         amount: Betrag
@@ -53,6 +55,7 @@ de-CH:
         invoice_parts: Positionen
         invoice_type: Rechnungsart
         issued_at: Ausgestellt am
+        sent_at: Versendet am
         payable_until: Zahlung bis
         print_payment_slip: Einzahlungsschein drucken
         ref: Referenznummer
@@ -121,7 +124,7 @@ de-CH:
           camp: Lager
           event: Privater Anlass
       invoice:
-        invoice_types:
+        invoice_type:
           deposit: Anzahlung
           invoice: Rechnung
           late_notice: Mahnung
@@ -182,6 +185,9 @@ de-CH:
       payment:
         one: Zahlung
         other: Zahlungen
+      tarif:
+        one: Tarif
+        other: Tarife
       tarif_selector:
         one: Tarifwähler
         other: Tarifwähler
@@ -238,6 +244,11 @@ de-CH:
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
   booking_strategy:
     default:
+      booking_actions:
+        accept: Anfrage akzeptieren
+        cancel: Absagen
+        email_contract_and_deposit: Vertrag und Anzahlung verschicken
+        email_invoice: Rechnung verschicken
       state:
         active:
           help: Help

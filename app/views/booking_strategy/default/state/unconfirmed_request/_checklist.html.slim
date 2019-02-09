@@ -1,15 +1,4 @@
 p.mb-1
   | Eingereicht vor
   =<> time_ago_in_words(booking.created_at)
-ul.fa-ul.mb-0
-  li
-    span.fa-li
-      i.fa.fa-check
-    = button_to manage_booking_path(booking), params: { booking: { transition_to: :open_request } }, method: :patch, class: 'btn btn-link'
-      | Email als bestätigt markieren
-  / li
-  /   span.fa-li
-  /     i.fa.fa-times
-  /   = button_to manage_booking_path(booking), params: { booking: { transition_to: :cancelled } }, method: :patch, class: 'btn btn-link'
-  /     | Anfrage ablehnen
 

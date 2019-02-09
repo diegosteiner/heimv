@@ -28,4 +28,8 @@ class Tenant < ApplicationRecord
   def to_s
     "##{id} #{name}"
   end
+
+  def to_liquid
+    Public::TenantSerializer.new(self).serializable_hash.deep_stringify_keys
+  end
 end

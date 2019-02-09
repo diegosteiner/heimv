@@ -6,7 +6,7 @@
       :target="id"
       triggers="hover focus"
     >
-      <dl class="my-1" v-for="occupancy in occupancies" :key="occupancy.id">
+      <dl class="my-1" v-for="occupancy in relevantOccupancies" :key="occupancy.id">
         <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
         <dd>
           <a v-if="(occupancy.links || {}).handle" :href="occupancy.links.handle">
@@ -33,7 +33,7 @@ export default {
           tentative: "provisorisch Besetzt",
           occupied: "definitiv Besetzt",
           closed: "Geschlossen",
-          free: ""
+          free: " "
         },
         date_format: "DD.MM.Y HH:mm"
       }
@@ -49,7 +49,7 @@ export default {
       return moment(value).format(this.$t("date_format"));
     },
     click() {
-      if (!this.disabled && !this.isOutOfRange && !this.occupancies.length > 0) {
+      if (!this.disabled && !this.isOutOfRange && !this.relevantOccupancies.length > 0) {
         window.location.href = this.link;
       }
     }
@@ -63,6 +63,11 @@ export default {
         this.date.isBefore(moment().subtract(1, "day")) ||
         this.date.isAfter(moment().add(2, "years"))
       );
+    },
+    relevantOccupancies(date) {
+      return this.occupancies.filter(function(occupancy) {
+        return occupancy.occupancy_type != "free";
+      });
     },
     calendarDayClass() {
       if(this.disabled || this.isOutOfRange) {
@@ -96,6 +101,13 @@ export default {
 </script>
 
 <style lang="scss">
+$tentative-foreground-color: #0033ff;
+$tentative-border-color: #0033ff;
+$tentative-background-color: #00bfff;
+$occupied-foreground-color: #9e2e2e;
+$occupied-border-color: #e85f5f;
+$occupied-background-color: #ffa8a8;
+
 .calendar-day {
   button {
     width: 30px;
@@ -104,6 +116,7 @@ export default {
     padding: 0.25rem;
     border: 1px solid transparent;
     transition: opacity 1s;
+    background-color: white;
     cursor: pointer;
 
     &:focus {
@@ -123,96 +136,102 @@ export default {
   .occupied-forenoon,
   .occupied-afternoon,
   .occupied-fullday {
-    border: 1px solid #e85f5f;
+    border: 1px solid $occupied-border-color;
     font-weight: bold;
-    color: #9e2e2e;
+    color: $occupied-foreground-color;
   }
   .occupied-fullday {
-    background: #ffa8a8;
+    background: $occupied-background-color;
   }
 
   .occupied-afternoon {
-    background: linear-gradient(315deg, #ffa8a8 50%, white 50%);
+    background: linear-gradient(315deg, $occupied-background-color 50%, white 50%);
     border-top-color: white;
     border-left-color: white;
   }
   .occupied-forenoon {
-    background: linear-gradient(135deg, #ffa8a8 50%, white 50%);
-    border-bottom: white;
-    border-right: white;
+    background: linear-gradient(135deg, $occupied-background-color 50%, white 50%);
+    border-bottom-color: white;
+    border-right-color: white;
   }
   .occupied-forenoon.occupied-afternoon {
-    border: 1px solid #ffa8a8;
+    border-top-color: $occupied-border-color;
+    border-left-color: $occupied-border-color;
+    border-bottom-color: $occupied-border-color;
+    border-right-color: $occupied-border-color;
     background: linear-gradient(
       135deg,
-      #ffa8a8 49%,
+      $occupied-background-color 49%,
       white 49%,
       white 51%,
-      #ffa8a8 51%
+      $occupied-background-color 51%
     );
   }
 
   .tentative-forenoon,
   .tentative-afternoon,
   .tentative-fullday {
-    border: 1px solid #0033ff;
+    border: 1px solid $tentative-border-color;
     font-weight: bold;
-    color: #0033ff;
+    color: $tentative-foreground-color;
   }
 
   .tentative-fullday {
-    background: #00bfff;
+    background: $tentative-background-color;
   }
 
   .tentative-afternoon {
-    background: linear-gradient(315deg, #00bfff 50%, white 50%);
+    background: linear-gradient(315deg, $tentative-background-color 50%, white 50%);
     border-top-color: white;
     border-left-color: white;
   }
   .tentative-forenoon {
-    background: linear-gradient(135deg, #00bfff 50%, white 50%);
+    background: linear-gradient(135deg, $tentative-background-color 50%, white 50%);
     border-bottom-color: white;
     border-right-color: white;
   }
 
   .tentative-forenoon.tentative-afternoon {
-    border: 1px solid #0033ff;
+    border-top-color: $tentative-border-color;
+    border-right-color: $tentative-border-color;
+    border-bottom-color: $tentative-border-color;
+    border-left-color: $tentative-border-color;
     background: linear-gradient(
       135deg,
-      #00bfff 49%,
+      $tentative-background-color 49%,
       white 49%,
       white 51%,
-      #00bfff 51%
+      $tentative-background-color 51%
     );
   }
 
   .occupied-forenoon.tentative-afternoon {
     border: 1px solid white;
-    border-top-color: #e85f5f;
-    border-right-color: #0033ff;
-    border-bottom-color: #0033ff;
-    border-left-color: #e85f5f;
+    border-top-color: $occupied-border-color;
+    border-right-color: $tentative-border-color;
+    border-bottom-color: $tentative-border-color;
+    border-left-color: $occupied-border-color;
     background: linear-gradient(
       135deg,
-      #ffa8a8 49%,
+      $occupied-background-color 49%,
       white 49%,
       white 51%,
-      #00bfff 51%
+      $tentative-background-color 51%
     );
   }
 
   .tentative-forenoon.occupied-afternoon {
     border: 1px solid white;
-    border-top-color: #0033ff;
-    border-right-color: #e85f5f;
-    border-bottom-color: #e85f5f;
-    border-left-color: #0033ff;
+    border-top-color: $tentative-border-color;
+    border-right-color: $occupied-border-color;
+    border-bottom-color: $occupied-border-color;
+    border-left-color: $tentative-border-color;
     background: linear-gradient(
       135deg,
-      #00bfff 49%,
+      $tentative-background-color 49%,
       white 49%,
       white 51%,
-      #ffa8a8 51%
+      $occupied-background-color 51%
     );
   }
 

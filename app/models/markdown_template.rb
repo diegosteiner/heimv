@@ -13,6 +13,7 @@ class MarkdownTemplate < ApplicationRecord
     open_request_message
     unconfirmed_request_message
     manage_new_booking_mail
+    payment_overdue_message
   ].freeze
 
   validates :key, :locale, presence: true
@@ -25,9 +26,8 @@ class MarkdownTemplate < ApplicationRecord
   def interpolate(context)
     context = InterpolationContext.new(context) unless context.is_a?(InterpolationContext)
     liquid_template = Liquid::Template.parse(body)
-    # binding.pry
 
-    Markdown.new(liquid_template.render(context.to_h, [Filters]))
+    Markdown.new(liquid_template.render(context.to_liquid, [Filters]))
   end
   alias % interpolate
 
@@ -36,13 +36,12 @@ class MarkdownTemplate < ApplicationRecord
   end
 
   module Filters
-    def translate(input, scope = nil)
+    def i18n_translate(input, scope = nil)
       I18n.t(input, scope: scope, default: nil)
     end
-    alias t translate
 
     def booking_purpose(input)
-      translate(input, :'activerecord.enums.booking.purpose')
+      i18n_translate(input, :'activerecord.enums.booking.purpose')
     end
   end
 end

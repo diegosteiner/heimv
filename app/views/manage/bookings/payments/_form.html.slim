@@ -2,7 +2,7 @@
 
   fieldset
     = f.select :invoice_id, @booking.invoices.map { |i| [i.ref, i.id] }
-    = f.number_field :amount
+    = f.number_field :amount, step: 0.01
     = f.date_field :paid_at, lang: I18n.locale
     = f.text_area :remarks
 

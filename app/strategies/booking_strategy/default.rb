@@ -1,6 +1,4 @@
 module BookingStrategy
-  module Default
-    extend Base
-    extend WithTemplate
+  class Default < Base
   end
 end

@@ -1,20 +1,28 @@
 class Booking
   class Filter < ApplicationFilter
-    attribute :begins_at, default: -> { Time.zone.today.beginning_of_day }
-    attribute :ends_at, default: -> { 3.years.from_now.beginning_of_day }
+    # attribute :begins_at
+    attribute :begins_at
+    attribute :ends_at
     attribute :ref
     attribute :tenant
     attribute :homes, default: []
     attribute :booking_states, default: []
+    attribute :only_inconcluded, default: true
 
     filter :begins_at, :ends_at do |params, bookings|
-      occupancy_booking_ids = Occupancy.at(params[:begins_at]..params[:ends_at])
+      begins_at = params.fetch(:begins_at)
+      ends_at = params.fetch(:ends_at)
+      occupancy_booking_ids = Occupancy.at(begins_at..ends_at)
                                        .pluck(:booking_id)
       bookings.where(id: occupancy_booking_ids)
     end
 
     filter :ref do |params, bookings|
       bookings.where(Booking.arel_table[:ref].matches("%#{params[:ref]}%"))
+    end
+
+    filter :only_inconcluded do |params, bookings|
+      params[:only_inconcluded] ? bookings.inconcluded : bookings
     end
 
     filter :homes do |params, bookings|

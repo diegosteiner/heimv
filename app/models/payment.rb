@@ -1,5 +1,5 @@
 class Payment < ApplicationRecord
-  belongs_to :invoice, optional: true
+  belongs_to :invoice, optional: true, touch: true
   belongs_to :booking, touch: true
 
   validates :amount, numericality: true
@@ -10,10 +10,6 @@ class Payment < ApplicationRecord
 
   before_validation do
     self.booking ||= invoice&.booking
-  end
-
-  after_save do
-    invoice&.set_paid
   end
 
   def duplicates

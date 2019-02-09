@@ -51,3 +51,9 @@
                 = render partial: BookingStrategy::Default.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
               - rescue ActionView::MissingTemplate
 
+              = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
+                .btn-group[role="group"]
+                  - @organisation.booking_strategy.booking_actions.available_actions(booking).each do |action|
+                    = f.button name: :booking_action, type: :submit, value: action.to_s, class: "btn btn-sm btn-#{action.variant}"
+                      =  t(action.class.i18n_scope.join('.'))
+

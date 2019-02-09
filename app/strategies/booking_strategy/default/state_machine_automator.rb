@@ -1,5 +1,5 @@
 module BookingStrategy
-  module Default
+  class Default
     class StateMachineAutomator < ::StateMachineAutomator
       automatic_transition(from: :initial, to: :unconfirmed_request) do |booking|
         booking.email.present?
@@ -48,7 +48,7 @@ module BookingStrategy
       automatic_transition(from: %i[provisional_request overdue_request], to: :definitive_request, &:committed_request)
 
       automatic_transition(from: :definitive_request, to: :confirmed) do |booking|
-        # booking.contracts.sent.any? && booking.invoices.deposit.any?
+        booking.contracts.sent.any? && booking.invoices.deposit.any?
       end
 
       automatic_transition(from: :confirmed, to: :upcoming) do |booking|

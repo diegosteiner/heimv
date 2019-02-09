@@ -11,7 +11,7 @@ ul.fa-ul.mb-0
         | Tarife zuweisen
 
   li
-    - if booking.contracts.any?(&:sent?)
+    - if booking.contract.present?
       span.fa-li
         i.fa.fa-check-square-o
       | Vertrag erstellt & verschickt
@@ -31,15 +31,3 @@ ul.fa-ul.mb-0
         i.fa.far.fa-square-o
       = link_to new_manage_booking_invoice_path(booking, invoice: { invoice_type: :deposit })
         | Anzahlung erstellen
-
-  li
-    - if booking.invoices.deposit.any? && booking.contracts.any?
-      span.fa-li
-        i.fa.fa-arrow-right
-      =<> button_to manage_booking_path(booking), params: { booking: { transition_to: :confirmed }}, method: :patch, class: 'btn btn-link'
-        | Vertrag und Anzahlung verschicken
-  li
-    span.fa-li
-      i.fa.fa-times
-    =<> button_to manage_booking_path(booking), params: { booking_command: :cancel }, method: :patch, class: 'btn btn-link'
-      | Absagen

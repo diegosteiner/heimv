@@ -2,6 +2,6 @@
   .col-md-8
     .card
       .card-body
-        = form_with url: new_import_manage_payments_path, method: :POST do |f|
+        = form_with url: new_import_manage_payments_path, method: :POST, local: true do |f|
           = f.file_field 'camt_file'
           = f.submit

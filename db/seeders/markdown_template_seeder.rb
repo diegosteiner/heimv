@@ -261,6 +261,40 @@ module Seeders
               BODY
           ),
           MarkdownTemplate.create!(
+            key: :payment_overdue_message,
+            locale: :'de-CH',
+            title: 'Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung',
+            body: <<~BODY
+              {{ booking.tenant.salutation_name }}
+
+              Vor einiger Zeit haben wir Dir die Rechnung für Deine Lagerhaus-Reservation geschickt.
+              Die Zahlungsfrist von 30 Tagen ist nun abgelaufen, doch wir haben noch keine Zahlung von
+              Dir erhalten. Bitte bezahle die überfällige Rechnung in den nächsten Tagen.
+
+
+              **Reservationsdetails**
+
+              - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+              - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+              - Organisation: {{ booking.organisation }}
+              - Mietzweck: {{ booking.purpose | booking_purpose }}
+              - Bemerkungen: {{ booking.remarks }}
+
+
+              **Zahlungsdetails**
+
+              - Empfänger: Verein Pfadiheime St. Georg, Zürich
+              - Konto: XXXXXX
+
+              Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+              wenden: Christian Morger / Smily, 079 262 25 48, info@pfadi-heime.ch
+
+              Freundliche Grüsse
+              Verein Pfadiheime St. Georg
+
+              BODY
+          ),
+          MarkdownTemplate.create!(
             key: :contract_text,
             locale: :'de-CH',
             title: 'Vertrag',

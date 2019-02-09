@@ -4,6 +4,7 @@ class CreateInvoices < ActiveRecord::Migration[5.2]
       t.references :booking, foreign_key: true, type: :uuid
       t.datetime :issued_at, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :payable_until, null: true
+      t.datetime :sent_at, null: true
       t.text :text, null: true
       t.integer :invoice_type
       t.string :esr_number, null: true

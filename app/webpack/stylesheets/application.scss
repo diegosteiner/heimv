@@ -30,6 +30,10 @@ label.required:after {
   width: auto;
 }
 
+.btn-group form {
+  display: inline;
+}
+
 h1,
 h2,
 h3,
@@ -50,12 +54,11 @@ h6 {
     }
 }
 
-.btn {
-        font-family: $headings-font-family;
+.btn-primary {
+    // font-family: $headings-font-family;
 }
 
 .btn-link {
-    font-family: $font-family-sans-serif;
     padding: 0;
 }
 

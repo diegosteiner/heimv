@@ -1,7 +1,7 @@
 module BookingStrategy
-  module Base
+  class Base
     class StateMachine
-      extend WithTemplate
+      extend TemplateRenderable
       include Statesman::Machine
 
       def initialize(booking)
