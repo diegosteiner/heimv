@@ -1,7 +1,7 @@
 module BookingStrategy
   class Default
     module BookingActions
-      class ExtendDeadline < BookingStrategy::Base::BookingAction
+      class ExtendDeadline < BookingStrategy::Base::BookingActions::Base
         def call(booking)
           case booking.current_state.to_sym
           when :provisional_request
@@ -16,7 +16,6 @@ module BookingStrategy
         def self.available_on?(booking)
           booking.deadline&.extendable?
         end
-
 
         def variant
           :'outline-primary'

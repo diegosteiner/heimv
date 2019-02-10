@@ -1,7 +1,7 @@
 module BookingStrategy
   class Default
     module BookingActions
-      class Cancel < BookingStrategy::Base::BookingAction
+      class Cancel < BookingStrategy::Base::BookingActions::Base
         def call(booking)
           booking.state_machine.transition_to(:cancelled) unless booking.state_machine.in_state?(:cancelled)
         end

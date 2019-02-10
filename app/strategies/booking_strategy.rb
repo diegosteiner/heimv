@@ -6,6 +6,4 @@ module BookingStrategy
 
     alias [] infer
   end
-
-
 end

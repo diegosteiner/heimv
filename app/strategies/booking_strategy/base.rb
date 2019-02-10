@@ -4,7 +4,7 @@ module BookingStrategy
     extend Translatable
 
     class << self
-      # TODO move
+      # TODO: move
       def t(state, options = {})
         I18n.t(state, options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
       end
