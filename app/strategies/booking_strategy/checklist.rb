@@ -1,6 +1,8 @@
 class BookingStrategy
-  class BookingChecklist
-    ChecklistItem = Struct.new(:key, :href, :checked)
+  class Checklist
+    extend Translatable
+
+    ChecklistItem = Struct.new(:key, :checked, :url_hint)
 
     class << self
       attr_reader :state_procs

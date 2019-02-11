@@ -2,25 +2,3 @@ p.mb-1
   | Seit
   =<> time_ago_in_words(booking.deadline.at)
   | fällig
-ul.fa-ul.mb-0
-  li
-    - if booking.contracts.signed.any?
-      span.fa-li
-        i.fa.fa-check-square-o
-      | Vertrag eingegangen
-    - else
-      span.fa-li
-        i.fa.fa-square-o
-      = link_to manage_booking_contracts_path(booking)
-        | Vertrag eingegangen
-
-  li
-    - if booking.invoices.deposit.all?(:paid)
-      span.fa-li
-        i.fa.fa-check-square-o
-      | Anzahlung überwiesen
-    - else
-      span.fa-li
-        i.fa.fa-square-o
-      = link_to manage_booking_invoices_path(booking)
-        | Anzahlung überwiesen

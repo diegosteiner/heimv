@@ -23,7 +23,7 @@
         .col-4
           = ipf.text_field :label_2, hide_label: true
         .col-2
-          = ipf.number_field :amount, hide_label: true, class: 'text-right'
+          = ipf.number_field :amount, hide_label: true, class: 'text-right', step: 0.01
 
     hr
     = f.fields_for :invoice_parts, @suggested_invoice_parts do |ipf|
@@ -38,7 +38,7 @@
         .col-4
           = ipf.text_field :label_2, hide_label: true
         .col-2
-          = ipf.number_field :amount, hide_label: true, class: 'text-right'
+          = ipf.number_field :amount, hide_label: true, class: 'text-right', step: 0.01
 
     div
       - unless @invoice.new_record?

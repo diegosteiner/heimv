@@ -11,6 +11,7 @@
       tr
         th= Invoice.model_name.human(count: :other)
         th= Invoice.human_attribute_name(:invoice_type)
+        th= Invoice.human_attribute_name(:amount)
         th= Invoice.human_attribute_name(:amount_open)
         th
 
@@ -26,7 +27,15 @@
             = Invoice.human_enum(:invoice_types, invoice.invoice_type)
 
           td
-            = number_to_currency(invoice.amount_open)
+            = number_to_currency(invoice.amount)
+
+          td
+            - if invoice.amount_open.negative?
+              .text-danger= number_to_currency(invoice.amount_open)
+            - elsif invoice.amount_open.zero?
+              .text-success= number_to_currency(invoice.amount_open)
+            - else
+              = number_to_currency(invoice.amount_open)
 
           td.py-1.text-right
             .btn-group

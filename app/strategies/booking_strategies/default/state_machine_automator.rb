@@ -34,7 +34,11 @@ module BookingStrategies
       end
 
       automatic_transition(from: :past, to: :payment_due) do |booking|
-        booking.invoices.invoice.exists?
+        booking.invoices.invoice.sent.exists?
+      end
+
+      automatic_transition(from: %i[payment_due], to: :payment_overdue) do |booking|
+        !booking.invoices.unpaid.overdue.exists?
       end
 
       automatic_transition(from: %i[payment_due payment_overdue], to: :completed) do |booking|

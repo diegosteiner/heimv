@@ -11,7 +11,8 @@ module Manage
       def new
         @invoice = Invoice.new({ booking: @booking, invoice_type: :invoice }.merge(invoice_params || {}))
         # @invoice.invoice_type ||= :invoice
-        @invoice.text = MarkdownTemplate["#{@invoice.invoice_type}_invoice_text"] % @booking
+        @invoice.text ||= MarkdownTemplate["#{@invoice.invoice_type}_invoice_text"] % @booking
+        @invoice.payable_until ||= 30.days.from_now
         @suggested_invoice_parts = InvoiceParts::Factory.new.suggest(@invoice)
         respond_with :manage, @booking, @invoice
       end

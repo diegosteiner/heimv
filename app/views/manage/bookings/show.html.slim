@@ -55,7 +55,14 @@ section.breakout-sm
             .col
               strong= Booking.human_attribute_name(:state)
               br
-              = render partial: BookingStrategies::Default.template_path('state', @booking.current_state, 'checklist'), locals: { booking: @booking }
+              / = render partial: BookingStrategies::Default.template_path('state', @booking.current_state, 'checklist'), locals: { booking: @booking }
+              ul.fa-ul.mb-0
+                - @organisation.booking_strategy::Checklist.new(@booking).to_a.each do |check_item|
+                  li
+                    i.fa-li.fa[class=(check_item.checked ? 'fa-check-square-o' : 'fa-square-o')]
+                    = link_to check_item.url_hint
+                      = t(check_item.key, scope: @organisation.booking_strategy::Checklist.i18n_scope)
+
 
           hr
 
