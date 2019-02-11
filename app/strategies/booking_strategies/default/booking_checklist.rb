@@ -1,6 +1,6 @@
-module BookingStrategy
+module BookingStrategies
   class Default
-    class BookingChecklist < BookingStrategy::Base::BookingChecklist
+    class BookingChecklist < BookingStrategy::BookingChecklist
       state :confirmed do |_booking|
         [
           ChecklistItem.new(:deposit_paid, nil, true),

@@ -100,7 +100,7 @@ ignore_unused:
 - 'locales.*'
 - 'flash.*'
 - 'titles.*'
-- 'booking_strategy.*'
+- 'booking_strategies.*'
 - 'faker.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:

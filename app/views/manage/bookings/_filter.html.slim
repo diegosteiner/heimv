@@ -9,7 +9,7 @@
       = f.text_field :tenant
     .col-3
       = f.collection_select:homes, Home.all, :id, :name, { include_blank: true }, multiple: true
-      - states = BookingStrategy::Default::StateMachine.states.map { |s| [@organisation.booking_strategy.t(s, scope: :state, default: {})[:label], s] }
+      - states = BookingStrategies::Default::StateMachine.states.map { |s| [@organisation.booking_strategy.t(s, scope: :state, default: {})[:label], s] }
       = f.select :booking_states, states, { include_blank: true }, multiple: true
     .col-3.pt-4
       = f.submit

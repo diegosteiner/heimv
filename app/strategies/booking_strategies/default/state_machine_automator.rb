@@ -1,4 +1,4 @@
-module BookingStrategy
+module BookingStrategies
   class Default
     class StateMachineAutomator < ::StateMachineAutomator
       automatic_transition(from: :initial, to: :unconfirmed_request) do |booking|

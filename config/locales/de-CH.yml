@@ -55,10 +55,10 @@ de-CH:
         invoice_parts: Positionen
         invoice_type: Rechnungsart
         issued_at: Ausgestellt am
-        sent_at: Versendet am
         payable_until: Zahlung bis
         print_payment_slip: Einzahlungsschein drucken
         ref: Referenznummer
+        sent_at: Versendet am
         text: Text
       invoice_part:
         amount: Betrag
@@ -125,6 +125,10 @@ de-CH:
           event: Privater Anlass
       invoice:
         invoice_type:
+          deposit: Anzahlung
+          invoice: Rechnung
+          late_notice: Mahnung
+        invoice_types:
           deposit: Anzahlung
           invoice: Rechnung
           late_notice: Mahnung
@@ -242,13 +246,18 @@ de-CH:
 
         %{link}
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-  booking_strategy:
+  booking_strategies:
     default:
       booking_actions:
-        accept: Anfrage akzeptieren
-        cancel: Absagen
-        email_contract_and_deposit: Vertrag und Anzahlung verschicken
-        email_invoice: Rechnung verschicken
+        manage:
+          accept: Anfrage akzeptieren
+          cancel: Absagen
+          email_contract_and_deposit: Vertrag und Anzahlung verschicken
+          email_invoice: Rechnung verschicken
+          extend_deadline: Frist verslängern
+        public:
+          cancel: Absagen
+          extend_deadline: Frist verslängern
       state:
         active:
           help: Help
@@ -1408,6 +1417,7 @@ de-CH:
         title: Reservation bearbeiten
       new:
         title: Reservation
+  reset: Reset
   time:
     formats:
       date: "%d.%m.%Y"

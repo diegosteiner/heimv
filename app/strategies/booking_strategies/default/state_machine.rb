@@ -1,6 +1,6 @@
-module BookingStrategy
+module BookingStrategies
   class Default
-    class StateMachine < Base::StateMachine
+    class StateMachine < BookingStrategy::StateMachine
       state :initial, initial: true
       %i[
         unconfirmed_request open_request provisional_request definitive_request overdue_request cancelled

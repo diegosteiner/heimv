@@ -55,13 +55,13 @@ section.breakout-sm
             .col
               strong= Booking.human_attribute_name(:state)
               br
-              = render partial: BookingStrategy::Default.template_path('state', @booking.current_state, 'checklist'), locals: { booking: @booking }
+              = render partial: BookingStrategies::Default.template_path('state', @booking.current_state, 'checklist'), locals: { booking: @booking }
 
           hr
 
           = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
             .btn-group[role="group"]
-              - @organisation.booking_strategy.booking_actions.available_actions(@booking).each do |action|
+              - @organisation.booking_strategy::BookingActions::Manage.allowed_actions(@booking).each do |action|
                 = f.button name: :booking_action, value: action.to_s, class: "btn btn-#{action.variant}"
                   =  t(action.class.i18n_scope.join('.'))
             '
@@ -70,7 +70,7 @@ section.breakout-sm
                 = Booking.human_attribute_name(:transition_to)
               .dropdown-menu aria-labelledby="dropdownMenuButton"
                 - @booking.state_machine.allowed_transitions.each do |state|
-                  = f.button name: :transition_to, value: state, class: 'btn'
+                  = f.button name: :'booking[transition_to]', value: state, class: 'btn'
                     = transition_translation(to: state, from: @booking.state_machine.current_state)[:label]
 
 

@@ -1,9 +1,8 @@
 require 'rails_helper'
-describe BookingStrategy::Default::StateMachine do
+describe BookingStrategies::Default::StateMachine do
   def state_machine_in_state(initial_state, options = {})
     booking = create(:booking, options.merge(initial_state: initial_state))
-    state_machine = described_class.new(booking)
-    state_machine
+    described_class.new(booking)
   end
 
   describe 'allowed transitions' do

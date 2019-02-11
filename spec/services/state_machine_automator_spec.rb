@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe StateMachineAutomator do
   let(:object) { build_stubbed(:booking) }
-  let(:booking_strategy) { BookingStrategy::Base }
+  let(:booking_strategy) { BookingStrategy }
   let(:state_machine) { booking_strategy::StateMachine.new(object) }
   let(:state_machine_automator_class) { Class.new(described_class) }
   let(:state_machine_automator) { state_machine_automator_class.new(state_machine) }

@@ -1,5 +1,5 @@
 class Organisation < ApplicationRecord
   def booking_strategy
-    BookingStrategy::Default
+    BookingStrategies::Default
   end
 end
