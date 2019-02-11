@@ -249,10 +249,15 @@ en:
   booking_strategies:
     default:
       booking_actions:
-        accept: Anfrage akzeptieren
-        cancel: Absagen
-        email_contract_and_deposit: Vertrag und Anzahlung verschicken
-        email_invoice: Rechnung verschicken
+        manage:
+          accept: Anfrage akzeptieren
+          cancel: Absagen
+          email_contract_and_deposit: Vertrag und Anzahlung verschicken
+          email_invoice: Rechnung verschicken
+          extend_deadline: Frist verslängern
+        public:
+          cancel: Absagen
+          extend_deadline: Frist verslängern
       state:
         active:
           help: Help

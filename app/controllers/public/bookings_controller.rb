@@ -24,13 +24,9 @@ module Public
     end
 
     def update
-      if @booking.editable?
-        @booking.assign_attributes(update_params)
-        @booking.save(context: :public_update)
-        @organisation.booking_strategy::BookingAction.new(@booking).call(booking_action) if booking_action
-      else
-        @booking.errors.add(:base, :invalid)
-      end
+      @booking.assign_attributes(update_params) if @booking.editable?
+      @organisation.booking_strategy::BookingActions::Public[booking_action]&.new(@booking)&.call if booking_action
+      @booking.save(context: :public_update)
       respond_with :public, @booking, location: edit_public_booking_path
     end
 
