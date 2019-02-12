@@ -49,7 +49,7 @@ export default {
       return moment(value).format(this.$t("date_format"));
     },
     click() {
-      if (!this.disabled && !this.isOutOfRange && !this.relevantOccupancies.length > 0) {
+      if (!this.disabled && !this.isOutOfRange) {
         window.location.href = this.link;
       }
     }

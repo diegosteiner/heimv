@@ -70,9 +70,12 @@ module BookingStrategies
         booking.occupancy.tentative!
       end
 
-      after_transition(to: %i[cancelled]) do |booking|
+      before_transition(to: %i[cancelled]) do |booking|
         booking.update(editable: false)
         booking.occupancy.free!
+      end
+
+      after_transition(to: %i[cancelled]) do |booking|
         booking.deadline.try(:clear)
       end
 

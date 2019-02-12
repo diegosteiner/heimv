@@ -37,4 +37,8 @@ class Tarif < ApplicationRecord
   def self_and_booking_copy_ids
     [id] + booking_copy_ids
   end
+
+  def <=>(other)
+    position <=> other.position
+  end
 end

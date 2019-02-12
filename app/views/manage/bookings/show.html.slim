@@ -2,7 +2,7 @@
 
 section.breakout-sm
   .row.mt-4
-    .col-9
+    .col-md-9
       .card
         .card-header.bg-primary.text-white
           h5.card-title.m-0= @booking.ref
@@ -55,14 +55,7 @@ section.breakout-sm
             .col
               strong= Booking.human_attribute_name(:state)
               br
-              / = render partial: BookingStrategies::Default.template_path('state', @booking.current_state, 'checklist'), locals: { booking: @booking }
-              ul.fa-ul.mb-0
-                - @organisation.booking_strategy::Checklist.new(@booking).to_a.each do |check_item|
-                  li
-                    i.fa-li.fa[class=(check_item.checked ? 'fa-check-square-o' : 'fa-square-o')]
-                    = link_to check_item.url_hint
-                      = t(check_item.key, scope: @organisation.booking_strategy::Checklist.i18n_scope)
-
+              = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
 
           hr
 
@@ -84,7 +77,7 @@ section.breakout-sm
             = link_to edit_manage_booking_path(@booking), class: 'btn btn-default'
               span.fa.fa-pencil
             '
-    .col-3
+    .col-md-3
       ul.list-group
         - @booking.booking_transitions.order(created_at: :DESC).each do |transition|
           li.list-group-item

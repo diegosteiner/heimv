@@ -47,8 +47,7 @@
                 .col-md-8
                   = cf.text_field :city, disabled: !@booking.editable
 
-              = cf.text_field :birth_date, disabled: !@booking.editable
-
+              = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 16, disabled: !@booking.editable
 
           hr.my-3
           fieldset

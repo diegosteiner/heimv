@@ -1,6 +1,6 @@
 - active ||= nil
 
-nav
+nav.mb-4
   ul.nav.nav-pills
     - if @home.to_param
       li.nav-item
@@ -15,5 +15,3 @@ nav
       li.nav-item
         a.nav-link[href=manage_home_meter_reading_periods_path(@home) class=('active' if active == :meter_reading_periods)]
           = MeterReadingPeriod.model_name.human(count: :other)
-
-hr.my-4

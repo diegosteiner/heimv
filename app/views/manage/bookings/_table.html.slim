@@ -2,58 +2,37 @@
   p.mb-5= t(:no_records_yet, model_name: Booking.model_name.human(count: :other))
 
 - else
-  .breakout-sm
-    table.table.table-hover.table-card.mb-5
-      col[style='width: 15%;']
-      col[style='width: 20%;']
-      col[style='width: 25%;']
-      col[style='width: 15%;']
-      col[style='width: 20%;']
-      / col[style='width: 5%;']
-      thead
-        /   th= Booking.human_attribute_name(:ref)
-        /   th= Booking.human_attribute_name(:occupancy)
-        /   th= Booking.human_attribute_name(:organisation)
-        /   th= Booking.human_attribute_name(:tenant)
-        /   - if defined?(special_column)
-        /     th= special_column
-        /   th
+  - bookings.each do |booking|
+    .row.shadow.bg-white.border-bottom[data-href=manage_booking_path(booking) data-id=booking.to_param]
+      .col-lg-1.py-3.bg-primary
+        = link_to manage_booking_path(booking)
+          h5.small.m-0.text-white= booking.ref
+      .col-md-4.col-lg-3.py-3
+        = link_to manage_booking_path(booking)
+          = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+        = link_to manage_home_path(booking.home)
+          .d-flex.mt-2
+            div.mr-2
+              i.fa.fa-home
+            div
+              = booking.home
+      .col-md-4.py-3
+        = booking.organisation
+        br
+        = content_tag :button, { class: 'btn btn-link', 'v-b-popover.hover.click.bottom' => "{ title:'#{booking.tenant.name}', content:'#{tenant_address(booking.tenant)}', html: true }" }
+          = booking.email
+        p.mt-2.mb-0
+          span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
+          ' :
+          i.fa.fa-male
+          =<> booking.approximate_headcount
 
-      tbody
-        - bookings.each do |booking|
-          tr[data-href=manage_booking_path(booking) data-id=booking.to_param]
-            td.align-middle
-              = link_to booking.ref, manage_booking_path(booking)
-            td.align-middle
-              = link_to manage_booking_path(booking)
-                = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
-              = link_to manage_home_path(booking.home)
-                .d-flex.mt-2
-                  div.mr-2
-                    i.fa.fa-home
-                  div
-                    = booking.home
-            td.align-middle
-              = booking.organisation
-              p.small.m-0
-                i.fa.fa-male
-                =<> booking.approximate_headcount
-                br
-                span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
-
-            td.align-middle.small
-              = tenant_address(booking.tenant, email: false)
-
-            td.align-middle
-              / cache
-              - begin
-                / = render partial: BookingStrategies::Default.template_path('state', booking.current_state, 'timeframe'), locals: { booking: booking }
-                = render partial: BookingStrategies::Default.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
-              - rescue ActionView::MissingTemplate
-
-              = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-                .btn-group[role="group"]
-                  - @organisation.booking_strategy::BookingActions::Manage.allowed_actions(booking).each do |action|
-                    = f.button name: :booking_action, type: :submit, value: action.to_s, class: "btn btn-sm btn-#{action.variant}"
-                      =  t(action.class.i18n_scope.join('.'))
+      .col-md-4.py-3
+        = render partial: 'manage/bookings/checklist', locals: { booking: booking }
+        .mt-2
+        = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
+          .btn-group[role="group"]
+            - @organisation.booking_strategy::BookingActions::Manage.allowed_actions(booking).each do |action|
+              = f.button name: :booking_action, type: :submit, value: action.to_s, class: "btn btn-sm btn-#{action.variant}"
+                =  t(action.class.i18n_scope.join('.'))
 

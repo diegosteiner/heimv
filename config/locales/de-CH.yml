@@ -258,6 +258,15 @@ de-CH:
         public:
           cancel: Absagen
           extend_deadline: Frist verslängern
+      checklist:
+        choose_tarifs: Tarife festlegen
+        contract_signed: Vertrag unterschieben
+        create_contract: Vertrag erstellen
+        create_deposit: Anzahlung erstellen
+        create_invoice: Rechnung stellen
+        create_usages: Verbrauch erfassen
+        deposit_paid: Anzahlung beglichen
+        invoice_paid: Rechnung beglichen
       state:
         active:
           help: Help

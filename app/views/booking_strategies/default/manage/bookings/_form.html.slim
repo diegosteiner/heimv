@@ -1,6 +1,6 @@
 = form_with(model: [:manage, @booking], local: true) do |f|
-  - if @booking.errors
-    .alert.alert-danger
+  - if @booking.errors.any?
+    .alert.alert-danger.pt-3
       = f.error_summary
 
   fieldset
@@ -20,7 +20,7 @@
           = cf.text_field :zipcode
         .col-md-8
           = cf.text_field :city
-      = cf.date_field :birth_date
+      = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 16
 
   hr
   fieldset

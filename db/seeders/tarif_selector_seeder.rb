@@ -31,12 +31,12 @@ module Seeders
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[3], veto: false)
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[5], distinction: '>0')
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[6], distinction: '>0')
-              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[11], distinction: '<2')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[11], distinction: '=2')
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[12], distinction: '=3')
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[13], distinction: '>3')
+              tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[16], distinction: '<2')
               # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[14], distinction: '=2')
               # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[15], distinction: '=3')
-              # tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[16], distinction: '>3')
             end
           ]
           #0 Tarifs::Amount.create(home: home, label: 'Preis pro Übernachtung', unit: 'Übernachtungen (unter 16 jährig)', price_per_unit: 13.0, tarif_group: 'Lager/Kurs')

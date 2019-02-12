@@ -4,5 +4,5 @@
   - if bookings[state].present?
     section
         - title, help_text = @organisation.booking_strategy.t(state, scope: :state).slice(:label, :help).values
-        h3= title
+        h3.mt-5= title
         == render partial: 'table', locals: { bookings: bookings[state] }

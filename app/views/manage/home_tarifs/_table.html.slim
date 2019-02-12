@@ -19,7 +19,7 @@
           th.pt-4[colspan='8']
             h5= group_name
 
-        - tarifs_of_group.each do |tarif|
+        - tarifs_of_group.sort.each do |tarif|
           = f.fields_for tarif.id.to_s, tarif do |tf|
             tr.bg-white
               td
