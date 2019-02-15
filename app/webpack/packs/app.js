@@ -9,8 +9,10 @@ import TurbolinksAdapter from 'vue-turbolinks';
 
 import Vue from 'vue/dist/vue.js'
 import AppOccupancyCalendar from '../components/calendar/AppOccupancyCalendar.vue'
+import AppCalendarInput from '../components/calendar/AppCalendarInput.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueI18n from 'vue-i18n'
+import moment from "moment-timezone";
 
 import 'bootstrap/dist/js/bootstrap.bundle'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -20,13 +22,12 @@ import Forms from 'src/forms'
 
 window.jQuery = $;
 window.$ = $;
-
-require('better-dom/dist/better-dom')
-require('better-dateinput-polyfill/dist/better-dateinput-polyfill')
+moment.locale(["de-CH", "de", "fr-CH", "fr", "it-CH", "it", "en"]);
 
 Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue)
 Vue.use(VueI18n)
+Vue.prototype.moment = moment;
 
 $(document).on('turbolinks:load', function () {
 
@@ -43,7 +44,7 @@ $(document).on('turbolinks:load', function () {
 
   new Vue({
     el: '#app',
-    components: { Tarifs, AppOccupancyCalendar },
+    components: { Tarifs, AppOccupancyCalendar, AppCalendarInput },
     i18n
   });
 

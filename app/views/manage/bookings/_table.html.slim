@@ -3,7 +3,7 @@
 
 - else
   - bookings.each do |booking|
-    .row.shadow.bg-white.border-bottom[data-href=manage_booking_path(booking) data-id=booking.to_param]
+    .row.m-0.shadow.bg-white.border-bottom[data-href=manage_booking_path(booking) data-id=booking.to_param]
       .col-lg-1.py-3.bg-primary
         = link_to manage_booking_path(booking)
           h5.small.m-0.text-white= booking.ref

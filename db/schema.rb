@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
     t.date "sent_at"
     t.date "signed_at"
     t.text "text"
-    t.datetime "valid_from", default: -> { "now()" }
+    t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
 
   create_table "invoices", force: :cascade do |t|
     t.uuid "booking_id"
-    t.datetime "issued_at", default: -> { "now()" }
+    t.datetime "issued_at", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "payable_until"
     t.datetime "sent_at"
     t.text "text"
@@ -254,7 +254,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
     t.bigint "booking_copy_template_id"
     t.string "unit"
     t.decimal "price_per_unit"
-    t.datetime "valid_from", default: -> { "now()" }
+    t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until"
     t.integer "position"
     t.string "tarif_group"

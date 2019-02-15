@@ -1,6 +1,10 @@
 <template>
   <div>
-    <button :id="id" :class="calendarDayClass" @click="click">{{ date | dayOfMonth }}</button>
+    <button
+      :id="id"
+      :class="cssClasses"
+      @click.prevent="!disabled && $emit('input', date)"
+    >{{ date | dayOfMonth }}</button>
     <b-popover
       v-if="occupancies.length && !isOutOfRange && !disabled"
       :target="id"
@@ -22,10 +26,27 @@
 </template>
 
 <script>
-import moment from "moment";
-import "moment-timezone";
+import moment from "moment-timezone";
 export default {
-  props: ["date", "occupancies", "disabled", "href"],
+  props: {
+    date: {},
+    active: {
+      type: Boolean,
+      default: false
+    },
+    occupancies: {
+      type: Array,
+      default: () => []
+    },
+    disabled: {
+      type: Boolean,
+      default: true
+    },
+    href: {
+      type: String,
+      default: ""
+    }
+  },
   i18n: {
     messages: {
       "de-CH": {
@@ -48,31 +69,19 @@ export default {
     date_format(value) {
       return moment(value).format(this.$t("date_format"));
     },
-    click() {
-      if (!this.disabled && !this.isOutOfRange) {
-        window.location.href = this.link;
-      }
-    }
   },
   computed: {
     id() {
       return this._uid + '_' + moment(this.date).format("Y-MM-DD");
-    },
-    isOutOfRange() {
-      return (
-        this.date.isBefore(moment().subtract(1, "day")) ||
-        this.date.isAfter(moment().add(2, "years"))
-      );
     },
     relevantOccupancies(date) {
       return this.occupancies.filter(function(occupancy) {
         return occupancy.occupancy_type != "free";
       });
     },
-    calendarDayClass() {
-      if(this.disabled || this.isOutOfRange) {
-        return ["disabled"];
-      }
+    cssClasses() {
+      if(this.disabled || this.isOutOfRange) return ["disabled"]
+      if(this.active) return ["bg-primary text-white"]
 
       return this.occupancies.map((occupancy) => {
         let begins_at = moment.tz(occupancy.begins_at, "UTC");
@@ -145,12 +154,20 @@ $occupied-background-color: #ffa8a8;
   }
 
   .occupied-afternoon {
-    background: linear-gradient(315deg, $occupied-background-color 50%, white 50%);
+    background: linear-gradient(
+      315deg,
+      $occupied-background-color 50%,
+      white 50%
+    );
     border-top-color: white;
     border-left-color: white;
   }
   .occupied-forenoon {
-    background: linear-gradient(135deg, $occupied-background-color 50%, white 50%);
+    background: linear-gradient(
+      135deg,
+      $occupied-background-color 50%,
+      white 50%
+    );
     border-bottom-color: white;
     border-right-color: white;
   }
@@ -181,12 +198,20 @@ $occupied-background-color: #ffa8a8;
   }
 
   .tentative-afternoon {
-    background: linear-gradient(315deg, $tentative-background-color 50%, white 50%);
+    background: linear-gradient(
+      315deg,
+      $tentative-background-color 50%,
+      white 50%
+    );
     border-top-color: white;
     border-left-color: white;
   }
   .tentative-forenoon {
-    background: linear-gradient(135deg, $tentative-background-color 50%, white 50%);
+    background: linear-gradient(
+      135deg,
+      $tentative-background-color 50%,
+      white 50%
+    );
     border-bottom-color: white;
     border-right-color: white;
   }
@@ -244,6 +269,10 @@ $occupied-background-color: #ffa8a8;
   .disabled {
     cursor: default;
     opacity: 0.2;
+  }
+
+  .active {
+    font-weight: bold;
   }
 }
 </style>

@@ -41,9 +41,6 @@ group :development do
   gem 'i18n-tasks'
   gem 'letter_opener'
   gem 'listen', '~> 3.0.5'
-  gem 'spring'
-  gem 'spring-commands-rspec'
-  gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :development, :test do
@@ -64,5 +61,4 @@ group :test do
   gem 'capybara-screenshot'
   gem 'database_cleaner'
   gem 'launchy'
-  gem 'poltergeist'
 end

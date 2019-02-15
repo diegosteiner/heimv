@@ -1,0 +1,34 @@
+version: '3.5'
+services:
+
+  web:
+    entrypoint: bin/entry
+    command: bin/rails s -p ${PORT:-3000} -b '0.0.0.0'
+    volumes:
+      - .:/app
+      - ./tmp/docker/node_modules:/app/node_modules
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    environment:
+      RAILS_ENV: development
+      WEBPACKER_DEV_SERVER_HOST: webpacker
+    depends_on:
+      - db
+      - webpacker
+    tmpfs:
+      #  - /app/tmp
+       - /app/log
+
+  webpacker:
+    build: .
+    command: bin/webpack-dev-server
+    volumes:
+      - .:/app
+      - ./tmp/docker/node_modules:/app/node_modules
+    environment:
+      RAILS_ENV: development
+      NODE_ENV: development
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    ports:
+      - '3035:3035'
+    # tmpfs: /app/public/packs

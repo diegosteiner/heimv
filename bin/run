@@ -1,14 +1,11 @@
-#!/usr/bin/env ruby
+#!/bin/sh
 
-cmd = 'foreman start'
-
-case ARGV.first
-when 'dev'
-  cmd << ' -f Procfile.dev'
-end
-
-# cmd << ' 2>&1'
-
-puts cmd
-IO.popen(cmd) { |io| while (line = io.gets) do puts line end }
-
+case "$1" in
+  -d | --dev | dev)
+    docker-compose -f docker-compose.yml -f docker-compose.development.yml up ;;
+  -p | --production | production )
+    ;;
+  -t | --test | test )
+    docker-compose -f docker-compose.yml -f docker-compose.test.yml run web bin/check ;;
+  * ) break ;;
+esac

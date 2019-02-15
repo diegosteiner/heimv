@@ -9,7 +9,7 @@ html[lang=I18n.locale]
     == csrf_meta_tags
     == javascript_pack_tag 'app'
   body
-    #app
+    #app[v-cloak]
       header
         == render 'layouts/navigation'
       == render 'layouts/messages'

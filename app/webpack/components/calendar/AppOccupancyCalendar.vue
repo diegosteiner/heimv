@@ -3,18 +3,14 @@
     <template slot-scope="date">
       <app-calendar-day
         :date="date"
-        :disabled="!loaded"
+        :disabled="!loaded && isOutOfRange(date)"
         :occupancies="occupanciesOfDate(date)"
-        :href="reservationUrl"
       ></app-calendar-day>
     </template>
   </calendar>
 </template>
 
 <script>
-import moment from "moment";
-import "moment-timezone";
-moment.locale(["de-CH", "de", "fr-CH", "fr", "it-CH", "it", "en"]);
 import axios from "axios";
 import { Calendar } from "vue-occupancies-calendar";
 import AppCalendarDay from "./AppCalendarDay.vue";
@@ -48,6 +44,12 @@ export default {
           vm.loaded = true;
         });
       }
+    },
+    isOutOfRange(date) {
+      return (
+        date.isBefore(moment().subtract(1, "day")) ||
+        date.isAfter(moment().add(2, "years"))
+      );
     },
     occupanciesOfDate(date) {
       return this.occupancies.filter(function(occupancy) {

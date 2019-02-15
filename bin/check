@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo -e '\n\033[35mRunning rubocop\033[0m'
 bundle exec rubocop -D -a
 if [ ! $? -eq 0 ]; then
