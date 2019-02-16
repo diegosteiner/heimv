@@ -8,6 +8,8 @@ require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'selenium/webdriver'
+# require 'capybara-screenshot/cucumber'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -62,4 +64,21 @@ RSpec.configure do |config|
     # see https://github.com/rspec/rspec-core/issues/2366
     `bin/webpack`
   end
+
+  Capybara.register_driver :selenium do |app|
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_preference(:download, prompt_for_download: false,
+                                      default_directory: '/tmp/downloads')
+
+    options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
+    # options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--window-size=1280,1024')
+
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  end
+
+  Capybara.javascript_driver = :selenium
+  Capybara.default_driver = :selenium
+  Capybara.default_max_wait_time = 10
 end

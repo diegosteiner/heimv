@@ -12,9 +12,11 @@ services:
     environment:
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpacker
+      MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
     depends_on:
       - db
       - webpacker
+      - mail
     tmpfs:
       #  - /app/tmp
        - /app/log
@@ -25,6 +27,8 @@ services:
     volumes:
       - .:/app
       - ./tmp/docker/node_modules:/app/node_modules
+      # - ../vue-occupancies-calendar:/app/node_modules/vue-occupancies-calendar
+
     environment:
       RAILS_ENV: development
       NODE_ENV: development
@@ -32,3 +36,9 @@ services:
     ports:
       - '3035:3035'
     # tmpfs: /app/public/packs
+
+  mail:
+    image: tophfr/mailcatcher
+    ports:
+      - '1080:80'
+      - '1025:25'

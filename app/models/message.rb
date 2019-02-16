@@ -32,7 +32,7 @@ class Message < ApplicationRecord
 
     new(attributes) do |message|
       message.subject = template.title
-      message.markdown = template.interpolate(message.booking)
+      message.markdown = template.interpolate('booking' => message.booking)
     end
   end
 end

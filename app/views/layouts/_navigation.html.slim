@@ -1,19 +1,20 @@
-- if current_user.present?
-  nav#navbar-main.navbar.fixed-top.navbar-light.navbar-expand-lg
-    button.navbar-toggler.navbar-toggler-right[
-      aria-controls="navbar-main-nav"
-      aria-expanded="false"
-      data-target="#navbar-main-nav"
-      data-toggle="collapse"
-      type="button"]
-      span.navbar-toggler-icon
-    = link_to root_path, class: 'navbar-brand' do
-      = image_tag asset_pack_path('images/logo.svg'), class: "d-inline-block align-top", width: 120, height: 32
-    span.navbar-text
-      = @organisation.name
+nav#navbar-main.navbar.fixed-top.navbar-light.navbar-expand-lg
+  button.navbar-toggler.navbar-toggler-right[
+    aria-controls="navbar-main-nav"
+    aria-expanded="false"
+    data-target="#navbar-main-nav"
+    data-toggle="collapse"
+    type="button"]
+    span.navbar-toggler-icon
+  = link_to root_path, class: 'navbar-brand' do
+    = image_tag asset_pack_path('images/logo.svg'), class: "d-inline-block align-top", width: 120, height: 32
+  span.navbar-text
+    = @organisation.name
+  - if Rails.env.development?
     span.navbar-text.pl-2
       = l(Time.zone.now)
-    #navbar-main-nav.collapse.navbar-collapse
+  #navbar-main-nav.collapse.navbar-collapse
+    - if current_user.present?
       ul.navbar-nav.ml-auto
         li.nav-item
           = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
@@ -30,11 +31,11 @@
             i.fa.fa-user
             =<> current_user&.email || t(:'nav.sign_in')
           .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
-            - if user_signed_in?
-                = link_to t(:'nav.edit_account'), edit_user_registration_path, class: 'dropdown-item'
-                = link_to t(:'nav.sign_out'), destroy_user_session_path, :method=>'delete', class: 'dropdown-item'
-            - else
-                = link_to t(:'nav.sign_in'), new_user_session_path, class: 'dropdown-item'
-                = link_to t(:'nav.sign_up'), new_user_registration_path, class: 'dropdown-item'
-            - if user_signed_in? && current_user.try(:admin?)
+            = link_to t(:'nav.edit_account'), edit_user_registration_path, class: 'dropdown-item'
+            = link_to t(:'nav.sign_out'), destroy_user_session_path, :method=>'delete', class: 'dropdown-item'
+            - if current_user.try(:admin?)
               = link_to User.model_name.human, admin_users_path, class: 'dropdown-item'
+    - else
+      ul.navbar-nav.ml-auto
+        li.nav-item
+          = link_to t(:'nav.sign_in'), new_user_session_path, class: 'nav-link'

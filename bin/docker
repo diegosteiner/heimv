@@ -1,0 +1,14 @@
+#!/bin/sh
+
+TARGET_ENV=$1
+shift
+
+case "$TARGET_ENV" in
+  -d | --dev | dev)
+    docker-compose -f docker-compose.yml -f docker-compose.development.yml $@;;
+  -p | --production | production )
+    docker-compose -f docker-compose.yml -f docker-compose.production.yml $@;;
+  -t | --test | test )
+    docker-compose -f docker-compose.yml -f docker-compose.test.yml $@;;
+  * ) break ;;
+esac

@@ -1,8 +1,16 @@
 <template>
   <div>
-    <slot :toggleModal="toggleModal" :date="selectedDate" :formattedDate="formattedDate"></slot>
-    <b-modal v-model="showDateModal" hide-footer hide-header>
-      <calendar :display-months="2">
+    <b-form-group :label="label" :labelClass="required ? 'required' : ''">
+      <b-input-group>
+        <b-form-input v-model="formattedDate"/>
+        <b-btn slot="append" variant="primary" @click="toggleModal">
+          <i class="fa fa-calendar"></i>
+        </b-btn>
+        <input type="hidden" :name="name" :value="isoDate">
+      </b-input-group>
+    </b-form-group>
+    <b-modal v-model="showDateModal" size="sm" lazy hide-footer hide-header>
+      <calendar :display-months="1" :firstDate="selectedDate">
         <template slot-scope="date">
           <app-calendar-day
             :active="date.isSame(selectedDate, 'day')"
@@ -22,13 +30,14 @@ import AppCalendarDay from "./AppCalendarDay.vue";
 export default {
   components: { Calendar, AppCalendarDay },
   props: {
-    value: {
-      default: null
-    }
+    value: null,
+    label: null,
+    name: null,
+    required: false
   },
   data() {
     return {
-      selectedDate: null,
+      selectedDate: this.value,
       showDateModal: false,
       dateFormat: 'DD.MM.Y'
     }
@@ -40,16 +49,23 @@ export default {
         return this.moment(this.selectedDate).format(this.dateFormat)
       },
       set(newDate) {
-        newDate = moment(newDate, this.dateFormat)
+        newDate = this.moment(newDate, this.dateFormat)
         this.setDate(newDate)
       }
     },
+    isoDate() {
+      if(this.selectedDate == null) return ""
+      return this.moment(this.selectedDate).format('Y-MM-DD')
+    }
   },
   methods: {
     setDate(newDate) {
       this.showDateModal = false
-      newDate = moment(newDate)
-      if(newDate.isValid()) { this.selectedDate = newDate }
+      newDate = this.moment(newDate)
+      if(newDate.isValid()) {
+        this.selectedDate = newDate
+        this.$emit('input', newDate)
+       }
     },
     toggleModal(e) {
       this.showDateModal = !this.showDateModal

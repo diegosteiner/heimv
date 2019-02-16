@@ -5,8 +5,16 @@
 
   fieldset
     = f.fields_for :occupancy, @booking.occupancy do |of|
-      = of.datetime_local_field :begins_at
-      = of.datetime_local_field :ends_at
+      .row
+        .col-md-6
+          = calendar_input(of, :begins_at_date, required: true)
+        .col-md-6
+          = of.time_select :begins_at_time, ignore_date: true, minute_step: 15
+      .row
+        .col-md-6
+          = calendar_input(of, :ends_at_date, required: true)
+        .col-md-6
+          = of.time_select :ends_at_time, ignore_date: true, minute_step: 15
 
     strong= Booking.human_attribute_name(:tenant)
 

@@ -9,7 +9,7 @@ module Manage
       end
 
       def new
-        @contract.text = MarkdownTemplate[:contract_text] % @booking
+        @contract.text = MarkdownTemplate[:contract_text].interpolate('booking' => @booking)
         respond_with :manage, @booking, @contract
       end
 

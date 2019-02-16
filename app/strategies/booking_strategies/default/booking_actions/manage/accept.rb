@@ -12,7 +12,8 @@ module BookingStrategies
           end
 
           def allowed?
-            @booking.state_machine.can_transition_to?(:definitive_request) ||
+            @booking.state_machine.in_state?(:open_request) &&
+              @booking.state_machine.can_transition_to?(:definitive_request) ||
               @booking.state_machine.can_transition_to?(:provisional_request)
           end
         end

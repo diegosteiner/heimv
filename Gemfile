@@ -39,7 +39,6 @@ group :development do
   gem 'binding_of_caller'
   gem 'foreman'
   gem 'i18n-tasks'
-  gem 'letter_opener'
   gem 'listen', '~> 3.0.5'
 end
 
@@ -61,4 +60,5 @@ group :test do
   gem 'capybara-screenshot'
   gem 'database_cleaner'
   gem 'launchy'
+  gem 'selenium-webdriver'
 end

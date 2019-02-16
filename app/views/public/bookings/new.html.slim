@@ -16,21 +16,16 @@
             fieldset[data-range-role="unit"]
               = f.select :home_id, homes_for_select
               = f.fields_for :occupancy, @booking.occupancy do |of|
-                app-calendar-input
-                  template[slot-scope="{ toggleModal, formattedDate, date }"]
-                    .row
-                      .col-md-6
-                        = of.text_field :begins_at_date, append: content_tag(:button, tag.i(class: 'fa fa-calendar'), class: "btn btn-primary", '@click.prevent' => 'toggleModal'), ':value' => 'formattedDate', 'v-on:input' => '() => { debugger }'
-                        = of.hidden_field :begins_at_date
-                      .col-md-6
-                        = of.time_select :begins_at_time, ignore_date: true, minute_step: 15
-                app-calendar-input
-                  template[slot-scope="{ toggleModal }"]
-                    .row
-                      .col-md-6
-                        = of.date_field :ends_at_date, lang: :de, data: { :'range-role' => :end }
-                      .col-md-6
-                        = of.time_select :ends_at_time, ignore_date: true, minute_step: 15
+                .row
+                  .col-md-6
+                    = calendar_input(of, :begins_at_date, required: true)
+                  .col-md-6
+                    = of.time_select :begins_at_time, ignore_date: true, minute_step: 15
+                .row
+                  .col-md-6
+                    = calendar_input(of, :ends_at_date, required: true)
+                  .col-md-6
+                    = of.time_select :ends_at_time, ignore_date: true, minute_step: 15
               = f.email_field :email
               = f.text_field :organisation
               = f.text_field :booking_agent_code

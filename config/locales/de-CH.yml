@@ -1402,6 +1402,8 @@ de-CH:
       bookings:
         create:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte deine Email-Addresse
+        update:
+          notice: Deine Reservationsanfrage wurde gespeichert. Du kannst das Browserfenster schliessen.
   manage:
     bookings:
       tarifs:
@@ -1415,7 +1417,6 @@ de-CH:
     edit_account: Account
     sign_in: Anmelden
     sign_out: Abmelden
-    sign_up: Neuen Account erstellen
   new: Neu
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
   optional: optional

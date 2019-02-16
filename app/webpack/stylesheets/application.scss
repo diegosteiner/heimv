@@ -18,7 +18,7 @@ body {
     border-radius: 0;
 }
 
-label.required:after {
+label.required:after, legend.required:after {
   content:" *";
   color:red;
 }

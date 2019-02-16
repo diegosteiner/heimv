@@ -17,4 +17,5 @@ COPY package.json yarn.lock /app/
 RUN yarn install
 
 COPY . /app
+# RUN bin/webpack
 # RUN /app/bin/setup

@@ -3,10 +3,10 @@
     <button
       :id="id"
       :class="cssClasses"
-      @click.prevent="!disabled && $emit('input', date)"
+      @click.prevent="!disabled && !loading && $emit('input', date)"
     >{{ date | dayOfMonth }}</button>
     <b-popover
-      v-if="occupancies.length && !isOutOfRange && !disabled"
+      v-if="occupancies.length && !disabled && !loading"
       :target="id"
       triggers="hover focus"
     >
@@ -26,26 +26,17 @@
 </template>
 
 <script>
-import moment from "moment-timezone";
+import Vue from 'vue/dist/vue.js'
 export default {
   props: {
-    date: {},
-    active: {
-      type: Boolean,
-      default: false
-    },
+    date: null,
+    loading: true,
+    disabled: true,
+    active: false,
     occupancies: {
       type: Array,
       default: () => []
     },
-    disabled: {
-      type: Boolean,
-      default: true
-    },
-    href: {
-      type: String,
-      default: ""
-    }
   },
   i18n: {
     messages: {
@@ -62,17 +53,17 @@ export default {
   },
   filters: {
     dayOfMonth: function(value) {
-      return moment(value).format("D");
+      return Vue.prototype.moment(value).format("D");
     }
   },
   methods: {
     date_format(value) {
-      return moment(value).format(this.$t("date_format"));
+      return this.moment(value).format(this.$t("date_format"));
     },
   },
   computed: {
     id() {
-      return this._uid + '_' + moment(this.date).format("Y-MM-DD");
+      return this._uid + '_' + this.moment(this.date).format("Y-MM-DD");
     },
     relevantOccupancies(date) {
       return this.occupancies.filter(function(occupancy) {
@@ -80,31 +71,23 @@ export default {
       });
     },
     cssClasses() {
-      if(this.disabled || this.isOutOfRange) return ["disabled"]
+      if(this.disabled || this.loading) return ["disabled"]
       if(this.active) return ["bg-primary text-white"]
+      const vm = this
 
       return this.occupancies.map((occupancy) => {
-        let begins_at = moment.tz(occupancy.begins_at, "UTC");
-        let ends_at = moment.tz(occupancy.ends_at, "UTC");
+        let begins_at = vm.moment.tz(occupancy.begins_at, "UTC");
+        let ends_at = vm.moment.tz(occupancy.ends_at, "UTC");
 
-        if(ends_at.isBetween(moment(this.date.startOf("day")), moment(this.date.hour(12)), "minutes", "[)")) {
+        if(ends_at.isBetween(vm.moment(this.date.startOf("day")), vm.moment(this.date.hour(12)), "minutes", "[)")) {
           return `${occupancy.occupancy_type}-forenoon`;
         }
-        if(begins_at.isBetween(moment(this.date.hour(10)), moment(this.date.endOf("day")), "minutes", "(]")) {
+        if(begins_at.isBetween(vm.moment(this.date.hour(10)), vm.moment(this.date.endOf("day")), "minutes", "(]")) {
           return `${occupancy.occupancy_type}-afternoon`;
         }
         return `${occupancy.occupancy_type}-fullday`;
       })
     },
-    link() {
-      return this.href.replace(
-        "__DATE__",
-        moment(this.date)
-          .startOf("day")
-          .hour(13)
-          .toISOString()
-      );
-    }
   }
 };
 </script>
