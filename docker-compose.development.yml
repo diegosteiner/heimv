@@ -13,6 +13,7 @@ services:
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpacker
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
+      BUNDLE_PATH: /usr/local/bundle
     depends_on:
       - db
       - webpacker

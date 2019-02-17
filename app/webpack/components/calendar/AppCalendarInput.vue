@@ -2,7 +2,7 @@
   <div>
     <b-form-group :label="label" :labelClass="required ? 'required' : ''">
       <b-input-group>
-        <b-form-input v-model="formattedDate"/>
+        <b-form-input v-model.lazy="formattedDate"/>
         <b-btn slot="append" variant="primary" @click="toggleModal">
           <i class="fa fa-calendar"></i>
         </b-btn>

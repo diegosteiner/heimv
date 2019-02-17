@@ -3,7 +3,7 @@ class Booking < ApplicationRecord
   include Statesman::Adapters::ActiveRecordQueries
 
   belongs_to :home
-  belongs_to :tenant, inverse_of: :bookings
+  belongs_to :tenant, inverse_of: :bookings, optional: true
   belongs_to :booking_agent, foreign_key: :booking_agent_code, primary_key: :code,
                              inverse_of: :bookings, optional: true
   has_one  :occupancy, dependent: :destroy, inverse_of: :booking, autosave: true
@@ -18,13 +18,15 @@ class Booking < ApplicationRecord
   has_many :deadlines, dependent: :destroy, inverse_of: :booking
   has_many :messages, dependent: :destroy, inverse_of: :booking
 
-  validates :home, :tenant, :occupancy, :email, presence: true
+  validates :tenant, presence: true, on: :public_update
+  validates :home, :occupancy, presence: true
   validates :email, format: Devise.email_regexp
+  validates :email, presence: true, unless: ->(booking) { booking.booking_agent.present? }
   # validates :cancellation_reason, presence: true, allow_nil: true
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :purpose, presence: true, on: :public_update
   validates :approximate_headcount, numericality: true, on: :public_update
-  validate do
+  validate(on: [:public_create, :public_update]) do
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
 
@@ -49,7 +51,7 @@ class Booking < ApplicationRecord
   end
 
   def email
-    tenant&.email || self[:email]
+    tenant&.email || self[:email] || booking_agent&.email
   end
 
   def overnight_stays
@@ -81,7 +83,9 @@ class Booking < ApplicationRecord
   def assign_tenant_from_email
     return if email.blank?
 
-    self.tenant ||= Tenant.find_or_initialize_by(email: email)
+    self.tenant ||= Tenant.find_or_initialize_by(email: email) do |tenant|
+      tenant.country ||= "Schweiz"
+    end
   end
 
   def set_occupancy_attributes

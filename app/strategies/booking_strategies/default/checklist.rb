@@ -11,14 +11,14 @@ module BookingStrategies
 
       state :confirmed do |booking|
         [
-          ChecklistItem.new(:deposit_paid, booking.invoices.deposit.all?(:paid), [:manage, booking, Invoice]),
+          ChecklistItem.new(:deposit_paid, booking.invoices.deposit.all?(&:paid), [:manage, booking, Invoice]),
           ChecklistItem.new(:contract_signed, booking.contracts.signed.exists?, [:manage, booking, Contract])
         ]
       end
 
       state :overdue do |booking|
         [
-          ChecklistItem.new(:deposit_paid, booking.invoices.deposit.all?(:paid), [:manage, booking, Invoice]),
+          ChecklistItem.new(:deposit_paid, booking.invoices.deposit.all?(&:paid), [:manage, booking, Invoice]),
           ChecklistItem.new(:contract_signed, booking.contracts.signed.exists?, [:manage, booking, Contract])
         ]
       end
@@ -32,13 +32,13 @@ module BookingStrategies
 
       state :payment_due do |booking|
         [
-          ChecklistItem.new(:invoice_paid, booking.invoices.all?(:paid), [:manage, booking, Invoice])
+          ChecklistItem.new(:invoice_paid, booking.invoices.all?(&:paid), [:manage, booking, Invoice])
         ]
       end
 
       state :payment_overdue do |booking|
         [
-          ChecklistItem.new(:invoice_paid, booking.invoices.all?(:paid), [:manage, booking, Invoice])
+          ChecklistItem.new(:invoice_paid, booking.invoices.all?(&:paid), [:manage, booking, Invoice])
         ]
       end
     end

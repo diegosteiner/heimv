@@ -10,12 +10,12 @@ RUN apk add --no-cache --update build-base \
 RUN mkdir -p /app
 WORKDIR /app
 
-COPY Gemfile Gemfile.lock /app/
+COPY Gemfile /app/
+COPY Gemfile.lock /app/
 RUN gem install bundler && bundle install --jobs 20 --retry 5
 
-COPY package.json yarn.lock /app/
+COPY package.json /app/
+COPY yarn.lock /app/
 RUN yarn install
 
 COPY . /app
-# RUN bin/webpack
-# RUN /app/bin/setup

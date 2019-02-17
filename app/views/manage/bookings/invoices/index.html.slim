@@ -11,7 +11,9 @@
       tr
         th= Invoice.model_name.human(count: :other)
         th= Invoice.human_attribute_name(:invoice_type)
+        th= Invoice.human_attribute_name(:payable_until)
         th= Invoice.human_attribute_name(:amount)
+        th= Invoice.human_attribute_name(:amount_paid)
         th= Invoice.human_attribute_name(:amount_open)
         th
 
@@ -27,15 +29,24 @@
             = Invoice.human_enum(:invoice_types, invoice.invoice_type)
 
           td
+            - if invoice.payable_until.past?
+              .text-danger= l(invoice.payable_until, format: :date)
+            - else
+              =l(invoice.payable_until, format: :date)
+
+          td
             = number_to_currency(invoice.amount)
 
           td
+            = number_to_currency(invoice.amount_paid)
+
+          td
             - if invoice.amount_open.negative?
-              .text-danger= number_to_currency(invoice.amount_open)
+              .text-warning= number_to_currency(invoice.amount_open)
             - elsif invoice.amount_open.zero?
               .text-success= number_to_currency(invoice.amount_open)
             - else
-              = number_to_currency(invoice.amount_open)
+              .text-danger= number_to_currency(invoice.amount_open)
 
           td.py-1.text-right
             .btn-group

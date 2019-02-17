@@ -1,4 +1,6 @@
 class BookingTransition < ApplicationRecord
+  # include Statesman::Adapters::ActiveRecordTransition
+
   belongs_to :booking, inverse_of: :booking_transitions, touch: true
 
   after_destroy :update_most_recent, if: :most_recent?
@@ -10,6 +12,10 @@ class BookingTransition < ApplicationRecord
   def serialize_booking
     self.booking_data = booking.attributes
   end
+
+  # def serialized?(transition_class)
+  #   false
+  # end
 
   def update_booking_state
     # rubocop:disable Rails/SkipsModelValidations

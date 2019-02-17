@@ -51,6 +51,7 @@ de-CH:
       invoice:
         amount: Betrag
         amount_open: offener Betrag
+        amount_paid: bezahlter Betrag
         esr_number: ESR Nummer
         invoice_parts: Positionen
         invoice_type: Rechnungsart
@@ -102,6 +103,7 @@ de-CH:
         address: Adresse
         birth_date: Geburtsdatum
         city: Ort
+        country: Land
         email: Email
         first_name: Vorname
         last_name: Nachname
@@ -271,7 +273,7 @@ de-CH:
         active:
           help: Help
           label: Aktive Belegung
-        cancelled:
+        cancelation_pending:
           help: Help
           label: Storniert
         completed:
@@ -316,7 +318,7 @@ de-CH:
       transition:
         "-->active":
           label: Aktive Belegung
-        "-->cancelled":
+        "-->cancelation_pending":
           label: Annulieren
         "-->completed":
           label: Abgeschlossene Belegung

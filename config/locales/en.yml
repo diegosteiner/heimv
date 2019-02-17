@@ -271,7 +271,7 @@ en:
         active:
           help: Help
           label: Aktive Belegung
-        cancelled:
+        cancelation_pending:
           help: Help
           label: Annulierte Reservation
         completed:
@@ -316,7 +316,7 @@ en:
       transition:
         "-->active":
           label: Aktive Belegung
-        "-->cancelled":
+        "-->cancelation_pending":
           label: Annulieren
         "-->completed":
           label: Abgeschlossene Belegung

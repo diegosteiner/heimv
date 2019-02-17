@@ -11,8 +11,8 @@ RSpec.describe BookingMailer, type: :mailer do
     # mailer_methods = %i[
     #   confirm_request unconfirmed_request_confirmed provisional_request_confirmed request_declined
     #   committed_request_confirmed placement_confirmed provisional_request_overdue
-    #   overdue_request_cancelled booking_confirmed contract_recieved deposit_or_contract_due
-    #   overdue_booking_cancelled bill payment_received payment_overdue
+    #   overdue_request_cancelation_pending booking_confirmed contract_recieved deposit_or_contract_due
+    #   overdue_booking_cancelation_pending bill payment_received payment_overdue
     # ]
     mailer_methods = %i[]
 

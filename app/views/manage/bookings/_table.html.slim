@@ -5,10 +5,11 @@
   - bookings.each do |booking|
     .row.m-0.shadow.bg-white.border-bottom[data-href=manage_booking_path(booking) data-id=booking.to_param]
       / .col-lg-1.py-3.bg-primary
-      /   = link_to manage_booking_path(booking)
-      /     h5.small.m-0.text-white= booking.ref
-      .col-lg-2.py-5
-        = link_to booking.ref, manage_booking_path(booking)
+      .col-lg-2
+        .d-flex.p-2.h-100[style="align-items: center;"]
+          / = link_to booking.ref, manage_booking_path(booking)
+          = link_to manage_booking_path(booking), class: 'd-block'
+            h5.m-0.text-center= booking.ref
       .col-md-4.col-lg-3.py-3
         = link_to manage_booking_path(booking)
           = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
@@ -18,7 +19,7 @@
               i.fa.fa-home
             div
               = booking.home
-      .col-md-4.py-3
+      .col-md-4.col-lg-3.py-3.d-block
         = booking.organisation
         br
         = content_tag :button, { class: 'btn btn-link', 'v-b-popover.hover.click.bottom' => "{ title:'#{booking.tenant.name}', content:'#{tenant_address(booking.tenant)}', html: true }" }
@@ -29,7 +30,10 @@
           i.fa.fa-male
           =<> booking.approximate_headcount
 
-      .col-md-4.col-lg-3.py-3
+      .col-md-4.py-3
+        - begin
+          = render partial: BookingStrategies::Default.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
+        - rescue ActionView::MissingTemplate
         = render partial: 'manage/bookings/checklist', locals: { booking: booking }
         .mt-2
         = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|

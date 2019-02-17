@@ -24,12 +24,12 @@
                 .col-md-6
                   = of.text_field :begins_at_date, disabled: true, value: l(of.object.begins_at.to_date)
                 .col-md-6
-                  = of.time_select :begins_at_time, ignore_date: true, disabled: true
+                  = of.time_select :begins_at_time, ignore_date: true, disabled: true, start_hour: 7, end_hour: 22
               .row
                 .col-md-6
                   = of.text_field :ends_at_date, disabled: true, value: l(of.object.ends_at.to_date)
                 .col-md-6
-                  = of.time_select :ends_at_time, ignore_date: true, disabled: true
+                  = of.time_select :ends_at_time, ignore_date: true, disabled: true, start_hour: 7, end_hour: 22
             = f.fields_for :tenant, @booking.tenant do |cf|
               = cf.email_field :email, disabled: true
 
@@ -47,7 +47,9 @@
                 .col-md-8
                   = cf.text_field :city, disabled: !@booking.editable
 
-              = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 16, disabled: !@booking.editable, include_blank: true
+              / = cf.text_field :country
+              = cf.telephone_field :phone
+              = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true
 
           hr.my-3
           fieldset
@@ -79,7 +81,7 @@
             .form-actions.pt-4.mt-3.border-top
               =<> f.submit
               button.btn.btn-outline-danger[type="button" data-toggle="modal" data-target="#cancelModal"]
-                = transition_translation(to: :cancelled)[:label]
+                = transition_translation(to: :cancelation_pending)[:label]
 
 
         #extendDeadlineModal.modal[role="dialog" tabindex="-1"]
@@ -103,7 +105,7 @@
               .modal-content
                 .modal-header
                   h5.modal-title
-                    = transition_translation(to: :cancelled)[:label]
+                    = transition_translation(to: :cancelation_pending)[:label]
                   button.close aria-label="Close" data-dismiss="modal" type="button"
                     span aria-hidden="true" &times;
                 .modal-body

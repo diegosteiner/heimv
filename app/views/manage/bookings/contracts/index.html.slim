@@ -33,7 +33,7 @@
                 = l(contract.sent_at) if contract.sent?
             - else
               td.py-2
-                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { sent_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success'
+                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { sent_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success', data: { confirm: "Bist du sicher, dass du den Vertrag selbst verschicken willst, Murmel?" }
                   | Vertrag versendet
             - if contract.signed? || contract.ousted?
               td

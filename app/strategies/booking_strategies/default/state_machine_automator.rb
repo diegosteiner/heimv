@@ -7,18 +7,18 @@ module BookingStrategies
 
       automatic_transition(from: :unconfirmed_request, to: :open_request) do |booking|
         # booking.tenant.valid? && booking.initiator == :tenant
-        booking.tenant.valid?(:public_update)
+        booking.tenant.valid?(:public_update) # || booking.booking_agent.present?
       end
 
-      automatic_transition(to: :cancelled) do |booking|
+      automatic_transition(to: :cancelation_pending) do |booking|
         # booking.tenant.valid? && booking.initiator == :tenant
         booking.cancellation_reason.present?
       end
 
       automatic_transition(from: :provisional_request, to: :overdue_request, &:deadline_exceeded?)
-      automatic_transition(from: :overdue_request, to: :cancelled, &:deadline_exceeded?)
+      automatic_transition(from: :overdue_request, to: :cancelation_pending, &:deadline_exceeded?)
       automatic_transition(from: :confirmed, to: :overdue, &:deadline_exceeded?)
-      automatic_transition(from: :overdue, to: :cancelled, &:deadline_exceeded?)
+      automatic_transition(from: :overdue, to: :cancelation_pending, &:deadline_exceeded?)
       automatic_transition(from: :payment_due, to: :payment_overdue, &:deadline_exceeded?)
 
       automatic_transition(from: :upcoming, to: :active) do |booking|

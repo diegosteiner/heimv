@@ -3,19 +3,19 @@ module BookingStrategies
     class StateMachine < BookingStrategy::StateMachine
       state :initial, initial: true
       %i[
-        unconfirmed_request open_request provisional_request definitive_request overdue_request cancelled
+        unconfirmed_request open_request provisional_request definitive_request overdue_request cancelation_pending
         confirmed upcoming overdue active past payment_due payment_overdue completed
       ].each { |s| state(s) }
 
       transition from: :initial,             to: %i[unconfirmed_request provisional_request definitive_request]
-      transition from: :unconfirmed_request, to: %i[cancelled open_request]
-      transition from: :open_request,        to: %i[cancelled provisional_request definitive_request]
-      transition from: :provisional_request, to: %i[definitive_request overdue_request cancelled]
-      transition from: :overdue_request,     to: %i[cancelled definitive_request provisional_request]
-      transition from: :definitive_request,  to: %i[cancelled confirmed]
-      transition from: :confirmed,           to: %i[cancelled upcoming overdue]
-      transition from: :overdue,             to: %i[cancelled upcoming]
-      transition from: :upcoming,            to: %i[cancelled active]
+      transition from: :unconfirmed_request, to: %i[cancelation_pending open_request]
+      transition from: :open_request,        to: %i[cancelation_pending provisional_request definitive_request]
+      transition from: :provisional_request, to: %i[definitive_request overdue_request cancelation_pending]
+      transition from: :overdue_request,     to: %i[cancelation_pending definitive_request provisional_request]
+      transition from: :definitive_request,  to: %i[cancelation_pending confirmed]
+      transition from: :confirmed,           to: %i[cancelation_pending upcoming overdue]
+      transition from: :overdue,             to: %i[cancelation_pending upcoming]
+      transition from: :upcoming,            to: %i[cancelation_pending active]
       transition from: :active,              to: %i[past]
       transition from: :past,                to: %i[payment_due]
       transition from: :payment_due,         to: %i[payment_overdue completed]
@@ -30,7 +30,7 @@ module BookingStrategies
         !booking.invoices.unpaid.exists?
       end
 
-      guard_transition(to: :cancelled) do |booking|
+      guard_transition(to: :cancelation_pending) do |booking|
         !booking.invoices.unpaid.exists?
       end
 
@@ -70,18 +70,17 @@ module BookingStrategies
         booking.occupancy.tentative!
       end
 
-      before_transition(to: %i[cancelled]) do |booking|
-        booking.update(editable: false)
+      before_transition(to: %i[cancelation_pending]) do |booking|
+        booking.update_columns(editable: false)
         booking.occupancy.free!
       end
 
-      after_transition(to: %i[cancelled]) do |booking|
+      after_transition(to: %i[cancelation_pending]) do |booking|
         booking.deadline.try(:clear)
       end
 
       after_transition(to: %i[confirmed]) do |booking|
         booking.update(editable: false)
-        # BookingActions::EmailContractAndDeposit.new.call(booking)
       end
 
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|
@@ -93,7 +92,8 @@ module BookingStrategies
       end
 
       after_transition(to: %i[payment_due]) do |booking|
-        booking.deadlines.create(at: 30.days.from_now, extendable: 1) unless booking.deadline
+        payable_until = booking.invoices.order(payable_until: :DESC).last&.payable_until || 30.days.from_now
+        booking.deadlines.create(at: payable_until, extendable: 1) unless booking.deadline
       end
 
       after_transition(to: %i[payment_overdue]) do |booking|
