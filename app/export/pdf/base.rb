@@ -12,15 +12,20 @@ module Pdf
         margin: [50] * 4,
         align: :left, kerning: true
       )
-      @document.font_size(10)
-      @document.font_families.update("Arial" => {
-        normal: Rails.root.join("app/webpack/fonts/OpenSans-Regular.ttf"),
-        italic: Rails.root.join("app/webpack/fonts/OpenSans-Regular.ttf"),
-        bold: Rails.root.join("app/webpack/fonts/OpenSans-Regular.ttf"),
-        bold_italic: Rails.root.join("app/webpack/fonts/OpenSans-Regular.ttf")
-      })
-      @document.font "Arial"
+      initialize_font
       @document
+    end
+
+    def initialize_font
+      font_path = Rails.root.join('app', 'webpack', 'fonts', 'OpenSans-Regular.ttf')
+      @document.font_size(10)
+      @document.font_families.update('Arial' => {
+                                       normal: font_path,
+                                       italic: font_path,
+                                       bold: font_path,
+                                       bold_italic: font_path
+                                     })
+      @document.font 'Arial'
     end
 
     def build

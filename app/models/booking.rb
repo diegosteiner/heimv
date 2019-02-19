@@ -26,7 +26,7 @@ class Booking < ApplicationRecord
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :purpose, presence: true, on: :public_update
   validates :approximate_headcount, numericality: true, on: :public_update
-  validate(on: [:public_create, :public_update]) do
+  validate(on: %i[public_create public_update]) do
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
 
@@ -84,7 +84,7 @@ class Booking < ApplicationRecord
     return if email.blank?
 
     self.tenant ||= Tenant.find_or_initialize_by(email: email) do |tenant|
-      tenant.country ||= "Schweiz"
+      tenant.country ||= 'Schweiz'
     end
   end
 

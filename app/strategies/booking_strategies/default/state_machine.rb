@@ -71,7 +71,9 @@ module BookingStrategies
       end
 
       before_transition(to: %i[cancelation_pending]) do |booking|
+        # rubocop:disable Rails/SkipsModelValidations
         booking.update_columns(editable: false)
+        # rubocop:enable Rails/SkipsModelValidations
         booking.occupancy.free!
       end
 

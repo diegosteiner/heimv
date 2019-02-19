@@ -51,6 +51,7 @@ en:
       invoice:
         amount: Betrag
         amount_open: offener Betrag
+        amount_paid: bezahlter Betrag
         esr_number: ESR Nummer
         invoice_parts: Positionen
         invoice_type: Rechnungsart
@@ -88,9 +89,11 @@ en:
       tarif:
         invoice_type: Rechnungstyp
         label: Tarif
+        meter: Name des Zählers (bei Tarifen nach Zählerstand)
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis pro Einheit
         tarif_group: Tarifgruppe
+        transient: Tarif NICHT auf Buchung fixieren
         type: Typ
         unit: Einheit
       tarif_selector:
@@ -102,6 +105,7 @@ en:
         address: Adresse
         birth_date: Geburtsdatum
         city: Ort
+        country: Land
         email: Email
         first_name: Vorname
         last_name: Nachname
