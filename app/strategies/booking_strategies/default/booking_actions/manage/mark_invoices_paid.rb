@@ -3,7 +3,6 @@ module BookingStrategies
     module BookingActions
       class Manage
         class MarkInvoicesPaid < BookingStrategy::BookingAction
-
           def call!
             @booking.invoices.unpaid.map do |invoice|
               invoice.payments.create(amount: invoice.amount_open, paid_at: Time.zone.today)

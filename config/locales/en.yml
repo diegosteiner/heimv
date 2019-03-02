@@ -260,6 +260,8 @@ en:
           email_invoice: Rechnung verschicken
           extend_deadline: Frist verslängern
           mark_contract_signed: Vertragseingang bestätigen
+          mark_deposits_paid: Zahlungseingang bestätigen
+          mark_invoices_paid: Zahlungseingang bestätigen
         public:
           cancel: Absagen
           extend_deadline: Frist verslängern

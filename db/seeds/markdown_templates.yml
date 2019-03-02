@@ -374,7 +374,7 @@ contract_signed_message:
 deposits_paid_message:
   key: deposits_paid_message
   locale: de-CH
-  title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen'
+  title: 'Pfadi-heime.ch: Anzahlung eingegangen'
   body: |-
     {{ booking.tenant.salutation_name }}
 
