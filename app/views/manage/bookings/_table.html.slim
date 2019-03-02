@@ -19,10 +19,10 @@
               i.fa.fa-home
             div
               = booking.home
-      .col-md-4.col-lg-3.py-3.d-block
+      .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
         = booking.organisation
         br
-        = content_tag :button, { class: 'btn btn-link', 'v-b-popover.hover.click.bottom' => "{ title:'#{booking.tenant.name}', content:'#{tenant_address(booking.tenant)}', html: true }" }
+        = content_tag :button, { class: 'btn btn-link ellipsis', 'v-b-popover.hover.click.bottom' => "{ title:'#{booking.tenant.name}', content:'#{tenant_address(booking.tenant)}', html: true }" }
           = booking.email
         p.mt-2.mb-0
           span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
@@ -37,8 +37,5 @@
         = render partial: 'manage/bookings/checklist', locals: { booking: booking }
         .mt-2
         = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-          .btn-group[role="group"]
-            - @organisation.booking_strategy::BookingActions::Manage.allowed_actions(booking).each do |action|
-              = f.button name: :booking_action, type: :submit, value: action.to_s, class: "btn btn-sm btn-#{action.variant}"
-                =  t(action.class.i18n_scope.join('.'))
+          = render partial: 'manage/bookings/actions', locals: { booking: booking, form: f, button_classes: ['btn-sm'] }
 

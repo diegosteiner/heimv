@@ -7,13 +7,13 @@ class CreateBookingTransitions < ActiveRecord::Migration[5.1]
       t.boolean :most_recent, null: false
       t.timestamps null: false
 
-      # if t.respond_to?(:json)
-      #   t.json :metadata, default: {}
-      #   t.json :booking_data, default: {}
-      # else
-      t.string :metadata, default: '{}'
-      t.string :booking_data, default: '{}'
-      # end
+      if t.respond_to?(:json)
+        t.json :metadata, default: {}
+        t.json :booking_data, default: {}
+      else
+        t.string :metadata, default: '{}'
+        t.string :booking_data, default: '{}'
+      end
     end
 
     # Foreign keys are optional, but highly recommended

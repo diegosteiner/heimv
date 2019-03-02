@@ -5,6 +5,11 @@ module BookingStrategies
         register Accept
         register EmailContractAndDeposit
         register EmailInvoice
+        register ExtendDeadline
+        register MarkContractSigned
+        register MarkDepositsPaid
+        register MarkInvoicesPaid
+
         register Cancel
       end
     end

@@ -7,11 +7,10 @@ module BookingStrategies
 
       automatic_transition(from: :unconfirmed_request, to: :open_request) do |booking|
         # booking.tenant.valid? && booking.initiator == :tenant
-        booking.tenant.valid?(:public_update) # || booking.booking_agent.present?
+        booking.tenant.valid?(:public_update) || booking.booking_agent.present?
       end
 
       automatic_transition(to: :cancelation_pending) do |booking|
-        # booking.tenant.valid? && booking.initiator == :tenant
         booking.cancellation_reason.present?
       end
 
@@ -65,6 +64,10 @@ module BookingStrategies
 
       automatic_transition(from: :active, to: :past) do |booking|
         booking.occupancy.past?
+      end
+
+      automatic_transition(from: :cancelation_pending, to: :cancelled) do |booking|
+        !booking.invoices.unpaid.exists?
       end
     end
   end

@@ -14,6 +14,13 @@ module Seeders
     end
 
     def seed
+      seed!
+    rescue ActiveRecord::RecordInvalid => invalid
+      puts invalid.record.errors.inspect
+      raise
+    end
+
+    def seed!
       return seed_production if production?
       seed_development
     end

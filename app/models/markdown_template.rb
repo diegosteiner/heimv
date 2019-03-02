@@ -1,23 +1,6 @@
 class MarkdownTemplate < ApplicationRecord
-  # TODO: remove state
-  KEYS = %w[
-    contract_text
-    deposit_invoice_text
-    invoice_invoice_text
-    late_notice_invoice_text
-    upcoming_message
-    definitive_request_message
-    overdue_request_message
-    provisional_request_message
-    confirmed_message
-    open_request_message
-    unconfirmed_request_message
-    manage_new_booking_mail
-    payment_overdue_message
-  ].freeze
-
   validates :key, :locale, presence: true
-  validates :key, uniqueness: true, inclusion: { in: KEYS }
+  validates :key, uniqueness: true
 
   def to_markdown
     Markdown.new(body)

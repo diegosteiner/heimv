@@ -18,8 +18,10 @@ module BookingStrategies
             @booking.deadline&.extendable?
           end
 
-          def variant
-            :'outline-primary'
+          def button_options
+            super.merge(
+              class: %i[btn btn-outline-primary]
+            )
           end
         end
       end

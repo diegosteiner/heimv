@@ -20,8 +20,10 @@ class BookingStrategy
       self.class.action_name
     end
 
-    def variant
-      :primary
+    def button_options
+      {
+        class: %i[btn btn-primary]
+      }
     end
   end
 end

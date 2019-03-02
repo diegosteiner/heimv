@@ -2,15 +2,19 @@ version: '3.5'
 services:
 
   db:
-    image: postgres
+    image: postgres:alpine
     volumes:
       - ./tmp/docker/db/data:/var/lib/postgresql/data
+    # healthcheck:
+      # test: nc -z localhost 5432
 
   web:
     build: .
     entrypoint: bin/entry
     environment:
-      DATABASE_URL: postgresql://postgres@db/
+      DATABASE_URL: postgresql://postgres@db/app
       RAILS_ENV: development
     depends_on:
       - db
+      # db:
+        # condition: service_healthy

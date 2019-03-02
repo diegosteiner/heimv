@@ -49,6 +49,10 @@ class Contract < ApplicationRecord
     update(sent_at: Time.zone.now)
   end
 
+  def signed!
+    update(signed_at: Time.zone.now)
+  end
+
   def sent?
     sent_at.present?
   end

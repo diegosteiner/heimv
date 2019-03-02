@@ -3,10 +3,14 @@ module BookingStrategies
     module BookingActions
       class Manage
         class EmailContractAndDeposit < BookingStrategy::BookingAction
-          def call!(contract = @booking.contract, deposits = @booking.invoices.deposit)
+          def call!(contract = @booking.contract, deposits = @booking.invoices.deposit, home = @booking.home)
             @booking.messages.new_from_template(:confirmed_message).deliver_now do |message|
-              message.attachments.attach(contract.pdf&.blob)
-              message.attachments.attach(deposits.map { |deposit| deposit.pdf.blob })
+              attachments = [
+                home.house_rules.attachment&.blob,
+                deposits.map { |deposit| deposit.pdf.blob },
+                contract.pdf&.blob
+              ]
+              message.attachments.attach(attachments.flatten.compact)
             end && contract.sent! && deposits.each(&:sent!)
           end
 

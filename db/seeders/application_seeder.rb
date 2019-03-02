@@ -2,7 +2,7 @@ require_relative './base_seeder'
 
 module Seeders
   class ApplicationSeeder < BaseSeeder
-    def seed
+    def seed!
       [
         OrganisationSeeder,
         UserSeeder,

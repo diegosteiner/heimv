@@ -60,10 +60,7 @@ section.breakout-sm
           hr
 
           = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
-            .btn-group[role="group"]
-              - @organisation.booking_strategy::BookingActions::Manage.allowed_actions(@booking).each do |action|
-                = f.button name: :booking_action, value: action.to_s, class: "btn btn-#{action.variant}"
-                  =  t(action.class.i18n_scope.join('.'))
+            = render partial: 'manage/bookings/actions', locals: { booking: @booking, form: f }
             '
             .dropdown.d-inline
               button.btn.btn-outline-primary.dropdown-toggle[type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]

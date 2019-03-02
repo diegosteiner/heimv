@@ -26,11 +26,17 @@ class Message < ApplicationRecord
     BookingMailer.booking_message(self)
   end
 
-  def self.new_from_template(key, attributes = {})
-    template = MarkdownTemplate.find_by(key: key)
-    return nil unless template
+  def self.new_from_template(template, attributes = {})
+    new_from_template!(template, attributes)
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
+
+  def self.new_from_template!(template, attributes = {})
+    template = MarkdownTemplate.find_by!(key: template) unless template.is_a?(MarkdownTemplate)
 
     new(attributes) do |message|
+      message.markdown_template = template
       message.subject = template.title
       message.markdown = template.interpolate('booking' => message.booking)
     end

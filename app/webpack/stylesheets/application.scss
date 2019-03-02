@@ -51,6 +51,7 @@ label.required:after, legend.required:after {
 
 .btn-link {
     padding: 0;
+    border: none;
 }
 
 .table-card {
@@ -112,4 +113,11 @@ tr.disabled {
 
 .fa-li {
     top: 0.3em;
+}
+
+.ellipsis {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
 }

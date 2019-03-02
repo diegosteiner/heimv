@@ -1,0 +1,415 @@
+unconfirmed_request_message:
+  key: unconfirmed_request_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
+  body: |-
+    Hallo
+
+    Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
+    untenstehenden Link um Deine E-Mail-Adresse zu bestätigen und um die
+    Mietanfrage abzuschliessen.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    Freundliche Grüsse
+
+    Verein Pfadiheime St. Georg
+
+open_request_message:
+  key: open_request_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Bestätigung Deiner Mietanfrage'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Hiermit bestätigen wir den Eingang deiner Mietanfrage auf pfadi-heime.ch.
+
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    Freundliche Grüsse
+
+    Verein Pfadiheime St. Georg
+
+
+confirmed_message:
+  key: confirmed_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Reservation bestätigt'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Mit dieser Nachricht erhältst Du die Unterlagen für Deine Lagerhaus-Reservation. Bitte lies die Dokumente durch und prüfe ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn an uns zurück.
+    Falls im Vertrag eine Anzahlung vereinbart wurde ist diese sofort fällig. Bitte beachte dass der Vertrag erst zustande kommt wenn Anzahlung und unterzeichnetes Vertragsdoppel bei uns angekommen sind.
+
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    **Zahlungsdetails**
+
+    - Empfänger: Verein Pfadiheime St. Georg Zürich
+    - Konto: XXXXXX
+
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+
+    Freundliche Grüsse
+    Verein Pfadiheime St. Georg
+
+provisional_request_message:
+  key: provisional_request_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir haben Deine Angaben geprüft und nun eine provisorische Reservation erstellt.
+    Diese gilt für **14 Tage** danach verfällt sie und das Lagerhaus wird wieder freigegeben.
+    Über den folgenden Link kannst Du Deine Reservation verlängern aufheben oder für definitiv erklären.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+
+    Freundliche Grüsse
+    Verein Pfadiheime St. Georg
+
+overdue_request_message:
+  key: overdue_request_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Anfrage überfällig'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Du hast kürzlich auf pfadi-heime.ch eine provisorische Reservation erstellt.
+    Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird verfällt sie und das Lagerhaus wird wieder freigegeben.
+    Wir geben Dir nochmals 3 Tage Zeit um Deine Reservation zu verlängern oder um sie definitiv zumachen.
+    Klicke dazu auf den untenstehenden Link
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    Freundliche Grüsse
+
+    Verein Pfadiheime St. Georg
+
+
+definitive_request_message:
+  key: definitive_request_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Definitive Reservation bestätigt'
+  body: |-
+    Hallo
+
+    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+
+    Freundliche Grüsse
+    Verein Pfadiheime St. Georg
+
+manage_new_booking_mail:
+  key: manage_new_booking_mail
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Neue Mietanfrage'
+  body: |-
+    Hallo
+
+    Es ist eine neue Mietanfrage eingegangen für das Lagerhaus "{{ booking.home.name }}"
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+    Freundliche Grüsse
+
+    Verein Pfadiheime St. Georg
+
+
+upcoming_message:
+  key: upcoming_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Wir haben das von Dir unterzeichnete Vertragsdoppel und die Anzahlung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Lagerhaus.
+
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    Freundliche Grüsse
+
+    Verein Pfadiheime St. Georg
+
+
+deposit_invoice_text:
+  key: deposit_invoice_text
+  locale: de-CH
+  title: 'Anzahlung'
+  body: |-
+    # Anzahlung: {{ booking.home.name }}
+    {{ booking.ref }}
+
+    Anzahlungstext
+
+invoice_invoice_text:
+  key: invoice_invoice_text
+  locale: de-CH
+  title: 'Vertrag'
+  body: |-
+    # Rechnung
+
+late_notice_invoice_text:
+  key: late_notice_invoice_text
+  locale: de-CH
+  title: 'Vertrag'
+  body: |-
+    # Mahnung
+
+payment_due_message:
+  key: payment_due_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Mit dieser Nachricht erhältst Du die Rechnungfür Deine Lagerhaus-Reservation. Bitte bezahle diese innert der Zahlungsfrist von 30 Tagen
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    **Zahlungsdetails**
+
+    - Empfänger: Verein Pfadiheime St. Georg Zürich
+    - Konto: XXXXXX
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+
+    Freundliche Grüsse
+    Verein Pfadiheime St. Georg
+
+
+payment_overdue_message:
+  key: payment_overdue_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Vor einiger Zeit haben wir Dir die Rechnung für Deine Lagerhaus-Reservation geschickt.
+    Die Zahlungsfrist von 30 Tagen ist nun abgelaufen doch wir haben noch keine Zahlung von
+    Dir erhalten. Bitte bezahle die überfällige Rechnung in den nächsten Tagen.
+
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    **Zahlungsdetails**
+
+    - Empfänger: Verein Pfadiheime St. Georg Zürich
+    - Konto: XXXXXX
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+
+    Freundliche Grüsse
+    Verein Pfadiheime St. Georg
+
+
+contract_text:
+  key: contract_text
+  locale: de-CH
+  title: 'Vertrag'
+  body: |-
+      # Allgemein
+      Der Vermieter überlässt dem Mieter das Pfadiheim "{{ booking.home.name }}" für den nachfolgend aufgeführten Anlass zur alleinigen Benutzung
+
+      # Mietdauer
+
+      - Mietbeginn: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }}
+      - Mietende:   {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+
+      Die Hausübergabe bzw. –rücknahme erfolgt durch den Heimwart. Der Mieter hat das Haus persönlich zum vereinbarten Zeitpunkt zu übernehmen resp. zu übergeben. Hierfür sind jeweils ca. 30 Minuten einzuplanen. Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten.
+
+      Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
+
+      Der genaue Zeitpunkt der Hausübernahme ist mit dem Heimwart spätestens 5 Tage vor Mietbeginn telefonisch zu vereinbaren:
+
+      *{{ booking.home.janitor }}*
+
+      # Übernahme und Rückgabe
+
+      Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten. Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
+
+      # Zweck der Miete
+
+      *{{ booking.purpose | booking_purpose }}*
+
+      # Mindestbelegung
+      Die Mindestbelegung beträgt durchschnittlich 12 Personen pro Nacht.
+
+      # Anzahlung
+      Die Anzahlung wird bei Abschluss des Vertrages fällig
+
+      # Tarife
+      Es gelten die nachfolgenden Tarife:
+
+contract_signed_message:
+  key: contract_signed_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Vertragsdoppel erhalten'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Soeben haben wir das von Dir unterzeichnete Vertragsdoppel erhalten, vielen Dank.
+    Bitte zahle auch möglichst rasch noch die Anzahlung ein.
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    **Zahlungsdetails**
+
+    - Empfänger: Verein Pfadiheime St. Georg Zürich
+    - Konto: XXXXXX
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+
+    Freundliche Grüsse
+    Verein Pfadiheime St. Georg
+
+deposits_paid_message:
+  key: deposits_paid_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Soeben haben wir Deine Anzahlung erhalten, vielen Dank.
+    Bitte sende uns auch möglichst rasch das unterzeichnete Vertragsdoppel zurück
+
+
+    **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Organisation: {{ booking.organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    Freundliche Grüsse
+
+    Verein Pfadiheime St. Georg
+
+# invoices_paid_message:
+#   key: invoices_paid_message
+#   locale: de-CH
+#   title: 'Pfadi-heime.ch: Vielen Dank für Deine Zahlung'
+#   body: |-
+#     {{ booking.tenant.salutation_name }}
+
+#     Soeben haben wir Deine Zahlung für die Lagerhaus-Reservation erhalten, vielen Dank.
+#     Damit ist nun alles erledigt. Wir bedanken uns für den Besuch und würden uns freuen, Dich und Deine Gruppe ein anderes Mal wieder bei uns zu beherbergen.
+
+#     Freundliche Grüsse
+
+#     Verein Pfadiheime St. Georg
+

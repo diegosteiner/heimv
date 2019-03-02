@@ -58,6 +58,12 @@ class Booking < ApplicationRecord
     occupancy.nights * approximate_headcount
   end
 
+  def editable!(value = true)
+    # rubocop:disable Rails/SkipsModelValidations
+    update_columns(editable: value)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
   def self.transition_class
     BookingTransition
   end

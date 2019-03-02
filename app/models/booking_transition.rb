@@ -1,5 +1,7 @@
 class BookingTransition < ApplicationRecord
   # include Statesman::Adapters::ActiveRecordTransition
+  class_attribute :updated_timestamp_column
+  self.updated_timestamp_column = :updated_at
 
   belongs_to :booking, inverse_of: :booking_transitions, touch: true
 
@@ -12,10 +14,6 @@ class BookingTransition < ApplicationRecord
   def serialize_booking
     self.booking_data = booking.attributes
   end
-
-  # def serialized?(transition_class)
-  #   false
-  # end
 
   def update_booking_state
     # rubocop:disable Rails/SkipsModelValidations

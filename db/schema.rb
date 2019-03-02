@@ -274,6 +274,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
     t.string "street_address"
     t.string "zipcode"
     t.string "city"
+    t.string "country"
     t.boolean "reservations_allowed"
     t.text "phone"
     t.string "email", null: false

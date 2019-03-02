@@ -3,8 +3,8 @@ module BookingStrategies
     class StateMachine < BookingStrategy::StateMachine
       state :initial, initial: true
       %i[
-        unconfirmed_request open_request provisional_request definitive_request overdue_request cancelation_pending
-        confirmed upcoming overdue active past payment_due payment_overdue completed
+        unconfirmed_request open_request provisional_request definitive_request overdue_request cancelled
+        confirmed upcoming overdue active past payment_due payment_overdue completed cancelation_pending
       ].each { |s| state(s) }
 
       transition from: :initial,             to: %i[unconfirmed_request provisional_request definitive_request]
@@ -21,6 +21,7 @@ module BookingStrategies
       transition from: :payment_due,         to: %i[payment_overdue completed]
       transition from: :payment_overdue,     to: %i[completed]
       transition from: :past,                to: %i[completed]
+      transition from: :cancelation_pending, to: %i[cancelled]
 
       guard_transition(to: %i[confirmed]) do |booking|
         booking.occupancy.conflicting.none?
@@ -30,7 +31,7 @@ module BookingStrategies
         !booking.invoices.unpaid.exists?
       end
 
-      guard_transition(to: :cancelation_pending) do |booking|
+      guard_transition(to: :cancelled) do |booking|
         !booking.invoices.unpaid.exists?
       end
 
@@ -71,9 +72,7 @@ module BookingStrategies
       end
 
       before_transition(to: %i[cancelation_pending]) do |booking|
-        # rubocop:disable Rails/SkipsModelValidations
-        booking.update_columns(editable: false)
-        # rubocop:enable Rails/SkipsModelValidations
+        booking.editable!(false)
         booking.occupancy.free!
       end
 
@@ -82,7 +81,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[confirmed]) do |booking|
-        booking.update(editable: false)
+        booking.editable!(false)
       end
 
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|

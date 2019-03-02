@@ -259,6 +259,9 @@ de-CH:
           email_contract_and_deposit: Vertrag und Anzahlung verschicken
           email_invoice: Rechnung verschicken
           extend_deadline: Frist verslängern
+          mark_contract_signed: Vertragseingang bestätigen
+          mark_deposits_paid: Zahlungseingang bestätigen
+          mark_invoices_paid: Zahlungseingang bestätigen
         public:
           cancel: Absagen
           extend_deadline: Frist verslängern
@@ -276,6 +279,9 @@ de-CH:
           help: Help
           label: Aktive Belegung
         cancelation_pending:
+          help: Help
+          label: Stornierung pendent
+        cancelled:
           help: Help
           label: Storniert
         completed:
