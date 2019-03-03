@@ -1,8 +1,8 @@
 module BookingStrategies
   class Default
-    module BookingActions
+    module Actions
       class Manage
-        class Cancel < BookingStrategy::BookingAction
+        class Cancel < BookingStrategy::Action
           def call!
             @booking.state_machine.transition_to(:cancelation_pending)
           end

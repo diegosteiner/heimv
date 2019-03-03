@@ -25,7 +25,7 @@ module Public
 
     def update
       @booking.assign_attributes(update_params) if @booking.editable?
-      @organisation.booking_strategy::BookingActions::Public[booking_action]&.new(@booking)&.call if booking_action
+      @organisation.booking_strategy::Actions::Public[booking_action]&.new(@booking)&.call if booking_action
       @booking.save(context: :public_update)
       respond_with :public, @booking, location: edit_public_booking_path
     end

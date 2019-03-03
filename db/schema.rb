@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
     t.string "organisation"
     t.string "email"
     t.integer "tenant_id"
+    t.json "state_data"
     t.boolean "committed_request"
     t.text "cancellation_reason"
     t.integer "approximate_headcount"

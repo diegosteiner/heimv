@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
-    module BookingActions
-      class Public < BookingStrategy::BookingActions
+    module Actions
+      class Public < BookingStrategy::Actions
         register Cancel
         register ExtendDeadline
       end

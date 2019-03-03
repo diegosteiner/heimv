@@ -1,8 +1,8 @@
 module BookingStrategies
   class Default
-    module BookingActions
+    module Actions
       class Manage
-        class Accept < BookingStrategy::BookingAction
+        class Accept < BookingStrategy::Action
           def call!
             @booking.state_machine.transition_to(if @booking.committed_request
                                                    :definitive_request

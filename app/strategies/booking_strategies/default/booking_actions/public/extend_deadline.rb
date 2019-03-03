@@ -1,8 +1,8 @@
 module BookingStrategies
   class Default
-    module BookingActions
+    module Actions
       class Public
-        class ExtendDeadline < BookingStrategy::BookingAction
+        class ExtendDeadline < BookingStrategy::Action
           def call!
             case @booking.current_state.to_sym
             when :provisional_request

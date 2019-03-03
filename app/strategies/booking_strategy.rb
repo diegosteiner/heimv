@@ -9,7 +9,7 @@ class BookingStrategy
     end
 
     def booking_actions
-      self::BookingActions
+      self::Actions
     end
 
     def infer(_booking)

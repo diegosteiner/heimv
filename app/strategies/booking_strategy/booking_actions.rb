@@ -1,5 +1,5 @@
 class BookingStrategy
-  class BookingActions
+  class Actions
     def self.allowed_actions(booking)
       actions.values.map { |action_klass| action_klass.new(booking) }.select(&:allowed?)
     end

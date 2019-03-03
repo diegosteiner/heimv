@@ -1,6 +1,6 @@
 
 .btn-group[role="group"]
-  - @organisation.booking_strategy::BookingActions::Manage.allowed_actions(booking).each do |action|
+  - @organisation.booking_strategy::Actions::Manage.allowed_actions(booking).each do |action|
 
     - button_options = action.button_options.merge({ name: :booking_action, value: action.to_s })
     - button_classes = defined?(button_classes) && button_classes.presence || ['btn-md']

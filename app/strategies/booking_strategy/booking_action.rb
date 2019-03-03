@@ -1,5 +1,5 @@
 class BookingStrategy
-  class BookingAction
+  class Action
     extend Translatable
 
     def initialize(booking)

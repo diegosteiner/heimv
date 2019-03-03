@@ -1,8 +1,8 @@
 module BookingStrategies
   class Default
-    module BookingActions
+    module Actions
       class Manage
-        class EmailContractAndDeposit < BookingStrategy::BookingAction
+        class EmailContractAndDeposit < BookingStrategy::Action
           def call!(contract = @booking.contract, deposits = @booking.invoices.deposit)
             @booking.messages.new_from_template(:confirmed_message)&.deliver_now do |message|
               message.attachments.attach(extract_attachments(@booking.home, deposits, contract))

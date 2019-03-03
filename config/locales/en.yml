@@ -252,7 +252,7 @@ en:
       subject: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
   booking_strategies:
     default:
-      booking_actions:
+      actions:
         manage:
           accept: Anfrage akzeptieren
           cancel: Absagen

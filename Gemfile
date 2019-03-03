@@ -35,6 +35,7 @@ gem 'webpacker', '>= 4.0.x'
 gem 'wicked_pdf'
 
 group :development do
+  gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'foreman'

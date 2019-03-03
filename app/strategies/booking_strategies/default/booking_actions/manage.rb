@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
-    module BookingActions
-      class Manage < BookingStrategy::BookingActions
+    module Actions
+      class Manage < BookingStrategy::Actions
         register Accept
         register EmailContractAndDeposit
         register EmailInvoice

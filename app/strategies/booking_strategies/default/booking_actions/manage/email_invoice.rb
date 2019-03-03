@@ -1,8 +1,8 @@
 module BookingStrategies
   class Default
-    module BookingActions
+    module Actions
       class Manage
-        class EmailInvoice < BookingStrategy::BookingAction
+        class EmailInvoice < BookingStrategy::Action
           def call!(invoices = @booking.invoices.unsent)
             @booking.messages.new_from_template(:payment_overdue_message)&.deliver_now do |message|
               message.attachments.attach(invoices.map { |invoice| invoice.pdf.blob })
