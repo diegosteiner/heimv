@@ -12,18 +12,18 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres@db/app_development
       RAILS_ENV: development
-      WEBPACKER_DEV_SERVER_HOST: webpacker
+      WEBPACKER_DEV_SERVER_HOST: webpack
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
       BUNDLE_PATH: /usr/local/bundle
     depends_on:
       - db
-      - webpacker
+      - webpack
       - mail
     tmpfs:
       #  - /app/tmp
        - /app/log
 
-  webpacker:
+  webpack:
     build: .
     command: bin/webpack-dev-server
     volumes:

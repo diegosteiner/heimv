@@ -6,6 +6,7 @@ module FormHelper
         name: "#{form.object_name}[#{method}]",
         label: form.object.class.human_attribute_name(method),
         value: form.object.try(method),
+        ref: method,
         ':required' => required)
   end
 end

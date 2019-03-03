@@ -10,6 +10,7 @@ import TurbolinksAdapter from 'vue-turbolinks';
 import Vue from 'vue/dist/vue.js'
 import AppOccupancyCalendar from '../components/calendar/AppOccupancyCalendar.vue'
 import AppCalendarInput from '../components/calendar/AppCalendarInput.vue'
+import AppTimespanInputs from '../components/calendar/AppTimespanInputs.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueI18n from 'vue-i18n'
 import moment from "moment";
@@ -44,7 +45,7 @@ $(document).on('turbolinks:load', function () {
 
   new Vue({
     el: '#app',
-    components: { Tarifs, AppOccupancyCalendar, AppCalendarInput },
+    components: { Tarifs, AppOccupancyCalendar, AppCalendarInput, AppTimespanInputs },
     i18n
   });
 

@@ -15,17 +15,19 @@
           .card-body
             fieldset[data-range-role="unit"]
               = f.select :home_id, homes_for_select
-              = f.fields_for :occupancy, @booking.occupancy do |of|
-                .row
-                  .col-md-6
-                    = calendar_input(of, :begins_at_date, required: true)
-                  .col-md-6
-                    = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, start_hour: 7, end_hour: 22
-                .row
-                  .col-md-6
-                    = calendar_input(of, :ends_at_date, required: true)
-                  .col-md-6
-                    = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, start_hour: 7, end_hour: 22
+              app-timespan-inputs[inline-template]
+                div
+                  = f.fields_for :occupancy, @booking.occupancy do |of|
+                    .row
+                      .col-md-6
+                        = calendar_input(of, :begins_at_date, required: true)
+                      .col-md-6
+                        = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, start_hour: 7, end_hour: 22
+                    .row
+                      .col-md-6
+                        = calendar_input(of, :ends_at_date, required: true)
+                      .col-md-6
+                        = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, start_hour: 7, end_hour: 22
               = f.email_field :email
               = f.text_field :organisation
               = f.text_field :booking_agent_code
