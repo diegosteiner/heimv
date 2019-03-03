@@ -1,3 +1,27 @@
+# == Schema Information
+#
+# Table name: bookings
+#
+#  id                    :uuid             not null, primary key
+#  home_id               :bigint(8)        not null
+#  state                 :string           default("initial"), not null
+#  organisation          :string
+#  email                 :string
+#  tenant_id             :integer
+#  state_data            :json
+#  committed_request     :boolean
+#  cancellation_reason   :text
+#  approximate_headcount :integer
+#  remarks               :text
+#  invoice_address       :text
+#  purpose               :string
+#  ref                   :string
+#  editable              :boolean          default(TRUE)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  booking_agent_code    :string
+#
+
 require 'rails_helper'
 
 describe Booking, type: :model do

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: usages
+#
+#  id         :bigint(8)        not null, primary key
+#  tarif_id   :bigint(8)
+#  used_units :decimal(, )
+#  remarks    :text
+#  booking_id :uuid
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 FactoryBot.define do
   factory :usage do
     tarif

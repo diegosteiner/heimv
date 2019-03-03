@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: invoices
+#
+#  id                 :bigint(8)        not null, primary key
+#  booking_id         :uuid
+#  issued_at          :datetime
+#  payable_until      :datetime
+#  sent_at            :datetime
+#  text               :text
+#  invoice_type       :integer
+#  esr_number         :string
+#  amount             :decimal(, )      default(0.0)
+#  paid               :boolean          default(FALSE)
+#  print_payment_slip :boolean          default(FALSE)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
 class Invoice < ApplicationRecord
   belongs_to :booking, inverse_of: :invoices, touch: true
   has_many :invoice_parts, -> { order(position: :ASC) }, inverse_of: :invoice, dependent: :destroy
