@@ -12,7 +12,7 @@ import AppOccupancyCalendar from '../components/calendar/AppOccupancyCalendar.vu
 import AppCalendarInput from '../components/calendar/AppCalendarInput.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueI18n from 'vue-i18n'
-import moment from "moment-timezone";
+import moment from "moment";
 
 import 'bootstrap/dist/js/bootstrap.bundle'
 import 'bootstrap-vue/dist/bootstrap-vue.css'

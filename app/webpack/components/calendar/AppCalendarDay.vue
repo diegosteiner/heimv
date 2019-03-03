@@ -73,16 +73,16 @@ export default {
     cssClasses() {
       if(this.disabled || this.loading) return ["disabled"]
       if(this.active) return ["bg-primary text-white"]
-      const vm = this
+      const moment = this.moment
 
       return this.occupancies.map((occupancy) => {
-        let begins_at = vm.moment.tz(occupancy.begins_at, "UTC");
-        let ends_at = vm.moment.tz(occupancy.ends_at, "UTC");
+        let begins_at = moment(occupancy.begins_at, "YYYY-MM-DD HH:mm Z");
+        let ends_at = moment(occupancy.ends_at, "YYYY-MM-DD HH:mm Z");
 
-        if(ends_at.isBetween(vm.moment(this.date.startOf("day")), vm.moment(this.date.hour(12)), "minutes", "[)")) {
+        if(ends_at.isBetween(moment(this.date.startOf("day")), moment(this.date.hour(12)), "minutes", "[)")) {
           return `${occupancy.occupancy_type}-forenoon`;
         }
-        if(begins_at.isBetween(vm.moment(this.date.hour(10)), vm.moment(this.date.endOf("day")), "minutes", "(]")) {
+        if(begins_at.isBetween(moment(this.date.hour(10)), moment(this.date.endOf("day")), "minutes", "(]")) {
           return `${occupancy.occupancy_type}-afternoon`;
         }
         return `${occupancy.occupancy_type}-fullday`;

@@ -36,8 +36,10 @@ export default {
     required: false
   },
   data() {
+    const parsedDate = this.moment(this.value, "YYYY-MM-DD HH:mm Z")
+
     return {
-      selectedDate: this.value,
+      selectedDate: parsedDate.isValid() ? parsedDate : null,
       showDateModal: false,
       dateFormat: 'DD.MM.Y'
     }

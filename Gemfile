@@ -41,6 +41,7 @@ group :development do
   gem 'foreman'
   gem 'i18n-tasks'
   gem 'listen', '~> 3.0.5'
+  gem 'rack-mini-profiler'
 end
 
 group :development, :test do

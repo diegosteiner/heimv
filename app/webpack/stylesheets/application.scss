@@ -45,13 +45,16 @@ label.required:after, legend.required:after {
     }
 }
 
-.btn-primary {
-    // font-family: $headings-font-family;
-}
-
 .btn-link {
     padding: 0;
     border: none;
+}
+
+select[disabled='disabled'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #495057;
 }
 
 .table-card {

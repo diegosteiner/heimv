@@ -1,5 +1,5 @@
 
-.btn-group[role="group"]
+span[role="group"]
   - @organisation.booking_strategy::Actions::Manage.allowed_actions(booking).each do |action|
 
     - button_options = action.button_options.merge({ name: :booking_action, value: action.to_s })
@@ -7,5 +7,5 @@
     - button_classes += button_options.fetch(:class, [])
     - button_options[:class] = button_classes.join(' ')
 
-    = form.button(button_options)
+    span.mr-1= form.button(button_options)
       = t(action.class.i18n_scope.join('.'))

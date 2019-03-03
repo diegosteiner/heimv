@@ -65,12 +65,12 @@ export default {
       );
     },
     occupanciesOfDate(date) {
-      const vm = this
+      const moment = this.moment
       return this.occupancies.filter(function(occupancy) {
-        const begins_at = vm.moment.tz(occupancy.begins_at, "UTC");
-        const ends_at = vm.moment.tz(occupancy.ends_at, "UTC");
-        const startOfDay = vm.moment(date).startOf("day").utc();
-        const endOfDay = vm.moment(date).endOf("day").utc();
+        const begins_at = moment(occupancy.begins_at, "YYYY-MM-DD HH:mm Z");
+        const ends_at = moment(occupancy.ends_at, "YYYY-MM-DD HH:mm Z");
+        const startOfDay = moment(date).startOf("day");
+        const endOfDay = moment(date).endOf("day");
         return (
           startOfDay.isBetween(begins_at, ends_at, "hours", "[)") ||
           endOfDay.isBetween(begins_at, ends_at, "hours", "(]") ||
