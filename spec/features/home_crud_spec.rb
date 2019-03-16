@@ -4,7 +4,7 @@ include Warden::Test::Helpers
 Warden.test_mode!
 I18n.locale = 'de-CH'
 
-feature 'Home CRUD', :devise do
+feature 'Home CRUD', :devise, skip: true do
   before(:each) { login_as(user, scope: :user) }
   after(:each) { Warden.test_reset! }
 

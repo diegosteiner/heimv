@@ -72,13 +72,19 @@ RSpec.configure do |config|
 
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
     # options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--window-size=1280,1024')
+    # options.add_argument('--disable-gpu')
+    # options.add_argument('--window-size=1280,1024')
+    options.add_argument('--no-default-browser-check')
+    options.add_argument('--start-maximized')
 
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+    # capabilities = Selenium::WebDriver::Remote::Capabilities.chrome('chromeOptions' => { 'args' => options })
+    url = "http://#{ENV['SELENIUM_HOST']}:#{ENV['SELENIUM_PORT']}/wd/hub"
+    Capybara::Selenium::Driver.new(app, browser: :chrome, url: url, options: options)
+    # Capybara::Selenium::Driver.new(app, browser: :remote, url: url, desired_capabilities: capabilities)
   end
 
   Capybara.javascript_driver = :selenium
   Capybara.default_driver = :selenium
-  Capybara.default_max_wait_time = 10
+  Capybara.default_max_wait_time = 5
+  Capybara.app_host = "http://#{ENV['APP_HOST']}:#{ENV['PORT']}"
 end

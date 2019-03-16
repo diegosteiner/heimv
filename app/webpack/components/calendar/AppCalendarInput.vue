@@ -36,7 +36,7 @@ export default {
     required: false
   },
   data() {
-    const parsedDate = this.moment(this.value, "YYYY-MM-DD HH:mm Z")
+    const parsedDate = this.moment(this.value, this.moment.ISO_8601)
 
     return {
       selectedDate: parsedDate.isValid() ? parsedDate : null,

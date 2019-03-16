@@ -6,7 +6,7 @@ class CreateBookings < ActiveRecord::Migration[5.1]
       t.string :organisation, null: true
       t.string :email, null: true
       t.integer :tenant_id, foreign_key: true
-      t.json :state_data, null: true
+      t.json :state_data, default: {}
       t.boolean :committed_request, null: true
       t.text :cancellation_reason, null: true
       t.integer :approximate_headcount, null: true
@@ -15,6 +15,7 @@ class CreateBookings < ActiveRecord::Migration[5.1]
       t.string :purpose, null: true
       t.string :ref, unique: true, index: true
       t.boolean :editable, default: true
+      t.boolean :usages_entered, default: false
 
       t.timestamps
     end

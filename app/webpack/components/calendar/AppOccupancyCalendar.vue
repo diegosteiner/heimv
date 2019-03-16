@@ -67,8 +67,8 @@ export default {
     occupanciesOfDate(date) {
       const moment = this.moment
       return this.occupancies.filter(function(occupancy) {
-        const begins_at = moment(occupancy.begins_at, "YYYY-MM-DD HH:mm Z");
-        const ends_at = moment(occupancy.ends_at, "YYYY-MM-DD HH:mm Z");
+        const begins_at = moment(occupancy.begins_at, moment.ISO_8601);
+        const ends_at = moment(occupancy.ends_at, moment.ISO_8601);
         const startOfDay = moment(date).startOf("day");
         const endOfDay = moment(date).endOf("day");
         return (

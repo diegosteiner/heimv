@@ -2,14 +2,40 @@ version: '3.5'
 services:
 
   app:
-    entrypoint: bin/entry
+    entrypoint: docker/entry-app-test.sh
     command: bin/check
     volumes:
-      - .:/app
-      - ./tmp/docker/node_modules:/app/node_modules
+      - .:/app:cached
+      - node_modules:/app/node_modules
+      - bundle:/usr/local/bundle/
     environment:
+      APP_HOST: app
+      PORT: 3000
       DATABASE_URL: postgresql://postgres@db/app_test
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
+      SELENIUM_HOST: selenium
+      SELENIUM_PORT: 4444
     depends_on:
       - db
+      - selenium
+    networks:
+      default:
+      selenium:
+        aliases:
+          - app
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    ports:
+      - '4444:4444'
+      # - '5900:5900'
+    logging:
+      driver: none
+    networks:
+      selenium:
+        aliases:
+          - app
+
+networks:
+  selenium:

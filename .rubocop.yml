@@ -1,4 +1,18 @@
-inherit_from: .rubocop_todo.yml
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'bin/*'
+    - 'script/**/*'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'vendor/**/*'
+    - 'lib/**/*'
+    - 'node_modules/**/*'
+    - 'db/seeders/*'
+    - '.git/**/*'
 
 Rails:
   Enabled: true
@@ -10,11 +24,13 @@ Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
 
+Style/MixinUsage:
+  Exclude:
+    - 'spec/**/*'
+
 Metrics/BlockLength:
   Exclude:
-    - 'db/migrate/*'
     - 'spec/**/*'
-    - 'features/**/*'
     - 'config/routes.rb'
     - 'config/environments/*'
     - 'config/initializers/*'
@@ -29,25 +45,7 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Style/MixinUsage:
-  Exclude:
-    - 'features/*'
-
 Naming/UncommunicativeMethodParamName:
   AllowedNames:
     - 'to'
     - 'at'
-
-AllCops:
-  TargetRubyVersion: 2.5
-  Exclude:
-    - 'bin/**/*'
-    - 'script/**/*'
-    - 'log/**/*'
-    - 'public/**/*'
-    - 'tmp/**/*'
-    - 'db/schema.rb'
-    - 'vendor/**/*'
-    - 'lib/**/*'
-    - 'node_modules/**/*'
-    - 'db/seeders/*'

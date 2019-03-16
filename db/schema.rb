@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
     t.string "organisation"
     t.string "email"
     t.integer "tenant_id"
-    t.json "state_data"
+    t.json "state_data", default: {}
     t.boolean "committed_request"
     t.text "cancellation_reason"
     t.integer "approximate_headcount"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
     t.string "purpose"
     t.string "ref"
     t.boolean "editable", default: true
+    t.boolean "usages_entered", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"

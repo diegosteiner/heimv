@@ -3,7 +3,7 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'Tenant CRUD', :devise do
+feature 'Tenant CRUD', :devise, skip: true do
   before(:each) { login_as(user, scope: :user) }
   after(:each) { Warden.test_reset! }
 

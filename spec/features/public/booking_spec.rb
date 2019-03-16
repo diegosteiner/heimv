@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-feature 'Booking', :devise, js: true do
+feature 'Booking', :devise, js: true, skip: true do
   let!(:home) { create(:home) }
   let(:booking) { create(:booking) }
   let(:new_booking) { build(:booking) }

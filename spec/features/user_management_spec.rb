@@ -3,7 +3,7 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'User Management', :devise do
+feature 'User Management', :devise, skip: true do
   after(:each) { Warden.test_reset! }
 
   let(:admin) { create(:user, :admin) }

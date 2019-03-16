@@ -76,8 +76,8 @@ export default {
       const moment = this.moment
 
       return this.occupancies.map((occupancy) => {
-        let begins_at = moment(occupancy.begins_at, "YYYY-MM-DD HH:mm Z");
-        let ends_at = moment(occupancy.ends_at, "YYYY-MM-DD HH:mm Z");
+        let begins_at = moment(occupancy.begins_at, moment.ISO_8601);
+        let ends_at = moment(occupancy.ends_at, moment.ISO_8601);
 
         if(ends_at.isBetween(moment(this.date.startOf("day")), moment(this.date.hour(12)), "minutes", "[)")) {
           return `${occupancy.occupancy_type}-forenoon`;
@@ -101,6 +101,7 @@ $occupied-border-color: #e85f5f;
 $occupied-background-color: #ffa8a8;
 
 .calendar-day {
+  text-align: center;
   button {
     width: 30px;
     height: 30px;

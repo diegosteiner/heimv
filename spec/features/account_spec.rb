@@ -3,7 +3,7 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'User Account', :devise do
+feature 'User Account', :devise, skip: true do
   after(:each) do
     Warden.test_reset!
   end

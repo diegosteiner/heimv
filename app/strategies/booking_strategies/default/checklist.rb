@@ -25,7 +25,7 @@ module BookingStrategies
 
       state :past do |booking|
         [
-          ChecklistItem.new(:create_usages, booking.usages.amount.any?(&:used?), [:manage, booking, Usage]),
+          ChecklistItem.new(:create_usages, booking.usages_entered?, [:manage, booking, Usage]),
           ChecklistItem.new(:create_invoice, booking.invoices.invoice.exists?, [:manage, booking, Invoice])
         ]
       end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-feature 'Session', :devise do
+feature 'Session', :devise, skip: true do
   let(:user) { create(:user) }
 
   feature 'Sign in' do
