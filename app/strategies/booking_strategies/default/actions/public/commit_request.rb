@@ -1,0 +1,23 @@
+module BookingStrategies
+  class Default
+    module Actions
+      class Public
+        class CommitRequest < BookingStrategy::Action
+          def call!
+            @booking.update(committed_request: true)
+          end
+
+          def allowed?
+            @booking.state_machine.in_state?(:provisional_request) && !@booking.committed_request
+          end
+
+          def button_options
+            super.merge(
+              class: %i[btn btn-primary]
+            )
+          end
+        end
+      end
+    end
+  end
+end

@@ -17,12 +17,18 @@ section.breakout-sm
               = link_to @booking.home, manage_home_path(@booking.home)
           .row.mb-3
             .col
-              strong= Booking.human_attribute_name(:tenant)
-              br
-              = tenant_address(@booking.tenant)
-              br
-              - if @booking.tenant.birth_date
-                = l(@booking.tenant.birth_date)
+              - if @booking.tenant
+                strong= Booking.human_attribute_name(:tenant)
+                br
+                = tenant_address(@booking.tenant)
+                br
+                - if @booking.tenant.birth_date
+                  = l(@booking.tenant.birth_date)
+              - elsif @booking.booking_agent
+                strong= BookingAgent.model_name.human(count: :one)
+                br
+                = link_to @booking.booking_agent.name, manage_booking_agent_path(@booking.booking_agent)
+
 
             .col
               strong= Booking.human_attribute_name(:organisation)
@@ -60,7 +66,8 @@ section.breakout-sm
           hr
 
           = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
-            = render partial: 'manage/bookings/actions', locals: { booking: @booking, form: f }
+            - allowed_actions = @organisation.booking_strategy::Actions::Manage.allowed_actions(@booking)
+            = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f }
             '
             .dropdown.d-inline
               button.btn.btn-outline-primary.dropdown-toggle[type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]

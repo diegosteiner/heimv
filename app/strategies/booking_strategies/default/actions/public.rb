@@ -2,8 +2,10 @@ module BookingStrategies
   class Default
     module Actions
       class Public < BookingStrategy::Actions
-        register Cancel
+        register CommitRequest
         register ExtendDeadline
+
+        register Cancel
       end
     end
   end

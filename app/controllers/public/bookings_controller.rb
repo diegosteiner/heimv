@@ -1,16 +1,12 @@
 module Public
   class BookingsController < BaseController
     load_and_authorize_resource :booking
-    # before_action :initialize_view_model
 
     def new
       @booking.assign_attributes(booking_params) if booking_params
-      unless @booking.occupancy
-        @booking.build_occupancy(
-          begins_at_time: '11:00',
-          ends_at_time: '17:00'
-        )
-      end
+      @booking.build_occupancy unless @booking.occupancy
+      @booking.occupancy.ends_at ||= @booking.occupancy.begins_at
+
       respond_with :public, @booking
     end
 
@@ -20,13 +16,14 @@ module Public
 
     def create
       @booking.save(context: :public_create)
+      Rails.logger.debug @booking.id
       respond_with :public, @booking, location: root_path
     end
 
     def update
       @booking.assign_attributes(update_params) if @booking.editable?
-      @organisation.booking_strategy::Actions::Public[booking_action]&.new(@booking)&.call if booking_action
       @booking.save(context: :public_update)
+      @organisation.booking_strategy::Actions::Public[booking_action]&.new(@booking)&.call if booking_action
       respond_with :public, @booking, location: edit_public_booking_path
     end
 

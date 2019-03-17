@@ -103,6 +103,13 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
+    countries (3.0.0)
+      i18n_data (~> 0.8.0)
+      sixarm_ruby_unaccent (~> 1.1)
+      unicode_utils (~> 1.4)
+    country_select (4.0.0)
+      countries (~> 3.0)
+      sort_alphabetical (~> 1.0)
     crass (1.0.4)
     database_cleaner (1.7.0)
     date_time_attribute (0.1.2)
@@ -147,6 +154,7 @@ GEM
       rails-i18n
       rainbow (>= 2.2.2, < 4.0)
       terminal-table (>= 1.5.1)
+    i18n_data (0.8.0)
     interception (0.5)
     jaro_winkler (1.5.2)
     jsonapi-renderer (0.2.0)
@@ -273,6 +281,7 @@ GEM
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
+    sixarm_ruby_unaccent (1.2.0)
     slim (4.0.1)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -280,6 +289,8 @@ GEM
       actionpack (>= 3.1)
       railties (>= 3.1)
       slim (>= 3.0, < 5.0)
+    sort_alphabetical (1.1.0)
+      unicode_utils (>= 1.2.2)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -302,6 +313,7 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unicode-display_width (1.4.1)
+    unicode_utils (1.4.0)
     warden (1.2.8)
       rack (>= 2.0.6)
     webpacker (4.0.2)
@@ -335,6 +347,7 @@ DEPENDENCIES
   capybara
   capybara-paparazzi
   capybara-screenshot
+  country_select
   database_cleaner
   date_time_attribute
   devise

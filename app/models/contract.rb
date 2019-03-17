@@ -20,6 +20,7 @@ class Contract < ApplicationRecord
   scope :valid, -> { where(valid_until: nil) }
   scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent, -> { where(sent_at: nil) }
+  scope :ordered, -> { order(valid_from: :ASC) }
 
   after_save do
     booking.state_transition

@@ -5,10 +5,12 @@ shift
 
 case "$TARGET_ENV" in
   -d | --dev | dev)
-    docker-compose -f docker-compose.yml -f docker-compose.development.yml $@;;
+    DEFAULT="up"
+    docker-compose -f docker-compose.yml -f docker-compose.development.yml "${@:-$DEFAULT}";;
   -p | --production | production )
     docker-compose -f docker-compose.yml -f docker-compose.production.yml $@;;
   -t | --test | test )
-    docker-compose -f docker-compose.yml -f docker-compose.test.yml $@;;
+    DEFAULT="run --use-aliases app"
+    docker-compose -f docker-compose.yml -f docker-compose.test.yml ${@:-$DEFAULT};;
   * ) break ;;
 esac

@@ -5,12 +5,13 @@ module BookingStrategies
         register Accept
         register EmailContractAndDeposit
         register EmailInvoice
-        register ExtendDeadline
+        register ::BookingStrategies::Default::Actions::Public::ExtendDeadline
         register MarkContractSigned
         register MarkDepositsPaid
         register MarkInvoicesPaid
+        register Public::CommitRequest
 
-        register Cancel
+        register Public::Cancel
       end
     end
   end

@@ -1,0 +1,35 @@
+= form_with(model: [:public, @booking], local: true, disabled: !@booking.editable) do |f|
+  .card[class=('bg-light' unless @booking.editable)]
+    - if @booking.errors.any?
+      .card-header.alert-danger
+        h6.text-error
+          | Fehler
+        = f.error_summary
+    .card-body
+      fieldset
+        - if @booking.deadline
+          .form-group
+            label=Booking.human_attribute_name(:deadline)
+            div
+              =<> l(@booking.deadline.at, format: :short)
+              / - if @booking.deadline.extendable?
+              /   a[href="#" data-toggle="modal" data-target="#extendDeadlineModal"]
+              /     | Frist verlängern
+        = f.select :home_id, homes_for_select, {}, disabled: true
+        = f.fields_for :occupancy, @booking.occupancy do |of|
+          .row
+            .col-md-6
+              = of.text_field :begins_at_date, disabled: true, value: l(of.object.begins_at.to_date)
+            .col-md-6
+              = of.time_select :begins_at_time, ignore_date: true, disabled: true, start_hour: 7, end_hour: 22
+          .row
+            .col-md-6
+              = of.text_field :ends_at_date, disabled: true, value: l(of.object.ends_at.to_date)
+            .col-md-6
+              = of.time_select :ends_at_time, ignore_date: true, disabled: true, start_hour: 7, end_hour: 22
+        = f.fields_for :tenant, @booking.tenant do |cf|
+          = cf.email_field :email, disabled: true
+
+      .form-actions.pt-4.mt-3.border-top
+        - allowed_actions = @organisation.booking_strategy::Actions::Public.allowed_actions(@booking)
+        = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f }

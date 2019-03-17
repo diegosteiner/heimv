@@ -7,7 +7,8 @@ module BookingStrategies
         confirmed upcoming overdue active past payment_due payment_overdue completed cancelation_pending
       ].each { |s| state(s) }
 
-      transition from: :initial,             to: %i[unconfirmed_request provisional_request definitive_request]
+      transition from: :initial,
+                 to: %i[unconfirmed_request provisional_request definitive_request open_request]
       transition from: :unconfirmed_request, to: %i[cancelation_pending open_request]
       transition from: :open_request,        to: %i[cancelation_pending provisional_request definitive_request]
       transition from: :provisional_request, to: %i[definitive_request overdue_request cancelation_pending]
@@ -36,12 +37,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[unconfirmed_request]) do |booking|
-        if booking.booking_agent.present?
-          BookingMailer.booking_agent_request(BookingMailerViewModel.new(booking, booking.booking_agent.email))
-                       .deliver_now
-        else
-          booking.messages.new_from_template(:unconfirmed_request_message)&.deliver_now
-        end
+        booking.messages.new_from_template(:unconfirmed_request_message)&.deliver_now
       end
 
       after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue]) do |booking|
@@ -59,7 +55,11 @@ module BookingStrategies
       after_transition(to: %i[open_request]) do |booking|
         booking.deadline&.clear
         BookingMailer.new_booking(booking).deliver_now
-        booking.messages.new_from_template(:open_request_message)&.deliver_now
+        if booking.booking_agent_responsible?
+          booking.messages.new_from_template('booking_agent_request_message')&.deliver_now
+        else
+          booking.messages.new_from_template(:open_request_message)&.deliver_now
+        end
       end
 
       after_transition(to: %i[overdue_request overdue]) do |booking|

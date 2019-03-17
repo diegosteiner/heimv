@@ -2,12 +2,13 @@ module BookingStrategies
   class Default
     class StateMachineAutomator < ::StateMachineAutomator
       automatic_transition(from: :initial, to: :unconfirmed_request) do |booking|
-        booking.email.present?
+        booking.email.present? && !booking.booking_agent_responsible?
       end
 
+      automatic_transition(from: :initial, to: :open_request, &:booking_agent_responsible?)
+
       automatic_transition(from: :unconfirmed_request, to: :open_request) do |booking|
-        # booking.tenant.valid? && booking.initiator == :tenant
-        booking.tenant.valid?(:public_update) || booking.booking_agent.present?
+        booking.tenant.valid?(:public_update) || booking.booking_agent_responsible?
       end
 
       automatic_transition(to: :cancelation_pending) do |booking|

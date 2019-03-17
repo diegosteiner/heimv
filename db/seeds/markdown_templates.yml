@@ -413,3 +413,22 @@ deposits_paid_message:
 
 #     Verein Pfadiheime St. Georg
 
+booking_agent_request_message:
+  key: booking_agent_request_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Bestätigung Deiner Vermittlungsanfrage'
+  body: |-
+    Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
+
+    # **Reservationsdetails**
+
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+
+    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    Freundliche Grüsse
+
+    Verein Pfadiheime St. Georg

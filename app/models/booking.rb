@@ -26,33 +26,38 @@ class Booking < ApplicationRecord
   include BookingState
   include Statesman::Adapters::ActiveRecordQueries
 
-  belongs_to :home
-  belongs_to :tenant, inverse_of: :bookings, optional: true
-  belongs_to :booking_agent, foreign_key: :booking_agent_code, primary_key: :code,
-                             inverse_of: :bookings, optional: true
-  has_one  :occupancy, dependent: :destroy, inverse_of: :booking, autosave: true
-  has_many :contracts, -> { order(valid_from: :ASC) }, dependent: :destroy, autosave: false, inverse_of: :booking
-  has_many :invoices, dependent: :destroy, autosave: false
-  has_many :payments, dependent: :destroy, autosave: false
-  has_many :usages, dependent: :destroy # , autosave: false
-  has_many :used_tarifs, class_name: 'Tarif', through: :usages, source: :tarif, inverse_of: :booking
-  has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
-  has_many :booking_copy_tarifs, class_name: 'Tarif', dependent: :destroy
-  has_many :transitive_tarifs, class_name: 'Tarif', through: :home, source: :tarif
-  has_many :deadlines, dependent: :destroy, inverse_of: :booking
-  has_many :messages, dependent: :destroy, inverse_of: :booking
+  belongs_to :home,          inverse_of: :bookings
+  belongs_to :tenant,        inverse_of: :bookings, optional: true
+  belongs_to :booking_agent, inverse_of: :bookings, optional: true,
+                             foreign_key: :booking_agent_code, primary_key: :code
 
-  validates :tenant, presence: true, on: :public_update
+  has_one  :occupancy,       dependent: :destroy, inverse_of: :booking, autosave: true
+
+  has_many :invoices,            dependent: :destroy, autosave: false
+  has_many :payments,            dependent: :destroy, autosave: false
+  has_many :usages,              dependent: :destroy # , autosave: false
+  has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
+  has_many :deadlines,           dependent: :destroy, inverse_of: :booking
+  has_many :messages,            dependent: :destroy, inverse_of: :booking
+
+  has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
+  has_many :contracts,         -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
+  has_many :used_tarifs,       through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
+  has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
+
   validates :home, :occupancy, presence: true
-  validates :email, format: Devise.email_regexp
-  validates :email, presence: true, unless: ->(booking) { booking.booking_agent.present? }
-  # validates :cancellation_reason, presence: true, allow_nil: true
+  validates :email, format: Devise.email_regexp, presence: true # , unless: :booking_agent_responsible?
+
+  validates :tenant, presence: true,                              on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
-  validates :purpose, presence: true, on: :public_update
-  validates :approximate_headcount, numericality: true, on: :public_update
+  validates :purpose, presence: true,                             on: :public_update
+  validates :approximate_headcount, numericality: true,           on: :public_update
+
   validate(on: %i[public_create public_update]) do
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
+
+  scope :ordered, -> { order(created_at: :ASC) }
 
   before_validation :set_occupancy_attributes
   before_validation :assign_tenant_from_email
@@ -75,7 +80,7 @@ class Booking < ApplicationRecord
   end
 
   def email
-    tenant&.email || self[:email] || booking_agent&.email
+    tenant&.email&.presence || self[:email]&.presence || booking_agent&.email
   end
 
   def overnight_stays
@@ -104,6 +109,10 @@ class Booking < ApplicationRecord
     deadline&.exceeded?
   end
 
+  def booking_agent_responsible?
+    booking_agent.present? && !committed_request
+  end
+
   def to_liquid
     Manage::BookingSerializer.new(self).serializable_hash.deep_stringify_keys
   end
@@ -114,7 +123,7 @@ class Booking < ApplicationRecord
     return if email.blank?
 
     self.tenant ||= Tenant.find_or_initialize_by(email: email) do |tenant|
-      tenant.country ||= 'Schweiz'
+      tenant.country ||= 'CH'
     end
   end
 

@@ -4,10 +4,9 @@ module Manage
 
     def index
       @filter = Booking::Filter.new(booking_filter_params)
-      @bookings = @filter.reduce(@bookings.includes(:occupancy, :tenant, :home, :booking_transitions)
+      @bookings = @filter.reduce(@bookings.includes(%i[occupancy tenant home booking_transitions invoices contracts])
                                           .joins(:occupancy)
                                           .order(Occupancy.arel_table[:begins_at]))
-      # @bookings_by_state = @bookings.group_by(&:state).with_indifferent_access
       respond_with :manage, @bookings
     end
 

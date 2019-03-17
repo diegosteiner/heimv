@@ -37,5 +37,6 @@
         = render partial: 'manage/bookings/checklist', locals: { booking: booking }
         .mt-2
         = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-          = render partial: 'manage/bookings/actions', locals: { booking: booking, form: f, button_classes: ['btn-sm'] }
+          - allowed_actions = @organisation.booking_strategy::Actions::Manage.allowed_actions(booking)
+          = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f, button_classes: ['btn-sm'] }
 

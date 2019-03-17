@@ -30,7 +30,8 @@
           = cf.text_field :zipcode
         .col-md-8
           = cf.text_field :city
-      / = cf.text_field :country
+      = cf.form_group :country, label: { text: Tenant.human_attribute_name(:country) } do
+        = cf.country_select :country, { selected: "CH", priority_countries: ["CH"] }, class: 'form-control'
 
       = cf.telephone_field :phone
       = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17

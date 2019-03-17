@@ -17,11 +17,11 @@
 class Occupancy < ApplicationRecord
   belongs_to :home
   belongs_to :booking, inverse_of: :occupancy
+  # belongs_to :booking, inverse_of: :occupancy, required: false
 
   date_time_attribute :begins_at, timezone: Time.zone.name
   date_time_attribute :ends_at, timezone: Time.zone.name
 
-  # belongs_to :booking, inverse_of: :occupancy, required: false
   enum occupancy_type: %i[free tentative occupied closed]
 
   scope :future, -> { where(arel_table[:begins_at].gteq(Time.zone.now)) }
