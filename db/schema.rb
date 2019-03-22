@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_02_123308) do
+ActiveRecord::Schema.define(version: 2019_03_17_203728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -47,6 +47,15 @@ ActiveRecord::Schema.define(version: 2019_01_02_123308) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_booking_agents_on_code"
+  end
+
+  create_table "booking_reports", force: :cascade do |t|
+    t.string "type"
+    t.string "label"
+    t.jsonb "filter_params", default: {}
+    t.jsonb "report_params", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "booking_transitions", force: :cascade do |t|

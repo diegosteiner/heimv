@@ -20,6 +20,8 @@ services:
       - db
       - webpack
       - mail
+    tty: true
+    stdin_open: true
     tmpfs:
       #  - /app/tmp
        - /app/log

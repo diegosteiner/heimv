@@ -1,8 +1,8 @@
 class Booking
   class Filter < ApplicationFilter
     # attribute :begins_at
-    attribute :begins_at
-    attribute :ends_at
+    attribute :begins_at, :datetime
+    attribute :ends_at, :datetime
     attribute :ref
     attribute :tenant
     attribute :homes, default: []
@@ -43,6 +43,10 @@ class Booking
       next bookings if states.blank?
 
       bookings.where(state: states)
+    end
+
+    def self.extract_time_from_param(param)
+      return param if param.is_a?(DateTime)
     end
   end
 end

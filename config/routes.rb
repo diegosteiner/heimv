@@ -19,6 +19,8 @@ Rails.application.routes.draw do
           end
         end
       end
+      resources :booking_reports do
+      end
       resources :payments, only: :index do
         match :new_import, via: %i[get post], on: :collection
         post :import, on: :collection

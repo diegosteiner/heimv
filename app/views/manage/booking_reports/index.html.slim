@@ -1,0 +1,33 @@
+.breakout-sm
+  table.table.table-hover.table-card
+    thead
+      tr
+        th= BookingReport.human_attribute_name(:label)
+        th= BookingReport.human_attribute_name(:type)
+        th
+
+    tbody
+      - @booking_reports.each do |booking_report|
+        tr[data-href=manage_booking_report_path(booking_report) data-id=booking_report.to_param]
+          td
+            = link_to booking_report.label, manage_booking_report_path(booking_report)
+          td
+            = booking_report.type
+          td
+            = link_to edit_manage_booking_report_path(booking_report) do
+              span.fa.fa-pencil
+          td
+            = link_to manage_booking_report_path(booking_report), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
+              span.fa.fa-trash
+
+br
+.btn-group
+  = link_to new_manage_booking_report_path, class: 'btn btn-primary' do
+    span.fa.fa-file-o
+    '
+    = t(:add_record, model_name: BookingReport.model_name.human)
+  button.btn.btn-primary.dropdown-toggle.dropdown-toggle-split[data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
+  .dropdown-menu
+    - [BookingReports::Tarif].each do |report_type|
+      = link_to report_type.model_name.human, new_manage_booking_report_path(type: report_type), class: 'dropdown-item'
+

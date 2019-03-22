@@ -1,0 +1,19 @@
+= form_with(model: [:manage, @booking_report.becomes(BookingReport)], scope: :booking_report, local: true) do |f|
+  = f.hidden_field :type
+  = f.text_field :label
+  = f.fields_for :filter_params, @booking_report.filter do |ff|
+    = ff.datetime_local_field :begins_at
+    = ff.datetime_local_field :ends_at
+    = ff.check_box :only_inconcluded
+    = ff.text_field :ref
+    = ff.text_field :tenant
+    = ff.collection_select:homes, Home.all, :id, :name, { include_blank: true }, multiple: true
+    - states = BookingStrategies::Default::StateMachine.states.map { |s| [@organisation.booking_strategy.t(s, scope: :state, default: {})[:label], s] }
+    = ff.select :booking_states, states, { include_blank: true }, multiple: true
+
+    - case @booking_report
+    - when BookingReports::Tarif
+      = f.select :tarif_ids, Tarif.all.map { |t| [t.label, t.id] }, {}, multiple: true
+
+    = f.submit
+

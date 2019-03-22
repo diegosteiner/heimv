@@ -33,6 +33,10 @@ de-CH:
         code: Vermittler-Code
         email: Email
         name: Name
+      booking_report:
+        filter:
+        label: Name
+        type: Art
       contract:
         sent_at: Verschickt am
         signed_at: Unterschrieben am
@@ -163,6 +167,12 @@ de-CH:
       booking_agent:
         one: Vermittler
         other: Vermittler
+      booking_report:
+        one: Bericht
+        other: Berichte
+      booking_reports/tarif:
+        one: Tarif Bericht
+        other: Tarif Berichte
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
