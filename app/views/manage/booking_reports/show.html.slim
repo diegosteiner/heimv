@@ -1,5 +1,27 @@
-code= @booking_report.filter_params.inspect
-hr
-code= @booking_report.filter.inspect
-hr
-code= @booking_report.to_csv
+h2 = Booking.model_name.human(count: :other)
+
+.breakout-sm
+  table.table.table-hover.table-card
+    thead
+      tr
+        th= Booking.human_attribute_name(:ref)
+        th= Home.human_attribute_name(:name)
+        th= Booking.human_attribute_name(:occupancy)
+        / th= Booking.human_attribute_name(:tenant)
+        th
+
+    tbody
+      - @booking_report.bookings.each do |booking|
+        tr[data-href=manage_booking_path(booking) data-id=booking.to_param]
+          td
+            = link_to booking.ref, manage_booking_path(booking)
+
+          td
+            = link_to booking.home.name, manage_home_path(booking.home)
+
+          td.p-1
+            = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+
+br
+= link_to manage_booking_report_path(@booking_report, format: :csv), class: 'btn btn-primary'
+  | CSV

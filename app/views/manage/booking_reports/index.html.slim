@@ -11,14 +11,19 @@
         tr[data-href=manage_booking_report_path(booking_report) data-id=booking_report.to_param]
           td
             = link_to booking_report.label, manage_booking_report_path(booking_report)
+
           td
-            = booking_report.type
-          td
-            = link_to edit_manage_booking_report_path(booking_report) do
-              span.fa.fa-pencil
-          td
-            = link_to manage_booking_report_path(booking_report), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
-              span.fa.fa-trash
+            = booking_report.class.model_name.human
+
+          td.py-1.text-right
+            .btn-group
+              = link_to manage_booking_report_path(booking_report, format: :csv), class: 'btn btn-default' do
+                | CSV
+
+              = link_to edit_manage_booking_report_path(booking_report), class: 'btn btn-default' do
+                span.fa.fa-pencil
+              = link_to manage_booking_report_path(booking_report), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
 
 br
 .btn-group

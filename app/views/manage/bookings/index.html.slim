@@ -4,9 +4,6 @@ nav.navbar.bg-white
   a[href='#filter' data-toggle='collapse' class='btn']
     i.fa.fa-search
 
-  = button_to new_manage_booking_reports_path, params: { booking_ids: @bookings.map(&:id) }, class: 'btn btn-default'
-    | Report
-
 #filter.collapse.bg-white
   .container
     = render partial: 'filter', locals: { filter: @filter }

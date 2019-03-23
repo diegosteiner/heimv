@@ -1,6 +1,13 @@
 require 'csv'
 
 class BookingReport < ApplicationRecord
+  CSV_DEFAULT_OPTIONS = {
+    col_sep: ';',
+    write_headers: true,
+    skip_blanks: true,
+    force_quotes: true,
+    encoding: :utf8
+  }.freeze
   include TemplateRenderable
 
   def to_s
@@ -15,8 +22,8 @@ class BookingReport < ApplicationRecord
     @bookings ||= filter.reduce(bookings)
   end
 
-  def to_csv
-    CSV.generate do |csv|
+  def to_csv(options = CSV_DEFAULT_OPTIONS)
+    CSV.generate(force_quotes: true, encoding: 'utf-8') do |csv|
       csv << generate_csv_header
       bookings.each do |booking|
         csv << generate_csv_row(booking)
