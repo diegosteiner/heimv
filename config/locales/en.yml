@@ -1,7 +1,5 @@
 ---
 en:
-  '':
-    confirm: Confirm
   activemodel:
     attributes:
       booking/filter:
@@ -21,6 +19,7 @@ en:
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
+        booking_agent_ref: Vermittler-Referenz
         cancellation_reason: Annulierungsgrund
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
@@ -41,7 +40,6 @@ en:
         email: Email
         name: Name
       booking_report:
-        filter: Filter
         label: Name
         type: Art
       contract:
@@ -343,6 +341,7 @@ en:
   date_format: Date format
   destroy: Destroy
   edit: Edit
+  errors: Errors
   faker:
     address:
       building_number: '["#", "#", "##", "#a", "#b"]'
@@ -404,7 +403,9 @@ en:
         title: Title
       form:
         booking_details: Booking details
+        last_minute_warning: Last minute warning
       new:
+        accept_conditions_html: Accept conditions html
         title: Title
   reset: Reset
   time:

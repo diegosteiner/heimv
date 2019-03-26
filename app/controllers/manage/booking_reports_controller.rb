@@ -14,12 +14,11 @@ module Manage
     def show
       respond_to do |format|
         format.html
-        format.csv  { send_data @booking_report.to_csv, filename: "#{@booking_report.label}.csv" }
+        format.csv { send_data @booking_report.to_csv, filename: "#{@booking_report.label}.csv" }
       end
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
       Rails.logger.debug booking_report_params

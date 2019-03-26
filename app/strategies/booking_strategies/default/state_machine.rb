@@ -96,7 +96,7 @@ module BookingStrategies
       after_transition(to: %i[payment_due]) do |booking|
         invoice = booking.invoices.sent.unpaid.order(payable_until: :ASC).last
         payable_until = invoice&.payable_until || 30.days.from_now
-        booking.deadlines.create(at: payable_until, extendable: 1, remarks: "payment_due: #{invoice&.id}") unless booking.deadline
+        booking.deadlines.create(at: payable_until, extendable: 1) unless booking.deadline
       end
 
       after_transition(to: %i[payment_overdue]) do |booking|

@@ -23,34 +23,39 @@ class BookingReport < ApplicationRecord
     @bookings ||= filter.reduce(bookings)
   end
 
+  def self.formats
+    [:csv]
+  end
+
   def to_csv(options = CSV_DEFAULT_OPTIONS)
-    CSV.generate(force_quotes: true, encoding: 'utf-8') do |csv|
-      csv << generate_csv_header
+    CSV.generate(options) do |csv|
+      csv << generate_tablular_header
       bookings.each do |booking|
-        csv << generate_csv_row(booking)
+        csv << generate_tabular_row(booking)
       end
-      csv << generate_csv_footer
+      csv << generate_tabular_footer
     end
   end
 
   protected
-  def generate_csv_header
+
+  def generate_tabular_header
     [
-      Booking.human_attribute_name(:ref),
-      Home.human_attribute_name(:name),
+      Booking.human_attribute_name(:ref), Home.human_attribute_name(:name),
       Occupancy.human_attribute_name(:begins_at), Occupancy.human_attribute_name(:begins_at),
       Tenant.human_attribute_name(:first_name), Tenant.human_attribute_name(:last_name),
-      Tenant.human_attribute_name(:email),
+      Tenant.human_attribute_name(:email), Tenant.human_attribute_name(:phone),
       Tenant.human_attribute_name(:zipcode), Tenant.human_attribute_name(:city), Tenant.human_attribute_name(:country),
       Booking.human_attribute_name(:purpose)
     ]
   end
 
-  def generate_csv_footer
+  def generate_tablular_footer
     []
   end
 
-  def generate_csv_row(booking)
+  # rubocop:disable Metrics/AbcSize
+  def generate_tabular_row(booking)
     [
       booking.ref, booking.home.name, booking.occupancy.begins_at.iso8601, booking.occupancy.begins_at.iso8601,
       booking.tenant.first_name, booking.tenant.last_name,
@@ -59,5 +64,5 @@ class BookingReport < ApplicationRecord
       booking.purpose
     ]
   end
-
+  # rubocop:enable Metrics/AbcSize
 end

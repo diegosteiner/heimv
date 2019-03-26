@@ -40,7 +40,6 @@ de-CH:
         email: Email
         name: Name
       booking_report:
-        filter:
         label: Name
         type: Art
       contract:
@@ -247,7 +246,6 @@ de-CH:
           mark_invoices_paid: Zahlungseingang bestätigen
         public:
           cancel: Absagen
-            # confirm: Bist du sicher, dass du die Buchung gemäss den vertraglich gereglten Bedingungen stornieren willst.
           commit_request: Anfrage definitv setzen
           extend_deadline: Frist verlängern
       checklist:
@@ -343,6 +341,7 @@ de-CH:
   date_format: Date format
   destroy: Löschen
   edit: Bearbeiten
+  errors: Errors
   faker:
     address:
       building_number:
@@ -1421,7 +1420,9 @@ de-CH:
         title: Reservation bearbeiten
       form:
         booking_details: Angaben zur Reservation
+        last_minute_warning: Last minute warning
       new:
+        accept_conditions_html: Accept conditions html
         title: Reservation
   reset: Reset
   time:
