@@ -46,8 +46,9 @@ class Booking < ApplicationRecord
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
 
   validates :home, :occupancy, presence: true
-  validates :email, format: Devise.email_regexp, presence: true # , unless: :booking_agent_responsible?
+  validates :email, format: Devise.email_regexp, presence: true, unless: :booking_agent_responsible?
 
+  validates :accept_conditions, acceptance: true,                 on: :public_create
   validates :tenant, presence: true,                              on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :purpose, presence: true,                             on: :public_update
@@ -69,17 +70,14 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :deadlines, reject_if: :all_blank, update_only: true
 
+  attribute :accept_conditions, default: false
   # enum purpose: { camp: :camp, event: :event }
-
-  def set_ref
-    self.ref ||= RefService.new.call(self)
-  end
 
   def to_s
     ref
   end
 
-  def email
+  def correspondence_email
     tenant&.email&.presence || self[:email]&.presence || booking_agent&.email
   end
 
@@ -106,6 +104,8 @@ class Booking < ApplicationRecord
   end
 
   def deadline_exceeded?
+    Rails.logger.debug '======================================================'
+    Rails.logger.debug deadline.inspect
     deadline&.exceeded?
   end
 
@@ -131,5 +131,9 @@ class Booking < ApplicationRecord
     self.occupancy    ||= build_occupancy
     occupancy.home    ||= home
     occupancy.booking ||= self
+  end
+
+  def set_ref
+    self.ref ||= RefService.new.call(self)
   end
 end

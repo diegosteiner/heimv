@@ -10,7 +10,7 @@ module InvoiceParts
 
       [
         usage.tarif.unit &&
-          format('%<used_units>d × %<unit>s', used_units: usage.used_units, unit: usage.tarif.unit),
+          format('%<used_units>g × %<unit>s', used_units: format('%.2f', usage.used_units), unit: usage.tarif.unit),
         usage.tarif.price_per_unit &&
           format(' à CHF %<price_per_unit>g', price_per_unit: format('%.2f', usage.tarif.price_per_unit))
       ].join

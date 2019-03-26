@@ -22,8 +22,11 @@
       .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
         = booking.organisation.presence || booking.tenant.name
         br
-        = content_tag :button, { class: 'btn btn-link ellipsis', 'v-b-popover.hover.click.bottom' => "{ title:'#{booking.tenant.name}', content:'#{tenant_address(booking.tenant)}', html: true }" }
-          = booking.email
+        = content_tag :button, class: 'btn btn-link ellipsis', id: "booking-#{booking.id}-tenant"
+          = booking.correspondence_email
+        b-popover[triggers='hover click' placement='bottom' target="booking-#{booking.id}-tenant" title=(booking.organisation.presence || booking.tenant.name)]
+          slot
+            = tenant_address(booking.tenant)
         p.mt-2.mb-0
           span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
           ' :

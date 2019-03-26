@@ -27,8 +27,9 @@ open_request_message:
 
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -56,8 +57,9 @@ confirmed_message:
 
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -70,7 +72,7 @@ confirmed_message:
 
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
@@ -91,15 +93,16 @@ provisional_request_message:
 
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
@@ -118,11 +121,11 @@ overdue_request_message:
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
-
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -151,15 +154,16 @@ definitive_request_message:
 
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
@@ -177,8 +181,9 @@ manage_new_booking_mail:
 
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -200,8 +205,9 @@ upcoming_message:
 
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -251,8 +257,9 @@ payment_due_message:
 
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -264,7 +271,7 @@ payment_due_message:
     - Konto: XXXXXX
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
@@ -281,11 +288,11 @@ payment_overdue_message:
     Die Zahlungsfrist von 30 Tagen ist nun abgelaufen doch wir haben noch keine Zahlung von
     Dir erhalten. Bitte bezahle die überfällige Rechnung in den nächsten Tagen.
 
-
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -297,7 +304,7 @@ payment_overdue_message:
     - Konto: XXXXXX
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
@@ -313,8 +320,8 @@ contract_text:
 
       # Mietdauer
 
-      - Mietbeginn: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }}
-      - Mietende:   {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+      - Mietbeginn: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }}
+      - Mietende:   {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
 
       Die Hausübergabe bzw. –rücknahme erfolgt durch den Heimwart. Der Mieter hat das Haus persönlich zum vereinbarten Zeitpunkt zu übernehmen resp. zu übergeben. Hierfür sind jeweils ca. 30 Minuten einzuplanen. Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten.
 
@@ -353,8 +360,9 @@ contract_signed_message:
 
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -366,7 +374,7 @@ contract_signed_message:
     - Konto: XXXXXX
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 info@pfadi-heime.ch
+    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
     Freundliche Grüsse
     Verein Pfadiheime St. Georg
@@ -384,8 +392,9 @@ deposits_paid_message:
 
     **Reservationsdetails**
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -420,10 +429,11 @@ booking_agent_request_message:
   body: |-
     Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
 
-    # **Reservationsdetails**
+    # **Reservationsdetails**\n- Buchungsreferenz: {{ booking.ref }}
 
+    - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
 
     Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
 
@@ -432,3 +442,17 @@ booking_agent_request_message:
     Freundliche Grüsse
 
     Verein Pfadiheime St. Georg
+
+cancelled_message:
+  key: cancelled_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Buchung storniert'
+  body: |-
+    🙋
+
+booking_agent_cancelled_message:
+  key: booking_agent_cancelled_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Vermittlung storniert'
+  body: |-
+    🙋

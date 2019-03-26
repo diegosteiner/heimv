@@ -1,12 +1,19 @@
 ---
 en:
+  '':
+    confirm: Confirm
   activemodel:
     attributes:
       booking/filter:
         begins_at: Von
+        begins_at_from: Beginn der Belegung ab
+        begins_at_to: Beginn der Belegung bis
         booking_states: Status
         ends_at: Bis
+        ends_at_from: Ende der Belegung ab
+        ends_at_to: Ende der Belegung bis
         homes: Heime
+        only_inconcluded: nur offene Buchungen
         ref: Referenz
         tenant: Mieter
   activerecord:
@@ -33,6 +40,10 @@ en:
         code: Code
         email: Email
         name: Name
+      booking_report:
+        filter: Filter
+        label: Name
+        type: Art
       contract:
         sent_at: Verschickt am
         signed_at: Unterschrieben am
@@ -109,6 +120,7 @@ en:
         email: Email
         first_name: Vorname
         last_name: Nachname
+        phone: Telefon
         reservations_allowed: Darf Reservationsanfragen schicken
         street_address: Strasse / Nr.
         zipcode: PLZ
@@ -163,6 +175,12 @@ en:
       booking_agent:
         one: Vermittler
         other: Vermittler
+      booking_report:
+        one: Bericht
+        other: Berichte
+      booking_reports/tarif:
+        one: Tarif Bericht
+        other: Tarif Berichte
       booking_transition:
         one: Statusübergang
         other: Statusübergänge

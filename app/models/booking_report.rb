@@ -1,14 +1,15 @@
 require 'csv'
 
 class BookingReport < ApplicationRecord
+  include TemplateRenderable
+
   CSV_DEFAULT_OPTIONS = {
     col_sep: ';',
     write_headers: true,
     skip_blanks: true,
     force_quotes: true,
-    encoding: :utf8
+    encoding: 'utf-8'
   }.freeze
-  include TemplateRenderable
 
   def to_s
     self.class.to_s
@@ -28,6 +29,7 @@ class BookingReport < ApplicationRecord
       bookings.each do |booking|
         csv << generate_csv_row(booking)
       end
+      csv << generate_csv_footer
     end
   end
 
@@ -44,10 +46,15 @@ class BookingReport < ApplicationRecord
     ]
   end
 
+  def generate_csv_footer
+    []
+  end
+
   def generate_csv_row(booking)
     [
       booking.ref, booking.home.name, booking.occupancy.begins_at.iso8601, booking.occupancy.begins_at.iso8601,
-      booking.tenant.first_name, booking.tenant.last_name, booking.tenant.email,
+      booking.tenant.first_name, booking.tenant.last_name,
+      booking.tenant.email, booking.tenant.phone,
       booking.tenant.zipcode, booking.tenant.city, booking.tenant.country,
       booking.purpose
     ]

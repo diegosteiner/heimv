@@ -8,7 +8,9 @@ module BookingStrategies
           end
 
           def allowed?
-            @booking.state_machine.in_state?(:provisional_request) && !@booking.committed_request
+            @booking.valid?(context: :public_update) &&
+              @booking.state_machine.in_state?(:provisional_request) &&
+              !@booking.committed_request
           end
 
           def button_options

@@ -15,6 +15,7 @@ module BookingStrategies
         booking.cancellation_reason.present?
       end
 
+      automatic_transition(from: :unconfirmed_request, to: :cancelation_pending, &:deadline_exceeded?)
       automatic_transition(from: :provisional_request, to: :overdue_request, &:deadline_exceeded?)
       automatic_transition(from: :overdue_request, to: :cancelation_pending, &:deadline_exceeded?)
       automatic_transition(from: :confirmed, to: :overdue, &:deadline_exceeded?)
@@ -29,17 +30,17 @@ module BookingStrategies
         booking.occupancy.past?
       end
 
-      automatic_transition(from: :open_request, to: :provisional_request) do |booking|
-        booking.tenant.reservations_allowed
-      end
+      # automatic_transition(from: :open_request, to: :provisional_request) do |booking|
+      #   !booking.tenant&.reservations_allowed
+      # end
 
       automatic_transition(from: :past, to: :payment_due) do |booking|
         booking.invoices.invoice.sent.exists?
       end
 
-      automatic_transition(from: %i[payment_due], to: :payment_overdue) do |booking|
-        !booking.invoices.unpaid.overdue.exists?
-      end
+      # automatic_transition(from: %i[payment_due], to: :payment_overdue) do |booking|
+      #   booking.invoices.unpaid.overdue.exists?
+      # end
 
       automatic_transition(from: %i[payment_due payment_overdue], to: :completed) do |booking|
         !booking.invoices.unpaid.exists?

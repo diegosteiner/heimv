@@ -19,7 +19,7 @@ class Message < ApplicationRecord
   has_many_attached :attachments
 
   def to
-    [booking.email]
+    [booking.correspondence_email]
   end
 
   def markdown

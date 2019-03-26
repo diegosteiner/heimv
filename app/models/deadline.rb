@@ -20,7 +20,7 @@ class Deadline < ApplicationRecord
   attribute :extended, default: false
 
   scope :ordered, -> { order(at: :DESC) }
-  scope :future, -> { where(arel_table[:at].gteq(Time.zone.now)) }
+  scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
 
   after_destroy :set_current, if: :current?
   after_save :set_current
@@ -50,5 +50,9 @@ class Deadline < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     last_deadlines.update_all(current: false)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def debug
+    "##{id} #{at} #{created_at} #{current} #{remarks}"
   end
 end

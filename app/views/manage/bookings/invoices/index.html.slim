@@ -58,12 +58,13 @@
               = link_to manage_booking_invoice_path(@booking, invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                 span.fa.fa-trash
 
-= link_to new_manage_booking_invoice_path(@booking, invoice: { invoice_type: :deposit }), class: 'btn btn-primary' do
-  span.fa.fa-file-o
-  '
-  = t(:add_record, model_name: :Anzahlung)
-'
-= link_to new_manage_booking_invoice_path(@booking), class: 'btn btn-primary' do
-  span.fa.fa-file-o
-  '
-  = t(:add_record, model_name: Invoice.model_name.human)
+br
+.btn-group
+  button.btn.btn-primary.dropdown-toggle.dropdown-toggle-split[data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
+    = t(:add_record, model_name: Invoice.model_name.human)
+    '
+  .dropdown-menu
+    = link_to new_manage_booking_invoice_path(@booking, invoice: { invoice_type: :deposit }), class: 'dropdown-item' do
+      = t(:add_record, model_name: :Anzahlung)
+    = link_to new_manage_booking_invoice_path(@booking), class: 'dropdown-item' do
+      = t(:add_record, model_name: Invoice.model_name.human)

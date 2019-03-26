@@ -26,8 +26,8 @@ module BookingReports
       super.tap do |csv|
         tarifs.each do |tarif|
           booking.usages.of_tarif(tarif).take.tap do |usage|
-            csv << usage.used_units
-            csv << usage.price
+            csv << ActionView::Helpers::NumberHelper.number_with_precision(usage.used_units, precision: 2)
+            csv << ActionView::Helpers::NumberHelper.number_to_currency(usage.price, unit: "")
           end
         end
       end

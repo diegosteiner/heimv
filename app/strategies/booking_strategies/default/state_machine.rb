@@ -28,6 +28,10 @@ module BookingStrategies
         booking.occupancy.conflicting.none?
       end
 
+      guard_transition(to: :definitive_request) do |booking|
+        booking.tenant.present? && booking.tenant.valid?
+      end
+
       guard_transition(to: :completed) do |booking|
         !booking.invoices.unpaid.exists?
       end
@@ -41,14 +45,15 @@ module BookingStrategies
       end
 
       after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue]) do |booking|
-        booking.deadlines.create(at: 3.days.from_now)
+        booking.deadlines.create(at: 3.days.from_now, remarks: booking.state)
       end
 
       after_transition(to: %i[provisional_request confirmed]) do |booking|
-        booking.deadlines.create(at: 14.days.from_now, extendable: 1) unless booking.deadline
+        booking.deadlines.create(at: 14.days.from_now, extendable: 1, remarks: booking.state) unless booking.deadline
       end
 
       after_transition(to: %i[definitive_request]) do |booking|
+        booking.editable!(false)
         booking.deadline&.clear
       end
 
@@ -80,10 +85,6 @@ module BookingStrategies
         booking.deadline.try(:clear)
       end
 
-      after_transition(to: %i[confirmed]) do |booking|
-        booking.editable!(false)
-      end
-
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|
         booking.occupancy.occupied!
       end
@@ -93,8 +94,9 @@ module BookingStrategies
       end
 
       after_transition(to: %i[payment_due]) do |booking|
-        payable_until = booking.invoices.order(payable_until: :DESC).last&.payable_until || 30.days.from_now
-        booking.deadlines.create(at: payable_until, extendable: 1) unless booking.deadline
+        invoice = booking.invoices.sent.unpaid.order(payable_until: :ASC).last
+        payable_until = invoice&.payable_until || 30.days.from_now
+        booking.deadlines.create(at: payable_until, extendable: 1, remarks: "payment_due: #{invoice&.id}") unless booking.deadline
       end
 
       after_transition(to: %i[payment_overdue]) do |booking|
@@ -103,6 +105,13 @@ module BookingStrategies
 
       after_transition(to: %i[confirmed upcoming completed]) do |booking|
         booking.deadline.try(:clear)
+      end
+
+      after_transition(to: %i[cancelled]) do |booking|
+        booking.messages.new_from_template(:cancelled_message)&.deliver_now
+        if booking.booking_agent_responsible?
+          booking.messages.new_from_template('booking_agent_cancelled_message')&.deliver_now
+        end
       end
     end
   end

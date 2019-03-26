@@ -14,7 +14,13 @@
   = f.fields_for :filter_params, @booking_report.filter do |ff|
     = ff.datetime_local_field :begins_at
     = ff.datetime_local_field :ends_at
+    .bg-warning
+      = ff.datetime_select :begins_at_from, include_blank: true
+      = ff.datetime_select :begins_at_to, include_blank: true
+      = ff.datetime_select :ends_at_from, include_blank: true
+      = ff.datetime_select :ends_at_to, include_blank: true
     = ff.check_box :only_inconcluded
+    br
     = ff.text_field :ref
     = ff.text_field :tenant
     = ff.collection_select:homes, Home.all, :id, :name, { include_blank: true }, multiple: true

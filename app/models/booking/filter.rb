@@ -1,8 +1,11 @@
 class Booking
   class Filter < ApplicationFilter
-    # attribute :begins_at
     attribute :begins_at, :datetime
+    attribute :begins_at_from, :datetime
+    attribute :begins_at_to, :datetime
     attribute :ends_at, :datetime
+    attribute :ends_at_from, :datetime
+    attribute :ends_at_to, :datetime
     attribute :ref
     attribute :tenant
     attribute :homes, default: []

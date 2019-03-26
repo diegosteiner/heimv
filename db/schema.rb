@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_17_203728) do
+ActiveRecord::Schema.define(version: 2019_03_23_125725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 2019_03_17_203728) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"
+    t.string "booking_agent_ref"
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["ref"], name: "index_bookings_on_ref"
     t.index ["state"], name: "index_bookings_on_state"
@@ -117,6 +118,7 @@ ActiveRecord::Schema.define(version: 2019_03_17_203728) do
     t.boolean "current", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "remarks"
     t.index ["booking_id"], name: "index_deadlines_on_booking_id"
     t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible_type_and_responsible_id"
   end
@@ -287,6 +289,7 @@ ActiveRecord::Schema.define(version: 2019_03_17_203728) do
     t.string "city"
     t.string "country"
     t.boolean "reservations_allowed"
+    t.boolean "email_verified", default: false
     t.text "phone"
     t.string "email", null: false
     t.text "search_cache", null: false
