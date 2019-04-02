@@ -7,9 +7,9 @@ class ApplicationFilter
   class << self
     attr_reader :reducers
 
-    def filter(*params, &block)
-      @reducers ||= {}
-      @reducers[params] = block
+    def filter(&block)
+      @reducers ||= []
+      @reducers << block
     end
   end
 
@@ -17,18 +17,17 @@ class ApplicationFilter
     attributes.values.any?(&:present?)
   end
 
-  def reduce(relation)
-    self.class.reducers.reduce(relation) do |rel, (params, block)|
-      params = attributes.with_indifferent_access.slice(*params)
-      next rel unless block.respond_to?(:call) && params.values.any?(&:present?)
+  def reduce(base_relation)
+    self.class.reducers.reduce(base_relation) do |relation, block|
+      next relation unless block.respond_to?(:call)
 
-      block.call(params, rel)
+      block.call(relation, **attributes.symbolize_keys)
     end
   end
 
-  def cached(relation)
-    Rails.cache.fetch(cache_key(relation), expires_in: 15.minutes) do
-      reduce(relation)
+  def cached(base_relation)
+    Rails.cache.fetch(cache_key(base_relation), expires_in: 15.minutes) do
+      reduce(base_relation)
     end
   end
 

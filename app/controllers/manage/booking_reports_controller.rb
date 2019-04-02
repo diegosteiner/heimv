@@ -31,6 +31,11 @@ module Manage
       respond_with :manage, @booking_report, location: manage_booking_reports_path(@booking_report)
     end
 
+    def destroy
+      @booking_report.destroy
+      respond_with :manage, @booking_report, location: manage_booking_reports_path
+    end
+
     private
 
     def booking_report_params

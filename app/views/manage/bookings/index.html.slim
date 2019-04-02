@@ -5,7 +5,12 @@ nav.navbar.bg-white
     i.fa.fa-search
 
 #filter.collapse.bg-white
-  .container
-    = render partial: 'filter', locals: { filter: @filter }
+  .container.py-3
+    = form_with(model: @filter, url: manage_bookings_path, scope: :filter, method: :GET, local: true) do |f|
+      = render partial: 'filter_fields', locals: { f: f }
+      hr.my-4
+      = f.submit
+      =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary'
+        = t(:reset)
 
 = render partial: @organisation.booking_strategy.template_path('manage/bookings/index')

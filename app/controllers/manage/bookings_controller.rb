@@ -49,7 +49,7 @@ module Manage
     end
 
     def booking_filter_params
-      params[:filter]&.permit(:begins_at, :ends_at, :tenant, :ref, booking_states: [], homes: []) || {}
+      Manage::BookingFilterParams.permit(params[:filter])
     end
   end
 end

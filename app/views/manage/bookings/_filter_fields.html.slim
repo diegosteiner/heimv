@@ -1,0 +1,20 @@
+.row
+    .col
+        = f.text_field :ref
+    .col
+        = f.text_field :tenant
+.row
+    .col
+        = f.datetime_select :begins_at_after, include_blank: true
+        = f.datetime_select :begins_at_before, include_blank: true
+    .col
+        = f.datetime_select :ends_at_after, include_blank: true
+        = f.datetime_select :ends_at_before, include_blank: true
+.row
+    .col
+        = f.collection_select:homes, Home.all, :id, :name, { include_blank: true }, multiple: true, size: 10
+    .col
+        - states = BookingStrategies::Default::StateMachine.states.map { |s| [@organisation.booking_strategy.t(s, scope: :state, default: {})[:label], s] }
+        = f.select :booking_states, states, { include_blank: true }, multiple: true, size: 10
+        = f.check_box :only_inconcluded
+        br

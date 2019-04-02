@@ -29,7 +29,7 @@ class BookingReport < ApplicationRecord
 
   def to_csv(options = CSV_DEFAULT_OPTIONS)
     CSV.generate(options) do |csv|
-      csv << generate_tablular_header
+      csv << generate_tabular_header
       bookings.each do |booking|
         csv << generate_tabular_row(booking)
       end
@@ -50,7 +50,7 @@ class BookingReport < ApplicationRecord
     ]
   end
 
-  def generate_tablular_footer
+  def generate_tabular_footer
     []
   end
 

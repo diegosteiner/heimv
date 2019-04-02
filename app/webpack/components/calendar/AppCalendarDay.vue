@@ -253,6 +253,8 @@ $occupied-background-color: #ffa8a8;
   .disabled {
     cursor: default;
     opacity: 0.2;
+    color: transparent;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1);
   }
 
   .active {
