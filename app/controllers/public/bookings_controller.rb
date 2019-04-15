@@ -15,6 +15,7 @@ module Public
     end
 
     def create
+      @booking.messages_enabled = true
       @booking.save(context: :public_create)
       Rails.logger.debug @booking.id
       respond_with :public, @booking, location: root_path

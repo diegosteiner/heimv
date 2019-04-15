@@ -31,9 +31,9 @@ section.breakout-sm
 
 
             .col
-              strong= Booking.human_attribute_name(:organisation)
+              strong= Booking.human_attribute_name(:tenant_organisation)
               br
-              = @booking.organisation
+              = @booking.tenant_organisation
 
           .row.mb-3
             .col

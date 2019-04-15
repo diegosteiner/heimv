@@ -5,7 +5,7 @@
 #  id                    :uuid             not null, primary key
 #  home_id               :bigint(8)        not null
 #  state                 :string           default("initial"), not null
-#  organisation          :string
+#  tenant_organisation          :string
 #  email                 :string
 #  tenant_id             :integer
 #  state_data            :json

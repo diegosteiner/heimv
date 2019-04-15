@@ -22,8 +22,8 @@ class ApplicationController < ActionController::Base
   private
 
   def set_organisation
-    # @organisation = Organisation.find_by!(ref: params[:org] || ENV.fetch('DEFAULT_ORG'))
-    @organisation = Organisation.new
+    @organisation ||= Organisation.find_by!(ref: params[:org] || ENV.fetch('DEFAULT_ORG'))
+    # @organisation = Organisation.new
   end
 
   def unauthorized

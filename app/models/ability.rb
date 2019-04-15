@@ -46,8 +46,8 @@ module Ability
     def anonymous_abilities
       can %i[create read update], Booking
       can %i[create read update], Tenant
-      can %i[read index], Home
-      can %i[read index], Occupancy
+      can %i[read index], Home, requests_allowed: true
+      can %i[read index], Occupancy, home: { requests_allowed: true }
     end
   end
 end

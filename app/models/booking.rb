@@ -5,7 +5,7 @@
 #  id                    :uuid             not null, primary key
 #  home_id               :bigint(8)        not null
 #  state                 :string           default("initial"), not null
-#  organisation          :string
+#  tenant_organisation          :string
 #  email                 :string
 #  tenant_id             :integer
 #  state_data            :json
@@ -26,6 +26,7 @@ class Booking < ApplicationRecord
   include BookingState
   include Statesman::Adapters::ActiveRecordQueries
 
+  belongs_to :organisation,  inverse_of: :bookings
   belongs_to :home,          inverse_of: :bookings
   belongs_to :tenant,        inverse_of: :bookings, optional: true
   belongs_to :booking_agent, inverse_of: :bookings, optional: true,
@@ -60,7 +61,7 @@ class Booking < ApplicationRecord
 
   scope :ordered, -> { order(created_at: :ASC) }
 
-  before_validation :set_occupancy_attributes
+  before_validation :set_occupancy_attributes, :set_organisation
   before_validation :assign_tenant_from_email
   before_create     :set_ref
   after_create      :reload
@@ -104,8 +105,6 @@ class Booking < ApplicationRecord
   end
 
   def deadline_exceeded?
-    Rails.logger.debug '======================================================'
-    Rails.logger.debug deadline.inspect
     deadline&.exceeded?
   end
 
@@ -124,6 +123,7 @@ class Booking < ApplicationRecord
 
     self.tenant ||= Tenant.find_or_initialize_by(email: email) do |tenant|
       tenant.country ||= 'CH'
+      tenant.organisation ||= home.organisation
     end
   end
 
@@ -131,6 +131,10 @@ class Booking < ApplicationRecord
     self.occupancy    ||= build_occupancy
     occupancy.home    ||= home
     occupancy.booking ||= self
+  end
+
+  def set_organisation
+    self.organisation ||= home.organisation
   end
 
   def set_ref

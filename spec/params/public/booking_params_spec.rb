@@ -10,7 +10,7 @@ describe Public::BookingParams do
       subject { described_class.permit(params.require(:booking)) }
       it do
         is_expected.to be_permitted
-        expect(subject.to_h.keys).to include('home_id', 'organisation')
+        expect(subject.to_h.keys).to include('home_id', 'tenant_organisation')
       end
     end
   end
@@ -20,7 +20,7 @@ describe Public::BookingParams do
       subject { described_class.permit(params.require(:booking)) }
       it do
         is_expected.to be_permitted
-        expect(subject.to_h.keys).to include('organisation')
+        expect(subject.to_h.keys).to include('tenant_organisation')
         expect(subject.to_h.keys).not_to include('home_id')
       end
     end

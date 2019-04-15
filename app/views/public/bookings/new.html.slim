@@ -29,7 +29,7 @@
                       .col-md-6
                         = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, start_hour: 7, end_hour: 22
               = f.email_field :email
-              = f.text_field :organisation
+              = f.text_field :tenant_organisation
 
               button.btn.btn-link[v-b-toggle.tenant-fields type='button']
                 = BookingAgent.model_name.human

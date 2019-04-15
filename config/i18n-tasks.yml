@@ -126,3 +126,13 @@ ignore_unused:
 #
 # <%# I18n::Tasks.add_scanner 'I18n::Tasks::Scanners::PatternMapper',
 #       patterns: [['\bSpree\.t[( ]\s*%{key}', 'spree.%{key}']] %>
+
+## Usage
+## $ i18n-tasks csv-import
+## $ i18n-tasks csv-export
+<% require './lib/i18n_csv_tasks' %>
+csv:
+  export:
+    - tmp/i18n.csv
+  import:
+    - tmp/i18n.csv

@@ -33,7 +33,8 @@ class Message < ApplicationRecord
 
   def deliver_now
     yield(self) if block_given?
-    save && message_delivery.deliver_now && update(sent_at: Time.zone.now)
+    return false unless save && booking.messages_enabled?
+    message_delivery.deliver_now && update(sent_at: Time.zone.now)
   end
 
   def message_delivery

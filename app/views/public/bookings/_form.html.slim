@@ -54,7 +54,7 @@
 
       fieldset
         h5= t('.booking_details')
-        = f.text_field :organisation, help: t('optional'), disabled: !@booking.editable
+        = f.text_field :tenant_organisation, help: t('optional'), disabled: !@booking.editable
         = f.text_area :invoice_address, help: t('optional'), disabled: !@booking.editable
         = f.form_group :committed_request
           = f.label :committed_request, Booking.human_attribute_name(:committed_request)

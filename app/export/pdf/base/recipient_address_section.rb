@@ -12,7 +12,7 @@ module Pdf
           pdf.text 'Mieter', size: 13, style: :bold
           pdf.move_down 5
           pdf.text @booking.ref, size: 9
-          pdf.text @booking.organisation, size: 9
+          pdf.text @booking.tenant_organisation, size: 9
           pdf.text @address, size: 11
         end
       end

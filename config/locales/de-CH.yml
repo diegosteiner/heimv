@@ -27,6 +27,7 @@ de-CH:
         home: Heim
         home_id: Heim
         invoice_address: Rechnungsadresse (falls abweichend)
+        messages_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
         purpose: Zweck der Miete
         ref: Buchungsreferenz

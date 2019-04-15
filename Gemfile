@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.5.1'
+ruby '2.6.1'
 
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts_as_list'
@@ -41,6 +41,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'foreman'
   gem 'i18n-tasks'
+  gem 'i18n-tasks-csv'
   gem 'listen', '~> 3.0.5'
   gem 'rack-mini-profiler'
 end
@@ -55,6 +56,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-rspec'
+  gem 'rubocop-performance'
 end
 
 group :test do

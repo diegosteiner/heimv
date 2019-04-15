@@ -1,5 +1,5 @@
-FROM ruby:2.5.1-alpine
-# FROM ruby:2.6.1-alpine
+# FROM ruby:2.5.1-alpine
+FROM ruby:2.6.1-alpine
 RUN apk add --no-cache --update build-base \
   linux-headers \
   git \

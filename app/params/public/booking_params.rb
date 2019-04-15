@@ -4,7 +4,7 @@ module Public
   module BookingParams
     class Update < ApplicationParams
       def self.permitted_keys
-        [:organisation, :cancellation_reason, :invoice_address, :email,
+        [:tenant_organisation, :cancellation_reason, :invoice_address, :email,
          :committed_request, :purpose, :approximate_headcount, :remarks,
          tenant_attributes: TenantParams.permitted_keys.without(:email),
          deadlines_attributes: %i[id extend]]
@@ -19,7 +19,7 @@ module Public
       end
 
       def self.permitted_keys
-        super + [:organisation, :home_id, :email, :booking_agent_code, :booking_agent_ref,
+        super + [:tenant_organisation, :home_id, :email, :booking_agent_code, :booking_agent_ref,
                  :accept_conditions, occupancy_attributes: OccupancyParams.permitted_keys]
       end
     end

@@ -29,5 +29,6 @@ FactoryBot.define do
     email do |c|
       "#{[c.first_name, c.last_name].join('.').downcase.sub(/[^a-z_\.\d]/i, '')}@heimverwaltung.example.com"
     end
+    organisation { Organisation.default }
   end
 end

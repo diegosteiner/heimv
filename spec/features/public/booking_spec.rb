@@ -13,7 +13,7 @@ feature 'Booking', :devise, js: true, skip: true do
         fill_in :booking_occupancy_attributes_begins_at, with: I18n.l(new_booking.occupancy.begins_at, format: :short)
         fill_in :booking_occupancy_attributes_ends_at, with: 'invalid'
         fill_in :booking_email, with: new_booking.tenant.email
-        fill_in :booking_organisation, with: new_booking.organisation
+        fill_in :booking_tenant_organisation, with: new_booking.tenant_organisation
         submit_form
         expect(page).to have_http_status(200)
         expect(page).to have_content I18n.t('flash.actions.create.alert', resource_name: Booking.model_name.human)

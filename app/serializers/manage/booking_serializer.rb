@@ -3,7 +3,7 @@ module Manage
     has_one :tenant,   serializer: Manage::TenantSerializer
     has_one :deadline, serializer: Manage::DeadlineSerializer
 
-    attributes :organisation, :cancellation_reason, :invoice_address, :ref,
+    attributes :tenant_organisation, :cancellation_reason, :invoice_address, :ref,
                :committed_request, :purpose, :approximate_headcount, :remarks
 
     attribute :links do
