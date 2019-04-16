@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
     module Actions
-      class Manage
+      module Manage
         class MarkInvoicesPaid < BookingStrategy::Action
           def call!
             @booking.invoices.unpaid.map do |invoice|

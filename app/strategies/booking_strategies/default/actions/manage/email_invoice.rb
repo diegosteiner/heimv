@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
     module Actions
-      class Manage
+      module Manage
         class EmailInvoice < BookingStrategy::Action
           def call!(invoices = @booking.invoices.unsent)
             @booking.messages.new_from_template(:payment_overdue_message)&.deliver_now do |message|

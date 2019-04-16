@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
     module Actions
-      class Manage
+      module Manage
         class MarkContractSigned < BookingStrategy::Action
           def call!
             if @booking.invoices.deposit.unpaid.exists?

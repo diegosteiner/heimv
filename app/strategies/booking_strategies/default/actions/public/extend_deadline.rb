@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
     module Actions
-      class Public
+      module Public
         class ExtendDeadline < BookingStrategy::Action
           def call!
             case @booking.current_state.to_sym

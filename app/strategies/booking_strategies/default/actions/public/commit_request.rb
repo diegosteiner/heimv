@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
     module Actions
-      class Public
+      module Public
         class CommitRequest < BookingStrategy::Action
           def call!
             @booking.update(committed_request: true)

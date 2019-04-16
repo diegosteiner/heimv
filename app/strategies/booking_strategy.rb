@@ -3,11 +3,15 @@ class BookingStrategy
   include Translatable
 
   def public_actions
-    self.class::Actions::Public
+    @public_actions ||= ActionCollection.new
   end
 
   def manage_actions
-    self.class::Actions::Manage
+    @manage_actions ||= ActionCollection.new
+  end
+
+  def required_markdown_templates
+    self.class::REQUIRED_MARKDOWN_TEMPLATES
   end
 
   def state_machine
@@ -20,10 +24,6 @@ class BookingStrategy
 
   def t(state, options = {})
     I18n.t(state, options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
-  end
-
-  def booking_actions
-    self.class::Actions
   end
 
   def state_machine_automator

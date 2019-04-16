@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
     module Actions
-      class Manage
+      module Manage
         class EmailContractAndDeposit < BookingStrategy::Action
           def call!(contract = @booking.contract, deposits = @booking.invoices.deposit)
             @booking.messages.new_from_template(:confirmed_message)&.deliver_now do |message|

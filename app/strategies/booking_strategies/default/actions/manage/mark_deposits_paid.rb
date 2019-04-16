@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
     module Actions
-      class Manage
+      module Manage
         class MarkDepositsPaid < BookingStrategy::Action
           def call!
             @booking.messages.new_from_template(:deposits_paid_message)&.deliver_now unless @booking.contract.signed?
