@@ -6,7 +6,6 @@ class CreateHomes < ActiveRecord::Migration[5.1]
       t.string :place
       t.text :janitor
       t.boolean :requests_allowed, default: false
-      t.references :organisation, foreign_key: true, null: false, index: true
 
       t.timestamps
     end

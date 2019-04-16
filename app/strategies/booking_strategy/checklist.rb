@@ -1,6 +1,6 @@
 class BookingStrategy
   class Checklist
-    extend Translatable
+    include Translatable
 
     ChecklistItem = Struct.new(:key, :checked, :url_hint)
 

@@ -26,7 +26,6 @@ class Booking < ApplicationRecord
   include BookingState
   include Statesman::Adapters::ActiveRecordQueries
 
-  belongs_to :organisation,  inverse_of: :bookings
   belongs_to :home,          inverse_of: :bookings
   belongs_to :tenant,        inverse_of: :bookings, optional: true
   belongs_to :booking_agent, inverse_of: :bookings, optional: true,
@@ -61,7 +60,7 @@ class Booking < ApplicationRecord
 
   scope :ordered, -> { order(created_at: :ASC) }
 
-  before_validation :set_occupancy_attributes, :set_organisation
+  before_validation :set_occupancy_attributes
   before_validation :assign_tenant_from_email
   before_create     :set_ref
   after_create      :reload
@@ -90,6 +89,10 @@ class Booking < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     update_columns(editable: value)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def self.strategy
+    @strategy ||= BookingStrategies::Default.new
   end
 
   def self.transition_class
@@ -123,7 +126,6 @@ class Booking < ApplicationRecord
 
     self.tenant ||= Tenant.find_or_initialize_by(email: email) do |tenant|
       tenant.country ||= 'CH'
-      tenant.organisation ||= home.organisation
     end
   end
 
@@ -131,10 +133,6 @@ class Booking < ApplicationRecord
     self.occupancy    ||= build_occupancy
     occupancy.home    ||= home
     occupancy.booking ||= self
-  end
-
-  def set_organisation
-    self.organisation ||= home.organisation
   end
 
   def set_ref

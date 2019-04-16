@@ -89,13 +89,11 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.boolean "editable", default: true
     t.boolean "usages_entered", default: false
     t.boolean "messages_enabled", default: false
-    t.bigint "organisation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"
     t.string "booking_agent_ref"
     t.index ["home_id"], name: "index_bookings_on_home_id"
-    t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
     t.index ["state"], name: "index_bookings_on_state"
   end
@@ -132,10 +130,8 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.string "place"
     t.text "janitor"
     t.boolean "requests_allowed", default: false
-    t.bigint "organisation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["organisation_id"], name: "index_homes_on_organisation_id"
     t.index ["ref"], name: "index_homes_on_ref", unique: true
   end
 
@@ -222,15 +218,6 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
   end
 
-  create_table "organisations", force: :cascade do |t|
-    t.string "name"
-    t.string "ref"
-    t.jsonb "options", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["ref"], name: "index_organisations_on_ref"
-  end
-
   create_table "payments", force: :cascade do |t|
     t.decimal "amount"
     t.date "paid_at"
@@ -302,11 +289,9 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.string "email", null: false
     t.text "search_cache", null: false
     t.date "birth_date"
-    t.bigint "organisation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_tenants_on_email"
-    t.index ["organisation_id"], name: "index_tenants_on_organisation_id"
     t.index ["search_cache"], name: "index_tenants_on_search_cache"
   end
 
@@ -327,7 +312,6 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "organisation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "confirmation_token"
@@ -336,16 +320,13 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.string "unconfirmed_email"
     t.integer "role"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
-  add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "deadlines", "bookings"
-  add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
@@ -359,8 +340,6 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
   add_foreign_key "tarif_selectors", "homes"
   add_foreign_key "tarif_tarif_selectors", "tarif_selectors"
   add_foreign_key "tarif_tarif_selectors", "tarifs"
-  add_foreign_key "tenants", "organisations"
   add_foreign_key "usages", "bookings"
   add_foreign_key "usages", "tarifs"
-  add_foreign_key "users", "organisations"
 end

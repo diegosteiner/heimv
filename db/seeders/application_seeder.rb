@@ -4,7 +4,6 @@ module Seeders
   class ApplicationSeeder < BaseSeeder
     def seed!
       [
-        OrganisationSeeder,
         UserSeeder,
         HomeSeeder,
         TarifSeeder,

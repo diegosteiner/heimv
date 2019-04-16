@@ -35,11 +35,11 @@
 
       .col-md-4.py-3
         - begin
-          = render partial: BookingStrategies::Default.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
+          = render partial: Booking.strategy.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
         - rescue ActionView::MissingTemplate
         = render partial: 'manage/bookings/checklist', locals: { booking: booking }
         .mt-2
         = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-          - allowed_actions = current_organisation.booking_strategy::Actions::Manage.allowed_actions(booking)
+          - allowed_actions = Booking.strategy.manage_actions.allowed_actions(booking)
           = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f, button_classes: ['btn-sm'] }
 

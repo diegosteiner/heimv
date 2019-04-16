@@ -3,6 +3,6 @@
 - %i[unconfirmed_request open_request overdue_request provisional_request definitive_request confirmed upcoming active past payment_due payment_overdue cancelation_pending completed cancelled].each do |state|
   - if bookings[state].present?
     section
-        - title, help_text = current_organisation.booking_strategy.t(state, scope: :state).slice(:label, :help).values
+        - title, help_text = Booking.strategy.t(state, scope: :state).slice(:label, :help).values
         h3.mt-5= title
         == render partial: 'table', locals: { bookings: bookings[state] }

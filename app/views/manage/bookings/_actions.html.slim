@@ -8,4 +8,4 @@ span[role="group"]
     - button_options[:class] = button_classes.uniq.join(' ')
 
     span.mr-1= form.button(button_options)
-      = t(action.class.i18n_scope.join('.'))
+      = t(action.i18n_scope.join('.'))

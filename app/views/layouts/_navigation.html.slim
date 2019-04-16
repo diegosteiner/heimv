@@ -8,11 +8,8 @@ nav#navbar-main.navbar.fixed-top.navbar-light.navbar-expand-lg
     span.navbar-toggler-icon
   = link_to root_path, class: 'navbar-brand' do
     = image_tag asset_pack_path('images/logo.svg'), class: "d-inline-block align-top", width: 120, height: 32
-  span.navbar-text
-    = current_organisation.name
-  - if Rails.env.development?
-    span.navbar-text.pl-2
-      = l(Time.zone.now)
+  span.navbar-text.pl-2
+    = l(Time.zone.now)
   #navbar-main-nav.collapse.navbar-collapse
     - if current_user.present?
       ul.navbar-nav.ml-auto

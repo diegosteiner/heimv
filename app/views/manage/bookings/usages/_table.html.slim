@@ -33,7 +33,7 @@
                 = usage.tarif.unit
               - if defined?(used_units_field) && used_units_field
                 td.py-2
-                  = render partial: usage.tarif.class.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
+                  = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
               - else
                 = uf.hidden_field :used_units
               td.py-2.text-right

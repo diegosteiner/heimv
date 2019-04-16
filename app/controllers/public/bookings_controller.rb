@@ -26,7 +26,7 @@ module Public
         @booking.assign_attributes(update_params)
         @booking.save(context: :public_update)
       end
-      current_organisation.booking_strategy::Actions::Public[booking_action]&.new(@booking)&.call if booking_action
+      Booking.strategy.public_actions[booking_action]&.new(@booking)&.call if booking_action
       respond_with :public, @booking, location: edit_public_booking_path
     end
 

@@ -23,16 +23,12 @@ module BookingState
     end
   end
 
-  def booking_strategy
-    @booking_strategy ||= BookingStrategy.infer(self)
-  end
-
   def state_machine
-    @state_machine ||= booking_strategy::StateMachine.new(self)
+    @state_machine ||= Booking.strategy.state_machine.new(self)
   end
 
   def state_machine_automator
-    @state_machine_automator ||= booking_strategy::StateMachineAutomator.new(state_machine)
+    @state_machine_automator ||= Booking.strategy.state_machine_automator.new(state_machine)
   end
 
   def state_transition

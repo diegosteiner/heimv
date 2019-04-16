@@ -66,7 +66,7 @@ section.breakout-sm
           hr
 
           = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
-            - allowed_actions = current_organisation.booking_strategy::Actions::Manage.allowed_actions(@booking)
+            - allowed_actions = Booking.strategy.manage_actions.allowed_actions(@booking)
             = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f }
             '
             .dropdown.d-inline
@@ -86,7 +86,7 @@ section.breakout-sm
         - @booking.booking_transitions.order(created_at: :DESC).each do |transition|
           li.list-group-item
             span.badge.badge-primary
-              = @booking.booking_strategy::t(transition.to_state, scope: :state, default: {})[:label]
+              = Booking.strategy.t(transition.to_state, scope: :state, default: {})[:label]
             br
             small
               = time_tag transition.created_at

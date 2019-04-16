@@ -1,6 +1,6 @@
 class BookingStrategy
   class Action
-    extend Translatable
+    include Translatable
 
     def initialize(booking)
       @booking = booking
