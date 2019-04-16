@@ -1,5 +1,9 @@
 class BookingStrategy
   class Actions
+    def initialize(actions)
+      actions.each { |action_klass| register(action_klass) }
+    end
+
     def self.allowed_actions(booking)
       actions.values.map { |action_klass| action_klass.new(booking) }.select(&:allowed?)
     end
