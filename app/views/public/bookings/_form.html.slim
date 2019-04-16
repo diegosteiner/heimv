@@ -77,7 +77,7 @@
         - if @booking.editable
           =<> f.submit
 
-        - allowed_actions = @organisation.booking_strategy::Actions::Public.allowed_actions(@booking)
+        - allowed_actions = current_organisation.booking_strategy::Actions::Public.allowed_actions(@booking)
         = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f }
 
 

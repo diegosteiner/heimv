@@ -1,8 +1,8 @@
 module InvoiceParts
   class Factory
     def suggest(invoice, invoice_parts = invoice.invoice_parts)
-      [from_deposit(invoice)] +
-        invoice.booking.usages.where.not(id: invoice_parts.map(&:usage_id)).map { |usage| from_usage(invoice, usage) }
+      invoice.booking.usages.where.not(id: invoice_parts.map(&:usage_id)).map { |usage| from_usage(invoice, usage) } +
+        [from_deposit(invoice)]
     end
 
     def label_2(usage)

@@ -11,6 +11,7 @@ class CreateInvoices < ActiveRecord::Migration[5.2]
       t.decimal :amount, default: 0
       t.boolean :paid, default: false
       t.boolean :print_payment_slip, default: false
+      t.datetime :deleted_at, null: true
 
       t.timestamps
     end

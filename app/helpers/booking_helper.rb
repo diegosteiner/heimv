@@ -10,8 +10,8 @@ module BookingHelper
   def state_translation; end
 
   def transition_translation(to:, from: nil)
-    @organisation.booking_strategy.t([from, to].join('-->'), scope: :transition, default: nil) ||
-      @organisation.booking_strategy.t("-->#{to}", scope: :transition, default: nil) ||
+    current_organisation.booking_strategy.t([from, to].join('-->'), scope: :transition, default: nil) ||
+      current_organisation.booking_strategy.t("-->#{to}", scope: :transition, default: nil) ||
       {}
   end
 
