@@ -19,7 +19,7 @@
 
     tbody
       - @invoices.each do |invoice|
-        tr[data-href=manage_booking_invoice_path(@booking, invoice)]
+        tr[data-href=manage_booking_invoice_path(@booking, invoice) class=('disabled' if invoice.deleted?)]
           td
             - if invoice.pdf.attached?
               = link_to url_for(invoice.pdf), target: '_blank'

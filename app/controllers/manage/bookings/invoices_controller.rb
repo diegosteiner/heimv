@@ -36,12 +36,12 @@ module Manage
       end
 
       def update
-        @invoice.update(invoice_params)
+        @invoice.update(invoice_params) unless @invoice.deleted?
         respond_with :manage, @booking, @invoice, location: manage_booking_invoice_path(@booking, @invoice)
       end
 
       def destroy
-        @invoice.destroy
+        @invoice.update(deleted_at: Time.zone.now) unless @invoice.deleted?
         respond_with :manage, @booking, @invoice, location: manage_booking_path(@invoice.booking)
       end
 

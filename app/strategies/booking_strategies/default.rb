@@ -20,21 +20,23 @@ module BookingStrategies
     ].freeze
 
     def public_actions
-      @public_actions ||= ActionCollection.new([
-                                                 Actions::Public::CommitRequest,
-                                                 Actions::Public::ExtendDeadline,
-                                                 Actions::Public::Cancel
-                                               ])
+      actions = [
+        Actions::Public::CommitRequest,
+        Actions::Public::ExtendDeadline,
+        Actions::Public::Cancel
+      ]
+      @public_actions ||= BookingStrategy::ActionCollection.new(actions)
     end
 
     def manage_actions
-      @manage_actions ||= ActionCollection.new([
-                                                 Actions::Manage::Accept, Actions::Manage::EmailContractAndDeposit,
-                                                 Actions::Manage::EmailInvoice, Actions::Public::ExtendDeadline,
-                                                 Actions::Manage::MarkContractSigned, Actions::Manage::MarkDepositsPaid,
-                                                 Actions::Manage::MarkInvoicesPaid, Actions::Public::CommitRequest,
-                                                 Actions::Public::Cancel
-                                               ])
+      actions = [
+        Actions::Manage::Accept, Actions::Manage::EmailContractAndDeposit,
+        Actions::Manage::EmailInvoice, Actions::Public::ExtendDeadline,
+        Actions::Manage::MarkContractSigned, Actions::Manage::MarkDepositsPaid,
+        Actions::Manage::MarkInvoicesPaid, Actions::Public::CommitRequest,
+        Actions::Public::Cancel
+      ]
+      @manage_actions ||= BookingStrategy::ActionCollection.new(actions)
     end
   end
 end

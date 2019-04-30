@@ -34,6 +34,10 @@ class MarkdownTemplate < ApplicationRecord
       I18n.t(input, scope: scope, default: nil)
     end
 
+    def i18n_localize(input, format = :short)
+      I18n.l(input, format: format)
+    end
+
     def booking_purpose(input)
       i18n_translate(input, :'activerecord.enums.booking.purpose')
     end

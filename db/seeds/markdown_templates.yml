@@ -29,7 +29,7 @@ open_request_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -59,7 +59,7 @@ confirmed_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -95,7 +95,7 @@ provisional_request_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -125,7 +125,7 @@ overdue_request_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -156,7 +156,7 @@ definitive_request_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -183,7 +183,7 @@ manage_new_booking_mail:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -207,7 +207,7 @@ upcoming_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -259,7 +259,7 @@ payment_due_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -292,7 +292,7 @@ payment_overdue_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -320,8 +320,8 @@ contract_text:
 
       # Mietdauer
 
-      - Mietbeginn: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }}
-      - Mietende:   {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+      - Mietbeginn: {{ booking.occupancy.begins_at | i18n_localize }}
+      - Mietende:   {{ booking.occupancy.ends_at | i18n_localize }}
 
       Die Hausübergabe bzw. –rücknahme erfolgt durch den Heimwart. Der Mieter hat das Haus persönlich zum vereinbarten Zeitpunkt zu übernehmen resp. zu übergeben. Hierfür sind jeweils ca. 30 Minuten einzuplanen. Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten.
 
@@ -362,7 +362,7 @@ contract_signed_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -394,7 +394,7 @@ deposits_paid_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
@@ -433,7 +433,7 @@ booking_agent_request_message:
 
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | date: "%a, %d.%m.%Y %H:%M" }} bis {{ booking.occupancy.ends_at | date: "%a, %d.%m.%Y %H:%M" }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
 
     Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
 

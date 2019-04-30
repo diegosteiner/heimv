@@ -1,7 +1,7 @@
 class CreateTarifs < ActiveRecord::Migration[5.2]
   def change
     create_table :tarifs do |t|
-      t.string :type
+      t.string :type, index: true
       t.string :label
       t.boolean :transient, default: false
       t.belongs_to :booking, type: :uuid, null: true

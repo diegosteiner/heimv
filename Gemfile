@@ -12,6 +12,7 @@ gem 'bootstrap_form',
 gem 'breadcrumbs'
 gem 'camt_parser'
 gem 'cancancan'
+gem 'countries'
 gem 'country_select'
 gem 'date_time_attribute'
 gem 'devise'

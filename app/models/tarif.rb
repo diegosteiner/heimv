@@ -24,6 +24,7 @@
 
 class Tarif < ApplicationRecord
   extend TemplateRenderable
+  include TemplateRenderable
 
   belongs_to :booking, autosave: false, optional: true
   belongs_to :home, optional: true

@@ -25,11 +25,12 @@ class Invoice < ApplicationRecord
 
   enum invoice_type: %i[invoice deposit late_notice]
 
-  scope :unpaid,  -> { where(paid: false) }
-  scope :paid,    -> { where(paid: true) }
-  scope :sent,    -> { where.not(sent_at: nil) }
-  scope :unsent,  -> { where(sent_at: nil) }
-  scope :overdue, ->(at = Time.zone.today) { where(arel_table[:payable_until].lteq(at)) }
+  scope :present, -> { where(deleted_at: nil) }
+  scope :unpaid,  -> { present.where(paid: false) }
+  scope :paid,    -> { present.where(paid: true) }
+  scope :sent,    -> { present.where.not(sent_at: nil) }
+  scope :unsent,  -> { present.where(sent_at: nil) }
+  scope :overdue, ->(at = Time.zone.today) { present.where(arel_table[:payable_until].lteq(at)) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :set_paid
@@ -74,5 +75,9 @@ class Invoice < ApplicationRecord
 
   def sent!
     update(sent_at: Time.zone.now)
+  end
+
+  def deleted?
+    deleted_at.present?
   end
 end

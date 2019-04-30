@@ -48,7 +48,7 @@
               = cf.text_field :city, disabled: !@booking.editable
 
           = cf.form_group :country, label: { text: Tenant.human_attribute_name(:country) } do
-            = cf.country_select :country, { selected: "CH", priority_countries: ["CH"] }, class: 'form-control', disabled: !@booking.editable
+            = cf.country_select :country, { selected: "CH", priority_countries: ["CH"], locale: :de }, class: 'form-control', disabled: !@booking.editable
           = cf.telephone_field :phone, disabled: !@booking.editable
           = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true
 

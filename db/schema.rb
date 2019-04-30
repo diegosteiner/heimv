@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
   end
 
   create_table "invoices", force: :cascade do |t|
+    t.string "type"
     t.uuid "booking_id"
     t.datetime "issued_at", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "payable_until"
@@ -164,6 +165,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
+    t.index ["type"], name: "index_invoices_on_type"
   end
 
   create_table "markdown_templates", force: :cascade do |t|
@@ -274,6 +276,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
+    t.index ["type"], name: "index_tarifs_on_type"
   end
 
   create_table "tenants", force: :cascade do |t|
