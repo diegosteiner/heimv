@@ -31,7 +31,7 @@ class Contract < ApplicationRecord
 
   def generatate_pdf
     pdf.attach(
-      io: StringIO.new(Pdf::Contract.new(self).build.render),
+      io: StringIO.new(Export::Pdf::Contract.new(self).build.render),
       filename: filename,
       content_type: 'application/pdf'
     )

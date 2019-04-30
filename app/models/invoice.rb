@@ -39,7 +39,7 @@ class Invoice < ApplicationRecord
 
   def generatate_pdf
     pdf.attach(
-      io: StringIO.new(Pdf::Invoice.new(self).build.render),
+      io: StringIO.new(Export::Pdf::Invoice.new(self).build.render),
       filename: filename,
       content_type: 'application/pdf'
     )
