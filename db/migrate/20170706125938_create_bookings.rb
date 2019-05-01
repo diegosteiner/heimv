@@ -17,6 +17,7 @@ class CreateBookings < ActiveRecord::Migration[5.1]
       t.boolean :editable, default: true
       t.boolean :usages_entered, default: false
       t.boolean :messages_enabled, default: false
+      t.jsonb :import_data, null: true
 
       t.timestamps
     end

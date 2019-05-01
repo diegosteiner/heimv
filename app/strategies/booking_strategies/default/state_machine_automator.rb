@@ -23,7 +23,7 @@ module BookingStrategies
       automatic_transition(from: :payment_due, to: :payment_overdue, &:deadline_exceeded?)
 
       automatic_transition(from: :upcoming, to: :active) do |booking|
-        booking.occupancy.today?
+        booking.occupancy.today? || booking.occupancy.past?
       end
 
       automatic_transition(from: :active, to: :past) do |booking|

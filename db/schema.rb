@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.boolean "editable", default: true
     t.boolean "usages_entered", default: false
     t.boolean "messages_enabled", default: false
+    t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "booking_agent_code"
@@ -292,6 +293,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.string "email", null: false
     t.text "search_cache", null: false
     t.date "birth_date"
+    t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_tenants_on_email"
