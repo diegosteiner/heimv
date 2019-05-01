@@ -12,7 +12,7 @@ module Import
       invalid_records.map(&:errors)
     end
 
-    def self.in_transaction(&block)
+    def self.in_transaction
       new.tap do |result|
         ActiveRecord::Base.transaction do
           yield(result)
@@ -22,7 +22,7 @@ module Import
     end
 
     def <<(record)
-      return unless record.present?
+      return if record.blank?
 
       records[record.class] ||= []
       records[record.class] << record

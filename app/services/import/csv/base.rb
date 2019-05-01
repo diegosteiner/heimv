@@ -1,9 +1,9 @@
 module Import
   module CSV
     class Base
-      def call(io, options = self.class.default_options)
+      def call(file, options = self.class.default_options)
         Import::Result.in_transaction do |result|
-          ::CSV.foreach(io, options) do |row|
+          ::CSV.foreach(file, options) do |row|
             result << process_row(row, result)
             # return result
           end
@@ -16,7 +16,7 @@ module Import
 
       protected
 
-      def process_row(row, result)
+      def process_row(row, _result)
         row
       end
     end
