@@ -2,7 +2,7 @@ require_relative './base_seeder'
 
 module Seeders
   class InvoiceSeeder < BaseSeeder
-    def seed_development
+    seed :development do |seeds|
       {
         invoices: seeds.fetch(:bookings, []).map do |booking|
           # TODO: remove state check

@@ -2,7 +2,7 @@ require_relative './base_seeder'
 
 module Seeders
   class BookingAgentSeeder < BaseSeeder
-    def seed_development
+    seed :development do |seeds|
       {
         booking_agents: create_list(:booking_agent, 2)
       }

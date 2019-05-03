@@ -6,41 +6,24 @@ Faker::Config.locale = 'de-CH'
 module Seeders
   class BaseSeeder
     include FactoryBot::Syntax::Methods
-    attr_accessor :seeds, :options
+    attr_accessor :options
 
-    def initialize(options = {}, seeds = {})
+    def initialize(options = {})
       @options = options
-      @seeds = seeds
     end
 
-    def seed
-      seed!
-    rescue ActiveRecord::RecordInvalid => invalid
-      puts invalid.record.errors.inspect
-      raise
+  class << self
+    attr_reader :seeds_for_env
+
+    def seed(env, &block)
+      @seeds_for_env ||= {}
+      @seeds_for_env[env.to_s] = block
     end
+  end
 
-    def seed!
-      return seed_production if production?
-      seed_development
-    end
-
-    def seed_production
-      {}
-    end
-
-    def seed_development
-      {}
-    end
-
-    protected
-
-    def production?
-      @options.fetch(:env, Rails.env) == :production
-    end
-
-    def development?
-      @options.fetch(:env, Rails.env) == :development
+    def seed(seeded = {}, env = Rails.env)
+      seeds = self.class.seeds_for_env[env.to_s]
+      instance_exec(seeded, &seeds)
     end
   end
 end

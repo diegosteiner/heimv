@@ -2,7 +2,7 @@ require_relative './base_seeder'
 
 module Seeders
   class TarifSelectorSeeder < BaseSeeder
-    def seed_development
+    seed :development do |seeds|
       {
         tarif_selectors: seeds[:tarifs].map do |home, tarifs|
           [

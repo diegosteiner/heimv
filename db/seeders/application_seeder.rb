@@ -1,8 +1,8 @@
 require_relative './base_seeder'
 
 module Seeders
-  class ApplicationSeeder < BaseSeeder
-    def seed!
+  class ApplicationSeeder
+    def seed(env = Rails.env)
       [
         UserSeeder,
         HomeSeeder,
@@ -12,8 +12,8 @@ module Seeders
         BookingSeeder,
         MarkdownTemplateSeeder,
         TarifSelectorSeeder
-      ].inject({}) do |seeds, seeder|
-        seeds.merge(seeder.new(@options, seeds).seed)
+      ].inject({}) do |seeded, seeder|
+        seeded.merge(seeder.new.seed(seeded, env))
       end
     end
   end

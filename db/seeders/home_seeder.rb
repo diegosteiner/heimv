@@ -2,7 +2,7 @@ require_relative "./base_seeder"
 
 module Seeders
   class HomeSeeder < BaseSeeder
-    def seed_development
+    seed :development do |seeds|
       {
         homes: [
           create(:home, {
