@@ -5,14 +5,14 @@ module Export
     class BookingReport < Base
       attr_reader :report
 
-      def initialize(report, options = {})
+      def initialize(report, _options = {})
         @report = report
       end
 
       def document_options
-        super.merge({
+        super.merge(
           page_layout: :landscape
-        })
+        )
       end
 
       def sections

@@ -25,7 +25,7 @@ class BookingReport < ApplicationRecord
   end
 
   def formats
-    [:csv, :pdf]
+    %i[csv pdf]
   end
 
   def to_pdf(options = PDF_DEFAULT_OPTIONS)
@@ -50,7 +50,6 @@ class BookingReport < ApplicationRecord
     end
     data << generate_tabular_footer
   end
-
 
   def generate_tabular_header
     [
