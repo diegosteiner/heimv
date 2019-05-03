@@ -4,7 +4,7 @@ module Manage
 
     def index
       @filter = Booking::Filter.new(booking_filter_params)
-      @bookings = @filter.reduce(@bookings.includes(%i[occupancy tenant home booking_transitions invoices contracts])
+      @bookings = @filter.cached(@bookings.with_default_includes
                                           .joins(:occupancy)
                                           .order(Occupancy.arel_table[:begins_at]))
       respond_with :manage, @bookings

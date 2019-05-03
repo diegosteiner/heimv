@@ -25,6 +25,7 @@
 class Booking < ApplicationRecord
   include BookingState
   include Statesman::Adapters::ActiveRecordQueries
+  DEFAULT_INCLUDES = %i[occupancy tenant home booking_transitions invoices contracts deadlines payments messages]
 
   belongs_to :home,          inverse_of: :bookings
   belongs_to :tenant,        inverse_of: :bookings, optional: true
@@ -59,6 +60,7 @@ class Booking < ApplicationRecord
   end
 
   scope :ordered, -> { order(created_at: :ASC) }
+  scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
   before_validation :set_occupancy_attributes
   before_validation :assign_tenant_from_email
@@ -113,6 +115,10 @@ class Booking < ApplicationRecord
 
   def booking_agent_responsible?
     booking_agent.present? && !committed_request
+  end
+
+  def cache_key
+    [super, updated_at.to_i].join('-')
   end
 
   def to_liquid

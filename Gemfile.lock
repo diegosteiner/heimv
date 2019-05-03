@@ -111,6 +111,7 @@ GEM
       countries (~> 3.0)
       sort_alphabetical (~> 1.0)
     crass (1.0.4)
+    dalli (2.7.10)
     database_cleaner (1.7.0)
     date_time_attribute (0.1.2)
       activesupport (>= 3.0.0)
@@ -350,6 +351,7 @@ DEPENDENCIES
   capybara-screenshot
   countries
   country_select
+  dalli
   database_cleaner
   date_time_attribute
   devise
