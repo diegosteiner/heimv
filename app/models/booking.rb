@@ -25,7 +25,7 @@
 class Booking < ApplicationRecord
   include BookingState
   include Statesman::Adapters::ActiveRecordQueries
-  DEFAULT_INCLUDES = %i[occupancy tenant home booking_transitions invoices contracts deadlines payments messages]
+  DEFAULT_INCLUDES = %i[occupancy tenant home booking_transitions invoices contracts deadlines payments messages].freeze
 
   belongs_to :home,          inverse_of: :bookings
   belongs_to :tenant,        inverse_of: :bookings, optional: true
