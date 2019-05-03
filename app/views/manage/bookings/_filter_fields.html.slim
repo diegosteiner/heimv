@@ -3,13 +3,14 @@
         = f.text_field :ref
     .col
         = f.text_field :tenant
-.row
-    .col
-        = f.datetime_select :begins_at_after, include_blank: true
-        = f.datetime_select :begins_at_before, include_blank: true
-    .col
-        = f.datetime_select :ends_at_after, include_blank: true
-        = f.datetime_select :ends_at_before, include_blank: true
+= f.fields_for :occupancy_params, f.object.occupancy do |of|
+    .row
+        .col
+            = of.datetime_select :begins_at_after, include_blank: true
+            = of.datetime_select :begins_at_before, include_blank: true
+        .col
+            = of.datetime_select :ends_at_after, include_blank: true
+            = of.datetime_select :ends_at_before, include_blank: true
 .row
     .col
         = f.collection_select:homes, Home.all, :id, :name, { include_blank: true }, multiple: true, size: 10

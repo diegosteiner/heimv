@@ -19,9 +19,7 @@ class ApplicationFilter
 
   def reduce(base_relation)
     self.class.reducers.reduce(base_relation) do |relation, block|
-      next relation unless block.respond_to?(:call)
-
-      block.call(relation, **attributes.symbolize_keys)
+      block.respond_to?(:call) ? block.call(relation, self) : relation
     end
   end
 
