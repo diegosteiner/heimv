@@ -17,8 +17,9 @@
 
           td.py-1.text-right
             .btn-group
-              = link_to manage_booking_report_path(booking_report, format: :csv), class: 'btn btn-default' do
-                | CSV
+              - booking_report.formats.each do |format|
+                = link_to manage_booking_report_path(booking_report, format: format), class: 'btn btn-default' do
+                  = format.to_s.upcase
 
               = link_to edit_manage_booking_report_path(booking_report), class: 'btn btn-default' do
                 span.fa.fa-pencil

@@ -3,6 +3,7 @@ require 'csv'
 class BookingReport < ApplicationRecord
   include TemplateRenderable
 
+  PDF_DEFAULT_OPTIONS = {}.freeze
   CSV_DEFAULT_OPTIONS = {
     col_sep: ';',
     write_headers: true,
@@ -23,8 +24,12 @@ class BookingReport < ApplicationRecord
     @bookings ||= filter.reduce(bookings)
   end
 
-  def self.formats
-    [:csv]
+  def formats
+    [:csv, :pdf]
+  end
+
+  def to_pdf(options = PDF_DEFAULT_OPTIONS)
+    Export::Pdf::BookingReport.new(self, options).build.render
   end
 
   def to_csv(options = CSV_DEFAULT_OPTIONS)
@@ -37,7 +42,15 @@ class BookingReport < ApplicationRecord
     end
   end
 
-  protected
+  def to_tabular
+    data = []
+    data << generate_tabular_header
+    bookings.each do |booking|
+      data << generate_tabular_row(booking)
+    end
+    data << generate_tabular_footer
+  end
+
 
   def generate_tabular_header
     [

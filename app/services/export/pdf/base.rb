@@ -6,27 +6,35 @@ module Export
       include Prawn::View
 
       def document
-        @document ||= Prawn::Document.new(
+        @document || initialize_document
+      end
+
+      def initialize_document
+        @document ||= Prawn::Document.new(document_options)
+        initialize_font
+        @document
+      end
+
+      def document_options
+        {
           page_size: 'A4',
           optimize_objects: true,
           compress: true,
           margin: [50] * 4,
           align: :left, kerning: true
-        )
-        initialize_font
-        @document
+        }
       end
 
       def initialize_font
         font_path = Rails.root.join('app', 'webpack', 'fonts', 'OpenSans-Regular.ttf')
         @document.font_size(10)
-        @document.font_families.update('Arial' => {
+        @document.font_families.update('OpenSans' => {
                                          normal: font_path,
                                          italic: font_path,
                                          bold: font_path,
                                          bold_italic: font_path
                                        })
-        @document.font 'Arial'
+        @document.font 'OpenSans'
       end
 
       def build

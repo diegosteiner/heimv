@@ -15,6 +15,7 @@ module Manage
       respond_to do |format|
         format.html
         format.csv { send_data @booking_report.to_csv, filename: "#{@booking_report.label}.csv" }
+        format.pdf { send_data @booking_report.to_pdf, filename: "#{@booking_report.label}.pdf" }
       end
     end
 

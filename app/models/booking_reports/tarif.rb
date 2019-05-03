@@ -14,7 +14,7 @@ module BookingReports
 
     protected
 
-    def generate_csv_header
+    def generate_tabular_header
       super.tap do |csv|
         tarifs.each do |tarif|
           csv << "#{tarif.label} (#{Usage.human_attribute_name(:used_units)})"
@@ -23,12 +23,12 @@ module BookingReports
       end
     end
 
-    def generate_csv_row(booking)
+    def generate_tabular_row(booking)
       super.tap do |csv|
         tarifs.each do |tarif|
           booking.usages.of_tarif(tarif).take.tap do |usage|
-            csv << ActionView::Helpers::NumberHelper.number_with_precision(usage.used_units, precision: 2)
-            csv << ActionView::Helpers::NumberHelper.number_to_currency(usage.price, unit: '')
+            csv << ActiveSupport::NumberHelper.number_to_rounded(usage&.used_units || 0, precision: 2)
+            csv << ActiveSupport::NumberHelper.number_to_currency(usage&.price || 0, unit: '')
           end
         end
       end
