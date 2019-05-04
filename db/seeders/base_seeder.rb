@@ -23,7 +23,7 @@ module Seeders
 
     def seed(seeded = {}, env = Rails.env)
       seeds = self.class.seeds_for_env[env.to_s]
-      instance_exec(seeded, &seeds) if seeds.present?
+      seeds.present? && instance_exec(seeded, &seeds) || {}
     end
   end
 end
