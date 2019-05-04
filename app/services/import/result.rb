@@ -5,20 +5,15 @@ module Import
     end
 
     def invalid_records
-      records.values.flatten.reject(&:valid?)
+      records.values.flatten.select { |record| record.respond_to?(:valid?) && !record.valid? }
+    end
+
+    def success?
+      invalid_records.any?
     end
 
     def errors
       invalid_records.map(&:errors)
-    end
-
-    def self.in_transaction
-      new.tap do |result|
-        ActiveRecord::Base.transaction do
-          yield(result)
-          raise ActiveRecord::Rollback if result.invalid_records.any?
-        end
-      end
     end
 
     def <<(record)

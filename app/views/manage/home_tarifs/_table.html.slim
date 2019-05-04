@@ -12,35 +12,36 @@
         th= Tarif.human_attribute_name(:unit)
         th
 
-    - tarif_groups = tarifs.group_by { |tarif| tarif.tarif_group }.sort_by { |group| group }
-    - tarif_groups.each do |group_name, tarifs_of_group|
-      tbody[data-group-name=group_name]
-        tr
-          th.pt-4[colspan='8']
-            h5= group_name
+    - tarif_group = nil
+    - tarifs.ordered.each do |tarif|
+      tbody
+        - if tarif_group != tarif.tarif_group
+          - tarif_group = tarif.tarif_group
+          tr
+            th.pt-4[colspan='8']
+              h5= tarif_group
 
-        - tarifs_of_group.sort.each do |tarif|
-          = f.fields_for tarif.id.to_s, tarif do |tf|
-            tr.bg-white
-              td
-              td.py-4
-                = tf.hidden_field :id
-                = tf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
-              td.py-3
-                = tf.text_field :label, skip_label: true, wrapper_class: 'm-0'
-              td.py-3
-                = tf.select :type, type_options_for_select(Tarifs::TYPES), { skip_label: true, wrapper_class: 'm-0' }, { disabled: true }
-              td.py-3
-                = tf.number_field :price_per_unit, skip_label: true, wrapper_class: 'm-0'
-              td.py-3
-                - if tarif.is_a?(Tarifs::Flat)
-                  = tf.static_control :unit, skip_label: true, wrapper_class: 'm-0'
-                - else
-                  = tf.text_field :unit, skip_label: true, wrapper_class: 'm-0'
-              td.py-3.text-right
-                .btn-group
-                  = link_to edit_manage_home_tarif_path(@home, tarif), class: 'btn btn-default' do
-                    span.fa.fa-pencil
-                  = link_to manage_home_tarif_path(@home, tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                    span.fa.fa-trash
+        = f.fields_for tarif.id.to_s, tarif do |tf|
+          tr.bg-white
+            td
+            td.py-4
+              = tf.hidden_field :id
+              = tf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
+            td.py-3
+              = tf.text_field :label, skip_label: true, wrapper_class: 'm-0'
+            td.py-3
+              = tf.select :type, type_options_for_select(Tarifs::TYPES), { skip_label: true, wrapper_class: 'm-0' }, { disabled: true }
+            td.py-3
+              = tf.number_field :price_per_unit, skip_label: true, wrapper_class: 'm-0'
+            td.py-3
+              - if tarif.is_a?(Tarifs::Flat)
+                = tf.static_control :unit, skip_label: true, wrapper_class: 'm-0'
+              - else
+                = tf.text_field :unit, skip_label: true, wrapper_class: 'm-0'
+            td.py-3.text-right
+              .btn-group
+                = link_to edit_manage_home_tarif_path(@home, tarif), class: 'btn btn-default' do
+                  span.fa.fa-pencil
+                = link_to manage_home_tarif_path(@home, tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                  span.fa.fa-trash
   = f.submit

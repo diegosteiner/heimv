@@ -19,7 +19,7 @@ class Deadline < ApplicationRecord
 
   attribute :extended, default: false
 
-  scope :ordered, -> { order(at: :DESC) }
+  scope :ordered, -> { order(at: :desc) }
   scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
 
   after_destroy :set_current, if: :current?

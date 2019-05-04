@@ -22,7 +22,7 @@ class Usage < ApplicationRecord
 
   attribute :apply, default: true
 
-  scope :ordered, -> { order(tarif: { row_order: :ASC, created_at: :ASC }) }
+  scope :ordered, -> { joins(:tarif).order(Tarif.arel_table[:position]) }
   scope :of_tarif, ->(tarif) { where(tarif_id: tarif.self_and_booking_copy_ids) }
   scope :amount, -> { joins(:tarif).where(tarifs: { type: Tarifs::Amount.to_s }) }
 

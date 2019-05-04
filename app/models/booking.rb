@@ -36,12 +36,12 @@ class Booking < ApplicationRecord
 
   has_many :invoices,            dependent: :destroy, autosave: false
   has_many :payments,            dependent: :destroy, autosave: false
-  has_many :usages,              dependent: :destroy # , autosave: false
   has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
   has_many :deadlines,           dependent: :destroy, inverse_of: :booking
   has_many :messages,            dependent: :destroy, inverse_of: :booking
 
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
+  has_many :usages,            -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :contracts,         -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs,       through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
@@ -59,7 +59,7 @@ class Booking < ApplicationRecord
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
 
-  scope :ordered, -> { order(created_at: :ASC) }
+  scope :ordered, -> { order(created_at: :asc) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
   before_validation :set_occupancy_attributes

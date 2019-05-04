@@ -27,10 +27,10 @@ module Import
 
       protected
 
-      def process_row(row, _result)
+      def process_row(row, result)
         return if row[:belegungsnummer].blank?
 
-        create_booking(row, extract_tenant(row)).tap do |booking|
+        create_booking(row, extract_tenant(row, result)).tap do |booking|
           create_transitions(row, booking)
           create_invoices(row, booking)
           create_payments(row, booking)

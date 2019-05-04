@@ -12,40 +12,41 @@
           th[style="width: 30%;"]= Usage.model_name.human
         th
 
-    - tarif_groups = usages.group_by { |usage| usage.tarif.tarif_group }.sort_by { |group| group }
-    - tarif_groups.each do |group_name, usages|
-      tbody[data-group-name=group_name]
-        tr
-          th.pt-4[colspan='8']
-            h5= group_name
+    - tarif_group = nil
+    - @usages.ordered.each do |usage|
+      tbody
+        - if tarif_group != usage.tarif.tarif_group
+          - tarif_group = usage.tarif.tarif_group
+          tr
+            th.pt-4[colspan='8']
+              h5= tarif_group
 
-        - usages.each do |usage|
-          = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
-            tr.bg-white
-              td
-              td.py-3
-                = uf.hidden_field :id
-                = uf.hidden_field :tarif_id
-                = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
-              td.py-3
-                = usage.tarif.price_per_unit
-              td.py-3
-                = usage.tarif.unit
-              - if defined?(used_units_field) && used_units_field
-                td.py-2
-                  = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
-              - else
-                = uf.hidden_field :used_units
-              td.py-2.text-right
-                .btn-group
-                  - if defined?(usage_links) && usage_links && !usage.new_record?
-                    = link_to edit_manage_booking_usage_path(@booking, usage), class: 'btn btn-default' do
-                      span.fa.fa-pencil
-                    = link_to manage_booking_usage_path(@booking, usage), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                      span.fa.fa-trash
-                  - if defined?(tarif_links) && tarif_links && usage.tarif.booking_copy?
-                    = link_to edit_manage_booking_tarif_path(@booking, usage.tarif), class: 'btn btn-default' do
-                      span.fa.fa-pencil
-                    = link_to manage_booking_tarif_path(@booking, usage.tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                      span.fa.fa-trash
+        = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
+          tr.bg-white
+            td
+            td.py-3
+              = uf.hidden_field :id
+              = uf.hidden_field :tarif_id
+              = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
+            td.py-3
+              = usage.tarif.price_per_unit
+            td.py-3
+              = usage.tarif.unit
+            - if defined?(used_units_field) && used_units_field
+              td.py-2
+                = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
+            - else
+              = uf.hidden_field :used_units
+            td.py-2.text-right
+              .btn-group
+                - if defined?(usage_links) && usage_links && !usage.new_record?
+                  = link_to edit_manage_booking_usage_path(@booking, usage), class: 'btn btn-default' do
+                    span.fa.fa-pencil
+                  = link_to manage_booking_usage_path(@booking, usage), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                    span.fa.fa-trash
+                - if defined?(tarif_links) && tarif_links && usage.tarif.booking_copy?
+                  = link_to edit_manage_booking_tarif_path(@booking, usage.tarif), class: 'btn btn-default' do
+                    span.fa.fa-pencil
+                  = link_to manage_booking_tarif_path(@booking, usage.tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                    span.fa.fa-trash
   = f.submit t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: :other))

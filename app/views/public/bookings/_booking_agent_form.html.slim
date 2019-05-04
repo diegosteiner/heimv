@@ -15,6 +15,7 @@
               / - if @booking.deadline.extendable?
               /   a[href="#" data-toggle="modal" data-target="#extendDeadlineModal"]
               /     | Frist verlängern
+        = f.text_field :booking_agent_ref
         = f.select :home_id, homes_for_select, {}, disabled: true
         = f.fields_for :occupancy, @booking.occupancy do |of|
           .row

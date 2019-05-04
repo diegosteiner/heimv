@@ -58,7 +58,7 @@ class BookingReport < ApplicationRecord
       Tenant.human_attribute_name(:first_name), Tenant.human_attribute_name(:last_name),
       Tenant.human_attribute_name(:email), Tenant.human_attribute_name(:phone),
       Tenant.human_attribute_name(:zipcode), Tenant.human_attribute_name(:city), Tenant.human_attribute_name(:country),
-      Booking.human_attribute_name(:purpose)
+      Booking.human_attribute_name(:purpose), Booking.human_attribute_name(:overnight_stays)
     ]
   end
 
@@ -73,7 +73,7 @@ class BookingReport < ApplicationRecord
       booking.tenant.first_name, booking.tenant.last_name,
       booking.tenant.email, booking.tenant.phone,
       booking.tenant.zipcode, booking.tenant.city, booking.tenant.country,
-      booking.purpose
+      booking.purpose, booking.overnight_stays
     ]
   end
   # rubocop:enable Metrics/AbcSize

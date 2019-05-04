@@ -1,12 +1,10 @@
 module Import
   module CSV
     class Base
-      def call(file, options = self.class.default_options)
-        Import::Result.in_transaction do |result|
-          ::CSV.foreach(file, options) do |row|
-            result << process_row(row, result)
-            # return result
-          end
+      def call(file, result = Import::Result, options = self.class.default_options)
+        ::CSV.foreach(file, options) do |row|
+          result << process_row(row, result)
+          # return result
         end
       end
 

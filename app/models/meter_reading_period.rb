@@ -19,7 +19,7 @@ class MeterReadingPeriod < ApplicationRecord
   has_one :home, through: :tarif
   has_one :booking, through: :usage
 
-  scope :ordered, -> { order(ends_at: :ASC) }
+  scope :ordered, -> { order(ends_at: :asc) }
 
   validates :start_value, :end_value, numericality: true, allow_nil: true
   validates :begins_at, :ends_at, presence: true

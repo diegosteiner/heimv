@@ -83,7 +83,7 @@ section.breakout-sm
             '
     .col-md-3
       ul.list-group
-        - @booking.booking_transitions.order(created_at: :DESC).each do |transition|
+        - @booking.booking_transitions.order(created_at: :desc).each do |transition|
           li.list-group-item
             span.badge.badge-primary
               = Booking.strategy.t(transition.to_state, scope: :state, default: {})[:label]

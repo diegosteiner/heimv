@@ -21,7 +21,10 @@
               div
                 = booking.home
         .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
-          = booking.tenant_organisation.presence || booking.tenant.name
+          - if booking.booking_agent_responsible?
+            = booking.booking_agent.name
+          - else
+            = booking.tenant_organisation.presence || booking.tenant.name
           br
           = content_tag :button, class: 'btn btn-link ellipsis', id: "booking-#{booking.id}-tenant"
             = booking.correspondence_email

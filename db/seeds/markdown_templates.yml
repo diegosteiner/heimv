@@ -429,9 +429,8 @@ booking_agent_request_message:
   body: |-
     Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
 
-    # **Reservationsdetails**\n- Buchungsreferenz: {{ booking.ref }}
-
-    - Buchungsreferenz: {{ booking.ref }}
+    - Unsere Referenz: {{ booking.ref }}
+    - Ihre Referenz: {{ booking.booking_agent_ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
 

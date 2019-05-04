@@ -19,6 +19,7 @@ module InvoiceParts
         usage: usage,
         label: usage.tarif.label,
         label_2: label_2(usage),
+        position: usage.tarif.position,
         amount: usage.price
       )
     end
