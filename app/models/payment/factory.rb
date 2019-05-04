@@ -1,21 +1,21 @@
 class Payment
   class Factory
-    # rubocop:disable Metrics/AbcSize
     def from_camt_file(file)
       camt = CamtParser::String.parse file.read
-      # puts camt.group_header.creation_date_time
       camt.notifications.map do |notification|
-        # puts notification.account.iban
-        notification.entries.map do |entry|
-          next unless entry.booked? && entry.credit? && entry.currency == 'CHF'
-
-          # invoice = Invoice.where(ref: entry.???)
-
-          # See https://github.com/Barzahlen/camt_parser/blob/master/lib/camt_parser/general/entry.rb
-          Payment.new(paid_at: entry.value_date, amount: entry.amount, remarks: entry.description)
-        end
+        notification.entries.map { |entry| from_camt_entry(entry) }
       end.flatten.compact
     end
-    # rubocop:enable Metrics/AbcSize
+  end
+
+  def from_camt_entry(entry)
+    return unless entry.booked? && entry.credit? && entry.currency == 'CHF'
+
+    raise "x"
+
+    # invoice = Invoice.where(ref: entry.???)
+
+    # See https://github.com/Barzahlen/camt_parser/blob/master/lib/camt_parser/general/entry.rb
+    Payment.new(paid_at: entry.value_date, amount: entry.amount, remarks: entry.description)
   end
 end

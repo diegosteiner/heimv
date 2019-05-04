@@ -39,7 +39,7 @@ class Tenant < ApplicationRecord
   end
 
   def address_lines
-    [name, street_address, "#{zipcode} #{city}"].reject(&:blank?)
+    [name, street_address, "#{zipcode} #{city} #{country}"].reject(&:blank?)
   end
 
   def contact_lines

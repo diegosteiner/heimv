@@ -1,19 +1,21 @@
 require 'csv'
 
 class BookingReport < ApplicationRecord
-  include TemplateRenderable
-
-  PDF_DEFAULT_OPTIONS = {}.freeze
-  CSV_DEFAULT_OPTIONS = {
-    col_sep: ';',
-    write_headers: true,
-    skip_blanks: true,
-    force_quotes: true,
-    encoding: 'utf-8'
+  DEFAULT_FORMAT_OPTIONS = {
+    pdf: {
+      document_options: { page_layout: :landscape },
+    },
+    csv: {
+      col_sep: ';',
+      write_headers: true,
+      skip_blanks: true,
+      force_quotes: true,
+      encoding: 'utf-8'
+    }
   }.freeze
 
-  def to_s
-    self.class.to_s
+  def formats
+    %i[csv pdf]
   end
 
   def filter
@@ -24,41 +26,30 @@ class BookingReport < ApplicationRecord
     @bookings ||= filter.reduce(bookings)
   end
 
-  def formats
-    %i[csv pdf]
-  end
-
-  def to_pdf(options = PDF_DEFAULT_OPTIONS)
+  def to_pdf(options = {})
+    options = DEFAULT_FORMAT_OPTIONS[:pdf].merge(options)
     Export::Pdf::BookingReport.new(self, options).build.render
   end
 
-  def to_csv(options = CSV_DEFAULT_OPTIONS)
-    CSV.generate(options) do |csv|
-      csv << generate_tabular_header
-      bookings.each do |booking|
-        csv << generate_tabular_row(booking)
-      end
-      csv << generate_tabular_footer
-    end
+  def to_csv(options = {})
+    options = DEFAULT_FORMAT_OPTIONS[:csv].merge(options)
+    CSV.generate(options) { |csv| to_tabular.each { |row| csv << row } }
   end
 
   def to_tabular
     data = []
     data << generate_tabular_header
-    bookings.each do |booking|
-      data << generate_tabular_row(booking)
-    end
+    data += bookings.map { |booking| generate_tabular_row(booking) }
     data << generate_tabular_footer
   end
 
+  protected
+
   def generate_tabular_header
     [
-      Booking.human_attribute_name(:ref), Home.human_attribute_name(:name),
-      Occupancy.human_attribute_name(:begins_at), Occupancy.human_attribute_name(:begins_at),
-      Tenant.human_attribute_name(:first_name), Tenant.human_attribute_name(:last_name),
-      Tenant.human_attribute_name(:email), Tenant.human_attribute_name(:phone),
-      Tenant.human_attribute_name(:zipcode), Tenant.human_attribute_name(:city), Tenant.human_attribute_name(:country),
-      Booking.human_attribute_name(:purpose), Booking.human_attribute_name(:overnight_stays)
+      Booking.human_attribute_name(:ref), Home.model_name.human,
+      Occupancy.human_attribute_name(:begins_at), Occupancy.human_attribute_name(:ends_at),
+      Booking.human_attribute_name(:purpose)
     ]
   end
 
@@ -66,15 +57,12 @@ class BookingReport < ApplicationRecord
     []
   end
 
-  # rubocop:disable Metrics/AbcSize
   def generate_tabular_row(booking)
-    [
-      booking.ref, booking.home.name, booking.occupancy.begins_at.iso8601, booking.occupancy.begins_at.iso8601,
-      booking.tenant.first_name, booking.tenant.last_name,
-      booking.tenant.email, booking.tenant.phone,
-      booking.tenant.zipcode, booking.tenant.city, booking.tenant.country,
-      booking.purpose, booking.overnight_stays
-    ]
+    booking.instance_eval do
+      [
+        ref, home.name, I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.begins_at, format: :short),
+        Booking.human_enum(:purpose, purpose)
+      ]
+    end
   end
-  # rubocop:enable Metrics/AbcSize
 end

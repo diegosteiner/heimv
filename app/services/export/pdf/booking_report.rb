@@ -5,14 +5,13 @@ module Export
     class BookingReport < Base
       attr_reader :report
 
-      def initialize(report, _options = {})
+      def initialize(report, options = {})
         @report = report
+        @options = options
       end
 
       def document_options
-        super.merge(
-          page_layout: :landscape
-        )
+        super.merge(@options.fetch(:document_options, {}))
       end
 
       def sections
@@ -30,12 +29,18 @@ module Export
         end
 
         def call(pdf)
-          # table_data = @data.map do |data_row|
-          #   data_row
-          # end
+          table_data = @report.to_tabular do |row|
+            row.map do |value|
+              case value
+              when ActiveSupport::TimeWithZone
+              else
+                value
+              end
+            end
+          end
 
-          pdf.table(@report.to_tabular) do
-            cells.style(size: 7)
+          pdf.table(table_data) do
+            cells.style(size: 8)
             row(0).font_style = :bold
             # column(2).style(align: :right)
           end

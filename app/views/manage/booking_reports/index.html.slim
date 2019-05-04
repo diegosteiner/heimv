@@ -32,6 +32,6 @@ br
     = t(:add_record, model_name: BookingReport.model_name.human)
     '
   .dropdown-menu
-    - [BookingReport, BookingReports::Tarif].each do |report_type|
+    - [BookingReports::Tenant, BookingReports::Tarif].each do |report_type|
       = link_to report_type.model_name.human, new_manage_booking_report_path(type: report_type), class: 'dropdown-item'
 
