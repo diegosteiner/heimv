@@ -1,6 +1,6 @@
 = form_with(model: [:public, @booking], local: true, disabled: !@booking.editable) do |f|
   .card.[class=('bg-light' unless @booking.editable)]
-    - if @booking.occupancy.begins_at < 7.days.from_now || true
+    - if @booking.occupancy.begins_at < ENV.fetch('LAST_MINUTE_WARNING_DAYS', 10).to_i.days.from_now
       .card-header.alert-warning
         p.m-0= t('.last_minute_warning')
     - if @booking.errors.any?
@@ -50,7 +50,7 @@
           = cf.form_group :country, label: { text: Tenant.human_attribute_name(:country) } do
             = cf.country_select :country, { selected: "CH", priority_countries: ["CH"] }, class: 'form-control', disabled: !@booking.editable
           = cf.telephone_field :phone, disabled: !@booking.editable
-          = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true
+          = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 100, end_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true
 
       fieldset
         h5= t('.booking_details')

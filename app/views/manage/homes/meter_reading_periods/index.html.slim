@@ -10,7 +10,7 @@ table.table.table-hover.table-card
   tbody
     - @meter_reading_period_groups.each do |tarif, meter_reading_period_group|
       - meter_reading_period = meter_reading_period_group.last
-      tr[data-href=manage_home_meter_reading_period_path(@home, meter_reading_period)]
+      tr
         td
           = meter_reading_period.tarif.label
         td

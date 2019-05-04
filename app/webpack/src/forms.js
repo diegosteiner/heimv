@@ -2,6 +2,8 @@ import moment from 'moment';
 
 export default class {
     static start() {
+        $('input[name=authenticity_token]').val($('meta[name=csrf-token]').attr('content'))
+
         $('.form-check-input').addClass('form-check-control')
         $('.form-group.is-invalid .form-control').addClass('is-invalid')
 
@@ -22,5 +24,7 @@ export default class {
             startInput.on('change', function () { updateEndInput($(this).val()) });
             updateEndInput(startInput.val());
         })
+
+
     }
 }
