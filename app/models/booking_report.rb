@@ -3,7 +3,7 @@ require 'csv'
 class BookingReport < ApplicationRecord
   DEFAULT_FORMAT_OPTIONS = {
     pdf: {
-      document_options: { page_layout: :landscape },
+      document_options: { page_layout: :landscape }
     },
     csv: {
       col_sep: ';',

@@ -11,7 +11,7 @@ class Payment
   def from_camt_entry(entry)
     return unless entry.booked? && entry.credit? && entry.currency == 'CHF'
 
-    raise "x"
+    raise 'x'
 
     # invoice = Invoice.where(ref: entry.???)
 

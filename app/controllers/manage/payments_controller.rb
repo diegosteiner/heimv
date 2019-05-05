@@ -51,7 +51,7 @@ module Manage
 
     def destroy
       @payment.destroy
-      respond_with :manage, @payment, location: manage_payments_path(@payment.booking)
+      respond_with :manage, @payment, location: manage_booking_payments_path(@payment.booking)
     end
 
     private

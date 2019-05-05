@@ -7,7 +7,6 @@ module Seeders
   class BaseSeeder
     include FactoryBot::Syntax::Methods
     attr_accessor :options
-    @seeds_for_env = {}
 
     def initialize(options = {})
       @options = options
@@ -19,10 +18,13 @@ module Seeders
     end
 
     class << self
-      attr_reader :seeds_for_env
+      def seeds_for_env
+        @seeds_for_env ||= {}
+      end
 
       def seed(envs, &block)
-        Array.wrap(envs).each { |env| @seeds_for_env[env.to_s] = block
+        seeds_for_env
+        Array.wrap(envs).each { |env| @seeds_for_env[env.to_s] = block }
       end
     end
   end

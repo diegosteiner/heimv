@@ -26,7 +26,7 @@ module BookingReports
     def generate_tabular_row(booking)
       super + tarifs.flat_map do |tarif|
         usage = booking.usages.of_tarif(tarif).take
-        next ["", ""] unless usage
+        next ['', ''] unless usage
 
         [
           ActiveSupport::NumberHelper.number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),

@@ -1,4 +1,4 @@
-= form_with(model: [:manage, @booking, @invoice], local: true) do |f|
+= form_with(model: [:manage, @invoice], local: true) do |f|
 
   fieldset
     = f.select :invoice_type, enum_options_for_select(Invoice, :invoice_types, @invoice.invoice_type)
@@ -42,7 +42,7 @@
 
     div
       - unless @invoice.new_record?
-        = link_to new_manage_booking_invoice_invoice_part_path(@booking, @invoice), class: 'btn btn-outline-primary' do
+        = link_to new_manage_invoice_invoice_part_path(@invoice), class: 'btn btn-outline-primary' do
           = t(:add_record, model_name: InvoicePart.model_name.human)
 
 

@@ -29,20 +29,11 @@ module Export
         end
 
         def call(pdf)
-          table_data = @report.to_tabular do |row|
-            row.map do |value|
-              case value
-              when ActiveSupport::TimeWithZone
-              else
-                value
-              end
-            end
-          end
+          table_data = @report.to_tabular
 
           pdf.table(table_data) do
             cells.style(size: 8)
             row(0).font_style = :bold
-            # column(2).style(align: :right)
           end
         end
       end

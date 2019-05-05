@@ -65,6 +65,22 @@ GEM
       rake (>= 10.4, < 13.0)
     arel (9.0.0)
     ast (2.4.0)
+    aws-eventstream (1.0.3)
+    aws-partitions (1.158.0)
+    aws-sdk-core (3.49.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.18.0)
+      aws-sdk-core (~> 3, >= 3.48.2)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.36.1)
+      aws-sdk-core (~> 3, >= 3.48.2)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.1.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
     bcrypt (3.1.12)
     better_errors (2.5.1)
       coderay (>= 1.0.0)
@@ -160,6 +176,7 @@ GEM
     i18n_data (0.8.0)
     interception (0.5)
     jaro_winkler (1.5.2)
+    jmespath (1.4.0)
     jsonapi-renderer (0.2.0)
     kramdown (2.1.0)
     launchy (2.4.3)
@@ -336,6 +353,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.10.0)
   acts_as_list
   annotate
+  aws-sdk-s3
   better_errors
   binding_of_caller
   bootsnap
