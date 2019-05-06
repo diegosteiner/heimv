@@ -6,6 +6,7 @@ module BookingStrategies
           def call!(contract = @booking.contract, deposits = @booking.invoices.deposit)
             message = @booking.messages.new_from_template(:confirmed_message)
             return false unless message
+
             message.attachments.attach(extract_attachments(@booking.home, deposits, contract))
             message.save && contract.sent! && deposits.each(&:sent!) && message.deliver_now
           end

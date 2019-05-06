@@ -382,6 +382,10 @@ en:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
         update:
           notice: Deine Reservationsanfrage wurde gespeichert. Du kannst das Browserfenster schliessen.
+  helpers:
+    submit:
+      create: Create
+      update: Update
   manage:
     bookings:
       tarifs:
