@@ -5,7 +5,7 @@
 #  id             :uuid             not null, primary key
 #  begins_at      :datetime         not null
 #  ends_at        :datetime         not null
-#  home_id        :bigint(8)        not null
+#  home_id        :bigint           not null
 #  booking_type   :string
 #  booking_id     :uuid
 #  occupancy_type :integer          default("free"), not null

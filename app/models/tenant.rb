@@ -2,7 +2,7 @@
 #
 # Table name: tenants
 #
-#  id                   :bigint(8)        not null, primary key
+#  id                   :bigint           not null, primary key
 #  first_name           :string
 #  last_name            :string
 #  street_address       :string
@@ -10,10 +10,13 @@
 #  city                 :string
 #  country              :string
 #  reservations_allowed :boolean
+#  email_verified       :boolean          default(FALSE)
 #  phone                :text
+#  remarks              :text
 #  email                :string           not null
 #  search_cache         :text             not null
 #  birth_date           :date
+#  import_data          :jsonb
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #

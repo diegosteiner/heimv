@@ -2,7 +2,7 @@
 #
 # Table name: booking_transitions
 #
-#  id           :bigint(8)        not null, primary key
+#  id           :bigint           not null, primary key
 #  to_state     :string           not null
 #  sort_key     :integer          not null
 #  booking_id   :uuid             not null

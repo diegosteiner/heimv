@@ -2,7 +2,7 @@
 #
 # Table name: booking_agents
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
 #  name       :string
 #  code       :string
 #  email      :string

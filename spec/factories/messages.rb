@@ -2,9 +2,9 @@
 #
 # Table name: messages
 #
-#  id                   :bigint(8)        not null, primary key
+#  id                   :bigint           not null, primary key
 #  booking_id           :uuid
-#  markdown_template_id :bigint(8)
+#  markdown_template_id :bigint
 #  sent_at              :datetime
 #  subject              :string
 #  body                 :text

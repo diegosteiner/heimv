@@ -2,7 +2,7 @@
 #
 # Table name: markdown_templates
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
 #  key        :string
 #  title      :string
 #  locale     :string

@@ -2,13 +2,13 @@
 #
 # Table name: tarifs
 #
-#  id                       :bigint(8)        not null, primary key
+#  id                       :bigint           not null, primary key
 #  type                     :string
 #  label                    :string
 #  transient                :boolean          default(FALSE)
 #  booking_id               :uuid
-#  home_id                  :bigint(8)
-#  booking_copy_template_id :bigint(8)
+#  home_id                  :bigint
+#  booking_copy_template_id :bigint
 #  unit                     :string
 #  price_per_unit           :decimal(, )
 #  valid_from               :datetime

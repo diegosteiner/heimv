@@ -2,13 +2,15 @@
 #
 # Table name: homes
 #
-#  id         :bigint(8)        not null, primary key
-#  name       :string
-#  ref        :string
-#  place      :string
-#  janitor    :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id               :bigint           not null, primary key
+#  organisation_id  :bigint           not null
+#  name             :string
+#  ref              :string
+#  place            :string
+#  janitor          :text
+#  requests_allowed :boolean          default(FALSE)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 
 class Home < ApplicationRecord

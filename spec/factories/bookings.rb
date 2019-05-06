@@ -3,9 +3,10 @@
 # Table name: bookings
 #
 #  id                    :uuid             not null, primary key
-#  home_id               :bigint(8)        not null
+#  home_id               :bigint           not null
+#  organisation_id       :bigint           not null
 #  state                 :string           default("initial"), not null
-#  tenant_organisation          :string
+#  tenant_organisation   :string
 #  email                 :string
 #  tenant_id             :integer
 #  state_data            :json
@@ -17,9 +18,13 @@
 #  purpose               :string
 #  ref                   :string
 #  editable              :boolean          default(TRUE)
+#  usages_entered        :boolean          default(FALSE)
+#  messages_enabled      :boolean          default(FALSE)
+#  import_data           :jsonb
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  booking_agent_code    :string
+#  booking_agent_ref     :string
 #
 
 FactoryBot.define do

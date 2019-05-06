@@ -17,14 +17,6 @@
 #  confirmation_sent_at   :datetime
 #  unconfirmed_email      :string
 #  role                   :integer
-#  invitation_token       :string
-#  invitation_created_at  :datetime
-#  invitation_sent_at     :datetime
-#  invitation_accepted_at :datetime
-#  invitation_limit       :integer
-#  invited_by_type        :string
-#  invited_by_id          :integer
-#  invitations_count      :integer          default(0)
 #
 
 class User < ApplicationRecord

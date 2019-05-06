@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: payments
+#
+#  id         :bigint           not null, primary key
+#  amount     :decimal(, )
+#  paid_at    :date
+#  ref        :string
+#  invoice_id :bigint
+#  booking_id :uuid
+#  data       :text
+#  remarks    :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 #== Schema Information
 #
 # Table name: payments

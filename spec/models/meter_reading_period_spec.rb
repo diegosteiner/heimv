@@ -2,9 +2,9 @@
 #
 # Table name: meter_reading_periods
 #
-#  id          :bigint(8)        not null, primary key
-#  tarif_id    :bigint(8)
-#  usage_id    :bigint(8)
+#  id          :bigint           not null, primary key
+#  tarif_id    :bigint
+#  usage_id    :bigint
 #  start_value :decimal(, )
 #  end_value   :decimal(, )
 #  begins_at   :datetime
