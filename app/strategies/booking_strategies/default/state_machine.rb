@@ -7,6 +7,11 @@ module BookingStrategies
         confirmed upcoming overdue active past payment_due payment_overdue completed cancelation_pending
       ].each { |s| state(s) }
 
+      # TODO: definitive -> accepted_definitive_request,
+      # upcoming_soon,
+      # confirmed -> awaiting_contract,
+      # cancelled_request
+
       transition from: :initial,
                  to: %i[unconfirmed_request provisional_request definitive_request open_request]
       transition from: :unconfirmed_request, to: %i[cancelation_pending open_request]
