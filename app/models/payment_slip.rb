@@ -51,11 +51,11 @@ class PaymentSlip
   end
 
   def account_nr
-    '01-162-8'
+    @invoice.organisation.account_nr
   end
 
   def address
-    "Verein Pfadiheime St. Georg\nHeimverwaltung\n\n8000 Zürich"
+    @invoice.organisation.address
   end
 
   def esr_ref

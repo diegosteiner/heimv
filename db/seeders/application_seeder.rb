@@ -4,6 +4,7 @@ module Seeders
   class ApplicationSeeder
     def seed(env = Rails.env)
       [
+        OrganisationSeeder,
         UserSeeder,
         HomeSeeder,
         TarifSeeder,

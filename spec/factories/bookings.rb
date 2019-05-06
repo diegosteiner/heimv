@@ -24,6 +24,7 @@
 
 FactoryBot.define do
   factory :booking do
+    organisation
     home
     tenant
     tenant_organisation { Faker::Company.name }

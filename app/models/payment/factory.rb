@@ -11,7 +11,7 @@ class Payment
       return unless entry.booked? && entry.credit? && entry.currency == 'CHF'
 
       entry.transactions.map do |transaction|
-        invoice = Invoice.find_by(esr_number: transaction.creditor_reference)
+        invoice = Invoice.find_by(ref: transaction.creditor_reference)
         Payment.new(
           invoice: invoice, booking: invoice&.booking, applies: invoice.present?,
           paid_at: entry.value_date, amount: transaction.amount, remarks: entry.description

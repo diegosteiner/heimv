@@ -22,6 +22,7 @@ class Invoice < ApplicationRecord
   has_many :invoice_parts, -> { order(position: :asc) }, inverse_of: :invoice, dependent: :destroy
   has_many :payments, dependent: :nullify
   has_one_attached :pdf
+  has_one :organisation, through: :booking
 
   enum invoice_type: %i[invoice deposit late_notice]
 
@@ -86,6 +87,6 @@ class Invoice < ApplicationRecord
   end
 
   def invoice_ref_strategy
-    @invoice_ref_strategy ||= InvoiceRefStrategies::ESR.new
+    @invoice_ref_strategy ||= organisation.invoice_ref_strategy
   end
 end

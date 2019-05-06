@@ -13,6 +13,7 @@
 
 FactoryBot.define do
   factory :home do
+    organisation
     name { "Pfadiheim #{Faker::Address.city}" }
     place { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     sequence(:ref) { |i| "#{name.downcase.delete('aeiuoäöü ./:;?!()')}#{i}" }

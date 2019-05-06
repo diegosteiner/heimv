@@ -25,8 +25,9 @@
 class Booking < ApplicationRecord
   include BookingState
   include Statesman::Adapters::ActiveRecordQueries
-  DEFAULT_INCLUDES = %i[occupancy tenant home booking_transitions invoices contracts deadlines payments messages].freeze
+  DEFAULT_INCLUDES = %i[organisation occupancy tenant home booking_transitions invoices contracts deadlines payments].freeze
 
+  belongs_to :organisation,  inverse_of: :bookings
   belongs_to :home,          inverse_of: :bookings
   belongs_to :tenant,        inverse_of: :bookings, optional: true
   belongs_to :booking_agent, inverse_of: :bookings, optional: true,
@@ -77,6 +78,10 @@ class Booking < ApplicationRecord
 
   def to_s
     ref
+  end
+
+  def organisation
+    @organisation ||= home.organisation
   end
 
   def correspondence_email

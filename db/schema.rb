@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
 
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "home_id", null: false
+    t.bigint "organisation_id", null: false
     t.string "state", default: "initial", null: false
     t.string "tenant_organisation"
     t.string "email"
@@ -95,6 +96,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.string "booking_agent_code"
     t.string "booking_agent_ref"
     t.index ["home_id"], name: "index_bookings_on_home_id"
+    t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
     t.index ["state"], name: "index_bookings_on_state"
   end
@@ -126,6 +128,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
   end
 
   create_table "homes", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
     t.string "name"
     t.string "ref"
     t.string "place"
@@ -133,6 +136,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.boolean "requests_allowed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_homes_on_organisation_id"
     t.index ["ref"], name: "index_homes_on_ref", unique: true
   end
 
@@ -220,6 +224,18 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
+  end
+
+  create_table "organisations", force: :cascade do |t|
+    t.string "name"
+    t.text "address"
+    t.string "booking_strategy_type"
+    t.string "invoice_ref_strategy_type"
+    t.text "payment_information"
+    t.string "account_nr"
+    t.text "message_footer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "payments", force: :cascade do |t|
@@ -332,8 +348,10 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
 
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
+  add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "deadlines", "bookings"
+  add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"

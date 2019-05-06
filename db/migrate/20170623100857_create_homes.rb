@@ -1,6 +1,7 @@
 class CreateHomes < ActiveRecord::Migration[5.1]
   def change
     create_table :homes do |t|
+      t.references :organisation, foreign_key: true, null: false
       t.string :name
       t.string :ref
       t.string :place
