@@ -24,7 +24,7 @@
           - if booking.booking_agent_responsible?
             = booking.booking_agent.name
           - else
-            = booking.tenant_organisation.presence || booking.tenant.name
+            = booking.tenant_organisation.presence || booking.tenant&.name
           br
           = content_tag :button, class: 'btn btn-link ellipsis', id: "booking-#{booking.id}-tenant"
             = booking.correspondence_email

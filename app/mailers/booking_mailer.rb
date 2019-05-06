@@ -7,6 +7,6 @@ class BookingMailer < ApplicationMailer
 
   def booking_message(message)
     message.attachments.each { |attachment| attachments[attachment.filename.to_s] = attachment.blob.download }
-    markdown_mail(message.to, message.subject, message.markdown)
+    markdown_mail(message.to, message.subject, message.markdown, { cc: message.cc, bcc: message.bcc})
   end
 end

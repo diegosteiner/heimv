@@ -2,6 +2,7 @@
 
   fieldset
     = f.select :invoice_type, enum_options_for_select(Invoice, :invoice_types, @invoice.invoice_type)
+    = f.hidden_field :booking_id
     = f.text_field :ref, help: "Automatisch generiert"
     = f.text_area :text
     = f.date_field :issued_at, lang: I18n.locale

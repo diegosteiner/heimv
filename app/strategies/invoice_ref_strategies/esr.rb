@@ -1,6 +1,6 @@
 module InvoiceRefStrategies
-  class Esr < InvoiceRefStrategy
-    def generate
+  class ESR < InvoiceRefStrategy
+    def generate(invoice)
       ref = format('%03d%06d%012d', invoice.booking.home.id, invoice.booking.tenant.id, invoice.id)
       ref + checksum(ref).to_s
     end
@@ -10,7 +10,7 @@ module InvoiceRefStrategies
       10 - ref.to_s.scan(/\d/).inject(0) { |carry, digit| check_table[(digit.to_i + carry) % check_table.size] }
     end
 
-    def format(ref)
+    def format_ref(ref)
       ref.reverse.chars.in_groups_of(5).reverse.map { |group| group.reverse.join }.join(' ')
     end
   end

@@ -18,6 +18,9 @@ class Message < ApplicationRecord
   belongs_to :markdown_template, optional: true
   has_many_attached :attachments
 
+  attribute :cc, default: []
+  attribute :bcc, default: []
+
   def to
     [booking.correspondence_email]
   end
@@ -32,7 +35,6 @@ class Message < ApplicationRecord
   end
 
   def deliver_now
-    yield(self) if block_given?
     return false unless save && booking.messages_enabled?
 
     message_delivery.deliver_now && update(sent_at: Time.zone.now)

@@ -82,7 +82,7 @@ class Invoice < ApplicationRecord
   end
 
   def to_s
-    invoice_ref_strategy.format(ref)
+    invoice_ref_strategy.format_ref(ref)
   end
 
   def invoice_ref_strategy

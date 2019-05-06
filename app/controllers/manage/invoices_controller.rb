@@ -31,22 +31,22 @@ module Manage
 
     def edit
       @suggested_invoice_parts = InvoiceParts::Factory.new.suggest(@invoice)
-      respond_with :manage, @booking, @invoice
+      respond_with :manage, @invoice
     end
 
     def create
       @invoice.save
-      respond_with :manage, @booking, @invoice, location: manage_booking_invoices_path(@booking)
+      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
     end
 
     def update
       @invoice.update(invoice_params) unless @invoice.deleted?
-      respond_with :manage, @booking, @invoice, location: manage_invoice_path(@invoice)
+      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
     end
 
     def destroy
       @invoice.update(deleted_at: Time.zone.now) unless @invoice.deleted?
-      respond_with :manage, @booking, @invoice, location: manage_booking_path(@invoice.booking)
+      respond_with :manage, @invoice, location: manage_booking_path(@invoice.booking)
     end
 
     private

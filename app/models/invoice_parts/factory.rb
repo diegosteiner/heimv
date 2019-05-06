@@ -15,7 +15,7 @@ module InvoiceParts
 
     def from_usage(invoice, usage)
       InvoiceParts::Add.new(
-        apply: invoice.invoice_type == usage.tarif.invoice_type,
+        apply: invoice.new_record? && invoice.invoice_type == usage.tarif.invoice_type,
         usage: usage,
         label: usage.tarif.label,
         label_2: label_2(usage),
@@ -26,7 +26,7 @@ module InvoiceParts
 
     def from_deposit(invoice, deposits = invoice.booking.invoices.deposit)
       InvoiceParts::Add.new(
-        apply: invoice.invoice_type&.to_sym == :invoice,
+        apply: invoice.new_record? && invoice.invoice_type&.to_sym == :invoice,
         label: I18n.t(:'activerecord.enums.invoice.invoice_type.deposit'),
         amount: - deposits.sum(&:amount_paid)
       )
