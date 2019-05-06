@@ -1,4 +1,3 @@
 class InvoiceRefStrategy
-  def generate(invoice)
-  end
+  def generate(invoice); end
 end

@@ -14,6 +14,13 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:name])
   end
 
+  def responder_flash_messages(resource_name, scope: :update)
+    {
+      notice: t(:notice, scope: %i[flash actions] + [scope], resource_name: resource_name),
+      error: t(:error, scope: %i[flash actions] + [scope], resource_name: resource_name)
+    }
+  end
+
   private
 
   def unauthorized

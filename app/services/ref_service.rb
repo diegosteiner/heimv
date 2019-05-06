@@ -6,7 +6,7 @@ class RefService
                          booking.occupancy.begins_at.year,
                          booking.occupancy.begins_at.month,
                          booking.occupancy.begins_at.day).upcase
-                end),
+                end)
   }.freeze
 
   def call(subject)

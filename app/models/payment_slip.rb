@@ -22,9 +22,7 @@ class PaymentSlip
 
   def checksums; end
 
-  def checksum(number)
-    invoice_ref_strategy.checksum(number)
-  end
+  delegate :checksum, to: :invoice_ref_strategy
 
   def code
     {

@@ -13,12 +13,8 @@ class Payment
       entry.transactions.map do |transaction|
         invoice = Invoice.find_by(esr_number: transaction.creditor_reference)
         Payment.new(
-          invoice: invoice,
-          booking: invoice&.booking,
-          applies: invoice.present?,
-          paid_at: entry.value_date,
-          amount: transaction.amount,
-          remarks: entry.description
+          invoice: invoice, booking: invoice&.booking, applies: invoice.present?,
+          paid_at: entry.value_date, amount: transaction.amount, remarks: entry.description
         )
       end
     end
