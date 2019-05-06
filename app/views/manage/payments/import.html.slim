@@ -16,12 +16,12 @@
           tr.bg-white
             td.py-3
               = pf.hidden_field :id
-              = pf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
+              = pf.check_box :_destroy, { checked: payment.applies, skip_label: true }, '0', '1'
               = pf.hidden_field :ref
             td.py-2
-              = pf.collection_select :invoice_id, Invoice.unpaid, :id, :ref, skip_label: true, include_blank: true
+              = pf.collection_select :invoice_id, Invoice.unpaid, :id, :to_s, skip_label: true, include_blank: true
             td.py-2
-              = pf.collection_select :booking_id, Booking.inconcluded, :id, :ref, skip_label: true, include_blank: true
+              = pf.collection_select :booking_id, Booking.inconcluded, :id, :to_s, skip_label: true, include_blank: true
             td.py-2
               = pf.number_field :amount, skip_label: true
             td.py-2
@@ -30,5 +30,5 @@
               = pf.text_area :remarks, skip_label: true
             td.py-2.text-right
               .btn-group
-  = f.submit
+  = f.submit t('helpers.submit.create', model: Payment.model_name.human(count: :other))
 

@@ -25,7 +25,10 @@ module Manage
         @booking.assign_attributes(booking_usages_params)
         @booking.usages_entered ||= params[:usages_entered]
         @booking.save
-        respond_with :manage, @booking, @usages, location: params[:return_to] || manage_booking_usages_path(@booking)
+        respond_with :manage, @booking, @usages,
+          location: params[:return_to] || manage_booking_usages_path(@booking),
+          notice: t(:notice, scope: 'flash.actions.update', resource_name: Usage.model_name.human(count: :other)),
+          error: t(:error, scope: 'flash.actions.update', resource_name: Usage.model_name.human(count: :other))
       end
 
       def update

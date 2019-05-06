@@ -18,7 +18,7 @@ class Payment < ApplicationRecord
   belongs_to :invoice, optional: true, touch: true
   belongs_to :booking, touch: true
 
-  attribute :apply, :boolean, default: true
+  attribute :applies, :boolean, default: true
 
   validates :amount, numericality: true
   validates :paid_at, :amount, :booking, presence: true

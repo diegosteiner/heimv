@@ -5,6 +5,7 @@ module Seeders
     seed :development do |seeds|
       {
         tarif_selectors: seeds[:tarifs].map do |home, tarifs|
+          tarifs = tarifs.values
           [
             TarifSelectors::BookingPurpose.create(home: home).tap do |tarif_selector|
               tarif_selector.tarif_tarif_selectors.create(tarif: tarifs[0], distinction: 'camp')

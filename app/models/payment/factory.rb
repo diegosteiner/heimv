@@ -3,19 +3,24 @@ class Payment
     def from_camt_file(file)
       camt = CamtParser::String.parse file.read
       camt.notifications.map do |notification|
-        notification.entries.map { |entry| from_camt_entry(entry) }
+        notification.entries.flat_map { |entry| from_camt_entry(entry) }
       end.flatten.compact
     end
-  end
 
-  def from_camt_entry(entry)
-    return unless entry.booked? && entry.credit? && entry.currency == 'CHF'
+    def from_camt_entry(entry)
+      return unless entry.booked? && entry.credit? && entry.currency == 'CHF'
 
-    raise 'x'
-
-    # invoice = Invoice.where(ref: entry.???)
-
-    # See https://github.com/Barzahlen/camt_parser/blob/master/lib/camt_parser/general/entry.rb
-    Payment.new(paid_at: entry.value_date, amount: entry.amount, remarks: entry.description)
+      entry.transactions.map do |transaction|
+        invoice = Invoice.find_by(esr_number: transaction.creditor_reference)
+        Payment.new(
+          invoice: invoice,
+          booking: invoice&.booking,
+          applies: invoice.present?,
+          paid_at: entry.value_date,
+          amount: transaction.amount,
+          remarks: entry.description
+        )
+      end
+    end
   end
 end

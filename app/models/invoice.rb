@@ -46,7 +46,7 @@ class Invoice < ApplicationRecord
   end
 
   def ref
-    @ref ||= RefService.new.call(self) unless new_record?
+    @ref ||= invoice_ref_strategy.generate(self) unless new_record?
   end
 
   def recalculate_amount
@@ -79,5 +79,13 @@ class Invoice < ApplicationRecord
 
   def deleted?
     deleted_at.present?
+  end
+
+  def to_s
+    invoice_ref_strategy.format(ref)
+  end
+
+  def invoice_ref_strategy
+    @invoice_ref_strategy ||= InvoiceRefStrategies::ESR.new
   end
 end

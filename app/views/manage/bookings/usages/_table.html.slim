@@ -13,7 +13,7 @@
         th
 
     - tarif_group = nil
-    - @usages.ordered.each do |usage|
+    - usages.sort_by(&:position).each do |usage|
       tbody
         - if tarif_group != usage.tarif.tarif_group
           - tarif_group = usage.tarif.tarif_group

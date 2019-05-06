@@ -20,7 +20,7 @@ module Import
         )
       end
 
-      def extract_country(row)
+      def extract_phone(row)
         [row[:mieterteln], row[:mietertelp], row[:mietertelg]].select(&:present?).join("\n")
       end
 

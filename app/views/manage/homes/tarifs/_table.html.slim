@@ -5,6 +5,7 @@
       tr.bg-white
         th
         th
+        th
         / th= Tarif.model_name.human(count: :other)
         th= Tarif.human_attribute_name(:label)
         th= Tarif.human_attribute_name(:type)
@@ -23,7 +24,8 @@
 
         = f.fields_for tarif.id.to_s, tarif do |tf|
           tr.bg-white
-            td
+            td.py-4
+              small.text-secondary= tarif.position
             td.py-4
               = tf.hidden_field :id
               = tf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'

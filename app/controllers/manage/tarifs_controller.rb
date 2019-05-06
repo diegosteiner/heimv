@@ -10,7 +10,7 @@ module Manage
       respond_with :manage, @tarif.parent, @tarif
     end
 
-    private
+    protected
 
     def tarif_params
       TarifParams.permit(params.require(:tarif))

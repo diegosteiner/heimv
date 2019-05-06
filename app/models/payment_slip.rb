@@ -16,10 +16,14 @@ class PaymentSlip
     @mode = mode
   end
 
+  def invoice_ref_strategy
+    @invoice_ref_strategy ||= InvoiceRefStrategies::ESR.new
+  end
+
   def checksums; end
 
   def checksum(number)
-    EsrService.new.checksum(number)
+    invoice_ref_strategy.checksum(number)
   end
 
   def code
@@ -57,6 +61,6 @@ class PaymentSlip
   end
 
   def esr_ref
-    @ref.reverse.chars.in_groups_of(5).reverse.map { |group| group.reverse.join }.join(' ')
+    invoice_ref_strategy.format(@ref)
   end
 end

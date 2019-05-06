@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.datetime "sent_at"
     t.text "text"
     t.integer "invoice_type"
-    t.string "esr_number"
+    t.string "ref"
     t.decimal "amount", default: "0.0"
     t.boolean "paid", default: false
     t.boolean "print_payment_slip", default: false
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
+    t.index ["ref"], name: "index_invoices_on_ref"
     t.index ["type"], name: "index_invoices_on_type"
   end
 
@@ -290,6 +291,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.boolean "reservations_allowed"
     t.boolean "email_verified", default: false
     t.text "phone"
+    t.text "remarks"
     t.string "email", null: false
     t.text "search_cache", null: false
     t.date "birth_date"

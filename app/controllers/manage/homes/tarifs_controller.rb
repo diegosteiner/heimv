@@ -25,7 +25,10 @@ module Manage
 
       def update_many
         @home.update(home_tarifs_params)
-        respond_with :manage, @home, @tarifs, location: params[:return_to] || manage_home_tarifs_path(@home)
+        respond_with :manage, @home, @tarifs,
+          location: params[:return_to] || manage_home_tarifs_path(@home),
+          notice: t(:notice, scope: 'flash.actions.update', resource_name: Tarif.model_name.human(count: :other)),
+          error: t(:error, scope: 'flash.actions.update', resource_name: Tarif.model_name.human(count: :other))
       end
 
       def update
@@ -46,6 +49,10 @@ module Manage
 
       def home_tarifs_params
         HomeParams.permit(ActionController::Parameters.new(tarifs_attributes: params.require(:tarifs)))
+      end
+
+      def flash_interpolation_options
+        { resource_name: Tarif.model_name.human }
       end
     end
   end
