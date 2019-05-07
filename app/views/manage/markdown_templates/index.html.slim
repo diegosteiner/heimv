@@ -1,0 +1,21 @@
+.breakout-sm
+  table.table.table-hover.table-card
+
+    tbody
+      - @markdown_templates.each do |markdown_template|
+        tr[data-href=manage_markdown_template_path(markdown_template) data-id=markdown_template.to_param]
+          td
+            = link_to markdown_template.key, manage_markdown_template_path(markdown_template)
+          td = markdown_template.locale
+          td
+            = link_to edit_manage_markdown_template_path(markdown_template) do
+              span.fa.fa-pencil
+          td
+            = link_to manage_markdown_template_path(markdown_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
+              span.fa.fa-trash
+
+br
+= link_to new_manage_markdown_template_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: MarkdownTemplate.model_name.human)

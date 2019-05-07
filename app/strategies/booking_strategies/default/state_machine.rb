@@ -11,6 +11,7 @@ module BookingStrategies
       # upcoming_soon,
       # confirmed -> awaiting_contract,
       # cancelled_request
+      #
 
       transition from: :initial,
                  to: %i[unconfirmed_request provisional_request definitive_request open_request]

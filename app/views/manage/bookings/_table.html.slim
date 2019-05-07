@@ -28,7 +28,7 @@
           br
           = content_tag :button, class: 'btn btn-link ellipsis', id: "booking-#{booking.id}-tenant"
             = booking.correspondence_email
-          b-popover[triggers='hover click' placement='bottom' target="booking-#{booking.id}-tenant" title=(booking.tenant_organisation.presence || booking.tenant.name)]
+          b-popover[triggers='hover click' placement='bottom' target="booking-#{booking.id}-tenant" title=(booking.tenant_organisation.presence || booking.tenant&.name)]
             slot
               = tenant_address(booking.tenant)
           p.mt-2.mb-0

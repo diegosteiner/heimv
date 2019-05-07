@@ -69,6 +69,7 @@ class Booking < ApplicationRecord
   scope :ordered, -> { order(created_at: :asc) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
+  before_validation :set_organisation
   before_validation :set_occupancy_attributes
   before_validation :assign_tenant_from_email
   before_create     :set_ref
@@ -84,10 +85,6 @@ class Booking < ApplicationRecord
 
   def to_s
     ref
-  end
-
-  def organisation
-    @organisation ||= home.organisation
   end
 
   def correspondence_email
@@ -154,5 +151,9 @@ class Booking < ApplicationRecord
 
   def set_ref
     self.ref ||= RefService.new.call(self)
+  end
+
+  def set_organisation
+    self.organisation ||= home.organisation
   end
 end

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     end
     resources :tenants
     resources :booking_agents
+    resources :markdown_templates
   end
 
   root to: 'pages#home'

@@ -1,0 +1,16 @@
+.card.breakout-sm
+  .card-body
+    = render_hash_as_dl(@markdown_template.attributes.slice(*%w(key title locale)), Tenant)
+    br
+
+    = link_to edit_manage_markdown_template_path(@markdown_template), class: 'btn btn-primary' do
+      span.fa.fa-pencil
+      '
+      = t(:edit)
+    '
+    = link_to manage_markdown_template_path(@markdown_template), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t(:destroy)
+br
+= link_to t(:back), manage_markdown_templates_path, class: 'btn btn-default'
