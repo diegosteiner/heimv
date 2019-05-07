@@ -32,7 +32,7 @@ module Manage
     private
 
     def markdown_template_params
-      params.require(:markdown_template).permit([:key, :title, :locale, :body])
+      params.require(:markdown_template).permit(%i[key title locale body])
     end
   end
 end
