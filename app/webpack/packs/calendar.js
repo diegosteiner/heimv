@@ -1,17 +1,19 @@
-import 'stylesheets/application'
-
 import Vue from 'vue/dist/vue.js'
 import AppOccupancyCalendar from '../components/calendar/AppOccupancyCalendar.vue'
-import AppCalendarInput from '../components/calendar/AppCalendarInput.vue'
-import AppTimespanInputs from '../components/calendar/AppTimespanInputs.vue'
-import BootstrapVue from 'bootstrap-vue'
 import VueI18n from 'vue-i18n'
 import moment from "moment";
 
-import 'bootstrap/dist/js/bootstrap.bundle'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'dayjs/locale/de'
+import dayjs from 'dayjs'
+
+moment.locale(["de-CH", "de", "fr-CH", "fr", "it-CH", "it", "en"]);
+dayjs.locale('de')
+
+Vue.use(VueI18n)
+Vue.prototype.moment = moment;
 
 document.addEventListener('DOMContentLoaded', function () {
+
   const locale = document.querySelector('html').getAttribute('lang')
   const i18n = new VueI18n({
     locale: locale,
@@ -25,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   new Vue({
     el: '#app',
-    components: { Tarifs, AppOccupancyCalendar, AppCalendarInput, AppTimespanInputs },
+    components: { AppOccupancyCalendar },
     i18n
   });
 });

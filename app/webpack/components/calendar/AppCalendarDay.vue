@@ -1,33 +1,43 @@
 <template>
   <div>
-    <button
-      :id="id"
-      :class="cssClasses"
-      @click.prevent="!disabled && !loading && $emit('input', date)"
-    >{{ date | dayOfMonth }}</button>
-    <b-popover
-      v-if="occupancies.length && !disabled && !loading"
-      :target="id"
-      triggers="hover focus"
-    >
-      <dl class="my-1" v-for="occupancy in relevantOccupancies" :key="occupancy.id">
-        <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
-        <dd>
-          <a v-if="(occupancy.links || {}).handle" :href="occupancy.links.handle">
-            <i class="fa fa-link"></i>
-            {{ occupancy.ref }}
-          </a>
-          <span>{{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}</span>
-          <span v-if="occupancy.deadline">(bis {{ date_format(occupancy.deadline) }})</span>
-        </dd>
-      </dl>
-    </b-popover>
+    <div v-if="loading">
+      <button :disabled="true">{{ date | dayOfMonth }}</button>
+    </div>
+    <div v-else v-once>
+      <button
+        :id="id"
+        name="booking[occupancy_attributes][begins_at]"
+        :value="date.toISOString()"
+        :class="cssClasses"
+        :disabled="disabled || loading"
+      >{{ date | dayOfMonth }}</button>
+      <b-popover
+        v-if="occupancies.length && !disabled && !loading"
+        :target="id"
+        triggers="hover focus"
+      >
+        <dl class="my-1" v-for="occupancy in relevantOccupancies" :key="occupancy.id">
+          <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
+          <dd>
+            <a v-if="(occupancy.links || {}).handle" :href="occupancy.links.handle">
+              <i class="fa fa-link"></i>
+              {{ occupancy.ref }}
+            </a>
+            <span>{{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}</span>
+            <span v-if="occupancy.deadline">(bis {{ date_format(occupancy.deadline) }})</span>
+          </dd>
+        </dl>
+      </b-popover>
+    </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue/dist/vue.js'
+import BPopover from 'bootstrap-vue/es/components/popover/popover'
+
 export default {
+  components: { 'b-popover': BPopover },
   props: {
     date: null,
     loading: true,
@@ -250,7 +260,8 @@ $occupied-background-color: #ffa8a8;
     color: #999;
   }
 
-  .disabled {
+  .disabled,
+  [disabled] {
     cursor: default;
     opacity: 0.2;
     color: transparent;

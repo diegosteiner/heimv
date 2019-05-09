@@ -54,7 +54,9 @@ Rails.application.routes.draw do
     # get 'at/:t', to: 'pages/home', as: :occupancy_at
     resources :bookings, only: %i[new create edit update], path: 'b', as: :public_bookings
     resources :homes, only: [] do
-      resources :occupancies, only: %i[index show]
+      resources :occupancies, only: %i[index show] do
+        get :embed, on: :collection
+      end
     end
   end
 end

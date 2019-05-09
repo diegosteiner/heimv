@@ -1,15 +1,16 @@
 <template>
-  <calendar :display-months="displayMonths" v-cloak>
-    <template slot-scope="date">
-      <app-calendar-day
-        :date="date"
-        :disabled="isOutOfRange(date)"
-        :loading="loading"
-        :occupancies="occupanciesOfDate(date)"
-        @input="handleClick"
-      ></app-calendar-day>
-    </template>
-  </calendar>
+  <form target="_top" :action="reservationUrl" method="GET">
+    <calendar :display-months="displayMonths" v-cloak>
+      <template slot-scope="date">
+        <app-calendar-day
+          :date="date"
+          :disabled="isOutOfRange(date)"
+          :loading="loading"
+          :occupancies="occupanciesOfDate(date)"
+        ></app-calendar-day>
+      </template>
+    </calendar>
+  </form>
 </template>
 
 <script>

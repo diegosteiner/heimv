@@ -30,7 +30,7 @@ open_request_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -60,7 +60,7 @@ confirmed_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -96,7 +96,7 @@ provisional_request_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -126,7 +126,7 @@ overdue_request_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -157,7 +157,7 @@ definitive_request_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -184,7 +184,7 @@ manage_new_booking_mail:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -208,7 +208,7 @@ upcoming_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -260,7 +260,7 @@ payment_due_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -293,7 +293,7 @@ payment_overdue_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -363,7 +363,7 @@ contract_signed_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
@@ -395,7 +395,7 @@ deposits_paid_message:
     - Buchungsreferenz: {{ booking.ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.organisation }}
+    - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
