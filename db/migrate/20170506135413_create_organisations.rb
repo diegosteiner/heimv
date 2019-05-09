@@ -8,6 +8,7 @@ class CreateOrganisations < ActiveRecord::Migration[5.2]
       t.text :payment_information
       t.string :account_nr
       t.text :message_footer
+      t.string :currency
 
       t.timestamps
     end

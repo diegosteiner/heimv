@@ -23,10 +23,10 @@ module Manage
 
     def import
       @payments = payments_params.values.map do |payment_params|
-        Payment.new(payment_params) unless payment_params.delete(:_destroy) == '1'
-      end
+        Payment.new(payment_params)
+      end.compact
 
-      redirect_to(manage_payments_path) if @payments.all?(&:save)
+      render 'import_done' if @payments.select(&:applies).all?(&:save)
     end
 
     def new_import
@@ -61,7 +61,7 @@ module Manage
     end
 
     def payments_params
-      params.permit(payments: [PaymentParams.permitted_keys + %i[_destroy]])[:payments]
+      params.permit(payments: [PaymentParams.permitted_keys])[:payments]
     end
   end
 end

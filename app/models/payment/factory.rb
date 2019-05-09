@@ -11,12 +11,24 @@ class Payment
       return unless entry.booked? && entry.credit? && entry.currency == 'CHF'
 
       entry.transactions.map do |transaction|
-        invoice = Invoice.find_by(ref: transaction.creditor_reference)
-        Payment.new(
-          invoice: invoice, booking: invoice&.booking, applies: invoice.present?,
-          paid_at: entry.value_date, amount: transaction.amount, remarks: entry.description
-        )
+        from_camt_transaction(transaction, entry)
       end
+    end
+
+    def from_camt_transaction(transaction, entry)
+      invoice = Invoice.find_by(ref: transaction.creditor_reference)
+      Payment.new(
+        invoice: invoice, booking: invoice&.booking, applies: invoice.present?,
+        paid_at: entry.value_date, amount: transaction.amount, data: camt_transaction_to_h(transaction),
+        remarks: [transaction.name, entry.description].reject(&:blank?).join("\n\n")
+      )
+    end
+
+    def camt_transaction_to_h(transaction)
+      fields = %i[amount amount_in_cents currency name iban bic debit sign
+                  remittance_information swift_code reference bank_reference end_to_end_reference mandate_reference
+                  creditor_reference transaction_id creditor_identifier payment_information additional_information]
+      fields.map { |field| [field, transaction.try(field)] }.to_h
     end
   end
 end

@@ -11,6 +11,7 @@ module Seeders
           invoice_ref_strategy_type: InvoiceRefStrategies::ESR.to_s,
           payment_information: '',
           account_nr: '01-162-8',
+          currency: 'CHF',
           message_footer: "Verein Pfadiheime St. Georg
                           Heimverwaltung
 

@@ -5,21 +5,21 @@
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 
 Rails.application.config.content_security_policy do |policy|
-#   policy.default_src :self, :https
-#   policy.font_src    :self, :https, :data
-#   policy.img_src     :self, :https, :data
-#   policy.object_src  :none
+  #   policy.default_src :self, :https
+  #   policy.font_src    :self, :https, :data
+  #   policy.img_src     :self, :https, :data
+  #   policy.object_src  :none
   # policy.script_src  :self, :https
-#   policy.style_src   :self, :https, :unsafe_inline
-  policy.script_src   :self, :https, :unsafe_eval
+  #   policy.style_src   :self, :https, :unsafe_inline
+  policy.script_src :self, :https, :unsafe_eval
 
-#   # Specify URI for violation reports
-#   # policy.report_uri "/csp-violation-report-endpoint"
-#   if Rails.env.development?
-#     policy.script_src :self, :https, :unsafe_eval
-#   else
-#     policy.script_src :self, :https, :unsafe_eval
-#   end
+  #   # Specify URI for violation reports
+  #   # policy.report_uri "/csp-violation-report-endpoint"
+  #   if Rails.env.development?
+  #     policy.script_src :self, :https, :unsafe_eval
+  #   else
+  #     policy.script_src :self, :https, :unsafe_eval
+  #   end
 end
 
 # Report CSP violations to a specified URI

@@ -15,8 +15,7 @@ module Public
       respond_with :public, @occupancies.window
     end
 
-    def embed
-    end
+    def embed; end
 
     def calendar
       # @calendar = OccupancyCalendarSerializer.new(@occupancies).serializable_hash
