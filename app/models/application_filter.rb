@@ -3,6 +3,7 @@ class ApplicationFilter
   extend ActiveModel::Naming
   extend ActiveModel::Translation
   include ActiveModel::Attributes
+  # include ActiveModel::AttributeAssignment
 
   class << self
     attr_reader :reducers

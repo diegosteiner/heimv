@@ -1,0 +1,25 @@
+table.table
+  thead
+    tr.bg-white
+      th
+      th= Invoice.model_name.human
+      th= Booking.model_name.human
+      th= Payment.human_attribute_name(:amount)
+      th= Payment.human_attribute_name(:paid_at)
+      th= Payment.human_attribute_name(:remarks)
+
+    - @payments.each_with_index do |payment, i|
+      tr[class=css_class(:'alert-warning' => !payment.invoice.present?, :'alert-success' => payment.errors.none?)]
+        td
+        td
+          = link_to payment.invoice, manage_invoice_path(payment.invoice) if payment.invoice.present?
+        td
+          = link_to payment.booking, manage_booking_path(payment.booking) if payment.booking.present?
+        td
+          = number_to_currency(payment.amount, currency: 'CHF')
+        td
+          = l payment.paid_at
+        td
+          p= payment.remarks
+
+
