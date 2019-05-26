@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: booking_reports
+# Table name: reports
 #
 #  id            :bigint           not null, primary key
 #  type          :string

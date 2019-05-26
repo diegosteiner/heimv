@@ -4,7 +4,7 @@
   .card-body
     = render_hash_as_dl(@payment.attributes.slice(*%w(amount invoice booking paid_at)), Invoice)
 
-    = link_to edit_manage_booking_payment_path(@booking, @payment), class: 'btn btn-primary' do
+    = link_to edit_manage_payment_path(@payment), class: 'btn btn-primary' do
       span.fa.fa-pencil
       '
       = t(:edit)

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: booking_reports
+# Table name: reports
 #
 #  id            :bigint           not null, primary key
 #  type          :string
@@ -12,7 +12,7 @@
 #
 
 FactoryBot.define do
-  factory :booking_report do
+  factory :report do
     type { '' }
     booking_ids { 'MyString' }
     params { '' }

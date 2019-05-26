@@ -26,7 +26,13 @@ module Manage
         Payment.new(payment_params)
       end.compact
 
-      render 'import_done' if @payments.select(&:applies).all?(&:save)
+      Payment.transaction do
+        if @payments.select(&:applies).all?(&:save)
+          render 'import_done'
+        else
+          raise ActiveRecord::Rollback
+        end
+      end
     end
 
     def new_import

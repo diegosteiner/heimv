@@ -6,14 +6,22 @@ module Export
       include Prawn::View
 
       def document
-        @document || initialize_document
+        @document ||= initialize_document
       end
 
-      def initialize_document
-        @document ||= Prawn::Document.new(document_options)
-        initialize_font
-        @document
-      end
+  def initialize_document
+    Prawn::Document.new(document_options).tap do |document|
+        fonts_path = File.join(__dir__, '..', 'assets', 'fonts')
+        document.font_families.update('OpenSans' => {
+                               normal: File.join(fonts_path, 'OpenSans-Regular.ttf'),
+                               italic: File.join(fonts_path, 'OpenSans-Italic.ttf'),
+                               bold: File.join(fonts_path, 'OpenSans-Bold.ttf'),
+                               bold_italic: File.join(fonts_path, 'OpenSans-BoldItalic.ttf')
+                             })
+        document.font 'OpenSans'
+        document.font_size(10)
+    end
+  end
 
       def document_options
         {
@@ -23,18 +31,6 @@ module Export
           margin: [50] * 4,
           align: :left, kerning: true
         }
-      end
-
-      def initialize_font
-        font_path = Rails.root.join('app', 'webpack', 'fonts', 'OpenSans-Regular.ttf')
-        @document.font_size(10)
-        @document.font_families.update('OpenSans' => {
-                                         normal: font_path,
-                                         italic: font_path,
-                                         bold: font_path,
-                                         bold_italic: font_path
-                                       })
-        @document.font 'OpenSans'
       end
 
       def build

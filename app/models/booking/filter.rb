@@ -18,7 +18,7 @@ class Booking
     filter do |bookings|
       next bookings if ref.blank?
 
-      bookings.where(Booking.arel_table[:ref].matches("%#{f.ref}%"))
+      bookings.where(Booking.arel_table[:ref].matches("%#{ref}%"))
     end
 
     filter do |bookings|
@@ -36,8 +36,8 @@ class Booking
       next bookings if tenant.blank?
 
       bookings.joins(:tenant)
-              .where(Tenant.arel_table[:search_cache].matches("%#{f.tenant}%")
-          .or(Booking.arel_table[:tenant_organisation].matches("%#{f.tenant}%")))
+              .where(Tenant.arel_table[:search_cache].matches("%#{tenant}%")
+          .or(Booking.arel_table[:tenant_organisation].matches("%#{tenant}%")))
     end
 
     filter do |bookings|

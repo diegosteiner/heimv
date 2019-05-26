@@ -49,15 +49,6 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.index ["code"], name: "index_booking_agents_on_code"
   end
 
-  create_table "booking_reports", force: :cascade do |t|
-    t.string "type"
-    t.string "label"
-    t.jsonb "filter_params", default: {}
-    t.jsonb "report_params", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "booking_transitions", force: :cascade do |t|
     t.string "to_state", null: false
     t.integer "sort_key", null: false
@@ -234,6 +225,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.text "payment_information"
     t.string "account_nr"
     t.text "message_footer"
+    t.string "currency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -244,12 +236,21 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.string "ref"
     t.bigint "invoice_id"
     t.uuid "booking_id"
-    t.text "data"
+    t.jsonb "data"
     t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_payments_on_booking_id"
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "type"
+    t.string "label"
+    t.jsonb "filter_params", default: {}
+    t.jsonb "report_params", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tarif_selectors", force: :cascade do |t|

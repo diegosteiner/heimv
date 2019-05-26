@@ -40,7 +40,7 @@ en:
         code: Code
         email: Email
         name: Name
-      booking_report:
+      report:
         label: Name
         type: Art
       contract:
@@ -174,10 +174,10 @@ en:
       booking_agent:
         one: Vermittler
         other: Vermittler
-      booking_report:
+      report:
         one: Bericht
         other: Berichte
-      booking_reports/tarif:
+      reports/tarif:
         one: Tarif Bericht
         other: Tarif Berichte
       booking_transition:

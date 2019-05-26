@@ -16,9 +16,10 @@ class Payment
     end
 
     def from_camt_transaction(transaction, entry)
-      invoice = Invoice.find_by(ref: transaction.creditor_reference)
+      ref = transaction.creditor_reference
+      invoice = Invoice.find_by(ref: ref)
       Payment.new(
-        invoice: invoice, booking: invoice&.booking, applies: invoice.present?,
+        invoice: invoice, booking: invoice&.booking, applies: invoice.present?, ref: ref,
         paid_at: entry.value_date, amount: transaction.amount, data: camt_transaction_to_h(transaction),
         remarks: [transaction.name, entry.description].reject(&:blank?).join("\n\n")
       )

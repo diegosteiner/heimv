@@ -16,7 +16,7 @@ module Manage
       )
     end
 
-    def self.extract_datetime_from_params(params, composit_key)
+    def self.extract_datetime_from_param_groups(params, composit_key)
       return if params.blank?
 
       keys = params.keys.select { |key| key.to_s.starts_with?(composit_key.to_s) }.sort
