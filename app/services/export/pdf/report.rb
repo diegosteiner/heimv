@@ -2,7 +2,7 @@ require 'prawn'
 
 module Export
   module Pdf
-    class BookingReport < Base
+    class Report < Base
       attr_reader :report
 
       def initialize(report, options = {})

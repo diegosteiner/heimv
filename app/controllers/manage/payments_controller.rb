@@ -27,11 +27,9 @@ module Manage
       end.compact
 
       Payment.transaction do
-        if @payments.select(&:applies).all?(&:save)
-          render 'import_done'
-        else
-          raise ActiveRecord::Rollback
-        end
+        raise ActiveRecord::Rollback unless @payments.select(&:applies).all?(&:save)
+
+        render 'import_done'
       end
     end
 

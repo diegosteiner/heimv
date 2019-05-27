@@ -1,5 +1,12 @@
 = form_with(url: import_manage_payments_path, scope: :payments, method: :POST, local: true, layout: :inline) do |f|
   table.table
+    colgroup
+      col[style='width: 1rem;']
+      col[style='width: 10rem;']
+      col[style='width: 10rem;']
+      col[style='width: 10rem;']
+      col[style='width: 10rem;']
+      col
     thead
       tr.bg-white
         th
@@ -15,7 +22,7 @@
             td.py-3
               = pf.hidden_field :id
               / = pf.check_box :_destroy, { checked: payment.applies, skip_label: true }, '0', '1'
-              = pf.check_box :applies
+              = pf.check_box :applies, skip_label: true
               = pf.hidden_field :ref
               = pf.hidden_field :data
             td.py-2

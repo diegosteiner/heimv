@@ -3,6 +3,7 @@ class ApplicationFilter
   extend ActiveModel::Naming
   extend ActiveModel::Translation
   include ActiveModel::Attributes
+  include MultiparameterAttributes
 
   class << self
     attr_reader :reducers
@@ -11,10 +12,6 @@ class ApplicationFilter
       @reducers ||= []
       @reducers << block
     end
-  end
-
-  def assign_attributes(attributes)
-    raise "x"
   end
 
   def active?

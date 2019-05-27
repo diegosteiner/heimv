@@ -2,10 +2,8 @@
 
 module Manage
   class BookingFilterParams < ApplicationParams
-    nested occupancy_params: OccupancyFilterParams
-
     def self.permitted_keys
-      %i[tenant ref] + [booking_states: [], homes: []]
+      %i[tenant ref] + [booking_states: [], homes: [], occupancy_params: OccupancyFilterParams.permitted_keys]
     end
   end
 end

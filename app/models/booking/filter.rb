@@ -7,7 +7,6 @@ class Booking
     attribute :booking_states, default: []
     attribute :only_inconcluded, default: true
 
-
     def occupancy
       @occupancy ||= Occupancy::Filter.new(occupancy_params)
     end

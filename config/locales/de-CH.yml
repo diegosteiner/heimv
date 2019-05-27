@@ -40,9 +40,6 @@ de-CH:
         code: Vermittler-Code
         email: Email
         name: Name
-      report:
-        label: Name
-        type: Art
       contract:
         sent_at: Verschickt am
         signed_at: Unterschrieben am
@@ -66,10 +63,10 @@ de-CH:
         invoice_parts: Positionen
         invoice_type: Rechnungsart
         issued_at: Ausgestellt am
-        payable_until: Zahlung bis
+        payable_until: Zahlbar bis
         print_payment_slip: Einzahlungsschein drucken
         ref: Referenznummer
-        sent_at: Versendet am
+        sent_at: Verschickt am
         text: Text
       invoice_part:
         amount: Betrag
@@ -95,7 +92,10 @@ de-CH:
         ends_at_time: Ende der Belegung (Zeit)
       payment:
         amount: Betrag
-        paid_at: Einbezahlt am
+        paid_at: Bezahlt am
+      report:
+        label: Name
+        type: Art
       tarif:
         invoice_type: Rechnungstyp
         label: Tarif
@@ -174,12 +174,6 @@ de-CH:
       booking_agent:
         one: Vermittler
         other: Vermittler
-      report:
-        one: Bericht
-        other: Berichte
-      reports/tarif:
-        one: Tarif Bericht
-        other: Tarif Berichte
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -198,6 +192,9 @@ de-CH:
       invoice_part:
         one: Position
         other: Positionen
+      markdown_template:
+        one: Textvorlage
+        other: Textvorlagen
       message:
         one: Nachricht
         other: Nachrichten
@@ -210,6 +207,12 @@ de-CH:
       payment:
         one: Zahlung
         other: Zahlungen
+      report:
+        one: Bericht
+        other: Berichte
+      reports/tarif:
+        one: Tarif Bericht
+        other: Tarif Berichte
       tarif:
         one: Tarif
         other: Tarife

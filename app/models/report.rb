@@ -44,12 +44,9 @@ class Report < ApplicationRecord
 
   protected
 
-  def generate_tabular_header
-  end
+  def generate_tabular_header; end
 
-  def generate_tabular_footer
-  end
+  def generate_tabular_footer; end
 
-  def generate_tabular_row(booking)
-  end
+  def generate_tabular_row(booking); end
 end
