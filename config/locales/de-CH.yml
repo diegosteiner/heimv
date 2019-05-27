@@ -74,6 +74,11 @@ de-CH:
         label: Text
         label_2: Text
         type: Positionsart
+      markdown_template:
+        body: Text
+        key: ID
+        locale: Sprache
+        title: Titel
       message:
         body: Inhalt
         sent_at: Zuletzt gesendet am
