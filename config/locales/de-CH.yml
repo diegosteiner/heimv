@@ -3,17 +3,21 @@ de-CH:
   activemodel:
     attributes:
       booking/filter:
-        begins_at: Von
-        begins_at_after: Beginn der Belegung ab
-        begins_at_before: Beginn der Belegung bis
         booking_states: Status
-        ends_at: Bis
-        ends_at_after: Ende der Belegung ab
-        ends_at_before: Ende der Belegung bis
         homes: Heime
         only_inconcluded: nur offene Buchungen
         ref: Buchungsreferenz
         tenant: Mieter
+      occupancy/filter:
+        begins_at: Von
+        begins_at_after: Beginn der Belegung ab
+        begins_at_before: Beginn der Belegung bis
+        ends_at: Bis
+        ends_at_after: Ende der Belegung ab
+        ends_at_before: Ende der Belegung bis
+      payment/filter:
+        paid_at_after: Zahlung ab
+        paid_at_before: Zahlung bis
   activerecord:
     attributes:
       booking:
@@ -182,6 +186,9 @@ de-CH:
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
+      booking/filter:
+        one: Buchungsfilter
+        other: Buchungsfilter
       contract:
         one: Vertrag
         other: Verträge
@@ -215,6 +222,15 @@ de-CH:
       report:
         one: Bericht
         other: Berichte
+      reports/tenant:
+        one: Mieter Bericht
+        other: Mieter Berichte
+      reports/booking_report:
+        one: Belegungen Bericht
+        other: Belegungen Berichte
+      reports/payment_report:
+        one: Zahlungen Bericht
+        other: Zahlungen Berichte
       reports/tarif:
         one: Tarif Bericht
         other: Tarif Berichte
@@ -1409,8 +1425,8 @@ de-CH:
           notice: Deine Reservationsanfrage wurde gespeichert. Du kannst das Browserfenster schliessen.
   helpers:
     submit:
-      create: Create
-      update: Update
+      create: Erstellen
+      update: Speichern
   manage:
     bookings:
       tarifs:

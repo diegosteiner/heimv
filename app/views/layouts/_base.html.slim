@@ -21,3 +21,5 @@ html[lang=I18n.locale]
               li.breadcrumb-item
                 = link_to_if url.present?, text, url
         == yield
+      footer
+        .version.small.text-center= Rails.configuration.version
