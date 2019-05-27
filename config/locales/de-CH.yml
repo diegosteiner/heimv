@@ -3,7 +3,13 @@ de-CH:
   activemodel:
     attributes:
       booking/filter:
+        begins_at: Von
+        begins_at_after: Beginn der Belegung ab
+        begins_at_before: Beginn der Belegung bis
         booking_states: Status
+        ends_at: Bis
+        ends_at_after: Ende der Belegung ab
+        ends_at_before: Ende der Belegung bis
         homes: Heime
         only_inconcluded: nur offene Buchungen
         ref: Buchungsreferenz
@@ -180,15 +186,15 @@ de-CH:
       booking:
         one: Buchung
         other: Buchungen
+      booking/filter:
+        one: Buchungsfilter
+        other: Buchungsfilter
       booking_agent:
         one: Vermittler
         other: Vermittler
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
-      booking/filter:
-        one: Buchungsfilter
-        other: Buchungsfilter
       contract:
         one: Vertrag
         other: Verträge
@@ -222,9 +228,6 @@ de-CH:
       report:
         one: Bericht
         other: Berichte
-      reports/tenant:
-        one: Mieter Bericht
-        other: Mieter Berichte
       reports/booking_report:
         one: Belegungen Bericht
         other: Belegungen Berichte
@@ -234,6 +237,9 @@ de-CH:
       reports/tarif:
         one: Tarif Bericht
         other: Tarif Berichte
+      reports/tenant:
+        one: Mieter Bericht
+        other: Mieter Berichte
       tarif:
         one: Tarif
         other: Tarife
