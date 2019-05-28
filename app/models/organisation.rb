@@ -21,7 +21,7 @@ class Organisation < ApplicationRecord
 
   validates :booking_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
-  validates :name, :address, :payment_information, :account_nr, presence: true
+  validates :name, :address, :account_nr, presence: true
 
   def self.instance
     @instance ||= take!
