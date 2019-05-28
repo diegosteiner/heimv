@@ -65,6 +65,7 @@ de-CH:
         name: Name
         place: Ort
         ref: Kurzname / Referenz
+        requests_allowed: Reservationsanfragen erlauben
       invoice:
         amount: Betrag
         amount_open: offener Betrag

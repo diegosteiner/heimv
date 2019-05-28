@@ -75,6 +75,9 @@ export default {
     id() {
       return this._uid + '_' + this.moment(this.date).format("Y-MM-DD");
     },
+    tooltipText() {
+
+    },
     relevantOccupancies(date) {
       return this.occupancies.filter(function(occupancy) {
         return occupancy.occupancy_type != "free";
@@ -264,8 +267,8 @@ $occupied-background-color: #ffa8a8;
   [disabled] {
     cursor: default;
     opacity: 0.2;
-    color: transparent;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+    // color: transparent;
+    // text-shadow: 0 0 5px rgba(0, 0, 0, 1);
   }
 
   .active {

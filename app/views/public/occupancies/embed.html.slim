@@ -6,9 +6,9 @@ html[lang=I18n.locale]
     meta[name='description' content=title]
     == csrf_meta_tags
     == csp_meta_tag
-    == javascript_packs_with_chunks_tag 'calendar'
-    == stylesheet_pack_tag 'calendar'
-  body
+    == javascript_packs_with_chunks_tag 'app'
+    == stylesheet_pack_tag 'app'
+  body[style='background-color: white;']
     #app[v-cloak]
         app-occupancy-calendar[
                 occupancies-url=home_occupancies_path(@home, format: :json)
