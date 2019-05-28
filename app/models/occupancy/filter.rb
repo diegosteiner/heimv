@@ -4,6 +4,8 @@ class Occupancy
     attribute :begins_at_before, :datetime
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
+    multi_param_attribute begins_at_before: DateTime, begins_at_after: DateTime,
+                          ends_at_before: DateTime, ends_at_after: DateTime
 
     filter do |occupancies|
       occupancies.where.not(booking: nil)
