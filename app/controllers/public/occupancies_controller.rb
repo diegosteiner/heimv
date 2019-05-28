@@ -5,6 +5,7 @@ module Public
     load_and_authorize_resource :home
     load_and_authorize_resource :occupancy, through: :home
     layout false
+    after_action :allow_embed, only: %i[embed]
     # respond_to :json, :html
 
     def show
@@ -15,7 +16,8 @@ module Public
       respond_with :public, @occupancies.window
     end
 
-    def embed; end
+    def embed
+    end
 
     def calendar
       # @calendar = OccupancyCalendarSerializer.new(@occupancies).serializable_hash
