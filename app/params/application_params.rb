@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 class ApplicationParams
-  def self.permit(params)
-    return if params.nil?
+  class << self
+    def permit(params)
+      params&.permit(permitted_keys) || default
+    end
 
-    sanitize(params).permit(permitted_keys)
-  end
+    def default
+      ActionController::Parameters.new
+    end
 
-  def self.permitted_keys
-    []
-  end
-
-  def self.sanitize(params)
-    params
+    def permitted_keys
+      []
+    end
   end
 end

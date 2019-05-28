@@ -2,9 +2,9 @@
 #
 # Table name: tarif_tarif_selectors
 #
-#  id                :bigint(8)        not null, primary key
-#  tarif_id          :bigint(8)
-#  tarif_selector_id :bigint(8)
+#  id                :bigint           not null, primary key
+#  tarif_id          :bigint
+#  tarif_selector_id :bigint
 #  veto              :boolean          default(TRUE)
 #  distinction       :string
 #  created_at        :datetime         not null

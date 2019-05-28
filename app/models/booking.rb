@@ -3,9 +3,10 @@
 # Table name: bookings
 #
 #  id                    :uuid             not null, primary key
-#  home_id               :bigint(8)        not null
+#  home_id               :bigint           not null
+#  organisation_id       :bigint           not null
 #  state                 :string           default("initial"), not null
-#  tenant_organisation          :string
+#  tenant_organisation   :string
 #  email                 :string
 #  tenant_id             :integer
 #  state_data            :json
@@ -17,16 +18,22 @@
 #  purpose               :string
 #  ref                   :string
 #  editable              :boolean          default(TRUE)
+#  usages_entered        :boolean          default(FALSE)
+#  messages_enabled      :boolean          default(FALSE)
+#  import_data           :jsonb
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  booking_agent_code    :string
+#  booking_agent_ref     :string
 #
 
 class Booking < ApplicationRecord
   include BookingState
   include Statesman::Adapters::ActiveRecordQueries
-  DEFAULT_INCLUDES = %i[occupancy tenant home booking_transitions invoices contracts deadlines payments messages].freeze
+  DEFAULT_INCLUDES = %i[organisation occupancy tenant home booking_transitions
+                        invoices contracts deadlines payments].freeze
 
+  belongs_to :organisation,  inverse_of: :bookings
   belongs_to :home,          inverse_of: :bookings
   belongs_to :tenant,        inverse_of: :bookings, optional: true
   belongs_to :booking_agent, inverse_of: :bookings, optional: true,
@@ -36,12 +43,12 @@ class Booking < ApplicationRecord
 
   has_many :invoices,            dependent: :destroy, autosave: false
   has_many :payments,            dependent: :destroy, autosave: false
-  has_many :usages,              dependent: :destroy # , autosave: false
   has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
   has_many :deadlines,           dependent: :destroy, inverse_of: :booking
   has_many :messages,            dependent: :destroy, inverse_of: :booking
 
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
+  has_many :usages,            -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :contracts,         -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs,       through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
@@ -59,9 +66,10 @@ class Booking < ApplicationRecord
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
 
-  scope :ordered, -> { order(created_at: :ASC) }
+  scope :ordered, -> { order(created_at: :asc) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
+  before_validation :set_organisation
   before_validation :set_occupancy_attributes
   before_validation :assign_tenant_from_email
   before_create     :set_ref
@@ -143,5 +151,9 @@ class Booking < ApplicationRecord
 
   def set_ref
     self.ref ||= RefService.new.call(self)
+  end
+
+  def set_organisation
+    self.organisation ||= home.organisation
   end
 end

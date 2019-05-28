@@ -2,13 +2,13 @@
 #
 # Table name: tarifs
 #
-#  id                       :bigint(8)        not null, primary key
+#  id                       :bigint           not null, primary key
 #  type                     :string
 #  label                    :string
 #  transient                :boolean          default(FALSE)
 #  booking_id               :uuid
-#  home_id                  :bigint(8)
-#  booking_copy_template_id :bigint(8)
+#  home_id                  :bigint
+#  booking_copy_template_id :bigint
 #  unit                     :string
 #  price_per_unit           :decimal(, )
 #  valid_from               :datetime
@@ -41,11 +41,19 @@ class Tarif < ApplicationRecord
   scope :transient, -> { where(transient: true) }
   scope :valid_now, -> { where(valid_until: nil) }
   # scope :valid_at, ->(at = Time.zone.now) { where(valid_until: nil) }
-  scope :applicable_to, ->(booking) { booking.home.tarifs.transient.or(where(booking: booking)).order(position: :ASC) }
+  scope :applicable_to, ->(booking) { booking.home.tarifs.transient.or(where(booking: booking)).order(position: :asc) }
 
   enum prefill_usage_method: Hash[TarifPrefiller::PREFILL_METHODS.keys.map { |method| [method, method] }]
 
   validates :type, presence: true
+
+  def unit_prefix
+    self.class.human_attribute_name(:unit_prefix, default: '')
+  end
+
+  def unit_with_prefix
+    [unit_prefix, unit].reject(&:blank?).join(' ')
+  end
 
   def parent
     booking || home

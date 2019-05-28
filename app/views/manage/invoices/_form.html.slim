@@ -1,0 +1,52 @@
+= form_with(model: [:manage, @invoice], local: true) do |f|
+
+  fieldset
+    = f.select :invoice_type, enum_options_for_select(Invoice, :invoice_types, @invoice.invoice_type)
+    = f.hidden_field :booking_id
+    = f.text_field :ref, help: "Automatisch generiert"
+    = f.text_area :text
+    = f.date_field :issued_at, lang: I18n.locale
+    = f.date_field :sent_at, lang: I18n.locale
+    = f.date_field :payable_until, lang: I18n.locale
+    = f.check_box :print_payment_slip
+
+    hr
+
+    label= Invoice.human_attribute_name(:invoice_parts)
+    = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
+      = ipf.hidden_field :id
+      = ipf.hidden_field :usage_id
+      .row
+        .col-1.pt-2
+          = ipf.check_box :_destroy, { checked: ipf.object.apply, hide_label: true }, '0', '1'
+        .col-5
+          = ipf.text_field :label, hide_label: true
+        .col-4
+          = ipf.text_field :label_2, hide_label: true
+        .col-2
+          = ipf.number_field :amount, hide_label: true, class: 'text-right', step: 0.01
+
+    hr
+    = f.fields_for :invoice_parts, @suggested_invoice_parts do |ipf|
+      = ipf.hidden_field :id
+      = ipf.hidden_field :usage_id
+      = ipf.hidden_field :type
+      .row
+        .col-1.pt-2
+          = ipf.check_box :_destroy, { checked: ipf.object.apply, hide_label: true }, '0', '1'
+        .col-5
+          = ipf.text_field :label, hide_label: true
+        .col-4
+          = ipf.text_field :label_2, hide_label: true
+        .col-2
+          = ipf.number_field :amount, hide_label: true, class: 'text-right', step: 0.01
+
+    div
+      - unless @invoice.new_record?
+        = link_to new_manage_invoice_invoice_part_path(@invoice), class: 'btn btn-outline-primary' do
+          = t(:add_record, model_name: InvoicePart.model_name.human)
+
+
+
+  .form-actions.pt-4.mt-3.border-top
+    = f.submit

@@ -3,6 +3,7 @@ require 'prawn'
 module Export
   module Pdf
     class Base
+      FONTS_PATH = File.join(__dir__, '..', '..', '..', 'webpack', 'fonts')
       include Prawn::View
 
       def document
@@ -10,9 +11,20 @@ module Export
       end
 
       def initialize_document
-        @document ||= Prawn::Document.new(document_options)
+        @document = Prawn::Document.new(document_options)
         initialize_font
         @document
+      end
+
+      def initialize_font
+        @document.font_families.update('OpenSans' => {
+                                         normal: File.join(FONTS_PATH, 'OpenSans-Regular.ttf'),
+                                         italic: File.join(FONTS_PATH, 'OpenSans-Italic.ttf'),
+                                         bold: File.join(FONTS_PATH, 'OpenSans-Bold.ttf'),
+                                         bold_italic: File.join(FONTS_PATH, 'OpenSans-BoldItalic.ttf')
+                                       })
+        @document.font 'OpenSans'
+        @document.font_size(10)
       end
 
       def document_options
@@ -23,18 +35,6 @@ module Export
           margin: [50] * 4,
           align: :left, kerning: true
         }
-      end
-
-      def initialize_font
-        font_path = Rails.root.join('app', 'webpack', 'fonts', 'OpenSans-Regular.ttf')
-        @document.font_size(10)
-        @document.font_families.update('OpenSans' => {
-                                         normal: font_path,
-                                         italic: font_path,
-                                         bold: font_path,
-                                         bold_italic: font_path
-                                       })
-        @document.font 'OpenSans'
       end
 
       def build

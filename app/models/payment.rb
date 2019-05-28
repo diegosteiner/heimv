@@ -2,11 +2,11 @@
 #
 # Table name: payments
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
 #  amount     :decimal(, )
 #  paid_at    :date
 #  ref        :string
-#  invoice_id :bigint(8)
+#  invoice_id :bigint
 #  booking_id :uuid
 #  data       :text
 #  remarks    :text
@@ -17,6 +17,8 @@
 class Payment < ApplicationRecord
   belongs_to :invoice, optional: true, touch: true
   belongs_to :booking, touch: true
+
+  attribute :applies, :boolean, default: true
 
   validates :amount, numericality: true
   validates :paid_at, :amount, :booking, presence: true

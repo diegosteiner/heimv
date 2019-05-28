@@ -16,11 +16,13 @@ class PaymentSlip
     @mode = mode
   end
 
+  def invoice_ref_strategy
+    @invoice_ref_strategy ||= InvoiceRefStrategies::ESR.new
+  end
+
   def checksums; end
 
-  def checksum(number)
-    EsrService.new.checksum(number)
-  end
+  delegate :checksum, to: :invoice_ref_strategy
 
   def code
     {
@@ -49,14 +51,14 @@ class PaymentSlip
   end
 
   def account_nr
-    '01-162-8'
+    @invoice.organisation.account_nr
   end
 
   def address
-    "Verein Pfadiheime St. Georg\nHeimverwaltung\n\n8000 Zürich"
+    @invoice.organisation.address
   end
 
   def esr_ref
-    @ref.reverse.chars.in_groups_of(5).reverse.map { |group| group.reverse.join }.join(' ')
+    invoice_ref_strategy.format_ref(@ref)
   end
 end

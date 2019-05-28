@@ -23,10 +23,14 @@ module Manage
 
     def import
       @payments = payments_params.values.map do |payment_params|
-        Payment.new(payment_params) unless payment_params.delete(:_destroy) == '1'
-      end
+        Payment.new(payment_params)
+      end.compact
 
-      redirect_to(manage_payments_path) if @payments.all?(&:save)
+      Payment.transaction do
+        raise ActiveRecord::Rollback unless @payments.select(&:applies).all?(&:save)
+
+        render 'import_done'
+      end
     end
 
     def new_import
@@ -51,7 +55,7 @@ module Manage
 
     def destroy
       @payment.destroy
-      respond_with :manage, @payment, location: manage_payments_path(@payment.booking)
+      respond_with :manage, @payment, location: manage_booking_payments_path(@payment.booking)
     end
 
     private
@@ -61,7 +65,7 @@ module Manage
     end
 
     def payments_params
-      params.permit(payments: [PaymentParams.permitted_keys + %i[_destroy]])[:payments]
+      params.permit(payments: [PaymentParams.permitted_keys])[:payments]
     end
   end
 end

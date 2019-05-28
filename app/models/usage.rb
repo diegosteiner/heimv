@@ -2,8 +2,8 @@
 #
 # Table name: usages
 #
-#  id         :bigint(8)        not null, primary key
-#  tarif_id   :bigint(8)
+#  id         :bigint           not null, primary key
+#  tarif_id   :bigint
 #  used_units :decimal(, )
 #  remarks    :text
 #  booking_id :uuid
@@ -21,8 +21,9 @@ class Usage < ApplicationRecord
   has_many :invoice_parts, dependent: :nullify
 
   attribute :apply, default: true
+  delegate(:position, to: :tarif)
 
-  scope :ordered, -> { order(tarif: { row_order: :ASC, created_at: :ASC }) }
+  scope :ordered, -> { joins(:tarif).order(Tarif.arel_table[:position]) }
   scope :of_tarif, ->(tarif) { where(tarif_id: tarif.self_and_booking_copy_ids) }
   scope :amount, -> { joins(:tarif).where(tarifs: { type: Tarifs::Amount.to_s }) }
 

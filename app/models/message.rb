@@ -2,9 +2,9 @@
 #
 # Table name: messages
 #
-#  id                   :bigint(8)        not null, primary key
+#  id                   :bigint           not null, primary key
 #  booking_id           :uuid
-#  markdown_template_id :bigint(8)
+#  markdown_template_id :bigint
 #  sent_at              :datetime
 #  subject              :string
 #  body                 :text
@@ -17,6 +17,9 @@ class Message < ApplicationRecord
   has_one :tenant, through: :booking
   belongs_to :markdown_template, optional: true
   has_many_attached :attachments
+
+  attribute :cc, default: []
+  attribute :bcc, default: []
 
   def to
     [booking.correspondence_email]
@@ -32,7 +35,6 @@ class Message < ApplicationRecord
   end
 
   def deliver_now
-    yield(self) if block_given?
     return false unless save && booking.messages_enabled?
 
     message_delivery.deliver_now && update(sent_at: Time.zone.now)

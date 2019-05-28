@@ -49,15 +49,6 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.index ["code"], name: "index_booking_agents_on_code"
   end
 
-  create_table "booking_reports", force: :cascade do |t|
-    t.string "type"
-    t.string "label"
-    t.jsonb "filter_params", default: {}
-    t.jsonb "report_params", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "booking_transitions", force: :cascade do |t|
     t.string "to_state", null: false
     t.integer "sort_key", null: false
@@ -74,6 +65,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
 
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "home_id", null: false
+    t.bigint "organisation_id", null: false
     t.string "state", default: "initial", null: false
     t.string "tenant_organisation"
     t.string "email"
@@ -95,6 +87,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.string "booking_agent_code"
     t.string "booking_agent_ref"
     t.index ["home_id"], name: "index_bookings_on_home_id"
+    t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
     t.index ["state"], name: "index_bookings_on_state"
   end
@@ -126,6 +119,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
   end
 
   create_table "homes", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
     t.string "name"
     t.string "ref"
     t.string "place"
@@ -133,6 +127,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.boolean "requests_allowed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_homes_on_organisation_id"
     t.index ["ref"], name: "index_homes_on_ref", unique: true
   end
 
@@ -158,7 +153,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.datetime "sent_at"
     t.text "text"
     t.integer "invoice_type"
-    t.string "esr_number"
+    t.string "ref"
     t.decimal "amount", default: "0.0"
     t.boolean "paid", default: false
     t.boolean "print_payment_slip", default: false
@@ -166,6 +161,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
+    t.index ["ref"], name: "index_invoices_on_ref"
     t.index ["type"], name: "index_invoices_on_type"
   end
 
@@ -221,18 +217,40 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
   end
 
+  create_table "organisations", force: :cascade do |t|
+    t.string "name"
+    t.text "address"
+    t.string "booking_strategy_type"
+    t.string "invoice_ref_strategy_type"
+    t.text "payment_information"
+    t.string "account_nr"
+    t.text "message_footer"
+    t.string "currency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "payments", force: :cascade do |t|
     t.decimal "amount"
     t.date "paid_at"
     t.string "ref"
     t.bigint "invoice_id"
     t.uuid "booking_id"
-    t.text "data"
+    t.jsonb "data"
     t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_payments_on_booking_id"
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "type"
+    t.string "label"
+    t.jsonb "filter_params", default: {}
+    t.jsonb "report_params", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tarif_selectors", force: :cascade do |t|
@@ -290,6 +308,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.boolean "reservations_allowed"
     t.boolean "email_verified", default: false
     t.text "phone"
+    t.text "remarks"
     t.string "email", null: false
     t.text "search_cache", null: false
     t.date "birth_date"
@@ -330,8 +349,10 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
 
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
+  add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "deadlines", "bookings"
+  add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"

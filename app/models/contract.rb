@@ -2,7 +2,7 @@
 #
 # Table name: contracts
 #
-#  id          :bigint(8)        not null, primary key
+#  id          :bigint           not null, primary key
 #  booking_id  :uuid
 #  sent_at     :date
 #  signed_at   :date
@@ -20,7 +20,7 @@ class Contract < ApplicationRecord
   scope :valid, -> { where(valid_until: nil) }
   scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent, -> { where(sent_at: nil) }
-  scope :ordered, -> { order(valid_from: :ASC) }
+  scope :ordered, -> { order(valid_from: :asc) }
 
   after_save do
     booking.state_transition

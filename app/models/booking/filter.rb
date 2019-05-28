@@ -11,37 +11,37 @@ class Booking
       @occupancy ||= Occupancy::Filter.new(occupancy_params)
     end
 
-    filter do |bookings, f|
-      bookings.where(occupancy: f.occupancy.reduce(Occupancy.unscoped))
+    filter do |bookings|
+      bookings.where(occupancy: occupancy.reduce(Occupancy.unscoped))
     end
 
-    filter do |bookings, f|
-      next bookings if f.ref.blank?
+    filter do |bookings|
+      next bookings if ref.blank?
 
-      bookings.where(Booking.arel_table[:ref].matches("%#{f.ref}%"))
+      bookings.where(Booking.arel_table[:ref].matches("%#{ref}%"))
     end
 
-    filter do |bookings, f|
-      f.only_inconcluded ? bookings.inconcluded : bookings
+    filter do |bookings|
+      only_inconcluded ? bookings.inconcluded : bookings
     end
 
-    filter do |bookings, f|
-      homes = f.homes.reject(&:blank?)
-      next bookings if homes.blank?
+    filter do |bookings|
+      relevant_homes = homes.reject(&:blank?)
+      next bookings if relevant_homes.blank?
 
-      bookings.where(home_id: homes)
+      bookings.where(home_id: relevant_homes)
     end
 
-    filter do |bookings, f|
-      next bookings if f.tenant.blank?
+    filter do |bookings|
+      next bookings if tenant.blank?
 
       bookings.joins(:tenant)
-              .where(Tenant.arel_table[:search_cache].matches("%#{f.tenant}%")
-          .or(Booking.arel_table[:tenant_organisation].matches("%#{f.tenant}%")))
+              .where(Tenant.arel_table[:search_cache].matches("%#{tenant}%")
+          .or(Booking.arel_table[:tenant_organisation].matches("%#{tenant}%")))
     end
 
-    filter do |bookings, f|
-      states = f.booking_states.reject(&:blank?)
+    filter do |bookings|
+      states = booking_states.reject(&:blank?)
       next bookings if states.blank?
 
       bookings.where(state: states)

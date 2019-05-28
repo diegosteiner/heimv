@@ -1,7 +1,7 @@
 module Manage
   class PaymentParams < ApplicationParams
     def self.permitted_keys
-      %i[amount invoice_id booking_id paid_at ref]
+      %i[amount invoice_id booking_id paid_at ref data remarks applies]
     end
   end
 end

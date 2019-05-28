@@ -4,6 +4,7 @@ module BookingStrategies
       module Public
         class Cancel < BookingStrategy::Action
           def call!
+            @booking.errors.clear
             @booking.state_machine.transition_to(:cancelation_pending)
           end
 

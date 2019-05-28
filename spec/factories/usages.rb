@@ -2,8 +2,8 @@
 #
 # Table name: usages
 #
-#  id         :bigint(8)        not null, primary key
-#  tarif_id   :bigint(8)
+#  id         :bigint           not null, primary key
+#  tarif_id   :bigint
 #  used_units :decimal(, )
 #  remarks    :text
 #  booking_id :uuid

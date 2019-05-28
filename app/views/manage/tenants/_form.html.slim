@@ -16,6 +16,7 @@
     = f.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17
     hr
     = f.check_box :reservations_allowed
+    = f.text_area :remarks
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit

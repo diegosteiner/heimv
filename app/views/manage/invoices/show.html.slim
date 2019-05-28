@@ -1,0 +1,38 @@
+= render partial: 'manage/bookings/navigation', locals: { active: :invoices }
+
+.card.breakout-sm
+  .card-body
+    = render_hash_as_dl(@invoice.attributes.slice(*%w(invoice_type esr_number issued_at payable_until text)), Invoice)
+    br
+
+    dl
+      dt= Invoice.human_attribute_name(:invoice_parts)
+      dd
+        - @invoice.invoice_parts.each do |invoice_part|
+          .row
+            .col-5
+              = invoice_part.label
+            .col-3
+              = invoice_part.label_2
+            .col-3.text-right
+              = number_to_currency(invoice_part.amount)
+            .col-1
+              = link_to edit_manage_invoice_invoice_part_path(@invoice, invoice_part)
+                span.fa.fa-pencil
+
+        hr
+        .row
+          .col-8
+          .col-3.text-right
+            strong= number_to_currency(@invoice.amount)
+
+
+    = link_to edit_manage_invoice_path(@invoice), class: 'btn btn-primary' do
+      span.fa.fa-pencil
+      '
+      = t(:edit)
+    '
+    = link_to manage_invoice_path(@invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t(:destroy)

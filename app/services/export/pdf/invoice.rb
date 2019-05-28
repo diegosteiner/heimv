@@ -7,11 +7,12 @@ module Export
         @invoice = invoice
         @booking = invoice.booking
         @payment_slip = PaymentSlip.new(@invoice)
-        document.font_families.update('ocr' => { normal: ocr_font_path })
       end
 
-      def ocr_font_path
-        Rails.root.join('app', 'webpack', 'fonts', 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf')
+      def initialize_fonts
+        super
+        ocr_font_path = File.join(FONTS_PATH, 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf')
+        @document.font_families.update('ocr' => { normal: ocr_font_path })
       end
 
       def sections

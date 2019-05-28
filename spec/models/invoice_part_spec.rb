@@ -2,9 +2,9 @@
 #
 # Table name: invoice_parts
 #
-#  id         :bigint(8)        not null, primary key
-#  invoice_id :bigint(8)
-#  usage_id   :bigint(8)
+#  id         :bigint           not null, primary key
+#  invoice_id :bigint
+#  usage_id   :bigint
 #  type       :string
 #  amount     :decimal(, )
 #  label      :string

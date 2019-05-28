@@ -2,7 +2,7 @@
 #
 # Table name: tenants
 #
-#  id                   :bigint(8)        not null, primary key
+#  id                   :bigint           not null, primary key
 #  first_name           :string
 #  last_name            :string
 #  street_address       :string
@@ -10,10 +10,13 @@
 #  city                 :string
 #  country              :string
 #  reservations_allowed :boolean
+#  email_verified       :boolean          default(FALSE)
 #  phone                :text
+#  remarks              :text
 #  email                :string           not null
 #  search_cache         :text             not null
 #  birth_date           :date
+#  import_data          :jsonb
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #
@@ -24,7 +27,7 @@ class Tenant < ApplicationRecord
   validates :email, presence: true, format: { with: Devise.email_regexp }
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :birth_date, presence: true, on: :public_update
-  validates :phone, presence: true, length: { in: 10..20 }, on: :public_update
+  validates :phone, presence: true, length: { minimum: 10 }, on: :public_update
 
   before_save do
     self.search_cache = (address_lines + [email, phone]).flatten.join('\n')
@@ -39,7 +42,7 @@ class Tenant < ApplicationRecord
   end
 
   def address_lines
-    [name, street_address, "#{zipcode} #{city}"].reject(&:blank?)
+    [name, street_address, "#{zipcode} #{city} #{country}"].reject(&:blank?)
   end
 
   def contact_lines

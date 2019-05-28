@@ -1,9 +1,10 @@
-require_relative './base_seeder'
+Dir[Rails.root.join('db', 'seeders', '**', '*.rb')].each { |f| require f }
 
 module Seeders
   class ApplicationSeeder
     def seed(env = Rails.env)
       [
+        OrganisationSeeder,
         UserSeeder,
         HomeSeeder,
         TarifSeeder,

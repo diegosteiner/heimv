@@ -2,26 +2,29 @@
 #
 # Table name: invoices
 #
-#  id                 :bigint(8)        not null, primary key
+#  id                 :bigint           not null, primary key
+#  type               :string
 #  booking_id         :uuid
 #  issued_at          :datetime
 #  payable_until      :datetime
 #  sent_at            :datetime
 #  text               :text
 #  invoice_type       :integer
-#  esr_number         :string
+#  ref                :string
 #  amount             :decimal(, )      default(0.0)
 #  paid               :boolean          default(FALSE)
 #  print_payment_slip :boolean          default(FALSE)
+#  deleted_at         :datetime
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #
 
 class Invoice < ApplicationRecord
   belongs_to :booking, inverse_of: :invoices, touch: true
-  has_many :invoice_parts, -> { order(position: :ASC) }, inverse_of: :invoice, dependent: :destroy
+  has_many :invoice_parts, -> { order(position: :asc) }, inverse_of: :invoice, dependent: :destroy
   has_many :payments, dependent: :nullify
   has_one_attached :pdf
+  has_one :organisation, through: :booking
 
   enum invoice_type: %i[invoice deposit late_notice]
 
@@ -46,7 +49,7 @@ class Invoice < ApplicationRecord
   end
 
   def ref
-    @ref ||= RefService.new.call(self) unless new_record?
+    @ref ||= invoice_ref_strategy.generate(self) unless new_record?
   end
 
   def recalculate_amount
@@ -79,5 +82,13 @@ class Invoice < ApplicationRecord
 
   def deleted?
     deleted_at.present?
+  end
+
+  def to_s
+    invoice_ref_strategy.format_ref(ref)
+  end
+
+  def invoice_ref_strategy
+    @invoice_ref_strategy ||= organisation.invoice_ref_strategy
   end
 end

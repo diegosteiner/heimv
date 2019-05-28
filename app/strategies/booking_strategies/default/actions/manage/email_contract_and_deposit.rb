@@ -4,9 +4,11 @@ module BookingStrategies
       module Manage
         class EmailContractAndDeposit < BookingStrategy::Action
           def call!(contract = @booking.contract, deposits = @booking.invoices.deposit)
-            @booking.messages.new_from_template(:confirmed_message)&.deliver_now do |message|
-              message.attachments.attach(extract_attachments(@booking.home, deposits, contract))
-            end && contract.sent! && deposits.each(&:sent!)
+            message = @booking.messages.new_from_template(:confirmed_message)
+            return false unless message
+
+            message.attachments.attach(extract_attachments(@booking.home, deposits, contract))
+            message.save && contract.sent! && deposits.each(&:sent!) && message.deliver_now
           end
 
           def allowed?

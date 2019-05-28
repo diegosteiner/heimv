@@ -1,60 +1,61 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  scope '/(:org)', defaults: { org: nil } do
-    namespace :admin do
-      resources :users
-    end
+  namespace :admin do
+    resources :users
+  end
 
-    namespace :manage do
-      get '/', to: 'dashboard#index', as: :manage_dashboard
-      resources :homes do
-        scope module: :homes do
-          resources :tarif_selectors, except: %w[show]
-          resources :meter_reading_periods, only: %w[index]
-        end
-        resources :tarifs, controller: 'home_tarifs' do
+  namespace :manage do
+    get '/', to: 'dashboard#index', as: :manage_dashboard
+    resources :homes do
+      scope module: :homes do
+        resources :tarif_selectors, except: %w[show]
+        resources :meter_reading_periods, only: %w[index]
+        resources :tarifs do
           collection do
             put '/', action: :update_many
           end
         end
       end
-      resources :booking_reports do
-      end
-      resources :payments, only: :index do
-        match :new_import, via: %i[get post], on: :collection
-        post :import, on: :collection
-      end
-      resources :bookings do
-        resources :payments, shallow: true
-        resources :messages, shallow: true, only: %i[index show]
-        scope module: :bookings do
-          resources :contracts
-          resources :tarifs
-          resources :usages do
-            collection do
-              put '/', action: :update_many
-            end
-          end
-          resources :invoices do
-            resources :invoice_parts, except: %i[index show]
+    end
+    resources :reports
+    resources :invoices do
+      resources :invoice_parts, except: %i[index show]
+    end
+    resources :payments, only: :index do
+      match :new_import, via: %i[get post], on: :collection
+      post :import, on: :collection
+    end
+    resources :bookings do
+      resources :invoices, shallow: true
+      resources :payments, shallow: true
+      resources :messages, shallow: true, only: %i[index show]
+      scope module: :bookings do
+        resources :contracts
+        resources :tarifs
+        resources :usages do
+          collection do
+            put '/', action: :update_many
           end
         end
       end
-      resources :tenants
-      resources :booking_agents
     end
+    resources :tenants
+    resources :booking_agents
+    resources :markdown_templates
+  end
 
-    root to: 'pages#home'
-    devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
+  root to: 'pages#home'
+  devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
 
-    scope module: :public do
-      get 'pages/home'
-      get 'pages/about'
-      # get 'at/:t', to: 'pages/home', as: :occupancy_at
-      resources :bookings, only: %i[new create edit update], path: 'b', as: :public_bookings
-      resources :homes, only: [] do
-        resources :occupancies, only: %i[index show]
+  scope module: :public do
+    get 'pages/home'
+    get 'pages/about'
+    # get 'at/:t', to: 'pages/home', as: :occupancy_at
+    resources :bookings, only: %i[new create edit update], path: 'b', as: :public_bookings
+    resources :homes, only: [] do
+      resources :occupancies, only: %i[index show] do
+        get :embed, on: :collection
       end
     end
   end

@@ -2,15 +2,16 @@
 #
 # Table name: deadlines
 #
-#  id               :bigint(8)        not null, primary key
+#  id               :bigint           not null, primary key
 #  at               :datetime
 #  booking_id       :uuid
 #  responsible_type :string
-#  responsible_id   :bigint(8)
+#  responsible_id   :bigint
 #  extendable       :integer          default(0)
 #  current          :boolean          default(TRUE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  remarks          :text
 #
 
 class Deadline < ApplicationRecord
@@ -19,7 +20,7 @@ class Deadline < ApplicationRecord
 
   attribute :extended, default: false
 
-  scope :ordered, -> { order(at: :DESC) }
+  scope :ordered, -> { order(at: :desc) }
   scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
 
   after_destroy :set_current, if: :current?

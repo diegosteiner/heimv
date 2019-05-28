@@ -7,6 +7,12 @@ module BookingStrategies
         confirmed upcoming overdue active past payment_due payment_overdue completed cancelation_pending
       ].each { |s| state(s) }
 
+      # TODO: definitive -> accepted_definitive_request,
+      # upcoming_soon,
+      # confirmed -> awaiting_contract,
+      # cancelled_request
+      #
+
       transition from: :initial,
                  to: %i[unconfirmed_request provisional_request definitive_request open_request]
       transition from: :unconfirmed_request, to: %i[cancelation_pending open_request]
@@ -94,7 +100,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[payment_due]) do |booking|
-        invoice = booking.invoices.sent.unpaid.order(payable_until: :ASC).last
+        invoice = booking.invoices.sent.unpaid.order(payable_until: :asc).last
         payable_until = invoice&.payable_until || 30.days.from_now
         booking.deadlines.create(at: payable_until, extendable: 1) unless booking.deadline
       end
