@@ -3,13 +3,13 @@
     <b-form-group :label="label" :labelClass="required ? 'required' : ''">
       <b-input-group>
         <b-form-input v-model.lazy="formattedDate"/>
-        <b-btn slot="append" variant="primary" @click="toggleModal">
+        <b-btn slot="append" variant="primary" @click="showDateModal = !showDateModal">
           <i class="fa fa-calendar"></i>
         </b-btn>
         <input type="hidden" :name="name" :value="isoDate">
       </b-input-group>
     </b-form-group>
-    <b-modal v-model="showDateModal" size="sm" lazy hide-footer hide-header>
+    <b-modal v-model="showDateModal" size="sm" hide-footer hide-header>
       <calendar :display-months="1" :firstDate="selectedDate">
         <template slot-scope="date">
           <app-calendar-day
@@ -36,7 +36,7 @@ export default {
     required: false
   },
   data() {
-    const parsedDate = this.moment(this.value, this.moment.ISO_8601)
+    const parsedDate = this.$moment(this.value, this.$moment.ISO_8601)
 
     return {
       selectedDate: parsedDate.isValid() ? parsedDate : null,
@@ -48,29 +48,26 @@ export default {
     formattedDate: {
       get() {
         if(this.selectedDate == null) return ""
-        return this.moment(this.selectedDate).format(this.dateFormat)
+        return this.$moment(this.selectedDate).format(this.dateFormat)
       },
       set(newDate) {
-        newDate = this.moment(newDate, this.dateFormat)
+        newDate = this.$moment(newDate, this.dateFormat)
         this.setDate(newDate)
       }
     },
     isoDate() {
       if(this.selectedDate == null) return ""
-      return this.moment(this.selectedDate).format('Y-MM-DD')
+      return this.$moment(this.selectedDate).format('Y-MM-DD')
     }
   },
   methods: {
     setDate(newDate) {
       this.showDateModal = false
-      newDate = this.moment(newDate)
+      newDate = this.$moment(newDate)
       if(newDate.isValid()) {
         this.selectedDate = newDate
         this.$emit('input', newDate)
        }
-    },
-    toggleModal(e) {
-      this.showDateModal = !this.showDateModal
     }
   },
 }

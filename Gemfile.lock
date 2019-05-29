@@ -146,6 +146,9 @@ GEM
       dotenv (= 2.7.2)
       railties (>= 3.2, < 6.1)
     erubi (1.8.0)
+    exception_notification (4.3.0)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     factory_bot (5.0.2)
       activesupport (>= 4.2.0)
     factory_bot_rails (5.0.2)
@@ -375,6 +378,7 @@ DEPENDENCIES
   devise
   devise-i18n
   dotenv-rails
+  exception_notification
   factory_bot_rails
   faker
   foreman

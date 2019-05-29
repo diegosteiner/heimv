@@ -1,16 +1,17 @@
 <template>
   <div>
     <div v-if="loading">
-      <button :disabled="true">{{ date | dayOfMonth }}</button>
+      <button :disabled="true">{{ date | moment('D') }}</button>
     </div>
     <div v-else v-once>
       <button
         :id="id"
         name="booking[occupancy_attributes][begins_at]"
-        :value="date.toISOString()"
+        :value="date.hour(11).toISOString()"
         :class="cssClasses"
         :disabled="disabled || loading"
-      >{{ date | dayOfMonth }}</button>
+        @click="$emit('input', date)"
+      >{{ date | moment('D') }}</button>
       <b-popover
         v-if="occupancies.length && !disabled && !loading"
         :target="id"
@@ -33,7 +34,6 @@
 </template>
 
 <script>
-import Vue from 'vue/dist/vue.js'
 import BPopover from 'bootstrap-vue/es/components/popover/popover'
 
 export default {
@@ -61,19 +61,14 @@ export default {
       }
     }
   },
-  filters: {
-    dayOfMonth: function(value) {
-      return Vue.prototype.moment(value).format("D");
-    }
-  },
   methods: {
     date_format(value) {
-      return this.moment(value).format(this.$t("date_format"));
+      return this.$moment(value).format(this.$t("date_format"));
     },
   },
   computed: {
     id() {
-      return this._uid + '_' + this.moment(this.date).format("Y-MM-DD");
+      return this._uid + '_' + this.$moment(this.date).format("Y-MM-DD");
     },
     tooltipText() {
 
@@ -86,7 +81,7 @@ export default {
     cssClasses() {
       if(this.disabled || this.loading) return ["disabled"]
       if(this.active) return ["bg-primary text-white"]
-      const moment = this.moment
+      const moment = this.$moment
 
       return this.occupancies.map((occupancy) => {
         let begins_at = moment(occupancy.begins_at, moment.ISO_8601);
