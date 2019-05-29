@@ -1,5 +1,6 @@
 module BookingStrategies
   class Default
+    # rubocop:disable Metrics/ClassLength
     class StateMachine < BookingStrategy::StateMachine
       state :initial, initial: true
       %i[
@@ -11,15 +12,18 @@ module BookingStrategies
       # TODO: definitive -> accepted_definitive_request,
       # upcoming_soon,
       # confirmed -> awaiting_contract,
-      # cancelled_request
       #
 
       transition from: :initial,
                  to: %i[unconfirmed_request provisional_request definitive_request open_request]
-      transition from: :unconfirmed_request, to: %i[cancelation_pending open_request]
-      transition from: :open_request,        to: %i[cancelation_pending provisional_request definitive_request]
-      transition from: :provisional_request, to: %i[definitive_request overdue_request cancelation_pending]
-      transition from: :overdue_request,     to: %i[cancelation_pending definitive_request provisional_request]
+      transition from: :unconfirmed_request,
+                 to: %i[cancelled_request declined_request open_request]
+      transition from: :open_request,
+                 to: %i[cancelled_request declined_request provisional_request definitive_request]
+      transition from: :provisional_request,
+                 to: %i[definitive_request overdue_request cancelled_request declined_request]
+      transition from: :overdue_request,
+                 to: %i[cancelled_request declined_request definitive_request provisional_request]
       transition from: :definitive_request,  to: %i[cancelation_pending confirmed]
       transition from: :confirmed,           to: %i[cancelation_pending upcoming overdue]
       transition from: :overdue,             to: %i[cancelation_pending upcoming]
@@ -83,12 +87,12 @@ module BookingStrategies
         booking.occupancy.tentative!
       end
 
-      before_transition(to: %i[cancelation_pending]) do |booking|
+      before_transition(to: %i[cancelation_pending cancelled_request declined_request]) do |booking|
         booking.editable!(false)
         booking.occupancy.free!
       end
 
-      after_transition(to: %i[cancelation_pending]) do |booking|
+      after_transition(to: %i[cancelation_pending cancelled_request declined_request]) do |booking|
         booking.deadline.try(:clear)
       end
 
@@ -120,6 +124,15 @@ module BookingStrategies
           booking.messages.new_from_template('booking_agent_cancelled_message')&.deliver_now
         end
       end
+
+      after_transition(to: %i[cancelled_request]) do |booking|
+        booking.messages.new_from_template(:cancelled_request_message)&.deliver_now
+      end
+
+      after_transition(to: %i[declined_request]) do |booking|
+        booking.messages.new_from_template(:declined_request_message)&.deliver_now
+      end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end

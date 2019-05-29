@@ -4,7 +4,8 @@
       h1.text-center= home
       app-occupancy-calendar[
               occupancies-url=home_occupancies_path(home, format: :json)
-              reservation-url=new_public_booking_path(booking: { home_id: home.to_param, occupancy_attributes: { begins_at: '__DATE__' } })
+              reservation-url=new_public_booking_path
+              home-id=home.id
               :display-months='8'
               ]
       = link_to new_public_booking_path(booking: { home_id: home.to_param })

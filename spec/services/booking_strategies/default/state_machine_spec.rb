@@ -27,7 +27,8 @@ describe BookingStrategies::Default::StateMachine do
       before { allow(BookingMailer).to receive_message_chain(:new_booking, :deliver_now) }
 
       it { is_expected.to transition_to(:open_request) }
-      it { is_expected.to transition_to(:cancelation_pending) }
+      it { is_expected.to transition_to(:cancelled_request) }
+      it { is_expected.to transition_to(:declined_request) }
     end
 
     describe 'open_request-->' do
@@ -35,13 +36,16 @@ describe BookingStrategies::Default::StateMachine do
 
       it { is_expected.to transition_to(:provisional_request) }
       it { is_expected.to transition_to(:definitive_request) }
+      it { is_expected.to transition_to(:cancelled_request) }
+      it { is_expected.to transition_to(:declined_request) }
     end
 
     describe 'overdue_request-->' do
       subject { state_machine_in_state(:overdue_request) }
 
       it { is_expected.to transition_to(:definitive_request) }
-      it { is_expected.to transition_to(:cancelation_pending) }
+      it { is_expected.to transition_to(:cancelled_request) }
+      it { is_expected.to transition_to(:declined_request) }
       it { is_expected.to transition_to(:provisional_request) }
     end
 
@@ -50,7 +54,8 @@ describe BookingStrategies::Default::StateMachine do
 
       it { is_expected.to transition_to(:overdue_request) }
       it { is_expected.to transition_to(:definitive_request) }
-      it { is_expected.to transition_to(:cancelation_pending) }
+      it { is_expected.to transition_to(:cancelled_request) }
+      it { is_expected.to transition_to(:declined_request) }
     end
 
     describe 'definitive_request-->' do
@@ -89,7 +94,7 @@ describe BookingStrategies::Default::StateMachine do
   describe 'automatic transitions' do
     it { expect(state_machine_in_state(:active)).to transition_to(:past) }
     it { expect(state_machine_in_state(:upcoming)).to transition_to(:active) }
-    it { expect(state_machine_in_state(:overdue_request)).to transition_to(:cancelation_pending) }
+    it { expect(state_machine_in_state(:overdue_request)).to transition_to(:cancelled_request) }
     it { expect(state_machine_in_state(:payment_due)).to transition_to(:payment_overdue) }
     it { expect(state_machine_in_state(:confirmed)).to transition_to(:overdue) }
   end

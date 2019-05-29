@@ -1,5 +1,6 @@
 <template>
   <form target="_top" :action="reservationUrl" method="GET">
+    <input type="hidden" name="booking[home_id]" :value="homeId">
     <calendar :display-months="displayMonths" v-cloak>
       <template slot-scope="date">
         <app-calendar-day
@@ -23,7 +24,8 @@ export default {
     "occupanciesUrl",
     "reservationUrl",
     "occupanciesJson",
-    "displayMonths"
+    "displayMonths",
+    "homeId"
   ],
   components: { Calendar, AppCalendarDay },
   data: function() {
@@ -38,15 +40,6 @@ export default {
   methods: {
     disable(e) {
       this.enabled = false;
-    },
-    handleClick(e) {
-      window.location = this.reservationUrl.replace(
-        "__DATE__",
-        this.moment(e)
-          .startOf("day")
-          .hour(13)
-          .toISOString()
-      );
     },
     loadOccupanciesFromRemote() {
       const vm = this;
