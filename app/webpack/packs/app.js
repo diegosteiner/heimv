@@ -7,12 +7,13 @@ import Rails from 'rails-ujs'
 import Turbolinks from 'turbolinks'
 import TurbolinksAdapter from 'vue-turbolinks';
 
-import Vue from 'vue/dist/vue.js'
+import Vue from 'vue'
 import AppOccupancyCalendar from '../components/calendar/AppOccupancyCalendar.vue'
 import AppCalendarInput from '../components/calendar/AppCalendarInput.vue'
 import AppTimespanInputs from '../components/calendar/AppTimespanInputs.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueI18n from 'vue-i18n'
+import VueMoment from 'vue-moment'
 import moment from "moment";
 
 import 'bootstrap/dist/js/bootstrap.bundle'
@@ -24,6 +25,7 @@ import Forms from 'src/forms'
 window.jQuery = $;
 window.$ = $;
 moment.locale(["de-CH", "de", "fr-CH", "fr", "it-CH", "it", "en"]);
+Vue.use(VueMoment, moment);
 
 Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue)
