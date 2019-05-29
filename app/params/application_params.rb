@@ -3,7 +3,7 @@
 class ApplicationParams
   class << self
     def permit(params)
-      params&.permit(permitted_keys) || default
+      params&.permit(permitted_keys) || default.permit
     end
 
     def default

@@ -21,7 +21,7 @@
             = link_to l(payment.paid_at), manage_payment_path(payment)
           td
             - if payment.invoice
-              = link_to payment.invoice, manage_booking_invoice_path(payment.booking, payment.invoice)
+              = link_to payment.invoice, manage_invoice_path(payment.invoice)
           td
             = link_to payment.booking, manage_booking_path(payment.booking)
           td.text-right

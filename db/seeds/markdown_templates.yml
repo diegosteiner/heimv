@@ -449,6 +449,20 @@ cancelled_message:
   body: |-
     🙋
 
+cancelled_request_message:
+  key: cancelled_request_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Reservationsanfrage zurückgezogen'
+  body: |-
+    🙋
+
+declined_request_message:
+  key: declined_request_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Reservationsanfrage abgelehnt'
+  body: |-
+    🙋
+
 booking_agent_cancelled_message:
   key: booking_agent_cancelled_message
   locale: de-CH

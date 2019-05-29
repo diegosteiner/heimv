@@ -86,12 +86,12 @@ module BookingStrategies
         booking.occupancy.tentative!
       end
 
-      before_transition(to: %i[cancelation_pending]) do |booking|
+      before_transition(to: %i[cancelation_pending cancelled_request declined_request]) do |booking|
         booking.editable!(false)
         booking.occupancy.free!
       end
 
-      after_transition(to: %i[cancelation_pending]) do |booking|
+      after_transition(to: %i[cancelation_pending cancelled_request declined_request]) do |booking|
         booking.deadline.try(:clear)
       end
 
@@ -122,6 +122,14 @@ module BookingStrategies
         if booking.booking_agent_responsible?
           booking.messages.new_from_template('booking_agent_cancelled_message')&.deliver_now
         end
+      end
+
+      after_transition(to: %i[cancelled_request]) do |booking|
+        booking.messages.new_from_template(:cancelled_request_message)&.deliver_now
+      end
+
+      after_transition(to: %i[declined_request]) do |booking|
+        booking.messages.new_from_template(:declined_request_message)&.deliver_now
       end
     end
   end
