@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="loading">
-      <button :disabled="true">{{ date | dayOfMonth }}</button>
+      <button :disabled="true">{{ date | moment('D') }}</button>
     </div>
     <div v-else v-once>
       <button

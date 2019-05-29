@@ -3,6 +3,7 @@ module BookingStrategies
     class StateMachine < BookingStrategy::StateMachine
       state :initial, initial: true
       %i[
+        cancelled_request declined_request
         unconfirmed_request open_request provisional_request definitive_request overdue_request cancelled
         confirmed upcoming overdue active past payment_due payment_overdue completed cancelation_pending
       ].each { |s| state(s) }

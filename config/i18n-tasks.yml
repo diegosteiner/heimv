@@ -95,8 +95,8 @@ ignore_missing:
 ignore_unused:
 - '{activerecord,activemodel}.*'
 - '{authlogic,kaminari}.*'
-- '{time,datetime,date,support,number}.*'
-- '{simple_form,errors}.*'
+- '{time,datetime,date,support,number,helpers}.*'
+- 'errors.*'
 - 'locales.*'
 - 'flash.*'
 - 'titles.*'
