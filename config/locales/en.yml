@@ -305,12 +305,18 @@ en:
         cancelled:
           help: Help
           label: Storniert
+        cancelled_request:
+          help: Help
+          label: Mietanfrage (zurückgezogen)
         completed:
           help: Help
           label: Abgeschlossene Belegung
         confirmed:
           help: Help
           label: Bestätigte Reservation
+        declined_request:
+          help: Help
+          label: Mietanfrage (abgelehnt)
         definitive_request:
           help: Help
           label: Definitive Mietanfrage

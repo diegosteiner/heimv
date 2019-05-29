@@ -305,12 +305,18 @@ de-CH:
         cancelled:
           help: Help
           label: Storniert
+        cancelled_request:
+          help: Help
+          label: Mietanfrage (zurückgezogen)
         completed:
           help: Help
           label: Belegung (abgeschlossen)
         confirmed:
           help: Help
           label: Reservation (Vertrag ausstehend)
+        declined_request:
+          help: Help
+          label: Mietanfrage (abgelehnt)
         definitive_request:
           help: Help
           label: Mietanfrage (definitiv)

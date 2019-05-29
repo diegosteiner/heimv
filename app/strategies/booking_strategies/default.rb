@@ -34,7 +34,7 @@ module BookingStrategies
         Actions::Manage::EmailInvoice, Actions::Public::ExtendDeadline,
         Actions::Manage::MarkContractSigned, Actions::Manage::MarkDepositsPaid,
         Actions::Manage::MarkInvoicesPaid, Actions::Public::CommitRequest,
-        Actions::Public::Cancel
+        Actions::Manage::Cancel
       ]
       @manage_actions ||= BookingStrategy::ActionCollection.new(actions)
     end

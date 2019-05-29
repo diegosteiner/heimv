@@ -1,6 +1,6 @@
 - bookings = @bookings.group_by(&:state).with_indifferent_access
 
-- %i[unconfirmed_request open_request overdue_request provisional_request definitive_request confirmed upcoming active past payment_due payment_overdue cancelation_pending completed cancelled].each do |state|
+- %i[unconfirmed_request open_request overdue_request provisional_request definitive_request confirmed upcoming active past payment_due payment_overdue cancelation_pending completed cancelled cancelled_request declined_request].each do |state|
   - if bookings[state].present?
     section
         - title, help_text = Booking.strategy.t(state, scope: :state).slice(:label, :help).values

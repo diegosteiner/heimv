@@ -11,13 +11,13 @@ module BookingStrategies
         booking.tenant.valid?(:public_update) || booking.booking_agent_responsible?
       end
 
-      automatic_transition(to: :cancelation_pending) do |booking|
-        booking.cancellation_reason.present?
-      end
+      # automatic_transition(to: :declined_request) do |booking|
+      #   booking.cancellation_reason.present?
+      # end
 
-      automatic_transition(from: :unconfirmed_request, to: :cancelation_pending, &:deadline_exceeded?)
+      automatic_transition(from: :unconfirmed_request, to: :cancelled_request, &:deadline_exceeded?)
       automatic_transition(from: :provisional_request, to: :overdue_request, &:deadline_exceeded?)
-      automatic_transition(from: :overdue_request, to: :cancelation_pending, &:deadline_exceeded?)
+      automatic_transition(from: :overdue_request, to: :cancelled_request, &:deadline_exceeded?)
       automatic_transition(from: :confirmed, to: :overdue, &:deadline_exceeded?)
       automatic_transition(from: :overdue, to: :cancelation_pending, &:deadline_exceeded?)
       automatic_transition(from: :payment_due, to: :payment_overdue, &:deadline_exceeded?)

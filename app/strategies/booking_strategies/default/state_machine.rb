@@ -11,15 +11,18 @@ module BookingStrategies
       # TODO: definitive -> accepted_definitive_request,
       # upcoming_soon,
       # confirmed -> awaiting_contract,
-      # cancelled_request
       #
 
       transition from: :initial,
                  to: %i[unconfirmed_request provisional_request definitive_request open_request]
-      transition from: :unconfirmed_request, to: %i[cancelation_pending open_request]
-      transition from: :open_request,        to: %i[cancelation_pending provisional_request definitive_request]
-      transition from: :provisional_request, to: %i[definitive_request overdue_request cancelation_pending]
-      transition from: :overdue_request,     to: %i[cancelation_pending definitive_request provisional_request]
+      transition from: :unconfirmed_request,
+                 to: %i[cancelled_request declined_request open_request]
+      transition from: :open_request,
+                 to: %i[cancelled_request declined_request provisional_request definitive_request]
+      transition from: :provisional_request,
+                 to: %i[definitive_request overdue_request cancelled_request declined_request]
+      transition from: :overdue_request,
+                 to: %i[cancelled_request declined_request definitive_request provisional_request]
       transition from: :definitive_request,  to: %i[cancelation_pending confirmed]
       transition from: :confirmed,           to: %i[cancelation_pending upcoming overdue]
       transition from: :overdue,             to: %i[cancelation_pending upcoming]
