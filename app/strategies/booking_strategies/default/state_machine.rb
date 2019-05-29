@@ -1,5 +1,6 @@
 module BookingStrategies
   class Default
+    # rubocop:disable Metrics/ClassLength
     class StateMachine < BookingStrategy::StateMachine
       state :initial, initial: true
       %i[
@@ -132,5 +133,6 @@ module BookingStrategies
         booking.messages.new_from_template(:declined_request_message)&.deliver_now
       end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end
