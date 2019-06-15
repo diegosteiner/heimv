@@ -1,7 +1,7 @@
 module Import
   class CSVFromStGeorg
       HEADER_MATCHER = {
-        bookings: %r{\ABelegungsnummer;VermieterNummer;Gruppenname},
+        bookings: %r{\A.Belegungsnummer;VermieterNummer;Gruppenname},
         tenants:  %r{\ABelegungsnummer;Kundennummer;MieterName},
         booking_tenants: %r{\AT_.+Belegungen}
   }.freeze
@@ -35,10 +35,9 @@ module Import
     end
 
     def triage_by_headers(files)
-      headers = files.map { |file| [file, File.open(file, &:readline)] }.to_h
-      pp headers
+      headers = files.map { |file| [File.open(file, &:readline), file] }.to_h
       HEADER_MATCHER.dup.transform_values do |matcher|
-        headers.find { |file, header| header =~ matcher }&.first
+        headers[headers.keys.find { |header| header =~ matcher }]
       end
     end
 
@@ -51,13 +50,15 @@ module Import
       def process_tenant_row(row)
       end
 
-      def process_booking_row(row)
-        return if row[:belegungsnummer].blank?
+      def process_booking_csv(csv)
+        csv.map do |row|
+          next if row[:belegungsnummer].blank?
 
-        create_booking(row, extract_tenant(row, result)).tap do |booking|
-          create_transitions(row, booking)
-          create_invoices(row, booking)
-          create_payments(row, booking)
+          create_booking(row, extract_tenant(row, result)).tap do |booking|
+            create_transitions(row, booking)
+            create_invoices(row, booking)
+            create_payments(row, booking)
+          end
         end
       end
 
