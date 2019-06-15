@@ -16,13 +16,13 @@ class PaymentSlip
     @mode = mode
   end
 
-  def invoice_ref_strategy
-    @invoice_ref_strategy ||= InvoiceRefStrategies::ESR.new
+  def ref_strategy
+    @ref_strategy ||= RefStrategies::ESR.new
   end
 
   def checksums; end
 
-  delegate :checksum, to: :invoice_ref_strategy
+  delegate :checksum, to: :ref_strategy
 
   def code
     {
@@ -59,6 +59,6 @@ class PaymentSlip
   end
 
   def esr_ref
-    invoice_ref_strategy.format_ref(@ref)
+    ref_strategy.format_ref(@ref)
   end
 end

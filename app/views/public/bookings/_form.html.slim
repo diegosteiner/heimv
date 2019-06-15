@@ -4,8 +4,7 @@
       .card-header.alert-warning
         p.m-0= t('.last_minute_warning')
     - if @booking.errors.any?
-      .card-header.alert-danger
-        h6.text-error= t(:errors)
+      .card-header.alert-danger.p-0
         = f.error_summary
     .card-body
       fieldset
@@ -50,7 +49,7 @@
           = cf.form_group :country, label: { text: Tenant.human_attribute_name(:country) } do
             = cf.country_select :country, { selected: "CH", priority_countries: ["CH"] }, class: 'form-control', disabled: !@booking.editable
           = cf.telephone_field :phone, disabled: !@booking.editable
-          = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 100, end_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true
+          = cf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true
 
       fieldset
         h5= t('.booking_details')

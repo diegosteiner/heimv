@@ -283,7 +283,7 @@ de-CH:
           mark_deposits_paid: Zahlungseingang bestätigen
           mark_invoices_paid: Zahlungseingang bestätigen
         public:
-          cancel: Absagen
+          cancel: Stornieren
           commit_request: Anfrage definitv setzen
           extend_deadline: Frist verlängern
       checklist:
@@ -392,7 +392,7 @@ de-CH:
     - Fr
     - Sa
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mär
@@ -418,7 +418,7 @@ de-CH:
       long: "%e. %B %Y"
       short: "%e. %b"
     month_names:
-    - 
+    -
     - Januar
     - Februar
     - März
@@ -1584,7 +1584,7 @@ de-CH:
     submit:
       create: Erstellen
       submit: Speichern
-      update: Update
+      update: Speichern
   manage:
     bookings:
       tarifs:

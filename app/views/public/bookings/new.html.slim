@@ -9,8 +9,6 @@
         .card
           - if @booking.errors.any?
             .card-header.alert-danger
-              h6.text-error
-                | Fehler
               = f.error_summary
           .card-body
             fieldset[data-range-role="unit"]
