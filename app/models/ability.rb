@@ -44,6 +44,7 @@ module Ability
 
   class Public < Base
     def anonymous_abilities
+      can %i[create read update], AgentBooking
       can %i[create read update], Booking
       can %i[create read update], Tenant
       can %i[read index], Home, requests_allowed: true

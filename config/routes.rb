@@ -52,6 +52,7 @@ Rails.application.routes.draw do
     get 'pages/home'
     get 'pages/about'
     # get 'at/:t', to: 'pages/home', as: :occupancy_at
+    resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
     resources :bookings, only: %i[new create edit update], path: 'b', as: :public_bookings
     resources :homes, only: [] do
       resources :occupancies, only: %i[index show] do

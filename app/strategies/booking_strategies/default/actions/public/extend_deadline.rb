@@ -8,9 +8,11 @@ module BookingStrategies
             when :provisional_request
               @booking.deadline.extend_until(14.days.from_now)
             when :overdue_request
-              @booking.state_machine.transition_to(:provisional_request)
+              @booking.state_machine
+                      .transition_to(@booking.agent_booking? ? :booking_agent_request : :provisional_request)
             when :payment_overdue
-              @booking.state_machine.transition_to(:payment_due)
+              @booking.state_machine
+                      .transition_to(:payment_due)
             end
           end
 

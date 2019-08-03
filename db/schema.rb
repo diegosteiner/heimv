@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_23_125725) do
+ActiveRecord::Schema.define(version: 2019_06_19_144408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -36,6 +36,18 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "agent_bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "booking_id"
+    t.string "booking_agent_code"
+    t.string "booking_agent_ref"
+    t.boolean "committed_request"
+    t.boolean "accepted_request"
+    t.text "remarks"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_agent_bookings_on_booking_id"
   end
 
   create_table "booking_agents", force: :cascade do |t|
@@ -84,8 +96,6 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "booking_agent_code"
-    t.string "booking_agent_ref"
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
@@ -183,6 +193,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "addressed_to", default: 0, null: false
     t.index ["booking_id"], name: "index_messages_on_booking_id"
     t.index ["markdown_template_id"], name: "index_messages_on_markdown_template_id"
   end
@@ -225,7 +236,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.text "payment_information"
     t.string "account_nr"
     t.text "message_footer"
-    t.string "currency"
+    t.string "currency", default: "CHF"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -347,6 +358,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_125725) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "agent_bookings", "bookings"
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"

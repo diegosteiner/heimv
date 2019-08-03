@@ -10,6 +10,10 @@ module Public
       respond_with :public, @booking
     end
 
+    def show
+      redirect_to edit_public_booking_path(@booking)
+    end
+
     def edit
       respond_with :public, @booking
     end
@@ -17,7 +21,6 @@ module Public
     def create
       @booking.messages_enabled = true
       @booking.save(context: :public_create)
-      Rails.logger.debug @booking.id
       respond_with :public, @booking, location: root_path
     end
 
@@ -26,7 +29,7 @@ module Public
         @booking.assign_attributes(update_params)
         @booking.save(context: :public_update)
       end
-      Booking.strategy.public_actions[booking_action]&.new(@booking)&.call if booking_action
+      Booking.strategy.public_actions[booking_action]&.call(@booking) if booking_action
       respond_with :public, @booking, location: edit_public_booking_path
     end
 

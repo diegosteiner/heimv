@@ -4,17 +4,18 @@ services:
   db:
     image: postgres:alpine
     volumes:
-      - ./tmp/docker/db/data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
 
   app:
-    build: .
-    entrypoint: bin/entry
+    build:
+      context: .
+      target: production
     environment:
-      DATABASE_URL: postgresql://postgres@db/app
-      RAILS_ENV: development
+      DATABASE_URL: postgresql://postgres@db/heimverwaltung_production
+      RAILS_ENV: production
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
     depends_on:
       - db
 
 volumes:
-  bundle:
-  node_modules:
+  db_data:

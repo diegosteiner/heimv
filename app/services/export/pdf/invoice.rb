@@ -9,7 +9,7 @@ module Export
         @payment_slip = PaymentSlip.new(@invoice)
       end
 
-      def initialize_fonts
+      def initialize_font
         super
         ocr_font_path = File.join(FONTS_PATH, 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf')
         @document.font_families.update('ocr' => { normal: ocr_font_path })

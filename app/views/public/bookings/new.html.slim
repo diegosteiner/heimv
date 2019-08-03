@@ -29,15 +29,8 @@
               = f.email_field :email
               = f.text_field :tenant_organisation
 
-              button.btn.btn-link[v-b-toggle.tenant-fields type='button']
+              = link_to new_public_agent_booking_path
                 = BookingAgent.model_name.human
-
-              b-collapse#tenant-fields
-                hr.my-3
-                fieldset
-                  h5= BookingAgent.model_name.human
-                  = f.text_field :booking_agent_code
-                  = f.text_field :booking_agent_ref
 
             .form-actions.pt-4.mt-3.border-top
               = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html')

@@ -21,8 +21,12 @@ class Message < ApplicationRecord
   attribute :cc, default: []
   attribute :bcc, default: []
 
+  enum addressed_to: %i[manager tenant booking_agent], _prefix: true
+
+  validates :to, presence: true
+
   def to
-    [booking.correspondence_email]
+    @to ||= resolve_addressed_to
   end
 
   def markdown
@@ -34,14 +38,17 @@ class Message < ApplicationRecord
     @markdown = value
   end
 
-  def deliver_now
-    return false unless save && booking.messages_enabled?
-
-    message_delivery.deliver_now && update(sent_at: Time.zone.now)
+  def deliverable?
+    valid? && (booking.messages_enabled? || addressed_to_manager?)
   end
 
-  def message_delivery
-    BookingMailer.booking_message(self)
+  def deliver_now
+    # raise "och"
+    deliverable? && action_mailer_mail.deliver_now && update(sent_at: Time.zone.now)
+  end
+
+  def action_mailer_mail
+    @action_mailer_mail ||= BookingMailer.booking_message(self)
   end
 
   def self.new_from_template(template, attributes = {})
@@ -58,5 +65,14 @@ class Message < ApplicationRecord
       message.subject = template.title
       message.markdown = template.interpolate('booking' => message.booking)
     end
+  end
+
+  protected
+
+  def resolve_addressed_to
+    return [booking.email].compact if addressed_to_tenant?
+    return [booking.booking_agent&.email].compact if addressed_to_booking_agent?
+
+    [ENV.fetch('ADMIN_EMAIL', 'info@heimverwalung.example.com')]
   end
 end

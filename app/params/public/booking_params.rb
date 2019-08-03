@@ -19,8 +19,9 @@ module Public
       end
 
       def self.permitted_keys
-        super + [:tenant_organisation, :home_id, :email, :booking_agent_code, :booking_agent_ref,
-                 :accept_conditions, occupancy_attributes: OccupancyParams.permitted_keys]
+        super + [:tenant_organisation, :home_id, :email, :accept_conditions,
+                 agent_booking_attributes: %i[booking_agent_code booking_agent_ref],
+                 occupancy_attributes: OccupancyParams.permitted_keys]
       end
     end
   end

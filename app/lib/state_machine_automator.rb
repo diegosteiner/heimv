@@ -3,7 +3,7 @@ class StateMachineAutomator
   Callback = Struct.new(:from, :to, :callback)
 
   attr_accessor :state_machine
-  delegate :current_state, :transition_to, :object, to: :state_machine
+  delegate :current_state, :transition_to, :can_transition_to?, :object, to: :state_machine
 
   def initialize(state_machine)
     @state_machine = state_machine
@@ -24,18 +24,19 @@ class StateMachineAutomator
       while (to = next_state) && passed_transitions.count <= max_steps
         raise CircularTransitionError if passed_transitions.include?(to)
 
-        passed_transitions << to if @state_machine.transition_to(to)
+        passed_transitions << to if transition_to(to)
       end
     end
   end
 
   def next_state
-    current_state = @state_machine.current_state&.to_sym
     self.class.callbacks.each do |callback|
-      next unless callback.from.include?(current_state) || callback.from.empty?
-
+      from = callback.from
       to = callback.to
-      return to if callback.callback.call(@state_machine.object) && @state_machine.can_transition_to?(to)
+      next unless from.include?(current_state&.to_sym) || from.empty?
+      next unless callback.callback.call(object) && can_transition_to?(to)
+
+      return to
     end
     nil
   end

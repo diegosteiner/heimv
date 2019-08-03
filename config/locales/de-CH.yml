@@ -26,6 +26,12 @@ de-CH:
         paid_at_before: Zahlung bis
   activerecord:
     attributes:
+      agent_booking:
+        booking: Buchung
+        booking_agent: Vermittler
+        email: Email des Mieters
+        booking_agent_code: Vermittlercode
+        booking_agent_ref: Ihre Referenz
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
@@ -285,6 +291,7 @@ de-CH:
         public:
           cancel: Stornieren
           commit_request: Anfrage definitv setzen
+          commit_booking_agent_request: Anfrage definitv setzen
           extend_deadline: Frist verlängern
       checklist:
         choose_tarifs: Tarife festlegen
@@ -299,6 +306,12 @@ de-CH:
         active:
           help: Help
           label: Aktive Belegung
+        awaiting_tenant:
+          help: Help
+          label: Mietanfrage (fehlende Mieterangaben)
+        booking_agent_request:
+          help: Help
+          label: Mietanfrage (provisorisch via Vermittler)
         cancelation_pending:
           help: Help
           label: Stornierung pendent
@@ -1665,10 +1678,16 @@ de-CH:
         title: Reservation bearbeiten
       form:
         booking_details: Angaben zur Reservation
-        last_minute_warning: Last minute warning
+        last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
       new:
         accept_conditions_html: Ich bin mit den Datenschutzbestimmungen und den AGB einverstanden
         title: Reservation
+    agent_bookings:
+      new:
+        title: Reservation
+      edit:
+        title: Reservation bearbeiten
+
   reset: Reset
   support:
     array:

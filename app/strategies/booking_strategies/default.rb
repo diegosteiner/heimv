@@ -22,6 +22,7 @@ module BookingStrategies
     def public_actions
       actions = [
         Actions::Public::CommitRequest,
+        Actions::Public::CommitBookingAgentRequest,
         Actions::Public::ExtendDeadline,
         Actions::Public::Cancel
       ]

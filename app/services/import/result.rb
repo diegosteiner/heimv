@@ -1,19 +1,14 @@
 module Import
   class Result
-    def records
-      @records ||= {}
-    end
+    attr_accessor :errors, :records
 
-    def invalid_records
-      records.values.flatten.select { |record| record.respond_to?(:valid?) && !record.valid? }
+    def initialize
+      @records = {}
+      @errors  = []
     end
 
     def success?
-      invalid_records.any?
-    end
-
-    def errors
-      invalid_records.map(&:errors)
+      errors.none?
     end
 
     def <<(record)

@@ -430,7 +430,7 @@ booking_agent_request_message:
     Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
 
     - Unsere Referenz: {{ booking.ref }}
-    - Ihre Referenz: {{ booking.booking_agent_ref }}
+    - Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}
     - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
 
@@ -469,3 +469,65 @@ booking_agent_cancelled_message:
   title: 'Pfadi-heime.ch: Vermittlung storniert'
   body: |-
     🙋
+
+booking_agent_request_message:
+  key: booking_agent_request_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Reservationsanfrage bestätigt'
+  body: |-
+    Hallo
+
+    Vielen Dank für die vermittelte Mietanfrage auf pfadi-heime.ch. Wir haben die Angaben geprüft und nun eine provisorische Reservation erstellt.
+    Diese gilt für **14 Tage** danach verfällt sie und das Lagerhaus wird wieder freigegeben.
+    Über den folgenden Link kann die Reservation verlängert, aufgohoben oder für definitiv erklärt werden.
+
+    [{{booking.agent_booking.links.edit}}]({{booking.agent_booking.links.edit}})
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    Freundliche Grüsse
+    Verein Pfadiheime St. Georg
+
+awaiting_tenant_message:
+  key: awaiting_tenant_message
+  locale: de-CH
+  title: 'Pfadi-heime.ch: Infos bitte'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir benötigen noch deine vollständigen Angaben, um die Reservation
+    definitiv abzuschliessen.
+    Über den folgenden Link kannst Du Deine Reservation verlängern aufheben oder für definitiv erklären.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    Freundliche Grüsse
+    Verein Pfadiheime St. Georg
+
+

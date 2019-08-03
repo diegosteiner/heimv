@@ -8,7 +8,7 @@ module Seeders
           name: "Heimverein St. Georg",
           address: "Verein Pfadiheime St. Georg\nHeimverwaltung\n\n8000 Zürich",
           booking_strategy_type: BookingStrategies::Default.to_s,
-          invoice_ref_strategy_type: InvoiceRefStrategies::ESR.to_s,
+          invoice_ref_strategy_type: RefStrategies::ESR.to_s,
           payment_information: '',
           account_nr: '01-162-8',
           currency: 'CHF',

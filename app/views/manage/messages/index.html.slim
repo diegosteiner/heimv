@@ -4,6 +4,7 @@ table.table.table-hover.table-card
   thead
     tr
       th= Message.model_name.human(count: :other)
+      th= Message.human_attribute_name(:to)
       th
 
   tbody
@@ -14,6 +15,8 @@ table.table.table-hover.table-card
             = l(message.sent_at, format: :short)
           - else
             = '-'
+        td
+          = message.to
         td
           = link_to message.subject, manage_message_path(message)
         / td.py-1.text-right

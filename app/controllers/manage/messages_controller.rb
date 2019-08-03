@@ -5,6 +5,7 @@ module Manage
     before_action :set_booking, only: %i[show]
 
     def index
+      @messages = @messages.order(created_at: :DESC)
       respond_with :manage, @messages
     end
 

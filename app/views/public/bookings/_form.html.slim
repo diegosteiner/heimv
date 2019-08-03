@@ -66,12 +66,6 @@
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable
 
-      - if @booking.booking_agent.present? && @booking.booking_agent_ref.present?
-        fieldset
-          h5= BookingAgent.model_name.human
-          label= Booking.human_attribute_name(:booking_agent_ref)
-          div= @booking.booking_agent_ref
-
       .form-actions.pt-4.mt-3.border-top
         - if @booking.editable
           =<> f.submit
