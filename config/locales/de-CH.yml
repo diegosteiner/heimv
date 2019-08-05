@@ -113,6 +113,17 @@ de-CH:
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
+      organisation:
+        name: Name
+        address: Adresse
+        # booking_strategy_type:
+        # invoice_ref_strategy_type :string
+        payment_information: Zahlungsinformationen
+        account_nr: Kontonummer
+        message_footer: Fusszeile für Nachrichten
+        terms_pdf: AGB
+        privacy_statement_pdf: Datenschutzerklärung
+        logo: Logo
       payment:
         amount: Betrag
         paid_at: Bezahlt am
@@ -235,6 +246,9 @@ de-CH:
       occupancy:
         one: Belegung
         other: Belegungen
+      organisation:
+        one: Organisation
+        other: Organisationen
       payment:
         one: Zahlung
         other: Zahlungen
@@ -1608,6 +1622,7 @@ de-CH:
         table:
           save: "%{model_name} speichern"
   nav:
+    settings: Einstellungen
     edit_account: Account
     sign_in: Anmelden
     sign_out: Abmelden
@@ -1680,7 +1695,7 @@ de-CH:
         booking_details: Angaben zur Reservation
         last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
       new:
-        accept_conditions_html: Ich bin mit den Datenschutzbestimmungen und den AGB einverstanden
+        accept_conditions_html: Ich bin mit den <a href="%{privacy_statement_pdf_url}" target="_blank">Datenschutzbestimmungen</a> und den <a href="%{terms_pdf_url}" target="_blank">AGB</a> einverstanden
         title: Reservation
     agent_bookings:
       new:

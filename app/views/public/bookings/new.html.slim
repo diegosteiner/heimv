@@ -33,7 +33,9 @@
                 = BookingAgent.model_name.human
 
             .form-actions.pt-4.mt-3.border-top
-              = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html')
+              - terms_pdf_url = @organisation.terms_pdf.attached? ? url_for(@organisation.terms_pdf) : '#'
+              - privacy_statement_pdf_url = @organisation.privacy_statement_pdf.attached? ? url_for(@organisation.privacy_statement_pdf) : '#'
+              = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', terms_pdf_url: terms_pdf_url, privacy_statement_pdf_url: privacy_statement_pdf_url)
               br
               = f.submit
 

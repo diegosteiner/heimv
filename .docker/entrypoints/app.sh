@@ -14,7 +14,7 @@ if [ "$RAILS_ENV" == "test" ]; then
   rails db:setup RAILS_ENV=$RAILS_ENV
 fi
 
+[ "$MIGRATE_DATABASE" == "true" ] && bundle exec rails db:create db:migrate
 [ "$WEBPACKER_PRECOMPILE" == "true" ] && bundle exec rails webpacker:compile
-[ "$MIGRATE_DATABASE" == "true" ] && bundle exec rails db:migrate
 
 exec "$@"

@@ -1,4 +1,4 @@
-- Home.all.each do |home|
+- Home.where(requests_allowed: true).each do |home|
   .card.my-3
     .card-body
       h1.text-center= home

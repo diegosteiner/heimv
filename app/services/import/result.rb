@@ -3,7 +3,7 @@ module Import
     attr_accessor :errors, :records
 
     def initialize
-      @records = {}
+      @records = []
       @errors  = []
     end
 
@@ -14,8 +14,8 @@ module Import
     def <<(record)
       return if record.blank?
 
-      records[record.class] ||= []
-      records[record.class] << record
+      records << record
+      errors << record.errors if record.errors.any?
     end
   end
 end

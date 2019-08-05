@@ -39,6 +39,7 @@ module Ability
       can :manage, Invoice
       can :manage, Payment
       can :manage, Deadline
+      can %i[read edit update], Organisation
     end
   end
 

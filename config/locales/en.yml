@@ -26,6 +26,12 @@ en:
         paid_at_before: Zahlung bis
   activerecord:
     attributes:
+      agent_booking:
+        booking: Buchung
+        booking_agent: Vermittler
+        booking_agent_code: Vermittlercode
+        booking_agent_ref: Ihre Referenz
+        email: Email des Mieters
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
@@ -107,6 +113,15 @@ en:
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
+      organisation:
+        account_nr: Kontonummer
+        address: Adresse
+        logo: Logo
+        message_footer: Fusszeile für Nachrichten
+        name: Name
+        payment_information: Zahlungsinformationen
+        privacy_statement_pdf: Datenschutzerklärung
+        terms_pdf: AGB
       payment:
         amount: Betrag
         paid_at: Einbezahlt am
@@ -229,6 +244,9 @@ en:
       occupancy:
         one: Belegung
         other: Belegungen
+      organisation:
+        one: Organisation
+        other: Organisationen
       payment:
         one: Zahlung
         other: Zahlungen
@@ -284,6 +302,7 @@ en:
           mark_invoices_paid: Zahlungseingang bestätigen
         public:
           cancel: Absagen
+          commit_booking_agent_request: Anfrage definitv setzen
           commit_request: Anfrage definitv setzen
           extend_deadline: Frist verslängern
       checklist:
@@ -299,6 +318,12 @@ en:
         active:
           help: Help
           label: Aktive Belegung
+        awaiting_tenant:
+          help: Help
+          label: Mietanfrage (fehlende Mieterangaben)
+        booking_agent_request:
+          help: Help
+          label: Mietanfrage (provisorisch via Vermittler)
         cancelation_pending:
           help: Help
           label: Annulierte Reservation
@@ -579,6 +604,7 @@ en:
           save: Save %{model_name}
   nav:
     edit_account: Account
+    settings: Einstellungen
     sign_in: Anmelden
     sign_out: Abmelden
   new: New
@@ -635,6 +661,11 @@ en:
         delimiter: ''
   optional: optional
   public:
+    agent_bookings:
+      edit:
+        title: Reservation bearbeiten
+      new:
+        title: Reservation
     bookings:
       edit:
         title: Title
@@ -642,7 +673,7 @@ en:
         booking_details: Booking details
         last_minute_warning: Last minute warning
       new:
-        accept_conditions_html: Accept conditions html
+        accept_conditions_html: <a href="%{privacy_statement_pdf_url}" target="_blank"></a> <a href="%{terms_pdf_url}" target="_blank"></a>
         title: Title
   reset: Reset
   support:

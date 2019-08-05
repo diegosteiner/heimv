@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         end
       end
     end
+    resource :organisation, only: %i[edit update]
     resources :reports
     resources :invoices do
       resources :invoice_parts, except: %i[index show]

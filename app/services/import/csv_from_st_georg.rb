@@ -29,16 +29,13 @@ module Import
 
     def process_file(file, content_type)
       Rails.logger.info("Processing #{file} as #{content_type}")
-      case content_type
-      when :tenants
-        process_tenants_file(file)
-      when :booking_tenants
-        process_booking_tenants_file(file)
-      when :bookings
-        process_booking_file(file)
-      else
-        Rails.logger.warn("Could not process #{file}")
-      end
+
+      content_type_handlers = {
+        tenants: -> { process_tenants_file(file) },
+        booking_tenants: -> { process_booking_tenants_file(file) },
+        bookings: -> { process_booking_file(file) }
+      }
+      content_type_handlers[content_type]&.call || Rails.logger.warn("Could not process #{file}")
     end
 
     def triage_by_headers(files)
@@ -67,26 +64,22 @@ module Import
       ::CSV.foreach(file, self.class.csv_options) do |row|
         tenant = TenantRow.new(row).build
 
-        if tenant&.save
-          result << tenant
-        else
-          result.errors << tenant
-          binding.pry
-        end
+        tenant.save
+        result << tenant
       end
     end
 
     def process_booking_file(file)
       ::CSV.foreach(file, self.class.csv_options) do |row|
-        next unless row[:belegungsnummer].present?
+        next if row[:belegungsnummer].blank?
+
         booking = BookingRow.new(row, @tenant_registry).build
 
         if booking.save
           booking.state_machine.transition_to(:confirmed) && booking.state_machine.transition_to(:upcoming)
-        else
-          result.errors << booking
-          puts booking.errors.inspect
         end
+
+        result << booking
       end
     end
 
@@ -106,11 +99,16 @@ module Import
           city: row[:mieterort], country: country, phone: phone,
           reservations_allowed: true, remarks: row[:mieterbemerkungen], import_data: row.to_h
         )
+        tenant
       end
       # rubocop:enable Metrics/AbcSize
 
       def email
-        row[:mieteremail]
+        row[:mieteremail].presence || "mieter+#{legacy_id}@heimv.local"
+      end
+
+      def legacy_id
+        row[:kundennummer]
       end
 
       def phone
@@ -128,6 +126,7 @@ module Import
     class BookingRow
       MONTHS = %w[Januar Februar März April Mai Juni Juli August September Oktober November Dezember].freeze
       MONTH_REPLACEMENTS = MONTHS.map.with_index { |month, i| [month, i + 1] }.to_h.freeze
+      MONTH_REPLACEMENT_REGEX = Regexp.new(MONTH_REPLACEMENTS.keys.join('|')).freeze
       PURPOSE_MATCHER = {
         'lager' => :camp,
         'xxx' => :event
@@ -185,10 +184,7 @@ module Import
       end
 
       def tenant
-        @tenant_registry.fetch(ref)
-      rescue
-        binding.pry
-        Rails.logger.error ""
+        @tenant_registry.fetch(ref, Tenant.new(email: "mieter+#{ref}@heimv.local"))
       end
 
       def tenant_organisation
@@ -200,11 +196,9 @@ module Import
       end
 
       def parse_date(date)
-        Time.zone.strptime(date.split(', ').last.gsub(/\w+/, MONTH_REPLACEMENTS), '%d. %m %Y %H:%M')
+        Time.zone.strptime(date.split(', ').last.gsub(MONTH_REPLACEMENT_REGEX, MONTH_REPLACEMENTS), '%d. %m %Y %H:%M')
       rescue ArgumentError
         nil
-      rescue
-        binding.pry
       end
     end
   end
