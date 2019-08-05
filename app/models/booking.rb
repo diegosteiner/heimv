@@ -36,10 +36,9 @@ class Booking < ApplicationRecord
   belongs_to :organisation,  inverse_of: :bookings
   belongs_to :home,          inverse_of: :bookings
   belongs_to :tenant,        inverse_of: :bookings, optional: true
-  belongs_to :booking_agent, inverse_of: :bookings, optional: true,
-                             foreign_key: :booking_agent_code, primary_key: :code
 
   has_one  :occupancy,       dependent: :destroy, inverse_of: :booking, autosave: true
+  has_one  :agent_booking,   dependent: :destroy, inverse_of: :booking
 
   has_many :invoices,            dependent: :destroy, autosave: false
   has_many :payments,            dependent: :destroy, autosave: false
@@ -52,9 +51,10 @@ class Booking < ApplicationRecord
   has_many :contracts,         -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs,       through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
+  has_one  :booking_agent,     through: :agent_booking
 
   validates :home, :occupancy, presence: true
-  validates :email, format: Devise.email_regexp, presence: true, unless: :booking_agent_responsible?
+  validates :email, format: Devise.email_regexp, presence: true, if: :committed_request?
 
   validates :accept_conditions, acceptance: true,                 on: :public_create
   validates :tenant, presence: true,                              on: :public_update
@@ -66,6 +66,7 @@ class Booking < ApplicationRecord
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
 
+  default_scope -> { ordered }
   scope :ordered, -> { order(created_at: :asc) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
@@ -79,6 +80,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :tenant, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :deadlines, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :agent_booking, reject_if: :all_blank
 
   attribute :accept_conditions, default: false
   # enum purpose: { camp: :camp, event: :event }
@@ -87,18 +89,12 @@ class Booking < ApplicationRecord
     ref
   end
 
-  def correspondence_email
-    tenant&.email&.presence || self[:email]&.presence || booking_agent&.email
-  end
-
   def overnight_stays
     occupancy.nights * approximate_headcount
   end
 
   def editable!(value = true)
-    # rubocop:disable Rails/SkipsModelValidations
     update_columns(editable: value)
-    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def self.strategy
@@ -121,8 +117,8 @@ class Booking < ApplicationRecord
     deadline&.exceeded?
   end
 
-  def booking_agent_responsible?
-    booking_agent.present? && !committed_request
+  def agent_booking?
+    agent_booking.present?
   end
 
   def cache_key
@@ -150,10 +146,10 @@ class Booking < ApplicationRecord
   end
 
   def set_ref
-    self.ref ||= RefService.new.call(self)
+    self.ref ||= RefStrategies::DefaultBookingRef.new.generate(self)
   end
 
   def set_organisation
-    self.organisation ||= home.organisation
+    self.organisation ||= home&.organisation
   end
 end

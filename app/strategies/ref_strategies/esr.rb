@@ -1,5 +1,5 @@
-module InvoiceRefStrategies
-  class ESR < InvoiceRefStrategy
+module RefStrategies
+  class ESR < RefStrategy
     def generate(invoice)
       ref = format('%03d%06d%012d', invoice.booking.home.id, invoice.booking.tenant.id, invoice.id)
       ref + checksum(ref).to_s

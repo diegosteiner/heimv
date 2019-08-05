@@ -18,13 +18,19 @@ class Organisation < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :homes, dependent: :restrict_with_error, inverse_of: :organisation
   has_one_attached :logo
+  has_one_attached :terms_pdf
+  has_one_attached :privacy_statement_pdf
 
   validates :booking_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
   validates :name, :address, :account_nr, presence: true
 
+  after_update do
+    self.class.instance.reload
+  end
+
   def self.instance
-    @instance ||= take!
+    @instance ||= first!
   end
 
   def booking_strategy

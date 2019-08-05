@@ -2,7 +2,7 @@
 
 include Warden::Test::Helpers
 Warden.test_mode!
-I18n.locale = 'de-CH'
+I18n.locale = 'de'
 
 feature 'Home CRUD', :devise, skip: true do
   before(:each) { login_as(user, scope: :user) }

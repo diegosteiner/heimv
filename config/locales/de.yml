@@ -1,5 +1,5 @@
 ---
-de-CH:
+de:
   activemodel:
     attributes:
       booking/filter:
@@ -26,6 +26,12 @@ de-CH:
         paid_at_before: Zahlung bis
   activerecord:
     attributes:
+      agent_booking:
+        booking: Buchung
+        booking_agent: Vermittler
+        booking_agent_code: Vermittlercode
+        booking_agent_ref: Ihre Referenz
+        email: Email des Mieters
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
@@ -107,6 +113,15 @@ de-CH:
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
+      organisation:
+        account_nr: Kontonummer
+        address: Adresse
+        logo: Logo
+        message_footer: Fusszeile für Nachrichten
+        name: Name
+        payment_information: Zahlungsinformationen
+        privacy_statement_pdf: Datenschutzerklärung
+        terms_pdf: AGB
       payment:
         amount: Betrag
         paid_at: Bezahlt am
@@ -229,6 +244,9 @@ de-CH:
       occupancy:
         one: Belegung
         other: Belegungen
+      organisation:
+        one: Organisation
+        other: Organisationen
       payment:
         one: Zahlung
         other: Zahlungen
@@ -283,7 +301,8 @@ de-CH:
           mark_deposits_paid: Zahlungseingang bestätigen
           mark_invoices_paid: Zahlungseingang bestätigen
         public:
-          cancel: Absagen
+          cancel: Stornieren
+          commit_booking_agent_request: Anfrage definitv setzen
           commit_request: Anfrage definitv setzen
           extend_deadline: Frist verlängern
       checklist:
@@ -299,6 +318,12 @@ de-CH:
         active:
           help: Help
           label: Aktive Belegung
+        awaiting_tenant:
+          help: Help
+          label: Mietanfrage (fehlende Mieterangaben)
+        booking_agent_request:
+          help: Help
+          label: Mietanfrage (provisorisch via Vermittler)
         cancelation_pending:
           help: Help
           label: Stornierung pendent
@@ -1584,7 +1609,7 @@ de-CH:
     submit:
       create: Erstellen
       submit: Speichern
-      update: Update
+      update: Speichern
   manage:
     bookings:
       tarifs:
@@ -1596,6 +1621,7 @@ de-CH:
           save: "%{model_name} speichern"
   nav:
     edit_account: Account
+    settings: Einstellungen
     sign_in: Anmelden
     sign_out: Abmelden
   new: Neu
@@ -1660,14 +1686,19 @@ de-CH:
         delimiter: ''
   optional: optional
   public:
+    agent_bookings:
+      edit:
+        title: Reservation bearbeiten
+      new:
+        title: Reservation
     bookings:
       edit:
         title: Reservation bearbeiten
       form:
         booking_details: Angaben zur Reservation
-        last_minute_warning: Last minute warning
+        last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
       new:
-        accept_conditions_html: Ich bin mit den Datenschutzbestimmungen und den AGB einverstanden
+        accept_conditions_html: Ich bin mit den <a href="%{privacy_statement_pdf_url}" target="_blank">Datenschutzbestimmungen</a> und den <a href="%{terms_pdf_url}" target="_blank">AGB</a> einverstanden
         title: Reservation
   reset: Reset
   support:

@@ -9,8 +9,6 @@
         .card
           - if @booking.errors.any?
             .card-header.alert-danger
-              h6.text-error
-                | Fehler
               = f.error_summary
           .card-body
             fieldset[data-range-role="unit"]
@@ -31,18 +29,13 @@
               = f.email_field :email
               = f.text_field :tenant_organisation
 
-              button.btn.btn-link[v-b-toggle.tenant-fields type='button']
+              = link_to new_public_agent_booking_path
                 = BookingAgent.model_name.human
 
-              b-collapse#tenant-fields
-                hr.my-3
-                fieldset
-                  h5= BookingAgent.model_name.human
-                  = f.text_field :booking_agent_code
-                  = f.text_field :booking_agent_ref
-
             .form-actions.pt-4.mt-3.border-top
-              = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html')
+              - terms_pdf_url = @organisation.terms_pdf.attached? ? url_for(@organisation.terms_pdf) : '#'
+              - privacy_statement_pdf_url = @organisation.privacy_statement_pdf.attached? ? url_for(@organisation.privacy_statement_pdf) : '#'
+              = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', terms_pdf_url: terms_pdf_url, privacy_statement_pdf_url: privacy_statement_pdf_url)
               br
               = f.submit
 

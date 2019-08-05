@@ -23,6 +23,7 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
+    - 'app/models/ability.rb'
 
 Style/MixinUsage:
   Exclude:

@@ -12,6 +12,10 @@ class BookingStrategy
       call!
     end
 
+    def self.call(booking)
+      new(booking).call
+    end
+
     def self.action_name
       name.demodulize.underscore
     end

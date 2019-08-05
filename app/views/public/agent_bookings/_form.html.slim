@@ -1,0 +1,37 @@
+= form_with(model: [:public, @agent_booking], local: true) do |f|
+  .card[class=('bg-light' unless @agent_booking.editable)]
+    - if @agent_booking.errors.any?
+      .card-header.alert-danger
+        = f.error_summary
+    .card-body
+      fieldset
+        - if @agent_booking.booking.deadline
+          .form-group
+            label=Booking.human_attribute_name(:deadline)
+            div
+              =<> l(@agent_booking.booking.deadline.at, format: :short)
+
+        = f.fields_for :booking, @agent_booking.booking do |bf|
+          = bf.select :home_id, homes_for_select, {}
+          = bf.fields_for :occupancy, bf.object.occupancy do |of|
+            .row
+              .col-md-6
+                = calendar_input(of, :begins_at_date, required: true)
+              .col-md-6
+                = of.time_field :begins_at_time, ignore_date: true, min: '07:00', max: '22:00', pattern: '[0-9]{2}:[0-9]{2}'
+            .row
+              .col-md-6
+                = calendar_input(of, :ends_at_date, required: true)
+              .col-md-6
+                = of.time_field :ends_at_time, ignore_date: true, min: '07:00', max: '22:00', pattern: '[0-9]{2}:[0-9]{2}'
+
+        = f.email_field :email, required: false
+        / = f.text_field :tenant_organisation
+        = f.text_field :booking_agent_code, required: false
+        = f.text_field :booking_agent_ref
+
+      .form-actions.pt-4.mt-3.border-top
+        - if @agent_booking.editable
+          =<> f.submit
+        - allowed_actions = Booking.strategy.public_actions.allowed_actions(@agent_booking.booking)
+        = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f }

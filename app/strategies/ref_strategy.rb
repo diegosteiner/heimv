@@ -1,3 +1,3 @@
-class InvoiceRefStrategy
+class RefStrategy
   def generate(invoice); end
 end

@@ -4,7 +4,7 @@ module BookingStrategies
     class StateMachine < BookingStrategy::StateMachine
       state :initial, initial: true
       %i[
-        cancelled_request declined_request
+        cancelled_request declined_request booking_agent_request awaiting_tenant
         unconfirmed_request open_request provisional_request definitive_request overdue_request cancelled
         confirmed upcoming overdue active past payment_due payment_overdue completed cancelation_pending
       ].each { |s| state(s) }
@@ -16,14 +16,27 @@ module BookingStrategies
 
       transition from: :initial,
                  to: %i[unconfirmed_request provisional_request definitive_request open_request]
+
       transition from: :unconfirmed_request,
                  to: %i[cancelled_request declined_request open_request]
+
       transition from: :open_request,
-                 to: %i[cancelled_request declined_request provisional_request definitive_request]
+                 to: %i[cancelled_request declined_request
+                        provisional_request definitive_request booking_agent_request]
+
       transition from: :provisional_request,
                  to: %i[definitive_request overdue_request cancelled_request declined_request]
+
       transition from: :overdue_request,
-                 to: %i[cancelled_request declined_request definitive_request provisional_request]
+                 to: %i[cancelled_request declined_request definitive_request provisional_request
+                        booking_agent_request awaiting_tenant]
+
+      transition from: :booking_agent_request,
+                 to: %i[cancelled_request declined_request awaiting_tenant overdue_request]
+
+      transition from: :awaiting_tenant,
+                 to: %i[definitive_request overdue_request cancelled_request declined_request overdue_request]
+
       transition from: :definitive_request,  to: %i[cancelation_pending confirmed]
       transition from: :confirmed,           to: %i[cancelation_pending upcoming overdue]
       transition from: :overdue,             to: %i[cancelation_pending upcoming]
@@ -52,14 +65,18 @@ module BookingStrategies
       end
 
       after_transition(to: %i[unconfirmed_request]) do |booking|
-        booking.messages.new_from_template(:unconfirmed_request_message)&.deliver_now
+        booking.messages.new_from_template(:unconfirmed_request_message, addressed_to: :tenant).deliver_now
       end
 
-      after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue]) do |booking|
+      after_transition(to: %i[awaiting_tenant]) do |booking|
+        booking.messages.new_from_template(:awaiting_tenant_message, addressed_to: :tenant).deliver_now
+      end
+
+      after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue awaiting_tenant]) do |booking|
         booking.deadlines.create(at: 3.days.from_now, remarks: booking.state)
       end
 
-      after_transition(to: %i[provisional_request confirmed]) do |booking|
+      after_transition(to: %i[provisional_request confirmed booking_agent_request]) do |booking|
         booking.deadlines.create(at: 14.days.from_now, extendable: 1, remarks: booking.state) unless booking.deadline
       end
 
@@ -70,20 +87,21 @@ module BookingStrategies
 
       after_transition(to: %i[open_request]) do |booking|
         booking.deadline&.clear
-        BookingMailer.new_booking(booking).deliver_now
-        if booking.booking_agent_responsible?
-          booking.messages.new_from_template('booking_agent_request_message')&.deliver_now
-        else
-          booking.messages.new_from_template(:open_request_message)&.deliver_now
-        end
+        booking.messages.new_from_template(:manage_new_booking_mail, addressed_to: :manager).deliver_now
+        booking.messages.new_from_template(:open_request_message, addressed_to: :tenant).deliver_now
       end
 
       after_transition(to: %i[overdue_request overdue]) do |booking|
-        booking.messages.new_from_template("#{booking.current_state}_message")&.deliver_now
+        booking.messages.new_from_template("#{booking.current_state}_message", addressed_to: :tenant).deliver_now
+      end
+
+      after_transition(to: %i[booking_agent_request]) do |booking|
+        booking.messages.new_from_template(:booking_agent_request_message, addressed_to: :booking_agent).deliver_now
+        booking.occupancy.tentative!
       end
 
       after_transition(to: %i[provisional_request definitive_request]) do |booking|
-        booking.messages.new_from_template("#{booking.current_state}_message")&.deliver_now
+        booking.messages.new_from_template("#{booking.current_state}_message", addressed_to: :tenant).deliver_now
         booking.occupancy.tentative!
       end
 
@@ -101,7 +119,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[upcoming]) do |booking|
-        booking.messages.new_from_template('upcoming_message')&.deliver_now
+        booking.messages.new_from_template(:upcoming_message, addressed_to: :tenant).deliver_now
       end
 
       after_transition(to: %i[payment_due]) do |booking|
@@ -111,7 +129,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[payment_overdue]) do |booking|
-        booking.messages.new_from_template(:payment_overdue_message)&.deliver_now
+        booking.messages.new_from_template(:payment_overdue_message, addressed_to: :tenant).deliver_now
       end
 
       after_transition(to: %i[confirmed upcoming completed]) do |booking|
@@ -119,18 +137,20 @@ module BookingStrategies
       end
 
       after_transition(to: %i[cancelled]) do |booking|
-        booking.messages.new_from_template(:cancelled_message)&.deliver_now
-        if booking.booking_agent_responsible?
-          booking.messages.new_from_template('booking_agent_cancelled_message')&.deliver_now
+        booking.messages.new_from_template(:cancelled_message, addressed_to: :tenant).deliver_now
+        if booking.agent_booking?
+          booking.messages.new_from_template(:booking_agent_cancelled_message, addressed_to: :booking_agent).deliver_now
         end
       end
 
       after_transition(to: %i[cancelled_request]) do |booking|
-        booking.messages.new_from_template(:cancelled_request_message)&.deliver_now
+        addressed_to = booking.agent_booking? ? :booking_agent : :tenant
+        booking.messages.new_from_template(:cancelled_request_message, addressed_to: addressed_to).deliver_now
       end
 
       after_transition(to: %i[declined_request]) do |booking|
-        booking.messages.new_from_template(:declined_request_message)&.deliver_now
+        addressed_to = booking.agent_booking? ? :booking_agent : :tenant
+        booking.messages.new_from_template(:declined_request_message, addressed_to: addressed_to).deliver_now
       end
     end
     # rubocop:enable Metrics/ClassLength

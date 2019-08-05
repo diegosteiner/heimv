@@ -21,21 +21,25 @@
               div
                 = booking.home
         .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
-          - if booking.booking_agent_responsible?
-            = booking.booking_agent.name
-          - else
-            = booking.tenant_organisation.presence || booking.tenant&.name
+          = booking.tenant_organisation.presence || booking.tenant&.name
           br
           = content_tag :button, class: 'btn btn-link ellipsis', id: "booking-#{booking.id}-tenant"
-            = booking.correspondence_email
+            = booking.email
           b-popover[triggers='hover click' placement='bottom' target="booking-#{booking.id}-tenant" title=(booking.tenant_organisation.presence || booking.tenant&.name)]
             slot
               = tenant_address(booking.tenant)
           p.mt-2.mb-0
-            span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
-            ' :
-            i.fa.fa-male
-            =<> booking.approximate_headcount
+            - if booking.agent_booking?
+              i.fa.fa-link
+              =<> booking.agent_booking.booking_agent
+
+            - if booking.purpose.present?
+              span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
+
+            - if booking.approximate_headcount
+              ' :
+              i.fa.fa-male
+              =<> booking.approximate_headcount
 
         .col-md-4.py-3
           - begin

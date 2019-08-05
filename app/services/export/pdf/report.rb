@@ -34,6 +34,7 @@ module Export
           pdf.table(table_data) do
             cells.style(size: 8)
             row(0).font_style = :bold
+            row(0).size = 7
           end
         end
       end
