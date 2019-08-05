@@ -24,7 +24,7 @@ import Forms from 'src/forms'
 
 window.jQuery = $;
 window.$ = $;
-moment.locale(["de-CH", "de", "fr-CH", "fr", "it-CH", "it", "en"]);
+moment.locale(["de", "fr", "it", "en"]);
 Vue.use(VueMoment, moment);
 
 Vue.use(TurbolinksAdapter)
@@ -38,7 +38,7 @@ $(document).on('turbolinks:load', function () {
   const i18n = new VueI18n({
     locale: locale,
     messages: {
-      'de-CH': {
+      'de': {
         next: 'Später',
         prev: 'Früher'
       }

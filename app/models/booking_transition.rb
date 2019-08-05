@@ -31,9 +31,7 @@ class BookingTransition < ApplicationRecord
   end
 
   def update_booking_state
-    # rubocop:disable Rails/SkipsModelValidations
     booking.update_columns(state: to_state)
-    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def update_most_recent

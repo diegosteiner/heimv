@@ -18,8 +18,13 @@ services:
       APP_HOST: ${APP_HOST}
       MAILER_URL: ${MAILER_URL}
       RAILS_SERVE_STATIC_FILES: 'true'
+      MEMCACHE_SERVERS: memcached
     depends_on:
       - db
+
+  memcached:
+    image: memcached:1.5-alpine
+    command: [ memcached, -l, '0.0.0.0', -p, '11211' ]
 
 volumes:
   db_data:

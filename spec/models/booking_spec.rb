@@ -36,6 +36,12 @@ describe Booking, type: :model do
   let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
   before { allow(BookingMailer).to receive_message_chain(:new_booking, :deliver_now) }
 
+  before do
+    message_from_template = double('Message')
+    allow(message_from_template).to receive(:deliver_now).and_return(true)
+    allow(Message).to receive(:new_from_template).and_return(message_from_template)
+  end
+
   describe 'Tenant' do
     context 'with new tenant' do
       it 'uses existing tenant when email is correct' do

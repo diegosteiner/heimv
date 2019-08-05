@@ -1,6 +1,6 @@
 unconfirmed_request_message:
   key: unconfirmed_request_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
   body: |-
     Hallo
@@ -17,7 +17,7 @@ unconfirmed_request_message:
 
 open_request_message:
   key: open_request_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Bestätigung Deiner Mietanfrage'
   body: |-
     {{ booking.tenant.salutation_name }}
@@ -46,7 +46,7 @@ open_request_message:
 
 confirmed_message:
   key: confirmed_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Reservation bestätigt'
   body: |-
     {{ booking.tenant.salutation_name }}
@@ -79,7 +79,7 @@ confirmed_message:
 
 provisional_request_message:
   key: provisional_request_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt'
   body: |-
     {{ booking.tenant.salutation_name }}
@@ -109,7 +109,7 @@ provisional_request_message:
 
 overdue_request_message:
   key: overdue_request_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Anfrage überfällig'
   body: |-
     {{ booking.tenant.salutation_name }}
@@ -142,7 +142,7 @@ overdue_request_message:
 
 definitive_request_message:
   key: definitive_request_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Definitive Reservation bestätigt'
   body: |-
     Hallo
@@ -170,7 +170,7 @@ definitive_request_message:
 
 manage_new_booking_mail:
   key: manage_new_booking_mail
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Neue Mietanfrage'
   body: |-
     Hallo
@@ -195,7 +195,7 @@ manage_new_booking_mail:
 
 upcoming_message:
   key: upcoming_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen'
   body: |-
     {{ booking.tenant.salutation_name }}
@@ -224,7 +224,7 @@ upcoming_message:
 
 deposit_invoice_text:
   key: deposit_invoice_text
-  locale: de-CH
+  locale: de
   title: 'Anzahlung'
   body: |-
     # Anzahlung: {{ booking.home.name }}
@@ -234,21 +234,21 @@ deposit_invoice_text:
 
 invoice_invoice_text:
   key: invoice_invoice_text
-  locale: de-CH
+  locale: de
   title: 'Vertrag'
   body: |-
     # Rechnung
 
 late_notice_invoice_text:
   key: late_notice_invoice_text
-  locale: de-CH
+  locale: de
   title: 'Vertrag'
   body: |-
     # Mahnung
 
 payment_due_message:
   key: payment_due_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung'
   body: |-
     {{ booking.tenant.salutation_name }}
@@ -279,7 +279,7 @@ payment_due_message:
 
 payment_overdue_message:
   key: payment_overdue_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung'
   body: |-
     {{ booking.tenant.salutation_name }}
@@ -312,7 +312,7 @@ payment_overdue_message:
 
 contract_text:
   key: contract_text
-  locale: de-CH
+  locale: de
   title: 'Vertrag'
   body: |-
       # Allgemein
@@ -350,7 +350,7 @@ contract_text:
 
 contract_signed_message:
   key: contract_signed_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Vertragsdoppel erhalten'
   body: |-
     {{ booking.tenant.salutation_name }}
@@ -381,7 +381,7 @@ contract_signed_message:
 
 deposits_paid_message:
   key: deposits_paid_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Anzahlung eingegangen'
   body: |-
     {{ booking.tenant.salutation_name }}
@@ -410,7 +410,7 @@ deposits_paid_message:
 
 # invoices_paid_message:
 #   key: invoices_paid_message
-#   locale: de-CH
+#   locale: de
 #   title: 'Pfadi-heime.ch: Vielen Dank für Deine Zahlung'
 #   body: |-
 #     {{ booking.tenant.salutation_name }}
@@ -424,7 +424,7 @@ deposits_paid_message:
 
 booking_agent_request_message:
   key: booking_agent_request_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Bestätigung Deiner Vermittlungsanfrage'
   body: |-
     Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
@@ -444,35 +444,35 @@ booking_agent_request_message:
 
 cancelled_message:
   key: cancelled_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Buchung storniert'
   body: |-
     🙋
 
 cancelled_request_message:
   key: cancelled_request_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Reservationsanfrage zurückgezogen'
   body: |-
     🙋
 
 declined_request_message:
   key: declined_request_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Reservationsanfrage abgelehnt'
   body: |-
     🙋
 
 booking_agent_cancelled_message:
   key: booking_agent_cancelled_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Vermittlung storniert'
   body: |-
     🙋
 
 booking_agent_request_message:
   key: booking_agent_request_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Reservationsanfrage bestätigt'
   body: |-
     Hallo
@@ -502,7 +502,7 @@ booking_agent_request_message:
 
 awaiting_tenant_message:
   key: awaiting_tenant_message
-  locale: de-CH
+  locale: de
   title: 'Pfadi-heime.ch: Infos bitte'
   body: |-
     {{ booking.tenant.salutation_name }}

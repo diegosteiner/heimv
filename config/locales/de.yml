@@ -1,5 +1,5 @@
 ---
-de-CH:
+de:
   activemodel:
     attributes:
       booking/filter:
@@ -29,9 +29,9 @@ de-CH:
       agent_booking:
         booking: Buchung
         booking_agent: Vermittler
-        email: Email des Mieters
         booking_agent_code: Vermittlercode
         booking_agent_ref: Ihre Referenz
+        email: Email des Mieters
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
@@ -114,16 +114,14 @@ de-CH:
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
       organisation:
-        name: Name
-        address: Adresse
-        # booking_strategy_type:
-        # invoice_ref_strategy_type :string
-        payment_information: Zahlungsinformationen
         account_nr: Kontonummer
-        message_footer: Fusszeile für Nachrichten
-        terms_pdf: AGB
-        privacy_statement_pdf: Datenschutzerklärung
+        address: Adresse
         logo: Logo
+        message_footer: Fusszeile für Nachrichten
+        name: Name
+        payment_information: Zahlungsinformationen
+        privacy_statement_pdf: Datenschutzerklärung
+        terms_pdf: AGB
       payment:
         amount: Betrag
         paid_at: Bezahlt am
@@ -304,8 +302,8 @@ de-CH:
           mark_invoices_paid: Zahlungseingang bestätigen
         public:
           cancel: Stornieren
-          commit_request: Anfrage definitv setzen
           commit_booking_agent_request: Anfrage definitv setzen
+          commit_request: Anfrage definitv setzen
           extend_deadline: Frist verlängern
       checklist:
         choose_tarifs: Tarife festlegen
@@ -419,7 +417,7 @@ de-CH:
     - Fr
     - Sa
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mär
@@ -445,7 +443,7 @@ de-CH:
       long: "%e. %B %Y"
       short: "%e. %b"
     month_names:
-    -
+    - 
     - Januar
     - Februar
     - März
@@ -1622,8 +1620,8 @@ de-CH:
         table:
           save: "%{model_name} speichern"
   nav:
-    settings: Einstellungen
     edit_account: Account
+    settings: Einstellungen
     sign_in: Anmelden
     sign_out: Abmelden
   new: Neu
@@ -1688,6 +1686,11 @@ de-CH:
         delimiter: ''
   optional: optional
   public:
+    agent_bookings:
+      edit:
+        title: Reservation bearbeiten
+      new:
+        title: Reservation
     bookings:
       edit:
         title: Reservation bearbeiten
@@ -1697,12 +1700,6 @@ de-CH:
       new:
         accept_conditions_html: Ich bin mit den <a href="%{privacy_statement_pdf_url}" target="_blank">Datenschutzbestimmungen</a> und den <a href="%{terms_pdf_url}" target="_blank">AGB</a> einverstanden
         title: Reservation
-    agent_bookings:
-      new:
-        title: Reservation
-      edit:
-        title: Reservation bearbeiten
-
   reset: Reset
   support:
     array:

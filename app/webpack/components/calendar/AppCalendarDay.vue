@@ -50,7 +50,7 @@ export default {
   },
   i18n: {
     messages: {
-      "de-CH": {
+      "de": {
         occupancy_types: {
           tentative: "provisorisch Besetzt",
           occupied: "definitiv Besetzt",

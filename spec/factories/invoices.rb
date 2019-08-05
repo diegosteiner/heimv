@@ -25,7 +25,7 @@ FactoryBot.define do
     ref { Faker::Bank.iban }
     issued_at { 1.week.ago }
     payable_until { 3.months.from_now }
-    text { Faker::Lorem.sentences(3) }
+    text { Faker::Lorem.sentences }
     invoice_type { :invoice }
   end
 end

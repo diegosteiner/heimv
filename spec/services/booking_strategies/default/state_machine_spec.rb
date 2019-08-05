@@ -1,5 +1,11 @@
 require 'rails_helper'
 describe BookingStrategies::Default::StateMachine do
+  before do
+    message_from_template = double('Message')
+    allow(message_from_template).to receive(:deliver_now).and_return(true)
+    allow(Message).to receive(:new_from_template).and_return(message_from_template)
+  end
+
   def state_machine_in_state(initial_state, options = {})
     booking = create(:booking, options.merge(initial_state: initial_state))
     described_class.new(booking)
