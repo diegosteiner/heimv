@@ -1,85 +1,39 @@
 module Import
   class CSVFromStGeorg
-    HEADER_MATCHER = {
-      tenants: /\A.?Kundennummer;MieterName;MieterVorname/,
-      booking_tenants: /\A.?Belegungsnummer;Kundennummer;MieterName/,
-      bookings: /\A.?Belegungsnummer;VermieterNummer;Gruppenname/,
-      other: /.*/
-    }.freeze
-
-    attr_reader :result, :files
-
-    def initialize(files = nil)
-      @files = triage_by_headers(files || Dir[Rails.root.join('tmp', 'import', '*.csv')])
-      @result = Import::Result.new
-      @tenant_registry = {}
-    end
-
-    def process
-      ApplicationRecord.transaction do
-        Rails.logger.info(files.inspect)
-        files.each do |content_type, files_of_type|
-          files_of_type.each { |file| process_file(file, content_type) }
-        end
-
-        raise ActiveRecord::Rollback unless @result.success?
-      end
-      @result
-    end
-
-    def process_file(file, content_type)
-      Rails.logger.info("Processing #{file} as #{content_type}")
-
-      content_type_handlers = {
-        tenants: -> { process_tenants_file(file) },
-        booking_tenants: -> { process_booking_tenants_file(file) },
-        bookings: -> { process_booking_file(file) }
-      }
-      content_type_handlers[content_type]&.call || Rails.logger.warn("Could not process #{file}")
-    end
-
-    def triage_by_headers(files)
-      headers = files.map { |file| [file, File.open(file, &:readline)] }.to_h
-      HEADER_MATCHER.dup.transform_values do |matcher|
-        matching_headers = headers.select { |_file, header| header =~ matcher }
-        matching_headers.keys.each { |header| headers.delete(header) }
-      end
-    end
+    HEADER_MATCHER =  /\A.?Belegungsnummer;VermieterNummer;Gruppenname;.*;Kundennummer;/
+    DATE_FORMAT = '%d.%m.%Y'
+    DATETIME_FORMAT = '%d.%m.%Y %H:%M'
 
     def self.csv_options
-      { headers: true, converters: :all, header_converters: :symbol, col_sep: ';' }
+      { headers: true, converters: :all, header_converters: :symbol, col_sep: ',' }
     end
 
-    def process_booking_tenants_file(file)
-      ::CSV.foreach(file, self.class.csv_options) do |row|
-        booking_ref = row[:belegungsnummer]
-        tenant_old_id = row[:kundennummer]
-        tenant = Tenant.where("import_data->>'kundennummer' = ?::text", tenant_old_id).take || Tenant.new
+    def process_files(files = Dir[Rails.root.join('tmp', 'import', '*.csv')])
+      Import::Result.wrap do |result|
+        files = case files
+                when String
+                  files.split(';')
+                else
+                  files
+                end
 
-        @tenant_registry[booking_ref] = tenant
+        files.each { |file| process_file(file, result) }
       end
     end
 
-    def process_tenants_file(file)
-      ::CSV.foreach(file, self.class.csv_options) do |row|
-        tenant = TenantRow.new(row).build
-
-        tenant.save
-        result << tenant
-      end
-    end
-
-    def process_booking_file(file)
-      ::CSV.foreach(file, self.class.csv_options) do |row|
-        next if row[:belegungsnummer].blank?
-
-        booking = BookingRow.new(row, @tenant_registry).build
-
-        if booking.save
-          booking.state_machine.transition_to(:confirmed) && booking.state_machine.transition_to(:upcoming)
+    def process_stdin
+      puts "Reading from stdin"
+      result = Import::Result.wrap do |result|
+        ::CSV.parse(STDIN.read, self.class.csv_options) do |row|
+          result << BookingRow.process(row)
         end
+      end
+      puts result.to_s
+    end
 
-        result << booking
+    def process_file(file, result)
+      ::CSV.foreach(file, self.class.csv_options) do |row|
+        result << BookingRow.process(row)
       end
     end
 
@@ -92,22 +46,23 @@ module Import
 
       # rubocop:disable Metrics/AbcSize
       def build
-        tenant = Tenant.find_or_initialize_by(email: email)
-        tenant.assign_attributes(
-          first_name: row[:mietervorname], last_name: row[:mietername],
-          street_address: [row[:mieteradresse], row[:mieteradresszusatz]].join("\n"), zipcode: row[:mieterplz],
-          city: row[:mieterort], country: country, phone: phone,
-          reservations_allowed: true, remarks: row[:mieterbemerkungen], import_data: row.to_h
-        )
-        tenant
+        ::Tenant.find_or_initialize_by(email: email).tap do |tenant|
+          tenant.assign_attributes(
+            id: id, first_name: row[:mietervorname], last_name: row[:mietername],
+            street_address: [row[:mieteradresse], row[:mieteradresszusatz]].join("\n"), zipcode: row[:mieterplz],
+            city: row[:mieterort], country: country, phone: phone,
+            reservations_allowed: true, remarks: row[:mieterbemerkungen], import_data: row.to_h
+          )
+        end
       end
       # rubocop:enable Metrics/AbcSize
 
       def email
-        row[:mieteremail].presence || "mieter+#{legacy_id}@heimv.local"
+        "mieter+#{id}@heimv.local"
+        # row[:mieteremail].presence || "mieter+#{id}@heimv.local"
       end
 
-      def legacy_id
+      def id
         row[:kundennummer]
       end
 
@@ -124,26 +79,74 @@ module Import
     end
 
     class BookingRow
-      MONTHS = %w[Januar Februar März April Mai Juni Juli August September Oktober November Dezember].freeze
-      MONTH_REPLACEMENTS = MONTHS.map.with_index { |month, i| [month, i + 1] }.to_h.freeze
-      MONTH_REPLACEMENT_REGEX = Regexp.new(MONTH_REPLACEMENTS.keys.join('|')).freeze
       PURPOSE_MATCHER = {
         'lager' => :camp,
-        'xxx' => :event
+        'fest' => :event
       }.freeze
       attr_reader :row
 
-      def initialize(row, tenant_registry = {})
+      def initialize(row)
         @row = row
-        @tenant_registry = tenant_registry
+      end
+
+      # rubocop:disable Metrics/AbcSize
+      def build
+        Booking.find_or_initialize_by(ref: ref) do |booking|
+          booking.assign_attributes(
+            ref: ref, tenant_organisation: tenant_organisation, remarks: remarks, occupancy: occupancy,
+            home: home, approximate_headcount: approximate_headcount, purpose: purpose, import_data: row.to_h,
+            email: tenant&.email, committed_request: true, invoice_address: invoice_address, tenant: tenant,
+            transition_to: :definitive_request, messages_enabled: false
+          )
+        end
+      end
+      # rubocop:enable Metrics/AbcSize
+
+      def create
+        booking = build
+        return booking unless booking.save
+        create_associated_records(booking)
+      end
+
+      def create_associated_records(booking)
+        invoice = Invoice.create(booking: booking, invoice_type: :deposit, amount: row[:anzahlung])
+
+        paid_at = parse_date(row[:anzahlungbezahltam])
+        Payment.create(booking: booking, invoice: invoice, amount: invoice.amount, paid_at: paid_at) if paid_at
+
+        sent_at = parse_date(row[:vertragsdatum])
+        signed_at = row[:vertragzurck] == "TRUE" ? Time.zone.now : nil
+        contract = Contract.create(booking: booking, valid_from: sent_at, sent_at: sent_at, signed_at: signed_at) if sent_at
+      end
+
+      def self.process(row)
+        return nil if row[:belegungsnummer].blank?
+
+        new(row).create
+      end
+
+      private
+
+      def parse_date(date, time = nil)
+        return if date.blank?
+
+        if time.present?
+          Time.zone.strptime([date, time].join(' '), DATETIME_FORMAT)
+        else
+          Time.zone.strptime(date, DATE_FORMAT)
+        end
+      rescue ArgumentError
+        nil
       end
 
       def approximate_headcount
-        row.fetch(:anzahlkinder, 0) + row.fetch(:anzahljugendliche) + row.fetch(:anzahlerwachsene)
+        row.fetch(:anzahlkinder, 0) + row.fetch(:anzahljugendliche, 0) + row.fetch(:anzahlerwachsene, 0)
       end
 
       def home
-        Home.find_by(Home.arel_table[:ref].matches(row[:belegungsnummer][0] + '%'))
+        return Home.find_by(ref: :muehli) if row[:belegungsnummer].start_with?('M')
+        return Home.find_by(ref: :villa) if row[:belegungsnummer].start_with?('K')
+        return Home.find_by(ref: :bir) if row[:belegungsnummer].start_with?('B')
       end
 
       def purpose
@@ -153,38 +156,29 @@ module Import
       def occupancy
         Occupancy.new(
           occupancy_type: :occupied,
-          begins_at: parse_date("#{row[:ankunftsdatum]} #{row[:ankunftszeit]}"),
-          ends_at: parse_date("#{row[:abreisedatum]} #{row[:abreisezeit]}")
+          begins_at: Time.zone.strptime("#{row[:ankunftsdatum]} #{row[:ankunftszeit]}", DATETIME_FORMAT),
+          ends_at: Time.zone.strptime("#{row[:abreisedatum]} #{row[:abreisezeit]}", DATETIME_FORMAT)
         )
+      rescue ArgumentError, TypeError
+        nil
       end
 
       def invoice_address
-        return if row[:rechnungan]
+        return row[:rechnungan] if row[:rechnungan].present?
 
-        `#{row[:rechnungvorname]} #{row[:rechnungname]}
+        <<~ADDRESS
+        #{row[:rechnungvorname]} #{row[:rechnungname]}
         #{row[:rechnungadresse]}
-        #{row[:rechnungplz]} #{row[:rechnungort]} #{row[:rechnungland]}`
+        #{row[:rechnungplz]} #{row[:rechnungort]} #{row[:rechnungland]}
+        ADDRESS
       end
-
-      # rubocop:disable Metrics/AbcSize
-      def build
-        Booking.find_or_initialize_by(ref: ref) do |booking|
-          booking.assign_attributes(
-            ref: ref, tenant_organisation: tenant_organisation, remarks: remarks, occupancy: occupancy,
-            home: home, approximate_headcount: approximate_headcount, purpose: purpose, tenant: tenant,
-            email: tenant&.email, committed_request: true, invoice_address: invoice_address, import_data: row.to_h,
-            transition_to: :definitive_request, messages_enabled: false
-          )
-        end
-      end
-      # rubocop:enable Metrics/AbcSize
 
       def remarks
         row[:bemerkungen]
       end
 
       def tenant
-        @tenant_registry.fetch(ref, Tenant.new(email: "mieter+#{ref}@heimv.local"))
+        @tenant ||= TenantRow.new(row).build
       end
 
       def tenant_organisation
@@ -193,12 +187,6 @@ module Import
 
       def ref
         row[:belegungsnummer]
-      end
-
-      def parse_date(date)
-        Time.zone.strptime(date.split(', ').last.gsub(MONTH_REPLACEMENT_REGEX, MONTH_REPLACEMENTS), '%d. %m %Y %H:%M')
-      rescue ArgumentError
-        nil
       end
     end
   end
