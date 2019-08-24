@@ -26,10 +26,11 @@
             = Invoice.human_enum(:invoice_types, invoice.invoice_type)
 
           td
-            - if invoice.payable_until.past?
-              .text-danger= l(invoice.payable_until, format: :date)
-            - else
-              =l(invoice.payable_until, format: :date)
+            - if invoice.payable_until.present?
+              - if invoice.payable_until.past?
+                .text-danger= l(invoice.payable_until, format: :date)
+              - else
+                =l(invoice.payable_until, format: :date)
 
           td
             = number_to_currency(invoice.amount)
