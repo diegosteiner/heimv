@@ -5,6 +5,7 @@ RSpec.describe BookingMailerViewModel, type: :model do
 
   describe '#to' do
     subject { vm.to }
+
     let(:to) { 'email@hv.dev' }
     let(:vm) { described_class.new(booking, to) }
 
@@ -13,6 +14,7 @@ RSpec.describe BookingMailerViewModel, type: :model do
 
   describe '#booking' do
     subject { vm.booking }
+
     let(:vm) { described_class.new(booking) }
 
     it { is_expected.to eq(booking) }

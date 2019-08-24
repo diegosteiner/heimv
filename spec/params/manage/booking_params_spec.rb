@@ -9,7 +9,7 @@ describe Manage::BookingParams do
     subject { service.permit(params.require(:booking)) }
 
     it do
-      is_expected.to be_permitted
+      expect(subject).to be_permitted
       expect(subject.to_h.keys).to include('home_id')
     end
   end

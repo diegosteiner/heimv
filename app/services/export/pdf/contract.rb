@@ -25,6 +25,8 @@ module Export
         end
 
         def call(pdf)
+          return if @taris.blank?
+
           table_data = @tarifs.map do |tarif|
             [tarif.label, tarif.unit, format('CHF %.2f', tarif.price_per_unit)]
           end

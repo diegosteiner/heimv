@@ -26,7 +26,7 @@ class Invoice < ApplicationRecord
   has_one_attached :pdf
   has_one :organisation, through: :booking
 
-  enum invoice_type: %i[invoice deposit late_notice]
+  enum invoice_type: { invoice: 0, deposit: 1, late_notice: 2 }
 
   scope :present, -> { where(deleted_at: nil) }
   scope :unpaid,  -> { present.where(paid: false) }

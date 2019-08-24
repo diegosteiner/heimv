@@ -9,7 +9,7 @@ describe Admin::UserParams do
     subject { service.permit(params.require(:user)) }
 
     it do
-      is_expected.to be_permitted
+      expect(subject).to be_permitted
       expect(subject.to_h).to include(email: params_hash.dig(:user, :email))
     end
   end

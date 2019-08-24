@@ -9,7 +9,7 @@ describe Manage::HomeParams do
     subject { service.permit(params.require(:home)) }
 
     it do
-      is_expected.to be_permitted
+      expect(subject).to be_permitted
       expect(subject.to_h).to include(name: params_hash.dig(:home, :name))
     end
   end

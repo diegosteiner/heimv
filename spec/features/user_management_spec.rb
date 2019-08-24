@@ -3,17 +3,17 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'User Management', :devise, skip: true do
-  after(:each) { Warden.test_reset! }
+describe 'User Management', :devise, skip: true do
+  after { Warden.test_reset! }
 
   let(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
   let!(:users) { create_list(:user, 4) }
 
   context 'as admin' do
-    before(:each) { login_as(admin, scope: :user) }
+    before { login_as(admin, scope: :user) }
 
-    scenario 'see all email addresses on the index' do
+    it 'see all email addresses on the index' do
       visit admin_users_path
       expect(page).to have_content admin.email
       users.each do |u|
@@ -21,7 +21,7 @@ feature 'User Management', :devise, skip: true do
       end
     end
 
-    scenario 'show a user' do
+    it 'show a user' do
       user
       visit admin_users_path
       within find_resource_in_table(user) do
@@ -32,7 +32,7 @@ feature 'User Management', :devise, skip: true do
       expect(page).to have_content user.email
     end
 
-    scenario 'edit a user' do
+    it 'edit a user' do
       changed_user = build(:user)
       visit edit_admin_user_path(user)
       fill_in :user_email, with: changed_user.email
@@ -42,7 +42,7 @@ feature 'User Management', :devise, skip: true do
       expect(page).to have_content changed_user.email
     end
 
-    scenario 'can delete existing user' do
+    it 'can delete existing user' do
       user
       visit admin_users_path
       within find_resource_in_table(user) do
@@ -54,7 +54,7 @@ feature 'User Management', :devise, skip: true do
   end
 
   context 'as unprivileged user' do
-    scenario 'get denied' do
+    it 'get denied' do
       login_as(user, scope: :user)
       visit admin_users_path
       expect(page).to have_http_status(403)

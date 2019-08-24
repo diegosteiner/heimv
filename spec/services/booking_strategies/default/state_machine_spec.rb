@@ -23,13 +23,14 @@ describe BookingStrategies::Default::StateMachine do
       it { is_expected.to transition_to(:provisional_request) }
 
       it 'sends email-confirmation' do
-        expect(Message).to receive_message_chain(:new_from_template)
-        is_expected.to transition_to(:unconfirmed_request)
+        expect(Message).to receive(:new_from_template)
+        expect(subject).to transition_to(:unconfirmed_request)
       end
     end
 
     describe 'unconfirmed_request-->' do
       subject { state_machine_in_state(:unconfirmed_request) }
+
       before { allow(BookingMailer).to receive_message_chain(:new_booking, :deliver_now) }
 
       it { is_expected.to transition_to(:open_request) }
@@ -79,6 +80,7 @@ describe BookingStrategies::Default::StateMachine do
 
     describe 'past-->' do
       subject { state_machine_in_state(:past) }
+
       it { is_expected.to transition_to(:payment_due) }
       it { is_expected.not_to transition_to(:confirmed) }
     end
@@ -147,6 +149,7 @@ describe BookingStrategies::Default::StateMachine do
 
       describe '-->upcoming' do
         let(:contracts) { double('Contracts') }
+
         before do
           allow(booking).to receive(:contracts).and_return(contracts)
           allow(booking).to receive(:bills).and_return(bills)
@@ -158,6 +161,7 @@ describe BookingStrategies::Default::StateMachine do
             allow(contracts).to receive(:all?).and_return(true)
             allow(bills).to receive_message_chain(:deposits, :all?).and_return(true)
           end
+
           it { expect(state_machine_in_state(:confirmed)).to transition_to(:upcoming) }
           it { expect(state_machine_in_state(:overdue)).to transition_to(:upcoming) }
         end
@@ -168,6 +172,7 @@ describe BookingStrategies::Default::StateMachine do
             allow(contracts).to receive(:all?).and_return(false)
             allow(bills).to receive_message_chain(:deposits, :all?).and_return(false)
           end
+
           it { expect(state_machine_in_state(:confirmed)).not_to transition_to(:upcoming) }
           it { expect(state_machine_in_state(:overdue)).not_to transition_to(:upcoming) }
         end
@@ -183,6 +188,7 @@ describe BookingStrategies::Default::StateMachine do
             allow(bills).to receive(:any?).and_return(true)
             allow(bills).to receive_message_chain(:open, :none?).and_return(true)
           end
+
           it { expect(state_machine_in_state(:payment_due)).to transition_to(:completed) }
           it { expect(state_machine_in_state(:payment_overdue)).to transition_to(:completed) }
         end
@@ -192,6 +198,7 @@ describe BookingStrategies::Default::StateMachine do
             allow(bills).to receive(:any?).and_return(false)
             allow(bills).to receive_message_chain(:open, :none?).and_return(false)
           end
+
           it { expect(state_machine_in_state(:payment_due)).not_to transition_to(:completed) }
           it { expect(state_machine_in_state(:payment_overdue)).not_to transition_to(:completed) }
           it { expect(state_machine_in_state(:past)).not_to transition_to(:completed) }
@@ -225,6 +232,7 @@ describe BookingStrategies::Default::StateMachine do
           before do
             allow(bills).to receive_message_chain(:open, :none?).and_return(false)
           end
+
           it { expect(state_machine_in_state(:cancelation_pending)).not_to transition_to(:cancelled) }
         end
       end

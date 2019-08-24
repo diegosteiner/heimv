@@ -3,16 +3,17 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'Booking CRUD', :devise, js: true, skip: true do
-  before(:each) { login_as(user, scope: :user) }
-  after(:each) { Warden.test_reset! }
+describe 'Booking CRUD', :devise, js: true, skip: true do
+  before { login_as(user, scope: :user) }
+
+  after { Warden.test_reset! }
 
   let(:user) { create(:user) }
   let(:home) { create(:home) }
   let(:booking) { create(:booking) }
   let(:new_booking) { build(:booking) }
 
-  scenario 'can create new booking' do
+  it 'can create new booking' do
     home
     tenant = create(:tenant)
     visit new_manage_booking_path
@@ -25,7 +26,7 @@ feature 'Booking CRUD', :devise, js: true, skip: true do
     expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Booking.model_name.human)
   end
 
-  scenario 'can see a booking' do
+  it 'can see a booking' do
     booking
     visit manage_bookings_path
     find_resource_in_table(booking).click
@@ -34,7 +35,7 @@ feature 'Booking CRUD', :devise, js: true, skip: true do
     expect(page).to have_content booking.ref
   end
 
-  scenario 'can edit existing booking' do
+  it 'can edit existing booking' do
     visit edit_manage_booking_path(booking)
     # fill_in :booking_ref, with: new_booking.ref
     submit_form
@@ -42,7 +43,7 @@ feature 'Booking CRUD', :devise, js: true, skip: true do
     expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human)
   end
 
-  scenario 'can delete existing booking' do
+  it 'can delete existing booking' do
     visit manage_booking_path(booking)
     click_link I18n.t('destroy')
     expect(page).to have_current_path(manage_bookings_path)
