@@ -4,15 +4,16 @@ include Warden::Test::Helpers
 Warden.test_mode!
 I18n.locale = 'de'
 
-feature 'Home CRUD', :devise, skip: true do
-  before(:each) { login_as(user, scope: :user) }
-  after(:each) { Warden.test_reset! }
+describe 'Home CRUD', :devise, skip: true do
+  before { login_as(user, scope: :user) }
+
+  after { Warden.test_reset! }
 
   let(:user) { create(:user) }
   let(:home) { create(:home) }
   let(:new_home) { build(:home) }
 
-  scenario 'can create new home' do
+  it 'can create new home' do
     visit new_manage_home_path
     fill_in :home_name, with: new_home.name
     fill_in :home_ref, with: new_home.ref
@@ -22,7 +23,7 @@ feature 'Home CRUD', :devise, skip: true do
     expect(page).to have_content new_home.name
   end
 
-  scenario 'can see a home' do
+  it 'can see a home' do
     home
     visit manage_homes_path
     within find_resource_in_table(home) do
@@ -33,7 +34,7 @@ feature 'Home CRUD', :devise, skip: true do
     expect(page).to have_content home.name
   end
 
-  scenario 'can edit existing home' do
+  it 'can edit existing home' do
     visit edit_manage_home_path(home)
     fill_in :home_name, with: new_home.name
     fill_in :home_ref, with: new_home.ref
@@ -43,7 +44,7 @@ feature 'Home CRUD', :devise, skip: true do
     expect(page).to have_content new_home.name
   end
 
-  scenario 'can delete existing home' do
+  it 'can delete existing home' do
     home
     visit manage_homes_path
     within find_resource_in_table(home) do

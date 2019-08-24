@@ -60,8 +60,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-performance'
-  gem 'rubocop-rspec'
   gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 end
 
 group :test do

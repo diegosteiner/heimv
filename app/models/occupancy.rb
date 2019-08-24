@@ -21,7 +21,7 @@ class Occupancy < ApplicationRecord
   date_time_attribute :begins_at, timezone: Time.zone.name
   date_time_attribute :ends_at, timezone: Time.zone.name
 
-  enum occupancy_type: %i[free tentative occupied closed]
+  enum occupancy_type: { free: 0, tentative: 1, occupied: 2, closed: 3 }
 
   scope :future, -> { begins_at(after: Time.zone.now) }
   scope :today, ->(date = Time.zone.today) { at(from: date.beginning_of_day, to: date.end_of_day) }

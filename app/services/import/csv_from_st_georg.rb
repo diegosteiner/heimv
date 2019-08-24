@@ -1,8 +1,8 @@
 module Import
   class CSVFromStGeorg
-    HEADER_MATCHER =  /\A.?Belegungsnummer;VermieterNummer;Gruppenname;.*;Kundennummer;/
-    DATE_FORMAT = '%d.%m.%Y'
-    DATETIME_FORMAT = '%d.%m.%Y %H:%M'
+    HEADER_MATCHER = /\A.?Belegungsnummer;VermieterNummer;Gruppenname;.*;Kundennummer;/.freeze
+    DATE_FORMAT = '%d.%m.%Y'.freeze
+    DATETIME_FORMAT = '%d.%m.%Y %H:%M'.freeze
 
     def self.csv_options
       { headers: true, converters: :all, header_converters: :symbol, col_sep: ',' }
@@ -22,13 +22,13 @@ module Import
     end
 
     def process_stdin
-      puts "Reading from stdin"
-      result = Import::Result.wrap do |result|
+      Import::Result.wrap do |result|
+        Rails.logger.info 'Reading from stdin'
         ::CSV.parse(STDIN.read, self.class.csv_options) do |row|
           result << BookingRow.process(row)
         end
+        Rails.logger.info result.to_s
       end
-      puts result.to_s
     end
 
     def process_file(file, result)
@@ -105,18 +105,25 @@ module Import
       def create
         booking = build
         return booking unless booking.save
-        create_associated_records(booking)
+
+        create_deposit(booking)
+        create_contract(booking)
       end
 
-      def create_associated_records(booking)
+      def create_deposit(booking)
         invoice = Invoice.create(booking: booking, invoice_type: :deposit, amount: row[:anzahlung])
 
         paid_at = parse_date(row[:anzahlungbezahltam])
         Payment.create(booking: booking, invoice: invoice, amount: invoice.amount, paid_at: paid_at) if paid_at
+      end
 
+      def create_contract(booking)
         sent_at = parse_date(row[:vertragsdatum])
-        signed_at = row[:vertragzurck] == "TRUE" ? Time.zone.now : nil
-        contract = Contract.create(booking: booking, valid_from: sent_at, sent_at: sent_at, signed_at: signed_at) if sent_at
+
+        return if sent_at.blank?
+
+        signed_at = row[:vertragzurck] == 'TRUE' ? Time.zone.now : nil
+        Contract.create(booking: booking, valid_from: sent_at, sent_at: sent_at, signed_at: signed_at)
       end
 
       def self.process(row)
@@ -163,15 +170,17 @@ module Import
         nil
       end
 
+      # rubocop:disable Metrics/AbcSize
       def invoice_address
         return row[:rechnungan] if row[:rechnungan].present?
 
         <<~ADDRESS
-        #{row[:rechnungvorname]} #{row[:rechnungname]}
-        #{row[:rechnungadresse]}
-        #{row[:rechnungplz]} #{row[:rechnungort]} #{row[:rechnungland]}
+          #{row[:rechnungvorname]} #{row[:rechnungname]}
+          #{row[:rechnungadresse]}
+          #{row[:rechnungplz]} #{row[:rechnungort]} #{row[:rechnungland]}
         ADDRESS
       end
+      # rubocop:enable Metrics/AbcSize
 
       def remarks
         row[:bemerkungen]

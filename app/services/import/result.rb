@@ -26,7 +26,7 @@ module Import
     def self.wrap(&block)
       new.tap do |result|
         ApplicationRecord.transaction do
-          result.tap &block
+          result.tap(&block)
           raise ActiveRecord::Rollback unless result.success? && !result.dry_run?
         end
       end
@@ -34,6 +34,7 @@ module Import
 
     def to_s
       return "success! #{records.count} records" if success?
+
       "fail! #{errors.count} errors in #{records.count} records"
     end
   end

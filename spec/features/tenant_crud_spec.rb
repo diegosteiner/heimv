@@ -3,15 +3,16 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'Tenant CRUD', :devise, skip: true do
-  before(:each) { login_as(user, scope: :user) }
-  after(:each) { Warden.test_reset! }
+describe 'Tenant CRUD', :devise, skip: true do
+  before { login_as(user, scope: :user) }
+
+  after { Warden.test_reset! }
 
   let(:user) { create(:user) }
   let(:tenant) { create(:tenant) }
   let(:new_tenant) { build(:tenant) }
 
-  scenario 'can create new tenant' do
+  it 'can create new tenant' do
     visit new_manage_tenant_path
     fill_in :tenant_first_name, with: new_tenant.first_name
     fill_in :tenant_last_name, with: new_tenant.last_name
@@ -24,7 +25,7 @@ feature 'Tenant CRUD', :devise, skip: true do
     expect(page).to have_content new_tenant.email
   end
 
-  scenario 'can see a tenant' do
+  it 'can see a tenant' do
     tenant
     visit manage_tenants_path
     within find_resource_in_table(tenant) do
@@ -35,7 +36,7 @@ feature 'Tenant CRUD', :devise, skip: true do
     expect(page).to have_content tenant.name
   end
 
-  scenario 'can edit existing tenant' do
+  it 'can edit existing tenant' do
     visit edit_manage_tenant_path(tenant)
     fill_in :tenant_first_name, with: new_tenant.first_name
     fill_in :tenant_last_name, with: new_tenant.last_name
@@ -48,7 +49,7 @@ feature 'Tenant CRUD', :devise, skip: true do
     expect(page).to have_content new_tenant.email
   end
 
-  scenario 'can delete existing tenant' do
+  it 'can delete existing tenant' do
     tenant
     visit manage_tenants_path
     within find_resource_in_table(tenant) do
