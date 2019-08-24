@@ -8,19 +8,6 @@ module Import
       { headers: true, converters: :all, header_converters: :symbol, col_sep: ',' }
     end
 
-    def process_files(files = Dir[Rails.root.join('tmp', 'import', '*.csv')])
-      Import::Result.wrap do |result|
-        files = case files
-                when String
-                  files.split(';')
-                else
-                  files
-                end
-
-        files.each { |file| process_file(file, result) }
-      end
-    end
-
     def process_stdin
       Import::Result.wrap do |result|
         Rails.logger.info 'Reading from stdin'
@@ -31,9 +18,11 @@ module Import
       end
     end
 
-    def process_file(file, result)
-      ::CSV.foreach(file, self.class.csv_options) do |row|
-        result << BookingRow.process(row)
+    def process_file(file = Dir[Rails.root.join('tmp', 'import', '*.csv')].first)
+      Import::Result.wrap do |result|
+        ::CSV.foreach(file, self.class.csv_options) do |row|
+          result << BookingRow.process(row)
+        end
       end
     end
 
