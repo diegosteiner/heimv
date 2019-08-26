@@ -2,11 +2,11 @@ require 'prawn'
 
 module Export
   module Pdf
-    class Report < Base
-      attr_reader :report
+    class DataDigest < Base
+      attr_reader :data_digest
 
-      def initialize(report, options = {})
-        @report = report
+      def initialize(data_digest, options = {})
+        @data_digest = data_digest
         @options = options
       end
 
@@ -17,21 +17,21 @@ module Export
       def sections
         [
           Base::LogoSection.new, ->(pdf) { pdf.move_down 40 },
-          Base::TitleSection.new(report.label),
-          # Base::MarkdownSection.new(Markdown.new(@report.text)),
-          TabularDataSection.new(report)
+          Base::TitleSection.new(data_digest.label),
+          # Base::MarkdownSection.new(Markdown.new(@data_digest.text)),
+          TabularDataSection.new(data_digest)
         ]
       end
 
       class TabularDataSection < Base::Section
-        def initialize(report)
-          @report = report
+        def initialize(data_digest)
+          @data_digest = data_digest
         end
 
         def call(pdf)
-          table_data = @report.to_tabular
+          table_data = @data_digest.to_tabular
 
-          pdf.table(table_data, column_widths: @report.column_widths) do
+          pdf.table(table_data, column_widths: @data_digest.column_widths) do
             cells.style(size: 10, borders: [])
             row(0).font_style = :bold
             row(0).borders = [:bottom]

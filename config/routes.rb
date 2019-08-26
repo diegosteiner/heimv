@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       end
     end
     resource :organisation, only: %i[edit update]
-    resources :reports
+    resources :data_digests
     resources :invoices do
       resources :invoice_parts, except: %i[index show]
     end

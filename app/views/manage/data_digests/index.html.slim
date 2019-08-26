@@ -1,0 +1,37 @@
+.breakout-sm
+  table.table.table-hover.table-card
+    thead
+      tr
+        th= DataDigest.human_attribute_name(:label)
+        th= DataDigest.human_attribute_name(:type)
+        th
+
+    tbody
+      - @data_digests.each do |data_digest|
+        tr[data-href=manage_data_digest_path(data_digest) data-id=data_digest.to_param]
+          td
+            = link_to data_digest.label, manage_data_digest_path(data_digest)
+
+          td
+            = data_digest.class.model_name.human
+
+          td.py-1.text-right
+            .btn-group
+              - data_digest.formats.each do |format|
+                = link_to manage_data_digest_path(data_digest, format: format), class: 'btn btn-default' do
+                  = format.to_s.upcase
+
+              = link_to edit_manage_data_digest_path(data_digest), class: 'btn btn-default' do
+                span.fa.fa-pencil
+              = link_to manage_data_digest_path(data_digest), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
+
+br
+.btn-group
+  button.btn.btn-primary.dropdown-toggle.dropdown-toggle-split[data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
+    = t(:add_record, model_name: DataDigest.model_name.human)
+    '
+  .dropdown-menu
+    - [DataDigests::Booking, DataDigests::Tenant, DataDigests::Tarif, DataDigests::Payment].each do |data_digest_type|
+      = link_to data_digest_type.model_name.human, new_manage_data_digest_path(type: data_digest_type), class: 'dropdown-item'
+

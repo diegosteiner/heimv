@@ -1,0 +1,13 @@
+h2 = @data_digest.label
+
+.breakout-sm
+  table.table-striped.table
+    tbody
+      - @data_digest.to_tabular.each do |row|
+        tr
+          - row.each do |cell|
+            td= cell
+
+br
+= link_to manage_data_digest_path(@data_digest, format: :csv), class: 'btn btn-primary'
+  | CSV
