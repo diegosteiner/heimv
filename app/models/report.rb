@@ -1,6 +1,8 @@
 require 'csv'
 
 class Report < ApplicationRecord
+  validates :label, presence: true
+
   def self.default_csv_options
     {
       col_sep: ';',
@@ -40,6 +42,10 @@ class Report < ApplicationRecord
   def to_csv(options = {})
     options = self.class.default_csv_options.merge(options)
     CSV.generate(options) { |csv| to_tabular.each { |row| csv << row } }
+  end
+
+  def column_widths
+    []
   end
 
   protected

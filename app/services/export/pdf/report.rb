@@ -31,10 +31,10 @@ module Export
         def call(pdf)
           table_data = @report.to_tabular
 
-          pdf.table(table_data) do
-            cells.style(size: 8)
+          pdf.table(table_data, column_widths: @report.column_widths) do
+            cells.style(size: 10, borders: [])
             row(0).font_style = :bold
-            row(0).size = 7
+            row(0).borders = [:bottom]
           end
         end
       end
