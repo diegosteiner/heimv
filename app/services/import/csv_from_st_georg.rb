@@ -10,6 +10,12 @@ module Import
     attr_reader :result, :files
 
     def initialize(files = nil)
+      files = case files
+              when String
+                files.split(';')
+              else
+                files
+              end
       @files = triage_by_headers(files || Dir[Rails.root.join('tmp', 'import', '*.csv')])
       @result = Import::Result.new
       @tenant_registry = {}
