@@ -3,15 +3,15 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'User Account', :devise, skip: true do
-  after(:each) do
+describe 'User Account', :devise, skip: true do
+  after do
     Warden.test_reset!
   end
 
   let(:user) { create(:user) }
 
-  feature 'Edit Account' do
-    scenario 'user changes email address' do
+  describe 'Edit Account' do
+    it 'user changes email address' do
       login_as(user, scope: :user)
       visit edit_user_registration_path(user)
       fill_in :user_email, with: 'newemail@example.com'
@@ -21,7 +21,7 @@ feature 'User Account', :devise, skip: true do
       expect(page).to have_content(/.*#{txts[0]}.*|.*#{txts[1]}.*/)
     end
 
-    scenario "user cannot cannot edit another user's profile", :me do
+    it "user cannot cannot edit another user's profile", :me do
       me = user
       other = create(:user, email: 'other@example.com')
       login_as(me, scope: :user)
@@ -30,8 +30,8 @@ feature 'User Account', :devise, skip: true do
     end
   end
 
-  feature 'Suspend Account', :js do
-    scenario 'user can delete own account' do
+  describe 'Suspend Account', :js do
+    it 'user can delete own account' do
       skip 'skip a slow test'
       login_as(user, scope: :user)
       visit edit_user_registration_path(user)

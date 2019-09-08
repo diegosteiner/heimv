@@ -17,6 +17,7 @@ FactoryBot.define do
     title { 'Test' }
     locale { I18n.available_locales.sample }
     subject { 'Test Template' }
+
     body { Faker::Lorem.paragraph }
   end
 end

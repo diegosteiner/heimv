@@ -1,7 +1,7 @@
-module Reports
-  class PaymentReport < Report
+module DataDigests
+  class Payment < DataDigest
     def filter
-      @filter ||= Payment::Filter.new(filter_params)
+      @filter ||= ::Payment::Filter.new(filter_params)
     end
 
     def formats
@@ -9,17 +9,17 @@ module Reports
     end
 
     def records
-      @records ||= filter.reduce(Payment.all)
+      @records ||= filter.reduce(::Payment.all)
     end
 
     protected
 
     def generate_tabular_header
       [
-        Payment.human_attribute_name(:ref),
-        Payment.human_attribute_name(:paid_at),
-        Payment.human_attribute_name(:amount),
-        Payment.human_attribute_name(:remarks)
+        ::Payment.human_attribute_name(:ref),
+        ::Payment.human_attribute_name(:paid_at),
+        ::Payment.human_attribute_name(:amount),
+        ::Payment.human_attribute_name(:remarks)
       ]
     end
 

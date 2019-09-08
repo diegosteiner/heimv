@@ -6,6 +6,7 @@ describe StateMachineAutomator do
   let(:state_machine) { booking_strategy.state_machine.new(object) }
   let(:state_machine_automator_class) { Class.new(described_class) }
   let(:state_machine_automator) { state_machine_automator_class.new(state_machine) }
+
   before do
     object.state = :matching
     allow(Booking).to receive(:strategy).and_return(booking_strategy)
@@ -24,17 +25,20 @@ describe StateMachineAutomator do
     context 'with matching state' do
       context 'and matching condition' do
         before { state_machine_automator_class.automatic_transition(from: :matching, to: :next) { |_| true } }
+
         it { is_expected.to be(:next) }
       end
 
       context 'and not matching condition' do
         before { state_machine_automator_class.automatic_transition(from: :matching, to: :next) { |_| false } }
+
         it { is_expected.to be(nil) }
       end
     end
 
     context 'without matching state' do
       before { state_machine_automator_class.automatic_transition(from: :not_matching, to: :next) { |_| false } }
+
       it { is_expected.to be(nil) }
     end
   end
@@ -44,6 +48,7 @@ describe StateMachineAutomator do
 
     context 'with no circular conditions' do
       before { state_machine_automator_class.automatic_transition(from: :matching, to: :next) { |_| true } }
+
       it { is_expected.to eq([:next]) }
     end
 

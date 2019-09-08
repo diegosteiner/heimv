@@ -21,7 +21,7 @@ class Message < ApplicationRecord
   attribute :cc, default: []
   attribute :bcc, default: []
 
-  enum addressed_to: %i[manager tenant booking_agent], _prefix: true
+  enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
 
   validates :to, presence: true
 

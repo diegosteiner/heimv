@@ -3,7 +3,7 @@ span[role="group"]
   - allowed_actions.each do |action|
 
     - button_options = action.button_options.merge({ name: :booking_action, value: action.to_s })
-    - button_classes = defined?(button_classes) && button_classes.presence || ['btn-md']
+    - button_classes = defined?(button_classes) && button_classes.presence || ['btn-md', 'mb-1']
     - button_classes += button_options.fetch(:class, [])
     - button_options[:class] = button_classes.uniq.join(' ')
 

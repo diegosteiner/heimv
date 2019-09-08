@@ -1,18 +1,20 @@
 # == Schema Information
 #
-# Table name: reports
+# Table name: data_digests
 #
 #  id            :bigint           not null, primary key
 #  type          :string
 #  label         :string
 #  filter_params :jsonb
-#  report_params :jsonb
+#  data_digest_params :jsonb
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
 
-require 'rails_helper'
-
-RSpec.describe Reports::BookingReport, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+FactoryBot.define do
+  factory :data_digest do
+    type { '' }
+    booking_ids { 'MyString' }
+    params { '' }
+  end
 end
