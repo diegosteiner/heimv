@@ -9,22 +9,108 @@ services:
   app:
     build:
       context: .
-      target: production
+      target: base
     command: bin/rails s -p 3000 -b 0.0.0.0
+    volumes:
+      - .:/app
+      - app_node_modules:/app/node_modules
+      - app_bundle:/usr/local/bundle/
+    ports:
+      - '3000:3000'
     environment:
-      DATABASE_URL: postgresql://postgres@db/heimverwaltung_production
-      RAILS_ENV: production
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-      APP_HOST: ${APP_HOST}
-      MAILER_URL: ${MAILER_URL}
-      RAILS_SERVE_STATIC_FILES: 'true'
+      DATABASE_URL: postgresql://postgres@db/heimverwaltung_development
+      RAILS_ENV: development
+      WEBPACKER_DEV_SERVER_HOST: webpack
+      WEBPACKER_PRECOMPILE: 'false'
+      MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
+      MIGRATE_DATABASE: 'true'
       MEMCACHE_SERVERS: memcached
     depends_on:
       - db
+      - webpack
+      - mail
+      - memcached
+    tty: true
+    stdin_open: true
+
+  db:
+    image: postgres:alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: heimverwaltung_development
+
+  webpack:
+    build:
+      context: .
+      target: base
+    command: bin/webpack-dev-server
+    volumes:
+      - .:/app:cached
+      - webpack_node_modules:/app/node_modules
+      - webpack_bundle:/usr/local/bundle/
+    environment:
+      NODE_ENV: development
+      RAILS_ENV: development
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    ports:
+      - '3035:3035'
+
+  mail:
+    image: tophfr/mailcatcher
+    ports:
+      - '1080:80'
+      - '1025:25'
 
   memcached:
     image: memcached:1.5-alpine
     command: [ memcached, -l, '0.0.0.0', -p, '11211' ]
 
+  test:
+    build:
+      context: .
+      target: base
+    command: bin/check
+    volumes:
+      - .:/app
+      - app_node_modules:/app/node_modules
+      - app_bundle:/usr/local/bundle/
+    environment:
+      APP_HOST: test
+      PORT: 3000
+      DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
+      RAILS_ENV: test
+      SELENIUM_HOST: selenium
+      SELENIUM_PORT: 4444
+      WEBPACKER_PRECOMPILE: 'pentrue'
+    depends_on:
+      - db
+      - selenium
+    networks:
+      default:
+      selenium:
+        aliases:
+          - test
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    ports:
+      - '4444:4444'
+      # - '5900:5900'
+    logging:
+      driver: none
+    networks:
+      selenium:
+        aliases:
+          - app
+
+networks:
+  selenium:
+
 volumes:
+  app_bundle:
+  app_node_modules:
+  webpack_bundle:
+  webpack_node_modules:
   db_data:

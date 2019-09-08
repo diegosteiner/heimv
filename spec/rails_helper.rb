@@ -62,7 +62,7 @@ RSpec.configure do |config|
     # should be executed, but `when_first_matching_example_defined`
     # does not work with `config.infer_spec_type_from_file_location!`
     # see https://github.com/rspec/rspec-core/issues/2366
-    `bin/webpack`
+    # `bin/webpack`
   end
 
   Capybara.register_driver :selenium do |app|

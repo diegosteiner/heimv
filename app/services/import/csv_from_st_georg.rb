@@ -1,62 +1,8 @@
 module Import
   class CSVFromStGeorg
-<<<<<<< HEAD
-    HEADER_MATCHER = {
-      tenants: /\A.?Kundennummer;MieterName;MieterVorname/,
-      booking_tenants: /\A.?Belegungsnummer;Kundennummer;MieterName/,
-      bookings: /\A.?Belegungsnummer;VermieterNummer;Gruppenname/,
-      other: /.*/
-    }.freeze
-
-    attr_reader :result, :files
-
-    def initialize(files = nil)
-      files = case files
-              when String
-                files.split(';')
-              else
-                files
-              end
-      @files = triage_by_headers(files || Dir[Rails.root.join('tmp', 'import', '*.csv')])
-      @result = Import::Result.new
-      @tenant_registry = {}
-    end
-
-    def process
-      ApplicationRecord.transaction do
-        Rails.logger.info(files.inspect)
-        files.each do |content_type, files_of_type|
-          files_of_type.each { |file| process_file(file, content_type) }
-        end
-
-        raise ActiveRecord::Rollback unless @result.success?
-      end
-      @result
-    end
-
-    def process_file(file, content_type)
-      Rails.logger.info("Processing #{file} as #{content_type}")
-
-      content_type_handlers = {
-        tenants: -> { process_tenants_file(file) },
-        booking_tenants: -> { process_booking_tenants_file(file) },
-        bookings: -> { process_booking_file(file) }
-      }
-      content_type_handlers[content_type]&.call || Rails.logger.warn("Could not process #{file}")
-    end
-
-    def triage_by_headers(files)
-      headers = files.map { |file| [file, File.open(file, &:readline)] }.to_h
-      HEADER_MATCHER.dup.transform_values do |matcher|
-        matching_headers = headers.select { |_file, header| header =~ matcher }
-        matching_headers.keys.each { |header| headers.delete(header) }
-      end
-    end
-=======
     HEADER_MATCHER = /\A.?Belegungsnummer;VermieterNummer;Gruppenname;.*;Kundennummer;/.freeze
     DATE_FORMAT = '%d.%m.%Y'.freeze
     DATETIME_FORMAT = '%d.%m.%Y %H:%M'.freeze
->>>>>>> 21e676962011dd4023d9e182f6208b029e28632e
 
     def self.csv_options
       { headers: true, converters: :all, header_converters: :symbol, col_sep: ',' }
