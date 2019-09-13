@@ -1,40 +1,35 @@
 <template>
   <div>
-    <div v-if="loading">
-      <button :disabled="true">{{ date | moment('D') }}</button>
-    </div>
-    <div v-else v-once>
-      <button
-        :id="id"
-        name="booking[occupancy_attributes][begins_at]"
-        :value="date.hour(11).toISOString()"
-        :class="cssClasses"
-        :disabled="disabled || loading"
-        @click="$emit('input', date)"
-      >{{ date | moment('D') }}</button>
-      <b-popover
-        v-if="occupancies.length && !disabled && !loading"
-        :target="id"
-        triggers="hover focus"
-      >
-        <dl class="my-1" v-for="occupancy in relevantOccupancies" :key="occupancy.id">
-          <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
-          <dd>
-            <a v-if="(occupancy.links || {}).handle" :href="occupancy.links.handle">
-              <i class="fa fa-link"></i>
-              {{ occupancy.ref }}
-            </a>
-            <span>{{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}</span>
-            <span v-if="occupancy.deadline">(bis {{ date_format(occupancy.deadline) }})</span>
-          </dd>
-        </dl>
-      </b-popover>
-    </div>
+    <button
+      :id="id"
+      name="booking[occupancy_attributes][begins_at]"
+      :value="date.hour(11).toISOString()"
+      :class="cssClasses"
+      :disabled="disabled || loading"
+      @click="$emit('input', date)"
+    >{{ date | moment('D') }}</button>
+    <b-popover
+      v-if="occupancies.length && !disabled && !loading"
+      :target="id"
+      triggers="hover focus"
+    >
+      <dl class="my-1" v-for="occupancy in relevantOccupancies" :key="occupancy.id">
+        <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
+        <dd>
+          <a v-if="(occupancy.links || {}).handle" :href="occupancy.links.handle">
+            <i class="fa fa-link"></i>
+            {{ occupancy.ref }}
+          </a>
+          <span>{{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}</span>
+          <span v-if="occupancy.deadline">(bis {{ date_format(occupancy.deadline) }})</span>
+        </dd>
+      </dl>
+    </b-popover>
   </div>
 </template>
 
 <script>
-import BPopover from 'bootstrap-vue/es/components/popover/popover'
+import { BPopover } from 'bootstrap-vue'
 
 export default {
   components: { 'b-popover': BPopover },

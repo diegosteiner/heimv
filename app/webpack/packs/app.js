@@ -1,7 +1,6 @@
 import 'stylesheets/application'
 import 'images/logo.svg'
-import 'images/logo_hvs.png'
-import $ from 'jquery';
+import $ from 'jquery'
 
 import Rails from 'rails-ujs'
 import Turbolinks from 'turbolinks'

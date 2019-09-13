@@ -10,11 +10,14 @@ fi
 
 if [ "$RAILS_ENV" == "test" ]; then
   bundle check || bundle install
-  yarn check --silent || yarn install
   rails db:setup RAILS_ENV=$RAILS_ENV
 fi
 
+if [ "$WEBPACKER_PRECOMPILE" == "true" ]; then
+  yarn check --silent || yarn install
+  bundle exec rails webpacker:compile
+fi 
+
 [ "$MIGRATE_DATABASE" == "true" ] && bundle exec rails db:create db:migrate
-[ "$WEBPACKER_PRECOMPILE" == "true" ] && bundle exec rails webpacker:compile
 
 exec "$@"

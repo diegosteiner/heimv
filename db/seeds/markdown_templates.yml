@@ -249,11 +249,11 @@ late_notice_invoice_text:
 payment_due_message:
   key: payment_due_message
   locale: de
-  title: 'Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung'
+  title: 'Pfadi-heime.ch: Deine Lagerhaus-Rechnung'
   body: |-
     {{ booking.tenant.salutation_name }}
 
-    Mit dieser Nachricht erhältst Du die Rechnungfür Deine Lagerhaus-Reservation. Bitte bezahle diese innert der Zahlungsfrist von 30 Tagen
+    Mit dieser Nachricht erhältst Du die Rechnung für Deine Lagerhaus-Reservation. Bitte bezahle diese innert der Zahlungsfrist von 30 Tagen
 
     **Reservationsdetails**
 
