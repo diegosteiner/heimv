@@ -12,7 +12,7 @@ module Export
           if Organisation.instance.logo.attached?
             StringIO.open(Organisation.instance.logo.download)
           else
-            Rails.root.join('app', 'webpack', 'images', 'logo_hvs.png')
+            Rails.root.join('app', 'webpack', 'images', 'logo.png')
           end
         end
       end
