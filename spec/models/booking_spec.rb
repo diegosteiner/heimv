@@ -34,6 +34,7 @@ describe Booking, type: :model do
   let(:tenant) { create(:tenant) }
   let(:home) { create(:home) }
   let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
+
   before { allow(BookingMailer).to receive_message_chain(:new_booking, :deliver_now) }
 
   before do
@@ -78,7 +79,7 @@ describe Booking, type: :model do
     end
 
     it 'creates all occupancy-related attributes in occupancy' do
-      new_booking = Booking.create(booking_params)
+      new_booking = described_class.create(booking_params)
       expect(new_booking).to be_truthy
       expect(new_booking.occupancy).not_to be_new_record
       expect(new_booking.occupancy.home).to eq(new_booking.home)

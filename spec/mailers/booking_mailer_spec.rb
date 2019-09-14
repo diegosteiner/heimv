@@ -5,6 +5,7 @@ RSpec.describe BookingMailer, type: :mailer do
   let(:mail_to) { 'email@hv.test' }
   let(:mail_from) { Rails.application.secrets.mail_from }
   let(:vm) { BookingMailerViewModel.new(booking, mail_to) }
+
   before { allow(Rails.application.secrets).to receive(:MAIL_FROM).and_return(mail_from) }
 
   describe 'mailer_methods' do

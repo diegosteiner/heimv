@@ -3,7 +3,7 @@
         "@rails/webpacker": "https://github.com/rails/webpacker",
         "axios": "^0.18.0",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
-        "bootstrap": "~4.1",
+        "bootstrap": "~4.3",
         "bootstrap-vue": "^2.0.0-rc.10",
         "caniuse-lite": "^1.0.30000843",
         "css-loader": "^0.28.7",

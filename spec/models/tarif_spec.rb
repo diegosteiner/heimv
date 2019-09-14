@@ -28,6 +28,8 @@ RSpec.describe Tarif, type: :model do
   let(:home) { create(:home) }
 
   describe 'scope "applicable_to"' do
+    subject { described_class.applicable_to(booking) }
+
     let(:booking) do
       build(:booking, home: home).tap do |booking|
         allow(booking).to receive(:state_transition)
@@ -40,11 +42,9 @@ RSpec.describe Tarif, type: :model do
     let!(:expected) { [transient_tarifs.to_a, booking_tarifs.to_a].flatten }
     let!(:unexpected) { create_list(:tarif, 2, home: home, transient: false) }
 
-    subject { described_class.applicable_to(booking) }
-
     it do
-      is_expected.to include(*expected)
-      is_expected.not_to include(*unexpected)
+      expect(subject).to include(*expected)
+      expect(subject).not_to include(*unexpected)
     end
   end
 end

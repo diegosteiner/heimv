@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-feature 'Booking', :devise, js: true, skip: true do
+describe 'Booking', :devise, js: true, skip: true do
   let!(:home) { create(:home) }
   let(:booking) { create(:booking) }
   let(:new_booking) { build(:booking) }
 
   describe 'new' do
     context 'with correct information' do
-      scenario 'cannot create new booking request' do
+      it 'cannot create new booking request' do
         visit new_public_booking_path
         select home.name, from: :booking_home_id
         fill_in :booking_occupancy_attributes_begins_at, with: I18n.l(new_booking.occupancy.begins_at, format: :short)
@@ -21,7 +21,7 @@ feature 'Booking', :devise, js: true, skip: true do
     end
 
     context 'with missing information' do
-      scenario 'can create new booking request' do
+      it 'can create new booking request' do
         visit new_public_booking_path
         select home.name, from: :booking_home_id
         fill_in :booking_occupancy_attributes_begins_at, with: I18n.l(new_booking.occupancy.begins_at)
