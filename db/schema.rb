@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_19_144408) do
+ActiveRecord::Schema.define(version: 2019_08_26_125200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -112,6 +112,15 @@ ActiveRecord::Schema.define(version: 2019_06_19_144408) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
+  end
+
+  create_table "data_digests", force: :cascade do |t|
+    t.string "type"
+    t.string "label"
+    t.jsonb "filter_params", default: {}
+    t.jsonb "report_params", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "deadlines", force: :cascade do |t|
@@ -253,15 +262,6 @@ ActiveRecord::Schema.define(version: 2019_06_19_144408) do
     t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_payments_on_booking_id"
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
-  end
-
-  create_table "reports", force: :cascade do |t|
-    t.string "type"
-    t.string "label"
-    t.jsonb "filter_params", default: {}
-    t.jsonb "report_params", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "tarif_selectors", force: :cascade do |t|
