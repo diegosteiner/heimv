@@ -8975,7 +8975,7 @@ vue-moment@^4.0.0:
 
 "vue-occupancies-calendar@https://github.com/diegosteiner/vue-occupancies-calendar.git":
   version "1.5.0"
-  resolved "https://github.com/diegosteiner/vue-occupancies-calendar.git#09e8ed80ec387b7b5458afaea5f31401cbceea31"
+  resolved "https://github.com/diegosteiner/vue-occupancies-calendar.git#8919f95ea05ab50aa159a9c300f6b19944333899"
   dependencies:
     "@babel/core" "^7.0.0"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0"

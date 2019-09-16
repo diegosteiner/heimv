@@ -1,13 +1,11 @@
 <template>
-  <div>
     <button
       :id="id"
       name="booking[occupancy_attributes][begins_at]"
       :value="date.hour(11).toISOString()"
       :class="cssClasses"
       :disabled="disabled || loading"
-      @click="$emit('input', date)"
-    >{{ date | moment('D') }}</button>
+      @click="$emit('input', date)">{{ date | moment('D') }}
     <b-popover
       v-if="occupancies.length && !disabled && !loading"
       :target="id"
@@ -25,7 +23,7 @@
         </dd>
       </dl>
     </b-popover>
-  </div>
+    </button>
 </template>
 
 <script>
@@ -103,31 +101,30 @@ $occupied-foreground-color: #9e2e2e;
 $occupied-border-color: #e85f5f;
 $occupied-background-color: #ffa8a8;
 
+  @media (max-width: 575px) {
+    .calendar-main {
+      font-size: 1.3rem !important;
+    }
+  }
+
 .calendar-day {
-  text-align: center;
+
   button {
-    width: 30px;
-    height: 30px;
-    margin: 1px auto;
-    padding: 0.25rem;
-    border: 1px solid transparent;
-    transition: opacity 1s;
     background-color: white;
+    border: 1px solid transparent;
     cursor: pointer;
+    text-align: center;
+    transition: opacity 1s;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
 
     &:focus {
       outline: none;
     }
   }
 
-  @media (max-width: 575px) {
-    button {
-      width: 40px;
-      height: 40px;
-      font-size: 1.25rem;
-      line-height: 2rem;
-    }
-  }
 
   .occupied-forenoon,
   .occupied-afternoon,
