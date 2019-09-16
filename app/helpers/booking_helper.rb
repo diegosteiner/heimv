@@ -15,10 +15,10 @@ module BookingHelper
       {}
   end
 
-  def tenant_address(tenant, phone: true, email: true)
+  def tenant_address(tenant, phone: true, email: true, css_class: 'mb-0')
     return unless tenant
 
-    tag.address(class: 'mb-0') do
+    tag.address(class: css_class) do
       safe_join([
         tenant.address_lines,
         (link_to(tenant.phone, "tel:#{tenant.phone}") if phone && tenant.phone),

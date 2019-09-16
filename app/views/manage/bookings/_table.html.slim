@@ -20,34 +20,33 @@
                 i.fa.fa-home
               div
                 = booking.home
+
+          .d-flex.mt-2
+            div.mr-2
+              i.fa.fa-male
+            div 
+              - if booking.approximate_headcount
+                span=<> booking.approximate_headcount
+
+              - if booking.purpose.present?
+                span=<> "(#{t(booking.purpose, scope: :'activerecord.enums.booking.purpose')})"
         .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
-          = booking.tenant_organisation.presence || booking.tenant&.name
-          br
-          = content_tag :button, class: 'btn btn-link ellipsis', id: "booking-#{booking.id}-tenant"
-            = booking.email
-          b-popover[triggers='hover click' placement='bottom' target="booking-#{booking.id}-tenant" title=(booking.tenant_organisation.presence || booking.tenant&.name)]
-            slot
-              = tenant_address(booking.tenant)
+          strong= booking.tenant_organisation.presence
+          = tenant_address(booking.tenant, css_class: 'small')
           p.mt-2.mb-0
             - if booking.agent_booking?
               i.fa.fa-link
               =<> booking.agent_booking.booking_agent
 
-            - if booking.purpose.present?
-              span= t(booking.purpose, scope: :'activerecord.enums.booking.purpose')
-
-            - if booking.approximate_headcount
-              ' :
-              i.fa.fa-male
-              =<> booking.approximate_headcount
-
-        .col-md-4.py-3
+        .col-md-3.py-3
           - begin
             = render partial: Booking.strategy.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
           - rescue ActionView::MissingTemplate
           = render partial: 'manage/bookings/checklist', locals: { booking: booking }
-          .mt-2
-            = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-              - allowed_actions = Booking.strategy.manage_actions.allowed_actions(booking)
-              = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f, button_classes: ['btn-sm'] }
-
+        .col-md-1
+            b-dropdown[text="..." variant="block" no-caret dropleft class='w-100 h-100']
+              = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
+                - allowed_actions = Booking.strategy.manage_actions.allowed_actions(booking)
+                - allowed_actions.each do |action|
+                  button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
+                    = t(action.i18n_scope.join('.'))

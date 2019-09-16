@@ -83,7 +83,7 @@ export default {
         if(ends_at.isBetween(moment(this.date.startOf("day")), moment(this.date.hour(12)), "minutes", "[)")) {
           return `${occupancy.occupancy_type}-forenoon`;
         }
-        if(begins_at.isBetween(moment(this.date.hour(10)), moment(this.date.endOf("day")), "minutes", "(]")) {
+        if(begins_at.isBetween(moment(this.date.hour(12)), moment(this.date.endOf("day")), "minutes", "(]")) {
           return `${occupancy.occupancy_type}-afternoon`;
         }
         return `${occupancy.occupancy_type}-fullday`;
@@ -155,7 +155,10 @@ $occupied-background-color: #ffa8a8;
     border-bottom-color: white;
     border-right-color: white;
   }
-  .occupied-forenoon.occupied-afternoon {
+  .occupied-forenoon.occupied-afternoon,
+  .occupied-forenoon.occupied-fullday,
+  .occupied-afternoon.occupied-fullday
+   {
     border-top-color: $occupied-border-color;
     border-left-color: $occupied-border-color;
     border-bottom-color: $occupied-border-color;
