@@ -24,7 +24,7 @@ module BookingStrategies
 
           def button_options
             super.merge(
-              variant: 'success',
+              variant: 'success'
             )
           end
         end
