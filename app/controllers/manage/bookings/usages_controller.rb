@@ -47,7 +47,7 @@ module Manage
       end
 
       def booking_usages_params
-        BookingParams.permit(ActionController::Parameters.new(usages_attributes: params.require(:usages)))
+        BookingParams.permit(ActionController::Parameters.new(usages_attributes: params[:usages]))
       end
     end
   end
