@@ -7,8 +7,8 @@ module Export
         end
 
         def call(pdf)
-          pdf.bounding_box([-50, 252], width: 595, height: 302) do
-            img = Rails.root.join('app', 'webpack', 'images', 'esr_orange.jpg')
+          pdf.bounding_box([-50, 255], width: 595, height: 305) do
+            img = Rails.root.join('app', 'webpack', 'images', 'esr_orange.png')
             pdf.image img, width: 595
             pdf.stroke_bounds
             render_address(pdf)
@@ -31,7 +31,7 @@ module Export
         def render_account_nr(pdf)
           [77, 249].each do |x|
             pdf.bounding_box([x, 181], width: 85, height: 10) do
-              pdf.font('ocr') { pdf.text @payment_slip.account_nr }
+              pdf.font('ocr') { pdf.text @payment_slip.account_nr.to_s }
             end
           end
         end
@@ -51,9 +51,10 @@ module Export
         end
 
         def render_code(pdf)
-          pdf.bounding_box([200, 60], width: 380, height: 11) do
+          pdf.bounding_box([195, 60], width: 380, height: 11) do
+            # pdf.stroke_bounds
             pdf.font('ocr', size: 10.2) do
-              pdf.text @payment_slip.code_line
+              pdf.text @payment_slip.code_line, align: :right
             end
           end
         end

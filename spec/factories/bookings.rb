@@ -29,7 +29,6 @@
 
 FactoryBot.define do
   factory :booking do
-    organisation
     home
     tenant
     tenant_organisation { Faker::Company.name }
@@ -46,6 +45,7 @@ FactoryBot.define do
     end
 
     after(:build) do |booking|
+      booking.organisation ||= booking.home.organisation
       booking.occupancy ||= build(:occupancy, home: booking.home, occupancy_type: :free)
     end
 

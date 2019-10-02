@@ -28,7 +28,7 @@ module Export
           return if @taris.blank?
 
           table_data = @tarifs.map do |tarif|
-            [tarif.label, tarif.unit, format('CHF %.2f', tarif.price_per_unit)]
+            [tarif.label, tarif.unit, format('CHF %<price>.2f', price: tarif.price_per_unit)]
           end
 
           pdf.table table_data, column_widths: [200, 200, 94], cell_style: {} do
