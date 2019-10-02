@@ -55,6 +55,6 @@ class PaymentSlip
   end
 
   def esr_ref
-    ref_strategy.format_ref(@ref)
+    ref_strategy.format_ref(ref)
   end
 end
