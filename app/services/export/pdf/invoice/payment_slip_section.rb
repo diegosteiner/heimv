@@ -8,15 +8,20 @@ module Export
 
         def call(pdf)
           pdf.bounding_box([-50, 255], width: 595, height: 305) do
-            img = Rails.root.join('app', 'webpack', 'images', 'esr_orange.png')
-            pdf.image img, width: 595
-            pdf.stroke_bounds
+            render_background(pdf)
             render_address(pdf)
             render_amount(pdf)
             render_account_nr(pdf)
             render_code(pdf)
             render_esr_number(pdf)
           end
+        end
+
+        def render_background(pdf)
+          return if ENV['PRINT_PAYMENT_SLIP_BACKGROUND'].blank?
+
+          img = Rails.root.join('app', 'webpack', 'images', 'esr_orange.png')
+          pdf.image img, width: 595
         end
 
         def render_address(pdf)
@@ -52,9 +57,8 @@ module Export
 
         def render_code(pdf)
           pdf.bounding_box([195, 60], width: 380, height: 11) do
-            # pdf.stroke_bounds
             pdf.font('ocr', size: 10.2) do
-              pdf.text @payment_slip.code_line, align: :right
+                pdf.text @payment_slip.code_line, align: :right, character_spacing: 0.75
             end
           end
         end

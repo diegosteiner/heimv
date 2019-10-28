@@ -1,6 +1,6 @@
 <template>
-  <form target="_top" :action="reservationUrl" method="GET">
-    <input type="hidden" name="booking[home_id]" :value="homeId">
+  <form target="_top" :action="reservationUrl" method="GET" class="calendar-form">
+    <input type="hidden" name="booking[home_id]" :value="homeId" />
     <calendar :display-months="displayMonths" v-if="!loading" v-cloak>
       <template slot-scope="date">
         <app-calendar-day
@@ -10,6 +10,7 @@
         ></app-calendar-day>
       </template>
     </calendar>
+    <div class="loading" v-else></div>
   </form>
 </template>
 
@@ -78,6 +79,10 @@ export default {
 
 <style>
 .loading {
-  opacity: .5;
+  height: 36em;
+}
+
+.calendar-form {
+  font-size: 0.8rem;
 }
 </style>

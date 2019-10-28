@@ -11,7 +11,7 @@ module Export
       def sections
         [
           Base::LogoSection.new,
-          Base::SenderAddressSection.new,
+          Base::SenderAddressSection.new(@booking.organisation.address),
           Base::RecipientAddressSection.new(@booking),
           Base::TitleSection.new("Mietvertrag: #{@booking.home.name}"),
           Base::MarkdownSection.new(Markdown.new(@contract.text)),

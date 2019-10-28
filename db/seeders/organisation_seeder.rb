@@ -12,17 +12,19 @@ module Seeders
           payment_information: '',
           account_nr: '01-162-8',
           currency: 'CHF',
-          message_footer: "Verein Pfadiheime St. Georg
-                          Heimverwaltung
+          message_footer: <<~EOS
+                            Verein Pfadiheime St. Georg
+                            Heimverwaltung
 
-                          Christian Morger
-                          Geeringstrasse 44
-                          8049 Zürich
-                          Switzerland
+                            Christian Morger
+                            Geeringstrasse 44
+                            8049 Zürich
+                            Switzerland
 
-                          +41 79 262 25 48
-                          www.pfadi-heime.ch
-                          info@pfadi-heime.ch"
+                            [+41 79 262 25 48](tel:+41 79 262 25 48)
+                            [www.pfadi-heime.ch](//www.pfadi-heime.ch)
+                            [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+                          EOS
           )
       }
     end

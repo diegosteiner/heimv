@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 2019_08_26_125200) do
     t.string "type"
     t.string "label"
     t.jsonb "filter_params", default: {}
-    t.jsonb "report_params", default: {}
+    t.jsonb "data_digest_params", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
