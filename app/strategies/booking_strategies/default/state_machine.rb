@@ -70,6 +70,8 @@ module BookingStrategies
 
       after_transition(to: %i[awaiting_tenant]) do |booking|
         booking.messages.new_from_template(:awaiting_tenant_message, addressed_to: :tenant).deliver_now
+        booking.messages.new_from_template(:booking_agent_request_accepted_message,
+                                           addressed_to: :booking_agent).deliver_now
       end
 
       after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue awaiting_tenant]) do |booking|

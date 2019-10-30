@@ -28,6 +28,7 @@ class Invoice < ApplicationRecord
 
   enum invoice_type: { invoice: 0, deposit: 1, late_notice: 2 }
 
+  scope :ordered, -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :present, -> { where(deleted_at: nil) }
   scope :unpaid,  -> { present.where(paid: false) }
   scope :paid,    -> { present.where(paid: true) }

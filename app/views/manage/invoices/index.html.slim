@@ -21,7 +21,7 @@
       - @invoices.each do |invoice|
         tr[data-href=manage_invoice_path(invoice) class=('disabled' if invoice.deleted?)]
           td
-            = link_to invoice.to_s, url_for(invoice.pdf)
+            small= link_to invoice.to_s, url_for(invoice.pdf)
           td
             = Invoice.human_enum(:invoice_types, invoice.invoice_type)
 

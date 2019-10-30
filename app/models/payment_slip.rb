@@ -28,7 +28,7 @@ class PaymentSlip
     {
       esr_mode: esr_mode,
       amount: amount * 100,
-      checksum_1: checksum(esr_mode + format('%010d', amount * 100)),
+      checksum_1: checksum(esr_mode + format('%<amount>010d', amount: amount * 100)),
       ref: ref,
       account_code: account_nr.to_code
     }

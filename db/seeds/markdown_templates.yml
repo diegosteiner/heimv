@@ -413,6 +413,22 @@ booking_agent_request_message:
 
     {{ booking.organisation.message_footer }}
 
+booking_agent_request_accepted_message:
+  key: booking_agent_request_accepted_message
+  locale: de
+  title: 'Pfadi-heime.ch: Vermittlungsanfrage akzeptiert'
+  body: |-
+    Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
+
+    - Unsere Referenz: {{ booking.ref }}
+    - Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    {{ booking.organisation.message_footer }}
+
 cancelled_message:
   key: cancelled_message
   locale: de

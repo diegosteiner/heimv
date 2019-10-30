@@ -7,7 +7,7 @@ module Export
         end
 
         def call(pdf)
-          pdf.bounding_box([-50, 255], width: 595, height: 305) do
+          pdf.bounding_box([-50, 235], width: 595, height: 295) do
             render_background(pdf)
             render_address(pdf)
             render_amount(pdf)
@@ -44,7 +44,7 @@ module Export
         def render_amount(pdf)
           [5, 178].each do |x|
             pdf.font('ocr') do
-              pdf.bounding_box([x, 157], width: 111, height: 14) do
+              pdf.bounding_box([x, 157], width: 109, height: 14) do
                 pdf.text format('%<amount>d', amount: @payment_slip.amount_before_point), size: 12, align: :right
               end
 
@@ -56,9 +56,9 @@ module Export
         end
 
         def render_code(pdf)
-          pdf.bounding_box([195, 60], width: 380, height: 11) do
+          pdf.bounding_box([195, 60], width: 385, height: 11) do
             pdf.font('ocr', size: 10.2) do
-                pdf.text @payment_slip.code_line, align: :right, character_spacing: 0.75
+              pdf.text @payment_slip.code_line, align: :right, character_spacing: 0.5
             end
           end
         end

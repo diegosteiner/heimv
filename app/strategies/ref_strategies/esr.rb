@@ -1,7 +1,7 @@
 module RefStrategies
   class ESR < RefStrategy
     def generate(invoice)
-      ref = format('%<home_id>03d%<tenant_id>06d%<invoice_id>012d', home_id: invoice.booking.home.id,
+      ref = format('%<home_id>03d%<tenant_id>08d%<invoice_id>015d', home_id: invoice.booking.home.id,
                                                                     tenant_id: invoice.booking.tenant.id,
                                                                     invoice_id: invoice.id)
       ref + checksum(ref).to_s
