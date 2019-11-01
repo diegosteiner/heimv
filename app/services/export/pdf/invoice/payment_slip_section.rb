@@ -42,13 +42,13 @@ module Export
         end
 
         def render_amount(pdf)
-          [5, 178].each do |x|
+          [3, 183].each do |x|
             pdf.font('ocr') do
-              pdf.bounding_box([x, 157], width: 109, height: 14) do
+              pdf.bounding_box([x, 154], width: 105, height: 14) do
                 pdf.text format('%<amount>d', amount: @payment_slip.amount_before_point), size: 12, align: :right
               end
 
-              pdf.bounding_box([x + 130, 157], width: 25, height: 14) do
+              pdf.bounding_box([x + 125, 154], width: 25, height: 14) do
                 pdf.text format('%<amount>02d', amount: @payment_slip.amount_after_point), size: 12, align: :center
               end
             end
@@ -56,7 +56,7 @@ module Export
         end
 
         def render_code(pdf)
-          pdf.bounding_box([195, 60], width: 385, height: 11) do
+          pdf.bounding_box([190, 53], width: 385, height: 11) do
             pdf.font('ocr', size: 10.2) do
               pdf.text @payment_slip.code_line, align: :right, character_spacing: 0.5
             end

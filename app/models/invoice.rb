@@ -38,15 +38,15 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :set_paid
+  before_save :generatate_pdf
   after_touch :recalculate_amount
-  after_save :generatate_pdf
 
   def generatate_pdf
-    pdf.attach(
+    self.pdf = {
       io: StringIO.new(Export::Pdf::Invoice.new(self).build.render),
       filename: filename,
       content_type: 'application/pdf'
-    )
+    }
   end
 
   def ref
