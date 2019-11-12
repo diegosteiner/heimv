@@ -5,9 +5,10 @@ module Export
     class DataDigest < Base
       attr_reader :data_digest
 
-      def initialize(data_digest, options = {})
+      def initialize(data_digest, organisation, options = {})
         @data_digest = data_digest
         @options = options
+        @organisation = organisation
       end
 
       def document_options
@@ -16,7 +17,7 @@ module Export
 
       def sections
         [
-          Base::LogoSection.new, ->(pdf) { pdf.move_down 40 },
+          Base::LogoSection.new(@organisation), ->(pdf) { pdf.move_down 40 },
           Base::TitleSection.new(data_digest.label),
           # Base::MarkdownSection.new(Markdown.new(@data_digest.text)),
           TabularDataSection.new(data_digest)

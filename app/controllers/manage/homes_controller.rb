@@ -19,6 +19,7 @@ module Manage
     end
 
     def create
+      @home.organisation = current_organisation
       @home.update(home_params)
       @home.house_rules.attach(home_params[:house_rules])
       respond_with :manage, @home
@@ -38,7 +39,7 @@ module Manage
     private
 
     def home_params
-      HomeParams.permit(params[:home])
+      HomeParams.new(params[:home])
     end
   end
 end

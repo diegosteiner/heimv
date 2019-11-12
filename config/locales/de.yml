@@ -294,7 +294,7 @@ de:
       actions:
         manage:
           accept: Anfrage akzeptieren
-          cancel: Absagen
+          cancel: Ablehnen
           email_contract_and_deposit: Vertrag und Anzahlung verschicken
           email_invoice: Rechnung verschicken
           extend_deadline: Frist verlängern
@@ -379,12 +379,18 @@ de:
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->booking_agent_request":
+          label: Vermittler Anfrage
         "-->cancelation_pending":
           label: Annulieren
+        "-->cancelled_request":
+          label: Reservation zurückziehen
         "-->completed":
           label: Abgeschlossene Belegung
         "-->confirmed":
           label: Bestätigte Reservation
+        "-->declined_request":
+          label: Reservationsanfrage ablehnen
         "-->definitive_request":
           label: Definitive Mietanfrage
         "-->open_request":

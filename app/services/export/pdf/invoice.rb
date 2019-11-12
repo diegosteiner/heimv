@@ -7,6 +7,7 @@ module Export
         @invoice = invoice
         @booking = invoice.booking
         @payment_slip = PaymentSlip.new(@invoice)
+        @organisation = @booking.organisation
       end
 
       def initialize_font
@@ -17,7 +18,7 @@ module Export
 
       def sections
         [
-          Base::LogoSection.new, Base::SenderAddressSection.new(@booking.organisation.address),
+          Base::LogoSection.new(@organisation), Base::SenderAddressSection.new(@organisation.address),
           Base::RecipientAddressSection.new(@booking),
           Base::MarkdownSection.new(Markdown.new(@invoice.text)),
           InvoicePartSection.new(@invoice),

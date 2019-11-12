@@ -64,6 +64,10 @@ module BookingStrategies
         !booking.invoices.unpaid.exists?
       end
 
+      guard_transition(to: %i[booking_agent_request awaiting_tenant]) do |booking|
+        !booking.agent_booking?
+      end
+
       after_transition(to: %i[unconfirmed_request]) do |booking|
         booking.messages.new_from_template(:unconfirmed_request_message, addressed_to: :tenant).deliver_now
       end
@@ -75,11 +79,15 @@ module BookingStrategies
       end
 
       after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue awaiting_tenant]) do |booking|
-        booking.deadlines.create(at: 3.days.from_now, remarks: booking.state)
+        booking.deadlines.create(at: booking.organisation.short_deadline.from_now, remarks: booking.state)
       end
 
       after_transition(to: %i[provisional_request confirmed booking_agent_request]) do |booking|
-        booking.deadlines.create(at: 14.days.from_now, extendable: 1, remarks: booking.state) unless booking.deadline
+        unless booking.deadline
+          booking.deadlines.create(at: booking.organisation.long_deadline.from_now,
+                                   extendable: 1,
+                                   remarks: booking.state)
+        end
       end
 
       after_transition(to: %i[definitive_request]) do |booking|

@@ -24,6 +24,10 @@ class PaymentSlip
   delegate :checksum, to: :ref_strategy
   delegate :amount, :ref, to: :invoice
 
+  def invoice_address
+    @invoice.booking.invoice_address.presence || @invoice.booking.tenant.address_lines.join("\n")
+  end
+
   def code
     {
       esr_mode: esr_mode,
@@ -43,7 +47,7 @@ class PaymentSlip
   end
 
   def amount_after_point
-    amount - amount.truncate
+    ((amount * 100) - (amount.truncate * 100)).to_i
   end
 
   def account_nr

@@ -39,7 +39,7 @@ module Manage
       private
 
       def tarif_selector_params
-        TarifSelectorParams.permit(params.require(:tarif_selector))
+        TarifSelectorParams.new(params.require(:tarif_selector))
       end
     end
   end

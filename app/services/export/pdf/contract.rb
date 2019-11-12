@@ -6,12 +6,13 @@ module Export
       def initialize(contract)
         @contract = contract
         @booking = contract.booking
+        @organisation = @booking.organisation
       end
 
       def sections
         [
-          Base::LogoSection.new,
-          Base::SenderAddressSection.new(@booking.organisation.address),
+          Base::LogoSection.new(@organisation),
+          Base::SenderAddressSection.new(@organisation.address),
           Base::RecipientAddressSection.new(@booking),
           Base::TitleSection.new("Mietvertrag: #{@booking.home.name}"),
           Base::MarkdownSection.new(Markdown.new(@contract.text)),

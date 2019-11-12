@@ -43,7 +43,7 @@ module Manage
     end
 
     def message_params
-      MessageParams.permit(params[:message])
+      MessageParams.new(params[:message])
     end
   end
 end

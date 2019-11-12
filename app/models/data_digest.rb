@@ -29,7 +29,11 @@ class DataDigest < ApplicationRecord
 
   def to_pdf(options = {})
     options = self.class.default_pdf_options.merge(options)
-    Export::Pdf::DataDigest.new(self, options).build.render
+    Export::Pdf::DataDigest.new(self, organisation, options).build.render
+  end
+
+  def organisation
+    @organisation ||= Organisation.instance
   end
 
   def to_tabular

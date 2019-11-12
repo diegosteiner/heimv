@@ -99,10 +99,6 @@ class Booking < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
-  def self.strategy
-    @strategy ||= BookingStrategies::Default.new
-  end
-
   def self.transition_class
     BookingTransition
   end

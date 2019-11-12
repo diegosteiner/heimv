@@ -1,5 +1,5 @@
 ul.fa-ul.mb-0
-  - checklist = Booking.strategy.checklist.new(booking)
+  - checklist = current_organisation.booking_strategy.checklist.new(booking)
   - checklist.to_a.each do |check_item|
     li
       i.fa-li.fa[class=(check_item.checked ? 'fa-check-square-o text-success' : 'fa-square-o')]

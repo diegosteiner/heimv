@@ -22,7 +22,7 @@ module BookingStrategies
 
           def button_options
             super.merge(
-              class: %i[btn btn-outline-primary]
+              variant: nil
             )
           end
         end

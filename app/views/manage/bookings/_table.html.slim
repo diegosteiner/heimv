@@ -24,7 +24,7 @@
           .d-flex.mt-2
             div.mr-2
               i.fa.fa-male
-            div 
+            div
               - if booking.approximate_headcount
                 span=<> booking.approximate_headcount
 
@@ -40,13 +40,13 @@
 
         .col-md-3.py-3
           - begin
-            = render partial: Booking.strategy.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
+            = render partial: current_organisation.booking_strategy.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
           - rescue ActionView::MissingTemplate
           = render partial: 'manage/bookings/checklist', locals: { booking: booking }
         .col-md-1
             b-dropdown[text="..." variant="block" no-caret dropleft class='w-100 h-100']
               = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-                - allowed_actions = Booking.strategy.manage_actions.allowed_actions(booking)
+                - allowed_actions = current_organisation.booking_strategy.manage_actions.allowed_actions(booking)
                 - allowed_actions.each do |action|
                   button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
                     = t(action.i18n_scope.join('.'))

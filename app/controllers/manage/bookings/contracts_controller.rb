@@ -45,7 +45,7 @@ module Manage
       private
 
       def contract_params
-        ContractParams.permit(params.require(:contract))
+        ContractParams.new(params.require(:contract))
       end
     end
   end

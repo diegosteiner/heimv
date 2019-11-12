@@ -9,7 +9,6 @@ describe StateMachineAutomator do
 
   before do
     object.state = :matching
-    allow(Booking).to receive(:strategy).and_return(booking_strategy)
     allow(object).to receive(:state_machine).and_return(state_machine)
     allow(state_machine).to receive(:current_state) { object.state }
     allow(state_machine).to receive(:can_transition_to?).and_return(true)

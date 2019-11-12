@@ -9,11 +9,12 @@ module Export
         def call(pdf)
           pdf.bounding_box([-50, 235], width: 595, height: 295) do
             render_background(pdf)
-            render_address(pdf)
+            render_sender_address(pdf)
+            render_counterfoil_address(pdf)
             render_amount(pdf)
             render_account_nr(pdf)
+            render_esr_ref(pdf)
             render_code(pdf)
-            render_esr_number(pdf)
           end
         end
 
@@ -24,7 +25,7 @@ module Export
           pdf.image img, width: 595
         end
 
-        def render_address(pdf)
+        def render_sender_address(pdf)
           [8, 180].each do |x|
             pdf.bounding_box([x, 275], width: 150, height: 80) do
               pdf.default_leading 1
@@ -55,15 +56,25 @@ module Export
           end
         end
 
-        def render_code(pdf)
-          pdf.bounding_box([190, 53], width: 385, height: 11) do
-            pdf.font('ocr', size: 10.2) do
-              pdf.text @payment_slip.code_line, align: :right, character_spacing: 0.5
+        def render_counterfoil_address(pdf)
+          [[8, 124], [354, 165]].each do |xy|
+            pdf.bounding_box(xy, width: 150, height: 60) do
+              pdf.text @payment_slip.esr_ref, size: 8
+              pdf.move_down 5
+              pdf.text @payment_slip.invoice_address, size: 8
             end
           end
         end
 
-        def render_esr_number(pdf)
+        def render_code(pdf)
+          pdf.bounding_box([183, 52], width: 395, height: 11) do
+            pdf.font('ocr', size: 10.5) do
+              pdf.text @payment_slip.code_line, align: :right, character_spacing: 0.6
+            end
+          end
+        end
+
+        def render_esr_ref(pdf)
           pdf.bounding_box([354, 204], width: 230, height: 10) do
             pdf.font('ocr', size: 10) do
               pdf.text @payment_slip.esr_ref

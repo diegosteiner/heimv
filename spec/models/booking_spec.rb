@@ -68,8 +68,7 @@ describe Booking, type: :model do
   describe 'Occupancy' do
     let(:booking_params) do
       attributes_for(:booking).merge(occupancy_attributes: attributes_for(:occupancy),
-                                     tenant: tenant,
-                                     home: home)
+                                     tenant: tenant, home: home)
     end
 
     it 'creates all occupancy-related attributes in occupancy' do

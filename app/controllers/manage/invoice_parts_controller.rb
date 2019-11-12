@@ -29,7 +29,7 @@ module Manage
     private
 
     def invoice_part_params
-      InvoicePartParams.permit(params.require(:invoice_part))
+      InvoicePartParams.new(params.require(:invoice_part))
     end
   end
 end

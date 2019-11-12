@@ -52,7 +52,7 @@ module Manage
     private
 
     def invoice_params
-      InvoiceParams.permit(params[:invoice])
+      InvoiceParams.new(params[:invoice])
     end
   end
 end

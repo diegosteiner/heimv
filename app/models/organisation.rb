@@ -44,6 +44,14 @@ class Organisation < ApplicationRecord
     Kernel.const_get(invoice_ref_strategy_type).new
   end
 
+  def long_deadline
+    14.days
+  end
+
+  def short_deadline
+    3.days
+  end
+
   def to_s
     name
   end

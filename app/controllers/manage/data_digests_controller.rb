@@ -39,7 +39,7 @@ module Manage
     private
 
     def data_digest_params
-      DataDigestParams.permit(params[:data_digest] || params)
+      DataDigestParams.new(params[:data_digest] || params)
     end
   end
 end

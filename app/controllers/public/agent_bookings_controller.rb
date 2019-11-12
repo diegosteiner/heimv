@@ -25,18 +25,22 @@ module Public
 
     def update
       @agent_booking.update(agent_booking_params) if @agent_booking.booking.editable?
-      Booking.strategy.public_actions[booking_action]&.call(@agent_booking.booking) if booking_action
+      public_actions[booking_action]&.call(@agent_booking.booking) if booking_action
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path
     end
 
     private
+
+    def public_actions
+      current_organisation.booking_strategy.public_actions
+    end
 
     def booking_action
       params[:booking_action]
     end
 
     def agent_booking_params
-      AgentBookingParams.permit(params[:agent_booking]) || {}
+      AgentBookingParams.new(params[:agent_booking]) || {}
     end
   end
 end

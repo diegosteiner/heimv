@@ -379,12 +379,18 @@ en:
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->booking_agent_request":
+          label: Vermittler Anfrage
         "-->cancelation_pending":
           label: Annulieren
+        "-->cancelled_request":
+          label: Reservation zurückziehen
         "-->completed":
           label: Abgeschlossene Belegung
         "-->confirmed":
           label: Bestätigte Reservation
+        "-->declined_request":
+          label: Reservationsanfrage ablehnen
         "-->definitive_request":
           label: Definitive Mietanfrage
         "-->open_request":
