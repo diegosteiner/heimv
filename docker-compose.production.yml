@@ -1,0 +1,19 @@
+version: '3.5'
+services:
+
+  app:
+    build:
+      context: .
+      target: production
+    command: bin/rails s -p 3000 -b 0.0.0.0
+    environment:
+      DATABASE_URL: postgresql://postgres@db/heimverwaltung_production
+      RAILS_ENV: production
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      APP_HOST: ${APP_HOST}
+      MAILER_URL: ${MAILER_URL}
+      RAILS_SERVE_STATIC_FILES: 'true'
+      MEMCACHE_SERVERS: memcached
+    depends_on:
+      - db
+      - memcached

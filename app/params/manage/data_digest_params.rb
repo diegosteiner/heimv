@@ -1,5 +1,5 @@
 module Manage
-  class ReportParams < ApplicationParams
+  class DataDigestParams < ApplicationParams
     def self.permitted_keys
       %i[type label] + [{ tarif_ids: [], filter_params: {} }]
     end

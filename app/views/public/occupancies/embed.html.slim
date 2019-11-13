@@ -13,6 +13,6 @@ html[lang=I18n.locale]
         app-occupancy-calendar[
                 occupancies-url=home_occupancies_path(@home, format: :json)
                 reservation-url=new_public_booking_path
-                home-id=home.id
+                home-id=@home.id
                 :display-months='8'
                 ]

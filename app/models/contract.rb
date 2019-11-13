@@ -27,14 +27,14 @@ class Contract < ApplicationRecord
   end
 
   before_save :oust
-  after_save :generatate_pdf
+  before_save :generatate_pdf
 
   def generatate_pdf
-    pdf.attach(
+    self.pdf = {
       io: StringIO.new(Export::Pdf::Contract.new(self).build.render),
       filename: filename,
       content_type: 'application/pdf'
-    )
+    }
   end
 
   def oust

@@ -43,11 +43,11 @@ module Manage
       private
 
       def usage_params
-        UsageParams.permit(params.require(:usage))
+        UsageParams.new(params.require(:usage))
       end
 
       def booking_usages_params
-        BookingParams.permit(ActionController::Parameters.new(usages_attributes: params.require(:usages)))
+        BookingParams.new(ActionController::Parameters.new(usages_attributes: params[:usages]))
       end
     end
   end

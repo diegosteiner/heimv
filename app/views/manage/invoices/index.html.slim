@@ -21,7 +21,7 @@
       - @invoices.each do |invoice|
         tr[data-href=manage_invoice_path(invoice) class=('disabled' if invoice.deleted?)]
           td
-            = link_to invoice.to_s, url_for(invoice.pdf)
+            small= link_to invoice.to_s, url_for(invoice.pdf)
           td
             = Invoice.human_enum(:invoice_types, invoice.invoice_type)
 
@@ -70,3 +70,5 @@
         = t(:add_record, model_name: :Anzahlung)
       = link_to new_manage_booking_invoice_path(@booking), class: 'dropdown-item' do
         = t(:add_record, model_name: Invoice.model_name.human)
+      = link_to new_manage_booking_invoice_path(@booking, invoice: { invoice_type: :late_notice }), class: 'dropdown-item' do
+        = t(:add_record, model_name: :Mahnung)

@@ -26,7 +26,7 @@ class BookingStrategy
 
     def button_options
       {
-        class: %i[btn btn-primary]
+        variant: 'primary'
       }
     end
   end

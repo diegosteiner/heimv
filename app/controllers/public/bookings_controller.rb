@@ -1,9 +1,7 @@
 module Public
   class BookingsController < BaseController
-    load_and_authorize_resource :booking
-
     def new
-      @booking.assign_attributes(booking_params) if booking_params
+      @booking = Booking.new(booking_params)
       @booking.build_occupancy unless @booking.occupancy
       @booking.occupancy.ends_at ||= @booking.occupancy.begins_at
 
@@ -11,32 +9,40 @@ module Public
     end
 
     def show
+      @booking = Booking.find(params[:id])
       redirect_to edit_public_booking_path(@booking)
     end
 
     def edit
+      @booking = Booking.find(params[:id])
       respond_with :public, @booking
     end
 
     def create
+      @booking = Booking.new(booking_params)
       @booking.messages_enabled = true
       @booking.save(context: :public_create)
       respond_with :public, @booking, location: root_path
     end
 
     def update
+      @booking = Booking.find(params[:id])
       if @booking.editable?
         @booking.assign_attributes(update_params)
         @booking.save(context: :public_update)
       end
-      Booking.strategy.public_actions[booking_action]&.call(@booking) if booking_action
+      public_actions[booking_action]&.call(@booking) if booking_action
       respond_with :public, @booking, location: edit_public_booking_path
     end
 
     private
 
+    def public_actions
+      current_organisation.booking_strategy.public_actions
+    end
+
     def booking_params
-      BookingParams::Create.permit(params[:booking])
+      BookingParams::Create.new(params[:booking])
     end
 
     def booking_action
@@ -44,7 +50,7 @@ module Public
     end
 
     def update_params
-      BookingParams::Update.permit(params[:booking]) || {}
+      BookingParams::Update.new(params[:booking])
     end
   end
 end

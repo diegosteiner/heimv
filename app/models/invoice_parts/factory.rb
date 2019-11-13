@@ -37,7 +37,7 @@ module InvoiceParts
     def format_used_units(used_units)
       return unless used_units
 
-      format('%<used_units>g × ', used_units: format('%.2f', used_units))
+      format('%<used_units_rounded>g × ', used_units_rounded: format('%<used_units>.2f', used_units: used_units))
     end
 
     def format_unit(unit)
@@ -49,7 +49,7 @@ module InvoiceParts
     def format_price_per_unit(price_per_unit)
       return unless price_per_unit
 
-      format(' à CHF %<price_per_unit>g', price_per_unit: format('%.2f', price_per_unit))
+      format(' à CHF %<price_per_unit_rounded>g', price_per_unit_rounded: format('%<price>.2f', price: price_per_unit))
     end
   end
 end

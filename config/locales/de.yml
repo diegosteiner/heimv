@@ -62,13 +62,16 @@ de:
         signed_at: Unterschrieben am
         text: Vertragstext
         title: Titel
+      data_digest:
+        label: Name
+        type: Art
       deadline:
         at: Bis
         extendable: Verlängerbar
         responsible: Verantwortlich
       home:
         house_rules: Hausordnung (PDF)
-        janitor: Heimwart
+        janitor: Angaben Heimwart
         name: Name
         place: Ort
         ref: Kurzname / Referenz
@@ -126,9 +129,6 @@ de:
       payment:
         amount: Betrag
         paid_at: Bezahlt am
-      report:
-        label: Name
-        type: Art
       tarif:
         invoice_type: Rechnungstyp
         label: Tarif
@@ -221,6 +221,21 @@ de:
       contract:
         one: Vertrag
         other: Verträge
+      data_digest:
+        one: Auszug
+        other: Auszüge
+      data_digests/booking_data_digest:
+        one: Belegungen Auszug
+        other: Belegungen Auszüge
+      data_digests/payment_data_digest:
+        one: Zahlungen Auszug
+        other: Zahlungen Auszüge
+      data_digests/tarif:
+        one: Tarif Auszug
+        other: Tarif Auszüge
+      data_digests/tenant:
+        one: Mieter Auszug
+        other: Mieter Auszüge
       deadline:
         one: Frist
         other: Fristen
@@ -251,21 +266,6 @@ de:
       payment:
         one: Zahlung
         other: Zahlungen
-      report:
-        one: Bericht
-        other: Berichte
-      reports/booking_report:
-        one: Belegungen Bericht
-        other: Belegungen Berichte
-      reports/payment_report:
-        one: Zahlungen Bericht
-        other: Zahlungen Berichte
-      reports/tarif:
-        one: Tarif Bericht
-        other: Tarif Berichte
-      reports/tenant:
-        one: Mieter Bericht
-        other: Mieter Berichte
       tarif:
         one: Tarif
         other: Tarife
@@ -294,7 +294,7 @@ de:
       actions:
         manage:
           accept: Anfrage akzeptieren
-          cancel: Absagen
+          cancel: Ablehnen
           email_contract_and_deposit: Vertrag und Anzahlung verschicken
           email_invoice: Rechnung verschicken
           extend_deadline: Frist verlängern
@@ -379,12 +379,18 @@ de:
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->booking_agent_request":
+          label: Vermittler Anfrage
         "-->cancelation_pending":
           label: Annulieren
+        "-->cancelled_request":
+          label: Reservation zurückziehen
         "-->completed":
           label: Abgeschlossene Belegung
         "-->confirmed":
           label: Bestätigte Reservation
+        "-->declined_request":
+          label: Reservationsanfrage ablehnen
         "-->definitive_request":
           label: Definitive Mietanfrage
         "-->open_request":

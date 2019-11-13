@@ -11,9 +11,7 @@ unconfirmed_request_message:
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
-    Freundliche Grüsse
-
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 open_request_message:
   key: open_request_message
@@ -39,9 +37,7 @@ open_request_message:
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
-    Freundliche Grüsse
-
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 
 confirmed_message:
@@ -66,16 +62,13 @@ confirmed_message:
 
 
     **Zahlungsdetails**
-
-    - Empfänger: Verein Pfadiheime St. Georg Zürich
-    - Konto: XXXXXX
+    {{ booking.organisation.payment_information }}
 
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
     wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
-    Freundliche Grüsse
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 provisional_request_message:
   key: provisional_request_message
@@ -104,8 +97,7 @@ provisional_request_message:
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
     wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
-    Freundliche Grüsse
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 overdue_request_message:
   key: overdue_request_message
@@ -135,9 +127,7 @@ overdue_request_message:
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
-    Freundliche Grüsse
-
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 
 definitive_request_message:
@@ -165,8 +155,7 @@ definitive_request_message:
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
     wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
-    Freundliche Grüsse
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 manage_new_booking_mail:
   key: manage_new_booking_mail
@@ -188,9 +177,7 @@ manage_new_booking_mail:
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
-    Freundliche Grüsse
-
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 
 upcoming_message:
@@ -217,9 +204,7 @@ upcoming_message:
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
-    Freundliche Grüsse
-
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 
 deposit_invoice_text:
@@ -249,11 +234,11 @@ late_notice_invoice_text:
 payment_due_message:
   key: payment_due_message
   locale: de
-  title: 'Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung'
+  title: 'Pfadi-heime.ch: Deine Lagerhaus-Rechnung'
   body: |-
     {{ booking.tenant.salutation_name }}
 
-    Mit dieser Nachricht erhältst Du die Rechnungfür Deine Lagerhaus-Reservation. Bitte bezahle diese innert der Zahlungsfrist von 30 Tagen
+    Mit dieser Nachricht erhältst Du die Rechnung für Deine Lagerhaus-Reservation. Bitte bezahle diese innert der Zahlungsfrist von 30 Tagen
 
     **Reservationsdetails**
 
@@ -266,15 +251,12 @@ payment_due_message:
 
 
     **Zahlungsdetails**
-
-    - Empfänger: Verein Pfadiheime St. Georg Zürich
-    - Konto: XXXXXX
+    {{ booking.organisation.payment_information }}
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
     wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
-    Freundliche Grüsse
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 
 payment_overdue_message:
@@ -299,15 +281,12 @@ payment_overdue_message:
 
 
     **Zahlungsdetails**
-
-    - Empfänger: Verein Pfadiheime St. Georg Zürich
-    - Konto: XXXXXX
+    {{ booking.organisation.payment_information }}
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
     wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
-    Freundliche Grüsse
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 
 contract_text:
@@ -369,15 +348,12 @@ contract_signed_message:
 
 
     **Zahlungsdetails**
-
-    - Empfänger: Verein Pfadiheime St. Georg Zürich
-    - Konto: XXXXXX
+    {{ booking.organisation.payment_information }}
 
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
     wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
-    Freundliche Grüsse
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 deposits_paid_message:
   key: deposits_paid_message
@@ -404,9 +380,7 @@ deposits_paid_message:
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
-    Freundliche Grüsse
-
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 # invoices_paid_message:
 #   key: invoices_paid_message
@@ -419,7 +393,6 @@ deposits_paid_message:
 #     Damit ist nun alles erledigt. Wir bedanken uns für den Besuch und würden uns freuen, Dich und Deine Gruppe ein anderes Mal wieder bei uns zu beherbergen.
 
 #     Freundliche Grüsse
-
 #     Verein Pfadiheime St. Georg
 
 booking_agent_request_message:
@@ -438,9 +411,23 @@ booking_agent_request_message:
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
-    Freundliche Grüsse
+    {{ booking.organisation.message_footer }}
 
-    Verein Pfadiheime St. Georg
+booking_agent_request_accepted_message:
+  key: booking_agent_request_accepted_message
+  locale: de
+  title: 'Pfadi-heime.ch: Vermittlungsanfrage akzeptiert'
+  body: |-
+    Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
+
+    - Unsere Referenz: {{ booking.ref }}
+    - Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    {{ booking.organisation.message_footer }}
 
 cancelled_message:
   key: cancelled_message
@@ -497,8 +484,7 @@ booking_agent_request_message:
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
     wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
-    Freundliche Grüsse
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 awaiting_tenant_message:
   key: awaiting_tenant_message
@@ -527,7 +513,6 @@ awaiting_tenant_message:
     Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
     wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
-    Freundliche Grüsse
-    Verein Pfadiheime St. Georg
+    {{ booking.organisation.message_footer }}
 
 

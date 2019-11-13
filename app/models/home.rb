@@ -30,10 +30,6 @@ class Home < ApplicationRecord
     name
   end
 
-  def organisation
-    @organisation ||= Organisation.instance
-  end
-
   def to_liquid
     Public::HomeSerializer.new(self).serializable_hash.deep_stringify_keys
   end

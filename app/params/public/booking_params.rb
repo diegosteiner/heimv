@@ -12,10 +12,10 @@ module Public
     end
 
     class Create < Update
-      def self.sanitize(params)
-        return params unless params[:occupancy_attributes]
+      sanitize do |params|
+        next params if params[:occupancy_attributes].blank?
 
-        params.merge(occupancy_attributes: OccupancyParams.permit(params[:occupancy_attributes]))
+        params.merge(occupancy_attributes: OccupancyParams.new(params[:occupancy_attributes]).permitted)
       end
 
       def self.permitted_keys

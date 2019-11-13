@@ -12,7 +12,7 @@ module Manage
         privacy_statement_pdf: organisation_params[:privacy_statement_pdf],
         logo: organisation_params[:logo]
       )
-      respond_with :manage, @organisation, location: edit_manage_organisation_path
+      respond_with :manage, current_organisation, location: edit_manage_organisation_path
     end
 
     private

@@ -13,4 +13,4 @@ nav.navbar.bg-white
       =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary'
         = t(:reset)
 
-= render partial: Booking.strategy.template_path('manage/bookings/index')
+= render partial: current_organisation.booking_strategy.template_path('manage/bookings/index')

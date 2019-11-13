@@ -7,7 +7,7 @@ html[lang=I18n.locale]
     == stylesheet_pack_tag 'app'
     == csrf_meta_tags
     == csp_meta_tag
-    == javascript_packs_with_chunks_tag 'app'
+    == javascript_packs_with_chunks_tag 'app', defer: true
   body
     #app[v-cloak]
       header

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.6.1'
+ruby '2.6.4'
 
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts_as_list'
@@ -28,8 +28,8 @@ gem 'pg'
 gem 'prawn'
 gem 'prawn-table'
 gem 'puma', '~> 3.0'
-gem 'rails', '~> 5.2.0'
-gem 'rails-i18n', '~> 5.0.0'
+gem 'rails', '~> 6.0'
+gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
 gem 'responders'
 gem 'slim-rails'

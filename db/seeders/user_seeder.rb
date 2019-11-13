@@ -4,15 +4,14 @@ module Seeders
   class UserSeeder < BaseSeeder
     seed :production do |seeds|
       {
-        admin: create(:user, :admin, email: 'admin@hv.dev')
+        admin: create(:user, :admin, email: 'admin@heimv.localhost')
       }
     end
 
     seed :development do |seeds|
       {
-        admin: create(:user, :admin, email: 'admin@hv.dev'),
-        users: [create(:user, email: 'user@hv.dev')],
-        blargh: false
+        admin: create(:user, :admin, email: 'admin@heimv.localhost'),
+        users: [create(:user, email: 'user@heimv.localhost')]
       }
     end
   end

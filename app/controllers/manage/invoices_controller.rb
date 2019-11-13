@@ -5,9 +5,9 @@ module Manage
 
     def index
       @invoices = if @booking.present?
-                    @booking.invoices
+                    @booking.invoices.ordered
                   else
-                    @invoices.present.unpaid
+                    @invoices.present.unpaid.ordered
                   end
       respond_with :manage, @invoices
     end
@@ -52,7 +52,7 @@ module Manage
     private
 
     def invoice_params
-      InvoiceParams.permit(params[:invoice])
+      InvoiceParams.new(params[:invoice])
     end
   end
 end

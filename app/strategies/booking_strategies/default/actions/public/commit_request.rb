@@ -15,7 +15,7 @@ module BookingStrategies
 
           def button_options
             super.merge(
-              class: %i[btn btn-primary]
+              variant: 'primary'
             )
           end
         end

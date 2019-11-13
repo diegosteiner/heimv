@@ -21,7 +21,7 @@ module BookingStrategies
 
           def button_options
             super.merge(
-              class: %i[btn btn-outline-danger],
+              variant: 'danger',
               data: {
                 confirm: I18n.t(:confirm)
               }

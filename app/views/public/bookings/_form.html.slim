@@ -22,12 +22,12 @@
             .col-md-6
               = of.text_field :begins_at_date, disabled: true, value: l(of.object.begins_at.to_date)
             .col-md-6
-              = of.time_field :begins_at_time, ignore_date: true, disabled: true
+              = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: true
           .row
             .col-md-6
               = of.text_field :ends_at_date, disabled: true, value: l(of.object.ends_at.to_date)
             .col-md-6
-              = of.time_field :ends_at_time, ignore_date: true, disabled: true
+              = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: true
 
         = f.email_field :email, disabled: @booking.email.present? || !@booking.editable
         = f.fields_for :tenant, @booking.tenant do |cf|
@@ -68,9 +68,9 @@
 
       .form-actions.pt-4.mt-3.border-top
         - if @booking.editable
-          =<> f.submit
+          =<> f.submit class: 'btn btn-primary'
 
-        - allowed_actions = Booking.strategy.public_actions.allowed_actions(@booking)
+        - allowed_actions = current_organisation.booking_strategy.public_actions.allowed_actions(@booking)
         = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f }
 
 

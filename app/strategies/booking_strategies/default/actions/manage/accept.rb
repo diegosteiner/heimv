@@ -21,6 +21,12 @@ module BookingStrategies
               @booking.state_machine.can_transition_to?(:provisional_request) ||
               @booking.state_machine.can_transition_to?(:booking_agent_request)
           end
+
+          def button_options
+            super.merge(
+              variant: 'success'
+            )
+          end
         end
       end
     end

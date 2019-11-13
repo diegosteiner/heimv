@@ -40,7 +40,7 @@ module Manage
       # private
 
       # def meter_reading_period_params
-      #   MeterReadingPeriodParams.permit(params.require(:meter_reading_period))
+      #   MeterReadingPeriodParams.new(params.require(:meter_reading_period))
       # end
     end
   end

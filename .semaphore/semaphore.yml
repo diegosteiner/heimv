@@ -1,0 +1,24 @@
+version: v1.0
+name: docker
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: "Build"
+    task:
+      # env_vars:
+      #   - name: APP_ENV
+      #     value: prod
+      jobs:
+      - name: Docker build
+        commands:
+          - checkout
+          - docker-compose build test
+  - name: "Tests"
+    task:
+      jobs:
+      - name: Tests
+        commands:
+          - checkout
+          - docker-compose run --use-aliases test

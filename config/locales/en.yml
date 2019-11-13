@@ -62,6 +62,9 @@ en:
         signed_at: Unterschrieben am
         text: Vertragstext
         title: Titel
+      data_digest:
+        label: Name
+        type: Art
       deadline:
         at: Bis
         extendable: Verlängerbar
@@ -126,9 +129,6 @@ en:
       payment:
         amount: Betrag
         paid_at: Einbezahlt am
-      report:
-        label: Name
-        type: Art
       tarif:
         invoice_type: Rechnungstyp
         label: Tarif
@@ -221,6 +221,21 @@ en:
       contract:
         one: Vertrag
         other: Verträge
+      data_digest:
+        one: Bericht
+        other: Berichte
+      data_digests/booking_data_digest:
+        one: Belegungen Bericht
+        other: Belegungen Berichte
+      data_digests/payment_data_digest:
+        one: Zahlungen Bericht
+        other: Zahlungen Berichte
+      data_digests/tarif:
+        one: Tarif Bericht
+        other: Tarif Berichte
+      data_digests/tenant:
+        one: Mieter Bericht
+        other: Mieter Berichte
       deadline:
         one: Frist
         other: Fristen
@@ -251,21 +266,6 @@ en:
       payment:
         one: Zahlung
         other: Zahlungen
-      report:
-        one: Bericht
-        other: Berichte
-      reports/booking_report:
-        one: Belegungen Bericht
-        other: Belegungen Berichte
-      reports/payment_report:
-        one: Zahlungen Bericht
-        other: Zahlungen Berichte
-      reports/tarif:
-        one: Tarif Bericht
-        other: Tarif Berichte
-      reports/tenant:
-        one: Mieter Bericht
-        other: Mieter Berichte
       tarif:
         one: Tarif
         other: Tarife
@@ -379,12 +379,18 @@ en:
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->booking_agent_request":
+          label: Vermittler Anfrage
         "-->cancelation_pending":
           label: Annulieren
+        "-->cancelled_request":
+          label: Reservation zurückziehen
         "-->completed":
           label: Abgeschlossene Belegung
         "-->confirmed":
           label: Bestätigte Reservation
+        "-->declined_request":
+          label: Reservationsanfrage ablehnen
         "-->definitive_request":
           label: Definitive Mietanfrage
         "-->open_request":

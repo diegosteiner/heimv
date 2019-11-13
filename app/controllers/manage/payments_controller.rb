@@ -61,11 +61,11 @@ module Manage
     private
 
     def payment_params
-      PaymentParams.permit(params[:payment])
+      PaymentParams.new(params[:payment])
     end
 
     def payments_params
-      params.permit(payments: [PaymentParams.permitted_keys])[:payments]
+      Params.new(payments: [PaymentParams.permitted_keys])[:payments]
     end
   end
 end

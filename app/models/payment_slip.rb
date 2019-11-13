@@ -1,5 +1,5 @@
 class PaymentSlip
-  attr_reader :esr_mode
+  attr_reader :esr_mode, :invoice
 
   # 01 = ESR in CHF
   # 04 = ESR+ in CHF
@@ -9,11 +9,10 @@ class PaymentSlip
   # 23 = ESR in EUR zur Gutschrift auf das eigene Konto
   # 31 = ESR+ in EUR
   # 33 = ESR+ in EUR zur Gutschrift auf das eigene Konto
-  def initialize(invoice, mode = '01')
+  def initialize(invoice, esr_mode = '01')
     @invoice = invoice
-    @ref = invoice.ref
     @amount = invoice.amount
-    @mode = mode
+    @esr_mode = esr_mode
   end
 
   def ref_strategy
@@ -23,23 +22,24 @@ class PaymentSlip
   def checksums; end
 
   delegate :checksum, to: :ref_strategy
+  delegate :amount, :ref, to: :invoice
+
+  def invoice_address
+    @invoice.booking.invoice_address.presence || @invoice.booking.tenant.address_lines.join("\n")
+  end
 
   def code
     {
-      mode: @mode,
+      esr_mode: esr_mode,
       amount: amount * 100,
-      checksum_1: checksum(@mode + format('%010d', amount * 100)),
-      ref: @ref,
-      account: account_nr.scan(/\d/).join.to_i
+      checksum_1: checksum(esr_mode + format('%<amount>010d', amount: amount * 100)),
+      ref: ref,
+      account_code: account_nr.to_code
     }
   end
 
   def code_line
-    format('%<mode>s%<amount>010d%<checksum_1>d>%<ref>s+ %<account>08d', code)
-  end
-
-  def amount
-    @invoice.amount
+    format('%<esr_mode>s%<amount>010d%<checksum_1>d>%<ref>s+ %<account_code>s>', code)
   end
 
   def amount_before_point
@@ -47,11 +47,11 @@ class PaymentSlip
   end
 
   def amount_after_point
-    amount - amount.truncate
+    ((amount * 100) - (amount.truncate * 100)).to_i
   end
 
   def account_nr
-    @invoice.organisation.account_nr
+    AccountNr.new(@invoice.organisation.account_nr)
   end
 
   def address
@@ -59,6 +59,6 @@ class PaymentSlip
   end
 
   def esr_ref
-    ref_strategy.format_ref(@ref)
+    ref_strategy.format_ref(ref)
   end
 end

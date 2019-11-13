@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   rescue_from CanCan::AccessDenied, with: :unauthorized
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :set_organisation
   default_form_builder BootstrapForm::FormBuilder
+  helper_method :current_organisation
 
   protected
 
@@ -22,11 +22,11 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  private
-
-  def set_organisation
-    @organisation = Organisation.instance
+  def current_organisation
+    @current_organisation ||= Organisation.instance
   end
+
+  private
 
   def unauthorized
     if current_user.nil?

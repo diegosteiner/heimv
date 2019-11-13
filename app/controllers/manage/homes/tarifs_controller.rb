@@ -43,11 +43,11 @@ module Manage
       private
 
       def tarif_params
-        TarifParams.permit(params.require(:tarif))
+        TarifParams.new(params.require(:tarif))
       end
 
       def home_tarifs_params
-        HomeParams.permit(ActionController::Parameters.new(tarifs_attributes: params.require(:tarifs)))
+        HomeParams.new(ActionController::Parameters.new(tarifs_attributes: params.require(:tarifs)))
       end
 
       def flash_interpolation_options

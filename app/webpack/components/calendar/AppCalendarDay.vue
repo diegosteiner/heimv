@@ -1,40 +1,33 @@
 <template>
-  <div>
-    <div v-if="loading">
-      <button :disabled="true">{{ date | moment('D') }}</button>
-    </div>
-    <div v-else v-once>
-      <button
-        :id="id"
-        name="booking[occupancy_attributes][begins_at]"
-        :value="date.hour(11).toISOString()"
-        :class="cssClasses"
-        :disabled="disabled || loading"
-        @click="$emit('input', date)"
-      >{{ date | moment('D') }}</button>
-      <b-popover
-        v-if="occupancies.length && !disabled && !loading"
-        :target="id"
-        triggers="hover focus"
-      >
-        <dl class="my-1" v-for="occupancy in relevantOccupancies" :key="occupancy.id">
-          <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
-          <dd>
-            <a v-if="(occupancy.links || {}).handle" :href="occupancy.links.handle">
-              <i class="fa fa-link"></i>
-              {{ occupancy.ref }}
-            </a>
-            <span>{{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}</span>
-            <span v-if="occupancy.deadline">(bis {{ date_format(occupancy.deadline) }})</span>
-          </dd>
-        </dl>
-      </b-popover>
-    </div>
-  </div>
+    <button
+      :id="id"
+      name="booking[occupancy_attributes][begins_at]"
+      :value="date.hour(11).toISOString()"
+      :class="cssClasses"
+      :disabled="disabled || loading"
+      @click="$emit('input', date)">{{ date | moment('D') }}
+    <b-popover
+      v-if="occupancies.length && !disabled && !loading"
+      :target="id"
+      triggers="hover focus"
+    >
+      <dl class="my-1" v-for="occupancy in relevantOccupancies" :key="occupancy.id">
+        <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
+        <dd>
+          <a v-if="(occupancy.links || {}).handle" :href="occupancy.links.handle">
+            <i class="fa fa-link"></i>
+            {{ occupancy.ref }}
+          </a>
+          <span>{{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}</span>
+          <span v-if="occupancy.deadline">(bis {{ date_format(occupancy.deadline) }})</span>
+        </dd>
+      </dl>
+    </b-popover>
+    </button>
 </template>
 
 <script>
-import BPopover from 'bootstrap-vue/es/components/popover/popover'
+import { BPopover } from 'bootstrap-vue'
 
 export default {
   components: { 'b-popover': BPopover },
@@ -90,7 +83,7 @@ export default {
         if(ends_at.isBetween(moment(this.date.startOf("day")), moment(this.date.hour(12)), "minutes", "[)")) {
           return `${occupancy.occupancy_type}-forenoon`;
         }
-        if(begins_at.isBetween(moment(this.date.hour(10)), moment(this.date.endOf("day")), "minutes", "(]")) {
+        if(begins_at.isBetween(moment(this.date.hour(12)), moment(this.date.endOf("day")), "minutes", "(]")) {
           return `${occupancy.occupancy_type}-afternoon`;
         }
         return `${occupancy.occupancy_type}-fullday`;
@@ -108,31 +101,31 @@ $occupied-foreground-color: #9e2e2e;
 $occupied-border-color: #e85f5f;
 $occupied-background-color: #ffa8a8;
 
+  @media (max-width: 575px) {
+    .calendar-main {
+      font-size: 1.3rem !important;
+    }
+  }
+
 .calendar-day {
-  text-align: center;
+
   button {
-    width: 30px;
-    height: 30px;
-    margin: 1px auto;
-    padding: 0.25rem;
-    border: 1px solid transparent;
-    transition: opacity 1s;
     background-color: white;
+    border: 1px solid transparent;
     cursor: pointer;
+    text-align: center;
+    transition: opacity 1s;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    font-size: 0.8rem;
 
     &:focus {
       outline: none;
     }
   }
 
-  @media (max-width: 575px) {
-    button {
-      width: 40px;
-      height: 40px;
-      font-size: 1.25rem;
-      line-height: 2rem;
-    }
-  }
 
   .occupied-forenoon,
   .occupied-afternoon,
@@ -163,7 +156,10 @@ $occupied-background-color: #ffa8a8;
     border-bottom-color: white;
     border-right-color: white;
   }
-  .occupied-forenoon.occupied-afternoon {
+  .occupied-forenoon.occupied-afternoon,
+  .occupied-forenoon.occupied-fullday,
+  .occupied-afternoon.occupied-fullday
+   {
     border-top-color: $occupied-border-color;
     border-left-color: $occupied-border-color;
     border-bottom-color: $occupied-border-color;

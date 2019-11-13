@@ -6,7 +6,7 @@ module Public
       %i[begins_at begins_at_time begins_at_date ends_at ends_at_time ends_at_date]
     end
 
-    def self.sanitize(params)
+    sanitize do |params|
       params.merge(
         begins_at_time: [
           params.delete('begins_at_time(4i)'),

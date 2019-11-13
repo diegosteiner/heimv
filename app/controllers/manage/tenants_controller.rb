@@ -37,7 +37,7 @@ module Manage
     private
 
     def tenant_params
-      TenantParams.permit(params[:tenant])
+      TenantParams.new(params[:tenant])
     end
   end
 end

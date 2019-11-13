@@ -24,11 +24,11 @@ module BookingState
   end
 
   def state_machine
-    @state_machine ||= Booking.strategy.state_machine.new(self)
+    @state_machine ||= organisation.booking_strategy.state_machine.new(self)
   end
 
   def state_machine_automator
-    @state_machine_automator ||= Booking.strategy.state_machine_automator.new(state_machine)
+    @state_machine_automator ||= organisation.booking_strategy.state_machine_automator.new(state_machine)
   end
 
   def state_transition

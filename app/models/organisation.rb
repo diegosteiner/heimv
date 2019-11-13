@@ -24,13 +24,16 @@ class Organisation < ApplicationRecord
   validates :booking_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
   validates :name, :address, :account_nr, presence: true
+  # validate(on: :create) do
+  #   errors.add(:base, 'Only one instance of organisation is allowed') if Organisation.count.positive?
+  # end
 
   after_update do
     self.class.instance.reload
   end
 
   def self.instance
-    @instance ||= first!
+    @instance ||= order(id: :ASC).first!
   end
 
   def booking_strategy
@@ -39,6 +42,14 @@ class Organisation < ApplicationRecord
 
   def invoice_ref_strategy
     Kernel.const_get(invoice_ref_strategy_type).new
+  end
+
+  def long_deadline
+    14.days
+  end
+
+  def short_deadline
+    3.days
   end
 
   def to_s
