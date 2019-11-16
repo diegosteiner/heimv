@@ -83,11 +83,11 @@ module BookingStrategies
       end
 
       after_transition(to: %i[provisional_request confirmed booking_agent_request]) do |booking|
-        unless booking.deadline
-          booking.deadlines.create(at: booking.organisation.long_deadline.from_now,
-                                   extendable: 1,
-                                   remarks: booking.state)
-        end
+        next if booking.deadline.present?
+
+        booking.deadlines.create(at: booking.organisation.long_deadline.from_now,
+                                 extendable: 1,
+                                 remarks: booking.state)
       end
 
       after_transition(to: %i[definitive_request]) do |booking|

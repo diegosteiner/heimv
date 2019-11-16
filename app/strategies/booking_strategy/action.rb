@@ -1,5 +1,6 @@
 class BookingStrategy
   class Action
+    class NotAllowed < StandardError; end
     include Translatable
 
     def initialize(booking)
@@ -7,7 +8,7 @@ class BookingStrategy
     end
 
     def call
-      return false unless allowed?
+      raise NotAllowed unless allowed?
 
       call!
     end
@@ -26,7 +27,7 @@ class BookingStrategy
 
     def button_options
       {
-        variant: 'primary'
+        variant: 'secondary'
       }
     end
   end

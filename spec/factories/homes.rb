@@ -14,12 +14,11 @@
 #
 
 FactoryBot.define do
-  sequence(:home_ref)
   factory :home do
     organisation
     name { "Pfadiheim #{Faker::Address.city}" }
     place { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     requests_allowed { true }
-    ref { "home-#{generate(:home_ref)}" }
+    sequence(:ref) { |i| "home-#{i}" }
   end
 end
