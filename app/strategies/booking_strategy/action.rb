@@ -2,9 +2,10 @@ class BookingStrategy
   class Action
     class NotAllowed < StandardError; end
     include Translatable
+    attr_reader :context
 
-    def initialize(booking)
-      @booking = booking
+    def initialize(context)
+      @context = context
     end
 
     def call
@@ -13,8 +14,8 @@ class BookingStrategy
       call!
     end
 
-    def self.call(booking)
-      new(booking).call
+    def self.call(context)
+      new(context).call
     end
 
     def self.action_name

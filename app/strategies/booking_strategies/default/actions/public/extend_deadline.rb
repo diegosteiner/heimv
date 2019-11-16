@@ -4,18 +4,18 @@ module BookingStrategies
       module Public
         class ExtendDeadline < BookingStrategy::Action
           def call!
-            case @booking.current_state.to_sym
+            case booking.current_state.to_sym
             when :provisional_request
-              extend_provisional_request(@booking)
+              extend_provisional_request(booking)
             when :overdue_request
-              extend_overdue_request(@booking)
+              extend_overdue_request(booking)
             when :payment_overdue
-              extend_payment_overdue(@booking)
+              extend_payment_overdue(booking)
             end
           end
 
           def allowed?
-            @booking.deadline&.extendable?
+            booking.deadline&.extendable?
           end
 
           def button_options
@@ -24,10 +24,14 @@ module BookingStrategies
             )
           end
 
+          def booking
+            context.fetch(:booking)
+          end
+
           private
 
           def new_deadline_at
-            @booking.organisation.long_deadline.from_now
+            booking.organisation.long_deadline.from_now
           end
 
           def extend_provisional_request(booking)

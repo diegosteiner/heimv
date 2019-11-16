@@ -25,7 +25,7 @@ module Public
 
     def update
       @agent_booking.update(agent_booking_params) if @agent_booking.booking.editable?
-      public_actions[booking_action]&.call(@agent_booking.booking) if booking_action
+      public_actions[booking_action]&.call(booking: @agent_booking.booking) if booking_action
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path
     end
 

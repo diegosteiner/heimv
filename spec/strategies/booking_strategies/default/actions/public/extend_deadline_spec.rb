@@ -5,7 +5,7 @@ describe BookingStrategies::Default::Actions::Public::ExtendDeadline do
   let(:deadline) { create(:deadline, booking: booking, at: 2.days.from_now, extendable: 1) }
   let(:initial_state) { :provisional_request }
   let(:state_machine) { double }
-  subject(:action) { described_class.call(booking) }
+  subject(:action) { described_class.call(booking: booking) }
 
   before do
     allow(booking).to receive(:deadline).and_return(deadline)
