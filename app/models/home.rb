@@ -18,7 +18,7 @@ class Home < ApplicationRecord
   has_one_attached :house_rules
   has_many :occupancies, dependent: :destroy
   has_many :bookings, dependent: :restrict_with_error
-  has_many :tarifs, ->(home) { Tarif.where(home: home, booking: nil) },
+  has_many :tarifs, ->(home) { Tarif.unscoped.where(home: home, booking: nil) },
            dependent: :destroy, inverse_of: :home
   has_many :tarif_selectors, inverse_of: :home, dependent: :destroy
   has_many :meter_reading_periods, -> { ordered }, through: :tarifs, inverse_of: :home, dependent: :destroy
