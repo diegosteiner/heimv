@@ -37,7 +37,10 @@
                   | Vertrag versendet
             - if contract.signed? || contract.ousted?
               td
-                = l(contract.signed_at) if contract.signed?
+                - if contract.signed_pdf.attached?
+                  = link_to l(contract.signed_at), url_for(contract.signed_pdf), target: '_blank'
+                - elsif contract.signed?
+                  = l(contract.signed_at)
             - else
               td.py-2
                 = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { signed_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success'

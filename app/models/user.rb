@@ -32,6 +32,10 @@ class User < ApplicationRecord
     email
   end
 
+  def organisation
+    @organisation ||= Organisation.instance
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable, :invitable,
   devise :database_authenticatable, :registerable, :confirmable,

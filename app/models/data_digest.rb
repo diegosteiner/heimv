@@ -33,7 +33,7 @@ class DataDigest < ApplicationRecord
   end
 
   def organisation
-    @organisation ||= Organisation.instance
+    @organisation ||= Organisation.first
   end
 
   def to_tabular

@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   scope module: :public do
     get 'pages/home'
     get 'pages/about'
+    get 'download/:slug', to: 'downloads#show', as: :download
     # get 'at/:t', to: 'pages/home', as: :occupancy_at
     resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
     resources :bookings, only: %i[new create edit update], path: 'b', as: :public_bookings

@@ -24,17 +24,6 @@ class Organisation < ApplicationRecord
   validates :booking_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
   validates :name, :address, :account_nr, presence: true
-  # validate(on: :create) do
-  #   errors.add(:base, 'Only one instance of organisation is allowed') if Organisation.count.positive?
-  # end
-
-  after_update do
-    self.class.instance.reload
-  end
-
-  def self.instance
-    @instance ||= order(id: :ASC).first!
-  end
 
   def booking_strategy
     Kernel.const_get(booking_strategy_type).new
