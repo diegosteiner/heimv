@@ -70,8 +70,8 @@
         - if @booking.editable
           =<> f.submit class: 'btn btn-primary'
 
-        - allowed_actions = current_organisation.booking_strategy.public_actions.allowed_actions(@booking)
-        = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f }
+        - actions = current_organisation.booking_strategy.public_actions.values
+        = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }
 
 
     / #extendDeadlineModal.modal[role="dialog" tabindex="-1"]

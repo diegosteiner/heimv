@@ -12,6 +12,8 @@
 #
 
 class MarkdownTemplate < ApplicationRecord
+  belongs_to :organisation
+
   validates :key, :locale, presence: true
   validates :key, uniqueness: true
 
@@ -23,6 +25,7 @@ class MarkdownTemplate < ApplicationRecord
     liquid_template = Liquid::Template.parse(body)
     Markdown.new(liquid_template.render!(context.to_liquid, [Filters]))
   end
+
   alias % interpolate
 
   def self.[](key, locale: I18n.locale)

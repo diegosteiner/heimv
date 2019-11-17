@@ -20,6 +20,7 @@ module Manage
     end
 
     def create
+      @tenant.organisation = current_organisation
       @tenant.save
       respond_with :manage, @tenant
     end

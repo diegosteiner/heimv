@@ -1,6 +1,8 @@
 require 'csv'
 
 class DataDigest < ApplicationRecord
+  belongs_to :organisation
+
   validates :label, presence: true
 
   def self.default_csv_options
@@ -30,10 +32,6 @@ class DataDigest < ApplicationRecord
   def to_pdf(options = {})
     options = self.class.default_pdf_options.merge(options)
     Export::Pdf::DataDigest.new(self, organisation, options).build.render
-  end
-
-  def organisation
-    @organisation ||= Organisation.first
   end
 
   def to_tabular

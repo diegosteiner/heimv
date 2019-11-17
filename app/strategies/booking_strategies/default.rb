@@ -26,7 +26,7 @@ module BookingStrategies
         Actions::Public::ExtendDeadline,
         Actions::Public::Cancel
       ]
-      @public_actions ||= BookingStrategy::ActionCollection.new(actions)
+      @public_actions ||= Hash[actions.map { |action| [action.action_name, action] }]
     end
 
     def manage_actions
@@ -37,7 +37,7 @@ module BookingStrategies
         Actions::Manage::MarkInvoicesPaid, Actions::Public::CommitRequest,
         Actions::Manage::Cancel
       ]
-      @manage_actions ||= BookingStrategy::ActionCollection.new(actions)
+      @manage_actions ||= Hash[actions.map { |action| [action.action_name, action] }]
     end
   end
 end

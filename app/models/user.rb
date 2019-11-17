@@ -21,7 +21,11 @@
 
 class User < ApplicationRecord
   ROLES = %i[user admin].freeze
+
+  belongs_to :organisation
+
   enum role: ROLES
+
   after_initialize :set_default_role, if: :new_record?
 
   def set_default_role
@@ -30,10 +34,6 @@ class User < ApplicationRecord
 
   def to_s
     email
-  end
-
-  def organisation
-    @organisation ||= Organisation.instance
   end
 
   # Include default devise modules. Others available are:

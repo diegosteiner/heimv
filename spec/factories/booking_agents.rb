@@ -16,6 +16,7 @@ FactoryBot.define do
   sequence(:agent_code) { |n| "agent_#{n}" }
 
   factory :booking_agent do
+    organisation
     name { "#{Faker::Company.name} #{Faker::Company.suffix}" }
     code { generate(:agent_code) }
     sequence(:email) { |n| "agent#{n}@heimverwaltung.example.com" }

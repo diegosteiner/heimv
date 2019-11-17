@@ -1,6 +1,7 @@
 class BookingStrategy
   class Action
     class NotAllowed < StandardError; end
+
     include Translatable
     attr_reader :context
 
@@ -16,6 +17,10 @@ class BookingStrategy
 
     def self.call(context)
       new(context).call
+    end
+
+    def self.allowed?(context)
+      new(context).allowed?
     end
 
     def self.action_name
