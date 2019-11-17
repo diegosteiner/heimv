@@ -3,6 +3,7 @@ module Manage
     class ContractsController < BaseController
       load_and_authorize_resource :booking
       load_and_authorize_resource :contract, through: :booking
+      after_action :attach_files, only: %i[create update]
 
       def index
         respond_with :manage, @contracts
@@ -43,6 +44,10 @@ module Manage
       end
 
       private
+
+      def attach_files
+        @contract.signed_pdf.attach(contract_params[:signed_pdf]) if contract_params[:signed_pdf].present?
+      end
 
       def contract_params
         ContractParams.new(params.require(:contract))

@@ -29,7 +29,7 @@ module Manage
 
     def update
       @booking.update(booking_params) if booking_params
-      manage_actions[booking_action]&.new(@booking)&.call if booking_action
+      manage_actions[booking_action]&.call(booking: @booking) if booking_action
       respond_with :manage, @booking
     end
 

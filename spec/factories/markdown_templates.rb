@@ -13,6 +13,7 @@
 
 FactoryBot.define do
   factory :markdown_template do
+    organisation
     ref { [BookingStateMailer.to_s, :test].join('/') }
     title { 'Test' }
     locale { I18n.available_locales.sample }

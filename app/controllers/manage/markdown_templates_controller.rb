@@ -15,6 +15,7 @@ module Manage
     end
 
     def create
+      @markdown_template.organisation = current_organisation
       @markdown_template.save
       respond_with :manage, @markdown_template
     end

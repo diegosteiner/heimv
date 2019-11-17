@@ -21,7 +21,11 @@
 
 class User < ApplicationRecord
   ROLES = %i[user admin].freeze
+
+  belongs_to :organisation
+
   enum role: ROLES
+
   after_initialize :set_default_role, if: :new_record?
 
   def set_default_role

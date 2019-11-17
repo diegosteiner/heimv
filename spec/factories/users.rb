@@ -23,6 +23,7 @@ FactoryBot.define do
   sequence(:email) { |n| "user_#{n}@hv.dev" }
 
   factory :user do
+    organisation
     confirmed_at { Time.zone.now }
     email { generate(:email) }
     password { 'heimverwaltung' }

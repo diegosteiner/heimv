@@ -22,6 +22,7 @@ module Manage
     end
 
     def create
+      @booking_agent.organisation = current_organisation
       @booking_agent.save
       respond_with :manage, @booking_agent
     end

@@ -8,6 +8,7 @@ module Manage
 
     def new
       @data_digest = DataDigest.new(data_digest_params)
+      @data_digest.organisation = current_organisation
       respond_with :manage, @data_digest
     end
 

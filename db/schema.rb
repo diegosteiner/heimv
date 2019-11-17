@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_30_153158) do
+ActiveRecord::Schema.define(version: 2019_11_17_164839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -58,7 +58,9 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.decimal "provision"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.index ["code"], name: "index_booking_agents_on_code"
+    t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
   end
 
   create_table "booking_transitions", force: :cascade do |t|
@@ -121,6 +123,8 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.jsonb "data_digest_params", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organisation_id", default: 1, null: false
+    t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
   create_table "deadlines", force: :cascade do |t|
@@ -191,7 +195,9 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.index ["key"], name: "index_markdown_templates_on_key"
+    t.index ["organisation_id"], name: "index_markdown_templates_on_organisation_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -326,7 +332,9 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.index ["email"], name: "index_tenants_on_email"
+    t.index ["organisation_id"], name: "index_tenants_on_organisation_id"
     t.index ["search_cache"], name: "index_tenants_on_search_cache"
   end
 
@@ -354,21 +362,26 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.integer "role"
+    t.bigint "organisation_id", default: 1, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bookings", "bookings"
+  add_foreign_key "booking_agents", "organisations"
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
+  add_foreign_key "data_digests", "organisations"
   add_foreign_key "deadlines", "bookings"
   add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
+  add_foreign_key "markdown_templates", "organisations"
   add_foreign_key "messages", "bookings"
   add_foreign_key "messages", "markdown_templates"
   add_foreign_key "meter_reading_periods", "tarifs"
@@ -379,6 +392,8 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
   add_foreign_key "tarif_selectors", "homes"
   add_foreign_key "tarif_tarif_selectors", "tarif_selectors"
   add_foreign_key "tarif_tarif_selectors", "tarifs"
+  add_foreign_key "tenants", "organisations"
   add_foreign_key "usages", "bookings"
   add_foreign_key "usages", "tarifs"
+  add_foreign_key "users", "organisations"
 end

@@ -33,5 +33,5 @@
       .form-actions.pt-4.mt-3.border-top
         - if @agent_booking.editable
           =<> f.submit
-        - allowed_actions = current_organisation.booking_strategy.public_actions.allowed_actions(@agent_booking.booking)
-        = render partial: 'manage/bookings/actions', locals: { allowed_actions: allowed_actions, form: f }
+        - actions = current_organisation.booking_strategy.public_actions.values
+        = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @agent_booking.booking }, form: f }

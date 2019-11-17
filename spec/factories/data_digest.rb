@@ -13,6 +13,7 @@
 
 FactoryBot.define do
   factory :data_digest do
+    organisation
     type { '' }
     booking_ids { 'MyString' }
     params { '' }

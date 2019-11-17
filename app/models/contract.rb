@@ -16,6 +16,7 @@
 class Contract < ApplicationRecord
   belongs_to :booking
   has_one_attached :pdf
+  has_one_attached :signed_pdf
 
   scope :valid, -> { where(valid_until: nil) }
   scope :sent, -> { where.not(sent_at: nil) }
@@ -28,6 +29,7 @@ class Contract < ApplicationRecord
 
   before_save :oust
   before_save :generatate_pdf
+  before_save :set_signed_at
 
   def generatate_pdf
     self.pdf = {
@@ -86,6 +88,10 @@ class Contract < ApplicationRecord
   end
 
   private
+
+  def set_signed_at
+    self.signed_at ||= signed_pdf.attached? && Time.zone.now
+  end
 
   def markdown_service
     @markdown_service ||= MarkdownService.new(text)

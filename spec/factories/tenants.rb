@@ -23,6 +23,7 @@
 
 FactoryBot.define do
   factory :tenant do
+    organisation
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     street_address { Faker::Address.street_address }

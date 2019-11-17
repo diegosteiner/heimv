@@ -31,7 +31,7 @@ module Public
         @booking.assign_attributes(update_params)
         @booking.save(context: :public_update)
       end
-      public_actions[booking_action]&.call(@booking) if booking_action
+      public_actions[booking_action]&.call(booking: @booking) if booking_action
       respond_with :public, @booking, location: edit_public_booking_path
     end
 

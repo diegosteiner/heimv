@@ -58,8 +58,10 @@ de:
         email: Email
         name: Name
       contract:
+        pdf: PDF
         sent_at: Verschickt am
         signed_at: Unterschrieben am
+        signed_pdf: Unterschriebenes PDF
         text: Vertragstext
         title: Titel
       data_digest:
@@ -515,6 +517,10 @@ de:
       second: Sekunde
       year: Jahr
   destroy: Löschen
+  downloads:
+    slug:
+      privacy_statement_pdf: datenschutz
+      terms_pdf: agb
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
