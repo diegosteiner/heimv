@@ -35,7 +35,7 @@ class Contract < ApplicationRecord
     self.pdf = {
       io: StringIO.new(Export::Pdf::Contract.new(self).build.render),
       filename: filename,
-      content_type: 'application/pdf'
+      content_type: "application/pdf",
     }
   end
 
@@ -90,7 +90,7 @@ class Contract < ApplicationRecord
   private
 
   def set_signed_at
-    self.signed_at ||= signed_pdf.attached? && Time.zone.now
+    self.signed_at ||= Time.zone.now if signed_pdf.attached?
   end
 
   def markdown_service
