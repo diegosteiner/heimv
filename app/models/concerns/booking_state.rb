@@ -36,7 +36,8 @@ module BookingState
   end
 
   def state_machine
-    @state_machine ||= organisation.booking_strategy.state_machine.new(self)
+    @state_machine ||= organisation.booking_strategy.state_machine.new(self,
+                                                                       transition_class: self.class.transition_class)
   end
 
   def state_machine_automator

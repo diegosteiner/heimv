@@ -1,11 +1,13 @@
 <template>
-    <button
-      :id="id"
-      name="booking[occupancy_attributes][begins_at]"
-      :value="date.hour(11).toISOString()"
-      :class="cssClasses"
-      :disabled="disabled || loading"
-      @click="$emit('input', date)">{{ date | moment('D') }}
+  <button
+    :id="id"
+    name="booking[occupancy_attributes][begins_at]"
+    :value="date.hour(11).toISOString()"
+    :class="cssClasses"
+    :disabled="disabled || loading"
+    @click="$emit('input', date)"
+  >
+    {{ date | moment('D') }}
     <b-popover
       v-if="occupancies.length && !disabled && !loading"
       :target="id"
@@ -23,7 +25,7 @@
         </dd>
       </dl>
     </b-popover>
-    </button>
+  </button>
 </template>
 
 <script>
@@ -101,31 +103,28 @@ $occupied-foreground-color: #9e2e2e;
 $occupied-border-color: #e85f5f;
 $occupied-background-color: #ffa8a8;
 
-  @media (max-width: 575px) {
-    .calendar-main {
-      font-size: 1.3rem !important;
-    }
+@media (max-width: 575px) {
+  .calendar-main {
+    font-size: 1.3rem !important;
   }
+}
 
 .calendar-day {
-
   button {
     background-color: white;
     border: 1px solid transparent;
     cursor: pointer;
     text-align: center;
-    transition: opacity 1s;
     display: block;
     width: 100%;
     height: 100%;
     padding: 0;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 
     &:focus {
       outline: none;
     }
   }
-
 
   .occupied-forenoon,
   .occupied-afternoon,
@@ -158,8 +157,7 @@ $occupied-background-color: #ffa8a8;
   }
   .occupied-forenoon.occupied-afternoon,
   .occupied-forenoon.occupied-fullday,
-  .occupied-afternoon.occupied-fullday
-   {
+  .occupied-afternoon.occupied-fullday {
     border-top-color: $occupied-border-color;
     border-left-color: $occupied-border-color;
     border-bottom-color: $occupied-border-color;

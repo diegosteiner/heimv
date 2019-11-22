@@ -29,6 +29,7 @@
 
 class Booking < ApplicationRecord
   include BookingState
+
   DEFAULT_INCLUDES = %i[organisation occupancy tenant home booking_transitions
                         invoices contracts deadlines payments].freeze
 
