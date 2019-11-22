@@ -35,7 +35,7 @@ class Contract < ApplicationRecord
     self.pdf = {
       io: StringIO.new(Export::Pdf::Contract.new(self).build.render),
       filename: filename,
-      content_type: "application/pdf",
+      content_type: 'application/pdf'
     }
   end
 

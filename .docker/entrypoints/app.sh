@@ -16,8 +16,8 @@ fi
 if [ "$WEBPACKER_PRECOMPILE" == "true" ]; then
   yarn check --silent || yarn install
   bundle exec rails webpacker:compile
-fi 
+fi
 
-[ "$MIGRATE_DATABASE" == "true" ] && bundle exec rails db:create db:migrate
+[ "$MIGRATE_DATABASE" == "true" ] && bundle exec rails db:prepare
 
 exec "$@"

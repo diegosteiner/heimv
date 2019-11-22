@@ -5,8 +5,20 @@ module BookingState
 
   delegate :current_state, to: :state_machine
 
+  class_methods do
+    def initial_state
+      @initial_state || :initial
+    end
+
+    def transition_class
+      BookingTransition
+    end
+  end
+
   included do
-    attr_accessor :transition_to, :skip_automatic_transition
+    include Statesman::Adapters::ActiveRecordQueries
+
+    attr_accessor :transition_to, :skip_automatic_transition, :initial_state
     has_many :booking_transitions, dependent: :destroy, autosave: false
 
     scope :inconcluded, -> { where.not(state: %i[cancelled completed]) }
