@@ -4,11 +4,13 @@ module Public
 
     def new
       @agent_booking.build_booking
+      @agent_booking.booking.organisation = current_organisation
       @agent_booking.booking.build_occupancy
       respond_with :public, @agent_booking
     end
 
     def create
+      @agent_booking.booking.organisation = current_organisation
       @agent_booking.booking.messages_enabled = true
       @agent_booking.booking.agent_booking = @agent_booking
       @agent_booking.save

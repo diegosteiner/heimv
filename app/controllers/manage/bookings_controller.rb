@@ -15,6 +15,7 @@ module Manage
     end
 
     def new
+      @booking.organisation = current_organisation
       @booking.build_occupancy
       @booking.build_tenant
       respond_with :manage, @booking
@@ -23,6 +24,7 @@ module Manage
     def edit; end
 
     def create
+      @booking.organisation = current_organisation
       @booking.save
       respond_with :manage, @booking
     end
