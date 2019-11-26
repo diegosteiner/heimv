@@ -3,16 +3,21 @@ module Public
     load_and_authorize_resource :agent_booking
 
     def new
-      @agent_booking.build_booking
-      @agent_booking.booking.organisation = current_organisation
-      @agent_booking.booking.build_occupancy
+      @agent_booking.build_booking.tap do |booking|
+        booking.organisation = current_organisation
+        booking.build_occupancy unless booking.occupancy
+        booking.occupancy.ends_at ||= booking.occupancy.begins_at
+      end
       respond_with :public, @agent_booking
     end
 
     def create
-      @agent_booking.booking.organisation = current_organisation
-      @agent_booking.booking.messages_enabled = true
-      @agent_booking.booking.agent_booking = @agent_booking
+      @agent_booking.booking.tap do |booking|
+        booking.organisation = current_organisation
+        booking.organisation = current_organisation
+        booking.messages_enabled = true
+        booking.agent_booking = @agent_booking
+      end
       @agent_booking.save
       respond_with :public, @agent_booking
     end
@@ -42,7 +47,7 @@ module Public
     end
 
     def agent_booking_params
-      AgentBookingParams.new(params[:agent_booking]) || {}
+      AgentBookingParams.new(params[:agent_booking])
     end
   end
 end
