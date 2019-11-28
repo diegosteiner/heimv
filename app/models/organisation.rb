@@ -34,7 +34,7 @@ class Organisation < ApplicationRecord
   end
 
   def long_deadline
-    14.days
+    8.days
   end
 
   def short_deadline

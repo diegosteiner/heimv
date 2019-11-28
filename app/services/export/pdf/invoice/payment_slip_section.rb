@@ -69,7 +69,7 @@ module Export
         def render_code(pdf)
           pdf.bounding_box([183, 52], width: 395, height: 11) do
             pdf.font('ocr', size: 10.5) do
-              pdf.text @payment_slip.code_line, align: :right, character_spacing: 0.55
+              pdf.text @payment_slip.code_line, align: :right, character_spacing: 0.5
             end
           end
         end
