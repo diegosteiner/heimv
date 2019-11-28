@@ -14,7 +14,6 @@ module Public
     def create
       @agent_booking.booking.tap do |booking|
         booking.organisation = current_organisation
-        booking.organisation = current_organisation
         booking.messages_enabled = true
         booking.agent_booking = @agent_booking
       end

@@ -8,7 +8,7 @@ module BookingStrategies
       automatic_transition(from: :initial, to: :open_request, &:agent_booking?)
 
       automatic_transition(from: :unconfirmed_request, to: :open_request) do |booking|
-        booking.tenant.valid?(:public_update) || booking.agent_booking
+        booking.valid?(:public_update) || booking.agent_booking?
       end
 
       automatic_transition(from: :booking_agent_request, to: :awaiting_tenant) do |booking|
