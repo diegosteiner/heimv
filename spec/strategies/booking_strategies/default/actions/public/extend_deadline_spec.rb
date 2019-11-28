@@ -39,7 +39,6 @@ describe BookingStrategies::Default::Actions::Public::ExtendDeadline do
     let(:initial_state) { :overdue_request }
 
     it do
-      expect(state_machine).to receive(:transition_to).with(:provisional_request)
       expect(booking.deadline).to receive(:extend_until)
       action
     end
@@ -49,7 +48,6 @@ describe BookingStrategies::Default::Actions::Public::ExtendDeadline do
     let(:initial_state) { :payment_overdue }
 
     it do
-      expect(state_machine).to receive(:transition_to).with(:payment_due)
       expect(booking.deadline).to receive(:extend_until)
       action
     end

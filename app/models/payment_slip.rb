@@ -61,4 +61,8 @@ class PaymentSlip
   def esr_ref
     ref_strategy.format_ref(ref)
   end
+
+  def payment_information
+    @invoice.organisation.address
+  end
 end

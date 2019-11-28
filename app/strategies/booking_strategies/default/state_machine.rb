@@ -28,8 +28,7 @@ module BookingStrategies
                  to: %i[definitive_request overdue_request cancelled_request declined_request]
 
       transition from: :overdue_request,
-                 to: %i[cancelled_request declined_request definitive_request provisional_request
-                        booking_agent_request awaiting_tenant]
+                 to: %i[cancelled_request declined_request definitive_request awaiting_tenant]
 
       transition from: :booking_agent_request,
                  to: %i[cancelled_request declined_request awaiting_tenant overdue_request]

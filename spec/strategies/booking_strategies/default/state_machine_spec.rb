@@ -42,7 +42,6 @@ describe BookingStrategies::Default::StateMachine do
       it { is_expected.to transition.from(:overdue_request).to(:definitive_request) }
       it { is_expected.to transition.from(:overdue_request).to(:cancelled_request) }
       it { is_expected.to transition.from(:overdue_request).to(:declined_request) }
-      it { is_expected.to transition.from(:overdue_request).to(:provisional_request) }
     end
 
     describe 'provisional_request-->' do
