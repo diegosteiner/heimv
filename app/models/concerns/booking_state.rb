@@ -48,9 +48,9 @@ module BookingState
     if state_machine.current_state.to_s != transition_to.to_s
       state_machine.transition_to(transition_to) && self.transition_to = nil
     end
-    unless skip_automatic_transition
-      state_machine_automator.run
-      errors.clear
-    end
+    return if skip_automatic_transition
+
+    state_machine_automator.run
+    errors.clear
   end
 end
