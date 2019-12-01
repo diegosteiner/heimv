@@ -3,6 +3,7 @@ module Manage
     load_and_authorize_resource :markdown_template
 
     def index
+      @markdown_templates = @markdown_templates.order(key: :ASC)
       respond_with :manage, @markdown_templates
     end
 

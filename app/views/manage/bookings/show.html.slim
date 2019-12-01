@@ -51,11 +51,20 @@ section.breakout-sm
               br
               = l(@booking.deadline.at, format: :short)
 
-          - if @booking.remarks.present?
-            p
-              strong= Booking.human_attribute_name(:remarks)
-              br
-              = @booking.remarks
+          .row.mb-3
+            .col
+              - if @booking.internal_remarks.present?
+                p
+                  strong= Booking.human_attribute_name(:internal_remarks)
+                  br
+                  = @booking.internal_remarks
+
+            .col
+              - if @booking.remarks.present?
+                p
+                  strong= Booking.human_attribute_name(:remarks)
+                  br
+                  = @booking.remarks
 
           .row.mb-3
             .col

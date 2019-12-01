@@ -42,6 +42,7 @@ de:
         deadline: Frist bis
         home: Heim
         home_id: Heim
+        internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         messages_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
