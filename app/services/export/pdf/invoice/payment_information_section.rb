@@ -14,9 +14,18 @@ module Export
               pdf.text ['Kontonummer', 'Rechnungsbetrag', 'ESR Referenznummer', 'Zugunsten von'].join("\n")
             end
             pdf.bounding_box([150, 120], width: 300, height: 120) do
-              pdf.text [@payment_slip.account_nr, format('CHF %<amount>0.2f', amount: @payment_slip.amount),
-                        @payment_slip.esr_ref, @payment_slip.payment_information].join("\n")
+              render_payment_information(pdf)
             end
+          end
+        end
+
+        def render_payment_information(pdf)
+          pdf.text @payment_slip.account_nr.to_s
+          pdf.text format('CHF %<amount>0.2f', amount: @payment_slip.amount)
+          pdf.text @payment_slip.esr_ref
+
+          Markdown.new(@payment_slip.payment_information).to_pdf.each do |body|
+            pdf.text body.delete(:text), body.reverse_merge(inline_format: true, size: 10)
           end
         end
       end

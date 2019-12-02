@@ -1,7 +1,12 @@
 .card.breakout-sm
   .card-body
     = render_hash_as_dl(@markdown_template.attributes.slice(*%w(key title locale)), Tenant)
+    dl
+      dt= MarkdownTemplate.human_attribute_name(:body)
+      dd
+        pre[v-pre]= @markdown_template.body
     br
+
 
     = link_to edit_manage_markdown_template_path(@markdown_template), class: 'btn btn-primary' do
       span.fa.fa-pencil

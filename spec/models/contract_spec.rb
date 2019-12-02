@@ -3,7 +3,6 @@
 # Table name: contracts
 #
 #  id          :bigint           not null, primary key
-#  booking_id  :uuid
 #  sent_at     :date
 #  signed_at   :date
 #  text        :text
@@ -11,6 +10,15 @@
 #  valid_until :datetime
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  booking_id  :uuid
+#
+# Indexes
+#
+#  index_contracts_on_booking_id  (booking_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
 #
 
 require 'rails_helper'

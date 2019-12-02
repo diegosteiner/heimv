@@ -63,6 +63,6 @@ class PaymentSlip
   end
 
   def payment_information
-    @invoice.organisation.address
+    @invoice.organisation.payment_information
   end
 end

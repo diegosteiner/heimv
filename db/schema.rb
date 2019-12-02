@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_01_124948) do
+ActiveRecord::Schema.define(version: 2019_12_02_102906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 2019_12_01_124948) do
     t.uuid "booking_id"
     t.string "responsible_type"
     t.bigint "responsible_id"
-    t.integer "extendable", default: 0
+    t.integer "postponable_for", default: 0
     t.boolean "current", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

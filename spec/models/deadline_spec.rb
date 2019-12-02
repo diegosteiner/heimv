@@ -4,14 +4,23 @@
 #
 #  id               :bigint           not null, primary key
 #  at               :datetime
-#  booking_id       :uuid
-#  responsible_type :string
-#  responsible_id   :bigint
-#  extendable       :integer          default(0)
 #  current          :boolean          default(TRUE)
+#  postponable_for  :integer          default(0)
+#  remarks          :text
+#  responsible_type :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  remarks          :text
+#  booking_id       :uuid
+#  responsible_id   :bigint
+#
+# Indexes
+#
+#  index_deadlines_on_booking_id                           (booking_id)
+#  index_deadlines_on_responsible_type_and_responsible_id  (responsible_type,responsible_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
 #
 
 require 'rails_helper'

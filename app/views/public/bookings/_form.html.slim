@@ -13,8 +13,8 @@
             label=Booking.human_attribute_name(:deadline)
             div
               =<> l(@booking.deadline.at, format: :short)
-              / - if @booking.deadline.extendable?
-              /   a[href="#" data-toggle="modal" data-target="#extendDeadlineModal"]
+              / - if @booking.deadline.postponable?
+              /   a[href="#" data-toggle="modal" data-target="#postponeDeadlineModal"]
               /     | Frist verlängern
         = f.select :home_id, homes_for_select, {}, disabled: true
         = f.fields_for :occupancy, @booking.occupancy do |of|
@@ -74,7 +74,7 @@
         = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }
 
 
-    / #extendDeadlineModal.modal[role="dialog" tabindex="-1"]
+    / #postponeDeadlineModal.modal[role="dialog" tabindex="-1"]
     /   .modal-dialog[role="document"]
     /     = form_with(url: public_booking_path(@booking), method: :put, local: true) do |f|
     /       .modal-content
@@ -86,5 +86,5 @@
     /         .modal-body
     /           = l(14.days.from_now)
     /         .modal-footer
-    /           button.btn.btn-primary[type="submit" name="booking_action" value="extend_deadline"]
+    /           button.btn.btn-primary[type="submit" name="booking_action" value="postpone_deadline"]
     /             | Frist verlängern

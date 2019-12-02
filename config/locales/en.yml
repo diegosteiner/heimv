@@ -42,6 +42,7 @@ en:
         deadline: Frist bis
         home: Heim
         home_id: Heim
+        internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         messages_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
@@ -69,7 +70,7 @@ en:
         type: Art
       deadline:
         at: Bis
-        extendable: Verlängerbar
+        postponable_for: Verlängerbar
         responsible: Verantwortlich
       home:
         house_rules: Hausordnung (PDF)
@@ -299,15 +300,15 @@ en:
           cancel: Absagen
           email_contract_and_deposit: Vertrag und Anzahlung verschicken
           email_invoice: Rechnung verschicken
-          extend_deadline: Frist verslängern
           mark_contract_signed: Vertragseingang bestätigen
           mark_deposits_paid: Zahlungseingang bestätigen
           mark_invoices_paid: Zahlungseingang bestätigen
+          postpone_deadline: Frist verslängern
         public:
           cancel: Absagen
           commit_booking_agent_request: Anfrage definitv setzen
           commit_request: Anfrage definitv setzen
-          extend_deadline: Frist verslängern
+          postpone_deadline: Frist verslängern
       checklist:
         choose_tarifs: Tarife festlegen
         contract_signed: Vertrag unterschieben

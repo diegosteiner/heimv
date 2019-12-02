@@ -69,6 +69,7 @@ section.breakout-sm
           .row.mb-3
             .col
               strong= Booking.human_attribute_name(:state)
+              p= current_organisation.booking_strategy.t(@booking.current_state, scope: :state, default: {})[:label]
               br
               = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
 

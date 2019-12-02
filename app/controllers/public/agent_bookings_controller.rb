@@ -3,11 +3,11 @@ module Public
     load_and_authorize_resource :agent_booking
 
     def new
-      @agent_booking.build_booking.tap do |booking|
-        booking.organisation = current_organisation
-        booking.build_occupancy unless booking.occupancy
-        booking.occupancy.ends_at ||= booking.occupancy.begins_at
-      end
+      @agent_booking = AgentBooking.new(agent_booking_params)
+      booking = @agent_booking.booking || @agent_booking.build_booking
+      booking.organisation = current_organisation
+      booking.build_occupancy unless booking.occupancy
+      booking.occupancy.ends_at ||= booking.occupancy.begins_at
       respond_with :public, @agent_booking
     end
 

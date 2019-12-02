@@ -3,13 +3,24 @@
 # Table name: messages
 #
 #  id                   :bigint           not null, primary key
-#  booking_id           :uuid
-#  markdown_template_id :bigint
+#  addressed_to         :integer          default("manager"), not null
+#  body                 :text
 #  sent_at              :datetime
 #  subject              :string
-#  body                 :text
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  booking_id           :uuid
+#  markdown_template_id :bigint
+#
+# Indexes
+#
+#  index_messages_on_booking_id            (booking_id)
+#  index_messages_on_markdown_template_id  (markdown_template_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
+#  fk_rails_...  (markdown_template_id => markdown_templates.id)
 #
 
 class Message < ApplicationRecord

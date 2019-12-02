@@ -29,7 +29,7 @@
               = f.email_field :email
               = f.text_field :tenant_organisation
 
-              = link_to new_public_agent_booking_path
+              = link_to new_public_agent_booking_path(agent_booking: { booking_attributes: Public::BookingParams::Create.new(params[:booking]).to_h })
                 = BookingAgent.model_name.human
 
             .form-actions.pt-4.mt-3.border-top

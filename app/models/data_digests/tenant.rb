@@ -2,13 +2,22 @@
 #
 # Table name: data_digests
 #
-#  id            :bigint           not null, primary key
-#  type          :string
-#  label         :string
-#  filter_params :jsonb
+#  id                 :bigint           not null, primary key
 #  data_digest_params :jsonb
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  filter_params      :jsonb
+#  label              :string
+#  type               :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  organisation_id    :bigint           default(1), not null
+#
+# Indexes
+#
+#  index_data_digests_on_organisation_id  (organisation_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 module DataDigests

@@ -4,56 +4,50 @@
 #
 #  id               :bigint           not null, primary key
 #  at               :datetime
-#  booking_id       :uuid
-#  responsible_type :string
-#  responsible_id   :bigint
-#  extendable       :integer          default(0)
 #  current          :boolean          default(TRUE)
+#  postponable_for  :integer          default(0)
+#  remarks          :text
+#  responsible_type :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  remarks          :text
+#  booking_id       :uuid
+#  responsible_id   :bigint
+#
+# Indexes
+#
+#  index_deadlines_on_booking_id                           (booking_id)
+#  index_deadlines_on_responsible_type_and_responsible_id  (responsible_type,responsible_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
 #
 
 class Deadline < ApplicationRecord
   belongs_to :booking, inverse_of: :deadlines
-  # belongs_to :responsible, polymorphic: true, optional: true
-
-  attribute :extended, default: false
 
   scope :ordered, -> { order(at: :desc) }
   scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
-
-  after_destroy :set_current, if: :current?
-  after_save :set_current
 
   def exceeded?(other = Time.zone.now)
     other > at
   end
 
-  def extend_until(extend_until)
-    return unless extendable?
-
-    update(at: extend_until, extendable: extendable - 1)
+  def postponable_until
+    postponable? && (at + postponable_for)
   end
 
-  def extendable?
-    extendable.positive?
+  def postpone
+    return unless postponable?
+
+    update(at: postponable_until, postponable_for: nil)
+  end
+
+  def postponable?
+    postponable_for&.positive?
   end
 
   def clear
     update(current: false)
-  end
-
-  def set_current
-    last_deadlines = booking.deadlines.where(current: true).where.not(id: id)
-    return unless !current || last_deadlines.exists?
-
-    # rubocop:disable Rails/SkipsModelValidations
-    last_deadlines.update_all(current: false)
-    # rubocop:enable Rails/SkipsModelValidations
-  end
-
-  def debug
-    "##{id} #{at} #{created_at} #{current} #{remarks}"
   end
 end

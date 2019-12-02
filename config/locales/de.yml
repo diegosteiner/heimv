@@ -70,7 +70,7 @@ de:
         type: Art
       deadline:
         at: Bis
-        extendable: Verlängerbar
+        postponable_for: Verlängerbar
         responsible: Verantwortlich
       home:
         house_rules: Hausordnung (PDF)
@@ -300,15 +300,15 @@ de:
           cancel: Ablehnen
           email_contract_and_deposit: Vertrag und Anzahlung verschicken
           email_invoice: Rechnung verschicken
-          extend_deadline: Frist verlängern
           mark_contract_signed: Vertragseingang bestätigen
           mark_deposits_paid: Zahlungseingang bestätigen
           mark_invoices_paid: Zahlungseingang bestätigen
+          postpone_deadline: Frist verlängern
         public:
           cancel: Stornieren
           commit_booking_agent_request: Anfrage definitv setzen
           commit_request: Anfrage definitv setzen
-          extend_deadline: Frist verlängern
+          postpone_deadline: Frist verlängern
       checklist:
         choose_tarifs: Tarife festlegen
         contract_signed: Vertrag unterschieben

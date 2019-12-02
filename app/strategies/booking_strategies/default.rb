@@ -23,7 +23,7 @@ module BookingStrategies
       actions = [
         Actions::Public::CommitRequest,
         Actions::Public::CommitBookingAgentRequest,
-        Actions::Public::ExtendDeadline,
+        Actions::Public::PostponeDeadline,
         Actions::Public::Cancel
       ]
       @public_actions ||= Hash[actions.map { |action| [action.action_name, action] }]
@@ -32,7 +32,7 @@ module BookingStrategies
     def manage_actions
       actions = [
         Actions::Manage::Accept, Actions::Manage::EmailContractAndDeposit,
-        Actions::Manage::EmailInvoice, Actions::Public::ExtendDeadline,
+        Actions::Manage::EmailInvoice, Actions::Public::PostponeDeadline,
         Actions::Manage::MarkContractSigned, Actions::Manage::MarkDepositsPaid,
         Actions::Manage::MarkInvoicesPaid, Actions::Public::CommitRequest,
         Actions::Manage::Cancel

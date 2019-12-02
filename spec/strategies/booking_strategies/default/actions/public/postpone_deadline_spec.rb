@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe BookingStrategies::Default::Actions::Public::ExtendDeadline do
+describe BookingStrategies::Default::Actions::Public::PostponeDeadline do
   let(:booking) { create(:booking, initial_state: initial_state) }
-  let(:deadline) { create(:deadline, booking: booking, at: 2.days.from_now, extendable: 1) }
+  let(:deadline) { create(:deadline, booking: booking, at: 2.days.from_now, postponable_for: 1.day) }
   let(:initial_state) { :provisional_request }
   let(:state_machine) { double }
   subject(:action) { described_class.call(booking: booking) }
@@ -13,8 +13,8 @@ describe BookingStrategies::Default::Actions::Public::ExtendDeadline do
     allow(state_machine).to receive(:current_state).and_return(initial_state)
   end
 
-  context 'when deadline is not extendable' do
-    let!(:deadline) { create(:deadline, booking: booking, extendable: 0) }
+  context 'when deadline is not postponable' do
+    let!(:deadline) { create(:deadline, booking: booking, postponable_for: nil) }
 
     it { expect { action }.to raise_error(BookingStrategy::Action::NotAllowed) }
   end
@@ -27,8 +27,7 @@ describe BookingStrategies::Default::Actions::Public::ExtendDeadline do
       let(:booking) { create(:booking, initial_state: initial_state, occupancy: occupancy) }
 
       it do
-        expect(booking.organisation).to receive(:long_deadline).at_least(:once).and_return(8.days)
-        expect(booking.deadline).not_to receive(:extend_until)
+        expect(booking.deadline).not_to receive(:postpone)
         action
         expect(booking.errors).to have_key(:deadline)
       end
@@ -39,7 +38,7 @@ describe BookingStrategies::Default::Actions::Public::ExtendDeadline do
     let(:initial_state) { :overdue_request }
 
     it do
-      expect(booking.deadline).to receive(:extend_until)
+      expect(booking.deadline).to receive(:postpone)
       action
     end
   end
@@ -48,7 +47,7 @@ describe BookingStrategies::Default::Actions::Public::ExtendDeadline do
     let(:initial_state) { :payment_overdue }
 
     it do
-      expect(booking.deadline).to receive(:extend_until)
+      expect(booking.deadline).to receive(:postpone)
       action
     end
   end

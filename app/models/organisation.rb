@@ -3,13 +3,14 @@
 # Table name: organisations
 #
 #  id                        :bigint           not null, primary key
-#  name                      :string
+#  account_nr                :string
 #  address                   :text
 #  booking_strategy_type     :string
+#  currency                  :string           default("CHF")
 #  invoice_ref_strategy_type :string
-#  payment_information       :text
-#  account_nr                :string
 #  message_footer            :text
+#  name                      :string
+#  payment_information       :text
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #

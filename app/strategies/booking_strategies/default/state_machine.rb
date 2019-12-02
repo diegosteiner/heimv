@@ -64,7 +64,7 @@ module BookingStrategies
       end
 
       guard_transition(to: %i[booking_agent_request awaiting_tenant]) do |booking|
-        !booking.agent_booking?
+        booking.agent_booking.present?
       end
 
       after_transition(to: %i[unconfirmed_request]) do |booking|
@@ -85,7 +85,7 @@ module BookingStrategies
         next if booking.deadline.present?
 
         booking.deadlines.create(at: booking.organisation.long_deadline.from_now,
-                                 extendable: 1,
+                                 postponable_for: booking.organisation.short_deadline,
                                  remarks: booking.state)
       end
 
@@ -134,7 +134,8 @@ module BookingStrategies
       after_transition(to: %i[payment_due]) do |booking|
         invoice = booking.invoices.sent.unpaid.order(payable_until: :asc).last
         payable_until = invoice&.payable_until || 30.days.from_now
-        booking.deadlines.create(at: payable_until, extendable: 1) unless booking.deadline
+        postponable_for = booking.organisation.short_deadline
+        booking.deadlines.create(at: payable_until, postponable_for: postponable_for) unless booking.deadline
       end
 
       after_transition(to: %i[payment_overdue]) do |booking|

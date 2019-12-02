@@ -3,28 +3,39 @@
 # Table name: bookings
 #
 #  id                    :uuid             not null, primary key
-#  home_id               :bigint           not null
-#  organisation_id       :bigint           not null
-#  state                 :string           default("initial"), not null
-#  tenant_organisation   :string
-#  email                 :string
-#  tenant_id             :integer
-#  state_data            :json
-#  committed_request     :boolean
-#  cancellation_reason   :text
 #  approximate_headcount :integer
-#  remarks               :text
+#  cancellation_reason   :text
+#  committed_request     :boolean
+#  editable              :boolean          default(TRUE)
+#  email                 :string
+#  import_data           :jsonb
+#  internal_remarks      :text
 #  invoice_address       :text
+#  messages_enabled      :boolean          default(FALSE)
 #  purpose               :string
 #  ref                   :string
-#  editable              :boolean          default(TRUE)
+#  remarks               :text
+#  state                 :string           default("initial"), not null
+#  state_data            :json
+#  tenant_organisation   :string
 #  usages_entered        :boolean          default(FALSE)
-#  messages_enabled      :boolean          default(FALSE)
-#  import_data           :jsonb
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  booking_agent_code    :string
-#  booking_agent_ref     :string
+#  home_id               :bigint           not null
+#  organisation_id       :bigint           not null
+#  tenant_id             :integer
+#
+# Indexes
+#
+#  index_bookings_on_home_id          (home_id)
+#  index_bookings_on_organisation_id  (organisation_id)
+#  index_bookings_on_ref              (ref)
+#  index_bookings_on_state            (state)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (home_id => homes.id)
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class Booking < ApplicationRecord
@@ -52,9 +63,10 @@ class Booking < ApplicationRecord
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
   has_one :booking_agent, through: :agent_booking
+  has_one :deadline, -> { where(booking: Booking).order(created_at: :ASC).last }, inverse_of: :booking
 
   validates :home, :occupancy, presence: true
-  validates :email, format: Devise.email_regexp, presence: true, if: :committed_request?
+  validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
 
   validates :accept_conditions, acceptance: true, on: :public_create
   validates :tenant, presence: true, on: :public_update
@@ -79,7 +91,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :tenant, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :deadlines, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :deadline, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank
 
   attribute :accept_conditions, default: false
@@ -103,10 +115,6 @@ class Booking < ApplicationRecord
 
   def contract
     contracts.valid.last
-  end
-
-  def deadline
-    deadlines.where(current: true).ordered.take
   end
 
   def deadline_exceeded?

@@ -2,15 +2,15 @@ module BookingStrategies
   class Default
     module Actions
       module Public
-        class ExtendDeadline < BookingStrategy::Action
+        class PostponeDeadline < BookingStrategy::Action
           def call!
-            return booking.errors.add(:deadline, :not_extendable) if new_deadline_at > booking.occupancy.begins_at
+            return booking.deadline.postpone if booking.deadline.postponable_until < booking.occupancy.begins_at
 
-            booking.deadline.extend_until(new_deadline_at)
+            booking.errors.add(:deadline, :not_postponable)
           end
 
           def allowed?
-            booking.deadline&.extendable?
+            booking.deadline&.postponable?
           end
 
           def button_options

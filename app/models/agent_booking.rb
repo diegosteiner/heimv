@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: agent_bookings
+#
+#  id                 :uuid             not null, primary key
+#  accepted_request   :boolean
+#  booking_agent_code :string
+#  booking_agent_ref  :string
+#  committed_request  :boolean
+#  remarks            :text
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  booking_id         :uuid
+#
+# Indexes
+#
+#  index_agent_bookings_on_booking_id  (booking_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
+#
+
 class AgentBooking < ApplicationRecord
   belongs_to :booking_agent, inverse_of: :agent_bookings, foreign_key: :booking_agent_code, primary_key: :code
   belongs_to :booking, inverse_of: :agent_booking
@@ -12,16 +35,4 @@ class AgentBooking < ApplicationRecord
   def booking_agent_responsible?
     !committed_request
   end
-
-  # def email
-  #   booking.email
-  # end
-
-  # def editable
-  #   booking.editable
-  # end
-
-  # def committed_request?
-  #   booking.committed_request?
-  # end
 end
