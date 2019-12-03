@@ -42,7 +42,7 @@ class Tenant < ApplicationRecord
   validates :phone, presence: true, length: { minimum: 10 }, on: :public_update
 
   before_save do
-    self.search_cache = (address_lines + [email, phone]).flatten.join('\n')
+    self.search_cache = contact_lines.flatten.join('\n')
   end
 
   def name
@@ -54,7 +54,7 @@ class Tenant < ApplicationRecord
   end
 
   def address_lines
-    [name, street_address, "#{zipcode} #{city} #{country}"].reject(&:blank?)
+    [name, street_address.lines, "#{zipcode} #{city} #{country}"].flatten.reject(&:blank?)
   end
 
   def contact_lines

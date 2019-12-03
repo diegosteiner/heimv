@@ -34,6 +34,10 @@ class Organisation < ApplicationRecord
     Kernel.const_get(invoice_ref_strategy_type).new
   end
 
+  def iban
+    'CH13 0900 0000 8716 22 60 9'
+  end
+
   def long_deadline
     8.days
   end
