@@ -71,8 +71,10 @@ class Invoice < ApplicationRecord
     "#{self.class.human_enum(:invoice_types, invoice_type)}_#{booking.ref}_#{id}.pdf"
   end
 
-  def payment_slip_code
-    ref
+  def address
+    @address ||= Address.new(organisation: booking.tenant_organisation, name: booking.tenant.name,
+                              street_address: booking.tenant.street_address, zipcode: booking.tenant.zipcode,
+                              place: booking.tenant.place, country_code: 'CH')
   end
 
   def amount_open

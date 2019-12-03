@@ -65,4 +65,38 @@ class PaymentSlip
   def payment_information
     @invoice.organisation.payment_information
   end
+
+  def qr_payload
+    {
+      qrtype: 'SPC',
+      Version: '0200',
+      Coding_Type: 1,
+      Konto: 'CH4431999123000889012',
+      ZE_Adress_Typ: 'S',
+      ZE_Name: 'Robert Schneider AG',
+      ZE_Adresszeile_1: 'Rue du Lac',
+      ZE_Adresszeile_2: '1268',
+      ZE_Postleitzahl: '2501',
+      ZE_Ort: 'Biel',
+      ZE_Land: 'CH',
+      EZE_Adress_Typ: '',
+      EZE_Name: '',
+      EZE_Adresszeile_1: '',
+      EZE_Adresszeile_2: '',
+      EZE_Postleitzahl: '',
+      EZE_Ort: '',
+      EZE_Land: '',
+      Betrag: '1949.75',
+      Währung: 'CHF',
+      EZP_Adress_Typ: 'S',
+      EZP_Name: 'Pia-Maria Rutschmann-Schnyder',
+      EZP_Adresszeile_1: 'Grosse Marktgasse',
+      EZP_Adresszeile_2: '28',
+      EZP_Postleitzahl: '9400',
+      EZP_Ort: 'Rorschach',
+      EZP_Land: 'CH',
+      Referenztyp: 'QRR',
+      Referenz: '210000000003139471430009017',
+    }
+  end
 end
