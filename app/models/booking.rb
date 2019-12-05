@@ -78,7 +78,7 @@ class Booking < ApplicationRecord
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
 
-  default_scope -> { ordered }
+  self.implicit_order_column = :created_at
   scope :ordered, -> { order(created_at: :asc) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
@@ -96,8 +96,6 @@ class Booking < ApplicationRecord
 
   attribute :accept_conditions, default: false
   # enum purpose: { camp: :camp, event: :event }
-
-  self.implicit_order_column = :created_at
 
   def to_s
     ref
@@ -138,8 +136,9 @@ class Booking < ApplicationRecord
   def assign_tenant_from_email
     return if email.blank?
 
-    self.tenant ||= Tenant.find_or_initialize_by(email: email) do |tenant|
+    self.tenant ||= organisation.tenants.find_or_initialize_by(email: email) do |tenant|
       tenant.country ||= 'CH'
+      tenant.organisation = organisation
     end
   end
 

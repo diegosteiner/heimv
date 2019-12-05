@@ -22,7 +22,7 @@ class SwissQrCode
       qrtype: QRTYPE,
       version: VERSION,
       coding_type: CODING_TYPE,
-      account_nr: organisation.iban.delete(' '),
+      esr_participant_nr: organisation.iban&.delete(' ') || '',
       cr_address_type: ADDRESS_TYPE,
       cr_name: organisation.address.lines[0],
       cr_address_line_1: organisation.address.lines[1],

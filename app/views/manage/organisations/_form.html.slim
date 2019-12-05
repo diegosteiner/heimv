@@ -5,7 +5,8 @@
     / = f.select :booking_strategy_type, [BookingStrategies::Default]
     / = f.select :invoice_ref_strategy_type, [RefStrategies::ESR]
     div[v-pre]= f.text_area :payment_information, rows: 4
-    = f.text_field :account_nr
+    = f.text_field :esr_participant_nr
+    = f.text_field :iban
     div[v-pre]= f.text_area :message_footer, rows: 4
     = f.file_field :terms_pdf, label: link_to_if(organisation.terms_pdf.attached?, Organisation.human_attribute_name(:terms_pdf), organisation.terms_pdf)
     = f.file_field :privacy_statement_pdf, label: link_to_if(organisation.privacy_statement_pdf.attached?, Organisation.human_attribute_name(:privacy_statement_pdf), organisation.privacy_statement_pdf)

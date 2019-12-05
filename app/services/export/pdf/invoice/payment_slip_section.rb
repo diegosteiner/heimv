@@ -12,7 +12,7 @@ module Export
             render_sender_address(pdf)
             render_counterfoil_address(pdf)
             render_amount(pdf)
-            render_account_nr(pdf)
+            render_esr_participant_nr(pdf)
             render_esr_ref(pdf)
             render_code(pdf)
           end
@@ -34,10 +34,10 @@ module Export
           end
         end
 
-        def render_account_nr(pdf)
+        def render_esr_participant_nr(pdf)
           [77, 249].each do |x|
             pdf.bounding_box([x, 181], width: 85, height: 10) do
-              pdf.font('ocr') { pdf.text @payment_slip.account_nr.to_s }
+              pdf.font('ocr') { pdf.text @payment_slip.esr_participant_nr.to_s }
             end
           end
         end

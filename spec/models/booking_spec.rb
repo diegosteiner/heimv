@@ -65,7 +65,7 @@ describe Booking, type: :model do
     end
 
     context 'with existing tenant' do
-      let(:existing_tenant) { create(:tenant) }
+      let(:existing_tenant) { create(:tenant, organisation: organisation) }
       let(:tenant) { nil }
 
       it 'uses existing tenant when email is correct' do

@@ -54,7 +54,7 @@ class Tenant < ApplicationRecord
   end
 
   def address_lines
-    [name, street_address.lines, "#{zipcode} #{city} #{country}"].flatten.reject(&:blank?)
+    [name, street_address&.lines || '', "#{zipcode} #{city} #{country}"].flatten.reject(&:nil?)
   end
 
   def contact_lines

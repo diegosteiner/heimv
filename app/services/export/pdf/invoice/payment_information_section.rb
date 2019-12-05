@@ -27,7 +27,7 @@ module Export
 
         def render_payment_information(pdf)
           pdf.bounding_box([330, 120], width: 260, height: 120) do
-            pdf.text @payment_slip.account_nr.to_s
+            pdf.text @payment_slip.esr_participant_nr.to_s
             pdf.text format('CHF %<amount>0.2f', amount: @payment_slip.amount)
             pdf.text @payment_slip.esr_ref
 

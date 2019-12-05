@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PaymentSlip, type: :model do
-  let(:organisation) { create(:organisation, account_nr: '01-318421-1') }
+  let(:organisation) { create(:organisation, esr_participant_nr: '01-318421-1') }
   let(:invoice) { double('Invoice') }
   subject(:payment_slip) { PaymentSlip.new(invoice) }
 

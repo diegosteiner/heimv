@@ -36,7 +36,7 @@ class PaymentSlip
       amount: amount * 100,
       checksum_1: checksum(esr_mode + format('%<amount>010d', amount: amount * 100)),
       ref: ref,
-      account_code: account_nr.to_code
+      account_code: esr_participant_nr.to_code
     }
   end
 
@@ -52,8 +52,8 @@ class PaymentSlip
     ((amount * 100) - (amount.truncate * 100)).to_i
   end
 
-  def account_nr
-    AccountNr.new(organisation.account_nr)
+  def esr_participant_nr
+    AccountNr.new(organisation.esr_participant_nr)
   end
 
   def esr_ref

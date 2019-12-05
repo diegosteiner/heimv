@@ -28,8 +28,8 @@ module Ability
   end
 
   class Manage < Base
-    def manage_abilities(_user)
-      can :manage, Home
+    def manage_abilities(user)
+      can :manage, Home, organisation: user.organisation
       can :manage, TarifSelector
       can :manage, TarifTarifSelector
       can :manage, Tenant

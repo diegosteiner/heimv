@@ -121,8 +121,8 @@ en:
         ends_at_time: Ende der Belegung (Zeit)
         nights: Nächte
       organisation:
-        account_nr: Kontonummer
         address: Adresse
+        esr_participant_nr: Kontonummer
         logo: Logo
         message_footer: Fusszeile für Nachrichten
         name: Name
@@ -204,6 +204,7 @@ en:
           has_one: Cannot delete record because a dependent %{record} exists
       models:
         booking:
+          action_not_allowed: Diese Aktion ist nicht erlaubt
           attributes:
             state:
               invalid_transition: 'Invalid transition: %{transition}'
@@ -621,7 +622,6 @@ en:
     settings: Einstellungen
     sign_in: Anmelden
     sign_out: Abmelden
-  new: New
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
   number:
     currency:

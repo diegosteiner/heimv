@@ -3,10 +3,12 @@
 # Table name: organisations
 #
 #  id                        :bigint           not null, primary key
-#  account_nr                :string
 #  address                   :text
+#  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
+#  esr_participant_nr        :string
+#  iban                      :string
 #  invoice_ref_strategy_type :string
 #  message_footer            :text
 #  name                      :string
@@ -18,24 +20,26 @@
 class Organisation < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :homes, dependent: :restrict_with_error, inverse_of: :organisation
+  has_many :tenants, dependent: :restrict_with_error, inverse_of: :organisation
   has_one_attached :logo
   has_one_attached :terms_pdf
   has_one_attached :privacy_statement_pdf
 
   validates :booking_strategy_type, presence: true
+  validates :booking_ref_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
-  validates :name, :address, :account_nr, presence: true
+  validates :name, :address, :esr_participant_nr, presence: true
 
   def booking_strategy
     Kernel.const_get(booking_strategy_type).new
   end
 
-  def invoice_ref_strategy
-    Kernel.const_get(invoice_ref_strategy_type).new
+  def booking_ref_strategy
+    Kernel.const_get(booking_ref_strategy_type).new
   end
 
-  def iban
-    'CH13 0900 0000 8716 22 60 9'
+  def invoice_ref_strategy
+    Kernel.const_get(invoice_ref_strategy_type).new
   end
 
   def long_deadline

@@ -3,10 +3,12 @@
 # Table name: organisations
 #
 #  id                        :bigint           not null, primary key
-#  account_nr                :string
 #  address                   :text
+#  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
+#  esr_participant_nr        :string
+#  iban                      :string
 #  invoice_ref_strategy_type :string
 #  message_footer            :text
 #  name                      :string
@@ -21,7 +23,8 @@ FactoryBot.define do
     address { 'MyText' }
     booking_strategy_type { BookingStrategies::Default.to_s }
     invoice_ref_strategy_type { RefStrategies::ESR.to_s }
+    booking_ref_strategy_type { RefStrategies::DefaultBookingRef.to_s }
     payment_information { 'MyString' }
-    account_nr { 'MyString' }
+    esr_participant_nr { 'MyString' }
   end
 end

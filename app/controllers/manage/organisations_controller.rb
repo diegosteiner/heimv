@@ -29,7 +29,7 @@ module Manage
 
     def organisation_params
       params.require(:organisation).permit(:name, :address, :booking_strategy_type, :invoice_ref_strategy_type,
-                                           :payment_information, :account_nr, :message_footer, :logo,
+                                           :payment_information, :esr_participant_nr, :message_footer, :logo,
                                            :privacy_statement_pdf, :terms_pdf)
     end
   end

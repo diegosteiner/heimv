@@ -31,7 +31,7 @@ module Manage
 
     def update
       @booking.update(booking_params) if booking_params
-      manage_actions[booking_action]&.call(booking: @booking) if booking_action
+      call_booking_action
       respond_with :manage, @booking
     end
 
@@ -42,16 +42,18 @@ module Manage
 
     private
 
-    def manage_actions
-      current_organisation.booking_strategy.manage_actions
+    def call_booking_action
+      booking_action&.call(booking: @booking)
+    rescue BookingStrategy::Action::NotAllowed
+      @booking.errors.add(:base, :action_not_allowed)
+    end
+
+    def booking_action
+      current_organisation.booking_strategy.manage_actions[params[:booking_action]]
     end
 
     def booking_params
       BookingParams.new(params[:booking])
-    end
-
-    def booking_action
-      params[:booking_action]
     end
 
     def booking_filter_params
