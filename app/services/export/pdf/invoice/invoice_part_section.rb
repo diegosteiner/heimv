@@ -9,8 +9,8 @@ module Export
         def render
           bounding_box([0, 440], width: 494, height: 500) do
             table table_data,
-                      column_widths: [180, 200, 25, 89],
-                      cell_style: { borders: [], padding: [0, 4, 4, 0] } do
+                  column_widths: [180, 200, 25, 89],
+                  cell_style: { borders: [], padding: [0, 4, 4, 0] } do
               cells.style(size: 10)
               column(2).style(align: :right)
               column(3).style(align: :right)

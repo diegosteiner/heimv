@@ -123,6 +123,7 @@ en:
       organisation:
         address: Adresse
         esr_participant_nr: Kontonummer
+        iban: IBAN
         logo: Logo
         message_footer: Fusszeile für Nachrichten
         name: Name

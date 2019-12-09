@@ -9,6 +9,7 @@
 #  issued_at          :datetime
 #  paid               :boolean          default(FALSE)
 #  payable_until      :datetime
+#  payment_info_type  :string
 #  print_payment_slip :boolean          default(FALSE)
 #  ref                :string
 #  sent_at            :datetime

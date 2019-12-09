@@ -35,11 +35,11 @@ class Organisation < ApplicationRecord
   end
 
   def booking_ref_strategy
-    Kernel.const_get(booking_ref_strategy_type).new
+    RefStrategies.const_get(booking_ref_strategy_type).new
   end
 
   def invoice_ref_strategy
-    Kernel.const_get(invoice_ref_strategy_type).new
+    RefStrategies.const_get(invoice_ref_strategy_type).new
   end
 
   def long_deadline

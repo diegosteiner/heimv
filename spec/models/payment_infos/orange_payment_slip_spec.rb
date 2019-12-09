@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe PaymentSlip, type: :model do
+RSpec.describe PaymentInfos::OrangePaymentSlip, type: :model do
   let(:organisation) { create(:organisation, esr_participant_nr: '01-318421-1') }
   let(:invoice) { double('Invoice') }
-  subject(:payment_slip) { PaymentSlip.new(invoice) }
+  subject(:payment_slip) { described_class.new(invoice) }
 
   describe '#amount_after_point' do
     subject { payment_slip.amount_after_point }
@@ -13,11 +13,12 @@ RSpec.describe PaymentSlip, type: :model do
     it { is_expected.to be(14) }
   end
 
-  describe '#code' do
+  describe '#code_line' do
     subject { payment_slip.code_line }
     before do
       expect(invoice).to receive(:organisation).and_return(organisation)
       expect(invoice).to receive(:amount).at_least(:once).and_return(60.0)
+      expect(invoice).to receive(:invoice_ref_strategy).and_return(RefStrategies::ESR.new)
       expect(invoice).to receive(:ref).and_return('000000010000140000000000018')
     end
 

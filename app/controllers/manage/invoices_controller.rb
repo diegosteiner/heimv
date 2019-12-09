@@ -21,7 +21,7 @@ module Manage
     end
 
     def show
-      @invoice.touch if Rails.env.development?
+      # @invoice.touch if Rails.env.development?
       respond_to do |format|
         format.html
         format.pdf do

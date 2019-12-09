@@ -9,6 +9,7 @@
 #  issued_at          :datetime
 #  paid               :boolean          default(FALSE)
 #  payable_until      :datetime
+#  payment_info_type  :string
 #  print_payment_slip :boolean          default(FALSE)
 #  ref                :string
 #  sent_at            :datetime
@@ -101,5 +102,9 @@ class Invoice < ApplicationRecord
 
   def invoice_ref_strategy
     @invoice_ref_strategy ||= organisation.invoice_ref_strategy
+  end
+
+  def payment_info
+    @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
   end
 end

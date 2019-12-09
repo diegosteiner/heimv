@@ -3,11 +3,11 @@ require 'prawn'
 module Export
   module Pdf
     class Invoice < Base
+      attr_reader :invoice
+      delegate :booking, :organisation, to: :invoice
+
       def initialize(invoice)
         @invoice = invoice
-        @booking = invoice.booking
-        @payment_slip = PaymentSlip.new(@invoice)
-        @organisation = @booking.organisation
       end
 
       def initialize_font
@@ -18,16 +18,23 @@ module Export
 
       def sections
         [
-          Base::LogoSection.new(@organisation.logo), Base::SenderAddressSection.new(@organisation.address),
-          Base::RecipientAddressSection.new(@booking),
-          Base::MarkdownSection.new(Markdown.new(@invoice.text)),
-          InvoicePartSection.new(@invoice),
-          (print_payment_slip? ? PaymentSlipSection.new(@payment_slip) : PaymentInformationSection.new(@payment_slip))
+          Base::LogoSection.new(organisation.logo),
+          Base::SenderAddressSection.new(organisation.address),
+          Base::RecipientAddressSection.new(booking),
+          Base::MarkdownSection.new(Markdown.new(invoice.text)),
+          InvoicePartSection.new(invoice),
+          payment_info_section
         ]
       end
 
-      def print_payment_slip?
-        @invoice.print_payment_slip
+      def payment_info_section
+        payment_info = @invoice.payment_info
+        case payment_info
+        when PaymentInfos::OrangePaymentSlip
+          OrangePaymentSlipSection.new(payment_info)
+        when PaymentInfos::TextPaymentInfo
+          TextPaymentInfoSection.new(payment_info)
+        end
       end
     end
   end

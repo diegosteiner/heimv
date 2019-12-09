@@ -14,7 +14,8 @@ module Export
 
         def image_source
           return StringIO.open(@logo.download) if @logo.respond_to?(:download)
-          Rails.root.join('app', 'webpack', 'images', 'logo.png')
+
+          Rails.root.join('app/webpack/images/logo.png')
         end
       end
     end

@@ -50,7 +50,7 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   AllowedNames:
     - 'to'
     - 'at'

@@ -9,6 +9,7 @@
 #  issued_at          :datetime
 #  paid               :boolean          default(FALSE)
 #  payable_until      :datetime
+#  payment_info_type  :string
 #  print_payment_slip :boolean          default(FALSE)
 #  ref                :string
 #  sent_at            :datetime
@@ -32,5 +33,16 @@
 require 'rails_helper'
 
 RSpec.describe Invoice, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:invoice) { create(invoice) }
+
+  describe '#ref' do
+    it { is_expected.not_to be_blank }
+  end
+
+  describe '#payment_info' do
+    let(:invoice) { create(:invoice, payment_info_type: PaymentInfos::OrangePaymentSlip.to_s) }
+    subject { invoice.payment_info }
+
+    it { is_expected.to be_a(PaymentInfos::OrangePaymentSlip) }
+  end
 end

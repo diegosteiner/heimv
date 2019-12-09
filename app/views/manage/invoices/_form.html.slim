@@ -8,7 +8,7 @@
     = f.date_field :issued_at, lang: I18n.locale
     = f.date_field :sent_at, lang: I18n.locale
     = f.date_field :payable_until, lang: I18n.locale
-    = f.check_box :print_payment_slip
+    = f.select :payment_info_type, PaymentInfos.types.map { |type| [t(type), type.to_s] }, include_blank: true
 
     hr
 

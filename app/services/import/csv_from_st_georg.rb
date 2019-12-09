@@ -18,7 +18,7 @@ module Import
       end
     end
 
-    def process_file(file = Dir[Rails.root.join('tmp', 'import', '*.csv')].first)
+    def process_file(file = Dir[Rails.root.join('tmp/import/*.csv')].first)
       Import::Result.wrap do |result|
         ::CSV.foreach(file, self.class.csv_options) do |row|
           result << BookingRow.process(row)

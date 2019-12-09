@@ -7,7 +7,7 @@ awaiting_tenant_message:
 
     Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir benötigen noch deine vollständigen Angaben, um die Reservation
     definitiv abzuschliessen.
-    Über den folgenden Link kannst Du Deine Reservation verlängern aufheben oder für definitiv erklären.
+    Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
@@ -209,7 +209,7 @@ contract_text:
     *{{ booking.purpose | booking_purpose }}*
 
     # Mindestbelegung
-    Die Mindestbelegung beträgt {{ booking.home.min-usage }} Personen pro Nacht, hochgerechnet auf die Belegungsdauer.
+    Die Mindestbelegung beträgt {{ booking.home.min_occupancy }} Personen pro Nacht, hochgerechnet auf die Belegungsdauer.
 
     # Anzahlung
     Die Anzahlung wird bei Abschluss des Vertrages fällig.
