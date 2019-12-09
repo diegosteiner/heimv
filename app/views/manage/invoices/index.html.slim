@@ -21,7 +21,7 @@
       - @invoices.each do |invoice|
         tr[data-href=manage_invoice_path(invoice) class=('disabled' if invoice.deleted?)]
           td
-            small= link_to invoice.to_s, url_for(invoice.pdf)
+            small= link_to invoice.to_s, manage_invoice_path(invoice, format: :pdf), target: :_blank
           td
             = Invoice.human_enum(:invoice_types, invoice.invoice_type)
 
@@ -52,7 +52,7 @@
                 = link_to new_manage_booking_payment_path(invoice.booking, payment: { invoice_id: invoice.id, amount: invoice.amount }), class: 'btn btn-default'
                   = t(:add_record, model_name: Payment.model_name.human)
               - if invoice.pdf.attached?
-                = link_to url_for(invoice.pdf), target: '_blank', class: 'btn btn-default'
+                = link_to manage_invoice_path(invoice, format: :pdf), target: '_blank', class: 'btn btn-default'
                   span.fa.fa-print
               = link_to edit_manage_invoice_path(invoice), class: 'btn btn-default' do
                 span.fa.fa-pencil

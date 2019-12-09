@@ -18,7 +18,7 @@ module Export
 
       def sections
         [
-          Base::LogoSection.new(@organisation), Base::SenderAddressSection.new(@organisation.address),
+          Base::LogoSection.new(@organisation.logo), Base::SenderAddressSection.new(@organisation.address),
           Base::RecipientAddressSection.new(@booking),
           Base::MarkdownSection.new(Markdown.new(@invoice.text)),
           InvoicePartSection.new(@invoice),

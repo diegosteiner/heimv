@@ -26,8 +26,8 @@ class Markdown
   def to_pdf
     lines.map do |line|
       line.gsub!(/_(.+)_/) { '<i>' + Regexp.last_match(1) + '</i>' }
-      line.gsub!(/\*(.+)\*/) { '<i>' + Regexp.last_match(1) + '</i>' }
       line.gsub!(/\*\*(.+)\*\*/) { '<b>' + Regexp.last_match(1) + '</b>' }
+      line.gsub!(/\*(.+)\*/) { '<i>' + Regexp.last_match(1) + '</i>' }
       line.gsub!(/__(.+)__/) { '<b>' + Regexp.last_match(1) + '</b>' }
       # line.gsub!( /%%(.+?)%%/ ) { data[$1] }
 

@@ -11,7 +11,7 @@ module Export
 
       def sections
         [
-          Base::LogoSection.new(@organisation),
+          Base::LogoSection.new(@organisation.logo),
           Base::SenderAddressSection.new(@organisation.address),
           Base::RecipientAddressSection.new(@booking),
           Base::TitleSection.new("Mietvertrag: #{@booking.home.name}"),
@@ -25,14 +25,14 @@ module Export
           @tarifs = tarifs
         end
 
-        def call(pdf)
+        def render
           return if @tarifs.blank?
 
           table_data = @tarifs.map do |tarif|
             [tarif.label, tarif.unit, format('CHF %<price>.2f', price: tarif.price_per_unit)]
           end
 
-          pdf.table table_data, column_widths: [200, 200, 94], cell_style: {} do
+          table table_data, column_widths: [200, 200, 94], cell_style: {} do
             cells.style(size: 10)
             column(2).style(align: :right)
           end

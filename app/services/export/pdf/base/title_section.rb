@@ -6,9 +6,9 @@ module Export
           @title = title
         end
 
-        def call(pdf)
-          pdf.move_down 10
-          pdf.text @title, size: 20, style: :bold
+        def render
+          move_down 10
+          text @title, size: 20, style: :bold
         end
       end
     end

@@ -122,7 +122,8 @@ de:
         nights: Nächte
       organisation:
         address: Adresse
-        esr_participant_nr: Kontonummer
+        esr_participant_nr: ESR Teilnehmernummer
+        iban: IBAN
         logo: Logo
         message_footer: Fusszeile für Nachrichten
         name: Name
@@ -428,7 +429,7 @@ de:
     - Fr
     - Sa
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mär
@@ -454,7 +455,7 @@ de:
       long: "%e. %B %Y"
       short: "%e. %b"
     month_names:
-    - 
+    -
     - Januar
     - Februar
     - März
