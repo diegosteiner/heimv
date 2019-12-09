@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_09_093940) do
+ActiveRecord::Schema.define(version: 2019_12_09_134603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -134,7 +134,7 @@ ActiveRecord::Schema.define(version: 2019_12_09_093940) do
     t.string "responsible_type"
     t.bigint "responsible_id"
     t.integer "postponable_for", default: 0
-    t.boolean "current", default: true
+    t.boolean "armed", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "remarks"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 2019_12_09_093940) do
     t.boolean "requests_allowed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "min_occupation"
     t.index ["organisation_id"], name: "index_homes_on_organisation_id"
     t.index ["ref"], name: "index_homes_on_ref", unique: true
   end

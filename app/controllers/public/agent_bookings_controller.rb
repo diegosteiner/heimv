@@ -15,7 +15,7 @@ module Public
       @agent_booking.booking.tap do |booking|
         booking.organisation = current_organisation
         booking.messages_enabled = true
-        booking.agent_booking = @agent_booking
+        # booking.agent_booking = @agent_booking
       end
       @agent_booking.save
       respond_with :public, @agent_booking

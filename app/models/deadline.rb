@@ -3,8 +3,8 @@
 # Table name: deadlines
 #
 #  id               :bigint           not null, primary key
+#  armed            :boolean          default(TRUE)
 #  at               :datetime
-#  current          :boolean          default(TRUE)
 #  postponable_for  :integer          default(0)
 #  remarks          :text
 #  responsible_type :string
@@ -27,7 +27,9 @@ class Deadline < ApplicationRecord
   belongs_to :booking, inverse_of: :deadlines
 
   scope :ordered, -> { order(at: :desc) }
+  scope :armed, -> { where(armed: true) }
   scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
+  scope :next, -> { armed.ordered.after.first }
 
   def exceeded?(other = Time.zone.now)
     other > at
@@ -48,6 +50,6 @@ class Deadline < ApplicationRecord
   end
 
   def clear
-    update(current: false)
+    update(armed: false)
   end
 end

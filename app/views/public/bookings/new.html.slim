@@ -20,12 +20,12 @@
                       .col-md-6
                         = calendar_input(of, :begins_at_date, required: true)
                       .col-md-6
-                        = of.time_select :begins_at_time, ignore_date: true, minute_step: 15
+                        = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, start_hour: 8, end_hour: 22
                     .row
                       .col-md-6
                         = calendar_input(of, :ends_at_date, required: true)
                       .col-md-6
-                        = of.time_select :ends_at_time, ignore_date: true, minute_step: 15
+                        = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, start_hour: 8, end_hour: 22
               = f.email_field :email
               = f.text_field :tenant_organisation
 

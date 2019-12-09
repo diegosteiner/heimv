@@ -75,6 +75,7 @@ en:
       home:
         house_rules: Hausordnung (PDF)
         janitor: Abwart
+        min_occupation: Mindestbelegung / Nacht
         name: name
         place: Ort
         ref: Kurzname / Referenz

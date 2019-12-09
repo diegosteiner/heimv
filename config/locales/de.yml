@@ -75,6 +75,7 @@ de:
       home:
         house_rules: Hausordnung (PDF)
         janitor: Angaben Heimwart
+        min_occupation: Mindestbelegung / Nacht
         name: Name
         place: Ort
         ref: Kurzname / Referenz
@@ -1616,9 +1617,9 @@ de:
     public:
       bookings:
         create:
-          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte deine Email-Addresse
+          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte deine Email-Addresse.
         update:
-          notice: Deine Reservationsanfrage wurde gespeichert. Du kannst das Browserfenster schliessen.
+          notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
   helpers:
     select:
       prompt: Bitte wählen

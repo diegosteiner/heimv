@@ -3,8 +3,8 @@
 # Table name: deadlines
 #
 #  id               :bigint           not null, primary key
+#  armed            :boolean          default(TRUE)
 #  at               :datetime
-#  current          :boolean          default(TRUE)
 #  postponable_for  :integer          default(0)
 #  remarks          :text
 #  responsible_type :string

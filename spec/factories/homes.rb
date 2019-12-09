@@ -4,6 +4,7 @@
 #
 #  id               :bigint           not null, primary key
 #  janitor          :text
+#  min_occupation   :integer
 #  name             :string
 #  place            :string
 #  ref              :string

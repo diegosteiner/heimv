@@ -209,7 +209,7 @@ contract_text:
     *{{ booking.purpose | booking_purpose }}*
 
     # Mindestbelegung
-    Die Mindestbelegung beträgt {{ booking.home.min_occupancy }} Personen pro Nacht, hochgerechnet auf die Belegungsdauer.
+    Die Mindestbelegung beträgt {{ booking.home.min_occupation }} Personen pro Nacht, hochgerechnet auf die Belegungsdauer.
 
     # Anzahlung
     Die Anzahlung wird bei Abschluss des Vertrages fällig.
