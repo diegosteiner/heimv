@@ -22,7 +22,7 @@ class Booking
     end
 
     filter do |bookings|
-      only_inconcluded ? bookings.inconcluded : bookings
+      only_inconcluded == '1' ? bookings.inconcluded : bookings
     end
 
     filter do |bookings|

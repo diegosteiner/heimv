@@ -15,9 +15,14 @@ module Public
       @agent_booking.booking.tap do |booking|
         booking.organisation = current_organisation
         booking.messages_enabled = true
-        # booking.agent_booking = @agent_booking
       end
-      @agent_booking.save
+
+      if @agent_booking.valid?
+        @agent_booking.save
+      else
+        %w[booking.agent_booking.booking_agent].each { |attribute| @agent_booking.errors.delete(attribute) }
+      end
+
       respond_with :public, @agent_booking
     end
 
