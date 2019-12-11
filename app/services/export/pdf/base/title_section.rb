@@ -1,7 +1,7 @@
 module Export
   module Pdf
     class Base
-      class TitleSection
+      class TitleSection < Section
         def initialize(title)
           @title = title
         end
