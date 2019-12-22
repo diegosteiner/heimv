@@ -27,7 +27,7 @@
             td.py-3
               = uf.hidden_field :id
               = uf.hidden_field :tarif_id
-              = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
+              = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label, label_class: 'text-left' }, '0', '1'
             td.py-3
               = usage.tarif.price_per_unit
             td.py-3

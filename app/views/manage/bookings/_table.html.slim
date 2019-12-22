@@ -3,52 +3,55 @@
 
 - else
   - bookings.each do |booking|
-    - cache(booking) do
-      .row.m-0.shadow.bg-white.border-bottom[data-href=manage_booking_path(booking) data-id=booking.to_param]
-        / .col-lg-1.py-3.bg-primary
-        .col-lg-2
-          .d-flex.p-2.h-100[style="align-items: center;"]
-            / = link_to booking.ref, manage_booking_path(booking)
-            = link_to manage_booking_path(booking), class: 'd-block'
-              h5.m-0.text-center= booking.ref
-        .col-md-4.col-lg-3.py-3
-          = link_to manage_booking_path(booking)
-            = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
-          = link_to manage_home_path(booking.home)
+    - begin
+      - cache(booking) do
+        .row.m-0.shadow.bg-white.border-bottom[data-href=manage_booking_path(booking) data-id=booking.to_param]
+          / .col-lg-1.py-3.bg-primary
+          .col-lg-2
+            .d-flex.p-2.h-100[style="align-items: center;"]
+              / = link_to booking.ref, manage_booking_path(booking)
+              = link_to manage_booking_path(booking), class: 'd-block'
+                h5.m-0.text-center= booking.ref
+          .col-md-4.col-lg-3.py-3
+            = link_to manage_booking_path(booking)
+              = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+            = link_to manage_home_path(booking.home)
+              .d-flex.mt-2
+                div.mr-2
+                  i.fa.fa-home
+                div
+                  = booking.home
+
             .d-flex.mt-2
               div.mr-2
-                i.fa.fa-home
+                i.fa.fa-male
               div
-                = booking.home
+                - if booking.approximate_headcount
+                  span=<> booking.approximate_headcount
 
-          .d-flex.mt-2
-            div.mr-2
-              i.fa.fa-male
-            div
-              - if booking.approximate_headcount
-                span=<> booking.approximate_headcount
+                - if booking.purpose.present?
+                  span=<> "(#{t(booking.purpose, scope: :'activerecord.enums.booking.purpose')})"
+          .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
+            strong= booking.tenant_organisation.presence
+            = tenant_address(booking.tenant, css_class: 'small')
+            p.mt-2.mb-0
+              - if booking.agent_booking?
+                i.fa.fa-link
+                =<> booking.agent_booking.booking_agent
 
-              - if booking.purpose.present?
-                span=<> "(#{t(booking.purpose, scope: :'activerecord.enums.booking.purpose')})"
-        .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
-          strong= booking.tenant_organisation.presence
-          = tenant_address(booking.tenant, css_class: 'small')
-          p.mt-2.mb-0
-            - if booking.agent_booking?
-              i.fa.fa-link
-              =<> booking.agent_booking.booking_agent
+          .col-md-3.py-3
+            - begin
+              = render partial: current_organisation.booking_strategy.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
+            - rescue ActionView::MissingTemplate
+            = render partial: 'manage/bookings/checklist', locals: { booking: booking }
+          .col-md-1
+              b-dropdown[text="..." variant="block" no-caret dropleft class='w-100 h-100']
+                = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
+                  - current_organisation.booking_strategy.manage_actions.values.each do |action_klass|
+                    - action = action_klass.new(booking: booking)
+                    - next unless action.allowed?
 
-        .col-md-3.py-3
-          - begin
-            = render partial: current_organisation.booking_strategy.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
-          - rescue ActionView::MissingTemplate
-          = render partial: 'manage/bookings/checklist', locals: { booking: booking }
-        .col-md-1
-            b-dropdown[text="..." variant="block" no-caret dropleft class='w-100 h-100']
-              = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-                - current_organisation.booking_strategy.manage_actions.values.each do |action_klass|
-                  - action = action_klass.new(booking: booking)
-                  - next unless action.allowed?
-
-                  button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
-                    = t(action.i18n_scope.join('.'))
+                    button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
+                      = t(action.i18n_scope.join('.'))
+    - rescue => e
+      - ExceptionNotifier.notify_exception(e)

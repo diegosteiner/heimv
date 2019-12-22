@@ -63,7 +63,7 @@ class Booking < ApplicationRecord
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
   has_one :booking_agent, through: :agent_booking
-  has_one :deadline, -> { where(booking: Booking).next }, inverse_of: :booking
+  has_one :deadline, ->(booking) { booking.deadlines.next }, inverse_of: :booking
 
   validates :home, :occupancy, presence: true
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]

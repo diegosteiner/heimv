@@ -1,6 +1,6 @@
 p.mb-1
   | In
-  =<> time_ago_in_words(booking.deadline.at)
+  =<> time_ago_in_words(booking.deadline.at) if booking.deadline.present?
   | fällig
   br
   | Offener Betrag:

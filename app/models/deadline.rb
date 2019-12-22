@@ -29,7 +29,7 @@ class Deadline < ApplicationRecord
   scope :ordered, -> { order(at: :desc) }
   scope :armed, -> { where(armed: true) }
   scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
-  scope :next, -> { armed.ordered.after.first }
+  scope :next, -> { armed.ordered }
 
   def exceeded?(other = Time.zone.now)
     other > at
