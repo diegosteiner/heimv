@@ -53,8 +53,8 @@ class Message < ApplicationRecord
     valid? && (booking.messages_enabled? || addressed_to_manager?)
   end
 
-  def deliver_now
-    # raise "och"
+  def deliver
+    yield(self) if block_given?
     deliverable? && action_mailer_mail.deliver_now && update(sent_at: Time.zone.now)
   end
 

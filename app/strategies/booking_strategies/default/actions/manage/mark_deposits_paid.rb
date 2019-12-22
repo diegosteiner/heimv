@@ -5,7 +5,7 @@ module BookingStrategies
         class MarkDepositsPaid < BookingStrategy::Action
           def call!(unpaid_deposits = booking.invoices.deposit.unpaid)
             unless booking.contract.signed?
-              booking.messages.new_from_template(:deposits_paid_message, addressed_to: :tenant)&.deliver_now
+              booking.messages.new_from_template(:deposits_paid_message, addressed_to: :tenant)&.deliver
             end
 
             unpaid_deposits.map do |deposit|

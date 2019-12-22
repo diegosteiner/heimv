@@ -64,7 +64,7 @@
     strong= Booking.human_attribute_name(:deadline)
     .row
       = f.fields_for :deadline, (@booking.deadline || @booking.deadlines.new) do |df|
-        .col= df.date_field :at
+        .col= df.datetime_field :at
         .col= df.number_field :postponable_for
 
   .form-actions.pt-4.mt-3.border-top

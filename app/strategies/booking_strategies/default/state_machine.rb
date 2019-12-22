@@ -68,22 +68,22 @@ module BookingStrategies
       end
 
       after_transition(to: %i[unconfirmed_request]) do |booking|
-        booking.messages.new_from_template(:unconfirmed_request_message, addressed_to: :tenant).deliver_now
+        booking.messages.new_from_template(:unconfirmed_request_message, addressed_to: :tenant).deliver
       end
 
       after_transition(to: %i[awaiting_tenant]) do |booking|
-        booking.messages.new_from_template(:awaiting_tenant_message, addressed_to: :tenant).deliver_now
+        booking.messages.new_from_template(:awaiting_tenant_message, addressed_to: :tenant).deliver
         booking.messages.new_from_template(:booking_agent_request_accepted_message,
-                                           addressed_to: :booking_agent).deliver_now
+                                           addressed_to: :booking_agent).deliver
       end
 
       after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue awaiting_tenant]) do |booking|
+        booking.deadline&.clear
         booking.deadlines.create(at: booking.organisation.short_deadline.from_now, remarks: booking.state)
       end
 
       after_transition(to: %i[provisional_request confirmed booking_agent_request]) do |booking|
-        next if booking.deadline.present?
-
+        booking.deadline&.clear
         booking.deadlines.create(at: booking.organisation.long_deadline.from_now,
                                  postponable_for: booking.organisation.short_deadline,
                                  remarks: booking.state)
@@ -96,21 +96,21 @@ module BookingStrategies
 
       after_transition(to: %i[open_request]) do |booking|
         booking.deadline&.clear
-        booking.messages.new_from_template(:manage_new_booking_mail, addressed_to: :manager).deliver_now
-        booking.messages.new_from_template(:open_request_message, addressed_to: :tenant).deliver_now
+        booking.messages.new_from_template(:manage_new_booking_mail, addressed_to: :manager).deliver
+        booking.messages.new_from_template(:open_request_message, addressed_to: :tenant).deliver
       end
 
       after_transition(to: %i[overdue_request overdue]) do |booking|
-        booking.messages.new_from_template("#{booking.current_state}_message", addressed_to: :tenant).deliver_now
+        booking.messages.new_from_template("#{booking.current_state}_message", addressed_to: :tenant).deliver
       end
 
       after_transition(to: %i[booking_agent_request]) do |booking|
-        booking.messages.new_from_template(:booking_agent_request_message, addressed_to: :booking_agent).deliver_now
+        booking.messages.new_from_template(:booking_agent_request_message, addressed_to: :booking_agent).deliver
         booking.occupancy.tentative!
       end
 
       after_transition(to: %i[provisional_request definitive_request]) do |booking|
-        booking.messages.new_from_template("#{booking.current_state}_message", addressed_to: :tenant).deliver_now
+        booking.messages.new_from_template("#{booking.current_state}_message", addressed_to: :tenant).deliver
         booking.occupancy.tentative!
       end
 
@@ -120,7 +120,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[cancelation_pending cancelled_request declined_request]) do |booking|
-        booking.deadline.try(:clear)
+        booking.deadline&.clear
       end
 
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|
@@ -128,39 +128,40 @@ module BookingStrategies
       end
 
       after_transition(to: %i[upcoming]) do |booking|
-        booking.messages.new_from_template(:upcoming_message, addressed_to: :tenant).deliver_now
+        booking.messages.new_from_template(:upcoming_message, addressed_to: :tenant).deliver
       end
 
       after_transition(to: %i[payment_due]) do |booking|
         invoice = booking.invoices.sent.unpaid.order(payable_until: :asc).last
         payable_until = invoice&.payable_until || 30.days.from_now
         postponable_for = booking.organisation.short_deadline
+        booking.deadline&.clear
         booking.deadlines.create(at: payable_until, postponable_for: postponable_for) unless booking.deadline
       end
 
       after_transition(to: %i[payment_overdue]) do |booking|
-        booking.messages.new_from_template(:payment_overdue_message, addressed_to: :tenant).deliver_now
+        booking.messages.new_from_template(:payment_overdue_message, addressed_to: :tenant).deliver
       end
 
       after_transition(to: %i[confirmed upcoming completed]) do |booking|
-        booking.deadline.try(:clear)
+        booking.deadline&.clear
       end
 
       after_transition(to: %i[cancelled]) do |booking|
-        booking.messages.new_from_template(:cancelled_message, addressed_to: :tenant).deliver_now
+        booking.messages.new_from_template(:cancelled_message, addressed_to: :tenant).deliver
         if booking.agent_booking?
-          booking.messages.new_from_template(:booking_agent_cancelled_message, addressed_to: :booking_agent).deliver_now
+          booking.messages.new_from_template(:booking_agent_cancelled_message, addressed_to: :booking_agent).deliver
         end
       end
 
       after_transition(to: %i[cancelled_request]) do |booking|
         addressed_to = booking.agent_booking? ? :booking_agent : :tenant
-        booking.messages.new_from_template(:cancelled_request_message, addressed_to: addressed_to).deliver_now
+        booking.messages.new_from_template(:cancelled_request_message, addressed_to: addressed_to).deliver
       end
 
       after_transition(to: %i[declined_request]) do |booking|
         addressed_to = booking.agent_booking? ? :booking_agent : :tenant
-        booking.messages.new_from_template(:declined_request_message, addressed_to: addressed_to).deliver_now
+        booking.messages.new_from_template(:declined_request_message, addressed_to: addressed_to).deliver
       end
     end
     # rubocop:enable Metrics/ClassLength

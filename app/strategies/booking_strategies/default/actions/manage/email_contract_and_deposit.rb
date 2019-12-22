@@ -8,7 +8,7 @@ module BookingStrategies
             return false unless message
 
             message.attachments.attach(extract_attachments(booking.home, deposits, contract))
-            message.save && contract.sent! && deposits.each(&:sent!) && message.deliver_now
+            message.save && contract.sent! && deposits.each(&:sent!) && message.deliver
           end
 
           def allowed?

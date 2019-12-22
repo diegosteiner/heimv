@@ -50,7 +50,7 @@ describe Booking, type: :model do
 
   before do
     message_from_template = double('Message')
-    allow(message_from_template).to receive(:deliver_now).and_return(true)
+    allow(message_from_template).to receive(:deliver).and_return(true)
     allow(Message).to receive(:new_from_template).and_return(message_from_template)
   end
 
