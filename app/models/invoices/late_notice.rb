@@ -29,19 +29,8 @@
 #  fk_rails_...  (booking_id => bookings.id)
 #
 
-require 'rails_helper'
-
-RSpec.describe Invoice, type: :model do
-  let(:invoice) { create(invoice) }
-
-  describe '#ref' do
-    it { is_expected.not_to be_blank }
-  end
-
-  describe '#payment_info' do
-    let(:invoice) { create(:invoice, payment_info_type: PaymentInfos::OrangePaymentSlip.to_s) }
-    subject { invoice.payment_info }
-
-    it { is_expected.to be_a(PaymentInfos::OrangePaymentSlip) }
+module Invoices
+  class LateNotice < ::Invoice
+    ::Invoice.scope :late_notice, -> { where(type: to_s) }
   end
 end

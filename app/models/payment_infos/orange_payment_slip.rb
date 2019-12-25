@@ -1,5 +1,5 @@
 module PaymentInfos
-  class OrangePaymentSlip < PaymentInfo
+  class OrangePaymentSlip < ::PaymentInfo
     # 01 = ESR in CHF
     # 04 = ESR+ in CHF
     # 11 = ESR in CHF zur Gutschrift auf das eigene Konto

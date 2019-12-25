@@ -32,13 +32,9 @@ class TarifSelector < ApplicationRecord
     tarif_tarif_selectors.includes(tarif: :booking_copies).map { |tuc| tuc.vote_for(usage) }.compact
   end
 
-  def self.types
-    %w[TarifSelectors::BookingNights TarifSelectors::BookingApproximateHeadcountPerNight
-       TarifSelectors::AlwaysApply TarifSelectors::BookingOvernightStays
-       TarifSelectors::BookingPurpose]
-  end
-
   def valid_tarifs
     home.tarifs
   end
 end
+
+TarifSelectors

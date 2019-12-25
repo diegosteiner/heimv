@@ -4,6 +4,6 @@ module Manage
 
     belongs_to :booking, serializer: Manage::BookingSerializer
 
-    attributes :invoice_type, :text, :issued_at, :payable_until, :esr_number
+    attributes :type, :text, :issued_at, :payable_until, :esr_number
   end
 end

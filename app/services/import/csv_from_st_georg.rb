@@ -100,7 +100,7 @@ module Import
       end
 
       def create_deposit(booking)
-        invoice = Invoice.create(booking: booking, invoice_type: :deposit, amount: row[:anzahlung])
+        invoice = Invoices::Deposit.create(booking: booking, amount: row[:anzahlung])
 
         paid_at = parse_date(row[:anzahlungbezahltam])
         Payment.create(booking: booking, invoice: invoice, amount: invoice.amount, paid_at: paid_at) if paid_at

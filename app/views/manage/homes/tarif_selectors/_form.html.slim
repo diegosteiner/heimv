@@ -1,7 +1,7 @@
 = form_with(model: [:manage, @home, @tarif_selector.becomes(TarifSelector)], local: true) do |f|
 
   fieldset
-    = f.select :type, enum_options_for_select(TarifSelector, :types, @tarif_selector.type), prompt: true
+    = f.collection_select :type, TarifSelectors::TYPES.values, :to_s, :human_model_name, prompt: true
     = f.number_field :position
 
     h5.mt-4= TarifTarifSelector.model_name.human(count: :other)

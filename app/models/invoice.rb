@@ -5,7 +5,6 @@
 #  id                 :bigint           not null, primary key
 #  amount             :decimal(, )      default(0.0)
 #  deleted_at         :datetime
-#  invoice_type       :integer
 #  issued_at          :datetime
 #  paid               :boolean          default(FALSE)
 #  payable_until      :datetime
@@ -37,8 +36,6 @@ class Invoice < ApplicationRecord
   has_one_attached :pdf
   has_one :organisation, through: :booking
 
-  enum invoice_type: { invoice: 0, deposit: 1, late_notice: 2 }
-
   scope :ordered, -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :present, -> { where(deleted_at: nil) }
   scope :unpaid,  -> { present.where(paid: false) }
@@ -69,7 +66,7 @@ class Invoice < ApplicationRecord
   end
 
   def filename
-    "#{self.class.human_enum(:invoice_types, invoice_type)}_#{booking.ref}_#{id}.pdf"
+    "#{self.class.model_name.human} #{booking.ref}_#{id}.pdf"
   end
 
   def address_lines
@@ -108,3 +105,5 @@ class Invoice < ApplicationRecord
     @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
   end
 end
+
+Invoices

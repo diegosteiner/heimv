@@ -10,7 +10,7 @@
     thead
       tr
         th= Invoice.model_name.human
-        th= Invoice.human_attribute_name(:invoice_type)
+        th= Invoice.human_attribute_name(:type)
         th= Invoice.human_attribute_name(:payable_until)
         th= Invoice.human_attribute_name(:amount)
         th= Invoice.human_attribute_name(:amount_paid)
@@ -23,7 +23,7 @@
           td
             small= link_to invoice.to_s, manage_invoice_path(invoice, format: :pdf), target: :_blank
           td
-            = Invoice.human_enum(:invoice_types, invoice.invoice_type)
+            = invoice.model_name.human
 
           td
             - if invoice.payable_until.present?
@@ -66,9 +66,9 @@
       = t(:add_record, model_name: Invoice.model_name.human)
       '
     .dropdown-menu
-      = link_to new_manage_booking_invoice_path(@booking, invoice: { invoice_type: :deposit }), class: 'dropdown-item' do
+      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit }), class: 'dropdown-item' do
         = t(:add_record, model_name: :Anzahlung)
       = link_to new_manage_booking_invoice_path(@booking), class: 'dropdown-item' do
         = t(:add_record, model_name: Invoice.model_name.human)
-      = link_to new_manage_booking_invoice_path(@booking, invoice: { invoice_type: :late_notice }), class: 'dropdown-item' do
+      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice }), class: 'dropdown-item' do
         = t(:add_record, model_name: :Mahnung)

@@ -5,7 +5,6 @@
 #  id                 :bigint           not null, primary key
 #  amount             :decimal(, )      default(0.0)
 #  deleted_at         :datetime
-#  invoice_type       :integer
 #  issued_at          :datetime
 #  paid               :boolean          default(FALSE)
 #  payable_until      :datetime
@@ -31,12 +30,11 @@
 #
 
 FactoryBot.define do
-  factory :invoice do
+  factory :invoice, class: Invoices::Invoice do
     booking
     ref { Faker::Bank.iban }
     issued_at { 1.week.ago }
     payable_until { 3.months.from_now }
     text { Faker::Lorem.sentences }
-    invoice_type { :invoice }
   end
 end

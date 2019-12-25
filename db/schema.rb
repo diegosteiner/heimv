@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_09_134603) do
+ActiveRecord::Schema.define(version: 2019_12_24_111349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -177,7 +177,6 @@ ActiveRecord::Schema.define(version: 2019_12_09_134603) do
     t.datetime "payable_until"
     t.datetime "sent_at"
     t.text "text"
-    t.integer "invoice_type"
     t.string "ref"
     t.decimal "amount", default: "0.0"
     t.boolean "paid", default: false

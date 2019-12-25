@@ -1,14 +1,14 @@
-= form_with(model: [:manage, @invoice], local: true) do |f|
+= form_with(model: [:manage, @invoice.becomes(Invoice)], local: true) do |f|
 
   fieldset
-    = f.select :invoice_type, enum_options_for_select(Invoice, :invoice_types, @invoice.invoice_type)
+    = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, include_blank: true
     = f.hidden_field :booking_id
     = f.text_field :ref, help: "Automatisch generiert"
     = f.text_area :text
     = f.date_field :issued_at, lang: I18n.locale
     = f.date_field :sent_at, lang: I18n.locale
     = f.date_field :payable_until, lang: I18n.locale
-    = f.select :payment_info_type, PaymentInfos.types.map { |type| [t(type), type.to_s] }, include_blank: true
+    = f.collection_select :payment_info_type, PaymentInfos::TYPES.values, :to_s, :human_model_name, include_blank: true
 
     hr
 

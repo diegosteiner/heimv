@@ -1,6 +1,6 @@
 module PaymentInfos
-  def self.types
-    # constants.select { |klass| const_get(klass).is_a?(Class) }
-    [OrangePaymentSlip, TextPaymentInfo]
-  end
+  TYPES = {
+    orange_payment_slip: OrangePaymentSlip,
+    text_payment_info: TextPaymentInfo
+  }.freeze
 end
