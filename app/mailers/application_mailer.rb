@@ -2,10 +2,9 @@
 
 class ApplicationMailer < ActionMailer::Base
   if ActionMailer::Base.delivery_method.nil?
-    SettingsProvider.mailer_settings.tap do |settings|
-      ActionMailer::Base.delivery_method = settings.fetch(:delivery_method)
-      ActionMailer::Base.try(ActionMailer::Base.delivery_method.to_s + '_settings=', settings)
-    end
+    delivery_method_settings = DeliveryMethodSettings.new(ENV['MAILER_URL'])
+    ActionMailer::Base.delivery_method = delivery_method_settings.delivery_method
+    ActionMailer::Base.try(delivery_method_settings.method, delivery_method_settings.to_h)
   end
   default from: Rails.application.secrets.mail_from
   layout 'mailer'

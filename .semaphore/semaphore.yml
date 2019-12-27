@@ -18,7 +18,12 @@ blocks:
   - name: "Tests"
     task:
       jobs:
-      - name: Tests
-        commands:
-          - checkout
-          - docker-compose run --use-aliases test
+        - name: Tests
+          commands:
+            - checkout
+            - docker-compose run --use-aliases test
+      epilogue:
+        on_fail:
+          commands:
+            - artifact push job logs
+            - artifact push job tmp/capybara

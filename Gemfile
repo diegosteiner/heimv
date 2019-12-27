@@ -39,6 +39,7 @@ gem 'timecop'
 gem 'title'
 gem 'webpacker', '>= 4.0.x'
 gem 'wicked_pdf'
+gem 'yaml_db'
 
 group :development do
   gem 'annotate'

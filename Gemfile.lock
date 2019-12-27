@@ -371,6 +371,9 @@ GEM
       activesupport
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yaml_db (0.7.0)
+      rails (>= 3.0)
+      rake (>= 0.8.7)
     zeitwerk (2.2.2)
 
 PLATFORMS
@@ -436,6 +439,7 @@ DEPENDENCIES
   title
   webpacker (>= 4.0.x)
   wicked_pdf
+  yaml_db
 
 RUBY VERSION
    ruby 2.6.4p104
