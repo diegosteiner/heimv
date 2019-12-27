@@ -18,7 +18,7 @@ module Export
       def sections
         [
           Base::LogoSection.new(@organisation.logo),
-          Base::TitleSection.new(data_digest.label, 40),
+          Base::TitleSection.new(data_digest.label, 50),
           # Base::MarkdownSection.new(Markdown.new(@data_digest.text)),
           TabularDataSection.new(data_digest)
         ]

@@ -32,6 +32,8 @@ module Ability
     def manage_abilities(user)
       organisation = user.organisation
       can :manage, Home, organisation: organisation
+      can :manage, DataDigest, organisation: organisation
+      can :manage, MarkdownTemplate, organisation: organisation
       can :manage, Tarif, home: { organisation: organisation }
       can :manage, Tarif, booking: { organisation: organisation }
       can :manage, TarifSelector, home: { organisation: organisation }

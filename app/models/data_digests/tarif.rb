@@ -39,7 +39,7 @@
 #
 
 module DataDigests
-  class Tarif < Booking
+  class Tarif < DataDigests::Booking
     def tarif_ids=(tarif_ids)
       data_digest_params['tarif_ids'] = tarif_ids.reject(&:blank?)
     end

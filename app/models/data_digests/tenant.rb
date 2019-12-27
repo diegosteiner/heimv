@@ -21,7 +21,7 @@
 #
 
 module DataDigests
-  class Tenant < Booking
+  class Tenant < DataDigests::Booking
     def tarif_ids=(tarif_ids)
       data_digest_params['tarif_ids'] = tarif_ids.reject(&:blank?)
     end
@@ -49,7 +49,7 @@ module DataDigests
     def generate_tabular_row(booking)
       super + booking.instance_eval do
         [
-          tenant.address_lines.join("\n"), [tenant.email, tenant.phone].join("\n"), occupancy.nights
+          tenant&.address_lines&.join("\n"), [tenant&.email, tenant&.phone].join("\n"), occupancy&.nights
         ]
       end
     end

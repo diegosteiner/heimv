@@ -21,7 +21,7 @@
 #
 
 module DataDigests
-  class Booking < DataDigest
+  class Booking < ::DataDigest
     def filter
       @filter ||= ::Booking::Filter.new(filter_params)
     end
