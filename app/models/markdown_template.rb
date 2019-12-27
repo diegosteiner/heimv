@@ -25,7 +25,7 @@ class MarkdownTemplate < ApplicationRecord
   belongs_to :organisation
 
   validates :key, :locale, presence: true
-  validates :key, uniqueness: true
+  validates :key, uniqueness: { scope: %i[locale organisation_id] }
 
   def to_markdown
     Markdown.new(body)

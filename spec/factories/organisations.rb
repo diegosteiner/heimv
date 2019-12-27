@@ -26,5 +26,13 @@ FactoryBot.define do
     booking_ref_strategy_type { RefStrategies::DefaultBookingRef.to_s }
     payment_information { 'MyString' }
     esr_participant_nr { 'MyString' }
+
+    trait :with_markdown_templates do
+      after(:create) do |organisation|
+        organisation.missing_markdown_templates.each do |locale_key|
+          organisation.markdown_templates.create(locale_key)
+        end
+      end
+    end
   end
 end

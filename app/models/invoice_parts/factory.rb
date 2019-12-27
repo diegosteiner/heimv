@@ -15,7 +15,7 @@ module InvoiceParts
 
     def from_usage(invoice, usage)
       InvoiceParts::Add.new(
-        apply: invoice.new_record? && invoice.type.to_sym == usage.tarif.invoice_type.to_sym,
+        apply: apply?(invoice, usage),
         usage: usage,
         label: usage.tarif.label,
         label_2: label_2(usage),
@@ -33,6 +33,11 @@ module InvoiceParts
     end
 
     protected
+
+    def apply?(invoice, usage)
+      tarif_invoice_type = usage.tarif.invoice_type.safe_constantize
+      invoice.new_record? && tarif_invoice_type.present? && invoice.is_a?(tarif_invoice_type)
+    end
 
     def format_used_units(used_units)
       return unless used_units

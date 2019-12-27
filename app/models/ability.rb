@@ -7,8 +7,8 @@ module Ability
       return if user.blank?
 
       user_abilities(user)
-      admin_abilities(user) if user.admin?
-      manage_abilities(user) if user.user?
+      # admin_abilities(user) if user.admin?
+      manage_abilities(user) # if user.user?
     end
 
     protected
@@ -28,19 +28,27 @@ module Ability
   end
 
   class Manage < Base
+    # rubocop:disable Metrics/AbcSize
     def manage_abilities(user)
-      can :manage, Home, organisation: user.organisation
-      can :manage, TarifSelector
-      can :manage, TarifTarifSelector
-      can :manage, Tenant
-      can :manage, Booking
-      can :manage, Occupancy
-      can :manage, BookingAgent
-      can :manage, Invoice
-      can :manage, Payment
-      can :manage, Deadline
-      can %i[read edit update], Organisation
+      organisation = user.organisation
+      can :manage, Home, organisation: organisation
+      can :manage, Tarif, home: { organisation: organisation }
+      can :manage, Tarif, booking: { organisation: organisation }
+      can :manage, TarifSelector, home: { organisation: organisation }
+      can :manage, TarifTarifSelector, home: { organisation: organisation }
+      can :manage, Tenant, organisation: organisation
+      can :manage, Booking, organisation: organisation
+      can :manage, Occupancy, home: { organisation: organisation }
+      can :manage, BookingAgent, organisation: organisation
+      can :manage, Invoice, booking: { organisation: organisation }
+      can :manage, Contract, booking: { organisation: organisation }
+      can :manage, Payment, booking: { organisation: organisation }
+      can :manage, Deadline, booking: { organisation: organisation }
+      can :manage, Usage, booking: { organisation: organisation }
+      can :manage, Message, booking: { organisation: organisation }
+      can %i[read edit update], Organisation, id: organisation.id
     end
+    # rubocop:enable Metrics/AbcSize
   end
 
   class Public < Base

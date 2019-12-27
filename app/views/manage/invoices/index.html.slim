@@ -62,13 +62,13 @@
 - if @booking
   br
   .btn-group
-    button.btn.btn-primary.dropdown-toggle.dropdown-toggle-split[data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
+    button.btn.btn-primary.dropdown-toggle.dropdown-toggle-split[data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="new"]
       = t(:add_record, model_name: Invoice.model_name.human)
       '
     .dropdown-menu
       = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit }), class: 'dropdown-item' do
-        = t(:add_record, model_name: :Anzahlung)
+        = Invoices::Deposit.model_name.human
       = link_to new_manage_booking_invoice_path(@booking), class: 'dropdown-item' do
-        = t(:add_record, model_name: Invoice.model_name.human)
+        = Invoices::Invoice.model_name.human
       = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice }), class: 'dropdown-item' do
-        = t(:add_record, model_name: :Mahnung)
+        = Invoices::LateNotice.model_name.human

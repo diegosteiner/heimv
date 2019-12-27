@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Session', :devise, skip: true do
+describe 'Session', :devise, type: :feature do
   let(:user) { create(:user) }
 
   describe 'Sign in' do
@@ -32,6 +32,7 @@ describe 'Session', :devise, skip: true do
     it 'user signs out successfully' do
       signin(user.email, user.password)
       expect(page).to have_content I18n.t 'devise.sessions.signed_in'
+      click_link user.email
       click_link I18n.t 'nav.sign_out'
       expect(page).to have_content I18n.t 'devise.sessions.signed_out'
     end

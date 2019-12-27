@@ -77,7 +77,7 @@ services:
       - app_bundle:/usr/local/bundle/
     environment:
       APP_HOST: test
-      PORT: 3000
+      # PORT: 3000
       DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
@@ -95,15 +95,15 @@ services:
 
   selenium:
     image: selenium/standalone-chrome-debug
-    ports:
-      - '4444:4444'
+    # ports:
+      # - '4444:4444'
       # - '5900:5900'
     logging:
       driver: none
     networks:
       selenium:
-        aliases:
-          - app
+    #     aliases:
+    #       - app
 
 networks:
   selenium:

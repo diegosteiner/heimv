@@ -1,7 +1,7 @@
 module Invoices
   class Factory
     def call(booking, params)
-      invoice = ::Invoice.new({ booking: booking }.merge(params || {}))
+      invoice = ::Invoice.new({ booking: booking, type: Invoices::Invoice.to_s }.merge(params || {}))
       invoice.text ||= markdown_template(invoice)
       invoice.payable_until ||= payable_until(invoice)
       invoice

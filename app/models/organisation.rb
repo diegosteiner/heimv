@@ -21,6 +21,7 @@ class Organisation < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :homes, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :tenants, dependent: :restrict_with_error, inverse_of: :organisation
+  has_many :markdown_templates, inverse_of: :organisation, dependent: :destroy
   has_one_attached :logo
   has_one_attached :terms_pdf
   has_one_attached :privacy_statement_pdf
@@ -52,5 +53,16 @@ class Organisation < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def self.current
+    first
+  end
+
+  def missing_markdown_templates(locales = I18n.available_locales)
+    locale_keys = booking_strategy.markdown_template_keys.flat_map do |key|
+      locales.map { |locale| { locale: locale, key: key } }
+    end
+    locale_keys.reject { |locale_key| markdown_templates.where(locale_key).exists? }
   end
 end
