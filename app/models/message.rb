@@ -30,7 +30,6 @@ class Message < ApplicationRecord
   has_many_attached :attachments
 
   attribute :cc, default: []
-  attribute :bcc, default: []
 
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
 

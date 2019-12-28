@@ -17,8 +17,8 @@ services:
     ports:
       - '3000:3000'
     environment:
-      # DATABASE_URL: postgresql://postgres@db/heimverwaltung_development
-      DATABASE_URL: postgresql://postgres@db/heimverwaltung_production
+      DATABASE_URL: postgresql://postgres@db/heimverwaltung_development
+      # DATABASE_URL: postgresql://postgres@db/heimverwaltung_production
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpack
       WEBPACKER_PRECOMPILE: 'false'
@@ -84,7 +84,8 @@ services:
       RAILS_ENV: test
       SELENIUM_HOST: selenium
       SELENIUM_PORT: 4444
-      WEBPACKER_PRECOMPILE: 'pentrue'
+      WEBPACKER_PRECOMPILE: 'true'
+      MAIL_FROM: no-reply@heimverwaltung.localhost
     depends_on:
       - db
       - selenium

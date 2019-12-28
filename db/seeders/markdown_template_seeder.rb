@@ -7,7 +7,7 @@ module Seeders
 
       {
         markdown_templates: markdown_templates.map do |_key, template_data|
-          MarkdownTemplate.create!(template_data)
+          MarkdownTemplate.create!(template_data.merge(organisation: seeds[:organisation]))
         end
       }
     end

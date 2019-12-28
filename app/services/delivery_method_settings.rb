@@ -1,4 +1,6 @@
 class DeliveryMethodSettings
+  delegate :fetch, :[], to: :to_h
+
   def initialize(settings_url)
     @settings_url = settings_url
 

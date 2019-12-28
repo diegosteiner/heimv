@@ -51,7 +51,7 @@ module DataDigests
     def generate_tabular_row(booking)
       booking.instance_eval do
         [
-          ref, home.name, I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.begins_at, format: :short),
+          ref, home.name, I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.ends_at, format: :short),
           ::Booking.human_enum(:purpose, purpose)
         ]
       end

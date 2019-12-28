@@ -5,14 +5,16 @@ module Import
     DATETIME_FORMAT = '%d.%m.%Y %H:%M'.freeze
 
     def self.csv_options
-      { headers: true, converters: :all, header_converters: :symbol, col_sep: ',' }
+      { headers: true, converters: :all, header_converters: :symbol, col_sep: ';',
+        unconverted_fields: true }
     end
 
-    def process_stdin
+    def process_stdin(organisation = Organisation.current)
       Import::Result.wrap do |result|
         Rails.logger.info 'Reading from stdin'
         ::CSV.parse(STDIN.read, self.class.csv_options) do |row|
-          result << BookingRow.process(row)
+          booking = BookingRow.process(row, organisation)
+          result << booking
         end
         Rails.logger.info result.to_s
       end
@@ -29,8 +31,9 @@ module Import
     class TenantRow
       attr_reader :row
 
-      def initialize(row)
+      def initialize(row, organisation)
         @row = row
+        @organisation = organisation
       end
 
       # rubocop:disable Metrics/AbcSize
@@ -39,7 +42,7 @@ module Import
           tenant.assign_attributes(
             id: id, first_name: row[:mietervorname], last_name: row[:mietername],
             street_address: [row[:mieteradresse], row[:mieteradresszusatz]].join("\n"), zipcode: row[:mieterplz],
-            city: row[:mieterort], country: country, phone: phone,
+            city: row[:mieterort], country: country, phone: phone, organisation: @organisation,
             reservations_allowed: true, remarks: row[:mieterbemerkungen], import_data: row.to_h
           )
         end
@@ -47,8 +50,8 @@ module Import
       # rubocop:enable Metrics/AbcSize
 
       def email
-        "mieter+#{id}@heimv.local"
-        # row[:mieteremail].presence || "mieter+#{id}@heimv.local"
+        # "mieter+#{id}@heimv.local"
+        row[:mieteremail].presence || "mieter+#{id}@heimv.local"
       end
 
       def id
@@ -56,7 +59,7 @@ module Import
       end
 
       def phone
-        [row[:mieterteln], row[:mietertelp], row[:mietertelg]].select(&:present?).join("\n")
+        row.unconverted_fields[44..46].select(&:present?).join("\n")
       end
 
       def country
@@ -74,18 +77,19 @@ module Import
       }.freeze
       attr_reader :row
 
-      def initialize(row)
+      def initialize(row, organisation)
         @row = row
+        @organisation = organisation
       end
 
       # rubocop:disable Metrics/AbcSize
       def build
         Booking.find_or_initialize_by(ref: ref) do |booking|
           booking.assign_attributes(
-            ref: ref, tenant_organisation: tenant_organisation, remarks: remarks, occupancy: occupancy,
+            ref: ref, tenant_organisation: tenant_organisation, occupancy: occupancy, organisation: @organisation,
             home: home, approximate_headcount: approximate_headcount, purpose: purpose, import_data: row.to_h,
             email: tenant&.email, committed_request: true, invoice_address: invoice_address, tenant: tenant,
-            transition_to: :definitive_request, messages_enabled: false
+            transition_to: :definitive_request, messages_enabled: false, internal_remarks: internal_remarks
           )
         end
       end
@@ -95,8 +99,13 @@ module Import
         booking = build
         return booking unless booking.save
 
-        create_deposit(booking)
+        # create_deposit(booking)
         create_contract(booking)
+        booking.deadline&.clear
+        booking.state_machine.transition_to(:confirmed)
+        booking.state_machine.transition_to(:upcoming)
+
+        booking
       end
 
       def create_deposit(booking)
@@ -115,10 +124,10 @@ module Import
         Contract.create(booking: booking, valid_from: sent_at, sent_at: sent_at, signed_at: signed_at)
       end
 
-      def self.process(row)
+      def self.process(row, organisation)
         return nil if row[:belegungsnummer].blank?
 
-        new(row).create
+        new(row, organisation).create
       end
 
       private
@@ -141,7 +150,7 @@ module Import
 
       def home
         return Home.find_by(ref: :muehli) if row[:belegungsnummer].start_with?('M')
-        return Home.find_by(ref: :villa) if row[:belegungsnummer].start_with?('K')
+        return Home.find_by(ref: :Kubu) if row[:belegungsnummer].start_with?('K')
         return Home.find_by(ref: :bir) if row[:belegungsnummer].start_with?('B')
       end
 
@@ -162,6 +171,7 @@ module Import
       # rubocop:disable Metrics/AbcSize
       def invoice_address
         return row[:rechnungan] if row[:rechnungan].present?
+        return nil if row[:rechnungadresse].blank?
 
         <<~ADDRESS
           #{row[:rechnungvorname]} #{row[:rechnungname]}
@@ -171,12 +181,12 @@ module Import
       end
       # rubocop:enable Metrics/AbcSize
 
-      def remarks
+      def internal_remarks
         row[:bemerkungen]
       end
 
       def tenant
-        @tenant ||= TenantRow.new(row).build
+        @tenant ||= TenantRow.new(row, @organisation).build
       end
 
       def tenant_organisation

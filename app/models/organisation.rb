@@ -68,6 +68,6 @@ class Organisation < ApplicationRecord
   end
 
   def delivery_method_settings
-    @delivery_method_settings ||= DeliveryMethodSettings.new(delivery_method_settings_url)
+    @delivery_method_settings ||= DeliveryMethodSettings.new(delivery_method_settings_url || ENV['MAILER_URL'])
   end
 end
