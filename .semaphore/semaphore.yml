@@ -23,3 +23,4 @@ blocks:
         on_fail:
           commands:
             - artifact push job tmp/capybara
+            - artifact push job log
