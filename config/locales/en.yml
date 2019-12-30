@@ -134,6 +134,9 @@ en:
         nights: Nächte
       organisation:
         address: Adresse
+        contract_representative_address: Adresse der Vertretung für Verträge
+        contract_signature: Vertragsunterschrift
+        delivery_method_settings_url: Email-Konfiguration
         esr_participant_nr: Kontonummer
         iban: IBAN
         logo: Logo
@@ -203,6 +206,8 @@ en:
         booking:
           action_not_allowed: Diese Aktion ist nicht erlaubt
           attributes:
+            deadline:
+              not_postponable: Frist kann nicht verlängert werden
             state:
               invalid_transition: 'Invalid transition: %{transition}'
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
@@ -225,9 +230,18 @@ en:
       data_digest:
         one: Bericht
         other: Berichte
+      data_digests/booking:
+        one: Buchungen Auszug
+        other: Buchungen Auszüge
       data_digests/booking_data_digest:
         one: Belegungen Bericht
         other: Belegungen Berichte
+      data_digests/home_booking_plan:
+        one: Belegungsplan Auszug
+        other: Belegungsplan Auszüge
+      data_digests/payment:
+        one: Zahlungen Auszug
+        other: Zahlungen Auszüge
       data_digests/payment_data_digest:
         one: Zahlungen Bericht
         other: Zahlungen Berichte
@@ -399,6 +413,8 @@ en:
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->awaiting_tenant":
+          label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
         "-->booking_agent_request":
           label: Vermittler Anfrage
         "-->cancelation_pending":
@@ -634,7 +650,6 @@ en:
         table:
           save: Save %{model_name}
   nav:
-    edit_account: Account
     settings: Einstellungen
     sign_in: Anmelden
     sign_out: Abmelden

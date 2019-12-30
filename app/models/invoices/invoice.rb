@@ -31,6 +31,6 @@
 
 module Invoices
   class Invoice < ::Invoice
-    ::Invoice.scope :invoice, -> { where(type: to_s) }
+    ::Invoice.scope :invoice, -> { where(type: Invoices::Invoice.to_s) }
   end
 end

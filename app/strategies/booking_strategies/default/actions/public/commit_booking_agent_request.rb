@@ -8,6 +8,7 @@ module BookingStrategies
               booking.agent_booking.errors.add(:email, :blank)
             else
               booking.update(committed_request: true)
+              booking.errors.clear
             end
           end
 

@@ -134,6 +134,9 @@ de:
         nights: Nächte
       organisation:
         address: Adresse
+        contract_representative_address: Adresse der Vertretung für Verträge
+        contract_signature: Vertragsunterschrift
+        delivery_method_settings_url: Email-Konfiguration
         esr_participant_nr: ESR Teilnehmernummer
         iban: IBAN
         logo: Logo
@@ -203,6 +206,8 @@ de:
         booking:
           action_not_allowed: Diese Aktion ist nicht erlaubt
           attributes:
+            deadline:
+              not_postponable: kann nicht verlängert werden
             state:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
@@ -225,12 +230,21 @@ de:
       data_digest:
         one: Auszug
         other: Auszüge
+      data_digests/booking:
+        one: Buchungen Auszug
+        other: Buchungen Auszüge
       data_digests/booking_data_digest:
-        one: Belegungen Auszug
-        other: Belegungen Auszüge
-      data_digests/payment_data_digest:
+        one: Belegungen Bericht
+        other: Belegungen Berichte
+      data_digests/home_booking_plan:
+        one: Belegungsplan Auszug
+        other: Belegungsplan Auszüge
+      data_digests/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
+      data_digests/payment_data_digest:
+        one: Zahlungen Bericht
+        other: Zahlungen Berichte
       data_digests/tarif:
         one: Tarif Auszug
         other: Tarif Auszüge
@@ -341,7 +355,7 @@ de:
           label: Aktive Belegung
         awaiting_tenant:
           help: Help
-          label: Mietanfrage (fehlende Mieterangaben)
+          label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
         booking_agent_request:
           help: Help
           label: Mietanfrage (provisorisch via Vermittler)
@@ -399,6 +413,8 @@ de:
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->awaiting_tenant":
+          label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
         "-->booking_agent_request":
           label: Vermittler Anfrage
         "-->cancelation_pending":
@@ -1651,7 +1667,6 @@ de:
         table:
           save: "%{model_name} speichern"
   nav:
-    edit_account: Account
     settings: Einstellungen
     sign_in: Anmelden
     sign_out: Abmelden

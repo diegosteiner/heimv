@@ -18,7 +18,7 @@ module Export
       def sections
         [
           Base::LogoSection.new(@organisation.logo),
-          Base::TitleSection.new(data_digest.label, 50),
+          Base::TitleSection.new(data_digest.label, 60),
           # Base::MarkdownSection.new(Markdown.new(@data_digest.text)),
           TabularDataSection.new(data_digest)
         ]
@@ -33,7 +33,7 @@ module Export
           table_data = @data_digest.to_tabular
 
           table(table_data, column_widths: @data_digest.column_widths) do
-            cells.style(size: 10, borders: [])
+            cells.style(size: 8, borders: [])
             row(0).font_style = :bold
             row(0).borders = [:bottom]
           end

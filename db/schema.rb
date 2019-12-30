@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_27_121932) do
+ActiveRecord::Schema.define(version: 2019_12_29_124528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -259,6 +259,7 @@ ActiveRecord::Schema.define(version: 2019_12_27_121932) do
     t.string "iban"
     t.string "booking_ref_strategy_type"
     t.string "delivery_method_settings_url"
+    t.string "contract_representative_address"
   end
 
   create_table "payments", force: :cascade do |t|

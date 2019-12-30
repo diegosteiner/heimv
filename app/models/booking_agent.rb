@@ -23,7 +23,7 @@
 #
 
 class BookingAgent < ApplicationRecord
-  has_many :bookings, inverse_of: :booking_agent, dependent: :nullify
+  has_many :bookings, through: :agent_bookings
   has_many :agent_bookings, inverse_of: :booking_agent, dependent: :nullify
   belongs_to :organisation
 

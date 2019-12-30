@@ -32,6 +32,6 @@ br
     = t(:add_record, model_name: DataDigest.model_name.human)
     '
   .dropdown-menu
-    - [DataDigests::Booking, DataDigests::Tenant, DataDigests::Tarif, DataDigests::Payment].each do |data_digest_type|
+    - DataDigests::TYPES.values.each do |data_digest_type|
       = link_to data_digest_type.model_name.human, new_manage_data_digest_path(type: data_digest_type), class: 'dropdown-item'
 

@@ -79,7 +79,7 @@ class Booking < ApplicationRecord
   end
 
   self.implicit_order_column = :created_at
-  scope :ordered, -> { order(created_at: :asc) }
+  scope :ordered, -> { joins(:occupancy).order(Occupancy.arel_table[:begins_at]) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
   before_validation :set_organisation

@@ -42,7 +42,7 @@ module BookingStrategies
         Actions::Manage::EmailInvoice, Actions::Public::PostponeDeadline,
         Actions::Manage::MarkContractSigned, Actions::Manage::MarkDepositsPaid,
         Actions::Manage::MarkInvoicesPaid, Actions::Public::CommitRequest,
-        Actions::Manage::Cancel
+        Actions::Public::CommitBookingAgentRequest, Actions::Manage::Cancel
       ]
       @manage_actions ||= Hash[actions.map { |action| [action.action_name, action] }]
     end

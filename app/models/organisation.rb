@@ -2,20 +2,21 @@
 #
 # Table name: organisations
 #
-#  id                           :bigint           not null, primary key
-#  address                      :text
-#  booking_ref_strategy_type    :string
-#  booking_strategy_type        :string
-#  currency                     :string           default("CHF")
-#  delivery_method_settings_url :string
-#  esr_participant_nr           :string
-#  iban                         :string
-#  invoice_ref_strategy_type    :string
-#  message_footer               :text
-#  name                         :string
-#  payment_information          :text
-#  created_at                   :datetime         not null
-#  updated_at                   :datetime         not null
+#  id                              :bigint           not null, primary key
+#  address                         :text
+#  booking_ref_strategy_type       :string
+#  booking_strategy_type           :string
+#  contract_representative_address :string
+#  currency                        :string           default("CHF")
+#  delivery_method_settings_url    :string
+#  esr_participant_nr              :string
+#  iban                            :string
+#  invoice_ref_strategy_type       :string
+#  message_footer                  :text
+#  name                            :string
+#  payment_information             :text
+#  created_at                      :datetime         not null
+#  updated_at                      :datetime         not null
 #
 
 class Organisation < ApplicationRecord
@@ -24,6 +25,7 @@ class Organisation < ApplicationRecord
   has_many :tenants, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :markdown_templates, inverse_of: :organisation, dependent: :destroy
   has_one_attached :logo
+  has_one_attached :contract_signature
   has_one_attached :terms_pdf
   has_one_attached :privacy_statement_pdf
 

@@ -1,40 +1,22 @@
 # == Schema Information
 #
-# Table name: bookings
+# Table name: data_digests
 #
-#  id                    :uuid             not null, primary key
-#  approximate_headcount :integer
-#  cancellation_reason   :text
-#  committed_request     :boolean
-#  editable              :boolean          default(TRUE)
-#  email                 :string
-#  import_data           :jsonb
-#  internal_remarks      :text
-#  invoice_address       :text
-#  messages_enabled      :boolean          default(FALSE)
-#  purpose               :string
-#  ref                   :string
-#  remarks               :text
-#  state                 :string           default("initial"), not null
-#  state_data            :json
-#  tenant_organisation   :string
-#  usages_entered        :boolean          default(FALSE)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  home_id               :bigint           not null
-#  organisation_id       :bigint           not null
-#  tenant_id             :integer
+#  id                 :bigint           not null, primary key
+#  data_digest_params :jsonb
+#  filter_params      :jsonb
+#  label              :string
+#  type               :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  organisation_id    :bigint           default(1), not null
 #
 # Indexes
 #
-#  index_bookings_on_home_id          (home_id)
-#  index_bookings_on_organisation_id  (organisation_id)
-#  index_bookings_on_ref              (ref)
-#  index_bookings_on_state            (state)
+#  index_data_digests_on_organisation_id  (organisation_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (home_id => homes.id)
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 

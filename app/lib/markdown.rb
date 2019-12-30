@@ -22,6 +22,7 @@ class Markdown
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/BlockLength
   # rubocop:disable Metrics/AbcSize
   def to_pdf
     lines.map do |line|
@@ -36,6 +37,18 @@ class Markdown
         next { text: line, style: :bold, size: 25, align: :center }
       elsif /^-- /.match?(line)
         next { text: line, style: :bold, size: 18, align: :center }
+      elsif /^#####+ /.match?(line)
+        line.gsub!(/^#+ /, '')
+        next { text: line, style: :bold }
+      elsif /^####+ /.match?(line)
+        line.gsub!(/^#+ /, '')
+        next { text: line, style: :bold, size: 10 }
+      elsif /^###+ /.match?(line)
+        line.gsub!(/^###+ /, '')
+        next { text: line, style: :bold, size: 11 }
+      elsif /^##+ /.match?(line)
+        line.gsub!(/^##+ /, '')
+        next { text: line, style: :bold, size: 13 }
       elsif /^#+ /.match?(line)
         line.gsub!(/^#+ /, '')
         next { text: line, style: :bold, size: 15 }
@@ -54,4 +67,5 @@ class Markdown
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/BlockLength
 end

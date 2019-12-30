@@ -85,8 +85,6 @@ describe 'Booking', :devise, type: :feature do
     visit manage_booking_path(booking)
     click_on :email_contract_and_deposit
     click_on :mark_contract_signed
-    click_on :allowed_transitions
-    click_on :confirmed
   end
 
   def perform_booking
@@ -129,6 +127,6 @@ describe 'Booking', :devise, type: :feature do
   def check_booking
     booking.reload
     expect(booking.messages.count).to be 8
-    expect(booking.booking_transitions.count).to be 8
+    expect(booking.booking_transitions.count).to be 10
   end
 end

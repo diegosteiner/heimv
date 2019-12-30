@@ -21,26 +21,23 @@
 #
 
 module DataDigests
-  class Booking < ::DataDigest
+  class HomeBookingPlan < DataDigests::Booking
     def filter
       @filter ||= ::Booking::Filter.new(filter_params)
     end
 
-    def formats
-      super + [:pdf]
-    end
-
-    def records
-      @records ||= filter.reduce(organisation.bookings.ordered)
+    def column_widths
+      [82, 100, 100, 50, 70, 180, 148]
     end
 
     protected
 
     def generate_tabular_header
       [
-        ::Booking.human_attribute_name(:ref), ::Home.model_name.human,
+        ::Booking.human_attribute_name(:ref), ::Booking.human_attribute_name(:purpose),
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
-        ::Booking.human_attribute_name(:purpose)
+        ::Occupancy.human_attribute_name(:nights),
+        ::Tenant.model_name.human, ::Tenant.human_attribute_name(:phone)
       ]
     end
 
@@ -49,12 +46,17 @@ module DataDigests
     end
 
     def generate_tabular_row(booking)
-      booking.instance_eval do
-        [
-          ref, home.name, I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.ends_at, format: :short),
-          ::Booking.human_enum(:purpose, purpose)
-        ]
-      end
+      [booking.ref, ::Booking.human_enum(:purpose, booking.purpose)] +
+        occupancy_cells(booking.occupancy) + tenant_cells(booking)
+    end
+
+    def occupancy_cells(occupancy)
+      [I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.ends_at, format: :short),
+       occupancy.nights]
+    end
+
+    def tenant_cells(booking)
+      [[booking.tenant_organisation, booking.tenant&.name].join("\n"), booking.tenant&.phone]
     end
   end
 end
