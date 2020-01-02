@@ -84,14 +84,14 @@ class Booking < ApplicationRecord
 
   before_validation :set_organisation
   before_validation :set_occupancy_attributes
-  before_validation :assign_tenant_from_email
+  before_validation :assign_tenant
   before_create :set_ref
   after_create :reload
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
-  accepts_nested_attributes_for :tenant, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tentant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :deadline, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :deadline, update_only: true, reject_if: ->(attributes) { attributes[:at].blank? }
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank
 
   attribute :accept_conditions, default: false
@@ -133,7 +133,11 @@ class Booking < ApplicationRecord
 
   private
 
-  def assign_tenant_from_email
+  def reject_tentant_attributes?(tenant_attributes)
+    tenant_attributes.slice(%i[email first_name last_name street_address zipcode city]).all?(&:blank?)
+  end
+
+  def assign_tenant
     return if email.blank?
 
     self.tenant ||= organisation.tenants.find_or_initialize_by(email: email) do |tenant|

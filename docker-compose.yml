@@ -84,6 +84,7 @@ services:
       RAILS_ENV: test
       SELENIUM_HOST: selenium
       SELENIUM_PORT: 4444
+      NODE_ENV: production
       WEBPACKER_PRECOMPILE: 'true'
       MAIL_FROM: no-reply@heimverwaltung.localhost
     depends_on:
