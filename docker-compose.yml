@@ -87,6 +87,7 @@ services:
       NODE_ENV: production
       WEBPACKER_PRECOMPILE: 'true'
       MAIL_FROM: no-reply@heimverwaltung.localhost
+      YARN_INSTALL: 'true'
     depends_on:
       - db
       - selenium
