@@ -69,16 +69,12 @@ describe 'Booking', :devise, type: :feature do
     find('table tbody tr:nth-child(1) td:nth-child(1) a').click
   end
 
-  # rubocop:disable Metrics/AbcSize
   def create_deposit
     visit manage_booking_path(booking)
     find('.checklist li:nth-child(3) a').click
-    page.driver.browser.navigate.refresh
     click_on Invoices::Deposit.model_name.human
-    page.driver.browser.navigate.refresh
     click_on :commit
   end
-  # rubocop:enable Metrics/AbcSize
 
   def confirm_booking
     visit manage_booking_path(booking)
@@ -97,24 +93,20 @@ describe 'Booking', :devise, type: :feature do
   def set_usages
     visit manage_booking_path(booking)
     find('.checklist li:nth-child(1) a').click
-    page.driver.browser.navigate.refresh
+    # page.driver.browser.navigate.refresh
     find_all('input[type="number"]').each do |usage_field|
       usage_field.fill_in with: 22
     end
     click_on :commit
   end
 
-  # rubocop:disable Metrics/AbcSize
   def create_invoice
     visit manage_booking_path(booking)
     find('.checklist li:nth-child(2) a').click
-    page.driver.browser.navigate.refresh
-    click_on :new
     click_on Invoices::Invoice.model_name.human
-    page.driver.browser.navigate.refresh
+    # page.driver.browser.navigate.refresh
     click_on :commit
   end
-  # rubocop:enable Metrics/AbcSize
 
   def finalize_booking
     visit manage_booking_path(booking)

@@ -80,7 +80,7 @@ services:
       - app_bundle:/usr/local/bundle/
     environment:
       APP_HOST: test
-      PORT: 3000
+      PORT: 3001
       DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test

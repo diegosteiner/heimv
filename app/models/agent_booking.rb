@@ -65,6 +65,6 @@ class AgentBooking < ApplicationRecord
   end
 
   def booking_agent_responsible?
-    !committed_request
+    !committed_request || !valid?
   end
 end

@@ -30,7 +30,6 @@ Vue.prototype.moment = moment;
 Vue.config.productionTip = false
 
 $(document).on('DOMContentLoaded', function () {
-
   const locale = document.querySelector('html').getAttribute('lang')
   const i18n = new VueI18n({
     locale: locale,
@@ -50,6 +49,6 @@ $(document).on('DOMContentLoaded', function () {
   });
 
   Forms.start();
-  Rails.start();
 });
 
+Rails.start();

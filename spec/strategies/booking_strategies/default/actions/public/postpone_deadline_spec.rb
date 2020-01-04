@@ -26,11 +26,7 @@ describe BookingStrategies::Default::Actions::Public::PostponeDeadline do
       let(:occupancy) { build(:occupancy, begins_at: 3.days.from_now, ends_at: 4.days.from_now) }
       let(:booking) { create(:booking, initial_state: initial_state, occupancy: occupancy) }
 
-      it do
-        expect(booking.deadline).not_to receive(:postpone)
-        action
-        expect(booking.errors).to have_key(:deadline)
-      end
+      it { expect { action }.to raise_error(BookingStrategy::Action::NotAllowed) }
     end
   end
 

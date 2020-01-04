@@ -11,6 +11,10 @@ if [ "$YARN_INSTALL" != "" ]; then
   yarn install
 fi
 
+if [ "$WEBPACKER_PRECOMPILE" != "" ]; then
+   bin/rails assets:precompile
+fi
+
 case "$RAILS_ENV" in
   test)
       bundle check || bundle install
