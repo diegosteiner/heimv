@@ -3,8 +3,6 @@ import 'images/logo.svg'
 import $ from 'jquery'
 
 import Rails from 'rails-ujs'
-import Turbolinks from 'turbolinks'
-import TurbolinksAdapter from 'vue-turbolinks';
 
 import Vue from 'vue'
 import AppOccupancyCalendar from '../components/calendar/AppOccupancyCalendar.vue'
@@ -26,12 +24,12 @@ window.$ = $;
 moment.locale(["de", "fr", "it", "en"]);
 Vue.use(VueMoment, moment);
 
-Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue)
 Vue.use(VueI18n)
 Vue.prototype.moment = moment;
+Vue.config.productionTip = false
 
-$(document).on('turbolinks:load', function () {
+$(document).on('DOMContentLoaded', function () {
 
   const locale = document.querySelector('html').getAttribute('lang')
   const i18n = new VueI18n({
@@ -44,22 +42,14 @@ $(document).on('turbolinks:load', function () {
     }
   });
 
+  // TODO: https://github.com/vuejs/vue-cli/issues/2754
   new Vue({
     el: '#app',
     components: { Tarifs, AppOccupancyCalendar, AppCalendarInput, AppTimespanInputs },
     i18n
   });
 
-  // TODO: ignore buttons as well
-  // $('[data-href]').click(function (e) {
-  //   if ($(e.target).parents('a').length == 0) {
-  //     Turbolinks.visit($(this).data('href'))
-  //   }
-  // });
-
   Forms.start();
-
+  Rails.start();
 });
 
-Rails.start();
-Turbolinks.start()

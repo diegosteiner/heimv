@@ -55,7 +55,7 @@ export default {
     isOutOfRange(date) {
       return (
         date.isBefore(this.moment().subtract(1, "day")) ||
-        date.isAfter(this.moment().add(2, "years"))
+        date.isAfter(this.moment().add(18, "months"))
       );
     },
     occupanciesOfDate(date) {

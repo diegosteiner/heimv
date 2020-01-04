@@ -1,6 +1,7 @@
 = form_with(model: [:manage, organisation], local: true) do |f|
   fieldset
     = f.text_field :name
+    div[v-pre]= f.email_field :email
     div[v-pre]= f.text_area :address, rows: 4
     div[v-pre]= f.text_area :contract_representative_address, rows: 4
     / = f.select :booking_strategy_type, [BookingStrategies::Default]

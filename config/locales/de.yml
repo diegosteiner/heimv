@@ -41,7 +41,8 @@ de:
         booking_agent: Vermittler
         booking_agent_code: Vermittlercode
         booking_agent_ref: Ihre Referenz
-        email: Email des Mieters
+        home: Heim
+        tenant_email: Email des Mieters
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
@@ -211,7 +212,14 @@ de:
             state:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
+        occupancy:
+          attributes:
+            ends_at:
+              too_far_in_future: ist zu weit in der Zukunft
     models:
+      agent_booking:
+        one: Vermittlung
+        other: Vermittlungen
       booking:
         one: Buchung
         other: Buchungen
@@ -1744,6 +1752,7 @@ de:
         last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
       new:
         accept_conditions_html: Ich bin mit den <a href="%{privacy_statement_pdf_url}" target="_blank">Datenschutzbestimmungen</a> und den <a href="%{terms_pdf_url}" target="_blank">AGB</a> einverstanden
+        problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         title: Reservation
   reset: Reset
   support:

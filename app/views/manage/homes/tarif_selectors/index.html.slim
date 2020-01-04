@@ -16,7 +16,7 @@ table.table.table-hover.table-card
         td
           = tarif_selector.tarif_tarif_selectors.count
         td = link_to edit_manage_home_tarif_selector_path(@home, tarif_selector) do
-          span.fa.fa-pencil
+          span.fa.fa-edit
         td = link_to manage_home_tarif_selector_path(@home, tarif_selector), data: { confirm: t(:confirm) }, method: :delete do
           span.fa.fa-trash
 

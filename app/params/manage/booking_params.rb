@@ -5,6 +5,7 @@ module Manage
         %i[transition_to messages_enabled internal_remarks cancellation_reason] +
         [usages_attributes: UsageParams.permitted_keys + %i[_destroy id]] +
         [tenant_attributes: TenantParams.permitted_keys] +
+        [agent_booking_attributes: Public::AgentBookingParams.permitted_keys] +
         [deadline_attributes: %i[at postponable_for]]
     end
 

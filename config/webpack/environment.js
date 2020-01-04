@@ -9,6 +9,8 @@ fileLoader.use[0].options.context = join(config.source_path) // optional if you 
 
 environment.plugins.prepend('VueLoaderPlugin', new VueLoaderPlugin())
 environment.loaders.prepend('vue', vue)
-environment.config.resolve.alias = { 'vue$': 'vue/dist/vue.esm.js' };
+environment.config.resolve.alias = { 'vue$': 'vue/dist/vue.esm.js' }
+environment.mode = process.env.NODE_ENV || 'production'
+environment.splitChunks()
 
 module.exports = environment

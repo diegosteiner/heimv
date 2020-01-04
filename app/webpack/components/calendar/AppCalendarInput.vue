@@ -2,11 +2,11 @@
   <div>
     <b-form-group :label="label" :labelClass="required ? 'required' : ''">
       <b-input-group>
-        <b-form-input v-model.lazy="formattedDate"/>
-        <b-btn slot="append" variant="primary" @click="showDateModal = !showDateModal">
+        <b-form-input v-model.lazy="formattedDate" :disabled="disabled" />
+        <b-btn slot="append" variant="primary" @click="toggleModal">
           <i class="fa fa-calendar"></i>
         </b-btn>
-        <input type="hidden" :name="name" :value="isoDate">
+        <input type="hidden" :name="name" :value="isoDate" />
       </b-input-group>
     </b-form-group>
     <b-modal v-model="showDateModal" size="sm" hide-footer hide-header>
@@ -33,6 +33,7 @@ export default {
     value: null,
     label: null,
     name: null,
+    disabled: false,
     required: false
   },
   data() {
@@ -61,6 +62,11 @@ export default {
     }
   },
   methods: {
+    toggleModal() {
+      if(this.disabled) { return }
+
+      this.showDateModal = !this.showDateModal
+    },
     setDate(newDate) {
       this.showDateModal = false
       newDate = this.$moment(newDate)

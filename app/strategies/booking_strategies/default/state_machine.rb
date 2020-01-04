@@ -97,7 +97,12 @@ module BookingStrategies
       after_transition(to: %i[open_request]) do |booking|
         booking.deadline&.clear
         booking.messages.new_from_template(:manage_new_booking_mail, addressed_to: :manager).deliver
-        booking.messages.new_from_template(:open_request_message, addressed_to: :tenant).deliver
+        if booking.agent_booking?
+          # booking.messages.new_from_template(:open_booking_agent_request_message,
+          # addressed_to: :booking_agent).deliver
+        else
+          booking.messages.new_from_template(:open_request_message, addressed_to: :tenant).deliver
+        end
       end
 
       after_transition(to: %i[overdue_request overdue]) do |booking|
@@ -105,7 +110,8 @@ module BookingStrategies
       end
 
       after_transition(to: %i[booking_agent_request]) do |booking|
-        booking.messages.new_from_template(:booking_agent_request_message, addressed_to: :booking_agent).deliver
+        booking.messages.new_from_template(:booking_agent_request_message,
+                                           addressed_to: :booking_agent).deliver
         booking.occupancy.tentative!
       end
 

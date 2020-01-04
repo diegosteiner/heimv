@@ -9,6 +9,7 @@
 #  contract_representative_address :string
 #  currency                        :string           default("CHF")
 #  delivery_method_settings_url    :string
+#  email                           :string
 #  esr_participant_nr              :string
 #  iban                            :string
 #  invoice_ref_strategy_type       :string
@@ -52,6 +53,10 @@ class Organisation < ApplicationRecord
 
   def short_deadline
     3.days
+  end
+
+  def booking_window
+    18.months
   end
 
   def to_s

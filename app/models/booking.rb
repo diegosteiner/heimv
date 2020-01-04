@@ -92,7 +92,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tentant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :deadline, update_only: true, reject_if: ->(attributes) { attributes[:at].blank? }
-  accepts_nested_attributes_for :agent_booking, reject_if: :all_blank
+  accepts_nested_attributes_for :agent_booking, reject_if: :all_blank, update_only: true
 
   attribute :accept_conditions, default: false
   # enum purpose: { camp: :camp, event: :event }
@@ -150,6 +150,7 @@ class Booking < ApplicationRecord
     self.occupancy ||= build_occupancy
     occupancy.home ||= home
     occupancy.booking ||= self
+    occupancy
   end
 
   def set_ref

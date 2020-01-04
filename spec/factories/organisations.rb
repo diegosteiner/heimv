@@ -9,6 +9,7 @@
 #  contract_representative_address :string
 #  currency                        :string           default("CHF")
 #  delivery_method_settings_url    :string
+#  email                           :string
 #  esr_participant_nr              :string
 #  iban                            :string
 #  invoice_ref_strategy_type       :string

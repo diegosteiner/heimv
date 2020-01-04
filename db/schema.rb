@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_29_124528) do
+ActiveRecord::Schema.define(version: 2020_01_04_154342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -47,7 +47,12 @@ ActiveRecord::Schema.define(version: 2019_12_29_124528) do
     t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "home_id"
+    t.bigint "organisation_id"
+    t.string "tenant_email"
     t.index ["booking_id"], name: "index_agent_bookings_on_booking_id"
+    t.index ["home_id"], name: "index_agent_bookings_on_home_id"
+    t.index ["organisation_id"], name: "index_agent_bookings_on_organisation_id"
   end
 
   create_table "booking_agents", force: :cascade do |t|
@@ -260,6 +265,7 @@ ActiveRecord::Schema.define(version: 2019_12_29_124528) do
     t.string "booking_ref_strategy_type"
     t.string "delivery_method_settings_url"
     t.string "contract_representative_address"
+    t.string "email"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -376,6 +382,8 @@ ActiveRecord::Schema.define(version: 2019_12_29_124528) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bookings", "bookings"
+  add_foreign_key "agent_bookings", "homes"
+  add_foreign_key "agent_bookings", "organisations"
   add_foreign_key "booking_agents", "organisations"
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"

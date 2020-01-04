@@ -21,7 +21,9 @@ services:
       # DATABASE_URL: postgresql://postgres@db/heimverwaltung_production
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpack
-      WEBPACKER_PRECOMPILE: 'false'
+      BUNDLE_INSTALL: 'true'
+      YARN_INSTALL: 'true'
+      # WEBPACKER_PRECOMPILE: 'true'
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
       MIGRATE_DATABASE: 'true'
       MEMCACHE_SERVERS: memcached
@@ -99,15 +101,10 @@ services:
 
   selenium:
     image: selenium/standalone-chrome-debug
-    # ports:
-      # - '4444:4444'
-      # - '5900:5900'
     logging:
       driver: none
     networks:
       selenium:
-    #     aliases:
-    #       - app
 
 networks:
   selenium:

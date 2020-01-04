@@ -1,9 +1,10 @@
 = form_with(model: [:manage, @booking], local: true) do |f|
   - if @booking.errors.any?
-    .alert.alert-danger.pt-3
+    .alert.alert-danger.pt-4
       = f.error_summary
 
   fieldset
+    = f.collection_select :home_id, Home.accessible_by(current_ability), :id, :to_s, include_blank: true
     app-timespan-inputs[inline-template]
       div
         = f.fields_for :occupancy, @booking.occupancy do |of|
@@ -34,7 +35,7 @@
         = cf.country_select :country, { selected: "CH", priority_countries: %w[CH] }, class: 'form-control'
 
       = cf.telephone_field :phone
-      = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17
+      = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
 
   hr
   fieldset
@@ -56,8 +57,9 @@
 
   hr
   fieldset
-    = f.text_field :booking_agent_code
-    = f.text_field :booking_agent_ref
+    = f.fields_for :agent_booking do |af|
+      = af.text_field :booking_agent_code
+      = af.text_field :booking_agent_ref
 
   hr
   fieldset

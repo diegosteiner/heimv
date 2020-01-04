@@ -3,11 +3,14 @@
 module Public
   class AgentBookingParams < ApplicationParams
     def self.permitted_keys
-      [:booking_agent_code, :email, :booking_agent_ref, booking_attributes: BookingParams::Create.permitted_keys]
+      [:booking_agent_code, :email, :booking_agent_ref, :home_id, :tenant_email,
+       occupancy_attributes: OccupancyParams.permitted_keys]
     end
 
     sanitize do |params|
-      params.merge(booking_attributes: BookingParams::Create.new(params[:booking_attributes]).permitted)
+      next params if params[:occupancy_attributes].blank?
+
+      params.merge(occupancy_attributes: Public::OccupancyParams.new(params[:occupancy_attributes]).permitted)
     end
   end
 end

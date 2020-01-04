@@ -55,20 +55,18 @@
                 = link_to manage_invoice_path(invoice, format: :pdf), target: '_blank', class: 'btn btn-default'
                   span.fa.fa-print
               = link_to edit_manage_invoice_path(invoice), class: 'btn btn-default' do
-                span.fa.fa-pencil
+                span.fa.fa-edit
               = link_to manage_invoice_path(invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                 span.fa.fa-trash
 
 - if @booking
-  br
-  .btn-group
-    button.btn.btn-primary.dropdown-toggle.dropdown-toggle-split[data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="new"]
+    p.mt-3.mb-1
       = t(:add_record, model_name: Invoice.model_name.human)
-      '
-    .dropdown-menu
-      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit }), class: 'dropdown-item' do
+      | :
+    ul
+      li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit })
         = Invoices::Deposit.model_name.human
-      = link_to new_manage_booking_invoice_path(@booking), class: 'dropdown-item' do
+      li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Invoice })
         = Invoices::Invoice.model_name.human
-      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice }), class: 'dropdown-item' do
+      li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice })
         = Invoices::LateNotice.model_name.human

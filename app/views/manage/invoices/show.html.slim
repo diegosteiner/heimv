@@ -18,7 +18,7 @@
               = number_to_currency(invoice_part.amount)
             .col-1
               = link_to edit_manage_invoice_invoice_part_path(@invoice, invoice_part)
-                span.fa.fa-pencil
+                span.fa.fa-edit
 
         hr
         .row
@@ -28,7 +28,7 @@
 
 
     = link_to edit_manage_invoice_path(@invoice), class: 'btn btn-primary' do
-      span.fa.fa-pencil
+      span.fa.fa-edit
       '
       = t(:edit)
     '

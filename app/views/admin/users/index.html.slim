@@ -16,7 +16,7 @@
             = user.role
           td
             = link_to edit_admin_user_path(user) do
-              span.fa.fa-pencil
+              span.fa.fa-edit
           td
             = link_to admin_user_path(user), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
               span.fa.fa-trash

@@ -74,7 +74,6 @@ describe 'Booking', :devise, type: :feature do
     visit manage_booking_path(booking)
     find('.checklist li:nth-child(3) a').click
     page.driver.browser.navigate.refresh
-    click_on :new
     click_on Invoices::Deposit.model_name.human
     page.driver.browser.navigate.refresh
     click_on :commit

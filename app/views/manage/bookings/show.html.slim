@@ -24,10 +24,12 @@ section.breakout-sm
                 br
                 - if @booking.tenant.birth_date
                   = l(@booking.tenant.birth_date)
-              - elsif @booking.booking_agent
+              - if @booking.agent_booking?
                 strong= BookingAgent.model_name.human(count: :one)
                 br
                 = link_to @booking.booking_agent.name, manage_booking_agent_path(@booking.booking_agent)
+                br
+                = @booking.agent_booking.booking_agent_ref
 
 
             .col
@@ -89,7 +91,7 @@ section.breakout-sm
 
 
             = link_to edit_manage_booking_path(@booking), class: 'btn btn-default'
-              span.fa.fa-pencil
+              span.fa.fa-edit
             '
     .col-md-3
       ul.list-group
