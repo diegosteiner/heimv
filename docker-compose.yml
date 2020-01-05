@@ -90,6 +90,7 @@ services:
       WEBPACKER_PRECOMPILE: 'true'
       MAIL_FROM: no-reply@heimverwaltung.localhost
       YARN_INSTALL: 'true'
+      BUNDLE_INSTALL: 'true'
     depends_on:
       - db
       - selenium
