@@ -73,6 +73,7 @@ describe 'Booking', :devise, type: :feature do
     visit manage_booking_path(booking)
     find('.checklist li:nth-child(3) a').click
     click_on Invoices::Deposit.model_name.human
+    visit new_manage_booking_invoice_path(booking, invoice: { type: Invoices::Deposit })
     click_on :commit
   end
 
