@@ -71,6 +71,10 @@ class Tenant < ApplicationRecord
     "##{id} #{name}"
   end
 
+  def complete?
+    [email, first_name, last_name, street_address, zipcode, city, country, birth_date, phone].all?(&:present?)
+  end
+
   def to_liquid
     Public::TenantSerializer.new(self).serializable_hash.deep_stringify_keys
   end

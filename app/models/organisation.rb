@@ -59,6 +59,10 @@ class Organisation < ApplicationRecord
     18.months
   end
 
+  def contract_location
+    'Zürich'
+  end
+
   def to_s
     name
   end

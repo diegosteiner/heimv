@@ -134,7 +134,7 @@ class Booking < ApplicationRecord
   private
 
   def reject_tentant_attributes?(tenant_attributes)
-    tenant_attributes.slice(%i[email first_name last_name street_address zipcode city]).all?(&:blank?)
+    tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).all?(&:blank?)
   end
 
   def assign_tenant

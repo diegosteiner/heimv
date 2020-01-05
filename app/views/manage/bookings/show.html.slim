@@ -17,19 +17,17 @@ section.breakout-sm
               = link_to @booking.home, manage_home_path(@booking.home)
           .row.mb-3
             .col
-              - if @booking.tenant
+              - if @booking.tenant.present?
                 strong= Booking.human_attribute_name(:tenant)
-                br
                 = tenant_address(@booking.tenant)
-                br
-                - if @booking.tenant.birth_date
-                  = l(@booking.tenant.birth_date)
+                - if @booking.tenant.birth_date.present?
+                  p.m-0= l(@booking.tenant.birth_date)
+
               - if @booking.agent_booking?
-                strong= BookingAgent.model_name.human(count: :one)
-                br
-                = link_to @booking.booking_agent.name, manage_booking_agent_path(@booking.booking_agent)
-                br
-                = @booking.agent_booking.booking_agent_ref
+                p.m-0.mt-3
+                  strong= BookingAgent.model_name.human(count: :one)
+                p.m-0= link_to @booking.booking_agent.name, manage_booking_agent_path(@booking.booking_agent)
+                p= @booking.agent_booking.booking_agent_ref
 
 
             .col
