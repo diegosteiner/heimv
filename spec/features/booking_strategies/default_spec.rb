@@ -21,7 +21,7 @@ describe 'Booking', :devise, type: :feature do
     allow(Organisation).to receive(:current).and_return(organisation)
   end
 
-  it do
+  it 'flows through happy path' do
     login_as(user, scope: :user)
     visit_booking
     accept_booking
