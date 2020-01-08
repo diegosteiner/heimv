@@ -69,7 +69,7 @@ section.breakout-sm
           .row.mb-3
             .col
               strong= Booking.human_attribute_name(:state)
-              p= current_organisation.booking_strategy.t(@booking.current_state, scope: :state, default: {})[:label]
+              p= @booking.state_object.translated
               br
               = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
 
@@ -96,7 +96,7 @@ section.breakout-sm
         - @booking.booking_transitions.order(created_at: :desc).each do |transition|
           li.list-group-item
             span.badge.badge-primary
-              = current_organisation.booking_strategy.t(transition.to_state, scope: :state, default: {})[:label]
+              = current_organisation.booking_strategy.t(transition.to_state, scope: :states, default: {})[:label]
             br
             small
               = time_tag transition.created_at

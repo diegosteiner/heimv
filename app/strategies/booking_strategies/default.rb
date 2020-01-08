@@ -46,5 +46,22 @@ module BookingStrategies
       ]
       @manage_actions ||= Hash[actions.map { |action| [action.action_name, action] }]
     end
+
+    def booking_states
+      states = [
+        States::CancelledRequest, States::DeclinedRequest, States::BookingAgentRequest, States::AwaitingTenant,
+        States::UnconfirmedRequest, States::OpenRequest, States::ProvisionalRequest, States::DefinitiveRequest,
+        States::OverdueRequest, States::Cancelled, States::Confirmed, States::Upcoming, States::Overdue,
+        States::Active, States::Past, States::PaymentDue, States::PaymentOverdue, States::Completed,
+        States::CancelationPending
+      ]
+      @booking_states ||= Hash[states.map { |state_klass| [state_klass.to_sym, state_klass] }]
+    end
+
+    def displayed_booking_states
+      %i[unconfirmed_request open_request booking_agent_request awaiting_tenant overdue_request provisional_request
+         definitive_request confirmed upcoming active past payment_due payment_overdue cancelation_pending
+         completed cancelled cancelled_request declined_request]
+    end
   end
 end

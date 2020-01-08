@@ -36,7 +36,7 @@ class Organisation < ApplicationRecord
   validates :name, :address, :esr_participant_nr, presence: true
 
   def booking_strategy
-    Kernel.const_get(booking_strategy_type).new
+    @booking_strategy ||= Kernel.const_get(booking_strategy_type).new
   end
 
   def booking_ref_strategy

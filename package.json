@@ -10,9 +10,11 @@
         "font-awesome": "^4.7.0",
         "jquery": "^3.2.1",
         "jquery-ujs": "^1.2.2",
+        "json-loader": "^0.5.7",
         "less": "^2.7.3",
         "less-loader": "^4.0.5",
         "moment": "^2.22.2",
+        "moment-locales-webpack-plugin": "^1.1.2",
         "popper.js": "^1.14.3",
         "postcss-cssnext": "^3.1.0",
         "postcss-import": "^12.0.1",
@@ -27,7 +29,8 @@
         "vue-template-compiler": "^2.5.21",
         "vuedraggable": "^2.16.0",
         "webpack": "^4.0.0",
-        "webpack-cli": "^3.1.2"
+        "webpack-cli": "^3.1.2",
+        "yaml-loader": "^0.5.0"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",

@@ -3,7 +3,7 @@ require 'active_support/concern'
 module BookingState
   extend ActiveSupport::Concern
 
-  delegate :current_state, to: :state_machine
+  delegate :current_state, :state_object, to: :state_machine
 
   class_methods do
     def initial_state

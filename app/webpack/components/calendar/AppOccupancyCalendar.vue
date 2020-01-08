@@ -54,17 +54,17 @@ export default {
     },
     isOutOfRange(date) {
       return (
-        date.isBefore(this.moment().subtract(1, "day")) ||
-        date.isAfter(this.moment().add(18, "months"))
+        date.isBefore(this.$moment().subtract(1, "day")) ||
+        date.isAfter(this.$moment().add(18, "months"))
       );
     },
     occupanciesOfDate(date) {
-      const moment = this.moment
-      return this.occupancies.filter(function(occupancy) {
-        const begins_at = moment(occupancy.begins_at, moment.ISO_8601);
-        const ends_at = moment(occupancy.ends_at, moment.ISO_8601);
-        const startOfDay = moment(date).startOf("day");
-        const endOfDay = moment(date).endOf("day");
+      return this.occupancies.filter(occupancy => {
+        const begins_at = this.$moment(occupancy.begins_at, this.$moment().ISO_8601);
+        const ends_at = this.$moment(occupancy.ends_at, this.$moment().ISO_8601);
+        const date_moment = this.$moment(date);
+        const startOfDay = date_moment.startOf("day");
+        const endOfDay = date_moment.endOf("day");
         return (
           startOfDay.isBetween(begins_at, ends_at, "hours", "[)") ||
           endOfDay.isBetween(begins_at, ends_at, "hours", "(]") ||

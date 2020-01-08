@@ -10,13 +10,15 @@ class BookingStrategy
     []
   end
 
+  def booking_states
+    []
+  end
+
   def state_machine
     self.class::StateMachine
   end
 
-  def checklist
-    self.class::Checklist
-  end
+  def displayed_booking_states; end
 
   def state_machine_automator
     self.class::StateMachineAutomator
