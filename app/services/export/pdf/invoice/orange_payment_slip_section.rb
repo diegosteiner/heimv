@@ -10,7 +10,7 @@ module Export
 
         def render
           bounding_box([-50, 235], width: 595, height: 295) do
-            render_background
+            render_background if render_background?
             render_sender_address
             render_counterfoil_address
             render_amount
@@ -20,11 +20,15 @@ module Export
           end
         end
 
-        def render_background
-          return if ENV['PRINT_PAYMENT_SLIP_BACKGROUND'].blank?
+        protected
 
+        def render_background?
+          true
+        end
+
+        def render_background
           img = Rails.root.join('app/webpack/images/esr_orange.png')
-          image img, width: 595
+          image img, width: 595, height: 295, vposition: -4
         end
 
         def render_sender_address

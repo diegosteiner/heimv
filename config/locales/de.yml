@@ -28,6 +28,9 @@ de:
       payment_info:
         one: Zahlungsteil
         other: Zahlungsteile
+      payment_infos/foreign_payment_info:
+        one: Zahlungsteil für Mieter aus dem Ausland
+        other: Zahlungsteile für Mieter aus dem Ausland
       payment_infos/orange_payment_slip:
         one: Oranger Einzahlungsschein
         other: Orange Einzahlungsscheine

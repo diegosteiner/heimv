@@ -32,6 +32,8 @@ module Export
         case payment_info
         when PaymentInfos::OrangePaymentSlip
           OrangePaymentSlipSection.new(payment_info)
+        when PaymentInfos::ForeignPaymentInfo
+          ForeignPaymentInfoSection.new(payment_info)
         when PaymentInfos::TextPaymentInfo
           TextPaymentInfoSection.new(payment_info)
         end

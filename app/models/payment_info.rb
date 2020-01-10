@@ -20,6 +20,17 @@ class PaymentInfo
   def self.human_model_name(*args)
     model_name.human(*args)
   end
+
+  def to_h
+    {
+      ref: ref, amount: amount, formatted_ref: formatted_ref,
+      formatted_amount: format('%<amount>0.2f', amount: amount)
+    }
+  end
+
+  def to_liquid
+    to_h.deep_stringify_keys
+  end
 end
 
 PaymentInfos

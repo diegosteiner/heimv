@@ -62,14 +62,13 @@ export default {
       return this.occupancies.filter(occupancy => {
         const begins_at = this.$moment(occupancy.begins_at, this.$moment().ISO_8601);
         const ends_at = this.$moment(occupancy.ends_at, this.$moment().ISO_8601);
-        const date_moment = this.$moment(date);
-        const startOfDay = date_moment.startOf("day");
-        const endOfDay = date_moment.endOf("day");
+        const start_of_date = this.$moment(date).startOf("day");
+        const end_of_date = this.$moment(date).endOf("day");
         return (
-          startOfDay.isBetween(begins_at, ends_at, "hours", "[)") ||
-          endOfDay.isBetween(begins_at, ends_at, "hours", "(]") ||
-          (begins_at.isBetween(startOfDay, endOfDay, "hours", "(]") &&
-          ends_at.isBetween(startOfDay, endOfDay, "hours", "(]"))
+          start_of_date.isBetween(begins_at, ends_at, "hours", "[)") ||
+          end_of_date.isBetween(begins_at, ends_at, "hours", "(]") ||
+          (begins_at.isBetween(start_of_date, end_of_date, "hours", "(]") &&
+          ends_at.isBetween(start_of_date, end_of_date, "hours", "(]"))
         );
       });
     }

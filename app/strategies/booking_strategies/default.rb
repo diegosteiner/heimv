@@ -8,9 +8,9 @@ module BookingStrategies
       definitive_request_message
       manage_new_booking_mail
       upcoming_message
-      deposit_invoice_text
-      invoice_invoice_text
-      late_notice_invoice_text
+      invoices_deposit_text
+      invoices_invoice_text
+      invoices_late_notice_text
       payment_due_message
       payment_overdue_message
       contract_text
@@ -24,6 +24,7 @@ module BookingStrategies
       awaiting_tenant_message
       unconfirmed_request_message
       booking_agent_request_accepted_message deposit_paid_message invoice_paid_message
+      foreign_payment_info_text
     ].freeze
 
     def public_actions
