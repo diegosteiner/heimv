@@ -1,5 +1,9 @@
 module PaymentInfos
-  class ForeignPaymentInfo < ::PaymentInfo
-    delegate :esr_participant_nr, to: :organisation
+  class ForeignPaymentInfo < TextPaymentInfo
+    protected
+
+    def markdown_template
+      @markdown_template ||= MarkdownTemplate[:foreign_payment_info_text]
+    end
   end
 end

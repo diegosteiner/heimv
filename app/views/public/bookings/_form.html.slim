@@ -1,4 +1,4 @@
-= form_with(model: [:public, @booking], local: true, disabled: !@booking.editable) do |f|
+= form_with(model: [:public, @booking], local: true, disabled: !@booking.editable, html: { novalidate: true }) do |f|
   .card.[class=('bg-light' unless @booking.editable)]
     - if @booking.occupancy.begins_at < ENV.fetch('LAST_MINUTE_WARNING_DAYS', 10).to_i.days.from_now
       .card-header.alert-warning

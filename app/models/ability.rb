@@ -41,6 +41,7 @@ module Ability
       can :manage, Tenant, organisation: organisation
       can :manage, Booking, organisation: organisation
       can :manage, Occupancy, home: { organisation: organisation }
+      can :manage, MeterReadingPeriod, home: { organisation: organisation }
       can :manage, BookingAgent, organisation: organisation
       can :manage, Invoice, booking: { organisation: organisation }
       can :manage, Contract, booking: { organisation: organisation }

@@ -11,10 +11,6 @@ module Export
         def font_size
           8
         end
-
-        def markdown_template
-          @markdown_template ||= MarkdownTemplate[:foreign_payment_info_text]
-        end
       end
     end
   end

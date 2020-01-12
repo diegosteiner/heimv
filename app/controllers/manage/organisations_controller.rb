@@ -29,9 +29,9 @@ module Manage
 
     def organisation_params
       params.require(:organisation).permit(:name, :address, :booking_strategy_type, :invoice_ref_strategy_type,
-                                           :payment_information, :esr_participant_nr, :message_footer, :logo,
+                                           :esr_participant_nr, :message_footer, :logo,
                                            :privacy_statement_pdf, :terms_pdf, :iban, :deliver_method_settings_url,
-                                           :contract_representative_address, :contract_signature, :email)
+                                           :representative_address, :contract_signature, :email)
     end
   end
 end

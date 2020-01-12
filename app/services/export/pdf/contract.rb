@@ -12,7 +12,7 @@ module Export
       def sections
         [
           Base::LogoSection.new(@organisation.logo),
-          Base::SenderAddressSection.new(@organisation.contract_representative_address || @organisation.address),
+          Base::SenderAddressSection.new(@booking),
           Base::RecipientAddressSection.new(@booking),
           Base::MarkdownSection.new(Markdown.new(@contract.text)),
           TarifSection.new(@booking.used_tarifs), SignatureSection.new(@contract)

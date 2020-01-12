@@ -146,7 +146,6 @@ de:
         logo: Logo
         message_footer: Fusszeile für Nachrichten
         name: Name
-        payment_information: Zahlungsinformationen
         privacy_statement_pdf: Datenschutzerklärung
         terms_pdf: AGB
       payment:

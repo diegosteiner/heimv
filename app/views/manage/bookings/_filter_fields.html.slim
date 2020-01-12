@@ -15,7 +15,7 @@
     .col
         = f.collection_select:homes, Home.all, :id, :name, { include_blank: true }, multiple: true, size: 10
     .col
-        - states = current_organisation.booking_strategy.booking_states.values.map { |state| [state.t(scope: :label), state.to_sym] }
+        - states = current_organisation.booking_strategy.booking_states.values.map { |state| [state.t, state.to_sym] }
         = f.select :booking_states, states, { include_blank: true }, multiple: true, size: 10
         = f.check_box :only_inconcluded
         br

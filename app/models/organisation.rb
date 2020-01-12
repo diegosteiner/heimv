@@ -2,22 +2,21 @@
 #
 # Table name: organisations
 #
-#  id                              :bigint           not null, primary key
-#  address                         :text
-#  booking_ref_strategy_type       :string
-#  booking_strategy_type           :string
-#  contract_representative_address :string
-#  currency                        :string           default("CHF")
-#  delivery_method_settings_url    :string
-#  email                           :string
-#  esr_participant_nr              :string
-#  iban                            :string
-#  invoice_ref_strategy_type       :string
-#  message_footer                  :text
-#  name                            :string
-#  payment_information             :text
-#  created_at                      :datetime         not null
-#  updated_at                      :datetime         not null
+#  id                           :bigint           not null, primary key
+#  address                      :text
+#  booking_ref_strategy_type    :string
+#  booking_strategy_type        :string
+#  currency                     :string           default("CHF")
+#  delivery_method_settings_url :string
+#  email                        :string
+#  esr_participant_nr           :string
+#  iban                         :string
+#  invoice_ref_strategy_type    :string
+#  message_footer               :text
+#  name                         :string
+#  representative_address       :string
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
 #
 
 class Organisation < ApplicationRecord

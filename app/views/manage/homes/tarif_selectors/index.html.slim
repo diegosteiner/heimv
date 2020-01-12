@@ -12,7 +12,7 @@ table.table.table-hover.table-card
     - @tarif_selectors.each do |tarif_selector|
       tr[data-href=manage_home_tarif_selector_path(@home, tarif_selector)]
         td
-          = TarifSelector.human_enum(:types, tarif_selector.type)
+          = tarif_selector.class.model_name.human
         td
           = tarif_selector.tarif_tarif_selectors.count
         td = link_to edit_manage_home_tarif_selector_path(@home, tarif_selector) do

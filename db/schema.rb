@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_04_154342) do
+ActiveRecord::Schema.define(version: 2020_01_12_171809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -255,7 +255,6 @@ ActiveRecord::Schema.define(version: 2020_01_04_154342) do
     t.text "address"
     t.string "booking_strategy_type"
     t.string "invoice_ref_strategy_type"
-    t.text "payment_information"
     t.string "esr_participant_nr"
     t.text "message_footer"
     t.string "currency", default: "CHF"
@@ -264,7 +263,7 @@ ActiveRecord::Schema.define(version: 2020_01_04_154342) do
     t.string "iban"
     t.string "booking_ref_strategy_type"
     t.string "delivery_method_settings_url"
-    t.string "contract_representative_address"
+    t.string "representative_address"
     t.string "email"
   end
 

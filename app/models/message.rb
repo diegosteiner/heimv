@@ -61,6 +61,10 @@ class Message < ApplicationRecord
     @action_mailer_mail ||= BookingMailer.booking_message(self)
   end
 
+  def subject
+    "#{super} [#{booking.ref}]"
+  end
+
   def self.new_from_template(template, attributes = {})
     new_from_template!(template, attributes)
   rescue ActiveRecord::RecordNotFound
@@ -83,6 +87,6 @@ class Message < ApplicationRecord
     return [booking.email].compact if addressed_to_tenant?
     return [booking.booking_agent&.email].compact if addressed_to_booking_agent?
 
-    [ENV.fetch('ADMIN_EMAIL', 'info@heimverwalung.example.com')]
+    [booking.organisation.email]
   end
 end
