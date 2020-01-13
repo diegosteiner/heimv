@@ -22,6 +22,7 @@ gem 'devise-i18n'
 gem 'exception_notification'
 gem 'factory_bot_rails', require: false
 gem 'faker'
+gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
 gem 'pg'

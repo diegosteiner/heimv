@@ -9,6 +9,12 @@ img {
 
 body {
     padding-top: 56px;
+
+    &.development {
+        #navbar-main {
+            background-color: #7bd175;
+        }
+    }
 }
 
 .breadcrumb {
