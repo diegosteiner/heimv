@@ -138,7 +138,6 @@ en:
         nights: Nächte
       organisation:
         address: Adresse
-        representative_address: Adresse der Vertretung für Verträge
         contract_signature: Vertragsunterschrift
         delivery_method_settings_url: Email-Konfiguration
         esr_participant_nr: Kontonummer
@@ -147,6 +146,7 @@ en:
         message_footer: Fusszeile für Nachrichten
         name: Name
         privacy_statement_pdf: Datenschutzerklärung
+        representative_address: Adresse der Vertretung für Verträge
         terms_pdf: AGB
       payment:
         amount: Betrag
@@ -485,7 +485,7 @@ en:
     - Fri
     - Sat
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mar
@@ -511,7 +511,7 @@ en:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - January
     - February
     - March
