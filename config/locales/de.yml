@@ -138,7 +138,7 @@ de:
         nights: Nächte
       organisation:
         address: Adresse
-        contract_representative_address: Adresse der Vertretung für Verträge
+        representative_address: Adresse der Vertretung für Verträge
         contract_signature: Vertragsunterschrift
         delivery_method_settings_url: Email-Konfiguration
         esr_participant_nr: ESR Teilnehmernummer
@@ -485,7 +485,7 @@ de:
     - Fr
     - Sa
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mär
@@ -511,7 +511,7 @@ de:
       long: "%e. %B %Y"
       short: "%e. %b"
     month_names:
-    - 
+    -
     - Januar
     - Februar
     - März

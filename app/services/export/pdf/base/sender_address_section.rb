@@ -22,7 +22,7 @@ module Export
             text 'Vermieter', size: 13, style: :bold
             move_down 5
             text 'vertreten durch:', size: 8 if representative_address?
-            text @sender_address
+            text address
           end
         end
       end
