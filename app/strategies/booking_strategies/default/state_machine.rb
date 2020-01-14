@@ -105,8 +105,8 @@ module BookingStrategies
         end
       end
 
-      after_transition(to: %i[overdue_request overdue]) do |booking|
-        booking.messages.new_from_template("#{booking.current_state}_message", addressed_to: :tenant).deliver
+      after_transition(to: %i[overdue_request overdue]) do |booking, transition|
+        booking.messages.new_from_template("#{transition.to_state}_message", addressed_to: :tenant)&.deliver
       end
 
       after_transition(to: %i[booking_agent_request]) do |booking|
@@ -115,8 +115,8 @@ module BookingStrategies
         booking.occupancy.tentative!
       end
 
-      after_transition(to: %i[provisional_request definitive_request]) do |booking|
-        booking.messages.new_from_template("#{booking.current_state}_message", addressed_to: :tenant).deliver
+      after_transition(to: %i[provisional_request definitive_request]) do |booking, transition|
+        booking.messages.new_from_template("#{transition.to_state}_message", addressed_to: :tenant).deliver
         booking.occupancy.tentative!
       end
 

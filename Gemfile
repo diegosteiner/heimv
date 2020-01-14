@@ -38,6 +38,7 @@ gem 'slim-rails'
 gem 'statesman'
 gem 'timecop'
 gem 'title'
+gem 'ttfunk', '~> 1.5.1' # See https://github.com/prawnpdf/prawn/issues/1142
 gem 'webpacker', '>= 4.0.x'
 gem 'wicked_pdf'
 gem 'yaml_db'
