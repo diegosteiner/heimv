@@ -1,7 +1,7 @@
 <template>
   <form target="_top" :action="reservationUrl" method="GET" class="calendar-form">
     <input type="hidden" name="booking[home_id]" :value="homeId" />
-    <calendar :display-months="displayMonths" v-if="!loading" v-cloak>
+    <calendar :display-months="displayMonthsScreen" v-if="!loading" v-cloak>
       <template slot-scope="date">
         <app-calendar-day
           :date="date"
@@ -33,6 +33,12 @@ export default {
       occupancies: [],
       loading: true
     };
+  },
+  computed: {
+    displayMonthsScreen() {
+      return Math.min(this.displayMonths,
+       Math.max(Math.floor((window.innerWidth - 100) / 260) * Math.floor((window.innerHeight - 250) / 350), 1))
+    }
   },
   mounted() {
     this.loadOccupanciesFromRemote();

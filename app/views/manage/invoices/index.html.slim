@@ -54,10 +54,11 @@
               - if invoice.pdf.attached?
                 = link_to manage_invoice_path(invoice, format: :pdf), target: '_blank', class: 'btn btn-default'
                   span.fa.fa-print
-              = link_to edit_manage_invoice_path(invoice), class: 'btn btn-default' do
-                span.fa.fa-edit
-              = link_to manage_invoice_path(invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                span.fa.fa-trash
+              - unless invoice.deleted?
+                = link_to edit_manage_invoice_path(invoice), class: 'btn btn-default' do
+                  span.fa.fa-edit
+                = link_to manage_invoice_path(invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                  span.fa.fa-trash
 
 - if @booking
     p.mt-5.mb-1

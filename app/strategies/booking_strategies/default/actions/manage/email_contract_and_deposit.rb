@@ -3,7 +3,7 @@ module BookingStrategies
     module Actions
       module Manage
         class EmailContractAndDeposit < BookingStrategy::Action
-          def call!(contract = booking.contract, deposits = booking.invoices.deposit)
+          def call!(contract = booking.contract, deposits = booking.invoices.deposit.unsent)
             message = booking.messages.new_from_template(:confirmed_message, addressed_to: :tenant)
             return false unless message
 
