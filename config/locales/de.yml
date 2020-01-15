@@ -381,7 +381,7 @@ de:
             deposit_paid: Anzahlung beglichen
           help: Help
           label: Reservation (Vertrag ausstehend)
-          relevant_time_label: Eingereicht
+          relevant_time_label: Frist
         declined_request:
           help: Help
           label: Mietanfrage (abgelehnt)

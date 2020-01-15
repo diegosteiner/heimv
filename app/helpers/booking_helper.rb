@@ -7,12 +7,31 @@ module BookingHelper
     Home.all.map { |home| [home.to_s, home.to_param] }
   end
 
-  def state_translation; end
-
   def transition_translation(to:, from: nil)
     current_organisation.booking_strategy.t([from, to].join('-->'), scope: :transition, default: nil) ||
       current_organisation.booking_strategy.t("-->#{to}", scope: :transition, default: nil) ||
       {}
+  end
+
+  def selector_votes(usage)
+    return unless usage.tarif_selector_votes.any?
+
+    tag.ul(class: 'list-unstyled m-0') do
+      safe_join(usage.tarif_selector_votes.map do |selector, vote|
+        tag.li do
+          selector_vote(selector, vote)
+        end
+      end)
+    end
+  end
+
+  def selector_vote(selector, vote)
+    (vote ? tag.span(class: 'fa fa-check') : tag.span(class: 'fa fa-times')) +
+      link_to(edit_manage_home_tarif_selector_path(selector.home, selector.tarif_selector), class: 'ml-2') do
+        selector.model_name.human
+      end +
+      ': ' +
+      selector.distinction
   end
 
   def tenant_address(tenant, phone: true, email: true, css_class: 'mb-0')

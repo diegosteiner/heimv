@@ -21,8 +21,6 @@ module BookingState
     attr_accessor :transition_to, :skip_automatic_transition, :initial_state
     has_many :booking_transitions, dependent: :destroy, autosave: false
 
-    scope :inconcluded, -> { where.not(state: %i[cancelled completed]) }
-
     after_save :state_transition
     after_touch :state_transition
 
@@ -45,12 +43,13 @@ module BookingState
   end
 
   def state_transition
-    if state_machine.current_state.to_s != transition_to.to_s
-      state_machine.transition_to(transition_to) && self.transition_to = nil
-    end
+    return unless valid?
+
+    state_machine.transition_to(transition_to) && self.transition_to = nil if current_state.to_s != transition_to.to_s
     return if skip_automatic_transition
 
-    state_machine_automator.run
-    errors.clear
+    state_machine_automator.run.tap do
+      errors.clear
+    end
   end
 end

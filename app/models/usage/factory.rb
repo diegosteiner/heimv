@@ -15,11 +15,10 @@ class Usage
 
     def prefill(usages); end
 
-    def select(usages = @booking.usages, tarif_selectors = @booking.home.tarif_selectors)
+    def select(usages = @booking.usages)
       prefiller = TarifPrefiller.new
       usages.each do |usage|
-        votes = tarif_selectors.map { |tarif_selector| tarif_selector.vote_for(usage) }.flatten
-        usage.apply ||= votes.any? && votes.all?
+        usage.apply ||= usage.adopted_by_vote?
         usage.used_units ||= prefiller.alleged_units(usage)
       end
     end

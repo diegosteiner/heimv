@@ -28,10 +28,6 @@ class TarifSelector < ApplicationRecord
 
   accepts_nested_attributes_for :tarif_tarif_selectors, reject_if: :all_blank, allow_destroy: true
 
-  def vote_for(usage)
-    tarif_tarif_selectors.includes(tarif: :booking_copies).map { |tuc| tuc.vote_for(usage) }.compact
-  end
-
   def valid_tarifs
     home.tarifs
   end

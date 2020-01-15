@@ -25,6 +25,7 @@ class TarifTarifSelector < ApplicationRecord
   belongs_to :tarif, inverse_of: :tarif_tarif_selectors
   belongs_to :tarif_selector, inverse_of: :tarif_tarif_selectors
   has_many :usages, through: :tarif
+  has_one :home, through: :tarif
 
   validate do
     next if tarif_selector.valid_tarifs.map(&:id).include?(tarif_id)
@@ -42,5 +43,9 @@ class TarifTarifSelector < ApplicationRecord
     return unless tarif == usage.tarif
 
     tarif_selector.apply?(usage, distinction) || (veto ? false : nil)
+  end
+
+  def to_s
+    [tarif_selector.model_name.human, distinction].compact.join(': ')
   end
 end

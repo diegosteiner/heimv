@@ -13,7 +13,9 @@ module BookingStrategies
           :confirmed
         end
 
-        def relevant_time; end
+        def relevant_time
+          booking.deadline&.at
+        end
       end
     end
   end

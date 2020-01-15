@@ -3,10 +3,9 @@ module Manage
     load_and_authorize_resource :booking
 
     def index
-      @filter = Booking::Filter.new(booking_filter_params)
-      @bookings = @filter.reduce(@bookings.with_default_includes
-                                          .joins(:occupancy)
-                                          .order(Occupancy.arel_table[:begins_at]))
+      @filter = Booking::Filter.new(default_booking_filter_params.merge(booking_filter_params))
+      @bookings = @filter.reduce(@bookings.with_default_includes.ordered)
+      @grouped_bookings = group_bookings(@bookings)
       respond_with :manage, @bookings
     end
 
@@ -58,6 +57,16 @@ module Manage
 
     def booking_filter_params
       Manage::BookingFilterParams.new(params[:filter])
+    end
+
+    def default_booking_filter_params
+      { 'booking_states' => current_organisation.booking_strategy.displayed_booking_states }
+    end
+
+    def group_bookings(bookings)
+      bookings.group_by(&:state).sort_by do |state, _bookings|
+        current_organisation.booking_strategy.state_machine.states.index(state)
+      end
     end
   end
 end

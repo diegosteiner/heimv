@@ -61,8 +61,7 @@ module BookingStrategies
 
     def displayed_booking_states
       %i[unconfirmed_request open_request booking_agent_request awaiting_tenant overdue_request provisional_request
-         definitive_request confirmed upcoming active past payment_due payment_overdue cancelation_pending
-         completed cancelled cancelled_request declined_request]
+         definitive_request confirmed upcoming active past payment_due payment_overdue cancelation_pending]
     end
   end
 end
