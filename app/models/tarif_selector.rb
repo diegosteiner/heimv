@@ -25,12 +25,6 @@ class TarifSelector < ApplicationRecord
   belongs_to :home, inverse_of: :tarif_selectors
   has_many :tarif_tarif_selectors, dependent: :destroy, inverse_of: :tarif_selector
   has_many :tarifs, through: :tarif_tarif_selectors
-
-  accepts_nested_attributes_for :tarif_tarif_selectors, reject_if: :all_blank, allow_destroy: true
-
-  def valid_tarifs
-    home.tarifs
-  end
 end
 
 TarifSelectors

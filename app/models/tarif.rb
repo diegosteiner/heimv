@@ -40,7 +40,6 @@ class Tarif < ApplicationRecord
                             foreign_key: :booking_copy_template_id
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
   has_many :tarif_tarif_selectors, dependent: :destroy, inverse_of: :tarif
-  has_many :tarif_selectors, through: :tarif_tarif_selectors
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
 
   acts_as_list scope: [:home_id]
@@ -53,6 +52,8 @@ class Tarif < ApplicationRecord
   enum prefill_usage_method: Hash[TarifPrefiller::PREFILL_METHODS.keys.map { |method| [method, method] }]
 
   validates :type, presence: true
+
+  accepts_nested_attributes_for :tarif_tarif_selectors, reject_if: :all_blank, allow_destroy: true
 
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')

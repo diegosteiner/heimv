@@ -58,7 +58,11 @@ class Message < ApplicationRecord
   end
 
   def action_mailer_mail
-    @action_mailer_mail ||= BookingMailer.booking_message(self)
+    @action_mailer_mail ||= OrganisationMailer.with(organisation: booking.organisation).booking_message(self)
+  end
+
+  def attachments_for_action_mailer
+    Hash[attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }]
   end
 
   def subject

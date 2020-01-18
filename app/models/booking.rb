@@ -81,6 +81,7 @@ class Booking < ApplicationRecord
   self.implicit_order_column = :created_at
   scope :ordered, -> { joins(:occupancy).order(Occupancy.arel_table[:begins_at]) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
+  scope :inconcluded, -> { where(concluded: false) }
 
   before_validation :set_organisation
   before_validation :set_occupancy_attributes

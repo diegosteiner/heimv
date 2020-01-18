@@ -2,13 +2,14 @@
 #
 # Table name: tarif_tarif_selectors
 #
-#  id                :bigint           not null, primary key
-#  distinction       :string
-#  veto              :boolean          default(TRUE)
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  tarif_id          :bigint
-#  tarif_selector_id :bigint
+#  id                  :bigint           not null, primary key
+#  distinction         :string
+#  tarif_selector_type :string
+#  veto                :boolean          default(TRUE)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  tarif_id            :bigint
+#  tarif_selector_id   :bigint
 #
 # Indexes
 #
@@ -28,7 +29,7 @@ class TarifTarifSelector < ApplicationRecord
   has_one :home, through: :tarif
 
   validate do
-    next if tarif_selector.valid_tarifs.map(&:id).include?(tarif_id)
+    next if valid_tarifs.map(&:id).include?(tarif_id)
 
     errors.add(:tarif_id, :invalid)
   end
@@ -37,6 +38,10 @@ class TarifTarifSelector < ApplicationRecord
     next if distinction.blank? || tarif_selector.class::DISTINCTION_REGEX.match(distinction)
 
     errors.add(:distinction, :invalid)
+  end
+
+  def valid_tarifs
+    home.tarifs
   end
 
   def vote_for(usage)

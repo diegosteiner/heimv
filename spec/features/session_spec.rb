@@ -13,6 +13,8 @@ describe 'Session', :devise, type: :feature do
     it 'user can sign in with valid credentials' do
       signin(user.email, user.password)
       expect(page).to have_content I18n.t 'devise.sessions.signed_in'
+      click_link user.email
+      click_link I18n.t 'nav.sign_out'
     end
 
     it 'user cannot sign in with wrong email' do

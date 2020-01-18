@@ -3,33 +3,39 @@ class DeliveryMethodSettings
 
   def initialize(settings_url)
     @settings_url = settings_url
-
-    return if settings_url.blank?
-
-    @delivery_method, delivery_method_settings_url = settings_url&.split('://')
-    @delivery_method_settings = extract_delivery_method_settings(delivery_method_settings_url)
   end
 
-  def to_h
-    @delivery_method_settings || {}
+  def valid?
+    ActionMailer::Base.delivery_methods.keys.include?(delivery_method) &&
+      delivery_method_settings.keys.include?(:from) || @settings_url.blank?
   end
 
-  def delivery_method
-    @delivery_method&.to_sym
-  end
-
-  def extract_delivery_method_settings(url_without_schema)
-    uri = URI("//#{url_without_schema}")
+  def delivery_method_settings
+    uri = URI(@settings_url)
     {
       address: uri.host,
       user_name: uri.user,
       password: uri.password,
-      port: uri.port
-    }.merge(Hash[URI.decode_www_form(uri.query)]).compact.symbolize_keys
-    # rescue
+      port: uri.port,
+      method: uri.scheme&.to_sym
+    }.merge(Hash[URI.decode_www_form(uri.query || '')]).compact.symbolize_keys
+  rescue ArgumentError
+    {}
+  end
+  alias to_h delivery_method_settings
+
+  def delivery_method
+    @delivery_method ||= delivery_method_settings[:method]
   end
 
-  def method
+  def settings_method_name
     delivery_method.to_s + '_settings='
   end
+end
+
+module URI
+  class SMTP < Generic
+    DEFAULT_PORT = 25
+  end
+  @@schemes['SMTP'] = SMTP
 end

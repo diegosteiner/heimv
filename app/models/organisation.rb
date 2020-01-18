@@ -33,6 +33,9 @@ class Organisation < ApplicationRecord
   validates :booking_ref_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
   validates :name, :address, :esr_participant_nr, presence: true
+  validate do
+    errors.add(:delivery_method_settings_url, :invalid) unless delivery_method_settings.valid?
+  end
 
   def booking_strategy
     @booking_strategy ||= Kernel.const_get(booking_strategy_type).new
@@ -78,6 +81,6 @@ class Organisation < ApplicationRecord
   end
 
   def delivery_method_settings
-    @delivery_method_settings ||= DeliveryMethodSettings.new(delivery_method_settings_url || ENV['MAILER_URL'])
+    @delivery_method_settings ||= DeliveryMethodSettings.new(delivery_method_settings_url)
   end
 end

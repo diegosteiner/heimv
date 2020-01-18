@@ -26,7 +26,7 @@ nav#navbar-main.navbar.fixed-top.navbar-light.navbar-expand-lg
         li.nav-item
           = link_to DataDigest.model_name.human(count: :other), manage_data_digests_path, class: 'nav-link'
         li.nav-item.dropdown
-          a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
+          a#user-menu.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
             i.fa.fa-gear
             =<> t(:'nav.settings')
           .dropdown-menu aria-labelledby="navbarDropdownMenuLink"

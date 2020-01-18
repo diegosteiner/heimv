@@ -2,13 +2,14 @@
 #
 # Table name: tarif_tarif_selectors
 #
-#  id                :bigint           not null, primary key
-#  distinction       :string
-#  veto              :boolean          default(TRUE)
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  tarif_id          :bigint
-#  tarif_selector_id :bigint
+#  id                  :bigint           not null, primary key
+#  distinction         :string
+#  tarif_selector_type :string
+#  veto                :boolean          default(TRUE)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  tarif_id            :bigint
+#  tarif_selector_id   :bigint
 #
 # Indexes
 #

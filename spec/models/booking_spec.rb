@@ -46,8 +46,6 @@ describe Booking, type: :model do
   let(:home) { create(:home) }
   let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
 
-  before { allow(BookingMailer).to receive_message_chain(:new_booking, :deliver_now) }
-
   before do
     message_from_template = double('Message')
     allow(message_from_template).to receive(:deliver).and_return(true)

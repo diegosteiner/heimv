@@ -24,8 +24,6 @@ describe BookingStrategies::Default::StateMachine do
     end
 
     describe 'unconfirmed_request-->' do
-      before { allow(BookingMailer).to receive_message_chain(:new_booking, :deliver_now) }
-
       it { is_expected.to transition.from(:unconfirmed_request).to(:open_request) }
       it { is_expected.to transition.from(:unconfirmed_request).to(:cancelled_request) }
       it { is_expected.to transition.from(:unconfirmed_request).to(:declined_request) }
