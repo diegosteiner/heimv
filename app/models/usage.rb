@@ -29,7 +29,7 @@ class Usage < ApplicationRecord
   belongs_to :tarif, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages
   has_many :invoice_parts, dependent: :nullify
-  has_many :tarif_tarif_selectors, through: :tarif
+  has_many :tarif_selectors, through: :tarif
 
   attribute :apply, default: true
   delegate(:position, to: :tarif)
@@ -58,7 +58,7 @@ class Usage < ApplicationRecord
   end
 
   def tarif_selector_votes
-    @tarif_selector_votes ||= Hash[tarif_tarif_selectors.map do |selector|
+    @tarif_selector_votes ||= Hash[tarif_selectors.map do |selector|
       [selector, selector.vote_for(self)]
     end]
   end

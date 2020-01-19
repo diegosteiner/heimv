@@ -14,14 +14,14 @@
     = f.check_box :transient
     br
 
-    label= TarifTarifSelector.model_name.human(count: :other)
-    = f.fields_for :tarif_tarif_selectors, @tarif.tarif_tarif_selectors do |tuc|
+    label= TarifSelector.model_name.human(count: :other)
+    = f.fields_for :tarif_selectors, @tarif.tarif_selectors do |tuc|
       = tuc.hidden_field :id
       .row
         .col-1.pt-2
           = tuc.check_box :_destroy, { checked: !tuc.object.new_record? || @tarif.new_record?, skip_label: true }, '0', '1'
         .col-4
-          = tuc.select :tarif_selector_type, [], skip_label: true
+          = tuc.collection_select :type, TarifSelectors::TYPES.values, :to_s, :human_model_name , skip_label: true
         .col-3
           = tuc.text_field :distinction, skip_label: true
         .col-2.pt-2

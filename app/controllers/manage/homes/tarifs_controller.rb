@@ -14,7 +14,7 @@ module Manage
       end
 
       def edit
-        @tarif.tarif_tarif_selectors.build
+        @tarif.tarif_selectors.build
         respond_with :manage, @tarif
       end
 

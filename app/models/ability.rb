@@ -37,7 +37,6 @@ module Ability
       can :manage, Tarif, home: { organisation: organisation }
       can :manage, Tarif, booking: { organisation: organisation }
       can :manage, TarifSelector, home: { organisation: organisation }
-      can :manage, TarifTarifSelector, home: { organisation: organisation }
       can :manage, Tenant, organisation: organisation
       can :manage, Booking, organisation: organisation
       can :manage, Occupancy, home: { organisation: organisation }

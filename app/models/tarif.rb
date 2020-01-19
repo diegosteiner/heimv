@@ -39,7 +39,7 @@ class Tarif < ApplicationRecord
   has_many :booking_copies, class_name: 'Tarif', dependent: :nullify, inverse_of: :booking_copy_template,
                             foreign_key: :booking_copy_template_id
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
-  has_many :tarif_tarif_selectors, dependent: :destroy, inverse_of: :tarif
+  has_many :tarif_selectors, dependent: :destroy, inverse_of: :tarif
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
 
   acts_as_list scope: [:home_id]
@@ -53,7 +53,7 @@ class Tarif < ApplicationRecord
 
   validates :type, presence: true
 
-  accepts_nested_attributes_for :tarif_tarif_selectors, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :tarif_selectors, reject_if: :all_blank, allow_destroy: true
 
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')

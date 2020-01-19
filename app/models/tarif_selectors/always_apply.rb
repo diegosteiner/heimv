@@ -21,7 +21,7 @@
 
 module TarifSelectors
   class AlwaysApply < TarifSelector
-    def apply?(_usage, _distinction)
+    def apply?(_usage)
       true
     end
   end

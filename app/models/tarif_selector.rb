@@ -2,29 +2,60 @@
 #
 # Table name: tarif_selectors
 #
-#  id         :bigint           not null, primary key
-#  position   :integer
-#  type       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  home_id    :bigint
+#  id                  :bigint           not null, primary key
+#  distinction         :string
+#  tarif_selector_type :string
+#  veto                :boolean          default(TRUE)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  tarif_id            :bigint
+#  tarif_selector_id   :bigint
 #
 # Indexes
 #
-#  index_tarif_selectors_on_home_id  (home_id)
-#  index_tarif_selectors_on_type     (type)
+#  index_tarif_selectors_on_tarif_id           (tarif_id)
+#  index_tarif_selectors_on_tarif_selector_id  (tarif_selector_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (home_id => homes.id)
+#  fk_rails_...  (tarif_id => tarifs.id)
+#  fk_rails_...  (tarif_selector_id => tarif_selectors.id)
 #
 
 class TarifSelector < ApplicationRecord
   DISTINCTION_REGEX = /\A\w*\z/.freeze
 
-  belongs_to :home, inverse_of: :tarif_selectors
-  has_many :tarif_tarif_selectors, dependent: :destroy, inverse_of: :tarif_selector
-  has_many :tarifs, through: :tarif_tarif_selectors
-end
+  belongs_to :tarif, inverse_of: :tarif_selectors
+  has_many :usages, through: :tarif
+  has_one :home, through: :tarif
 
-TarifSelectors
+  validate do
+    next if valid_tarifs.map(&:id).include?(tarif_id)
+
+    errors.add(:tarif_id, :invalid)
+  end
+
+  validate do
+    next if distinction.blank? || self.class::DISTINCTION_REGEX.match(distinction)
+
+    errors.add(:distinction, :invalid)
+  end
+
+  def valid_tarifs
+    home.tarifs
+  end
+
+  def vote_for(usage)
+    return nil unless tarif == usage.tarif
+
+    apply?(usage) || (veto ? false : nil)
+  end
+
+  def to_s
+    [tarif_selector.model_name.human, distinction].compact.join(': ')
+  end
+
+  def apply?(_usage)
+    true
+  end
+end
