@@ -65,7 +65,7 @@ module Manage
     end
 
     def payments_params
-      Params.new(payments: [PaymentParams.permitted_keys])[:payments]
+      ActionController::Parameters.new(payments: [PaymentParams.permitted_keys])[:payments]
     end
   end
 end
