@@ -23,8 +23,8 @@ module Manage
 
     def import
       @payments = payments_params.values.map do |payment_params|
-        Payment.new(payment_params)
-      end.compact
+                    Payment.new(payment_params)
+                  end.compact
 
       Payment.transaction do
         raise ActiveRecord::Rollback unless @payments.select(&:applies).all?(&:save)
@@ -65,7 +65,7 @@ module Manage
     end
 
     def payments_params
-      ActionController::Parameters.new(payments: [PaymentParams.permitted_keys])[:payments]
+      params.permit(payments: PaymentParams.permitted_keys)[:payments]
     end
   end
 end
