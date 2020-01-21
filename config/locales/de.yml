@@ -123,6 +123,7 @@ de:
         body: Inhalt
         sent_at: Zuletzt gesendet am
         subject: Betreff
+        to: An
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -150,7 +151,10 @@ de:
         terms_pdf: AGB
       payment:
         amount: Betrag
+        invoice_id: Rechnung
         paid_at: Bezahlt am
+        remarks: Bemerkungen
+        write_off: Abschreibung
       tarif:
         invoice_type: Rechnungstyp
         label: Tarif
@@ -249,6 +253,9 @@ de:
       data_digests/home_booking_plan:
         one: Belegungsplan Auszug
         other: Belegungsplan Auszüge
+      data_digests/parahotelerie_statistics:
+        one: Parahotelerie Statistik Auszug
+        other: Parahotelerie Statistik Auszüge
       data_digests/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
@@ -1691,6 +1698,9 @@ de:
       usages:
         table:
           save: "%{model_name} speichern"
+    messages:
+      edit:
+        deliver: Speichern und nochmals versenden
   nav:
     settings: Einstellungen
     sign_in: Anmelden

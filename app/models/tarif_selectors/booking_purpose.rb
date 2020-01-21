@@ -2,21 +2,21 @@
 #
 # Table name: tarif_selectors
 #
-#  id         :bigint           not null, primary key
-#  position   :integer
-#  type       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  home_id    :bigint
+#  id          :bigint           not null, primary key
+#  distinction :string
+#  type        :string
+#  veto        :boolean          default(TRUE)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  tarif_id    :bigint
 #
 # Indexes
 #
-#  index_tarif_selectors_on_home_id  (home_id)
-#  index_tarif_selectors_on_type     (type)
+#  index_tarif_selectors_on_tarif_id  (tarif_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (home_id => homes.id)
+#  fk_rails_...  (tarif_id => tarifs.id)
 #
 
 module TarifSelectors

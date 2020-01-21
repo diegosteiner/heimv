@@ -25,7 +25,10 @@
           td
             = link_to payment.booking, manage_booking_path(payment.booking)
           td.text-right
-            = number_to_currency(payment.amount)
+            - if payment.write_off?
+              del= number_to_currency(payment.amount)
+            - else
+              = number_to_currency(payment.amount)
           td.py-1.text-right
             .btn-group
               = link_to edit_manage_payment_path(payment), class: 'btn btn-default' do

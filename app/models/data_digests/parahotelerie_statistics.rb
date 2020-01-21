@@ -21,29 +21,17 @@
 #
 
 module DataDigests
-  class Payment < DataDigest
+  class ParahotelerieStatistics < DataDigests::Booking
     def filter
-      @filter ||= ::Payment::Filter.new(filter_params)
-    end
-
-    def formats
-      super + [:pdf]
-    end
-
-    def records
-      @records ||= filter.reduce(organisation.payments.ordered)
+      @filter ||= ::Booking::Filter.new(filter_params)
     end
 
     protected
 
     def generate_tabular_header
       [
-        ::Payment.human_attribute_name(:ref),
-        ::Booking.human_attribute_name(:ref),
-        ::Payment.human_attribute_name(:paid_at),
-        ::Payment.human_attribute_name(:amount),
-        ::Tenant.model_name.human,
-        ::Payment.human_attribute_name(:remarks)
+        ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
+        ::Booking.human_attribute_name(:approximate_headcount), ::Tenant.human_attribute_name(:country)
       ]
     end
 
@@ -51,12 +39,9 @@ module DataDigests
       []
     end
 
-    def generate_tabular_row(payment)
-      payment.instance_eval do
-        [
-          ref, booking.ref, I18n.l(paid_at, format: :default), amount, booking.tenant.name, remarks
-        ]
-      end
+    def generate_tabular_row(booking)
+      [I18n.l(booking.occupancy.begins_at, format: :short), I18n.l(booking.occupancy.ends_at, format: :short),
+       booking.approximate_headcount, booking.tenant&.country]
     end
   end
 end

@@ -28,12 +28,17 @@ class Message < ApplicationRecord
   has_one :tenant, through: :booking
   belongs_to :markdown_template, optional: true
   has_many_attached :attachments
+  has_one :organisation, through: :booking
 
   attribute :cc, default: []
 
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
 
   validates :to, presence: true
+
+  before_create do
+    self.subject = [subject, "[#{booking.ref}]"].compact.join(' ')
+  end
 
   def to
     @to ||= resolve_addressed_to
@@ -49,7 +54,7 @@ class Message < ApplicationRecord
   end
 
   def deliverable?
-    valid? && (booking.messages_enabled? || addressed_to_manager?)
+    valid? && organisation.messages_enabled? && (booking.messages_enabled? || addressed_to_manager?)
   end
 
   def deliver
@@ -58,15 +63,11 @@ class Message < ApplicationRecord
   end
 
   def action_mailer_mail
-    @action_mailer_mail ||= OrganisationMailer.with(organisation: booking.organisation).booking_message(self)
+    @action_mailer_mail ||= OrganisationMailer.with(organisation: organisation).booking_message(self)
   end
 
   def attachments_for_action_mailer
     Hash[attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }]
-  end
-
-  def subject
-    "#{super} [#{booking.ref}]"
   end
 
   def self.new_from_template(template, attributes = {})

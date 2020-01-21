@@ -6,6 +6,8 @@ module Manage
     def index
       @invoices = if @booking.present?
                     @booking.invoices.ordered
+                  elsif params[:all].present?
+                    @invoices = @invoices.ordered
                   else
                     @invoices.present.unpaid.ordered
                   end

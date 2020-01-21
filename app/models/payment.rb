@@ -8,6 +8,7 @@
 #  paid_at    :date
 #  ref        :string
 #  remarks    :text
+#  write_off  :boolean          default(FALSE), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  booking_id :uuid
@@ -35,6 +36,8 @@ class Payment < ApplicationRecord
   validate do
     errors.add(:base, :duplicate) if duplicates.exists?
   end
+
+  scope :ordered, -> { order(paid_at: :DESC) }
 
   before_validation do
     self.booking ||= invoice&.booking

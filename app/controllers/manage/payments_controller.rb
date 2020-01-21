@@ -4,7 +4,12 @@ module Manage
     load_and_authorize_resource :payment, through: :booking, shallow: true
 
     def index
-      @payments = @booking.payments if @booking.present?
+      if @booking.present?
+        @payments = @booking.payments.ordered
+      else
+        @payments = @payments.ordered
+        @payments = @payments.where(Payment.arel_table[:paid_at].gt(1.year.ago)) if params[:all].blank?
+      end
       respond_with :manage, @payments
     end
 

@@ -6,6 +6,7 @@
 #  approximate_headcount :integer
 #  cancellation_reason   :text
 #  committed_request     :boolean
+#  concluded             :boolean          default(FALSE)
 #  editable              :boolean          default(TRUE)
 #  email                 :string
 #  import_data           :jsonb

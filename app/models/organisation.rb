@@ -24,6 +24,7 @@ class Organisation < ApplicationRecord
   has_many :homes, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :tenants, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :markdown_templates, inverse_of: :organisation, dependent: :destroy
+  has_many :payments, through: :bookings
   has_one_attached :logo
   has_one_attached :contract_signature
   has_one_attached :terms_pdf
@@ -82,5 +83,9 @@ class Organisation < ApplicationRecord
 
   def delivery_method_settings
     @delivery_method_settings ||= DeliveryMethodSettings.new(delivery_method_settings_url)
+  end
+
+  def messages_enabled?
+    delivery_method_settings.valid?
   end
 end
