@@ -1,4 +1,4 @@
-= form_with(model: [:manage, @invoice.becomes(Invoice)], local: true) do |f|
+= form_with(model: [:manage, @invoice.becomes(Invoice)], local: true, html: { novalidate: true }) do |f|
 
   fieldset
     = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, include_blank: true
