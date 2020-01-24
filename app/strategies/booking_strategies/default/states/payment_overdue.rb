@@ -4,7 +4,7 @@ module BookingStrategies
       class PaymentOverdue < BookingStrategy::State
         def checklist
           [
-            ChecklistItem.new(:invoice_paid, booking.invoices.all?(&:paid), [:manage, booking, Invoice])
+            ChecklistItem.new(:invoice_paid, booking.invoices.relevant.all?(&:paid), [:manage, booking, Invoice])
           ]
         end
 

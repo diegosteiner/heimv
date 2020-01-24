@@ -31,6 +31,5 @@
 
 module Invoices
   class LateNotice < ::Invoice
-    ::Invoice.scope :late_notice, -> { where(type: Invoices::LateNotice.to_s) }
   end
 end

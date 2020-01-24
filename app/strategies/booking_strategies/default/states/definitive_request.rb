@@ -31,7 +31,8 @@ module BookingStrategies
         end
 
         def create_deposit_checklist_item
-          ChecklistItem.new(:create_deposit, booking.invoices.deposit.exists?, manage_booking_invoices_path(booking))
+          ChecklistItem.new(:create_deposit, Invoices::Deposit.of(booking).relevant.exists?,
+                            manage_booking_invoices_path(booking))
         end
       end
     end

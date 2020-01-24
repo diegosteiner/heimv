@@ -37,12 +37,13 @@ class Invoice < ApplicationRecord
   has_one :organisation, through: :booking
 
   scope :ordered, -> { order(payable_until: :ASC, created_at: :ASC) }
-  scope :present, -> { where(deleted_at: nil) }
-  scope :unpaid,  -> { present.where(paid: false) }
-  scope :paid,    -> { present.where(paid: true) }
-  scope :sent,    -> { present.where.not(sent_at: nil) }
-  scope :unsent,  -> { present.where(sent_at: nil) }
-  scope :overdue, ->(at = Time.zone.today) { present.where(arel_table[:payable_until].lteq(at)) }
+  scope :relevant, -> { where(deleted_at: nil) }
+  scope :unpaid,  -> { relevant.where(paid: false) }
+  scope :paid,    -> { relevant.where(paid: true) }
+  scope :sent,    -> { relevant.where.not(sent_at: nil) }
+  scope :unsent,  -> { relevant.where(sent_at: nil) }
+  scope :overdue, ->(at = Time.zone.today) { relevant.where(arel_table[:payable_until].lteq(at)) }
+  scope :of, ->(booking) { where(booking: booking) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :set_paid
@@ -105,5 +106,3 @@ class Invoice < ApplicationRecord
     @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
   end
 end
-
-Invoices

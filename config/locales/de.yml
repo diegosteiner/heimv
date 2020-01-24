@@ -408,6 +408,9 @@ de:
           label: Mietanfrage (offen)
           relevant_time_label: Eingereicht
         overdue:
+          checklist:
+            contract_signed: Vertrag unterschieben
+            deposit_paid: Anzahlung beglichen
           help: Help
           label: Reservation (Vertrag überfällig)
           relevant_time_label: Frist

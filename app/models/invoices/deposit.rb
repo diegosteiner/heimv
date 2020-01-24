@@ -31,6 +31,5 @@
 
 module Invoices
   class Deposit < ::Invoice
-    ::Invoice.scope :deposit, -> { where(type: Invoices::Deposit.to_s) }
   end
 end

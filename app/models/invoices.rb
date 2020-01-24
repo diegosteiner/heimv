@@ -1,8 +1,8 @@
 module Invoices
   TYPES =
     {
-      invoice: Invoice,
-      deposit: Deposit,
-      late_notice: LateNotice
+      invoice: Invoices::Invoice,
+      deposit: Invoices::Deposit,
+      late_notice: Invoices::LateNotice
     }.freeze
 end

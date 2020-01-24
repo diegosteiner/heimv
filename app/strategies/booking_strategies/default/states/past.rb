@@ -5,7 +5,8 @@ module BookingStrategies
         def checklist
           [
             ChecklistItem.new(:create_usages, booking.usages_entered?, [:manage, booking, Usage]),
-            ChecklistItem.new(:create_invoice, booking.invoices.invoice.exists?, [:manage, booking, Invoice])
+            ChecklistItem.new(:create_invoice, Invoices::Invoice.of(booking).relevant.exists?,
+                              [:manage, booking, Invoice])
           ]
         end
 

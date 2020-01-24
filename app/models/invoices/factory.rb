@@ -10,7 +10,7 @@ module Invoices
     private
 
     def default_attributes
-      { type: Invoices::Invoice.to_s, payment_info_type: PaymentInfos::TextPaymentInfo }
+      { type: Invoices::Invoice.to_s, payment_info_type: PaymentInfos::OrangePaymentSlip }
     end
 
     def markdown_template(invoice)

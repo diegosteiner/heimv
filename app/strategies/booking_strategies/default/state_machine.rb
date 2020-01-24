@@ -68,6 +68,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[unconfirmed_request]) do |booking|
+        booking.occupancy.tentative!
         booking.messages.new_from_template(:unconfirmed_request_message, addressed_to: :tenant).deliver
       end
 

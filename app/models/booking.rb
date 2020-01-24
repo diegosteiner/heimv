@@ -113,6 +113,12 @@ class Booking < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  def concluded!(value = true)
+    # rubocop:disable Rails/SkipsModelValidations
+    update_columns(concluded: value)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
   def contract
     contracts.valid.last
   end

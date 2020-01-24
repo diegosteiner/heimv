@@ -7,6 +7,7 @@ module Export
         end
 
         def render
+          start_new_page if cursor < 240
           bounding_box([0, 160], width: 495, height: 160) do
             render_title
             render_qrcode

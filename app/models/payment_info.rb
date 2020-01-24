@@ -32,5 +32,3 @@ class PaymentInfo
     to_h.deep_stringify_keys
   end
 end
-
-PaymentInfos

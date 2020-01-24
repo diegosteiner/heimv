@@ -24,7 +24,7 @@ module InvoiceParts
       )
     end
 
-    def from_deposit(invoice, deposits = invoice.booking.invoices.deposit)
+    def from_deposit(invoice, deposits = Invoices::Deposit.of(invoice.booking).relevant)
       InvoiceParts::Add.new(
         apply: invoice.new_record? && invoice.is_a?(Invoices::Invoice),
         label: Invoices::Deposit.model_name.human,
@@ -35,8 +35,8 @@ module InvoiceParts
     protected
 
     def apply?(invoice, usage)
-      tarif_invoice_type = usage.tarif.invoice_type.safe_constantize
-      invoice.new_record? && tarif_invoice_type.present? && invoice.is_a?(tarif_invoice_type)
+      tarif_invoice_type = usage.tarif.invoice_type
+      invoice.new_record? && tarif_invoice_type.present? && invoice.type.to_s == tarif_invoice_type
     end
 
     def format_used_units(used_units)

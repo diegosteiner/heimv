@@ -13,12 +13,6 @@ module BookingStrategies
             booking.deadline&.postponable? && booking.deadline.postponable_until < booking.occupancy.begins_at
           end
 
-          def button_options
-            super.merge(
-              variant: 'secondary'
-            )
-          end
-
           def booking
             context.fetch(:booking)
           end

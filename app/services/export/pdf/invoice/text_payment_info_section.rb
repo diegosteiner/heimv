@@ -9,6 +9,8 @@ module Export
         end
 
         def render
+          start_new_page if cursor < height
+
           bounding_box([0, height], width: bounds.width, height: height) do
             render_title
             render_text_in_columns

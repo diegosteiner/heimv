@@ -33,8 +33,10 @@ class Deadline < ApplicationRecord
 
   validates :at, presence: true
 
+  after_save :reload_booking_deadlines
+
   def exceeded?(other = Time.zone.now)
-    other > at
+    armed? && other > at
   end
 
   def postponable_until
@@ -53,5 +55,9 @@ class Deadline < ApplicationRecord
 
   def clear
     update(armed: false)
+  end
+
+  def reload_booking_deadlines
+    booking.deadlines.reload
   end
 end

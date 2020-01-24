@@ -33,7 +33,7 @@ class BookingStrategy
 
     def button_options
       {
-        variant: 'secondary'
+        variant: 'primary'
       }
     end
   end

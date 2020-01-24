@@ -2,6 +2,8 @@ module Export
   module Pdf
     class Invoice
       class OrangePaymentSlipSection < Base::Section
+        HEIGHT = 295
+
         attr_reader :payment_info
 
         def initialize(payment_info)
@@ -9,7 +11,8 @@ module Export
         end
 
         def render
-          bounding_box([-50, 235], width: 595, height: 295) do
+          start_new_page if cursor < 240
+          bounding_box([-50, 235], width: 595, height: HEIGHT) do
             render_background if render_background?
             render_sender_address
             render_counterfoil_address
@@ -28,7 +31,7 @@ module Export
 
         def render_background
           img = Rails.root.join('app/webpack/images/esr_orange.png')
-          image img, width: 595, height: 295, vposition: -4
+          image img, width: 595, height: HEIGHT, vposition: -4
         end
 
         def render_sender_address

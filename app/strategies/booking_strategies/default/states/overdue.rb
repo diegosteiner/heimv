@@ -4,7 +4,8 @@ module BookingStrategies
       class Overdue < BookingStrategy::State
         def checklist
           [
-            ChecklistItem.new(:deposit_paid, booking.invoices.deposit.all?(&:paid), [:manage, booking, Invoice]),
+            ChecklistItem.new(:deposit_paid, Invoices::Deposit.of(booking).relevant.all?(&:paid),
+                              [:manage, booking, Invoice]),
             ChecklistItem.new(:contract_signed, booking.contracts.signed.exists?, [:manage, booking, Contract])
           ]
         end

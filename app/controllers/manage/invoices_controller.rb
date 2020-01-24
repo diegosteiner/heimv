@@ -9,7 +9,7 @@ module Manage
                   elsif params[:all].present?
                     @invoices = @invoices.ordered
                   else
-                    @invoices.present.unpaid.ordered
+                    @invoices.relevant.unpaid.ordered
                   end
       respond_with :manage, @invoices
     end
@@ -53,7 +53,7 @@ module Manage
     private
 
     def invoice_params
-      InvoiceParams.new(params[:invoice])
+      InvoiceParams.new(params[:invoice]).permitted
     end
   end
 end
