@@ -7,7 +7,7 @@ module Public
         [:tenant_organisation, :cancellation_reason, :invoice_address, :email,
          :committed_request, :purpose, :approximate_headcount, :remarks,
          tenant_attributes: TenantParams.permitted_keys.without(:email),
-         deadlines_attributes: %i[id extend]]
+         deadlines_attributes: %i[id postpone]]
       end
     end
 

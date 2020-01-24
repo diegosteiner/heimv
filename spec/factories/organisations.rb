@@ -2,16 +2,21 @@
 #
 # Table name: organisations
 #
-#  id                        :bigint           not null, primary key
-#  name                      :string
-#  address                   :text
-#  booking_strategy_type     :string
-#  invoice_ref_strategy_type :string
-#  payment_information       :text
-#  account_nr                :string
-#  message_footer            :text
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id                           :bigint           not null, primary key
+#  address                      :text
+#  booking_ref_strategy_type    :string
+#  booking_strategy_type        :string
+#  currency                     :string           default("CHF")
+#  delivery_method_settings_url :string
+#  email                        :string
+#  esr_participant_nr           :string
+#  iban                         :string
+#  invoice_ref_strategy_type    :string
+#  message_footer               :text
+#  name                         :string
+#  representative_address       :string
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
 #
 
 FactoryBot.define do
@@ -20,7 +25,16 @@ FactoryBot.define do
     address { 'MyText' }
     booking_strategy_type { BookingStrategies::Default.to_s }
     invoice_ref_strategy_type { RefStrategies::ESR.to_s }
-    payment_information { 'MyString' }
-    account_nr { 'MyString' }
+    booking_ref_strategy_type { RefStrategies::DefaultBookingRef.to_s }
+    email { 'test@test.test' }
+    esr_participant_nr { 'MyString' }
+
+    trait :with_markdown_templates do
+      after(:create) do |organisation|
+        organisation.missing_markdown_templates.each do |locale_key|
+          organisation.markdown_templates.create(locale_key)
+        end
+      end
+    end
   end
 end

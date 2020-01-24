@@ -31,22 +31,28 @@
               - if booking.purpose.present?
                 span=<> "(#{t(booking.purpose, scope: :'activerecord.enums.booking.purpose')})"
         .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
-          strong= booking.tenant_organisation.presence
-          = tenant_address(booking.tenant, css_class: 'small')
-          p.mt-2.mb-0
-            - if booking.agent_booking?
-              i.fa.fa-link
-              =<> booking.agent_booking.booking_agent
+          - if booking.tenant.present?
+            small= Tenant.model_name.human
+            p.m-0=link_to booking.tenant.name, manage_tenant_path(booking.tenant), { 'v-b-popover.hover.html' => JSON.generate(tenant_address(booking.tenant).to_s)  }
+            p.m-0= booking.tenant_organisation.presence
+          - if booking.agent_booking?
+              small= BookingAgent.model_name.human
+              p.m-0=link_to booking.agent_booking.booking_agent, manage_booking_agent_path(booking.booking_agent)
+              p.m-0= booking.agent_booking.booking_agent_ref
 
         .col-md-3.py-3
-          - begin
-            = render partial: current_organisation.booking_strategy.template_path('state', booking.current_state, 'checklist'), locals: { booking: booking }
-          - rescue ActionView::MissingTemplate
+          p.mb-1
+            booking-relevant-time[relevant_time=booking.state_object.relevant_time&.iso8601 booking_state=booking.state]
           = render partial: 'manage/bookings/checklist', locals: { booking: booking }
+
         .col-md-1
-            b-dropdown[text="..." variant="block" no-caret dropleft class='w-100 h-100']
+            b-dropdown[variant="block" no-caret dropleft class='w-100 h-100']
+              template[v-slot:button-content]
+                span.fa.fa-calendar-check-o
               = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-                - allowed_actions = current_organisation.booking_strategy.manage_actions.allowed_actions(booking)
-                - allowed_actions.each do |action|
+                - current_organisation.booking_strategy.manage_actions.values.each do |action_klass|
+                  - action = action_klass.new(booking: booking)
+                  - next unless action.allowed?
+
                   button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
                     = t(action.i18n_scope.join('.'))

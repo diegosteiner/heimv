@@ -1,15 +1,19 @@
 = form_with(model: [:manage, organisation], local: true) do |f|
   fieldset
     = f.text_field :name
+    div[v-pre]= f.email_field :email
     div[v-pre]= f.text_area :address, rows: 4
+    div[v-pre]= f.text_area :representative_address, rows: 4
     / = f.select :booking_strategy_type, [BookingStrategies::Default]
     / = f.select :invoice_ref_strategy_type, [RefStrategies::ESR]
-    div[v-pre]= f.text_area :payment_information, rows: 4
-    = f.text_field :account_nr
+    = f.text_field :esr_participant_nr
+    = f.text_field :iban
+    = f.text_field :delivery_method_settings_url
     div[v-pre]= f.text_area :message_footer, rows: 4
     = f.file_field :terms_pdf, label: link_to_if(organisation.terms_pdf.attached?, Organisation.human_attribute_name(:terms_pdf), organisation.terms_pdf)
     = f.file_field :privacy_statement_pdf, label: link_to_if(organisation.privacy_statement_pdf.attached?, Organisation.human_attribute_name(:privacy_statement_pdf), organisation.privacy_statement_pdf)
     = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
+    = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit

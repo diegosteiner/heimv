@@ -2,17 +2,26 @@
 #
 # Table name: data_digests
 #
-#  id            :bigint           not null, primary key
-#  type          :string
-#  label         :string
-#  filter_params :jsonb
+#  id                 :bigint           not null, primary key
 #  data_digest_params :jsonb
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  filter_params      :jsonb
+#  label              :string
+#  type               :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  organisation_id    :bigint           default(1), not null
+#
+# Indexes
+#
+#  index_data_digests_on_organisation_id  (organisation_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 module DataDigests
-  class Tenant < Booking
+  class Tenant < DataDigests::Booking
     def tarif_ids=(tarif_ids)
       data_digest_params['tarif_ids'] = tarif_ids.reject(&:blank?)
     end
@@ -40,7 +49,7 @@ module DataDigests
     def generate_tabular_row(booking)
       super + booking.instance_eval do
         [
-          tenant.address_lines.join("\n"), [tenant.email, tenant.phone].join("\n"), occupancy.nights
+          tenant&.address_lines&.join("\n"), [tenant&.email, tenant&.phone].join("\n"), occupancy&.nights
         ]
       end
     end

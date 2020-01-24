@@ -15,7 +15,17 @@ module Admin
       respond_with :admin, @user
     end
 
+    def new
+      respond_with :admin, @user
+    end
+
     def edit
+      respond_with :admin, @user
+    end
+
+    def create
+      @user.organisation = current_organisation
+      @user.save
       respond_with :admin, @user
     end
 

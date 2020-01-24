@@ -3,50 +3,43 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe 'Booking CRUD', :devise, js: true, skip: true do
-  before { login_as(user, scope: :user) }
-
-  after { Warden.test_reset! }
-
-  let(:user) { create(:user) }
-  let(:home) { create(:home) }
-  let(:booking) { create(:booking) }
+describe 'Booking CRUD', :devise, type: :feature do
+  let(:organisation) { create(:organisation, :with_markdown_templates) }
+  let(:user) { create(:user, organisation: organisation) }
+  let(:home) { create(:home, organisation: organisation) }
+  let(:booking) { create(:booking, organisation: organisation, home: home, skip_automatic_transition: false) }
   let(:new_booking) { build(:booking) }
 
-  it 'can create new booking' do
+  before do
+    allow(Organisation).to receive(:current).and_return(organisation)
+    login_as(user, scope: :user)
+  end
+
+  it 'can create new booking', skip: true do
     home
     tenant = create(:tenant)
     visit new_manage_booking_path
-    fill_in :booking_occupancy_attributes_begins_at, with: I18n.l(new_booking.occupancy.begins_at)
-    fill_in :booking_occupancy_attributes_ends_at, with: I18n.l(new_booking.occupancy.ends_at)
+    # find("input[name='booking[occupancy_attributes][begins_at_date]']").fill_in
+    #   with: I18n.l(new_booking.occupancy.begins_at_date, format: :short)
+    # find("input[name='booking[occupancy_attributes][ends_at_date]']").fill_in
+    #   with: I18n.l(new_booking.occupancy.ends_at_date, format: :short)
     select tenant.name, from: :booking_tenant_id
     select home.name, from: :booking_home_id
     submit_form
-    expect(page).to have_http_status(200)
     expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Booking.model_name.human)
   end
 
-  it 'can see a booking' do
+  it 'can see a booking', skip: true do
     booking
     visit manage_bookings_path
     find_resource_in_table(booking).click
     expect(page).to have_current_path(manage_booking_path(booking))
-    expect(page).to have_http_status(200)
     expect(page).to have_content booking.ref
   end
 
   it 'can edit existing booking' do
     visit edit_manage_booking_path(booking)
-    # fill_in :booking_ref, with: new_booking.ref
     submit_form
-    expect(page).to have_http_status(200)
     expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human)
-  end
-
-  it 'can delete existing booking' do
-    visit manage_booking_path(booking)
-    click_link I18n.t('destroy')
-    expect(page).to have_current_path(manage_bookings_path)
-    expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Booking.model_name.human)
   end
 end

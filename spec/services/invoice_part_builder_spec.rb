@@ -14,6 +14,7 @@ RSpec.describe InvoiceParts::Factory, type: :model do
     let(:existing_invoice_part) { create(:invoice_part, invoice: invoice, usage: invoiced_usage) }
 
     it do
+      expect(Invoices::TYPES.count).to be(3)
       expect(subject).to(be_all { |actual| actual.is_a?(InvoiceParts::Add) })
       expect(subject).to(be_all { |actual| actual == existing_invoice_part || actual.new_record? })
 

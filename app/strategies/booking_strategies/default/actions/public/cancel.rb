@@ -4,8 +4,8 @@ module BookingStrategies
       module Public
         class Cancel < BookingStrategy::Action
           def call!
-            @booking.errors.clear
-            @booking.state_machine.yield_self do |state_machine|
+            booking.errors.clear
+            booking.state_machine.yield_self do |state_machine|
               if state_machine.can_transition_to?(:cancelled_request)
                 state_machine.transition_to(:cancelled_request)
               elsif state_machine.can_transition_to?(:cancelation_pending)
@@ -15,8 +15,8 @@ module BookingStrategies
           end
 
           def allowed?
-            @booking.state_machine.can_transition_to?(:cancelled_request) ||
-              @booking.state_machine.can_transition_to?(:cancelation_pending)
+            booking.state_machine.can_transition_to?(:cancelled_request) ||
+              booking.state_machine.can_transition_to?(:cancelation_pending)
           end
 
           def button_options
@@ -26,6 +26,10 @@ module BookingStrategies
                 confirm: I18n.t(:confirm)
               }
             )
+          end
+
+          def booking
+            context.fetch(:booking)
           end
         end
       end

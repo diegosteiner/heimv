@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_30_153158) do
+ActiveRecord::Schema.define(version: 2020_01_21_144624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -47,7 +47,12 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "home_id"
+    t.bigint "organisation_id"
+    t.string "tenant_email"
     t.index ["booking_id"], name: "index_agent_bookings_on_booking_id"
+    t.index ["home_id"], name: "index_agent_bookings_on_home_id"
+    t.index ["organisation_id"], name: "index_agent_bookings_on_organisation_id"
   end
 
   create_table "booking_agents", force: :cascade do |t|
@@ -58,7 +63,9 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.decimal "provision"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.index ["code"], name: "index_booking_agents_on_code"
+    t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
   end
 
   create_table "booking_transitions", force: :cascade do |t|
@@ -96,6 +103,8 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "internal_remarks"
+    t.boolean "concluded", default: false
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
@@ -121,6 +130,8 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.jsonb "data_digest_params", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organisation_id", default: 1, null: false
+    t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
   create_table "deadlines", force: :cascade do |t|
@@ -128,8 +139,8 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.uuid "booking_id"
     t.string "responsible_type"
     t.bigint "responsible_id"
-    t.integer "extendable", default: 0
-    t.boolean "current", default: true
+    t.integer "postponable_for", default: 0
+    t.boolean "armed", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "remarks"
@@ -146,6 +157,7 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.boolean "requests_allowed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "min_occupation"
     t.index ["organisation_id"], name: "index_homes_on_organisation_id"
     t.index ["ref"], name: "index_homes_on_ref", unique: true
   end
@@ -171,7 +183,6 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.datetime "payable_until"
     t.datetime "sent_at"
     t.text "text"
-    t.integer "invoice_type"
     t.string "ref"
     t.decimal "amount", default: "0.0"
     t.boolean "paid", default: false
@@ -179,6 +190,7 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "payment_info_type"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["ref"], name: "index_invoices_on_ref"
     t.index ["type"], name: "index_invoices_on_type"
@@ -191,7 +203,9 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.index ["key"], name: "index_markdown_templates_on_key"
+    t.index ["organisation_id"], name: "index_markdown_templates_on_organisation_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -242,12 +256,16 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.text "address"
     t.string "booking_strategy_type"
     t.string "invoice_ref_strategy_type"
-    t.text "payment_information"
-    t.string "account_nr"
+    t.string "esr_participant_nr"
     t.text "message_footer"
     t.string "currency", default: "CHF"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "iban"
+    t.string "booking_ref_strategy_type"
+    t.string "delivery_method_settings_url"
+    t.string "representative_address"
+    t.string "email"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -260,29 +278,19 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "write_off", default: false, null: false
     t.index ["booking_id"], name: "index_payments_on_booking_id"
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
   end
 
   create_table "tarif_selectors", force: :cascade do |t|
-    t.bigint "home_id"
-    t.string "type"
-    t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["home_id"], name: "index_tarif_selectors_on_home_id"
-    t.index ["type"], name: "index_tarif_selectors_on_type"
-  end
-
-  create_table "tarif_tarif_selectors", force: :cascade do |t|
     t.bigint "tarif_id"
-    t.bigint "tarif_selector_id"
     t.boolean "veto", default: true
     t.string "distinction"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tarif_id"], name: "index_tarif_tarif_selectors_on_tarif_id"
-    t.index ["tarif_selector_id"], name: "index_tarif_tarif_selectors_on_tarif_selector_id"
+    t.string "type"
+    t.index ["tarif_id"], name: "index_tarif_selectors_on_tarif_id"
   end
 
   create_table "tarifs", force: :cascade do |t|
@@ -326,7 +334,9 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.index ["email"], name: "index_tenants_on_email"
+    t.index ["organisation_id"], name: "index_tenants_on_organisation_id"
     t.index ["search_cache"], name: "index_tenants_on_search_cache"
   end
 
@@ -354,21 +364,28 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.integer "role"
+    t.bigint "organisation_id", default: 1, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bookings", "bookings"
+  add_foreign_key "agent_bookings", "homes"
+  add_foreign_key "agent_bookings", "organisations"
+  add_foreign_key "booking_agents", "organisations"
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
+  add_foreign_key "data_digests", "organisations"
   add_foreign_key "deadlines", "bookings"
   add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
+  add_foreign_key "markdown_templates", "organisations"
   add_foreign_key "messages", "bookings"
   add_foreign_key "messages", "markdown_templates"
   add_foreign_key "meter_reading_periods", "tarifs"
@@ -376,9 +393,9 @@ ActiveRecord::Schema.define(version: 2019_10_30_153158) do
   add_foreign_key "occupancies", "homes"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
-  add_foreign_key "tarif_selectors", "homes"
-  add_foreign_key "tarif_tarif_selectors", "tarif_selectors"
-  add_foreign_key "tarif_tarif_selectors", "tarifs"
+  add_foreign_key "tarif_selectors", "tarifs"
+  add_foreign_key "tenants", "organisations"
   add_foreign_key "usages", "bookings"
   add_foreign_key "usages", "tarifs"
+  add_foreign_key "users", "organisations"
 end

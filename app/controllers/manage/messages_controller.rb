@@ -17,19 +17,20 @@ module Manage
     #   respond_with :manage, @message
     # end
 
-    # def edit
-    #   respond_with :manage, @message
-    # end
+    def edit
+      respond_with :manage, @message
+    end
 
     # def create
     #   @message.save
     #   respond_with :manage, @message, location: manage_booking_messages_path(@booking)
     # end
 
-    # def update
-    #   @message.update(message_params)
-    #   respond_with :manage, @message, location: manage_message_path(@message)
-    # end
+    def update
+      @message.update(message_params)
+      @message.deliver if @message.valid? && params[:deliver].present?
+      respond_with :manage, @message, location: manage_message_path(@message)
+    end
 
     # def destroy
     #   @message.destroy

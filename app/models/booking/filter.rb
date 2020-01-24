@@ -5,7 +5,6 @@ class Booking
     attribute :homes, default: []
     attribute :occupancy_params, default: {}
     attribute :booking_states, default: []
-    attribute :only_inconcluded, default: true
 
     def occupancy
       @occupancy ||= Occupancy::Filter.new(occupancy_params)
@@ -19,10 +18,6 @@ class Booking
       next bookings if ref.blank?
 
       bookings.where(Booking.arel_table[:ref].matches("%#{ref}%"))
-    end
-
-    filter do |bookings|
-      only_inconcluded ? bookings.inconcluded : bookings
     end
 
     filter do |bookings|

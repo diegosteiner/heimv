@@ -2,34 +2,57 @@
 #
 # Table name: tarif_selectors
 #
-#  id         :bigint           not null, primary key
-#  home_id    :bigint
-#  type       :string
-#  position   :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint           not null, primary key
+#  distinction :string
+#  type        :string
+#  veto        :boolean          default(TRUE)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  tarif_id    :bigint
+#
+# Indexes
+#
+#  index_tarif_selectors_on_tarif_id  (tarif_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (tarif_id => tarifs.id)
 #
 
 class TarifSelector < ApplicationRecord
   DISTINCTION_REGEX = /\A\w*\z/.freeze
 
-  belongs_to :home, inverse_of: :tarif_selectors
-  has_many :tarif_tarif_selectors, dependent: :destroy, inverse_of: :tarif_selector
-  has_many :tarifs, through: :tarif_tarif_selectors
+  belongs_to :tarif, inverse_of: :tarif_selectors
+  has_many :usages, through: :tarif
+  has_one :home, through: :tarif
 
-  accepts_nested_attributes_for :tarif_tarif_selectors, reject_if: :all_blank, allow_destroy: true
+  validate do
+    next if valid_tarifs.map(&:id).include?(tarif_id)
 
-  def vote_for(usage)
-    tarif_tarif_selectors.includes(tarif: :booking_copies).map { |tuc| tuc.vote_for(usage) }.compact
+    errors.add(:tarif_id, :invalid)
   end
 
-  def self.types
-    %w[TarifSelectors::BookingNights TarifSelectors::BookingApproximateHeadcountPerNight
-       TarifSelectors::AlwaysApply TarifSelectors::BookingOvernightStays
-       TarifSelectors::BookingPurpose]
+  validate do
+    next if distinction.blank? || self.class::DISTINCTION_REGEX.match(distinction)
+
+    errors.add(:distinction, :invalid)
   end
 
   def valid_tarifs
     home.tarifs
+  end
+
+  def vote_for(usage)
+    return nil unless tarif == usage.tarif
+
+    apply?(usage) || (veto ? false : nil)
+  end
+
+  def to_s
+    [tarif_selector.model_name.human, distinction].compact.join(': ')
+  end
+
+  def apply?(_usage)
+    true
   end
 end

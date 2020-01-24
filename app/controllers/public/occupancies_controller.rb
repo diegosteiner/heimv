@@ -6,14 +6,19 @@ module Public
     load_and_authorize_resource :occupancy, through: :home
     layout false
     after_action :allow_embed, only: %i[embed]
-    # respond_to :json, :html
+    respond_to :json, :ics
 
     def show
       respond_with :public, @occupancy
     end
 
     def index
-      respond_with :public, @occupancies.window
+      @occupancies = @occupancies.window.blocking
+
+      respond_to do |format|
+        format.json { render json: @occupancies.to_json }
+        format.ics { render plain: IcalService.new.generate_from_occupancies(@occupancies) }
+      end
     end
 
     def embed; end

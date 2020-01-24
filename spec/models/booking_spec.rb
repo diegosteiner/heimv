@@ -3,28 +3,40 @@
 # Table name: bookings
 #
 #  id                    :uuid             not null, primary key
-#  home_id               :bigint           not null
-#  organisation_id       :bigint           not null
-#  state                 :string           default("initial"), not null
-#  tenant_organisation   :string
-#  email                 :string
-#  tenant_id             :integer
-#  state_data            :json
-#  committed_request     :boolean
-#  cancellation_reason   :text
 #  approximate_headcount :integer
-#  remarks               :text
+#  cancellation_reason   :text
+#  committed_request     :boolean
+#  concluded             :boolean          default(FALSE)
+#  editable              :boolean          default(TRUE)
+#  email                 :string
+#  import_data           :jsonb
+#  internal_remarks      :text
 #  invoice_address       :text
+#  messages_enabled      :boolean          default(FALSE)
 #  purpose               :string
 #  ref                   :string
-#  editable              :boolean          default(TRUE)
+#  remarks               :text
+#  state                 :string           default("initial"), not null
+#  state_data            :json
+#  tenant_organisation   :string
 #  usages_entered        :boolean          default(FALSE)
-#  messages_enabled      :boolean          default(FALSE)
-#  import_data           :jsonb
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  booking_agent_code    :string
-#  booking_agent_ref     :string
+#  home_id               :bigint           not null
+#  organisation_id       :bigint           not null
+#  tenant_id             :integer
+#
+# Indexes
+#
+#  index_bookings_on_home_id          (home_id)
+#  index_bookings_on_organisation_id  (organisation_id)
+#  index_bookings_on_ref              (ref)
+#  index_bookings_on_state            (state)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (home_id => homes.id)
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 require 'rails_helper'
@@ -35,11 +47,9 @@ describe Booking, type: :model do
   let(:home) { create(:home) }
   let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
 
-  before { allow(BookingMailer).to receive_message_chain(:new_booking, :deliver_now) }
-
   before do
     message_from_template = double('Message')
-    allow(message_from_template).to receive(:deliver_now).and_return(true)
+    allow(message_from_template).to receive(:deliver).and_return(true)
     allow(Message).to receive(:new_from_template).and_return(message_from_template)
   end
 
@@ -54,7 +64,7 @@ describe Booking, type: :model do
     end
 
     context 'with existing tenant' do
-      let(:existing_tenant) { create(:tenant) }
+      let(:existing_tenant) { create(:tenant, organisation: organisation) }
       let(:tenant) { nil }
 
       it 'uses existing tenant when email is correct' do

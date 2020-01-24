@@ -3,28 +3,40 @@
 # Table name: bookings
 #
 #  id                    :uuid             not null, primary key
-#  home_id               :bigint           not null
-#  organisation_id       :bigint           not null
-#  state                 :string           default("initial"), not null
-#  tenant_organisation   :string
-#  email                 :string
-#  tenant_id             :integer
-#  state_data            :json
-#  committed_request     :boolean
-#  cancellation_reason   :text
 #  approximate_headcount :integer
-#  remarks               :text
+#  cancellation_reason   :text
+#  committed_request     :boolean
+#  concluded             :boolean          default(FALSE)
+#  editable              :boolean          default(TRUE)
+#  email                 :string
+#  import_data           :jsonb
+#  internal_remarks      :text
 #  invoice_address       :text
+#  messages_enabled      :boolean          default(FALSE)
 #  purpose               :string
 #  ref                   :string
-#  editable              :boolean          default(TRUE)
+#  remarks               :text
+#  state                 :string           default("initial"), not null
+#  state_data            :json
+#  tenant_organisation   :string
 #  usages_entered        :boolean          default(FALSE)
-#  messages_enabled      :boolean          default(FALSE)
-#  import_data           :jsonb
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  booking_agent_code    :string
-#  booking_agent_ref     :string
+#  home_id               :bigint           not null
+#  organisation_id       :bigint           not null
+#  tenant_id             :integer
+#
+# Indexes
+#
+#  index_bookings_on_home_id          (home_id)
+#  index_bookings_on_organisation_id  (organisation_id)
+#  index_bookings_on_ref              (ref)
+#  index_bookings_on_state            (state)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (home_id => homes.id)
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 FactoryBot.define do
@@ -33,27 +45,14 @@ FactoryBot.define do
     tenant
     tenant_organisation { Faker::Company.name }
     sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
-    skip_automatic_transition { initial_state_present? }
+    skip_automatic_transition { true }
     committed_request { [true, false].sample }
     approximate_headcount { rand(30) }
     purpose { :camp }
 
-    transient do
-      initial_state { :initial }
-      initial_state_present? { ![nil, :initial].include?(initial_state) }
-      initial_occupancy_type { :free }
-    end
-
     after(:build) do |booking|
       booking.organisation ||= booking.home.organisation
       booking.occupancy ||= build(:occupancy, home: booking.home, occupancy_type: :free)
-    end
-
-    after(:create) do |booking, evaluator|
-      if evaluator.initial_state_present?
-        create(:booking_transition, booking: booking, to_state: evaluator.initial_state)
-        # create(:deadline, booking: booking)
-      end
     end
   end
 end

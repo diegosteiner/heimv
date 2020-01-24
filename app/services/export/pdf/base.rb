@@ -38,7 +38,7 @@ module Export
       end
 
       def build
-        sections.each { |section| section.call(document) }
+        sections.compact.each { |section| section.render_in(document) }
         self
       end
     end

@@ -15,7 +15,7 @@
           td = home.ref
           td
             = link_to edit_manage_home_path(home) do
-              span.fa.fa-pencil
+              span.fa.fa-edit
           td
             = link_to manage_home_path(home), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
               span.fa.fa-trash

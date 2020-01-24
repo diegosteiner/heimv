@@ -9,19 +9,19 @@ module Seeders
             name: "Birchli",
             ref: "bir",
             janitor: "Peter Muster, 079 999 99 99",
-            organisation: Organisation.instance
+            organisation: seeds[:organisation]
           }),
           create(:home, {
             name: "Mühlebächli",
             ref: "muehli",
             janitor: "Peter Muster, 079 999 99 99",
-            organisation: Organisation.instance
+            organisation: seeds[:organisation]
           }),
           create(:home, {
             name: "Villa Kunterbunt",
             ref: "villa",
             janitor: "Peter Muster, 079 999 99 99",
-            organisation: Organisation.instance
+            organisation: seeds[:organisation]
           }),
         ],
       }

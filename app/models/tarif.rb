@@ -3,23 +3,30 @@
 # Table name: tarifs
 #
 #  id                       :bigint           not null, primary key
-#  type                     :string
+#  invoice_type             :string
 #  label                    :string
-#  transient                :boolean          default(FALSE)
-#  booking_id               :uuid
-#  home_id                  :bigint
-#  booking_copy_template_id :bigint
-#  unit                     :string
+#  meter                    :string
+#  position                 :integer
+#  prefill_usage_method     :string
 #  price_per_unit           :decimal(, )
+#  tarif_group              :string
+#  transient                :boolean          default(FALSE)
+#  type                     :string
+#  unit                     :string
 #  valid_from               :datetime
 #  valid_until              :datetime
-#  position                 :integer
-#  tarif_group              :string
-#  invoice_type             :string
-#  prefill_usage_method     :string
-#  meter                    :string
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  booking_copy_template_id :bigint
+#  booking_id               :uuid
+#  home_id                  :bigint
+#
+# Indexes
+#
+#  index_tarifs_on_booking_copy_template_id  (booking_copy_template_id)
+#  index_tarifs_on_booking_id                (booking_id)
+#  index_tarifs_on_home_id                   (home_id)
+#  index_tarifs_on_type                      (type)
 #
 
 class Tarif < ApplicationRecord
@@ -32,8 +39,7 @@ class Tarif < ApplicationRecord
   has_many :booking_copies, class_name: 'Tarif', dependent: :nullify, inverse_of: :booking_copy_template,
                             foreign_key: :booking_copy_template_id
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
-  has_many :tarif_tarif_selectors, dependent: :destroy, inverse_of: :tarif
-  has_many :tarif_selectors, through: :tarif_tarif_selectors
+  has_many :tarif_selectors, dependent: :destroy, inverse_of: :tarif
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
 
   acts_as_list scope: [:home_id]
@@ -46,6 +52,8 @@ class Tarif < ApplicationRecord
   enum prefill_usage_method: Hash[TarifPrefiller::PREFILL_METHODS.keys.map { |method| [method, method] }]
 
   validates :type, presence: true
+
+  accepts_nested_attributes_for :tarif_selectors, reject_if: :all_blank, allow_destroy: true
 
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')

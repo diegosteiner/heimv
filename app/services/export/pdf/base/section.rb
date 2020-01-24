@@ -2,7 +2,13 @@ module Export
   module Pdf
     class Base
       class Section
-        def call(pdf); end
+        include Prawn::View
+        attr_reader :document
+
+        def render_in(document)
+          @document = document
+          render
+        end
       end
     end
   end

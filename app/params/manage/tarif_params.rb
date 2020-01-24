@@ -5,7 +5,8 @@ module Manage
     end
 
     def self.permitted_keys
-      %i[type label unit price_per_unit position tarif_group invoice_type prefill_usage_method transient meter]
+      %i[type label unit price_per_unit position tarif_group invoice_type prefill_usage_method transient meter] +
+        [{ tarif_selectors_attributes: TarifSelectorParams.permitted_keys + %i[id _destroy] }]
     end
   end
 end

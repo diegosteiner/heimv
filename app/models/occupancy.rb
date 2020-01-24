@@ -4,19 +4,32 @@
 #
 #  id             :uuid             not null, primary key
 #  begins_at      :datetime         not null
-#  ends_at        :datetime         not null
-#  home_id        :bigint           not null
 #  booking_type   :string
-#  booking_id     :uuid
+#  ends_at        :datetime         not null
 #  occupancy_type :integer          default("free"), not null
 #  remarks        :text
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  booking_id     :uuid
+#  home_id        :bigint           not null
+#
+# Indexes
+#
+#  index_occupancies_on_begins_at                    (begins_at)
+#  index_occupancies_on_booking_type_and_booking_id  (booking_type,booking_id)
+#  index_occupancies_on_ends_at                      (ends_at)
+#  index_occupancies_on_home_id                      (home_id)
+#  index_occupancies_on_occupancy_type               (occupancy_type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (home_id => homes.id)
 #
 
 class Occupancy < ApplicationRecord
   belongs_to :home
   belongs_to :booking, inverse_of: :occupancy, optional: true
+  has_one :organisation, through: :home
 
   date_time_attribute :begins_at, timezone: Time.zone.name
   date_time_attribute :ends_at, timezone: Time.zone.name
@@ -46,11 +59,10 @@ class Occupancy < ApplicationRecord
   validates :begins_at, :ends_at, :booking, presence: true
   validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
   validate do
-    unless begins_at && ends_at && begins_at < ends_at && ends_at < 18.months.from_now
-      errors.add(:ends_at, :invalid)
-      errors.add(:ends_at_date, :invalid)
-      errors.add(:ends_at_time, :invalid)
-    end
+    errors.add(:ends_at, :invalid) unless begins_at && ends_at && begins_at < ends_at
+  end
+  validate on: :public_create do
+    errors.add(:ends_at, :too_far_in_future) unless ends_at < organisation.booking_window.from_now
   end
   validate on: :public_create do
     acceptable_hours = (7.hours)..(22.hours)

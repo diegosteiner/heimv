@@ -2,18 +2,30 @@
 #
 # Table name: markdown_templates
 #
-#  id         :bigint           not null, primary key
-#  key        :string
-#  title      :string
-#  locale     :string
-#  body       :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id              :bigint           not null, primary key
+#  body            :text
+#  key             :string
+#  locale          :string
+#  title           :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  organisation_id :bigint           default(1), not null
+#
+# Indexes
+#
+#  index_markdown_templates_on_key              (key)
+#  index_markdown_templates_on_organisation_id  (organisation_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class MarkdownTemplate < ApplicationRecord
+  belongs_to :organisation
+
   validates :key, :locale, presence: true
-  validates :key, uniqueness: true
+  validates :key, uniqueness: { scope: %i[locale organisation_id] }
 
   def to_markdown
     Markdown.new(body)
@@ -23,6 +35,7 @@ class MarkdownTemplate < ApplicationRecord
     liquid_template = Liquid::Template.parse(body)
     Markdown.new(liquid_template.render!(context.to_liquid, [Filters]))
   end
+
   alias % interpolate
 
   def self.[](key, locale: I18n.locale)

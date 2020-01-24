@@ -1,6 +1,30 @@
+# == Schema Information
+#
+# Table name: data_digests
+#
+#  id                 :bigint           not null, primary key
+#  data_digest_params :jsonb
+#  filter_params      :jsonb
+#  label              :string
+#  type               :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  organisation_id    :bigint           default(1), not null
+#
+# Indexes
+#
+#  index_data_digests_on_organisation_id  (organisation_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
+#
+
 require 'csv'
 
 class DataDigest < ApplicationRecord
+  belongs_to :organisation
+
   validates :label, presence: true
 
   def self.default_csv_options
@@ -30,10 +54,6 @@ class DataDigest < ApplicationRecord
   def to_pdf(options = {})
     options = self.class.default_pdf_options.merge(options)
     Export::Pdf::DataDigest.new(self, organisation, options).build.render
-  end
-
-  def organisation
-    @organisation ||= Organisation.instance
   end
 
   def to_tabular

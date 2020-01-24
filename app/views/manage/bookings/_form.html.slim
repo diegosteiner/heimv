@@ -1,9 +1,10 @@
 = form_with(model: [:manage, @booking], local: true) do |f|
   - if @booking.errors.any?
-    .alert.alert-danger.pt-3
+    .alert.alert-danger.pt-4
       = f.error_summary
 
   fieldset
+    = f.collection_select :home_id, Home.accessible_by(current_ability), :id, :to_s, include_blank: true
     app-timespan-inputs[inline-template]
       div
         = f.fields_for :occupancy, @booking.occupancy do |of|
@@ -34,7 +35,7 @@
         = cf.country_select :country, { selected: "CH", priority_countries: %w[CH] }, class: 'form-control'
 
       = cf.telephone_field :phone
-      = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17
+      = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
 
   hr
   fieldset
@@ -50,12 +51,23 @@
     = f.select :purpose, [[t(:'activerecord.enums.booking.purpose.camp'), :camp], [t(:'activerecord.enums.booking.purpose.event'), :event]]
     = f.number_field :approximate_headcount
     = f.text_area :remarks
+    = f.text_area :internal_remarks
+    = f.text_area :cancellation_reason
     = f.check_box :messages_enabled
 
   hr
   fieldset
-    = f.text_field :booking_agent_code
-    = f.text_field :booking_agent_ref
+    = f.fields_for :agent_booking do |af|
+      = af.text_field :booking_agent_code
+      = af.text_field :booking_agent_ref
+
+  hr
+  fieldset
+    strong= Booking.human_attribute_name(:deadline)
+    .row
+      = f.fields_for :deadline, (@booking.deadline || @booking.deadlines.new) do |df|
+        .col= df.datetime_field :at
+        .col= df.number_field :postponable_for
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit

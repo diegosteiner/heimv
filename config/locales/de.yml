@@ -24,6 +24,19 @@ de:
       payment/filter:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis
+    models:
+      payment_info:
+        one: Zahlungsteil
+        other: Zahlungsteile
+      payment_infos/foreign_payment_info:
+        one: Zahlungsteil für Mieter aus dem Ausland
+        other: Zahlungsteile für Mieter aus dem Ausland
+      payment_infos/orange_payment_slip:
+        one: Oranger Einzahlungsschein
+        other: Orange Einzahlungsscheine
+      payment_infos/text_payment_info:
+        one: Zahlungsteil als Text
+        other: Zahlungsteile als Text
   activerecord:
     attributes:
       agent_booking:
@@ -31,7 +44,8 @@ de:
         booking_agent: Vermittler
         booking_agent_code: Vermittlercode
         booking_agent_ref: Ihre Referenz
-        email: Email des Mieters
+        home: Heim
+        tenant_email: Email des Mieters
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
@@ -42,6 +56,7 @@ de:
         deadline: Frist bis
         home: Heim
         home_id: Heim
+        internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         messages_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
@@ -58,8 +73,10 @@ de:
         email: Email
         name: Name
       contract:
+        pdf: PDF
         sent_at: Verschickt am
         signed_at: Unterschrieben am
+        signed_pdf: Unterschriebenes PDF
         text: Vertragstext
         title: Titel
       data_digest:
@@ -67,11 +84,12 @@ de:
         type: Art
       deadline:
         at: Bis
-        extendable: Verlängerbar
+        postponable_for: Verlängerbar
         responsible: Verantwortlich
       home:
         house_rules: Hausordnung (PDF)
         janitor: Angaben Heimwart
+        min_occupation: Mindestbelegung / Nacht
         name: Name
         place: Ort
         ref: Kurzname / Referenz
@@ -82,13 +100,14 @@ de:
         amount_paid: bezahlter Betrag
         esr_number: ESR Nummer
         invoice_parts: Positionen
-        invoice_type: Rechnungsart
         issued_at: Ausgestellt am
         payable_until: Zahlbar bis
+        payment_info_type: Zahlungsteil
         print_payment_slip: Einzahlungsschein drucken
         ref: Referenznummer
         sent_at: Verschickt am
         text: Text
+        type: Rechnungsart
       invoice_part:
         amount: Betrag
         apply: Anwenden
@@ -104,6 +123,7 @@ de:
         body: Inhalt
         sent_at: Zuletzt gesendet am
         subject: Betreff
+        to: An
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -118,17 +138,23 @@ de:
         ends_at_time: Ende der Belegung (Zeit)
         nights: Nächte
       organisation:
-        account_nr: Kontonummer
         address: Adresse
+        contract_signature: Vertragsunterschrift
+        delivery_method_settings_url: Email-Konfiguration
+        esr_participant_nr: ESR Teilnehmernummer
+        iban: IBAN
         logo: Logo
         message_footer: Fusszeile für Nachrichten
         name: Name
-        payment_information: Zahlungsinformationen
         privacy_statement_pdf: Datenschutzerklärung
+        representative_address: Adresse der Vertretung für Verträge
         terms_pdf: AGB
       payment:
         amount: Betrag
+        invoice_id: Rechnung
         paid_at: Bezahlt am
+        remarks: Bemerkungen
+        write_off: Abschreibung
       tarif:
         invoice_type: Rechnungstyp
         label: Tarif
@@ -171,28 +197,12 @@ de:
         purpose:
           camp: Lager
           event: Privater Anlass
-      invoice:
-        invoice_type:
-          deposit: Anzahlung
-          invoice: Rechnung
-          late_notice: Mahnung
-        invoice_types:
-          deposit: Anzahlung
-          invoice: Rechnung
-          late_notice: Mahnung
       tarif:
         prefill_usage_methods:
           flat: Fix
           headcount: "# Personen"
           headcount_nights: Übernachtungen
           nights: Nächte
-      tarif_selector:
-        types:
-          always_apply: Immer-Ein Tarifwähler
-          booking_approximate_headcount_per_night: Anzahl TN Tarifwähler
-          booking_nights: Nächte Tarifwähler
-          booking_overnight_stays: Übernachtungen Tarifwähler
-          booking_purpose: Mietzweck Tarifwähler
     errors:
       messages:
         record_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
@@ -201,11 +211,21 @@ de:
           has_one: Datensatz kann nicht gelöscht werden, da ein abhängiger %{record}-Datensatz existiert.
       models:
         booking:
+          action_not_allowed: Diese Aktion ist nicht erlaubt
           attributes:
+            deadline:
+              not_postponable: kann nicht verlängert werden
             state:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
+        occupancy:
+          attributes:
+            ends_at:
+              too_far_in_future: ist zu weit in der Zukunft
     models:
+      agent_booking:
+        one: Vermittlung
+        other: Vermittlungen
       booking:
         one: Buchung
         other: Buchungen
@@ -224,12 +244,24 @@ de:
       data_digest:
         one: Auszug
         other: Auszüge
+      data_digests/booking:
+        one: Buchungen Auszug
+        other: Buchungen Auszüge
       data_digests/booking_data_digest:
-        one: Belegungen Auszug
-        other: Belegungen Auszüge
-      data_digests/payment_data_digest:
+        one: Belegungen Bericht
+        other: Belegungen Berichte
+      data_digests/home_booking_plan:
+        one: Belegungsplan Auszug
+        other: Belegungsplan Auszüge
+      data_digests/parahotelerie_statistics:
+        one: Parahotelerie Statistik Auszug
+        other: Parahotelerie Statistik Auszüge
+      data_digests/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
+      data_digests/payment_data_digest:
+        one: Zahlungen Bericht
+        other: Zahlungen Berichte
       data_digests/tarif:
         one: Tarif Auszug
         other: Tarif Auszüge
@@ -248,6 +280,15 @@ de:
       invoice_part:
         one: Position
         other: Positionen
+      invoices/deposit:
+        one: Anzahlung
+        other: Anzahlungen
+      invoices/invoice:
+        one: Rechnung
+        other: Rechnungen
+      invoices/late_notice:
+        one: Mahnung
+        other: Mahnungen
       markdown_template:
         one: Textvorlage
         other: Textvorlagen
@@ -272,6 +313,16 @@ de:
       tarif_selector:
         one: Tarifwähler
         other: Tarifwähler
+      tarif_selectors/always_apply:
+        one: Immer-Ein Tarifwähler
+      tarif_selectors/booking_approximate_headcount_per_night:
+        one: Anzahl TN Tarifwähler
+      tarif_selectors/booking_nights:
+        one: Nächte Tarifwähler
+      tarif_selectors/booking_overnight_stays:
+        one: Übernachtungen Tarifwähler
+      tarif_selectors/booking_purpose:
+        one: Mietzweck Tarifwähler
       tarif_tarif_selector:
         one: Tarifwähler-Tarif
         other: Tarifwähler-Tarife
@@ -297,34 +348,28 @@ de:
           cancel: Ablehnen
           email_contract_and_deposit: Vertrag und Anzahlung verschicken
           email_invoice: Rechnung verschicken
-          extend_deadline: Frist verlängern
           mark_contract_signed: Vertragseingang bestätigen
           mark_deposits_paid: Zahlungseingang bestätigen
           mark_invoices_paid: Zahlungseingang bestätigen
+          postpone_deadline: Frist verlängern
         public:
           cancel: Stornieren
           commit_booking_agent_request: Anfrage definitv setzen
           commit_request: Anfrage definitv setzen
-          extend_deadline: Frist verlängern
-      checklist:
-        choose_tarifs: Tarife festlegen
-        contract_signed: Vertrag unterschieben
-        create_contract: Vertrag erstellen
-        create_deposit: Anzahlung erstellen
-        create_invoice: Rechnung stellen
-        create_usages: Verbrauch erfassen
-        deposit_paid: Anzahlung beglichen
-        invoice_paid: Rechnung beglichen
-      state:
+          postpone_deadline: Frist verlängern
+      states:
         active:
           help: Help
           label: Aktive Belegung
+          relevant_time_label: Ende der Belegung
         awaiting_tenant:
           help: Help
-          label: Mietanfrage (fehlende Mieterangaben)
+          label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
+          relevant_time_label: Frist
         booking_agent_request:
           help: Help
           label: Mietanfrage (provisorisch via Vermittler)
+          relevant_time_label: Frist
         cancelation_pending:
           help: Help
           label: Stornierung pendent
@@ -338,47 +383,73 @@ de:
           help: Help
           label: Belegung (abgeschlossen)
         confirmed:
+          checklist:
+            contract_signed: Vertrag unterschieben
+            deposit_paid: Anzahlung beglichen
           help: Help
           label: Reservation (Vertrag ausstehend)
+          relevant_time_label: Frist
         declined_request:
           help: Help
           label: Mietanfrage (abgelehnt)
         definitive_request:
+          checklist:
+            choose_tarifs: Tarife festlegen
+            create_contract: Vertrag erstellen
+            create_deposit: Anzahlung erstellen
           help: Help
           label: Mietanfrage (definitiv)
+          relevant_time_label: Eingereicht
         initial:
           help: Help
           label: "-"
         open_request:
           help: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
           label: Mietanfrage (offen)
+          relevant_time_label: Eingereicht
         overdue:
+          checklist:
+            contract_signed: Vertrag unterschieben
+            deposit_paid: Anzahlung beglichen
           help: Help
           label: Reservation (Vertrag überfällig)
+          relevant_time_label: Frist
         overdue_request:
           help: Deine Mietanfrage ist überfällig. Bitte setzte Sie entweder auf definitiv oder annuliere die Anfrage ganz.
           label: Mietanfrage (Antwort überfällig)
+          relevant_time_label: Frist
         past:
+          checklist:
+            create_invoice: Rechnung stellen
+            create_usages: Verbrauch erfassen
           help: Help
           label: Belegung (vergangen)
+          relevant_time_label: Ende der Belegung
         payment_due:
           help: Help
           label: Belegung (Zahlung ausstehend)
+          relevant_time_label: Frist
         payment_overdue:
           help: Help
           label: Belegung (Zahlung überfällig)
+          relevant_time_label: Frist
         provisional_request:
           help: Deine provisorische Mietanfrage ist bestätigt.
           label: Mietanfrage (provisorisch)
+          relevant_time_label: Frist
         unconfirmed_request:
           help: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
           label: Mietanfrage (Email unbestätigt)
+          relevant_time_label: Frist
         upcoming:
           help: Help
           label: Belegung (zukünftig)
+          relevant_time_label: Beginn der Belegung
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->awaiting_tenant":
+          label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
         "-->booking_agent_request":
           label: Vermittler Anfrage
         "-->cancelation_pending":
@@ -515,6 +586,10 @@ de:
       second: Sekunde
       year: Jahr
   destroy: Löschen
+  downloads:
+    slug:
+      privacy_statement_pdf: datenschutz
+      terms_pdf: agb
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
@@ -1607,9 +1682,9 @@ de:
     public:
       bookings:
         create:
-          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte deine Email-Addresse
+          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte deine Email-Addresse.
         update:
-          notice: Deine Reservationsanfrage wurde gespeichert. Du kannst das Browserfenster schliessen.
+          notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
   helpers:
     select:
       prompt: Bitte wählen
@@ -1626,12 +1701,13 @@ de:
       usages:
         table:
           save: "%{model_name} speichern"
+    messages:
+      edit:
+        deliver: Speichern und nochmals versenden
   nav:
-    edit_account: Account
     settings: Einstellungen
     sign_in: Anmelden
     sign_out: Abmelden
-  new: Neu
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
   number:
     currency:
@@ -1706,6 +1782,7 @@ de:
         last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
       new:
         accept_conditions_html: Ich bin mit den <a href="%{privacy_statement_pdf_url}" target="_blank">Datenschutzbestimmungen</a> und den <a href="%{terms_pdf_url}" target="_blank">AGB</a> einverstanden
+        problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         title: Reservation
   reset: Reset
   support:

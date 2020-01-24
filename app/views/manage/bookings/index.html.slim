@@ -13,4 +13,9 @@ nav.navbar.bg-white
       =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary'
         = t(:reset)
 
-= render partial: current_organisation.booking_strategy.template_path('manage/bookings/index')
+- @grouped_bookings.each do |state, bookings|
+  - next unless bookings.any?
+  section
+    - title, help_text = current_organisation.booking_strategy.t(state, scope: :states).slice(:label, :help).values
+    h3.mt-5= title
+    == render partial: 'table', locals: { bookings: bookings }

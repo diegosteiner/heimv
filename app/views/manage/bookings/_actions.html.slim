@@ -1,10 +1,12 @@
 
 span[role="group"]
-  - allowed_actions.each do |action|
+  - actions.each do |action_klass|
+    - action = action_klass.new(context)
+    - next unless action.allowed?
 
     - button_options = action.button_options.merge({ name: :booking_action, value: action.to_s })
     - button_classes = defined?(button_classes) && button_classes.presence || %w[btn-md mr-1]
-    - button_classes += ['btn', "btn-outline-#{button_options[:variant]}"]
+    - button_classes += ['btn', "btn-outline-#{button_options.fetch(:variant, :primary)}"]
     - button_options[:class] = button_classes.uniq.join(' ')
 
     = form.button(button_options)

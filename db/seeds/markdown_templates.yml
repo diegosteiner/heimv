@@ -1,26 +1,15 @@
-unconfirmed_request_message:
-  key: unconfirmed_request_message
+awaiting_tenant_message:
+  key: awaiting_tenant_message
   locale: de
-  title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
-  body: |-
-    Hallo
-
-    Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
-    untenstehenden Link um Deine E-Mail-Adresse zu bestätigen und um die
-    Mietanfrage abzuschliessen.
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-    {{ booking.organisation.message_footer }}
-
-open_request_message:
-  key: open_request_message
-  locale: de
-  title: 'Pfadi-heime.ch: Bestätigung Deiner Mietanfrage'
+  title: 'Pfadi-heime.ch: Infos bitte'
   body: |-
     {{ booking.tenant.salutation_name }}
 
-    Hiermit bestätigen wir den Eingang deiner Mietanfrage auf pfadi-heime.ch.
+    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir benötigen noch deine vollständigen Angaben, um die Reservation
+    definitiv abzuschliessen.
+    Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
 
 
     **Reservationsdetails**
@@ -33,12 +22,113 @@ open_request_message:
     - Bemerkungen: {{ booking.remarks }}
 
 
-    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
+
+booking_agent_cancelled_message:
+  key: booking_agent_cancelled_message
+  locale: de
+  title: 'Pfadi-heime.ch: Vermittlung storniert'
+  body: |-
+    Lieber Vermittler
+
+    Wir bestätigen Dir die Stornierung Deiner Reservation auf pfadi-heime.ch:
+
+    - Unsere Referenz: {{ booking.ref }}
+    - Deine Referenz: {{ booking.booking_agent_ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+
+    Auf unserem [Reservationssystem](https://heimv.pfadi-heime.ch) kannst Du jederzeit eine neue Reservation erstellen.
+
+    {{ booking.organisation.message_footer }}
+
+booking_agent_request_accepted_message:
+  key: booking_agent_request_accepted_message
+  locale: de
+  title: 'Pfadi-heime.ch: Vermittlungsanfrage akzeptiert'
+  body: |-
+    Lieber Vermittler
+
+    Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
+
+    - Unsere Referenz: {{ booking.ref }}
+    - Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}
+    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
     {{ booking.organisation.message_footer }}
 
+booking_agent_request_message:
+  key: booking_agent_request_message
+  locale: de
+  title: 'Pfadi-heime.ch: Bestätigung Deiner Vermittlungsanfrage'
+  body: |-
+    Lieber Vermittler
+
+    Vielen Dank für Deine Reservation auf pfadi-heime.ch.
+
+    - Unsere Referenz: {{ booking.ref }}
+    - Deine Referenz: {{ booking.booking_agent_ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Bearbeitungslink: [{{booking.links.edit}}]({{booking.links.edit}})
+
+    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+    {{ booking.organisation.message_footer }}
+
+cancelled_message:
+  key: cancelled_message
+  locale: de
+  title: 'Pfadi-heime.ch: Vertragsauflösung/Annullation Deiner Reservation'
+  body: |-
+    Hallo
+
+    Wie schon persönlich besprochen, ist der Vertrag für untenstehende Reservation nicht zustande gekommen oder Du bist vom Vertrag zurückgetreten. Wir haben die Reservation deshalb annulliert.
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+
+    Du kannst auf unserem [Reservationssystem](https://heimv.pfadi-heime.ch) jederzeit eine neue Reservation erstellen.
+
+    Für Fragen oder weitere Auskünfte wendest Du Dich an unseren Heimverwalter: Christian Morger / Smily, 079 262 25 48, [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
+
+cancelled_request_message:
+  key: cancelled_request_message
+  locale: de
+  title: 'Pfadi-heime.ch: Deine Reservation ist abgelaufen'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Du hast vor einiger Zeit auf pfadi-heime.ch eine provisorische Reservation erstellt und wir hatten das Pfadiheim 14 Tage lang für Dich reserviert. Weil Du die Reservation bis heute nicht auf definitiv gesetzt hast, ist sie nun verfallen und wir haben das Lagerhaus wieder freigegeben.
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+    Du kannst auf unserem [Reservationssystem](https://heimv.pfadi-heime.ch) jederzeit eine neue Reservation erstellen.
+
+    Für Fragen oder weitere Auskünfte wendest Du Dich an unseren Heimverwalter: Christian Morger / Smily, 079 262 25 48, [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
 
 confirmed_message:
   key: confirmed_message
@@ -47,21 +137,20 @@ confirmed_message:
   body: |-
     {{ booking.tenant.salutation_name }}
 
-    Mit dieser Nachricht erhältst Du die Unterlagen für Deine Lagerhaus-Reservation. Bitte lies die Dokumente durch und prüfe ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn an uns zurück.
-    Falls im Vertrag eine Anzahlung vereinbart wurde ist diese sofort fällig. Bitte beachte dass der Vertrag erst zustande kommt wenn Anzahlung und unterzeichnetes Vertragsdoppel bei uns angekommen sind.
+    Mit dieser Nachricht erhältst Du die Unterlagen für Deine Lagerhaus-Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn an uns zurück. Falls im Vertrag eine Anzahlung vereinbart wurde, ist diese sofort fällig. Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Anzahlung und das unterzeichnete Vertragsdoppel bei uns eingetroffen sind.
 
 
     **Reservationsdetails**
 
     - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
-
     **Zahlungsdetails**
+
     {{ booking.organisation.payment_information }}
 
 
@@ -69,263 +158,6 @@ confirmed_message:
     wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
 
     {{ booking.organisation.message_footer }}
-
-provisional_request_message:
-  key: provisional_request_message
-  locale: de
-  title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt'
-  body: |-
-    {{ booking.tenant.salutation_name }}
-
-    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir haben Deine Angaben geprüft und nun eine provisorische Reservation erstellt.
-    Diese gilt für **14 Tage** danach verfällt sie und das Lagerhaus wird wieder freigegeben.
-    Über den folgenden Link kannst Du Deine Reservation verlängern aufheben oder für definitiv erklären.
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-
-    **Reservationsdetails**
-
-    - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.tenant_organisation }}
-    - Mietzweck: {{ booking.purpose | booking_purpose }}
-    - Bemerkungen: {{ booking.remarks }}
-
-
-    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
-
-    {{ booking.organisation.message_footer }}
-
-overdue_request_message:
-  key: overdue_request_message
-  locale: de
-  title: 'Pfadi-heime.ch: Anfrage überfällig'
-  body: |-
-    {{ booking.tenant.salutation_name }}
-
-    Du hast kürzlich auf pfadi-heime.ch eine provisorische Reservation erstellt.
-    Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird verfällt sie und das Lagerhaus wird wieder freigegeben.
-    Wir geben Dir nochmals 3 Tage Zeit um Deine Reservation zu verlängern oder um sie definitiv zumachen.
-    Klicke dazu auf den untenstehenden Link
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-    **Reservationsdetails**
-
-    - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.tenant_organisation }}
-    - Mietzweck: {{ booking.purpose | booking_purpose }}
-    - Bemerkungen: {{ booking.remarks }}
-
-
-    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-    {{ booking.organisation.message_footer }}
-
-
-definitive_request_message:
-  key: definitive_request_message
-  locale: de
-  title: 'Pfadi-heime.ch: Definitive Reservation bestätigt'
-  body: |-
-    Hallo
-
-    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-
-    **Reservationsdetails**
-
-    - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.tenant_organisation }}
-    - Mietzweck: {{ booking.purpose | booking_purpose }}
-    - Bemerkungen: {{ booking.remarks }}
-
-
-    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
-
-    {{ booking.organisation.message_footer }}
-
-manage_new_booking_mail:
-  key: manage_new_booking_mail
-  locale: de
-  title: 'Pfadi-heime.ch: Neue Mietanfrage'
-  body: |-
-    Hallo
-
-    Es ist eine neue Mietanfrage eingegangen für das Lagerhaus "{{ booking.home.name }}"
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-    **Reservationsdetails**
-
-    - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.tenant_organisation }}
-    - Mietzweck: {{ booking.purpose | booking_purpose }}
-    - Bemerkungen: {{ booking.remarks }}
-
-    {{ booking.organisation.message_footer }}
-
-
-upcoming_message:
-  key: upcoming_message
-  locale: de
-  title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen'
-  body: |-
-    {{ booking.tenant.salutation_name }}
-
-    Wir haben das von Dir unterzeichnete Vertragsdoppel und die Anzahlung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Lagerhaus.
-
-
-    **Reservationsdetails**
-
-    - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.tenant_organisation }}
-    - Mietzweck: {{ booking.purpose | booking_purpose }}
-    - Bemerkungen: {{ booking.remarks }}
-
-
-    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-    {{ booking.organisation.message_footer }}
-
-
-deposit_invoice_text:
-  key: deposit_invoice_text
-  locale: de
-  title: 'Anzahlung'
-  body: |-
-    # Anzahlung: {{ booking.home.name }}
-    {{ booking.ref }}
-
-    Anzahlungstext
-
-invoice_invoice_text:
-  key: invoice_invoice_text
-  locale: de
-  title: 'Vertrag'
-  body: |-
-    # Rechnung
-
-late_notice_invoice_text:
-  key: late_notice_invoice_text
-  locale: de
-  title: 'Vertrag'
-  body: |-
-    # Mahnung
-
-payment_due_message:
-  key: payment_due_message
-  locale: de
-  title: 'Pfadi-heime.ch: Deine Lagerhaus-Rechnung'
-  body: |-
-    {{ booking.tenant.salutation_name }}
-
-    Mit dieser Nachricht erhältst Du die Rechnung für Deine Lagerhaus-Reservation. Bitte bezahle diese innert der Zahlungsfrist von 30 Tagen
-
-    **Reservationsdetails**
-
-    - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.tenant_organisation }}
-    - Mietzweck: {{ booking.purpose | booking_purpose }}
-    - Bemerkungen: {{ booking.remarks }}
-
-
-    **Zahlungsdetails**
-    {{ booking.organisation.payment_information }}
-
-    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
-
-    {{ booking.organisation.message_footer }}
-
-
-payment_overdue_message:
-  key: payment_overdue_message
-  locale: de
-  title: 'Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung'
-  body: |-
-    {{ booking.tenant.salutation_name }}
-
-    Vor einiger Zeit haben wir Dir die Rechnung für Deine Lagerhaus-Reservation geschickt.
-    Die Zahlungsfrist von 30 Tagen ist nun abgelaufen doch wir haben noch keine Zahlung von
-    Dir erhalten. Bitte bezahle die überfällige Rechnung in den nächsten Tagen.
-
-    **Reservationsdetails**
-
-    - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.tenant_organisation }}
-    - Mietzweck: {{ booking.purpose | booking_purpose }}
-    - Bemerkungen: {{ booking.remarks }}
-
-
-    **Zahlungsdetails**
-    {{ booking.organisation.payment_information }}
-
-    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
-
-    {{ booking.organisation.message_footer }}
-
-
-contract_text:
-  key: contract_text
-  locale: de
-  title: 'Vertrag'
-  body: |-
-      # Allgemein
-      Der Vermieter überlässt dem Mieter das Pfadiheim "{{ booking.home.name }}" für den nachfolgend aufgeführten Anlass zur alleinigen Benutzung
-
-      # Mietdauer
-
-      - Mietbeginn: {{ booking.occupancy.begins_at | i18n_localize }}
-      - Mietende:   {{ booking.occupancy.ends_at | i18n_localize }}
-
-      Die Hausübergabe bzw. –rücknahme erfolgt durch den Heimwart. Der Mieter hat das Haus persönlich zum vereinbarten Zeitpunkt zu übernehmen resp. zu übergeben. Hierfür sind jeweils ca. 30 Minuten einzuplanen. Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten.
-
-      Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
-
-      Der genaue Zeitpunkt der Hausübernahme ist mit dem Heimwart spätestens 5 Tage vor Mietbeginn telefonisch zu vereinbaren:
-
-      *{{ booking.home.janitor }}*
-
-      # Übernahme und Rückgabe
-
-      Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten. Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
-
-      # Zweck der Miete
-
-      *{{ booking.purpose | booking_purpose }}*
-
-      # Mindestbelegung
-      Die Mindestbelegung beträgt durchschnittlich 12 Personen pro Nacht.
-
-      # Anzahlung
-      Die Anzahlung wird bei Abschluss des Vertrages fällig
-
-      # Tarife
-      Es gelten die nachfolgenden Tarife:
 
 contract_signed_message:
   key: contract_signed_message
@@ -355,6 +187,96 @@ contract_signed_message:
 
     {{ booking.organisation.message_footer }}
 
+contract_text:
+  key: contract_text
+  locale: de
+  title: 'Vertrag'
+  body: |-
+    # Allgemein
+    Der Vermieter überlässt dem Mieter das Pfadiheim "{{ booking.home.name }}" für den nachfolgend aufgeführten Anlass zur alleinigen Benutzung.
+
+    # Mietdauer
+    - Mietbeginn: {{ booking.occupancy.begins_at | i18n_localize }}
+    - Mietende: {{ booking.occupancy.ends_at | i18n_localize }}
+
+    # Übernahme und Rückgabe
+    Die Hausübergabe bzw. –rücknahme erfolgt durch den Heimwart. Der Mieter hat das Haus persönlich zum vereinbarten Zeitpunkt zu übernehmen resp. zu übergeben. Hierfür sind jeweils ca. 30 Minuten einzuplanen. Die Übernahme- und Rückgabezeiten sind unbedingt einzuhalten. Verspätungen ab 15 Minuten werden mit CHF 20.- pro angebrochene Viertelstunde verrechnet!
+
+    Der genaue Zeitpunkt der Hausübernahme ist mit dem Heimwart spätestens 5 Tage vor Mietbeginn telefonisch zu vereinbaren:
+    *{{ booking.home.janitor }}*
+
+    # Zweck der Miete
+    *{{ booking.purpose | booking_purpose }}*
+
+    # Mindestbelegung
+    Die Mindestbelegung beträgt {{ booking.home.min_occupation }} Personen pro Nacht, hochgerechnet auf die Belegungsdauer.
+
+    # Anzahlung
+    Die Anzahlung wird bei Abschluss des Vertrages fällig.
+
+    # Tarife
+    Es gelten die nachfolgenden Tarife:
+
+declined_request_message:
+  key: declined_request_message
+  locale: de
+  title: 'Pfadi-heime.ch: Reservationsanfrage abgelehnt'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wie schon persönlich besprochen, müssen wir Deine Anfrage ablehnen.
+
+
+    Ablehnungsgrund: {{ booking.cancellation_reason }}
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    {{ organisation.message_footer }}
+
+definitive_request_message:
+  key: definitive_request_message
+  locale: de
+  title: 'Pfadi-heime.ch: Definitive Reservation bestätigt'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily, 079 262 25 48, [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
+
+deposit_invoice_text:
+  key: deposit_invoice_text
+  locale: de
+  title: 'Anzahlung'
+  body: |-
+    # Anzahlung: {{ booking.home.name }}
+    {{ booking.ref }}
+
+    Anzahlungstext
+
 deposits_paid_message:
   key: deposits_paid_message
   locale: de
@@ -362,25 +284,241 @@ deposits_paid_message:
   body: |-
     {{ booking.tenant.salutation_name }}
 
-    Soeben haben wir Deine Anzahlung erhalten, vielen Dank.
-    Bitte sende uns auch möglichst rasch das unterzeichnete Vertragsdoppel zurück
+    Soeben haben wir Deine Anzahlung erhalten, vielen Dank. Bitte sende uns auch möglichst rasch das unterzeichnete Vertragsdoppel zurück.
 
 
     **Reservationsdetails**
 
     - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
     - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
     - Organisation: {{ booking.tenant_organisation }}
     - Mietzweck: {{ booking.purpose | booking_purpose }}
     - Bemerkungen: {{ booking.remarks }}
 
 
-    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter wenden: Christian Morger / Smily, 079 262 25 48, [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
+
+invoice_invoice_text:
+  key: invoice_invoice_text
+  locale: de
+  title: 'Vertrag'
+  body: |-
+    # Rechnung
+
+late_notice_invoice_text:
+  key: late_notice_invoice_text
+  locale: de
+  title: 'Vertrag'
+  body: |-
+    # Mahnung
+
+manage_new_booking_mail:
+  key: manage_new_booking_mail
+  locale: de
+  title: 'Pfadi-heime.ch: Neue Mietanfrage'
+  body: |-
+    Hallo
+
+    Es ist eine neue Mietanfrage für das Lagerhaus **{{ booking.home.name }}** eingegangen.
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: **{{ booking.ref }}**
+    - Lagerhaus: **{{ booking.home.name }}, {{ booking.home.place }}**
+    - Reservation: **{{ booking.occupancy.begins_at | i18n_localize }}** bis **{{ booking.occupancy.ends_at | i18n_localize }}**
+    - Organisation: **{{ booking.tenant_organisation }}**
+    - Mietzweck: **{{ booking.purpose | booking_purpose }}**
+    - Bemerkungen: **{{ booking.remarks }}**
+    - Bearbeitungslink: [{{ booking.links.edit }}]({{ booking.links.edit }})
+
+    [Zum HeimV-Buchungssystem](https://heimv.pfadi-heime.ch/manage/bookings)
+
+
+    {{ booking.organisation.message_footer }}
+
+open_request_message:
+  key: open_request_message
+  locale: de
+  title: 'Pfadi-heime.ch: Bestätigung Deiner Mietanfrage'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Hiermit bestätigen wir den Eingang deiner Mietanfrage auf pfadi-heime.ch.
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
 
     [{{booking.links.edit}}]({{booking.links.edit}})
 
     {{ booking.organisation.message_footer }}
+
+overdue_request_message:
+  key: overdue_request_message
+  locale: de
+  title: 'Pfadi-heime.ch: Anfrage überfällig'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Du hast kürzlich auf pfadi-heime.ch eine provisorische Reservation erstellt. Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Lagerhaus wird wieder freigegeben. Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zu machen. Klicke dazu auf den untenstehenden Link.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter wenden: Christian Morger / Smily, 079 262 25 48, [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
+
+payment_due_message:
+  key: payment_due_message
+  locale: de
+  title: 'Pfadi-heime.ch: Deine Lagerhaus-Rechnung'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Mit dieser Nachricht erhältst Du die Rechnung für Deinen Lagerhaus-Besuch. Bitte bezahle diese innert der Zahlungsfrist von 30 Tagen.
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+
+
+    **Zahlungsdetails**
+
+    - Empfänger: Verein Pfadiheime St. Georg, Zürich
+    - Konto: 01-318421-1
+    - ESR-Referenznummer: {{ booking.esr-nummer }}
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily, 079 262 25 48, [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
+
+
+payment_overdue_message:
+  key: payment_overdue_message
+  locale: de
+  title: 'Pfadi-heime.ch: Zahlungserinnerung für Deine Lagerhaus-Rechnung'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Vor einiger Zeit haben wir Dir die Rechnung für Deine Lagerhaus-Reservation geschickt. Die Zahlungsfrist von 30 Tagen ist nun abgelaufen, doch wir haben noch keine Zahlung von Dir erhalten. Bitte bezahle die überfällige Rechnung in den nächsten Tagen.
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+
+
+    **Zahlungsdetails**
+
+    - Empfänger: Verein Pfadiheime St. Georg, Zürich
+    - Konto: XXXXXX
+    - ESR-Referenznummer: {{ booking.esr-nummer }}
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily, 079 262 25 48, [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
+
+provisional_request_message:
+  key: provisional_request_message
+  locale: de
+  title: 'Pfadi-heime.ch: Provisorische Reservation bestätigt'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir haben Deine Angaben geprüft und nun eine provisorische Reservation erstellt. Diese gilt für **14 Tage**, danach verfällt sie und das Lagerhaus wird wieder freigegeben. Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Bemerkungen: {{ booking.remarks }}
+
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
+    wenden: Christian Morger / Smily, 079 262 25 48, [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
+
+unconfirmed_request_message:
+  key: unconfirmed_request_message
+  locale: de
+  title: 'Pfadi-heime.ch: Bestätige Deine E-Mail-Adresse'
+  body: |-
+    Hallo
+
+    Du hast soeben auf pfadi-heime.ch eine Mietanfrage begonnen. Bitte klicke auf den
+    untenstehenden Link um Deine E-Mail-Adresse zu bestätigen und um die
+    Mietanfrage abzuschliessen.
+
+    [{{booking.links.edit}}]({{booking.links.edit}})
+
+    {{ booking.organisation.message_footer }}
+
+upcoming_message:
+  key: upcoming_message
+  locale: de
+  title: 'Pfadi-heime.ch: Anzahlung und Vertragsdoppel eingegangen'
+  body: |-
+    {{ booking.tenant.salutation_name }}
+
+    Wir haben das von Dir unterzeichnete Vertragsdoppel und die Anzahlung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Lagerhaus.
+
+
+    **Reservationsdetails**
+
+    - Buchungsreferenz: {{ booking.ref }}
+    - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
+    - Organisation: {{ booking.tenant_organisation }}
+    - Mietzweck: {{ booking.purpose | booking_purpose }}
+    - Heimwart: {{ booking.home.janitor }}
+
+    Bitte vereinbare mit dem Heimwart rechtzeitig den Übernahmetermin.
+
+    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter wenden: Christian Morger / Smily, 079 262 25 48, [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+
+    {{ booking.organisation.message_footer }}
+
 
 # invoices_paid_message:
 #   key: invoices_paid_message
@@ -394,125 +532,3 @@ deposits_paid_message:
 
 #     Freundliche Grüsse
 #     Verein Pfadiheime St. Georg
-
-booking_agent_request_message:
-  key: booking_agent_request_message
-  locale: de
-  title: 'Pfadi-heime.ch: Bestätigung Deiner Vermittlungsanfrage'
-  body: |-
-    Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
-
-    - Unsere Referenz: {{ booking.ref }}
-    - Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-
-    Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-    {{ booking.organisation.message_footer }}
-
-booking_agent_request_accepted_message:
-  key: booking_agent_request_accepted_message
-  locale: de
-  title: 'Pfadi-heime.ch: Vermittlungsanfrage akzeptiert'
-  body: |-
-    Vielen Dank für Deine Vermittlung auf pfadi-heime.ch.
-
-    - Unsere Referenz: {{ booking.ref }}
-    - Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-    {{ booking.organisation.message_footer }}
-
-cancelled_message:
-  key: cancelled_message
-  locale: de
-  title: 'Pfadi-heime.ch: Buchung storniert'
-  body: |-
-    🙋
-
-cancelled_request_message:
-  key: cancelled_request_message
-  locale: de
-  title: 'Pfadi-heime.ch: Reservationsanfrage zurückgezogen'
-  body: |-
-    🙋
-
-declined_request_message:
-  key: declined_request_message
-  locale: de
-  title: 'Pfadi-heime.ch: Reservationsanfrage abgelehnt'
-  body: |-
-    🙋
-
-booking_agent_cancelled_message:
-  key: booking_agent_cancelled_message
-  locale: de
-  title: 'Pfadi-heime.ch: Vermittlung storniert'
-  body: |-
-    🙋
-
-booking_agent_request_message:
-  key: booking_agent_request_message
-  locale: de
-  title: 'Pfadi-heime.ch: Reservationsanfrage bestätigt'
-  body: |-
-    Hallo
-
-    Vielen Dank für die vermittelte Mietanfrage auf pfadi-heime.ch. Wir haben die Angaben geprüft und nun eine provisorische Reservation erstellt.
-    Diese gilt für **14 Tage** danach verfällt sie und das Lagerhaus wird wieder freigegeben.
-    Über den folgenden Link kann die Reservation verlängert, aufgohoben oder für definitiv erklärt werden.
-
-    [{{booking.agent_booking.links.edit}}]({{booking.agent_booking.links.edit}})
-
-    **Reservationsdetails**
-
-    - Buchungsreferenz: {{ booking.ref }}
-    - Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.tenant_organisation }}
-    - Mietzweck: {{ booking.purpose | booking_purpose }}
-    - Bemerkungen: {{ booking.remarks }}
-
-
-    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
-
-    {{ booking.organisation.message_footer }}
-
-awaiting_tenant_message:
-  key: awaiting_tenant_message
-  locale: de
-  title: 'Pfadi-heime.ch: Infos bitte'
-  body: |-
-    {{ booking.tenant.salutation_name }}
-
-    Vielen Dank für Deine Mietanfrage auf pfadi-heime.ch. Wir benötigen noch deine vollständigen Angaben, um die Reservation
-    definitiv abzuschliessen.
-    Über den folgenden Link kannst Du Deine Reservation verlängern aufheben oder für definitiv erklären.
-
-    [{{booking.links.edit}}]({{booking.links.edit}})
-
-
-    **Reservationsdetails**
-
-    - Buchungsreferenz: {{ booking.ref }}
-    - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
-    - Reservation: {{ booking.occupancy.begins_at | i18n_localize }} bis {{ booking.occupancy.ends_at | i18n_localize }}
-    - Organisation: {{ booking.tenant_organisation }}
-    - Mietzweck: {{ booking.purpose | booking_purpose }}
-    - Bemerkungen: {{ booking.remarks }}
-
-
-    Bei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter
-    wenden: Christian Morger / Smily 079 262 25 48 [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
-
-    {{ booking.organisation.message_footer }}
-
-

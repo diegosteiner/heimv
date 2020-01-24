@@ -3,12 +3,22 @@
 # Table name: usages
 #
 #  id         :bigint           not null, primary key
-#  tarif_id   :bigint
-#  used_units :decimal(, )
 #  remarks    :text
-#  booking_id :uuid
+#  used_units :decimal(, )
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  booking_id :uuid
+#  tarif_id   :bigint
+#
+# Indexes
+#
+#  index_usages_on_booking_id  (booking_id)
+#  index_usages_on_tarif_id    (tarif_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
+#  fk_rails_...  (tarif_id => tarifs.id)
 #
 
 class Usage < ApplicationRecord
@@ -19,11 +29,12 @@ class Usage < ApplicationRecord
   belongs_to :tarif, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages
   has_many :invoice_parts, dependent: :nullify
+  has_many :tarif_selectors, through: :tarif
 
   attribute :apply, default: true
   delegate(:position, to: :tarif)
 
-  scope :ordered, -> { joins(:tarif).order(Tarif.arel_table[:position]) }
+  scope :ordered, -> { joins(:tarif).includes(:tarif).order(Tarif.arel_table[:position]) }
   scope :of_tarif, ->(tarif) { where(tarif_id: tarif.self_and_booking_copy_ids) }
   scope :amount, -> { joins(:tarif).where(tarifs: { type: Tarifs::Amount.to_s }) }
 
@@ -44,6 +55,17 @@ class Usage < ApplicationRecord
     return if tarif.booking_copy? || tarif.transient?
 
     self.tarif = Tarifs::Factory.new.booking_copy_for(tarif, booking).tap(&:save)
+  end
+
+  def tarif_selector_votes
+    @tarif_selector_votes ||= Hash[tarif_selectors.map do |selector|
+      [selector, selector.vote_for(self)]
+    end]
+  end
+
+  def adopted_by_vote?
+    votes = tarif_selector_votes.values.flatten.compact
+    votes.any? && votes.all?
   end
 
   def used?

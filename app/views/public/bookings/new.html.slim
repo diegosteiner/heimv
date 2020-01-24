@@ -8,8 +8,9 @@
       = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
         .card
           - if @booking.errors.any?
-            .card-header.alert-danger
+            .card-header.alert-danger.pt-4
               = f.error_summary
+              / = @booking.errors.inspect
           .card-body
             fieldset[data-range-role="unit"]
               = f.select :home_id, homes_for_select
@@ -20,22 +21,25 @@
                       .col-md-6
                         = calendar_input(of, :begins_at_date, required: true)
                       .col-md-6
-                        = of.time_select :begins_at_time, ignore_date: true, minute_step: 15
+                        = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, start_hour: 8, end_hour: 22
                     .row
                       .col-md-6
                         = calendar_input(of, :ends_at_date, required: true)
                       .col-md-6
-                        = of.time_select :ends_at_time, ignore_date: true, minute_step: 15
+                        = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, start_hour: 8, end_hour: 22
               = f.email_field :email
               = f.text_field :tenant_organisation
 
-              = link_to new_public_agent_booking_path
+              = link_to new_public_agent_booking_path(agent_booking: Public::AgentBookingParams.new(params[:booking]).to_h)
                 = BookingAgent.model_name.human
 
             .form-actions.pt-4.mt-3.border-top
-              - terms_pdf_url = current_organisation.terms_pdf.attached? ? url_for(current_organisation.terms_pdf) : '#'
-              - privacy_statement_pdf_url = current_organisation.privacy_statement_pdf.attached? ? url_for(current_organisation.privacy_statement_pdf) : '#'
+              - terms_pdf_url = download_url(slug: t(:terms_pdf, scope: %i[downloads slug]))
+              - privacy_statement_pdf_url = download_url(slug: t(:privacy_statement_pdf, scope: %i[downloads slug]))
               = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', terms_pdf_url: terms_pdf_url, privacy_statement_pdf_url: privacy_statement_pdf_url)
               br
               = f.submit
+
+      - if current_organisation.email.present?
+        p.mt-3.text-center.small== t('.problems_html', email: current_organisation.email)
 

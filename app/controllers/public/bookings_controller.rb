@@ -31,22 +31,24 @@ module Public
         @booking.assign_attributes(update_params)
         @booking.save(context: :public_update)
       end
-      public_actions[booking_action]&.call(@booking) if booking_action
+      call_booking_action
       respond_with :public, @booking, location: edit_public_booking_path
     end
 
     private
 
-    def public_actions
-      current_organisation.booking_strategy.public_actions
+    def call_booking_action
+      booking_action&.call(booking: @booking)
+    rescue BookingStrategy::Action::NotAllowed
+      @booking.errors.add(:base, :action_not_allowed)
+    end
+
+    def booking_action
+      current_organisation.booking_strategy.public_actions[params[:booking_action]]
     end
 
     def booking_params
       BookingParams::Create.new(params[:booking])
-    end
-
-    def booking_action
-      params[:booking_action]
     end
 
     def update_params
