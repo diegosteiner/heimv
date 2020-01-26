@@ -3,12 +3,26 @@ module Manage
     load_and_authorize_resource :organisation
     before_action :set_organisation
     after_action :attach_files, only: :update
+    respond_to :yaml
 
     def edit; end
 
     def update
       @organisation.update(organisation_params)
       respond_with :manage, @organisation, location: edit_manage_organisation_path
+    end
+
+    def show
+      respond_to do |format|
+        format.html { redirect_to edit_manage_organisation_path }
+        format.json { render json: JSON.generate(InOut::OrganisationInOut.new(@organisation).to_h) }
+      end
+    end
+
+    def create
+      InOut::OrganisationInOut.new(@organisation).from_h(JSON.parse(params[:inout]), replace: params[:replace])
+
+      redirect_to edit_manage_organisation_path
     end
 
     private
@@ -28,10 +42,10 @@ module Manage
     end
 
     def organisation_params
-      params.require(:organisation).permit(:name, :address, :booking_strategy_type, :invoice_ref_strategy_type,
-                                           :esr_participant_nr, :message_footer, :logo,
-                                           :privacy_statement_pdf, :terms_pdf, :iban, :delivery_method_settings_url,
-                                           :representative_address, :contract_signature, :email)
+      params[:organisation]&.permit(:name, :address, :booking_strategy_type, :invoice_ref_strategy_type,
+                                    :esr_participant_nr, :message_footer, :logo,
+                                    :privacy_statement_pdf, :terms_pdf, :iban, :delivery_method_settings_url,
+                                    :representative_address, :contract_signature, :email)
     end
   end
 end

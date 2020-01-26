@@ -105,4 +105,8 @@ class Invoice < ApplicationRecord
   def payment_info
     @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
   end
+
+  def to_liquid
+    Manage::InvoiceSerializer.new(self).serializable_hash.deep_stringify_keys
+  end
 end

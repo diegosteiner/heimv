@@ -5,6 +5,7 @@
     = f.text_field :ref
     = f.text_field :place
     = f.file_field :house_rules
+    = f.file_field :privacy_statement_pdf, help: link_to_if(@home.house_rules.attached?, @home.house_rules.try(:filename), @home.house_rules)
     = f.text_area :janitor
     = f.number_field :min_occupation, step: 1
     = f.check_box :requests_allowed

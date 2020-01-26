@@ -48,7 +48,7 @@ class MarkdownTemplate < ApplicationRecord
     end
 
     def i18n_localize(input, format = :short)
-      I18n.l(input, format: format)
+      I18n.l(input, format: format.to_sym) if input.present?
     end
 
     def booking_purpose(input)

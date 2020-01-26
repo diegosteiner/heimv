@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_21_144624) do
+ActiveRecord::Schema.define(version: 2020_01_26_154125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -266,6 +266,7 @@ ActiveRecord::Schema.define(version: 2020_01_21_144624) do
     t.string "delivery_method_settings_url"
     t.string "representative_address"
     t.string "email"
+    t.integer "payment_deadline", default: 30, null: false
   end
 
   create_table "payments", force: :cascade do |t|

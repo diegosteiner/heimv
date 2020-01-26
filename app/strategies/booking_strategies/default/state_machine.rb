@@ -45,7 +45,7 @@ module BookingStrategies
       transition from: :payment_due,         to: %i[payment_overdue completed]
       transition from: :payment_overdue,     to: %i[completed]
       transition from: :past,                to: %i[completed]
-      transition from: :cancelation_pending, to: %i[cancelled]
+      transition from: :cancelation_pending, to: %i[cancelled overdue]
 
       guard_transition(to: %i[confirmed]) do |booking|
         booking.occupancy.conflicting.none?
@@ -78,7 +78,7 @@ module BookingStrategies
                                            addressed_to: :booking_agent).deliver
       end
 
-      after_transition(to: %i[unconfirmed_request overdue_request overdue payment_overdue awaiting_tenant]) do |booking|
+      after_transition(to: %i[unconfirmed_request overdue_request awaiting_tenant]) do |booking|
         booking.deadline&.clear
         booking.deadlines.create(at: booking.organisation.short_deadline.from_now, remarks: booking.state)
       end
@@ -121,13 +121,16 @@ module BookingStrategies
         booking.occupancy.tentative!
       end
 
-      before_transition(to: %i[cancelation_pending cancelled_request declined_request]) do |booking|
+      before_transition(to: %i[cancelled cancelled_request declined_request]) do |booking|
         booking.editable!(false)
         booking.occupancy.free!
       end
 
       after_transition(to: %i[cancelation_pending cancelled_request declined_request]) do |booking|
         booking.deadline&.clear
+      end
+
+      after_transition(to: :cancelation_pending) do |booking|
       end
 
       after_transition(to: %i[confirmed upcoming active overdue]) do |booking|

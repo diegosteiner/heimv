@@ -332,6 +332,8 @@ en:
         one: Pauschale
       tarifs/metered:
         one: nach Zählerstand
+      tarifs/overnight_stay:
+        one: Übernachtungen
       tenant:
         one: Tenant
         other: Tenants

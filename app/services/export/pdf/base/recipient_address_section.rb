@@ -9,6 +9,7 @@ module Export
 
         def render
           bounding_box [300, 690], width: 200, height: 170 do
+            stroke_bounds
             default_leading 4
             text Tenant.model_name.human(count: :one), size: 13, style: :bold
             move_down 5

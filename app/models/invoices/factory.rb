@@ -2,8 +2,8 @@ module Invoices
   class Factory
     def call(booking, params)
       invoice = ::Invoice.new(default_attributes.merge(booking: booking).merge(params || {}))
-      invoice.text ||= markdown_template(invoice)
       invoice.payable_until ||= payable_until(invoice)
+      invoice.text ||= markdown_template(invoice)
       invoice
     end
 
@@ -19,7 +19,9 @@ module Invoices
     end
 
     def payable_until(invoice)
-      30.days.from_now unless invoice.is_a?(Invoices::Deposit)
+      return invoice.booking.organisation.short_deadline.days.from_now if invoice.is_a?(Invoices::Deposit)
+
+      invoice.booking.organisation.payment_deadline.days.from_now
     end
   end
 end
