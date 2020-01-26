@@ -3,8 +3,8 @@ class BookingStrategy
     extend TemplateRenderable
     include Statesman::Machine
 
-    def initialize(booking)
-      super(booking, transition_class: Booking.transition_class)
+    def state_object
+      object.organisation.booking_strategy.booking_states[current_state&.to_sym]&.new(object)
     end
   end
 end

@@ -21,7 +21,7 @@ AllCops:
 Rails:
   Enabled: true
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 Metrics/MethodLength:
@@ -50,7 +50,7 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   AllowedNames:
     - 'to'
     - 'at'

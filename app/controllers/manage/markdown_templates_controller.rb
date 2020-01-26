@@ -1,9 +1,15 @@
 module Manage
   class MarkdownTemplatesController < BaseController
     load_and_authorize_resource :markdown_template
+    respond_to :json
 
     def index
-      respond_with :manage, @markdown_templates
+      @markdown_templates = @markdown_templates.order(key: :ASC)
+      # respond_with :manage, @markdown_templates
+      respond_to do |format|
+        format.html
+        format.json { render json: @markdown_templates }
+      end
     end
 
     def show
@@ -19,6 +25,13 @@ module Manage
       @markdown_template.save
       respond_with :manage, @markdown_template
     end
+
+    # def import
+    #   @markdown_templates = params[:markdown_templates].map do |template_params|
+    #     template = MarkdownTemplate.find_or_initalize_by(*markdown_template_params.permit(:key, :locale))
+    #     template.update(*markdown_template_params.permit(:title, :body))
+    #   end
+    # end
 
     def update
       @markdown_template.update(markdown_template_params)

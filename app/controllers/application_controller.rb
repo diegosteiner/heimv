@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organisation
-    @current_organisation ||= Organisation.first
+    @current_organisation ||= Organisation.current
   end
 
   private

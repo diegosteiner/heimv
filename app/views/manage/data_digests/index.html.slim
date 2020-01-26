@@ -22,7 +22,7 @@
                   = format.to_s.upcase
 
               = link_to edit_manage_data_digest_path(data_digest), class: 'btn btn-default' do
-                span.fa.fa-pencil
+                span.fa.fa-edit
               = link_to manage_data_digest_path(data_digest), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
                 span.fa.fa-trash
 
@@ -32,6 +32,6 @@ br
     = t(:add_record, model_name: DataDigest.model_name.human)
     '
   .dropdown-menu
-    - [DataDigests::Booking, DataDigests::Tenant, DataDigests::Tarif, DataDigests::Payment].each do |data_digest_type|
+    - DataDigests::TYPES.values.each do |data_digest_type|
       = link_to data_digest_type.model_name.human, new_manage_data_digest_path(type: data_digest_type), class: 'dropdown-item'
 

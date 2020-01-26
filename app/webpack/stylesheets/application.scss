@@ -9,6 +9,12 @@ img {
 
 body {
     padding-top: 56px;
+
+    &.development {
+        #navbar-main {
+            background-color: #7bd175;
+        }
+    }
 }
 
 .breadcrumb {
@@ -37,11 +43,16 @@ label.required:after, legend.required:after {
 
 #navbar-main {
     // box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
-    background-color: rgba(248,249,250,0.9);
+    // background-color: rgba(248,249,250,0.9);
+    background-color: #7575d1;
     border-bottom: 1px solid lightgray;
 
     a {
         font-family: $headings-font-family;
+        color: white;
+    }
+
+    .dropdown-menu a {
         color: $primary;
     }
 }

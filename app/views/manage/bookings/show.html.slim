@@ -17,17 +17,17 @@ section.breakout-sm
               = link_to @booking.home, manage_home_path(@booking.home)
           .row.mb-3
             .col
-              - if @booking.tenant
+              - if @booking.tenant.present?
                 strong= Booking.human_attribute_name(:tenant)
-                br
                 = tenant_address(@booking.tenant)
-                br
-                - if @booking.tenant.birth_date
-                  = l(@booking.tenant.birth_date)
-              - elsif @booking.booking_agent
-                strong= BookingAgent.model_name.human(count: :one)
-                br
-                = link_to @booking.booking_agent.name, manage_booking_agent_path(@booking.booking_agent)
+                - if @booking.tenant.birth_date.present?
+                  p.m-0= l(@booking.tenant.birth_date)
+
+              - if @booking.agent_booking?
+                p.m-0.mt-3
+                  strong= BookingAgent.model_name.human(count: :one)
+                p.m-0= link_to @booking.booking_agent.name, manage_booking_agent_path(@booking.booking_agent)
+                p= @booking.agent_booking.booking_agent_ref
 
 
             .col
@@ -51,15 +51,25 @@ section.breakout-sm
               br
               = l(@booking.deadline.at, format: :short)
 
-          - if @booking.remarks.present?
-            p
-              strong= Booking.human_attribute_name(:remarks)
-              br
-              = @booking.remarks
+          .row.mb-3
+            .col
+              - if @booking.internal_remarks.present?
+                p
+                  strong= Booking.human_attribute_name(:internal_remarks)
+                  br
+                  = @booking.internal_remarks
+
+            .col
+              - if @booking.remarks.present?
+                p
+                  strong= Booking.human_attribute_name(:remarks)
+                  br
+                  = @booking.remarks
 
           .row.mb-3
             .col
               strong= Booking.human_attribute_name(:state)
+              p= @booking.state_object.translated
               br
               = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
 
@@ -70,7 +80,7 @@ section.breakout-sm
             = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }
             '
             .dropdown.d-inline
-              button.btn.btn-outline-primary.dropdown-toggle[type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
+              button.btn.btn-outline-primary.dropdown-toggle[type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value='allowed_transitions']
                 = Booking.human_attribute_name(:transition_to)
               .dropdown-menu aria-labelledby="dropdownMenuButton"
                 - @booking.state_machine.allowed_transitions.each do |state|
@@ -79,14 +89,14 @@ section.breakout-sm
 
 
             = link_to edit_manage_booking_path(@booking), class: 'btn btn-default'
-              span.fa.fa-pencil
+              span.fa.fa-edit
             '
     .col-md-3
       ul.list-group
         - @booking.booking_transitions.order(created_at: :desc).each do |transition|
           li.list-group-item
             span.badge.badge-primary
-              = current_organisation.booking_strategy.t(transition.to_state, scope: :state, default: {})[:label]
+              = current_organisation.booking_strategy.t(transition.to_state, scope: :states, default: {})[:label]
             br
             small
               = time_tag transition.created_at

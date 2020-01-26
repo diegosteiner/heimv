@@ -26,7 +26,7 @@ nav#navbar-main.navbar.fixed-top.navbar-light.navbar-expand-lg
         li.nav-item
           = link_to DataDigest.model_name.human(count: :other), manage_data_digests_path, class: 'nav-link'
         li.nav-item.dropdown
-          a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
+          a#user-menu.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
             i.fa.fa-gear
             =<> t(:'nav.settings')
           .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
@@ -38,7 +38,7 @@ nav#navbar-main.navbar.fixed-top.navbar-light.navbar-expand-lg
             i.fa.fa-user
             =<> current_user&.email || t(:'nav.sign_in')
           .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
-            = link_to t(:'nav.edit_account'), edit_user_registration_path, class: 'dropdown-item'
+            / = link_to t(:'nav.edit_account'), edit_user_registration_path, class: 'dropdown-item'
             = link_to t(:'nav.sign_out'), destroy_user_session_path, :method=>'delete', class: 'dropdown-item'
             - if current_user.try(:admin?)
               = link_to User.model_name.human, admin_users_path, class: 'dropdown-item'

@@ -23,6 +23,11 @@ module SpecHelpers
       fill_in :user_password, with: password
       submit_form
     end
+
+    def sign_out
+      find('#user-menu')
+      click_on destroy_user_session_path
+    end
   end
 end
 

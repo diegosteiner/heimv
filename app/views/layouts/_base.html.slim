@@ -8,7 +8,7 @@ html[lang=I18n.locale]
     == csrf_meta_tags
     == csp_meta_tag
     == javascript_packs_with_chunks_tag 'app', defer: true
-  body
+  body[class=Rails.env]
     #app[v-cloak]
       header
         == render 'layouts/navigation'
@@ -20,5 +20,7 @@ html[lang=I18n.locale]
               li.breadcrumb-item
                 = link_to_if url.present?, text, url
         == yield
-      footer
-        .version.small.text-center= Rails.configuration.version
+      footer.py-3
+        .small.text-center
+          | Version:
+          =< Rails.configuration.version

@@ -3,20 +3,30 @@
 # Table name: invoices
 #
 #  id                 :bigint           not null, primary key
-#  type               :string
-#  booking_id         :uuid
+#  amount             :decimal(, )      default(0.0)
+#  deleted_at         :datetime
 #  issued_at          :datetime
+#  paid               :boolean          default(FALSE)
 #  payable_until      :datetime
+#  payment_info_type  :string
+#  print_payment_slip :boolean          default(FALSE)
+#  ref                :string
 #  sent_at            :datetime
 #  text               :text
-#  invoice_type       :integer
-#  ref                :string
-#  amount             :decimal(, )      default(0.0)
-#  paid               :boolean          default(FALSE)
-#  print_payment_slip :boolean          default(FALSE)
-#  deleted_at         :datetime
+#  type               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  booking_id         :uuid
+#
+# Indexes
+#
+#  index_invoices_on_booking_id  (booking_id)
+#  index_invoices_on_ref         (ref)
+#  index_invoices_on_type        (type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
 #
 
 class Invoice < ApplicationRecord
@@ -26,22 +36,21 @@ class Invoice < ApplicationRecord
   has_one_attached :pdf
   has_one :organisation, through: :booking
 
-  enum invoice_type: { invoice: 0, deposit: 1, late_notice: 2 }
-
   scope :ordered, -> { order(payable_until: :ASC, created_at: :ASC) }
-  scope :present, -> { where(deleted_at: nil) }
-  scope :unpaid,  -> { present.where(paid: false) }
-  scope :paid,    -> { present.where(paid: true) }
-  scope :sent,    -> { present.where.not(sent_at: nil) }
-  scope :unsent,  -> { present.where(sent_at: nil) }
-  scope :overdue, ->(at = Time.zone.today) { present.where(arel_table[:payable_until].lteq(at)) }
+  scope :relevant, -> { where(deleted_at: nil) }
+  scope :unpaid,  -> { relevant.where(paid: false) }
+  scope :paid,    -> { relevant.where(paid: true) }
+  scope :sent,    -> { relevant.where.not(sent_at: nil) }
+  scope :unsent,  -> { relevant.where(sent_at: nil) }
+  scope :overdue, ->(at = Time.zone.today) { relevant.where(arel_table[:payable_until].lteq(at)) }
+  scope :of, ->(booking) { where(booking: booking) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :set_paid
-  before_save :generatate_pdf
+  before_save :generate_pdf
   after_touch :recalculate_amount
 
-  def generatate_pdf
+  def generate_pdf
     self.pdf = {
       io: StringIO.new(Export::Pdf::Invoice.new(self).build.render),
       filename: filename,
@@ -58,11 +67,11 @@ class Invoice < ApplicationRecord
   end
 
   def filename
-    "#{self.class.human_enum(:invoice_types, invoice_type)}_#{booking.ref}_#{id}.pdf"
+    "#{self.class.model_name.human} #{booking.ref}_#{id}.pdf"
   end
 
-  def payment_slip_code
-    ref
+  def address_lines
+    @address_lines ||= booking.invoice_address&.lines.presence || booking.tenant&.address_lines || []
   end
 
   def amount_open
@@ -91,5 +100,13 @@ class Invoice < ApplicationRecord
 
   def invoice_ref_strategy
     @invoice_ref_strategy ||= organisation.invoice_ref_strategy
+  end
+
+  def payment_info
+    @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
+  end
+
+  def to_liquid
+    Manage::InvoiceSerializer.new(self).serializable_hash.deep_stringify_keys
   end
 end

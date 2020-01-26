@@ -9,7 +9,7 @@
           td = booking_agent.code
           td
             = link_to edit_manage_booking_agent_path(booking_agent) do
-              span.fa.fa-pencil
+              span.fa.fa-edit
           td
             = link_to manage_booking_agent_path(booking_agent), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
               span.fa.fa-trash

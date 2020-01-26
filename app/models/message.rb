@@ -3,13 +3,24 @@
 # Table name: messages
 #
 #  id                   :bigint           not null, primary key
-#  booking_id           :uuid
-#  markdown_template_id :bigint
+#  addressed_to         :integer          default("manager"), not null
+#  body                 :text
 #  sent_at              :datetime
 #  subject              :string
-#  body                 :text
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  booking_id           :uuid
+#  markdown_template_id :bigint
+#
+# Indexes
+#
+#  index_messages_on_booking_id            (booking_id)
+#  index_messages_on_markdown_template_id  (markdown_template_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
+#  fk_rails_...  (markdown_template_id => markdown_templates.id)
 #
 
 class Message < ApplicationRecord
@@ -17,13 +28,17 @@ class Message < ApplicationRecord
   has_one :tenant, through: :booking
   belongs_to :markdown_template, optional: true
   has_many_attached :attachments
+  has_one :organisation, through: :booking
 
   attribute :cc, default: []
-  attribute :bcc, default: []
 
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
 
   validates :to, presence: true
+
+  before_create do
+    self.subject = [subject, "[#{booking.ref}]"].compact.join(' ')
+  end
 
   def to
     @to ||= resolve_addressed_to
@@ -39,16 +54,20 @@ class Message < ApplicationRecord
   end
 
   def deliverable?
-    valid? && (booking.messages_enabled? || addressed_to_manager?)
+    valid? && organisation.messages_enabled? && (booking.messages_enabled? || addressed_to_manager?)
   end
 
-  def deliver_now
-    # raise "och"
+  def deliver
+    yield(self) if block_given?
     deliverable? && action_mailer_mail.deliver_now && update(sent_at: Time.zone.now)
   end
 
   def action_mailer_mail
-    @action_mailer_mail ||= BookingMailer.booking_message(self)
+    @action_mailer_mail ||= OrganisationMailer.with(organisation: organisation).booking_message(self)
+  end
+
+  def attachments_for_action_mailer
+    Hash[attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }]
   end
 
   def self.new_from_template(template, attributes = {})
@@ -73,6 +92,6 @@ class Message < ApplicationRecord
     return [booking.email].compact if addressed_to_tenant?
     return [booking.booking_agent&.email].compact if addressed_to_booking_agent?
 
-    [ENV.fetch('ADMIN_EMAIL', 'info@heimverwalung.example.com')]
+    [booking.organisation.email]
   end
 end

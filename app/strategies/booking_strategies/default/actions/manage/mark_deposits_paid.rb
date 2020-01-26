@@ -3,9 +3,9 @@ module BookingStrategies
     module Actions
       module Manage
         class MarkDepositsPaid < BookingStrategy::Action
-          def call!(unpaid_deposits = booking.invoices.deposit.unpaid)
+          def call!(unpaid_deposits = Invoices::Deposit.of(booking).relevant.unpaid)
             unless booking.contract.signed?
-              booking.messages.new_from_template(:deposits_paid_message, addressed_to: :tenant)&.deliver_now
+              booking.messages.new_from_template(:deposits_paid_message, addressed_to: :tenant)&.deliver
             end
 
             unpaid_deposits.map do |deposit|
@@ -14,7 +14,8 @@ module BookingStrategies
           end
 
           def allowed?
-            booking.invoices.deposit.sent.exists? && booking.invoices.deposit.unpaid.exists?
+            deposits = Invoices::Deposit.of(booking).relevant
+            deposits.sent.exists? && deposits.unpaid.exists?
           end
 
           def booking

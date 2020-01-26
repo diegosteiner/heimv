@@ -8,7 +8,8 @@ module Manage
 
     attribute :links do
       {
-        edit: edit_public_booking_url(object.to_param)
+        edit: edit_public_booking_url(object.to_param),
+        manage: manage_booking_url(object.to_param)
       }
     end
   end

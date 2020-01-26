@@ -14,13 +14,14 @@ module Manage
       end
 
       def edit
+        @tarif.tarif_selectors.build
         respond_with :manage, @tarif
       end
 
       def create
         @tarif.home = @home
         @tarif.save
-        respond_with :manage, @tarif, location: manage_home_tarifs_path(@home)
+        respond_with :manage, @tarif, location: manage_home_tarif_path(@home, @tarif)
       end
 
       def update_many

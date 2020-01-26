@@ -6,21 +6,22 @@ module Manage
     def index
       @invoices = if @booking.present?
                     @booking.invoices.ordered
+                  elsif params[:all].present?
+                    @invoices = @invoices.ordered
                   else
-                    @invoices.present.unpaid.ordered
+                    @invoices.relevant.unpaid.ordered
                   end
       respond_with :manage, @invoices
     end
 
     def new
-      @invoice = Invoice.new({ booking: @booking, invoice_type: :invoice }.merge(invoice_params || {}))
-      @invoice.text ||= MarkdownTemplate["#{@invoice.invoice_type}_invoice_text"] % @booking
-      @invoice.payable_until ||= 30.days.from_now unless @invoice_type == :deposit
+      @invoice = Invoices::Factory.new.call(@booking, invoice_params)
       @suggested_invoice_parts = InvoiceParts::Factory.new.suggest(@invoice)
       respond_with :manage, @booking, @invoice
     end
 
     def show
+      # @invoice.touch if Rails.env.development?
       respond_to do |format|
         format.html
         format.pdf do
@@ -52,7 +53,7 @@ module Manage
     private
 
     def invoice_params
-      InvoiceParams.new(params[:invoice])
+      InvoiceParams.new(params[:invoice]).permitted
     end
   end
 end

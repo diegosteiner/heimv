@@ -10,13 +10,15 @@ class BookingStrategy
     []
   end
 
+  def booking_states
+    []
+  end
+
   def state_machine
     self.class::StateMachine
   end
 
-  def checklist
-    self.class::Checklist
-  end
+  def displayed_booking_states; end
 
   def state_machine_automator
     self.class::StateMachineAutomator
@@ -24,5 +26,9 @@ class BookingStrategy
 
   def t(state, options = {})
     I18n.t(state, options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
+  end
+
+  def markdown_template_keys
+    self.class::MARKDOWN_TEMPLATE_KEYS
   end
 end

@@ -10,7 +10,7 @@
           td = tenant.city
           td
             = link_to edit_manage_tenant_path(tenant) do
-              span.fa.fa-pencil
+              span.fa.fa-edit
           td
             = link_to manage_tenant_path(tenant), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
               span.fa.fa-trash

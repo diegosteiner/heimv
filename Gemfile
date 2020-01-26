@@ -22,6 +22,7 @@ gem 'devise-i18n'
 gem 'exception_notification'
 gem 'factory_bot_rails', require: false
 gem 'faker'
+gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
 gem 'pg'
@@ -32,12 +33,15 @@ gem 'rails', '~> 6.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
 gem 'responders'
+gem 'rqrcode'
 gem 'slim-rails'
 gem 'statesman'
 gem 'timecop'
 gem 'title'
+gem 'ttfunk', '~> 1.5.1' # See https://github.com/prawnpdf/prawn/issues/1142
 gem 'webpacker', '>= 4.0.x'
 gem 'wicked_pdf'
+gem 'yaml_db'
 
 group :development do
   gem 'annotate'

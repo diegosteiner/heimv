@@ -4,6 +4,7 @@ module Manage
       load_and_authorize_resource :booking
       load_and_authorize_resource :tarif, through: :booking, through_association: :booking_copy_tarifs
       # load_and_authorize_resource :usage, through: :booking, parent: false
+
       def index
         @usages = @booking.usages
         @suggested_usages = Usage::Factory.new(@booking).build_and_select.select(&:new_record?)

@@ -1,10 +1,10 @@
-= form_with(model: [:public, @booking], local: true, disabled: !@booking.editable) do |f|
+= form_with(model: [:public, @booking], local: true, disabled: !@booking.editable, html: { novalidate: true }) do |f|
   .card.[class=('bg-light' unless @booking.editable)]
     - if @booking.occupancy.begins_at < ENV.fetch('LAST_MINUTE_WARNING_DAYS', 10).to_i.days.from_now
       .card-header.alert-warning
         p.m-0= t('.last_minute_warning')
     - if @booking.errors.any?
-      .card-header.alert-danger.p-0
+      .card-header.alert-danger.pt-4.p-0
         = f.error_summary
     .card-body
       fieldset
@@ -13,8 +13,8 @@
             label=Booking.human_attribute_name(:deadline)
             div
               =<> l(@booking.deadline.at, format: :short)
-              / - if @booking.deadline.extendable?
-              /   a[href="#" data-toggle="modal" data-target="#extendDeadlineModal"]
+              / - if @booking.deadline.postponable?
+              /   a[href="#" data-toggle="modal" data-target="#postponeDeadlineModal"]
               /     | Frist verlängern
         = f.select :home_id, homes_for_select, {}, disabled: true
         = f.fields_for :occupancy, @booking.occupancy do |of|
@@ -22,12 +22,12 @@
             .col-md-6
               = of.text_field :begins_at_date, disabled: true, value: l(of.object.begins_at.to_date)
             .col-md-6
-              = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: true
+              = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: true, start_hour: 8, end_hour: 22
           .row
             .col-md-6
               = of.text_field :ends_at_date, disabled: true, value: l(of.object.ends_at.to_date)
             .col-md-6
-              = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: true
+              = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: true, start_hour: 8, end_hour: 22
 
         = f.email_field :email, disabled: @booking.email.present? || !@booking.editable
         = f.fields_for :tenant, @booking.tenant do |cf|
@@ -74,7 +74,7 @@
         = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }
 
 
-    / #extendDeadlineModal.modal[role="dialog" tabindex="-1"]
+    / #postponeDeadlineModal.modal[role="dialog" tabindex="-1"]
     /   .modal-dialog[role="document"]
     /     = form_with(url: public_booking_path(@booking), method: :put, local: true) do |f|
     /       .modal-content
@@ -86,5 +86,5 @@
     /         .modal-body
     /           = l(14.days.from_now)
     /         .modal-footer
-    /           button.btn.btn-primary[type="submit" name="booking_action" value="extend_deadline"]
+    /           button.btn.btn-primary[type="submit" name="booking_action" value="postpone_deadline"]
     /             | Frist verlängern

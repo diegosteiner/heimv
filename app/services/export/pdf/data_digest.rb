@@ -17,8 +17,8 @@ module Export
 
       def sections
         [
-          Base::LogoSection.new(@organisation), ->(pdf) { pdf.move_down 40 },
-          Base::TitleSection.new(data_digest.label),
+          Base::LogoSection.new(@organisation.logo),
+          Base::TitleSection.new(data_digest.label, 60),
           # Base::MarkdownSection.new(Markdown.new(@data_digest.text)),
           TabularDataSection.new(data_digest)
         ]
@@ -29,11 +29,11 @@ module Export
           @data_digest = data_digest
         end
 
-        def call(pdf)
+        def render
           table_data = @data_digest.to_tabular
 
-          pdf.table(table_data, column_widths: @data_digest.column_widths) do
-            cells.style(size: 10, borders: [])
+          table(table_data, column_widths: @data_digest.column_widths) do
+            cells.style(size: 8, borders: [])
             row(0).font_style = :bold
             row(0).borders = [:bottom]
           end

@@ -3,7 +3,6 @@
 # Table name: contracts
 #
 #  id          :bigint           not null, primary key
-#  booking_id  :uuid
 #  sent_at     :date
 #  signed_at   :date
 #  text        :text
@@ -11,10 +10,19 @@
 #  valid_until :datetime
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  booking_id  :uuid
+#
+# Indexes
+#
+#  index_contracts_on_booking_id  (booking_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
 #
 
 class Contract < ApplicationRecord
-  belongs_to :booking
+  belongs_to :booking, inverse_of: :contracts, touch: true
   has_one_attached :pdf
   has_one_attached :signed_pdf
 
@@ -90,7 +98,7 @@ class Contract < ApplicationRecord
   private
 
   def set_signed_at
-    self.signed_at ||= signed_pdf.attached? && Time.zone.now
+    self.signed_at ||= Time.zone.now if signed_pdf.attached?
   end
 
   def markdown_service

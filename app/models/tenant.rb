@@ -3,27 +3,40 @@
 # Table name: tenants
 #
 #  id                   :bigint           not null, primary key
-#  first_name           :string
-#  last_name            :string
-#  street_address       :string
-#  zipcode              :string
+#  birth_date           :date
 #  city                 :string
 #  country              :string
-#  reservations_allowed :boolean
+#  email                :string           not null
 #  email_verified       :boolean          default(FALSE)
+#  first_name           :string
+#  import_data          :jsonb
+#  last_name            :string
 #  phone                :text
 #  remarks              :text
-#  email                :string           not null
+#  reservations_allowed :boolean
 #  search_cache         :text             not null
-#  birth_date           :date
-#  import_data          :jsonb
+#  street_address       :string
+#  zipcode              :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  organisation_id      :bigint           default(1), not null
+#
+# Indexes
+#
+#  index_tenants_on_email            (email)
+#  index_tenants_on_organisation_id  (organisation_id)
+#  index_tenants_on_search_cache     (search_cache)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class Tenant < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error
   belongs_to :organisation
+
+  self.implicit_order_column = :last_name
 
   validates :email, presence: true, format: { with: Devise.email_regexp }
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
@@ -31,7 +44,7 @@ class Tenant < ApplicationRecord
   validates :phone, presence: true, length: { minimum: 10 }, on: :public_update
 
   before_save do
-    self.search_cache = (address_lines + [email, phone]).flatten.join('\n')
+    self.search_cache = contact_lines.flatten.join('\n')
   end
 
   def name
@@ -43,7 +56,7 @@ class Tenant < ApplicationRecord
   end
 
   def address_lines
-    [name, street_address, "#{zipcode} #{city} #{country}"].reject(&:blank?)
+    [name, street_address&.lines || '', "#{zipcode} #{city} #{country}"].flatten.reject(&:nil?)
   end
 
   def contact_lines
@@ -56,6 +69,10 @@ class Tenant < ApplicationRecord
 
   def to_s
     "##{id} #{name}"
+  end
+
+  def complete?
+    [email, first_name, last_name, street_address, zipcode, city, country, birth_date, phone].all?(&:present?)
   end
 
   def to_liquid

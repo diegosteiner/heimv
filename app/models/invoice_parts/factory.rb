@@ -15,7 +15,7 @@ module InvoiceParts
 
     def from_usage(invoice, usage)
       InvoiceParts::Add.new(
-        apply: invoice.new_record? && invoice.invoice_type == usage.tarif.invoice_type,
+        apply: apply?(invoice, usage),
         usage: usage,
         label: usage.tarif.label,
         label_2: label_2(usage),
@@ -24,15 +24,20 @@ module InvoiceParts
       )
     end
 
-    def from_deposit(invoice, deposits = invoice.booking.invoices.deposit)
+    def from_deposit(invoice, deposits = Invoices::Deposit.of(invoice.booking).relevant)
       InvoiceParts::Add.new(
-        apply: invoice.new_record? && invoice.invoice_type&.to_sym == :invoice,
-        label: I18n.t(:'activerecord.enums.invoice.invoice_type.deposit'),
+        apply: invoice.new_record? && invoice.is_a?(Invoices::Invoice),
+        label: Invoices::Deposit.model_name.human,
         amount: - deposits.sum(&:amount_paid)
       )
     end
 
     protected
+
+    def apply?(invoice, usage)
+      tarif_invoice_type = usage.tarif.invoice_type
+      invoice.new_record? && tarif_invoice_type.present? && invoice.type.to_s == tarif_invoice_type
+    end
 
     def format_used_units(used_units)
       return unless used_units

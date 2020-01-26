@@ -9,7 +9,7 @@
           td = markdown_template.locale
           td
             = link_to edit_manage_markdown_template_path(markdown_template) do
-              span.fa.fa-pencil
+              span.fa.fa-edit
           td
             = link_to manage_markdown_template_path(markdown_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
               span.fa.fa-trash
