@@ -19,9 +19,9 @@ module Invoices
     end
 
     def payable_until(invoice)
-      return invoice.booking.organisation.short_deadline.days.from_now if invoice.is_a?(Invoices::Deposit)
+      return invoice.booking.organisation.long_deadline.from_now if invoice.is_a?(Invoices::Deposit)
 
-      invoice.booking.organisation.payment_deadline.days.from_now
+      invoice.booking.organisation.payment_deadline.from_now
     end
   end
 end

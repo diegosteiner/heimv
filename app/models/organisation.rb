@@ -58,6 +58,10 @@ class Organisation < ApplicationRecord
     3.days
   end
 
+  def payment_deadline
+    30.days
+  end
+
   def booking_window
     18.months
   end
