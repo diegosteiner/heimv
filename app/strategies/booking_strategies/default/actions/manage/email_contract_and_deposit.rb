@@ -4,7 +4,7 @@ module BookingStrategies
       module Manage
         class EmailContractAndDeposit < BookingStrategy::Action
           def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).relevant.unsent)
-            message = booking.messages.new_from_template(:confirmed_message, addressed_to: :tenant)
+            message = booking.messages.new_from_template(:awaiting_contract_message, addressed_to: :tenant)
             return false unless message
 
             message.attachments.attach(extract_attachments(booking.home, deposits, contract))

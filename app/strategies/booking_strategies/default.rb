@@ -2,7 +2,7 @@ module BookingStrategies
   class Default < BookingStrategy
     MARKDOWN_TEMPLATE_KEYS = %i[
       open_request_message
-      confirmed_message
+      awaiting_contract_message
       provisional_request_message
       overdue_request_message
       definitive_request_message
@@ -41,8 +41,7 @@ module BookingStrategies
       actions = [
         Actions::Manage::Accept, Actions::Manage::EmailContractAndDeposit,
         Actions::Manage::EmailInvoice, Actions::Public::PostponeDeadline,
-        Actions::Manage::MarkContractSigned, Actions::Manage::MarkDepositsPaid,
-        Actions::Manage::MarkInvoicesPaid, Actions::Public::CommitRequest,
+        Actions::Manage::MarkContractSigned, Actions::Public::CommitRequest,
         Actions::Public::CommitBookingAgentRequest, Actions::Manage::Cancel
       ]
       @manage_actions ||= Hash[actions.map { |action| [action.action_name, action] }]
@@ -52,16 +51,17 @@ module BookingStrategies
       states = [
         States::CancelledRequest, States::DeclinedRequest, States::BookingAgentRequest, States::AwaitingTenant,
         States::UnconfirmedRequest, States::OpenRequest, States::ProvisionalRequest, States::DefinitiveRequest,
-        States::OverdueRequest, States::Cancelled, States::Confirmed, States::Upcoming, States::Overdue,
+        States::OverdueRequest, States::Cancelled, States::AwaitingContract, States::Upcoming, States::Overdue,
         States::Active, States::Past, States::PaymentDue, States::PaymentOverdue, States::Completed,
-        States::CancelationPending
+        States::CancelationPending, States::UpcomingSoon
       ]
       @booking_states ||= Hash[states.map { |state_klass| [state_klass.to_sym, state_klass] }]
     end
 
     def displayed_booking_states
       %i[unconfirmed_request open_request booking_agent_request awaiting_tenant overdue_request provisional_request
-         definitive_request confirmed upcoming active past payment_due payment_overdue cancelation_pending]
+         definitive_request overdue awaiting_contract upcoming_soon active past payment_due payment_overdue
+         cancelation_pending]
     end
   end
 end

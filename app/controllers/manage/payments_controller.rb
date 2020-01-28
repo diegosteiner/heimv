@@ -27,15 +27,8 @@ module Manage
     end
 
     def import
-      @payments = payments_params.values.map do |payment_params|
-        Payment.new(payment_params)
-      end.compact
-
-      Payment.transaction do
-        raise ActiveRecord::Rollback unless @payments.select(&:applies).all?(&:save)
-
-        render 'import_done'
-      end
+      @payments = Payment::Factory.new.from_import(payments_params)
+      render 'import_done'
     end
 
     def new_import

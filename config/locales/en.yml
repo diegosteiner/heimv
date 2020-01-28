@@ -364,6 +364,13 @@ en:
           help: Help
           label: Aktive Belegung
           relevant_time_label: Ende der Belegung
+        awaiting_contract:
+          checklist:
+            contract_signed: Vertrag unterschieben
+            deposit_paid: Anzahlung beglichen
+          help: Help
+          label: Bestätigte Reservation
+          relevant_time_label: Eingereicht
         awaiting_tenant:
           help: Help
           label: Mietanfrage (fehlende Mieterangaben)
@@ -384,13 +391,6 @@ en:
         completed:
           help: Help
           label: Abgeschlossene Belegung
-        confirmed:
-          checklist:
-            contract_signed: Vertrag unterschieben
-            deposit_paid: Anzahlung beglichen
-          help: Help
-          label: Bestätigte Reservation
-          relevant_time_label: Eingereicht
         declined_request:
           help: Help
           label: Mietanfrage (abgelehnt)
@@ -447,6 +447,10 @@ en:
           help: Help
           label: Geplante Belegung
           relevant_time_label: Beginn der Belegung
+        upcoming_soon:
+          help: Help
+          label: Belegung (demnächst)
+          relevant_time_label: Beginn der Belegung
       transition:
         "-->active":
           label: Aktive Belegung
@@ -484,6 +488,8 @@ en:
           label: Neue Mietanfrage
         "-->upcoming":
           label: Geplante Belegung
+        "-->upcoming_soon":
+          label: Baldige Belegung
         initial-->unconfirmed_request:
           label: Neue Buchungsanfrage stellen
   confirm: Confirm

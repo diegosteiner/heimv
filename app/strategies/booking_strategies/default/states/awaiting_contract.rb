@@ -1,7 +1,7 @@
 module BookingStrategies
   class Default
     module States
-      class Confirmed < BookingStrategy::State
+      class AwaitingContract < BookingStrategy::State
         def checklist
           [
             ChecklistItem.new(:deposit_paid, Invoices::Deposit.of(booking).relevant.all?(&:paid),
@@ -11,7 +11,7 @@ module BookingStrategies
         end
 
         def self.to_sym
-          :confirmed
+          :awaiting_contract
         end
 
         def relevant_time
