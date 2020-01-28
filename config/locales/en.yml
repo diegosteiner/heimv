@@ -773,6 +773,8 @@ en:
       last_word_connector: ", and "
       two_words_connector: " and "
       words_connector: ", "
+  tenant:
+    salutation: Hallo %{name}
   time:
     formats:
       date: "%d.%m.%Y"

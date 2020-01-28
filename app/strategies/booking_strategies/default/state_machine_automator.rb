@@ -32,7 +32,7 @@ module BookingStrategies
       automatic_transition(from: :awaiting_tenant,       to: :overdue_request, &:deadline_exceeded?)
 
       automatic_transition(from: :upcoming, to: :upcoming_soon) do |booking|
-        14.days.from_now < booking.occupancy.begins_at
+        14.days.from_now > booking.occupancy.begins_at
       end
 
       automatic_transition(from: :upcoming_soon, to: :active) do |booking|

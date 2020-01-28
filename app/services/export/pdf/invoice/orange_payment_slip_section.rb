@@ -67,7 +67,7 @@ module Export
 
         def render_counterfoil_address
           [[8, 124], [354, 165]].each do |xy|
-            bounding_box(xy, width: 150, height: 60) do
+            bounding_box(xy, width: 150, height: 80) do
               text payment_info.formatted_ref, size: 8
               move_down 5
               text payment_info.invoice_address, size: 8

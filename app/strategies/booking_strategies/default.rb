@@ -25,6 +25,8 @@ module BookingStrategies
       unconfirmed_request_message
       booking_agent_request_accepted_message deposit_paid_message invoice_paid_message
       foreign_payment_info_text
+      payment_message
+      overdue_message
     ].freeze
 
     def public_actions

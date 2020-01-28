@@ -12,9 +12,9 @@ module InOut
       end
     end
 
-    def from_a(markdown_templates_attributes, _replace: false)
+    def from_a(markdown_templates_attributes, replace: false)
       MarkdownTemplate.transaction do
-        # organisation.markdown_templates.destroy_all if replace
+        organisation.markdown_templates.destroy_all if replace
 
         markdown_templates_attributes.map do |attributes|
           markdown_template = organisation.markdown_templates.find_or_initialize_by(

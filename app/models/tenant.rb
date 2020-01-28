@@ -52,11 +52,19 @@ class Tenant < ApplicationRecord
   end
 
   def salutation_name
-    "Hallo #{first_name}"
+    I18n.t('tenant.salutation', name: first_name)
   end
 
   def address_lines
-    [name, street_address&.lines || '', "#{zipcode} #{city} #{country}"].flatten.reject(&:nil?)
+    [
+      name,
+      street_address&.lines&.map(&:strip),
+      "#{zipcode} #{city} #{country}"
+    ].flatten.reject(&:blank?)
+  end
+
+  def address
+    address_lines.join("\n")
   end
 
   def contact_lines
