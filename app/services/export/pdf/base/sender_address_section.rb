@@ -17,7 +17,7 @@ module Export
         end
 
         def render
-          bounding_box [0, 690], width: 200, height: 170 do
+          bounding_box [0, 690], width: 200, height: 160 do
             default_leading 3
             text 'Vermieter', size: 13, style: :bold
             move_down 5
