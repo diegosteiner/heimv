@@ -62,7 +62,7 @@ module BookingStrategies
 
     def displayed_booking_states
       %i[unconfirmed_request open_request booking_agent_request awaiting_tenant overdue_request provisional_request
-         definitive_request overdue awaiting_contract upcoming_soon active past payment_due payment_overdue
+         definitive_request overdue awaiting_contract upcoming_soon upcoming active past payment_due payment_overdue
          cancelation_pending]
     end
   end

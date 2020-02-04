@@ -14,14 +14,12 @@ module InOut
 
     def from_a(markdown_templates_attributes, replace: false)
       MarkdownTemplate.transaction do
-        organisation.markdown_templates.destroy_all if replace
-
         markdown_templates_attributes.map do |attributes|
           markdown_template = organisation.markdown_templates.find_or_initialize_by(
             key: attributes[:key],
             locale: attributes[:locale]
           )
-          markdown_template.update(attributes)
+          markdown_template.update(attributes) if markdown_template.new_record? || replace
         end
       end
     end

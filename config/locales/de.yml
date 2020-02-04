@@ -62,7 +62,7 @@ de:
         occupancy: Belegung
         purpose: Zweck der Miete
         ref: Buchungsreferenz
-        remarks: Bemerkungen
+        remarks: Beschreibung des Mietzwecks / Bemerkungen
         state: Status
         tenant: Mieter
         tenant_id: Mieter

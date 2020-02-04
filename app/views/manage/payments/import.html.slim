@@ -26,9 +26,9 @@
               = pf.hidden_field :ref
               = pf.hidden_field :data
             td.py-2
-              = pf.collection_select :invoice_id, Invoice.unpaid, :id, :to_s, skip_label: true, include_blank: true
+              = pf.collection_select :invoice_id, Invoice.accessible_by(current_ability).unpaid.order(ref: :ASC), :id, :to_s, skip_label: true, include_blank: true
             td.py-2
-              = pf.collection_select :booking_id, Booking.inconcluded, :id, :to_s, skip_label: true, include_blank: true
+              = pf.collection_select :booking_id, Booking.accessible_by(current_ability).inconcluded.order(ref: :ASC), :id, :to_s, skip_label: true, include_blank: true
             td.py-2
               = pf.number_field :amount, skip_label: true
             td.py-2
