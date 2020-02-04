@@ -9,7 +9,7 @@ class OrganisationMailer < ApplicationMailer
   def booking_message(message)
     message.attachments_for_action_mailer.each { |name, attachment| attachments[name] = attachment }
 
-    mail(to: message.to, subject: message.subject, cc: message.cc) do |format|
+    mail(to: message.to, subject: message.subject_with_ref, cc: message.cc) do |format|
       format.text { message.markdown.to_text }
       format.html { message.markdown.to_html }
     end

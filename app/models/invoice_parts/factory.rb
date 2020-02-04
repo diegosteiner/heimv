@@ -54,7 +54,7 @@ module InvoiceParts
     def format_price_per_unit(price_per_unit)
       return unless price_per_unit
 
-      format(' à CHF %<price_per_unit_rounded>g', price_per_unit_rounded: format('%<price>.2f', price: price_per_unit))
+      format(' à CHF %<price>.2f', price: price_per_unit)
     end
   end
 end

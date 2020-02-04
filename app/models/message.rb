@@ -36,8 +36,8 @@ class Message < ApplicationRecord
 
   validates :to, presence: true
 
-  before_create do
-    self.subject = [subject, "[#{booking.ref}]"].compact.join(' ')
+  def subject_with_ref
+    [subject, "[#{booking.ref}]"].compact.join(' ')
   end
 
   def to

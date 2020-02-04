@@ -4,7 +4,7 @@
       .card-body
         == render partial: 'form', locals: { organisation: current_organisation }
 
-    .card.mt-3.hidden
+    .card.mt-3.d-none
       .card-body
         = form_with(url: manage_organisation_path, method: :POST, local: true) do |f|
           fieldset

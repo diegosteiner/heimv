@@ -7,7 +7,7 @@ RSpec.describe InvoiceParts::Factory, type: :model do
     subject { builder.suggest(invoice) }
 
     let(:home) { create(:home) }
-    let(:booking) { create(:booking, initial_state: :confirmed, home: home) }
+    let(:booking) { create(:booking, initial_state: :awaiting_contract, home: home) }
     let(:invoice) { create(:invoice, booking: booking) }
     let!(:usages) { create_list(:usage, 3, booking: booking) }
     let(:invoiced_usage) { create(:usage, booking: booking) }

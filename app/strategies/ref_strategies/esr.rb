@@ -4,6 +4,8 @@ module RefStrategies
       append_checksum format('%<home_id>03d%<tenant_id>08d%<invoice_id>015d', home_id: invoice.booking.home.id,
                                                                               tenant_id: invoice.booking.tenant.id,
                                                                               invoice_id: invoice.id)
+      rescue
+        binding.pry
     end
 
     def checksum(ref)

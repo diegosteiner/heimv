@@ -48,6 +48,7 @@ class Invoice < ApplicationRecord
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :set_paid
   before_save :generate_pdf
+  after_create :set_ref
   after_touch :recalculate_amount
 
   def generate_pdf
@@ -58,8 +59,8 @@ class Invoice < ApplicationRecord
     }
   end
 
-  def ref
-    @ref ||= invoice_ref_strategy.generate(self) unless new_record?
+  def set_ref
+    update(ref: invoice_ref_strategy.generate(self)) if ref.blank?
   end
 
   def recalculate_amount

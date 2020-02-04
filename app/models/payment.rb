@@ -39,11 +39,22 @@ class Payment < ApplicationRecord
 
   scope :ordered, -> { order(paid_at: :DESC) }
 
+  attribute :confirm, default: true
+
+  after_create :confirm!
   before_validation do
     self.booking ||= invoice&.booking
   end
 
   def duplicates
     Payment.where(booking: booking, paid_at: paid_at, amount: amount).where.not(id: [id])
+  end
+
+  def confirm!
+    PaymentConfirmation.new(self).deliver if confirm? && !write_off?
+  end
+
+  def to_liquid
+    Manage::PaymentSerializer.new(self).serializable_hash.deep_stringify_keys
   end
 end

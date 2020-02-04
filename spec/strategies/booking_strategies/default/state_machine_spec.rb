@@ -50,23 +50,28 @@ describe BookingStrategies::Default::StateMachine do
     end
 
     describe 'definitive_request-->' do
-      it { is_expected.to transition.from(:definitive_request).to(:confirmed) }
+      it { is_expected.to transition.from(:definitive_request).to(:awaiting_contract) }
       it { is_expected.to transition.from(:definitive_request).to(:cancelation_pending) }
     end
 
     describe 'upcoming-->' do
       it { is_expected.to transition.from(:upcoming).to(:cancelation_pending) }
-      it { is_expected.to transition.from(:upcoming).to(:active) }
+      it { is_expected.to transition.from(:upcoming).to(:upcoming_soon) }
+    end
+
+    describe 'upcoming_soon-->' do
+      it { is_expected.to transition.from(:upcoming_soon).to(:cancelation_pending) }
+      it { is_expected.to transition.from(:upcoming_soon).to(:active) }
     end
 
     describe 'past-->' do
       it { is_expected.to transition.from(:past).to(:payment_due) }
-      it { is_expected.not_to transition.from(:past).to(:confirmed) }
+      it { is_expected.not_to transition.from(:past).to(:awaiting_contract) }
     end
 
-    describe 'confirmed-->' do
-      it { is_expected.to transition.from(:confirmed).to(:cancelation_pending) }
-      it { is_expected.not_to transition.from(:confirmed).to(:confirmed) }
+    describe 'awaiting_contract-->' do
+      it { is_expected.to transition.from(:awaiting_contract).to(:cancelation_pending) }
+      it { is_expected.not_to transition.from(:awaiting_contract).to(:awaiting_contract) }
     end
 
     describe 'cancellation_pending-->' do
@@ -79,7 +84,7 @@ describe BookingStrategies::Default::StateMachine do
   #   it { is_expected.to transition.from(:upcoming).to(:active) }
   #   it { is_expected.to transition.from(:overdue_request).to(:cancelled_request) }
   #   it { is_expected.to transition.from(:payment_due).to(:payment_overdue) }
-  #   it { is_expected.to transition.from(:confirmed).to(:overdue) }
+  #   it { is_expected.to transition.from(:awaiting_contract).to(:overdue) }
   # end
 
   describe 'prohibited transitions' do
@@ -90,7 +95,7 @@ describe BookingStrategies::Default::StateMachine do
 
   describe 'sideeffects' do
     # describe 'blocking states' do
-    #   let(:states) { { confirmed: :overdue, overdue: :upcoming, upcoming: :active } }
+    #   let(:states) { { awaiting_contract: :overdue, overdue: :upcoming, upcoming: :active } }
     #   let(:occupancy) { build(:occupancy, blocking: false) }
 
     #   it 'sets occupancy to blocking for all blocking states' do
@@ -103,7 +108,7 @@ describe BookingStrategies::Default::StateMachine do
     #   end
 
     #   context 'unblocking states' do
-    #     let(:states) { { confirmed: :cancelation_pending } }
+    #     let(:states) { { awaiting_contract: :cancelation_pending } }
     #     let(:occupancy) { build(:occupancy, blocking: true) }
 
     #     it 'sets occupancy to not blocking for all non-blocking states' do
@@ -137,7 +142,7 @@ describe BookingStrategies::Default::StateMachine do
             allow(bills).to receive_message_chain(:deposits, :all?).and_return(true)
           end
 
-          it { is_expected.to transition.from(:confirmed).to(:upcoming) }
+          it { is_expected.to transition.from(:awaiting_contract).to(:upcoming) }
           it { is_expected.to transition.from(:overdue).to(:upcoming) }
         end
 
@@ -148,7 +153,7 @@ describe BookingStrategies::Default::StateMachine do
             allow(bills).to receive_message_chain(:deposits, :all?).and_return(false)
           end
 
-          it { is_expected.not_to transition.from(:confirmed).to(:upcoming) }
+          it { is_expected.not_to transition.from(:awaiting_contract).to(:upcoming) }
           it { is_expected.not_to transition.from(:overdue).to(:upcoming) }
         end
       end
@@ -185,7 +190,7 @@ describe BookingStrategies::Default::StateMachine do
         it { is_expected.to transition.from(:unconfirmed_request).to(:cancelation_pending) }
         it { is_expected.to transition.from(:provisional_request).to(:cancelation_pending) }
         it { is_expected.to transition.from(:definitive_request).to(:cancelation_pending) }
-        it { is_expected.to transition.from(:confirmed).to(:cancelation_pending) }
+        it { is_expected.to transition.from(:awaiting_contract).to(:cancelation_pending) }
         it { is_expected.to transition.from(:overdue).to(:cancelation_pending) }
         it { is_expected.to transition.from(:upcoming).to(:cancelation_pending) }
       end

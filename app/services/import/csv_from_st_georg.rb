@@ -102,7 +102,7 @@ module Import
         # create_deposit(booking)
         create_contract(booking)
         booking.deadline&.clear
-        booking.state_machine.transition_to(:confirmed)
+        booking.state_machine.transition_to(:awaiting_contract)
         booking.state_machine.transition_to(:upcoming)
 
         booking

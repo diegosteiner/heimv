@@ -1,6 +1,6 @@
 = form_with(model: [:manage, @invoice.becomes(Invoice)], local: true, html: { novalidate: true }) do |f|
 
-  fieldset
+  fieldset[v-pre]
     = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, include_blank: true
     = f.hidden_field :booking_id
     = f.text_field :ref, help: "Automatisch generiert"

@@ -86,6 +86,8 @@ describe 'Booking', :devise, type: :feature do
   def perform_booking
     visit manage_booking_path(booking)
     click_on :allowed_transitions
+    click_on :upcoming_soon
+    click_on :allowed_transitions
     click_on :active
     click_on :allowed_transitions
     click_on :past
@@ -113,12 +115,15 @@ describe 'Booking', :devise, type: :feature do
     visit manage_booking_path(booking)
     click_on :email_invoice
     click_on :postpone_deadline
-    click_on :mark_invoices_paid
+    # click_on Invoices::Invoice.model_name.human
+    visit manage_booking_invoices_path(booking)
+    click_on I18n.t(:add_record, model_name: Payment.model_name.human)
+    click_on :commit
   end
 
   def check_booking
     booking.reload
-    expect(booking.messages.count).to be 8
-    expect(booking.booking_transitions.count).to be 10
+    expect(booking.messages.count).to be 9
+    expect(booking.booking_transitions.count).to be 11
   end
 end

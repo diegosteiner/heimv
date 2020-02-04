@@ -364,6 +364,13 @@ en:
           help: Help
           label: Aktive Belegung
           relevant_time_label: Ende der Belegung
+        awaiting_contract:
+          checklist:
+            contract_signed: Vertrag unterschieben
+            deposit_paid: Anzahlung beglichen
+          help: Help
+          label: Bestätigte Reservation
+          relevant_time_label: Eingereicht
         awaiting_tenant:
           help: Help
           label: Mietanfrage (fehlende Mieterangaben)
@@ -384,13 +391,6 @@ en:
         completed:
           help: Help
           label: Abgeschlossene Belegung
-        confirmed:
-          checklist:
-            contract_signed: Vertrag unterschieben
-            deposit_paid: Anzahlung beglichen
-          help: Help
-          label: Bestätigte Reservation
-          relevant_time_label: Eingereicht
         declined_request:
           help: Help
           label: Mietanfrage (abgelehnt)
@@ -447,9 +447,15 @@ en:
           help: Help
           label: Geplante Belegung
           relevant_time_label: Beginn der Belegung
+        upcoming_soon:
+          help: Help
+          label: Belegung (demnächst)
+          relevant_time_label: Beginn der Belegung
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->awaiting_contract":
+          label: Bestätigte Reservation
         "-->awaiting_tenant":
           label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
         "-->booking_agent_request":
@@ -460,8 +466,6 @@ en:
           label: Reservation zurückziehen
         "-->completed":
           label: Abgeschlossene Belegung
-        "-->confirmed":
-          label: Bestätigte Reservation
         "-->declined_request":
           label: Reservationsanfrage ablehnen
         "-->definitive_request":
@@ -484,6 +488,8 @@ en:
           label: Neue Mietanfrage
         "-->upcoming":
           label: Geplante Belegung
+        "-->upcoming_soon":
+          label: Baldige Belegung
         initial-->unconfirmed_request:
           label: Neue Buchungsanfrage stellen
   confirm: Confirm
@@ -767,6 +773,8 @@ en:
       last_word_connector: ", and "
       two_words_connector: " and "
       words_connector: ", "
+  tenant:
+    salutation: Hallo %{name}
   time:
     formats:
       date: "%d.%m.%Y"

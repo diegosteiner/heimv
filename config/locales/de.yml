@@ -62,7 +62,7 @@ de:
         occupancy: Belegung
         purpose: Zweck der Miete
         ref: Buchungsreferenz
-        remarks: Bemerkungen
+        remarks: Beschreibung des Mietzwecks / Bemerkungen
         state: Status
         tenant: Mieter
         tenant_id: Mieter
@@ -364,6 +364,13 @@ de:
           help: Help
           label: Aktive Belegung
           relevant_time_label: Ende der Belegung
+        awaiting_contract:
+          checklist:
+            contract_signed: Vertrag unterschieben
+            deposit_paid: Anzahlung beglichen
+          help: Help
+          label: Reservation (Vertrag ausstehend)
+          relevant_time_label: Frist
         awaiting_tenant:
           help: Help
           label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
@@ -384,13 +391,6 @@ de:
         completed:
           help: Help
           label: Belegung (abgeschlossen)
-        confirmed:
-          checklist:
-            contract_signed: Vertrag unterschieben
-            deposit_paid: Anzahlung beglichen
-          help: Help
-          label: Reservation (Vertrag ausstehend)
-          relevant_time_label: Frist
         declined_request:
           help: Help
           label: Mietanfrage (abgelehnt)
@@ -447,9 +447,15 @@ de:
           help: Help
           label: Belegung (zukünftig)
           relevant_time_label: Beginn der Belegung
+        upcoming_soon:
+          help: Help
+          label: Belegung (demnächst)
+          relevant_time_label: Beginn der Belegung
       transition:
         "-->active":
           label: Aktive Belegung
+        "-->awaiting_contract":
+          label: Bestätigte Reservation
         "-->awaiting_tenant":
           label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
         "-->booking_agent_request":
@@ -460,8 +466,6 @@ de:
           label: Reservation zurückziehen
         "-->completed":
           label: Abgeschlossene Belegung
-        "-->confirmed":
-          label: Bestätigte Reservation
         "-->declined_request":
           label: Reservationsanfrage ablehnen
         "-->definitive_request":
@@ -484,6 +488,8 @@ de:
           label: Unbestätigte Mietanfrage
         "-->upcoming":
           label: Geplante Belegung
+        "-->upcoming_soon":
+          label: Baldige Belegung
         initial-->unconfirmed_request:
           label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
@@ -1792,6 +1798,8 @@ de:
       last_word_connector: " und "
       two_words_connector: " und "
       words_connector: ", "
+  tenant:
+    salutation: Hallo %{name}
   time:
     formats:
       date: "%d.%m.%Y"
