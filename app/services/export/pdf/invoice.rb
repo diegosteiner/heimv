@@ -17,13 +17,19 @@ module Export
       end
 
       def sections
-        [
-          Base::LogoSection.new(organisation.logo),
-          Base::SenderAddressSection.new(booking),
-          Base::RecipientAddressSection.new(booking),
+        heading_sections + [
+          InvoiceHeaderSection.new(invoice),
           Base::MarkdownSection.new(Markdown.new(invoice.text)),
           InvoicePartSection.new(invoice),
           payment_info_section
+        ]
+      end
+
+      def heading_sections
+        [
+          Base::LogoSection.new(organisation.logo),
+          Base::SenderAddressSection.new(booking),
+          Base::RecipientAddressSection.new(booking)
         ]
       end
 

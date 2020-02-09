@@ -38,7 +38,8 @@ services:
     build:
       context: .
       target: development
-    command: bin/webpack-dev-server
+    entrypoint: [".docker/entrypoints/webpack.sh"]
+    command: ["bin/webpack-dev-server"]
     entrypoint: ./.docker/entrypoints/webpack.sh
     volumes:
       - .:/app
@@ -65,7 +66,8 @@ services:
     build:
       context: .
       target: development
-    command: bin/check
+    entrypoint: [".docker/entrypoints/webpack.sh"]
+    command: ["bin/check"]
     volumes:
       - .:/app
       - test_node_modules:/app/node_modules
@@ -79,7 +81,6 @@ services:
       SELENIUM_HOST: selenium
       SELENIUM_PORT: 4444
       NODE_ENV: production
-      MAIL_FROM: no-reply@heimverwaltung.localhost
     depends_on:
       - db
       - selenium

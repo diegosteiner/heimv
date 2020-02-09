@@ -74,7 +74,7 @@ de:
         name: Name
       contract:
         pdf: PDF
-        sent_at: Verschickt am
+        sent_at: Vertragsdatum
         signed_at: Unterschrieben am
         signed_pdf: Unterschriebenes PDF
         text: Vertragstext
@@ -105,7 +105,7 @@ de:
         payment_info_type: Zahlungsteil
         print_payment_slip: Einzahlungsschein drucken
         ref: Referenznummer
-        sent_at: Verschickt am
+        sent_at: Rechnungsdatum
         text: Text
         type: Rechnungsart
       invoice_part:
@@ -140,7 +140,6 @@ de:
       organisation:
         address: Adresse
         contract_signature: Vertragsunterschrift
-        delivery_method_settings_url: Email-Konfiguration
         esr_participant_nr: ESR Teilnehmernummer
         iban: IBAN
         logo: Logo

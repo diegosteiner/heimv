@@ -140,7 +140,6 @@ en:
       organisation:
         address: Adresse
         contract_signature: Vertragsunterschrift
-        delivery_method_settings_url: Email-Konfiguration
         esr_participant_nr: Kontonummer
         iban: IBAN
         logo: Logo

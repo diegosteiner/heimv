@@ -22,7 +22,7 @@ module InOut
 
     def relevant_attributes
       %w[name email address booking_ref_strategy_type booking_strategy_type currency
-         delivery_method_settings_url esr_participant_nr iban invoice_ref_strategy_type message_footer]
+         esr_participant_nr iban invoice_ref_strategy_type message_footer]
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_27_144706) do
+ActiveRecord::Schema.define(version: 2020_02_09_203800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -263,7 +263,6 @@ ActiveRecord::Schema.define(version: 2020_01_27_144706) do
     t.datetime "updated_at", null: false
     t.string "iban"
     t.string "booking_ref_strategy_type"
-    t.string "delivery_method_settings_url"
     t.string "representative_address"
     t.string "email"
     t.integer "payment_deadline", default: 30, null: false

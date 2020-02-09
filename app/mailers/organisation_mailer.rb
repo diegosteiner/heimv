@@ -1,10 +1,7 @@
-class OrganisationMailer < ApplicationMailer
+class OrganisationMailer < ApplicationMailer before_action :set_organisation
   before_action :set_organisation
-  before_action :set_delivery_method_options
 
-  default from: -> { @delivery_method_settings[:from] || @organisation.email },
-          reply_to: -> { @organisation.email },
-          bcc: -> { @delivery_method_settings[:bcc] }
+  default reply_to: -> { @organisation.email }
 
   def booking_message(message)
     message.attachments_for_action_mailer.each { |name, attachment| attachments[name] = attachment }
