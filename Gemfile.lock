@@ -79,7 +79,7 @@ GEM
       rake (>= 10.4, < 14.0)
     ast (2.4.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.269.0)
+    aws-partitions (1.271.0)
     aws-sdk-core (3.89.1)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -88,7 +88,7 @@ GEM
     aws-sdk-kms (1.28.0)
       aws-sdk-core (~> 3, >= 3.71.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.60.1)
+    aws-sdk-s3 (1.60.2)
       aws-sdk-core (~> 3, >= 3.83.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -142,7 +142,7 @@ GEM
       sort_alphabetical (~> 1.0)
     crass (1.0.6)
     dalli (2.7.10)
-    database_cleaner (1.7.0)
+    database_cleaner (1.8.2)
     date_time_attribute (0.1.2)
       activesupport (>= 3.0.0)
     debug_inspector (0.0.3)
@@ -170,7 +170,7 @@ GEM
       railties (>= 4.2.0)
     faker (2.10.1)
       i18n (>= 1.6, < 2)
-    ffi (1.12.1)
+    ffi (1.12.2)
     foreman (0.87.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -216,7 +216,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.0)
-    msgpack (1.3.1)
+    msgpack (1.3.3)
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
@@ -241,8 +241,8 @@ GEM
       pry (>= 0.12.0)
     public_suffix (4.0.3)
     puma (3.12.2)
-    rack (2.1.2)
-    rack-mini-profiler (1.1.5)
+    rack (2.2.1)
+    rack-mini-profiler (1.1.6)
       rack (>= 1.2.0)
     rack-proxy (0.6.5)
       rack
@@ -324,7 +324,7 @@ GEM
     rubocop-rspec (1.37.1)
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
-    rubyzip (2.1.0)
+    rubyzip (2.2.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -447,7 +447,7 @@ DEPENDENCIES
   yaml_db
 
 RUBY VERSION
-   ruby 2.6.5p114
+   ruby 2.7.0p0
 
 BUNDLED WITH
-   1.17.2
+   2.1.2

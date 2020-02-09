@@ -24,6 +24,7 @@ module Manage
 
     def create
       @booking.organisation = current_organisation
+      @booking.transition_to ||= current_organisation.booking_strategy.manually_created_bookings_transition_to
       @booking.save
       respond_with :manage, @booking
     end

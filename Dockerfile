@@ -1,34 +1,55 @@
-FROM ruby:2.6.5-alpine AS base
-RUN apk add --no-cache --update build-base \
+### === base === ###
+FROM ruby:2.7.0-alpine AS development
+RUN apk add --update build-base \
   linux-headers \
   git \
   postgresql-dev \
   nodejs \
   yarn \
   less \
+  bash \
   tzdata
+
+RUN gem install bundler
+
 RUN mkdir -p /app
 WORKDIR /app
 
-ENTRYPOINT [ "/app/.docker/entrypoints/app.sh" ]
+### === build === ###
+FROM development AS build
 
-# === production ===
-FROM base AS production
+ENV RAILS_ENV=production
+ENV NODE_ENV=production
 
 COPY Gemfile /app/
 COPY Gemfile.lock /app/
-ENV BUNDLE_PATH=/usr/local/bundle
-RUN gem install bundler
-RUN bundle install --without=development --without=test
+RUN bundle config set deployment 'true'
+RUN bundle install --without=test --without=development --deployment
 
 COPY package.json /app/
 COPY yarn.lock /app/
 RUN yarn install
 
 COPY . /app
+RUN bin/webpack
+
+### === production === ###
+FROM ruby:2.7.0-alpine AS production
+
+RUN apk add --no-cache --update postgresql-dev tzdata
 
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
-ENV WEBPACKER_PRECOMPILE=true
+ENV RAILS_LOG_TO_STDOUT="true"
+RUN adduser -D app
 
-# RUN RAILS_ENV=production bundle exec rake assets:precompile
+COPY --from=build /app /app
+RUN chown -R app:app /app
+
+WORKDIR /app
+RUN bundle config set deployment 'true'
+RUN bundle install --without=test --without=development --deployment
+
+USER app
+EXPOSE 3000
+CMD ["bin/rails", "s",  "-p",  "3000", "-b", "0.0.0.0"]

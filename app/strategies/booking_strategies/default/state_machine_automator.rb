@@ -59,10 +59,6 @@ module BookingStrategies
         !booking.invoices.unpaid.relevant.exists?
       end
 
-      # automatic_transition(from: :open_request, to: :provisional_request) do |booking|
-      #   booking.valid? && !booking.committed_request.nil? && !booking.committed_request
-      # end
-
       automatic_transition(from: %i[provisional_request overdue_request], to: :definitive_request, &:committed_request)
 
       automatic_transition(from: :definitive_request, to: :awaiting_contract) do |booking|
