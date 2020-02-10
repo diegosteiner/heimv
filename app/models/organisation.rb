@@ -83,6 +83,6 @@ class Organisation < ApplicationRecord
   end
 
   def messages_enabled?
-    delivery_method_settings.valid?
+    true
   end
 end

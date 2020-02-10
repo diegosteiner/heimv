@@ -42,5 +42,5 @@ module URI
   class Test < Generic
     DEFAULT_PORT = 0
   end
-  @@schemes['Tet'] = Test
+  @@schemes['Test'] = Test
 end

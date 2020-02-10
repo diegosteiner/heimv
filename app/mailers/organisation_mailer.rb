@@ -1,4 +1,4 @@
-class OrganisationMailer < ApplicationMailer before_action :set_organisation
+class OrganisationMailer < ApplicationMailer
   before_action :set_organisation
 
   default reply_to: -> { @organisation.email }
