@@ -48,8 +48,8 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
   if ENV['MEMCACHIER_SERVERS'].present?
     config.cache_store = :mem_cache_store, ENV['MEMCACHIER_SERVERS'],
-                        { username: ENV['MEMCACHIER_USERNAME'],
-                          password: ENV['MEMCACHIER_PASSWORD'] }
+                         { username: ENV['MEMCACHIER_USERNAME'],
+                           password: ENV['MEMCACHIER_PASSWORD'] }
   elsif ENV['MEMCACHED_SERVER'].present?
     config.cache_store = :mem_cache_store, ENV['MEMCACHED_SERVERS']
   end
