@@ -19,12 +19,13 @@ blocks:
         - name: Tests
           commands:
             - checkout
-            - docker-compose run --use-aliases test
+            - docker-compose run test
+            - docker-compose logs production
       epilogue:
         on_fail:
           commands:
             - artifact push job tmp/capybara
             - artifact push job log
-      env_vars:
-        - name: PORT
-          value: '3099'
+      # env_vars:
+      #   - name: PORT
+      #     value: '3099'
