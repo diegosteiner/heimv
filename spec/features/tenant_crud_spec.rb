@@ -4,7 +4,7 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 describe 'Tenant CRUD', :devise, skip: true do
-  before { login_as(user, scope: :user) }
+  before { signin(user, user.password) }
 
   after { Warden.test_reset! }
 

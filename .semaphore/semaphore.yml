@@ -12,6 +12,7 @@ blocks:
           commands:
             - checkout
             - docker-compose build test
+            - docker-compose build production
   - name: Tests
     task:
       jobs:

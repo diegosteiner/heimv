@@ -8,6 +8,7 @@ RUN apk add --update build-base \
   yarn \
   less \
   bash \
+  curl \
   tzdata
 
 RUN gem install bundler
@@ -32,6 +33,9 @@ RUN yarn install
 
 COPY . /app
 RUN bin/webpack
+RUN rm -rf /app/node_modules
+RUN rm -rf /app/tmp
+RUN rm -rf /app/.git
 
 ### === production === ###
 FROM ruby:2.7.0-alpine AS production
@@ -51,5 +55,5 @@ RUN bundle config set deployment 'true'
 RUN bundle install --without=test --without=development --deployment
 
 USER app
-EXPOSE 3000
-CMD ["bin/rails", "s",  "-p",  "3000", "-b", "0.0.0.0"]
+EXPOSE $PORT
+CMD ["bin/rails", "s", "-b", "0.0.0.0"]

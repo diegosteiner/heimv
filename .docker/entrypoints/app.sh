@@ -11,8 +11,8 @@ bin/rails db:migrate
 
 case "$RAILS_ENV" in
   test)
-      yarn install
-      bin/webpack
+    #   yarn install
+    #   bin/webpack
       ;;
 
   development)

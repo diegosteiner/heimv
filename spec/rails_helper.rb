@@ -84,12 +84,10 @@ RSpec.configure do |config|
     # Capybara::Selenium::Driver.new(app, browser: :remote, url: url, desired_capabilities: capabilities)
   end
 
-  # Capybara.javascript_driver = :selenium
+  Capybara.run_server = false
   Capybara.default_driver = :selenium
   Capybara.default_max_wait_time = 10
-  Capybara.app_host = "http://#{ENV['APP_HOST']}:#{ENV['PORT']}"
-  Capybara.server_port = ENV['PORT']
-  Capybara.server_host = '0.0.0.0'
+  Capybara.app_host = ENV['E2E_HOST']
 
   config.include Rails.application.routes.url_helpers
 end

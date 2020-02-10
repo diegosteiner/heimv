@@ -1,18 +1,11 @@
 # frozen_string_literal: true
 
-include Warden::Test::Helpers
-Warden.test_mode!
-
 describe 'User Account', :devise, skip: true do
-  after do
-    Warden.test_reset!
-  end
-
   let(:user) { create(:user) }
 
   describe 'Edit Account' do
     it 'user changes email address' do
-      login_as(user, scope: :user)
+      signin(user, user.password)
       visit edit_user_registration_path(user)
       fill_in :user_email, with: 'newemail@example.com'
       fill_in :user_current_password, with: user.password
@@ -33,7 +26,7 @@ describe 'User Account', :devise, skip: true do
   describe 'Suspend Account', :js do
     it 'user can delete own account' do
       skip 'skip a slow test'
-      login_as(user, scope: :user)
+      signin(user, user.password)
       visit edit_user_registration_path(user)
       click_button 'Cancel my account'
       page.driver.browser.switch_to.alert.accept

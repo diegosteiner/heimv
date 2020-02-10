@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  def self.deliver_method_settings=(delivery_method_settings)
+  def self.delivery_method_settings=(delivery_method_settings)
     raise 'MAILER_URL is invalid' unless delivery_method_settings.valid?
 
     @delivery_method_settings = delivery_method_settings

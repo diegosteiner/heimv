@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-include Warden::Test::Helpers
-Warden.test_mode!
-
 describe 'Booking CRUD', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_markdown_templates) }
   let(:user) { create(:user, organisation: organisation) }
@@ -12,7 +9,7 @@ describe 'Booking CRUD', :devise, type: :feature do
 
   before do
     allow(Organisation).to receive(:current).and_return(organisation)
-    login_as(user, scope: :user)
+    signin(user, user.password)
   end
 
   it 'can create new booking', skip: true do

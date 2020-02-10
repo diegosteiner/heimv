@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-include Warden::Test::Helpers
-Warden.test_mode!
-
 describe 'Booking', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_markdown_templates) }
   let(:user) { create(:user, organisation: organisation) }
@@ -22,7 +19,7 @@ describe 'Booking', :devise, type: :feature do
   end
 
   it 'flows through happy path' do
-    login_as(user, scope: :user)
+    signin(user, user.password)
     visit_booking
     accept_booking
     define_tarifs

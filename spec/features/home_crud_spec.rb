@@ -6,7 +6,7 @@ describe 'Home CRUD', :devise, type: :feature do
   let(:home) { create(:home, organisation: organisation) }
   let(:new_home) { build(:home, organisation: organisation) }
 
-  before { login_as(user, scope: :user) }
+  before { signin(user, user.password) }
 
   it 'can create new home' do
     visit new_manage_home_path
