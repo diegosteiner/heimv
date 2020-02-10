@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  self.delivery_method_settings = DeliveryMethodSettings.new(ENV['MAILER_URL']) if delivery_method.nil?
-
   def self.deliver_method_settings=(delivery_method_settings)
     raise 'MAILER_URL is invalid' unless delivery_method_settings.valid?
 
@@ -15,6 +13,7 @@ class ApplicationMailer < ActionMailer::Base
             bcc: -> { delivery_method_settings[:bcc] }
   end
 
+  self.delivery_method_settings = DeliveryMethodSettings.new(ENV['MAILER_URL']) if delivery_method.nil?
   layout 'mailer'
   default from: -> { 'test@heimv.ch' }
 end
