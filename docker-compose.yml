@@ -66,7 +66,7 @@ services:
     build:
       context: .
       target: development
-    entrypoint: [".docker/entrypoints/webpack.sh"]
+    entrypoint: [".docker/entrypoints/app.sh"]
     command: ["bin/check"]
     volumes:
       - .:/app

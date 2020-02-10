@@ -20,8 +20,6 @@
 #
 
 class TarifSelector < ApplicationRecord
-  DISTINCTION_REGEX = /\A\w*\z/.freeze
-
   belongs_to :tarif, inverse_of: :tarif_selectors
   has_many :usages, through: :tarif
   has_one :home, through: :tarif
@@ -33,9 +31,13 @@ class TarifSelector < ApplicationRecord
   end
 
   validate do
-    next if distinction.blank? || self.class::DISTINCTION_REGEX.match(distinction)
+    next if distinction.blank? || distinction_regex.match(distinction)
 
     errors.add(:distinction, :invalid)
+  end
+
+  def distinction_regex
+    /\A\w*\z/.freeze
   end
 
   def valid_tarifs
