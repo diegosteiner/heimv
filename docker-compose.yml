@@ -100,12 +100,12 @@ services:
       RAILS_SERVE_STATIC_FILES: 'true'
       PORT: 3002
       LOG_LEVEL: 'debug'
-      # MEMCACHE_SERVERS: memcached
+      MEMCACHE_SERVERS: memcached
       RUBYOPT: '-W:no-deprecated -W:no-experimental'
     depends_on:
       - db
       - mail
-      # - memcached
+      - memcached
     networks:
       default:
       selenium:
