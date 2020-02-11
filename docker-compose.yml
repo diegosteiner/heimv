@@ -99,6 +99,7 @@ services:
       SECRET_KEY_BASE: 'test'
       RAILS_SERVE_STATIC_FILES: 'true'
       PORT: 3002
+      LOG_LEVEL: 'debug'
       # MEMCACHE_SERVERS: memcached
       RUBYOPT: '-W:no-deprecated -W:no-experimental'
     depends_on:
