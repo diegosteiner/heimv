@@ -1,21 +1,25 @@
-module InOut
-  class OrganisationInOut
+module Import
+  class OrganisationImporter
     attr_reader :organisation
 
-    def initialize(organisation)
+    def initialize(organisation, options = { replace: false })
       @organisation = organisation
+      @options = options
     end
 
     def to_h
       organisation.attributes.slice(*relevant_attributes)
-                  .merge(MarkdownTemplateInOut.new(organisation).to_h)
+                  .merge(markdown_templates: MarkdownTemplateImporter.new(organisation).to_h)
     end
 
     def from_h(hash, options = {})
       return false unless hash.is_a?(Hash)
 
       organisation.update(hash.slice(*relevant_attributes)) if options[:replace].present?
-      MarkdownTemplateInOut.new(organisation).from_h(hash, options)
+      [
+        organisation,
+        MarkdownTemplateImporter.new(organisation, @options).from_h(hash[:markdown_templates])
+      ]
     end
 
     protected

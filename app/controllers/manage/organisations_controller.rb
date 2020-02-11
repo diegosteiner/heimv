@@ -3,7 +3,6 @@ module Manage
     load_and_authorize_resource :organisation
     before_action :set_organisation
     after_action :attach_files, only: :update
-    respond_to :yaml
 
     def edit; end
 
@@ -13,15 +12,6 @@ module Manage
     end
 
     def show
-      respond_to do |format|
-        format.html { redirect_to edit_manage_organisation_path }
-        format.json { render json: JSON.generate(InOut::OrganisationInOut.new(@organisation).to_h) }
-      end
-    end
-
-    def create
-      InOut::OrganisationInOut.new(@organisation).from_h(JSON.parse(params[:inout]), replace: params[:replace])
-
       redirect_to edit_manage_organisation_path
     end
 

@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   namespace :admin do
     resources :users
+    resource :import, only: %i[new create show]
   end
 
   namespace :manage do
@@ -18,7 +19,7 @@ Rails.application.routes.draw do
         end
       end
     end
-    resource :organisation, only: %i[edit update show create]
+    resource :organisation, only: %i[edit update show]
     resources :data_digests
     resources :invoices do
       resources :invoice_parts, except: %i[index show]

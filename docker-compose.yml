@@ -92,7 +92,7 @@ services:
     ports:
       - '3002:3002'
     volumes:
-      - bundle_cache:/app/vendor/cache
+      - app_bundle:/usr/local/bundle/
     environment:
       DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"

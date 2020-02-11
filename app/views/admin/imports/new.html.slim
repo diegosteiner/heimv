@@ -1,0 +1,11 @@
+.row.justify-content-center
+  .col-md-8
+    .card.mt-3
+      .card-body
+        = form_with(url: admin_import_path, method: :POST, local: true) do |f|
+          fieldset
+            = f.check_box :replace
+            = f.text_area :import_data, rows: 20
+
+          .form-actions.pt-4.mt-3.border-top
+            = f.submit
