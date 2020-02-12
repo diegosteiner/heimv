@@ -77,7 +77,7 @@ services:
       RAILS_ENV: test
       SELENIUM_HOST: selenium
       SELENIUM_PORT: 4444
-      NODE_ENV: production
+      MAILER_URL: "test://localhost?from=no-reply@heimverwaltung.localhost"
     depends_on:
       - db
       - selenium
