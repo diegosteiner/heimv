@@ -52,6 +52,9 @@ Rails.application.configure do
                            password: ENV['MEMCACHIER_PASSWORD'] }
   elsif ENV['MEMCACHED_SERVER'].present?
     config.cache_store = :mem_cache_store, ENV['MEMCACHED_SERVERS']
+  else
+    config.action_controller.perform_caching = false
+    config.cache_store = :null_store
   end
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
