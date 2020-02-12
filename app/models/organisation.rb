@@ -6,7 +6,7 @@
 #  address                   :text
 #  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
-#  currency                  :string           default("CHF")
+#  currency                  :string
 #  email                     :string
 #  esr_participant_nr        :string
 #  iban                      :string
@@ -33,7 +33,7 @@ class Organisation < ApplicationRecord
   validates :booking_strategy_type, presence: true
   validates :booking_ref_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
-  validates :name, :address, :esr_participant_nr, presence: true
+  validates :name, :address, :email, :esr_participant_nr, presence: true
 
   def booking_strategy
     @booking_strategy ||= Kernel.const_get(booking_strategy_type).new

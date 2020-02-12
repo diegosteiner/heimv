@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_09_203800) do
+ActiveRecord::Schema.define(version: 2020_02_12_151710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 2020_02_09_203800) do
     t.datetime "updated_at", null: false
     t.text "internal_remarks"
     t.boolean "concluded", default: false
+    t.uuid "occupancy_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
@@ -239,13 +240,11 @@ ActiveRecord::Schema.define(version: 2020_02_09_203800) do
     t.datetime "ends_at", null: false
     t.bigint "home_id", null: false
     t.string "booking_type"
-    t.uuid "booking_id"
     t.integer "occupancy_type", default: 0, null: false
     t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
-    t.index ["booking_type", "booking_id"], name: "index_occupancies_on_booking_type_and_booking_id"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"

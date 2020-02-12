@@ -3,6 +3,7 @@ module Manage
     def self.permitted_keys
       super +
         %i[transition_to messages_enabled internal_remarks cancellation_reason] +
+        [occupancy_attributes: Public::OccupancyParams.permitted_keys] +
         [usages_attributes: UsageParams.permitted_keys + %i[_destroy id]] +
         [tenant_attributes: TenantParams.permitted_keys] +
         [agent_booking_attributes: Public::AgentBookingParams.permitted_keys] +
@@ -12,7 +13,7 @@ module Manage
     sanitize do |params|
       next params if params[:occupancy_attributes].blank?
 
-      params.merge(occupancy_attributes: Public::OccupancyParams.new(params[:occupancy_attributes]).permitted)
+      params.merge(occupancy_attributes: Public::OccupancyParams.new(params[:occupancy_attributes]).sanitized)
     end
   end
 end

@@ -22,7 +22,7 @@
     strong= Booking.human_attribute_name(:tenant)
 
     = f.fields_for :tenant, (@booking.tenant || @booking.build_tenant) do |cf|
-      = cf.email_field :email
+      = f.email_field :email
       = cf.text_field :first_name
       = cf.text_field :last_name
       = cf.text_area :street_address
