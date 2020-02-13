@@ -72,6 +72,7 @@ services:
       - test_bundle:/usr/local/bundle/
     environment:
       E2E_HOST: 'http://production:3002'
+      RAILS_PORT: 3002
       DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
@@ -81,7 +82,6 @@ services:
     depends_on:
       - db
       - selenium
-      - production
     networks:
       default:
       selenium:

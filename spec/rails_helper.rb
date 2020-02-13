@@ -84,7 +84,13 @@ RSpec.configure do |config|
     # Capybara::Selenium::Driver.new(app, browser: :remote, url: url, desired_capabilities: capabilities)
   end
 
-  Capybara.run_server = false
+  if ENV['RAILS_PORT'].present?
+    Capybara.run_server = true
+    Capybara.server_port = ENV['RAILS_PORT']
+    Capybara.server_host = '0.0.0.0'
+  else
+    Capybara.run_server = false
+  end
   Capybara.default_driver = :selenium
   Capybara.default_max_wait_time = 10
   Capybara.app_host = ENV['E2E_HOST']

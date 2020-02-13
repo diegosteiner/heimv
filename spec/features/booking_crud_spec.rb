@@ -34,7 +34,7 @@ describe 'Booking CRUD', :devise, type: :feature do
     expect(page).to have_content booking.ref
   end
 
-  it 'can edit existing booking', skip: true do
+  it 'can edit existing booking' do
     visit edit_manage_booking_path(booking)
     submit_form
     expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human)
