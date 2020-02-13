@@ -19,11 +19,6 @@ blocks:
         - name: Tests
           commands:
             - docker-compose run --use-aliases test
-        - name: Build
-          commands:
-            - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin $DOCKER_REGISTRY
-            - docker-compose build production
-            - docker-compose push production
       epilogue:
         on_fail:
           commands:
