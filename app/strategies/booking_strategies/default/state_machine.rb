@@ -5,8 +5,8 @@ module BookingStrategies
       state :initial, initial: true
       %i[
         unconfirmed_request open_request provisional_request definitive_request booking_agent_request overdue_request
-        awaiting_tenant awaiting_contract upcoming overdue active past payment_due payment_overdue cancelation_pending
-        completed cancelled_request declined_request cancelled upcoming_soon
+        awaiting_tenant awaiting_contractoverdue upcoming_soon active past payment_due payment_overdue cancelation_pending
+        upcoming completed cancelled_request declined_request cancelled
       ].each { |s| state(s) }
 
       transition from: :initial,
