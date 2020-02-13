@@ -13,8 +13,8 @@ services:
     entrypoint: [".docker/entrypoints/app.sh"]
     command: ["bin/rails", "s", "-b", "0.0.0.0", "-p", "3000"]
     environment:
+      APP_HOST: ${APP_HOST:-heimv.localhost:3000}
       DATABASE_URL: postgresql://postgres@db/heimverwaltung_development
-      # DATABASE_URL: postgresql://postgres@db/heimverwaltung_production
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpack
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"

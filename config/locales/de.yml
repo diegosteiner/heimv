@@ -1802,6 +1802,7 @@ de:
   time:
     formats:
       date: "%d.%m.%Y"
+      default: "%d.%m.%Y %H:%M"
       short: "%d.%m.%Y %H:%M"
       short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"
