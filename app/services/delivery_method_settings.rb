@@ -38,4 +38,9 @@ module URI
     DEFAULT_PORT = 25
   end
   @@schemes['SMTP'] = SMTP
+
+  class Test < Generic
+    DEFAULT_PORT = 0
+  end
+  @@schemes['Test'] = Test
 end

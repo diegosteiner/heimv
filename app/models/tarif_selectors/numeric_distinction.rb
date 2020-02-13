@@ -21,10 +21,12 @@
 
 module TarifSelectors
   class NumericDistinction < TarifSelector
-    DISTINCTION_REGEX = /\A([><=])?(\d*)\z/.freeze
+    def distinction_regex
+      /\A([><=])?(\d*)\z/.freeze
+    end
 
     def apply?(usage, presumable_usage = presumable_usage(usage))
-      distinction_match = self.class::DISTINCTION_REGEX.match(distinction) || return
+      distinction_match = distinction_regex.match(distinction) || return
       case distinction_match[1]
       when '<'
         presumable_usage < distinction_match[2].to_i

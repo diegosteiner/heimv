@@ -10,16 +10,14 @@
 #  remarks        :text
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  booking_id     :uuid
 #  home_id        :bigint           not null
 #
 # Indexes
 #
-#  index_occupancies_on_begins_at                    (begins_at)
-#  index_occupancies_on_booking_type_and_booking_id  (booking_type,booking_id)
-#  index_occupancies_on_ends_at                      (ends_at)
-#  index_occupancies_on_home_id                      (home_id)
-#  index_occupancies_on_occupancy_type               (occupancy_type)
+#  index_occupancies_on_begins_at       (begins_at)
+#  index_occupancies_on_ends_at         (ends_at)
+#  index_occupancies_on_home_id         (home_id)
+#  index_occupancies_on_occupancy_type  (occupancy_type)
 #
 # Foreign Keys
 #
@@ -28,7 +26,7 @@
 
 class Occupancy < ApplicationRecord
   belongs_to :home
-  belongs_to :booking, inverse_of: :occupancy, optional: true
+  has_one :booking, inverse_of: :occupancy, dependent: :restrict_with_exception
   has_one :organisation, through: :home
 
   date_time_attribute :begins_at, timezone: Time.zone.name

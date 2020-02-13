@@ -20,14 +20,9 @@
 #
 
 module TarifSelectors
-  class BookingPurpose < TarifSelector
-    def distinction_regex
-      /\A(camp|event)\z/.freeze
-    end
-
+  class TenantOrganisation < TarifSelector
     def apply?(usage)
-      distinction_match = distinction_regex.match(distinction)
-      distinction_match[1] == usage.booking.purpose
+      distinction == usage.booking.tenant_organisation
     end
   end
 end

@@ -1,38 +1,27 @@
 version: '3.5'
 services:
 
-  db:
-    image: postgres:alpine
-    volumes:
-      - db_data:/var/lib/postgresql/data
-
   app:
     build:
       context: .
-      target: base
-    image: registry.gitlab.com/diegosteiner/heimv
-    command: bin/rails s -p 3000 -b 0.0.0.0
+      target: development
     volumes:
       - .:/app
       - app_bundle:/usr/local/bundle/
     ports:
       - '3000:3000'
+    entrypoint: [".docker/entrypoints/app.sh"]
+    command: ["bin/rails", "s", "-b", "0.0.0.0", "-p", "3000"]
     environment:
+      APP_HOST: ${APP_HOST:-heimv.localhost:3000}
       DATABASE_URL: postgresql://postgres@db/heimverwaltung_development
-      # DATABASE_URL: postgresql://postgres@db/heimverwaltung_production
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpack
-      BUNDLE_INSTALL: 'true'
-      YARN_INSTALL: 'true'
-      # WEBPACKER_PRECOMPILE: 'true'
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
-      MIGRATE_DATABASE: 'true'
-      MEMCACHE_SERVERS: memcached
     depends_on:
       - db
       - webpack
       - mail
-      - memcached
     tty: true
     stdin_open: true
 
@@ -41,13 +30,14 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: heimverwaltung_development
+      POSTGRES_DB: heimverwaltung_test
 
   webpack:
     build:
       context: .
-      target: base
-    command: bin/webpack-dev-server
+      target: development
+    entrypoint: [".docker/entrypoints/webpack.sh"]
+    command: ["bin/webpack-dev-server"]
     entrypoint: ./.docker/entrypoints/webpack.sh
     volumes:
       - .:/app
@@ -73,25 +63,23 @@ services:
   test:
     build:
       context: .
-      target: base
-    command: bin/check
+      target: development
+    entrypoint: [".docker/entrypoints/app.sh"]
+    command: ["bin/check"]
     volumes:
       - .:/app
-      - app_node_modules:/app/node_modules
-      - app_bundle:/usr/local/bundle/
+      - test_node_modules:/app/node_modules
+      - test_bundle:/usr/local/bundle/
     environment:
-      APP_HOST: test
-      PORT: 3001
+      E2E_HOST: 'http://test:3002'
+      RAILS_PORT: 3002
       DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
       SELENIUM_HOST: selenium
       SELENIUM_PORT: 4444
-      NODE_ENV: production
-      WEBPACKER_PRECOMPILE: 'true'
-      MAIL_FROM: no-reply@heimverwaltung.localhost
-      YARN_INSTALL: 'true'
-      BUNDLE_INSTALL: 'true'
+      MAILER_URL: "test://localhost?from=no-reply@heimverwaltung.localhost"
+      RUBYOPT: '-W:no-deprecated -W:no-experimental'
     depends_on:
       - db
       - selenium
@@ -100,6 +88,30 @@ services:
       selenium:
         aliases:
           - test
+
+  production:
+    build: .
+    image: heimv:latest
+    ports:
+      - '3002:3002'
+    volumes:
+      - app_bundle:/usr/local/bundle/
+    environment:
+      DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
+      MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
+      SECRET_KEY_BASE: 'test'
+      RAILS_SERVE_STATIC_FILES: 'true'
+      PORT: 3002
+      LOG_LEVEL: 'debug'
+      #MEMCACHE_SERVERS: memcached
+      RUBYOPT: '-W:no-deprecated -W:no-experimental'
+    depends_on:
+      - db
+      - mail
+      #- memcached
+    networks:
+      default:
+      selenium:
 
   selenium:
     image: selenium/standalone-chrome-debug
@@ -112,8 +124,11 @@ networks:
   selenium:
 
 volumes:
+  test_bundle:
   app_bundle:
-  app_node_modules:
+  bundle_cache:
+  node_modules:
+  test_node_modules:
   webpack_bundle:
   webpack_node_modules:
   db_data:

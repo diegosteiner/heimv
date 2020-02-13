@@ -1,9 +1,10 @@
-module InOut
-  class MarkdownTemplateInOut
+module Import
+  class MarkdownTemplateImporter
     attr_reader :organisation
 
-    def initialize(organisation)
+    def initialize(organisation, options = {})
       @organisation = organisation
+      @options = options
     end
 
     def to_a
@@ -25,11 +26,13 @@ module InOut
     end
 
     def to_h
-      { 'markdown_templates' => to_a }
+      to_a
     end
 
     def from_h(hash, options = {})
-      from_a(hash.fetch(:markdown_templates, []), replace: options[:replace].present?)
+      return false unless hash.is_a?(Hash)
+
+      from_a(hash.fetch(:markdown_templates, []), **options)
     end
 
     protected

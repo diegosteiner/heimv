@@ -41,7 +41,8 @@ class Payment < ApplicationRecord
 
   attribute :confirm, default: true
 
-  after_create :confirm!
+  after_create :confirm!, if: :confirm?
+
   before_validation do
     self.booking ||= invoice&.booking
   end
@@ -51,7 +52,7 @@ class Payment < ApplicationRecord
   end
 
   def confirm!
-    PaymentConfirmation.new(self).deliver if confirm? && !write_off?
+    PaymentConfirmation.new(self).deliver unless write_off?
   end
 
   def to_liquid

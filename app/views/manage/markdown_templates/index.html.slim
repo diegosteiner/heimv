@@ -5,6 +5,8 @@
       - @markdown_templates.each do |markdown_template|
         tr[data-href=manage_markdown_template_path(markdown_template) data-id=markdown_template.to_param]
           td
+            = link_to markdown_template.title, manage_markdown_template_path(markdown_template)
+          td
             = link_to markdown_template.key, manage_markdown_template_path(markdown_template)
           td = markdown_template.locale
           td

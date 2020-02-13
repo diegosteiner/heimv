@@ -23,6 +23,7 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  home_id               :bigint           not null
+#  occupancy_id          :uuid
 #  organisation_id       :bigint           not null
 #  tenant_id             :integer
 #
@@ -48,8 +49,8 @@ class Booking < ApplicationRecord
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, optional: true
+  belongs_to :occupancy, inverse_of: :booking
 
-  has_one :occupancy, dependent: :destroy, inverse_of: :booking, autosave: true
   has_one :agent_booking, dependent: :destroy, inverse_of: :booking
 
   has_many :invoices, dependent: :destroy, autosave: false
@@ -85,8 +86,8 @@ class Booking < ApplicationRecord
   scope :inconcluded, -> { where(concluded: false) }
 
   before_validation :set_organisation
-  before_validation :set_occupancy_attributes
   before_validation :assign_tenant
+  before_validation :set_occupancy_attributes, :set_tenant_attributes
   before_create :set_ref
   after_create :reload
 
@@ -146,12 +147,18 @@ class Booking < ApplicationRecord
   end
 
   def assign_tenant
+    self.email ||= tenant&.email
     return if email.blank?
 
     self.tenant ||= organisation.tenants.find_or_initialize_by(email: email) do |tenant|
       tenant.country ||= 'CH'
-      tenant.organisation = organisation
     end
+  end
+
+  def set_tenant_attributes
+    self.tenant ||= build_tenant
+    self.tenant.email ||= email
+    self.tenant.organisation = organisation
   end
 
   def set_occupancy_attributes

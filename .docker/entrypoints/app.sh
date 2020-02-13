@@ -3,33 +3,22 @@ set -e
 
 [ ! -e /app/tmp/pids/server.pid ] || rm /app/tmp/pids/server.pid
 
-if [ "$BUNDLE_INSTALL" != "" ]; then
-  bundle check || bundle install
-fi
+bundle check || bundle install
 
-if [ "$YARN_INSTALL" != "" ]; then
-  yarn install
-fi
-
-if [ "$WEBPACKER_PRECOMPILE" != "" ]; then
-   bin/rails assets:precompile
-fi
+echo "Preparing Database"
+bin/rails db:prepare RAILS_ENV=$RAILS_ENV
+bin/rails db:migrate
 
 case "$RAILS_ENV" in
   test)
-      bundle check || bundle install
-      bin/rails db:prepare RAILS_ENV=$RAILS_ENV
+      yarn install
+      bin/webpack
       ;;
 
   development)
-      bundle check || bundle install
-      yarn check --silent || yarn install
-      bin/rails db:prepare RAILS_ENV=$RAILS_ENV
       ;;
 
   *)
-      [ "$MIGRATE_DATABASE" != "" ] && bin/rails db:migrate
-      bundle exec rails webpacker:compile
       ;;
 esac
 

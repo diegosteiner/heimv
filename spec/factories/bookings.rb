@@ -23,6 +23,7 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  home_id               :bigint           not null
+#  occupancy_id          :uuid
 #  organisation_id       :bigint           not null
 #  tenant_id             :integer
 #

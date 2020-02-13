@@ -2,21 +2,21 @@
 #
 # Table name: organisations
 #
-#  id                           :bigint           not null, primary key
-#  address                      :text
-#  booking_ref_strategy_type    :string
-#  booking_strategy_type        :string
-#  currency                     :string           default("CHF")
-#  delivery_method_settings_url :string
-#  email                        :string
-#  esr_participant_nr           :string
-#  iban                         :string
-#  invoice_ref_strategy_type    :string
-#  message_footer               :text
-#  name                         :string
-#  representative_address       :string
-#  created_at                   :datetime         not null
-#  updated_at                   :datetime         not null
+#  id                        :bigint           not null, primary key
+#  address                   :text
+#  booking_ref_strategy_type :string
+#  booking_strategy_type     :string
+#  currency                  :string
+#  email                     :string
+#  esr_participant_nr        :string
+#  iban                      :string
+#  invoice_ref_strategy_type :string
+#  message_footer            :text
+#  name                      :string
+#  payment_deadline          :integer          default(30), not null
+#  representative_address    :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 
 class Organisation < ApplicationRecord
@@ -33,10 +33,7 @@ class Organisation < ApplicationRecord
   validates :booking_strategy_type, presence: true
   validates :booking_ref_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
-  validates :name, :address, :esr_participant_nr, presence: true
-  validate do
-    errors.add(:delivery_method_settings_url, :invalid) unless delivery_method_settings.valid?
-  end
+  validates :name, :address, :email, :esr_participant_nr, presence: true
 
   def booking_strategy
     @booking_strategy ||= Kernel.const_get(booking_strategy_type).new
@@ -85,11 +82,7 @@ class Organisation < ApplicationRecord
     locale_keys.reject { |locale_key| markdown_templates.where(locale_key).exists? }
   end
 
-  def delivery_method_settings
-    @delivery_method_settings ||= DeliveryMethodSettings.new(delivery_method_settings_url)
-  end
-
   def messages_enabled?
-    delivery_method_settings.valid?
+    true
   end
 end

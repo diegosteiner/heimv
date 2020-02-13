@@ -140,7 +140,6 @@ en:
       organisation:
         address: Adresse
         contract_signature: Vertragsunterschrift
-        delivery_method_settings_url: Email-Konfiguration
         esr_participant_nr: Kontonummer
         iban: IBAN
         logo: Logo
@@ -778,6 +777,7 @@ en:
   time:
     formats:
       date: "%d.%m.%Y"
+      default: "%d.%m.%Y %H:%M"
       short: "%d.%m.%Y %H:%M"
       short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"

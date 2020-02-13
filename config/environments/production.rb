@@ -39,16 +39,23 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :warn
+  config.log_level = ENV.fetch('LOG_LEVEL', :warn).to_sym
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
-  config.cache_store = :mem_cache_store, ENV['MEMCACHIER_SERVERS'],
-                       { username: ENV['MEMCACHIER_USERNAME'],
-                         password: ENV['MEMCACHIER_PASSWORD'] }
+  if ENV['MEMCACHIER_SERVERS'].present?
+    config.cache_store = :mem_cache_store, ENV['MEMCACHIER_SERVERS'],
+                         { username: ENV['MEMCACHIER_USERNAME'],
+                           password: ENV['MEMCACHIER_PASSWORD'] }
+  elsif ENV['MEMCACHED_SERVER'].present?
+    config.cache_store = :mem_cache_store, ENV['MEMCACHED_SERVERS']
+  else
+    config.action_controller.perform_caching = false
+    config.cache_store = :null_store
+  end
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
@@ -74,11 +81,9 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV['RAILS_LOG_TO_STDOUT'].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
-  end
+  logger           = ActiveSupport::Logger.new(STDOUT)
+  logger.formatter = config.log_formatter
+  config.logger    = ActiveSupport::TaggedLogging.new(logger)
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
