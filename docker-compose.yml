@@ -71,7 +71,7 @@ services:
       - test_node_modules:/app/node_modules
       - test_bundle:/usr/local/bundle/
     environment:
-      E2E_HOST: 'http://production:3002'
+      E2E_HOST: 'http://test:3002'
       RAILS_PORT: 3002
       DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
@@ -79,12 +79,15 @@ services:
       SELENIUM_HOST: selenium
       SELENIUM_PORT: 4444
       MAILER_URL: "test://localhost?from=no-reply@heimverwaltung.localhost"
+      RUBYOPT: '-W:no-deprecated -W:no-experimental'
     depends_on:
       - db
       - selenium
     networks:
       default:
       selenium:
+        aliases:
+          - test
 
   production:
     build: .

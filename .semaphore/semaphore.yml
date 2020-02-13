@@ -12,13 +12,11 @@ blocks:
           - checkout
           - cache restore
           - docker-compose build test
-          - docker-compose build production
           - cache store
       jobs:
         - name: Tests
           commands:
-            - docker-compose up -d db
-            - docker-compose run test
+            - docker-compose run --use-aliases test
       epilogue:
         on_fail:
           commands:
