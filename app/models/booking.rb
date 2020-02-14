@@ -156,6 +156,8 @@ class Booking < ApplicationRecord
   end
 
   def set_tenant_attributes
+    return unless tenant || email
+
     self.tenant ||= build_tenant
     self.tenant.email ||= email
     self.tenant.organisation = organisation

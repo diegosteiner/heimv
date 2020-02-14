@@ -44,7 +44,7 @@ class AgentBooking < ApplicationRecord
     return unless valid?
 
     booking || build_booking
-    booking.assign_attributes(email: tenant_email, committed_request: committed_request, agent_booking: self)
+    booking.assign_attributes(email: tenant_email.presence, committed_request: committed_request, agent_booking: self)
 
     return errors.add(:booking, :invalid) unless booking.valid?
 
