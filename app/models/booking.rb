@@ -98,7 +98,6 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank, update_only: true
 
   attribute :accept_conditions, default: false
-  # enum purpose: { camp: :camp, event: :event }
 
   def to_s
     ref
@@ -147,12 +146,7 @@ class Booking < ApplicationRecord
   end
 
   def assign_tenant
-    self.email ||= tenant&.email
-    return if email.blank?
-
-    self.tenant ||= organisation.tenants.find_or_initialize_by(email: email) do |tenant|
-      tenant.country ||= 'CH'
-    end
+    self.tenant ||= organisation.tenants.find_or_initialize_by(email: email) if email.present?
   end
 
   def set_tenant_attributes
@@ -160,6 +154,7 @@ class Booking < ApplicationRecord
 
     self.tenant ||= build_tenant
     self.tenant.email ||= email
+    self.tenant.country ||= 'CH'
     self.tenant.organisation = organisation
   end
 
