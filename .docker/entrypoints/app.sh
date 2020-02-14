@@ -17,9 +17,6 @@ case "$RAILS_ENV" in
 
   development)
       ;;
-
-  *)
-      ;;
 esac
 
 echo "$@"
