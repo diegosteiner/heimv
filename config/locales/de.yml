@@ -196,6 +196,12 @@ de:
         purpose:
           camp: Lager
           event: Privater Anlass
+      occupancy:
+        occupancy_type:
+          tentative: "provisorisch Besetzt"
+          occupied: "definitiv Besetzt"
+          closed: "Geschlossen"
+          free: "Frei"
       tarif:
         prefill_usage_methods:
           flat: Fix
@@ -502,7 +508,7 @@ de:
     - Fr
     - Sa
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mär
@@ -528,7 +534,7 @@ de:
       long: "%e. %B %Y"
       short: "%e. %b"
     month_names:
-    - 
+    -
     - Januar
     - Februar
     - März
@@ -1809,3 +1815,4 @@ de:
   titles:
     application: HeimV
   until: bis
+

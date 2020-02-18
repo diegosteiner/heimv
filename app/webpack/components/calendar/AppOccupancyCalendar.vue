@@ -18,6 +18,7 @@
 import axios from "axios";
 import { Calendar } from "vue-occupancies-calendar";
 import AppCalendarDay from "./AppCalendarDay.vue";
+import { isBefore, isAfter, parseISO, startOfDay, endOfDay, areIntervalsOverlapping } from 'date-fns'
 
 export default {
   props: [
@@ -30,6 +31,8 @@ export default {
   components: { Calendar, AppCalendarDay },
   data: function() {
     return {
+      window_from: null,
+      window_to: null,
       occupancies: [],
       loading: true
     };
@@ -44,38 +47,36 @@ export default {
     this.loadOccupanciesFromRemote();
   },
   methods: {
-    disable(e) {
-      this.enabled = false;
-    },
     loadOccupanciesFromRemote() {
       const vm = this;
       vm.loading = true;
 
       if (this.occupanciesUrl !== undefined) {
         axios.get(this.occupanciesUrl).then(response => {
-          vm.occupancies = response.data;
+          vm.window_from = parseISO(response.data.window_from),
+          vm.window_to = parseISO(response.data.window_to),
+          vm.occupancies = response.data.occupancies.map(occupancy => {
+            occupancy.begins_at = parseISO(occupancy.begins_at)
+            occupancy.ends_at = parseISO(occupancy.ends_at)
+            return occupancy
+          })
           vm.loading = false;
         });
       }
     },
-    isOutOfRange(date) {
+    isOutOfRange(moment_date) {
+      const date = moment_date.toDate()
       return (
-        date.isBefore(this.$moment().subtract(1, "day")) ||
-        date.isAfter(this.$moment().add(18, "months"))
+        isBefore(date, this.window_from) || isAfter(date, this.window_to)
       );
     },
-    occupanciesOfDate(date) {
+    occupanciesOfDate(moment_date) {
+      const date = moment_date.toDate()
       return this.occupancies.filter(occupancy => {
-        const begins_at = this.$moment(occupancy.begins_at, this.$moment().ISO_8601);
-        const ends_at = this.$moment(occupancy.ends_at, this.$moment().ISO_8601);
-        const start_of_date = this.$moment(date).startOf("day");
-        const end_of_date = this.$moment(date).endOf("day");
-        return (
-          start_of_date.isBetween(begins_at, ends_at, "hours", "[)") ||
-          end_of_date.isBetween(begins_at, ends_at, "hours", "(]") ||
-          (begins_at.isBetween(start_of_date, end_of_date, "hours", "(]") &&
-          ends_at.isBetween(start_of_date, end_of_date, "hours", "(]"))
-        );
+        return areIntervalsOverlapping(
+          { start: occupancy.begins_at, end: occupancy.ends_at},
+          { start: startOfDay(date), end: endOfDay(date)}
+        )
       });
     }
   }

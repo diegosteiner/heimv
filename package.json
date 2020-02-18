@@ -7,6 +7,7 @@
         "bootstrap-vue": "^2.0.0-rc.10",
         "caniuse-lite": "^1.0.30000843",
         "css-loader": "^0.28.7",
+        "date-fns": "^2.9.0",
         "font-awesome": "^4.7.0",
         "jquery": "^3.2.1",
         "jquery-ujs": "^1.2.2",

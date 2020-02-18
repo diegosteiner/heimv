@@ -1,8 +1,6 @@
 module Public
   class OccupancySerializer < ApplicationSerializer
-    belongs_to :home
-
-    attributes :begins_at, :ends_at, :occupancy_type
+    attributes :begins_at, :ends_at, :occupancy_type, :home_id
 
     attribute :ref do
       object.booking&.ref

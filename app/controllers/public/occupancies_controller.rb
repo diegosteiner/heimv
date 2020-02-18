@@ -13,18 +13,18 @@ module Public
     end
 
     def index
-      @occupancies = @occupancies.window.blocking
+      @calendar = OccupancyCalendar.new(home: @home)
+      @calendar = OccupancyCalendar.new(home: @home, window_from: 2.months.ago) if can?(:manage, @home)
 
       respond_to do |format|
-        format.json { render json: @occupancies.to_json }
-        format.ics { render plain: IcalService.new.generate_from_occupancies(@occupancies) }
+        format.json { render json: @calendar }
+        format.ics { render plain: IcalService.new.generate_from_occupancies(@calendar.occupancies) }
       end
     end
 
     def embed; end
 
     def calendar
-      # @calendar = OccupancyCalendarSerializer.new(@occupancies).serializable_hash
       # respond_with :public, @calendar
     end
   end
