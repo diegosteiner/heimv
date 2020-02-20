@@ -1,5 +1,6 @@
 {
     "dependencies": {
+        "@popperjs/core": "^2.0.6",
         "@rails/webpacker": "https://github.com/rails/webpacker",
         "axios": "^0.18.0",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
@@ -14,9 +15,6 @@
         "json-loader": "^0.5.7",
         "less": "^2.7.3",
         "less-loader": "^4.0.5",
-        "moment": "^2.22.2",
-        "moment-locales-webpack-plugin": "^1.1.2",
-        "popper.js": "^1.14.3",
         "postcss-cssnext": "^3.1.0",
         "postcss-import": "^12.0.1",
         "postcss-loader": "^3.0.0",
@@ -25,10 +23,8 @@
         "vue": "^2.5.21",
         "vue-i18n": "^8.0.0",
         "vue-loader": "^15.4.2",
-        "vue-moment": "^4.0.0",
         "vue-occupancies-calendar": "https://github.com/diegosteiner/vue-occupancies-calendar.git",
         "vue-template-compiler": "^2.5.21",
-        "vuedraggable": "^2.16.0",
         "webpack": "^4.0.0",
         "webpack-cli": "^3.1.2",
         "yaml-loader": "^0.5.0"
@@ -38,9 +34,10 @@
         "autoprefixer": "^9.4.3",
         "cssnano": "^4.1.8",
         "sugarss": "^2.0.0",
+        "webpack-bundle-analyzer": "^3.6.0",
         "webpack-dev-server": "^3.1.14"
     },
-    "name": "heimverwaltung",
+    "name": "heimv",
     "version": "1.0.0",
     "main": "index.js",
     "repository": "git@github.com:diegosteiner/heimverwaltung.git",

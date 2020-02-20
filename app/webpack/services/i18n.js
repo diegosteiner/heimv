@@ -24,8 +24,11 @@ const dateTimeFormats = {
     }
   },
 }
-export default new VueI18n({
+import { de as x, frCH, itCH } from 'date-fns/locale'
+const i18n = new VueI18n({
   locale: locale,
   messages: messages,
   dateTimeFormats
 })
+
+export { i18n, locale, x }

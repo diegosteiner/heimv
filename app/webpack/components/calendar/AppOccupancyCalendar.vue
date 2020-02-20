@@ -1,8 +1,13 @@
 <template>
   <form target="_top" :action="reservationUrl" method="GET" class="calendar-form">
     <input type="hidden" name="booking[home_id]" :value="homeId" />
-    <calendar :display-months="displayMonthsScreen" v-if="!loading" v-cloak>
-      <template slot-scope="date">
+    <calendar
+      :display-months="displayMonthsScreen"
+      :locale="$t('occupancy_calendar')"
+      v-if="!loading"
+      v-cloak
+    >
+      <template v-slot="{ date }">
         <app-calendar-day
           :date="date"
           :disabled="isOutOfRange(date)"
@@ -18,7 +23,7 @@
 import axios from "axios";
 import { Calendar } from "vue-occupancies-calendar";
 import AppCalendarDay from "./AppCalendarDay.vue";
-import { isBefore, isAfter, parseISO, startOfDay, endOfDay, areIntervalsOverlapping } from 'date-fns'
+import { isBefore, isAfter, parseISO, startOfDay, endOfDay, areIntervalsOverlapping, eachDayOfInterval } from 'date-fns'
 
 export default {
   props: [
@@ -45,6 +50,7 @@ export default {
   },
   mounted() {
     this.loadOccupanciesFromRemote();
+    const x = eachDayOfInterval;
   },
   methods: {
     loadOccupanciesFromRemote() {
@@ -64,14 +70,10 @@ export default {
         });
       }
     },
-    isOutOfRange(moment_date) {
-      const date = moment_date.toDate()
-      return (
-        isBefore(date, this.window_from) || isAfter(date, this.window_to)
-      );
+    isOutOfRange(date) {
+      return isBefore(date, this.window_from) || isAfter(date, this.window_to);
     },
-    occupanciesOfDate(moment_date) {
-      const date = moment_date.toDate()
+    occupanciesOfDate(date) {
       return this.occupancies.filter(occupancy => {
         return areIntervalsOverlapping(
           { start: occupancy.begins_at, end: occupancy.ends_at},

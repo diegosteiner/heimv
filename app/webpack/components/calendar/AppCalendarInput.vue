@@ -2,7 +2,7 @@
   <div>
     <b-form-group :label="label" :labelClass="required ? 'required' : ''">
       <b-input-group>
-        <b-form-input v-model.lazy="formattedDate" :disabled="disabled" />
+        <b-form-input :value="formattedDate" @change="setDate" :disabled="disabled" />
         <b-btn slot="append" variant="primary" @click="toggleModal">
           <i class="fa fa-calendar"></i>
         </b-btn>
@@ -10,10 +10,10 @@
       </b-input-group>
     </b-form-group>
     <b-modal v-model="showDateModal" size="sm" hide-footer hide-header>
-      <calendar :display-months="1" :firstDate="selectedDate">
+      <calendar :firstDate="selectedDate">
         <template slot-scope="date">
           <app-calendar-day
-            :active="date.isSame(selectedDate, 'day')"
+            :active="isActive(date)"
             :date="date"
             @input="setDate"
             :disabled="false"
@@ -26,6 +26,9 @@
 <script>
 import { Calendar } from "vue-occupancies-calendar";
 import AppCalendarDay from "./AppCalendarDay.vue";
+import { formatISO, format, parse, parseISO, startOfDay, isDate, isValid, isEqual } from 'date-fns'
+
+const dateFormat = 'dd.MM.yyyy';
 
 export default {
   components: { Calendar, AppCalendarDay },
@@ -37,43 +40,33 @@ export default {
     required: false
   },
   data() {
-    const parsedDate = this.$moment(this.value, this.$moment.ISO_8601)
-
     return {
-      selectedDate: parsedDate.isValid() ? parsedDate : null,
+      selectedDate: parseISO(this.value),
       showDateModal: false,
-      dateFormat: 'DD.MM.Y'
     }
   },
   computed: {
-    formattedDate: {
-      get() {
-        if(this.selectedDate == null) return ""
-        return this.$moment(this.selectedDate).format(this.dateFormat)
-      },
-      set(newDate) {
-        newDate = this.$moment(newDate, this.dateFormat)
-        this.setDate(newDate)
-      }
+    formattedDate() {
+      if(isDate(this.selectedDate)) return format(this.selectedDate, dateFormat);
     },
     isoDate() {
-      if(this.selectedDate == null) return ""
-      return this.$moment(this.selectedDate).format('Y-MM-DD')
+      if(!isDate(this.selectedDate)) return formatISO(this.selectedDate, { representation: 'date'});
     }
   },
   methods: {
-    toggleModal() {
-      if(this.disabled) { return }
-
-      this.showDateModal = !this.showDateModal
-    },
-    setDate(newDate) {
+    setDate(dateStr) {
+      const date = parse(dateStr, dateFormat, this.selectedDate)
       this.showDateModal = false
-      newDate = this.$moment(newDate)
-      if(newDate.isValid()) {
-        this.selectedDate = newDate
-        this.$emit('input', newDate)
-       }
+
+      if(!isValid(date)) return;
+      this.selectedDate = date
+      this.$emit('input', date)
+    },
+    toggleModal() {
+      if(!this.disabled) this.showDateModal = !this.showDateModal;
+    },
+    isActive(date) {
+      return isEqual(startOfDay(date), startOfDay(this.selectedDate))
     }
   },
 }

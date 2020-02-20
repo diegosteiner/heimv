@@ -39,19 +39,19 @@ services:
       target: development
     entrypoint: [".docker/entrypoints/webpack.sh"]
     command: ["bin/webpack-dev-server"]
-    entrypoint: ./.docker/entrypoints/webpack.sh
     volumes:
       - .:/app
       - webpack_node_modules:/app/node_modules
       - ./tmp/yarn_cache:/app/.cache/yarn
       - webpack_bundle:/usr/local/bundle/
+      # - ../vue-occupancies-calendar/:/vue-occupancies-calendar
     environment:
       NODE_ENV: development
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
     ports:
       - '3035:3035'
-    # user: "${UID:-1000}:${GID:-1000}"
+    user: "${UID:-1000}:${GID:-1000}"
 
   mail:
     image: tophfr/mailcatcher

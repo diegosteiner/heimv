@@ -7,7 +7,7 @@
     :disabled="disabled || loading"
     @click="$emit('input', date)"
   >
-    {{ date.toDate().getDate() }}
+    {{ date.getDate() }}
     <b-popover
       v-if="occupancies.length && !disabled && !loading"
       :target="id"
@@ -30,12 +30,12 @@
 
 <script>
 import { BPopover } from 'bootstrap-vue'
-import { setHours, formatISO, startOfDay, endOfDay, isWithinInterval, format } from 'date-fns'
+import { setHours, formatISO, startOfDay, endOfDay, isWithinInterval, parseISO } from 'date-fns'
 
 export default {
   components: { 'b-popover': BPopover },
   props: {
-    date: null,
+    date: Date,
     loading: true,
     disabled: true,
     active: false,
@@ -46,23 +46,22 @@ export default {
   },
   computed: {
     id() {
-      return this._uid + '_' + formatISO(this.date.toDate());
+      return this._uid + '_' + formatISO(this.date);
     },
     value() {
-      return formatISO(setHours(this.date.toDate(), 11))
+      return formatISO(setHours(this.date, 11))
     },
     cssClasses() {
       if(this.disabled || this.loading) return ["disabled"]
       if(this.active) return ["bg-primary text-white"]
 
-      const date = this.date.toDate();
-      const midDay = setHours(startOfDay(date), 12)
+      const midDay = setHours(startOfDay(this.date), 12)
 
       return this.occupancies.map((occupancy) => {
-        if(isWithinInterval(occupancy.ends_at, { start: startOfDay(date), end: midDay })) {
+        if(isWithinInterval(occupancy.ends_at, { start: startOfDay(this.date), end: midDay })) {
           return `${occupancy.occupancy_type}-forenoon`;
         }
-        if(isWithinInterval(occupancy.begins_at, { start: midDay, end: endOfDay(date) })) {
+        if(isWithinInterval(occupancy.begins_at, { start: midDay, end: endOfDay(this.date) })) {
           return `${occupancy.occupancy_type}-afternoon`;
         }
         return `${occupancy.occupancy_type}-fullday`;

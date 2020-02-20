@@ -14,7 +14,7 @@ module Public
 
     def index
       @calendar = OccupancyCalendar.new(home: @home)
-      @calendar = OccupancyCalendar.new(home: @home, window_from: 2.months.ago) if can?(:manage, @home)
+      (@calendar = OccupancyCalendar.new(home: @home, window_from: 2.months.ago)) if can?(:manage, @home)
 
       respond_to do |format|
         format.json { render json: @calendar }
