@@ -2,26 +2,26 @@
   <button
     :id="id"
     name="booking[occupancy_attributes][begins_at]"
-    :value="date.hour(11).toISOString()"
+    :value="value"
     :class="cssClasses"
     :disabled="disabled || loading"
     @click="$emit('input', date)"
   >
-    {{ date | moment('D') }}
+    {{ date.getDate() }}
     <b-popover
       v-if="occupancies.length && !disabled && !loading"
       :target="id"
       triggers="hover focus"
     >
-      <dl class="my-1" v-for="occupancy in relevantOccupancies" :key="occupancy.id">
-        <dt>{{ date_format(occupancy.begins_at) }} - {{ date_format(occupancy.ends_at) }}</dt>
+      <dl class="my-1" v-for="occupancy in occupancies" :key="occupancy.id">
+        <dt>{{ $d(occupancy.begins_at, 'short') }} - {{ $d(occupancy.ends_at, 'short') }}</dt>
         <dd>
           <a v-if="(occupancy.links || {}).handle" :href="occupancy.links.handle">
             <i class="fa fa-link"></i>
             {{ occupancy.ref }}
           </a>
-          <span>{{ $t(`occupancy_types.${occupancy.occupancy_type}`) }}</span>
-          <span v-if="occupancy.deadline">(bis {{ date_format(occupancy.deadline) }})</span>
+          <span>{{ $t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`) }}</span>
+          <span v-if="occupancy.deadline">(bis {{ $d(Date.parse(occupancy.deadline), 'short')}})</span>
         </dd>
       </dl>
     </b-popover>
@@ -30,11 +30,12 @@
 
 <script>
 import { BPopover } from 'bootstrap-vue'
+import { setHours, formatISO, startOfDay, endOfDay, isWithinInterval, parseISO } from 'date-fns'
 
 export default {
   components: { 'b-popover': BPopover },
   props: {
-    date: null,
+    date: Date,
     loading: true,
     disabled: true,
     active: false,
@@ -43,55 +44,30 @@ export default {
       default: () => []
     },
   },
-  i18n: {
-    messages: {
-      "de": {
-        occupancy_types: {
-          tentative: "provisorisch Besetzt",
-          occupied: "definitiv Besetzt",
-          closed: "Geschlossen",
-          free: " "
-        },
-        date_format: "DD.MM.Y HH:mm"
-      }
-    }
-  },
-  methods: {
-    date_format(value) {
-      return this.$moment(value).format(this.$t("date_format"));
-    },
-  },
   computed: {
     id() {
-      return this._uid + '_' + this.$moment(this.date).format("Y-MM-DD");
+      return this._uid + '_' + formatISO(this.date);
     },
-    tooltipText() {
-
-    },
-    relevantOccupancies(date) {
-      return this.occupancies.filter(function(occupancy) {
-        return occupancy.occupancy_type != "free";
-      });
+    value() {
+      return formatISO(setHours(this.date, 11))
     },
     cssClasses() {
       if(this.disabled || this.loading) return ["disabled"]
       if(this.active) return ["bg-primary text-white"]
-      const moment = this.$moment
+
+      const midDay = setHours(startOfDay(this.date), 12)
 
       return this.occupancies.map((occupancy) => {
-        let begins_at = moment(occupancy.begins_at, moment.ISO_8601);
-        let ends_at = moment(occupancy.ends_at, moment.ISO_8601);
-
-        if(ends_at.isBetween(moment(this.date.startOf("day")), moment(this.date.hour(12)), "minutes", "[)")) {
+        if(isWithinInterval(occupancy.ends_at, { start: startOfDay(this.date), end: midDay })) {
           return `${occupancy.occupancy_type}-forenoon`;
         }
-        if(begins_at.isBetween(moment(this.date.hour(12)), moment(this.date.endOf("day")), "minutes", "(]")) {
+        if(isWithinInterval(occupancy.begins_at, { start: midDay, end: endOfDay(this.date) })) {
           return `${occupancy.occupancy_type}-afternoon`;
         }
         return `${occupancy.occupancy_type}-fullday`;
       })
     },
-  }
+  },
 };
 </script>
 
@@ -120,9 +96,11 @@ $occupied-background-color: #ffa8a8;
     height: 100%;
     padding: 0;
     font-size: 0.9rem;
+    transition: opacity 0.1s ease-in-out;
+    opacity: 1;
 
-    &:focus {
-      outline: none;
+    &:hover {
+      opacity: 0.8;
     }
   }
 

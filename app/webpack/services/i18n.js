@@ -10,10 +10,25 @@ Vue.use(VueI18n)
 const locale = document.querySelector('html').getAttribute('lang')
 const messages = {
   // ...it,
-  ...de,
+  'de-CH': de.de,
   // ...fr,
 }
-export default new VueI18n({
+const dateTimeFormats = {
+  'de-CH': {
+    short: {
+      year: 'numeric', month: '2-digit', day: '2-digit'
+    },
+    long: {
+      year: 'numeric', month: 'short', day: 'numeric',
+      weekday: 'short', hour: 'numeric', minute: 'numeric'
+    }
+  },
+}
+import { de as x, frCH, itCH } from 'date-fns/locale'
+const i18n = new VueI18n({
   locale: locale,
-  messages: messages
+  messages: messages,
+  dateTimeFormats
 })
+
+export { i18n, locale, x }

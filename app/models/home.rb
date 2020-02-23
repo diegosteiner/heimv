@@ -40,6 +40,6 @@ class Home < ApplicationRecord
   end
 
   def to_liquid
-    Public::HomeSerializer.new(self).serializable_hash.deep_stringify_keys
+    Manage::HomeSerializer.new(self).serializable_hash.deep_stringify_keys
   end
 end
