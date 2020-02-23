@@ -51,7 +51,7 @@ services:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
     ports:
       - '3035:3035'
-    user: "${UID:-1000}:${GID:-1000}"
+    # user: "${UID:-1000}:${GID:-1000}"
 
   mail:
     image: tophfr/mailcatcher
@@ -87,7 +87,7 @@ services:
     depends_on:
       - db
       - selenium
-    user: "${UID:-1000}:${GID:-1000}"
+    # user: "${UID:-1000}:${GID:-1000}"
     networks:
       default:
       selenium:

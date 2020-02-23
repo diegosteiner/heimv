@@ -96,9 +96,11 @@ $occupied-background-color: #ffa8a8;
     height: 100%;
     padding: 0;
     font-size: 0.9rem;
+    transition: opacity 0.1s ease-in-out;
+    opacity: 1;
 
-    &:focus {
-      outline: none;
+    &:hover {
+      opacity: 0.8;
     }
   }
 

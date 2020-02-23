@@ -198,10 +198,10 @@ de:
           event: Privater Anlass
       occupancy:
         occupancy_type:
-          tentative: "provisorisch Besetzt"
-          occupied: "definitiv Besetzt"
-          closed: "Geschlossen"
-          free: "Frei"
+          closed: Geschlossen
+          free: Frei
+          occupied: definitiv Besetzt
+          tentative: provisorisch Besetzt
       tarif:
         prefill_usage_methods:
           flat: Fix
@@ -508,7 +508,7 @@ de:
     - Fr
     - Sa
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mär
@@ -534,7 +534,7 @@ de:
       long: "%e. %B %Y"
       short: "%e. %b"
     month_names:
-    -
+    - 
     - Januar
     - Februar
     - März
@@ -551,7 +551,6 @@ de:
     - :day
     - :month
     - :year
-  date_format: Date format
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1780,6 +1779,30 @@ de:
     precision:
       format:
         delimiter: ''
+  occupancy_calendar:
+    months:
+    - Januar
+    - Februar
+    - März
+    - April
+    - Mai
+    - Juni
+    - Juli
+    - August
+    - September
+    - Oktober
+    - November
+    - Dezember
+    next: "→"
+    prev: "←"
+    weekdays:
+    - So
+    - Mo
+    - Di
+    - Mi
+    - Do
+    - Fr
+    - Sa
   optional: optional
   public:
     agent_bookings:
@@ -1815,10 +1838,3 @@ de:
   titles:
     application: HeimV
   until: bis
-  occupancy_calendar:
-    next: "→"
-    prev: "←"
-    weekdays: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]
-    months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
-
-

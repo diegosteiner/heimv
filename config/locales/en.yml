@@ -196,6 +196,12 @@ en:
         purpose:
           camp: Lager
           event: Privater Anlass
+      occupancy:
+        occupancy_type:
+          closed: Geschlossen
+          free: Frei
+          occupied: definitiv Besetzt
+          tentative: provisorisch Besetzt
       tarif:
         prefill_usage_methods:
           flat: Fix
@@ -545,7 +551,6 @@ en:
     - :year
     - :month
     - :day
-  date_format: Date format
   datetime:
     distance_in_words:
       about_x_hours:
@@ -749,6 +754,11 @@ en:
     precision:
       format:
         delimiter: ''
+  occupancy_calendar:
+    months: '["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
+    next: "→"
+    prev: "←"
+    weekdays: '["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]'
   optional: optional
   public:
     agent_bookings:

@@ -10,9 +10,10 @@
       </b-input-group>
     </b-form-group>
     <b-modal v-model="showDateModal" size="sm" hide-footer hide-header>
-      <calendar :firstDate="selectedDate">
-        <template slot-scope="date">
+      <calendar :firstDate="selectedDate" :displayMonths="1">
+        <template v-slot="{ date }">
           <app-calendar-day
+            :locale="$t('occupancy_calendar')"
             :active="isActive(date)"
             :date="date"
             @input="setDate"
@@ -54,8 +55,7 @@ export default {
     }
   },
   methods: {
-    setDate(dateStr) {
-      const date = parse(dateStr, dateFormat, this.selectedDate)
+    setDate(date) {
       this.showDateModal = false
 
       if(!isValid(date)) return;
@@ -71,3 +71,8 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+/deep/ app-calendar-day:hover {
+  background-color: red;
+}
+</style>
