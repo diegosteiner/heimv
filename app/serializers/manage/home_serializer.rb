@@ -2,6 +2,6 @@ module Manage
   class HomeSerializer < Public::HomeSerializer
     # has_many :bookings
 
-    attributes :name, :ref
+    attributes :janitor, :place, :min_occupation
   end
 end
