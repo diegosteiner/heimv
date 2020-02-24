@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.7'
 services:
 
   app:
@@ -7,7 +7,9 @@ services:
       target: development
     volumes:
       - .:/app
-      - app_bundle:/usr/local/bundle/
+      - app_node_modules:/app/node_modules
+      - app_vendor:/app/vendor
+      - app_cache:/app/.cache
     ports:
       - '3000:3000'
     entrypoint: [".docker/entrypoints/app.sh"]
@@ -24,7 +26,7 @@ services:
       - mail
     tty: true
     stdin_open: true
-    user: "${UID:-1000}:${GID:-1000}"
+    # user: "${UID:-1000}:${GID:-1000}"
 
   db:
     image: postgres:11-alpine
@@ -43,16 +45,17 @@ services:
     volumes:
       - .:/app
       - webpack_node_modules:/app/node_modules
-      - ./tmp/yarn_cache:/app/.cache/yarn
-      - webpack_bundle:/usr/local/bundle/
+      - webpack_vendor:/app/vendor
+      - webpack_cache:/app/.cache
       # - ../vue-occupancies-calendar/:/vue-occupancies-calendar
     environment:
       NODE_ENV: development
+      NODE_PATH: /app/node_modules
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
     ports:
       - '3035:3035'
-    user: "${UID:-1000}:${GID:-1000}"
+    # user: "${UID:-1000}:${GID:-1000}"
 
   mail:
     image: tophfr/mailcatcher
@@ -73,11 +76,12 @@ services:
     volumes:
       - .:/app
       - test_node_modules:/app/node_modules
-      - ./tmp/yarn_cache:/app/.cache/yarn
-      - test_bundle:/usr/local/bundle/
+      - test_vendor:/app/vendor
+      - test_cache:/app/.cache
     environment:
-      E2E_HOST: 'http://test:3002'
-      RAILS_PORT: 3002
+      E2E_HOST: 'http://production:3002'
+      # E2E_HOST: 'http://test:3002'
+      # RAILS_PORT: 3002
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_test
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
@@ -88,12 +92,11 @@ services:
     depends_on:
       - db
       - selenium
+      - production
     # user: "${UID:-1000}:${GID:-1000}"
     networks:
       default:
       selenium:
-        aliases:
-          - test
 
   production:
     build: .
@@ -101,7 +104,7 @@ services:
     ports:
       - '3002:3002'
     volumes:
-      - ./tmp/yarn_cache:/app/.cache/yarn
+      - /app/.cache
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_test
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
@@ -130,11 +133,13 @@ networks:
   selenium:
 
 volumes:
-  test_bundle:
-  app_bundle:
-  bundle_cache:
-  node_modules:
-  test_node_modules:
-  webpack_bundle:
-  webpack_node_modules:
   db_data:
+  test_node_modules:
+  test_vendor:
+  test_cache:
+  app_node_modules:
+  app_vendor:
+  app_cache:
+  webpack_node_modules:
+  webpack_vendor:
+  webpack_cache:
