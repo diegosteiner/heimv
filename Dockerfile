@@ -14,6 +14,7 @@ RUN apk add --update build-base \
   tzdata
 
 RUN gem install bundler
+ENV BUNDLE_PATH=/app/vendor
 
 RUN mkdir -p /app
 RUN adduser -D app --home /app

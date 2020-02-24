@@ -26,15 +26,18 @@ import AppCalendarDay from "./AppCalendarDay.vue";
 import { isBefore, isAfter, parseISO, startOfDay, endOfDay, areIntervalsOverlapping, eachDayOfInterval } from 'date-fns'
 
 export default {
-  props: [
-    "occupanciesUrl",
-    "reservationUrl",
-    "occupanciesJson",
-    "displayMonths",
-    "homeId"
-  ],
+
+  props: {
+    occupanciesUrl: String,
+    reservationUrl: String,
+    homeId: String,
+    displayMonths: {
+      type: Number,
+      default: null
+    }
+  },
   components: { Calendar, AppCalendarDay },
-  data: function() {
+  data() {
     return {
       window_from: null,
       window_to: null,
@@ -44,8 +47,8 @@ export default {
   },
   computed: {
     displayMonthsScreen() {
-      return Math.min(this.displayMonths,
-       Math.max(Math.floor((window.innerWidth - 100) / 260) * Math.floor((window.innerHeight - 250) / 350), 1))
+      if(this.displayMonths != null) return this.displayMonths;
+      return Math.max(Math.floor((window.innerWidth - 100) / 260) * Math.floor((window.innerHeight - 250) / 350), 1);
     }
   },
   mounted() {

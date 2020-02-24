@@ -10,14 +10,14 @@
       </b-input-group>
     </b-form-group>
     <b-modal v-model="showDateModal" size="sm" hide-footer hide-header>
-      <calendar :firstDate="selectedDate" :displayMonths="1">
+      <calendar :firstDate="selectedDate.toISOString()" :displayMonths="1">
         <template v-slot="{ date }">
           <app-calendar-day
             :locale="$t('occupancy_calendar')"
             :active="isActive(date)"
             :date="date"
-            @input="setDate"
             :disabled="false"
+            @input="setDate"
           ></app-calendar-day>
         </template>
       </calendar>

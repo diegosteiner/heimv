@@ -23,9 +23,5 @@ module Public
     end
 
     def embed; end
-
-    def calendar
-      # respond_with :public, @calendar
-    end
   end
 end

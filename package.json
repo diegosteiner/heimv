@@ -37,7 +37,7 @@
         "webpack-bundle-analyzer": "^3.6.0",
         "webpack-dev-server": "^3.1.14"
     },
-    "name": "heimv",
+    "name": "heimverwaltung",
     "version": "1.0.0",
     "main": "index.js",
     "repository": "git@github.com:diegosteiner/heimverwaltung.git",

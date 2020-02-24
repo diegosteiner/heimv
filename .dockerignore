@@ -81,6 +81,7 @@ pickle-email-*.html
 /public/packs
 /public/packs-test
 /node_modules
+/.cache
 
 /storage/*
 /public/packs
