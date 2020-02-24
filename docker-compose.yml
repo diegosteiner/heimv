@@ -14,7 +14,7 @@ services:
     command: ["bin/rails", "s", "-b", "0.0.0.0", "-p", "3000"]
     environment:
       APP_HOST: ${APP_HOST:-heimv.localhost:3000}
-      DATABASE_URL: postgresql://postgres@db/heimverwaltung_development
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_development
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpack
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
@@ -27,11 +27,12 @@ services:
     user: "${UID:-1000}:${GID:-1000}"
 
   db:
-    image: postgres:alpine
+    image: postgres:11-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: heimverwaltung_test
+      POSTGRES_PASSWORD: postgres
 
   webpack:
     build:
@@ -51,7 +52,7 @@ services:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
     ports:
       - '3035:3035'
-    # user: "${UID:-1000}:${GID:-1000}"
+    user: "${UID:-1000}:${GID:-1000}"
 
   mail:
     image: tophfr/mailcatcher
@@ -77,7 +78,7 @@ services:
     environment:
       E2E_HOST: 'http://test:3002'
       RAILS_PORT: 3002
-      DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_test
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
       SELENIUM_HOST: selenium
@@ -102,7 +103,7 @@ services:
     volumes:
       - ./tmp/yarn_cache:/app/.cache/yarn
     environment:
-      DATABASE_URL: postgresql://postgres@db/heimverwaltung_test
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_test
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
       SECRET_KEY_BASE: 'test'
       RAILS_SERVE_STATIC_FILES: 'true'
