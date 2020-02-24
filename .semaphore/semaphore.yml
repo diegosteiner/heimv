@@ -13,6 +13,7 @@ blocks:
         commands:
           - checkout
           - cache restore
+          - docker-compose build production
           - docker-compose build test
           - cache store
       jobs:
