@@ -18,8 +18,7 @@ blocks:
       jobs:
         - name: Tests
           commands:
-            - docker-compose up db
-            - docker-compose run --use-aliases test
+            - docker-compose run test
       epilogue:
         on_fail:
           commands:
