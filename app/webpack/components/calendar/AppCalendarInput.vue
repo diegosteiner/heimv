@@ -51,7 +51,7 @@ export default {
       if(isDate(this.selectedDate)) return format(this.selectedDate, dateFormat);
     },
     isoDate() {
-      if(!isDate(this.selectedDate)) return formatISO(this.selectedDate, { representation: 'date'});
+      if(isDate(this.selectedDate)) return formatISO(this.selectedDate, { representation: 'date'});
     }
   },
   methods: {
