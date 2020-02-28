@@ -240,7 +240,7 @@ GEM
       interception (>= 0.5)
       pry (>= 0.12.0)
     public_suffix (4.0.3)
-    puma (3.12.2)
+    puma (3.12.3)
     rack (2.2.1)
     rack-mini-profiler (1.1.6)
       rack (>= 1.2.0)
@@ -424,7 +424,7 @@ DEPENDENCIES
   prawn-table
   pry-rails
   pry-rescue
-  puma (~> 3.0)
+  puma (~> 3.12)
   rack-mini-profiler
   rails (~> 6.0)
   rails-i18n (~> 6.0)
