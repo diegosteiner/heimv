@@ -3,8 +3,8 @@
     .card-body
       h1.text-center= home
       app-occupancy-calendar[
-              occupancies-url=home_occupancies_path(home, format: :json)
-              reservation-url=new_public_booking_path
+              occupancies-url=calendar_home_occupancies_path(home, format: :json)
+              reservation-url=at_home_occupancies_path(home)
               home-id=home.id
               :display-months='8'
               ]
