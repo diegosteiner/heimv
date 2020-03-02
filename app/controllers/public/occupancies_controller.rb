@@ -27,12 +27,12 @@ module Public
     end
 
     def at
-      booking_params = BookingParams::Create.new(params[:booking])
+      booking_params = BookingParams::Create.new(params[:booking]).permitted
       if can?(:manage, @home)
         at = Time.zone.parse(booking_params.dig(:occupancy_attributes, :begins_at))
         redirect_to manage_bookings_path(filter: filter_for_date(at))
       else
-        redirect_to new_public_booking_path(booking_params)
+        redirect_to new_public_booking_path(booking: booking_params)
       end
     end
 

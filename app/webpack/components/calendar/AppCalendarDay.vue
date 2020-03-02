@@ -21,7 +21,7 @@
             {{ occupancy.ref }}
           </a>
           <span>{{ $t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`) }}</span>
-          <span v-if="occupancy.deadline">(bis {{ $d(Date.parse(occupancy.deadline), 'short')}})</span>
+          <span v-if="occupancy.deadline">(bis {{ $d(Date.parse(occupancy.deadline), 'shortTime')}})</span>
         </dd>
       </dl>
     </b-popover>

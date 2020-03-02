@@ -257,7 +257,7 @@ ActiveRecord::Schema.define(version: 2020_02_12_151710) do
     t.string "invoice_ref_strategy_type"
     t.string "esr_participant_nr"
     t.text "message_footer"
-    t.string "currency", default: "CHF"
+    t.string "currency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "iban"

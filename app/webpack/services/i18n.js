@@ -18,6 +18,12 @@ const dateTimeFormats = {
     short: {
       year: 'numeric', month: '2-digit', day: '2-digit'
     },
+    shortDate: {
+      year: 'numeric', month: '2-digit', day: '2-digit'
+    },
+    shortTime: {
+      year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric'
+    },
     long: {
       year: 'numeric', month: 'short', day: 'numeric',
       weekday: 'short', hour: 'numeric', minute: 'numeric'
