@@ -11,7 +11,7 @@ html[lang="#{I18n.locale}-CH"]
   body[style='background-color: transparent;']
     #app[v-cloak]
         app-occupancy-calendar[
-                occupancies-url=home_occupancies_path(@home, format: :json)
+                occupancies-url=calendar_home_occupancies_path(@home, format: :json)
                 reservation-url=new_public_booking_path
                 home-id=@home.id
                 :display-months=params.fetch('display-months', 8)

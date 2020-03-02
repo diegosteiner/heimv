@@ -20,11 +20,15 @@ module MultiparameterAttributes
   def preprocess_multi_param_attribute(attributes, multi_param_key, attribute_klass)
     return if attributes.blank? || attributes.include?(multi_param_key)
 
-    multi_param_keys = attributes.keys.select { |key| key.to_s.start_with?(multi_param_key.to_s) }
-    multi_param_values = multi_param_keys.sort.map { |key| attributes.delete(key)&.to_i }
+    matching_keys = find_matching_keys(attributes, multi_param_key)
+    multi_param_values = matching_keys.sort.map { |key| attributes.delete(key)&.to_i }
     attributes[multi_param_key] = attribute_klass.new(*multi_param_values.compact) if multi_param_values.any?
   rescue ArgumentError
     attributes[multi_param_key] = nil
+  end
+
+  def find_matching_keys(attributes, multi_param_key)
+    attributes.keys.select { |key| key.to_s.start_with?(multi_param_key.to_s) }
   end
 
   def assign_attributes(attributes)
