@@ -60,6 +60,8 @@ Rails.application.routes.draw do
     resources :homes, only: [] do
       resources :occupancies, only: %i[index show] do
         get :embed, on: :collection
+        get :calendar, on: :collection
+        get :at, on: :collection
       end
     end
   end

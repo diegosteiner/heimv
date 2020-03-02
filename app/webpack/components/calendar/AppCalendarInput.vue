@@ -41,8 +41,9 @@ export default {
     required: false
   },
   data() {
+    const value = parseISO(this.value)
     return {
-      selectedDate: parseISO(this.value),
+      selectedDate: (isDate(value) && isValid(value)) ? value : new Date(),
       showDateModal: false,
     }
   },

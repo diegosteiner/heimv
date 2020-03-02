@@ -2,7 +2,7 @@
   <time
     v-if="relevant_time != null"
     :datetime="relevant_time"
-  >{{ $t(`booking_strategies.default.states.${booking_state}.relevant_time_label`) }}: {{ $d(date, 'long') }}</time>
+  >{{ $t(`booking_strategies.default.states.${booking_state}.relevant_time_label`) }}: {{ $d(date, 'shortTime') }}</time>
 </template>
 
 <script>
