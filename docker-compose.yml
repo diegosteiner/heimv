@@ -92,6 +92,7 @@ services:
     depends_on:
       - db
       - selenium
+      - webpack
       - production
     # user: "${UID:-1000}:${GID:-1000}"
     networks:
