@@ -13,13 +13,13 @@ blocks:
         commands:
           - checkout
           - cache restore
-          - docker-compose build production
-          - docker-compose build test
+          - docker-compose build e2e_target
           - cache store
       jobs:
         - name: Tests
           commands:
             - docker-compose run test
+            - docker-compose run e2e_test
       epilogue:
         on_fail:
           commands:

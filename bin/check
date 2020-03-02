@@ -38,10 +38,3 @@ if [ ! $? -eq 0 ]; then
   exit 1
 fi
 
-
-echo -e '\n\033[35mRunning e2e\033[0m'
-bin/rspec ./spec --tag @type:feature --fail-fast
-if [ ! $? -eq 0 ]; then
-  echo -e '\033[31mRspec did not run successfully, commit aborted\033[0m'
-  exit 1
-fi
