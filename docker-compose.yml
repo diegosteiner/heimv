@@ -96,7 +96,7 @@ services:
       context: .
       target: development
     entrypoint: [".docker/entrypoints/app.sh"]
-    command: ["bin/ci"]
+    command: ["bin/e2e"]
     volumes:
       - .:/app
       - test_node_modules:/app/node_modules
