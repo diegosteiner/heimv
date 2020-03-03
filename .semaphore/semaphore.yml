@@ -14,6 +14,7 @@ blocks:
           - checkout
           - cache restore
           - docker-compose build e2e_target
+          - docker-compose run e2e_target bin/rails db:prepare
           - cache store
       jobs:
         - name: Tests

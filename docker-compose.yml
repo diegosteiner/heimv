@@ -33,7 +33,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: heimverwaltung_test
+      POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
 
   webpack:
