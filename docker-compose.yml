@@ -81,6 +81,7 @@ services:
     environment:
       RAILS_ENV: test
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_test
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       MAILER_URL: "test://localhost?from=no-reply@heimverwaltung.localhost"
       RUBYOPT: '-W:no-deprecated -W:no-experimental'
     depends_on:
