@@ -6,7 +6,7 @@
 #  address                   :text
 #  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
-#  currency                  :string
+#  currency                  :string           default("CHF")
 #  email                     :string
 #  esr_participant_nr        :string
 #  iban                      :string
