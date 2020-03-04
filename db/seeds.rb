@@ -21,4 +21,4 @@ organisation = Organisation.create(
   MESSAGE_FOOTER
 )
 
-create(:user, :admin, email: 'admin@heimv.localhost', organisation: organisation)
+User.create!(role: :admin, password: 'heimverwaltung', email: 'admin@heimv.localhost', organisation: organisation)
