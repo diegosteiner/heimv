@@ -1,4 +1,4 @@
-I18n.available_locales = %w[de en]
+I18n.available_locales = %w[de]
 I18n.default_locale = :de
 
 ISO3166.configure do |config|

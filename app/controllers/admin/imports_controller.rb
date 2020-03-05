@@ -5,7 +5,7 @@ module Admin
 
     def show
       respond_to do |format|
-        format.json { render json: JSON.generate(Import::OrganisationImporter.new(@organisation).to_h) }
+        format.json { render json: JSON.generate(Import::OrganisationImporter.new(@organisation).export) }
       end
     end
 
@@ -14,7 +14,7 @@ module Admin
     def create
       import_data = JSON.parse(params[:import_data])
       import_options = { replace: params[:replace] }
-      imported = Import::OrganisationImporter.new(@organisation).from_h(import_data, import_options)
+      imported = Import::OrganisationImporter.new(@organisation).import(import_data, import_options)
 
       if imported
         redirect_to edit_manage_organisation_path, notice: 'Import succeeded'

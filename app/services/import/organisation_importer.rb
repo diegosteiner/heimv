@@ -7,18 +7,18 @@ module Import
       @options = options
     end
 
-    def to_h
+    def export
       organisation.attributes.slice(*relevant_attributes)
                   .merge(markdown_templates: MarkdownTemplateImporter.new(organisation).to_h)
     end
 
-    def from_h(hash, options = {})
+    def import(hash, options = {})
       return false unless hash.is_a?(Hash)
 
       organisation.update(hash.slice(*relevant_attributes)) if options[:replace].present?
       [
         organisation,
-        MarkdownTemplateImporter.new(organisation, @options).from_h(hash[:markdown_templates])
+        MarkdownTemplateImporter.new(organisation, @options).import(hash[:markdown_templates])
       ]
     end
 

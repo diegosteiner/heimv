@@ -1713,6 +1713,10 @@ de:
       usages:
         table:
           save: "%{model_name} speichern"
+    markdown_templates:
+      index:
+        create_missing_templates: Textvorlagen jetzt erstellen
+        missing_templates: "%{count} fehlende Textvorlagen."
     messages:
       edit:
         deliver: Speichern und nochmals versenden
