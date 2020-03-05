@@ -1,23 +1,17 @@
-organisation = Organisation.create(
+organisation = Organisation.create!(
   name: 'Heimverein',
-  address: '',
+  address: 'Adresse',
   booking_strategy_type: BookingStrategies::Default.to_s,
   invoice_ref_strategy_type: RefStrategies::ESR.to_s,
   booking_ref_strategy_type: RefStrategies::DefaultBookingRef.to_s,
   esr_participant_nr: '',
   currency: 'CHF',
   message_footer: <<~MESSAGE_FOOTER
-    Verein Pfadiheime St. Georg
-    Heimverwaltung
+    HeimV
 
-    Christian Morger
-    Geeringstrasse 44
-    8049 Zürich
-    Switzerland
-
-    [+41 79 262 25 48](tel:+41 79 262 25 48)
-    [www.pfadi-heime.ch](//www.pfadi-heime.ch)
-    [info@pfadi-heime.ch](mailto:info@pfadi-heime.ch)
+    [+41 79 000 00 00](tel:+41 79 000 00 00)
+    [www.heimv.ch](//www.heimv.ch)
+    [info@heimv.ch](mailto:info@heimv.ch)
   MESSAGE_FOOTER
 )
 

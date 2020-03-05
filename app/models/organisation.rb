@@ -33,7 +33,7 @@ class Organisation < ApplicationRecord
   validates :booking_strategy_type, presence: true
   validates :booking_ref_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
-  validates :name, :address, :email, :esr_participant_nr, presence: true
+  validates :name, :address, :email, presence: true
 
   def booking_strategy
     @booking_strategy ||= Kernel.const_get(booking_strategy_type).new

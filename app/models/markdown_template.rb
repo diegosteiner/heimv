@@ -42,11 +42,11 @@ class MarkdownTemplate < ApplicationRecord
     find_by(key: key, locale: locale) || new(key: key)
   end
 
-  def self.create_missing(organisation, locale: I18n.available_locales)
+  def self.create_missing(organisation, locale: I18n.available_locales.except(:en))
     missing(organisation, locale: locale).each(&:save)
   end
 
-  def self.missing(organisation, locale: I18n.available_locales)
+  def self.missing(organisation, locale: I18n.available_locales.except(:en))
     Array.wrap(locale).map do |locale_to_check|
       set_keys = where(locale: locale_to_check, organisation: organisation).pluck(:key).map(&:to_sym)
       missing_keys = organisation.booking_strategy.markdown_template_keys - set_keys
