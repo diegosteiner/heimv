@@ -508,7 +508,7 @@ en:
     - Fri
     - Sat
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mar
@@ -534,7 +534,7 @@ en:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - January
     - February
     - March
@@ -699,7 +699,7 @@ en:
     markdown_templates:
       index:
         create_missing_templates: Create missing templates
-        missing_templates: %{count} Missing templates
+        missing_templates: "%{count} Missing templates"
     messages:
       edit:
         deliver: Deliver
