@@ -1,4 +1,5 @@
 organisation = Organisation.create!(
+  email: 'info@heimv.ch',
   name: 'Heimverein',
   address: 'Adresse',
   booking_strategy_type: BookingStrategies::Default.to_s,
@@ -15,4 +16,4 @@ organisation = Organisation.create!(
   MESSAGE_FOOTER
 )
 
-User.create!(role: :admin, password: 'heimverwaltung', email: 'admin@heimv.localhost', organisation: organisation)
+User.create!(role: :admin, password: 'heimverwaltung', email: 'admin@heimv.local', organisation: organisation)
