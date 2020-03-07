@@ -3,7 +3,6 @@ nav.navbar.bg-white
 
   a[href='#filter' data-toggle='collapse' class='btn']
     i.fa.fa-search>
-    = link_to(t('add_record', model_name: Booking.model_name.human), new_manage_booking_path)
 
 #filter.collapse.bg-white
   .container.py-3
@@ -20,3 +19,10 @@ nav.navbar.bg-white
     - title, help_text = current_organisation.booking_strategy.t(state, scope: :states).slice(:label, :help).values
     h3.mt-5= title
     == render partial: 'table', locals: { bookings: bookings }
+
+br
+=> link_to(new_manage_booking_path, class: 'btn btn-primary')
+  = t('add_record', model_name: Booking.model_name.human)
+
+=> link_to(new_public_agent_booking_path, class: 'btn btn-primary')
+  = t('add_record', model_name: AgentBooking.model_name.human)

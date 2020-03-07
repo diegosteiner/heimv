@@ -20,18 +20,16 @@ module Manage
       respond_with :manage, @markdown_template
     end
 
+    def create_missing
+      respond_with :manage, MarkdownTemplate.create_missing(current_organisation),
+                   location: manage_markdown_templates_path
+    end
+
     def create
       @markdown_template.organisation = current_organisation
       @markdown_template.save
       respond_with :manage, @markdown_template
     end
-
-    # def import
-    #   @markdown_templates = params[:markdown_templates].map do |template_params|
-    #     template = MarkdownTemplate.find_or_initalize_by(*markdown_template_params.permit(:key, :locale))
-    #     template.update(*markdown_template_params.permit(:title, :body))
-    #   end
-    # end
 
     def update
       @markdown_template.update(markdown_template_params)

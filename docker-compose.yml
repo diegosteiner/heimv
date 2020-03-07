@@ -33,7 +33,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: heimverwaltung_test
+      POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
 
   webpack:
@@ -63,9 +63,9 @@ services:
       - '1080:80'
       - '1025:25'
 
-  memcached:
-    image: memcached:1.5-alpine
-    command: [ memcached, -l, '0.0.0.0', -p, '11211' ]
+  # memcached:
+  #   image: memcached:1.5-alpine
+  #   command: [ memcached, -l, '0.0.0.0', -p, '11211' ]
 
   test:
     build:
@@ -79,10 +79,34 @@ services:
       - test_vendor:/app/vendor
       - test_cache:/app/.cache
     environment:
-      E2E_HOST: 'http://production:3002'
-      # E2E_HOST: 'http://test:3002'
-      # RAILS_PORT: 3002
+      RAILS_ENV: test
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_test
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
+      MAILER_URL: "test://localhost?from=no-reply@heimverwaltung.localhost"
+      RUBYOPT: '-W:no-deprecated -W:no-experimental'
+    depends_on:
+      - db
+      - webpack
+    # user: "${UID:-1000}:${GID:-1000}"
+    networks:
+      default:
+      selenium:
+
+  e2e_test:
+    build:
+      context: .
+      target: development
+    entrypoint: [".docker/entrypoints/app.sh"]
+    command: ["bin/e2e"]
+    volumes:
+      - .:/app
+      - test_node_modules:/app/node_modules
+      - test_vendor:/app/vendor
+      - test_cache:/app/.cache
+    environment:
+      # RAILS_PORT: 3002
+      E2E_HOST: 'http://e2e_target:3002'
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
       SELENIUM_HOST: selenium
@@ -92,14 +116,13 @@ services:
     depends_on:
       - db
       - selenium
-      - webpack
-      - production
+      - e2e_target
     # user: "${UID:-1000}:${GID:-1000}"
     networks:
       default:
       selenium:
 
-  production:
+  e2e_target:
     build: .
     image: heimv:latest
     ports:
@@ -107,7 +130,7 @@ services:
     volumes:
       - /app/.cache
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_test
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
       MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
       SECRET_KEY_BASE: 'test'
       RAILS_SERVE_STATIC_FILES: 'true'

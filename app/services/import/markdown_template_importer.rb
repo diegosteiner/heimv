@@ -29,7 +29,7 @@ module Import
       to_a
     end
 
-    def from_h(hash, options = {})
+    def import(hash, options = {})
       return false unless hash.is_a?(Hash)
 
       from_a(hash.fetch(:markdown_templates, []), **options)

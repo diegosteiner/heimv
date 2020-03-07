@@ -3,7 +3,7 @@
 module Public
   class AgentBookingParams < ApplicationParams
     def self.permitted_keys
-      [:booking_agent_code, :email, :booking_agent_ref, :home_id, :tenant_email,
+      [:booking_agent_code, :booking_agent_ref, :home_id, :tenant_email,
        occupancy_attributes: OccupancyParams.permitted_keys]
     end
 

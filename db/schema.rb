@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_12_151710) do
+ActiveRecord::Schema.define(version: 2020_03_06_154549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -346,6 +346,7 @@ ActiveRecord::Schema.define(version: 2020_02_12_151710) do
     t.uuid "booking_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "presumed_used_units"
     t.index ["booking_id"], name: "index_usages_on_booking_id"
     t.index ["tarif_id"], name: "index_usages_on_tarif_id"
   end

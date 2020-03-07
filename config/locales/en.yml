@@ -696,6 +696,10 @@ en:
       usages:
         table:
           save: Save %{model_name}
+    markdown_templates:
+      index:
+        create_missing_templates: Create missing templates
+        missing_templates: "%{count} Missing templates"
     messages:
       edit:
         deliver: Deliver

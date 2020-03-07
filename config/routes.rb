@@ -44,7 +44,9 @@ Rails.application.routes.draw do
     end
     resources :tenants
     resources :booking_agents
-    resources :markdown_templates
+    resources :markdown_templates do
+      post :create_missing, on: :collection
+    end
   end
 
   root to: 'pages#home'

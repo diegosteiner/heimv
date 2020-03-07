@@ -1,5 +1,6 @@
 I18n.available_locales = %w[de en]
 I18n.default_locale = :de
+Faker::Config.locale = :de
 
 ISO3166.configure do |config|
   config.locales = %i[de fr it]

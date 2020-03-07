@@ -1,4 +1,12 @@
 .breakout-sm
+
+  - missing_templates = MarkdownTemplate.missing(current_organisation)
+  - if missing_templates.any?
+    b-alert[show variant="warning"]
+      = t('.missing_templates', count: missing_templates.count)
+      =< link_to(create_missing_manage_markdown_templates_path, method: :POST)
+        = t('.create_missing_templates')
+
   table.table.table-hover.table-card
 
     tbody
