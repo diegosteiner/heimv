@@ -2,13 +2,14 @@
 #
 # Table name: usages
 #
-#  id         :bigint           not null, primary key
-#  remarks    :text
-#  used_units :decimal(, )
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  booking_id :uuid
-#  tarif_id   :bigint
+#  id                  :bigint           not null, primary key
+#  presumed_used_units :decimal(, )
+#  remarks             :text
+#  used_units          :decimal(, )
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  booking_id          :uuid
+#  tarif_id            :bigint
 #
 # Indexes
 #
