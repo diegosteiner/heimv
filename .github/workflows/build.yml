@@ -27,6 +27,10 @@ jobs:
     - name: Run test
       if: success()
       run: docker-compose run test
+    
+    - name: Run e2e
+      if: success()
+      run: docker-compose run e2e_test
         
     - name: Tag image
       if: success()
