@@ -36,4 +36,4 @@ jobs:
       if: success()
       uses: actions-hub/docker@master
       with:
-        args: push docker.pkg.github.com/heimv:latest
+        args: push docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:latest
