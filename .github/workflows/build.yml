@@ -1,4 +1,4 @@
-name: Ruby
+name: Build
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
         
     - name: Tag image
       if: success()
-      run: docker tag heimv:latest docker.pkg.github.com/heimv:latest
+      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:latest
 
     - name: Push to docker hub :latest
       if: success()
