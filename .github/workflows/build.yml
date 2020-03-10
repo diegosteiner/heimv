@@ -16,13 +16,24 @@ jobs:
     - name: Login to docker hub
       uses: actions-hub/docker/login@master
       env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}   
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_USERNAME: ${{ github.actor }}
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        DOCKER_REGISTRY_URL: docker.pkg.github.com
 
     - name: Build :latest
-      run: docker build -t ${GITHUB_REPOSITORY}:latest .
+      if: success()
+      run: docker-compose build
+    
+    - name: Run test
+      if: success()
+      run: docker-compose run test
+        
+    - name: Tag image
+      if: success()
+      run: docker tag heimv:latest docker.pkg.github.com/heimv:latest
 
     - name: Push to docker hub :latest
+      if: success()
       uses: actions-hub/docker@master
       with:
-        args: push ${GITHUB_REPOSITORY}:latest
+        args: push docker.pkg.github.com/heimv:latest
