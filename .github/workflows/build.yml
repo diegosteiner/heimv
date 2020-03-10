@@ -2,17 +2,29 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, develop ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, develop ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Build :latest
+      if: success()
+      run: docker-compose build
+
+    - name: Run test
+      if: success()
+      run: docker-compose run test
+
+    - name: Run e2e
+      if: success()
+      run: docker-compose run e2e_test
+
     - name: Login to docker hub
       uses: actions-hub/docker/login@master
       env:
@@ -20,24 +32,12 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         DOCKER_REGISTRY_URL: docker.pkg.github.com
 
-    - name: Build :latest
-      if: success()
-      run: docker-compose build
-    
-    - name: Run test
-      if: success()
-      run: docker-compose run test
-    
-    - name: Run e2e
-      if: success()
-      run: docker-compose run e2e_test
-        
     - name: Tag image
       if: success()
-      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:latest
+      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${{ github.ref }}
 
     - name: Push to docker hub :latest
       if: success()
       uses: actions-hub/docker@master
       with:
-        args: push docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:latest
+        args: push docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${{ github.ref }}
