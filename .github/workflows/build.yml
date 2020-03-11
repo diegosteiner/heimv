@@ -34,10 +34,10 @@ jobs:
 
     - name: Tag image
       if: success()
-      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${{ github.ref }}
+      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${GITHUB_REF##*/}
 
     - name: Push to docker hub :latest
       if: success()
       uses: actions-hub/docker@master
       with:
-        args: push docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${{ github.ref }}
+        args: push docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${GITHUB_REF##*/}
