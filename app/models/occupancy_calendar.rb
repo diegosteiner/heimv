@@ -5,9 +5,10 @@ class OccupancyCalendar
 
   attribute :home
   attribute :window_from, default: Time.zone.today.beginning_of_day
-  attribute :window_to, default: 18.months.from_now.end_of_day
+  attribute :window_to
 
   def occupancies
+    window_to = self.window_to || home.organisation.booking_window.from_now
     home.occupancies.blocking.at(from: window_from, to: window_to)
   end
 end

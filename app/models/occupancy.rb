@@ -37,7 +37,6 @@ class Occupancy < ApplicationRecord
   scope :future, -> { begins_at(after: Time.zone.now) }
   scope :today, ->(date = Time.zone.today) { at(from: date.beginning_of_day, to: date.end_of_day) }
   scope :blocking, -> { where(occupancy_type: %i[tentative occupied closed]) }
-  scope :window, ->(from = Time.zone.now.beginning_of_day, window = 18.months) { at(from: from, to: (from + window)) }
   scope :begins_at, (lambda do |before: nil, after: nil|
     return where(arel_table[:begins_at].between(after..before)) if before.present? && after.present?
     return where(arel_table[:begins_at].gteq(after)) if after.present?
