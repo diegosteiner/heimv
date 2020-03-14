@@ -5,7 +5,7 @@
 #  id          :bigint           not null, primary key
 #  distinction :string
 #  type        :string
-#  veto        :boolean          default(TRUE)
+#  veto        :boolean          default("true")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  tarif_id    :bigint

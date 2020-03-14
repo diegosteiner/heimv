@@ -10,7 +10,7 @@
 #  prefill_usage_method     :string
 #  price_per_unit           :decimal(, )
 #  tarif_group              :string
-#  transient                :boolean          default(FALSE)
+#  transient                :boolean          default("false")
 #  type                     :string
 #  unit                     :string
 #  valid_from               :datetime

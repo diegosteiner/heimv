@@ -3,13 +3,13 @@
 # Table name: invoices
 #
 #  id                 :bigint           not null, primary key
-#  amount             :decimal(, )      default(0.0)
+#  amount             :decimal(, )      default("0.0")
 #  deleted_at         :datetime
 #  issued_at          :datetime
-#  paid               :boolean          default(FALSE)
+#  paid               :boolean          default("false")
 #  payable_until      :datetime
 #  payment_info_type  :string
-#  print_payment_slip :boolean          default(FALSE)
+#  print_payment_slip :boolean          default("false")
 #  ref                :string
 #  sent_at            :datetime
 #  text               :text

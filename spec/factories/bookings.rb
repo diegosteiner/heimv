@@ -6,20 +6,20 @@
 #  approximate_headcount :integer
 #  cancellation_reason   :text
 #  committed_request     :boolean
-#  concluded             :boolean          default(FALSE)
-#  editable              :boolean          default(TRUE)
+#  concluded             :boolean          default("false")
+#  editable              :boolean          default("true")
 #  email                 :string
 #  import_data           :jsonb
 #  internal_remarks      :text
 #  invoice_address       :text
-#  messages_enabled      :boolean          default(FALSE)
+#  messages_enabled      :boolean          default("false")
 #  purpose               :string
 #  ref                   :string
 #  remarks               :text
 #  state                 :string           default("initial"), not null
 #  state_data            :json
 #  tenant_organisation   :string
-#  usages_entered        :boolean          default(FALSE)
+#  usages_entered        :boolean          default("false")
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  home_id               :bigint           not null

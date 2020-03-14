@@ -8,7 +8,7 @@
 #  name             :string
 #  place            :string
 #  ref              :string
-#  requests_allowed :boolean          default(FALSE)
+#  requests_allowed :boolean          default("false")
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  organisation_id  :bigint           not null

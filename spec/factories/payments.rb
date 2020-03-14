@@ -8,7 +8,7 @@
 #  paid_at    :date
 #  ref        :string
 #  remarks    :text
-#  write_off  :boolean          default(FALSE), not null
+#  write_off  :boolean          default("false"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  booking_id :uuid
