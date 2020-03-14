@@ -49,7 +49,7 @@ module DataDigests
     def generate_tabular_row(booking)
       super + booking.instance_eval do
         [
-          tenant&.address_lines&.join("\n"), [tenant&.email, tenant&.phone].join("\n"), occupancy&.nights
+          tenant&.address_lines&.join("\n"), tenant&.email, tenant&.phone, occupancy&.nights
         ]
       end
     end
