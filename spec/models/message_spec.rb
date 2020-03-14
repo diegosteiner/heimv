@@ -3,7 +3,7 @@
 # Table name: messages
 #
 #  id                   :bigint           not null, primary key
-#  addressed_to         :integer          default("manager"), not null
+#  addressed_to         :integer          default("0"), not null
 #  body                 :text
 #  sent_at              :datetime
 #  subject              :string

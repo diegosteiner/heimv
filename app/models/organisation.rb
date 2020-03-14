@@ -13,7 +13,7 @@
 #  invoice_ref_strategy_type :string
 #  message_footer            :text
 #  name                      :string
-#  payment_deadline          :integer          default(30), not null
+#  payment_deadline          :integer          default("30"), not null
 #  representative_address    :string
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
@@ -60,7 +60,7 @@ class Organisation < ApplicationRecord
   end
 
   def booking_window
-    18.months
+    30.months
   end
 
   def contract_location
