@@ -57,6 +57,6 @@ RUN bundle install --without=test --without=development
 ENV RAILS_ENV=production               
 ENV NODE_ENV=production 
 ENV RAILS_LOG_TO_STDOUT="true"  
+ENV PORT=3000
 
-EXPOSE 3000                            
-CMD ["bin/rails", "s",  "-p",  "3000", "-b", "0.0.0.0"] 
+CMD ["bin/rails", "s",  "-b", "0.0.0.0"] 

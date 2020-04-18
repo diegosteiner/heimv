@@ -12,6 +12,7 @@ services:
       APP_HOST: ${APP_HOST}
       MAILER_URL: ${MAILER_URL}
       MEMCACHE_SERVERS: memcached
+      RAILS_SERVE_STATIC_FILES: 'true'
     depends_on:
       - db
       - memcached

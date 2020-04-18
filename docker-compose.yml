@@ -16,7 +16,6 @@ services:
       RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpack
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
-      MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
       RUBYOPT: '-W:no-deprecated -W:no-experimental'
     depends_on:
       - db

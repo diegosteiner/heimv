@@ -15,15 +15,15 @@ jobs:
 
     - name: Build :latest
       if: success()
-      run: docker-compose build
+      run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml build
 
     - name: Run test
       if: success()
-      run: docker-compose run test
+      run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run app bin/check
 
     - name: Run e2e
       if: success()
-      run: docker-compose run e2e_test
+      run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_test
 
     - name: Login to docker hub
       uses: actions-hub/docker/login@master
