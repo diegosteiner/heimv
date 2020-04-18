@@ -12,8 +12,8 @@ RUN apk add --update build-base \
   curl \
   tzdata
                                        
-ARG UID=1000      
-ARG GID=1000
+ARG UID=1
+ARG GID=1
 RUN addgroup -S app -g $GID && adduser -S -u $UID -G app -D app
 RUN mkdir -p /app && chown -R $UID:$GID /app
 USER app
