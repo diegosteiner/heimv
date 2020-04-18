@@ -59,9 +59,9 @@ class Usage < ApplicationRecord
   end
 
   def tarif_selector_votes
-    @tarif_selector_votes ||= Hash[tarif_selectors.map do |selector|
-      [selector, selector.vote_for(self)]
-    end]
+    @tarif_selector_votes ||= tarif_selectors.index_with do |selector|
+      selector.vote_for(self)
+    end
   end
 
   def adopted_by_vote?

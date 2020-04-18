@@ -58,6 +58,7 @@ group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'byebug', platform: :mri
+  gem 'database_cleaner'
   gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-rescue'
@@ -72,7 +73,5 @@ group :test do
   gem 'capybara'
   gem 'capybara-paparazzi'
   gem 'capybara-screenshot'
-  gem 'database_cleaner'
-  gem 'launchy'
   gem 'selenium-webdriver'
 end

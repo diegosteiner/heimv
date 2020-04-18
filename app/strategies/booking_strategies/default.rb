@@ -36,7 +36,7 @@ module BookingStrategies
         Actions::Public::PostponeDeadline,
         Actions::Public::Cancel
       ]
-      @public_actions ||= Hash[actions.map { |action| [action.action_name, action] }]
+      @public_actions ||= actions.index_by(&:action_name)
     end
 
     def manage_actions
@@ -46,7 +46,7 @@ module BookingStrategies
         Actions::Manage::MarkContractSigned, Actions::Public::CommitRequest,
         Actions::Public::CommitBookingAgentRequest, Actions::Manage::Cancel
       ]
-      @manage_actions ||= Hash[actions.map { |action| [action.action_name, action] }]
+      @manage_actions ||= actions.index_by(&:action_name)
     end
 
     def booking_states
@@ -57,7 +57,7 @@ module BookingStrategies
         States::Active, States::Past, States::PaymentDue, States::PaymentOverdue, States::Completed,
         States::CancelationPending, States::UpcomingSoon, States::Initial
       ]
-      @booking_states ||= Hash[states.map { |state_klass| [state_klass.to_sym, state_klass] }]
+      @booking_states ||= states.index_by(&:to_sym)
     end
 
     def displayed_booking_states

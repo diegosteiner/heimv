@@ -14,8 +14,7 @@ db/*.sqlite3
 # add /config/database.yml if it contains passwords
 # /config/database.yml
 
-# various artifacts
-**.war
+# various artifacts **.war
 *.rbc
 *.sassc
 .redcar/
@@ -81,6 +80,7 @@ pickle-email-*.html
 /public/packs
 /public/packs-test
 /node_modules
+/vendor
 yarn-debug.log*
 .yarn-integrity
 /public/packs
