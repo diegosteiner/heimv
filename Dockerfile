@@ -14,8 +14,8 @@ RUN apk add --update build-base \
                                        
 ARG UID=1
 ARG GID=1
-RUN addgroup -S app -g $GID && adduser -S -u $UID -G app -D app
-RUN mkdir -p /app && chown -R $UID:$GID /app
+RUN mkdir -p /app
+RUN addgroup -S app -g $GID && adduser -S -u $UID -G app -D app && chown -R $UID:$GID /app || true
 USER app
 WORKDIR /app
 
