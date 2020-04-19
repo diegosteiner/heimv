@@ -5,6 +5,9 @@ services:
     build:
       context: .
       target: development
+      args:
+        UID: ${UID}
+        GID: ${GID}
     entrypoint: [".docker/entrypoints/app.sh"]
     command: ["bin/e2e"]
     volumes:
