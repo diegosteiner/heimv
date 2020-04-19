@@ -3,9 +3,9 @@
 # Table name: deadlines
 #
 #  id               :bigint           not null, primary key
-#  armed            :boolean          default("true")
+#  armed            :boolean          default(TRUE)
 #  at               :datetime
-#  postponable_for  :integer          default("0")
+#  postponable_for  :integer          default(0)
 #  remarks          :text
 #  responsible_type :string
 #  created_at       :datetime         not null

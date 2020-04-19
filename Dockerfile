@@ -12,11 +12,11 @@ RUN apk add --update build-base \
   curl \
   tzdata
                                        
-ARG UID=1
-ARG GID=1
+ARG UID=1001
+ARG GID=1001
 RUN mkdir -p /app
 RUN addgroup -S app -g $GID && adduser -S -u $UID -G app -D app && chown -R $UID:$GID /app || true
-USER app
+USER $UID
 WORKDIR /app
 
 ENV BUNDLE_PATH=/app/vendor/bundle
@@ -43,8 +43,7 @@ RUN bin/webpack
 FROM base AS production
                                        
 RUN apk add --no-cache --update postgresql-dev tzdata                          
-RUN adduser -D app
-RUN mkdir -p /app && chown -R app /app
+RUN mkdir -p /app && adduser -D app && chown -R app /app
 USER app    
 WORKDIR /app                                                              
 

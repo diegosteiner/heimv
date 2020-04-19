@@ -16,6 +16,9 @@ jobs:
     - name: Build :latest
       if: success()
       run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml build
+      env:
+        UID: 0
+        GID: 0
 
     - name: Run test
       if: success()

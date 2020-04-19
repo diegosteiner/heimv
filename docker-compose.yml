@@ -5,6 +5,9 @@ services:
     build:
       context: .
       target: development
+      args:
+        UID: ${UID}
+        GID: ${GID}
     volumes:
       - .:/app
     ports:
@@ -36,6 +39,9 @@ services:
     build:
       context: .
       target: development
+      args:
+        UID: ${UID}
+        GID: ${GID}
     entrypoint: [".docker/entrypoints/webpack.sh"]
     command: ["bin/webpack-dev-server"]
     volumes:
