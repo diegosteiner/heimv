@@ -20,10 +20,6 @@ jobs:
         UID: 0
         GID: 0
 
-    - name: Run test
-      if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run app bin/check
-
     - name: Run e2e
       if: success()
       run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_test
