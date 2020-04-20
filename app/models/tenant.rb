@@ -36,12 +36,12 @@ class Tenant < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error
   belongs_to :organisation
 
-  self.implicit_order_column = :last_name
-
   validates :email, presence: true, format: { with: Devise.email_regexp }
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :birth_date, presence: true, on: :public_update
   validates :phone, presence: true, length: { minimum: 10 }, on: :public_update
+
+  scope :ordered, -> { order(last_name: :ASC) }
 
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')

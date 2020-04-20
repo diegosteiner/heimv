@@ -48,10 +48,12 @@ class Tarif < ApplicationRecord
   scope :valid_now, -> { where(valid_until: nil) }
   # scope :valid_at, ->(at = Time.zone.now) { where(valid_until: nil) }
   scope :applicable_to, ->(booking) { booking.home.tarifs.transient.or(where(booking: booking)).order(position: :asc) }
+  scope :find_with_booking_copies, ->(tarif_ids) { where(id: tarif_ids).or(where(booking_copy_template_id: tarif_ids)) }
 
   enum prefill_usage_method: Hash[TarifPrefiller::PREFILL_METHODS.keys.map { |method| [method, method] }]
 
   validates :type, presence: true
+  attribute :price_per_unit, default: 0
 
   accepts_nested_attributes_for :tarif_selectors, reject_if: :all_blank, allow_destroy: true
 

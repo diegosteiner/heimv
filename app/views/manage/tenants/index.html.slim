@@ -1,13 +1,17 @@
 .breakout-sm
   table.table.table-hover.table-card
-
     tbody
       - @tenants.each do |tenant|
         tr[data-href=manage_tenant_path(tenant) data-id=tenant.to_param]
           td
-            = link_to tenant.name, manage_tenant_path(tenant)
-          td = tenant.zipcode
-          td = tenant.city
+            = link_to manage_tenant_path(tenant)
+              = "#{tenant.last_name}, #{tenant.first_name}"
+          td 
+            == tenant.address_lines.join('<br>'.html_safe)
+          td 
+            = link_to tenant.email, "mailto:#{tenant.email}"
+            br
+            = link_to tenant.phone, "tel:#{tenant.phone}"
           td
             = link_to edit_manage_tenant_path(tenant) do
               span.fa.fa-edit

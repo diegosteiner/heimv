@@ -16,7 +16,6 @@ services:
     command: ["bin/rails", "s", "-b", "0.0.0.0", "-p", "3000"]
     environment:
       APP_HOST: ${APP_HOST:-heimv.localhost:3000}
-      RAILS_ENV: development
       WEBPACKER_DEV_SERVER_HOST: webpack
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RUBYOPT: '-W:no-deprecated -W:no-experimental'

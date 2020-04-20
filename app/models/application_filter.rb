@@ -5,30 +5,27 @@ class ApplicationFilter
   include ActiveModel::Attributes
   include MultiparameterAttributes
 
-  class << self
-    attr_reader :reducers
-
-    def filter(&block)
-      @reducers ||= []
-      @reducers << block
+  def apply(base_relation)
+    self.class.filters.values.inject(base_relation) do |relation, filter_block|
+      instance_exec(relation, &filter_block) || relation
     end
+  end
+
+  def self.filter(name, &block)
+    filters[name] = block
+  end
+
+  def self.filters
+    @filters ||= {}
   end
 
   def active?
     attributes.values.any?(&:present?)
   end
 
-  def reduce(base_relation)
-    self.class.reducers.reduce(base_relation) do |relation, block|
-      next relation unless block.respond_to?(:call)
-
-      instance_exec(relation, &block)
-    end
-  end
-
   def cached(base_relation)
     ids = Rails.cache.fetch(cache_key(base_relation), expires_in: 15.minutes) do
-      reduce(base_relation).map(&:id)
+      apply(base_relation).map(&:id)
     end
     base_relation.model.find(ids)
   end

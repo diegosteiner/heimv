@@ -6,12 +6,13 @@ de:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
-        booking_states: Status
+        current_booking_states: Status
         ends_at: Bis
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
         homes: Heime
         only_inconcluded: nur offene Buchungen
+        previous_booking_states: Vergangene Status
         ref: Buchungsreferenz
         tenant: Mieter
       occupancy/filter:

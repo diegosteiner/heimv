@@ -31,7 +31,7 @@ module DataDigests
     end
 
     def records
-      @records ||= filter.reduce(organisation.bookings.ordered)
+      @records ||= filter.apply(organisation.bookings.ordered)
     end
 
     protected

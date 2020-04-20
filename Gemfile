@@ -59,6 +59,7 @@ group :development, :test do
   gem 'bundler-audit'
   gem 'byebug', platform: :mri
   gem 'database_cleaner'
+  gem 'debase'
   gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-rescue'
@@ -67,6 +68,8 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'ruby-debug-ide'
+  gem 'solargraph'
 end
 
 group :test do
