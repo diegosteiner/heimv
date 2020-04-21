@@ -1,5 +1,4 @@
 #!/bin/sh
-bin/check
 
 echo -e '\n\033[35mRunning e2e\033[0m'
 bin/rspec ./spec --tag @type:feature --fail-fast
