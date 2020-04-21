@@ -58,6 +58,8 @@ group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'byebug', platform: :mri
+  gem 'database_cleaner'
+  gem 'debase'
   gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-rescue'
@@ -66,13 +68,13 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'ruby-debug-ide'
+  gem 'solargraph'
 end
 
 group :test do
   gem 'capybara'
   gem 'capybara-paparazzi'
   gem 'capybara-screenshot'
-  gem 'database_cleaner'
-  gem 'launchy'
   gem 'selenium-webdriver'
 end

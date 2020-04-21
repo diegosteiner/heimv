@@ -1,0 +1,15 @@
+docker: &docker
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: postgres
+  password: postgres
+  host: db
+
+development:
+  <<: *docker
+  database: heimv_development
+
+test:
+  <<: *docker
+  database: heimv_test

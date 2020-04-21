@@ -7,7 +7,7 @@
 #  city                 :string
 #  country              :string
 #  email                :string           not null
-#  email_verified       :boolean          default("false")
+#  email_verified       :boolean          default(FALSE)
 #  first_name           :string
 #  import_data          :jsonb
 #  last_name            :string
@@ -19,7 +19,7 @@
 #  zipcode              :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  organisation_id      :bigint           default("1"), not null
+#  organisation_id      :bigint           default(1), not null
 #
 # Indexes
 #

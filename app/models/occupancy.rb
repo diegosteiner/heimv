@@ -6,7 +6,7 @@
 #  begins_at      :datetime         not null
 #  booking_type   :string
 #  ends_at        :datetime         not null
-#  occupancy_type :integer          default("0"), not null
+#  occupancy_type :integer          default("free"), not null
 #  remarks        :text
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

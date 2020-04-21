@@ -1,10 +1,10 @@
 module Manage
   class BookingsController < BaseController
     load_and_authorize_resource :booking
+    before_action :set_filter, only: :index
 
     def index
-      @filter = Booking::Filter.new(default_booking_filter_params.merge(booking_filter_params))
-      @bookings = @filter.reduce(@bookings.with_default_includes.ordered)
+      @bookings = @filter.apply(@bookings.with_default_includes.ordered)
       @grouped_bookings = group_bookings(@bookings)
       respond_with :manage, @bookings
     end
@@ -42,6 +42,10 @@ module Manage
 
     private
 
+    def set_filter
+      @filter = Booking::Filter.new(default_booking_filter_params.merge(booking_filter_params))
+    end
+
     def call_booking_action
       booking_action&.call(booking: @booking)
     rescue BookingStrategy::Action::NotAllowed
@@ -57,11 +61,11 @@ module Manage
     end
 
     def booking_filter_params
-      Manage::BookingFilterParams.new(params[:filter])
+      Manage::BookingFilterParams.new(params)
     end
 
     def default_booking_filter_params
-      { 'booking_states' => current_organisation.booking_strategy.displayed_booking_states }
+      { 'current_booking_states' => current_organisation.booking_strategy.displayed_booking_states }
     end
 
     def group_bookings(bookings)

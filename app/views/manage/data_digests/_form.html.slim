@@ -2,8 +2,7 @@
   = f.hidden_field :type
   = f.text_field :label
 
-  - case @data_digest
-  - when DataDigests::Tarif
+  - if @data_digest.is_a?(DataDigests::Tarif)
     / - tarif_options = Tarif.all.map { |tarif| [tarif.label, tarif.id] }
     - tarif_options = Tarif.where(booking: nil).group_by { |tarif| tarif.home }
     - tarif_options.transform_keys! { |home| home.name }

@@ -6,7 +6,7 @@ nav.navbar.bg-white
 
 #filter.collapse.bg-white
   .container.py-3
-    = form_with(model: @filter, url: manage_bookings_path, scope: :filter, method: :GET, local: true) do |f|
+    = form_with(model: @filter, url: manage_bookings_path, scope: '', method: :GET, local: true) do |f|
       = render partial: 'filter_fields', locals: { f: f }
       hr.my-4
       = f.submit

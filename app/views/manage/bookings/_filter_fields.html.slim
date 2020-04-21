@@ -12,9 +12,12 @@
             = of.datetime_select :ends_at_after, include_blank: true
             = of.datetime_select :ends_at_before, include_blank: true
 .row
+    - states = current_organisation.booking_strategy.booking_states.values.map { |state| [state.t, state.to_sym] }
+    .col
+        = f.select :current_booking_states, states, { include_blank: true }, multiple: true, size: 10
+    .col
+        = f.select :previous_booking_states, states, { include_blank: true }, multiple: true, size: 10
+        br
+.row
     .col
         = f.collection_select:homes, Home.accessible_by(current_ability), :id, :name, { include_blank: true }, multiple: true, size: 10
-    .col
-        - states = current_organisation.booking_strategy.booking_states.values.map { |state| [state.t, state.to_sym] }
-        = f.select :booking_states, states, { include_blank: true }, multiple: true, size: 10
-        br

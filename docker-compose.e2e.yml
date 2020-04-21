@@ -1,0 +1,61 @@
+version: '3.7'
+services:
+
+  e2e_test:
+    build:
+      context: .
+      target: development
+      args:
+        UID: ${UID}
+        GID: ${GID}
+    entrypoint: [".docker/entrypoints/app.sh"]
+    command: ["bin/e2e"]
+    volumes:
+      - .:/app
+    environment:
+      E2E_HOST: 'http://e2e_target:3002'
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
+      RAILS_ENV: test
+      SELENIUM_HOST: selenium
+      SELENIUM_PORT: 4444
+    depends_on:
+      - db
+      - selenium
+      - e2e_target
+    networks:
+      default:
+      selenium:
+
+  e2e_target:
+    build: .
+    image: heimv:latest
+    ports:
+      - '3002:3002'
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
+      MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
+      SECRET_KEY_BASE: 'test'
+      RAILS_SERVE_STATIC_FILES: 'true'
+      PORT: 3002
+      LOG_LEVEL: 'debug'
+      RUBYOPT: '-W:no-deprecated -W:no-experimental'
+    depends_on:
+      - db
+      - mail
+    networks:
+      default:
+      selenium:
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    logging:
+      driver: none
+    networks:
+      selenium:
+
+networks:
+  selenium:
+
+volumes:
+  db_data:

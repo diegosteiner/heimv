@@ -9,12 +9,12 @@
 #  title           :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  organisation_id :bigint           default("1"), not null
+#  organisation_id :bigint           default(1), not null
 #
 # Indexes
 #
-#  index_markdown_templates_on_key              (key)
-#  index_markdown_templates_on_organisation_id  (organisation_id)
+#  index_markdown_templates_on_key_and_locale_and_organisation_id  (key,locale,organisation_id) UNIQUE
+#  index_markdown_templates_on_organisation_id                     (organisation_id)
 #
 # Foreign Keys
 #

@@ -7,7 +7,7 @@
 #  city                 :string
 #  country              :string
 #  email                :string           not null
-#  email_verified       :boolean          default("false")
+#  email_verified       :boolean          default(FALSE)
 #  first_name           :string
 #  import_data          :jsonb
 #  last_name            :string
@@ -19,7 +19,7 @@
 #  zipcode              :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  organisation_id      :bigint           default("1"), not null
+#  organisation_id      :bigint           default(1), not null
 #
 # Indexes
 #
@@ -36,12 +36,12 @@ class Tenant < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error
   belongs_to :organisation
 
-  self.implicit_order_column = :last_name
-
   validates :email, presence: true, format: { with: Devise.email_regexp }
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :birth_date, presence: true, on: :public_update
   validates :phone, presence: true, length: { minimum: 10 }, on: :public_update
+
+  scope :ordered, -> { order(last_name: :ASC) }
 
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')

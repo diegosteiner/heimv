@@ -13,8 +13,8 @@
 #
 # Indexes
 #
-#  index_usages_on_booking_id  (booking_id)
-#  index_usages_on_tarif_id    (tarif_id)
+#  index_usages_on_booking_id               (booking_id)
+#  index_usages_on_tarif_id_and_booking_id  (tarif_id,booking_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -25,5 +25,11 @@
 require 'rails_helper'
 
 RSpec.describe Usage, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#price' do
+    let(:tarif) { create(:tarif, price_per_unit: 3.33) }
+    let(:usage) { build(:usage, tarif: tarif, used_units: 2) }
+    subject { usage.price }
+
+    it { is_expected.to eq(6.65) }
+  end
 end

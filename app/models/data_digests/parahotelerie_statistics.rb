@@ -9,7 +9,7 @@
 #  type               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  organisation_id    :bigint           default("1"), not null
+#  organisation_id    :bigint           default(1), not null
 #
 # Indexes
 #
@@ -21,9 +21,13 @@
 #
 
 module DataDigests
-  class ParahotelerieStatistics < DataDigests::Booking
+  class ParahotelerieStatistics < DataDigests::Tarif
     def filter
       @filter ||= ::Booking::Filter.new(filter_params)
+    end
+
+    def headcount(booking)
+      booking.usages.where(tarif_id: ::Tarif.find_with_booking_copies(tarif_ids)).sum(:used_units)
     end
 
     protected
@@ -41,7 +45,7 @@ module DataDigests
 
     def generate_tabular_row(booking)
       [I18n.l(booking.occupancy.begins_at, format: :short), I18n.l(booking.occupancy.ends_at, format: :short),
-       booking.approximate_headcount, booking.tenant&.country]
+       headcount(booking), booking.tenant&.country]
     end
   end
 end

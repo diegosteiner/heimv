@@ -13,8 +13,8 @@
 #
 # Indexes
 #
-#  index_usages_on_booking_id  (booking_id)
-#  index_usages_on_tarif_id    (tarif_id)
+#  index_usages_on_booking_id               (booking_id)
+#  index_usages_on_tarif_id_and_booking_id  (tarif_id,booking_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -45,7 +45,7 @@ class Usage < ApplicationRecord
   # validates :used_units, numericality: true, presence: true
 
   def price
-    ((used_units || 0) * (tarif.price_per_unit || 1) * 20).floor / 20
+    ((used_units || 0).to_f * (tarif.price_per_unit || 1).to_f * 20.0).floor / 20.0
   end
 
   def of_tarif?(other_tarif)
@@ -59,9 +59,9 @@ class Usage < ApplicationRecord
   end
 
   def tarif_selector_votes
-    @tarif_selector_votes ||= Hash[tarif_selectors.map do |selector|
-      [selector, selector.vote_for(self)]
-    end]
+    @tarif_selector_votes ||= tarif_selectors.index_with do |selector|
+      selector.vote_for(self)
+    end
   end
 
   def adopted_by_vote?

@@ -3,6 +3,7 @@ module Manage
     load_and_authorize_resource :tenant
 
     def index
+      @tenants = @tenants.ordered
       respond_with :manage, @tenants
     end
 

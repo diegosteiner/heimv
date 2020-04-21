@@ -13,8 +13,8 @@
 #
 # Indexes
 #
-#  index_usages_on_booking_id  (booking_id)
-#  index_usages_on_tarif_id    (tarif_id)
+#  index_usages_on_booking_id               (booking_id)
+#  index_usages_on_tarif_id_and_booking_id  (tarif_id,booking_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -25,7 +25,7 @@
 FactoryBot.define do
   factory :usage do
     tarif
-    used_units { '9.99' }
+    used_units { 9.99 }
     remarks { 'Test' }
     booking { tarif.booking }
   end

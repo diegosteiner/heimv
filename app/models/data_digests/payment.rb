@@ -9,7 +9,7 @@
 #  type               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  organisation_id    :bigint           default("1"), not null
+#  organisation_id    :bigint           default(1), not null
 #
 # Indexes
 #
@@ -31,7 +31,7 @@ module DataDigests
     end
 
     def records
-      @records ||= filter.reduce(organisation.payments.ordered)
+      @records ||= filter.apply(organisation.payments.ordered)
     end
 
     protected

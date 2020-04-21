@@ -29,7 +29,7 @@ class Payment
       fields = %i[amount amount_in_cents currency name iban bic debit sign
                   remittance_information swift_code reference bank_reference end_to_end_reference mandate_reference
                   creditor_reference transaction_id creditor_identifier payment_information additional_information]
-      fields.map { |field| [field, transaction.try(field)] }.to_h
+      fields.index_with { |field| transaction.try(field) }
     end
 
     def from_import(payments_params)

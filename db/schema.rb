@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_06_154549) do
+ActiveRecord::Schema.define(version: 2020_04_19_102115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2020_03_06_154549) do
     t.decimal "provision"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "organisation_id", default: 1, null: false
+    t.bigint "organisation_id", null: false
     t.index ["code"], name: "index_booking_agents_on_code"
     t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
   end
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 2020_03_06_154549) do
     t.jsonb "data_digest_params", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "organisation_id", default: 1, null: false
+    t.bigint "organisation_id", null: false
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
@@ -204,8 +204,8 @@ ActiveRecord::Schema.define(version: 2020_03_06_154549) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "organisation_id", default: 1, null: false
-    t.index ["key"], name: "index_markdown_templates_on_key"
+    t.bigint "organisation_id", null: false
+    t.index ["key", "locale", "organisation_id"], name: "index_markdown_templates_on_key_and_locale_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_markdown_templates_on_organisation_id"
   end
 
@@ -333,7 +333,7 @@ ActiveRecord::Schema.define(version: 2020_03_06_154549) do
     t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "organisation_id", default: 1, null: false
+    t.bigint "organisation_id", null: false
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"
     t.index ["search_cache"], name: "index_tenants_on_search_cache"
@@ -348,7 +348,7 @@ ActiveRecord::Schema.define(version: 2020_03_06_154549) do
     t.datetime "updated_at", null: false
     t.decimal "presumed_used_units"
     t.index ["booking_id"], name: "index_usages_on_booking_id"
-    t.index ["tarif_id"], name: "index_usages_on_tarif_id"
+    t.index ["tarif_id", "booking_id"], name: "index_usages_on_tarif_id_and_booking_id", unique: true
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -364,7 +364,7 @@ ActiveRecord::Schema.define(version: 2020_03_06_154549) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.integer "role"
-    t.bigint "organisation_id", default: 1, null: false
+    t.bigint "organisation_id", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
