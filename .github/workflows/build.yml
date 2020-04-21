@@ -22,10 +22,10 @@ jobs:
 
     - name: Run e2e
       if: success()
-      run:
-        - docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_target bin/rails db:create db:migrate
-        - docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_test bin/check
-        - docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_test bin/e2e
+      steps:
+        - run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_target bin/rails db:create db:migrate
+        - run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_test bin/check
+        - run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_test bin/e2e
 
     - name: Login to docker hub
       uses: actions-hub/docker/login@master
