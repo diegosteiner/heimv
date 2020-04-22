@@ -28,15 +28,18 @@ FROM development AS build
                                        
 ENV RAILS_ENV=production               
 ENV NODE_ENV=production   
+ENV BUNDLE_WITHOUT="test development"
                                        
 COPY --chown=app Gemfile /app/    
 COPY --chown=app Gemfile.lock /app/                                       
+RUN mkdir -p ${BUNDLE_CACHE_PATH}
 COPY --chown=app vendor/cache ${BUNDLE_CACHE_PATH}
-RUN bundle install --without=test --without=development 
+RUN ls -al /app/vendor
+RUN bundle install --deployment
                                        
 COPY --chown=app package.json /app/        
 COPY --chown=app yarn.lock /app/
-# COPY --chown=app .cache/yarn /home/app/.cache/yarn
+COPY --chown=app node_modules /app/node_modules
 RUN yarn install              
                                        
 COPY --chown=app . /app     
@@ -52,10 +55,11 @@ USER app
 WORKDIR /app                                                              
 
 ENV BUNDLE_PATH=/app/vendor/bundle
+ENV BUNDLE_WITHOUT="test development"
 RUN gem install bundler 
                                        
 COPY --chown=app --from=build /app /app                              
-RUN bundle install --without=test --without=development                        
+# RUN bundle install --without=test --without=development                        
                                        
 ENV RAILS_ENV=production               
 ENV NODE_ENV=production 

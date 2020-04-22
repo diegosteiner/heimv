@@ -7,8 +7,12 @@ docker-compose.yml
 /.bundle
 /vendor/bundle/
 /vendor/ruby/
-/node_modules
-/app/node_modules
+
+# node modules
+/node_modules/*
+yarn-debug.log*
+.yarn-integrity
+
 yarn-error.log
 
 # minimal Rails specific artifacts
@@ -78,16 +82,5 @@ pickle-email-*.html
 
 # tilde files are usually backup files from a text editor
 *~
-/public/packs
-/public/packs-test
-/node_modules
-/.cache
-
 /storage/*
-/public/packs
-/public/packs-test
-/node_modules
-yarn-debug.log*
-.yarn-integrity
-
 /.git
