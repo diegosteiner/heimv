@@ -20,6 +20,7 @@ USER $UID
 WORKDIR /app
 
 ENV BUNDLE_PATH=/app/vendor/bundle
+ENV BUNDLE_CACHE_PATH=/app/vendor/cache
 RUN gem install bundler 
 
 ### === build === ###                                                                                                                                 [0/2749]
@@ -30,14 +31,17 @@ ENV NODE_ENV=production
                                        
 COPY --chown=app Gemfile /app/    
 COPY --chown=app Gemfile.lock /app/                                       
+COPY --chown=app vendor/cache ${BUNDLE_CACHE_PATH}
 RUN bundle install --without=test --without=development 
                                        
 COPY --chown=app package.json /app/        
 COPY --chown=app yarn.lock /app/
+# COPY --chown=app .cache/yarn /home/app/.cache/yarn
 RUN yarn install              
                                        
 COPY --chown=app . /app     
-RUN bin/webpack  
+RUN bin/webpack
+RUN rm -rf /app/node_modules/* /app/vendor/cache
                                        
 ### === production === ###
 FROM base AS production
