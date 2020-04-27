@@ -12,8 +12,8 @@
 	"extensions": [
 		"rebornix.Ruby",
 		"castwide.solargraph",
-		"wingrunr21.vscode-ruby",
-		"octref.vetur"
+		// "wingrunr21.vscode-ruby",
+		// "octref.vetur"
 	],
 	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

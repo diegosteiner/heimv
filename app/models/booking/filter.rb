@@ -6,6 +6,11 @@ class Booking
     attribute :occupancy_params, default: {}
     attribute :current_booking_states, default: []
     attribute :previous_booking_states, default: []
+    attribute :booking_states, default: []
+
+    def booking_states=(value)
+      self.current_booking_states = value
+    end
 
     def occupancy
       @occupancy ||= Occupancy::Filter.new(occupancy_params)

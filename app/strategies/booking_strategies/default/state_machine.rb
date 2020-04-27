@@ -115,6 +115,7 @@ module BookingStrategies
       after_transition(to: %i[provisional_request definitive_request]) do |booking, transition|
         booking.messages.new_from_template("#{transition.to_state}_message", addressed_to: :tenant).deliver
         booking.occupancy.tentative!
+        booking.timeframe_locked!
       end
 
       before_transition(to: %i[cancelled cancelled_request declined_request]) do |booking|
@@ -124,6 +125,7 @@ module BookingStrategies
 
       after_transition(to: %i[cancelation_pending cancelled_request declined_request]) do |booking|
         booking.deadline&.clear
+        booking.timeframe_locked!
       end
 
       after_transition(to: :cancelation_pending) do |booking|

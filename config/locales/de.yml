@@ -68,6 +68,7 @@ de:
         tenant: Mieter
         tenant_id: Mieter
         tenant_organisation: Mieter Organisation
+        timeframe_locked: Zeitpunkt fixiert
         transition_to: Neuer Status
       booking_agent:
         code: Vermittler-Code

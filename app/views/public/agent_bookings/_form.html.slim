@@ -15,14 +15,14 @@
         = f.fields_for :occupancy, @agent_booking.occupancy || @agent_booking.build_occupancy do |of|
           .row
             .col-md-6
-              = calendar_input(of, :begins_at_date, required: true, disabled: !@agent_booking.booking_agent_responsible?)
+              = calendar_input(of, :begins_at_date, required: true, disabled: @agent_booking.timeframe_locked?)
             .col-md-6
-              = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: !@agent_booking.booking_agent_responsible?
+              = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: @agent_booking.timeframe_locked?
           .row
             .col-md-6
-              = calendar_input(of, :ends_at_date, required: true, disabled: !@agent_booking.booking_agent_responsible?)
+              = calendar_input(of, :ends_at_date, required: true, disabled: @agent_booking.timeframe_locked?)
             .col-md-6
-              = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: !@agent_booking.booking_agent_responsible?
+              = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: @agent_booking.timeframe_locked?
 
         = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?
         = f.text_field :booking_agent_code, disabled: !@agent_booking.booking_agent_responsible?

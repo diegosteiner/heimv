@@ -19,7 +19,7 @@
 #  zipcode              :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  organisation_id      :bigint           default(1), not null
+#  organisation_id      :bigint           not null
 #
 # Indexes
 #

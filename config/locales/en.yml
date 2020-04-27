@@ -68,6 +68,7 @@ en:
         tenant: Kunde
         tenant_id: Kunde
         tenant_organisation: Mieter Organisation
+        timeframe_locked: Zeitpunkt fixiert
         transition_to: Neuer Status
       booking_agent:
         code: Code

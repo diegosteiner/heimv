@@ -19,6 +19,7 @@
 #  state                 :string           default("initial"), not null
 #  state_data            :json
 #  tenant_organisation   :string
+#  timeframe_locked      :boolean          default(FALSE)
 #  usages_entered        :boolean          default(FALSE)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
@@ -71,27 +72,23 @@ class Booking < ApplicationRecord
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
 
   validates :accept_conditions, acceptance: true, on: :public_create
-  validates :tenant, presence: true, on: :public_update
+  validates :purpose, :tenant, presence: true, on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
-  validates :purpose, presence: true, on: :public_update
   validates :approximate_headcount, numericality: true, on: :public_update
 
   validate(on: %i[public_create public_update]) do
     errors.add(:base, :conflicting) if occupancy.conflicting.any?
   end
 
-  self.implicit_order_column = :created_at
   scope :ordered, -> { joins(:occupancy).order(Occupancy.arel_table[:begins_at]) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
   scope :inconcluded, -> { where(concluded: false) }
 
-  before_validation :set_organisation
-  before_validation :assign_tenant
-  before_validation :set_occupancy_attributes, :set_tenant_attributes
+  before_validation :set_organisation, :assign_tenant, :set_occupancy_attributes, :set_tenant_attributes
   before_create :set_ref
   after_create :reload
 
-  accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :occupancy, reject_if: :reject_occupancy_attributes?, update_only: true
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tentant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :deadline, update_only: true, reject_if: ->(attributes) { attributes[:at].blank? }
@@ -105,6 +102,10 @@ class Booking < ApplicationRecord
 
   def overnight_stays
     occupancy.nights * approximate_headcount
+  end
+
+  def timeframe_locked!(value = true)
+    update(timeframe_locked: value)
   end
 
   def editable!(value = true)
@@ -143,6 +144,10 @@ class Booking < ApplicationRecord
 
   def reject_tentant_attributes?(tenant_attributes)
     tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).values.all?(&:blank?)
+  end
+
+  def reject_occupancy_attributes?(occupancy_attributes)
+    occupancy_attributes.values.all?(&:blank?) || timeframe_locked?
   end
 
   def assign_tenant

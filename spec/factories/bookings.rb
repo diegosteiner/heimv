@@ -19,6 +19,7 @@
 #  state                 :string           default("initial"), not null
 #  state_data            :json
 #  tenant_organisation   :string
+#  timeframe_locked      :boolean          default(FALSE)
 #  usages_entered        :boolean          default(FALSE)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
