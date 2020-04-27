@@ -1,9 +1,7 @@
-name: Build
+name: CI
 
 on:
   push:
-    branches: [ master, develop ]
-  pull_request:
     branches: [ master, develop ]
 
 jobs:
@@ -48,11 +46,11 @@ jobs:
 
     - name: Tag image
       if: success()
-      # run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${GITHUB_REF##*/}
-      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:latest
+      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${GITHUB_REF##*/}
+      # run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:latest
 
     - name: Push to docker hub :latest
       if: success()
       uses: actions-hub/docker@master
       with:
-        args: push docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:latest
+        args: push docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${GITHUB_REF##*/}

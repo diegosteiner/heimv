@@ -19,6 +19,7 @@ services:
       RAILS_ENV: test
       SELENIUM_HOST: selenium
       SELENIUM_PORT: 4444
+      RUBYOPT: '-W:no-deprecated -W:no-experimental'
     depends_on:
       - db
       - selenium
