@@ -38,20 +38,21 @@ jobs:
       if: success()
       run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_test bin/e2e
 
-    # - name: Login to docker hub
-    #   uses: actions-hub/docker/login@master
-    #   if: success()
-    #   env:
-    #     DOCKER_USERNAME: ${{ github.actor }}
-    #     DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-    #     DOCKER_REGISTRY_URL: docker.pkg.github.com
+    - name: Login to docker hub
+      uses: actions-hub/docker/login@master
+      if: success()
+      env:
+        DOCKER_USERNAME: ${{ github.actor }}
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        DOCKER_REGISTRY_URL: docker.pkg.github.com
 
-    # - name: Tag image
-    #   if: success()
-    #   run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${GITHUB_REF##*/}
+    - name: Tag image
+      if: success()
+      # run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${GITHUB_REF##*/}
+      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:latest
 
-    # - name: Push to docker hub :latest
-    #   if: success()
-    #   uses: actions-hub/docker@master
-    #   with:
-    #     args: push docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:${GITHUB_REF##*/}
+    - name: Push to docker hub :latest
+      if: success()
+      uses: actions-hub/docker@master
+      with:
+        args: push docker.pkg.github.com/diegosteiner/heimverwaltung/heimv:latest

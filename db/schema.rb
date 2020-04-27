@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_102115) do
     t.decimal "provision"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "organisation_id", default: 1, null: false
+    t.bigint "organisation_id", null: false
     t.index ["code"], name: "index_booking_agents_on_code"
     t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
   end
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_102115) do
     t.jsonb "data_digest_params", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "organisation_id", default: 1, null: false
+    t.bigint "organisation_id", null: false
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
@@ -204,7 +204,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_102115) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "organisation_id", default: 1, null: false
+    t.bigint "organisation_id", null: false
     t.index ["key", "locale", "organisation_id"], name: "index_markdown_templates_on_key_and_locale_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_markdown_templates_on_organisation_id"
   end
@@ -333,7 +333,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_102115) do
     t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "organisation_id", default: 1, null: false
+    t.bigint "organisation_id", null: false
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"
     t.index ["search_cache"], name: "index_tenants_on_search_cache"
@@ -364,7 +364,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_102115) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.integer "role"
-    t.bigint "organisation_id", default: 1, null: false
+    t.bigint "organisation_id", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

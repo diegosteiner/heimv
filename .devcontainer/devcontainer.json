@@ -12,13 +12,13 @@
 	"extensions": [
 		"rebornix.Ruby",
 		"castwide.solargraph",
+		"wingrunr21.vscode-ruby",
+		"octref.vetur"
 	],
 	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [3000],
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "gem install solargraph ruby-debug-ide debase",
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "app",

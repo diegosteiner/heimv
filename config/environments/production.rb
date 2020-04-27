@@ -62,7 +62,7 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "heimverwaltung_#{Rails.env}"
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = SmtpSettings.new.url(ENV['MAILER_URL'])
+  config.action_mailer.smtp_settings = SmtpUrl.from_string(ENV['SMTP_URL'])
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false

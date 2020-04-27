@@ -14,7 +14,7 @@ module Admin
     def create
       import_data = JSON.parse(params[:import_data])
       import_options = { replace: params[:replace] }
-      imported = Import::OrganisationImporter.new(@organisation).import(import_data, import_options)
+      imported = Import::OrganisationImporter.new(@organisation, import_options).import(import_data)
 
       if imported
         redirect_to edit_manage_organisation_path, notice: 'Import succeeded'

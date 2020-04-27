@@ -34,7 +34,8 @@ services:
       - '3002:3002'
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
-      MAILER_URL: "smtp://mail?from=no-reply@heimverwaltung.localhost"
+      SMTP_URL: "smtp://mail"
+      MAIL_FROM: "no-reply@heimverwaltung.localhost"
       SECRET_KEY_BASE: 'test'
       RAILS_SERVE_STATIC_FILES: 'true'
       PORT: 3002

@@ -1,0 +1,208 @@
+{
+  "name": "Heimverein",
+  "email": "info@heimv.ch",
+  "address": "Adresse",
+  "booking_ref_strategy_type": "RefStrategies::DefaultBookingRef",
+  "booking_strategy_type": "BookingStrategies::Default",
+  "currency": "CHF",
+  "esr_participant_nr": "",
+  "iban": null,
+  "invoice_ref_strategy_type": "RefStrategies::ESR",
+  "message_footer": "HeimV\n\n[+41 79 000 00 00](tel:+41 79 000 00 00)\n[www.heimv.ch](//www.heimv.ch)\n[info@heimv.ch](mailto:info@heimv.ch)\n",
+  "markdown_templates": {
+    "1": {
+      "key": "open_request_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "2": {
+      "key": "awaiting_contract_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "3": {
+      "key": "provisional_request_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "4": {
+      "key": "overdue_request_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "5": {
+      "key": "definitive_request_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "6": {
+      "key": "manage_new_booking_mail",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "7": {
+      "key": "upcoming_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "8": {
+      "key": "invoices_deposit_text",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "9": {
+      "key": "invoices_invoice_text",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "10": {
+      "key": "invoices_late_notice_text",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "11": {
+      "key": "payment_due_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "12": {
+      "key": "payment_overdue_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "13": {
+      "key": "contract_text",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "14": {
+      "key": "contract_signed_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "15": {
+      "key": "deposits_paid_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "16": {
+      "key": "booking_agent_request_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "17": {
+      "key": "cancelled_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "18": {
+      "key": "cancelled_request_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "19": {
+      "key": "declined_request_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "20": {
+      "key": "booking_agent_cancelled_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "21": {
+      "key": "awaiting_tenant_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "22": {
+      "key": "unconfirmed_request_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "23": {
+      "key": "booking_agent_request_accepted_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "24": {
+      "key": "deposit_paid_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "25": {
+      "key": "invoice_paid_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "26": {
+      "key": "foreign_payment_info_text",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "27": {
+      "key": "payment_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    },
+    "28": {
+      "key": "overdue_message",
+      "title": null,
+      "body": null,
+      "locale": "de"
+    }
+  },
+  "homes": {
+    "1": {
+      "janitor": "adasd",
+      "min_occupation": 12,
+      "name": "Testheim",
+      "place": "",
+      "ref": "test",
+      "requests_allowed": true,
+      "tarifs": {
+        "1": {
+          "invoice_type": "",
+          "label": "Test",
+          "meter": "",
+          "position": 2,
+          "prefill_usage_method": null,
+          "price_per_unit": "0",
+          "tarif_group": "",
+          "transient": false,
+          "type": "Tarifs::OvernightStay",
+          "unit": "Übernachtung",
+          "valid_from": "2020-04-20 10:53:29 +0200",
+          "valid_until": null
+        }
+      }
+    }
+  }
+}
