@@ -69,4 +69,8 @@ class AgentBooking < ApplicationRecord
   def booking_agent_responsible?
     !committed_request || !valid?
   end
+
+  def timeframe_locked?
+    booking&.timeframe_locked?
+  end
 end
