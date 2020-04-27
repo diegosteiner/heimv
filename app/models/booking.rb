@@ -150,10 +150,10 @@ class Booking < ApplicationRecord
   end
 
   def set_tenant_attributes
-    return unless tenant || email
+    return unless tenant || email.presence
 
     self.tenant ||= build_tenant
-    self.tenant.email ||= email
+    self.tenant.email ||= email.presence
     self.tenant.country ||= 'CH'
     self.tenant.organisation = organisation
   end

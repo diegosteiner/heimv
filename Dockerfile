@@ -8,7 +8,6 @@ RUN apk add --update build-base \
   nodejs \             
   yarn \
   less \                                                                       
-  bash \ 
   curl \
   tzdata
                                        
@@ -34,8 +33,7 @@ COPY --chown=app Gemfile /app/
 COPY --chown=app Gemfile.lock /app/                                       
 RUN mkdir -p ${BUNDLE_CACHE_PATH}
 COPY --chown=app vendor/cache ${BUNDLE_CACHE_PATH}
-RUN ls -al /app/vendor
-RUN bundle install --deployment
+RUN bundle install
                                        
 COPY --chown=app package.json /app/        
 COPY --chown=app yarn.lock /app/
@@ -59,11 +57,11 @@ ENV BUNDLE_WITHOUT="test development"
 RUN gem install bundler 
                                        
 COPY --chown=app --from=build /app /app                              
-# RUN bundle install --without=test --without=development                        
+RUN bundle install
                                        
 ENV RAILS_ENV=production               
 ENV NODE_ENV=production 
 ENV RAILS_LOG_TO_STDOUT="true"  
 ENV PORT=3000
 
-CMD ["bin/rails", "s",  "-b", "0.0.0.0"] 
+CMD ["bin/rails", "s", "-b", "0.0.0.0"] 
