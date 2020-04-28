@@ -8,6 +8,7 @@ class Booking
     attribute :previous_booking_states, default: []
     attribute :booking_states, default: []
 
+    # Ensures backwards compatibilty
     def booking_states=(value)
       self.current_booking_states = value
     end
