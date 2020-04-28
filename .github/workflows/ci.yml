@@ -12,10 +12,18 @@ jobs:
     - uses: actions/checkout@master
     - uses: actions/cache@v1
       with:
-        path: vendor/bundle
+        path: vendor
         key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gems-
+    - uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-npm-${{ env.cache-name }}-
+          ${{ runner.os }}-npm-
+            
     - run: mkdir -p vendor/cache node_modules
 
     - name: Build :latest

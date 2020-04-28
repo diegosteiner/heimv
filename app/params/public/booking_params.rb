@@ -12,7 +12,7 @@ module Public
       end
 
       sanitize do |params|
-        next params if params[:occupancy_attributes].blank?
+        next if params[:occupancy_attributes].blank?
 
         params.merge(occupancy_attributes: OccupancyParams.new(params[:occupancy_attributes]).permitted)
       end
@@ -22,6 +22,12 @@ module Public
       def self.permitted_keys
         super + [:home_id, :email, :accept_conditions,
                  agent_booking_attributes: %i[booking_agent_code booking_agent_ref]]
+      end
+
+      sanitize do |params|
+        next if params[:occupancy_attributes].blank?
+
+        params.merge(occupancy_attributes: OccupancyParams.new(params[:occupancy_attributes]).permitted)
       end
     end
   end

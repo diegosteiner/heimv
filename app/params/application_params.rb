@@ -17,7 +17,7 @@ class ApplicationParams
     @sanitized ||= self.class.sanitizers.reduce(@params.dup) do |params_to_sanitize, block|
       next params_to_sanitize unless block.respond_to?(:call)
 
-      block.call(params_to_sanitize)
+      block.call(params_to_sanitize) || params_to_sanitize
     end
   end
 
