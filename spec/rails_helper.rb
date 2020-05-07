@@ -93,7 +93,7 @@ RSpec.configure do |config|
   end
   Capybara.default_driver = :selenium
   Capybara.default_max_wait_time = 10
-  Capybara.app_host = ENV['E2E_HOST']
+  Capybara.app_host = "http://#{ENV['E2E_HOST'] || 'localhost'}"
 
   config.include Rails.application.routes.url_helpers
 end
