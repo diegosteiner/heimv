@@ -12,7 +12,7 @@ module BookingStrategies
       end
 
       automatic_transition(from: :booking_agent_request, to: :awaiting_tenant) do |booking|
-        booking.agent_booking.valid? && booking.committed_request
+        booking.agent_booking.valid? && booking.agent_booking.committed_request
       end
 
       automatic_transition(from: :awaiting_tenant, to: :definitive_request) do |booking|

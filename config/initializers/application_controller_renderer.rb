@@ -9,4 +9,4 @@
 #   )
 # end
 
-Rails.application.routes.default_url_options[:host] = Rails.application.secrets.app_host
+Rails.application.routes.default_url_options[:host] = ENV['APP_HOST']

@@ -13,12 +13,11 @@ services:
     volumes:
       - .:/app
     environment:
-      E2E_HOST: 'http://e2e_target:3002'
+      E2E_APP_HOST: 'e2e_target:3002'
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
-      SELENIUM_HOST: selenium
-      SELENIUM_PORT: 4444
+      SELENIUM_HOST: 'selenium:4444'
       RUBYOPT: '-W:no-deprecated -W:no-experimental'
     depends_on:
       - db
@@ -47,13 +46,6 @@ services:
       - mail
     networks:
       default:
-      selenium:
-
-  selenium:
-    image: selenium/standalone-chrome-debug
-    logging:
-      driver: none
-    networks:
       selenium:
 
 networks:

@@ -50,7 +50,7 @@ class AgentBooking < ApplicationRecord
     return false unless valid?
 
     booking || build_booking
-    booking.update(email: tenant_email.presence, committed_request: committed_request, agent_booking: self)
+    booking.update(email: tenant_email.presence, agent_booking: self)
   end
 
   def build_booking

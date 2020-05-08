@@ -15,6 +15,7 @@ module Public
 
     def edit
       @booking = Booking.find(params[:id])
+      @booking.committed_request = @booking.agent_booking&.committed_request
       respond_with :public, @booking
     end
 

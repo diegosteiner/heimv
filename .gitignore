@@ -80,7 +80,7 @@ pickle-email-*.html
 /public/packs
 /public/packs-test
 /node_modules
-/vendor
+/vendor/*
 yarn-debug.log*
 .yarn-integrity
 /public/packs

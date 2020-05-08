@@ -27,22 +27,22 @@ jobs:
     - run: mkdir -p vendor/cache node_modules
 
     - name: Build :latest
-      run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml build --no-cache e2e_target e2e_test
+      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml build --no-cache e2e_target e2e_test
       env:
         UID: 0
         GID: 0
 
     - name: Prepare Database
       if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_target bin/rails db:create db:migrate
+      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_target bin/rails db:create db:migrate
 
     - name: Run check
       if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_test bin/check
+      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/check
 
     - name: Run e2e
       if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e_test bin/e2e
+      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/e2e
 
     - name: Login to docker hub
       uses: actions-hub/docker/login@master
