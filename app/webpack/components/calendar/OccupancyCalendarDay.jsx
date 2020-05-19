@@ -1,67 +1,52 @@
 import React, { useContext, useMemo } from 'react'
 import { OccupancyCalendarContext } from './OccuancyCalendarContext'
-import { isBefore, isAfter, startOfDay, endOfDay, setHours, isWithinInterval, formatISO } from 'date-fns/esm'
 import classNames from 'classnames'
 import styles from './OccupancyCalendar.module.scss'
 import Popover from 'react-bootstrap/Popover'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import { formatISO } from 'date-fns/esm'
 
-const classNamesForDateWithOccupancies = (disabled, occupancies, date) => {
-  if (disabled) return [styles.disabled]
+const formatDate = new Intl.DateTimeFormat("de-CH", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+    hour: 'numeric', minute: 'numeric', hour12: false
+}).format
 
-  const midDay = setHours(startOfDay(date), 12)
+export const OccupancyCalendarDayInContext = ({ date, onClick }) => {
+  const { loading, calendarData } = useContext(OccupancyCalendarContext)
+  const occupancyDate = calendarData.occupancyDates && calendarData.occupancyDates[formatISO(date, { representation: 'date' })]
+  const flags = occupancyDate && occupancyDate.flags || []
+  const disableCallback = () => loading || !occupancyDate || flags.includes('outOfWindow') 
+  const classNameCallback = () => [styles.calendarDate, ...(flags.map(flag => styles[flag]))]
 
-  return occupancies.map((occupancy) => {
-    if (isWithinInterval(occupancy.ends_at, { start: startOfDay(date), end: midDay })) {
-      return styles[`${occupancy.occupancy_type}Forenoon`]
-    }
-    if (isWithinInterval(occupancy.begins_at, { start: midDay, end: endOfDay(date) })) {
-      return styles[`${occupancy.occupancy_type}Afternoon`]
-    }
-    return styles[`${occupancy.occupancy_type}Fullday`]
-  })
+  return <OccupancyCalendarDay classNameCallback={classNameCallback} disableCallback={disableCallback} { ...{ date, onClick }} ></OccupancyCalendarDay>
 }
 
-  const formatDate = new Intl.DateTimeFormat("de-CH", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-     hour: 'numeric', minute: 'numeric', hour12: false
-  }).format
+export const OccupancyCalendarDay = ({ date, onClick, occupancies = [], classNameCallback, disableCallback }) => {
+  const disabled = disableCallback && disableCallback(date)
+  const className = classNameCallback && classNameCallback(date) || [styles.calendarDate]
 
-const OccupancyCalendarDay = ({ date, onClick }) => {
-  const { loading, calendarData } = useContext(OccupancyCalendarContext)
-  const occupancies = calendarData.occupanciesByDate[formatISO(date, { representation: 'date' })] || []
-  const appliedClassNames = useMemo(() => {
-    const disabled = isBefore(date, calendarData.window_from) || isAfter(date, calendarData.window_to) || loading
+  const button = <button type="button" disabled={disabled} onClick={onClick} value={formatISO(date)} className={classNames(className)}>{date.getDate()}</button>
 
-    return classNames([styles.calendarDate, ...classNamesForDateWithOccupancies(disabled, occupancies, date)])
-  }, [loading, calendarData, formatISO(date)])
-
-  if(occupancies.count > 0) {
+  if(occupancies.length <= 0) return button
 
   const popover = (
     <Popover id="popover-basic">
       <Popover.Content>
         {occupancies.map(occupancy => {
-          return (<dl className="my-1" key={occupancy.id}>
+          return (<dl className="my-1" key={`${formatISO(date, { representation: 'date' })}-${occupancy.id}`}>
             <dt>{formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}</dt>
             <dd>
               {occupancy.ref}
-              <span>{occupancy.occupancy_type}</span>
+              <span> {occupancy.occupancy_type}</span>
               {/* <span v-if="occupancy.deadline">(bis {{ $d(Date.parse(occupancy.deadline), 'shortTime')}})</span> */}
             </dd>
           </dl>)
         })}
       </Popover.Content>
     </Popover>
-  );
-    return (<OverlayTrigger trigger={['focus', 'hover']} overlay={popover}>
-      <button type="button" className={appliedClassNames}>{date.getDate()}</button>
-    </OverlayTrigger>)
-  } else {
-      return <button type="button" onClick={onClick} value={formatISO(date, { representation: 'date' })} className={appliedClassNames}>{date.getDate()}</button>
-  }
-}
+  )
 
-export default OccupancyCalendarDay
+  return (<OverlayTrigger trigger={['focus', 'hover']} overlay={popover}>{button}</OverlayTrigger>)
+}

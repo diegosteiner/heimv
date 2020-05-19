@@ -19,12 +19,12 @@
                   = f.fields_for :occupancy, @booking.occupancy do |of|
                     .row
                       .col-md-6
-                        = calendar_input(of, :begins_at_date, required: true)
+                        = react_component('calendar/CalendarInput', value: @booking.occupancy.begins_at&.iso8601)
                       .col-md-6
                         = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, start_hour: 8, end_hour: 22
                     .row
                       .col-md-6
-                        = calendar_input(of, :ends_at_date, required: true)
+                        = react_component('calendar/CalendarInput', value: @booking.occupancy.ends_at&.iso8601)
                       .col-md-6
                         = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, start_hour: 8, end_hour: 22
               = f.email_field :email

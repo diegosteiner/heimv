@@ -38,14 +38,23 @@ const locale = {
   monthNames:  ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
 }
 
-const Calendar = ({ firstMonth, displayMonths = 8, children }) => { 
-  const startOfCalendar = startOfMonth(firstMonth || new Date())
-  const [months, setMonths] = useState(monthsInWindow(startOfCalendar, displayMonths))
+const Calendar = ({ firstMonth = null, displayMonths = 8, children }) => { 
+  firstMonth = startOfMonth(firstMonth || new Date())
+  const [months, setMonths] = useState(monthsInWindow(firstMonth, displayMonths))
+  const [touchStart, setTouchStart] = useState({})
   const prev = () => setMonths(monthsInWindow(subMonths(months[0], 1), displayMonths))
   const next = () => setMonths(monthsInWindow(addMonths(months[0], 1), displayMonths))
+  const handleTouchStart = ({ changedTouches }) => { setTouchStart({ x: changedTouches[0].screenX, y: changedTouches[0].screenY }) }
+  const handleTouchEnd = event => { 
+    const diff = touchStart.x - event.changedTouches[0].screenX
+
+    if(Math.abs(diff) < 100) return
+    if(diff > 0) return next()
+    if(diff < 0) return prev()
+  }
 
 return (
- <div className={styles.calendarMain}>
+ <div className={styles.calendarMain} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
     <nav className={styles.calendarNav}>
       <button onClick={prev}>←</button>
       <header>{calendarYearName(months)}</header>

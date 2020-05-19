@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Calendar from './Calendar'
-import { OccupancyCalendarContext, OccupancyCalendarContextProvider } from './OccuancyCalendarContext'
-import OccupancyCalendarDay from './OccupancyCalendarDay'
+import { OccupancyCalendarContextProvider } from './OccuancyCalendarContext'
 import { newBookingPath } from '../../services/routes'
+import { OccupancyCalendarDayInContext } from './OccupancyCalendarDay'
 
 const OccupancyCalendar = ({ homeId }) => {
   const handleClick = e => window.location.href = newBookingPath(homeId, { begins_at: e.target.value })
@@ -10,7 +10,7 @@ const OccupancyCalendar = ({ homeId }) => {
   return (
     <OccupancyCalendarContextProvider homeId={homeId} >
       <Calendar>
-        <OccupancyCalendarDay onClick={handleClick}></OccupancyCalendarDay>
+        <OccupancyCalendarDayInContext onClick={handleClick}></OccupancyCalendarDayInContext>
       </Calendar>
     </OccupancyCalendarContextProvider>
   )
