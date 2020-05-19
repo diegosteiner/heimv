@@ -78,3 +78,5 @@ group :test do
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
 end
+
+gem "react-rails", "~> 2.6"

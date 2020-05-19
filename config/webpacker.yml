@@ -34,7 +34,8 @@ default: &default
     - .woff2
 
   extensions:
-    - .vue
+    - .jsx
+    - .mjs
     - .js
     - .sass
     - .scss
@@ -69,10 +70,11 @@ development:
     disable_host_check: true
     use_local_ip: false
     quiet: false
+    pretty: false
     headers:
       'Access-Control-Allow-Origin': '*'
     watch_options:
-      # ignored: /node_modules/
+      ignored: '**/node_modules/**'
 
 
 test:

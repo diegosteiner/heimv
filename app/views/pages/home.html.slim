@@ -1,10 +1,6 @@
+
 - Home.where(requests_allowed: true).each do |home|
   .card.my-3
     .card-body
       h1.text-center= home
-      app-occupancy-calendar[
-              occupancies-url=calendar_home_occupancies_path(home, format: :json)
-              reservation-url=at_home_occupancies_path(home)
-              home-id=home.id
-              :display-months='8'
-              ]
+      = react_component('calendar/OccupancyCalendar', { homeId: home.id })
