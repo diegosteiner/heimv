@@ -49,7 +49,7 @@ module Public
     end
 
     def booking_params
-      BookingParams::Create.new(params[:booking])
+      BookingParams::Create.new(params[:booking] || params)
     end
 
     def update_params

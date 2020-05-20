@@ -27,7 +27,7 @@ export const OccupancyCalendarDay = ({ date, onClick, occupancies = [], classNam
   const disabled = disableCallback && disableCallback(date)
   const className = classNameCallback && classNameCallback(date) || [styles.calendarDate]
 
-  const button = <button type="button" disabled={disabled} onClick={onClick} value={formatISO(date)} className={classNames(className)}>{date.getDate()}</button>
+  const button = <button type="button" disabled={disabled} onClick={onClick} value={formatISO(date, { representation: 'date' })} className={classNames(className)}>{date.getDate()}</button>
 
   if(occupancies.length <= 0) return button
 
