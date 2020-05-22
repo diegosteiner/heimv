@@ -79,4 +79,4 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-gem "react-rails", "~> 2.6"
+gem 'react-rails', '~> 2.6'

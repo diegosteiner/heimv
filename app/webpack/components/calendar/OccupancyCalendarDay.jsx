@@ -4,7 +4,8 @@ import classNames from 'classnames'
 import styles from './OccupancyCalendar.module.scss'
 import Popover from 'react-bootstrap/Popover'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import { formatISO } from 'date-fns/esm'
+import { formatISO, parseISO } from 'date-fns/esm'
+import { useTranslation } from 'react-i18next';
 
 const formatDate = new Intl.DateTimeFormat("de-CH", {
   year: "numeric",
@@ -20,7 +21,7 @@ export const OccupancyCalendarDayInContext = ({ date, onClick }) => {
   const disableCallback = () => loading || !occupancyDate || flags.includes('outOfWindow') 
   const classNameCallback = () => [styles.calendarDate, ...(flags.map(flag => styles[flag]))]
 
-  return <OccupancyCalendarDay classNameCallback={classNameCallback} disableCallback={disableCallback} { ...{ date, onClick }} ></OccupancyCalendarDay>
+  return <OccupancyCalendarDay classNameCallback={classNameCallback} disableCallback={disableCallback} occupancies={occupancyDate && occupancyDate.occupancies} { ...{ date, onClick }} ></OccupancyCalendarDay>
 }
 
 export const OccupancyCalendarDay = ({ date, onClick, occupancies = [], classNameCallback, disableCallback }) => {
@@ -31,16 +32,18 @@ export const OccupancyCalendarDay = ({ date, onClick, occupancies = [], classNam
 
   if(occupancies.length <= 0) return button
 
+  const { t, i18n } = useTranslation()
   const popover = (
     <Popover id="popover-basic">
       <Popover.Content>
         {occupancies.map(occupancy => {
+          const deadline = occupancy.deadline && parseISO(occupancy.deadline)
+
           return (<dl className="my-1" key={`${formatISO(date, { representation: 'date' })}-${occupancy.id}`}>
             <dt>{formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}</dt>
             <dd>
-              {occupancy.ref}
-              <span> {occupancy.occupancy_type}</span>
-              {/* <span v-if="occupancy.deadline">(bis {{ $d(Date.parse(occupancy.deadline), 'shortTime')}})</span> */}
+              <span>{occupancy.ref}: {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`)}</span>
+              {deadline && <span> ({t('until')} {formatDate(deadline)})</span>}
             </dd>
           </dl>)
         })}

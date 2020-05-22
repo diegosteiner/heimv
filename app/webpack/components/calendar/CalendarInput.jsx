@@ -10,7 +10,7 @@ const formatDate = new Intl.DateTimeFormat("de-CH", {
   day: "2-digit"
 }).format
 
-const CalendarInput = ({ value = "", name, label, required = false }) => {
+const CalendarInput = ({ value = "", name, label, required = false, disabled = false }) => {
   value = value && parseISO(value)
   const [showModal, setShowModal] = useState(false)
   const [dateValue, setDateValue] = useState(value)
@@ -19,6 +19,7 @@ const CalendarInput = ({ value = "", name, label, required = false }) => {
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const handleClick = event => {
+    if(disabled) return
     const parsedValue = parseISO(event.target.value)
     if (!isValid(parsedValue)) return
 
@@ -27,6 +28,7 @@ const CalendarInput = ({ value = "", name, label, required = false }) => {
     setShowModal(false)
   }
   const handleChange = event => {
+    if(disabled) return
     setStringValue(event.target.value)
     const parsedValue = parse(event.target.value, 'dd.MM.yyyy', new Date())
     if (!isValid(parsedValue)) return
@@ -38,7 +40,7 @@ const CalendarInput = ({ value = "", name, label, required = false }) => {
   }
 
   return (
-    <Form.Group>
+    <Form.Group disabled={disabled}>
       <input type="hidden" name={name} value={dateValue && formatISO(dateValue) || ""} />
       <Form.Label className={required && "required"}>{label}</Form.Label>
       <InputGroup>
