@@ -43,12 +43,12 @@ RUN rm -rf /app/node_modules/*
 ### === production === ###
 FROM base AS production
                                        
+RUN gem install bundler 
 RUN mkdir -p /app && adduser -D app && chown -R app /app
 USER app    
 WORKDIR /app                                                              
 
 RUN bundle config path /app/vendor/bundle && bundle config deployment true && bundle config without test:development
-RUN gem install bundler 
                                        
 COPY --chown=app --from=build /app /app                              
 RUN bundle install --local

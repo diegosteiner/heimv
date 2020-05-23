@@ -9,10 +9,4 @@ html[lang="#{I18n.locale}-CH"]
     == javascript_packs_with_chunks_tag 'app'
     == stylesheet_pack_tag 'app'
   body[style='background-color: transparent;']
-    #app[v-cloak]
-        app-occupancy-calendar[
-                occupancies-url=calendar_home_occupancies_path(@home, format: :json)
-                reservation-url=new_public_booking_path
-                home-id=@home.id
-                :display-months=params.fetch('display-months', 8)
-                ]
+    = react_component('calendar/OccupancyCalendar', { homeId: @home.id })
