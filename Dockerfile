@@ -33,7 +33,7 @@ ENV NODE_ENV=production
                                        
 COPY --chown=app . /app     
 
-RUN bundle config deployment true && bundle config without test:development && \
+RUN bundle config without test:development && \
  bundle install && bundle clean && bundle package
 RUN yarn install              
 
