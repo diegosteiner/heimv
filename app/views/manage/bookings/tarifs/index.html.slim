@@ -1,4 +1,4 @@
-= render partial: 'manage/bookings/navigation', locals: { active: :tarifs }
+= render partial: 'manage/bookings/navigation', locals: { active: :tarifs, booking: @booking }
 
 - if @usages.any?
   h1= t('.used_tarifs', default: 'Angewandte Tarife')

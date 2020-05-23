@@ -1,12 +1,12 @@
-= form_with(model: [:manage, @data_digest.becomes(DataDigest)], scope: :data_digest, local: true) do |f|
+- form_url = @data_digest.new_record? ? manage_data_digests_path : manage_data_digest_path(@data_digest)
+= form_with(model: @data_digest, url: form_url, scope: :data_digest, local: true) do |f|
   = f.hidden_field :type
   = f.text_field :label
 
   - if @data_digest.is_a?(DataDigests::Tarif)
-    / - tarif_options = Tarif.all.map { |tarif| [tarif.label, tarif.id] }
-    - tarif_options = Tarif.where(booking: nil).group_by { |tarif| tarif.home }
+    - tarif_options = Tarif.where(booking: nil).ordered.group_by { |tarif| tarif.home }
     - tarif_options.transform_keys! { |home| home.name }
-    - tarif_options.transform_values! { |tarifs| tarifs.map { |tarif| [tarif.label, tarif.id] }  }
+    - tarif_options.transform_values! { |tarifs| tarifs.map { |tarif| [tarif.label, tarif.id.to_s] }  }
     = f.select :tarif_ids, tarif_options, {}, multiple: true
 
   - if @data_digest.is_a?(DataDigests::Booking)

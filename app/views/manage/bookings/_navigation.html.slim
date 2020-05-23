@@ -2,27 +2,27 @@
 
 nav.mb-4
   ul.nav.nav-pills
-    - if @booking.to_param
+    - if booking.to_param
       li.nav-item
-        a.nav-link[href=manage_booking_path(@booking) class=('active' if active.nil?)]
+        a.nav-link[href=manage_booking_path(booking) class=('active' if active.nil?)]
           = Booking.model_name.human
       li.nav-item
-        a.nav-link[href=manage_booking_tarifs_path(@booking) class=('active' if active == :tarifs)]
+        a.nav-link[href=manage_booking_tarifs_path(booking) class=('active' if active == :tarifs)]
           = Tarif.model_name.human(count: :other)
       li.nav-item
-        a.nav-link[href=manage_booking_contracts_path(@booking) class=('active' if active == :contracts)]
+        a.nav-link[href=manage_booking_contracts_path(booking) class=('active' if active == :contracts)]
           = Contract.model_name.human(count: :other)
       li.nav-item
-        a.nav-link[href=manage_booking_usages_path(@booking) class=('active' if active == :usages)]
+        a.nav-link[href=manage_booking_usages_path(booking) class=('active' if active == :usages)]
           = Usage.model_name.human(count: :other)
       li.nav-item
-        a.nav-link[href=manage_booking_invoices_path(@booking) class=('active' if active == :invoices)]
+        a.nav-link[href=manage_booking_invoices_path(booking) class=('active' if active == :invoices)]
           = Invoice.model_name.human(count: :other)
       li.nav-item
-        a.nav-link[href=manage_booking_payments_path(@booking) class=('active' if active == :payments)]
+        a.nav-link[href=manage_booking_payments_path(booking) class=('active' if active == :payments)]
           = Payment.model_name.human(count: :other)
       li.nav-item
-        a.nav-link[href=manage_booking_messages_path(@booking) class=('active' if active == :messages)]
+        a.nav-link[href=manage_booking_messages_path(booking) class=('active' if active == :messages)]
           = Message.model_name.human(count: :other)
       / li.nav-item
       /   a.nav-link[href='#booking-transitions']= BookingTransition.model_name.human(count: :other)

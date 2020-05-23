@@ -1,5 +1,4 @@
-= render partial: 'manage/bookings/navigation', locals: { active: :contracts }
-
+= render partial: 'manage/bookings/navigation', locals: { active: :contracts, booking: @booking }
 
 - if @contracts.none?
   - if @booking.used_tarifs.none?
@@ -34,7 +33,7 @@
                 = l(contract.sent_at) if contract.sent?
             - else
               td.py-2
-                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { sent_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success', data: { confirm: "Bist du sicher, dass du den Vertrag selbst verschicken willst, Murmel?" }
+                = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { sent_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success'
                   | Vertrag versendet
             - if contract.signed? || contract.ousted?
               td
