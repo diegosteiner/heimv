@@ -19,14 +19,14 @@ export const OccupancyCalendarDayInContext = ({ date, onClick }) => {
   const occupancyDate = calendarData.occupancyDates && calendarData.occupancyDates[formatISO(date, { representation: 'date' })]
   const flags = occupancyDate && occupancyDate.flags || []
   const disableCallback = () => loading || !occupancyDate || flags.includes('outOfWindow') 
-  const classNameCallback = () => [styles.calendarDate, ...(flags.map(flag => styles[flag]))]
+  const classNameCallback = () => flags.map(flag => styles[flag])
 
   return <OccupancyCalendarDay classNameCallback={classNameCallback} disableCallback={disableCallback} occupancies={occupancyDate && occupancyDate.occupancies} { ...{ date, onClick }} ></OccupancyCalendarDay>
 }
 
 export const OccupancyCalendarDay = ({ date, onClick, occupancies = [], classNameCallback, disableCallback }) => {
   const disabled = disableCallback && disableCallback(date)
-  const className = classNameCallback && classNameCallback(date) || [styles.calendarDate]
+  const className = [styles.calendarDate, ...Array.from(classNameCallback && classNameCallback(date))]
 
   const button = <button type="button" disabled={disabled} onClick={onClick} value={formatISO(date, { representation: 'date' })} className={classNames(className)}>{date.getDate()}</button>
 

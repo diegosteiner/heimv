@@ -1,9 +1,7 @@
 ### === base === ###                 
 FROM ruby:2.7.0-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata nodejs
-
-ENV GEM_HOME=/app/vendor/gems
-RUN gem install bundler 
+RUN gem install bundler
 
 RUN mkdir -p /app
 WORKDIR /app

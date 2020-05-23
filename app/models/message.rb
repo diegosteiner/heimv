@@ -5,8 +5,10 @@
 #  id                   :bigint           not null, primary key
 #  addressed_to         :integer          default("manager"), not null
 #  body                 :text
+#  cc                   :string           default([]), is an Array
 #  sent_at              :datetime
 #  subject              :string
+#  to                   :string           default([]), is an Array
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  booking_id           :uuid
@@ -30,13 +32,12 @@ class Message < ApplicationRecord
   has_many_attached :attachments
   has_one :organisation, through: :booking
 
-  attribute :cc, default: []
-
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
 
   validates :to, presence: true
 
   def subject_with_ref
+    # TODO: Replace with liquid template
     [subject, "[#{booking.ref}]"].compact.join(' ')
   end
 

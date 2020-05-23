@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { InputGroup, Form, Button, Modal } from 'react-bootstrap'
 import { OccupancyCalendarDay } from './OccupancyCalendarDay'
 import Calendar from './Calendar'
-import { formatISO, parseISO, parse, isValid } from 'date-fns/esm'
+import { formatISO, parseISO, parse, isSameDay, isValid } from 'date-fns/esm'
 
 const formatDate = new Intl.DateTimeFormat("de-CH", {
   year: "numeric",
@@ -19,25 +19,24 @@ const CalendarInput = ({ value = "", name, label, required = false, disabled = f
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const handleClick = event => {
-    if(disabled) return
+    if (disabled) return
     const parsedValue = parseISO(event.target.value)
     if (!isValid(parsedValue)) return
 
+    setShowModal(false)
     setDateValue(parsedValue)
     setStringValue(formatDate(parsedValue))
-    setShowModal(false)
   }
   const handleChange = event => {
-    if(disabled) return
+    if (disabled) return
     setStringValue(event.target.value)
     const parsedValue = parse(event.target.value, 'dd.MM.yyyy', new Date())
     if (!isValid(parsedValue)) return
 
     setDateValue(parsedValue)
   }
-  const disableCallback = date => {
-    return date <= new Date()
-  }
+  const disableCallback = date => !showModal || date <= new Date()
+  const classNameCallback = date => isSameDay(date, dateValue) && ['bg-primary', 'text-white']
 
   return (
     <Form.Group disabled={disabled}>
@@ -49,11 +48,10 @@ const CalendarInput = ({ value = "", name, label, required = false, disabled = f
           <Button variant="primary" onClick={handleShow}><i className="fa fa-calendar"></i></Button>
         </InputGroup.Append>
       </InputGroup>
-
       <Modal size='lg' show={showModal} onHide={handleClose}>
         <Modal.Body>
           <Calendar firstMonth={dateValue || new Date()}>
-            <OccupancyCalendarDay onClick={handleClick} disableCallback={disableCallback}></OccupancyCalendarDay>
+            <OccupancyCalendarDay onClick={handleClick} classNameCallback={classNameCallback} disableCallback={disableCallback}></OccupancyCalendarDay>
           </Calendar>
         </Modal.Body>
       </Modal>
