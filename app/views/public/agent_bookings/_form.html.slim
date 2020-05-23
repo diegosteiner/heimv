@@ -15,12 +15,20 @@
         = f.fields_for :occupancy, @agent_booking.occupancy || @agent_booking.build_occupancy do |of|
           .row
             .col-md-6
-              = calendar_input(of, :begins_at_date, required: true, disabled: @agent_booking.timeframe_locked?)
+              = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
+                                                          name: 'agent_booking[occupancy_attributes][begins_at_date]',
+                                                          value: of.object.begins_at&.iso8601,
+                                                          disabled: @agent_booking.timeframe_locked?,
+                                                          required: true)
             .col-md-6
               = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: @agent_booking.timeframe_locked?
           .row
             .col-md-6
-              = calendar_input(of, :ends_at_date, required: true, disabled: @agent_booking.timeframe_locked?)
+              = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
+                                                          name: 'agent_booking[occupancy_attributes][ends_at_date]',
+                                                          value: of.object.ends_at&.iso8601,
+                                                          disabled: @agent_booking.timeframe_locked?,
+                                                          required: true)
             .col-md-6
               = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: @agent_booking.timeframe_locked?
 

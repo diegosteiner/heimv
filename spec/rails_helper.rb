@@ -72,28 +72,29 @@ RSpec.configure do |config|
                                       default_directory: '/tmp/downloads')
 
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
-    # options.add_argument('--headless')
-    # options.add_argument('--disable-gpu')
-    # options.add_argument('--window-size=1280,1024')
+    options.add_argument('--headless')
+    options.add_argument('--window-size=1280,1024')
     options.add_argument('--no-default-browser-check')
     options.add_argument('--start-maximized')
 
-    # capabilities = Selenium::WebDriver::Remote::Capabilities.chrome('chromeOptions' => { 'args' => options })
-    url = "http://#{ENV['SELENIUM_HOST']}:#{ENV['SELENIUM_PORT']}/wd/hub"
+    url = "http://#{ENV['SELENIUM_HOST']}/wd/hub"
     Capybara::Selenium::Driver.new(app, browser: :chrome, url: url, options: options)
-    # Capybara::Selenium::Driver.new(app, browser: :remote, url: url, desired_capabilities: capabilities)
   end
 
-  if ENV['RAILS_PORT'].present?
-    Capybara.run_server = true
-    Capybara.server_port = ENV['RAILS_PORT']
-    Capybara.server_host = '0.0.0.0'
-  else
+  if ENV['E2E_APP_HOST'].present?
     Capybara.run_server = false
+    Capybara.app_host = "http://#{ENV['E2E_APP_HOST']}"
   end
+
+  if ENV['E2E_SERVER_PORT'].present?
+    Capybara.run_server = true
+    Capybara.server_port = ENV['E2E_SERVER_PORT']
+    Capybara.server_host = '0.0.0.0'
+  end
+
+  # Selenium::WebDriver.logger.level = :debug
   Capybara.default_driver = :selenium
   Capybara.default_max_wait_time = 10
-  Capybara.app_host = ENV['E2E_HOST']
 
   config.include Rails.application.routes.url_helpers
 end

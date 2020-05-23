@@ -1,40 +1,30 @@
-import Vue from 'vue'
-import VueI18n from 'vue-i18n';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
-import de from 'json-loader!yaml-loader!../../../config/locales/de.yml';
+
+import { de } from 'json-loader!yaml-loader!../../../config/locales/de.yml';
 // import fr from 'json-loader!yaml-loader!../../../config/locales/fr.yml';
 // import it from 'json-loader!yaml-loader!../../../config/locales/it.yml';
 
-Vue.use(VueI18n)
-
-const locale = document.querySelector('html').getAttribute('lang')
-const messages = {
-  // ...it,
-  'de-CH': de.de,
-  // ...fr,
-}
-const dateTimeFormats = {
-  'de-CH': {
-    short: {
-      year: 'numeric', month: '2-digit', day: '2-digit'
-    },
-    shortDate: {
-      year: 'numeric', month: '2-digit', day: '2-digit'
-    },
-    shortTime: {
-      year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric'
-    },
-    long: {
-      year: 'numeric', month: 'short', day: 'numeric',
-      weekday: 'short', hour: 'numeric', minute: 'numeric'
+const resources = {
+  de: {
+    translation: {
+      ...de
     }
-  },
-}
-import { de as x, frCH, itCH } from 'date-fns/locale'
-const i18n = new VueI18n({
-  locale: locale,
-  messages: messages,
-  dateTimeFormats
-})
+  }
+};
 
-export { i18n, locale, x }
+i18n
+  .use(initReactI18next) // passes i18n down to react-i18next
+  .init({
+    resources,
+    lng: "de",
+    debug: true,
+    // keySeparator: false, // we do not use keys in form messages.welcome
+
+    interpolation: {
+      escapeValue: false // react already safes from xss
+    }
+  });
+
+  export default i18n;

@@ -1,0 +1,167 @@
+$tentative-foreground-color: #0033ff;
+$tentative-border-color: #0033ff;
+$tentative-background-color: #00bfff;
+$occupied-foreground-color: #9e2e2e;
+$occupied-border-color: #e85f5f;
+$occupied-background-color: #ffa8a8;
+
+.calendarLoading {
+  height: 36em;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJiYWNrZ3JvdW5kOiByZ2IoMjQxLCAyNDIsIDI0MykiIHdpZHRoPSI0MyIgaGVpZ2h0PSI0MyIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQiIHZpZXdCb3g9IjAgMCA0MyA0MyI+PGcgdHJhbnNmb3JtPSJzY2FsZSgwLjE3KSI+PGRlZnM+PGcgaWQ9InN0cmlwZSI+PHBhdGggZD0iTTI1NiAtMTI4IEwzODQgLTEyOCBMLTEyOCAzODQgTC0xMjggMjU2IFoiIGZpbGw9IiNmZmZmZmYiPjwvcGF0aD48cGF0aCBkPSJNMzg0IDAgTDM4NCAxMjggTDEyOCAzODQgTDAgMzg0IFoiIGZpbGw9IiNmZmZmZmYiPjwvcGF0aD48L2c+PC9kZWZzPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5Ni4yMDggMCkiPjx1c2UgaHJlZj0iI3N0cmlwZSIgeD0iLTI1NiIgeT0iMCI+PC91c2U+PHVzZSBocmVmPSIjc3RyaXBlIiB4PSIwIiB5PSIwIj48L3VzZT48YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InRyYW5zbGF0ZSIga2V5VGltZXM9IjA7MSIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGR1cj0iMC41cyIgdmFsdWVzPSIwIDA7IDI1NiAwIj48L2FuaW1hdGVUcmFuc2Zvcm0+PC9nPjwvZz48L3N2Zz4K);
+}
+
+@media (max-width: 575px) {
+  .calendarMain {
+    font-size: 1.3rem !important;
+  }
+}
+
+.calendarDate { 
+  background-color: white;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: center;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  font-size: 0.9rem;
+  transition: opacity 0.1s ease-in-out;
+  opacity: 1;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &.occupiedForenoon,
+  &.occupiedAfternoon,
+  &.occupiedFullday {
+    border: 1px solid $occupied-border-color;
+    font-weight: bold;
+    color: $occupied-foreground-color;
+  }
+  &.occupiedFullday {
+    background: $occupied-background-color;
+  }
+
+  &.occupiedAfternoon {
+    background: linear-gradient(
+      315deg,
+      $occupied-background-color 50%,
+      white 50%
+    );
+    border-top-color: white;
+    border-left-color: white;
+  }
+  &.occupiedForenoon {
+    background: linear-gradient(
+      135deg,
+      $occupied-background-color 50%,
+      white 50%
+    );
+    border-bottom-color: white;
+    border-right-color: white;
+  }
+  &.occupiedForenoon.occupiedAfternoon,
+  &.occupiedForenoon.occupiedFullday,
+  &.occupiedAfternoon.occupiedFullday {
+    border-top-color: $occupied-border-color;
+    border-left-color: $occupied-border-color;
+    border-bottom-color: $occupied-border-color;
+    border-right-color: $occupied-border-color;
+    background: linear-gradient(
+      135deg,
+      $occupied-background-color 49%,
+      white 49%,
+      white 51%,
+      $occupied-background-color 51%
+    );
+  }
+
+  &.tentativeForenoon,
+  &.tentativeAfternoon,
+  &.tentativeFullday {
+    border: 1px solid $tentative-border-color;
+    font-weight: bold;
+    color: $tentative-foreground-color;
+  }
+
+  &.tentativeFullday {
+    background: $tentative-background-color;
+  }
+
+  &.tentativeAfternoon {
+    background: linear-gradient(
+      315deg,
+      $tentative-background-color 50%,
+      white 50%
+    );
+    border-top-color: white;
+    border-left-color: white;
+  }
+  &.tentativeForenoon {
+    background: linear-gradient(
+      135deg,
+      $tentative-background-color 50%,
+      white 50%
+    );
+    border-bottom-color: white;
+    border-right-color: white;
+  }
+
+  &.tentativeForenoon.tentativeAfternoon {
+    border-top-color: $tentative-border-color;
+    border-right-color: $tentative-border-color;
+    border-bottom-color: $tentative-border-color;
+    border-left-color: $tentative-border-color;
+    background: linear-gradient(
+      135deg,
+      $tentative-background-color 49%,
+      white 49%,
+      white 51%,
+      $tentative-background-color 51%
+    );
+  }
+
+  &.occupiedForenoon.tentativeAfternoon {
+    border: 1px solid white;
+    border-top-color: $occupied-border-color;
+    border-right-color: $tentative-border-color;
+    border-bottom-color: $tentative-border-color;
+    border-left-color: $occupied-border-color;
+    background: linear-gradient(
+      135deg,
+      $occupied-background-color 49%,
+      white 49%,
+      white 51%,
+      $tentative-background-color 51%
+    );
+  }
+
+  &.tentativeForenoon.occupiedAfternoon {
+    border: 1px solid white;
+    border-top-color: $tentative-border-color;
+    border-right-color: $occupied-border-color;
+    border-bottom-color: $occupied-border-color;
+    border-left-color: $tentative-border-color;
+    background: linear-gradient(
+      135deg,
+      $tentative-background-color 49%,
+      white 49%,
+      white 51%,
+      $occupied-background-color 51%
+    );
+  }
+
+  &.closed {
+    background: #ccc;
+    border: 1px solid #999;
+    color: #999;
+  }
+
+  &.disabled,
+  &[disabled] {
+    cursor: default;
+    opacity: 0.2;
+  }
+}

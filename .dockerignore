@@ -5,8 +5,6 @@ docker-compose.yml
 
 # bundler state
 /.bundle
-/vendor/bundle/
-/vendor/ruby/
 
 # node modules
 /node_modules/*

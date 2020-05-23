@@ -84,7 +84,7 @@ class Booking < ApplicationRecord
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
   scope :inconcluded, -> { where(concluded: false) }
 
-  before_validation :set_organisation, :assign_tenant, :set_occupancy_attributes, :set_tenant_attributes
+  before_validation :set_organisation, :set_occupancy_attributes, :set_tenant_attributes
   before_create :set_ref
   after_create :reload
 
@@ -150,15 +150,11 @@ class Booking < ApplicationRecord
     occupancy_attributes.values.all?(&:blank?) || timeframe_locked?
   end
 
-  def assign_tenant
-    self.tenant ||= organisation.tenants.find_or_initialize_by(email: email) if email.present?
-  end
-
   def set_tenant_attributes
     return unless tenant || email.presence
 
-    self.tenant ||= build_tenant
-    self.tenant.email ||= email.presence
+    self.tenant ||= organisation.tenants.find_or_initialize_by(email: email)
+    self.tenant.email = email
     self.tenant.country ||= 'CH'
     self.tenant.organisation = organisation
   end

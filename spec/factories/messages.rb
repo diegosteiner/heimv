@@ -5,8 +5,10 @@
 #  id                   :bigint           not null, primary key
 #  addressed_to         :integer          default("manager"), not null
 #  body                 :text
+#  cc                   :string           default([]), is an Array
 #  sent_at              :datetime
 #  subject              :string
+#  to                   :string           default([]), is an Array
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  booking_id           :uuid

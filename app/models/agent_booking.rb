@@ -35,8 +35,11 @@ class AgentBooking < ApplicationRecord
   belongs_to :organisation
   belongs_to :home
 
-  validates :tenant_email, presence: true, if: :committed_request?
+  validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request?
   validates :booking_agent_code, :booking, presence: true
+  validate do
+    errors.add(:tenant_email, :invalid) if tenant_email.present? && tenant_email == booking_agent&.email
+  end
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
 
@@ -50,7 +53,7 @@ class AgentBooking < ApplicationRecord
     return false unless valid?
 
     booking || build_booking
-    booking.update(email: tenant_email.presence, committed_request: committed_request, agent_booking: self)
+    booking.update(email: tenant_email.presence, agent_booking: self)
   end
 
   def build_booking

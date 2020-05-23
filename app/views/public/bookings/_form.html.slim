@@ -20,12 +20,20 @@
         = f.fields_for :occupancy, @booking.occupancy do |of|
           .row
             .col-md-6
-              = of.text_field :begins_at_date, disabled: @booking.timeframe_locked?, value: l(of.object.begins_at.to_date)
+              = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
+                                                          name: 'booking[occupancy_attributes][begins_at_date]',
+                                                          value: of.object.begins_at&.iso8601,
+                                                          disabled: @booking.timeframe_locked?,
+                                                          required: true)
             .col-md-6
               = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: @booking.timeframe_locked?, start_hour: 8, end_hour: 22
           .row
             .col-md-6
-              = of.text_field :ends_at_date, disabled: @booking.timeframe_locked?, value: l(of.object.ends_at.to_date)
+              = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
+                                                          name: 'booking[occupancy_attributes][ends_at_date]',
+                                                          value: of.object.ends_at&.iso8601,
+                                                          disabled: @booking.timeframe_locked?,
+                                                          required: true)
             .col-md-6
               = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: @booking.timeframe_locked?, start_hour: 8, end_hour: 22
 
