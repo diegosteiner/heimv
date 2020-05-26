@@ -52,9 +52,9 @@ module DataDigests
           next ['', ''] unless usage
 
           [
-            
-            ActiveSupport::NumberHelper::number_to_rounded(usage.used_units || 0, 
-              precision: 2, strip_insignificant_zeros: true),
+
+            ActiveSupport::NumberHelper.number_to_rounded(usage.used_units || 0,
+                                                          precision: 2, strip_insignificant_zeros: true),
             number_to_currency(usage.price || 0, unit: '')
           ]
         end
