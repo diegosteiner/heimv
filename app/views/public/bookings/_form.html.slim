@@ -17,25 +17,17 @@
               /   a[href="#" data-toggle="modal" data-target="#postponeDeadlineModal"]
               /     | Frist verlängern
         = f.select :home_id, homes_for_select, {}, disabled: true
-        = f.fields_for :occupancy, @booking.occupancy do |of|
-          .row
-            .col-md-6
-              = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
-                                                          name: 'booking[occupancy_attributes][begins_at_date]',
-                                                          value: of.object.begins_at&.iso8601,
-                                                          disabled: @booking.timeframe_locked?,
-                                                          required: true)
-            .col-md-6
-              = of.time_select :begins_at_time, ignore_date: true, minute_step: 15, disabled: @booking.timeframe_locked?, start_hour: 8, end_hour: 22
-          .row
-            .col-md-6
-              = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
-                                                          name: 'booking[occupancy_attributes][ends_at_date]',
-                                                          value: of.object.ends_at&.iso8601,
-                                                          disabled: @booking.timeframe_locked?,
-                                                          required: true)
-            .col-md-6
-              = of.time_select :ends_at_time, ignore_date: true, minute_step: 15, disabled: @booking.timeframe_locked?, start_hour: 8, end_hour: 22
+        = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
+                                                    name: 'booking[occupancy_attributes][begins_at]',
+                                                    value: @booking.occupancy.begins_at&.iso8601,
+                                                    disabled: @booking.timeframe_locked?,
+                                                    required: true)
+
+        = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
+                                                    name: 'booking[occupancy_attributes][ends_at]',
+                                                    value: @booking.occupancy.ends_at&.iso8601,
+                                                    disabled: @booking.timeframe_locked?,
+                                                    required: true)
 
         = f.email_field :email, disabled: @booking.email.present? || !@booking.editable
         = f.fields_for :tenant, @booking.tenant do |cf|

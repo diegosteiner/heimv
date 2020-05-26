@@ -27,7 +27,7 @@ module Export
       class TabularDataSection < Base::Section
         def initialize(data_digest_period, column_widths: [])
           @data_digest_period = data_digest_period
-          @column_widths = column_widths
+          @column_widths = column_widths || []
         end
 
         def render
