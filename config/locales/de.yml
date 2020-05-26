@@ -186,7 +186,9 @@ de:
       usage:
         apply: Anwenden
         remarks: Bemerkungen
-        used_units: Verbraucht
+        used_units: Verbrauch
+        presumed_used_units: Verausichtlicher Verbrauch
+        price: Preis
     back: Zurück
     confirm: Sind Sie sicher?
     destroy: Löschen

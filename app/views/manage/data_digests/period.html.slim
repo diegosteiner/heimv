@@ -23,5 +23,5 @@ p
 br
 .btn-group
   - @data_digest_period.formatters.keys.each do |format|
-    = link_to url_for(format: format), class: 'btn btn-primary' do
+    = link_to url_for(from: params[:from], to: params[:to], format: format), class: 'btn btn-primary' do
       = format.to_s.upcase
