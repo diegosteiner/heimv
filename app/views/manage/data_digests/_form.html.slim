@@ -10,12 +10,12 @@
     = f.select :tarif_ids, tarif_options, {}, multiple: true
 
   - if @data_digest.is_a?(DataDigests::Booking)
-    h5= Booking::Filter
+    h5= Booking::Filter.model_name.human
     = f.fields_for :filter_params, @data_digest.filter do |ff|
       = render partial: 'manage/bookings/filter_fields', locals: { f: ff }
 
   - if @data_digest.is_a?(DataDigests::Payment)
-    h5= Payment::Filter
+    h5= Payment::Filter.model_name.human
     = f.fields_for :filter_params, @data_digest.filter do |ff|
       = render partial: 'manage/payments/filter_fields', locals: { f: ff }
 

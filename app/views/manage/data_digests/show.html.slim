@@ -1,13 +1,7 @@
 h2 = @data_digest.label
 
-.breakout-sm
-  table.table-striped.table
-    tbody
-      - @data_digest.to_tabular.each do |row|
-        tr
-          - row.each do |cell|
-            td= cell
-
-br
-= link_to manage_data_digest_path(@data_digest, format: :csv), class: 'btn btn-primary'
-  | CSV
+ul 
+  - @periods.each do |name, range|
+    li 
+      = link_to period_manage_data_digest_path(@data_digest, from: range.begin&.iso8601, to: range.end&.iso8601)
+        = t(name, scope: %i[activerecord enums data_digest periods])

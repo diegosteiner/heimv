@@ -1,0 +1,27 @@
+h2 = @data_digest.label
+p
+  = @data_digest_period.period_range.begin && l(@data_digest_period.period_range.begin) 
+  =<> t('until')
+  = @data_digest_period.period_range.end && l(@data_digest_period.period_range.end) 
+
+.breakout-sm
+  table.table-striped.table
+    - if @data_digest_period.data_header
+      thead
+        - @data_digest_period.data_header.each do |header|
+          th= header
+    tbody
+      - @data_digest_period.data.each do |row|
+        tr
+          - row.each do |cell|
+            td= cell
+    - if @data_digest_period.data_footer   
+      tfooter
+        - @data_digest_period.data_footer.each do |footer|
+          td= footer
+
+br
+.btn-group
+  - @data_digest_period.formatters.keys.each do |format|
+    = link_to url_for(format: format), class: 'btn btn-primary' do
+      = format.to_s.upcase

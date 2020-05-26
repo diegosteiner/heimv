@@ -42,6 +42,7 @@ module InvoiceParts
     def format_used_units(used_units)
       return unless used_units
 
+      # TODO: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
       format('%<used_units_rounded>g × ', used_units_rounded: format('%<used_units>.2f', used_units: used_units))
     end
 

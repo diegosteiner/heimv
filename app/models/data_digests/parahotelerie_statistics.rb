@@ -22,30 +22,22 @@
 
 module DataDigests
   class ParahotelerieStatistics < DataDigests::Tarif
-    def filter
-      @filter ||= ::Booking::Filter.new(filter_params)
-    end
+    class Period < DataDigests::Tarif::Period
+      def data_header
+        [
+          ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
+          ::Booking.human_attribute_name(:approximate_headcount), ::Tenant.human_attribute_name(:country)
+        ]
+      end
 
-    def headcount(booking)
-      booking.usages.where(tarif_id: ::Tarif.find_with_booking_copies(tarif_ids)).sum(:used_units)
-    end
+      def headcount(booking)
+        booking.usages.where(tarif_id: ::Tarif.find_with_booking_copies(@data_digest.tarif_ids)).sum(:used_units)
+      end
 
-    protected
-
-    def generate_tabular_header
-      [
-        ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
-        ::Booking.human_attribute_name(:approximate_headcount), ::Tenant.human_attribute_name(:country)
-      ]
-    end
-
-    def generate_tabular_footer
-      []
-    end
-
-    def generate_tabular_row(booking)
-      [I18n.l(booking.occupancy.begins_at, format: :short), I18n.l(booking.occupancy.ends_at, format: :short),
-       headcount(booking), booking.tenant&.country]
+      def data_row(booking)
+        [I18n.l(booking.occupancy.begins_at, format: :short), I18n.l(booking.occupancy.ends_at, format: :short),
+         headcount(booking), booking.tenant&.country]
+      end
     end
   end
 end

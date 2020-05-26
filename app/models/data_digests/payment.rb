@@ -24,38 +24,40 @@ module DataDigests
   class Payment < DataDigest
     def filter
       @filter ||= ::Payment::Filter.new(filter_params)
+    rescue StandardError
+      ::Payment::Filter.new
     end
 
-    def formats
-      super + [:pdf]
+    def scope
+      filter.apply(organisation.payments.ordered)
     end
 
-    def records
-      @records ||= filter.apply(organisation.payments.ordered)
-    end
+    class Period < DataDigest::Period
+      def filter
+        @filter ||= ::Payment::Filter.new(paid_at_after: period_range.begin, paid_at_before: period_range.end)
+      end
 
-    protected
+      def filtered
+        @filtered ||= filter.apply(@data_digest.scope)
+      end
 
-    def generate_tabular_header
-      [
-        ::Payment.human_attribute_name(:ref),
-        ::Booking.human_attribute_name(:ref),
-        ::Payment.human_attribute_name(:paid_at),
-        ::Payment.human_attribute_name(:amount),
-        ::Tenant.model_name.human,
-        ::Payment.human_attribute_name(:remarks)
-      ]
-    end
-
-    def generate_tabular_footer
-      []
-    end
-
-    def generate_tabular_row(payment)
-      payment.instance_eval do
+      def data_header
         [
-          ref, booking.ref, I18n.l(paid_at, format: :default), amount, booking.tenant.name, remarks
+          ::Payment.human_attribute_name(:ref),
+          ::Booking.human_attribute_name(:ref),
+          ::Payment.human_attribute_name(:paid_at),
+          ::Payment.human_attribute_name(:amount),
+          ::Tenant.model_name.human,
+          ::Payment.human_attribute_name(:remarks)
         ]
+      end
+
+      def data_row(payment)
+        payment.instance_eval do
+          [
+            ref, booking.ref, I18n.l(paid_at, format: :default), amount, booking.tenant.name, remarks
+          ]
+        end
       end
     end
   end

@@ -3,22 +3,29 @@ class Booking
     attribute :ref
     attribute :tenant
     attribute :homes, default: []
-    attribute :occupancy_params, default: {}
     attribute :current_booking_states, default: []
     attribute :previous_booking_states, default: []
     attribute :booking_states, default: []
+    attribute :begins_at_after, :datetime
+    attribute :begins_at_before, :datetime
+    attribute :ends_at_after, :datetime
+    attribute :ends_at_before, :datetime
+    attribute :occupancy_params # TODO: Remove legacy
 
     # Ensures backwards compatibilty
     def booking_states=(value)
       self.current_booking_states = value
     end
 
-    def occupancy
-      @occupancy ||= Occupancy::Filter.new(occupancy_params)
+    def occupancy_filter
+      @occupancy_filter ||= Occupancy::Filter.new({ begins_at_before: begins_at_before,
+                                                    begins_at_after: begins_at_after,
+                                                    ends_at_before: ends_at_before,
+                                                    ends_at_after: ends_at_after })
     end
 
     filter :occupancy do |bookings|
-      bookings.where(occupancy: occupancy.apply(Occupancy.unscoped))
+      bookings.where(occupancy: occupancy_filter.apply(Occupancy.unscoped))
     end
 
     filter :ref do |bookings|

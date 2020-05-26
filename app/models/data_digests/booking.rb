@@ -24,36 +24,42 @@ module DataDigests
   class Booking < ::DataDigest
     def filter
       @filter ||= ::Booking::Filter.new(filter_params)
+    rescue StandardError
+      ::Booking::Filter.new
     end
 
-    def formats
-      super + [:pdf]
+    def scope
+      filter.apply(organisation.bookings.ordered)
     end
 
-    def records
-      @records ||= filter.apply(organisation.bookings.ordered)
-    end
+    class Period < DataDigest::Period
+      def filter
+        @filter ||= ::Booking::Filter.new(begins_at_after: period_range.begin, begins_at_before: period_range.end)
+      end
 
-    protected
+      def filtered
+        @filtered ||= filter.apply(@data_digest.scope)
+      end
 
-    def generate_tabular_header
-      [
-        ::Booking.human_attribute_name(:ref), ::Home.model_name.human,
-        ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
-        ::Booking.human_attribute_name(:purpose)
-      ]
-    end
-
-    def generate_tabular_footer
-      []
-    end
-
-    def generate_tabular_row(booking)
-      booking.instance_eval do
+      def data_header
         [
-          ref, home.name, I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.ends_at, format: :short),
-          ::Booking.human_enum(:purpose, purpose)
+          ::Booking.human_attribute_name(:ref), ::Home.model_name.human,
+          ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
+          ::Booking.human_attribute_name(:purpose)
         ]
+      end
+
+      def data_footer
+        []
+      end
+
+      def data_row(booking)
+        booking.instance_eval do
+          [
+            ref, home.name, I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.ends_at, format: :short),
+            ::Booking.human_enum(:purpose, purpose)
+          ]
+        end
       end
     end
   end
