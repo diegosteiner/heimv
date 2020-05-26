@@ -3,7 +3,6 @@ class ApplicationFilter
   extend ActiveModel::Naming
   extend ActiveModel::Translation
   include ActiveModel::Attributes
-  include MultiparameterAttributes
 
   def apply(base_relation)
     self.class.filters.values.inject(base_relation) do |relation, filter_block|

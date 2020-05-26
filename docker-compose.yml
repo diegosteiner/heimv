@@ -15,7 +15,7 @@ services:
     entrypoint: [".docker/entrypoints/app.sh"]
     command: ["bin/rails", "s", "-b", "0.0.0.0"]
     environment:
-      APP_HOST: 'app:3000'
+      APP_HOST: ${APP_HOST:-app:3000}
       E2E_SERVER_PORT: '3001'
       E2E_APP_HOST: 'app.local:3001'
       SELENIUM_HOST: 'selenium:4444'
