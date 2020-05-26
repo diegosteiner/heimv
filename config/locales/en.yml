@@ -198,6 +198,15 @@ en:
         purpose:
           camp: Lager
           event: Privater Anlass
+      data_digest:
+        periods:
+          ever: Aller Zeiten
+          last_12_months: Letzte 12 Monate
+          last_3_months: Letzte 3 Monate
+          last_6_months: Letzte 6 Monate
+          last_month: Letzer Monat
+          last_year: Letztes Jahr
+          this_year: Dieses Jahr
       occupancy:
         occupancy_type:
           closed: Geschlossen
@@ -266,9 +275,6 @@ en:
       data_digests/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
-      data_digests/payment_data_digest:
-        one: Zahlungen Bericht
-        other: Zahlungen Berichte
       data_digests/tarif:
         one: Tarif Bericht
         other: Tarif Berichte

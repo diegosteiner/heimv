@@ -20,7 +20,9 @@ Rails.application.routes.draw do
       end
     end
     resource :organisation, only: %i[edit update show]
-    resources :data_digests
+    resources :data_digests do
+      get '/period', on: :member, action: :period, as: :period
+    end
     resources :invoices do
       resources :invoice_parts, except: %i[index show]
     end

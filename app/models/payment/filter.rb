@@ -3,7 +3,6 @@ class Payment
     attribute :ref
     attribute :paid_at_after, :date
     attribute :paid_at_before, :date
-    multi_param_attribute paid_at_before: Date, paid_at_after: Date
 
     filter :paid do |payments|
       next payments unless paid_at_after || paid_at_before

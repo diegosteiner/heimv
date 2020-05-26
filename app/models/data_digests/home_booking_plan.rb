@@ -22,41 +22,35 @@
 
 module DataDigests
   class HomeBookingPlan < DataDigests::Booking
-    def filter
-      @filter ||= ::Booking::Filter.new(filter_params)
-    end
+    class Period < DataDigests::Booking::Period
+      def default_formatter_options
+        super.tap do |options|
+          options[:pdf][:column_widths] = [82, 100, 100, 50, 70, 180, 148]
+        end
+      end
 
-    def column_widths
-      [82, 100, 100, 50, 70, 180, 148]
-    end
+      def data_header
+        [
+          ::Booking.human_attribute_name(:ref), ::Booking.human_attribute_name(:purpose),
+          ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
+          ::Occupancy.human_attribute_name(:nights),
+          ::Tenant.model_name.human, ::Tenant.human_attribute_name(:phone)
+        ]
+      end
 
-    protected
+      def data_row(booking)
+        [booking.ref, ::Booking.human_enum(:purpose, booking.purpose)] +
+          occupancy_cells(booking.occupancy) + tenant_cells(booking)
+      end
 
-    def generate_tabular_header
-      [
-        ::Booking.human_attribute_name(:ref), ::Booking.human_attribute_name(:purpose),
-        ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
-        ::Occupancy.human_attribute_name(:nights),
-        ::Tenant.model_name.human, ::Tenant.human_attribute_name(:phone)
-      ]
-    end
+      def occupancy_cells(occupancy)
+        [I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.ends_at, format: :short),
+         occupancy.nights]
+      end
 
-    def generate_tabular_footer
-      []
-    end
-
-    def generate_tabular_row(booking)
-      [booking.ref, ::Booking.human_enum(:purpose, booking.purpose)] +
-        occupancy_cells(booking.occupancy) + tenant_cells(booking)
-    end
-
-    def occupancy_cells(occupancy)
-      [I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.ends_at, format: :short),
-       occupancy.nights]
-    end
-
-    def tenant_cells(booking)
-      [[booking.tenant_organisation, booking.tenant&.name].join("\n"), booking.tenant&.phone]
+      def tenant_cells(booking)
+        [[booking.tenant_organisation, booking.tenant&.name].join("\n"), booking.tenant&.phone]
+      end
     end
   end
 end

@@ -22,35 +22,25 @@
 
 module DataDigests
   class Tenant < DataDigests::Booking
-    def tarif_ids=(tarif_ids)
-      data_digest_params['tarif_ids'] = tarif_ids.reject(&:blank?)
-    end
+    class Period < DataDigests::Booking::Period
+      def default_formatter_options
+        super.tap do |options|
+          options[:pdf][:column_widths] = [70, 80, 100, 100, 60, 140, 140, 50]
+        end
+      end
 
-    def tarif_ids
-      data_digest_params.fetch('tarif_ids', [])
-    end
-
-    def tarifs
-      ::Tarif.where(id: tarif_ids)
-    end
-
-    def column_widths
-      [70, 80, 100, 100, 60, 140, 140, 50]
-    end
-
-    protected
-
-    def generate_tabular_header
-      super + [
-        ::Tenant.model_name.human, '', ::Occupancy.human_attribute_name(:nights)
-      ]
-    end
-
-    def generate_tabular_row(booking)
-      super + booking.instance_eval do
-        [
-          tenant&.address_lines&.join("\n"), tenant&.email, tenant&.phone, occupancy&.nights
+      def data_header
+        super + [
+          ::Tenant.model_name.human, '', '', ::Occupancy.human_attribute_name(:nights)
         ]
+      end
+
+      def data_row(booking)
+        super + booking.instance_eval do
+          [
+            tenant&.address_lines&.join("\n"), tenant&.email, tenant&.phone, occupancy&.nights
+          ]
+        end
       end
     end
   end
