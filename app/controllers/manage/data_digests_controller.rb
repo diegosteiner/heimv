@@ -13,7 +13,7 @@ module Manage
     end
 
     def show
-      @periods = @data_digest.class::Period.periods
+      @periods = @data_digest.periods
     end
 
     def period
