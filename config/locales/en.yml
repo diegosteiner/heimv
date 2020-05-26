@@ -185,6 +185,8 @@ en:
         zipcode: PLZ
       usage:
         apply: Anwenden
+        presumed_used_units: Verausichtlicher Verbrauch
+        price: Preis
         remarks: Bemerkungen
         used_units: Verbrauchte Anzahl
     back: Zurück
