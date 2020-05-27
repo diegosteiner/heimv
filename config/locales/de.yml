@@ -185,10 +185,10 @@ de:
         zipcode: PLZ
       usage:
         apply: Anwenden
-        remarks: Bemerkungen
-        used_units: Verbrauch
         presumed_used_units: Verausichtlicher Verbrauch
         price: Preis
+        remarks: Bemerkungen
+        used_units: Verbrauch
     back: Zurück
     confirm: Sind Sie sicher?
     destroy: Löschen
