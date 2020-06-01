@@ -10,11 +10,7 @@ module Export
         @invoice = invoice
       end
 
-      def initialize_font
-        super
-        ocr_font_path = File.join(FONTS_PATH, 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf')
-        @document.font_families.update('ocr' => { normal: ocr_font_path })
-      end
+      add_font_family 'ocr', { normal: File.join(FONTS_PATH, 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf') }
 
       def sections
         heading_sections + [
@@ -33,17 +29,5 @@ module Export
         ]
       end
 
-      def payment_info_section
-        payment_info = @invoice.payment_info
-        case payment_info
-        when PaymentInfos::OrangePaymentSlip
-          OrangePaymentSlipSection.new(payment_info)
-        when PaymentInfos::ForeignPaymentInfo
-          ForeignPaymentInfoSection.new(payment_info)
-        when PaymentInfos::TextPaymentInfo
-          TextPaymentInfoSection.new(payment_info)
-        end
-      end
-    end
   end
 end

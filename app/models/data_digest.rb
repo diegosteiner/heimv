@@ -84,7 +84,7 @@ class DataDigest < ApplicationRecord
     end
 
     formatter :pdf do |data_digest_period, options|
-      Export::Pdf::DataDigest.new(data_digest_period, options).build.render
+      Export::Pdf::DataDigestPeriodPdf.new(data_digest_period, options).render_document
     end
 
     def data

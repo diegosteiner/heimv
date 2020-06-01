@@ -5,26 +5,52 @@ module Export
     class Base
       FONTS_PATH = File.join(__dir__, '..', '..', '..', 'webpack', 'fonts')
       include Prawn::View
+      
+      def self.add_font(name, options)
+        font_families[name.to_s] = options
+      end
+
+      def self.font_families
+        @font_families ||= superclass.ancestors.include?(Base) && superclass.font_families || {}
+      end
+
+      def self.to_render(_name = nil, &block)
+        render_queue << block if block_given?
+      end
+
+      def self.render_queue
+        @render_queue ||= []
+      end
+
+      def render(renderable)
+        renderable.render_into(document) if renderable.is_a?(Renderable)
+      end
+
+      def render_document 
+        self.class.render_queue.each { |block| instance_exec &block }
+        document.render
+      end
+
+      add_font('OpenSans', {
+                             normal: File.join(FONTS_PATH, 'OpenSans-Regular.ttf'),
+                             italic: File.join(FONTS_PATH, 'OpenSans-Italic.ttf'),
+                             bold: File.join(FONTS_PATH, 'OpenSans-Bold.ttf'),
+                             bold_italic: File.join(FONTS_PATH, 'OpenSans-BoldItalic.ttf')
+                           })
 
       def document
-        @document || initialize_document
+        @document ||= initialize_document
+      end
+
+      def initialize
       end
 
       def initialize_document
-        @document = Prawn::Document.new(document_options)
-        initialize_font
-        @document
-      end
-
-      def initialize_font
-        @document.font_families.update('OpenSans' => {
-                                         normal: File.join(FONTS_PATH, 'OpenSans-Regular.ttf'),
-                                         italic: File.join(FONTS_PATH, 'OpenSans-Italic.ttf'),
-                                         bold: File.join(FONTS_PATH, 'OpenSans-Bold.ttf'),
-                                         bold_italic: File.join(FONTS_PATH, 'OpenSans-BoldItalic.ttf')
-                                       })
-        @document.font 'OpenSans'
-        @document.font_size(10)
+        Prawn::Document.new(document_options).tap do |document|
+          document.font_families.update(self.class.font_families)
+          document.font('OpenSans')
+          document.font_size(10)
+        end
       end
 
       def document_options
@@ -35,11 +61,6 @@ module Export
           margin: [50] * 4,
           align: :left, kerning: true
         }
-      end
-
-      def build
-        sections.compact.each { |section| section.render_in(document) }
-        self
       end
     end
   end
