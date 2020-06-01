@@ -75,6 +75,7 @@ en:
         email: Email
         name: Name
       contract:
+        issuer: Vermieter
         pdf: PDF
         sent_at: Verschickt am
         signed_at: Unterschrieben am

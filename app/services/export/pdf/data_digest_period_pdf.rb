@@ -15,7 +15,7 @@ module Export
         super.merge(@options.fetch(:document_options, {}))
       end
 
-      to_render do 
+      to_render do
         render Renderables::Logo.new(organisation.logo)
         render Renderables::Title.new(data_digest_period.data_digest.label)
       end

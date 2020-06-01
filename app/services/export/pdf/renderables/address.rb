@@ -10,24 +10,32 @@ module Export
           @options = options
         end
 
+        def representing?
+          @options[:representing].present?
+        end
+
         def render
           bounding_box [x_position, y_position], width: 200, height: 140 do
-            default_leading 3
             text @options[:label], size: 13, style: :bold if @options[:label]
             move_down 5
-            text @options[:representing] if @options[:representing].present?
-            text 'vertreten durch:', size: 8 if @options[:representing].present?
+
+            if representing?
+              text @options[:representing]
+              move_down 5
+              text 'vertreten durch', size: 8 if representing?
+            end
+
             text @address
           end
         end
 
-        private 
+        private
 
         def x_position
           @options[:issuer] ? 0 : 300
         end
 
-        def y_position 
+        def y_position
           690
         end
       end

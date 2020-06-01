@@ -31,7 +31,7 @@ class InvoicePart < ApplicationRecord
   attribute :apply, :boolean, default: true
 
   after_save do
-    invoice.recalculate_amount
+    invoice.recalculate_amount if amount_previously_changed?
   end
 
   before_validation do

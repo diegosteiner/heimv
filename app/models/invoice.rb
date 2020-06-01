@@ -46,14 +46,17 @@ class Invoice < ApplicationRecord
   scope :of, ->(booking) { where(booking: booking) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
-  before_save :set_paid
-  before_save :generate_pdf
-  after_create :set_ref
-  after_touch :recalculate_amount
+  before_update :generate_pdf
+  before_save :set_paid, :recalculate_amount
+  after_save :set_ref
+  after_create do
+    set_ref
+    generate_pdf && save
+  end
 
   def generate_pdf
     self.pdf = {
-      io: StringIO.new(Export::Pdf::Invoice.new(self).build.render),
+      io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
       filename: filename,
       content_type: 'application/pdf'
     }
@@ -64,7 +67,7 @@ class Invoice < ApplicationRecord
   end
 
   def recalculate_amount
-    update(amount: invoice_parts.reduce(0) { |result, invoice_part| invoice_part.inject_self(result) })
+    self.amount = invoice_parts.sum(&:amount)
   end
 
   def filename
