@@ -43,7 +43,7 @@ class Payment < ApplicationRecord
 
   after_create :confirm!, if: :confirm?
   after_save do
-    invoice&.recalculate! 
+    invoice&.recalculate!
   end
 
   before_validation do

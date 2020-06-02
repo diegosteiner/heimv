@@ -15,6 +15,7 @@ module Manage
 
     def new
       @payment.paid_at ||= Time.zone.now
+      @payment.amount ||= @payment.invoice&.amount_open
       respond_with :manage, @booking, @payment
     end
 

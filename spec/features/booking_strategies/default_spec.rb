@@ -120,8 +120,8 @@ describe 'Booking', :devise, type: :feature do
   def check_booking
     expected_transitions = %w[unconfirmed_request open_request provisional_request definitive_request
                               awaiting_contract upcoming upcoming_soon active past payment_due completed]
-    booking.reload
-    expect(booking.messages.count).to be 9
-    expect(booking.booking_transitions.ordered.map(&:to_state)).to eq expected_transitions
+    # booking.reload
+    expect(booking.messages.size).to be(9)
+    expect(booking.booking_transitions.ordered.map(&:to_state)).to eq(expected_transitions)
   end
 end

@@ -46,12 +46,16 @@ class Invoice < ApplicationRecord
   scope :of, ->(booking) { where(booking: booking) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
-  before_update :generate_pdf
+  before_update :generate_pdf, if: :generate_pdf?
   before_save :set_amount, :set_paid
-  after_save :set_ref
-  after_create do
-    set_ref
-    generate_pdf && save
+  after_create { generate_ref? && generate_ref && save }
+
+  def generate_pdf?
+    ref.present? && (pdf.blank? || changed?)
+  end
+
+  def generate_ref?
+    ref.blank?
   end
 
   def generate_pdf
@@ -62,8 +66,8 @@ class Invoice < ApplicationRecord
     }
   end
 
-  def set_ref
-    update(ref: invoice_ref_strategy.generate(self)) if ref.blank?
+  def generate_ref
+    self.ref = invoice_ref_strategy.generate(self)
   end
 
   def set_amount
