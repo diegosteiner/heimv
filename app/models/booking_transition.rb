@@ -30,6 +30,8 @@ class BookingTransition < ApplicationRecord
 
   belongs_to :booking, inverse_of: :booking_transitions, touch: true
 
+  scope :ordered, -> { order(sort_key: :ASC) }
+
   after_destroy :update_most_recent, if: :most_recent?
   before_save :serialize_booking
   after_save :update_booking_state

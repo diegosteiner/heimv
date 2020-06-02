@@ -112,15 +112,16 @@ describe 'Booking', :devise, type: :feature do
     visit manage_booking_path(booking)
     click_on :email_invoice
     click_on :postpone_deadline
-    # click_on Invoices::Invoice.model_name.human
     visit manage_booking_invoices_path(booking)
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
     click_on :commit
   end
 
   def check_booking
+    expected_transitions = %w[unconfirmed_request open_request provisional_request definitive_request
+                              awaiting_contract upcoming upcoming_soon active past payment_due completed]
     booking.reload
     expect(booking.messages.count).to be 9
-    expect(booking.booking_transitions.count).to be 11
+    expect(booking.booking_transitions.ordered.map(&:to_state)).to eq expected_transitions
   end
 end

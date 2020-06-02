@@ -26,7 +26,7 @@
 #
 
 class Payment < ApplicationRecord
-  belongs_to :invoice, optional: true, touch: true
+  belongs_to :invoice, optional: true
   belongs_to :booking, touch: true
 
   attribute :applies, :boolean, default: true
@@ -42,6 +42,9 @@ class Payment < ApplicationRecord
   attribute :confirm, default: true
 
   after_create :confirm!, if: :confirm?
+  after_save do
+    invoice&.recalculate! 
+  end
 
   before_validation do
     self.booking ||= invoice&.booking

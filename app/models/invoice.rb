@@ -47,7 +47,7 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_update :generate_pdf
-  before_save :set_paid, :recalculate_amount
+  before_save :set_amount, :set_paid
   after_save :set_ref
   after_create do
     set_ref
@@ -66,8 +66,14 @@ class Invoice < ApplicationRecord
     update(ref: invoice_ref_strategy.generate(self)) if ref.blank?
   end
 
-  def recalculate_amount
+  def set_amount
     self.amount = invoice_parts.sum(&:amount)
+  end
+
+  def recalculate!
+    set_amount
+    set_paid
+    save
   end
 
   def filename

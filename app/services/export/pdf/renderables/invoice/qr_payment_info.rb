@@ -2,7 +2,7 @@ module Export
   module Pdf
     module Renderables
       module Invoice
-        class QrPaymentInfo < Base::Section
+        class QrPaymentInfo < Renderable
           def initialize(payment_slip)
             @payment_slip = payment_slip
           end
