@@ -35,8 +35,11 @@ describe 'Booking CRUD', :devise, type: :feature do
   end
 
   it 'can edit existing booking' do
+    screenshot_and_save_page
     visit edit_manage_booking_path(booking)
+    screenshot_and_save_page
     submit_form
+    screenshot_and_save_page
     expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Booking.model_name.human)
   end
 end
