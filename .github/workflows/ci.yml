@@ -53,6 +53,12 @@ jobs:
       if: success()
       run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/e2e
 
+    - name: Upload tmp
+      uses: actions/upload-artifact@v1
+      with:
+        name: screenshots
+        path: tmp/capybara
+
     - name: Login to docker hub
       uses: actions-hub/docker/login@master
       if: success()
@@ -70,9 +76,3 @@ jobs:
       uses: actions-hub/docker@master
       with:
         args: push docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
-
-    - name: Upload tmp
-      uses: actions/upload-artifact@v1
-      with:
-        name: screenshots
-        path: tmp/capybara
