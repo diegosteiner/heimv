@@ -54,7 +54,8 @@ jobs:
       run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/e2e
 
     - name: Upload tmp
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@master
+      if: failure()
       with:
         name: screenshots
         path: tmp/capybara
