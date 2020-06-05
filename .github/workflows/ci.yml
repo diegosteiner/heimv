@@ -58,7 +58,8 @@ jobs:
       if: failure()
       with:
         name: screenshots
-        path: tmp/capybara
+        path: 
+          - tmp/capybara
 
     - name: Login to docker hub
       uses: actions-hub/docker/login@master
