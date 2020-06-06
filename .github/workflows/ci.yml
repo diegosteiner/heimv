@@ -57,7 +57,7 @@ jobs:
 
     - name: Save logs
       if: failure()
-      run: sudo docker-compose -f docker-compose.yml -f docker-compose.ci.yml logs e2e_target > tmp/e2e_target.log
+      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml logs e2e_target > /tmp/e2e_target.log; sudo mv /tmp/e2e_target.log ./tmp/
 
     - name: Upload tmp
       uses: actions/upload-artifact@master
