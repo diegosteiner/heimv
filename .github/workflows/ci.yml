@@ -36,9 +36,9 @@ jobs:
         UID: 0
         GID: 0
 
-    - name: Run check
+    - name: Prepare Database
       if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/check
+      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_target bin/rails db:create db:migrate
 
     - name: Build and start e2e
       if: success()
@@ -47,17 +47,17 @@ jobs:
         UID: 0
         GID: 0
 
-    - name: Prepare Database
+    - name: Run check
       if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_target bin/rails db:create db:migrate
+      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/check
 
     - name: Run e2e
       if: success()
       run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/e2e
 
-    - name: Save logs
-      if: failure()
-      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml logs e2e_target > /tmp/e2e_target.log; sudo mv /tmp/e2e_target.log ./tmp/
+    # - name: Save logs
+    #   if: failure()
+    #   run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml logs e2e_target > /tmp/e2e_target.log; sudo mv /tmp/e2e_target.log ./tmp/
 
     - name: Upload tmp
       uses: actions/upload-artifact@master
