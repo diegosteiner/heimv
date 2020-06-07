@@ -204,6 +204,7 @@ de:
       data_digest:
         periods:
           ever: Aller Zeiten
+          from_now: Ab heute
           last_12_months: Letzte 12 Monate
           last_3_months: Letzte 3 Monate
           last_6_months: Letzte 6 Monate
@@ -215,6 +216,7 @@ de:
           next_month: Nächster Monat
           next_year: Nächstes Jahr
           this_year: Dieses Jahr
+          until_now: Bis heute
       occupancy:
         occupancy_type:
           closed: Geschlossen

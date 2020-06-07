@@ -48,7 +48,9 @@ class DataDigest < ApplicationRecord
       next_3_months: at..(at + 3.months),
       next_6_months: at..(at + 6.months),
       next_12_months: at..(at + 12.months),
-      next_year: ((at + 1.year).beginning_of_year)..((at + 1.year).end_of_year)
+      next_year: ((at + 1.year).beginning_of_year)..((at + 1.year).end_of_year),
+      until_now: nil..at,
+      from_now: at..nil
     }
   end
   # rubocop:enable Metrics/AbcSize
