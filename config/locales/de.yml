@@ -209,6 +209,11 @@ de:
           last_6_months: Letzte 6 Monate
           last_month: Letzer Monat
           last_year: Letztes Jahr
+          next_12_months: Nächste 12 Monate
+          next_3_months: Nächste 3 Monate
+          next_6_months: Nächste 6 Monate
+          next_month: Nächster Monat
+          next_year: Nächstes Jahr
           this_year: Dieses Jahr
       occupancy:
         occupancy_type:

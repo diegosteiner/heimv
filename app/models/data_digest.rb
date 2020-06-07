@@ -34,18 +34,25 @@ class DataDigest < ApplicationRecord
   end
 
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def periods(at = Time.zone.now.end_of_day)
     {
+      ever: Range.new(nil, nil),
       this_year: (at.beginning_of_year)..(at.end_of_year),
       last_year: ((at - 1.year).beginning_of_year)..((at - 1.year).end_of_year),
       last_12_months: (at - 12.months)..at,
       last_6_months: (at - 6.months)..at,
       last_3_months: (at - 3.months)..at,
       last_month: (at - 1.month)..at,
-      ever: Range.new(nil, nil)
+      next_month: at..(at + 1.month),
+      next_3_months: at..(at + 3.months),
+      next_6_months: at..(at + 6.months),
+      next_12_months: at..(at + 12.months),
+      next_year: ((at + 1.year).beginning_of_year)..((at + 1.year).end_of_year)
     }
   end
   # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   class Period
     attr_reader :data_digest, :period_range
