@@ -74,7 +74,6 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'capybara-paparazzi'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
 end

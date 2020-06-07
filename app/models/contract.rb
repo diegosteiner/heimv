@@ -35,13 +35,11 @@ class Contract < ApplicationRecord
     booking.state_transition
   end
 
-  before_save :oust
-  before_save :generatate_pdf
-  before_save :set_signed_at
+  before_save :oust, :generatate_pdf, :set_signed_at
 
   def generatate_pdf
     self.pdf = {
-      io: StringIO.new(Export::Pdf::Contract.new(self).build.render),
+      io: StringIO.new(Export::Pdf::ContractPdf.new(self).render_document),
       filename: filename,
       content_type: 'application/pdf'
     }

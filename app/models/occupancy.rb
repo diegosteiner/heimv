@@ -59,6 +59,8 @@ class Occupancy < ApplicationRecord
     errors.add(:ends_at, :invalid) unless begins_at && ends_at && begins_at < ends_at
   end
   validate on: :public_create do
+    return if ends_at.blank?
+
     errors.add(:ends_at, :too_far_in_future) unless ends_at < organisation.booking_window.from_now
   end
   validate on: :public_create do

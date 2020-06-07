@@ -49,7 +49,7 @@
           td.py-1.text-right
             .btn-group
               - unless invoice.paid
-                = link_to new_manage_booking_payment_path(invoice.booking, payment: { invoice_id: invoice.id, amount: invoice.amount }), class: 'btn btn-default'
+                = link_to new_manage_booking_payment_path(invoice.booking, payment: { invoice_id: invoice.id }), class: 'btn btn-default'
                   = t(:add_record, model_name: Payment.model_name.human)
               - if invoice.pdf.attached?
                 = link_to manage_invoice_path(invoice, format: :pdf), target: '_blank', class: 'btn btn-default'
