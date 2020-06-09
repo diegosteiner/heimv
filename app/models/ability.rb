@@ -44,6 +44,7 @@ module Ability
       can :manage, BookingAgent, organisation: organisation
       can :manage, Invoice, booking: { organisation: organisation }
       can :manage, Contract, booking: { organisation: organisation }
+      can :manage, Offer, booking: { organisation: organisation }
       can :manage, Payment, booking: { organisation: organisation }
       can :manage, Deadline, booking: { organisation: organisation }
       can :manage, Usage, booking: { organisation: organisation }

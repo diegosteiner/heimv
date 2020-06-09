@@ -48,6 +48,10 @@ class Usage < ApplicationRecord
     ((used_units || 0).to_f * (tarif.price_per_unit || 1).to_f * 20.0).floor / 20.0
   end
 
+  def presumed_price
+    ((presumed_used_units || 0).to_f * (tarif.price_per_unit || 1).to_f * 20.0).floor / 20.0
+  end
+
   def of_tarif?(other_tarif)
     other_tarif.self_and_booking_copy_ids.include?(tarif_id)
   end

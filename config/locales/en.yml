@@ -140,6 +140,10 @@ en:
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
         nights: Nächte
+      offer:
+        text: Offertentext
+        valid_from: Gültig ab
+        valid_until: Gültig bis
       organisation:
         address: Adresse
         contract_signature: Vertragsunterschrift
@@ -324,6 +328,9 @@ en:
       occupancy:
         one: Belegung
         other: Belegungen
+      offer:
+        one: Offerte
+        other: Offerten
       organisation:
         one: Organisation
         other: Organisationen
