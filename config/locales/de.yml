@@ -190,6 +190,7 @@ de:
         zipcode: PLZ
       usage:
         apply: Anwenden
+        presumed_price: Verausichtlicher Preis
         presumed_used_units: Verausichtlicher Verbrauch
         price: Preis
         remarks: Bemerkungen
@@ -523,6 +524,9 @@ de:
         initial-->unconfirmed_request:
           label: Neue Buchungsanfrage stellen
   confirm: Sind sie sicher?
+  contracts:
+    issuer_signature_label: Datum, Unterschrift Vermieter
+    tenant_signature_label: Datum, Unterschrift Mieter
   date:
     abbr_day_names:
     - So
@@ -1832,6 +1836,8 @@ de:
     - Do
     - Fr
     - Sa
+  offers:
+    issuer_signature_label: Datum, Unterschrift Vermieter
   optional: optional
   public:
     agent_bookings:

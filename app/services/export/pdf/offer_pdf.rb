@@ -22,7 +22,16 @@ module Export
         table(tarif_table_data, width: bounds.width) do
           rows(0).style(font_style: :bold)
           cells.style(borders: [], padding: [0, 0, 4, 0])
-          column(2).style(align: :right)
+          column([2, 3, 4]).style(align: :right)
+        end
+      end
+
+      to_render do
+        bounding_box([0, cursor + 20], width: bounds.width) do
+          issuer_signature_label = I18n.t('offers.issuer_signature_label')
+          render Renderables::Signature.new(issuer_signature_label, signature_image: @organisation.contract_signature,
+                                                                    date: @offer.valid_from,
+                                                                    location: @organisation.contract_location)
         end
       end
 
