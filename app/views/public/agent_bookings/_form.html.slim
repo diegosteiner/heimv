@@ -24,7 +24,7 @@
                                                     disabled: @agent_booking.timeframe_locked?,
                                                     required: true)
 
-        = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?
+        = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
         = f.text_field :booking_agent_code, disabled: !@agent_booking.booking_agent_responsible?
         = f.text_field :booking_agent_ref, required: false, disabled: !@agent_booking.booking_agent_responsible?
 

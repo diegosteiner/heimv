@@ -3,6 +3,7 @@
 # Table name: homes
 #
 #  id               :bigint           not null, primary key
+#  booking_margin   :integer          default(0)
 #  janitor          :text
 #  min_occupation   :integer
 #  name             :string

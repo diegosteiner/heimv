@@ -90,6 +90,7 @@ en:
         postponable_for: Verlängerbar
         responsible: Verantwortlich
       home:
+        booking_margin: Zeitabstand zwischen Buchungen
         house_rules: Hausordnung (PDF)
         janitor: Abwart
         min_occupation: Mindestbelegung / Nacht
@@ -799,6 +800,8 @@ en:
     agent_bookings:
       edit:
         title: Reservation bearbeiten
+      form:
+        tenant_email_help: Bitte NICHT die E-Mail Adresse des Vermittlers verwenden. Wir benötigen die E-Mail Adresse des Mieters erst wenn die Anfrage definitiv wird, damit wir den Kontakt aufnehmen können.
       new:
         title: Reservation
     bookings:

@@ -90,6 +90,7 @@ de:
         postponable_for: Verlängerbar
         responsible: Verantwortlich
       home:
+        booking_margin: Zeitabstand zwischen Buchungen
         house_rules: Hausordnung (PDF)
         janitor: Angaben Heimwart
         min_occupation: Mindestbelegung / Nacht
@@ -248,7 +249,7 @@ de:
               not_postponable: kann nicht verlängert werden
             state:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
-          conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
+          conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt oder zu nahe an einer anderen Belegung
         occupancy:
           attributes:
             ends_at:
@@ -1843,6 +1844,8 @@ de:
     agent_bookings:
       edit:
         title: Reservation bearbeiten
+      form:
+        tenant_email_help: Bitte NICHT die E-Mail Adresse des Vermittlers verwenden. Wir benötigen die E-Mail Adresse des Mieters erst wenn die Anfrage definitiv wird, damit wir den Kontakt aufnehmen können.
       new:
         title: Reservation
     bookings:
