@@ -109,7 +109,9 @@ $occupied-background-color: #ffa8a8;
     border-right-color: white;
   }
 
-  &.tentativeForenoon.tentativeAfternoon {
+  &.tentativeForenoon.tentativeAfternoon,
+  &.tentativeForenoon.tentativeFullday
+   {
     border-top-color: $tentative-border-color;
     border-right-color: $tentative-border-color;
     border-bottom-color: $tentative-border-color;
@@ -123,7 +125,25 @@ $occupied-background-color: #ffa8a8;
     );
   }
 
-  &.occupiedForenoon.tentativeAfternoon {
+  &.occupiedForenoon.occupiedAfternoon,
+  &.occupiedForenoon.occupiedFullday
+   {
+    border-top-color: $occupied-border-color;
+    border-right-color: $tentative-border-color;
+    border-bottom-color: $tentative-border-color;
+    border-left-color: $occupied-border-color;
+    background: linear-gradient(
+      135deg,
+      $occupied-background-color 49%,
+      white 49%,
+      white 51%,
+      $occupied-background-color 51%
+    );
+  }
+
+  &.occupiedForenoon.tentativeAfternoon,
+  &.occupiedForenoon.tentativeFullday,
+   {
     border: 1px solid white;
     border-top-color: $occupied-border-color;
     border-right-color: $tentative-border-color;
@@ -138,7 +158,9 @@ $occupied-background-color: #ffa8a8;
     );
   }
 
-  &.tentativeForenoon.occupiedAfternoon {
+  &.tentativeForenoon.occupiedAfternoon,
+  &.tentativeForenoon.occupiedFullday
+   {
     border: 1px solid white;
     border-top-color: $tentative-border-color;
     border-right-color: $occupied-border-color;

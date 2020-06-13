@@ -58,12 +58,12 @@ class Occupancy < ApplicationRecord
   validate do
     errors.add(:ends_at, :invalid) unless begins_at && ends_at && begins_at < ends_at
   end
-  validate on: :public_create do
-    return if ends_at.blank?
+  validate on: %i[public_create public_update] do
+    next if ends_at.blank?
 
     errors.add(:ends_at, :too_far_in_future) unless ends_at < organisation.booking_window.from_now
   end
-  validate on: :public_create do
+  validate on: %i[public_create public_update] do
     acceptable_hours = (7.hours)..(22.hours)
     errors.add(:begins_at_time, :invalid) unless acceptable_hours.include?(begins_at.seconds_since_midnight)
     errors.add(:ends_at_time, :invalid) unless acceptable_hours.include?(ends_at.seconds_since_midnight)
@@ -82,7 +82,8 @@ class Occupancy < ApplicationRecord
   end
 
   def overlapping
-    home.occupancies.at(from: begins_at, to: ends_at)
+    margin = booking&.home&.booking_margin || 0
+    home.occupancies.at(from: begins_at - margin.minutes, to: ends_at + margin.minutes)
   end
 
   def conflicting

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_22_170934) do
+ActiveRecord::Schema.define(version: 2020_06_12_065349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2020_05_22_170934) do
     t.boolean "concluded", default: false
     t.uuid "occupancy_id"
     t.boolean "timeframe_locked", default: false
+    t.boolean "usages_presumed", default: false
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
@@ -160,6 +161,7 @@ ActiveRecord::Schema.define(version: 2020_05_22_170934) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "min_occupation"
+    t.integer "booking_margin", default: 0
     t.index ["organisation_id"], name: "index_homes_on_organisation_id"
     t.index ["ref"], name: "index_homes_on_ref", unique: true
   end
@@ -251,6 +253,16 @@ ActiveRecord::Schema.define(version: 2020_05_22_170934) do
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
+  end
+
+  create_table "offers", force: :cascade do |t|
+    t.uuid "booking_id"
+    t.text "text"
+    t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "valid_until"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["booking_id"], name: "index_offers_on_booking_id"
   end
 
   create_table "organisations", force: :cascade do |t|
@@ -394,6 +406,7 @@ ActiveRecord::Schema.define(version: 2020_05_22_170934) do
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "occupancies", "homes"
+  add_foreign_key "offers", "bookings"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
   add_foreign_key "tarif_selectors", "tarifs"

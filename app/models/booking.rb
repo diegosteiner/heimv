@@ -21,6 +21,7 @@
 #  tenant_organisation   :string
 #  timeframe_locked      :boolean          default(FALSE)
 #  usages_entered        :boolean          default(FALSE)
+#  usages_presumed       :boolean          default(FALSE)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  home_id               :bigint           not null
@@ -63,6 +64,7 @@ class Booking < ApplicationRecord
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :contracts, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
+  has_many :offers, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
   has_one :booking_agent, through: :agent_booking

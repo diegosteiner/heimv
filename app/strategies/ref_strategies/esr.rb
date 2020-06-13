@@ -1,9 +1,18 @@
 module RefStrategies
   class ESR < RefStrategy
+    # ESR Modes
+    # 01 = ESR in CHF
+    # 04 = ESR+ in CHF
+    # 11 = ESR in CHF zur Gutschrift auf das eigene Konto
+    # 14 = ESR+ in CHF zur Gutschrift auf das eigene Konto
+    # 21 = ESR in EUR
+    # 23 = ESR in EUR zur Gutschrift auf das eigene Konto
+    # 31 = ESR+ in EUR
+    # 33 = ESR+ in EUR zur Gutschrift auf das eigene Konto
     def generate(invoice)
-      append_checksum format('%<home_id>03d%<tenant_id>08d%<invoice_id>015d', home_id: invoice.booking.home.id,
-                                                                              tenant_id: invoice.booking.tenant.id,
-                                                                              invoice_id: invoice.id)
+      with_checksum format('%<home_id>03d%<tenant_id>06d%<invoice_id>07d', home_id: invoice.booking.home.id,
+                                                                           tenant_id: invoice.booking.tenant.id,
+                                                                           invoice_id: invoice.id)
     end
 
     def checksum(ref)
@@ -11,7 +20,7 @@ module RefStrategies
       (10 - ref.to_s.scan(/\d/).inject(0) { |carry, digit| check_table[(digit.to_i + carry) % check_table.size] }) % 10
     end
 
-    def append_checksum(ref)
+    def with_checksum(ref)
       ref.to_s + checksum(ref).to_s
     end
 
@@ -19,6 +28,17 @@ module RefStrategies
       return '' if ref.blank?
 
       ref.reverse.chars.in_groups_of(5).reverse.map { |group| group.reverse.join }.join(' ')
+    end
+
+    def code_line(invoice, esr_mode: '01')
+      code = {
+        esr_mode: esr_mode,
+        amount_in_cents: invoice.amount_in_cents,
+        checksum_1: checksum(esr_mode + format('%<amount_in_cents>010d', amount_in_cents: invoice.amount_in_cents)),
+        ref: invoice.ref.to_s.rjust(27, '0'),
+        account_nr: AccountNr.new(invoice.organisation.esr_participant_nr).to_code
+      }
+      format('%<esr_mode>s%<amount_in_cents>010d%<checksum_1>d>%<ref>s+ %<account_nr>s>', code)
     end
   end
 end

@@ -1,6 +1,7 @@
 = form_with(url: manage_booking_usages_path(@booking), scope: :usages, method: :PUT, local: true, html: { novalidate: true }) do |f|
   = hidden_field_tag :return_to, return_to if defined?(return_to)
-  = hidden_field_tag :usages_entered, defined?(used_units_field) && used_units_field
+  = hidden_field_tag :usages_entered, 1  if defined?(used_units_field) && (used_units_field == :used)
+  = hidden_field_tag :usages_presumed, 1 if defined?(used_units_field) && (used_units_field == :presumed)
   table.table
     thead
       tr.bg-white
@@ -27,7 +28,6 @@
             td.py-3
               = uf.hidden_field :id
               = uf.hidden_field :tarif_id
-              / = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label, wrapper_class: 'justify-content-start', 'v-b-popover.hover.html' => JSON.generate(selector_votes(uf.object)) }, '0', '1'
               = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
             td.py-3
               = usage.tarif.price_per_unit
@@ -35,7 +35,7 @@
               = usage.tarif.unit
             - if defined?(used_units_field) && used_units_field
               td.py-2
-                = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
+                = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif, presumed: (used_units_field == :presumed) }
             - else
               = uf.hidden_field :used_units
             td.py-2.text-right
