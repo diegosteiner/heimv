@@ -1,0 +1,10 @@
+= form_with(model: [:manage, @booking, @offer], local: true) do |f|
+  = f.error_summary
+
+  fieldset[v-pre]
+    = f.text_area :text, rows: 25
+    = f.date_field :valid_from
+    = f.date_field :valid_until
+
+  .form-actions.pt-4.mt-3.border-top
+    = f.submit class: 'btn btn-primary'

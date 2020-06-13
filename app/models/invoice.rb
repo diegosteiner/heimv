@@ -74,6 +74,10 @@ class Invoice < ApplicationRecord
     self.amount = invoice_parts.sum(&:amount)
   end
 
+  def amount_in_cents
+    (amount * 100).to_i
+  end
+
   def recalculate!
     set_amount
     set_paid

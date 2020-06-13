@@ -31,11 +31,10 @@ class Contract < ApplicationRecord
   scope :unsent, -> { where(sent_at: nil) }
   scope :ordered, -> { order(valid_from: :asc) }
 
+  before_save :oust, :generatate_pdf, :set_signed_at
   after_save do
     booking.state_transition
   end
-
-  before_save :oust, :generatate_pdf, :set_signed_at
 
   def generatate_pdf
     self.pdf = {

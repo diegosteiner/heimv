@@ -27,7 +27,15 @@ module Export
       end
 
       to_render do
-        render Renderables::Signatures.new(@contract)
+        bounding_box([0, cursor - 20], width: bounds.width) do
+          issuer_signature_label = I18n.t('contracts.issuer_signature_label')
+          render Renderables::Signature.new(issuer_signature_label, signature_image: @organisation.contract_signature,
+                                                                    date: @contract.valid_from,
+                                                                    location: @organisation.contract_location)
+
+          tenant_signature_label = I18n.t('contracts.tenant_signature_label')
+          render Renderables::Signature.new(tenant_signature_label, align: :right)
+        end
       end
 
       def tarifs

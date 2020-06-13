@@ -1,1 +1,4 @@
-= f.number_field :used_units, skip_label: true, wrapper_class: 'm-0', class: 'text-right w-100', tabindex: 1
+- if presumed
+  = f.number_field :presumed_used_units, skip_label: true, wrapper_class: 'm-0', class: 'text-right w-100 presumed-usage', tabindex: 1
+- else
+  = f.number_field :used_units, skip_label: true, wrapper_class: 'm-0', class: 'text-right w-100', tabindex: 1

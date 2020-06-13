@@ -21,6 +21,7 @@
 #  tenant_organisation   :string
 #  timeframe_locked      :boolean          default(FALSE)
 #  usages_entered        :boolean          default(FALSE)
+#  usages_presumed       :boolean          default(FALSE)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  home_id               :bigint           not null

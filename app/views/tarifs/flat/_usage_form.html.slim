@@ -1,1 +1,4 @@
-= f.static_control :used_units, 1, skip_label: true, wrapper_class: 'm-0 mr-4', class: 'text-right'
+- if presumed
+  = f.static_control :presumed_used_units, 1, skip_label: true, wrapper_class: 'm-0 mr-4', class: 'text-right'
+- else
+  = f.static_control :used_units, 1, skip_label: true, wrapper_class: 'm-0 mr-4', class: 'text-right'

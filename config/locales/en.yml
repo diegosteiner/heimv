@@ -90,6 +90,7 @@ en:
         postponable_for: Verlängerbar
         responsible: Verantwortlich
       home:
+        booking_margin: Zeitabstand zwischen Buchungen
         house_rules: Hausordnung (PDF)
         janitor: Abwart
         min_occupation: Mindestbelegung / Nacht
@@ -140,6 +141,10 @@ en:
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
         nights: Nächte
+      offer:
+        text: Offertentext
+        valid_from: Gültig ab
+        valid_until: Gültig bis
       organisation:
         address: Adresse
         contract_signature: Vertragsunterschrift
@@ -186,6 +191,7 @@ en:
         zipcode: PLZ
       usage:
         apply: Anwenden
+        presumed_price: Verausichtlicher Preis
         presumed_used_units: Verausichtlicher Verbrauch
         price: Preis
         remarks: Bemerkungen
@@ -324,6 +330,9 @@ en:
       occupancy:
         one: Belegung
         other: Belegungen
+      offer:
+        one: Offerte
+        other: Offerten
       organisation:
         one: Organisation
         other: Organisationen
@@ -516,6 +525,9 @@ en:
         initial-->unconfirmed_request:
           label: Neue Buchungsanfrage stellen
   confirm: Confirm
+  contracts:
+    issuer_signature_label: Datum, Unterschrift Vermieter
+    tenant_signature_label: Datum, Unterschrift Mieter
   date:
     abbr_day_names:
     - Sun
@@ -781,11 +793,15 @@ en:
     next: "→"
     prev: "←"
     weekdays: '["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]'
+  offers:
+    issuer_signature_label: Datum, Unterschrift Vermieter
   optional: optional
   public:
     agent_bookings:
       edit:
         title: Reservation bearbeiten
+      form:
+        tenant_email_help: Bitte NICHT die E-Mail Adresse des Vermittlers verwenden. Wir benötigen die E-Mail Adresse des Mieters erst wenn die Anfrage definitiv wird, damit wir den Kontakt aufnehmen können.
       new:
         title: Reservation
     bookings:
