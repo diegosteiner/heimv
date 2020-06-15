@@ -10,11 +10,20 @@ const formatDate = new Intl.DateTimeFormat("de-CH", {
   day: "2-digit"
 }).format
 
+const availableHours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22]
+const allHours = [...new Array(23).keys()]
+const availableMinutes = [0, 15, 30, 45]
+const clamp = (value, min, max) => value > max ? max : value < min ? min : value
+
 const CalendarInput = ({ value = "", name, label, required = false, disabled = false }) => {
   value = value && parseISO(value)
+  if(getHours(value) < Math.min(...availableHours)) value = setHours(value, Math.min(...availableHours));
+  if(getHours(value) > Math.max(...availableHours)) value = setHours(value, Math.max(...availableHours));
   const [showModal, setShowModal] = useState(false)
   const [dateValue, setDateValue] = useState(value)
   const [stringValue, setStringValue] = useState(value && formatDate(value) || "");
+  const setHourValue = hourValue => setDateValue(setHours(dateValue, clamp(parseInt(hourValue), Math.min(...availableHours), Math.max(...availableHours))))
+  const setMinuteValue = minuteValue => setDateValue(setMinutes(minuteValue, clamp(parseInt(minuteValue), Math.min(...availableMinutes), Math.max(...availableMinutes))))
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -27,8 +36,8 @@ const CalendarInput = ({ value = "", name, label, required = false, disabled = f
     setDateValue(parsedValue)
     setStringValue(formatDate(parsedValue))
   }
-  const handleHourChange = event => setDateValue(setHours(dateValue, parseInt(event.target.value)))
-  const handleMinuteChange = event => setDateValue(setMinutes(dateValue, parseInt(event.target.value)))
+  const handleHourChange = event => setHourValue(event.target.value)
+  const handleMinuteChange = event => setMinuteValue(event.target.value)
   const handleDateChange = event => {
     if (disabled) return
     setStringValue(event.target.value)
@@ -55,27 +64,10 @@ const CalendarInput = ({ value = "", name, label, required = false, disabled = f
         </Col>
         <Col sm={4} className="pt-3 pt-md-0 pt-lg-0 pt-xl-0 pt-sm-0">
           <Form.Control value={getHours(dateValue)} className="d-inline-block w-auto" onChange={handleHourChange} disabled={disabled} required={required} as="select">
-            <option value="8">08</option>
-            <option value="9">09</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
-            <option value="19">19</option>
-            <option value="20">20</option>
-            <option value="21">21</option>
-            <option value="22">22</option>
+            {allHours.map(hour => <option disabled={!availableHours.includes(hour)} key={hour} value={hour}>{hour.toString().padStart(2, '0')}</option>)}
           </Form.Control> : 
           <Form.Control className="d-inline-block w-auto" onChange={handleMinuteChange} disabled={disabled} required={required} as="select">
-            <option value="00">00</option>
-            <option value="15">15</option>
-            <option value="30">30</option>
-            <option value="45">45</option>
+            {availableMinutes.map(minutes => <option key={minutes} value={minutes}>{minutes.toString().padStart(2, '0')}</option>)}
           </Form.Control>
         </Col>
       </Row>

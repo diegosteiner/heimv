@@ -27,23 +27,11 @@ module Public
     end
 
     def at
-      booking_params = BookingParams::Create.new(params[:booking]).permitted
-      if can?(:manage, @home)
-        at = Time.zone.parse(booking_params.dig(:occupancy_attributes, :begins_at))
-        redirect_to manage_bookings_path(filter_for_date(at))
-      else
-        redirect_to new_public_booking_path(booking: booking_params)
-      end
+      bookings = Booking.accessible_by(current_ability).merge(@home.bookings)
+      redirect_to BookingAtService.new(@home, bookings).at(Time.zone.parse(params[:date]), manage: can?(:manage, @home))
     end
 
     private
-
-    def filter_for_date(at)
-      {
-        homes: [@home.id],
-        occupancy_params: { begins_at_before: at.end_of_day, ends_at_after: at.beginning_of_day }
-      }
-    end
 
     def set_calendar
       @calendar = OccupancyCalendar.new(home: @home, window_from: 2.months.ago) if can?(:manage, @home)
