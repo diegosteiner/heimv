@@ -9,4 +9,4 @@ html[lang="#{I18n.locale}-CH"]
     == javascript_packs_with_chunks_tag 'app'
     == stylesheet_pack_tag 'app'
   body[style='background-color: transparent;']
-    = react_component('calendar/OccupancyCalendar', { homeId: @home.id })
+    = react_component('calendar/OccupancyCalendar', { homeId: @home.id, displayMonths: params.fetch(:display_months, 8) })
