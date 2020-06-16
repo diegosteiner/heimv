@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_12_065349) do
+ActiveRecord::Schema.define(version: 2020_06_16_064800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_065349) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "organisation_id", null: false
+    t.integer "request_deadline_minutes", default: 14400
     t.index ["code"], name: "index_booking_agents_on_code"
     t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
   end

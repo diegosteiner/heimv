@@ -25,7 +25,7 @@ class Booking
     end
 
     filter :occupancy do |bookings|
-      bookings.where(occupancy: occupancy_filter.apply(Occupancy.unscoped))
+      bookings.where(occupancy: occupancy_filter.apply(Occupancy.where.not(booking: nil)))
     end
 
     filter :ref do |bookings|

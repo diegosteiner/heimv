@@ -71,9 +71,12 @@ de:
         timeframe_locked: Zeitpunkt fixiert
         transition_to: Neuer Status
       booking_agent:
+        address: Adresse
         code: Vermittler-Code
         email: Email
         name: Name
+        provision: Provision
+        request_deadline_minutes: Frist für Anfragen
       contract:
         issuer: Vermieter
         pdf: PDF
