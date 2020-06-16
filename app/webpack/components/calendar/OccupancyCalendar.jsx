@@ -5,7 +5,7 @@ import { homeOccupancyAtPath } from '../../services/routes'
 import { OccupancyCalendarDayInContext } from './OccupancyCalendarDay'
 
 const OccupancyCalendar = ({ homeId }) => {
-  const handleClick = e => window.location.href = homeOccupancyAtPath(homeId, e.target.value)
+  const handleClick = e => window.top.location.href = homeOccupancyAtPath(homeId, e.target.value)
 
   return (
     <OccupancyCalendarContextProvider homeId={homeId} >
