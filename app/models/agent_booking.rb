@@ -41,6 +41,9 @@ class AgentBooking < ApplicationRecord
     errors.add(:tenant_email, :invalid) if tenant_email.present? && tenant_email == booking_agent&.email
   end
 
+  after_initialize do
+  end
+
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
 
   def save_and_update_booking

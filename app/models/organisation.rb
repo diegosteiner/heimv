@@ -48,8 +48,7 @@ class Organisation < ApplicationRecord
   end
 
   def long_deadline
-    # TODO: make dynamic
-    10.days
+    8.days
   end
 
   def short_deadline

@@ -29,9 +29,11 @@ const CalendarInput = ({ value = "", name, label, required = false, disabled = f
   const handleShow = () => setShowModal(true);
   const handleClick = event => {
     if (disabled) return
-    const parsedValue = parseISO(event.target.value)
+    let parsedValue = parseISO(event.target.value)
     if (!isValid(parsedValue)) return
 
+    parsedValue = setHours(parsedValue, getHours(dateValue))
+    parsedValue = setMinutes(parsedValue, getMinutes(dateValue))
     setShowModal(false)
     setDateValue(parsedValue)
     setStringValue(formatDate(parsedValue))
@@ -41,8 +43,11 @@ const CalendarInput = ({ value = "", name, label, required = false, disabled = f
   const handleDateChange = event => {
     if (disabled) return
     setStringValue(event.target.value)
-    const parsedValue = parse(event.target.value, 'dd.MM.yyyy', new Date())
+    let parsedValue = parse(event.target.value, 'dd.MM.yyyy', new Date())
     if (!isValid(parsedValue)) return
+
+    parsedValue = setHours(parsedValue, getHours(dateValue))
+    parsedValue = setMinutes(parsedValue, getMinutes(dateValue))
     setDateValue(setHours(setMinutes(parsedValue, getMinutes(dateValue)), getHours(dateValue)))
   }
 

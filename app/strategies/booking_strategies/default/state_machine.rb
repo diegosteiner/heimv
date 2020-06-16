@@ -79,9 +79,16 @@ module BookingStrategies
         booking.deadlines.create(at: booking.organisation.short_deadline.from_now, remarks: booking.state)
       end
 
-      after_transition(to: %i[provisional_request awaiting_contract booking_agent_request]) do |booking|
+      after_transition(to: %i[provisional_request awaiting_contract]) do |booking|
         booking.deadline&.clear
         booking.deadlines.create(at: booking.organisation.long_deadline.from_now,
+                                 postponable_for: booking.organisation.short_deadline,
+                                 remarks: booking.state)
+      end
+
+      after_transition(to: %i[booking_agent_request]) do |booking|
+        booking.deadline&.clear
+        booking.deadlines.create(at: booking.booking_agent.request_deadline_minutes.minutes.from_now,
                                  postponable_for: booking.organisation.short_deadline,
                                  remarks: booking.state)
       end
