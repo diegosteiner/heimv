@@ -1,7 +1,8 @@
 module Public
   class BookingsController < BaseController
     def new
-      @booking = Booking.new(booking_params)
+      @booking = Booking.new(create_params)
+      @booking.organisation = current_organisation
       @booking.build_occupancy unless @booking.occupancy
       @booking.occupancy.ends_at ||= @booking.occupancy.begins_at
 
@@ -20,7 +21,7 @@ module Public
     end
 
     def create
-      @booking = Booking.new(booking_params)
+      @booking = Booking.new(create_params)
       @booking.messages_enabled = true
       @booking.save(context: :public_create)
       respond_with :public, @booking, location: root_path
@@ -48,7 +49,7 @@ module Public
       current_organisation.booking_strategy.public_actions[params[:booking_action]]
     end
 
-    def booking_params
+    def create_params
       BookingParams::Create.new(params[:booking] || params)
     end
 

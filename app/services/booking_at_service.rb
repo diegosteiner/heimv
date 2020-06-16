@@ -16,6 +16,6 @@ class BookingAtService
     return manage_bookings_path(filter_params)         if manage && bookings_of_date.count > 1
     return manage_booking_path(bookings_of_date.first) if manage && bookings_of_date.count == 1
 
-    new_public_booking_path(booking: { home: @home, occupancy_attributes: { begins_at: date } })
+    new_public_booking_path(booking: { home_id: @home.to_param, occupancy_attributes: { begins_at: date } })
   end
 end
