@@ -10,7 +10,7 @@ const formatDate = new Intl.DateTimeFormat("de-CH", {
   day: "2-digit"
 }).format
 
-const availableHours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22]
+const availableHours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
 const allHours = [...new Array(23).keys()]
 const availableMinutes = [0, 15, 30, 45]
 const clamp = (value, min, max) => value > max ? max : value < min ? min : value
@@ -23,7 +23,7 @@ const CalendarInput = ({ value = "", name, label, required = false, disabled = f
   const [dateValue, setDateValue] = useState(value)
   const [stringValue, setStringValue] = useState(value && formatDate(value) || "");
   const setHourValue = hourValue => setDateValue(setHours(dateValue, clamp(parseInt(hourValue), Math.min(...availableHours), Math.max(...availableHours))))
-  const setMinuteValue = minuteValue => setDateValue(setMinutes(minuteValue, clamp(parseInt(minuteValue), Math.min(...availableMinutes), Math.max(...availableMinutes))))
+  const setMinuteValue = minuteValue => setDateValue(setMinutes(dateValue, clamp(parseInt(minuteValue), Math.min(...availableMinutes), Math.max(...availableMinutes))))
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
