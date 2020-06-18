@@ -10,7 +10,7 @@ class Booking
     attribute :begins_at_before, :datetime
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
-    attribute :occupancy_params # TODO: Remove legacy
+    attribute :occupancy_type
 
     # Ensures backwards compatibilty
     def booking_states=(value)
@@ -26,6 +26,10 @@ class Booking
 
     filter :occupancy do |bookings|
       bookings.where(occupancy: occupancy_filter.apply(Occupancy.where.not(booking: nil)))
+    end
+
+    filter :occupancy_type do |bookings|
+      bookings.joins(:occupancy).merge(Occupancy.where(occupancy_type: occupancy_type)) if occupancy_type.present?
     end
 
     filter :ref do |bookings|
