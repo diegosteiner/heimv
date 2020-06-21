@@ -23,12 +23,6 @@
 module DataDigests
   class HomeBookingPlan < DataDigests::Booking
     class Period < DataDigests::Booking::Period
-      def default_formatter_options
-        super.tap do |options|
-          options[:pdf][:column_widths] = [82, 100, 100, 50, 70, 180, 148]
-        end
-      end
-
       def data_header
         [
           ::Booking.human_attribute_name(:ref), ::Booking.human_attribute_name(:purpose),

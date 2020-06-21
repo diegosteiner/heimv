@@ -3,7 +3,7 @@ module Manage
     load_and_authorize_resource :data_digest
 
     def index
-      respond_with :manage, @data_digests
+      respond_with :manage, @data_digests.order(created_at: :ASC)
     end
 
     def new

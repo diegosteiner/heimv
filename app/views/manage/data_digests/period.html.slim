@@ -1,8 +1,8 @@
-h2 = @data_digest.label
-p
-  = @data_digest_period.period_range.begin && l(@data_digest_period.period_range.begin) 
-  =<> t('until')
-  = @data_digest_period.period_range.end && l(@data_digest_period.period_range.end) 
+h2= @data_digest.label
+p=  [ \
+      (@data_digest_period.period_range.begin && t('data_digests.period_from', date: l(@data_digest_period.period_range.begin))), \
+      (@data_digest_period.period_range.end && t('data_digests.period_to', date: l(@data_digest_period.period_range.end))) \
+    ].compact.join(' ')
 
 .breakout-sm
   table.table-striped.table

@@ -23,12 +23,6 @@
 module DataDigests
   class Tenant < DataDigests::Booking
     class Period < DataDigests::Booking::Period
-      def default_formatter_options
-        super.tap do |options|
-          options[:pdf][:column_widths] = [70, 80, 100, 100, 60, 140, 140, 50]
-        end
-      end
-
       def data_header
         super + [
           ::Tenant.model_name.human, '', '', ::Occupancy.human_attribute_name(:nights)

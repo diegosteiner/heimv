@@ -531,6 +531,9 @@ de:
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
     tenant_signature_label: Datum, Unterschrift Mieter
+  data_digests:
+    period_from: von %{date}
+    period_to: bis %{date}
   date:
     abbr_day_names:
     - So

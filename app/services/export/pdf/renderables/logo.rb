@@ -9,7 +9,7 @@ module Export
         def render
           image_source = @logo.respond_to?(:download) && StringIO.open(@logo.download)
           image_source ||= Rails.root.join('app/webpack/images/logo.png')
-          image image_source, at: [bounds.left, bounds.top + 35], width: 120, fit: [120, 100]
+          image image_source, at: [bounds.left, bounds.top + 35], width: 100, height: 50, fit: [100, 50]
         end
       end
     end
