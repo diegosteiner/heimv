@@ -22,7 +22,7 @@ module Export
             if representing?
               text @options[:representing]
               move_down 5
-              text 'vertreten durch', size: 8 if representing?
+              text I18n.t('contracts.represented_by'), size: 8
             end
 
             text @address

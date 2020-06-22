@@ -530,6 +530,7 @@ en:
   confirm: Confirm
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
+    represented_by: vertreten durch
     tenant_signature_label: Datum, Unterschrift Mieter
   data_digests:
     period_from: von %{date}

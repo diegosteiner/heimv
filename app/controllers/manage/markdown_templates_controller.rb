@@ -5,7 +5,6 @@ module Manage
 
     def index
       @markdown_templates = @markdown_templates.order(key: :ASC)
-      # respond_with :manage, @markdown_templates
       respond_to do |format|
         format.html
         format.json { render json: @markdown_templates }
@@ -33,7 +32,7 @@ module Manage
 
     def update
       @markdown_template.update(markdown_template_params)
-      respond_with :manage, @markdown_template
+      respond_with :manage, @markdown_template, location: manage_markdown_templates_path
     end
 
     def destroy

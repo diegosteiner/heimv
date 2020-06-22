@@ -3,7 +3,7 @@ class AddTimeframeLockedToBookings < ActiveRecord::Migration[6.0]
     add_column :bookings, :timeframe_locked, :boolean, default: false
 
     Booking.find_each do |booking|
-      booking.update(timeframe_locked: true)
+      booking.update_columns(timeframe_locked: true)
     end
   end
 
