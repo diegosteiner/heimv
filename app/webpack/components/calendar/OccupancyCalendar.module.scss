@@ -129,8 +129,8 @@ $occupied-background-color: #ffa8a8;
   &.occupiedForenoon.occupiedFullday
    {
     border-top-color: $occupied-border-color;
-    border-right-color: $tentative-border-color;
-    border-bottom-color: $tentative-border-color;
+    border-right-color: $occupied-border-color;
+    border-bottom-color: $occupied-border-color;
     border-left-color: $occupied-border-color;
     background: linear-gradient(
       135deg,
@@ -142,7 +142,7 @@ $occupied-background-color: #ffa8a8;
   }
 
   &.occupiedForenoon.tentativeAfternoon,
-  &.occupiedForenoon.tentativeFullday,
+  &.occupiedForenoon.tentativeFullday
    {
     border: 1px solid white;
     border-top-color: $occupied-border-color;

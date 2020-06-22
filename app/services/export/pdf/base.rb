@@ -49,6 +49,7 @@ module Export
           document.font_families.update(self.class.font_families)
           document.font('OpenSans')
           document.font_size(10)
+          document.default_leading(5)
         end
       end
 
