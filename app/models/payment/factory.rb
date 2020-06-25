@@ -1,5 +1,9 @@
 class Payment
   class Factory
+    def initialize(organisation)
+      @organisation = organisation
+    end
+
     def from_camt_file(file)
       camt = CamtParser::String.parse file.read
       camt.notifications.map do |notification|
@@ -15,9 +19,14 @@ class Payment
       end
     end
 
+    def find_invoice_by_ref(ref)
+      @organisation.invoice_ref_strategy.find_invoice_by_ref(ref, scope: @organisation.invoices)
+    end
+
     def from_camt_transaction(transaction, entry)
       ref = transaction.creditor_reference
-      invoice = Invoice.find_by(ref: ref)
+      invoice = find_invoice_by_ref(ref)
+
       Payment.new(
         invoice: invoice, booking: invoice&.booking, applies: invoice.present?, ref: ref,
         paid_at: entry.value_date, amount: transaction.amount, data: camt_transaction_to_h(transaction),
