@@ -40,5 +40,11 @@ module RefStrategies
       }
       format('%<esr_mode>s%<amount_in_cents>010d%<checksum_1>d>%<ref>s+ %<account_nr>s>', code)
     end
+
+    def find_invoice_by_ref(ref, scope: Invoice)
+      ref = ref.delete(' ').ljust(27)
+      padded_ref_column = Arel::Nodes::NamedFunction.new('LPAD', [arel_table[:ref], 27, Arel::Nodes.build_quoted('0')])
+      scope.where(padded_ref_column.eq(ref)).first
+    end
   end
 end

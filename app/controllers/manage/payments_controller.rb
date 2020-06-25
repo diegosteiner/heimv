@@ -28,12 +28,13 @@ module Manage
     end
 
     def import
-      @payments = Payment::Factory.new.from_import(payments_params)
+      @payments = Payment::Factory.new(current_organisation).from_import(payments_params)
       render 'import_done'
     end
 
     def new_import
-      @payments = params[:camt_file].presence && Payment::Factory.new.from_camt_file(params[:camt_file])
+      @payments = params[:camt_file].presence &&
+                  Payment::Factory.new(current_organisation).from_camt_file(params[:camt_file])
 
       if @payments.present?
         render 'import'
