@@ -43,7 +43,8 @@ module RefStrategies
 
     def find_invoice_by_ref(ref, scope: Invoice)
       ref = ref.delete(' ').ljust(27)
-      padded_ref_column = Arel::Nodes::NamedFunction.new('LPAD', [arel_table[:ref], 27, Arel::Nodes.build_quoted('0')])
+      ref_column = Invoice.arel_table[:ref]
+      padded_ref_column = Arel::Nodes::NamedFunction.new('LPAD', [ref_column, 27, Arel::Nodes.build_quoted('0')])
       scope.where(padded_ref_column.eq(ref)).first
     end
   end
