@@ -11,5 +11,5 @@ const BookingRelevantTime = (booking_state, date) => {
     <TimeAgo date={date}></TimeAgo>
   </span>)
 }
-  
+
 export default BookingRelevantTime

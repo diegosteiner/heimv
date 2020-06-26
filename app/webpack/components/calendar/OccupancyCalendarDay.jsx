@@ -11,17 +11,17 @@ const formatDate = new Intl.DateTimeFormat("de-CH", {
   year: "numeric",
   month: "2-digit",
   day: "2-digit",
-    hour: 'numeric', minute: 'numeric', hour12: false
+  hour: 'numeric', minute: 'numeric', hour12: false
 }).format
 
 export const OccupancyCalendarDayInContext = ({ date, onClick }) => {
   const { loading, calendarData } = useContext(OccupancyCalendarContext)
   const occupancyDate = calendarData.occupancyDates && calendarData.occupancyDates[formatISO(date, { representation: 'date' })]
   const flags = occupancyDate && occupancyDate.flags || []
-  const disableCallback = () => loading || !occupancyDate || flags.includes('outOfWindow') 
+  const disableCallback = () => loading || !occupancyDate || flags.includes('outOfWindow')
   const classNameCallback = () => flags.map(flag => styles[flag])
 
-  return <OccupancyCalendarDay classNameCallback={classNameCallback} disableCallback={disableCallback} occupancies={occupancyDate && occupancyDate.occupancies} { ...{ date, onClick }} ></OccupancyCalendarDay>
+  return <OccupancyCalendarDay classNameCallback={classNameCallback} disableCallback={disableCallback} occupancies={occupancyDate && occupancyDate.occupancies} {...{ date, onClick }} ></OccupancyCalendarDay>
 }
 
 export const OccupancyCalendarDay = ({ date, onClick, occupancies = [], classNameCallback, disableCallback }) => {
@@ -30,7 +30,7 @@ export const OccupancyCalendarDay = ({ date, onClick, occupancies = [], classNam
 
   const button = <button type="button" disabled={disabled} onClick={onClick} value={formatISO(date, { representation: 'date' })} className={classNames(className)}>{date.getDate()}</button>
 
-  if(occupancies.length <= 0) return button
+  if (occupancies.length <= 0) return button
 
   const { t, i18n } = useTranslation()
   const popover = (

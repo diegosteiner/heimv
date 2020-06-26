@@ -17,8 +17,8 @@ const clamp = (value, min, max) => value > max ? max : value < min ? min : value
 
 const CalendarInput = ({ value = "", name, label, required = false, disabled = false }) => {
   value = value && parseISO(value)
-  if(getHours(value) < Math.min(...availableHours)) value = setHours(value, Math.min(...availableHours));
-  if(getHours(value) > Math.max(...availableHours)) value = setHours(value, Math.max(...availableHours));
+  if (getHours(value) < Math.min(...availableHours)) value = setHours(value, Math.min(...availableHours));
+  if (getHours(value) > Math.max(...availableHours)) value = setHours(value, Math.max(...availableHours));
   const [state, setState] = useState({ showModal: false, date: value, string: (value && formatDate(value) || ""), hours: Math.min(...availableHours), minutes: Math.min(...availableMinutes) })
   const setDateValue = (date, prevState = state) => setState({ ...prevState, date: date, string: formatDate(date) })
   const setHourValue = hourValue => setDateValue(setHours(state.date, clamp(parseInt(hourValue), Math.min(...availableHours), Math.max(...availableHours))), { ...state, hours: hourValue })
@@ -67,7 +67,7 @@ const CalendarInput = ({ value = "", name, label, required = false, disabled = f
         <Col sm={4} className="pt-3 pt-md-0 pt-lg-0 pt-xl-0 pt-sm-0">
           <Form.Control value={state.hours} className="d-inline-block w-auto" onChange={handleHourChange} disabled={disabled} required={required} as="select">
             {allHours.map(hour => <option disabled={!availableHours.includes(hour)} key={hour} value={hour}>{hour.toString().padStart(2, '0')}</option>)}
-          </Form.Control> : 
+          </Form.Control> :
           <Form.Control value={state.minutes} className="d-inline-block w-auto" onChange={handleMinuteChange} disabled={disabled} required={required} as="select">
             {availableMinutes.map(minutes => <option key={minutes} value={minutes}>{minutes.toString().padStart(2, '0')}</option>)}
           </Form.Control>
