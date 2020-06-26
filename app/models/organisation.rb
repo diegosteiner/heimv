@@ -48,8 +48,9 @@ class Organisation < ApplicationRecord
     RefStrategies.const_get(invoice_ref_strategy_type).new
   end
 
+  # TODO: extract to hash
   def long_deadline
-    8.days
+    10.days
   end
 
   def short_deadline
@@ -64,6 +65,7 @@ class Organisation < ApplicationRecord
     30.months
   end
 
+  # TODO: make cusotmizable
   def contract_location
     'Zürich'
   end

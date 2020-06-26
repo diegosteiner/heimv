@@ -40,9 +40,9 @@ const preprocessCalendarData = calendarData => {
     }
   })
 
-  const occupancyDates = {} 
+  const occupancyDates = {}
 
-  for(const date of eachDayOfInterval({ start: windowFrom, end: windowTo })) {
+  for (const date of eachDayOfInterval({ start: windowFrom, end: windowTo })) {
     const filteredOccupancies = filterOccupanciesByDate(occupancies, date)
 
     occupancyDates[formatISO(date, { representation: 'date' })] = {
@@ -52,11 +52,11 @@ const preprocessCalendarData = calendarData => {
   }
 
   return {
-          ...calendarData,
-          window_from: windowFrom,
-          window_to: windowTo, 
-          occupancies,
-          occupancyDates
+    ...calendarData,
+    window_from: windowFrom,
+    window_to: windowTo,
+    occupancies,
+    occupancyDates
   }
 }
 
