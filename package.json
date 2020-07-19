@@ -24,6 +24,7 @@
         "react": "^16.13.1",
         "react-bootstrap": "^1.0.1",
         "react-dom": "^16.13.1",
+        "react-hook-form": "^6.0.6",
         "react-i18next": "^11.4.0",
         "react-timeago": "^4.4.0",
         "react_ujs": "^2.6.1",
