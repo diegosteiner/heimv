@@ -77,10 +77,10 @@ const CalendarControl = ({ defaultValue = "", name, required = false, disabled =
             </InputGroup.Append>
           </InputGroup>
         </Col>
-        <Col sm={4} className="pt-3 pt-md-0 pt-lg-0 pt-xl-0 pt-sm-0">
+        <Col sm={6} className="d-flex">
           <Form.Control value={state.hours} onBlur={onBlur} className="d-inline-block w-auto" onChange={handleHourChange} isInvalid={isInvalid} disabled={disabled} required={required} as="select">
             {allHours.map(hour => <option disabled={!availableHours.includes(hour)} key={hour} value={hour}>{hour.toString().padStart(2, '0')}</option>)}
-          </Form.Control> :
+          </Form.Control>
           <Form.Control value={state.minutes} onBlur={onBlur} className="d-inline-block w-auto" onChange={handleMinuteChange} isInvalid={isInvalid} disabled={disabled} required={required} as="select">
             {availableMinutes.map(minutes => <option key={minutes} value={minutes}>{minutes.toString().padStart(2, '0')}</option>)}
           </Form.Control>

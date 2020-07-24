@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.7.0'
+ruby '2.7.1'
 
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts_as_list'
@@ -17,12 +17,11 @@ gem 'countries'
 gem 'country_select'
 gem 'dalli'
 gem 'date_time_attribute'
-gem 'derailed_benchmarks'
 gem 'devise'
 gem 'devise-i18n'
 gem 'exception_notification'
 gem 'factory_bot_rails', require: false
-gem 'faker'
+gem 'faker', require: false
 gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
@@ -33,10 +32,10 @@ gem 'puma', '~> 3.0'
 gem 'rails', '~> 6.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
+gem 'react-rails', '~> 2.6'
 gem 'responders'
 gem 'rqrcode'
 gem 'slim-rails'
-gem 'stackprof'
 gem 'statesman'
 gem 'timecop'
 gem 'title'
@@ -80,4 +79,6 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-gem 'react-rails', '~> 2.6'
+group :production do
+  gem 'newrelic_rpm'
+end
