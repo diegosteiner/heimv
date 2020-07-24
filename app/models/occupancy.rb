@@ -83,7 +83,7 @@ class Occupancy < ApplicationRecord
 
   def overlapping
     margin = booking&.home&.booking_margin || 0
-    home.occupancies.at(from: begins_at - margin.minutes, to: ends_at + margin.minutes)
+    begins_at && ends_at && home.occupancies.at(from: begins_at - margin.minutes, to: ends_at + margin.minutes)
   end
 
   def conflicting

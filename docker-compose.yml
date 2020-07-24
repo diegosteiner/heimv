@@ -22,6 +22,8 @@ services:
       WEBPACKER_DEV_SERVER_HOST: webpack
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RUBYOPT: '-W:no-deprecated -W:no-experimental'
+      SMTP_URL: "smtp://mail"
+      MAIL_FROM: "no-reply@heimverwaltung.localhost"
     depends_on:
       - db
       - webpack

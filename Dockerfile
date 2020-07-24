@@ -1,5 +1,5 @@
 ### === base === ###                 
-FROM ruby:2.7.0-alpine AS base
+FROM ruby:2.7.1-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata nodejs
 RUN gem install bundler
 
@@ -14,16 +14,20 @@ RUN apk add --update build-base \
   yarn \
   less \
   curl \
-  python
+  python3
 
 RUN gem install solargraph
 
 ARG UID=1001
 ARG GID=1001
-RUN addgroup -S app -g $GID && adduser -S -u $UID -G app -D app && chown -R $UID:$GID /app || true
+RUN addgroup -S app -g $GID && \ 
+    adduser -S -u $UID -G app -D app && \
+    chown -R $UID:$GID /app && \
+    chown -R app:app /usr/local/bundle || true
 USER $UID
 
-RUN bundle config path /app/vendor/bundle && bundle config cache true
+RUN bundle config path /app/vendor/bundle && \
+    bundle config cache --all true
 
 ### === build === ###                                                                                                                                 [0/
 FROM development AS build                                                      
@@ -34,7 +38,9 @@ ENV NODE_ENV=production
 COPY --chown=app . /app     
 
 RUN bundle config without test:development && \
- bundle install && bundle clean && bundle package
+    bundle install && \
+    bundle clean && \
+    bundle package
 RUN yarn install              
 
 RUN bin/webpack
@@ -48,7 +54,9 @@ RUN mkdir -p /app && adduser -D app && chown -R app /app
 USER app    
 WORKDIR /app                                                              
 
-RUN bundle config path /app/vendor/bundle && bundle config deployment true && bundle config without test:development
+RUN bundle config path /app/vendor/bundle && \
+    bundle config deployment true && \
+    bundle config without test:development
                                        
 COPY --chown=app --from=build /app /app                              
 RUN bundle install --local
