@@ -11,6 +11,7 @@ gem 'bootstrap_form',
     git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
     ref: 'master'
 gem 'breadcrumbs'
+gem 'bullet'
 gem 'camt_parser'
 gem 'cancancan'
 gem 'countries'

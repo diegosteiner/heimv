@@ -5,12 +5,13 @@ module Manage
 
     def index
       @invoices = if @booking.present?
-                    @booking.invoices.ordered
+                    @booking.invoices
                   elsif params[:all].present?
-                    @invoices = @invoices.ordered
+                    @invoices = @invoices
                   else
-                    @invoices.relevant.unpaid.ordered
+                    @invoices.relevant.unpaid
                   end
+      @invoices = @invoices.includes(:organisation, :payments).ordered.with_attached_pdf
       respond_with :manage, @invoices
     end
 
