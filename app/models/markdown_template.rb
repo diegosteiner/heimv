@@ -23,6 +23,7 @@
 
 class MarkdownTemplate < ApplicationRecord
   belongs_to :organisation
+  has_many :messages, inverse_of: :markdown_template, dependent: :nullify
 
   validates :key, :locale, presence: true
   validates :key, uniqueness: { scope: %i[locale organisation_id] }

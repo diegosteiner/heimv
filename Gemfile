@@ -25,10 +25,12 @@ gem 'faker', require: false
 gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
+gem 'memory_profiler' # TODO: Remove
 gem 'pg'
 gem 'prawn'
 gem 'prawn-table'
 gem 'puma', '~> 3.0'
+gem 'rack-mini-profiler' # TODO: Remove
 gem 'rails', '~> 6.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
@@ -52,7 +54,6 @@ group :development do
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'
   gem 'listen', '~> 3.0.5'
-  gem 'rack-mini-profiler'
 end
 
 group :development, :test do
