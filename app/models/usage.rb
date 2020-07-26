@@ -63,7 +63,7 @@ class Usage < ApplicationRecord
   end
 
   def tarif_selector_votes
-    @tarif_selector_votes ||= tarif_selectors.includes(:tarif_selectors).index_with do |selector|
+    @tarif_selector_votes ||= tarif_selectors.index_with do |selector|
       selector.vote_for(self)
     end
   end
