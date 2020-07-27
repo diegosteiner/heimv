@@ -6,6 +6,7 @@ ruby '2.7.1'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts_as_list'
 gem 'aws-sdk-s3', require: false
+gem 'barnes'
 gem 'bootsnap'
 gem 'bootstrap_form',
     git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
@@ -35,6 +36,7 @@ gem 'rack-mini-profiler' # TODO: Remove
 gem 'rails', '~> 6.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
+gem 'rbtrace'
 gem 'react-rails', '~> 2.6'
 gem 'responders'
 gem 'rqrcode'
