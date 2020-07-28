@@ -11,7 +11,6 @@ gem 'bootsnap'
 gem 'bootstrap_form',
     git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
     ref: 'master'
-gem 'breadcrumbs'
 gem 'bullet'
 gem 'camt_parser'
 gem 'cancancan'
@@ -31,23 +30,20 @@ gem 'memory_profiler' # TODO: Remove
 gem 'pg'
 gem 'prawn'
 gem 'prawn-table'
-gem 'puma', '~> 3.0'
+gem 'puma'
 gem 'rack-mini-profiler' # TODO: Remove
 gem 'rails', '~> 6.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
-gem 'rbtrace'
+gem 'rbtrace' # TODO: Remove
 gem 'react-rails', '~> 2.6'
 gem 'responders'
 gem 'rqrcode'
 gem 'slim-rails'
 gem 'statesman'
-gem 'timecop'
 gem 'title'
 gem 'ttfunk', '~> 1.5.1' # See https://github.com/prawnpdf/prawn/issues/1142
 gem 'webpacker', '>= 4.0.x'
-gem 'wicked_pdf'
-gem 'yaml_db'
 
 group :development do
   gem 'annotate'
@@ -62,6 +58,7 @@ end
 group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
+  gem 'bundler-leak'
   gem 'byebug', platform: :mri
   gem 'database_cleaner'
   gem 'debase'

@@ -2,13 +2,6 @@ module Manage
   class BookingAgentsController < BaseController
     load_and_authorize_resource :booking_agent
 
-    # before_action { breadcrumbs.add(BookingAgent.model_name.human(count: :other), manage_booking_agents_path) }
-    # before_action(only: :new) { breadcrumbs.add(t(:new)) }
-    # before_action(only: %i[show edit]) do
-    #   breadcrumbs.add(@booking_agent.to_s, manage_booking_agent_path(@booking_agent))
-    # end
-    # before_action(only: :edit) { breadcrumbs.add(t(:edit)) }
-
     def index
       respond_with :manage, @booking_agents
     end

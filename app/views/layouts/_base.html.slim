@@ -14,11 +14,6 @@ html[lang="#{I18n.locale}-CH"]
         == render 'layouts/navigation'
       == render 'layouts/messages'
       main.container.pb-5[role='main']
-        header
-          ol.breadcrumb
-            - breadcrumbs.items.each do |(text, url)|
-              li.breadcrumb-item
-                = link_to_if url.present?, text, url
         == yield
       footer.py-3
         .small.text-center

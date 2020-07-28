@@ -2,12 +2,22 @@
 	"dockerComposeFile": "../docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/app",
-
 	// Set *default* container specific settings.json values on container create.
-	"settings": { 
-		"terminal.integrated.shell.linux": "ash"
+	"settings": {
+		"terminal.integrated.shell.linux": "ash",
+		"ruby.format": "rubocop",
+		"ruby.useBundler": false,
+		"ruby.useLanguageServer": true,
+		"[ruby]": {
+			"editor.insertSpaces": true,
+			"editor.tabSize": 2
+		},
+		"solargraph.commandPath": "/usr/local/bundle/bin/solargraph",
+		"solargraph.bundlerPath": "/usr/local/bin/bundle",
+		"ruby.rubocop.useBundler": true,
+		"ruby.rubocop.onSave": true,
+		"ruby.rubocop.configFilePath": "/app/.rubocop.yml",
 	},
-
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"rebornix.Ruby",
@@ -15,13 +25,11 @@
 		// "wingrunr21.vscode-ruby",
 		// "octref.vetur"
 	],
-	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000],
-
-
+	"forwardPorts": [
+		3000
+	],
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "app",
-
 	"shutdownAction": "stopCompose"
 }
