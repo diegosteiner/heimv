@@ -842,5 +842,5 @@ de:
       short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"
   titles:
-    application: HeimV
+    application: HeimV Heimverwaltung
   until: bis

@@ -79,7 +79,7 @@ GEM
       rake (>= 10.4, < 14.0)
     ast (2.4.1)
     aws-eventstream (1.1.0)
-    aws-partitions (1.345.0)
+    aws-partitions (1.346.0)
     aws-sdk-core (3.104.3)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -263,9 +263,10 @@ GEM
       interception (>= 0.5)
       pry (>= 0.12.0)
     public_suffix (4.0.5)
-    puma (3.12.6)
+    puma (4.3.5)
+      nio4r (~> 2.0)
     rack (2.2.3)
-    rack-mini-profiler (2.0.2)
+    rack-mini-profiler (2.0.3)
       rack (>= 1.2.0)
     rack-proxy (0.6.5)
       rack
@@ -358,7 +359,7 @@ GEM
       parser (>= 2.7.0.1)
     rubocop-performance (1.7.1)
       rubocop (>= 0.82.0)
-    rubocop-rails (2.7.0)
+    rubocop-rails (2.7.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 0.87.0)
@@ -411,9 +412,6 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    title (0.0.7)
-      i18n
-      rails (>= 3.1)
     ttfunk (1.5.1)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
@@ -502,7 +500,6 @@ DEPENDENCIES
   slim-rails
   solargraph
   statesman
-  title
   ttfunk (~> 1.5.1)
   webpacker (>= 4.0.x)
 
