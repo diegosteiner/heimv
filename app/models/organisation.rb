@@ -7,14 +7,18 @@
 #  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
+#  domain                    :string
 #  email                     :string
 #  esr_participant_nr        :string
 #  iban                      :string
 #  invoice_ref_strategy_type :string
+#  location                  :string
 #  message_footer            :text
+#  messages_enabled          :boolean          default(TRUE)
 #  name                      :string
 #  payment_deadline          :integer          default(30), not null
 #  representative_address    :string
+#  smtp_url                  :string
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #
@@ -37,15 +41,15 @@ class Organisation < ApplicationRecord
   validates :name, :address, :email, presence: true
 
   def booking_strategy
-    @booking_strategy ||= Kernel.const_get(booking_strategy_type).new
+    @booking_strategy ||= BookingStrategies.const_get(booking_strategy_type).new
   end
 
   def booking_ref_strategy
-    RefStrategies.const_get(booking_ref_strategy_type).new
+    @booking_ref_strategy ||= RefStrategies.const_get(booking_ref_strategy_type).new
   end
 
   def invoice_ref_strategy
-    RefStrategies.const_get(invoice_ref_strategy_type).new
+    @invoice_ref_strategy ||= RefStrategies.const_get(invoice_ref_strategy_type).new
   end
 
   # TODO: extract to hash
@@ -65,17 +69,16 @@ class Organisation < ApplicationRecord
     30.months
   end
 
-  # TODO: make cusotmizable
-  def contract_location
-    'Zürich'
-  end
-
   def to_s
     name
   end
 
-  def self.current
-    first
+  def mailer
+    @mailer ||= OrganisationMailer2.new(self)
+  end
+
+  def host
+    domain || ENV['DEFAULT_DOMAIN'] || 'heimv.localhost:3000'
   end
 
   def missing_markdown_templates(locales = I18n.available_locales)
@@ -83,9 +86,5 @@ class Organisation < ApplicationRecord
       locales.map { |locale| { locale: locale, key: key } }
     end
     locale_keys.reject { |locale_key| markdown_templates.where(locale_key).exists? }
-  end
-
-  def messages_enabled?
-    true
   end
 end

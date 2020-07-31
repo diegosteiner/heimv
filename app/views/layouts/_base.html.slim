@@ -1,20 +1,20 @@
 doctype html
 html[lang="#{I18n.locale}-CH"]
   head
-    title= t('titles.application')
+    title= t('titles.application', organisation: current_organisation&.name)
     meta[name='viewport' content='width=device-width, initial-scale=1.0']
     == stylesheet_pack_tag 'app'
     == csrf_meta_tags
     == csp_meta_tag
     == javascript_packs_with_chunks_tag 'app', defer: true
   body[class=Rails.env]
-    #app[v-cloak]
-      header
-        == render 'layouts/navigation'
-      == render 'layouts/messages'
-      main.container.py-5[role='main']
-        == yield
-      footer.py-3
-        .small.text-center
-          | Version:
-          =< Rails.configuration.version
+    header
+      == render 'layouts/navigation'
+    == render 'layouts/messages'
+    main.container.py-5[role='main']
+      == yield
+    footer.py-2
+      .small.text-center
+        => Rails.configuration.version
+        | –
+        =< current_organisation&.name

@@ -37,7 +37,7 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { address: 'mail' }
+  config.action_mailer.smtp_settings = SmtpUrl.from_string(ENV.fetch('SMTP_URL')) || { address: 'mail' }
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true

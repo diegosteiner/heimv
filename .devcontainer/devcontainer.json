@@ -5,8 +5,7 @@
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
 		"terminal.integrated.shell.linux": "ash",
-		"ruby.format": "rubocop",
-		"ruby.useBundler": false,
+		"ruby.useBundler": true,
 		"ruby.useLanguageServer": true,
 		"[ruby]": {
 			"editor.insertSpaces": true,
@@ -14,9 +13,6 @@
 		},
 		"solargraph.commandPath": "/usr/local/bundle/bin/solargraph",
 		"solargraph.bundlerPath": "/usr/local/bin/bundle",
-		"ruby.rubocop.useBundler": true,
-		"ruby.rubocop.onSave": true,
-		"ruby.rubocop.configFilePath": "/app/.rubocop.yml",
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [

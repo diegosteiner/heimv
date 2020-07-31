@@ -13,6 +13,6 @@ class OccupancyCalendar
   end
 
   def occupancies
-    home.occupancies.blocking.at(from: window_from, to: window_to).includes(:booking)
+    home.occupancies.blocking.at(from: window_from, to: window_to).includes(booking: [:deadline])
   end
 end

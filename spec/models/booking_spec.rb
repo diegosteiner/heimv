@@ -24,6 +24,7 @@
 #  usages_presumed       :boolean          default(FALSE)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  deadline_id           :bigint
 #  home_id               :bigint           not null
 #  occupancy_id          :uuid
 #  organisation_id       :bigint           not null
@@ -31,6 +32,7 @@
 #
 # Indexes
 #
+#  index_bookings_on_deadline_id      (deadline_id)
 #  index_bookings_on_home_id          (home_id)
 #  index_bookings_on_organisation_id  (organisation_id)
 #  index_bookings_on_ref              (ref)

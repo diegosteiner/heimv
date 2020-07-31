@@ -7,14 +7,18 @@
 #  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
+#  domain                    :string
 #  email                     :string
 #  esr_participant_nr        :string
 #  iban                      :string
 #  invoice_ref_strategy_type :string
+#  location                  :string
 #  message_footer            :text
+#  messages_enabled          :boolean          default(TRUE)
 #  name                      :string
 #  payment_deadline          :integer          default(30), not null
 #  representative_address    :string
+#  smtp_url                  :string
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #

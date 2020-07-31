@@ -151,10 +151,13 @@ en:
       organisation:
         address: Adresse
         contract_signature: Vertragsunterschrift
+        domain: Domain
         esr_participant_nr: Kontonummer
         iban: IBAN
+        location: Ort
         logo: Logo
         message_footer: Fusszeile für Nachrichten
+        messages_enabled: Nachrichten aktiviert
         name: Name
         privacy_statement_pdf: Datenschutzerklärung
         representative_address: Adresse der Vertretung für Verträge
@@ -815,5 +818,5 @@ en:
       short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"
   titles:
-    application: Heimverwaltung
+    application: HeimV %{organisation}
   until: bis

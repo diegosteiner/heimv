@@ -5,6 +5,7 @@ module Manage
       load_and_authorize_resource :usage, through: :booking
 
       def index
+        @usages = @usages.includes(:tarif)
         respond_with :manage, @booking, @usages
       end
 

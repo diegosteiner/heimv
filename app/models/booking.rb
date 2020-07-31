@@ -24,6 +24,7 @@
 #  usages_presumed       :boolean          default(FALSE)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  deadline_id           :bigint
 #  home_id               :bigint           not null
 #  occupancy_id          :uuid
 #  organisation_id       :bigint           not null
@@ -31,6 +32,7 @@
 #
 # Indexes
 #
+#  index_bookings_on_deadline_id      (deadline_id)
 #  index_bookings_on_home_id          (home_id)
 #  index_bookings_on_organisation_id  (organisation_id)
 #  index_bookings_on_ref              (ref)
@@ -45,41 +47,43 @@
 class Booking < ApplicationRecord
   include BookingState
 
-  DEFAULT_INCLUDES = %i[organisation occupancy tenant home booking_transitions
-                        invoices contracts deadlines payments agent_booking].freeze
+  DEFAULT_INCLUDES = [:organisation, :tenant, :home, :booking_transitions, :invoices, :contracts,
+                      :deadline, :payments, :agent_booking, occupancy: :home].freeze
 
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, optional: true
   belongs_to :occupancy, inverse_of: :booking
-
-  has_one :agent_booking, dependent: :destroy, inverse_of: :booking
+  belongs_to :deadline, inverse_of: :booking, optional: true
 
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :payments, dependent: :destroy, autosave: false
   has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
   has_many :deadlines, dependent: :destroy, inverse_of: :booking
   has_many :messages, dependent: :destroy, inverse_of: :booking
-
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :contracts, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :offers, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
-  has_one :booking_agent, through: :agent_booking
-  has_one :deadline, ->(booking) { booking.deadlines.next }, inverse_of: :booking
 
-  validates :home, :occupancy, presence: true
+  has_one  :booking_agent, through: :agent_booking
+  has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
+
+  attribute :accept_conditions, default: false
+
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
-
   validates :accept_conditions, acceptance: true, on: :public_create
   validates :purpose, :tenant, presence: true, on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :approximate_headcount, numericality: true, on: :public_update
 
   validate(on: %i[public_create public_update]) do
-    errors.add(:base, :conflicting) if occupancy.conflicting.any?
+    next errors.add(:base, :conflicting) if occupancy.conflicting.any?
+
+    margin = home.booking_margin
+    errors.add(:base, :booking_margin_too_small, margin: margin) if occupancy.conflicting(margin).any?
   end
 
   scope :ordered, -> { joins(:occupancy).order(Occupancy.arel_table[:begins_at]) }
@@ -96,11 +100,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :deadline, update_only: true, reject_if: ->(attributes) { attributes[:at].blank? }
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank, update_only: true
 
-  attribute :accept_conditions, default: false
-
-  def to_s
-    ref
-  end
+  delegate :to_s, to: :ref
 
   def overnight_stays
     occupancy.nights * approximate_headcount
@@ -169,7 +169,7 @@ class Booking < ApplicationRecord
   end
 
   def set_ref
-    self.ref ||= RefStrategies::DefaultBookingRef.new.generate(self)
+    self.ref ||= organisation.booking_ref_strategy.generate(self)
   end
 
   def set_organisation

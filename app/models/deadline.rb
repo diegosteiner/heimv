@@ -25,11 +25,12 @@
 
 class Deadline < ApplicationRecord
   belongs_to :booking, inverse_of: :deadlines
+  # has_one :booking, inverse_of: :deadline
 
   scope :ordered, -> { order(at: :desc) }
   scope :armed, -> { where(armed: true) }
   scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
-  scope :next, -> { armed.ordered }
+  scope :next, -> { armed.ordered.first }
 
   validates :at, presence: true
 
@@ -59,5 +60,6 @@ class Deadline < ApplicationRecord
 
   def reload_booking_deadlines
     booking.deadlines.reload
+    booking.update(deadline: booking.deadlines.next)
   end
 end

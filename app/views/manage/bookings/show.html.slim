@@ -73,8 +73,6 @@ section.breakout-sm
               br
               = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
 
-          hr
-
           = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
             - actions = current_organisation.booking_strategy.manage_actions.values
             = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }

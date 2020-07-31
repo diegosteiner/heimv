@@ -1,6 +1,6 @@
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
-if ENV['TRACE_OBJECT_ALLICATIONS'].present?
+if ENV['TRACE_OBJECT_ALLICATIONS']
   require 'objspace'
   ObjectSpace.trace_object_allocations_start
 end

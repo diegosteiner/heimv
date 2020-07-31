@@ -38,7 +38,7 @@
     = f.text_area :invoice_address
     = f.form_group :committed_request
       = f.label :committed_request, Booking.human_attribute_name(:committed_request)
-      = f.radio_button :committed_request, false, label: t(:'activerecord.enums.booking.committed_request.provisional_request')
+      = f.radio_button :committed_request, false, label: t(:'activerecord.enums.booking.committed_request.provisional_request'), checked: @booking.committed_request.blank?
       = f.radio_button :committed_request, true, label: t(:'activerecord.enums.booking.committed_request.definitive_request')
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error

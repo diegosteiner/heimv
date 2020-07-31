@@ -59,15 +59,10 @@ class Message < ApplicationRecord
   end
 
   def deliver
-    yield(self) if block_given?
-    deliverable? && action_mailer_mail.deliver_now && update(sent_at: Time.zone.now)
+    deliver_mail && update(sent_at: Time.zone.now)
   end
 
-  def action_mailer_mail
-    @action_mailer_mail ||= OrganisationMailer.with(organisation: organisation).booking_message(self)
-  end
-
-  def attachments_for_action_mailer
+  def attachments_for_mail
     Hash[attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }]
   end
 
@@ -94,5 +89,13 @@ class Message < ApplicationRecord
     return [booking.booking_agent&.email].compact if addressed_to_booking_agent?
 
     [booking.organisation.email]
+  end
+
+  def deliver_mail
+    return unless deliverable?
+
+    organisation.mailer.mail(to: to, subject: subject_with_ref, cc: cc,
+                             body: markdown.to_text, html_body: markdown.to_html,
+                             attachments: attachments_for_mail)
   end
 end

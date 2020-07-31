@@ -48,7 +48,7 @@ module Export
         Prawn::Document.new(document_options).tap do |document|
           document.font_families.update(self.class.font_families)
           document.font('OpenSans')
-          document.font_size(10)
+          document.font_size(9)
           document.default_leading(5)
         end
       end

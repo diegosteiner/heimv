@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   default_form_builder BootstrapForm::FormBuilder
   helper_method :current_organisation
   before_action do
-    Rack::MiniProfiler.authorize_request if current_user&.admin?
+    Rack::MiniProfiler.authorize_request if current_user&.role_admin?
   end
 
   protected
@@ -26,7 +26,9 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organisation
-    @current_organisation ||= Organisation.current
+    @current_organisation = current_user&.organisation ||
+                            Organisation.where(domain: request.domain).first ||
+                            Organisation.first
   end
 
   private

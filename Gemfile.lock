@@ -266,6 +266,8 @@ GEM
       ast (~> 2.4.1)
     pdf-core (0.7.0)
     pg (1.2.3)
+    pony (1.13.1)
+      mail (>= 2.0)
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
       ttfunk (~> 1.5)
@@ -497,6 +499,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   newrelic_rpm
   pg
+  pony
   prawn
   prawn-table
   pry-rails

@@ -7,8 +7,8 @@ module Ability
       return if user.blank?
 
       user_abilities(user)
-      admin_abilities(user) if user.admin?
-      manage_abilities(user) # if user.user?
+      admin_abilities(user) if user.role_admin?
+      manage_abilities(user) if user.role_manager?
     end
 
     protected

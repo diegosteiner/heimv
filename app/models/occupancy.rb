@@ -39,13 +39,13 @@ class Occupancy < ApplicationRecord
   scope :blocking, -> { where(occupancy_type: %i[tentative occupied closed]) }
   scope :begins_at, (lambda do |before: nil, after: nil|
     return where(arel_table[:begins_at].between(after..before)) if before.present? && after.present?
-    return where(arel_table[:begins_at].gteq(after)) if after.present?
-    return where(arel_table[:begins_at].lteq(before)) if before.present?
+    return where(arel_table[:begins_at].gt(after)) if after.present?
+    return where(arel_table[:begins_at].lt(before)) if before.present?
   end)
   scope :ends_at, (lambda do |before: nil, after: nil|
     return where(arel_table[:ends_at].between(after..before)) if before.present? && after.present?
-    return where(arel_table[:ends_at].gteq(after)) if after.present?
-    return where(arel_table[:ends_at].lteq(before)) if before.present?
+    return where(arel_table[:ends_at].gt(after)) if after.present?
+    return where(arel_table[:ends_at].lt(before)) if before.present?
   end)
   scope :at, (lambda do |from:, to:|
     begins_at(before: from).ends_at(after: to)
@@ -85,15 +85,14 @@ class Occupancy < ApplicationRecord
     begins_at.present? && ends_at.present?
   end
 
-  def overlapping
+  def overlapping(margin = 0)
     return unless complete?
 
-    margin = booking&.home&.booking_margin || 0
     home.occupancies.at(from: begins_at - margin.minutes, to: ends_at + margin.minutes)
   end
 
-  def conflicting
-    overlapping && overlapping.blocking.where.not(id: id)
+  def conflicting(margin = 0)
+    overlapping(margin)&.blocking&.where&.not(id: id)
   end
 
   def span

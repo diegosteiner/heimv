@@ -2,7 +2,7 @@
 
 describe 'Home CRUD', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_markdown_templates) }
-  let(:user) { create(:user, organisation: organisation) }
+  let(:user) { create(:user, :manager, organisation: organisation) }
   let(:home) { create(:home, organisation: organisation) }
   let(:new_home) { build(:home, organisation: organisation) }
 

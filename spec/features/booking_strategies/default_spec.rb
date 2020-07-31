@@ -2,7 +2,7 @@
 
 describe 'Booking', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_markdown_templates) }
-  let(:user) { create(:user, organisation: organisation) }
+  let(:user) { create(:user, :manager, organisation: organisation) }
   let(:home) { create(:home, organisation: organisation) }
   let!(:tarifs) { create_list(:tarif, 2, home: home) }
   let!(:booking) do
@@ -12,10 +12,6 @@ describe 'Booking', :devise, type: :feature do
            skip_automatic_transition: false,
            committed_request: false,
            messages_enabled: true)
-  end
-
-  before do
-    allow(Organisation).to receive(:current).and_return(organisation)
   end
 
   it 'flows through happy path' do
