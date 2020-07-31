@@ -11,13 +11,13 @@ gem 'bootsnap'
 gem 'bootstrap_form',
     git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
     ref: 'master'
-gem 'bullet'
 gem 'camt_parser'
 gem 'cancancan'
 gem 'countries'
 gem 'country_select'
 gem 'dalli'
 gem 'date_time_attribute'
+gem 'derailed_benchmarks'
 gem 'devise'
 gem 'devise-i18n'
 gem 'exception_notification'
@@ -26,17 +26,16 @@ gem 'faker', require: false
 gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
-gem 'memory_profiler' # TODO: Remove
 gem 'pg'
 gem 'prawn'
 gem 'prawn-table'
 gem 'puma'
-gem 'rack-mini-profiler' # TODO: Remove
+gem 'rack-mini-profiler'
 gem 'rails', '~> 6.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
 gem 'rbtrace' # TODO: Remove
-gem 'react-rails', '~> 2.6'
+gem 'react-rails'
 gem 'responders'
 gem 'rqrcode'
 gem 'slim-rails'
@@ -56,6 +55,7 @@ end
 
 group :development, :test do
   gem 'brakeman'
+  gem 'bullet'
   gem 'bundler-audit'
   gem 'bundler-leak'
   gem 'byebug', platform: :mri

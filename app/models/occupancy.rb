@@ -56,7 +56,7 @@ class Occupancy < ApplicationRecord
   validates :begins_at, :ends_at, :booking, presence: true
   validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
   validate do
-    errors.add(:ends_at, :invalid) unless begins_at && ends_at && begins_at < ends_at
+    errors.add(:ends_at, :invalid) unless complete? && begins_at < ends_at
   end
   validate on: %i[public_create public_update] do
     next if ends_at.blank?
@@ -81,20 +81,30 @@ class Occupancy < ApplicationRecord
     ends_at < at
   end
 
+  def complete?
+    begins_at.present? && ends_at.present?
+  end
+
   def overlapping
+    return unless complete?
+
     margin = booking&.home&.booking_margin || 0
-    begins_at && ends_at && home.occupancies.at(from: begins_at - margin.minutes, to: ends_at + margin.minutes)
+    home.occupancies.at(from: begins_at - margin.minutes, to: ends_at + margin.minutes)
   end
 
   def conflicting
-    overlapping.blocking.where.not(id: id)
+    overlapping && overlapping.blocking.where.not(id: id)
   end
 
   def span
+    return unless complete?
+
     begins_at..ends_at
   end
 
   def nights
+    return unless complete?
+
     (ends_at.to_date - begins_at.to_date).to_i
   end
 
