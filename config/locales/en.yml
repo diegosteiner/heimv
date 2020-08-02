@@ -255,6 +255,7 @@ en:
               not_postponable: Frist kann nicht verlängert werden
             state:
               invalid_transition: 'Invalid transition: %{transition}'
+          booking_margin_too_small: Die Pufferzeit von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
         occupancy:
           attributes:

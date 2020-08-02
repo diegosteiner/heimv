@@ -32,4 +32,10 @@ RSpec.describe Usage, type: :model do
 
     it { is_expected.to eq(6.65) }
   end
+
+  describe '#save' do
+    let(:usage) { build(:usage) }
+
+    it { expect(usage.save!).to be true }
+  end
 end

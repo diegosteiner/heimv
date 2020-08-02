@@ -45,11 +45,15 @@ module BookingState
   def state_transition
     return unless valid?
 
-    state_machine.transition_to(transition_to) && self.transition_to = nil if current_state.to_s != transition_to.to_s
+    state_machine.transition_to(transition_to) && self.transition_to = nil if transition?
     return if skip_automatic_transition
 
     state_machine_automator.run.tap do
       errors.clear
     end
+  end
+
+  def transition?
+    transition_to.present? && current_state.to_s != transition_to.to_s
   end
 end

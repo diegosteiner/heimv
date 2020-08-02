@@ -1,5 +1,5 @@
 if defined?(Bullet)
-  Bullet.enable = Rails.env.development? || Rails.env.test?
+  Bullet.enable = Rails.env.development? || Rails.env.test? && false
   Bullet.rails_logger = true
   Bullet.raise = true
   Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Usage', association: :tarif

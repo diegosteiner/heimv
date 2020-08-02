@@ -14,6 +14,10 @@ module Export
         @font_families ||= superclass.ancestors.include?(Base) && superclass.font_families || {}
       end
 
+      def self.font_size
+        @font_size ||= 9
+      end
+
       def self.to_render(_name = nil, &block)
         render_queue << block if block_given?
       end
@@ -48,7 +52,7 @@ module Export
         Prawn::Document.new(document_options).tap do |document|
           document.font_families.update(self.class.font_families)
           document.font('OpenSans')
-          document.font_size(9)
+          document.font_size(self.class.font_size)
           document.default_leading(5)
         end
       end
@@ -58,7 +62,7 @@ module Export
           page_size: 'A4',
           optimize_objects: true,
           compress: true,
-          margin: [50] * 4,
+          margin: [50, 60, 50, 60],
           align: :left, kerning: true
         }
       end

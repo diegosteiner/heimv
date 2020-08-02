@@ -7,7 +7,7 @@ class AddDeadlineIdToBookings < ActiveRecord::Migration[6.0]
     add_reference :bookings, :deadline, null: true
 
     Booking.find_each do |booking|
-      booking.update_columns(deadline_id: booking.deadlines.next)
+      booking.update_columns(deadline_id: booking.deadlines.next.pluck(:id))
     end
   end
 end

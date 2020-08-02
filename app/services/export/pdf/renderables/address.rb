@@ -16,13 +16,13 @@ module Export
 
         def render
           bounding_box [x_position, y_position], width: 200, height: 140 do
-            text @options[:label], size: 13, style: :bold if @options[:label]
+            text @options[:label], size: 12, style: :bold if @options[:label]
             move_down 5
 
             if representing?
               text @options[:representing]
               move_down 5
-              text I18n.t('contracts.represented_by'), size: 8
+              text I18n.t('contracts.represented_by'), size: 7
             end
 
             text @address

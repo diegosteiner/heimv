@@ -21,7 +21,7 @@ module Export
           protected
 
           def render_title
-            text payment_info.title, size: 14
+            text payment_info.title, size: font_size + 2
           end
 
           def height
@@ -29,7 +29,7 @@ module Export
           end
 
           def font_size
-            10
+            9
           end
 
           def render_text_in_columns

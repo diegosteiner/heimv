@@ -10,7 +10,7 @@ module Export
           end
 
           def font_size
-            8
+            7
           end
         end
       end

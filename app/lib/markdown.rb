@@ -34,24 +34,24 @@ class Markdown
 
       if /^== /.match?(line)
         line.gsub! %r{/^== /}, ''
-        next { text: line, style: :bold, size: 25, align: :center }
+        next { text: line, style: :bold, size: 24, align: :center }
       elsif /^-- /.match?(line)
-        next { text: line, style: :bold, size: 18, align: :center }
+        next { text: line, style: :bold, size: 16, align: :center }
       elsif /^#####+ /.match?(line)
         line.gsub!(/^#+ /, '')
         next { text: line, style: :bold }
       elsif /^####+ /.match?(line)
         line.gsub!(/^#+ /, '')
-        next { text: line, style: :bold, size: 10 }
+        next { text: line, style: :bold, size: 9 }
       elsif /^###+ /.match?(line)
         line.gsub!(/^###+ /, '')
-        next { text: line, style: :bold, size: 11 }
+        next { text: line, style: :bold, size: 10 }
       elsif /^##+ /.match?(line)
         line.gsub!(/^##+ /, '')
-        next { text: line, style: :bold, size: 13 }
+        next { text: line, style: :bold, size: 12 }
       elsif /^#+ /.match?(line)
         line.gsub!(/^#+ /, '')
-        next { text: line, style: :bold, size: 15 }
+        next { text: line, style: :bold, size: 14 }
       elsif /^\s*[A-Z]\. /.match?(line)
         next { text: line, final_gap: true }
       elsif /^\s*\d{1,2}\. /.match?(line)

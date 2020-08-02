@@ -48,7 +48,7 @@ class Booking < ApplicationRecord
   include BookingState
 
   DEFAULT_INCLUDES = [:organisation, :tenant, :home, :booking_transitions, :invoices, :contracts,
-                      :deadline, :payments, :agent_booking, occupancy: :home].freeze
+                      :payments, :agent_booking, deadline: :booking, occupancy: :home].freeze
 
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings
@@ -136,6 +136,10 @@ class Booking < ApplicationRecord
 
   def cache_key
     [super, updated_at.to_i].join('-')
+  end
+
+  def update_deadline!
+    deadlines.reload && update(deadline: deadlines.next.take)
   end
 
   def to_liquid

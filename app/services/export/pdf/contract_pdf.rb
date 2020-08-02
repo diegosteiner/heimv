@@ -19,7 +19,7 @@ module Export
         next if tarifs.blank?
 
         move_down 10
-        table(tarif_table_data, column_widths: [200, 200, 94]) do
+        table(tarif_table_data, width: bounds.width) do
           rows(0).style(font_style: :bold)
           cells.style(borders: [], padding: [0, 0, 4, 0])
           column(2).style(align: :right)
