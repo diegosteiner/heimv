@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RefStrategies
   class ESR < RefStrategy
     # ESR Modes

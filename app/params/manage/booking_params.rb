@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class BookingParams < Public::BookingParams::Create
     def self.permitted_keys

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Public
   class AgentBookingsController < BaseController
     load_and_authorize_resource :agent_booking

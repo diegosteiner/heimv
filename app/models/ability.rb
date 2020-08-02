@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ability
   class Base
     include CanCan::Ability

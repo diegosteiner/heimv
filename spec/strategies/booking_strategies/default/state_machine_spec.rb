@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 describe BookingStrategies::Default::StateMachine do
   let(:booking) { create(:booking, skip_automatic_transition: true) }

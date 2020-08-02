@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class IcalService
   def generate_from_occupancy; end
 

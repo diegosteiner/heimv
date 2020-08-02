@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BookingStrategy
   include TemplateRenderable
   include Translatable

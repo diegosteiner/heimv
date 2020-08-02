@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Import
   class OrganisationImporter < Base
     def relevant_attributes

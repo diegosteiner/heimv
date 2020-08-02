@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class BookingsController < BaseController
     load_and_authorize_resource :booking

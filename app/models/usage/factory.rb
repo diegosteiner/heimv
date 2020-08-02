@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Usage
   class Factory
     attr_reader :booking

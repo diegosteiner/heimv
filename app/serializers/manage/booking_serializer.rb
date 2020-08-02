@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class BookingSerializer < Public::BookingSerializer
     has_one :tenant,   serializer: Manage::TenantSerializer

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Public
   class BookingSerializer < ApplicationSerializer
-    DEFAULT_INCLUDES = 'occupancy,home'.freeze
+    DEFAULT_INCLUDES = 'occupancy,home'
 
     has_one :occupancy, serializer: Public::OccupancySerializer
     has_one :home, serializer: Public::HomeSerializer

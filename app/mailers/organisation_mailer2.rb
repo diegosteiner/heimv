@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrganisationMailer2
   def initialize(organisation)
     @organisation = organisation

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class MarkdownTemplatesController < BaseController
     load_and_authorize_resource :markdown_template

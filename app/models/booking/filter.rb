@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Booking
   class Filter < ApplicationFilter
     attribute :ref

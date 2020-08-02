@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Public
   class AgentBookingSerializer < ApplicationSerializer
     # has_one :booking_agent, serializer: Public::OccupancySerializer

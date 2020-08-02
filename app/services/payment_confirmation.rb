@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PaymentConfirmation
   attr_reader :payment
   delegate :booking, to: :payment

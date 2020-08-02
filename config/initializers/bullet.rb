@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if defined?(Bullet)
   Bullet.enable = Rails.env.development? || Rails.env.test? && false
   Bullet.rails_logger = true

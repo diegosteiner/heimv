@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Public
   class BaseController < ApplicationController
     def current_ability

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :meter_reading do
     at { '2018-10-10 20:54:45' }

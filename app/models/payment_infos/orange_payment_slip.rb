@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PaymentInfos
   class OrangePaymentSlip < ::PaymentInfo
     def code_line

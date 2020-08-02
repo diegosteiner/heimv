@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PaymentInfos
   class TextPaymentInfo < ::PaymentInfo
     delegate :esr_participant_nr, to: :organisation

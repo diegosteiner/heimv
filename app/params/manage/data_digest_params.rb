@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class DataDigestParams < ApplicationParams
     def self.permitted_keys

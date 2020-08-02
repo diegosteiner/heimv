@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Markdown
   attr_reader :body
   delegate :to_s, :lines, to: :body

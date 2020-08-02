@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Pony.options = if Rails.env.test?
                  {
                    from: ENV.fetch('MAIL_FROM', 'test@heimv.local'),

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module InvoiceParts
   class Factory
     include ActiveSupport::NumberHelper

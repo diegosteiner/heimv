@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Export
   module Pdf
     class Renderable

@@ -1,9 +1,10 @@
 require:
   # - rubocop-rspec
   - rubocop-rails
+  # - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
   Exclude:
     - 'bin/*'
     - 'script/**/*'
@@ -45,9 +46,6 @@ Metrics/AbcSize:
     - 'db/migrate/*'
 
 Style/Documentation:
-  Enabled: false
-
-Style/FrozenStringLiteralComment:
   Enabled: false
 
 Naming/MethodParameterName:

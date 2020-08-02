@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   responders :flash, :http_cache
   respond_to :html, :json

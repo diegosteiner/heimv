@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MockStateMachine
   attr_accessor :current_state
 

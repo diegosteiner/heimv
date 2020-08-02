@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LiquidFilters
   def i18n_translate(input, scope = nil)
     I18n.t(input, scope: scope, default: nil)

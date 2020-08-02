@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Occupancy
   class Filter < ApplicationFilter
     attribute :begins_at_after, :datetime

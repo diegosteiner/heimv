@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class DataDigestsController < BaseController
     load_and_authorize_resource :data_digest

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class TarifParams < ApplicationParams
     def permit_update_all(params)

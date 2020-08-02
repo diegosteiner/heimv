@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TarifSelectors
   TYPES = {
     booking_nights: BookingNights,

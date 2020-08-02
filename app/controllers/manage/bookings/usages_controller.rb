@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   module Bookings
     class UsagesController < BaseController

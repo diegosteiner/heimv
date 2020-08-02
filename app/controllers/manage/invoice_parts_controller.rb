@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class InvoicePartsController < BaseController
     load_and_authorize_resource :invoice
