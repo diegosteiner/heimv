@@ -9,4 +9,4 @@
 #   )
 # end
 
-Rails.application.routes.default_url_options[:host] = ENV['APP_HOST']
+Rails.application.routes.default_url_options[:host] = ENV['DEFAULT_DOMAIN']

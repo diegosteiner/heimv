@@ -26,7 +26,8 @@ module DataDigests
       def data_header
         [
           ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
-          ::Booking.human_attribute_name(:approximate_headcount), ::Tenant.human_attribute_name(:country)
+          I18n.t('data_digests/parahotelerie_statistics.total_overnight_stays'),
+          ::Tenant.human_attribute_name(:country)
         ]
       end
 

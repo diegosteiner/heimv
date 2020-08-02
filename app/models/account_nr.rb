@@ -1,10 +1,7 @@
 class AccountNr
   attr_reader :parts
 
-  def initialize(value)
-    @parts = value.match(/(?<esr_mode>\d{2})-(?<id>\d{3,6})-(?<checksum>\d)/)&.named_captures || {}
-    @parts.transform_keys!(&:to_sym).transform_values!(&:to_i)
-  end
+  def initialize(value); end
 
   def to_s
     return '' if parts.none?

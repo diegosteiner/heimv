@@ -31,6 +31,7 @@ class Usage < ApplicationRecord
   belongs_to :booking, inverse_of: :usages
   has_many :invoice_parts, dependent: :nullify
   has_many :tarif_selectors, through: :tarif
+  has_one :organisation, through: :booking
 
   attribute :apply, default: true
   delegate(:position, to: :tarif)

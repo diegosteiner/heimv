@@ -12,7 +12,7 @@ class Payment
     end
 
     def from_camt_entry(entry)
-      return unless entry.booked? && entry.credit? && entry.currency == 'CHF'
+      return unless entry.booked? && entry.credit? && entry.currency.upcase == @organisation.currency.upcase
 
       entry.transactions.map do |transaction|
         from_camt_transaction(transaction, entry)

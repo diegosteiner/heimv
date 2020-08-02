@@ -12,13 +12,6 @@ module PaymentInfos
       ((amount * 100) - (amount.truncate * 100)).to_i
     end
 
-    def esr_participant_nr
-      AccountNr.new(organisation.esr_participant_nr)
-    end
-
-    def qrcode
-      @qrcode ||= SwissQrCode.new(invoice)
-      @qrcode.qrcode
-    end
+    delegate :esr_participant_nr, to: :organisation
   end
 end

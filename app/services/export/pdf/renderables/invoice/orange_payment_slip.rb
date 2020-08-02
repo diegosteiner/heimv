@@ -47,7 +47,7 @@ module Export
           def render_esr_participant_nr
             [77, 249].each do |x|
               bounding_box([x, 181], width: 85, height: 10) do
-                font('ocr') { text payment_info.esr_participant_nr.to_s }
+                font('ocr') { text payment_info.organisation.esr_participant_nr.to_s }
               end
             end
           end

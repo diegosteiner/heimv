@@ -18,6 +18,7 @@ module Export
           private
 
           def render_title
+            # TODO: translate
             text 'Zahlungsinformationen', size: 16
           end
 

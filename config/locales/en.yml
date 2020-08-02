@@ -539,6 +539,8 @@ en:
   data_digests:
     period_from: von %{date}
     period_to: bis %{date}
+  data_digests/parahotelerie_statistics:
+    total_overnight_stays: Total Personennächte
   date:
     abbr_day_names:
     - Sun
@@ -706,6 +708,8 @@ en:
       create: Create
       submit: Speichern
       update: Update
+  invoice_parts:
+    label_2: "%{used_units} × %{unit} à %{price_per_unit}"
   manage:
     bookings:
       tarifs:
@@ -820,4 +824,5 @@ en:
       time: "%H:%M"
   titles:
     application: HeimV %{organisation}
+  unauthorized: Sie haben keine Berechtigung für diese Seite. Bitte loggen Sie sich ein
   until: bis

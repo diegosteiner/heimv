@@ -36,9 +36,9 @@ class ApplicationController < ActionController::Base
   def unauthorized
     if current_user.nil?
       session[:next] = request.fullpath
-      redirect_to login_url, alert: 'You are not authorized.'
+      redirect_to login_url, alert: t('unauthorized')
     else
-      redirect_to :back, alert: 'You are not authorized.'
+      redirect_to :back, alert: t('unauthorized')
     end
   end
 end

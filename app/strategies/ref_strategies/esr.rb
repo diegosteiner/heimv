@@ -36,7 +36,7 @@ module RefStrategies
         amount_in_cents: invoice.amount_in_cents,
         checksum_1: checksum(esr_mode + format('%<amount_in_cents>010d', amount_in_cents: invoice.amount_in_cents)),
         ref: invoice.ref.to_s.rjust(27, '0'),
-        account_nr: AccountNr.new(invoice.organisation.esr_participant_nr).to_code
+        account_nr: account_nr_to_code(invoice.organisation.esr_participant_nr)
       }
       format('%<esr_mode>s%<amount_in_cents>010d%<checksum_1>d>%<ref>s+ %<account_nr>s>', code)
     end
@@ -46,6 +46,14 @@ module RefStrategies
       ref_column = Invoice.arel_table[:ref]
       padded_ref_column = Arel::Nodes::NamedFunction.new('LPAD', [ref_column, 27, Arel::Nodes.build_quoted('0')])
       scope.where(padded_ref_column.eq(ref)).first
+    end
+
+    def account_nr_to_code(value)
+      parts = value.match(/(?<esr_mode>\d{2})-(?<id>\d{3,6})-(?<checksum>\d)/)&.named_captures || {}
+      parts.transform_keys!(&:to_sym).transform_values!(&:to_i)
+      return '' if parts.none?
+
+      format('%<esr_mode>02d%<id>06d%<checksum>1d', parts)
     end
   end
 end
