@@ -36,7 +36,7 @@ module Manage
     def organisation_params
       params[:organisation]&.permit(:name, :address, :booking_strategy_type, :invoice_ref_strategy_type,
                                     :esr_participant_nr, :message_footer, :logo, :location, :domain,
-                                    :privacy_statement_pdf, :terms_pdf, :iban, :messages_enabled,
+                                    :privacy_statement_pdf, :terms_pdf, :iban, :messages_enabled, :mail_from,
                                     :representative_address, :contract_signature, :email, :smtp_url)
     end
   end

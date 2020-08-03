@@ -30,9 +30,9 @@
 FactoryBot.define do
   factory :message do
     body { 'MyText' }
-    sent_at { '2018-10-23 14:08:21' }
+    sent_at { nil }
     subject { 'MyString' }
 
-    booking { nil }
+    booking
   end
 end

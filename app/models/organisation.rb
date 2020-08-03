@@ -6,6 +6,7 @@
 #
 #  id                        :bigint           not null, primary key
 #  address                   :text
+#  bcc                       :string
 #  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
@@ -15,6 +16,7 @@
 #  iban                      :string
 #  invoice_ref_strategy_type :string
 #  location                  :string
+#  mail_from                 :string
 #  message_footer            :text
 #  messages_enabled          :boolean          default(TRUE)
 #  name                      :string
@@ -76,7 +78,7 @@ class Organisation < ApplicationRecord
   end
 
   def mailer
-    @mailer ||= OrganisationMailer2.new(self)
+    @mailer ||= OrganisationMailer.new(self)
   end
 
   def host

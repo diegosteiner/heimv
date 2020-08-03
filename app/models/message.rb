@@ -37,15 +37,16 @@ class Message < ApplicationRecord
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
 
   validates :to, presence: true
+  before_validation do
+    self.to = to.presence || resolve_addressed_to
+  end
 
   def subject_with_ref
     # TODO: Replace with liquid template
     [subject, "[#{booking.ref}]"].compact.join(' ')
   end
 
-  def to
-    @to ||= resolve_addressed_to
-  end
+  delegate :bcc, to: :organisation
 
   def markdown
     @markdown ||= Markdown.new(body)
@@ -61,7 +62,9 @@ class Message < ApplicationRecord
   end
 
   def deliver
-    deliver_mail && update(sent_at: Time.zone.now)
+    return unless deliverable?
+
+    deliver_mail! && update(sent_at: Time.zone.now)
   end
 
   def attachments_for_mail
@@ -93,10 +96,8 @@ class Message < ApplicationRecord
     [booking.organisation.email]
   end
 
-  def deliver_mail
-    return unless deliverable?
-
-    organisation.mailer.mail(to: to, subject: subject_with_ref, cc: cc,
+  def deliver_mail!
+    organisation.mailer.mail(to: to, subject: subject_with_ref, cc: cc, bcc: bcc,
                              body: markdown.to_text, html_body: markdown.to_html,
                              attachments: attachments_for_mail)
   end

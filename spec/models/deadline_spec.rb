@@ -32,8 +32,6 @@ RSpec.describe Deadline, type: :model do
   let(:deadline) { build(:deadline, booking: booking) }
 
   describe '#save' do
-    subject {}
-
     context 'with no deadline in place' do
       it do
         expect(booking.deadline).to be(nil)

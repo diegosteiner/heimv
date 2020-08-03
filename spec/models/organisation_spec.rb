@@ -6,6 +6,7 @@
 #
 #  id                        :bigint           not null, primary key
 #  address                   :text
+#  bcc                       :string
 #  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
@@ -15,6 +16,7 @@
 #  iban                      :string
 #  invoice_ref_strategy_type :string
 #  location                  :string
+#  mail_from                 :string
 #  message_footer            :text
 #  messages_enabled          :boolean          default(TRUE)
 #  name                      :string
@@ -28,5 +30,11 @@
 require 'rails_helper'
 
 RSpec.describe Organisation, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:organisation) { build(:organisation) }
+
+  describe '#save' do
+    it do
+      expect(organisation.save).to be true
+    end
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_31_223408) do
+ActiveRecord::Schema.define(version: 2020_08_03_190808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -287,6 +287,8 @@ ActiveRecord::Schema.define(version: 2020_07_31_223408) do
     t.string "location"
     t.boolean "messages_enabled", default: true
     t.string "smtp_url"
+    t.string "bcc"
+    t.string "mail_from"
   end
 
   create_table "payments", force: :cascade do |t|
