@@ -255,7 +255,7 @@ de:
               not_postponable: kann nicht verlängert werden
             state:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
-          booking_margin_too_small: Die Pufferzeit von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
+          booking_margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
         occupancy:
           attributes:
