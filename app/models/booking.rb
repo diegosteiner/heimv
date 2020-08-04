@@ -70,8 +70,8 @@ class Booking < ApplicationRecord
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
 
-  has_one  :booking_agent, through: :agent_booking
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
+  has_one  :booking_agent, through: :agent_booking
 
   attribute :accept_conditions, default: false
 
