@@ -14,7 +14,7 @@ class SmtpUrl
     end
   end
 
-  def self.from_env(_default)
+  def self.from_env
     from_string(ENV.fetch('SMTP_URL'))
   end
 end
