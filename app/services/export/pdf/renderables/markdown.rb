@@ -8,6 +8,7 @@ module Export
           @markdown = markdown.is_a?(::Markdown) ? markdown : ::Markdown.new(markdown)
         end
 
+        # TODO: use https://github.com/blocknotes/prawn-styled-text
         def render
           move_down 10
           self.class.to_prawn_text(@markdown.body).each do |body|

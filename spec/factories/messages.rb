@@ -29,9 +29,9 @@
 
 FactoryBot.define do
   factory :message do
-    body { 'MyText' }
+    body { '# Body' }
     sent_at { nil }
-    subject { 'MyString' }
+    subject { 'Subject' }
 
     booking
   end

@@ -13,7 +13,8 @@ module Manage
       end
 
       def new
-        @contract.text = MarkdownTemplate[:contract_text].interpolate('booking' => @booking)
+        @contract.text = current_organisation.markdown_templates.by_key(:contract_text)
+          &.interpolate('booking' => @booking)
         respond_with :manage, @booking, @contract
       end
 

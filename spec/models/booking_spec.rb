@@ -54,12 +54,6 @@ describe Booking, type: :model do
   let(:home) { create(:home) }
   let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
 
-  before do
-    message_from_template = double('Message')
-    allow(message_from_template).to receive(:deliver).and_return(true)
-    allow(Message).to receive(:new_from_template).and_return(message_from_template)
-  end
-
   describe 'Tenant' do
     context 'with new tenant' do
       it 'uses existing tenant when email is correct' do

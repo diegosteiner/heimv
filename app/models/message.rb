@@ -35,18 +35,25 @@ class Message < ApplicationRecord
   has_one :organisation, through: :booking
 
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
-
   validates :to, presence: true
+  attribute :from_template
+  delegate :bcc, to: :organisation
+
   before_validation do
     self.to = to.presence || resolve_addressed_to
+  end
+
+  after_initialize do
+    next if from_template.blank?
+
+    self.markdown_template = organisation&.markdown_templates&.by_key(from_template)
+    apply_template
   end
 
   def subject_with_ref
     # TODO: Replace with liquid template
     [subject, "[#{booking.ref}]"].compact.join(' ')
   end
-
-  delegate :bcc, to: :organisation
 
   def markdown
     @markdown ||= Markdown.new(body)
@@ -58,6 +65,8 @@ class Message < ApplicationRecord
   end
 
   def deliverable?
+    return false if from_template.present? && markdown_template.blank?
+
     valid? && organisation.messages_enabled? && (booking.messages_enabled? || addressed_to_manager?)
   end
 
@@ -71,20 +80,11 @@ class Message < ApplicationRecord
     Hash[attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }]
   end
 
-  def self.new_from_template(template, attributes = {})
-    new_from_template!(template, attributes)
-  rescue ActiveRecord::RecordNotFound
-    nil
-  end
+  def apply_template
+    return false if markdown_template.blank?
 
-  def self.new_from_template!(template, attributes = {})
-    template = MarkdownTemplate.find_by!(key: template) unless template.is_a?(MarkdownTemplate)
-
-    new(attributes) do |message|
-      message.markdown_template = template
-      message.subject = template.title
-      message.markdown = template.interpolate('booking' => message.booking)
-    end
+    self.subject = markdown_template.title
+    self.markdown = markdown_template.interpolate('booking' => booking)
   end
 
   protected

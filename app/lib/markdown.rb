@@ -10,7 +10,9 @@ class Markdown
   end
 
   def ==(other)
-    body == other.body
+    body == other.body if other.respond_to?(:body)
+    body == other if other.is_a?(String)
+    false
   end
 
   def to_html

@@ -2,22 +2,24 @@
   fieldset
     = f.text_field :name
     = f.text_field :location
+    div[v-pre]= f.text_area :address, rows: 4
+    = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
+
+  fieldset
     = f.email_field :email
     = f.email_field :bcc
     = f.email_field :mail_from
-    div.pb-3= f.check_box :messages_enabled
-    div[v-pre]= f.text_area :address, rows: 4
+    div[v-pre]= f.text_area :message_footer, rows: 4
+
+  fieldset
     div[v-pre]= f.text_area :representative_address, rows: 4
-    div[v-pre]= f.text_field :domain
-    / = f.select :booking_strategy_type, [BookingStrategies::Default]
-    / = f.select :invoice_ref_strategy_type, [RefStrategies::ESR]
     = f.text_field :esr_participant_nr
     = f.text_field :iban
-    div[v-pre]= f.text_area :message_footer, rows: 4
+    = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
+
+  fieldset
     = f.file_field :terms_pdf, help: link_to_if(organisation.terms_pdf.attached?, organisation.terms_pdf.try(:filename), organisation.terms_pdf)
     = f.file_field :privacy_statement_pdf, help: link_to_if(organisation.privacy_statement_pdf.attached?, organisation.privacy_statement_pdf.try(:filename), organisation.privacy_statement_pdf)
-    = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
-    = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit

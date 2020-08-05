@@ -33,9 +33,7 @@ RSpec.describe Message, type: :model do
   let(:message) { build(:message) }
 
   describe '#save' do
-    it do
-      expect(message.save).to be true
-    end
+    it { expect(message.save).to be true }
   end
 
   describe '#deliver' do
@@ -45,6 +43,31 @@ RSpec.describe Message, type: :model do
     it do
       is_expected.to be true
       expect(message.sent_at).not_to be nil
+    end
+  end
+
+  describe 'from_template' do
+    let(:template) { create(:markdown_template, organisation: booking.organisation, locale: I18n.locale) }
+    let(:message) { build(:message, booking: booking) }
+    let(:booking) { create(:booking) }
+
+    context 'with template available' do
+      subject(:new_message) { booking.messages.new(from_template: template.key) }
+      it do
+        new_message.save
+        expect(new_message).to be_valid
+        expect(new_message.markdown_template).to eq(template)
+        expect(new_message.body).to eq(template.body)
+        expect(new_message.subject).to eq(template.title)
+      end
+    end
+
+    context 'without template available' do
+      it do
+        new_message = booking.messages.new(from_template: :nonexistent)
+        expect(new_message.markdown_template).to be(nil)
+        expect(new_message).not_to be_deliverable
+      end
     end
   end
 end

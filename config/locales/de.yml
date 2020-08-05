@@ -150,17 +150,20 @@ de:
         valid_until: Gültig bis
       organisation:
         address: Adresse
+        bcc: BCC
         contract_signature: Vertragsunterschrift
-        domain: Domains
+        domain: Domain
         esr_participant_nr: ESR Teilnehmernummer
         iban: IBAN
         location: Ort
         logo: Logo
+        mail_from: Absender von Emails
         message_footer: Fusszeile für Nachrichten
         messages_enabled: Nachrichten aktiviert
         name: Name
         privacy_statement_pdf: Datenschutzerklärung
         representative_address: Adresse der Vertretung für Verträge
+        smtp_url: Mailserver Einstellungen
         terms_pdf: AGB
       payment:
         amount: Betrag

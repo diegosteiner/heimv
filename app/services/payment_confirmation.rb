@@ -9,7 +9,7 @@ class PaymentConfirmation
   end
 
   def deliver
-    message = booking.messages.new_from_template(:payment_message, addressed_to: :tenant)
+    message = booking.messages.new(from_template: :payment_message, addressed_to: :tenant)
 
     return false if message.blank?
 

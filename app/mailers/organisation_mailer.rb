@@ -4,14 +4,14 @@ class OrganisationMailer
   def initialize(organisation)
     @organisation = organisation
     @options = {
-      from: "#{organisation.name} <#{organisation.mail_from}>",
+      from: (organisation.mail_from || organisation.name),
       reply_to: organisation.email
     }
-    @options[:via_options] = SmtpUrl.from_string(organisation.smtp_url) if organisation.smtp_url.present?
+    @options[:via_options] = SmtpUrl.from_string(organisation.smtp_url.presence || ENV.fetch('SMTP_URL'))
   end
 
   def mail(**args)
-    Rails.logger.info "SMTP Mail to #{args[:to]} [#{@organisation.name}]"
+    Rails.logger.info "SMTP Mail to #{args[:to]} [#{@organisation.name}] #{args.inspect}"
     Pony.mail(@options.merge(args))
   end
 end

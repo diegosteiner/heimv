@@ -13,6 +13,10 @@ class SmtpUrl
       }.merge(options).compact.symbolize_keys
     end
   end
+
+  def self.from_env(_default)
+    from_string(ENV.fetch('SMTP_URL'))
+  end
 end
 
 module URI
