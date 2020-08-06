@@ -730,7 +730,6 @@ de:
       edit:
         deliver: Speichern und nochmals versenden
   nav:
-    settings: Einstellungen
     sign_in: Anmelden
     sign_out: Abmelden
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
