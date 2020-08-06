@@ -10,9 +10,10 @@ img {
 body {
     display: grid;
     grid-template-areas: "header header" "navigation main" "footer footer";
-    grid-template-columns: minmax(230px, auto) 1fr;
-    grid-template-rows: 56px 1fr auto;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
     min-height: 100vh;
+    padding-top: 56px;
 
     @include media-breakpoint-down(md) {
         padding-top: 56px;
