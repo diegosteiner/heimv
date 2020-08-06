@@ -9,8 +9,10 @@ html[lang="#{I18n.locale}-CH"]
     == javascript_packs_with_chunks_tag 'app', defer: true
   body[class=Rails.env]
     header
-      == render 'layouts/navigation'
+      == render 'layouts/top_navigation'
     == render 'layouts/messages'
+    nav
+      == render 'layouts/main_navigation' if current_user&.role_manager? || current_user&.role_admin?
     main.container.py-5[role='main']
       == yield
     footer.py-2

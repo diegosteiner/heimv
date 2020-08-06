@@ -8,7 +8,17 @@ img {
 }
 
 body {
-    padding-top: 56px;
+    display: grid;
+    grid-template-areas: "header header" "navigation main" "footer footer";
+    grid-template-columns: minmax(230px, auto) 1fr;
+    grid-template-rows: 56px 1fr auto;
+    min-height: 100vh;
+
+    @include media-breakpoint-down(md) {
+        padding-top: 56px;
+        display: flex;
+        flex-direction: column;
+    }
 
     &.development {
         #navbar-main {
@@ -20,17 +30,23 @@ body {
         }
     }
 
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-
     &>main {
-        flex-grow: 1;
+        grid-area: main;
     }
 
-        &>footer {
-            background-color: #b3aee4;
-        }
+    &>header {
+        grid-area: header;
+    }
+
+    &>nav {
+        grid-area: navigation;
+        background-color: white;
+    }
+
+    &>footer {
+        grid-area: footer;
+        background-color: #b3aee4;
+    }
 }
 
 .alert {
