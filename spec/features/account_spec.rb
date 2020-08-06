@@ -16,7 +16,7 @@ describe 'User Account', :devise, skip: true do
 
     it "user cannot cannot edit another user's profile", :me do
       me = user
-      other = create(:user, email: 'other@example.com')
+      other = create(:user, :manager, email: 'other@example.com')
       login_as(me, scope: :user)
       visit edit_user_registration_path(other)
       expect(page).to have_field(:user_email, with: me.email)

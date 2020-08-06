@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StateMachineAutomator
   CircularTransitionError = Class.new(StandardError)
   Callback = Struct.new(:from, :to, :callback)

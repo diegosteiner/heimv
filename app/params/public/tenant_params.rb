@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Public
   class TenantParams < ApplicationParams
     def self.permitted_keys

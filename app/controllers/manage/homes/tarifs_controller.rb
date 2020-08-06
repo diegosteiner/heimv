@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   module Homes
     class TarifsController < ::Manage::TarifsController

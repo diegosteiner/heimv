@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: deadlines
@@ -26,5 +28,16 @@
 require 'rails_helper'
 
 RSpec.describe Deadline, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:booking) { create(:booking) }
+  let(:deadline) { build(:deadline, booking: booking) }
+
+  describe '#save' do
+    context 'with no deadline in place' do
+      it do
+        expect(booking.deadline).to be(nil)
+        deadline.save
+        expect(booking.deadline).to eq(deadline)
+      end
+    end
+  end
 end

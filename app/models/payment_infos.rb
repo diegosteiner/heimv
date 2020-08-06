@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PaymentInfos
   TYPES = {
     orange_payment_slip: OrangePaymentSlip,

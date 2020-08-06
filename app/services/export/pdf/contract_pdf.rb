@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'prawn'
 
 module Export
@@ -19,7 +21,7 @@ module Export
         next if tarifs.blank?
 
         move_down 10
-        table(tarif_table_data, column_widths: [200, 200, 94]) do
+        table(tarif_table_data, width: bounds.width) do
           rows(0).style(font_style: :bold)
           cells.style(borders: [], padding: [0, 0, 4, 0])
           column(2).style(align: :right)
@@ -31,7 +33,7 @@ module Export
           issuer_signature_label = I18n.t('contracts.issuer_signature_label')
           render Renderables::Signature.new(issuer_signature_label, signature_image: @organisation.contract_signature,
                                                                     date: @contract.valid_from,
-                                                                    location: @organisation.contract_location)
+                                                                    location: @organisation.location)
 
           tenant_signature_label = I18n.t('contracts.tenant_signature_label')
           render Renderables::Signature.new(tenant_signature_label, align: :right)

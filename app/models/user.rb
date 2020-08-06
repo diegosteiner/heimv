@@ -31,13 +31,15 @@
 #
 
 class User < ApplicationRecord
-  ROLES = %i[user admin].freeze
+  ROLES = %i[user admin manager].freeze
 
-  belongs_to :organisation
+  belongs_to :organisation # , optional: true
 
-  enum role: ROLES
+  enum role: ROLES, _prefix: :role
 
   after_initialize :set_default_role, if: :new_record?
+
+  validates :organisation, presence: true, unless: :role_admin?
 
   def set_default_role
     self.role ||= :user

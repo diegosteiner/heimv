@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class OrganisationsController < BaseController
     load_and_authorize_resource :organisation
@@ -32,10 +34,7 @@ module Manage
     end
 
     def organisation_params
-      params[:organisation]&.permit(:name, :address, :booking_strategy_type, :invoice_ref_strategy_type,
-                                    :esr_participant_nr, :message_footer, :logo,
-                                    :privacy_statement_pdf, :terms_pdf, :iban,
-                                    :representative_address, :contract_signature, :email)
+      OrganisationParams.new(params[:organisation])
     end
   end
 end

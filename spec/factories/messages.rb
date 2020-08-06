@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: messages
@@ -27,10 +29,10 @@
 
 FactoryBot.define do
   factory :message do
-    body { 'MyText' }
-    sent_at { '2018-10-23 14:08:21' }
-    subject { 'MyString' }
+    body { '# Body' }
+    sent_at { nil }
+    subject { 'Subject' }
 
-    booking { nil }
+    booking
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   module Bookings
     class ContractsController < BaseController
@@ -6,11 +8,13 @@ module Manage
       after_action :attach_files, only: %i[create update]
 
       def index
+        @contracts = @contracts.includes(signed_pdf_attachment: :blob, pdf_attachment: :blob)
         respond_with :manage, @contracts
       end
 
       def new
-        @contract.text = MarkdownTemplate[:contract_text].interpolate('booking' => @booking)
+        @contract.text = current_organisation.markdown_templates.by_key(:contract_text)
+          &.interpolate('booking' => @booking)
         respond_with :manage, @booking, @contract
       end
 

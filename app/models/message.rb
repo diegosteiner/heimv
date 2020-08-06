@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: messages
@@ -33,16 +35,24 @@ class Message < ApplicationRecord
   has_one :organisation, through: :booking
 
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
-
   validates :to, presence: true
+  attribute :from_template
+  delegate :bcc, to: :organisation
+
+  before_validation do
+    self.to = to.presence || resolve_addressed_to
+  end
+
+  after_initialize do
+    next if from_template.blank?
+
+    self.markdown_template = organisation&.markdown_templates&.by_key(from_template)
+    apply_template
+  end
 
   def subject_with_ref
     # TODO: Replace with liquid template
     [subject, "[#{booking.ref}]"].compact.join(' ')
-  end
-
-  def to
-    @to ||= resolve_addressed_to
   end
 
   def markdown
@@ -55,36 +65,26 @@ class Message < ApplicationRecord
   end
 
   def deliverable?
+    return false if from_template.present? && markdown_template.blank?
+
     valid? && organisation.messages_enabled? && (booking.messages_enabled? || addressed_to_manager?)
   end
 
   def deliver
-    yield(self) if block_given?
-    deliverable? && action_mailer_mail.deliver_now && update(sent_at: Time.zone.now)
+    return unless deliverable?
+
+    deliver_mail! && update(sent_at: Time.zone.now)
   end
 
-  def action_mailer_mail
-    @action_mailer_mail ||= OrganisationMailer.with(organisation: organisation).booking_message(self)
-  end
-
-  def attachments_for_action_mailer
+  def attachments_for_mail
     Hash[attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }]
   end
 
-  def self.new_from_template(template, attributes = {})
-    new_from_template!(template, attributes)
-  rescue ActiveRecord::RecordNotFound
-    nil
-  end
+  def apply_template
+    return false if markdown_template.blank?
 
-  def self.new_from_template!(template, attributes = {})
-    template = MarkdownTemplate.find_by!(key: template) unless template.is_a?(MarkdownTemplate)
-
-    new(attributes) do |message|
-      message.markdown_template = template
-      message.subject = template.title
-      message.markdown = template.interpolate('booking' => message.booking)
-    end
+    self.subject = markdown_template.title
+    self.markdown = markdown_template.interpolate('booking' => booking)
   end
 
   protected
@@ -94,5 +94,11 @@ class Message < ApplicationRecord
     return [booking.booking_agent&.email].compact if addressed_to_booking_agent?
 
     [booking.organisation.email]
+  end
+
+  def deliver_mail!
+    organisation.mailer.mail(to: to, subject: subject_with_ref, cc: cc, bcc: bcc,
+                             body: markdown.to_text, html_body: markdown.to_html,
+                             attachments: attachments_for_mail)
   end
 end

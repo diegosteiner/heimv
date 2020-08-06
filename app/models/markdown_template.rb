@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: markdown_templates
@@ -23,6 +25,7 @@
 
 class MarkdownTemplate < ApplicationRecord
   belongs_to :organisation
+  has_many :messages, inverse_of: :markdown_template, dependent: :nullify
 
   validates :key, :locale, presence: true
   validates :key, uniqueness: { scope: %i[locale organisation_id] }
@@ -38,8 +41,15 @@ class MarkdownTemplate < ApplicationRecord
 
   alias % interpolate
 
-  def self.[](key, locale: I18n.locale)
-    find_by(key: key, locale: locale) || new(key: key)
+  def self.by_key(key, locale: I18n.locale)
+    by_key!(key, locale: locale)
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.warn("MarkdownTemplate #{key} with locale #{locale} was not found")
+    nil
+  end
+
+  def self.by_key!(key, locale: I18n.locale)
+    find_by!(key: key, locale: locale)
   end
 
   def self.create_missing(organisation, locale: (I18n.available_locales - [:en]))

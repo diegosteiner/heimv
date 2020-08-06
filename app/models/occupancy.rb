@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: occupancies
@@ -39,13 +41,13 @@ class Occupancy < ApplicationRecord
   scope :blocking, -> { where(occupancy_type: %i[tentative occupied closed]) }
   scope :begins_at, (lambda do |before: nil, after: nil|
     return where(arel_table[:begins_at].between(after..before)) if before.present? && after.present?
-    return where(arel_table[:begins_at].gteq(after)) if after.present?
-    return where(arel_table[:begins_at].lteq(before)) if before.present?
+    return where(arel_table[:begins_at].gt(after)) if after.present?
+    return where(arel_table[:begins_at].lt(before)) if before.present?
   end)
   scope :ends_at, (lambda do |before: nil, after: nil|
     return where(arel_table[:ends_at].between(after..before)) if before.present? && after.present?
-    return where(arel_table[:ends_at].gteq(after)) if after.present?
-    return where(arel_table[:ends_at].lteq(before)) if before.present?
+    return where(arel_table[:ends_at].gt(after)) if after.present?
+    return where(arel_table[:ends_at].lt(before)) if before.present?
   end)
   scope :at, (lambda do |from:, to:|
     begins_at(before: from).ends_at(after: to)
@@ -56,7 +58,7 @@ class Occupancy < ApplicationRecord
   validates :begins_at, :ends_at, :booking, presence: true
   validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
   validate do
-    errors.add(:ends_at, :invalid) unless begins_at && ends_at && begins_at < ends_at
+    errors.add(:ends_at, :invalid) unless complete? && begins_at < ends_at
   end
   validate on: %i[public_create public_update] do
     next if ends_at.blank?
@@ -81,20 +83,29 @@ class Occupancy < ApplicationRecord
     ends_at < at
   end
 
-  def overlapping
-    margin = booking&.home&.booking_margin || 0
-    begins_at && ends_at && home.occupancies.at(from: begins_at - margin.minutes, to: ends_at + margin.minutes)
+  def complete?
+    begins_at.present? && ends_at.present?
   end
 
-  def conflicting
-    overlapping.blocking.where.not(id: id)
+  def overlapping(margin = 0)
+    return unless complete?
+
+    home.occupancies.at(from: begins_at - margin.minutes, to: ends_at + margin.minutes)
+  end
+
+  def conflicting(margin = 0)
+    overlapping(margin)&.blocking&.where&.not(id: id)
   end
 
   def span
+    return unless complete?
+
     begins_at..ends_at
   end
 
   def nights
+    return unless complete?
+
     (ends_at.to_date - begins_at.to_date).to_i
   end
 

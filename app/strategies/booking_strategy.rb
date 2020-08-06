@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BookingStrategy
   include TemplateRenderable
   include Translatable
@@ -25,7 +27,7 @@ class BookingStrategy
   end
 
   def t(state, options = {})
-    I18n.t(state, options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
+    I18n.t(state, **options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
   end
 
   def markdown_template_keys

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Export
   module Pdf
     module Renderables
@@ -16,7 +18,7 @@ module Export
             signature
             stroke_horizontal_rule
             move_down 2
-            text(@label, size: 8)
+            text(@label, size: 7)
           end
         end
 

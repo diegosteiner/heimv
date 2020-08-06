@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OccupancyCalendar
   include ActiveModel::Model
   include ActiveModel::Attributes
@@ -13,6 +15,6 @@ class OccupancyCalendar
   end
 
   def occupancies
-    home.occupancies.blocking.at(from: window_from, to: window_to)
+    home.occupancies.blocking.at(from: window_from, to: window_to).includes(booking: [:deadline])
   end
 end

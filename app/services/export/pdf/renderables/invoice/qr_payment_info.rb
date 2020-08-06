@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Export
   module Pdf
     module Renderables
@@ -18,6 +20,7 @@ module Export
           private
 
           def render_title
+            # TODO: translate
             text 'Zahlungsinformationen', size: 16
           end
 

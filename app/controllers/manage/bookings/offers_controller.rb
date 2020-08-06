@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   module Bookings
     class OffersController < BaseController
@@ -10,7 +12,8 @@ module Manage
 
       def new
         @offer.valid_from = Time.zone.now
-        @offer.text = MarkdownTemplate[:offer_text].interpolate('booking' => @booking)
+        @offer.text = current_organisation.markdown_templates.by_key(:offer_text)
+          &.interpolate('booking' => @booking)
         respond_with :manage, @booking, @offer
       end
 

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Public
   class BookingSerializer < ApplicationSerializer
-    DEFAULT_INCLUDES = 'occupancy,home'.freeze
+    DEFAULT_INCLUDES = 'occupancy,home'
 
     has_one :occupancy, serializer: Public::OccupancySerializer
     has_one :home, serializer: Public::HomeSerializer
@@ -8,7 +10,7 @@ module Public
     has_one :agent_booking, serializer: Public::AgentBookingSerializer
 
     attribute :links do
-      { edit: edit_public_booking_url(object.to_param) }
+      { edit: edit_public_booking_url(object.to_param, host: object.organisation.host) }
     end
   end
 end

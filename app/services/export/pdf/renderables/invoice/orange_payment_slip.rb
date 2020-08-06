@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Export
   module Pdf
     module Renderables
@@ -13,7 +15,7 @@ module Export
 
           def render
             start_new_page if cursor < 240
-            bounding_box([-50, 235], width: 595, height: HEIGHT) do
+            bounding_box([-60, 235], width: 595, height: HEIGHT) do
               render_background if render_background?
               render_sender_address
               render_counterfoil_address
@@ -47,7 +49,7 @@ module Export
           def render_esr_participant_nr
             [77, 249].each do |x|
               bounding_box([x, 181], width: 85, height: 10) do
-                font('ocr') { text payment_info.esr_participant_nr.to_s }
+                font('ocr') { text payment_info.organisation.esr_participant_nr.to_s }
               end
             end
           end

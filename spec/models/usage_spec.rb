@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: usages
@@ -31,5 +33,11 @@ RSpec.describe Usage, type: :model do
     subject { usage.price }
 
     it { is_expected.to eq(6.65) }
+  end
+
+  describe '#save' do
+    let(:usage) { build(:usage) }
+
+    it { expect(usage.save!).to be true }
   end
 end

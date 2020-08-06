@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class BookingSerializer < Public::BookingSerializer
     has_one :tenant,   serializer: Manage::TenantSerializer
@@ -9,8 +11,8 @@ module Manage
 
     attribute :links do
       {
-        edit: edit_public_booking_url(object.to_param),
-        manage: manage_booking_url(object.to_param)
+        edit: edit_public_booking_url(object.to_param, host: object.organisation.host),
+        manage: manage_booking_url(object.to_param, host: object.organisation.host)
       }
     end
   end

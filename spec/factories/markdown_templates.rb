@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: markdown_templates
@@ -24,11 +26,9 @@
 FactoryBot.define do
   factory :markdown_template do
     organisation
-    ref { [BookingStateMailer.to_s, :test].join('/') }
     title { 'Test' }
     locale { I18n.available_locales.sample }
-    subject { 'Test Template' }
-
+    sequence(:key) { |i| "key-#{i}" }
     body { Faker::Lorem.paragraph }
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_16_064800) do
+ActiveRecord::Schema.define(version: 2020_08_03_190808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -109,6 +109,8 @@ ActiveRecord::Schema.define(version: 2020_06_16_064800) do
     t.uuid "occupancy_id"
     t.boolean "timeframe_locked", default: false
     t.boolean "usages_presumed", default: false
+    t.bigint "deadline_id"
+    t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
@@ -281,6 +283,12 @@ ActiveRecord::Schema.define(version: 2020_06_16_064800) do
     t.string "representative_address"
     t.string "email"
     t.integer "payment_deadline", default: 30, null: false
+    t.string "domain"
+    t.string "location"
+    t.boolean "messages_enabled", default: true
+    t.string "smtp_url"
+    t.string "bcc"
+    t.string "mail_from"
   end
 
   create_table "payments", force: :cascade do |t|

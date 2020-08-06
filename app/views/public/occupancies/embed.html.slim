@@ -1,9 +1,8 @@
 doctype html
 html[lang="#{I18n.locale}-CH"]
   head
-    title= title
+    title= t('titles.application')
     meta[name='viewport' content='width=device-width, initial-scale=1.0']
-    meta[name='description' content=title]
     == csrf_meta_tags
     == csp_meta_tag
     == javascript_packs_with_chunks_tag 'app'

@@ -1,12 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 describe BookingStrategies::Default::StateMachine do
   let(:booking) { create(:booking, skip_automatic_transition: true) }
   subject(:state_machine) { described_class.new(booking) }
-  before do
-    message_from_template = double('Message')
-    allow(message_from_template).to receive(:deliver).and_return(true)
-    allow(Message).to receive(:new_from_template).and_return(message_from_template)
-  end
 
   describe 'allowed transitions' do
     describe 'initial-->' do
@@ -18,7 +15,6 @@ describe BookingStrategies::Default::StateMachine do
       it { is_expected.to transition.to(:provisional_request) }
 
       it 'sends email-confirmation' do
-        expect(Message).to receive(:new_from_template)
         is_expected.to transition.to(:unconfirmed_request)
       end
     end

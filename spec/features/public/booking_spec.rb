@@ -5,10 +5,6 @@ describe 'Booking', :devise, type: :feature do
   let(:home) { create(:home, organisation: organisation) }
   let!(:new_booking) { build(:booking, organisation: organisation, home: home, skip_automatic_transition: false) }
 
-  before do
-    allow(Organisation).to receive(:current).and_return(organisation)
-  end
-
   describe 'new', skip: true do
     context 'with correct information' do
       it 'cannot create new booking request' do

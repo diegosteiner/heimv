@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'prawn'
 
 module Export
@@ -31,7 +33,8 @@ module Export
         render Renderables::Markdown.new(invoice.text)
         move_down 20
         table invoice_parts_table_data,
-              column_widths: [180, 200, 25, 89],
+              # column_widths: [180, 200, 25, 89],
+              width: bounds.width,
               cell_style: { borders: [], padding: [0, 4, 4, 0] } do
           cells.style(size: 10)
           column(2).style(align: :right)

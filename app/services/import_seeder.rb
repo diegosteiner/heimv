@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImportSeeder
   FILES = {
     demo: Rails.root.join('db/seeds/demo.json'),

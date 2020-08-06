@@ -3,7 +3,7 @@ set -e
 
 [ ! -e /app/tmp/pids/server.pid ] || rm /app/tmp/pids/server.pid
 
-bundle check || bundle install && bundle cache
+bundle check || bundle install || ash
 
 echo "Preparing Database"
 bin/rails db:prepare RAILS_ENV=$RAILS_ENV

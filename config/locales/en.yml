@@ -150,14 +150,20 @@ en:
         valid_until: Gültig bis
       organisation:
         address: Adresse
+        bcc: BCC
         contract_signature: Vertragsunterschrift
+        domain: Domain
         esr_participant_nr: Kontonummer
         iban: IBAN
+        location: Ort
         logo: Logo
+        mail_from: Absender von Emails
         message_footer: Fusszeile für Nachrichten
+        messages_enabled: Nachrichten aktiviert
         name: Name
         privacy_statement_pdf: Datenschutzerklärung
         representative_address: Adresse der Vertretung für Verträge
+        smtp_url: Mailserver Einstellungen
         terms_pdf: AGB
       payment:
         amount: Betrag
@@ -252,6 +258,7 @@ en:
               not_postponable: Frist kann nicht verlängert werden
             state:
               invalid_transition: 'Invalid transition: %{transition}'
+          booking_margin_too_small: Die Pufferzeit von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
         occupancy:
           attributes:
@@ -535,6 +542,8 @@ en:
   data_digests:
     period_from: von %{date}
     period_to: bis %{date}
+  data_digests/parahotelerie_statistics:
+    total_overnight_stays: Total Personennächte
   date:
     abbr_day_names:
     - Sun
@@ -678,28 +687,6 @@ en:
       header:
         one: 1 error prohibited this %{model} from being saved
         other: "%{count} errors prohibited this %{model} from being saved"
-  faker:
-    address:
-      building_number: '["#", "#", "##", "#a", "#b"]'
-      city: '["Zürich", "Genf", "Basel", "Bern", "Lausanne", "Winterthur", "Luzern", "St. Gallen", "Lugano", "Biel/Bienne", "Thun", "Köniz", "La Chaux-de-Fonds", "Freiburg", "Schaffhausen", "Chur", "Vernier", "Neuenburg", "Uster", "Sitten", "Lancy", "Yverdon-les-Bains", "Emmen", "Zug", "Kriens", "Rapperswil-Jona", "Dübendorf", "Dietikon", "Montreux", "Frauenfeld", "Wetzikon", "Wil", "Baar", "Meyrin", "Bulle", "Kreuzlingen", "Wädenswil", "Carouge", "Riehen", "Renens", "Aarau", "Allschwil", "Wettingen", "Horgen", "Nyon", "Vevey", "Bülach", "Reinach", "Baden", "Adliswil", "Volketswil", "Kloten", "Onex", "Bellinzona", "Gossau", "Schlieren", "Thalwil", "Pully", "Glarus Nord", "Muttenz", "Regensdorf", "Monthey", "Olten", "Martigny", "Opfikon", "Ostermundigen", "Siders", "Solothurn", "Grenchen", "Val-de-Ruz", "Illnau-Effretikon", "Burgdorf", "Freienbach", "Locarno", "Steffisburg", "Pratteln", "Cham", "Herisau", "Morges", "Wohlen", "Wallisellen", "Langenthal", "Binningen", "Einsiedeln", "Mendrisio", "Schwyz", "Lyss", "Arbon", "Thônex", "Liestal", "Stäfa", "Küsnacht", "Horw", "Meilen", "Oftringen", "Versoix", "Richterswil", "Muri bei Bern", "Brig-Glis", "Rheinfelden", "Amriswil", "Ebikon", "Uzwil", "Gland", "Spiez", "Zollikon", "Delsberg", "Glarus", "Küssnacht SZ", "Buchs", "Ecublens", "Villars-sur-Glâne", "Prilly", "Le Grand-Saconnex", "Rüti", "Münchenstein", "Münsingen", "Affoltern am Albis", "Belp", "Worb", "Bassersdorf", "Arth", "Pfäffikon", "Altstätten", "Ittigen", "Zofingen", "La Tour-de-Peilz", "Davos", "Chêne-Bougeries", "Brugg", "Spreitenbach", "Weinfelden", "Veyrier GE", "Oberwil", "Val-de-Travers NE", "Hinwil", "Möhlin", "Romanshorn", "Männedorf", "Le Locle", "Neuhausen am Rheinfall", "Flawil", "Birsfelden", "Plan-les-Ouates", "Sarnen", "Aesch", "Zollikofen"]'
-      country_code: '["CH"]'
-      default_country: '["Schweiz"]'
-      full_address: '["\#{street_address}, \#{city} \#{zip_code}"]'
-      postcode: '["1###", "2###", "3###", "4###", "5###", "6###", "7###", "8###", "9###"]'
-      street_address: '["\#{street_name} \#{building_number}"]'
-      street_name: '["\#{Name.first_name}\#{street_suffix}", "\#{Name.first_name}\#{street_suffix}", "\#{Name.first_name}\#{street_suffix}", "\#{street_prefix} \#{Name.last_name}"]'
-      street_prefix: '["Im", "Am"]'
-      street_suffix: '["strasse", "weg"]'
-    company:
-      name: '["\#{prefix} \#{Address.city}", "\#{prefix} \#{Address.city}", "\#{prefix} \#{Address.city}-\#{Address.city}"]'
-      prefix: '["Pfadi", "Pfadiabteilung", "Verein", "Jubla", "Schule"]'
-    internet:
-      domain_suffix: '["com", "net", "biz", "ch", "de", "li", "at", "ch", "ch"]'
-    name:
-      first_name: '["Leon", "Noah", "Luca", "David", "Leandro", "Levin", "Nico", "Dario", "Jan", "Tim", "Julian", "Gian", "Jonas", "Elias", "Lukas", "Matteo", "Lionel", "Robin", "Samuel", "Ben", "Andrin", "Diego", "Finn", "Elia", "Simon", "Nils", "Gabriel", "Livio", "Liam", "Louis", "Joel", "Alexander", "Fabian", "Fabio", "Rafael", "Benjamin", "Luis", "Nevio", "Aaron", "Laurin", "Loris", "Nicolas", "Nino", "Florian", "Kilian", "Leo", "Timo", "Maximilian", "Raphael", "Janis", "Mia", "Lena", "Elena", "Leonie", "Julia", "Alina", "Lara", "Laura", "Elaina", "Emma", "Sara", "Lea", "Jana", "Anna", "Nina", "Sophie", "Lina", "Lia", "Sophia", "Chiara", "Livia", "Luana", "Sofia", "Melina", "Sarah", "Elina", "Alessia", "Lorena", "Selina", "Amélie", "Emilia", "Giulia", "Lynn", "Jael", "Fiona", "Lisa", "Nora", "Noemi", "Leona", "Ladina", "Yara", "Aline", "Amelie", "Vanessa", "Ronja", "Emily", "Olivia", "Leana", "Elisa", "Zoe"]'
-      last_name: '["Abegglen", "Abrecht", "Abt", "Aeberhard", "Aebischer", "Aeppli", "Aeschbacher", "Affentranger", "Affolter", "Albisser", "Alder", "Alispach", "Allen", "Allig", "Alpiger", "Althaus", "Altstätter", "$1", "Amsler", "Angst", "Anklin", "Aregger", "Arm", "Arpagaus", "Attinger", "Bachofner", "Bader", "Baldauf", "Baldegger", "Ballaman", "Balzli", "Barbara", "Baumann", "Berchtold", "Berglas", "Bernhardsgrütter", "Berther", "Bertschi", "Bertschinger", "Besmer", "Bezzola", "Bielmann", "Bieri", "Bindschädler", "Binggeli", "Binz", "Birrer", "Birri", "Bissig", "Blaser", "Bleiker", "Blindenbacher", "Bohny", "Bommer", "Bont", "Bosshard", "Bossert", "Bossard", "Bossi", "Brauen", "Brechbühl", "Breitenmoser", "Brem", "Britschgi", "Brogle", "Brotschi", "Brun", "Brunschwiler", "Bruppacher", "Brönnimann", "Bründler", "Bucher", "Buchli", "Budliger", "Burch", "Burki", "Bürki", "Buri", "Burkhalter", "Burkolter", "Burkhard", "Burlet", "Buser", "Bänninger", "Benninger", "Bärlocher", "Bättig", "Bäumli", "Böbner", "Bögli", "Böllenrücher", "Bötschi", "Bührer", "Bürer", "Bürgisser", "Bützberger", "Caderas", "Calonder", "Camartin", "Camenisch", "Camenzind", "Caminada", "Capol", "Casanova", "Caviezel", "Chelius", "Christen", "Clavuot", "Coray", "Cotting", "Curau", "Dahinden", "Demarmels", "Diggelmann", "Dickelmann", "Dillier", "Disler", "Dittli", "Dubois-dit-Bonclaude", "Dudle", "Dummermuth", "Duppenthaler", "Duss", "Dysli", "Dähler", "Dällenbach", "Dänzer", "Däster", "Döbeli", "Düggli", "Düggeli", "Düggelin", "Dünki", "Dürr", "Egeter", "Ehrbar", "Ehrenbolger", "Elliker", "Emch", "Engel", "Erni", "Ernst", "Escher", "Fahrni", "Fankhauser", "Faust", "Fust", "Fehlbaum", "Fehr", "Felber", "Fellmann", "Fehlmann", "Fey", "Fäh", "Fleisch", "Flück", "Flückiger", "Flütsch", "Frauchiger", "Frautschi", "Frutschi", "Frei", "Freiburghaus", "Freiermuth", "Fretz", "Friedlos", "Fritz", "Fröhlich", "Fuchser", "Fuss", "Gabriel", "Gadient", "Gafner", "Gantenbein", "Gantner", "Gebs", "Gehler", "Geiser", "Geisser", "Geisseler", "Gempel", "Genhart", "Gerschwiler", "Gessler", "Gfeller", "Giger", "Gyger", "Geiger", "Gilgen", "Gillmann", "Gilomen", "Gisi", "Gisin", "Gysi", "Gysin", "Gisler", "Glanzmann", "Glauser", "Gloor", "Gomringer", "Graber", "Graf", "Gremper", "Greter", "Grichting", "Grogg", "Gruber", "Gränicher", "Gröli", "Grüter", "Greuter", "Gubser", "Guler", "Gygax", "Gäggeler", "Göldi", "Göltenboth", "Götz", "Haab", "Haldner", "Haltinner", "Hammer", "Hammerer", "Handschin", "Hartmann", "Haupt", "Hauri", "Hausherr", "Heckendorn", "Heeb", "Heer", "Hegetschwiler", "Heimlicher", "Helfenstein", "Helfer", "Hell", "Heller", "Hengartner", "Hangartner", "Heimgartner", "Herren", "Herrmann", "Hermann", "Herzig", "Herzog", "Hess", "Heusser", "Hüsser", "Häusser", "Hilfiker", "Hintermann", "Hobler", "Hodel", "Hodler", "Hof", "Hofer", "Imhof", "Hofmänner", "Holenstein", "Homberger", "Hamberger", "Honegger", "Hönegger", "Hoppler", "Hostettler", "Hofstetter", "Hotz", "Houderebäseler", "Hubeli", "Huber", "Huggel", "Humbel", "Hunkeler", "Hunziker", "Huwyler", "Huwiler", "Häfliger", "Hämmig", "Hänggi", "Häni", "Hänni", "Hörler", "Hösli", "Hüberli", "Hübscher", "Hügli", "Hüsler", "Heusler", "Häusler", "Hüsser", "Immer", "Imobersteg", "Ineichen", "Inglin", "Ingold", "Iseli", "Iten", "Jaberg", "Jaggy", "Jäggi", "Janka", "Jau", "Jauslin", "Jenni", "Jenny", "Joho", "Jordi", "Juchli", "Jutz", "Jutzi", "Jutzeler", "Jüni", "Kaderli", "Kalt", "Kamm", "Cham", "Kanobel", "Kappeler", "Kaspar", "Kathriner", "Kauz", "Keller", "Kern", "Kesseli", "Keusch", "Killer", "Kistler", "Klossner", "Knabenhans", "Knaus", "Knus", "Knechtli", "Kneubühler", "Knobel", "Knubel", "Knuchel", "Kobi", "Kopp", "Kormann", "Krattiger", "Kreidler", "Krienbühl", "Kuhn", "Kundert", "Kunfermann", "Kuratli", "Kurer", "Kurmann", "Kyburz", "Kämpf", "Kempf", "Käppeli", "Käsermann", "Kästli", "Käufeler", "Kölbener", "Köstli", "Künzi", "Kunz", "Küenzi", "Künzli", "Künzle", "Küpfer", "Lagler", "Leibundgut", "Leuch", "Leuenberger", "Liechti", "Lienammer", "Loher", "Lohri", "Luginbühl", "Luther", "Lutz", "Lätt", "Löffel", "Löliger", "Loeliger", "Lörtscher", "Lötscher", "Lüthi", "Lützelschwab", "Maibach", "Malgaroli", "Mani", "Marrer", "Mahrer", "Marthaler", "Marthy", "Marugg", "Matthys", "Matthis", "Mathis", "Mattle", "Mauch", "Meer", "Meichtry", "Meienberg", "Meier", "Meyer", "Maier", "Menzi", "Mettler", "Metzler", "Michel", "Minikus", "Mollet", "Monsch", "Morgenegg", "Moser", "Mosimann", "Muff", "Musfeld", "Muster", "Mägli", "Märki", "Möri", "Müggler", "Mühlethaler", "Münger", "Minder", "Minger", "Mürner", "Nachbur", "Namenszusatz «von»", "Narr", "Nater", "Notter", "Nef", "Neff", "Näff", "Näf", "Neuweiler", "Nigg", "Notter", "Nuffer", "Näpflin", "Nüesch", "Nünlist", "Nüssli", "Odermatt", "Oehen", "Oehler", "Oes", "Oeschger", "Oestreich", "Panier", "Papst", "Pabst", "Parli", "Pedergnana", "Perler", "Pfander", "Pflugshaupt", "Pfäffli", "Pletscher", "Plüer", "Poretti", "Preschlin", "Provini", "Pult", "Quinter", "Ramseier", "Ramseyer", "Ramsauer", "Raschle", "Rauber", "Regli", "Reifler", "Rellstab", "Remund", "Renggli", "Renner", "Rey", "Rickli", "Rikli", "Ricklin", "Riklin", "Ritschard", "Roggli", "Romer", "Roten", "Rothen", "Rozetter", "Rubin", "Rubi", "Ruchti", "Ruckstuhl", "Ruefer", "Ruetschli", "Rüetschli", "Ruffner", "Ruppanner", "Russenberger", "Rutz", "Ryter", "Rätz", "Räuber", "Rösch", "Röthlin", "Rüdisühli", "Rüfenacht", "Rümbeli", "Rümmeli", "Salzgeber", "Salzmann", "Saner", "Schadegg", "Scheidegger", "Scheidiger", "Schaffner", "Schafroth", "Schaller", "Schegg", "Scheidegger", "Scheidiger", "Schadegg", "Schenkel", "Scherer", "Schertenleib", "Schibler", "Schiffer", "Schlegel", "Schlumpf", "Schläfli", "Schlüchter", "Schmezer", "Schmitter", "Schmutz", "Schnegg", "Schnetzer", "Schnetzler", "Schudel", "Schurti", "Schurter", "Schwegler", "Schweizer", "Schwyn", "Schäfer", "Schefer", "Schällibaum", "Schönenberger", "Schönberger", "Schöppelimunggi", "Schöttli", "Schüpfer", "Seematter", "Seewer", "Sewer", "Segesser", "Sägesser", "Seiler", "Senn", "Siebenmann", "Siedler", "Siegenthaler", "Siegfried", "Syfrig", "Siffert", "Sigg", "Simmler", "Singer", "Sollberger", "Sommer", "Spaltenstein", "Spichtig", "Spielmann", "Spillmann", "Spinner", "Springinsfeld", "Spycher", "Spänhauer", "Spörri", "Stadelmann", "Stark", "Staub", "Stauss", "Steffen", "Stegmüller", "Stephan", "Stettler", "Stieger", "Stocker", "Straumann", "Streit", "Streun", "Strimer", "Strub", "Straub", "Straubhaar", "Strübin", "Strässle", "Strässli", "Studach", "Studer", "Studerus", "Sturzenegger", "Stäger", "Steger", "Stämpfli", "Stampfli", "Störchli", "Stübi", "Stünzi", "Stürchler", "Stüssi", "Suess", "Süess", "Süss", "Suhner", "Surbeck", "Sutz", "Süsstrunk", "Theiler", "Thoos", "Thut", "Thönen", "Thürig", "Tobler", "Tomaschett", "Trabold", "Trachsel", "Traub", "Treier", "Tribelhorn", "Tschabold", "Tschumi", "Tschumper", "Tuchschmid", "Tuor", "Uebelhart", "Umbricht", "Ummel", "Unterfinger", "Urech", "Urfer", "Urscheler", "Ursprung", "Utiger", "Valer", "Valier", "Vallier", "Wallier", "Vaterlaus", "Vieli", "Vincenz", "Vivian", "Vock", "Vogler", "Von Bergen", "von Euw", "von Felten", "Vögtlin", "Völker", "Völlmin", "Wacker", "Wagner", "Wehner", "Wegener", "Waldvogel", "Walt", "Walter", "Wälti", "Welti", "Wamister", "Wechsler", "Wehrle", "Wehrli", "Wenger", "Wenk", "Wernli", "Wehrli", "Wicky", "Widler", "Wiederkehr", "Wiedmer", "Wiget", "Wigger", "Wildi", "Winzenried", "Wipf", "Wohlgemuth", "Wohlgensinger", "Wolgensinger", "Woodtli", "Wuffli", "Wullschleger", "Wunderli", "Wyprächtiger", "Wyssmüller", "Weissmüller", "Wäspi", "Würgler", "Wüthrich", "Wuethrich", "Xavier", "Zahn", "Zahnd", "Zanker", "Zemp", "Zenger", "Zesiger", "Zieri", "Ziltener", "Zeltner", "Zitterli", "Zosso", "Zryd", "Zuppiger", "Zuppinger", "Zurlinde", "Zuttel", "Züttel", "Zwahlen", "Zwald", "Zweifel", "Zwingli", "Zünd"]'
-    phone_number:
-      formats: '["0800 ### ###", "0800 ## ## ##", "0## ### ## ##", "0## ### ## ##", "+41 ## ### ## ##", "0900 ### ###", "076 ### ## ##", "+4178 ### ## ##", "0041 79 ### ## ##"]'
   flash:
     actions:
       create:
@@ -724,6 +711,8 @@ en:
       create: Create
       submit: Speichern
       update: Update
+  invoice_parts:
+    label_2: "%{used_units} × %{unit} à %{price_per_unit}"
   manage:
     bookings:
       tarifs:
@@ -837,5 +826,6 @@ en:
       short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"
   titles:
-    application: Heimverwaltung
+    application: HeimV %{organisation}
+  unauthorized: Sie haben keine Berechtigung für diese Seite. Bitte loggen Sie sich ein
   until: bis

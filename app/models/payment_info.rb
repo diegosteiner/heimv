@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PaymentInfo
   extend ActiveModel::Translation
   extend ActiveModel::Naming

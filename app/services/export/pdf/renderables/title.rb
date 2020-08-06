@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Export
   module Pdf
     module Renderables
       class Title < Renderable
-        def initialize(title, size: 20)
+        def initialize(title, size: 18)
           @title = title
           @size = size
         end

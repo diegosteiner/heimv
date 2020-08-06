@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class HomesController < BaseController
     load_and_authorize_resource :home

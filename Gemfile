@@ -6,17 +6,18 @@ ruby '2.7.1'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts_as_list'
 gem 'aws-sdk-s3', require: false
+gem 'barnes'
 gem 'bootsnap'
 gem 'bootstrap_form',
     git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
     ref: 'master'
-gem 'breadcrumbs'
 gem 'camt_parser'
 gem 'cancancan'
 gem 'countries'
 gem 'country_select'
 gem 'dalli'
 gem 'date_time_attribute'
+gem 'derailed_benchmarks'
 gem 'devise'
 gem 'devise-i18n'
 gem 'exception_notification'
@@ -26,23 +27,22 @@ gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
 gem 'pg'
+gem 'pony'
 gem 'prawn'
 gem 'prawn-table'
-gem 'puma', '~> 3.0'
+gem 'puma'
+gem 'rack-mini-profiler'
 gem 'rails', '~> 6.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
-gem 'react-rails', '~> 2.6'
+gem 'rbtrace' # TODO: Remove
+gem 'react-rails'
 gem 'responders'
 gem 'rqrcode'
 gem 'slim-rails'
 gem 'statesman'
-gem 'timecop'
-gem 'title'
 gem 'ttfunk', '~> 1.5.1' # See https://github.com/prawnpdf/prawn/issues/1142
 gem 'webpacker', '>= 4.0.x'
-gem 'wicked_pdf'
-gem 'yaml_db'
 
 group :development do
   gem 'annotate'
@@ -52,12 +52,13 @@ group :development do
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'
   gem 'listen', '~> 3.0.5'
-  gem 'rack-mini-profiler'
 end
 
 group :development, :test do
   gem 'brakeman'
+  gem 'bullet'
   gem 'bundler-audit'
+  gem 'bundler-leak'
   gem 'byebug', platform: :mri
   gem 'database_cleaner'
   gem 'debase'

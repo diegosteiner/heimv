@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: bookings
@@ -24,6 +26,7 @@
 #  usages_presumed       :boolean          default(FALSE)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  deadline_id           :bigint
 #  home_id               :bigint           not null
 #  occupancy_id          :uuid
 #  organisation_id       :bigint           not null
@@ -31,6 +34,7 @@
 #
 # Indexes
 #
+#  index_bookings_on_deadline_id      (deadline_id)
 #  index_bookings_on_home_id          (home_id)
 #  index_bookings_on_organisation_id  (organisation_id)
 #  index_bookings_on_ref              (ref)
@@ -49,12 +53,6 @@ describe Booking, type: :model do
   let(:tenant) { create(:tenant) }
   let(:home) { create(:home) }
   let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
-
-  before do
-    message_from_template = double('Message')
-    allow(message_from_template).to receive(:deliver).and_return(true)
-    allow(Message).to receive(:new_from_template).and_return(message_from_template)
-  end
 
   describe 'Tenant' do
     context 'with new tenant' do

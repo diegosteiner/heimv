@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: usages
@@ -24,7 +26,7 @@
 
 FactoryBot.define do
   factory :usage do
-    tarif
+    association :tarif, :for_booking
     used_units { 9.99 }
     remarks { 'Test' }
     booking { tarif.booking }

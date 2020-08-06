@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tarifs
   class Factory
     def for_booking(booking, tarifs = booking.home.tarifs)

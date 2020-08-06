@@ -13,9 +13,6 @@
             label=Booking.human_attribute_name(:deadline)
             div
               =<> l(@booking.deadline.at, format: :short)
-              / - if @booking.deadline.postponable?
-              /   a[href="#" data-toggle="modal" data-target="#postponeDeadlineModal"]
-              /     | Frist verlängern
         = f.select :home_id, homes_for_select, {}, disabled: true
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'booking[occupancy_attributes][begins_at]',
@@ -57,7 +54,7 @@
         = f.text_area :invoice_address, help: t('optional'), disabled: !@booking.editable
         = f.form_group :committed_request
           = f.label :committed_request, Booking.human_attribute_name(:committed_request)
-          = f.radio_button :committed_request, false, label: t(:'activerecord.enums.booking.committed_request.provisional_request'), disabled: !@booking.editable || @booking.committed_request?
+          = f.radio_button(:committed_request, false, label: t(:'activerecord.enums.booking.committed_request.provisional_request'), disabled: (!@booking.editable || @booking.committed_request?))
           = f.radio_button :committed_request, true, label: t(:'activerecord.enums.booking.committed_request.definitive_request'), disabled: !@booking.editable
           - @booking.errors[:committed_request].each do |error|
             .invalid-feedback.d-block = error
@@ -72,19 +69,3 @@
 
         - actions = current_organisation.booking_strategy.public_actions.values
         = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }
-
-
-    / #postponeDeadlineModal.modal[role="dialog" tabindex="-1"]
-    /   .modal-dialog[role="document"]
-    /     = form_with(url: public_booking_path(@booking), method: :put, local: true) do |f|
-    /       .modal-content
-    /         .modal-header
-    /           h5.modal-title
-    /             | Frist verlängern
-    /           button.close aria-label="Close" data-dismiss="modal" type="button"
-    /             span aria-hidden="true" &times;
-    /         .modal-body
-    /           = l(14.days.from_now)
-    /         .modal-footer
-    /           button.btn.btn-primary[type="submit" name="booking_action" value="postpone_deadline"]
-    /             | Frist verlängern

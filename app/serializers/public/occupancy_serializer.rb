@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Public
   class OccupancySerializer < ApplicationSerializer
     attributes :begins_at, :ends_at, :occupancy_type, :home_id

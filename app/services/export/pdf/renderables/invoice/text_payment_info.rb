@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Export
   module Pdf
     module Renderables
@@ -21,7 +23,7 @@ module Export
           protected
 
           def render_title
-            text payment_info.title, size: 14
+            text payment_info.title, size: font_size + 2
           end
 
           def height
@@ -29,12 +31,12 @@ module Export
           end
 
           def font_size
-            10
+            9
           end
 
           def render_text_in_columns
             column_box([0, height - 30], columns: 2, width: bounds.width, height: height) do
-              payment_info.body.to_pdf.each do |body|
+              Export::Pdf::Renderables::Markdown.to_prawn_text(@payment_info.body).each do |body|
                 text body.delete(:text), body.reverse_merge(inline_format: true, size: font_size)
               end
             end

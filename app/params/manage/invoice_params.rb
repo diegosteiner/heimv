@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class InvoiceParams < ApplicationParams
     def self.permitted_keys

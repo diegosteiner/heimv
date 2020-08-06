@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Import
   class OrganisationImporter < Base
     def relevant_attributes
-      %w[name email address booking_ref_strategy_type booking_strategy_type currency
-         esr_participant_nr iban invoice_ref_strategy_type message_footer]
+      %w[name email address booking_ref_strategy_type booking_strategy_type currency location domain
+         esr_participant_nr iban invoice_ref_strategy_type message_footer messages_enabled]
     end
 
     protected

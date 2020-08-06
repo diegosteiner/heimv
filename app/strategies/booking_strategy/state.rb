@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BookingStrategy
   class State
     include Translatable

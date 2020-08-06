@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   class DataDigestsController < BaseController
     load_and_authorize_resource :data_digest
@@ -34,6 +36,7 @@ module Manage
     end
 
     def create
+      @data_digest.organisation = current_organisation
       @data_digest.save
       respond_with :manage, @data_digest, location: manage_data_digests_path
     end

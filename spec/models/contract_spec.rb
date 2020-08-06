@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: contracts
@@ -24,5 +26,13 @@
 require 'rails_helper'
 
 RSpec.describe Contract, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:booking) { create(:booking) }
+  let(:contract) { build(:contract, booking: booking) }
+
+  describe '#save' do
+    it do
+      expect(contract.save).to be true
+      expect(contract.pdf).to be_present
+    end
+  end
 end

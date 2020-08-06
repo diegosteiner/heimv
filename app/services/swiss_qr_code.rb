@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class SwissQrCode
-  QRTYPE = 'SPC'.freeze
-  VERSION = '0200'.freeze
-  CODING_TYPE = '1'.freeze
-  ADDRESS_TYPE = 'K'.freeze
-  REF_TYPE = 'QRR'.freeze
-  CURRENCY = 'CHF'.freeze
-  COUNTRY_CODE = 'CH'.freeze
+  QRTYPE = 'SPC'
+  VERSION = '0200'
+  CODING_TYPE = '1'
+  ADDRESS_TYPE = 'K'
+  REF_TYPE = 'QRR'
+  CURRENCY = 'CHF'
+  COUNTRY_CODE = 'CH'
 
   attr_reader :invoice
 

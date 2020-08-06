@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RefStrategies
   class DefaultBookingRef < RefStrategy
     CHAR_START = 96

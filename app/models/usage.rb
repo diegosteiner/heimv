@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: usages
@@ -27,10 +29,11 @@ class Usage < ApplicationRecord
     self.class.include(tarif.class::UsageDecorator) if tarif && defined?(tarif.class::UsageDecorator)
   end
 
-  belongs_to :tarif, inverse_of: :usages
+  belongs_to :tarif, -> { includes(:tarif_selectors) }, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages
   has_many :invoice_parts, dependent: :nullify
   has_many :tarif_selectors, through: :tarif
+  has_one :organisation, through: :booking
 
   attribute :apply, default: true
   delegate(:position, to: :tarif)

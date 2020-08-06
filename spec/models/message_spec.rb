@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: messages
@@ -28,5 +30,44 @@
 require 'rails_helper'
 
 RSpec.describe Message, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:message) { build(:message) }
+
+  describe '#save' do
+    it { expect(message.save).to be true }
+  end
+
+  describe '#deliver' do
+    let(:message) { create(:message) }
+    subject { message.deliver }
+
+    it do
+      is_expected.to be true
+      expect(message.sent_at).not_to be nil
+    end
+  end
+
+  describe 'from_template' do
+    let(:template) { create(:markdown_template, organisation: booking.organisation, locale: I18n.locale) }
+    let(:message) { build(:message, booking: booking) }
+    let(:booking) { create(:booking) }
+
+    context 'with template available' do
+      subject(:new_message) { booking.messages.new(from_template: template.key) }
+      it do
+        new_message.save
+        expect(new_message).to be_valid
+        expect(new_message.markdown_template).to eq(template)
+        expect(new_message.body).to eq(template.body)
+        expect(new_message.subject).to eq(template.title)
+      end
+    end
+
+    context 'without template available' do
+      it do
+        new_message = booking.messages.new(from_template: :nonexistent)
+        expect(new_message.markdown_template).to be(nil)
+        expect(new_message).not_to be_deliverable
+      end
+    end
+  end
 end

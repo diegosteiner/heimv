@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Public
   class BookingsController < BaseController
     def new
@@ -16,7 +18,7 @@ module Public
 
     def edit
       @booking = Booking.find(params[:id])
-      @booking.committed_request = @booking.agent_booking&.committed_request
+      @booking.committed_request ||= @booking.agent_booking&.committed_request if @booking.agent_booking?
       respond_with :public, @booking
     end
 

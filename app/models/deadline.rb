@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: deadlines
@@ -24,7 +26,8 @@
 #
 
 class Deadline < ApplicationRecord
-  belongs_to :booking, inverse_of: :deadlines
+  belongs_to :booking, inverse_of: :deadlines, touch: true
+  # has_one :booking, inverse_of: :deadline
 
   scope :ordered, -> { order(at: :desc) }
   scope :armed, -> { where(armed: true) }
@@ -33,7 +36,7 @@ class Deadline < ApplicationRecord
 
   validates :at, presence: true
 
-  after_save :reload_booking_deadlines
+  after_save :update_booking_deadline
 
   def exceeded?(other = Time.zone.now)
     armed? && other > at
@@ -57,7 +60,7 @@ class Deadline < ApplicationRecord
     update(armed: false)
   end
 
-  def reload_booking_deadlines
-    booking.deadlines.reload
+  def update_booking_deadline
+    booking.update_deadline!
   end
 end

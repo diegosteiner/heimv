@@ -9,8 +9,6 @@ require 'action_view/railtie'
 require 'action_mailer/railtie'
 require 'active_job/railtie'
 # require 'action_cable/engine'
-# require 'rails/test_unit/railtie'
-# require 'sprockets/railtie'
 require 'active_storage/engine'
 
 # Require the gems listed in Gemfile, including any gems
@@ -22,7 +20,6 @@ module Heimverwaltung
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults '6.0'
 
-    # config.assets.enabled = false
     # Settings in config/environments/* take precedence over those specified here.
 
     # Application configuration can go into files in config/initializers

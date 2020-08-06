@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Export
   module Pdf
     module Renderables
@@ -10,7 +12,7 @@ module Export
           end
 
           def font_size
-            8
+            7
           end
         end
       end

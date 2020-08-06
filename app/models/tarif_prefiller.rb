@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TarifPrefiller
   PREFILL_METHODS = {
     flat: ->(_booking) { 1 },

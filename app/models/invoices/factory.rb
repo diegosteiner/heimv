@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Invoices
   class Factory
     def call(booking, params)
@@ -14,8 +16,9 @@ module Invoices
     end
 
     def markdown_template(invoice)
-      template_key = "#{invoice.model_name.param_key}_text"
-      MarkdownTemplate[template_key].interpolate('invoice' => invoice, 'booking' => invoice.booking)
+      template = "#{invoice.model_name.param_key}_text"
+      invoice.organisation.markdown_templates.by_key(template)
+        &.interpolate('invoice' => invoice, 'booking' => invoice.booking)
     end
 
     def payable_until(invoice)

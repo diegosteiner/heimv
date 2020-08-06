@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Payment
   class Filter < ApplicationFilter
     attribute :ref

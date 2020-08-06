@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manage
   module Bookings
     class UsagesController < BaseController
@@ -5,6 +7,7 @@ module Manage
       load_and_authorize_resource :usage, through: :booking
 
       def index
+        @usages = @usages.includes(:tarif)
         respond_with :manage, @booking, @usages
       end
 

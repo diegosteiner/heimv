@@ -31,7 +31,7 @@
 #
 
 FactoryBot.define do
-  sequence(:email) { |n| "user_#{n}@hv.dev" }
+  sequence(:email) { |n| "user_#{n}@heimv.local" }
 
   factory :user do
     organisation
@@ -41,6 +41,10 @@ FactoryBot.define do
 
     trait :admin do
       role { 'admin' }
+    end
+
+    trait :manager do
+      role { 'manager' }
     end
   end
 end

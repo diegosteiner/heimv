@@ -1,16 +1,21 @@
+# frozen_string_literal: true
+
 module InvoiceParts
   class Factory
+    include ActiveSupport::NumberHelper
+
     def suggest(invoice, invoice_parts = invoice.invoice_parts)
-      invoice.booking.usages.where.not(id: invoice_parts.map(&:usage_id)).map { |usage| from_usage(invoice, usage) } +
-        [from_deposit(invoice)]
+      usage_ids = invoice_parts.map(&:usage_id)
+      invoice.booking.usages.includes(:tarif).where.not(id: usage_ids).map do |usage|
+        from_usage(invoice, usage)
+      end + [from_deposit(invoice)]
     end
 
     def label_2(usage)
-      [
-        format_used_units(usage.used_units),
-        format_unit(usage.tarif.unit),
-        format_price_per_unit(usage.tarif.price_per_unit)
-      ].join
+      I18n.t('invoice_parts.label_2',
+             used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
+             unit: usage.tarif.unit,
+             price_per_unit: number_to_currency(usage.tarif.price_per_unit || 0, currency: usage.organisation.currency))
     end
 
     def from_usage(invoice, usage)
@@ -37,25 +42,6 @@ module InvoiceParts
     def apply?(invoice, usage)
       tarif_invoice_type = usage.tarif.invoice_type
       invoice.new_record? && tarif_invoice_type.present? && invoice.type.to_s == tarif_invoice_type
-    end
-
-    def format_used_units(used_units)
-      return unless used_units
-
-      # TODO: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
-      format('%<used_units_rounded>g × ', used_units_rounded: format('%<used_units>.2f', used_units: used_units))
-    end
-
-    def format_unit(unit)
-      return unless unit
-
-      format('%<unit>s', unit: unit)
-    end
-
-    def format_price_per_unit(price_per_unit)
-      return unless price_per_unit
-
-      format(' à CHF %<price>.2f', price: price_per_unit)
     end
   end
 end
