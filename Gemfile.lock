@@ -104,7 +104,6 @@ GEM
       statsd-ruby (~> 1.1)
     bcrypt (3.1.15)
     benchmark (0.1.0)
-    benchmark-ips (2.8.2)
     better_errors (2.7.1)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -162,17 +161,6 @@ GEM
       debase-ruby_core_source (>= 0.10.2)
     debase-ruby_core_source (0.10.9)
     debug_inspector (0.0.3)
-    derailed_benchmarks (1.7.0)
-      benchmark-ips (~> 2)
-      get_process_mem (~> 0)
-      heapy (~> 0)
-      memory_profiler (~> 0)
-      mini_histogram (~> 0)
-      rack (>= 1)
-      rake (> 10, < 14)
-      ruby-statistics (>= 2.1)
-      thor (>= 0.19, < 2)
-      unicode_plot (>= 0.0.4, < 1.0.0)
     devise (4.7.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -187,11 +175,7 @@ GEM
       dotenv (= 2.7.6)
       railties (>= 3.2)
     e2mmap (0.1.0)
-    enumerable-statistics (2.0.1)
     erubi (1.9.0)
-    exception_notification (4.4.3)
-      actionmailer (>= 4.0, < 7)
-      activesupport (>= 4.0, < 7)
     execjs (2.7.0)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
@@ -200,13 +184,12 @@ GEM
       railties (>= 5.0.0)
     faker (2.13.0)
       i18n (>= 1.6, < 2)
+    faraday (1.0.1)
+      multipart-post (>= 1.2, < 3)
     ffi (1.13.1)
     foreman (0.87.1)
-    get_process_mem (0.2.5)
-      ffi (~> 1.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    heapy (0.1.4)
     highline (2.0.3)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
@@ -246,20 +229,18 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     maruku (0.7.3)
-    memory_profiler (0.9.14)
     method_source (1.0.0)
     mimemagic (0.3.5)
-    mini_histogram (0.1.3)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.1)
     msgpack (1.3.3)
     multi_json (1.15.0)
+    multipart-post (2.1.1)
     newrelic_rpm (6.12.0.367)
     nio4r (2.5.2)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
-    optimist (3.0.1)
     orm_adapter (0.5.0)
     parallel (1.19.2)
     parser (2.7.1.4)
@@ -327,10 +308,6 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    rbtrace (0.4.13)
-      ffi (>= 1.0.6)
-      msgpack (>= 0.4.3)
-      optimist (>= 3.0.0)
     react-rails (2.6.1)
       babel-transpiler (>= 0.7.0)
       connection_pool
@@ -387,12 +364,13 @@ GEM
     ruby-debug-ide (0.7.2)
       rake (>= 0.8.1)
     ruby-progressbar (1.10.1)
-    ruby-statistics (2.1.2)
     rubyzip (2.3.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (2.3.0)
+    sentry-raven (3.0.0)
+      faraday (>= 1.0)
     sixarm_ruby_unaccent (1.2.0)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
@@ -436,8 +414,6 @@ GEM
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
-    unicode_plot (0.0.4)
-      enumerable-statistics (>= 2.0.1)
     unicode_utils (1.4.0)
     uniform_notifier (1.13.0)
     warden (1.2.8)
@@ -483,11 +459,9 @@ DEPENDENCIES
   database_cleaner
   date_time_attribute
   debase
-  derailed_benchmarks
   devise
   devise-i18n
   dotenv-rails
-  exception_notification
   factory_bot_rails
   faker
   foreman
@@ -509,7 +483,6 @@ DEPENDENCIES
   rails (~> 6.0)
   rails-i18n (~> 6.0)
   ranked-model
-  rbtrace
   react-rails
   responders
   rqrcode
@@ -520,6 +493,7 @@ DEPENDENCIES
   rubocop-rspec
   ruby-debug-ide
   selenium-webdriver
+  sentry-raven
   slim-rails
   solargraph
   statesman

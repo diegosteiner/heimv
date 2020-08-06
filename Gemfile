@@ -17,10 +17,8 @@ gem 'countries'
 gem 'country_select'
 gem 'dalli'
 gem 'date_time_attribute'
-gem 'derailed_benchmarks'
 gem 'devise'
 gem 'devise-i18n'
-gem 'exception_notification'
 gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'icalendar'
@@ -35,7 +33,6 @@ gem 'rack-mini-profiler'
 gem 'rails', '~> 6.0'
 gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
-gem 'rbtrace' # TODO: Remove
 gem 'react-rails'
 gem 'responders'
 gem 'rqrcode'
@@ -82,4 +79,5 @@ end
 
 group :production do
   gem 'newrelic_rpm'
+  gem 'sentry-raven'
 end

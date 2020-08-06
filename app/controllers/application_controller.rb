@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   default_form_builder BootstrapForm::FormBuilder
   helper_method :current_organisation
+  before_action :set_raven_context
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
   end
@@ -35,12 +36,20 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def set_raven_context
+    return unless defined?(Raven)
+
+    Raven.user_context(id: current_user&.email)
+    Raven.extra_context(params: params.to_unsafe_h, url: request.url, organisation: current_organisation&.name)
+  end
+
   def unauthorized
     if current_user.nil?
       session[:next] = request.fullpath
       redirect_to login_url, alert: t('unauthorized')
     else
       redirect_to :back, alert: t('unauthorized')
+      raise 'unauthorized'
     end
   end
 end
