@@ -2,12 +2,19 @@
 
   - missing_templates = MarkdownTemplate.missing(current_organisation)
   - if missing_templates.any?
-    b-alert[show variant="warning"]
+    .alert.alert-warning
       = t('.missing_templates', count: missing_templates.count)
       =< link_to(create_missing_manage_markdown_templates_path, method: :POST)
         = t('.create_missing_templates')
 
   table.table.table-hover.table-card
+    thead
+      tr
+        th= MarkdownTemplate.human_attribute_name(:title)
+        th= MarkdownTemplate.human_attribute_name(:key)
+        th= MarkdownTemplate.human_attribute_name(:locale)
+        th
+        th
 
     tbody
       - @markdown_templates.each do |markdown_template|

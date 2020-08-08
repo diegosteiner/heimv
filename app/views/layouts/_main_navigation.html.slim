@@ -1,4 +1,12 @@
-ul.nav.flex-column.p-3[style="min-width: 20vw"]
+/ button.navbar-toggler.btn-primary[
+/   aria-controls="navbar-main-nav"
+/   aria-expanded="false"
+/   data-target="#navbar-main-nav"
+/   data-toggle="collapse"
+/   type="button"]
+/   span.navbar-toggler-icon
+
+ul#navbar-main-nav.list-unstyled.p-3
   li.nav-item
     = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
   li.nav-item

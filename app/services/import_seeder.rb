@@ -1,19 +1,34 @@
 # frozen_string_literal: true
 
+require 'faker'
+require 'factory_bot_rails'
+
 class ImportSeeder
   FILES = {
     demo: Rails.root.join('db/seeds/demo.json'),
     development: Rails.root.join('db/seeds/development.json')
   }.freeze
 
-  def seed(set = Rails.env.to_sym)
+  def seed(set = Rails.env.to_sym, password: 'heimverwaltung', email: 'admin@heimv.local')
     return unless FILES[set]
 
     import_data = JSON.parse(File.read(FILES[set]))
     truncate
     organisation = Import::OrganisationImporter.new(Organisation.new, replace: true).import(import_data)
-    User.create!(role: :admin, password: 'heimverwaltung', email: 'admin@heimv.local', organisation: organisation)
+    User.create!(role: :manager, password: password, email: email, organisation: organisation)
     reset_pk_sequence!
+    bookings(organisation.homes.first)
+  end
+
+  private
+
+  def bookings(home)
+    FactoryBot.create_list(:booking, 3, home: home, initial_state: :open_request)
+    # FactoryBot.create_list(:booking, 1, home: home, initial_state: :provisional_request)
+    # FactoryBot.create_list(:booking, 2, home: home, initial_state: :defintive_request)
+    # FactoryBot.create_list(:booking, 1, home: home, initial_state: :awaiting_contract).each do |booking|
+    #   booking.contracts.create
+    # end
   end
 
   def truncate

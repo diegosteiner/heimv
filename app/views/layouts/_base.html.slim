@@ -7,16 +7,17 @@ html[lang="#{I18n.locale}-CH"]
     == csrf_meta_tags
     == csp_meta_tag
     == javascript_packs_with_chunks_tag 'app', defer: true
-  body[class=Rails.env]
-    header
-      == render 'layouts/top_navigation'
-      == render 'layouts/messages'
-    nav
-      == render 'layouts/main_navigation' if current_user&.role_manager? || current_user&.role_admin?
-    main.container.py-5[role='main']
+  body
+    .app-container[class=Rails.env]
+      header
+        == render 'layouts/top_navigation'
+      - if current_user&.role_manager? || current_user&.role_admin?
+        nav== render 'layouts/main_navigation'
+      main.container.pt-2.pb-5[role='main']
+        .py-4== render 'layouts/messages'
         == yield
-    footer.py-2
-      .small.text-center
-        => Rails.configuration.version
-        | –
-        =< current_organisation&.name
+      footer.py-2
+        .small.text-center
+          => Rails.configuration.version
+          | –
+          =< current_organisation&.name

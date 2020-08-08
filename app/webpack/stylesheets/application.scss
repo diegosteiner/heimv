@@ -7,22 +7,21 @@ img {
     margin: 0 auto;
 }
 
-body {
+.app-container {
     display: grid;
-    grid-template-areas: "header header" "navigation main" "footer footer";
+    grid-template-areas: "navigation main" "footer footer";
     grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 1fr auto;
     min-height: 100vh;
     padding-top: 56px;
 
     @include media-breakpoint-down(md) {
-        padding-top: 56px;
         display: flex;
         flex-direction: column;
     }
 
     &.development {
-        #navbar-main {
+        #navbar-top {
             background-color: #00c895;
         }
 
@@ -33,6 +32,7 @@ body {
 
     &>main {
         grid-area: main;
+        flex-grow: 1;
     }
 
     &>header {
@@ -42,6 +42,11 @@ body {
     &>nav {
         grid-area: navigation;
         background-color: white;
+        min-width: 250px;
+
+        .position-fixed {
+            min-width: 250px;
+        }
     }
 
     &>footer {

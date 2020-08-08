@@ -1,5 +1,15 @@
 .breakout-sm
   table.table.table-hover.table-card
+    thead
+      tr
+        th= Tenant.model_name.human
+        th= Tenant.human_attribute_name(:address)
+        th
+          => Tenant.human_attribute_name(:email)
+          | /
+          =< Tenant.human_attribute_name(:phone)
+        th
+        th
     tbody
       - @tenants.each do |tenant|
         tr[data-href=manage_tenant_path(tenant) data-id=tenant.to_param]
