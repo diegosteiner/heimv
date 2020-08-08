@@ -1,26 +1,17 @@
-nav#navbar-main.navbar.fixed-top.navbar-light.navbar-expand-lg
-  button.navbar-toggler.navbar-toggler-right[
-    aria-controls="navbar-main-nav"
-    aria-expanded="false"
-    data-target="#navbar-main-nav"
-    data-toggle="collapse"
-    type="button"]
-    span.navbar-toggler-icon
+nav#navbar-top.navbar.fixed-top.navbar-light.navbar-expand-lg
   = link_to root_path, class: 'navbar-brand' do
     = image_tag asset_pack_path('images/logo.svg'), class: "d-inline-block align-top", width: 90
-  #navbar-main-nav.collapse.navbar-collapse
-    - if current_user.present?
-      ul.navbar-nav.ml-auto
-        li.nav-item.dropdown
-          a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
-            i.fa.fa-user
-            =<> current_user&.email || t(:'nav.sign_in')
-          .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
-            / = link_to t(:'nav.edit_account'), edit_user_registration_path, class: 'dropdown-item'
-            = link_to t(:'nav.sign_out'), destroy_user_session_path, :method=>'delete', class: 'dropdown-item'
-            - if current_user&.role_admin?
-              = link_to User.model_name.human, admin_users_path, class: 'dropdown-item'
-    - else
-      ul.navbar-nav.ml-auto
-        li.nav-item
-          = link_to t(:'nav.sign_in'), new_user_session_path, class: 'nav-link'
+    
+  - if current_user.present?
+    ul.navbar-nav.ml-auto
+      li.nav-item.dropdown
+        a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
+          i.fa.fa-user
+          =<> current_user&.email || t(:'nav.sign_in')
+        .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
+          / = link_to t(:'nav.edit_account'), edit_user_registration_path, class: 'dropdown-item'
+          = link_to t(:'nav.sign_out'), destroy_user_session_path, :method=>'delete', class: 'dropdown-item'
+  - else
+    ul.navbar-nav.ml-auto
+      li.nav-item
+        = link_to t(:'nav.sign_in'), new_user_session_path, class: 'nav-link'

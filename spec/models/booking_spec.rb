@@ -50,7 +50,7 @@ require 'rails_helper'
 
 describe Booking, type: :model do
   let(:organisation) { create(:organisation) }
-  let(:tenant) { create(:tenant) }
+  let(:tenant) { create(:tenant, organisation: organisation) }
   let(:home) { create(:home) }
   let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
 
@@ -65,12 +65,15 @@ describe Booking, type: :model do
     end
 
     context 'with existing tenant' do
+      let(:booking) { build(:booking, tenant: nil, home: home, organisation: organisation) }
       let(:existing_tenant) { create(:tenant, organisation: organisation) }
       let(:tenant) { nil }
 
       it 'uses existing tenant when email is correct' do
         booking.email = existing_tenant.email
+
         expect(booking.save).to be true
+        binding.pry
         expect(booking.tenant_id).to eq(existing_tenant.id)
       end
     end

@@ -1,4 +1,5 @@
-= render partial: 'manage/bookings/navigation', locals: { active: :payments, booking: @booking }
+- if @booking.present?
+  = render partial: 'manage/bookings/navigation', locals: { active: :payments, booking: @booking }
 
 - if @payments.none?
   p.text-center

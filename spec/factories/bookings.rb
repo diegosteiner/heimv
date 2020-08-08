@@ -48,18 +48,28 @@
 
 FactoryBot.define do
   factory :booking do
-    home
-    tenant
-    tenant_organisation { Faker::Company.name }
+    home 
     sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
+    tenant_organisation { Faker::Company.name }
     skip_automatic_transition { true }
     committed_request { [true, false].sample }
     approximate_headcount { rand(30) }
     purpose { :camp }
+    transient do
+      initial_state { nil }
+      tenant { association :tenant, organisation: home.organisation, email: email }
+    end
 
-    after(:build) do |booking|
+    after(:build) do |booking, evaluator|
       booking.organisation ||= booking.home.organisation
       booking.occupancy ||= build(:occupancy, home: booking.home, occupancy_type: :free)
+    end
+
+    after(:create) do |booking, evaluator|
+      next if evaluator.initial_state.blank?
+
+      booking.class.transition_class.create(booking: booking, to_state: evaluator.initial_state,
+                                            sort_key: 1, most_recent: true)
     end
   end
 end
