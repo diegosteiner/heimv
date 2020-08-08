@@ -33,7 +33,7 @@ module Export
           issuer_signature_label = I18n.t('offers.issuer_signature_label')
           render Renderables::Signature.new(issuer_signature_label, signature_image: @organisation.contract_signature,
                                                                     date: @offer.valid_from,
-                                                                    location: @organisation.contract_location)
+                                                                    location: @organisation.location)
         end
       end
 
