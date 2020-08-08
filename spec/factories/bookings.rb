@@ -48,7 +48,7 @@
 
 FactoryBot.define do
   factory :booking do
-    home 
+    home
     sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
     tenant_organisation { Faker::Company.name }
     skip_automatic_transition { true }
@@ -60,7 +60,7 @@ FactoryBot.define do
       tenant { association :tenant, organisation: home.organisation, email: email }
     end
 
-    after(:build) do |booking, evaluator|
+    after(:build) do |booking, _evaluator|
       booking.organisation ||= booking.home.organisation
       booking.occupancy ||= build(:occupancy, home: booking.home, occupancy_type: :free)
     end

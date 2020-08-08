@@ -73,7 +73,6 @@ describe Booking, type: :model do
         booking.email = existing_tenant.email
 
         expect(booking.save).to be true
-        binding.pry
         expect(booking.tenant_id).to eq(existing_tenant.id)
       end
     end
