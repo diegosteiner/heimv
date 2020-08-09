@@ -64,5 +64,9 @@ module Ability
       can %i[read index], Home, requests_allowed: true
       can %i[read index embed calendar at], Occupancy, home: { requests_allowed: true }
     end
+
+    def manage_abilities(user)
+      can :manage, Home, organisation: user.organisation
+    end
   end
 end

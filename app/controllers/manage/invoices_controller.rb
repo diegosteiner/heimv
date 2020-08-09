@@ -4,6 +4,8 @@ module Manage
   class InvoicesController < BaseController
     load_and_authorize_resource :booking
     load_and_authorize_resource :invoice, through: :booking, shallow: true
+    include ::NewRelic::Agent::MethodTracer
+    add_method_tracer :create
 
     def index
       @invoices = if @booking.present?
