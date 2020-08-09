@@ -744,6 +744,7 @@ en:
       usages:
         table:
           save: Save %{model_name}
+          save_and_continue: Save and continue
     markdown_templates:
       index:
         create_missing_templates: Create missing templates

@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
       session[:next] = request.fullpath
       redirect_to login_url, alert: t('unauthorized')
     else
-      redirect_to :back, alert: t('unauthorized')
+      redirect_back alert: t('unauthorized'), fallback_location: root_path
       raise 'unauthorized'
     end
   end
