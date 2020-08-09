@@ -1761,6 +1761,7 @@ de:
       usages:
         table:
           save: "%{model_name} speichern"
+          save_and_continue: Speichern und Rechnung erstellen
     markdown_templates:
       index:
         create_missing_templates: Textvorlagen jetzt erstellen

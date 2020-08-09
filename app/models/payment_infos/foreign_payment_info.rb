@@ -5,7 +5,7 @@ module PaymentInfos
     protected
 
     def markdown_template
-      @markdown_template ||= MarkdownTemplate[:foreign_payment_info_text]
+      @markdown_template ||= organisation.markdown_templates.by_key(:foreign_payment_info_text)
     end
   end
 end

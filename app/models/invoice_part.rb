@@ -37,7 +37,7 @@ class InvoicePart < ApplicationRecord
   end
 
   before_validation do
-    self.amount = amount.floor(2)
+    self.amount = amount&.floor(2) || 0
   end
 
   acts_as_list scope: [:invoice_id]
