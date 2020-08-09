@@ -24,7 +24,6 @@ gem 'faker', require: false
 gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
-gem 'newrelic_rpm'
 gem 'pg'
 gem 'pony'
 gem 'prawn'
@@ -79,5 +78,6 @@ group :test do
 end
 
 group :production do
+  gem 'newrelic_rpm'
   gem 'sentry-raven'
 end
