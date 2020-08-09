@@ -61,14 +61,14 @@
                   = link_to manage_invoice_path(invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                     span.fa.fa-trash
 
-  - if @booking
-      p.mt-5.mb-1
-        = t(:add_record, model_name: Invoice.model_name.human)
-        | :
-      ul
-        li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit })
-          = Invoices::Deposit.model_name.human
-        li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Invoice })
-          = Invoices::Invoice.model_name.human
-        li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice })
-          = Invoices::LateNotice.model_name.human
+- if @booking
+    p.mt-5.mb-1
+      = t(:add_record, model_name: Invoice.model_name.human)
+      | :
+    ul
+      li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit })
+        = Invoices::Deposit.model_name.human
+      li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Invoice })
+        = Invoices::Invoice.model_name.human
+      li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice })
+        = Invoices::LateNotice.model_name.human
