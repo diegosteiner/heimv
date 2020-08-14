@@ -1,4 +1,4 @@
-.d-flex[class=(:'text-danger' if occupancy.conflicting.any?)]
+.d-flex[class=(:'text-danger' if occupancy.conflicting.blank?)]
   div.mr-2.pt-2
     i.fa.fa-calendar
   div
