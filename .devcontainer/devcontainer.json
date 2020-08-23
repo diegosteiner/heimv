@@ -1,5 +1,5 @@
 {
-	"dockerComposeFile": "../docker-compose.yml",
+	"dockerComposeFile": ["../docker-compose.yml", "./docker-compose.yml"],
 	"service": "app",
 	"workspaceFolder": "/app",
 	// Set *default* container specific settings.json values on container create.
@@ -17,9 +17,7 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"rebornix.Ruby",
-		"castwide.solargraph",
-		// "wingrunr21.vscode-ruby",
-		// "octref.vetur"
+		"castwide.solargraph"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [

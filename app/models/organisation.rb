@@ -22,9 +22,14 @@
 #  name                      :string
 #  payment_deadline          :integer          default(30), not null
 #  representative_address    :string
+#  slug                      :string
 #  smtp_url                  :string
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
+#
+# Indexes
+#
+#  index_organisations_on_slug  (slug)
 #
 
 class Organisation < ApplicationRecord

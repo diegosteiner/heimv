@@ -12,10 +12,11 @@ class ImportSeeder
   def seed(set = Rails.env.to_sym, password: 'heimverwaltung', email: 'admin@heimv.local')
     return unless FILES[set]
 
+    role = set == :development ? :admin : :manager
     import_data = JSON.parse(File.read(FILES[set]))
     truncate
     organisation = Import::OrganisationImporter.new(Organisation.new, replace: true).import(import_data)
-    User.create!(role: :manager, password: password, email: email, organisation: organisation)
+    User.create!(role: role, password: password, email: email, organisation: organisation)
     reset_pk_sequence!
     bookings(organisation.homes.first)
   end

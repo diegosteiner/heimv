@@ -16,7 +16,7 @@ RUN apk add --update build-base \
     curl \
     python3
 
-RUN gem install solargraph standardrb
+RUN gem install solargraph standardrb ruby-debug-ide debase
 
 ARG UID=1001
 ARG GID=1001

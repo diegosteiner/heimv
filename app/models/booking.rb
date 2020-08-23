@@ -82,7 +82,7 @@ class Booking < ApplicationRecord
   validates :approximate_headcount, numericality: true, on: :public_update
 
   validate(on: %i[public_create public_update]) do
-    next errors.add(:base, :conflicting) if occupancy.conflicting.blank?
+    next errors.add(:base, :conflicting) if occupancy.conflicting.present?
 
     margin = home.booking_margin
     errors.add(:base, :booking_margin_too_small, margin: margin) if occupancy.conflicting(margin).any?

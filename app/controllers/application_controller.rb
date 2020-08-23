@@ -6,20 +6,18 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   rescue_from CanCan::AccessDenied, with: :unauthorized
-  before_action :configure_permitted_parameters, if: :devise_controller?
   default_form_builder BootstrapForm::FormBuilder
-  helper_method :current_organisation
   before_action :set_raven_context
+  helper_method :current_organisation
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
   end
 
-  protected
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name])
+  def default_url_options
+    { org: current_organisation&.slug }.merge(super)
   end
+
+  protected
 
   def responder_flash_messages(resource_name, scope: :update)
     {
@@ -30,11 +28,9 @@ class ApplicationController < ActionController::Base
 
   def current_organisation
     @current_organisation = current_user&.organisation ||
-                            Organisation.where(domain: request.domain).first ||
+                            Organisation.where(slug: params[:org]).first ||
                             Organisation.first
   end
-
-  private
 
   def set_raven_context
     return unless defined?(Raven)

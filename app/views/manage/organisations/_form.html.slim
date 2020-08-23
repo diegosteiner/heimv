@@ -8,7 +8,7 @@
   fieldset
     = f.email_field :email
     = f.email_field :bcc
-    = f.email_field :mail_from
+    = f.text_field :mail_from
     div[v-pre]= f.text_area :message_footer, rows: 4
 
   fieldset

@@ -4,9 +4,12 @@ module BookingStrategies
   class Default
     module States
       class PaymentOverdue < BookingStrategy::State
+        include Rails.application.routes.url_helpers
+
         def checklist
           [
-            ChecklistItem.new(:invoice_paid, booking.invoices.relevant.all?(&:paid), [:manage, booking, Invoice])
+            ChecklistItem.new(:invoice_paid, booking.invoices.relevant.all?(&:paid),
+                              manage_booking_invoices_path(booking, org: booking.organisation.slug))
           ]
         end
 
