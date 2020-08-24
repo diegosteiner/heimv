@@ -10,7 +10,6 @@
 #  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
-#  domain                    :string
 #  email                     :string
 #  esr_participant_nr        :string
 #  iban                      :string
@@ -29,7 +28,7 @@
 #
 # Indexes
 #
-#  index_organisations_on_slug  (slug)
+#  index_organisations_on_slug  (slug) UNIQUE
 #
 
 FactoryBot.define do
@@ -42,7 +41,7 @@ FactoryBot.define do
     email { 'test@test.test' }
     esr_participant_nr { 'MyString' }
     messages_enabled { true }
-    domain { '' }
+    slug { nil }
     location {}
 
     trait :with_markdown_templates do

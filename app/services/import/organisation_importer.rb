@@ -3,7 +3,7 @@
 module Import
   class OrganisationImporter < Base
     def relevant_attributes
-      %w[name email address booking_ref_strategy_type booking_strategy_type currency location domain
+      %w[name email address booking_ref_strategy_type booking_strategy_type currency location
          esr_participant_nr iban invoice_ref_strategy_type message_footer messages_enabled slug]
     end
 

@@ -36,7 +36,7 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def accept_booking
-    visit manage_booking_path(booking)
+    visit manage_booking_path(booking, org: nil)
     click_on :allowed_transitions
     click_on :open_request
     click_on :accept
@@ -45,7 +45,7 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def define_tarifs
-    visit manage_booking_path(booking)
+    visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(1) a').click
     tarifs.each do |tarif|
       expect(page).to have_content(tarif.label)
@@ -55,29 +55,29 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def create_contract
-    visit manage_booking_path(booking)
+    visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(2) a').click
-    visit new_manage_booking_contract_path(booking)
+    visit new_manage_booking_contract_path(booking, org: nil)
     click_on :commit
     find('table tbody tr:nth-child(1) td:nth-child(1) a').click
   end
 
   def create_deposit
-    visit manage_booking_path(booking)
+    visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(3) a').click
     click_on Invoices::Deposit.model_name.human
-    visit new_manage_booking_invoice_path(booking, invoice: { type: Invoices::Deposit })
+    visit new_manage_booking_invoice_path(booking, org: nil, invoice: { type: Invoices::Deposit })
     click_on :commit
   end
 
   def confirm_booking
-    visit manage_booking_path(booking)
+    visit manage_booking_path(booking, org: nil)
     click_on :email_contract_and_deposit
     click_on :mark_contract_signed
   end
 
   def perform_booking
-    visit manage_booking_path(booking)
+    visit manage_booking_path(booking, org: nil)
     click_on :allowed_transitions
     click_on :upcoming_soon
     click_on :allowed_transitions
@@ -87,7 +87,7 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def set_usages
-    visit manage_booking_path(booking)
+    visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(1) a').click
     # page.driver.browser.navigate.refresh
     find_all('input[type="number"]').each do |usage_field|
@@ -97,7 +97,7 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def create_invoice
-    visit manage_booking_path(booking)
+    visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(2) a').click
     click_on Invoices::Invoice.model_name.human
     # page.driver.browser.navigate.refresh
@@ -105,10 +105,10 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def finalize_booking
-    visit manage_booking_path(booking)
+    visit manage_booking_path(booking, org: nil)
     click_on :email_invoice
     click_on :postpone_deadline
-    visit manage_booking_invoices_path(booking)
+    visit manage_booking_invoices_path(booking, org: nil)
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
     click_on :commit
   end

@@ -10,7 +10,6 @@
 #  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
-#  domain                    :string
 #  email                     :string
 #  esr_participant_nr        :string
 #  iban                      :string
@@ -29,7 +28,7 @@
 #
 # Indexes
 #
-#  index_organisations_on_slug  (slug)
+#  index_organisations_on_slug  (slug) UNIQUE
 #
 
 require 'rails_helper'

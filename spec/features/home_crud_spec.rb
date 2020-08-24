@@ -23,12 +23,12 @@ describe 'Home CRUD', :devise, type: :feature do
     within find_resource_in_table(home) do
       click_link home.name
     end
-    expect(page).to have_current_path(manage_home_path(home))
+    expect(page).to have_current_path(manage_home_path(home, org: nil))
     expect(page).to have_content home.name
   end
 
   it 'can edit existing home' do
-    visit edit_manage_home_path(home)
+    visit edit_manage_home_path(home, org: nil)
     fill_in :home_name, with: new_home.name
     fill_in :home_ref, with: new_home.ref
     submit_form
@@ -38,7 +38,7 @@ describe 'Home CRUD', :devise, type: :feature do
 
   it 'can delete existing home' do
     home
-    visit manage_homes_path
+    visit manage_homes_path(org: nil)
     click_link I18n.t('destroy')
     page.driver.browser.switch_to.alert.accept
     expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Home.model_name.human)

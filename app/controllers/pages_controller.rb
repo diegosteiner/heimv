@@ -2,7 +2,7 @@
 
 class PagesController < ApplicationController
   def home
-    redirect_to(manage_dashboard_path(org: current_user.organisation.slug)) if current_user&.organisation&.present?
+    redirect_to(manage_dashboard_path(org: current_organisation&.slug))
   end
 
   def ext

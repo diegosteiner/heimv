@@ -152,7 +152,6 @@ de:
         address: Adresse
         bcc: BCC
         contract_signature: Vertragsunterschrift
-        domain: Domain
         esr_participant_nr: ESR Teilnehmernummer
         iban: IBAN
         location: Ort
@@ -163,6 +162,7 @@ de:
         name: Name
         privacy_statement_pdf: Datenschutzerklärung
         representative_address: Adresse der Vertretung für Verträge
+        slug: Namespace
         smtp_url: Mailserver Einstellungen
         terms_pdf: AGB
       payment:
