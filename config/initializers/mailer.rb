@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
-Pony.options = if Rails.env.test?
-                 {
-                   from: ENV.fetch('MAIL_FROM', 'test@heimv.local'),
-                   via: :test
-                 }
-               else
-                 {
-                   from: ENV.fetch('MAIL_FROM', 'test@heimv.local'),
-                   via: :smtp,
-                   via_options: SmtpUrl.from_string(ENV.fetch('SMTP_URL'))
-                 }
-               end
+if Rails.env.test?
+  ActionMailer::Base.delivery_method = :test
+  Pony.options = {
+    from: ENV.fetch('MAIL_FROM', 'test@heimv.local'),
+    via: :test
+  }
+else
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = SmtpUrl.from_string(ENV.fetch('SMTP_URL'))
+  Pony.options = {
+    from: ENV.fetch('MAIL_FROM', 'test@heimv.local'),
+    via: :smtp,
+    via_options: SmtpUrl.from_string(ENV.fetch('SMTP_URL'))
+  }
+end

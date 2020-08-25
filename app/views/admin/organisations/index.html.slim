@@ -17,3 +17,5 @@
           td
             = link_to admin_organisation_path(organisation), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
               span.fa.fa-trash
+  '
+  = link_to t('add_record', model_name: Organisation.model_name.human), new_admin_organisation_path, class: 'btn btn-primary'

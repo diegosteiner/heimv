@@ -18,6 +18,15 @@ module Admin
       redirect_to edit_admin_organisation_path
     end
 
+    def new
+      respond_with :admin, @organisation
+    end
+
+    def create
+      @organisation.save
+      respond_with :admin, @organisation
+    end
+
     private
 
     # def attach_files

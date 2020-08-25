@@ -2,7 +2,9 @@
 
   fieldset
     = f.email_field :email
+    = f.password_field :password
     = f.select :role, User.roles.keys.map { |role| [role, role]}
+    = f.collection_select :organisation_id, Organisation.all, :id, :name
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit
