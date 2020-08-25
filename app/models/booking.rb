@@ -82,10 +82,10 @@ class Booking < ApplicationRecord
   validates :approximate_headcount, numericality: true, on: :public_update
 
   validate(on: %i[public_create public_update]) do
-    next errors.add(:base, :conflicting) if occupancy.conflicting.any?
+    next errors.add(:base, :conflicting) if occupancy.conflicting.present?
 
     margin = home.booking_margin
-    errors.add(:base, :booking_margin_too_small, margin: margin) if occupancy.conflicting(margin).any?
+    errors.add(:base, :booking_margin_too_small, margin: margin) if occupancy.conflicting(margin).present?
   end
 
   scope :ordered, -> { joins(:occupancy).order(Occupancy.arel_table[:begins_at]) }

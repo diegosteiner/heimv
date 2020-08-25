@@ -45,6 +45,7 @@ module Ability
       can :manage, MeterReadingPeriod, home: { organisation: organisation }
       can :manage, BookingAgent, organisation: organisation
       can :manage, Invoice, booking: { organisation: organisation }
+      can :manage, InvoicePart, booking: { organisation: organisation }
       can :manage, Contract, booking: { organisation: organisation }
       can :manage, Offer, booking: { organisation: organisation }
       can :manage, Payment, booking: { organisation: organisation }
@@ -63,6 +64,10 @@ module Ability
       can %i[create read update], Tenant
       can %i[read index], Home, requests_allowed: true
       can %i[read index embed calendar at], Occupancy, home: { requests_allowed: true }
+    end
+
+    def manage_abilities(user)
+      can :manage, Home, organisation: user.organisation
     end
   end
 end

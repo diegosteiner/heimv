@@ -67,8 +67,6 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'ruby-debug-ide'
-  gem 'solargraph'
 end
 
 group :test do

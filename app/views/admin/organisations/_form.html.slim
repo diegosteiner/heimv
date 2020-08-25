@@ -3,10 +3,10 @@
     = f.text_field :name
     = f.email_field :email
     = f.email_field :bcc
-    = f.email_field :mail_from
+    = f.text_field :mail_from
     div.pb-3= f.check_box :messages_enabled
     div[v-pre]= f.text_area :smtp_url, rows: 4
-    div[v-pre]= f.text_field :domain
+    = f.text_field :slug
     / = f.select :booking_strategy_type, [BookingStrategies::Default]
     / = f.select :invoice_ref_strategy_type, [RefStrategies::ESR]
 

@@ -10,7 +10,6 @@
 #  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
-#  domain                    :string
 #  email                     :string
 #  esr_participant_nr        :string
 #  iban                      :string
@@ -22,9 +21,14 @@
 #  name                      :string
 #  payment_deadline          :integer          default(30), not null
 #  representative_address    :string
+#  slug                      :string
 #  smtp_url                  :string
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
+#
+# Indexes
+#
+#  index_organisations_on_slug  (slug) UNIQUE
 #
 
 class Organisation < ApplicationRecord
@@ -43,6 +47,7 @@ class Organisation < ApplicationRecord
   validates :booking_ref_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
   validates :name, :address, :email, presence: true
+  validates :slug, uniqueness: true, allow_nil: true
 
   def booking_strategy
     @booking_strategy ||= BookingStrategies.const_get(booking_strategy_type).new
@@ -54,6 +59,10 @@ class Organisation < ApplicationRecord
 
   def invoice_ref_strategy
     @invoice_ref_strategy ||= RefStrategies.const_get(invoice_ref_strategy_type).new
+  end
+
+  def slug
+    super.presence
   end
 
   # TODO: extract to hash
@@ -79,10 +88,6 @@ class Organisation < ApplicationRecord
 
   def mailer
     @mailer ||= OrganisationMailer.new(self)
-  end
-
-  def host
-    domain || ENV['DEFAULT_DOMAIN'] || 'heimv.localhost:3000'
   end
 
   def missing_markdown_templates(locales = I18n.available_locales)

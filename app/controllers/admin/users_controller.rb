@@ -12,22 +12,21 @@ module Admin
       respond_with :admin, @user
     end
 
-    def new
-      respond_with :admin, @user
-    end
-
     def edit
       respond_with :admin, @user
     end
 
+    def new
+      respond_with :admin, @user
+    end
+
     def create
-      @user.organisation = current_organisation
       @user.save
       respond_with :admin, @user
     end
 
     def update
-      @user.skip_reconfirmation!
+      @user.password = params[:password].presence
       @user.update(user_params)
       respond_with :admin, @user
     end

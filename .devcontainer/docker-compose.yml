@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      target: development
+      args:
+        UID: ${UID}
+        GID: ${GID}
+    volumes:
+      - .:/app
+    ports: []
+    entrypoint: ['.docker/entrypoints/app.sh']
+    command: ['ash']

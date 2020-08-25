@@ -25,16 +25,18 @@ module BookingStrategies
         protected
 
         def choose_tarifs_checklist_item
-          ChecklistItem.new(:choose_tarifs, booking.booking_copy_tarifs.exists?, manage_booking_tarifs_path(booking))
+          ChecklistItem.new(:choose_tarifs, booking.booking_copy_tarifs.exists?,
+                            manage_booking_tarifs_path(booking, org: booking.organisation.slug))
         end
 
         def create_contract_checklist_item
-          ChecklistItem.new(:create_contract, booking.contract.present?, manage_booking_contracts_path(booking))
+          ChecklistItem.new(:create_contract, booking.contract.present?,
+                            manage_booking_contracts_path(booking, org: booking.organisation.slug))
         end
 
         def create_deposit_checklist_item
           ChecklistItem.new(:create_deposit, Invoices::Deposit.of(booking).relevant.exists?,
-                            manage_booking_invoices_path(booking))
+                            manage_booking_invoices_path(booking, org: booking.organisation.slug))
         end
       end
     end

@@ -11,8 +11,8 @@ html[lang="#{I18n.locale}-CH"]
     .app-container[class=Rails.env]
       header
         == render 'layouts/top_navigation'
-      - if current_user&.role_manager? || current_user&.role_admin?
-        nav== render 'layouts/main_navigation'
+      - if (controller.is_a?(Manage::BaseController))
+        nav== render 'layouts/manage_navigation'
       main.container.pt-2.pb-5[role='main']
         .py-4== render 'layouts/messages'
         == yield

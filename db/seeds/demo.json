@@ -6,6 +6,7 @@
   "booking_strategy_type": "BookingStrategies::Default",
   "currency": "CHF",
   "esr_participant_nr": "01-123456-7",
+  "slug": "demo",
   "iban": "",
   "invoice_ref_strategy_type": "RefStrategies::ESR",
   "message_footer": "Verein Pfadiheime Demo \r\nHeimverwaltung  \r\n\r\n[www.heimv.ch](//www.heimv.ch)  \r\n",

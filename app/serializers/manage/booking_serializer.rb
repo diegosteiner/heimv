@@ -11,8 +11,8 @@ module Manage
 
     attribute :links do
       {
-        edit: edit_public_booking_url(object.to_param, host: object.organisation.host),
-        manage: manage_booking_url(object.to_param, host: object.organisation.host)
+        edit: edit_public_booking_url(object.to_param, host: ENV['APP_HOST'], org: object.organisation.slug),
+        manage: manage_booking_url(object.to_param, host: ENV['APP_HOST'], org: object.organisation.slug)
       }
     end
   end

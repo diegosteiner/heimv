@@ -10,7 +10,7 @@ module Public
     has_one :agent_booking, serializer: Public::AgentBookingSerializer
 
     attribute :links do
-      { edit: edit_public_booking_url(object.to_param, host: object.organisation.host) }
+      { edit: edit_public_booking_url(object.to_param, host: ENV['APP_HOST'], org: object.organisation.slug) }
     end
   end
 end

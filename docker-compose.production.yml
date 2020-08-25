@@ -6,6 +6,7 @@ services:
       context: .
       target: production
     environment:
+      APP_HOST: ${APP_HOST}
       DATABASE_URL: postgresql://postgres@db/heimverwaltung_production
       RAILS_ENV: production
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}

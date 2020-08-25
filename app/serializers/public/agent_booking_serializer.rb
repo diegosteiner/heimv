@@ -7,7 +7,7 @@ module Public
     attributes :booking_agent_ref, :booking_agent_code
 
     attribute :links do
-      { edit: edit_public_agent_booking_url(object.to_param, host: object.organisation.host) }
+      { edit: edit_public_agent_booking_url(object.to_param, host: ENV['APP_HOST'], org: object.organisation.slug) }
     end
   end
 end

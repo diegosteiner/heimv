@@ -60,7 +60,7 @@ const preprocessCalendarData = calendarData => {
   }
 }
 
-export const OccupancyCalendarContextProvider = ({ children, homeId }) => {
+export const OccupancyCalendarContextProvider = ({ children, homeId, baseUrl }) => {
   const [calendarData, setCalendarData] = useState({
     occupancies: [],
     occupancyDates: {},
@@ -71,7 +71,7 @@ export const OccupancyCalendarContextProvider = ({ children, homeId }) => {
 
   useEffect(() => {
     (async () => {
-      const result = await fetch(homeCalendarPath(homeId));
+      const result = await fetch(homeCalendarPath(baseUrl, homeId));
 
       if (result.status == 200) setCalendarData(preprocessCalendarData(await result.json()))
       setLoading(false)

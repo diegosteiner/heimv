@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
-  def home; end
-
-  def about; end
+  def home
+    redirect_to(manage_dashboard_path(org: current_organisation&.slug))
+  end
 
   def ext
     respond_to do |format|

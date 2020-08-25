@@ -4,22 +4,28 @@
       .card-body
         h5.card-title
           = Home.model_name.human(count: :other)
+          span.badge.badge-light= Home.all.count
         = link_to manage_homes_path, class: 'btn btn-primary'
           ' Verwalten
-          span.badge.badge-light= Home.all.count
   .col
     .card
       .card-body
         h5.card-title
           = Tenant.model_name.human(count: :other)
+          span.badge.badge-light= Tenant.all.count
         = link_to manage_tenants_path, class: 'btn btn-primary'
           ' Verwalten
-          span.badge.badge-light= Tenant.all.count
   .col
     .card
       .card-body
         h5.card-title
           = Booking.model_name.human(count: :other)
+          span.badge.badge-light= Booking.all.count
         = link_to manage_bookings_path, class: 'btn btn-primary'
           ' Verwalten
-          span.badge.badge-light= Booking.all.count
+
+- current_organisation.homes.where(requests_allowed: true).each do |home|
+  .card.my-3
+    .card-body
+      h1.text-center= home
+      = react_component('calendar/OccupancyCalendar', { homeId: home.id, baseUrl: url_for(only_path: false) })

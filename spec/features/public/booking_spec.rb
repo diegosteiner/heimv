@@ -45,13 +45,13 @@ describe 'Booking', :devise, type: :feature do
   #   booking
   #   visit manage_bookings_path
   #   find_resource_in_table(booking).click
-  #   expect(page).to have_current_path(manage_booking_path(booking))
+  #   expect(page).to have_current_path(manage_booking_path(booking, org: nil))
   #   expect(page).to have_http_status(200)
   #   expect(page).to have_content booking.ref
   # end
 
   # scenario 'can edit existing booking' do
-  #   visit edit_manage_booking_path(booking)
+  #   visit edit_manage_booking_path(booking, org: nil)
   #   # fill_in :booking_ref, with: new_booking.ref
   #   submit_form
   #   expect(page).to have_http_status(200)
@@ -59,7 +59,7 @@ describe 'Booking', :devise, type: :feature do
   # end
 
   # scenario 'can delete existing booking' do
-  #   visit manage_booking_path(booking)
+  #   visit manage_booking_path(booking, org: nil)
   #   click_link I18n.t('destroy')
   #   expect(page).to have_current_path(manage_bookings_path)
   #   expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Booking.model_name.human)

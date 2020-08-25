@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_03_190808) do
+ActiveRecord::Schema.define(version: 2020_08_23_120328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -283,12 +283,13 @@ ActiveRecord::Schema.define(version: 2020_08_03_190808) do
     t.string "representative_address"
     t.string "email"
     t.integer "payment_deadline", default: 30, null: false
-    t.string "domain"
     t.string "location"
     t.boolean "messages_enabled", default: true
     t.string "smtp_url"
     t.string "bcc"
     t.string "mail_from"
+    t.string "slug"
+    t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
   create_table "payments", force: :cascade do |t|

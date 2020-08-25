@@ -5,6 +5,11 @@ module Manage
     load_and_authorize_resource :booking
     before_action :set_filter, only: :index
 
+    if defined?(NewRelic)
+      include ::NewRelic::Agent::MethodTracer
+      add_method_tracer :update
+    end
+
     def index
       @bookings = @filter.apply(@bookings.with_default_includes.ordered)
       @grouped_bookings = group_bookings(@bookings)

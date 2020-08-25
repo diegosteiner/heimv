@@ -60,9 +60,6 @@ img {
         background-color: white;
         min-width: 250px;
 
-        .position-fixed {
-            min-width: 250px;
-        }
     }
 
     &>footer {
@@ -171,4 +168,10 @@ tr.disabled {
 
 .presumed-usage {
     background-color: #fff9e8;
+}
+
+.position-fixed-lg {
+    @include media-breakpoint-up(lg) {
+        position: fixed;
+    }
 }

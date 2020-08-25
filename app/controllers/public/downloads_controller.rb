@@ -25,7 +25,7 @@ module Public
                     current_organisation.privacy_statement_pdf
                   end
 
-      raise ActionController::RoutingError if @download.blank?
+      raise ActionController::RoutingError, 'File not found' if @download.blank?
     end
   end
 end
