@@ -14,6 +14,7 @@ RUN apk add --update build-base \
     yarn \
     less \
     curl \
+    gnupg \
     python3
 
 RUN gem install solargraph standardrb ruby-debug-ide debase
