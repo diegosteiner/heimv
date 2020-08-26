@@ -1,4 +1,8 @@
 = form_with(model: [:admin, organisation], local: true) do |f|
+  - if @organisation.errors.any?
+    .alert.alert-danger.pt-4
+      = f.error_summary
+
   fieldset
     = f.text_field :name
     = f.email_field :email

@@ -21,12 +21,13 @@ module Admin
     end
 
     def create
+      @user.password = params.dig(:user, :password).presence
       @user.save
       respond_with :admin, @user
     end
 
     def update
-      @user.password = params[:password].presence
+      @user.password = params.dig(:user, :password).presence
       @user.update(user_params)
       respond_with :admin, @user
     end

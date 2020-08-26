@@ -33,7 +33,7 @@
 class User < ApplicationRecord
   ROLES = %i[user admin manager].freeze
 
-  belongs_to :organisation # , optional: true
+  belongs_to :organisation, optional: true
 
   enum role: ROLES, _prefix: :role
 

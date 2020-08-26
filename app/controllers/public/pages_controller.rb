@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Public
-  class PagesController < ApplicationController
+  class PagesController < BaseController
     def home; end
   end
 end

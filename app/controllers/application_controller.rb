@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    { org: current_organisation&.slug }.merge(super)
+    { org: params[:org] }.merge(super)
   end
 
   protected
@@ -27,9 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organisation
-    @current_organisation = current_user&.organisation ||
-                            Organisation.where(slug: params[:org]).first ||
-                            Organisation.first
+    nil
   end
 
   def set_raven_context

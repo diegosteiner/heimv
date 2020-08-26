@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
 module BookingHelper
-  def tenants_for_select(_booking = nil, _current_user = nil)
-    Tenant.all.map { |tenant| ["#{tenant.name}, #{tenant.zipcode} #{tenant.city}", tenant.to_param] }
-  end
-
   def homes_for_select
-    Home.all.map { |home| [home.to_s, home.to_param] }
+    current_organisation.homes.map { |home| [home.to_s, home.to_param] }
   end
 
   def transition_translation(to:, from: nil)
