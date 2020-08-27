@@ -67,5 +67,6 @@ Rails.application.routes.draw do
     end
   end
 
+  # root to: redirect(path: '/manage', status: 302), as: :redirect_manage
   devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
 end

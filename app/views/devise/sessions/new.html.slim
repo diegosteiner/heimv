@@ -4,6 +4,8 @@
       = t(".sign_in")
     .card.breakout-sm
       .card-body
+        - if organisation = params[:org] && Organisation.find_by(slug: params[:org])
+          = image_tag organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;'
         = form_with(model: resource, scope: resource_name, url: session_path(resource_name), local: true) do |f|
           fieldset
             = f.email_field :email, autofocus: true, autocomplete: 'username'
