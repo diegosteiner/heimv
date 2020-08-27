@@ -5,7 +5,7 @@ module Public
     protected
 
     def current_organisation
-      @current_organisation ||= Organisation.find_by!(slug: params[:org])
+      @current_organisation ||= Organisation.find_by!(slug: params[:org] || ENV['DEFAULT_ORG'].presence)
     end
 
     def current_ability
