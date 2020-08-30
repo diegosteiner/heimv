@@ -4,18 +4,19 @@
       tr
         th= Organisation.human_attribute_name(:name)
         th
-        th
 
     tbody
       - @organisations.each do |organisation|
         tr
           td
             = link_to organisation.name, admin_organisation_path(organisation)
-          td
-            = link_to edit_admin_organisation_path(organisation) do
-              span.fa.fa-edit
-          td
-            = link_to admin_organisation_path(organisation), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
-              span.fa.fa-trash
+          td.py-1.text-right
+            .btn-group
+              = link_to edit_admin_organisation_path(organisation), class: 'btn btn-default' do
+                span.fa.fa-edit
+              = link_to new_admin_import_path(organisation_id: organisation.to_param), class: 'btn btn-default' do
+                span.fa.fa-upload
+              = link_to admin_organisation_path(organisation), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
   '
   = link_to t('add_record', model_name: Organisation.model_name.human), new_admin_organisation_path, class: 'btn btn-primary'

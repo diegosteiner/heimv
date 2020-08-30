@@ -3,7 +3,7 @@
 module Admin
   class ImportsController < BaseController
     load_and_authorize_resource :organisation
-    before_action :set_organisation
+    before_action :set_organisation, except: :new
 
     def show
       respond_to do |format|
@@ -20,7 +20,7 @@ module Admin
 
       if imported
         # TODO: translate
-        redirect_to edit_manage_organisation_path, notice: 'Import succeeded'
+        redirect_to edit_manage_organisation_path(org: @organisation.slug), notice: 'Import succeeded'
       else
         # TODO: translate
         redirect_to new_admin_import_path, alert: 'Import failed'
@@ -30,7 +30,7 @@ module Admin
     private
 
     def set_organisation
-      @organisation = current_organisation
+      @organisation = Organisation.find(params[:organisation_id])
     end
   end
 end

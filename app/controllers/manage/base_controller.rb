@@ -12,10 +12,10 @@ module Manage
     end
 
     def current_organisation
-      return unless current_user.present?
+      return if current_user.blank?
 
       @current_organisation ||= if current_user.role_admin?
-                                  Organisation.find_by(slug: params[:org] || ENV['DEFAULT_ORG'])
+                                  Organisation.find_by!(slug: params[:org] || ENV['DEFAULT_ORG'])
                                 else
                                   current_user.organisation
                                 end

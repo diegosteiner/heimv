@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   rescue_from CanCan::AccessDenied, with: :unauthorized
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   default_form_builder BootstrapForm::FormBuilder
   before_action :set_raven_context
   helper_method :current_organisation
@@ -37,13 +39,16 @@ class ApplicationController < ActionController::Base
     Raven.extra_context(params: params.to_unsafe_h, url: request.url, organisation: current_organisation&.name)
   end
 
+  def not_found
+    redirect_to '/404.html'
+  end
+
   def unauthorized
     if current_user.nil?
       session[:next] = request.fullpath
       redirect_to login_url, alert: t('unauthorized')
     else
       redirect_back alert: t('unauthorized'), fallback_location: root_path
-      raise 'unauthorized'
     end
   end
 end

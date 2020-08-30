@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'Session', :devise, type: :feature do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, :manager) }
 
   describe 'Sign in' do
     it 'user cannot sign in if not registered' do

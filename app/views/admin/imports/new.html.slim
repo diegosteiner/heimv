@@ -4,7 +4,9 @@
       .card-body
         = form_with(url: admin_import_path, method: :POST, local: true) do |f|
           fieldset
+            = f.collection_select :organisation_id, Organisation.all, :id, :name
             = f.check_box :replace
+            br
             = f.text_area :import_data, rows: 20
 
           .form-actions.pt-4.mt-3.border-top
