@@ -2,13 +2,14 @@
 
 Rails.application.routes.draw do
   namespace :admin do
+    root to: 'dashboard#index'
     resources :users
     resources :organisations
     resource :import, only: %i[new create show]
   end
 
   namespace :manage do
-    root to: 'dashboard#index', as: :dashboard
+    root to: 'dashboard#index'
     resources :homes do
       scope module: :homes do
         resources :tarif_selectors, except: %w[show]
@@ -67,6 +68,5 @@ Rails.application.routes.draw do
     end
   end
 
-  # root to: redirect(path: '/manage', status: 302), as: :redirect_manage
   devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
 end
