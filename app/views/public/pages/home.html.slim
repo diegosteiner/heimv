@@ -2,4 +2,4 @@
   .card.my-3
     .card-body
       h1.text-center= home
-      = react_component('calendar/OccupancyCalendar', { homeId: home.id, baseUrl: url_for(only_path: false) })
+      = react_component('calendar/OccupancyCalendar', { homeId: home.id, baseUrl: root_url })

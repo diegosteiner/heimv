@@ -1,11 +1,11 @@
 doctype html
 html[lang="#{I18n.locale}-CH"]
   head
-    title= t('titles.application')
+    title= t('titles.application', organisation: current_organisation&.name)
     meta[name='viewport' content='width=device-width, initial-scale=1.0']
     == csrf_meta_tags
     == csp_meta_tag
     == javascript_packs_with_chunks_tag 'app'
     == stylesheet_pack_tag 'app'
   body[style='background-color: transparent;']
-    = react_component('calendar/OccupancyCalendar', { homeId: @home.id, displayMonths: params.fetch(:display_months, 8) })
+    = react_component('calendar/OccupancyCalendar', { homeId: @home.id, baseUrl: root_url, displayMonths: params.fetch(:display_months, 8) })
