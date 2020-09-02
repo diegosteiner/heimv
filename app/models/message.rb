@@ -46,7 +46,7 @@ class Message < ApplicationRecord
   after_initialize do
     next if from_template.blank?
 
-    self.markdown_template = organisation&.markdown_templates&.by_key(from_template)
+    self.markdown_template = organisation&.markdown_templates&.by_key(from_template, locale: booking&.locale)
     apply_template
   end
 

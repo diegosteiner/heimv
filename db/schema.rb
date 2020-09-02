@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_120328) do
+ActiveRecord::Schema.define(version: 2020_08_31_091915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -110,8 +110,10 @@ ActiveRecord::Schema.define(version: 2020_08_23_120328) do
     t.boolean "timeframe_locked", default: false
     t.boolean "usages_presumed", default: false
     t.bigint "deadline_id"
+    t.string "locale"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
+    t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
     t.index ["state"], name: "index_bookings_on_state"

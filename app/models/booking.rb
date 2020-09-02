@@ -14,6 +14,7 @@
 #  import_data           :jsonb
 #  internal_remarks      :text
 #  invoice_address       :text
+#  locale                :string
 #  messages_enabled      :boolean          default(FALSE)
 #  purpose               :string
 #  ref                   :string
@@ -36,6 +37,7 @@
 #
 #  index_bookings_on_deadline_id      (deadline_id)
 #  index_bookings_on_home_id          (home_id)
+#  index_bookings_on_locale           (locale)
 #  index_bookings_on_organisation_id  (organisation_id)
 #  index_bookings_on_ref              (ref)
 #  index_bookings_on_state            (state)
@@ -74,6 +76,7 @@ class Booking < ApplicationRecord
   has_one  :booking_agent, through: :agent_booking
 
   attribute :accept_conditions, default: false
+  enum locale: I18n.available_locales.index_by(&:itself)
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create
@@ -92,7 +95,7 @@ class Booking < ApplicationRecord
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
   scope :inconcluded, -> { where(concluded: false) }
 
-  before_validation :set_organisation, :set_occupancy_attributes, :set_tenant_attributes
+  before_validation :set_organisation, :set_occupancy_attributes, :set_tenant_attributes, :set_locale
   before_create :set_ref
   after_create :reload
 
@@ -180,5 +183,9 @@ class Booking < ApplicationRecord
 
   def set_organisation
     self.organisation ||= home&.organisation
+  end
+
+  def set_locale
+    self.locale ||= I18n.locale
   end
 end

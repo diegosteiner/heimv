@@ -47,6 +47,7 @@
     = f.number_field :approximate_headcount
     = f.text_area :remarks
     = f.text_area :internal_remarks
+    = f.collection_select :locale, Booking.locales, :first, :first
     = f.text_area :cancellation_reason
     = f.check_box :messages_enabled
     = f.check_box :timeframe_locked

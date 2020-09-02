@@ -25,6 +25,10 @@ Rails:
 Layout/LineLength:
   Max: 120
 
+Metrics/ClassLength:
+  Exclude:
+    - 'app/models/booking.rb'
+
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'

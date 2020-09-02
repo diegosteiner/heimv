@@ -14,6 +14,7 @@
 #  import_data           :jsonb
 #  internal_remarks      :text
 #  invoice_address       :text
+#  locale                :string
 #  messages_enabled      :boolean          default(FALSE)
 #  purpose               :string
 #  ref                   :string
@@ -36,6 +37,7 @@
 #
 #  index_bookings_on_deadline_id      (deadline_id)
 #  index_bookings_on_home_id          (home_id)
+#  index_bookings_on_locale           (locale)
 #  index_bookings_on_organisation_id  (organisation_id)
 #  index_bookings_on_ref              (ref)
 #  index_bookings_on_state            (state)

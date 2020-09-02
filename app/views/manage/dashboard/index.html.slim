@@ -2,4 +2,8 @@
   .card.my-3
     .card-body
       h1.text-center= home
-      = react_component('calendar/OccupancyCalendar', { homeId: home.id, baseUrl: url_for(only_path: false) })
+      = react_component('calendar/OccupancyCalendar', { \ 
+          calendarUrl: calendar_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, format: :json), \
+          occupancyAtUrl: at_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, date: ''), \
+          displayMonths: params.fetch(:display_months, 8) \
+        })
