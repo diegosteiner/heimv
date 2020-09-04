@@ -85,7 +85,13 @@ class Notification < ApplicationRecord
   def link_markdown_template
     return if from_template.blank? || organisation.blank? || booking.blank?
 
-    self.markdown_template = organisation.markdown_templates.by_key(from_template, locale: booking.locale)
+    self.markdown_template = organisation.markdown_templates.by_key(from_template, locale: locale)
+  end
+
+  def locale
+    (addressed_to_tenant? && booking&.locale) ||
+      (addressed_to_manager? && organisation&.locale) ||
+      I18n.locale
   end
 
   def apply_markdown_template

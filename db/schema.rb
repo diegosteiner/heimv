@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_04_113022) do
+ActiveRecord::Schema.define(version: 2020_09_04_132523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -291,6 +291,7 @@ ActiveRecord::Schema.define(version: 2020_09_04_113022) do
     t.string "bcc"
     t.string "mail_from"
     t.string "slug"
+    t.string "locale", default: "de"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 

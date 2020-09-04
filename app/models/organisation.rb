@@ -14,6 +14,7 @@
 #  esr_participant_nr        :string
 #  iban                      :string
 #  invoice_ref_strategy_type :string
+#  locale                    :string           default("de")
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
@@ -88,6 +89,10 @@ class Organisation < ApplicationRecord
 
   def mailer
     @mailer ||= OrganisationMailer.new(self)
+  end
+
+  def locale
+    super || I18n.locale || I18n.default_locale
   end
 
   def missing_markdown_templates(locales = I18n.available_locales)

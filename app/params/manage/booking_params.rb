@@ -4,7 +4,7 @@ module Manage
   class BookingParams < Public::BookingParams::Create
     def self.permitted_keys
       super +
-        %i[transition_to notifications_enabled internal_remarks cancellation_reason timeframe_locked] +
+        %i[transition_to notifications_enabled internal_remarks cancellation_reason timeframe_locked locale] +
         [occupancy_attributes: Public::OccupancyParams.permitted_keys] +
         [usages_attributes: UsageParams.permitted_keys + %i[_destroy id]] +
         [tenant_attributes: TenantParams.permitted_keys] +
