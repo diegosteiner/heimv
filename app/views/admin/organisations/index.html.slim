@@ -9,7 +9,7 @@
       - @organisations.each do |organisation|
         tr
           td
-            = link_to organisation.name, admin_organisation_path(organisation)
+            = link_to organisation.name, manage_root_path(org: organisation.slug)
           td.py-1.text-right
             .btn-group
               = link_to edit_admin_organisation_path(organisation), class: 'btn btn-default' do
