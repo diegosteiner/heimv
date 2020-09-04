@@ -7,10 +7,10 @@ module BookingStrategies
         class EmailContractAndDeposit < BookingStrategy::Action
           def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).relevant.unsent)
             message = booking.messages.new(from_template: :awaiting_contract_message, addressed_to: :tenant)
-            return false unless message
+            return false unless message.valid?
 
             message.attachments.attach(extract_attachments(booking.home, deposits, contract))
-            message.save && contract.sent! && deposits.each(&:sent!) && message.deliver
+            message.save! && contract.sent! && deposits.each(&:sent!) && message.deliver!
           end
 
           def allowed?

@@ -64,7 +64,7 @@ class Booking < ApplicationRecord
   has_many :payments, dependent: :destroy, autosave: false
   has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
   has_many :deadlines, dependent: :destroy, inverse_of: :booking
-  has_many :messages, dependent: :destroy, inverse_of: :booking
+  has_many :messages, dependent: :destroy, inverse_of: :booking, autosave: true, validate: false
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :contracts, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
@@ -95,7 +95,7 @@ class Booking < ApplicationRecord
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
   scope :inconcluded, -> { where(concluded: false) }
 
-  before_validation :set_organisation, :set_occupancy_attributes, :set_tenant_attributes, :set_locale
+  before_validation :set_organisation, :set_occupancy_attributes, :set_tenant_attributes
   before_create :set_ref
   after_create :reload
 
@@ -151,6 +151,10 @@ class Booking < ApplicationRecord
     Manage::BookingSerializer.new(self).serializable_hash.deep_stringify_keys
   end
 
+  def locale
+    super || I18n.locale || I18n.default_locale
+  end
+
   private
 
   def reject_tentant_attributes?(tenant_attributes)
@@ -183,9 +187,5 @@ class Booking < ApplicationRecord
 
   def set_organisation
     self.organisation ||= home&.organisation
-  end
-
-  def set_locale
-    self.locale ||= I18n.locale
   end
 end

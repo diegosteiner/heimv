@@ -30,7 +30,7 @@ module Manage
 
     def update
       @message.update(message_params)
-      @message.deliver if @message.valid? && params[:deliver].present?
+      @message.deliver! if @message.valid? && params[:deliver].present?
       respond_with :manage, @message, location: manage_message_path(@message)
     end
 

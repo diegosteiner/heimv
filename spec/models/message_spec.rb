@@ -49,13 +49,12 @@ RSpec.describe Message, type: :model do
   describe 'from_template' do
     let(:template) { create(:markdown_template, organisation: booking.organisation, locale: I18n.locale) }
     let(:message) { build(:message, booking: booking) }
-    let(:booking) { create(:booking) }
+    let(:booking) { create(:booking, locale: I18n.locale) }
 
     context 'with template available' do
       subject(:new_message) { booking.messages.new(from_template: template.key) }
       it do
-        new_message.save
-        expect(new_message).to be_valid
+        expect(new_message.save).to be true
         expect(new_message.markdown_template).to eq(template)
         expect(new_message.body).to eq(template.body)
         expect(new_message.subject).to eq(template.title)

@@ -56,6 +56,12 @@ describe Booking, type: :model do
   let(:home) { create(:home) }
   let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
 
+  describe '#locale' do
+    it 'has default locale' do
+      expect(booking.locale.to_sym).to eq(I18n.locale.to_sym)
+    end
+  end
+
   describe 'Tenant' do
     context 'with new tenant' do
       it 'uses existing tenant when email is correct' do
