@@ -28,26 +28,24 @@
 #
 
 class Message < ApplicationRecord
+  class NotDeliverable < StandardError; end
+
   belongs_to :booking, inverse_of: :messages
-  has_one :tenant, through: :booking
   belongs_to :markdown_template, optional: true
   has_many_attached :attachments
+  has_one :tenant, through: :booking
   has_one :organisation, through: :booking
 
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
   validates :to, presence: true
+  validates :markdown_template, presence: true, if: :from_template?
   attribute :from_template
   delegate :bcc, to: :organisation
+  delegate :locale, to: :booking
 
+  before_validation :link_markdown_template, :apply_markdown_template
   before_validation do
     self.to = to.presence || resolve_addressed_to
-  end
-
-  after_initialize do
-    next if from_template.blank?
-
-    self.markdown_template = organisation&.markdown_templates&.by_key(from_template, locale: booking&.locale)
-    apply_template
   end
 
   def subject_with_ref
@@ -65,13 +63,17 @@ class Message < ApplicationRecord
   end
 
   def deliverable?
-    return false if from_template.present? && markdown_template.blank?
-
     valid? && organisation.messages_enabled? && (booking.messages_enabled? || addressed_to_manager?)
   end
 
   def deliver
-    return unless deliverable?
+    deliver!
+  rescue NotDeliverable
+    false
+  end
+
+  def deliver!
+    raise NotDeliverable, from_template unless deliverable?
 
     deliver_mail! && update(sent_at: Time.zone.now)
   end
@@ -80,7 +82,13 @@ class Message < ApplicationRecord
     Hash[attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }]
   end
 
-  def apply_template
+  def link_markdown_template
+    return if from_template.blank? || organisation.blank? || booking.blank?
+
+    self.markdown_template = organisation.markdown_templates.by_key(from_template, locale: booking.locale)
+  end
+
+  def apply_markdown_template
     return false if markdown_template.blank?
 
     self.subject = markdown_template.title
