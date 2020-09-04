@@ -15,7 +15,7 @@
 #  internal_remarks      :text
 #  invoice_address       :text
 #  locale                :string
-#  messages_enabled      :boolean          default(FALSE)
+#  notifications_enabled :boolean          default(FALSE)
 #  purpose               :string
 #  ref                   :string
 #  remarks               :text

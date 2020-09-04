@@ -16,9 +16,9 @@
 #  invoice_ref_strategy_type :string
 #  location                  :string
 #  mail_from                 :string
-#  message_footer            :text
-#  messages_enabled          :boolean          default(TRUE)
 #  name                      :string
+#  notification_footer       :text
+#  notifications_enabled     :boolean          default(TRUE)
 #  payment_deadline          :integer          default(30), not null
 #  representative_address    :string
 #  slug                      :string

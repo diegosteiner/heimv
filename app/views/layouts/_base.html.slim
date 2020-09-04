@@ -14,7 +14,7 @@ html[lang="#{I18n.locale}-CH"]
       - if (controller.is_a?(Manage::BaseController))
         nav== render 'layouts/manage_navigation'
       main.container.pt-2.pb-5[role='main']
-        .py-4== render 'layouts/messages'
+        .py-4== render 'layouts/flashes'
         == yield
       footer.py-2
         .small.text-center

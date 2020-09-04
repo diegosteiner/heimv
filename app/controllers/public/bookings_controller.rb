@@ -24,7 +24,7 @@ module Public
 
     def create
       @booking = Booking.new(create_params)
-      @booking.messages_enabled = true
+      @booking.notifications_enabled = true
       @booking.save(context: :public_create)
       respond_with :public, @booking, location: root_path
     end

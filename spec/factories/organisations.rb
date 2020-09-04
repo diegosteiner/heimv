@@ -16,9 +16,9 @@
 #  invoice_ref_strategy_type :string
 #  location                  :string
 #  mail_from                 :string
-#  message_footer            :text
-#  messages_enabled          :boolean          default(TRUE)
 #  name                      :string
+#  notification_footer       :text
+#  notifications_enabled     :boolean          default(TRUE)
 #  payment_deadline          :integer          default(30), not null
 #  representative_address    :string
 #  slug                      :string
@@ -40,7 +40,7 @@ FactoryBot.define do
     booking_ref_strategy_type { RefStrategies::DefaultBookingRef.to_s }
     email { 'test@test.test' }
     esr_participant_nr { 'MyString' }
-    messages_enabled { true }
+    notifications_enabled { true }
     slug { nil }
     location {}
 

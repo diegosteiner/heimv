@@ -62,7 +62,7 @@ class AgentBooking < ApplicationRecord
   end
 
   def build_booking
-    self.booking = super(home: home, committed_request: false, organisation: organisation, messages_enabled: true)
+    self.booking = super(home: home, committed_request: false, organisation: organisation, notifications_enabled: true)
   end
 
   def build_occupancy(attributes = {})

@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: messages
+# Table name: notifications
 #
 #  id                   :bigint           not null, primary key
 #  addressed_to         :integer          default("manager"), not null
@@ -18,8 +18,8 @@
 #
 # Indexes
 #
-#  index_messages_on_booking_id            (booking_id)
-#  index_messages_on_markdown_template_id  (markdown_template_id)
+#  index_notifications_on_booking_id            (booking_id)
+#  index_notifications_on_markdown_template_id  (markdown_template_id)
 #
 # Foreign Keys
 #
@@ -29,30 +29,30 @@
 
 require 'rails_helper'
 
-RSpec.describe Message, type: :model do
-  let(:message) { build(:message) }
+RSpec.describe Notification, type: :model do
+  let(:notification) { build(:notification) }
 
   describe '#save' do
-    it { expect(message.save).to be true }
+    it { expect(notification.save).to be true }
   end
 
   describe '#deliver' do
-    let(:message) { create(:message) }
-    subject { message.deliver }
+    let(:notification) { create(:notification) }
+    subject { notification.deliver }
 
     it do
       is_expected.to be true
-      expect(message.sent_at).not_to be nil
+      expect(notification.sent_at).not_to be nil
     end
   end
 
   describe 'from_template' do
     let(:template) { create(:markdown_template, organisation: booking.organisation, locale: I18n.locale) }
-    let(:message) { build(:message, booking: booking) }
+    let(:notification) { build(:notification, booking: booking) }
     let(:booking) { create(:booking, locale: I18n.locale) }
 
     context 'with template available' do
-      subject(:new_message) { booking.messages.new(from_template: template.key) }
+      subject(:new_message) { booking.notifications.new(from_template: template.key) }
       it do
         expect(new_message.save).to be true
         expect(new_message.markdown_template).to eq(template)
@@ -63,7 +63,7 @@ RSpec.describe Message, type: :model do
 
     context 'without template available' do
       it do
-        new_message = booking.messages.new(from_template: :nonexistent)
+        new_message = booking.notifications.new(from_template: :nonexistent)
         expect(new_message.markdown_template).to be(nil)
         expect(new_message).not_to be_deliverable
       end

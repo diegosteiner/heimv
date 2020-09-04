@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Manage
-  class MessageParams < ApplicationParams
+  class NotificationParams < ApplicationParams
     def self.permitted_keys
       %i[subject body sent_at]
     end

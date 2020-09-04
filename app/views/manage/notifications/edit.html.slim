@@ -1,10 +1,10 @@
-= render partial: 'manage/bookings/navigation', locals: { active: :messages, booking: @booking }
+= render partial: 'manage/bookings/navigation', locals: { active: :notifications, booking: @booking }
 
 .row.justify-content-center
   .col-md-8
     .card
       .card-body
-        = form_with(model: [:manage, @booking, @message], local: true) do |f|
+        = form_with(model: [:manage, @booking, @notification], local: true) do |f|
 
           fieldset
             = f.text_field :subject

@@ -51,7 +51,7 @@ module Ability
       can :manage, Payment, booking: { organisation: organisation }
       can :manage, Deadline, booking: { organisation: organisation }
       can :manage, Usage, booking: { organisation: organisation }
-      can :manage, Message, booking: { organisation: organisation }
+      can :manage, Notification, booking: { organisation: organisation }
       can %i[read edit update], Organisation, id: organisation.id
     end
     # rubocop:enable Metrics/AbcSize

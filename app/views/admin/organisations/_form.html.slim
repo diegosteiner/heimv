@@ -8,7 +8,7 @@
     = f.email_field :email
     = f.email_field :bcc
     = f.text_field :mail_from
-    div.pb-3= f.check_box :messages_enabled
+    div.pb-3= f.check_box :notifications_enabled
     div[v-pre]= f.text_area :smtp_url, rows: 4
     = f.text_field :slug
     / = f.select :booking_strategy_type, [BookingStrategies::Default]

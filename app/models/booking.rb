@@ -15,7 +15,7 @@
 #  internal_remarks      :text
 #  invoice_address       :text
 #  locale                :string
-#  messages_enabled      :boolean          default(FALSE)
+#  notifications_enabled :boolean          default(FALSE)
 #  purpose               :string
 #  ref                   :string
 #  remarks               :text
@@ -64,7 +64,7 @@ class Booking < ApplicationRecord
   has_many :payments, dependent: :destroy, autosave: false
   has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
   has_many :deadlines, dependent: :destroy, inverse_of: :booking
-  has_many :messages, dependent: :destroy, inverse_of: :booking, autosave: true, validate: false
+  has_many :notifications, dependent: :destroy, inverse_of: :booking, autosave: true, validate: false
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :contracts, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking

@@ -6,11 +6,11 @@ module BookingStrategies
       module Manage
         class EmailContractAndDeposit < BookingStrategy::Action
           def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).relevant.unsent)
-            message = booking.messages.new(from_template: :awaiting_contract_message, addressed_to: :tenant)
-            return false unless message.valid?
+            notification = booking.notifications.new(from_template: :awaiting_contract_message, addressed_to: :tenant)
+            return false unless notification.valid?
 
-            message.attachments.attach(extract_attachments(booking.home, deposits, contract))
-            message.save! && contract.sent! && deposits.each(&:sent!) && message.deliver!
+            notification.attachments.attach(extract_attachments(booking.home, deposits, contract))
+            notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver!
           end
 
           def allowed?

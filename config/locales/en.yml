@@ -59,7 +59,7 @@ en:
         home_id: Heim
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
-        messages_enabled: Aus der Applikation generierte Emails versenden
+        notifications_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
         purpose: Zweck der Miete
         ref: Buchungsreferenz
@@ -126,16 +126,16 @@ en:
         key: ID
         locale: Sprache
         title: Titel
-      message:
-        body: Inhalt
-        sent_at: Zuletzt gesendet am
-        subject: Betreff
-        to: An
       meter_reading_period:
         begins_at: Beginn
         end_value: Schlusswert
         ends_at: Ende
         start_value: Startwert
+      notification:
+        body: Inhalt
+        sent_at: Zuletzt gesendet am
+        subject: Betreff
+        to: An
       occupancy:
         begins_at: Beginn der Belegung
         begins_at_date: Beginn der Belegung (Datum)
@@ -157,9 +157,9 @@ en:
         location: Ort
         logo: Logo
         mail_from: Absender von Emails
-        message_footer: Fusszeile für Nachrichten
-        messages_enabled: Nachrichten aktiviert
         name: Name
+        notification_footer: Fusszeile für Nachrichten
+        notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
         representative_address: Adresse der Vertretung für Verträge
         slug: Namespace
@@ -245,11 +245,6 @@ en:
           headcount_nights: Übernachtungen
           nights: Nächte
     errors:
-      messages:
-        record_invalid: 'Validation failed: %{errors}'
-        restrict_dependent_destroy:
-          has_many: Cannot delete record because dependent %{record} exist
-          has_one: Cannot delete record because a dependent %{record} exists
       models:
         booking:
           action_not_allowed: Diese Aktion ist nicht erlaubt
@@ -264,6 +259,11 @@ en:
           attributes:
             ends_at:
               too_far_in_future: ist zu weit in der Zukunft
+      notifications:
+        record_invalid: 'Validation failed: %{errors}'
+        restrict_dependent_destroy:
+          has_many: Cannot delete record because dependent %{record} exist
+          has_one: Cannot delete record because a dependent %{record} exists
     models:
       agent_booking:
         one: Vermittlung
@@ -331,12 +331,12 @@ en:
       markdown_template:
         one: Textvorlage
         other: Textvorlagen
-      message:
-        one: Nachricht
-        other: Nachrichten
       meter_reading_period:
         one: Zählerstand
         other: Zählerstände
+      notification:
+        one: Nachricht
+        other: Nachrichten
       occupancy:
         one: Belegung
         other: Belegungen
@@ -651,7 +651,7 @@ en:
   edit: Edit
   errors:
     format: "%{attribute} %{message}"
-    messages:
+    notifications:
       accepted: must be accepted
       blank: can't be blank
       confirmation: doesn't match %{attribute}
@@ -749,7 +749,7 @@ en:
       index:
         create_missing_templates: Create missing templates
         missing_templates: "%{count} Missing templates"
-    messages:
+    notifications:
       edit:
         deliver: Deliver
   nav:

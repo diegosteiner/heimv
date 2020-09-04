@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: messages
+# Table name: notifications
 #
 #  id                   :bigint           not null, primary key
 #  addressed_to         :integer          default("manager"), not null
@@ -18,8 +18,8 @@
 #
 # Indexes
 #
-#  index_messages_on_booking_id            (booking_id)
-#  index_messages_on_markdown_template_id  (markdown_template_id)
+#  index_notifications_on_booking_id            (booking_id)
+#  index_notifications_on_markdown_template_id  (markdown_template_id)
 #
 # Foreign Keys
 #
@@ -27,10 +27,10 @@
 #  fk_rails_...  (markdown_template_id => markdown_templates.id)
 #
 
-class Message < ApplicationRecord
+class Notification < ApplicationRecord
   class NotDeliverable < StandardError; end
 
-  belongs_to :booking, inverse_of: :messages
+  belongs_to :booking, inverse_of: :notifications
   belongs_to :markdown_template, optional: true
   has_many_attached :attachments
   has_one :tenant, through: :booking
@@ -63,7 +63,7 @@ class Message < ApplicationRecord
   end
 
   def deliverable?
-    valid? && organisation.messages_enabled? && (booking.messages_enabled? || addressed_to_manager?)
+    valid? && organisation.notifications_enabled? && (booking.notifications_enabled? || addressed_to_manager?)
   end
 
   def deliver

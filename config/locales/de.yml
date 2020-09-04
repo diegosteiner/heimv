@@ -59,7 +59,7 @@ de:
         home_id: Heim
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
-        messages_enabled: Aus der Applikation generierte Emails versenden
+        notifications_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
         purpose: Zweck der Miete
         ref: Buchungsreferenz
@@ -126,16 +126,16 @@ de:
         key: ID
         locale: Sprache
         title: Titel
-      message:
-        body: Inhalt
-        sent_at: Zuletzt gesendet am
-        subject: Betreff
-        to: An
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
         ends_at: Ende
         start_value: Zählerstand alt
+      notification:
+        body: Inhalt
+        sent_at: Zuletzt gesendet am
+        subject: Betreff
+        to: An
       occupancy:
         begins_at: Beginn der Belegung
         begins_at_date: Beginn der Belegung (Datum)
@@ -157,9 +157,9 @@ de:
         location: Ort
         logo: Logo
         mail_from: Absender von Emails
-        message_footer: Fusszeile für Nachrichten
-        messages_enabled: Nachrichten aktiviert
         name: Name
+        notification_footer: Fusszeile für Nachrichten
+        notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
         representative_address: Adresse der Vertretung für Verträge
         slug: Namespace
@@ -245,11 +245,6 @@ de:
           headcount_nights: Übernachtungen
           nights: Nächte
     errors:
-      messages:
-        record_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
-        restrict_dependent_destroy:
-          has_many: Datensatz kann nicht gelöscht werden, da abhängige %{record} existieren.
-          has_one: Datensatz kann nicht gelöscht werden, da ein abhängiger %{record}-Datensatz existiert.
       models:
         booking:
           action_not_allowed: Diese Aktion ist nicht erlaubt
@@ -264,6 +259,11 @@ de:
           attributes:
             ends_at:
               too_far_in_future: ist zu weit in der Zukunft
+      notifications:
+        record_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+        restrict_dependent_destroy:
+          has_many: Datensatz kann nicht gelöscht werden, da abhängige %{record} existieren.
+          has_one: Datensatz kann nicht gelöscht werden, da ein abhängiger %{record}-Datensatz existiert.
     models:
       agent_booking:
         one: Vermittlung
@@ -331,12 +331,12 @@ de:
       markdown_template:
         one: Textvorlage
         other: Textvorlagen
-      message:
-        one: Nachricht
-        other: Nachrichten
       meter_reading_period:
         one: Zählerstand
         other: Zählerstände
+      notification:
+        one: Nachricht
+        other: Nachrichten
       occupancy:
         one: Belegung
         other: Belegungen
@@ -651,7 +651,7 @@ de:
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
-    messages:
+    notifications:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden
       confirmation: stimmt nicht mit %{attribute} überein
@@ -1766,7 +1766,7 @@ de:
       index:
         create_missing_templates: Textvorlagen jetzt erstellen
         missing_templates: "%{count} fehlende Textvorlagen."
-    messages:
+    notifications:
       edit:
         deliver: Speichern und nochmals versenden
   nav:

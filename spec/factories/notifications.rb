@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: messages
+# Table name: notifications
 #
 #  id                   :bigint           not null, primary key
 #  addressed_to         :integer          default("manager"), not null
@@ -18,8 +18,8 @@
 #
 # Indexes
 #
-#  index_messages_on_booking_id            (booking_id)
-#  index_messages_on_markdown_template_id  (markdown_template_id)
+#  index_notifications_on_booking_id            (booking_id)
+#  index_notifications_on_markdown_template_id  (markdown_template_id)
 #
 # Foreign Keys
 #
@@ -28,7 +28,7 @@
 #
 
 FactoryBot.define do
-  factory :message do
+  factory :notification do
     body { '# Body' }
     sent_at { nil }
     subject { 'Subject' }

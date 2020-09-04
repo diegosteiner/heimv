@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_31_091915) do
+ActiveRecord::Schema.define(version: 2020_09_04_113022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 2020_08_31_091915) do
     t.string "ref"
     t.boolean "editable", default: true
     t.boolean "usages_entered", default: false
-    t.boolean "messages_enabled", default: false
+    t.boolean "notifications_enabled", default: false
     t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -217,21 +217,6 @@ ActiveRecord::Schema.define(version: 2020_08_31_091915) do
     t.index ["organisation_id"], name: "index_markdown_templates_on_organisation_id"
   end
 
-  create_table "messages", force: :cascade do |t|
-    t.uuid "booking_id"
-    t.bigint "markdown_template_id"
-    t.datetime "sent_at"
-    t.string "subject"
-    t.text "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "addressed_to", default: 0, null: false
-    t.string "to", default: [], array: true
-    t.string "cc", default: [], array: true
-    t.index ["booking_id"], name: "index_messages_on_booking_id"
-    t.index ["markdown_template_id"], name: "index_messages_on_markdown_template_id"
-  end
-
   create_table "meter_reading_periods", force: :cascade do |t|
     t.bigint "tarif_id"
     t.bigint "usage_id"
@@ -243,6 +228,21 @@ ActiveRecord::Schema.define(version: 2020_08_31_091915) do
     t.datetime "updated_at", null: false
     t.index ["tarif_id"], name: "index_meter_reading_periods_on_tarif_id"
     t.index ["usage_id"], name: "index_meter_reading_periods_on_usage_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.uuid "booking_id"
+    t.bigint "markdown_template_id"
+    t.datetime "sent_at"
+    t.string "subject"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "addressed_to", default: 0, null: false
+    t.string "to", default: [], array: true
+    t.string "cc", default: [], array: true
+    t.index ["booking_id"], name: "index_notifications_on_booking_id"
+    t.index ["markdown_template_id"], name: "index_notifications_on_markdown_template_id"
   end
 
   create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -276,7 +276,7 @@ ActiveRecord::Schema.define(version: 2020_08_31_091915) do
     t.string "booking_strategy_type"
     t.string "invoice_ref_strategy_type"
     t.string "esr_participant_nr"
-    t.text "message_footer"
+    t.text "notification_footer"
     t.string "currency", default: "CHF"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -286,7 +286,7 @@ ActiveRecord::Schema.define(version: 2020_08_31_091915) do
     t.string "email"
     t.integer "payment_deadline", default: 30, null: false
     t.string "location"
-    t.boolean "messages_enabled", default: true
+    t.boolean "notifications_enabled", default: true
     t.string "smtp_url"
     t.string "bcc"
     t.string "mail_from"
@@ -413,10 +413,10 @@ ActiveRecord::Schema.define(version: 2020_08_31_091915) do
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "markdown_templates", "organisations"
-  add_foreign_key "messages", "bookings"
-  add_foreign_key "messages", "markdown_templates"
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"
+  add_foreign_key "notifications", "bookings"
+  add_foreign_key "notifications", "markdown_templates"
   add_foreign_key "occupancies", "homes"
   add_foreign_key "offers", "bookings"
   add_foreign_key "payments", "bookings"

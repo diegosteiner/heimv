@@ -1,0 +1,29 @@
+= render partial: 'manage/bookings/navigation', locals: { active: :notifications, booking: @booking }
+
+table.table.table-hover.table-card
+  thead
+    tr
+      th= Notification.model_name.human(count: :other)
+      th= Notification.human_attribute_name(:to)
+      th
+
+  tbody
+    - @notifications.each do |notification|
+      tr[data-href=manage_notification_path(notification)]
+        td
+          - if notification.sent_at
+            = l(notification.sent_at, format: :short)
+          - else
+            = '-'
+        td
+          - notification.to.each do |to|
+            => mail_to to, to
+        td
+          = link_to notification.subject, manage_notification_path(notification)
+        td.py-1.text-right
+          .btn-group
+            = link_to edit_manage_notification_path(notification), class: 'btn btn-default' do
+              span.fa.fa-edit
+
+/ = link_to new_manage_booking_notification_path(@booking), class: 'btn btn-primary' do
+/   = t(:add_record, model_name: Notification.model_name.human)

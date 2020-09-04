@@ -7,7 +7,7 @@ module BookingStrategies
         class MarkContractSigned < BookingStrategy::Action
           def call!
             if Invoices::Deposit.of(booking).relevant.unpaid.exists?
-              booking.messages.new(from_template: :contract_signed_message, addressed_to: :tenant).deliver
+              booking.notifications.new(from_template: :contract_signed_message, addressed_to: :tenant).deliver
             end
 
             booking.contract.signed!
