@@ -1,5 +1,4 @@
 import React, { useState, createContext, useEffect } from "react";
-import { homeCalendarPath } from '../../services/routes'
 import { parseISO, formatISO, eachDayOfInterval, areIntervalsOverlapping, startOfDay, endOfDay, isBefore, isAfter, setHours, isWithinInterval } from 'date-fns/esm'
 
 export const OccupancyCalendarContext = createContext();
@@ -60,7 +59,7 @@ const preprocessCalendarData = calendarData => {
   }
 }
 
-export const OccupancyCalendarContextProvider = ({ children, homeId, baseUrl }) => {
+export const OccupancyCalendarContextProvider = ({ children, calendarUrl }) => {
   const [calendarData, setCalendarData] = useState({
     occupancies: [],
     occupancyDates: {},
@@ -71,7 +70,7 @@ export const OccupancyCalendarContextProvider = ({ children, homeId, baseUrl }) 
 
   useEffect(() => {
     (async () => {
-      const result = await fetch(homeCalendarPath(baseUrl, homeId));
+      const result = await fetch(calendarUrl);
 
       if (result.status == 200) setCalendarData(preprocessCalendarData(await result.json()))
       setLoading(false)

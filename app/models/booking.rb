@@ -14,6 +14,7 @@
 #  import_data           :jsonb
 #  internal_remarks      :text
 #  invoice_address       :text
+#  locale                :string
 #  messages_enabled      :boolean          default(FALSE)
 #  purpose               :string
 #  ref                   :string
@@ -36,6 +37,7 @@
 #
 #  index_bookings_on_deadline_id      (deadline_id)
 #  index_bookings_on_home_id          (home_id)
+#  index_bookings_on_locale           (locale)
 #  index_bookings_on_organisation_id  (organisation_id)
 #  index_bookings_on_ref              (ref)
 #  index_bookings_on_state            (state)
@@ -62,7 +64,7 @@ class Booking < ApplicationRecord
   has_many :payments, dependent: :destroy, autosave: false
   has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
   has_many :deadlines, dependent: :destroy, inverse_of: :booking
-  has_many :messages, dependent: :destroy, inverse_of: :booking
+  has_many :messages, dependent: :destroy, inverse_of: :booking, autosave: true, validate: false
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :contracts, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
@@ -74,6 +76,7 @@ class Booking < ApplicationRecord
   has_one  :booking_agent, through: :agent_booking
 
   attribute :accept_conditions, default: false
+  enum locale: I18n.available_locales.index_by(&:itself)
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create
@@ -146,6 +149,10 @@ class Booking < ApplicationRecord
 
   def to_liquid
     Manage::BookingSerializer.new(self).serializable_hash.deep_stringify_keys
+  end
+
+  def locale
+    super || I18n.locale || I18n.default_locale
   end
 
   private

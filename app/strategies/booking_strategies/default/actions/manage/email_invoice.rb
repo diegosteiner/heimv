@@ -8,7 +8,7 @@ module BookingStrategies
           def call!(invoices = booking.invoices.unsent)
             booking.messages.new(from_template: :payment_due_message, addressed_to: :tenant)&.tap do |message|
               message.attachments.attach(invoices.map { |invoice| invoice.pdf.blob })
-            end&.deliver && invoices.each(&:sent!)
+            end&.deliver! && invoices.each(&:sent!)
           end
 
           def allowed?

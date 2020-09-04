@@ -8,4 +8,8 @@ html[lang="#{I18n.locale}-CH"]
     == javascript_packs_with_chunks_tag 'app'
     == stylesheet_pack_tag 'app'
   body[style='background-color: transparent;']
-    = react_component('calendar/OccupancyCalendar', { homeId: @home.id, baseUrl: root_url, displayMonths: params.fetch(:display_months, 8) })
+    = react_component('calendar/OccupancyCalendar', { \ 
+        calendarUrl: calendar_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, format: :json), \
+        occupancyAtUrl: at_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, date: ''), \
+        displayMonths: params.fetch(:display_months, 8) \
+      })

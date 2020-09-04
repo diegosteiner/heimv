@@ -114,10 +114,13 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def check_booking
+    expected_messages = %w[payment_due_message payment_message upcoming_message awaiting_contract_message
+                           definitive_request_message provisional_request_message open_request_message
+                           manage_new_booking_mail unconfirmed_request_message]
     expected_transitions = %w[unconfirmed_request open_request provisional_request definitive_request
                               awaiting_contract upcoming upcoming_soon active past payment_due completed]
     # booking.reload
-    expect(booking.messages.size).to be(9)
-    expect(booking.booking_transitions.ordered.map(&:to_state)).to eq(expected_transitions)
+    expect(booking.messages.map { |message| message.markdown_template.key }).to contain_exactly(*expected_messages)
+    expect(booking.booking_transitions.ordered.map(&:to_state)).to contain_exactly(*expected_transitions)
   end
 end
