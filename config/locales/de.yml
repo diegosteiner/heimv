@@ -59,8 +59,8 @@ de:
         home_id: Heim
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
-        notifications_enabled: Aus der Applikation generierte Emails versenden
         locale: Sprache
+        notifications_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
         purpose: Zweck der Miete
         ref: Buchungsreferenz
