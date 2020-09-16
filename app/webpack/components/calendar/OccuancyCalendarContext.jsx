@@ -67,6 +67,7 @@ export const OccupancyCalendarContextProvider = ({ children, calendarUrl }) => {
     window_to: null
   })
   const [loading, setLoading] = useState(true)
+  const [organisation, setOrganisation] = useState({})
 
   useEffect(() => {
     (async () => {
@@ -78,7 +79,7 @@ export const OccupancyCalendarContextProvider = ({ children, calendarUrl }) => {
   }, []);
 
   return (
-    <OccupancyCalendarContext.Provider value={{ calendarData, loading }} >
+    <OccupancyCalendarContext.Provider value={{ calendarData, loading, organisation }} >
       {children}
     </OccupancyCalendarContext.Provider>
   );

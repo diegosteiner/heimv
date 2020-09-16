@@ -11,6 +11,7 @@ const formatDate = new Intl.DateTimeFormat("de-CH", {
 }).format
 
 const initializeValue = (value) => {
+  if (isValid(value)) return value
   value = parseISO(value)
   if (!isValid(value)) return null
   if (value && getHours(value) < Math.min(...availableHours)) return setHours(value, Math.min(...availableHours));
@@ -26,11 +27,11 @@ const closestMinutes = (minutes) => {
   return availableMinutes.reduce((a, b) => Math.abs(b - minutes) < Math.abs(a - minutes) ? b : a);
 };
 
-const CalendarControl = ({ defaultValue = "", name, required = false, disabled = false, onChange, onBlur, isInvalid }) => {
-  defaultValue = initializeValue(defaultValue)
-  const defaultHours = getHours(defaultValue) || Math.min(...availableHours)
-  const defaultMinutes = closestMinutes(getMinutes(defaultValue)) || Math.min(...availableMinutes)
-  const [state, setState] = useState({ showModal: false, date: defaultValue, textDate: (defaultValue && formatDate(defaultValue) || ""), hours: defaultHours, minutes: defaultMinutes })
+const CalendarControl = ({ value = "", name, required = false, disabled = false, onChange, onBlur, isInvalid }) => {
+  value = initializeValue(value)
+  const defaultHours = getHours(value) || Math.min(...availableHours)
+  const defaultMinutes = closestMinutes(getMinutes(value)) || Math.min(...availableMinutes)
+  const [state, setState] = useState({ showModal: false, date: value, textDate: (value && formatDate(value) || ""), hours: defaultHours, minutes: defaultMinutes })
   const setDateValue = (date, prevState = state) => {
     setState({ ...prevState, date: date, textDate: formatDate(date) });
     onChange && onChange(date);
@@ -66,7 +67,7 @@ const CalendarControl = ({ defaultValue = "", name, required = false, disabled =
   const classNameCallback = date => isSameDay(date, state.date) && ['bg-primary', 'text-white']
 
   return (
-    <div>
+    <div className={isInvalid && 'is-invalid'}>
       <input type="hidden" name={name} value={state.date && formatISO(state.date) || ""} />
       <Row>
         <Col>

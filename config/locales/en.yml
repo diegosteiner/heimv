@@ -834,6 +834,7 @@ en:
       new:
         accept_conditions_html: <a href="%{privacy_statement_pdf_url}" target="_blank"></a> <a href="%{terms_pdf_url}" target="_blank"></a>
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
+        submit: Reservationsanfrage abschicken
         title: Title
   reset: Reset
   support:

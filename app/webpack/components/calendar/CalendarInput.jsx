@@ -6,7 +6,7 @@ const CalendarInput = ({ value, name, label, required = false, disabled = false 
   return (
     <Form.Group disabled={disabled}>
       {label && <Form.Label className={required && "required"}>{label}</Form.Label>}
-      <CalendarControl defaultValue={value} name={name} required={required}></CalendarControl>
+      <CalendarControl value={value} name={name} required={required}></CalendarControl>
     </Form.Group>
   )
 }

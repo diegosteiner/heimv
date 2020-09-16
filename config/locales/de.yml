@@ -1878,6 +1878,7 @@ de:
       new:
         accept_conditions_html: Ich bin mit den <a href="%{privacy_statement_pdf_url}" target="_blank">Datenschutzbestimmungen</a> und den <a href="%{terms_pdf_url}" target="_blank">AGB</a> einverstanden
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
+        submit: Reservationsanfrage abschicken
         title: Reservation
   reset: Reset
   support:

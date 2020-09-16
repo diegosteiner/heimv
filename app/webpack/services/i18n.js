@@ -23,8 +23,10 @@ i18n
     // keySeparator: false, // we do not use keys in form messages.welcome
 
     interpolation: {
-      escapeValue: false // react already safes from xss
+      escapeValue: false, // react already safes from xss,
+      prefix: '%{',
+      suffix: '}'
     }
   });
 
-  export default i18n;
+export default i18n;
