@@ -2,12 +2,13 @@
 
 module Public
   class AgentBookingSerializer < ApplicationSerializer
-    # has_one :booking_agent, serializer: Public::OccupancySerializer
+    fields :booking_agent_ref, :booking_agent_code
 
-    attributes :booking_agent_ref, :booking_agent_code
-
-    attribute :links do
-      { edit: edit_public_agent_booking_url(object.to_param, host: ENV['APP_HOST'], org: object.organisation.slug) }
+    field :links do |agent_booking|
+      {
+        edit: UrlService.instance.edit_public_agent_booking_url(agent_booking.to_param,
+                                                                org: agent_booking.organisation.slug)
+      }
     end
   end
 end

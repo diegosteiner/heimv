@@ -2,17 +2,18 @@
 
 module Manage
   class BookingSerializer < Public::BookingSerializer
-    has_one :tenant,   serializer: Manage::TenantSerializer
-    has_one :deadline, serializer: Manage::DeadlineSerializer
-    has_one :home, serializer: Manage::HomeSerializer
+    association :tenant,   blueprint: Manage::TenantSerializer
+    association :deadline, blueprint: Manage::DeadlineSerializer
+    association :home,     blueprint: Manage::HomeSerializer
+    identifier :uuid
 
-    attributes :tenant_organisation, :cancellation_reason, :invoice_address, :ref,
-               :committed_request, :purpose, :approximate_headcount, :remarks
+    fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref,
+           :committed_request, :purpose, :approximate_headcount, :remarks
 
-    attribute :links do
+    field :links do |booking|
       {
-        edit: edit_public_booking_url(object.to_param, host: ENV['APP_HOST'], org: object.organisation.slug),
-        manage: manage_booking_url(object.to_param, host: ENV['APP_HOST'], org: object.organisation.slug)
+        edit: UrlService.instance.edit_public_booking_url(booking.to_param, org: booking.organisation.slug),
+        manage: UrlService.instance.manage_booking_url(booking.to_param, org: booking.organisation.slug)
       }
     end
   end

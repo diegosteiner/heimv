@@ -86,6 +86,6 @@ class Tenant < ApplicationRecord
   end
 
   def to_liquid
-    Public::TenantSerializer.new(self).serializable_hash.deep_stringify_keys
+    Public::TenantSerializer.render_as_hash(self).deep_stringify_keys
   end
 end

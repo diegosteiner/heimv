@@ -2,17 +2,17 @@
 
 module Public
   class OccupancySerializer < ApplicationSerializer
-    attributes :begins_at, :ends_at, :occupancy_type, :home_id
+    fields :begins_at, :ends_at, :occupancy_type, :home_id
 
-    attribute :ref do
-      object.booking&.ref
+    field :ref do |occupancy|
+      occupancy.booking&.ref
     end
 
-    attribute :deadline do
-      object.booking&.deadline&.at
+    field :deadline do |occupancy|
+      occupancy.booking&.deadline&.at
     end
 
-    attribute :links do
+    field :links do
       # { handle: occupancy_at_path(t: object.begins_at.to_s) }
     end
   end
