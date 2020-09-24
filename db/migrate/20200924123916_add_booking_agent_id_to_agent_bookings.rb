@@ -12,7 +12,5 @@ class AddBookingAgentIdToAgentBookings < ActiveRecord::Migration[6.0]
         end
       end
     end
-
-    change_column_null :agent_bookings, :booking_agent_id, false
   end
 end
