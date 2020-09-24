@@ -65,7 +65,10 @@ describe 'Booking', :devise, type: :feature do
   def create_deposit
     visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(3) a').click
-    click_on Invoices::Deposit.model_name.human
+    within('#dropdownInvoiceTypes') do
+      find('#dropdownInvoiceTypesButton').click
+      click_on Invoices::Deposit.model_name.human
+    end
     visit new_manage_booking_invoice_path(booking, org: nil, invoice: { type: Invoices::Deposit })
     click_on :commit
   end
@@ -99,8 +102,10 @@ describe 'Booking', :devise, type: :feature do
   def create_invoice
     visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(2) a').click
-    click_on Invoices::Invoice.model_name.human
-    # page.driver.browser.navigate.refresh
+    within('#dropdownInvoiceTypes') do
+      find('#dropdownInvoiceTypesButton').click
+      click_on Invoices::Invoice.model_name.human
+    end
     click_on :commit
   end
 

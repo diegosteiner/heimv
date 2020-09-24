@@ -62,10 +62,10 @@
                     span.fa.fa-trash
 
 - if @booking
-  .dropdown.mt-5.d-inline-block
-    button#dropdownMenuButton.btn.btn-primary.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
+  #dropdownInvoiceTypes.dropdown.mt-5.d-inline-block
+    button#dropdownInvoiceTypesButton.btn.btn-primary.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
       = t(:add_record, model_name: Invoice.model_name.human)
-    .dropdown-menu aria-labelledby="dropdownMenuButton" 
+    .dropdown-menu aria-labelledby="dropdownInvoiceTypesButton" 
       = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit }), class: 'dropdown-item'
         = Invoices::Deposit.model_name.human
       = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Invoice }), class: 'dropdown-item'
