@@ -13,7 +13,7 @@
 #  tenant_email       :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  booking_agent_id   :bigint
+#  booking_agent_id   :bigint           not null
 #  booking_id         :uuid
 #  home_id            :bigint
 #  organisation_id    :bigint

@@ -8,7 +8,7 @@ class AddBookingAgentIdToAgentBookings < ActiveRecord::Migration[6.0]
       direction.up do 
         AgentBooking.find_each do |agent_booking| 
           booking_agent = agent_booking.organisation.booking_agents.find_by!(code: agent_booking.booking_agent_code)
-          agent_booking.update(booking_agent: booking_agent)
+          agent_booking.update_columns(booking_agent_id: booking_agent.id)
         end
       end
     end
