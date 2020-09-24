@@ -1,3 +1,6 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :usages, booking: @booking }
 
 = render partial: 'manage/bookings/usages/table', locals: { usages: @usages, usage_links: true, used_units_field: (params[:presumed].present? ? :presumed : :used) }
+
+- if @booking
+  = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default'

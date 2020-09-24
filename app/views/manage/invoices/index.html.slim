@@ -72,3 +72,6 @@
         = Invoices::Invoice.model_name.human
       li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice })
         = Invoices::LateNotice.model_name.human
+
+- if @booking
+  = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default'

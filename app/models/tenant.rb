@@ -45,6 +45,8 @@ class Tenant < ApplicationRecord
 
   scope :ordered, -> { order(last_name: :ASC) }
 
+  attribute :country, default: 'CH'
+
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')
   end

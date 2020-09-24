@@ -8,3 +8,6 @@
 h1.mt-5= t('.applicable_tarifs', default: 'Verfügbare Tarife')
 section.breakout-sm
   = render partial: 'manage/bookings/usages/table', locals: { usages: @suggested_usages, return_to: manage_booking_path(@booking) }
+
+- if @booking
+  = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default'

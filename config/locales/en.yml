@@ -740,6 +740,11 @@ en:
     label_2: "%{used_units} × %{unit} à %{price_per_unit}"
   manage:
     bookings:
+      contracts:
+        index:
+          contract_signed: Contract signed
+      show:
+        public_booking_url: Public booking url
       tarifs:
         index:
           applicable_tarifs: Applicable tarifs

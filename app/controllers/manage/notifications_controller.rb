@@ -15,10 +15,6 @@ module Manage
       respond_with :manage, @notification
     end
 
-    # def new
-    #   respond_with :manage, @notification
-    # end
-
     def edit
       respond_with :manage, @notification
     end
