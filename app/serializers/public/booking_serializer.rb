@@ -4,13 +4,13 @@ module Public
   class BookingSerializer < ApplicationSerializer
     DEFAULT_INCLUDES = 'occupancy,home'
 
-    has_one :occupancy, serializer: Public::OccupancySerializer
-    has_one :home, serializer: Public::HomeSerializer
-    has_one :organisation, serializer: Public::OrganisationSerializer
-    has_one :agent_booking, serializer: Public::AgentBookingSerializer
+    association :occupancy,     blueprint: Public::OccupancySerializer
+    association :home,          blueprint: Public::HomeSerializer
+    association :organisation,  blueprint: Public::OrganisationSerializer
+    association :agent_booking, blueprint: Public::AgentBookingSerializer
 
-    attribute :links do
-      { edit: edit_public_booking_url(object.to_param, host: ENV['APP_HOST'], org: object.organisation.slug) }
+    field :links do |booking|
+      { edit: url.edit_public_booking_url(booking.to_param, org: booking.organisation.slug) }
     end
   end
 end

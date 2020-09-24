@@ -3,10 +3,10 @@
 source 'https://rubygems.org'
 ruby '2.7.1'
 
-gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts_as_list'
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
+gem 'blueprinter'
 gem 'bootsnap'
 gem 'bootstrap_form',
     git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',

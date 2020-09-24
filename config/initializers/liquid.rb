@@ -1,22 +1,30 @@
 # frozen_string_literal: true
 
-module LiquidFilters
-  def i18n_translate(input, scope = nil)
-    I18n.t(input, scope: scope, default: nil)
-  end
-
-  def i18n_localize(input, format = :default)
-    I18n.l(input, format: format.to_sym) if input.present?
-  end
-
-  def booking_purpose(input)
-    i18n_translate(input, :'activerecord.enums.booking.purpose')
-  end
-
-  def currency(input)
-    ::ActiveSupport::NumberHelper.number_to_currency(input)
-  end
-end
-
 Liquid::Template.error_mode = :strict if Rails.env.development?
-Liquid::Template.register_filter(LiquidFilters)
+Liquid::Template.register_filter(Module.new do
+  def i18n_translate(value, scope = nil)
+    I18n.t(value, scope: scope, default: nil)
+  end
+
+  def date_format(value, format = I18n.t('date.formats.default'))
+    value = Date.iso8601(value) unless value.respond_to?(:strftime)
+    value.strftime(format)
+  rescue Date::Error
+    nil
+  end
+
+  def datetime_format(value, format = I18n.t('time.formats.default'))
+    value = DateTime.iso8601(value) unless value.respond_to?(:strftime)
+    value.strftime(format)
+  rescue Date::Error
+    nil
+  end
+
+  def booking_purpose(value)
+    i18n_translate(value, :'activerecord.enums.booking.purpose')
+  end
+
+  def currency(value)
+    ::ActiveSupport::NumberHelper.number_to_currency(value)
+  end
+end)

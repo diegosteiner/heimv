@@ -127,6 +127,6 @@ class Invoice < ApplicationRecord
   end
 
   def to_liquid
-    Manage::InvoiceSerializer.new(self).serializable_hash.deep_stringify_keys
+    Manage::InvoiceSerializer.render_as_hash(self).deep_stringify_keys
   end
 end

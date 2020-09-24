@@ -148,7 +148,7 @@ class Booking < ApplicationRecord
   end
 
   def to_liquid
-    Manage::BookingSerializer.new(self).serializable_hash.deep_stringify_keys
+    Manage::BookingSerializer.render_as_hash(self).deep_stringify_keys
   end
 
   def locale

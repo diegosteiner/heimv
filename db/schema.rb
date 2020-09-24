@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_04_132523) do
+ActiveRecord::Schema.define(version: 2020_09_24_140003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(version: 2020_09_04_132523) do
     t.bigint "home_id"
     t.bigint "organisation_id"
     t.string "tenant_email"
+    t.bigint "booking_agent_id", null: false
+    t.index ["booking_agent_id"], name: "index_agent_bookings_on_booking_agent_id"
     t.index ["booking_id"], name: "index_agent_bookings_on_booking_id"
     t.index ["home_id"], name: "index_agent_bookings_on_home_id"
     t.index ["organisation_id"], name: "index_agent_bookings_on_organisation_id"
@@ -65,7 +67,7 @@ ActiveRecord::Schema.define(version: 2020_09_04_132523) do
     t.datetime "updated_at", null: false
     t.bigint "organisation_id", null: false
     t.integer "request_deadline_minutes", default: 14400
-    t.index ["code"], name: "index_booking_agents_on_code"
+    t.index ["code", "organisation_id"], name: "index_booking_agents_on_code_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
   end
 
@@ -399,6 +401,7 @@ ActiveRecord::Schema.define(version: 2020_09_04_132523) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "agent_bookings", "booking_agents"
   add_foreign_key "agent_bookings", "bookings"
   add_foreign_key "agent_bookings", "homes"
   add_foreign_key "agent_bookings", "organisations"

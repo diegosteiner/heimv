@@ -2,12 +2,12 @@
 
 module Public
   class OccupancyCalendarSerializer < ApplicationSerializer
-    belongs_to :home, serializer: Public::HomeSerializer
-    has_many :occupancies, serializer: Public::OccupancySerializer
+    association :home, blueprint: Public::HomeSerializer
+    association :occupancies, blueprint: Public::OccupancySerializer
 
-    attributes :window_from, :window_to
+    fields :window_from, :window_to
 
-    attribute :links do
+    field :links do
     end
   end
 end

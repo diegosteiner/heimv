@@ -13,37 +13,39 @@
 #  tenant_email       :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  booking_agent_id   :bigint           not null
 #  booking_id         :uuid
 #  home_id            :bigint
 #  organisation_id    :bigint
 #
 # Indexes
 #
-#  index_agent_bookings_on_booking_id       (booking_id)
-#  index_agent_bookings_on_home_id          (home_id)
-#  index_agent_bookings_on_organisation_id  (organisation_id)
+#  index_agent_bookings_on_booking_agent_id  (booking_agent_id)
+#  index_agent_bookings_on_booking_id        (booking_id)
+#  index_agent_bookings_on_home_id           (home_id)
+#  index_agent_bookings_on_organisation_id   (organisation_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (booking_agent_id => booking_agents.id)
 #  fk_rails_...  (booking_id => bookings.id)
 #  fk_rails_...  (home_id => homes.id)
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class AgentBooking < ApplicationRecord
-  belongs_to :booking_agent, inverse_of: :agent_bookings, foreign_key: :booking_agent_code, primary_key: :code
+  belongs_to :booking_agent, inverse_of: :agent_bookings
   belongs_to :booking, inverse_of: :agent_booking
-  has_one :occupancy, through: :booking
   belongs_to :organisation
   belongs_to :home
+  has_one :occupancy, through: :booking
+
+  before_validation :assign_booking_agent
 
   validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request?
   validates :booking_agent_code, :booking, presence: true
   validate do
     errors.add(:tenant_email, :invalid) if tenant_email.present? && tenant_email == booking_agent&.email
-  end
-
-  after_initialize do
   end
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
@@ -80,5 +82,9 @@ class AgentBooking < ApplicationRecord
 
   def timeframe_locked?
     booking&.timeframe_locked?
+  end
+
+  def assign_booking_agent
+    self.booking_agent ||= organisation.booking_agents.find_by(code: booking_agent_code)
   end
 end
