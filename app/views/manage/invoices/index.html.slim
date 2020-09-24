@@ -62,16 +62,15 @@
                     span.fa.fa-trash
 
 - if @booking
-    p.mt-5.mb-1
+  .dropdown.mt-5.d-inline-block
+    button#dropdownMenuButton.btn.btn-primary.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
       = t(:add_record, model_name: Invoice.model_name.human)
-      | :
-    ul
-      li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit })
+    .dropdown-menu aria-labelledby="dropdownMenuButton" 
+      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit }), class: 'dropdown-item'
         = Invoices::Deposit.model_name.human
-      li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Invoice })
+      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Invoice }), class: 'dropdown-item'
         = Invoices::Invoice.model_name.human
-      li= link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice })
+      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice }), class: 'dropdown-item'
         = Invoices::LateNotice.model_name.human
 
-- if @booking
-  = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default'
+  = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default ml-1'

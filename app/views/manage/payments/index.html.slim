@@ -40,6 +40,8 @@
 - if @booking
   = link_to new_manage_booking_payment_path(@booking), class: 'btn btn-primary' do
     = t(:add_record, model_name: Payment.model_name.human)
+
+  = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default ml-1'
 - else
   = link_to new_import_manage_payments_path, class: 'btn btn-primary' do
     = t(:add_record, model_name: Payment.model_name.human(count: :other))
