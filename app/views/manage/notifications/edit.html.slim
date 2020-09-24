@@ -13,5 +13,6 @@
 
           .form-actions.pt-4.mt-3.border-top
             => f.submit
-            = f.button name: :'deliver', value: true, class: 'btn btn-outline-primary'
-              = t('.deliver')
+            - if @notification.deliverable?
+              = f.button name: :'deliver', value: true, class: 'btn btn-outline-primary'
+                = t('.deliver')

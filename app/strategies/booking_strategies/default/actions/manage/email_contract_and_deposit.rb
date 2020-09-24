@@ -7,7 +7,7 @@ module BookingStrategies
         class EmailContractAndDeposit < BookingStrategy::Action
           def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).relevant.unsent)
             notification = booking.notifications.new(from_template: :awaiting_contract_message, addressed_to: :tenant)
-            return false unless notification.valid?
+            # return false unless notification.valid?
 
             notification.attachments.attach(extract_attachments(booking.home, deposits, contract))
             notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver!
