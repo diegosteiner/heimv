@@ -5,11 +5,11 @@
 # Table name: homes
 #
 #  id               :bigint           not null, primary key
+#  address          :text
 #  booking_margin   :integer          default(0)
 #  janitor          :text
 #  min_occupation   :integer
 #  name             :string
-#  place            :string
 #  ref              :string
 #  requests_allowed :boolean          default(FALSE)
 #  created_at       :datetime         not null

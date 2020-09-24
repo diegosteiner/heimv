@@ -3,7 +3,7 @@
 module Import
   class HomeImporter < Base
     def relevant_attributes
-      %w[janitor min_occupation name place ref requests_allowed]
+      %w[janitor min_occupation name address ref requests_allowed]
     end
 
     protected

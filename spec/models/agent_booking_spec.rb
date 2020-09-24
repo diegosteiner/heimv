@@ -36,5 +36,15 @@
 require 'rails_helper'
 
 RSpec.describe AgentBooking, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#assign_booking_agent' do
+    let(:booking) { create(:booking) }
+    let(:agent_booking) { build(:agent_booking, booking: booking) }
+    let(:booking_agent) { create(:booking_agent, organisation: booking.organisation, code: 'CODE123') }
+
+    it do
+      agent_booking.booking_agent_code = booking_agent.code
+      expect(agent_booking.save).to eq(true)
+      expect(agent_booking.booking_agent).to eq(booking_agent)
+    end
+  end
 end

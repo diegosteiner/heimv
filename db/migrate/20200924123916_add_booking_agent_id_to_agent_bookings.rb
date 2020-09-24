@@ -7,8 +7,8 @@ class AddBookingAgentIdToAgentBookings < ActiveRecord::Migration[6.0]
     reversible do |direction|
       direction.up do 
         AgentBooking.find_each do |agent_booking| 
-          agent_booking.assign_booking_agent
-          agent_booking.save
+          booking_agent = agent_booking.organisation.booking_agents.find_by!(code: agent_booking.booking_agent_code)
+          agent_booking.update(booking_agent: booking_agent)
         end
       end
     end

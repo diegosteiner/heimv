@@ -35,9 +35,14 @@
 
 FactoryBot.define do
   factory :agent_booking do
-    association :booking_agent, factory: :booking_agent
     association :booking
     committed_request { false }
     accepted_request { false }
+
+    after(:build) do |agent_booking, _evaluator|
+      agent_booking.organisation ||= agent_booking.booking.organisation || build(:organisation)
+      agent_booking.home ||= agent_booking.booking.home
+      # agent_booking.booking_agent ||= build(:booking_agent, organisation: agent_booking.organisation)
+    end
   end
 end

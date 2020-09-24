@@ -94,12 +94,12 @@ de:
         postponable_for: Verlängerbar
         responsible: Verantwortlich
       home:
+        address: Adresse
         booking_margin: Zeitabstand zwischen Buchungen
         house_rules: Hausordnung (PDF)
         janitor: Angaben Heimwart
         min_occupation: Mindestbelegung / Nacht
         name: Name
-        place: Ort
         ref: Kurzname / Referenz
         requests_allowed: Reservationsanfragen erlauben
       invoice:

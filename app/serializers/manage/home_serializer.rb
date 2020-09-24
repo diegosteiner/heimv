@@ -2,6 +2,6 @@
 
 module Manage
   class HomeSerializer < Public::HomeSerializer
-    fields :janitor, :place, :min_occupation
+    fields :janitor, :address, :min_occupation
   end
 end
