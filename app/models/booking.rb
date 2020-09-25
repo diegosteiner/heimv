@@ -51,8 +51,9 @@
 class Booking < ApplicationRecord
   include BookingState
 
-  DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments,
-                      :agent_booking, tenant: :organisation, deadline: :booking, occupancy: :home].freeze
+  DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments, :booking_agent,
+                      tenant: :organisation, deadline: :booking, occupancy: :home,
+                      agent_booking: %i[booking_agent organisation home]].freeze
 
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings

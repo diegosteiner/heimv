@@ -48,11 +48,6 @@ class Notification < ApplicationRecord
     self.to = to.presence || resolve_addressed_to
   end
 
-  def subject_with_ref
-    # TODO: Replace with liquid template
-    [subject, "[#{booking.ref}]"].compact.join(' ')
-  end
-
   def markdown
     @markdown ||= Markdown.new(body)
   end
@@ -97,8 +92,10 @@ class Notification < ApplicationRecord
   def apply_markdown_template
     return false if markdown_template.blank?
 
-    self.subject = markdown_template.title
-    self.markdown = markdown_template.interpolate('booking' => booking)
+    context = { 'booking' => booking }
+
+    self.subject = markdown_template.interpolate_title(context)
+    self.markdown = markdown_template.interpolate(context)
   end
 
   protected
@@ -111,7 +108,7 @@ class Notification < ApplicationRecord
   end
 
   def deliver_mail!
-    organisation.mailer.mail(to: to, subject: subject_with_ref, cc: cc, bcc: bcc,
+    organisation.mailer.mail(to: to, subject: subject, cc: cc, bcc: bcc,
                              body: markdown.to_text, html_body: markdown.to_html,
                              attachments: attachments_for_mail)
   end

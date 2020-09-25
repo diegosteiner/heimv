@@ -2,7 +2,12 @@
 
 module Public
   class AgentBookingSerializer < ApplicationSerializer
-    fields :booking_agent_ref, :booking_agent_code
+    fields :booking_agent_ref, :booking_agent_id
+    # association :booking_agent, blueprint: Public::AgentBookingSerializer
+
+    field :booking_agent_name do |agent_booking|
+      agent_booking&.booking_agent&.name
+    end
 
     field :links do |agent_booking|
       {

@@ -28,7 +28,7 @@
 class BookingAgent < ApplicationRecord
   has_many :bookings, through: :agent_bookings
   has_many :agent_bookings, inverse_of: :booking_agent,
-                            dependent: :nullify, foreign_key: :booking_agent_code, primary_key: :code
+                            dependent: :nullify
   belongs_to :organisation, inverse_of: :booking_agents
 
   validates :name, :code, :email, presence: true
