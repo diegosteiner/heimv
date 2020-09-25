@@ -15,7 +15,7 @@ module Manage
       return if current_user.blank?
 
       @current_organisation ||= if current_user.role_admin?
-                                  Organisation.find_by!(slug: params[:org] || '')
+                                  Organisation.find_by!(slug: params[:org].presence)
                                 else
                                   current_user.organisation
                                 end

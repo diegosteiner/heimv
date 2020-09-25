@@ -63,8 +63,8 @@ class Organisation < ApplicationRecord
     @invoice_ref_strategy ||= RefStrategies.const_get(invoice_ref_strategy_type).new
   end
 
-  def slug
-    super.presence
+  def slug=(value)
+    self[:slug] = value.presence
   end
 
   # TODO: extract to hash
