@@ -8,27 +8,35 @@
 #  body            :text
 #  key             :string
 #  locale          :string
+#  namespace       :string
 #  title           :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  home_id         :bigint
 #  organisation_id :bigint           not null
 #
 # Indexes
 #
-#  index_markdown_templates_on_key_and_locale_and_organisation_id  (key,locale,organisation_id) UNIQUE
-#  index_markdown_templates_on_organisation_id                     (organisation_id)
+#  index_markdown_templates_on_home_id          (home_id)
+#  index_markdown_templates_on_key_composition  (key,locale,organisation_id,home_id,namespace) UNIQUE
+#  index_markdown_templates_on_namespace        (namespace)
+#  index_markdown_templates_on_organisation_id  (organisation_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (home_id => homes.id)
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class MarkdownTemplate < ApplicationRecord
   belongs_to :organisation
+  belongs_to :home, optional: true
   has_many :notifications, inverse_of: :markdown_template, dependent: :nullify
 
+  enum namespace: { notification: Notification.to_s, contract: Contract.to_s, invoice: Invoice.to_s }
+
   validates :key, :locale, presence: true
-  validates :key, uniqueness: { scope: %i[locale organisation_id] }
+  validates :key, uniqueness: { scope: %i[locale organisation_id home_id namespace] }
 
   def to_markdown
     Markdown.new(body)

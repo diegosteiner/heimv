@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_204835) do
+ActiveRecord::Schema.define(version: 2020_09_25_105956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -215,7 +215,11 @@ ActiveRecord::Schema.define(version: 2020_09_24_204835) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "organisation_id", null: false
-    t.index ["key", "locale", "organisation_id"], name: "index_markdown_templates_on_key_and_locale_and_organisation_id", unique: true
+    t.string "namespace"
+    t.bigint "home_id"
+    t.index ["home_id"], name: "index_markdown_templates_on_home_id"
+    t.index ["key", "locale", "organisation_id", "home_id", "namespace"], name: "index_markdown_templates_on_key_composition", unique: true
+    t.index ["namespace"], name: "index_markdown_templates_on_namespace"
     t.index ["organisation_id"], name: "index_markdown_templates_on_organisation_id"
   end
 
@@ -416,6 +420,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_204835) do
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
+  add_foreign_key "markdown_templates", "homes"
   add_foreign_key "markdown_templates", "organisations"
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"

@@ -43,7 +43,7 @@ class Notification < ApplicationRecord
   delegate :bcc, to: :organisation
   delegate :locale, to: :booking
 
-  before_validation :link_markdown_template, :apply_markdown_template
+  before_validation :resolve_markdown_template, :apply_markdown_template
   before_validation do
     self.to = to.presence || resolve_addressed_to
   end
@@ -77,10 +77,11 @@ class Notification < ApplicationRecord
     Hash[attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }]
   end
 
-  def link_markdown_template
+  def resolve_markdown_template
     return if from_template.blank? || organisation.blank? || booking.blank?
 
     self.markdown_template = organisation.markdown_templates.by_key(from_template, locale: locale)
+    # self.markdown_template = organisation.markdown_templates.notification.by_key(from_template, locale: locale)
   end
 
   def locale
