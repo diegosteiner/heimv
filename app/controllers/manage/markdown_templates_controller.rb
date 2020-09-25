@@ -9,7 +9,7 @@ module Manage
       @markdown_templates = @markdown_templates.order(key: :ASC)
       respond_to do |format|
         format.html
-        format.json { render json: @markdown_templates }
+        # format.json { render json: @markdown_templates }
       end
     end
 

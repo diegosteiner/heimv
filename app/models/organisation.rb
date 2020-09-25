@@ -14,6 +14,7 @@
 #  esr_participant_nr        :string
 #  iban                      :string
 #  invoice_ref_strategy_type :string
+#  locale                    :string           default("de")
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
@@ -36,6 +37,7 @@ class Organisation < ApplicationRecord
   has_many :homes, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :tenants, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :markdown_templates, inverse_of: :organisation, dependent: :destroy
+  has_many :booking_agents, inverse_of: :organisation, dependent: :destroy
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
   has_one_attached :logo
@@ -88,6 +90,10 @@ class Organisation < ApplicationRecord
 
   def mailer
     @mailer ||= OrganisationMailer.new(self)
+  end
+
+  def locale
+    super || I18n.locale || I18n.default_locale
   end
 
   def missing_markdown_templates(locales = I18n.available_locales)

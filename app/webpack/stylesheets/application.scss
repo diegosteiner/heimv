@@ -26,8 +26,8 @@ img {
         }
 
         &>footer {
-            background-color: #c8fcea;
         }
+
     }
 
     &>main {
@@ -64,7 +64,9 @@ img {
 
     &>footer {
         grid-area: footer;
-        background-color: #b3aee4;
+        background-color: #ddd9f6;
+        border-top: 1px solid $primary;
+        color: $primary;
     }
 }
 
@@ -108,8 +110,6 @@ select[disabled='disabled'] {
         background-color: $card-bg;
         background-clip: border-box;
         border: $card-border-width solid $card-border-color;
-        @include border-radius($card-border-radius);
-        @include box-shadow($box-shadow);
     }
 }
 

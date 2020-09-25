@@ -59,6 +59,7 @@ en:
         home_id: Heim
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
+        locale: Sprache
         notifications_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
         purpose: Zweck der Miete
@@ -93,12 +94,12 @@ en:
         postponable_for: Verlängerbar
         responsible: Verantwortlich
       home:
+        address: Address
         booking_margin: Zeitabstand zwischen Buchungen
         house_rules: Hausordnung (PDF)
         janitor: Abwart
         min_occupation: Mindestbelegung / Nacht
         name: name
-        place: Ort
         ref: Kurzname / Referenz
         requests_allowed: Reservationsanfragen erlauben
       invoice:
@@ -154,6 +155,7 @@ en:
         contract_signature: Vertragsunterschrift
         esr_participant_nr: Kontonummer
         iban: IBAN
+        locale: Sprache
         location: Ort
         logo: Logo
         mail_from: Absender von Emails
@@ -194,6 +196,7 @@ en:
         email: Email
         first_name: Vorname
         last_name: Nachname
+        locale: Sprache
         phone: Telefon
         reservations_allowed: Darf Reservationsanfragen schicken
         street_address: Strasse / Nr.
@@ -737,6 +740,11 @@ en:
     label_2: "%{used_units} × %{unit} à %{price_per_unit}"
   manage:
     bookings:
+      contracts:
+        index:
+          contract_signed: Contract signed
+      show:
+        public_booking_url: Public booking url
       tarifs:
         index:
           applicable_tarifs: Applicable tarifs
@@ -831,6 +839,7 @@ en:
       new:
         accept_conditions_html: <a href="%{privacy_statement_pdf_url}" target="_blank"></a> <a href="%{terms_pdf_url}" target="_blank"></a>
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
+        submit: Reservationsanfrage abschicken
         title: Title
   reset: Reset
   support:

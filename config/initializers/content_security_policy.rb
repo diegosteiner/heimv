@@ -32,5 +32,6 @@
 # Rails.application.config.content_security_policy_report_only = true
 
 Rails.application.config.content_security_policy do |policy|
-  policy.script_src :self, :https, :unsafe_eval
+  policy.script_src :self, :https
+  policy.script_src :self, :unsafe_inline if Rails.env.development?
 end

@@ -56,7 +56,7 @@ class Contract < ApplicationRecord
   end
 
   def filename
-    "#{self.class.model_name.human}_#{booking.ref}_#{id}.pdf"
+    "#{self.class.model_name.human}_#{Time.zone.today}_#{booking.ref}_#{id}.pdf"
   end
 
   scope :sent, -> { where.not(sent_at: nil) }

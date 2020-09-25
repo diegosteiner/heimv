@@ -5,11 +5,11 @@
 # Table name: homes
 #
 #  id               :bigint           not null, primary key
+#  address          :text
 #  booking_margin   :integer          default(0)
 #  janitor          :text
 #  min_occupation   :integer
 #  name             :string
-#  place            :string
 #  ref              :string
 #  requests_allowed :boolean          default(FALSE)
 #  created_at       :datetime         not null
@@ -43,6 +43,6 @@ class Home < ApplicationRecord
   end
 
   def to_liquid
-    Manage::HomeSerializer.new(self).serializable_hash.deep_stringify_keys
+    Manage::HomeSerializer.render_as_hash(self).deep_stringify_keys
   end
 end

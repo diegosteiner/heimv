@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    { org: params[:org] }.merge(super)
+    { org: current_organisation&.slug || params[:org] }.merge(super)
   end
 
   protected

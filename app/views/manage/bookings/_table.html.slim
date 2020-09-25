@@ -4,11 +4,9 @@
 - else
   - bookings.each do |booking|
     - cache(booking) do
-      .row.m-0.shadow.bg-white.border-bottom[data-href=manage_booking_path(booking) data-id=booking.to_param]
-        / .col-lg-1.py-3.bg-primary
+      .row.m-0.bg-white.border[data-href=manage_booking_path(booking) data-id=booking.to_param]
         .col-lg-2
           .d-flex.p-2.h-100[style="align-items: center;"]
-            / = link_to booking.ref, manage_booking_path(booking)
             = link_to manage_booking_path(booking), class: 'd-block'
               h5.m-0.text-center= booking.ref
         .col-md-4.col-lg-3.py-3

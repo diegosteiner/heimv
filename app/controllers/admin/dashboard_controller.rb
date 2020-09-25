@@ -2,8 +2,8 @@
 
 module Admin
   class DashboardController < BaseController
-    skip_authorization_check
-
-    def index; end
+    def index
+      authorize! :manage, :all
+    end
   end
 end

@@ -61,6 +61,6 @@ class Payment < ApplicationRecord
   end
 
   def to_liquid
-    Manage::PaymentSerializer.new(self).serializable_hash.deep_stringify_keys
+    Manage::PaymentSerializer.render_as_hash(self).deep_stringify_keys
   end
 end

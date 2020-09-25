@@ -2,6 +2,6 @@
 
 module Public
   class HomeSerializer < ApplicationSerializer
-    attributes :name, :ref
+    fields :name, :ref
   end
 end

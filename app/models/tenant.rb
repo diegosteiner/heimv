@@ -45,6 +45,8 @@ class Tenant < ApplicationRecord
 
   scope :ordered, -> { order(last_name: :ASC) }
 
+  attribute :country, default: 'CH'
+
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')
   end
@@ -86,6 +88,6 @@ class Tenant < ApplicationRecord
   end
 
   def to_liquid
-    Public::TenantSerializer.new(self).serializable_hash.deep_stringify_keys
+    Public::TenantSerializer.render_as_hash(self).deep_stringify_keys
   end
 end

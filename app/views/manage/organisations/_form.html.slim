@@ -4,6 +4,7 @@
     = f.text_field :location
     div[v-pre]= f.text_area :address, rows: 4
     = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
+    = f.collection_select :locale, Booking.locales, :first, :first
 
   fieldset
     = f.email_field :email

@@ -14,6 +14,7 @@
 #  esr_participant_nr        :string
 #  iban                      :string
 #  invoice_ref_strategy_type :string
+#  locale                    :string           default("de")
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string

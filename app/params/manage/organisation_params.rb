@@ -5,7 +5,7 @@ module Manage
     def self.permitted_keys
       %i[name address
          esr_participant_nr notification_footer logo location bcc
-         privacy_statement_pdf terms_pdf iban mail_from
+         privacy_statement_pdf terms_pdf iban mail_from locale
          representative_address contract_signature email]
     end
   end

@@ -25,5 +25,4 @@ table.table.table-hover.table-card
             = link_to edit_manage_notification_path(notification), class: 'btn btn-default' do
               span.fa.fa-edit
 
-/ = link_to new_manage_booking_notification_path(@booking), class: 'btn btn-primary' do
-/   = t(:add_record, model_name: Notification.model_name.human)
+= link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default ml-1'

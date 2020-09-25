@@ -51,8 +51,8 @@
 class Booking < ApplicationRecord
   include BookingState
 
-  DEFAULT_INCLUDES = [:organisation, :tenant, :home, :booking_transitions, :invoices, :contracts,
-                      :payments, :agent_booking, deadline: :booking, occupancy: :home].freeze
+  DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments,
+                      :agent_booking, tenant: :organisation, deadline: :booking, occupancy: :home].freeze
 
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings
@@ -148,7 +148,7 @@ class Booking < ApplicationRecord
   end
 
   def to_liquid
-    Manage::BookingSerializer.new(self).serializable_hash.deep_stringify_keys
+    Manage::BookingSerializer.render_as_hash(self).deep_stringify_keys
   end
 
   def locale
@@ -170,7 +170,6 @@ class Booking < ApplicationRecord
 
     self.tenant ||= organisation.tenants.find_or_initialize_by(email: email)
     self.tenant.email = email
-    self.tenant.country ||= 'CH'
     self.tenant.organisation = organisation
   end
 

@@ -15,7 +15,7 @@ module Public
 
     def index
       respond_to do |format|
-        format.json { render json: @calendar.occupancies }
+        format.json { render json: OccupancySerializer.render(@calendar.occupancies) }
         format.ics { render plain: IcalService.new.generate_from_occupancies(@calendar.occupancies) }
       end
     end
@@ -23,7 +23,7 @@ module Public
     def embed; end
 
     def calendar
-      render json: @calendar
+      render json: OccupancyCalendarSerializer.render(@calendar)
     end
 
     def at
