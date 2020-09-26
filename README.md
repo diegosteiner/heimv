@@ -1,48 +1,33 @@
 # Heimverwaltung
 
-## Environments
-
-| Branch  | Domain                                | Deployment | CI                                      |
-| ------- | ------------------------------------- | ---------- | --------------------------------------- |
-| develop | https://heimverwaltung-develop.herokuapp.com | auto       | [![Build Status](https://semaphoreci.com/api/v1/projects/87b971b5-ffa5-46f9-8a5d-c9e5cb19fa2d/1371806/badge.svg)](https://semaphoreci.com/pfadiheime/heimverwaltung)|
-| master  | https://heimverwaltung-master.herokuapp.com  | release    | [![Build Status]()](https://semaphoreci.com/pfadiheime/heimverwaltung)  |
-
-## Prequisites
-
-You'll need at least:
-
-* A working ruby >= 2.4.2 installation
-* A working node >= 9.2.0 installation
-
-## Setup
+## Setup with Docker
 
 ```sh
-git clone git@github.com:diegosteiner/heimverwaltung.git
-cd heimverwaltung
-bin/setup
+git clone git@github.com:diegosteiner/heimv.git
+cd heimv
+docker-compose up app
 ```
+
+or with VS Code
+
+- Start in Container with Remote Containers Extension
+- Start Server with [F5] Debug
+
+### Tasks
+
+These commands need to be run un container
+
+- Setup DB: `bin/rails db:prepare`
+- Run migrations: `bin/rails db:migrate`
+- Run checks: `bin/check`
+- Run e2e Tests: `bin/e2e`
 
 ### Configuration
 
-Configure the following:
+Copy env.example to .env and change configuration there
 
-* .env
-
-### Run
-
-For development run:
-
-```sh
-bin/run dev
-```
-
-### Tests / Checks
-
-```sh
-bin/check
-```
-
-## Copyright
+## Copyright & License
 
 Coypright 2017 Diego P. Steiner
-MIT License
+
+You must ask for permission before using the project in a commercial setting. Other than that, the project is licensed under the AGPL License.

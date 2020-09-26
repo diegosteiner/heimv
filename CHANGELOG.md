@@ -1,11 +1,21 @@
 # Changelog
 
-## 2020.08.5
+## 20.9.2
 
-* Improved error pages
-* Changed behaviour after login
-* Bugfixes
+- Update dependencies
+- Improve multi organisation support
 
-## 2020.08.4
+## 20.9.1
 
-* Bugfixes
+- Improve multi organisation support
+- Improve locale support
+
+## 20.8.5
+
+- Improved error pages
+- Changed behaviour after login
+- Bugfixes
+
+## 20.8.4
+
+- Bugfixes
