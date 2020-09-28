@@ -11,6 +11,7 @@
     thead
       tr
         th= MarkdownTemplate.human_attribute_name(:title)
+        th= MarkdownTemplate.human_attribute_name(:namespace)
         th= MarkdownTemplate.human_attribute_name(:key)
         th= MarkdownTemplate.human_attribute_name(:locale)
         th
@@ -21,6 +22,7 @@
         tr[data-href=manage_markdown_template_path(markdown_template) data-id=markdown_template.to_param]
           td
             = link_to markdown_template.title, manage_markdown_template_path(markdown_template)
+          td = markdown_template.namespace
           td
             = link_to markdown_template.key, manage_markdown_template_path(markdown_template)
           td = markdown_template.locale

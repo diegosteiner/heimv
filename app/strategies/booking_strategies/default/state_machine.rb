@@ -67,12 +67,12 @@ module BookingStrategies
 
       after_transition(to: %i[unconfirmed_request]) do |booking|
         booking.occupancy.tentative!
-        booking.notifications.new(from_template: :unconfirmed_request_message, addressed_to: :tenant).deliver
+        booking.notifications.new(from_template: :unconfirmed_request, addressed_to: :tenant).deliver
       end
 
       after_transition(to: %i[awaiting_tenant]) do |booking|
-        booking.notifications.new(from_template: :awaiting_tenant_message, addressed_to: :tenant).deliver
-        booking.notifications.new(from_template: :booking_agent_request_accepted_message,
+        booking.notifications.new(from_template: :awaiting_tenant, addressed_to: :tenant).deliver
+        booking.notifications.new(from_template: :booking_agent_request_accepted,
                                   addressed_to: :booking_agent).deliver
       end
 
@@ -104,25 +104,25 @@ module BookingStrategies
         booking.deadline&.clear
         booking.notifications.new(from_template: :manage_new_booking_mail, addressed_to: :manager).deliver
         if booking.agent_booking?
-          # booking.notifications.new(from_template: :open_booking_agent_request_message,
+          # booking.notifications.new(from_template: :open_booking_agent_request,
           # addressed_to: :booking_agent).deliver
         else
-          booking.notifications.new(from_template: :open_request_message, addressed_to: :tenant).deliver
+          booking.notifications.new(from_template: :open_request, addressed_to: :tenant).deliver
         end
       end
 
       after_transition(to: %i[overdue_request overdue]) do |booking, transition|
-        booking.notifications.new(from_template: "#{transition.to_state}_message", addressed_to: :tenant)&.deliver
+        booking.notifications.new(from_template: "#{transition.to_state}", addressed_to: :tenant)&.deliver
       end
 
       after_transition(to: %i[booking_agent_request]) do |booking|
-        booking.notifications.new(from_template: :booking_agent_request_message,
+        booking.notifications.new(from_template: :booking_agent_request,
                                   addressed_to: :booking_agent).deliver
         booking.occupancy.tentative!
       end
 
       after_transition(to: %i[provisional_request definitive_request]) do |booking, transition|
-        booking.notifications.new(from_template: "#{transition.to_state}_message", addressed_to: :tenant).deliver
+        booking.notifications.new(from_template: "#{transition.to_state}", addressed_to: :tenant).deliver
         booking.occupancy.tentative!
         booking.timeframe_locked!
       end
@@ -145,11 +145,11 @@ module BookingStrategies
       end
 
       after_transition(to: %i[upcoming]) do |booking|
-        booking.notifications.new(from_template: :upcoming_message, addressed_to: :tenant).deliver
+        booking.notifications.new(from_template: :upcoming, addressed_to: :tenant).deliver
       end
 
       after_transition(to: %i[upcoming_soon]) do |booking|
-        booking.notifications.new(from_template: :upcoming_soon_message, addressed_to: :tenant)&.deliver
+        booking.notifications.new(from_template: :upcoming_soon, addressed_to: :tenant)&.deliver
       end
 
       after_transition(to: %i[payment_due]) do |booking|
@@ -161,7 +161,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[payment_overdue]) do |booking|
-        booking.notifications.new(from_template: :payment_overdue_message, addressed_to: :tenant).deliver
+        booking.notifications.new(from_template: :payment_overdue, addressed_to: :tenant).deliver
       end
 
       after_transition(to: %i[awaiting_contract upcoming completed]) do |booking|
@@ -169,9 +169,9 @@ module BookingStrategies
       end
 
       after_transition(to: %i[cancelled]) do |booking|
-        booking.notifications.new(from_template: :cancelled_message, addressed_to: :tenant).deliver
+        booking.notifications.new(from_template: :cancelled, addressed_to: :tenant).deliver
         if booking.agent_booking?
-          booking.notifications.new(from_template: :booking_agent_cancelled_message, addressed_to: :booking_agent)
+          booking.notifications.new(from_template: :booking_agent_cancelled, addressed_to: :booking_agent)
                  .deliver
         end
         booking.concluded!
@@ -181,13 +181,13 @@ module BookingStrategies
 
       after_transition(to: %i[cancelled_request]) do |booking|
         addressed_to = booking.agent_booking? ? :booking_agent : :tenant
-        booking.notifications.new(from_template: :cancelled_request_message, addressed_to: addressed_to).deliver
+        booking.notifications.new(from_template: :cancelled_request, addressed_to: addressed_to).deliver
         booking.concluded!
       end
 
       after_transition(to: %i[declined_request]) do |booking|
         addressed_to = booking.agent_booking? ? :booking_agent : :tenant
-        booking.notifications.new(from_template: :declined_request_message, addressed_to: addressed_to).deliver
+        booking.notifications.new(from_template: :declined_request, addressed_to: addressed_to).deliver
         booking.concluded!
       end
     end

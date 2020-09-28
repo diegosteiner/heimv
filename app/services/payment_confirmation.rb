@@ -9,7 +9,7 @@ class PaymentConfirmation
   end
 
   def deliver
-    notification = booking.notifications.new(from_template: :payment_message, addressed_to: :tenant)
+    notification = booking.notifications.new(from_template: :payment, addressed_to: :tenant)
 
     return false unless notification.valid?
 
