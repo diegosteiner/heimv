@@ -1,190 +1,233 @@
 {
-  "name": "Heimverein Demo",
-  "email": "info@heimv.ch",
-  "mail_from": "test@heimv.ch",
+  "name": "Heimverein Development",
+  "email": "test@heimv.ch",
   "address": "Verein Pfadiheime Demo\r\nHeimverwaltung\r\n\r\n8000 Zürich",
   "booking_ref_strategy_type": "RefStrategies::DefaultBookingRef",
   "booking_strategy_type": "BookingStrategies::Default",
   "currency": "CHF",
+  "location": null,
   "esr_participant_nr": "01-123456-7",
-  "slug": "demo",
   "iban": "",
   "invoice_ref_strategy_type": "RefStrategies::ESR",
-  "message_footer": "Verein Pfadiheime Demo \r\nHeimverwaltung  \r\n\r\n[www.heimv.ch](//www.heimv.ch)  \r\n",
+  "notification_footer": "Verein Pfadiheime Demo  \r\nHeimverwaltung  \r\n\r\n[www.heimv.ch](//www.heimv.ch)  \r\n",
+  "notifications_enabled": true,
+  "slug": null,
   "markdown_templates": {
-    "4": {
-      "key": "awaiting_tenant_message",
+    "1": {
+      "key": "awaiting_tenant",
       "title": "HeimV: Vermittelte Buchung über einen Vermittler",
       "body": "Hallo\r\n\r\nVielen Dank für Deine Mietanfrage über einen Vermittler. Wir benötigen noch deine vollständigen Angaben, um die Reservation für dich fertig buchen zu können und definitiv abzuschliessen.\r\nÜber den folgenden Link kannst Du Deine Angaben machen oder die Buchung stornieren.\r\nSollten die angegebenen Mietanfangs- und Endzeiten für Dich so nicht stimmen, melde Dich bitte direkt bei uns per Mail unter info@HeimV. So können wir dies für Dich noch anpassen. \r\n\r\n**Der Link zur Buchung:** \r\n[{{booking.links.edit}}]({{booking.links.edit}})\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}} {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Bemerkungen: {{ booking.remarks }}\r\n\r\nSollte Deine Buchung unter dem Festtarif im Pfadiheim Birchli sein: Bitte beachte die Auflagen für Feste und Anlässe von dem Bezirk Einsiedeln. Infos unter: https://www.heimv.ch/birchli/\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter\r\nwenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "5": {
-      "key": "booking_agent_cancelled_message",
+    "2": {
+      "key": "booking_agent_cancelled",
       "title": "HeimV: Vermittlung storniert",
       "body": "Lieber Vermittler\n\nWir bestätigen Dir die Stornierung Deiner Reservation auf HeimV:\n\n- Unsere Referenz: {{ booking.ref }}\n- Deine Referenz: {{ booking.booking_agent_ref }}\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\n\nAuf unserem [Reservationssystem](https://www.heimv.ch.HeimV) kannst Du jederzeit eine neue Reservation erstellen.\n\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "6": {
-      "key": "booking_agent_request_accepted_message",
+    "3": {
+      "key": "booking_agent_request_accepted",
       "title": "HeimV: Vermittlungsanfrage akzeptiert",
       "body": "Lieber Vermittler\r\n\r\nVielen Dank für Deine definitive Vermittlung auf HeimV.\r\nAb sofort geht die Kommunikation über die Belegung direkt über die Mieter und ist für Sie somit abgeschlossen. Hier nochmals die Details der Buchung:\r\n\r\n- Unsere Referenz: {{ booking.ref }}\r\n- Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}\r\n- Lagerhaus: {{booking.home.name}} {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n\r\n[{{booking.links.edit}}]({{booking.links.edit}})\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "7": {
-      "key": "booking_agent_request_message",
+    "4": {
+      "key": "booking_agent_request",
       "title": "HeimV: Bestätigung Deiner Vermittlungsanfrage",
       "body": "Lieber Vermittler\r\n\r\nVielen Dank für Deine Reservation auf HeimV.\r\n\r\n- Unsere Referenz: {{ booking.ref }}\r\n- Deine Referenz: {{ booking.agent_booking.booking_agent_ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n\r\nDeine Anfrage wurde angenommen. Über den folgenden Link kann die Reservation verlängert, aufgehoben oder für definitiv erklärt werden. Die provisorische Reservation gilt für 7 Tage und kann weitere 3 Tage verlängert werden. Wenn die Reservation länger reserviert werden soll, bitten wir Dich dies per Email mit dem Datum anzufragen.\r\n\r\n[{{booking.agent_booking.links.edit}}]({{booking.agent_booking.links.edit}})\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "8": {
-      "key": "cancelled_message",
+    "5": {
+      "key": "cancelled",
       "title": "HeimV: Vertragsauflösung/Annullation Deiner Reservation",
       "body": "Hallo\r\n\r\nDer Vertrag für untenstehende Reservation ist nicht zustande gekommen oder Du bist vom Vertrag zurückgetreten. Wir haben die Reservation deshalb annulliert.\r\n\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n\r\nDu kannst auf unserem [Reservationssystem](https://www.heimv.ch.HeimV) jederzeit eine neue Reservation erstellen.\r\n\r\nFür Fragen oder weitere Auskünfte wendest Du Dich an unseren Heimverwalter\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "9": {
-      "key": "cancelled_request_message",
+    "6": {
+      "key": "cancelled_request",
       "title": "HeimV: Deine Reservation ist abgelaufen",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nDu hast vor einiger Zeit auf HeimV eine provisorische Reservation erstellt. Da du storniert oder das Heim bis heute nicht auf definitiv gesetzt hast, ist sie nun verfallen und wir haben das Lagerhaus wieder freigegeben.\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Bemerkungen: {{ booking.remarks }}\r\n\r\nDu kannst auf unserem [Reservationssystem](https://www.heimv.ch.HeimV) jederzeit eine neue Reservation erstellen.\r\n\r\nFür Fragen oder weitere Auskünfte wendest Du Dich an unseren Heimverwalter\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "10": {
-      "key": "awaiting_contract_message",
+    "7": {
+      "key": "awaiting_contract",
       "title": "HeimV: Reservation bestätigt",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nMit dieser Nachricht erhältst Du die Unterlagen für Deine Lagerhaus-Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per Mail oder Post **innert 7 Tagen** an uns zurück und überweise die angegebene Anzahlung. Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Anzahlung und das unterzeichnete Vertragsdoppel bei uns eingetroffen sind.\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Bemerkungen: {{ booking.remarks }}\r\n\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter wenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "11": {
-      "key": "contract_signed_message",
+    "8": {
+      "key": "contract_signed",
       "title": "HeimV: Vertragsdoppel erhalten",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nVielen Dank für die Rücksendung des unterzeichneten Vertragsdoppels. Bitte zahle auch möglichst rasch noch die Anzahlung ein.\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}} {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Bemerkungen: {{ booking.remarks }}\r\n\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter\r\nwenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "12": {
+    "9": {
       "key": "contract_text",
       "title": "Vertrag",
       "body": "# Mietvertrag: {{ booking.home.name }}\r\n\r\n## Allgemein\r\nHier muss die Vertragsvorlage angepasst werden\r\n\r\n## Tarife\r\nEs gelten die nachfolgenden Tarife:",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": null
     },
-    "13": {
-      "key": "declined_request_message",
+    "10": {
+      "key": "declined_request",
       "title": "HeimV: Reservationsanfrage abgelehnt",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nVielen Dank für Deine Mietanfrage auf HeimV. Leider müssen wir Deine Anfrage ablehnen.\r\nAblehnungsgrund: {{ booking.cancellation_reason }}\r\n\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Bemerkungen: {{ booking.remarks }}\r\n\r\n\r\n{{ organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "14": {
-      "key": "definitive_request_message",
+    "11": {
+      "key": "definitive_request",
       "title": "HeimV: Definitive Reservation bestätigt",
       "body": "{{ booking.tenant.salutation_name }}\n\nVielen Dank für Deine Mietanfrage auf HeimV. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.\n\n\n**Reservationsdetails**\n\n- Buchungsreferenz: {{ booking.ref }}\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\n- Organisation: {{ booking.tenant_organisation }}\n- Mietzweck: {{ booking.purpose | booking_purpose }}\n- Bemerkungen: {{ booking.remarks }}\n\n\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter\nwenden\n\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "15": {
+    "12": {
       "key": "invoices_deposit_text",
       "title": "Anzahlung",
       "body": "# Anzahlung: {{ booking.home.name }}\r\n{{ booking.ref }}\r\n\r\n",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": null
     },
-    "16": {
-      "key": "deposit_paid_message",
+    "13": {
+      "key": "deposit_paid",
       "title": "HeimV: Anzahlung eingegangen",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nSoeben haben wir Deine Anzahlung erhalten, vielen Dank. Bitte sende uns auch möglichst rasch das unterzeichnete Vertragsdoppel zurück.\r\n\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Bemerkungen: {{ booking.remarks }}\r\n\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter wenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": null
     },
-    "17": {
+    "14": {
       "key": "invoices_invoice_text",
       "title": "Rechnung",
       "body": "# Rechnung\r\n\r\n{{ booking.tenant.salutation_name }}\r\n\r\nWir hoffen, dass Dir der Aufenthalt im Pfadiheim {{booking.home.name}}, {{ booking.home.address }} gefallen hat und es würde uns freuen, Dich wieder einmal in einem unserer Häuser begrüssen zu dürfen.\r\n\r\n**Rechnung für die Belegung vom {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}**",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": null
     },
-    "18": {
+    "15": {
       "key": "invoices_late_notice_text",
       "title": "Mahnung",
       "body": "# Mahnung",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": null
     },
-    "19": {
+    "16": {
       "key": "manage_new_booking_mail",
       "title": "HeimV: Neue Mietanfrage",
       "body": "Hallo Smily\r\n\r\nEs ist eine neue Mietanfrage für das Lagerhaus **{{ booking.home.name }}** eingegangen.\r\n\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: **{{ booking.ref }}**\r\n- Lagerhaus: **{{ booking.home.name }}, {{ booking.home.address }}**\r\n- Reservation: **{{ booking.occupancy.begins_at | datetime_format }}** bis **{{ booking.occupancy.ends_at | datetime_format }}**\r\n- Organisation: **{{ booking.tenant_organisation }}**\r\n- Mietzweck: **{{ booking.purpose | booking_purpose }}**\r\n- Bemerkungen: **{{ booking.remarks }}**\r\n- Bearbeitungslink: [{{ booking.links.edit }}]({{ booking.links.edit }})\r\n\r\n[Zum HeimV-Buchungssystem](https://www.heimv.ch.HeimV/manage/bookings)\r\n\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": null
     },
-    "20": {
-      "key": "open_request_message",
+    "17": {
+      "key": "open_request",
       "title": "HeimV: Bestätigung Deiner Mietanfrage",
       "body": "{{ booking.tenant.salutation_name }}\n\nHiermit bestätigen wir den Eingang deiner Mietanfrage auf HeimV.\n\n\n**Reservationsdetails**\n\n- Buchungsreferenz: {{ booking.ref }}\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\n- Organisation: {{ booking.tenant_organisation }}\n- Mietzweck: {{ booking.purpose | booking_purpose }}\n- Bemerkungen: {{ booking.remarks }}\n\n\nDeine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.\n\n[{{booking.links.edit}}]({{booking.links.edit}})\n\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "21": {
-      "key": "overdue_request_message",
+    "18": {
+      "key": "overdue_request",
       "title": "HeimV: Anfrage überfällig",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nDu hast kürzlich auf HeimV eine provisorische Reservation erstellt. Eine Reservation gilt für 7 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Lagerhaus wird wieder freigegeben. Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zu machen. Klicke dazu auf den untenstehenden Link.\r\n\r\n[{{booking.links.edit}}]({{booking.links.edit}})\r\n\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Bemerkungen: {{ booking.remarks }}\r\n\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter wenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "22": {
-      "key": "payment_due_message",
+    "19": {
+      "key": "payment_due",
       "title": "HeimV: Deine Lagerhaus-Rechnung",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nMit dieser Nachricht erhältst Du die Rechnung für Deinen Lagerhaus-Besuch. Bitte bezahle diese innert der Zahlungsfrist von 30 Tagen.\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter\r\nwenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "23": {
-      "key": "payment_overdue_message",
+    "20": {
+      "key": "payment_overdue",
       "title": "HeimV: Zahlungserinnerung für Deine Lagerhaus-Rechnung",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nVor einiger Zeit haben wir Dir die Rechnung für Deine Lagerhaus-Reservation geschickt. Die Zahlungsfrist ist nun ist nun abgelaufen, doch Deine Zahlung ist noch nicht auf unserem Konto eingegangen. Bitte bezahle die überfällige Rechnung in den nächsten 10 Tagen. Falls das nicht möglich ist, melde Dich bei unserer Heimverwaltung, damit eine gemeinsame Lösung gefunden werden kann.\r\n\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter\r\nwenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "24": {
-      "key": "provisional_request_message",
+    "21": {
+      "key": "provisional_request",
       "title": "HeimV: Provisorische Reservation bestätigt",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nVielen Dank für Deine Mietanfrage auf HeimV. Wir haben Deine Angaben geprüft und nun eine provisorische Reservation erstellt. Diese gilt für **7 Tage**, danach verfällt sie und das Lagerhaus wird wieder freigegeben. Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.\r\n\r\n[{{booking.links.edit}}]({{booking.links.edit}})\r\n\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Bemerkungen: {{ booking.remarks }}\r\n\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter\r\nwenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "25": {
-      "key": "unconfirmed_request_message",
+    "22": {
+      "key": "unconfirmed_request",
       "title": "HeimV: Bestätige Deine E-Mail-Adresse",
       "body": "Hallo\r\n\r\nDu hast soeben auf HeimV eine Mietanfrage begonnen. Bitte klicke auf den\r\nuntenstehenden Link um Deine E-Mail-Adresse zu bestätigen und um die\r\nMietanfrage abzuschliessen.\r\n\r\n[{{booking.links.edit}}]({{booking.links.edit}})\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "26": {
-      "key": "upcoming_message",
+    "23": {
+      "key": "upcoming",
       "title": "HeimV: Anzahlung und Vertragsdoppel eingegangen",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nWir haben das von Dir unterzeichnete Vertragsdoppel und die Anzahlung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Lagerhaus. \r\n\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Heimwart: {{ booking.home.janitor }}\r\n\r\nBitte vereinbare mit den Heimwarten rechtzeitig den Übernahmetermin.\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter wenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "27": {
+    "24": {
       "key": "text_payment_info_text",
       "title": "Zahlungsinformationen",
       "body": "**Kontonummer**\r\n{{ payment_info.esr_participant_nr }}\r\n\r\n**Rechnungsbetrag**\r\nCHF {{ payment_info.formatted_amount }}\r\n\r\n**Referenznummer**\r\n{{ payment_info.formatted_ref }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": null
     },
-    "28": {
+    "25": {
       "key": "foreign_payment_info_text",
       "title": "Zahlungsinformationen",
-      "body": "**Nummer Finanzinstitut (SWIFT-Code)** \r\nPOFICHBE\r\n\r\n**Name/Adresse Begünstigenbank**\r\nPostFinance AG \r\nMingerstrasse 20 \r\n3030 Bern \r\nSchweiz \r\n\r\n**Name Begünstigter** \r\nVerein Pfadiheime Demo \r\n8000 Zürich \r\n\r\n**Kontonummer Begünstiger**\r\n87-162260-9 \r\n\r\n**IBAN** \r\nCH13 0900 0000 8716 2260 9 \r\n\r\n**Zahlungszweck**\r\n{{ payment_info.booking_ref }}\r\n\r\n**BIC** \r\nPOFICHBEXXX \r\n\r\n**Weiteres**\r\nBitte überweisen Sie per Banküberweisung wenn immer möglich mittels „SEPA“ und in CHF.",
-      "locale": "de"
+      "body": "**Nummer Finanzinstitut (SWIFT-Code)** \r\nPOFICHBE\r\n\r\n**Name/Adresse Begünstigenbank**\r\nPostFinance AG \r\nMingerstrasse 20 \r\n3030 Bern \r\nSchweiz \r\n\r\n**Name Begünstigter** \r\nVerein Pfadiheime \r\n8000 Zürich \r\n\r\n**Kontonummer Begünstiger**\r\n87-162260-9 \r\n\r\n**IBAN** \r\nCH13 0900 0000 8716 2260 9 \r\n\r\n**Zahlungszweck**\r\n{{ payment_info.booking_ref }}\r\n\r\n**BIC** \r\nPOFICHBEXXX \r\n\r\n**Weiteres**\r\nBitte überweisen Sie per Banküberweisung wenn immer möglich mittels „SEPA“ und in CHF.",
+      "locale": "de",
+      "home_id": null,
+      "namespace": null
     },
-    "29": {
-      "key": "overdue_message",
+    "26": {
+      "key": "overdue",
       "title": "HeimV: Vertrag überfällig",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nVor einiger Zeit haben wir Dir die Unterlagen für Deine Lagerhaus-Reservation geschickt. Darin baten wir Dich uns den unterschriebenen Vertrag per Mail oder Post innert 7 Tagen zu retournieren. Bisher ist der Vertrag leider noch nicht eingetroffen. \r\nBitte hole dies sofort nach, da wir sonst die Belegung wieder stornieren müssen.\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n\r\n\r\nBei Fragen oder Problemen kannst Du Dich jederzeit an unseren Heimverwalter\r\nwenden\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     },
-    "30": {
-      "key": "payment_message",
+    "27": {
+      "key": "payment",
       "title": "HeimV: Bestätigung Deiner Einzahlung",
       "body": "{{ booking.tenant.salutation_name }}\r\n\r\nWir haben Deine Einzahlung über {{ payment.amount | currency }} dankend am {{ payment.paid_at | datetime_format }} erhalten und verbucht. Vielen Dank.\r\n\r\n**Reservationsdetails**\r\n\r\n- Buchungsreferenz: {{ booking.ref }}\r\n- Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}\r\n- Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}\r\n- Organisation: {{ booking.tenant_organisation }}\r\n- Mietzweck: {{ booking.purpose | booking_purpose }}\r\n- Bemerkungen: {{ booking.remarks }}\r\n\r\n{{ booking.organisation.message_footer }}",
-      "locale": "de"
-    },
-    "32": {
-      "key": "invoice_paid_message",
-      "title": null,
-      "body": null,
-      "locale": "de"
-    },
-    "33": {
-      "key": "deposits_paid_message",
-      "title": null,
-      "body": null,
-      "locale": "de"
+      "locale": "de",
+      "home_id": null,
+      "namespace": "notification"
     }
   },
   "homes": {
@@ -200,7 +243,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Lagertarif (unter 25 jährig)",
           "meter": null,
-          "position": 174,
+          "position": 178,
           "prefill_usage_method": null,
           "price_per_unit": "15",
           "tarif_group": "Lager/Kurs",
@@ -214,7 +257,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Lagertarif (über 25 jährig)",
           "meter": null,
-          "position": 175,
+          "position": 179,
           "prefill_usage_method": null,
           "price_per_unit": "20",
           "tarif_group": "Lager/Kurs",
@@ -228,7 +271,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Mindestbelegung Lagertarif",
           "meter": "",
-          "position": 176,
+          "position": 180,
           "prefill_usage_method": "nights",
           "price_per_unit": "10",
           "tarif_group": "Lager/Kurs",
@@ -242,7 +285,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Festtarrif 0 Nächte",
           "meter": "",
-          "position": 204,
+          "position": 212,
           "prefill_usage_method": "nights",
           "price_per_unit": "350.0",
           "tarif_group": "Privater Anlass / Fest",
@@ -256,7 +299,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Reservationsgebühr",
           "meter": null,
-          "position": 258,
+          "position": 266,
           "prefill_usage_method": null,
           "price_per_unit": "100",
           "tarif_group": "Reservationsgebühr",
@@ -270,7 +313,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Kurtaxe (ab 12 -18jährig)",
           "meter": "",
-          "position": 184,
+          "position": 188,
           "prefill_usage_method": null,
           "price_per_unit": "0.5",
           "tarif_group": "Kurtaxe",
@@ -284,7 +327,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Kurtaxe (ab 18 Jahren)",
           "meter": "",
-          "position": 185,
+          "position": 189,
           "prefill_usage_method": null,
           "price_per_unit": "2",
           "tarif_group": "Kurtaxe",
@@ -298,7 +341,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Strom (Hochtarif)",
           "meter": "hochtarif",
-          "position": 264,
+          "position": 270,
           "prefill_usage_method": null,
           "price_per_unit": "0.5",
           "tarif_group": "Nebenkosten",
@@ -312,7 +355,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Strom (Niedertarif)",
           "meter": "niedertarif",
-          "position": 265,
+          "position": 272,
           "prefill_usage_method": null,
           "price_per_unit": "0.25",
           "tarif_group": "Nebenkosten",
@@ -326,7 +369,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Brennholz",
           "meter": null,
-          "position": 266,
+          "position": 273,
           "prefill_usage_method": null,
           "price_per_unit": "15.0",
           "tarif_group": "Nebenkosten",
@@ -340,7 +383,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Abfall",
           "meter": "",
-          "position": 267,
+          "position": 274,
           "prefill_usage_method": null,
           "price_per_unit": "5",
           "tarif_group": "Nebenkosten",
@@ -354,7 +397,7 @@
           "invoice_type": "Invoices::Deposit",
           "label": "Anzahlung (2 Nächte)",
           "meter": null,
-          "position": 35,
+          "position": 36,
           "prefill_usage_method": null,
           "price_per_unit": "300",
           "tarif_group": "Anzahlung",
@@ -368,7 +411,7 @@
           "invoice_type": "Invoices::Deposit",
           "label": "Anzahlung (3 Nächte)",
           "meter": null,
-          "position": 41,
+          "position": 42,
           "prefill_usage_method": null,
           "price_per_unit": "480",
           "tarif_group": "Anzahlung",
@@ -382,7 +425,7 @@
           "invoice_type": "Invoices::Deposit",
           "label": "Anzahlung (4 Nächte)",
           "meter": null,
-          "position": 58,
+          "position": 59,
           "prefill_usage_method": null,
           "price_per_unit": "600",
           "tarif_group": "Anzahlung",
@@ -396,7 +439,7 @@
           "invoice_type": "Invoices::Invoice",
           "label": "Schäden",
           "meter": null,
-          "position": 268,
+          "position": 271,
           "prefill_usage_method": null,
           "price_per_unit": "0.0",
           "tarif_group": "Schäden",
