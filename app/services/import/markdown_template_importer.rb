@@ -16,7 +16,7 @@ module Import
 
     def _import(serialized)
       serialized.map do |_id, attributes|
-        template = organisation.markdown_templates.find_or_initialize_by(attributes.slice(*%w[key locale namespace]))
+        template = organisation.markdown_templates.find_or_initialize_by(attributes.slice('key', 'locale', 'namespace'))
         template.update(attributes.slice(*relevant_attributes)) if template.new_record? || options[:replace]
         template if template.valid?
       end

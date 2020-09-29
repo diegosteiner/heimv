@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe PaymentConfirmation, type: :model do
   let(:booking) { create(:booking, notifications_enabled: true) }
   let!(:template) do
-    create(:markdown_template, key: 'payment_message',
+    create(:markdown_template, key: 'payment',
                                locale: I18n.locale,
                                organisation: booking.organisation,
                                body: '{{ payment.amount }}')
@@ -14,12 +14,12 @@ RSpec.describe PaymentConfirmation, type: :model do
   subject(:confirmation) { described_class.new(payment) }
 
   describe '#notification' do
-    subject { confirmation.notification }
+    subject(:notification) { confirmation.notification }
 
     it do
-      expect(subject.context.keys).to eq(%w[booking payment])
-      is_expected.to be_valid
-      expect(subject.body).to include(payment.amount.to_s)
+      expect(notification.context.keys).to eq(%w[booking payment])
+      expect(notification).to be_valid
+      expect(notification.body).to include(payment.amount.to_s)
     end
   end
 end

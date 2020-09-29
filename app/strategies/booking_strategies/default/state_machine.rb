@@ -112,7 +112,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[overdue_request overdue]) do |booking, transition|
-        booking.notifications.new(from_template: "#{transition.to_state}", addressed_to: :tenant)&.deliver
+        booking.notifications.new(from_template: transition.to_state.to_s, addressed_to: :tenant)&.deliver
       end
 
       after_transition(to: %i[booking_agent_request]) do |booking|
@@ -122,7 +122,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[provisional_request definitive_request]) do |booking, transition|
-        booking.notifications.new(from_template: "#{transition.to_state}", addressed_to: :tenant).deliver
+        booking.notifications.new(from_template: transition.to_state.to_s, addressed_to: :tenant).deliver
         booking.occupancy.tentative!
         booking.timeframe_locked!
       end

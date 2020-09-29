@@ -124,8 +124,10 @@ de:
         type: Positionsart
       markdown_template:
         body: Text
+        home_id: Heim
         key: ID
         locale: Sprache
+        namespace: Art
         title: Titel
       meter_reading_period:
         begins_at: Beginn
@@ -169,6 +171,7 @@ de:
         terms_pdf: AGB
       payment:
         amount: Betrag
+        confirm: Zahlungsbestätigung automatisch verschicken
         invoice_id: Rechnung
         paid_at: Bezahlt am
         remarks: Bemerkungen
@@ -235,6 +238,9 @@ de:
           next_year: Nächstes Jahr
           this_year: Dieses Jahr
           until_now: Bis heute
+      markdown_template:
+        namespace:
+          notification: Benachrichtigung
       occupancy:
         occupancy_type:
           closed: Geschlossen
@@ -338,8 +344,8 @@ de:
         one: Zählerstand
         other: Zählerstände
       notification:
-        one: Nachricht
-        other: Nachrichten
+        one: Benachrichtigung
+        other: Benachrichtigungen
       occupancy:
         one: Belegung
         other: Belegungen
