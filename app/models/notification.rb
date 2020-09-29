@@ -82,7 +82,6 @@ class Notification < ApplicationRecord
     return if from_template.blank? || organisation.blank? || booking.blank?
 
     organisation.markdown_templates.by_key(from_template, locale: locale)
-    # organisation.markdown_templates.notification.by_key(from_template, locale: locale)
   end
 
   def locale
