@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
+  resource :account, only: %i[edit update]
   get 'changelog', to: 'pages#changelog'
 
   namespace :admin do

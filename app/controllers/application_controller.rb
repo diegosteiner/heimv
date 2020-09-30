@@ -21,6 +21,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def current_ability
+    @current_ability ||= Ability::Base.new(current_user)
+  end
+
   def responder_flash_messages(resource_name, scope: :update)
     {
       notice: t(:notice, scope: %i[flash actions] + [scope], resource_name: resource_name),
