@@ -11,6 +11,7 @@
   "invoice_ref_strategy_type": "RefStrategies::ESR",
   "notification_footer": "Verein Pfadiheime Demo  \r\nHeimverwaltung  \r\n\r\n[www.heimv.ch](//www.heimv.ch)  \r\n",
   "notifications_enabled": true,
+  "mail_from": "test@heimv.ch",
   "slug": null,
   "markdown_templates": {
     "1": {

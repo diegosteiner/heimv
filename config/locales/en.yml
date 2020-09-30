@@ -240,6 +240,8 @@ en:
           until_now: Bis heute
       markdown_template:
         namespace:
+          contract: Vertrag
+          invoice: Rechnung
           notification: Benachrichtigung
       occupancy:
         occupancy_type:
