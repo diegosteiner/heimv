@@ -8,6 +8,8 @@
 
 ul#navbar-main-nav.list-unstyled.p-3.position-fixed-lg
   li.nav-item
+    = link_to OccupancyCalendar.model_name.human(count: :other), manage_root_path, class: 'nav-link'
+  li.nav-item
     = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
   li.nav-item
     = link_to Tenant.model_name.human(count: :other), manage_tenants_path, class: 'nav-link'
