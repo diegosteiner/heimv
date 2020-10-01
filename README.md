@@ -13,6 +13,10 @@ or with VS Code
 - Start in Container with Remote Containers Extension
 - Start Server with [F5] Debug
 
+To visit the automatically created default organization, visit http://localhost:3000/development.
+
+To manage your organizations, visit http://localhost:3000/admin and log in with username `admin@heimv.local` and password `heimverwaltung`.
+
 ### Tasks
 
 These commands need to be run un container
