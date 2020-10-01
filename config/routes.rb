@@ -2,6 +2,8 @@
 
 Rails.application.routes.draw do
   devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
+  resource :account, only: %i[edit update]
+  get 'changelog', to: 'pages#changelog'
 
   namespace :admin do
     root to: 'dashboard#index'
@@ -25,6 +27,7 @@ Rails.application.routes.draw do
         end
       end
       resource :organisation, only: %i[edit update show]
+      resources :users, except: %i[show]
       resources :data_digests do
         get '/period', on: :member, action: :period, as: :period
       end

@@ -40,7 +40,7 @@ module Admin
     private
 
     def user_params
-      UserParams.new(params.require(:user))
+      UserParams.new(params.require(:user)).permitted
     end
   end
 end

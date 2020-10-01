@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   rescue_from CanCan::AccessDenied, with: :unauthorized
-  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
 
   default_form_builder BootstrapForm::FormBuilder
   before_action :set_raven_context
@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def current_ability
+    @current_ability ||= Ability::Base.new(current_user)
+  end
 
   def responder_flash_messages(resource_name, scope: :update)
     {
@@ -40,7 +44,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    redirect_to '/404.html'
+    render file: 'public/404.html', status: :not_found, layout: false
   end
 
   def unauthorized

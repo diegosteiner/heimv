@@ -1,0 +1,24 @@
+.breakout-sm
+  table.table.table-hover.table-card
+    thead
+      tr
+        th= User.human_attribute_name(:email)
+        th= User.human_attribute_name(:role)
+        th
+
+    tbody
+      - @users.each do |user|
+        tr[data-href=manage_user_path(user) data-id=user.to_param]
+          td
+            = link_to user.email, manage_user_path(user)
+          td
+            = user.role
+          td.text-right.p-1
+            .btn-group
+              = link_to edit_manage_user_path(user), class: 'btn btn-default'
+                span.fa.fa-edit
+              = link_to manage_user_path(user), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
+                span.fa.fa-trash
+
+  '
+  = link_to t('add_record', model_name: User.model_name.human), new_manage_user_path, class: 'btn btn-primary'

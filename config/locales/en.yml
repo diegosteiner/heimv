@@ -26,6 +26,9 @@ en:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis
     models:
+      occupancy_calendar:
+        one: Belegungsplan
+        other: Belegungspläne
       payment_info:
         one: Zahlungsteil
         other: Zahlungsteile
@@ -124,8 +127,10 @@ en:
         type: Positionsart
       markdown_template:
         body: Text
+        home_id: Heim
         key: ID
         locale: Sprache
+        namespace: Art
         title: Titel
       meter_reading_period:
         begins_at: Beginn
@@ -169,6 +174,7 @@ en:
         terms_pdf: AGB
       payment:
         amount: Betrag
+        confirm: Zahlungsbestätigung automatisch verschicken
         invoice_id: Rechnung
         paid_at: Einbezahlt am
         remarks: Bemerkungen
@@ -208,6 +214,11 @@ en:
         price: Preis
         remarks: Bemerkungen
         used_units: Verbrauchte Anzahl
+      user:
+        email: Email
+        password: Passwort
+        password_confirmation: Passwort wiederholen
+        role: Rolle
     back: Zurück
     confirm: Sind Sie sicher?
     destroy: Löschen
@@ -235,6 +246,11 @@ en:
           next_year: Nächstes Jahr
           this_year: Dieses Jahr
           until_now: Bis heute
+      markdown_template:
+        namespace:
+          contract: Vertrag
+          invoice: Rechnung
+          notification: Benachrichtigung
       occupancy:
         occupancy_type:
           closed: Geschlossen
@@ -247,6 +263,11 @@ en:
           headcount: "# Personen"
           headcount_nights: Übernachtungen
           nights: Nächte
+      user:
+        role:
+          admin: Admin
+          manager: Verwaltung
+          user: Benutzer
     errors:
       models:
         booking:
@@ -385,6 +406,9 @@ en:
       usage:
         one: Verbrauch
         other: Verbrauch
+      user:
+        one: Benutzer
+        other: Benutzer
   add_record: Add %{model_name}
   back: Back
   booking_strategies:
@@ -761,6 +785,9 @@ en:
       edit:
         deliver: Deliver
   nav:
+    admin: Admin
+    edit_account: Account
+    manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.

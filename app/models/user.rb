@@ -40,6 +40,7 @@ class User < ApplicationRecord
   after_initialize :set_default_role, if: :new_record?
 
   validates :organisation, presence: true, unless: :role_admin?
+  validates :role, :email, presence: true
 
   def set_default_role
     self.role ||= :user

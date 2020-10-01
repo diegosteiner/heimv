@@ -13,6 +13,10 @@ or with VS Code
 - Start in Container with Remote Containers Extension
 - Start Server with [F5] Debug
 
+To visit the automatically created default organization, visit http://localhost:3000/.
+
+To manage your organizations, visit http://localhost:3000/admin and log in with username `admin@heimv.local` and password `heimverwaltung`.
+
 ### Tasks
 
 These commands need to be run un container
@@ -28,6 +32,6 @@ Copy env.example to .env and change configuration there
 
 ## Copyright & License
 
-Coypright 2017 Diego P. Steiner
+Coypright 2017 Diego P. Steiner & contributors
 
 You must ask for permission before using the project in a commercial setting. Other than that, the project is licensed under the AGPL License.

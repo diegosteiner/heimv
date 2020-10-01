@@ -42,10 +42,11 @@ class Notification < ApplicationRecord
   attribute :from_template
   delegate :bcc, to: :organisation
   delegate :locale, to: :booking
+  attribute :context
 
-  before_validation :resolve_markdown_template, :apply_markdown_template
   before_validation do
     self.to = to.presence || resolve_addressed_to
+    self.markdown_template ||= resolve_markdown_template
   end
 
   def markdown
@@ -80,8 +81,7 @@ class Notification < ApplicationRecord
   def resolve_markdown_template
     return if from_template.blank? || organisation.blank? || booking.blank?
 
-    self.markdown_template = organisation.markdown_templates.by_key(from_template, locale: locale)
-    # self.markdown_template = organisation.markdown_templates.notification.by_key(from_template, locale: locale)
+    organisation.markdown_templates.by_key(from_template, locale: locale)
   end
 
   def locale
@@ -90,13 +90,16 @@ class Notification < ApplicationRecord
       I18n.locale
   end
 
-  def apply_markdown_template
-    return false if markdown_template.blank?
-
-    context = { 'booking' => booking }
+  def markdown_template=(markdown_template)
+    super
+    return unless markdown_template.is_a?(MarkdownTemplate)
 
     self.subject = markdown_template.interpolate_title(context)
     self.markdown = markdown_template.interpolate(context)
+  end
+
+  def context
+    super || { 'booking' => booking }
   end
 
   protected

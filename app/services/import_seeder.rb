@@ -9,27 +9,29 @@ class ImportSeeder
     development: Rails.root.join('db/seeds/development.json')
   }.freeze
 
-  def seed(set = Rails.env.to_sym, password: 'heimverwaltung', email: 'admin@heimv.local')
+  def seed(set = Rails.env.to_sym)
     return unless FILES[set]
 
-    role = set == :development ? :admin : :manager
     import_data = JSON.parse(File.read(FILES[set]))
-    truncate
+    truncate && reset_pk_sequence!
     organisation = Import::OrganisationImporter.new(Organisation.new, replace: true).import(import_data)
-    User.create!(role: role, password: password, email: email, organisation: organisation)
-    reset_pk_sequence!
+    users(organisation)
     bookings(organisation.homes.first)
   end
 
   private
 
+  def users(organisation, users: nil)
+    users ||= [
+      { email: 'admin@heimv.local', role: :admin, password: 'heimverwaltung' },
+      { email: 'manager@heimv.local', role: :manager, password: 'heimverwaltung' }
+    ]
+
+    users.map { |user| User.create!(user.merge(organisation: organisation)) }
+  end
+
   def bookings(home)
-    FactoryBot.create_list(:booking, 3, home: home, initial_state: :open_request)
-    # FactoryBot.create_list(:booking, 1, home: home, initial_state: :provisional_request)
-    # FactoryBot.create_list(:booking, 2, home: home, initial_state: :defintive_request)
-    # FactoryBot.create_list(:booking, 1, home: home, initial_state: :awaiting_contract).each do |booking|
-    #   booking.contracts.create
-    # end
+    FactoryBot.create_list(:booking, 3, home: home, initial_state: :open_request, notifications_enabled: true)
   end
 
   def truncate

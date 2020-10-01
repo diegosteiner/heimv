@@ -26,6 +26,9 @@ de:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis
     models:
+      occupancy_calendar:
+        one: Belegungsplan
+        other: Belegungspläne
       payment_info:
         one: Zahlungsteil
         other: Zahlungsteile
@@ -124,8 +127,10 @@ de:
         type: Positionsart
       markdown_template:
         body: Text
+        home_id: Heim
         key: ID
         locale: Sprache
+        namespace: Bereich
         title: Titel
       meter_reading_period:
         begins_at: Beginn
@@ -169,6 +174,7 @@ de:
         terms_pdf: AGB
       payment:
         amount: Betrag
+        confirm: Zahlungsbestätigung automatisch verschicken
         invoice_id: Rechnung
         paid_at: Bezahlt am
         remarks: Bemerkungen
@@ -208,6 +214,11 @@ de:
         price: Preis
         remarks: Bemerkungen
         used_units: Verbrauch
+      user:
+        email: Email
+        password: Passwort
+        password_confirmation: Passwort wiederholen
+        role: Rolle
     back: Zurück
     confirm: Sind Sie sicher?
     destroy: Löschen
@@ -235,6 +246,11 @@ de:
           next_year: Nächstes Jahr
           this_year: Dieses Jahr
           until_now: Bis heute
+      markdown_template:
+        namespace:
+          contract: Vertrag
+          invoice: Rechnung
+          notification: Benachrichtigung
       occupancy:
         occupancy_type:
           closed: Geschlossen
@@ -247,6 +263,11 @@ de:
           headcount: "# Personen"
           headcount_nights: Übernachtungen
           nights: Nächte
+      user:
+        role:
+          admin: Admin
+          manager: Verwaltung
+          user: Benutzer
     errors:
       models:
         booking:
@@ -338,8 +359,8 @@ de:
         one: Zählerstand
         other: Zählerstände
       notification:
-        one: Nachricht
-        other: Nachrichten
+        one: Benachrichtigung
+        other: Benachrichtigungen
       occupancy:
         one: Belegung
         other: Belegungen
@@ -385,6 +406,9 @@ de:
       usage:
         one: Verbrauch
         other: Verbrauch
+      user:
+        one: Benutzer
+        other: Benutzer
   add_record: "%{model_name} hinzufügen"
   back: Zurück
   booking_strategies:
@@ -1778,6 +1802,9 @@ de:
       edit:
         deliver: Speichern und nochmals versenden
   nav:
+    admin: Admin
+    edit_account: Account
+    manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
@@ -1901,6 +1928,6 @@ de:
       short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"
   titles:
-    application: HeimV – %{organisation}
+    application: HeimV %{organisation}
   unauthorized: Sie haben keine Berechtigung für diese Seite. Bitte loggen Sie sich ein
   until: bis
