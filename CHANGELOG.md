@@ -4,6 +4,7 @@
 
 - Update dependencies
 - Improve multi organisation support
+- Add namespace support for templates
 
 ## 20.9.1
 

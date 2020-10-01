@@ -7,10 +7,8 @@ module Manage
 
     def index
       @markdown_templates = @markdown_templates.order(key: :ASC)
-      respond_to do |format|
-        format.html
-        # format.json { render json: @markdown_templates }
-      end
+      @markdown_templates = @markdown_templates.where(namespace: params[:namespace]) if params[:namespace]
+      @markdown_templates = @markdown_templates.where(home_id: params[:home_id]) if params[:home_id]
     end
 
     def show
@@ -21,10 +19,10 @@ module Manage
       respond_with :manage, @markdown_template
     end
 
-    def create_missing
-      respond_with :manage, MarkdownTemplate.create_missing(current_organisation),
-                   location: manage_markdown_templates_path
-    end
+    # def create_missing
+    #   respond_with :manage, MarkdownTemplate.create_missing(current_organisation),
+    #                location: manage_markdown_templates_path
+    # end
 
     def create
       @markdown_template.organisation = current_organisation

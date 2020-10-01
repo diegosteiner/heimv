@@ -52,20 +52,20 @@ RSpec.describe Notification, type: :model do
     let(:booking) { create(:booking, locale: I18n.locale) }
 
     context 'with template available' do
-      subject(:new_message) { booking.notifications.new(from_template: template.key) }
+      subject(:new_notification) { booking.notifications.new(from_template: template.key) }
       it do
-        expect(new_message.save).to be true
-        expect(new_message.markdown_template).to eq(template)
-        expect(new_message.body).to eq(template.body)
-        expect(new_message.subject).to eq(template.title)
+        expect(new_notification.save).to be true
+        expect(new_notification.markdown_template).to eq(template)
+        expect(new_notification.body).to eq(template.body)
+        expect(new_notification.subject).to eq(template.title)
       end
     end
 
     context 'without template available' do
       it do
-        new_message = booking.notifications.new(from_template: :nonexistent)
-        expect(new_message.markdown_template).to be(nil)
-        expect(new_message).not_to be_deliverable
+        new_notification = booking.notifications.new(from_template: :nonexistent)
+        expect(new_notification.markdown_template).to be(nil)
+        expect(new_notification).not_to be_deliverable
       end
     end
   end

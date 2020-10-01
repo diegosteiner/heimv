@@ -3,34 +3,34 @@
 module BookingStrategies
   class Default < BookingStrategy
     MARKDOWN_TEMPLATE_KEYS = %i[
-      open_request_message
-      awaiting_contract_message
-      provisional_request_message
-      overdue_request_message
-      definitive_request_message
+      open_request
+      awaiting_contract
+      provisional_request
+      overdue_request
+      definitive_request
       manage_new_booking_mail
-      upcoming_message
+      upcoming
       invoices_deposit_text
       invoices_invoice_text
       invoices_late_notice_text
-      payment_due_message
-      payment_overdue_message
+      payment_due
+      payment_overdue
       contract_text
-      contract_signed_message
-      deposits_paid_message
-      booking_agent_request_message
-      cancelled_message
-      cancelled_request_message
-      declined_request_message
-      booking_agent_cancelled_message
-      awaiting_tenant_message
-      unconfirmed_request_message
-      booking_agent_request_accepted_message deposit_paid_message invoice_paid_message
+      contract_signed
+      deposits_paid
+      booking_agent_request
+      cancelled
+      cancelled_request
+      declined_request
+      booking_agent_cancelled
+      awaiting_tenant
+      unconfirmed_request
+      booking_agent_request_accepted deposit_paid invoice_paid
       foreign_payment_info_text
-      payment_message
-      contract_signed_message
+      payment
+      contract_signed
       offer_text
-      overdue_message
+      overdue
     ].freeze
 
     def public_actions

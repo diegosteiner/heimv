@@ -31,14 +31,13 @@
 require 'rails_helper'
 
 RSpec.describe MarkdownTemplate, type: :model do
-  describe 'by_key' do 
+  describe 'by_key' do
     let(:key) { template.key }
     let(:template) { create(:markdown_template, namespace: :notification, key: 'test123', locale: I18n.locale) }
     let(:organisation) { template.organisation }
 
-    it do 
+    it do
       expect(organisation.markdown_templates.notification.by_key!(key, locale: I18n.locale)).to eq(template)
     end
-
   end
 end
