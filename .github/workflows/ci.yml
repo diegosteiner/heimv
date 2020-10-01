@@ -76,10 +76,10 @@ jobs:
 
     - name: Tag image
       if: success()
-      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
+      run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${github.ref}
 
     - name: Push to docker hub :latest
-      if: success()
+      if: success() && !github.base_ref
       uses: actions-hub/docker@master
       with:
-        args: push docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
+        args: push docker.pkg.github.com/diegosteiner/heimv/heimv:${github.ref}
