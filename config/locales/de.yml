@@ -26,6 +26,9 @@ de:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis
     models:
+      occupancy_calendar:
+        one: Belegungsplan
+        other: Belegungspläne
       payment_info:
         one: Zahlungsteil
         other: Zahlungsteile
