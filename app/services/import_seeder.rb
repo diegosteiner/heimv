@@ -9,21 +9,26 @@ class ImportSeeder
     development: Rails.root.join('db/seeds/development.json')
   }.freeze
 
-  def seed(set = Rails.env.to_sym, password: 'heimverwaltung')
+  def seed(set = Rails.env.to_sym)
     return unless FILES[set]
 
     import_data = JSON.parse(File.read(FILES[set]))
-    truncate
+    truncate && reset_pk_sequence!
     organisation = Import::OrganisationImporter.new(Organisation.new, replace: true).import(import_data)
-
-    User.create!(role: :admin, password: password, email: 'admin@heimv.local')
-    User.create!(role: :manager, password: password, email: 'manager@heimv.local', organisation: organisation)
-
-    reset_pk_sequence!
+    users(organisation)
     bookings(organisation.homes.first)
   end
 
   private
+
+  def users(organisation, users: nil)
+    users ||= [
+      { email: 'admin@heimv.local', role: :admin, password: 'heimverwaltung' },
+      { email: 'manager@heimv.local', role: :manager, password: 'heimverwaltung' }
+    ]
+
+    users.map { |user| User.create!(user.merge(organisation: organisation)) }
+  end
 
   def bookings(home)
     FactoryBot.create_list(:booking, 3, home: home, initial_state: :open_request, notifications_enabled: true)
