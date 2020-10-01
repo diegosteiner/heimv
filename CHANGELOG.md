@@ -7,6 +7,7 @@
 - Update dependencies
 - Improve multi organisation support
 - Add namespace support for templates
+- Improve user management
 
 ## [20.9.1] 2020-09-04
 

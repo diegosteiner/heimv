@@ -1,0 +1,18 @@
+.row.justify-content-center
+  .col-md-6
+    .card 
+      .card-body
+        = render 'form'
+          = form_with(model: [:manage, @user], local: true) do |f|
+            - if @user.errors.any?
+              .alert.alert-danger.pt-4
+                = f.error_summary
+
+            fieldset
+              = f.email_field :email
+              = f.select :role, allowed_roles.map { |role| [User.human_enum(:role, role), role] }
+
+            .form-actions.pt-4.mt-3.border-top
+              = f.submit
+              =<> link_to t(:back), manage_users_path, class: 'btn btn-default'
+

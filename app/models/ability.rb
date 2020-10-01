@@ -51,6 +51,8 @@ module Ability
       can :manage, Payment, booking: { organisation: organisation }
       can :manage, Deadline, booking: { organisation: organisation }
       can :manage, Usage, booking: { organisation: organisation }
+      # can :manage, User, organisation: organisation
+      cannot :manage, User, role: :admin
       can :manage, Notification, booking: { organisation: organisation }
       can %i[read edit update], Organisation, id: organisation.id
     end

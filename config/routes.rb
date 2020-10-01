@@ -27,6 +27,7 @@ Rails.application.routes.draw do
         end
       end
       resource :organisation, only: %i[edit update show]
+      resources :users, except: %i[show]
       resources :data_digests do
         get '/period', on: :member, action: :period, as: :period
       end

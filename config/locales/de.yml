@@ -214,6 +214,11 @@ de:
         price: Preis
         remarks: Bemerkungen
         used_units: Verbrauch
+      user:
+        email: Email
+        password: Passwort
+        password_confirmation: Passwort wiederholen
+        role: Rolle
     back: Zurück
     confirm: Sind Sie sicher?
     destroy: Löschen
@@ -258,6 +263,11 @@ de:
           headcount: "# Personen"
           headcount_nights: Übernachtungen
           nights: Nächte
+      user:
+        role:
+          admin: Admin
+          manager: Verwaltung
+          user: Benutzer
     errors:
       models:
         booking:
@@ -396,6 +406,9 @@ de:
       usage:
         one: Verbrauch
         other: Verbrauch
+      user:
+        one: Benutzer
+        other: Benutzer
   add_record: "%{model_name} hinzufügen"
   back: Zurück
   booking_strategies:
@@ -1789,6 +1802,9 @@ de:
       edit:
         deliver: Speichern und nochmals versenden
   nav:
+    admin: Admin
+    edit_account: Account
+    manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.

@@ -5,7 +5,6 @@
         th= User.human_attribute_name(:email)
         th= User.human_attribute_name(:role)
         th
-        th
 
     tbody
       - @users.each do |user|
@@ -14,12 +13,12 @@
             = link_to user.email, admin_user_path(user)
           td
             = user.role
-          td
-            = link_to edit_admin_user_path(user) do
-              span.fa.fa-edit
-          td
-            = link_to admin_user_path(user), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
-              span.fa.fa-trash
+          td.p-1.text-right
+            .btn-group
+              = link_to edit_admin_user_path(user), class: 'btn btn-default'
+                span.fa.fa-edit
+              = link_to admin_user_path(user), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn default'
+                span.fa.fa-trash
 
   '
   = link_to t('add_record', model_name: User.model_name.human), new_admin_user_path, class: 'btn btn-primary'
