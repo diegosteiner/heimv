@@ -24,12 +24,7 @@ class ImportSeeder
   private
 
   def bookings(home)
-    FactoryBot.create_list(:booking, 3, home: home, initial_state: :open_request)
-    # FactoryBot.create_list(:booking, 1, home: home, initial_state: :provisional_request)
-    # FactoryBot.create_list(:booking, 2, home: home, initial_state: :defintive_request)
-    # FactoryBot.create_list(:booking, 1, home: home, initial_state: :awaiting_contract).each do |booking|
-    #   booking.contracts.create
-    # end
+    FactoryBot.create_list(:booking, 3, home: home, initial_state: :open_request, notifications_enabled: true)
   end
 
   def truncate

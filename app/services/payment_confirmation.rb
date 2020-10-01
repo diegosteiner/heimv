@@ -8,12 +8,14 @@ class PaymentConfirmation
     @payment = payment
   end
 
+  def notification
+    context = { 'booking' => booking, 'payment' => @payment }
+    @notification ||= booking.notifications.new(from_template: :payment,
+                                                addressed_to: :tenant,
+                                                context: context)
+  end
+
   def deliver
-    notification = booking.notifications.new(from_template: :payment_message, addressed_to: :tenant)
-
-    return false unless notification.valid?
-
-    notification.markdown = notification.markdown_template&.interpolate('booking' => booking, 'payment' => @payment)
     notification.deliver!
   end
 end

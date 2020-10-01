@@ -119,9 +119,9 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def check_booking
-    expected_notifications = %w[payment_due_message payment_message upcoming_message awaiting_contract_message
-                                definitive_request_message provisional_request_message open_request_message
-                                manage_new_booking_mail unconfirmed_request_message]
+    expected_notifications = %w[payment_due payment upcoming awaiting_contract
+                                definitive_request provisional_request open_request
+                                manage_new_booking_mail unconfirmed_request]
     expected_transitions = %w[unconfirmed_request open_request provisional_request definitive_request
                               awaiting_contract upcoming upcoming_soon active past payment_due completed]
     # booking.reload
