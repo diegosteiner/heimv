@@ -1,17 +1,9 @@
 nav#navbar-top.navbar.fixed-top.navbar-light.navbar-expand-lg
-  = link_to root_path, class: 'navbar-brand' do
+  = link_to default_path, class: 'navbar-brand' do
     = image_tag asset_pack_path('images/logo.svg'), class: "d-inline-block align-top", width: 90
     
   - if current_user.present?
     ul.navbar-nav.ml-auto
-      - if current_user.role_manager?
-        li.nav-item
-          = link_to t(:'nav.manage'), manage_root_path, class: 'nav-link'
-
-      - if current_user.role_admin?
-        li.nav-item
-          = link_to t(:'nav.admin'), admin_root_path, class: 'nav-link'
-
       li.nav-item.dropdown
         a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
           i.fa.fa-user

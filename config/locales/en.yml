@@ -785,9 +785,7 @@ en:
       edit:
         deliver: Deliver
   nav:
-    admin: Admin
     edit_account: Account
-    manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.

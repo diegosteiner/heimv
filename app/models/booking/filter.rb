@@ -37,7 +37,7 @@ class Booking
     filter :ref do |bookings|
       next bookings if ref.blank?
 
-      bookings.where(Booking.arel_table[:ref].matches("%#{ref}%"))
+      bookings.where(Booking.arel_table[:ref].matches("%#{ref.strip}%"))
     end
 
     filter :homes do |bookings|
