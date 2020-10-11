@@ -61,7 +61,7 @@ Rails.application.routes.draw do
     end
 
     scope module: :public do
-      root to: 'pages#home'
+      resource :organisation, only: :show
       get 'download/:slug', to: 'downloads#show', as: :download
       resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
       resources :bookings, only: %i[new create edit update], as: :public_bookings
@@ -73,6 +73,7 @@ Rails.application.routes.draw do
           get '@:date', on: :collection, as: :at, action: :at
         end
       end
+      root to: 'pages#redirect'
     end
   end
 end

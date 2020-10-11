@@ -1,10 +1,10 @@
 
-nav.navbar.bg-white
+nav.navbar.flex-row-reverse
 
   a[href='#filter' data-toggle='collapse' class='btn']
     i.fa.fa-search>
 
-#filter.collapse.bg-white
+#filter.collapse
   .container.py-3
     = form_with(model: @filter, url: manage_bookings_path, scope: '', method: :GET, local: true) do |f|
       = render partial: 'filter_fields', locals: { f: f }

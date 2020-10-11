@@ -159,7 +159,8 @@ class Booking < ApplicationRecord
   private
 
   def reject_tentant_attributes?(tenant_attributes)
-    tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).values.all?(&:blank?)
+    tenant_id_changed? && tenant_id_was.present? ||
+      tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).values.all?(&:blank?)
   end
 
   def reject_occupancy_attributes?(occupancy_attributes)

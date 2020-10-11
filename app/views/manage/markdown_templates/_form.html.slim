@@ -1,9 +1,11 @@
 = form_with(model: [:manage, @markdown_template], local: true) do |f|
 
   fieldset
-    = f.text_field :key
-    = f.select :locale, I18n.available_locales.map { |l| [l, l] }
-    = f.select :namespace, MarkdownTemplate.namespaces.map { |name, _value| [MarkdownTemplate.human_enum(:namespace, name), name] }, { include_blank: true }
+    .row
+      .col= f.select :namespace, MarkdownTemplate.namespaces.map { |name, _value| [MarkdownTemplate.human_enum(:namespace, name), name] }, { include_blank: true }
+      .col= f.text_field :key
+      .col= f.select :locale, I18n.available_locales.map { |l| [l, l] }
+    = f.collection_select :home_id, current_organisation.homes, :id, :name, { include_blank: true }
     = f.text_field :title
     div[v-pre]= f.text_area :body, rows: 15
 

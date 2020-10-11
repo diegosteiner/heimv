@@ -1,5 +1,5 @@
 {
-  "name": "Heimverein Development",
+  "name": "Heimverein Demo",
   "email": "test@heimv.ch",
   "address": "Verein Pfadiheime Demo\r\nHeimverwaltung\r\n\r\n8000 Zürich",
   "booking_ref_strategy_type": "RefStrategies::DefaultBookingRef",

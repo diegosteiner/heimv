@@ -4,4 +4,4 @@ section.breakout-sm
   = render partial: 'table', locals: { tarifs: @tarifs }
   br
   = link_to new_manage_home_tarif_path(@home), class: 'btn btn-primary'
-    | Neuen Tarif anlegen
+    = t(:add_record, model_name: Tarif.model_name.human

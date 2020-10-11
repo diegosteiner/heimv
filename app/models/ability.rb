@@ -65,6 +65,7 @@ module Ability
       can %i[create read update], Booking
       can %i[create read update], Tenant
       can %i[read index], Home, requests_allowed: true
+      can %i[read], Organisation
       can %i[read index embed calendar at], Occupancy, home: { requests_allowed: true }
     end
 

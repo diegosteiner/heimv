@@ -4,8 +4,9 @@ import $ from 'jquery'
 import Rails from 'rails-ujs'
 import Forms from 'src/forms'
 import '../services/i18n'
-
 import 'bootstrap/dist/js/bootstrap.bundle'
+
+require.context('../images', true)
 
 window.jQuery = $;
 window.$ = $;

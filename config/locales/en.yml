@@ -753,6 +753,7 @@ en:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
         update:
           notice: Deine Reservationsanfrage wurde gespeichert. Du kannst das Browserfenster schliessen.
+  generated: Generated
   helpers:
     select:
       prompt: Please select
@@ -777,17 +778,11 @@ en:
         table:
           save: Save %{model_name}
           save_and_continue: Save and continue
-    markdown_templates:
-      index:
-        create_missing_templates: Create missing templates
-        missing_templates: "%{count} Missing templates"
     notifications:
       edit:
         deliver: Deliver
   nav:
-    admin: Admin
     edit_account: Account
-    manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.

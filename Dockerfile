@@ -1,5 +1,5 @@
 ### === base === ###                 
-FROM ruby:2.7.1-alpine AS base
+FROM ruby:2.7.2-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata nodejs
 RUN gem install bundler
 

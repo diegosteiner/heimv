@@ -5,12 +5,12 @@ class ApplicationController < ActionController::Base
   respond_to :html, :json
 
   protect_from_forgery with: :exception
-  rescue_from CanCan::AccessDenied, with: :unauthorized
+  # rescue_from CanCan::AccessDenied, with: :unauthorized unless Rails.env.development?
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
 
   default_form_builder BootstrapForm::FormBuilder
   before_action :set_raven_context
-  helper_method :current_organisation
+  helper_method :current_organisation, :default_path
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
   end
@@ -34,6 +34,15 @@ class ApplicationController < ActionController::Base
 
   def current_organisation
     nil
+  end
+
+  def default_path
+    return manage_root_path if current_user&.role_manager?
+    return admin_root_path if current_user&.role_admin?
+    return organisation_path if current_organisation
+    return new_user_session_path if current_user.blank?
+
+    raise ActionController::RoutingError
   end
 
   def set_raven_context

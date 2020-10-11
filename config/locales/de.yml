@@ -1770,6 +1770,7 @@ de:
           notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte deine Email-Addresse.
         update:
           notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
+  generated: wird automatisch generiert
   helpers:
     select:
       prompt: Bitte wählen
@@ -1794,17 +1795,11 @@ de:
         table:
           save: "%{model_name} speichern"
           save_and_continue: Speichern und Rechnung erstellen
-    markdown_templates:
-      index:
-        create_missing_templates: Textvorlagen jetzt erstellen
-        missing_templates: "%{count} fehlende Textvorlagen."
     notifications:
       edit:
         deliver: Speichern und nochmals versenden
   nav:
-    admin: Admin
     edit_account: Account
-    manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
