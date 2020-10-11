@@ -33,7 +33,7 @@ module Export
           end
 
           def render_background
-            img = Rails.root.join('app/webpack/images/esr_orange.png')
+            img = Rails.root.join('app/webpack/images/esr_simplified.png')
             image img, width: 595, height: HEIGHT, vposition: -4
           end
 
@@ -87,7 +87,7 @@ module Export
           end
 
           def render_esr_ref
-            bounding_box([354, 204], width: 230, height: 10) do
+            bounding_box([354, 200], width: 230, height: 10) do
               font('ocr', size: 10) do
                 text payment_info.formatted_ref
               end
