@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+- Improve MarkdownTemplate overview
+- Allow managers to change tenant on booking
+- Remove automatic decline when awaiting_tenant
+
 ## [20.10.1] - 2020-10-01
 
 - Improve user management

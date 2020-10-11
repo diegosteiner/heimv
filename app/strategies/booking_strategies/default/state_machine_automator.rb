@@ -27,11 +27,14 @@ module BookingStrategies
 
       automatic_transition(from: :unconfirmed_request,   to: :declined_request, &:deadline_exceeded?)
       automatic_transition(from: :provisional_request,   to: :overdue_request, &:deadline_exceeded?)
-      automatic_transition(from: :overdue_request,       to: :declined_request, &:deadline_exceeded?)
       automatic_transition(from: :awaiting_contract,     to: :overdue, &:deadline_exceeded?)
       automatic_transition(from: :payment_due,           to: :payment_overdue, &:deadline_exceeded?)
       automatic_transition(from: :booking_agent_request, to: :cancelled_request, &:deadline_exceeded?)
       automatic_transition(from: :awaiting_tenant,       to: :overdue_request, &:deadline_exceeded?)
+
+      automatic_transition(from: :overdue_request, to: :declined_request) do |booking|
+        booking.deadline_exceeded? && !booking.agent_booking?
+      end
 
       automatic_transition(from: :upcoming, to: :upcoming_soon) do |booking|
         14.days.from_now > booking.occupancy.begins_at
