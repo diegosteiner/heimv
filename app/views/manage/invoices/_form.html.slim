@@ -3,10 +3,10 @@
   fieldset[v-pre]
     = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, include_blank: true
     = f.hidden_field :booking_id
-    = f.text_field :ref, help: "Automatisch generiert"
+    = f.text_field :ref, help: t('generated')
     = f.text_area :text
-    = f.date_field :issued_at, lang: I18n.locale
-    = f.date_field :sent_at, lang: I18n.locale
+    = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
+    = f.date_field :sent_at, lang: I18n.locale, help: t('optional')
     = f.date_field :payable_until, lang: I18n.locale
     = f.collection_select :payment_info_type, PaymentInfos::TYPES.values, :to_s, :human_model_name, include_blank: true
 

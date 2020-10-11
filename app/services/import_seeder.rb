@@ -12,11 +12,12 @@ class ImportSeeder
   def seed(set = Rails.env.to_sym)
     return unless FILES[set]
 
+    truncate
     import_data = JSON.parse(File.read(FILES[set]))
-    truncate && reset_pk_sequence!
     organisation = Import::OrganisationImporter.new(Organisation.new, replace: true).import(import_data)
     users(organisation)
     bookings(organisation.homes.first)
+    reset_pk_sequence!
   end
 
   private
