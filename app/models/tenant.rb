@@ -43,7 +43,7 @@ class Tenant < ApplicationRecord
   validates :birth_date, presence: true, on: :public_update
   validates :phone, presence: true, length: { minimum: 10 }, on: :public_update
 
-  scope :ordered, -> { order(last_name: :ASC) }
+  scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
 
   attribute :country, default: 'CH'
 

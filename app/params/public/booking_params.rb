@@ -4,7 +4,7 @@ module Public
   module BookingParams
     class Update < ApplicationParams
       def self.permitted_keys
-        [:tenant_organisation, :cancellation_reason, :invoice_address, :email,
+        [:tenant_organisation, :cancellation_reason, :invoice_address, :email, :locale,
          :committed_request, :purpose, :approximate_headcount, :remarks,
          tenant_attributes: TenantParams.permitted_keys.without(:email),
          deadlines_attributes: %i[id postpone],
