@@ -42,6 +42,7 @@
         "eslint": "^7.11.0",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.4",
+        "eslint-plugin-react": "^7.21.5",
         "prettier": "^2.0.5",
         "webpack-bundle-analyzer": "^3.6.0",
         "webpack-dev-server": "^3.10.3"
@@ -52,5 +53,7 @@
     "repository": "git@github.com:diegosteiner/heimverwaltung.git",
     "author": "Diego Steiner <diego.steiner@u041.ch>",
     "license": "MIT",
-    "scripts": {"lint": "eslint --ext .js --ext .ts --ext .jsx app/webpack" }
+    "scripts": {
+        "lint": "eslint --ext .js --ext .ts --ext .jsx app/webpack"
+    }
 }
