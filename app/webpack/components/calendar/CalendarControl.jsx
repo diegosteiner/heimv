@@ -32,8 +32,8 @@ const CalendarControl = ({ value = "", name, required = false, disabled = false,
   const defaultHours = getHours(value) || Math.min(...availableHours)
   const defaultMinutes = closestMinutes(getMinutes(value)) || Math.min(...availableMinutes)
   const [state, setState] = useState({ showModal: false, date: value, textDate: (value && formatDate(value) || ""), hours: defaultHours, minutes: defaultMinutes })
-  const setDateValue = (date, prevState = state) => {
-    setState({ ...prevState, date: date, textDate: formatDate(date) });
+  const setDateValue = (date) => {
+    setState(state => ({ ...state, date: date, textDate: formatDate(date) }));
     onChange && onChange(date);
   }
   const setHourValue = hourValue => setDateValue(setHours(state.date, clamp(parseInt(hourValue), Math.min(...availableHours), Math.max(...availableHours))), { ...state, hours: hourValue })
