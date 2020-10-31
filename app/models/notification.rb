@@ -8,6 +8,7 @@
 #  addressed_to         :integer          default("manager"), not null
 #  body                 :text
 #  cc                   :string           default([]), is an Array
+#  queued_for_delivery  :boolean          default(FALSE)
 #  sent_at              :datetime
 #  subject              :string
 #  to                   :string           default([]), is an Array
@@ -28,8 +29,6 @@
 #
 
 class Notification < ApplicationRecord
-  class NotDeliverable < StandardError; end
-
   belongs_to :booking, inverse_of: :notifications
   belongs_to :markdown_template, optional: true
   has_many_attached :attachments
@@ -62,16 +61,14 @@ class Notification < ApplicationRecord
     valid? && organisation.notifications_enabled? && (booking.notifications_enabled? || addressed_to_manager?)
   end
 
-  def deliver
-    deliver!
-  rescue NotDeliverable
-    false
+  def queue_for_delivery
+    deliverable? && update(queued_for_delivery: true)
   end
 
-  def deliver!
-    raise NotDeliverable, from_template unless deliverable?
+  def deliver
+    return save unless deliverable?
 
-    deliver_mail! && update(sent_at: Time.zone.now)
+    queue_for_delivery && invoke_mailer! && update(sent_at: Time.zone.now)
   end
 
   def attachments_for_mail
@@ -111,9 +108,12 @@ class Notification < ApplicationRecord
     [booking.organisation.email]
   end
 
-  def deliver_mail!
+  def invoke_mailer!
     organisation.mailer.mail(to: to, subject: subject, cc: cc, bcc: bcc,
                              body: markdown.to_text, html_body: markdown.to_html,
                              attachments: attachments_for_mail)
+  rescue Net::SMTPFatalError => e
+    Raven.capture_exception(e)
+    false
   end
 end

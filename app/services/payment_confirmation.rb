@@ -3,6 +3,7 @@
 class PaymentConfirmation
   attr_reader :payment
   delegate :booking, to: :payment
+  delegate :deliver, to: :notification
 
   def initialize(payment)
     @payment = payment
@@ -13,9 +14,5 @@ class PaymentConfirmation
     @notification ||= booking.notifications.new(from_template: :payment,
                                                 addressed_to: :tenant,
                                                 context: context)
-  end
-
-  def deliver
-    notification.deliver!
   end
 end
