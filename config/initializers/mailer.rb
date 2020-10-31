@@ -8,10 +8,10 @@ if Rails.env.test?
   }
 else
   ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.smtp_settings = SmtpUrl.from_string(ENV.fetch('SMTP_URL'))
+  ActionMailer::Base.smtp_settings = SmtpConfig.from_string(ENV.fetch('SMTP_URL'))
   Pony.options = {
     from: ENV.fetch('MAIL_FROM', 'test@heimv.local'),
     via: :smtp,
-    via_options: SmtpUrl.from_string(ENV.fetch('SMTP_URL'))
+    via_options: SmtpConfig.from_string(ENV.fetch('SMTP_URL'))
   }
 end
