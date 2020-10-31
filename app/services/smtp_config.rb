@@ -1,7 +1,23 @@
 # frozen_string_literal: true
 
-class SmtpUrl
+class SmtpConfig
   def self.from_string(value)
+    return from_url(value) if value.starts_with?('smtp://')
+
+    from_json(value)
+  end
+
+  def self.from_json(value)
+    {
+      address: nil,
+      user_name: nil,
+      password: nil,
+      port: nil,
+      method: :smtp
+    }.merge(JSON.parse(value, symbolize_names: true))
+  end
+
+  def self.from_url(value)
     URI(value).instance_eval do
       options = URI.decode_www_form(query || '').to_h
       {

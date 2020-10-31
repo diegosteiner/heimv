@@ -26,7 +26,7 @@ module Manage
 
     def update
       @notification.update(notification_params)
-      @notification.deliver! if @notification.valid? && params[:deliver].present?
+      @notification.deliver if @notification.valid? && params[:deliver].present?
       respond_with :manage, @notification, location: manage_notification_path(@notification)
     end
 

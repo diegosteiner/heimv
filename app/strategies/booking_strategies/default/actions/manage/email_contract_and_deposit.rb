@@ -10,7 +10,7 @@ module BookingStrategies
             # return false unless notification.valid?
 
             notification.attachments.attach(extract_attachments(booking.home, deposits, contract))
-            notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver!
+            notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver
           end
 
           def allowed?

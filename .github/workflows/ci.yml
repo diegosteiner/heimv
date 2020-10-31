@@ -12,14 +12,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-
     - uses: actions/cache@master
       with:
         path: vendor
         key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gems-
-
     - uses: actions/cache@master
       with:
         path: node_modules
@@ -27,7 +25,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-npm-${{ env.cache-name }}-
           ${{ runner.os }}-npm-
-            
     - run: mkdir -p vendor/cache node_modules
 
     - name: Build test container
@@ -55,19 +52,13 @@ jobs:
       if: success()
       run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/e2e
 
-    # - name: Save logs
-    #   if: failure()
-    #   run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml logs e2e_target > /tmp/e2e_target.log; sudo mv /tmp/e2e_target.log ./tmp/
-
-    - name: Upload tmp
-      uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@master
       if: failure()
       with:
         name: screenshots
         path: tmp
 
-    - name: Login to docker hub
-      uses: actions-hub/docker/login@master
+    - uses: actions-hub/docker/login@master
       if: success()
       env:
         DOCKER_USERNAME: ${{ github.actor }}

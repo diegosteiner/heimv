@@ -6,4 +6,5 @@ bundle exec bundle-audit --update || exit 1
 bundle exec brakeman -q -z --summary -c ./config/brakeman.yml > /dev/null
 bundle exec i18n-tasks health || exit 1
 bin/rspec ./spec --tag ~@type:feature || exit 1
+# yarn run lint --fix
 

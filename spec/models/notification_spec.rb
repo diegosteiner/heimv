@@ -8,6 +8,7 @@
 #  addressed_to         :integer          default("manager"), not null
 #  body                 :text
 #  cc                   :string           default([]), is an Array
+#  queued_for_delivery  :boolean          default(FALSE)
 #  sent_at              :datetime
 #  subject              :string
 #  to                   :string           default([]), is an Array
