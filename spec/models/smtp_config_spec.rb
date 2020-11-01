@@ -22,10 +22,7 @@ RSpec.describe SmtpConfig, type: :model do
 
     context 'with json' do
       let(:value) do
-        '{
-        "address": "example.com",
-        "port": 587,
-        "user_name": "smtpuser@example.com", "password": "secret"}'
+        '{"address": "example.com","port": 587,"user_name": "smtpuser@example.com", "password": "secret"}'
       end
 
       it {
