@@ -13,9 +13,7 @@ module Manage
       end
 
       def new
-        markdown_template = current_organisation.markdown_templates.by_key(:contract_text, home_id: @booking.home_id) ||
-                            current_organisation.markdown_templates.by_key(:contract_text)
-
+        markdown_template = current_organisation.markdown_templates.by_key(:contract_text, home_id: @booking.home_id)
         @contract.text = markdown_template&.interpolate('booking' => @booking)
         respond_with :manage, @booking, @contract
       end

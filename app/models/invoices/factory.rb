@@ -16,9 +16,9 @@ module Invoices
     end
 
     def markdown_template(invoice)
-      template = "#{invoice.model_name.param_key}_text"
-      invoice.organisation.markdown_templates.by_key(template)
-        &.interpolate('invoice' => invoice, 'booking' => invoice.booking)
+      key = "#{invoice.model_name.param_key}_text"
+      markdown_template = invoice.organisation.markdown_templates.by_key(key, home_id: invoice.booking.home_id)
+      markdown_template&.interpolate('invoice' => invoice, 'booking' => invoice.booking)
     end
 
     def payable_until(invoice)

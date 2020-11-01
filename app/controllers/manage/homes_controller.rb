@@ -23,13 +23,13 @@ module Manage
     def create
       @home.organisation = current_organisation
       @home.update(home_params)
-      @home.house_rules.attach(home_params[:house_rules])
+      @home.house_rules.attach(home_params[:house_rules]) if home_params[:house_rules].present?
       respond_with :manage, @home
     end
 
     def update
       @home.update(home_params)
-      @home.house_rules.attach(home_params[:house_rules])
+      @home.house_rules.attach(home_params[:house_rules]) if home_params[:house_rules].present?
       respond_with :manage, @home, location: params[:return_path]
     end
 

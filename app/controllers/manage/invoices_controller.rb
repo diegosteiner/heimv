@@ -5,11 +5,6 @@ module Manage
     load_and_authorize_resource :booking
     load_and_authorize_resource :invoice, through: :booking, shallow: true
 
-    if defined?(NewRelic)
-      include ::NewRelic::Agent::MethodTracer
-      add_method_tracer :create
-    end
-
     def index
       @invoices = if @booking.present?
                     @booking.invoices
