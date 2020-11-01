@@ -37,7 +37,7 @@ RSpec.describe MarkdownTemplate, type: :model do
     let(:organisation) { template.organisation }
 
     it do
-      expect(organisation.markdown_templates.notification.by_key!(key, locale: I18n.locale)).to eq(template)
+      expect(organisation.markdown_templates.notification.by_key(key, locale: I18n.locale)).to eq(template)
     end
   end
 end

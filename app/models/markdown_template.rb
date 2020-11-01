@@ -29,6 +29,8 @@
 #
 
 class MarkdownTemplate < ApplicationRecord
+  class TemplateMissingError < StandardError; end
+
   belongs_to :organisation
   belongs_to :home, optional: true
   has_many :notifications, inverse_of: :markdown_template, dependent: :nullify
@@ -54,15 +56,18 @@ class MarkdownTemplate < ApplicationRecord
 
   alias % interpolate
 
-  def self.by_key(key, locale: I18n.locale)
-    by_key!(key, locale: locale)
-  rescue ActiveRecord::RecordNotFound
-    Rails.logger.warn("MarkdownTemplate #{key} with locale #{locale} was not found")
-    nil
+  def self.by_key!(key, locale: I18n.locale, **other)
+    find_by({ key: key, locale: locale }.merge(other)) ||
+      find_by({ key: key, locale: locale }) ||
+      find_by({ key: key }) ||
+      raise(TemplateMissingError, "MarkdownTemplate #{key} with locale #{locale} was not found")
   end
 
-  def self.by_key!(key, locale: I18n.locale)
-    find_by!(key: key, locale: locale)
+  def self.by_key(key, locale: I18n.locale, **other)
+    by_key!(key, locale: locale, **other)
+  rescue TemplateMissingError => e
+    defined?(Raven) && Raven.capture_exception(e) || Rails.logger.warn(e.message)
+    nil
   end
 
   def self.create_missing(organisation, locale: (I18n.available_locales - [:en]))

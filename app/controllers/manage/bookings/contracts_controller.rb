@@ -13,14 +13,15 @@ module Manage
       end
 
       def new
-        @contract.text = current_organisation.markdown_templates.by_key(:contract_text)
-          &.interpolate('booking' => @booking)
+        markdown_template = current_organisation.markdown_templates.by_key(:contract_text, home_id: @booking.home_id) ||
+                            current_organisation.markdown_templates.by_key(:contract_text)
+
+        @contract.text = markdown_template&.interpolate('booking' => @booking)
         respond_with :manage, @booking, @contract
       end
 
       def show
         respond_to do |format|
-          # format.html
           format.pdf do
             reditect_to url_for(@contract.pdf)
           end
