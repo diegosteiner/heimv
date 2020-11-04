@@ -28,29 +28,29 @@ jobs:
     - run: mkdir -p vendor/cache node_modules
 
     - name: Build test container
-      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml build e2e_test
+      run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml build e2e_test
       env:
         UID: 0
         GID: 0
 
     - name: Prepare Database
       if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_target bin/rails db:create db:migrate
+      run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_target bin/rails db:create db:migrate
 
     - name: Build and start e2e
       if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d e2e_target
+      run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml up -d e2e_target
       env:
         UID: 0
         GID: 0
 
     - name: Run check
       if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/check
+      run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/check
 
     - name: Run e2e
       if: success()
-      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml run e2e_test bin/e2e
+      run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/e2e
 
     - uses: actions/upload-artifact@master
       if: failure()

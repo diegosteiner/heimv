@@ -1,5 +1,6 @@
 # bundler state
-/.bundle
+.bundle/*
+!.bundle/config
 /vendor/bundle/
 /vendor/ruby/
 /node_modules
