@@ -24,7 +24,11 @@
   "rules": {
     "prettier/prettier": "error",
     "react/jsx-uses-vars": "error",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "max-len": [
+      "error",
+      120
+    ]
   },
   "env": {
     "browser": true,

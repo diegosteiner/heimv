@@ -20,6 +20,7 @@ const formatDate = new Intl.DateTimeFormat('de-CH', {
   day: '2-digit',
 }).format;
 
+
 const initializeValue = (value) => {
   if (isValid(value)) return value;
   value = parseISO(value);
@@ -67,89 +68,85 @@ const CalendarControl = ({
   onBlur,
   isInvalid,
 }) => {
-  value = initializeValue(value);
-  const defaultHours = getHours(value) || Math.min(...availableHours);
-  const defaultMinutes =
-    closestMinutes(getMinutes(value)) || Math.min(...availableMinutes);
-  const [state, setState] = useState({
-    showModal: false,
-    date: value,
-    textDate: (value && formatDate(value)) || '',
-    hours: defaultHours,
-    minutes: defaultMinutes,
-  });
-  const setDateValue = (date) => {
-    setState((state) => ({ ...state, date: date, textDate: formatDate(date) }));
+  value = initializeValue(value)
+  const [showModal, setShowModal] = useState(false)
+  const [dateState, setDateState] = useState(value)
+  const [hourState, setHourState] = useState(getHours(value) || Math.min(...availableHours))
+  const [minuteState, setMinuteState] = useState(closestMinutes(getMinutes(value)) || Math.min(...availableMinutes))
+  const [textState, setTextState] = useState(value && formatDate(value))
+
+  const setDateValue = ({ date, hours, minutes }) => {
+    date = date || dateState
+    date = setHours(date, hours || hourState)
+    date = setMinutes(date, minutes || minuteState)
+    setDateState(date);
+    setHourState(hours || getHours(date))
+    setMinuteState(minutes || getMinutes(date))
+    setTextState(formatDate(date))
     onChange && onChange(date);
   };
-  const setHourValue = (hourValue) =>
-    setDateValue(
-      setHours(
-        state.date,
-        clamp(
-          parseInt(hourValue),
-          Math.min(...availableHours),
-          Math.max(...availableHours),
-        ),
-      ),
-      { ...state, hours: hourValue },
-    );
-  const setMinuteValue = (minuteValue) =>
-    setDateValue(
-      setMinutes(
-        state.date,
-        clamp(
-          parseInt(minuteValue),
-          Math.min(...availableMinutes),
-          Math.max(...availableMinutes),
-        ),
-      ),
-      { ...state, minutes: minuteValue },
-    );
 
-  const handleClose = () => setState({ ...state, showModal: false });
-  const handleShow = () => setState({ ...state, showModal: true });
+  const setHourValue = (value) => {
+    setDateValue({
+      hours: clamp(
+        parseInt(value),
+        Math.min(...availableHours),
+        Math.max(...availableHours),
+      )
+    });
+  }
+
+  const setMinuteValue = (value) =>
+    setDateValue({
+      minutes: clamp(
+        parseInt(value),
+        Math.min(...availableMinutes),
+        Math.max(...availableMinutes),
+      ),
+    });
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
   const handleClick = (event) => {
     if (disabled) return;
-    let parsedValue = parseISO(event.target.value);
+
+    const parsedValue = parseISO(event.target.value);
     if (!isValid(parsedValue)) return;
 
-    parsedValue = setHours(parsedValue, state.hours);
-    parsedValue = setMinutes(parsedValue, state.minutes);
-    setDateValue(parsedValue, { ...state, showModal: false });
+    setDateValue({ date: parsedValue });
+    setShowModal(false)
   };
-  const handleHourChange = (event) => setHourValue(event.target.value);
-  const handleMinuteChange = (event) => setMinuteValue(event.target.value);
-  const handleDateChange = (event) => {
+
+  const handleTextChange = (event) => {
     if (disabled) return;
-    setState({ ...state, textDate: event.target.value });
-    let parsedValue = parse(event.target.value, 'dd.MM.yyyy', new Date());
-    if (!isValid(parsedValue)) return;
 
-    parsedValue = setHours(parsedValue, state.hours);
-    parsedValue = setMinutes(parsedValue, state.minutes);
-    setDateValue(parsedValue, state);
+    const parsedValue = parse(event.target.value, 'dd.MM.yyyy', new Date());
+    if (isValid(parsedValue)) {
+      setDateValue({ date: parsedValue })
+    } else {
+      setTextState(formatDate(dateState))
+    }
+    onBlur && onBlur()
   };
 
-  const disableCallback = (date) => !state.showModal || date <= new Date();
-  const classNameCallback = (date) =>
-    isSameDay(date, state.date) && ['bg-primary', 'text-white'];
+  const disableCallback = (date) => !showModal || date <= new Date();
+  const classNameCallback = (date) => isSameDay(date, dateState) && ['bg-primary', 'text-white'];
 
   return (
     <div className={isInvalid && 'is-invalid'}>
       <input
         type="hidden"
         name={name}
-        value={(state.date && formatISO(state.date)) || ''}
+        value={(dateState && formatISO(dateState)) || ''}
       />
       <Row>
         <Col>
           <InputGroup>
             <Form.Control
-              onBlur={onBlur}
+              onBlur={handleTextChange}
               disabled={disabled}
-              value={state.textDate}
-              onChange={handleDateChange}
+              value={textState}
+              onChange={e => setTextState(e.target.value)}
               isInvalid={isInvalid}
               required={required}
             />
@@ -166,10 +163,10 @@ const CalendarControl = ({
         </Col>
         <Col sm={6} className="d-flex">
           <Form.Control
-            value={state.hours}
+            value={hourState}
             onBlur={onBlur}
             className="d-inline-block w-auto"
-            onChange={handleHourChange}
+            onChange={e => setHourValue(e.target.value)}
             isInvalid={isInvalid}
             disabled={disabled}
             required={required}
@@ -186,10 +183,10 @@ const CalendarControl = ({
             ))}
           </Form.Control>
           <Form.Control
-            value={state.minutes}
+            value={minuteState}
             onBlur={onBlur}
             className="d-inline-block w-auto"
-            onChange={handleMinuteChange}
+            onChange={e => setMinuteValue(e.target.value)}
             isInvalid={isInvalid}
             disabled={disabled}
             required={required}
@@ -203,9 +200,9 @@ const CalendarControl = ({
           </Form.Control>
         </Col>
       </Row>
-      <Modal size="lg" show={state.showModal} onHide={handleClose}>
+      <Modal size="lg" show={showModal} onHide={handleClose}>
         <Modal.Body>
-          <Calendar firstMonth={state.date || new Date()}>
+          <Calendar firstMonth={dateState || new Date()}>
             <OccupancyCalendarDay
               onClick={handleClick}
               classNameCallback={classNameCallback}
