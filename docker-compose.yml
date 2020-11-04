@@ -2,7 +2,7 @@ version: '3.7'
 services:
   app: &app
     build:
-      context: .
+      context: ..
       target: development
       args:
         UID: ${UID}
@@ -12,7 +12,7 @@ services:
     ports:
       - '3000:3000'
     entrypoint: ['.docker/entrypoints/app.sh']
-    command: ['bin/rails', 's', '-b', '0.0.0.0']
+    command: ['bin/rails', 's']
     environment:
       APP_HOST: ${APP_HOST:-heimv.localhost:3000}
       E2E_SERVER_PORT: '3001'
@@ -20,7 +20,7 @@ services:
       SELENIUM_HOST: 'selenium:4444'
       WEBPACKER_DEV_SERVER_HOST: webpack
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
-      RUBYOPT: '-W:no-deprecated -W:no-experimental'
+      # RUBYOPT: '-W:no-deprecated -W:no-experimental'
       SMTP_URL: 'smtp://mail'
       MAIL_FROM: 'no-reply@heimverwaltung.localhost'
     depends_on:
