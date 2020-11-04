@@ -3,7 +3,7 @@ services:
 
   e2e_test:
     build:
-      context: ..
+      context: .
       target: development
       args:
         UID: ${UID}
@@ -30,7 +30,7 @@ services:
       selenium:
 
   e2e_target:
-    build: ..
+    build: .
     image: heimv:latest
     ports:
       - '3002:3002'
