@@ -53,17 +53,6 @@ module BookingStrategies
       @manage_actions ||= actions.index_by(&:action_name)
     end
 
-    def booking_states
-      states = [
-        States::CancelledRequest, States::DeclinedRequest, States::BookingAgentRequest, States::AwaitingTenant,
-        States::UnconfirmedRequest, States::OpenRequest, States::ProvisionalRequest, States::DefinitiveRequest,
-        States::OverdueRequest, States::Cancelled, States::AwaitingContract, States::Upcoming, States::Overdue,
-        States::Active, States::Past, States::PaymentDue, States::PaymentOverdue, States::Completed,
-        States::CancelationPending, States::UpcomingSoon, States::Initial
-      ]
-      @booking_states ||= states.index_by(&:to_sym)
-    end
-
     def displayed_booking_states
       %i[unconfirmed_request open_request booking_agent_request awaiting_tenant overdue_request provisional_request
          definitive_request overdue awaiting_contract upcoming_soon active past payment_due payment_overdue

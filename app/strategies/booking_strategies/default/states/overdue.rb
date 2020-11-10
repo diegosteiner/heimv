@@ -16,6 +16,19 @@ module BookingStrategies
           :overdue
         end
 
+        def self.successors
+          %i[cancelation_pending upcoming]
+        end
+
+        after_transition do |booking, transition|
+          booking.occupancy.occupied!
+          booking.notifications.new(from_template: transition.to_state.to_s, addressed_to: :tenant)&.deliver
+        end
+
+        infer_transition(to: :upcoming) do |booking|
+          booking.contracts.signed.any? && Invoices::Deposit.of(booking).relevant.all?(&:paid)
+        end
+
         def relevant_time
           booking.deadline&.at
         end

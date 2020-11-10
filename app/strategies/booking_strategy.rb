@@ -13,7 +13,7 @@ class BookingStrategy
   end
 
   def booking_states
-    []
+    state_machine.state_classes
   end
 
   def state_machine

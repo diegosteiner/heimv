@@ -16,6 +16,14 @@ module BookingStrategies
           :past
         end
 
+        def self.successors
+          %i[completed payment_due]
+        end
+
+        infer_transition(to: :payment_due) do |booking|
+          Invoices::Invoice.of(booking).relevant.sent.exists?
+        end
+
         def relevant_time
           booking.occupancy.ends_at
         end

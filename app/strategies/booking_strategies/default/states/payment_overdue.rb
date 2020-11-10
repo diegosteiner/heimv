@@ -6,6 +6,10 @@ module BookingStrategies
       class PaymentOverdue < BookingStrategy::State
         include Rails.application.routes.url_helpers
 
+        def self.to_sym
+          :payment_overdue
+        end
+
         def checklist
           [
             ChecklistItem.new(:invoice_paid, booking.invoices.relevant.all?(&:paid),
@@ -13,8 +17,16 @@ module BookingStrategies
           ]
         end
 
-        def self.to_sym
-          :payment_overdue
+        def self.successors
+          %i[completed]
+        end
+
+        after_transition do |booking|
+          booking.notifications.new(from_template: :payment_overdue, addressed_to: :tenant).deliver
+        end
+
+        infer_transition(to: :completed) do |booking|
+          !booking.invoices.unpaid.relevant.exists?
         end
 
         def relevant_time

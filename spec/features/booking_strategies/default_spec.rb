@@ -9,7 +9,7 @@ describe 'Booking', :devise, type: :feature do
     create(:booking,
            organisation: organisation,
            home: home,
-           skip_automatic_transition: false,
+           skip_infer_transition: false,
            committed_request: false,
            notifications_enabled: true)
   end

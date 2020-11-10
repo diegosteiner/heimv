@@ -4,7 +4,7 @@ describe 'Booking CRUD', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_markdown_templates) }
   let(:user) { create(:user, :manager, organisation: organisation) }
   let(:home) { create(:home, organisation: organisation) }
-  let(:booking) { create(:booking, organisation: organisation, home: home, skip_automatic_transition: false) }
+  let(:booking) { create(:booking, organisation: organisation, home: home, skip_infer_transition: false) }
   let(:new_booking) { build(:booking) }
 
   before do

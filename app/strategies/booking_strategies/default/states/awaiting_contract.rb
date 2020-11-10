@@ -16,6 +16,27 @@ module BookingStrategies
           :awaiting_contract
         end
 
+        guard_transition do |booking|
+          booking.occupancy.conflicting.none?
+        end
+
+        after_transition do |booking|
+          booking.occupancy.occupied!
+          booking.deadline&.clear
+          booking.deadlines.create(at: booking.organisation.long_deadline.from_now,
+                                   postponable_for: booking.organisation.short_deadline,
+                                   remarks: booking.state)
+        end
+
+        infer_transition(to: :overdue, &:deadline_exceeded?)
+        infer_transition(to: :upcoming) do |booking|
+          booking.contracts.signed.any? && Invoices::Deposit.of(booking).relevant.all?(&:paid)
+        end
+
+        def self.successors
+          %i[cancelation_pending upcoming overdue]
+        end
+
         def relevant_time
           booking.deadline&.at
         end
