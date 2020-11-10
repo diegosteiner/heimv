@@ -177,7 +177,11 @@ module BookingStrategies
         booking.concluded!
       end
 
-      after_transition(to: %i[completed], &:concluded!)
+      # rubocop:disable Style/SymbolProc
+      after_transition(to: %i[completed]) do |booking|
+        booking.concluded!
+      end
+      # rubocop:enable Style/SymbolProc
 
       after_transition(to: %i[cancelled_request]) do |booking|
         addressed_to = booking.agent_booking? ? :booking_agent : :tenant

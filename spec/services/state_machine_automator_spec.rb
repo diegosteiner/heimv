@@ -3,16 +3,16 @@
 require 'rails_helper'
 
 describe StateMachineAutomator do
-  let(:object) { build_stubbed(:booking) }
+  let(:booking) { build_stubbed(:booking) }
   let(:booking_strategy) { BookingStrategy.new }
-  let(:state_machine) { booking_strategy.state_machine.new(object) }
+  let(:state_machine) { booking_strategy.state_machine.new(booking) }
   let(:state_machine_automator_class) { Class.new(described_class) }
   let(:state_machine_automator) { state_machine_automator_class.new(state_machine) }
 
   before do
-    object.state = :matching
-    allow(object).to receive(:state_machine).and_return(state_machine)
-    allow(state_machine).to receive(:current_state) { object.state }
+    booking.state = :matching
+    allow(booking).to receive(:state_machine).and_return(state_machine)
+    allow(state_machine).to receive(:current_state) { booking.state }
     allow(state_machine).to receive(:can_transition_to?).and_return(true)
     allow(state_machine).to receive(:transition_to) do |to|
       state_machine.object.state = to

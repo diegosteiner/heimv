@@ -27,7 +27,9 @@ class StateMachineAutomator
       while (to = next_state) && passed_transitions.count <= max_steps
         raise CircularTransitionError if passed_transitions.include?(to)
 
-        passed_transitions << to if transition_to(to)
+        Statesman::Machine.retry_conflicts(3) do
+          passed_transitions << to if transition_to(to)
+        end
       end
     end
   end

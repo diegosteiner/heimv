@@ -122,7 +122,9 @@ class Booking < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
-  def concluded!
+  def concluded!(value = nil)
+    raise value.inspect unless value.nil?
+
     # rubocop:disable Rails/SkipsModelValidations
     update_columns(concluded: true)
     # rubocop:enable Rails/SkipsModelValidations
