@@ -71,6 +71,7 @@ class BookingStrategy
 
     def infer_next_state
       self.class.callbacks[:infere].each do |callback|
+        from = callback.from
         to = callback.to.first
 
         next unless from == current_state&.to_s || from.blank?
