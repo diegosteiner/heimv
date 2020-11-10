@@ -4,6 +4,7 @@ require:
   # - rubocop-performance
 
 AllCops:
+  NewCops: enable
   TargetRubyVersion: 2.7
   Exclude:
     - 'bin/*'
@@ -52,28 +53,10 @@ Metrics/AbcSize:
 Style/Documentation:
   Enabled: false
 
+Naming/VariableNumber:
+  Enabled: false
+
 Naming/MethodParameterName:
   AllowedNames:
     - 'to'
     - 'at'
-
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: true
-
-Lint/RaiseException:
-  Enabled: true
-
-Lint/StructNewOverride:
-  Enabled: true
-
-Style/ExponentialNotation:
-  Enabled: true
-
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true

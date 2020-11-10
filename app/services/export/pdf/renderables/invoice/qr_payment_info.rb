@@ -6,6 +6,7 @@ module Export
       module Invoice
         class QrPaymentInfo < Renderable
           def initialize(payment_slip)
+            super()
             @payment_slip = payment_slip
           end
 

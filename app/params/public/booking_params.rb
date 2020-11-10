@@ -6,9 +6,9 @@ module Public
       def self.permitted_keys
         [:tenant_organisation, :cancellation_reason, :invoice_address, :email, :locale,
          :committed_request, :purpose, :approximate_headcount, :remarks,
-         tenant_attributes: TenantParams.permitted_keys.without(:email),
-         deadlines_attributes: %i[id postpone],
-         occupancy_attributes: OccupancyParams.permitted_keys]
+         { tenant_attributes: TenantParams.permitted_keys.without(:email),
+           deadlines_attributes: %i[id postpone],
+           occupancy_attributes: OccupancyParams.permitted_keys }]
       end
 
       sanitize do |params|
@@ -21,7 +21,7 @@ module Public
     class Create < Update
       def self.permitted_keys
         super + [:home_id, :email, :accept_conditions,
-                 agent_booking_attributes: %i[booking_agent_code booking_agent_ref]]
+                 { agent_booking_attributes: %i[booking_agent_code booking_agent_ref] }]
       end
 
       sanitize do |params|

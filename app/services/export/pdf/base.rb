@@ -48,8 +48,6 @@ module Export
         @document ||= initialize_document
       end
 
-      def initialize; end
-
       def initialize_document
         Prawn::Document.new(document_options).tap do |document|
           document.font_families.update(self.class.font_families)

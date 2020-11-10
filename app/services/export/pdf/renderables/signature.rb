@@ -5,6 +5,7 @@ module Export
     module Renderables
       class Signature < Renderable
         def initialize(label = '', signature_image: nil, date: nil, location: nil, align: :left)
+          super()
           @label = label
           @date = date
           @location = location

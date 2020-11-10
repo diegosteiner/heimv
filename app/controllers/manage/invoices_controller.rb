@@ -9,7 +9,7 @@ module Manage
       @invoices = if @booking.present?
                     @booking.invoices
                   elsif params[:all].present?
-                    @invoices = @invoices
+                    @invoices
                   else
                     @invoices.relevant.unpaid
                   end

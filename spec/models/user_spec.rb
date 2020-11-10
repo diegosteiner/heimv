@@ -30,5 +30,5 @@
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
-describe User do
-end
+# describe User do
+# end

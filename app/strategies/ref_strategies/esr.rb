@@ -36,11 +36,11 @@ module RefStrategies
       code = {
         esr_mode: esr_mode,
         amount_in_cents: invoice.amount_in_cents,
-        checksum_1: checksum(esr_mode + format('%<amount_in_cents>010d', amount_in_cents: invoice.amount_in_cents)),
+        checksum: checksum(esr_mode + format('%<amount_in_cents>010d', amount_in_cents: invoice.amount_in_cents)),
         ref: invoice.ref.to_s.rjust(27, '0'),
         account_nr: account_nr_to_code(invoice.organisation.esr_participant_nr)
       }
-      format('%<esr_mode>s%<amount_in_cents>010d%<checksum_1>d>%<ref>s+ %<account_nr>s>', code)
+      format('%<esr_mode>s%<amount_in_cents>010d%<checksum>d>%<ref>s+ %<account_nr>s>', code)
     end
 
     def find_invoice_by_ref(ref, scope: Invoice)

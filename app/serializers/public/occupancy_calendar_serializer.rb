@@ -7,7 +7,7 @@ module Public
 
     fields :window_from, :window_to
 
-    field :links do
-    end
+    # field :links do
+    # end
   end
 end

@@ -6,9 +6,11 @@ module Export
   module Pdf
     class InvoicePdf < Base
       attr_reader :invoice
+
       delegate :booking, :organisation, to: :invoice
 
       def initialize(invoice)
+        super()
         @invoice = invoice
       end
 

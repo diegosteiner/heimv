@@ -2,6 +2,7 @@
 
 class Markdown
   attr_reader :body
+
   delegate :to_s, :lines, to: :body
 
   def initialize(body)

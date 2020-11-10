@@ -6,6 +6,7 @@ module Export
   module Pdf
     class OfferPdf < Base
       def initialize(offer)
+        super()
         @offer = offer
         @booking = offer.booking
         @organisation = @booking.organisation

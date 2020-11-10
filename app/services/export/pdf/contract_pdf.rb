@@ -6,6 +6,7 @@ module Export
   module Pdf
     class ContractPdf < Base
       def initialize(contract)
+        super()
         @contract = contract
         @booking = contract.booking
         @organisation = @booking.organisation

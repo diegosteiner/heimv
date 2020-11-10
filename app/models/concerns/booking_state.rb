@@ -21,6 +21,7 @@ module BookingState
     include Statesman::Adapters::ActiveRecordQueries
 
     attr_accessor :transition_to, :skip_automatic_transition, :initial_state
+
     has_many :booking_transitions, dependent: :destroy, autosave: false
 
     after_save :state_transition

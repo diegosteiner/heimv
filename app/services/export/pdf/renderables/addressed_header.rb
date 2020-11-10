@@ -5,9 +5,11 @@ module Export
     module Renderables
       class AddressedHeader < Renderable
         attr_reader :booking
+
         delegate :organisation, to: :booking
 
         def initialize(booking)
+          super()
           @booking = booking
         end
 

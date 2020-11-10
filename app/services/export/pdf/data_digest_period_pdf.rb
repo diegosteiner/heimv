@@ -8,6 +8,7 @@ module Export
       attr_reader :data_digest_period, :organisation
 
       def initialize(data_digest_period, options = {})
+        super()
         @data_digest_period = data_digest_period
         @options = options
         @organisation = data_digest_period.data_digest.organisation

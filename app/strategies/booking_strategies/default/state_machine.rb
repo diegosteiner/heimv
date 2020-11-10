@@ -96,7 +96,7 @@ module BookingStrategies
       end
 
       after_transition(to: %i[definitive_request]) do |booking|
-        booking.editable!(false)
+        booking.lock_editable!
         booking.deadline&.clear
       end
 
@@ -124,21 +124,21 @@ module BookingStrategies
       after_transition(to: %i[provisional_request definitive_request]) do |booking, transition|
         booking.notifications.new(from_template: transition.to_state.to_s, addressed_to: :tenant).deliver
         booking.occupancy.tentative!
-        booking.timeframe_locked!
+        booking.lock_timeframe!
       end
 
       before_transition(to: %i[cancelled cancelled_request declined_request]) do |booking|
-        booking.editable!(false)
+        booking.lock_editable!
         booking.occupancy.free!
       end
 
       after_transition(to: %i[cancelation_pending cancelled_request declined_request]) do |booking|
         booking.deadline&.clear
-        booking.timeframe_locked!
+        booking.lock_timeframe!
       end
 
-      after_transition(to: :cancelation_pending) do |booking|
-      end
+      # after_transition(to: :cancelation_pending) do |booking|
+      # end
 
       after_transition(to: %i[awaiting_contract upcoming active overdue]) do |booking|
         booking.occupancy.occupied!

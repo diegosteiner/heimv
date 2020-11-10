@@ -34,8 +34,8 @@ class BookingTransition < ApplicationRecord
 
   scope :ordered, -> { order(sort_key: :ASC) }
 
-  after_destroy :update_most_recent, if: :most_recent?
   before_save :serialize_booking
+  after_destroy :update_most_recent, if: :most_recent?
   after_save :update_booking_state
 
   private

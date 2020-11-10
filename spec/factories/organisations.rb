@@ -43,7 +43,7 @@ FactoryBot.define do
     esr_participant_nr { 'MyString' }
     notifications_enabled { true }
     slug { nil }
-    location {}
+    location { nil }
 
     trait :with_markdown_templates do
       after(:create) do |organisation|

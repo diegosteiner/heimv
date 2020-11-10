@@ -5,6 +5,7 @@ module Export
     module Renderables
       class Logo < Renderable
         def initialize(logo)
+          super()
           @logo = logo
         end
 

@@ -44,7 +44,7 @@ FactoryBot.define do
     city { Faker::Address.city }
     birth_date { 22.years.ago.to_date }
     email do |c|
-      "#{[c.first_name, c.last_name].join('.').downcase.sub(/[^a-z_\.\d]/i, '')}@heimverwaltung.example.com"
+      "#{[c.first_name, c.last_name].join('.').downcase.sub(/[^a-z_.\d]/i, '')}@heimverwaltung.example.com"
     end
   end
 end

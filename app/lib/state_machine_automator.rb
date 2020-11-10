@@ -5,6 +5,7 @@ class StateMachineAutomator
   Callback = Struct.new(:from, :to, :callback)
 
   attr_accessor :state_machine
+
   delegate :current_state, :transition_to, :can_transition_to?, :object, to: :state_machine
 
   def initialize(state_machine)
@@ -12,7 +13,7 @@ class StateMachineAutomator
   end
 
   class << self
-    def automatic_transition(from: [], to:, &block)
+    def automatic_transition(to:, from: [], &block)
       callbacks << Callback.new(Array.wrap(from).map(&:to_sym), to, block)
     end
 
