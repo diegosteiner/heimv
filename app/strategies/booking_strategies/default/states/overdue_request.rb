@@ -17,6 +17,7 @@ module BookingStrategies
         end
 
         after_transition do |booking, transition|
+          booking.deadline&.clear
           booking.notifications.new(from_template: transition.to_state.to_s, addressed_to: :tenant)&.deliver
         end
 
