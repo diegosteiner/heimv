@@ -16,12 +16,8 @@ module BookingStrategies
           !booking.invoices.unpaid.exists?
         end
 
-        before_transition do |booking|
-          booking.lock_editable!
-          booking.occupancy.free!
-        end
-
         after_transition do |booking|
+          booking.occupancy.free!
           booking.concluded!
           booking.notifications.new(from_template: :cancelled, addressed_to: :tenant).deliver
           next unless booking.agent_booking?

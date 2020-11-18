@@ -113,7 +113,9 @@ class Booking < ApplicationRecord
   end
 
   def lock_timeframe!
-    update(timeframe_locked: true)
+    # rubocop:disable Rails/SkipsModelValidations
+    update_columns(timeframe_locked: true)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def lock_editable!
@@ -126,7 +128,7 @@ class Booking < ApplicationRecord
     raise value.inspect unless value.nil?
 
     # rubocop:disable Rails/SkipsModelValidations
-    update_columns(concluded: true)
+    update_columns(concluded: true, timeframe_locked: true, editable: false)
     # rubocop:enable Rails/SkipsModelValidations
   end
 
