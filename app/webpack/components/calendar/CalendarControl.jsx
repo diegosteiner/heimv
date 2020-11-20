@@ -20,7 +20,6 @@ const formatDate = new Intl.DateTimeFormat('de-CH', {
   day: '2-digit',
 }).format;
 
-
 const initializeValue = (value) => {
   if (isValid(value)) return value;
   value = parseISO(value);
@@ -68,21 +67,25 @@ const CalendarControl = ({
   onBlur,
   isInvalid,
 }) => {
-  value = initializeValue(value)
-  const [showModal, setShowModal] = useState(false)
-  const [dateState, setDateState] = useState(value)
-  const [hourState, setHourState] = useState(getHours(value) || Math.min(...availableHours))
-  const [minuteState, setMinuteState] = useState(closestMinutes(getMinutes(value)) || Math.min(...availableMinutes))
-  const [textState, setTextState] = useState(value && formatDate(value))
+  value = initializeValue(value);
+  const [showModal, setShowModal] = useState(false);
+  const [dateState, setDateState] = useState(value);
+  const [hourState, setHourState] = useState(
+    getHours(value) || Math.min(...availableHours),
+  );
+  const [minuteState, setMinuteState] = useState(
+    closestMinutes(getMinutes(value)) || Math.min(...availableMinutes),
+  );
+  const [textState, setTextState] = useState(value && formatDate(value));
 
   const setDateValue = ({ date, hours, minutes }) => {
-    date = date || dateState
-    date = setHours(date, hours || hourState)
-    date = setMinutes(date, minutes || minuteState)
+    date = date || dateState;
+    date = setHours(date, hours || hourState);
+    date = setMinutes(date, minutes || minuteState);
     setDateState(date);
-    setHourState(hours || getHours(date))
-    setMinuteState(minutes || getMinutes(date))
-    setTextState(formatDate(date))
+    setHourState(hours || getHours(date));
+    setMinuteState(minutes || getMinutes(date));
+    setTextState(formatDate(date));
     onChange && onChange(date);
   };
 
@@ -92,9 +95,9 @@ const CalendarControl = ({
         parseInt(value),
         Math.min(...availableHours),
         Math.max(...availableHours),
-      )
+      ),
     });
-  }
+  };
 
   const setMinuteValue = (value) =>
     setDateValue({
@@ -114,7 +117,7 @@ const CalendarControl = ({
     if (!isValid(parsedValue)) return;
 
     setDateValue({ date: parsedValue });
-    setShowModal(false)
+    setShowModal(false);
   };
 
   const handleTextChange = (event) => {
@@ -122,15 +125,16 @@ const CalendarControl = ({
 
     const parsedValue = parse(event.target.value, 'dd.MM.yyyy', new Date());
     if (isValid(parsedValue)) {
-      setDateValue({ date: parsedValue })
+      setDateValue({ date: parsedValue });
     } else {
-      setTextState(formatDate(dateState))
+      setTextState(formatDate(dateState));
     }
-    onBlur && onBlur()
+    onBlur && onBlur();
   };
 
   const disableCallback = (date) => !showModal || date <= new Date();
-  const classNameCallback = (date) => isSameDay(date, dateState) && ['bg-primary', 'text-white'];
+  const classNameCallback = (date) =>
+    isSameDay(date, dateState) && ['bg-primary', 'text-white'];
 
   return (
     <div className={isInvalid && 'is-invalid'}>
@@ -146,7 +150,7 @@ const CalendarControl = ({
               onBlur={handleTextChange}
               disabled={disabled}
               value={textState}
-              onChange={e => setTextState(e.target.value)}
+              onChange={(e) => setTextState(e.target.value)}
               isInvalid={isInvalid}
               required={required}
             />
@@ -166,7 +170,7 @@ const CalendarControl = ({
             value={hourState}
             onBlur={onBlur}
             className="d-inline-block w-auto"
-            onChange={e => setHourValue(e.target.value)}
+            onChange={(e) => setHourValue(e.target.value)}
             isInvalid={isInvalid}
             disabled={disabled}
             required={required}
@@ -186,7 +190,7 @@ const CalendarControl = ({
             value={minuteState}
             onBlur={onBlur}
             className="d-inline-block w-auto"
-            onChange={e => setMinuteValue(e.target.value)}
+            onChange={(e) => setMinuteValue(e.target.value)}
             isInvalid={isInvalid}
             disabled={disabled}
             required={required}
