@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 describe BookingStrategies::Default::StateMachine do
-  let(:booking) { create(:booking, skip_automatic_transition: true) }
+  let(:booking) { create(:booking, skip_infer_transition: true) }
   subject(:state_machine) { described_class.new(booking) }
 
   describe 'allowed transitions' do

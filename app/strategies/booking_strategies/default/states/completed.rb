@@ -12,6 +12,15 @@ module BookingStrategies
           :completed
         end
 
+        guard_transition do |booking|
+          !booking.invoices.unpaid.exists?
+        end
+
+        after_transition do |booking|
+          booking.deadline&.clear
+          booking.concluded!
+        end
+
         def relevant_time; end
       end
     end

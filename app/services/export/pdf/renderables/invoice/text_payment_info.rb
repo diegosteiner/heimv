@@ -8,6 +8,7 @@ module Export
           attr_reader :payment_info
 
           def initialize(payment_info)
+            super()
             @payment_info = payment_info
           end
 

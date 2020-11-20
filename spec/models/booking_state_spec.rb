@@ -9,7 +9,7 @@ RSpec::Matchers.define :have_state do |expected|
 end
 
 describe BookingState do
-  let(:booking) { create(:booking, skip_automatic_transition: true) }
+  let(:booking) { create(:booking, skip_infer_transition: true) }
 
   describe '#valid?' do
     it 'add an error when trying to transition into invalid state' do

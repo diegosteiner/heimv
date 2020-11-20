@@ -20,7 +20,7 @@ module Translatable
     end
 
     def translated(key = 'label')
-      I18n.translate((i18n_scope + Array.wrap(key)).join('.'))
+      I18n.t((i18n_scope + Array.wrap(key)).join('.'))
     end
     alias_method :t, :translated
   end

@@ -2,6 +2,7 @@
 
 class PaymentConfirmation
   attr_reader :payment
+
   delegate :booking, to: :payment
   delegate :deliver, to: :notification
 

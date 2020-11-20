@@ -20,7 +20,8 @@ module BookingState
   included do
     include Statesman::Adapters::ActiveRecordQueries
 
-    attr_accessor :transition_to, :skip_automatic_transition, :initial_state
+    attr_accessor :transition_to, :skip_infer_transition, :initial_state
+
     has_many :booking_transitions, dependent: :destroy, autosave: false
 
     after_save :state_transition
@@ -40,19 +41,11 @@ module BookingState
                                                                        transition_class: self.class.transition_class)
   end
 
-  def state_machine_automator
-    @state_machine_automator ||= organisation.booking_strategy.state_machine_automator.new(state_machine)
-  end
-
   def state_transition
     return unless valid?
 
     state_machine.transition_to(transition_to) && self.transition_to = nil if transition?
-    return if skip_automatic_transition
-
-    state_machine_automator.run.tap do
-      errors.clear
-    end
+    state_machine.auto.tap { errors.clear } unless skip_infer_transition
   end
 
   def transition?

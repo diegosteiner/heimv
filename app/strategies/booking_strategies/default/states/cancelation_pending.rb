@@ -12,6 +12,19 @@ module BookingStrategies
           :cancelation_pending
         end
 
+        def self.successors
+          %i[cancelled overdue]
+        end
+
+        after_transition do |booking|
+          booking.deadline&.clear
+          booking.lock_timeframe!
+        end
+
+        infer_transition(to: :cancelled) do |booking|
+          !booking.invoices.relevant.unpaid.exists?
+        end
+
         def relevant_time; end
       end
     end

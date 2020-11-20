@@ -7,6 +7,7 @@ module Export
         attr_reader :address, :options
 
         def initialize(address, options = {})
+          super()
           @address = address.join("\n") if address.is_a?(Array)
           @address ||= address
           @options = options

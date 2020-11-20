@@ -52,8 +52,8 @@ class Booking < ApplicationRecord
   include BookingState
 
   DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      tenant: :organisation, deadline: :booking, occupancy: :home,
-                      agent_booking: %i[booking_agent organisation home]].freeze
+                      { tenant: :organisation, deadline: :booking, occupancy: :home,
+                        agent_booking: %i[booking_agent organisation home] }].freeze
 
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings
@@ -112,19 +112,23 @@ class Booking < ApplicationRecord
     occupancy.nights * approximate_headcount
   end
 
-  def timeframe_locked!(value = true)
-    update(timeframe_locked: value)
-  end
-
-  def editable!(value = true)
+  def lock_timeframe!
     # rubocop:disable Rails/SkipsModelValidations
-    update_columns(editable: value)
+    update_columns(timeframe_locked: true)
     # rubocop:enable Rails/SkipsModelValidations
   end
 
-  def concluded!(value = true)
+  def lock_editable!
     # rubocop:disable Rails/SkipsModelValidations
-    update_columns(concluded: value)
+    update_columns(editable: false)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def concluded!(value = nil)
+    raise value.inspect unless value.nil?
+
+    # rubocop:disable Rails/SkipsModelValidations
+    update_columns(concluded: true, timeframe_locked: true, editable: false)
     # rubocop:enable Rails/SkipsModelValidations
   end
 

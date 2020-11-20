@@ -48,8 +48,8 @@ class Invoice < ApplicationRecord
   scope :of, ->(booking) { where(booking: booking) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
-  before_update :generate_pdf, if: :generate_pdf?
   before_save :set_amount, :set_paid
+  before_update :generate_pdf, if: :generate_pdf?
   after_create { generate_ref? && generate_ref && save }
 
   def generate_pdf?

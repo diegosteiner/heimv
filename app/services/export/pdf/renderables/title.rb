@@ -5,6 +5,7 @@ module Export
     module Renderables
       class Title < Renderable
         def initialize(title, size: 18)
+          super()
           @title = title
           @size = size
         end

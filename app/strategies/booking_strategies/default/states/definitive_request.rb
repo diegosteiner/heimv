@@ -18,6 +18,26 @@ module BookingStrategies
           :definitive_request
         end
 
+        guard_transition do |booking|
+          booking.tenant.present? && booking.tenant.valid?
+        end
+
+        def self.successors
+          %i[cancelation_pending awaiting_contract]
+        end
+
+        infer_transition(to: :awaiting_contract) do |booking|
+          booking.contracts.sent.any?
+        end
+
+        after_transition do |booking, transition|
+          booking.occupancy.tentative!
+          booking.lock_timeframe!
+          booking.lock_editable!
+          booking.deadline&.clear
+          booking.notifications.new(from_template: transition.to_state.to_s, addressed_to: :tenant).deliver
+        end
+
         def relevant_time
           booking.created_at
         end

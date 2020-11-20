@@ -5,6 +5,7 @@ class PaymentInfo
   extend ActiveModel::Naming
 
   attr_reader :invoice
+
   delegate :amount, :ref, :invoice_ref_strategy, :organisation, :booking, to: :invoice
 
   def initialize(invoice)

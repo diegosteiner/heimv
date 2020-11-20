@@ -12,6 +12,18 @@ module BookingStrategies
           :active
         end
 
+        def self.successors
+          %i[past]
+        end
+
+        after_transition do |booking|
+          booking.occupancy.occupied!
+        end
+
+        infer_transition(to: :past) do |booking|
+          booking.occupancy.past?
+        end
+
         def relevant_time
           booking.occupancy.ends_at
         end

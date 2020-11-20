@@ -12,6 +12,14 @@ module BookingStrategies
           :declined_request
         end
 
+        after_transition do |booking|
+          booking.occupancy.free!
+          booking.concluded!
+          booking.deadline&.clear
+          addressed_to = booking.agent_booking? ? :booking_agent : :tenant
+          booking.notifications.new(from_template: :declined_request, addressed_to: addressed_to).deliver
+        end
+
         def relevant_time; end
       end
     end

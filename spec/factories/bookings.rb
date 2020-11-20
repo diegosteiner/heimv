@@ -53,7 +53,7 @@ FactoryBot.define do
     home
     sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
     tenant_organisation { Faker::Company.name }
-    skip_automatic_transition { true }
+    skip_infer_transition { true }
     committed_request { [true, false].sample }
     approximate_headcount { rand(30) }
     purpose { :camp }

@@ -34,4 +34,7 @@ Copy env.example to .env and change configuration there
 
 Coypright 2017 Diego P. Steiner & contributors
 
-You must ask for permission before using the project in a commercial setting. Other than that, the project is licensed under the AGPL License.
+If you want to use HeimV in a commercial setting, a commercial licence
+is required. For a commercial licence please get in touch: license@heimv.ch. 
+Other than that, the project is licensed under the AGPLv3 License. 
+See LICENCE for details.
