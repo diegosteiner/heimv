@@ -9,7 +9,7 @@ module Public
     end
 
     def current_ability
-      @current_ability ||= Ability::Public.new(current_user)
+      @current_ability ||= Ability::Public.new(current_user, current_organisation)
     end
 
     def allow_embed

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-I18n.available_locales = %w[de en]
+I18n.available_locales = %w[de fr it en]
 I18n.default_locale = :de
 Faker::Config.locale = :de if defined?(Faker)
 

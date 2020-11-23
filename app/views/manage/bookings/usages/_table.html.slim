@@ -7,7 +7,7 @@
       thead
         tr.bg-white
           th
-          th= Tarif.model_name.human(count: :other)
+          th= Tarif.model_name.human(count: 2)
           th= Tarif.human_attribute_name(:price_per_unit)
           th= Tarif.human_attribute_name(:unit)
           - if defined?(used_units_field) && used_units_field
@@ -56,7 +56,7 @@
                       span.fa.fa-trash
     .mt-5
       button.btn.btn-secondary[type=:submit name=:commit]
-        = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: :other))
+        = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: 2))
 
       - if defined?(used_units_field)
         '

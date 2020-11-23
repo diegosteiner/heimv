@@ -6,7 +6,7 @@
       tr.bg-white
         th
         th
-        / th= Tarif.model_name.human(count: :other)
+        / th= Tarif.model_name.human(count: 2)
         th= Tarif.human_attribute_name(:label)
         th= Tarif.human_attribute_name(:type)
         th= Tarif.human_attribute_name(:price_per_unit)
@@ -46,4 +46,4 @@
                   span.fa.fa-edit
                 = link_to manage_home_tarif_path(@home, tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                   span.fa.fa-trash
-  = f.submit t("helpers.submit.update", model: Tarif.model_name.human(count: :other))
+  = f.submit t("helpers.submit.update", model: Tarif.model_name.human(count: 2))

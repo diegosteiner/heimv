@@ -8,8 +8,11 @@ const OccupancyCalendar = ({
   calendarUrl,
   displayMonths = 8,
 }) => {
-  const handleClick = (e) =>
-    (window.top.location.href = `${occupancyAtUrl}@${e.target.value}`);
+  const handleClick = (e) => {
+    if(!e.target.value) return 
+
+    window.top.location.href = occupancyAtUrl.replace('$DATE', e.target.value)
+  }
 
   return (
     <OccupancyCalendarContextProvider calendarUrl={calendarUrl}>

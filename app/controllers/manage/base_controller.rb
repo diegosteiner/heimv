@@ -8,7 +8,7 @@ module Manage
     protected
 
     def current_ability
-      @current_ability ||= Ability::Manage.new(current_user)
+      @current_ability ||= Ability::Manage.new(current_user, current_organisation)
     end
 
     def current_organisation
