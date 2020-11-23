@@ -1,5 +1,5 @@
 - unless bookings && bookings.any?
-  p.mb-5= t(:no_records_yet, model_name: Booking.model_name.human(count: :other))
+  p.mb-5= t(:no_records_yet, model_name: Booking.model_name.human(count: 2))
 
 - else
   - bookings.each do |booking|

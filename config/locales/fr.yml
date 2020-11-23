@@ -1,5 +1,5 @@
 ---
-de:
+fr:
   activemodel:
     attributes:
       booking/filter:
@@ -28,7 +28,7 @@ de:
     models:
       occupancy_calendar:
         one: Belegungsplan
-        other: Belegungspläne
+        other: Belegungsplane
       payment_info:
         one: Zahlungsteil
         other: Zahlungsteile

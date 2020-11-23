@@ -2,7 +2,7 @@ section
   table.table.table-hover.table-card
     thead
       tr
-        th= Contract.model_name.human(count: :other)
+        th= Contract.model_name.human(count: 2)
         th.hidden-sm-down= Contract.human_attribute_name(:sent_at)
         th.hidden-sm-down= Contract.human_attribute_name(:signed_at)
         th

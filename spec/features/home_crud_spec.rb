@@ -23,7 +23,7 @@ describe 'Home CRUD', :devise, type: :feature do
     within find_resource_in_table(home) do
       click_link home.name
     end
-    expect(page).to have_current_path(manage_home_path(home, org: nil))
+    expect(page).to have_current_path(manage_home_path(home, org: nil, locale: :de))
     expect(page).to have_content home.name
   end
 

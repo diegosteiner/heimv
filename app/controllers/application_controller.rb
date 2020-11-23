@@ -9,20 +9,20 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
 
   default_form_builder BootstrapForm::FormBuilder
-  before_action :set_raven_context
+  before_action :set_raven_context, :current_locale
   helper_method :current_organisation, :default_path
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
   end
 
   def default_url_options
-    { org: current_organisation&.slug || params[:org] }.merge(super)
+    { org: current_organisation&.slug || params[:org], locale: current_locale }.merge(super)
   end
 
   protected
 
   def current_ability
-    @current_ability ||= Ability::Base.new(current_user)
+    @current_ability ||= Ability::Base.new(current_user, current_organisation)
   end
 
   def responder_flash_messages(resource_name, scope: :update)
@@ -34,6 +34,14 @@ class ApplicationController < ActionController::Base
 
   def current_organisation
     nil
+  end
+
+  def current_locale
+    return @current_locale if @current_locale.present?
+
+    locale = I18n.available_locales.include?(params[:locale]&.to_sym) && params[:locale]
+    @current_locale = locale || I18n.default_locale
+    I18n.locale = @current_locale
   end
 
   def default_path

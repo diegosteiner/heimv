@@ -21,6 +21,8 @@
                 = link_to markdown_template.home.name, manage_home_path(markdown_template.home) if markdown_template.home
               td.p-1.text-right
                 .btn-group
+                  = link_to new_manage_markdown_template_path(dup: markdown_template.to_param), class: 'btn btn-default'
+                    span.fa.fa-clone
                   = link_to edit_manage_markdown_template_path(markdown_template), class: 'btn btn-default'
                     span.fa.fa-edit
                   = link_to manage_markdown_template_path(markdown_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'

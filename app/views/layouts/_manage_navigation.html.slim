@@ -8,23 +8,23 @@
 
 ul#navbar-main-nav.list-unstyled.p-3.position-fixed-lg
   li.nav-item
-    = link_to OccupancyCalendar.model_name.human(count: :other), manage_root_path, class: 'nav-link'
+    = link_to OccupancyCalendar.model_name.human(count: 2), manage_root_path, class: 'nav-link'
   li.nav-item
-    = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
+    = link_to Booking.model_name.human(count: 2), manage_bookings_path, class: 'nav-link'
   li.nav-item
-    = link_to Tenant.model_name.human(count: :other), manage_tenants_path, class: 'nav-link'
+    = link_to Tenant.model_name.human(count: 2), manage_tenants_path, class: 'nav-link'
   li.nav-item
-    = link_to Invoice.model_name.human(count: :other), manage_invoices_path, class: 'nav-link'
+    = link_to Invoice.model_name.human(count: 2), manage_invoices_path, class: 'nav-link'
   li.nav-item
-    = link_to Payment.model_name.human(count: :other), manage_payments_path, class: 'nav-link'
+    = link_to Payment.model_name.human(count: 2), manage_payments_path, class: 'nav-link'
   li.nav-item
-    = link_to Home.model_name.human(count: :other), manage_homes_path, class: 'nav-link'
+    = link_to Home.model_name.human(count: 2), manage_homes_path, class: 'nav-link'
   li.nav-item
-    = link_to DataDigest.model_name.human(count: :other), manage_data_digests_path, class: 'nav-link'
+    = link_to DataDigest.model_name.human(count: 2), manage_data_digests_path, class: 'nav-link'
   li.nav-item
-    = link_to MarkdownTemplate.model_name.human(count: :other), manage_markdown_templates_path, class: 'nav-link'
+    = link_to MarkdownTemplate.model_name.human(count: 2), manage_markdown_templates_path, class: 'nav-link'
   li.nav-item
-    = link_to BookingAgent.model_name.human(count: :other), manage_booking_agents_path, class: 'nav-link'
+    = link_to BookingAgent.model_name.human(count: 2), manage_booking_agents_path, class: 'nav-link'
   - if can?(:manage, User, { organisation: current_organisation })
     li.nav-item
       = link_to User.model_name.human, manage_users_path, class: 'nav-link'

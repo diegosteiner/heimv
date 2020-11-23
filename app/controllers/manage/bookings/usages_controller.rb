@@ -29,7 +29,7 @@ module Manage
         set_usage_flags
         @booking.save
         respond_with :manage, @booking, @usages,
-                     responder_flash_messages(Usage.model_name.human(count: :other)).merge(location: :back)
+                     responder_flash_messages(Usage.model_name.human(count: 2)).merge(location: :back)
       end
 
       def update

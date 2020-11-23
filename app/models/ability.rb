@@ -4,26 +4,26 @@ module Ability
   class Base
     include CanCan::Ability
 
-    def initialize(user)
-      anonymous_abilities
+    def initialize(user, organisation = nil)
+      anonymous_abilities(organisation)
       return if user.blank?
 
-      user_abilities(user)
-      admin_abilities(user) if user.role_admin?
-      manage_abilities(user) if user.role_manager?
+      user_abilities(user, organisation)
+      admin_abilities(user, organisation) if user.role_admin?
+      manage_abilities(user, organisation) if user.role_manager?
     end
 
     protected
 
-    def admin_abilities(_user)
+    def admin_abilities(_user, _organisation)
       can :manage, :all
     end
 
-    def manage_abilities(_user); end
+    def manage_abilities(_user, _organisation); end
 
-    def user_abilities(_user); end
+    def user_abilities(_user, _organisation); end
 
-    def anonymous_abilities; end
+    def anonymous_abilities(_organisation); end
   end
 
   class Admin < Base
@@ -31,8 +31,9 @@ module Ability
 
   class Manage < Base
     # rubocop:disable Metrics/AbcSize
-    def manage_abilities(user)
-      organisation = user.organisation
+    def manage_abilities(user, organisation)
+      return unless organisation == user.organisation
+
       can :manage, Home, organisation: organisation
       can :manage, DataDigest, organisation: organisation
       can :manage, MarkdownTemplate, organisation: organisation
@@ -60,7 +61,7 @@ module Ability
   end
 
   class Public < Base
-    def anonymous_abilities
+    def anonymous_abilities(_organisation)
       can %i[create read update], AgentBooking
       can %i[create read update], Booking
       can %i[create read update], Tenant
@@ -69,7 +70,7 @@ module Ability
       can %i[read index embed calendar at], Occupancy, home: { requests_allowed: true }
     end
 
-    def manage_abilities(user)
+    def manage_abilities(user, _organisation)
       can :manage, Home, organisation: user.organisation
     end
   end
