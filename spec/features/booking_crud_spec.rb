@@ -19,7 +19,7 @@ describe 'Booking CRUD', :devise, type: :feature do
     booking
     visit manage_bookings_path
     click_on(booking.ref)
-    expect(page).to have_current_path(manage_booking_path(booking, org: nil))
+    expect(page).to have_current_path(manage_booking_path(booking, org: nil, locale: :de))
     expect(page).to have_content booking.ref
   end
 
