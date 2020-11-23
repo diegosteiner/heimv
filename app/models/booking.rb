@@ -83,7 +83,8 @@ class Booking < ApplicationRecord
   validates :accept_conditions, acceptance: true, on: :public_create
   validates :purpose, :tenant, presence: true, on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
-  validates :approximate_headcount, numericality: true, on: :public_update
+  validates :approximate_headcount, numericality: { greater_than: 0 }, on: :public_update
+  validates :invoice_address, length: { maximum: 255 }
 
   validate(on: %i[public_create public_update]) do
     next errors.add(:base, :conflicting) if occupancy.conflicting.present?

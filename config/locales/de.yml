@@ -181,11 +181,11 @@ de:
         remarks: Bemerkungen
         write_off: Abschreibung
       tarif:
-        invoice_type: Rechnungstyp
-        label: Tarif
+        invoice_type: Zugehörig zu Rechnungsart
+        label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         prefill_usage_method: Vorausfüllmethode
-        price_per_unit: Preis pro Einheit
+        price_per_unit: Preis (pro Einheit)
         tarif_group: Tarifgruppe
         transient: Tarif NICHT auf Buchung fixieren
         type: Typ

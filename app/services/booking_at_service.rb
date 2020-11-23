@@ -9,23 +9,24 @@ class BookingAtService
   end
 
   def at(date, manage: false)
-    bookings = bookings_of_date(date)
     org = @home.organisation.slug
 
-    return manage_bookings_path(filter_params.merge(org: org)) if manage && bookings.count > 1
-    return manage_booking_path(bookings.first, org: org)       if manage && bookings.count == 1
+    if date
+      bookings = Booking::Filter.new(filter_params(date)).apply(@bookings) || []
+      return manage_bookings_path(filter_params(date).merge(org: org)) if manage && bookings.count > 1
+      return manage_booking_path(bookings.first, org: org)             if manage && bookings.count == 1
+    end
 
     new_public_booking_path(org: org, booking: { home_id: @home.to_param, occupancy_attributes: { begins_at: date } })
   end
 
-  def bookings_of_date(date)
-    return [] if date.blank?
+  def filter_params(date)
+    return unless date
 
-    filter_params = {
+    {
       homes: [@home.id],
       begins_at_before: date.end_of_day, ends_at_after: date.beginning_of_day,
       occupancy_type: %i[tentative occupied]
     }
-    Booking::Filter.new(filter_params).apply(@bookings)
   end
 end

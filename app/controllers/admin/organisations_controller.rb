@@ -29,16 +29,6 @@ module Admin
 
     private
 
-    # def attach_files
-    #   terms_pdf,
-    #   logo,
-    #   privacy_statement_pdf = *organisation_params.slice(:terms_pdf, :logo, :privacy_statement_pdf).values
-
-    #   @organisation.terms_pdf.attach(terms_pdf) if terms_pdf.present?
-    #   @organisation.privacy_statement_pdf.attach(privacy_statement_pdf) if privacy_statement_pdf.present?
-    #   @organisation.logo.attach(logo) if logo.present?
-    # end
-
     def organisation_params
       OrganisationParams.new(params[:organisation])
     end

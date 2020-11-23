@@ -40,6 +40,7 @@ class Tenant < ApplicationRecord
 
   validates :email, presence: true, format: { with: Devise.email_regexp }
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
+  validates :street_address, length: { maximum: 255 }
   validates :birth_date, presence: true, on: :public_update
   validates :phone, presence: true, length: { minimum: 10 }, on: :public_update
 
