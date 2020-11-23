@@ -58,6 +58,7 @@ it:
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         deadline: Frist bis
+        editable: Durch Mieter bearbeitbar
         home: Heim
         home_id: Heim
         internal_remarks: Interne Bemerkungen
