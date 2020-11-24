@@ -11,6 +11,7 @@
     = f.email_field :bcc
     = f.text_field :mail_from
     div[v-pre]= f.text_area :notification_footer, rows: 4
+    div.pb-3= f.check_box :notifications_enabled
 
   fieldset
     div[v-pre]= f.text_area :representative_address, rows: 4
@@ -21,6 +22,13 @@
   fieldset
     = f.file_field :terms_pdf, help: link_to_if(organisation.terms_pdf.attached?, organisation.terms_pdf.try(:filename), organisation.terms_pdf)
     = f.file_field :privacy_statement_pdf, help: link_to_if(organisation.privacy_statement_pdf.attached?, organisation.privacy_statement_pdf.try(:filename), organisation.privacy_statement_pdf)
+
+  - if current_user.role_admin?
+    fieldset
+      div[v-pre]= f.text_area :smtp_url, rows: 4
+      = f.text_field :slug
+      = f.select :booking_strategy_type, [BookingStrategies::Default]
+      = f.select :invoice_ref_strategy_type, [RefStrategies::ESR]
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit

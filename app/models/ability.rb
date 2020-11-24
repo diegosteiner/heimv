@@ -20,9 +20,6 @@ module Ability
     def anonymous_abilities(_organisation); end
   end
 
-  class Admin < Base
-  end
-
   class Manage < Base
     # rubocop:disable Metrics/AbcSize
     def manage_abilities(user, organisation)

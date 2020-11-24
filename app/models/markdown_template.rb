@@ -30,6 +30,7 @@
 
 class MarkdownTemplate < ApplicationRecord
   class TemplateMissingError < StandardError; end
+  # RequiredMarkdownTemplate = Struct.new(:namespace, :key, )
 
   belongs_to :organisation
   belongs_to :home, optional: true

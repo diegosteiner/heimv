@@ -96,6 +96,7 @@ class Organisation < ApplicationRecord
     super || I18n.locale || I18n.default_locale
   end
 
+  # TODO: move to service
   def missing_markdown_templates(locales = I18n.available_locales)
     locale_keys = booking_strategy.markdown_template_keys.flat_map do |key|
       locales.map { |locale| { locale: locale, key: key } }

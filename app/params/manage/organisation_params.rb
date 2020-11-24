@@ -6,7 +6,11 @@ module Manage
       %i[name address
          esr_participant_nr notification_footer logo location bcc
          privacy_statement_pdf terms_pdf iban mail_from locale
-         representative_address contract_signature email]
+         representative_address contract_signature email notifications_enabled]
+    end
+
+    def self.admin_permitted_keys
+      permitted_keys + %i[booking_strategy_type invoice_ref_strategy_type smtp_url slug]
     end
   end
 end

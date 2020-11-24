@@ -30,6 +30,10 @@ class BookingStrategy
     I18n.t(state, **options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
   end
 
+  class << self
+    def required_markdown_templates; end
+  end
+
   def markdown_template_keys
     self.class::MARKDOWN_TEMPLATE_KEYS
   end

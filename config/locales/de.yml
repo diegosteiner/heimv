@@ -1799,6 +1799,10 @@ de:
     notifications:
       edit:
         deliver: Speichern und nochmals versenden
+    organisations:
+      import:
+        error: Error
+        success: Success
   nav:
     edit_account: Account
     sign_in: Anmelden

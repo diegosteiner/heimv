@@ -14,7 +14,21 @@ module Manage
     end
 
     def show
-      redirect_to edit_manage_organisation_path
+      respond_to do |format|
+        format.html { redirect_to }
+        format.json { render json: JSON.generate(Import::OrganisationImporter.new(@organisation).export) }
+      end
+    end
+
+    def import
+      return if params[:import_data].blank?
+
+      import_data = JSON.parse(params[:import_data])
+      if Import::OrganisationImporter.new(@organisation, { replace: params[:replace] }).import(import_data)
+        flash[:notice] = t('.success')
+      else
+        flash[:alert] = t('.error')
+      end
     end
 
     private

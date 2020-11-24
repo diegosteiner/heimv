@@ -782,6 +782,10 @@ en:
     notifications:
       edit:
         deliver: Deliver
+    organisations:
+      import:
+        error: Error
+        success: Success
   nav:
     edit_account: Account
     sign_in: Anmelden

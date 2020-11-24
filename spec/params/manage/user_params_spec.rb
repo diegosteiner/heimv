@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Admin::UserParams do
+describe Manage::UserParams do
   let(:params_hash) { { user: attributes_for(:user) } }
   let(:params) { ActionController::Parameters.new(params_hash) }
 
