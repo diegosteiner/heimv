@@ -8,13 +8,13 @@ module Import
 
     protected
 
-    def _export
+    def to_h
       organisation.markdown_templates.find_each.map do |markdown_template|
         [markdown_template.id, markdown_template.attributes.slice(*relevant_attributes)]
       end.to_h
     end
 
-    def _import(serialized)
+    def from_h(serialized)
       serialized.map do |_id, attributes|
         identifying_attributes = attributes.slice('key', 'locale', 'namespace', 'home_id')
         template = organisation.markdown_templates.find_or_initialize_by(identifying_attributes)
