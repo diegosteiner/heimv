@@ -4,6 +4,8 @@ module BookingStrategies
   class Default
     module States
       class PaymentOverdue < BookingStrategy::State
+        Default.require_markdown_template(:payment_overdue_notification, %i[booking])
+
         include Rails.application.routes.url_helpers
 
         def self.to_sym
@@ -22,7 +24,7 @@ module BookingStrategies
         end
 
         after_transition do |booking|
-          booking.notifications.new(from_template: :payment_overdue, addressed_to: :tenant).deliver
+          booking.notifications.new(from_template: :payment_overdue_notification, addressed_to: :tenant).deliver
         end
 
         infer_transition(to: :completed) do |booking|

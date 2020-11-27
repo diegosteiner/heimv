@@ -1,13 +1,15 @@
 class AddI18nColumnsToMarkdownTemplates < ActiveRecord::Migration[6.0]
-  def up
+  def change
     rename_column :markdown_templates, :title, :original_title
     rename_column :markdown_templates, :body, :original_body
     add_column :markdown_templates, :title_i18n, :jsonb, default: {}
     add_column :markdown_templates, :body_i18n, :jsonb, default: {}
-    merge_markdown_templates_with_locale
-    remove_column :markdown_templates, :original_title
-    remove_column :markdown_templates, :original_body
-    remove_column :markdown_templates, :locale
+    reversible do |direction|
+      direction.up { merge_markdown_templates_with_locale }
+    end
+    remove_column :markdown_templates, :original_title, :stirng
+    remove_column :markdown_templates, :original_body, :string
+    remove_column :markdown_templates, :locale, :string
   end
 
   protected

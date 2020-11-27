@@ -4,6 +4,8 @@ module BookingStrategies
   class Default
     module States
       class CancelledRequest < BookingStrategy::State
+        Default.require_markdown_template(:cancelled_request_notification, %i[booking])
+
         def checklist
           []
         end
@@ -17,7 +19,7 @@ module BookingStrategies
           booking.concluded!
           booking.deadline&.clear
           addressed_to = booking.agent_booking? ? :booking_agent : :tenant
-          booking.notifications.new(from_template: :cancelled_request, addressed_to: addressed_to).deliver
+          booking.notifications.new(from_template: :cancelled_request_notification, addressed_to: addressed_to).deliver
         end
 
         def relevant_time; end

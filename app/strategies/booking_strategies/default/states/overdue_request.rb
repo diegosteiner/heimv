@@ -4,6 +4,8 @@ module BookingStrategies
   class Default
     module States
       class OverdueRequest < BookingStrategy::State
+        Default.require_markdown_template(:overdue_request_notification, %i[booking])
+
         def checklist
           []
         end
@@ -16,9 +18,9 @@ module BookingStrategies
           %i[cancelled_request declined_request definitive_request awaiting_tenant]
         end
 
-        after_transition do |booking, transition|
+        after_transition do |booking|
           booking.deadline&.clear
-          booking.notifications.new(from_template: transition.to_state.to_s, addressed_to: :tenant)&.deliver
+          booking.notifications.new(from_template: :overdue_request_notification, addressed_to: :tenant)&.deliver
         end
 
         infer_transition(to: :definitive_request, &:committed_request)

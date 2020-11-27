@@ -5,8 +5,7 @@ require 'rails_helper'
 RSpec.describe PaymentConfirmation, type: :model do
   let(:booking) { create(:booking, notifications_enabled: true) }
   let!(:template) do
-    create(:markdown_template, key: 'payment',
-                               locale: I18n.locale,
+    create(:markdown_template, key: 'payment_notification',
                                organisation: booking.organisation,
                                body: '{{ payment.amount }}')
   end

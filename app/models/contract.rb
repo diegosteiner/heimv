@@ -24,6 +24,8 @@
 #
 
 class Contract < ApplicationRecord
+  BookingStrategy.require_markdown_template(:contract_text, context: %i[booking])
+
   belongs_to :booking, inverse_of: :contracts, touch: true
   has_one_attached :pdf
   has_one_attached :signed_pdf

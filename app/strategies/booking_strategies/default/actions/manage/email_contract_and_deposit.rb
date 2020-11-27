@@ -5,8 +5,11 @@ module BookingStrategies
     module Actions
       module Manage
         class EmailContractAndDeposit < BookingStrategy::Action
+          Default.require_markdown_template(:awaiting_contract_notification, %i[booking])
+
           def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).relevant.unsent)
-            notification = booking.notifications.new(from_template: :awaiting_contract, addressed_to: :tenant)
+            notification = booking.notifications.new(from_template: :awaiting_contract_notification,
+                                                     addressed_to: :tenant)
             notification.attachments.attach(extract_attachments(booking.home, deposits, contract))
             notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver
           end

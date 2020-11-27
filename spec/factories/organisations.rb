@@ -47,8 +47,8 @@ FactoryBot.define do
 
     trait :with_markdown_templates do
       after(:create) do |organisation|
-        organisation.missing_markdown_templates.each do |locale_key|
-          organisation.markdown_templates.create(locale_key)
+        organisation.booking_strategy.class.missing_markdown_templates(organisation).each do |key|
+          organisation.markdown_templates.create(key: key)
         end
       end
     end

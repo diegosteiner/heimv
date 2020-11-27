@@ -2,6 +2,8 @@
 
 module PaymentInfos
   class TextPaymentInfo < ::PaymentInfo
+    BookingStrategy.require_markdown_template(:text_payment_info_text, context: %i[payment_info])
+
     delegate :esr_participant_nr, to: :organisation
 
     def body

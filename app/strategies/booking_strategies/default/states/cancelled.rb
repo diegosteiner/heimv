@@ -4,6 +4,9 @@ module BookingStrategies
   class Default
     module States
       class Cancelled < BookingStrategy::State
+        Default.require_markdown_template(:cancelled_notification, %i[booking])
+        Default.require_markdown_template(:booking_agent_cancelled_notification, %i[booking])
+
         def checklist
           []
         end
@@ -19,10 +22,11 @@ module BookingStrategies
         after_transition do |booking|
           booking.occupancy.free!
           booking.concluded!
-          booking.notifications.new(from_template: :cancelled, addressed_to: :tenant).deliver
+          booking.notifications.new(from_template: :cancelled_notification, addressed_to: :tenant).deliver
           next unless booking.agent_booking?
 
-          booking.notifications.new(from_template: :booking_agent_cancelled, addressed_to: :booking_agent).deliver
+          booking.notifications.new(from_template: :booking_agent_cancelled_notification,
+                                    addressed_to: :booking_agent).deliver
         end
 
         def relevant_time; end

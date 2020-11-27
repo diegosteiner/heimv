@@ -2,6 +2,10 @@
 
 module Invoices
   class Factory
+    BookingStrategy.require_markdown_template(:invoices_deposit_text, context: %i[booking invoice])
+    BookingStrategy.require_markdown_template(:invoices_invoice_text, context: %i[booking invoice])
+    BookingStrategy.require_markdown_template(:invoices_late_notice_text, context: %i[booking invoice])
+
     def call(booking, params)
       invoice = ::Invoice.new(default_attributes.merge(booking: booking).merge(params || {}))
       invoice.payable_until ||= payable_until(invoice)

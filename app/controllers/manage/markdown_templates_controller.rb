@@ -8,7 +8,6 @@ module Manage
     def index
       @markdown_templates = current_organisation.markdown_templates.accessible_by(current_ability)
       @markdown_templates = @markdown_templates.order(key: :ASC)
-      @markdown_templates = @markdown_templates.where(namespace: params[:namespace]) if params[:namespace]
       @markdown_templates = @markdown_templates.where(home_id: params[:home_id]) if params[:home_id]
     end
 

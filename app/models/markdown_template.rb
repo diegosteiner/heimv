@@ -7,7 +7,6 @@
 #  id              :bigint           not null, primary key
 #  body_i18n       :jsonb
 #  key             :string
-#  namespace       :string
 #  title_i18n      :jsonb
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -16,9 +15,9 @@
 #
 # Indexes
 #
-#  index_markdown_templates_on_home_id          (home_id)
-#  index_markdown_templates_on_namespace        (namespace)
-#  index_markdown_templates_on_organisation_id  (organisation_id)
+#  index_markdown_templates_on_home_id                              (home_id)
+#  index_markdown_templates_on_key_and_home_id_and_organisation_id  (key,home_id,organisation_id) UNIQUE
+#  index_markdown_templates_on_organisation_id                      (organisation_id)
 #
 # Foreign Keys
 #
@@ -27,6 +26,7 @@
 #
 
 class MarkdownTemplate < ApplicationRecord
+  Requirement = Struct.new(:key, :context)
   extend Mobility
   translates :title, :body, column_suffix: '_i18n', locale_accessors: true
 
@@ -34,9 +34,7 @@ class MarkdownTemplate < ApplicationRecord
   belongs_to :home, optional: true
   has_many :notifications, inverse_of: :markdown_template, dependent: :nullify
 
-  enum namespace: { notification: Notification.to_s, contract: Contract.to_s, invoice: Invoice.to_s }
-
-  validates :key, uniqueness: { scope: %i[organisation_id home_id namespace] }
+  validates :key, uniqueness: { scope: %i[key organisation_id home_id] }
 
   def to_markdown
     Markdown.new(body)
@@ -54,12 +52,12 @@ class MarkdownTemplate < ApplicationRecord
 
   alias % interpolate
 
-  def self.by_key!(key, namespace: nil, home_id: nil)
-    where(namespace: namespace, key: key, home_id: [home_id, nil]).order(home_id: :DESC).take!
+  def self.by_key!(key, home_id: nil)
+    where(key: key, home_id: [home_id, nil]).order(home_id: :DESC).take!
   end
 
-  def self.by_key(key, namespace: nil, home_id: nil)
-    by_key!(key, namespace: namespace, home_id: home_id)
+  def self.by_key(key, home_id: nil)
+    by_key!(key, home_id: home_id)
   rescue ActiveRecord::RecordNotFound => e
     defined?(Raven) && Raven.capture_exception(e) || Rails.logger.warn(e.message)
     nil

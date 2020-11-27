@@ -22,19 +22,22 @@ class BookingStrategy
 
   def displayed_booking_states; end
 
-  def state_machine_automator
-    self.class::StateMachineAutomator
-  end
-
+  # TODO: move to state class
   def t(state, options = {})
     I18n.t(state, **options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
   end
 
   class << self
-    def required_markdown_templates; end
-  end
+    def markdown_templates
+      @markdown_templates ||= superclass.respond_to?(:markdown_templates) && superclass.markdown_templates || {}
+    end
 
-  def markdown_template_keys
-    self.class::MARKDOWN_TEMPLATE_KEYS
+    def require_markdown_template(key, context = [])
+      markdown_templates[key.to_sym] = MarkdownTemplate::Requirement.new(key, context)
+    end
+
+    def missing_markdown_templates(organisation)
+      markdown_templates.keys.map(&:to_s) - organisation.markdown_templates.where(home_id: nil).pluck(:key)
+    end
   end
 end

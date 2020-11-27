@@ -4,6 +4,8 @@ module BookingStrategies
   class Default
     module States
       class ProvisionalRequest < BookingStrategy::State
+        Default.require_markdown_template(:provisional_request_notification, %i[booking])
+
         def checklist
           []
         end
@@ -23,8 +25,8 @@ module BookingStrategies
                                    remarks: booking.state)
         end
 
-        after_transition do |booking, transition|
-          booking.notifications.new(from_template: transition.to_state.to_s, addressed_to: :tenant).deliver
+        after_transition do |booking|
+          booking.notifications.new(from_template: :provisional_request_notification, addressed_to: :tenant).deliver
           booking.occupancy.tentative!
           booking.lock_timeframe!
         end

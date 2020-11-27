@@ -4,6 +4,9 @@ module BookingStrategies
   class Default
     module States
       class AwaitingTenant < BookingStrategy::State
+        Default.require_markdown_template(:awaiting_tenant_notification, %i[booking])
+        Default.require_markdown_template(:booking_agent_request_accepted_notification, %i[booking])
+
         def checklist
           []
         end
@@ -21,8 +24,8 @@ module BookingStrategies
         end
 
         after_transition do |booking|
-          booking.notifications.new(from_template: :awaiting_tenant, addressed_to: :tenant).deliver
-          booking.notifications.new(from_template: :booking_agent_request_accepted,
+          booking.notifications.new(from_template: :awaiting_tenant_notification, addressed_to: :tenant).deliver
+          booking.notifications.new(from_template: :booking_agent_request_accepted_notification,
                                     addressed_to: :booking_agent).deliver
         end
 
