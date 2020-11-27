@@ -24,6 +24,7 @@ gem 'faker', require: false
 gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
+gem 'mobility'
 gem 'pg'
 gem 'pony'
 gem 'prawn'

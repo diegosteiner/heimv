@@ -3,7 +3,7 @@
 module Import
   class MarkdownTemplateImporter < Base
     def relevant_attributes
-      %w[key title body locale home_id namespace]
+      %w[key title body home_id]
     end
 
     protected
@@ -16,7 +16,7 @@ module Import
 
     def from_h(serialized)
       serialized.map do |_id, attributes|
-        identifying_attributes = attributes.slice('key', 'locale', 'namespace', 'home_id')
+        identifying_attributes = attributes.slice('key', 'home_id')
         template = organisation.markdown_templates.find_or_initialize_by(identifying_attributes)
         template.update(attributes.slice(*relevant_attributes)) if template.new_record? || options[:replace]
         template if template.valid?

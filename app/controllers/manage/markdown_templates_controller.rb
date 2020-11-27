@@ -49,7 +49,8 @@ module Manage
     private
 
     def markdown_template_params
-      params.require(:markdown_template).permit(%i[key title locale body namespace home_id])
+      params.require(:markdown_template).permit(%i[key home_id] +
+        I18n.available_locales.map { |l| ["title_#{l}", "body_#{l}"] }.flatten)
     end
   end
 end

@@ -1,6 +1,6 @@
 .card.breakout-sm
   .card-body
-    = render_hash_as_dl(@markdown_template.attributes.slice(*%w(key title locale)), Tenant)
+    = render_hash_as_dl(@markdown_template.attributes.slice(*%w(key title)), Tenant)
     dl
       dt= MarkdownTemplate.human_attribute_name(:body)
       dd

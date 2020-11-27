@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_31_202205) do
+ActiveRecord::Schema.define(version: 2020_11_27_081911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -209,16 +209,14 @@ ActiveRecord::Schema.define(version: 2020_10_31_202205) do
 
   create_table "markdown_templates", force: :cascade do |t|
     t.string "key"
-    t.string "title"
-    t.string "locale"
-    t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "organisation_id", null: false
     t.string "namespace"
     t.bigint "home_id"
+    t.jsonb "title_i18n", default: {}
+    t.jsonb "body_i18n", default: {}
     t.index ["home_id"], name: "index_markdown_templates_on_home_id"
-    t.index ["key", "locale", "organisation_id", "home_id", "namespace"], name: "index_markdown_templates_on_key_composition", unique: true
     t.index ["namespace"], name: "index_markdown_templates_on_namespace"
     t.index ["organisation_id"], name: "index_markdown_templates_on_organisation_id"
   end

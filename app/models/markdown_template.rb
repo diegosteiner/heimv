@@ -5,11 +5,10 @@
 # Table name: markdown_templates
 #
 #  id              :bigint           not null, primary key
-#  body            :text
+#  body_i18n       :jsonb
 #  key             :string
-#  locale          :string
 #  namespace       :string
-#  title           :string
+#  title_i18n      :jsonb
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  home_id         :bigint
@@ -18,7 +17,6 @@
 # Indexes
 #
 #  index_markdown_templates_on_home_id          (home_id)
-#  index_markdown_templates_on_key_composition  (key,locale,organisation_id,home_id,namespace) UNIQUE
 #  index_markdown_templates_on_namespace        (namespace)
 #  index_markdown_templates_on_organisation_id  (organisation_id)
 #
@@ -29,8 +27,8 @@
 #
 
 class MarkdownTemplate < ApplicationRecord
-  class TemplateMissingError < StandardError; end
-  # RequiredMarkdownTemplate = Struct.new(:namespace, :key, )
+  extend Mobility
+  translates :title, :body, column_suffix: '_i18n', locale_accessors: true
 
   belongs_to :organisation
   belongs_to :home, optional: true
@@ -38,8 +36,7 @@ class MarkdownTemplate < ApplicationRecord
 
   enum namespace: { notification: Notification.to_s, contract: Contract.to_s, invoice: Invoice.to_s }
 
-  validates :key, :locale, presence: true
-  validates :key, uniqueness: { scope: %i[locale organisation_id home_id namespace] }
+  validates :key, uniqueness: { scope: %i[organisation_id home_id namespace] }
 
   def to_markdown
     Markdown.new(body)
@@ -57,29 +54,14 @@ class MarkdownTemplate < ApplicationRecord
 
   alias % interpolate
 
-  def self.by_key!(key, locale: I18n.locale, **other)
-    find_by({ key: key, locale: locale }.merge(other)) ||
-      find_by({ key: key, locale: locale }) ||
-      find_by({ key: key }) ||
-      raise(TemplateMissingError, "MarkdownTemplate #{key} with locale #{locale} was not found")
+  def self.by_key!(key, namespace: nil, home_id: nil)
+    where(namespace: namespace, key: key, home_id: [home_id, nil]).order(home_id: :DESC).take!
   end
 
-  def self.by_key(key, locale: I18n.locale, **other)
-    by_key!(key, locale: locale, **other)
-  rescue TemplateMissingError => e
+  def self.by_key(key, namespace: nil, home_id: nil)
+    by_key!(key, namespace: namespace, home_id: home_id)
+  rescue ActiveRecord::RecordNotFound => e
     defined?(Raven) && Raven.capture_exception(e) || Rails.logger.warn(e.message)
     nil
-  end
-
-  def self.create_missing(organisation, locale: (I18n.available_locales - [:en]))
-    missing(organisation, locale: locale).each(&:save)
-  end
-
-  def self.missing(organisation, locale: (I18n.available_locales - [:en]))
-    Array.wrap(locale).map do |locale_to_check|
-      set_keys = where(locale: locale_to_check, organisation: organisation).pluck(:key).map(&:to_sym)
-      missing_keys = organisation.booking_strategy.markdown_template_keys - set_keys
-      missing_keys.map { |missing_key| new(key: missing_key, organisation: organisation, locale: locale_to_check) }
-    end.flatten
   end
 end
