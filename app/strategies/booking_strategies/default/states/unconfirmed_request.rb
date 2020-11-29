@@ -4,6 +4,8 @@ module BookingStrategies
   class Default
     module States
       class UnconfirmedRequest < BookingStrategy::State
+        Default.require_markdown_template(:unconfirmed_request_notification, %i[booking])
+
         def checklist
           []
         end
@@ -25,7 +27,7 @@ module BookingStrategies
           booking.deadline&.clear
           booking.deadlines.create(at: booking.organisation.short_deadline.from_now, remarks: booking.state)
           booking.occupancy.tentative!
-          booking.notifications.new(from_template: :unconfirmed_request, addressed_to: :tenant).deliver
+          booking.notifications.new(from_template: :unconfirmed_request_notification, addressed_to: :tenant).deliver
         end
 
         def relevant_time

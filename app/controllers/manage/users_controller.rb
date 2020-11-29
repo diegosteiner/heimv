@@ -28,7 +28,7 @@ module Manage
     end
 
     def destroy
-      @user.destroy
+      @user.destroy unless @user == current_user
       respond_with :manage, @user, location: manage_users_path
     end
 

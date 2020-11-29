@@ -5,10 +5,17 @@ module BookingStrategies
     module Actions
       module Manage
         class EmailInvoice < BookingStrategy::Action
+          Default.require_markdown_template(:payment_due_notification, %i[booking])
+
           def call!(invoices = booking.invoices.unsent)
-            booking.notifications.new(from_template: :payment_due, addressed_to: :tenant)&.tap do |notification|
-              notification.attachments.attach(invoices.map { |invoice| invoice.pdf.blob })
-            end&.deliver && invoices.each(&:sent!)
+            notification = booking.notifications.new(from_template: :payment_due_notification, addressed_to: :tenant)
+            return unless notification
+
+            pdfs = invoices.with_default_includes
+                           .includes([:pdf_blob, { pdf_attachment: [:blob] }])
+                           .map { |invoice| invoice.pdf.blob }
+            notification.attachments.attach(pdfs)
+            notification.deliver && invoices.each(&:sent!)
           end
 
           def allowed?

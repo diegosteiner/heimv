@@ -10,7 +10,7 @@ module Import
     end
 
     def export
-      _export
+      to_h
     end
 
     def import(serialized)
@@ -18,7 +18,7 @@ module Import
       return false unless serialized.is_a?(Hash)
 
       ActiveRecord::Base.transaction do
-        _import(serialized)
+        from_h(serialized)
       end
     end
 

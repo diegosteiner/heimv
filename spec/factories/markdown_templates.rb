@@ -5,11 +5,9 @@
 # Table name: markdown_templates
 #
 #  id              :bigint           not null, primary key
-#  body            :text
+#  body_i18n       :jsonb
 #  key             :string
-#  locale          :string
-#  namespace       :string
-#  title           :string
+#  title_i18n      :jsonb
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  home_id         :bigint
@@ -17,10 +15,9 @@
 #
 # Indexes
 #
-#  index_markdown_templates_on_home_id          (home_id)
-#  index_markdown_templates_on_key_composition  (key,locale,organisation_id,home_id,namespace) UNIQUE
-#  index_markdown_templates_on_namespace        (namespace)
-#  index_markdown_templates_on_organisation_id  (organisation_id)
+#  index_markdown_templates_on_home_id                              (home_id)
+#  index_markdown_templates_on_key_and_home_id_and_organisation_id  (key,home_id,organisation_id) UNIQUE
+#  index_markdown_templates_on_organisation_id                      (organisation_id)
 #
 # Foreign Keys
 #
@@ -32,7 +29,6 @@ FactoryBot.define do
   factory :markdown_template do
     organisation
     title { 'Test' }
-    locale { I18n.available_locales.sample }
     sequence(:key) { |i| "key-#{i}" }
     body { Faker::Lorem.paragraph }
   end

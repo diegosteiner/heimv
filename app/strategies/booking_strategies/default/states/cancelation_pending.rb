@@ -22,7 +22,7 @@ module BookingStrategies
         end
 
         infer_transition(to: :cancelled) do |booking|
-          !booking.invoices.relevant.unpaid.exists?
+          !booking.invoices.kept.unpaid.exists?
         end
 
         def relevant_time; end

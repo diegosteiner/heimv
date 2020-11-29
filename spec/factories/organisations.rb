@@ -47,9 +47,8 @@ FactoryBot.define do
 
     trait :with_markdown_templates do
       after(:create) do |organisation|
-        organisation.missing_markdown_templates.each do |locale_key|
-          organisation.markdown_templates.create(locale_key)
-        end
+        onboarding = OrganisationOnboardingService.new(organisation)
+        onboarding.create_missing_markdown_templates!
       end
     end
   end

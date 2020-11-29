@@ -1,59 +1,24 @@
 
-- @markdown_templates.group_by(&:namespace).each do |namespace, markdown_templates_of_namespace|
-  h3= MarkdownTemplate.human_enum(:namespace, namespace)
-  table.table.table-hover.table-card
-    thead
-      tr
-        th
-        th= MarkdownTemplate.human_attribute_name(:title)
-        th= MarkdownTemplate.human_attribute_name(:home)
-        th
-    - markdown_templates_of_namespace.group_by(&:key).each do |key, markdown_templates_of_key|
-      tbody
+table.table.table-hover.table-card
+  thead
+    tr
+      th= MarkdownTemplate.human_attribute_name(:title)
+      th= MarkdownTemplate.human_attribute_name(:home)
+      th
+  tbody
+    - @markdown_templates.includes(:home).each do |markdown_template|
         tr 
-          td[colspan=4]= key
-      tbody
-        - markdown_templates_of_key.each do |markdown_template|
-            tr 
-              td= image_tag asset_pack_path("images/flag_icons/#{markdown_template.locale}.png")
-              td= link_to markdown_template.title, manage_markdown_template_path(markdown_template)
-              td
-                = link_to markdown_template.home.name, manage_home_path(markdown_template.home) if markdown_template.home
-              td.p-1.text-right
-                .btn-group
-                  = link_to new_manage_markdown_template_path(dup: markdown_template.to_param), class: 'btn btn-default'
-                    span.fa.fa-clone
-                  = link_to edit_manage_markdown_template_path(markdown_template), class: 'btn btn-default'
-                    span.fa.fa-edit
-                  = link_to manage_markdown_template_path(markdown_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
-                    span.fa.fa-trash
-
-
-  / table.table.table-hover.table-card
-  /   thead
-  /     tr
-  /       th= MarkdownTemplate.human_attribute_name(:title)
-  /       th= MarkdownTemplate.human_attribute_name(:namespace)
-  /       th= MarkdownTemplate.human_attribute_name(:key)
-  /       th= MarkdownTemplate.human_attribute_name(:locale)
-  /       th
-  /       th
-
-  /   tbody
-  /     - @markdown_templates.each do |markdown_template|
-  /       tr[data-href=manage_markdown_template_path(markdown_template) data-id=markdown_template.to_param]
-  /         td
-  /           = link_to markdown_template.title, manage_markdown_template_path(markdown_template)
-  /         td = MarkdownTemplate.human_enum(:namespace, markdown_template.namespace)
-  /         td
-  /           = link_to markdown_template.key, manage_markdown_template_path(markdown_template)
-  /         td = markdown_template.locale
-  /         td
-  /           = link_to edit_manage_markdown_template_path(markdown_template) do
-  /             span.fa.fa-edit
-  /         td
-  /           = link_to manage_markdown_template_path(markdown_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
-  /             span.fa.fa-trash
+          td= link_to current_organisation.booking_strategy.t(markdown_template.key, scope: :markdown_templates, default: markdown_template.title), manage_markdown_template_path(markdown_template)
+          td
+            = link_to markdown_template.home.name, manage_home_path(markdown_template.home) if markdown_template.home
+          td.p-1.text-right
+            .btn-group
+              = link_to new_manage_markdown_template_path(dup: markdown_template.to_param), class: 'btn btn-default'
+                span.fa.fa-clone
+              = link_to edit_manage_markdown_template_path(markdown_template), class: 'btn btn-default'
+                span.fa.fa-edit
+              = link_to manage_markdown_template_path(markdown_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
+                span.fa.fa-trash
 
 br
 = link_to new_manage_markdown_template_path, class: 'btn btn-primary' do

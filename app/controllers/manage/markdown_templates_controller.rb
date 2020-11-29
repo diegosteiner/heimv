@@ -8,7 +8,6 @@ module Manage
     def index
       @markdown_templates = current_organisation.markdown_templates.accessible_by(current_ability)
       @markdown_templates = @markdown_templates.order(key: :ASC)
-      @markdown_templates = @markdown_templates.where(namespace: params[:namespace]) if params[:namespace]
       @markdown_templates = @markdown_templates.where(home_id: params[:home_id]) if params[:home_id]
     end
 
@@ -49,7 +48,8 @@ module Manage
     private
 
     def markdown_template_params
-      params.require(:markdown_template).permit(%i[key title locale body namespace home_id])
+      params.require(:markdown_template).permit(%i[key home_id] +
+        I18n.available_locales.map { |l| ["title_#{l}", "body_#{l}"] }.flatten)
     end
   end
 end

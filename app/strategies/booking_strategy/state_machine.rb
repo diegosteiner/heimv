@@ -81,9 +81,5 @@ class BookingStrategy
       end
       nil
     end
-
-    def state_object
-      self.class.state_classes[current_state&.to_sym]&.new(object)
-    end
   end
 end

@@ -4,6 +4,7 @@ module BookingStrategies
   class Default
     module States
       class DefinitiveRequest < BookingStrategy::State
+        Default.require_markdown_template(:definitive_request_notification, %i[booking])
         include Rails.application.routes.url_helpers
 
         def checklist
@@ -30,12 +31,12 @@ module BookingStrategies
           booking.contracts.sent.any?
         end
 
-        after_transition do |booking, transition|
+        after_transition do |booking|
           booking.occupancy.tentative!
           booking.lock_timeframe!
           booking.lock_editable!
           booking.deadline&.clear
-          booking.notifications.new(from_template: transition.to_state.to_s, addressed_to: :tenant).deliver
+          booking.notifications.new(from_template: :definitive_request_notification, addressed_to: :tenant).deliver
         end
 
         def relevant_time
@@ -55,7 +56,7 @@ module BookingStrategies
         end
 
         def create_deposit_checklist_item
-          ChecklistItem.new(:create_deposit, Invoices::Deposit.of(booking).relevant.exists?,
+          ChecklistItem.new(:create_deposit, Invoices::Deposit.of(booking).kept.exists?,
                             manage_booking_invoices_path(booking, org: booking.organisation.slug))
         end
       end

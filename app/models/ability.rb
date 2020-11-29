@@ -8,25 +8,16 @@ module Ability
       anonymous_abilities(organisation)
       return if user.blank?
 
-      user_abilities(user, organisation)
-      admin_abilities(user, organisation) if user.role_admin?
+      can %i[read edit], user
+      can :manage, :all if user.role_admin?
       manage_abilities(user, organisation) if user.role_manager?
     end
 
     protected
 
-    def admin_abilities(_user, _organisation)
-      can :manage, :all
-    end
-
     def manage_abilities(_user, _organisation); end
 
-    def user_abilities(_user, _organisation); end
-
     def anonymous_abilities(_organisation); end
-  end
-
-  class Admin < Base
   end
 
   class Manage < Base
@@ -52,7 +43,7 @@ module Ability
       can :manage, Payment, booking: { organisation: organisation }
       can :manage, Deadline, booking: { organisation: organisation }
       can :manage, Usage, booking: { organisation: organisation }
-      # can :manage, User, organisation: organisation
+      can :manage, User, organisation: organisation
       cannot :manage, User, role: :admin
       can :manage, Notification, booking: { organisation: organisation }
       can %i[read edit update], Organisation, id: organisation.id
@@ -70,7 +61,9 @@ module Ability
       can %i[read index embed calendar at], Occupancy, home: { requests_allowed: true }
     end
 
-    def manage_abilities(user, _organisation)
+    def manage_abilities(user, organisation)
+      return unless organisation == user.organisation
+
       can :manage, Home, organisation: user.organisation
     end
   end

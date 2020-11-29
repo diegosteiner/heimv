@@ -5,13 +5,6 @@ Rails.application.routes.draw do
   resource :account, only: %i[edit update]
   get 'changelog', to: 'pages#changelog'
 
-  namespace :admin do
-    root to: 'dashboard#index'
-    resources :users
-    resources :organisations
-    resource :import, only: %i[new create show]
-  end
-
   scope '(:org)' do
     namespace :manage do
       root to: 'dashboard#index'
@@ -26,7 +19,9 @@ Rails.application.routes.draw do
           end
         end
       end
-      resource :organisation, only: %i[edit update show]
+      resource :organisation, only: %i[edit update show] do
+        match :import, via: %i[get post]
+      end
       resources :users, except: %i[show]
       resources :data_digests do
         get '/period', on: :member, action: :period, as: :period

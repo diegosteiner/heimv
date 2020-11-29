@@ -4,6 +4,8 @@ module BookingStrategies
   class Default
     module States
       class Upcoming < BookingStrategy::State
+        Default.require_markdown_template(:upcoming_notification, %i[booking])
+
         def checklist
           []
         end
@@ -19,7 +21,7 @@ module BookingStrategies
         after_transition do |booking|
           booking.occupancy.occupied!
           booking.deadline&.clear
-          booking.notifications.new(from_template: :upcoming, addressed_to: :tenant).deliver
+          booking.notifications.new(from_template: :upcoming_notification, addressed_to: :tenant).deliver
         end
 
         infer_transition(to: :upcoming_soon) do |booking|

@@ -48,7 +48,7 @@ RSpec.describe Notification, type: :model do
   end
 
   describe 'from_template' do
-    let(:template) { create(:markdown_template, organisation: booking.organisation, locale: I18n.locale) }
+    let(:template) { create(:markdown_template, organisation: booking.organisation) }
     let(:notification) { build(:notification, booking: booking) }
     let(:booking) { create(:booking, locale: I18n.locale) }
 

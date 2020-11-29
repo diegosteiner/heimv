@@ -127,7 +127,7 @@ const CalendarControl = ({
     if (isValid(parsedValue)) {
       setDateValue({ date: parsedValue });
     } else {
-      setTextState(formatDate(dateState));
+      setTextState(dateState);
     }
     onBlur && onBlur();
   };

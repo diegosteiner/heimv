@@ -1,6 +1,6 @@
 ul.fa-ul.mb-0.checklist
-  - booking.state_object.checklist.to_a.each do |check_item|
+  - booking.current_state.checklist.to_a.each do |check_item|
     li
       i.fa-li.fa[class=(check_item.checked ? 'fa-check-square-o text-success' : 'fa-square-o')]
       = link_to(check_item.url_hint)
-        = t(check_item.key, scope: booking.state_object.i18n_scope + [:checklist])
+        = t(check_item.key, scope: booking.current_state.i18n_scope + [:checklist])

@@ -16,13 +16,13 @@ module Import
 
     protected
 
-    def _export
+    def to_h
       home.tarifs.find_each.map do |tarif|
         [tarif.id, tarif.attributes.slice(*relevant_attributes)]
       end.to_h
     end
 
-    def _import(serialized)
+    def from_h(serialized)
       serialized.map do |id, attributes|
         tarif = home.tarifs.find_or_initialize_by(id: id)
         tarif.update(attributes.slice(*relevant_attributes)) if tarif.new_record? || options[:replace]

@@ -78,7 +78,7 @@ class Notification < ApplicationRecord
   def resolve_markdown_template
     return if from_template.blank? || organisation.blank? || booking.blank?
 
-    organisation.markdown_templates.by_key(from_template, locale: locale)
+    organisation.markdown_templates.by_key(from_template)
   end
 
   def locale
@@ -91,8 +91,10 @@ class Notification < ApplicationRecord
     super
     return unless markdown_template.is_a?(MarkdownTemplate)
 
-    self.subject = markdown_template.interpolate_title(context)
-    self.markdown = markdown_template.interpolate(context)
+    Mobility.with_locale(booking.locale) do
+      self.subject = markdown_template.interpolate_title(context)
+      self.markdown = markdown_template.interpolate(context)
+    end
   end
 
   def context

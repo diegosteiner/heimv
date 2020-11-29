@@ -11,7 +11,7 @@ module Manage
                   elsif params[:all].present?
                     @invoices
                   else
-                    @invoices.relevant.unpaid
+                    @invoices.kept.unpaid
                   end
       @invoices = @invoices.includes(:organisation, :payments).ordered.with_attached_pdf
       respond_with :manage, @invoices
@@ -44,12 +44,12 @@ module Manage
     end
 
     def update
-      @invoice.update(invoice_params) unless @invoice.deleted?
+      @invoice.update(invoice_params) unless @invoice.discarded?
       respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
     end
 
     def destroy
-      @invoice.update(deleted_at: Time.zone.now) unless @invoice.deleted?
+      @invoice.discard!
       respond_with :manage, @invoice, location: manage_booking_path(@invoice.booking)
     end
 

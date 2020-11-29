@@ -69,7 +69,7 @@ section.breakout-sm
           .row.mb-3
             .col
               strong= Booking.human_attribute_name(:state)
-              p= @booking.state_object.translated
+              p= @booking.current_state.translated
               br
               = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
             .col 
@@ -89,7 +89,7 @@ section.breakout-sm
               .dropdown-menu aria-labelledby="dropdownMenuButton"
                 - @booking.state_machine.allowed_transitions.each do |state|
                   = f.button name: :'booking[transition_to]', value: state, class: 'dropdown-item'
-                    = transition_translation(to: state, from: @booking.state_machine.current_state)[:label]
+                    = @booking.booking_strategy.t(:label, scope: [:states, state])
 
 
             = link_to edit_manage_booking_path(@booking), class: 'btn btn-default'

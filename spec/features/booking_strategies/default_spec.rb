@@ -119,15 +119,16 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def check_booking
-    expected_notifications = %w[payment_due payment upcoming awaiting_contract
-                                definitive_request provisional_request open_request
-                                manage_new_booking_mail unconfirmed_request]
+    expected_notifications = %w[payment_due_notification payment_confirmation_notification upcoming_notification
+                                upcoming_soon_notification awaiting_contract_notification
+                                definitive_request_notification provisional_request_notification
+                                open_request_notification manage_new_booking_notification
+                                unconfirmed_request_notification]
     expected_transitions = %w[unconfirmed_request open_request provisional_request definitive_request
                               awaiting_contract upcoming upcoming_soon active past payment_due completed]
     # booking.reload
     expect(booking.notifications.map { |notification| notification.markdown_template.key })
       .to contain_exactly(*expected_notifications)
-    expect(booking.booking_transitions.ordered.map(&:to_state))
-      .to contain_exactly(*expected_transitions)
+    expect(booking.booking_transitions.ordered.map(&:to_state)).to contain_exactly(*expected_transitions)
   end
 end

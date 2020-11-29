@@ -95,11 +95,4 @@ class Organisation < ApplicationRecord
   def locale
     super || I18n.locale || I18n.default_locale
   end
-
-  def missing_markdown_templates(locales = I18n.available_locales)
-    locale_keys = booking_strategy.markdown_template_keys.flat_map do |key|
-      locales.map { |locale| { locale: locale, key: key } }
-    end
-    locale_keys.reject { |locale_key| markdown_templates.where(locale_key).exists? }
-  end
 end

@@ -40,8 +40,8 @@
 
         .col-md-3.py-3
           p.mb-1
-            / booking-relevant-time[relevant_time=booking.state_object.relevant_time&.iso8601 booking_state=booking.state]
-            = l(booking.state_object.relevant_time) if booking.state_object.relevant_time.present? 
+            / booking-relevant-time[relevant_time=booking.current_state.relevant_time&.iso8601 booking_state=booking.state]
+            = l(booking.current_state.relevant_time) if booking.current_state.relevant_time.present? 
           = render partial: 'manage/bookings/checklist', locals: { booking: booking }
 
         .col-md-1
