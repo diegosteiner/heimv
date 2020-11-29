@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [20.11.4] - 2020-11-29
+
+- Simplify templates
+- Improve localization support
+
 ## [20.10.2] - 2020-10-11
 
 - Improve MarkdownTemplate overview
