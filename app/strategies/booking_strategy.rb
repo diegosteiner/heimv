@@ -22,11 +22,6 @@ class BookingStrategy
 
   def displayed_booking_states; end
 
-  # TODO: move to state class
-  def t(state, options = {})
-    I18n.t(state, **options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
-  end
-
   class << self
     def markdown_templates
       @markdown_templates ||= superclass.respond_to?(:markdown_templates) && superclass.markdown_templates || {}

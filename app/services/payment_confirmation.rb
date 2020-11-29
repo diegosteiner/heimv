@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PaymentConfirmation
-  BookingStrategy.require_markdown_template(:payment_notification, context: %i[booking payment])
+  BookingStrategy.require_markdown_template(:payment_confirmation_notification, context: %i[booking payment])
 
   attr_reader :payment
 
@@ -14,7 +14,7 @@ class PaymentConfirmation
 
   def notification
     context = { 'booking' => booking, 'payment' => @payment }
-    @notification ||= booking.notifications.new(from_template: :payment_notification,
+    @notification ||= booking.notifications.new(from_template: :payment_confirmation_notification,
                                                 addressed_to: :tenant,
                                                 context: context)
   end

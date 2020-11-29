@@ -10,6 +10,7 @@ class AddI18nColumnsToMarkdownTemplates < ActiveRecord::Migration[6.0]
     remove_column :markdown_templates, :original_title, :stirng
     remove_column :markdown_templates, :original_body, :string
     remove_column :markdown_templates, :locale, :string
+    MarkdownTemplate.reset_column_information
   end
 
   protected

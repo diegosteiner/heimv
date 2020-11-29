@@ -5,12 +5,6 @@ module BookingHelper
     current_organisation.homes.map { |home| [home.to_s, home.to_param] }
   end
 
-  def transition_translation(to:, from: nil)
-    current_organisation.booking_strategy.t([from, to].join('-->'), scope: :transition, default: nil) ||
-      current_organisation.booking_strategy.t("-->#{to}", scope: :transition, default: nil) ||
-      {}
-  end
-
   def selector_votes(usage)
     return unless usage.tarif_selector_votes.any?
 

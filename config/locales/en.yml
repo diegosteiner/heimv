@@ -429,6 +429,35 @@ en:
           commit_booking_agent_request: Anfrage definitv setzen
           commit_request: Anfrage definitv setzen
           postpone_deadline: Frist verslängern
+      markdown_templates:
+        awaiting_contract_notification: Benachrichtigung für Vertragsaustellung und Anzahlung (Mieter)
+        awaiting_tenant_notification: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
+        booking_agent_cancelled_notification: Benachrichtigung für annulierte Vermittlungsanfrage (Vermittler)
+        booking_agent_request_accepted_notification: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
+        booking_agent_request_notification: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
+        cancelled_notification: Benachrichtigung für annulierte Reservation (Mieter)
+        cancelled_request_notification: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
+        contract_signed_notification: Benachrichtigung für Vertragseingang (Mieter)
+        contract_text: Text für Vertrag
+        declined_request_notification: Benachrichtigung für abgelehnte Reservationsanfrage (Mieter)
+        definitive_request_notification: Benachrichtigung für definitive Mietanfrage (Mieter)
+        foreign_payment_info_text: Text für Zahlunginformationen für ausländische Mieter
+        invoices_deposit_text: Text für Rechnung (Anzahlung)
+        invoices_invoice_text: Text für Rechnung
+        invoices_late_notice_text: Text für Rechnung (Mahnung)
+        manage_new_booking_notification: Benachrichtigung für neue Mietanfrage (Verwalting)
+        offer_text: Text für Offerte
+        open_request_notification: Benachrichtigung für offene Mietanfrage (Mieter)
+        overdue_notification: Benrachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
+        overdue_request_notification: Benachrichtigung für überfällige Reservationsanfrage (Mieter)
+        payment_confirmation_notification: Benachrichtigung für Zahlungsbestätigung
+        payment_due_notification: Benachrichtigung für fällige Zahlung (Mieter)
+        payment_overdue_notification: Benachrichtigung für überfällige Rechnung (Mieter)
+        provisional_request_notification: Benachrichtigung für provisorische Mietanfrage (Mieter)
+        text_payment_info_text: Text für Zahlunginformationen
+        unconfirmed_request_notification: Benachrichtigung für unbestätigte Mietanfrage (Mieter)
+        upcoming_notification: Benachrichtigung für zukünftige Belegung (Mieter)
+        upcoming_soon_notification: Benachrichtigung für baldige Belegung (Mieter)
       states:
         active:
           help: Help

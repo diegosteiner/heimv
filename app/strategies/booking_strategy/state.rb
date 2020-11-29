@@ -64,6 +64,13 @@ class BookingStrategy
       @booking = booking
     end
 
+    def ==(other)
+      return to_s == other if other.is_a?(String)
+      return to_sym == other if other.is_a?(Symbol)
+
+      super
+    end
+
     def to_sym
       self.class.to_sym
     end

@@ -12,5 +12,6 @@ class RemoveNamespaceFromMarkdownTemplates < ActiveRecord::Migration[6.0]
 
     remove_column :markdown_templates, :namespace, :string
     add_index :markdown_templates, %i[key home_id organisation_id], unique: true
+    MarkdownTemplate.reset_column_information
   end
 end

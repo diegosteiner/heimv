@@ -91,8 +91,10 @@ class Notification < ApplicationRecord
     super
     return unless markdown_template.is_a?(MarkdownTemplate)
 
-    self.subject = markdown_template.interpolate_title(context)
-    self.markdown = markdown_template.interpolate(context)
+    Mobility.with_locale(booking.locale) do
+      self.subject = markdown_template.interpolate_title(context)
+      self.markdown = markdown_template.interpolate(context)
+    end
   end
 
   def context

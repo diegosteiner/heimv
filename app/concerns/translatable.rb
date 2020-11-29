@@ -7,11 +7,7 @@ module Translatable
     def i18n_scope
       self.class.i18n_scope
     end
-
-    def translated(key = 'label')
-      self.class.translated(key)
-    end
-    alias_method :t, :translated
+    delegate :t, :translated, to: :class
   end
 
   class_methods do
@@ -19,8 +15,8 @@ module Translatable
       name.split('::').map(&:underscore)
     end
 
-    def translated(key = 'label')
-      I18n.t((i18n_scope + Array.wrap(key)).join('.'))
+    def translated(key = :label, options = {})
+      I18n.t(key, options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
     end
     alias_method :t, :translated
   end

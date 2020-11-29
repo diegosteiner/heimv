@@ -3,7 +3,7 @@
 module Import
   class MarkdownTemplateImporter < Base
     def relevant_attributes
-      %w[key title body home_id]
+      %w[key title_i18n body_i18n home_id]
     end
 
     protected

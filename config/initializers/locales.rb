@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require 'i18n/backend/fallbacks'
+
 I18n.available_locales = %w[de fr it en]
 I18n.default_locale = :de
+I18n::Backend::Simple.include I18n::Backend::Fallbacks
 Faker::Config.locale = :de if defined?(Faker)
 
 ISO3166.configure do |config|

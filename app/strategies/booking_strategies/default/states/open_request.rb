@@ -4,7 +4,7 @@ module BookingStrategies
   class Default
     module States
       class OpenRequest < BookingStrategy::State
-        Default.require_markdown_template(:manage_new_booking_mail_notification, %i[booking])
+        Default.require_markdown_template(:manage_new_booking_notification, %i[booking])
         Default.require_markdown_template(:open_request_notification, %i[booking])
 
         def checklist
@@ -17,7 +17,7 @@ module BookingStrategies
 
         after_transition do |booking|
           booking.deadline&.clear
-          booking.notifications.new(from_template: :manage_new_booking_mail_notification,
+          booking.notifications.new(from_template: :manage_new_booking_notification,
                                     addressed_to: :manager).deliver
           if booking.agent_booking?
             # booking.notifications.new(from_template: :open_booking_agent_request_notification,
