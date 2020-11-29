@@ -47,9 +47,8 @@ FactoryBot.define do
 
     trait :with_markdown_templates do
       after(:create) do |organisation|
-        organisation.booking_strategy.class.missing_markdown_templates(organisation).each do |key|
-          organisation.markdown_templates.create(key: key)
-        end
+        onboarding = OrganisationOnboardingService.new(organisation)
+        onboarding.create_missing_markdown_templates!
       end
     end
   end

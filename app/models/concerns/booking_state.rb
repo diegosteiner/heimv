@@ -38,7 +38,7 @@ module BookingState
   end
 
   def state_machine
-    @state_machine ||= booking_strategy.state_machine.new(self, transition_class: self.class.transition_class)
+    @state_machine ||= booking_strategy.state_machine_class.new(self, transition_class: self.class.transition_class)
   end
 
   def current_state

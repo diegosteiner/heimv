@@ -4,6 +4,8 @@ class BookingStrategy
   include TemplateRenderable
   include Translatable
 
+  delegate :markdown_templates, to: :class
+
   def public_actions
     []
   end
@@ -13,10 +15,10 @@ class BookingStrategy
   end
 
   def booking_states
-    state_machine.state_classes
+    state_machine_class.state_classes
   end
 
-  def state_machine
+  def state_machine_class
     self.class::StateMachine
   end
 
@@ -29,10 +31,6 @@ class BookingStrategy
 
     def require_markdown_template(key, context = [])
       markdown_templates[key.to_sym] = MarkdownTemplate::Requirement.new(key, context)
-    end
-
-    def missing_markdown_templates(organisation)
-      markdown_templates.keys.map(&:to_s) - organisation.markdown_templates.where(home_id: nil).pluck(:key)
     end
   end
 end

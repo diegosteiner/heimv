@@ -77,7 +77,7 @@ module Manage
 
     def group_bookings(bookings)
       bookings.group_by(&:state).sort_by do |state, _bookings|
-        current_organisation.booking_strategy.state_machine.states.index(state)
+        current_organisation.booking_strategy.state_machine_class.states.index(state)
       end
     end
   end
