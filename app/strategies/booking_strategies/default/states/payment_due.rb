@@ -30,7 +30,7 @@ module BookingStrategies
 
         infer_transition(to: :payment_overdue, &:deadline_exceeded?)
         infer_transition(to: :completed) do |booking|
-          !booking.invoices.unpaid.relevant.exists?
+          !booking.invoices.unpaid.kept.exists?
         end
 
         def relevant_time

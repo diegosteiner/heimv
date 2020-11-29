@@ -21,7 +21,7 @@ module BookingStrategies
         end
 
         infer_transition(to: :payment_due) do |booking|
-          Invoices::Invoice.of(booking).relevant.sent.exists?
+          Invoices::Invoice.of(booking).kept.sent.exists?
         end
 
         def relevant_time
@@ -36,7 +36,7 @@ module BookingStrategies
         end
 
         def create_invoice_checklist_item
-          ChecklistItem.new(:create_invoice, Invoices::Invoice.of(booking).relevant.exists?,
+          ChecklistItem.new(:create_invoice, Invoices::Invoice.of(booking).kept.exists?,
                             manage_booking_invoices_path(booking, org: booking.organisation.slug))
         end
       end

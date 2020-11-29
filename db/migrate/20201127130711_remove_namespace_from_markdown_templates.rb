@@ -4,7 +4,7 @@ class RemoveNamespaceFromMarkdownTemplates < ActiveRecord::Migration[6.0]
       direction.up do 
         MarkdownTemplate.find_each do |markdown_template|
           markdown_template.update(
-            key: [markdown_template.key, markdown_template.namespace.presence].compact.join('_')
+            key: [markdown_template.key, markdown_template.namespace.presence].compact.join('_').downcase
           )
         end
       end

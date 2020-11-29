@@ -11,7 +11,10 @@ module BookingStrategies
             notification = booking.notifications.new(from_template: :payment_due_notification, addressed_to: :tenant)
             return unless notification
 
-            notification.attachments.attach(invoices.map { |invoice| invoice.pdf.blob })
+            pdfs = invoices.with_default_includes
+                           .includes([:pdf_blob, { pdf_attachment: [:blob] }])
+                           .map { |invoice| invoice.pdf.blob }
+            notification.attachments.attach(pdfs)
             notification.deliver && invoices.each(&:sent!)
           end
 

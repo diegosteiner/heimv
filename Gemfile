@@ -19,6 +19,7 @@ gem 'dalli'
 gem 'date_time_attribute'
 gem 'devise'
 gem 'devise-i18n'
+gem 'discard'
 gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'icalendar'

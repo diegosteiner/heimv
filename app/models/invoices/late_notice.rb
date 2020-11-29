@@ -6,7 +6,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  amount             :decimal(, )      default(0.0)
-#  deleted_at         :datetime
+#  discarded_at       :datetime
 #  issued_at          :datetime
 #  paid               :boolean          default(FALSE)
 #  payable_until      :datetime
@@ -22,9 +22,10 @@
 #
 # Indexes
 #
-#  index_invoices_on_booking_id  (booking_id)
-#  index_invoices_on_ref         (ref)
-#  index_invoices_on_type        (type)
+#  index_invoices_on_booking_id    (booking_id)
+#  index_invoices_on_discarded_at  (discarded_at)
+#  index_invoices_on_ref           (ref)
+#  index_invoices_on_type          (type)
 #
 # Foreign Keys
 #

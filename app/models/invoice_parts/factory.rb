@@ -29,7 +29,7 @@ module InvoiceParts
       )
     end
 
-    def from_deposit(invoice, deposits = Invoices::Deposit.of(invoice.booking).relevant)
+    def from_deposit(invoice, deposits = Invoices::Deposit.of(invoice.booking).kept)
       InvoiceParts::Add.new(
         apply: invoice.new_record? && invoice.is_a?(Invoices::Invoice),
         label: Invoices::Deposit.model_name.human,

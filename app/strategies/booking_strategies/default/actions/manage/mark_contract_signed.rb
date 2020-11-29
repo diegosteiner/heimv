@@ -8,7 +8,7 @@ module BookingStrategies
           Default.require_markdown_template(:contract_signed_notification, %i[booking])
 
           def call!
-            if Invoices::Deposit.of(booking).relevant.unpaid.exists?
+            if Invoices::Deposit.of(booking).kept.unpaid.exists?
               booking.notifications.new(from_template: :contract_signed_notification, addressed_to: :tenant).deliver
             end
 

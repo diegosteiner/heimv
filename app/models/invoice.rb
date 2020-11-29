@@ -6,7 +6,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  amount             :decimal(, )      default(0.0)
-#  deleted_at         :datetime
+#  discarded_at       :datetime
 #  issued_at          :datetime
 #  paid               :boolean          default(FALSE)
 #  payable_until      :datetime
@@ -22,9 +22,10 @@
 #
 # Indexes
 #
-#  index_invoices_on_booking_id  (booking_id)
-#  index_invoices_on_ref         (ref)
-#  index_invoices_on_type        (type)
+#  index_invoices_on_booking_id    (booking_id)
+#  index_invoices_on_discarded_at  (discarded_at)
+#  index_invoices_on_ref           (ref)
+#  index_invoices_on_type          (type)
 #
 # Foreign Keys
 #
@@ -32,6 +33,8 @@
 #
 
 class Invoice < ApplicationRecord
+  include Discard::Model
+
   belongs_to :booking, inverse_of: :invoices, touch: true
   has_many :invoice_parts, -> { order(position: :asc) }, inverse_of: :invoice, dependent: :destroy
   has_many :payments, dependent: :nullify
@@ -39,13 +42,13 @@ class Invoice < ApplicationRecord
   has_one :organisation, through: :booking
 
   scope :ordered, -> { order(payable_until: :ASC, created_at: :ASC) }
-  scope :relevant, -> { where(deleted_at: nil) }
-  scope :unpaid,  -> { relevant.where(paid: false) }
-  scope :paid,    -> { relevant.where(paid: true) }
-  scope :sent,    -> { relevant.where.not(sent_at: nil) }
-  scope :unsent,  -> { relevant.where(sent_at: nil) }
-  scope :overdue, ->(at = Time.zone.today) { relevant.where(arel_table[:payable_until].lteq(at)) }
+  scope :unpaid,  -> { kept.where(paid: false) }
+  scope :paid,    -> { kept.where(paid: true) }
+  scope :sent,    -> { kept.where.not(sent_at: nil) }
+  scope :unsent,  -> { kept.where(sent_at: nil) }
+  scope :overdue, ->(at = Time.zone.today) { kept.where(arel_table[:payable_until].lteq(at)) }
   scope :of, ->(booking) { where(booking: booking) }
+  scope :with_default_includes, -> { includes(%i[invoice_parts payments organisation]) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :set_amount, :set_paid
@@ -108,10 +111,6 @@ class Invoice < ApplicationRecord
 
   def sent!
     update(sent_at: Time.zone.now)
-  end
-
-  def deleted?
-    deleted_at.present?
   end
 
   def to_s

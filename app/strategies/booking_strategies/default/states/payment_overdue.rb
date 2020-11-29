@@ -14,7 +14,7 @@ module BookingStrategies
 
         def checklist
           [
-            ChecklistItem.new(:invoice_paid, booking.invoices.relevant.all?(&:paid),
+            ChecklistItem.new(:invoice_paid, booking.invoices.kept.all?(&:paid),
                               manage_booking_invoices_path(booking, org: booking.organisation.slug))
           ]
         end
@@ -28,7 +28,7 @@ module BookingStrategies
         end
 
         infer_transition(to: :completed) do |booking|
-          !booking.invoices.unpaid.relevant.exists?
+          !booking.invoices.unpaid.kept.exists?
         end
 
         def relevant_time
