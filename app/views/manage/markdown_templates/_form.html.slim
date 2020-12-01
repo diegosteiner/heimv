@@ -1,7 +1,7 @@
 = form_with(model: [:manage, @markdown_template], local: true) do |f|
 
   fieldset
-    = f.text_field :key
+    = f.text_field :key, disabled: !@markdown_template.new_record?
     = f.collection_select :home_id, current_organisation.homes, :id, :name, { include_blank: true }
 
     ul.nav.nav-tabs role="tablist"

@@ -8,7 +8,7 @@ table.table.table-hover.table-card
   tbody
     - @markdown_templates.includes(:home).each do |markdown_template|
         tr 
-          td= link_to current_organisation.booking_strategy.t(markdown_template.key, scope: :markdown_templates, default: markdown_template.title), manage_markdown_template_path(markdown_template)
+          td= link_to current_organisation.booking_strategy.t(:description, scope: [:markdown_templates, markdown_template.key], default: markdown_template.title), manage_markdown_template_path(markdown_template)
           td
             = link_to markdown_template.home.name, manage_home_path(markdown_template.home) if markdown_template.home
           td.p-1.text-right

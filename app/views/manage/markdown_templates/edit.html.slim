@@ -1,5 +1,6 @@
 .row.justify-content-center
   .col-md-8
+    h3.mb-4= current_organisation.booking_strategy.t(:description, scope: [:markdown_templates, @markdown_template.key], default: @markdown_template.title)
     .card
       .card-body
         == render 'form'

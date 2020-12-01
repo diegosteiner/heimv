@@ -430,34 +430,443 @@ de:
           commit_request: Anfrage definitv setzen
           postpone_deadline: Frist verlängern
       markdown_templates:
-        awaiting_contract_notification: Benachrichtigung für Vertragsaustellung und Anzahlung (Mieter)
-        awaiting_tenant_notification: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
-        booking_agent_cancelled_notification: Benachrichtigung für annulierte Vermittlungsanfrage (Vermittler)
-        booking_agent_request_accepted_notification: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
-        booking_agent_request_notification: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
-        cancelled_notification: Benachrichtigung für annulierte Reservation (Mieter)
-        cancelled_request_notification: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
-        contract_signed_notification: Benachrichtigung für Vertragseingang (Mieter)
-        contract_text: Text für Vertrag
-        declined_request_notification: Benachrichtigung für abgelehnte Reservationsanfrage (Mieter)
-        definitive_request_notification: Benachrichtigung für definitive Mietanfrage (Mieter)
-        foreign_payment_info_text: Text für Zahlunginformationen für ausländische Mieter
-        invoices_deposit_text: Text für Rechnung (Anzahlung)
-        invoices_invoice_text: Text für Rechnung
-        invoices_late_notice_text: Text für Rechnung (Mahnung)
-        manage_new_booking_notification: Benachrichtigung für neue Mietanfrage (Verwalting)
-        offer_text: Text für Offerte
-        open_request_notification: Benachrichtigung für offene Mietanfrage (Mieter)
-        overdue_notification: Benrachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
-        overdue_request_notification: Benachrichtigung für überfällige Reservationsanfrage (Mieter)
-        payment_confirmation_notification: Benachrichtigung für Zahlungsbestätigung
-        payment_due_notification: Benachrichtigung für fällige Zahlung (Mieter)
-        payment_overdue_notification: Benachrichtigung für überfällige Rechnung (Mieter)
-        provisional_request_notification: Benachrichtigung für provisorische Mietanfrage (Mieter)
-        text_payment_info_text: Text für Zahlunginformationen
-        unconfirmed_request_notification: Benachrichtigung für unbestätigte Mietanfrage (Mieter)
-        upcoming_notification: Benachrichtigung für zukünftige Belegung (Mieter)
-        upcoming_soon_notification: Benachrichtigung für baldige Belegung (Mieter)
+        awaiting_contract_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Mit dieser Nachricht erhältst Du die Unterlagen für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per eMail **innert 7 Tagen** an uns zurück. Überweise bitte auch die angegebene Anzahlung. Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Anzahlung und der unterzeichnete Vertrag bei uns eingetroffen sind.
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Reservation bestätigen
+          description: Benachrichtigung für Vertragsaustellung und Anzahlung (Mieter)
+        awaiting_tenant_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Vielen Dank für Deine Mietanfrage. Wir benötigen noch deine vollständigen Angaben, um die Reservation
+            definitiv abzuschliessen.
+            Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.
+
+            [{{booking.links.edit}}]({{booking.links.edit}})
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+            {{ booking.organisation.message_footer }}
+          default_title: Infos bitte
+          description: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
+        booking_agent_cancelled_notification:
+          default_body: |-
+            Lieber Vermittler
+
+            Wir bestätigen Dir die Stornierung Deiner Reservation:
+
+            - Unsere Referenz: {{ booking.ref }}
+            - Deine Referenz: {{ booking.booking_agent_ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Vermittlung storniert
+          description: Benachrichtigung für annulierte Vermittlungsanfrage (Vermittler)
+        booking_agent_request_accepted_notification:
+          default_body: |-
+            Lieber Vermittler
+
+            Vielen Dank für Deine Vermittlung.
+
+            - Unsere Referenz: {{ booking.ref }}
+            - Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}
+            - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+
+            [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Vermittlungsanfrage akzeptiert
+          description: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
+        booking_agent_request_notification:
+          default_body: |-
+            Lieber Vermittler
+
+            Vielen Dank für Deine Reservation.
+
+            - Unsere Referenz: {{ booking.ref }}
+            - Deine Referenz: {{ booking.booking_agent_ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Bearbeitungslink: [{{booking.links.edit}}]({{booking.links.edit}})
+
+            Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+            {{ booking.organisation.message_footer }}
+          default_title: Bestätigung Deiner Vermittlungsanfrage
+          description: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
+        cancelled_notification:
+          default_body: |-
+            Hallo
+
+            Wie schon persönlich besprochen, ist der Vertrag für untenstehende Reservation nicht zustande gekommen oder Du bist vom Vertrag zurückgetreten. Wir haben die Reservation deshalb annulliert.
+
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+
+            Du kannst auf unserem [Reservationssystem](https://app.heimv.ch) jederzeit eine neue Reservation erstellen.
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Vertragsauflösung/Annullation Deiner Reservation
+          description: Benachrichtigung für annulierte Reservation (Mieter)
+        cancelled_request_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Du hast vor einiger Zeit eine provisorische Reservation für das Pfadiheim Holzwiese erstellt und wir hatten das Pfadiheim 14 Tage lang für Dich reserviert. Weil Du die Reservation bis heute nicht definitiv bestätigt hast, ist sie nun verfallen und wir haben das Lagerhaus wieder freigegeben.
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+            Du kannst auf unserem [Reservationssystem](https://app.heimv.ch) jederzeit eine neue Reservation erstellen.
+
+            {{ booking.organisation.message_footer }}
+          default_title: Deine Reservation ist abgelaufen
+          description: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
+        contract_signed_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Soeben haben wir den von Dir unterzeichneten Vertrag erhalten, vielen Dank.
+            Bitte zahle auch möglichst rasch die Rechnung ein, falls dies noch nicht geschehen ist.
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+
+            **Zahlungsdetails**
+            {{ booking.organisation.payment_information }}
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Unterzeichneten Vertrag erhalten
+          description: Benachrichtigung für Vertragseingang (Mieter)
+        contract_text:
+          description: Text für Vertrag
+        declined_request_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Vielen Dank für Deine Mietanfrage Für das Pfadiheim Holzwiese. Leider müssen wir Deine Anfrage ablehnen.
+
+
+            Ablehnungsgrund: {{ booking.cancellation_reason }}
+
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+
+            {{ organisation.message_footer }}
+          default_title: Reservationsanfrage abgelehnt
+          description: Benachrichtigung für abgelehnte Reservationsanfrage (Mieter)
+        definitive_request_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Vielen Dank für Deine Mietanfrage für das Pfadiheim Holzwiese. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.
+
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Definitive Reservation bestätigt
+          description: Benachrichtigung für definitive Mietanfrage (Mieter)
+        foreign_payment_info_text:
+          description: Text für Zahlunginformationen für ausländische Mieter
+        invoices_deposit_text:
+          default_body: |-
+            {{ booking.ref }}
+            {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+
+            # Anzahlung {{booking.home.name}}, {{ booking.home.place }}
+          default_title: Anzahlung
+          description: Text für Rechnung (Anzahlung)
+        invoices_invoice_text:
+          default_body: |-
+            {{ booking.ref }}
+            {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+
+            # Rechnung {{booking.home.name}}, {{ booking.home.place }}
+          default_title: Rechnung
+          description: Text für Rechnung
+        invoices_late_notice_text:
+          default_body: |-
+            {{ booking.ref }}
+            {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+
+            # Mahnung {{booking.home.name}}, {{ booking.home.place }}
+          default_title: Mahnung
+          description: Text für Rechnung (Mahnung)
+        manage_new_booking_notification:
+          default_body: |-
+            Hallo
+
+            Es ist eine neue Mietanfrage für das Lagerhaus **{{ booking.home.name }}** eingegangen.
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: **{{ booking.ref }}**
+            - Lagerhaus: **{{ booking.home.name }}, {{ booking.home.place }}**
+            - Reservation: **{{ booking.occupancy.begins_at | datetime_format }}** bis **{{ booking.occupancy.ends_at | datetime_format }}**
+            - Organisation: **{{ booking.tenant_organisation }}**
+            - Mietzweck: **{{ booking.purpose | booking_purpose }}**
+            - Bemerkungen: **{{ booking.remarks }}**
+            - Bearbeitungslink: [{{ booking.links.edit }}]({{ booking.links.edit }})
+
+            [Zu HeimV](https://app.heimv.ch)
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Neue Mietanfrage
+          description: Benachrichtigung für neue Mietanfrage (Verwalting)
+        offer_text:
+          default_body: Offerte
+          default_title: Offerte
+          description: Text für Offerte
+        open_request_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Hiermit bestätigen wir den Eingang deiner Mietanfrage für das Pfadiheim Holzwiese.
+
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+
+            Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.
+
+            [{{booking.links.edit}}]({{booking.links.edit}})
+
+            {{ booking.organisation.message_footer }}
+          default_title: Bestätigung Deiner Mietanfrage
+          description: Benachrichtigung für offene Mietanfrage (Mieter)
+        overdue_notification:
+          default_body: ''
+          default_title: Vertrag überfällig
+          description: Benrachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
+        overdue_request_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Du hast kürzlich eine provisorische Reservation für das Pfadiheim Holzwiese erstellt. Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Pfadihaus wird wieder freigegeben. Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zu machen. Klicke dazu auf den untenstehenden Link.
+
+            [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Anfrage überfällig
+          description: Benachrichtigung für überfällige Reservationsanfrage (Mieter)
+        payment_confirmation_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Wir haben Deine Einzahlung über {{ payment.amount | currency }} dankend am {{ payment.paid_at | date_format }} erhalten und verbucht. Vielen Dank.
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Zahlungseingang
+          description: Benachrichtigung für Zahlungsbestätigung
+        payment_due_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Mit dieser Nachricht erhältst Du die Rechnung für Deinen Pfadihaus-Besuch. Bitte bezahle diese innert der Zahlungsfrist von 30 Tagen.
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+
+
+            **Zahlungsdetails**
+            {{ booking.organisation.payment_information }}
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Deine Pfadihaus-Rechnung
+          description: Benachrichtigung für fällige Zahlung (Mieter)
+        payment_overdue_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Vor einiger Zeit haben wir Dir die Rechnung für Deine Lagerhaus-Reservation geschickt. Die Zahlungsfrist von 10 Tagen ist nun abgelaufen, doch wir haben noch keine Zahlung von Dir erhalten. Bitte bezahle die überfällige Rechnung in den nächsten Tagen.
+
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+
+
+            **Zahlungsdetails**
+            {{ booking.organisation.payment_information }}
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Zahlungserinnerung für Deine Pfadihaus-Rechnung
+          description: Benachrichtigung für überfällige Rechnung (Mieter)
+        provisional_request_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Vielen Dank für Deine Mietanfrage. Wir haben Deine Angaben geprüft und nun eine provisorische Reservation erstellt. Diese gilt für **14 Tage**, danach verfällt sie und das Lagerhaus wird wieder freigegeben. Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.
+
+            [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Bemerkungen: {{ booking.remarks }}
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Provisorische Reservation bestätigt
+          description: Benachrichtigung für provisorische Mietanfrage (Mieter)
+        text_payment_info_text:
+          default_body: |-
+            **Kontonummer**
+            {{ payment_info.esr_participant_nr }}
+
+            **Rechnungsbetrag**
+            CHF {{ payment_info.formatted_amount }}
+
+            **Referenznummer**
+            {{ payment_info.booking_ref }}
+          default_title: Zahlungsinformationen
+          description: Text für Zahlunginformationen
+        unconfirmed_request_notification:
+          default_body: |-
+            Hallo
+
+            Du hast soeben eine Mietanfrage für {{ booking.home.name }} gestartet.
+            Bitte klicke auf den untenstehenden Link um Deine E-Mail-Adresse zu bestätigen und um die Mietanfrage abzuschliessen.
+
+            [{{booking.links.edit}}]({{booking.links.edit}})
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Bestätige Deine E-Mail-Adresse!
+          description: Benachrichtigung für unbestätigte Mietanfrage (Mieter)
+        upcoming_notification:
+          default_body: |-
+            {{ booking.tenant.salutation_name }}
+
+            Wir haben den von Dir unterzeichneten Vertrag und die Anzahlung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Pfadihaus.
+
+
+            **Reservationsdetails**
+
+            - Buchungsreferenz: {{ booking.ref }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
+            - Organisation: {{ booking.tenant_organisation }}
+            - Mietzweck: {{ booking.purpose | booking_purpose }}
+            - Heimwart: {{ booking.home.janitor }}
+
+            Bitte vereinbare mit dem Heimwart rechtzeitig den Übernahmetermin.
+
+
+            {{ booking.organisation.message_footer }}
+          default_title: Anzahlung und unterschriebenen Vertrag eingegangen
+          description: Benachrichtigung für zukünftige Belegung (Mieter)
+        upcoming_soon_notification:
+          description: Benachrichtigung für baldige Belegung (Mieter)
       states:
         active:
           help: Help
