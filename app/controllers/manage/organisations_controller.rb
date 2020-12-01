@@ -38,9 +38,9 @@ module Manage
     end
 
     def attach_files
-      terms_pdf,
-      logo,
-      privacy_statement_pdf = *organisation_params.slice(:terms_pdf, :logo, :privacy_statement_pdf).values
+      terms_pdf = organisation_params[:terms_pdf]
+      logo = organisation_params[:logo]
+      privacy_statement_pdf = organisation_params[:privacy_statement_pdf]
 
       @organisation.terms_pdf.attach(terms_pdf) if terms_pdf.present?
       @organisation.privacy_statement_pdf.attach(privacy_statement_pdf) if privacy_statement_pdf.present?
