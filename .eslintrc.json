@@ -1,9 +1,13 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:prettier/recommended",
     "prettier/react",
-    "plugin:react/recommended"
+    "prettier",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "settings": {
     "react": {
@@ -12,7 +16,8 @@
   },
   "plugins": [
     "prettier",
-    "react"
+    "react",
+    "@typescript-eslint"
   ],
   "parserOptions": {
     "ecmaVersion": 2020,
@@ -22,7 +27,7 @@
     }
   },
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": "warn",
     "react/jsx-uses-vars": "error",
     "react/prop-types": "off",
     "max-len": [

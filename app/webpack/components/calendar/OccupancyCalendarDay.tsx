@@ -1,11 +1,15 @@
-import React, { useContext } from 'react';
-import { OccupancyCalendarContext } from './OccuancyCalendarContext';
+import * as React from 'react';
+import {
+  OccupancyCalendarContext,
+  ContextType,
+} from './OccuancyCalendarContext';
 import classNames from 'classnames';
-import styles from './OccupancyCalendar.module.scss';
+import * as styles from './OccupancyCalendar.module.scss';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { formatISO, parseISO } from 'date-fns/esm';
 import { useTranslation } from 'react-i18next';
+import { Occupancy } from '../../models/occupancy';
 
 const formatDate = new Intl.DateTimeFormat('de-CH', {
   year: 'numeric',
@@ -16,11 +20,24 @@ const formatDate = new Intl.DateTimeFormat('de-CH', {
   hour12: false,
 }).format;
 
-export const OccupancyCalendarDayInContext = ({ date, onClick }) => {
-  const { loading, calendarData } = useContext(OccupancyCalendarContext);
+interface OccupancyCalendarDayInContextProps {
+  date?: Date;
+  onClick(event: React.MouseEvent): void;
+}
+
+export const OccupancyCalendarDayInContext: React.FC<OccupancyCalendarDayInContextProps> = ({
+  date,
+  onClick,
+}) => {
+  const { loading, occupancyCalendarState } = React.useContext<ContextType>(
+    OccupancyCalendarContext,
+  );
   const occupancyDate =
-    calendarData.occupancyDates &&
-    calendarData.occupancyDates[formatISO(date, { representation: 'date' })];
+    date &&
+    occupancyCalendarState.occupancyDates &&
+    occupancyCalendarState.occupancyDates[
+      formatISO(date, { representation: 'date' })
+    ];
   const flags = (occupancyDate && occupancyDate.flags) || [];
   const disableCallback = () =>
     loading || !occupancyDate || flags.includes('outOfWindow');
@@ -30,23 +47,33 @@ export const OccupancyCalendarDayInContext = ({ date, onClick }) => {
     <OccupancyCalendarDay
       classNameCallback={classNameCallback}
       disableCallback={disableCallback}
-      occupancies={occupancyDate && occupancyDate.occupancies}
+      occupancies={(occupancyDate && occupancyDate.occupancies) || []}
       {...{ date, onClick }}
     ></OccupancyCalendarDay>
   );
 };
 
-export const OccupancyCalendarDay = ({
+interface OccupancyCalendarDayProps {
+  date?: Date;
+  onClick(event: React.MouseEvent): void;
+  occupancies?: Occupancy[];
+  classNameCallback?(date: Date): string[];
+  disableCallback?(date: Date): boolean;
+}
+
+export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
   date,
   onClick,
   occupancies = [],
   classNameCallback,
   disableCallback,
 }) => {
+  if (!date) return <></>;
+
   const disabled = disableCallback && disableCallback(date);
   const className = [
     styles.calendarDate,
-    ...Array.from(classNameCallback && classNameCallback(date)),
+    ...Array.from((classNameCallback && classNameCallback(date)) || []),
   ];
 
   const button = (
@@ -72,7 +99,6 @@ export const OccupancyCalendarDay = ({
 
           return (
             <dl
-              className="my-1"
               key={`${formatISO(date, { representation: 'date' })}-${
                 occupancy.id
               }`}

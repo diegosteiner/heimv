@@ -1,8 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import CalendarControl from './CalendarControl';
 import { Form } from 'react-bootstrap';
 
-const CalendarInput = ({
+interface CalendarInputProps {
+  value: string;
+  name: string;
+  label?: string;
+  required?: boolean;
+  disabled?: boolean;
+}
+
+const CalendarInput: React.FC<CalendarInputProps> = ({
   value,
   name,
   label,

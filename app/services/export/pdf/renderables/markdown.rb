@@ -50,11 +50,9 @@ module Export
             when /^#+ /
               line.gsub!(/^#+ /, '')
               next { text: line, style: :bold, size: 14 }
-            when /^\s*[A-Z]\. /
+            when /^\s*[a-zA-Z]\. /
               next { text: line, final_gap: true }
             when /^\s*\d{1,2}\. /
-              next { text: line, indent_paragraphs: -15 }
-            when /^\s*[a-z]\. /
               next { text: line, indent_paragraphs: -15 }
             else
               next { text: line, inline_format: true }

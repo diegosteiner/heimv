@@ -1,10 +1,11 @@
 {
     "dependencies": {
         "@babel/preset-react": "^7.9.4",
-        "@babel/preset-typescript": "^7.12.1",
+        "@babel/preset-typescript": "^7.12.7",
         "@rails/webpacker": "5.1.1",
-        "@types/react": "^16.9.53",
-        "@types/react-dom": "^16.9.8",
+        "@types/date-fns": "^2.6.0",
+        "@types/react": "^17.0.0",
+        "@types/react-dom": "^17.0.0",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
         "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
         "bootstrap": "^4.4.1",
@@ -31,19 +32,23 @@
         "react-i18next": "^11.4.0",
         "react-timeago": "^4.4.0",
         "react_ujs": "^2.6.1",
-        "typescript": "^4.0.3",
+        "typescript": "4.0.5",
         "webpack": "^4.0.0",
         "webpack-cli": "^3.1.2",
         "yaml-loader": "^0.6.0"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
+        "@typescript-eslint/eslint-plugin": "^4.6.1",
+        "@typescript-eslint/parser": "^4.6.1",
         "autoprefixer": "^9.4.3",
         "eslint": "^7.11.0",
         "eslint-config-prettier": "^6.11.0",
+        "eslint-loader": "^4.0.2",
         "eslint-plugin-prettier": "^3.1.4",
         "eslint-plugin-react": "^7.21.5",
         "prettier": "^2.0.5",
+        "typings-for-css-modules-loader": "^1.7.0",
         "webpack-bundle-analyzer": "^3.6.0",
         "webpack-dev-server": "^3.10.3"
     },
@@ -54,6 +59,7 @@
     "author": "Diego Steiner <diego.steiner@u041.ch>",
     "license": "MIT",
     "scripts": {
-        "lint": "eslint --ext .js --ext .ts --ext .jsx app/webpack"
+        "check:types": "tsc --project tsconfig.json",
+        "check:style": "eslint --ext .js,.ts,.jsx,.tsx app/webpack"
     }
 }
