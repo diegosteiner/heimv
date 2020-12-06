@@ -48,7 +48,7 @@ module Export
       def invoice_parts_table_data
         helpers = ActionController::Base.helpers
         data = invoice.invoice_parts.map do |invoice_part|
-          [invoice_part.label, invoice_part.label_2, 'CHF', helpers.number_to_currency(invoice_part.amount, unit: '')]
+          [invoice_part.label, invoice_part.breakdown, 'CHF', helpers.number_to_currency(invoice_part.amount, unit: '')]
         end
         data << ['Total', '', 'CHF', helpers.number_to_currency(invoice.amount, unit: '')]
       end

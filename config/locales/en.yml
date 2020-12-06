@@ -127,8 +127,8 @@ en:
       invoice_part:
         amount: Betrag
         apply: Anwenden
+        breakdown: Text
         label: Text
-        label_2: Text
         type: Positionsart
       markdown_template:
         body: Text
@@ -1205,7 +1205,8 @@ en:
       submit: Speichern
       update: Update
   invoice_parts:
-    label_2: "%{used_units} × %{unit} à %{price_per_unit}"
+    breakdown: "%{used_units} × %{unit} à %{price_per_unit}"
+    unpaid_invoice: Offene Rechnung %{ref} fällig am %{payable_until}
   manage:
     bookings:
       contracts:
