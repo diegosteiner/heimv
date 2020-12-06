@@ -18,7 +18,7 @@ module BookingStrategies
 
         after_transition do |booking|
           booking.deadline&.clear
-          booking.lock_timeframe!
+          booking.update!(timeframe_locked: true)
         end
 
         infer_transition(to: :cancelled) do |booking|

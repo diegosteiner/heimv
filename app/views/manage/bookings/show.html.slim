@@ -39,7 +39,7 @@ section.breakout-sm
             .col
               strong= Booking.human_attribute_name(:purpose)
               br
-              = Booking.human_enum(:purpose, @booking.purpose)
+              = @booking.purpose
             .col
               strong= Booking.human_attribute_name(:approximate_headcount)
               br

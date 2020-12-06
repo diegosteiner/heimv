@@ -16,7 +16,7 @@
 #  invoice_address       :text
 #  locale                :string
 #  notifications_enabled :boolean          default(FALSE)
-#  purpose               :string
+#  purpose_key           :string
 #  ref                   :string
 #  remarks               :text
 #  state                 :string           default("initial"), not null
@@ -56,10 +56,10 @@ FactoryBot.define do
     skip_infer_transition { true }
     committed_request { [true, false].sample }
     approximate_headcount { rand(30) }
-    purpose { :camp }
     transient do
       initial_state { nil }
       tenant { association :tenant, organisation: home.organisation, email: email }
+      purpose { association :booking_purpose, organisation: home.organisation }
     end
 
     after(:build) do |booking, _evaluator|

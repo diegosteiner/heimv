@@ -27,7 +27,7 @@
                 span=<> booking.approximate_headcount
 
               - if booking.purpose.present?
-                span=<> "(#{t(booking.purpose, scope: :'activerecord.enums.booking.purpose')})"
+                span=<> "(#{booking.purpose})"
         .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
           - if booking.tenant.present?
             small= Tenant.model_name.human

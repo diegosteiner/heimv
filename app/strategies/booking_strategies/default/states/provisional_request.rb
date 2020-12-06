@@ -28,7 +28,7 @@ module BookingStrategies
         after_transition do |booking|
           booking.notifications.new(from_template: :provisional_request_notification, addressed_to: :tenant).deliver
           booking.occupancy.tentative!
-          booking.lock_timeframe!
+          booking.update!(timeframe_locked: true)
         end
 
         infer_transition(to: :overdue_request, &:deadline_exceeded?)

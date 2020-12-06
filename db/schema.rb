@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_29_145839) do
+ActiveRecord::Schema.define(version: 2020_12_04_180338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -71,6 +71,16 @@ ActiveRecord::Schema.define(version: 2020_11_29_145839) do
     t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
   end
 
+  create_table "booking_purposes", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.string "key"
+    t.jsonb "title_i18n"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["key", "organisation_id"], name: "index_booking_purposes_on_key_and_organisation_id", unique: true
+    t.index ["organisation_id"], name: "index_booking_purposes_on_organisation_id"
+  end
+
   create_table "booking_transitions", force: :cascade do |t|
     t.string "to_state", null: false
     t.integer "sort_key", null: false
@@ -98,7 +108,7 @@ ActiveRecord::Schema.define(version: 2020_11_29_145839) do
     t.integer "approximate_headcount"
     t.text "remarks"
     t.text "invoice_address"
-    t.string "purpose"
+    t.string "purpose_key"
     t.string "ref"
     t.boolean "editable", default: true
     t.boolean "usages_entered", default: false
@@ -409,6 +419,7 @@ ActiveRecord::Schema.define(version: 2020_11_29_145839) do
   add_foreign_key "agent_bookings", "homes"
   add_foreign_key "agent_bookings", "organisations"
   add_foreign_key "booking_agents", "organisations"
+  add_foreign_key "booking_purposes", "organisations"
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"

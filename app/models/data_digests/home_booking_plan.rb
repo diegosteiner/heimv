@@ -35,7 +35,7 @@ module DataDigests
       end
 
       def data_row(booking)
-        [booking.ref, ::Booking.human_enum(:purpose, booking.purpose)] +
+        [booking.ref, booking.purpose] +
           occupancy_cells(booking.occupancy) + tenant_cells(booking)
       end
 

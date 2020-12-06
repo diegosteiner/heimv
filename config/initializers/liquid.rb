@@ -20,10 +20,6 @@ Liquid::Template.register_filter(Module.new do
     nil
   end
 
-  def booking_purpose(value)
-    i18n_translate(value, :'activerecord.enums.booking.purpose')
-  end
-
   def currency(value)
     ::ActiveSupport::NumberHelper.number_to_currency(value)
   end

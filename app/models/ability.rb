@@ -26,6 +26,7 @@ module Ability
       return unless organisation == user.organisation
 
       can :manage, Home, organisation: organisation
+      can :manage, BookingPurpose, organisation: organisation
       can :manage, DataDigest, organisation: organisation
       can :manage, MarkdownTemplate, organisation: organisation
       can :manage, Tarif, home: { organisation: organisation }

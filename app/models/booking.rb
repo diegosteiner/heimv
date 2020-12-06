@@ -16,7 +16,7 @@
 #  invoice_address       :text
 #  locale                :string
 #  notifications_enabled :boolean          default(FALSE)
-#  purpose               :string
+#  purpose_key           :string
 #  ref                   :string
 #  remarks               :text
 #  state                 :string           default("initial"), not null
@@ -60,6 +60,8 @@ class Booking < ApplicationRecord
   belongs_to :tenant, inverse_of: :bookings, optional: true
   belongs_to :occupancy, inverse_of: :booking
   belongs_to :deadline, inverse_of: :booking, optional: true
+  belongs_to :purpose, inverse_of: :bookings, class_name: 'BookingPurpose',
+                       primary_key: :key, foreign_key: :purpose_key, optional: true
 
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :payments, dependent: :destroy, autosave: false
@@ -113,21 +115,7 @@ class Booking < ApplicationRecord
     occupancy.nights * approximate_headcount
   end
 
-  def lock_timeframe!
-    # rubocop:disable Rails/SkipsModelValidations
-    update_columns(timeframe_locked: true)
-    # rubocop:enable Rails/SkipsModelValidations
-  end
-
-  def lock_editable!
-    # rubocop:disable Rails/SkipsModelValidations
-    update_columns(editable: false)
-    # rubocop:enable Rails/SkipsModelValidations
-  end
-
-  def concluded!(value = nil)
-    raise value.inspect unless value.nil?
-
+  def concluded!
     # rubocop:disable Rails/SkipsModelValidations
     update_columns(concluded: true, timeframe_locked: true, editable: false)
     # rubocop:enable Rails/SkipsModelValidations

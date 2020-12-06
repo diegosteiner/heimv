@@ -1,0 +1,20 @@
+.breakout-sm
+  table.table.table-hover.table-card
+
+    tbody
+      - @booking_purposes.each do |booking_purpose|
+        tr[data-href=manage_booking_purpose_path(booking_purpose) data-id=booking_purpose.to_param]
+          td
+            = link_to booking_purpose.title, edit_manage_booking_purpose_path(booking_purpose)
+          td.p-1.text-right 
+            .btn-group
+              = link_to edit_manage_booking_purpose_path(booking_purpose), class: 'btn btn-default' do
+                span.fa.fa-edit
+              = link_to manage_booking_purpose_path(booking_purpose), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
+
+br
+= link_to new_manage_booking_purpose_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: BookingPurpose.model_name.human)
