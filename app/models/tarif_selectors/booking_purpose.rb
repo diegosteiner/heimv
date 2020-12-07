@@ -23,8 +23,8 @@
 
 module TarifSelectors
   class BookingPurpose < TarifSelector
-    validate do 
-      next if home.organisation.booking_purposes.where(key: distinction).exists?
+    validate do
+      next if home.organisation.booking_purposes.exists?(key: distinction)
 
       errors.add(:distinction, :invalid)
     end
