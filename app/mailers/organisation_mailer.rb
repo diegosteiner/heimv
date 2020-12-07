@@ -5,7 +5,8 @@ class OrganisationMailer
     @organisation = organisation
     @options = {
       from: (organisation.mail_from || organisation.name),
-      reply_to: organisation.email
+      reply_to: organisation.email,
+      charset: 'UTF-8'
     }
     @options[:via_options] = SmtpConfig.from_string(organisation.smtp_url.presence || ENV.fetch('SMTP_URL'))
   end
