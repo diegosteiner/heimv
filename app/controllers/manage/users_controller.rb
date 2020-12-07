@@ -18,7 +18,7 @@ module Manage
     end
 
     def create
-      @user.update(user_params.merge(organisation: current_organisation, role: user_role_param))
+      @user.update(user_params.merge(organisation: current_organisation, role: user_role_param)) unless enforce_limit
       respond_with :manage, @user, location: manage_users_path
     end
 
@@ -43,6 +43,14 @@ module Manage
     def user_role_param
       requested_role = user_params[:role]
       requested_role if allowed_roles.include?(requested_role)
+    end
+
+    def enforce_limit
+      return false if current_organisation.users_limit.nil? ||
+                      current_organisation.users_limit < current_organisation.users.count
+
+      @user.errors.add(:base, :limit_reached)
+      true
     end
 
     def user_params

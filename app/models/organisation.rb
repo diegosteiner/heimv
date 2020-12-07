@@ -12,6 +12,7 @@
 #  currency                  :string           default("CHF")
 #  email                     :string
 #  esr_participant_nr        :string
+#  homes_limit               :integer
 #  iban                      :string
 #  invoice_ref_strategy_type :string
 #  locale                    :string           default("de")
@@ -24,6 +25,7 @@
 #  representative_address    :string
 #  slug                      :string
 #  smtp_url                  :string
+#  users_limit               :integer
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #

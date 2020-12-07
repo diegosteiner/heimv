@@ -33,7 +33,11 @@ Copy env.example to .env and change configuration there
 ## Embed
 
 ```
-<iframe style="width: 100%; overflow: hidden; height: 1300px; border: none;" sandbox="allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-top-navigation" src="https://app.heimv.ch/{organisation.slug}/homes/{home.id}/occupancies/embed?display_months=9" border="0">
+<iframe 
+  sandbox="allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-top-navigation"
+  src="https://app.heimv.ch/{{organisation.slug}}/homes/{{home.id}}/occupancies/embed?display_months=9" 
+  border="0" 
+  style="width: 100%; overflow-x: hidden; overflow-y: scroll; height: 960px; border: none;">
 </iframe>
 ```
 
