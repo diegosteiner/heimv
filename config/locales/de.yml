@@ -2223,7 +2223,7 @@ de:
       update: Speichern
   invoice_parts:
     breakdown: "%{used_units} × %{unit} à %{price_per_unit}"
-    unpaid_invoice: Offene Rechnung %{ref} fällig am %{payable_until}
+    unpaid_invoice: Offener Betrag fällig am %{payable_until}
   manage:
     bookings:
       contracts:
@@ -2239,6 +2239,9 @@ de:
         table:
           save: "%{model_name} speichern"
           save_and_continue: Speichern und Rechnung erstellen
+    invoices:
+      form:
+        suggested_invoice_parts: Vorgeschlagene Positionen
     notifications:
       edit:
         deliver: Speichern und nochmals versenden

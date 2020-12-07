@@ -1,21 +1,20 @@
 = form_with(model: [:manage, @invoice.becomes(Invoice)], local: true, html: { novalidate: true }) do |f|
+  = hidden_field_tag :supersede_invoice_id, params[:supersede_invoice_id].presence
 
   fieldset[v-pre]
-    = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, include_blank: true
+    = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, { include_blank: true }, readonly: true
     = f.hidden_field :booking_id
     = f.text_field :ref, help: t('generated')
     = f.text_area :text
     = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
-    = f.date_field :sent_at, lang: I18n.locale, help: t('optional')
     = f.date_field :payable_until, lang: I18n.locale
     = f.collection_select :payment_info_type, PaymentInfos::TYPES.values, :to_s, :human_model_name, include_blank: true
 
-    hr
-
-    label= Invoice.human_attribute_name(:invoice_parts)
+    h5.mt-4= InvoicePart.model_name.human(count: 2)
     = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
       = ipf.hidden_field :id
       = ipf.hidden_field :usage_id
+      = ipf.hidden_field :type
       .row
         .col-1.pt-2
           = ipf.check_box :_destroy, { checked: ipf.object.apply, hide_label: true }, '0', '1'
@@ -26,8 +25,9 @@
         .col-2
           = ipf.number_field :amount, hide_label: true, class: 'text-right', step: 0.01
 
-    hr
-    = f.fields_for :invoice_parts, @suggested_invoice_parts do |ipf|
+
+    h5.mt-4= t('.suggested_invoice_parts')
+    = f.fields_for :invoice_parts, @invoice.suggested_invoice_parts do |ipf|
       = ipf.hidden_field :id
       = ipf.hidden_field :usage_id
       = ipf.hidden_field :type

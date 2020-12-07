@@ -128,4 +128,20 @@ class Invoice < ApplicationRecord
   def to_liquid
     Manage::InvoiceSerializer.render_as_hash(self).deep_stringify_keys
   end
+
+  def suggested_invoice_parts
+    usages = booking.usages.includes(:tarif).where.not(id: invoice_parts.map(&:usage_id))
+    usages.map do |usage|
+      InvoiceParts::Add.new(
+        apply: apply_invoice_part?(usage),
+        usage: usage, label: usage.tarif.label, breakdown: usage.breakdown,
+        position: usage.tarif.position, amount: usage.price
+      )
+    end
+  end
+
+  def apply_invoice_part?(usage)
+    tarif_invoice_type = usage.tarif.invoice_type
+    new_record? && tarif_invoice_type.present? && type.to_s == tarif_invoice_type
+  end
 end
