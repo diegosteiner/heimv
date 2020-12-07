@@ -23,13 +23,14 @@
 
 module TarifSelectors
   class BookingPurpose < TarifSelector
-    def distinction_regex
-      /\A(camp|event)\z/.freeze
+    validate do 
+      next if home.organisation.booking_purposes.where(key: distinction).exists?
+
+      errors.add(:distinction, :invalid)
     end
 
     def apply?(usage)
-      distinction_match = distinction_regex.match(distinction)
-      distinction_match[1] == usage.booking.purpose
+      distinction == usage.booking.purpose_key
     end
   end
 end

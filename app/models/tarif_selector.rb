@@ -32,16 +32,6 @@ class TarifSelector < ApplicationRecord
     errors.add(:tarif_id, :invalid)
   end
 
-  validate do
-    next if distinction.blank? || distinction_regex.match(distinction)
-
-    errors.add(:distinction, :invalid)
-  end
-
-  def distinction_regex
-    /\A\w*\z/.freeze
-  end
-
   def valid_tarifs
     home.tarifs
   end

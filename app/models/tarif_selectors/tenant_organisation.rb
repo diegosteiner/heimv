@@ -23,6 +23,8 @@
 
 module TarifSelectors
   class TenantOrganisation < TarifSelector
+    validates :distinction, presence: true
+
     def apply?(usage)
       distinction == usage.booking.tenant_organisation
     end
