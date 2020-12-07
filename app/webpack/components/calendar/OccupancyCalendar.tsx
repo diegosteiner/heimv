@@ -1,11 +1,18 @@
-import React, { useContext } from 'react';
-import { OccupancyCalendarContext } from './OccuancyCalendarContext';
+import * as React from 'react';
+import Calendar from './Calendar';
+import {
+  Provider as ContextProvider,
+  OccupancyCalendarContext,
+  ContextType,
+} from './OccuancyCalendarContext';
 import classNames from 'classnames';
-import styles from './OccupancyCalendar.module.scss';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { formatISO, parseISO } from 'date-fns/esm';
 import { useTranslation } from 'react-i18next';
+import { Occupancy } from '../../models/occupancy';
+
+import * as styles from './OccupancyCalendar.module.scss';
 
 const formatDate = new Intl.DateTimeFormat('de-CH', {
   year: 'numeric',
@@ -16,37 +23,60 @@ const formatDate = new Intl.DateTimeFormat('de-CH', {
   hour12: false,
 }).format;
 
-export const OccupancyCalendarDayInContext = ({ date, onClick }) => {
-  const { loading, calendarData } = useContext(OccupancyCalendarContext);
+interface OccupancyCalendarDayInContextProps {
+  date?: Date;
+  onClick(event: React.MouseEvent): void;
+}
+
+export const OccupancyCalendarDayInContext: React.FC<OccupancyCalendarDayInContextProps> = ({
+  date,
+  onClick,
+}) => {
+  const { loading, occupancyCalendarState } = React.useContext<ContextType>(
+    OccupancyCalendarContext,
+  );
   const occupancyDate =
-    calendarData.occupancyDates &&
-    calendarData.occupancyDates[formatISO(date, { representation: 'date' })];
+    date &&
+    occupancyCalendarState.occupancyDates &&
+    occupancyCalendarState.occupancyDates[
+      formatISO(date, { representation: 'date' })
+    ];
   const flags = (occupancyDate && occupancyDate.flags) || [];
   const disableCallback = () =>
     loading || !occupancyDate || flags.includes('outOfWindow');
-  const classNameCallback = () => flags.map((flag) => styles[flag]);
+  const classNameCallback = () => flags.map((flag: string) => styles[flag]);
 
   return (
     <OccupancyCalendarDay
       classNameCallback={classNameCallback}
       disableCallback={disableCallback}
-      occupancies={occupancyDate && occupancyDate.occupancies}
+      occupancies={(occupancyDate && occupancyDate.occupancies) || []}
       {...{ date, onClick }}
     ></OccupancyCalendarDay>
   );
 };
 
-export const OccupancyCalendarDay = ({
+interface OccupancyCalendarDayProps {
+  date?: Date;
+  onClick(event: React.MouseEvent): void;
+  occupancies?: Occupancy[];
+  classNameCallback?(date: Date): string[];
+  disableCallback?(date: Date): boolean;
+}
+
+export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
   date,
   onClick,
   occupancies = [],
   classNameCallback,
   disableCallback,
 }) => {
+  if (!date) return <></>;
+
   const disabled = disableCallback && disableCallback(date);
   const className = [
     styles.calendarDate,
-    ...Array.from(classNameCallback && classNameCallback(date)),
+    ...Array.from((classNameCallback && classNameCallback(date)) || []),
   ];
 
   const button = (
@@ -72,7 +102,6 @@ export const OccupancyCalendarDay = ({
 
           return (
             <dl
-              className="my-1"
               key={`${formatISO(date, { representation: 'date' })}-${
                 occupancy.id
               }`}
@@ -108,3 +137,34 @@ export const OccupancyCalendarDay = ({
     </OverlayTrigger>
   );
 };
+
+interface OccuancyCalendarProps {
+  occupancyAtUrl: string;
+  calendarUrl: string;
+  displayMonths: number;
+}
+
+const OccupancyCalendar: React.FC<OccuancyCalendarProps> = ({
+  occupancyAtUrl,
+  calendarUrl,
+  displayMonths = 8,
+}) => {
+  const handleClick = (e: React.MouseEvent): void => {
+    const target = e.target as HTMLButtonElement;
+    if (!target.value) return;
+
+    window.top.location.href = occupancyAtUrl.replace('$DATE', target.value);
+  };
+
+  return (
+    <ContextProvider calendarUrl={calendarUrl}>
+      <Calendar displayMonths={displayMonths}>
+        <OccupancyCalendarDayInContext
+          onClick={handleClick}
+        ></OccupancyCalendarDayInContext>
+      </Calendar>
+    </ContextProvider>
+  );
+};
+
+export default OccupancyCalendar;

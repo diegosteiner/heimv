@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [20.12.1] - 2020-12-07
+
+- Improve late notices
+- Restructure organisation settings
+- Allow customization of booking purposes
+
 ## [20.11.4] - 2020-11-29
 
 - Simplify templates

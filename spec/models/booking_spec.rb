@@ -16,7 +16,7 @@
 #  invoice_address       :text
 #  locale                :string
 #  notifications_enabled :boolean          default(FALSE)
-#  purpose               :string
+#  purpose_key           :string
 #  ref                   :string
 #  remarks               :text
 #  state                 :string           default("initial"), not null

@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       end
       resources :tenants
       resources :booking_agents
+      resources :booking_purposes, except: :show
       resources :markdown_templates do
         post :create_missing, on: :collection
       end

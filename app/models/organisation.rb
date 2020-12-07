@@ -38,6 +38,7 @@ class Organisation < ApplicationRecord
   has_many :tenants, -> { ordered }, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :markdown_templates, inverse_of: :organisation, dependent: :destroy
   has_many :booking_agents, inverse_of: :organisation, dependent: :destroy
+  has_many :booking_purposes, inverse_of: :organisation, dependent: :destroy
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
   has_one_attached :logo

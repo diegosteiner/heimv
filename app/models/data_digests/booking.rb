@@ -59,7 +59,7 @@ module DataDigests
         booking.instance_eval do
           [
             ref, home.name, I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.ends_at, format: :short),
-            ::Booking.human_enum(:purpose, purpose)
+            purpose
           ]
         end
       end

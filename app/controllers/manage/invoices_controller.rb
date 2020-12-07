@@ -18,13 +18,11 @@ module Manage
     end
 
     def new
-      @invoice = Invoices::Factory.new.call(@booking, invoice_params)
-      @suggested_invoice_parts = InvoiceParts::Factory.new.suggest(@invoice)
+      @invoice = Invoices::Factory.new.call(@booking, invoice_params, params[:supersede_invoice_id])
       respond_with :manage, @booking, @invoice
     end
 
     def show
-      # @invoice.touch if Rails.env.development?
       respond_to do |format|
         format.html
         format.pdf do
@@ -34,12 +32,13 @@ module Manage
     end
 
     def edit
-      @suggested_invoice_parts = InvoiceParts::Factory.new.suggest(@invoice)
       respond_with :manage, @invoice
     end
 
     def create
-      @invoice.save
+      if @invoice.save && params[:supersede_invoice_id].present?
+        current_organisation.invoices.find(params[:supersede_invoice_id]).discard!
+      end
       respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
     end
 

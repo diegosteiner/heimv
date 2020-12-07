@@ -35,7 +35,7 @@ jobs:
 
     - name: Prepare Database
       if: success()
-      run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_target bin/rails db:create db:migrate
+      run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_target bin/rails db:drop db:create db:migrate
 
     - name: Build and start e2e
       if: success()

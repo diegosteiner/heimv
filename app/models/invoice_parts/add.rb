@@ -6,8 +6,8 @@
 #
 #  id         :bigint           not null, primary key
 #  amount     :decimal(, )
+#  breakdown  :string
 #  label      :string
-#  label_2    :string
 #  position   :integer
 #  type       :string
 #  created_at :datetime         not null

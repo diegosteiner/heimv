@@ -6,17 +6,28 @@ module Invoices
     BookingStrategy.require_markdown_template(:invoices_invoice_text, context: %i[booking invoice])
     BookingStrategy.require_markdown_template(:invoices_late_notice_text, context: %i[booking invoice])
 
-    def call(booking, params)
-      invoice = ::Invoice.new(default_attributes.merge(booking: booking).merge(params || {}))
+    def call(booking, params = {}, supersede_invoice_id = nil)
+      invoice = ::Invoice.new(defaults(booking).merge(params))
       invoice.payable_until ||= payable_until(invoice)
       invoice.text ||= markdown_template(invoice)
+      invoice.invoice_parts = supersede_invoice_invoice_parts(invoice, supersede_invoice_id)
       invoice
     end
 
     private
 
-    def default_attributes
-      { type: Invoices::Invoice.to_s, payment_info_type: PaymentInfos::OrangePaymentSlip }
+    def supersede_invoice_invoice_parts(invoice, supersede_invoice_id)
+      return [] if supersede_invoice_id.blank?
+
+      supersede_invoice = invoice.booking.organisation.invoices.find(supersede_invoice_id)
+      supersede_invoice.invoice_parts.map(&:dup)
+    end
+
+    def defaults(booking)
+      {
+        type: Invoices::Invoice.to_s, payment_info_type: PaymentInfos::OrangePaymentSlip,
+        issued_at: Time.zone.today, booking: booking
+      }
     end
 
     def markdown_template(invoice)

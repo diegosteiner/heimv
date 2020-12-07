@@ -59,7 +59,7 @@
           - @booking.errors[:committed_request].each do |error|
             .invalid-feedback.d-block = error
 
-        = f.select :purpose, [[t(:'activerecord.enums.booking.purpose.camp'), :camp], [t(:'activerecord.enums.booking.purpose.event'), :event]], {}, disabled: !@booking.editable
+        = f.collection_select :purpose_key, current_organisation.booking_purposes, :key, :title
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable
 

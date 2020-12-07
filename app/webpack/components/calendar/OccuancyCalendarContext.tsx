@@ -1,4 +1,5 @@
-import React, { useState, createContext, useEffect } from 'react';
+import * as React from 'react';
+import { Occupancy, OccupancyJsonData } from '../../models/occupancy';
 import {
   parseISO,
   formatISO,
@@ -10,11 +11,25 @@ import {
   isAfter,
   setHours,
   isWithinInterval,
-} from 'date-fns/esm';
+} from 'date-fns';
+const { useState, createContext, useEffect } = React;
 
-export const OccupancyCalendarContext = createContext();
+const defaultOccypancyCalendarState: OccupancyCalendarState = {
+  occupancies: [],
+  occupancyDates: {},
+  windowFrom: null,
+  windowTo: null,
+};
+const defaultContext = {
+  loading: true,
+  occupancyCalendarState: defaultOccypancyCalendarState,
+};
 
-const filterOccupanciesByDate = (occupancies, date) => {
+export const OccupancyCalendarContext = createContext<ContextType>(
+  defaultContext,
+);
+
+const filterOccupanciesByDate = (occupancies: Occupancy[], date: Date) => {
   return occupancies.filter((occupancy) => {
     return areIntervalsOverlapping(
       { start: occupancy.begins_at, end: occupancy.ends_at },
@@ -24,11 +39,11 @@ const filterOccupanciesByDate = (occupancies, date) => {
 };
 
 const flagsForDayWithOccupancies = (
-  date,
-  occupancies,
-  windowFrom,
-  windowTo,
-) => {
+  date: Date,
+  occupancies: Occupancy[],
+  windowFrom: Date,
+  windowTo: Date,
+): string[] => {
   if (isBefore(date, windowFrom) || isAfter(date, windowTo))
     return ['outOfWindow'];
 
@@ -55,7 +70,27 @@ const flagsForDayWithOccupancies = (
   });
 };
 
-const preprocessCalendarData = (calendarData) => {
+type CalendarJsonData = {
+  window_from: string;
+  window_to: string;
+  occupancies: OccupancyJsonData[];
+};
+
+type OccupancyDate = {
+  occupancies: Occupancy[];
+  flags: string[];
+};
+
+type OccupancyCalendarState = {
+  windowFrom: Date | null;
+  windowTo: Date | null;
+  occupancies: Occupancy[];
+  occupancyDates: { [key: string]: OccupancyDate };
+};
+
+const preprocessCalendarData = (
+  calendarData: CalendarJsonData,
+): OccupancyCalendarState => {
   const windowFrom = parseISO(calendarData.window_from);
   const windowTo = parseISO(calendarData.window_to);
   const occupancies = calendarData.occupancies.map((occupancy) => {
@@ -66,7 +101,7 @@ const preprocessCalendarData = (calendarData) => {
     };
   });
 
-  const occupancyDates = {};
+  const occupancyDates: { [key: string]: OccupancyDate } = {};
 
   for (const date of eachDayOfInterval({ start: windowFrom, end: windowTo })) {
     const filteredOccupancies = filterOccupanciesByDate(occupancies, date);
@@ -83,37 +118,48 @@ const preprocessCalendarData = (calendarData) => {
   }
 
   return {
-    ...calendarData,
-    window_from: windowFrom,
-    window_to: windowTo,
+    windowFrom,
+    windowTo,
     occupancies,
     occupancyDates,
   };
 };
 
-export const OccupancyCalendarContextProvider = ({ children, calendarUrl }) => {
-  const [calendarData, setCalendarData] = useState({
-    occupancies: [],
-    occupancyDates: {},
-    window_from: null,
-    window_to: null,
-  });
-  const [loading, setLoading] = useState(true);
-  const [organisation] = useState({});
+interface ProviderProps {
+  calendarUrl: string;
+}
+
+export type ContextType = {
+  occupancyCalendarState: OccupancyCalendarState;
+  loading: boolean;
+};
+
+export const Provider: React.FC<ProviderProps> = ({
+  children,
+  calendarUrl,
+}) => {
+  const [
+    occupancyCalendarState,
+    setOccupancyCalendarState,
+  ] = useState<OccupancyCalendarState>(defaultOccypancyCalendarState);
+  const [loading, setLoading] = useState<boolean>(true);
+  // const [organisation] = useState({});
 
   useEffect(() => {
     (async () => {
       const result = await fetch(calendarUrl);
 
       if (result.status == 200)
-        setCalendarData(preprocessCalendarData(await result.json()));
+        setOccupancyCalendarState(
+          preprocessCalendarData((await result.json()) as CalendarJsonData),
+        );
       setLoading(false);
     })();
   }, []);
 
   return (
     <OccupancyCalendarContext.Provider
-      value={{ calendarData, loading, organisation }}
+      value={{ occupancyCalendarState, loading }}
     >
       {children}
     </OccupancyCalendarContext.Provider>

@@ -1,34 +1,44 @@
 = form_with(model: [:manage, organisation], local: true) do |f|
   fieldset
+    h3.mt-4= t('.general')
+    = f.text_field :slug if current_user.role_admin?
     = f.text_field :name
-    = f.text_field :location
     div[v-pre]= f.text_area :address, rows: 4
     = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
     = f.collection_select :locale, Booking.locales, :first, :first
 
   fieldset
-    = f.email_field :email
-    = f.email_field :bcc
-    = f.text_field :mail_from
-    div[v-pre]= f.text_area :notification_footer, rows: 4
+    h3.mt-4= Notification.model_name.human(count: 2)
     div.pb-3= f.check_box :notifications_enabled
+    = f.email_field :email
+    = f.text_field :mail_from
+    = f.email_field :bcc
+    div[v-pre]= f.text_area :notification_footer, rows: 4
+    - if current_user.role_admin?
+      div[v-pre]= f.text_area :smtp_url, rows: 4
 
   fieldset
+    h3.mt-4= Contract.model_name.human(count: 2)
     div[v-pre]= f.text_area :representative_address, rows: 4
+    = f.text_field :location
+    = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
+    
+  fieldset
+    h3.mt-4= Invoice.model_name.human(count: 2)
+    = f.select :invoice_ref_strategy_type, [RefStrategies::ESR]
     = f.text_field :esr_participant_nr
     = f.text_field :iban
-    = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
 
   fieldset
+    h3.mt-4= Booking.model_name.human(count: 2)
+    = f.select :booking_ref_strategy_type, [RefStrategies::DefaultBookingRef] 
+    = f.select :booking_strategy_type, [BookingStrategies::Default] if current_user.role_admin?
+    = link_to BookingPurpose.model_name.human(count: 2), manage_booking_purposes_path
+
+  fieldset
+    h3.mt-4= t('.terms')
     = f.file_field :terms_pdf, help: link_to_if(organisation.terms_pdf.attached?, organisation.terms_pdf.try(:filename), organisation.terms_pdf)
     = f.file_field :privacy_statement_pdf, help: link_to_if(organisation.privacy_statement_pdf.attached?, organisation.privacy_statement_pdf.try(:filename), organisation.privacy_statement_pdf)
-
-  - if current_user.role_admin?
-    fieldset
-      div[v-pre]= f.text_area :smtp_url, rows: 4
-      = f.text_field :slug
-      = f.select :booking_strategy_type, [BookingStrategies::Default]
-      = f.select :invoice_ref_strategy_type, [RefStrategies::ESR]
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit

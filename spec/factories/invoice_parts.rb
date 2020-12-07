@@ -6,8 +6,8 @@
 #
 #  id         :bigint           not null, primary key
 #  amount     :decimal(, )
+#  breakdown  :string
 #  label      :string
-#  label_2    :string
 #  position   :integer
 #  type       :string
 #  created_at :datetime         not null
@@ -33,6 +33,6 @@ FactoryBot.define do
     # type ''
     amount { '9.99' }
     label { 'MyText' }
-    label_2 { 'MyText' }
+    breakdown { 'MyText' }
   end
 end

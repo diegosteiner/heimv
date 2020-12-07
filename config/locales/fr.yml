@@ -67,6 +67,7 @@ fr:
         notifications_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
         purpose: Zweck der Miete
+        purpose_key: Zweck der Miete
         ref: Buchungsreferenz
         remarks: Beschreibung des Mietzwecks / Bemerkungen
         state: Status
@@ -82,6 +83,9 @@ fr:
         name: Name
         provision: Provision
         request_deadline_minutes: Frist für Anfragen
+      booking_purpose:
+        key: Schlüssel
+        title: Titel
       contract:
         issuer: Vermieter
         pdf: PDF
@@ -123,8 +127,8 @@ fr:
       invoice_part:
         amount: Betrag
         apply: Anwenden
+        breakdown: Text
         label: Text
-        label_2: Text
         type: Positionsart
       markdown_template:
         body: Text
@@ -228,9 +232,6 @@ fr:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
-        purpose:
-          camp: Lager
-          event: Privater Anlass
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -302,6 +303,9 @@ fr:
       booking_agent:
         one: Vermittler
         other: Vermittler
+      booking_purpose:
+        one: Mietzweck
+        other: Mietzwecke
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -2218,7 +2222,8 @@ fr:
       submit: Speichern
       update: Speichern
   invoice_parts:
-    label_2: "%{used_units} × %{unit} à %{price_per_unit}"
+    breakdown: "%{used_units} × %{unit} à %{price_per_unit}"
+    unpaid_invoice: Offener Betrag fällig am %{payable_until}
   manage:
     bookings:
       contracts:
@@ -2234,10 +2239,16 @@ fr:
         table:
           save: "%{model_name} speichern"
           save_and_continue: Speichern und Rechnung erstellen
+    invoices:
+      form:
+        suggested_invoice_parts: Suggested invoice parts
     notifications:
       edit:
         deliver: Speichern und nochmals versenden
     organisations:
+      form:
+        general: General
+        terms: Terms
       import:
         error: Error
         success: Success
