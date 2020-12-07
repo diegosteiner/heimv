@@ -53,13 +53,13 @@ module Ability
   end
 
   class Public < Base
-    def anonymous_abilities(_organisation)
-      can %i[create read update], AgentBooking
-      can %i[create read update], Booking
-      can %i[create read update], Tenant
-      can %i[read index], Home, requests_allowed: true
+    def anonymous_abilities(organisation)
+      can %i[create read update], AgentBooking, { organisation: organisation }
+      can %i[create read update], Booking, { organisation: organisation }
+      can %i[create read update], Tenant, { organisation: organisation }
+      can %i[read index], Home, { organisation: organisation, requests_allowed: true }
       can %i[read], Organisation
-      can %i[read index embed calendar at], Occupancy, home: { requests_allowed: true }
+      can %i[read index embed calendar at], Occupancy, home: { requests_allowed: true, organisation: organisation }
     end
 
     def manage_abilities(user, organisation)
