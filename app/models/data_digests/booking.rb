@@ -58,8 +58,10 @@ module DataDigests
       def data_row(booking)
         booking.instance_eval do
           [
-            ref, home.name, I18n.l(occupancy.begins_at, format: :short), I18n.l(occupancy.ends_at, format: :short),
-            purpose
+            ref, home.name,
+            I18n.l(occupancy.begins_at, format: :short),
+            I18n.l(occupancy.ends_at, format: :short),
+            purpose.to_s
           ]
         end
       end

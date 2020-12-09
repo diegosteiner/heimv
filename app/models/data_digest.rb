@@ -91,15 +91,15 @@ class DataDigest < ApplicationRecord
     end
 
     formatter :csv do |data_digest_period, options|
-      CSV.generate(options) { |csv| data_digest_period.data.each { |row| csv << row } }
+      CSV.generate(options) do |csv|
+        csv << data_digest_period.data_header if data_digest_period.data_header
+        data_digest_period.filtered.each { |record| csv << data_digest_period.data_row(record) }
+        csv << data_digest_period.data_footer if data_digest_period.data_footer
+      end
     end
 
     formatter :pdf do |data_digest_period, options|
       Export::Pdf::DataDigestPeriodPdf.new(data_digest_period, options).render_document
-    end
-
-    def data
-      @data ||= filtered.map { |record| data_row(record) }
     end
 
     def initialize(data_digest, period_range)
