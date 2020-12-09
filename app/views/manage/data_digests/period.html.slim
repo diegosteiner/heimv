@@ -11,9 +11,9 @@ p=  [ \
         - @data_digest_period.data_header.each do |header|
           th= header
     tbody
-      - @data_digest_period.data.each do |row|
+      - @data_digest_period.filtered.each do |row|
         tr
-          - row.each do |cell|
+          - @data_digest_period.data_row(row).each do |cell|
             td= cell
     - if @data_digest_period.data_footer   
       tfooter
