@@ -6,8 +6,8 @@
 #
 #  id                 :bigint           not null, primary key
 #  data_digest_params :jsonb
-#  filter_params      :jsonb
 #  label              :string
+#  prefilter_params   :jsonb
 #  type               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -25,96 +25,90 @@
 require 'csv'
 
 class DataDigest < ApplicationRecord
-  belongs_to :organisation
+  Formatter = Struct.new(:default_options, :block)
+  PeriodicData = Struct.new(:data_digest, :period, :header, :footer, :data)
 
+  belongs_to :organisation
   validates :label, presence: true
 
-  def filter; end
-
-  def periodic_data(period = (1.year.ago)..(1.year.from_now))
-    self.class::Period.new(self, period)
+  def self.formatters
+    @formatters ||= superclass.respond_to?(:formatters) && superclass.formatters&.dup || {}
   end
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
-  def periods(at = Time.zone.now.end_of_day)
-    {
-      ever: Range.new(nil, nil),
-      this_year: (at.beginning_of_year)..(at.end_of_year),
-      last_year: ((at - 1.year).beginning_of_year)..((at - 1.year).end_of_year),
-      last_12_months: (at - 12.months)..at,
-      last_6_months: (at - 6.months)..at,
-      last_3_months: (at - 3.months)..at,
-      last_month: (at - 1.month)..at,
-      next_month: at..(at + 1.month),
-      next_3_months: at..(at + 3.months),
-      next_6_months: at..(at + 6.months),
-      next_12_months: at..(at + 12.months),
-      next_year: ((at + 1.year).beginning_of_year)..((at + 1.year).end_of_year),
-      until_now: nil..at,
-      from_now: at..nil
-    }
+  def self.periods
+    @periods ||= superclass.respond_to?(:periods) && superclass.periods&.dup || {}
   end
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
 
-  class Period
-    attr_reader :data_digest, :period_range
+  def self.formatter(format, default_options: {}, &block)
+    formatters[format.to_sym] = Formatter.new(default_options, block)
+  end
 
-    def self.formatters
-      @formatters ||= superclass.respond_to?(:formatters) && superclass.formatters&.dup || {}
+  def self.register_period(**new_periods)
+    periods.merge!(new_periods)
+  end
+
+  formatter(:csv) do |periodic_data, options|
+    options.reverse_merge!({ col_sep: ';', write_headers: true, skip_blanks: true,
+                             force_quotes: true, encoding: 'utf-8' })
+
+    CSV.generate(options) do |csv|
+      csv << periodic_data.header
+      periodic_data.data.each { |row| csv << row }
+      csv << periodic_data.footer if periodic_data.footer.present?
     end
+  end
 
-    def formatters
-      self.class.formatters
-    end
+  formatter(:pdf) do |periodic_data, options|
+    options.reverse_merge!({ document_options: { page_layout: :landscape } })
+    Export::Pdf::DataDigestPeriodPdf.new(periodic_data, options).render_document
+  end
 
-    def default_formatter_options
-      {
-        pdf: {
-          document_options: { page_layout: :landscape }
-        },
-        csv: {
-          col_sep: ';', write_headers: true, skip_blanks: true,
-          force_quotes: true, encoding: 'utf-8'
-        }
-      }
-    end
+  register_period ever: ->(_at) { Range.new(nil, nil) },
+                  this_year: ->(at) { (at.beginning_of_year)..(at.end_of_year) },
+                  last_year: ->(at) { ((at - 1.year).beginning_of_year)..((at - 1.year).end_of_year) },
+                  last_12_months: ->(at) { (at - 12.months)..at },
+                  last_6_months: ->(at) { (at - 6.months)..at },
+                  last_3_months: ->(at) { (at - 3.months)..at },
+                  last_month: ->(at) { (at - 1.month)..at },
+                  next_month: ->(at) { at..(at + 1.month) },
+                  next_3_months: ->(at) { at..(at + 3.months) },
+                  next_6_months: ->(at) { at..(at + 6.months) },
+                  next_12_months: ->(at) { at..(at + 12.months) },
+                  next_year: ->(at) { ((at + 1.year).beginning_of_year)..((at + 1.year).end_of_year) },
+                  until_now: ->(at) { nil..at },
+                  from_now: ->(at) { at..nil }
 
-    def format(format, options = {})
-      options = options.reverse_merge(default_formatter_options[format] || {})
-      self.class.formatters[format].call(self, options)
-    end
+  def digest(period, format: nil, **options)
+    return unless period.is_a?(Range)
 
-    def self.formatter(format, &block)
-      formatters[format.to_sym] = block
-    end
+    periodic_data = PeriodicData.new(self, period, build_header(period, options),
+                                     build_footer(period, options),
+                                     build_data(period, options))
+    formatter = self.class.formatters[format&.to_sym]
+    return periodic_data unless formatter
 
-    formatter :csv do |data_digest_period, options|
-      CSV.generate(options) do |csv|
-        csv << data_digest_period.data_header if data_digest_period.data_header
-        data_digest_period.filtered.each { |record| csv << data_digest_period.data_row(record) }
-        csv << data_digest_period.data_footer if data_digest_period.data_footer
-      end
-    end
+    formatter.block.call(periodic_data, options.fetch(:format_options, {}))
+  end
 
-    formatter :pdf do |data_digest_period, options|
-      Export::Pdf::DataDigestPeriodPdf.new(data_digest_period, options).render_document
-    end
+  def period(period_sym, at: Time.zone.now)
+    self.class.periods[period_sym&.to_sym]&.call(at)
+  end
 
-    def initialize(data_digest, period_range)
-      @period_range = period_range
-      @data_digest = data_digest
-    end
+  def scope
+    []
+  end
 
-    def filtered
-      []
-    end
+  protected
 
-    def data_header; end
+  def prefilter; end
 
-    def data_footer; end
+  def build_header(_period, _options)
+    []
+  end
 
-    def data_row(record); end
+  def build_data(_period, _options); end
+
+  def build_footer(_period, _options)
+    nil
   end
 end

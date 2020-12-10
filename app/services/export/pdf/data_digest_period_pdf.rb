@@ -5,13 +5,13 @@ require 'prawn'
 module Export
   module Pdf
     class DataDigestPeriodPdf < Base
-      attr_reader :data_digest_period, :organisation
+      attr_reader :periodic_data, :organisation
 
-      def initialize(data_digest_period, options = {})
+      def initialize(periodic_data, options = {})
         super()
-        @data_digest_period = data_digest_period
+        @periodic_data = periodic_data
         @options = options
-        @organisation = data_digest_period.data_digest.organisation
+        @organisation = periodic_data.data_digest.organisation
       end
 
       def document_options
@@ -20,12 +20,12 @@ module Export
 
       to_render do
         render Renderables::Logo.new(organisation.logo)
-        render Renderables::Title.new(data_digest_period.data_digest.label)
+        render Renderables::Title.new(periodic_data.data_digest.label)
       end
 
       to_render do
-        from = data_digest_period.period_range.begin
-        to = data_digest_period.period_range.end
+        from = periodic_data.period.begin
+        to = periodic_data.period.end
         text([
           (from && I18n.t('data_digests.period_from', date: I18n.l(from))),
           (to && I18n.t('data_digests.period_to', date: I18n.l(to)))
@@ -34,7 +34,7 @@ module Export
       end
 
       to_render do
-        table_data = [@data_digest_period.data_header] + @data_digest_period.data
+        table_data = [@periodic_data.header] + @periodic_data.data
         table(table_data, width: bounds.width) do
           cells.style(size: 8, borders: [])
           row(0).font_style = :bold

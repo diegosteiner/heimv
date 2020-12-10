@@ -64,6 +64,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-rescue'
+  gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-performance'

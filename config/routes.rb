@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       end
       resources :users, except: %i[show]
       resources :data_digests do
-        get '/period', on: :member, action: :period, as: :period
+        get '/digest', on: :member, action: :digest, as: :digest
       end
       resources :invoices do
         resources :invoice_parts, except: %i[index show]

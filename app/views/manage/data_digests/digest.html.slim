@@ -1,0 +1,27 @@
+h2= @data_digest.label
+p=  [ \
+      (@periodic_data.period.begin && t('data_digests.period_from', date: l(@periodic_data.period.begin))), \
+      (@periodic_data.period.end && t('data_digests.period_to', date: l(@periodic_data.period.end))) \
+    ].compact.join(' ')
+
+.breakout-sm
+  table.table-striped.table.table-responsive
+    - if @periodic_data.header
+      thead
+        - @periodic_data.header.each do |header|
+          th= header
+    tbody
+      - @periodic_data.data.each do |row|
+        tr
+          - row.each do |cell|
+            td= cell
+    - if @periodic_data.footer   
+      tfooter
+        - @periodic_data.footer.each do |footer|
+          td= footer
+
+br
+.btn-group
+  - @data_digest.class.formatters.keys.each do |format|
+    = link_to url_for(from: params[:from], to: params[:to], format: format), class: 'btn btn-primary' do
+      = format.to_s.upcase

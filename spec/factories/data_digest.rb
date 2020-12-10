@@ -16,8 +16,8 @@
 FactoryBot.define do
   factory :data_digest do
     organisation
-    type { '' }
-    booking_ids { 'MyString' }
-    params { '' }
+    prefilter_params { '' }
+    label { Faker::Name.name }
+    factory :booking_data_digest, class: 'DataDigests::Booking'
   end
 end

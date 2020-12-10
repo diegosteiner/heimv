@@ -6,8 +6,8 @@
 #
 #  id                 :bigint           not null, primary key
 #  data_digest_params :jsonb
-#  filter_params      :jsonb
 #  label              :string
+#  prefilter_params   :jsonb
 #  type               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -24,19 +24,19 @@
 
 module DataDigests
   class Tenant < DataDigests::Booking
-    class Period < DataDigests::Booking::Period
-      def data_header
-        super + [
-          ::Tenant.model_name.human, '', '', ::Occupancy.human_attribute_name(:nights)
-        ]
-      end
+    protected
 
-      def data_row(booking)
-        super + booking.instance_eval do
-          [
-            tenant&.address_lines&.join("\n"), tenant&.email, tenant&.phone, occupancy&.nights
-          ]
-        end
+    def build_header(_period, _options)
+      super + [
+        ::Tenant.model_name.human, '', '', ::Occupancy.human_attribute_name(:nights)
+      ]
+    end
+
+    def build_data_row(booking)
+      super + booking.instance_eval do
+        [
+          tenant&.address_lines&.join("\n"), tenant&.email, tenant&.phone, occupancy&.nights
+        ]
       end
     end
   end

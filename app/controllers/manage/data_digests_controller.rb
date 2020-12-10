@@ -15,16 +15,18 @@ module Manage
     end
 
     def show
-      @periods = @data_digest.periods
+      @periods = @data_digest.class.periods
     end
 
-    def period
-      @data_digest_period = @data_digest.periodic_data(data_digest_period_range)
-
+    def digest
       respond_to do |format|
-        format.html
-        format.csv { send_data @data_digest_period.format(:csv), filename: "#{@data_digest.label}.csv" }
-        format.pdf { send_data @data_digest_period.format(:pdf), filename: "#{@data_digest.label}.pdf" }
+        format.html { @periodic_data = @data_digest.digest(period) }
+        format.csv do
+          send_data @data_digest.digest(period, format: :csv), filename: "#{@data_digest.label}.csv"
+        end
+        format.pdf do
+          send_data @data_digest.digest(period, format: :pdf), filename: "#{@data_digest.label}.pdf"
+        end
       end
     end
 
@@ -48,17 +50,13 @@ module Manage
 
     private
 
-    def data_digest_period_range
+    def period
+      period = @data_digest.period(params[:range])
+      return period if period.present?
+
       from = params[:from]
       to = params[:to]
-
-      @data_digest.periods.fetch(
-        params[:range]&.to_sym,
-        Range.new(
-          from && Time.zone.parse(from),
-          to && Time.zone.parse(to)
-        )
-      )
+      Range.new(from && Time.zone.parse(from), to && Time.zone.parse(to))
     end
 
     def data_digest_params
