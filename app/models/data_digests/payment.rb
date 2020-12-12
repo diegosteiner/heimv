@@ -31,7 +31,7 @@ module DataDigests
     end
 
     def scope
-      @scope ||= filter.apply(organisation.payments.ordered)
+      @scope ||= prefilter.apply(organisation.payments.ordered)
     end
 
     protected

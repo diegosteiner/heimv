@@ -24,26 +24,29 @@
 
 require 'rails_helper'
 
-RSpec.describe DataDigests::Booking, type: :model do
-  let(:data_digest) { create(:booking_data_digest) }
+RSpec.describe DataDigests::Payment, type: :model do
+  subject(:data_digest) { create(:payment_data_digest) }
   let(:period) { data_digest.period(:ever) }
 
   before do
-    create_list(:booking, 3, organisation: data_digest.organisation)
+    create_list(:booking, 3, organisation: data_digest.organisation).map do |booking|
+      invoice = create(:invoice, booking: booking)
+      create(:payment, invoice: invoice, amount: invoice.amount)
+    end
   end
+
+  it { is_expected.to be_a(described_class) }
 
   describe '#digest' do
     subject(:periodic_data) { data_digest.digest(period) }
 
     it { is_expected.to be_a(DataDigest::PeriodicData) }
-    its(:header) do
-      is_expected.to eq(['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung', 'Zweck der Miete'])
-    end
+    its(:header) { is_expected.to eq(["Ref", "Buchungsreferenz", "Bezahlt am", "Betrag", "Mieter", "Bemerkungen"]) }
     it { expect(periodic_data.data.count).to be(3) }
   end
 
   describe '#csv' do
-    it { expect(data_digest.digest(period, format: :csv)).to include('Heim') }
+    it { expect(data_digest.digest(period, format: :csv)).to include('Betrag') }
   end
 
   describe '#pdf' do
