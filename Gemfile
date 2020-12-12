@@ -55,7 +55,7 @@ end
 
 group :development, :test do
   gem 'brakeman'
-  gem 'bullet'
+  # gem 'bullet'
   gem 'bundler-audit'
   gem 'bundler-leak'
   gem 'byebug', platform: :mri
