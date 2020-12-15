@@ -98,8 +98,10 @@ de:
         label: Name
         type: Art
       deadline:
+        armed: Aktiviert
         at: Bis
-        postponable_for: Verlängerbar
+        postponable_for: Verlängerbar um Sekunden
+        remarks: Bemerkungen
         responsible: Verantwortlich
       home:
         address: Adresse

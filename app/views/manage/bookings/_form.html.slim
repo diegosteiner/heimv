@@ -61,14 +61,6 @@
       = af.text_field :booking_agent_code
       = af.text_field :booking_agent_ref
 
-  hr
-  fieldset
-    strong= Booking.human_attribute_name(:deadline)
-    .row
-      = f.fields_for :deadline, (@booking.deadline || @booking.deadlines.new) do |df|
-        .col= df.datetime_field :at
-        .col= df.number_field :postponable_for
-
   .form-actions.pt-4.mt-3.border-top
     = f.submit
     =<> link_to t(:back), manage_bookings_path, class: 'btn btn-default'

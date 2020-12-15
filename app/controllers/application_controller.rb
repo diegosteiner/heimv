@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   def responder_flash_messages(resource_name, scope: :update)
     {
       notice: t(:notice, scope: %i[flash actions] + [scope], resource_name: resource_name),
-      error: t(:error, scope: %i[flash actions] + [scope], resource_name: resource_name)
+      error: t(:alert, scope: %i[flash actions] + [scope], resource_name: resource_name)
     }
   end
 

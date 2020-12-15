@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Improve deadline edit
+
 ## [20.12.1] - 2020-12-07
 
 - Improve late notices
