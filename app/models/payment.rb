@@ -30,6 +30,7 @@
 class Payment < ApplicationRecord
   belongs_to :invoice, optional: true
   belongs_to :booking, touch: true
+  has_one :organisation, through: :booking
 
   attribute :applies, :boolean, default: true
 
