@@ -41,7 +41,7 @@ RSpec.describe DataDigests::Payment, type: :model do
     subject(:periodic_data) { data_digest.digest(period) }
 
     it { is_expected.to be_a(DataDigest::PeriodicData) }
-    its(:header) { is_expected.to eq(["Ref", "Buchungsreferenz", "Bezahlt am", "Betrag", "Mieter", "Bemerkungen"]) }
+    its(:header) { is_expected.to eq(['Ref', 'Buchungsreferenz', 'Bezahlt am', 'Betrag', 'Mieter', 'Bemerkungen']) }
     it { expect(periodic_data.data.count).to be(3) }
   end
 
