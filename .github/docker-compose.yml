@@ -19,7 +19,7 @@ services:
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
       SELENIUM_HOST: 'selenium:4444'
-      SMTP_SETTINGS: "{ "address":"mail" }"
+      SMTP_SETTINGS: '{ "address":"mail" }'
       RUBYOPT: '-W:no-deprecated -W:no-experimental'
     depends_on:
       - db

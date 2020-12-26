@@ -2,7 +2,11 @@
 
 ## [Unreleased]
 
+## [20.12.2] - 2020-12-26
+
 - Improve deadline edit
+- Improve booking form for manager
+- Improve invoices overview
 
 ## [20.12.1] - 2020-12-07
 
