@@ -24,7 +24,7 @@
 #  payment_deadline          :integer          default(30), not null
 #  representative_address    :string
 #  slug                      :string
-#  smtp_url                  :string
+#  smtp_settings             :jsonb
 #  users_limit               :integer
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null

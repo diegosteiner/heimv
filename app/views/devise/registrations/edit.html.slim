@@ -7,8 +7,8 @@
           p
             = t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email)
           = resource.unconfirmed_email
-      = f.password_field :password, autocomplete: 'off', hint: t(".leave_blank_if_you_don_t_want_to_change_it")
-      = f.password_field :current_password, hint: t(".we_need_your_current_password_to_confirm_your_changes")
+      = f.password_field :password, autocomplete: 'off', help: t(".leave_blank_if_you_don_t_want_to_change_it")
+      = f.password_field :current_password, help: t(".we_need_your_current_password_to_confirm_your_changes")
       = f.submit
 
     .card.border-danger.my-4

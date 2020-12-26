@@ -4,11 +4,11 @@ class OrganisationMailer
   def initialize(organisation)
     @organisation = organisation
     @options = {
-      from: (organisation.mail_from || organisation.name),
+      from: (organisation.mail_from || organisation.email),
       reply_to: organisation.email,
       charset: 'UTF-8'
     }
-    @options[:via_options] = SmtpConfig.from_string(organisation.smtp_url.presence || ENV.fetch('SMTP_URL'))
+    @options[:via_options] = SmtpSettings.from_h_or_default(organisation.smtp_settings)
   end
 
   def mail(**args)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_11_124032) do
+ActiveRecord::Schema.define(version: 2020_12_24_161837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -309,13 +309,13 @@ ActiveRecord::Schema.define(version: 2020_12_11_124032) do
     t.integer "payment_deadline", default: 30, null: false
     t.string "location"
     t.boolean "notifications_enabled", default: true
-    t.string "smtp_url"
     t.string "bcc"
     t.string "mail_from"
     t.string "slug"
     t.string "locale", default: "de"
     t.integer "homes_limit"
     t.integer "users_limit"
+    t.jsonb "smtp_settings"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 

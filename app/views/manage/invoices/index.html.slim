@@ -21,25 +21,27 @@
       tbody
         - @invoices.each do |invoice|
           tr[data-href=manage_invoice_path(invoice) class=('disabled' if invoice.discarded?)]
-            td
+            td.align-middle
+              - unless @booking
+                div= link_to invoice.booking, manage_booking_path(invoice.booking)
               small= link_to invoice.to_s, manage_invoice_path(invoice, format: :pdf), target: :_blank
-            td
+            td.align-middle
               = invoice.model_name.human
 
-            td
+            td.align-middle
               - if invoice.payable_until.present?
                 - if invoice.payable_until.past?
                   .text-danger= l(invoice.payable_until, format: :date)
                 - else
                   =l(invoice.payable_until, format: :date)
 
-            td
+            td.align-middle
               = number_to_currency(invoice.amount)
 
-            td
+            td.align-middle
               = number_to_currency(invoice.amount_paid)
 
-            td
+            td.align-middle
               - if invoice.amount_open.negative?
                 .text-warning= number_to_currency(invoice.amount_open)
               - elsif invoice.amount_open.zero?
@@ -47,7 +49,7 @@
               - else
                 .text-danger= number_to_currency(invoice.amount_open)
 
-            td.py-1.text-right
+            td.py-1.text-right.align-middle
               .btn-group
                 - unless invoice.paid
                   = link_to new_manage_booking_payment_path(invoice.booking, payment: { invoice_id: invoice.id }), class: 'btn btn-default'

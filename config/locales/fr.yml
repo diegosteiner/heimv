@@ -177,7 +177,7 @@ fr:
         privacy_statement_pdf: Datenschutzerklärung
         representative_address: Adresse der Vertretung für Verträge
         slug: Namespace
-        smtp_url: Mailserver Einstellungen
+        smtp_settings: Mailserver Einstellungen
         terms_pdf: AGB
       payment:
         amount: Betrag
@@ -2231,6 +2231,8 @@ fr:
       contracts:
         index:
           contract_signed: Vertrag unterschieben
+      form:
+        change_tenant_id: Change tenant
       show:
         public_booking_url: Link für Mieter
       tarifs:

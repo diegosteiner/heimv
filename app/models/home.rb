@@ -37,6 +37,8 @@ class Home < ApplicationRecord
   has_many :markdown_templates, inverse_of: :home, dependent: :destroy
   belongs_to :organisation, inverse_of: :homes
 
+  scope :ordered, -> { order(name: :ASC) }
+
   accepts_nested_attributes_for :tarifs, reject_if: :all_blank, update_only: true
 
   def to_s
