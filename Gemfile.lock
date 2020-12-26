@@ -401,7 +401,7 @@ GEM
     unicode_utils (1.4.0)
     warden (1.2.9)
       rack (>= 2.0.9)
-    webpacker (6.0.0.pre.2)
+    webpacker (5.2.1)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
@@ -480,7 +480,7 @@ DEPENDENCIES
   slim-rails
   statesman
   ttfunk (~> 1.5.1)
-  webpacker (>= 4.0.x)
+  webpacker (~> 5.2)
 
 RUBY VERSION
    ruby 2.7.2p137

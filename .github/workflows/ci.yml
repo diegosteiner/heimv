@@ -52,6 +52,15 @@ jobs:
       if: success()
       run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/e2e
 
+    - name: Save logs
+      run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml logs e2e_target > tmp/e2e_target.log
+
+    - uses: actions/upload-artifact@master
+      if: failure()
+      with:
+        name: e2e_target.log
+        path: tmp
+
     - uses: actions/upload-artifact@master
       if: failure()
       with:
