@@ -5,7 +5,7 @@ class ChangeSmtpUrlToSmtpConfig < ActiveRecord::Migration[6.1]
     reversible do |direction|
       direction.up do
         Organisation.find_each do |organisation|
-          organisation.update!(smtp_settings: JSON.parse(organisation.smtp_url))
+          organisation.update!(smtp_settings: JSON.parse(organisation.smtp_url)) if organisation.smtp_settings.present?
         end
       end
     end
