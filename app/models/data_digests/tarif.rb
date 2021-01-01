@@ -6,8 +6,8 @@
 #
 #  id                 :bigint           not null, primary key
 #  data_digest_params :jsonb
-#  filter_params      :jsonb
 #  label              :string
+#  prefilter_params   :jsonb
 #  type               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -36,30 +36,27 @@ module DataDigests
       ::Tarif.where(id: tarif_ids)
     end
 
-    class Period < DataDigests::Booking::Period
-      include ActionView::Helpers::NumberHelper
+    protected
 
-      def data_header
-        super + @data_digest.tarifs.flat_map do |tarif|
-          [
-            "#{tarif.label} (#{::Usage.human_attribute_name(:used_units)})",
-            "#{tarif.label} (#{::Usage.human_attribute_name(:price)})"
-          ]
-        end
+    def build_header(_period, _options)
+      super + tarifs.flat_map do |tarif|
+        [
+          "#{tarif.label} (#{::Usage.human_attribute_name(:used_units)})",
+          "#{tarif.label} (#{::Usage.human_attribute_name(:price)})"
+        ]
       end
+    end
 
-      def data_row(booking)
-        super + @data_digest.tarifs.flat_map do |tarif|
-          usage = booking.usages.of_tarif(tarif).take
-          next ['', ''] unless usage
+    def build_data_row(booking)
+      super + tarifs.flat_map do |tarif|
+        usage = booking.usages.of_tarif(tarif).take
+        next ['', ''] unless usage
 
-          [
-
-            ActiveSupport::NumberHelper.number_to_rounded(usage.used_units || 0,
-                                                          precision: 2, strip_insignificant_zeros: true),
-            number_to_currency(usage.price || 0, unit: '')
-          ]
-        end
+        [
+          ActiveSupport::NumberHelper.number_to_rounded(usage.used_units || 0,
+                                                        precision: 2, strip_insignificant_zeros: true),
+          ActiveSupport::NumberHelper.number_to_currency(usage.price || 0, unit: '')
+        ]
       end
     end
   end

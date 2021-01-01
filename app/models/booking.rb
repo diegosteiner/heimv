@@ -106,7 +106,6 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :occupancy, reject_if: :reject_occupancy_attributes?, update_only: true
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tentant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :deadline, update_only: true, reject_if: ->(attributes) { attributes[:at].blank? }
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank, update_only: true
 
   delegate :to_s, to: :ref

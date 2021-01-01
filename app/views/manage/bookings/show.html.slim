@@ -49,7 +49,7 @@ section.breakout-sm
             p
               strong= Deadline.model_name.human
               br
-              = l(@booking.deadline.at, format: :short)
+              = link_to l(@booking.deadline.at, format: :short), edit_manage_deadline_path(@booking.deadline)
 
           .row.mb-3
             .col

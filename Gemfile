@@ -32,8 +32,8 @@ gem 'prawn'
 gem 'prawn-table'
 gem 'puma'
 gem 'rack-mini-profiler'
-gem 'rails', '~> 6.0'
-gem 'rails-i18n', '~> 6.0'
+gem 'rails', '~> 6.1.0'
+gem 'rails-i18n'
 gem 'ranked-model'
 gem 'react-rails'
 gem 'responders'
@@ -41,7 +41,7 @@ gem 'rqrcode'
 gem 'slim-rails'
 gem 'statesman'
 gem 'ttfunk', '~> 1.5.1' # See https://github.com/prawnpdf/prawn/issues/1142
-gem 'webpacker', '>= 4.0.x'
+gem 'webpacker', '~> 5.2'
 
 group :development do
   gem 'annotate'
@@ -55,7 +55,7 @@ end
 
 group :development, :test do
   gem 'brakeman'
-  gem 'bullet'
+  # gem 'bullet'
   gem 'bundler-audit'
   gem 'bundler-leak'
   gem 'byebug', platform: :mri
@@ -64,6 +64,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-rescue'
+  gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-performance'

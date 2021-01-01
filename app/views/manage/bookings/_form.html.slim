@@ -4,7 +4,7 @@
       = f.error_summary
 
   fieldset
-    = f.collection_select :home_id, Home.accessible_by(current_ability), :id, :to_s, include_blank: true
+    = f.collection_select :home_id, Home.accessible_by(current_ability).ordered, :id, :to_s, include_blank: true
     = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                 name: 'booking[occupancy_attributes][begins_at]',
                                                 value: @booking.occupancy.begins_at&.iso8601,
@@ -14,9 +14,11 @@
                                                 name: 'booking[occupancy_attributes][ends_at]',
                                                 value: @booking.occupancy.ends_at&.iso8601,
                                                 required: true)
-    strong= Booking.human_attribute_name(:tenant)
 
-    = f.collection_select :tenant_id, current_organisation.tenants, :id, :to_s, include_blank: true
+  fieldset.mt-4
+    h5= Booking.human_attribute_name(:tenant)
+
+    = f.collection_select :tenant_id, current_organisation.tenants.ordered, :id, :to_s, help: t('.change_tenant_id'), include_blank: true
     = f.fields_for :tenant, (@booking.tenant || @booking.build_tenant) do |cf|
       = cf.hidden_field :id
       = f.email_field :email
@@ -34,8 +36,7 @@
       = cf.telephone_field :phone
       = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
 
-  hr
-  fieldset
+  fieldset.mt-4
     = f.text_field :tenant_organisation
     = f.text_area :invoice_address
     = f.form_group :committed_request
@@ -55,19 +56,11 @@
     = f.check_box :timeframe_locked
     = f.check_box :editable
 
-  hr
-  fieldset
+  fieldset.mt-4
+    h5= AgentBooking.model_name.human
     = f.fields_for :agent_booking do |af|
       = af.text_field :booking_agent_code
       = af.text_field :booking_agent_ref
-
-  hr
-  fieldset
-    strong= Booking.human_attribute_name(:deadline)
-    .row
-      = f.fields_for :deadline, (@booking.deadline || @booking.deadlines.new) do |df|
-        .col= df.datetime_field :at
-        .col= df.number_field :postponable_for
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit

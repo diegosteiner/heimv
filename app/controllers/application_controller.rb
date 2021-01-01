@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   respond_to :html, :json
 
   protect_from_forgery with: :exception
-  # rescue_from CanCan::AccessDenied, with: :unauthorized unless Rails.env.development?
+  rescue_from CanCan::AccessDenied, with: :unauthorized unless Rails.env.development?
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
 
   default_form_builder BootstrapForm::FormBuilder
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   def responder_flash_messages(resource_name, scope: :update)
     {
       notice: t(:notice, scope: %i[flash actions] + [scope], resource_name: resource_name),
-      error: t(:error, scope: %i[flash actions] + [scope], resource_name: resource_name)
+      error: t(:alert, scope: %i[flash actions] + [scope], resource_name: resource_name)
     }
   end
 
@@ -39,8 +39,7 @@ class ApplicationController < ActionController::Base
   def current_locale
     return @current_locale if @current_locale.present?
 
-    locale = I18n.available_locales.include?(params[:locale]&.to_sym) && params[:locale]
-    @current_locale = locale || I18n.default_locale
+    @current_locale = (I18n.available_locales & [params[:locale]&.to_sym, I18n.default_locale]).first
     I18n.locale = @current_locale
   end
 

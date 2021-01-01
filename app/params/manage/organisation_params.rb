@@ -10,7 +10,7 @@ module Manage
     end
 
     def self.admin_permitted_keys
-      permitted_keys + %i[booking_strategy_type invoice_ref_strategy_type smtp_url slug]
+      permitted_keys + %i[booking_strategy_type invoice_ref_strategy_type smtp_settings slug]
     end
   end
 end

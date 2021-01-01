@@ -1,4 +1,5 @@
 {
+	"name": "heimv",
 	"dockerComposeFile": "../docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/app",
@@ -20,7 +21,7 @@
 		"castwide.solargraph"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-kk	// "forwardPorts": [
+	// "forwardPorts": [
 	// 	3000
 	// ],
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.

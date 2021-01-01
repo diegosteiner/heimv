@@ -11,15 +11,20 @@ docker-compose up app
 or with VS Code
 
 - Start in Container with Remote Containers Extension
-- Start Server with [F5] Debug
+
+### Development Servers
+
+Then inside the container run:
+
+- ```bin/rails s -b 0.0.0.0``` to start rails server
+- ```bin/webpack-dev-server``` to start webpack dev server
+
 
 To visit the automatically created default organization, visit http://localhost:3000/.
 
 To manage your organizations, visit http://localhost:3000/admin and log in with username `admin@heimv.local` and password `heimverwaltung`.
 
-### Tasks
-
-These commands need to be run un container
+### Commands
 
 - Setup DB: `bin/rails db:prepare`
 - Run migrations: `bin/rails db:migrate`
@@ -42,6 +47,8 @@ Copy env.example to .env and change configuration there
 ```
 
 ## Copyright & License
+
+🎂 1000th commit 🎂
 
 Coypright 2017 Diego P. Steiner & contributors
 

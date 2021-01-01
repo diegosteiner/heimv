@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       end
       resources :users, except: %i[show]
       resources :data_digests do
-        get '/period', on: :member, action: :period, as: :period
+        get '/digest', on: :member, action: :digest, as: :digest
       end
       resources :invoices do
         resources :invoice_parts, except: %i[index show]
@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       resources :bookings do
         resources :invoices, shallow: true
         resources :payments, shallow: true
+        resources :deadlines, shallow: true, only: %i[edit update]
         resources :notifications, shallow: true, only: %i[index show edit update]
         scope module: :bookings do
           resources :contracts

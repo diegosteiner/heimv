@@ -1,10 +1,14 @@
 ### === base === ###                 
 FROM ruby:2.7.2-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata nodejs
-RUN mkdir -p /app
+RUN mkdir -p /app && \
+    mkdir -p /app/vendor && \
+    mkdir -p /app/node_modules
 WORKDIR /app
-ENV BUNDLE_APP_CONFIG=.bundle
 RUN gem install bundler
+
+ENV BUNDLE_CACHE_ALL=true
+ENV BUNDLE_PATH=/app/vendor/bundle
 
 ### === development === ###                 
 FROM base AS development
@@ -31,35 +35,30 @@ FROM development AS build
 
 ENV RAILS_ENV=production               
 ENV NODE_ENV=production   
+ENV BUNDLE_WITHOUT="test:development"
+
 
 COPY --chown=app . /app     
 
-RUN bundle config --local path .bundle && \
-    bundle config --local cache --all true && \
-    bundle config --local without test:development && \
-    bundle install && \
+RUN bundle install && \
     bundle clean && \
     bundle package
 RUN yarn install              
 
 RUN bin/webpack
-RUN rm -rf /app/node_modules/* 
 
 ### === production === ###
 FROM base AS production
 
-# RUN gem install bundler 
-# RUN mkdir -p /app && \
 RUN adduser -D app && \
     chown -R app /app
 USER app    
-# WORKDIR /app                                                              
 
-RUN bundle config --local path .bundle && \
-    bundle config --local deployment true && \
-    bundle config --local without test:development
+ENV BUNDLE_WITHOUT="test:development"
+ENV BUNDLE_DEPLOYMENT="true"
 
 COPY --chown=app --from=build /app /app                              
+RUN rm -rf /app/node_modules/* 
 RUN bundle install --local
 
 ENV RAILS_ENV=production               

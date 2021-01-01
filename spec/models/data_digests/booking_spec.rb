@@ -6,8 +6,8 @@
 #
 #  id                 :bigint           not null, primary key
 #  data_digest_params :jsonb
-#  filter_params      :jsonb
 #  label              :string
+#  prefilter_params   :jsonb
 #  type               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -25,5 +25,28 @@
 require 'rails_helper'
 
 RSpec.describe DataDigests::Booking, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:data_digest) { create(:booking_data_digest) }
+  let(:period) { data_digest.period(:ever) }
+
+  before do
+    create_list(:booking, 3, organisation: data_digest.organisation)
+  end
+
+  describe '#digest' do
+    subject(:periodic_data) { data_digest.digest(period) }
+
+    it { is_expected.to be_a(DataDigest::PeriodicData) }
+    its(:header) do
+      is_expected.to eq(['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung', 'Zweck der Miete'])
+    end
+    it { expect(periodic_data.data.count).to be(3) }
+  end
+
+  describe '#csv' do
+    it { expect(data_digest.digest(period, format: :csv)).to include('Heim') }
+  end
+
+  describe '#pdf' do
+    it { expect(data_digest.digest(period, format: :pdf)).not_to be_blank }
+  end
 end
