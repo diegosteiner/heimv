@@ -15,7 +15,7 @@ services:
       - '3000:3000'
       - '3035:3035'
     entrypoint: ['.docker/entrypoints/app.sh']
-    command: 'ash'
+    command: ['bin/rails', 's', '-b', '0.0.0.0']
     environment:
       APP_HOST: ${APP_HOST:-heimv.localhost:3000}
       E2E_SERVER_PORT: '3001'

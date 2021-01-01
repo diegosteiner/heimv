@@ -35,7 +35,7 @@ module DataDigests
     end
 
     def headcount(booking)
-      booking.usages.where(tarif_id: ::Tarif.find_with_booking_copies(@data_digest.tarif_ids)).sum(:used_units).to_i
+      booking.usages.where(tarif_id: ::Tarif.find_with_booking_copies(tarif_ids)).sum(:used_units).to_i
     end
 
     def build_data_row(booking)
