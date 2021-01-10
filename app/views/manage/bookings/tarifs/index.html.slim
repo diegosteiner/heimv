@@ -2,7 +2,6 @@
 
 - if @usages.any?
   h1= t('.used_tarifs', default: 'Angewandte Tarife')
-  = booking.usages.inspect
   section.breakout-sm
     = render partial: 'manage/bookings/usages/table', locals: { usages: @usages, tarif_links: true, return_to: manage_booking_tarifs_path(@booking) }
 

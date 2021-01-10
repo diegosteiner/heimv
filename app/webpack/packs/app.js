@@ -8,7 +8,9 @@ import ReactRailsUJS from 'react_ujs';
 require.context('../images', true);
 
 const csrfForm = () => {
-  const csrfToken = document.querySelector('meta[name=csrf-token]').content;
+  const csrfToken = document.querySelector('meta[name=csrf-token]')?.content;
+  if (!csrfToken) return;
+
   const authTokenInput = document.querySelector(
     'input[name=authenticity_token]',
   );

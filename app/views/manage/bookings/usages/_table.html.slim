@@ -32,14 +32,14 @@
                 = uf.hidden_field :tarif_id
                 = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
               td.py-3
-                = number_to_currency(usage.tarif.price_per_unit, currency: usage.organisation.currency)
+                = number_to_currency(usage.tarif.price_per_unit, currency: @booking.organisation.currency)
               td.py-3
                 = usage.tarif.unit
               - if defined?(used_units_field) && used_units_field
                 td.py-2
                   = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif, presumed: (used_units_field == :presumed) }
                 td.py-3
-                  = number_to_currency(usage.price, currency: usage.organisation.currency)
+                  = number_to_currency(usage.price, currency: @booking.organisation.currency)
               - else
                 = uf.hidden_field :used_units
               td.py-2.text-right
