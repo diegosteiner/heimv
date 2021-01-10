@@ -1,6 +1,5 @@
 import 'stylesheets/application';
 import 'images/logo.svg';
-import $ from 'jquery';
 import Rails from 'rails-ujs';
 import '../services/i18n';
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -8,11 +7,10 @@ import ReactRailsUJS from 'react_ujs';
 
 require.context('../images', true);
 
-window.jQuery = $;
-window.$ = $;
-
 const csrfForm = () => {
-  const csrfToken = document.querySelector('meta[name=csrf-token]').content;
+  const csrfToken = document.querySelector('meta[name=csrf-token]')?.content;
+  if (!csrfToken) return;
+
   const authTokenInput = document.querySelector(
     'input[name=authenticity_token]',
   );
@@ -31,10 +29,6 @@ const csrfForm = () => {
   });
 };
 
-$(document).on('DOMContentLoaded', function () {
-  csrfForm();
-});
-
+document.addEventListener('DOMContentLoaded', () => csrfForm());
 Rails.start();
-
 ReactRailsUJS.useContext(require.context('components', true));

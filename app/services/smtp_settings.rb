@@ -12,7 +12,7 @@ class SmtpSettings
       password: nil,
       port: nil,
       method: :smtp
-    }.merge(value)
+    }.merge(value.symbolize_keys)
   end
 
   def self.from_env

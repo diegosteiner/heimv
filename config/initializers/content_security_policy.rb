@@ -32,6 +32,13 @@
 # Rails.application.config.content_security_policy_report_only = true
 
 Rails.application.config.content_security_policy do |policy|
-  policy.script_src :self, :https
-  policy.script_src :self, :unsafe_inline if Rails.env.development?
+  policy.default_src :self, :https
+  policy.script_src :self, 'cdnjs.cloudflare.com'
+  policy.style_src :self, :https, :unsafe_inline
+
+  if Rails.env.development?
+    policy.script_src :self, 'cdnjs.cloudflare.com', :unsafe_inline
+    # policy.style_src   :self, :https, :unsafe_inline
+    policy.connect_src :self, :https, 'http://localhost:3035', 'ws://localhost:3035'
+  end
 end

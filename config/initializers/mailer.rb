@@ -8,12 +8,13 @@ if Rails.env.test?
     charset: 'UTF-8'
   }
 else
+  smtp_settings = SmtpSettings.from_env
   ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.smtp_settings = SmtpSettings.from_env
+  ActionMailer::Base.smtp_settings = smtp_settings
   Pony.options = {
-    from: ENV.fetch('MAIL_FROM', 'test@heimv.local'),
+    from: smtp_settings[:from] || ENV['MAIL_FROM'] || 'test@heimv.local',
     via: :smtp,
-    via_options: JSON.parse(ENV.fetch('SMTP_SETTINGS')),
+    via_options: smtp_settings,
     charset: 'UTF-8'
   }
 end

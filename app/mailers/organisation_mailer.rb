@@ -8,7 +8,7 @@ class OrganisationMailer
       reply_to: organisation.email,
       charset: 'UTF-8'
     }
-    @options[:via_options] = SmtpSettings.from_h_or_default(organisation.smtp_settings)
+    @options[:via_options] = SmtpSettings.from_h_or_default(organisation.smtp_settings).symbolize_keys
   end
 
   def mail(**args)
