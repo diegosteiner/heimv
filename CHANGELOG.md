@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [21.1.2] - 2021-01-10
+
+- Bugfixes for smtp_config
+
+## [21.1.1] - 
+
 ## [20.12.2] - 2020-12-26
 
 - Improve deadline edit
