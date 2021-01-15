@@ -3,7 +3,7 @@
 module Manage
   class UserParams < ApplicationParams
     def self.permitted_keys
-      %i[email role]
+      %i[email role password]
     end
   end
 end
