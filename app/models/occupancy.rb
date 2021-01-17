@@ -108,6 +108,4 @@ class Occupancy < ApplicationRecord
 
     (ends_at.to_date - begins_at.to_date).to_i
   end
-
-  delegate :ref, to: :home
 end

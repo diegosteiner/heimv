@@ -3,7 +3,6 @@
     thead
       tr
         th= Home.human_attribute_name(:name)
-        th= Home.human_attribute_name(:ref)
         th
         th
 
@@ -12,7 +11,6 @@
         tr[data-href=manage_home_path(home) data-id=home.to_param]
           td
             = link_to home.name, manage_home_path(home)
-          td = home.ref
           td
             = link_to edit_manage_home_path(home) do
               span.fa.fa-edit

@@ -6,7 +6,7 @@ module RefStrategies
 
     def generate(booking)
       format('%<home>s%<year>04d%<month>02d%<day>02d%<suffix>s',
-             home: booking.home.ref[0...1].upcase,
+             home: booking.home.name[0...1].upcase,
              year: booking.occupancy.begins_at.year,
              month: booking.occupancy.begins_at.month,
              day: booking.occupancy.begins_at.day,

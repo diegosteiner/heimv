@@ -32,6 +32,5 @@ FactoryBot.define do
     name { "Pfadiheim #{Faker::Address.city}" }
     address { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     requests_allowed { true }
-    sequence(:ref) { |i| "home-#{i}" }
   end
 end
