@@ -10,5 +10,6 @@ class TransitionBookingStatesJob < ApplicationJob
       transitions[booking.ref] = booking.state_transition&.join(' => ').presence
     end
     Rails.logger.info transitions.compact.inspect
+    true
   end
 end

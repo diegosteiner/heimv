@@ -43,6 +43,8 @@ class Notification < ApplicationRecord
   delegate :locale, to: :booking
   attribute :context
 
+  scope :failed, -> { where(queued_for_delivery: true, sent_at: nil).where(arel_table[:created_at].lt(1.hour.ago)) }
+
   before_validation do
     self.to = to.presence || resolve_addressed_to
     self.markdown_template ||= resolve_markdown_template
