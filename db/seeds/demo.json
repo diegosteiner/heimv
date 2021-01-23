@@ -255,7 +255,6 @@
       "min_occupation": 12,
       "name": "Testheim",
       "address": "9876 Einsiedeln",
-      "ref": "test",
       "requests_allowed": true,
       "tarifs": {
         "1": {
