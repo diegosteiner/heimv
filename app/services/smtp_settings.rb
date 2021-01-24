@@ -20,6 +20,6 @@ class SmtpSettings
   end
 
   def self.from_h_or_default(value)
-    value.present? && from_h(value) || from_env
+    from_env.merge(value || {})
   end
 end
