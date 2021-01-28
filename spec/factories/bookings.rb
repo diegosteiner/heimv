@@ -60,11 +60,15 @@ FactoryBot.define do
       initial_state { nil }
       tenant { association :tenant, organisation: home.organisation, email: email }
       purpose { association :booking_purpose, organisation: home.organisation }
+      begins_at { nil }
+      ends_at { nil }
     end
 
-    after(:build) do |booking, _evaluator|
+    after(:build) do |booking, evaluator|
       booking.organisation ||= booking.home.organisation
       booking.occupancy ||= build(:occupancy, home: booking.home, occupancy_type: :free)
+      booking.occupancy.begins_at = evaluator.begins_at if evaluator.begins_at
+      booking.occupancy.ends_at = evaluator.ends_at if evaluator.ends_at
     end
 
     after(:create) do |booking, evaluator|

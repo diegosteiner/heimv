@@ -7,7 +7,6 @@
 #  id                        :bigint           not null, primary key
 #  address                   :text
 #  bcc                       :string
-#  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
 #  email                     :string
@@ -49,17 +48,12 @@ class Organisation < ApplicationRecord
   has_one_attached :privacy_statement_pdf
 
   validates :booking_strategy_type, presence: true
-  validates :booking_ref_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
   validates :name, :address, :email, presence: true
   validates :slug, uniqueness: true, allow_nil: true
 
   def booking_strategy
     @booking_strategy ||= BookingStrategies.const_get(booking_strategy_type).new
-  end
-
-  def booking_ref_strategy
-    @booking_ref_strategy ||= RefStrategies.const_get(booking_ref_strategy_type).new
   end
 
   def invoice_ref_strategy

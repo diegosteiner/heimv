@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_24_161837) do
+ActiveRecord::Schema.define(version: 2021_01_26_095411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -186,6 +186,7 @@ ActiveRecord::Schema.define(version: 2020_12_24_161837) do
     t.datetime "updated_at", null: false
     t.integer "min_occupation"
     t.integer "booking_margin", default: 0
+    t.string "ref_template"
     t.index ["organisation_id"], name: "index_homes_on_organisation_id"
     t.index ["ref"], name: "index_homes_on_ref", unique: true
   end
@@ -303,7 +304,6 @@ ActiveRecord::Schema.define(version: 2020_12_24_161837) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "iban"
-    t.string "booking_ref_strategy_type"
     t.string "representative_address"
     t.string "email"
     t.integer "payment_deadline", default: 30, null: false

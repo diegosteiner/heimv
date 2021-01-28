@@ -7,7 +7,6 @@
 #  id                        :bigint           not null, primary key
 #  address                   :text
 #  bcc                       :string
-#  booking_ref_strategy_type :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
 #  email                     :string
@@ -40,7 +39,6 @@ FactoryBot.define do
     address { 'MyText' }
     booking_strategy_type { BookingStrategies::Default.to_s }
     invoice_ref_strategy_type { RefStrategies::ESR.to_s }
-    booking_ref_strategy_type { RefStrategies::DefaultBookingRef.to_s }
     email { 'test@test.test' }
     esr_participant_nr { 'MyString' }
     notifications_enabled { true }
