@@ -45,7 +45,7 @@ jobs:
 
       - name: Run check
         if: success()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/ci
+        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/check
 
       - name: Save logs
         if: failure()

@@ -49,7 +49,7 @@ class Organisation < ApplicationRecord
 
   validates :booking_strategy_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
-  validates :name, :address, :email, presence: true
+  validates :name, :email, presence: true
   validates :slug, uniqueness: true, allow_nil: true
 
   def booking_strategy

@@ -2,7 +2,6 @@
   "name": "Heimverein Development",
   "email": "info@heimv.local",
   "address": "Verein Pfadiheime\r\nHeimverwaltung\r\n\r\n8000 Zürich",
-  "booking_ref_strategy_type": "RefStrategies::DefaultBookingRef",
   "booking_strategy_type": "BookingStrategies::Default",
   "currency": "CHF",
   "location": null,
