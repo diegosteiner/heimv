@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
   def unauthorized
     if current_user.nil?
       session[:next] = request.fullpath
-      redirect_to login_url, alert: t('unauthorized')
+      redirect_to new_user_session_path, alert: t('unauthorized')
     else
       redirect_back alert: t('unauthorized'), fallback_location: root_path
     end

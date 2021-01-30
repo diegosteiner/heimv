@@ -46,6 +46,16 @@ Copy env.example to .env and change configuration there
 </iframe>
 ```
 
+## Add Organisation
+
+Create a organisation with markdown templates and a user:
+
+```
+setup = OrganisationSetupService.create(name: <name>, email: <email>, slug: <slug>)
+setup.create_missing_markdown_templates!
+setup.create_user!
+```
+
 ## Copyright & License
 
 🎂 1000th commit 🎂

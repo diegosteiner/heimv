@@ -11,6 +11,7 @@
 #  min_occupation   :integer
 #  name             :string
 #  ref              :string
+#  ref_template     :string
 #  requests_allowed :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -27,7 +28,7 @@
 #
 
 class Home < ApplicationRecord
-  validates :name, :ref, presence: true
+  validates :name, presence: true
   has_one_attached :house_rules
   has_many :occupancies, dependent: :destroy
   has_many :bookings, dependent: :restrict_with_error

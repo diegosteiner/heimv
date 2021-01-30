@@ -27,7 +27,8 @@ ARG UID=1001
 ARG GID=1001
 RUN addgroup -S app -g $GID && \ 
     adduser -S -u $UID -G app -D app && \
-    chown -R app:app /app || true
+    chown -R app:app /app && \
+    chown -R app:app /usr/local/bundle || true
 USER $UID
 
 ### === build === ###                                                                                                                                 [0/

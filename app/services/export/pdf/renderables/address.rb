@@ -10,6 +10,7 @@ module Export
           super()
           @address = address.join("\n") if address.is_a?(Array)
           @address ||= address
+          @address ||= ''
           @options = options
         end
 

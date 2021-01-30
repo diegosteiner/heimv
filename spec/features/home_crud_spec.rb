@@ -11,7 +11,6 @@ describe 'Home CRUD', :devise, type: :feature do
   it 'can create new home' do
     visit new_manage_home_path
     fill_in :home_name, with: new_home.name
-    fill_in :home_ref, with: new_home.ref
     submit_form
     expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Home.model_name.human)
     expect(page).to have_content new_home.name
@@ -30,7 +29,6 @@ describe 'Home CRUD', :devise, type: :feature do
   it 'can edit existing home' do
     visit edit_manage_home_path(home, org: nil)
     fill_in :home_name, with: new_home.name
-    fill_in :home_ref, with: new_home.ref
     submit_form
     expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Home.model_name.human)
     expect(page).to have_content new_home.name

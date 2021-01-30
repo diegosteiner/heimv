@@ -11,6 +11,7 @@
 #  min_occupation   :integer
 #  name             :string
 #  ref              :string
+#  ref_template     :string
 #  requests_allowed :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -32,6 +33,5 @@ FactoryBot.define do
     name { "Pfadiheim #{Faker::Address.city}" }
     address { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     requests_allowed { true }
-    sequence(:ref) { |i| "home-#{i}" }
   end
 end
