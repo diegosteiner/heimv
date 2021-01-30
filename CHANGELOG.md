@@ -2,9 +2,14 @@
 
 ## [Unreleased]
 
+## [21.1.3] - 2021-01-30
+
+- Add more flexible system for booking references
+- Improve organisation setup service
+
 ## [21.1.2] - 2021-01-10
 
-- Bugfixes for smtp_config
+- Fix bugs in smtp_config
 
 ## [21.1.1] - 
 
