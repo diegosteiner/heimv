@@ -60,8 +60,8 @@ class Booking < ApplicationRecord
   belongs_to :tenant, inverse_of: :bookings, optional: true
   belongs_to :occupancy, inverse_of: :booking
   belongs_to :deadline, inverse_of: :booking, optional: true
-  belongs_to :purpose, inverse_of: :bookings, class_name: 'BookingPurpose',
-                       primary_key: :key, foreign_key: :purpose_key, optional: true
+  belongs_to :purpose, inverse_of: :bookings, class_name: 'BookingPurpose', optional: true
+                       
 
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :payments, dependent: :destroy, autosave: false

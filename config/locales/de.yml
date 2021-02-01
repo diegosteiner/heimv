@@ -67,7 +67,7 @@ de:
         notifications_enabled: Aus der Applikation generierte Emails versenden
         occupancy: Belegung
         purpose: Zweck der Miete
-        purpose_key: Zweck der Miete
+        purpose_id: Zweck der Miete
         ref: Buchungsreferenz
         remarks: Beschreibung des Mietzwecks / Bemerkungen
         state: Status

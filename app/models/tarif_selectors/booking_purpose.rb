@@ -30,7 +30,7 @@ module TarifSelectors
     end
 
     def apply?(usage)
-      distinction == usage.booking.purpose_key
+      distinction == usage.booking.purpose&.key
     end
   end
 end
