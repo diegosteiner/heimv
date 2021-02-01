@@ -16,7 +16,6 @@
 #  invoice_address       :text
 #  locale                :string
 #  notifications_enabled :boolean          default(FALSE)
-#  purpose_key           :string
 #  ref                   :string
 #  remarks               :text
 #  state                 :string           default("initial"), not null
@@ -31,6 +30,7 @@
 #  home_id               :bigint           not null
 #  occupancy_id          :uuid
 #  organisation_id       :bigint           not null
+#  purpose_id            :integer
 #  tenant_id             :integer
 #
 # Indexes

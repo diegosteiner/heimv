@@ -1,6 +1,6 @@
 class AddBookingPurposeIdToBookings < ActiveRecord::Migration[6.1]
   def change
-    add_reference :bookings, :purpose, null: true, foreign_key: true
+    add_column :bookings, :purpose_id, :integer, null: true, foreign_key: true
 
     reversible do |direction|
       direction.up do 

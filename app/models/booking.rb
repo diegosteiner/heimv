@@ -16,7 +16,6 @@
 #  invoice_address       :text
 #  locale                :string
 #  notifications_enabled :boolean          default(FALSE)
-#  purpose_key           :string
 #  ref                   :string
 #  remarks               :text
 #  state                 :string           default("initial"), not null
@@ -31,6 +30,7 @@
 #  home_id               :bigint           not null
 #  occupancy_id          :uuid
 #  organisation_id       :bigint           not null
+#  purpose_id            :integer
 #  tenant_id             :integer
 #
 # Indexes
@@ -61,7 +61,6 @@ class Booking < ApplicationRecord
   belongs_to :occupancy, inverse_of: :booking
   belongs_to :deadline, inverse_of: :booking, optional: true
   belongs_to :purpose, inverse_of: :bookings, class_name: 'BookingPurpose', optional: true
-                       
 
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :payments, dependent: :destroy, autosave: false

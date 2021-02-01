@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_095411) do
+ActiveRecord::Schema.define(version: 2021_02_01_163930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -115,7 +115,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_095411) do
     t.integer "approximate_headcount"
     t.text "remarks"
     t.text "invoice_address"
-    t.string "purpose_key"
     t.string "ref"
     t.boolean "editable", default: true
     t.boolean "usages_entered", default: false
@@ -130,6 +129,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_095411) do
     t.boolean "usages_presumed", default: false
     t.bigint "deadline_id"
     t.string "locale"
+    t.integer "purpose_id"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["locale"], name: "index_bookings_on_locale"
