@@ -22,7 +22,7 @@
 #
 class BookingPurpose < ApplicationRecord
   belongs_to :organisation, inverse_of: :booking_purposes
-  has_many :bookings, inverse_of: :purpose, dependent: :restrict_with_error
+  has_many :bookings, inverse_of: :purpose, dependent: :restrict_with_error, foreign_key: :purpose_id
 
   extend Mobility
   translates :title, column_suffix: '_i18n', locale_accessors: true
