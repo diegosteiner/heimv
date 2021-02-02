@@ -8,8 +8,9 @@ table.table
       th= Payment.human_attribute_name(:paid_at)
       th= Payment.human_attribute_name(:remarks)
 
-    - @payments.each_with_index do |payment, i|
-      tr[class=css_class(:'alert-warning' => !payment.invoice.present?, :'alert-success' => payment.errors.none?)]
+  tbody
+    - @payments.each do |payment|
+      tr[class=(!payment.applies && 'text-muted' || !payment.valid? && 'alert-danger' || payment.invoice.blank? && 'alert-warning' || payment.persisted? && 'alert-success')]
         td
         td
           = link_to payment.invoice, manage_invoice_path(payment.invoice) if payment.invoice.present?

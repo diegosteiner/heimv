@@ -4,7 +4,7 @@
       = f.error_summary
 
   fieldset
-    = f.collection_select :home_id, Home.accessible_by(current_ability).ordered, :id, :to_s, include_blank: true
+    = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true
     = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                 name: 'booking[occupancy_attributes][begins_at]',
                                                 value: @booking.occupancy.begins_at&.iso8601,

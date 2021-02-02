@@ -9,8 +9,8 @@ module Manage
       if @booking.present?
         @payments = @booking.payments.ordered
       else
-        @payments = @payments.ordered
-        @payments = @payments.where(Payment.arel_table[:paid_at].gt(1.year.ago)) if params[:all].blank?
+        @payments = @payments.joins(:booking).where(booking: { organisation: current_organisation }).ordered
+        @payments = @payments.last_year if params[:all].blank?
       end
       respond_with :manage, @payments
     end
@@ -35,6 +35,8 @@ module Manage
     end
 
     def new_import
+      @bookings = bookings_for_import
+      @invoices = invoices_for_import
       @payments = params[:camt_file].presence &&
                   Payment::Factory.new(current_organisation).from_camt_file(params[:camt_file])
 
@@ -61,6 +63,14 @@ module Manage
     end
 
     private
+
+    def bookings_for_import
+      current_organisation.bookings.accessible_by(current_ability).inconcluded.order(ref: :ASC)
+    end
+
+    def invoices_for_import
+      current_organisation.invoices.accessible_by(current_ability).unpaid.order(ref: :ASC)
+    end
 
     def payment_params
       PaymentParams.new(params[:payment])

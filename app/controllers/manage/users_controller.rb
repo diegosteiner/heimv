@@ -6,6 +6,7 @@ module Manage
     helper_method :allowed_roles
 
     def index
+      @users = @users.where(organisation: current_organisation)
       respond_with :manage, @users
     end
 

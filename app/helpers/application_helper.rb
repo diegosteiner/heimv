@@ -17,8 +17,4 @@ module ApplicationHelper
   def enum_options_for_select(klass, enum, selected, values = klass.send(enum))
     options_for_select(values.map { |e, _v| [klass.human_enum(enum, e), e] }, selected)
   end
-
-  def css_class(css_map)
-    css_map.find_all(&:last).map(&:first).join(' ')
-  end
 end

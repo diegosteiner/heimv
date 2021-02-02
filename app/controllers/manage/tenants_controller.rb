@@ -5,7 +5,7 @@ module Manage
     load_and_authorize_resource :tenant
 
     def index
-      @tenants = @tenants.ordered
+      @tenants = @tenants.where(organisation: current_organisation).ordered
       respond_with :manage, @tenants
     end
 

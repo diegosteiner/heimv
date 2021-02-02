@@ -13,7 +13,8 @@ module Manage
                   else
                     @invoices.kept.unpaid
                   end
-      @invoices = @invoices.includes(:organisation, :payments).ordered.with_attached_pdf
+      @invoices = @invoices.where(booking: { organisation: current_organisation })
+                           .includes(:organisation, :payments).ordered.with_attached_pdf
       respond_with :manage, @invoices
     end
 

@@ -19,4 +19,4 @@
         br
 .row
     .col
-        = f.collection_select:homes, Home.accessible_by(current_ability), :id, :name, { include_blank: true }, multiple: true, size: 10
+        = f.collection_select:homes, current_organisation.homes, :id, :name, { include_blank: true }, multiple: true, size: 10

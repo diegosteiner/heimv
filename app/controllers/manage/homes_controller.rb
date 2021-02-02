@@ -6,6 +6,7 @@ module Manage
     after_action :attach_files, only: %i[update create]
 
     def index
+      @homes = @homes.where(organisation: current_organisation)
       respond_with :manage, @homes
     end
 

@@ -15,20 +15,19 @@
         th= Payment.human_attribute_name(:amount)
         th= Payment.human_attribute_name(:paid_at)
         th= Payment.human_attribute_name(:remarks)
-
+    tbody
       - @payments.each_with_index do |payment, i|
         = f.fields_for "#{i}", payment do |pf|
-          tr.bg-white[class=css_class(:'alert-warning' => !payment.invoice.present?, :'alert-danger' => payment.errors.any?)]
+          tr.bg-white[class=(payment.invoice.blank? && 'alert-warning' || payment.errors.any? && 'alert-danger')]
             td.py-3
               = pf.hidden_field :id
-              / = pf.check_box :_destroy, { checked: payment.applies, skip_label: true }, '0', '1'
               = pf.check_box :applies, skip_label: true
               = pf.hidden_field :ref
               = pf.hidden_field :data
             td.py-2
-              = pf.collection_select :invoice_id, Invoice.accessible_by(current_ability).unpaid.order(ref: :ASC), :id, :to_s, skip_label: true, include_blank: true
+              = pf.collection_select :invoice_id, @invoices, :id, :to_s, skip_label: true, include_blank: true
             td.py-2
-              = pf.collection_select :booking_id, Booking.accessible_by(current_ability).inconcluded.order(ref: :ASC), :id, :to_s, skip_label: true, include_blank: true
+              = pf.collection_select :booking_id, @bookings, :id, :to_s, skip_label: true, include_blank: true
             td.py-2
               = pf.number_field :amount, skip_label: true
             td.py-2

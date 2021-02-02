@@ -22,8 +22,6 @@ Then inside the container run:
 
 To visit the automatically created default organization, visit http://localhost:3000/.
 
-To manage your organizations, visit http://localhost:3000/admin and log in with username `admin@heimv.local` and password `heimverwaltung`.
-
 ### Commands
 
 - Setup DB: `bin/rails db:prepare`

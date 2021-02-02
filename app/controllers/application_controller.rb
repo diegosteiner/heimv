@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_path
-    return manage_root_path if current_user&.role_manager? || current_user&.role_admin?
+    return manage_root_path if current_user&.role_manager? 
     return organisation_path if current_organisation
     return new_user_session_path if current_user.blank?
 

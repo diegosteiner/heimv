@@ -2251,8 +2251,8 @@ de:
         deliver: Speichern und nochmals versenden
     organisations:
       form:
-        general: General
-        terms: Terms
+        general: Allgemein
+        terms: AGB
       import:
         error: Error
         success: Success

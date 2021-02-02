@@ -6,7 +6,7 @@ module Manage
     respond_to :json
 
     def index
-      @markdown_templates = current_organisation.markdown_templates.accessible_by(current_ability)
+      @markdown_templates = @markdown_templates.where(organisation: current_organisation)
       @markdown_templates = @markdown_templates.order(key: :ASC)
       @markdown_templates = @markdown_templates.where(home_id: params[:home_id]) if params[:home_id]
     end
@@ -16,7 +16,8 @@ module Manage
     end
 
     def new
-      @markdown_template = MarkdownTemplate.accessible_by(current_ability).find(params[:dup])&.dup if params[:dup]
+      dup = current_organisation.markdown_templates.accessible_by(current_ability).find(params[:dup]) if params[:dup]
+      @markdown_template = dup&.dup
       respond_with :manage, @markdown_template
     end
 

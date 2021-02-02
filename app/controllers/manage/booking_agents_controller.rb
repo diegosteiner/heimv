@@ -5,6 +5,7 @@ module Manage
     load_and_authorize_resource :booking_agent
 
     def index
+      @booking_agents = @booking_agents.where(organisation: current_organisation)
       respond_with :manage, @booking_agents
     end
 

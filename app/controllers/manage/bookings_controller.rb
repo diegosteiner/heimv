@@ -11,6 +11,7 @@ module Manage
     end
 
     def index
+      @bookings = @bookings.where(organisation: current_organisation)
       @bookings = @filter.apply(@bookings.with_default_includes.ordered)
       @grouped_bookings = group_bookings(@bookings)
       respond_with :manage, @bookings

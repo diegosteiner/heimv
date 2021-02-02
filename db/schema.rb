@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 2021_02_01_163930) do
     t.boolean "usages_presumed", default: false
     t.bigint "deadline_id"
     t.string "locale"
+    t.string "purpose_key"
     t.integer "purpose_id"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"

@@ -7,7 +7,7 @@ module Manage
     before_action :set_booking, only: %i[show]
 
     def index
-      @notifications = @notifications.order(created_at: :DESC)
+      @notifications = @notifications.where(organisation: current_organisation).order(created_at: :DESC)
       respond_with :manage, @notifications
     end
 

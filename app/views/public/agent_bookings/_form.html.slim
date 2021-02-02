@@ -11,7 +11,7 @@
             div
               =<> l(@agent_booking.booking.deadline.at, format: :short)
 
-        = f.collection_select :home_id, Home.accessible_by(current_ability), :id, :to_s, {}, disabled: !@agent_booking.booking_agent_responsible?
+        = f.collection_select :home_id, current_organisation.homes, :id, :to_s, {}, disabled: !@agent_booking.booking_agent_responsible?
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'agent_booking[occupancy_attributes][begins_at]',
                                                     value: @agent_booking.occupancy.begins_at&.iso8601,

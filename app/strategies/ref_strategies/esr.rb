@@ -51,7 +51,7 @@ module RefStrategies
     end
 
     def account_nr_to_code(value)
-      parts = value.match(/(?<esr_mode>\d{2})-(?<id>\d{3,6})-(?<checksum>\d)/)&.named_captures || {}
+      parts = value&.match(/(?<esr_mode>\d{2})-(?<id>\d{3,6})-(?<checksum>\d)/)&.named_captures || {}
       parts.transform_keys!(&:to_sym).transform_values!(&:to_i)
       return '' if parts.none?
 

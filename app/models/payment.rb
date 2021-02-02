@@ -41,13 +41,13 @@ class Payment < ApplicationRecord
   end
 
   scope :ordered, -> { order(paid_at: :DESC) }
+  scope :last_year, -> { where(arel_table[:paid_at].gt(1.year.ago)) }
 
   attribute :confirm, default: true
 
   after_create :confirm!, if: :confirm?
-  after_save do
-    invoice&.recalculate!
-  end
+  after_destroy :recalculate_invoice
+  after_save :recalculate_invoice
 
   before_validation do
     self.booking ||= invoice&.booking
@@ -63,5 +63,9 @@ class Payment < ApplicationRecord
 
   def to_liquid
     Manage::PaymentSerializer.render_as_hash(self).deep_stringify_keys
+  end
+
+  def recalculate_invoice
+    invoice&.recalculate!
   end
 end
