@@ -7,6 +7,9 @@ nav.mb-4
         a.nav-link[href=manage_home_path(@home) class=('active' if active.nil?)]
           = Home.model_name.human
       li.nav-item
+        a.nav-link[href=manage_home_occupancies_path(@home) class=('active' if active == :occupancies)]
+          = Occupancy.model_name.human(count: 2)
+      li.nav-item
         a.nav-link[href=manage_home_tarifs_path(@home) class=('active' if active == :tarifs)]
           = Tarif.model_name.human(count: 2)
       li.nav-item

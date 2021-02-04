@@ -1,0 +1,33 @@
+.breakout-sm
+  table.table.table-hover.table-card
+    thead
+      tr
+        th= Occupancy.human_attribute_name(:begins_at)
+        th= Occupancy.human_attribute_name(:ends_at)
+        th= Occupancy.human_attribute_name(:occupancy_type)
+        th= Booking.model_name.human
+        th
+
+    tbody
+      - @occupancies.each do |occupancy|
+        tr[data-href=manage_occupancy_path(occupancy) data-id=occupancy.to_param]
+          td
+            = l(occupancy.begins_at)
+          td
+            = l(occupancy.ends_at)
+          td
+            = occupancy.occupancy_type
+          td
+            = link_to occupancy.booking.ref, manage_booking_path(occupancy.booking) if occupancy.booking
+          td.p-1.text-right
+            .btn-group 
+              = link_to edit_manage_occupancy_path(occupancy), class: 'btn btn-default' do
+                span.fa.fa-edit
+              = link_to manage_occupancy_path(occupancy), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' , title: t(:destroy) do
+                span.fa.fa-trash
+
+br
+= link_to new_manage_home_occupancy_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: Occupancy.model_name.human)

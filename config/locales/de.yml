@@ -157,6 +157,8 @@ de:
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
         nights: Nächte
+        remarks: Bemerkungen
+        occupancy_type: Belegungsart
       offer:
         text: Offertentext
         valid_from: Gültig ab

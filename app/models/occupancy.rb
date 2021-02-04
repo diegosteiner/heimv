@@ -55,7 +55,7 @@ class Occupancy < ApplicationRecord
     .or(ends_at(before: to, after: from))
   end)
 
-  validates :begins_at, :ends_at, :booking, presence: true
+  validates :begins_at, :ends_at, presence: true
   validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
   validate do
     errors.add(:ends_at, :invalid) unless complete? && begins_at < ends_at

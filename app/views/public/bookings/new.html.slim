@@ -13,7 +13,7 @@
             / = @booking.errors.inspect
         .card-body
           fieldset[data-range-role="unit"]
-            = f.select :home_id, homes_for_select
+            = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true
             = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                               name: 'booking[occupancy_attributes][begins_at]',
                                                               value: @booking.occupancy.begins_at&.iso8601,

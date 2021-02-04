@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       root to: 'dashboard#index'
       resources :homes do
         scope module: :homes do
+          resources :occupancies, except: %w[show], shallow: true
           resources :tarif_selectors, except: %w[show]
           resources :meter_reading_periods, only: %w[index]
           resources :tarifs do
