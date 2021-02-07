@@ -19,20 +19,7 @@ interface CalendarMonthProps {
   locale: Locale;
 }
 
-type MonthNames = [
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-];
+type MonthNames = [string, string, string, string, string, string, string, string, string, string, string, string];
 type WeekdayNames = [string, string, string, string, string, string, string];
 
 type Locale = {
@@ -40,11 +27,7 @@ type Locale = {
   monthNames: MonthNames;
 };
 
-const CalendarMonth: React.FC<CalendarMonthProps> = ({
-  date,
-  locale,
-  children,
-}) => {
+const CalendarMonth: React.FC<CalendarMonthProps> = ({ date, locale, children }) => {
   const daysOfMonth = eachDayOfInterval({
     start: startOfMonth(date),
     end: endOfMonth(date),
@@ -65,11 +48,7 @@ const CalendarMonth: React.FC<CalendarMonthProps> = ({
           <div key={i} className="calendar-day spacer"></div>
         ))}
         {daysOfMonth.map((day) => (
-          <time
-            className={styles.calendarDay}
-            dateTime={day.toISOString()}
-            key={`day-${day.toISOString()}`}
-          >
+          <time className={styles.calendarDay} dateTime={day.toISOString()} key={`day-${day.toISOString()}`}>
             {cloneElement(children as React.ReactElement, { date: day })}
           </time>
         ))}
@@ -79,9 +58,7 @@ const CalendarMonth: React.FC<CalendarMonthProps> = ({
 };
 
 const calendarYearName = (months: Date[]): string => {
-  return [
-    ...Array.from(new Set<number>(months.map((month) => getYear(month)))),
-  ].join('/');
+  return [...Array.from(new Set<number>(months.map((month) => getYear(month))))].join('/');
 };
 
 const monthsInWindow = (firstDate: Date, length: number) => {
@@ -114,22 +91,12 @@ interface CalendarProps {
   displayMonths?: number;
 }
 
-const Calendar: React.FC<CalendarProps> = ({
-  firstMonth = null,
-  displayMonths = 8,
-  children,
-}) => {
+const Calendar: React.FC<CalendarProps> = ({ firstMonth = null, displayMonths = 8, children }) => {
   firstMonth = startOfMonth(firstMonth || new Date());
-  const [months, setMonths] = useState<Date[]>(
-    monthsInWindow(firstMonth, displayMonths),
-  );
-  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
-    null,
-  );
-  const prev = () =>
-    setMonths(monthsInWindow(subMonths(months[0], 1), displayMonths));
-  const next = () =>
-    setMonths(monthsInWindow(addMonths(months[0], 1), displayMonths));
+  const [months, setMonths] = useState<Date[]>(monthsInWindow(firstMonth, displayMonths));
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+  const prev = () => setMonths(monthsInWindow(subMonths(months[0], 1), displayMonths));
+  const next = () => setMonths(monthsInWindow(addMonths(months[0], 1), displayMonths));
   const handleTouchStart = ({ changedTouches }: React.TouchEvent) => {
     setTouchStart({
       x: changedTouches[0].screenX,
@@ -146,11 +113,7 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   return (
-    <div
-      className={styles.calendarMain}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
+    <div className={styles.calendarMain} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       <nav className={styles.calendarNav}>
         <button onClick={prev}>←</button>
         <header>{calendarYearName(months)}</header>
@@ -158,11 +121,7 @@ const Calendar: React.FC<CalendarProps> = ({
       </nav>
       <div className={styles.calendarMonths}>
         {months.map((month) => (
-          <CalendarMonth
-            date={month}
-            key={`month-${month.toISOString()}`}
-            locale={locale}
-          >
+          <CalendarMonth date={month} key={`month-${month.toISOString()}`} locale={locale}>
             {children}
           </CalendarMonth>
         ))}

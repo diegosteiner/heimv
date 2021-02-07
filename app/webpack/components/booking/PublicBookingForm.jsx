@@ -21,12 +21,7 @@ export const PublicBookingForm = ({ booking, homes = null }) => {
       {homes && (
         <Form.Group>
           <Form.Label>{t('activerecord.attributes.booking.home')}</Form.Label>
-          <Form.Control
-            name="home_id"
-            ref={register}
-            as="select"
-            defaultValue={booking.home_id}
-          >
+          <Form.Control name="home_id" ref={register} as="select" defaultValue={booking.home_id}>
             {Array.from(homes).map((home) => (
               <option key={home.id} value={home.id}>
                 {home.name}
@@ -37,16 +32,12 @@ export const PublicBookingForm = ({ booking, homes = null }) => {
       )}
 
       <Form.Group>
-        <Form.Label className="required">
-          {t('activerecord.attributes.occupancy.begins_at')}
-        </Form.Label>
+        <Form.Label className="required">{t('activerecord.attributes.occupancy.begins_at')}</Form.Label>
         <Controller
           as={<CalendarControl></CalendarControl>}
           isInvalid={!!errors.begins_at}
           name="begins_at"
-          defaultValue={
-            booking && booking.begins_at && parseISO(booking.begins_at)
-          }
+          defaultValue={booking && booking.begins_at && parseISO(booking.begins_at)}
           control={control}
           rules={{
             required: true,
@@ -61,9 +52,7 @@ export const PublicBookingForm = ({ booking, homes = null }) => {
       </Form.Group>
 
       <Form.Group>
-        <Form.Label className="required">
-          {t('activerecord.attributes.occupancy.ends_at')}
-        </Form.Label>
+        <Form.Label className="required">{t('activerecord.attributes.occupancy.ends_at')}</Form.Label>
         <Controller
           as={<CalendarControl></CalendarControl>}
           isInvalid={!!errors.ends_at}
@@ -72,8 +61,7 @@ export const PublicBookingForm = ({ booking, homes = null }) => {
           rules={{
             required: true,
             validate: {
-              invalidDate: (value) =>
-                compareAsc(value, getValues('begins_at')) >= 0,
+              invalidDate: (value) => compareAsc(value, getValues('begins_at')) >= 0,
             },
           }}
         ></Controller>
@@ -83,13 +71,8 @@ export const PublicBookingForm = ({ booking, homes = null }) => {
       </Form.Group>
 
       <Form.Group>
-        <Form.Label>
-          {t('activerecord.attributes.booking.tenant_organisation')}
-        </Form.Label>
-        <Form.Control
-          name="tenant_organisation"
-          ref={register()}
-        ></Form.Control>
+        <Form.Label>{t('activerecord.attributes.booking.tenant_organisation')}</Form.Label>
+        <Form.Control name="tenant_organisation" ref={register()}></Form.Control>
       </Form.Group>
 
       <Form.Group>
@@ -108,9 +91,7 @@ export const PublicBookingForm = ({ booking, homes = null }) => {
 
       <Form.Group>
         <Form.Check type="checkbox">
-          <Form.Check.Label
-            className={!!errors.accept_conditions && 'is-invalid'}
-          >
+          <Form.Check.Label className={!!errors.accept_conditions && 'is-invalid'}>
             <Form.Check.Input
               type="checkbox"
               isInvalid={!!errors.accept_conditions}
@@ -120,8 +101,7 @@ export const PublicBookingForm = ({ booking, homes = null }) => {
             <Trans
               i18nKey="public.bookings.new.accept_conditions_html"
               values={{
-                privacy_statement_pdf_url:
-                  organisation.links?.privacy_statement_pdf,
+                privacy_statement_pdf_url: organisation.links?.privacy_statement_pdf,
                 terms_pdf_url: organisation.links?.terms_pdf,
               }}
               components={{ a: <a /> }}

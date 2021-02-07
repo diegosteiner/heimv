@@ -11,13 +11,9 @@ const csrfForm = () => {
   const csrfToken = document.querySelector('meta[name=csrf-token]')?.content;
   if (!csrfToken) return;
 
-  const authTokenInput = document.querySelector(
-    'input[name=authenticity_token]',
-  );
+  const authTokenInput = document.querySelector('input[name=authenticity_token]');
   if (authTokenInput) authTokenInput.value = csrfToken;
-  document
-    .querySelectorAll('.form-check-input')
-    .forEach((input) => input.classList.add('form-check-control'));
+  document.querySelectorAll('.form-check-input').forEach((input) => input.classList.add('form-check-control'));
   document
     .querySelectorAll('.form-group.is-invalid .form-control')
     .forEach((input) => input.classList.add('is-invalid'));

@@ -7,10 +7,7 @@ const BookingRelevantTime = (booking_state, date) => {
 
   return (
     <span>
-      {t(
-        `booking_strategies.default.states.${booking_state}.relevant_time_label`,
-      )}
-      :<TimeAgo date={date}></TimeAgo>
+      {t(`booking_strategies.default.states.${booking_state}.relevant_time_label`)}:<TimeAgo date={date}></TimeAgo>
     </span>
   );
 };

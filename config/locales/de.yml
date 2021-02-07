@@ -90,8 +90,8 @@ de:
         issuer: Vermieter
         pdf: PDF
         sent_at: Vertragsdatum
-        signed_at: Unterschrieben am
-        signed_pdf: Unterschriebenes PDF
+        signed_at: Von Mieter Unterschrieben am
+        signed_pdf: Von Mieter Unterschriebenes PDF
         text: Vertragstext
         title: Titel
       data_digest:
