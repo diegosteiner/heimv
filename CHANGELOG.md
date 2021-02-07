@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [21.2.1] - 2021-02-07
+
+- Improve checkbox actions to be more direct
+- Small bugfixes
+
 ## [21.1.3] - 2021-01-30
 
 - Add more flexible system for booking references

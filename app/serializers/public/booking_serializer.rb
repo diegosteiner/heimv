@@ -9,7 +9,7 @@ module Public
     association :organisation,  blueprint: Public::OrganisationSerializer
     association :agent_booking, blueprint: Public::AgentBookingSerializer
 
-    field :deadline do |occupancy|
+    field :deadline do |booking|
       booking.deadline&.at
     end
 

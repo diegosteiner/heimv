@@ -1,10 +1,6 @@
 import * as React from 'react';
 import Calendar from './Calendar';
-import {
-  Provider as ContextProvider,
-  OccupancyCalendarContext,
-  ContextType,
-} from './OccuancyCalendarContext';
+import { Provider as ContextProvider, OccupancyCalendarContext, ContextType } from './OccuancyCalendarContext';
 import classNames from 'classnames';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -28,22 +24,14 @@ interface OccupancyCalendarDayInContextProps {
   onClick(event: React.MouseEvent): void;
 }
 
-export const OccupancyCalendarDayInContext: React.FC<OccupancyCalendarDayInContextProps> = ({
-  date,
-  onClick,
-}) => {
-  const { loading, occupancyCalendarState } = React.useContext<ContextType>(
-    OccupancyCalendarContext,
-  );
+export const OccupancyCalendarDayInContext: React.FC<OccupancyCalendarDayInContextProps> = ({ date, onClick }) => {
+  const { loading, occupancyCalendarState } = React.useContext<ContextType>(OccupancyCalendarContext);
   const occupancyDate =
     date &&
     occupancyCalendarState.occupancyDates &&
-    occupancyCalendarState.occupancyDates[
-      formatISO(date, { representation: 'date' })
-    ];
+    occupancyCalendarState.occupancyDates[formatISO(date, { representation: 'date' })];
   const flags = (occupancyDate && occupancyDate.flags) || [];
-  const disableCallback = () =>
-    loading || !occupancyDate || flags.includes('outOfWindow');
+  const disableCallback = () => loading || !occupancyDate || flags.includes('outOfWindow');
   const classNameCallback = () => flags.map((flag: string) => styles[flag]);
 
   return (
@@ -74,10 +62,7 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
   if (!date) return <></>;
 
   const disabled = disableCallback && disableCallback(date);
-  const className = [
-    styles.calendarDate,
-    ...Array.from((classNameCallback && classNameCallback(date)) || []),
-  ];
+  const className = [styles.calendarDate, ...Array.from((classNameCallback && classNameCallback(date)) || [])];
 
   const button = (
     <button
@@ -101,21 +86,13 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
           const deadline = occupancy.deadline && parseISO(occupancy.deadline);
 
           return (
-            <dl
-              key={`${formatISO(date, { representation: 'date' })}-${
-                occupancy.id
-              }`}
-            >
+            <dl key={`${formatISO(date, { representation: 'date' })}-${occupancy.id}`}>
               <dt>
-                {formatDate(occupancy.begins_at)} -{' '}
-                {formatDate(occupancy.ends_at)}
+                {formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}
               </dt>
               <dd>
                 <span>
-                  {occupancy.ref}:{' '}
-                  {t(
-                    `activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`,
-                  )}
+                  {occupancy.ref}: {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`)}
                 </span>
                 {deadline && (
                   <span>
@@ -144,11 +121,7 @@ interface OccuancyCalendarProps {
   displayMonths: number;
 }
 
-const OccupancyCalendar: React.FC<OccuancyCalendarProps> = ({
-  occupancyAtUrl,
-  calendarUrl,
-  displayMonths = 8,
-}) => {
+const OccupancyCalendar: React.FC<OccuancyCalendarProps> = ({ occupancyAtUrl, calendarUrl, displayMonths = 8 }) => {
   const handleClick = (e: React.MouseEvent): void => {
     const target = e.target as HTMLButtonElement;
     if (!target.value) return;
@@ -159,9 +132,7 @@ const OccupancyCalendar: React.FC<OccuancyCalendarProps> = ({
   return (
     <ContextProvider calendarUrl={calendarUrl}>
       <Calendar displayMonths={displayMonths}>
-        <OccupancyCalendarDayInContext
-          onClick={handleClick}
-        ></OccupancyCalendarDayInContext>
+        <OccupancyCalendarDayInContext onClick={handleClick}></OccupancyCalendarDayInContext>
       </Calendar>
     </ContextProvider>
   );

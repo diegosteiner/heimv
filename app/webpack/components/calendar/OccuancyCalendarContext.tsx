@@ -25,9 +25,7 @@ const defaultContext = {
   occupancyCalendarState: defaultOccypancyCalendarState,
 };
 
-export const OccupancyCalendarContext = createContext<ContextType>(
-  defaultContext,
-);
+export const OccupancyCalendarContext = createContext<ContextType>(defaultContext);
 
 const filterOccupanciesByDate = (occupancies: Occupancy[], date: Date) => {
   return occupancies.filter((occupancy) => {
@@ -44,8 +42,7 @@ const flagsForDayWithOccupancies = (
   windowFrom: Date,
   windowTo: Date,
 ): string[] => {
-  if (isBefore(date, windowFrom) || isAfter(date, windowTo))
-    return ['outOfWindow'];
+  if (isBefore(date, windowFrom) || isAfter(date, windowTo)) return ['outOfWindow'];
 
   const midDay = setHours(startOfDay(date), 12);
 
@@ -88,9 +85,7 @@ type OccupancyCalendarState = {
   occupancyDates: { [key: string]: OccupancyDate };
 };
 
-const preprocessCalendarData = (
-  calendarData: CalendarJsonData,
-): OccupancyCalendarState => {
+const preprocessCalendarData = (calendarData: CalendarJsonData): OccupancyCalendarState => {
   const windowFrom = parseISO(calendarData.window_from);
   const windowTo = parseISO(calendarData.window_to);
   const occupancies = calendarData.occupancies.map((occupancy) => {
@@ -108,12 +103,7 @@ const preprocessCalendarData = (
 
     occupancyDates[formatISO(date, { representation: 'date' })] = {
       occupancies: filteredOccupancies,
-      flags: flagsForDayWithOccupancies(
-        date,
-        filteredOccupancies,
-        windowFrom,
-        windowTo,
-      ),
+      flags: flagsForDayWithOccupancies(date, filteredOccupancies, windowFrom, windowTo),
     };
   }
 
@@ -134,14 +124,10 @@ export type ContextType = {
   loading: boolean;
 };
 
-export const Provider: React.FC<ProviderProps> = ({
-  children,
-  calendarUrl,
-}) => {
-  const [
-    occupancyCalendarState,
-    setOccupancyCalendarState,
-  ] = useState<OccupancyCalendarState>(defaultOccypancyCalendarState);
+export const Provider: React.FC<ProviderProps> = ({ children, calendarUrl }) => {
+  const [occupancyCalendarState, setOccupancyCalendarState] = useState<OccupancyCalendarState>(
+    defaultOccypancyCalendarState,
+  );
   const [loading, setLoading] = useState<boolean>(true);
   // const [organisation] = useState({});
 
@@ -150,17 +136,13 @@ export const Provider: React.FC<ProviderProps> = ({
       const result = await fetch(calendarUrl);
 
       if (result.status == 200)
-        setOccupancyCalendarState(
-          preprocessCalendarData((await result.json()) as CalendarJsonData),
-        );
+        setOccupancyCalendarState(preprocessCalendarData((await result.json()) as CalendarJsonData));
       setLoading(false);
     })();
   }, []);
 
   return (
-    <OccupancyCalendarContext.Provider
-      value={{ occupancyCalendarState, loading }}
-    >
+    <OccupancyCalendarContext.Provider value={{ occupancyCalendarState, loading }}>
       {children}
     </OccupancyCalendarContext.Provider>
   );

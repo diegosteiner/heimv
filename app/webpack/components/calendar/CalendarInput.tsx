@@ -30,58 +30,13 @@ const initializeValue = (value: string | null): Date | null => {
   return dateValue;
 };
 
-const availableHours = [
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20,
-  21,
-  22,
-];
-const allHours = [
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20,
-  21,
-  22,
-  23,
-  24,
-];
+const availableHours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
+const allHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 const availableMinutes = [0, 15, 30, 45];
 
-const clamp = (value: number, min: number, max: number) =>
-  value > max ? max : value < min ? min : value;
+const clamp = (value: number, min: number, max: number) => (value > max ? max : value < min ? min : value);
 const closestMinutes = (minutes: number) => {
-  return availableMinutes.reduce((a, b) =>
-    Math.abs(b - minutes) < Math.abs(a - minutes) ? b : a,
-  );
+  return availableMinutes.reduce((a, b) => (Math.abs(b - minutes) < Math.abs(a - minutes) ? b : a));
 };
 
 interface CalendarControlProps {
@@ -105,30 +60,16 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
 }) => {
   const initializedValue = initializeValue(value);
   const [showModal, setShowModal] = React.useState<boolean>(false);
-  const [dateState, setDateState] = React.useState<Date | null>(
-    initializedValue,
-  );
+  const [dateState, setDateState] = React.useState<Date | null>(initializedValue);
   const [hourState, setHourState] = React.useState(
-    (initializedValue && getHours(initializedValue)) ||
-      Math.min(...availableHours),
+    (initializedValue && getHours(initializedValue)) || Math.min(...availableHours),
   );
   const [minuteState, setMinuteState] = React.useState<number>(
-    (initializedValue && closestMinutes(getMinutes(initializedValue))) ||
-      Math.min(...availableMinutes),
+    (initializedValue && closestMinutes(getMinutes(initializedValue))) || Math.min(...availableMinutes),
   );
-  const [textState, setTextState] = React.useState<string>(
-    (initializedValue && formatDate(initializedValue)) || '',
-  );
+  const [textState, setTextState] = React.useState<string>((initializedValue && formatDate(initializedValue)) || '');
 
-  const setDateValue = ({
-    date,
-    hours,
-    minutes,
-  }: {
-    date?: Date;
-    hours?: number;
-    minutes?: number;
-  }) => {
+  const setDateValue = ({ date, hours, minutes }: { date?: Date; hours?: number; minutes?: number }) => {
     let dateValue = date || dateState;
     if (!dateValue) return;
 
@@ -143,21 +84,13 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
 
   const setHourValue = (value: string) => {
     setDateValue({
-      hours: clamp(
-        parseInt(value),
-        Math.min(...availableHours),
-        Math.max(...availableHours),
-      ),
+      hours: clamp(parseInt(value), Math.min(...availableHours), Math.max(...availableHours)),
     });
   };
 
   const setMinuteValue = (value: string) =>
     setDateValue({
-      minutes: clamp(
-        parseInt(value),
-        Math.min(...availableMinutes),
-        Math.max(...availableMinutes),
-      ),
+      minutes: clamp(parseInt(value), Math.min(...availableMinutes), Math.max(...availableMinutes)),
     });
 
   const handleClose = () => setShowModal(false);
@@ -187,16 +120,11 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
 
   const disableCallback = (date: Date) => !showModal || date <= new Date();
   const classNameCallback = (date: Date) =>
-    (dateState && isSameDay(date, dateState) && ['bg-primary', 'text-white']) ||
-    [];
+    (dateState && isSameDay(date, dateState) && ['bg-primary', 'text-white']) || [];
 
   return (
     <div className={(isInvalid && 'is-invalid') || ''}>
-      <input
-        type="hidden"
-        name={name}
-        value={(dateState && formatISO(dateState)) || ''}
-      />
+      <input type="hidden" name={name} value={(dateState && formatISO(dateState)) || ''} />
       <Row>
         <Col>
           <InputGroup>
@@ -204,18 +132,12 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
               onBlur={handleTextChange}
               disabled={disabled}
               value={textState}
-              onChange={(e: React.ChangeEvent) =>
-                setTextState((e.target as HTMLInputElement).value)
-              }
+              onChange={(e: React.ChangeEvent) => setTextState((e.target as HTMLInputElement).value)}
               isInvalid={isInvalid}
               required={required}
             />
             <InputGroup.Append>
-              <Button
-                variant="primary"
-                onClick={handleShow}
-                disabled={disabled}
-              >
+              <Button variant="primary" onClick={handleShow} disabled={disabled}>
                 <i className="fa fa-calendar"></i>
               </Button>
             </InputGroup.Append>
@@ -226,20 +148,14 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
             value={hourState}
             onBlur={onBlur}
             className="d-inline-block w-auto"
-            onChange={(e: React.ChangeEvent) =>
-              setHourValue((e.target as HTMLInputElement).value)
-            }
+            onChange={(e: React.ChangeEvent) => setHourValue((e.target as HTMLInputElement).value)}
             isInvalid={isInvalid}
             disabled={disabled}
             required={required}
             as="select"
           >
             {allHours.map((hour) => (
-              <option
-                disabled={!availableHours.includes(hour)}
-                key={hour}
-                value={hour}
-              >
+              <option disabled={!availableHours.includes(hour)} key={hour} value={hour}>
                 {hour.toString().padStart(2, '0')}
               </option>
             ))}
@@ -248,9 +164,7 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
             value={minuteState}
             onBlur={onBlur}
             className="d-inline-block w-auto"
-            onChange={(e: React.ChangeEvent) =>
-              setMinuteValue((e.target as HTMLInputElement).value)
-            }
+            onChange={(e: React.ChangeEvent) => setMinuteValue((e.target as HTMLInputElement).value)}
             isInvalid={isInvalid}
             disabled={disabled}
             required={required}
@@ -287,23 +201,11 @@ interface CalendarInputProps {
   disabled?: boolean;
 }
 
-const CalendarInput: React.FC<CalendarInputProps> = ({
-  value,
-  name,
-  label,
-  required = false,
-  disabled = false,
-}) => {
+const CalendarInput: React.FC<CalendarInputProps> = ({ value, name, label, required = false, disabled = false }) => {
   return (
     <Form.Group disabled={disabled}>
-      {label && (
-        <Form.Label className={required && 'required'}>{label}</Form.Label>
-      )}
-      <CalendarControl
-        value={value}
-        name={name}
-        required={required}
-      ></CalendarControl>
+      {label && <Form.Label className={required && 'required'}>{label}</Form.Label>}
+      <CalendarControl value={value} name={name} required={required}></CalendarControl>
     </Form.Group>
   );
 };
