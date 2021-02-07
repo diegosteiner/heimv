@@ -4,7 +4,7 @@ module Manage
   module Homes
     class OccupanciesController < BaseController
       load_and_authorize_resource :home
-      load_and_authorize_resource :occupancy, through: :home
+      load_and_authorize_resource :occupancy, through: :home, shallow: true
 
       def show
         respond_with :public, @occupancy
@@ -31,12 +31,12 @@ module Manage
 
       def update
         @occupancy.update(occupancy_params)
-        respond_with :manage, @occupancy, location: manage_home_occupancies_path(@home)
+        respond_with :manage, @occupancy, location: manage_home_occupancies_path(@occupancy.home)
       end
 
       def destroy
         @occupancy.destroy
-        respond_with :manage, @occupancy, location: manage_home_occupancies_path(@home)
+        respond_with :manage, @occupancy, location: manage_home_occupancies_path(@occupancy.home)
       end
 
       private
