@@ -38,7 +38,7 @@ module Ability
       can :manage, MeterReadingPeriod, home: { organisation: organisation }
       can :manage, BookingAgent, organisation: organisation
       can :manage, Invoice, booking: { organisation: organisation }
-      can :manage, InvoicePart, booking: { organisation: organisation }
+      can :manage, InvoicePart, invoice: { booking: { organisation: organisation } }
       can :manage, Contract, booking: { organisation: organisation }
       can :manage, Offer, booking: { organisation: organisation }
       can :manage, Payment, booking: { organisation: organisation }
