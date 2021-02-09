@@ -167,7 +167,8 @@ it:
         address: Adresse
         bcc: BCC
         contract_signature: Vertragsunterschrift
-        esr_participant_nr: ESR Teilnehmernummer
+        esr_beneficiary_account: ESR Teilnehmernummer
+        esr_ref_prefix: ESR Referenznummer Präfix
         iban: IBAN
         locale: Sprache
         location: Ort
@@ -829,7 +830,7 @@ it:
         text_payment_info_text:
           default_body: |-
             **Kontonummer**
-            {{ payment_info.esr_participant_nr }}
+            {{ payment_info.esr_beneficiary_account }}
 
             **Rechnungsbetrag**
             CHF {{ payment_info.formatted_amount }}

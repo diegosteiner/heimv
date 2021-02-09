@@ -26,7 +26,8 @@
   fieldset
     h3.mt-4= Invoice.model_name.human(count: 2)
     = f.select :invoice_ref_strategy_type, [RefStrategies::ESR]
-    = f.text_field :esr_participant_nr
+    = f.text_field :esr_beneficiary_account
+    = f.text_field :esr_ref_prefix
     = f.text_field :iban
 
   fieldset

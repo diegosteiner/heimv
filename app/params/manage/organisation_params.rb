@@ -4,7 +4,7 @@ module Manage
   class OrganisationParams < ApplicationParams
     def self.permitted_keys
       %i[name address
-         esr_participant_nr notification_footer logo location bcc
+         esr_beneficiary_account esr_ref_prefix notification_footer logo location bcc
          privacy_statement_pdf terms_pdf iban mail_from locale
          representative_address contract_signature email notifications_enabled]
     end

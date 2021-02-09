@@ -4,7 +4,7 @@ module PaymentInfos
   class TextPaymentInfo < ::PaymentInfo
     BookingStrategy.require_markdown_template(:text_payment_info_text, context: %i[payment_info])
 
-    delegate :esr_participant_nr, to: :organisation
+    delegate :esr_beneficiary_account, to: :organisation
 
     def body
       @body ||= markdown_template&.interpolate('payment_info' => self)
@@ -15,7 +15,7 @@ module PaymentInfos
     end
 
     def to_h
-      super.merge(esr_participant_nr: esr_participant_nr, booking_ref: booking.ref)
+      super.merge(esr_beneficiary_account: esr_beneficiary_account, booking_ref: booking.ref)
     end
 
     protected

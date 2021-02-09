@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_01_163930) do
+ActiveRecord::Schema.define(version: 2021_02_08_200031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -299,7 +299,7 @@ ActiveRecord::Schema.define(version: 2021_02_01_163930) do
     t.text "address"
     t.string "booking_strategy_type"
     t.string "invoice_ref_strategy_type"
-    t.string "esr_participant_nr"
+    t.string "esr_beneficiary_account"
     t.text "notification_footer"
     t.string "currency", default: "CHF"
     t.datetime "created_at", null: false
@@ -317,6 +317,7 @@ ActiveRecord::Schema.define(version: 2021_02_01_163930) do
     t.integer "homes_limit"
     t.integer "users_limit"
     t.jsonb "smtp_settings"
+    t.string "esr_ref_prefix"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 

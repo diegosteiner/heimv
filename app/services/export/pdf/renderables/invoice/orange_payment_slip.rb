@@ -21,7 +21,7 @@ module Export
               render_sender_address
               render_counterfoil_address
               render_amount
-              render_esr_participant_nr
+              render_esr_beneficiary_account
               render_esr_ref
               render_code
             end
@@ -47,10 +47,10 @@ module Export
             end
           end
 
-          def render_esr_participant_nr
+          def render_esr_beneficiary_account
             [77, 249].each do |x|
               bounding_box([x, 181], width: 85, height: 10) do
-                font('ocr') { text payment_info.organisation.esr_participant_nr.to_s }
+                font('ocr') { text payment_info.organisation.esr_beneficiary_account.to_s }
               end
             end
           end

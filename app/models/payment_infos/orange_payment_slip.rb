@@ -14,6 +14,6 @@ module PaymentInfos
       ((amount * 100) - (amount.truncate * 100)).to_i
     end
 
-    delegate :esr_participant_nr, to: :organisation
+    delegate :esr_beneficiary_account, to: :organisation
   end
 end

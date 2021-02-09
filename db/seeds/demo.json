@@ -5,7 +5,7 @@
   "booking_strategy_type": "BookingStrategies::Default",
   "currency": "CHF",
   "location": null,
-  "esr_participant_nr": "01-123456-7",
+  "esr_beneficiary_account": "01-123456-7",
   "iban": "",
   "invoice_ref_strategy_type": "RefStrategies::ESR",
   "notification_footer": "Verein Pfadiheime Demo  \r\nHeimverwaltung  \r\n\r\n[www.heimv.ch](//www.heimv.ch)  \r\n",
@@ -217,7 +217,7 @@
         "de": "Zahlungsinformationen"
       },
       "body": {
-        "de": "**Kontonummer**\r\n{{ payment_info.esr_participant_nr }}\r\n\r\n**Rechnungsbetrag**\r\nCHF {{ payment_info.formatted_amount }}\r\n\r\n**Referenznummer**\r\n{{ payment_info.formatted_ref }}"
+        "de": "**Kontonummer**\r\n{{ payment_info.esr_beneficiary_account }}\r\n\r\n**Rechnungsbetrag**\r\nCHF {{ payment_info.formatted_amount }}\r\n\r\n**Referenznummer**\r\n{{ payment_info.formatted_ref }}"
       }
     },
     "25": {

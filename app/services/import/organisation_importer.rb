@@ -4,7 +4,7 @@ module Import
   class OrganisationImporter < Base
     def relevant_attributes
       %w[name email address booking_ref_strategy_type booking_strategy_type currency location mail_from
-         esr_participant_nr iban invoice_ref_strategy_type notification_footer notifications_enabled slug]
+         esr_beneficiary_account iban invoice_ref_strategy_type notification_footer notifications_enabled slug]
     end
 
     protected

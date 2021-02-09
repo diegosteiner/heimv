@@ -13,7 +13,7 @@ RSpec.describe RefStrategies::ESR, type: :model do
   end
 
   describe '#code_line' do
-    let(:organisation) { create(:organisation, esr_participant_nr: '01-318421-1') }
+    let(:organisation) { create(:organisation, esr_beneficiary_account: '01-318421-1') }
     let(:invoice) { double('Invoice') }
     subject { ref_strategy.code_line(invoice) }
 

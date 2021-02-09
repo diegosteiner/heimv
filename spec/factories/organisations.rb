@@ -10,7 +10,8 @@
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
 #  email                     :string
-#  esr_participant_nr        :string
+#  esr_beneficiary_account   :string
+#  esr_ref_prefix            :string
 #  homes_limit               :integer
 #  iban                      :string
 #  invoice_ref_strategy_type :string
@@ -40,7 +41,7 @@ FactoryBot.define do
     booking_strategy_type { BookingStrategies::Default.to_s }
     invoice_ref_strategy_type { RefStrategies::ESR.to_s }
     email { 'test@test.test' }
-    esr_participant_nr { 'MyString' }
+    esr_beneficiary_account { 'MyString' }
     notifications_enabled { true }
     slug { nil }
     location { nil }

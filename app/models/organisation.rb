@@ -10,7 +10,8 @@
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
 #  email                     :string
-#  esr_participant_nr        :string
+#  esr_beneficiary_account   :string
+#  esr_ref_prefix            :string
 #  homes_limit               :integer
 #  iban                      :string
 #  invoice_ref_strategy_type :string

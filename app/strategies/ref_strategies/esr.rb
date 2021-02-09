@@ -12,14 +12,20 @@ module RefStrategies
     # 31 = ESR+ in EUR
     # 33 = ESR+ in EUR zur Gutschrift auf das eigene Konto
     def generate(invoice)
-      with_checksum format('%<home_id>03d%<tenant_id>06d%<invoice_id>07d', home_id: invoice.booking.home.id,
-                                                                           tenant_id: invoice.booking.tenant.id,
-                                                                           invoice_id: invoice.id)
+      with_checksum format('%<prefix>s%<home_id>03d%<tenant_id>06d%<invoice_id>07d',
+                           prefix: digits(invoice.organisation.esr_ref_prefix).join,
+                           home_id: invoice.booking.home.id,
+                           tenant_id: invoice.booking.tenant.id,
+                           invoice_id: invoice.id)
+    end
+
+    def digits(string)
+      string.to_s.scan(/\d/) || []
     end
 
     def checksum(ref)
       check_table = [0, 9, 4, 6, 8, 2, 7, 1, 3, 5]
-      (10 - ref.to_s.scan(/\d/).inject(0) { |carry, digit| check_table[(digit.to_i + carry) % check_table.size] }) % 10
+      (10 - digits(ref).inject(0) { |carry, digit| check_table[(digit.to_i + carry) % check_table.size] }) % 10
     end
 
     def with_checksum(ref)
@@ -38,7 +44,7 @@ module RefStrategies
         amount_in_cents: invoice.amount_in_cents,
         checksum: checksum(esr_mode + format('%<amount_in_cents>010d', amount_in_cents: invoice.amount_in_cents)),
         ref: invoice.ref.to_s.rjust(27, '0'),
-        account_nr: account_nr_to_code(invoice.organisation.esr_participant_nr)
+        account_nr: account_nr_to_code(invoice.organisation.esr_beneficiary_account)
       }
       format('%<esr_mode>s%<amount_in_cents>010d%<checksum>d>%<ref>s+ %<account_nr>s>', code)
     end

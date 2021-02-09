@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe PaymentInfos::OrangePaymentSlip, type: :model do
-  let(:organisation) { create(:organisation, esr_participant_nr: '01-318421-1') }
+  let(:organisation) { create(:organisation, esr_beneficiary_account: '01-318421-1') }
   let(:invoice) { double('Invoice') }
   subject(:payment_slip) { described_class.new(invoice) }
 
