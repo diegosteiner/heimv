@@ -3,8 +3,9 @@ export type OccupancyJsonData = {
   ends_at: string;
   occupancy_type: string;
   id: string;
-  ref: string;
+  ref: string | null;
   deadline: string | null;
+  remarks: string | null;
 };
 
 export interface Occupancy {
@@ -12,6 +13,7 @@ export interface Occupancy {
   ends_at: Date;
   occupancy_type: string;
   id: string;
-  ref: string;
+  ref: string | null;
   deadline: string | null;
+  remarks: string | null;
 }

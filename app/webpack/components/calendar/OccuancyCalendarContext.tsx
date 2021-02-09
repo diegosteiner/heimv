@@ -47,6 +47,7 @@ const flagsForDayWithOccupancies = (
   const midDay = setHours(startOfDay(date), 12);
 
   return occupancies.map((occupancy) => {
+    if (occupancy.occupancy_type == 'closed') return 'closed';
     if (
       isWithinInterval(occupancy.ends_at, {
         start: startOfDay(date),

@@ -62,4 +62,12 @@ class MarkdownTemplate < ApplicationRecord
     defined?(Raven) && Raven.capture_exception(e) || Rails.logger.warn(e.message)
     nil
   end
+
+  def self.replace_in_template!(search, replace)
+    MarkdownTemplate.find_each do |markdown_template|
+      markdown_template.body_i18n.transform_values! { _1.gsub(search, replace) }
+      markdown_template.title_i18n.transform_values! { _1.gsub(search, replace) }
+      markdown_template.save
+    end
+  end
 end

@@ -31,7 +31,7 @@ export const OccupancyCalendarDayInContext: React.FC<OccupancyCalendarDayInConte
     occupancyCalendarState.occupancyDates &&
     occupancyCalendarState.occupancyDates[formatISO(date, { representation: 'date' })];
   const flags = (occupancyDate && occupancyDate.flags) || [];
-  const disableCallback = () => loading || !occupancyDate || flags.includes('outOfWindow');
+  const disableCallback = () => loading || !occupancyDate || flags.includes('outOfWindow') || flags.includes('closed');
   const classNameCallback = () => flags.map((flag: string) => styles[flag]);
 
   return (
@@ -92,7 +92,9 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
               </dt>
               <dd>
                 <span>
-                  {occupancy.ref}: {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`)}
+                  {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`)}
+                  <br />
+                  {occupancy.ref || occupancy.remarks}
                 </span>
                 {deadline && (
                   <span>

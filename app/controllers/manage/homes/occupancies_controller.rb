@@ -11,6 +11,7 @@ module Manage
       end
 
       def index
+        @occupancies = @occupancies.closed
         respond_with :manage, @occupancy
       end
 

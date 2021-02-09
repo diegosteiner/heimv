@@ -37,4 +37,19 @@ RSpec.describe MarkdownTemplate, type: :model do
       expect(organisation.markdown_templates.by_key(key)).to eq(template)
     end
   end
+
+  describe '::replace_in_template' do
+    let!(:templates) do
+      create_list(:markdown_template, 5, body_en: '# This is a template {{ test }} Footer', title_en: 'test')
+    end
+
+    it 'replaces all occurences' do
+      MarkdownTemplate.replace_in_template!('test', 'success')
+      templates.each do |markdown_template|
+        markdown_template.reload
+        expect(markdown_template.body_en).to eq('# This is a template {{ success }} Footer')
+        expect(markdown_template.title_en).to eq('success')
+      end
+    end
+  end
 end
