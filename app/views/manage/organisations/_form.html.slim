@@ -1,4 +1,4 @@
-= form_with(model: [:manage, organisation], local: true) do |f|
+= form_with(model: [:manage, organisation], url: manage_organisation_path(org: params[:org]), local: true) do |f|
   fieldset
     h3.mt-4= t('.general')
     = f.text_field :slug if current_user.role_admin?
