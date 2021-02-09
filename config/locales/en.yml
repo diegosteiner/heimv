@@ -38,6 +38,9 @@ en:
       payment_infos/orange_payment_slip:
         one: Oranger Einzahlungsschein
         other: Orange Einzahlungsscheine
+      payment_infos/qr_bill:
+        one: QR-Rechnung (experimentell)
+        other: QR-Rechnungen (experimentell)
       payment_infos/text_payment_info:
         one: Zahlungsteil als Text
         other: Zahlungsteile als Text
@@ -420,6 +423,7 @@ en:
         one: Benutzer
         other: Benutzer
   add_record: Add %{model_name}
+  amount: Amount
   back: Back
   booking_strategies:
     default:
@@ -1014,6 +1018,8 @@ en:
     issuer_signature_label: Datum, Unterschrift Vermieter
     represented_by: vertreten durch
     tenant_signature_label: Datum, Unterschrift Mieter
+  creditor_account: Creditor account
+  currency: Currency
   data_digests:
     period_from: von %{date}
     period_to: bis %{date}
@@ -1162,6 +1168,18 @@ en:
       header:
         one: 1 error prohibited this %{model} from being saved
         other: "%{count} errors prohibited this %{model} from being saved"
+  export:
+    pdf:
+      renderables:
+        invoice:
+          qr_bill:
+            amount: Betrag
+            creditor_account: Konto / Zahlbar an
+            currency: Währung
+            payable_by: Zahlbar durch
+            payment_part_title: Zahlteil
+            receipt_title: Empfangsschein
+            ref: Referenz
   faker:
     address:
       building_number: '["#", "#", "##", "#a", "#b"]'
@@ -1306,6 +1324,8 @@ en:
   offers:
     issuer_signature_label: Datum, Unterschrift Vermieter
   optional: optional
+  payable_by: Payable by
+  payment_part_title: Payment part title
   public:
     agent_bookings:
       edit:
@@ -1325,6 +1345,8 @@ en:
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
         title: Title
+  receipt_title: Receipt title
+  ref: Ref
   reset: Reset
   support:
     array:

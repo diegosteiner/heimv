@@ -94,7 +94,7 @@ class Invoice < ApplicationRecord
   end
 
   def address_lines
-    @address_lines ||= booking.invoice_address&.lines.presence || booking.tenant&.address_lines || []
+    @address_lines ||= booking.invoice_address.lines.reject(&:blank?).presence || booking.tenant&.address_lines || []
   end
 
   def amount_open
@@ -113,8 +113,12 @@ class Invoice < ApplicationRecord
     update(sent_at: Time.zone.now)
   end
 
-  def to_s
+  def formatted_ref
     invoice_ref_strategy.format_ref(ref)
+  end
+
+  def to_s
+    formatted_ref
   end
 
   def invoice_ref_strategy

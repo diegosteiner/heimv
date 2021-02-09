@@ -65,6 +65,10 @@ class Organisation < ApplicationRecord
     self[:slug] = value.presence
   end
 
+  def address_lines
+    @address_lines ||= address.lines.map(&:strip).reject(&:blank?).presence || []
+  end
+
   # TODO: extract to hash
   def long_deadline
     10.days

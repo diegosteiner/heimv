@@ -56,6 +56,8 @@ module Export
       to_render do
         payment_info = invoice.payment_info
         render case payment_info
+               when PaymentInfos::QrBill
+                 Renderables::Invoice::QrBill.new(payment_info)
                when PaymentInfos::OrangePaymentSlip
                  Renderables::Invoice::OrangePaymentSlip.new(payment_info)
                when PaymentInfos::ForeignPaymentInfo
