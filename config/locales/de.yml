@@ -170,7 +170,7 @@ de:
         address: Adresse
         bcc: BCC
         contract_signature: Vertragsunterschrift
-        default_payment_info_type: Standartzahlungsart
+        default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Kontonummer
         esr_ref_prefix: ESR Referenznummer Präfix
         iban: IBAN

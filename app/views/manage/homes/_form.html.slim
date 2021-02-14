@@ -2,6 +2,7 @@
 
   fieldset
     = f.text_field :name
+    = f.text_field :ref
     = f.text_area :address
     = f.file_field :house_rules, help: link_to_if(@home.house_rules.attached?, @home.house_rules.try(:filename), @home.house_rules)
     = f.text_area :janitor

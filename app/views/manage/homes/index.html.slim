@@ -4,19 +4,18 @@
       tr
         th= Home.human_attribute_name(:name)
         th
-        th
 
     tbody
       - @homes.each do |home|
         tr[data-href=manage_home_path(home) data-id=home.to_param]
           td
             = link_to home.name, manage_home_path(home)
-          td
-            = link_to edit_manage_home_path(home) do
-              span.fa.fa-edit
-          td
-            = link_to manage_home_path(home), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy) do
-              span.fa.fa-trash
+          td.p-1.text-right
+            .btn-group
+              = link_to edit_manage_home_path(home), class: 'btn btn-default'
+                span.fa.fa-edit
+              = link_to manage_home_path(home), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
+                span.fa.fa-trash
 
 br
 = link_to new_manage_home_path, class: 'btn btn-primary' do
