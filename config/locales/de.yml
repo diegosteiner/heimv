@@ -559,7 +559,7 @@ de:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Du hast vor einiger Zeit eine provisorische Reservation für das Pfadiheim Holzwiese erstellt und wir hatten das Pfadiheim 14 Tage lang für Dich reserviert. Weil Du die Reservation bis heute nicht definitiv bestätigt hast, ist sie nun verfallen und wir haben das Lagerhaus wieder freigegeben.
+            Du hast vor einiger Zeit eine provisorische Reservation für {{ booking.home.name }} erstellt und wir hatten das Pfadiheim 14 Tage lang für Dich reserviert. Weil Du die Reservation bis heute nicht definitiv bestätigt hast, ist sie nun verfallen und wir haben das Lagerhaus wieder freigegeben.
 
             **Reservationsdetails**
 
@@ -600,12 +600,14 @@ de:
           default_title: Unterzeichneten Vertrag erhalten
           description: Benachrichtigung für Vertragseingang (Mieter)
         contract_text:
+          default_body: ''
+          default_title: ''
           description: Text für Vertrag
         declined_request_notification:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Vielen Dank für Deine Mietanfrage Für das Pfadiheim Holzwiese. Leider müssen wir Deine Anfrage ablehnen.
+            Vielen Dank für Deine Mietanfrage Für {{ booking.home.name }}. Leider müssen wir Deine Anfrage ablehnen.
 
 
             Ablehnungsgrund: {{ booking.cancellation_reason }}
@@ -628,7 +630,7 @@ de:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Vielen Dank für Deine Mietanfrage für das Pfadiheim Holzwiese. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.
+            Vielen Dank für Deine Mietanfrage für {{ booking.home.name }}. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.
 
 
             **Reservationsdetails**
@@ -645,6 +647,8 @@ de:
           default_title: Definitive Reservation bestätigt
           description: Benachrichtigung für definitive Mietanfrage (Mieter)
         foreign_payment_info_text:
+          default_body: ''
+          default_title: ''
           description: Text für Zahlunginformationen für ausländische Mieter
         invoices_deposit_text:
           default_body: |-
@@ -700,7 +704,7 @@ de:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Hiermit bestätigen wir den Eingang deiner Mietanfrage für das Pfadiheim Holzwiese.
+            Hiermit bestätigen wir den Eingang deiner Mietanfrage für {{ booking.home.name }}.
 
 
             **Reservationsdetails**
@@ -728,7 +732,7 @@ de:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Du hast kürzlich eine provisorische Reservation für das Pfadiheim Holzwiese erstellt. Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Pfadihaus wird wieder freigegeben. Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zu machen. Klicke dazu auf den untenstehenden Link.
+            Du hast kürzlich eine provisorische Reservation für {{ booking.home.name }} erstellt. Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Pfadihaus wird wieder freigegeben. Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zu machen. Klicke dazu auf den untenstehenden Link.
 
             [{{booking.links.edit}}]({{booking.links.edit}})
 
@@ -880,6 +884,8 @@ de:
           default_title: Anzahlung und unterschriebenen Vertrag eingegangen
           description: Benachrichtigung für zukünftige Belegung (Mieter)
         upcoming_soon_notification:
+          default_body: ''
+          default_title: ''
           description: Benachrichtigung für baldige Belegung (Mieter)
       states:
         active:
