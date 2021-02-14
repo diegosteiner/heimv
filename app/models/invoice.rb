@@ -54,6 +54,7 @@ class Invoice < ApplicationRecord
   before_save :set_amount, :set_paid
   before_update :generate_pdf, if: :generate_pdf?
   after_create { generate_ref? && generate_ref && save }
+  delegate :invoice_address_lines, to: :booking
 
   def generate_pdf?
     ref.present? && (pdf.blank? || changed?)
@@ -91,10 +92,6 @@ class Invoice < ApplicationRecord
 
   def filename
     "#{self.class.model_name.human} #{booking.ref}_#{id}.pdf"
-  end
-
-  def address_lines
-    @address_lines ||= booking.invoice_address.lines.reject(&:blank?).presence || booking.tenant&.address_lines || []
   end
 
   def amount_open

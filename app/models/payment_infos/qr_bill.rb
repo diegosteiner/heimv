@@ -6,7 +6,7 @@ module PaymentInfos
     VERSION = '0200'
     CODING_TYPE = '1'
     ADDRESS_TYPE = 'K'
-    REF_TYPE = 'SCOR'
+    REF_TYPE = 'QRR' # || 'SCOR'
     CURRENCY = 'CHF'
     COUNTRY_CODE = 'CH'
     EPD = 'EPD'
@@ -47,7 +47,6 @@ module PaymentInfos
         ref_type: REF_TYPE,
         ref: ref,
         additional_information: '',
-        message: '',
         trailer: EPD
       }.transform_values { _1.to_s.strip }
     end
@@ -59,7 +58,7 @@ module PaymentInfos
     end
 
     def debitor_address_lines
-      @debitor_address_lines ||= invoice.address_lines
+      @debitor_address_lines ||= invoice.invoice_address_lines
     end
 
     def creditor_account

@@ -9,12 +9,14 @@
 #  bcc                       :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
+#  default_payment_info_type :string
 #  email                     :string
 #  esr_beneficiary_account   :string
 #  esr_ref_prefix            :string
 #  homes_limit               :integer
 #  iban                      :string
 #  invoice_ref_strategy_type :string
+#  invoice_ref_template      :string           default("%<prefix>s%<home_id>03d%<tenant_id>06d%<invoice_id>07d")
 #  locale                    :string           default("de")
 #  location                  :string
 #  mail_from                 :string

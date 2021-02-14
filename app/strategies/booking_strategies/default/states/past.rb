@@ -36,8 +36,15 @@ module BookingStrategies
         end
 
         def create_invoice_checklist_item
-          ChecklistItem.new(:create_invoice, Invoices::Invoice.of(booking).kept.exists?,
-                            manage_booking_invoices_path(booking, org: booking.organisation.slug))
+          checked = Invoices::Invoice.of(booking).kept.exists?
+          default_params = { org: booking.organisation.slug, locale: I18n.locale }
+          ChecklistItem.new(:create_invoice, checked,
+                            checked &&
+                              manage_booking_invoices_path(booking, **default_params) ||
+                              new_manage_booking_invoice_path(
+                                booking,
+                                **default_params.merge({ invoice: { type: Invoices::Invoice.model_name.to_s } })
+                              ))
         end
       end
     end

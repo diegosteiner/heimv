@@ -25,8 +25,8 @@ module Invoices
 
     def defaults(booking)
       {
-        type: Invoices::Invoice.to_s, payment_info_type: PaymentInfos::OrangePaymentSlip,
-        issued_at: Time.zone.today, booking: booking
+        type: Invoices::Invoice.to_s, issued_at: Time.zone.today, booking: booking,
+        payment_info_type: booking.organisation.default_payment_info_type || PaymentInfos::OrangePaymentSlip
       }
     end
 

@@ -28,9 +28,9 @@ module Manage
         @booking.assign_attributes(booking_usages_params)
         set_usage_flags
         @booking.save
+        return_to = params[:return_to] || manage_booking_usages_path(@booking)
         respond_with :manage, @booking, @usages,
-                     responder_flash_messages(Usage.model_name.human(count: 2))
-                       .merge(location: manage_booking_usages_path(@booking))
+                     responder_flash_messages(Usage.model_name.human(count: 2)).merge(location: return_to)
       end
 
       def update
