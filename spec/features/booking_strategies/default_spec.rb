@@ -97,10 +97,6 @@ describe 'Booking', :devise, type: :feature do
   def create_invoice
     visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(2) a').click
-    within('#dropdownInvoiceTypes') do
-      find('#dropdownInvoiceTypesButton').click
-      click_on Invoices::Invoice.model_name.human
-    end
     click_on :commit
   end
 

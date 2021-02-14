@@ -2,7 +2,7 @@
 
 module RefStrategies
   class BookingRef
-    DEFAULT_TEMPLATE = '%<home>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s'
+    DEFAULT_TEMPLATE = '%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s'
 
     def self.ref_parts
       @ref_parts ||= {}
@@ -12,7 +12,7 @@ module RefStrategies
       ref_parts.merge!(hash)
     end
 
-    ref_part home: ->(booking) { booking.home.name[0...1].upcase },
+    ref_part home_ref: ->(booking) { booking.home.ref },
              year: ->(booking) { booking.occupancy.begins_at.year },
              month: ->(booking) { booking.occupancy.begins_at.month },
              day: ->(booking) { booking.occupancy.begins_at.day }
@@ -38,7 +38,7 @@ module RefStrategies
       (count + 95).chr
     end)
 
-    def generate(booking, template_string = booking.home.ref_template)
+    def generate(booking, template_string = booking.organisation.ref_template)
       template_string ||= DEFAULT_TEMPLATE
       ref_parts = self.class.ref_parts.select { |key| template_string.include?(key.to_s) }
                       .transform_values { |callable| callable.call(booking) }

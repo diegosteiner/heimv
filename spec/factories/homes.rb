@@ -11,7 +11,6 @@
 #  min_occupation   :integer
 #  name             :string
 #  ref              :string
-#  ref_template     :string
 #  requests_allowed :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -19,8 +18,8 @@
 #
 # Indexes
 #
-#  index_homes_on_organisation_id  (organisation_id)
-#  index_homes_on_ref              (ref) UNIQUE
+#  index_homes_on_organisation_id          (organisation_id)
+#  index_homes_on_ref_and_organisation_id  (ref,organisation_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -31,6 +30,7 @@ FactoryBot.define do
   factory :home do
     organisation
     name { "Pfadiheim #{Faker::Address.city}" }
+    ref { 'P' }
     address { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     requests_allowed { true }
   end

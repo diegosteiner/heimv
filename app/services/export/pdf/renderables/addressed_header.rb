@@ -8,9 +8,10 @@ module Export
 
         delegate :organisation, to: :booking
 
-        def initialize(booking)
+        def initialize(booking, use_invoice_address: true)
           super()
           @booking = booking
+          @use_invoice_address = use_invoice_address
         end
 
         def issuer_address
@@ -22,7 +23,7 @@ module Export
         end
 
         def recipient_address
-          booking.invoice_address.presence || booking.tenant.address_lines
+          @use_invoice_address && booking.invoice_address.presence || booking.tenant.address_lines
         end
 
         def represented_recipient

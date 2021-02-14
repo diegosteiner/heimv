@@ -148,6 +148,10 @@ class Booking < ApplicationRecord
     super || I18n.locale || I18n.default_locale
   end
 
+  def invoice_address_lines
+    @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.address_lines
+  end
+
   private
 
   def reject_tentant_attributes?(tenant_attributes)

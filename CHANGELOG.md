@@ -2,8 +2,12 @@
 
 ## [Unreleased]
 
+## [21.2.2] - 2021-02-14
+
 - Add prefix for ESR reference numbers
 - Rename ESR beneficiary account
+- Move ref_template to organisation
+- Fixed some translations
 
 ## [21.2.1] - 2021-02-07
 

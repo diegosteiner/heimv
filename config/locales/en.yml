@@ -38,6 +38,9 @@ en:
       payment_infos/orange_payment_slip:
         one: Oranger Einzahlungsschein
         other: Orange Einzahlungsscheine
+      payment_infos/qr_bill:
+        one: QR-Rechnung (experimentell)
+        other: QR-Rechnungen (experimentell)
       payment_infos/text_payment_info:
         one: Zahlungsteil als Text
         other: Zahlungsteile als Text
@@ -167,6 +170,7 @@ en:
         address: Adresse
         bcc: BCC
         contract_signature: Vertragsunterschrift
+        default_payment_info_type: Standartzahlungsart
         esr_beneficiary_account: Kontonummer
         esr_ref_prefix: ESR Referenznummer Präfix
         iban: IBAN
@@ -420,6 +424,7 @@ en:
         one: Benutzer
         other: Benutzer
   add_record: Add %{model_name}
+  amount: Amount
   back: Back
   booking_strategies:
     default:
@@ -554,7 +559,7 @@ en:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Du hast vor einiger Zeit eine provisorische Reservation für das Pfadiheim Holzwiese erstellt und wir hatten das Pfadiheim 14 Tage lang für Dich reserviert. Weil Du die Reservation bis heute nicht definitiv bestätigt hast, ist sie nun verfallen und wir haben das Lagerhaus wieder freigegeben.
+            Du hast vor einiger Zeit eine provisorische Reservation für {{ booking.home.name }} erstellt und wir hatten das Pfadiheim 14 Tage lang für Dich reserviert. Weil Du die Reservation bis heute nicht definitiv bestätigt hast, ist sie nun verfallen und wir haben das Lagerhaus wieder freigegeben.
 
             **Reservationsdetails**
 
@@ -595,12 +600,14 @@ en:
           default_title: Unterzeichneten Vertrag erhalten
           description: Benachrichtigung für Vertragseingang (Mieter)
         contract_text:
+          default_body: Default body
+          default_title: Default title
           description: Text für Vertrag
         declined_request_notification:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Vielen Dank für Deine Mietanfrage Für das Pfadiheim Holzwiese. Leider müssen wir Deine Anfrage ablehnen.
+            Vielen Dank für Deine Mietanfrage Für {{ booking.home.name }}. Leider müssen wir Deine Anfrage ablehnen.
 
 
             Ablehnungsgrund: {{ booking.cancellation_reason }}
@@ -623,7 +630,7 @@ en:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Vielen Dank für Deine Mietanfrage für das Pfadiheim Holzwiese. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.
+            Vielen Dank für Deine Mietanfrage für {{ booking.home.name }}. Wir haben Deine Angaben geprüft und nun eine definitive Reservation erstellt. Unser Heimverwalter wird Dir in den nächsten Tagen den Mietvertrag zustellen.
 
 
             **Reservationsdetails**
@@ -640,6 +647,8 @@ en:
           default_title: Definitive Reservation bestätigt
           description: Benachrichtigung für definitive Mietanfrage (Mieter)
         foreign_payment_info_text:
+          default_body: Default body
+          default_title: Default title
           description: Text für Zahlunginformationen für ausländische Mieter
         invoices_deposit_text:
           default_body: |-
@@ -695,7 +704,7 @@ en:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Hiermit bestätigen wir den Eingang deiner Mietanfrage für das Pfadiheim Holzwiese.
+            Hiermit bestätigen wir den Eingang deiner Mietanfrage für {{ booking.home.name }}.
 
 
             **Reservationsdetails**
@@ -723,7 +732,7 @@ en:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Du hast kürzlich eine provisorische Reservation für das Pfadiheim Holzwiese erstellt. Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Pfadihaus wird wieder freigegeben. Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zu machen. Klicke dazu auf den untenstehenden Link.
+            Du hast kürzlich eine provisorische Reservation für {{ booking.home.name }} erstellt. Eine Reservation gilt für 14 Tage. Wenn sie in dieser Zeit nicht verlängert wird, verfällt sie und das Pfadihaus wird wieder freigegeben. Wir geben Dir nochmals 3 Tage Zeit, um Deine Reservation zu verlängern oder um sie definitiv zu machen. Klicke dazu auf den untenstehenden Link.
 
             [{{booking.links.edit}}]({{booking.links.edit}})
 
@@ -875,6 +884,8 @@ en:
           default_title: Anzahlung und unterschriebenen Vertrag eingegangen
           description: Benachrichtigung für zukünftige Belegung (Mieter)
         upcoming_soon_notification:
+          default_body: Default body
+          default_title: Default title
           description: Benachrichtigung für baldige Belegung (Mieter)
       states:
         active:
@@ -1014,6 +1025,8 @@ en:
     issuer_signature_label: Datum, Unterschrift Vermieter
     represented_by: vertreten durch
     tenant_signature_label: Datum, Unterschrift Mieter
+  creditor_account: Creditor account
+  currency: Currency
   data_digests:
     period_from: von %{date}
     period_to: bis %{date}
@@ -1162,6 +1175,18 @@ en:
       header:
         one: 1 error prohibited this %{model} from being saved
         other: "%{count} errors prohibited this %{model} from being saved"
+  export:
+    pdf:
+      renderables:
+        invoice:
+          qr_bill:
+            amount: Betrag
+            creditor_account: Konto / Zahlbar an
+            currency: Währung
+            payable_by: Zahlbar durch
+            payment_part_title: Zahlteil
+            receipt_title: Empfangsschein
+            ref: Referenz
   faker:
     address:
       building_number: '["#", "#", "##", "#a", "#b"]'
@@ -1306,6 +1331,8 @@ en:
   offers:
     issuer_signature_label: Datum, Unterschrift Vermieter
   optional: optional
+  payable_by: Payable by
+  payment_part_title: Payment part title
   public:
     agent_bookings:
       edit:
@@ -1325,6 +1352,8 @@ en:
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
         title: Title
+  receipt_title: Receipt title
+  ref: Ref
   reset: Reset
   support:
     array:

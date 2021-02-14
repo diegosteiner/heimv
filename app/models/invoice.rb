@@ -54,6 +54,7 @@ class Invoice < ApplicationRecord
   before_save :set_amount, :set_paid
   before_update :generate_pdf, if: :generate_pdf?
   after_create { generate_ref? && generate_ref && save }
+  delegate :invoice_address_lines, to: :booking
 
   def generate_pdf?
     ref.present? && (pdf.blank? || changed?)
@@ -93,10 +94,6 @@ class Invoice < ApplicationRecord
     "#{self.class.model_name.human} #{booking.ref}_#{id}.pdf"
   end
 
-  def address_lines
-    @address_lines ||= booking.invoice_address&.lines.presence || booking.tenant&.address_lines || []
-  end
-
   def amount_open
     amount - amount_paid
   end
@@ -113,8 +110,12 @@ class Invoice < ApplicationRecord
     update(sent_at: Time.zone.now)
   end
 
-  def to_s
+  def formatted_ref
     invoice_ref_strategy.format_ref(ref)
+  end
+
+  def to_s
+    formatted_ref
   end
 
   def invoice_ref_strategy

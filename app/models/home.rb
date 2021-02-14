@@ -11,7 +11,6 @@
 #  min_occupation   :integer
 #  name             :string
 #  ref              :string
-#  ref_template     :string
 #  requests_allowed :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -19,8 +18,8 @@
 #
 # Indexes
 #
-#  index_homes_on_organisation_id  (organisation_id)
-#  index_homes_on_ref              (ref) UNIQUE
+#  index_homes_on_organisation_id          (organisation_id)
+#  index_homes_on_ref_and_organisation_id  (ref,organisation_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -39,6 +38,8 @@ class Home < ApplicationRecord
   belongs_to :organisation, inverse_of: :homes
 
   scope :ordered, -> { order(name: :ASC) }
+
+  validates :ref, uniqueness: { scope: %i[organisation_id] }
 
   accepts_nested_attributes_for :tarifs, reject_if: :all_blank, update_only: true
 

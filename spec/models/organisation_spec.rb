@@ -9,12 +9,14 @@
 #  bcc                       :string
 #  booking_strategy_type     :string
 #  currency                  :string           default("CHF")
+#  default_payment_info_type :string
 #  email                     :string
 #  esr_beneficiary_account   :string
 #  esr_ref_prefix            :string
 #  homes_limit               :integer
 #  iban                      :string
 #  invoice_ref_strategy_type :string
+#  invoice_ref_template      :string           default("%<prefix>s%<home_id>03d%<tenant_id>06d%<invoice_id>07d")
 #  locale                    :string           default("de")
 #  location                  :string
 #  mail_from                 :string
@@ -22,6 +24,7 @@
 #  notification_footer       :text
 #  notifications_enabled     :boolean          default(TRUE)
 #  payment_deadline          :integer          default(30), not null
+#  ref_template              :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
 #  representative_address    :string
 #  slug                      :string
 #  smtp_settings             :jsonb
