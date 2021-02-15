@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Introduce QR Bill
+
 ## [21.2.2] - 2021-02-14
 
 - Add prefix for ESR reference numbers
