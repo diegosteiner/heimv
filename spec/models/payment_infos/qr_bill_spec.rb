@@ -19,7 +19,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
         'K', 'Organisation', 'Teststrasse 1', '8000 Zürich', '', '', 'CH',
         '', '', '', '', '', '', '', '255.35',
         'CHF', 'K', 'CH', '', '', '', '', 'CH',
-        'QRR', '00000123456789', '', 'EPD'
+        'SCOR', 'RF1800000123456789', '', 'EPD'
       ]
     end
     subject { qr_bill.qr_data.values }
