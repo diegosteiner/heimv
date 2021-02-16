@@ -920,6 +920,7 @@ fr:
           help: Help
           label: Belegung (abgeschlossen)
         declined_request:
+          deadline_exceeded: Frist abgelaufen
           help: Help
           label: Mietanfrage (abgelehnt)
         definitive_request:
@@ -956,6 +957,8 @@ fr:
           label: Belegung (vergangen)
           relevant_time_label: Ende der Belegung
         payment_due:
+          checklist:
+            invoice_paid: Rechnung beglichen
           help: Help
           label: Belegung (Zahlung ausstehend)
           relevant_time_label: Frist
@@ -1131,6 +1134,7 @@ fr:
       month: Monat
       second: Sekunde
       year: Jahr
+  deadline_exceeded: Deadline exceeded
   destroy: Löschen
   downloads:
     slug:

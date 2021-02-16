@@ -16,6 +16,7 @@ module BookingStrategies
 
         after_transition do |booking|
           booking.occupancy.free!
+          booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline_exceeded?
           booking.concluded!
           booking.deadline&.clear
           addressed_to = booking.agent_booking? ? :booking_agent : :tenant
