@@ -499,7 +499,7 @@ fr:
 
             {{ booking.organisation.message_footer }}
           default_title: Vermittlung storniert
-          description: Benachrichtigung für annulierte Vermittlungsanfrage (Vermittler)
+          description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
         booking_agent_request_accepted_notification:
           default_body: |-
             Lieber Vermittler
@@ -554,7 +554,7 @@ fr:
 
             {{ booking.organisation.message_footer }}
           default_title: Vertragsauflösung/Annullation Deiner Reservation
-          description: Benachrichtigung für annulierte Reservation (Mieter)
+          description: Benachrichtigung für annullierte Reservation (Mieter)
         cancelled_request_notification:
           default_body: |-
             {{ booking.tenant.salutation_name }}
