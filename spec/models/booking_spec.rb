@@ -29,7 +29,6 @@
 #  updated_at            :datetime         not null
 #  deadline_id           :bigint
 #  home_id               :bigint           not null
-#  occupancy_id          :uuid
 #  organisation_id       :bigint           not null
 #  purpose_id            :integer
 #  tenant_id             :integer

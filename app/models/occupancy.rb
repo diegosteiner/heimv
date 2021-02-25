@@ -6,12 +6,12 @@
 #
 #  id             :uuid             not null, primary key
 #  begins_at      :datetime         not null
-#  booking_type   :string
 #  ends_at        :datetime         not null
 #  occupancy_type :integer          default("free"), not null
 #  remarks        :text
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  booking_id     :uuid
 #  home_id        :bigint           not null
 #
 # Indexes
@@ -28,7 +28,8 @@
 
 class Occupancy < ApplicationRecord
   belongs_to :home
-  has_one :booking, inverse_of: :occupancy, dependent: :restrict_with_exception
+  belongs_to :booking, inverse_of: :occupancy
+
   has_one :organisation, through: :home
 
   date_time_attribute :begins_at, timezone: Time.zone.name

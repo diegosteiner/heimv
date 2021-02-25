@@ -6,12 +6,12 @@
 #
 #  id             :uuid             not null, primary key
 #  begins_at      :datetime         not null
-#  booking_type   :string
 #  ends_at        :datetime         not null
 #  occupancy_type :integer          default("free"), not null
 #  remarks        :text
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  booking_id     :uuid
 #  home_id        :bigint           not null
 #
 # Indexes
