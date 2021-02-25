@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2021_02_25_163544) do
     t.integer "approximate_headcount"
     t.text "remarks"
     t.text "invoice_address"
+    t.string "purpose_key"
     t.string "ref"
     t.boolean "editable", default: true
     t.boolean "usages_entered", default: false
@@ -128,7 +129,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_163544) do
     t.boolean "usages_presumed", default: false
     t.bigint "deadline_id"
     t.string "locale"
-    t.string "purpose_key"
     t.integer "purpose_id"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 2021_02_25_163544) do
     t.datetime "updated_at", null: false
     t.text "remarks"
     t.index ["booking_id"], name: "index_deadlines_on_booking_id"
-    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible_type_and_responsible_id"
+    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
   end
 
   create_table "homes", force: :cascade do |t|
