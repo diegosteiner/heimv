@@ -54,6 +54,12 @@ setup.create_missing_markdown_templates!
 setup.create_user!
 ```
 
+## Cronjobs
+
+```
+bin/rails r TransitionBookingStatesJob.perform_now
+```
+
 ## Copyright & License
 
 🎂 1000th commit 🎂

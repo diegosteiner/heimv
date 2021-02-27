@@ -13,6 +13,7 @@ module Import
       organisation.attributes.slice(*relevant_attributes)
                   .merge(markdown_templates: MarkdownTemplateImporter.new(organisation).export)
                   .merge(homes: HomeImporter.new(organisation).export)
+                  .merge(purpose: BookingPurposeImporter.new(organisation).export)
     end
 
     def from_h(hash)
@@ -26,6 +27,10 @@ module Import
 
     def from_h_homes(serialized)
       HomeImporter.new(organisation, options).import(serialized['homes'])
+    end
+
+    def from_h_purposes(serialized)
+      BookingPurposeImporter.new(organisation, options).import(serialized['purposes'])
     end
   end
 end

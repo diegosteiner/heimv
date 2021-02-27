@@ -18,7 +18,8 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"rebornix.Ruby",
-		"castwide.solargraph"
+		"castwide.solargraph",
+		"eamodio.gitlens"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [

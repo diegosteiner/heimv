@@ -499,7 +499,7 @@ de:
 
             {{ booking.organisation.message_footer }}
           default_title: Vermittlung storniert
-          description: Benachrichtigung für annulierte Vermittlungsanfrage (Vermittler)
+          description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
         booking_agent_request_accepted_notification:
           default_body: |-
             Lieber Vermittler
@@ -554,26 +554,28 @@ de:
 
             {{ booking.organisation.message_footer }}
           default_title: Vertragsauflösung/Annullation Deiner Reservation
-          description: Benachrichtigung für annulierte Reservation (Mieter)
+          description: Benachrichtigung für annullierte Reservation (Mieter)
         cancelled_request_notification:
           default_body: |-
             {{ booking.tenant.salutation_name }}
 
-            Du hast vor einiger Zeit eine provisorische Reservation für {{ booking.home.name }} erstellt und wir hatten das Pfadiheim 14 Tage lang für Dich reserviert. Weil Du die Reservation bis heute nicht definitiv bestätigt hast, ist sie nun verfallen und wir haben das Lagerhaus wieder freigegeben.
+            Deine Reservationsanfrage für {{booking.home.name}} wurde annulliert, weil du sie entweder nicht innerhalb der Frist definitiv gesetzt hast oder die Anfrage selbst zurückgezogen hast.
 
             **Reservationsdetails**
 
             - Buchungsreferenz: {{ booking.ref }}
-            - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+            - Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}
             - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
             - Organisation: {{ booking.tenant_organisation }}
             - Mietzweck: {{ booking.purpose | booking_purpose }}
             - Bemerkungen: {{ booking.remarks }}
 
-            Du kannst auf unserem [Reservationssystem](https://app.heimv.ch) jederzeit eine neue Reservation erstellen.
+            Du kannst auf unserem [Reservationssystem](https://www.heimv.ch.HeimV) jederzeit eine neue Reservation erstellen.
+
+            Für Fragen oder weitere Auskünfte wendest Du Dich an unseren Heimverwalter
 
             {{ booking.organisation.message_footer }}
-          default_title: Deine Reservation ist abgelaufen
+          default_title: Deine Reservationsanfrage wurde annulliert
           description: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
         contract_signed_notification:
           default_body: |-
@@ -920,6 +922,7 @@ de:
           help: Help
           label: Belegung (abgeschlossen)
         declined_request:
+          deadline_exceeded: Frist abgelaufen
           help: Help
           label: Mietanfrage (abgelehnt)
         definitive_request:
@@ -956,6 +959,8 @@ de:
           label: Belegung (vergangen)
           relevant_time_label: Ende der Belegung
         payment_due:
+          checklist:
+            invoice_paid: Rechnung beglichen
           help: Help
           label: Belegung (Zahlung ausstehend)
           relevant_time_label: Frist
@@ -1131,6 +1136,7 @@ de:
       month: Monat
       second: Sekunde
       year: Jahr
+  deadline_exceeded: Deadline exceeded
   destroy: Löschen
   downloads:
     slug:

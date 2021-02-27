@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_14_150059) do
+ActiveRecord::Schema.define(version: 2021_02_25_163544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2021_02_14_150059) do
     t.integer "approximate_headcount"
     t.text "remarks"
     t.text "invoice_address"
+    t.string "purpose_key"
     t.string "ref"
     t.boolean "editable", default: true
     t.boolean "usages_entered", default: false
@@ -124,12 +125,10 @@ ActiveRecord::Schema.define(version: 2021_02_14_150059) do
     t.datetime "updated_at", null: false
     t.text "internal_remarks"
     t.boolean "concluded", default: false
-    t.uuid "occupancy_id"
     t.boolean "timeframe_locked", default: false
     t.boolean "usages_presumed", default: false
     t.bigint "deadline_id"
     t.string "locale"
-    t.string "purpose_key"
     t.integer "purpose_id"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
@@ -173,7 +172,7 @@ ActiveRecord::Schema.define(version: 2021_02_14_150059) do
     t.datetime "updated_at", null: false
     t.text "remarks"
     t.index ["booking_id"], name: "index_deadlines_on_booking_id"
-    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible_type_and_responsible_id"
+    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
   end
 
   create_table "homes", force: :cascade do |t|
@@ -272,11 +271,11 @@ ActiveRecord::Schema.define(version: 2021_02_14_150059) do
     t.datetime "begins_at", null: false
     t.datetime "ends_at", null: false
     t.bigint "home_id", null: false
-    t.string "booking_type"
     t.integer "occupancy_type", default: 0, null: false
     t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "booking_id"
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"

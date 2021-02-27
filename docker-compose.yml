@@ -24,6 +24,7 @@ services:
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       SMTP_SETTINGS: '{ "address":"mail" }'
       MAIL_FROM: 'no-reply@heimverwaltung.localhost'
+      PRIVACY_STATEMENT_URL: ''
     depends_on:
       - db
       - mail

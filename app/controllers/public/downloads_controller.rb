@@ -6,6 +6,8 @@ module Public
     before_action :set_download
 
     def show
+      return redirect_to @download if @download.is_a?(String)
+
       response.headers['Content-Type'] = @download.content_type
 
       @download.download do |chunk|
@@ -22,10 +24,10 @@ module Public
                   when t(:terms_pdf, scope: %i[downloads slug])
                     current_organisation.terms_pdf
                   when t(:privacy_statement_pdf, scope: %i[downloads slug])
-                    current_organisation.privacy_statement_pdf
+                    current_organisation.privacy_statement_pdf || ENV['PRIVACY_STATEMENT_URL']
+                  else
+                    raise ActionController::RoutingError, 'File not found'
                   end
-
-      raise ActionController::RoutingError, 'File not found' if @download.blank?
     end
   end
 end

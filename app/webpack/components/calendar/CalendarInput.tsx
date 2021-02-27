@@ -203,9 +203,9 @@ interface CalendarInputProps {
 
 const CalendarInput: React.FC<CalendarInputProps> = ({ value, name, label, required = false, disabled = false }) => {
   return (
-    <Form.Group disabled={disabled}>
+    <Form.Group>
       {label && <Form.Label className={required && 'required'}>{label}</Form.Label>}
-      <CalendarControl value={value} name={name} required={required}></CalendarControl>
+      <CalendarControl disabled={disabled} value={value} name={name} required={required}></CalendarControl>
     </Form.Group>
   );
 };

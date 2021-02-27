@@ -1,5 +1,5 @@
-class AddOccupancyIdToBookings < ActiveRecord::Migration[6.0]
-  def up
+class AddBookingToOccupancies < ActiveRecord::Migration[6.1]
+  def down
     add_column :bookings, :occupancy_id, :uuid, foreign_key: true
 
     Occupancy.all.pluck(:id, :booking_id).each do |(occupancy_id, booking_id)|
@@ -9,9 +9,10 @@ class AddOccupancyIdToBookings < ActiveRecord::Migration[6.0]
     end
 
     remove_column :occupancies, :booking_id
+    add_column :occupancies, :booking_type, :string
   end
 
-  def down
+  def up
     add_column :occupancies, :booking_id, :uuid, foreign_key: true
 
     Booking.all.pluck(:id, :occupancy_id).each do |(booking_id, occupancy_id)|
@@ -21,5 +22,6 @@ class AddOccupancyIdToBookings < ActiveRecord::Migration[6.0]
     end
 
     remove_column :bookings, :occupancy_id
+    remove_column :occupancies, :booking_type
   end
 end

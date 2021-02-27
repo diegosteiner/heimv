@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [21.2.3] - 2021-02-27
+
+- Introduce QR Bill
+- Add import from csv for bookings
+
 ## [21.2.2] - 2021-02-14
 
 - Add prefix for ESR reference numbers

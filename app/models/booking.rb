@@ -29,7 +29,6 @@
 #  updated_at            :datetime         not null
 #  deadline_id           :bigint
 #  home_id               :bigint           not null
-#  occupancy_id          :uuid
 #  organisation_id       :bigint           not null
 #  purpose_id            :integer
 #  tenant_id             :integer
@@ -59,7 +58,6 @@ class Booking < ApplicationRecord
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, optional: true
-  belongs_to :occupancy, inverse_of: :booking
   belongs_to :deadline, inverse_of: :booking, optional: true
   belongs_to :purpose, inverse_of: :bookings, class_name: 'BookingPurpose', optional: true
 
@@ -75,6 +73,7 @@ class Booking < ApplicationRecord
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
 
+  has_one :occupancy, inverse_of: :booking, dependent: :destroy
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
 

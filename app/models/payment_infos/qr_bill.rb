@@ -6,12 +6,18 @@ module PaymentInfos
     VERSION = '0200'
     CODING_TYPE = '1'
     ADDRESS_TYPE = 'K'
-    REF_TYPE = 'QRR' # || 'SCOR'
+    REF_TYPE = 'SCOR' # || 'QRR'
     CURRENCY = 'CHF'
     COUNTRY_CODE = 'CH'
     EPD = 'EPD'
+    CHAR_TABLE = %w[
+      0 1 2 3 4 5 6 7 8 9
+      A B C D E F G H I J K L M
+      N O P Q R S T U V W X Y Z
+    ].freeze
+    RF00 = [2, 7, 1, 5, 0, 0].freeze
 
-    delegate :ref, :amount, :formatted_ref, to: :invoice
+    delegate :amount, to: :invoice
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
@@ -71,6 +77,22 @@ module PaymentInfos
 
     def formatted_amount
       format('%<amount>.2f', amount: amount)
+    end
+
+    def checksum(ref)
+      base97_digits = ref.upcase.chars.map { CHAR_TABLE.index(_1) } + RF00
+      98 - (base97_digits.flatten.join.to_i % 97)
+      # 98 - base97_digits.in_groups_of(7).reduce(base97_digits.shift(2)) do |check, digits|
+      # ((check + digits).flatten.join.to_i % 97).to_s.chars
+      # end.join.to_i
+    end
+
+    def ref
+      @ref ||= format('RF%<checksum>02d%<unchecked_ref>s', checksum: checksum(invoice.ref), unchecked_ref: invoice.ref)
+    end
+
+    def formatted_ref
+      ref.chars.in_groups_of(4).map(&:join).join(' ')
     end
 
     def qrcode

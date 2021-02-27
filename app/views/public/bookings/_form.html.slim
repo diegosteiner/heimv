@@ -59,7 +59,7 @@
           - @booking.errors[:committed_request].each do |error|
             .invalid-feedback.d-block = error
 
-        = f.collection_select :purpose_id, current_organisation.booking_purposes, :id, :title
+        = f.collection_select :purpose_id, current_organisation.booking_purposes, :id, :title, { required: true }, disabled: !@booking.editable
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable
 
