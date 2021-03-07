@@ -2262,6 +2262,7 @@ it:
     bookings:
       contracts:
         index:
+          contract_sent: Vertrag versendet markieren
           contract_signed: Vertrag unterschieben
       form:
         change_tenant_id: Change tenant
