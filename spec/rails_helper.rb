@@ -81,17 +81,10 @@ RSpec.configure do |config|
     Capybara::Selenium::Driver.new(app, browser: :chrome, url: url, options: options)
   end
 
-  if ENV['E2E_APP_HOST'].present?
-    Capybara.run_server = false
-    Capybara.app_host = "http://#{ENV['E2E_APP_HOST']}"
-  end
-
-  if ENV['E2E_SERVER_PORT'].present?
-    Capybara.run_server = true
-    Capybara.server_port = ENV['E2E_SERVER_PORT']
-    Capybara.server_host = '0.0.0.0'
-  end
-
+  Capybara.run_server = ENV['E2E_SERVER_PORT'].present?
+  Capybara.server_port = ENV['E2E_SERVER_PORT']
+  Capybara.server_host = '0.0.0.0'
+  Capybara.app_host = "http://#{ENV['E2E_TARGET_HOST']}" if ENV['E2E_TARGET_HOST'].present?
   # Selenium::WebDriver.logger.level = :debug
   Capybara.default_driver = :selenium
   Capybara.default_max_wait_time = 10

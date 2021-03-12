@@ -19,7 +19,7 @@ services:
     environment:
       APP_HOST: ${APP_HOST:-heimv.localhost:3000}
       E2E_SERVER_PORT: '3001'
-      E2E_APP_HOST: 'app.local:3001'
+      E2E_TARGET_HOST: 'app.local:3001'
       SELENIUM_HOST: 'selenium:4444'
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       SMTP_SETTINGS: '{ "address":"mail" }'
