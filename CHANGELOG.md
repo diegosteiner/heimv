@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+## [21.3.1] - 2021-03-13
+
+- Bugfixes and updates
 ## [21.2.3] - 2021-02-27
 
 - Introduce QR Bill
