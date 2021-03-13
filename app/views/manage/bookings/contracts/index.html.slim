@@ -34,7 +34,7 @@
             - else
               td.py-2
                 = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { sent_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success'
-                  | Vertrag versendet
+                  = t('.contract_sent')
             - if contract.signed? || contract.ousted?
               td
                 - if contract.signed_pdf.attached?

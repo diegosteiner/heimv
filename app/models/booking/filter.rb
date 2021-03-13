@@ -35,16 +35,12 @@ class Booking
     end
 
     filter :ref do |bookings|
-      next bookings if ref.blank?
-
-      bookings.where(Booking.arel_table[:ref].matches("%#{ref.strip}%"))
+      bookings.where(Booking.arel_table[:ref].matches("%#{ref.strip}%")) if ref.present?
     end
 
     filter :homes do |bookings|
       relevant_homes = homes.reject(&:blank?)
-      next bookings if relevant_homes.blank?
-
-      bookings.where(home_id: relevant_homes)
+      bookings.where(home_id: relevant_homes) if relevant_homes.present?
     end
 
     filter :tenant do |bookings|

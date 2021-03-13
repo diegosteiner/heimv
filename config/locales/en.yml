@@ -1245,6 +1245,7 @@ en:
     bookings:
       contracts:
         index:
+          contract_sent: Vertrag versendet markieren
           contract_signed: Contract signed
       form:
         change_tenant_id: Change tenant

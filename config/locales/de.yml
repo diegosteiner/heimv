@@ -2264,7 +2264,8 @@ de:
     bookings:
       contracts:
         index:
-          contract_signed: Vertrag unterschieben
+          contract_sent: Vertrag versendet markieren
+          contract_signed: Vertrag unterschieben markieren
       form:
         change_tenant_id: Mieter ändern
       show:

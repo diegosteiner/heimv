@@ -1,6 +1,5 @@
 version: '3.7'
 services:
-
   e2e_test:
     build:
       context: .
@@ -8,13 +7,13 @@ services:
       args:
         UID: ${UID}
         GID: ${GID}
-    entrypoint: [".docker/entrypoints/app.sh"]
-    command: ["bin/e2e"]
+    entrypoint: ['.docker/entrypoints/app.sh']
+    command: ['bin/e2e']
     volumes:
       - .:/app
     environment:
       APP_HOST: 'e2e_test'
-      E2E_APP_HOST: 'e2e_target:3002'
+      E2E_TARGET_HOST: 'e2e_target:3002'
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
       RAILS_ENV: test
@@ -38,7 +37,7 @@ services:
       APP_HOST: 'e2e_target:3002'
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
       SMTP_SETTINGS: '{ "address":"mail" }'
-      MAIL_FROM: "no-reply@heimverwaltung.localhost"
+      MAIL_FROM: 'no-reply@heimverwaltung.localhost'
       SECRET_KEY_BASE: 'test'
       RAILS_SERVE_STATIC_FILES: 'true'
       DISABLE_DATABASE_ENVIRONMENT_CHECK: '1'
