@@ -25,6 +25,7 @@ gem 'faker', require: false
 gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
+gem 'memory_profiler'
 gem 'mobility'
 gem 'pg'
 gem 'pony'
@@ -79,6 +80,5 @@ group :test do
 end
 
 group :production do
-  gem 'newrelic_rpm'
   gem 'sentry-raven'
 end
