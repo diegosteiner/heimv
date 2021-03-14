@@ -72,6 +72,14 @@ class Organisation < ApplicationRecord
     @address_lines ||= address.lines.map(&:strip).reject(&:blank?).presence || []
   end
 
+  def smtp_settings_json
+    JSON.generate(smtp_settings)
+  end
+
+  def smtp_settings_json=(value)
+    self.smtp_settings = JSON.parse(value)
+  end
+
   # TODO: extract to hash
   def long_deadline
     10.days

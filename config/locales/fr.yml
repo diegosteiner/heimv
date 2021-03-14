@@ -185,6 +185,7 @@ fr:
         representative_address: Adresse der Vertretung für Verträge
         slug: Namespace
         smtp_settings: Mailserver Einstellungen
+        smtp_settings_json: Mailserver Einstellungen
         terms_pdf: AGB
       payment:
         amount: Betrag
@@ -2286,9 +2287,6 @@ fr:
       form:
         general: General
         terms: Terms
-      import:
-        error: Error
-        success: Success
   nav:
     edit_account: Account
     manage: Verwaltung

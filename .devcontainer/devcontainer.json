@@ -19,7 +19,8 @@
 	"extensions": [
 		"rebornix.Ruby",
 		"castwide.solargraph",
-		"eamodio.gitlens"
+		"eamodio.gitlens",
+		"lokalise.i18n-ally"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [

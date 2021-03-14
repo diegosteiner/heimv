@@ -15,7 +15,7 @@
     = f.email_field :bcc
     div[v-pre]= f.text_area :notification_footer, rows: 4
     - if current_user.role_admin?
-      div[v-pre]= f.text_area :smtp_settings, rows: 4
+      div[v-pre]= f.text_area :smtp_settings_json, rows: 4
 
   fieldset
     h3.mt-4= Contract.model_name.human(count: 2)

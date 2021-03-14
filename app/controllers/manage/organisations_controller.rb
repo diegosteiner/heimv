@@ -20,17 +20,6 @@ module Manage
       end
     end
 
-    def import
-      return if params[:import_data].blank?
-
-      import_data = JSON.parse(params[:import_data])
-      if Import::OrganisationImporter.new(@organisation, { replace: params[:replace] }).import(import_data)
-        flash[:notice] = t('.success')
-      else
-        flash[:alert] = t('.error')
-      end
-    end
-
     private
 
     def set_organisation

@@ -56,8 +56,31 @@ setup.create_user!
 
 ## Cronjobs
 
+Automatically change after some time has passed:
 ```
 bin/rails r TransitionBookingStatesJob.perform_now
+```
+
+Resend failed Notification attemps:
+```
+bin/rails r RetryFailedNotificationsJob.perform_now
+```
+
+## Import booking data
+
+Prepare a csv with these columns, including a header, as utf-8:
+- begins_at (as ISO8601)
+- ends_at (as ISO8601)
+- email (optional)
+- ref (which will set the reference, optional)
+- remarks (optional)
+- organisation (which refers to the tenants organisation, optional)
+- purpose (which corresponds to the purpose keys set for the organisation, optional)
+- phone
+
+Then import data with:
+```
+cat data.csv | bin/rails r Import::Csv::BookingImporter.new(home).read
 ```
 
 ## Copyright & License
