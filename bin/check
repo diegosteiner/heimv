@@ -9,4 +9,3 @@ yarn run check:style --fix
 # yarn run check:types
 bin/rspec ./spec --tag @type:feature --fail-fast || exit 1
 bundle exec bundle-audit --update || exit 1
-bundle leak check --update || exit 1
