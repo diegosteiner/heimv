@@ -26,7 +26,7 @@ module DataDigests
   class ParahotelerieStatistics < DataDigests::Tarif
     protected
 
-    def build_header(_period, _options)
+    def build_header(_period, **_options)
       [
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
         I18n.t('data_digests/parahotelerie_statistics.total_overnight_stays'),

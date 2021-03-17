@@ -26,7 +26,7 @@ module DataDigests
   class Tenant < DataDigests::Booking
     protected
 
-    def build_header(_period, _options)
+    def build_header(_period, **options)
       super + [
         ::Tenant.model_name.human, '', '', ::Occupancy.human_attribute_name(:nights)
       ]

@@ -36,7 +36,7 @@ module DataDigests
 
     protected
 
-    def build_header(_period, _options)
+    def build_header(_period, **_options)
       [
         ::Booking.human_attribute_name(:ref), ::Home.model_name.human,
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
@@ -44,7 +44,7 @@ module DataDigests
       ]
     end
 
-    def build_data(period, _options)
+    def build_data(period, **_options)
       filter = ::Booking::Filter.new(begins_at_after: period.begin, begins_at_before: period.end)
       filter.apply(scope).map { |booking| build_data_row(booking) }
     end

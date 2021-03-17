@@ -38,7 +38,7 @@ module DataDigests
 
     protected
 
-    def build_header(_period, _options)
+    def build_header(_period, **options)
       super + tarifs.flat_map do |tarif|
         [
           "#{tarif.label} (#{::Usage.human_attribute_name(:used_units)})",

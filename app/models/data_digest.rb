@@ -51,7 +51,7 @@ class DataDigest < ApplicationRecord
     options.reverse_merge!({ col_sep: ';', write_headers: true, skip_blanks: true,
                              force_quotes: true, encoding: 'utf-8' })
 
-    CSV.generate(options) do |csv|
+    CSV.generate(**options) do |csv|
       csv << periodic_data.header
       periodic_data.data.each { |row| csv << row }
       csv << periodic_data.footer if periodic_data.footer.present?
@@ -60,7 +60,7 @@ class DataDigest < ApplicationRecord
 
   formatter(:pdf) do |periodic_data, options|
     options.reverse_merge!({ document_options: { page_layout: :landscape } })
-    Export::Pdf::DataDigestPeriodPdf.new(periodic_data, options).render_document
+    Export::Pdf::DataDigestPeriodPdf.new(periodic_data, **options).render_document
   end
 
   register_period ever: ->(_at) { Range.new(nil, nil) },
@@ -81,9 +81,9 @@ class DataDigest < ApplicationRecord
   def digest(period, format: nil, **options)
     return unless period.is_a?(Range)
 
-    periodic_data = PeriodicData.new(self, period, build_header(period, options),
-                                     build_footer(period, options),
-                                     build_data(period, options))
+    periodic_data = PeriodicData.new(self, period, build_header(period, **options),
+                                     build_footer(period, **options),
+                                     build_data(period, **options))
     formatter = self.class.formatters[format&.to_sym]
     return periodic_data unless formatter
 
@@ -102,13 +102,13 @@ class DataDigest < ApplicationRecord
 
   def prefilter; end
 
-  def build_header(_period, _options)
+  def build_header(_period, **_options)
     []
   end
 
-  def build_data(_period, _options); end
+  def build_data(_period, **options); end
 
-  def build_footer(_period, _options)
+  def build_footer(_period, **_options)
     nil
   end
 end

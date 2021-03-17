@@ -36,12 +36,12 @@ module DataDigests
 
     protected
 
-    def build_data(period, _options)
+    def build_data(period, **_options)
       filter = ::Payment::Filter.new(paid_at_after: period.begin, paid_at_before: period.end)
       filter.apply(scope).map { |payment| build_data_row(payment) }
     end
 
-    def build_header(_period, _options)
+    def build_header(_period, **_options)
       [
         ::Payment.human_attribute_name(:ref),
         ::Booking.human_attribute_name(:ref),

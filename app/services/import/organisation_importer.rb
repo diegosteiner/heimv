@@ -22,15 +22,15 @@ module Import
     end
 
     def from_h_markdown_templates(serialized)
-      MarkdownTemplateImporter.new(organisation, options).import(serialized['markdown_templates'])
+      MarkdownTemplateImporter.new(organisation, **options).import(serialized['markdown_templates'])
     end
 
     def from_h_homes(serialized)
-      HomeImporter.new(organisation, options).import(serialized['homes'])
+      HomeImporter.new(organisation, **options).import(serialized['homes'])
     end
 
     def from_h_purposes(serialized)
-      BookingPurposeImporter.new(organisation, options).import(serialized['purposes'])
+      BookingPurposeImporter.new(organisation, **options).import(serialized['purposes'])
     end
   end
 end

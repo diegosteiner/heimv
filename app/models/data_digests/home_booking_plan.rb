@@ -26,7 +26,7 @@ module DataDigests
   class HomeBookingPlan < DataDigests::Booking
     protected
 
-    def build_header(_period, _options)
+    def build_header(_period, **_options)
       [
         ::Booking.human_attribute_name(:ref), ::Booking.human_attribute_name(:purpose),
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),

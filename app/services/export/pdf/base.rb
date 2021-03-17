@@ -8,7 +8,7 @@ module Export
       FONTS_PATH = File.join(__dir__, '..', '..', '..', 'webpack', 'fonts')
       include Prawn::View
 
-      def self.add_font_family(name, options)
+      def self.add_font_family(name, **options)
         font_families[name.to_s] = options
       end
 

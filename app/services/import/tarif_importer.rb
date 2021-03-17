@@ -5,7 +5,7 @@ module Import
     attr_reader :home
 
     def initialize(home, options = {})
-      super(home.organisation, options)
+      super(home.organisation, **options)
       @home = home
     end
 
