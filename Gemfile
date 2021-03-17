@@ -41,8 +41,8 @@ gem 'responders'
 gem 'rqrcode'
 gem 'slim-rails'
 gem 'statesman'
-gem 'ttfunk', '~> 1.5.1' # See https://github.com/prawnpdf/prawn/issues/1142
-gem 'webpacker', '~> 5.2'
+gem 'ttfunk'
+gem 'webpacker'
 
 group :development do
   gem 'annotate'
