@@ -52,7 +52,7 @@ class Tarif < ApplicationRecord
   scope :applicable_to, ->(booking) { booking.home.tarifs.transient.or(where(booking: booking)).order(position: :asc) }
   scope :find_with_booking_copies, ->(tarif_ids) { where(id: tarif_ids).or(where(booking_copy_template_id: tarif_ids)) }
 
-  enum prefill_usage_method: Hash[TarifPrefiller::PREFILL_METHODS.keys.map { |method| [method, method] }]
+  enum prefill_usage_method: TarifPrefiller::PREFILL_METHODS.keys.map { |method| [method, method] }.to_h
 
   validates :type, presence: true
   attribute :price_per_unit, default: 0

@@ -67,7 +67,7 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'rspec-its'
   gem 'rspec-rails'
-  gem 'rubocop', '~> 1.8.1'
+  gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'

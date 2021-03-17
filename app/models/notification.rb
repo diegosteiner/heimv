@@ -74,7 +74,7 @@ class Notification < ApplicationRecord
   end
 
   def attachments_for_mail
-    Hash[attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }]
+    attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }.to_h
   end
 
   def resolve_markdown_template
