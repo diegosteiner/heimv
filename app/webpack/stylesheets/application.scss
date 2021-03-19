@@ -7,6 +7,11 @@ img {
     margin: 0 auto;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5em;
+    margin-bottom: .5em;
+}
+
 .app-container {
     display: grid;
     grid-template-areas: "navigation main" "footer footer";
@@ -113,16 +118,8 @@ select[disabled='disabled'] {
     }
 }
 
-// [data-href] {
-//     cursor: pointer;
-// }
-
 .card>.table {
     margin: 0;
-}
-
-section {
-    margin-top: 20px;
 }
 
 .breakout-sm {
@@ -175,8 +172,3 @@ tr.disabled {
         position: fixed;
     }
 }
-
-// .btn-primary:focus,
-// .btn-primary:hover {
-//   filter: brightness(120%); // saturate(120%);
-// }

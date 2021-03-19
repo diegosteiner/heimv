@@ -14,7 +14,7 @@
       = t(:no_records_yet, model_name: Usage.model_name.human(count: 2))
       =<> link_to t(:add_record, model_name: Usage.model_name.human(count: 2)), manage_booking_usages_path(@booking, presumed: true, return_to: url_for)
 - else
-  section.breakout-sm
+  section.mt-4.breakout-sm
     table.table.table-hover.table-card
       thead
         tr

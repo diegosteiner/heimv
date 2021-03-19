@@ -4,7 +4,7 @@
 - if @booking && @booking.invoices.none?
   p.text-center.my-5
     = t(:no_records_yet, model_name: Invoice.model_name.human(count: 2))
-    =<> link_to t(:add_record, model_name: Invoice.model_name.human), new_manage_booking_invoice_path(@booking)
+    =<> link_to(t(:add_record, model_name: Invoices::Deposit.model_name.human), new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit }))
 - else
   .table-responsive
     table.table.table-hover.table-card

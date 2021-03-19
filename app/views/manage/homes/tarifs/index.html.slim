@@ -1,6 +1,6 @@
 = render partial: 'manage/homes/navigation', locals: { active: :tarifs }
 h1= Tarif.model_name.human(count: 2)
-section.breakout-sm
+section.mt-4.breakout-sm
   = render partial: 'table', locals: { tarifs: @tarifs }
   br
   = link_to new_manage_home_tarif_path(@home), class: 'btn btn-primary'

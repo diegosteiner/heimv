@@ -10,7 +10,7 @@
       = t(:no_records_yet, model_name: Contract.model_name.human(count: 2))
       =<> link_to t(:add_record, model_name: Contract.model_name.human), new_manage_booking_contract_path(@booking)
 - else
-  section.breakout-sm
+  section.mt-4.breakout-sm
     table.table.table-hover.table-card
       thead
         tr

@@ -3,7 +3,6 @@
 Rails.application.routes.draw do
   devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
   resource :account, only: %i[edit update]
-  get 'changelog', to: 'pages#changelog'
 
   scope '(:org)' do
     namespace :manage do
@@ -64,6 +63,8 @@ Rails.application.routes.draw do
       resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
       resources :bookings, only: %i[new create edit update], as: :public_bookings
       get 'b/:id(/edit)', to: 'bookings#edit'
+      get 'usage', to: 'pages#usage'
+      get 'changelog', to: 'pages#changelog'
       resources :homes, only: [] do
         resources :occupancies, only: %i[index show] do
           get :embed, on: :collection
