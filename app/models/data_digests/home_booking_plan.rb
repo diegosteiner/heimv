@@ -36,7 +36,7 @@ module DataDigests
     end
 
     def build_data_row(booking)
-      [booking.ref, booking.purpose] +
+      [booking.ref, booking.purpose.to_s] +
         occupancy_cells(booking.occupancy) + tenant_cells(booking)
     end
 
