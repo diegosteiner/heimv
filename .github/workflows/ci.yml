@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master, develop]
+    branches: [main, develop]
   pull_request:
-    branches: [master, develop]
+    branches: [main, develop]
 
 jobs:
   build:
@@ -18,6 +18,7 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
+
       - uses: actions/cache@master
         with:
           path: node_modules
@@ -25,16 +26,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-${{ env.cache-name }}-
             ${{ runner.os }}-npm-
-      - run: mkdir -p vendor/cache node_modules
-      - name: Build test container
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml build e2e_test
-        env:
-          UID: 0
-          GID: 0
+
+      - run: mkdir -p vendor/cache node_modules artifacts
+
+      # - name: Build test container
+      #   run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml build e2e_test
+      #   env:
+      #     UID: 0
+      #     GID: 0
 
       - name: Prepare Database
         if: success()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_target bin/rails db:drop db:create db:migrate
+        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate
 
       - name: Build and start e2e
         if: success()
@@ -47,29 +50,31 @@ jobs:
         if: success()
         run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/check
 
-      - name: Save logs
-        if: failure()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml logs e2e_target > tmp/e2e_target.log
+      - if: failure()
+        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml logs e2e_target > ./artifacts/e2e_target.log
+
+      - if: failure()
+        run: cp -r tmp/capybara ./artifacts/
 
       - uses: actions/upload-artifact@master
         if: failure()
         with:
-          name: tmp
-          path: tmp
+          name: artifacts
+          path: artifacts
 
-      - uses: actions-hub/docker/login@master
-        if: success()
-        env:
-          DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          DOCKER_REGISTRY_URL: docker.pkg.github.com
+      # - uses: actions-hub/docker/login@master
+      #   if: success()
+      #   env:
+      #     DOCKER_USERNAME: ${{ github.actor }}
+      #     DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      #     DOCKER_REGISTRY_URL: docker.pkg.github.com
 
-      - name: Tag image
-        if: success() && !github.base_ref
-        run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
+      # - name: Tag image
+      #   if: success() && !github.base_ref
+      #   run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
 
-      - name: Push to docker hub :latest
-        if: success() && !github.base_ref
-        uses: actions-hub/docker@master
-        with:
-          args: push docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
+      # - name: Push to docker hub :latest
+      #   if: success() && !github.base_ref
+      #   uses: actions-hub/docker@master
+      #   with:
+      #     args: push docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
