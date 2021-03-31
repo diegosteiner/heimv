@@ -2277,6 +2277,9 @@ fr:
         table:
           save: "%{model_name} speichern"
           save_and_continue: Speichern und Rechnung erstellen
+    dashboard:
+      index:
+        ics_link: comme ICAL
     invoices:
       form:
         suggested_invoice_parts: Suggested invoice parts

@@ -1260,6 +1260,9 @@ en:
         table:
           save: Save %{model_name}
           save_and_continue: Save and continue
+    dashboard:
+      index:
+        ics_link: as ICAL
     invoices:
       form:
         suggested_invoice_parts: Suggested invoice parts
