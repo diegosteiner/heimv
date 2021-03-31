@@ -1,11 +1,11 @@
 doctype html
 html[lang="#{I18n.locale}-CH"]
   head
-    title= t('titles.application', organisation: current_organisation&.name)
     meta[name='viewport' content='width=device-width, initial-scale=1.0']
     == stylesheet_pack_tag 'app'
     == csrf_meta_tags
     == csp_meta_tag
+    == display_meta_tags
     == javascript_packs_with_chunks_tag 'app', defer: true
     script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"
   body

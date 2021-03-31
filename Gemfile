@@ -26,6 +26,7 @@ gem 'icalendar'
 gem 'kramdown'
 gem 'liquid'
 gem 'memory_profiler'
+gem 'meta-tags'
 gem 'mobility'
 gem 'pg'
 gem 'pony'
@@ -56,7 +57,6 @@ end
 
 group :development, :test do
   gem 'brakeman'
-  # gem 'bullet'
   gem 'bundler-audit'
   gem 'byebug', platform: :mri
   gem 'database_cleaner'

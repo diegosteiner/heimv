@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
 
   default_form_builder BootstrapForm::FormBuilder
-  before_action :set_raven_context, :current_locale
+  before_action :set_raven_context, :current_locale, :set_default_meta_tags
   helper_method :current_organisation, :default_path
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
@@ -17,6 +17,16 @@ class ApplicationController < ActionController::Base
 
   def default_url_options
     { org: current_organisation&.slug || params[:org], locale: current_locale }.merge(super)
+  end
+
+  def set_default_meta_tags
+    set_meta_tags({
+                    site: t('titles.application', organisation: current_organisation&.name),
+                    reverse: true,
+                    separator: '&middot;'.html_safe,
+                    noindex: true,
+                    nofollow: true
+                  })
   end
 
   protected
