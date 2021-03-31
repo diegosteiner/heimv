@@ -23,7 +23,6 @@ services:
     depends_on:
       - db
       - selenium
-      - e2e_target
     networks:
       default:
       selenium:

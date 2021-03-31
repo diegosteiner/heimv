@@ -51,21 +51,21 @@ describe 'Booking', :devise, type: :feature do
       expect(page).to have_content(tarif.label)
     end
     find_all('input[type="checkbox"]:not(:checked)').each(&:check)
-    click_on :commit
+    submit_form
   end
 
   def create_contract
     visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(2) a').click
     visit new_manage_booking_contract_path(booking, org: nil)
-    click_on :commit
+    submit_form
     find('table tbody tr:nth-child(1) td:nth-child(1) a').click
   end
 
   def create_deposit
     visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(3) a').click
-    click_on :commit
+    submit_form
   end
 
   def confirm_booking
@@ -91,13 +91,13 @@ describe 'Booking', :devise, type: :feature do
     find_all('input[type="number"]').each do |usage_field|
       usage_field.fill_in with: 22
     end
-    click_on :commit
+    submit_form
   end
 
   def create_invoice
     visit manage_booking_path(booking, org: nil)
     find('.checklist li:nth-child(2) a').click
-    click_on :commit
+    submit_form
   end
 
   def finalize_booking
@@ -106,7 +106,7 @@ describe 'Booking', :devise, type: :feature do
     click_on :postpone_deadline
     visit manage_booking_invoices_path(booking, org: nil)
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
-    click_on :commit
+    submit_form
   end
 
   def check_booking
