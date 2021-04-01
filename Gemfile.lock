@@ -374,8 +374,13 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
-    sentry-raven (3.1.2)
+    sentry-ruby (4.3.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
       faraday (>= 1.0)
+      sentry-ruby-core (= 4.3.1)
+    sentry-ruby-core (4.3.1)
+      concurrent-ruby
+      faraday
     sixarm_ruby_unaccent (1.2.0)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
@@ -482,7 +487,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   selenium-webdriver
-  sentry-raven
+  sentry-ruby
   slim-rails
   statesman
   ttfunk

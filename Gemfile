@@ -79,5 +79,5 @@ group :test do
 end
 
 group :production do
-  gem 'sentry-raven'
+  gem 'sentry-ruby'
 end

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
 
   default_form_builder BootstrapForm::FormBuilder
-  before_action :set_raven_context, :current_locale, :set_default_meta_tags
+  before_action :set_sentry_context, :current_locale, :set_default_meta_tags
   helper_method :current_organisation, :default_path
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
@@ -61,11 +61,11 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError, 'Not found'
   end
 
-  def set_raven_context
-    return unless defined?(Raven)
+  def set_sentry_context
+    return unless defined?(Sentry)
 
-    Raven.user_context(id: current_user&.email)
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url, organisation: current_organisation&.name)
+    Sentry.user_context(id: current_user&.email)
+    Sentry.extra_context(params: params.to_unsafe_h, url: request.url, organisation: current_organisation&.name)
   end
 
   def not_found

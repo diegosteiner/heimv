@@ -117,7 +117,7 @@ class Notification < ApplicationRecord
                              body: markdown.to_text, html_body: markdown.to_html,
                              attachments: attachments_for_mail)
   rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
-    defined?(Raven) && Raven.capture_exception(e) || Rails.logger.warn(e.message)
+    defined?(Sentry) && Sentry.capture_exception(e) || Rails.logger.warn(e.message)
     false
   end
 end
