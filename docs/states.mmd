@@ -1,0 +1,53 @@
+stateDiagram-v2
+  active: Aktive Belegung
+  awaiting_contract: Reservation (Vertrag ausstehend)
+  awaiting_tenant: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
+  booking_agent_request: Mietanfrage (provisorisch via Vermittler)
+  cancelation_pending: Stornierung pendent
+  cancelled: Storniert
+  cancelled_request: Mietanfrage (zurückgezogen)
+  completed: Belegung (abgeschlossen)
+  declined_request: Mietanfrage (abgelehnt)
+  definitive_request: Mietanfrage (definitiv)
+  open_request: Mietanfrage (offen)
+  overdue: Reservation (Vertrag überfällig)
+  overdue_request: Mietanfrage (Antwort überfällig)
+  past: Belegung (vergangen)
+  payment_due: Belegung (Zahlung ausstehend)
+  payment_overdue: Belegung (Zahlung überfällig)
+  provisional_request: Mietanfrage (provisorisch)
+  unconfirmed_request: Mietanfrage (Email unbestätigt)
+  upcoming: Belegung (zukünftig)
+  upcoming_soon: Belegung (demnächst)
+
+
+  [*] --> unconfirmed_request
+  unconfirmed_request --> open_request: Mieter bestätigt E-Mail Adresse
+  open_request --> provisional_request
+  open_request --> definitive_request
+  open_request --> declined_request: Vermieter lehnt Anfrage ab
+  provisional_request --> overdue_request: Mieter reagiert nicht fristgerecht
+  provisional_request --> definitive_request: Mieter setzt Anfrage auf "definitiv"
+  provisional_request --> declined_request: Vermieter lehnt Anfrage ab
+  definitive_request --> awaiting_contract: Vermieter erstellt Vertrag 
+  definitive_request --> declined_request: Vermieter lehnt Anfrage ab
+  overdue_request --> cancelled_request: Mieter reagiert nicht fristgerecht
+  overdue_request --> definitive_request
+  cancelled_request --> [*]
+  awaiting_contract --> overdue: Mieter reagiert nicht fristgerecht
+  overdue --> upcoming: Mieter unterschreibt Vertrag und begleicht Anzahlung
+  overdue --> cancelation_pending: Mieter reagiert nicht fristgerecht
+  awaiting_contract --> upcoming
+  awaiting_contract --> cancelation_pending
+  upcoming --> upcoming_soon
+  upcoming --> cancelation_pending
+  upcoming_soon --> active
+  upcoming_soon --> cancelation_pending
+  active --> past
+  past --> payment_due: Vermieter erstellt Rechnung
+  payment_due --> payment_overdue: Mieter zahlt nicht fristgerecht
+  payment_due --> completed: Mieter zahlt Rechnung
+  payment_overdue --> completed: Mieter zahlt
+  completed --> [*]
+  cancelation_pending --> cancelled
+  cancelled --> [*]

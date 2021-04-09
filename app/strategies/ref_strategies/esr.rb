@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module RefStrategies
-  class ESR < RefStrategy
+  class ESR
     # ESR Modes
     # 01 = ESR in CHF
     # 04 = ESR+ in CHF

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe RefStrategies::BookingRef, type: :model do
+RSpec.describe BookingRefService, type: :model do
   subject(:ref_strategy) { described_class.new }
 
   describe '#generate' do

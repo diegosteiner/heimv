@@ -178,7 +178,7 @@ class Booking < ApplicationRecord
   end
 
   def set_ref
-    self.ref ||= RefStrategies::BookingRef.new.generate(self)
+    self.ref ||= BookingRefService.new.generate(self)
   end
 
   def set_organisation
