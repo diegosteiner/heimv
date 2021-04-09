@@ -34,6 +34,7 @@ class Contract < ApplicationRecord
   scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent, -> { where(sent_at: nil) }
   scope :ordered, -> { order(valid_from: :asc) }
+  scope :signed, -> { where.not(signed_at: nil) }
 
   before_save :oust, :generatate_pdf, :set_signed_at
   after_save do
@@ -59,17 +60,6 @@ class Contract < ApplicationRecord
 
   def filename
     "#{self.class.model_name.human}_#{Time.zone.today}_#{booking.ref}_#{id}.pdf"
-  end
-
-  scope :sent, -> { where.not(sent_at: nil) }
-  scope :signed, -> { where.not(signed_at: nil) }
-
-  def html_body
-    markdown_service.html_body(body_interpolation_arguments)
-  end
-
-  def text_body
-    markdown_service.text_body(body_interpolation_arguments)
   end
 
   def sent!
@@ -100,9 +90,5 @@ class Contract < ApplicationRecord
 
   def set_signed_at
     self.signed_at ||= Time.zone.now if signed_pdf.attached?
-  end
-
-  def markdown_service
-    @markdown_service ||= MarkdownService.new(text)
   end
 end

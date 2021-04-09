@@ -37,9 +37,7 @@ module Export
 
           def render_text_in_columns
             column_box([0, height - 30], columns: 2, width: bounds.width, height: height) do
-              Export::Pdf::Renderables::Markdown.to_prawn_text(@payment_info.body).each do |body|
-                text body.delete(:text), body.reverse_merge(inline_format: true, size: font_size)
-              end
+              markup(@payment_info.body.to_html)
             end
           end
         end
