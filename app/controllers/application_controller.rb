@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_sentry_context
-    return unless defined?(Sentry)
+    return unless defined?(Sentry) && Sentry.present?
 
     Sentry.set_user(email: current_user&.email)
     Sentry.set_extra(params: params.to_unsafe_h, url: request.url, organisation: current_organisation&.name)
