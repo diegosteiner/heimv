@@ -1,5 +1,5 @@
 ### === base === ###                 
-FROM ruby:2.7.2-alpine AS base
+FROM ruby:2.7.3-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata nodejs
 RUN mkdir -p /app && \
     mkdir -p /app/vendor && \
@@ -25,7 +25,7 @@ RUN gem install solargraph standardrb ruby-debug-ide debase
 
 ARG UID=1001
 ARG GID=1001
-RUN addgroup -S app -g $GID && \ 
+RUN addgroup -g $GID -S app && \ 
     adduser -S -u $UID -G app -D app && \
     chown -R app:app /app && \
     chown -R app:app /usr/local/bundle || true
