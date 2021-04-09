@@ -2,14 +2,14 @@
 
 module Invoices
   class Factory
-    BookingStrategy.require_markdown_template(:invoices_deposit_text, context: %i[booking invoice])
-    BookingStrategy.require_markdown_template(:invoices_invoice_text, context: %i[booking invoice])
-    BookingStrategy.require_markdown_template(:invoices_late_notice_text, context: %i[booking invoice])
+    BookingStrategy.require_rich_text_template(:invoices_deposit_text, context: %i[booking invoice])
+    BookingStrategy.require_rich_text_template(:invoices_invoice_text, context: %i[booking invoice])
+    BookingStrategy.require_rich_text_template(:invoices_late_notice_text, context: %i[booking invoice])
 
     def call(booking, params = {}, supersede_invoice_id = nil)
       invoice = ::Invoice.new(defaults(booking).merge(params))
       invoice.payable_until ||= payable_until(invoice)
-      invoice.text ||= markdown_template(invoice)
+      invoice.text ||= rich_text_template(invoice)
       invoice.invoice_parts = supersede_invoice_invoice_parts(invoice, supersede_invoice_id)
       invoice
     end
@@ -30,10 +30,10 @@ module Invoices
       }
     end
 
-    def markdown_template(invoice)
+    def rich_text_template(invoice)
       key = "#{invoice.model_name.param_key}_text"
-      markdown_template = invoice.organisation.markdown_templates.by_key(key, home_id: invoice.booking.home_id)
-      markdown_template&.interpolate('invoice' => invoice, 'booking' => invoice.booking)
+      rich_text_template = invoice.organisation.rich_text_templates.by_key(key, home_id: invoice.booking.home_id)
+      rich_text_template&.interpolate('invoice' => invoice, 'booking' => invoice.booking)
     end
 
     def payable_until(invoice)

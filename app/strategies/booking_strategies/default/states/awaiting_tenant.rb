@@ -4,8 +4,8 @@ module BookingStrategies
   class Default
     module States
       class AwaitingTenant < BookingStrategy::State
-        Default.require_markdown_template(:awaiting_tenant_notification, %i[booking])
-        Default.require_markdown_template(:booking_agent_request_accepted_notification, %i[booking])
+        Default.require_rich_text_template(:awaiting_tenant_notification, %i[booking])
+        Default.require_rich_text_template(:booking_agent_request_accepted_notification, %i[booking])
 
         def checklist
           []

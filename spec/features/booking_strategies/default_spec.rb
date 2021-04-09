@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'Booking', :devise, type: :feature do
-  let(:organisation) { create(:organisation, :with_markdown_templates) }
+  let(:organisation) { create(:organisation, :with_rich_text_templates) }
   let(:user) { create(:user, :manager, organisation: organisation) }
   let(:home) { create(:home, organisation: organisation) }
   let!(:tarifs) { create_list(:tarif, 2, home: home) }
@@ -118,7 +118,7 @@ describe 'Booking', :devise, type: :feature do
     expected_transitions = %w[unconfirmed_request open_request provisional_request definitive_request
                               awaiting_contract upcoming upcoming_soon active past payment_due completed]
     # booking.reload
-    expect(booking.notifications.map { |notification| notification.markdown_template.key })
+    expect(booking.notifications.map { |notification| notification.rich_text_template.key })
       .to contain_exactly(*expected_notifications)
     expect(booking.booking_transitions.ordered.map(&:to_state)).to contain_exactly(*expected_transitions)
   end

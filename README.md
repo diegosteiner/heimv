@@ -50,7 +50,7 @@ Create a organisation with markdown templates and a user:
 
 ```
 setup = OrganisationSetupService.create(name: <name>, email: <email>, slug: <slug>)
-setup.create_missing_markdown_templates!
+setup.create_missing_rich_text_templates!
 setup.create_user!
 ```
 

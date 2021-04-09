@@ -4,8 +4,8 @@ module BookingStrategies
   class Default
     module States
       class Cancelled < BookingStrategy::State
-        Default.require_markdown_template(:cancelled_notification, %i[booking])
-        Default.require_markdown_template(:booking_agent_cancelled_notification, %i[booking])
+        Default.require_rich_text_template(:cancelled_notification, %i[booking])
+        Default.require_rich_text_template(:booking_agent_cancelled_notification, %i[booking])
 
         def checklist
           []

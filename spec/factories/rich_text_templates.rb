@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: markdown_templates
+# Table name: rich_text_templates
 #
 #  id              :bigint           not null, primary key
 #  body_i18n       :jsonb
@@ -15,9 +15,9 @@
 #
 # Indexes
 #
-#  index_markdown_templates_on_home_id                              (home_id)
-#  index_markdown_templates_on_key_and_home_id_and_organisation_id  (key,home_id,organisation_id) UNIQUE
-#  index_markdown_templates_on_organisation_id                      (organisation_id)
+#  index_rich_text_templates_on_home_id                        (home_id)
+#  index_rich_text_templates_on_key_and_home_and_organisation  (key,home_id,organisation_id) UNIQUE
+#  index_rich_text_templates_on_organisation_id                (organisation_id)
 #
 # Foreign Keys
 #
@@ -26,7 +26,7 @@
 #
 
 FactoryBot.define do
-  factory :markdown_template do
+  factory :rich_text_template do
     organisation
     title { 'Test' }
     sequence(:key) { |i| "key-#{i}" }

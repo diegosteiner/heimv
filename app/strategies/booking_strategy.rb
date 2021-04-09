@@ -4,7 +4,7 @@ class BookingStrategy
   include TemplateRenderable
   include Translatable
 
-  delegate :markdown_templates, to: :class
+  delegate :rich_text_templates, to: :class
 
   def public_actions
     []
@@ -25,12 +25,12 @@ class BookingStrategy
   def displayed_booking_states; end
 
   class << self
-    def markdown_templates
-      @markdown_templates ||= superclass.respond_to?(:markdown_templates) && superclass.markdown_templates || {}
+    def rich_text_templates
+      @rich_text_templates ||= superclass.respond_to?(:rich_text_templates) && superclass.rich_text_templates || {}
     end
 
-    def require_markdown_template(key, context = [])
-      markdown_templates[key.to_sym] = MarkdownTemplate::Requirement.new(key, context)
+    def require_rich_text_template(key, context = [])
+      rich_text_templates[key.to_sym] = RichTextTemplate::Requirement.new(key, context)
     end
   end
 end

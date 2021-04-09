@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'Booking', :devise, type: :feature do
-  let(:organisation) { create(:organisation, :with_markdown_templates) }
+  let(:organisation) { create(:organisation, :with_rich_text_templates) }
   let(:home) { create(:home, organisation: organisation) }
   let!(:new_booking) { build(:booking, organisation: organisation, home: home, skip_infer_transition: false) }
 

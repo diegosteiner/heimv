@@ -1,0 +1,27 @@
+
+table.table.table-hover.table-card
+  thead
+    tr
+      th= RichTextTemplate.human_attribute_name(:title)
+      th= RichTextTemplate.human_attribute_name(:home)
+      th
+  tbody
+    - @rich_text_templates.includes(:home).each do |rich_text_template|
+        tr 
+          td= link_to current_organisation.booking_strategy.t(:description, scope: [:rich_text_templates, rich_text_template.key], default: rich_text_template.title), manage_rich_text_template_path(rich_text_template)
+          td
+            = link_to rich_text_template.home.name, manage_home_path(rich_text_template.home) if rich_text_template.home
+          td.p-1.text-right
+            .btn-group
+              = link_to new_manage_rich_text_template_path(dup: rich_text_template.to_param), class: 'btn btn-default'
+                span.fa.fa-clone
+              = link_to edit_manage_rich_text_template_path(rich_text_template), class: 'btn btn-default'
+                span.fa.fa-edit
+              = link_to manage_rich_text_template_path(rich_text_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
+                span.fa.fa-trash
+
+br
+= link_to new_manage_rich_text_template_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: RichTextTemplate.model_name.human)

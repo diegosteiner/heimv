@@ -4,40 +4,40 @@
 #
 # Table name: notifications
 #
-#  id                   :bigint           not null, primary key
-#  addressed_to         :integer          default("manager"), not null
-#  body                 :text
-#  cc                   :string           default([]), is an Array
-#  queued_for_delivery  :boolean          default(FALSE)
-#  sent_at              :datetime
-#  subject              :string
-#  to                   :string           default([]), is an Array
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  booking_id           :uuid
-#  markdown_template_id :bigint
+#  id                    :bigint           not null, primary key
+#  addressed_to          :integer          default("manager"), not null
+#  body                  :text
+#  cc                    :string           default([]), is an Array
+#  queued_for_delivery   :boolean          default(FALSE)
+#  sent_at               :datetime
+#  subject               :string
+#  to                    :string           default([]), is an Array
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  booking_id            :uuid
+#  rich_text_template_id :bigint
 #
 # Indexes
 #
-#  index_notifications_on_booking_id            (booking_id)
-#  index_notifications_on_markdown_template_id  (markdown_template_id)
+#  index_notifications_on_booking_id             (booking_id)
+#  index_notifications_on_rich_text_template_id  (rich_text_template_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (markdown_template_id => markdown_templates.id)
+#  fk_rails_...  (rich_text_template_id => rich_text_templates.id)
 #
 
 class Notification < ApplicationRecord
   belongs_to :booking, inverse_of: :notifications
-  belongs_to :markdown_template, optional: true
+  belongs_to :rich_text_template, optional: true
   has_many_attached :attachments
   has_one :tenant, through: :booking
   has_one :organisation, through: :booking
 
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
   validates :to, presence: true
-  validates :markdown_template, presence: true, if: :from_template?
+  validates :rich_text_template, presence: true, if: :from_template?
   attribute :from_template
   delegate :bcc, to: :organisation
   delegate :locale, to: :booking
@@ -47,7 +47,7 @@ class Notification < ApplicationRecord
 
   before_validation do
     self.to = to.presence || resolve_addressed_to
-    self.markdown_template ||= resolve_markdown_template
+    self.rich_text_template ||= resolve_rich_text_template
   end
 
   def markdown
@@ -77,10 +77,10 @@ class Notification < ApplicationRecord
     attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }.to_h
   end
 
-  def resolve_markdown_template
+  def resolve_rich_text_template
     return if from_template.blank? || organisation.blank? || booking.blank?
 
-    organisation.markdown_templates.by_key(from_template)
+    organisation.rich_text_templates.by_key(from_template)
   end
 
   def locale
@@ -89,13 +89,13 @@ class Notification < ApplicationRecord
       I18n.locale
   end
 
-  def markdown_template=(markdown_template)
+  def rich_text_template=(rich_text_template)
     super
-    return unless markdown_template.is_a?(MarkdownTemplate)
+    return unless rich_text_template.is_a?(RichTextTemplate)
 
     Mobility.with_locale(booking.locale) do
-      self.subject = markdown_template.interpolate_title(context)
-      self.markdown = markdown_template.interpolate(context)
+      self.subject = rich_text_template.interpolate_title(context)
+      self.markdown = rich_text_template.interpolate(context)
     end
   end
 

@@ -5,7 +5,7 @@ module BookingStrategies
     module Actions
       module Manage
         class EmailInvoice < BookingStrategy::Action
-          Default.require_markdown_template(:payment_due_notification, %i[booking])
+          Default.require_rich_text_template(:payment_due_notification, %i[booking])
 
           def call!(invoices = booking.invoices.unsent)
             notification = booking.notifications.new(from_template: :payment_due_notification, addressed_to: :tenant)

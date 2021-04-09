@@ -4,7 +4,7 @@ module BookingStrategies
   class Default
     module States
       class DefinitiveRequest < BookingStrategy::State
-        Default.require_markdown_template(:definitive_request_notification, %i[booking])
+        Default.require_rich_text_template(:definitive_request_notification, %i[booking])
         include Rails.application.routes.url_helpers
 
         def checklist

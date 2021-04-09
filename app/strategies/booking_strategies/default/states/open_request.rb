@@ -4,8 +4,8 @@ module BookingStrategies
   class Default
     module States
       class OpenRequest < BookingStrategy::State
-        Default.require_markdown_template(:manage_new_booking_notification, %i[booking])
-        Default.require_markdown_template(:open_request_notification, %i[booking])
+        Default.require_rich_text_template(:manage_new_booking_notification, %i[booking])
+        Default.require_rich_text_template(:open_request_notification, %i[booking])
 
         def checklist
           []

@@ -4,7 +4,7 @@ module BookingStrategies
   class Default
     module States
       class UpcomingSoon < BookingStrategy::State
-        Default.require_markdown_template(:upcoming_soon_notification, %i[booking])
+        Default.require_rich_text_template(:upcoming_soon_notification, %i[booking])
 
         def checklist
           []

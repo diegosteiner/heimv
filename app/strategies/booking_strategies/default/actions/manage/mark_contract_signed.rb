@@ -5,7 +5,7 @@ module BookingStrategies
     module Actions
       module Manage
         class MarkContractSigned < BookingStrategy::Action
-          Default.require_markdown_template(:contract_signed_notification, %i[booking])
+          Default.require_rich_text_template(:contract_signed_notification, %i[booking])
 
           def call!
             if Invoices::Deposit.of(booking).kept.unpaid.exists?

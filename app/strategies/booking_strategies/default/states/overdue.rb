@@ -4,7 +4,7 @@ module BookingStrategies
   class Default
     module States
       class Overdue < BookingStrategy::State
-        Default.require_markdown_template(:overdue_notification, %i[booking])
+        Default.require_rich_text_template(:overdue_notification, %i[booking])
 
         include Rails.application.routes.url_helpers
 

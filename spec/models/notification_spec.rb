@@ -4,28 +4,28 @@
 #
 # Table name: notifications
 #
-#  id                   :bigint           not null, primary key
-#  addressed_to         :integer          default("manager"), not null
-#  body                 :text
-#  cc                   :string           default([]), is an Array
-#  queued_for_delivery  :boolean          default(FALSE)
-#  sent_at              :datetime
-#  subject              :string
-#  to                   :string           default([]), is an Array
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  booking_id           :uuid
-#  markdown_template_id :bigint
+#  id                    :bigint           not null, primary key
+#  addressed_to          :integer          default("manager"), not null
+#  body                  :text
+#  cc                    :string           default([]), is an Array
+#  queued_for_delivery   :boolean          default(FALSE)
+#  sent_at               :datetime
+#  subject               :string
+#  to                    :string           default([]), is an Array
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  booking_id            :uuid
+#  rich_text_template_id :bigint
 #
 # Indexes
 #
-#  index_notifications_on_booking_id            (booking_id)
-#  index_notifications_on_markdown_template_id  (markdown_template_id)
+#  index_notifications_on_booking_id             (booking_id)
+#  index_notifications_on_rich_text_template_id  (rich_text_template_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (markdown_template_id => markdown_templates.id)
+#  fk_rails_...  (rich_text_template_id => rich_text_templates.id)
 #
 
 require 'rails_helper'
@@ -48,7 +48,7 @@ RSpec.describe Notification, type: :model do
   end
 
   describe 'from_template' do
-    let(:template) { create(:markdown_template, organisation: booking.organisation) }
+    let(:template) { create(:rich_text_template, organisation: booking.organisation) }
     let(:notification) { build(:notification, booking: booking) }
     let(:booking) { create(:booking, locale: I18n.locale) }
 
@@ -56,7 +56,7 @@ RSpec.describe Notification, type: :model do
       subject(:new_notification) { booking.notifications.new(from_template: template.key) }
       it do
         expect(new_notification.save).to be true
-        expect(new_notification.markdown_template).to eq(template)
+        expect(new_notification.rich_text_template).to eq(template)
         expect(new_notification.body).to eq(template.body)
         expect(new_notification.subject).to eq(template.title)
       end
@@ -65,7 +65,7 @@ RSpec.describe Notification, type: :model do
     context 'without template available' do
       it do
         new_notification = booking.notifications.new(from_template: :nonexistent)
-        expect(new_notification.markdown_template).to be(nil)
+        expect(new_notification.rich_text_template).to be(nil)
         expect(new_notification).not_to be_deliverable
       end
     end

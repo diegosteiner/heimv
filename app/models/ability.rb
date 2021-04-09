@@ -28,7 +28,7 @@ module Ability
       can :manage, Home, organisation: organisation
       can :manage, BookingPurpose, organisation: organisation
       can :manage, DataDigest, organisation: organisation
-      can :manage, MarkdownTemplate, organisation: organisation
+      can :manage, RichTextTemplate, organisation: organisation
       can :manage, Tarif, home: { organisation: organisation }
       can :manage, Tarif, booking: { organisation: organisation }
       can :manage, TarifSelector, home: { organisation: organisation }

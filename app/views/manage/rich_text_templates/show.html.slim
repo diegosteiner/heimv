@@ -1,0 +1,21 @@
+.card.breakout-sm
+  .card-body
+    = render_hash_as_dl(@rich_text_template.attributes.slice(*%w(key title)), Tenant)
+    dl
+      dt= RichTextTemplate.human_attribute_name(:body)
+      dd
+        pre[v-pre]= @rich_text_template.body
+    br
+
+
+    = link_to edit_manage_rich_text_template_path(@rich_text_template), class: 'btn btn-primary' do
+      span.fa.fa-edit
+      '
+      = t(:edit)
+    '
+    = link_to manage_rich_text_template_path(@rich_text_template), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t(:destroy)
+br
+= link_to t(:back), manage_rich_text_templates_path, class: 'btn btn-default'

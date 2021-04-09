@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: markdown_templates
+# Table name: rich_text_templates
 #
 #  id              :bigint           not null, primary key
 #  body_i18n       :jsonb
@@ -15,9 +15,9 @@
 #
 # Indexes
 #
-#  index_markdown_templates_on_home_id                              (home_id)
-#  index_markdown_templates_on_key_and_home_id_and_organisation_id  (key,home_id,organisation_id) UNIQUE
-#  index_markdown_templates_on_organisation_id                      (organisation_id)
+#  index_rich_text_templates_on_home_id                        (home_id)
+#  index_rich_text_templates_on_key_and_home_and_organisation  (key,home_id,organisation_id) UNIQUE
+#  index_rich_text_templates_on_organisation_id                (organisation_id)
 #
 # Foreign Keys
 #
@@ -25,14 +25,14 @@
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
-class MarkdownTemplate < ApplicationRecord
+class RichTextTemplate < ApplicationRecord
   Requirement = Struct.new(:key, :context)
   extend Mobility
   translates :title, :body, column_suffix: '_i18n', locale_accessors: true
 
   belongs_to :organisation
   belongs_to :home, optional: true
-  has_many :notifications, inverse_of: :markdown_template, dependent: :nullify
+  has_many :notifications, inverse_of: :rich_text_template, dependent: :nullify
 
   validates :key, uniqueness: { scope: %i[key organisation_id home_id] }
 
@@ -64,10 +64,10 @@ class MarkdownTemplate < ApplicationRecord
   end
 
   def self.replace_in_template!(search, replace)
-    MarkdownTemplate.find_each do |markdown_template|
-      markdown_template.body_i18n.transform_values! { _1.gsub(search, replace) }
-      markdown_template.title_i18n.transform_values! { _1.gsub(search, replace) }
-      markdown_template.save
+    RichTextTemplate.find_each do |rich_text_template|
+      rich_text_template.body_i18n.transform_values! { _1.gsub(search, replace) }
+      rich_text_template.title_i18n.transform_values! { _1.gsub(search, replace) }
+      rich_text_template.save
     end
   end
 end

@@ -1,7 +1,7 @@
-= form_with(model: [:manage, @markdown_template], local: true) do |f|
+= form_with(model: [:manage, @rich_text_template], local: true) do |f|
 
   fieldset
-    = f.text_field :key, disabled: !@markdown_template.new_record?
+    = f.text_field :key, disabled: !@rich_text_template.new_record?
     = f.collection_select :home_id, current_organisation.homes, :id, :name, { include_blank: true }
 
     ul.nav.nav-tabs role="tablist"
@@ -16,9 +16,9 @@
       - I18n.available_locales.each do |locale|
         - current_locale = locale == I18n.locale
         .tab-pane.pt-3[id="title-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="title-#{locale}-tab" role='tabpanel']
-          = f.text_field "title_#{locale.to_s}", label: MarkdownTemplate.human_attribute_name(:title)
-          div[v-pre]= f.text_area "body_#{locale.to_s}", label: MarkdownTemplate.human_attribute_name(:body), rows: 15
+          = f.text_field "title_#{locale.to_s}", label: RichTextTemplate.human_attribute_name(:title)
+          div[v-pre]= f.text_area "body_#{locale.to_s}", label: RichTextTemplate.human_attribute_name(:body), rows: 15
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit
-    = link_to t(:back), manage_markdown_templates_path, class: 'btn btn-default'
+    = link_to t(:back), manage_rich_text_templates_path, class: 'btn btn-default'

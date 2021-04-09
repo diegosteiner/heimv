@@ -5,9 +5,9 @@ require 'rails_helper'
 RSpec.describe PaymentConfirmation, type: :model do
   let(:booking) { create(:booking, notifications_enabled: true) }
   let!(:template) do
-    create(:markdown_template, key: 'payment_confirmation_notification',
-                               organisation: booking.organisation,
-                               body: '{{ payment.amount }}')
+    create(:rich_text_template, key: 'payment_confirmation_notification',
+                                organisation: booking.organisation,
+                                body: '{{ payment.amount }}')
   end
   let(:payment) { create(:payment, booking: booking) }
   subject(:confirmation) { described_class.new(payment) }

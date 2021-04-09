@@ -5,7 +5,7 @@ module BookingStrategies
     module Actions
       module Manage
         class EmailContractAndDeposit < BookingStrategy::Action
-          Default.require_markdown_template(:awaiting_contract_notification, %i[booking])
+          Default.require_rich_text_template(:awaiting_contract_notification, %i[booking])
 
           def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).kept.unpaid.unsent)
             notification = booking.notifications.new(from_template: :awaiting_contract_notification,

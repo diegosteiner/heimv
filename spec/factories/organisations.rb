@@ -49,10 +49,10 @@ FactoryBot.define do
     slug { nil }
     location { nil }
 
-    trait :with_markdown_templates do
+    trait :with_rich_text_templates do
       after(:create) do |organisation|
         onboarding = OrganisationSetupService.new(organisation)
-        onboarding.create_missing_markdown_templates!
+        onboarding.create_missing_rich_text_templates!
       end
     end
   end

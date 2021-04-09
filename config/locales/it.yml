@@ -135,13 +135,6 @@ it:
         breakdown: Text
         label: Text
         type: Positionsart
-      markdown_template:
-        body: Text
-        home_id: Heim
-        key: ID
-        locale: Sprache
-        namespace: Bereich
-        title: Titel
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -194,6 +187,13 @@ it:
         paid_at: Bezahlt am
         remarks: Bemerkungen
         write_off: Abschreibung
+      rich_text_template:
+        body: Text
+        home_id: Heim
+        key: ID
+        locale: Sprache
+        namespace: Bereich
+        title: Titel
       tarif:
         invoice_type: Rechnungstyp
         label: Tarif
@@ -258,17 +258,17 @@ it:
           next_year: Nächstes Jahr
           this_year: Dieses Jahr
           until_now: Bis heute
-      markdown_template:
-        namespace:
-          contract: Vertrag
-          invoice: Rechnung
-          notification: Benachrichtigung
       occupancy:
         occupancy_type:
           closed: Geschlossen
           free: Frei
           occupied: definitiv Besetzt
           tentative: provisorisch Besetzt
+      rich_text_template:
+        namespace:
+          contract: Vertrag
+          invoice: Rechnung
+          notification: Benachrichtigung
       tarif:
         prefill_usage_methods:
           flat: Fix
@@ -367,9 +367,6 @@ it:
       invoices/late_notice:
         one: Mahnung
         other: Mahnungen
-      markdown_template:
-        one: Textvorlage
-        other: Textvorlagen
       meter_reading_period:
         one: Zählerstand
         other: Zählerstände
@@ -388,6 +385,9 @@ it:
       payment:
         one: Zahlung
         other: Zahlungen
+      rich_text_template:
+        one: Textvorlage
+        other: Textvorlagen
       tarif:
         one: Tarif
         other: Tarife
@@ -444,7 +444,7 @@ it:
           commit_booking_agent_request: Anfrage definitv setzen
           commit_request: Anfrage definitv setzen
           postpone_deadline: Frist verlängern
-      markdown_templates:
+      rich_text_templates:
         awaiting_contract_notification:
           default_body: |-
             {{ booking.tenant.salutation_name }}

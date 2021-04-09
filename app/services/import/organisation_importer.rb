@@ -11,18 +11,18 @@ module Import
 
     def to_h
       organisation.attributes.slice(*relevant_attributes)
-                  .merge(markdown_templates: MarkdownTemplateImporter.new(organisation).export)
+                  .merge(rich_text_templates: RichTextTemplateImporter.new(organisation).export)
                   .merge(homes: HomeImporter.new(organisation).export)
                   .merge(purpose: BookingPurposeImporter.new(organisation).export)
     end
 
     def from_h(hash)
       organisation.update(hash.slice(*relevant_attributes)) if options[:replace].present?
-      organisation if organisation.valid? && from_h_markdown_templates(hash) && from_h_homes(hash)
+      organisation if organisation.valid? && from_h_rich_text_templates(hash) && from_h_homes(hash)
     end
 
-    def from_h_markdown_templates(serialized)
-      MarkdownTemplateImporter.new(organisation, **options).import(serialized['markdown_templates'])
+    def from_h_rich_text_templates(serialized)
+      RichTextTemplateImporter.new(organisation, **options).import(serialized['rich_text_templates'])
     end
 
     def from_h_homes(serialized)

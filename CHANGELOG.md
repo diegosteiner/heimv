@@ -3,6 +3,7 @@
 #### Unreleased
 
 - Use correct address when creating contracts 
+- Change internal rich text handling
 
 #### Version 21.3.1
 Released on 2021-03-13
@@ -66,7 +67,7 @@ Released on 2020-11-29
 #### Version 20.10.2
 Released on 2020-10-11
 
-- Improve MarkdownTemplate overview
+- Improve RichTextTemplate overview
 - Allow managers to change tenant on booking
 - Remove automatic decline when awaiting_tenant
 

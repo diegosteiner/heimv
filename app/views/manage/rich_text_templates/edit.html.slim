@@ -1,0 +1,6 @@
+.row.justify-content-center
+  .col-md-8
+    h3.mb-4= current_organisation.booking_strategy.t(:description, scope: [:rich_text_templates, @rich_text_template.key], default: @rich_text_template.title)
+    .card
+      .card-body
+        == render 'form'
