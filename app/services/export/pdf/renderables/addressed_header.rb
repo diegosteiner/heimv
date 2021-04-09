@@ -8,7 +8,7 @@ module Export
 
         delegate :organisation, to: :booking
 
-        def initialize(booking, use_invoice_address: true)
+        def initialize(booking, use_invoice_address: false)
           super()
           @booking = booking
           @use_invoice_address = use_invoice_address

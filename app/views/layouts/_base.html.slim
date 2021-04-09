@@ -20,6 +20,6 @@ html[lang="#{I18n.locale}-CH"]
       footer.py-2
         .small.text-center
           = link_to Rails.configuration.version, changelog_path
-          span.text-danger.ml-1
+          span.text-danger<>
             | Beta
           span.ml-2= current_organisation&.name
