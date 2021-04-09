@@ -64,6 +64,7 @@ Rails.application.routes.draw do
       resources :bookings, only: %i[new create edit update], as: :public_bookings
       get 'b/:id(/edit)', to: 'bookings#edit'
       get 'usage', to: 'pages#usage'
+      get 'flow', to: 'pages#flow'
       get 'changelog', to: 'pages#changelog'
       resources :homes, only: [] do
         resources :occupancies, only: %i[index show] do

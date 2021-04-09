@@ -208,6 +208,9 @@ GEM
     icalendar (2.7.1)
       ice_cube (~> 0.16)
     ice_cube (0.16.3)
+    inline_svg (1.7.2)
+      activesupport (>= 3.0)
+      nokogiri (>= 1.6)
     interception (0.5)
     jmespath (1.4.0)
     kramdown (2.3.1)
@@ -464,6 +467,7 @@ DEPENDENCIES
   i18n-tasks
   i18n-tasks-csv
   icalendar
+  inline_svg
   kramdown
   liquid
   listen (~> 3.0.5)

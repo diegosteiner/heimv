@@ -23,6 +23,7 @@ gem 'discard'
 gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'icalendar'
+gem 'inline_svg'
 gem 'kramdown'
 gem 'liquid'
 gem 'memory_profiler'
