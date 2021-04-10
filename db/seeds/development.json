@@ -12,7 +12,7 @@
   "notification_footer": "Verein Pfadiheime \r\nHeimverwaltung  \r\n\r\n[www.heimv.ch](//www.heimv.ch)  \r\n",
   "notifications_enabled": true,
   "slug": null,
-  "markdown_templates": {
+  "rich_text_templates": {
     "1": {
       "key": "awaiting_tenant_notification",
       "title_i18n": {
