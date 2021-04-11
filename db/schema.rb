@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 2021_04_10_213507) do
     t.datetime "updated_at", null: false
     t.text "remarks"
     t.index ["booking_id"], name: "index_deadlines_on_booking_id"
-    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
+    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible_type_and_responsible_id"
   end
 
   create_table "homes", force: :cascade do |t|

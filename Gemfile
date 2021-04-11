@@ -81,6 +81,6 @@ group :test do
 end
 
 group :production do
-  gem 'sentry-ruby'
   gem 'sentry-rails'
+  gem 'sentry-ruby'
 end
