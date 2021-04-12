@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PaymentConfirmation
-  BookingStrategy.require_rich_text_template(:payment_confirmation_notification, context: %i[booking payment])
+  BookingFlow.require_rich_text_template(:payment_confirmation_notification, context: %i[booking payment])
 
   attr_reader :payment
 

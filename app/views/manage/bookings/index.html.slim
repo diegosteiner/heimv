@@ -17,7 +17,7 @@ nav.navbar.flex-row-reverse
 - @grouped_bookings.each do |state, bookings|
   - next unless bookings.any?
   section.mt-4
-    - title, help_text = current_organisation.booking_strategy.t(state, scope: :states).slice(:label, :help).values
+    - title, help_text = t(state, scope: %i[booking_states]).slice(:label, :help).values
     h3.mt-5= title
     == render partial: 'table', locals: { bookings: bookings }
 

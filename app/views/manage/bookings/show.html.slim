@@ -81,7 +81,7 @@ section.mt-4.breakout-sm
 
 
           = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
-            - actions = current_organisation.booking_strategy.manage_actions.values
+            - actions = current_organisation.booking_flow.manage_actions.values
             = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }
             '
             .dropdown.d-inline
@@ -90,7 +90,7 @@ section.mt-4.breakout-sm
               .dropdown-menu aria-labelledby="dropdownMenuButton"
                 - @booking.state_machine.allowed_transitions.each do |state|
                   = f.button name: :'booking[transition_to]', value: state, class: 'dropdown-item'
-                    = @booking.booking_strategy.t(:label, scope: [:states, state])
+                    = t(:label, scope: [:booking_states, state])
 
 
             = link_to edit_manage_booking_path(@booking), class: 'btn btn-default'
@@ -101,7 +101,7 @@ section.mt-4.breakout-sm
         - @booking.booking_transitions.order(created_at: :desc).each do |transition|
           li.list-group-item
             span.badge.badge-primary
-              = current_organisation.booking_strategy.t(transition.to_state, scope: :states, default: {})[:label]
+              = t(:label, scope: [:booking_states, transition.to_state])
             br
             small
               = time_tag transition.created_at

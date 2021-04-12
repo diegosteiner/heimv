@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-describe BookingStrategies::Default::StateMachine do
+describe BookingFlows::Default::StateMachine do
   let(:booking) { create(:booking, skip_infer_transition: true) }
   subject(:state_machine) { described_class.new(booking) }
 

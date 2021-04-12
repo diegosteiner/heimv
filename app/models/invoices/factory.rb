@@ -2,9 +2,9 @@
 
 module Invoices
   class Factory
-    BookingStrategy.require_rich_text_template(:invoices_deposit_text, context: %i[booking invoice])
-    BookingStrategy.require_rich_text_template(:invoices_invoice_text, context: %i[booking invoice])
-    BookingStrategy.require_rich_text_template(:invoices_late_notice_text, context: %i[booking invoice])
+    BookingFlow.require_rich_text_template(:invoices_deposit_text, context: %i[booking invoice])
+    BookingFlow.require_rich_text_template(:invoices_invoice_text, context: %i[booking invoice])
+    BookingFlow.require_rich_text_template(:invoices_late_notice_text, context: %i[booking invoice])
 
     def call(booking, params = {}, supersede_invoice_id = nil)
       invoice = ::Invoice.new(defaults(booking).merge(params))

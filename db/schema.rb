@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_10_213507) do
+ActiveRecord::Schema.define(version: 2021_04_12_134351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 2021_04_10_213507) do
     t.bigint "deadline_id"
     t.string "locale"
     t.integer "purpose_id"
+    t.string "booking_flow_type"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["locale"], name: "index_bookings_on_locale"
@@ -172,7 +173,7 @@ ActiveRecord::Schema.define(version: 2021_04_10_213507) do
     t.datetime "updated_at", null: false
     t.text "remarks"
     t.index ["booking_id"], name: "index_deadlines_on_booking_id"
-    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible_type_and_responsible_id"
+    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
   end
 
   create_table "homes", force: :cascade do |t|
@@ -282,7 +283,7 @@ ActiveRecord::Schema.define(version: 2021_04_10_213507) do
   create_table "organisations", force: :cascade do |t|
     t.string "name"
     t.text "address"
-    t.string "booking_strategy_type"
+    t.string "booking_flow_type"
     t.string "invoice_ref_strategy_type"
     t.string "esr_beneficiary_account"
     t.text "notification_footer"

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe BookingStrategies::Default::Actions::Public::PostponeDeadline do
+describe BookingActions::Public::PostponeDeadline do
   let(:booking) { create(:booking, initial_state: initial_state) }
   let(:deadline) { create(:deadline, booking: booking, at: 2.days.from_now, postponable_for: 1.day) }
   let(:initial_state) { :provisional_request }
@@ -18,7 +18,7 @@ describe BookingStrategies::Default::Actions::Public::PostponeDeadline do
   context 'when deadline is not postponable' do
     let!(:deadline) { create(:deadline, booking: booking, postponable_for: nil) }
 
-    it { expect { action }.to raise_error(BookingStrategy::Action::NotAllowed) }
+    it { expect { action }.to raise_error(BookingAction::NotAllowed) }
   end
 
   context 'with provisional_request' do
@@ -28,7 +28,7 @@ describe BookingStrategies::Default::Actions::Public::PostponeDeadline do
       let(:occupancy) { build(:occupancy, begins_at: 3.days.from_now, ends_at: 4.days.from_now) }
       let(:booking) { create(:booking, initial_state: initial_state, occupancy: occupancy) }
 
-      it { expect { action }.to raise_error(BookingStrategy::Action::NotAllowed) }
+      it { expect { action }.to raise_error(BookingAction::NotAllowed) }
     end
   end
 

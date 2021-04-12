@@ -6,6 +6,7 @@
 #
 #  id                    :uuid             not null, primary key
 #  approximate_headcount :integer
+#  booking_flow_type     :string
 #  cancellation_reason   :text
 #  committed_request     :boolean
 #  concluded             :boolean          default(FALSE)

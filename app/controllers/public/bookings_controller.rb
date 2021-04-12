@@ -43,12 +43,12 @@ module Public
 
     def call_booking_action
       booking_action&.call(booking: @booking)
-    rescue BookingStrategy::Action::NotAllowed
+    rescue BookingAction::NotAllowed
       @booking.errors.add(:base, :action_not_allowed)
     end
 
     def booking_action
-      current_organisation.booking_strategy.public_actions[params[:booking_action]]
+      current_organisation.booking_flow.public_actions[params[:booking_action]]
     end
 
     def create_params

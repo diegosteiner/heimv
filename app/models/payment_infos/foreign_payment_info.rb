@@ -2,7 +2,7 @@
 
 module PaymentInfos
   class ForeignPaymentInfo < TextPaymentInfo
-    BookingStrategy.require_rich_text_template(:foreign_payment_info_text, context: %i[payment_info])
+    BookingFlow.require_rich_text_template(:foreign_payment_info_text, context: %i[payment_info])
 
     protected
 

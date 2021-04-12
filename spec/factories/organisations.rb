@@ -7,7 +7,7 @@
 #  id                        :bigint           not null, primary key
 #  address                   :text
 #  bcc                       :string
-#  booking_strategy_type     :string
+#  booking_flow_type         :string
 #  currency                  :string           default("CHF")
 #  default_payment_info_type :string
 #  email                     :string
@@ -41,7 +41,7 @@ FactoryBot.define do
   factory :organisation do
     name { 'Heimverein St. Georg' }
     address { 'MyText' }
-    booking_strategy_type { BookingStrategies::Default.to_s }
+    booking_flow_type { BookingFlows::Default.to_s }
     invoice_ref_strategy_type { RefStrategies::ESR.to_s }
     email { 'test@test.test' }
     esr_beneficiary_account { 'MyString' }

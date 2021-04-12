@@ -50,7 +50,7 @@
               span.fa.fa-calendar-check-o
             .dropdown-menu.dropdown-menu-right
               = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-                - current_organisation.booking_strategy.manage_actions.values.each do |action_klass|
+                - current_organisation.booking_flow.manage_actions.values.each do |action_klass|
                   - action = action_klass.new(booking: booking)
                   - next unless action.allowed?
 

@@ -24,7 +24,7 @@
 #
 
 class Contract < ApplicationRecord
-  BookingStrategy.require_rich_text_template(:contract_text, context: %i[booking])
+  BookingFlow.require_rich_text_template(:contract_text, context: %i[booking])
 
   belongs_to :booking, inverse_of: :contracts, touch: true
   has_one_attached :pdf

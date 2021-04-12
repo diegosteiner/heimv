@@ -37,7 +37,7 @@ module Public
     private
 
     def public_actions
-      current_organisation.booking_strategy.public_actions
+      current_organisation.booking_flow.public_actions
     end
 
     def booking_action

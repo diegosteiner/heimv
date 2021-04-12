@@ -27,6 +27,7 @@
 
 class BookingTransition < ApplicationRecord
   # include Statesman::Adapters::ActiveRecordTransition
+  include Translatable
   class_attribute :updated_timestamp_column
   self.updated_timestamp_column = :updated_at
 

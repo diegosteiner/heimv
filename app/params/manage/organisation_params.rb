@@ -10,7 +10,7 @@ module Manage
     end
 
     def self.admin_permitted_keys
-      permitted_keys + %i[booking_strategy_type smtp_settings_json slug]
+      permitted_keys + %i[booking_flow_type smtp_settings_json slug]
     end
   end
 end

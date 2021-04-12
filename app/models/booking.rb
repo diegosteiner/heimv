@@ -6,6 +6,7 @@
 #
 #  id                    :uuid             not null, primary key
 #  approximate_headcount :integer
+#  booking_flow_type     :string
 #  cancellation_reason   :text
 #  committed_request     :boolean
 #  concluded             :boolean          default(FALSE)
@@ -49,7 +50,7 @@
 #
 
 class Booking < ApplicationRecord
-  include BookingState
+  include BookingStateConcern
 
   DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :purpose, { tenant: :organisation, deadline: :booking, occupancy: :home,

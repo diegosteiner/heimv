@@ -7,7 +7,7 @@
 #  id                        :bigint           not null, primary key
 #  address                   :text
 #  bcc                       :string
-#  booking_strategy_type     :string
+#  booking_flow_type         :string
 #  currency                  :string           default("CHF")
 #  default_payment_info_type :string
 #  email                     :string
