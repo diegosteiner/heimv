@@ -32,7 +32,6 @@
 
   fieldset
     h3.mt-4= Booking.model_name.human(count: 2)
-    = f.select :booking_flow_type, [BookingFlows::Default] if current_user.role_admin?
     = link_to BookingPurpose.model_name.human(count: 2), manage_booking_purposes_path
 
   fieldset
