@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class Past < BookingState
+  class Past < Base
     include Rails.application.routes.url_helpers
 
     def checklist
@@ -12,10 +12,6 @@ module BookingStates
 
     def self.to_sym
       :past
-    end
-
-    def self.successors
-      %i[completed payment_due]
     end
 
     infer_transition(to: :payment_due) do |booking|

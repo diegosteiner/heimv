@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class Cancelled < BookingState
+  class Cancelled < Base
     RichTextTemplate.require_template(:cancelled_notification, %i[booking])
     RichTextTemplate.require_template(:booking_agent_cancelled_notification, %i[booking])
 

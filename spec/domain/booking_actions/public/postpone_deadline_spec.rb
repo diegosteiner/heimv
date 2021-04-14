@@ -6,19 +6,19 @@ describe BookingActions::Public::PostponeDeadline do
   let(:booking) { create(:booking, initial_state: initial_state) }
   let(:deadline) { create(:deadline, booking: booking, at: 2.days.from_now, postponable_for: 1.day) }
   let(:initial_state) { :provisional_request }
-  let(:state_machine) { double }
+  let(:booking_flow) { double }
   subject(:action) { described_class.call(booking: booking) }
 
   before do
     allow(booking).to receive(:deadline).and_return(deadline)
-    allow(booking).to receive(:state_machine).and_return(state_machine)
-    allow(state_machine).to receive(:current_state).and_return(initial_state)
+    allow(booking).to receive(:booking_flow).and_return(booking_flow)
+    allow(booking_flow).to receive(:booking_state).and_return(initial_state)
   end
 
   context 'when deadline is not postponable' do
     let!(:deadline) { create(:deadline, booking: booking, postponable_for: nil) }
 
-    it { expect { action }.to raise_error(BookingAction::NotAllowed) }
+    it { expect { action }.to raise_error(BookingActions::Base::NotAllowed) }
   end
 
   context 'with provisional_request' do
@@ -28,7 +28,7 @@ describe BookingActions::Public::PostponeDeadline do
       let(:occupancy) { build(:occupancy, begins_at: 3.days.from_now, ends_at: 4.days.from_now) }
       let(:booking) { create(:booking, initial_state: initial_state, occupancy: occupancy) }
 
-      it { expect { action }.to raise_error(BookingAction::NotAllowed) }
+      it { expect { action }.to raise_error(BookingActions::Base::NotAllowed) }
     end
   end
 

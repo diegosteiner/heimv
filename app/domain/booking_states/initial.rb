@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class Initial < BookingState
+  class Initial < Base
     def self.to_sym
       :initial
     end
@@ -11,8 +11,8 @@ module BookingStates
       booking.email.present? && !booking.agent_booking?
     end
 
-    def self.successors
-      %i[unconfirmed_request provisional_request definitive_request open_request upcoming]
+    def self.hidden
+      true
     end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class Overdue < BookingState
+  class Overdue < Base
     RichTextTemplate.require_template(:overdue_notification, %i[booking])
 
     include Rails.application.routes.url_helpers
@@ -14,10 +14,6 @@ module BookingStates
 
     def self.to_sym
       :overdue
-    end
-
-    def self.successors
-      %i[cancelation_pending upcoming]
     end
 
     after_transition do |booking|

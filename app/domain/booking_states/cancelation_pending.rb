@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class CancelationPending < BookingState
+  class CancelationPending < Base
     def checklist
       []
     end

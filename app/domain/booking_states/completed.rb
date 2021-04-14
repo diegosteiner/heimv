@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class Completed < BookingState
+  class Completed < Base
     def checklist
       []
     end
 
     def self.to_sym
       :completed
+    end
+
+    def self.hidden
+      true
     end
 
     guard_transition do |booking|

@@ -40,17 +40,18 @@
 
         .col-md-3.py-3
           p.mb-1
-            / booking-relevant-time[relevant_time=booking.current_state.relevant_time&.iso8601 booking_state=booking.state]
-            = l(booking.current_state.relevant_time) if booking.current_state.relevant_time.present? 
+            - if booking.booking_state.relevant_time.present? 
+              i.fa.fa-clock-o 
+              =<> booking.booking_state.t(:relevant_time, time: l(booking.booking_state.relevant_time))
           = render partial: 'manage/bookings/checklist', locals: { booking: booking }
 
         .col-md-1
           .dropdown.d-block.w-100.h-100
             button.btn.btn-default.w-100.h-100[data-toggle="dropdown" type="button"]
-              span.fa.fa-calendar-check-o
+              i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
               = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-                - current_organisation.booking_flow.manage_actions.values.each do |action_klass|
+                - BookingActions::Manage.all.values.each do |action_klass|
                   - action = action_klass.new(booking: booking)
                   - next unless action.allowed?
 

@@ -75,8 +75,7 @@ FactoryBot.define do
     after(:create) do |booking, evaluator|
       next if evaluator.initial_state.blank?
 
-      booking.class.transition_class.create(booking: booking, to_state: evaluator.initial_state,
-                                            sort_key: 1, most_recent: true)
+      BookingTransition.create(booking: booking, to_state: evaluator.initial_state, sort_key: 1, most_recent: true)
     end
   end
 end

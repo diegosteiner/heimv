@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class PaymentOverdue < BookingState
+  class PaymentOverdue < Base
     RichTextTemplate.require_template(:payment_overdue_notification, %i[booking])
 
     include Rails.application.routes.url_helpers
@@ -15,10 +15,6 @@ module BookingStates
         ChecklistItem.new(:invoice_paid, booking.invoices.kept.all?(&:paid),
                           manage_booking_invoices_path(booking, org: booking.organisation.slug))
       ]
-    end
-
-    def self.successors
-      %i[completed]
     end
 
     after_transition do |booking|

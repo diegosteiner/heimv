@@ -70,7 +70,7 @@ section.mt-4.breakout-sm
           .row.mb-3
             .col
               strong= Booking.human_attribute_name(:state)
-              p= @booking.current_state.translated
+              p= @booking.booking_state.translated
               br
               = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
             .col 
@@ -81,14 +81,14 @@ section.mt-4.breakout-sm
 
 
           = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
-            - actions = current_organisation.booking_flow.manage_actions.values
+            - actions = BookingActions::Manage.all.values
             = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }
             '
             .dropdown.d-inline
               button.btn.btn-outline-primary.dropdown-toggle[type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value='allowed_transitions']
                 = Booking.human_attribute_name(:transition_to)
               .dropdown-menu aria-labelledby="dropdownMenuButton"
-                - @booking.state_machine.allowed_transitions.each do |state|
+                - @booking.booking_flow.allowed_transitions.each do |state|
                   = f.button name: :'booking[transition_to]', value: state, class: 'dropdown-item'
                     = t(:label, scope: [:booking_states, state])
 

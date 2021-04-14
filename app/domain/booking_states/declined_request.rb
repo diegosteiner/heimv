@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class DeclinedRequest < BookingState
+  class DeclinedRequest < Base
     RichTextTemplate.require_template(:declined_request_notification, %i[booking])
 
     def checklist

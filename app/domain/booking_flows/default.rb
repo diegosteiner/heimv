@@ -1,45 +1,37 @@
 # frozen_string_literal: true
 
 module BookingFlows
-  class Default < BookingFlow
-    def public_actions
-      actions = [
-        BookingActions::Public::CommitRequest,
-        BookingActions::Public::CommitBookingAgentRequest,
-        BookingActions::Public::PostponeDeadline,
-        BookingActions::Public::Cancel
-      ]
-      @public_actions ||= actions.index_by(&:action_name)
-    end
+  class Default < Base
+    state BookingStates::Initial, to: %i[unconfirmed_request provisional_request
+                                         definitive_request open_request upcoming], initial: true
+    state BookingStates::UnconfirmedRequest, to: %i[cancelled_request declined_request open_request]
+    state BookingStates::OpenRequest, to: %i[cancelled_request declined_request provisional_request
+                                             definitive_request booking_agent_request]
+    state BookingStates::BookingAgentRequest, to: %i[cancelled_request declined_request
+                                                     awaiting_tenant overdue_request]
+    state BookingStates::ProvisionalRequest, to: %i[definitive_request overdue_request
+                                                    cancelled_request declined_request]
+    state BookingStates::OverdueRequest, to: %i[cancelled_request declined_request
+                                                definitive_request awaiting_tenant]
+    state BookingStates::DefinitiveRequest, to: %i[cancelation_pending awaiting_contract]
 
-    def manage_actions
-      actions = [
-        BookingActions::Manage::Accept, BookingActions::Manage::EmailContractAndDeposit,
-        BookingActions::Manage::EmailInvoice, BookingActions::Public::PostponeDeadline,
-        BookingActions::Manage::MarkContractSigned, BookingActions::Public::CommitRequest,
-        BookingActions::Public::CommitBookingAgentRequest, BookingActions::Manage::Cancel
-      ]
-      @manage_actions ||= actions.index_by(&:action_name)
-    end
+    state BookingStates::AwaitingTenant, to: %i[definitive_request overdue_request cancelled_request
+                                                declined_request overdue_request]
+    state BookingStates::AwaitingContract, to: %i[cancelation_pending upcoming overdue]
+    state BookingStates::Overdue, to: %i[cancelation_pending upcoming]
 
-    def displayed_booking_states
-      %i[unconfirmed_request open_request booking_agent_request awaiting_tenant overdue_request provisional_request
-         definitive_request overdue awaiting_contract upcoming_soon active past payment_due payment_overdue
-         cancelation_pending upcoming]
-    end
+    state BookingStates::Upcoming, to: %i[cancelation_pending upcoming_soon]
+    state BookingStates::UpcomingSoon, to: %i[cancelation_pending active]
+    state BookingStates::Active, to: :past
+    state BookingStates::Past, to: %i[completed payment_due]
 
-    def manually_created_bookings_transition_to
-      :open_request
-    end
+    state BookingStates::PaymentDue, to: %i[payment_overdue completed]
+    state BookingStates::PaymentOverdue, to: %i[completed]
 
-    class StateMachine < BookingStateMachine
-      mount BookingStates::UnconfirmedRequest, BookingStates::OpenRequest, BookingStates::ProvisionalRequest,
-            BookingStates::DefinitiveRequest, BookingStates::BookingAgentRequest, BookingStates::AwaitingTenant,
-            BookingStates::AwaitingContract, BookingStates::Overdue, BookingStates::Upcoming,
-            BookingStates::UpcomingSoon, BookingStates::Active, BookingStates::Past, BookingStates::PaymentDue,
-            BookingStates::CancelationPending, BookingStates::Completed, BookingStates::CancelledRequest,
-            BookingStates::DeclinedRequest, BookingStates::Cancelled, BookingStates::OverdueRequest,
-            BookingStates::PaymentOverdue, initial: BookingStates::Initial
-    end
+    state BookingStates::Completed
+    state BookingStates::CancelledRequest
+    state BookingStates::DeclinedRequest
+    state BookingStates::CancelationPending, to: %i[cancelled]
+    state BookingStates::Cancelled
   end
 end

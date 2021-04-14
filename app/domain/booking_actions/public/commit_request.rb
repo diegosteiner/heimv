@@ -2,14 +2,14 @@
 
 module BookingActions
   module Public
-    class CommitRequest < BookingAction
+    class CommitRequest < BookingActions::Base
       def call!
         booking.update(committed_request: true)
       end
 
       def allowed?
         booking.valid?(context: :public_update) &&
-          booking.state_machine.in_state?(:provisional_request) &&
+          booking.booking_flow.in_state?(:provisional_request) &&
           !booking.committed_request
       end
 

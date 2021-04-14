@@ -1,17 +1,13 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class Active < BookingState
+  class Active < Base
     def checklist
       []
     end
 
     def self.to_sym
       :active
-    end
-
-    def self.successors
-      %i[past]
     end
 
     after_transition do |booking|

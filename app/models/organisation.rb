@@ -56,8 +56,8 @@ class Organisation < ApplicationRecord
   validates :name, :email, presence: true
   validates :slug, uniqueness: true, allow_nil: true
 
-  def booking_flow
-    @booking_flow ||= BookingFlows.const_get(booking_flow_type).new
+  def booking_flow_class
+    @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)
   end
 
   def invoice_ref_strategy

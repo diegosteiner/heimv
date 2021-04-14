@@ -2,7 +2,7 @@
 
 module BookingActions
   module Public
-    class PostponeDeadline < BookingAction
+    class PostponeDeadline < BookingActions::Base
       def call!
         return booking.deadline.postpone if allowed?
 

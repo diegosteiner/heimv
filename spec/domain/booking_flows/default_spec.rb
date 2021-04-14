@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-describe BookingFlows::Default::StateMachine do
+describe BookingFlows::Default do
   let(:booking) { create(:booking, skip_infer_transition: true) }
-  subject(:state_machine) { described_class.new(booking) }
+  subject(:booking_flow) { described_class.new(booking) }
 
   describe 'allowed transitions' do
     describe 'initial-->' do
@@ -97,8 +97,8 @@ describe BookingFlows::Default::StateMachine do
     #   it 'sets occupancy to blocking for all blocking states' do
     #     states.each do |initial_state, state|
     #       booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
-    #       state_machine = described_class.new(booking)
-    #       expect(state_machine.transition.from().to(state)).to be true
+    #       booking_flow = described_class.new(booking)
+    #       expect(booking_flow.transition.from().to(state)).to be true
     #       expect(booking.occupancy.occ).to be true
     #     end
     #   end
@@ -110,8 +110,8 @@ describe BookingFlows::Default::StateMachine do
     #     it 'sets occupancy to not blocking for all non-blocking states' do
     #       states.each do |initial_state, state|
     #         booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
-    #         state_machine = described_class.new(booking)
-    #         expect(state_machine.transition.from().to(state)).to be true
+    #         booking_flow = described_class.new(booking)
+    #         expect(booking_flow.transition.from().to(state)).to be true
     #         expect(booking.occupancy.blocking).to be false
     #       end
     #     end

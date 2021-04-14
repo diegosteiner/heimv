@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class UnconfirmedRequest < BookingState
+  class UnconfirmedRequest < Base
     RichTextTemplate.require_template(:unconfirmed_request_notification, %i[booking])
 
     def checklist
@@ -10,10 +10,6 @@ module BookingStates
 
     def self.to_sym
       :unconfirmed_request
-    end
-
-    def self.successors
-      %i[cancelled_request declined_request open_request]
     end
 
     # infer_transition(to: :declined_request, &:deadline_exceeded?)

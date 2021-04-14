@@ -892,22 +892,22 @@ en:
     active:
       help: Help
       label: Aktive Belegung
-      relevant_time_label: Ende der Belegung
+      relevant_time: Ende der Belegung %{time}
     awaiting_contract:
       checklist:
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
       help: Help
       label: Bestätigte Reservation
-      relevant_time_label: Eingereicht
+      relevant_time: Eingereicht %{time}
     awaiting_tenant:
       help: Help
       label: Mietanfrage (fehlende Mieterangaben)
-      relevant_time_label: Frist
+      relevant_time: Frist %{time}
     booking_agent_request:
       help: Help
       label: Mietanfrage (provisorisch via Vermittler)
-      relevant_time_label: Frist
+      relevant_time: Frist %{time}
     cancelation_pending:
       help: Help
       label: Annulierte Reservation
@@ -931,58 +931,58 @@ en:
         create_deposit: Anzahlung erstellen
       help: Help
       label: Definitive Mietanfrage
-      relevant_time_label: Eingereicht
+      relevant_time: Eingereicht %{time}
     initial:
       help: Help
       label: "-"
     open_request:
       help: Help
       label: Neue Mietanfrage
-      relevant_time_label: Eingereicht
+      relevant_time: Eingereicht %{time}
     overdue:
       checklist:
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
       help: Help
       label: Überfällige Reservation
-      relevant_time_label: Frist
+      relevant_time: Frist %{time}
     overdue_request:
       help: Help
       label: Überfällige Mietanfrage
-      relevant_time_label: Frist
+      relevant_time: Frist %{time}
     past:
       checklist:
         create_invoice: Rechnung stellen
         create_usages: Verbrauch erfassen
       help: Help
       label: Durchgeführte Belegung
-      relevant_time_label: Ende der Belegung
+      relevant_time: Ende der Belegung %{time}
     payment_due:
       checklist:
         invoice_paid: Rechnung beglichen
       help: Help
       label: Rechnung ausstehend
-      relevant_time_label: Frist
+      relevant_time: Frist %{time}
     payment_overdue:
       help: Help
       label: Rechnung überfällig
-      relevant_time_label: Frist
+      relevant_time: Frist %{time}
     provisional_request:
       help: Help
       label: Provisorische Mietanfrage
-      relevant_time_label: Frist
+      relevant_time: Frist %{time}
     unconfirmed_request:
       help: Help
       label: Neue Mietanfrage
-      relevant_time_label: Frist
+      relevant_time: Frist %{time}
     upcoming:
       help: Help
       label: Geplante Belegung
-      relevant_time_label: Beginn der Belegung
+      relevant_time: Beginn der Belegung %{time}
     upcoming_soon:
       help: Help
       label: Belegung (demnächst)
-      relevant_time_label: Beginn der Belegung
+      relevant_time: Beginn der Belegung %{time}
   confirm: Confirm
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter

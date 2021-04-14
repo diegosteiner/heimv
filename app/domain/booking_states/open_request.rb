@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class OpenRequest < BookingState
+  class OpenRequest < Base
     RichTextTemplate.require_template(:manage_new_booking_notification, %i[booking])
     RichTextTemplate.require_template(:open_request_notification, %i[booking])
 
@@ -28,10 +28,6 @@ module BookingStates
     # infer_transition(from: :open_request, to: :provisional_request) do |booking|
     #   !booking.tenant&.reservations_allowed
     # end
-
-    def self.successors
-      %i[cancelled_request declined_request provisional_request definitive_request booking_agent_request]
-    end
 
     def relevant_time
       booking.created_at

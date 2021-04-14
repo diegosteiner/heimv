@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class ProvisionalRequest < BookingState
+  class ProvisionalRequest < Base
     RichTextTemplate.require_template(:provisional_request_notification, %i[booking])
 
     def checklist
@@ -10,10 +10,6 @@ module BookingStates
 
     def self.to_sym
       :provisional_request
-    end
-
-    def self.successors
-      %i[definitive_request overdue_request cancelled_request declined_request]
     end
 
     after_transition do |booking|

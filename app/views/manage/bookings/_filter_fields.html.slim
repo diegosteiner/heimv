@@ -11,7 +11,7 @@
         = f.datetime_field :ends_at_after, include_blank: true
         = f.datetime_field :ends_at_before, include_blank: true
 .row
-    - states = current_organisation.booking_flow.booking_states.values.map { |state| [state.t, state.to_sym] }
+    - states = BookingStates.all.map { |key, state| [state.t, key] }
     .col
         = f.select :current_booking_states, states, { include_blank: true }, multiple: true, size: 10
     .col

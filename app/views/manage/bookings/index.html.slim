@@ -14,11 +14,13 @@ nav.navbar.flex-row-reverse
       =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary'
         = t(:reset)
 
-- @grouped_bookings.each do |state, bookings|
-  - next unless bookings.any?
+- BookingStates.all.values.each do |state|
+  - bookings = @grouped_bookings[state.to_s]
+  - next if bookings.blank?
+
   section.mt-4
-    - title, help_text = t(state, scope: %i[booking_states]).slice(:label, :help).values
-    h3.mt-5= title
+    h3.mt-5= state.t(:label)
+    p.text-muted = state.t(:help)
     == render partial: 'table', locals: { bookings: bookings }
 
 br

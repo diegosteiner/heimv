@@ -10,7 +10,7 @@ module BookingActions
 
       def allowed?
         agent_booking&.booking_agent_responsible? &&
-          agent_booking.booking&.state_machine&.in_state?(:booking_agent_request)
+          agent_booking.booking&.booking_flow&.in_state?(:booking_agent_request)
       end
 
       def agent_booking

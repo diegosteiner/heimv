@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class BookingAgentRequest < BookingState
+  class BookingAgentRequest < Base
     RichTextTemplate.require_template(:booking_agent_request_notification, %i[booking])
 
     def checklist
@@ -10,10 +10,6 @@ module BookingStates
 
     def self.to_sym
       :booking_agent_request
-    end
-
-    def self.successors
-      %i[cancelled_request declined_request awaiting_tenant overdue_request]
     end
 
     guard_transition do |booking|

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class Upcoming < BookingState
+  class Upcoming < Base
     RichTextTemplate.require_template(:upcoming_notification, %i[booking])
 
     def checklist
@@ -10,10 +10,6 @@ module BookingStates
 
     def self.to_sym
       :upcoming
-    end
-
-    def self.successors
-      %i[cancelation_pending upcoming_soon]
     end
 
     after_transition do |booking|

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class DefinitiveRequest < BookingState
+  class DefinitiveRequest < Base
     RichTextTemplate.require_template(:definitive_request_notification, %i[booking])
     include Rails.application.routes.url_helpers
 
@@ -19,10 +19,6 @@ module BookingStates
 
     guard_transition do |booking|
       booking.tenant.present? && booking.tenant.valid?
-    end
-
-    def self.successors
-      %i[cancelation_pending awaiting_contract]
     end
 
     infer_transition(to: :awaiting_contract) do |booking|

@@ -1,17 +1,13 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class PaymentDue < BookingState
+  class PaymentDue < Base
     def checklist
       []
     end
 
     def self.to_sym
       :payment_due
-    end
-
-    def self.successors
-      %i[payment_overdue completed]
     end
 
     after_transition do |booking|

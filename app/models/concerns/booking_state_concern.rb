@@ -5,23 +5,10 @@ require 'active_support/concern'
 module BookingStateConcern
   extend ActiveSupport::Concern
 
-  delegate :current_state, :current_state, to: :state_machine
-  delegate :booking_flow, to: :organisation
-
-  class_methods do
-    def initial_state
-      @initial_state || :initial
-    end
-
-    def transition_class
-      BookingTransition
-    end
-  end
-
   included do
-    include Statesman::Adapters::ActiveRecordQueries
+    include Statesman::Adapters::ActiveRecordQueries[transition_class: BookingTransition, initial_state: :initial]
 
-    attr_accessor :transition_to, :skip_infer_transition, :initial_state
+    attr_accessor :transition_to, :skip_infer_transition
 
     has_many :booking_transitions, dependent: :destroy, autosave: false
 
@@ -29,7 +16,7 @@ module BookingStateConcern
     after_touch :state_transition
 
     validate do
-      if transition_to.present? && !state_machine.can_transition_to?(transition_to)
+      if transition_to.present? && !booking_flow.can_transition_to?(transition_to)
         errors.add(:transition_to,
                    I18n.t(:'activerecord.errors.models.booking.attributes.state.invalid_transition',
                           transition: "#{state_was}-->#{state}"))
@@ -37,29 +24,29 @@ module BookingStateConcern
     end
   end
 
-  def booking_flow
-    @booking_flow ||= booking_flow_type.present? && BookingFlows.const_get(booking_flow_type).new ||
-                      organisation.booking_flow
-  end
-
-  def state_machine
-    @state_machine ||= booking_flow.state_machine_class.new(self, transition_class: self.class.transition_class)
-  end
-
-  def current_state
-    return @current_state if @current_state&.to_s == state_machine.current_state
-
-    @current_state = state_machine.class.state_classes[state_machine.current_state&.to_sym]&.new(self)
-  end
-
   def state_transition
     return unless valid?
 
-    state_machine.transition_to(transition_to) && self.transition_to = nil if transition?
-    state_machine.auto.tap { errors.clear } unless skip_infer_transition
+    booking_flow.transition_to(transition_to) && self.transition_to = nil if transition?
+    booking_flow.auto.tap { errors.clear } unless skip_infer_transition
+  end
+
+  def booking_flow_class
+    @booking_flow_class ||= booking_flow_type && BookingFlows.const_get(booking_flow_type).new ||
+                            organisation.booking_flow_class
+  end
+
+  def booking_flow
+    @booking_flow ||= booking_flow_class.new(self)
+  end
+
+  def booking_state
+    return @booking_state if @booking_state&.to_s == booking_flow.current_state
+
+    @booking_state = BookingStates.all[booking_flow.current_state&.to_sym]&.new(self)
   end
 
   def transition?
-    transition_to.present? && current_state.to_s != transition_to.to_s
+    transition_to.present? && booking_state.to_s != transition_to.to_s
   end
 end

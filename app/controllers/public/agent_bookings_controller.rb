@@ -37,7 +37,7 @@ module Public
     private
 
     def public_actions
-      current_organisation.booking_flow.public_actions
+      BookingActions::Public.all
     end
 
     def booking_action

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class AwaitingContract < BookingState
+  class AwaitingContract < Base
     include Rails.application.routes.url_helpers
 
     def checklist
@@ -29,10 +29,6 @@ module BookingStates
     infer_transition(to: :overdue, &:deadline_exceeded?)
     infer_transition(to: :upcoming) do |booking|
       booking.contracts.signed.any? && Invoices::Deposit.of(booking).kept.all?(&:paid)
-    end
-
-    def self.successors
-      %i[cancelation_pending upcoming overdue]
     end
 
     def relevant_time

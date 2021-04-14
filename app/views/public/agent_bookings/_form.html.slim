@@ -32,5 +32,5 @@
         - if @agent_booking.booking_agent_responsible?
           =<> f.submit
         - if @agent_booking.booking.present?
-          - actions = current_organisation.booking_flow.public_actions.values
+          - actions = BookingActions::Public.all.values
           = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { agent_booking: @agent_booking, booking: @agent_booking.booking }, form: f }

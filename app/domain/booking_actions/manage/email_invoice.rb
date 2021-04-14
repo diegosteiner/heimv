@@ -2,7 +2,7 @@
 
 module BookingActions
   module Manage
-    class EmailInvoice < BookingAction
+    class EmailInvoice < BookingActions::Base
       RichTextTemplate.require_template(:payment_due_notification, %i[booking])
 
       def call!(invoices = booking.invoices.unsent)
@@ -17,7 +17,7 @@ module BookingActions
       end
 
       def allowed?
-        booking.invoices.unsent.any? && !booking.state_machine.in_state?(:definitive_request)
+        booking.invoices.unsent.any? && !booking.booking_flow.in_state?(:definitive_request)
       end
 
       def booking

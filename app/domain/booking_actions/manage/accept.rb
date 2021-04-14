@@ -2,14 +2,14 @@
 
 module BookingActions
   module Manage
-    class Accept < BookingAction
+    class Accept < BookingActions::Base
       def call!
-        booking.state_machine.transition_to(transition_to)
+        booking.booking_flow.transition_to(transition_to)
       end
 
       def allowed?
-        booking.state_machine.yield_self do |state_machine|
-          state_machine.in_state?(:open_request) && state_machine.can_transition_to?(transition_to)
+        booking.booking_flow.yield_self do |booking_flow|
+          booking_flow.in_state?(:open_request) && booking_flow.can_transition_to?(transition_to)
         end
       end
 

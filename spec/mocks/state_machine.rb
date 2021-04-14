@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class MockStateMachine
-  attr_accessor :current_state
+  attr_accessor :booking_state
 
   def initialize(initial_state: :initial)
-    @current_state = initial_state
+    @booking_state = initial_state
   end
 
   def transition_to(state)
-    @current_state = state
+    @booking_state = state
   end
 end

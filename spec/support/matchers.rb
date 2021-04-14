@@ -4,8 +4,8 @@ require 'rspec/expectations'
 
 RSpec::Matchers.define :transition do |_expected|
   match do
-    allow(actual).to receive(:current_state).and_wrap_original do |original, *args|
-      @current_state.presence || original.call(*args)
+    allow(actual).to receive(:booking_state).and_wrap_original do |original, *args|
+      @booking_state.presence || original.call(*args)
     end
     actual.transition_to(@to_state)
   end
@@ -15,6 +15,6 @@ RSpec::Matchers.define :transition do |_expected|
   end
 
   chain :from do |from_state|
-    @current_state = @from_state = from_state
+    @booking_state = @from_state = from_state
   end
 end

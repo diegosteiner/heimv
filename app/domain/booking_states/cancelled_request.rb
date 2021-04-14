@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BookingStates
-  class CancelledRequest < BookingState
+  class CancelledRequest < Base
     RichTextTemplate.require_template(:cancelled_request_notification, %i[booking])
 
     def checklist
@@ -21,5 +21,9 @@ module BookingStates
     end
 
     def relevant_time; end
+
+    def self.hidden
+      true
+    end
   end
 end

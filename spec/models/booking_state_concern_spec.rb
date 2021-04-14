@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec::Matchers.define :have_state do |expected|
   match do |actual|
-    actual.state_machine.in_state?(expected.to_s)
+    actual.booking_flow.in_state?(expected.to_s)
   end
 end
 
-describe BookingState do
+describe BookingStateConcern do
   let(:booking) { create(:booking, skip_infer_transition: true) }
 
   describe '#valid?' do

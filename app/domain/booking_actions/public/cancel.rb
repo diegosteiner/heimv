@@ -2,21 +2,21 @@
 
 module BookingActions
   module Public
-    class Cancel < BookingAction
+    class Cancel < BookingActions::Base
       def call!
         booking.errors.clear
-        booking.state_machine.yield_self do |state_machine|
-          if state_machine.can_transition_to?(:cancelled_request)
-            state_machine.transition_to(:cancelled_request)
-          elsif state_machine.can_transition_to?(:cancelation_pending)
-            state_machine.transition_to(:cancelation_pending)
+        booking.booking_flow.yield_self do |booking_flow|
+          if booking_flow.can_transition_to?(:cancelled_request)
+            booking_flow.transition_to(:cancelled_request)
+          elsif booking_flow.can_transition_to?(:cancelation_pending)
+            booking_flow.transition_to(:cancelation_pending)
           end
         end
       end
 
       def allowed?
-        booking.state_machine.can_transition_to?(:cancelled_request) ||
-          booking.state_machine.can_transition_to?(:cancelation_pending)
+        booking.booking_flow.can_transition_to?(:cancelled_request) ||
+          booking.booking_flow.can_transition_to?(:cancelation_pending)
       end
 
       def button_options

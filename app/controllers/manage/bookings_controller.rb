@@ -13,7 +13,7 @@ module Manage
     def index
       @bookings = @bookings.where(organisation: current_organisation)
       @bookings = @filter.apply(@bookings.with_default_includes.ordered)
-      @grouped_bookings = group_bookings(@bookings)
+      @grouped_bookings = @bookings.group_by(&:state)
       respond_with :manage, @bookings
     end
 
@@ -32,7 +32,7 @@ module Manage
 
     def create
       @booking.organisation = current_organisation
-      @booking.transition_to ||= current_organisation.booking_flow.manually_created_bookings_transition_to
+      @booking.transition_to ||= BookingStates::OpenRequest
       @booking.save
       respond_with :manage, @booking
     end
@@ -56,12 +56,12 @@ module Manage
 
     def call_booking_action
       booking_action&.call(booking: @booking)
-    rescue BookingAction::NotAllowed
+    rescue BookingActions::Base::NotAllowed
       @booking.errors.add(:base, :action_not_allowed)
     end
 
     def booking_action
-      current_organisation.booking_flow.manage_actions[params[:booking_action]]
+      BookingActions::Manage.all[params[:booking_action]]
     end
 
     def booking_params
@@ -73,13 +73,7 @@ module Manage
     end
 
     def default_booking_filter_params
-      { 'current_booking_states' => current_organisation.booking_flow.displayed_booking_states }
-    end
-
-    def group_bookings(bookings)
-      bookings.group_by(&:state).sort_by do |state, _bookings|
-        current_organisation.booking_flow.state_machine_class.states.index(state)
-      end
+      { 'current_booking_states' => BookingStates.all.values.filter_map { |state| state.to_sym unless state.hidden } }
     end
   end
 end
