@@ -25,9 +25,10 @@
 #
 # Indexes
 #
-#  index_tenants_on_email            (email)
-#  index_tenants_on_organisation_id  (organisation_id)
-#  index_tenants_on_search_cache     (search_cache)
+#  index_tenants_on_email                      (email)
+#  index_tenants_on_email_and_organisation_id  (email,organisation_id) UNIQUE
+#  index_tenants_on_organisation_id            (organisation_id)
+#  index_tenants_on_search_cache               (search_cache)
 #
 # Foreign Keys
 #
