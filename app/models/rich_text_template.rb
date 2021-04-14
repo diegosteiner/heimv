@@ -52,22 +52,36 @@ class RichTextTemplate < ApplicationRecord
 
   alias % interpolate
 
-  def self.by_key!(key, home_id: nil)
-    where(key: key, home_id: [home_id, nil]).order(home_id: :DESC).take!
-  end
+  class << self
+    def by_key!(key, home_id: nil)
+      where(key: key, home_id: [home_id, nil]).order(home_id: :DESC).take!
+    end
 
-  def self.by_key(key, home_id: nil)
-    by_key!(key, home_id: home_id)
-  rescue ActiveRecord::RecordNotFound => e
-    defined?(Sentry) && Sentry.capture_exception(e) || Rails.logger.warn(e.message)
-    nil
-  end
+    def by_key(key, home_id: nil)
+      by_key!(key, home_id: home_id)
+    rescue ActiveRecord::RecordNotFound => e
+      defined?(Sentry) && Sentry.capture_exception(e) || Rails.logger.warn(e.message)
+      nil
+    end
 
-  def self.replace_in_template!(search, replace)
-    RichTextTemplate.find_each do |rich_text_template|
-      rich_text_template.body_i18n.transform_values! { _1.gsub(search, replace) }
-      rich_text_template.title_i18n.transform_values! { _1.gsub(search, replace) }
-      rich_text_template.save
+    def replace_in_template!(search, replace)
+      find_each do |rich_text_template|
+        rich_text_template.body_i18n.transform_values! { _1.gsub(search, replace) }
+        rich_text_template.title_i18n.transform_values! { _1.gsub(search, replace) }
+        rich_text_template.save
+      end
+    end
+
+    def required_templates
+      @required_templates ||= {}
+    end
+
+    def require_template(key, context = [])
+      required_templates[key.to_sym] = RichTextTemplate::Requirement.new(key, context)
+    end
+
+    def missing_templates(organisation)
+      required_templates.keys.map(&:to_s) - organisation.rich_text_templates.where(home_id: nil).pluck(:key)
     end
   end
 end

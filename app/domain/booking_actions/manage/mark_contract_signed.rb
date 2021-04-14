@@ -3,7 +3,7 @@
 module BookingActions
   module Manage
     class MarkContractSigned < BookingAction
-      BookingFlow.require_rich_text_template(:contract_signed_notification, %i[booking])
+      RichTextTemplate.require_template(:contract_signed_notification, %i[booking])
 
       def call!
         if Invoices::Deposit.of(booking).kept.unpaid.exists?

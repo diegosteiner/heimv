@@ -2,7 +2,7 @@
 
 module PaymentInfos
   class TextPaymentInfo < ::PaymentInfo
-    BookingFlow.require_rich_text_template(:text_payment_info_text, context: %i[payment_info])
+    RichTextTemplate.require_template(:text_payment_info_text, context: %i[payment_info])
 
     delegate :esr_beneficiary_account, to: :organisation
 

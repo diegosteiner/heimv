@@ -2,7 +2,7 @@
 
 module BookingStates
   class UpcomingSoon < BookingState
-    BookingFlow.require_rich_text_template(:upcoming_soon_notification, %i[booking])
+    RichTextTemplate.require_template(:upcoming_soon_notification, %i[booking])
 
     def checklist
       []

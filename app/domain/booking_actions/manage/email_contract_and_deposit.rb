@@ -3,7 +3,7 @@
 module BookingActions
   module Manage
     class EmailContractAndDeposit < BookingAction
-      BookingFlow.require_rich_text_template(:awaiting_contract_notification, %i[booking])
+      RichTextTemplate.require_template(:awaiting_contract_notification, %i[booking])
 
       def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).kept.unpaid.unsent)
         notification = booking.notifications.new(from_template: :awaiting_contract_notification,

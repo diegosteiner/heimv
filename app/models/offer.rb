@@ -21,7 +21,7 @@
 #  fk_rails_...  (booking_id => bookings.id)
 #
 class Offer < ApplicationRecord
-  BookingFlow.require_rich_text_template(:offer_text, context: %i[booking])
+  RichTextTemplate.require_template(:offer_text, context: %i[booking])
 
   belongs_to :booking, inverse_of: :offers
   has_one_attached :pdf

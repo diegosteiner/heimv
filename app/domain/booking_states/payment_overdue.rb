@@ -2,7 +2,7 @@
 
 module BookingStates
   class PaymentOverdue < BookingState
-    BookingFlow.require_rich_text_template(:payment_overdue_notification, %i[booking])
+    RichTextTemplate.require_template(:payment_overdue_notification, %i[booking])
 
     include Rails.application.routes.url_helpers
 

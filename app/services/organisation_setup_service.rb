@@ -25,10 +25,8 @@ class OrganisationSetupService
     organisation.valid? && missing_rich_text_templates.zero?
   end
 
-  def create_missing_rich_text_templates!
-    missing_rich_text_templates.map do |key|
-      title = {}
-      body = {}
+  def create_missing_rich_text_templates!(title: {}, body: {})
+    RichTextTemplate.missing_templates(organisation).map do |key|
       I18n.available_locales.map do |locale|
         scope = [:rich_text_templates, key]
         title[locale] = organisation.booking_flow.t(:default_title, scope: scope, locale: locale)
@@ -36,11 +34,5 @@ class OrganisationSetupService
       end
       organisation.rich_text_templates.create(key: key, title_i18n: title, body_i18n: body)
     end
-  end
-
-  def missing_rich_text_templates
-    organisation.booking_flow.booking_states
-    required_rich_text_templates = organisation.booking_flow.rich_text_templates.keys.map(&:to_s)
-    required_rich_text_templates - organisation.rich_text_templates.where(home_id: nil).pluck(:key)
   end
 end

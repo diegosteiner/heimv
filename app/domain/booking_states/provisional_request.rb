@@ -2,7 +2,7 @@
 
 module BookingStates
   class ProvisionalRequest < BookingState
-    BookingFlow.require_rich_text_template(:provisional_request_notification, %i[booking])
+    RichTextTemplate.require_template(:provisional_request_notification, %i[booking])
 
     def checklist
       []

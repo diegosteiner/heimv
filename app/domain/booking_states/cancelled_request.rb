@@ -2,7 +2,7 @@
 
 module BookingStates
   class CancelledRequest < BookingState
-    BookingFlow.require_rich_text_template(:cancelled_request_notification, %i[booking])
+    RichTextTemplate.require_template(:cancelled_request_notification, %i[booking])
 
     def checklist
       []
