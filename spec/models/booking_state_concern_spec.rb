@@ -30,7 +30,7 @@ describe BookingStateConcern do
         expect(booking).to be_valid
         expect(booking.save).to be true
         expect(booking).to have_state(target_state)
-        expect(booking.state).to eq(target_state.to_s)
+        expect(booking.booking_state.to_s).to eq(target_state.to_s)
       end
     end
   end

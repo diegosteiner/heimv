@@ -17,12 +17,14 @@ module BookingStateConcern
 
     validate do
       if transition_to.present? && !booking_flow.can_transition_to?(transition_to)
-        errors.add(:transition_to,
-                   I18n.t(:'activerecord.errors.models.booking.attributes.state.invalid_transition',
-                          transition: "#{state_was}-->#{state}"))
+        errors.add(:transition_to, :invalid_transition, transition: "#{state_was}-->#{state}")
       end
     end
   end
+
+  # def state
+  #   booking_state
+  # end
 
   def state_transition
     return unless valid?

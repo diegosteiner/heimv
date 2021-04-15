@@ -13,7 +13,6 @@ module Manage
     def index
       @bookings = @bookings.where(organisation: current_organisation)
       @bookings = @filter.apply(@bookings.with_default_includes.ordered)
-      @grouped_bookings = @bookings.group_by(&:state)
       respond_with :manage, @bookings
     end
 

@@ -40,11 +40,5 @@ RSpec.describe BookingTransition, type: :model do
       expect(transition.booking_data.slice(*booking_attrs)).to eq booking.attributes.slice(*booking_attrs)
     end
   end
-
-  describe '#update_booking_state' do
-    it do
-      expect(transition.save).to be true
-      expect(transition.booking.state).to eq(to_state.to_s)
-    end
-  end
 end
+:state

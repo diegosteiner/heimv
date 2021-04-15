@@ -16,7 +16,7 @@ module BookingStates
       booking.deadline&.clear
       booking.deadlines.create(at: booking.organisation.long_deadline.from_now,
                                postponable_for: booking.organisation.short_deadline,
-                               remarks: booking.state)
+                               remarks: booking.booking_state.t(:label))
     end
 
     after_transition do |booking|

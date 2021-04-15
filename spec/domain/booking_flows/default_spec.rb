@@ -7,116 +7,78 @@ describe BookingFlows::Default do
 
   describe 'allowed transitions' do
     describe 'initial-->' do
-      it { is_expected.to transition.to(:unconfirmed_request) }
-      it { is_expected.to transition.to(:provisional_request) }
-      it { is_expected.to transition.to(:definitive_request) }
-      it { is_expected.to transition.to(:unconfirmed_request) }
-      it { is_expected.to transition.to(:definitive_request) }
-      it { is_expected.to transition.to(:provisional_request) }
+      it { is_expected.to transition_to(:unconfirmed_request) }
+      it { is_expected.to transition_to(:provisional_request) }
+      it { is_expected.to transition_to(:definitive_request) }
+      it { is_expected.to transition_to(:unconfirmed_request) }
+      it { is_expected.to transition_to(:definitive_request) }
+      it { is_expected.to transition_to(:provisional_request) }
 
       it 'sends email-confirmation' do
-        is_expected.to transition.to(:unconfirmed_request)
+        is_expected.to transition_to(:unconfirmed_request)
       end
     end
 
     describe 'unconfirmed_request-->' do
-      it { is_expected.to transition.from(:unconfirmed_request).to(:open_request) }
-      it { is_expected.to transition.from(:unconfirmed_request).to(:cancelled_request) }
-      it { is_expected.to transition.from(:unconfirmed_request).to(:declined_request) }
+      it { is_expected.to transition_to(:open_request).from(:unconfirmed_request) }
+      it { is_expected.to transition_to(:cancelled_request).from(:unconfirmed_request) }
+      it { is_expected.to transition_to(:declined_request).from(:unconfirmed_request) }
     end
 
     describe 'open_request-->' do
-      it { is_expected.to transition.from(:open_request).to(:provisional_request) }
-      it { is_expected.to transition.from(:open_request).to(:definitive_request) }
-      it { is_expected.to transition.from(:open_request).to(:cancelled_request) }
-      it { is_expected.to transition.from(:open_request).to(:declined_request) }
+      it { is_expected.to transition_to(:provisional_request).from(:open_request) }
+      it { is_expected.to transition_to(:definitive_request).from(:open_request) }
+      it { is_expected.to transition_to(:cancelled_request).from(:open_request) }
+      it { is_expected.to transition_to(:declined_request).from(:open_request) }
     end
 
     describe 'overdue_request-->' do
-      it { is_expected.to transition.from(:overdue_request).to(:definitive_request) }
-      it { is_expected.to transition.from(:overdue_request).to(:cancelled_request) }
-      it { is_expected.to transition.from(:overdue_request).to(:declined_request) }
+      it { is_expected.to transition_to(:definitive_request).from(:overdue_request) }
+      it { is_expected.to transition_to(:cancelled_request).from(:overdue_request) }
+      it { is_expected.to transition_to(:declined_request).from(:overdue_request) }
     end
 
     describe 'provisional_request-->' do
-      it { is_expected.to transition.from(:provisional_request).to(:overdue_request) }
-      it { is_expected.to transition.from(:provisional_request).to(:definitive_request) }
-      it { is_expected.to transition.from(:provisional_request).to(:cancelled_request) }
-      it { is_expected.to transition.from(:provisional_request).to(:declined_request) }
+      it { is_expected.to transition_to(:overdue_request).from(:provisional_request) }
+      it { is_expected.to transition_to(:definitive_request).from(:provisional_request) }
+      it { is_expected.to transition_to(:cancelled_request).from(:provisional_request) }
+      it { is_expected.to transition_to(:declined_request).from(:provisional_request) }
     end
 
     describe 'definitive_request-->' do
-      it { is_expected.to transition.from(:definitive_request).to(:awaiting_contract) }
-      it { is_expected.to transition.from(:definitive_request).to(:cancelation_pending) }
+      it { is_expected.to transition_to(:awaiting_contract).from(:definitive_request) }
+      it { is_expected.to transition_to(:cancelation_pending).from(:definitive_request) }
     end
 
     describe 'upcoming-->' do
-      it { is_expected.to transition.from(:upcoming).to(:cancelation_pending) }
-      it { is_expected.to transition.from(:upcoming).to(:upcoming_soon) }
+      it { is_expected.to transition_to(:cancelation_pending).from(:upcoming) }
+      it { is_expected.to transition_to(:upcoming_soon).from(:upcoming) }
     end
 
     describe 'upcoming_soon-->' do
-      it { is_expected.to transition.from(:upcoming_soon).to(:cancelation_pending) }
-      it { is_expected.to transition.from(:upcoming_soon).to(:active) }
+      it { is_expected.to transition_to(:cancelation_pending).from(:upcoming_soon) }
+      it { is_expected.to transition_to(:active).from(:upcoming_soon) }
     end
 
     describe 'past-->' do
-      it { is_expected.to transition.from(:past).to(:payment_due) }
-      it { is_expected.not_to transition.from(:past).to(:awaiting_contract) }
+      it { is_expected.to transition_to(:payment_due).from(:past) }
+      it { is_expected.not_to transition_to(:awaiting_contract).from(:past) }
     end
 
     describe 'awaiting_contract-->' do
-      it { is_expected.to transition.from(:awaiting_contract).to(:cancelation_pending) }
-      it { is_expected.not_to transition.from(:awaiting_contract).to(:awaiting_contract) }
+      it { is_expected.to transition_to(:cancelation_pending).from(:awaiting_contract) }
+      it { is_expected.not_to transition_to(:awaiting_contract).from(:awaiting_contract) }
     end
 
     describe 'cancellation_pending-->' do
-      it { is_expected.to transition.from(:cancelation_pending).to(:cancelled) }
+      it { is_expected.to transition_to(:cancelled).from(:cancelation_pending) }
     end
   end
 
-  # describe "automatic transitions" do
-  #   it { is_expected.to transition.from(:active).to(:past) }
-  #   it { is_expected.to transition.from(:upcoming).to(:active) }
-  #   it { is_expected.to transition.from(:overdue_request).to(:cancelled_request) }
-  #   it { is_expected.to transition.from(:payment_due).to(:payment_overdue) }
-  #   it { is_expected.to transition.from(:awaiting_contract).to(:overdue) }
-  # end
-
   describe 'prohibited transitions' do
-    it { is_expected.not_to transition.from(:payment_due).to(:payment_due) }
-    it { is_expected.not_to transition.from(:payment_overdue).to(:cancelation_pending) }
-    it { is_expected.not_to transition.from(:payment_overdue).to(:payment_overdue) }
-  end
-
-  describe 'sideeffects' do
-    # describe 'blocking states' do
-    #   let(:states) { { awaiting_contract: :overdue, overdue: :upcoming, upcoming: :active } }
-    #   let(:occupancy) { build(:occupancy, blocking: false) }
-
-    #   it 'sets occupancy to blocking for all blocking states' do
-    #     states.each do |initial_state, state|
-    #       booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
-    #       booking_flow = described_class.new(booking)
-    #       expect(booking_flow.transition.from().to(state)).to be true
-    #       expect(booking.occupancy.occ).to be true
-    #     end
-    #   end
-
-    #   context 'unblocking states' do
-    #     let(:states) { { awaiting_contract: :cancelation_pending } }
-    #     let(:occupancy) { build(:occupancy, blocking: true) }
-
-    #     it 'sets occupancy to not blocking for all non-blocking states' do
-    #       states.each do |initial_state, state|
-    #         booking = create(:booking, initial_state: initial_state, occupancy: occupancy)
-    #         booking_flow = described_class.new(booking)
-    #         expect(booking_flow.transition.from().to(state)).to be true
-    #         expect(booking.occupancy.blocking).to be false
-    #       end
-    #     end
-    #   end
-    # end
+    it { is_expected.not_to transition_to(:payment_due).from(:payment_due) }
+    it { is_expected.not_to transition_to(:cancelation_pending).from(:payment_overdue) }
+    it { is_expected.not_to transition_to(:payment_overdue).from(:payment_overdue) }
   end
 
   describe 'guarded transitions' do
@@ -138,8 +100,8 @@ describe BookingFlows::Default do
             allow(bills).to receive_message_chain(:deposits, :all?).and_return(true)
           end
 
-          it { is_expected.to transition.from(:awaiting_contract).to(:upcoming) }
-          it { is_expected.to transition.from(:overdue).to(:upcoming) }
+          it { is_expected.to transition_to(:upcoming).from(:awaiting_contract) }
+          it { is_expected.to transition_to(:upcoming).from(:overdue) }
         end
 
         context 'with unmet preconditions' do
@@ -149,8 +111,8 @@ describe BookingFlows::Default do
             allow(bills).to receive_message_chain(:deposits, :all?).and_return(false)
           end
 
-          it { is_expected.not_to transition.from(:awaiting_contract).to(:upcoming) }
-          it { is_expected.not_to transition.from(:overdue).to(:upcoming) }
+          it { is_expected.not_to transition_to(:upcoming).from(:awaiting_contract) }
+          it { is_expected.not_to transition_to(:upcoming).from(:overdue) }
         end
       end
 
@@ -165,8 +127,8 @@ describe BookingFlows::Default do
             allow(bills).to receive_message_chain(:open, :none?).and_return(true)
           end
 
-          it { is_expected.to transition.from(:payment_due).to(:completed) }
-          it { is_expected.to transition.from(:payment_overdue).to(:completed) }
+          it { is_expected.to transition_to(:completed).from(:payment_due) }
+          it { is_expected.to transition_to(:completed).from(:payment_overdue) }
         end
 
         context 'with unmet preconditions' do
@@ -175,20 +137,20 @@ describe BookingFlows::Default do
             allow(bills).to receive_message_chain(:open, :none?).and_return(false)
           end
 
-          it { is_expected.not_to transition.from(:payment_due).to(:completed) }
-          it { is_expected.not_to transition.from(:payment_overdue).to(:completed) }
-          it { is_expected.not_to transition.from(:past).to(:completed) }
+          it { is_expected.not_to transition_to(:completed).from(:payment_due) }
+          it { is_expected.not_to transition_to(:completed).from(:payment_overdue) }
+          it { is_expected.not_to transition_to(:completed).from(:past) }
         end
       end
 
       describe '-->cancelation_pending' do
-        it { is_expected.to transition.from(:overdue_request).to(:cancelation_pending) }
-        it { is_expected.to transition.from(:unconfirmed_request).to(:cancelation_pending) }
-        it { is_expected.to transition.from(:provisional_request).to(:cancelation_pending) }
-        it { is_expected.to transition.from(:definitive_request).to(:cancelation_pending) }
-        it { is_expected.to transition.from(:awaiting_contract).to(:cancelation_pending) }
-        it { is_expected.to transition.from(:overdue).to(:cancelation_pending) }
-        it { is_expected.to transition.from(:upcoming).to(:cancelation_pending) }
+        it { is_expected.to transition_to(:cancelation_pending).from(:overdue_request) }
+        it { is_expected.to transition_to(:cancelation_pending).from(:unconfirmed_request) }
+        it { is_expected.to transition_to(:cancelation_pending).from(:provisional_request) }
+        it { is_expected.to transition_to(:cancelation_pending).from(:definitive_request) }
+        it { is_expected.to transition_to(:cancelation_pending).from(:awaiting_contract) }
+        it { is_expected.to transition_to(:cancelation_pending).from(:overdue) }
+        it { is_expected.to transition_to(:cancelation_pending).from(:upcoming) }
       end
 
       describe '-->cancelled' do
@@ -201,7 +163,7 @@ describe BookingFlows::Default do
             allow(bills).to receive_message_chain(:open, :none?).and_return(true)
           end
 
-          it { is_expected.to transition.from(:cancelation_pending).to(:cancelled) }
+          it { is_expected.to transition_to(:cancelled).from(:cancelation_pending) }
         end
 
         context 'with unmet preconditions' do
@@ -209,7 +171,7 @@ describe BookingFlows::Default do
             allow(bills).to receive_message_chain(:open, :none?).and_return(false)
           end
 
-          it { is_expected.not_to transition.from(:cancelation_pending).to(:cancelled) }
+          it { is_expected.not_to transition_to(:cancelled).from(:cancelation_pending) }
         end
       end
     end

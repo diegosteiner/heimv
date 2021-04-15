@@ -28,9 +28,8 @@ class OrganisationSetupService
   def create_missing_rich_text_templates!(title: {}, body: {})
     RichTextTemplate.missing_templates(organisation).map do |key|
       I18n.available_locales.map do |locale|
-        scope = [:rich_text_templates, key]
-        title[locale] = organisation.booking_flow.t(:default_title, scope: scope, locale: locale)
-        body[locale] = organisation.booking_flow.t(:default_body, scope: scope, locale: locale)
+        title[locale] = RichTextTemplate.t(:default_title, scope: key, locale: locale)
+        body[locale] = RichTextTemplate.t(:default_body, scope: key, locale: locale)
       end
       organisation.rich_text_templates.create(key: key, title_i18n: title, body_i18n: body)
     end

@@ -14,8 +14,9 @@ nav.navbar.flex-row-reverse
       =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary'
         = t(:reset)
 
+- grouped_bookings = @bookings.group_by { _1.booking_state.to_sym }
 - BookingStates.all.values.each do |state|
-  - bookings = @grouped_bookings[state.to_s]
+  - bookings = grouped_bookings[state.to_sym]
   - next if bookings.blank?
 
   section.mt-4

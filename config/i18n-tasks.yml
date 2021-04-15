@@ -101,7 +101,7 @@ ignore_unused:
 - 'locales.*'
 - 'flash.*'
 - 'titles.*'
-- '{booking_flows,booking_states,booking_actions}.*'
+- '{booking_flows,booking_states,booking_actions,rich_text_templates}.*'
 - 'faker.*'
 - 'export.*'
 - 'occupancy_calendar.*'
