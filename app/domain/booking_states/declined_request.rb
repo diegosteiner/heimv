@@ -2,7 +2,7 @@
 
 module BookingStates
   class DeclinedRequest < Base
-    RichTextTemplate.require_template(:declined_request_notification, %i[booking])
+    RichTextTemplate.require_template(:declined_request_notification, %i[booking], self)
 
     def checklist
       []

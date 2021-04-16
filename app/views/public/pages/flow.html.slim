@@ -1,6 +1,14 @@
 .container
   .row
-    .col-6
+    .col-md-5
       = inline_svg_pack_tag('images/states.svg')
     .col
-      | Test
+      - [ \
+        BookingStates::UnconfirmedRequest, BookingStates::OpenRequest \
+      
+      ].each do |booking_state|
+        .mb-3
+          h5.mt-0 = booking_state.t(:label)
+          p= booking_state.t(:help)
+
+

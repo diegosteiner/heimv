@@ -2,7 +2,7 @@
 
 module BookingStates
   class ProvisionalRequest < Base
-    RichTextTemplate.require_template(:provisional_request_notification, %i[booking])
+    RichTextTemplate.require_template(:provisional_request_notification, %i[booking], self)
 
     def checklist
       []

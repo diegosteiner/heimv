@@ -21,7 +21,7 @@
 #  fk_rails_...  (booking_id => bookings.id)
 #
 class Offer < ApplicationRecord
-  RichTextTemplate.require_template(:offer_text, context: %i[booking])
+  RichTextTemplate.require_template(:offer_text, %i[booking], self)
 
   belongs_to :booking, inverse_of: :offers
   has_one_attached :pdf

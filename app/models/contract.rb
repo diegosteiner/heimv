@@ -24,7 +24,7 @@
 #
 
 class Contract < ApplicationRecord
-  RichTextTemplate.require_template(:contract_text, context: %i[booking])
+  RichTextTemplate.require_template(:contract_text, %i[booking], self)
 
   belongs_to :booking, inverse_of: :contracts, touch: true
   has_one_attached :pdf
