@@ -91,6 +91,7 @@ ignore_missing:
   - 'number.percentage.format.delimiter'
   - 'number.precision.format.delimiter'
   - '{devise,simple_form}.*'
+  - 'amount'
 
 ## Consider these keys used:
 ignore_unused:

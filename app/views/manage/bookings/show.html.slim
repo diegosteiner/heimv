@@ -70,7 +70,7 @@ section.mt-4.breakout-sm
           .row.mb-3
             .col
               strong= Booking.human_attribute_name(:state)
-              p= @booking.booking_state.translated
+              p= @booking.booking_state.translate
               br
               = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
             .col 
@@ -91,7 +91,6 @@ section.mt-4.breakout-sm
                 - @booking.booking_flow.allowed_transitions.each do |state|
                   = f.button name: :'booking[transition_to]', value: state, class: 'dropdown-item'
                     = t(:label, scope: [:booking_states, state])
-
 
             = link_to edit_manage_booking_path(@booking), class: 'btn btn-default'
               span.fa.fa-edit

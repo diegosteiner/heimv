@@ -28,7 +28,7 @@
 class RichTextTemplate < ApplicationRecord
   Requirement = Struct.new(:key, :context, :required_by)
   extend Mobility
-  include Translatable
+  extend Translatable
   translates :title, :body, column_suffix: '_i18n', locale_accessors: true
 
   belongs_to :organisation

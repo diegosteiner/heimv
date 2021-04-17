@@ -287,7 +287,7 @@ en:
           attributes:
             deadline:
               not_postponable: Frist kann nicht verlängert werden
-            state:
+            transition_to:
               invalid_transition: 'Invalid transition: %{transition}'
           booking_margin_too_small: Die Pufferzeit von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
@@ -425,116 +425,113 @@ en:
         one: Benutzer
         other: Benutzer
   add_record: Add %{model_name}
-  amount: Amount
   back: Back
   booking_actions:
     manage:
-      accept: Anfrage akzeptieren
-      cancel: Absagen
-      email_contract_and_deposit: Vertrag und Anzahlung verschicken
-      email_invoice: Rechnung verschicken
-      mark_contract_signed: Vertragseingang bestätigen
-      mark_deposits_paid: Zahlungseingang bestätigen
-      mark_invoices_paid: Zahlungseingang bestätigen
-      postpone_deadline: Frist verslängern
+      accept:
+        label: Anfrage akzeptieren
+      cancel:
+        label: Ablehnen
+      email_contract_and_deposit:
+        label: Vertrag und Anzahlung verschicken
+      email_invoice:
+        label: Rechnung verschicken
+      mark_contract_signed:
+        label: Vertragseingang bestätigen
+      mark_deposits_paid:
+        label: Zahlungseingang bestätigen
+      mark_invoices_paid:
+        label: Zahlungseingang bestätigen
+      postpone_deadline:
+        label: Frist verlängern
     public:
-      cancel: Absagen
-      commit_booking_agent_request: Anfrage definitv setzen
-      commit_request: Anfrage definitv setzen
-      postpone_deadline: Frist verslängern
+      cancel:
+        label: Stornieren
+      commit_booking_agent_request:
+        label: Anfrage definitv setzen
+      commit_request:
+        label: Anfrage definitv setzen
+      postpone_deadline:
+        label: Frist verlängern
   booking_states:
     active:
-      help: Help
       label: Aktive Belegung
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
       checklist:
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
-      help: Help
       label: Bestätigte Reservation
       relevant_time: Eingereicht %{time}
     awaiting_tenant:
-      help: Help
       label: Mietanfrage (fehlende Mieterangaben)
       relevant_time: Frist %{time}
     booking_agent_request:
-      help: Help
       label: Mietanfrage (provisorisch via Vermittler)
       relevant_time: Frist %{time}
     cancelation_pending:
-      help: Help
+      description: Die Belegung wurde storniert, es sind aber noch Rechnungen offen, die zuerst als bezahlt markiert werden müssen.
       label: Annulierte Reservation
     cancelled:
-      help: Help
       label: Storniert
     cancelled_request:
-      help: Help
+      description: Der Mieter hat die Anfrage zurückgezogen
       label: Mietanfrage (zurückgezogen)
     completed:
-      help: Help
       label: Abgeschlossene Belegung
     declined_request:
       deadline_exceeded: Frist abgelaufen
-      help: Help
       label: Mietanfrage (abgelehnt)
     definitive_request:
       checklist:
         choose_tarifs: Tarife festlegen
         create_contract: Vertrag erstellen
         create_deposit: Anzahlung erstellen
-      help: Help
+      description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
       label: Definitive Mietanfrage
       relevant_time: Eingereicht %{time}
     initial:
-      help: Help
       label: "-"
     open_request:
-      help: Help
       label: Neue Mietanfrage
+      public_info: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
       relevant_time: Eingereicht %{time}
     overdue:
       checklist:
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
-      help: Help
       label: Überfällige Reservation
       relevant_time: Frist %{time}
     overdue_request:
-      help: Help
       label: Überfällige Mietanfrage
+      public_info: Deine Mietanfrage ist überfällig. Bitte setzte Sie entweder auf definitiv oder annuliere die Anfrage ganz.
       relevant_time: Frist %{time}
     past:
       checklist:
         create_invoice: Rechnung stellen
         create_usages: Verbrauch erfassen
-      help: Help
       label: Durchgeführte Belegung
       relevant_time: Ende der Belegung %{time}
     payment_due:
       checklist:
         invoice_paid: Rechnung beglichen
-      help: Help
       label: Rechnung ausstehend
       relevant_time: Frist %{time}
     payment_overdue:
-      help: Help
       label: Rechnung überfällig
       relevant_time: Frist %{time}
     provisional_request:
-      help: Help
       label: Provisorische Mietanfrage
+      public_info: Deine provisorische Mietanfrage ist bestätigt.
       relevant_time: Frist %{time}
     unconfirmed_request:
-      help: Help
       label: Neue Mietanfrage
+      public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
       relevant_time: Frist %{time}
     upcoming:
-      help: Help
       label: Geplante Belegung
       relevant_time: Beginn der Belegung %{time}
     upcoming_soon:
-      help: Help
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
   confirm: Confirm
@@ -1126,7 +1123,7 @@ en:
 
         {{ booking.organisation.message_footer }}
       default_title: Neue Mietanfrage
-      description: Benachrichtigung für neue Mietanfrage (Verwalting)
+      description: Benachrichtigung für neue Mietanfrage (Verwaltung)
     offer_text:
       default_body: Default body
       default_title: Offerte
@@ -1318,6 +1315,7 @@ en:
       default_body: Default body
       default_title: Default title
       description: Benachrichtigung für baldige Belegung (Mieter)
+  show: Anzeigen
   support:
     array:
       last_word_connector: ", and "

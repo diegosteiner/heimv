@@ -1,5 +1,5 @@
 = form_with(model: [:public, @booking], local: true, disabled: !@booking.editable, html: { novalidate: true }) do |f|
-  .card.[class=('bg-light' unless @booking.editable)]
+  .card.[class=({'bg-light' => !@booking.editable, 'border-danger' => @booking.errors.any? }.select { _2 }.keys )]
     .card-body
       - if @booking.booking_state.t(:public_info).present?
         .alert.alert-info.d-flex
@@ -11,11 +11,11 @@
           .mr-3
             i.fa.fa-exclamation-triangle
           p.m-0= t('.last_minute_warning')
-      - if @booking.errors.any?
+      - if @booking.errors[:base].present?
         .alert.alert-danger.d-flex
           .mr-3
             i.fa.fa-exclamation-circle               
-          = f.error_summary
+          = @booking.errors[:base].to_sentence
       fieldset
         - if @booking.deadline
           .form-group
@@ -23,17 +23,18 @@
             div
               =<> l(@booking.deadline.at, format: :short)
         = f.select :home_id, homes_for_select, {}, disabled: true
+
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'booking[occupancy_attributes][begins_at]',
                                                     value: @booking.occupancy.begins_at&.iso8601,
-                                                    disabled: @booking.timeframe_locked?,
-                                                    required: true)
+                                                    disabled: @booking.timeframe_locked?, required: true,
+                                                    invalidFeedback: @booking.errors['occupancy.begins_at']&.to_sentence)
 
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
                                                     name: 'booking[occupancy_attributes][ends_at]',
                                                     value: @booking.occupancy.ends_at&.iso8601,
-                                                    disabled: @booking.timeframe_locked?,
-                                                    required: true)
+                                                    disabled: @booking.timeframe_locked?, required: true,
+                                                    invalidFeedback: @booking.errors['occupancy.ends_at']&.to_sentence)
 
         = f.email_field :email, disabled: @booking.email.present? || !@booking.editable
         = f.fields_for :tenant, @booking.tenant do |cf|

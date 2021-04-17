@@ -56,4 +56,7 @@
                   - next unless action.allowed?
 
                   button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
-                    = t(action.i18n_scope.join('.'))
+                    = action.translate
+              .dropdown-divider
+              = link_to t(:show), manage_booking_path(booking), class: 'dropdown-item'
+              = link_to t(:edit), edit_manage_booking_path(booking), class: 'dropdown-item'

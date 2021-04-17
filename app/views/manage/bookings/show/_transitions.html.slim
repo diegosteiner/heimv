@@ -1,8 +1,0 @@
-section.mt-4.breakout-sm
-  ul.list-group
-    - booking.booking_transitions.each do |transition|
-      li.list-group-item
-        time<>[datetime=transition.created_at] = l(transition.created_at)
-        span.badge.badge-primary
-          = booking.booking_flow.t(transition.to_state scope: :states, default: {})[:label]
-

@@ -78,10 +78,6 @@ class Tenant < ApplicationRecord
     address_lines + [phone, email].reject(&:blank?)
   end
 
-  def email_validated!
-    update(email_validated: true)
-  end
-
   def to_s
     "##{id} #{name}"
   end

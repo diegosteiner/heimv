@@ -5,6 +5,7 @@ module BookingActions
     class NotAllowed < StandardError; end
 
     include Translatable
+    extend Translatable
     attr_reader :context
 
     def initialize(context)

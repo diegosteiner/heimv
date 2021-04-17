@@ -8,7 +8,7 @@ table.table.table-hover.table-card
   tbody
     - @rich_text_templates.includes(:home).each do |rich_text_template|
         tr 
-          td= link_to current_organisation.booking_flow.t(:description, scope: [:rich_text_templates, rich_text_template.key], default: rich_text_template.title), manage_rich_text_template_path(rich_text_template)
+          td= link_to t(:description, scope: [:rich_text_templates, rich_text_template.key], default: rich_text_template.title), manage_rich_text_template_path(rich_text_template)
           td
             = link_to rich_text_template.home.name, manage_home_path(rich_text_template.home) if rich_text_template.home
           td.p-1.text-right

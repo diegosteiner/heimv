@@ -2,6 +2,7 @@
 
 module BookingStates
   class Base
+    extend Translatable
     include Translatable
     attr_reader :booking
 

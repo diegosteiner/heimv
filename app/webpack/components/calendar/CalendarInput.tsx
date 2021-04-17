@@ -47,6 +47,7 @@ interface CalendarControlProps {
   onChange?(value: Date): void;
   onBlur?(): void;
   isInvalid?: boolean;
+  invalidFeedback?: string;
 }
 
 const CalendarControl: React.FC<CalendarControlProps> = ({
@@ -56,7 +57,8 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
   disabled = false,
   onChange,
   onBlur,
-  isInvalid = false,
+  invalidFeedback,
+  isInvalid = !!invalidFeedback,
 }) => {
   const initializedValue = initializeValue(value);
   const [showModal, setShowModal] = React.useState<boolean>(false);
@@ -123,73 +125,76 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
     (dateState && isSameDay(date, dateState) && ['bg-primary', 'text-white']) || [];
 
   return (
-    <div className={(isInvalid && 'is-invalid') || ''}>
-      <input type="hidden" name={name} value={(dateState && formatISO(dateState)) || ''} />
-      <Row>
-        <Col>
-          <InputGroup>
+    <>
+      <div className={(isInvalid && 'is-invalid') || ''}>
+        <input type="hidden" name={name} value={(dateState && formatISO(dateState)) || ''} />
+        <Row>
+          <Col>
+            <InputGroup hasValidation>
+              <Form.Control
+                onBlur={handleTextChange}
+                disabled={disabled}
+                value={textState}
+                onChange={(e: React.ChangeEvent) => setTextState((e.target as HTMLInputElement).value)}
+                isInvalid={isInvalid}
+                required={required}
+              />
+              <InputGroup.Append>
+                <Button variant="primary" onClick={handleShow} disabled={disabled}>
+                  <i className="fa fa-calendar"></i>
+                </Button>
+              </InputGroup.Append>
+            </InputGroup>
+          </Col>
+          <Col sm={6} className="d-flex">
             <Form.Control
-              onBlur={handleTextChange}
-              disabled={disabled}
-              value={textState}
-              onChange={(e: React.ChangeEvent) => setTextState((e.target as HTMLInputElement).value)}
+              value={hourState}
+              onBlur={onBlur}
+              className="d-inline-block w-auto"
+              onChange={(e: React.ChangeEvent) => setHourValue((e.target as HTMLInputElement).value)}
               isInvalid={isInvalid}
+              disabled={disabled}
               required={required}
-            />
-            <InputGroup.Append>
-              <Button variant="primary" onClick={handleShow} disabled={disabled}>
-                <i className="fa fa-calendar"></i>
-              </Button>
-            </InputGroup.Append>
-          </InputGroup>
-        </Col>
-        <Col sm={6} className="d-flex">
-          <Form.Control
-            value={hourState}
-            onBlur={onBlur}
-            className="d-inline-block w-auto"
-            onChange={(e: React.ChangeEvent) => setHourValue((e.target as HTMLInputElement).value)}
-            isInvalid={isInvalid}
-            disabled={disabled}
-            required={required}
-            as="select"
-          >
-            {allHours.map((hour) => (
-              <option disabled={!availableHours.includes(hour)} key={hour} value={hour}>
-                {hour.toString().padStart(2, '0')}
-              </option>
-            ))}
-          </Form.Control>
-          <Form.Control
-            value={minuteState}
-            onBlur={onBlur}
-            className="d-inline-block w-auto"
-            onChange={(e: React.ChangeEvent) => setMinuteValue((e.target as HTMLInputElement).value)}
-            isInvalid={isInvalid}
-            disabled={disabled}
-            required={required}
-            as="select"
-          >
-            {availableMinutes.map((minutes) => (
-              <option key={minutes} value={minutes}>
-                {minutes.toString().padStart(2, '0')}
-              </option>
-            ))}
-          </Form.Control>
-        </Col>
-      </Row>
-      <Modal size="lg" show={showModal} onHide={handleClose}>
-        <Modal.Body>
-          <Calendar firstMonth={dateState || new Date()}>
-            <OccupancyCalendarDay
-              onClick={handleClick}
-              classNameCallback={classNameCallback}
-              disableCallback={disableCallback}
-            ></OccupancyCalendarDay>
-          </Calendar>
-        </Modal.Body>
-      </Modal>
-    </div>
+              as="select"
+            >
+              {allHours.map((hour) => (
+                <option disabled={!availableHours.includes(hour)} key={hour} value={hour}>
+                  {hour.toString().padStart(2, '0')}
+                </option>
+              ))}
+            </Form.Control>
+            <Form.Control
+              value={minuteState}
+              onBlur={onBlur}
+              className="d-inline-block w-auto"
+              onChange={(e: React.ChangeEvent) => setMinuteValue((e.target as HTMLInputElement).value)}
+              isInvalid={isInvalid}
+              disabled={disabled}
+              required={required}
+              as="select"
+            >
+              {availableMinutes.map((minutes) => (
+                <option key={minutes} value={minutes}>
+                  {minutes.toString().padStart(2, '0')}
+                </option>
+              ))}
+            </Form.Control>
+          </Col>
+        </Row>
+        <Modal size="lg" show={showModal} onHide={handleClose}>
+          <Modal.Body>
+            <Calendar firstMonth={dateState || new Date()}>
+              <OccupancyCalendarDay
+                onClick={handleClick}
+                classNameCallback={classNameCallback}
+                disableCallback={disableCallback}
+              ></OccupancyCalendarDay>
+            </Calendar>
+          </Modal.Body>
+        </Modal>
+      </div>
+      {<Form.Control.Feedback type="invalid">{invalidFeedback}</Form.Control.Feedback>}
+    </>
   );
 };
 
@@ -199,13 +204,30 @@ interface CalendarInputProps {
   label?: string;
   required?: boolean;
   disabled?: boolean;
+  isInvalid?: boolean;
+  invalidFeedback?: string;
 }
 
-const CalendarInput: React.FC<CalendarInputProps> = ({ value, name, label, required = false, disabled = false }) => {
+const CalendarInput: React.FC<CalendarInputProps> = ({
+  value,
+  name,
+  label,
+  required = false,
+  disabled = false,
+  invalidFeedback,
+  isInvalid = !!invalidFeedback,
+}) => {
   return (
     <Form.Group>
       {label && <Form.Label className={required && 'required'}>{label}</Form.Label>}
-      <CalendarControl disabled={disabled} value={value} name={name} required={required}></CalendarControl>
+      <CalendarControl
+        disabled={disabled}
+        value={value}
+        name={name}
+        required={required}
+        isInvalid={isInvalid}
+        invalidFeedback={invalidFeedback}
+      ></CalendarControl>
     </Form.Group>
   );
 };

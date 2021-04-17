@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   scope '(:org)' do
     namespace :manage do
       root to: 'dashboard#index'
+      get 'usage', to: 'pages#usage'
+      get 'flow', to: 'pages#flow'
       resources :homes do
         scope module: :homes do
           resources :occupancies, except: %w[show], shallow: true
@@ -63,8 +65,6 @@ Rails.application.routes.draw do
       resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
       resources :bookings, only: %i[new create edit update], as: :public_bookings
       get 'b/:id(/edit)', to: 'bookings#edit'
-      get 'usage', to: 'pages#usage'
-      get 'flow', to: 'pages#flow'
       get 'changelog', to: 'pages#changelog'
       resources :homes, only: [] do
         resources :occupancies, only: %i[index show] do

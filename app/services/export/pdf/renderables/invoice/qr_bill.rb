@@ -33,7 +33,7 @@ module Export
           def render_receipt_part
             bounding_box([bounds.left + PADDING, bounds.top], width: 160, height: HEIGHT) do
               move_down PADDING
-              text t('receipt_title'), size: 11, style: :bold
+              text translate('receipt_title'), size: 11, style: :bold
               move_down 9
               render_creditor
               move_down 9
@@ -44,39 +44,39 @@ module Export
 
           def render_amount(left, bottom)
             bounding_box([left, bottom], width: 40) do
-              text t('currency'), size: 7, style: :bold
+              text translate('currency'), size: 7, style: :bold
               move_down 3
               text qr_bill.currency
             end
             bounding_box([left + 50, bottom], width: 100) do
-              text t('amount'), size: 7, style: :bold
+              text translate('amount'), size: 7, style: :bold
               move_down 3
               text qr_bill.formatted_amount
             end
           end
 
           def render_creditor
-            text t('creditor_account'), size: 7, style: :bold
+            text translate('creditor_account'), size: 7, style: :bold
             text qr_bill.creditor_account
             text qr_bill.creditor_address_lines.join("\n")
             move_down 2
           end
 
           def render_debitor
-            text t('payable_by'), size: 7, style: :bold
+            text translate('payable_by'), size: 7, style: :bold
             text qr_bill.debitor_address_lines.join("\n")
             move_down 2
           end
 
           def render_ref
-            text t('ref'), size: 7, style: :bold
+            text translate('ref'), size: 7, style: :bold
             text qr_bill.formatted_ref
           end
 
           def render_qrcode_part
             bounding_box([bounds.left + 190, bounds.top], width: 130, height: HEIGHT) do
               move_down PADDING
-              text t('payment_part_title'), size: 11, style: :bold
+              text translate('payment_part_title'), size: 11, style: :bold
               move_down 17
               render_qrcode
               render_amount(bounds.left, 101)

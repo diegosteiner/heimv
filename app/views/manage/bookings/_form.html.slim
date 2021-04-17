@@ -4,18 +4,24 @@
       = f.error_summary
 
   fieldset
+    h5.mt-0= Booking.human_attribute_name(:occupancy)
     = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true
+
     = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                 name: 'booking[occupancy_attributes][begins_at]',
                                                 value: @booking.occupancy.begins_at&.iso8601,
-                                                required: true)
+                                                disabled: @booking.timeframe_locked?, required: true,
+                                                invalidFeedback: @booking.errors['occupancy.begins_at']&.to_sentence)
 
     = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
                                                 name: 'booking[occupancy_attributes][ends_at]',
                                                 value: @booking.occupancy.ends_at&.iso8601,
-                                                required: true)
+                                                disabled: @booking.timeframe_locked?, required: true,
+                                                invalidFeedback: @booking.errors['occupancy.ends_at']&.to_sentence)
 
-  fieldset.mt-4
+    = f.check_box :timeframe_locked
+
+  fieldset
     h5= Booking.human_attribute_name(:tenant)
 
     = f.collection_select :tenant_id, current_organisation.tenants.ordered, :id, :to_s, help: t('.change_tenant_id'), include_blank: true
@@ -53,7 +59,6 @@
     = f.collection_select :locale, Booking.locales, :first, :first
     = f.text_area :cancellation_reason
     = f.check_box :notifications_enabled
-    = f.check_box :timeframe_locked
     = f.check_box :editable
 
   fieldset.mt-4

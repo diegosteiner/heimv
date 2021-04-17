@@ -1,27 +1,14 @@
 # frozen_string_literal: true
 
 module Translatable
-  extend ActiveSupport::Concern
-
-  included do
-    def i18n_scope
-      self.class.i18n_scope
-    end
-
-    def translated(key = :label, options = {})
-      I18n.t(key, options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
-    end
-    alias_method :t, :translated
+  def translatable_scope
+    name = is_a?(Class) ? self.name : self.class.name
+    name.split('::').map(&:underscore)
   end
 
-  class_methods do
-    def i18n_scope
-      name.split('::').map(&:underscore)
-    end
-
-    def translated(key = :label, options = {})
-      I18n.t(key, options.merge(scope: i18n_scope + Array.wrap(options[:scope])))
-    end
-    alias_method :t, :translated
+  def translate(key = :label, options = {})
+    scope = translatable_scope + Array.wrap(options.delete(:scope))
+    I18n.t(key, options.reverse_merge(scope: scope, default: nil))
   end
+  alias t translate
 end

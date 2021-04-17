@@ -91,8 +91,9 @@ class Booking < ApplicationRecord
   validate(on: %i[public_create public_update]) do
     next errors.add(:base, :conflicting) if occupancy.conflicting.present?
 
-    margin = home.booking_margin
-    errors.add(:base, :booking_margin_too_small, margin: margin) if occupancy.conflicting(margin).present?
+    if occupancy.conflicting(home.booking_margin).present?
+      errors.add(:base, :booking_margin_too_small, margin: home.booking_margin)
+    end
   end
 
   scope :ordered, -> { joins(:occupancy).order(Occupancy.arel_table[:begins_at]) }
