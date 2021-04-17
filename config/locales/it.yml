@@ -1777,6 +1777,8 @@ it:
           contract_signed: Vertrag unterschieben
       form:
         change_tenant_id: Change tenant
+      index:
+        too_many_records: Too many records
       show:
         public_booking_url: Link für Mieter
       tarifs:
@@ -2359,6 +2361,7 @@ it:
       default_body: Default body
       default_title: Default title
       description: Benachrichtigung für baldige Belegung (Mieter)
+  search: Search
   show: Anzeigen
   support:
     array:

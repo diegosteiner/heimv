@@ -20,7 +20,8 @@
 		"rebornix.Ruby",
 		"castwide.solargraph",
 		"eamodio.gitlens",
-		"lokalise.i18n-ally"
+		"lokalise.i18n-ally",
+		"esbenp.prettier-vscode"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [

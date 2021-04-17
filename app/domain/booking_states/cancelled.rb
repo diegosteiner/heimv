@@ -13,6 +13,10 @@ module BookingStates
       :cancelled
     end
 
+    def self.hidden
+      true
+    end
+
     guard_transition do |booking|
       !booking.invoices.unpaid.exists?
     end

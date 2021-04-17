@@ -760,6 +760,8 @@ en:
           contract_signed: Contract signed
       form:
         change_tenant_id: Change tenant
+      index:
+        too_many_records: Too many records
       show:
         public_booking_url: Public booking url
       tarifs:
@@ -1315,6 +1317,7 @@ en:
       default_body: Default body
       default_title: Default title
       description: Benachrichtigung für baldige Belegung (Mieter)
+  search: Search
   show: Anzeigen
   support:
     array:

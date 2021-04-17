@@ -504,7 +504,7 @@ de:
       relevant_time: Frist %{time}
     overdue_request:
       label: Mietanfrage (Antwort überfällig)
-      public_info: Deine Mietanfrage ist überfällig. Bitte setzte Sie entweder auf definitiv oder annuliere die Anfrage ganz.
+      public_info: Deine Mietanfrage ist überfällig. Bitte setzte sie entweder auf definitiv oder annuliere die Anfrage ganz.
       relevant_time: Frist %{time}
     past:
       checklist:
@@ -686,7 +686,7 @@ de:
         one: hat die falsche Länge (muss genau 1 Zeichen haben)
         other: hat die falsche Länge (muss genau %{count} Zeichen haben)
     template:
-      body: 'Bitte überprüfen Sie die folgenden Felder:'
+      body: 'Bitte überprüfe die folgenden Felder:'
       header:
         one: 'Konnte %{model} nicht speichern: ein Fehler.'
         other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
@@ -1777,6 +1777,8 @@ de:
           contract_signed: Vertrag unterschieben markieren
       form:
         change_tenant_id: Mieter ändern
+      index:
+        too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       show:
         public_booking_url: Link für Mieter
       tarifs:
@@ -2361,6 +2363,7 @@ de:
       default_body: ''
       default_title: ''
       description: Benachrichtigung für baldige Belegung (Mieter)
+  search: Suchen
   show: Anzeigen
   support:
     array:
@@ -2378,5 +2381,5 @@ de:
       time: "%H:%M"
   titles:
     application: HeimV %{organisation}
-  unauthorized: Sie haben keine Berechtigung für diese Seite. Bitte loggen Sie sich ein
+  unauthorized: Du hast keine Berechtigung für diese Seite. Bitte logge dich ein
   until: bis

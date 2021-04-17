@@ -12,6 +12,10 @@ module BookingStates
       :declined_request
     end
 
+    def self.hidden
+      true
+    end
+
     after_transition do |booking|
       booking.occupancy.free!
       booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline_exceeded?

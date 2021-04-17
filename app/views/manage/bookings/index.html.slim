@@ -3,26 +3,35 @@
 nav.navbar.flex-row-reverse
 
   a[href='#filter' data-toggle='collapse' class='btn']
-    i.fa.fa-search>
+    i.fa.fa-search<>
+    = t(:search)
 
 #filter.collapse
   .container.py-3
     = form_with(model: @filter, url: manage_bookings_path, scope: '', method: :GET, local: true) do |f|
       = render partial: 'filter_fields', locals: { f: f }
       hr.my-4
-      = f.submit
+      = f.submit t(:search)
       =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary'
         = t(:reset)
 
-- grouped_bookings = @bookings.group_by { _1.booking_state.to_sym }
-- BookingStates.all.values.each do |state|
-  - bookings = grouped_bookings[state.to_sym]
-  - next if bookings.blank?
+- if @bookings.count > 100
+  .alert.alert-danger.d-flex
+    .mr-3
+      i.fa.fa-exclamation-circle
+    = t('.too_many_records')
+- else
+  - grouped_bookings = @bookings.group_by { _1.booking_state.to_sym }
+  - BookingStates.all.values.each do |state|
+    - bookings = grouped_bookings[state.to_sym]
+    - next if bookings.blank?
 
-  section.mt-4
-    h3.mt-5= state.t(:label)
-    p.text-muted = state.t(:help)
-    == render partial: 'table', locals: { bookings: bookings }
+    section.mt-4
+      h3
+        = state.t(:label)
+        small.badge.badge-pill.badge-danger.badge-small<>= bookings.count
+      p.text-muted = state.t(:help)
+      == render partial: 'table', locals: { bookings: bookings }
 
 br
 => link_to(new_manage_booking_path, class: 'btn btn-primary')
