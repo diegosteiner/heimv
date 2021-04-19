@@ -7,6 +7,7 @@
 #  id                    :uuid             not null, primary key
 #  approximate_headcount :integer
 #  booking_flow_type     :string
+#  booking_state_cache   :string           default("initial"), not null
 #  cancellation_reason   :text
 #  committed_request     :boolean
 #  concluded             :boolean          default(FALSE)
@@ -20,7 +21,6 @@
 #  purpose_key           :string
 #  ref                   :string
 #  remarks               :text
-#  state                 :string           default("initial"), not null
 #  state_data            :json
 #  tenant_organisation   :string
 #  timeframe_locked      :boolean          default(FALSE)
@@ -36,12 +36,12 @@
 #
 # Indexes
 #
-#  index_bookings_on_deadline_id      (deadline_id)
-#  index_bookings_on_home_id          (home_id)
-#  index_bookings_on_locale           (locale)
-#  index_bookings_on_organisation_id  (organisation_id)
-#  index_bookings_on_ref              (ref)
-#  index_bookings_on_state            (state)
+#  index_bookings_on_booking_state_cache  (booking_state_cache)
+#  index_bookings_on_deadline_id          (deadline_id)
+#  index_bookings_on_home_id              (home_id)
+#  index_bookings_on_locale               (locale)
+#  index_bookings_on_organisation_id      (organisation_id)
+#  index_bookings_on_ref                  (ref)
 #
 # Foreign Keys
 #
@@ -65,7 +65,6 @@ class Booking < ApplicationRecord
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :payments, dependent: :destroy, autosave: false
   has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
-  has_many :deadlines, dependent: :destroy, inverse_of: :booking
   has_many :notifications, dependent: :destroy, inverse_of: :booking, autosave: true, validate: false
   has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
@@ -73,6 +72,8 @@ class Booking < ApplicationRecord
   has_many :offers, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
+  has_many :deadlines, dependent: :delete_all, inverse_of: :booking
+  has_many :booking_transitions, dependent: :delete_all, autosave: false
 
   has_one :occupancy, inverse_of: :booking, dependent: :destroy
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking

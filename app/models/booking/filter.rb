@@ -54,7 +54,7 @@ class Booking
     filter :has_booking_state do |bookings|
       states = current_booking_states.reject(&:blank?)
 
-      bookings.where(state: states) if states.any?
+      bookings.where(booking_state_cache: states) if states.any?
     end
 
     filter :had_booking_state do |bookings|

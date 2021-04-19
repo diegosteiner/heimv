@@ -31,13 +31,13 @@ class BookingTransition < ApplicationRecord
   class_attribute :updated_timestamp_column
   self.updated_timestamp_column = :updated_at
 
-  belongs_to :booking, inverse_of: :booking_transitions, touch: true
+  belongs_to :booking, inverse_of: :booking_transitions
 
   scope :ordered, -> { order(sort_key: :ASC) }
 
   before_save :serialize_booking
   after_destroy :update_most_recent, if: :most_recent?
-  after_save :update_booking_state
+  after_save :update_booking_state_cache
 
   private
 
@@ -45,9 +45,9 @@ class BookingTransition < ApplicationRecord
     self.booking_data = booking.attributes
   end
 
-  def update_booking_state
+  def update_booking_state_cache
     # rubocop:disable Rails/SkipsModelValidations
-    booking.update_columns(state: to_state)
+    booking.update_columns(booking_state_cache: to_state, updated_at: updated_at)
     # rubocop:enable Rails/SkipsModelValidations
   end
 

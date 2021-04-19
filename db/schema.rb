@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_073616) do
+ActiveRecord::Schema.define(version: 2021_04_18_121253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_073616) do
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "home_id", null: false
     t.bigint "organisation_id", null: false
-    t.string "state", default: "initial", null: false
+    t.string "booking_state_cache", default: "initial", null: false
     t.string "tenant_organisation"
     t.string "email"
     t.integer "tenant_id"
@@ -131,12 +131,12 @@ ActiveRecord::Schema.define(version: 2021_04_14_073616) do
     t.string "locale"
     t.integer "purpose_id"
     t.string "booking_flow_type"
+    t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
-    t.index ["state"], name: "index_bookings_on_state"
   end
 
   create_table "contracts", force: :cascade do |t|

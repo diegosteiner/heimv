@@ -7,6 +7,7 @@
 #  id                    :uuid             not null, primary key
 #  approximate_headcount :integer
 #  booking_flow_type     :string
+#  booking_state_cache   :string           default("initial"), not null
 #  cancellation_reason   :text
 #  committed_request     :boolean
 #  concluded             :boolean          default(FALSE)
@@ -20,7 +21,6 @@
 #  purpose_key           :string
 #  ref                   :string
 #  remarks               :text
-#  state                 :string           default("initial"), not null
 #  state_data            :json
 #  tenant_organisation   :string
 #  timeframe_locked      :boolean          default(FALSE)
@@ -36,12 +36,12 @@
 #
 # Indexes
 #
-#  index_bookings_on_deadline_id      (deadline_id)
-#  index_bookings_on_home_id          (home_id)
-#  index_bookings_on_locale           (locale)
-#  index_bookings_on_organisation_id  (organisation_id)
-#  index_bookings_on_ref              (ref)
-#  index_bookings_on_state            (state)
+#  index_bookings_on_booking_state_cache  (booking_state_cache)
+#  index_bookings_on_deadline_id          (deadline_id)
+#  index_bookings_on_home_id              (home_id)
+#  index_bookings_on_locale               (locale)
+#  index_bookings_on_organisation_id      (organisation_id)
+#  index_bookings_on_ref                  (ref)
 #
 # Foreign Keys
 #
