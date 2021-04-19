@@ -12,6 +12,10 @@ module BookingStates
       :upcoming
     end
 
+    def self.hidden
+      true
+    end
+
     after_transition do |booking|
       booking.occupancy.occupied!
       booking.deadline&.clear

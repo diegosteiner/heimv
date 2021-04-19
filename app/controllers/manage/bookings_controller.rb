@@ -12,7 +12,7 @@ module Manage
 
     def index
       @bookings = @bookings.where(organisation: current_organisation)
-      @bookings = @filter.apply(@bookings.with_default_includes.ordered)
+      @bookings = @filter.apply_cached(@bookings.with_default_includes.ordered)
       respond_with :manage, @bookings
     end
 
@@ -72,7 +72,7 @@ module Manage
     end
 
     def default_booking_filter_params
-      { 'current_booking_states' => BookingStates.all.values.filter_map { |state| state.to_sym unless state.hidden } }
+      { 'current_booking_states' => BookingStates.displayed_by_default }
     end
   end
 end

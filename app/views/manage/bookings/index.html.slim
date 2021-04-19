@@ -1,13 +1,17 @@
 - title Booking.model_name.human(count: :other)
 
-nav.navbar.flex-row-reverse
+nav.navbar.justify-content-end.px-0
+  = link_to manage_bookings_path(current_booking_states: BookingStates.displayed_by_default), class: 'btn btn-outline-secondary mr-2'
+    = t('.canned_filter_default')
+  = link_to manage_bookings_path(current_booking_states: [:upcoming, :upcoming_soon]), class: 'btn btn-outline-secondary mr-2'
+    = t('.canned_filter_upcoming')
 
-  a[href='#filter' data-toggle='collapse' class='btn']
+  a[href='#filter' data-toggle='collapse' class='btn btn-primary']
     i.fa.fa-search<>
     = t(:search)
 
 #filter.collapse
-  .container.py-3
+  .py-3
     = form_with(model: @filter, url: manage_bookings_path, scope: '', method: :GET, local: true) do |f|
       = render partial: 'filter_fields', locals: { f: f }
       hr.my-4
@@ -21,19 +25,21 @@ nav.navbar.flex-row-reverse
       i.fa.fa-exclamation-circle
     = t('.too_many_records')
 - else
-  - grouped_bookings = @bookings.group_by { _1.booking_state.to_sym }
-  - BookingStates.all.values.each do |state|
-    - bookings = grouped_bookings[state.to_sym]
-    - next if bookings.blank?
+  - cache @bookings do
+    - grouped_bookings = @bookings.group_by { |booking| booking.booking_state_cache.to_sym }
+    - BookingStates.all.values.each do |state|
+      - bookings = grouped_bookings[state.to_sym]
+      - next if bookings.blank?
 
-    section.mt-4
-      h3
-        = state.t(:label)
-        small.badge.badge-pill.badge-danger.badge-small<>= bookings.count
-      p.text-muted = state.t(:help)
-      == render partial: 'table', locals: { bookings: bookings }
+      section.mt-4
+        h3
+          = state.t(:label)
+          small.badge.badge-pill.badge-danger.badge-small<>= bookings.count
+        p.text-muted = state.t(:help)
+        == render partial: 'table', locals: { bookings: bookings }
 
-br
+hr.my-5
+
 => link_to(new_manage_booking_path, class: 'btn btn-primary')
   = t('add_record', model_name: Booking.model_name.human)
 

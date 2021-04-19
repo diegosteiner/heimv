@@ -761,6 +761,8 @@ en:
       form:
         change_tenant_id: Change tenant
       index:
+        canned_filter_default: Canned filter default
+        canned_filter_upcoming: Canned filter upcoming
         too_many_records: Too many records
       show:
         public_booking_url: Public booking url

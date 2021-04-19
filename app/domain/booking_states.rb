@@ -8,4 +8,8 @@ module BookingStates
       CancelledRequest, DeclinedRequest, Cancelled, OverdueRequest, PaymentOverdue, Initial
     ].index_by(&:to_sym)
   end
+
+  def self.displayed_by_default
+    all.values.filter_map { |state| state.to_sym unless state.hidden }
+  end
 end

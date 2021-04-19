@@ -1778,6 +1778,8 @@ de:
       form:
         change_tenant_id: Mieter ändern
       index:
+        canned_filter_default: Standardansicht
+        canned_filter_upcoming: Zukünftige Belegungen
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       show:
         public_booking_url: Link für Mieter
@@ -1916,7 +1918,7 @@ de:
         title: Reservation
   receipt_title: Receipt title
   ref: Ref
-  reset: Reset
+  reset: Zurücksetzen
   rich_text_templates:
     awaiting_contract_notification:
       default_body: |-

@@ -24,14 +24,18 @@ class ApplicationFilter
     attributes.values.any?(&:present?)
   end
 
-  def cached(base_relation)
-    ids = Rails.cache.fetch(cache_key(base_relation), expires_in: 15.minutes) do
+  def cached_ids(base_relation)
+    Rails.cache.fetch(cache_key(base_relation), expires_in: 15.minutes) do
       apply(base_relation).map(&:id)
     end
-    base_relation.model.find(ids)
+  end
+
+  def apply_cached(base_relation)
+    base_relation.where(id: cached_ids(base_relation))
   end
 
   def cache_key(relation)
-    ([self.class] + relation.pluck(:id) + attributes.values).join('-')
+    digest = Digest::SHA1
+    [self.class, digest.hexdigest(relation.pluck(:id).to_s), digest.hexdigest(attributes.values.to_s)].join('-')
   end
 end

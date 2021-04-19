@@ -51,12 +51,13 @@
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
               = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-                - BookingActions::Manage.all.values.each do |action_klass|
-                  - action = action_klass.new(booking: booking)
-                  - next unless action.allowed?
+                - cache booking do 
+                  - BookingActions::Manage.all.values.each do |action_klass|
+                    - action = action_klass.new(booking: booking)
+                    - next unless action.allowed?
 
-                  button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
-                    = action.translate
+                    button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
+                      = action.translate
               .dropdown-divider
               = link_to t(:show), manage_booking_path(booking), class: 'dropdown-item'
               = link_to t(:edit), edit_manage_booking_path(booking), class: 'dropdown-item'
