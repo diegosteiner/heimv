@@ -13,7 +13,7 @@ module BookingActions
       end
 
       def allowed?
-        booking.contract.present? && !booking.contract.sent?
+        booking.contract.present? && !booking.contract.sent? && booking.tenant.email.present?
       end
 
       def extract_attachments(home, deposits, contract)

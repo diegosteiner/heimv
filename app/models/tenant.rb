@@ -39,8 +39,8 @@ class Tenant < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error
   belongs_to :organisation
 
-  validates :email, presence: true, format: { with: Devise.email_regexp }
-  validates :email, uniqueness: { scope: %i[organisation_id] }
+  validates :email, allow_blank: true, format: { with: Devise.email_regexp }, uniqueness: { scope: :organisation_id }
+  validates :email, presence: true, on: :public_update
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :street_address, length: { maximum: 255 }
   validates :birth_date, presence: true, on: :public_update

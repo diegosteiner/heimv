@@ -21,7 +21,11 @@
             .row.mb-3
               .col
                 - if @booking.tenant.present?
-                  strong= Booking.human_attribute_name(:tenant)
+                  strong
+                    = Booking.human_attribute_name(:tenant)
+                    - unless @booking.tenant.complete?
+                      i.fa.fa-exclamation-triangle.text-warning<>
+
                   = tenant_address(@booking.tenant)
                   - if @booking.tenant.birth_date.present?
                     p.m-0= l(@booking.tenant.birth_date)

@@ -17,7 +17,9 @@ module BookingActions
       end
 
       def allowed?
-        booking.invoices.unsent.any? && !booking.booking_flow.in_state?(:definitive_request)
+        booking.invoices.unsent.any? && 
+          !booking.booking_flow.in_state?(:definitive_request) && 
+          booking.tenant.email.present?
       end
 
       def booking
