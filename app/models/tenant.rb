@@ -8,6 +8,7 @@
 #  birth_date           :date
 #  city                 :string
 #  country              :string
+#  country_code         :string
 #  email                :string           not null
 #  email_verified       :boolean          default(FALSE)
 #  first_name           :string

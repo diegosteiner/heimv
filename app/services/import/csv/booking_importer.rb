@@ -11,11 +11,15 @@ module Import
         @home = home
       end
 
-      actor do |booking, row|
-        begins_at = Time.zone.strptime(row['begins_at'], options[:datetime_format]) + 8.hours
-        ends_at = Time.zone.strptime(row['ends_at'], options[:datetime_format]) + 18.hours
+      def new_record
+        organisation.bookings.new(home: home)
+      end
 
-        booking.occupancy = Occupancy.new(begins_at: begins_at, ends_at: ends_at)
+      actor do |booking, row|
+        begins_at = Time.zone.strptime(row['begins_at'], options[:datetime_format])
+        ends_at = Time.zone.strptime(row['ends_at'], options[:datetime_format])
+
+        booking.build_occupancy(begins_at: begins_at, ends_at: ends_at, organisation: organisation)
       end
 
       actor do |booking, row|
@@ -28,7 +32,7 @@ module Import
       end
 
       actor do |booking, row|
-        booking.purpose = BookingPurpose.find_by(key: row['purpose'])
+        booking.purpose = organisation.booking_purposes.find_by(key: row['purpose'])
       end
 
       actor do |booking, row|

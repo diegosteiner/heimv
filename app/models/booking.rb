@@ -175,8 +175,8 @@ class Booking < ApplicationRecord
 
   def set_occupancy_attributes
     self.occupancy ||= build_occupancy
-    occupancy.home ||= home
-    occupancy.booking ||= self
+    occupancy.home = home
+    occupancy.booking = self
     occupancy
   end
 

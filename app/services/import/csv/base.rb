@@ -29,6 +29,7 @@ module Import
         end
 
         record.save!
+        record
       end
 
       def self.actor(&block)
