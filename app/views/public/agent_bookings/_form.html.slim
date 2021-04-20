@@ -1,9 +1,11 @@
-= form_with(model: [:public, @agent_booking], local: true) do |f|
+= form_with(model: [:public, @agent_booking]) do |f|
   .card[class=('bg-light' unless @agent_booking.booking_agent_responsible?)]
-    - if @agent_booking.errors.any?
-      .card-header.alert-danger.pt-4
-        = f.error_summary
     .card-body
+      - if @agent_booking.errors[:base].present?
+        .alert.alert-danger.d-flex
+          .mr-3
+            i.fa.fa-exclamation-circle               
+          = @agent_booking.errors[:base].to_sentence
       fieldset
         - if @agent_booking.booking&.deadline
           .form-group
@@ -14,15 +16,15 @@
         = f.collection_select :home_id, current_organisation.homes, :id, :to_s, {}, disabled: !@agent_booking.booking_agent_responsible?
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'agent_booking[occupancy_attributes][begins_at]',
-                                                    value: @agent_booking.occupancy.begins_at&.iso8601,
-                                                    disabled: @agent_booking.timeframe_locked?,
-                                                    required: true)
+                                                    value: @agent_booking.occupancy.begins_at&.iso8601, 
+                                                    disabled: @agent_booking.timeframe_locked?, required: true,
+                                                    invalidFeedback: @agent_booking.booking.errors['occupancy.begins_at']&.to_sentence)
 
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
                                                     name: 'agent_booking[occupancy_attributes][ends_at]',
-                                                    value: @agent_booking.occupancy.ends_at&.iso8601,
-                                                    disabled: @agent_booking.timeframe_locked?,
-                                                    required: true)
+                                                    value: @agent_booking.occupancy.ends_at&.iso8601, 
+                                                    disabled: @agent_booking.timeframe_locked?, required: true,
+                                                    invalidFeedback: @agent_booking.booking.errors['occupancy.ends_at']&.to_sentence)
 
         = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
         = f.text_field :booking_agent_code, disabled: !@agent_booking.booking_agent_responsible?
@@ -32,5 +34,4 @@
         - if @agent_booking.booking_agent_responsible?
           =<> f.submit
         - if @agent_booking.booking.present?
-          - actions = BookingActions::Public.all.values
-          = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { agent_booking: @agent_booking, booking: @agent_booking.booking }, form: f }
+          = render partial: 'manage/bookings/actions', locals: { actions: @agent_booking.booking.booking_state.public_actions, form: f }

@@ -57,10 +57,10 @@ class AgentBooking < ApplicationRecord
   end
 
   def update_booking
-    return false unless valid?
-
     booking || build_booking
-    booking.update(email: tenant_email.presence, agent_booking: self)
+    booking.assign_attributes(email: tenant_email.presence)
+
+    valid? && booking.save && booking.reload
   end
 
   def build_booking

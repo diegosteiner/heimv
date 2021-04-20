@@ -26,8 +26,8 @@
 #
 
 class BookingTransition < ApplicationRecord
-  # include Statesman::Adapters::ActiveRecordTransition
   include Translatable
+  # include Statesman::Adapters::ActiveRecordTransition does not support JSON column
   class_attribute :updated_timestamp_column
   self.updated_timestamp_column = :updated_at
 
@@ -55,6 +55,8 @@ class BookingTransition < ApplicationRecord
     last_transition = booking.booking_transitions.order(:sort_key).last
     return if last_transition.blank?
 
-    last_transition.update(most_recent: true)
+    # rubocop:disable Rails/SkipsModelValidations
+    last_transition.update_column(:most_recent, true)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 end

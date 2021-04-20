@@ -49,6 +49,7 @@ Metrics/BlockLength:
 Metrics/AbcSize:
   Exclude:
     - 'db/migrate/*'
+    - 'spec/**/*'
 
 Style/Documentation:
   Enabled: false

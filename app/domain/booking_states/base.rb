@@ -67,6 +67,14 @@ module BookingStates
       def guard_transition(from: nil, &block)
         add_callback(callback_type: :guards, callback_class: Statesman::Guard, from: from, &block)
       end
+
+      def available_public_actions
+        BookingActions::Public.all.values
+      end
+
+      def available_manage_actions
+        BookingActions::Manage.all.values
+      end
     end
 
     def initialize(booking)
@@ -94,11 +102,11 @@ module BookingStates
     end
 
     def public_actions
-      []
+      self.class.available_public_actions.filter_map { |action_klass| action_klass.new(booking: @booking) }
     end
 
     def manage_actions
-      []
+      self.class.available_manage_actions.filter_map { |action_klass| action_klass.new(booking: @booking) }
     end
 
     def relevant_time; end

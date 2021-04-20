@@ -83,7 +83,8 @@ class Tenant < ApplicationRecord
   end
 
   def complete?
-    [email, first_name, last_name, street_address, zipcode, city, country, birth_date, phone].all?(&:present?)
+    valid? &&
+      [email, first_name, last_name, street_address, zipcode, city, country, birth_date, phone].all?(&:present?)
   end
 
   def to_liquid

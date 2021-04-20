@@ -2,38 +2,13 @@
 
 module Import
   module Csv
-    class BookingImporter
+    class BookingImporter < Base
       delegate :organisation, to: :home
-      attr_reader :home, :options
+      attr_reader :home
 
       def initialize(home, **options)
+        super(options.reverse_merge({ datetime_format: '%FT%T', default_email: 'unknown@heimv.local' }))
         @home = home
-        @options = options.reverse_merge({ datetime_format: '%FT%T', default_email: 'unknown@heimv.local' })
-      end
-
-      def read(input = ARGF, **options)
-        Booking.transaction do
-          options.reverse_merge!({ headers: true })
-          result = CSV.parse(input, **options).map { import_row(_1, home.bookings.new) }
-          raise ActiveRecord::Rollback, :dry_run if options[:dry_run].present?
-
-          result
-        end
-      end
-
-      def import_row(row, memo)
-        self.class.actors.each_with_object(memo) do |actor_block, booking|
-          instance_exec(booking, row, &actor_block)
-          booking.save!
-        end
-      end
-
-      def self.actor(&block)
-        actors << block
-      end
-
-      def self.actors
-        @actors ||= []
       end
 
       actor do |booking, row|

@@ -30,14 +30,15 @@ module BookingStateConcern
 
   def booking_flow_class
     @booking_flow_class ||= booking_flow_type && BookingFlows.const_get(booking_flow_type).new ||
-                            organisation.booking_flow_class
+                            organisation&.booking_flow_class
   end
 
   def booking_flow
-    @booking_flow ||= booking_flow_class.new(self)
+    @booking_flow ||= booking_flow_class&.new(self)
   end
 
   def booking_state
+    return unless booking_flow
     return @booking_state if @booking_state&.to_s == booking_flow.current_state
 
     @booking_state = BookingStates.all[booking_flow.current_state&.to_sym]&.new(self)

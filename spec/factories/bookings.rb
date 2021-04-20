@@ -59,10 +59,9 @@ FactoryBot.define do
     approximate_headcount { rand(30) }
     transient do
       initial_state { nil }
-      tenant { association :tenant, organisation: home.organisation, email: email }
-      purpose { association :booking_purpose, organisation: home.organisation }
       begins_at { nil }
       ends_at { nil }
+      tenant { association :tenant, organisation: home.organisation, email: email }
     end
 
     after(:build) do |booking, evaluator|
@@ -70,6 +69,8 @@ FactoryBot.define do
       booking.occupancy ||= build(:occupancy, home: booking.home, occupancy_type: :free)
       booking.occupancy.begins_at = evaluator.begins_at if evaluator.begins_at
       booking.occupancy.ends_at = evaluator.ends_at if evaluator.ends_at
+      booking.purpose ||= booking.organisation.booking_purposes.sample
+      booking.tenant = evaluator.tenant
     end
 
     after(:create) do |booking, evaluator|

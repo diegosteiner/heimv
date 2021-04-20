@@ -44,6 +44,7 @@ FactoryBot.define do
     zipcode { Faker::Address.zip_code }
     city { Faker::Address.city }
     birth_date { 22.years.ago.to_date }
+    phone { '044 444 44 44' }
     email do |c|
       "#{[c.first_name, c.last_name].join('.').downcase.sub(/[^a-z_.\d]/i, '')}@heimverwaltung.example.com"
     end

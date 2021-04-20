@@ -29,16 +29,12 @@ module Public
       if @agent_booking.booking_agent_responsible?
         @agent_booking.assign_attributes(agent_booking_params)
         @agent_booking.save_and_update_booking
-        public_actions[booking_action]&.call(booking: @agent_booking.booking) if booking_action
+        BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
       end
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path
     end
 
     private
-
-    def public_actions
-      BookingActions::Public.all
-    end
 
     def booking_action
       params[:booking_action]

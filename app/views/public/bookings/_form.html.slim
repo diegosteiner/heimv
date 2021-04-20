@@ -77,5 +77,4 @@
         - if @booking.editable
           =<> f.submit class: 'btn btn-primary'
 
-        - actions = BookingActions::Public.all.values
-        = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }
+        = render partial: 'manage/bookings/actions', locals: { actions: @booking.booking_state.public_actions, form: f }

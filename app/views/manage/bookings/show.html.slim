@@ -87,8 +87,7 @@
 
 
             = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
-              - actions = BookingActions::Manage.all.values
-              = render partial: 'manage/bookings/actions', locals: { actions: actions, context: { booking: @booking }, form: f }
+              = render partial: 'manage/bookings/actions', locals: { actions: @booking.booking_state.manage_actions, form: f }
               '
               .dropdown.d-inline
                 button.btn.btn-outline-primary.dropdown-toggle[type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value='allowed_transitions']
