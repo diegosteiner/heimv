@@ -11,6 +11,7 @@ Released on 2021-04-19
 - Refactor booking flow and add documentation
 - Add more caching for better performance
 - Add canned filters
+- Add tenant importer
 
 #### Version 21.3.1
 
