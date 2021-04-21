@@ -7,7 +7,6 @@
 #  id                   :bigint           not null, primary key
 #  birth_date           :date
 #  city                 :string
-#  country              :string
 #  country_code         :string           default("CH")
 #  email                :string
 #  email_verified       :boolean          default(FALSE)

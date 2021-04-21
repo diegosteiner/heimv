@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_21_114522) do
+ActiveRecord::Schema.define(version: 2021_04_21_165441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -378,7 +378,6 @@ ActiveRecord::Schema.define(version: 2021_04_21_114522) do
     t.string "street_address"
     t.string "zipcode"
     t.string "city"
-    t.string "country"
     t.boolean "reservations_allowed", default: true
     t.boolean "email_verified", default: false
     t.text "phone"

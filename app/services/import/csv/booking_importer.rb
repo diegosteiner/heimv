@@ -9,9 +9,10 @@ module Import
       def initialize(home, **options)
         super(options.reverse_merge({ datetime_format: '%FT%T', default_email: 'unknown@heimv.local' }))
         @home = home
+        @tenant_importer = TenantImporter.new(organisation)
       end
 
-      def new_record(_row)
+      def initialize_record(_row)
         organisation.bookings.new(home: home)
       end
 
@@ -23,12 +24,9 @@ module Import
       end
 
       actor do |booking, row|
-        booking.assign_attributes({
-                                    import_data: row.to_h, email: row['email'].presence, timeframe_locked: true,
-                                    editable: false,
-                                    notifications_enabled: false, transition_to: :upcoming, ref: row['ref'].presence,
-                                    tenant_organisation: row['organisation'].presence, remarks: row['remarks'].presence
-                                  })
+        booking.assign_attributes(import_data: row.to_h, timeframe_locked: true, editable: false,
+                                  notifications_enabled: false, transition_to: :upcoming, ref: row['ref'].presence,
+                                  tenant_organisation: row['organisation'].presence, remarks: row['remarks'].presence)
       end
 
       actor do |booking, row|
@@ -36,9 +34,8 @@ module Import
       end
 
       actor do |booking, row|
-        booking.assign_attributes(tenant_attributes: {
-                                    phone: row['phone'].presence
-                                  })
+        booking.tenant = @tenant_importer.import_row(row)
+        booking.email = booking.tenant&.email
       end
     end
   end

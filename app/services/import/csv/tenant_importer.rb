@@ -10,7 +10,7 @@ module Import
         @organisation = organisation
       end
 
-      def new_record(row)
+      def initialize_record(row)
         email = row.try_field('email')&.strip
         return Tenant.new(organisation: organisation) if email.blank?
 

@@ -10,7 +10,7 @@ module Import
         @options = default_options.deep_merge(options)
       end
 
-      def new_record(_row)
+      def initialize_record(_row)
         raise NotImplementedError
       end
 
@@ -25,7 +25,7 @@ module Import
       end
 
       def import_row(row)
-        new_record(row).tap do |record|
+        initialize_record(row).tap do |record|
           self.class.actors.each do |actor_block|
             instance_exec(record, row, &actor_block)
           end
