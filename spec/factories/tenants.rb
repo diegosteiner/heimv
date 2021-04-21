@@ -8,15 +8,15 @@
 #  birth_date           :date
 #  city                 :string
 #  country              :string
-#  country_code         :string
-#  email                :string           not null
+#  country_code         :string           default("CH")
+#  email                :string
 #  email_verified       :boolean          default(FALSE)
 #  first_name           :string
 #  import_data          :jsonb
 #  last_name            :string
 #  phone                :text
 #  remarks              :text
-#  reservations_allowed :boolean
+#  reservations_allowed :boolean          default(TRUE)
 #  search_cache         :text             not null
 #  street_address       :string
 #  zipcode              :string

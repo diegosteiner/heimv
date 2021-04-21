@@ -8,15 +8,15 @@
 #  birth_date           :date
 #  city                 :string
 #  country              :string
-#  country_code         :string
-#  email                :string           not null
+#  country_code         :string           default("CH")
+#  email                :string
 #  email_verified       :boolean          default(FALSE)
 #  first_name           :string
 #  import_data          :jsonb
 #  last_name            :string
 #  phone                :text
 #  remarks              :text
-#  reservations_allowed :boolean
+#  reservations_allowed :boolean          default(TRUE)
 #  search_cache         :text             not null
 #  street_address       :string
 #  zipcode              :string
@@ -49,7 +49,7 @@ class Tenant < ApplicationRecord
 
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
 
-  attribute :country, default: 'CH'
+  attribute :country_code, default: 'CH'
 
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')
@@ -65,18 +65,21 @@ class Tenant < ApplicationRecord
 
   def address_lines
     [
-      name,
       street_address&.lines&.map(&:strip),
-      "#{zipcode} #{city} #{country}"
+      "#{zipcode} #{city} #{country_code}"
     ].flatten.reject(&:blank?)
   end
 
+  def full_address_lines
+    [name, address_lines].flatten
+  end
+
   def address
-    address_lines.join("\n")
+    full_address_lines.join("\n")
   end
 
   def contact_lines
-    address_lines + [phone, email].reject(&:blank?)
+    address_lines + [phone&.lines, email].flatten.reject(&:blank?)
   end
 
   def to_s
@@ -85,7 +88,7 @@ class Tenant < ApplicationRecord
 
   def complete?
     valid? &&
-      [email, first_name, last_name, street_address, zipcode, city, country, birth_date, phone].all?(&:present?)
+      [email, first_name, last_name, street_address, zipcode, city, country_code, birth_date, phone].all?(&:present?)
   end
 
   def to_liquid

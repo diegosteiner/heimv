@@ -35,7 +35,7 @@ module DataDigests
     def build_data_row(booking)
       super + booking.instance_eval do
         [
-          tenant&.address_lines&.join("\n"), tenant&.email, tenant&.phone, occupancy&.nights
+          tenant&.full_address_lines&.join("\n"), tenant&.email, tenant&.phone, occupancy&.nights
         ]
       end
     end

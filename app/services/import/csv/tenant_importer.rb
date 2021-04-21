@@ -6,16 +6,23 @@ module Import
       attr_reader :organisation
 
       def initialize(organisation, **options)
-        super(options.reverse_merge)
+        super(options)
         @organisation = organisation
       end
 
-      def new_record
-        Tenant.new(organisation: organisation)
+      def new_record(row)
+        email = row.try_field('email')&.strip
+        return Tenant.new(organisation: organisation) if email.blank?
+
+        Tenant.find_or_initialize_by(email: email, organisation: organisation)
       end
 
       actor do |tenant, row|
-        tenant.phone = row.slice('phone', 'phone_1', 'phone_2').join("\n")
+        tenant.phone = row.try_all_fields('phone', 'phone_1', 'phone_2').join("\n")
+      end
+
+      actor do |tenant, row|
+        tenant.import_data = row.to_h
       end
 
       actor do |tenant, row|
@@ -23,9 +30,11 @@ module Import
       end
 
       actor do |tenant, row|
-        tenant.assign_attributes(first_name: row['first_name'].presence, last_name: row['last_name'].presence,
-                                 street_address: row['street_address'].presence, zipcode: row['zipcode'].presence,
-                                 city: row['city'].presence, email: row['email'].presence,
+        tenant.assign_attributes(first_name: row.try_field('first_name', 'vorname'),
+                                 last_name: row.try_field('last_name', 'nachname'),
+                                 street_address: row.try_field('street_address', 'address', 'adresse', 'strasse'),
+                                 zipcode: row.try_field('zipcode', 'zip', 'plz'),
+                                 city: row.try_field('city', 'place', 'ort'),
                                  remarks: row['remarks'].presence)
       end
     end

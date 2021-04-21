@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_20_165806) do
+ActiveRecord::Schema.define(version: 2021_04_21_114522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -379,18 +379,18 @@ ActiveRecord::Schema.define(version: 2021_04_20_165806) do
     t.string "zipcode"
     t.string "city"
     t.string "country"
-    t.boolean "reservations_allowed"
+    t.boolean "reservations_allowed", default: true
     t.boolean "email_verified", default: false
     t.text "phone"
     t.text "remarks"
-    t.string "email", null: false
+    t.string "email"
     t.text "search_cache", null: false
     t.date "birth_date"
     t.jsonb "import_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "organisation_id", null: false
-    t.string "country_code"
+    t.string "country_code", default: "CH"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"

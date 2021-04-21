@@ -67,7 +67,9 @@ Resend failed Notification attemps:
 bin/rails r RetryFailedNotificationsJob.perform_now
 ```
 
-## Import booking data
+## Import data
+
+### Bookings
 
 Prepare a csv with these columns, including a header, as utf-8:
 
@@ -84,6 +86,24 @@ Then import data with:
 
 ```
 cat data.csv | bin/rails r Import::Csv::BookingImporter.new(home).read
+```
+
+### Tenants
+
+Prepare a csv with these columns, including a header, as utf-8:
+
+- first_name
+- last_name
+- street_address
+- zipcode
+- city
+- phone
+- email
+
+Then import data with:
+
+```
+cat data.csv | bin/rails r Import::Csv::TenantImporter.new(organisation).read
 ```
 
 ## Copyright & License

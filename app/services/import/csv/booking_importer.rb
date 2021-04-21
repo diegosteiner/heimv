@@ -11,7 +11,7 @@ module Import
         @home = home
       end
 
-      def new_record
+      def new_record(_row)
         organisation.bookings.new(home: home)
       end
 

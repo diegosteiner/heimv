@@ -213,12 +213,13 @@ fr:
         address: Adresse
         birth_date: Geburtsdatum
         city: Ort
-        country: Land
+        country_code: Land
         email: Email
         first_name: Vorname
         last_name: Nachname
         locale: Sprache
         phone: Telefon
+        remarks: Interne Bemerkungen
         reservations_allowed: Darf Reservationsanfragen schicken
         street_address: Strasse / Nr.
         zipcode: PLZ

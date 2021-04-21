@@ -23,7 +23,7 @@ module Export
         end
 
         def recipient_address
-          @use_invoice_address && booking.invoice_address.presence || booking.tenant.address_lines
+          @use_invoice_address && booking.invoice_address.presence || booking.tenant.full_address_lines
         end
 
         def represented_recipient

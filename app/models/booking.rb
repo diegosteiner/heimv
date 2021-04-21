@@ -151,7 +151,7 @@ class Booking < ApplicationRecord
   end
 
   def invoice_address_lines
-    @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.address_lines
+    @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
   end
 
   private

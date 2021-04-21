@@ -21,12 +21,25 @@
             .row.mb-3
               .col
                 - if @booking.tenant.present?
-                  strong
+                  - tenant = @booking.tenant
+                  strong.d-block
                     = Booking.human_attribute_name(:tenant)
                     - unless @booking.tenant.complete?
                       i.fa.fa-exclamation-triangle.text-warning<>
+                  address
+                    = tenant.name
+                    = link_to edit_manage_tenant_path(tenant) 
+                      i.fa.fa-edit<>
 
-                  = tenant_address(@booking.tenant)
+                    br
+                    - tenant.address_lines.each do |line|
+                      = line 
+                      br
+                    = link_to tenant.email, "mailto:#{tenant.email}"
+                    - tenant.phone&.lines&.each do |phone|
+                      br
+                      = link_to phone, "tel:#{phone}"
+
                   - if @booking.tenant.birth_date.present?
                     p.m-0= l(@booking.tenant.birth_date)
 

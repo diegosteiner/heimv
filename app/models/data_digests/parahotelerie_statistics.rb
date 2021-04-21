@@ -30,7 +30,7 @@ module DataDigests
       [
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
         I18n.t('data_digests/parahotelerie_statistics.total_overnight_stays'),
-        ::Tenant.human_attribute_name(:country)
+        ::Tenant.human_attribute_name(:country_code)
       ]
     end
 
@@ -40,7 +40,7 @@ module DataDigests
 
     def build_data_row(booking)
       [I18n.l(booking.occupancy.begins_at, format: :short), I18n.l(booking.occupancy.ends_at, format: :short),
-       headcount(booking), booking.tenant&.country]
+       headcount(booking), booking.tenant&.country_code]
     end
   end
 end
