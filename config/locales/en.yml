@@ -219,6 +219,7 @@ en:
         first_name: Vorname
         last_name: Nachname
         locale: Sprache
+        nickname: Pfadiname
         phone: Telefon
         remarks: Interne Bemerkungen
         reservations_allowed: Darf Reservationsanfragen schicken

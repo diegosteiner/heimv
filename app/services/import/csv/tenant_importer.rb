@@ -32,6 +32,7 @@ module Import
       actor do |tenant, row|
         tenant.assign_attributes(first_name: row.try_field('first_name', 'vorname'),
                                  last_name: row.try_field('last_name', 'nachname'),
+                                 nickname: row.try_field('nickname', 'pfadiname', 'vulgo'),
                                  street_address: row.try_field('street_address', 'address', 'adresse', 'strasse'),
                                  zipcode: row.try_field('zipcode', 'zip', 'plz'),
                                  city: row.try_field('city', 'place', 'ort'),

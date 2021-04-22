@@ -13,6 +13,7 @@
 #  first_name           :string
 #  import_data          :jsonb
 #  last_name            :string
+#  nickname             :string
 #  phone                :text
 #  remarks              :text
 #  reservations_allowed :boolean          default(TRUE)
