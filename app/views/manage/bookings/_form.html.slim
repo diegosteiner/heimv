@@ -39,7 +39,7 @@
       = cf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code) } do
         = cf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control'
 
-      = cf.telephone_field :phone
+      = cf.text_area :phone, rows: 2
       = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
 
   fieldset.mt-4

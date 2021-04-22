@@ -12,6 +12,7 @@
 #  prefill_usage_method     :string
 #  price_per_unit           :decimal(, )
 #  tarif_group              :string
+#  tenant_visible           :boolean          default(TRUE)
 #  transient                :boolean          default(FALSE)
 #  type                     :string
 #  unit                     :string

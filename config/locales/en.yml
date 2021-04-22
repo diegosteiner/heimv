@@ -201,6 +201,7 @@ en:
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis pro Einheit
         tarif_group: Tarifgruppe
+        tenant_visible: Für Mieter sichtbar (Vertrag und Rechnung)
         transient: Tarif NICHT auf Buchung fixieren
         type: Typ
         unit: Einheit

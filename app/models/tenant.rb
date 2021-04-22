@@ -44,11 +44,9 @@ class Tenant < ApplicationRecord
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :street_address, length: { maximum: 255 }
   validates :birth_date, presence: true, on: :public_update
-  validates :phone, presence: true, length: { minimum: 10 }, on: :public_update
+  validates :phone, presence: true, length: { minimum: 10, maximum: 255 }, on: :public_update
 
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
-
-  attribute :country_code, default: 'CH'
 
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')
