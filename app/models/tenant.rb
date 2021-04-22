@@ -77,7 +77,7 @@ class Tenant < ApplicationRecord
   end
 
   def contact_lines
-    address_lines + [phone&.lines, email].flatten.reject(&:blank?)
+    full_address_lines + [phone&.lines, email].flatten.reject(&:blank?)
   end
 
   def to_s

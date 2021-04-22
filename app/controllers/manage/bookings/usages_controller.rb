@@ -8,7 +8,13 @@ module Manage
 
       def index
         @usages = @usages.includes(:tarif)
-        respond_with :manage, @booking, @usages
+        respond_to do |format|
+          format.html
+          format.pdf do
+            send_data Export::Pdf::UsageReportPdf.new(@booking).render_document,
+                      filename: "#{@booking.ref}.pdf", type: 'application/pdf', disposition: :inline
+          end
+        end
       end
 
       def show

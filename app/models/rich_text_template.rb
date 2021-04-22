@@ -36,6 +36,9 @@ class RichTextTemplate < ApplicationRecord
   has_many :notifications, inverse_of: :rich_text_template, dependent: :nullify
 
   validates :key, uniqueness: { scope: %i[key organisation_id home_id] }
+  # validate do
+  # errors.add(:key, :invalid) unless key.present? && self.class.required_templates.keys.include?(key.to_sym)
+  # end
 
   def to_markdown
     Markdown.new(body)

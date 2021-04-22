@@ -17,7 +17,7 @@ module Manage
 
     def new
       dup = current_organisation.rich_text_templates.accessible_by(current_ability).find(params[:dup]) if params[:dup]
-      @rich_text_template = dup&.dup
+      @rich_text_template = dup&.dup || RichTextTemplate.new
       respond_with :manage, @rich_text_template
     end
 
