@@ -81,6 +81,9 @@ class Organisation < ApplicationRecord
 
   def smtp_settings_json=(value)
     self.smtp_settings = JSON.parse(value)
+  rescue JSON::ParserError
+    errors.add(:smtp_settings_json, :invalid)
+    smtp_settings
   end
 
   # TODO: extract to hash
