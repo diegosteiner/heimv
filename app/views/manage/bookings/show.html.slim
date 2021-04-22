@@ -25,7 +25,7 @@
                   strong.d-block
                     = Booking.human_attribute_name(:tenant)
                     - unless @booking.tenant.complete?
-                      i.fa.fa-exclamation-triangle.text-warning<>
+                      i.fa.fa-exclamation-triangle.text-warning<>[data-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete', default: '')]
                   address
                     = tenant.name
                     = link_to edit_manage_tenant_path(tenant) 

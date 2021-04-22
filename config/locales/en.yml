@@ -201,6 +201,7 @@ en:
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis pro Einheit
         tarif_group: Tarifgruppe
+        tenant_visible: Für Mieter sichtbar (Vertrag und Rechnung)
         transient: Tarif NICHT auf Buchung fixieren
         type: Typ
         unit: Einheit
@@ -218,6 +219,7 @@ en:
         first_name: Vorname
         last_name: Nachname
         locale: Sprache
+        nickname: Pfadiname
         phone: Telefon
         remarks: Interne Bemerkungen
         reservations_allowed: Darf Reservationsanfragen schicken
@@ -296,6 +298,8 @@ en:
           attributes:
             ends_at:
               too_far_in_future: ist zu weit in der Zukunft
+        tenant:
+          incomplete: Angaben unvollständig
       notifications:
         record_invalid: 'Validation failed: %{errors}'
         restrict_dependent_destroy:

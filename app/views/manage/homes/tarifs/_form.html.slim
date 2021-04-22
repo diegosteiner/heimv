@@ -11,6 +11,7 @@
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.number_field :price_per_unit, step: 0.01
     = f.text_field :meter
+    = f.check_box :tenant_visible
     = f.check_box :transient
     br
 

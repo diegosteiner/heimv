@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_21_165441) do
+ActiveRecord::Schema.define(version: 2021_04_22_085855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -366,6 +366,7 @@ ActiveRecord::Schema.define(version: 2021_04_21_165441) do
     t.string "meter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "tenant_visible", default: true
     t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
@@ -390,6 +391,7 @@ ActiveRecord::Schema.define(version: 2021_04_21_165441) do
     t.datetime "updated_at", null: false
     t.bigint "organisation_id", null: false
     t.string "country_code", default: "CH"
+    t.string "nickname"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"
