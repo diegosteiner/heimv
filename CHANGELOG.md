@@ -2,7 +2,13 @@
 
 #### Unreleased
 
+#### Version 21.4.2
+
+Released on 2021-04-22
+
 - Add nickname to tenants
+- Add tenant and tarif importer
+- Bugfixes
 
 #### Version 21.4.1
 
@@ -13,7 +19,6 @@ Released on 2021-04-19
 - Refactor booking flow and add documentation
 - Add more caching for better performance
 - Add canned filters
-- Add tenant importer
 
 #### Version 21.3.1
 
