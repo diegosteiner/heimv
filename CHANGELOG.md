@@ -2,6 +2,8 @@
 
 #### Unreleased
 
+- Add nickname to tenants
+
 #### Version 21.4.1
 
 Released on 2021-04-19

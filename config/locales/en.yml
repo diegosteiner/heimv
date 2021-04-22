@@ -298,6 +298,8 @@ en:
           attributes:
             ends_at:
               too_far_in_future: ist zu weit in der Zukunft
+        tenant:
+          incomplete: Angaben unvollständig
       notifications:
         record_invalid: 'Validation failed: %{errors}'
         restrict_dependent_destroy:
