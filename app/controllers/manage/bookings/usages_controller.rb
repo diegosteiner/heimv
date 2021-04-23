@@ -33,10 +33,10 @@ module Manage
       def update_many
         @booking.assign_attributes(booking_usages_params)
         set_usage_flags
-        @booking.save
+        @booking.save!
         return_to = params[:return_to] || manage_booking_usages_path(@booking)
         respond_with :manage, @booking, @usages,
-                     responder_flash_messages(Usage.model_name.human(count: 2)).merge(location: return_to)
+                     responder_flash_messages(Usage.model_name.human(count: :other)).merge(location: return_to)
       end
 
       def update

@@ -60,12 +60,11 @@
         = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: 2))
 
       - if defined?(used_units_field)
-        '
-        button.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
+        button.ml-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
           = t('.save_and_continue')
 
-      = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ml-3' do 
-        i.fa.fa-print<>
-
+      - if defined?(used_units_field)
+        = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ml-3' do 
+          i.fa.fa-print<>
 
       = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default ml-1'
