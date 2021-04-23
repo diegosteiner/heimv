@@ -1,6 +1,6 @@
 = form_with(url: manage_booking_usages_path(@booking), scope: :usages, method: :PUT, local: true, html: { novalidate: true }) do |f|
   = hidden_field_tag :return_to, return_to if defined?(return_to)
-  = hidden_field_tag :usages_entered, 1  if defined?(used_units_field) && (used_units_field == :used)
+  = hidden_field_tag :usages_entered, 1 if defined?(used_units_field) && (used_units_field == :used)
   = hidden_field_tag :usages_presumed, 1 if defined?(used_units_field) && (used_units_field == :presumed)
   .table-responsive
     table.table

@@ -8,7 +8,7 @@ module Manage
       # load_and_authorize_resource :usage, through: :booking, parent: false
 
       def index
-        @usages = @booking.usages
+        @usages = @booking.usages.to_a
         @suggested_usages = Usage::Factory.new(@booking).build_and_select.select(&:new_record?)
         respond_with :manage, @usages
       end
