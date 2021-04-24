@@ -65,7 +65,7 @@ class Tenant < ApplicationRecord
   def address_lines
     [
       street_address&.lines&.map(&:strip),
-      additional_address&.lines&.map(&:strip),
+      additional_address&.strip,
       "#{zipcode} #{city} #{country_code}"
     ].flatten.reject(&:blank?)
   end
