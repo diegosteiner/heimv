@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_22_085855) do
+ActiveRecord::Schema.define(version: 2021_04_24_162527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -392,6 +392,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_085855) do
     t.bigint "organisation_id", null: false
     t.string "country_code", default: "CH"
     t.string "nickname"
+    t.string "additional_address"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"

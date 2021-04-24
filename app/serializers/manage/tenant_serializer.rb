@@ -2,6 +2,7 @@
 
 module Manage
   class TenantSerializer < ApplicationSerializer
-    fields :salutation_name, :first_name, :last_name, :street_address, :zipcode, :city, :email
+    fields :salutation_name, :first_name, :last_name, :street_address, :nickname,
+           :additional_address, :zipcode, :city, :email
   end
 end

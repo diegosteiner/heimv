@@ -211,6 +211,7 @@ fr:
         override: Überschreiben
         tarif: Tarif
       tenant:
+        additional_address: Addresszusatz
         address: Adresse
         birth_date: Geburtsdatum
         city: Ort

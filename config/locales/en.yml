@@ -211,6 +211,7 @@ en:
         override: Tarif automatisch auswählen
         tarif: Tarif
       tenant:
+        additional_address: Addresszusatz
         address: Adresse
         birth_date: Geburtsdatum
         city: Ort

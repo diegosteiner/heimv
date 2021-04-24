@@ -1,7 +1,18 @@
 .card.breakout-sm
   .card-body
-    = render_hash_as_dl(@tenant.attributes.slice(*%w(first_name last_name street_address zipcode city email)), Tenant)
-    br
+    dl
+      dt= Tenant.model_name.human
+      dd 
+        address
+          - @tenant.full_address_lines.each do |line|
+            = line 
+            br
+
+      dt= Tenant.human_attribute_name(:email)
+      dd= mail_to(@tenant.email, @tenant.email)
+
+      dt= Tenant.human_attribute_name(:phone)
+      dd= link_to(@tenant.phone, "tel:#{@tenant.phone}")
 
     = link_to edit_manage_tenant_path(@tenant), class: 'btn btn-primary' do
       span.fa.fa-edit

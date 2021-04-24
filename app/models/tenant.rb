@@ -5,6 +5,7 @@
 # Table name: tenants
 #
 #  id                   :bigint           not null, primary key
+#  additional_address   :string
 #  birth_date           :date
 #  city                 :string
 #  country_code         :string           default("CH")
@@ -64,6 +65,7 @@ class Tenant < ApplicationRecord
   def address_lines
     [
       street_address&.lines&.map(&:strip),
+      additional_address&.lines&.map(&:strip),
       "#{zipcode} #{city} #{country_code}"
     ].flatten.reject(&:blank?)
   end
