@@ -42,29 +42,29 @@ class AgentBooking < ApplicationRecord
 
   before_validation :assign_booking_agent
 
-  validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request?
+  validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request
   validates :booking_agent_code, :booking, presence: true
   validate do
+    errors.add(:booking_agent_code, :invalid) if booking_agent.blank?
     errors.add(:tenant_email, :invalid) if tenant_email.present? && tenant_email == booking_agent&.email
   end
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
 
   def save_and_update_booking
-    return errors.add(:booking, :invalid) unless update_booking
+    return errors.add(:booking, :invalid) unless valid? && update_booking
 
     save
   end
 
   def update_booking
-    booking || build_booking
-    booking.assign_attributes(email: tenant_email.presence)
-
-    valid? && booking.save && booking.reload
+    build_booking
+    valid? && booking.save
   end
 
   def build_booking
-    self.booking = super(home: home, committed_request: false, organisation: organisation, notifications_enabled: true)
+    self.booking ||= super(committed_request: false, notifications_enabled: true)
+    self.booking.assign_attributes(home: home, organisation: organisation, email: tenant_email.presence)
   end
 
   def build_occupancy(attributes = {})
