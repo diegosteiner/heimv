@@ -2371,6 +2371,13 @@ de:
       default_body: ''
       default_title: ''
       description: Benachrichtigung für baldige Belegung (Mieter)
+    usage_report_text:
+      default_body: |-
+        # Belegung {{ booking.ref }} 
+
+        {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.address }}
+      default_title: 'Verbrauchsformular'
+      description: Text für Verbrauchsformular
   search: Suchen
   show: Anzeigen
   support:
