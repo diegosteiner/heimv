@@ -13,6 +13,7 @@ import {
   getHours,
   getMinutes,
 } from 'date-fns/esm';
+import { Prev } from 'react-bootstrap/esm/PageItem';
 
 const formatDate = new Intl.DateTimeFormat('de-CH', {
   year: 'numeric',
@@ -20,7 +21,7 @@ const formatDate = new Intl.DateTimeFormat('de-CH', {
   day: '2-digit',
 }).format;
 
-const initializeValue = (value: string | null): Date | null => {
+function initializeValue(value: string | null): Date | null {
   const dateValue = parseISO(value || '');
   if (!isValid(dateValue)) return null;
   if (dateValue && getHours(dateValue) < Math.min(...availableHours))
@@ -28,7 +29,16 @@ const initializeValue = (value: string | null): Date | null => {
   if (dateValue && getHours(dateValue) > Math.max(...availableHours))
     return setHours(dateValue, Math.max(...availableHours));
   return dateValue;
-};
+}
+
+function dateToCalendarControlValue(date: Date | null): CalendarControlValue {
+  return {
+    date: date,
+    hours: (date && getHours(date)) || Math.min(...availableHours),
+    minutes: (date && closestMinutes(getMinutes(date))) || Math.min(...availableMinutes),
+    text: (date && formatDate(date)) || '',
+  };
+}
 
 const availableHours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
 const allHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
@@ -50,6 +60,13 @@ interface CalendarControlProps {
   invalidFeedback?: string;
 }
 
+type CalendarControlValue = {
+  date: Date | null;
+  hours: number;
+  minutes: number;
+  text: string;
+};
+
 const CalendarControl: React.FC<CalendarControlProps> = ({
   value = '',
   name,
@@ -60,28 +77,20 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
   invalidFeedback,
   isInvalid = !!invalidFeedback,
 }) => {
-  const initializedValue = initializeValue(value);
   const [showModal, setShowModal] = React.useState<boolean>(false);
-  const [dateState, setDateState] = React.useState<Date | null>(initializedValue);
-  const [hourState, setHourState] = React.useState(
-    () => (initializedValue && getHours(initializedValue)) || Math.min(...availableHours)
+  const [inputValue, setInputValue] = React.useState<CalendarControlValue>(() =>
+    dateToCalendarControlValue(initializeValue(value)),
   );
-  const [minuteState, setMinuteState] = React.useState<number>(
-    () => (initializedValue && closestMinutes(getMinutes(initializedValue))) || Math.min(...availableMinutes)
-  );
-  const [textState, setTextState] = React.useState<string>((initializedValue && formatDate(initializedValue)) || '');
 
   const setDateValue = ({ date, hours, minutes }: { date?: Date; hours?: number; minutes?: number }) => {
-    let dateValue = date || dateState;
-    if (!dateValue) return;
+    let value = date || inputValue.date;
+    if (!value) return;
 
-    dateValue = setHours(dateValue, hours !== undefined ? hours : hourState);
-    dateValue = setMinutes(dateValue, minutes !== undefined ? minutes : minuteState);
-    setDateState(dateValue);
-    setHourState(hours || getHours(dateValue));
-    setMinuteState(minutes || getMinutes(dateValue));
-    setTextState(formatDate(dateValue));
-    onChange && onChange(dateValue);
+    value = setHours(value, hours !== undefined ? hours : inputValue.hours);
+    value = setMinutes(value, minutes !== undefined ? minutes : inputValue.minutes);
+    console.log(`input[${name}]: ${value.toString()}`);
+    setInputValue(dateToCalendarControlValue(value));
+    onChange && onChange(value);
   };
 
   const setHourValue = (value: string) => {
@@ -115,27 +124,30 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
     if (isValid(parsedValue)) {
       setDateValue({ date: parsedValue });
     } else {
-      setTextState((dateState && formatDate(dateState)) || value);
+      setInputValue((prev) => ({ ...prev, text: (inputValue.date && formatDate(inputValue.date)) || value }));
     }
     onBlur && onBlur();
   };
 
   const disableCallback = (date: Date) => !showModal || date <= new Date();
   const classNameCallback = (date: Date) =>
-    (dateState && isSameDay(date, dateState) && ['bg-primary', 'text-white']) || [];
+    (inputValue.date && isSameDay(date, inputValue.date) && ['bg-primary', 'text-white']) || [];
 
   return (
     <>
       <div className={(isInvalid && 'is-invalid') || ''}>
-        <input type="hidden" name={name} value={(dateState && formatISO(dateState)) || ''} />
+        <input type="hidden" name={name} value={(inputValue.date && formatISO(inputValue.date)) || ''} />
         <Row>
           <Col>
             <InputGroup hasValidation>
               <Form.Control
                 onBlur={handleTextChange}
                 disabled={disabled}
-                value={textState}
-                onChange={(e: React.ChangeEvent) => setTextState((e.target as HTMLInputElement).value)}
+                value={inputValue.text}
+                onChange={(e: React.ChangeEvent) => {
+                  const value = (e.target as HTMLInputElement).value;
+                  setInputValue((prev) => ({ ...prev, text: value }));
+                }}
                 isInvalid={isInvalid}
                 required={required}
               />
@@ -148,7 +160,7 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
           </Col>
           <Col sm={6} className="d-flex">
             <Form.Control
-              value={hourState}
+              value={inputValue.hours}
               onBlur={onBlur}
               className="d-inline-block w-auto"
               onChange={(e: React.ChangeEvent) => setHourValue((e.target as HTMLInputElement).value)}
@@ -164,7 +176,7 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
               ))}
             </Form.Control>
             <Form.Control
-              value={minuteState}
+              value={inputValue.minutes}
               onBlur={onBlur}
               className="d-inline-block w-auto"
               onChange={(e: React.ChangeEvent) => setMinuteValue((e.target as HTMLInputElement).value)}
@@ -183,7 +195,7 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
         </Row>
         <Modal size="lg" show={showModal} onHide={handleClose}>
           <Modal.Body>
-            <Calendar firstMonth={dateState || new Date()}>
+            <Calendar firstMonth={inputValue.date || new Date()}>
               <OccupancyCalendarDay
                 onClick={handleClick}
                 classNameCallback={classNameCallback}
