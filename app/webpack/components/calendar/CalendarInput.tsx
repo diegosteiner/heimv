@@ -64,10 +64,10 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [dateState, setDateState] = React.useState<Date | null>(initializedValue);
   const [hourState, setHourState] = React.useState(
-    (initializedValue && getHours(initializedValue)) || Math.min(...availableHours),
+    () => (initializedValue && getHours(initializedValue)) || Math.min(...availableHours)
   );
   const [minuteState, setMinuteState] = React.useState<number>(
-    (initializedValue && closestMinutes(getMinutes(initializedValue))) || Math.min(...availableMinutes),
+    () => (initializedValue && closestMinutes(getMinutes(initializedValue))) || Math.min(...availableMinutes)
   );
   const [textState, setTextState] = React.useState<string>((initializedValue && formatDate(initializedValue)) || '');
 
@@ -75,8 +75,8 @@ const CalendarControl: React.FC<CalendarControlProps> = ({
     let dateValue = date || dateState;
     if (!dateValue) return;
 
-    dateValue = setHours(dateValue, hours || hourState);
-    dateValue = setMinutes(dateValue, minutes || minuteState);
+    dateValue = setHours(dateValue, hours !== undefined ? hours : hourState);
+    dateValue = setMinutes(dateValue, minutes !== undefined ? minutes : minuteState);
     setDateState(dateValue);
     setHourState(hours || getHours(dateValue));
     setMinuteState(minutes || getMinutes(dateValue));
