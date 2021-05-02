@@ -18,10 +18,6 @@ module BookingStates
       booking.deadlines.create(at: payable_until, postponable_for: postponable_for) unless booking.deadline
     end
 
-    # infer_transition(from: %i[payment_due], to: :payment_overdue) do |booking|
-    #   booking.invoices.unpaid.overdue.exists?
-    # end
-
     infer_transition(to: :payment_overdue, &:deadline_exceeded?)
     infer_transition(to: :completed) do |booking|
       !booking.invoices.unpaid.kept.exists?

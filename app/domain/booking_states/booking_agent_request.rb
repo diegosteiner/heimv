@@ -2,7 +2,7 @@
 
 module BookingStates
   class BookingAgentRequest < Base
-    RichTextTemplate.require_template(:booking_agent_request_notification, %i[booking], self)
+    RichTextTemplate.require_template(:booking_agent_request_notification, context: %i[booking], required_by: self)
 
     def checklist
       []

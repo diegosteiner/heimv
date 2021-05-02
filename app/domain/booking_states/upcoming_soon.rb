@@ -2,7 +2,8 @@
 
 module BookingStates
   class UpcomingSoon < Base
-    RichTextTemplate.require_template(:upcoming_soon_notification, %i[booking], self)
+    RichTextTemplate.require_template(:upcoming_soon_notification, context: %i[booking], required_by: self,
+                                                                   optional: true)
 
     def checklist
       []
