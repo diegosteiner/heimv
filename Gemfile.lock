@@ -454,6 +454,7 @@ DEPENDENCIES
   cancancan
   capybara
   capybara-screenshot
+  connection_pool
   countries
   country_select
   dalli

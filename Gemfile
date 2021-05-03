@@ -13,6 +13,7 @@ gem 'bootstrap_form',
     ref: 'master'
 gem 'camt_parser'
 gem 'cancancan'
+gem 'connection_pool'
 gem 'countries'
 gem 'country_select'
 gem 'dalli'
