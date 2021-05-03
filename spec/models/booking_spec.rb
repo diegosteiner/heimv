@@ -61,6 +61,16 @@ describe Booking, type: :model do
     it 'has default locale' do
       expect(booking.locale.to_sym).to eq(I18n.locale.to_sym)
     end
+
+    it 'allows to change the locale' do
+      locale = :fr
+      booking.locale = locale
+      booking.save
+      booking.reload
+
+      expect(booking.locale_fr?).to be true
+      expect(booking.locale.to_sym).to eq(locale)
+    end
   end
 
   describe 'Tenant' do

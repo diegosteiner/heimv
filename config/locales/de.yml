@@ -189,7 +189,7 @@ de:
         write_off: Abschreibung
       rich_text_template:
         body: Text
-        home_id: Heim
+        home_id: Gültig für Heim
         key: ID
         locale: Sprache
         namespace: Bereich
@@ -1810,6 +1810,9 @@ de:
       form:
         general: Allgemein
         terms: AGB
+    rich_text_templates:
+      form:
+        all_homes: Alle Heime
   nav:
     edit_account: Account
     manage: Verwaltung

@@ -1810,6 +1810,9 @@ it:
       form:
         general: General
         terms: Terms
+    rich_text_templates:
+      form:
+        all_homes: All homes
   nav:
     edit_account: Account
     manage: Verwaltung
