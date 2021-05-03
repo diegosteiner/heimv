@@ -16,7 +16,7 @@ module Manage
     def show
       respond_to do |format|
         format.html { redirect_to }
-        format.json { render json: JSON.generate(Import::OrganisationImporter.new(@organisation).export) }
+        format.json { render json: Manage::OrganisationSerializer.render(@organisation, view: :export) }
       end
     end
 

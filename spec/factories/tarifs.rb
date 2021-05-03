@@ -6,7 +6,7 @@
 #
 #  id                       :bigint           not null, primary key
 #  invoice_type             :string
-#  label                    :string
+#  label_i18n               :jsonb
 #  meter                    :string
 #  position                 :integer
 #  prefill_usage_method     :string
@@ -15,7 +15,7 @@
 #  tenant_visible           :boolean          default(TRUE)
 #  transient                :boolean          default(FALSE)
 #  type                     :string
-#  unit                     :string
+#  unit_i18n                :jsonb
 #  valid_from               :datetime
 #  valid_until              :datetime
 #  created_at               :datetime         not null

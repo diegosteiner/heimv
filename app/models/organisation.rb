@@ -59,6 +59,8 @@ class Organisation < ApplicationRecord
     errors.add(:smtp_settings, :invalid) unless smtp_settings.is_a?(Hash) || smtp_settings.nil?
   end
 
+  attribute :booking_flow_type, default: BookingFlows::Default.to_s
+
   def booking_flow_class
     @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)
   end

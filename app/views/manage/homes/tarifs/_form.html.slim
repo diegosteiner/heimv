@@ -1,12 +1,25 @@
 = form_with(model: [:manage, @tarif.parent, @tarif.becomes(Tarif)], local: @tarif) do |f|
 
   fieldset
+    ul.nav.nav-tabs role="tablist"
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        li.nav-item
+          = link_to locale.upcase, "#tarif-#{locale}-tab",
+            class: "nav-link #{'active' if current_locale}",
+            aria: { controls: "tarif-#{locale}-tab", selected: current_locale },
+            data: { toggle: 'tab' }, role: 'tab'
+    .tab-content
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        .tab-pane.pt-3[id="tarif-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="tarif-#{locale}-tab" role='tabpanel']
+          = f.text_field "label_#{locale.to_s}", label: Tarif.human_attribute_name(:label)
+          = f.text_field "unit_#{locale.to_s}", label: Tarif.human_attribute_name(:unit)
+
     = f.hidden_field :id
     = f.select :type, type_options_for_select(Tarifs::TYPES)
     = f.text_field :tarif_group
     = f.number_field :position, step: 1.0
-    = f.text_field :label
-    = f.text_field :unit
     = f.collection_select :invoice_type, Invoices::TYPES.values, :to_s, :human_model_name, include_blank: true
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.number_field :price_per_unit, step: 0.01

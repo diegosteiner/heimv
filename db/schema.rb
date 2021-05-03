@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_24_162527) do
+ActiveRecord::Schema.define(version: 2021_05_03_092650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -350,12 +350,10 @@ ActiveRecord::Schema.define(version: 2021_04_24_162527) do
 
   create_table "tarifs", force: :cascade do |t|
     t.string "type"
-    t.string "label"
     t.boolean "transient", default: false
     t.uuid "booking_id"
     t.bigint "home_id"
     t.bigint "booking_copy_template_id"
-    t.string "unit"
     t.decimal "price_per_unit"
     t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until"
@@ -367,6 +365,8 @@ ActiveRecord::Schema.define(version: 2021_04_24_162527) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "tenant_visible", default: true
+    t.jsonb "label_i18n", default: {}
+    t.jsonb "unit_i18n", default: {}
     t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
