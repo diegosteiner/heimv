@@ -39,10 +39,16 @@
               p.m-0= booking.agent_booking.booking_agent_ref
 
         .col-md-3.py-3
-          p.mb-1
-            - if booking.booking_state.relevant_time.present? 
+          - if booking.booking_state.relevant_time.present? 
+            p.mb-2
               i.fa.fa-clock-o 
               =<> booking.booking_state.t(:relevant_time, time: l(booking.booking_state.relevant_time))
+
+          - if booking.internal_remarks.present?
+            p.mb-2.ellipsis.nowrap
+              i.fa.fa-sticky-note-o 
+              =<> booking.internal_remarks
+
           = render partial: 'manage/bookings/checklist', locals: { booking: booking }
 
         .col-md-1

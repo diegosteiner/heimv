@@ -2,6 +2,8 @@
 
 #### Unreleased
 
+- Show internal remarks in bookings overview
+
 #### Version 21.4.2
 
 Released on 2021-04-22
