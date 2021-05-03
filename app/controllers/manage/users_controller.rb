@@ -55,7 +55,9 @@ module Manage
     end
 
     def user_params
-      UserParams.new(params.require(:user)).permitted
+      permitted = UserParams.new(params.require(:user)).permitted
+      permitted << :password if params[:password].present?
+      permitted
     end
   end
 end

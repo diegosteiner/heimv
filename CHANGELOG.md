@@ -3,6 +3,7 @@
 #### Unreleased
 
 - Show internal remarks in bookings overview
+- Add possibility to translate tarifs
 
 #### Version 21.4.2
 
