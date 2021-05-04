@@ -3,16 +3,14 @@
 source 'https://rubygems.org'
 ruby '2.7.3'
 
-gem 'acts_as_list'
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
 gem 'blueprinter'
 gem 'bootsnap'
-gem 'bootstrap_form',
-    git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
-    ref: 'master'
+gem 'bootstrap_form'
 gem 'camt_parser'
 gem 'cancancan'
+gem 'connection_pool'
 gem 'countries'
 gem 'country_select'
 gem 'dalli'

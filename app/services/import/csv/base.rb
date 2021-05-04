@@ -16,7 +16,7 @@ module Import
 
       def read(input = ARGF, **options)
         options = @options.deep_merge(options)
-        Booking.transaction do
+        ActiveRecord::Base.transaction do
           result = CSV.parse(input, **options.fetch(:csv)).map { import_row(_1) }
           raise ActiveRecord::Rollback, :dry_run if options[:dry_run].present?
 

@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 21.5.1
+
+Released on 2021-05-04
+
+- Show internal remarks in bookings overview
+- Add possibility to translate tarifs
+- Allow ordering of booking purposes
+
 #### Version 21.4.2
 
 Released on 2021-04-22

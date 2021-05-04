@@ -5,7 +5,7 @@ require 'prawn'
 module Export
   module Pdf
     class UsageReportPdf < Base
-      RichTextTemplate.require_template(:usage_report_text, %i[booking], self)
+      RichTextTemplate.require_template(:usage_report_text, context: %i[booking], required_by: self)
       attr_reader :booking
 
       delegate :usages, :organisation, to: :booking

@@ -36,7 +36,7 @@ class Invoice < ApplicationRecord
   include Discard::Model
 
   belongs_to :booking, inverse_of: :invoices, touch: true
-  has_many :invoice_parts, -> { order(position: :asc) }, inverse_of: :invoice, dependent: :destroy
+  has_many :invoice_parts, -> { ordered }, inverse_of: :invoice, dependent: :destroy
   has_many :payments, dependent: :nullify
   has_one_attached :pdf
   has_one :organisation, through: :booking

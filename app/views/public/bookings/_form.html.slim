@@ -45,7 +45,8 @@
             .col
               = cf.text_field :last_name, disabled: !@booking.editable
 
-          = cf.text_area :street_address, disabled: !@booking.editable
+          = cf.text_field :street_address
+          = cf.text_field :additional_address
 
           .row
             .col-md-4

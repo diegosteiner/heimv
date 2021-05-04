@@ -91,6 +91,7 @@ ignore_missing:
   - 'number.percentage.format.delimiter'
   - 'number.precision.format.delimiter'
   - '{devise,simple_form}.*'
+  - 'rich_text_templates.*.{default_title,default_body}'
   - 'amount'
 
 ## Consider these keys used:

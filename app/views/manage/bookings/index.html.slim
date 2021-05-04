@@ -40,13 +40,13 @@ nav.navbar.justify-content-between.px-0
     - grouped_bookings = @bookings.group_by { |booking| booking.booking_state_cache.to_sym }
     - BookingStates.all.values.each do |state|
       - bookings = grouped_bookings[state.to_sym]
-      - collapse_id = "collapse-#{state.to_s}"
+      - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
       - next if bookings.blank?
 
       section.mt-4
         h3
           = state.t(:label)
-          a.badge.badge-pill.badge-danger.badge-small<>[href="##{collapse_id}" data-toggle="collapse"]
+          a.badge.badge-pill.badge-danger.badge-small.ml-3[href="##{collapse_id}" data-toggle="collapse"]
             = bookings.count
         p.text-muted = state.t(:help)
 

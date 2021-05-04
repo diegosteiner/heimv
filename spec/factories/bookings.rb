@@ -67,8 +67,8 @@ FactoryBot.define do
     after(:build) do |booking, evaluator|
       booking.organisation ||= booking.home.organisation
       booking.occupancy ||= build(:occupancy, home: booking.home, occupancy_type: :free)
-      booking.occupancy.begins_at = evaluator.begins_at if evaluator.begins_at
-      booking.occupancy.ends_at = evaluator.ends_at if evaluator.ends_at
+      booking.occupancy.begins_at = evaluator.begins_at if evaluator.begins_at.present?
+      booking.occupancy.ends_at = evaluator.ends_at if evaluator.ends_at.present?
       booking.purpose ||= booking.organisation.booking_purposes.sample
       booking.tenant = evaluator.tenant
     end

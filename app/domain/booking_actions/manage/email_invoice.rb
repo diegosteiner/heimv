@@ -3,7 +3,7 @@
 module BookingActions
   module Manage
     class EmailInvoice < BookingActions::Base
-      RichTextTemplate.require_template(:payment_due_notification, %i[booking], self)
+      RichTextTemplate.require_template(:payment_due_notification, context: %i[booking], required_by: self)
 
       def call!(invoices = booking.invoices.unsent)
         notification = booking.notifications.new(from_template: :payment_due_notification, addressed_to: :tenant)

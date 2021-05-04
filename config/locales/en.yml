@@ -88,6 +88,7 @@ en:
         request_deadline_minutes: Frist für Anfragen
       booking_purpose:
         key: Schlüssel
+        position: Ordnungsnummer
         title: Titel
       contract:
         issuer: Vermieter
@@ -134,6 +135,7 @@ en:
         apply: Anwenden
         breakdown: Text
         label: Text
+        position: Ordnungsnummer
         type: Positionsart
       meter_reading_period:
         begins_at: Beginn
@@ -198,6 +200,7 @@ en:
         invoice_type: Rechnungstyp
         label: Tarif
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
+        position: Ordnungsnummer
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis pro Einheit
         tarif_group: Tarifgruppe
@@ -211,6 +214,7 @@ en:
         override: Tarif automatisch auswählen
         tarif: Tarif
       tenant:
+        additional_address: Addresszusatz
         address: Adresse
         birth_date: Geburtsdatum
         city: Ort
@@ -792,6 +796,9 @@ en:
       form:
         general: General
         terms: Terms
+    rich_text_templates:
+      form:
+        all_homes: All homes
   nav:
     edit_account: Account
     manage: Verwaltung
@@ -1324,6 +1331,10 @@ en:
       default_body: Default body
       default_title: Default title
       description: Benachrichtigung für baldige Belegung (Mieter)
+    usage_report_text:
+      default_body: "# Belegung {{ booking.ref }} \n\n{{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.address }}"
+      default_title: Verbrauchsformular
+      description: Text für Verbrauchsformular
   search: Search
   show: Anzeigen
   support:

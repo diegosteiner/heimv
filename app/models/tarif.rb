@@ -6,7 +6,7 @@
 #
 #  id                       :bigint           not null, primary key
 #  invoice_type             :string
-#  label                    :string
+#  label_i18n               :jsonb
 #  meter                    :string
 #  position                 :integer
 #  prefill_usage_method     :string
@@ -15,7 +15,7 @@
 #  tenant_visible           :boolean          default(TRUE)
 #  transient                :boolean          default(FALSE)
 #  type                     :string
-#  unit                     :string
+#  unit_i18n                :jsonb
 #  valid_from               :datetime
 #  valid_until              :datetime
 #  created_at               :datetime         not null
@@ -35,6 +35,8 @@
 class Tarif < ApplicationRecord
   extend TemplateRenderable
   include TemplateRenderable
+  include RankedModel
+  extend Mobility
 
   belongs_to :booking, autosave: false, optional: true
   belongs_to :home, optional: true
@@ -45,18 +47,20 @@ class Tarif < ApplicationRecord
   has_many :tarif_selectors, dependent: :destroy, inverse_of: :tarif
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
 
-  acts_as_list scope: [:home_id]
-  scope :ordered, -> { order(:position) }
+  scope :ordered, -> { rank(:position) }
   scope :transient, -> { where(transient: true) }
   scope :valid_now, -> { where(valid_until: nil) }
-  # scope :valid_at, ->(at = Time.zone.now) { where(valid_until: nil) }
-  scope :applicable_to, ->(booking) { booking.home.tarifs.transient.or(where(booking: booking)).order(position: :asc) }
+  scope :applicable_to, ->(booking) { booking.home.tarifs.transient.or(where(booking: booking)).ordered }
   scope :find_with_booking_copies, ->(tarif_ids) { where(id: tarif_ids).or(where(booking_copy_template_id: tarif_ids)) }
 
-  enum prefill_usage_method: TarifPrefiller::PREFILL_METHODS.keys.map { |method| [method, method] }.to_h
+  enum prefill_usage_method: TarifPrefiller::PREFILL_METHODS.keys.index_with(&:to_s)
+  ranks :position, with_same: :home_id
 
   validates :type, presence: true
   attribute :price_per_unit, default: 0
+
+  translates :label, column_suffix: '_i18n', locale_accessors: true
+  translates :unit, column_suffix: '_i18n', locale_accessors: true
 
   accepts_nested_attributes_for :tarif_selectors, reject_if: :all_blank, allow_destroy: true
 
@@ -78,6 +82,10 @@ class Tarif < ApplicationRecord
 
   def original
     booking_copy_template || self
+  end
+
+  def organisation
+    booking&.organisation || home&.organisation
   end
 
   def self_and_booking_copy_ids

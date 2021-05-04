@@ -27,20 +27,24 @@
 #
 
 class InvoicePart < ApplicationRecord
+  include RankedModel
+
   belongs_to :invoice, inverse_of: :invoice_parts, touch: true
   belongs_to :usage, inverse_of: :invoice_parts, optional: true
 
   attribute :apply, :boolean, default: true
 
-  after_save do
-    invoice.recalculate! if amount_previously_changed?
-  end
+  ranks :position, with_same: :invoice_id
+
+  scope :ordered, -> { rank(:position) }
+
+  validates :type, presence: true
 
   before_validation do
     self.amount = amount&.floor(2) || 0
   end
 
-  acts_as_list scope: [:invoice_id]
-
-  validates :type, presence: true
+  after_save do
+    invoice.recalculate! if amount_previously_changed?
+  end
 end

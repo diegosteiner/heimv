@@ -2,7 +2,8 @@
 
 module BookingStates
   class OverdueRequest < Base
-    RichTextTemplate.require_template(:overdue_request_notification, %i[booking], self)
+    RichTextTemplate.require_template(:overdue_request_notification, context: %i[booking], required_by: self,
+                                                                     optional: true)
 
     def checklist
       []

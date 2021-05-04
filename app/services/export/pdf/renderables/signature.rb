@@ -15,7 +15,7 @@ module Export
 
         def render
           bounding_box(at, width: width, height: 120) do
-            text([@location.presence, @date.presence && I18n.l(@date&.to_date)].join(', '))
+            text([@location.presence, signature_date].compact.join(', '))
             signature
             stroke_horizontal_rule
             move_down 2
@@ -24,6 +24,10 @@ module Export
         end
 
         protected
+
+        def signature_date
+          @date.presence && I18n.l(@date.to_date)
+        end
 
         def signature
           return image(signature_image_source, height: signature_height) if signature_image_source.present?

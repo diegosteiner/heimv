@@ -5,6 +5,7 @@
 # Table name: tenants
 #
 #  id                   :bigint           not null, primary key
+#  additional_address   :string
 #  birth_date           :date
 #  city                 :string
 #  country_code         :string           default("CH")

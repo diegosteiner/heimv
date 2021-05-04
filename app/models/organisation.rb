@@ -43,7 +43,7 @@ class Organisation < ApplicationRecord
   has_many :tenants, -> { ordered }, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :rich_text_templates, inverse_of: :organisation, dependent: :destroy
   has_many :booking_agents, inverse_of: :organisation, dependent: :destroy
-  has_many :booking_purposes, inverse_of: :organisation, dependent: :destroy
+  has_many :booking_purposes, -> { ordered }, inverse_of: :organisation, dependent: :destroy
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
   has_one_attached :logo
@@ -58,6 +58,8 @@ class Organisation < ApplicationRecord
   validate do
     errors.add(:smtp_settings, :invalid) unless smtp_settings.is_a?(Hash) || smtp_settings.nil?
   end
+
+  attribute :booking_flow_type, default: BookingFlows::Default.to_s
 
   def booking_flow_class
     @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)

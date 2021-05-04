@@ -13,14 +13,24 @@ class ImportSeeder
     return unless FILES[set]
 
     truncate
-    import_data = JSON.parse(File.read(FILES[set]))
-    organisation = Import::OrganisationImporter.new(Organisation.new, replace: true).import(import_data)
+    organisation = organisation(FILES[set])
+    rich_text_templates(organisation)
     users(organisation)
     bookings(organisation.homes.first)
     reset_pk_sequence!
   end
 
   private
+
+  def rich_text_templates(organisation)
+    setup = OrganisationSetupService.new(organisation)
+    setup.create_missing_rich_text_templates!
+  end
+
+  def organisation(file)
+    import_data = JSON.parse(File.read(file))
+    Import::Hash::OrganisationImporter.new.import(import_data).tap(&:save!)
+  end
 
   def users(organisation, users: nil)
     users ||= [

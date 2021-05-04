@@ -1,6 +1,6 @@
 = form_with(url: manage_booking_usages_path(@booking), scope: :usages, method: :PUT, local: true, html: { novalidate: true }) do |f|
   = hidden_field_tag :return_to, return_to if defined?(return_to)
-  = hidden_field_tag :usages_entered, 1  if defined?(used_units_field) && (used_units_field == :used)
+  = hidden_field_tag :usages_entered, 1 if defined?(used_units_field) && (used_units_field == :used)
   = hidden_field_tag :usages_presumed, 1 if defined?(used_units_field) && (used_units_field == :presumed)
   .table-responsive
     table.table
@@ -15,57 +15,62 @@
             th= Usage.human_attribute_name(:price)
           th
 
-      - tarif_group = nil
-      - usages.sort_by(&:position).each do |usage|
-        tbody
-          - if tarif_group != usage.tarif.tarif_group
-            - tarif_group = usage.tarif.tarif_group
-            tr
-              th.pt-4[colspan='8']
-                h5= tarif_group
+      - grouped_usages = usages.group_by { |usage| usage.tarif.tarif_group }
+      - grouped_usages.each do |tarif_group, group_usages|
+        - collapse_id = "collapse-#{tarif_group&.gsub(/[^[:ascii:]]/, '')&.gsub(%r{[\/\s]}, '_')}"
+        - next if group_usages.empty?
 
-          = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
-            tr.bg-white
-              td
-              td.py-3
-                = uf.hidden_field :id
-                = uf.hidden_field :tarif_id
-                = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
-              td.py-3
-                = number_to_currency(usage.tarif.price_per_unit, currency: @booking.organisation.currency)
-              td.py-3
-                = usage.tarif.unit
-              - if defined?(used_units_field) && used_units_field
-                td.py-2
-                  = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif, presumed: (used_units_field == :presumed) }
+        thead
+          tr
+            th.pt-4[colspan='8']
+              h5
+                = tarif_group
+                a.badge.badge-pill.badge-secondary.ml-3[href="##{collapse_id}" data-toggle="collapse"]
+                  = group_usages.count
+
+        tbody.collapse.show[id=collapse_id]
+          - group_usages.each do |usage|
+            = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
+              tr.bg-white
+                td
                 td.py-3
-                  = number_to_currency(usage.price, currency: @booking.organisation.currency)
-              - else
-                = uf.hidden_field :used_units
-              td.py-2.text-right
-                .btn-group
-                  - if defined?(usage_links) && usage_links && !usage.new_record?
-                    = link_to edit_manage_booking_usage_path(@booking, usage), class: 'btn btn-default' do
-                      span.fa.fa-edit
-                    = link_to manage_booking_usage_path(@booking, usage), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                      span.fa.fa-trash
-                  - if defined?(tarif_links) && tarif_links && usage.tarif.booking_copy?
-                    = link_to edit_manage_booking_tarif_path(@booking, usage.tarif), class: 'btn btn-default' do
-                      span.fa.fa-edit
-                    = link_to manage_booking_tarif_path(@booking, usage.tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                      span.fa.fa-trash
+                  = uf.hidden_field :id
+                  = uf.hidden_field :tarif_id
+                  = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
+                td.py-3
+                  = number_to_currency(usage.tarif.price_per_unit, currency: @booking.organisation.currency)
+                td.py-3
+                  = usage.tarif.unit
+                - if defined?(used_units_field) && used_units_field
+                  td.py-2
+                    = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif, presumed: (used_units_field == :presumed) }
+                  td.py-3
+                    = number_to_currency(usage.price, currency: @booking.organisation.currency)
+                - else
+                  = uf.hidden_field :used_units
+                td.py-2.text-right
+                  .btn-group
+                    - if defined?(usage_links) && usage_links && !usage.new_record?
+                      = link_to edit_manage_booking_usage_path(@booking, usage), class: 'btn btn-default' do
+                        span.fa.fa-edit
+                      = link_to manage_booking_usage_path(@booking, usage), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                        span.fa.fa-trash
+                    - if defined?(tarif_links) && tarif_links && usage.tarif.booking_copy?
+                      = link_to edit_manage_booking_tarif_path(@booking, usage.tarif), class: 'btn btn-default' do
+                        span.fa.fa-edit
+                      = link_to manage_booking_tarif_path(@booking, usage.tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                        span.fa.fa-trash
     .mt-5
 
       button.btn.btn-secondary[type=:submit name=:commit]
         = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: 2))
 
       - if defined?(used_units_field)
-        '
-        button.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
+        button.ml-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
           = t('.save_and_continue')
 
-      = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ml-3' do 
-        i.fa.fa-print<>
-
+      - if defined?(used_units_field)
+        = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ml-3' do 
+          i.fa.fa-print<>
 
       = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default ml-1'

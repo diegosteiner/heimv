@@ -2,7 +2,7 @@
 
   fieldset
     = f.text_field :key, disabled: !@rich_text_template.new_record?
-    = f.collection_select :home_id, current_organisation.homes, :id, :name, { include_blank: true }
+    = f.collection_select :home_id, current_organisation.homes, :id, :name, { include_blank: t('.all_homes') }
 
     ul.nav.nav-tabs role="tablist"
       - I18n.available_locales.each do |locale|

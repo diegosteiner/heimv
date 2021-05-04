@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_22_085855) do
+ActiveRecord::Schema.define(version: 2021_05_04_082035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -84,8 +84,10 @@ ActiveRecord::Schema.define(version: 2021_04_22_085855) do
     t.jsonb "title_i18n"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "position"
     t.index ["key", "organisation_id"], name: "index_booking_purposes_on_key_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_booking_purposes_on_organisation_id"
+    t.index ["position"], name: "index_booking_purposes_on_position"
   end
 
   create_table "booking_transitions", force: :cascade do |t|
@@ -350,12 +352,10 @@ ActiveRecord::Schema.define(version: 2021_04_22_085855) do
 
   create_table "tarifs", force: :cascade do |t|
     t.string "type"
-    t.string "label"
     t.boolean "transient", default: false
     t.uuid "booking_id"
     t.bigint "home_id"
     t.bigint "booking_copy_template_id"
-    t.string "unit"
     t.decimal "price_per_unit"
     t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until"
@@ -367,6 +367,8 @@ ActiveRecord::Schema.define(version: 2021_04_22_085855) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "tenant_visible", default: true
+    t.jsonb "label_i18n", default: {}
+    t.jsonb "unit_i18n", default: {}
     t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
@@ -392,6 +394,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_085855) do
     t.bigint "organisation_id", null: false
     t.string "country_code", default: "CH"
     t.string "nickname"
+    t.string "additional_address"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"

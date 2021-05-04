@@ -26,7 +26,7 @@
 #
 
 class RichTextTemplate < ApplicationRecord
-  Requirement = Struct.new(:key, :context, :required_by)
+  Requirement = Struct.new(:key, :context, :required_by, :optional)
   extend Mobility
   extend Translatable
   translates :title, :body, column_suffix: '_i18n', locale_accessors: true
@@ -80,13 +80,16 @@ class RichTextTemplate < ApplicationRecord
       @required_templates ||= {}
     end
 
-    def require_template(key, context = [], required_by = nil)
+    def require_template(key, context: [], required_by: nil, optional: false)
       required_templates[key.to_sym] ||= []
-      required_templates[key.to_sym] << RichTextTemplate::Requirement.new(key, context, required_by)
+      required_templates[key.to_sym] << RichTextTemplate::Requirement.new(key, context, required_by, optional)
     end
 
-    def missing_templates(organisation)
-      required_templates.keys.map(&:to_s) - organisation.rich_text_templates.where(home_id: nil).pluck(:key)
+    def missing_templates(organisation, include_optional: false)
+      required = required_templates.values.map do |requirements|
+        requirements.filter_map { |requirement| requirement.key.to_s if !requirement.optional || include_optional }
+      end.flatten
+      required - organisation.rich_text_templates.where(home_id: nil).pluck(:key)
     end
   end
 end

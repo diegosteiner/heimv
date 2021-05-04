@@ -51,7 +51,12 @@ Rails.application.configure do
   if ENV['MEMCACHIER_SERVERS'].present?
     config.cache_store = :mem_cache_store, ENV['MEMCACHIER_SERVERS'],
                          { username: ENV['MEMCACHIER_USERNAME'],
-                           password: ENV['MEMCACHIER_PASSWORD'] }
+                           password: ENV['MEMCACHIER_PASSWORD'],
+                           failover: true,
+                           socket_timeout: 1.5,
+                           socket_failure_delay: 0.2,
+                           down_retry_delay: 10,
+                           pool_size: ENV.fetch('RAILS_MAX_THREADS', 5) }
   elsif ENV['MEMCACHED_SERVER'].present?
     config.cache_store = :mem_cache_store, ENV['MEMCACHED_SERVERS']
   else

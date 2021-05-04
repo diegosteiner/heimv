@@ -75,12 +75,13 @@ class Booking < ApplicationRecord
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
   has_many :booking_transitions, dependent: :delete_all, autosave: false
 
-  has_one :occupancy, inverse_of: :booking, dependent: :destroy
+  has_one  :occupancy, inverse_of: :booking, dependent: :destroy
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
 
   attribute :accept_conditions, default: false
-  enum locale: I18n.available_locales.index_by(&:itself)
+  enum locale: I18n.available_locales.index_by(&:to_sym).transform_values(&:to_s),
+       _prefix: true, _default: I18n.locale || I18n.default_locale
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create
@@ -144,10 +145,6 @@ class Booking < ApplicationRecord
 
   def to_liquid
     Manage::BookingSerializer.render_as_hash(self).deep_stringify_keys
-  end
-
-  def locale
-    super || I18n.locale || I18n.default_locale
   end
 
   def invoice_address_lines
