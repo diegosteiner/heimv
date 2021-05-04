@@ -6,6 +6,7 @@
 #
 #  id              :bigint           not null, primary key
 #  key             :string
+#  position        :integer
 #  title_i18n      :jsonb
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -15,6 +16,7 @@
 #
 #  index_booking_purposes_on_key_and_organisation_id  (key,organisation_id) UNIQUE
 #  index_booking_purposes_on_organisation_id          (organisation_id)
+#  index_booking_purposes_on_position                 (position)
 #
 # Foreign Keys
 #

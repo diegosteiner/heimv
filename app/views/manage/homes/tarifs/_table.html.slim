@@ -6,41 +6,46 @@
       tr.bg-white
         th
         th
-        / th= Tarif.model_name.human(count: 2)
         th= Tarif.human_attribute_name(:label)
         th= Tarif.human_attribute_name(:type)
         th= Tarif.human_attribute_name(:price_per_unit)
         th= Tarif.human_attribute_name(:unit)
         th
 
-    - tarif_group = nil
-    - tarifs.ordered.each do |tarif|
-      tbody
-        - if tarif_group != tarif.tarif_group
-          - tarif_group = tarif.tarif_group
-          tr
-            th.pt-4[colspan='8']
-              h5= tarif_group
+    - grouped_tarifs = tarifs.ordered.group_by { |tarif| tarif.tarif_group }
+    - grouped_tarifs.each do |tarif_group, group_tarifs|
+      - collapse_id = "collapse-#{tarif_group&.gsub(/[^[:ascii:]]/, '')&.gsub(%r{[\/\s]}, '_')}"
+      - next if group_tarifs.empty?
 
-        = f.fields_for tarif.id.to_s, tarif do |tf|
-          tr.bg-white
-            td.py-4
-              small.text-secondary= tarif.position
-            td.py-4
-              = tf.hidden_field :id
-              = tf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
-            td.py-3
-              = tf.static_control :label, skip_label: true, wrapper_class: 'm-0'
-            td.py-3
-              = tf.select :type, type_options_for_select(Tarifs::TYPES), { skip_label: true, wrapper_class: 'm-0' }, { disabled: true }
-            td.py-3
-              = tf.number_field :price_per_unit, skip_label: true, wrapper_class: 'm-0'
-            td.py-3
-              = tf.static_control :unit, skip_label: true, wrapper_class: 'm-0'
-            td.py-3.text-right
-              .btn-group
-                = link_to edit_manage_home_tarif_path(@home, tarif), class: 'btn btn-default' do
-                  span.fa.fa-edit
-                = link_to manage_home_tarif_path(@home, tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                  span.fa.fa-trash
+      thead
+        tr
+          th.pt-4[colspan='8']
+            h5
+              = tarif_group
+              a.badge.badge-pill.badge-secondary.ml-3[href="##{collapse_id}" data-toggle="collapse"]
+                = group_tarifs.count
+
+      tbody.collapse.show[id=collapse_id]
+        - group_tarifs.each do |tarif|
+          = f.fields_for tarif.id.to_s, tarif do |tf|
+            tr.bg-white
+              td.py-4
+                small.text-secondary= tarif.position
+              td.py-4
+                = tf.hidden_field :id
+                = tf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
+              td.py-3
+                = tf.static_control :label, skip_label: true, wrapper_class: 'm-0'
+              td.py-3
+                = tf.select :type, type_options_for_select(Tarifs::TYPES), { skip_label: true, wrapper_class: 'm-0' }, { disabled: true }
+              td.py-3
+                = tf.number_field :price_per_unit, skip_label: true, wrapper_class: 'm-0'
+              td.py-3
+                = tf.static_control :unit, skip_label: true, wrapper_class: 'm-0'
+              td.py-3.text-right
+                .btn-group
+                  = link_to edit_manage_home_tarif_path(@home, tarif), class: 'btn btn-default' do
+                    span.fa.fa-edit
+                  = link_to manage_home_tarif_path(@home, tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                    span.fa.fa-trash
   = f.submit t("helpers.submit.update", model: Tarif.model_name.human(count: 2))

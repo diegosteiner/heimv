@@ -88,6 +88,7 @@ en:
         request_deadline_minutes: Frist für Anfragen
       booking_purpose:
         key: Schlüssel
+        position: Ordnungsnummer
         title: Titel
       contract:
         issuer: Vermieter
@@ -134,6 +135,7 @@ en:
         apply: Anwenden
         breakdown: Text
         label: Text
+        position: Ordnungsnummer
         type: Positionsart
       meter_reading_period:
         begins_at: Beginn
@@ -198,6 +200,7 @@ en:
         invoice_type: Rechnungstyp
         label: Tarif
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
+        position: Ordnungsnummer
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis pro Einheit
         tarif_group: Tarifgruppe

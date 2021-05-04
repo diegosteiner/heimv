@@ -32,8 +32,8 @@ module Manage
     private
 
     def booking_purpose_params
-      params.require(:booking_purpose).permit(:key,
-                                              I18n.available_locales.map { |l| ["title_#{l}"] }.flatten)
+      params.require(:booking_purpose).permit(:key, :position, :position_position,
+                                              I18n.available_locales.map { ["title_#{_1}"] }.flatten)
     end
   end
 end
