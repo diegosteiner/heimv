@@ -60,7 +60,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
     def set_breadcrumbs
       super
-      breadcrumbs.add <%= class_name %>.model_name.human(count: 2), <%= index_helper %>_path
+      breadcrumbs.add <%= class_name %>.model_name.human(count: :other), <%= index_helper %>_path
     end
 
     def <%= "#{singular_table_name}_params" %>
