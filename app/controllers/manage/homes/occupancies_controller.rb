@@ -43,7 +43,7 @@ module Manage
       private
 
       def occupancy_params
-        OccupancyParams.new(params.require(:occupancy))
+        OccupancyParams.new(params.require(:occupancy)).permitted
       end
     end
   end

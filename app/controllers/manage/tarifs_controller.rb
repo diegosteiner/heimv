@@ -15,7 +15,7 @@ module Manage
     protected
 
     def tarif_params
-      TarifParams.new(params.require(:tarif))
+      TarifParams.new(params.require(:tarif)).permitted
     end
   end
 end

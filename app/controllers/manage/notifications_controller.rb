@@ -42,7 +42,7 @@ module Manage
     end
 
     def notification_params
-      NotificationParams.new(params[:notification])
+      NotificationParams.new(params[:notification]).permitted
     end
   end
 end

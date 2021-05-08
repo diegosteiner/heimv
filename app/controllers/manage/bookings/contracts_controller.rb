@@ -53,7 +53,7 @@ module Manage
       end
 
       def contract_params
-        ContractParams.new(params.require(:contract))
+        ContractParams.new(params.require(:contract)).permitted
       end
     end
   end

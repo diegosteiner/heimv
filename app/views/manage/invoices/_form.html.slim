@@ -3,7 +3,7 @@
 
   fieldset[v-pre]
     = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, { include_blank: true }, readonly: true
-    = f.collection_select :booking, @invoice.organisation.bookings.inconcluded, :id, :ref
+    = f.collection_select :booking_id, @invoice.organisation.bookings.inconcluded, :id, :ref
     = f.text_field :ref, help: t('generated')
     = f.text_area :text
     = f.date_field :issued_at, lang: I18n.locale, help: t('optional')

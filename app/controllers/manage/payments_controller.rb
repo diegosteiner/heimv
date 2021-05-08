@@ -73,7 +73,7 @@ module Manage
     end
 
     def payment_params
-      PaymentParams.new(params[:payment])
+      PaymentParams.new(params[:payment]).permitted
     end
 
     def payments_params

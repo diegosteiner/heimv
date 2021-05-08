@@ -64,11 +64,11 @@ module Manage
     end
 
     def booking_params
-      BookingParams.new(params[:booking])
+      BookingParams.new(params[:booking]).permitted
     end
 
     def booking_filter_params
-      Manage::BookingFilterParams.new(params)
+      Manage::BookingFilterParams.new(params).permitted
     end
 
     def default_booking_filter_params
