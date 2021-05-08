@@ -19,7 +19,7 @@ module BookingStates
     after_transition do |booking|
       booking.occupancy.free!
       booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline_exceeded?
-      booking.concluded!
+      booking.conclude
       booking.deadline&.clear
       addressed_to = booking.agent_booking? ? :booking_agent : :tenant
       booking.notifications.new(from_template: :declined_request_notification, addressed_to: addressed_to).deliver

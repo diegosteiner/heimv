@@ -117,10 +117,8 @@ class Booking < ApplicationRecord
     occupancy.nights * approximate_headcount
   end
 
-  def concluded!
-    # rubocop:disable Rails/SkipsModelValidations
-    update_columns(concluded: true, timeframe_locked: true, editable: false)
-    # rubocop:enable Rails/SkipsModelValidations
+  def conclude
+    update!(concluded: true, timeframe_locked: true, editable: false)
   end
 
   def contract
