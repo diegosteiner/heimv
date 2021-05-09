@@ -55,8 +55,8 @@ module Import
 
       actor do |occupancy, row|
         occupancy.booking&.assign_attributes(import_data: row.to_h, timeframe_locked: true, editable: false,
-                                             notifications_enabled: false, remarks: occupancy.remarks,
-                                             ref: row.try_field('ref'),
+                                             notifications_enabled: false, ref: row.try_field('ref'),
+                                             remarks: row.try_all_fields('remarks', 'purpose_text').join('. '),
                                              approximate_headcount: row.try_field('headcount')&.to_i,
                                              tenant_organisation: row.try_field('organisation'))
       end
@@ -70,8 +70,7 @@ module Import
       actor do |occupancy, row, options|
         next if occupancy.booking.blank?
 
-        purpose_value = row.try_field('purpose', 'occupancy_type')
-        purpose_key = options.dig(:purpose_map, purpose_value) || purpose_value
+        purpose_key = row.try_field('purpose', 'occupancy_type')
         occupancy.booking.purpose = organisation.booking_purposes.find_by(key: purpose_key) ||
                                     options[:default_purpose]
       end

@@ -84,8 +84,7 @@ Prepare a csv with these columns, including a header, as utf-8:
 
 Options:
 
-- initial_state: 
-- purpose_map:
+- initial_state: State to which the booking shall be transitioned
 - default_purpose: 
 
 Then import data with:
