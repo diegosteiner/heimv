@@ -49,7 +49,7 @@ Create a organisation with markdown templates and a user:
 
 ```
 setup = OrganisationSetupService.create(name: <name>, email: <email>, slug: <slug>)
-setup.create_missing_rich_text_templates!
+setup.create_missing_rich_text_templates!(include_optional: true)
 setup.create_user!
 ```
 
@@ -82,10 +82,22 @@ Prepare a csv with these columns, including a header, as utf-8:
 - purpose (which corresponds to the purpose keys set for the organisation, optional)
 - phone
 
+Options:
+
+- initial_state: 
+- purpose_map:
+- default_purpose: 
+
 Then import data with:
 
 ```
-cat data.csv | bin/rails r Import::Csv::BookingImporter.new(home).read
+cat data.csv | bin/rails r "Import::Csv::OccupancyImporter.new(home).read(ARGF, **options)"
+```
+
+or with heroku:
+
+```
+cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::OccupancyImporter.new(home).read"'
 ```
 
 ### Tenants
