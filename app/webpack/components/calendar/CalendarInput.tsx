@@ -13,7 +13,6 @@ import {
   getHours,
   getMinutes,
 } from 'date-fns/esm';
-import { Prev } from 'react-bootstrap/esm/PageItem';
 
 const formatDate = new Intl.DateTimeFormat('de-CH', {
   year: 'numeric',
