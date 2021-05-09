@@ -36,7 +36,7 @@ module Manage
     private
 
     def booking_agent_params
-      BookingAgentParams.new(params.require(:booking_agent))
+      BookingAgentParams.new(params.require(:booking_agent)).permitted
     end
   end
 end

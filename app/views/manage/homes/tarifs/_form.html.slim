@@ -28,7 +28,7 @@
     = f.check_box :transient
     br
 
-    label= TarifSelector.model_name.human(count: 2)
+    label= TarifSelector.model_name.human(count: :other)
     = f.fields_for :tarif_selectors, @tarif.tarif_selectors do |tuc|
       = tuc.hidden_field :id
       .row

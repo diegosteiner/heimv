@@ -3,7 +3,7 @@
 table.table.table-hover.table-card
   thead
     tr
-      th= Notification.model_name.human(count: 2)
+      th= Notification.model_name.human(count: :other)
       th= Notification.human_attribute_name(:to)
       th
 

@@ -1,5 +1,5 @@
 = render partial: 'manage/homes/navigation', locals: { active: :tarifs }
-h1= Tarif.model_name.human(count: 2)
+h1= Tarif.model_name.human(count: :other)
 section.mt-4.breakout-sm
   = render partial: 'table', locals: { tarifs: @tarifs }
   br

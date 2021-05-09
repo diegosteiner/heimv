@@ -61,7 +61,7 @@ module Manage
     end
 
     def data_digest_params
-      DataDigestParams.new(params[:data_digest] || params)
+      DataDigestParams.new(params[:data_digest] || params).permitted
     end
   end
 end

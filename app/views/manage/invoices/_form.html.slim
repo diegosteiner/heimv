@@ -3,14 +3,14 @@
 
   fieldset[v-pre]
     = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, { include_blank: true }, readonly: true
-    = f.hidden_field :booking_id
+    = f.collection_select :booking_id, @invoice.organisation.bookings.inconcluded, :id, :ref
     = f.text_field :ref, help: t('generated')
     = f.text_area :text
     = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
     = f.date_field :payable_until, lang: I18n.locale
     = f.collection_select :payment_info_type, PaymentInfos::TYPES.values, :to_s, :human_model_name, include_blank: true
 
-    h5.mt-4= InvoicePart.model_name.human(count: 2)
+    h5.mt-4= InvoicePart.model_name.human(count: :other)
     = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
       = ipf.hidden_field :id
       = ipf.hidden_field :usage_id

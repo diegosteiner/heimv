@@ -20,7 +20,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      booking.concluded!
+      booking.conclude
     end
 
     def relevant_time; end

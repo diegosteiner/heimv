@@ -24,7 +24,9 @@ module BookingStateConcern
   def state_transition
     return unless valid?
 
-    booking_flow.transition_to(transition_to) && self.transition_to = nil if transition?
+    transition_to = self.transition_to
+    self.transition_to = nil
+    booking_flow.transition_to(transition_to) if transition_to && booking_flow.can_transition_to?(transition_to)
     booking_flow.auto.tap { errors.clear } unless skip_infer_transition
   end
 
@@ -42,9 +44,5 @@ module BookingStateConcern
     return @booking_state if @booking_state&.to_s == booking_flow.current_state
 
     @booking_state = BookingStates.all[booking_flow.current_state&.to_sym]&.new(self)
-  end
-
-  def transition?
-    transition_to.present? && booking_state.to_s != transition_to.to_s
   end
 end

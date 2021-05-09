@@ -14,7 +14,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.occupancy.free!
-      booking.concluded!
+      booking.conclude
       booking.deadline&.clear
       addressed_to = booking.agent_booking? ? :booking_agent : :tenant
       booking.notifications.new(from_template: :cancelled_request_notification, addressed_to: addressed_to).deliver

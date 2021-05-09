@@ -7,7 +7,7 @@
       thead
         tr.bg-white
           th
-          th= Tarif.model_name.human(count: 2)
+          th= Tarif.model_name.human(count: :other)
           th= Tarif.human_attribute_name(:price_per_unit)
           th= Tarif.human_attribute_name(:unit)
           - if defined?(used_units_field) && used_units_field
@@ -63,7 +63,7 @@
     .mt-5
 
       button.btn.btn-secondary[type=:submit name=:commit]
-        = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: 2))
+        = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: :other))
 
       - if defined?(used_units_field)
         button.ml-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]

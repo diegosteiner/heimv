@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 21.5.2
+
+Released on 2021-05-09
+
+- Fixes for state_transition
+- Fixes for payment notification
+- Improve csv import
+
 #### Version 21.5.1
 
 Released on 2021-05-04

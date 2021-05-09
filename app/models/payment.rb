@@ -33,6 +33,7 @@ class Payment < ApplicationRecord
   has_one :organisation, through: :booking
 
   attribute :applies, :boolean, default: true
+  attribute :confirm, :boolean, default: true
 
   validates :amount, numericality: true
   validates :paid_at, :amount, :booking, presence: true
@@ -42,8 +43,6 @@ class Payment < ApplicationRecord
 
   scope :ordered, -> { order(paid_at: :DESC) }
   scope :last_year, -> { where(arel_table[:paid_at].gt(1.year.ago)) }
-
-  attribute :confirm, default: true
 
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
@@ -58,7 +57,7 @@ class Payment < ApplicationRecord
   end
 
   def confirm!
-    PaymentConfirmation.new(self).deliver unless write_off?
+    PaymentConfirmation.new(self).deliver unless write_off
   end
 
   def to_liquid

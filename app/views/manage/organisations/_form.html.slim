@@ -8,7 +8,7 @@
     = f.collection_select :locale, Booking.locales, :first, :first
 
   fieldset
-    h3.mt-4= Notification.model_name.human(count: 2)
+    h3.mt-4= Notification.model_name.human(count: :other)
     div.pb-3= f.check_box :notifications_enabled
     = f.email_field :email
     = f.text_field :mail_from
@@ -18,21 +18,21 @@
       div[v-pre]= f.text_area :smtp_settings_json, rows: 4
 
   fieldset
-    h3.mt-4= Contract.model_name.human(count: 2)
+    h3.mt-4= Contract.model_name.human(count: :other)
     div[v-pre]= f.text_area :representative_address, rows: 4
     = f.text_field :location
     = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
     
   fieldset
-    h3.mt-4= Invoice.model_name.human(count: 2)
+    h3.mt-4= Invoice.model_name.human(count: :other)
     = f.collection_select :default_payment_info_type, PaymentInfos::TYPES.values, :to_s, :human_model_name, include_blank: true
     = f.text_field :esr_beneficiary_account
     = f.text_field :esr_ref_prefix
     = f.text_field :iban
 
   fieldset
-    h3.mt-4= Booking.model_name.human(count: 2)
-    = link_to BookingPurpose.model_name.human(count: 2), manage_booking_purposes_path
+    h3.mt-4= Booking.model_name.human(count: :other)
+    = link_to BookingPurpose.model_name.human(count: :other), manage_booking_purposes_path
 
   fieldset
     h3.mt-4= t('.terms')

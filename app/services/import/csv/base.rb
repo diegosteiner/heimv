@@ -6,7 +6,6 @@ module Import
       attr_reader :options
 
       def initialize(**options)
-        default_options = { csv: { header_converters: :downcase, headers: true } }
         @options = default_options.deep_merge(options)
       end
 
@@ -14,22 +13,30 @@ module Import
         raise NotImplementedError
       end
 
+      def persist_record(record)
+        record.save
+      end
+
+      def default_options
+        { csv: { header_converters: :downcase, headers: true } }
+      end
+
       def read(input = ARGF, **options)
-        options = @options.deep_merge(options)
+        options.reverse_merge!(default_options)
         ActiveRecord::Base.transaction do
-          result = CSV.parse(input, **options.fetch(:csv)).map { import_row(_1) }
+          result = CSV.parse(input, **options.fetch(:csv)).map { import_row(_1, **options) }
           raise ActiveRecord::Rollback, :dry_run if options[:dry_run].present?
 
           result
         end
       end
 
-      def import_row(row)
+      def import_row(row, **options)
         initialize_record(row).tap do |record|
           self.class.actors.each do |actor_block|
-            instance_exec(record, row, &actor_block)
+            instance_exec(record, row, options, &actor_block)
           end
-          record.save
+          persist_record(record)
         end
       end
 

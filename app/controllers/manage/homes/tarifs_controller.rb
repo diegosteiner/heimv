@@ -30,7 +30,7 @@ module Manage
         @home.update(home_tarifs_params)
         respond_with :manage, @home, @tarifs,
                      { location: params[:return_to] || manage_home_tarifs_path(@home) }
-                       .merge(responder_flash_messages(Tarif.model_name.human(count: 2)))
+                       .merge(responder_flash_messages(Tarif.model_name.human(count: :other)))
       end
 
       def update
@@ -46,11 +46,11 @@ module Manage
       private
 
       def tarif_params
-        TarifParams.new(params.require(:tarif))
+        TarifParams.new(params.require(:tarif)).permitted
       end
 
       def home_tarifs_params
-        HomeParams.new(ActionController::Parameters.new(tarifs_attributes: params.require(:tarifs)))
+        HomeParams.new(ActionController::Parameters.new(tarifs_attributes: params.require(:tarifs))).permitted
       end
 
       def flash_interpolation_options

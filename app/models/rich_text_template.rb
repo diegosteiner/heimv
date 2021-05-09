@@ -45,6 +45,7 @@ class RichTextTemplate < ApplicationRecord
   end
 
   def interpolate(context)
+    context = context&.stringify_keys || {}
     liquid_template = Liquid::Template.parse(body)
     Markdown.new(liquid_template.render!(context.to_liquid))
   end

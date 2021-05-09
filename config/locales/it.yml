@@ -120,6 +120,7 @@ it:
         amount: Betrag
         amount_open: offener Betrag
         amount_paid: bezahlter Betrag
+        booking: Buchung
         esr_number: ESR Nummer
         invoice_parts: Positionen
         issued_at: Ausgestellt am

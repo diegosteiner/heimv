@@ -23,7 +23,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.occupancy.free!
-      booking.concluded!
+      booking.conclude
       booking.notifications.new(from_template: :cancelled_notification, addressed_to: :tenant).deliver
       next unless booking.agent_booking?
 

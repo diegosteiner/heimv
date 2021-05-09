@@ -31,7 +31,7 @@ module Manage
     private
 
     def invoice_part_params
-      InvoicePartParams.new(params.require(:invoice_part))
+      InvoicePartParams.new(params.require(:invoice_part)).permitted
     end
   end
 end

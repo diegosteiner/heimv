@@ -8,10 +8,10 @@ nav.mb-4
           = Home.model_name.human
       li.nav-item
         a.nav-link[href=manage_home_occupancies_path(@home) class=('active' if active == :occupancies)]
-          = Occupancy.model_name.human(count: 2)
+          = Occupancy.model_name.human(count: :other)
       li.nav-item
         a.nav-link[href=manage_home_tarifs_path(@home) class=('active' if active == :tarifs)]
-          = Tarif.model_name.human(count: 2)
+          = Tarif.model_name.human(count: :other)
       li.nav-item
         a.nav-link[href=manage_home_meter_reading_periods_path(@home) class=('active' if active == :meter_reading_periods)]
-          = MeterReadingPeriod.model_name.human(count: 2)
+          = MeterReadingPeriod.model_name.human(count: :other)

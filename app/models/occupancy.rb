@@ -28,7 +28,7 @@
 
 class Occupancy < ApplicationRecord
   belongs_to :home
-  belongs_to :booking, inverse_of: :occupancy
+  belongs_to :booking, inverse_of: :occupancy, optional: true
 
   has_one :organisation, through: :home
 

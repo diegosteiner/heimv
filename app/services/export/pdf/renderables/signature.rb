@@ -15,7 +15,7 @@ module Export
 
         def render
           bounding_box(at, width: width, height: 120) do
-            text([@location.presence, signature_date].compact.join(', '))
+            text([@location.presence, signature_date].compact.join(', ') || ' ')
             signature
             stroke_horizontal_rule
             move_down 2
