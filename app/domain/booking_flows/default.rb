@@ -14,7 +14,6 @@ module BookingFlows
     state BookingStates::OverdueRequest, to: %i[cancelled_request declined_request
                                                 definitive_request awaiting_tenant]
     state BookingStates::DefinitiveRequest, to: %i[cancelation_pending awaiting_contract]
-
     state BookingStates::AwaitingTenant, to: %i[definitive_request overdue_request cancelled_request
                                                 declined_request overdue_request]
     state BookingStates::AwaitingContract, to: %i[cancelation_pending upcoming overdue]
