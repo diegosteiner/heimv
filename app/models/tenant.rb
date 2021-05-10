@@ -41,7 +41,7 @@ class Tenant < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error
   belongs_to :organisation
 
-  validates :email, allow_blank: true, format: { with: Devise.email_regexp }, uniqueness: { scope: :organisation_id }
+  validates :email, allow_nil: true, format: { with: Devise.email_regexp }, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :street_address, length: { maximum: 255 }
@@ -49,6 +49,10 @@ class Tenant < ApplicationRecord
   validates :phone, presence: true, length: { minimum: 10, maximum: 255 }, on: :public_update
 
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
+
+  before_validation do
+    self.email = email&.strip.presence
+  end
 
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')
@@ -59,7 +63,7 @@ class Tenant < ApplicationRecord
   end
 
   def salutation_name
-    I18n.t('tenant.salutation', name: first_name)
+    I18n.t('tenant.salutation', name: [first_name, nickname, last_name].first(&:present?))
   end
 
   def address_lines
