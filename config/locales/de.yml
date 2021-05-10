@@ -120,7 +120,7 @@ de:
         amount: Betrag
         amount_open: offener Betrag
         amount_paid: bezahlter Betrag
-        booking: Buchung
+        booking_id: Buchung
         esr_number: ESR Nummer
         invoice_parts: Positionen
         issued_at: Ausgestellt am
@@ -1785,8 +1785,6 @@ de:
         index:
           contract_sent: Vertrag versendet markieren
           contract_signed: Vertrag unterschieben markieren
-      form:
-        change_tenant_id: Mieter ändern
       index:
         canned_filter_default: Standardansicht
         canned_filter_upcoming: Zukünftige Belegungen

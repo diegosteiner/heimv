@@ -24,7 +24,14 @@
   fieldset
     h5= Booking.human_attribute_name(:tenant)
 
-    = f.collection_select :tenant_id, current_organisation.tenants.ordered, :id, :to_s, help: t('.change_tenant_id'), include_blank: true
+    .row
+      .col
+        = f.hidden_field :tenant_id, id: ''
+        = f.collection_select :tenant_id, current_organisation.tenants.ordered, :id, :to_s, { include_blank: true, hide_label: true }, { disabled: true }
+      .col-1
+        a.btn.btn-block.btn-default[type="button" data-toggle="disable" href="#booking_tenant_id"]
+          i.fa.fa-unlock
+
     = f.fields_for :tenant, (@booking.tenant || @booking.build_tenant) do |cf|
       = cf.hidden_field :id
       = f.email_field :email

@@ -7,7 +7,7 @@ import ReactRailsUJS from 'react_ujs';
 
 require.context('../images', true);
 
-const csrfForm = () => {
+function csrfForm() {
   const csrfToken = document.querySelector('meta[name=csrf-token]')?.content;
   if (!csrfToken) return;
 
@@ -23,8 +23,21 @@ const csrfForm = () => {
       this.nextElementSibling.innerText = fileName;
     });
   });
-};
+}
 
-document.addEventListener('DOMContentLoaded', () => csrfForm());
+function toggleDisable() {
+  document.querySelectorAll('[data-toggle="disable"]').forEach((element) => {
+    element.onclick = (ev) => {
+      const target = document.querySelector(element.getAttribute('href'));
+      if (target) target.disabled = false;
+      ev.preventDefault();
+    };
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  csrfForm();
+  toggleDisable();
+});
 Rails.start();
 ReactRailsUJS.useContext(require.context('components', true));

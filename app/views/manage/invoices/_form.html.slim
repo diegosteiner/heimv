@@ -3,7 +3,15 @@
 
   fieldset[v-pre]
     = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, { include_blank: true }, readonly: true
-    = f.collection_select :booking_id, @invoice.organisation.bookings.inconcluded, :id, :ref
+    = f.label :booking_id
+    .row
+      .col
+        = f.hidden_field :booking_id, id: ''
+        = f.collection_select :booking_id, [@invoice.booking, @invoice.organisation.bookings.inconcluded.order(ref: :ASC)].flatten, :id, :to_s, { hide_label: true }, disabled: true
+      .col-1
+        a.btn.btn-block.btn-default[type="button" data-toggle="disable" href="#invoice_booking_id"]
+          i.fa.fa-unlock
+
     = f.text_field :ref, help: t('generated')
     = f.text_area :text
     = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
