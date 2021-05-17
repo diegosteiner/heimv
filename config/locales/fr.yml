@@ -287,7 +287,7 @@ fr:
         role:
           admin: Admin
           manager: Verwaltung
-          user: Benutzer
+          staff: Lesend
     errors:
       models:
         booking:
@@ -1812,6 +1812,9 @@ fr:
       form:
         general: General
         terms: Terms
+    payments:
+      index:
+        new_import: New import
     rich_text_templates:
       form:
         all_homes: All homes

@@ -31,11 +31,12 @@
             - else
               = number_to_currency(payment.amount)
           td.py-1.text-right
-            .btn-group
-              = link_to edit_manage_payment_path(payment), class: 'btn btn-default' do
-                span.fa.fa-edit
-              = link_to manage_payment_path(payment), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
-                span.fa.fa-trash
+            - if can?(:manage, payment)
+              .btn-group
+                = link_to edit_manage_payment_path(payment), class: 'btn btn-default' do
+                  span.fa.fa-edit
+                = link_to manage_payment_path(payment), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                  span.fa.fa-trash
 
 - if @booking
   = link_to new_manage_booking_payment_path(@booking), class: 'btn btn-primary' do
@@ -44,5 +45,5 @@
   = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default ml-1'
 - else
   = link_to new_import_manage_payments_path, class: 'btn btn-primary' do
-    = t(:add_record, model_name: Payment.model_name.human(count: :other))
+    = t('.new_import')
 

@@ -287,7 +287,7 @@ de:
         role:
           admin: Admin
           manager: Verwaltung
-          user: Benutzer
+          staff: Lesend
     errors:
       models:
         booking:
@@ -1812,6 +1812,9 @@ de:
       form:
         general: Allgemein
         terms: AGB
+    payments:
+      index:
+        new_import: Zahlungen aus CAMT.054-Datei importieren
     rich_text_templates:
       form:
         all_homes: Alle Heime

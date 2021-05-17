@@ -46,5 +46,9 @@ FactoryBot.define do
     trait :manager do
       role { 'manager' }
     end
+
+    trait :staff do
+      role { 'staff' }
+    end
   end
 end

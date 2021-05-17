@@ -24,6 +24,7 @@ module Manage
     end
 
     def show
+      @booking = @invoice.booking
       respond_to do |format|
         format.html
         format.pdf do
@@ -33,6 +34,7 @@ module Manage
     end
 
     def edit
+      @booking = @invoice.booking
       respond_with :manage, @invoice
     end
 

@@ -31,7 +31,7 @@
 #
 
 class User < ApplicationRecord
-  ROLES = %i[user admin manager].freeze
+  ROLES = %i[staff admin manager].freeze
 
   belongs_to :organisation, optional: true
 
@@ -43,7 +43,7 @@ class User < ApplicationRecord
   validates :role, :email, presence: true
 
   def set_default_role
-    self.role ||= :user
+    self.role ||= :staff
   end
 
   def to_s

@@ -3,7 +3,7 @@
 
 - else
   - bookings.each do |booking|
-    - cache(booking) do
+    - cache([booking.id, can?(:manage, booking)].join('-')) do
       .row.m-0.bg-white.border[data-href=manage_booking_path(booking) data-id=booking.to_param]
         .col-lg-2
           .d-flex.p-2.h-100[style="align-items: center;"]
@@ -56,14 +56,15 @@
             button.btn.btn-default.w-100.h-100[data-toggle="dropdown" type="button"]
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
-              = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-                - cache booking do 
-                  - BookingActions::Manage.all.values.each do |action_klass|
-                    - action = action_klass.new(booking: booking)
-                    - next unless action.allowed?
+              - if can?(:manage, :booking)
+                = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
+                  - cache booking do 
+                    - BookingActions::Manage.all.values.each do |action_klass|
+                      - action = action_klass.new(booking: booking)
+                      - next unless action.allowed?
 
-                    button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
-                      = action.translate
+                      button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
+                        = action.translate
               .dropdown-divider
-              = link_to t(:show), manage_booking_path(booking), class: 'dropdown-item'
-              = link_to t(:edit), edit_manage_booking_path(booking), class: 'dropdown-item'
+              = link_to t(:show), manage_booking_path(booking), class: 'dropdown-item' if can?(:show, booking)
+              = link_to t(:edit), edit_manage_booking_path(booking), class: 'dropdown-item' if can?(:edit, booking)

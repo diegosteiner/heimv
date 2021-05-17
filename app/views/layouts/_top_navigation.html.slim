@@ -5,7 +5,7 @@ nav#navbar-top.navbar.fixed-top.navbar-light.navbar-expand-lg
   - if current_user.present?
     ul.navbar-nav.ml-auto
       li.nav-item.dropdown
-        = link_to t(:'nav.manage'), manage_root_path(org: current_organisation.slug), class: 'nav-link' if current_organisation && can?(:manage, current_organisation)
+        = link_to t(:'nav.manage'), manage_root_path(org: current_organisation.slug), class: 'nav-link' if current_user.organisation == current_organisation && current_user.role.present?
       li.nav-item.dropdown
         a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
           i.fa.fa-user

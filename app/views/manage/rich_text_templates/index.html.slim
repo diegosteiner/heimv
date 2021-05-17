@@ -12,13 +12,14 @@ table.table.table-hover.table-card
           td
             = link_to rich_text_template.home.name, manage_home_path(rich_text_template.home) if rich_text_template.home
           td.p-1.text-right
-            .btn-group
-              = link_to new_manage_rich_text_template_path(dup: rich_text_template.to_param), class: 'btn btn-default'
-                span.fa.fa-clone
-              = link_to edit_manage_rich_text_template_path(rich_text_template), class: 'btn btn-default'
-                span.fa.fa-edit
-              = link_to manage_rich_text_template_path(rich_text_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
-                span.fa.fa-trash
+            - if can?(:manage, rich_text_template)
+              .btn-group
+                = link_to new_manage_rich_text_template_path(dup: rich_text_template.to_param), class: 'btn btn-default'
+                  span.fa.fa-clone
+                = link_to edit_manage_rich_text_template_path(rich_text_template), class: 'btn btn-default'
+                  span.fa.fa-edit
+                = link_to manage_rich_text_template_path(rich_text_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
+                  span.fa.fa-trash
 
 br
 = link_to new_manage_rich_text_template_path, class: 'btn btn-primary' do

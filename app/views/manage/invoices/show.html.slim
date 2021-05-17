@@ -6,6 +6,10 @@
     br
 
     dl
+      dt= Booking.model_name.human
+      dd= link_to @invoice.booking.ref, manage_booking_path(@invoice.booking)
+
+    dl
       dt= Invoice.human_attribute_name(:invoice_parts)
       dd
         - @invoice.invoice_parts.each do |invoice_part|
