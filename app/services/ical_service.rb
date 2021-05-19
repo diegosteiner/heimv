@@ -1,26 +1,31 @@
 # frozen_string_literal: true
 
 class IcalService
-  def generate_from_occupancy; end
-
-  def generate_from_occupancies(occupancies)
+  def occupancies_to_ical(occupancies)
     ical = Icalendar::Calendar.new
-    ical_events = occupancies.map { |occupancy| generate_from_occupany(occupancy) }.flatten
+    ical_events = occupancies.flat_map { |occupancy| occupancy_to_ical(occupancy) }
     ical_events.each { |occupancy| ical.add_event(occupancy) }
     ical.to_ical
   end
 
-  def generate_from_occupany(occupancy)
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def occupancy_to_ical(occupancy)
     Icalendar::Event.new.tap do |ical_event|
-      ical_event.dtstart = formatted_datetime(occupancy.begins_at)
-      ical_event.dtend = formatted_datetime(occupancy.ends_at)
-      ical_event.summary = occupancy.booking.ref
-      ical_event.location = occupancy.home.to_s
-      # ical_event.contact = event.contact && event.contact.to_s
+      ical_event.dtstart =       formatted_datetime(occupancy.begins_at)
+      ical_event.dtend =         formatted_datetime(occupancy.ends_at)
+      ical_event.created =       formatted_datetime(occupancy.created_at)
+      ical_event.last_modified = formatted_datetime(occupancy.updated_at)
+
+      ical_event.location =    occupancy.home.to_s
+      ical_event.description = occupancy.remarks.presence
+      ical_event.summary =     occupancy.booking&.ref
+      ical_event.location =    occupancy.booking&.to_s
+      ical_event.status =      occupancy.occupancy_type
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def formatted_datetime(datetime)
-    Icalendar::Values::DateTime.new(datetime.strftime(Icalendar::Values::DateTime::FORMAT))
+    Icalendar::Values::DateTime.new(datetime.utc.strftime(Icalendar::Values::DateTime::FORMAT))
   end
 end

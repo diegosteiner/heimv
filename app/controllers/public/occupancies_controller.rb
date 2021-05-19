@@ -16,7 +16,7 @@ module Public
     def index
       respond_to do |format|
         format.json { render json: OccupancySerializer.render(@calendar.occupancies) }
-        format.ics { render plain: IcalService.new.generate_from_occupancies(@calendar.occupancies) }
+        format.ics { render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies) }
       end
     end
 
