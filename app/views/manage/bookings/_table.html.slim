@@ -56,7 +56,7 @@
             button.btn.btn-default.w-100.h-100[data-toggle="dropdown" type="button"]
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
-              - if can?(:manage, :booking)
+              - if can?(:manage, booking)
                 = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
                   - cache([booking.id, booking.updated_at.iso8601, I18n.locale].join('-')) do 
                     - BookingActions::Manage.all.values.each do |action_klass|
