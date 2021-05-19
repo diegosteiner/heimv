@@ -126,9 +126,8 @@ export type ContextType = {
 };
 
 export const Provider: React.FC<ProviderProps> = ({ children, calendarUrl }) => {
-  const [occupancyCalendarState, setOccupancyCalendarState] = useState<OccupancyCalendarState>(
-    defaultOccypancyCalendarState,
-  );
+  const [occupancyCalendarState, setOccupancyCalendarState] =
+    useState<OccupancyCalendarState>(defaultOccypancyCalendarState);
   const [loading, setLoading] = useState<boolean>(true);
   // const [organisation] = useState({});
 
