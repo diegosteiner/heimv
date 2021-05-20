@@ -1,4 +1,4 @@
-- title @booking.to_s
+- title "#{Booking.model_name.human} #{@booking.to_s}"
 = render partial: 'manage/bookings/navigation', locals: { booking: @booking }
 
 
@@ -7,8 +7,6 @@
     .row.mt-4
       .col-md-9
         .card
-          .card-header.bg-primary.text-white
-            h5.card-title.m-0= @booking.ref
           .card-body
             .row.mb-3
               .col

@@ -179,6 +179,7 @@ tr.disabled {
 
 .nowrap {
   white-space: nowrap;
+  flex-wrap: nowrap;
 }
 
 .presumed-usage {
@@ -188,5 +189,33 @@ tr.disabled {
 .position-fixed-lg {
   @include media-breakpoint-up(lg) {
     position: fixed;
+  }
+}
+
+.booking-nav {
+  justify-content: flex-start;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+
+  .nav-tabs {
+    border-bottom: none;
+    overflow-y: hidden;
+    overflow-x: auto;
+
+    .nav-link {
+      color: white;
+      margin-right: 0.5rem;
+
+      &:hover {
+        border-color: transparent;
+        // background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      &.active {
+        color: $primary;
+        font-weight: bold;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+      }
+    }
   }
 }
