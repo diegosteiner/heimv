@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 21.5.3
+
+Released on 2021-05-24
+
+- Improve navigation on bookings
+- Fix payment import on iPads
+- Add restricted access for read-only users
+
 #### Version 21.5.2
 
 Released on 2021-05-09
