@@ -3,7 +3,7 @@
 
 - else
   - bookings.each do |booking|
-    - cache([booking.id, can?(:manage, booking)].join('-')) do
+    - cache([booking.id, booking.updated_at.iso8601, I18n.locale, can?(:manage, booking)].join('-')) do
       .row.m-0.bg-white.border[data-href=manage_booking_path(booking) data-id=booking.to_param]
         .col-lg-2
           .d-flex.p-2.h-100[style="align-items: center;"]
@@ -56,9 +56,9 @@
             button.btn.btn-default.w-100.h-100[data-toggle="dropdown" type="button"]
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
-              - if can?(:manage, :booking)
+              - if can?(:manage, booking)
                 = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
-                  - cache booking do 
+                  - cache([booking.id, booking.updated_at.iso8601, I18n.locale].join('-')) do 
                     - BookingActions::Manage.all.values.each do |action_klass|
                       - action = action_klass.new(booking: booking)
                       - next unless action.allowed?

@@ -81,7 +81,7 @@ module Ability
   end
 
   class Public < Base
-    role nil, :manager, :staff do |_user, organisation|
+    role nil, :staff do |_user, organisation|
       can :read, Home, { organisation: organisation, requests_allowed: true }
       can :read, Organisation, id: organisation.id
 
@@ -89,6 +89,14 @@ module Ability
 
       can %i[create read update], AgentBooking, { organisation: organisation }
       can %i[create read update], Booking, { organisation: organisation, concluded: false }
+    end
+
+    role :manager do |_user, organisation|
+      can :manage, Home, { organisation: organisation }
+      can :manage, Organisation, id: organisation.id
+      can :manage, Occupancy, home: { organisation: organisation }
+      can :manage, AgentBooking, { organisation: organisation }
+      can :manage, Booking, { organisation: organisation }
     end
   end
 end
