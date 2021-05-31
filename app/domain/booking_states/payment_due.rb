@@ -13,7 +13,7 @@ module BookingStates
     after_transition do |booking|
       invoice = booking.invoices.sent.unpaid.order(payable_until: :asc).last
       payable_until = invoice&.payable_until || 30.days.from_now
-      postponable_for = booking.organisation.short_deadline
+      postponable_for = booking.organisation.settings.fetch(:postponable_for, 3.days)
       booking.deadline&.clear
       booking.deadlines.create(at: payable_until, postponable_for: postponable_for) unless booking.deadline
     end

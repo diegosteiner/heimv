@@ -35,8 +35,12 @@ class Deadline < ApplicationRecord
   scope :next, -> { armed.ordered }
 
   validates :at, presence: true
-
+  attribute :length
   after_save :update_booking_deadline
+
+  def length=(value)
+    self.at ||= TimespanService.parse(value)&.from_now
+  end
 
   def exceeded?(other = Time.zone.now)
     armed? && other > at

@@ -26,6 +26,7 @@
 #  payment_deadline          :integer          default(30), not null
 #  ref_template              :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
 #  representative_address    :string
+#  settings                  :jsonb
 #  slug                      :string
 #  smtp_settings             :jsonb
 #  users_limit               :integer
@@ -85,20 +86,22 @@ class Organisation < ApplicationRecord
     self.smtp_settings = JSON.parse(value)
   rescue JSON::ParserError
     errors.add(:smtp_settings_json, :invalid)
-    smtp_settings
+    smtp_settings_json
   end
 
-  # TODO: extract to hash
-  def long_deadline
-    10.days
+  def settings
+    @settings = super&.symbolize_keys
   end
 
-  def short_deadline
-    3.days
+  def settings_json
+    JSON.generate(settings)
   end
 
-  def payment_deadline
-    30.days
+  def settings_json=(value)
+    self.settings = JSON.parse(value)
+  rescue JSON::ParserError
+    errors.add(:settings_json, :invalid)
+    settings_json
   end
 
   def booking_window
