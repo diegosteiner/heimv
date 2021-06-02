@@ -14,8 +14,9 @@ module Export
         end
 
         def render
+          location_and_date_text = [@location.presence, signature_date].compact.join(', ')
           bounding_box(at, width: width, height: 120) do
-            text([@location.presence, signature_date].compact.join(', ') || ' ')
+            location_and_date_text.present? ? text(location_and_date_text) : move_down(12)
             signature
             stroke_horizontal_rule
             move_down 2

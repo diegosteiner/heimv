@@ -16,7 +16,7 @@ module Export
       end
 
       to_render do
-        render Renderables::Logo.new(organisation.logo)
+        render Renderables::PageHeader.new(text: booking.ref, logo: organisation.logo)
         render Renderables::AddressedHeader.new(booking, recipient_address: booking.tenant.contact_lines)
       end
 

@@ -26,7 +26,7 @@ module BookingStates
     end
 
     def relevant_time
-      booking.created_at
+      booking.deadline&.at
     end
   end
 end
