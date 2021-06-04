@@ -8,7 +8,7 @@ class Usage
       @booking = booking
     end
 
-    def build(tarifs = @booking.home.tarifs, usages = @booking.usages)
+    def build(tarifs = @booking.home.tarifs.ordered, usages = @booking.usages)
       used_tarif_ids = usages.map { |usage| [usage.tarif_id, usage.tarif&.booking_copy_template_id] }.flatten
       tarifs.where.not(id: used_tarif_ids).map do |tarif|
         Usage.new(tarif: tarif, apply: nil, booking: booking)
