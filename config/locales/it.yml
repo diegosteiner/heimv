@@ -15,6 +15,12 @@ it:
         previous_booking_states: Vergangene Status
         ref: Buchungsreferenz
         tenant: Mieter
+      meter_reading_period/filter:
+        begins_at_after: Beginn des Zählerabschnitts ab
+        begins_at_before: Beginn des Zählerabschnitts bis
+        ends_at_after: Ende der Zählerabschnitts ab
+        ends_at_before: Ende der Zählerabschnitts bis
+        tarif_ids: Tarife
       occupancy/filter:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
@@ -100,6 +106,7 @@ it:
         title: Titel
       data_digest:
         label: Name
+        tarif_ids: Tarife
         type: Art
       deadline:
         armed: Aktiviert
@@ -344,6 +351,9 @@ it:
       data_digests/home_booking_plan:
         one: Belegungsplan Auszug
         other: Belegungsplan Auszüge
+      data_digests/meter_reading_period:
+        one: Zähler Auszug
+        other: Zähler Auszüge
       data_digests/parahotelerie_statistics:
         one: Parahotelerie Statistik Auszug
         other: Parahotelerie Statistik Auszüge

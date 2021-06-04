@@ -36,6 +36,13 @@ module DataDigests
       ::Tarif.where(id: tarif_ids)
     end
 
+    def tarif_options
+      ::Tarif.where(booking: nil, home: organisation.homes).ordered
+             .group_by(&:home)
+             .transform_keys(&:name)
+             .transform_values { |tarifs| tarifs.map { |tarif| [tarif.label, tarif.id.to_s] } }
+    end
+
     protected
 
     def build_header(_period, **options)
