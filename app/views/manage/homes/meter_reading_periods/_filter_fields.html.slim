@@ -6,5 +6,5 @@
     = f.datetime_field :ends_at_after, include_blank: true
     = f.datetime_field :ends_at_before, include_blank: true
 
-- tarif_options = Tarif.where(booking: nil, home: current_organisation.homes).ordered.group_by(&:home).transform_keys(&:name).transform_values { |tarifs| tarifs.map { |tarif| [tarif.label, tarif.id.to_s] } }
+- tarif_options = Tarifs::Metered.where(booking: nil, home: current_organisation.homes).ordered.group_by(&:home).transform_keys(&:name).transform_values { |tarifs| tarifs.map { |tarif| [tarif.label, tarif.id.to_s] } }
 = f.select :tarif_ids, tarif_options, {}, multiple: true

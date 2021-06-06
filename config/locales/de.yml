@@ -174,8 +174,8 @@ de:
         bcc: BCC
         contract_signature: Vertragsunterschrift
         default_payment_info_type: Standartzahlungsteil
-        esr_beneficiary_account: ESR Kontonummer
-        esr_ref_prefix: ESR Referenznummer Präfix
+        esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
+        esr_ref_prefix: ESR Identifikationsnummer / Präfix
         iban: IBAN
         locale: Sprache
         location: Ort
