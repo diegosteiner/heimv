@@ -7,7 +7,6 @@
 #  id                       :bigint           not null, primary key
 #  invoice_type             :string
 #  label_i18n               :jsonb
-#  meter                    :string
 #  position                 :integer
 #  prefill_usage_method     :string
 #  price_per_unit           :decimal(, )
@@ -50,7 +49,7 @@ class Tarif < ApplicationRecord
   scope :ordered, -> { rank(:position) }
   scope :transient, -> { where(transient: true) }
   scope :valid_now, -> { where(valid_until: nil) }
-  scope :applicable_to, ->(booking) { booking.home.tarifs.transient.or(where(booking: booking)).ordered }
+  scope :applicable_to, ->(booking) { where(booking: booking).or(where(home: booking.home).transient).ordered }
   scope :find_with_booking_copies, ->(tarif_ids) { where(id: tarif_ids).or(where(booking_copy_template_id: tarif_ids)) }
 
   enum prefill_usage_method: TarifPrefiller::PREFILL_METHODS.keys.index_with(&:to_s)

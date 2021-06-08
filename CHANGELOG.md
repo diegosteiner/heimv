@@ -2,6 +2,13 @@
 
 #### Unreleased
 
+#### Version 21.6.1
+
+Released on 2021-06-08
+
+- Add page header to all pdfs
+- Add link to guide
+
 #### Version 21.5.3
 
 Released on 2021-05-24

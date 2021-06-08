@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_04_082035) do
+ActiveRecord::Schema.define(version: 2021_06_08_112359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -309,6 +309,7 @@ ActiveRecord::Schema.define(version: 2021_05_04_082035) do
     t.string "default_payment_info_type"
     t.string "invoice_ref_template", default: "%<prefix>s%<home_id>03d%<tenant_id>06d%<invoice_id>07d"
     t.string "ref_template", default: "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s"
+    t.jsonb "settings", default: {}
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
@@ -363,7 +364,6 @@ ActiveRecord::Schema.define(version: 2021_05_04_082035) do
     t.string "tarif_group"
     t.string "invoice_type"
     t.string "prefill_usage_method"
-    t.string "meter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "tenant_visible", default: true

@@ -21,8 +21,8 @@ module BookingStates
     after_transition do |booking|
       booking.occupancy.occupied!
       booking.deadline&.clear
-      booking.deadlines.create(at: booking.organisation.long_deadline.from_now,
-                               postponable_for: booking.organisation.short_deadline,
+      booking.deadlines.create(length: booking.organisation.settings.fetch(:awaiting_contract_deadline, 10.days),
+                               postponable_for: booking.organisation.settings.fetch(:postponable_for, 3.days),
                                remarks: booking.booking_state.t(:label))
     end
 

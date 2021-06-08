@@ -7,7 +7,6 @@
 #  id                       :bigint           not null, primary key
 #  invoice_type             :string
 #  label_i18n               :jsonb
-#  meter                    :string
 #  position                 :integer
 #  prefill_usage_method     :string
 #  price_per_unit           :decimal(, )
@@ -48,7 +47,7 @@ module Tarifs
       end
 
       def build_meter_reading_period(attrs = {})
-        super(attrs).tap do |meter_reading_period|
+        super.tap do |meter_reading_period|
           meter_reading_period.start_value ||= MeterReadingPeriod.where(tarif: tarif.original)
                                                                  .ordered&.last&.start_value
         end

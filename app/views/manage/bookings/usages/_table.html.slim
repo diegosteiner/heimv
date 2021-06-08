@@ -2,6 +2,7 @@
   = hidden_field_tag :return_to, return_to if defined?(return_to)
   = hidden_field_tag :usages_entered, 1 if defined?(used_units_field) && (used_units_field == :used)
   = hidden_field_tag :usages_presumed, 1 if defined?(used_units_field) && (used_units_field == :presumed)
+
   .table-responsive
     table.table
       thead
@@ -32,7 +33,8 @@
           - group_usages.each do |usage|
             = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
               tr.bg-white
-                td
+                td.py-3
+                  small.text-secondary= usage.tarif.position
                 td.py-3
                   = uf.hidden_field :id
                   = uf.hidden_field :tarif_id

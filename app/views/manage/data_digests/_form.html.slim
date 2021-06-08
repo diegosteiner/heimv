@@ -4,10 +4,7 @@
   = f.text_field :label
 
   - if @data_digest.is_a?(DataDigests::Tarif)
-    - tarif_options = Tarif.where(booking: nil).ordered.group_by { |tarif| tarif.home }
-    - tarif_options.transform_keys! { |home| home.name }
-    - tarif_options.transform_values! { |tarifs| tarifs.map { |tarif| [tarif.label, tarif.id.to_s] }  }
-    = f.select :tarif_ids, tarif_options, {}, multiple: true
+    = f.select :tarif_ids, @data_digest.tarif_options, {}, multiple: true
 
   - if @data_digest.is_a?(DataDigests::Booking)
     h5= Booking::Filter.model_name.human
@@ -18,6 +15,11 @@
     h5= Payment::Filter.model_name.human
     = f.fields_for :prefilter_params, @data_digest.prefilter do |ff|
       = render partial: 'manage/payments/filter_fields', locals: { f: ff }
+
+  - if @data_digest.is_a?(DataDigests::MeterReadingPeriod)
+    h5= MeterReadingPeriod::Filter.model_name.human
+    = f.fields_for :prefilter_params, @data_digest.prefilter do |ff|
+      = render partial: 'manage/homes/meter_reading_periods/filter_fields', locals: { f: ff }
 
   = f.submit
 

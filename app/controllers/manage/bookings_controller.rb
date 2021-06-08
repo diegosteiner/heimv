@@ -5,11 +5,6 @@ module Manage
     load_and_authorize_resource :booking
     before_action :set_filter, only: :index
 
-    if defined?(NewRelic)
-      include ::NewRelic::Agent::MethodTracer
-      add_method_tracer :update
-    end
-
     def index
       @bookings = @bookings.where(organisation: current_organisation)
       @bookings = @filter.apply_cached(@bookings.with_default_includes.ordered)

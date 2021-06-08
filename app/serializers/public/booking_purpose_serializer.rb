@@ -2,6 +2,6 @@
 
 module Public
   class BookingPurposeSerializer < ApplicationSerializer
-    fields :key, :title_i18n
+    fields :key, :title_i18n, :title
   end
 end

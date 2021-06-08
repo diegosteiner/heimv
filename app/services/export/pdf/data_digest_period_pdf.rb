@@ -19,7 +19,7 @@ module Export
       end
 
       to_render do
-        render Renderables::Logo.new(organisation.logo)
+        render Renderables::PageHeader.new(text: periodic_data.data_digest.label, logo: @organisation.logo)
         render Renderables::Title.new(periodic_data.data_digest.label)
       end
 

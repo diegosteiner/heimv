@@ -26,6 +26,7 @@
 #  payment_deadline          :integer          default(30), not null
 #  ref_template              :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
 #  representative_address    :string
+#  settings                  :jsonb
 #  slug                      :string
 #  smtp_settings             :jsonb
 #  users_limit               :integer
@@ -46,5 +47,13 @@ RSpec.describe Organisation, type: :model do
     it do
       expect(organisation.save).to be true
     end
+  end
+
+  describe '#settings' do
+    let(:settings_json) { JSON.generate({ test: 3600, long: 'test' }) }
+    let(:organisation) { build(:organisation, settings_json: settings_json) }
+    subject(:settings) { organisation.settings }
+
+    it { expect(settings).to include({ test: 3600, long: 'test' }) }
   end
 end

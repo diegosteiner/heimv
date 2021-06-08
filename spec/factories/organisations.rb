@@ -26,6 +26,7 @@
 #  payment_deadline          :integer          default(30), not null
 #  ref_template              :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
 #  representative_address    :string
+#  settings                  :jsonb
 #  slug                      :string
 #  smtp_settings             :jsonb
 #  users_limit               :integer

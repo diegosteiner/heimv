@@ -47,4 +47,38 @@ class MeterReadingPeriod < ApplicationRecord
 
     (end_value - start_value).abs
   end
+
+  class Filter < ApplicationFilter
+    attribute :begins_at_after, :datetime
+    attribute :begins_at_before, :datetime
+    attribute :ends_at_after, :datetime
+    attribute :ends_at_before, :datetime
+    attribute :tarif_ids
+
+    filter :tarif do |meter_reading_periods|
+      meter_reading_periods.where(tarif_id: tarif_ids) if tarif_ids.present?
+    end
+
+    filter :begins_at do |meter_reading_periods|
+      next meter_reading_periods unless begins_at_after || begins_at_before
+
+      begins_at = MeterReadingPeriod.arel_table[:begins_at]
+
+      next meter_reading_periods.where(begins_at.gteq(begins_at_after)) if begins_at_after && !begins_at_before
+      next meter_reading_periods.where(begins_at.lteq(begins_at_before)) if !begins_at_after && begins_at_before
+
+      next meter_reading_periods.where(begins_at.between(begins_at_after..begins_at_before))
+    end
+
+    filter :ends_at do |meter_reading_periods|
+      next meter_reading_periods unless ends_at_after || ends_at_before
+
+      ends_at = MeterReadingPeriod.arel_table[:ends_at]
+
+      next meter_reading_periods.where(ends_at.gteq(ends_at_after)) if ends_at_after && !ends_at_before
+      next meter_reading_periods.where(ends_at.lteq(ends_at_before)) if !ends_at_after && ends_at_before
+
+      next meter_reading_periods.where(ends_at.between(ends_at_after..ends_at_before))
+    end
+  end
 end
