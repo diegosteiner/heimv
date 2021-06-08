@@ -33,7 +33,7 @@ module Manage
 
     def update
       @rich_text_template.update(rich_text_template_params)
-      respond_with :manage, @rich_text_template, location: manage_rich_text_templates_path
+      respond_with :manage, @rich_text_template
     end
 
     def destroy

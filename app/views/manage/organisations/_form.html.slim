@@ -32,7 +32,7 @@
 
   fieldset
     h3.mt-4= Booking.model_name.human(count: :other)
-    = link_to BookingPurpose.model_name.human(count: :other), manage_booking_purposes_path
+    .pb-3= link_to BookingPurpose.model_name.human(count: :other), manage_booking_purposes_path
     - if current_user.role_admin?
       div[v-pre]= f.text_area :settings_json, rows: 4
 

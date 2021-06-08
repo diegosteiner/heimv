@@ -186,6 +186,8 @@ de:
         notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
         representative_address: Adresse der Vertretung für Verträge
+        settings: Einstellungen
+        settings_json: Einstellungen
         slug: Namespace
         smtp_settings: Mailserver Einstellungen
         smtp_settings_json: Mailserver Einstellungen
@@ -1956,7 +1958,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
 
@@ -1979,7 +1981,7 @@ de:
         - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
         {{ booking.organisation.message_footer }}
@@ -2047,7 +2049,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
 
         Du kannst auf unserem [Reservationssystem](https://app.heimv.ch) jederzeit eine neue Reservation erstellen.
 
@@ -2067,7 +2069,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
         Du kannst auf unserem [Reservationssystem](https://www.heimv.ch.HeimV) jederzeit eine neue Reservation erstellen.
@@ -2090,7 +2092,7 @@ de:
         - Lagerhaus: {{booking.home.name}} {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
 
@@ -2121,7 +2123,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
 
@@ -2141,7 +2143,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
 
@@ -2188,7 +2190,7 @@ de:
         - Lagerhaus: **{{ booking.home.name }}, {{ booking.home.place }}**
         - Reservation: **{{ booking.occupancy.begins_at | datetime_format }}** bis **{{ booking.occupancy.ends_at | datetime_format }}**
         - Organisation: **{{ booking.tenant_organisation }}**
-        - Mietzweck: **{{ booking.purpose | booking_purpose }}**
+        - Mietzweck: **{{ booking.purpose.title }}**
         - Bemerkungen: **{{ booking.remarks }}**
         - Bearbeitungslink: [{{ booking.links.edit }}]({{ booking.links.edit }})
 
@@ -2215,7 +2217,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
 
@@ -2245,7 +2247,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
 
@@ -2264,7 +2266,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
 
@@ -2283,7 +2285,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
 
 
         **Zahlungsdetails**
@@ -2306,7 +2308,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
 
 
         **Zahlungsdetails**
@@ -2331,7 +2333,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Bemerkungen: {{ booking.remarks }}
 
 
@@ -2376,7 +2378,7 @@ de:
         - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
-        - Mietzweck: {{ booking.purpose | booking_purpose }}
+        - Mietzweck: {{ booking.purpose.title }}
         - Heimwart: {{ booking.home.janitor }}
 
         Bitte vereinbare mit dem Heimwart rechtzeitig den Übernahmetermin.

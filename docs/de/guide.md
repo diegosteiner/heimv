@@ -1,5 +1,11 @@
 # HeimV Handbuch
 
+## Buchungen
+
+### Buchungsprozess
+
+[Übersicht](./flow)
+
 ## Textvorlagen
 
 ### Variablen
