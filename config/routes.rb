@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   scope '(:org)' do
     namespace :manage do
       root to: 'dashboard#index'
-      get 'usage', to: 'pages#usage'
+      get 'guide', to: 'pages#guide'
       get 'flow', to: 'pages#flow'
       resources :homes do
         scope module: :homes do
