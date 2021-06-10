@@ -49,7 +49,7 @@ class Payment < ApplicationRecord
   after_save :recalculate_invoice
 
   before_validation do
-    self.booking ||= invoice&.booking
+    self.booking = invoice&.booking || booking
   end
 
   def duplicates

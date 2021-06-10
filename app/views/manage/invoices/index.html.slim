@@ -24,7 +24,7 @@
             td.align-middle
               - unless @booking
                 div= link_to invoice.booking, manage_booking_path(invoice.booking)
-              small= link_to invoice.to_s, manage_invoice_path(invoice, format: :pdf), target: :_blank
+              small= link_to invoice.ref, manage_invoice_path(invoice, format: :pdf), target: :_blank
             td.align-middle
               = invoice.model_name.human
 

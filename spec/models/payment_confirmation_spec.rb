@@ -9,7 +9,7 @@ RSpec.describe PaymentConfirmation, type: :model do
                                 organisation: booking.organisation,
                                 body: '{{ payment.amount }}')
   end
-  let(:payment) { create(:payment, booking: booking) }
+  let(:payment) { create(:payment, booking: booking, invoice: nil) }
   subject(:confirmation) { described_class.new(payment) }
 
   describe '#notification' do

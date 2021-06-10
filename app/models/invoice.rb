@@ -115,7 +115,7 @@ class Invoice < ApplicationRecord
   end
 
   def to_s
-    formatted_ref
+    "#{booking.ref} - #{formatted_ref}"
   end
 
   def invoice_ref_strategy
