@@ -11,6 +11,7 @@ module Export
 
         def markup_options
           {
+            list: { content: { leading: 5 } },
             heading1: { style: :bold, size: 16, margin_top: 10, margin_bottom: 2 },
             heading2: { style: :bold, size: 14, margin_top: 10, margin_bottom: 2 },
             heading3: { style: :bold, size: 12, margin_top: 10, margin_bottom: 2 },

@@ -63,7 +63,7 @@ class Tenant < ApplicationRecord
   end
 
   def salutation_name
-    I18n.t('tenant.salutation', name: [first_name, nickname, last_name].first(&:present?))
+    I18n.t('tenant.salutation', name: [nickname, first_name].first(&:present?))
   end
 
   def address_lines
