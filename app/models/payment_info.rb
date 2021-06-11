@@ -26,7 +26,7 @@ class PaymentInfo
 
   def to_h
     {
-      ref: ref, amount: amount, formatted_ref: formatted_ref,
+      ref: ref, amount: amount, formatted_ref: formatted_ref, iban: organisation.iban,
       formatted_amount: format('%<amount>0.2f', amount: amount)
     }
   end
