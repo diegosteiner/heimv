@@ -2,7 +2,7 @@
 
   fieldset
     - invoices = @payment.organisation.invoices.includes(:organisation).unpaid
-    = f.collection_select :invoice_id, [@payment.invoice, invoices].flatten.compact.uniq, :id, :to_s
+    = f.collection_select :invoice_id, [@payment.invoice, invoices].flatten.compact.uniq, :id, :to_s, include_blank: true
     = f.number_field :amount, step: 0.05
     = f.date_field :paid_at, lang: I18n.locale
     = f.text_area :remarks
