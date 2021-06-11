@@ -497,8 +497,8 @@ de:
     cancelled:
       label: Storniert
     cancelled_request:
-      description: Der Mieter hat die Anfrage zurückgezogen
-      label: Mietanfrage (zurückgezogen)
+      description: Die Frist ist abgelaufen oder der Mieter hat die Anfrage zurückgezogen
+      label: Mietanfrage (zurückgezogen/abgelaufen)
     completed:
       label: Belegung (abgeschlossen)
     declined_request:

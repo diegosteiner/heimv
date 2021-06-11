@@ -62,7 +62,7 @@ module Export
           page_size: 'A4',
           optimize_objects: true,
           compress: true,
-          margin: [50, 60, 50, 60],
+          margin: [75, 60, 50, 60],
           align: :left, kerning: true
         }
       end

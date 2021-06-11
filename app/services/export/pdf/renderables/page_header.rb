@@ -13,15 +13,15 @@ module Export
 
         def render
           repeat @repeat do
-            render_text if @text.present? || @text.nil?
             render_logo unless @logo == false
+            render_text
           end
         end
 
         def render_text
           width = bounds.width / 2
-          bounding_box [bounds.right - width, bounds.top + 35], width: width, height: 50 do
-            text @text, align: :right, size: 7
+          bounding_box [bounds.right - width, bounds.top + 55], width: width, height: 50 do
+            text @text, align: :right, size: 7 if @text.present? || @text.nil?
           end
         end
 
@@ -29,7 +29,7 @@ module Export
           image_source = @logo.respond_to?(:download) && StringIO.open(@logo.download)
           image_source ||= Rails.root.join('app/webpack/images/logo.png')
 
-          image image_source, at: [bounds.left, bounds.top + 35], width: 100, height: 50, fit: [100, 50]
+          image image_source, at: [bounds.left, bounds.top + 55], width: 200, height: 50, fit: [200, 50]
         end
       end
     end
