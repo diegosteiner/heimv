@@ -37,6 +37,7 @@ class Occupancy < ApplicationRecord
 
   enum occupancy_type: { free: 0, tentative: 1, occupied: 2, closed: 3 }
 
+  scope :ordered, -> { order(begins_at: :ASC) }
   scope :future, -> { begins_at(after: Time.zone.now) }
   scope :today, ->(date = Time.zone.today) { at(from: date.beginning_of_day, to: date.end_of_day) }
   scope :blocking, -> { where(occupancy_type: %i[tentative occupied closed]) }
