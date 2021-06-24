@@ -56,7 +56,7 @@ FactoryBot.define do
     tenant_organisation { Faker::Company.name }
     skip_infer_transition { true }
     committed_request { [true, false].sample }
-    approximate_headcount { rand(30) }
+    approximate_headcount { rand(1..30) }
     transient do
       initial_state { nil }
       begins_at { nil }
