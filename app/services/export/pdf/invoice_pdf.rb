@@ -35,7 +35,7 @@ module Export
         render Renderables::Markdown.new(invoice.text)
         move_down 20
         table invoice_parts_table_data,
-              # column_widths: [180, 200, 25, 89],
+              column_widths: [nil, nil, 30, 55],
               width: bounds.width,
               cell_style: { borders: [], padding: [0, 4, 4, 0] } do
           cells.style(size: 10)
@@ -48,9 +48,10 @@ module Export
       def invoice_parts_table_data
         helpers = ActionController::Base.helpers
         data = invoice.invoice_parts.map do |invoice_part|
-          [invoice_part.label, invoice_part.breakdown, 'CHF', helpers.number_to_currency(invoice_part.amount, unit: '')]
+          [invoice_part.label, invoice_part.breakdown, organisation.currency,
+           helpers.number_to_currency(invoice_part.amount, unit: '')]
         end
-        data << ['Total', '', 'CHF', helpers.number_to_currency(invoice.amount, unit: '')]
+        data << ['Total', '', organisation.currency, helpers.number_to_currency(invoice.amount, unit: '')]
       end
 
       to_render do
