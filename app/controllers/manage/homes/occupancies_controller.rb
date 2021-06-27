@@ -11,7 +11,7 @@ module Manage
       end
 
       def index
-        @occupancies = @occupancies.closed
+        @occupancies = @occupancies.closed.ordered
         respond_with :manage, @occupancy
       end
 
@@ -25,8 +25,7 @@ module Manage
       end
 
       def create
-        @occupancy.home = @home
-        @occupancy.save
+        @occupancy.update(home: @home, occupancy_type: :closed)
         respond_with :manage, @occupancy, location: manage_home_occupancies_path(@home)
       end
 

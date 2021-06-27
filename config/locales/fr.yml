@@ -2176,6 +2176,8 @@ fr:
         # Mahnung {{ booking.home.name }}
       default_title: Mahnung
       description: Text für Rechnung (Mahnung)
+    manage_definitive_request_notification:
+      description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
     manage_new_booking_notification:
       default_body: |-
         Hallo

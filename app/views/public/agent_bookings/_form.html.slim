@@ -34,5 +34,5 @@
       .form-actions.pt-4.mt-3.border-top
         - if @agent_booking.booking_agent_responsible?
           =<> f.submit
-        - if @agent_booking.booking.present?
+        - if @agent_booking.booking&.booking_state.present?
           = render partial: 'manage/bookings/actions', locals: { actions: @agent_booking.booking.booking_state.public_actions, form: f }

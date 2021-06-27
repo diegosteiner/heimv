@@ -29,7 +29,10 @@ module BookingStates
       booking.occupancy.tentative!
       booking.update!(timeframe_locked: true, editable: false)
       booking.deadline&.clear
-      booking.notifications.new(from_template: :definitive_request_notification, addressed_to: :tenant).deliver
+      booking.notifications.new(from_template: :manage_definitive_request_notification,
+                                addressed_to: :manager)&.deliver
+      booking.notifications.new(from_template: :definitive_request_notification,
+                                addressed_to: :tenant).deliver
     end
 
     def relevant_time

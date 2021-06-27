@@ -1955,7 +1955,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -1995,7 +1995,7 @@ de:
 
         - Unsere Referenz: {{ booking.ref }}
         - Deine Referenz: {{ booking.booking_agent_ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
 
 
@@ -2027,7 +2027,7 @@ de:
 
         - Unsere Referenz: {{ booking.ref }}
         - Deine Referenz: {{ booking.booking_agent_ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Bearbeitungslink: [{{booking.links.edit}}]({{booking.links.edit}})
 
@@ -2046,7 +2046,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -2120,7 +2120,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -2140,7 +2140,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -2159,7 +2159,7 @@ de:
         {{ booking.ref }}
         {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
 
-        # Anzahlung {{booking.home.name}}, {{ booking.home.place }}
+        # Anzahlung {{booking.home.name}}
       default_title: Anzahlung
       description: Text für Rechnung (Anzahlung)
     invoices_invoice_text:
@@ -2167,7 +2167,7 @@ de:
         {{ booking.ref }}
         {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
 
-        # Rechnung {{booking.home.name}}, {{ booking.home.place }}
+        # Rechnung {{booking.home.name}}
       default_title: Rechnung
       description: Text für Rechnung
     invoices_late_notice_text:
@@ -2175,9 +2175,31 @@ de:
         {{ booking.ref }}
         {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
 
-        # Mahnung {{booking.home.name}}, {{ booking.home.place }}
+        # Mahnung {{booking.home.name}}
       default_title: Mahnung
       description: Text für Rechnung (Mahnung)
+    manage_definitive_request_notification:
+      default_body: |-
+        Hallo
+
+        Die Mietanfrage {{ booking.ref }} für das Lagerhaus **{{ booking.home.name }}** ist nun definitiv.
+
+        **Reservationsdetails**
+
+        - Buchungsreferenz: **{{ booking.ref }}**
+        - Lagerhaus: **{{ booking.home.name }}**
+        - Reservation: **{{ booking.occupancy.begins_at | datetime_format }}** bis **{{ booking.occupancy.ends_at | datetime_format }}**
+        - Organisation: **{{ booking.tenant_organisation }}**
+        - Mietzweck: **{{ booking.purpose.title }}**
+        - Bemerkungen: **{{ booking.remarks }}**
+        - Bearbeitungslink: [{{ booking.links.edit }}]({{ booking.links.edit }})
+
+        [Zu HeimV](https://app.heimv.ch)
+
+
+        {{ booking.organisation.message_footer }}
+      default_title: Mietanfrage {{ booking.ref }} definitiv
+      description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
     manage_new_booking_notification:
       default_body: |-
         Hallo
@@ -2187,7 +2209,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: **{{ booking.ref }}**
-        - Lagerhaus: **{{ booking.home.name }}, {{ booking.home.place }}**
+        - Lagerhaus: **{{ booking.home.name }}**
         - Reservation: **{{ booking.occupancy.begins_at | datetime_format }}** bis **{{ booking.occupancy.ends_at | datetime_format }}**
         - Organisation: **{{ booking.tenant_organisation }}**
         - Mietzweck: **{{ booking.purpose.title }}**
@@ -2214,7 +2236,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -2244,7 +2266,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -2263,7 +2285,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -2282,7 +2304,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -2305,7 +2327,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -2330,7 +2352,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
@@ -2381,7 +2403,7 @@ de:
         **Reservationsdetails**
 
         - Buchungsreferenz: {{ booking.ref }}
-        - Lagerhaus: {{booking.home.name}}, {{ booking.home.place }}
+        - Lagerhaus: {{booking.home.name}}
         - Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}
         - Organisation: {{ booking.tenant_organisation }}
         - Mietzweck: {{ booking.purpose.title }}
