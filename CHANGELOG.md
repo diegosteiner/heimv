@@ -2,9 +2,17 @@
 
 #### Unreleased
 
+#### Version 21.6.2
+
+Released on 27.06.2021
+
+- Bugfixes
+- Send notification when booking becomes definitive
+- Add IBAN to payment_infos
+
 #### Version 21.6.1
 
-Released on 2021-06-08
+Released on 08.06.2021
 
 - Add page header to all pdfs
 - Add link to guide
