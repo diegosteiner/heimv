@@ -7,6 +7,7 @@
         th= Occupancy.human_attribute_name(:ends_at)
         th= Occupancy.human_attribute_name(:occupancy_type)
         th= Booking.model_name.human
+        th= Occupancy.human_attribute_name(:remarks)
         th
 
     tbody
@@ -20,6 +21,8 @@
             = occupancy.occupancy_type
           td
             = link_to occupancy.booking.ref, manage_booking_path(occupancy.booking) if occupancy.booking
+          td
+            = occupancy.remarks
           td.p-1.text-right
             .btn-group 
               = link_to edit_manage_occupancy_path(occupancy), class: 'btn btn-default' do
