@@ -5,3 +5,7 @@
     h5.card-title= @notification.subject
 
     == @notification.markdown.to_html
+  .card-footer 
+    ul.my-0
+      - @notification.attachments.each do |attachment|
+        li= link_to attachment.filename, attachment
