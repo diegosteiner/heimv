@@ -24,7 +24,8 @@ module Public
                   when t(:terms_pdf, scope: %i[downloads slug])
                     current_organisation.terms_pdf
                   when t(:privacy_statement_pdf, scope: %i[downloads slug])
-                    current_organisation.privacy_statement_pdf || ENV['PRIVACY_STATEMENT_URL']
+                    current_organisation.privacy_statement_pdf.presence || ENV.fetch('PRIVACY_STATEMENT_URL',
+                                                                                     '/PrivacyStatement-2021-02-27.pdf')
                   else
                     raise ActionController::RoutingError, 'File not found'
                   end
