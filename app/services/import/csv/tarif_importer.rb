@@ -6,8 +6,8 @@ module Import
       delegate :organisation, to: :home
       attr_reader :home
 
-      def initialize(home)
-        super()
+      def initialize(home, **options)
+        super(**options)
         @home = home
       end
 

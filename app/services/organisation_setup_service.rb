@@ -34,8 +34,9 @@ class OrganisationSetupService
   end
 
   def create_missing_rich_text_templates!(include_optional: true)
-    title, body = {}
-    missing_rich_text_templates.map do |key|
+    title = {}
+    body = {}
+    missing_rich_text_templates(include_optional: include_optional).map do |key|
       scope = [:rich_text_templates, key]
       I18n.available_locales.map do |locale|
         title[locale] = I18n.t(:default_title, scope: scope, locale: locale)

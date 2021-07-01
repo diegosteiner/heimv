@@ -15,15 +15,12 @@ Rails.application.routes.draw do
           resources :tarif_selectors, except: %w[show]
           resources :meter_reading_periods, only: %w[index]
           resources :tarifs do
-            collection do
-              put '/', action: :update_many
-            end
+            put '/', action: :update_many, on: :collection
+            post :import, on: :collection
           end
         end
       end
-      resource :organisation, only: %i[edit update show] do
-        match :import, via: %i[get post]
-      end
+      resource :organisation, only: %i[edit update show]
       resources :users, except: %i[show]
       resources :data_digests do
         get '/digest', on: :member, action: :digest, as: :digest

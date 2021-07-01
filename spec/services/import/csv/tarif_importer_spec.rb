@@ -11,6 +11,7 @@ RSpec.describe Import::Csv::TarifImporter, type: :model do
       "position","label","type","tarif_group","unit","price","invoice_type"
       11,"Tagesmiete auswärtige Pfadi","Tarifs::Flat","Tagesmiete",,150,
       12,"Tagesmiete Dritte / Privat","Tarifs::Flat","Tagesmiete",,380,
+      ,,,,,,
       21,"Übernachtungtarif auswärtige Pfadi","Tarifs::OvernightStay","Übernachtungsmiete","Übernachtung",11,
       22,"Übernachtungtarif Schulen / J+S Lager","Tarifs::OvernightStay","Übernachtungsmiete","Übernachtung",14,
       23,"Übernachtungtarif Dritte / Privat","Tarifs::OvernightStay","Übernachtungsmiete","Übernachtung",18,
@@ -23,9 +24,10 @@ RSpec.describe Import::Csv::TarifImporter, type: :model do
   end
 
   describe 'read' do
-    let(:import) { importer.read(csv) }
+    subject(:import) { importer.read(csv) }
     subject(:record) { import.first }
 
+    it { expect(import.compact.count).to eq(10) }
     it { is_expected.to be_valid }
     it { is_expected.to be_a(Tarifs::Flat) }
     it do

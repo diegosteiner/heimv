@@ -32,6 +32,8 @@ module Import
       end
 
       def import_row(row, **options)
+        return if row.values_at.all?(&:blank?)
+
         initialize_record(row).tap do |record|
           self.class.actors.each do |actor_block|
             instance_exec(record, row, options, &actor_block)

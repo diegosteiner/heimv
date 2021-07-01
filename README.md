@@ -85,7 +85,7 @@ Prepare a csv with these columns, including a header, as utf-8:
 Options:
 
 - initial_state: State to which the booking shall be transitioned
-- default_purpose: 
+- default_purpose:
 
 Then import data with:
 
@@ -115,6 +115,24 @@ Then import data with:
 
 ```
 cat data.csv | bin/rails r Import::Csv::TenantImporter.new(organisation).read
+```
+
+### Tarifs
+
+Prepare a csv with these columns, including a header, as utf-8:
+
+- position
+- label
+- type
+- tarif_group
+- unit
+- price
+- invoice_type
+
+Then import data with:
+
+```
+cat data.csv | bin/rails r Import::Csv::TarifImporter.new(home).read
 ```
 
 ## Copyright & License

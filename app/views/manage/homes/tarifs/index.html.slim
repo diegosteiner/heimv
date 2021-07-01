@@ -2,6 +2,17 @@
 h1= Tarif.model_name.human(count: :other)
 section.mt-4.breakout-sm
   = render partial: 'table', locals: { tarifs: @tarifs }
-  br
-  = link_to new_manage_home_tarif_path(@home), class: 'btn btn-primary'
+
+section.mt-4.breakout-sm
+  =<> link_to new_manage_home_tarif_path(@home), class: 'btn btn-primary'
     = t(:add_record, model_name: Tarif.model_name.human)
+  button.btn.btn-secondary[type="button" data-toggle="collapse" data-target="#import"]
+    = t(:import_records, model_name: Tarif.model_name.human(count: :other))
+
+section#import.mt-4.breakout-sm.collapse
+  = form_with(url: import_manage_home_tarifs_path(@home), method: :POST) do |f|
+    = f.file_field :file
+    = f.submit
+
+
+
