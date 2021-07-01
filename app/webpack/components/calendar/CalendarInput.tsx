@@ -66,7 +66,7 @@ type CalendarControlValue = {
   text: string;
 };
 
-const CalendarControl: React.FC<CalendarControlProps> = ({
+export const CalendarControl: React.FC<CalendarControlProps> = ({
   value = '',
   name,
   required = false,

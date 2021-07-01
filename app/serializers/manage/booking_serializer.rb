@@ -11,6 +11,8 @@ module Manage
            :committed_request, :approximate_headcount, :remarks
 
     field :links do |booking|
+      next { edit: nil, manage: nil } if booking.new_record?
+
       {
         edit: url.edit_public_booking_url(booking.to_param, org: booking.organisation.slug),
         manage: url.manage_booking_url(booking.to_param, org: booking.organisation.slug)

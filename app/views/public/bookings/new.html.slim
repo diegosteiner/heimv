@@ -3,7 +3,8 @@
     = image_tag asset_pack_path('images/logo.svg'), class: 'etched'
   - else
     h3 = t(:'.title')
-    / = react_component('booking/PublicBookingForm', booking: @booking, homes: Home.all)
+    / = react_component('booking/PublicBookingForm', booking: Public::BookingSerializer.render_as_hash(@booking), organisation: Public::OrganisationSerializer.render_as_hash(current_organisation))
+
     = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
       .card
         .card-body
