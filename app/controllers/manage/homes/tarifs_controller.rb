@@ -27,7 +27,7 @@ module Manage
       end
 
       def import
-        tarifs = params[:file].present? && Import::Csv::TarifImporter.new(@home).read(params[:file].read.force_encoding('UTF-8'))
+        params[:file].present? && Import::Csv::TarifImporter.new(@home).read(params[:file].read.force_encoding('UTF-8'))
 
         redirect_to manage_home_tarifs_path(@home)
       end
