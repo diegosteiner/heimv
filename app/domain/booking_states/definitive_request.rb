@@ -3,6 +3,8 @@
 module BookingStates
   class DefinitiveRequest < Base
     RichTextTemplate.require_template(:definitive_request_notification, context: %i[booking], required_by: self)
+    RichTextTemplate.require_template(:manage_definitive_request_notification, context: %i[booking],
+                                                                               required_by: self, optional: true)
     include Rails.application.routes.url_helpers
 
     def checklist
