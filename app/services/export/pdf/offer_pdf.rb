@@ -21,16 +21,19 @@ module Export
       to_render do
         next if usages.blank?
 
-        move_down 10
-        table(tarif_table_data, width: bounds.width) do
+        move_down 20
+        table(tarif_table_data,
+              column_widths: [nil, 70, 80, 80, 80],
+              width: bounds.width,
+              cell_style: { borders: [],
+                            padding: [0, 4, 4, 0] }) do
           rows(0).style(font_style: :bold)
-          cells.style(borders: [], padding: [0, 0, 4, 0])
           column([2, 3, 4]).style(align: :right)
         end
       end
 
       to_render do
-        bounding_box([0, cursor + 20], width: bounds.width) do
+        bounding_box([0, cursor - 30], width: bounds.width) do
           issuer_signature_label = I18n.t('offers.issuer_signature_label')
           render Renderables::Signature.new(issuer_signature_label, signature_image: @organisation.contract_signature,
                                                                     date: @offer.valid_from,

@@ -2224,7 +2224,7 @@ de:
       default_title: Neue Mietanfrage
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
     offer_text:
-      default_body: Offerte
+      default_body: "# Offerte"
       default_title: Offerte
       description: Text für Offerte
     open_request_notification:
