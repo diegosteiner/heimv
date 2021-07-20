@@ -226,6 +226,7 @@ de:
       tenant:
         additional_address: Addresszusatz
         address: Adresse
+        allow_bookings_without_contract: Buchungen ohne Vertrag erlauben
         birth_date: Geburtsdatum
         city: Ort
         country_code: Land
@@ -1792,6 +1793,9 @@ de:
   invoice_parts:
     breakdown: "%{used_units} × %{unit} à %{price_per_unit}"
     unpaid_invoice: Offener Betrag fällig am %{payable_until}
+  layouts:
+    manage_navigation:
+      help: Hilfe
   manage:
     bookings:
       contracts:
@@ -2254,7 +2258,7 @@ de:
     overdue_notification:
       default_body: ''
       default_title: Vertrag überfällig
-      description: Benrachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
+      description: Benachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
     overdue_request_notification:
       default_body: |-
         {{ booking.tenant.salutation_name }}

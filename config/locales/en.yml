@@ -226,6 +226,7 @@ en:
       tenant:
         additional_address: Addresszusatz
         address: Adresse
+        allow_bookings_without_contract: Buchungen ohne Vertrag erlauben
         birth_date: Geburtsdatum
         city: Ort
         country_code: Land
@@ -775,6 +776,9 @@ en:
   invoice_parts:
     breakdown: "%{used_units} × %{unit} à %{price_per_unit}"
     unpaid_invoice: Offener Betrag fällig am %{payable_until}
+  layouts:
+    manage_navigation:
+      help: Help
   manage:
     bookings:
       contracts:

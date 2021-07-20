@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_08_112359) do
+ActiveRecord::Schema.define(version: 2021_07_20_125645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -395,6 +395,7 @@ ActiveRecord::Schema.define(version: 2021_06_08_112359) do
     t.string "country_code", default: "CH"
     t.string "nickname"
     t.string "additional_address"
+    t.boolean "allow_bookings_without_contract", default: false
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"

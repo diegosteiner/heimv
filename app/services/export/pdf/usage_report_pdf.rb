@@ -48,8 +48,7 @@ module Export
       to_render do
         bounding_box([0, cursor - 20], width: bounds.width) do
           issuer_signature_label = I18n.t('contracts.issuer_signature_label')
-          render Renderables::Signature.new(issuer_signature_label, signature_image: organisation.contract_signature,
-                                                                    location: organisation.location)
+          render Renderables::Signature.new(issuer_signature_label)
 
           tenant_signature_label = I18n.t('contracts.tenant_signature_label')
           render Renderables::Signature.new(tenant_signature_label, align: :right)

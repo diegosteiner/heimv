@@ -1,32 +1,39 @@
-/ button.navbar-toggler.btn-primary[
-/   aria-controls="navbar-main-nav"
-/   aria-expanded="false"
-/   data-target="#navbar-main-nav"
-/   data-toggle="collapse"
-/   type="button"]
-/   span.navbar-toggler-icon
 
-ul#navbar-main-nav.list-unstyled.p-3.position-fixed-lg
-  li.nav-item
-    = link_to OccupancyCalendar.model_name.human(count: :other), manage_root_path, class: 'nav-link'
-  li.nav-item
-    = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
-  li.nav-item
-    = link_to Tenant.model_name.human(count: :other), manage_tenants_path, class: 'nav-link'
-  li.nav-item
-    = link_to Invoice.model_name.human(count: :other), manage_invoices_path, class: 'nav-link'
-  li.nav-item
-    = link_to Payment.model_name.human(count: :other), manage_payments_path, class: 'nav-link'
-  li.nav-item
-    = link_to Home.model_name.human(count: :other), manage_homes_path, class: 'nav-link'
-  li.nav-item
-    = link_to DataDigest.model_name.human(count: :other), manage_data_digests_path, class: 'nav-link'
-  li.nav-item
-    = link_to RichTextTemplate.model_name.human(count: :other), manage_rich_text_templates_path, class: 'nav-link'
-  li.nav-item
-    = link_to BookingAgent.model_name.human(count: :other), manage_booking_agents_path, class: 'nav-link'
-  - if can?(:manage, User, { organisation: current_organisation })
-    li.nav-item
-      = link_to User.model_name.human, manage_users_path, class: 'nav-link'
-  li.nav-item
-    = link_to Organisation.model_name.human, edit_manage_organisation_path, class: 'nav-link'
+nav.p-3
+  button.navbar-toggler.btn.d-md-none[
+    aria-controls="navbar-main-nav"
+    aria-expanded="false"
+    data-target="#navbar-main-nav"
+    data-toggle="collapse"
+    type="button"]
+    i.fa.fa-bars
+
+  #navbar-main-nav.collapse.navbar-collapse.show.position-fixed-lg
+    ul.list-unstyled
+      li.nav-item
+        = link_to OccupancyCalendar.model_name.human(count: :other), manage_root_path, class: 'nav-link'
+      li.nav-item
+        = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
+      li.nav-item
+        = link_to Tenant.model_name.human(count: :other), manage_tenants_path, class: 'nav-link'
+      li.nav-item
+        = link_to Invoice.model_name.human(count: :other), manage_invoices_path, class: 'nav-link'
+      li.nav-item
+        = link_to Payment.model_name.human(count: :other), manage_payments_path, class: 'nav-link'
+      li.nav-item
+        = link_to Home.model_name.human(count: :other), manage_homes_path, class: 'nav-link'
+      li.nav-item
+        = link_to DataDigest.model_name.human(count: :other), manage_data_digests_path, class: 'nav-link'
+      li.nav-item
+        = link_to RichTextTemplate.model_name.human(count: :other), manage_rich_text_templates_path, class: 'nav-link'
+      li.nav-item
+        = link_to BookingAgent.model_name.human(count: :other), manage_booking_agents_path, class: 'nav-link'
+      - if can?(:manage, User, { organisation: current_organisation })
+        li.nav-item
+          = link_to User.model_name.human, manage_users_path, class: 'nav-link'
+      li.nav-item
+        = link_to Organisation.model_name.human, edit_manage_organisation_path, class: 'nav-link'
+      li.nav-item
+        = link_to manage_guide_path(org: current_organisation.slug), class: 'nav-link'
+          = t('.help')
+          i.fa.fa-question-circle.pl-2

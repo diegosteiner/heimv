@@ -6,7 +6,7 @@
           .mr-3
             i.fa.fa-info-circle
           p.m-0= @booking.booking_state.t(:public_info)
-      - if @booking.occupancy.begins_at < ENV.fetch('LAST_MINUTE_WARNING_DAYS', 10).to_i.days.from_now
+      - if @booking.occupancy.begins_at < @booking.organisation.settings.fetch(:last_minute_warning, 10.days).seconds.from_now
         .alert.alert-warning.d-flex
           .mr-3
             i.fa.fa-exclamation-triangle
