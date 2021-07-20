@@ -2254,7 +2254,7 @@ de:
     overdue_notification:
       default_body: ''
       default_title: Vertrag überfällig
-      description: Benrachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
+      description: Benachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
     overdue_request_notification:
       default_body: |-
         {{ booking.tenant.salutation_name }}
