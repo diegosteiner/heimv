@@ -1792,6 +1792,9 @@ fr:
   invoice_parts:
     breakdown: "%{used_units} × %{unit} à %{price_per_unit}"
     unpaid_invoice: Offener Betrag fällig am %{payable_until}
+  layouts:
+    manage_navigation:
+      help: Help
   manage:
     bookings:
       contracts:
