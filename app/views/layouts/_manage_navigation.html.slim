@@ -11,10 +11,6 @@ nav.p-3
   #navbar-main-nav.collapse.navbar-collapse.show.position-fixed-lg
     ul.list-unstyled
       li.nav-item
-        = link_to manage_guide_path(org: current_organisation.slug), class: 'nav-link'
-          = t('.help')
-          i.fa.fa-question-circle.pl-2
-      li.nav-item
         = link_to OccupancyCalendar.model_name.human(count: :other), manage_root_path, class: 'nav-link'
       li.nav-item
         = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
@@ -37,3 +33,7 @@ nav.p-3
           = link_to User.model_name.human, manage_users_path, class: 'nav-link'
       li.nav-item
         = link_to Organisation.model_name.human, edit_manage_organisation_path, class: 'nav-link'
+      li.nav-item
+        = link_to manage_guide_path(org: current_organisation.slug), class: 'nav-link'
+          = t('.help')
+          i.fa.fa-question-circle.pl-2
