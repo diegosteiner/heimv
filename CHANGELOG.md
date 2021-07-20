@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 21.7.1
+
+Released on 20.07.2021
+
+- Allow tenants to make bookings without contracts (fast lane)
+- Improve navigation on mobile
+- Small bugfixes and updates
+
 #### Version 21.6.2
 
 Released on 27.06.2021
