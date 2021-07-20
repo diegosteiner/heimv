@@ -226,6 +226,7 @@ de:
       tenant:
         additional_address: Addresszusatz
         address: Adresse
+        allow_bookings_without_contract: Buchungen ohne Vertrag erlauben
         birth_date: Geburtsdatum
         city: Ort
         country_code: Land

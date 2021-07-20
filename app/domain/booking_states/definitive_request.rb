@@ -23,6 +23,10 @@ module BookingStates
       booking.tenant.present? && booking.tenant.valid?
     end
 
+    infer_transition(to: :upcoming) do |booking|
+      booking.contracts.sent.none? && booking.tenant&.allow_bookings_without_contract
+    end
+
     infer_transition(to: :awaiting_contract) do |booking|
       booking.contracts.sent.any?
     end
