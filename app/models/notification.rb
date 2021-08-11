@@ -106,10 +106,10 @@ class Notification < ApplicationRecord
   protected
 
   def resolve_addressed_to
-    return [booking.email].compact if addressed_to_tenant?
-    return [booking.booking_agent&.email].compact if addressed_to_booking_agent?
+    return [booking.email.presence].compact if addressed_to_tenant?
+    return [booking.booking_agent&.email&.presence].compact if addressed_to_booking_agent?
 
-    [booking.organisation.email]
+    [booking.organisation.email.presence]
   end
 
   def invoke_mailer!
