@@ -808,6 +808,8 @@ en:
     notifications:
       edit:
         deliver: Deliver
+      index:
+        notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
     organisations:
       form:
         general: General

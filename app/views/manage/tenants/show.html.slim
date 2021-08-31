@@ -23,5 +23,38 @@
       span.fa.fa-trash
       '
       = t(:destroy)
+
+- if @tenant.bookings.none?
+  p.text-center.my-5
+    = t(:no_records_yet, model_name: Booking.model_name.human(count: :other))
+- else
+  table.table.table-hover.table-card.mt-5
+    thead
+      tr
+        th= Booking.human_attribute_name(:ref)
+        th= Occupancy.model_name.human
+        th= Booking.human_attribute_name(:home)
+        th= Booking.human_attribute_name(:state)
+        th
+
+    tbody
+      - @tenant.bookings.each do |booking|
+        tr[data-href=manage_booking_path(booking)]
+          td
+            = link_to booking.ref, manage_booking_path(booking)
+          td
+            = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
+          td
+            = booking.home.to_s
+          td 
+            = booking.booking_state.t(:label)
+          
+          td.py-1.text-right
+            - if can?(:manage, booking)
+              .btn-group
+                = link_to manage_booking_path(booking), class: 'btn btn-default' do
+                  span.fa.fa-eye
+                = link_to manage_booking_path(booking, return_to: url_for), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                  span.fa.fa-trash
 br
 = link_to t(:back), manage_tenants_path, class: 'btn btn-default'

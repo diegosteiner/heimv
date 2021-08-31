@@ -68,7 +68,7 @@ class Notification < ApplicationRecord
   end
 
   def deliver
-    return save unless deliverable?
+    return false unless deliverable?
 
     queue_for_delivery && invoke_mailer! && update(sent_at: Time.zone.now)
   end
@@ -116,6 +116,7 @@ class Notification < ApplicationRecord
     organisation.mailer.mail(to: to, subject: subject, cc: cc, bcc: bcc,
                              body: markdown.to_text, html_body: markdown.to_html,
                              attachments: attachments_for_mail)
+    true
   rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
     defined?(Sentry) && Sentry.capture_exception(e) || Rails.logger.warn(e.message)
     false

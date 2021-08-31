@@ -35,7 +35,7 @@ module Manage
       def update_many
         @home.update(home_tarifs_params)
         respond_with :manage, @home, @tarifs,
-                     { location: params[:return_to] || manage_home_tarifs_path(@home) }
+                     { location: return_to_path(manage_home_tarifs_path(@home)) }
                        .merge(responder_flash_messages(Tarif.model_name.human(count: :other)))
       end
 

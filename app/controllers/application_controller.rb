@@ -80,4 +80,8 @@ class ApplicationController < ActionController::Base
       redirect_back alert: t('unauthorized'), fallback_location: root_path
     end
   end
+
+  def return_to_path(default)
+    params[:return_to].presence || default || root_path
+  end
 end

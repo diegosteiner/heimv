@@ -1825,6 +1825,8 @@ it:
     notifications:
       edit:
         deliver: Speichern und nochmals versenden
+      index:
+        notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
     organisations:
       form:
         general: General

@@ -1,10 +1,14 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :notifications, booking: @booking }
 
+- unless @booking.notifications_enabled?
+  .alert.alert-warning.my-4= t('.notifications_not_enabled')
+
 table.table.table-hover.table-card
   thead
     tr
-      th= Notification.model_name.human(count: :other)
+      th= Notification.human_attribute_name(:sent_at)
       th= Notification.human_attribute_name(:to)
+      th= Notification.human_attribute_name(:subject)
       th
 
   tbody

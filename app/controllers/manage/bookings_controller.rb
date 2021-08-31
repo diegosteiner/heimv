@@ -39,7 +39,7 @@ module Manage
 
     def destroy
       @booking.destroy
-      respond_with :manage, @booking, location: manage_bookings_path
+      respond_with :manage, @booking, location: return_to_path(manage_bookings_path)
     end
 
     private
