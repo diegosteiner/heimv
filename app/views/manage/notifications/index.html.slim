@@ -22,6 +22,8 @@ table.table.table-hover.table-card
           = link_to notification.subject, manage_notification_path(notification)
         td.py-1.text-right
           .btn-group
+            = link_to manage_notification_path(notification), class: 'btn btn-default' do
+              span.fa.fa-eye
             = link_to edit_manage_notification_path(notification), class: 'btn btn-default' do
               span.fa.fa-edit
 

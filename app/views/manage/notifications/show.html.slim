@@ -2,6 +2,12 @@
 
 .card.breakout-sm
   .card-body
+    .mb-3
+      = Notification.human_attribute_name(:to)
+      ' : 
+      - @notification.to.each do |to|
+        = mail_to(to)
+        '
     h5.card-title= @notification.subject
 
     == @notification.markdown.to_html
