@@ -37,12 +37,11 @@ module Export
         document.render
       end
 
-      add_font_family('OpenSans', {
-                        normal: File.join(FONTS_PATH, 'OpenSans-Regular.ttf'),
-                        italic: File.join(FONTS_PATH, 'OpenSans-Italic.ttf'),
-                        bold: File.join(FONTS_PATH, 'OpenSans-Bold.ttf'),
-                        bold_italic: File.join(FONTS_PATH, 'OpenSans-BoldItalic.ttf')
-                      })
+      add_font_family('OpenSans',
+                      normal: File.join(FONTS_PATH, 'OpenSans-Regular.ttf'),
+                      italic: File.join(FONTS_PATH, 'OpenSans-Italic.ttf'),
+                      bold: File.join(FONTS_PATH, 'OpenSans-Bold.ttf'),
+                      bold_italic: File.join(FONTS_PATH, 'OpenSans-BoldItalic.ttf'))
 
       def document
         @document ||= initialize_document

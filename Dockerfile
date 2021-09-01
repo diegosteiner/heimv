@@ -1,5 +1,5 @@
 ### === base === ###                 
-FROM ruby:2.7.3-alpine AS base
+FROM ruby:3.0.2-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata nodejs
 RUN mkdir -p /app && \
     mkdir -p /app/vendor && \
