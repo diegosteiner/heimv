@@ -17,7 +17,7 @@
         - current_locale = locale == I18n.locale
         .tab-pane.pt-3[id="title-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="title-#{locale}-tab" role='tabpanel']
           = f.text_field "title_#{locale.to_s}", label: RichTextTemplate.human_attribute_name(:title)
-          div[v-pre]= f.text_area "body_#{locale.to_s}", label: RichTextTemplate.human_attribute_name(:body), rows: 15
+          div[v-pre]= f.text_area "body_#{locale.to_s}", label: RichTextTemplate.human_attribute_name(:body), rows: 15, class: 'rich-text-area'
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit
