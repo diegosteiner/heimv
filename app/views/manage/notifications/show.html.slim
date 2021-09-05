@@ -10,7 +10,7 @@
         '
     h5.card-title= @notification.subject
 
-    == @notification.markdown.to_html
+    == @notification.body
   .card-footer 
     ul.my-0
       - @notification.attachments.each do |attachment|

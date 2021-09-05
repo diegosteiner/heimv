@@ -22,7 +22,6 @@ module Manage
     end
 
     def edit
-      # @rich_text_template.body_i18n = @rich_text_template.body_i18n.transform_values { |body| Markdown.new(body).to_html }
       respond_with :manage, @rich_text_template
     end
 

@@ -32,7 +32,7 @@ module Export
       end
 
       to_render do
-        render Renderables::Markdown.new(invoice.text)
+        render Renderables::RichText.new(invoice.text)
         move_down 20
         table invoice_parts_table_data,
               column_widths: [nil, nil, 30, 55],

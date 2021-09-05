@@ -40,17 +40,14 @@ class RichTextTemplate < ApplicationRecord
   # errors.add(:key, :invalid) unless key.present? && self.class.required_templates.keys.include?(key.to_sym)
   # end
 
-  def to_markdown
-    Markdown.new(body)
-  end
-
   def interpolate(context)
     context = context&.stringify_keys || {}
     liquid_template = Liquid::Template.parse(body)
-    Markdown.new(liquid_template.render!(context.to_liquid))
+    liquid_template.render!(context.to_liquid)
   end
 
   def interpolate_title(context)
+    context = context&.stringify_keys || {}
     liquid_template = Liquid::Template.parse(title)
     liquid_template.render!(context.to_liquid)
   end
@@ -91,6 +88,9 @@ class RichTextTemplate < ApplicationRecord
         requirements.filter_map { |requirement| requirement.key.to_s if !requirement.optional || include_optional }
       end.flatten
       required - organisation.rich_text_templates.where(home_id: nil).pluck(:key)
+    end
+
+    def load_defaults_from_organisation(organisation)
     end
   end
 end

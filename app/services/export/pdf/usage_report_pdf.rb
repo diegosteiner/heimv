@@ -22,7 +22,7 @@ module Export
 
       to_render do
         rich_text_template = organisation.rich_text_templates.by_key(:usage_report_text, home_id: booking.home_id)
-        render Renderables::Markdown.new(rich_text_template.interpolate('booking' => booking)) if rich_text_template
+        render Renderables::RichText.new(rich_text_template.interpolate('booking' => booking)) if rich_text_template
       end
 
       to_render do

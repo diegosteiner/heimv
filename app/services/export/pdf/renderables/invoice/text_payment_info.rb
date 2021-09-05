@@ -37,7 +37,7 @@ module Export
 
           def render_text_in_columns
             column_box([0, height - 30], columns: 2, width: bounds.width, height: height) do
-              markup(@payment_info.body.to_html)
+              markup(@payment_info.body)
             end
           end
         end

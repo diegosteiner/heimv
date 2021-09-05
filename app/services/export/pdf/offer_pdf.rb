@@ -15,7 +15,7 @@ module Export
       to_render do
         render Renderables::PageHeader.new(text: @booking.ref, logo: @organisation.logo)
         render Renderables::AddressedHeader.new(@booking)
-        render Renderables::Markdown.new(@offer.text)
+        render Renderables::RichText.new(@offer.text)
       end
 
       to_render do

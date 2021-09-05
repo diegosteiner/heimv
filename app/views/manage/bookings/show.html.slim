@@ -25,7 +25,7 @@
                     - unless @booking.tenant.complete?
                       i.fa.fa-exclamation-triangle.text-warning<>[data-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete', default: '')]
                   address
-                    = tenant.name
+                    = link_to tenant.name, manage_tenant_path(tenant)
                     - if can?(:edit, @booking.tenant) && !@booking.tenant.complete?
                       = link_to edit_manage_tenant_path(tenant) 
                         i.fa.fa-edit<>

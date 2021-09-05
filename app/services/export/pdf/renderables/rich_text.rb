@@ -3,10 +3,10 @@
 module Export
   module Pdf
     module Renderables
-      class Markdown < Renderable
-        def initialize(markdown)
+      class RichText < Renderable
+        def initialize(body)
           super()
-          @markdown = markdown.is_a?(::Markdown) ? markdown : ::Markdown.new(markdown)
+          @body = body.is_a?(::Markdown) ? body.to_html : body
         end
 
         def markup_options
@@ -22,7 +22,7 @@ module Export
         end
 
         def render
-          @document.markup(@markdown.to_html, **markup_options)
+          @document.markup(@body, **markup_options)
         end
       end
     end

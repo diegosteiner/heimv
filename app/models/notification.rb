@@ -50,15 +50,6 @@ class Notification < ApplicationRecord
     self.rich_text_template ||= resolve_rich_text_template
   end
 
-  def markdown
-    @markdown ||= Markdown.new(body)
-  end
-
-  def markdown=(value)
-    self.body = value.body
-    @markdown = value
-  end
-
   def deliverable?
     valid? && organisation.notifications_enabled? && (booking.notifications_enabled? || addressed_to_manager?)
   end
@@ -95,12 +86,16 @@ class Notification < ApplicationRecord
 
     Mobility.with_locale(booking.locale) do
       self.subject = rich_text_template.interpolate_title(context)
-      self.markdown = rich_text_template.interpolate(context)
+      self.body = rich_text_template.interpolate(context)
     end
   end
 
   def context
     super || { 'booking' => booking }
+  end
+
+  def text
+    ActionView::Base.full_sanitizer.sanitize(body)
   end
 
   protected
@@ -114,11 +109,12 @@ class Notification < ApplicationRecord
 
   def invoke_mailer!
     organisation.mailer.mail(to: to, subject: subject, cc: cc, bcc: bcc,
-                             body: markdown.to_text, html_body: markdown.to_html,
+                             body: text, html_body: body,
                              attachments: attachments_for_mail)
     true
   rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
-    defined?(Sentry) && Sentry.capture_exception(e) || Rails.logger.warn(e.message)
+    Rails.logger.warn(e.message)
+    defined?(Sentry) && Sentry.capture_exception(e)
     false
   end
 end
