@@ -89,8 +89,5 @@ class RichTextTemplate < ApplicationRecord
       end.flatten
       required - organisation.rich_text_templates.where(home_id: nil).pluck(:key)
     end
-
-    def load_defaults_from_organisation(organisation)
-    end
   end
 end
