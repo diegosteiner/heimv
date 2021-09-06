@@ -44,8 +44,7 @@ module Manage
     private
 
     def rich_text_template_params
-      params.require(:rich_text_template).permit(%i[key home_id] +
-        I18n.available_locales.map { |l| ["title_#{l}", "body_#{l}"] }.flatten)
+      RichTextTemplateParams.new(params.require(:rich_text_template)).permitted
     end
   end
 end
