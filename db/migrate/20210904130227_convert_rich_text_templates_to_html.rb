@@ -1,6 +1,6 @@
 class ConvertRichTextTemplatesToHtml < ActiveRecord::Migration[6.1]
   def up
-    add_column :rich_text_templates, :body_i18n_markdown, :jsonb default: {}
+    add_column :rich_text_templates, :body_i18n_markdown, :jsonb, default: {}
     RichTextTemplate.transaction do
       RichTextTemplate.find_each do 
         _1.body_i18n_markdown = _1.body_i18n

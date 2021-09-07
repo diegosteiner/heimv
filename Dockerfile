@@ -25,8 +25,8 @@ RUN gem install solargraph standardrb ruby-debug-ide debase
 
 ARG UID=1001
 ARG GID=1001
-RUN addgroup -g $GID -S app && \ 
-    adduser -S -u $UID -G app -D app && \
+RUN addgroup --gid $GID --system app && \ 
+    adduser --system --uid $UID --ingroup app --disabled-password app && \
     chown -R app:app /app && \
     chown -R app:app /usr/local/bundle || true
 USER $UID
@@ -51,7 +51,7 @@ RUN bin/webpack
 ### === production === ###
 FROM base AS production
 
-RUN adduser -D app && \
+RUN adduser --disabled-password app && \
     chown -R app /app
 USER app    
 
