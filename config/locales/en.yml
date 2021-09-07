@@ -819,6 +819,9 @@ en:
     rich_text_templates:
       form:
         all_homes: All homes
+    users:
+      index:
+        invite_user: Invite user
   nav:
     edit_account: Account
     manage: Verwaltung
