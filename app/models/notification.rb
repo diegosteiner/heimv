@@ -71,7 +71,7 @@ class Notification < ApplicationRecord
   def resolve_rich_text_template
     return if from_template.blank? || organisation.blank? || booking.blank?
 
-    organisation.rich_text_templates.by_key(from_template)
+    organisation.rich_text_templates.by_key(from_template, home_id: booking.home_id)
   end
 
   def locale
