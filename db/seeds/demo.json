@@ -9,7 +9,6 @@
   "esr_beneficiary_account": "01-123456-7",
   "iban": "",
   "invoice_ref_strategy_type": "RefStrategies::ESR",
-  "notification_footer": "Verein Pfadiheime Demo  \r\nHeimverwaltung  \r\n\r\n[www.heimv.ch](//www.heimv.ch)  \r\n",
   "address": "Verein Pfadiheime\r\nHeimverwaltung\r\n\r\n8000 Zürich",
   "booking_flow_type": "BookingFlows::Default",
   "booking_purposes": [
