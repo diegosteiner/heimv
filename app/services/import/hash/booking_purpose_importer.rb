@@ -8,7 +8,7 @@ module Import
       use_attributes(*%w[key title_i18n])
 
       def initialize(organisation, **options)
-        super(options)
+        super(**options)
         @organisation = organisation
       end
 

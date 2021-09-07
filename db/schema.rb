@@ -334,6 +334,7 @@ ActiveRecord::Schema.define(version: 2021_09_07_114152) do
     t.bigint "home_id"
     t.jsonb "title_i18n", default: {}
     t.jsonb "body_i18n", default: {}
+    t.jsonb "body_i18n_markdown", default: {}
     t.index ["home_id"], name: "index_rich_text_templates_on_home_id"
     t.index ["key", "home_id", "organisation_id"], name: "index_rich_text_templates_on_key_and_home_and_organisation", unique: true
     t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"
@@ -426,18 +427,7 @@ ActiveRecord::Schema.define(version: 2021_09_07_114152) do
     t.string "unconfirmed_email"
     t.integer "role"
     t.bigint "organisation_id"
-    t.string "invitation_token"
-    t.datetime "invitation_created_at"
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
-    t.integer "invitation_limit"
-    t.string "invited_by_type"
-    t.bigint "invited_by_id"
-    t.integer "invitations_count", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
-    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
-    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

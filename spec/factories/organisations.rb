@@ -56,7 +56,7 @@ FactoryBot.define do
 
     trait :with_rich_text_templates do
       after(:create) do |organisation|
-        onboarding = OrganisationSetupService.new(organisation)
+        onboarding = OnboardingService.new(organisation)
         onboarding.create_missing_rich_text_templates!
       end
     end

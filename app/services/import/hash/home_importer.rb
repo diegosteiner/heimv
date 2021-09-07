@@ -8,7 +8,7 @@ module Import
       use_attributes(*%w[janitor min_occupation name address requests_allowed])
 
       def initialize(organisation, **options)
-        super(options)
+        super(**options)
         @organisation = organisation
       end
 
@@ -19,7 +19,7 @@ module Import
       actor do |home, hash|
         next unless hash['tarifs'].respond_to?(:each)
 
-        importer = TarifImporter.new(home, options)
+        importer = TarifImporter.new(home, **options)
 
         hash['tarifs'].each do
           home.tarifs << importer.import(_1)

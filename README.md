@@ -48,9 +48,9 @@ Copy env.example to .env and change configuration there
 Create a organisation with markdown templates and a user:
 
 ```
-setup = OrganisationSetupService.create(name: <name>, email: <email>, slug: <slug>)
-setup.create_missing_rich_text_templates!(include_optional: true)
-setup.create_user!
+onboarding = OnboardingService.create(name: <name>, email: <email>, slug: <slug>)
+onboarding.create_missing_rich_text_templates!(include_optional: true)
+onboarding.invite_user!
 ```
 
 ## Cronjobs
