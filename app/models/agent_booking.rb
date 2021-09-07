@@ -80,10 +80,6 @@ class AgentBooking < ApplicationRecord
     !committed_request || !valid?
   end
 
-  def timeframe_locked?
-    booking&.timeframe_locked?
-  end
-
   def assign_booking_agent
     self.booking_agent ||= organisation.booking_agents.find_by(code: booking_agent_code)
   end

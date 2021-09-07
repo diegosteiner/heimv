@@ -96,6 +96,7 @@ class Notification < ApplicationRecord
 
   def body
     return super.presence&.+(footer) if footer.present?
+
     super
   end
 

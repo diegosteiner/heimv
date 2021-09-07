@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_07_102053) do
+ActiveRecord::Schema.define(version: 2021_09_07_114152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -127,7 +127,6 @@ ActiveRecord::Schema.define(version: 2021_09_07_102053) do
     t.datetime "updated_at", null: false
     t.text "internal_remarks"
     t.boolean "concluded", default: false
-    t.boolean "timeframe_locked", default: false
     t.boolean "usages_presumed", default: false
     t.bigint "deadline_id"
     t.string "locale"

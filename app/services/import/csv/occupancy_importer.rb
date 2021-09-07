@@ -54,7 +54,7 @@ module Import
       end
 
       actor do |occupancy, row|
-        occupancy.booking&.assign_attributes(import_data: row.to_h, timeframe_locked: true, editable: false,
+        occupancy.booking&.assign_attributes(import_data: row.to_h, editable: false,
                                              notifications_enabled: false, ref: row.try_field('ref'),
                                              remarks: row.try_all_fields('remarks', 'purpose_text').join('. '),
                                              approximate_headcount: row.try_field('headcount')&.to_i,

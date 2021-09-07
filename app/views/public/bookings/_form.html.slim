@@ -28,16 +28,16 @@
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'booking[occupancy_attributes][begins_at]',
                                                     value: @booking.occupancy.begins_at&.iso8601,
-                                                    disabled: @booking.timeframe_locked?, required: true,
+                                                    disabled: !@booking.editable?, required: true,
                                                     invalidFeedback: @booking.errors['occupancy.begins_at']&.to_sentence)
 
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
                                                     name: 'booking[occupancy_attributes][ends_at]',
                                                     value: @booking.occupancy.ends_at&.iso8601,
-                                                    disabled: @booking.timeframe_locked?, required: true,
+                                                    disabled: !@booking.editable?, required: true,
                                                     invalidFeedback: @booking.errors['occupancy.ends_at']&.to_sentence)
 
-        = f.email_field :email, disabled: @booking.email.present? || !@booking.editable
+        = f.email_field :email, disabled: true
         = f.fields_for :tenant, @booking.tenant do |cf|
 
           .row
@@ -57,7 +57,7 @@
 
           = cf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code) } do
             = cf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable
-          = cf.text_area :phone, rows: 2, disabled: !@booking.editable
+          = cf.text_area :phone, rows: 1, disabled: !@booking.editable
           = cf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true
 
       fieldset
