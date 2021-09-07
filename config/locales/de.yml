@@ -2227,6 +2227,10 @@ de:
         <p>{{ booking.organisation.message_footer }}</p>
       default_title: Neue Mietanfrage
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
+    notification_footer:
+      default_body: ''
+      default_title: ''
+      description: Fusszeile für Benachrichtigungen
     offer_text:
       default_body: '<h1 id="offerte">Offerte</h1>
 

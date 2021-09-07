@@ -46,7 +46,7 @@ class Notification < ApplicationRecord
   scope :failed, -> { where(queued_for_delivery: true, sent_at: nil).where(arel_table[:created_at].lt(1.hour.ago)) }
 
   before_validation do
-    self.to = to.presence || resolve_addressed_to
+    self.to = to.presence || [resolve_addressed_to]
     self.rich_text_template ||= resolve_rich_text_template
   end
 
@@ -90,6 +90,14 @@ class Notification < ApplicationRecord
     end
   end
 
+  def footer
+    organisation.rich_text_templates.by_key(:notification_footer)&.interpolate(context)
+  end
+
+  def body
+    super + footer
+  end
+
   def context
     super || { 'booking' => booking }
   end
@@ -101,10 +109,10 @@ class Notification < ApplicationRecord
   protected
 
   def resolve_addressed_to
-    return [booking.email.presence].compact if addressed_to_tenant?
-    return [booking.booking_agent&.email&.presence].compact if addressed_to_booking_agent?
+    return booking.email if addressed_to_tenant?
+    return booking.booking_agent&.email&.presence if addressed_to_booking_agent?
 
-    [booking.organisation.email.presence]
+    booking.organisation.email.presence
   end
 
   def invoke_mailer!

@@ -148,6 +148,10 @@ class Booking < ApplicationRecord
     @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
   end
 
+  def email
+    super.presence || tenant&.email.presence
+  end
+
   private
 
   def reject_tentant_attributes?(tenant_attributes)
@@ -161,7 +165,7 @@ class Booking < ApplicationRecord
 
   def set_tenant_attributes
     self.tenant ||= organisation.tenants.find_or_initialize_by(email: email)
-    self.tenant.email = email if email.present?
+    self.tenant.email = self[:email] if self[:email].present?
     self.tenant.organisation = organisation
   end
 

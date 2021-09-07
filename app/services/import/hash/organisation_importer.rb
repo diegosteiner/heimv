@@ -4,7 +4,7 @@ module Import
   module Hash
     class OrganisationImporter < Base
       use_attributes(*%w[name email address booking_flow_type currency location mail_from
-                         esr_beneficiary_account iban invoice_ref_strategy_type notification_footer
+                         esr_beneficiary_account iban invoice_ref_strategy_type
                          notifications_enabled slug])
 
       def initialize_record(_hash)

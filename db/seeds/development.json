@@ -376,7 +376,6 @@
   "location": null,
   "mail_from": "info@heimv.local",
   "name": "Heimverein Development",
-  "notification_footer": "Verein Pfadiheime \r\nHeimverwaltung  \r\n\r\n[www.heimv.ch](//www.heimv.ch)  \r\n",
   "notifications_enabled": true,
   "slug": null
 }

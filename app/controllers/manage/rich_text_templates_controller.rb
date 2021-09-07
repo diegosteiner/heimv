@@ -6,7 +6,8 @@ module Manage
     respond_to :json
 
     def index
-      @rich_text_templates = @rich_text_templates.order(key: :ASC).where(organisation: current_organisation)
+      @rich_text_templates = @rich_text_templates.order(key: :ASC,
+                                                        home_id: :ASC).where(organisation: current_organisation)
       @rich_text_templates = @rich_text_templates.where(home_id: params[:home_id]) if params[:home_id]
       @rich_text_templates = @rich_text_templates.where(key: params[:key]) if params[:key]
     end

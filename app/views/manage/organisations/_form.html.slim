@@ -13,7 +13,6 @@
     = f.email_field :email
     = f.text_field :mail_from
     = f.email_field :bcc
-    div[v-pre]= f.text_area :notification_footer, rows: 4
     - if current_user.role_admin?
       div[v-pre]= f.text_area :smtp_settings_json, rows: 4
 

@@ -43,7 +43,6 @@ booking:
       privacy_statement_pdf: Link zur Datenschutzerklärung
       terms_pdf: Link zu den AGB
     name: Name der Organisation
-    notification_footer: Generelle Fusszeile
   purpose: Mietzweck
     key: Schlüssel
     title: Mietzweck
