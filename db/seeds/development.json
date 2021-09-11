@@ -31,7 +31,6 @@
           "label_i18n": {
             "de": "Anzahlung (4 Nächte)"
           },
-          "meter": null,
           "position": 61,
           "prefill_usage_method": "flat",
           "price_per_unit": "600.0",
@@ -50,7 +49,6 @@
           "label_i18n": {
             "de": "Lagertarif (über 25 jährig)"
           },
-          "meter": null,
           "position": 187,
           "prefill_usage_method": null,
           "price_per_unit": "20.0",
@@ -69,7 +67,6 @@
           "label_i18n": {
             "de": "Mindestbelegung Lagertarif"
           },
-          "meter": "",
           "position": 188,
           "prefill_usage_method": "nights",
           "price_per_unit": "10.0",
@@ -88,7 +85,6 @@
           "label_i18n": {
             "de": "Kurtaxe (ab 12 -18jährig)"
           },
-          "meter": "",
           "position": 196,
           "prefill_usage_method": null,
           "price_per_unit": "0.5",
@@ -107,7 +103,6 @@
           "label_i18n": {
             "de": "Anzahlung (3 Nächte)"
           },
-          "meter": null,
           "position": 44,
           "prefill_usage_method": "flat",
           "price_per_unit": "480.0",
@@ -126,7 +121,6 @@
           "label_i18n": {
             "de": "Lagertarif (unter 25 jährig)"
           },
-          "meter": null,
           "position": 186,
           "prefill_usage_method": null,
           "price_per_unit": "15.0",
@@ -145,7 +139,6 @@
           "label_i18n": {
             "de": "Anzahlung (2 Nächte)"
           },
-          "meter": null,
           "position": 38,
           "prefill_usage_method": "flat",
           "price_per_unit": "300.0",
@@ -164,7 +157,6 @@
           "label_i18n": {
             "de": "Anzahlung (1 Nacht)"
           },
-          "meter": null,
           "position": 25,
           "prefill_usage_method": "flat",
           "price_per_unit": "180.0",
@@ -183,7 +175,6 @@
           "label_i18n": {
             "de": "Kurtaxe (ab 18 Jahren)"
           },
-          "meter": "",
           "position": 198,
           "prefill_usage_method": null,
           "price_per_unit": "2.0",
@@ -202,7 +193,6 @@
           "label_i18n": {
             "de": "Festtarif 1 Nacht"
           },
-          "meter": "",
           "position": 197,
           "prefill_usage_method": "nights",
           "price_per_unit": "600.0",
@@ -221,7 +211,6 @@
           "label_i18n": {
             "de": "Abfall"
           },
-          "meter": "",
           "position": 288,
           "prefill_usage_method": null,
           "price_per_unit": "5.0",
@@ -240,7 +229,6 @@
           "label_i18n": {
             "de": "Brennholz"
           },
-          "meter": null,
           "position": 287,
           "prefill_usage_method": null,
           "price_per_unit": "15.0",
@@ -259,7 +247,6 @@
           "label_i18n": {
             "de": "Strom (Niedertarif)"
           },
-          "meter": "niedertarif",
           "position": 286,
           "prefill_usage_method": null,
           "price_per_unit": "0.25",
@@ -278,7 +265,6 @@
           "label_i18n": {
             "de": "Strom (Hochtarif)"
           },
-          "meter": "hochtarif",
           "position": 284,
           "prefill_usage_method": null,
           "price_per_unit": "0.5",
@@ -297,7 +283,6 @@
           "label_i18n": {
             "de": "Schäden"
           },
-          "meter": null,
           "position": 277,
           "prefill_usage_method": "flat",
           "price_per_unit": "0.0",
@@ -316,7 +301,6 @@
           "label_i18n": {
             "de": "Festtarrif 0 Nächte"
           },
-          "meter": "",
           "position": 228,
           "prefill_usage_method": "nights",
           "price_per_unit": "350.0",
@@ -335,7 +319,6 @@
           "label_i18n": {
             "de": "Reservationsgebühr"
           },
-          "meter": null,
           "position": 285,
           "prefill_usage_method": "flat",
           "price_per_unit": "100.0",
@@ -354,7 +337,6 @@
           "label_i18n": {
             "de": "Festtarrif 2 Nächte"
           },
-          "meter": "",
           "position": 199,
           "prefill_usage_method": "nights",
           "price_per_unit": "475.0",
@@ -376,7 +358,6 @@
   "location": null,
   "mail_from": "info@heimv.local",
   "name": "Heimverein Development",
-  "notification_footer": "Verein Pfadiheime \r\nHeimverwaltung  \r\n\r\n[www.heimv.ch](//www.heimv.ch)  \r\n",
   "notifications_enabled": true,
   "slug": null
 }

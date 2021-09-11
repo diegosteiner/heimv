@@ -18,13 +18,13 @@
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'agent_booking[occupancy_attributes][begins_at]',
                                                     value: @agent_booking.occupancy.begins_at&.iso8601, 
-                                                    disabled: @agent_booking.timeframe_locked?, required: true,
+                                                    disabled: !@agent_booking.booking.editable?, required: true,
                                                     invalidFeedback: @agent_booking.booking.errors['occupancy.begins_at']&.to_sentence)
 
         = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
                                                     name: 'agent_booking[occupancy_attributes][ends_at]',
                                                     value: @agent_booking.occupancy.ends_at&.iso8601, 
-                                                    disabled: @agent_booking.timeframe_locked?, required: true,
+                                                    disabled: !@agent_booking.booking.editable?, required: true,
                                                     invalidFeedback: @agent_booking.booking.errors['occupancy.ends_at']&.to_sentence)
 
         = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')

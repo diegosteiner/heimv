@@ -23,7 +23,6 @@
 #  remarks               :text
 #  state_data            :json
 #  tenant_organisation   :string
-#  timeframe_locked      :boolean          default(FALSE)
 #  usages_entered        :boolean          default(FALSE)
 #  usages_presumed       :boolean          default(FALSE)
 #  created_at            :datetime         not null
@@ -105,8 +104,8 @@ class Booking < ApplicationRecord
   before_create :set_ref
   after_create :reload
 
-  accepts_nested_attributes_for :occupancy, reject_if: :reject_occupancy_attributes?, update_only: true
-  accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tentant_attributes?
+  accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank, update_only: true
 
@@ -117,7 +116,7 @@ class Booking < ApplicationRecord
   end
 
   def conclude
-    update!(concluded: true, timeframe_locked: true, editable: false)
+    update!(concluded: true, editable: false)
   end
 
   def contract
@@ -148,20 +147,20 @@ class Booking < ApplicationRecord
     @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
   end
 
+  def email
+    super.presence || tenant&.email.presence
+  end
+
   private
 
-  def reject_tentant_attributes?(tenant_attributes)
+  def reject_tenant_attributes?(tenant_attributes)
     tenant_id_changed? && tenant_id_was.present? ||
       tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).values.all?(&:blank?)
   end
 
-  def reject_occupancy_attributes?(occupancy_attributes)
-    occupancy_attributes.values.all?(&:blank?) || timeframe_locked?
-  end
-
   def set_tenant_attributes
     self.tenant ||= organisation.tenants.find_or_initialize_by(email: email)
-    self.tenant.email = email if email.present?
+    self.tenant.email = self[:email] if self[:email].present?
     self.tenant.organisation = organisation
   end
 

@@ -4,14 +4,15 @@
 #
 # Table name: rich_text_templates
 #
-#  id              :bigint           not null, primary key
-#  body_i18n       :jsonb
-#  key             :string
-#  title_i18n      :jsonb
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  home_id         :bigint
-#  organisation_id :bigint           not null
+#  id                 :bigint           not null, primary key
+#  body_i18n          :jsonb
+#  body_i18n_markdown :jsonb
+#  key                :string
+#  title_i18n         :jsonb
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  home_id            :bigint
+#  organisation_id    :bigint           not null
 #
 # Indexes
 #
@@ -40,17 +41,14 @@ class RichTextTemplate < ApplicationRecord
   # errors.add(:key, :invalid) unless key.present? && self.class.required_templates.keys.include?(key.to_sym)
   # end
 
-  def to_markdown
-    Markdown.new(body)
-  end
-
   def interpolate(context)
     context = context&.stringify_keys || {}
     liquid_template = Liquid::Template.parse(body)
-    Markdown.new(liquid_template.render!(context.to_liquid))
+    liquid_template.render!(context.to_liquid)
   end
 
   def interpolate_title(context)
+    context = context&.stringify_keys || {}
     liquid_template = Liquid::Template.parse(title)
     liquid_template.render!(context.to_liquid)
   end

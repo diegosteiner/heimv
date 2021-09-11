@@ -86,7 +86,7 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
           const deadline = occupancy.deadline && parseISO(occupancy.deadline);
 
           return (
-            <dl key={`${formatISO(date, { representation: 'date' })}-${occupancy.id}`}>
+            <dl className="my-2" key={`${formatISO(date, { representation: 'date' })}-${occupancy.id}`}>
               <dt>
                 {formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}
               </dt>

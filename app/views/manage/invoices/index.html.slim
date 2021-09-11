@@ -77,5 +77,3 @@
         = Invoices::Invoice.model_name.human
       = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice }), class: 'dropdown-item'
         = Invoices::LateNotice.model_name.human
-
-  = link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default ml-1'

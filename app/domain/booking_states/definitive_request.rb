@@ -33,7 +33,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.occupancy.tentative!
-      booking.update!(timeframe_locked: true, editable: false)
+      booking.update!(editable: false)
       booking.deadline&.clear
       booking.notifications.new(from_template: :manage_definitive_request_notification,
                                 addressed_to: :manager)&.deliver

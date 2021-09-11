@@ -1,7 +1,8 @@
 - current_organisation.homes.where(requests_allowed: true).each do |home|
   .card.my-3
     .card-body
-      h1.mt-2.text-center= home
+      h1.mt-2.text-center[id="home-#{home.id}"]
+        = home
       = react_component('calendar/OccupancyCalendar', { \ 
           calendarUrl: calendar_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, format: :json), \
           occupancyAtUrl: at_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, date: '$DATE'), \

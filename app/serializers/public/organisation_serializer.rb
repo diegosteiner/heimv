@@ -6,7 +6,7 @@ module Public
     association :homes, blueprint: Public::HomeSerializer
 
     fields :name, :address, :booking_flow_type, :invoice_ref_strategy_type, :location, :slug,
-           :esr_beneficiary_account, :notification_footer, :email, :payment_deadline, :notifications_enabled
+           :esr_beneficiary_account, :email, :payment_deadline, :notifications_enabled
 
     field :links do |organisation|
       {

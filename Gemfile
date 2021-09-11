@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.7.3'
+
+ruby '3.0.2'
 
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
@@ -11,8 +12,8 @@ gem 'bootstrap_form'
 gem 'camt_parser'
 gem 'cancancan'
 gem 'connection_pool'
-gem 'countries', '~> 3.1' # TODO: Upgrade to 4.0 after country_select is fixed
-gem 'country_select', '~> 5.1'
+gem 'countries'
+gem 'country_select', '~> 6.0'
 gem 'dalli'
 gem 'date_time_attribute'
 gem 'devise'
@@ -60,7 +61,7 @@ group :development, :test do
   gem 'bundler-audit'
   gem 'byebug', platform: :mri
   gem 'database_cleaner'
-  gem 'debase'
+  gem 'debase', '~> 0.2.5.beta2'
   gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-rescue'

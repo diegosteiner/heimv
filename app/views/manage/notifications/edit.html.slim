@@ -8,7 +8,7 @@
 
           fieldset
             = f.text_field :subject
-            = f.datetime_local_field :sent_at
+            = f.datetime_local_field :sent_at, step: 1
             = f.text_area :body
 
           .form-actions.pt-4.mt-3.border-top

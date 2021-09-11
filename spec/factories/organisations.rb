@@ -21,7 +21,6 @@
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
-#  notification_footer       :text
 #  notifications_enabled     :boolean          default(TRUE)
 #  payment_deadline          :integer          default(30), not null
 #  ref_template              :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
@@ -57,7 +56,7 @@ FactoryBot.define do
 
     trait :with_rich_text_templates do
       after(:create) do |organisation|
-        onboarding = OrganisationSetupService.new(organisation)
+        onboarding = OnboardingService.new(organisation)
         onboarding.create_missing_rich_text_templates!
       end
     end

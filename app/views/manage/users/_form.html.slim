@@ -4,9 +4,8 @@
       = f.error_summary
 
   fieldset
-    = f.email_field :email
+    = f.email_field :email, disabled: !@user.new_record?
     = f.select :role, allowed_roles.map { |role| [User.human_enum(:role, role), role] }
-    = f.password_field :password
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit

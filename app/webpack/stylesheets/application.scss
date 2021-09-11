@@ -1,6 +1,7 @@
 @import './variables';
 @import '~bootstrap/scss/bootstrap';
 @import './fonts';
+@import 'tinymce/skins/ui/oxide/skin.css';
 
 img {
   @extend .img-fluid;
@@ -190,6 +191,10 @@ tr.disabled {
   @include media-breakpoint-up(lg) {
     position: fixed;
   }
+}
+
+.rich-text-area {
+  display: none;
 }
 
 .booking-nav {

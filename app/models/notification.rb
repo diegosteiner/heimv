@@ -46,17 +46,8 @@ class Notification < ApplicationRecord
   scope :failed, -> { where(queued_for_delivery: true, sent_at: nil).where(arel_table[:created_at].lt(1.hour.ago)) }
 
   before_validation do
-    self.to = to.presence || resolve_addressed_to
+    self.to = to.presence || [resolve_addressed_to]
     self.rich_text_template ||= resolve_rich_text_template
-  end
-
-  def markdown
-    @markdown ||= Markdown.new(body)
-  end
-
-  def markdown=(value)
-    self.body = value.body
-    @markdown = value
   end
 
   def deliverable?
@@ -68,7 +59,7 @@ class Notification < ApplicationRecord
   end
 
   def deliver
-    return save unless deliverable?
+    return false unless deliverable?
 
     queue_for_delivery && invoke_mailer! && update(sent_at: Time.zone.now)
   end
@@ -80,7 +71,7 @@ class Notification < ApplicationRecord
   def resolve_rich_text_template
     return if from_template.blank? || organisation.blank? || booking.blank?
 
-    organisation.rich_text_templates.by_key(from_template)
+    organisation.rich_text_templates.by_key(from_template, home_id: booking.home_id)
   end
 
   def locale
@@ -95,29 +86,45 @@ class Notification < ApplicationRecord
 
     Mobility.with_locale(booking.locale) do
       self.subject = rich_text_template.interpolate_title(context)
-      self.markdown = rich_text_template.interpolate(context)
+      self.body = rich_text_template.interpolate(context)
     end
+  end
+
+  def footer
+    organisation.rich_text_templates.by_key(:notification_footer)&.interpolate(context)
+  end
+
+  def body
+    return super.presence&.+(footer) if footer.present?
+
+    super
   end
 
   def context
     super || { 'booking' => booking }
   end
 
+  def text
+    ActionView::Base.full_sanitizer.sanitize(body)
+  end
+
   protected
 
   def resolve_addressed_to
-    return [booking.email].compact if addressed_to_tenant?
-    return [booking.booking_agent&.email].compact if addressed_to_booking_agent?
+    return booking.email if addressed_to_tenant?
+    return booking.booking_agent&.email&.presence if addressed_to_booking_agent?
 
-    [booking.organisation.email]
+    booking.organisation.email.presence
   end
 
   def invoke_mailer!
     organisation.mailer.mail(to: to, subject: subject, cc: cc, bcc: bcc,
-                             body: markdown.to_text, html_body: markdown.to_html,
+                             body: text, html_body: body,
                              attachments: attachments_for_mail)
+    true
   rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
-    defined?(Sentry) && Sentry.capture_exception(e) || Rails.logger.warn(e.message)
+    Rails.logger.warn(e.message)
+    defined?(Sentry) && Sentry.capture_exception(e)
     false
   end
 end

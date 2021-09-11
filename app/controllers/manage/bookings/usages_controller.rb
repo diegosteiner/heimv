@@ -34,9 +34,9 @@ module Manage
         @booking.assign_attributes(booking_usages_params)
         set_usage_flags
         @booking.save
-        return_to = params[:return_to] || manage_booking_usages_path(@booking)
         respond_with :manage, @booking, @usages,
-                     responder_flash_messages(Usage.model_name.human(count: :other)).merge(location: return_to)
+                     responder_flash_messages(Usage.model_name.human(count: :other))
+                       .merge(location: return_to_path(manage_booking_usages_path(@booking)))
       end
 
       def update
@@ -54,10 +54,6 @@ module Manage
       def set_usage_flags
         @booking.usages_entered ||= params[:usages_entered].present?
         @booking.usages_presumed ||= params[:usages_presumed].present?
-      end
-
-      def back_url
-        params[:return_to] || manage_booking_usages_path(@booking)
       end
 
       def usage_params

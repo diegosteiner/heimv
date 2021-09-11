@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_20_125645) do
+ActiveRecord::Schema.define(version: 2021_09_07_114152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -127,7 +127,6 @@ ActiveRecord::Schema.define(version: 2021_07_20_125645) do
     t.datetime "updated_at", null: false
     t.text "internal_remarks"
     t.boolean "concluded", default: false
-    t.boolean "timeframe_locked", default: false
     t.boolean "usages_presumed", default: false
     t.bigint "deadline_id"
     t.string "locale"
@@ -288,7 +287,6 @@ ActiveRecord::Schema.define(version: 2021_07_20_125645) do
     t.string "booking_flow_type"
     t.string "invoice_ref_strategy_type"
     t.string "esr_beneficiary_account"
-    t.text "notification_footer"
     t.string "currency", default: "CHF"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -336,6 +334,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_125645) do
     t.bigint "home_id"
     t.jsonb "title_i18n", default: {}
     t.jsonb "body_i18n", default: {}
+    t.jsonb "body_i18n_markdown", default: {}
     t.index ["home_id"], name: "index_rich_text_templates_on_home_id"
     t.index ["key", "home_id", "organisation_id"], name: "index_rich_text_templates_on_key_and_home_and_organisation", unique: true
     t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"

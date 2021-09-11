@@ -2,10 +2,16 @@
 
 .card.breakout-sm
   .card-body
+    .mb-3
+      = Notification.human_attribute_name(:to)
+      ' : 
+      - @notification.to.each do |to|
+        = mail_to(to)
+        '
     h5.card-title= @notification.subject
 
-    == @notification.markdown.to_html
+    == @notification.body
   .card-footer 
     ul.my-0
       - @notification.attachments.each do |attachment|
-        li= link_to attachment.filename, attachment
+        li= link_to attachment.filename, attachment, target: :_blank

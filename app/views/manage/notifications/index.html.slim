@@ -1,10 +1,14 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :notifications, booking: @booking }
 
+- unless @booking.notifications_enabled?
+  .alert.alert-warning.my-4= t('.notifications_not_enabled')
+
 table.table.table-hover.table-card
   thead
     tr
-      th= Notification.model_name.human(count: :other)
+      th= Notification.human_attribute_name(:sent_at)
       th= Notification.human_attribute_name(:to)
+      th= Notification.human_attribute_name(:subject)
       th
 
   tbody
@@ -22,7 +26,7 @@ table.table.table-hover.table-card
           = link_to notification.subject, manage_notification_path(notification)
         td.py-1.text-right
           .btn-group
+            = link_to manage_notification_path(notification), class: 'btn btn-default' do
+              span.fa.fa-eye
             = link_to edit_manage_notification_path(notification), class: 'btn btn-default' do
               span.fa.fa-edit
-
-= link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default ml-1'

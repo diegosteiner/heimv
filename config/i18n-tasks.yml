@@ -107,6 +107,7 @@ ignore_unused:
 - 'faker.*'
 - 'export.*'
 - 'occupancy_calendar.*'
+- 'booking_states.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:

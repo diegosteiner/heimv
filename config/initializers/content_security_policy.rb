@@ -37,8 +37,8 @@ Rails.application.config.content_security_policy do |policy|
   policy.style_src :self, :https, :unsafe_inline
 
   if Rails.env.development?
+    policy.default_src :self, :unsafe_inline
     policy.script_src :self, 'cdnjs.cloudflare.com', :unsafe_inline
-    # policy.style_src   :self, :https, :unsafe_inline
     policy.connect_src :self, :https, 'http://localhost:3035', 'ws://localhost:3035'
   end
 end

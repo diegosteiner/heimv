@@ -19,12 +19,17 @@ module Manage
     end
 
     def create
-      @user.update(user_params.merge(organisation: current_organisation, role: user_role_param)) unless enforce_limit
+      if limit_reached?
+        @user.errors.add(:base, :limit_reached)
+      else
+        onboarding = OnboardingService.new(current_organisation)
+        @user = onboarding.invite_user!(email: params.dig(:user, :email), role: user_role_param)
+      end
       respond_with :manage, @user, location: manage_users_path
     end
 
     def update
-      @user.update(user_params.merge(organisation: current_organisation, role: user_role_param))
+      @user.update(organisation: current_organisation, role: user_role_param)
       respond_with :manage, @user, location: manage_users_path
     end
 
@@ -42,20 +47,19 @@ module Manage
     private
 
     def user_role_param
-      requested_role = user_params[:role]
+      requested_role = params.dig(:user, :role)
       requested_role if allowed_roles.include?(requested_role)
     end
 
-    def enforce_limit
+    def limit_reached?
       return false if current_organisation.users_limit.nil? ||
                       current_organisation.users_limit < current_organisation.users.count
 
-      @user.errors.add(:base, :limit_reached)
       true
     end
 
     def user_params
-      UserParams.new(params.require(:user)).permitted(params[:password].present? ? [:password] : [])
+      params[:user].permit
     end
   end
 end

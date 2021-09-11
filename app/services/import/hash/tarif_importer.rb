@@ -9,7 +9,7 @@ module Import
                          transient type unit_i18n valid_from valid_until tenant_visible])
 
       def initialize(home, **options)
-        super(options)
+        super(**options)
         @home = home
       end
 

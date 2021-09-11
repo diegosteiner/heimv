@@ -17,8 +17,6 @@
                                                 value: @booking.occupancy.ends_at&.iso8601, required: true,
                                                 invalidFeedback: @booking.errors['occupancy.ends_at']&.to_sentence)
 
-    = f.check_box :timeframe_locked
-
   fieldset
     h5= Booking.human_attribute_name(:tenant)
 

@@ -23,7 +23,7 @@ class ImportSeeder
   private
 
   def rich_text_templates(organisation)
-    setup = OrganisationSetupService.new(organisation)
+    setup = OnboardingService.new(organisation)
     setup.create_missing_rich_text_templates!
   end
 

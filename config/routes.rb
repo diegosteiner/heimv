@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       resources :bookings, only: %i[new create edit update], as: :public_bookings
       get 'b/:id(/edit)', to: 'bookings#edit'
       get 'changelog', to: 'pages#changelog'
-      resources :homes, only: [] do
+      resources :homes, only: %i[show index] do
         resources :occupancies, only: %i[index show] do
           get :embed, on: :collection
           get :calendar, on: :collection

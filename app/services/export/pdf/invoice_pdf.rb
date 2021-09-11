@@ -14,7 +14,7 @@ module Export
         @invoice = invoice
       end
 
-      add_font_family 'ocr', { normal: File.join(FONTS_PATH, 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf') }
+      add_font_family 'ocr', normal: File.join(FONTS_PATH, 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf')
 
       to_render do
         render Renderables::PageHeader.new(text: booking.ref, logo: organisation.logo)
@@ -32,7 +32,7 @@ module Export
       end
 
       to_render do
-        render Renderables::Markdown.new(invoice.text)
+        render Renderables::RichText.new(invoice.text)
         move_down 20
         table invoice_parts_table_data,
               column_widths: [nil, nil, 30, 55],

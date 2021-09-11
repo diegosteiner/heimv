@@ -5,7 +5,9 @@ module Public
     before_action :set_organisation
     authorize_resource :organisation
 
-    def show; end
+    def show
+      redirect_to homes_path
+    end
 
     protected
 
