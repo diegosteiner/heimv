@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 21.9.1
+
+Released on 11.09.2021
+
+- Richtext Templates are now editabe with editor
+- Fix invitations von user
+- Upgrade to ruby 3.0
+
 #### Version 21.8.1
 
 Released on 31.08.2021
