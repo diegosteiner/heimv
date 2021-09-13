@@ -34,7 +34,7 @@
           .form-actions.pt-4.mt-3.border-top
             - links = { \
                 terms_pdf_url: download_url(slug: t(:terms_pdf, scope: %i[downloads slug])), \
-                privacy_statement_pdf_url: download_url(slug: t(:privacy_statement_pdf, scope: %i[downloads slug])) \
+                privacy_statement_pdf_url: privacy_url() \
               }
             = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', **links)
             br

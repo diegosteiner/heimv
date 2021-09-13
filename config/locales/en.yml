@@ -776,6 +776,8 @@ en:
     breakdown: "%{used_units} × %{unit} à %{price_per_unit}"
     unpaid_invoice: Offener Betrag fällig am %{payable_until}
   layouts:
+    footer:
+      privacy_statement: Privacy statement
     manage_navigation:
       help: Help
   manage:
@@ -907,6 +909,10 @@ en:
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
         title: Title
+    pages:
+      privacy:
+        current_organisation_privacy_statment_title: Current organisation privacy statment title
+        current_organisation_privacy_statment_url: Current organisation privacy statment url
   receipt_title: Receipt title
   ref: Ref
   reset: Reset

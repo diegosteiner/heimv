@@ -7,6 +7,8 @@ module Public
     end
 
     def changelog; end
+    
+    def privacy; end
 
     def ext
       respond_to do |format|
