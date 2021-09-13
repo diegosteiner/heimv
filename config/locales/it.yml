@@ -1955,8 +1955,8 @@ it:
         title: Reservation
     pages:
       privacy:
-        current_organisation_privacy_statment_title: Current organisation privacy statment title
-        current_organisation_privacy_statment_url: Current organisation privacy statment url
+        current_organisation_privacy_statment_title: Datenschutzerklärung von %{organisation}
+        current_organisation_privacy_statment_url: Link zur Datenschutzerklärung der verarbeitenden Organisation
   receipt_title: Receipt title
   ref: Ref
   reset: Reset

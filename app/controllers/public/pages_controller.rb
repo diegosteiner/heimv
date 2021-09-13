@@ -7,7 +7,7 @@ module Public
     end
 
     def changelog; end
-    
+
     def privacy; end
 
     def ext

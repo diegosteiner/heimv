@@ -33,14 +33,13 @@
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src :self, :https
-  policy.script_src :self, 'cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js'
+  policy.script_src :self, 'cdnjs.cloudflare.com'
   policy.style_src :self, :https, :unsafe_inline
 
   if Rails.env.development?
     policy.default_src :self, :unsafe_inline
     policy.script_src :self, 'cdnjs.cloudflare.com', :unsafe_inline
-    policy.script_src :self, 'cdnjs.cloudflare.com', :unsafe_inline,
-                      'https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js'
+    policy.script_src :self, 'cdnjs.cloudflare.com', :unsafe_inline
     policy.connect_src :self, :https, 'http://localhost:3035', 'ws://localhost:3035'
   end
 end
