@@ -14,7 +14,9 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.notifications.new(from_template: :upcoming_soon_notification, addressed_to: :tenant)&.deliver
+      notification = booking.notifications.new(from_template: :upcoming_soon_notification, addressed_to: :tenant)
+      notification.attachments.attach(booking.home.house_rules.attachment&.blob)
+      notification.save! && notification.deliver
     end
 
     infer_transition(to: :active) do |booking|
