@@ -8,7 +8,7 @@ module BookingActions
       def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).kept.unpaid.unsent)
         notification = booking.notifications.new(from_template: :awaiting_contract_notification,
                                                  addressed_to: :tenant)
-        notification.attachments.attach(extract_attachments(booking.home, deposits, contract))
+        notification.attachments.attach(attachments_for(booking.home, deposits, contract))
         notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver
       end
 
@@ -16,7 +16,7 @@ module BookingActions
         booking.contract.present? && !booking.contract.sent? && booking.tenant.email.present?
       end
 
-      def extract_attachments(home, deposits, contract)
+      def attachments_for(home, deposits, contract)
         [
           home.house_rules.attachment&.blob,
           deposits.map { |deposit| deposit.pdf.blob },

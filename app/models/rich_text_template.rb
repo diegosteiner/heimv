@@ -57,7 +57,7 @@ class RichTextTemplate < ApplicationRecord
 
   class << self
     def by_key!(key, home_id: nil)
-      where(key: key, home_id: [home_id, nil]).order(home_id: :DESC).take!
+      where(key: key, home_id: [home_id, nil]).order(home_id: :ASC).take!
     end
 
     def by_key(key, home_id: nil)
