@@ -2,6 +2,12 @@
 
 #### Unreleased
 
+#### Version 21.9.2
+
+Released on 15.09.2021
+
+- Overhaul privacy statement
+
 #### Version 21.9.1
 
 Released on 11.09.2021
