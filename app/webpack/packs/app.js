@@ -35,8 +35,8 @@ function setupRichTextArea() {
       content_css: false,
       height: 500,
       menubar: false,
-      plugins: ['advlist autolink lists link image anchor', 'searchreplace code table  help'],
-      toolbar: 'undo redo | formatselect | ' + 'bold italic | bullist numlist  | ' + 'removeformat | code help',
+      plugins: ['advlist autolink lists link image anchor', 'searchreplace code table help'],
+      toolbar: 'undo redo | formatselect | ' + 'bold italic | bullist numlist table | ' + 'removeformat | code help',
       content_style:
         'body { font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, ' +
         '"Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", ' +
