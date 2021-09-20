@@ -24,6 +24,17 @@ module Manage
 
     def edit; end
 
+    def import
+      csv = import_params[:file].read.force_encoding('UTF-8')
+      result = Import::Csv::OccupancyImporter.new(Home.find!(import_params[:home_id])).read(csv)
+
+      if result.all?(&:valid?)
+        redirect_to manage_bookings_path, notice: t('.import_success')
+      else
+        redirect_to manage_bookings_path, danger: t('.import_error')
+      end
+    end
+
     def create
       @booking.organisation = current_organisation
       @booking.transition_to ||= BookingStates::OpenRequest
@@ -64,6 +75,10 @@ module Manage
 
     def booking_filter_params
       Manage::BookingFilterParams.new(params).permitted
+    end
+
+    def import_params
+      params.require(:import).permit(%i[home_id file])
     end
 
     def default_booking_filter_params

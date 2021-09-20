@@ -786,6 +786,9 @@ en:
         index:
           contract_sent: Vertrag versendet markieren
           contract_signed: Contract signed
+      import:
+        import_error: Import error
+        import_success: Import success
       index:
         canned_filter_default: Canned filter default
         canned_filter_upcoming: Canned filter upcoming

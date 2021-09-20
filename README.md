@@ -45,7 +45,7 @@ Copy env.example to .env and change configuration there
 
 ## Add Organisation
 
-Create a organisation with markdown templates and a user:
+Create a organisation with richtext templates and a user:
 
 ```
 onboarding = OnboardingService.create(name: <name>, email: <email>, slug: <slug>)

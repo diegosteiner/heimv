@@ -33,6 +33,8 @@ Rails.application.routes.draw do
         post :import, on: :collection
       end
       resources :bookings do
+        post :import, on: :collection
+
         resources :invoices, shallow: true
         resources :payments, shallow: true
         resources :deadlines, shallow: true, only: %i[edit update]
