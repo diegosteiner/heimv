@@ -15,7 +15,7 @@ class AccountsController < ApplicationController
 
   def set_user
     @user = current_user
-    raise CanCan::AccessDenied if @user.blank? || current_organisation && @user.organisation != current_organisation
+    raise CanCan::AccessDenied if @user.blank? || (current_organisation && @user.organisation != current_organisation)
   end
 
   def user_params

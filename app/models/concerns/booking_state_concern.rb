@@ -31,7 +31,7 @@ module BookingStateConcern
   end
 
   def booking_flow_class
-    @booking_flow_class ||= booking_flow_type && BookingFlows.const_get(booking_flow_type).new ||
+    @booking_flow_class ||= (booking_flow_type && BookingFlows.const_get(booking_flow_type).new) ||
                             organisation&.booking_flow_class
   end
 

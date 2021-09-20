@@ -58,8 +58,8 @@ module BookingStates
       checked = booking.contract.present?
       default_params = { org: booking.organisation.slug, locale: I18n.locale }
       ChecklistItem.new(:create_contract, checked,
-                        checked &&
-                          manage_booking_contracts_path(booking, **default_params) ||
+                        (checked &&
+                          manage_booking_contracts_path(booking, **default_params)) ||
                         new_manage_booking_contract_path(booking, **default_params))
     end
 
@@ -67,8 +67,8 @@ module BookingStates
       checked = Invoices::Deposit.of(booking).kept.exists?
       default_params = { org: booking.organisation.slug, locale: I18n.locale }
       ChecklistItem.new(:create_deposit, checked,
-                        checked &&
-                          manage_booking_invoices_path(booking, **default_params) ||
+                        (checked &&
+                          manage_booking_invoices_path(booking, **default_params)) ||
                           new_manage_booking_invoice_path(
                             booking,
                             **default_params.merge({ invoice: { type: Invoices::Deposit.model_name.to_s } })

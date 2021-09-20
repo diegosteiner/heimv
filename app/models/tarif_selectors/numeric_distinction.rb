@@ -30,15 +30,13 @@ module TarifSelectors
     validates :distinction, format: { with: distinction_regex }, allow_blank: true
 
     def apply?(usage, presumable_usage = presumable_usage(usage))
-      distinction_match = self.class.distinction_regex.match(distinction) || return
-      case distinction_match[1]
-      when '<'
-        presumable_usage < distinction_match[2].to_i
-      when '>'
-        presumable_usage > distinction_match[2].to_i
-      else
-        distinction_match[2].blank? || presumable_usage == distinction_match[2].to_i
-      end
+      _match, operator, threshold_usage = *self.class.distinction_regex.match(distinction)
+
+      return if presumable_usage.blank?
+      return presumable_usage < threshold_usage.to_i if operator == '<'
+      return presumable_usage > threshold_usage.to_i if operator == '>'
+
+      threshold_usage.blank? || presumable_usage == threshold_usage.to_i
     end
 
     def presumable_usage(usage); end

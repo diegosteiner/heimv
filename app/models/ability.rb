@@ -5,7 +5,7 @@ module Ability
     include CanCan::Ability
 
     def self.roles
-      @roles ||= superclass.ancestors.include?(Base) && superclass.roles.dup || {}
+      @roles ||= (superclass.ancestors.include?(Base) && superclass.roles.dup) || {}
     end
 
     def self.role(*role, &block)

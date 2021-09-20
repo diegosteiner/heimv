@@ -14,7 +14,7 @@ class TimespanService
     return input if input.is_a?(Integer)
 
     input.scan(/(\d+)(\w)/).reduce(0) do |seconds, (amount, measure)|
-      seconds + amount.to_i * TOKENS[measure]
+      seconds + (amount.to_i * TOKENS[measure])
     end
   end
 end

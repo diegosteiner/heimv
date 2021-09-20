@@ -13,7 +13,7 @@ module Export
       end
 
       def self.font_families
-        @font_families ||= superclass.ancestors.include?(Base) && superclass.font_families.dup || {}
+        @font_families ||= (superclass.ancestors.include?(Base) && superclass.font_families.dup) || {}
       end
 
       def self.font_size

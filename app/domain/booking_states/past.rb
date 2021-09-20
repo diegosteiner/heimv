@@ -33,8 +33,8 @@ module BookingStates
       checked = Invoices::Invoice.of(booking).kept.exists?
       default_params = { org: booking.organisation.slug, locale: I18n.locale }
       ChecklistItem.new(:create_invoice, checked,
-                        checked &&
-                          manage_booking_invoices_path(booking, **default_params) ||
+                        (checked &&
+                          manage_booking_invoices_path(booking, **default_params)) ||
                           new_manage_booking_invoice_path(
                             booking,
                             **default_params.merge({ invoice: { type: Invoices::Invoice.model_name.to_s } })

@@ -32,11 +32,11 @@ class DataDigest < ApplicationRecord
   validates :label, presence: true
 
   def self.formatters
-    @formatters ||= superclass.respond_to?(:formatters) && superclass.formatters&.dup || {}
+    @formatters ||= (superclass.respond_to?(:formatters) && superclass.formatters&.dup) || {}
   end
 
   def self.periods
-    @periods ||= superclass.respond_to?(:periods) && superclass.periods&.dup || {}
+    @periods ||= (superclass.respond_to?(:periods) && superclass.periods&.dup) || {}
   end
 
   def self.formatter(format, default_options: {}, &block)
