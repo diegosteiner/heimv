@@ -9,6 +9,8 @@ nav.navbar.justify-content-between.px-0
         = t('add_record', model_name: Booking.model_name.human)
       = link_to(new_public_agent_booking_path, class: 'dropdown-item')
         = t('add_record', model_name: AgentBooking.model_name.human)
+      a[href='#import' data-toggle='collapse' class='dropdown-item']
+        = t(:import)
 
 
   div
@@ -36,7 +38,7 @@ nav.navbar.justify-content-between.px-0
       = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true, label: Home.model_name.human
       = f.file_field :file, accept: :csv
       hr.my-4
-      = f.submit t(:search)
+      = f.submit t(:import)
 
 - if @bookings.count > 250
   .alert.alert-danger.d-flex

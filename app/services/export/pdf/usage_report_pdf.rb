@@ -56,7 +56,8 @@ module Export
       end
 
       def tarif_table_data
-        [tarif_table_headers] + usages.map { |usage| usage_row_data(usage) } + 3.times.map { usage_row_data(nil) }
+        [tarif_table_headers] +
+          usages.map { |usage| usage_row_data(usage) } + 3.times.map { usage_row_data(nil) }
       end
 
       def usage_row_data(usage)
@@ -65,7 +66,6 @@ module Export
         [
           usage.tarif.label,
           usage.tarif.unit,
-          format('CHF %<price>.2f', price: usage.tarif.price_per_unit),
           usage.used_units.presence
         ]
       end
@@ -74,7 +74,7 @@ module Export
         [
           Tarif.model_name.human,
           Tarif.human_attribute_name(:unit),
-          Tarif.human_attribute_name(:price_per_unit),
+          # Tarif.human_attribute_name(:price_per_unit),
           Usage.human_attribute_name(:used_units)
           # Usage.human_attribute_name(:price)
         ]

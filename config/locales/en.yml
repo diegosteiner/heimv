@@ -771,6 +771,7 @@ en:
       create: Create
       submit: Speichern
       update: Update
+  import: Import
   import_records: "%{model_name} importieren"
   invoice_parts:
     breakdown: "%{used_units} × %{unit} à %{price_per_unit}"

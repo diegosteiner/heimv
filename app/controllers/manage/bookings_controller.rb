@@ -26,7 +26,7 @@ module Manage
 
     def import
       csv = import_params[:file].read.force_encoding('UTF-8')
-      result = Import::Csv::OccupancyImporter.new(Home.find!(import_params[:home_id])).read(csv)
+      result = Import::Csv::OccupancyImporter.new(Home.find(import_params[:home_id])).read(csv)
 
       if result.all?(&:valid?)
         redirect_to manage_bookings_path, notice: t('.import_success')
