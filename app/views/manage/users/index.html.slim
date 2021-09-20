@@ -10,7 +10,7 @@
       - @users.each do |user|
         tr[data-href=manage_user_path(user) data-id=user.to_param]
           td
-            = link_to user.email, manage_user_path(user)
+            = link_to user.email, edit_manage_user_path(user)
           td
             = User.human_enum(:role, user.role)
           td.text-right.p-1
