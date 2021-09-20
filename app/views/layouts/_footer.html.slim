@@ -1,11 +1,13 @@
 .small.text-center
-  = link_to Rails.configuration.version, changelog_path
+  = link_to changelog_path
+    span 
+      = Rails.configuration.version
+    span.text-danger<>
+      | Beta
 
-  span.text-danger<>
-    | Beta
+  - if current_organisation.present?
+    span.ml-2
+      = link_to current_organisation.name, root_path
 
-  span.ml-3
-    = link_to current_organisation&.name, root_path
-
-  span.ml-3
+  span.ml-2
     = link_to t('.privacy_statement'), privacy_path
