@@ -1810,6 +1810,7 @@ de:
       index:
         canned_filter_default: Standardansicht
         canned_filter_upcoming: Zukünftige Belegungen
+        import_file: Import Datei (CSV)
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       show:
         public_booking_url: Link für Mieter

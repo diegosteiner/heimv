@@ -90,13 +90,13 @@ Options:
 Then import data with:
 
 ```
-cat data.csv | bin/rails r "Import::Csv::OccupancyImporter.new(home).read(ARGF, **options)"
+cat data.csv | bin/rails r "Import::Csv::OccupancyImporter.new(home).parse(ARGF, **options)"
 ```
 
 or with heroku:
 
 ```
-cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::OccupancyImporter.new(home).read"'
+cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::OccupancyImporter.new(home).parse"'
 ```
 
 ### Tenants

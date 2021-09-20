@@ -35,8 +35,8 @@ nav.navbar.justify-content-between.px-0
 #import.collapse
   .py-3
     = form_with(url: import_manage_bookings_path, scope: :import, method: :POST, local: true) do |f|
+      = f.file_field :file, accept: :csv, label: t('.import_file')
       = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true, label: Home.model_name.human
-      = f.file_field :file, accept: :csv
       hr.my-4
       = f.submit t(:import)
 

@@ -9,8 +9,8 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
   let(:home) { create(:home, organisation: organisation) }
   let(:importer) { described_class.new(home) }
 
-  describe '#read' do
-    let(:import) { importer.read(csv, **options) }
+  describe '#parse' do
+    let(:result) { importer.parse(csv, **options) }
 
     context 'with custom csv' do
       let(:csv) do
@@ -20,16 +20,17 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         ENDCSV
       end
 
-      it { import.each { expect(_1).to be_valid } }
+      it { result.records.each { |record| expect(record).to be_valid } }
+      it { expect(result).to be_ok }
 
       it do
-        occupancy = import.first
+        occupancy = result.records.first
         expect(occupancy.begins_at).to eq(Time.zone.local(2021, 5, 1, 10, 0, 0))
         expect(occupancy.ends_at).to eq(Time.zone.local(2021, 5, 9, 18, 15, 0))
       end
 
       it do
-        booking = import.first.booking
+        booking = result.records.first.booking
         expect(booking.purpose).to eq(booking_purpose)
         expect(booking.ref).to eq('0815')
         expect(booking.remarks).to eq('Bemerkung')
@@ -48,16 +49,16 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         ENDCSV
       end
 
-      it { import.each { expect(_1).to be_valid } }
+      it { result.records.each { expect(_1).to be_valid } }
 
       it do
-        occupancy = import.first
+        occupancy = result.records.first
         expect(occupancy.begins_at).to eq(Time.zone.local(2019, 6, 20, 12, 0, 0))
         expect(occupancy.ends_at).to eq(Time.zone.local(2019, 6, 20, 22, 0, 0))
       end
 
       it do
-        booking = import.first.booking
+        booking = result.records.first.booking
         expect(booking.tenant.first_name).to eq('Peter')
         expect(booking.tenant.last_name).to eq('Muster')
         expect(booking.tenant.email).to eq('tenant22@heimv.local')
@@ -65,7 +66,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
       end
 
       it do
-        booking = import.second.booking
+        booking = result.records.second.booking
         expect(booking.booking_state).to be_a(BookingStates::ProvisionalRequest)
         expect(booking.approximate_headcount).to eq 12
         expect(booking.email).to eq('tenant22@heimv.local')
@@ -73,7 +74,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
       end
 
       it do
-        occupancy = import.last
+        occupancy = result.records.last
         expect(occupancy.begins_at).to eq(Time.zone.local(2019, 6, 6, 8, 0, 0))
         expect(occupancy.ends_at).to eq(Time.zone.local(2019, 6, 6, 22, 0, 0))
         expect(occupancy.closed?).to be true

@@ -793,6 +793,7 @@ en:
       index:
         canned_filter_default: Canned filter default
         canned_filter_upcoming: Canned filter upcoming
+        import_file: Import file
         too_many_records: Too many records
       show:
         public_booking_url: Public booking url

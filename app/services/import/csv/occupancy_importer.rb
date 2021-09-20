@@ -12,7 +12,9 @@ module Import
         @tenant_importer = TenantImporter.new(organisation)
       end
 
-      def initialize_record(_row)
+      def initialize_record(row)
+        return if %i[declined_request].include?(row.try_field('reservation_type', 'occupancy_type')&.downcase)
+
         home.occupancies.new
       end
 
@@ -46,7 +48,7 @@ module Import
         case row.try_field('reservation_type', 'occupancy_type')&.downcase
         when 'closed', 'closedown', 'geschlossen'
           occupancy.occupancy_type = :closed
-        when 'provisionally_reserved'
+        when 'provisionally_reserved', 'request'
           occupancy.build_booking(home: home, organisation: organisation, committed_request: false)
         else
           occupancy.build_booking(home: home, organisation: organisation, committed_request: true)

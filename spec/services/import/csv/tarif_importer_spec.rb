@@ -23,11 +23,11 @@ RSpec.describe Import::Csv::TarifImporter, type: :model do
     ENDCSV
   end
 
-  describe 'read' do
-    subject(:import) { importer.read(csv) }
-    subject(:record) { import.first }
+  describe '#parse' do
+    subject(:import) { importer.parse(csv) }
+    subject(:record) { import.records.first }
 
-    it { expect(import.compact.count).to eq(10) }
+    it { expect(import.records.compact.count).to eq(10) }
     it { is_expected.to be_valid }
     it { is_expected.to be_a(Tarifs::Flat) }
     it do

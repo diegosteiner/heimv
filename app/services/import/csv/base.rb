@@ -3,7 +3,7 @@
 module Import
   module Csv
     class Base
-      attr_reader :options
+      attr_reader :options, :errors
 
       def initialize(**options)
         @options = default_options.deep_merge(options)
@@ -21,23 +21,28 @@ module Import
         { csv: { header_converters: :downcase, headers: true } }
       end
 
-      def read(input = ARGF, **options)
+      def parse(input = ARGF, **options)
         options.reverse_merge!(default_options)
         ActiveRecord::Base.transaction do
-          result = CSV.parse(input, **options.fetch(:csv)).map { import_row(_1, **options) }
-          raise ActiveRecord::Rollback, :dry_run if options[:dry_run].present?
-
-          result
+          Result.new.tap do |result|
+            CSV.parse(input, **options.fetch(:csv)).each_with_index do |row, index|
+              result.add import_row(row, **options)
+            rescue StandardError => e
+              result.errors.add(index.to_s, e.message)
+            end
+          end
         end
       end
 
-      def import_row(row, **options)
-        return if row.values_at.all?(&:blank?)
+      def read_file(file, **options)
+        parse(file.read.force_encoding('UTF-8'), **options)
+      end
 
+      def import_row(row, **options)
         initialize_record(row).tap do |record|
-          self.class.actors.each do |actor_block|
-            instance_exec(record, row, options, &actor_block)
-          end
+          return nil if record.nil? || row.values_at.all?(&:blank?)
+
+          self.class.actors.each { |actor_block| instance_exec(record, row, options, &actor_block) }
           persist_record(record)
         end
       end

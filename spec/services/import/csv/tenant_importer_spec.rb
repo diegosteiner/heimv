@@ -12,9 +12,9 @@ RSpec.describe Import::Csv::TenantImporter, type: :model do
     ENDCSV
   end
 
-  describe 'read' do
-    let(:import) { importer.read(csv) }
-    subject(:record) { import.first }
+  describe '#parse' do
+    let(:import) { importer.parse(csv) }
+    subject(:record) { import.records.first }
 
     it { is_expected.to be_valid }
     it do
