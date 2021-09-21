@@ -66,7 +66,7 @@
                     = link_to manage_invoice_path(invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                       span.fa.fa-trash
 
-- if @booking
+- if @booking && can?(:manage, @booking)
   #dropdownInvoiceTypes.dropdown.mt-5.d-inline-block
     button#dropdownInvoiceTypesButton.btn.btn-primary.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
       = t(:add_record, model_name: Invoice.model_name.human)

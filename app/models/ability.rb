@@ -81,11 +81,20 @@ module Ability
   end
 
   class Public < Base
-    role nil, :staff do |_user, organisation|
+    role nil do |_user, organisation|
       can :read, Home, { organisation: organisation, requests_allowed: true }
-      can :read, Organisation, id: organisation.id
 
       can %i[read embed calendar at], Occupancy, home: { requests_allowed: true, organisation: organisation }
+
+      can %i[create read update], AgentBooking, { organisation: organisation }
+      can %i[create read update], Booking, { organisation: organisation, concluded: false }
+    end
+
+    role :staff do |_user, organisation|
+      can :read, Home, { organisation: organisation }
+      can :read, Organisation, id: organisation.id
+
+      can %i[read embed calendar at], Occupancy, home: { organisation: organisation }
 
       can %i[create read update], AgentBooking, { organisation: organisation }
       can %i[create read update], Booking, { organisation: organisation, concluded: false }

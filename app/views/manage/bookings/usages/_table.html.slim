@@ -64,13 +64,14 @@
                         span.fa.fa-trash
     .mt-5
 
-      button.btn.btn-secondary[type=:submit name=:commit]
-        = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: :other))
+      - if can?(:manage, @booking)
+        button.btn.btn-secondary[type=:submit name=:commit]
+          = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: :other))
 
-      - if defined?(used_units_field)
-        button.ml-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
-          = t('.save_and_continue')
+        - if defined?(used_units_field)
+          button.ml-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
+            = t('.save_and_continue')
 
-      - if defined?(used_units_field)
-        = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ml-3' do 
-          i.fa.fa-print<>
+        - if defined?(used_units_field)
+          = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ml-3' do 
+            i.fa.fa-print<>

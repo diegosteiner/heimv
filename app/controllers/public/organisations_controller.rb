@@ -3,7 +3,7 @@
 module Public
   class OrganisationsController < BaseController
     before_action :set_organisation
-    authorize_resource :organisation
+    # authorize_resource :organisation
 
     def show
       redirect_to homes_path

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   respond_to :html, :json
 
   protect_from_forgery with: :exception
-  rescue_from CanCan::AccessDenied, with: :unauthorized unless Rails.env.development?
+  rescue_from CanCan::AccessDenied, with: :unauthorized
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
 
   default_form_builder BootstrapForm::FormBuilder
