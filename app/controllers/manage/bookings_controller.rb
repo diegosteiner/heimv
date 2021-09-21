@@ -25,7 +25,7 @@ module Manage
     def edit; end
 
     def import
-      result = Import::Csv::OccupancyImporter.new(Home.find(import_params[:home_id])).read_file import_params[:file]
+      result = Import::Csv::OccupancyImporter.new(Home.find(import_params[:home_id])).parse_file import_params[:file]
 
       if result.ok?
         redirect_to manage_bookings_path, notice: t('.import_success')

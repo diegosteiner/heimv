@@ -21,20 +21,24 @@ module Import
         { csv: { header_converters: :downcase, headers: true } }
       end
 
+      # rubocop:disable Metrics/MethodLength
       def parse(input = ARGF, **options)
         options.reverse_merge!(default_options)
-        ActiveRecord::Base.transaction do
-          Result.new.tap do |result|
+        Result.new.tap do |result|
+          ActiveRecord::Base.transaction do
             CSV.parse(input, **options.fetch(:csv)).each_with_index do |row, index|
-              result.add import_row(row, **options)
+              result.add(import_row(row, **options))
             rescue StandardError => e
               result.errors.add(index.to_s, e.message)
             end
+
+            raise ActiveRecord::Rollback unless result.ok?
           end
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
-      def read_file(file, **options)
+      def parse_file(file, **options)
         parse(file.read.force_encoding('UTF-8'), **options)
       end
 
