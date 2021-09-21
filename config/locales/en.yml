@@ -289,7 +289,7 @@ en:
       tarif:
         prefill_usage_methods:
           flat: Fix
-          headcount: '# Personen'
+          headcount: "# Personen"
           headcount_nights: Übernachtungen
           nights: Nächte
       user:
@@ -513,7 +513,7 @@ en:
       label: Definitive Mietanfrage
       relevant_time: Eingereicht %{time}
     initial:
-      label: '-'
+      label: "-"
     open_request:
       label: Neue Mietanfrage
       public_info: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
@@ -570,57 +570,57 @@ en:
     total_overnight_stays: Total Personennächte
   date:
     abbr_day_names:
-      - Sun
-      - Mon
-      - Tue
-      - Wed
-      - Thu
-      - Fri
-      - Sat
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
     abbr_month_names:
-      -
-      - Jan
-      - Feb
-      - Mar
-      - Apr
-      - May
-      - Jun
-      - Jul
-      - Aug
-      - Sep
-      - Oct
-      - Nov
-      - Dec
+    -
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
     day_names:
-      - Sunday
-      - Monday
-      - Tuesday
-      - Wednesday
-      - Thursday
-      - Friday
-      - Saturday
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
     formats:
-      default: '%Y-%m-%d'
-      long: '%B %d, %Y'
-      short: '%b %d'
+      default: "%Y-%m-%d"
+      long: "%B %d, %Y"
+      short: "%b %d"
     month_names:
-      -
-      - January
-      - February
-      - March
-      - April
-      - May
-      - June
-      - July
-      - August
-      - September
-      - October
-      - November
-      - December
+    -
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
     order:
-      - :year
-      - :month
-      - :day
+    - :year
+    - :month
+    - :day
   datetime:
     distance_in_words:
       about_x_hours:
@@ -647,19 +647,19 @@ en:
         other: over %{count} years
       x_days:
         one: 1 day
-        other: '%{count} days'
+        other: "%{count} days"
       x_minutes:
         one: 1 minute
-        other: '%{count} minutes'
+        other: "%{count} minutes"
       x_months:
         one: 1 month
-        other: '%{count} months'
+        other: "%{count} months"
       x_seconds:
         one: 1 second
-        other: '%{count} seconds'
+        other: "%{count} seconds"
       x_years:
         one: 1 year
-        other: '%{count} years'
+        other: "%{count} years"
     prompts:
       day: Day
       hour: Hour
@@ -675,7 +675,7 @@ en:
       terms_pdf: agb
   edit: Edit
   errors:
-    format: '%{attribute} %{message}'
+    format: "%{attribute} %{message}"
     notifications:
       accepted: must be accepted
       blank: can't be blank
@@ -711,7 +711,7 @@ en:
       body: 'There were problems with the following fields:'
       header:
         one: 1 error prohibited this %{model} from being saved
-        other: '%{count} errors prohibited this %{model} from being saved'
+        other: "%{count} errors prohibited this %{model} from being saved"
   export:
     pdf:
       renderables:
@@ -749,14 +749,14 @@ en:
   flash:
     actions:
       create:
-        alert: '%{resource_name} could not be created.'
-        notice: '%{resource_name} was successfully created.'
+        alert: "%{resource_name} could not be created."
+        notice: "%{resource_name} was successfully created."
       destroy:
-        alert: '%{resource_name} could not be destroyed.'
-        notice: '%{resource_name} was successfully destroyed.'
+        alert: "%{resource_name} could not be destroyed."
+        notice: "%{resource_name} was successfully destroyed."
       update:
-        alert: '%{resource_name} could not be updated.'
-        notice: '%{resource_name} was successfully updated.'
+        alert: "%{resource_name} could not be updated."
+        notice: "%{resource_name} was successfully updated."
     public:
       bookings:
         create:
@@ -772,9 +772,9 @@ en:
       submit: Speichern
       update: Update
   import: Import
-  import_records: '%{model_name} importieren'
+  import_records: "%{model_name} importieren"
   invoice_parts:
-    breakdown: '%{used_units} × %{unit} à %{price_per_unit}'
+    breakdown: "%{used_units} × %{unit} à %{price_per_unit}"
     unpaid_invoice: Offener Betrag fällig am %{payable_until}
   layouts:
     footer:
@@ -789,11 +789,11 @@ en:
           contract_signed: Contract signed
       import:
         import_error: 'Import fehlgeschlagen. Fehler: %{error}'
+        import_file: Import file
         import_success: Import success
       index:
         canned_filter_default: Canned filter default
         canned_filter_upcoming: Canned filter upcoming
-        import_file: Import file
         too_many_records: Too many records
       show:
         public_booking_url: Public booking url
@@ -838,22 +838,22 @@ en:
   number:
     currency:
       format:
-        delimiter: ','
-        format: '%u%n'
+        delimiter: ","
+        format: "%u%n"
         precision: 2
-        separator: '.'
+        separator: "."
         significant: false
         strip_insignificant_zeros: false
-        unit: '$'
+        unit: "$"
     format:
-      delimiter: ','
+      delimiter: ","
       precision: 3
-      separator: '.'
+      separator: "."
       significant: false
       strip_insignificant_zeros: false
     human:
       decimal_units:
-        format: '%n %u'
+        format: "%n %u"
         units:
           billion: Billion
           million: Million
@@ -867,7 +867,7 @@ en:
         significant: true
         strip_insignificant_zeros: true
       storage_units:
-        format: '%n %u'
+        format: "%n %u"
         units:
           byte:
             one: Byte
@@ -881,14 +881,14 @@ en:
     percentage:
       format:
         delimiter: ''
-        format: '%n%'
+        format: "%n%"
     precision:
       format:
         delimiter: ''
   occupancy_calendar:
     months: '["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
-    next: '→'
-    prev: '←'
+    next: "→"
+    prev: "←"
     weekdays: '["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]'
   offers:
     issuer_signature_label: Datum, Unterschrift Vermieter
@@ -1378,18 +1378,18 @@ en:
   show: Anzeigen
   support:
     array:
-      last_word_connector: ', and '
-      two_words_connector: ' and '
-      words_connector: ', '
+      last_word_connector: ", and "
+      two_words_connector: " and "
+      words_connector: ", "
   tenant:
     salutation: Hallo %{name}
   time:
     formats:
-      date: '%d.%m.%Y'
-      default: '%d.%m.%Y %H:%M'
-      short: '%d.%m.%Y %H:%M'
-      short_with_weekday: '%a, %d.%m.%Y %H:%M'
-      time: '%H:%M'
+      date: "%d.%m.%Y"
+      default: "%d.%m.%Y %H:%M"
+      short: "%d.%m.%Y %H:%M"
+      short_with_weekday: "%a, %d.%m.%Y %H:%M"
+      time: "%H:%M"
   titles:
     application: HeimV %{organisation}
   unauthorized: Sie haben keine Berechtigung für diese Seite. Bitte loggen Sie sich ein

@@ -5,7 +5,7 @@ require:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.0
   Exclude:
     - 'bin/*'
     - 'script/**/*'
@@ -47,6 +47,7 @@ Metrics/BlockLength:
     - 'config/initializers/*'
 
 Metrics/AbcSize:
+  Max: 18
   Exclude:
     - 'db/migrate/*'
     - 'spec/**/*'

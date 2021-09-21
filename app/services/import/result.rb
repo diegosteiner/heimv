@@ -2,6 +2,7 @@
 
 module Import
   class Result
+    extend ActiveModel::Translation
     attr_reader :records, :errors
 
     def initialize

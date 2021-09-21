@@ -6,9 +6,9 @@ module Import
       delegate :organisation, to: :home
       attr_reader :home
 
-      def initialize(home)
+      def initialize(home_id)
         super()
-        @home = home
+        @home = home_id.is_a?(Home) ? home_id : Home.find(home)
         @tenant_importer = TenantImporter.new(organisation)
       end
 

@@ -24,13 +24,17 @@ module Manage
 
     def edit; end
 
+    def new_import
+      render 'import'
+    end
+
     def import
-      result = Import::Csv::OccupancyImporter.new(Home.find(import_params[:home_id])).parse_file import_params[:file]
+      result = Import::Csv::OccupancyImporter.new(import_params[:home_id]).parse_file(import_params[:file])
 
       if result.ok?
         redirect_to manage_bookings_path, notice: t('.import_success')
       else
-        redirect_to manage_bookings_path, alert: t('.import_error', errors: result.errors.inspect)
+        flash.now[:alert] = t('.import_error', error: result.errors.full_messages.to_sentence)
       end
     end
 

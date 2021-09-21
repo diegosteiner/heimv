@@ -32,14 +32,6 @@ nav.navbar.justify-content-between.px-0
       =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary'
         = t(:reset)
 
-#import.collapse
-  .py-3
-    = form_with(url: import_manage_bookings_path, scope: :import, method: :POST, local: true) do |f|
-      = f.file_field :file, accept: :csv, label: t('.import_file')
-      = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true, label: Home.model_name.human
-      hr.my-4
-      = f.submit t(:import)
-
 - if @bookings.count > 250
   .alert.alert-danger.d-flex
     .mr-3

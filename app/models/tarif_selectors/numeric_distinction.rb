@@ -24,7 +24,7 @@
 module TarifSelectors
   class NumericDistinction < TarifSelector
     def self.distinction_regex
-      /\A([><=])?(\d*)\z/.freeze
+      /\A([><=])?(\d*)\z/
     end
 
     validates :distinction, format: { with: distinction_regex }, allow_blank: true

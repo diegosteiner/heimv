@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       end
       resources :bookings do
         post :import, on: :collection
+        get :import, on: :collection, to: 'bookings#new_import'
 
         resources :invoices, shallow: true
         resources :payments, shallow: true
