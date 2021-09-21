@@ -5,6 +5,11 @@ describe 'Booking', :devise, type: :feature do
   let(:user) { create(:user, :manager, organisation: organisation) }
   let(:home) { create(:home, organisation: organisation) }
   let(:tenant) { create(:tenant, organisation: organisation) }
+  let(:occupancy) do
+    begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
+    ends_at = begins_at + 1.week + 4.hours + 15.minutes
+    build(:occupancy, begins_at: begins_at, ends_at: ends_at)
+  end
   let!(:tarifs) { create_list(:tarif, 2, home: home) }
   let(:new_booking_path) do
     new_public_booking_path(booking: { home_id: home.id, occupancy_attributes:
@@ -12,6 +17,7 @@ describe 'Booking', :devise, type: :feature do
   end
   let(:booking) do
     build(:booking,
+          occupancy: occupancy,
           organisation: organisation,
           home: home, tenant: nil,
           skip_infer_transition: false,
@@ -37,10 +43,18 @@ describe 'Booking', :devise, type: :feature do
     check_booking
   end
 
+  def fill_request_form(email:, begins_at:, ends_at:)
+    fill_in 'booking_email', with: email
+    fill_in 'booking_occupancy_begins_at_date', with: begins_at.strftime('%d.%m.%Y')
+    select(format('%02d', begins_at.hour), from: 'booking_occupancy_begins_at_hours')
+    fill_in 'booking_occupancy_ends_at_date', with: ends_at.strftime('%d.%m.%Y')
+    select(format('%02d', ends_at.hour), from: 'booking_occupancy_ends_at_hours')
+    check 'booking_accept_conditions'
+  end
+
   def create_request
     visit new_booking_path
-    fill_in 'booking_email', with: tenant.email
-    check 'booking_accept_conditions'
+    fill_request_form(email: tenant.email, begins_at: booking.occupancy.begins_at, ends_at: booking.occupancy.ends_at)
     submit_form
     expect(page).to have_content(I18n.t('flash.public.bookings.create.notice'))
     @booking = Booking.last

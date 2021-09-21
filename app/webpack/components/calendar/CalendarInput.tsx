@@ -51,6 +51,7 @@ const closestMinutes = (minutes: number) => {
 interface CalendarControlProps {
   value: string;
   name?: string;
+  id?: string;
   required?: boolean;
   disabled?: boolean;
   onChange?(value: Date): void;
@@ -69,6 +70,7 @@ type CalendarControlValue = {
 export const CalendarControl: React.FC<CalendarControlProps> = ({
   value = '',
   name,
+  id,
   required = false,
   disabled = false,
   onChange,
@@ -87,7 +89,7 @@ export const CalendarControl: React.FC<CalendarControlProps> = ({
 
     value = setHours(value, hours !== undefined ? hours : inputValue.hours);
     value = setMinutes(value, minutes !== undefined ? minutes : inputValue.minutes);
-    console.log(`input[${name}]: ${value.toString()}`);
+    // console.log(`input[${name}]: ${value.toString()}`);
     setInputValue(dateToCalendarControlValue(value));
     onChange && onChange(value);
   };
@@ -134,12 +136,13 @@ export const CalendarControl: React.FC<CalendarControlProps> = ({
 
   return (
     <>
-      <div className={(isInvalid && 'is-invalid') || ''}>
+      <div id={id} className={(isInvalid && 'is-invalid') || ''}>
         <input type="hidden" name={name} value={(inputValue.date && formatISO(inputValue.date)) || ''} />
         <Row>
           <Col>
             <InputGroup hasValidation>
               <Form.Control
+                id={`${id}_date`}
                 onBlur={handleTextChange}
                 disabled={disabled}
                 value={inputValue.text}
@@ -167,6 +170,7 @@ export const CalendarControl: React.FC<CalendarControlProps> = ({
               disabled={disabled}
               required={required}
               as="select"
+              id={`${id}_hours`}
             >
               {allHours.map((hour) => (
                 <option disabled={!availableHours.includes(hour)} key={hour} value={hour}>
@@ -183,6 +187,7 @@ export const CalendarControl: React.FC<CalendarControlProps> = ({
               disabled={disabled}
               required={required}
               as="select"
+              id={`${id}_minutes`}
             >
               {availableMinutes.map((minutes) => (
                 <option key={minutes} value={minutes}>
@@ -212,6 +217,7 @@ export const CalendarControl: React.FC<CalendarControlProps> = ({
 interface CalendarInputProps {
   value: string;
   name: string;
+  id?: string;
   label?: string;
   required?: boolean;
   disabled?: boolean;
@@ -222,6 +228,7 @@ interface CalendarInputProps {
 const CalendarInput: React.FC<CalendarInputProps> = ({
   value,
   name,
+  id,
   label,
   required = false,
   disabled = false,
@@ -235,6 +242,7 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
         disabled={disabled}
         value={value}
         name={name}
+        id={id}
         required={required}
         isInvalid={isInvalid}
         invalidFeedback={invalidFeedback}
