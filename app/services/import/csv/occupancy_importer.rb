@@ -8,7 +8,7 @@ module Import
 
       def initialize(home_id)
         super()
-        @home = home_id.is_a?(Home) ? home_id : Home.find(home)
+        @home = home_id.is_a?(Home) ? home_id : Home.find(home_id)
         @tenant_importer = TenantImporter.new(organisation)
       end
 

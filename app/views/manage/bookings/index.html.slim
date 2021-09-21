@@ -9,9 +9,8 @@ nav.navbar.justify-content-between.px-0
         = t('add_record', model_name: Booking.model_name.human)
       = link_to(new_public_agent_booking_path, class: 'dropdown-item')
         = t('add_record', model_name: AgentBooking.model_name.human)
-      a[href='#import' data-toggle='collapse' class='dropdown-item']
+      = link_to(import_manage_bookings_path, class: 'dropdown-item')
         = t(:import)
-
 
   div
     = link_to manage_bookings_path(current_booking_states: BookingStates.displayed_by_default), class: 'btn btn-outline-secondary mr-2'
