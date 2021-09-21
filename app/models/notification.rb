@@ -86,12 +86,12 @@ class Notification < ApplicationRecord
 
     Mobility.with_locale(booking.locale) do
       self.subject = rich_text_template.interpolate_title(context)
-      self.body = rich_text_template.interpolate(context)
+      self.body = rich_text_template.interpolate_body(context)
     end
   end
 
   def footer
-    organisation.rich_text_templates.by_key(:notification_footer)&.interpolate(context)
+    organisation.rich_text_templates.by_key(:notification_footer)&.interpolate_body(context)
   end
 
   def body

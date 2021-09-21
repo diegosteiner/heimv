@@ -7,7 +7,7 @@ module PaymentInfos
     delegate :esr_beneficiary_account, to: :organisation
 
     def body
-      @body ||= rich_text_template&.interpolate('payment_info' => self)
+      @body ||= rich_text_template&.interpolate_body('payment_info' => self)
     end
 
     def title
