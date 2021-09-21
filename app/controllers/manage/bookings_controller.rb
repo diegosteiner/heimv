@@ -30,7 +30,7 @@ module Manage
       if result.ok?
         redirect_to manage_bookings_path, notice: t('.import_success')
       else
-        redirect_to manage_bookings_path, alert: t('.import_error')
+        redirect_to manage_bookings_path, alert: t('.import_error', errors: result.errors.inspect)
       end
     end
 
