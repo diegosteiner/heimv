@@ -42,3 +42,4 @@
 
   .form-actions.pt-4.mt-3.border-top
     = f.submit
+    =< link_to t(:back), manage_home_tarifs_path(@home || @tarif.home), class: 'btn btn-default'
