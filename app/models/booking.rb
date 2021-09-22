@@ -23,6 +23,7 @@
 #  remarks               :text
 #  state_data            :json
 #  tenant_organisation   :string
+#  token                 :string
 #  usages_entered        :boolean          default(FALSE)
 #  usages_presumed       :boolean          default(FALSE)
 #  created_at            :datetime         not null
@@ -41,6 +42,7 @@
 #  index_bookings_on_locale               (locale)
 #  index_bookings_on_organisation_id      (organisation_id)
 #  index_bookings_on_ref                  (ref)
+#  index_bookings_on_token                (token) UNIQUE
 #
 # Foreign Keys
 #
@@ -80,6 +82,8 @@ class Booking < ApplicationRecord
   has_one  :occupancy, inverse_of: :booking, dependent: :destroy
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
+
+  has_secure_token :token, length: 64
 
   attribute :accept_conditions, default: false
   enum locale: I18n.available_locales.index_by(&:to_sym).transform_values(&:to_s),

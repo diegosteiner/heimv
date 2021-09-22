@@ -11,6 +11,7 @@
 #  committed_request  :boolean
 #  remarks            :text
 #  tenant_email       :string
+#  token              :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  booking_agent_id   :bigint           not null
@@ -24,6 +25,7 @@
 #  index_agent_bookings_on_booking_id        (booking_id)
 #  index_agent_bookings_on_home_id           (home_id)
 #  index_agent_bookings_on_organisation_id   (organisation_id)
+#  index_agent_bookings_on_token             (token) UNIQUE
 #
 # Foreign Keys
 #
@@ -39,6 +41,8 @@ class AgentBooking < ApplicationRecord
   belongs_to :organisation
   belongs_to :home
   has_one :occupancy, through: :booking
+
+  has_secure_token :token, length: 64
 
   before_validation :assign_booking_agent
 

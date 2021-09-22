@@ -1,4 +1,4 @@
-= form_with(model: [:public, @booking], local: true, disabled: !@booking.editable, html: { novalidate: true }) do |f|
+= form_with(model: [:public, @booking], local: true, url: public_booking_path(@booking.token), disabled: !@booking.editable, html: { novalidate: true }) do |f|
   .card.[class=({'bg-light' => !@booking.editable, 'border-danger' => @booking.errors.any? }.select { _2 }.keys )]
     .card-body
       - if @booking.booking_state.t(:public_info).present?

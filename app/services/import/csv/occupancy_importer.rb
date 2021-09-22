@@ -13,7 +13,7 @@ module Import
       end
 
       def initialize_record(row)
-        return if %i[declined_request].include?(row.try_field('reservation_type', 'occupancy_type')&.downcase)
+        return if %w[declined_request].include?(row.try_field('reservation_type', 'occupancy_type')&.downcase)
 
         home.occupancies.new
       end
