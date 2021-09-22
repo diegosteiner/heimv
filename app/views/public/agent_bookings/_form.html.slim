@@ -1,4 +1,4 @@
-= form_with(model: [:public, @agent_booking], url: public_agent_booking_path(@agent_booking.token)) do |f|
+= form_with(model: [:public, @agent_booking], url: public_agent_booking_path(@agent_booking.token || @agent_booking.to_param)) do |f|
   .card[class=('bg-light' unless @agent_booking.booking_agent_responsible?)]
     .card-body
       - errors = (@agent_booking.errors[:base] + @agent_booking.booking&.errors.full_messages)

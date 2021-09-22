@@ -42,7 +42,7 @@ class AgentBooking < ApplicationRecord
   belongs_to :home
   has_one :occupancy, through: :booking
 
-  has_secure_token :token, length: 64
+  has_secure_token :token, length: 48
 
   before_validation :assign_booking_agent
 

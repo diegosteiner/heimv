@@ -94,7 +94,7 @@
               .col 
                 strong= t('.public_booking_url')
                 p
-                  = link_to edit_public_booking_url(@booking.token), edit_public_booking_url(@booking.token)
+                  = link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), edit_public_booking_url(@booking.token)
                 br
 
 

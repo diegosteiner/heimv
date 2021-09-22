@@ -83,7 +83,7 @@ class Booking < ApplicationRecord
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
 
-  has_secure_token :token, length: 64
+  has_secure_token :token, length: 48
 
   attribute :accept_conditions, default: false
   enum locale: I18n.available_locales.index_by(&:to_sym).transform_values(&:to_s),
