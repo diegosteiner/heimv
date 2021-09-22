@@ -7,8 +7,8 @@ class AddTokenToBookings < ActiveRecord::Migration[6.1]
 
     reversible do |direction|
       direction.up do 
-        Booking.find_each { |booking| booking.regenerate_token }
-        AgentBooking.find_each { |agent_booking| agent_booking.regenerate_token }
+        Booking.find_each { |booking| booking.regenerate_token rescue nil }
+        AgentBooking.find_each { |agent_booking| agent_booking.regenerate_token rescue nil }
       end
     end
   end
