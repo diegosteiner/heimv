@@ -15,7 +15,10 @@
         tr[data-href=manage_tenant_path(tenant) data-id=tenant.to_param]
           td
             = link_to manage_tenant_path(tenant)
-              = "#{tenant.last_name}, #{tenant.first_name}"
+              - if tenant.first_name.present? || tenant.last_name.present?
+                = "#{tenant.last_name}, #{tenant.first_name}"
+              - else 
+                = tenant.to_s
           td 
             == tenant.full_address_lines.join('<br>'.html_safe)
           td 
