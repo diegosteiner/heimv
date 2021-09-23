@@ -2,7 +2,7 @@
 
 module Public
   class AgentBookingsController < BaseController
-    load_and_authorize_resource :agent_booking
+    load_and_authorize_resource :agent_booking, except: %i[show edit update]
     before_action :set_agent_booking, only: %i[show edit update]
 
     def new
@@ -15,7 +15,7 @@ module Public
     def create
       @agent_booking.assign_attributes(agent_booking_params.merge(organisation: current_organisation))
       @agent_booking.save_and_update_booking
-      respond_with :public, @agent_booking
+      respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
     end
 
     def show
@@ -32,7 +32,7 @@ module Public
         @agent_booking.save_and_update_booking
         BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
       end
-      respond_with :public, @agent_booking, location: edit_public_agent_booking_path
+      respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
     end
 
     private
