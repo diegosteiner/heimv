@@ -2,7 +2,7 @@
 = form_with(model: [:public, @agent_booking], url: url) do |f|
   .card[class=('bg-light' unless @agent_booking.booking_agent_responsible?)]
     .card-body
-      - errors = (@agent_booking.errors[:base] + @agent_booking.booking&.errors.full_messages)
+      - errors = (@agent_booking.errors[:base])
       - if errors.present?
         .alert.alert-danger.d-flex
           .mr-3

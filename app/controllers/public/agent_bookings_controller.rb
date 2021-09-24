@@ -14,8 +14,12 @@ module Public
 
     def create
       @agent_booking.assign_attributes(agent_booking_params.merge(organisation: current_organisation))
-      @agent_booking.save_and_update_booking
-      respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
+
+      if @agent_booking.save_and_update_booking
+        redirect_to edit_public_agent_booking_path(@agent_booking.token)
+      else
+        render 'new'
+      end
     end
 
     def show
