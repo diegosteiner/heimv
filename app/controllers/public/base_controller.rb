@@ -2,11 +2,9 @@
 
 module Public
   class BaseController < ApplicationController
-    protected
+    before_action :require_organisation!
 
-    def current_organisation
-      @current_organisation ||= Organisation.find_by!(slug: params[:org].presence)
-    end
+    protected
 
     def current_ability
       @current_ability ||= Ability::Public.new(current_user, current_organisation)
