@@ -23,6 +23,7 @@
 #  remarks               :text
 #  state_data            :json
 #  tenant_organisation   :string
+#  token                 :string
 #  usages_entered        :boolean          default(FALSE)
 #  usages_presumed       :boolean          default(FALSE)
 #  created_at            :datetime         not null
@@ -41,6 +42,7 @@
 #  index_bookings_on_locale               (locale)
 #  index_bookings_on_organisation_id      (organisation_id)
 #  index_bookings_on_ref                  (ref)
+#  index_bookings_on_token                (token) UNIQUE
 #
 # Foreign Keys
 #

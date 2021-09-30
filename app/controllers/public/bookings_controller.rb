@@ -2,6 +2,8 @@
 
 module Public
   class BookingsController < BaseController
+    before_action :set_booking, only: %i[show edit update]
+
     def new
       @booking = Booking.new(create_params)
       @booking.organisation = current_organisation
@@ -12,12 +14,10 @@ module Public
     end
 
     def show
-      @booking = Booking.find(params[:id])
       redirect_to edit_public_booking_path(@booking)
     end
 
     def edit
-      @booking = Booking.find(params[:id])
       @booking.committed_request ||= @booking.agent_booking&.committed_request if @booking.agent_booking?
       respond_with :public, @booking
     end
@@ -30,16 +30,19 @@ module Public
     end
 
     def update
-      @booking = Booking.find(params[:id])
       if @booking.editable?
         @booking.assign_attributes(update_params)
         @booking.save(context: :public_update)
       end
       call_booking_action
-      respond_with :public, @booking, location: edit_public_booking_path
+      respond_with :public, @booking, location: edit_public_booking_path(@booking.token)
     end
 
     private
+
+    def set_booking
+      @booking = Booking.find_by(token: params[:id]) || Booking.find(params[:id])
+    end
 
     def call_booking_action
       booking_action&.call(booking: @booking)

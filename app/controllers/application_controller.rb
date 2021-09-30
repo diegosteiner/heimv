@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organisation
-    nil
+    @current_organisation ||= Organisation.find_by(slug: params[:org].presence)
   end
 
   def current_locale
@@ -83,5 +83,13 @@ class ApplicationController < ActionController::Base
 
   def return_to_path(default)
     params[:return_to].presence || default || root_path
+  end
+
+  def require_organisation!
+    return if current_organisation
+    return redirect_to url_for(org: current_user.organisation.slug) if current_user&.organisation
+    return redirect_to new_user_session_path if current_user.blank?
+
+    raise ActionController::RoutingError, 'Not found'
   end
 end

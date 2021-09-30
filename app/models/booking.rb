@@ -23,6 +23,7 @@
 #  remarks               :text
 #  state_data            :json
 #  tenant_organisation   :string
+#  token                 :string
 #  usages_entered        :boolean          default(FALSE)
 #  usages_presumed       :boolean          default(FALSE)
 #  created_at            :datetime         not null
@@ -41,6 +42,7 @@
 #  index_bookings_on_locale               (locale)
 #  index_bookings_on_organisation_id      (organisation_id)
 #  index_bookings_on_ref                  (ref)
+#  index_bookings_on_token                (token) UNIQUE
 #
 # Foreign Keys
 #
@@ -81,6 +83,8 @@ class Booking < ApplicationRecord
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
 
+  has_secure_token :token, length: 48
+
   attribute :accept_conditions, default: false
   enum locale: I18n.available_locales.index_by(&:to_sym).transform_values(&:to_s),
        _prefix: true, _default: I18n.locale || I18n.default_locale
@@ -103,7 +107,7 @@ class Booking < ApplicationRecord
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
   scope :inconcluded, -> { where(concluded: false) }
 
-  before_validation :set_organisation, :set_occupancy_attributes, :set_tenant_attributes
+  before_validation :set_organisation, :set_occupancy, :set_tenant
   before_create :set_ref
   after_create :reload
 
@@ -161,13 +165,14 @@ class Booking < ApplicationRecord
       tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).values.all?(&:blank?)
   end
 
-  def set_tenant_attributes
-    self.tenant ||= organisation.tenants.find_or_initialize_by(email: email)
-    self.tenant.email = self[:email] if self[:email].present?
-    self.tenant.organisation = organisation
+  def set_tenant
+    self.tenant ||= organisation.tenants.find_or_initialize_by(email: email) if email.present?
+    # self.email ||= tenant.email if tenant.email.present?
+    tenant.email = email if email.present?
+    tenant&.organisation = organisation
   end
 
-  def set_occupancy_attributes
+  def set_occupancy
     self.occupancy ||= build_occupancy
     occupancy.home = home
     occupancy.booking = self

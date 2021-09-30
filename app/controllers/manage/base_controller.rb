@@ -2,23 +2,13 @@
 
 module Manage
   class BaseController < ApplicationController
-    before_action :authenticate_user!
+    before_action :authenticate_user!, :require_organisation!
     check_authorization
 
     protected
 
     def current_ability
       @current_ability ||= Ability::Manage.new(current_user, current_organisation)
-    end
-
-    def current_organisation
-      return if current_user.blank?
-
-      @current_organisation ||= if current_user.role_admin?
-                                  Organisation.find_by!(slug: params[:org].presence)
-                                else
-                                  current_user.organisation
-                                end
     end
   end
 end

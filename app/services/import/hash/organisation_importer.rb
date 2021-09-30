@@ -15,30 +15,21 @@ module Import
         next unless hash['rich_text_templates'].respond_to?(:each)
 
         importer = RichTextTemplateImporter.new(organisation, **options)
-
-        hash['rich_text_templates'].each do
-          organisation.rich_text_templates << importer.import(_1)
-        end
+        hash['rich_text_templates'].each { |template| organisation.rich_text_templates << importer.import(template) }
       end
 
       actor do |organisation, hash|
         next unless hash['homes'].respond_to?(:each)
 
         importer = HomeImporter.new(organisation, **options)
-
-        hash['homes'].each do
-          organisation.homes << importer.import(_1)
-        end
+        hash['homes'].each { |home| organisation.homes << importer.import(home) }
       end
 
       actor do |organisation, hash|
         next unless hash['booking_purposes'].respond_to?(:each)
 
         importer = BookingPurposeImporter.new(organisation, **options)
-
-        hash['booking_purposes'].each do
-          organisation.booking_purposes << importer.import(_1)
-        end
+        hash['booking_purposes'].each { |purpose| organisation.booking_purposes << importer.import(purpose) }
       end
     end
   end

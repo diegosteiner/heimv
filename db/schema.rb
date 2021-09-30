@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_07_114152) do
+ActiveRecord::Schema.define(version: 2021_09_22_091804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -58,10 +58,12 @@ ActiveRecord::Schema.define(version: 2021_09_07_114152) do
     t.bigint "organisation_id"
     t.string "tenant_email"
     t.bigint "booking_agent_id", null: false
+    t.string "token"
     t.index ["booking_agent_id"], name: "index_agent_bookings_on_booking_agent_id"
     t.index ["booking_id"], name: "index_agent_bookings_on_booking_id"
     t.index ["home_id"], name: "index_agent_bookings_on_home_id"
     t.index ["organisation_id"], name: "index_agent_bookings_on_organisation_id"
+    t.index ["token"], name: "index_agent_bookings_on_token", unique: true
   end
 
   create_table "booking_agents", force: :cascade do |t|
@@ -132,12 +134,14 @@ ActiveRecord::Schema.define(version: 2021_09_07_114152) do
     t.string "locale"
     t.integer "purpose_id"
     t.string "booking_flow_type"
+    t.string "token"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
+    t.index ["token"], name: "index_bookings_on_token", unique: true
   end
 
   create_table "contracts", force: :cascade do |t|

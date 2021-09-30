@@ -20,10 +20,7 @@ module Import
         next unless hash['tarifs'].respond_to?(:each)
 
         importer = TarifImporter.new(home, **options)
-
-        hash['tarifs'].each do
-          home.tarifs << importer.import(_1)
-        end
+        hash['tarifs'].each { |tarif| home.tarifs << importer.import(tarif) }
       end
     end
   end

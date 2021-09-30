@@ -11,6 +11,7 @@
 #  committed_request  :boolean
 #  remarks            :text
 #  tenant_email       :string
+#  token              :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  booking_agent_id   :bigint           not null
@@ -24,6 +25,7 @@
 #  index_agent_bookings_on_booking_id        (booking_id)
 #  index_agent_bookings_on_home_id           (home_id)
 #  index_agent_bookings_on_organisation_id   (organisation_id)
+#  index_agent_bookings_on_token             (token) UNIQUE
 #
 # Foreign Keys
 #
@@ -40,6 +42,8 @@ class AgentBooking < ApplicationRecord
   belongs_to :home
   has_one :occupancy, through: :booking
 
+  has_secure_token :token, length: 48
+
   before_validation :assign_booking_agent
 
   validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request
@@ -52,8 +56,7 @@ class AgentBooking < ApplicationRecord
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
 
   def save_and_update_booking
-    return errors.add(:booking, :invalid) unless valid? && update_booking
-
+    errors.add(:booking, :invalid) unless valid? && update_booking
     save
   end
 

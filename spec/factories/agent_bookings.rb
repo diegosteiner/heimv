@@ -11,6 +11,7 @@
 #  committed_request  :boolean
 #  remarks            :text
 #  tenant_email       :string
+#  token              :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  booking_agent_id   :bigint           not null
@@ -24,6 +25,7 @@
 #  index_agent_bookings_on_booking_id        (booking_id)
 #  index_agent_bookings_on_home_id           (home_id)
 #  index_agent_bookings_on_organisation_id   (organisation_id)
+#  index_agent_bookings_on_token             (token) UNIQUE
 #
 # Foreign Keys
 #
