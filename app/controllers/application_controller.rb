@@ -88,6 +88,7 @@ class ApplicationController < ActionController::Base
   def require_organisation!
     return if current_organisation
     return redirect_to url_for(org: current_user.organisation.slug) if current_user&.organisation
+    return redirect_to new_user_session_path if current_user.blank?
 
     raise ActionController::RoutingError, 'Not found'
   end
