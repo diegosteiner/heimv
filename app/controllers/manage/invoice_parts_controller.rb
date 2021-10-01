@@ -10,6 +10,7 @@ module Manage
     end
 
     def edit
+      @booking = @invoice.booking
       respond_with :manage, @invoice, @invoice_part
     end
 
