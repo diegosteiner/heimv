@@ -41,7 +41,7 @@ module Manage
     protected
 
     def allowed_roles
-      current_user.role_admin? ? User.roles.keys : %w[staff manager]
+      current_user.role_admin? ? User.roles.keys : %w[readonly manager]
     end
 
     private

@@ -296,7 +296,7 @@ fr:
         role:
           admin: Admin
           manager: Verwaltung
-          staff: Lesend
+          readonly: Lesend
     errors:
       models:
         booking:

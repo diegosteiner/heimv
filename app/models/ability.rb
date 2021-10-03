@@ -52,12 +52,12 @@ module Ability
       cannot :manage, User, role: :admin
     end
 
-    role :staff do |user, organisation|
+    role :readonly do |user, organisation|
       next unless organisation == user.organisation
 
       can :read, Home, organisation: organisation
       can :read, BookingPurpose, organisation: organisation
-      can %w[read digest], DataDigest, organisation: organisation
+      can %i[read digest], DataDigest, organisation: organisation
       can :read, RichTextTemplate, organisation: organisation
       can :read, Tarif, home: { organisation: organisation }
       can :read, Tarif, booking: { organisation: organisation }
@@ -77,6 +77,7 @@ module Ability
       can :read, User, organisation: organisation
       can :read, Notification, booking: { organisation: organisation }
       can %i[read edit], Organisation, id: organisation.id
+      cannot %i[update], Organisation, id: organisation.id
     end
   end
 
@@ -90,7 +91,7 @@ module Ability
       can %i[create read update], Booking, { organisation: organisation, concluded: false }
     end
 
-    role :staff do |_user, organisation|
+    role :readonly do |_user, organisation|
       can :read, Home, { organisation: organisation }
       can :read, Organisation, id: organisation.id
 
