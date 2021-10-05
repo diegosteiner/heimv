@@ -168,6 +168,12 @@ de:
         text: Offertentext
         valid_from: Gültig ab
         valid_until: Gültig bis
+      operator:
+        contact_info: Kontaktinformationen
+        email: Email
+        name: Name
+      operator_booking:
+        responsiblity: Verantwortlichkeit
       organisation:
         address: Adresse
         bcc: BCC
@@ -259,6 +265,12 @@ de:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
+      booking_operator:
+        responsibility:
+          administration: Administration
+          billing: Verrechnung
+          home_handover: Hausübergabe
+          home_return: Hausrücknahme
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -332,6 +344,9 @@ de:
       booking_agent:
         one: Vermittler
         other: Vermittler
+      booking_operator:
+        one: Verantwortlichkeit
+        other: Verantwortlichkeiten
       booking_purpose:
         one: Mietzweck
         other: Mietzwecke
@@ -401,6 +416,9 @@ de:
       offer:
         one: Offerte
         other: Offerten
+      operator:
+        one: Funktionär
+        other: Funktionäre
       organisation:
         one: Organisation
         other: Organisationen
@@ -1937,7 +1955,7 @@ de:
   offers:
     issuer_signature_label: Datum, Unterschrift Vermieter
   optional: optional
-  payable_by: Payable by
+  payable_by: Zahlbar durch
   payment_part_title: Payment part title
   public:
     agent_bookings:

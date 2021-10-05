@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_091804) do
+ActiveRecord::Schema.define(version: 2021_10_04_094826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -78,6 +78,18 @@ ActiveRecord::Schema.define(version: 2021_09_22_091804) do
     t.integer "request_deadline_minutes", default: 14400
     t.index ["code", "organisation_id"], name: "index_booking_agents_on_code_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
+  end
+
+  create_table "booking_operators", force: :cascade do |t|
+    t.uuid "booking_id", null: false
+    t.bigint "operator_id", null: false
+    t.integer "responsibility"
+    t.text "remark"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["booking_id"], name: "index_booking_operators_on_booking_id"
+    t.index ["operator_id"], name: "index_booking_operators_on_operator_id"
+    t.index ["responsibility"], name: "index_booking_operators_on_responsibility"
   end
 
   create_table "booking_purposes", force: :cascade do |t|
@@ -285,6 +297,16 @@ ActiveRecord::Schema.define(version: 2021_09_22_091804) do
     t.index ["booking_id"], name: "index_offers_on_booking_id"
   end
 
+  create_table "operators", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.text "contact_info"
+    t.bigint "organisation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organisation_id"], name: "index_operators_on_organisation_id"
+  end
+
   create_table "organisations", force: :cascade do |t|
     t.string "name"
     t.text "address"
@@ -443,6 +465,8 @@ ActiveRecord::Schema.define(version: 2021_09_22_091804) do
   add_foreign_key "agent_bookings", "homes"
   add_foreign_key "agent_bookings", "organisations"
   add_foreign_key "booking_agents", "organisations"
+  add_foreign_key "booking_operators", "bookings"
+  add_foreign_key "booking_operators", "operators"
   add_foreign_key "booking_purposes", "organisations"
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
@@ -460,6 +484,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_091804) do
   add_foreign_key "notifications", "rich_text_templates"
   add_foreign_key "occupancies", "homes"
   add_foreign_key "offers", "bookings"
+  add_foreign_key "operators", "organisations"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
   add_foreign_key "rich_text_templates", "homes"

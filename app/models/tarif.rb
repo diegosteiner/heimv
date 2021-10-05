@@ -40,6 +40,7 @@ class Tarif < ApplicationRecord
   belongs_to :booking, autosave: false, optional: true
   belongs_to :home, optional: true
   belongs_to :booking_copy_template, class_name: 'Tarif', optional: true, inverse_of: :booking_copies
+
   has_many :booking_copies, class_name: 'Tarif', dependent: :nullify, inverse_of: :booking_copy_template,
                             foreign_key: :booking_copy_template_id
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
@@ -49,7 +50,7 @@ class Tarif < ApplicationRecord
   scope :ordered, -> { rank(:position) }
   scope :transient, -> { where(transient: true) }
   scope :valid_now, -> { where(valid_until: nil) }
-  scope :applicable_to, ->(booking) { where(booking: booking).or(where(home: booking.home).transient).ordered }
+  # scope :applicable_to, ->(booking) { where(booking: booking).or(where(home: booking.home).transient).ordered }
   scope :find_with_booking_copies, ->(tarif_ids) { where(id: tarif_ids).or(where(booking_copy_template_id: tarif_ids)) }
 
   enum prefill_usage_method: TarifPrefiller::PREFILL_METHODS.keys.index_with(&:to_s)

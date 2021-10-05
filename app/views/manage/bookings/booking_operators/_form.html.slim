@@ -1,0 +1,8 @@
+= form_with(model: [:manage, @booking, @booking_operator], local: true) do |f|
+
+  fieldset
+    = f.collection_select :operator_id, current_organisation.operators, :id, :to_s, include_blank: true
+    = f.collection_select :responsibility, BookingOperator.responsibilities, :first, :first
+
+  .form-actions.pt-4.mt-3.border-top
+    = f.submit

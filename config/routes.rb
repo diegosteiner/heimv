@@ -42,6 +42,7 @@ Rails.application.routes.draw do
         resources :notifications, shallow: true, only: %i[index show edit update]
         scope module: :bookings do
           resources :contracts
+          resources :booking_operators, except: %i[show]
           resources :offers
           resources :tarifs
           resources :usages do
@@ -52,6 +53,7 @@ Rails.application.routes.draw do
         end
       end
       resources :tenants
+      resources :operators
       resources :booking_agents
       resources :booking_purposes, except: :show
       resources :rich_text_templates do

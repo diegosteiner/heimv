@@ -89,14 +89,26 @@
               .col
                 strong= Booking.human_attribute_name(:state)
                 p= @booking.booking_state.translate
-                br
-                = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
               .col 
                 strong= t('.public_booking_url')
-                p
-                  = link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), edit_public_booking_url(@booking.token)
-                br
+                p= link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), edit_public_booking_url(@booking.token)
 
+            .row.mb-3
+              .col
+                strong= t('.checklist')
+                = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
+              .col 
+                strong= BookingOperator.model_name.human(count: :other)
+                ul
+                  - @booking.booking_operators.each do |booking_operator|
+                    li
+                      = BookingOperator.human_enum(:responsibility, booking_operator.responsibility)
+                      ' :
+                      =< link_to(booking_operator.operator.name, manage_operator_path(booking_operator.operator))
+                      =< link_to edit_manage_booking_booking_operator_path(@booking, booking_operator) do
+                        span.fa.fa-edit
+                      =< link_to manage_booking_booking_operator_path(@booking, booking_operator), data: { confirm: t(:confirm) }, method: :delete do
+                        span.fa.fa-trash
 
             - if can?(:manage, @booking)
               = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|

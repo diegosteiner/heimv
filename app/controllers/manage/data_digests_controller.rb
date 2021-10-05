@@ -2,7 +2,7 @@
 
 module Manage
   class DataDigestsController < BaseController
-    load_and_authorize_resource
+    load_and_authorize_resource :data_digest
 
     def index
       @data_digests = @data_digests.where(organisation: current_organisation).order(type: :ASC)

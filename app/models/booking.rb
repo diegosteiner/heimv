@@ -74,10 +74,7 @@ class Booking < ApplicationRecord
   has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
   has_many :booking_transitions, dependent: :delete_all, autosave: false
-
-  # rubocop:disable Rails/HasManyOrHasOneDependent
-  has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
-  # rubocop:enable Rails/HasManyOrHasOneDependent
+  has_many :booking_operators, inverse_of: :booking, dependent: :destroy
 
   has_one  :occupancy, inverse_of: :booking, dependent: :destroy
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
