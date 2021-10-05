@@ -99,7 +99,9 @@
                 = render partial: 'manage/bookings/checklist', locals: { booking: @booking }
               .col 
                 strong= BookingOperator.model_name.human(count: :other)
-                ul
+                =< link_to(new_manage_booking_booking_operator_path(@booking))
+                  span.fa.fa-file-o
+                ul.list-unstyled
                   - @booking.booking_operators.each do |booking_operator|
                     li
                       = BookingOperator.human_enum(:responsibility, booking_operator.responsibility)

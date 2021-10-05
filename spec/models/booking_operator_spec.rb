@@ -5,7 +5,8 @@
 # Table name: booking_operators
 #
 #  id             :bigint           not null, primary key
-#  remark         :text
+#  index          :integer
+#  remarks        :text
 #  responsibility :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -15,6 +16,7 @@
 # Indexes
 #
 #  index_booking_operators_on_booking_id      (booking_id)
+#  index_booking_operators_on_index           (index)
 #  index_booking_operators_on_operator_id     (operator_id)
 #  index_booking_operators_on_responsibility  (responsibility)
 #

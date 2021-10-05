@@ -83,11 +83,13 @@ ActiveRecord::Schema.define(version: 2021_10_04_094826) do
   create_table "booking_operators", force: :cascade do |t|
     t.uuid "booking_id", null: false
     t.bigint "operator_id", null: false
+    t.integer "index"
     t.integer "responsibility"
-    t.text "remark"
+    t.text "remarks"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["booking_id"], name: "index_booking_operators_on_booking_id"
+    t.index ["index"], name: "index_booking_operators_on_index"
     t.index ["operator_id"], name: "index_booking_operators_on_operator_id"
     t.index ["responsibility"], name: "index_booking_operators_on_responsibility"
   end
@@ -191,6 +193,20 @@ ActiveRecord::Schema.define(version: 2021_10_04_094826) do
     t.text "remarks"
     t.index ["booking_id"], name: "index_deadlines_on_booking_id"
     t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
+  end
+
+  create_table "home_operators", force: :cascade do |t|
+    t.bigint "home_id", null: false
+    t.bigint "operator_id", null: false
+    t.integer "index"
+    t.integer "responsibility"
+    t.text "remarks"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["home_id"], name: "index_home_operators_on_home_id"
+    t.index ["index"], name: "index_home_operators_on_index"
+    t.index ["operator_id"], name: "index_home_operators_on_operator_id"
+    t.index ["responsibility"], name: "index_home_operators_on_responsibility"
   end
 
   create_table "homes", force: :cascade do |t|
@@ -474,6 +490,8 @@ ActiveRecord::Schema.define(version: 2021_10_04_094826) do
   add_foreign_key "contracts", "bookings"
   add_foreign_key "data_digests", "organisations"
   add_foreign_key "deadlines", "bookings"
+  add_foreign_key "home_operators", "homes"
+  add_foreign_key "home_operators", "operators"
   add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"

@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: booking_operators
+# Table name: home_operators
 #
 #  id             :bigint           not null, primary key
 #  index          :integer
@@ -10,29 +10,29 @@
 #  responsibility :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  booking_id     :uuid             not null
+#  home_id        :bigint           not null
 #  operator_id    :bigint           not null
 #
 # Indexes
 #
-#  index_booking_operators_on_booking_id      (booking_id)
-#  index_booking_operators_on_index           (index)
-#  index_booking_operators_on_operator_id     (operator_id)
-#  index_booking_operators_on_responsibility  (responsibility)
+#  index_home_operators_on_home_id         (home_id)
+#  index_home_operators_on_index           (index)
+#  index_home_operators_on_operator_id     (operator_id)
+#  index_home_operators_on_responsibility  (responsibility)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (booking_id => bookings.id)
+#  fk_rails_...  (home_id => homes.id)
 #  fk_rails_...  (operator_id => operators.id)
 #
-class BookingOperator < ApplicationRecord
+class HomeOperator < ApplicationRecord
   include RankedModel
-
-  belongs_to :booking, inverse_of: :booking_operators
-  belongs_to :operator, inverse_of: :booking_operators
+  
+  belongs_to :home, inverse_of: :home_operators
+  belongs_to :operator, inverse_of: :home_operators
 
   enum responsibility: Operator::RESPONSIBILITIES, _suffix: true
 
   validates :responsibility, presence: true
-  ranks :index, with_same: :booking_id
+  ranks :index, with_same: :home_id
 end
