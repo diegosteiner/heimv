@@ -1836,6 +1836,7 @@ de:
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       show:
         public_booking_url: Link für Mieter
+        checklist: Checkliste
       tarifs:
         index:
           applicable_tarifs: Anwendbare Tarife
