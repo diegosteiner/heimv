@@ -51,7 +51,7 @@
     "main": "index.js",
     "repository": "git@github.com:diegosteiner/heimv.git",
     "author": "Diego Steiner <diego.steiner@u041.ch>",
-    "license": "see LICENSE",
+    "private": true,
     "scripts": {
         "check:types": "tsc --project tsconfig.json",
         "check:style": "eslint --ext .js,.ts,.jsx,.tsx app/webpack"
