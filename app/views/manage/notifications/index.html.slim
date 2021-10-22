@@ -3,7 +3,7 @@
 - unless @booking.notifications_enabled?
   .alert.alert-warning.my-4= t('.notifications_not_enabled')
 
-table.table.table-hover.table-card
+table.table.table-hover.align-middle
   thead
     tr
       th= Notification.human_attribute_name(:sent_at)

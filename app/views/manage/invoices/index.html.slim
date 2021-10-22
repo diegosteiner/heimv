@@ -7,7 +7,7 @@
     =<> link_to(t(:add_record, model_name: Invoices::Deposit.model_name.human), new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit }))
 - else
   .table-responsive
-    table.table.table-hover.table-card
+    table.table.table-hover.align-middle
       thead
         tr
           th= Invoice.model_name.human

@@ -4,11 +4,11 @@
   = hidden_field_tag :usages_presumed, 1 if defined?(used_units_field) && (used_units_field == :presumed)
 
   .table-responsive
-    table.table
+    table.table.align-middle
       thead
-        tr.bg-white
+        tr
           th
-          th= Tarif.model_name.human(count: :other)
+          th= Tarif.model_name.human
           th= Tarif.human_attribute_name(:price_per_unit)
           th= Tarif.human_attribute_name(:unit)
           - if defined?(used_units_field) && used_units_field
@@ -33,24 +33,24 @@
           - group_usages.each do |usage|
             = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
               tr.bg-white
-                td.py-3
+                td
                   small.text-secondary= usage.tarif.position
-                td.py-3
+                td
                   = uf.hidden_field :id
                   = uf.hidden_field :tarif_id
                   = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
-                td.py-3
+                td
                   = number_to_currency(usage.tarif.price_per_unit, currency: @booking.organisation.currency)
-                td.py-3
+                td
                   = usage.tarif.unit
                 - if defined?(used_units_field) && used_units_field
-                  td.py-2
+                  td
                     = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif, presumed: (used_units_field == :presumed) }
-                  td.py-3
+                  td
                     = number_to_currency(usage.price, currency: @booking.organisation.currency)
                 - else
                   = uf.hidden_field :used_units
-                td.py-2.text-end
+                td.text-end
                   .btn-group
                     - if defined?(usage_links) && usage_links && !usage.new_record?
                       = link_to edit_manage_booking_usage_path(@booking, usage), class: 'btn btn-default' do

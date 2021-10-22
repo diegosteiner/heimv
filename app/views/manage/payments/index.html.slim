@@ -6,7 +6,7 @@
     = t(:no_records_yet, model_name: Payment.model_name.human(count: :other))
     =<> link_to t(:add_record, model_name: Payment.model_name.human), new_import_manage_payments_path
 - else
-  table.table.table-hover.table-card
+  table.table.table-hover.align-middle
     thead
       tr
         th= Payment.human_attribute_name(:paid_at)

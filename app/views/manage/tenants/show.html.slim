@@ -28,7 +28,7 @@
   p.text-center.my-5
     = t(:no_records_yet, model_name: Booking.model_name.human(count: :other))
 - else
-  table.table.table-hover.table-card.mt-5
+  table.table.table-hover.align-middle.mt-5
     thead
       tr
         th= Booking.human_attribute_name(:ref)

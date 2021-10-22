@@ -1,7 +1,7 @@
 = form_with(scope: :tarifs, url: manage_home_tarifs_path(@home), method: :put, local: true , html: { novalidate: true }) do |f|
 
   = hidden_field_tag :return_to, return_to if defined?(return_to)
-  table.table
+  table.table.align-middle
     thead
       tr.bg-white
         th
@@ -29,20 +29,20 @@
         - group_tarifs.each do |tarif|
           = f.fields_for tarif.id.to_s, tarif do |tf|
             tr.bg-white
-              td.py-4
+              td
                 small.text-secondary= tarif.position
-              td.py-4
+              td
                 = tf.hidden_field :id
                 = tf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
-              td.py-3
+              td
                 = tf.static_control :label, skip_label: true, wrapper_class: 'm-0'
-              td.py-3
+              td
                 = tf.select :type, type_options_for_select(Tarifs::TYPES), { skip_label: true, wrapper_class: 'm-0' }, { disabled: true }
-              td.py-3
+              td
                 = tf.number_field :price_per_unit, skip_label: true, wrapper_class: 'm-0'
-              td.py-3
+              td
                 = tf.static_control :unit, skip_label: true, wrapper_class: 'm-0'
-              td.py-3.text-end
+              td.text-end
                 .btn-group
                   = link_to edit_manage_home_tarif_path(@home, tarif), class: 'btn btn-default' do
                     span.fa.fa-edit
