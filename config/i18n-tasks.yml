@@ -1,9 +1,9 @@
 # i18n-tasks finds and manages missing and unused translations: https://github.com/glebm/i18n-tasks
 
 # The "main" locale.
-base_locale: 'de'
+base_locale: "de"
 ## All available locales are inferred from the data by default. Alternatively, specify them explicitly:
-locales: ['de', 'en', 'fr', 'it']
+locales: ["de", "en", "fr", "it"]
 ## Reporting locale, default: en. Available: en, ru.
 # internal_locale: en
 
@@ -66,7 +66,7 @@ search:
     - app/assets/images
     - app/assets/fonts
     - app/assets/videos
-    - '*.xcf'
+    - "*.xcf"
 
   ## Alternatively, the only files or `File.fnmatch patterns` to search in `paths`:
   ## If specified, this settings takes priority over `exclude`, but `exclude` still applies.
@@ -86,29 +86,28 @@ search:
 
 ## Do not consider these keys missing:
 ignore_missing:
-  - 'number.human.decimal_units.units.unit'
-  - 'number.human.format.delimiter'
-  - 'number.percentage.format.delimiter'
-  - 'number.precision.format.delimiter'
-  - '{devise,simple_form}.*'
-  - 'rich_text_templates.*.{default_title,default_body}'
-  - 'amount'
+  - "number.human.decimal_units.units.unit"
+  - "number.human.format.delimiter"
+  - "number.percentage.format.delimiter"
+  - "number.precision.format.delimiter"
+  - "{devise,simple_form}.*"
+  - "rich_text_templates.*.{default_title,default_body}"
+  - "amount"
 
 ## Consider these keys used:
 ignore_unused:
-- '{activerecord,activemodel}.*'
-- '{authlogic,kaminari}.*'
-- '{time,datetime,date,support,number,helpers}.*'
-- 'errors.*'
-- 'locales.*'
-- 'flash.*'
-- 'titles.*'
-- '{booking_flows,booking_states,booking_actions,rich_text_templates}.*'
-- 'faker.*'
-- 'export.*'
-- 'occupancy_calendar.*'
-- 'booking_states.*'
-
+  - "{activerecord,activemodel}.*"
+  - "{authlogic,kaminari}.*"
+  - "{time,datetime,date,support,number,helpers}.*"
+  - "errors.*"
+  - "locales.*"
+  - "flash.*"
+  - "titles.*"
+  - "{booking_flows,booking_states,booking_actions,rich_text_templates}.*"
+  - "faker.*"
+  - "export.*"
+  - "occupancy_calendar.*"
+  - "booking_states.*"
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:
 #   all:
@@ -132,13 +131,3 @@ ignore_unused:
 #
 # <%# I18n::Tasks.add_scanner 'I18n::Tasks::Scanners::PatternMapper',
 #       patterns: [['\bSpree\.t[( ]\s*%{key}', 'spree.%{key}']] %>
-
-## Usage
-## $ i18n-tasks csv-import
-## $ i18n-tasks csv-export
-<% require './lib/i18n_csv_tasks' %>
-csv:
-  export:
-    - tmp/i18n.csv
-  import:
-    - tmp/i18n.csv
