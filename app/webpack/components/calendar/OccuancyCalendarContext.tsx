@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Occupancy, OccupancyJsonData } from '../../models/occupancy';
+import * as React from "react";
+import { Occupancy, OccupancyJsonData } from "../../models/occupancy";
 import {
   parseISO,
   formatISO,
@@ -11,7 +11,7 @@ import {
   isAfter,
   setHours,
   isWithinInterval,
-} from 'date-fns';
+} from "date-fns";
 const { useState, createContext, useEffect } = React;
 
 const defaultOccypancyCalendarState: OccupancyCalendarState = {
@@ -25,13 +25,14 @@ const defaultContext = {
   occupancyCalendarState: defaultOccypancyCalendarState,
 };
 
-export const OccupancyCalendarContext = createContext<ContextType>(defaultContext);
+export const OccupancyCalendarContext =
+  createContext<ContextType>(defaultContext);
 
 const filterOccupanciesByDate = (occupancies: Occupancy[], date: Date) => {
   return occupancies.filter((occupancy) => {
     return areIntervalsOverlapping(
       { start: occupancy.begins_at, end: occupancy.ends_at },
-      { start: startOfDay(date), end: endOfDay(date) },
+      { start: startOfDay(date), end: endOfDay(date) }
     );
   });
 };
@@ -40,14 +41,15 @@ const flagsForDayWithOccupancies = (
   date: Date,
   occupancies: Occupancy[],
   windowFrom: Date,
-  windowTo: Date,
+  windowTo: Date
 ): string[] => {
-  if (isBefore(date, windowFrom) || isAfter(date, windowTo)) return ['outOfWindow'];
+  if (isBefore(date, windowFrom) || isAfter(date, windowTo))
+    return ["outOfWindow"];
 
   const midDay = setHours(startOfDay(date), 12);
 
   return occupancies.map((occupancy) => {
-    if (occupancy.occupancy_type == 'closed') return 'closed';
+    if (occupancy.occupancy_type == "closed") return "closed";
     if (
       isWithinInterval(occupancy.ends_at, {
         start: startOfDay(date),
@@ -86,7 +88,9 @@ type OccupancyCalendarState = {
   occupancyDates: { [key: string]: OccupancyDate };
 };
 
-const preprocessCalendarData = (calendarData: CalendarJsonData): OccupancyCalendarState => {
+const preprocessCalendarData = (
+  calendarData: CalendarJsonData
+): OccupancyCalendarState => {
   const windowFrom = parseISO(calendarData.window_from);
   const windowTo = parseISO(calendarData.window_to);
   const occupancies = calendarData.occupancies.map((occupancy) => {
@@ -102,9 +106,14 @@ const preprocessCalendarData = (calendarData: CalendarJsonData): OccupancyCalend
   for (const date of eachDayOfInterval({ start: windowFrom, end: windowTo })) {
     const filteredOccupancies = filterOccupanciesByDate(occupancies, date);
 
-    occupancyDates[formatISO(date, { representation: 'date' })] = {
+    occupancyDates[formatISO(date, { representation: "date" })] = {
       occupancies: filteredOccupancies,
-      flags: flagsForDayWithOccupancies(date, filteredOccupancies, windowFrom, windowTo),
+      flags: flagsForDayWithOccupancies(
+        date,
+        filteredOccupancies,
+        windowFrom,
+        windowTo
+      ),
     };
   }
 
@@ -125,7 +134,10 @@ export type ContextType = {
   loading: boolean;
 };
 
-export const Provider: React.FC<ProviderProps> = ({ children, calendarUrl }) => {
+export const Provider: React.FC<ProviderProps> = ({
+  children,
+  calendarUrl,
+}) => {
   const [occupancyCalendarState, setOccupancyCalendarState] =
     useState<OccupancyCalendarState>(defaultOccypancyCalendarState);
   const [loading, setLoading] = useState<boolean>(true);
@@ -136,13 +148,17 @@ export const Provider: React.FC<ProviderProps> = ({ children, calendarUrl }) => 
       const result = await fetch(calendarUrl);
 
       if (result.status == 200)
-        setOccupancyCalendarState(preprocessCalendarData((await result.json()) as CalendarJsonData));
+        setOccupancyCalendarState(
+          preprocessCalendarData((await result.json()) as CalendarJsonData)
+        );
       setLoading(false);
     })();
   }, []);
 
   return (
-    <OccupancyCalendarContext.Provider value={{ occupancyCalendarState, loading }}>
+    <OccupancyCalendarContext.Provider
+      value={{ occupancyCalendarState, loading }}
+    >
       {children}
     </OccupancyCalendarContext.Provider>
   );

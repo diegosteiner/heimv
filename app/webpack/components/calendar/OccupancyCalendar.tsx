@@ -1,21 +1,25 @@
-import * as React from 'react';
-import Calendar from './Calendar';
-import { Provider as ContextProvider, OccupancyCalendarContext, ContextType } from './OccuancyCalendarContext';
-import classNames from 'classnames';
-import Popover from 'react-bootstrap/Popover';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import { formatISO, parseISO } from 'date-fns/esm';
-import { useTranslation } from 'react-i18next';
-import { Occupancy } from '../../models/occupancy';
+import * as React from "react";
+import Calendar from "./Calendar";
+import {
+  Provider as ContextProvider,
+  OccupancyCalendarContext,
+  ContextType,
+} from "./OccuancyCalendarContext";
+import classNames from "classnames";
+import Popover from "react-bootstrap/Popover";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { formatISO, parseISO } from "date-fns/esm";
+import { useTranslation } from "react-i18next";
+import { Occupancy } from "../../models/occupancy";
 
-import * as styles from './OccupancyCalendar.module.scss';
+import * as styles from "./OccupancyCalendar.module.scss";
 
-const formatDate = new Intl.DateTimeFormat('de-CH', {
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-  hour: 'numeric',
-  minute: 'numeric',
+const formatDate = new Intl.DateTimeFormat("de-CH", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "numeric",
+  minute: "numeric",
   hour12: false,
 }).format;
 
@@ -24,25 +28,34 @@ interface OccupancyCalendarDayInContextProps {
   onClick(event: React.MouseEvent): void;
 }
 
-export const OccupancyCalendarDayInContext: React.FC<OccupancyCalendarDayInContextProps> = ({ date, onClick }) => {
-  const { loading, occupancyCalendarState } = React.useContext<ContextType>(OccupancyCalendarContext);
-  const occupancyDate =
-    date &&
-    occupancyCalendarState.occupancyDates &&
-    occupancyCalendarState.occupancyDates[formatISO(date, { representation: 'date' })];
-  const flags = (occupancyDate && occupancyDate.flags) || [];
-  const disableCallback = () => loading || !occupancyDate || flags.includes('outOfWindow') || flags.includes('closed');
-  const classNameCallback = () => flags.map((flag: string) => styles[flag]);
+export const OccupancyCalendarDayInContext: React.FC<OccupancyCalendarDayInContextProps> =
+  ({ date, onClick }) => {
+    const { loading, occupancyCalendarState } = React.useContext<ContextType>(
+      OccupancyCalendarContext
+    );
+    const occupancyDate =
+      date &&
+      occupancyCalendarState.occupancyDates &&
+      occupancyCalendarState.occupancyDates[
+        formatISO(date, { representation: "date" })
+      ];
+    const flags = (occupancyDate && occupancyDate.flags) || [];
+    const disableCallback = () =>
+      loading ||
+      !occupancyDate ||
+      flags.includes("outOfWindow") ||
+      flags.includes("closed");
+    const classNameCallback = () => flags.map((flag: string) => styles[flag]);
 
-  return (
-    <OccupancyCalendarDay
-      classNameCallback={classNameCallback}
-      disableCallback={disableCallback}
-      occupancies={(occupancyDate && occupancyDate.occupancies) || []}
-      {...{ date, onClick }}
-    ></OccupancyCalendarDay>
-  );
-};
+    return (
+      <OccupancyCalendarDay
+        classNameCallback={classNameCallback}
+        disableCallback={disableCallback}
+        occupancies={(occupancyDate && occupancyDate.occupancies) || []}
+        {...{ date, onClick }}
+      ></OccupancyCalendarDay>
+    );
+  };
 
 interface OccupancyCalendarDayProps {
   date?: Date;
@@ -62,14 +75,17 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
   if (!date) return <></>;
 
   const disabled = disableCallback && disableCallback(date);
-  const className = [styles.calendarDate, ...Array.from((classNameCallback && classNameCallback(date)) || [])];
+  const className = [
+    styles.calendarDate,
+    ...Array.from((classNameCallback && classNameCallback(date)) || []),
+  ];
 
   const button = (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
-      value={formatISO(date, { representation: 'date' })}
+      value={formatISO(date, { representation: "date" })}
       className={classNames(className)}
     >
       {date.getDate()}
@@ -86,20 +102,28 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
           const deadline = occupancy.deadline && parseISO(occupancy.deadline);
 
           return (
-            <dl className="my-2" key={`${formatISO(date, { representation: 'date' })}-${occupancy.id}`}>
+            <dl
+              className="my-2"
+              key={`${formatISO(date, { representation: "date" })}-${
+                occupancy.id
+              }`}
+            >
               <dt>
-                {formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}
+                {formatDate(occupancy.begins_at)} -{" "}
+                {formatDate(occupancy.ends_at)}
               </dt>
               <dd>
                 <span>
-                  {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`)}
+                  {t(
+                    `activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`
+                  )}
                   <br />
                   {occupancy.ref || occupancy.remarks}
                 </span>
                 {deadline && (
                   <span>
-                    {' '}
-                    ({t('until')} {formatDate(deadline)})
+                    {" "}
+                    ({t("until")} {formatDate(deadline)})
                   </span>
                 )}
               </dd>
@@ -111,7 +135,7 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
   );
 
   return (
-    <OverlayTrigger trigger={['focus', 'hover']} overlay={popover}>
+    <OverlayTrigger trigger={["focus", "hover"]} overlay={popover}>
       {button}
     </OverlayTrigger>
   );
@@ -123,18 +147,24 @@ interface OccuancyCalendarProps {
   displayMonths: number;
 }
 
-const OccupancyCalendar: React.FC<OccuancyCalendarProps> = ({ occupancyAtUrl, calendarUrl, displayMonths = 8 }) => {
+const OccupancyCalendar: React.FC<OccuancyCalendarProps> = ({
+  occupancyAtUrl,
+  calendarUrl,
+  displayMonths = 8,
+}) => {
   const handleClick = (e: React.MouseEvent): void => {
     const target = e.target as HTMLButtonElement;
     if (!target.value || !window.top) return;
 
-    window.top.location.href = occupancyAtUrl.replace('$DATE', target.value);
+    window.top.location.href = occupancyAtUrl.replace("$DATE", target.value);
   };
 
   return (
     <ContextProvider calendarUrl={calendarUrl}>
       <Calendar displayMonths={displayMonths}>
-        <OccupancyCalendarDayInContext onClick={handleClick}></OccupancyCalendarDayInContext>
+        <OccupancyCalendarDayInContext
+          onClick={handleClick}
+        ></OccupancyCalendarDayInContext>
       </Calendar>
     </ContextProvider>
   );
