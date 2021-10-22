@@ -1137,9 +1137,9 @@
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
 "@types/node@*":
-  version "16.11.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.2.tgz#31c249c136c3f9b35d4b60fb8e50e01a1f0cc9a5"
-  integrity sha512-w34LtBB0OkDTs19FQHXy4Ig/TOXI4zqvXS2Kk1PAsRKZ0I+nik7LlMYxckW0tSNGtvWmzB+mrCTbuEjuB9DVsw==
+  version "16.11.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.3.tgz#fad0b069ec205b0e81429c805d306d2c12e26be1"
+  integrity sha512-aIYL9Eemcecs1y77XzFGiSc+FdfN58k4J23UEe6+hynf4Wd9g4DzQPwIKL080vSMuubFqy2hWwOzCtJdc6vFKw==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1164,9 +1164,9 @@
     "@types/react" "*"
 
 "@types/react-transition-group@^4.4.1":
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.3.tgz#b0994da0a7023d67dbb4a8910a62112bc00d5688"
-  integrity sha512-fUx5muOWSYP8Bw2BUQ9M9RK9+W1XBK/7FLJ8PTQpnpTEkn0ccyMffyEQvan4C3h53gHdx7KE5Qrxi/LnUGQtdg==
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.4.tgz#acd4cceaa2be6b757db61ed7b432e103242d163e"
+  integrity sha512-7gAPz7anVK5xzbeQW9wFBDg7G++aPLAFY0QaSMOou9rJZpbuI58WAuJrgu+qR92l61grlnCUe7AFX8KGahAgug==
   dependencies:
     "@types/react" "*"
 
@@ -2266,14 +2266,14 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30001270"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001270.tgz#1194c2f7a689db5a6a552b2541be67f2e97c2f17"
-  integrity sha512-MuN8lIXG/9Cm3t/+b+P6fct9j/Z0QIqNnET3v1/YhnbBzGDZDABLe+yIwMcXysy0/VrfM4hD9BnhH+rWZIj8rA==
+  version "1.0.30001271"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001271.tgz#043576964c24f28d072ec8c935db153ed506620a"
+  integrity sha512-V7/O06sNu6e54ArdzLA1xFuYJ+kK9XXsO4pYa53ixujAVX/OVCGvDfRICSgkxdk8pdMZ+tA1v5ylLKDHNwUqEg==
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30000843, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001265:
-  version "1.0.30001270"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001270.tgz#cc9c37a4ec5c1a8d616fc7bace902bb053b0cdea"
-  integrity sha512-TcIC7AyNWXhcOmv2KftOl1ShFAaHQYcB/EPL/hEyMrcS7ZX0/DvV1aoy6BzV0+16wTpoAyTMGDNAJfSqS/rz7A==
+  version "1.0.30001271"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001271.tgz#0dda0c9bcae2cf5407cd34cac304186616cc83e8"
+  integrity sha512-BBruZFWmt3HFdVPS8kceTBIguKxu4f99n5JNp06OlPD/luoAMIaIK5ieV5YjnBLH3Nysai9sxj9rpJj4ZisXOA==
 
 case-sensitive-paths-webpack-plugin@^2.4.0:
   version "2.4.0"
@@ -3351,9 +3351,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.30, electron-to-chromium@^1.3.867:
-  version "1.3.876"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.876.tgz#fe6f65c9740406f4aa69f10faa8e1d79b81bdf34"
-  integrity sha512-a6LR4738psrubCtGx5HxM/gNlrIsh4eFTNnokgOqvQo81GWd07lLcOjITkAXn2y4lIp18vgS+DGnehj+/oEAxQ==
+  version "1.3.877"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.877.tgz#956870eea7c9d8cf43cc54ea40687fee4dc0c12a"
+  integrity sha512-fT5mW5Giw5iyVukeHb2XvB4joBKvzHtl8Vs3QzE7APATpFMt/T7RWyUcIKSZzYkKQgpMbu+vDBTCHfQZvh8klA==
 
 elliptic@^6.5.3:
   version "6.5.4"
@@ -8224,9 +8224,9 @@ sass-loader@10.1.1:
     semver "^7.3.2"
 
 sass@^1.38.0:
-  version "1.43.2"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.43.2.tgz#c02501520c624ad6622529a8b3724eb08da82d65"
-  integrity sha512-DncYhjl3wBaPMMJR0kIUaH3sF536rVrOcqqVGmTZHQRRzj7LQlyGV7Mb8aCKFyILMr5VsPHwRYtyKpnKYlmQSQ==
+  version "1.43.3"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.43.3.tgz#aa16a69131b84f0cd23189a242571e8905f1ce43"
+  integrity sha512-BJnLngqWpMeS65UvlYYEuCb3/fLxDxhHtOB/gWPxs6NKrslTxGt3ZxwIvOe/0Jm4tWwM/+tIpE3wj4dLEhPDeQ==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
 
@@ -9432,7 +9432,7 @@ webpack-bundle-analyzer@^4.3.0:
     sirv "^1.0.7"
     ws "^7.3.1"
 
-webpack-cli@^3.1.2, webpack-cli@^3.3.12:
+webpack-cli@^3.3.12:
   version "3.3.12"
   resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-3.3.12.tgz#94e9ada081453cd0aa609c99e500012fd3ad2d4a"
   integrity sha512-NVWBaz9k839ZH/sinurM+HcDvJOTXwSjYp1ku+5XKeOC03z8v5QitnK/x+lAxGXFyhdayoIf/GOpv85z3/xPag==
@@ -9515,7 +9515,7 @@ webpack-sources@^1.0.0, webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.0.0, webpack@^4.46.0:
+webpack@^4.46.0:
   version "4.46.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.46.0.tgz#bf9b4404ea20a073605e0a011d188d77cb6ad542"
   integrity sha512-6jJuJjg8znb/xRItk7bkT0+Q7AHCYjjFnvKIWQPkNIOyRqoCGvkOs0ipeQzrqz4l5FtN5ZI/ukEHroeX/o1/5Q==
