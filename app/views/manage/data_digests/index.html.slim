@@ -15,7 +15,7 @@
           td
             = data_digest.class.model_name.human
 
-          td.py-1.text-right
+          td.py-1.text-end
             .btn-group
               = link_to edit_manage_data_digest_path(data_digest), class: 'btn btn-default' do
                 span.fa.fa-edit
@@ -24,7 +24,7 @@
 
 br
 .btn-group
-  button.btn.btn-primary.dropdown-toggle.dropdown-toggle-split[data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
+  button.btn.btn-primary.dropdown-toggle.dropdown-toggle-split[data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
     = t(:add_record, model_name: DataDigest.model_name.human)
     '
   .dropdown-menu

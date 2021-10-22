@@ -23,7 +23,7 @@
                   strong.d-block
                     = Booking.human_attribute_name(:tenant)
                     - unless @booking.tenant.complete?
-                      i.fa.fa-exclamation-triangle.text-warning<>[data-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete', default: '')]
+                      i.fa.fa-exclamation-triangle.text-warning<>[data-bs-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete', default: '')]
                   address
                     = link_to tenant.name, manage_tenant_path(tenant)
                     - if can?(:edit, @booking.tenant) && !@booking.tenant.complete?
@@ -118,14 +118,14 @@
                 = render partial: 'manage/bookings/actions', locals: { actions: @booking.booking_state.manage_actions, form: f }
                 '
                 .dropdown.d-inline
-                  button.btn.btn-outline-primary.dropdown-toggle[type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value='allowed_transitions']
+                  button.btn.btn-outline-primary.dropdown-toggle[type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value='allowed_transitions']
                     = Booking.human_attribute_name(:transition_to)
                   .dropdown-menu aria-labelledby="dropdownMenuButton"
                     - @booking.booking_flow.allowed_transitions.each do |state|
                       = f.button name: :'booking[transition_to]', value: state, class: 'dropdown-item'
                         = t(:label, scope: [:booking_states, state])
 
-                = link_to edit_manage_booking_path(@booking), class: 'btn btn-outline-primary ml-2'
+                = link_to edit_manage_booking_path(@booking), class: 'btn btn-outline-primary ms-2'
                   span.fa.fa-edit
                   =< t(:edit)
       .col-md-3
@@ -133,7 +133,7 @@
         ul.list-group
           - @booking.booking_transitions.order(created_at: :desc).each do |transition|
             li.list-group-item
-              span.badge.badge-primary
+              span.badge.bg-primary
                 = t(:label, scope: [:booking_states, transition.to_state])
               br
               small

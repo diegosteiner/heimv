@@ -8,7 +8,7 @@ gem 'aws-sdk-s3', require: false
 gem 'barnes'
 gem 'blueprinter'
 gem 'bootsnap'
-gem 'bootstrap_form'
+gem 'bootstrap_form' # , git: "https://github.com/bootstrap-ruby/bootstrap_form.git", branch: "bootstrap-5"
 gem 'camt_parser'
 gem 'cancancan'
 gem 'connection_pool'

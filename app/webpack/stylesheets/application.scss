@@ -8,6 +8,18 @@ img {
   margin: 0 auto;
 }
 
+a {
+  text-decoration: none;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
+
 h1,
 h2,
 h3,
@@ -34,9 +46,6 @@ h6 {
   &.development {
     #navbar-top {
       background-color: #00c895;
-    }
-
-    & > footer {
     }
   }
 
@@ -146,12 +155,6 @@ select[disabled='disabled'] {
   }
 }
 
-.etched {
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
-  opacity: 0.1;
-}
-
 th.spacer {
   background-color: $body-bg;
 }
@@ -188,7 +191,7 @@ tr.disabled {
 }
 
 .position-fixed-lg {
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     position: fixed;
   }
 }

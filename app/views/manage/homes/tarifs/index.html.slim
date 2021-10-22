@@ -6,7 +6,7 @@ section.mt-4.breakout-sm
 section.mt-4.breakout-sm
   =<> link_to new_manage_home_tarif_path(@home), class: 'btn btn-primary'
     = t(:add_record, model_name: Tarif.model_name.human)
-  button.btn.btn-secondary[type="button" data-toggle="collapse" data-target="#import"]
+  button.btn.btn-secondary[type="button" data-bs-toggle="collapse" data-bs-target="#import"]
     = t(:import_records, model_name: Tarif.model_name.human(count: :other))
 
 section#import.mt-4.breakout-sm.collapse

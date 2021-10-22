@@ -34,7 +34,7 @@
               - if offer.valid_until.present?
                 = l(offer.valid_until, format: :short)
 
-            td.py-1.text-right
+            td.py-1.text-end
               .btn-group
                 = link_to edit_manage_booking_offer_path(@booking, offer), class: 'btn btn-default' do
                   span.fa.fa-edit

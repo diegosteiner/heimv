@@ -18,13 +18,13 @@
               = invoice_part.label
             .col-4
               = invoice_part.breakdown
-            .col-3.text-right
+            .col-3.text-end
               = number_to_currency(invoice_part.amount)
 
         hr
         .row
           .col-8
-          .col-4.text-right
+          .col-4.text-end
             strong= number_to_currency(@invoice.amount)
 
 

@@ -8,8 +8,8 @@
       .col
         = f.hidden_field :booking_id, id: ''
         = f.collection_select :booking_id, [@invoice.booking, @invoice.organisation.bookings.inconcluded.order(ref: :ASC)].flatten, :id, :to_s, { hide_label: true }, disabled: true
-      .col-1
-        a.btn.btn-block.btn-default[type="button" data-toggle="disable" href="#invoice_booking_id"]
+      .col-1.d-grid
+        a.btn.btn-default[type="button" data-bs-toggle="disable" href="#invoice_booking_id"]
           i.fa.fa-unlock
 
     = f.text_field :ref, help: t('generated')
@@ -31,7 +31,7 @@
         .col-4
           = ipf.text_field :breakdown, hide_label: true
         .col-2
-          = ipf.number_field :amount, hide_label: true, class: 'text-right', step: 0.01
+          = ipf.number_field :amount, hide_label: true, class: 'text-end', step: 0.01
 
 
     h5.mt-4= t('.suggested_invoice_parts')
@@ -47,7 +47,7 @@
         .col-4
           = ipf.text_field :breakdown, hide_label: true
         .col-2
-          = ipf.number_field :amount, hide_label: true, class: 'text-right', step: 0.01
+          = ipf.number_field :amount, hide_label: true, class: 'text-end', step: 0.01
 
     div
       - unless @invoice.new_record?

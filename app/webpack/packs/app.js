@@ -65,7 +65,7 @@ async function loadEditor() {
 }
 
 function toggleDisable() {
-  document.querySelectorAll('[data-toggle="disable"]').forEach((element) => {
+  document.querySelectorAll('[data-bs-toggle="disable"]').forEach((element) => {
     element.onclick = (ev) => {
       const target = document.querySelector(element.getAttribute('href'));
       if (target) target.disabled = false;

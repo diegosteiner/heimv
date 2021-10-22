@@ -153,11 +153,9 @@ export const CalendarControl: React.FC<CalendarControlProps> = ({
                 isInvalid={isInvalid}
                 required={required}
               />
-              <InputGroup.Append>
-                <Button variant="primary" onClick={handleShow} disabled={disabled}>
-                  <i className="fa fa-calendar"></i>
-                </Button>
-              </InputGroup.Append>
+              <Button variant="primary" onClick={handleShow} disabled={disabled}>
+                <i className="fa fa-calendar"></i>
+              </Button>
             </InputGroup>
           </Col>
           <Col sm={6} className="d-flex">
@@ -236,8 +234,8 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
   isInvalid = !!invalidFeedback,
 }) => {
   return (
-    <Form.Group>
-      {label && <Form.Label className={required && 'required'}>{label}</Form.Label>}
+    <Form.Group className="mb-3">
+      {label && <Form.Label className={required ? 'required' : ''}>{label}</Form.Label>}
       <CalendarControl
         disabled={disabled}
         value={value}

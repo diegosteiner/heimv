@@ -24,7 +24,7 @@ table.table.table-hover.table-card
             => mail_to to, to
         td
           = link_to notification.subject, manage_notification_path(notification)
-        td.py-1.text-right
+        td.py-1.text-end
           .btn-group
             = link_to manage_notification_path(notification), class: 'btn btn-default' do
               span.fa.fa-eye

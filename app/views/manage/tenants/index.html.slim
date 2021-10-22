@@ -12,7 +12,7 @@
         th
     tbody
       - @tenants.each do |tenant|
-        tr[data-href=manage_tenant_path(tenant) data-id=tenant.to_param]
+        tr[data-href=manage_tenant_path(tenant) data-bs-id=tenant.to_param]
           td
             = link_to manage_tenant_path(tenant)
               - if tenant.first_name.present? || tenant.last_name.present?

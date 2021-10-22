@@ -26,7 +26,7 @@
             th.pt-4[colspan='8']
               h5
                 = tarif_group
-                a.badge.badge-pill.badge-secondary.ml-3[href="##{collapse_id}" data-toggle="collapse"]
+                a.badge.rounded-pill.bg-secondary.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
                   = group_usages.count
 
         tbody.collapse.show[id=collapse_id]
@@ -50,7 +50,7 @@
                     = number_to_currency(usage.price, currency: @booking.organisation.currency)
                 - else
                   = uf.hidden_field :used_units
-                td.py-2.text-right
+                td.py-2.text-end
                   .btn-group
                     - if defined?(usage_links) && usage_links && !usage.new_record?
                       = link_to edit_manage_booking_usage_path(@booking, usage), class: 'btn btn-default' do
@@ -69,9 +69,9 @@
           = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: :other))
 
         - if defined?(used_units_field)
-          button.ml-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
+          button.ms-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
             = t('.save_and_continue')
 
         - if defined?(used_units_field)
-          = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ml-3' do 
+          = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ms-3' do 
             i.fa.fa-print<>

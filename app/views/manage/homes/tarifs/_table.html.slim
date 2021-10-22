@@ -22,7 +22,7 @@
           th.pt-4[colspan='8']
             h5
               = tarif_group
-              a.badge.badge-pill.badge-secondary.ml-3[href="##{collapse_id}" data-toggle="collapse"]
+              a.badge.rounded-pill.bg-secondary.me-3[href="##{collapse_id}" data-bs-toggle="collapse"]
                 = group_tarifs.count
 
       tbody.collapse.show[id=collapse_id]
@@ -42,7 +42,7 @@
                 = tf.number_field :price_per_unit, skip_label: true, wrapper_class: 'm-0'
               td.py-3
                 = tf.static_control :unit, skip_label: true, wrapper_class: 'm-0'
-              td.py-3.text-right
+              td.py-3.text-end
                 .btn-group
                   = link_to edit_manage_home_tarif_path(@home, tarif), class: 'btn btn-default' do
                     span.fa.fa-edit

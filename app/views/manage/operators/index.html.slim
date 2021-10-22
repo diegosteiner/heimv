@@ -3,10 +3,10 @@
 
     tbody
       - @operators.each do |operator|
-        tr[data-href=manage_operator_path(operator) data-id=operator.to_param]
+        tr[data-href=manage_operator_path(operator) data-bs-id=operator.to_param]
           td
             = link_to operator.name, edit_manage_operator_path(operator)
-          td.p-1.text-right 
+          td.p-1.text-end 
             .btn-group
               = link_to edit_manage_operator_path(operator), class: 'btn btn-default' do
                 span.fa.fa-edit

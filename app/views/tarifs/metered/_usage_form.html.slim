@@ -1,14 +1,14 @@
 .d-flex.justify-content-between
   = f.fields_for(:meter_reading_period, f.object.meter_reading_period || f.object.build_meter_reading_period) do |fm|
     div
-      = fm.number_field :start_value, skip_label: true, wrapper_class: 'm-0 mr-1', class: 'text-right w-100', tabindex: 1
+      = fm.number_field :start_value, skip_label: true, wrapper_class: 'm-0 me-1', class: 'text-end w-100', tabindex: 1
       small.form-text.text-muted= MeterReadingPeriod.human_attribute_name(:start_value)
     div
-      = fm.number_field :end_value, skip_label: true, wrapper_class: 'm-0 mr-1', class: 'text-right w-100', tabindex: 1
+      = fm.number_field :end_value, skip_label: true, wrapper_class: 'm-0 me-1', class: 'text-end w-100', tabindex: 1
       small.form-text.text-muted= MeterReadingPeriod.human_attribute_name(:end_value)
   div
     - if presumed
-      = f.number_field :presumed_used_units, skip_label: true, wrapper_class: 'm-0', class: 'text-right w-100 presumed-usage', tabindex: 1
+      = f.number_field :presumed_used_units, skip_label: true, wrapper_class: 'm-0', class: 'text-end w-100 presumed-usage', tabindex: 1
     - else
-      = f.number_field :used_units, skip_label: true, wrapper_class: 'm-0', class: 'text-right w-100', tabindex: 1
+      = f.number_field :used_units, skip_label: true, wrapper_class: 'm-0', class: 'text-end w-100', tabindex: 1
     small.form-text.text-muted= Usage.human_attribute_name(:used_units)

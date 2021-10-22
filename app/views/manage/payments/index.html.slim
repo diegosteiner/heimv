@@ -12,7 +12,7 @@
         th= Payment.human_attribute_name(:paid_at)
         th= Invoice.model_name.human
         th= Booking.model_name.human
-        th.text-right= Payment.human_attribute_name(:amount)
+        th.text-end= Payment.human_attribute_name(:amount)
         th
 
     tbody
@@ -25,12 +25,12 @@
               = link_to payment.invoice, manage_invoice_path(payment.invoice)
           td
             = link_to payment.booking, manage_booking_path(payment.booking)
-          td.text-right
+          td.text-end
             - if payment.write_off?
               del= number_to_currency(payment.amount)
             - else
               = number_to_currency(payment.amount)
-          td.py-1.text-right
+          td.py-1.text-end
             - if can?(:manage, payment)
               .btn-group
                 = link_to edit_manage_payment_path(payment), class: 'btn btn-default' do

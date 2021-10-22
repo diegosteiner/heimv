@@ -81,7 +81,7 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
   const { t } = useTranslation();
   const popover = (
     <Popover id="popover-basic">
-      <Popover.Content>
+      <Popover.Body>
         {occupancies.map((occupancy) => {
           const deadline = occupancy.deadline && parseISO(occupancy.deadline);
 
@@ -106,7 +106,7 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
             </dl>
           );
         })}
-      </Popover.Content>
+      </Popover.Body>
     </Popover>
   );
 
@@ -126,7 +126,7 @@ interface OccuancyCalendarProps {
 const OccupancyCalendar: React.FC<OccuancyCalendarProps> = ({ occupancyAtUrl, calendarUrl, displayMonths = 8 }) => {
   const handleClick = (e: React.MouseEvent): void => {
     const target = e.target as HTMLButtonElement;
-    if (!target.value) return;
+    if (!target.value || !window.top) return;
 
     window.top.location.href = occupancyAtUrl.replace('$DATE', target.value);
   };

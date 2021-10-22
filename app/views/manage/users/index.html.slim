@@ -13,7 +13,7 @@
             = link_to user.email, edit_manage_user_path(user)
           td
             = User.human_enum(:role, user.role)
-          td.text-right.p-1
+          td.text-end.p-1
             .btn-group
               = link_to edit_manage_user_path(user), class: 'btn btn-default'
                 span.fa.fa-edit

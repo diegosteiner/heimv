@@ -45,7 +45,7 @@
               td.py-2
                 = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { signed_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success'
                   = t('.contract_signed')
-            td.py-1.text-right
+            td.py-1.text-end
               .btn-group
                 - unless contract.ousted?
                   = link_to edit_manage_booking_contract_path(@booking, contract), class: 'btn btn-default' do

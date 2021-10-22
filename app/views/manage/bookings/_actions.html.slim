@@ -4,7 +4,7 @@ span[role="group"]
     - next unless action.allowed?
 
     - button_options = action.button_options.merge({ name: :booking_action, value: action.to_s })
-    - button_classes = defined?(button_classes) && button_classes.presence || %w[btn-md mr-1]
+    - button_classes = defined?(button_classes) && button_classes.presence || %w[btn-md me-1]
     - button_classes += ['btn', "btn-outline-#{button_options.fetch(:variant, :primary)}"]
     - button_options[:class] = button_classes.uniq.join(' ')
 

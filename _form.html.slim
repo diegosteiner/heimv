@@ -25,7 +25,7 @@
         = f.hidden_field :tenant_id, id: ''
         = f.collection_select :tenant_id, current_organisation.tenants.ordered, :id, :to_s, { include_blank: true, hide_label: true }, { disabled: true }
       .col-1.d-grid
-        a.btn.btn-default[type="button" data-bs-toggle="disable" href="#booking_tenant_id"]
+        a.btn.btn-block.btn-default[type="button" data-bs-toggle="disable" href="#booking_tenant_id"]
           i.fa.fa-unlock
 
     = f.fields_for :tenant, (@booking.tenant || @booking.build_tenant) do |cf|

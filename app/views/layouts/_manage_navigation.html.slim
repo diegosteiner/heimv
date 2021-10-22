@@ -3,8 +3,8 @@ nav.p-3
   button.navbar-toggler.btn.d-md-none[
     aria-controls="navbar-main-nav"
     aria-expanded="false"
-    data-target="#navbar-main-nav"
-    data-toggle="collapse"
+    data-bs-target="#navbar-main-nav"
+    data-bs-toggle="collapse"
     type="button"]
     i.fa.fa-bars
 
@@ -39,4 +39,4 @@ nav.p-3
       li.nav-item
         = link_to manage_guide_path(org: current_organisation.slug), class: 'nav-link'
           = t('.help')
-          i.fa.fa-question-circle.pl-2
+          i.fa.fa-question-circle.ps-2
