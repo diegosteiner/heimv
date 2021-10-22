@@ -27,7 +27,7 @@
 #
 class HomeOperator < ApplicationRecord
   include RankedModel
-  
+
   belongs_to :home, inverse_of: :home_operators
   belongs_to :operator, inverse_of: :home_operators
 

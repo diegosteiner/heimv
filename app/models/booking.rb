@@ -66,12 +66,12 @@ class Booking < ApplicationRecord
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :payments, dependent: :destroy, autosave: false
   has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
+  has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarifs
   has_many :notifications, dependent: :destroy, inverse_of: :booking, autosave: true, validate: false
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :contracts, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :offers, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
-  has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
   has_many :booking_transitions, dependent: :delete_all, autosave: false
   has_many :booking_operators, inverse_of: :booking, dependent: :destroy
@@ -154,6 +154,10 @@ class Booking < ApplicationRecord
   def email
     super.presence || tenant&.email.presence
   end
+
+  # def tarif_ids
+  #   transitive_tarif_ids + booking_copy_tarif_ids - booking_copy_tarifs.map(&:booking_copy_template_id)
+  # end
 
   private
 
