@@ -6,7 +6,7 @@ const customConfig = {
   module: {
     rules: [
       {
-        test: /\.(scss|sass)$/i,
+        test: /\.(sc|sa|c)ss$/i,
         use: [
           {
             loader: require('mini-css-extract-plugin').loader,
