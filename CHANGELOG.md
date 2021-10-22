@@ -2,8 +2,13 @@
 
 #### Unreleased
 
+#### Version 21.9.2
+
+Released on 22.10.2021
+
 - Add liquid validations for richtext templates
 - Add UI for booking import
+- Update JS Dependencies
 
 #### Version 21.9.2
 
