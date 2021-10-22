@@ -19,8 +19,6 @@
         "postcss-cssnext": "^3.1.0",
         "postcss-import": "^12.0.1",
         "postcss-loader": "^3.0.0",
-        "prop-types": "^15.7.2",
-        "qs": "^6.9.4",
         "rails-ujs": "^5.2.1",
         "react": "^17.0.2",
         "react-bootstrap": "^2.0.0",
@@ -29,7 +27,6 @@
         "react-i18next": "^11.4.0",
         "react-timeago": "^6.2.1",
         "react_ujs": "^2.6.1",
-        "serialize-javascript": "^6.0.0",
         "tinymce": "^5",
         "typescript": "4.4.4",
         "yaml-loader": "^0.6.0"
@@ -52,9 +49,9 @@
     "name": "heimv",
     "version": "2.0.0",
     "main": "index.js",
-    "repository": "git@github.com:diegosteiner/heimverwaltung.git",
+    "repository": "git@github.com:diegosteiner/heimv.git",
     "author": "Diego Steiner <diego.steiner@u041.ch>",
-    "license": "MIT",
+    "license": "see LICENSE",
     "scripts": {
         "check:types": "tsc --project tsconfig.json",
         "check:style": "eslint --ext .js,.ts,.jsx,.tsx app/webpack"
