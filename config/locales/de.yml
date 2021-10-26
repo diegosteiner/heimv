@@ -457,6 +457,8 @@ de:
         one: Pauschale
       tarifs/metered:
         one: nach Zählerstand
+      tarifs/min_occupation:
+        one: Mindestbelegung
       tarifs/overnight_stay:
         one: Übernachtungen
       tenant:

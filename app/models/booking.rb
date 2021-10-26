@@ -119,6 +119,10 @@ class Booking < ApplicationRecord
     occupancy.nights * approximate_headcount
   end
 
+  def actual_overnight_stays
+    usages.filter_map { |usage| usage.tarif.is_a?(Tarifs::OvernightStay) && usage.used_units }.compact.sum
+  end
+
   def conclude
     update!(concluded: true, editable: false)
   end
