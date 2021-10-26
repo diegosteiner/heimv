@@ -15,9 +15,6 @@ function csrfForm() {
   );
   if (authTokenInput) authTokenInput.value = csrfToken;
   document
-    .querySelectorAll(".form-check-input")
-    .forEach((input) => input.classList.add("form-check-control"));
-  document
     .querySelectorAll("select.form-control")
     .forEach((input) => input.classList.add("form-select"));
   document
