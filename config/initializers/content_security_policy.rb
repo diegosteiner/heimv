@@ -40,6 +40,6 @@ Rails.application.config.content_security_policy do |policy|
   if Rails.env.development?
     policy.default_src :self, :unsafe_inline
     policy.script_src :self, :unsafe_inline
-    policy.connect_src :self, :https, 'http://localhost:3035', 'ws://localhost:3035'
+    policy.connect_src :self, :https, 'http://*.localhost:3035', 'ws://*.localhost:3035'
   end
 end

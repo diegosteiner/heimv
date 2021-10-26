@@ -1,7 +1,7 @@
 nav#navbar-top.navbar.fixed-top.navbar-light.navbar-expand-lg
   .container-fluid
     = link_to default_path, class: 'navbar-brand' do
-      = image_tag asset_pack_path('images/logo.svg'), class: "d-inline-block align-top", width: 90
+      = image_tag asset_pack_path('static/logo.svg'), class: "d-inline-block align-top", width: 90
       
     ul.navbar-nav.ms-auto
       - if current_user.present?

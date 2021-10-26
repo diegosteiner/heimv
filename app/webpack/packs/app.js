@@ -1,5 +1,4 @@
 import "stylesheets/application";
-import "images/logo.svg";
 import Rails from "rails-ujs";
 import "../services/i18n";
 import "bootstrap/dist/js/bootstrap.bundle";
@@ -18,6 +17,9 @@ function csrfForm() {
   document
     .querySelectorAll(".form-check-input")
     .forEach((input) => input.classList.add("form-check-control"));
+  document
+    .querySelectorAll("select.form-control")
+    .forEach((input) => input.classList.add("form-select"));
   document
     .querySelectorAll(".form-group.is-invalid .form-control")
     .forEach((input) => input.classList.add("is-invalid"));

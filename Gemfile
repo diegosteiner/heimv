@@ -44,7 +44,7 @@ gem 'rqrcode'
 gem 'slim-rails'
 gem 'statesman'
 gem 'ttfunk'
-gem 'webpacker'
+gem 'webpacker', '>= 6.0.0-rc.5'
 
 group :development do
   gem 'annotate'

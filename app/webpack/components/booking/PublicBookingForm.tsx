@@ -87,9 +87,7 @@ export default function PublicBookingForm({ booking, organisation }) {
             <Form.Label>
               {t("activerecord.attributes.booking.tenant_organisation")}
             </Form.Label>
-            <Form.Control
-              ref={register("tenant_organisation")}
-            ></Form.Control>
+            <Form.Control ref={register("tenant_organisation")}></Form.Control>
           </Form.Group>
 
           <Form.Group>
