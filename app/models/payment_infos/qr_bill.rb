@@ -7,7 +7,7 @@ module PaymentInfos
     CODING_TYPE = '1'
     ADDRESS_TYPE = 'K'
     # REF_TYPE = 'QRR'
-    REF_TYPE = 'SCOR' 
+    REF_TYPE = 'SCOR'
     CURRENCY = 'CHF'
     COUNTRY_CODE = 'CH'
     EPD = 'EPD'
