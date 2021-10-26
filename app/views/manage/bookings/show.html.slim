@@ -34,11 +34,10 @@
                         = link_to edit_manage_tenant_path(tenant) 
                           i.fa.fa-edit<>
                     dd
-                      address
-                        - tenant.address_lines.each do |line|
-                          = line 
-                          br
-                    dd= mail_to tenant.email, "mailto:#{tenant.email}"
+                      - tenant.address_lines.each do |line|
+                        = line 
+                        br
+                    dd= mail_to tenant.email
                     dd
                       - tenant.phone&.lines&.each do |phone|
                         br

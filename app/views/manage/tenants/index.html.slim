@@ -22,7 +22,7 @@
           td 
             == tenant.full_address_lines.join('<br>'.html_safe)
           td 
-            = link_to tenant.email, "mailto:#{tenant.email}"
+            = mail_to tenant.email
             - tenant.phone&.lines do |phone|
               br
               = link_to phone, "tel:#{phone}"
