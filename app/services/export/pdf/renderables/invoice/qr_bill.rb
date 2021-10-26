@@ -77,7 +77,7 @@ module Export
             bounding_box([bounds.left + 190, bounds.top], width: 130, height: HEIGHT) do
               move_down PADDING
               text translate('payment_part_title'), size: 11, style: :bold
-              move_down 17
+              move_down 19
               render_qrcode
               render_amount(bounds.left, 101)
             end
