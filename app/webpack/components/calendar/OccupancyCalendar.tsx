@@ -1,23 +1,11 @@
 import * as React from "react";
-import {
-  parseISO,
-  formatISO,
-  isBefore,
-  isAfter,
-  setHours,
-  startOfDay,
-  endOfDay,
-  isWithinInterval,
-} from "date-fns/esm";
+import { parseISO, formatISO, isBefore, isAfter, setHours, startOfDay, endOfDay, isWithinInterval } from "date-fns/esm";
 import Calendar from "./Calendar";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
 import { Occupancy } from "../../models/Occupancy";
-import {
-  OccupancyWindow,
-  fromJson as occupancyWindowFromJson,
-} from "../../models/OccupancyWindow";
+import { OccupancyWindow, fromJson as occupancyWindowFromJson } from "../../models/OccupancyWindow";
 
 const OccupancyCalendarContainer = styled.div`
   .calendarLoading {
@@ -55,10 +43,7 @@ const OccupancyCalendarContainer = styled.div`
   }
 `;
 
-const occupancyDateClassNames = (
-  date: Date,
-  occupancies: Set<Occupancy>
-): string[] => {
+const occupancyDateClassNames = (date: Date, occupancies: Set<Occupancy>): string[] => {
   const midDay = setHours(startOfDay(date), 12);
 
   return Array.from(occupancies).map(({ start, end, occupancy_type }) => {
@@ -82,7 +67,7 @@ const formatDate = new Intl.DateTimeFormat("de-CH", {
 }).format;
 
 interface OccupancyCalendarDayProps {
-  dateString?: string;
+  date: Date;
   occupancyWindow?: OccupancyWindow;
   onClick(e: React.MouseEvent): void;
   classNames?: string | ((date: Date, occupancies: Set<Occupancy>) => string);
@@ -90,25 +75,19 @@ interface OccupancyCalendarDayProps {
 }
 
 export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
-  dateString,
+  date,
   occupancyWindow,
   classNames,
   disabled,
   onClick,
 }) => {
-  if (!dateString) return <></>;
-
-  const date = parseISO(dateString);
-  const occupancies =
-    occupancyWindow?.occupiedDates[dateString] || new Set<Occupancy>();
+  const dateString = formatISO(date, { representation: "date" });
+  const occupancies = occupancyWindow?.occupiedDates[dateString] || new Set<Occupancy>();
 
   if (typeof disabled === "function") {
     disabled = disabled(date, occupancies);
   } else if (disabled === undefined) {
-    disabled =
-      !occupancyWindow ||
-      isBefore(date, occupancyWindow.start) ||
-      isAfter(date, occupancyWindow.end);
+    disabled = !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end);
   }
   if (typeof classNames === "function") {
     classNames = classNames(date, occupancies);
@@ -137,20 +116,13 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
           const deadline = occupancy.deadline;
 
           return (
-            <dl
-              className="my-2"
-              key={`${formatISO(date, { representation: "date" })}-${
-                occupancy.id
-              }`}
-            >
+            <dl className="my-2" key={`${formatISO(date, { representation: "date" })}-${occupancy.id}`}>
               <dt>
                 {formatDate(occupancy.start)} - {formatDate(occupancy.end)}
               </dt>
               <dd>
                 <span>
-                  {t(
-                    `activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`
-                  )}
+                  {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`)}
                   <br />
                   {occupancy.ref || occupancy.remarks}
                 </span>
@@ -183,20 +155,13 @@ interface OccupancyCalendarProps {
   calendarUrl: string;
 }
 
-const OccupancyCalendar: React.FC<OccupancyCalendarProps> = ({
-  start,
-  calendarUrl,
-  occupancyAtUrl,
-  monthsCount,
-}) => {
-  const [occupancyWindow, setOccupancyWindow] =
-    React.useState<OccupancyWindow | null>();
+const OccupancyCalendar: React.FC<OccupancyCalendarProps> = ({ start, calendarUrl, occupancyAtUrl, monthsCount }) => {
+  const [occupancyWindow, setOccupancyWindow] = React.useState<OccupancyWindow | null>();
 
   React.useEffect(() => {
     (async () => {
       const result = await fetch(calendarUrl);
-      if (result.status == 200)
-        setOccupancyWindow(occupancyWindowFromJson(await result.json()));
+      if (result.status == 200) setOccupancyWindow(occupancyWindowFromJson(await result.json()));
     })();
   }, []);
 
@@ -207,17 +172,17 @@ const OccupancyCalendar: React.FC<OccupancyCalendarProps> = ({
     window.top.location.href = occupancyAtUrl.replace("$DATE", target.value);
   };
 
-  const dayElement = (occupancyWindow && (
-    <OccupancyCalendarDayMemo
-      occupancyWindow={occupancyWindow}
-      onClick={handleClick}
-    ></OccupancyCalendarDayMemo>
-  )) || <></>;
+  const dayElement = (date: Date) =>
+    (occupancyWindow && (
+      <OccupancyCalendarDayMemo
+        occupancyWindow={occupancyWindow}
+        date={date}
+        onClick={handleClick}
+      ></OccupancyCalendarDayMemo>
+    )) || <></>;
   return (
     <OccupancyCalendarContainer className="occupancyCalendar">
-      <Calendar start={start} monthsCount={monthsCount}>
-        {dayElement}
-      </Calendar>
+      <Calendar start={start} monthsCount={monthsCount} dayElement={dayElement}></Calendar>
     </OccupancyCalendarContainer>
   );
 };
