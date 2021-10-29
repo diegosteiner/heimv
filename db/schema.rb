@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_21_112451) do
+ActiveRecord::Schema.define(version: 2021_10_26_193942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -195,20 +195,6 @@ ActiveRecord::Schema.define(version: 2021_10_21_112451) do
     t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
   end
 
-  create_table "home_operators", force: :cascade do |t|
-    t.bigint "home_id", null: false
-    t.bigint "operator_id", null: false
-    t.integer "index"
-    t.integer "responsibility"
-    t.text "remarks"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["home_id"], name: "index_home_operators_on_home_id"
-    t.index ["index"], name: "index_home_operators_on_index"
-    t.index ["operator_id"], name: "index_home_operators_on_operator_id"
-    t.index ["responsibility"], name: "index_home_operators_on_responsibility"
-  end
-
   create_table "homes", force: :cascade do |t|
     t.bigint "organisation_id", null: false
     t.string "name"
@@ -321,6 +307,22 @@ ActiveRecord::Schema.define(version: 2021_10_21_112451) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["organisation_id"], name: "index_operators_on_organisation_id"
+  end
+
+  create_table "organisation_operators", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.bigint "home_id"
+    t.bigint "operator_id", null: false
+    t.integer "ordinal"
+    t.integer "responsibility", null: false
+    t.text "remarks"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["home_id"], name: "index_organisation_operators_on_home_id"
+    t.index ["operator_id"], name: "index_organisation_operators_on_operator_id"
+    t.index ["ordinal"], name: "index_organisation_operators_on_ordinal"
+    t.index ["organisation_id"], name: "index_organisation_operators_on_organisation_id"
+    t.index ["responsibility"], name: "index_organisation_operators_on_responsibility"
   end
 
   create_table "organisations", force: :cascade do |t|
@@ -490,8 +492,6 @@ ActiveRecord::Schema.define(version: 2021_10_21_112451) do
   add_foreign_key "contracts", "bookings"
   add_foreign_key "data_digests", "organisations"
   add_foreign_key "deadlines", "bookings"
-  add_foreign_key "home_operators", "homes"
-  add_foreign_key "home_operators", "operators"
   add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
@@ -503,6 +503,9 @@ ActiveRecord::Schema.define(version: 2021_10_21_112451) do
   add_foreign_key "occupancies", "homes"
   add_foreign_key "offers", "bookings"
   add_foreign_key "operators", "organisations"
+  add_foreign_key "organisation_operators", "homes"
+  add_foreign_key "organisation_operators", "operators"
+  add_foreign_key "organisation_operators", "organisations"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
   add_foreign_key "rich_text_templates", "homes"

@@ -31,7 +31,7 @@ class BookingOperator < ApplicationRecord
   belongs_to :booking, inverse_of: :booking_operators
   belongs_to :operator, inverse_of: :booking_operators
 
-  enum responsibility: Operator::RESPONSIBILITIES, _suffix: true
+  enum responsibility: OrganisationOperator::RESPONSIBILITIES, _suffix: true
 
   validates :responsibility, presence: true
   ranks :index, with_same: :booking_id

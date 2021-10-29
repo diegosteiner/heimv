@@ -1,0 +1,10 @@
+= form_with(model: [:manage, @organisation_operator], local: true) do |f|
+  = f.collection_select :operator_id, @operators, :id, :name
+  = f.collection_select :home_id, @homes, :id, :to_s
+  = f.select :responsibility, OrganisationOperator.responsibilities.keys.map { |responsibility| [OrganisationOperator.human_enum(:responsibility, responsibility), responsibility] }
+
+  = f.text_area :remarks
+
+  .form-actions.pt-4.mt-3.border-top
+    = f.submit
+    = link_to t(:back), manage_organisation_operators_path, class: 'btn btn-default'

@@ -21,8 +21,6 @@
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 class Operator < ApplicationRecord
-  RESPONSIBILITIES = { administration: 0, home_handover: 1, home_return: 2, billing: 3 }.freeze
-
   belongs_to :organisation, inverse_of: :operators
   has_many :booking_operators, inverse_of: :operator, dependent: :destroy
 

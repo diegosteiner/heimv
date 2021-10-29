@@ -40,7 +40,7 @@ module Manage
     private
 
     def operator_params
-      OperatorParams.new(params[:operator])
+      params.require(:operator).permit(:name, :email, :contact_info)
     end
   end
 end

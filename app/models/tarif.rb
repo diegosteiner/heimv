@@ -47,13 +47,13 @@ class Tarif < ApplicationRecord
   has_many :tarif_selectors, dependent: :destroy, inverse_of: :tarif
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
 
-  scope :ordered, -> { rank(:position) }
+  scope :ordered, -> { order(:position) }
   scope :transient, -> { where(transient: true) }
   scope :valid_now, -> { where(valid_until: nil) }
   scope :find_with_booking_copies, ->(tarif_ids) { where(id: tarif_ids).or(where(booking_copy_template_id: tarif_ids)) }
 
   enum prefill_usage_method: TarifPrefiller::PREFILL_METHODS.keys.index_with(&:to_s)
-  ranks :position, with_same: :home_id
+  # ranks :position, with_same: :home_id
 
   validates :type, presence: true
   attribute :price_per_unit, default: 0

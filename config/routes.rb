@@ -53,7 +53,8 @@ Rails.application.routes.draw do
         end
       end
       resources :tenants
-      resources :operators
+      resources :organisation_operators, except: %i[show]
+      resources :operators, only: %i[edit update new create destroy]
       resources :booking_agents
       resources :booking_purposes, except: :show
       resources :rich_text_templates do
