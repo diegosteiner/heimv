@@ -102,19 +102,19 @@
                 - if(can? :manage, Operator)
                   dl
                     dt
-                      = BookingOperator.model_name.human(count: :other)
-                      = link_to(new_manage_booking_booking_operator_path(@booking))
+                      = OperatorResponsibility.model_name.human(count: :other)
+                      = link_to(new_manage_booking_operator_responsibility_path(@booking))
                         span.fa.fa-file-o.ms-2
                     dd
                       ul.list-unstyled
-                        - @booking.booking_operators.each do |booking_operator|
+                        - @booking.operator_responsibilities.each do |operator_responsibility|
                           li
-                            = BookingOperator.human_enum(:responsibility, booking_operator.responsibility)
+                            = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
                             ' :
-                            =< link_to(booking_operator.operator.name, manage_operator_path(booking_operator.operator))
-                            =< link_to edit_manage_booking_booking_operator_path(@booking, booking_operator) do
+                            =< link_to(operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator))
+                            =< link_to edit_manage_booking_operator_responsibility_path(@booking, operator_responsibility) do
                               span.fa.fa-edit
-                            =< link_to manage_booking_booking_operator_path(@booking, booking_operator), data: { confirm: t(:confirm) }, method: :delete do
+                            =< link_to manage_booking_operator_responsibility_path(@booking, operator_responsibility), data: { confirm: t(:confirm) }, method: :delete do
                               span.fa.fa-trash
 
             - if can?(:manage, @booking)

@@ -33,7 +33,7 @@ nav.p-3
           = link_to User.model_name.human, manage_users_path, class: 'nav-link'
       - if can?(:manage, Operator, { organisation: current_organisation })
         li.nav-item
-          = link_to Operator.model_name.human(count: :other), manage_operators_path, class: 'nav-link'
+          = link_to OperatorResponsibility.model_name.human(count: :other), manage_operator_responsibilities_path, class: 'nav-link'
       li.nav-item
         = link_to Organisation.model_name.human, edit_manage_organisation_path, class: 'nav-link'
       li.nav-item

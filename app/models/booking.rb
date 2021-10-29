@@ -74,7 +74,7 @@ class Booking < ApplicationRecord
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
   has_many :booking_transitions, dependent: :delete_all, autosave: false
-  has_many :booking_operators, inverse_of: :booking, dependent: :destroy
+  has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
 
   has_one  :occupancy, inverse_of: :booking, dependent: :destroy
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking

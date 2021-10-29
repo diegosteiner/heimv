@@ -22,7 +22,7 @@
 #
 class Operator < ApplicationRecord
   belongs_to :organisation, inverse_of: :operators
-  has_many :booking_operators, inverse_of: :operator, dependent: :destroy
+  has_many :operator_responsibilities, inverse_of: :operator, dependent: :destroy
 
   def to_s
     name

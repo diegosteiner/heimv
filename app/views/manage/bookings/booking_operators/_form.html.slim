@@ -1,9 +1,0 @@
-= form_with(model: [:manage, @booking, @booking_operator], local: true) do |f|
-
-  fieldset
-    = f.collection_select :operator_id, current_organisation.operators, :id, :to_s, include_blank: true
-    = f.select :responsibility, BookingOperator.responsibilities.keys.map { |resp| [BookingOperator.human_enum(:responsibility, resp), resp] }, include_blank: true
-    = f.text_area :remarks
-
-  .form-actions.pt-4.mt-3.border-top
-    = f.submit

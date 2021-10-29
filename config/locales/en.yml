@@ -91,10 +91,6 @@ en:
         name: Name
         provision: Provision
         request_deadline_minutes: Frist für Anfragen
-      booking_operator:
-        operator_id: Funktionär
-        remarks: Bemerkungen
-        responsibility: Verantwortlichkeit
       booking_purpose:
         key: Schlüssel
         position: Ordnungsnummer
@@ -177,6 +173,13 @@ en:
         email: Email
         name: Name
       operator_booking:
+        responsibility: Verantwortlichkeit
+      operator_responsibility:
+        booking_id: Buchung
+        home_id: Heim
+        operator_id: Funktionär
+        ordinal_position: Ordnungsnummer
+        remarks: Bemerkungen
         responsibility: Verantwortlichkeit
       organisation:
         address: Adresse
@@ -269,12 +272,6 @@ en:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
-      booking_operator:
-        responsibility:
-          administration: Administration
-          billing: Verrechnung
-          home_handover: Hausübergabe
-          home_return: Hausrücknahme
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -297,6 +294,12 @@ en:
           free: Frei
           occupied: definitiv Besetzt
           tentative: provisorisch Besetzt
+      operator_responsibility:
+        responsibility:
+          administration: Administration
+          billing: Verrechnung
+          home_handover: Hausübergabe
+          home_return: Hausrücknahme
       rich_text_template:
         namespace:
           contract: Vertrag
@@ -321,7 +324,7 @@ en:
             deadline:
               not_postponable: Frist kann nicht verlängert werden
             transition_to:
-              invalid_transition: "Invalid transition: %{transition}"
+              invalid_transition: 'Invalid transition: %{transition}'
           booking_margin_too_small: Die Pufferzeit von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
         occupancy:
@@ -331,7 +334,7 @@ en:
         tenant:
           incomplete: Angaben unvollständig
       notifications:
-        record_invalid: "Validation failed: %{errors}"
+        record_invalid: 'Validation failed: %{errors}'
         restrict_dependent_destroy:
           has_many: Cannot delete record because dependent %{record} exist
           has_one: Cannot delete record because a dependent %{record} exists
@@ -348,9 +351,6 @@ en:
       booking_agent:
         one: Vermittler
         other: Vermittler
-      booking_operator:
-        one: Verantwortlichkeit
-        other: Verantwortlichkeiten
       booking_purpose:
         one: Mietzweck
         other: Mietzwecke
@@ -423,6 +423,9 @@ en:
       operator:
         one: Funktionär
         other: Funktionäre
+      operator_responsibility:
+        one: Verantwortlichkeit
+        other: Verantwortlichkeiten
       organisation:
         one: Organisation
         other: Organisationen
@@ -594,57 +597,57 @@ en:
     total_overnight_stays: Total Personennächte
   date:
     abbr_day_names:
-      - Sun
-      - Mon
-      - Tue
-      - Wed
-      - Thu
-      - Fri
-      - Sat
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
     abbr_month_names:
-      -
-      - Jan
-      - Feb
-      - Mar
-      - Apr
-      - May
-      - Jun
-      - Jul
-      - Aug
-      - Sep
-      - Oct
-      - Nov
-      - Dec
+    -
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
     day_names:
-      - Sunday
-      - Monday
-      - Tuesday
-      - Wednesday
-      - Thursday
-      - Friday
-      - Saturday
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
     formats:
       default: "%Y-%m-%d"
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-      -
-      - January
-      - February
-      - March
-      - April
-      - May
-      - June
-      - July
-      - August
-      - September
-      - October
-      - November
-      - December
+    -
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
     order:
-      - :year
-      - :month
-      - :day
+    - :year
+    - :month
+    - :day
   datetime:
     distance_in_words:
       about_x_hours:
@@ -714,7 +717,7 @@ en:
       invalid: is invalid
       less_than: must be less than %{count}
       less_than_or_equal_to: must be less than or equal to %{count}
-      model_invalid: "Validation failed: %{errors}"
+      model_invalid: 'Validation failed: %{errors}'
       not_a_number: is not a number
       not_an_integer: must be an integer
       odd: must be odd
@@ -732,7 +735,7 @@ en:
         one: is the wrong length (should be 1 character)
         other: is the wrong length (should be %{count} characters)
     template:
-      body: "There were problems with the following fields:"
+      body: 'There were problems with the following fields:'
       header:
         one: 1 error prohibited this %{model} from being saved
         other: "%{count} errors prohibited this %{model} from being saved"
@@ -812,7 +815,7 @@ en:
           contract_sent: Vertrag versendet markieren
           contract_signed: Contract signed
       import:
-        import_error: "Import fehlgeschlagen. Fehler: %{error}"
+        import_error: 'Import fehlgeschlagen. Fehler: %{error}'
         import_file: Import file
         import_success: Import success
       index:
@@ -885,9 +888,9 @@ en:
           quadrillion: Quadrillion
           thousand: Thousand
           trillion: Trillion
-          unit: ""
+          unit: ''
       format:
-        delimiter: ""
+        delimiter: ''
         precision: 3
         significant: true
         strip_insignificant_zeros: true
@@ -905,11 +908,11 @@ en:
           tb: TB
     percentage:
       format:
-        delimiter: ""
+        delimiter: ''
         format: "%n%"
     precision:
       format:
-        delimiter: ""
+        delimiter: ''
   occupancy_calendar:
     months: '["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
     next: "→"
