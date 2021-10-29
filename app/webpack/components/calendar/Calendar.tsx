@@ -72,8 +72,14 @@ const StyledCalendar = styled.div`
   }
 
   @keyframes slide-in {
-    0% { transform: translateX(10%); opacity: 0; }
-    100% { transform: translateX(0%); opacity: 1; }
+    0% {
+      transform: translateX(10%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0%);
+      opacity: 1;
+    }
   }
 `;
 
@@ -171,6 +177,7 @@ const CalendarNav: React.FC<CalendarNavProps> = ({ onPrev, onNext, children }) =
   );
 };
 
+const CalendarMonthMemo = React.memo(CalendarMonth);
 interface CalendarProps {
   start?: string;
   monthsCount?: number | string;
@@ -222,7 +229,11 @@ const Calendar: React.FC<CalendarProps> = ({ start, dayElement, monthsCount = 12
       </CalendarNav>
       <div className="calendarMonths">
         {visibleMonths.map((month) => (
-          <CalendarMonth key={`month-${month.toString()}`} month={month} dayElement={dayElement}></CalendarMonth>
+          <CalendarMonthMemo
+            key={`month-${month.toString()}`}
+            month={month}
+            dayElement={dayElement}
+          ></CalendarMonthMemo>
         ))}
       </div>
       <CalendarNav onNext={nextMonth} onPrev={prevMonth}></CalendarNav>
