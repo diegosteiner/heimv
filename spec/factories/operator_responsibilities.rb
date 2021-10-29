@@ -36,8 +36,8 @@ FactoryBot.define do
     organisation
     home
     operator
-    sequence :ordinal
-    responsibility { 1 }
+    # sequence :ordinal
+    # responsibility { 1 }
     remarks { 'MyText' }
   end
 end
