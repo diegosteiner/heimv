@@ -39,7 +39,7 @@ class OperatorResponsibility < ApplicationRecord
   belongs_to :operator, inverse_of: :operator_responsibilities
   belongs_to :booking, inverse_of: :operator_responsibilities, optional: true
 
-  enum responsibility: { administration: 0, home_handover: 1, home_return: 2, billing: 3 }.freeze, _suffix: true
+  enum responsibility: { administration: 0, home_handover: 1, home_return: 2, billing: 3 }.freeze
 
   scope :ordered, -> { rank(:ordinal) }
 
@@ -47,12 +47,4 @@ class OperatorResponsibility < ApplicationRecord
   validates :responsibility, presence: true
   validates :responsibility, uniqueness: { scope: :booking_id }, if: :booking_id
   ranks :ordinal, with_same: :organisation_id
-
-  def self.assign_to_booking(booking, responsibility)
-    booking.organisation.operator_responsibilities.ordered
-           .where(responsibility: responsibility, home: [booking.home,
-                                                         nil]).first&.dup&.tap do |operator_responsibility|
-      operator_responsibility.update(booking: booking, home: booking.home)
-    end
-  end
 end

@@ -37,7 +37,7 @@ class Usage < ApplicationRecord
   has_one :organisation, through: :booking
 
   attribute :apply, default: true
-  delegate(:position, :position_position, :position_rank, to: :tarif)
+  delegate(:position, to: :tarif)
 
   scope :ordered, -> { joins(:tarif).includes(:tarif).order(Tarif.arel_table[:position].asc) }
   scope :of_tarif, ->(tarif) { where(tarif_id: tarif.self_and_booking_copy_ids) }

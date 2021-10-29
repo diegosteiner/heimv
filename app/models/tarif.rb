@@ -53,7 +53,7 @@ class Tarif < ApplicationRecord
   scope :find_with_booking_copies, ->(tarif_ids) { where(id: tarif_ids).or(where(booking_copy_template_id: tarif_ids)) }
 
   enum prefill_usage_method: TarifPrefiller::PREFILL_METHODS.keys.index_with(&:to_s)
-  # ranks :position, with_same: :home_id
+  ranks :position, with_same: :home_id
 
   validates :type, presence: true
   attribute :price_per_unit, default: 0

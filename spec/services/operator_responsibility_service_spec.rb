@@ -33,19 +33,23 @@
 #
 require 'rails_helper'
 
-RSpec.describe OperatorResponsibility, type: :model do
-  describe '#assign_to_booking' do
-    let(:home) { create(:home) }
-    let(:organisation) { home.organisation }
-    let(:operator) { create(:operator, organisation: organisation) }
-    let(:booking) { create(:booking, organisation: organisation, home: home) }
-    before do
-      create_list(:operator_responsibility, 4, organisation: organisation, home: home, operator: operator,
-                                               responsibility: :administration)
-    end
+RSpec.describe OperatorResponsibilityService, type: :model do
+  subject(:service) { described_class.new(booking) }
+  let(:home) { create(:home) }
+  let(:organisation) { home.organisation }
+  let(:operator) { create(:operator, organisation: organisation) }
+  let(:booking) { create(:booking, organisation: organisation, home: home) }
+  before do
+    create_list(:operator_responsibility, 4, organisation: organisation, home: home, operator: operator,
+                                             responsibility: :administration)
+  end
 
-    subject { described_class.assign_to_booking(booking, :administration) }
+  describe '#assign' do
+    subject(:responsibility) { service.assign(:administration) }
 
     it { is_expected.to be_valid }
+    it { expect(responsibility.booking).to eq(booking) }
+    it { expect(responsibility.home).to eq(home) }
+    it { expect(responsibility).to be_administration }
   end
 end
