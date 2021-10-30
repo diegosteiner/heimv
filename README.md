@@ -123,7 +123,7 @@ cat data.csv | bin/rails r Import::Csv::TenantImporter.new(organisation).read
 
 Prepare a csv with these columns, including a header, as utf-8:
 
-- position
+- ordinal
 - label
 - type
 - tarif_group

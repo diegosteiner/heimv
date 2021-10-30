@@ -16,7 +16,7 @@
           = f.text_field "title_#{locale.to_s}", label: BookingPurpose.human_attribute_name(:title)
 
     = f.text_field :key
-    = f.number_field :position
+    = f.number_field :ordinal_position
 
   .form-actions.pt-4.mt-3
     = f.submit

@@ -7,7 +7,7 @@
 #  id                       :bigint           not null, primary key
 #  invoice_type             :string
 #  label_i18n               :jsonb
-#  position                 :integer
+#  ordinal                  :integer
 #  prefill_usage_method     :string
 #  price_per_unit           :decimal(, )
 #  tarif_group              :string
@@ -47,13 +47,13 @@ class Tarif < ApplicationRecord
   has_many :tarif_selectors, dependent: :destroy, inverse_of: :tarif
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
 
-  scope :ordered, -> { order(:position) }
+  scope :ordered, -> { order(:ordinal) }
   scope :transient, -> { where(transient: true) }
   scope :valid_now, -> { where(valid_until: nil) }
   scope :find_with_booking_copies, ->(tarif_ids) { where(id: tarif_ids).or(where(booking_copy_template_id: tarif_ids)) }
 
   enum prefill_usage_method: TarifPrefiller::PREFILL_METHODS.keys.index_with(&:to_s)
-  ranks :position, with_same: :home_id
+  ranks :ordinal, with_same: :home_id
 
   validates :type, presence: true
   attribute :price_per_unit, default: 0
@@ -92,6 +92,6 @@ class Tarif < ApplicationRecord
   end
 
   def <=>(other)
-    position <=> other.position
+    ordinal <=> other.ordinal
   end
 end

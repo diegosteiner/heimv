@@ -22,7 +22,7 @@ module Import
                                 price_per_unit: row.try_field('price', 'preis', 'price_per_unit')&.to_f || 0,
                                 tarif_group: row.try_field('tarif_group', 'group', 'gruppe'),
                                 unit: row.try_field('unit', 'einheit'),
-                                position: row.try_field('pos', 'position')&.to_i)
+                                ordinal: row.try_field('pos', 'ordinal')&.to_i)
       end
 
       actor do |tarif, row|

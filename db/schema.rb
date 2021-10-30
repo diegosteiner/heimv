@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_26_193942) do
+ActiveRecord::Schema.define(version: 2021_10_30_191910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -86,10 +86,10 @@ ActiveRecord::Schema.define(version: 2021_10_26_193942) do
     t.jsonb "title_i18n"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "position"
+    t.integer "ordinal"
     t.index ["key", "organisation_id"], name: "index_booking_purposes_on_key_and_organisation_id", unique: true
+    t.index ["ordinal"], name: "index_booking_purposes_on_ordinal"
     t.index ["organisation_id"], name: "index_booking_purposes_on_organisation_id"
-    t.index ["position"], name: "index_booking_purposes_on_position"
   end
 
   create_table "booking_transitions", force: :cascade do |t|
@@ -203,7 +203,7 @@ ActiveRecord::Schema.define(version: 2021_10_26_193942) do
     t.decimal "amount"
     t.string "label"
     t.string "breakdown"
-    t.integer "position"
+    t.integer "ordinal"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
@@ -391,7 +391,7 @@ ActiveRecord::Schema.define(version: 2021_10_26_193942) do
     t.decimal "price_per_unit"
     t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until"
-    t.integer "position"
+    t.integer "ordinal"
     t.string "tarif_group"
     t.string "invoice_type"
     t.string "prefill_usage_method"
