@@ -94,9 +94,8 @@
               - if(can? :manage, Operator)
                 dl
                   dt
-                    = OperatorResponsibility.model_name.human(count: :other)
-                    = link_to(new_manage_booking_operator_responsibility_path(@booking))
-                      span.fa.fa-file-o.ms-2
+                    = link_to(manage_booking_operator_responsibilities_path(@booking))
+                      = OperatorResponsibility.model_name.human(count: :other)
                   dd
                     = render partial: 'manage/operator_responsibilities/list', locals: { responsibilities: @booking.operator_responsibilities }
 

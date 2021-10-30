@@ -40,5 +40,5 @@
     = f.file_field :terms_pdf, help: link_to_if(organisation.terms_pdf.attached?, organisation.terms_pdf.try(:filename), organisation.terms_pdf)
     = f.file_field :privacy_statement_pdf, help: link_to_if(organisation.privacy_statement_pdf.attached?, organisation.privacy_statement_pdf.try(:filename), organisation.privacy_statement_pdf)
 
-  .form-actions.pt-4.mt-3.border-top
+  .form-actions.pt-4.mt-3
     = f.submit

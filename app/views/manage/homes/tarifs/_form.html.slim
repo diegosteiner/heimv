@@ -40,6 +40,6 @@
         .col-2.pt-2
           = tuc.check_box :veto
 
-  .form-actions.pt-4.mt-3.border-top
+  .form-actions.pt-4.mt-3
     = f.submit
     =< link_to t(:back), manage_home_tarifs_path(@home || @tarif.home), class: 'btn btn-default'

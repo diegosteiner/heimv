@@ -1,11 +1,13 @@
 = form_with(model: [:manage, @operator_responsibility], local: true) do |f|
-  = f.collection_select :operator_id, @operators, :id, :name, include_blank: true
-  = f.collection_select :home_id, @homes, :id, :to_s, include_blank: true
-  = f.select :responsibility, OperatorResponsibility.responsibilities.keys.map { |responsibility| [OperatorResponsibility.human_enum(:responsibility, responsibility), responsibility] }, include_blank: true
-  = f.number_field :ordinal_position
+  - if @booking.present?
+    = f.hidden_field :booking_id
+  - else
+    = f.number_field :ordinal_position
+    = f.collection_select :home_id, @homes, :id, :to_s, include_blank: true
 
+  = f.collection_select :operator_id, @operators, :id, :name, include_blank: true
+  = f.select :responsibility, OperatorResponsibility.responsibilities.keys.map { |responsibility| [OperatorResponsibility.human_enum(:responsibility, responsibility), responsibility] }, include_blank: true
   = f.text_area :remarks
 
-  .form-actions.pt-4.mt-3.border-top
+  .form-actions.pt-4.mt-3
     = f.submit
-    = link_to t(:back), manage_operator_responsibilities_path, class: 'btn btn-default'

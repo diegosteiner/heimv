@@ -1,5 +1,7 @@
 - if @booking.present?
   = render partial: 'manage/bookings/navigation', locals: { active: :payments, booking: @booking }
+- else 
+  h1.mt-0.mb-5= Payment.model_name.human(count: :other)
 
 - if @payments.none?
   p.text-center.my-5

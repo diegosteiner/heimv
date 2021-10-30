@@ -16,6 +16,10 @@ module BookingStates
       true
     end
 
+    def responsibilities
+      %i[home_handover home_return]
+    end
+
     after_transition do |booking|
       booking.occupancy.occupied!
       booking.deadline&.clear

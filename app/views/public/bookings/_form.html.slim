@@ -75,7 +75,7 @@
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable
 
-      .form-actions.pt-4.mt-3.border-top
+      .form-actions.pt-4.mt-3
         - if @booking.editable
           =<> f.submit class: 'btn btn-primary'
 

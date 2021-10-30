@@ -8,6 +8,6 @@
     = f.number_field :request_deadline_minutes, append: t('datetime.distance_in_words.x_minutes.other', count: '')
     = f.text_area :address
 
-  .form-actions.pt-4.mt-3.border-top
+  .form-actions.pt-4.mt-3
     = f.submit
     = link_to t(:back), manage_booking_agents_path, class: 'btn btn-default'

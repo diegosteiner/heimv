@@ -1,26 +1,8 @@
-h2.mt-0= Operator.model_name.human(count: :other)
-.breakout-sm
-  table.table.table-hover.align-middle
+- if @booking.present?
+  = render partial: 'manage/bookings/navigation', locals: { booking: @booking }
+- else
+  h1.mt-0.mb-5= OperatorResponsibility.model_name.human(count: :other)
 
-    tbody
-      - @operators.each do |operator|
-        tr
-          td
-            = link_to operator.name, edit_manage_operator_path(operator)
-          td.p-1.text-end 
-            .btn-group
-              = link_to edit_manage_operator_path(operator), class: 'btn btn-default' do
-                span.fa.fa-edit
-              = link_to manage_operator_path(operator), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
-                span.fa.fa-trash
-
-br
-= link_to new_manage_operator_path, class: 'btn btn-primary' do
-  span.fa.fa-file-o
-  '
-  = t(:add_record, model_name: Operator.model_name.human)
-
-h2= OperatorResponsibility.model_name.human(count: :other)
 .breakout-sm
   table.table.table-hover.align-middle
 
@@ -30,11 +12,13 @@ h2= OperatorResponsibility.model_name.human(count: :other)
           td
             small.text-secondary= operator_responsibility.ordinal_rank
           td
-            = operator_responsibility.operator.name
+            = link_to operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator)
           td
             = link_to operator_responsibility.home, manage_home_path(operator_responsibility.home)
           td
             = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
+          td
+            = operator_responsibility.remarks
           td.p-1.text-end 
             .btn-group
               = link_to edit_manage_operator_responsibility_path(operator_responsibility), class: 'btn btn-default' do
@@ -43,7 +27,13 @@ h2= OperatorResponsibility.model_name.human(count: :other)
                 span.fa.fa-trash
 
 br
-= link_to new_manage_operator_responsibility_path, class: 'btn btn-primary' do
-  span.fa.fa-file-o
-  '
-  = t(:add_record, model_name: OperatorResponsibility.model_name.human)
+- if @booking.present?
+  = link_to new_manage_booking_operator_responsibility_path(@booking), class: 'btn btn-primary' do
+    span.fa.fa-file-o
+    '
+    = t(:add_record, model_name: OperatorResponsibility.model_name.human)
+- else 
+  = link_to new_manage_operator_responsibility_path, class: 'btn btn-primary' do
+    span.fa.fa-file-o
+    '
+    = t(:add_record, model_name: OperatorResponsibility.model_name.human)
