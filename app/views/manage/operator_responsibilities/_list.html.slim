@@ -1,0 +1,10 @@
+ul.list-unstyled
+  - responsibilities.each do |operator_responsibility|
+    li
+      = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
+      ' :
+      =< link_to(operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator))
+      =< link_to edit_manage_booking_operator_responsibility_path(@booking, operator_responsibility) do
+        span.fa.fa-edit
+      =< link_to manage_booking_operator_responsibility_path(@booking, operator_responsibility), data: { confirm: t(:confirm) }, method: :delete do
+        span.fa.fa-trash

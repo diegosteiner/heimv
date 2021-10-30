@@ -3,142 +3,125 @@
 
 
 - cache(@booking) do
-  section.mt-4.breakout-sm
-    .row.mt-4
-      .col-md-9
-        .card
-          .card-body
-            .row.mb-3
-              .col
-                dl
-                  dt= Occupancy.model_name.human
-                  dd= render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: @booking.occupancy }
+  section.row.mt-4
+    .col-md-9
+      .card
+        .card-body
+          .row
+            .col-md-6
+              dl
+                dt= Occupancy.model_name.human
+                dd= render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: @booking.occupancy }
 
-              .col
+            .col-md-6
+              - if @booking.agent_booking?
+                dl
+                  dt= BookingAgent.model_name.human
+                  dd= link_to @booking.booking_agent.name, manage_booking_agent_path(@booking.booking_agent)
+                  dd= @booking.agent_booking.booking_agent_ref
+                  dd= link_to truncate(edit_public_agent_booking_url(@booking.agent_booking.token || @booking.agent_booking.to_param), length: 48, omission: '...'), edit_public_agent_booking_url(@booking.agent_booking.token || @booking.agent_booking.to_param)
+
+          .row
+            .col-md-6
+              dl
+                dt= Booking.human_attribute_name(:tenant)
+                - if @booking.tenant_organisation.present?
+                  dd= @booking.tenant_organisation
+                - if @booking.tenant.present?
+                  - tenant = @booking.tenant
+                  dd
+                    = link_to tenant.name, manage_tenant_path(tenant)
+                    - unless @booking.tenant.complete?
+                      i.fa.fa-exclamation-triangle.text-warning<>[data-bs-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete', default: '')]
+                    - if can?(:edit, @booking.tenant) && !@booking.tenant.complete?
+                      = link_to edit_manage_tenant_path(tenant) 
+                        i.fa.fa-edit<>
+                  dd
+                    - tenant.address_lines.each do |line|
+                      = line 
+                      br
+                  dd= mail_to tenant.email
+                  dd
+                    - tenant.phone&.lines&.each do |phone|
+                      = link_to phone, "tel:#{phone}", class: 'd-block'
+
+                  - if @booking.tenant.birth_date.present?
+                    dd= l(@booking.tenant.birth_date)
+
+
+            .col-md-6
+              dl
+                dt= Booking.human_attribute_name(:purpose)
+                dd= @booking.purpose
+            
+              dl
+                dt= Booking.human_attribute_name(:approximate_headcount)
+                dd= @booking.approximate_headcount
+
+              - if @booking.internal_remarks.present?
                 dl 
-                  dt= Booking.human_attribute_name(:home)
-                  dd= link_to @booking.home, manage_home_path(@booking.home)
-            .row.mb-3
-              .col
+                  dt= Booking.human_attribute_name(:internal_remarks)
+                  dd= @booking.internal_remarks
+
+              - if @booking.remarks.present?
                 dl
-                  dt= Booking.human_attribute_name(:tenant)
-                  - if @booking.tenant_organisation.present?
-                    dd= @booking.tenant_organisation
-                  - if @booking.tenant.present?
-                    - tenant = @booking.tenant
-                    dd
-                      = link_to tenant.name, manage_tenant_path(tenant)
-                      - unless @booking.tenant.complete?
-                        i.fa.fa-exclamation-triangle.text-warning<>[data-bs-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete', default: '')]
-                      - if can?(:edit, @booking.tenant) && !@booking.tenant.complete?
-                        = link_to edit_manage_tenant_path(tenant) 
-                          i.fa.fa-edit<>
-                    dd
-                      - tenant.address_lines.each do |line|
-                        = line 
-                        br
-                    dd= mail_to tenant.email
-                    dd
-                      - tenant.phone&.lines&.each do |phone|
-                        br
-                        = link_to phone, "tel:#{phone}"
+                  dt= Booking.human_attribute_name(:remarks)
+                  dd= @booking.remarks
 
-                    - if @booking.tenant.birth_date.present?
-                      dd= l(@booking.tenant.birth_date)
+          .row
+            .col-md-6
+              dl
+                dt= Booking.human_attribute_name(:state)
+                dd= @booking.booking_state.translate
 
+            - if @booking.deadline.present?
+              dl
+                dt= Deadline.model_name.human
+                dd= link_to l(@booking.deadline.at, format: :short), edit_manage_deadline_path(@booking.deadline)
 
-              .col
-                - if @booking.agent_booking?
-                  dl
-                    dt= BookingAgent.model_name.human
-                    dd= link_to @booking.booking_agent.name, manage_booking_agent_path(@booking.booking_agent)
-                    dd= @booking.agent_booking.booking_agent_ref
-                    dd= link_to truncate(edit_public_agent_booking_url(@booking.agent_booking.token || @booking.agent_booking.to_param), length: 48, omission: '...'), edit_public_agent_booking_url(@booking.agent_booking.token || @booking.agent_booking.to_param)
+            .col-md-6 
+              dl 
+                dt= t('.public_booking_url')
+                dd= link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), edit_public_booking_url(@booking.token)
 
-                - if @booking.deadline.present?
-                  dl
-                    dt= Deadline.model_name.human
-                    dd= link_to l(@booking.deadline.at, format: :short), edit_manage_deadline_path(@booking.deadline)
+          .row
+            .col-md-6
+              dl
+                dt= t('.checklist')
+                dd= render partial: 'manage/bookings/checklist', locals: { booking: @booking }
 
-            .row.mb-3
-              .col
+            .col-md-6
+              - if(can? :manage, Operator)
                 dl
-                  dt= Booking.human_attribute_name(:purpose)
-                  dd= @booking.purpose
-              .col
-                dl
-                  dt= Booking.human_attribute_name(:approximate_headcount)
-                  dd= @booking.approximate_headcount
+                  dt
+                    = OperatorResponsibility.model_name.human(count: :other)
+                    = link_to(new_manage_booking_operator_responsibility_path(@booking))
+                      span.fa.fa-file-o.ms-2
+                  dd
+                    = render partial: 'manage/operator_responsibilities/list', locals: { responsibilities: @booking.operator_responsibilities }
 
-            .row.mb-3
-              .col
-                - if @booking.internal_remarks.present?
-                  dl 
-                    dt= Booking.human_attribute_name(:internal_remarks)
-                    dd= @booking.internal_remarks
+          - if can?(:manage, @booking)
+            = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
+              = render partial: 'manage/bookings/actions', locals: { actions: @booking.booking_state.manage_actions, form: f }
+              '
+              .dropdown.d-inline
+                button.btn.btn-outline-primary.dropdown-toggle[type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value='allowed_transitions']
+                  = Booking.human_attribute_name(:transition_to)
+                .dropdown-menu aria-labelledby="dropdownMenuButton"
+                  - @booking.booking_flow.allowed_transitions.each do |state|
+                    = f.button name: :'booking[transition_to]', value: state, class: 'dropdown-item'
+                      = t(:label, scope: [:booking_states, state])
 
-              .col
-                - if @booking.remarks.present?
-                  dl
-                    dt= Booking.human_attribute_name(:remarks)
-                    dd= @booking.remarks
+              = link_to edit_manage_booking_path(@booking), class: 'btn btn-outline-primary ms-2'
+                span.fa.fa-edit
+                =< t(:edit)
+    .col-md-3
 
-            .row.mb-3
-              .col
-                dl
-                  dt= Booking.human_attribute_name(:state)
-                  dd= @booking.booking_state.translate
-              .col 
-                dl 
-                  dt= t('.public_booking_url')
-                  dd= link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), edit_public_booking_url(@booking.token)
-
-            .row.mb-3
-              .col
-                dl
-                  dt= t('.checklist')
-                  dd= render partial: 'manage/bookings/checklist', locals: { booking: @booking }
-              .col 
-                - if(can? :manage, Operator)
-                  dl
-                    dt
-                      = OperatorResponsibility.model_name.human(count: :other)
-                      = link_to(new_manage_booking_operator_responsibility_path(@booking))
-                        span.fa.fa-file-o.ms-2
-                    dd
-                      ul.list-unstyled
-                        - @booking.operator_responsibilities.each do |operator_responsibility|
-                          li
-                            = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
-                            ' :
-                            =< link_to(operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator))
-                            =< link_to edit_manage_booking_operator_responsibility_path(@booking, operator_responsibility) do
-                              span.fa.fa-edit
-                            =< link_to manage_booking_operator_responsibility_path(@booking, operator_responsibility), data: { confirm: t(:confirm) }, method: :delete do
-                              span.fa.fa-trash
-
-            - if can?(:manage, @booking)
-              = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
-                = render partial: 'manage/bookings/actions', locals: { actions: @booking.booking_state.manage_actions, form: f }
-                '
-                .dropdown.d-inline
-                  button.btn.btn-outline-primary.dropdown-toggle[type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value='allowed_transitions']
-                    = Booking.human_attribute_name(:transition_to)
-                  .dropdown-menu aria-labelledby="dropdownMenuButton"
-                    - @booking.booking_flow.allowed_transitions.each do |state|
-                      = f.button name: :'booking[transition_to]', value: state, class: 'dropdown-item'
-                        = t(:label, scope: [:booking_states, state])
-
-                = link_to edit_manage_booking_path(@booking), class: 'btn btn-outline-primary ms-2'
-                  span.fa.fa-edit
-                  =< t(:edit)
-      .col-md-3
-
-        ul.list-group
-          - @booking.booking_transitions.order(created_at: :desc).each do |transition|
-            li.list-group-item
-              span.badge.bg-primary
-                = t(:label, scope: [:booking_states, transition.to_state])
-              br
-              small
-                = time_tag transition.created_at
+      ul.list-group
+        - @booking.booking_transitions.order(created_at: :desc).each do |transition|
+          li.list-group-item
+            span.badge.bg-primary
+              = t(:label, scope: [:booking_states, transition.to_state])
+            br
+            small
+              = time_tag transition.created_at
