@@ -4,6 +4,8 @@ module BookingStates
   class UpcomingSoon < Base
     RichTextTemplate.require_template(:upcoming_soon_notification, context: %i[booking], required_by: self,
                                                                    optional: true)
+    RichTextTemplate.require_template(:manage_upcoming_soon_notification, context: %i[booking], required_by: self,
+                                                                          optional: true)
 
     def checklist
       []
@@ -14,6 +16,10 @@ module BookingStates
     end
 
     after_transition do |booking|
+      booking.notifications.new(from_template: :manage_upcoming_soon_notification,
+                                to: booking.operator_for(:home_handover))&.deliver
+      booking.notifications.new(from_template: :manage_upcoming_soon_notification,
+                                to: booking.operator_for(:home_handover))&.deliver
       notification = booking.notifications.new(from_template: :upcoming_soon_notification, to: booking.tenant)
       next unless notification.valid?
 

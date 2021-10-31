@@ -122,7 +122,7 @@ class Notification < ApplicationRecord
             self.addressed_to = :booking_agent
             [value.email]
           else
-            [value.to_s].flatten
+            [value&.to_s].flatten.compact
           end
   end
   # rubocop:enable Metrics/MethodLength

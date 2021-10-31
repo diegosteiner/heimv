@@ -7,7 +7,7 @@ class OperatorResponsibilityService
 
   def assign(*responsibilities)
     responsibilities.map do |responsibility|
-      next @booking.responsible_for(responsibility) if @booking.responsible_for(responsibility).present?
+      next @booking.operator_for(responsibility) if @booking.operator_for(responsibility).present?
 
       matching(responsibility).first&.dup&.tap do |operator_responsibility|
         operator_responsibility.update(booking: @booking, home: @booking.home)

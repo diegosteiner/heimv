@@ -36,7 +36,7 @@ module BookingStates
       booking.update!(editable: false)
       booking.deadline&.clear
       booking.notifications.new(from_template: :manage_definitive_request_notification,
-                                to: booking.responsible_for(:administration) || booking.organisation)&.deliver
+                                to: booking.operator_for(:administration) || booking.organisation)&.deliver
       booking.notifications.new(from_template: :definitive_request_notification,
                                 to: booking.tenant).deliver
     end

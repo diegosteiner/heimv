@@ -139,7 +139,7 @@ class Booking < ApplicationRecord
     agent_booking.present?
   end
 
-  def responsible_for(responsibility)
+  def operator_for(responsibility)
     operator_responsibilities.where(responsibility: responsibility).first
   end
 

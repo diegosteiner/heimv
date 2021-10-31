@@ -2,7 +2,10 @@
 
 #### Unreleased
 
-#### Version 21.9.2
+- Add operators with responsibilities
+- Improve notifications
+
+#### Version 21.10.1
 
 Released on 22.10.2021
 
