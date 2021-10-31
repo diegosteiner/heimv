@@ -2030,6 +2030,8 @@ fr:
       description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
     manage_new_booking_notification:
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
+    manage_upcoming_soon_notification:
+      description: Benachrichtigung für baldige Belegung (Funktionär)
     notification_footer:
       description: Fusszeile für Benachrichtigungen
     offer_text:

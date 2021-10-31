@@ -2251,6 +2251,10 @@ de:
         <p><a href="https://app.heimv.ch">Zu HeimV</a></p>
       default_title: Neue Mietanfrage
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
+    manage_upcoming_soon_notification:
+      default_body:
+      default_title: ''
+      description: Benachrichtigung für baldige Belegung (Funktionär)
     notification_footer:
       default_body: ''
       default_title: ''
@@ -2427,14 +2431,13 @@ de:
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietzweck: {{ booking.purpose.title }}</li>
-          <li>Heimwart: {{ booking.home.janitor }}</li>
         </ul>
 
         <p>Bitte vereinbare mit dem Heimwart rechtzeitig den Übernahmetermin.</p>
       default_title: Anzahlung und unterschriebenen Vertrag eingegangen
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
-      default_body: "\n"
+      default_body:
       default_title: ''
       description: Benachrichtigung für baldige Belegung (Mieter)
     usage_report_text:

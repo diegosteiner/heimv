@@ -10,7 +10,8 @@
       - @operator_responsibilities.each do |operator_responsibility|
         tr[data-href=manage_operator_responsibility_path(operator_responsibility) data-bs-id=operator_responsibility.to_param]
           td
-            small.text-secondary= operator_responsibility.ordinal_rank
+            - unless @booking.present?
+              small.text-secondary= operator_responsibility.ordinal_rank
           td
             = link_to operator_responsibility.operator.name, edit_manage_operator_path(operator_responsibility.operator)
           td
