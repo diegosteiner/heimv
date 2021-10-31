@@ -29,16 +29,34 @@
     = f.text_field :esr_ref_prefix
     = f.text_field :iban
 
-  fieldset
-    h3.mt-4= Booking.model_name.human(count: :other)
-    .pb-3= link_to BookingPurpose.model_name.human(count: :other), manage_booking_purposes_path
-    - if current_user.role_admin?
+  - if current_user.role_admin?
+    fieldset
+      h3.mt-4= Booking.model_name.human(count: :other)
       div[v-pre]= f.text_area :settings_json, rows: 4
 
   fieldset
     h3.mt-4= t('.terms')
     = f.file_field :terms_pdf, help: link_to_if(organisation.terms_pdf.attached?, organisation.terms_pdf.try(:filename), organisation.terms_pdf)
     = f.file_field :privacy_statement_pdf, help: link_to_if(organisation.privacy_statement_pdf.attached?, organisation.privacy_statement_pdf.try(:filename), organisation.privacy_statement_pdf)
+
+  fieldset
+    h3.mt-4= t('.more_settings')
+    ul.pb-3
+      li
+        = link_to BookingPurpose.model_name.human(count: :other), manage_booking_purposes_path
+      li
+        = link_to RichTextTemplate.model_name.human(count: :other), manage_rich_text_templates_path
+      li
+        = link_to BookingAgent.model_name.human(count: :other), manage_booking_agents_path
+      - if can?(:manage, User, { organisation: current_organisation })
+        li
+          = link_to User.model_name.human, manage_users_path
+      - if can?(:manage, Operator, { organisation: current_organisation })
+        li
+          = link_to Operator.model_name.human(count: :other), manage_operators_path
+      - if can?(:manage, Operator, { organisation: current_organisation })
+        li
+          = link_to OperatorResponsibility.model_name.human(count: :other), manage_operator_responsibilities_path
 
   .form-actions.pt-4.mt-3
     = f.submit

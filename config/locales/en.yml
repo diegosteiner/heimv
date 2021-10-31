@@ -508,6 +508,7 @@ en:
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
       checklist:
+        assign_responsibilities: Verantwortlichkeiten zuweisen
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
       label: Bestätigte Reservation
@@ -847,6 +848,7 @@ en:
     organisations:
       form:
         general: General
+        more_settings: More settings
         terms: Terms
     payments:
       index:

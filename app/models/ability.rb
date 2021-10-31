@@ -46,6 +46,8 @@ module Ability
       can :manage, Deadline, booking: { organisation: organisation }
       can :manage, Usage, booking: { organisation: organisation }
       can :manage, User, organisation: organisation
+      can :manage, Operator, organisation: organisation
+      can :manage, OperatorResponsibility, organisation: organisation
       can :manage, Notification, booking: { organisation: organisation }
       can %i[read edit update], Organisation, id: organisation.id
 
@@ -76,6 +78,8 @@ module Ability
       can :read, Usage, booking: { organisation: organisation }
       can :read, User, organisation: organisation
       can :read, Notification, booking: { organisation: organisation }
+      can :read, Operator, organisation: organisation
+      can :read, OperatorResponsibility, organisation: organisation
       can %i[read edit], Organisation, id: organisation.id
       cannot %i[update], Organisation, id: organisation.id
     end

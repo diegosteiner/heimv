@@ -19,12 +19,12 @@ module Manage
     end
 
     def edit
-      @booking ||= operator_responsibility.booking
+      @booking ||= @operator_responsibility.booking
       respond_with :manage, @operator_responsibility
     end
 
     def create
-      @booking ||= operator_responsibility.booking
+      @booking ||= @operator_responsibility.booking
       @operator_responsibility.assign_attributes(organisation: current_organisation,
                                                  home: @booking&.home, booking: @booking)
       @operator_responsibility.update(operator_responsibility_params)
@@ -32,7 +32,7 @@ module Manage
     end
 
     def update
-      @booking ||= operator_responsibility.booking
+      @booking ||= @operator_responsibility.booking
       @operator_responsibility.update(operator_responsibility_params)
       respond_with :manage, @operator_responsibility, location: return_to_path
     end
