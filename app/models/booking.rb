@@ -159,10 +159,6 @@ class Booking < ApplicationRecord
     super.presence || tenant&.email.presence
   end
 
-  # def tarif_ids
-  #   transitive_tarif_ids + booking_copy_tarif_ids - booking_copy_tarifs.map(&:booking_copy_template_id)
-  # end
-
   private
 
   def reject_tenant_attributes?(tenant_attributes)

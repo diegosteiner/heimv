@@ -26,9 +26,6 @@
 
 class Usage < ApplicationRecord
   include ActiveSupport::NumberHelper
-  after_initialize do
-    self.class.include(tarif.class::UsageDecorator) if tarif && defined?(tarif.class::UsageDecorator)
-  end
 
   belongs_to :tarif, -> { includes(:tarif_selectors) }, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages
@@ -37,17 +34,18 @@ class Usage < ApplicationRecord
   has_one :organisation, through: :booking
 
   attribute :apply, default: true
-  delegate(:ordinal, :ordinal_rank, to: :tarif)
+
+  before_validation { tarif&.before_usage_validation(self) }
+  before_save { tarif&.before_usage_save(self) }
+  before_create :create_tarif_booking_copy
 
   scope :ordered, -> { joins(:tarif).includes(:tarif).order(Tarif.arel_table[:ordinal].asc) }
   scope :of_tarif, ->(tarif) { where(tarif_id: tarif.self_and_booking_copy_ids) }
   scope :amount, -> { joins(:tarif).where(tarifs: { type: Tarifs::Amount.to_s }) }
   scope :tenant_visible, -> { includes(:tarif).where(tarifs: { tenant_visible: true }) }
 
-  before_create :create_tarif_booking_copy
-
   validates :tarif_id, uniqueness: { scope: :booking_id }, allow_nil: true
-  # validates :used_units, numericality: true, presence: true
+  validates :used_units, numericality: true, allow_nil: true
 
   def price
     ((used_units || 0).to_f * (tarif.price_per_unit || 1).to_f * 20.0).floor / 20.0
@@ -87,5 +85,17 @@ class Usage < ApplicationRecord
            used_units: number_to_rounded(used_units || 0, precision: 2, strip_insignificant_zeros: true),
            unit: tarif.unit,
            price_per_unit: number_to_currency(tarif.price_per_unit || 0, currency: organisation.currency))
+  end
+
+  # TODO: decouple
+  has_one :meter_reading_period, dependent: :nullify
+
+  accepts_nested_attributes_for :meter_reading_period, reject_if: :all_blank
+
+  def build_meter_reading_period(attrs = {})
+    super.tap do |meter_reading_period|
+      meter_reading_period.start_value ||= MeterReadingPeriod.where(tarif: tarif.original)
+                                                             .ordered&.last&.start_value
+    end
   end
 end

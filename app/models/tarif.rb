@@ -87,6 +87,10 @@ class Tarif < ApplicationRecord
     booking&.organisation || home&.organisation
   end
 
+  def before_usage_validation(_usage); end
+
+  def before_usage_save(_usage); end
+
   def self_and_booking_copy_ids
     [id] + booking_copy_ids
   end

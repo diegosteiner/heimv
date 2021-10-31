@@ -7,7 +7,6 @@
     table.table.align-middle
       thead
         tr
-          th
           th= Tarif.model_name.human
           th= Tarif.human_attribute_name(:price_per_unit)
           th= Tarif.human_attribute_name(:unit)
@@ -34,8 +33,6 @@
             = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
               tr.bg-white
                 td
-                  small.text-secondary= usage.tarif.ordinal
-                td
                   = uf.hidden_field :id
                   = uf.hidden_field :tarif_id
                   = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
@@ -43,6 +40,8 @@
                   = number_to_currency(usage.tarif.price_per_unit, currency: @booking.organisation.currency)
                 td
                   = usage.tarif.unit
+                  small.d-block.text-secondary= usage.tarif.class.model_name.human
+
                 - if defined?(used_units_field) && used_units_field
                   td
                     = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif, presumed: (used_units_field == :presumed) }

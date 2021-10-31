@@ -33,5 +33,10 @@
 
 module Tarifs
   class OvernightStay < ::Tarif
+    def before_usage_save(usage)
+      usage.booking.usages.each do |other_usage|
+        other_usage.tarif.recalculate_usage(other_usage) if other_usage.tarif.is_a?(MinOccupation)
+      end
+    end
   end
 end

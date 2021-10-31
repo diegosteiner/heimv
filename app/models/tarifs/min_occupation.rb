@@ -33,15 +33,10 @@
 
 module Tarifs
   class MinOccupation < Tarif
-    module UsageDecorator
-      extend ActiveSupport::Concern
-
-      included do
-        before_save do
-          min = booking.home.min_occupation * booking.occupancy.nights
-          self.used_units = used_units.presence || (min - booking.actual_overnight_stays)
-        end
-      end
+    def recalculate_usage(usage)
+      booking = usage.booking
+      min = booking.home.min_occupation * booking.occupancy.nights
+      usage.update(used_units: min - booking.actual_overnight_stays)
     end
   end
 end

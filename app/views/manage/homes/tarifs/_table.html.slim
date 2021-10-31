@@ -30,7 +30,7 @@
           = f.fields_for tarif.id.to_s, tarif do |tf|
             tr.bg-white
               td
-                small.text-secondary= tarif.ordinal
+                small.text-secondary= tarif.ordinal_rank
               td
                 = tf.hidden_field :id
                 = tf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
