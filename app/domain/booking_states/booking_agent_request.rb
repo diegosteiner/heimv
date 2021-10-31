@@ -25,7 +25,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.notifications.new(from_template: :booking_agent_request_notification,
-                                addressed_to: :booking_agent).deliver
+                                to: booking.agent_booking.booking_agent).deliver
       booking.occupancy.tentative!
     end
 

@@ -18,7 +18,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.notifications.new(from_template: :payment_overdue_notification, addressed_to: :tenant).deliver
+      booking.notifications.new(from_template: :payment_overdue_notification, to: booking.tenant).deliver
     end
 
     infer_transition(to: :completed) do |booking|

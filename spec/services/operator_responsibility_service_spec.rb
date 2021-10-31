@@ -45,7 +45,7 @@ RSpec.describe OperatorResponsibilityService, type: :model do
   end
 
   describe '#assign' do
-    subject(:responsibility) { service.assign(:administration) }
+    subject(:responsibility) { service.assign(:administration).first }
 
     it { is_expected.to be_valid }
     it { expect(responsibility.booking).to eq(booking) }

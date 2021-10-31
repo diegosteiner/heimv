@@ -7,7 +7,7 @@ module BookingActions
 
       def call!
         if Invoices::Deposit.of(booking).kept.unpaid.exists?
-          booking.notifications.new(from_template: :contract_signed_notification, addressed_to: :tenant).deliver
+          booking.notifications.new(from_template: :contract_signed_notification, to: booking.tenant).deliver
         end
 
         booking.contract.signed!

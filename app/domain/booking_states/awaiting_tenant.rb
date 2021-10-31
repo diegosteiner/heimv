@@ -19,9 +19,9 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.notifications.new(from_template: :awaiting_tenant_notification, addressed_to: :tenant).deliver
+      booking.notifications.new(from_template: :awaiting_tenant_notification, to: booking.tenant).deliver
       booking.notifications.new(from_template: :booking_agent_request_accepted_notification,
-                                addressed_to: :booking_agent).deliver
+                                to: booking.agent_booking.booking_agent).deliver
     end
 
     infer_transition(to: :overdue_request, &:deadline_exceeded?)

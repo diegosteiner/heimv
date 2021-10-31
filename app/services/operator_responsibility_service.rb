@@ -5,24 +5,18 @@ class OperatorResponsibilityService
     @booking = booking
   end
 
-  def assign_all(*responsibilities)
-    responsibilities.map { |responsibility| assign(responsibility) }
-  end
+  def assign(*responsibilities)
+    responsibilities.map do |responsibility|
+      next @booking.responsible_for(responsibility) if @booking.responsible_for(responsibility).present?
 
-  def assign(...)
-    return existing(...) if existing(...).present?
-
-    matching(...).first&.dup&.tap do |operator_responsibility|
-      operator_responsibility.update(booking: @booking, home: @booking.home)
+      matching(responsibility).first&.dup&.tap do |operator_responsibility|
+        operator_responsibility.update(booking: @booking, home: @booking.home)
+      end
     end
   end
 
   def matching(responsibility)
     @booking.organisation.operator_responsibilities.ordered
             .where(responsibility: responsibility, home: [@booking.home, nil])
-  end
-
-  def existing(responsibility)
-    @booking.operator_responsibilities.where(responsibility: responsibility).first
   end
 end

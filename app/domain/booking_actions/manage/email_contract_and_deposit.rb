@@ -7,7 +7,7 @@ module BookingActions
 
       def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).kept.unpaid.unsent)
         notification = booking.notifications.new(from_template: :awaiting_contract_notification,
-                                                 addressed_to: :tenant)
+                                                 to: booking.tenant)
         notification.attachments.attach(attachments_for(booking.home, deposits, contract))
         notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver
       end

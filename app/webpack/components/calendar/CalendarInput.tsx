@@ -170,6 +170,14 @@ export const CalendarControl: React.FC<CalendarControlProps> = ({
       isSameDay(date, inputValue.date) &&
       "bg-primary text-white") ||
     "";
+  const dayElement = (date: Date) => (
+    <OccupancyCalendarDay
+      onClick={handleClick}
+      date={date}
+      classNames={classNameCallback}
+      disabled={disableCallback}
+    ></OccupancyCalendarDay>
+  );
 
   return (
     <>
@@ -250,13 +258,10 @@ export const CalendarControl: React.FC<CalendarControlProps> = ({
         </Row>
         <Modal size="lg" show={showModal} onHide={handleClose}>
           <Modal.Body>
-            <Calendar start={formatISO(inputValue.date || new Date())}>
-              <OccupancyCalendarDay
-                onClick={handleClick}
-                classNames={classNameCallback}
-                disabled={disableCallback}
-              ></OccupancyCalendarDay>
-            </Calendar>
+            <Calendar
+              start={formatISO(inputValue.date || new Date())}
+              dayElement={dayElement}
+            ></Calendar>
           </Modal.Body>
         </Modal>
       </div>

@@ -14,7 +14,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      notification = booking.notifications.new(from_template: :upcoming_soon_notification, addressed_to: :tenant)
+      notification = booking.notifications.new(from_template: :upcoming_soon_notification, to: booking.tenant)
       next unless notification.valid?
 
       notification.attachments.attach(booking.home.house_rules.attachment&.blob)

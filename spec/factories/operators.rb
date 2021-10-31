@@ -23,8 +23,8 @@
 FactoryBot.define do
   factory :operator do
     name { 'MyString' }
-    email { 'MyString' }
+    email { 'operator@heimv.local' }
     contact_info { 'MyText' }
-    organisation { nil }
+    organisation
   end
 end

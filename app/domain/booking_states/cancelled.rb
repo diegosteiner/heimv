@@ -24,11 +24,11 @@ module BookingStates
     after_transition do |booking|
       booking.occupancy.free!
       booking.conclude
-      booking.notifications.new(from_template: :cancelled_notification, addressed_to: :tenant).deliver
+      booking.notifications.new(from_template: :cancelled_notification, to: booking.tenant).deliver
       next unless booking.agent_booking?
 
       booking.notifications.new(from_template: :booking_agent_cancelled_notification,
-                                addressed_to: :booking_agent).deliver
+                                to: booking.agent_booking.booking_agent).deliver
     end
 
     def relevant_time; end

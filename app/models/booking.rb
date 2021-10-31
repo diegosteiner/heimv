@@ -139,6 +139,10 @@ class Booking < ApplicationRecord
     agent_booking.present?
   end
 
+  def responsible_for(responsibility)
+    operator_responsibilities.where(responsibility: responsibility).first
+  end
+
   def cache_key
     [super, updated_at.to_i].join('-')
   end

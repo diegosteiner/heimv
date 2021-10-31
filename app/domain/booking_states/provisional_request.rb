@@ -20,7 +20,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.notifications.new(from_template: :provisional_request_notification, addressed_to: :tenant).deliver
+      booking.notifications.new(from_template: :provisional_request_notification, to: booking.tenant).deliver
       booking.occupancy.tentative!
     end
 
