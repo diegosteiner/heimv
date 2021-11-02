@@ -155,13 +155,13 @@ select[disabled="disabled"] {
 }
 
 .breakout-sm {
-  @include media-breakpoint-down(sm) {
-    margin-left: -($grid-gutter-width / 2 + 1);
-    margin-right: -($grid-gutter-width / 2 + 1);
-    border-radius: 0;
-    border-left-width: 0;
-    border-right-width: 0;
-  }
+  // @include media-breakpoint-down(sm) {
+  //   margin-left: calc(var(--bs-gutter-x, 0.75rem) * -1);
+  //   margin-right: calc(var(--bs-gutter-x, 0.75rem) * -1);
+  //   border-radius: 0;
+  //   border-left-width: 0;
+  //   border-right-width: 0;
+  // }
 }
 
 th.spacer {
