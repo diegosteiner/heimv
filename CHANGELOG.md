@@ -1,9 +1,13 @@
 # Changelog
 
 #### Unreleased
+#### Version 21.11.1
+
+Released on 22.10.2021
 
 - Add operators with responsibilities
 - Improve notifications
+- Improve calendar performance
 
 #### Version 21.10.1
 
