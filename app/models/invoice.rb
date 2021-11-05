@@ -136,7 +136,7 @@ class Invoice < ApplicationRecord
       InvoiceParts::Add.new(
         apply: apply_invoice_part?(usage),
         usage: usage, label: usage.tarif.label, breakdown: usage.breakdown,
-        position: usage.tarif.position, amount: usage.price
+        ordinal: usage.tarif.ordinal, amount: usage.price
       )
     end
   end

@@ -7,8 +7,8 @@ ruby '3.0.2'
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
 gem 'blueprinter'
-gem 'bootsnap'
-gem 'bootstrap_form'
+gem 'bootsnap', require: false
+gem 'bootstrap_form' # , git: "https://github.com/bootstrap-ruby/bootstrap_form.git", branch: "bootstrap-5"
 gem 'camt_parser'
 gem 'cancancan'
 gem 'connection_pool'
@@ -44,7 +44,7 @@ gem 'rqrcode'
 gem 'slim-rails'
 gem 'statesman'
 gem 'ttfunk'
-gem 'webpacker'
+gem 'webpacker', '>= 6.0.0-rc.5'
 
 group :development do
   gem 'annotate'

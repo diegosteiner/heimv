@@ -1,5 +1,6 @@
+h1.mt-0.mb-5= Tenant.model_name.human(count: :other)
 .table-responsive
-  table.table.table-hover.table-card
+  table.table.table-hover.align-middle
     thead
       tr
         th= Tenant.model_name.human
@@ -12,7 +13,7 @@
         th
     tbody
       - @tenants.each do |tenant|
-        tr[data-href=manage_tenant_path(tenant) data-id=tenant.to_param]
+        tr[data-href=manage_tenant_path(tenant) data-bs-id=tenant.to_param]
           td
             = link_to manage_tenant_path(tenant)
               - if tenant.first_name.present? || tenant.last_name.present?
@@ -22,7 +23,7 @@
           td 
             == tenant.full_address_lines.join('<br>'.html_safe)
           td 
-            = link_to tenant.email, "mailto:#{tenant.email}"
+            = mail_to tenant.email
             - tenant.phone&.lines do |phone|
               br
               = link_to phone, "tel:#{phone}"

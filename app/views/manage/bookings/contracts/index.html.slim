@@ -11,7 +11,7 @@
       =<> link_to t(:add_record, model_name: Contract.model_name.human), new_manage_booking_contract_path(@booking)
 - else
   section.mt-4.breakout-sm
-    table.table.table-hover.table-card
+    table.table.table-hover.align-middle
       thead
         tr
           th= Contract.model_name.human
@@ -45,7 +45,7 @@
               td.py-2
                 = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { signed_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success'
                   = t('.contract_signed')
-            td.py-1.text-right
+            td.py-1.text-end
               .btn-group
                 - unless contract.ousted?
                   = link_to edit_manage_booking_contract_path(@booking, contract), class: 'btn btn-default' do

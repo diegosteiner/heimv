@@ -1,4 +1,6 @@
-# Heimverwaltung
+![HeimV Logo](app/webpack/images/logo.png)
+
+# HeimV Heimverwaltung
 
 ## Setup with Docker
 
@@ -14,7 +16,7 @@ or with VS Code
 
 ### Development Servers
 
-Then inside the container run:
+Then inside the container you may run:
 
 - `bin/rails s -b 0.0.0.0` to start rails server
 - `bin/webpack-dev-server` to start webpack dev server
@@ -32,7 +34,7 @@ To visit the automatically created default organization, visit http://localhost:
 
 Copy env.example to .env and change configuration there
 
-## Embed
+## Embed Calendar for a Home
 
 ```
 <iframe
@@ -121,7 +123,7 @@ cat data.csv | bin/rails r Import::Csv::TenantImporter.new(organisation).read
 
 Prepare a csv with these columns, including a header, as utf-8:
 
-- position
+- ordinal
 - label
 - type
 - tarif_group

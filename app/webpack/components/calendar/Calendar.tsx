@@ -1,102 +1,247 @@
-import * as React from 'react';
 import {
-  eachDayOfInterval,
-  startOfMonth,
-  endOfMonth,
-  getDay,
-  getMonth,
-  eachMonthOfInterval,
-  addMonths,
   getYear,
-  subMonths,
-} from 'date-fns';
+  getDay,
+  parseISO,
+  formatISO,
+  isValid,
+  eachDayOfInterval,
+  endOfMonth,
+} from "date-fns/esm";
+import * as React from "react";
+import styled from "@emotion/styled";
+import { getMonth } from "date-fns";
 
-import * as styles from './Calendar.module.scss';
-const { useState, cloneElement } = React;
+const StyledCalendar = styled.div`
+  .calendarNav {
+    display: flex;
+    font-size: 2em;
+    header,
+    footer {
+      flex: 2 1;
+      text-align: center;
+    }
+    button {
+      display: block;
+      flex: 1 1;
+      text-align: center;
+      background: transparent;
+      border: none;
+    }
+  }
 
-interface CalendarMonthProps {
-  date: Date;
-  locale: Locale;
+  .calendarDay {
+    display: block;
+    height: 100%;
+  }
+
+  .calendarMonths {
+    font-size: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14em, 15em));
+    grid-template-rows: 16em;
+    gap: 1em;
+    align-content: space-evenly;
+    justify-content: space-evenly;
+  }
+
+  .calendarMonth {
+    header {
+      font-weight: bold;
+      text-align: center;
+      padding: 0.25em 0;
+    }
+    .calendarWeekday {
+      font-weight: bold;
+      text-align: center;
+      padding: 0.25em;
+      font-size: 0.65em;
+    }
+    .calendarDays {
+      display: grid;
+      grid-template-columns: repeat(7, 2em);
+      grid-template-rows: repeat(7, 2em);
+      align-content: space-between;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .calendarDay,
+    .calendarDay > * {
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+    }
+  }
+
+  .slide-in > * {
+    animation: slide-in 0.25s forwards;
+  }
+
+  @keyframes slide-in {
+    0% {
+      transform: translateX(10%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+  }
+`;
+
+const monthNameFormatter = new Intl.DateTimeFormat(undefined, {
+  month: "long",
+});
+const weekdayNameFormatter = new Intl.DateTimeFormat(undefined, {
+  weekday: "short",
+});
+const materializedWeekdays = [1, 2, 3, 4, 5, 6, 7].map((i) =>
+  weekdayNameFormatter.format(new Date(2021, 2, i))
+);
+
+function materializedMonths(startDate: Date, monthsCount: number) {
+  const startYearMonth = new YearMonth(getYear(startDate), getMonth(startDate));
+  const months: YearMonth[] = [];
+
+  for (let i = 0; i < monthsCount; i++) {
+    months.push(startYearMonth.addMonths(i));
+  }
+
+  return months;
 }
 
-type MonthNames = [string, string, string, string, string, string, string, string, string, string, string, string];
-type WeekdayNames = [string, string, string, string, string, string, string];
+class YearMonth {
+  constructor(public year: number, public month: number) {}
 
-type Locale = {
-  weekdayNames: WeekdayNames;
-  monthNames: MonthNames;
-};
+  firstDate(): Date {
+    return new Date(this.year, this.month, 1);
+  }
 
-const CalendarMonth: React.FC<CalendarMonthProps> = ({ date, locale, children }) => {
+  addMonths(months: number): YearMonth {
+    const resultYear = Math.floor((this.year * 12 + this.month + months) / 12);
+    const resultMonth = (this.year * 12 + this.month + months) % 12;
+
+    return new YearMonth(resultYear, resultMonth);
+  }
+
+  subMonths(months: number): YearMonth {
+    return this.addMonths(months * -1);
+  }
+
+  toString(): string {
+    return `${this.year}/${this.month + 1}`;
+  }
+}
+
+interface CalendarMonthProps {
+  month: YearMonth;
+  dayElement(date: Date): React.ReactElement;
+}
+
+const CalendarMonth: React.FC<CalendarMonthProps> = ({ month, dayElement }) => {
+  const date = month.firstDate();
+  const monthStartsAfter = (getDay(date) + 6) % 7;
   const daysOfMonth = eachDayOfInterval({
-    start: startOfMonth(date),
+    start: date,
     end: endOfMonth(date),
   });
-  const monthName = locale.monthNames[getMonth(date)];
-  const monthStartsAfter = (getDay(startOfMonth(date)) + 6) % 7;
-
   return (
-    <div className={styles.calendarMonth}>
-      <header>{monthName}</header>
-      <div className={styles.calendarDays}>
-        {locale.weekdayNames.map((weekday) => (
-          <div key={weekday} className={styles.calendarWeekday}>
-            {weekday}
+    <div className="calendarMonth">
+      <header>{monthNameFormatter.format(date)}</header>
+      <div className="calendarDays">
+        {materializedWeekdays.map((weekdayName) => (
+          <div key={`weekday-${weekdayName}`} className="calendarWeekday">
+            {weekdayName}
           </div>
         ))}
         {[...Array(monthStartsAfter)].map((e, i) => (
-          <div key={i} className="calendar-day spacer"></div>
+          <div key={i} className="calendarDay spacer"></div>
         ))}
-        {daysOfMonth.map((day) => (
-          <time className={styles.calendarDay} dateTime={day.toISOString()} key={`day-${day.toISOString()}`}>
-            {cloneElement(children as React.ReactElement, { date: day })}
-          </time>
-        ))}
+        {daysOfMonth.map((day) => {
+          const dateString = formatISO(day, { representation: "date" });
+          return (
+            <time
+              className="calendarDay"
+              dateTime={dateString}
+              key={`day-${dateString}`}
+            >
+              {dayElement(day)}
+            </time>
+          );
+        })}
       </div>
     </div>
   );
 };
 
-const calendarYearName = (months: Date[]): string => {
-  return [...Array.from(new Set<number>(months.map((month) => getYear(month))))].join('/');
-};
-
-const monthsInWindow = (firstDate: Date, length: number) => {
-  return eachMonthOfInterval({
-    start: firstDate,
-    end: addMonths(startOfMonth(firstDate), length - 1),
-  });
-};
-
-const locale: Locale = {
-  weekdayNames: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
-  monthNames: [
-    'Januar',
-    'Februar',
-    'März',
-    'April',
-    'Mai',
-    'Juni',
-    'Juli',
-    'August',
-    'September',
-    'Oktober',
-    'November',
-    'Dezember',
-  ],
-};
-
-interface CalendarProps {
-  firstMonth?: Date;
-  displayMonths?: number;
+interface CalendarNavProps {
+  onPrev(): void;
+  onNext(): void;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ firstMonth = null, displayMonths = 8, children }) => {
-  firstMonth = startOfMonth(firstMonth || new Date());
-  const [months, setMonths] = useState<Date[]>(monthsInWindow(firstMonth, displayMonths));
-  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
-  const prev = () => setMonths(monthsInWindow(subMonths(months[0], 1), displayMonths));
-  const next = () => setMonths(monthsInWindow(addMonths(months[0], 1), displayMonths));
+const CalendarNav: React.FC<CalendarNavProps> = ({
+  onPrev,
+  onNext,
+  children,
+}) => {
+  return (
+    <nav className="calendarNav">
+      <button onClick={onPrev} className="prev" type="button">
+        ←
+      </button>
+      {children}
+      <button onClick={onNext} className="next" type="button">
+        →
+      </button>
+    </nav>
+  );
+};
+
+const CalendarMonthMemo = React.memo(CalendarMonth);
+interface CalendarProps {
+  start?: string;
+  monthsCount?: number | string;
+  dayElement(date: Date): React.ReactElement;
+}
+
+const Calendar: React.FC<CalendarProps> = ({
+  start,
+  dayElement,
+  monthsCount = 12,
+}) => {
+  const monthsCountNumber: number = Number.isInteger(monthsCount)
+    ? (monthsCount as number)
+    : parseInt(monthsCount.toString());
+
+  let startDate = start && parseISO(start);
+  if (!isValid(startDate)) startDate = new Date();
+
+  const [visibleMonths, setVisibleMonths] = React.useState<YearMonth[]>(() =>
+    materializedMonths(startDate as Date, monthsCountNumber)
+  );
+  const year = Array.from(
+    new Set(visibleMonths.map((month) => month.year))
+  ).join("/");
+  const [touchStart, setTouchStart] = React.useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+  const prevMonth = () =>
+    setVisibleMonths((visibleMonthsWas) => {
+      const repealed = visibleMonthsWas.pop();
+      return repealed
+        ? [repealed.subMonths(monthsCountNumber), ...visibleMonthsWas]
+        : visibleMonthsWas;
+    });
+  const nextMonth = () =>
+    setVisibleMonths((visibleMonthsWas) => {
+      const repealed = visibleMonthsWas.shift();
+      return repealed
+        ? [...visibleMonthsWas, repealed.addMonths(monthsCountNumber)]
+        : visibleMonthsWas;
+    });
   const handleTouchStart = ({ changedTouches }: React.TouchEvent) => {
     setTouchStart({
       x: changedTouches[0].screenX,
@@ -108,29 +253,26 @@ const Calendar: React.FC<CalendarProps> = ({ firstMonth = null, displayMonths = 
     const diff = touchStart.x - event.changedTouches[0].screenX;
 
     if (Math.abs(diff) < 100) return;
-    if (diff > 0) return next();
-    if (diff < 0) return prev();
+    if (diff > 0) return nextMonth();
+    if (diff < 0) return prevMonth();
   };
 
   return (
-    <div className={styles.calendarMain} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-      <nav className={styles.calendarNav}>
-        <button onClick={prev}>←</button>
-        <header>{calendarYearName(months)}</header>
-        <button onClick={next}>→</button>
-      </nav>
-      <div className={styles.calendarMonths}>
-        {months.map((month) => (
-          <CalendarMonth date={month} key={`month-${month.toISOString()}`} locale={locale}>
-            {children}
-          </CalendarMonth>
+    <StyledCalendar onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
+        <header>{year}</header>
+      </CalendarNav>
+      <div className="calendarMonths">
+        {visibleMonths.map((month) => (
+          <CalendarMonthMemo
+            key={`month-${month.toString()}`}
+            month={month}
+            dayElement={dayElement}
+          ></CalendarMonthMemo>
         ))}
       </div>
-      <nav className={styles.calendarNav}>
-        <button onClick={prev}>←</button>
-        <button onClick={next}>→</button>
-      </nav>
-    </div>
+      <CalendarNav onNext={nextMonth} onPrev={prevMonth}></CalendarNav>
+    </StyledCalendar>
   );
 };
 

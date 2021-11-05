@@ -16,18 +16,15 @@
           .row
             .col-5
               = invoice_part.label
-            .col-3
+            .col-4
               = invoice_part.breakdown
-            .col-3.text-right
+            .col-3.text-end
               = number_to_currency(invoice_part.amount)
-            .col-1
-              = link_to edit_manage_invoice_invoice_part_path(@invoice, invoice_part)
-                span.fa.fa-edit
 
         hr
         .row
           .col-8
-          .col-3.text-right
+          .col-4.text-end
             strong= number_to_currency(@invoice.amount)
 
 

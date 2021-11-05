@@ -7,7 +7,7 @@
 #  id                       :bigint           not null, primary key
 #  invoice_type             :string
 #  label_i18n               :jsonb
-#  position                 :integer
+#  ordinal                  :integer
 #  prefill_usage_method     :string
 #  price_per_unit           :decimal(, )
 #  tarif_group              :string
@@ -33,5 +33,10 @@
 
 module Tarifs
   class OvernightStay < ::Tarif
+    def before_usage_save(usage)
+      usage.booking.usages.each do |other_usage|
+        other_usage.tarif.recalculate_usage(other_usage) if other_usage.tarif.is_a?(MinOccupation)
+      end
+    end
   end
 end

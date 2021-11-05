@@ -4,11 +4,10 @@
   = hidden_field_tag :usages_presumed, 1 if defined?(used_units_field) && (used_units_field == :presumed)
 
   .table-responsive
-    table.table
+    table.table.align-middle
       thead
-        tr.bg-white
-          th
-          th= Tarif.model_name.human(count: :other)
+        tr
+          th= Tarif.model_name.human
           th= Tarif.human_attribute_name(:price_per_unit)
           th= Tarif.human_attribute_name(:unit)
           - if defined?(used_units_field) && used_units_field
@@ -26,31 +25,31 @@
             th.pt-4[colspan='8']
               h5
                 = tarif_group
-                a.badge.badge-pill.badge-secondary.ml-3[href="##{collapse_id}" data-toggle="collapse"]
+                a.badge.rounded-pill.bg-secondary.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
                   = group_usages.count
 
         tbody.collapse.show[id=collapse_id]
           - group_usages.each do |usage|
             = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
               tr.bg-white
-                td.py-3
-                  small.text-secondary= usage.tarif.position
-                td.py-3
+                td
                   = uf.hidden_field :id
                   = uf.hidden_field :tarif_id
                   = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label }, '0', '1'
-                td.py-3
+                td
                   = number_to_currency(usage.tarif.price_per_unit, currency: @booking.organisation.currency)
-                td.py-3
+                td
                   = usage.tarif.unit
+                  small.d-block.text-secondary= usage.tarif.class.model_name.human
+
                 - if defined?(used_units_field) && used_units_field
-                  td.py-2
+                  td
                     = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif, presumed: (used_units_field == :presumed) }
-                  td.py-3
+                  td
                     = number_to_currency(usage.price, currency: @booking.organisation.currency)
                 - else
                   = uf.hidden_field :used_units
-                td.py-2.text-right
+                td.text-end
                   .btn-group
                     - if defined?(usage_links) && usage_links && !usage.new_record?
                       = link_to edit_manage_booking_usage_path(@booking, usage), class: 'btn btn-default' do
@@ -69,9 +68,9 @@
           = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: :other))
 
         - if defined?(used_units_field)
-          button.ml-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
+          button.ms-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
             = t('.save_and_continue')
 
         - if defined?(used_units_field)
-          = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ml-3' do 
+          = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ms-3' do 
             i.fa.fa-print<>

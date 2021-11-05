@@ -6,7 +6,8 @@ module PaymentInfos
     VERSION = '0200'
     CODING_TYPE = '1'
     ADDRESS_TYPE = 'K'
-    REF_TYPE = 'SCOR' # || 'QRR'
+    # REF_TYPE = 'QRR'
+    REF_TYPE = 'SCOR'
     CURRENCY = 'CHF'
     COUNTRY_CODE = 'CH'
     EPD = 'EPD'
@@ -96,7 +97,7 @@ module PaymentInfos
     end
 
     def qrcode
-      @qrcode ||= RQRCode::QRCode.new(qr_data.values.join("\n"), level: :h, mode: :byte_8bit)
+      @qrcode ||= RQRCode::QRCode.new(qr_data.values.join("\n"), level: :m, mode: :byte_8bit)
     end
   end
 end

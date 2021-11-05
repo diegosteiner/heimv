@@ -2,8 +2,16 @@
 
 #### Unreleased
 
+- Add operators with responsibilities
+- Improve notifications
+
+#### Version 21.10.1
+
+Released on 22.10.2021
+
 - Add liquid validations for richtext templates
 - Add UI for booking import
+- Update JS Dependencies
 
 #### Version 21.9.2
 

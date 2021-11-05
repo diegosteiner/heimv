@@ -16,10 +16,15 @@ module BookingStates
       true
     end
 
+    def responsibilities
+      %i[home_handover home_return]
+    end
+
     after_transition do |booking|
       booking.occupancy.occupied!
       booking.deadline&.clear
-      booking.notifications.new(from_template: :upcoming_notification, addressed_to: :tenant).deliver
+      OperatorResponsibilityService.new(booking).assign(:home_handover, :home_return)
+      booking.notifications.new(from_template: :upcoming_notification, to: booking.tenant).deliver
     end
 
     infer_transition(to: :upcoming_soon) do |booking|

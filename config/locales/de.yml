@@ -93,7 +93,7 @@ de:
         request_deadline_minutes: Frist für Anfragen
       booking_purpose:
         key: Schlüssel
-        position: Ordnungsnummer
+        ordinal: Ordnungsnummer
         title: Titel
       contract:
         issuer: Vermieter
@@ -142,7 +142,7 @@ de:
         apply: Anwenden
         breakdown: Aufschlüsselung
         label: Text
-        position: Ordnungsnummer
+        ordinal: Ordnungsnummer
         type: Positionsart
       meter_reading_period:
         begins_at: Beginn
@@ -168,6 +168,19 @@ de:
         text: Offertentext
         valid_from: Gültig ab
         valid_until: Gültig bis
+      operator:
+        contact_info: Kontaktinformationen
+        email: Email
+        name: Name
+      operator_booking:
+        responsibility: Verantwortlichkeit
+      operator_responsibility:
+        booking_id: Buchung
+        home_id: Heim
+        operator_id: Funktionär
+        ordinal_position: Ordnungsnummer
+        remarks: Bemerkungen
+        responsibility: Verantwortlichkeit
       organisation:
         address: Adresse
         bcc: BCC
@@ -175,7 +188,7 @@ de:
         default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
         esr_ref_prefix: ESR Identifikationsnummer / Präfix
-        iban: QR-IBAN
+        iban: IBAN
         locale: Sprache
         location: Vertragsunterschrift Ort
         logo: Logo
@@ -209,7 +222,7 @@ de:
         invoice_type: Zugehörig zu Rechnungsart
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
-        position: Ordnungsnummer
+        ordinal: Ordnungsnummer
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis (pro Einheit)
         tarif_group: Tarifgruppe
@@ -281,6 +294,12 @@ de:
           free: Frei
           occupied: definitiv Besetzt
           tentative: provisorisch Besetzt
+      operator_responsibility:
+        responsibility:
+          administration: Administration
+          billing: Verrechnung
+          home_handover: Hausübergabe
+          home_return: Hausrücknahme
       rich_text_template:
         namespace:
           contract: Vertrag
@@ -296,7 +315,7 @@ de:
         role:
           admin: Admin
           manager: Verwaltung
-          staff: Lesend
+          readonly: Lesend
     errors:
       models:
         booking:
@@ -401,6 +420,12 @@ de:
       offer:
         one: Offerte
         other: Offerten
+      operator:
+        one: Funktionär
+        other: Funktionäre
+      operator_responsibility:
+        one: Verantwortlichkeit
+        other: Verantwortlichkeiten
       organisation:
         one: Organisation
         other: Organisationen
@@ -435,6 +460,8 @@ de:
         one: Pauschale
       tarifs/metered:
         one: nach Zählerstand
+      tarifs/min_occupation:
+        one: Mindestbelegung
       tarifs/overnight_stay:
         one: Übernachtungen
       tenant:
@@ -481,6 +508,7 @@ de:
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
       checklist:
+        assign_responsibilities: Verantwortlichkeiten zuweisen
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
       label: Reservation (Vertrag offen)
@@ -1813,6 +1841,7 @@ de:
         canned_filter_upcoming: Zukünftige Belegungen
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       show:
+        checklist: Checkliste
         public_booking_url: Link für Mieter
       tarifs:
         index:
@@ -1836,6 +1865,7 @@ de:
     organisations:
       form:
         general: Allgemein
+        more_settings: Weitere Einstellungen
         terms: AGB
     payments:
       index:
@@ -1937,7 +1967,7 @@ de:
   offers:
     issuer_signature_label: Datum, Unterschrift Vermieter
   optional: optional
-  payable_by: Payable by
+  payable_by: Zahlbar durch
   payment_part_title: Payment part title
   public:
     agent_bookings:
@@ -1982,8 +2012,6 @@ de:
           <li>Mietzweck: {{ booking.purpose.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Reservation bestätigen
       description: Benachrichtigung für Vertragsaustellung und Anzahlung (Mieter)
     awaiting_tenant_notification:
@@ -2006,8 +2034,6 @@ de:
           <li>Mietzweck: {{ booking.purpose.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Infos bitte
       description: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
     booking_agent_cancelled_notification:
@@ -2028,8 +2054,6 @@ de:
         </ul>
 
         <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Vermittlungsanfrage akzeptiert
       description: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
     booking_agent_request_notification:
@@ -2046,9 +2070,8 @@ de:
           <li>Bearbeitungslink: <a href="{{booking.links.edit}}">{{booking.links.edit}}</a></li>
         </ul>
 
-        <p>Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.</p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
+        <p>Deine Anfrage wurde angenommen. Über den folgenden Link kann die Reservation verlängert, aufgehoben oder für definitiv erklärt werden. Die provisorische Reservation gilt f&uuml;r 10 Tage und kann weitere 3 Tage verl&auml;ngert werden. Wenn die Reservation l&auml;nger reserviert werden soll, bitten wir Dich dies per Email mit dem Datum anzufragen.</p>
+        <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
       default_title: Bestätigung Deiner Vermittlungsanfrage
       description: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
     cancelled_notification:
@@ -2068,8 +2091,6 @@ de:
         </ul>
 
         <p>Du kannst auf unserem <a href="https://app.heimv.ch">Reservationssystem</a> jederzeit eine neue Reservation erstellen.</p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Vertragsauflösung/Annullation Deiner Reservation
       description: Benachrichtigung für annullierte Reservation (Mieter)
     cancelled_request_notification:
@@ -2092,8 +2113,6 @@ de:
         <p>Du kannst auf unserem <a href="https://www.heimv.ch.HeimV">Reservationssystem</a> jederzeit eine neue Reservation erstellen.</p>
 
         <p>Für Fragen oder weitere Auskünfte wendest Du Dich an unseren Heimverwalter</p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Deine Reservationsanfrage wurde annulliert
       description: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
     contract_signed_notification:
@@ -2116,8 +2135,6 @@ de:
 
         <p><strong>Zahlungsdetails</strong>
         {{ booking.organisation.payment_information }}</p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Unterzeichneten Vertrag erhalten
       description: Benachrichtigung für Vertragseingang (Mieter)
     contract_text:
@@ -2162,8 +2179,6 @@ de:
           <li>Mietzweck: {{ booking.purpose.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Definitive Reservation bestätigt
       description: Benachrichtigung für definitive Mietanfrage (Mieter)
     foreign_payment_info_text:
@@ -2213,8 +2228,6 @@ de:
         </ul>
 
         <p><a href="https://app.heimv.ch">Zu HeimV</a></p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Mietanfrage {{ booking.ref }} definitiv
       description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
     manage_new_booking_notification:
@@ -2236,10 +2249,12 @@ de:
         </ul>
 
         <p><a href="https://app.heimv.ch">Zu HeimV</a></p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Neue Mietanfrage
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
+    manage_upcoming_soon_notification:
+      default_body:
+      default_title: ''
+      description: Benachrichtigung für baldige Belegung (Funktionär)
     notification_footer:
       default_body: ''
       default_title: ''
@@ -2270,8 +2285,6 @@ de:
         <p>Deine Anfrage wird nun bearbeitet. Unser Heimverwalter wird sich in Kürze bei Dir melden.</p>
 
         <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Bestätigung Deiner Mietanfrage
       description: Benachrichtigung für offene Mietanfrage (Mieter)
     overdue_notification:
@@ -2296,8 +2309,6 @@ de:
           <li>Mietzweck: {{ booking.purpose.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Anfrage überfällig
       description: Benachrichtigung für überfällige Reservationsanfrage (Mieter)
     payment_confirmation_notification:
@@ -2316,8 +2327,6 @@ de:
           <li>Mietzweck: {{ booking.purpose.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Zahlungseingang
       description: Benachrichtigung für Zahlungsbestätigung
     payment_due_notification:
@@ -2338,8 +2347,6 @@ de:
 
         <p><strong>Zahlungsdetails</strong>
         {{ booking.organisation.payment_information }}</p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Deine Pfadihaus-Rechnung
       description: Benachrichtigung für fällige Zahlung (Mieter)
     payment_overdue_notification:
@@ -2360,8 +2367,6 @@ de:
 
         <p><strong>Zahlungsdetails</strong>
         {{ booking.organisation.payment_information }}</p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Zahlungserinnerung für Deine Pfadihaus-Rechnung
       description: Benachrichtigung für überfällige Rechnung (Mieter)
     provisional_request_notification:
@@ -2382,8 +2387,6 @@ de:
           <li>Mietzweck: {{ booking.purpose.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Provisorische Reservation bestätigt
       description: Benachrichtigung für provisorische Mietanfrage (Mieter)
     text_payment_info_text:
@@ -2412,8 +2415,6 @@ de:
         Bitte klicke auf den untenstehenden Link um Deine E-Mail-Adresse zu bestätigen und um die Mietanfrage abzuschliessen.</p>
 
         <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Bestätige Deine E-Mail-Adresse!
       description: Benachrichtigung für unbestätigte Mietanfrage (Mieter)
     upcoming_notification:
@@ -2430,16 +2431,13 @@ de:
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietzweck: {{ booking.purpose.title }}</li>
-          <li>Heimwart: {{ booking.home.janitor }}</li>
         </ul>
 
         <p>Bitte vereinbare mit dem Heimwart rechtzeitig den Übernahmetermin.</p>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Anzahlung und unterschriebenen Vertrag eingegangen
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
-      default_body: "\n"
+      default_body:
       default_title: ''
       description: Benachrichtigung für baldige Belegung (Mieter)
     usage_report_text:

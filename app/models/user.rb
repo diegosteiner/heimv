@@ -31,11 +31,11 @@
 #
 
 class User < ApplicationRecord
-  ROLES = %i[staff admin manager].freeze
+  PERMISSIONS = %i[tenant admin manager readonly].freeze
 
   belongs_to :organisation, optional: true
 
-  enum role: ROLES, _prefix: :role
+  enum role: PERMISSIONS, _prefix: :role
 
   after_initialize :set_default_role, if: :new_record?
 
@@ -43,7 +43,7 @@ class User < ApplicationRecord
   validates :role, :email, presence: true
 
   def set_default_role
-    self.role ||= :staff
+    self.role ||= :readonly
   end
 
   def to_s

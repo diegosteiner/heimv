@@ -15,7 +15,7 @@
       =<> link_to t(:add_record, model_name: Usage.model_name.human(count: :other)), manage_booking_usages_path(@booking, presumed: true, return_to: url_for)
 - else
   section.mt-4.breakout-sm
-    table.table.table-hover.table-card
+    table.table.table-hover.align-middle
       thead
         tr
           th= Offer.model_name.human
@@ -34,7 +34,7 @@
               - if offer.valid_until.present?
                 = l(offer.valid_until, format: :short)
 
-            td.py-1.text-right
+            td.py-1.text-end
               .btn-group
                 = link_to edit_manage_booking_offer_path(@booking, offer), class: 'btn btn-default' do
                   span.fa.fa-edit

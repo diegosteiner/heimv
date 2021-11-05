@@ -35,7 +35,8 @@ class ImportSeeder
   def users(organisation, users: nil)
     users ||= [
       { email: 'admin@heimv.local', role: :admin, password: 'heimverwaltung' },
-      { email: 'manager@heimv.local', role: :manager, password: 'heimverwaltung' }
+      { email: 'manager@heimv.local', role: :manager, password: 'heimverwaltung' },
+      { email: 'reader@heimv.local', role: :readonly, password: 'heimverwaltung' }
     ]
 
     users.map { |user| User.create!(user.merge(organisation: organisation)) }

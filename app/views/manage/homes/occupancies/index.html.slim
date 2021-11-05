@@ -1,6 +1,6 @@
 = render partial: 'manage/homes/navigation', locals: { active: :occupancies }
 .breakout-sm
-  table.table.table-hover.table-card
+  table.table.table-hover.align-middle
     thead
       tr
         th= Occupancy.human_attribute_name(:begins_at)
@@ -12,7 +12,7 @@
 
     tbody
       - @occupancies.each do |occupancy|
-        tr[data-href=manage_occupancy_path(occupancy) data-id=occupancy.to_param]
+        tr[data-bs-href=manage_occupancy_path(occupancy) data-id=occupancy.to_param]
           td
             = l(occupancy.begins_at)
           td
@@ -23,7 +23,7 @@
             = link_to occupancy.booking.ref, manage_booking_path(occupancy.booking) if occupancy.booking
           td
             = occupancy.remarks
-          td.p-1.text-right
+          td.p-1.text-end
             .btn-group 
               = link_to edit_manage_occupancy_path(occupancy), class: 'btn btn-default' do
                 span.fa.fa-edit

@@ -19,6 +19,6 @@
           = f.text_field "title_#{locale.to_s}", label: RichTextTemplate.human_attribute_name(:title)
           div[v-pre]= f.text_area "body_#{locale.to_s}", label: RichTextTemplate.human_attribute_name(:body), rows: 15, class: 'rich-text-area'
 
-  .form-actions.pt-4.mt-3.border-top
+  .form-actions.pt-4.mt-3
     = f.submit
     = link_to t(:back), manage_rich_text_templates_path, class: 'btn btn-default'

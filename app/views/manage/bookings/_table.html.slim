@@ -10,17 +10,10 @@
             = link_to manage_booking_path(booking), class: 'd-block'
               h5.m-0.text-center= booking.ref
         .col-md-4.col-lg-3.py-3
-          = link_to manage_booking_path(booking)
-            = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
-          = link_to manage_home_path(booking.home)
-            .d-flex.mt-2
-              div.mr-2
-                i.fa.fa-home
-              div
-                = booking.home
+          = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
 
           .d-flex.mt-2
-            div.mr-2
+            div.me-2
               i.fa.fa-male
             div
               - if booking.approximate_headcount
@@ -53,7 +46,7 @@
 
         .col-md-1
           .dropdown.d-block.w-100.h-100
-            button.btn.btn-default.w-100.h-100[data-toggle="dropdown" type="button"]
+            button.btn.btn-default.w-100.h-100[data-bs-toggle="dropdown" type="button"]
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
               - if can?(:manage, booking)

@@ -2,7 +2,7 @@
 
 nav.navbar.justify-content-between.px-0
   .dropdown.d-inline-block
-    button#dropdownNewBookingButton.btn.btn-primary.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
+    button#dropdownNewBookingButton.btn.btn-primary.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" type="button" 
       = t(:add_record, model_name: Booking.model_name.human)
     .dropdown-menu aria-labelledby="dropdownNewBookingButton" 
       = link_to(new_manage_booking_path, class: 'dropdown-item')
@@ -13,12 +13,12 @@ nav.navbar.justify-content-between.px-0
         = t(:import)
 
   div
-    = link_to manage_bookings_path(current_booking_states: BookingStates.displayed_by_default), class: 'btn btn-outline-secondary mr-2'
+    = link_to manage_bookings_path(current_booking_states: BookingStates.displayed_by_default), class: 'btn btn-outline-secondary me-2'
       = t('.canned_filter_default')
-    = link_to manage_bookings_path(current_booking_states: [:upcoming, :upcoming_soon]), class: 'btn btn-outline-secondary mr-2'
+    = link_to manage_bookings_path(current_booking_states: [:upcoming, :upcoming_soon]), class: 'btn btn-outline-secondary me-2'
       = t('.canned_filter_upcoming')
 
-    a[href='#filter' data-toggle='collapse' class='btn btn-primary']
+    a[href='#filter' data-bs-toggle='collapse' class='btn btn-primary']
       i.fa.fa-search<>
       = t(:search)
 
@@ -33,7 +33,7 @@ nav.navbar.justify-content-between.px-0
 
 - if @bookings.count > 250
   .alert.alert-danger.d-flex
-    .mr-3
+    .me-3
       i.fa.fa-exclamation-circle
     = t('.too_many_records')
 - else
@@ -47,7 +47,7 @@ nav.navbar.justify-content-between.px-0
       section.mt-4
         h3
           = state.t(:label)
-          a.badge.badge-pill.badge-danger.badge-small.ml-3[href="##{collapse_id}" data-toggle="collapse"]
+          a.badge.rounded-pill.bg-danger.badge-small.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
             = bookings.count
         p.text-muted = state.t(:help)
 

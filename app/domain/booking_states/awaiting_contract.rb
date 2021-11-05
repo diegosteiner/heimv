@@ -6,7 +6,7 @@ module BookingStates
 
     def checklist
       [
-        deposits_paid_checklist_item, contract_signed_checklist_item
+        deposits_paid_checklist_item, contract_signed_checklist_item, assign_responsibilities_checklist_item
       ]
     end
 
@@ -45,6 +45,11 @@ module BookingStates
     def contract_signed_checklist_item
       ChecklistItem.new(:contract_signed, booking.contracts.signed.exists?,
                         manage_booking_contracts_path(booking, org: booking.organisation.slug))
+    end
+
+    def assign_responsibilities_checklist_item
+      ChecklistItem.new(:assign_responsibilities, booking.operator_for(:home_handover).present?,
+                        manage_booking_operator_responsibilities_path(booking, org: booking.organisation.slug))
     end
   end
 end

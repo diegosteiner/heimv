@@ -20,7 +20,7 @@ module BookingHelper
   def selector_vote(selector, vote)
     # rubocop:disable Style/StringConcatenation
     (vote ? tag.span(class: 'fa fa-check') : tag.span(class: 'fa fa-times')) +
-      link_to(edit_manage_home_tarif_path(selector.home, selector.tarif), class: 'ml-2') do
+      link_to(edit_manage_home_tarif_path(selector.home, selector.tarif), class: 'me-2') do
         selector.model_name.human
       end +
       ': ' +

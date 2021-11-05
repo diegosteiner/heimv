@@ -38,7 +38,7 @@
           "label_i18n": {
             "de": "Anzahlung (4 Nächte)"
           },
-          "position": 61,
+          "ordinal": 61,
           "prefill_usage_method": "flat",
           "price_per_unit": "600.0",
           "tarif_group": "Anzahlung",
@@ -56,7 +56,7 @@
           "label_i18n": {
             "de": "Lagertarif (über 25 jährig)"
           },
-          "position": 187,
+          "ordinal": 187,
           "prefill_usage_method": null,
           "price_per_unit": "20.0",
           "tarif_group": "Lager/Kurs",
@@ -74,7 +74,7 @@
           "label_i18n": {
             "de": "Mindestbelegung Lagertarif"
           },
-          "position": 188,
+          "ordinal": 188,
           "prefill_usage_method": "nights",
           "price_per_unit": "10.0",
           "tarif_group": "Lager/Kurs",
@@ -92,7 +92,7 @@
           "label_i18n": {
             "de": "Kurtaxe (ab 12 -18jährig)"
           },
-          "position": 196,
+          "ordinal": 196,
           "prefill_usage_method": null,
           "price_per_unit": "0.5",
           "tarif_group": "Kurtaxe",
@@ -110,7 +110,7 @@
           "label_i18n": {
             "de": "Anzahlung (3 Nächte)"
           },
-          "position": 44,
+          "ordinal": 44,
           "prefill_usage_method": "flat",
           "price_per_unit": "480.0",
           "tarif_group": "Anzahlung",
@@ -128,7 +128,7 @@
           "label_i18n": {
             "de": "Lagertarif (unter 25 jährig)"
           },
-          "position": 186,
+          "ordinal": 186,
           "prefill_usage_method": null,
           "price_per_unit": "15.0",
           "tarif_group": "Lager/Kurs",
@@ -146,7 +146,7 @@
           "label_i18n": {
             "de": "Anzahlung (2 Nächte)"
           },
-          "position": 38,
+          "ordinal": 38,
           "prefill_usage_method": "flat",
           "price_per_unit": "300.0",
           "tarif_group": "Anzahlung",
@@ -164,7 +164,7 @@
           "label_i18n": {
             "de": "Anzahlung (1 Nacht)"
           },
-          "position": 25,
+          "ordinal": 25,
           "prefill_usage_method": "flat",
           "price_per_unit": "180.0",
           "tarif_group": "Anzahlung",
@@ -182,7 +182,7 @@
           "label_i18n": {
             "de": "Kurtaxe (ab 18 Jahren)"
           },
-          "position": 198,
+          "ordinal": 198,
           "prefill_usage_method": null,
           "price_per_unit": "2.0",
           "tarif_group": "Kurtaxe",
@@ -200,7 +200,7 @@
           "label_i18n": {
             "de": "Festtarif 1 Nacht"
           },
-          "position": 197,
+          "ordinal": 197,
           "prefill_usage_method": "nights",
           "price_per_unit": "600.0",
           "tarif_group": "Privater Anlass / Fest",
@@ -218,7 +218,7 @@
           "label_i18n": {
             "de": "Abfall"
           },
-          "position": 288,
+          "ordinal": 288,
           "prefill_usage_method": null,
           "price_per_unit": "5.0",
           "tarif_group": "Nebenkosten",
@@ -236,7 +236,7 @@
           "label_i18n": {
             "de": "Brennholz"
           },
-          "position": 287,
+          "ordinal": 287,
           "prefill_usage_method": null,
           "price_per_unit": "15.0",
           "tarif_group": "Nebenkosten",
@@ -254,7 +254,7 @@
           "label_i18n": {
             "de": "Strom (Niedertarif)"
           },
-          "position": 286,
+          "ordinal": 286,
           "prefill_usage_method": null,
           "price_per_unit": "0.25",
           "tarif_group": "Nebenkosten",
@@ -272,7 +272,7 @@
           "label_i18n": {
             "de": "Strom (Hochtarif)"
           },
-          "position": 284,
+          "ordinal": 284,
           "prefill_usage_method": null,
           "price_per_unit": "0.5",
           "tarif_group": "Nebenkosten",
@@ -290,7 +290,7 @@
           "label_i18n": {
             "de": "Schäden"
           },
-          "position": 277,
+          "ordinal": 277,
           "prefill_usage_method": "flat",
           "price_per_unit": "0.0",
           "tarif_group": "Schäden",
@@ -308,7 +308,7 @@
           "label_i18n": {
             "de": "Festtarrif 0 Nächte"
           },
-          "position": 228,
+          "ordinal": 228,
           "prefill_usage_method": "nights",
           "price_per_unit": "350.0",
           "tarif_group": "Privater Anlass / Fest",
@@ -326,7 +326,7 @@
           "label_i18n": {
             "de": "Reservationsgebühr"
           },
-          "position": 285,
+          "ordinal": 285,
           "prefill_usage_method": "flat",
           "price_per_unit": "100.0",
           "tarif_group": "Reservationsgebühr",
@@ -344,7 +344,7 @@
           "label_i18n": {
             "de": "Festtarrif 2 Nächte"
           },
-          "position": 199,
+          "ordinal": 199,
           "prefill_usage_method": "nights",
           "price_per_unit": "475.0",
           "tarif_group": "Privater Anlass / Fest",

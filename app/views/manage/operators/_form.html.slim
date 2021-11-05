@@ -1,0 +1,8 @@
+= form_with(model: [:manage, @operator], local: true) do |f|
+  = f.text_field :name
+  = f.email_field :email
+  = f.text_area :contact_info
+
+  .form-actions.pt-4.mt-3
+    = f.submit
+    = link_to t(:back), manage_operators_path, class: 'btn btn-default'

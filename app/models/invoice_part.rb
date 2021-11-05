@@ -8,7 +8,7 @@
 #  amount     :decimal(, )
 #  breakdown  :string
 #  label      :string
-#  position   :integer
+#  ordinal    :integer
 #  type       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -34,9 +34,9 @@ class InvoicePart < ApplicationRecord
 
   attribute :apply, :boolean, default: true
 
-  ranks :position, with_same: :invoice_id
+  ranks :ordinal, with_same: :invoice_id
 
-  scope :ordered, -> { rank(:position) }
+  scope :ordered, -> { rank(:ordinal) }
 
   validates :type, presence: true
 

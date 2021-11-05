@@ -1,11 +1,24 @@
-@import './variables';
-@import '~bootstrap/scss/bootstrap';
-@import './fonts';
-@import 'tinymce/skins/ui/oxide/skin.css';
+@import "./variables";
+@import "~bootstrap/scss/bootstrap";
+@import "./fonts";
+@import "./calendar";
+@import "tinymce/skins/ui/oxide/skin.css";
 
 img {
   @extend .img-fluid;
   margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  margin-bottom: 0.5rem;
 }
 
 h1,
@@ -20,7 +33,7 @@ h6 {
 
 .app-container {
   display: grid;
-  grid-template-areas: 'navigation main' 'footer footer';
+  grid-template-areas: "navigation main" "footer footer";
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr auto;
   min-height: 100vh;
@@ -34,9 +47,6 @@ h6 {
   &.development {
     #navbar-top {
       background-color: #00c895;
-    }
-
-    & > footer {
     }
   }
 
@@ -90,7 +100,7 @@ h6 {
 
 label.required:after,
 legend.required:after {
-  content: ' *';
+  content: " *";
   color: red;
 }
 
@@ -114,21 +124,29 @@ legend.required:after {
   border: none;
 }
 
-select[disabled='disabled'] {
+select[disabled="disabled"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   color: #495057;
 }
 
-.table-card {
-  thead th {
+.table {
+  > :not(:first-child) {
     border-top: none;
   }
   tbody {
     background-color: $card-bg;
     background-clip: border-box;
     border: $card-border-width solid $card-border-color;
+  }
+
+  .form-check {
+    margin-bottom: 0;
+
+    label {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -137,19 +155,13 @@ select[disabled='disabled'] {
 }
 
 .breakout-sm {
-  @include media-breakpoint-down(sm) {
-    margin-left: -($grid-gutter-width / 2 + 1);
-    margin-right: -($grid-gutter-width / 2 + 1);
-    border-radius: 0;
-    border-left-width: 0;
-    border-right-width: 0;
-  }
-}
-
-.etched {
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
-  opacity: 0.1;
+  // @include media-breakpoint-down(sm) {
+  //   margin-left: calc(var(--bs-gutter-x, 0.75rem) * -1);
+  //   margin-right: calc(var(--bs-gutter-x, 0.75rem) * -1);
+  //   border-radius: 0;
+  //   border-left-width: 0;
+  //   border-right-width: 0;
+  // }
 }
 
 th.spacer {
@@ -188,7 +200,7 @@ tr.disabled {
 }
 
 .position-fixed-lg {
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     position: fixed;
   }
 }

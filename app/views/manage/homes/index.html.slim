@@ -1,5 +1,6 @@
+h1.mt-0.mb-5= Home.model_name.human(count: :other)
 .breakout-sm
-  table.table.table-hover.table-card
+  table.table.table-hover.align-middle.align-middle
     thead
       tr
         th= Home.human_attribute_name(:name)
@@ -10,7 +11,7 @@
         tr[data-href=manage_home_path(home) data-id=home.to_param]
           td
             = link_to home.name, manage_home_path(home)
-          td.p-1.text-right
+          td.p-1.text-end
             .btn-group
               = link_to edit_manage_home_path(home), class: 'btn btn-default'
                 span.fa.fa-edit

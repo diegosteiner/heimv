@@ -6,9 +6,9 @@ set -e
 bundle check || bundle install || ash
 yarn check || yarn install || ash
 
-echo "Preparing Database"
-bin/rails db:prepare RAILS_ENV=$RAILS_ENV
-bin/rails db:migrate
+# echo "Preparing Database"
+# bin/rails db:prepare RAILS_ENV=$RAILS_ENV
+# bin/rails db:migrate
 
 echo "$@"
 exec "$@"

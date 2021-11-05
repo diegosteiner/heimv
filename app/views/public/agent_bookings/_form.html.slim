@@ -5,7 +5,7 @@
       - errors = (@agent_booking.errors[:base])
       - if errors.present?
         .alert.alert-danger.d-flex
-          .mr-3
+          .ms-3
             i.fa.fa-exclamation-circle               
           = errors.to_sentence
       fieldset
@@ -32,7 +32,7 @@
         = f.text_field :booking_agent_code, disabled: !@agent_booking.booking_agent_responsible?
         = f.text_field :booking_agent_ref, required: false, disabled: !@agent_booking.booking_agent_responsible?
 
-      .form-actions.pt-4.mt-3.border-top
+      .form-actions.pt-4.mt-3
         - if @agent_booking.booking_agent_responsible?
           =<> f.submit
         - if @agent_booking.booking&.booking_state.present?

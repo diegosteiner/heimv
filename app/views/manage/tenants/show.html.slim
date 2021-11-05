@@ -28,7 +28,7 @@
   p.text-center.my-5
     = t(:no_records_yet, model_name: Booking.model_name.human(count: :other))
 - else
-  table.table.table-hover.table-card.mt-5
+  table.table.table-hover.align-middle.mt-5
     thead
       tr
         th= Booking.human_attribute_name(:ref)
@@ -49,7 +49,7 @@
           td 
             = booking.booking_state.t(:label)
           
-          td.py-1.text-right
+          td.py-1.text-end
             - if can?(:manage, booking)
               .btn-group
                 = link_to manage_booking_path(booking), class: 'btn btn-default' do

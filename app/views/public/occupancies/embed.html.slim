@@ -6,11 +6,11 @@ html[lang="#{I18n.locale}-CH"]
     == csrf_meta_tags
     == csp_meta_tag
     script[src="https://polyfill.io/v3/polyfill.min.js?features=Intl%2Cdefault%2Ces6%2CArray.from%2CArray.prototype.find%2CArray.prototype.filter%2CArray.prototype.includes%2CArray.prototype.map%2CArray.prototype.reduce%2CArray.prototype.sort%2CArray.prototype.values%2CNumber.parseInt%2CNumber.parseFloat%2CObject.assign%2CObject.entries%2CPromise%2Cfetch"]
-    == javascript_packs_with_chunks_tag 'app'
+    == javascript_pack_tag 'app'
     == stylesheet_pack_tag 'app'
   body[style='background-color: transparent;']
     = react_component('calendar/OccupancyCalendar', { \ 
         calendarUrl: calendar_home_occupancies_url(org: current_organisation&.slug, home_id: @home.to_param, format: :json), \
         occupancyAtUrl: at_home_occupancies_url(org: current_organisation&.slug, home_id: @home.to_param, date: '$DATE'), \
-        displayMonths: params.fetch(:display_months, 8) \
+        monthsCount: params.fetch(:display_months, 8) \
       })

@@ -31,14 +31,45 @@
 require 'rails_helper'
 
 RSpec.describe Notification, type: :model do
-  let(:notification) { build(:notification) }
+  let(:email) { 'test@heimv.local' }
+  let(:notification) { build(:notification, to: email) }
 
   describe '#save' do
     it { expect(notification.save).to be true }
   end
 
+  describe '#to' do
+    let(:notification) { build(:notification, to: to) }
+    subject { notification.to }
+
+    context 'with operator' do
+      let(:to) { create(:operator) }
+      it { is_expected.to eq([to.email]) }
+      it { expect(notification).to be_addressed_to_manager }
+    end
+
+    context 'with organisation' do
+      let(:to) { create(:organisation, email: email) }
+      it { is_expected.to eq([to.email]) }
+      it { expect(notification).to be_addressed_to_manager }
+    end
+
+    context 'with tenant' do
+      let(:to) { create(:tenant, email: email) }
+      it { is_expected.to eq([to.email]) }
+      it { expect(notification).to be_addressed_to_tenant }
+    end
+
+    context 'with booking' do
+      let(:to) { create(:booking, email: email) }
+      it { is_expected.to eq([to.email]) }
+      it { expect(notification).to be_addressed_to_tenant }
+    end
+  end
+
   describe '#deliver' do
-    let(:notification) { create(:notification) }
+    let(:operator) { create(:operator) }
+    let(:notification) { create(:notification, to: email) }
     subject { notification.deliver }
 
     it do
@@ -49,22 +80,23 @@ RSpec.describe Notification, type: :model do
 
   describe 'from_template' do
     let(:template) { create(:rich_text_template, organisation: booking.organisation) }
-    let(:notification) { build(:notification, booking: booking) }
+    let(:notification) { build(:notification, booking: booking, to: booking) }
     let(:booking) { create(:booking, locale: I18n.locale) }
 
     context 'with template available' do
-      subject(:new_notification) { booking.notifications.new(from_template: template.key) }
+      subject(:new_notification) { booking.notifications.new(from_template: template.key, to: booking) }
       it do
         expect(new_notification.save).to be true
         expect(new_notification.rich_text_template).to eq(template)
         expect(new_notification.body).to eq(template.body)
         expect(new_notification.subject).to eq(template.title)
+        expect(new_notification.to).to eq([booking.email])
       end
     end
 
     context 'without template available' do
       it do
-        new_notification = booking.notifications.new(from_template: :nonexistent)
+        new_notification = booking.notifications.new(from_template: :nonexistent, to: booking)
         expect(new_notification.rich_text_template).to be(nil)
         expect(new_notification).not_to be_deliverable
       end

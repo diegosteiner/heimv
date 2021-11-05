@@ -6,7 +6,7 @@
 #
 #  id              :bigint           not null, primary key
 #  key             :string
-#  position        :integer
+#  ordinal         :integer
 #  title_i18n      :jsonb
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -15,8 +15,8 @@
 # Indexes
 #
 #  index_booking_purposes_on_key_and_organisation_id  (key,organisation_id) UNIQUE
+#  index_booking_purposes_on_ordinal                  (ordinal)
 #  index_booking_purposes_on_organisation_id          (organisation_id)
-#  index_booking_purposes_on_position                 (position)
 #
 # Foreign Keys
 #
@@ -29,9 +29,8 @@ class BookingPurpose < ApplicationRecord
   belongs_to :organisation, inverse_of: :booking_purposes
   has_many :bookings, inverse_of: :purpose, dependent: :restrict_with_error, foreign_key: :purpose_id
 
-  scope :ordered, -> { rank(:position) }
-
-  ranks :position, with_same: :organisation_id
+  scope :ordered, -> { rank(:ordinal) }
+  ranks :ordinal, with_same: :organisation_id
 
   translates :title, column_suffix: '_i18n', locale_accessors: true
 

@@ -47,8 +47,8 @@ FactoryBot.define do
       role { 'manager' }
     end
 
-    trait :staff do
-      role { 'staff' }
+    trait :readonly do
+      role { 'readonly' }
     end
   end
 end

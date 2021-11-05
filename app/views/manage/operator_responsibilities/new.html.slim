@@ -1,0 +1,8 @@
+- if @booking.present?
+  = render partial: 'manage/bookings/navigation', locals: { booking: @booking }
+
+.row.justify-content-center
+  .col-md-8
+    .card
+      .card-body
+        == render 'form'

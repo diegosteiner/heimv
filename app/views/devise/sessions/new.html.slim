@@ -12,7 +12,7 @@
             = f.password_field :password, autocomplete: 'current-password'
             = f.check_box :remember_me if devise_mapping.rememberable?
 
-          .form-actions.pt-4.mt-3.border-top
+          .form-actions.pt-4.mt-3
             = f.submit t(".sign_in")
 
     br

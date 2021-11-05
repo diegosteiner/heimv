@@ -8,7 +8,7 @@
 #  amount     :decimal(, )
 #  breakdown  :string
 #  label      :string
-#  position   :integer
+#  ordinal    :integer
 #  type       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

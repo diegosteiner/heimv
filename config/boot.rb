@@ -8,4 +8,4 @@ if ENV['TRACE_OBJECT_ALLICATIONS']
 end
 
 require 'bundler/setup' # Set up gems listed in the Gemfile.
-# require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
+require 'bootsnap/setup' # Speed up boot time by caching expensive operations.

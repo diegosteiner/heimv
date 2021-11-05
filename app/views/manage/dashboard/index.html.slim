@@ -5,9 +5,9 @@
       = react_component('calendar/OccupancyCalendar', { \ 
           calendarUrl: calendar_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, format: :json), \
           occupancyAtUrl: at_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, date: '$DATE'), \
-          displayMonths: params.fetch(:display_months, 8) \
+          monthsCount: params.fetch(:display_months, 8) \
         })
 
-      .text-right.small
+      .text-end.small
         = link_to home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, format: :ics)
           = t('.ics_link')

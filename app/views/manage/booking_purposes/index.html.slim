@@ -1,5 +1,5 @@
 .breakout-sm
-  table.table.table-hover.table-card
+  table.table.table-hover.align-middle
 
     tbody
       - @booking_purposes.each do |booking_purpose|
@@ -8,7 +8,7 @@
             = link_to booking_purpose.title, edit_manage_booking_purpose_path(booking_purpose)
           td
             = booking_purpose.key
-          td.p-1.text-right 
+          td.p-1.text-end 
             .btn-group
               = link_to edit_manage_booking_purpose_path(booking_purpose), class: 'btn btn-default' do
                 span.fa.fa-edit

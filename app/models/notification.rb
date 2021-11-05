@@ -38,15 +38,16 @@ class Notification < ApplicationRecord
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
   validates :to, presence: true
   validates :rich_text_template, presence: true, if: :from_template?
-  attribute :from_template
+
   delegate :bcc, to: :organisation
   delegate :locale, to: :booking
+
+  attribute :from_template
   attribute :context
 
   scope :failed, -> { where(queued_for_delivery: true, sent_at: nil).where(arel_table[:created_at].lt(1.hour.ago)) }
 
   before_validation do
-    self.to = to.presence || [resolve_addressed_to]
     self.rich_text_template ||= resolve_rich_text_template
   end
 
@@ -61,7 +62,7 @@ class Notification < ApplicationRecord
   def deliver
     return false unless deliverable?
 
-    queue_for_delivery && invoke_mailer! && update(sent_at: Time.zone.now)
+    queue_for_delivery && invoke_mailer && update(sent_at: Time.zone.now)
   end
 
   def attachments_for_mail
@@ -108,23 +109,40 @@ class Notification < ApplicationRecord
     ActionView::Base.full_sanitizer.sanitize(body)
   end
 
+  # rubocop:disable Metrics/MethodLength
+  def to=(value)
+    super case value
+          when Tenant, Booking
+            self.addressed_to = :tenant
+            [value.email]
+          when Operator, Organisation
+            self.addressed_to = :manager
+            [value.email]
+          when BookingAgent
+            self.addressed_to = :booking_agent
+            [value.email]
+          else
+            [value&.to_s].flatten.compact
+          end
+  end
+  # rubocop:enable Metrics/MethodLength
+
   protected
 
-  def resolve_addressed_to
-    return booking.email if addressed_to_tenant?
-    return booking.booking_agent&.email&.presence if addressed_to_booking_agent?
-
-    booking.organisation.email.presence
+  def invoke_mailer!
+    organisation.mailer.mail(to: to, subject: subject, cc: cc, bcc: bcc, body: text,
+                             html_body: body, attachments: attachments_for_mail)
   end
 
-  def invoke_mailer!
-    organisation.mailer.mail(to: to, subject: subject, cc: cc, bcc: bcc,
-                             body: text, html_body: body,
-                             attachments: attachments_for_mail)
+  def invoke_mailer
+    invoke_mailer!
     true
   rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
-    Rails.logger.warn(e.message)
-    defined?(Sentry) && Sentry.capture_exception(e)
+    Rails.logger.error(e.message)
+    defined?(Sentry) && Sentry.with_scope do |scope|
+      scope.set_tags(booking: booking.id)
+      Sentry.capture_exception(e)
+    end
     false
   end
 end

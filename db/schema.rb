@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_091804) do
+ActiveRecord::Schema.define(version: 2021_10_30_191910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -86,10 +86,10 @@ ActiveRecord::Schema.define(version: 2021_09_22_091804) do
     t.jsonb "title_i18n"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "position"
+    t.integer "ordinal"
     t.index ["key", "organisation_id"], name: "index_booking_purposes_on_key_and_organisation_id", unique: true
+    t.index ["ordinal"], name: "index_booking_purposes_on_ordinal"
     t.index ["organisation_id"], name: "index_booking_purposes_on_organisation_id"
-    t.index ["position"], name: "index_booking_purposes_on_position"
   end
 
   create_table "booking_transitions", force: :cascade do |t|
@@ -203,7 +203,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_091804) do
     t.decimal "amount"
     t.string "label"
     t.string "breakdown"
-    t.integer "position"
+    t.integer "ordinal"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
@@ -285,6 +285,34 @@ ActiveRecord::Schema.define(version: 2021_09_22_091804) do
     t.index ["booking_id"], name: "index_offers_on_booking_id"
   end
 
+  create_table "operator_responsibilities", force: :cascade do |t|
+    t.uuid "booking_id"
+    t.bigint "operator_id", null: false
+    t.integer "ordinal"
+    t.integer "responsibility"
+    t.text "remarks"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "home_id"
+    t.bigint "organisation_id", null: false
+    t.index ["booking_id"], name: "index_operator_responsibilities_on_booking_id"
+    t.index ["home_id"], name: "index_operator_responsibilities_on_home_id"
+    t.index ["operator_id"], name: "index_operator_responsibilities_on_operator_id"
+    t.index ["ordinal"], name: "index_operator_responsibilities_on_ordinal"
+    t.index ["organisation_id"], name: "index_operator_responsibilities_on_organisation_id"
+    t.index ["responsibility"], name: "index_operator_responsibilities_on_responsibility"
+  end
+
+  create_table "operators", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.text "contact_info"
+    t.bigint "organisation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organisation_id"], name: "index_operators_on_organisation_id"
+  end
+
   create_table "organisations", force: :cascade do |t|
     t.string "name"
     t.text "address"
@@ -363,7 +391,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_091804) do
     t.decimal "price_per_unit"
     t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until"
-    t.integer "position"
+    t.integer "ordinal"
     t.string "tarif_group"
     t.string "invoice_type"
     t.string "prefill_usage_method"
@@ -460,6 +488,11 @@ ActiveRecord::Schema.define(version: 2021_09_22_091804) do
   add_foreign_key "notifications", "rich_text_templates"
   add_foreign_key "occupancies", "homes"
   add_foreign_key "offers", "bookings"
+  add_foreign_key "operator_responsibilities", "bookings"
+  add_foreign_key "operator_responsibilities", "homes"
+  add_foreign_key "operator_responsibilities", "operators"
+  add_foreign_key "operator_responsibilities", "organisations"
+  add_foreign_key "operators", "organisations"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
   add_foreign_key "rich_text_templates", "homes"

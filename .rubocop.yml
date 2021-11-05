@@ -7,18 +7,18 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 3.0
   Exclude:
-    - 'bin/*'
-    - 'script/**/*'
-    - 'log/**/*'
-    - 'public/**/*'
-    - 'tmp/**/*'
-    - 'db/schema.rb'
-    - 'db/migrate/*'
-    - 'vendor/**/*'
-    - 'lib/**/*'
-    - 'node_modules/**/*'
-    - 'db/seeders/*'
-    - '.git/**/*'
+    - "bin/*"
+    - "script/**/*"
+    - "log/**/*"
+    - "public/**/*"
+    - "tmp/**/*"
+    - "db/schema.rb"
+    - "db/migrate/*"
+    - "vendor/**/*"
+    - "lib/**/*"
+    - "node_modules/**/*"
+    - "db/seeders/*"
+    - ".git/**/*"
 
 Rails:
   Enabled: true
@@ -28,29 +28,30 @@ Layout/LineLength:
 
 Metrics/ClassLength:
   Exclude:
-    - 'app/models/booking.rb'
+    - "app/models/booking.rb"
 
 Metrics/MethodLength:
   Exclude:
-    - 'db/migrate/*'
-    - 'app/models/ability.rb'
+    - "db/migrate/*"
+    - "app/models/ability.rb"
 
 Style/MixinUsage:
   Exclude:
-    - 'spec/**/*'
+    - "spec/**/*"
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/**/*'
-    - 'config/routes.rb'
-    - 'config/environments/*'
-    - 'config/initializers/*'
+    - "spec/**/*"
+    - "config/routes.rb"
+    - "config/environments/*"
+    - "config/initializers/*"
+    - "app/models/ability.rb"
 
 Metrics/AbcSize:
   Max: 18
   Exclude:
-    - 'db/migrate/*'
-    - 'spec/**/*'
+    - "db/migrate/*"
+    - "spec/**/*"
 
 Style/Documentation:
   Enabled: false
@@ -60,8 +61,8 @@ Naming/VariableNumber:
 
 Naming/MethodParameterName:
   AllowedNames:
-    - 'to'
-    - 'at'
+    - "to"
+    - "at"
 
 Rails/EnvironmentVariableAccess:
   AllowReads: true

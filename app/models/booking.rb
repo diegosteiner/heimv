@@ -66,18 +66,15 @@ class Booking < ApplicationRecord
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :payments, dependent: :destroy, autosave: false
   has_many :booking_copy_tarifs, dependent: :destroy, class_name: 'Tarif'
+  has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarifs
   has_many :notifications, dependent: :destroy, inverse_of: :booking, autosave: true, validate: false
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :contracts, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :offers, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
-  has_many :transitive_tarifs, through: :home, class_name: 'Tarif', source: :tarif
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
   has_many :booking_transitions, dependent: :delete_all, autosave: false
-
-  # rubocop:disable Rails/HasManyOrHasOneDependent
-  has_many :applicable_tarifs, ->(booking) { Tarif.applicable_to(booking) }, class_name: 'Tarif', inverse_of: :booking
-  # rubocop:enable Rails/HasManyOrHasOneDependent
+  has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
 
   has_one  :occupancy, inverse_of: :booking, dependent: :destroy
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
@@ -122,6 +119,10 @@ class Booking < ApplicationRecord
     occupancy.nights * approximate_headcount
   end
 
+  def actual_overnight_stays
+    usages.filter_map { |usage| usage.tarif.is_a?(Tarifs::OvernightStay) && usage.used_units }.compact.sum
+  end
+
   def conclude
     update!(concluded: true, editable: false)
   end
@@ -136,6 +137,10 @@ class Booking < ApplicationRecord
 
   def agent_booking?
     agent_booking.present?
+  end
+
+  def operator_for(responsibility)
+    operator_responsibilities.where(responsibility: responsibility).first
   end
 
   def cache_key
