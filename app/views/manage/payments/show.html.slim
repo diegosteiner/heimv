@@ -1,6 +1,6 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :payments, booking: @payment.booking }
 
-.card.breakout-sm
+.card
   .card-body
     = render_hash_as_dl(@payment.attributes.slice(*%w(amount invoice booking paid_at)), Invoice)
 

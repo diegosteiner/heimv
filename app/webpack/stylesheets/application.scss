@@ -154,16 +154,6 @@ select[disabled="disabled"] {
   margin: 0;
 }
 
-.breakout-sm {
-  // @include media-breakpoint-down(sm) {
-  //   margin-left: calc(var(--bs-gutter-x, 0.75rem) * -1);
-  //   margin-right: calc(var(--bs-gutter-x, 0.75rem) * -1);
-  //   border-radius: 0;
-  //   border-left-width: 0;
-  //   border-right-width: 0;
-  // }
-}
-
 th.spacer {
   background-color: $body-bg;
 }

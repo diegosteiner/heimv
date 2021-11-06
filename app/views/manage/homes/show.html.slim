@@ -1,6 +1,6 @@
 = render partial: 'manage/homes/navigation'
 
-.card.breakout-sm
+.card
   .card-body
     = render_hash_as_dl(@home.attributes.slice(*%w(name address janitor)), Home)
     dl
