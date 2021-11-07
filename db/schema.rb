@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_30_191910) do
+ActiveRecord::Schema.define(version: 2021_11_07_090801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -219,12 +219,12 @@ ActiveRecord::Schema.define(version: 2021_10_30_191910) do
     t.text "text"
     t.string "ref"
     t.decimal "amount", default: "0.0"
-    t.boolean "paid", default: false
     t.boolean "print_payment_slip", default: false
     t.datetime "discarded_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "payment_info_type"
+    t.decimal "amount_open"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
     t.index ["ref"], name: "index_invoices_on_ref"

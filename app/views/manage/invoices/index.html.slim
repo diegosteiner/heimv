@@ -54,7 +54,7 @@
             td.py-1.text-end.align-middle
               - if can?(:manage, invoice)
                 .btn-group
-                  - unless invoice.paid
+                  - unless invoice.paid?
                     = link_to new_manage_booking_payment_path(invoice.booking, payment: { invoice_id: invoice.id }), class: 'btn btn-default'
                       = t(:add_record, model_name: Payment.model_name.human)
                   - if invoice.pdf.attached?

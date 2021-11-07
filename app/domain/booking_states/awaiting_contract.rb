@@ -28,7 +28,7 @@ module BookingStates
 
     infer_transition(to: :overdue, &:deadline_exceeded?)
     infer_transition(to: :upcoming) do |booking|
-      booking.contracts.signed.any? && Invoices::Deposit.of(booking).kept.all?(&:paid)
+      booking.contracts.signed.any? && Invoices::Deposit.of(booking).kept.all?(&:paid?)
     end
 
     def relevant_time
@@ -38,7 +38,7 @@ module BookingStates
     protected
 
     def deposits_paid_checklist_item
-      ChecklistItem.new(:deposit_paid, Invoices::Deposit.of(booking).kept.all?(&:paid),
+      ChecklistItem.new(:deposit_paid, Invoices::Deposit.of(booking).kept.all?(&:paid?),
                         manage_booking_invoices_path(booking, org: booking.organisation.slug))
     end
 
