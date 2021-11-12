@@ -60,15 +60,17 @@ const occupancyDateClassNames = (
 ): string[] => {
   const midDay = setHours(startOfDay(date), 12);
 
-  return Array.from(occupancies).map(({ start, end, occupancy_type }) => {
-    if (isWithinInterval(end, { start: startOfDay(date), end: midDay })) {
-      return `${occupancy_type}-forenoon`;
+  return Array.from(occupancies).map(
+    ({ begins_at, ends_at, occupancy_type }) => {
+      if (isWithinInterval(ends_at, { start: startOfDay(date), end: midDay })) {
+        return `${occupancy_type}-forenoon`;
+      }
+      if (isWithinInterval(begins_at, { start: midDay, end: endOfDay(date) })) {
+        return `${occupancy_type}-afternoon`;
+      }
+      return `${occupancy_type}-fullday`;
     }
-    if (isWithinInterval(start, { start: midDay, end: endOfDay(date) })) {
-      return `${occupancy_type}-afternoon`;
-    }
-    return `${occupancy_type}-fullday`;
-  });
+  );
 };
 
 const formatDate = new Intl.DateTimeFormat("de-CH", {
@@ -88,13 +90,13 @@ interface OccupancyCalendarDayProps {
   disabled?: boolean | ((date: Date, occupancies: Set<Occupancy>) => boolean);
 }
 
-export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
+export function OccupancyCalendarDay({
   date,
   occupancyWindow,
   classNames,
   disabled,
   onClick,
-}) => {
+}: OccupancyCalendarDayProps) {
   const dateString = formatISO(date, { representation: "date" });
   const occupancies =
     occupancyWindow?.occupiedDates[dateString] || new Set<Occupancy>();
@@ -141,7 +143,8 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
               }`}
             >
               <dt>
-                {formatDate(occupancy.start)} - {formatDate(occupancy.end)}
+                {formatDate(occupancy.begins_at)} -{" "}
+                {formatDate(occupancy.ends_at)}
               </dt>
               <dd>
                 <span>
@@ -170,8 +173,8 @@ export const OccupancyCalendarDay: React.FC<OccupancyCalendarDayProps> = ({
       {button}
     </OverlayTrigger>
   );
-};
-const OccupancyCalendarDayMemo = React.memo(OccupancyCalendarDay);
+}
+export const OccupancyCalendarDayMemo = React.memo(OccupancyCalendarDay);
 
 interface OccupancyCalendarProps {
   start?: string;
@@ -180,12 +183,12 @@ interface OccupancyCalendarProps {
   calendarUrl: string;
 }
 
-const OccupancyCalendar: React.FC<OccupancyCalendarProps> = ({
+function OccupancyCalendar({
   start,
   calendarUrl,
   occupancyAtUrl,
   monthsCount,
-}) => {
+}: OccupancyCalendarProps) {
   const [occupancyWindow, setOccupancyWindow] =
     React.useState<OccupancyWindow | null>();
 
@@ -221,6 +224,6 @@ const OccupancyCalendar: React.FC<OccupancyCalendarProps> = ({
       ></Calendar>
     </OccupancyCalendarContainer>
   );
-};
+}
 
 export default OccupancyCalendar;

@@ -712,10 +712,12 @@ en:
       equal_to: must be equal to %{count}
       even: must be even
       exclusion: is reserved
+      future: muss zukünftig sein
       greater_than: must be greater than %{count}
       greater_than_or_equal_to: must be greater than or equal to %{count}
       inclusion: is not included in the list
       invalid: is invalid
+      later_than: muss nach %{other} sein
       less_than: must be less than %{count}
       less_than_or_equal_to: must be less than or equal to %{count}
       model_invalid: 'Validation failed: %{errors}'
@@ -788,7 +790,7 @@ en:
     public:
       bookings:
         create:
-          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte die deine Email-Addresse
+          notice: Deine Reservationsanfrage wurde erfasst und ein E-Mail mit dem Bestätigungslink an %{email} gesendet. Bitte klicke den Link um die Anfrage abzuschliessen.
         update:
           notice: Deine Reservationsanfrage wurde gespeichert. Du kannst das Browserfenster schliessen.
   generated: Generated

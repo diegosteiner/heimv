@@ -12,8 +12,8 @@ export type OccupancyJsonData = {
 
 export type Occupancy = {
   id: string;
-  start: Date;
-  end: Date;
+  begins_at: Date;
+  ends_at: Date;
   occupancy_type: string;
   ref: string | null;
   deadline: Date | null;
@@ -25,8 +25,8 @@ export function fromJson(json: OccupancyJsonData): Occupancy {
 
   return {
     ...rest,
-    start: parseISO(begins_at),
-    end: parseISO(ends_at),
+    begins_at: parseISO(begins_at),
+    ends_at: parseISO(ends_at),
     deadline: deadline ? parseISO(deadline) : null,
   };
 }

@@ -2,12 +2,12 @@
 
   fieldset
     = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true
-    = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
+    = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
                                                 name: 'occupancy[begins_at]',
                                                 value: @occupancy.begins_at&.iso8601,
                                                 required: true)
 
-    = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
+    = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
                                                 name: 'occupancy[ends_at]',
                                                 value: @occupancy.ends_at&.iso8601,
                                                 required: true)

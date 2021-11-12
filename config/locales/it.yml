@@ -712,10 +712,12 @@ it:
       equal_to: muss genau %{count} sein
       even: muss gerade sein
       exclusion: ist nicht verfügbar
+      future: muss zukünftig sein
       greater_than: muss grösser als %{count} sein
       greater_than_or_equal_to: muss grösser oder gleich %{count} sein
       inclusion: ist kein gültiger Wert
       invalid: ist nicht gültig
+      later_than: muss nach %{other} sein
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
       model_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
@@ -1805,7 +1807,7 @@ it:
     public:
       bookings:
         create:
-          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte deine Email-Addresse.
+          notice: Deine Reservationsanfrage wurde erfasst und ein E-Mail mit dem Bestätigungslink an %{email} gesendet. Bitte klicke den Link um die Anfrage abzuschliessen.
         update:
           notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
   generated: wird automatisch generiert

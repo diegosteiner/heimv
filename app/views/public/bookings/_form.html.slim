@@ -25,13 +25,13 @@
               =<> l(@booking.deadline.at, format: :short)
         = f.select :home_id, homes_for_select, {}, disabled: true
 
-        = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
+        = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'booking[occupancy_attributes][begins_at]',
                                                     value: @booking.occupancy.begins_at&.iso8601,
                                                     disabled: !@booking.editable?, required: true,
                                                     invalidFeedback: @booking.errors['occupancy.begins_at']&.to_sentence)
 
-        = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
+        = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
                                                     name: 'booking[occupancy_attributes][ends_at]',
                                                     value: @booking.occupancy.ends_at&.iso8601,
                                                     disabled: !@booking.editable?, required: true,
