@@ -33,7 +33,7 @@
                 small.text-secondary= tarif.ordinal
               td
                 = tf.hidden_field :id
-              d
+              td
                 = tf.static_control :label, skip_label: true, wrapper: false
               td
                 = tf.select :type, type_options_for_select(Tarifs::TYPES), { skip_label: true, wrapper: false }, { disabled: true }
