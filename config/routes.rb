@@ -53,7 +53,7 @@ Rails.application.routes.draw do
         end
       end
       resources :tenants
-      resources :operators, except: %i[show]
+      resources :operators
       resources :operator_responsibilities, except: %i[show]
       resources :booking_agents
       resources :booking_purposes, except: :show

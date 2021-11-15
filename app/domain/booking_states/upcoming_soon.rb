@@ -11,6 +11,10 @@ module BookingStates
       []
     end
 
+    def responsibilities
+      %i[home_handover home_return]
+    end
+
     def self.to_sym
       :upcoming_soon
     end

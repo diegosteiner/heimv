@@ -42,6 +42,12 @@
               i.fa.fa-sticky-note-o 
               =<> booking.internal_remarks
 
+          - if booking.booking_state.responsibilities.present?
+              - booking.operator_responsibilities.where(responsibility: booking.booking_state.responsibilities).each do |operator_responsibility|
+                i.fa.fa-key
+                =< OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
+                | :
+                =< mail_to(operator_responsibility.operator.email, operator_responsibility.operator.name)
           = render partial: 'manage/bookings/checklist', locals: { booking: booking }
 
         .col-md-1
