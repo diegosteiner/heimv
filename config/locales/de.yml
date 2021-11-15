@@ -2192,7 +2192,7 @@ de:
         <p>{{ booking.ref }}
         {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
 
-        <h1 id="anzahlung-e3tib29raw5nlmhvbwuubmftzx19">Anzahlung {{booking.home.name}}</h1>
+        <h1>Anzahlung {{booking.home.name}}</h1>
       default_title: Anzahlung
       description: Text für Rechnung (Anzahlung)
     invoices_invoice_text:
@@ -2200,7 +2200,7 @@ de:
         <p>{{ booking.ref }}
         {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
 
-        <h1 id="rechnung-e3tib29raw5nlmhvbwuubmftzx19">Rechnung {{booking.home.name}}</h1>
+        <h1>Rechnung {{booking.home.name}}</h1>
       default_title: Rechnung
       description: Text für Rechnung
     invoices_late_notice_text:
@@ -2208,7 +2208,7 @@ de:
         <p>{{ booking.ref }}
         {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
 
-        <h1 id="mahnung-e3tib29raw5nlmhvbwuubmftzx19">Mahnung {{booking.home.name}}</h1>
+        <h1>Mahnung {{booking.home.name}}</h1>
       default_title: Mahnung
       description: Text für Rechnung (Mahnung)
     manage_definitive_request_notification:

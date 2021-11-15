@@ -22,7 +22,7 @@
           th.pt-4[colspan='8']
             h5
               = tarif_group
-              a.badge.rounded-pill.bg-secondary.me-3[href="##{collapse_id}" data-bs-toggle="collapse"]
+              a.badge.rounded-pill.bg-secondary.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
                 = group_tarifs.count
 
       tbody.collapse.show[id=collapse_id]
@@ -30,7 +30,7 @@
           = f.fields_for tarif.id.to_s, tarif do |tf|
             tr.bg-white
               td
-                small.text-secondary= tarif.ordinal_rank
+                small.text-secondary= tarif.ordinal
               td
                 = tf.hidden_field :id
                 = tf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
