@@ -7,5 +7,6 @@ export type Organisation = {
     privacy_statement_pdf: string;
     terms_pdf: string;
     post_bookings: string;
+    logo?: string;
   };
 };

@@ -59,9 +59,9 @@ export function BookingForm({
       const errorMessages = submitErrors[errorKey];
       errorMessages
         ? setError(errorKey, {
-            type: "submit",
-            message: errorMessages?.join(", "),
-          })
+          type: "submit",
+          message: errorMessages?.join(", "),
+        })
         : clearErrors(errorKey);
     }
   }, [submitErrors]);
@@ -170,7 +170,6 @@ export function BookingForm({
           type="email"
           isInvalid={!!errors.email}
           {...register("email", {
-            required: t("errors.notifications.required").toString(),
             validate: {
               email: (value) =>
                 /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ||
@@ -190,7 +189,9 @@ export function BookingForm({
         <Form.Control {...register("tenant_organisation")}></Form.Control>
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <a href="../agent_bookings/new">{t("activerecord.models.booking_agent.other")}</a>
+
+      <Form.Group className="mb-3 mt-5">
         <Form.Check
           type="checkbox"
           feedbackType="invalid"

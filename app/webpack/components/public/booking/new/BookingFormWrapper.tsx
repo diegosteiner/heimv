@@ -99,6 +99,14 @@ export default function BookingFormWrapper({
               })}
           </Alert>
         )}
+
+        {organisation.links.logo && (
+          <img
+            src={organisation.links.logo}
+            className="mx-auto d-block m-4"
+            style={{ maxWidth: "180px", maxHeight: "180px" }}
+          />
+        )}
         <BookingForm
           booking={bookingFromJson(booking)}
           onSubmit={handleSubmit}
