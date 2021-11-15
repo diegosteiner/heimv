@@ -142,7 +142,7 @@ fr:
         apply: Anwenden
         breakdown: Text
         label: Text
-        ordinal: Ordnungsnummer
+        ordinal_position: Ordnungsnummer
         type: Positionsart
       meter_reading_period:
         begins_at: Beginn

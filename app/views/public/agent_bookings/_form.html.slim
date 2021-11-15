@@ -10,7 +10,7 @@
           = errors.to_sentence
       fieldset
         - if @agent_booking.booking&.deadline
-          .form-group
+          .mb-3
             label=Booking.human_attribute_name(:deadline)
             div
               =<> l(@agent_booking.booking.deadline.at, format: :short)

@@ -19,7 +19,7 @@
       = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
       fieldset
         - if @booking.deadline
-          .form-group
+          .mb-3
             label=Booking.human_attribute_name(:deadline)
             div
               =<> l(@booking.deadline.at, format: :short)

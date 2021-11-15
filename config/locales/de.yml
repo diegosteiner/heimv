@@ -128,7 +128,7 @@ de:
         amount_paid: bezahlter Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
-        invoice_parts: Positionen
+        invoice_parts: Rechnungspositionen
         issued_at: Ausgestellt am
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
@@ -142,7 +142,7 @@ de:
         apply: Anwenden
         breakdown: Aufschlüsselung
         label: Text
-        ordinal: Ordnungsnummer
+        ordinal_position: Ordnungsnummer
         type: Art der Rechnungsposition
       meter_reading_period:
         begins_at: Beginn
