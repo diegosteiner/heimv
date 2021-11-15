@@ -27,6 +27,9 @@
 #
 
 module InvoiceParts
-  class Add < InvoicePart
+  class Percentage < InvoicePart
+    def calculated_amount
+      sum_of_predecessors * amount / 100
+    end
   end
 end

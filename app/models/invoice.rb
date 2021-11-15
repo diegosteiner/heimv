@@ -90,7 +90,7 @@ class Invoice < ApplicationRecord
   end
 
   def recalculate
-    self.amount = invoice_parts.sum(&:amount)
+    self.amount = invoice_parts.ordered.inject(0) { |sum, invoice_part| invoice_part.to_sum(sum) }
     self.amount_open = amount - amount_paid
   end
 

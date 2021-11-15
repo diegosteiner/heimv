@@ -143,7 +143,7 @@ de:
         breakdown: Aufschlüsselung
         label: Text
         ordinal: Ordnungsnummer
-        type: Positionsart
+        type: Art der Rechnungsposition
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -397,8 +397,14 @@ de:
         one: Rechnung
         other: Rechnungen
       invoice_part:
-        one: Position
-        other: Positionen
+        one: Rechungsposition
+        other: Rechungspositionen
+      invoice_parts/add:
+        one: Normale Rechungsposition
+        other: Normale Rechnungspositionen
+      invoice_parts/percentage:
+        one: Rabatt
+        other: Rabatt
       invoices/deposit:
         one: Anzahlung
         other: Anzahlungen

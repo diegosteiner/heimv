@@ -26,12 +26,15 @@
       .row
         .col-1.pt-2
           = ipf.check_box :_destroy, { checked: ipf.object.apply, hide_label: true }, '0', '1'
-        .col-5
+        .col-4
           = ipf.text_field :label, hide_label: true
         .col-4
           = ipf.text_field :breakdown, hide_label: true
         .col-2
           = ipf.number_field :amount, hide_label: true, class: 'text-end', step: 0.01
+        .col-1.pt-2
+          = link_to edit_manage_invoice_invoice_part_path(@invoice, ipf.object)
+            i.fa.fa-pencil
 
 
     h5.mt-4= t('.suggested_invoice_parts')

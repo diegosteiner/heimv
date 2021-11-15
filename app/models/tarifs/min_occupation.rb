@@ -36,7 +36,8 @@ module Tarifs
     def recalculate_usage(usage)
       booking = usage.booking
       min = booking.home.min_occupation * booking.occupancy.nights
-      usage.update(used_units: min - booking.actual_overnight_stays)
+      delta = min - booking.actual_overnight_stays
+      usage.update(used_units: delta.positive? ? delta : 0)
     end
   end
 end

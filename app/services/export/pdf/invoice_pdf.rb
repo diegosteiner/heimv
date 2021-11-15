@@ -49,7 +49,7 @@ module Export
         helpers = ActionController::Base.helpers
         data = invoice.invoice_parts.map do |invoice_part|
           [invoice_part.label, invoice_part.breakdown, organisation.currency,
-           helpers.number_to_currency(invoice_part.amount, unit: '')]
+           helpers.number_to_currency(invoice_part.calculated_amount, unit: '')]
         end
         data << ['Total', '', organisation.currency, helpers.number_to_currency(invoice.amount, unit: '')]
       end

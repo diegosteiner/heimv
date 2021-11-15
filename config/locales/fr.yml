@@ -399,6 +399,12 @@ fr:
       invoice_part:
         one: Position
         other: Positionen
+      invoice_parts/add:
+        one: Normale Rechungsposition
+        other: Normale Rechnungspositionen
+      invoice_parts/percentage:
+        one: Rabatt
+        other: Rabatt
       invoices/deposit:
         one: Anzahlung
         other: Anzahlungen
