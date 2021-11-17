@@ -11,7 +11,7 @@
           = link_to locale.upcase, "#title-#{locale}-tab",
             class: "nav-link #{'active' if current_locale}",
             aria: { controls: "title-#{locale}-tab", selected: current_locale },
-            data: { toggle: 'tab' }, role: 'tab'
+            data: { "bs-toggle": 'tab' }, role: 'tab'
     .tab-content
       - I18n.available_locales.each do |locale|
         - current_locale = locale == I18n.locale

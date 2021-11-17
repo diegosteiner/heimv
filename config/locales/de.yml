@@ -128,7 +128,7 @@ de:
         amount_paid: bezahlter Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
-        invoice_parts: Positionen
+        invoice_parts: Rechnungspositionen
         issued_at: Ausgestellt am
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
@@ -142,8 +142,8 @@ de:
         apply: Anwenden
         breakdown: Aufschlüsselung
         label: Text
-        ordinal: Ordnungsnummer
-        type: Positionsart
+        ordinal_position: Ordnungsnummer
+        type: Art der Rechnungsposition
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -397,8 +397,14 @@ de:
         one: Rechnung
         other: Rechnungen
       invoice_part:
-        one: Position
-        other: Positionen
+        one: Rechungsposition
+        other: Rechungspositionen
+      invoice_parts/add:
+        one: Normale Rechungsposition
+        other: Normale Rechnungspositionen
+      invoice_parts/percentage:
+        one: Rabatt
+        other: Rabatt
       invoices/deposit:
         one: Anzahlung
         other: Anzahlungen
@@ -712,10 +718,12 @@ de:
       equal_to: muss genau %{count} sein
       even: muss gerade sein
       exclusion: ist nicht verfügbar
+      future: muss zukünftig sein
       greater_than: muss grösser als %{count} sein
       greater_than_or_equal_to: muss grösser oder gleich %{count} sein
       inclusion: ist kein gültiger Wert
       invalid: ist nicht gültig
+      later_than: muss nach %{other} sein
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
       model_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
@@ -1805,7 +1813,7 @@ de:
     public:
       bookings:
         create:
-          notice: Deine Reservationsanfrage wurde erfasst. Um sie abzuschliessen bestätige bitte deine Email-Addresse.
+          notice: Deine Reservationsanfrage wurde erfasst und ein E-Mail mit dem Bestätigungslink an %{email} gesendet. Bitte klicke den Link um die Anfrage abzuschliessen.
         update:
           notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
   generated: wird automatisch generiert
@@ -2190,7 +2198,7 @@ de:
         <p>{{ booking.ref }}
         {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
 
-        <h1 id="anzahlung-e3tib29raw5nlmhvbwuubmftzx19">Anzahlung {{booking.home.name}}</h1>
+        <h1>Anzahlung {{booking.home.name}}</h1>
       default_title: Anzahlung
       description: Text für Rechnung (Anzahlung)
     invoices_invoice_text:
@@ -2198,7 +2206,7 @@ de:
         <p>{{ booking.ref }}
         {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
 
-        <h1 id="rechnung-e3tib29raw5nlmhvbwuubmftzx19">Rechnung {{booking.home.name}}</h1>
+        <h1>Rechnung {{booking.home.name}}</h1>
       default_title: Rechnung
       description: Text für Rechnung
     invoices_late_notice_text:
@@ -2206,7 +2214,7 @@ de:
         <p>{{ booking.ref }}
         {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
 
-        <h1 id="mahnung-e3tib29raw5nlmhvbwuubmftzx19">Mahnung {{booking.home.name}}</h1>
+        <h1>Mahnung {{booking.home.name}}</h1>
       default_title: Mahnung
       description: Text für Rechnung (Mahnung)
     manage_definitive_request_notification:

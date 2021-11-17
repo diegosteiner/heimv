@@ -6,9 +6,9 @@
 #
 #  id                 :bigint           not null, primary key
 #  amount             :decimal(, )      default(0.0)
+#  amount_open        :decimal(, )
 #  discarded_at       :datetime
 #  issued_at          :datetime
-#  paid               :boolean          default(FALSE)
 #  payable_until      :datetime
 #  payment_info_type  :string
 #  print_payment_slip :boolean          default(FALSE)

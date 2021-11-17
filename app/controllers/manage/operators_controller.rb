@@ -8,6 +8,10 @@ module Manage
       respond_with :manage, @operator
     end
 
+    def show
+      respond_with :manage, @operator
+    end
+
     def edit
       respond_with :manage, @operator
     end

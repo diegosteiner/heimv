@@ -19,19 +19,19 @@
       = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
       fieldset
         - if @booking.deadline
-          .form-group
+          .mb-3
             label=Booking.human_attribute_name(:deadline)
             div
               =<> l(@booking.deadline.at, format: :short)
         = f.select :home_id, homes_for_select, {}, disabled: true
 
-        = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:begins_at),
+        = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'booking[occupancy_attributes][begins_at]',
                                                     value: @booking.occupancy.begins_at&.iso8601,
                                                     disabled: !@booking.editable?, required: true,
                                                     invalidFeedback: @booking.errors['occupancy.begins_at']&.to_sentence)
 
-        = react_component('calendar/CalendarInput', label: Occupancy.human_attribute_name(:ends_at),
+        = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
                                                     name: 'booking[occupancy_attributes][ends_at]',
                                                     value: @booking.occupancy.ends_at&.iso8601,
                                                     disabled: !@booking.editable?, required: true,

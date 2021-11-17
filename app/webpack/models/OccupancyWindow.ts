@@ -37,16 +37,17 @@ function getOccupiedDates(occupancies: Occupancy[]) {
   const occupiedDates: OccupiedDates = {};
 
   for (const occupancy of occupancies) {
-    eachDayOfInterval({ start: occupancy.start, end: occupancy.end }).forEach(
-      (occupiedDate) => {
-        const occupiedDateString = formatISO(occupiedDate, {
-          representation: "date",
-        });
-        occupiedDates[occupiedDateString] =
-          occupiedDates[occupiedDateString]?.add(occupancy) ||
-          new Set([occupancy]);
-      }
-    );
+    eachDayOfInterval({
+      start: occupancy.begins_at,
+      end: occupancy.ends_at,
+    }).forEach((occupiedDate) => {
+      const occupiedDateString = formatISO(occupiedDate, {
+        representation: "date",
+      });
+      occupiedDates[occupiedDateString] =
+        occupiedDates[occupiedDateString]?.add(occupancy) ||
+        new Set([occupancy]);
+    });
   }
 
   return occupiedDates;

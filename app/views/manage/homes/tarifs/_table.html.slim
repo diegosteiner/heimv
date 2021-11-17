@@ -22,7 +22,7 @@
           th.pt-4[colspan='8']
             h5
               = tarif_group
-              a.badge.rounded-pill.bg-secondary.me-3[href="##{collapse_id}" data-bs-toggle="collapse"]
+              a.badge.rounded-pill.bg-secondary.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
                 = group_tarifs.count
 
       tbody.collapse.show[id=collapse_id]
@@ -30,18 +30,17 @@
           = f.fields_for tarif.id.to_s, tarif do |tf|
             tr.bg-white
               td
-                small.text-secondary= tarif.ordinal_rank
+                small.text-secondary= tarif.ordinal
               td
                 = tf.hidden_field :id
-                = tf.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
               td
-                = tf.static_control :label, skip_label: true, wrapper_class: 'm-0'
+                = tf.static_control :label, skip_label: true, wrapper: false
               td
-                = tf.select :type, type_options_for_select(Tarifs::TYPES), { skip_label: true, wrapper_class: 'm-0' }, { disabled: true }
+                = tf.select :type, type_options_for_select(Tarifs::TYPES), { skip_label: true, wrapper: false }, { disabled: true }
               td
-                = tf.number_field :price_per_unit, skip_label: true, wrapper_class: 'm-0'
+                = tf.number_field :price_per_unit, skip_label: true, wrapper: false
               td
-                = tf.static_control :unit, skip_label: true, wrapper_class: 'm-0'
+                = tf.static_control :unit, skip_label: true, wrapper: false
               td.text-end
                 .btn-group
                   = link_to edit_manage_home_tarif_path(@home, tarif), class: 'btn btn-default' do

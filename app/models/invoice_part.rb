@@ -34,7 +34,7 @@ class InvoicePart < ApplicationRecord
 
   attribute :apply, :boolean, default: true
 
-  ranks :ordinal, with_same: :invoice_id
+  ranks :ordinal, with_same: :invoice_id, class_name: 'InvoicePart'
 
   scope :ordered, -> { rank(:ordinal) }
 
@@ -46,5 +46,21 @@ class InvoicePart < ApplicationRecord
 
   after_save do
     invoice.recalculate! if amount_previously_changed?
+  end
+
+  def calculated_amount
+    amount
+  end
+
+  def sum_of_predecessors
+    invoice.invoice_parts.ordered.inject(0) do |sum, invoice_part|
+      break sum if invoice_part == self
+
+      invoice_part.to_sum(sum)
+    end
+  end
+
+  def to_sum(sum)
+    sum + calculated_amount
   end
 end

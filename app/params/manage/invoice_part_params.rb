@@ -3,7 +3,7 @@
 module Manage
   class InvoicePartParams < ApplicationParams
     def self.permitted_keys
-      %i[usage_id label breakdown amount type ordinal ordinal_position]
+      %i[usage_id label breakdown amount type ordinal_position]
     end
   end
 end

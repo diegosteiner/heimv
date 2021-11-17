@@ -3,21 +3,29 @@
 - else
   h1.mt-0.mb-5= OperatorResponsibility.model_name.human(count: :other)
 
-.breakout-sm
+.table-responsive
   table.table.table-hover.align-middle
+    thead
+      tr
+        - unless @booking.present?
+          th
+        th= OperatorResponsibility.human_attribute_name(:responsibility)
+        th= Home.model_name.human
+        th= Operator.model_name.human
+        th
 
     tbody
       - @operator_responsibilities.each do |operator_responsibility|
         tr[data-href=manage_operator_responsibility_path(operator_responsibility) data-bs-id=operator_responsibility.to_param]
-          td
-            - unless @booking.present?
+          - unless @booking.present?
+            td
               small.text-secondary= operator_responsibility.ordinal_rank
           td
-            = link_to operator_responsibility.operator.name, edit_manage_operator_path(operator_responsibility.operator)
+            = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
           td
             = link_to operator_responsibility.home, manage_home_path(operator_responsibility.home)
           td
-            = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
+            = link_to operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator)
           td
             = operator_responsibility.remarks
           td.p-1.text-end 

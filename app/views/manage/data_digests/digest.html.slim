@@ -4,7 +4,7 @@ p=  [ \
       (@periodic_data.period.end && t('data_digests.period_to', date: l(@periodic_data.period.end))) \
     ].compact.join(' ')
 
-.breakout-sm
+.table-responsive
   table.table-striped.table.table-responsive
     - if @periodic_data.header
       thead

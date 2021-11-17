@@ -25,7 +25,8 @@ module Public
     def create
       @booking = Booking.new(create_params)
       @booking.notifications_enabled = true
-      @booking.save(context: :public_create)
+      @booking.save(context: :public_create) &&
+        flash[:notice] = t('flash.public.bookings.create.notice', email: @booking.email)
       respond_with :public, @booking, location: root_path
     end
 

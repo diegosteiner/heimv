@@ -8,7 +8,7 @@
           = link_to locale.upcase, "#tarif-#{locale}-tab",
             class: "nav-link #{'active' if current_locale}",
             aria: { controls: "tarif-#{locale}-tab", selected: current_locale },
-            data: { toggle: 'tab' }, role: 'tab'
+            data: { "bs-toggle": 'tab' }, role: 'tab'
     .tab-content
       - I18n.available_locales.each do |locale|
         - current_locale = locale == I18n.locale
@@ -19,7 +19,7 @@
     = f.hidden_field :id
     = f.select :type, type_options_for_select(Tarifs::TYPES)
     = f.text_field :tarif_group
-    = f.number_field :ordinal_position, step: 1.0
+    = f.number_field :ordinal, step: 1.0
     = f.collection_select :invoice_type, Invoices::TYPES.values, :to_s, :human_model_name, include_blank: true
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.number_field :price_per_unit, step: 0.01

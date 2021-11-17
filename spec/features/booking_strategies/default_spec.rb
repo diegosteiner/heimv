@@ -56,7 +56,7 @@ describe 'Booking', :devise, type: :feature do
     visit new_booking_path
     fill_request_form(email: tenant.email, begins_at: booking.occupancy.begins_at, ends_at: booking.occupancy.ends_at)
     submit_form
-    expect(page).to have_content(I18n.t('flash.public.bookings.create.notice'))
+    expect(page).to have_content(I18n.t('flash.public.bookings.create.notice', email: tenant.email))
     @booking = Booking.last
   end
 

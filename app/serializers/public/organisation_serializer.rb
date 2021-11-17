@@ -11,9 +11,9 @@ module Public
     field :links do |organisation|
       {
         logo: (organisation.logo.present? && url.url_for(organisation.logo)),
+        post_bookings: url.public_bookings_url(org: organisation.slug, format: :json),
         terms_pdf: url.download_url(slug: I18n.t(:terms_pdf, scope: %i[downloads slug]), org: organisation.slug),
-        privacy_statement_pdf: url.download_url(slug: I18n.t(:privacy_statement_pdf, scope: %i[downloads slug]),
-                                                org: organisation.slug)
+        privacy_statement_pdf: url.privacy_url(org: organisation.slug)
       }
     end
   end

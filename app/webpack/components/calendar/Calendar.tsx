@@ -140,7 +140,7 @@ interface CalendarMonthProps {
   dayElement(date: Date): React.ReactElement;
 }
 
-const CalendarMonth: React.FC<CalendarMonthProps> = ({ month, dayElement }) => {
+function CalendarMonth({ month, dayElement }: CalendarMonthProps) {
   const date = month.firstDate();
   const monthStartsAfter = (getDay(date) + 6) % 7;
   const daysOfMonth = eachDayOfInterval({
@@ -174,18 +174,15 @@ const CalendarMonth: React.FC<CalendarMonthProps> = ({ month, dayElement }) => {
       </div>
     </div>
   );
-};
+}
 
 interface CalendarNavProps {
   onPrev(): void;
   onNext(): void;
+  children?: React.ReactNode;
 }
 
-const CalendarNav: React.FC<CalendarNavProps> = ({
-  onPrev,
-  onNext,
-  children,
-}) => {
+function CalendarNav({ onPrev, onNext, children }: CalendarNavProps) {
   return (
     <nav className="calendarNav">
       <button onClick={onPrev} className="prev" type="button">
@@ -197,7 +194,7 @@ const CalendarNav: React.FC<CalendarNavProps> = ({
       </button>
     </nav>
   );
-};
+}
 
 const CalendarMonthMemo = React.memo(CalendarMonth);
 interface CalendarProps {
@@ -206,11 +203,7 @@ interface CalendarProps {
   dayElement(date: Date): React.ReactElement;
 }
 
-const Calendar: React.FC<CalendarProps> = ({
-  start,
-  dayElement,
-  monthsCount = 12,
-}) => {
+function Calendar({ start, dayElement, monthsCount = 12 }: CalendarProps) {
   const monthsCountNumber: number = Number.isInteger(monthsCount)
     ? (monthsCount as number)
     : parseInt(monthsCount.toString());
@@ -274,6 +267,6 @@ const Calendar: React.FC<CalendarProps> = ({
       <CalendarNav onNext={nextMonth} onPrev={prevMonth}></CalendarNav>
     </StyledCalendar>
   );
-};
+}
 
 export default Calendar;

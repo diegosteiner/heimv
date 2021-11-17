@@ -17,7 +17,7 @@ table.table
         td
           = link_to payment.booking, manage_booking_path(payment.booking) if payment.booking.present?
         td
-          = number_to_currency(payment.amount, currency: payment.organisation.currency) if payment.organisation.present?
+          = number_to_currency(payment.amount, unit:payment.organisation.currency) if payment.organisation.present?
         td
           = l payment.paid_at
         td

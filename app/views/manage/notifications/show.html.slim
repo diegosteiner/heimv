@@ -1,6 +1,6 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :notifications, booking: @booking }
 
-.card.breakout-sm
+.card
   .card-body
     .mb-3
       = Notification.human_attribute_name(:to)

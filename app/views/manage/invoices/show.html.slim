@@ -1,31 +1,32 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :invoices, booking: @booking }
 
-.card.breakout-sm
+.card
   .card-body
-    = render_hash_as_dl(@invoice.attributes.slice(*%w(type esr_number issued_at payable_until text)), Invoice)
+    = render_hash_as_dl(@invoice.attributes.slice(*%w(type esr_number issued_at payable_until)), Invoice)
     br
 
     dl
       dt= Booking.model_name.human
       dd= link_to @invoice.booking.ref, manage_booking_path(@invoice.booking)
 
-    dl
-      dt= Invoice.human_attribute_name(:invoice_parts)
-      dd
-        - @invoice.invoice_parts.each do |invoice_part|
-          .row
-            .col-5
-              = invoice_part.label
-            .col-4
-              = invoice_part.breakdown
-            .col-3.text-end
-              = number_to_currency(invoice_part.amount)
+    == @invoice.text
+    - @invoice.invoice_parts.each do |invoice_part|
+      .row
+        .col-4
+          = invoice_part.label
+        .col-4
+          = invoice_part.breakdown
+        .col-2.text-end
+          = number_to_currency(invoice_part.calculated_amount)
+        .col-1
+          = link_to edit_manage_invoice_invoice_part_path(invoice_part.invoice, invoice_part)
+            i.fa.fa-pencil
 
-        hr
-        .row
-          .col-8
-          .col-4.text-end
-            strong= number_to_currency(@invoice.amount)
+    hr
+    .row
+      .col-6
+      .col-4.text-end
+        strong= number_to_currency(@invoice.amount)
 
 
     = link_to edit_manage_invoice_path(@invoice), class: 'btn btn-primary' do

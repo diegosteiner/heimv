@@ -1,9 +1,19 @@
 # Changelog
 
 #### Unreleased
+
+#### Version 21.11.2
+
+Released on 17.11.2021
+
+- Improve operators and responsibilities
+- Fix layout issues
+- Fix tarif importer
+- Add new invoice position for discounts
+
 #### Version 21.11.1
 
-Released on 22.10.2021
+Released on 05.11.2021
 
 - Add operators with responsibilities
 - Improve notifications

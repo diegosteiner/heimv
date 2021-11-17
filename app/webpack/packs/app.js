@@ -14,18 +14,6 @@ function csrfForm() {
     "input[name=authenticity_token]"
   );
   if (authTokenInput) authTokenInput.value = csrfToken;
-  document
-    .querySelectorAll("select.form-control")
-    .forEach((input) => input.classList.add("form-select"));
-  document
-    .querySelectorAll(".form-group.is-invalid .form-control")
-    .forEach((input) => input.classList.add("is-invalid"));
-  document.querySelectorAll(".custom-file-input").forEach((input) => {
-    input.addEventListener("change", function () {
-      const fileName = this.value;
-      this.nextElementSibling.innerText = fileName;
-    });
-  });
 }
 
 function setupRichTextArea() {
