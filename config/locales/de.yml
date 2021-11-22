@@ -1885,7 +1885,7 @@ de:
       index:
         invite_user: Neuen Benutzer einladen
   nav:
-    edit_account: Account
+    edit_account: Passwort ändern
     manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden

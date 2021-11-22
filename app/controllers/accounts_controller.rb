@@ -2,13 +2,15 @@
 
 class AccountsController < ApplicationController
   before_action :set_user
-  authorize_resource :user
 
-  def edit; end
+  def edit
+    authorize! :set_password, @user
+  end
 
   def update
+    authorize! :set_password, @user
     @user.update(user_params)
-    respond_with @user, location: edit_account_path
+    respond_with @user, location: organisation_path
   end
 
   private

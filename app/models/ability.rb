@@ -13,6 +13,7 @@ module Ability
     end
 
     def initialize(user, organisation = nil)
+      can :set_password, User, id: user.id if user.present?
       abilities_block = self.class.roles[user&.role&.to_sym]
       instance_exec(user, organisation, &abilities_block) if abilities_block
     end
