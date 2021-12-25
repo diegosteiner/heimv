@@ -67,7 +67,7 @@ Mobility.configure do
     #
     # Or uncomment this line to enable fallbacks with a global default.
     # fallbacks { :pt => :en }
-    fallbacks I18n.available_locales.map { |locale| [locale.to_sym, I18n.default_locale] }.to_h
+    fallbacks(I18n.available_locales.to_h { |locale| [locale.to_sym, I18n.default_locale] })
 
     # Presence
     #
