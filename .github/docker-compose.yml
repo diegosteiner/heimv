@@ -4,9 +4,7 @@ services:
     build:
       context: .
       target: development
-      args:
-        UID: ${UID}
-        GID: ${GID}
+    user: "${UID:-0}:${GID:-0}"
     entrypoint: ['.docker/entrypoints/app.sh']
     command: ['bin/e2e']
     volumes:

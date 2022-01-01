@@ -31,9 +31,6 @@ jobs:
 
       # - name: Build test container
       #   run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml build e2e_test
-      #   env:
-      #     UID: 0
-      #     GID: 0
 
       - name: Prepare Database
         if: success()
@@ -42,9 +39,6 @@ jobs:
       - name: Build and start e2e
         if: success()
         run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml up -d e2e_target
-        env:
-          UID: 0
-          GID: 0
 
       - name: Run check
         if: success()

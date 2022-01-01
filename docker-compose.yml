@@ -4,9 +4,7 @@ services:
     build:
       context: .
       target: development
-      args:
-        UID: ${UID}
-        GID: ${GID}
+    user: "${UID:-0}:${GID:-0}"
     volumes:
       - .:/app
       - vendor:/app/vendor
@@ -14,8 +12,7 @@ services:
     ports:
       - '3000:3000'
       - '3035:3035'
-    entrypoint: ['.docker/entrypoints/app.sh']
-    command: ['bin/rails', 's', '-b', '0.0.0.0']
+    # command: ['bin/rails-dev-server']
     environment:
       APP_HOST: ${APP_HOST:-heimv.localhost:3000}
       E2E_SERVER_PORT: '3001'

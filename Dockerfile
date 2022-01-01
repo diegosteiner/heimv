@@ -1,45 +1,42 @@
 ### === base === ###                 
-FROM ruby:3.0.2-alpine AS base
+FROM ruby:3.0.3-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata nodejs
 RUN mkdir -p /app && \
     mkdir -p /app/vendor && \
     mkdir -p /app/node_modules
 WORKDIR /app
-RUN gem install bundler
-
 ENV BUNDLE_CACHE_ALL=true
 ENV BUNDLE_PATH=/app/vendor/bundle
+ENV PYTHON=/usr/bin/python3
+RUN gem install bundler
 
 ### === development === ###                 
 FROM base AS development
 RUN apk add --update build-base \
+    python3 \
     linux-headers \
     git \
     yarn \
     less \
     curl \
-    gnupg \
-    python3
+    gnupg
 
-RUN gem install solargraph standardrb ruby-debug-ide debase
+RUN gem install solargraph standardrb ruby-debug-ide debase rufo
 
-ARG UID=1001
-ARG GID=1001
-RUN addgroup --gid $GID --system app && \ 
-    adduser --system --uid $UID --ingroup app --disabled-password app && \
-    chown -R app:app /app && \
-    chown -R app:app /usr/local/bundle || true
-USER $UID
+#   ARG UID=1000
+#   RUN [ "$UID" = "0" ] || id -u $UID || adduser -u $UID -h /app -D app
+#   RUN chown -R $UID /app && \
+#       chown -R $UID /usr/local/bundle
+#   USER $UID
 
-### === build === ###                                                                                                                                 [0/
+### === build === ### 
 FROM development AS build                                                      
 
 ENV RAILS_ENV=production               
 ENV NODE_ENV=production   
 ENV BUNDLE_WITHOUT="test:development"
 
-
-COPY --chown=app . /app     
+COPY . /app     
 
 RUN bundle install && \
     bundle clean && \
@@ -51,7 +48,7 @@ RUN bin/webpack
 ### === production === ###
 FROM base AS production
 
-RUN adduser --disabled-password app && \
+RUN adduser -D app && \
     chown -R app /app
 USER app    
 

@@ -2,7 +2,7 @@
 
 # HeimV Heimverwaltung
 
-## Setup with Docker
+## Development
 
 ```sh
 git clone git@github.com:diegosteiner/heimv.git
