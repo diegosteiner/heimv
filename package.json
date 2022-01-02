@@ -66,8 +66,5 @@
     "scripts": {
         "check:types": "tsc --project tsconfig.json",
         "check:style": "eslint --ext .js,.ts,.jsx,.tsx app/webpack"
-    },
-    "engines": {
-        "node": "14.x"
     }
 }

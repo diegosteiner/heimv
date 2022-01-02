@@ -1,14 +1,9 @@
 ### === base === ###                 
 FROM ruby:3.0.3-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata nodejs
-RUN mkdir -p /app && \
-    mkdir -p /app/vendor && \
-    mkdir -p /app/node_modules
-WORKDIR /app
-ENV BUNDLE_CACHE_ALL=true
-ENV BUNDLE_PATH=/app/vendor/bundle
-ENV PYTHON=/usr/bin/python3
+RUN adduser -D developer
 RUN gem install bundler
+# ENV PYTHON=/usr/bin/python3
 
 ### === development === ###                 
 FROM base AS development
@@ -23,11 +18,13 @@ RUN apk add --update build-base \
 
 RUN gem install solargraph standardrb ruby-debug-ide debase rufo
 
-#   ARG UID=1000
-#   RUN [ "$UID" = "0" ] || id -u $UID || adduser -u $UID -h /app -D app
-#   RUN chown -R $UID /app && \
-#       chown -R $UID /usr/local/bundle
-#   USER $UID
+ENV BUNDLE_CACHE_ALL=true
+ENV BUNDLE_PATH=/home/developer/.bundle
+USER developer
+RUN mkdir -p /home/developer/app && \
+    mkdir -p /home/developer/app/vendor && \
+    mkdir -p /home/developer/app/node_modules
+WORKDIR /home/developer/app
 
 ### === build === ### 
 FROM development AS build                                                      
@@ -36,7 +33,7 @@ ENV RAILS_ENV=production
 ENV NODE_ENV=production   
 ENV BUNDLE_WITHOUT="test:development"
 
-COPY . /app     
+COPY --chown=app . /app     
 
 RUN bundle install && \
     bundle clean && \
