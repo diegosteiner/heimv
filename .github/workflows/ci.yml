@@ -1,3 +1,4 @@
+---
 name: CI
 
 on:
@@ -21,13 +22,13 @@ jobs:
       - run: docker-compose --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache --project-directory . --file .github/docker-compose.yml build e2e_test
 
       - if: success()
-        run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate
+        run: "docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate"
 
       - if: success()
         run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/check
 
       - if: success() && !github.base_ref
-        run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/} && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
+        run: "docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/} && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true"
 
       - if: failure()
         run: docker-compose --project-directory . --file .github/docker-compose.yml logs e2e_target > ./artifacts/e2e_target.log
