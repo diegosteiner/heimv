@@ -18,7 +18,7 @@ jobs:
       - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
       - run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
 
-        run: docker-compose --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache --project-directory . --file .github/docker-compose.yml build e2e_test
+      - run: docker-compose --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache --project-directory . --file .github/docker-compose.yml build e2e_test
 
       - if: success()
         run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate
