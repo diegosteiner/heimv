@@ -39,6 +39,24 @@ jobs:
         name: docker push
         run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/} && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
 
+      - if: failure()
+        name: dump log
+        run: docker-compose --project-directory . --file .github/docker-compose.yml logs e2e_target > ./artifacts/e2e_target.log
+
+      - if: failure()
+        run: cp -r tmp/capybara ./artifacts/
+
+      - if: failure()
+        uses: actions/upload-artifact@master
+        name: upload artifacts
+        with:
+          name: artifacts
+          path: artifacts
+
+      - run: docker tag heimv docker.pkg.github.com/diegosteiner/heimv/build-cache && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
+        name: docker push cache
+
+
       # - uses: actions-hub/docker/login@master
       #   if: success()
       #   env:
