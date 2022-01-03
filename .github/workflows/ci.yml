@@ -13,24 +13,33 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        name: checkout
 
       - run: mkdir -p artifacts
 
       - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+        name: docker login
+
       - run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
+        name: docker pull
 
       - run: docker-compose --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache --project-directory . --file .github/docker-compose.yml build e2e_test
+        name: docker build
 
       - if: success()
-        run: "docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate"
+        name: migrate
+        run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate
 
       - if: success()
+        name: bin/check
         run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/check
 
       - if: success() && !github.base_ref
-        run: "docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/} && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true"
+        name: docker push
+        run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/} && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
 
       - if: failure()
+        name: dump log
         run: docker-compose --project-directory . --file .github/docker-compose.yml logs e2e_target > ./artifacts/e2e_target.log
 
       - if: failure()
@@ -43,6 +52,7 @@ jobs:
           path: artifacts
 
       - run: docker tag heimv docker.pkg.github.com/diegosteiner/heimv/build-cache && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
+        name: docker push cache
 
       # - uses: actions-hub/docker/login@master
       #   if: success()
