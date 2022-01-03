@@ -6,9 +6,8 @@ services:
       target: development
     user: "${UID:-0}:${GID:-0}"
     volumes:
-      - .:/home/developer/app
-      - vendor:/home/developer/app/vendor
-      - node_modules:/home/developer/app/node_modules
+      - home:/home/develop:cached
+      - .:/home/develop/app:cached
     ports:
       - "3000:3000"
       - "3035:3035"
@@ -54,8 +53,7 @@ services:
 
 volumes:
   db_data:
-  vendor:
-  node_modules:
+  home:
 
 networks:
   selenium:
