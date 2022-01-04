@@ -25,7 +25,7 @@
 module DataDigests
   class Tarif < DataDigests::Booking
     def tarif_ids=(tarif_ids)
-      data_digest_params['tarif_ids'] = tarif_ids.reject(&:blank?)
+      data_digest_params['tarif_ids'] = tarif_ids.compact_blank
     end
 
     def tarif_ids

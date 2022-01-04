@@ -5,9 +5,10 @@ docker-compose.yml
 
 # bundler state
 /.bundle
+/vendor/*
 
 # node modules
-/node_modules/*
+node_modules/*
 yarn-debug.log*
 .yarn-integrity
 

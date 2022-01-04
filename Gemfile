@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.0.3'
 
 gem 'aws-sdk-s3', require: false
 gem 'barnes'

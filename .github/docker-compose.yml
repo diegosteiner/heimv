@@ -1,54 +1,78 @@
-version: '3.7'
+version: "3.9"
 services:
   e2e_test:
+    image: heimv-e2e_test
     build:
       context: .
-      target: development
-      args:
-        UID: ${UID}
-        GID: ${GID}
-    entrypoint: ['.docker/entrypoints/app.sh']
-    command: ['bin/e2e']
-    volumes:
-      - .:/app
+      target: build
+      cache_from:
+        - heimv:latest
+        - docker.pkg.github.com/diegosteiner/heimv/heimv-e2e_test:latest
+        - docker.pkg.github.com/diegosteiner/heimv/heimv:latest
     environment:
-      APP_HOST: 'e2e_test'
-      E2E_TARGET_HOST: 'e2e_target:3002'
+      APP_HOST: "e2e_test"
+      E2E_TARGET_HOST: "e2e_target:3002"
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
-      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       RAILS_ENV: test
-      SELENIUM_HOST: 'selenium:4444'
+      SELENIUM_HOST: "selenium:4444"
       SMTP_SETTINGS: '{ "address":"mail" }'
-      RUBYOPT: '-W:no-deprecated -W:no-experimental'
+      # RUBYOPT: "-W:no-deprecated -W:no-experimental"
+    command: bin/check
     depends_on:
       - db
       - selenium
+      - e2e_target
     networks:
       default:
       selenium:
 
   e2e_target:
     build: .
-    image: heimv:latest
+    image: heimv-e2e_target
     ports:
-      - '3002:3002'
+      - "3002:3002"
     environment:
-      APP_HOST: 'e2e_target:3002'
+      APP_HOST: "e2e_target:3002"
       DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
       SMTP_SETTINGS: '{ "address":"mail" }'
-      MAIL_FROM: 'no-reply@heimverwaltung.localhost'
-      SECRET_KEY_BASE: 'test'
-      RAILS_SERVE_STATIC_FILES: 'true'
-      DISABLE_DATABASE_ENVIRONMENT_CHECK: '1'
+      MAIL_FROM: "no-reply@heimverwaltung.localhost"
+      SECRET_KEY_BASE: "test"
+      RAILS_SERVE_STATIC_FILES: "true"
+      DISABLE_DATABASE_ENVIRONMENT_CHECK: "1"
       PORT: 3002
-      LOG_LEVEL: 'debug'
-      RUBYOPT: '-W:no-deprecated -W:no-experimental'
+      LOG_LEVEL: "debug"
+      RUBYOPT: "-W:no-deprecated -W:no-experimental"
     depends_on:
       - db
       - mail
     networks:
       default:
       selenium:
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    logging:
+      driver: none
+    networks:
+      selenium:
+
+  db:
+    image: postgres:11-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: heimverwaltung_e2e
+      POSTGRES_PASSWORD: postgres
+
+  mail:
+    image: tophfr/mailcatcher
+    ports:
+      - "1080:80"
+
+volumes:
+  db_data:
+  home:
 
 networks:
   selenium:

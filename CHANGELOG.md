@@ -2,6 +2,10 @@
 
 #### Unreleased
 
+- Update dependencies
+- Fix some default rich text templates
+- Allow cancellation from more states
+
 #### Version 21.11.2
 
 Released on 17.11.2021

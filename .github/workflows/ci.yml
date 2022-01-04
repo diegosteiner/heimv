@@ -1,4 +1,5 @@
-name: CI
+---
+name: Continous Integration - CI
 
 on:
   push:
@@ -12,52 +13,47 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: vendor
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
+        name: checkout
 
-      - uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-${{ env.cache-name }}-
-            ${{ runner.os }}-npm-
+      - run: mkdir -p artifacts
+        name: prepare artifacts
 
-      - run: mkdir -p vendor/cache node_modules artifacts
+      - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+        name: docker login
 
-      # - name: Build test container
-      #   run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml build e2e_test
-      #   env:
-      #     UID: 0
-      #     GID: 0
+      - run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e-test || true
+        name: docker pull
 
-      - name: Prepare Database
-        if: success()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate
+      - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_test
+        name: docker build e2e_test
 
-      - name: Build and start e2e
-        if: success()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml up -d e2e_target
-        env:
-          UID: 0
-          GID: 0
+      - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_target
+        name: docker build e2e_target
 
-      - name: Run check
-        if: success()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/check
+      - run: docker tag heimv-e2e_test docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e_test && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e_test || true
+        name: docker push cache
+
+      - name: migrate
+        run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_target bin/rails db:drop db:create db:migrate
+
+      - name: bin/check
+        run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/check
+
+      - if: success() && !github.base_ref
+        name: docker push
+        run: docker tag heimv-e2e_target docker.pkg.github.com/$GITHUB_REPOSITORY/heimv:latest && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/heimv:latest || true
 
       - if: failure()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml logs e2e_target > ./artifacts/e2e_target.log
+        name: dump log
+        run: docker-compose --project-directory . --file .github/docker-compose.yml logs e2e_target > ./artifacts/e2e_target.log
 
       - if: failure()
+        name: dump screenshots
         run: cp -r tmp/capybara ./artifacts/
 
-      - uses: actions/upload-artifact@master
-        if: failure()
+      - if: failure()
+        name: upload artifacts
+        uses: actions/upload-artifact@master
         with:
           name: artifacts
           path: artifacts
@@ -68,10 +64,6 @@ jobs:
       #     DOCKER_USERNAME: ${{ github.actor }}
       #     DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       #     DOCKER_REGISTRY_URL: docker.pkg.github.com
-
-      # - name: Tag image
-      #   if: success() && !github.base_ref
-      #   run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
 
       # - name: Push to docker hub :latest
       #   if: success() && !github.base_ref

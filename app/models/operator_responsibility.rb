@@ -43,7 +43,6 @@ class OperatorResponsibility < ApplicationRecord
 
   scope :ordered, -> { rank(:ordinal) }
 
-  validates :operator_id, presence: true
   validates :responsibility, presence: true
   validates :responsibility, uniqueness: { scope: :booking_id }, if: :booking_id
   ranks :ordinal, with_same: :organisation_id

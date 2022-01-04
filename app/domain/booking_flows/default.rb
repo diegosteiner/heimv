@@ -21,11 +21,11 @@ module BookingFlows
 
     state BookingStates::Upcoming, to: %i[cancelation_pending upcoming_soon]
     state BookingStates::UpcomingSoon, to: %i[cancelation_pending active]
-    state BookingStates::Active, to: :past
-    state BookingStates::Past, to: %i[completed payment_due]
+    state BookingStates::Active, to: %i[cancelation_pending past]
+    state BookingStates::Past, to: %i[cancelation_pending completed payment_due]
 
-    state BookingStates::PaymentDue, to: %i[payment_overdue completed]
-    state BookingStates::PaymentOverdue, to: %i[completed]
+    state BookingStates::PaymentDue, to: %i[cancelation_pending payment_overdue completed]
+    state BookingStates::PaymentOverdue, to: %i[cancelation_pending completed]
 
     state BookingStates::Completed
     state BookingStates::CancelledRequest

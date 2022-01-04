@@ -77,7 +77,7 @@ class Organisation < ApplicationRecord
   end
 
   def address_lines
-    @address_lines ||= address.lines.map(&:strip).reject(&:blank?).presence || []
+    @address_lines ||= address.lines.map(&:strip).compact_blank.presence || []
   end
 
   def smtp_settings_json
