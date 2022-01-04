@@ -24,8 +24,11 @@ jobs:
       - run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
         name: docker pull
 
+      - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_test
+        name: docker build e2e_test
+
       - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_target
-        name: docker build
+        name: docker build e2e_target
 
       - if: success()
         name: migrate
@@ -44,11 +47,12 @@ jobs:
         run: docker-compose --project-directory . --file .github/docker-compose.yml logs e2e_target > ./artifacts/e2e_target.log
 
       - if: failure()
+        name: dump screenshots
         run: cp -r tmp/capybara ./artifacts/
 
       - if: failure()
-        uses: actions/upload-artifact@master
         name: upload artifacts
+        uses: actions/upload-artifact@master
         with:
           name: artifacts
           path: artifacts
