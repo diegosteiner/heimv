@@ -1,13 +1,14 @@
 version: "3.9"
 services:
   e2e_test:
+    image: heimv-e2e_test
     build:
       context: .
       target: build
       cache_from:
         - heimv:latest
-        - ghcr.io/diegosteiner/heimv/build-cache:latest
-        - ghcr.io/diegosteiner/heimv/heimv:latest
+        - docker.pkg.github.com/diegosteiner/heimv/heimv-e2e_test:latest
+        - docker.pkg.github.com/diegosteiner/heimv/heimv:latest
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
@@ -28,7 +29,7 @@ services:
 
   e2e_target:
     build: .
-    image: heimv:latest
+    image: heimv-e2e_target
     ports:
       - "3002:3002"
     environment:

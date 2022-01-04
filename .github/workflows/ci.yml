@@ -21,7 +21,7 @@ jobs:
       - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
         name: docker login
 
-      - run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
+      - run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e-test || true
         name: docker pull
 
       - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_test
@@ -30,7 +30,7 @@ jobs:
       - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_target
         name: docker build e2e_target
 
-      - run: docker tag heimv_e2e_test docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
+      - run: docker tag heimv-e2e_test docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e_test && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e_test || true
         name: docker push cache
 
       - name: migrate
@@ -41,7 +41,7 @@ jobs:
 
       - if: success() && !github.base_ref
         name: docker push
-        run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/} && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/heimv:latest || true
+        run: docker tag heimv-e2e_target docker.pkg.github.com/$GITHUB_REPOSITORY/heimv:latest && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/heimv:latest || true
 
       - if: failure()
         name: dump log
