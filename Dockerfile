@@ -33,6 +33,7 @@ FROM development AS build
 
 COPY --chown=develop . /home/develop/app
 RUN mkdir -p /home/develop/vendor/cache && \
+    mkdir -p /home/develop/vendor/bundle && \
     mkdir -p /home/develop/node_modules
 
 RUN bundle install && \
