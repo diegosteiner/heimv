@@ -12,7 +12,8 @@ services:
       RAILS_ENV: test
       SELENIUM_HOST: "selenium:4444"
       SMTP_SETTINGS: '{ "address":"mail" }'
-      RUBYOPT: "-W:no-deprecated -W:no-experimental"
+      # RUBYOPT: "-W:no-deprecated -W:no-experimental"
+    command: bin/check
     depends_on:
       - db
       - selenium

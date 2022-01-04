@@ -30,12 +30,13 @@ jobs:
       - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_target
         name: docker build e2e_target
 
-      - if: success()
-        name: migrate
+      - run: docker tag heimv docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
+        name: docker push cache
+
+      - name: migrate
         run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate
 
-      - if: success()
-        name: bin/check
+      - name: bin/check
         run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/check
 
       - if: success() && !github.base_ref
@@ -56,10 +57,6 @@ jobs:
         with:
           name: artifacts
           path: artifacts
-
-      - run: docker tag heimv docker.pkg.github.com/diegosteiner/heimv/build-cache && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
-        name: docker push cache
-
 
       # - uses: actions-hub/docker/login@master
       #   if: success()
