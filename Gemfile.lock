@@ -290,9 +290,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
-    rails-i18n (7.0.1)
+    rails-i18n (6.0.0)
       i18n (>= 0.7, < 2)
-      railties (>= 6.0.0, < 8)
+      railties (>= 6.0.0, < 7)
     railties (6.1.4.4)
       actionpack (= 6.1.4.4)
       activesupport (= 6.1.4.4)
@@ -478,7 +478,7 @@ DEPENDENCIES
   puma
   rack-mini-profiler
   rails (~> 6.1.0)
-  rails-i18n
+  rails-i18n (~> 6.0)
   ranked-model
   react-rails
   responders
