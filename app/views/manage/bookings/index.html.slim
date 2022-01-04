@@ -13,9 +13,9 @@ nav.navbar.justify-content-between.px-0
         = t(:import)
 
   div
-    = link_to manage_bookings_path(current_booking_states: BookingStates.displayed_by_default), class: 'btn btn-outline-secondary me-2'
+    = link_to manage_bookings_path(current_booking_states: BookingStates.displayed_by_default), class: 'btn btn-outline-secondary bg-white me-2'
       = t('.canned_filter_default')
-    = link_to manage_bookings_path(current_booking_states: [:upcoming, :upcoming_soon]), class: 'btn btn-outline-secondary me-2'
+    = link_to manage_bookings_path(current_booking_states: [:upcoming, :upcoming_soon]), class: 'btn btn-outline-secondary bg-white me-2'
       = t('.canned_filter_upcoming')
 
     a[href='#filter' data-bs-toggle='collapse' class='btn btn-primary']
@@ -28,7 +28,7 @@ nav.navbar.justify-content-between.px-0
       = render partial: 'filter_fields', locals: { f: f }
       hr.my-4
       = f.submit t(:search)
-      =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary'
+      =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary bg-white'
         = t(:reset)
 
 - if @bookings.count > 250

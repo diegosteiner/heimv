@@ -33,7 +33,13 @@ h6 {
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr auto;
   min-height: 100vh;
-  padding-top: 56px;
+  padding-top: 55px;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' fill='none'%3E%3Cpath fill='%237575d122' d='M712 59c409 23 487-59 487-59H0v119c64-94 303-84 712-60z'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+  background-size: auto 45vh;
+
+  background-attachment: fixed;
 
   @include media-breakpoint-down(md) {
     display: flex;
@@ -56,10 +62,9 @@ h6 {
   }
 
   #navbar-top {
-    // box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
-    // background-color: rgba(248,249,250,0.9);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
     background-color: #7575d1;
-    border-bottom: 1px solid lightgray;
+    // border-bottom: 1px solid lightgray;
 
     a {
       font-family: $headings-font-family;
@@ -73,7 +78,7 @@ h6 {
 
   & > nav {
     grid-area: navigation;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.6);
     min-width: 250px;
   }
 
