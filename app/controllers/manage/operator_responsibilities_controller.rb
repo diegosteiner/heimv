@@ -38,7 +38,7 @@ module Manage
     end
 
     def destroy
-      @booking ||= operator_responsibility.booking
+      @booking ||= @operator_responsibility.booking
       @operator_responsibility.destroy
       respond_with :manage, @operator_responsibility, location: return_to_path
     end
