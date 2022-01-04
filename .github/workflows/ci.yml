@@ -34,7 +34,7 @@ jobs:
         name: docker push cache
 
       - name: migrate
-        run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate
+        run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_target bin/rails db:drop db:create db:migrate
 
       - name: bin/check
         run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/check
