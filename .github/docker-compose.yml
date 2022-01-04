@@ -4,6 +4,10 @@ services:
     build:
       context: .
       target: build
+      cache_from:
+        - heimv:latest
+        - ghcr.io/diegosteiner/heimv/build-cache:latest
+        - ghcr.io/diegosteiner/heimv/heimv:latest
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
