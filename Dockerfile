@@ -27,9 +27,9 @@ WORKDIR /home/develop/app
 ### === build === ### 
 FROM development AS build                                                      
 
-ENV RAILS_ENV=production               
-ENV NODE_ENV=production   
-ENV BUNDLE_WITHOUT="test:development"
+#ENV RAILS_ENV=production               
+#ENV NODE_ENV=production   
+#ENV BUNDLE_WITHOUT="test:development"
 
 COPY --chown=develop . /home/develop/app
 RUN mkdir -p /home/develop/vendor/cache && \

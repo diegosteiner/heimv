@@ -7,9 +7,9 @@ services:
     user: "${UID:-0}:${GID:-0}"
     entrypoint: ".docker/entrypoints/app.sh"
     command: "bin/e2e"
-    volumes:
-      - home:/home/develop:cached
-      - .:/home/develop/app:cached
+  # volumes:
+  #   - home:/home/develop:cached
+  #   - .:/home/develop/app:cached
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"

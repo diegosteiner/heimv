@@ -24,7 +24,7 @@ jobs:
       - run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/build-cache || true
         name: docker pull
 
-      - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_test
+      - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_target
         name: docker build
 
       - if: success()
