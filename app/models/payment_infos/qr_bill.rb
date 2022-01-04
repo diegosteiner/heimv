@@ -7,7 +7,7 @@ module PaymentInfos
     CODING_TYPE = '1'
     ADDRESS_TYPE = 'K'
     # REF_TYPE = 'QRR'
-    REF_TYPE = 'SCOR'
+    # REF_TYPE = 'SCOR'
     CURRENCY = 'CHF'
     COUNTRY_CODE = 'CH'
     EPD = 'EPD'
@@ -51,7 +51,7 @@ module PaymentInfos
         ezp_zipcode: '',
         ezp_place: '',
         ezp_country: COUNTRY_CODE,
-        ref_type: REF_TYPE,
+        ref_type: ref_type,
         ref: ref,
         additional_information: '',
         trailer: EPD
@@ -69,7 +69,7 @@ module PaymentInfos
     end
 
     def creditor_account
-      organisation.iban || ''
+      organisation.qr_iban.presence || organisation.iban.presence
     end
 
     def currency
@@ -88,8 +88,19 @@ module PaymentInfos
       # end.join.to_i
     end
 
+    def ref_type
+      organisation.qr_iban.present? ? :QRR : :SCOR
+    end
+
+    def scor_ref
+      @scor_ref ||= format('RF%<checksum>02d%<unchecked_ref>s', checksum: checksum(invoice.ref),
+                                                                unchecked_ref: invoice.ref)
+    end
+
     def ref
-      @ref ||= format('RF%<checksum>02d%<unchecked_ref>s', checksum: checksum(invoice.ref), unchecked_ref: invoice.ref)
+      return scor_ref if ref_type == :SCOR
+
+      invoice.ref
     end
 
     def formatted_ref

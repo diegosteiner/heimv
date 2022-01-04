@@ -197,6 +197,7 @@ fr:
         notification_footer: Fusszeile für Nachrichten
         notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
+        qr_iban: QR-IBAN
         representative_address: Adresse der Vertretung für Verträge
         settings: Einstellungen
         settings_json: Einstellungen
@@ -244,6 +245,7 @@ fr:
         country_code: Land
         email: Email
         first_name: Vorname
+        iban: IBAN
         last_name: Nachname
         locale: Sprache
         nickname: Pfadiname

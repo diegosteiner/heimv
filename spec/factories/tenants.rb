@@ -13,6 +13,7 @@
 #  email                           :string
 #  email_verified                  :boolean          default(FALSE)
 #  first_name                      :string
+#  iban                            :string
 #  import_data                     :jsonb
 #  last_name                       :string
 #  nickname                        :string

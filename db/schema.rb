@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_07_090801) do
+ActiveRecord::Schema.define(version: 2022_01_04_142509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 2021_11_07_090801) do
     t.integer "purpose_id"
     t.string "booking_flow_type"
     t.string "token"
+    t.datetime "conditions_accepted_at"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
@@ -340,6 +341,7 @@ ActiveRecord::Schema.define(version: 2021_11_07_090801) do
     t.string "invoice_ref_template", default: "%<prefix>s%<home_id>03d%<tenant_id>06d%<invoice_id>07d"
     t.string "ref_template", default: "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s"
     t.jsonb "settings", default: {}
+    t.string "qr_iban"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
@@ -427,6 +429,7 @@ ActiveRecord::Schema.define(version: 2021_11_07_090801) do
     t.string "nickname"
     t.string "additional_address"
     t.boolean "allow_bookings_without_contract", default: false
+    t.string "iban"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"
