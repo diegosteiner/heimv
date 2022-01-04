@@ -24,20 +24,20 @@ jobs:
       - run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e-test || true
         name: docker pull
 
-      - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_test
+      - run: docker-compose --file docker-compose.ci.yml build e2e_test
         name: docker build e2e_test
 
-      - run: docker-compose --project-directory . --file .github/docker-compose.yml build e2e_target
+      - run: docker-compose --file docker-compose.ci.yml build e2e_target
         name: docker build e2e_target
 
       - run: docker tag heimv-e2e_test docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e_test && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e_test || true
         name: docker push cache
 
       - name: migrate
-        run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_target bin/rails db:drop db:create db:migrate
+        run: docker-compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
 
       - name: bin/check
-        run: docker-compose --project-directory . --file .github/docker-compose.yml run e2e_test bin/check
+        run: docker-compose --file docker-compose.ci.yml run e2e_test bin/check
 
       - if: success() && !github.base_ref
         name: docker push
@@ -45,7 +45,7 @@ jobs:
 
       - if: failure()
         name: dump log
-        run: docker-compose --project-directory . --file .github/docker-compose.yml logs e2e_target > ./artifacts/e2e_target.log
+        run: docker-compose --file docker-compose.ci.yml logs e2e_target > ./artifacts/e2e_target.log
 
       - if: failure()
         name: dump screenshots
@@ -57,16 +57,3 @@ jobs:
         with:
           name: artifacts
           path: artifacts
-
-      # - uses: actions-hub/docker/login@master
-      #   if: success()
-      #   env:
-      #     DOCKER_USERNAME: ${{ github.actor }}
-      #     DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-      #     DOCKER_REGISTRY_URL: docker.pkg.github.com
-
-      # - name: Push to docker hub :latest
-      #   if: success() && !github.base_ref
-      #   uses: actions-hub/docker@master
-      #   with:
-      #     args: push docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
