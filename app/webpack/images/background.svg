@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 400">
   <g>
-    <path fill="#ededf5" d="M800 200c255 0 400 0 400-200h1H0v400c0-191 150-200 350-200" />
-    <path fill="#d2d2eb" d="M800 150c255 0 411-22 400-150H0v350c0-191 150-200 350-200" />
+    <!-- <path fill="#ededf5" d="M801 150c308 0 399 0 399-150H0v400c0-192 150-250 350-250" /> -->
+    <path fill="#d2d2eb" d="M801 100c255 0 399 0 399-100H0v350c0-192 150-250 350-250" />
   </g>
 </svg>
