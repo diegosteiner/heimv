@@ -1,5 +1,5 @@
 ### === base === ###                 
-FROM ruby:3.0.3-alpine AS base
+FROM ruby:3.1-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata nodejs
 RUN adduser -D develop
 RUN gem install bundler
@@ -17,7 +17,7 @@ RUN apk add --update build-base \
     gnupg \
     openssh-client
 
-RUN gem install solargraph standardrb ruby-debug-ide debase rufo
+RUN gem install solargraph standardrb ruby-debug-ide debug rufo
 
 ENV BUNDLE_CACHE_ALL=true
 ENV BUNDLE_PATH=/home/develop/app/vendor/bundle

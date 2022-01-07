@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.0.3'
+ruby '3.1.0'
 
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
@@ -28,6 +28,9 @@ gem 'liquid'
 gem 'memory_profiler'
 gem 'meta-tags'
 gem 'mobility'
+gem 'net-smtp', require: false
+gem 'net-pop', require: false
+gem 'net-imap', require: false
 gem 'pg'
 gem 'pony'
 gem 'prawn'
