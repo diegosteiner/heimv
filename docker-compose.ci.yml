@@ -29,8 +29,14 @@ services:
       selenium:
 
   e2e_target:
-    build: .
     image: heimv-e2e_target
+    build: 
+      context: .
+      cache_from:
+        - heimv-e2e_test:latest
+        - heimv:latest
+        - docker.pkg.github.com/diegosteiner/heimv/heimv-e2e_test:latest
+        - docker.pkg.github.com/diegosteiner/heimv/heimv:latest
     ports:
       - "3002:3002"
     environment:
