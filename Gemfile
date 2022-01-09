@@ -28,9 +28,9 @@ gem 'liquid'
 gem 'memory_profiler'
 gem 'meta-tags'
 gem 'mobility'
-gem 'net-smtp', require: false
-gem 'net-pop', require: false
 gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
 gem 'pg'
 gem 'pony'
 gem 'prawn'

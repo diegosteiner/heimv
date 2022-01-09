@@ -1843,6 +1843,7 @@ fr:
           contract_sent: Vertrag versendet markieren
           contract_signed: Vertrag unterschieben
       import:
+        headers: Headers
         import_error: 'Import fehlgeschlagen. Fehler: %{error}'
         import_file: Import file
         import_success: Import success

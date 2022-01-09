@@ -13,42 +13,48 @@ module Import
         raise NotImplementedError
       end
 
-      def persist_record(record)
-        record.save
-      end
-
       def default_options
         { csv: { header_converters: :downcase, headers: true } }
       end
 
-      # rubocop:disable Metrics/MethodLength
-      def parse(input = ARGF, **options)
-        options.reverse_merge!(default_options)
+      def persist_record(record)
+        record.save
+      end
+
+      def parse(input = ARGF)
         Result.new.tap do |result|
           ActiveRecord::Base.transaction do
-            CSV.parse(input, **options.fetch(:csv)).each_with_index do |row, index|
-              result.add(import_row(row, **options))
-            rescue StandardError => e
-              result.errors.add(index.to_s, e.message)
-            end
+            parse!(input, result)
+            # rescue StandardError => e
+            #   debugger
+            #   result.errors.add(index.to_s, e.message)
+            # end
 
             raise ActiveRecord::Rollback unless result.ok?
           end
         end
       end
-      # rubocop:enable Metrics/MethodLength
 
-      def parse_file(file, **options)
-        parse(file.read.force_encoding('UTF-8'), **options)
+      def parse!(input = ARGF, result = Result.new)
+        CSV.parse(input, **options.fetch(:csv)).each_with_index do |row, index|
+          result.add(import_row(row)) unless skip_row?(row, index)
+        end
+        result
       end
 
-      def import_row(row, **options)
-        initialize_record(row).tap do |record|
-          return nil if record.nil? || row.values_at.all?(&:blank?)
+      def parse_file(file)
+        parse(file.read.force_encoding('UTF-8'))
+      end
 
+      def import_row(row)
+        initialize_record(row)&.tap do |record|
           self.class.actors.each { |actor_block| instance_exec(record, row, options, &actor_block) }
           persist_record(record)
         end
+      end
+
+      def skip_row?(row, index = nil)
+        row.values_at.all?(&:blank?) || (options.dig(:csv, :headers).is_a?(Array) && index.zero?)
       end
 
       def self.actor(&block)
@@ -57,23 +63,6 @@ module Import
 
       def self.actors
         @actors ||= []
-      end
-    end
-  end
-end
-
-class CSV
-  class Row
-    def try_field(*names)
-      names.each do |name|
-        return self[name] if self[name].present?
-      end
-      nil
-    end
-
-    def try_all_fields(*names)
-      names.each_with_object([]) do |name, aggregator|
-        aggregator << self[name] if self[name].present?
       end
     end
   end

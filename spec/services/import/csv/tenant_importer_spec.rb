@@ -4,10 +4,14 @@ require 'rails_helper'
 
 RSpec.describe Import::Csv::TenantImporter, type: :model do
   let(:organisation) { create(:organisation) }
-  let(:importer) { described_class.new(organisation) }
+  let(:header_mapping) do
+    %w[tenant.last_name tenant.first_name tenant.street_address tenant.zipcode
+       tenant.city tenant.country_code tenant.email tenant.phone_1 tenant.phone_2]
+  end
+  let(:importer) { described_class.new(organisation, csv: { headers: header_mapping }) }
   let(:csv) do
     <<~ENDCSV
-      "last_name","first_name","street_address","zipcode","city","country","email","phone_1","phone_2"
+      "Nachname","Vorname","Adresse","PLZ","Ort","Land","E-Mail","Mobiltelefon","Festnetz"
       "Muster","Peter","Teststrasse 24","8049","Zürich",,"test@example.com",,"044 444 44 44"
     ENDCSV
   end
