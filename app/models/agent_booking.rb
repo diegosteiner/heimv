@@ -47,7 +47,7 @@ class AgentBooking < ApplicationRecord
   before_validation :assign_booking_agent
 
   validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request
-  validates :booking_agent_code, :booking, presence: true
+  validates :booking_agent_code, presence: true
   validate do
     errors.add(:booking_agent_code, :invalid) if booking_agent.blank?
     errors.add(:tenant_email, :invalid) if tenant_email.present? && tenant_email == booking_agent&.email

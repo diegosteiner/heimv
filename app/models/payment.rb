@@ -36,7 +36,7 @@ class Payment < ApplicationRecord
   attribute :confirm, :boolean, default: true
 
   validates :amount, numericality: true
-  validates :paid_at, :amount, :booking, presence: true
+  validates :paid_at, :amount, presence: true
   validate do
     errors.add(:base, :duplicate) if duplicates.exists?
   end

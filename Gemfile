@@ -66,8 +66,8 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'database_cleaner'
   gem 'dotenv-rails'
-# gem 'pry-rails'
-# gem 'pry-rescue'
+  # gem 'pry-rails'
+  # gem 'pry-rescue'
   gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop'
