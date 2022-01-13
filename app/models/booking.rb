@@ -53,6 +53,7 @@
 
 class Booking < ApplicationRecord
   include BookingStateConcern
+  include LocaleEnumerable
 
   DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :purpose, { tenant: :organisation, deadline: :booking, occupancy: :home,
@@ -84,8 +85,6 @@ class Booking < ApplicationRecord
   has_secure_token :token, length: 48
 
   attribute :accept_conditions, default: false
-  enum locale: I18n.available_locales.index_by(&:to_sym).transform_values(&:to_s),
-       _prefix: true, _default: I18n.locale || I18n.default_locale
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create
