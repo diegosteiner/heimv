@@ -183,13 +183,16 @@ ActiveRecord::Schema.define(version: 2022_01_12_201403) do
   end
 
   create_table "designated_documents", force: :cascade do |t|
-    t.integer "designation", default: 0
+    t.integer "designation"
     t.string "locale"
-    t.string "attached_to_type"
-    t.bigint "attached_to_id"
+    t.text "remarks"
+    t.bigint "organisation_id", null: false
+    t.bigint "home_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["attached_to_type", "attached_to_id"], name: "index_designated_documents_on_attached_to"
+    t.index ["designation", "locale", "home_id", "organisation_id"], name: "index_designated_documentss_on_designation_and_locale", unique: true
+    t.index ["home_id"], name: "index_designated_documents_on_home_id"
+    t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
   end
 
   create_table "homes", force: :cascade do |t|

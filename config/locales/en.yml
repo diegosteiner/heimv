@@ -13,7 +13,7 @@ en:
         homes: Heime
         only_inconcluded: nur offene Buchungen
         previous_booking_states: Vergangene Status
-        ref: Referenz
+        ref: Buchungsreferenz
         tenant: Mieter
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerabschnitts ab
@@ -78,15 +78,15 @@ en:
         purpose: Zweck der Miete
         purpose_id: Zweck der Miete
         ref: Buchungsreferenz
-        remarks: Bemerkungen
+        remarks: Beschreibung des Mietzwecks / Bemerkungen
         state: Status
-        tenant: Kunde
-        tenant_id: Kunde
+        tenant: Mieter
+        tenant_id: Mieter
         tenant_organisation: Mieter Organisation
         transition_to: Neuer Status
       booking_agent:
         address: Adresse
-        code: Code
+        code: Vermittler-Code
         email: Email
         name: Name
         provision: Provision
@@ -98,9 +98,9 @@ en:
       contract:
         issuer: Vermieter
         pdf: PDF
-        sent_at: Verschickt am
-        signed_at: Unterschrieben am
-        signed_pdf: Unterschriebenes PDF
+        sent_at: Vertragsdatum
+        signed_at: Von Mieter Unterschrieben am
+        signed_pdf: Von Mieter Unterschriebenes PDF
         text: Vertragstext
         title: Titel
       data_digest:
@@ -110,16 +110,20 @@ en:
       deadline:
         armed: Aktiviert
         at: Bis
-        postponable_for: Verlängerbar
+        postponable_for: Verlängerbar um Sekunden
         remarks: Bemerkungen
         responsible: Verantwortlich
+      designated_document:
+        designation: Art des Dokuments
+        file: Datei
+        home_id: Heim
+        locale: Sprache
+        remarks: Bemerkungen
       home:
-        address: Address
+        address: Adresse
         booking_margin: Zeitabstand zwischen Buchungen
-        house_rules: Hausordnung (PDF)
-        janitor: Abwart
         min_occupation: Mindestbelegung / Nacht
-        name: name
+        name: Name
         ref: Kurzname / Referenz
         requests_allowed: Reservationsanfragen erlauben
       invoice:
@@ -128,27 +132,27 @@ en:
         amount_paid: bezahlter Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
-        invoice_parts: Positionen
+        invoice_parts: Rechnungspositionen
         issued_at: Ausgestellt am
-        payable_until: Zahlung bis
+        payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
         print_payment_slip: Einzahlungsschein drucken
         ref: Referenznummer
-        sent_at: Versendet am
+        sent_at: Rechnungsdatum
         text: Text
         type: Rechnungsart
       invoice_part:
         amount: Betrag
         apply: Anwenden
-        breakdown: Text
+        breakdown: Aufschlüsselung
         label: Text
         ordinal_position: Ordnungsnummer
-        type: Positionsart
+        type: Art der Rechnungsposition
       meter_reading_period:
         begins_at: Beginn
-        end_value: Schlusswert
+        end_value: Zählerstand neu
         ends_at: Ende
-        start_value: Startwert
+        start_value: Zählerstand alt
       notification:
         body: Inhalt
         sent_at: Zuletzt gesendet am
@@ -184,13 +188,13 @@ en:
       organisation:
         address: Adresse
         bcc: BCC
-        contract_signature: Vertragsunterschrift
-        default_payment_info_type: Standartzahlungsart
-        esr_beneficiary_account: Kontonummer
-        esr_ref_prefix: ESR Referenznummer Präfix
+        contract_signature: Vertragsunterschrift Bild
+        default_payment_info_type: Standartzahlungsteil
+        esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
+        esr_ref_prefix: ESR Identifikationsnummer / Präfix
         iban: IBAN
         locale: Sprache
-        location: Ort
+        location: Vertragsunterschrift Ort
         logo: Logo
         mail_from: Absender von Emails
         name: Name
@@ -209,23 +213,23 @@ en:
         amount: Betrag
         confirm: Zahlungsbestätigung automatisch verschicken
         invoice_id: Rechnung
-        paid_at: Einbezahlt am
+        paid_at: Bezahlt am
         remarks: Bemerkungen
         write_off: Abschreibung
       rich_text_template:
         body: Text
-        home_id: Heim
+        home_id: Gültig für Heim
         key: ID
         locale: Sprache
-        namespace: Art
+        namespace: Bereich
         title: Titel
       tarif:
-        invoice_type: Rechnungstyp
-        label: Tarif
+        invoice_type: Zugehörig zu Rechnungsart
+        label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         ordinal: Ordnungsnummer
         prefill_usage_method: Vorausfüllmethode
-        price_per_unit: Preis pro Einheit
+        price_per_unit: Preis (pro Einheit)
         tarif_group: Tarifgruppe
         tenant_visible: Für Mieter sichtbar (Vertrag und Rechnung)
         transient: Tarif NICHT auf Buchung fixieren
@@ -234,7 +238,7 @@ en:
       tarif_selector:
         type: Typ
       tarif_tarif_selector:
-        override: Tarif automatisch auswählen
+        override: Überschreiben
         tarif: Tarif
       tenant:
         additional_address: Addresszusatz
@@ -260,7 +264,7 @@ en:
         presumed_used_units: Verausichtlicher Verbrauch
         price: Preis
         remarks: Bemerkungen
-        used_units: Verbrauchte Anzahl
+        used_units: Verbrauch
       user:
         email: Email
         password: Passwort
@@ -290,6 +294,13 @@ en:
           next_year: Nächstes Jahr
           this_year: Dieses Jahr
           until_now: Bis heute
+      designated_document:
+        designation:
+          house_rules: Hausordnung
+          price_list: Preisliste
+          privacy_statement: Datenschutzerklärung
+          terms: Geschäftsbedingungen / AGB
+          undesignated: "-"
       occupancy:
         occupancy_type:
           closed: Geschlossen
@@ -324,10 +335,10 @@ en:
           action_not_allowed: Diese Aktion ist nicht erlaubt
           attributes:
             deadline:
-              not_postponable: Frist kann nicht verlängert werden
+              not_postponable: kann nicht verlängert werden
             transition_to:
-              invalid_transition: 'Invalid transition: %{transition}'
-          booking_margin_too_small: Die Pufferzeit von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
+              invalid_transition: 'Ungültiger Statusübergang: %{transition}'
+          booking_margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
         occupancy:
           attributes:
@@ -336,10 +347,10 @@ en:
         tenant:
           incomplete: Angaben unvollständig
       notifications:
-        record_invalid: 'Validation failed: %{errors}'
+        record_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
         restrict_dependent_destroy:
-          has_many: Cannot delete record because dependent %{record} exist
-          has_one: Cannot delete record because a dependent %{record} exists
+          has_many: Datensatz kann nicht gelöscht werden, da abhängige %{record} existieren.
+          has_one: Datensatz kann nicht gelöscht werden, da ein abhängiger %{record}-Datensatz existiert.
     models:
       agent_booking:
         one: Vermittlung
@@ -363,8 +374,8 @@ en:
         one: Vertrag
         other: Verträge
       data_digest:
-        one: Bericht
-        other: Berichte
+        one: Auszug
+        other: Auszüge
       data_digests/booking:
         one: Buchungen Auszug
         other: Buchungen Auszüge
@@ -384,14 +395,17 @@ en:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
       data_digests/tarif:
-        one: Tarif Bericht
-        other: Tarif Berichte
+        one: Tarif Auszug
+        other: Tarif Auszüge
       data_digests/tenant:
-        one: Mieter Bericht
-        other: Mieter Berichte
+        one: Mieter Auszug
+        other: Mieter Auszüge
       deadline:
         one: Frist
         other: Fristen
+      designated_document:
+        one: Dokument
+        other: Dokumente
       home:
         one: Heim
         other: Heime
@@ -399,8 +413,8 @@ en:
         one: Rechnung
         other: Rechnungen
       invoice_part:
-        one: Position
-        other: Positionen
+        one: Rechungsposition
+        other: Rechungspositionen
       invoice_parts/add:
         one: Normale Rechungsposition
         other: Normale Rechnungspositionen
@@ -420,8 +434,8 @@ en:
         one: Zählerstand
         other: Zählerstände
       notification:
-        one: Nachricht
-        other: Nachrichten
+        one: Benachrichtigung
+        other: Benachrichtigungen
       occupancy:
         one: Belegung
         other: Belegungen
@@ -447,8 +461,8 @@ en:
         one: Tarif
         other: Tarife
       tarif_selector:
-        one: Berechnung
-        other: Berechnungen
+        one: Tarifwähler
+        other: Tarifwähler
       tarif_selectors/always_apply:
         one: Immer-Ein Tarifwähler
       tarif_selectors/booking_approximate_headcount_per_night:
@@ -460,8 +474,8 @@ en:
       tarif_selectors/booking_purpose:
         one: Mietzweck Tarifwähler
       tarif_tarif_selector:
-        one: Tarifrechner-Tarif
-        other: Tarifrechner-Tarife
+        one: Tarifwähler-Tarif
+        other: Tarifwähler-Tarife
       tarifs/amount:
         one: nach Gebrauch
       tarifs/flat:
@@ -473,16 +487,16 @@ en:
       tarifs/overnight_stay:
         one: Übernachtungen
       tenant:
-        one: Tenant
-        other: Tenants
+        one: Mieter
+        other: Mieter
       usage:
         one: Verbrauch
         other: Verbrauch
       user:
         one: Benutzer
         other: Benutzer
-  add_record: Add %{model_name}
-  back: Back
+  add_record: "%{model_name} hinzufügen"
+  back: Zurück
   booking_actions:
     manage:
       accept:
@@ -512,31 +526,31 @@ en:
         label: Frist verlängern
   booking_states:
     active:
-      label: Aktive Belegung
+      label: Belegung (anwesend)
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
       checklist:
         assign_responsibilities: Verantwortlichkeiten zuweisen
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
-      label: Bestätigte Reservation
-      relevant_time: Eingereicht %{time}
+      label: Reservation (Vertrag offen)
+      relevant_time: Frist %{time}
     awaiting_tenant:
-      label: Mietanfrage (fehlende Mieterangaben)
+      label: vermittelte Mietanfrage (fehlende Mieterangaben)
       relevant_time: Frist %{time}
     booking_agent_request:
-      label: Mietanfrage (provisorisch via Vermittler)
+      label: vermittelte Mietanfrage (provisorisch)
       relevant_time: Frist %{time}
     cancelation_pending:
       description: Die Belegung wurde storniert, es sind aber noch Rechnungen offen, die zuerst als bezahlt markiert werden müssen.
-      label: Annulierte Reservation
+      label: Stornierung pendent
     cancelled:
       label: Storniert
     cancelled_request:
-      description: Der Mieter hat die Anfrage zurückgezogen
-      label: Mietanfrage (zurückgezogen)
+      description: Die Frist ist abgelaufen oder der Mieter hat die Anfrage zurückgezogen
+      label: Mietanfrage (zurückgezogen/abgelaufen)
     completed:
-      label: Abgeschlossene Belegung
+      label: Belegung (abgeschlossen)
     declined_request:
       deadline_exceeded: Frist abgelaufen
       label: Mietanfrage (abgelehnt)
@@ -546,53 +560,53 @@ en:
         create_contract: Vertrag erstellen
         create_deposit: Anzahlung erstellen
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
-      label: Definitive Mietanfrage
+      label: Mietanfrage (definitiv)
       relevant_time: Eingereicht %{time}
     initial:
       label: "-"
     open_request:
-      label: Neue Mietanfrage
+      label: Mietanfrage (offen)
       public_info: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
       relevant_time: Eingereicht %{time}
     overdue:
       checklist:
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
-      label: Überfällige Reservation
+      label: Reservation (Vertrag überfällig)
       relevant_time: Frist %{time}
     overdue_request:
-      label: Überfällige Mietanfrage
-      public_info: Deine Mietanfrage ist überfällig. Bitte setzte Sie entweder auf definitiv oder annuliere die Anfrage ganz.
+      label: Mietanfrage (Antwort überfällig)
+      public_info: Deine Mietanfrage ist überfällig. Bitte setzte sie entweder auf definitiv oder annuliere die Anfrage ganz.
       relevant_time: Frist %{time}
     past:
       checklist:
         create_invoice: Rechnung stellen
         create_usages: Verbrauch erfassen
-      label: Durchgeführte Belegung
+      label: Belegung (vergangen)
       relevant_time: Ende der Belegung %{time}
     payment_due:
       checklist:
         invoice_paid: Rechnung beglichen
-      label: Rechnung ausstehend
+      label: Belegung (Zahlung ausstehend)
       relevant_time: Frist %{time}
     payment_overdue:
-      label: Rechnung überfällig
+      label: Belegung (Zahlung überfällig)
       relevant_time: Frist %{time}
     provisional_request:
-      label: Provisorische Mietanfrage
+      label: Mietanfrage (provisorisch)
       public_info: Deine provisorische Mietanfrage ist bestätigt.
       relevant_time: Frist %{time}
     unconfirmed_request:
-      label: Neue Mietanfrage
+      label: Mietanfrage (unbestätigt)
       public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
       relevant_time: Frist %{time}
     upcoming:
-      label: Geplante Belegung
+      label: Belegung (zukünftig)
       relevant_time: Beginn der Belegung %{time}
     upcoming_soon:
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
-  confirm: Confirm
+  confirm: Sind sie sicher?
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
     represented_by: vertreten durch
@@ -605,151 +619,104 @@ en:
   data_digests/parahotelerie_statistics:
     total_overnight_stays: Total Personennächte
   date:
-    abbr_day_names:
-    - Sun
-    - Mon
-    - Tue
-    - Wed
-    - Thu
-    - Fri
-    - Sat
-    abbr_month_names:
-    -
-    - Jan
-    - Feb
-    - Mar
-    - Apr
-    - May
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Oct
-    - Nov
-    - Dec
-    day_names:
-    - Sunday
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
+    abbr_day_names: '["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]'
+    abbr_month_names: '[nil, "Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]'
+    day_names: '["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"]'
     formats:
-      default: "%Y-%m-%d"
-      long: "%B %d, %Y"
-      short: "%b %d"
-    month_names:
-    -
-    - January
-    - February
-    - March
-    - April
-    - May
-    - June
-    - July
-    - August
-    - September
-    - October
-    - November
-    - December
-    order:
-    - :year
-    - :month
-    - :day
+      default: "%d.%m.%Y"
+      long: "%e. %B %Y"
+      short: "%e. %b"
+    month_names: '[nil, "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
+    order: '[":day", ":month", ":year"]'
   datetime:
     distance_in_words:
       about_x_hours:
-        one: about 1 hour
-        other: about %{count} hours
+        one: etwa eine Stunde
+        other: etwa %{count} Stunden
       about_x_months:
-        one: about 1 month
-        other: about %{count} months
+        one: etwa ein Monat
+        other: etwa %{count} Monate
       about_x_years:
-        one: about 1 year
-        other: about %{count} years
+        one: etwa ein Jahr
+        other: etwa %{count} Jahre
       almost_x_years:
-        one: almost 1 year
-        other: almost %{count} years
-      half_a_minute: half a minute
+        one: fast ein Jahr
+        other: fast %{count} Jahre
+      half_a_minute: eine halbe Minute
       less_than_x_minutes:
-        one: less than a minute
-        other: less than %{count} minutes
+        one: weniger als eine Minute
+        other: weniger als %{count} Minuten
       less_than_x_seconds:
-        one: less than 1 second
-        other: less than %{count} seconds
+        one: weniger als eine Sekunde
+        other: weniger als %{count} Sekunden
       over_x_years:
-        one: over 1 year
-        other: over %{count} years
+        one: mehr als ein Jahr
+        other: mehr als %{count} Jahre
       x_days:
-        one: 1 day
-        other: "%{count} days"
+        one: ein Tag
+        other: "%{count} Tage"
       x_minutes:
-        one: 1 minute
-        other: "%{count} minutes"
+        one: eine Minute
+        other: "%{count} Minuten"
       x_months:
-        one: 1 month
-        other: "%{count} months"
+        one: ein Monat
+        other: "%{count} Monate"
       x_seconds:
-        one: 1 second
-        other: "%{count} seconds"
+        one: eine Sekunde
+        other: "%{count} Sekunden"
       x_years:
-        one: 1 year
-        other: "%{count} years"
+        one: 1 Jahr
+        other: "%{count} Jahre"
     prompts:
-      day: Day
-      hour: Hour
+      day: Tag
+      hour: Stunden
       minute: Minute
-      month: Month
-      second: Seconds
-      year: Year
+      month: Monat
+      second: Sekunde
+      year: Jahr
   deadline_exceeded: Deadline exceeded
-  destroy: Destroy
-  downloads:
-    slug:
-      privacy_statement_pdf: datenschutz
-      terms_pdf: agb
-  edit: Edit
+  destroy: Löschen
+  edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
     notifications:
-      accepted: must be accepted
-      blank: can't be blank
-      confirmation: doesn't match %{attribute}
-      empty: can't be empty
-      equal_to: must be equal to %{count}
-      even: must be even
-      exclusion: is reserved
+      accepted: muss akzeptiert werden
+      blank: muss ausgefüllt werden
+      confirmation: stimmt nicht mit %{attribute} überein
+      empty: muss ausgefüllt werden
+      equal_to: muss genau %{count} sein
+      even: muss gerade sein
+      exclusion: ist nicht verfügbar
       future: muss zukünftig sein
-      greater_than: must be greater than %{count}
-      greater_than_or_equal_to: must be greater than or equal to %{count}
-      inclusion: is not included in the list
-      invalid: is invalid
+      greater_than: muss grösser als %{count} sein
+      greater_than_or_equal_to: muss grösser oder gleich %{count} sein
+      inclusion: ist kein gültiger Wert
+      invalid: ist nicht gültig
       later_than: muss nach %{other} sein
-      less_than: must be less than %{count}
-      less_than_or_equal_to: must be less than or equal to %{count}
-      model_invalid: 'Validation failed: %{errors}'
-      not_a_number: is not a number
-      not_an_integer: must be an integer
-      odd: must be odd
-      other_than: must be other than %{count}
-      present: must be blank
-      required: must exist
-      taken: has already been taken
+      less_than: muss kleiner als %{count} sein
+      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
+      model_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+      not_a_number: ist keine Zahl
+      not_an_integer: muss ganzzahlig sein
+      odd: muss ungerade sein
+      other_than: darf nicht gleich %{count} sein
+      present: darf nicht ausgefüllt werden
+      required: muss ausgefüllt werden
+      taken: ist bereits vergeben
       too_long:
-        one: is too long (maximum is 1 character)
-        other: is too long (maximum is %{count} characters)
+        one: ist zu lang (mehr als 1 Zeichen)
+        other: ist zu lang (mehr als %{count} Zeichen)
       too_short:
-        one: is too short (minimum is 1 character)
-        other: is too short (minimum is %{count} characters)
+        one: ist zu kurz (weniger als 1 Zeichen)
+        other: ist zu kurz (weniger als %{count} Zeichen)
       wrong_length:
-        one: is the wrong length (should be 1 character)
-        other: is the wrong length (should be %{count} characters)
+        one: hat die falsche Länge (muss genau 1 Zeichen haben)
+        other: hat die falsche Länge (muss genau %{count} Zeichen haben)
     template:
-      body: 'There were problems with the following fields:'
+      body: 'Bitte überprüfe die folgenden Felder:'
       header:
-        one: 1 error prohibited this %{model} from being saved
-        other: "%{count} errors prohibited this %{model} from being saved"
+        one: 'Konnte %{model} nicht speichern: ein Fehler.'
+        other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
   export:
     pdf:
       renderables:
@@ -787,28 +754,28 @@ en:
   flash:
     actions:
       create:
-        alert: "%{resource_name} could not be created."
-        notice: "%{resource_name} was successfully created."
+        alert: "%{resource_name} konnte nicht erstellt werden."
+        notice: "%{resource_name} wurde erfolgreich erstellt."
       destroy:
-        alert: "%{resource_name} could not be destroyed."
-        notice: "%{resource_name} was successfully destroyed."
+        alert: "%{resource_name} konnte nicht gelöscht werden."
+        notice: "%{resource_name} wurde erfolgreich gelöscht."
       update:
-        alert: "%{resource_name} could not be updated."
-        notice: "%{resource_name} was successfully updated."
+        alert: "%{resource_name} konnte nicht aktualisiert werden."
+        notice: "%{resource_name} wurde erfolgreich aktualisiert."
     public:
       bookings:
         create:
           notice: Deine Reservationsanfrage wurde erfasst und ein E-Mail mit dem Bestätigungslink an %{email} gesendet. Bitte klicke den Link um die Anfrage abzuschliessen.
         update:
-          notice: Deine Reservationsanfrage wurde gespeichert. Du kannst das Browserfenster schliessen.
-  generated: Generated
+          notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
+  generated: wird automatisch generiert
   helpers:
     select:
-      prompt: Please select
+      prompt: Bitte wählen
     submit:
-      create: Create
+      create: Erstellen
       submit: Speichern
-      update: Update
+      update: Speichern
   import: Import
   import_records: "%{model_name} importieren"
   invoice_parts:
@@ -816,62 +783,64 @@ en:
     unpaid_invoice: Offener Betrag fällig am %{payable_until}
   layouts:
     footer:
-      privacy_statement: Privacy statement
+      privacy_statement: Datenschutzerklärung
     manage_navigation:
-      help: Help
+      help: Hilfe
   manage:
     bookings:
       contracts:
         index:
           contract_sent: Vertrag versendet markieren
-          contract_signed: Contract signed
+          contract_signed: Vertrag unterschieben markieren
       import:
         headers: Headers
         import_error: 'Import fehlgeschlagen. Fehler: %{error}'
-        import_file: Import file
-        import_success: Import success
+        import_file: Import Datei (CSV)
+        import_success: Import erfolgreich
       index:
-        canned_filter_default: Canned filter default
-        canned_filter_upcoming: Canned filter upcoming
-        too_many_records: Too many records
+        canned_filter_default: Standardansicht
+        canned_filter_upcoming: Zukünftige Belegungen
+        too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       show:
         checklist: Checkliste
-        public_booking_url: Public booking url
+        public_booking_url: Link für Mieter
       tarifs:
         index:
-          applicable_tarifs: Applicable tarifs
-          used_tarifs: Applying tarifs
+          applicable_tarifs: Anwendbare Tarife
+          used_tarifs: Angewandte Tarife
       usages:
         table:
-          save: Save %{model_name}
-          save_and_continue: Save and continue
+          save: "%{model_name} speichern"
+          save_and_continue: Speichern und Rechnung erstellen
     dashboard:
       index:
-        ics_link: as ICAL
+        ics_link: als ICAL
+    designated_documents:
+      form:
+        all_locales: all
     invoices:
       form:
-        suggested_invoice_parts: Suggested invoice parts
+        suggested_invoice_parts: Vorgeschlagene Positionen
     notifications:
       edit:
-        deliver: Deliver
+        deliver: Speichern und nochmals versenden
       index:
         notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
     organisations:
       form:
-        general: General
-        more_settings: More settings
-        terms: Terms
+        general: Allgemein
+        more_settings: Weitere Einstellungen
     payments:
       index:
-        new_import: New import
+        new_import: Zahlungen aus CAMT.054-Datei importieren
     rich_text_templates:
       form:
-        all_homes: All homes
+        all_homes: Alle Heime
     users:
       index:
-        invite_user: Invite user
+        invite_user: Neuen Benutzer einladen
   nav:
-    edit_account: Account
+    edit_account: Passwort ändern
     manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
@@ -879,34 +848,40 @@ en:
   number:
     currency:
       format:
-        delimiter: ","
-        format: "%u%n"
-        precision: 2
+        delimiter: "'"
+        format: "%u %n"
+        precision: '2'
         separator: "."
-        significant: false
-        strip_insignificant_zeros: false
-        unit: "$"
+        significant: Significant
+        strip_insignificant_zeros: Strip insignificant zeros
+        unit: CHF
     format:
-      delimiter: ","
-      precision: 3
+      delimiter: "'"
+      precision: '2'
       separator: "."
-      significant: false
-      strip_insignificant_zeros: false
+      significant: Significant
+      strip_insignificant_zeros: Strip insignificant zeros
     human:
       decimal_units:
         format: "%n %u"
         units:
-          billion: Billion
-          million: Million
-          quadrillion: Quadrillion
-          thousand: Thousand
-          trillion: Trillion
-          unit: ''
+          billion:
+            one: Milliarde
+            other: Milliarden
+          million:
+            one: Million
+            other: Millionen
+          quadrillion:
+            one: Billiarde
+            other: Billiarden
+          thousand: Tausend
+          trillion:
+            one: Billion
+            other: Billionen
       format:
-        delimiter: ''
-        precision: 3
-        significant: true
-        strip_insignificant_zeros: true
+        precision: '1'
+        significant: 'true'
+        strip_insignificant_zeros: 'true'
       storage_units:
         format: "%n %u"
         units:
@@ -921,11 +896,7 @@ en:
           tb: TB
     percentage:
       format:
-        delimiter: ''
         format: "%n%"
-    precision:
-      format:
-        delimiter: ''
   occupancy_calendar:
     months: '["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
     next: "→"
@@ -934,7 +905,7 @@ en:
   offers:
     issuer_signature_label: Datum, Unterschrift Vermieter
   optional: optional
-  payable_by: Payable by
+  payable_by: Zahlbar durch
   payment_part_title: Payment part title
   public:
     agent_bookings:
@@ -946,22 +917,22 @@ en:
         title: Reservation
     bookings:
       edit:
-        title: Title
+        title: Reservation bearbeiten
       form:
-        booking_details: Booking details
-        last_minute_warning: Last minute warning
+        booking_details: Angaben zur Reservation
+        last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
       new:
-        accept_conditions_html: <a href="%{privacy_statement_pdf_url}" target="_blank"></a> <a href="%{terms_pdf_url}" target="_blank"></a>
+        accept_conditions_html: Ich bin mit den <a href="%{privacy_statement_pdf_url}" target="_blank">Datenschutzbestimmungen</a> und den <a href="%{terms_pdf_url}" target="_blank">AGB</a> einverstanden
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
-        title: Title
+        title: Reservation
     pages:
       privacy:
         current_organisation_privacy_statment_title: Datenschutzerklärung von %{organisation}
         current_organisation_privacy_statment_url: Link zur Datenschutzerklärung der verarbeitenden Organisation
   receipt_title: Receipt title
   ref: Ref
-  reset: Reset
+  reset: Zurücksetzen
   rich_text_templates:
     awaiting_contract_notification:
       description: Benachrichtigung für Vertragsaustellung und Anzahlung (Mieter)
@@ -1027,12 +998,12 @@ en:
       description: Benachrichtigung für baldige Belegung (Mieter)
     usage_report_text:
       description: Text für Verbrauchsformular
-  search: Search
+  search: Suchen
   show: Anzeigen
   support:
     array:
-      last_word_connector: ", and "
-      two_words_connector: " and "
+      last_word_connector: " und "
+      two_words_connector: " und "
       words_connector: ", "
   tenant:
     salutation: Hallo %{name}
@@ -1045,5 +1016,5 @@ en:
       time: "%H:%M"
   titles:
     application: HeimV %{organisation}
-  unauthorized: Sie haben keine Berechtigung für diese Seite. Bitte loggen Sie sich ein
+  unauthorized: Du hast keine Berechtigung für diese Seite. Bitte logge dich ein
   until: bis

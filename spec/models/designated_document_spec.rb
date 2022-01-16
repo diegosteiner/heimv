@@ -4,51 +4,70 @@
 #
 # Table name: designated_documents
 #
-#  id               :bigint           not null, primary key
-#  attached_to_type :string
-#  designation      :integer          default(0)
-#  locale           :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  attached_to_id   :bigint
+#  id              :bigint           not null, primary key
+#  designation     :integer
+#  locale          :string
+#  remarks         :text
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  home_id         :bigint
+#  organisation_id :bigint           not null
 #
 # Indexes
 #
-#  index_designated_documents_on_attached_to  (attached_to_type,attached_to_id)
+#  index_designated_documents_on_home_id                  (home_id)
+#  index_designated_documents_on_organisation_id          (organisation_id)
+#  index_designated_documentss_on_designation_and_locale  (designation,locale,home_id,organisation_id) UNIQUE
 #
 require 'rails_helper'
 
 RSpec.describe DesignatedDocument, type: :model do
-  let(:model) { build(:designated_document, attached_to: organisation, locale: :de) }
-  let(:organisation) { build(:organisation) }
-  let(:stub_file) { File.open(Rails.root.join('spec/fixtures/designated_document.txt')) }
+  let(:organisation) { create(:organisation) }
+  let(:document) { build(:designated_document, organisation: organisation) }
+  let(:file) { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/designated_document.txt'), 'text/plain') }
 
-  it 'is undesigneted by default' do
-    expect(model).to be_undesignated
-    expect(model.designation.to_sym).to eq(:undesignated)
-  end
-
-  it 'allows file to be attached' do
-    model.file.attach(io: stub_file, filename: 'designated_document.txt')
-    expect(model.save).to be_truthy
-    expect(model.file).to be_attached
-  end
-
-  it 'can be attached to organisation' do
-    expect(model.update(attached_to: organisation)).to be_truthy
-  end
-
-  describe 'scopes' do
-    subject(:localized) { organisation.designated_documents.terms.localized(:de) }
-    before do
-      model.update(designation: :terms)
+  describe '#designation' do
+    it 'is undesigneted by default' do
+      expect(document).to be_undesignated
+      expect(document.designation.to_sym).to eq(:undesignated)
     end
 
-    it 'can be found on organisation' do
-      expect(localized.take).to be_a(DesignatedDocument)
-      expect(organisation.designated_documents.build.tap do |document| 
-        document.file.attach(io: stub_file, filename: 'designated_document.txt')
-      end).to be_valid
+    it 'keeps its designation' do
+      document.terms!
+      expect(document).to be_terms
+      expect(document.designation.to_sym).to eq(:terms)
+    end
+  end
+
+  describe '#file' do
+    it 'allows file to be attached' do
+      expect(document.file.attach(io: file, filename: 'designated_document.txt')).to be_truthy
+      expect(document.save).to be_truthy
+      expect(document.file).to be_attached
+    end
+  end
+
+  describe '#localized' do
+    let(:specifically_localized_document) do
+      create(:designated_document, organisation: organisation, designation: :terms, locale: :de)
+    end
+    let(:generally_localized_document) do
+      create(:designated_document, organisation: organisation, designation: :terms, locale: nil)
+    end
+    before do
+      specifically_localized_document
+      generally_localized_document
+    end
+
+    context 'with existing locale' do
+      it do
+        expect(organisation.designated_documents.localized(:terms, locale: :de))
+          .to eq(specifically_localized_document)
+      end
+      it do
+        expect(organisation.designated_documents.localized(:terms, locale: :fr))
+          .to eq(generally_localized_document)
+      end
     end
   end
 end

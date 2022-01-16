@@ -113,11 +113,15 @@ de:
         postponable_for: Verlängerbar um Sekunden
         remarks: Bemerkungen
         responsible: Verantwortlich
+      designated_document:
+        designation: Art des Dokuments
+        file: Datei
+        home_id: Heim
+        locale: Sprache
+        remarks: Bemerkungen
       home:
         address: Adresse
         booking_margin: Zeitabstand zwischen Buchungen
-        house_rules: Hausordnung (PDF)
-        janitor: Angaben Heimwart
         min_occupation: Mindestbelegung / Nacht
         name: Name
         ref: Kurzname / Referenz
@@ -290,6 +294,13 @@ de:
           next_year: Nächstes Jahr
           this_year: Dieses Jahr
           until_now: Bis heute
+      designated_document:
+        designation:
+          house_rules: Hausordnung
+          price_list: Preisliste
+          privacy_statement: Datenschutzerklärung
+          terms: Geschäftsbedingungen / AGB
+          undesignated: "-"
       occupancy:
         occupancy_type:
           closed: Geschlossen
@@ -392,6 +403,9 @@ de:
       deadline:
         one: Frist
         other: Fristen
+      designated_document:
+        one: Dokument
+        other: Dokumente
       home:
         one: Heim
         other: Heime
@@ -705,10 +719,6 @@ de:
       year: Jahr
   deadline_exceeded: Deadline exceeded
   destroy: Löschen
-  downloads:
-    slug:
-      privacy_statement_pdf: datenschutz
-      terms_pdf: agb
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
@@ -1089,7 +1099,6 @@ de:
       - Alpiger
       - Althaus
       - Altstätter
-      - "$1"
       - Amsler
       - Angst
       - Anklin
@@ -1865,6 +1874,9 @@ de:
     dashboard:
       index:
         ics_link: als ICAL
+    designated_documents:
+      form:
+        all_locales: Alle
     invoices:
       form:
         suggested_invoice_parts: Vorgeschlagene Positionen
@@ -1877,7 +1889,6 @@ de:
       form:
         general: Allgemein
         more_settings: Weitere Einstellungen
-        terms: AGB
     payments:
       index:
         new_import: Zahlungen aus CAMT.054-Datei importieren

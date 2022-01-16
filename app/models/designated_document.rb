@@ -4,26 +4,43 @@
 #
 # Table name: designated_documents
 #
-#  id               :bigint           not null, primary key
-#  attached_to_type :string
-#  designation      :integer          default(0)
-#  locale           :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  attached_to_id   :bigint
+#  id              :bigint           not null, primary key
+#  designation     :integer
+#  locale          :string
+#  remarks         :text
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  home_id         :bigint
+#  organisation_id :bigint           not null
 #
 # Indexes
 #
-#  index_designated_documents_on_attached_to  (attached_to_type,attached_to_id)
+#  index_designated_documents_on_home_id                  (home_id)
+#  index_designated_documents_on_organisation_id          (organisation_id)
+#  index_designated_documentss_on_designation_and_locale  (designation,locale,home_id,organisation_id) UNIQUE
 #
 class DesignatedDocument < ApplicationRecord
-  include LocaleEnumerable
+  belongs_to :organisation, inverse_of: :designated_documents
+  belongs_to :home, optional: true, inverse_of: :designated_documents
 
-  belongs_to :attached_to, polymorphic: true, optional: true
-
-  enum designation: { undesignated: 0, privacy_statement: 1, terms: 2, house_rules: 3, pricelist: 4 }
-
-  scope :localized, ->(locale = I18n.default) { where(locale: locale) }
+  enum designation: { undesignated: 0, privacy_statement: 1, terms: 2, house_rules: 3, price_list: 4 }
 
   has_one_attached :file
+
+  validates :file, presence: true
+  validates :designation, uniqueness: { scope: %i[locale organisation_id home_id], allow_blank: true }
+
+  def locale=(value)
+    super(value.presence)
+  end
+
+  def self.localized!(designation, locale: I18n.locale)
+    where(designation: designation, locale: [locale, nil]).order(locale: :ASC).take!
+  end
+
+  def self.localized(...)
+    localized!(...)
+  rescue ActiveRecord::RecordNotFound
+    nil
+  end
 end

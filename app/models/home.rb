@@ -36,7 +36,7 @@ class Home < ApplicationRecord
   has_many :meter_reading_periods, -> { ordered }, through: :tarifs, inverse_of: :home, dependent: :destroy
   has_many :rich_text_templates, inverse_of: :home, dependent: :destroy
   has_many :operator_responsibilities, inverse_of: :home, dependent: :destroy
-  has_many :designated_documents, dependent: :destroy, as: :attached_to
+  has_many :designated_documents, dependent: :destroy, inverse_of: :home
 
   belongs_to :organisation, inverse_of: :homes
 

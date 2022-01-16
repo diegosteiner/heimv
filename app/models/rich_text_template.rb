@@ -32,8 +32,8 @@ class RichTextTemplate < ApplicationRecord
   extend Translatable
   translates :title, :body, column_suffix: '_i18n', locale_accessors: true
 
-  belongs_to :organisation
-  belongs_to :home, optional: true
+  belongs_to :organisation, inverse_of: :rich_text_templates
+  belongs_to :home, optional: true, inverse_of: :rich_text_templates
   has_many :notifications, inverse_of: :rich_text_template, dependent: :nullify
 
   validates :key, uniqueness: { scope: %i[key organisation_id home_id] }

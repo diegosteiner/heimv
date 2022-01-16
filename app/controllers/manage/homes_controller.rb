@@ -3,7 +3,6 @@
 module Manage
   class HomesController < BaseController
     load_and_authorize_resource :home
-    after_action :attach_files, only: %i[update create]
 
     def index
       @homes = @homes.where(organisation: current_organisation)
@@ -46,10 +45,6 @@ module Manage
 
       @home.errors.add(:base, :limit_reached)
       true
-    end
-
-    def attach_files
-      @home.house_rules.attach(home_params[:house_rules]) if home_params[:house_rules].present?
     end
 
     def home_params

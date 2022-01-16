@@ -1,0 +1,41 @@
+- if @home.present?
+  = render partial: 'manage/homes/navigation', locals: { active: :designated_documents }
+
+h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: :other)
+
+.table-responsive
+  table.table.table-hover.align-middle
+    thead
+      tr
+        th= DesignatedDocument.human_attribute_name(:designation)
+        th= DesignatedDocument.human_attribute_name(:locale)
+        th
+
+    tbody
+      - @designated_documents.each do |designated_document|
+        tr[data-href=manage_designated_document_path(designated_document) data-bs-id=designated_document.to_param]
+          td 
+            = DesignatedDocument.human_enum(:designation, designated_document.designation)
+          td 
+            = designated_document.locale
+          td.p-1.text-end 
+            .btn-group
+              - if designated_document.file.attached?
+                = link_to url_for(designated_document.file), target: '_blank', class: 'btn btn-default'
+                  span.fa.fa-print
+              = link_to edit_manage_designated_document_path(designated_document), class: 'btn btn-default' do
+                span.fa.fa-edit
+              = link_to manage_designated_document_path(designated_document), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
+
+br
+- if @home.present? 
+  = link_to new_manage_home_designated_document_path(@home), class: 'btn btn-primary' do
+    span.fa.fa-file-o
+    '
+    = t(:add_record, model_name: DesignatedDocument.model_name.human)
+- else
+  = link_to new_manage_designated_document_path, class: 'btn btn-primary' do
+    span.fa.fa-file-o
+    '
+    = t(:add_record, model_name: DesignatedDocument.model_name.human)
