@@ -8,8 +8,8 @@ module Public
     fields :name, :address, :booking_flow_type, :invoice_ref_strategy_type, :location, :slug,
            :esr_beneficiary_account, :email, :payment_deadline, :notifications_enabled
 
-    field :documents do |organisation|
-      DesignatedDocument.designations.filter_map do |designation|
+    field :designated_documents do |organisation|
+      DesignatedDocument.designations.keys.filter_map do |designation|
         next unless organisation.designated_documents.exists?(designation: designation)
 
         [designation, url.public_designated_document_url(org: organisation.slug, designation: designation)]
