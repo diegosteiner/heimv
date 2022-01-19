@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_04_142509) do
+ActiveRecord::Schema.define(version: 2022_01_12_201403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -180,6 +180,19 @@ ActiveRecord::Schema.define(version: 2022_01_04_142509) do
     t.text "remarks"
     t.index ["booking_id"], name: "index_deadlines_on_booking_id"
     t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
+  end
+
+  create_table "designated_documents", force: :cascade do |t|
+    t.integer "designation"
+    t.string "locale"
+    t.text "remarks"
+    t.bigint "organisation_id", null: false
+    t.bigint "home_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["designation", "locale", "home_id", "organisation_id"], name: "index_designated_documentss_on_designation_and_locale", unique: true
+    t.index ["home_id"], name: "index_designated_documents_on_home_id"
+    t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
   end
 
   create_table "homes", force: :cascade do |t|

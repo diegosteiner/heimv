@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'guide', to: 'pages#guide'
       get 'flow', to: 'pages#flow'
       resources :homes do
+        resources :designated_documents, to: 'designated_documents'
         scope module: :homes do
           resources :occupancies, except: %w[show], shallow: true
           resources :tarif_selectors, except: %w[show]
@@ -55,6 +56,7 @@ Rails.application.routes.draw do
       resources :tenants
       resources :operators
       resources :operator_responsibilities, except: %i[show]
+      resources :designated_documents
       resources :booking_agents
       resources :booking_purposes, except: :show
       resources :rich_text_templates do
@@ -64,7 +66,7 @@ Rails.application.routes.draw do
 
     scope module: :public do
       resource :organisation, only: :show
-      get 'download/:slug', to: 'downloads#show', as: :download
+      get 'designated_documents/:designation', to: 'designated_documents#show', as: :public_designated_document
       resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
       resources :bookings, only: %i[new create edit update], as: :public_bookings
       get 'b/:id(/edit)', to: 'bookings#edit'
