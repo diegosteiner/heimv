@@ -33,6 +33,6 @@ class CreateDesignatedDocuments < ActiveRecord::Migration[6.1]
 
     organisation = attached_to.is_a?(Organisation) ? attached_to : attached_to.organisation
     home = attached_to.is_a?(Home) ? attached_to : nil
-    DesignatedDocument.create!(designation: designation.to_sym, file: file, organsation: organisation, home: home)
+    DesignatedDocument.create!(designation: designation.to_sym, file: file, organisation: organisation, home: home)
   end
 end
