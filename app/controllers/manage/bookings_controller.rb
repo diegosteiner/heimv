@@ -12,7 +12,10 @@ module Manage
     end
 
     def show
-      respond_with :manage, @booking
+      respond_to do |format|
+        format.html
+        format.json { render json: BookingSerializer.render(@booking) }
+      end
     end
 
     def new

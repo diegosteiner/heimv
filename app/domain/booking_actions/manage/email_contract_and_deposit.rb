@@ -18,7 +18,7 @@ module BookingActions
 
       def attachments_for(home, deposits, contract)
         [
-          home.house_rules.attachment&.blob,
+          home.designated_documents.localized(:house_rules, locale: booking.locale)&.file&.blob,
           deposits.map { |deposit| deposit.pdf.blob },
           contract.pdf&.blob
         ].flatten.compact

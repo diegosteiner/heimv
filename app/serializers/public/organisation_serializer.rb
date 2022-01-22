@@ -8,12 +8,21 @@ module Public
     fields :name, :address, :booking_flow_type, :invoice_ref_strategy_type, :location, :slug,
            :esr_beneficiary_account, :email, :payment_deadline, :notifications_enabled
 
+    field :designated_documents do |organisation|
+      DesignatedDocument.designations.keys.filter_map do |designation|
+        next unless organisation.designated_documents.exists?(designation: designation)
+
+        [designation, url.public_designated_document_url(org: organisation.slug, designation: designation)]
+      end.to_h
+    end
+
+    field :logo do |organisation|
+      organisation.logo.present? && url.url_for(organisation.logo)
+    end
+
     field :links do |organisation|
       {
-        logo: (organisation.logo.present? && url.url_for(organisation.logo)),
-        post_bookings: url.public_bookings_url(org: organisation.slug, format: :json),
-        terms_pdf: url.download_url(slug: I18n.t(:terms_pdf, scope: %i[downloads slug]), org: organisation.slug),
-        privacy_statement_pdf: url.privacy_url(org: organisation.slug)
+        post_bookings: url.public_bookings_url(org: organisation.slug, format: :json)
       }
     end
   end

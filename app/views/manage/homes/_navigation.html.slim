@@ -15,3 +15,6 @@ nav.mb-4
       li.nav-item
         a.nav-link[href=manage_home_meter_reading_periods_path(@home) class=('active' if active == :meter_reading_periods)]
           = MeterReadingPeriod.model_name.human(count: :other)
+      li.nav-item
+        a.nav-link[href=manage_designated_documents_path(home_id: @home) class=('active' if active == :designated_documents)]
+          = DesignatedDocument.model_name.human(count: :other)

@@ -2,15 +2,7 @@
 
 .card
   .card-body
-    = render_hash_as_dl(@home.attributes.slice(*%w(name address janitor)), Home)
-    dl
-      dt = Home.human_attribute_name(:house_rules)
-      dd
-        - if @home.house_rules.attached?
-          = link_to @home.house_rules.filename, rails_blob_path(@home.house_rules)
-        - else
-          | -
-    br
+    = render_hash_as_dl(@home.attributes.slice(*%w(name address)), Home)
 
     = link_to edit_manage_home_path(@home), class: 'btn btn-primary' do
       span.fa.fa-edit

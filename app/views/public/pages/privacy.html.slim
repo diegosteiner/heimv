@@ -6,4 +6,4 @@
 
     - if current_organisation&.privacy_statement_pdf.present?
       h1= t('.current_organisation_privacy_statment_title', organisation: current_organisation&.name)
-      = link_to t('.current_organisation_privacy_statment_url'), download_url(slug: t(:privacy_statement_pdf, scope: %i[downloads slug])) 
+      = link_to t('.current_organisation_privacy_statment_url'), public_designated_document_url(designation: :privacy_statement)
