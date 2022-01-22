@@ -205,8 +205,8 @@ export function BookingForm({
               i18nKey="public.bookings.new.accept_conditions_html"
               values={{
                 privacy_statement_pdf_url:
-                  organisation.links?.privacy_statement_pdf,
-                terms_pdf_url: organisation.links?.terms_pdf,
+                  organisation.designated_documents.privacy_statement,
+                terms_pdf_url: organisation.designated_documents.terms_pdf,
               }}
               components={{ a: <a /> }}
             />

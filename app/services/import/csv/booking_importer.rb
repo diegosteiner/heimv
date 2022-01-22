@@ -2,7 +2,7 @@
 
 module Import
   module Csv
-    class OccupancyImporter < Base
+    class BookingImporter < Base
       delegate :organisation, to: :home
       attr_reader :home
 

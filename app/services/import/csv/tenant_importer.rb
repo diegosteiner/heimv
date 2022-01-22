@@ -18,31 +18,29 @@ module Import
       end
 
       actor do |tenant, row|
-        tenant.phone = [row['tenant.phone'], row['tenant.phone_2'], row['tenant.phone_3']].compact_blank.join("\n")
+        tenant.phone = row.filter_map do |header, value|
+          header.starts_with?('tenant.phone') && value
+        end.compact_blank.join("\n")
       end
 
       actor do |tenant, row|
         tenant.import_data = row.to_h
+        tenant.remarks = row['tenant.remarks'].presence
       end
 
       actor do |tenant, row|
         tenant.country_code = row['tenant.country_code'].presence
-      end
-
-      actor do |tenant, row|
-        street_address = [row['tenant.street_address'], row['tenant.street_address_2']].compact_blank.join("\n")
-        tenant.assign_attributes(first_name: row['tenant.first_name'], last_name: row['tenant.last_name'],
-                                 nickname: row['tenant.nickname'],
-                                 street_address: street_address,
-                                 zipcode: row['tenant.zipcode'], city: row['tenant.city'],
-                                 remarks: row['tenant.remarks'].presence)
+        tenant.assign_attributes(zipcode: row['tenant.zipcode'], city: row['tenant.city'])
+        tenant.street_address = row.filter_map do |header, value|
+          header.starts_with?('tenant.street') && value
+        end.compact_blank.join("\n")
       end
 
       actor do |tenant, row|
         names = row['tenant.name']&.split
-        next if names.blank?
-
-        tenant.assign_attributes(first_name: names[0..-2].join(' '), last_name: names.last)
+        tenant.first_name = row['tenant.first_name'] || (names && names[0..-2].join(' '))
+        tenant.last_name = row['tenant.last_name'] || (names && names.last)
+        tenant.nickname = row['tenant.nickname'].presence
       end
     end
   end

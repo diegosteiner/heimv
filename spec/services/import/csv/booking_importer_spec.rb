@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Import::Csv::OccupancyImporter, type: :model do
+RSpec.describe Import::Csv::BookingImporter, type: :model do
   let(:organisation) { create(:organisation) }
   let(:options) { {} }
   let!(:booking_purpose) { create(:booking_purpose, organisation: organisation, key: 'youth_camp') }
