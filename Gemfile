@@ -83,6 +83,8 @@ group :test do
 end
 
 group :production do
+  gem 'hiredis'
+  gem 'redis'
   gem 'sentry-rails'
   gem 'sentry-ruby'
 end

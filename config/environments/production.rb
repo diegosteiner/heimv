@@ -47,8 +47,19 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
-  if ENV['MEMCACHIER_SERVERS'].present?
+  if ENV['REDIS_URL'].present?
+    config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'],
+                                               connect_timeout: 30, # Defaults to 20 seconds
+                                               read_timeout: 0.2, # Defaults to 1 second
+                                               write_timeout: 0.2, # Defaults to 1 second
+                                               reconnect_attempts: 1 } # ,   # Defaults to 0
+
+  # error_handler: -> (method:, returning:, exception:) {
+  #   # Report errors to Sentry as warnings
+  #   Raven.capture_exception exception, level: 'warning',
+  #     tags: { method: method, returning: returning }
+  # }
+  elsif ENV['MEMCACHIER_SERVERS'].present?
     config.cache_store = :mem_cache_store, ENV['MEMCACHIER_SERVERS'],
                          { username: ENV['MEMCACHIER_USERNAME'],
                            password: ENV['MEMCACHIER_PASSWORD'],
@@ -57,8 +68,6 @@ Rails.application.configure do
                            socket_failure_delay: 0.2,
                            down_retry_delay: 10,
                            pool_size: ENV.fetch('RAILS_MAX_THREADS', 5) }
-  elsif ENV['MEMCACHED_SERVER'].present?
-    config.cache_store = :mem_cache_store, ENV['MEMCACHED_SERVERS']
   else
     config.action_controller.perform_caching = false
     config.cache_store = :null_store

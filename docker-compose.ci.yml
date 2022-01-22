@@ -30,7 +30,7 @@ services:
 
   e2e_target:
     image: heimv-e2e_target
-    build: 
+    build:
       context: .
       cache_from:
         - heimv-e2e_test:latest
@@ -50,9 +50,11 @@ services:
       PORT: 3002
       LOG_LEVEL: "debug"
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
+      REDIS_URL: "redis://redis/0"
     depends_on:
       - db
       - mail
+      - redis
     networks:
       default:
       selenium:
@@ -76,6 +78,9 @@ services:
     image: tophfr/mailcatcher
     ports:
       - "1080:80"
+
+  redis:
+    image: "redis:alpine"
 
 volumes:
   db_data:
