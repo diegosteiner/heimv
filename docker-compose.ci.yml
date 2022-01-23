@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: build
-    image: ghcr.io/diegosteiner/heimv:latest
+    image: ghcr.io/diegosteiner/heimv:e2e_test
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
