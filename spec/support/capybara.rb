@@ -30,5 +30,5 @@ Capybara.server_port = ENV['E2E_SERVER_PORT']
 Capybara.server_host = '0.0.0.0'
 Capybara.app_host = "http://#{ENV['E2E_TARGET_HOST']}" if ENV['E2E_TARGET_HOST'].present?
 # Selenium::WebDriver.logger.level = :debug
-Capybara.default_driver = :chrome_headless
+Capybara.default_driver = :selenium
 Capybara.default_max_wait_time = 10
