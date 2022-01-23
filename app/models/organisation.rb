@@ -23,6 +23,7 @@
 #  name                      :string
 #  notifications_enabled     :boolean          default(TRUE)
 #  payment_deadline          :integer          default(30), not null
+#  qr_iban                   :string
 #  ref_template              :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
 #  representative_address    :string
 #  settings                  :jsonb
@@ -46,6 +47,7 @@ class Organisation < ApplicationRecord
   has_many :operator_responsibilities, inverse_of: :organisation, dependent: :destroy
   has_many :booking_agents, inverse_of: :organisation, dependent: :destroy
   has_many :booking_purposes, -> { ordered }, inverse_of: :organisation, dependent: :destroy
+  has_many :designated_documents, dependent: :destroy, inverse_of: :organisation
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
 
@@ -77,7 +79,7 @@ class Organisation < ApplicationRecord
   end
 
   def address_lines
-    @address_lines ||= address.lines.map(&:strip).reject(&:blank?).presence || []
+    @address_lines ||= address.lines.map(&:strip).compact_blank.presence || []
   end
 
   def smtp_settings_json

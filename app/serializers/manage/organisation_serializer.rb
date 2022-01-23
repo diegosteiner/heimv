@@ -8,6 +8,7 @@ module Manage
       association :rich_text_templates, blueprint: RichTextTemplateSerializer
       association :homes, blueprint: HomeSerializer, view: :export
       association :tenants, blueprint: TenantSerializer
+      association :designated_documents, blueprint: DesignatedDocumentSerializer
     end
   end
 end

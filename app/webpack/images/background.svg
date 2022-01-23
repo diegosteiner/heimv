@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 400">
+  <g>
+    <!-- <path fill="#ededf5" d="M801 150c308 0 399 0 399-150H0v400c0-192 150-250 350-250" /> -->
+    <path fill="#e7e3ff" d="M801 100c255 0 399 0 399-100H0v350c0-192 150-250 350-250" />
+  </g>
+</svg>

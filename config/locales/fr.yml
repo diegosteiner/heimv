@@ -113,11 +113,15 @@ fr:
         postponable_for: Verlängerbar
         remarks: Bemerkungen
         responsible: Verantwortlich
+      designated_document:
+        designation: Art des Dokuments
+        file: Datei
+        home_id: Heim
+        locale: Sprache
+        remarks: Bemerkungen
       home:
         address: Adresse
         booking_margin: Zeitabstand zwischen Buchungen
-        house_rules: Hausordnung (PDF)
-        janitor: Angaben Heimwart
         min_occupation: Mindestbelegung / Nacht
         name: Name
         ref: Kurzname / Referenz
@@ -197,6 +201,7 @@ fr:
         notification_footer: Fusszeile für Nachrichten
         notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
+        qr_iban: QR-IBAN
         representative_address: Adresse der Vertretung für Verträge
         settings: Einstellungen
         settings_json: Einstellungen
@@ -244,6 +249,7 @@ fr:
         country_code: Land
         email: Email
         first_name: Vorname
+        iban: IBAN
         last_name: Nachname
         locale: Sprache
         nickname: Pfadiname
@@ -288,6 +294,13 @@ fr:
           next_year: Nächstes Jahr
           this_year: Dieses Jahr
           until_now: Bis heute
+      designated_document:
+        designation:
+          house_rules: Hausordnung
+          price_list: Preisliste
+          privacy_statement: Datenschutzerklärung
+          terms: Geschäftsbedingungen / AGB
+          undesignated: "-"
       occupancy:
         occupancy_type:
           closed: Geschlossen
@@ -390,6 +403,9 @@ fr:
       deadline:
         one: Frist
         other: Fristen
+      designated_document:
+        one: Dokument
+        other: Dokumente
       home:
         one: Heim
         other: Heime
@@ -703,10 +719,6 @@ fr:
       year: Jahr
   deadline_exceeded: Deadline exceeded
   destroy: Löschen
-  downloads:
-    slug:
-      privacy_statement_pdf: datenschutz
-      terms_pdf: agb
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
@@ -1841,6 +1853,7 @@ fr:
           contract_sent: Vertrag versendet markieren
           contract_signed: Vertrag unterschieben
       import:
+        headers: Headers
         import_error: 'Import fehlgeschlagen. Fehler: %{error}'
         import_file: Import file
         import_success: Import success
@@ -1862,6 +1875,9 @@ fr:
     dashboard:
       index:
         ics_link: comme ICAL
+    designated_documents:
+      form:
+        all_locales: Alle
     invoices:
       form:
         suggested_invoice_parts: Suggested invoice parts
@@ -1874,7 +1890,6 @@ fr:
       form:
         general: General
         more_settings: Weitere Einstellungen
-        terms: Terms
     payments:
       index:
         new_import: New import

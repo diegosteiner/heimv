@@ -2,6 +2,15 @@
 
 #### Unreleased
 
+#### Version 22.1.1
+
+Released on 23.01.2022
+
+- Extract documents into new model
+- Improve import for bookings
+- Fix some default rich text templates
+- Allow cancellation from more states
+
 #### Version 21.11.2
 
 Released on 17.11.2021

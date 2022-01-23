@@ -2,7 +2,7 @@
 
 # HeimV Heimverwaltung
 
-## Setup with Docker
+## Development
 
 ```sh
 git clone git@github.com:diegosteiner/heimv.git
@@ -92,13 +92,13 @@ Options:
 Then import data with:
 
 ```
-cat data.csv | bin/rails r "Import::Csv::OccupancyImporter.new(home).parse(ARGF, **options)"
+cat data.csv | bin/rails r "Import::Csv::BookingImporter.new(home).parse(ARGF, **options)"
 ```
 
 or with heroku:
 
 ```
-cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::OccupancyImporter.new(home).parse"'
+cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::BookingImporter.new(home).parse"'
 ```
 
 ### Tenants

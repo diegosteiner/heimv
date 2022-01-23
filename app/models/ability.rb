@@ -50,6 +50,7 @@ module Ability
       can :manage, Operator, organisation: organisation
       can :manage, OperatorResponsibility, organisation: organisation
       can :manage, Notification, booking: { organisation: organisation }
+      can :manage, DesignatedDocument, organisation: organisation
       can %i[read edit update], Organisation, id: organisation.id
 
       cannot :manage, User, role: :admin

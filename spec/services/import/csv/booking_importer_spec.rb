@@ -2,17 +2,21 @@
 
 require 'rails_helper'
 
-RSpec.describe Import::Csv::OccupancyImporter, type: :model do
+RSpec.describe Import::Csv::BookingImporter, type: :model do
   let(:organisation) { create(:organisation) }
   let(:options) { {} }
   let!(:booking_purpose) { create(:booking_purpose, organisation: organisation, key: 'youth_camp') }
   let(:home) { create(:home, organisation: organisation) }
-  let(:importer) { described_class.new(home) }
+  let(:importer) { described_class.new(home, csv: { headers: header_mapping }) }
 
   describe '#parse' do
     let(:result) { importer.parse(csv, **options) }
 
     context 'with custom csv' do
+      let(:header_mapping) do
+        %w[occupancy.begins_at occupancy.ends_at booking.purpose booking.ref booking.tenant_organisation
+           tenant.email tenant.phone booking.remarks]
+      end
       let(:csv) do
         <<~ENDCSV
           "begins_at","ends_at","purpose","ref","organisation","email","phone","remarks"
@@ -40,9 +44,15 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
     end
 
     context 'with pfadiheime.ch csv' do
+      let(:header_mapping) do
+        %w[ignore.id ignore.cottage_id ignore.user_id occupancy.begins_at occupancy.ends_at occupancy.remarks
+           occupancy.occupancy_type ignore.created_at ignore.updated_at tenant.email ignore.occupancy_type
+           booking.remarks ignore.slug booking.headcount tenant.birth_date booking.tenant_organisation tenant.name
+           tenant.street_address tenant.street_address_2 tenant.zipcode tenant.city tenant.phone]
+      end
       let(:csv) do
         <<~ENDCSV
-          id,cottage_id,user_id,start_date,end_date,remarks,reservation_type,created_at,updated_at,contact_email,occupancy_type,purpose,slug,headcount,birthdate,tenant_organisation,address_line1,address_line2,address_line3,zip,place,phone
+          id,cottage_id,user_id,start_date,end_date,remarks,reservation_type,created_at,updated_at,contact_email,occupancy_type,purpose,headcount,birthdate,tenant_organisation,address_line1,address_line2,address_line3,zip,place,phone
           118531,281,,2019-06-20 12:00:00 +0200,2019-06-20 22:00:00 +0200,,definitely_reserved,2018-06-11 18:53:07 +0200,2021-05-04 16:57:13 +0200,tenant22@heimv.local,,Test,,,,,"Peter Muster",,,8000,Zürich,
           118532,281,,2020-06-20 12:00:00 +0200,2020-06-20 22:00:00 +0200,,provisionally_reserved,2018-06-11 18:53:07 +0200,2021-05-04 16:57:13 +0200,tenant22@heimv.local,,Test,,12,,,"Peter Muster",,,8000,Zürich,
           118533,281,,2019-06-06 08:00:00 +0200,2019-06-06 22:00:00 +0200,,closed,,,,,,,,,,,,,,,

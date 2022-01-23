@@ -11,12 +11,12 @@ module Manage
            :committed_request, :approximate_headcount, :remarks
 
     field :operator_responsibilities do |booking|
-      booking.operator_responsibilities.map do |operator_responsibility|
+      booking.operator_responsibilities.to_h do |operator_responsibility|
         [
           operator_responsibility.responsibility,
           OperatorResponsibilitySerializer.render_as_hash(operator_responsibility)
         ]
-      end.to_h
+      end
     end
 
     field :links do |booking|

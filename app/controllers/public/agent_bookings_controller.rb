@@ -18,6 +18,7 @@ module Public
       if @agent_booking.save_and_update_booking
         redirect_to edit_public_agent_booking_path(@agent_booking.token)
       else
+        @agent_booking.build_booking
         render 'new'
       end
     end

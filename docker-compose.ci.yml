@@ -1,0 +1,80 @@
+version: "3.9"
+services:
+  e2e_test:
+    build:
+      context: .
+      target: build
+    image: ghcr.io/diegosteiner/heimv:e2e_test
+    environment:
+      APP_HOST: "e2e_test"
+      E2E_TARGET_HOST: "e2e_target:3002"
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
+      DISABLE_DATABASE_ENVIRONMENT_CHECK: "1"
+      RAILS_ENV: test
+      NODE_ENV: test
+      SELENIUM_HOST: "selenium:4444"
+      SMTP_SETTINGS: '{ "address":"mail" }'
+      # RUBYOPT: "-W:no-deprecated -W:no-experimental"
+    command: bin/check
+    depends_on:
+      - db
+      - selenium
+      - e2e_target
+    networks:
+      default:
+      selenium:
+
+  e2e_target:
+    build: .
+    image: ghcr.io/diegosteiner/heimv:latest
+    ports:
+      - "3002:3002"
+    environment:
+      APP_HOST: "e2e_target:3002"
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
+      SMTP_SETTINGS: '{ "address":"mail" }'
+      MAIL_FROM: "no-reply@heimverwaltung.localhost"
+      SECRET_KEY_BASE: "test"
+      RAILS_SERVE_STATIC_FILES: "true"
+      PORT: 3002
+      LOG_LEVEL: "debug"
+      RUBYOPT: "-W:no-deprecated -W:no-experimental"
+      REDIS_URL: "redis://redis/0"
+    depends_on:
+      - db
+      - mail
+      - redis
+    networks:
+      default:
+      selenium:
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    logging:
+      driver: none
+    networks:
+      selenium:
+
+  db:
+    image: postgres:11-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: heimverwaltung_e2e
+      POSTGRES_PASSWORD: postgres
+
+  mail:
+    image: tophfr/mailcatcher
+    ports:
+      - "1080:80"
+
+  redis:
+    image: "redis:alpine"
+
+volumes:
+  db_data:
+  home:
+
+networks:
+  selenium:

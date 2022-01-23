@@ -66,7 +66,7 @@ class Tarif < ApplicationRecord
   end
 
   def unit_with_prefix
-    [unit_prefix, unit].reject(&:blank?).join(' ')
+    [unit_prefix, unit].compact_blank.join(' ')
   end
 
   def parent

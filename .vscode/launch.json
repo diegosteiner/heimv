@@ -5,17 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "RSpec - active spec file only",
+      "type": "Ruby",
+      "request": "launch",
+      "program": "${workspaceRoot}/bin/rspec",
+      "args": ["-I", "${workspaceRoot}", "${file}"]
+    },
+    {
       "name": "Rails server",
       "type": "Ruby",
       "request": "launch",
       "program": "${workspaceRoot}/bin/rails",
-      "args": [
-        "server",
-        "-p",
-        "3000",
-        "-b",
-        "0.0.0.0"
-      ]
-    },
+      "args": ["server", "-b", "0.0.0.0"]
+    }
   ]
 }

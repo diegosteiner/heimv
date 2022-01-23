@@ -28,16 +28,12 @@
     = f.text_field :esr_beneficiary_account
     = f.text_field :esr_ref_prefix
     = f.text_field :iban
+    = f.text_field :qr_iban
 
   - if current_user.role_admin?
     fieldset
       h3.mt-4= Booking.model_name.human(count: :other)
       div[v-pre]= f.text_area :settings_json, rows: 4
-
-  fieldset
-    h3.mt-4= t('.terms')
-    = f.file_field :terms_pdf, help: link_to_if(organisation.terms_pdf.attached?, organisation.terms_pdf.try(:filename), organisation.terms_pdf)
-    = f.file_field :privacy_statement_pdf, help: link_to_if(organisation.privacy_statement_pdf.attached?, organisation.privacy_statement_pdf.try(:filename), organisation.privacy_statement_pdf)
 
   fieldset
     h3.mt-4= t('.more_settings')
@@ -46,6 +42,8 @@
         = link_to BookingPurpose.model_name.human(count: :other), manage_booking_purposes_path
       li
         = link_to RichTextTemplate.model_name.human(count: :other), manage_rich_text_templates_path
+      li
+        = link_to DesignatedDocument.model_name.human(count: :other), manage_designated_documents_path
       li
         = link_to BookingAgent.model_name.human(count: :other), manage_booking_agents_path
       - if can?(:manage, User, { organisation: current_organisation })

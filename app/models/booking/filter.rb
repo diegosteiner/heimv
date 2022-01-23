@@ -39,7 +39,7 @@ class Booking
     end
 
     filter :homes do |bookings|
-      relevant_homes = homes.reject(&:blank?)
+      relevant_homes = homes.compact_blank
       bookings.where(home_id: relevant_homes) if relevant_homes.present?
     end
 
@@ -52,13 +52,13 @@ class Booking
     end
 
     filter :has_booking_state do |bookings|
-      states = current_booking_states.reject(&:blank?)
+      states = current_booking_states.compact_blank
 
       bookings.where(booking_state_cache: states) if states.any?
     end
 
     filter :had_booking_state do |bookings|
-      states = previous_booking_states.reject(&:blank?)
+      states = previous_booking_states.compact_blank
 
       bookings.joins(:booking_transitions).where(booking_transitions: { to_state: states }) if states.any?
     end

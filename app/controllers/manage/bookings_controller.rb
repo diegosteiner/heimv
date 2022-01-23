@@ -12,7 +12,10 @@ module Manage
     end
 
     def show
-      respond_with :manage, @booking
+      respond_to do |format|
+        format.html
+        format.json { render json: BookingSerializer.render(@booking) }
+      end
     end
 
     def new
@@ -29,7 +32,7 @@ module Manage
     end
 
     def import
-      result = Import::Csv::OccupancyImporter.new(import_params[:home_id]).parse_file(import_params[:file])
+      result = booking_import
 
       if result.ok?
         redirect_to manage_bookings_path, notice: t('.import_success')
@@ -62,6 +65,12 @@ module Manage
       @filter = Booking::Filter.new(default_booking_filter_params.merge(booking_filter_params))
     end
 
+    def booking_import(params)
+      import_params = params.require(:import).permit(%i[home_id file headers])
+      options = { headers: import_params[:headers]&.split(/[,;]/) }
+      Import::Csv::BookingImporter.new(import_params[:home_id], options).parse_file(import_params[:file])
+    end
+
     def call_booking_action
       booking_action&.call(booking: @booking)
     rescue BookingActions::Base::NotAllowed
@@ -78,10 +87,6 @@ module Manage
 
     def booking_filter_params
       Manage::BookingFilterParams.new(params).permitted
-    end
-
-    def import_params
-      params.require(:import).permit(%i[home_id file])
     end
 
     def default_booking_filter_params

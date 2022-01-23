@@ -13,6 +13,7 @@
 #  email                           :string
 #  email_verified                  :boolean          default(FALSE)
 #  first_name                      :string
+#  iban                            :string
 #  import_data                     :jsonb
 #  last_name                       :string
 #  nickname                        :string
@@ -72,7 +73,7 @@ class Tenant < ApplicationRecord
       additional_address&.strip,
       street_address&.lines&.map(&:strip),
       "#{zipcode} #{city} #{country_code}"
-    ].flatten.reject(&:blank?)
+    ].flatten.compact_blank
   end
 
   def full_address_lines
@@ -84,7 +85,7 @@ class Tenant < ApplicationRecord
   end
 
   def contact_lines
-    full_address_lines + [phone&.lines, email].flatten.reject(&:blank?)
+    full_address_lines + [phone&.lines, email].flatten.compact_blank
   end
 
   def to_s

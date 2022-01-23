@@ -70,6 +70,10 @@ describe BookingFlows::Default do
       it { is_expected.not_to transition_to(:awaiting_contract).from(:awaiting_contract) }
     end
 
+    describe 'payment_overdue-->' do
+      it { is_expected.to transition_to(:cancelation_pending).from(:payment_overdue) }
+    end
+
     describe 'cancellation_pending-->' do
       it { is_expected.to transition_to(:cancelled).from(:cancelation_pending) }
     end
@@ -77,27 +81,26 @@ describe BookingFlows::Default do
 
   describe 'prohibited transitions' do
     it { is_expected.not_to transition_to(:payment_due).from(:payment_due) }
-    it { is_expected.not_to transition_to(:cancelation_pending).from(:payment_overdue) }
     it { is_expected.not_to transition_to(:payment_overdue).from(:payment_overdue) }
   end
 
   describe 'guarded transitions' do
-    skip 'Bills & Contracts needed' do
-      let(:bills) { double('Bills') }
+    skip 'Invoices & Contracts needed' do
+      let(:invoices) { double('Invoices') }
 
       describe '-->upcoming' do
         let(:contracts) { double('Contracts') }
 
         before do
           allow(booking).to receive(:contracts).and_return(contracts)
-          allow(booking).to receive(:bills).and_return(bills)
+          allow(booking).to receive(:invoices).and_return(invoices)
         end
 
         context 'with met preconditions' do
           before do
             allow(contracts).to receive(:any?).and_return(true)
             allow(contracts).to receive(:all?).and_return(true)
-            allow(bills).to receive_message_chain(:deposits, :all?).and_return(true)
+            allow(invoices).to receive_message_chain(:deposits, :all?).and_return(true)
           end
 
           it { is_expected.to transition_to(:upcoming).from(:awaiting_contract) }
@@ -108,7 +111,7 @@ describe BookingFlows::Default do
           before do
             allow(contracts).to receive(:any?).and_return(false)
             allow(contracts).to receive(:all?).and_return(false)
-            allow(bills).to receive_message_chain(:deposits, :all?).and_return(false)
+            allow(invoices).to receive_message_chain(:deposits, :all?).and_return(false)
           end
 
           it { is_expected.not_to transition_to(:upcoming).from(:awaiting_contract) }
@@ -118,13 +121,13 @@ describe BookingFlows::Default do
 
       describe '-->completed' do
         before do
-          allow(booking).to receive(:bills).and_return(bills)
+          allow(booking).to receive(:invoices).and_return(invoices)
         end
 
         context 'with met preconditions' do
           before do
-            allow(bills).to receive(:any?).and_return(true)
-            allow(bills).to receive_message_chain(:open, :none?).and_return(true)
+            allow(invoices).to receive(:any?).and_return(true)
+            allow(invoices).to receive_message_chain(:open, :none?).and_return(true)
           end
 
           it { is_expected.to transition_to(:completed).from(:payment_due) }
@@ -133,8 +136,8 @@ describe BookingFlows::Default do
 
         context 'with unmet preconditions' do
           before do
-            allow(bills).to receive(:any?).and_return(false)
-            allow(bills).to receive_message_chain(:open, :none?).and_return(false)
+            allow(invoices).to receive(:any?).and_return(false)
+            allow(invoices).to receive_message_chain(:open, :none?).and_return(false)
           end
 
           it { is_expected.not_to transition_to(:completed).from(:payment_due) }
@@ -155,12 +158,12 @@ describe BookingFlows::Default do
 
       describe '-->cancelled' do
         before do
-          allow(booking).to receive(:bills).and_return(bills)
+          allow(booking).to receive(:invoices).and_return(invoices)
         end
 
         context 'with met preconditions' do
           before do
-            allow(bills).to receive_message_chain(:open, :none?).and_return(true)
+            allow(invoices).to receive_message_chain(:open, :none?).and_return(true)
           end
 
           it { is_expected.to transition_to(:cancelled).from(:cancelation_pending) }
@@ -168,7 +171,7 @@ describe BookingFlows::Default do
 
         context 'with unmet preconditions' do
           before do
-            allow(bills).to receive_message_chain(:open, :none?).and_return(false)
+            allow(invoices).to receive_message_chain(:open, :none?).and_return(false)
           end
 
           it { is_expected.not_to transition_to(:cancelled).from(:cancelation_pending) }

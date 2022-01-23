@@ -5,7 +5,10 @@ require 'rails_helper'
 RSpec.describe Import::Csv::TarifImporter, type: :model do
   let(:organisation) { create(:organisation) }
   let(:home) { create(:home, organisation: organisation) }
-  let(:importer) { described_class.new(home) }
+  let(:header_mapping) do
+    %w[tarif.ordinal tarif.label tarif.type tarif.tarif_group tarif.unit tarif.price tarif.invoice_type]
+  end
+  let(:importer) { described_class.new(home, csv: { headers: header_mapping }) }
   let(:csv) do
     <<~ENDCSV
       "ordinal","label","type","tarif_group","unit","price","invoice_type"

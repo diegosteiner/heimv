@@ -66,7 +66,7 @@ class Notification < ApplicationRecord
   end
 
   def attachments_for_mail
-    attachments.map { |attachment| [attachment.filename.to_s, attachment.blob.download] }.to_h
+    attachments.to_h { |attachment| [attachment.filename.to_s, attachment.blob.download] }
   end
 
   def resolve_rich_text_template

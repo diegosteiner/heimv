@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.1.0'
 
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
@@ -25,9 +25,13 @@ gem 'icalendar'
 gem 'inline_svg'
 gem 'kramdown'
 gem 'liquid'
+gem 'matrix'
 gem 'memory_profiler'
 gem 'meta-tags'
 gem 'mobility'
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
 gem 'pg'
 gem 'pony'
 gem 'prawn'
@@ -36,7 +40,7 @@ gem 'prawn-table'
 gem 'puma'
 gem 'rack-mini-profiler'
 gem 'rails', '~> 6.1.0'
-gem 'rails-i18n'
+gem 'rails-i18n', '~> 6.0'
 gem 'ranked-model'
 gem 'react-rails'
 gem 'responders'
@@ -61,10 +65,9 @@ group :development, :test do
   gem 'bundler-audit'
   gem 'byebug', platform: :mri
   gem 'database_cleaner'
-  gem 'debase', '~> 0.2.5.beta2'
   gem 'dotenv-rails'
-  gem 'pry-rails'
-  gem 'pry-rescue'
+  # gem 'pry-rails'
+  # gem 'pry-rescue'
   gem 'rspec-its'
   gem 'rspec-rails'
   gem 'rubocop'
@@ -80,6 +83,8 @@ group :test do
 end
 
 group :production do
+  gem 'hiredis'
+  gem 'redis'
   gem 'sentry-rails'
   gem 'sentry-ruby'
 end

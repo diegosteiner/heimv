@@ -4,35 +4,36 @@
 #
 # Table name: bookings
 #
-#  id                    :uuid             not null, primary key
-#  approximate_headcount :integer
-#  booking_flow_type     :string
-#  booking_state_cache   :string           default("initial"), not null
-#  cancellation_reason   :text
-#  committed_request     :boolean
-#  concluded             :boolean          default(FALSE)
-#  editable              :boolean          default(TRUE)
-#  email                 :string
-#  import_data           :jsonb
-#  internal_remarks      :text
-#  invoice_address       :text
-#  locale                :string
-#  notifications_enabled :boolean          default(FALSE)
-#  purpose_key           :string
-#  ref                   :string
-#  remarks               :text
-#  state_data            :json
-#  tenant_organisation   :string
-#  token                 :string
-#  usages_entered        :boolean          default(FALSE)
-#  usages_presumed       :boolean          default(FALSE)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  deadline_id           :bigint
-#  home_id               :bigint           not null
-#  organisation_id       :bigint           not null
-#  purpose_id            :integer
-#  tenant_id             :integer
+#  id                     :uuid             not null, primary key
+#  approximate_headcount  :integer
+#  booking_flow_type      :string
+#  booking_state_cache    :string           default("initial"), not null
+#  cancellation_reason    :text
+#  committed_request      :boolean
+#  concluded              :boolean          default(FALSE)
+#  conditions_accepted_at :datetime
+#  editable               :boolean          default(TRUE)
+#  email                  :string
+#  import_data            :jsonb
+#  internal_remarks       :text
+#  invoice_address        :text
+#  locale                 :string
+#  notifications_enabled  :boolean          default(FALSE)
+#  purpose_key            :string
+#  ref                    :string
+#  remarks                :text
+#  state_data             :json
+#  tenant_organisation    :string
+#  token                  :string
+#  usages_entered         :boolean          default(FALSE)
+#  usages_presumed        :boolean          default(FALSE)
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  deadline_id            :bigint
+#  home_id                :bigint           not null
+#  organisation_id        :bigint           not null
+#  purpose_id             :integer
+#  tenant_id              :integer
 #
 # Indexes
 #
@@ -52,6 +53,7 @@
 
 class Booking < ApplicationRecord
   include BookingStateConcern
+  include LocaleEnumerable
 
   DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :purpose, { tenant: :organisation, deadline: :booking, occupancy: :home,
@@ -83,8 +85,6 @@ class Booking < ApplicationRecord
   has_secure_token :token, length: 48
 
   attribute :accept_conditions, default: false
-  enum locale: I18n.available_locales.index_by(&:to_sym).transform_values(&:to_s),
-       _prefix: true, _default: I18n.locale || I18n.default_locale
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create

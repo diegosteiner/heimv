@@ -1,4 +1,5 @@
-name: CI
+---
+name: Continous Integration - CI
 
 on:
   push:
@@ -12,69 +13,66 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+        name: checkout
+
+      - uses: docker/setup-buildx-action@master
+        name: buildx
+
+      - run: mkdir -p artifacts
+        name: prepare artifacts
+
+      - uses: docker/login-action@v1
+        name: docker login
         with:
-          path: vendor
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/cache@v2
+      - uses: docker/build-push-action@v2
+        name: docker build e2e_test
         with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-${{ env.cache-name }}-
-            ${{ runner.os }}-npm-
+          load: true
+          push: false
+          target: build
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ghcr.io/${{ github.repository }}:e2e_test
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:e2e_test-buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:e2e_test-buildcache,mode=max
 
-      - run: mkdir -p vendor/cache node_modules artifacts
+      - uses: docker/build-push-action@v2
+        name: docker build e2e_target
+        with:
+          load: true
+          push: false
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ghcr.io/${{ github.repository }}:latest
+          # cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:latest-buildcache
+          # cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:latest-buildcache,mode=max
 
-      # - name: Build test container
-      #   run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml build e2e_test
-      #   env:
-      #     UID: 0
-      #     GID: 0
+      - run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
+        name: migrate
 
-      - name: Prepare Database
-        if: success()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/rails db:drop db:create db:migrate
+      - run: docker compose --file docker-compose.ci.yml run e2e_test bin/check
+        name: bin/check
 
-      - name: Build and start e2e
-        if: success()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml up -d e2e_target
-        env:
-          UID: 0
-          GID: 0
-
-      - name: Run check
-        if: success()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml run e2e_test bin/check
+      - uses: docker/build-push-action@v2
+        name: docker push
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
 
       - if: failure()
-        run: docker-compose -f docker-compose.yml -f .github/docker-compose.yml logs e2e_target > ./artifacts/e2e_target.log
+        name: dump log
+        run: docker compose --file docker-compose.ci.yml logs e2e_target > ./artifacts/e2e_target.log
 
       - if: failure()
+        name: dump screenshots
         run: cp -r tmp/capybara ./artifacts/
 
-      - uses: actions/upload-artifact@master
-        if: failure()
+      - if: failure()
+        name: upload artifacts
+        uses: actions/upload-artifact@master
         with:
           name: artifacts
           path: artifacts
-
-      # - uses: actions-hub/docker/login@master
-      #   if: success()
-      #   env:
-      #     DOCKER_USERNAME: ${{ github.actor }}
-      #     DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-      #     DOCKER_REGISTRY_URL: docker.pkg.github.com
-
-      # - name: Tag image
-      #   if: success() && !github.base_ref
-      #   run: docker tag heimv:latest docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
-
-      # - name: Push to docker hub :latest
-      #   if: success() && !github.base_ref
-      #   uses: actions-hub/docker@master
-      #   with:
-      #     args: push docker.pkg.github.com/diegosteiner/heimv/heimv:${GITHUB_REF##*/}
