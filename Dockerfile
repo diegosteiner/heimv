@@ -29,7 +29,6 @@ WORKDIR /home/develop/app
 FROM development AS build                                                      
 
 ENV RAILS_ENV=production               
-ENV NODE_ENV=production   
 
 COPY --chown=develop . /home/develop/app
 RUN mkdir -p /home/develop/app/vendor/cache && \
@@ -41,7 +40,7 @@ RUN bundle install && \
     bundle package
 
 RUN yarn install && \
-    bin/webpack
+    NODE_ENV=production bin/webpack
 
 ### === production === ###
 FROM base AS production

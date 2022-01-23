@@ -31,7 +31,7 @@ jobs:
       - uses: docker/build-push-action@v2
         name: docker cache
         with:
-          push: ${{ github.event_name != 'pull_request' }}
+          push: false
           tags: ghcr.io/diegosteiner/heimv:latest
           cache-from: type=registry,ref=ghcr.io/diegosteiner/heimv:buildcache
           cache-to: type=registry,ref=ghcr.io/diegosteiner/heimv:buildcache,mode=max
@@ -47,6 +47,12 @@ jobs:
 
       - name: bin/check
         run: docker-compose --file docker-compose.ci.yml run e2e_test bin/check
+
+      - uses: docker/build-push-action@v2
+        name: docker push
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ghcr.io/diegosteiner/heimv:${{ github.head_ref }}
 
       - if: failure()
         name: dump log
