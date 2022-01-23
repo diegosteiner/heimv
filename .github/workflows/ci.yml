@@ -35,9 +35,9 @@ jobs:
           push: false
           target: build
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ghcr.io/diegosteiner/heimv:e2e_test
-          cache-from: type=registry,ref=ghcr.io/diegosteiner/heimv:e2e_test-buildcache
-          cache-to: type=registry,ref=ghcr.io/diegosteiner/heimv:e2e_test-buildcache,mode=max
+          tags: ghcr.io/$GITHUB_REPOSITORY:e2e_test
+          cache-from: type=registry,ref=ghcr.io/$GITHUB_REPOSITORY:e2e_test-buildcache
+          cache-to: type=registry,ref=ghcr.io/$GITHUB_REPOSITORY:e2e_test-buildcache,mode=max
 
       - uses: docker/build-push-action@v2
         name: docker build e2e_target
@@ -45,9 +45,9 @@ jobs:
           load: true
           push: false
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ghcr.io/diegosteiner/heimv:latest
-          cache-from: type=registry,ref=ghcr.io/diegosteiner/heimv:latest-buildcache
-          cache-to: type=registry,ref=ghcr.io/diegosteiner/heimv:latest-buildcache,mode=max
+          tags: ghcr.io/$GITHUB_REPOSITORY:latest
+          # cache-from: type=registry,ref=ghcr.io/$GITHUB_REPOSITORY:latest-buildcache
+          # cache-to: type=registry,ref=ghcr.io/$GITHUB_REPOSITORY:latest-buildcache,mode=max
 
       - run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
         name: migrate
@@ -60,7 +60,7 @@ jobs:
         with:
           push: ${{ github.event_name != 'pull_request' }}
           builder: ${{ steps.buildx.outputs.name }}
-          tags: ghcr.io/diegosteiner/heimv:${{ github.head_ref }}
+          tags: "ghcr.io/$GITHUB_REPOSITORY:$GITHUB_REF_NAME"
 
       - if: failure()
         name: dump log
