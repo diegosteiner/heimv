@@ -4,12 +4,7 @@ services:
     image: heimv-e2e_test
     build:
       context: .
-      target: development
-      cache_from:
-        - heimv-e2e_test:latest
-        - heimv:latest
-        - docker.pkg.github.com/diegosteiner/heimv/heimv-e2e_test:latest
-        - docker.pkg.github.com/diegosteiner/heimv/heimv:latest
+      target: build
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
@@ -17,6 +12,7 @@ services:
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       DISABLE_DATABASE_ENVIRONMENT_CHECK: "1"
       RAILS_ENV: test
+      NODE_ENV: test
       SELENIUM_HOST: "selenium:4444"
       SMTP_SETTINGS: '{ "address":"mail" }'
       # RUBYOPT: "-W:no-deprecated -W:no-experimental"
@@ -31,13 +27,7 @@ services:
 
   e2e_target:
     image: heimv-e2e_target
-    build:
-      context: .
-      cache_from:
-        - heimv-e2e_test:latest
-        - heimv:latest
-        - docker.pkg.github.com/diegosteiner/heimv/heimv-e2e_test:latest
-        - docker.pkg.github.com/diegosteiner/heimv/heimv:latest
+    build: .
     ports:
       - "3002:3002"
     environment:

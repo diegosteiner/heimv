@@ -21,11 +21,21 @@ jobs:
       - run: mkdir -p artifacts
         name: prepare artifacts
 
-      - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+      - uses: docker/login-action@v1
         name: docker login
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e-test || true
-        name: docker pull
+      - uses: docker/build-push-action@v2
+        name: docker cache
+        with:
+          context: .
+          push: true
+          tags: diegosteiner/heimv:latest
+          cache-from: type=registry,ref=diegosteiner/heimv:buildcache
+          cache-to: type=registry,ref=diegosteiner/heimv:buildcache,mode=max
 
       - run: docker-compose --file docker-compose.ci.yml build e2e_test
         name: docker build e2e_test
@@ -33,18 +43,11 @@ jobs:
       - run: docker-compose --file docker-compose.ci.yml build e2e_target
         name: docker build e2e_target
 
-      - run: docker tag heimv-e2e_test docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e_test && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/heimv-e2e_test || true
-        name: docker push cache
-
       - name: migrate
         run: docker-compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
 
       - name: bin/check
         run: docker-compose --file docker-compose.ci.yml run e2e_test bin/check
-
-      - if: success() && !github.base_ref
-        name: docker push
-        run: docker tag heimv-e2e_target docker.pkg.github.com/$GITHUB_REPOSITORY/heimv:latest && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/heimv:latest || true
 
       - if: failure()
         name: dump log
