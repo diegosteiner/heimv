@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
         name: checkout
 
-      - uses: docker/setup-buildx-action@v1
+      - uses: docker/setup-buildx-action@master
         name: buildx
 
       - run: mkdir -p artifacts
@@ -38,11 +38,8 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/diegosteiner/heimv:buildcache
           cache-to: type=registry,ref=ghcr.io/diegosteiner/heimv:buildcache,mode=max
 
-      # - run: docker compose --file docker-compose.ci.yml build e2e_test
-      #   name: docker build e2e_test
-
-      # - run: docker compose --file docker-compose.ci.yml build e2e_target
-      #   name: docker build e2e_target
+      - run: docker compose --file docker-compose.ci.yml build
+        name: docker build e2e_test
 
       - name: migrate
         run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
