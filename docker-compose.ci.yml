@@ -26,8 +26,7 @@ services:
       selenium:
 
   e2e_target:
-    build: 
-      context: .
+    build: .
     image: ghcr.io/diegosteiner/heimv:latest
     ports:
       - "3002:3002"
