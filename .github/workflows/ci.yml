@@ -31,11 +31,10 @@ jobs:
       - uses: docker/build-push-action@v2
         name: docker cache
         with:
-          context: .
-          push: true
-          tags: diegosteiner/heimv:latest
-          cache-from: type=registry,ref=diegosteiner/heimv:buildcache
-          cache-to: type=registry,ref=diegosteiner/heimv:buildcache,mode=max
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ghcr.io/diegosteiner/heimv:latest
+          cache-from: type=registry,ref=ghcr.io/diegosteiner/heimv:buildcache
+          cache-to: type=registry,ref=ghcr.io/diegosteiner/heimv:buildcache,mode=max
 
       - run: docker-compose --file docker-compose.ci.yml build e2e_test
         name: docker build e2e_test
