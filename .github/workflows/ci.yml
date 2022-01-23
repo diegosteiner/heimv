@@ -52,11 +52,14 @@ jobs:
       # - run: docker compose --file docker-compose.ci.yml build
       #   name: docker build
 
-      - name: migrate
-        run: docker compose --no-build --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
+      - run: docker compose version
+      - run: docker image ls
 
-      - name: bin/check
-        run: docker compose --no-build --file docker-compose.ci.yml run e2e_test bin/check
+      - run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
+        name: migrate
+
+      - run: docker compose --file docker-compose.ci.yml run e2e_test bin/check
+        name: bin/check
 
       - uses: docker/build-push-action@v2
         name: docker push
