@@ -2,6 +2,12 @@
 
 #### Unreleased
 
+#### Version 22.2.1
+
+Released on 02.02.2022
+
+- Add usage support for import
+
 #### Version 22.1.1
 
 Released on 23.01.2022
