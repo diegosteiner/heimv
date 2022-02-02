@@ -18,9 +18,7 @@ module Import
       end
 
       def default_options
-        super.merge({
-                      datetime_format: ['%FT%T', '%F %T %z']
-                    })
+        super.merge({ datetime_format: ['%FT%T', '%F %T %z', '%FT%H:%M'] })
       end
 
       def initialize_record(_row)
@@ -41,8 +39,8 @@ module Import
           return Time.zone.strptime(value, format)
         rescue ArgumentError => e
           Rails.logger.warn(e.message)
-          nil
         end
+        nil
       end
 
       actor :timespan do |occupancy, row|

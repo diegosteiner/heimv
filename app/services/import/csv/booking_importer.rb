@@ -8,7 +8,7 @@ module Import
 
       def self.supported_headers
         super + ['booking.ref', 'booking.remarks', 'booking.headcount', 'booking.tenant_organisation',
-                 'booking.purpose', 'booking.email'] +
+                 'booking.purpose', 'booking.email', 'usage.*'] +
           OccupancyImporter.supported_headers +
           TenantImporter.supported_headers
       end
@@ -20,10 +20,7 @@ module Import
       end
 
       def default_options
-        super.merge({
-                      datetime_format: ['%FT%T', '%F %T %z'],
-                      initial_state: :provisional_request
-                    })
+        super.merge({ initial_state: :provisional_request })
       end
 
       def initialize_record(_row)
