@@ -283,16 +283,21 @@ it:
           ever: Aller Zeiten
           from_now: Ab heute
           last_12_months: Letzte 12 Monate
+          last_30_days: Letze 30 Tage
           last_3_months: Letzte 3 Monate
           last_6_months: Letzte 6 Monate
           last_month: Letzer Monat
           last_year: Letztes Jahr
           next_12_months: Nächste 12 Monate
+          next_30_days: Nächste 30 Tage
           next_3_months: Nächste 3 Monate
           next_6_months: Nächste 6 Monate
           next_month: Nächster Monat
           next_year: Nächstes Jahr
+          this_month: Dieser Monat
+          this_week: Diese Woche
           this_year: Dieses Jahr
+          today: Heute
           until_now: Bis heute
       designated_document:
         designation:
@@ -617,6 +622,7 @@ it:
     period_from: von %{date}
     period_to: bis %{date}
   data_digests/parahotelerie_statistics:
+    nights: Nächte
     total_overnight_stays: Total Personennächte
   date:
     abbr_day_names:
