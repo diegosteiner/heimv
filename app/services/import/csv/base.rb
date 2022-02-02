@@ -25,11 +25,6 @@ module Import
         Result.new.tap do |result|
           ActiveRecord::Base.transaction do
             parse!(input, result)
-            # rescue StandardError => e
-            #   debugger
-            #   result.errors.add(index.to_s, e.message)
-            # end
-
             raise ActiveRecord::Rollback unless result.ok?
           end
         end
@@ -57,12 +52,16 @@ module Import
         row.values_at.all?(&:blank?) || (options.dig(:csv, :headers).is_a?(Array) && index.zero?)
       end
 
-      def self.actor(&block)
+      def self.actor(_name = nil, &block)
         actors << block
       end
 
       def self.actors
         @actors ||= []
+      end
+
+      def self.supported_headers
+        []
       end
     end
   end

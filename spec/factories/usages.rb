@@ -26,9 +26,9 @@
 
 FactoryBot.define do
   factory :usage do
-    association :tarif, :for_booking
+    tarif { build(:tarif, booking: booking) }
     used_units { 9.99 }
     remarks { 'Test' }
-    booking { tarif.booking }
+    booking
   end
 end

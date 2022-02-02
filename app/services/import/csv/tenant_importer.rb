@@ -5,6 +5,12 @@ module Import
     class TenantImporter < Base
       attr_reader :organisation
 
+      def self.supported_headers
+        super + ['tenant.email', 'tenant.phone', 'tenant.remarks', 'tenant.country_code', 'tenant.zipcode',
+                 'tenant.city', 'tenant.street', 'tenant.name', 'tenant.first_name', 'tenant.last_name',
+                 'tenant.nickname']
+      end
+
       def initialize(organisation, **options)
         super(**options)
         @organisation = organisation

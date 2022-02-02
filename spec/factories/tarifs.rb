@@ -40,9 +40,5 @@ FactoryBot.define do
     home
     invoice_type { Invoices::Invoice.to_s }
     prefill_usage_method { nil }
-
-    trait :for_booking do
-      booking
-    end
   end
 end

@@ -12,7 +12,7 @@ RSpec.describe Usage::Factory, type: :model do
     let(:home) { create(:home) }
     let!(:used_home_tarif) { create(:tarif, home: home, transient: true) }
     let!(:home_tarifs) { create_list(:tarif, 3, home: home, transient: true) }
-    let!(:booking_tarifs) { create_list(:tarif, 4, :for_booking, booking: booking) }
+    let!(:booking_tarifs) { create_list(:tarif, 4, booking: booking) }
     let!(:existing_usage) { create(:usage, booking: booking, tarif: used_home_tarif) }
 
     it do

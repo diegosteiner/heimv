@@ -68,7 +68,7 @@ module Manage
     def booking_import(params)
       import_params = params.require(:import).permit(%i[home_id file headers])
       options = { headers: import_params[:headers]&.split(/[,;]/) }
-      Import::Csv::BookingImporter.new(import_params[:home_id], options).parse_file(import_params[:file])
+      Import::Csv::OccupancyImporter.new(import_params[:home_id], options).parse_file(import_params[:file])
     end
 
     def call_booking_action

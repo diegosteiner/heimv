@@ -62,7 +62,7 @@ class Usage < ApplicationRecord
   def create_tarif_booking_copy
     return if tarif.booking_copy? || tarif.transient?
 
-    self.tarif = Tarifs::Factory.new.booking_copy_for(tarif, booking).tap(&:save)
+    self.tarif = tarif.build_booking_copy(booking).tap(&:save)
   end
 
   def tarif_selector_votes

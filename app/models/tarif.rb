@@ -96,4 +96,13 @@ class Tarif < ApplicationRecord
   def <=>(other)
     ordinal <=> other.ordinal
   end
+
+  def build_booking_copy(booking)
+    return self if booking_copy? || transient?
+
+    dup.tap do |booking_copy|
+      booking_copy.booking = booking
+      booking_copy.booking_copy_template = self
+    end
+  end
 end
