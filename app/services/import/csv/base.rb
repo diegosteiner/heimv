@@ -32,7 +32,11 @@ module Import
 
       def parse!(input = ARGF, result = Result.new)
         CSV.parse(input, **options.fetch(:csv)).each_with_index do |row, index|
-          result.add(import_row(row)) unless skip_row?(row, index)
+          next if skip_row?(row, index)
+
+          record = import_row(row)
+          result.add(record)
+          result.errors.add("##{index + 1}", record.errors) if record.errors.present?
         end
         result
       end

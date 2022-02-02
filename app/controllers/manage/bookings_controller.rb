@@ -32,13 +32,8 @@ module Manage
     end
 
     def import
-      result = booking_import
-
-      if result.ok?
-        redirect_to manage_bookings_path, notice: t('.import_success')
-      else
-        flash.now[:alert] = t('.import_error', error: result.errors.full_messages.to_sentence)
-      end
+      @result = booking_import
+      redirect_to manage_bookings_path, notice: t('.import_success') if @result.ok?
     end
 
     def create
@@ -65,10 +60,10 @@ module Manage
       @filter = Booking::Filter.new(default_booking_filter_params.merge(booking_filter_params))
     end
 
-    def booking_import(params)
-      import_params = params.require(:import).permit(%i[home_id file headers])
-      options = { headers: import_params[:headers]&.split(/[,;]/) }
-      Import::Csv::OccupancyImporter.new(import_params[:home_id], options).parse_file(import_params[:file])
+    def booking_import
+      home = current_organisation.homes.find booking_import_params[:home_id]
+      headers = booking_import_params[:headers].presence&.split(/[,;]/) || true
+      Import::Csv::OccupancyImporter.new(home, csv: { headers: headers }).parse_file(booking_import_params[:file])
     end
 
     def call_booking_action
@@ -87,6 +82,10 @@ module Manage
 
     def booking_filter_params
       Manage::BookingFilterParams.new(params).permitted
+    end
+
+    def booking_import_params
+      params.require(:import).permit(%i[home_id file headers])
     end
 
     def default_booking_filter_params
