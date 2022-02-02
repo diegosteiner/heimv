@@ -55,10 +55,11 @@ jobs:
       - run: docker compose --file docker-compose.ci.yml run e2e_test bin/check
         name: bin/check
 
-      - uses: docker/build-push-action@v2
+      - if: github.event_name != 'pull_request'
+        uses: docker/build-push-action@v2
         name: docker push
         with:
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           builder: ${{ steps.buildx.outputs.name }}
           tags: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
 
