@@ -37,6 +37,8 @@ class RichTextTemplate < ApplicationRecord
   belongs_to :home, optional: true, inverse_of: :rich_text_templates
   has_many :notifications, inverse_of: :rich_text_template, dependent: :nullify
 
+  scope :ordered, -> { order(key: :ASC, home_id: :ASC) }
+
   validates :key, uniqueness: { scope: %i[key organisation_id home_id] }
   validate do
     body_i18n.each do |locale, body|
