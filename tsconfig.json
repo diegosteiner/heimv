@@ -4,7 +4,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": ["es6", "dom"],
-    "module": "es6",
+    "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
     "target": "es5",
@@ -12,10 +12,7 @@
     "noEmit": true,
     "strict": true
   },
-  "include": [
-    "app/webpack/**/*.ts",
-    "app/webpack/**/*.tsx",
-  ],
+  "include": ["app/webpack/**/*.ts", "app/webpack/**/*.tsx"],
   "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
   "compileOnSave": false
 }

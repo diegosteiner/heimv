@@ -44,6 +44,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
+        "@types/tinymce": "^4.6.4",
         "@typescript-eslint/eslint-plugin": "^5.10.2",
         "@typescript-eslint/parser": "^5.10.2",
         "@webpack-cli/serve": "^1.6.1",
