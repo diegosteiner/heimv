@@ -20,6 +20,7 @@ services:
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       SMTP_SETTINGS: '{ "address":"mail" }'
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
+      REDIS_URL: "redis://redis/0"
     depends_on:
       - db
       - mail
@@ -45,6 +46,9 @@ services:
     environment:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
+
+  redis:
+    image: redis:6
 
   mail:
     image: tophfr/mailcatcher
