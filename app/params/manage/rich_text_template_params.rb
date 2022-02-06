@@ -7,12 +7,12 @@ module Manage
     end
 
     sanitize do |params|
-      sanitizer = Rails::Html::SafeListSanitizer.new
       I18n.available_locales.map do |locale|
         body_locale = "body_#{locale}"
-        body_locale = sanitizer.sanitize(params[body_locale])
-        body_locale = body_locale.gsub(/(%7B%7B|%7D%7D)/, { '%7B%7B' => '{{', '%7D%7D' => '}}' })
-        params[body_locale] = body_locale
+        params[body_locale] = params[body_locale].yield_self do |body|
+          RichTextTemplate.sanitize_body(body)
+                          .gsub(/(%7B%7B|%7D%7D)/, { '%7B%7B' => '{{', '%7D%7D' => '}}' })
+        end
       end
       params
     end

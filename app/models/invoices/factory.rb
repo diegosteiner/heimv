@@ -33,7 +33,7 @@ module Invoices
     def rich_text_template(invoice)
       key = "#{invoice.model_name.param_key}_text"
       rich_text_template = invoice.organisation.rich_text_templates.by_key(key, home_id: invoice.booking.home_id)
-      rich_text_template&.interpolate_body('invoice' => invoice, 'booking' => invoice.booking)
+      rich_text_template&.interpolate('invoice' => invoice, 'booking' => invoice.booking)&.body
     end
 
     def payable_until(invoice)

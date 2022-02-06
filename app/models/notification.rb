@@ -87,13 +87,14 @@ class Notification < ApplicationRecord
     return unless rich_text_template.is_a?(RichTextTemplate)
 
     Mobility.with_locale(booking.locale) do
-      self.subject = rich_text_template.interpolate_title(context)
-      self.body = rich_text_template.interpolate_body(context)
+      interpolation_result = rich_text_template.interpolate(context)
+      self.subject = interpolation_result.title
+      self.body = interpolation_result.body
     end
   end
 
   def footer
-    organisation.rich_text_templates.by_key(:notification_footer)&.interpolate_body(context)
+    organisation.rich_text_templates.by_key(:notification_footer)&.interpolate(context)&.body
   end
 
   def body

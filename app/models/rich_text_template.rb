@@ -28,6 +28,7 @@
 
 class RichTextTemplate < ApplicationRecord
   Requirement = Struct.new(:key, :context, :required_by, :optional)
+  InterpolationResult = Struct.new(:title, :body)
   extend Mobility
   extend Translatable
   translates :title, :body, column_suffix: '_i18n', locale_accessors: true
@@ -52,16 +53,13 @@ class RichTextTemplate < ApplicationRecord
     end
   end
 
-  def interpolate_body(context)
+  def interpolate(context)
     context = context&.stringify_keys || {}
-    liquid_template = Liquid::Template.parse(body)
-    liquid_template.render!(context.to_liquid)
-  end
-
-  def interpolate_title(context)
-    context = context&.stringify_keys || {}
-    liquid_template = Liquid::Template.parse(title)
-    liquid_template.render!(context.to_liquid)
+    parts = [title, body].map do |part|
+      liquid_template = Liquid::Template.parse(part)
+      self.class.sanitize_html(liquid_template.render!(context.to_liquid))
+    end
+    InterpolationResult.new(*parts)
   end
 
   class << self
@@ -98,6 +96,11 @@ class RichTextTemplate < ApplicationRecord
         requirements.filter_map { |requirement| requirement.key.to_s if !requirement.optional || include_optional }
       end.flatten
       required - organisation.rich_text_templates.where(home_id: nil).pluck(:key)
+    end
+
+    def sanitize_html(html)
+      sanitizer = Rails::Html::SafeListSanitizer.new
+      sanitizer.sanitize(html)
     end
   end
 end
