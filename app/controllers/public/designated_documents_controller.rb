@@ -17,8 +17,11 @@ module Public
     private
 
     def document
-      @document ||= current_organisation.designated_documents.where(home_id: params[:home_id])
-                                        .localized!(params[:designation])
+      context = current_organisation
+      context = current_organisation.homes.find!(params[:home_id]) if params[:home_id]
+      @document ||= DesignatedDocument.in_context(context).with_locale(I18n.locale)
+                                      .where(designation: params[:designation])
+                                      .order(home_id: :asc, locale: :asc).first
     end
   end
 end

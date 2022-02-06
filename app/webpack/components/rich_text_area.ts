@@ -20,7 +20,7 @@ export function setup() {
       content_style:
         'body { font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, ' +
         '"Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", ' +
-        '"Segoe UI Symbol", "Noto Color Emoji"; font-size: 0.85em } .variable { padding: 0.25rem; border-radius: 5px; background: lightblue; font-size: 0.7em; }',
+        '"Segoe UI Symbol", "Noto Color Emoji"; font-size: 0.85em }',
     });
   });
 }

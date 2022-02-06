@@ -20,16 +20,17 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.notifications.new(from_template: :manage_upcoming_soon_notification,
-                                to: booking.operator_for(:home_handover)&.email)&.deliver
-      booking.notifications.new(from_template: :manage_upcoming_soon_notification,
-                                to: booking.operator_for(:home_return)&.email)&.deliver
+      operators = [booking.operator_for(:home_handover), booking.operator_for(:home_return)].compact.map(&:email).uniq
+      operators.each do |operator_email|
+        booking.notifications.new(from_template: :manage_upcoming_soon_notification, to: operator_email)&.deliver
+      end
+    end
+
+    after_transition do |booking|
       notification = booking.notifications.new(from_template: :upcoming_soon_notification, to: booking.tenant)
       next unless notification.valid?
 
-      notification.attachments.attach(
-        booking.home.designated_documents.localized(:house_rules, locale: booking.locale)&.file&.blob
-      )
+      notification.attach(DesignatedDocument.in_context(booking).with_locale(booking.locale).house_rules.blobs)
       notification.save! && notification.deliver
     end
 

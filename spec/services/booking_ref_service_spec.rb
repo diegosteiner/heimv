@@ -9,7 +9,8 @@ RSpec.describe BookingRefService, type: :model do
     subject(:ref) { ref_strategy.generate(booking, template) }
     let(:template) { nil }
     let(:begins_at) { DateTime.new(2030, 10, 15, 14) }
-    let(:booking) { create(:booking, begins_at: begins_at, ends_at: begins_at + 2.hours) }
+    let(:home) { create(:home, ref: 'P') }
+    let(:booking) { create(:booking, begins_at: begins_at, ends_at: begins_at + 2.hours, home: home) }
 
     context 'with default template' do
       it { is_expected.to eq('P20301015') }

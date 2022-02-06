@@ -30,8 +30,8 @@ FactoryBot.define do
   factory :home do
     organisation
     name { "Pfadiheim #{Faker::Address.city}" }
-    ref { 'P' }
     address { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
+    sequence(:ref) { |i| "H#{i}" }
     requests_allowed { true }
   end
 end

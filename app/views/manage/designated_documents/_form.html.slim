@@ -2,7 +2,9 @@
   = f.hidden_field :home_id
   = f.select :designation, DesignatedDocument.designations.keys.map { [DesignatedDocument.human_enum(:designation, _1), _1] }, include_blank: true
   = f.select :locale, I18n.available_locales.map { [_1, _1] }, include_blank: t('.all_locales')
+  = f.text_field :name
   = f.file_field :file
+  = f.check_box :send_with_contract
   = f.text_area :remarks
 
   .form-actions.pt-4.mt-3
