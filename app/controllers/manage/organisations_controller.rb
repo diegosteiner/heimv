@@ -4,7 +4,6 @@ module Manage
   class OrganisationsController < BaseController
     load_and_authorize_resource :organisation
     before_action :set_organisation
-    after_action :attach_files, only: :update
 
     def edit; end
 
@@ -26,15 +25,6 @@ module Manage
       @organisation = current_organisation
     end
 
-    def attach_files
-      terms_pdf = organisation_params[:terms_pdf]
-      logo = organisation_params[:logo]
-      privacy_statement_pdf = organisation_params[:privacy_statement_pdf]
-
-      @organisation.terms_pdf.attach(terms_pdf) if terms_pdf.present?
-      @organisation.privacy_statement_pdf.attach(privacy_statement_pdf) if privacy_statement_pdf.present?
-      @organisation.logo.attach(logo) if logo.present?
-    end
 
     def organisation_params
       return params.require(:organisation).permit(OrganisationParams.admin_permitted_keys) if current_user.role_admin?

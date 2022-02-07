@@ -114,6 +114,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank, update_only: true
 
   delegate :to_s, to: :ref
+  delegate :exceeded?, to: :deadline, prefix: true, allow_nil: true
 
   def overnight_stays
     occupancy.nights * approximate_headcount
@@ -129,10 +130,6 @@ class Booking < ApplicationRecord
 
   def contract
     contracts.valid.last
-  end
-
-  def deadline_exceeded?
-    deadline&.exceeded?
   end
 
   def agent_booking?
@@ -172,7 +169,6 @@ class Booking < ApplicationRecord
 
   def set_tenant
     self.tenant ||= organisation.tenants.find_or_initialize_by(email: email) if email.present?
-    # self.email ||= tenant.email if tenant.email.present?
     tenant.email = email if email.present?
     tenant&.organisation = organisation
   end

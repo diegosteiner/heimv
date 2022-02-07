@@ -337,6 +337,8 @@ it:
           manager: Verwaltung
           readonly: Lesend
     errors:
+      messages:
+        content_type: ungültiges Format
       models:
         booking:
           action_not_allowed: Diese Aktion ist nicht erlaubt

@@ -3,9 +3,8 @@
 module Manage
   class OrganisationParams < ApplicationParams
     def self.permitted_keys
-      %i[name address
-         esr_beneficiary_account esr_ref_prefix logo location bcc ref_template iban
-         qr_iban mail_from locale default_payment_info_type
+      %i[name address esr_beneficiary_account esr_ref_prefix logo location bcc
+         ref_template iban qr_iban mail_from locale default_payment_info_type
          representative_address contract_signature email notifications_enabled]
     end
 
