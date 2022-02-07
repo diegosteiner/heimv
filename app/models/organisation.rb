@@ -53,13 +53,14 @@ class Organisation < ApplicationRecord
 
   has_one_attached :logo
   has_one_attached :contract_signature
-  has_one_attached :terms_pdf
-  has_one_attached :privacy_statement_pdf
+  # has_one_attached :terms_pdf
+  # has_one_attached :privacy_statement_pdf
 
   validates :booking_flow_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
   validates :name, :email, presence: true
   validates :slug, uniqueness: true, allow_nil: true
+  validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
   validate do
     errors.add(:smtp_settings, :invalid) unless smtp_settings.is_a?(Hash) || smtp_settings.nil?
   end
