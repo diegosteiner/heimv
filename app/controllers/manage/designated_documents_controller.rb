@@ -45,7 +45,7 @@ module Manage
     end
 
     def designated_document_params
-      params[:designated_document]&.permit(:designation, :file, :locale, :remarks, :home_id)
+      params[:designated_document]&.permit(:designation, :file, :locale, :remarks, :home_id, :name, :send_with_contract)
     end
   end
 end

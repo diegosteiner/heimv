@@ -7,6 +7,7 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: :other)
   table.table.table-hover.align-middle
     thead
       tr
+        th= DesignatedDocument.human_attribute_name(:name)
         th= DesignatedDocument.human_attribute_name(:designation)
         th= DesignatedDocument.human_attribute_name(:locale)
         th
@@ -14,6 +15,9 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: :other)
     tbody
       - @designated_documents.each do |designated_document|
         tr[data-href=manage_designated_document_path(designated_document) data-bs-id=designated_document.to_param]
+          td 
+            = link_to url_for(designated_document.file), target: '_blank' do
+              = designated_document.name
           td 
             = DesignatedDocument.human_enum(:designation, designated_document.designation)
           td 

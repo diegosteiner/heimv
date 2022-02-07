@@ -41,6 +41,7 @@ class Notification < ApplicationRecord
 
   delegate :bcc, to: :organisation
   delegate :locale, to: :booking
+  delegate :attach, to: :attachments
 
   attribute :from_template
   attribute :context
@@ -65,7 +66,7 @@ class Notification < ApplicationRecord
     queue_for_delivery && invoke_mailer && update(sent_at: Time.zone.now)
   end
 
-  def attachments_for_mail
+  def prepare_attachments_for_mail
     attachments.to_h { |attachment| [attachment.filename.to_s, attachment.blob.download] }
   end
 
@@ -86,13 +87,14 @@ class Notification < ApplicationRecord
     return unless rich_text_template.is_a?(RichTextTemplate)
 
     Mobility.with_locale(booking.locale) do
-      self.subject = rich_text_template.interpolate_title(context)
-      self.body = rich_text_template.interpolate_body(context)
+      interpolation_result = rich_text_template.interpolate(context)
+      self.subject = interpolation_result.title
+      self.body = interpolation_result.body
     end
   end
 
   def footer
-    organisation.rich_text_templates.by_key(:notification_footer)&.interpolate_body(context)
+    organisation.rich_text_templates.by_key(:notification_footer)&.interpolate(context)&.body
   end
 
   def body
@@ -131,7 +133,7 @@ class Notification < ApplicationRecord
 
   def invoke_mailer!
     organisation.mailer.mail(to: to, subject: subject, cc: cc, bcc: bcc, body: text,
-                             html_body: body, attachments: attachments_for_mail)
+                             html_body: body, attachments: prepare_attachments_for_mail)
   end
 
   def invoke_mailer

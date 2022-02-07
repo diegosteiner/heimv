@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_12_201403) do
+ActiveRecord::Schema.define(version: 2022_02_06_150456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -190,7 +190,8 @@ ActiveRecord::Schema.define(version: 2022_01_12_201403) do
     t.bigint "home_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["designation", "locale", "home_id", "organisation_id"], name: "index_designated_documentss_on_designation_and_locale", unique: true
+    t.string "name"
+    t.boolean "send_with_contract", default: false, null: false
     t.index ["home_id"], name: "index_designated_documents_on_home_id"
     t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
   end

@@ -118,7 +118,9 @@ it:
         file: Datei
         home_id: Heim
         locale: Sprache
+        name: Name
         remarks: Bemerkungen
+        send_with_contract: Mit dem Vertrag versenden
       home:
         address: Adresse
         booking_margin: Zeitabstand zwischen Buchungen
@@ -302,10 +304,10 @@ it:
       designated_document:
         designation:
           house_rules: Hausordnung
+          other: "-"
           price_list: Preisliste
           privacy_statement: Datenschutzerklärung
           terms: Geschäftsbedingungen / AGB
-          undesignated: "-"
       occupancy:
         occupancy_type:
           closed: Geschlossen
@@ -1902,6 +1904,11 @@ it:
     rich_text_templates:
       form:
         all_homes: All homes
+      index:
+        group_booking_agent_notifications: Benachrichtigungen (Vermittler)
+        group_document_text: Texte für Dokumente
+        group_manage_notifications: Benachrichtigungen (Verwaltung)
+        group_tenant_notifications: Benachrichtigungen (Mieter)
     users:
       index:
         invite_user: Invite user

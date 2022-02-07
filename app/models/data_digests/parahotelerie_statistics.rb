@@ -28,6 +28,7 @@ module DataDigests
 
     def build_header(_period, **_options)
       [
+        ::Booking.model_name.human, ::Home.model_name.human,
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
         I18n.t('data_digests/parahotelerie_statistics.total_overnight_stays'),
         I18n.t('data_digests/parahotelerie_statistics.nights'),
@@ -40,8 +41,11 @@ module DataDigests
     end
 
     def build_data_row(booking)
-      [I18n.l(booking.occupancy.begins_at, format: :short), I18n.l(booking.occupancy.ends_at, format: :short),
-       headcount(booking), booking.occupancy.nights, booking.tenant&.country_code]
+      [
+        booking.ref, booking.home.name,
+        I18n.l(booking.occupancy.begins_at, format: :short), I18n.l(booking.occupancy.ends_at, format: :short),
+        headcount(booking), booking.occupancy.nights, booking.tenant&.country_code
+      ]
     end
   end
 end

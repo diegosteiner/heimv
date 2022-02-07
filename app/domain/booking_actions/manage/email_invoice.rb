@@ -12,7 +12,7 @@ module BookingActions
         pdfs = invoices.with_default_includes
                        .includes([:pdf_blob, { pdf_attachment: [:blob] }])
                        .map { |invoice| invoice.pdf.blob }
-        notification.attachments.attach(pdfs)
+        notification.attach(pdfs)
         notification.deliver && invoices.each(&:sent!)
       end
 
