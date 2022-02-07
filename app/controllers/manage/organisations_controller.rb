@@ -25,7 +25,6 @@ module Manage
       @organisation = current_organisation
     end
 
-
     def organisation_params
       return params.require(:organisation).permit(OrganisationParams.admin_permitted_keys) if current_user.role_admin?
 
