@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative Rails.root.join('app/services/smtp_settings.rb')
+
 if Rails.env.test?
   ActionMailer::Base.delivery_method = :test
   Pony.options = {
