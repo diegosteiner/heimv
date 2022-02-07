@@ -19,7 +19,7 @@ module BookingActions
       def prepare_attachments(booking, deposits, contract)
         [
           DesignatedDocument.in_context(booking).with_locale(booking.locale).where(send_with_contract: true).blobs,
-          deposits.filter_map { |deposit| deposit.pdf.&blob },
+          deposits.filter_map { |deposit| deposit.pdf&.blob },
           contract.pdf&.blob
         ].flatten.compact
       end
