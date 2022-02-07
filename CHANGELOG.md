@@ -2,6 +2,13 @@
 
 #### Unreleased
 
+#### Version 22.2.2
+
+Released on 07.02.2022
+
+- Improve handling of designated documents
+- Add more time options for data digests
+
 #### Version 22.2.1
 
 Released on 02.02.2022
