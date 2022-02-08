@@ -1,4 +1,4 @@
-![HeimV Logo](app/webpack/images/logo.png)
+![HeimV Logo](app/javascript/images/logo.png)
 
 # HeimV Heimverwaltung
 
@@ -18,8 +18,8 @@ or with VS Code
 
 Then inside the container you may run:
 
-- `bin/rails s -b 0.0.0.0` to start rails server
-- `bin/webpack-dev-server` to start webpack dev server
+- `bin/rails-dev-server` to start rails server
+- `bin/webpacker-dev-server` to start webpack dev server
 
 To visit the automatically created default organization, visit http://localhost:3000/.
 

@@ -40,7 +40,7 @@ RUN bundle install && \
     bundle package
 
 RUN yarn install && \
-    NODE_ENV=production bin/webpack
+    NODE_ENV=production bin/webpacker
 
 ### === production === ###
 FROM base AS production

@@ -5,7 +5,7 @@ require 'prawn'
 module Export
   module Pdf
     class Base
-      FONTS_PATH = File.join(__dir__, '..', '..', '..', 'webpack', 'fonts')
+      FONTS_PATH = Rails.root.join('app/javascript/fonts')
       include Prawn::View
 
       def self.add_font_family(name, **options)

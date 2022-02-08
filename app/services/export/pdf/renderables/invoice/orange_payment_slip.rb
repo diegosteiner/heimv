@@ -34,7 +34,7 @@ module Export
           end
 
           def render_background
-            img = Rails.root.join('app/webpack/images/esr_simplified.png')
+            img = Rails.root.join('app/javascript/images/esr_simplified.png')
             image img, width: 595, height: HEIGHT, vposition: -4
           end
 
