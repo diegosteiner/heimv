@@ -48,7 +48,7 @@ gem 'rqrcode'
 gem 'slim-rails'
 gem 'statesman'
 gem 'ttfunk'
-gem 'webpacker', '>= 6.0.0-rc.5'
+gem 'shakapacker', '~> 6.0'
 
 group :development do
   gem 'annotate', git: 'https://github.com/dabit/annotate_models.git', branch: 'rails-7'

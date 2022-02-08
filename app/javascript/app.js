@@ -1,11 +1,11 @@
 import "stylesheets/application";
 import Rails from "rails-ujs";
-import "../services/i18n";
+import "services/i18n";
 import "bootstrap/dist/js/bootstrap.bundle";
 import ReactRailsUJS from "react_ujs";
-import { setup as setupRichTextArea } from "../components/rich_text_area";
+import { setup as setupRichTextArea } from "./components/rich_text_area";
 
-require.context("../images", true);
+require.context("./images", true);
 
 function csrfForm() {
   const csrfToken = document.querySelector("meta[name=csrf-token]")?.content;

@@ -1,4 +1,4 @@
-const { webpackConfig, merge, isDevelopment } = require('@rails/webpacker')
+const { webpackConfig, merge, isDevelopment } = require('shakapacker')
 const customConfig = {
   resolve: {
     extensions: ['.ts', '.tsx', '.jsx', '.css', '.scss']

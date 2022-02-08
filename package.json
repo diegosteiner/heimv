@@ -1,21 +1,26 @@
 {
     "dependencies": {
+        "@babel/core": "7",
+        "@babel/plugin-transform-runtime": "7",
+        "@babel/preset-env": "7",
         "@babel/preset-react": "^7.9.4",
         "@babel/preset-typescript": "^7.12.7",
+        "@babel/runtime": "7",
         "@emotion/react": "^11.5.0",
         "@emotion/styled": "^11.3.0",
         "@popperjs/core": "^2.10.2",
         "@rails/webpacker": "^6.0.0-rc.5",
-        "@types/date-fns": "^2.6.0",
         "@types/react": "^17.0.33",
         "@types/react-dom": "^17.0.0",
         "autoprefixer": "^10.3.7",
         "axios": "^0.25.0",
+        "babel-loader": "8",
         "babel-plugin-macros": "^3.1.0",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
         "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
         "bootstrap": "^5.1.3",
         "classnames": "^2.2.6",
+        "compression-webpack-plugin": "9",
         "css-loader": "^6.4.0",
         "date-fns": "^2.9.0",
         "font-awesome": "^4.7.0",
@@ -37,27 +42,38 @@
         "react_ujs": "^2.6.1",
         "sass": "^1.49.4",
         "sass-loader": "^12.2.0",
+        "shakapacker": "6.1.1",
+        "terser-webpack-plugin": "5",
         "tinymce": "^5",
         "typescript": "4.5.5",
+        "typings-for-css-modules-loader": "^1.7.0",
+        "webpack": "5",
+        "webpack-assets-manifest": "5",
         "webpack-cli": "^4.9.2",
+        "webpack-merge": "5",
         "yaml-loader": "^0.6.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.0.0",
         "@types/tinymce": "^4.6.4",
         "@typescript-eslint/eslint-plugin": "^5.10.2",
         "@typescript-eslint/parser": "^5.10.2",
-        "@webpack-cli/serve": "^1.6.1",
         "eslint": "^8.8.0",
         "eslint-config-prettier": "^8.3.0",
-        "eslint-loader": "^4.0.2",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react": "^7.21.5",
+        "eslint-webpack-plugin": "^3.1.1",
         "prettier": "^2.0.5",
-        "typings-for-css-modules-loader": "^1.7.0",
         "webpack-bundle-analyzer": "^4.3.0",
-        "webpack-dev-server": "^4.3.1"
+        "webpack-dev-server": "^4.7.4"
     },
+    "babel": {
+        "presets": [
+            "./node_modules/shakapacker/package/babel/preset.js"
+        ]
+    },
+    "browserslist": [
+        "defaults"
+    ],
     "name": "heimv",
     "version": "2.0.0",
     "main": "index.js",
