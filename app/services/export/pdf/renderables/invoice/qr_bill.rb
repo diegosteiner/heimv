@@ -98,7 +98,7 @@ module Export
             qrcode_image = @qr_bill.qrcode.as_png(bit_depth: 1, border_modules: 0).to_s
 
             image StringIO.open(qrcode_image), fit: [bounds.width, bounds.width]
-            image Rails.root.join('app/webpack/images/ch_cross.png'), fit: [20, 20], at: [55, cursor + 56 + 20]
+            image Rails.root.join('app/javascript/images/ch_cross.png'), fit: [20, 20], at: [55, cursor + 56 + 20]
           end
 
           def render_cutting_lines

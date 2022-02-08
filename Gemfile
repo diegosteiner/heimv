@@ -45,10 +45,10 @@ gem 'ranked-model'
 gem 'react-rails'
 gem 'responders'
 gem 'rqrcode'
+gem 'shakapacker', '~> 6.0'
 gem 'slim-rails'
 gem 'statesman'
 gem 'ttfunk'
-gem 'shakapacker', '~> 6.0'
 
 group :development do
   gem 'annotate', git: 'https://github.com/dabit/annotate_models.git', branch: 'rails-7'
