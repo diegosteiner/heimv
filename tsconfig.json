@@ -12,7 +12,7 @@
     "noEmit": true,
     "strict": true
   },
-  "include": ["app/webpack/**/*.ts", "app/webpack/**/*.tsx"],
+  "include": ["app/javascript/**/*.ts", "app/javascript/**/*.tsx"],
   "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
   "compileOnSave": false
 }
