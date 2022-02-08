@@ -2068,14 +2068,16 @@ fr:
       description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
     manage_new_booking_notification:
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
-    manage_upcoming_soon_notification:
-      description: Benachrichtigung für baldige Belegung (Funktionär)
     notification_footer:
       description: Fusszeile für Benachrichtigungen
     offer_text:
       description: Text für Offerte
     open_request_notification:
       description: Benachrichtigung für offene Mietanfrage (Mieter)
+    operator_cancelation_pending_notification:
+      description: Benachrichtigung für baldige Belegung (Funktionär)
+    operator_upcoming_soon_notification:
+      description: Benachrichtigung für baldige Belegung (Funktionär)
     overdue_notification:
       description: Benachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
     overdue_request_notification:
