@@ -113,7 +113,7 @@ function materializedMonths(startDate: Date, monthsCount: number) {
 }
 
 class YearMonth {
-  constructor(public year: number, public month: number) {}
+  constructor(public year: number, public month: number) { }
 
   firstDate(): Date {
     return new Date(this.year, this.month, 1);
@@ -156,7 +156,7 @@ function CalendarMonth({ month, dayElement }: CalendarMonthProps) {
             {weekdayName}
           </div>
         ))}
-        {[...Array(monthStartsAfter)].map((e, i) => (
+        {Array.from(Array(monthStartsAfter)).map((e, i) => (
           <div key={i} className="calendarDay spacer"></div>
         ))}
         {daysOfMonth.map((day) => {
