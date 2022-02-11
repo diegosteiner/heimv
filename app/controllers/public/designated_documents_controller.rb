@@ -21,7 +21,7 @@ module Public
       context = current_organisation.homes.find!(params[:home_id]) if params[:home_id]
       @document ||= DesignatedDocument.in_context(context).with_locale(I18n.locale)
                                       .where(designation: params[:designation])
-                                      .order(home_id: :asc, locale: :asc).first
+                                      .order(home_id: :asc, locale: :asc).take!
     end
   end
 end
