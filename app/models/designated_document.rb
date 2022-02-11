@@ -25,11 +25,11 @@ class DesignatedDocument < ApplicationRecord
   belongs_to :home, optional: true, inverse_of: :designated_documents
 
   enum designation: { other: 0, privacy_statement: 1, terms: 2, house_rules: 3, price_list: 4 }
-  scope :with_locale, ->(locale) { where(locale: [locale, nil]) }
+  scope :with_locale, ->(locale) { where(locale: [locale, nil]).order(locale: :ASC) }
   scope :blobs, -> { filter_map { |designated_document| designated_document.file&.blob } }
   scope :in_context, (lambda do |context|
     next where(organisation: context, home: nil) if context.is_a?(Organisation)
-    next where(organisation: context.organisation, home: [context, nil]) if context.is_a?(Home)
+    next where(organisation: context.organisation, home: [context, nil]).order(home_id: :ASC) if context.is_a?(Home)
     next in_context(context.home) if context.respond_to?(:home)
     next in_context(context.organisation) if context.respond_to?(:organisation)
   end)
