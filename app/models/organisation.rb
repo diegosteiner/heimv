@@ -53,8 +53,6 @@ class Organisation < ApplicationRecord
 
   has_one_attached :logo
   has_one_attached :contract_signature
-  # has_one_attached :terms_pdf
-  # has_one_attached :privacy_statement_pdf
 
   validates :booking_flow_type, presence: true
   validates :invoice_ref_strategy_type, presence: true

@@ -8,7 +8,10 @@ module Public
 
     def changelog; end
 
-    def privacy; end
+    def privacy
+      @privacy_statement = DesignatedDocument.in_context(current_organisation).with_locale(I18n.locale)
+                                             .privacy_statement.first
+    end
 
     def ext
       respond_to do |format|
