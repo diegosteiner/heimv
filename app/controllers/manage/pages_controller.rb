@@ -19,11 +19,6 @@ module Manage
       @rich_text_templates = rich_text_templates_by_requirer
     end
 
-    def privacy
-      @privacy_statement = DesignatedDocument.in_context(current_organisation).with_locale(I18n.locale)
-                                             .privacy_statement.first
-    end
-
     def rich_text_templates_by_requirer
       RichTextTemplate.required_templates.values.flatten.each_with_object({}) do |required, memo|
         next unless required.required_by

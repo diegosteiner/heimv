@@ -4,6 +4,6 @@
   .card-body.p-5
     == Markdown.new(File.read(files.find { |file| File.exist? file })).to_html
 
-    - if current_organisation&.privacy_statement_pdf.present?
+    - if @privacy_statement.present?
       h1= t('.current_organisation_privacy_statment_title', organisation: current_organisation&.name)
-      = link_to t('.current_organisation_privacy_statment_url'), public_designated_document_url(designation: :privacy_statement)
+      = link_to t('.current_organisation_privacy_statment_url'), url_for(@privacy_statement.file)
