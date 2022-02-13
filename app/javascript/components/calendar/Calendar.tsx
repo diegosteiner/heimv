@@ -156,7 +156,7 @@ function CalendarMonth({ month, dayElement }: CalendarMonthProps) {
             {weekdayName}
           </div>
         ))}
-        {[...Array(monthStartsAfter)].map((e, i) => (
+        {Array.from(Array(monthStartsAfter)).map((e, i) => (
           <div key={i} className="calendarDay spacer"></div>
         ))}
         {daysOfMonth.map((day) => {
