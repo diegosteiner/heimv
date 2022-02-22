@@ -18,7 +18,7 @@ module Export
           end
 
           def render
-            start_new_page if cursor < 240
+            start_new_page if cursor < 300
             default_leading 0
             bounding_box([-60, HEIGHT - 50], width: WIDTH, height: HEIGHT) do
               render_receipt_part
