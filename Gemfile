@@ -83,3 +83,7 @@ group :test do
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
 end
+
+group :production do
+  gem 'exception_notification'
+end
