@@ -141,10 +141,10 @@ class Notification < ApplicationRecord
     true
   rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
     Rails.logger.error(e.message)
-    defined?(Sentry) && Sentry.with_scope do |scope|
-      scope.set_tags(booking: booking.id)
-      Sentry.capture_exception(e)
-    end
+    # defined?(Sentry) && Sentry.with_scope do |scope|
+    #   scope.set_tags(booking: booking.id)
+    #   Sentry.capture_exception(e)
+    # end
     false
   end
 end

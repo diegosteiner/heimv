@@ -72,7 +72,7 @@ class RichTextTemplate < ApplicationRecord
     def by_key(key, home_id: nil)
       by_key!(key, home_id: home_id)
     rescue ActiveRecord::RecordNotFound => e
-      (defined?(Sentry) && Sentry.capture_exception(e)) || Rails.logger.warn(e.message)
+      Rails.logger.warn(e.message)
       nil
     end
 

@@ -21,6 +21,7 @@ gem 'devise-i18n'
 gem 'discard'
 gem 'factory_bot_rails', require: false
 gem 'faker', require: false
+gem 'hiredis'
 gem 'icalendar'
 gem 'inline_svg'
 gem 'kramdown'
@@ -43,6 +44,7 @@ gem 'rails', '~> 7.0.0'
 gem 'rails-i18n', '~> 7.0'
 gem 'ranked-model'
 gem 'react-rails'
+gem 'redis'
 gem 'responders'
 gem 'rqrcode'
 gem 'shakapacker', '~> 6.0'
@@ -80,11 +82,4 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
-end
-
-group :production do
-  gem 'hiredis'
-  gem 'redis'
-  gem 'sentry-rails'
-  gem 'sentry-ruby'
 end
