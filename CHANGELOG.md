@@ -2,6 +2,13 @@
 
 #### Unreleased
 
+#### Version 22.2.3
+
+Released on 22.02.2022
+
+- Replace sentry with email based error_notifications
+- Remove old framework defaults
+
 #### Version 22.2.2
 
 Released on 07.02.2022
