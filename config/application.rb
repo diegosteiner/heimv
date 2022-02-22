@@ -23,7 +23,7 @@ Bundler.require(*Rails.groups)
 module Heimverwaltung
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 7.0
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -34,6 +34,5 @@ module Heimverwaltung
     config.time_zone = 'Zurich'
 
     # config.eager_load_paths << Rails.root.join("extras")
-    config.active_storage.service = :local
   end
 end
