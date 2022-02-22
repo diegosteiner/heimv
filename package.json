@@ -9,7 +9,6 @@
         "@emotion/react": "^11.5.0",
         "@emotion/styled": "^11.3.0",
         "@popperjs/core": "^2.10.2",
-        "@rails/webpacker": "^6.0.0-rc.5",
         "@types/react": "^17.0.33",
         "@types/react-dom": "^17.0.0",
         "autoprefixer": "^10.3.7",
