@@ -31,11 +31,11 @@
 #
 
 class User < ApplicationRecord
-  PERMISSIONS = %i[tenant admin manager readonly].freeze
+  ROLES = %i[tenant admin manager readonly].freeze
 
   belongs_to :organisation, optional: true
 
-  enum role: PERMISSIONS, _prefix: :role
+  enum role: ROLES, _prefix: :role
 
   after_initialize :set_default_role, if: :new_record?
 
