@@ -47,8 +47,14 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: list images
+        run: docker image ls
+
       - name: migrate
         run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
+
+      - name: list images
+        run: docker image ls
 
       - name: bin/check
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/check

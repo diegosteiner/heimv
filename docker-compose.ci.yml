@@ -1,10 +1,10 @@
-version: "3.9"
+version: "3.8"
 services:
   e2e_test:
     build:
       context: .
       target: build
-    image: ghcr.io/diegosteiner/heimv-test:latest
+    image: ghcr.io/diegosteiner/heimv-test
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
@@ -26,7 +26,7 @@ services:
 
   e2e_target:
     build: .
-    image: ghcr.io/diegosteiner/heimv:latest
+    image: ghcr.io/diegosteiner/heimv
     ports:
       - "3002:3002"
     environment:
