@@ -3,7 +3,7 @@
 if defined?(ExceptionNotification)
   Rails.application.config.middleware.use ExceptionNotification::Rack,
                                           email: {
-                                            sender_address: nil,
+                                            sender_address: ENV['MAIL_FROM'],
                                             email_prefix: "[#{ENV['APP_HOST']}] ",
                                             exception_recipients: ENV.fetch('EXCEPTION_RECIPIENTS',
                                                                             'info@heimv.ch').split(',')

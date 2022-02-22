@@ -86,4 +86,6 @@ end
 
 group :production do
   gem 'exception_notification'
+  gem 'sentry-rails'
+  gem "sentry-ruby"
 end
