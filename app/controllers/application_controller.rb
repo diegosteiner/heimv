@@ -62,8 +62,8 @@ class ApplicationController < ActionController::Base
   end
 
   def prepare_exception_notifier_context
-    request.env["exception_notifier.exception_data"] = {
-      email: current_user&.email, params: params.to_unsafe_h, 
+    request.env['exception_notifier.exception_data'] = {
+      email: current_user&.email, params: params.to_unsafe_h,
       url: request.url, organisation: current_organisation&.name
     }
   end
