@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError, 'Not found'
   end
 
-  def prepare_exception_notifier_context
+  def prepare_exception_notification_context
     request.env['exception_notifier.exception_data'] = {
       email: current_user&.email, params: params.to_unsafe_h,
       url: request.url, organisation: current_organisation&.name
