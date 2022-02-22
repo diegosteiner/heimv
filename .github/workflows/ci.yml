@@ -12,60 +12,59 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-        name: checkout
+      - name: checkout
+        uses: actions/checkout@v2
 
-      - uses: docker/setup-buildx-action@master
-        name: buildx
+      - name: buildx
+        uses: docker/setup-buildx-action@master
 
-      - run: mkdir -p artifacts
-        name: prepare artifacts
+      - name: prepare artifacts
+        run: mkdir -p artifacts
 
-      - uses: docker/login-action@v1
-        name: docker login
+      - name: docker login
+        uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: docker/build-push-action@v2
-        name: docker build e2e_test
+      - name: docker build test
+        uses: docker/build-push-action@v2
         with:
           load: true
           push: false
           target: build
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ghcr.io/${{ github.repository }}:e2e_test
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:e2e_test-buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:e2e_test-buildcache,mode=max
+          tags: ghcr.io/${{ github.repository }}-test:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - uses: docker/build-push-action@v2
-        name: docker build e2e_target
+      - name: docker build
+        uses: docker/build-push-action@v2
         with:
           load: true
           push: false
-          builder: ${{ steps.buildx.outputs.name }}
           tags: ghcr.io/${{ github.repository }}:latest
-          # cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:latest-buildcache
-          # cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:latest-buildcache,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
-        name: migrate
+      - name: migrate
+        run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
 
-      - run: docker compose --file docker-compose.ci.yml run e2e_test bin/check
-        name: bin/check
+      - name: bin/check
+        run: docker compose --file docker-compose.ci.yml run e2e_test bin/check
 
       - if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v2
         name: docker push
+        uses: docker/build-push-action@v2
         with:
           push: true
-          builder: ${{ steps.buildx.outputs.name }}
           tags: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - if: failure()
         name: dump log
-        run: docker compose --file docker-compose.ci.yml logs e2e_target > ./artifacts/e2e_target.log
+        run: docker compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
 
       - if: failure()
         name: dump screenshots

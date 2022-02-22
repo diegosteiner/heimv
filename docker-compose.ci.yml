@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: build
-    image: ghcr.io/diegosteiner/heimv:e2e_test
+    image: ghcr.io/diegosteiner/heimv-test:latest
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
@@ -15,7 +15,6 @@ services:
       NODE_ENV: test
       SELENIUM_HOST: "selenium:4444"
       SMTP_SETTINGS: '{ "address":"mail" }'
-      # RUBYOPT: "-W:no-deprecated -W:no-experimental"
     command: bin/check
     depends_on:
       - db
@@ -74,7 +73,6 @@ services:
 
 volumes:
   db_data:
-  home:
 
 networks:
   selenium:
