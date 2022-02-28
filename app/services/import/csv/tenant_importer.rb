@@ -8,7 +8,7 @@ module Import
       def self.supported_headers
         super + ['tenant.email', 'tenant.phone*', 'tenant.remarks', 'tenant.country_code', 'tenant.zipcode',
                  'tenant.city', 'tenant.street', 'tenant.name', 'tenant.first_name', 'tenant.last_name',
-                 'tenant.nickname']
+                 'tenant.nickname', 'tenant.address_addon']
       end
 
       def initialize(organisation, **options)
@@ -36,7 +36,8 @@ module Import
 
       actor do |tenant, row|
         tenant.country_code = row['tenant.country_code'].presence
-        tenant.assign_attributes(zipcode: row['tenant.zipcode'], city: row['tenant.city'])
+        tenant.assign_attributes(zipcode: row['tenant.zipcode'], city: row['tenant.city'], 
+                                 address_addon: row['tenant.address_addon'])
         tenant.street_address = row.filter_map do |header, value|
           header.starts_with?('tenant.street') && value
         end.compact_blank.join("\n")

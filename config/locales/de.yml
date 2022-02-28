@@ -243,8 +243,8 @@ de:
         override: Überschreiben
         tarif: Tarif
       tenant:
-        additional_address: Addresszusatz
         address: Adresse
+        address_addon: Addresszusatz / Schule / Firma
         allow_bookings_without_contract: Buchungen ohne Vertrag erlauben
         birth_date: Geburtsdatum
         city: Ort

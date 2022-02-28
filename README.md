@@ -105,18 +105,20 @@ cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::OccupancyImport
 
 Prepare a csv with these columns, including a header, as utf-8:
 
-- first_name
-- last_name
-- street_address
-- zipcode
-- city
-- phone
-- email
+- tenant.first_name
+- tenant.last_name
+- tenant.nickname
+- tenant.street
+- tenant.zipcode
+- tenant.city
+- tenant.phone
+- tenant.email
+- tenant.remarks
 
 Then import data with:
 
 ```
-cat data.csv | bin/rails r Import::Csv::TenantImporter.new(organisation).read
+cat data.csv | bin/rails r "Import::Csv::TenantImporter.new(organisation).parse"
 ```
 
 ### Tarifs

@@ -5,7 +5,7 @@
 # Table name: tenants
 #
 #  id                              :bigint           not null, primary key
-#  additional_address              :string
+#  address_addon                   :string
 #  allow_bookings_without_contract :boolean          default(FALSE)
 #  birth_date                      :date
 #  city                            :string
@@ -70,7 +70,7 @@ class Tenant < ApplicationRecord
 
   def address_lines
     [
-      additional_address&.strip,
+      address_addon&.strip,
       street_address&.lines&.map(&:strip),
       "#{zipcode} #{city} #{country_code}"
     ].flatten.compact_blank

@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_08_164040) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_02_28_143716) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -22,7 +21,7 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -34,7 +33,7 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -52,8 +51,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.boolean "committed_request"
     t.boolean "accepted_request"
     t.text "remarks"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "home_id"
     t.bigint "organisation_id"
     t.string "tenant_email"
@@ -72,8 +71,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.string "email"
     t.text "address"
     t.decimal "provision"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
     t.integer "request_deadline_minutes", default: 14400
     t.index ["code", "organisation_id"], name: "index_booking_agents_on_code_and_organisation_id", unique: true
@@ -84,8 +83,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.bigint "organisation_id", null: false
     t.string "key"
     t.jsonb "title_i18n"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "ordinal"
     t.index ["key", "organisation_id"], name: "index_booking_purposes_on_key_and_organisation_id", unique: true
     t.index ["ordinal"], name: "index_booking_purposes_on_ordinal"
@@ -97,8 +96,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.integer "sort_key", null: false
     t.uuid "booking_id", null: false
     t.boolean "most_recent", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.json "metadata", default: {}
     t.json "booking_data", default: {}
     t.index ["booking_id", "most_recent"], name: "index_booking_transitions_parent_most_recent", unique: true, where: "most_recent"
@@ -125,8 +124,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.boolean "usages_entered", default: false
     t.boolean "notifications_enabled", default: false
     t.jsonb "import_data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "internal_remarks"
     t.boolean "concluded", default: false
     t.boolean "usages_presumed", default: false
@@ -135,7 +134,7 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.integer "purpose_id"
     t.string "booking_flow_type"
     t.string "token"
-    t.datetime "conditions_accepted_at"
+    t.datetime "conditions_accepted_at", precision: nil
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
@@ -150,10 +149,10 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.date "sent_at"
     t.date "signed_at"
     t.text "text"
-    t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
-    t.datetime "valid_until"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "valid_until", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
   end
 
@@ -162,21 +161,21 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.string "label"
     t.jsonb "prefilter_params", default: {}
     t.jsonb "data_digest_params", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
   create_table "deadlines", force: :cascade do |t|
-    t.datetime "at"
+    t.datetime "at", precision: nil
     t.uuid "booking_id"
     t.string "responsible_type"
     t.bigint "responsible_id"
     t.integer "postponable_for", default: 0
     t.boolean "armed", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "remarks"
     t.index ["booking_id"], name: "index_deadlines_on_booking_id"
     t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
@@ -188,8 +187,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.text "remarks"
     t.bigint "organisation_id", null: false
     t.bigint "home_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "send_with_contract", default: false, null: false
     t.index ["home_id"], name: "index_designated_documents_on_home_id"
@@ -203,8 +202,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.text "address"
     t.text "janitor"
     t.boolean "requests_allowed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "min_occupation"
     t.integer "booking_margin", default: 0
     t.index ["organisation_id"], name: "index_homes_on_organisation_id"
@@ -219,8 +218,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.string "label"
     t.string "breakdown"
     t.integer "ordinal"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
     t.index ["usage_id"], name: "index_invoice_parts_on_usage_id"
   end
@@ -228,16 +227,16 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
   create_table "invoices", force: :cascade do |t|
     t.string "type"
     t.uuid "booking_id"
-    t.datetime "issued_at", default: -> { "CURRENT_TIMESTAMP" }
-    t.datetime "payable_until"
-    t.datetime "sent_at"
+    t.datetime "issued_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "payable_until", precision: nil
+    t.datetime "sent_at", precision: nil
     t.text "text"
     t.string "ref"
     t.decimal "amount", default: "0.0"
     t.boolean "print_payment_slip", default: false
-    t.datetime "discarded_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "discarded_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "payment_info_type"
     t.decimal "amount_open"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
@@ -251,10 +250,10 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.bigint "usage_id"
     t.decimal "start_value"
     t.decimal "end_value"
-    t.datetime "begins_at"
-    t.datetime "ends_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "begins_at", precision: nil
+    t.datetime "ends_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["tarif_id"], name: "index_meter_reading_periods_on_tarif_id"
     t.index ["usage_id"], name: "index_meter_reading_periods_on_usage_id"
   end
@@ -262,11 +261,11 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
   create_table "notifications", force: :cascade do |t|
     t.uuid "booking_id"
     t.bigint "rich_text_template_id"
-    t.datetime "sent_at"
+    t.datetime "sent_at", precision: nil
     t.string "subject"
     t.text "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "addressed_to", default: 0, null: false
     t.string "to", default: [], array: true
     t.string "cc", default: [], array: true
@@ -276,13 +275,13 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
   end
 
   create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "begins_at", null: false
-    t.datetime "ends_at", null: false
+    t.datetime "begins_at", precision: nil, null: false
+    t.datetime "ends_at", precision: nil, null: false
     t.bigint "home_id", null: false
     t.integer "occupancy_type", default: 0, null: false
     t.text "remarks"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.uuid "booking_id"
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
@@ -293,10 +292,10 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
   create_table "offers", force: :cascade do |t|
     t.uuid "booking_id"
     t.text "text"
-    t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
-    t.datetime "valid_until"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "valid_until", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_offers_on_booking_id"
   end
 
@@ -306,8 +305,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.integer "ordinal"
     t.integer "responsibility"
     t.text "remarks"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "home_id"
     t.bigint "organisation_id", null: false
     t.index ["booking_id"], name: "index_operator_responsibilities_on_booking_id"
@@ -323,8 +322,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.string "email"
     t.text "contact_info"
     t.bigint "organisation_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["organisation_id"], name: "index_operators_on_organisation_id"
   end
 
@@ -335,8 +334,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.string "invoice_ref_strategy_type"
     t.string "esr_beneficiary_account"
     t.string "currency", default: "CHF"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "iban"
     t.string "representative_address"
     t.string "email"
@@ -367,8 +366,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.uuid "booking_id"
     t.jsonb "data"
     t.text "remarks"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "write_off", default: false, null: false
     t.index ["booking_id"], name: "index_payments_on_booking_id"
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
@@ -376,8 +375,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
 
   create_table "rich_text_templates", force: :cascade do |t|
     t.string "key"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
     t.bigint "home_id"
     t.jsonb "title_i18n", default: {}
@@ -392,8 +391,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.bigint "tarif_id"
     t.boolean "veto", default: true
     t.string "distinction"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "type"
     t.index ["tarif_id"], name: "index_tarif_selectors_on_tarif_id"
   end
@@ -405,14 +404,14 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.bigint "home_id"
     t.bigint "booking_copy_template_id"
     t.decimal "price_per_unit"
-    t.datetime "valid_from", default: -> { "CURRENT_TIMESTAMP" }
-    t.datetime "valid_until"
+    t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "valid_until", precision: nil
     t.integer "ordinal"
     t.string "tarif_group"
     t.string "invoice_type"
     t.string "prefill_usage_method"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "tenant_visible", default: true
     t.jsonb "label_i18n", default: {}
     t.jsonb "unit_i18n", default: {}
@@ -436,12 +435,12 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.text "search_cache", null: false
     t.date "birth_date"
     t.jsonb "import_data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
     t.string "country_code", default: "CH"
     t.string "nickname"
-    t.string "additional_address"
+    t.string "address_addon"
     t.boolean "allow_bookings_without_contract", default: false
     t.string "iban"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
@@ -455,8 +454,8 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.decimal "used_units"
     t.text "remarks"
     t.uuid "booking_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.decimal "presumed_used_units"
     t.index ["booking_id"], name: "index_usages_on_booking_id"
     t.index ["tarif_id", "booking_id"], name: "index_usages_on_tarif_id_and_booking_id", unique: true
@@ -466,13 +465,13 @@ ActiveRecord::Schema.define(version: 2022_02_08_164040) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
     t.integer "role"
     t.bigint "organisation_id"

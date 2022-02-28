@@ -49,7 +49,7 @@ booking:
   ref: Referenznummer der Buchung
   remarks: Bemerkungen des Mieters
   tenant: Mieter
-    additional_address: Addresszusatz
+    address_addon: Addresszusatz
     city: Ort
     email: E-Mail
     first_name: Vorname
