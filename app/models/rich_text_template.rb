@@ -102,7 +102,9 @@ class RichTextTemplate < ApplicationRecord
 
     def sanitize_html(html)
       sanitizer = Rails::Html::SafeListSanitizer.new
-      sanitizer.sanitize(html)
+      sanitizer.sanitize(html,
+                         tags: Rails::Html::SafeListSanitizer.allowed_tags + %w[table tr td th thead tbody],
+                         attributes: Rails::Html::SafeListSanitizer.allowed_attributes)
     end
   end
 end
