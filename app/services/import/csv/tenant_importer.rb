@@ -25,7 +25,7 @@ module Import
 
       actor do |tenant, row|
         tenant.phone = row.filter_map do |header, value|
-          header.starts_with?('tenant.phone') && value
+          header&.starts_with?('tenant.phone') && value
         end.compact_blank.join("\n")
       end
 
@@ -36,10 +36,10 @@ module Import
 
       actor do |tenant, row|
         tenant.country_code = row['tenant.country_code'].presence
-        tenant.assign_attributes(zipcode: row['tenant.zipcode'], city: row['tenant.city'], 
+        tenant.assign_attributes(zipcode: row['tenant.zipcode'], city: row['tenant.city'],
                                  address_addon: row['tenant.address_addon'])
         tenant.street_address = row.filter_map do |header, value|
-          header.starts_with?('tenant.street') && value
+          header&.starts_with?('tenant.street') && value
         end.compact_blank.join("\n")
       end
 

@@ -88,6 +88,12 @@ Options:
 
 - initial_state: State to which the booking shall be transitioned
 - default_purpose:
+- headers: Header map e.g. for import from pfadiheime.ch
+
+```
+headers = "
+ignore.id,ignore.cottage_id,ignore.user_id,occupancy.begins_at,occupancy.ends_at,occupancy.remarks,occupancy.occupancy_type,ignore.created_at,ignore.updated_at,tenant.email,ignore.occupancy_type,booking.remarks,ignore.slug,booking.headcount,tenant.birth_date,booking.tenant_organisation,tenant.name,tenant.street_address,tenant.street_address_2,tenant.zipcode,tenant.city,tenant.phone"
+```
 
 Then import data with:
 
