@@ -29,6 +29,8 @@
 #
 
 class Notification < ApplicationRecord
+  RichTextTemplate.require_template(:notification_footer, context: %i[booking], required_by: self)
+
   belongs_to :booking, inverse_of: :notifications
   belongs_to :rich_text_template, optional: true
   has_many_attached :attachments

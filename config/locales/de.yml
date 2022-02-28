@@ -1909,6 +1909,7 @@ de:
         group_booking_agent_notifications: Benachrichtigungen (Vermittler)
         group_document_text: Texte für Dokumente
         group_manage_notifications: Benachrichtigungen (Verwaltung)
+        group_other: Weitere
         group_tenant_notifications: Benachrichtigungen (Mieter)
     users:
       index:

@@ -58,6 +58,8 @@ module Manage
         return :tenant_notifications
       end
       return :document_text if rich_text_template.key.to_s.ends_with?('_text')
+
+      :other
     end
   end
 end
