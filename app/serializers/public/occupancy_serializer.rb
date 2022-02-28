@@ -2,7 +2,7 @@
 
 module Public
   class OccupancySerializer < ApplicationSerializer
-    fields :begins_at, :ends_at, :occupancy_type, :home_id, :remarks, :id
+    fields :begins_at, :ends_at, :occupancy_type, :home_id, :remarks, :id, :nights
 
     field :ref do |occupancy|
       occupancy.booking&.ref
