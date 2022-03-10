@@ -35,13 +35,15 @@
 module Invoices
   class LateNotice < ::Invoice
     def suggested_invoice_parts
-      super + Invoice.of(booking).kept.unpaid.map do |unpaid_invoice|
-        payable_until = unpaid_invoice.payable_until && I18n.l(unpaid_invoice.payable_until.to_date)
-        InvoiceParts::Add.new(
-          apply: false, amount: unpaid_invoice.amount_open,
-          label: I18n.t('invoice_parts.unpaid_invoice', payable_until: payable_until),
-          breakdown: unpaid_invoice.to_s
-        )
+      I18n.with_locale(booking.locale) do
+        super + Invoice.of(booking).kept.unpaid.map do |unpaid_invoice|
+          payable_until = unpaid_invoice.payable_until && I18n.l(unpaid_invoice.payable_until.to_date)
+          InvoiceParts::Add.new(
+            apply: false, amount: unpaid_invoice.amount_open,
+            label: I18n.t('invoice_parts.unpaid_invoice', payable_until: payable_until),
+            breakdown: unpaid_invoice.to_s
+          )
+        end
       end
     end
   end

@@ -63,4 +63,15 @@ class InvoicePart < ApplicationRecord
   def to_sum(sum)
     sum + calculated_amount
   end
+
+  def self.from_usage(usage, **attributes)
+    return unless usage
+
+    I18n.with_locale(usage.booking.locale) do
+      new(attributes.reverse_merge(
+            usage: usage, label: usage.tarif.label, breakdown: usage.breakdown,
+            ordinal: usage.tarif.ordinal, amount: usage.price
+          ))
+    end
+  end
 end

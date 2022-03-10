@@ -7,7 +7,7 @@ class AddI18nColumnsToTarifs < ActiveRecord::Migration[6.1]
     reversible do |direction|
       direction.up do 
         Tarif.find_each do |tarif|
-          Mobility.with_locale(tarif.organisation.locale) do
+          I18n.with_locale(tarif.organisation.locale) do
             tarif.update(label: tarif.original_label, unit: tarif.original_unit)
           end
         end

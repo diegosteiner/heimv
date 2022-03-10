@@ -46,10 +46,12 @@ module Export
       end
 
       def tarif_table_data
-        [[Tarif.model_name.human, Tarif.human_attribute_name(:unit), Tarif.human_attribute_name(:price_per_unit)]] +
-          tarifs.map do |tarif|
-            [tarif.label, tarif.unit, format('CHF %<price>.2f', price: tarif.price_per_unit)]
-          end
+        I18n.with_locale(@booking.locale) do
+          [[Tarif.model_name.human, Tarif.human_attribute_name(:unit), Tarif.human_attribute_name(:price_per_unit)]] +
+            tarifs.map do |tarif|
+              [tarif.label, tarif.unit, format('CHF %<price>.2f', price: tarif.price_per_unit)]
+            end
+        end
       end
     end
   end

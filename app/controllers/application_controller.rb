@@ -89,12 +89,12 @@ class ApplicationController < ActionController::Base
     params[:return_to].presence || default || root_path
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     return_to_path
   end
 
   def require_user!
-    raise CanCan::AccessDenied unless current_user.present?
+    raise CanCan::AccessDenied if current_user.blank?
   end
 
   def require_organisation!

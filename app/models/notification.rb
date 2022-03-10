@@ -88,7 +88,7 @@ class Notification < ApplicationRecord
     super
     return unless rich_text_template.is_a?(RichTextTemplate)
 
-    Mobility.with_locale(booking.locale) do
+    I18n.with_locale(booking.locale) do
       interpolation_result = rich_text_template.interpolate(context)
       self.subject = interpolation_result.title
       self.body = interpolation_result.body

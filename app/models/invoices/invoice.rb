@@ -36,10 +36,12 @@ module Invoices
   class Invoice < ::Invoice
     def suggested_invoice_parts
       deposits = Invoices::Deposit.of(booking).kept
-      super + [InvoiceParts::Add.new(
-        apply: new_record?, label: Invoices::Deposit.model_name.human,
-        amount: - deposits.sum(&:amount_paid)
-      )]
+      I18n.with_locale(booking.locale) do
+        super + [InvoiceParts::Add.new(
+          apply: new_record?, label: Invoices::Deposit.model_name.human,
+          amount: - deposits.sum(&:amount_paid)
+        )]
+      end
     end
   end
 end
