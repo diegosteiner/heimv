@@ -64,6 +64,7 @@ de:
         title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
+        bookable_extra_ids: Buchbare Extras
         booking_agent_code: Vermittler-Code
         booking_agent_ref: Vermittler-Referenz
         cancellation_reason: Annulierungsgrund
@@ -483,6 +484,8 @@ de:
         other: Tarifwähler
       tarif_selectors/always_apply:
         one: Immer-Ein Tarifwähler
+      tarif_selectors/bookable_extra:
+        one: Buchbares Extra Tarifwähler
       tarif_selectors/booking_approximate_headcount_per_night:
         one: Anzahl TN Tarifwähler
       tarif_selectors/booking_nights:

@@ -46,16 +46,18 @@
 
       = cf.text_area :phone, rows: 2
       = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
-
-  fieldset.mt-4
     = f.text_field :tenant_organisation
     = f.text_area :invoice_address
+
+  fieldset.mt-4
     = f.form_group :committed_request
       = f.label :committed_request, Booking.human_attribute_name(:committed_request)
       = f.radio_button :committed_request, false, label: t(:'activerecord.enums.booking.committed_request.provisional_request'), checked: @booking.committed_request.blank?
       = f.radio_button :committed_request, true, label: t(:'activerecord.enums.booking.committed_request.definitive_request')
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error
+
+    = f.collection_check_boxes(:bookable_extra_ids, @booking.home.bookable_extras, :id, :title)
 
     = f.collection_select :purpose_id, current_organisation.booking_purposes, :id, :title
     = f.number_field :approximate_headcount

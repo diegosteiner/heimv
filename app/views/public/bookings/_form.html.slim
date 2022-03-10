@@ -75,6 +75,9 @@
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable
 
+        - if @booking.home.bookable_extras.any?
+          = f.collection_check_boxes(:bookable_extra_ids, @booking.home.bookable_extras, :id, :title, disabled: !@booking.editable)
+
       .form-actions.pt-4.mt-3
         - if @booking.editable
           =<> f.submit class: 'btn btn-primary'

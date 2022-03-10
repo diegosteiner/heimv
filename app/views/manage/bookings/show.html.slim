@@ -68,6 +68,16 @@
                   dt= Booking.human_attribute_name(:remarks)
                   dd= @booking.remarks
 
+              - if @booking.bookable_extras.any?
+                dl
+                  dt= BookedExtra.model_name.human(count: :other)
+                  dd
+                    ul 
+                      - @booking.bookable_extras.each do |bookable_extra|
+                        li= bookable_extra.title
+
+      .card.mt-4
+        .card-body
           .row
             .col-md-6
               dl
@@ -94,8 +104,9 @@
               - if(can? :manage, Operator)
                 dl
                   dt
-                    = link_to(manage_booking_operator_responsibilities_path(@booking))
-                      = OperatorResponsibility.model_name.human(count: :other)
+                    = OperatorResponsibility.model_name.human(count: :other)
+                    = link_to(manage_booking_operator_responsibilities_path(@booking), class: 'ms-2')
+                      .fa.fa-edit
                   dd
                     = render partial: 'manage/operator_responsibilities/list', locals: { responsibilities: @booking.operator_responsibilities }
 

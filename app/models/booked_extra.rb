@@ -19,6 +19,6 @@
 #  fk_rails_...  (bookable_extra_id => bookable_extras.id)
 #
 class BookedExtra < ApplicationRecord
-  belongs_to :booking
-  belongs_to :bookable_extra
+  belongs_to :booking, inverse_of: :booked_extras, touch: true
+  belongs_to :bookable_extra, inverse_of: :booked_extras
 end

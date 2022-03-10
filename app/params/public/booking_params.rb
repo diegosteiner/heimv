@@ -8,6 +8,7 @@ module Public
          :committed_request, :purpose_id, :approximate_headcount, :remarks,
          { tenant_attributes: TenantParams.permitted_keys.without(:email),
            deadlines_attributes: %i[id postpone],
+           bookable_extra_ids: [],
            occupancy_attributes: OccupancyParams.permitted_keys }]
       end
 

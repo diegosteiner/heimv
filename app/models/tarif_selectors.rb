@@ -6,6 +6,7 @@ module TarifSelectors
     booking_aproximate_headcount_per_night: BookingApproximateHeadcountPerNight,
     always_apply: AlwaysApply,
     booking_overnight_stays: BookingOvernightStays,
-    booking_purpose: BookingPurpose
+    booking_purpose: BookingPurpose,
+    bookable_extra: BookableExtra
   }.freeze
 end
