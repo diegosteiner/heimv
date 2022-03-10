@@ -2,7 +2,7 @@
 
 module Manage
   class BaseController < ApplicationController
-    before_action :authenticate_user!, :require_organisation!
+    before_action :require_user!, :require_organisation!
     check_authorization
 
     protected

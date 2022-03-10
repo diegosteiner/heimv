@@ -7,6 +7,7 @@
         - if organisation = params[:org] && Organisation.find_by(slug: params[:org])
           = image_tag organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if organisation.logo.present?
         = form_with(model: resource, scope: resource_name, url: session_path(resource_name), local: true) do |f|
+          = hidden_field_tag :return_to, params[:return_to]
           fieldset
             = f.email_field :email, autofocus: true, autocomplete: 'username'
             = f.password_field :password, autocomplete: 'current-password'

@@ -57,7 +57,7 @@
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error
 
-    = f.collection_check_boxes(:bookable_extra_ids, @booking.home.bookable_extras, :id, :title)
+    = f.collection_check_boxes(:bookable_extra_ids, @booking.home&.bookable_extras, :id, :title)
 
     = f.collection_select :purpose_id, current_organisation.booking_purposes, :id, :title
     = f.number_field :approximate_headcount

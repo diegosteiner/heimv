@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   respond_to :html, :json
 
   protect_from_forgery with: :exception
+
   rescue_from CanCan::AccessDenied, with: :unauthorized
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
 
@@ -30,6 +31,10 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def disable_cookies
+    request.session_options[:skip] = true
+  end
 
   def current_ability
     @current_ability ||= Ability::Base.new(current_user, current_organisation)
@@ -74,21 +79,28 @@ class ApplicationController < ActionController::Base
 
   def unauthorized
     if current_user.nil?
-      session[:next] = request.fullpath
-      redirect_to new_user_session_path, alert: t('unauthorized')
+      redirect_to new_user_session_path(return_to: request.fullpath), alert: t('unauthorized')
     else
       redirect_back alert: t('unauthorized'), fallback_location: root_path
     end
   end
 
-  def return_to_path(default)
+  def return_to_path(default = nil)
     params[:return_to].presence || default || root_path
+  end
+
+  def after_sign_in_path_for(resource)
+    return_to_path
+  end
+
+  def require_user!
+    raise CanCan::AccessDenied unless current_user.present?
   end
 
   def require_organisation!
     return if current_organisation
     return redirect_to url_for(org: current_user.organisation.slug) if current_user&.organisation
-    return redirect_to new_user_session_path if current_user.blank?
+    return unauthorized if current_user.blank?
 
     raise ActionController::RoutingError, 'Not found'
   end
