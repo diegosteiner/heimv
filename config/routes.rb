@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get 'flow', to: 'pages#flow'
       resources :homes do
         resources :designated_documents, to: 'designated_documents'
+        resources :bookable_extras, to: 'bookable_extras'
         scope module: :homes do
           resources :occupancies, except: %w[show], shallow: true
           resources :tarif_selectors, except: %w[show]
@@ -57,6 +58,7 @@ Rails.application.routes.draw do
       resources :operators
       resources :operator_responsibilities, except: %i[show]
       resources :designated_documents
+      resources :bookable_extras
       resources :booking_agents
       resources :booking_purposes, except: :show
       resources :rich_text_templates do

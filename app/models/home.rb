@@ -37,6 +37,7 @@ class Home < ApplicationRecord
   has_many :rich_text_templates, inverse_of: :home, dependent: :destroy
   has_many :operator_responsibilities, inverse_of: :home, dependent: :destroy
   has_many :designated_documents, dependent: :destroy, inverse_of: :home
+  has_many :bookable_extras, dependent: :destroy
 
   belongs_to :organisation, inverse_of: :homes
 

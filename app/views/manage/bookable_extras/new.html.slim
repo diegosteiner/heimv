@@ -1,0 +1,8 @@
+- if @home.present?
+  = render partial: 'manage/homes/navigation', locals: { active: :bookable_extras }
+
+.row.justify-content-center
+  .col-md-8
+    .card
+      .card-body
+        == render 'form'

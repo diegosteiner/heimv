@@ -77,6 +77,8 @@ class Booking < ApplicationRecord
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
   has_many :booking_transitions, dependent: :delete_all, autosave: false
   has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
+  has_many :booked_extras, inverse_of: :booking, dependent: :destroy
+  has_many :bookable_extras, through: :booked_extras
 
   has_one  :occupancy, inverse_of: :booking, dependent: :destroy
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking

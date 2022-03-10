@@ -59,6 +59,9 @@ de:
         booking_agent_ref: Ihre Referenz
         home: Heim
         tenant_email: Email des Mieters
+      bookable_extra:
+        description: Beschreibung
+        title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         booking_agent_code: Vermittler-Code
@@ -364,6 +367,12 @@ de:
       agent_booking:
         one: Vermittlung
         other: Vermittlungen
+      bookable_extra:
+        one: Buchbares Extra
+        other: Buchbare Extras
+      booked_extra:
+        one: Gebuchtes Extra
+        other: Gebuchte Extras
       booking:
         one: Buchung
         other: Buchungen

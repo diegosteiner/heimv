@@ -18,3 +18,6 @@ nav.mb-4
       li.nav-item
         a.nav-link[href=manage_designated_documents_path(home_id: @home) class=('active' if active == :designated_documents)]
           = DesignatedDocument.model_name.human(count: :other)
+      li.nav-item
+        a.nav-link[href=manage_bookable_extras_path(home_id: @home) class=('active' if active == :bookable_extras)]
+          = BookableExtra.model_name.human(count: :other)

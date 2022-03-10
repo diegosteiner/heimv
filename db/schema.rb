@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_28_143716) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_09_205138) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -63,6 +63,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_28_143716) do
     t.index ["home_id"], name: "index_agent_bookings_on_home_id"
     t.index ["organisation_id"], name: "index_agent_bookings_on_organisation_id"
     t.index ["token"], name: "index_agent_bookings_on_token", unique: true
+  end
+
+  create_table "bookable_extras", force: :cascade do |t|
+    t.jsonb "title_i18n"
+    t.jsonb "description_i18n"
+    t.bigint "home_id", null: false
+    t.bigint "organisation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["home_id"], name: "index_bookable_extras_on_home_id"
+    t.index ["organisation_id"], name: "index_bookable_extras_on_organisation_id"
+  end
+
+  create_table "booked_extras", force: :cascade do |t|
+    t.uuid "booking_id", null: false
+    t.bigint "bookable_extra_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bookable_extra_id"], name: "index_booked_extras_on_bookable_extra_id"
   end
 
   create_table "booking_agents", force: :cascade do |t|
@@ -486,6 +505,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_28_143716) do
   add_foreign_key "agent_bookings", "bookings"
   add_foreign_key "agent_bookings", "homes"
   add_foreign_key "agent_bookings", "organisations"
+  add_foreign_key "bookable_extras", "homes"
+  add_foreign_key "bookable_extras", "organisations"
+  add_foreign_key "booked_extras", "bookable_extras"
   add_foreign_key "booking_agents", "organisations"
   add_foreign_key "booking_purposes", "organisations"
   add_foreign_key "booking_transitions", "bookings"
