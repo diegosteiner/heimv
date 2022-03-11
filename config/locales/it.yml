@@ -746,6 +746,7 @@ it:
       year: Jahr
   deadline_exceeded: Deadline exceeded
   destroy: Löschen
+  destroy_record: "%{model_name} löschen"
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"

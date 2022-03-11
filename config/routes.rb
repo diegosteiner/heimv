@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
-  resource :account, only: %i[edit update]
+  resource :account, only: %i[edit update destroy]
 
   scope '(:org)' do
     namespace :manage do

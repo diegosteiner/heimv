@@ -1,5 +1,11 @@
 .row.justify-content-center
   .col-md-8
-    .card
+    .card.mb-5
       .card-body
         == render 'form'
+
+    .card
+      .card-body
+        = link_to account_path, data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-outline-danger'
+          span.fa.fa-exclamation-triangle.me-2
+          = t('destroy_record', model_name: User.model_name.human)

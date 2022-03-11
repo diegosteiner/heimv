@@ -10,14 +10,20 @@ class AccountsController < ApplicationController
   def update
     authorize! :set_password, @user
     @user.update(user_params)
-    respond_with @user, location: organisation_path
+    respond_with @user, location: home_path
+  end
+
+  def destroy
+    authorize! :set_password, @user
+    @user.destroy
+    respond_with @user, location: home_path
   end
 
   private
 
   def set_user
     @user = current_user
-    raise CanCan::AccessDenied if @user.blank? || (current_organisation && @user.organisation != current_organisation)
+    raise CanCan::AccessDenied if @user.blank?
   end
 
   def user_params
