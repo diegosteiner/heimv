@@ -233,17 +233,17 @@ fr:
         namespace: Bereich
         title: Titel
       tarif:
-        invoice_type: Rechnungstyp
-        label: Tarif
-        meter: Name des Zählers (bei Tarifen nach Zählerstand)
-        ordinal: Ordnungsnummer
-        prefill_usage_method: Vorausfüllmethode
-        price_per_unit: Preis pro Einheit
-        tarif_group: Tarifgruppe
-        tenant_visible: Für Mieter sichtbar (Vertrag und Rechnung)
-        transient: Tarif NICHT auf Buchung fixieren
-        type: Typ
-        unit: Einheit
+        invoice_type: Appartient au type de facture
+        label: Désignation du tarif
+        meter: Nom du compteur (pour les tarifs par relevé de compteur)
+        ordinal: numéro d'ordre
+        prefill_usage_method: méthode de pré-remplissage
+        price_per_unit: prix (par unité)
+        tarif_group: groupe tarifaire
+        tenant_visible: visible pour le locataire (contrat et facture)
+        transient: ne PAS fixer le tarif à la réservation
+        type: type
+        unit: unité
       tarif_selector:
         type: Typ
       tarif_tarif_selector:
@@ -268,12 +268,12 @@ fr:
         street_address: Strasse / Nr.
         zipcode: PLZ
       usage:
-        apply: Anwenden
-        presumed_price: Verausichtlicher Preis
-        presumed_used_units: Verausichtlicher Verbrauch
-        price: Preis
-        remarks: Bemerkungen
-        used_units: Verbrauch
+        apply: Appliquer
+        presumed_price: prix estimé
+        presumed_used_units: consommation estimée
+        price: Prix
+        remarks: Remarques
+        used_units: Consommation
       user:
         email: Email
         password: Passwort
@@ -482,36 +482,36 @@ fr:
         one: Textvorlage
         other: Textvorlagen
       tarif:
-        one: Tarif
-        other: Tarife
+        one: tarif
+        other: Tarifs
       tarif_selector:
-        one: Tarifwähler
-        other: Tarifwähler
+        one: Sélecteur de tarif
+        other: Sélecteur de tarif
       tarif_selectors/always_apply:
-        one: Immer-Ein Tarifwähler
+        one: Sélecteur de tarif toujours-un
       tarif_selectors/bookable_extra:
-        one: Buchbares Extra Tarifwähler
+        one: Extra réservable Sélecteur de tarif
       tarif_selectors/booking_approximate_headcount_per_night:
-        one: Anzahl TN Tarifwähler
+        one: Nombre de TN Sélecteur de tarif
       tarif_selectors/booking_nights:
-        one: Nächte Tarifwähler
+        one: Nuits Sélecteurs de tarifs
       tarif_selectors/booking_overnight_stays:
-        one: Übernachtungen Tarifwähler
+        one: Nuitées Sélecteur de tarif
       tarif_selectors/booking_purpose:
-        one: Mietzweck Tarifwähler
+        one: Objet de la location Sélecteur de tarif
       tarif_tarif_selector:
-        one: Tarifwähler-Tarif
-        other: Tarifwähler-Tarife
+        one: tarif du sélecteur de tarif
+        other: Tarifs du sélecteur de tarif
       tarifs/amount:
-        one: nach Gebrauch
+        one: après utilisation
       tarifs/flat:
-        one: Pauschale
+        one: Forfait
       tarifs/metered:
-        one: nach Zählerstand
+        one: par relevé de compteur
       tarifs/min_occupation:
-        one: Mindestbelegung
+        one: Occupation minimale
       tarifs/overnight_stay:
-        one: Übernachtungen
+        one: Nuitées
       tenant:
         one: Mieter
         other: Mieter
