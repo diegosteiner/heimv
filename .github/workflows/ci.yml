@@ -47,17 +47,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: list images
-        run: docker image ls
-
       - name: migrate
-        run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
-
-      - name: list images
-        run: docker image ls
+        run: docker-compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
 
       - name: bin/check
-        run: docker compose --file docker-compose.ci.yml run e2e_test bin/check
+        run: docker-compose --file docker-compose.ci.yml run e2e_test bin/check
 
       - if: github.event_name != 'pull_request'
         name: docker push
@@ -70,7 +64,7 @@ jobs:
 
       - if: failure()
         name: dump log
-        run: docker compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
+        run: docker-compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
 
       - if: failure()
         name: dump screenshots
