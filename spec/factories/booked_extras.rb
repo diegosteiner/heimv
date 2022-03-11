@@ -20,7 +20,7 @@
 #
 FactoryBot.define do
   factory :booked_extra do
-    booking { nil }
-    bookable_extra { nil }
+    booking
+    bookable_extra
   end
 end

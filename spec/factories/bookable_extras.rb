@@ -24,9 +24,9 @@
 #
 FactoryBot.define do
   factory :bookable_extra do
-    title_i18n { '' }
-    description_i18n { '' }
-    home { nil }
-    organisation { nil }
+    title { 'Extra' }
+    description { 'Tolles Extra' }
+    home
+    organisation { home.organisation }
   end
 end
