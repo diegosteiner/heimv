@@ -35,9 +35,7 @@ class OrganisationUser < ApplicationRecord
   validates :user, uniqueness: { scope: :organisation }
   validates :role, presence: true
 
-  # def email
-  #   user&.email
-  # end
+  delegate :email, to: :user, allow_nil: true
 
   def set_default_role
     self.role ||= :readonly

@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   default_form_builder BootstrapForm::FormBuilder
   before_action :prepare_exception_notification_context, :current_locale, :set_default_meta_tags
-  helper_method :current_organisation, :default_path
+  helper_method :current_organisation, :home_path
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
   end
@@ -32,10 +32,6 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-
-  def disable_cookies
-    request.session_options[:skip] = true
-  end
 
   def current_ability
     @current_ability ||= Ability::Base.new(current_user, current_organisation)
@@ -59,12 +55,19 @@ class ApplicationController < ActionController::Base
     I18n.locale = @current_locale
   end
 
-  def default_path
-    return manage_root_path if current_user&.in(current_organisation)&.role_manager?
-    return organisation_path if current_organisation
-    return new_user_session_path if current_user.blank?
+  def home_path
+    if current_organisation
+      return manage_root_path if current_user&.in(current_organisation)&.role_manager?
 
-    raise ActionController::RoutingError, 'Not found'
+      return organisation_path
+    end
+    if current_user
+      return url_for(org: current_user.default_organisation.slug) if current_user.default_organisation
+
+      return root_path
+    end
+
+    new_user_session_path
   end
 
   def prepare_exception_notification_context
@@ -104,7 +107,7 @@ class ApplicationController < ActionController::Base
 
   def require_organisation!
     return if current_organisation
-    return redirect_to url_for(org: current_user.default_organisation.slug) if current_user&.default_organisation
+    return redirect_to home_path if current_user&.default_organisation
     return unauthorized if current_user.blank?
 
     raise ActionController::RoutingError, 'Not found'

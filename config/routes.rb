@@ -81,7 +81,7 @@ Rails.application.routes.draw do
           get '@:date', on: :collection, as: :at, action: :at
         end
       end
-      root to: 'pages#redirect'
+      root to: 'pages#home'
     end
   end
 end

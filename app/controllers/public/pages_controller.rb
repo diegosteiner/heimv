@@ -2,8 +2,8 @@
 
 module Public
   class PagesController < BaseController
-    def redirect
-      redirect_to default_path
+    def home
+      redirect_to home_path
     end
 
     def changelog; end

@@ -2,7 +2,7 @@
 
 module Manage
   class DashboardController < BaseController
-    skip_authorization_check
+    authorize_resource :booking
 
     def index; end
   end
