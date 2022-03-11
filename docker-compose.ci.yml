@@ -14,7 +14,8 @@ services:
       RAILS_ENV: test
       NODE_ENV: test
       SELENIUM_HOST: "selenium:4444"
-      SMTP_SETTINGS: '{ "address":"mail", "from": "no-reply@heimv.local" }'
+      SMTP_SETTINGS: '{ "address":"mail" }'
+      MAIL_FROM: "no-reply@heimv.local"
     command: bin/check
     depends_on:
       - db
