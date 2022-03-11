@@ -2,6 +2,10 @@
 
 #### Unreleased
 
+#### Version 22.3.1
+
+Released on 11.03.2022
+
 - Add bookable extras
 - Fix missing translations for contracts and invoices
 
