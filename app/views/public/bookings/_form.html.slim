@@ -23,7 +23,7 @@
             label=Booking.human_attribute_name(:deadline)
             div
               =<> l(@booking.deadline.at, format: :short)
-        = f.select :home_id, homes_for_select, {}, disabled: true
+        = f.select :home_id, current_organisation.homes.map { |home| [home.to_s, home.to_param] }, {}, disabled: true
 
         = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'booking[occupancy_attributes][begins_at]',
