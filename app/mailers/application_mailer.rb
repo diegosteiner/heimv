@@ -3,6 +3,6 @@
 class ApplicationMailer < ActionMailer::Base
   layout 'mailer'
 
-  default from: -> { ENV.fetch('MAIL_FROM', 'test@heimv.local') },
-          bcc: -> { ENV['MAIL_BCC'] }
+  default from: -> { SmtpSettings.from_env[:from] || ENV['MAIL_FROM'] || 'test@heimv.local' },
+          bcc: -> { SmtpSettings.from_env[:bcc] || ENV['MAIL_BCC'] }
 end
