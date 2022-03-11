@@ -519,8 +519,8 @@ de:
         one: Verbrauch
         other: Verbrauch
       user:
-        one: Benutzer
-        other: Benutzer
+        one: Account
+        other: Account
   add_record: "%{model_name} hinzufügen"
   back: Zurück
   booking_actions:
@@ -746,6 +746,7 @@ de:
       year: Jahr
   deadline_exceeded: Deadline exceeded
   destroy: Löschen
+  destroy_record: "%{model_name} löschen"
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
