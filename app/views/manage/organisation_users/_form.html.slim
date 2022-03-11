@@ -1,0 +1,12 @@
+= form_with(model: [:manage, @organisation_user], local: true) do |f|
+  - if @organisation_user.errors.any?
+    .alert.alert-danger.pt-4
+      = f.error_summary
+
+  fieldset
+    = f.email_field :email, disabled: !@organisation_user.new_record?
+    = f.select :role, allowed_roles.map { |role| [OrganisationUser.human_enum(:role, role), role] }
+
+  .form-actions.pt-4.mt-3
+    = f.submit
+    =<> link_to t(:back), manage_organisation_users_path, class: 'btn btn-default'

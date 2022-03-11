@@ -21,6 +21,7 @@
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
+#  notification_footer       :text
 #  notifications_enabled     :boolean          default(TRUE)
 #  payment_deadline          :integer          default(30), not null
 #  qr_iban                   :string

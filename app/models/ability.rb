@@ -14,18 +14,16 @@ module Ability
 
     def initialize(user, organisation = nil)
       can :set_password, User, id: user.id if user.present?
-      abilities_block = self.class.roles[user&.role&.to_sym]
-      instance_exec(user, organisation, &abilities_block) if abilities_block
-    end
+      can :manage, :all if user&.role_admin?
 
-    role :admin do
-      can :manage, :all
+      abilities_block = self.class.roles[user&.in(organisation)&.role&.to_sym]
+      instance_exec(user, organisation, &abilities_block) if abilities_block
     end
   end
 
   class Manage < Base
     role :manager do |user, organisation|
-      next unless organisation == user.organisation
+      next unless user.organisations.include?(organisation)
 
       can :manage, Home, organisation: organisation
       can :manage, BookingPurpose, organisation: organisation
@@ -46,7 +44,7 @@ module Ability
       can :manage, Payment, booking: { organisation: organisation }
       can :manage, Deadline, booking: { organisation: organisation }
       can :manage, Usage, booking: { organisation: organisation }
-      can :manage, User, organisation: organisation
+      can :manage, OrganisationUser, organisation: organisation
       can :manage, Operator, organisation: organisation
       can :manage, OperatorResponsibility, organisation: organisation
       can :manage, Notification, booking: { organisation: organisation }
@@ -54,11 +52,11 @@ module Ability
       can :manage, BookableExtra, organisation: organisation
       can %i[read edit update], Organisation, id: organisation.id
 
-      cannot :manage, User, role: :admin
+      # cannot :manage, User, role_admin: true
     end
 
     role :readonly do |user, organisation|
-      next unless organisation == user.organisation
+      next unless user.organisations.include?(organisation)
 
       can :read, Home, organisation: organisation
       can :read, BookingPurpose, organisation: organisation

@@ -6,7 +6,8 @@ require 'factory_bot_rails'
 class ImportSeeder
   FILES = {
     demo: Rails.root.join('db/seeds/demo.json'),
-    development: Rails.root.join('db/seeds/development.json')
+    development: Rails.root.join('db/seeds/development.json'),
+    test: Rails.root.join('db/seeds/development.json')
   }.freeze
 
   def seed(set = Rails.env.to_sym)
@@ -18,6 +19,7 @@ class ImportSeeder
     users(organisation)
     bookings(organisation.homes.first)
     reset_pk_sequence!
+    true
   end
 
   private
@@ -33,13 +35,15 @@ class ImportSeeder
   end
 
   def users(organisation, users: nil)
+    onboarding = OnboardingService.new(organisation)
     users ||= [
-      { email: 'admin@heimv.local', role: :admin, password: 'heimverwaltung' },
       { email: 'manager@heimv.local', role: :manager, password: 'heimverwaltung' },
       { email: 'reader@heimv.local', role: :readonly, password: 'heimverwaltung' }
     ]
 
-    users.map { |user| User.create!(user.merge(organisation: organisation)) }
+    users.map do |user|
+      onboarding.add_or_invite_user!(role: user[:role], email: user[:email], password: user[:password])
+    end
   end
 
   def bookings(home)

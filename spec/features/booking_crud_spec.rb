@@ -2,7 +2,8 @@
 
 describe 'Booking CRUD', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_rich_text_templates) }
-  let(:user) { create(:user, :manager, organisation: organisation) }
+  let(:organisation_user) { create(:organisation_user, :manager, organisation: organisation) }
+  let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation: organisation) }
   let(:booking) { create(:booking, organisation: organisation, home: home, skip_infer_transition: false) }
   let(:new_booking) { build(:booking) }

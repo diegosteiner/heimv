@@ -21,6 +21,7 @@
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
+#  notification_footer       :text
 #  notifications_enabled     :boolean          default(TRUE)
 #  payment_deadline          :integer          default(30), not null
 #  qr_iban                   :string
@@ -51,6 +52,8 @@ class Organisation < ApplicationRecord
   has_many :bookable_extras, dependent: :destroy
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
+  has_many :organisation_users, dependent: :destroy
+  has_many :users, through: :organisation_users
 
   has_one_attached :logo
   has_one_attached :contract_signature

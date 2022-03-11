@@ -215,6 +215,9 @@ en:
         smtp_settings: Mailserver Einstellungen
         smtp_settings_json: Mailserver Einstellungen
         terms_pdf: AGB
+      organisation_user:
+        email: Email
+        role: Rolle
       payment:
         amount: Betrag
         confirm: Zahlungsbestätigung automatisch verschicken
@@ -275,7 +278,6 @@ en:
         email: Email
         password: Passwort
         password_confirmation: Passwort wiederholen
-        role: Rolle
     back: Zurück
     confirm: Sind Sie sicher?
     destroy: Löschen
@@ -324,6 +326,11 @@ en:
           billing: Verrechnung
           home_handover: Hausübergabe
           home_return: Hausrücknahme
+      organisation_user:
+        role:
+          manager: Verwaltung
+          none: "-"
+          readonly: Lesend
       rich_text_template:
         namespace:
           contract: Vertrag
@@ -335,11 +342,6 @@ en:
           headcount: "# Personen"
           headcount_nights: Übernachtungen
           nights: Nächte
-      user:
-        role:
-          admin: Admin
-          manager: Verwaltung
-          readonly: Lesend
     errors:
       messages:
         content_type: ungültiges Format
@@ -470,6 +472,9 @@ en:
       organisation:
         one: Organisation
         other: Organisationen
+      organisation_user:
+        one: Benutzer
+        other: Benutzer
       payment:
         one: Zahlung
         other: Zahlungen
@@ -848,6 +853,9 @@ en:
         deliver: Speichern und nochmals versenden
       index:
         notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
+    organisation_users:
+      index:
+        invite_user: Neuen Benutzer einladen
     organisations:
       form:
         general: Allgemein
@@ -864,9 +872,6 @@ en:
         group_manage_notifications: Benachrichtigungen (Verwaltung)
         group_other: Weitere
         group_tenant_notifications: Benachrichtigungen (Mieter)
-    users:
-      index:
-        invite_user: Neuen Benutzer einladen
   nav:
     edit_account: Passwort ändern
     manage: Verwaltung

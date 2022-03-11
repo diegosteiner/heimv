@@ -52,7 +52,7 @@ Create a organisation with richtext templates and a user:
 ```
 onboarding = OnboardingService.create(name: <name>, email: <email>, slug: <slug>)
 onboarding.create_missing_rich_text_templates!(include_optional: true)
-onboarding.invite_user!
+onboarding.add_or_invite_user!
 ```
 
 ## Cronjobs

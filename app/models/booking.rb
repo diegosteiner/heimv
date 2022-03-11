@@ -114,7 +114,6 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank, update_only: true
-  # accepts_nested_attributes_for :booked_extras, reject_if: :all_blank
 
   delegate :to_s, to: :ref
   delegate :exceeded?, to: :deadline, prefix: true, allow_nil: true

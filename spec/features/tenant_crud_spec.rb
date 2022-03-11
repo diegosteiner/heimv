@@ -8,7 +8,8 @@ describe 'Tenant CRUD', :devise, skip: true do
 
   after { Warden.test_reset! }
 
-  let(:user) { create(:user) }
+  let(:organisation_user) { create(:organisation_user) }
+  let(:user) { organisation_user.user }
   let(:tenant) { create(:tenant) }
   let(:new_tenant) { build(:tenant) }
 

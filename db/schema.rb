@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_09_205138) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_10_170333) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -346,12 +346,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_205138) do
     t.index ["organisation_id"], name: "index_operators_on_organisation_id"
   end
 
+  create_table "organisation_users", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "role", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id", "user_id"], name: "index_organisation_users_on_organisation_id_and_user_id", unique: true
+    t.index ["organisation_id"], name: "index_organisation_users_on_organisation_id"
+    t.index ["user_id"], name: "index_organisation_users_on_user_id"
+  end
+
   create_table "organisations", force: :cascade do |t|
     t.string "name"
     t.text "address"
     t.string "booking_flow_type"
     t.string "invoice_ref_strategy_type"
     t.string "esr_beneficiary_account"
+    t.text "notification_footer"
     t.string "currency", default: "CHF"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -492,10 +504,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_205138) do
     t.datetime "confirmed_at", precision: nil
     t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
-    t.integer "role"
-    t.bigint "organisation_id"
+    t.bigint "default_organisation_id"
+    t.boolean "role_admin", default: false
+    t.index ["default_organisation_id"], name: "index_users_on_default_organisation_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -531,6 +543,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_205138) do
   add_foreign_key "operator_responsibilities", "operators"
   add_foreign_key "operator_responsibilities", "organisations"
   add_foreign_key "operators", "organisations"
+  add_foreign_key "organisation_users", "organisations"
+  add_foreign_key "organisation_users", "users"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
   add_foreign_key "rich_text_templates", "homes"
@@ -539,5 +553,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_205138) do
   add_foreign_key "tenants", "organisations"
   add_foreign_key "usages", "bookings"
   add_foreign_key "usages", "tarifs"
-  add_foreign_key "users", "organisations"
+  add_foreign_key "users", "organisations", column: "default_organisation_id"
 end

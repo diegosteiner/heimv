@@ -12,10 +12,10 @@ class OnboardingService
     new(organisation)
   end
 
-  def invite_user!(email: organisation.email, password: SecureRandom.base64(32), role: :manager)
-    user = User.new(email: email, organisation: organisation, password: password, role: role)
-    user.save && user.send_reset_password_instructions
-    user
+  def add_or_invite_user!(email: organisation.email, password: SecureRandom.base64(32), role: :manager)
+    User.find_or_initialize_by(email: email) do |new_user|
+      new_user.update!(password: password) && new_user.send_reset_password_instructions
+    end.organisation_users.create(organisation: organisation, role: role)
   end
 
   def initialize(organisation)

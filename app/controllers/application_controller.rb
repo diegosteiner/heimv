@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_path
-    return manage_root_path if current_user&.role_manager?
+    return manage_root_path if current_user&.in(current_organisation)&.role_manager?
     return organisation_path if current_organisation
     return new_user_session_path if current_user.blank?
 
@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
 
   def require_organisation!
     return if current_organisation
-    return redirect_to url_for(org: current_user.organisation.slug) if current_user&.organisation
+    return redirect_to url_for(org: current_user.default_organisation.slug) if current_user&.default_organisation
     return unauthorized if current_user.blank?
 
     raise ActionController::RoutingError, 'Not found'

@@ -16,21 +16,10 @@ describe 'User Account', :devise, skip: true do
 
     it "user cannot cannot edit another user's profile", :me do
       me = user
-      other = create(:user, :manager, email: 'other@example.com')
+      other = create(:organisation_user, :manager, email: 'other@example.com')
       login_as(me, scope: :user)
-      visit edit_user_registration_path(other)
+      visit edit_user_registration_path(other.user)
       expect(page).to have_field(:user_email, with: me.email)
-    end
-  end
-
-  describe 'Suspend Account', :js do
-    it 'user can delete own account' do
-      skip 'skip a slow test'
-      signin(user, user.password)
-      visit edit_user_registration_path(user)
-      click_button 'Cancel my account'
-      page.driver.browser.switch_to.alert.accept
-      expect(page).to have_content I18n.t 'devise.registrations.destroyed'
     end
   end
 end

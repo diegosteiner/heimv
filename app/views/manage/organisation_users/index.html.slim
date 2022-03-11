@@ -1,0 +1,24 @@
+.table-responsive
+  table.table.table-hover.align-middle
+    thead
+      tr
+        th= OrganisationUser.human_attribute_name(:email)
+        th= OrganisationUser.human_attribute_name(:role)
+        th
+
+    tbody
+      - @organisation_users.each do |organisation_user|
+        tr[data-href=manage_organisation_user_path(organisation_user) data-id=organisation_user.to_param]
+          td
+            = link_to organisation_user.email, edit_manage_organisation_user_path(organisation_user)
+          td
+            = OrganisationUser.human_enum(:role, organisation_user.role)
+          td.text-end.p-1
+            .btn-group
+              = link_to edit_manage_organisation_user_path(organisation_user), class: 'btn btn-default'
+                span.fa.fa-edit
+              = link_to manage_organisation_user_path(organisation_user), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
+                span.fa.fa-trash
+
+  '
+  = link_to t('.invite_user'), new_manage_organisation_user_path, class: 'btn btn-primary'
