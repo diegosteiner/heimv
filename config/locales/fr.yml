@@ -749,6 +749,7 @@ fr:
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
+    invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
     notifications:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden

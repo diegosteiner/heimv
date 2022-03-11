@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from CanCan::AccessDenied, with: :unauthorized
+  rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_csrf_token
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
 
   default_form_builder BootstrapForm::FormBuilder
@@ -83,6 +84,10 @@ class ApplicationController < ActionController::Base
     else
       redirect_back alert: t('unauthorized'), fallback_location: root_path
     end
+  end
+
+  def invalid_csrf_token
+    redirect_back alert: t('errors.invalid_csrf_token'), fallback_location: root_path
   end
 
   def return_to_path(default = nil)
