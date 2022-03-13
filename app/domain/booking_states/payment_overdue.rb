@@ -11,10 +11,7 @@ module BookingStates
     end
 
     def checklist
-      [
-        ChecklistItem.new(:invoice_paid, booking.invoices.kept.all?(&:paid?),
-                          manage_booking_invoices_path(booking, org: booking.organisation.slug))
-      ]
+      []
     end
 
     after_transition do |booking|

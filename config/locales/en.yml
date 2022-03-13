@@ -98,6 +98,7 @@ en:
       booking_purpose:
         key: Schlüssel
         ordinal: Ordnungsnummer
+        ordinal_position: Anzeigeposition
         title: Titel
       contract:
         issuer: Vermieter
@@ -529,6 +530,8 @@ en:
         label: Anfrage akzeptieren
       cancel:
         label: Ablehnen
+      commit_request:
+        label: Anfrage definitv setzen
       email_contract_and_deposit:
         label: Vertrag und Anzahlung verschicken
       email_invoice:
