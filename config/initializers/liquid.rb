@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Liquid::Template.error_mode = :strict if Rails.env.development?
+Liquid::Template.error_mode = :strict unless Rails.env.production?
 Liquid::Template.register_filter(Module.new do
   def i18n_translate(value, scope = nil)
     I18n.t(value, scope: scope, default: nil)
@@ -8,14 +8,14 @@ Liquid::Template.register_filter(Module.new do
 
   def date_format(value, format = I18n.t('date.formats.default'))
     value = Date.iso8601(value) unless value.respond_to?(:strftime)
-    value.strftime(format)
+    I18n.localize(value, format: format)
   rescue Date::Error
     nil
   end
 
   def datetime_format(value, format = I18n.t('time.formats.default'))
     value = DateTime.iso8601(value) unless value.respond_to?(:strftime)
-    value.strftime(format)
+    I18n.localize(value, format: format)
   rescue Date::Error
     nil
   end
