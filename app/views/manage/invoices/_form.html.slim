@@ -33,8 +33,9 @@
         .col-2
           = ipf.number_field :amount, hide_label: true, class: 'text-end', step: 0.01
         .col-1.pt-2
-          = link_to edit_manage_invoice_invoice_part_path(@invoice, ipf.object)
-            i.fa.fa-pencil
+          - unless ipf.object.new_record?
+            = link_to edit_manage_invoice_invoice_part_path(@invoice, ipf.object)
+              i.fa.fa-pencil
 
 
     h5.mt-4= t('.suggested_invoice_parts')
