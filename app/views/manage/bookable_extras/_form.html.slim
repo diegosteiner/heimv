@@ -15,7 +15,7 @@
         - current_locale = locale == I18n.locale
         .tab-pane.pt-3[id="bookable-extra-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="bookable-extra-#{locale}-tab" role='tabpanel']
           = f.text_field "title_#{locale.to_s}", label: BookableExtra.human_attribute_name(:title)
-          = f.text_field "description_#{locale.to_s}", label: BookableExtra.human_attribute_name(:description)
+          = f.text_area "description_#{locale.to_s}", label: BookableExtra.human_attribute_name(:description)
 
   .form-actions.pt-4.mt-3
     = f.submit

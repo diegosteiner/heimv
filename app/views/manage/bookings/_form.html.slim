@@ -57,8 +57,14 @@
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error
 
-    - if @booking.home&.bookable_extras&.any?
-      = f.collection_check_boxes(:bookable_extra_ids, @booking.home.bookable_extras, :id, :title)
+      - if @booking.home&.bookable_extras&.any?
+        .my-3
+          .mb-2= Booking.human_attribute_name(:bookable_extra_ids)
+          = f.collection_check_boxes_without_bootstrap(:bookable_extra_ids, @booking.home.bookable_extras, :id, :title) do |option|
+            - id = "input-bookable-extra-#{option.object.id}"
+            .form-check
+              = option.check_box class: "form-check-input", id: id
+              = option.label class: "form-check-label", for: id
 
     = f.collection_select :purpose_id, current_organisation.booking_purposes, :id, :title
     = f.number_field :approximate_headcount
