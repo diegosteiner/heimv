@@ -36,6 +36,11 @@ class User < ApplicationRecord
   has_many :organisations, through: :organisation_users
 
   validates :email, presence: true
+  validate do
+    next if default_organisation_id.blank?
+
+    errors.add(:default_organisation_id, :invalid) unless organisation_ids.include?(default_organisation_id)
+  end
 
   def to_s
     email

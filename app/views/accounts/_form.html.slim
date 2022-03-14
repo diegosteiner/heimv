@@ -5,6 +5,7 @@
 
   fieldset
     = f.email_field :email, disabled: true
+    = f.collection_select :default_organisation_id, @user.organisations, :id, :name, include_blank: true
     = f.password_field :password
     = f.password_field :password_confirmation
 

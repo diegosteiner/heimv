@@ -27,6 +27,8 @@ class AccountsController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:password, :password_confirmation)
+    permitted_params = %i[default_organisation_id]
+    permitted_params += %i[password password_confirmation] if params[:user][:password].present?
+    params.require(:user).permit(permitted_params)
   end
 end

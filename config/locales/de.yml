@@ -276,6 +276,7 @@ de:
         remarks: Bemerkungen
         used_units: Verbrauch
       user:
+        default_organisation_id: Hauptorganisation
         email: Email
         password: Passwort
         password_confirmation: Passwort wiederholen
@@ -1937,7 +1938,7 @@ de:
         group_other: Weitere
         group_tenant_notifications: Benachrichtigungen (Mieter)
   nav:
-    edit_account: Passwort ändern
+    edit_account: Account verwalten
     manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
