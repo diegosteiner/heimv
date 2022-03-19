@@ -36,6 +36,8 @@ class DesignatedDocument < ApplicationRecord
 
   has_one_attached :file
 
+  delegate :blob, to: :file, allow_nil: true
+
   validates :file, presence: true
   # validates :designation, uniqueness: { scope: %i[locale organisation_id home_id], allow_blank: true }
 
