@@ -228,6 +228,7 @@ fr:
         write_off: Abschreibung
       rich_text_template:
         body: Text
+        enabled: Aktiviert
         home_id: Heim
         key: ID
         locale: Sprache
@@ -333,11 +334,6 @@ fr:
           manager: Verwaltung
           none: "-"
           readonly: Lesend
-      rich_text_template:
-        namespace:
-          contract: Vertrag
-          invoice: Rechnung
-          notification: Benachrichtigung
       tarif:
         prefill_usage_methods:
           flat: Fix

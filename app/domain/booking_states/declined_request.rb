@@ -21,7 +21,7 @@ module BookingStates
       booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline_exceeded?
       booking.conclude
       booking.deadline&.clear
-      booking.notifications.new(from_template: :declined_request_notification,
+      booking.notifications.new(template: :declined_request_notification,
                                 to: booking.agent_booking&.booking_agent || booking.tenant).deliver
     end
 

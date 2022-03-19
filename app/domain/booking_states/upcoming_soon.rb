@@ -22,12 +22,12 @@ module BookingStates
     after_transition do |booking|
       operators = [booking.operator_for(:home_handover), booking.operator_for(:home_return)].compact.map(&:email).uniq
       operators.each do |operator_email|
-        booking.notifications.new(from_template: :operator_upcoming_soon_notification, to: operator_email)&.deliver
+        booking.notifications.new(template: :operator_upcoming_soon_notification, to: operator_email)&.deliver
       end
     end
 
     after_transition do |booking|
-      notification = booking.notifications.new(from_template: :upcoming_soon_notification, to: booking.tenant)
+      notification = booking.notifications.new(template: :upcoming_soon_notification, to: booking.tenant)
       next unless notification.valid?
 
       notification.attach(DesignatedDocument.in_context(booking).with_locale(booking.locale).house_rules.blobs)

@@ -7,7 +7,7 @@ module PaymentInfos
     protected
 
     def rich_text_template
-      @rich_text_template ||= organisation.rich_text_templates.by_key(:foreign_payment_info_text)
+      @rich_text_template ||= organisation.rich_text_templates.enabled.by_key(:foreign_payment_info_text)
     end
   end
 end

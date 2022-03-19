@@ -16,13 +16,13 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear
       responsibility = OperatorResponsibilityService.new(booking).assign(:administration).first
-      booking.notifications.new(from_template: :manage_new_booking_notification,
+      booking.notifications.new(template: :manage_new_booking_notification,
                                 to: responsibility&.operator || booking.organisation).deliver
       if booking.agent_booking?
-        # booking.notifications.new(from_template: :open_booking_agent_request_notification,
+        # booking.notifications.new(template:  :open_booking_agent_request_notification,
         # to: booking.agent_booking.booking_agent).deliver
       else
-        booking.notifications.new(from_template: :open_request_notification, to: booking.tenant).deliver
+        booking.notifications.new(template: :open_request_notification, to: booking.tenant).deliver
       end
     end
 

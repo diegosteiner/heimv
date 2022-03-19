@@ -1,10 +1,11 @@
-= form_with(model: [:manage, @rich_text_template], local: true) do |f|
+= form_with(model: [:manage, @rich_text_template.becomes(RichTextTemplate)], local: true) do |f|
 
   fieldset
     = f.text_field :key, disabled: !@rich_text_template.new_record?
     = f.collection_select :home_id, current_organisation.homes, :id, :name, { include_blank: t('.all_homes') }
+    = f.check_box :enabled
 
-    ul.nav.nav-tabs role="tablist"
+    ul.nav.nav-tabs.mt-4 role="tablist"
       - I18n.available_locales.each do |locale|
         - current_locale = locale == I18n.locale
         li.nav-item

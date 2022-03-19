@@ -39,19 +39,19 @@ class Notification < ApplicationRecord
 
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
   validates :to, presence: true
-  validates :rich_text_template, presence: true, if: :from_template?
+  validates :rich_text_template, presence: true, if: :rich_text_template_key?
 
   delegate :bcc, to: :organisation
   delegate :locale, to: :booking
   delegate :attach, to: :attachments
 
-  attribute :from_template
+  attribute :rich_text_template_key
   attribute :context
 
   scope :failed, -> { where(queued_for_delivery: true, sent_at: nil).where(arel_table[:created_at].lt(1.hour.ago)) }
 
   before_validation do
-    self.rich_text_template ||= resolve_rich_text_template
+    apply_template(resolve_template)
   end
 
   def deliverable?
@@ -72,10 +72,21 @@ class Notification < ApplicationRecord
     attachments.to_h { |attachment| [attachment.filename.to_s, attachment.blob.download] }
   end
 
-  def resolve_rich_text_template
-    return if from_template.blank? || organisation.blank? || booking.blank?
+  def resolve_template
+    return if rich_text_template_key.blank? || organisation.blank? || booking.blank?
 
-    organisation.rich_text_templates.by_key(from_template, home_id: booking.home_id)
+    organisation.rich_text_templates.enabled.by_key(rich_text_template_key, home_id: booking.home_id)
+  end
+
+  def apply_template(rich_text_template)
+    return if rich_text_template.blank?
+
+    self.rich_text_template = rich_text_template
+    I18n.with_locale(booking.locale) do
+      interpolation_result = rich_text_template.interpolate(context)
+      self.subject = interpolation_result.title
+      self.body = interpolation_result.body
+    end
   end
 
   def locale
@@ -84,19 +95,16 @@ class Notification < ApplicationRecord
       I18n.locale
   end
 
-  def rich_text_template=(rich_text_template)
-    super
-    return unless rich_text_template.is_a?(RichTextTemplate)
-
-    I18n.with_locale(booking.locale) do
-      interpolation_result = rich_text_template.interpolate(context)
-      self.subject = interpolation_result.title
-      self.body = interpolation_result.body
+  def template=(rich_text_template_or_key)
+    if rich_text_template_or_key.is_a?(Symbol) || rich_text_template_or_key.is_a?(String)
+      self.rich_text_template_key = rich_text_template_or_key
+    else
+      self.rich_text_template = rich_text_template_or_key
     end
   end
 
   def footer
-    organisation.rich_text_templates.by_key(:notification_footer)&.interpolate(context)&.body
+    organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(context)&.body
   end
 
   def body

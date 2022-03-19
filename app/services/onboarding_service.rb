@@ -31,19 +31,19 @@ class OnboardingService
   end
 
   def missing_rich_text_templates(include_optional: true)
-    RichTextTemplate.missing_templates(organisation, include_optional: include_optional)
+    RichTextTemplate.missing_requirements(organisation, include_optional: include_optional)
   end
 
   def create_missing_rich_text_templates!(include_optional: true)
     title = {}
     body = {}
-    missing_rich_text_templates(include_optional: include_optional).map do |key|
-      scope = [:rich_text_templates, key]
+    missing_rich_text_templates(include_optional: include_optional).map do |requirement|
+      scope = [:rich_text_templates, requirement.key]
       I18n.available_locales.map do |locale|
         title[locale] = I18n.t(:default_title, scope: scope, locale: locale)
         body[locale]  = I18n.t(:default_body, scope: scope, locale: locale)
       end
-      organisation.rich_text_templates.create(key: key, title_i18n: title, body_i18n: body)
+      RichTextTemplate.create(key: requirement.key, title_i18n: title, body_i18n: body, organisation: organisation)
     end
   end
 end

@@ -7,6 +7,7 @@
 #  id                 :bigint           not null, primary key
 #  body_i18n          :jsonb
 #  body_i18n_markdown :jsonb
+#  enabled            :boolean          default(TRUE)
 #  key                :string
 #  title_i18n         :jsonb
 #  created_at         :datetime         not null
@@ -38,8 +39,13 @@ class RichTextTemplate < ApplicationRecord
   has_many :notifications, inverse_of: :rich_text_template, dependent: :nullify
 
   scope :ordered, -> { order(key: :ASC, home_id: :ASC) }
+  scope :enabled, -> { where(enabled: true) }
 
   validates :key, uniqueness: { scope: %i[key organisation_id home_id] }
+  validate do
+    required_templates = self.class.required_templates
+    errors.add(:key, :invalid) if key && required_templates.any? && !required_templates.key?(key.to_sym)
+  end
   validate do
     body_i18n.each do |locale, body|
       Liquid::Template.parse(body, error_mode: :strict)
@@ -89,15 +95,17 @@ class RichTextTemplate < ApplicationRecord
     end
 
     def require_template(key, context: [], required_by: nil, optional: false)
-      required_templates[key.to_sym] ||= []
-      required_templates[key.to_sym] << RichTextTemplate::Requirement.new(key, context, required_by, optional)
+      key = key.to_sym
+      requirement = self::Requirement.new(key, context, required_by, optional)
+      required_templates[key] ||= []
+      required_templates[key] << requirement
     end
 
-    def missing_templates(organisation, include_optional: false)
-      required = required_templates.values.map do |requirements|
-        requirements.filter_map { |requirement| requirement.key.to_s if !requirement.optional || include_optional }
-      end.flatten
-      required - organisation.rich_text_templates.where(home_id: nil).pluck(:key)
+    def missing_requirements(organisation, include_optional: false)
+      existing_keys = organisation.rich_text_templates.where(home_id: nil).pluck(:key)
+      required_templates.values.flatten.filter do |requirement|
+        existing_keys.exclude?(requirement.key.to_sym) && (!requirement.optional || include_optional)
+      end
     end
 
     def sanitize_html(html)

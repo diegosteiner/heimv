@@ -2,7 +2,7 @@
   = f.hidden_field :home_id
 
   fieldset
-    ul.nav.nav-tabs role="tablist"
+    ul.nav.nav-tabs.mt-4 role="tablist"
       - I18n.available_locales.each do |locale|
         - current_locale = locale == I18n.locale
         li.nav-item

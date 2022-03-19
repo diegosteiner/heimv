@@ -1,7 +1,7 @@
 = form_with(model: [:manage, @booking_purpose], local: true) do |f|
 
   fieldset
-    ul.nav.nav-tabs role="tablist"
+    ul.nav.nav-tabs.mt-4 role="tablist"
       - I18n.available_locales.each do |locale|
         - current_locale = locale == I18n.locale
         li.nav-item

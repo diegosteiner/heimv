@@ -16,7 +16,7 @@ module BookingStates
       booking.occupancy.free!
       booking.conclude
       booking.deadline&.clear
-      booking.notifications.new(from_template: :cancelled_request_notification,
+      booking.notifications.new(template: :cancelled_request_notification,
                                 to: booking.agent_booking&.booking_agent || booking.tenant).deliver
     end
 

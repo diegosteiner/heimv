@@ -14,7 +14,7 @@ class PaymentConfirmation
 
   def notification
     context = { 'booking' => booking, 'payment' => @payment }
-    @notification ||= booking.notifications.new(from_template: :payment_confirmation_notification,
+    @notification ||= booking.notifications.new(template: :payment_confirmation_notification,
                                                 to: booking.tenant, context: context)
   end
 end

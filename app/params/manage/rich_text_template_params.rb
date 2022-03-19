@@ -3,7 +3,8 @@
 module Manage
   class RichTextTemplateParams < ApplicationParams
     def self.permitted_keys
-      %i[key home_id] + I18n.available_locales.map { |locale| ["title_#{locale}", "body_#{locale}"] }.flatten
+      %i[key home_id enabled] +
+        I18n.available_locales.map { |locale| ["title_#{locale}", "body_#{locale}"] }.flatten
     end
 
     sanitize do |params|

@@ -78,13 +78,13 @@ RSpec.describe Notification, type: :model do
     end
   end
 
-  describe 'from_template' do
+  describe '#template' do
     let(:template) { create(:rich_text_template, organisation: booking.organisation) }
     let(:notification) { build(:notification, booking: booking, to: booking) }
     let(:booking) { create(:booking, locale: I18n.locale) }
 
     context 'with template available' do
-      subject(:new_notification) { booking.notifications.new(from_template: template.key, to: booking) }
+      subject(:new_notification) { booking.notifications.new(template: template.key, to: booking) }
       it do
         expect(new_notification.save).to be true
         expect(new_notification.rich_text_template).to eq(template)
@@ -96,7 +96,7 @@ RSpec.describe Notification, type: :model do
 
     context 'without template available' do
       it do
-        new_notification = booking.notifications.new(from_template: :nonexistent, to: booking)
+        new_notification = booking.notifications.new(template: :nonexistent, to: booking)
         expect(new_notification.rich_text_template).to be(nil)
         expect(new_notification).not_to be_deliverable
       end

@@ -6,9 +6,9 @@ module BookingActions
       RichTextTemplate.require_template(:awaiting_contract_notification, context: %i[booking], required_by: self)
 
       def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).kept.unpaid.unsent)
-        notification = booking.notifications.new(from_template: :awaiting_contract_notification,
+        notification = booking.notifications.new(template: :awaiting_contract_notification,
                                                  to: booking.tenant)
-        notification.attach(prepare_attachments(booking, deposits, contract))
+        notification.attach(prepare_attachments(booking, deposits, contract).map(&:blob))
         notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver
       end
 
@@ -18,9 +18,9 @@ module BookingActions
 
       def prepare_attachments(booking, deposits, contract)
         [
-          DesignatedDocument.in_context(booking).with_locale(booking.locale).where(send_with_contract: true).blobs,
-          deposits.filter_map { |deposit| deposit.pdf&.blob },
-          contract.pdf&.blob
+          DesignatedDocument.in_context(booking).with_locale(booking.locale).where(send_with_contract: true),
+          deposits.map(&:pdf),
+          contract.pdf
         ].flatten.compact
       end
 

@@ -7,6 +7,7 @@
 #  id                 :bigint           not null, primary key
 #  body_i18n          :jsonb
 #  body_i18n_markdown :jsonb
+#  enabled            :boolean          default(TRUE)
 #  key                :string
 #  title_i18n         :jsonb
 #  created_at         :datetime         not null
@@ -30,8 +31,8 @@ require 'rails_helper'
 
 RSpec.describe RichTextTemplate, type: :model do
   describe 'by_key' do
-    let(:key) { template.key }
-    let(:template) { create(:rich_text_template, key: 'test123') }
+    let(:key) { :test }
+    let(:template) { create(:rich_text_template, key: key) }
     let(:organisation) { template.organisation }
 
     it do
@@ -51,6 +52,13 @@ RSpec.describe RichTextTemplate, type: :model do
         expect(rich_text_template.body_en).to eq('# This is a template {{ success }} Footer')
         expect(rich_text_template.title_en).to eq('success')
       end
+    end
+  end
+
+  describe '::require_template' do
+    it 'adds key to list' do
+      expect { RichTextTemplate.require_template(:test1) }.to change { RichTextTemplate.required_templates.count }.by(1)
+      expect(RichTextTemplate.required_templates.keys).to include(:test1)
     end
   end
 end

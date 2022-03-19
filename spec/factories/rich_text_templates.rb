@@ -7,6 +7,7 @@
 #  id                 :bigint           not null, primary key
 #  body_i18n          :jsonb
 #  body_i18n_markdown :jsonb
+#  enabled            :boolean          default(TRUE)
 #  key                :string
 #  title_i18n         :jsonb
 #  created_at         :datetime         not null
@@ -25,12 +26,15 @@
 #  fk_rails_...  (home_id => homes.id)
 #  fk_rails_...  (organisation_id => organisations.id)
 #
+RichTextTemplate.require_template(:test)
 
 FactoryBot.define do
   factory :rich_text_template do
     organisation
     title { 'Test' }
-    sequence(:key) { |i| "key-#{i}" }
+    key { :test }
     body { Faker::Lorem.paragraph }
   end
+
+  factory :email_template, parent: :rich_text_template
 end

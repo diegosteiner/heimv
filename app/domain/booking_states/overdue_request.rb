@@ -17,7 +17,7 @@ module BookingStates
       booking.deadline&.clear
       booking.deadlines.create(length: booking.organisation.settings.fetch(:overdue_request_deadline, 3.days),
                                remarks: booking.booking_state.t(:label))
-      booking.notifications.new(from_template: :overdue_request_notification, to: booking.tenant)&.deliver
+      booking.notifications.new(template: :overdue_request_notification, to: booking.tenant)&.deliver
     end
 
     infer_transition(to: :definitive_request, &:committed_request)
