@@ -2,6 +2,13 @@
 
 #### Unreleased
 
+#### Version 22.3.2
+
+Released on 23.03.2022
+
+- Allow disabling of rich_text templates
+- Show all designated documents in overview
+
 #### Version 22.3.1
 
 Released on 11.03.2022
