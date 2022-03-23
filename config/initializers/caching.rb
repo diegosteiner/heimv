@@ -23,3 +23,5 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 end
+
+Rails.cache = ActiveSupport::Cache.lookup_store(Rails.application.config.cache_store)
