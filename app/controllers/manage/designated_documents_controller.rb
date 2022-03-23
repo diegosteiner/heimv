@@ -6,7 +6,8 @@ module Manage
     load_and_authorize_resource :designated_document, through: :home, shallow: true
 
     def index
-      @designated_documents = @designated_documents.where(organisation: current_organisation, home: @home)
+      @designated_documents = @designated_documents.where(organisation: current_organisation)
+      @designated_documents = @designated_documents.where(home: @home) if @home
       respond_with :manage, @designated_documents
     end
 

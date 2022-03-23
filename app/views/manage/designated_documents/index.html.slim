@@ -9,6 +9,7 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: :other)
       tr
         th= DesignatedDocument.human_attribute_name(:name)
         th= DesignatedDocument.human_attribute_name(:designation)
+        th= DesignatedDocument.human_attribute_name(:home_id)
         th= DesignatedDocument.human_attribute_name(:locale)
         th
 
@@ -20,6 +21,8 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: :other)
               = designated_document.name
           td 
             = DesignatedDocument.human_enum(:designation, designated_document.designation)
+          td 
+            = link_to designated_document.home, manage_home_path(designated_document.home) if designated_document.home
           td 
             = designated_document.locale
           td.p-1.text-end 
