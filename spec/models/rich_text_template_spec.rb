@@ -30,6 +30,10 @@
 require 'rails_helper'
 
 RSpec.describe RichTextTemplate, type: :model do
+  before do
+    allow(RichTextTemplate).to receive(:required_templates).and_return({ test: RichTextTemplate::Requirement.new })
+  end
+
   describe 'by_key' do
     let(:key) { :test }
     let(:template) { create(:rich_text_template, key: key) }

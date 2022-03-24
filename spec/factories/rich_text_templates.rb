@@ -26,7 +26,6 @@
 #  fk_rails_...  (home_id => homes.id)
 #  fk_rails_...  (organisation_id => organisations.id)
 #
-RichTextTemplate.require_template(:test)
 
 FactoryBot.define do
   factory :rich_text_template do

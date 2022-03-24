@@ -101,13 +101,6 @@ class RichTextTemplate < ApplicationRecord
       required_templates[key] << requirement
     end
 
-    def missing_requirements(organisation, include_optional: false)
-      existing_keys = organisation.rich_text_templates.where(home_id: nil).pluck(:key)
-      required_templates.values.flatten.filter do |requirement|
-        existing_keys.exclude?(requirement.key.to_sym) && (!requirement.optional || include_optional)
-      end
-    end
-
     def sanitize_html(html)
       sanitizer = Rails::Html::SafeListSanitizer.new
       sanitizer.sanitize(html,

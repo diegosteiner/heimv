@@ -31,6 +31,6 @@ class OnboardingService
   end
 
   def create_missing_rich_text_templates!(include_optional: true)
-    RichTextTemplateService.new(organisation).create_missing_rich_text_templates!(include_optional: include_optional)
+    RichTextTemplateService.new(organisation).create_missing!(include_optional: include_optional)
   end
 end
