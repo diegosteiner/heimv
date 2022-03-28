@@ -28,10 +28,11 @@
             = f.email_field :email
             = f.text_field :tenant_organisation
 
-            = link_to new_public_agent_booking_path(agent_booking: Public::AgentBookingParams.new(params[:booking]).to_h)
-              = BookingAgent.model_name.human
+            - if current_organisation.booking_agents.any?
+              = link_to new_public_agent_booking_path(agent_booking: Public::AgentBookingParams.new(params[:booking]).to_h)
+                = BookingAgent.model_name.human
 
-          .form-actions.pt-4.mt-3
+          .form-actions.mt-4
             - links = { \
                 terms_pdf_url: public_designated_document_url(designation: :terms), \
                 privacy_statement_pdf_url: privacy_url() \
