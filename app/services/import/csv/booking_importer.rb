@@ -20,7 +20,7 @@ module Import
       end
 
       def default_options
-        super.merge({ initial_state: :provisional_request })
+        super.merge({ initial_state: :open_request })
       end
 
       def initialize_record(_row)
@@ -28,20 +28,20 @@ module Import
       end
 
       def persist_record(booking)
-        booking.save && booking.state_transition
+        booking.save && booking.apply_booking_transitions
       end
 
       actor do |booking, row|
         booking&.assign_attributes(import_data: row.to_h, editable: false,
                                    notifications_enabled: false, ref: row['booking.ref'],
                                    remarks: row['booking.remarks'],
-                                   committed_request: booking.occupancy&.occupied?,
                                    approximate_headcount: row['booking.headcount']&.to_i,
                                    tenant_organisation: row['booking.tenant_organisation'])
       end
 
-      actor :state do |booking, _row, _options|
-        booking.transition_to = options[:initial_state]
+      actor :state do |booking, _row, options|
+        booking.committed_request ||= booking.occupancy&.occupied?
+        booking.transition_to = Array.wrap(options[:initial_state])
       end
 
       actor :purpose do |booking, row, options|

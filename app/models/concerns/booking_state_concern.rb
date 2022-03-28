@@ -10,24 +10,20 @@ module BookingStateConcern
 
     attr_accessor :transition_to, :skip_infer_transition
 
-    after_save :state_transition
-    after_touch :state_transition
-
-    validate do
-      if transition_to.present? && !booking_flow.can_transition_to?(transition_to)
-        transition = "#{booking_state_cache_was} --> #{booking_state_cache}"
-        errors.add(:transition_to, :invalid_transition, transition: transition)
-      end
-    end
+    after_save :apply_booking_transitions
+    after_touch :apply_booking_transitions
   end
 
-  def state_transition
-    return unless valid?
+  def apply_booking_transitions(transitions = Array.wrap(transition_to))
+    while (next_transition = transitions.shift)
+      next booking_flow.transition_to(next_transition) if booking_flow.can_transition_to?(next_transition)
 
-    transition_to = self.transition_to
-    self.transition_to = nil
-    booking_flow.transition_to(transition_to) if transition_to && booking_flow.can_transition_to?(transition_to)
-    booking_flow.auto.tap { errors.clear } unless skip_infer_transition
+      errors.add(:transition_to, :invalid_transition, transition: next_transition)
+      return false
+    end
+
+    self.transition_to = []
+    booking_flow.auto unless skip_infer_transition
   end
 
   def booking_flow_class

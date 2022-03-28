@@ -28,8 +28,8 @@
 
 FactoryBot.define do
   factory :occupancy do
-    begins_at { Time.zone.now + (2..10).to_a.sample.month }
-    ends_at { begins_at + 1.week }
+    sequence(:begins_at) { |i| (Time.zone.now + i.month).change(hour: 9, minute: 0) }
+    ends_at { (begins_at + 1.week).change(hour: 14, minute: 0) }
     occupancy_type { Occupancy.occupancy_types[:free] }
     home
 

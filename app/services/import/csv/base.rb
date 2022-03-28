@@ -45,8 +45,8 @@ module Import
         parse(file.read.force_encoding('UTF-8'))
       end
 
-      def import_row(row)
-        initialize_record(row)&.tap do |record|
+      def import_row(row, initial: initialize_record(row))
+        initial&.tap do |record|
           self.class.actors.each { |actor_block| instance_exec(record, row, options, &actor_block) }
           persist_record(record)
         end

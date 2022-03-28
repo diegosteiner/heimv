@@ -39,7 +39,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         expect(booking.ref).to eq('0815')
         expect(booking.remarks).to eq('Bemerkung')
         expect(booking.notifications_enabled).to be false
-        expect(booking.booking_state).to be_a(BookingStates::DefinitiveRequest)
+        expect(booking.booking_state).to be_a(BookingStates::OpenRequest)
       end
     end
 
@@ -72,15 +72,18 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         expect(booking.tenant.first_name).to eq('Peter')
         expect(booking.tenant.last_name).to eq('Muster')
         expect(booking.tenant.email).to eq('tenant22@heimv.local')
-        expect(booking.booking_state).to be_a(BookingStates::DefinitiveRequest)
+        expect(booking.booking_state).to be_a(BookingStates::OpenRequest)
+        expect(booking.committed_request).to be_truthy
+        expect(booking.occupancy).to be_occupied
       end
 
       it do
         booking = result.records.second.booking
-        expect(booking.booking_state).to be_a(BookingStates::ProvisionalRequest)
+        expect(booking.booking_state).to be_a(BookingStates::OpenRequest)
         expect(booking.approximate_headcount).to eq 12
         expect(booking.email).to eq('tenant22@heimv.local')
         expect(booking.committed_request).to be_falsy
+        expect(booking.occupancy).to be_tentative
       end
 
       it do

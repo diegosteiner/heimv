@@ -70,8 +70,7 @@ module Import
       actor :booking do |occupancy, row|
         next unless occupancy.tentative? || occupancy.occupied?
 
-        booking = @booking_importer.import_row(row)
-        booking.assign_attributes(occupancy: occupancy, committed_request: occupancy.occupied?)
+        @booking_importer.import_row(row, initial: organisation.bookings.new(home: home, occupancy: occupancy))
       end
     end
   end
