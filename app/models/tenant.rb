@@ -88,6 +88,10 @@ class Tenant < ApplicationRecord
     full_address_lines + [phone&.lines, email].flatten.compact_blank
   end
 
+  def contact_info
+    [phone&.lines, email].flatten.compact_blank.join(', ')
+  end
+
   def to_s
     "##{id} #{name}"
   end

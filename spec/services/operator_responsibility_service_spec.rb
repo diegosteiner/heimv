@@ -39,17 +39,31 @@ RSpec.describe OperatorResponsibilityService, type: :model do
   let(:organisation) { home.organisation }
   let(:operator) { create(:operator, organisation: organisation) }
   let(:booking) { create(:booking, organisation: organisation, home: home) }
-  before do
-    create_list(:operator_responsibility, 4, organisation: organisation, home: home, operator: operator,
-                                             responsibility: :administration)
-  end
 
   describe '#assign' do
-    subject(:responsibility) { service.assign(:administration).first }
+    subject(:responsibility) { service.assign(:administration)&.first }
 
-    it { is_expected.to be_valid }
-    it { expect(responsibility.booking).to eq(booking) }
-    it { expect(responsibility.home).to eq(home) }
-    it { expect(responsibility).to be_administration }
+    context 'with defined responibilities' do
+      before do
+        create_list(:operator_responsibility, 4, organisation: organisation, home: home, operator: operator,
+                                                 responsibility: :administration, booking: nil)
+      end
+
+      it { is_expected.to be_valid }
+      it { expect(responsibility.booking).to eq(booking) }
+      it { expect(responsibility.home).to eq(home) }
+      it { expect(responsibility).to be_administration }
+    end
+
+    context 'with existing operator_responsibilities' do
+      before do
+        4.times do
+          create(:operator_responsibility, organisation: organisation, home: home, responsibility: :home_handover,
+                                           operator: operator, booking: create(:booking, home: home))
+        end
+      end
+
+      it { is_expected.to be_nil }
+    end
   end
 end

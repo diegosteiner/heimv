@@ -17,6 +17,6 @@ class OperatorResponsibilityService
 
   def matching(responsibility)
     @booking.organisation.operator_responsibilities.ordered
-            .where(responsibility: responsibility, home: [@booking.home, nil])
+            .where(responsibility: responsibility, home: [@booking.home, nil], booking: nil)
   end
 end
