@@ -105,6 +105,12 @@ class Occupancy < ApplicationRecord
     begins_at..ends_at
   end
 
+  def duration
+    return unless complete?
+
+    ActiveSupport::Duration.build(ends_at - begins_at)
+  end
+
   def nights
     return unless complete?
 

@@ -497,6 +497,8 @@ it:
         one: Übernachtungen Tarifwähler
       tarif_selectors/booking_purpose:
         one: Mietzweck Tarifwähler
+      tarif_selectors/occupancy_duration:
+        one: nächte tarifwähler
       tarif_tarif_selector:
         one: Tarifwähler-Tarif
         other: Tarifwähler-Tarife
@@ -510,6 +512,8 @@ it:
         one: Mindestbelegung
       tarifs/overnight_stay:
         one: Übernachtungen
+      tarifs/price:
+        one: Betrag
       tenant:
         one: Mieter
         other: Mieter
