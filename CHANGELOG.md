@@ -2,6 +2,15 @@
 
 #### Unreleased
 
+#### Version 22.4.1
+
+Released on 04.04.2022
+
+- Fix bug that reassigns operators
+- Add new tarif selector OccupancyDuration
+- Add new Tarif Price
+- Add more fields to tenant serializer
+
 #### Version 22.3.2
 
 Released on 23.03.2022
