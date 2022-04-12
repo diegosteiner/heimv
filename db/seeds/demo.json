@@ -1,38 +1,102 @@
 {
-  "name": "Heimverein Demo",
-  "email": "test@heimv.ch",
-  "address": "Verein Pfadiheime Demo\r\nHeimverwaltung\r\n\r\n8000 Zürich",
-  "booking_strategy_type": "BookingFlows::Default",
-  "currency": "CHF",
-  "location": null,
-  "mail_from": "info@heimv.local",
-  "esr_beneficiary_account": "01-123456-7",
-  "iban": "",
-  "invoice_ref_strategy_type": "RefStrategies::ESR",
   "address": "Verein Pfadiheime\r\nHeimverwaltung\r\n\r\n8000 Zürich",
   "booking_flow_type": "BookingFlows::Default",
   "booking_purposes": [
     {
       "key": "camp",
+      "ordinal": 0,
       "title_i18n": {
         "de": "Lager / Kurs"
       }
     },
     {
       "key": "event",
+      "ordinal": 1073741824,
       "title_i18n": {
         "de": "Privater Anlass / Fest"
       }
     }
   ],
+  "currency": "CHF",
+  "designated_documents": [],
+  "email": "info@heimv.local",
+  "esr_beneficiary_account": "01-123456-7",
   "homes": [
     {
       "address": "9876 Einsiedeln",
+      "id": 1,
       "janitor": "Frau Heidi Eimwart\r\nTel: +41 44 123 45 67\r\n\r\nMail: heimwart@heimv.ch",
-      "min_occupation": 12,
       "name": "Testheim",
       "requests_allowed": true,
+      "settings": {
+        "booking_window": "78892380",
+        "awaiting_contract_deadline": "864000",
+        "overdue_request_deadline": "259200",
+        "unconfirmed_request_deadline": "259200",
+        "provisional_request_deadline": "864000",
+        "last_minute_warning": "864000",
+        "invoice_payment_deadline": "2592000",
+        "deposit_payment_deadline": "864000",
+        "upcoming_soon_window": "1209600",
+        "deadline_postponable_for": "259200",
+        "booking_margin": "0",
+        "min_occupation": 0
+      },
       "tarifs": [
+        {
+          "invoice_type": "Invoices::Deposit",
+          "label_i18n": {
+            "de": "Anzahlung (1 Nacht)"
+          },
+          "ordinal": 25,
+          "prefill_usage_method": "flat",
+          "price_per_unit": "180.0",
+          "tarif_group": "Anzahlung",
+          "tenant_visible": true,
+          "transient": false,
+          "type": "Tarifs::Flat",
+          "unit_i18n": {
+            "de": "Pauschale"
+          },
+          "valid_from": "2019-05-28T11:03:52+02:00",
+          "valid_until": null
+        },
+        {
+          "invoice_type": "Invoices::Deposit",
+          "label_i18n": {
+            "de": "Anzahlung (2 Nächte)"
+          },
+          "ordinal": 38,
+          "prefill_usage_method": "flat",
+          "price_per_unit": "300.0",
+          "tarif_group": "Anzahlung",
+          "tenant_visible": true,
+          "transient": false,
+          "type": "Tarifs::Flat",
+          "unit_i18n": {
+            "de": "Pauschale"
+          },
+          "valid_from": "2019-05-28T11:03:52+02:00",
+          "valid_until": null
+        },
+        {
+          "invoice_type": "Invoices::Deposit",
+          "label_i18n": {
+            "de": "Anzahlung (3 Nächte)"
+          },
+          "ordinal": 44,
+          "prefill_usage_method": "flat",
+          "price_per_unit": "480.0",
+          "tarif_group": "Anzahlung",
+          "tenant_visible": true,
+          "transient": false,
+          "type": "Tarifs::Flat",
+          "unit_i18n": {
+            "de": "Pauschale"
+          },
+          "valid_from": "2019-05-28T11:03:52+02:00",
+          "valid_until": null
+        },
         {
           "invoice_type": "Invoices::Deposit",
           "label_i18n": {
@@ -47,6 +111,24 @@
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
+          },
+          "valid_from": "2019-05-28T11:03:52+02:00",
+          "valid_until": null
+        },
+        {
+          "invoice_type": "Invoices::Invoice",
+          "label_i18n": {
+            "de": "Lagertarif (unter 25 jährig)"
+          },
+          "ordinal": 186,
+          "prefill_usage_method": null,
+          "price_per_unit": "15.0",
+          "tarif_group": "Lager/Kurs",
+          "tenant_visible": true,
+          "transient": false,
+          "type": "Tarifs::Amount",
+          "unit_i18n": {
+            "de": "Übernachtung"
           },
           "valid_from": "2019-05-28T11:03:52+02:00",
           "valid_until": null
@@ -106,75 +188,21 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Deposit",
+          "invoice_type": "",
           "label_i18n": {
-            "de": "Anzahlung (3 Nächte)"
+            "de": "Festtarif 1 Nacht"
           },
-          "ordinal": 44,
-          "prefill_usage_method": "flat",
-          "price_per_unit": "480.0",
-          "tarif_group": "Anzahlung",
-          "tenant_visible": true,
-          "transient": false,
-          "type": "Tarifs::Flat",
-          "unit_i18n": {
-            "de": "Pauschale"
-          },
-          "valid_from": "2019-05-28T11:03:52+02:00",
-          "valid_until": null
-        },
-        {
-          "invoice_type": "Invoices::Invoice",
-          "label_i18n": {
-            "de": "Lagertarif (unter 25 jährig)"
-          },
-          "ordinal": 186,
-          "prefill_usage_method": null,
-          "price_per_unit": "15.0",
-          "tarif_group": "Lager/Kurs",
+          "ordinal": 197,
+          "prefill_usage_method": "nights",
+          "price_per_unit": "600.0",
+          "tarif_group": "Privater Anlass / Fest",
           "tenant_visible": true,
           "transient": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
-            "de": "Übernachtung"
+            "de": "pro Tag"
           },
-          "valid_from": "2019-05-28T11:03:52+02:00",
-          "valid_until": null
-        },
-        {
-          "invoice_type": "Invoices::Deposit",
-          "label_i18n": {
-            "de": "Anzahlung (2 Nächte)"
-          },
-          "ordinal": 38,
-          "prefill_usage_method": "flat",
-          "price_per_unit": "300.0",
-          "tarif_group": "Anzahlung",
-          "tenant_visible": true,
-          "transient": false,
-          "type": "Tarifs::Flat",
-          "unit_i18n": {
-            "de": "Pauschale"
-          },
-          "valid_from": "2019-05-28T11:03:52+02:00",
-          "valid_until": null
-        },
-        {
-          "invoice_type": "Invoices::Deposit",
-          "label_i18n": {
-            "de": "Anzahlung (1 Nacht)"
-          },
-          "ordinal": 25,
-          "prefill_usage_method": "flat",
-          "price_per_unit": "180.0",
-          "tarif_group": "Anzahlung",
-          "tenant_visible": true,
-          "transient": false,
-          "type": "Tarifs::Flat",
-          "unit_i18n": {
-            "de": "Pauschale"
-          },
-          "valid_from": "2019-05-28T11:03:52+02:00",
+          "valid_from": "2019-12-07T12:04:59+01:00",
           "valid_until": null
         },
         {
@@ -198,11 +226,11 @@
         {
           "invoice_type": "",
           "label_i18n": {
-            "de": "Festtarif 1 Nacht"
+            "de": "Festtarrif 2 Nächte"
           },
-          "ordinal": 197,
+          "ordinal": 199,
           "prefill_usage_method": "nights",
-          "price_per_unit": "600.0",
+          "price_per_unit": "475.0",
           "tarif_group": "Privater Anlass / Fest",
           "tenant_visible": true,
           "transient": false,
@@ -210,77 +238,23 @@
           "unit_i18n": {
             "de": "pro Tag"
           },
-          "valid_from": "2019-12-07T12:04:59+01:00",
+          "valid_from": "2019-12-07T12:06:55+01:00",
           "valid_until": null
         },
         {
           "invoice_type": "Invoices::Invoice",
           "label_i18n": {
-            "de": "Abfall"
+            "de": "Festtarrif 0 Nächte"
           },
-          "ordinal": 288,
-          "prefill_usage_method": null,
-          "price_per_unit": "5.0",
-          "tarif_group": "Nebenkosten",
+          "ordinal": 228,
+          "prefill_usage_method": "nights",
+          "price_per_unit": "350.0",
+          "tarif_group": "Privater Anlass / Fest",
           "tenant_visible": true,
-          "transient": true,
+          "transient": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
-            "de": "pro 60 L Sack"
-          },
-          "valid_from": "2019-05-28T11:03:52+02:00",
-          "valid_until": null
-        },
-        {
-          "invoice_type": "Invoices::Invoice",
-          "label_i18n": {
-            "de": "Brennholz"
-          },
-          "ordinal": 287,
-          "prefill_usage_method": null,
-          "price_per_unit": "15.0",
-          "tarif_group": "Nebenkosten",
-          "tenant_visible": true,
-          "transient": true,
-          "type": "Tarifs::Amount",
-          "unit_i18n": {
-            "de": "Harass"
-          },
-          "valid_from": "2019-05-28T11:03:52+02:00",
-          "valid_until": null
-        },
-        {
-          "invoice_type": "Invoices::Invoice",
-          "label_i18n": {
-            "de": "Strom (Niedertarif)"
-          },
-          "ordinal": 286,
-          "prefill_usage_method": null,
-          "price_per_unit": "0.25",
-          "tarif_group": "Nebenkosten",
-          "tenant_visible": true,
-          "transient": true,
-          "type": "Tarifs::Metered",
-          "unit_i18n": {
-            "de": "kWh"
-          },
-          "valid_from": "2019-05-28T11:03:52+02:00",
-          "valid_until": null
-        },
-        {
-          "invoice_type": "Invoices::Invoice",
-          "label_i18n": {
-            "de": "Strom (Hochtarif)"
-          },
-          "ordinal": 284,
-          "prefill_usage_method": null,
-          "price_per_unit": "0.5",
-          "tarif_group": "Nebenkosten",
-          "tenant_visible": true,
-          "transient": true,
-          "type": "Tarifs::Metered",
-          "unit_i18n": {
-            "de": "kWh"
+            "de": "pro Tag"
           },
           "valid_from": "2019-05-28T11:03:52+02:00",
           "valid_until": null
@@ -306,17 +280,17 @@
         {
           "invoice_type": "Invoices::Invoice",
           "label_i18n": {
-            "de": "Festtarrif 0 Nächte"
+            "de": "Strom (Hochtarif)"
           },
-          "ordinal": 228,
-          "prefill_usage_method": "nights",
-          "price_per_unit": "350.0",
-          "tarif_group": "Privater Anlass / Fest",
+          "ordinal": 284,
+          "prefill_usage_method": null,
+          "price_per_unit": "0.5",
+          "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": false,
-          "type": "Tarifs::Amount",
+          "transient": true,
+          "type": "Tarifs::Metered",
           "unit_i18n": {
-            "de": "pro Tag"
+            "de": "kWh"
           },
           "valid_from": "2019-05-28T11:03:52+02:00",
           "valid_until": null
@@ -340,26 +314,71 @@
           "valid_until": null
         },
         {
-          "invoice_type": "",
+          "invoice_type": "Invoices::Invoice",
           "label_i18n": {
-            "de": "Festtarrif 2 Nächte"
+            "de": "Strom (Niedertarif)"
           },
-          "ordinal": 199,
-          "prefill_usage_method": "nights",
-          "price_per_unit": "475.0",
-          "tarif_group": "Privater Anlass / Fest",
+          "ordinal": 286,
+          "prefill_usage_method": null,
+          "price_per_unit": "0.25",
+          "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": false,
+          "transient": true,
+          "type": "Tarifs::Metered",
+          "unit_i18n": {
+            "de": "kWh"
+          },
+          "valid_from": "2019-05-28T11:03:52+02:00",
+          "valid_until": null
+        },
+        {
+          "invoice_type": "Invoices::Invoice",
+          "label_i18n": {
+            "de": "Brennholz"
+          },
+          "ordinal": 287,
+          "prefill_usage_method": null,
+          "price_per_unit": "15.0",
+          "tarif_group": "Nebenkosten",
+          "tenant_visible": true,
+          "transient": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
-            "de": "pro Tag"
+            "de": "Harass"
           },
-          "valid_from": "2019-12-07T12:06:55+01:00",
+          "valid_from": "2019-05-28T11:03:52+02:00",
+          "valid_until": null
+        },
+        {
+          "invoice_type": "Invoices::Invoice",
+          "label_i18n": {
+            "de": "Abfall"
+          },
+          "ordinal": 288,
+          "prefill_usage_method": null,
+          "price_per_unit": "5.0",
+          "tarif_group": "Nebenkosten",
+          "tenant_visible": true,
+          "transient": true,
+          "type": "Tarifs::Amount",
+          "unit_i18n": {
+            "de": "pro 60 L Sack"
+          },
+          "valid_from": "2019-05-28T11:03:52+02:00",
           "valid_until": null
         }
       ]
     }
   ],
+  "iban": "",
+  "invoice_ref_strategy_type": "RefStrategies::ESR",
+  "location": null,
+  "mail_from": "info@heimv.local",
+  "name": "Heimverein Development",
   "notifications_enabled": true,
+  "settings": {
+    "require_tenant_birthdate": true,
+    "feature_new_bookings": false
+  },
   "slug": null
 }
