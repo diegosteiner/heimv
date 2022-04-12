@@ -5,7 +5,7 @@ module Public
     before_action :set_booking, only: %i[show edit update]
 
     def new
-      @booking = Booking.new(create_params)
+      @booking = current_organisation.bookings.new(create_params)
       @booking.organisation = current_organisation
       @booking.build_occupancy unless @booking.occupancy
       @booking.occupancy.ends_at ||= @booking.occupancy.begins_at
@@ -23,7 +23,7 @@ module Public
     end
 
     def create
-      @booking = Booking.new(create_params)
+      @booking = current_organisation.bookings.new(create_params)
       @booking.notifications_enabled = true
       @booking.save(context: :public_create) &&
         flash[:notice] = t('flash.public.bookings.create.notice', email: @booking.email)
@@ -42,7 +42,8 @@ module Public
     private
 
     def set_booking
-      @booking = Booking.find_by(token: params[:id]) || Booking.find(params[:id])
+      @booking = current_organisation.bookings.find_by(token: params[:id]) ||
+                 current_organisation.bookings.find(params[:id])
     end
 
     def call_booking_action
