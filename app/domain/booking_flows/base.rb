@@ -52,6 +52,7 @@ module BookingFlows
             passed_transitions << to if transition_to(to)
           end
         end
+        object.errors.clear
       end
     end
 
