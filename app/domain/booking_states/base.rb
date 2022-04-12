@@ -6,7 +6,6 @@ module BookingStates
     include Translatable
     attr_reader :booking
 
-    delegate :valid?, to: :booking
     delegate :to_s, to: :to_sym
 
     ChecklistItem = Struct.new(:key, :checked, :url_hint)
