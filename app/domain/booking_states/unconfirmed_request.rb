@@ -19,7 +19,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      booking.deadlines.create(length: booking.organisation.settings.fetch(:unconfirmed_request_deadline, 3.days),
+      booking.deadlines.create(length: booking.home.settings.unconfirmed_request_deadline,
                                remarks: booking.booking_state.t(:label))
       booking.occupancy.tentative!
       booking.notifications.new(template: :unconfirmed_request_notification, to: booking.tenant).deliver

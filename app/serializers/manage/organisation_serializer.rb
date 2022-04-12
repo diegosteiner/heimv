@@ -4,7 +4,10 @@ module Manage
   class OrganisationSerializer < ApplicationSerializer
     view :export do
       fields(*Import::Hash::OrganisationImporter.used_attributes.map(&:to_sym))
-      association :booking_purposes, blueprint: Public::BookingPurposeSerializer
+      field :settings do |organisation|
+        organisation.settings.to_h
+      end
+      association :booking_purposes, blueprint: BookingPurposeSerializer, view: :export
       association :rich_text_templates, blueprint: RichTextTemplateSerializer
       association :homes, blueprint: HomeSerializer, view: :export
       association :tenants, blueprint: TenantSerializer

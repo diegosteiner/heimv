@@ -3,7 +3,7 @@
 module Manage
   class BookingPurposeSerializer < Public::BookingPurposeSerializer
     view :export do
-      include_view :default
+      fields :key, :title_i18n, :ordinal
     end
   end
 end

@@ -19,7 +19,7 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear
       booking.deadlines.create(at: booking.booking_agent.request_deadline_minutes.minutes.from_now,
-                               postponable_for: booking.organisation.settings.fetch(:postponable_for, 3.days),
+                               postponable_for: booking.home.settings.deadline_postponable_for,
                                remarks: booking.booking_state.t(:label))
     end
 

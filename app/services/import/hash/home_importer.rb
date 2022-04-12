@@ -5,7 +5,7 @@ module Import
     class HomeImporter < Base
       attr_reader :organisation
 
-      use_attributes(*%w[janitor min_occupation name address requests_allowed])
+      use_attributes(*%w[janitor name address requests_allowed settings])
 
       def initialize(organisation, **options)
         super(**options)

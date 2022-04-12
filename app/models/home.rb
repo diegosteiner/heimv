@@ -6,12 +6,11 @@
 #
 #  id               :bigint           not null, primary key
 #  address          :text
-#  booking_margin   :integer          default(0)
 #  janitor          :text
-#  min_occupation   :integer
 #  name             :string
 #  ref              :string
 #  requests_allowed :boolean          default(FALSE)
+#  settings         :jsonb
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  organisation_id  :bigint           not null
@@ -41,9 +40,12 @@ class Home < ApplicationRecord
 
   belongs_to :organisation, inverse_of: :homes
 
+  attribute :settings, Settings::Type.new(HomeSettings), default: -> { HomeSettings.new }
+
   scope :ordered, -> { order(name: :ASC) }
 
   validates :ref, uniqueness: { scope: %i[organisation_id] }
+  validate -> { errors.add(:settings, :invalid) if settings && !settings.valid? }
 
   accepts_nested_attributes_for :tarifs, reject_if: :all_blank, update_only: true
 

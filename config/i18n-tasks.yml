@@ -109,13 +109,15 @@ ignore_unused:
   - "occupancy_calendar.*"
   - "booking_states.*"
   - "manage.rich_text_templates.index.group_*"
-## Exclude these keys from the `i18n-tasks eq-base' report:
-# ignore_eq_base:
-#   all:
-#     - common.ok
-#   fr,es:
-#     - common.brand
+  - "public.bookings.new.*"
 
+## Exclude these keys from the `i18n-tasks eq-base' report:
+ignore_eq_base:
+  #   all:
+  #     - common.ok
+  fr,it,en:
+    - rich_text_templates.*.default_body
+    - rich_text_templates.*.default_title
 ## Ignore these keys completely:
 # ignore:
 #  - kaminari.*

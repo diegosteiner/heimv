@@ -6,12 +6,11 @@
 #
 #  id               :bigint           not null, primary key
 #  address          :text
-#  booking_margin   :integer          default(0)
 #  janitor          :text
-#  min_occupation   :integer
 #  name             :string
 #  ref              :string
 #  requests_allowed :boolean          default(FALSE)
+#  settings         :jsonb
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  organisation_id  :bigint           not null

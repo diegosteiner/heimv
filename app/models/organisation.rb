@@ -68,6 +68,7 @@ class Organisation < ApplicationRecord
   end
 
   attribute :booking_flow_type, default: BookingFlows::Default.to_s
+  attribute :settings, Settings::Type.new(OrganisationSettings), default: -> { OrganisationSettings.new }
 
   def booking_flow_class
     @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)
@@ -94,25 +95,6 @@ class Organisation < ApplicationRecord
   rescue JSON::ParserError
     errors.add(:smtp_settings_json, :invalid)
     smtp_settings_json
-  end
-
-  def settings
-    @settings = super&.symbolize_keys
-  end
-
-  def settings_json
-    JSON.generate(settings)
-  end
-
-  def settings_json=(value)
-    self.settings = JSON.parse(value)
-  rescue JSON::ParserError
-    errors.add(:settings_json, :invalid)
-    settings_json
-  end
-
-  def booking_window
-    30.months
   end
 
   def to_s

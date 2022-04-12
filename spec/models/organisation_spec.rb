@@ -51,10 +51,13 @@ RSpec.describe Organisation, type: :model do
   end
 
   describe '#settings' do
-    let(:settings_json) { JSON.generate({ test: 3600, long: 'test' }) }
-    let(:organisation) { build(:organisation, settings_json: settings_json) }
+    let(:settings_hash) { { test: 3600, feature_new_bookings: true } }
+    let(:organisation) { build(:organisation, settings: settings_hash) }
     subject(:settings) { organisation.settings }
 
-    it { expect(settings).to include({ test: 3600, long: 'test' }) }
+    it do
+      expect(settings.require_tenant_birthdate).to be(true)
+      expect(settings.feature_new_bookings).to be(true)
+    end
   end
 end

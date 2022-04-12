@@ -40,10 +40,10 @@ module Invoices
     end
 
     def payable_until(invoice)
-      settings = invoice.booking.organisation.settings
-      return settings.fetch(:payment_deadline, 30.days).from_now unless invoice.is_a?(Invoices::Deposit)
+      settings = invoice.booking.home.settings
+      return settings.deposit_payment_deadline.from_now if invoice.is_a?(Invoices::Deposit)
 
-      settings.fetch(:awaiting_contract_deadline, 10.days).from_now
+      settings.invoice_payment_deadline.from_now
     end
   end
 end

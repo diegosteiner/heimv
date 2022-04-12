@@ -4,9 +4,21 @@
     = f.text_field :name
     = f.text_field :ref
     = f.text_area :address
-    = f.number_field :min_occupation, step: 1
-    = f.number_field :booking_margin, step: 1, append: t('datetime.distance_in_words.x_minutes.other', count: '')
     = f.check_box :requests_allowed
+    
+  fieldset.mt-4
+    = f.fields_for :settings, @home.settings || HomeSettings.new do |sf|  
+      = sf.number_field :min_occupation, step: 1
+      = sf.text_field :booking_margin, value: sf.object.booking_margin&.iso8601
+      = sf.text_field :awaiting_contract_deadline, value: sf.object.awaiting_contract_deadline&.iso8601
+      = sf.text_field :deadline_postponable_for, value: sf.object.deadline_postponable_for&.iso8601
+      = sf.text_field :deposit_payment_deadline, value: sf.object.deposit_payment_deadline&.iso8601
+      = sf.text_field :invoice_payment_deadline, value: sf.object.invoice_payment_deadline&.iso8601
+      = sf.text_field :last_minute_warning, value: sf.object.last_minute_warning&.iso8601
+      = sf.text_field :overdue_request_deadline, value: sf.object.overdue_request_deadline&.iso8601
+      = sf.text_field :provisional_request_deadline, value: sf.object.provisional_request_deadline&.iso8601
+      = sf.text_field :unconfirmed_request_deadline, value: sf.object.unconfirmed_request_deadline&.iso8601
+      = sf.text_field :upcoming_soon_window, value: sf.object.upcoming_soon_window&.iso8601
 
   .form-actions.pt-4.mt-3
     = f.submit

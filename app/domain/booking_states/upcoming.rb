@@ -28,7 +28,7 @@ module BookingStates
     end
 
     infer_transition(to: :upcoming_soon) do |booking|
-      14.days.from_now > booking.occupancy.begins_at
+      booking.home.settings.upcoming_soon_window.from_now > booking.occupancy.begins_at
     end
 
     def relevant_time

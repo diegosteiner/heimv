@@ -30,11 +30,6 @@
     = f.text_field :iban
     = f.text_field :qr_iban
 
-  - if current_user.role_admin?
-    fieldset
-      h3.mt-4= Booking.model_name.human(count: :other)
-      div[v-pre]= f.text_area :settings_json, rows: 4
-
   fieldset
     h3.mt-4= t('.more_settings')
     ul.pb-3

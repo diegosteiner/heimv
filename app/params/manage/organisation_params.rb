@@ -9,7 +9,7 @@ module Manage
     end
 
     def self.admin_permitted_keys
-      permitted_keys + %i[smtp_settings_json settings_json slug]
+      permitted_keys + %i[smtp_settings_json slug]
     end
   end
 end
