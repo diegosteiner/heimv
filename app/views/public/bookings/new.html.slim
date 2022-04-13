@@ -1,11 +1,12 @@
 .mx-auto.w-md
   h3 = t(:'.title')
-  - if params[:fallback].present?
+  - if params[:fallback].blank? && current_organisation.settings.feature_new_bookings
     = react_component('public/booking/new/BookingFormWrapper', booking: Public::BookingSerializer.render_as_hash(@booking), organisation: Public::OrganisationSerializer.render_as_hash(current_organisation))
   - else 
     .card
       .card-body
         = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
+          = hidden_field_tag :fallback, true
           - if @booking.errors[:base].present?
             .alert.alert-danger.d-flex
               .me-3

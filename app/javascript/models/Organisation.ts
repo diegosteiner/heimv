@@ -7,6 +7,7 @@ export type Organisation = {
     privacy_statement: string;
     terms_pdf: string;
   };
+  booking_agents: boolean;
   links: {
     post_bookings: string;
     logo?: string;

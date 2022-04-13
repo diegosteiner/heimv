@@ -20,6 +20,10 @@ module Public
       organisation.logo.present? && url.url_for(organisation.logo)
     end
 
+    field :booking_agents do |organisation|
+      organisation.booking_agents.any?
+    end
+
     field :links do |organisation|
       {
         post_bookings: url.public_bookings_url(org: organisation.slug, format: :json)

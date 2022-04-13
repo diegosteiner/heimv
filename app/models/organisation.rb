@@ -63,6 +63,7 @@ class Organisation < ApplicationRecord
   validates :name, :email, presence: true
   validates :slug, uniqueness: true, allow_nil: true
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
+  validate -> { errors.add(:settings, :invalid) unless settings.valid? }
   validate do
     errors.add(:smtp_settings, :invalid) unless smtp_settings.is_a?(Hash) || smtp_settings.nil?
   end

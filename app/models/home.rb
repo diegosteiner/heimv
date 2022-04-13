@@ -45,7 +45,7 @@ class Home < ApplicationRecord
   scope :ordered, -> { order(name: :ASC) }
 
   validates :ref, uniqueness: { scope: %i[organisation_id] }
-  validate -> { errors.add(:settings, :invalid) if settings && !settings.valid? }
+  validate -> { errors.add(:settings, :invalid) unless settings.valid? }
 
   accepts_nested_attributes_for :tarifs, reject_if: :all_blank, update_only: true
 

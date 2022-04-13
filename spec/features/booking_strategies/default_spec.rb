@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'Booking', :devise, type: :feature do
-  let(:organisation) { create(:organisation, :with_rich_text_templates) }
+  let(:organisation) { create(:organisation, :with_rich_text_templates, settings: { feature_new_bookings: true }) }
   let(:organisation_user) { create(:organisation_user, :manager, organisation: organisation) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation: organisation) }
@@ -45,19 +45,20 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def fill_request_form(email:, begins_at:, ends_at:)
-    fill_in 'booking_email', with: email
-    fill_in 'booking_occupancy_begins_at_date', with: begins_at.strftime('%d.%m.%Y')
-    select(format('%02d', begins_at.hour), from: 'booking_occupancy_begins_at_hours')
-    fill_in 'booking_occupancy_ends_at_date', with: ends_at.strftime('%d.%m.%Y')
-    select(format('%02d', ends_at.hour), from: 'booking_occupancy_ends_at_hours')
-    check 'booking_accept_conditions'
+    fill_in 'email', with: email
+    fill_in 'begins_at_date', with: begins_at.strftime('%d.%m.%Y')
+    select(format('%02d', begins_at.hour), from: 'begins_at_hours')
+    fill_in 'ends_at_date', with: ends_at.strftime('%d.%m.%Y')
+    select(format('%02d', ends_at.hour), from: 'ends_at_hours')
+    check 'accept_conditions'
   end
 
   def create_request
     visit new_booking_path
     fill_request_form(email: tenant.email, begins_at: booking.occupancy.begins_at, ends_at: booking.occupancy.ends_at)
     submit_form
-    expect(page).to have_content(I18n.t('flash.public.bookings.create.notice', email: tenant.email))
+    flash = Rails::Html::FullSanitizer.new.sanitize(I18n.t('flash.public.bookings.create.notice', email: tenant.email))
+    expect(page).to have_content(flash)
     @booking = Booking.last
   end
 

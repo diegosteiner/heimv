@@ -42,7 +42,6 @@ export function BookingForm({
     control,
     formState: { errors },
   } = useForm<Booking>({
-    mode: "onChange",
     defaultValues: booking,
   });
 
@@ -70,7 +69,9 @@ export function BookingForm({
     <Form noValidate onSubmit={handleSubmit(onSubmit)}>
       {organisation.homes && (
         <Form.Group className="mb-3">
-          <Form.Label>{t("activerecord.attributes.booking.home")}</Form.Label>
+          <Form.Label>
+            <Trans t={t} i18nKey="activerecord.attributes.booking.home" />
+          </Form.Label>
           <Form.Control
             {...register("home_id")}
             as="select"
@@ -87,7 +88,7 @@ export function BookingForm({
 
       <Form.Group className="mb-3">
         <Form.Label className="required">
-          {t("activerecord.attributes.occupancy.begins_at")}
+          <Trans t={t} i18nKey="activerecord.attributes.occupancy.begins_at" />
         </Form.Label>
         <Controller
           render={({
@@ -104,6 +105,7 @@ export function BookingForm({
               }}
               value={value}
               name={name}
+              id="begins_at"
               invalidFeedback={errors.occupancy?.begins_at?.message}
             />
           )}
@@ -125,7 +127,7 @@ export function BookingForm({
 
       <Form.Group className="mb-3">
         <Form.Label className="required">
-          {t("activerecord.attributes.occupancy.ends_at")}
+          <Trans t={t} i18nKey="activerecord.attributes.occupancy.ends_at" />
         </Form.Label>
         <Controller
           render={({
@@ -139,6 +141,7 @@ export function BookingForm({
               onChange={onChange}
               value={value}
               name={name}
+              id="ends_at"
             />
           )}
           name="occupancy.ends_at"
@@ -163,7 +166,7 @@ export function BookingForm({
 
       <Form.Group className="mb-3">
         <Form.Label className="required">
-          {t("activerecord.attributes.tenant.email")}
+          <Trans t={t} i18nKey="activerecord.attributes.tenant.email" />
         </Form.Label>
         <Form.Control
           required
@@ -184,14 +187,19 @@ export function BookingForm({
 
       <Form.Group className="mb-3">
         <Form.Label>
-          {t("activerecord.attributes.booking.tenant_organisation")}
+          <Trans
+            t={t}
+            i18nKey="activerecord.attributes.booking.tenant_organisation"
+          />
         </Form.Label>
         <Form.Control {...register("tenant_organisation")}></Form.Control>
       </Form.Group>
 
-      <a href="../agent_bookings/new">
-        {t("activerecord.models.booking_agent.other")}
-      </a>
+      {organisation.booking_agents && (
+        <a href="../agent_bookings/new">
+          <Trans t={t} i18nKey="activerecord.models.booking_agent.other" />
+        </a>
+      )}
 
       <Form.Group className="mb-3 mt-5">
         <Form.Check
@@ -216,8 +224,8 @@ export function BookingForm({
           })}
         ></Form.Check>
       </Form.Group>
-      <Button className="mt-4" type="submit" size="lg">
-        {t("public.bookings.new.submit")}
+      <Button className="mt-4" type="submit" size="lg" name="commit">
+        <Trans i18nKey="public.bookings.new.submit" t={t} />
       </Button>
     </Form>
   );

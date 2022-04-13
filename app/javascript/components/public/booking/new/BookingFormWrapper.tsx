@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Card, Alert } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import {
   BookingJsonData,
   Booking,
@@ -74,13 +74,19 @@ export default function BookingFormWrapper({
   };
   if (submitState.ok === true) {
     return (
-      <Card bg="success">
-        <Card.Body className="text-white text-center">
-          <i style={{ fontSize: "10em" }} className="fa fa-envelope mb-3" />
+      <Card border="success">
+        <Card.Body className="text-center">
+          <i
+            style={{ fontSize: "10em" }}
+            className="fa fa-calendar-check-o mb-3 text-success"
+          />
           <p>
-            {t("flash.public.bookings.create.notice", {
-              email: submitState.submittedTo,
-            })}
+            <Trans
+              i18nKey="flash.public.bookings.create.notice"
+              t={t}
+              values={{ email: submitState.submittedTo }}
+              components={{ strong: <strong /> }}
+            />
           </p>
         </Card.Body>
       </Card>
@@ -92,11 +98,14 @@ export default function BookingFormWrapper({
       <Card.Body>
         {submitState.ok === false && (
           <Alert variant="danger">
-            <i className="fa fa-exclamation-circle me-3" />
-            {submitState.errors?.base?.join(", ") ||
-              t("flash.actions.create.alert", {
-                resource_name: t("activerecord.models.booking.one"),
-              })}
+            <>
+              <i className="fa fa-exclamation-circle me-3" />
+              {submitState.errors?.base?.join(", ") ||
+                t("flash.actions.create.alert", {
+                  resource_name: t("activerecord.models.booking.one"),
+                })}
+              {JSON.stringify(submitState)}
+            </>
           </Alert>
         )}
 

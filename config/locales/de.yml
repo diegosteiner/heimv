@@ -1869,7 +1869,7 @@ de:
     public:
       bookings:
         create:
-          notice: Deine Reservationsanfrage wurde erfasst und ein E-Mail mit dem Bestätigungslink an %{email} gesendet. Bitte klicke den Link um die Anfrage abzuschliessen.
+          notice: Deine Reservationsanfrage wurde erfasst. Soeben hast du ein E-Mail mit dem Bestätigungslink auf <strong>%{email}</strong> erhalten. Bitte klicke den Link um die Anfrage zu bestätigen und abzuschliessen. Solltest du das Mail nicht erhalten haben, siehe im Spam nach oder melde dich bei der Verwaltung.
         update:
           notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
   generated: wird automatisch generiert
