@@ -104,7 +104,6 @@ export default function BookingFormWrapper({
                 t("flash.actions.create.alert", {
                   resource_name: t("activerecord.models.booking.one"),
                 })}
-              {JSON.stringify(submitState)}
             </>
           </Alert>
         )}
