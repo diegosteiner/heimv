@@ -47,8 +47,9 @@ class Tenant < ApplicationRecord
   validates :email, presence: true, on: :public_update
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :street_address, length: { maximum: 255 }
-  validates :birth_date, presence: true, on: :public_update
   validates :phone, presence: true, length: { minimum: 10, maximum: 255 }, on: :public_update
+
+  validates :birth_date, presence: true, on: :public_update, if: :birth_date_required?
 
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
 
@@ -98,10 +99,15 @@ class Tenant < ApplicationRecord
 
   def complete?
     valid? &&
-      [email, first_name, last_name, street_address, zipcode, city, country_code, phone].all?(&:present?)
+      [email, first_name, last_name, street_address, zipcode, city, country_code, phone].all?(&:present?) &&
+      (!birth_date_required? || birth_date.present?)
   end
 
   def to_liquid
     Public::TenantSerializer.render_as_hash(self).deep_stringify_keys
+  end
+
+  def birth_date_required?
+    organisation.settings.tenant_birth_date_required
   end
 end

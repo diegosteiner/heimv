@@ -23,7 +23,7 @@
             label=Booking.human_attribute_name(:deadline)
             div
               =<> l(@booking.deadline.at, format: :short)
-        = f.select :home_id, current_organisation.homes.map { |home| [home.to_s, home.to_param] }, {}, disabled: true
+        = f.select :home_id, current_organisation.homes.map { |home| [home.to_s, home.to_param] }, {}, disabled: true, required: true
 
         = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'booking[occupancy_attributes][begins_at]',
@@ -47,7 +47,7 @@
               = cf.text_field :last_name, disabled: !@booking.editable
 
           = cf.text_field :street_address, disabled: !@booking.editable
-          = cf.text_field :address_addon, disabled: !@booking.editable
+          = cf.text_field :address_addon, disabled: !@booking.editable, help: t('optional')
 
           .row
             .col-md-4
@@ -58,7 +58,7 @@
           = cf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code) } do
             = cf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable
           = cf.text_area :phone, rows: 1, disabled: !@booking.editable
-          = cf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true
+          = cf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
 
       fieldset
         h5= t('.booking_details')

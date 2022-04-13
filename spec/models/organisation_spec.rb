@@ -56,7 +56,7 @@ RSpec.describe Organisation, type: :model do
     subject(:settings) { organisation.settings }
 
     it do
-      expect(settings.require_tenant_birthdate).to be(true)
+      expect(settings.tenant_birth_date_required).to be(true)
       expect(settings.feature_new_bookings).to be(true)
     end
   end

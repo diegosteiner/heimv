@@ -40,7 +40,7 @@ de:
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
       organisation_settings:
-        require_tenant_birthdate: Geburtsdatum Pflichteingabe
+        tenant_birth_date_required: Geburtsdatum Pflichteingabe
       payment/filter:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis

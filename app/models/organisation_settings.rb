@@ -4,7 +4,7 @@ class OrganisationSettings
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attribute :require_tenant_birthdate, :boolean, default: true
+  attribute :tenant_birth_date_required, :boolean, default: true
   attribute :feature_new_bookings, :boolean, default: false
 
   def to_h
