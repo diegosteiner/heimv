@@ -27,7 +27,6 @@
 
 class Deadline < ApplicationRecord
   belongs_to :booking, inverse_of: :deadlines, touch: true
-  # has_one :booking, inverse_of: :deadline
 
   scope :ordered, -> { order(at: :desc) }
   scope :armed, -> { where(armed: true) }
@@ -38,8 +37,8 @@ class Deadline < ApplicationRecord
   attribute :length
   after_save :update_booking_deadline
 
-  def length=(value)
-    self.at ||= TimespanService.parse(value)&.from_now
+  def length=(duration)
+    self.at ||= duration&.from_now
   end
 
   def exceeded?(other = Time.zone.now)
