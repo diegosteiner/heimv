@@ -50,6 +50,7 @@ FactoryBot.define do
     notifications_enabled { true }
     slug { nil }
     location { nil }
+    locale { I18n.locale }
 
     after(:build) do |organisation, _evaluator|
       build(:booking_purpose, key: :camp, title: 'Lager', organisation: organisation)

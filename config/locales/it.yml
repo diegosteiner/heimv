@@ -195,6 +195,7 @@ it:
       operator:
         contact_info: Kontaktinformationen
         email: Email
+        locale: Sprache
         name: Name
       operator_booking:
         responsibility: Verantwortlichkeit

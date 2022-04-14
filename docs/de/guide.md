@@ -21,8 +21,6 @@ booking:
     postponable_for: Verlängerbar für n Sekunden
   home: Heim
     address: Adresse des Heims
-    janitor: Angaben zum Heimwart
-    min_occupation: Mindestbelegung
     name: Name des Heims
   invoice_address: Rechnungsadresse
   links: Links

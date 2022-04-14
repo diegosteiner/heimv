@@ -195,6 +195,7 @@ de:
       operator:
         contact_info: Kontaktinformationen
         email: Email
+        locale: Sprache
         name: Name
       operator_booking:
         responsibility: Verantwortlichkeit
@@ -2357,7 +2358,7 @@ de:
     operator_cancelation_pending_notification:
       default_body: "<p>Hallo</p>\n\n<p>Die Buchung {{ booking.ref }} im Heim <strong>{{ booking.home.name }}</strong> findet nicht statt</p>\n\n<p><strong>Reservationsdetails</strong></p>\n\n<ul>\n  <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>\n  <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>\n  <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>\n  <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>\n  <li>Mietzweck: <strong>{{ booking.purpose.title }}</strong></li>\n  <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>\n</ul>\n  \n<p><a href=\\\"{{ booking.links.manage }}\\\">Buchung verwalten</a></p>\n"
       default_title: Abgesagte Belegung
-      description: Benachrichtigung für baldige Belegung (Funktionär)
+      description: Benachrichtigung für abgesagte Belegung (Funktionär)
     operator_upcoming_soon_notification:
       default_body: "<p>Hallo</p>\n\n<p>Die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> findet demnächst statt</p>\n\n<p><strong>Reservationsdetails</strong></p>\n<ul>\n  <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>\n  <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>\n  <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>\n  <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>\n  <li>Mietzweck: <strong>{{ booking.purpose.title }}</strong></li>\n  <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>\n  <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>\n  <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>\n</ul>\n\n<p><strong>Kontaktperson</strong></p>\n\n<p>\n  {{ booking.tenant.name }}<br />\n  <a href=\\\"mailto:{{ booking.tenant.email }}\\\">{{ booking.tenant.email }}</a><br />\n  <a href=\\\"tel:{{ booking.tenant.phone }}\\\">{{ booking.tenant.phone }}</a><br />\n</p>\n  \n<p><a href=\\\"{{ booking.links.manage }}\\\">Buchung verwalten</a></p>\n"
       default_title: Baldige Belegung

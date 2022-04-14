@@ -22,10 +22,10 @@ module BookingStates
     end
 
     after_transition do |booking|
-      operators = [booking.operator_for(:home_handover), booking.operator_for(:home_return)].compact.map(&:email).uniq
-      operators.each do |operator_email|
-        booking.notifications.new(template: :operator_cancellation_pending_notification,
-                                  to: operator_email)&.deliver
+      booking.operators_for(:home_handover, :home_return).each do |operator|
+        next if operator.email.blank?
+
+        booking.notifications.new(template: :operator_cancellation_pending_notification, to: operator.email)&.deliver
       end
     end
 

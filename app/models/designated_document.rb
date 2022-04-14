@@ -24,7 +24,9 @@ class DesignatedDocument < ApplicationRecord
   belongs_to :organisation, inverse_of: :designated_documents
   belongs_to :home, optional: true, inverse_of: :designated_documents
 
+  locale_enum
   enum designation: { other: 0, privacy_statement: 1, terms: 2, house_rules: 3, price_list: 4 }
+
   scope :with_locale, ->(locale) { where(locale: [locale, nil]).order(locale: :ASC) }
   scope :blobs, -> { filter_map { |designated_document| designated_document.file&.blob } }
   scope :in_context, (lambda do |context|

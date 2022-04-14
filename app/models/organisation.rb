@@ -58,11 +58,14 @@ class Organisation < ApplicationRecord
   has_one_attached :logo
   has_one_attached :contract_signature
 
+  locale_enum default: I18n.locale
+
   validates :booking_flow_type, presence: true
   validates :invoice_ref_strategy_type, presence: true
   validates :name, :email, presence: true
   validates :slug, uniqueness: true, allow_nil: true
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
+  validates :locale, presence: true
   validate -> { errors.add(:settings, :invalid) unless settings.valid? }
   validate do
     errors.add(:smtp_settings, :invalid) unless smtp_settings.is_a?(Hash) || smtp_settings.nil?

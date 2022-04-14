@@ -8,6 +8,7 @@
 #  addressed_to          :integer          default("manager"), not null
 #  body                  :text
 #  cc                    :string           default([]), is an Array
+#  locale                :string           default(NULL), not null
 #  queued_for_delivery   :boolean          default(FALSE)
 #  sent_at               :datetime
 #  subject               :string
@@ -33,6 +34,7 @@ FactoryBot.define do
     body { '# Body' }
     sent_at { nil }
     subject { 'Subject' }
+    locale { I18n.locale }
 
     booking
   end

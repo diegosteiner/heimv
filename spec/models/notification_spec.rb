@@ -8,6 +8,7 @@
 #  addressed_to          :integer          default("manager"), not null
 #  body                  :text
 #  cc                    :string           default([]), is an Array
+#  locale                :string           default(NULL), not null
 #  queued_for_delivery   :boolean          default(FALSE)
 #  sent_at               :datetime
 #  subject               :string
@@ -46,29 +47,33 @@ RSpec.describe Notification, type: :model do
       let(:to) { create(:operator) }
       it { is_expected.to eq([to.email]) }
       it { expect(notification).to be_addressed_to_manager }
+      it { expect(notification.locale).to eq(to.locale) }
     end
 
     context 'with organisation' do
-      let(:to) { create(:organisation, email: email) }
+      let(:to) { create(:organisation, email: email, locale: :it) }
       it { is_expected.to eq([to.email]) }
       it { expect(notification).to be_addressed_to_manager }
+      it { expect(notification.locale).to eq(to.locale) }
     end
 
     context 'with tenant' do
       let(:to) { create(:tenant, email: email) }
       it { is_expected.to eq([to.email]) }
       it { expect(notification).to be_addressed_to_tenant }
+      # it { expect(notification.locale).to eq(to.locale) }
     end
 
     context 'with booking' do
-      let(:to) { create(:booking, email: email) }
+      let(:to) { create(:booking, email: email, locale: :it) }
       it { is_expected.to eq([to.email]) }
       it { expect(notification).to be_addressed_to_tenant }
+      it { expect(notification.locale).to eq(to.locale) }
     end
   end
 
   describe '#deliver' do
-    let(:operator) { create(:operator) }
+    let(:operator) { create(:operator, locale: :it) }
     let(:notification) { create(:notification, to: email) }
     subject { notification.deliver }
 

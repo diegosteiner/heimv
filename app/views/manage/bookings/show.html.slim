@@ -58,6 +58,10 @@
                 dt= Booking.human_attribute_name(:approximate_headcount)
                 dd= @booking.approximate_headcount
 
+              dl
+                dt= Booking.human_attribute_name(:locale)
+                dd= @booking.locale
+
               - if @booking.internal_remarks.present?
                 dl 
                   dt= Booking.human_attribute_name(:internal_remarks)

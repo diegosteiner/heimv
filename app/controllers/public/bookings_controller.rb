@@ -3,6 +3,7 @@
 module Public
   class BookingsController < BaseController
     before_action :set_booking, only: %i[show edit update]
+    respond_to :html
 
     def new
       @booking = current_organisation.bookings.new(create_params)
@@ -23,11 +24,16 @@ module Public
     end
 
     def create
-      @booking = current_organisation.bookings.new(create_params)
-      @booking.notifications_enabled = true
-      @booking.save(context: :public_create) &&
-        flash[:notice] = t('flash.public.bookings.create.notice', email: @booking.email)
-      respond_with :public, @booking, location: root_path
+      @booking = prepare_create_booking
+      respond_to do |format|
+        if @booking.save(context: :public_create)
+          format.html { redirect_to root_path, notice: create_booking_notice }
+          format.json { render json: { status: :created }, status: :created }
+        else
+          format.html { render :new }
+          format.json { respond_with :public, @booking }
+        end
+      end
     end
 
     def update
@@ -41,9 +47,20 @@ module Public
 
     private
 
+    def create_booking_notice
+      t('flash.public.bookings.create.notice', email: @booking.email)
+    end
+
     def set_booking
       @booking = current_organisation.bookings.find_by(token: params[:id]) ||
                  current_organisation.bookings.find(params[:id])
+    end
+
+    def prepare_create_booking
+      current_organisation.bookings.new(create_params).tap do |booking|
+        booking.assign_attributes(notifications_enabled: true)
+        booking.set_tenant && booking.tenant.locale ||= I18n.locale
+      end
     end
 
     def call_booking_action

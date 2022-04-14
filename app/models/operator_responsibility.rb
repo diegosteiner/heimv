@@ -43,7 +43,7 @@ class OperatorResponsibility < ApplicationRecord
 
   scope :ordered, -> { rank(:ordinal) }
 
-  delegate :email, to: :operator
+  delegate :email, :locale, :contact_info, to: :operator
 
   validates :responsibility, presence: true
   validates :responsibility, uniqueness: { scope: :booking_id }, if: :booking_id

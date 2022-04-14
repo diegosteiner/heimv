@@ -53,7 +53,6 @@
 
 class Booking < ApplicationRecord
   include BookingStateConcern
-  include LocaleEnumerable
 
   DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :purpose, { tenant: :organisation, deadline: :booking, occupancy: :home,
@@ -106,7 +105,7 @@ class Booking < ApplicationRecord
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
   scope :inconcluded, -> { where(concluded: false) }
 
-  before_validation :set_organisation, :set_occupancy, :set_tenant
+  before_validation :organisation, :occupancy, :set_tenant
   before_create :set_ref
   after_create :reload
 
@@ -130,6 +129,10 @@ class Booking < ApplicationRecord
     update!(concluded: true, editable: false)
   end
 
+  def locale
+    tenant&.locale || organisation.locale
+  end
+
   def contract
     contracts.valid.last
   end
@@ -138,8 +141,10 @@ class Booking < ApplicationRecord
     agent_booking.present?
   end
 
-  def operator_for(responsibility)
-    operator_responsibilities.where(responsibility: responsibility).first
+  def operators_for(*responsibilities)
+    responsibilities.map do |responsibility|
+      operator_responsibilities.where(responsibility: responsibility).first
+    end.compact.uniq
   end
 
   def cache_key
@@ -162,6 +167,20 @@ class Booking < ApplicationRecord
     super.presence || tenant&.email.presence
   end
 
+  def set_tenant
+    return if email.blank?
+
+    self.tenant ||= Tenant.find_or_initialize_by(email: email, organisation: organisation)
+  end
+
+  def occupancy
+    self.occupancy = super || build_occupancy(booking: self, home: home)
+  end
+
+  def organisation
+    self.organisation = super || home&.organisation
+  end
+
   private
 
   def reject_tenant_attributes?(tenant_attributes)
@@ -169,24 +188,7 @@ class Booking < ApplicationRecord
       tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).values.all?(&:blank?)
   end
 
-  def set_tenant
-    self.tenant ||= organisation.tenants.find_or_initialize_by(email: email) if email.present?
-    tenant.email = email if email.present?
-    tenant&.organisation = organisation
-  end
-
-  def set_occupancy
-    self.occupancy ||= build_occupancy
-    occupancy.home = home
-    occupancy.booking = self
-    occupancy
-  end
-
   def set_ref
     self.ref ||= BookingRefService.new.generate(self)
-  end
-
-  def set_organisation
-    self.organisation ||= home&.organisation
   end
 end

@@ -59,6 +59,7 @@
             = cf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable
           = cf.text_area :phone, rows: 1, disabled: !@booking.editable
           = cf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
+          = cf.collection_select :locale, Tenant.locales, :first, :first
 
       fieldset
         h5= t('.booking_details')

@@ -16,6 +16,7 @@
 #  iban                            :string
 #  import_data                     :jsonb
 #  last_name                       :string
+#  locale                          :string           default(NULL), not null
 #  nickname                        :string
 #  phone                           :text
 #  remarks                         :text
@@ -43,12 +44,14 @@ class Tenant < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error
   belongs_to :organisation
 
+  locale_enum
+
   validates :email, allow_nil: true, format: { with: Devise.email_regexp }, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :street_address, length: { maximum: 255 }
   validates :phone, presence: true, length: { minimum: 10, maximum: 255 }, on: :public_update
-
+  validates :locale, presence: true
   validates :birth_date, presence: true, on: :public_update, if: :birth_date_required?
 
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }

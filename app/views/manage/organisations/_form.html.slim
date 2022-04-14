@@ -5,7 +5,7 @@
     = f.text_field :name
     div[v-pre]= f.text_area :address, rows: 4
     = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
-    = f.collection_select :locale, Booking.locales, :first, :first
+    = f.collection_select :locale, Organisation.locales, :first, :first
 
   fieldset
     h3.mt-4= Notification.model_name.human(count: :other)

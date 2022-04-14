@@ -48,7 +48,7 @@ module BookingStates
     end
 
     def assign_responsibilities_checklist_item
-      ChecklistItem.new(:assign_responsibilities, booking.operator_for(:home_handover).present?,
+      ChecklistItem.new(:assign_responsibilities, booking.operators_for(:home_handover).present?,
                         manage_booking_operator_responsibilities_path(booking, org: booking.organisation.slug))
     end
   end

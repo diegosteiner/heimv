@@ -35,7 +35,7 @@ module Manage
     private
 
     def operator_params
-      params.require(:operator).permit(:name, :email, :contact_info)
+      params.require(:operator).permit(:name, :email, :contact_info, :locale)
     end
   end
 end

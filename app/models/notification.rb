@@ -8,6 +8,7 @@
 #  addressed_to          :integer          default("manager"), not null
 #  body                  :text
 #  cc                    :string           default([]), is an Array
+#  locale                :string           default(NULL), not null
 #  queued_for_delivery   :boolean          default(FALSE)
 #  sent_at               :datetime
 #  subject               :string
@@ -37,12 +38,13 @@ class Notification < ApplicationRecord
   has_one :tenant, through: :booking
   has_one :organisation, through: :booking
 
+  locale_enum
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
-  validates :to, presence: true
+
+  validates :to, :locale, presence: true
   validates :rich_text_template, presence: true, if: :rich_text_template_key?
 
   delegate :bcc, to: :organisation
-  delegate :locale, to: :booking
   delegate :attach, to: :attachments
 
   attribute :rich_text_template_key
@@ -55,7 +57,7 @@ class Notification < ApplicationRecord
   end
 
   def deliverable?
-    valid? && organisation.notifications_enabled? && (booking.notifications_enabled? || addressed_to_manager?)
+    valid? && organisation.notifications_enabled? && booking.notifications_enabled?
   end
 
   def queue_for_delivery
@@ -82,17 +84,11 @@ class Notification < ApplicationRecord
     return if rich_text_template.blank?
 
     self.rich_text_template = rich_text_template
-    I18n.with_locale(booking.locale) do
+    I18n.with_locale(locale) do
       interpolation_result = rich_text_template.interpolate(context)
       self.subject = interpolation_result.title
       self.body = interpolation_result.body
     end
-  end
-
-  def locale
-    (addressed_to_tenant? && booking&.locale) ||
-      (addressed_to_manager? && organisation&.locale) ||
-      I18n.locale
   end
 
   def template=(rich_text_template_or_key)
@@ -126,12 +122,15 @@ class Notification < ApplicationRecord
     super case value
           when Tenant, Booking
             self.addressed_to = :tenant
+            self.locale = value.locale
             [value.email]
           when Operator, Organisation
             self.addressed_to = :manager
+            self.locale = value.locale
             [value.email]
           when BookingAgent
             self.addressed_to = :booking_agent
+            self.locale = organisation.locale
             [value.email]
           else
             [value&.to_s].flatten.compact

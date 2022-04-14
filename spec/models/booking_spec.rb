@@ -54,7 +54,7 @@
 require 'rails_helper'
 
 describe Booking, type: :model do
-  let(:organisation) { create(:organisation) }
+  let(:organisation) { home.organisation }
   let(:tenant) { create(:tenant, organisation: organisation) }
   let(:home) { create(:home) }
   let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
@@ -66,11 +66,10 @@ describe Booking, type: :model do
 
     it 'allows to change the locale' do
       locale = :fr
-      booking.locale = locale
-      booking.save
-      booking.reload
+      booking.tenant.locale = locale
+      booking.save!
 
-      expect(booking.locale_fr?).to be true
+      expect(booking.tenant).to be_locale_fr
       expect(booking.locale.to_sym).to eq(locale)
     end
   end

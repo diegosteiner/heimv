@@ -8,7 +8,7 @@ module Import
       def self.supported_headers
         super + ['tenant.email', 'tenant.phone*', 'tenant.remarks', 'tenant.country_code', 'tenant.zipcode',
                  'tenant.city', 'tenant.street', 'tenant.name', 'tenant.first_name', 'tenant.last_name',
-                 'tenant.nickname', 'tenant.address_addon']
+                 'tenant.nickname', 'tenant.address_addon', 'tenant.locale']
       end
 
       def initialize(organisation, **options)
@@ -41,6 +41,10 @@ module Import
         tenant.street_address = row.filter_map do |header, value|
           header&.starts_with?('tenant.street') && value
         end.compact_blank.join("\n")
+      end
+
+      actor do |tenant, row|
+        tenant.locale ||= row['tenant.locale'] || organisation.locale
       end
 
       actor do |tenant, row|

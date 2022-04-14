@@ -105,7 +105,7 @@ module BookingStates
     end
 
     def assign_operator_responsibilities(responsibilities = self.responsibilities)
-      OperatorResponsibilityService.new(@booking).assign_all(*responsibilities)
+      OperatorResponsibilityAssignmentService.new(@booking).assign_all(*responsibilities)
     end
 
     def public_actions

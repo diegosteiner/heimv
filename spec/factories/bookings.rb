@@ -53,26 +53,29 @@
 
 FactoryBot.define do
   factory :booking do
-    home
     sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
+
+    home
     tenant_organisation { Faker::Company.name }
     skip_infer_transition { true }
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }
+    notifications_enabled { true }
     transient do
       initial_state { nil }
       begins_at { nil }
       ends_at { nil }
-      tenant { association :tenant, organisation: home.organisation, email: email }
+      occupancy { association :occupancy, home: home, occupancy_type: :free }
+      tenant { association :tenant, organisation: organisation, email: email }
     end
 
     after(:build) do |booking, evaluator|
-      booking.organisation ||= booking.home.organisation
-      booking.occupancy ||= build(:occupancy, home: booking.home, occupancy_type: :free)
+      # booking.organisation ||= booking.occupancy.organisation || booking.tenant.organisation
+      booking.tenant = evaluator.tenant if evaluator.tenant.present?
+      booking.occupancy = evaluator.occupancy if evaluator.occupancy.present?
       booking.occupancy.begins_at = evaluator.begins_at if evaluator.begins_at.present?
       booking.occupancy.ends_at = evaluator.ends_at if evaluator.ends_at.present?
       booking.purpose ||= booking.organisation.booking_purposes.sample
-      booking.tenant = evaluator.tenant
     end
 
     after(:create) do |booking, evaluator|
