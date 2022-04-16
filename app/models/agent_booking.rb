@@ -55,13 +55,6 @@ class AgentBooking < ApplicationRecord
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
 
-  # def save_and_update_booking
-  #   return unless valid?
-
-  #   errors.add(:booking, :invalid) unless update_booking
-  #   save
-  # end
-
   def email=(value)
     super
     booking.email = value
