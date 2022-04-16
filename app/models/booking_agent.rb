@@ -38,4 +38,8 @@ class BookingAgent < ApplicationRecord
   def to_s
     name
   end
+
+  def locale
+    organisation&locale || I18n.locale
+  end
 end

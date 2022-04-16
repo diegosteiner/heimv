@@ -130,7 +130,7 @@ class Notification < ApplicationRecord
             [value.email]
           when BookingAgent
             self.addressed_to = :booking_agent
-            self.locale = value.organisation.locale
+            self.locale = value.locale
             [value.email]
           else
             [value&.to_s].flatten.compact
