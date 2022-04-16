@@ -10,6 +10,7 @@ FROM base AS development
 RUN apk add --update build-base \
     python3 \
     linux-headers \
+    gcompat \
     git \
     yarn \
     less \

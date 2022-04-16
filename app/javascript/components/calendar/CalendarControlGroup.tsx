@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Form } from "react-bootstrap";
-import CalendarControl from "./CalendarControl";
+import OccupancyDateTimeFormControl from "./OccupancyDateTimeFormControl";
 
 interface CalendarControlGroupProps {
   value: string;
@@ -26,15 +26,17 @@ export default function CalendarControlGroup({
   return (
     <Form.Group className="mb-3">
       <Form.Label className={required ? "required" : ""}>{label}</Form.Label>
-      <CalendarControl
+      <OccupancyDateTimeFormControl
         disabled={disabled}
         value={value}
         name={name}
         id={id}
         required={required}
         isInvalid={isInvalid}
-        invalidFeedback={invalidFeedback}
-      ></CalendarControl>
+      ></OccupancyDateTimeFormControl>
+      <Form.Control.Feedback type="invalid">
+        {invalidFeedback}
+      </Form.Control.Feedback>
     </Form.Group>
   );
 }

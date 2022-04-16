@@ -1,8 +1,5 @@
 import * as React from "react";
 import { InputGroup, Form, Button, Modal, Row, Col } from "react-bootstrap";
-import { OccupancyCalendarDayMemo } from "./OccupancyCalendar";
-import Calendar from "./Calendar";
-import { Occupancy } from "../../models/Occupancy";
 import { OccupancyWindow } from "../../models/OccupancyWindow";
 import {
   formatISO,
@@ -14,7 +11,10 @@ import {
   setMinutes,
   getHours,
   getMinutes,
+  isAfter,
+  isBefore,
 } from "date-fns/esm";
+import CalendarWithOccupancies from "./CalendarWithOccupancies";
 
 const formatDate = new Intl.DateTimeFormat("de-CH", {
   year: "numeric",
@@ -79,13 +79,13 @@ interface CalendarControlProps {
   onChange?(value: Date): void;
   onBlur?(): void;
   isInvalid?: boolean;
-  invalidFeedback?: string;
+  className?: string;
   occupancyWindow?: OccupancyWindow;
   minDate?: Date;
   maxDate?: Date;
 }
 
-export default function CalendarControl({
+export default function OccupancyDateTimeFormControl({
   value = "",
   name,
   id,
@@ -93,8 +93,11 @@ export default function CalendarControl({
   disabled = false,
   onChange,
   onBlur,
-  invalidFeedback,
-  isInvalid = !!invalidFeedback,
+  className,
+  isInvalid = false,
+  minDate,
+  maxDate,
+  occupancyWindow,
 }: CalendarControlProps) {
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [calendarControlValue, setCalendarControlValue] =
@@ -163,126 +166,111 @@ export default function CalendarControl({
     onBlur && onBlur();
   };
 
-  const classNameCallback = (date: Date, _occupancies: Set<Occupancy>) =>
-    (calendarControlValue?.date &&
-      isSameDay(date, calendarControlValue.date) &&
-      "bg-primary text-white") ||
-    "";
+  const classNameCallback = (date: Date) =>
+    calendarControlValue?.date && isSameDay(date, calendarControlValue.date)
+      ? "bg-primary text-white"
+      : "";
 
-  const dayElement = (date: Date) => (
-    <OccupancyCalendarDayMemo
-      onClick={handleClick}
-      date={date}
-      classNames={classNameCallback}
-      disabled={() => false}
-    ></OccupancyCalendarDayMemo>
-  );
+  const disabledCallback = (date: Date) =>
+    (minDate && isBefore(date, minDate)) ||
+    (maxDate && isAfter(date, maxDate)) ||
+    false;
 
   return (
-    <>
-      <div id={id} className={(isInvalid && "is-invalid") || ""}>
-        <input
-          type="hidden"
-          name={name}
-          value={
-            (calendarControlValue.date &&
-              formatISO(calendarControlValue.date)) ||
-            ""
-          }
-        />
-        <Row>
-          <Col>
-            <InputGroup hasValidation>
-              <Form.Control
-                id={`${id}_date`}
-                onBlur={handleTextChange}
-                disabled={disabled}
-                value={calendarControlValue.text}
-                onChange={(e: React.ChangeEvent) => {
-                  const value = (e.target as HTMLInputElement).value;
-                  setCalendarControlValue((prev) => ({ ...prev, text: value }));
-                }}
-                isInvalid={isInvalid}
-                required={required}
-              />
-              <Button
-                variant="primary"
-                onClick={handleShow}
-                disabled={disabled}
+    <div id={id} className={(!!isInvalid && "is-invalid") || ""}>
+      <input
+        type="hidden"
+        name={name}
+        value={
+          (calendarControlValue.date && formatISO(calendarControlValue.date)) ||
+          ""
+        }
+      />
+      <Row>
+        <Col>
+          <InputGroup hasValidation>
+            <Form.Control
+              id={`${id}_date`}
+              onBlur={handleTextChange}
+              disabled={disabled}
+              value={calendarControlValue.text}
+              onChange={(e: React.ChangeEvent) => {
+                const value = (e.target as HTMLInputElement).value;
+                setCalendarControlValue((prev) => ({ ...prev, text: value }));
+              }}
+              isInvalid={isInvalid}
+              required={required}
+            />
+            <Button variant="primary" onClick={handleShow} disabled={disabled}>
+              <i className="fa fa-calendar"></i>
+            </Button>
+          </InputGroup>
+        </Col>
+        <Col sm={6} className="d-flex">
+          <Form.Control
+            value={calendarControlValue.hours}
+            onBlur={onBlur}
+            className="d-inline-block w-auto"
+            onChange={(e: React.ChangeEvent) =>
+              setDateValue({
+                hours: closestNumber(
+                  parseInt((e.target as HTMLInputElement).value),
+                  availableHours
+                ),
+              })
+            }
+            isInvalid={isInvalid}
+            disabled={disabled || !isValid(calendarControlValue.date)}
+            required={required}
+            as="select"
+            id={`${id}_hours`}
+          >
+            {allHours.map((hour) => (
+              <option
+                disabled={!availableHours.includes(hour)}
+                key={hour}
+                value={hour}
               >
-                <i className="fa fa-calendar"></i>
-              </Button>
-            </InputGroup>
-          </Col>
-          <Col sm={6} className="d-flex">
-            <Form.Control
-              value={calendarControlValue.hours}
-              onBlur={onBlur}
-              className="d-inline-block w-auto"
-              onChange={(e: React.ChangeEvent) =>
-                setDateValue({
-                  hours: closestNumber(
-                    parseInt((e.target as HTMLInputElement).value),
-                    availableHours
-                  ),
-                })
-              }
-              isInvalid={isInvalid}
-              disabled={disabled || !isValid(calendarControlValue.date)}
-              required={required}
-              as="select"
-              id={`${id}_hours`}
-            >
-              {allHours.map((hour) => (
-                <option
-                  disabled={!availableHours.includes(hour)}
-                  key={hour}
-                  value={hour}
-                >
-                  {hour.toString().padStart(2, "0")}
-                </option>
-              ))}
-            </Form.Control>
-            <Form.Control
-              value={calendarControlValue.minutes}
-              onBlur={onBlur}
-              className="d-inline-block w-auto"
-              onChange={(e: React.ChangeEvent) =>
-                setDateValue({
-                  minutes: closestNumber(
-                    parseInt((e.target as HTMLInputElement).value),
-                    availableMinutes
-                  ),
-                })
-              }
-              isInvalid={isInvalid}
-              disabled={disabled || !isValid(calendarControlValue.date)}
-              required={required}
-              as="select"
-              id={`${id}_minutes`}
-            >
-              {availableMinutes.map((minutes) => (
-                <option key={minutes} value={minutes}>
-                  {minutes.toString().padStart(2, "0")}
-                </option>
-              ))}
-            </Form.Control>
-          </Col>
-        </Row>
-        <Modal size="lg" show={showModal} onHide={handleClose}>
-          <Modal.Body>
-            <Calendar
-              start={formatISO(calendarControlValue.date || new Date())}
-              dayElement={dayElement}
-            ></Calendar>
-          </Modal.Body>
-        </Modal>
-      </div>
-      {
-        <Form.Control.Feedback type="invalid">
-          {invalidFeedback}
-        </Form.Control.Feedback>
-      }
-    </>
+                {hour.toString().padStart(2, "0")}
+              </option>
+            ))}
+          </Form.Control>
+          <Form.Control
+            value={calendarControlValue.minutes}
+            onBlur={onBlur}
+            className="d-inline-block w-auto"
+            onChange={(e: React.ChangeEvent) =>
+              setDateValue({
+                minutes: closestNumber(
+                  parseInt((e.target as HTMLInputElement).value),
+                  availableMinutes
+                ),
+              })
+            }
+            isInvalid={isInvalid}
+            disabled={disabled || !isValid(calendarControlValue.date)}
+            required={required}
+            as="select"
+            id={`${id}_minutes`}
+          >
+            {availableMinutes.map((minutes) => (
+              <option key={minutes} value={minutes}>
+                {minutes.toString().padStart(2, "0")}
+              </option>
+            ))}
+          </Form.Control>
+        </Col>
+      </Row>
+      <Modal size="lg" show={showModal} onHide={handleClose}>
+        <Modal.Body>
+          <CalendarWithOccupancies
+            start={formatISO(calendarControlValue.date || new Date())}
+            onClickCallback={handleClick}
+            classNamesCallback={classNameCallback}
+            disabledCallback={disabledCallback}
+          ></CalendarWithOccupancies>
+        </Modal.Body>
+      </Modal>
+    </div>
   );
 }

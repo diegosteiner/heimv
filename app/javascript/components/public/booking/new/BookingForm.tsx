@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Form, Button } from "react-bootstrap";
-import CalendarControl from "../../../calendar/CalendarControl";
+import OccupancyDateTimeFormControl from "../../../calendar/OccupancyDateTimeFormControl";
 import { Trans, useTranslation } from "react-i18next";
-import { isValid as isValidDate, compareAsc } from "date-fns/esm";
+import { isValid as isValidDate, compareAsc, max } from "date-fns/esm";
 import { Booking } from "../../../../models/Booking";
 import { Organisation } from "../../../../models/Organisation";
 
@@ -39,11 +39,16 @@ export function BookingForm({
     getValues,
     setError,
     setValue,
+    watch,
     control,
     formState: { errors },
   } = useForm<Booking>({
     defaultValues: booking,
   });
+
+  const today = new Date();
+  const beginsAt = watch("occupancy.begins_at");
+  const minDate = max([today, beginsAt]);
 
   React.useEffect(() => {
     if (!submitErrors) return;
@@ -95,19 +100,21 @@ export function BookingForm({
             field: { onChange, onBlur, value, name },
             fieldState: { error },
           }) => (
-            <CalendarControl
-              isInvalid={!!error}
-              onBlur={onBlur}
-              onChange={(value) => {
-                compareAsc(value, getValues("occupancy.ends_at")) > 0 &&
-                  setValue("occupancy.ends_at", value);
-                onChange(value);
-              }}
-              value={value}
-              name={name}
-              id="begins_at"
-              invalidFeedback={errors.occupancy?.begins_at?.message}
-            />
+            <>
+              <OccupancyDateTimeFormControl
+                isInvalid={!!error}
+                onBlur={onBlur}
+                onChange={(value) => {
+                  compareAsc(value, getValues("occupancy.ends_at")) > 0 &&
+                    setValue("occupancy.ends_at", value);
+                  onChange(value);
+                }}
+                value={value}
+                minDate={today}
+                name={name}
+                id="begins_at"
+              />
+            </>
           )}
           name="occupancy.begins_at"
           control={control}
@@ -123,6 +130,9 @@ export function BookingForm({
             },
           }}
         ></Controller>
+        <Form.Control.Feedback type="invalid">
+          {errors.occupancy?.begins_at?.message}
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -134,13 +144,13 @@ export function BookingForm({
             field: { onChange, onBlur, value, name },
             fieldState: { error },
           }) => (
-            <CalendarControl
+            <OccupancyDateTimeFormControl
               isInvalid={!!error}
-              invalidFeedback={errors.occupancy?.ends_at?.message}
               onBlur={onBlur}
               onChange={onChange}
               value={value}
               name={name}
+              minDate={minDate}
               id="ends_at"
             />
           )}
@@ -162,6 +172,9 @@ export function BookingForm({
             },
           }}
         ></Controller>
+        <Form.Control.Feedback type="invalid">
+          {errors.occupancy?.ends_at?.message}
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="mb-3">

@@ -198,7 +198,7 @@ function CalendarNav({ onPrev, onNext, children }: CalendarNavProps) {
 
 const CalendarMonthMemo = React.memo(CalendarMonth);
 interface CalendarProps {
-  start?: string;
+  start?: string | Date;
   monthsCount?: number | string;
   dayElement(date: Date): React.ReactElement;
 }
@@ -208,7 +208,7 @@ function Calendar({ start, dayElement, monthsCount = 12 }: CalendarProps) {
     ? (monthsCount as number)
     : parseInt(monthsCount.toString());
 
-  let startDate = start && parseISO(start);
+  let startDate = typeof start === "string" ? parseISO(start) : start;
   if (!isValid(startDate)) startDate = new Date();
 
   const [visibleMonths, setVisibleMonths] = React.useState<YearMonth[]>(() =>
