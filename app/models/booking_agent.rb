@@ -40,6 +40,6 @@ class BookingAgent < ApplicationRecord
   end
 
   def locale
-    organisation&locale || I18n.locale
+    (organisation & locale) || I18n.locale
   end
 end
