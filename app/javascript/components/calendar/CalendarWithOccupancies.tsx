@@ -2,13 +2,13 @@ import * as React from "react";
 import { formatISO, isBefore, isAfter, setHours, startOfDay, endOfDay, isWithinInterval } from "date-fns/esm";
 import Calendar from "./Calendar";
 import { Popover, OverlayTrigger } from "react-bootstrap";
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import * as chroma from 'chroma.ts'
 import { useTranslation } from "react-i18next";
 import { OccupancyWindow, occupanciesAt } from "../../models/OccupancyWindow";
 import { Occupancy } from "../../models/Occupancy";
 
-const calendarDayBaseStyle = css`
+const StyledButton = styled.button`
   border: 1px solid transparent;
   background: transparent;
   font-size: 0.9rem;
@@ -24,18 +24,19 @@ const calendarDayBaseStyle = css`
   }
 `
 
-function calendarDayFullStyle(hexColorString: string): React.CSSProperties {
+function calendarDayFullStyle(hexColorString: string) {
   if (!hexColorString) return {}
 
   const color = chroma.css(hexColorString);
   return {
-    color: color.toString(),
-    borderColor: color.toString(),
-    backgroundColor: color.alpha(0.3).toString(),
+    "--calendar-color": color,
+    "--calendar-background": color.alpha(0.3),
+    "--calendar-forenoon-color": color,
+    "--calendar-afternoon-color": color
   }
 };
 
-function calendarDayDividedStyle(hexTopColorString?: string, hexBottomColorString?: string): React.CSSProperties {
+function calendarDayDividedStyle(hexTopColorString?: string, hexBottomColorString?: string) {
   const fallbackColor = "#FFFFFF"
   const textColor = hexTopColorString || hexBottomColorString;
   const topColor = chroma.css(hexTopColorString || fallbackColor);
@@ -56,20 +57,17 @@ function calendarDayDividedStyle(hexTopColorString?: string, hexBottomColorStrin
   }
 };
 
-function calendarDayStyle(slots: CalendarDaySlot<Occupancy>) {
-  if (!slots || slots == [null, null]) return
-  if (slots instanceof Array && (slots[0] || slots[1])) {
-    return calendarDayDividedStyle(slots[0]?.color, slots[1]?.color);
-  }
-  slots = slots as Occupancy;
-  if (slots.color) return calendarDayFullStyle(slots.color)
+function calendarDayStyle(slots: CalendarDaySlot) {
+  if (!slots || slots.length <= 0) return
+  if (slots.length == 1 && slots[0]?.color) return calendarDayFullStyle(slots[0]?.color)
+  if (slots[0]?.color || slots[1]?.color) return calendarDayDividedStyle(slots[0]?.color, slots[1]?.color);
 }
 
-type CalendarDaySlot<T> = [T | null, T | null] | T;
+type CalendarDaySlot = [Occupancy | null, Occupancy | null] | [Occupancy] | [];
 
-function occupancySlotsInCalendarDay(date: Date, occupancies: Set<Occupancy>) {
+function occupancySlotsInCalendarDay(date: Date, occupancies: Set<Occupancy>): CalendarDaySlot {
   const midDay = setHours(startOfDay(date), 12);
-  const slots: CalendarDaySlot<Occupancy> = [null, null]
+  const slots: CalendarDaySlot = [null, null]
 
   for (const occupancy of Array.from(occupancies)) {
     if (isWithinInterval(occupancy.ends_at, { start: startOfDay(date), end: midDay })) {
@@ -80,10 +78,10 @@ function occupancySlotsInCalendarDay(date: Date, occupancies: Set<Occupancy>) {
       slots[1] = occupancy;
       continue;
     }
-    return occupancy
+    return [occupancy]
   }
 
-  return slots;
+  return slots == [null, null] ? [] : slots;
 };
 
 export function defaultDisabledCallback(date: Date, occupancyWindow?: OccupancyWindow): boolean {
@@ -114,19 +112,21 @@ export function CalendarDay({ date, occupancyWindow, classNames, disabled, onCli
 
   if (typeof disabled === "function") disabled = disabled(date);
   if (typeof classNames === "function") classNames = classNames(date);
+  if (slots.length > 0) {
+    classNames += " occupied";
+  }
 
   const button = (
-    <button
+    <StyledButton
       type="button"
       disabled={disabled}
       onClick={onClick}
       value={formatISO(date, { representation: "date" })}
       className={classNames}
-      css={calendarDayBaseStyle}
       style={calendarDayStyle(slots)}
     >
       {date.getDate()}
-    </button>
+    </StyledButton>
   );
 
   if (occupancies.size <= 0) return button;
