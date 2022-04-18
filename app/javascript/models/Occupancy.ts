@@ -8,6 +8,7 @@ export type OccupancyJsonData = {
   ref: string | null;
   deadline: string | null;
   remarks: string | null;
+  color?: string;
 };
 
 export type Occupancy = {
@@ -18,6 +19,7 @@ export type Occupancy = {
   ref: string | null;
   deadline: Date | null;
   remarks: string | null;
+  color?: string;
 };
 
 export function fromJson(json: OccupancyJsonData): Occupancy {

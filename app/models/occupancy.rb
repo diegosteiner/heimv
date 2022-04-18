@@ -116,4 +116,9 @@ class Occupancy < ApplicationRecord
 
     (ends_at.to_date - begins_at.to_date).to_i
   end
+
+  def color 
+    # { tentative: '#e8bc56', occupied: '#e85f5f', closed: '#929292' }.fetch(occupancy_type&.to_sym, 'transparent')
+    { tentative: '#e8bc56', occupied: '#e84646', closed: '#929292' }.fetch(occupancy_type&.to_sym, 'transparent')
+  end
 end

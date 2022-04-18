@@ -1,82 +1,93 @@
 import * as React from "react";
-import {
-  formatISO,
-  isBefore,
-  isAfter,
-  setHours,
-  startOfDay,
-  endOfDay,
-  isWithinInterval,
-  isDate,
-} from "date-fns/esm";
+import { formatISO, isBefore, isAfter, setHours, startOfDay, endOfDay, isWithinInterval } from "date-fns/esm";
 import Calendar from "./Calendar";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 import { css } from "@emotion/react";
+import * as chroma from 'chroma.ts'
 import { useTranslation } from "react-i18next";
+import { OccupancyWindow, occupanciesAt } from "../../models/OccupancyWindow";
 import { Occupancy } from "../../models/Occupancy";
-import { OccupancyWindow } from "../../models/OccupancyWindow";
 
-const CalendarWithOccupanciesStyles = css`
-  .calendarDay * {
-    background-color: white;
-    border: 1px solid white;
-    cursor: pointer;
-    text-align: center;
-    display: block;
-    font-size: 0.9rem;
-    transition: opacity 0.1s ease-in-out;
-    opacity: 1;
+const calendarDayBaseStyle = css`
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 0.9rem;
 
-    &:hover {
-      opacity: 0.8;
-    }
-
-    &.disabled,
-    &[disabled] {
-      cursor: default;
-      opacity: 0.2;
-    }
+  &.occupied {
+    font-weight: bold;
+    color: var(--calendar-color);
+    background: var(--calendar-background);
+    border-top-color: var(--calendar-forenoon-color);
+    border-left-color: var(--calendar-forenoon-color);
+    border-right-color: var(--calendar-afternoon-color);
+    border-bottom-color: var(--calendar-afternoon-color);
   }
-`;
+`
 
-function occupanciesAt(
-  date: Date | string,
-  occupancyWindow?: OccupancyWindow
-): Set<Occupancy> {
-  const dateString = isDate(date)
-    ? formatISO(date as Date, { representation: "date" })
-    : (date as string);
-  return occupancyWindow?.occupiedDates[dateString] || new Set<Occupancy>();
+function calendarDayFullStyle(hexColorString: string): React.CSSProperties {
+  if (!hexColorString) return {}
+
+  const color = chroma.css(hexColorString);
+  return {
+    color: color.toString(),
+    borderColor: color.toString(),
+    backgroundColor: color.alpha(0.3).toString(),
+  }
+};
+
+function calendarDayDividedStyle(hexTopColorString?: string, hexBottomColorString?: string): React.CSSProperties {
+  const fallbackColor = "#FFFFFF"
+  const textColor = hexTopColorString || hexBottomColorString;
+  const topColor = chroma.css(hexTopColorString || fallbackColor);
+  const bottomColor = chroma.css(hexBottomColorString || fallbackColor);
+  const background = `linear-gradient(135deg, 
+                        ${topColor.alpha(0.3)} 48%, 
+                        ${fallbackColor} 48%, 
+                        ${fallbackColor} 52%, 
+                        ${bottomColor.alpha(0.3)} 52%`
+
+  return {
+    color: textColor,
+    borderTopColor: topColor.toString(),
+    borderLeftColor: topColor.toString(),
+    borderBottomColor: bottomColor.toString(),
+    borderRightColor: bottomColor.toString(),
+    background: background
+  }
+};
+
+function calendarDayStyle(slots: CalendarDaySlot<Occupancy>) {
+  if (!slots || slots == [null, null]) return
+  if (slots instanceof Array && (slots[0] || slots[1])) {
+    return calendarDayDividedStyle(slots[0]?.color, slots[1]?.color);
+  }
+  slots = slots as Occupancy;
+  if (slots.color) return calendarDayFullStyle(slots.color)
 }
 
-export function defaultClassNamesCallback(
-  date: Date,
-  occupancyWindow?: OccupancyWindow
-): string {
+type CalendarDaySlot<T> = [T | null, T | null] | T;
+
+function occupancySlotsInCalendarDay(date: Date, occupancies: Set<Occupancy>) {
   const midDay = setHours(startOfDay(date), 12);
+  const slots: CalendarDaySlot<Occupancy> = [null, null]
 
-  return Array.from(occupanciesAt(date, occupancyWindow))
-    .map(({ begins_at, ends_at, occupancy_type }) => {
-      if (isWithinInterval(ends_at, { start: startOfDay(date), end: midDay })) {
-        return `${occupancy_type}-forenoon`;
-      }
-      if (isWithinInterval(begins_at, { start: midDay, end: endOfDay(date) })) {
-        return `${occupancy_type}-afternoon`;
-      }
-      return `${occupancy_type}-fullday`;
-    })
-    .join(" ");
-}
+  for (const occupancy of Array.from(occupancies)) {
+    if (isWithinInterval(occupancy.ends_at, { start: startOfDay(date), end: midDay })) {
+      slots[0] = occupancy;
+      continue;
+    }
+    if (isWithinInterval(occupancy.begins_at, { start: midDay, end: endOfDay(date) })) {
+      slots[1] = occupancy;
+      continue;
+    }
+    return occupancy
+  }
 
-export function defaultDisabledCallback(
-  date: Date,
-  occupancyWindow?: OccupancyWindow
-): boolean {
-  return (
-    !occupancyWindow ||
-    isBefore(date, occupancyWindow.start) ||
-    isAfter(date, occupancyWindow.end)
-  );
+  return slots;
+};
+
+export function defaultDisabledCallback(date: Date, occupancyWindow?: OccupancyWindow): boolean {
+  return !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end);
 }
 
 const formatDate = new Intl.DateTimeFormat("de-CH", {
@@ -96,14 +107,10 @@ interface CalendarDayProps {
   disabled?: boolean | ((date: Date) => boolean);
 }
 
-export function CalendarDay({
-  date,
-  occupancyWindow,
-  classNames,
-  disabled,
-  onClick,
-}: CalendarDayProps) {
+export function CalendarDay({ date, occupancyWindow, classNames, disabled, onClick }: CalendarDayProps) {
   const occupancies = occupanciesAt(date, occupancyWindow);
+  const { t } = useTranslation();
+  const slots = occupancySlotsInCalendarDay(date, occupancies)
 
   if (typeof disabled === "function") disabled = disabled(date);
   if (typeof classNames === "function") classNames = classNames(date);
@@ -115,6 +122,8 @@ export function CalendarDay({
       onClick={onClick}
       value={formatISO(date, { representation: "date" })}
       className={classNames}
+      css={calendarDayBaseStyle}
+      style={calendarDayStyle(slots)}
     >
       {date.getDate()}
     </button>
@@ -122,7 +131,6 @@ export function CalendarDay({
 
   if (occupancies.size <= 0) return button;
 
-  const { t } = useTranslation();
   const popover = (
     <Popover id="popover-basic">
       <Popover.Body>
@@ -130,22 +138,14 @@ export function CalendarDay({
           const deadline = occupancy.deadline;
 
           return (
-            <dl
-              className="my-2"
-              key={`${formatISO(date, { representation: "date" })}-${
-                occupancy.id
-              }`}
-            >
+            <dl className="my-2" key={`${formatISO(date, { representation: "date" })} -${occupancy.id} `}>
               <dt>
-                {formatDate(occupancy.begins_at)} -{" "}
-                {formatDate(occupancy.ends_at)}
+                {formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}
               </dt>
               <dd>
                 <span>
                   <>
-                    {t(
-                      `activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`
-                    )}
+                    {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type} `)}
                     <br />
                     {occupancy.ref || occupancy.remarks}
                   </>
@@ -196,24 +196,14 @@ function CalendarWithOccupancies({
       occupancyWindow={occupancyWindow}
       date={date}
       onClick={onClickCallback}
-      classNames={
-        classNamesCallback ||
-        ((date: Date) => defaultClassNamesCallback(date, occupancyWindow))
-      }
-      disabled={
-        disabledCallback ||
-        ((date: Date) => defaultDisabledCallback(date, occupancyWindow))
-      }
+      classNames={classNamesCallback}
+      disabled={disabledCallback || ((date: Date) => defaultDisabledCallback(date, occupancyWindow))}
     ></CalendarDayMemo>
   );
 
   return (
-    <div css={CalendarWithOccupanciesStyles} className="occupancyCalendar">
-      <Calendar
-        start={start}
-        monthsCount={monthsCount}
-        dayElement={dayElement}
-      ></Calendar>
+    <div className="occupancyCalendar">
+      <Calendar start={start} monthsCount={monthsCount} dayElement={dayElement}></Calendar>
     </div>
   );
 }
