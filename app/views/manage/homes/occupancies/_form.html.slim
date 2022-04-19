@@ -13,6 +13,7 @@
                                                 required: true)
     
     = f.text_area :remarks
+    = f.text_field :color, value: @occupancy.color_in_database
 
   .form-actions.pt-4.mt-3
     = f.submit

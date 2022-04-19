@@ -19,6 +19,11 @@
       = sf.text_field :provisional_request_deadline, value: sf.object.provisional_request_deadline&.iso8601
       = sf.text_field :unconfirmed_request_deadline, value: sf.object.unconfirmed_request_deadline&.iso8601
       = sf.text_field :upcoming_soon_window, value: sf.object.upcoming_soon_window&.iso8601
+      = sf.color_field :tentative_occupancy_color 
+      = sf.color_field :occupied_occupancy_color 
+      = sf.color_field :closed_occupancy_color 
 
   .form-actions.pt-4.mt-3
     = f.submit
+
+/ f2a2a2

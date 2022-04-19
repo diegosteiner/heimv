@@ -13,9 +13,14 @@ class HomeSettings < Settings
   attribute :deadline_postponable_for, DurationType.new, default: 3.days
   attribute :booking_margin, DurationType.new, default: 0
   attribute :min_occupation, :integer, default: 0
+  attribute :tentative_occupancy_color, :string, default: '#e8bc56'
+  attribute :occupied_occupancy_color, :string, default: '#e85f5f'
+  attribute :closed_occupancy_color, :string, default: '#929292'
 
   validates :booking_margin, :booking_window, :awaiting_contract_deadline, :overdue_request_deadline,
             :unconfirmed_request_deadline, :provisional_request_deadline, :last_minute_warning,
             :invoice_payment_deadline, :deposit_payment_deadline, :deadline_postponable_for, :upcoming_soon_window,
             :booking_window, numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
+  validates :tentative_occupancy_color, :occupied_occupancy_color,
+            :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
 end

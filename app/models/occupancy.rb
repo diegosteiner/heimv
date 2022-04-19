@@ -6,6 +6,7 @@
 #
 #  id             :uuid             not null, primary key
 #  begins_at      :datetime         not null
+#  color          :string
 #  ends_at        :datetime         not null
 #  occupancy_type :integer          default("free"), not null
 #  remarks        :text
@@ -27,6 +28,7 @@
 #
 
 class Occupancy < ApplicationRecord
+  COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
   belongs_to :home
   belongs_to :booking, inverse_of: :occupancy, optional: true
 
@@ -57,6 +59,7 @@ class Occupancy < ApplicationRecord
     .or(ends_at(before: to, after: from))
   end)
 
+  validates :color, format: { with: COLOR_REGEX }, allow_nil: true
   validates :begins_at, :ends_at, presence: true
   validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
   validate do
@@ -117,8 +120,16 @@ class Occupancy < ApplicationRecord
     (ends_at.to_date - begins_at.to_date).to_i
   end
 
-  def color 
-    # { tentative: '#e8bc56', occupied: '#e85f5f', closed: '#929292' }.fetch(occupancy_type&.to_sym, 'transparent')
-    { tentative: '#e8bc56', occupied: '#e84646', closed: '#929292' }.fetch(occupancy_type&.to_sym, 'transparent')
+  def color=(value)
+    super(value.presence) if value != color
+  end
+
+  def color
+    super || booking&.color ||
+      {
+        tentative: home.settings.tentative_occupancy_color,
+        occupied: home.settings.occupied_occupancy_color,
+        closed: home.settings.closed_occupancy_color
+      }.fetch(occupancy_type&.to_sym, '#FFFFFF00')
   end
 end

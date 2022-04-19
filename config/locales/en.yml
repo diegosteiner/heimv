@@ -18,13 +18,16 @@ en:
       home_settings:
         awaiting_contract_deadline: Frist für Vertragseingänge
         booking_margin: Abstand zwischen Buchungen
+        closed_occupancy_color: Farbe für Schliessungen
         deadline_postponable_for: Fristverlängerung
         deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
         invoice_payment_deadline: Standardmässige Zahlungsfrist
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         min_occupation: Mindestbelegung
+        occupied_occupancy_color: Farbe für definitive Belegungen
         overdue_request_deadline: Frist für Reservationsanfragen
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
+        tentative_occupancy_color: Farbe für provisorischen Belegungen
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerabschnitts ab
@@ -182,6 +185,7 @@ en:
         begins_at: Beginn der Belegung
         begins_at_date: Beginn der Belegung (Datum)
         begins_at_time: Beginn der Belegung (Zeit)
+        color: Farbe im Kalender
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)

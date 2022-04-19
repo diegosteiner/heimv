@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_13_152939) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_19_115020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -154,6 +154,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_13_152939) do
     t.string "booking_flow_type"
     t.string "token"
     t.datetime "conditions_accepted_at", precision: nil
+    t.string "color"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
@@ -302,6 +303,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_13_152939) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.uuid "booking_id"
+    t.string "color"
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["home_id"], name: "index_occupancies_on_home_id"
