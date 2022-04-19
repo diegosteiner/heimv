@@ -6,6 +6,7 @@
 #
 #  id             :uuid             not null, primary key
 #  begins_at      :datetime         not null
+#  color          :string
 #  ends_at        :datetime         not null
 #  occupancy_type :integer          default("free"), not null
 #  remarks        :text

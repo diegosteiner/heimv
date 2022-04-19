@@ -31,22 +31,24 @@ const StyledCalendar = styled.div`
 
   .calendarDay {
     display: block;
-    height: 100%;
+    aspect-ratio: 1 / 1;
+    text-align: center;
+    padding: 0;
   }
 
   .calendarMonths {
-    font-size: 1rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(14em, 15em));
-    grid-template-rows: 16em;
-    gap: 1em;
-    align-content: space-evenly;
-    justify-content: space-evenly;
+    grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
   }
 
   .calendarMonth {
+    aspect-ratio: 1 / 1;
+    margin: 1.5em;
+    box-sizing: border-box;
+
     header {
       font-weight: bold;
+      font-size: 1.25em;
       text-align: center;
       padding: 0.25em 0;
     }
@@ -54,24 +56,12 @@ const StyledCalendar = styled.div`
       font-weight: bold;
       text-align: center;
       padding: 0.25em;
-      font-size: 0.65em;
+      font-size: 0.75em;
     }
     .calendarDays {
       display: grid;
-      grid-template-columns: repeat(7, 2em);
-      grid-template-rows: repeat(7, 2em);
-      align-content: space-between;
-      justify-content: space-between;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .calendarDay,
-    .calendarDay > * {
-      text-align: center;
-      width: 100%;
-      height: 100%;
-      padding: 0;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1px;
     }
   }
 

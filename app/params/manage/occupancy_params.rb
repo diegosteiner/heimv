@@ -3,7 +3,7 @@
 module Manage
   class OccupancyParams < Public::OccupancyParams
     def self.permitted_keys
-      super + %i[occupancy_type remarks]
+      super + %i[occupancy_type remarks color]
     end
   end
 end

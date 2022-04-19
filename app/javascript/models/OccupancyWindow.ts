@@ -3,7 +3,7 @@ import {
   OccupancyJsonData,
   fromJson as occupancyFromJson,
 } from "./Occupancy";
-import { parseISO, eachDayOfInterval, formatISO } from "date-fns";
+import { parseISO, eachDayOfInterval, formatISO, isDate } from "date-fns";
 
 export type OccupiedDates = {
   [key: string]: Set<Occupancy>;
@@ -33,6 +33,8 @@ export function fromJson(json: OccupancyWindowJsonData): OccupancyWindow {
   };
 }
 
+const dateFormat = (date: Date) => formatISO(date, { representation: "date" });
+
 function getOccupiedDates(occupancies: Occupancy[]) {
   const occupiedDates: OccupiedDates = {};
 
@@ -41,9 +43,7 @@ function getOccupiedDates(occupancies: Occupancy[]) {
       start: occupancy.begins_at,
       end: occupancy.ends_at,
     }).forEach((occupiedDate) => {
-      const occupiedDateString = formatISO(occupiedDate, {
-        representation: "date",
-      });
+      const occupiedDateString = dateFormat(occupiedDate);
       occupiedDates[occupiedDateString] =
         occupiedDates[occupiedDateString]?.add(occupancy) ||
         new Set([occupancy]);
@@ -51,4 +51,12 @@ function getOccupiedDates(occupancies: Occupancy[]) {
   }
 
   return occupiedDates;
+}
+
+export function occupanciesAt(
+  date: Date | string,
+  occupancyWindow?: OccupancyWindow
+): Set<Occupancy> {
+  const dateString = isDate(date) ? dateFormat(date as Date) : (date as string);
+  return occupancyWindow?.occupiedDates[dateString] || new Set<Occupancy>();
 }

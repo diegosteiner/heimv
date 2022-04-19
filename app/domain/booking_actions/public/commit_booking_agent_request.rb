@@ -4,8 +4,7 @@ module BookingActions
   module Public
     class CommitBookingAgentRequest < CommitRequest
       def call!
-        agent_booking.assign_attributes(committed_request: true)
-        agent_booking.save_and_update_booking
+        agent_booking.update(committed_request: true)
       end
 
       def allowed?

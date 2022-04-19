@@ -37,14 +37,12 @@
 
 class AgentBooking < ApplicationRecord
   belongs_to :booking_agent, inverse_of: :agent_bookings
-  belongs_to :booking, inverse_of: :agent_booking
+  belongs_to :booking, inverse_of: :agent_booking, validate: true
   belongs_to :organisation
   belongs_to :home
   has_one :occupancy, through: :booking
 
   has_secure_token :token, length: 48
-
-  before_validation :assign_booking_agent
 
   validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request
   validates :booking_agent_code, presence: true
@@ -53,37 +51,30 @@ class AgentBooking < ApplicationRecord
     errors.add(:tenant_email, :invalid) if tenant_email.present? && tenant_email == booking_agent&.email
   end
 
+  delegate :occupancy, to: :booking, allow_nil: true
+
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
 
-  def save_and_update_booking
-    errors.add(:booking, :invalid) unless valid? && update_booking
-    save
+  def email=(value)
+    super
+    booking.email = value
   end
 
-  def update_booking
-    build_booking
-    valid? && booking.save
+  def home=(value)
+    super
+    booking.home = value
   end
 
-  def build_booking
-    self.booking ||= super(committed_request: false, notifications_enabled: true)
-    self.booking.assign_attributes(home: home, organisation: organisation, email: tenant_email.presence)
-  end
-
-  def build_occupancy(attributes = {})
-    build_booking
-    booking.build_occupancy(attributes)
-  end
-
-  def occupancy
-    booking&.occupancy || build_occupancy
+  def booking
+    super || self.booking = build_booking(committed_request: false, notifications_enabled: true,
+                                          home: home, organisation: organisation)
   end
 
   def booking_agent_responsible?
     !committed_request || !valid?
   end
 
-  def assign_booking_agent
-    self.booking_agent ||= organisation.booking_agents.find_by(code: booking_agent_code)
+  def booking_agent
+    super || self.booking_agent = organisation.booking_agents.find_by(code: booking_agent_code)
   end
 end

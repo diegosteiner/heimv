@@ -9,6 +9,7 @@
 #  booking_flow_type      :string
 #  booking_state_cache    :string           default("initial"), not null
 #  cancellation_reason    :text
+#  color                  :string
 #  committed_request      :boolean
 #  concluded              :boolean          default(FALSE)
 #  conditions_accepted_at :datetime
@@ -79,7 +80,7 @@ class Booking < ApplicationRecord
   has_many :booked_extras, inverse_of: :booking, dependent: :destroy
   has_many :bookable_extras, through: :booked_extras
 
-  has_one  :occupancy, inverse_of: :booking, dependent: :destroy
+  has_one  :occupancy, inverse_of: :booking, dependent: :destroy, validate: true
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
 
@@ -174,11 +175,11 @@ class Booking < ApplicationRecord
   end
 
   def occupancy
-    self.occupancy = super || build_occupancy(booking: self, home: home)
+    super || self.occupancy = build_occupancy(booking: self, home: home)
   end
 
   def organisation
-    self.organisation = super || home&.organisation
+    super || self.organisation = home&.organisation
   end
 
   private
