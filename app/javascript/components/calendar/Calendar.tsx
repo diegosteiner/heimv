@@ -103,7 +103,7 @@ function materializedMonths(startDate: Date, monthsCount: number) {
 }
 
 class YearMonth {
-  constructor(public year: number, public month: number) { }
+  constructor(public year: number, public month: number) {}
 
   firstDate(): Date {
     return new Date(this.year, this.month, 1);

@@ -172,8 +172,7 @@ export function CalendarDay({
           return (
             <dl
               className="my-2"
-              key={`${formatISO(date, { representation: "date" })} -${occupancy.id
-                }`}
+              key={`${formatISO(date, { representation: "date" })}-${occupancy.id}`}
             >
               <dt>
                 {formatDate(occupancy.begins_at)} -{" "}
@@ -228,21 +227,25 @@ function CalendarWithOccupancies({
   classNamesCallback,
   disabledCallback,
 }: CalendarWithOccupanciesProps) {
-
   const dayElement = (dateString: string) =>
-    React.useCallback((dateString: string) => {
-      const occupancies = occupanciesAt(dateString, occupancyWindow);
-      return <CalendarDay
-        occupancies={occupancies}
-        dateString={dateString}
-        onClick={onClickCallback}
-        classNames={classNamesCallback}
-        disabled={
-          disabledCallback ||
-          ((date: Date) => defaultDisabledCallback(date, occupancyWindow))
-        }
-      ></CalendarDay>
-    }, [dateString, !!occupancyWindow])(dateString);
+    React.useCallback(
+      (dateString: string) => {
+        const occupancies = occupanciesAt(dateString, occupancyWindow);
+        return (
+          <CalendarDay
+            occupancies={occupancies}
+            dateString={dateString}
+            onClick={onClickCallback}
+            classNames={classNamesCallback}
+            disabled={
+              disabledCallback ||
+              ((date: Date) => defaultDisabledCallback(date, occupancyWindow))
+            }
+          ></CalendarDay>
+        );
+      },
+      [dateString, !!occupancyWindow]
+    )(dateString);
 
   return (
     <div className="occupancyCalendar">
