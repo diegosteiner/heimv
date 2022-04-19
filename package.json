@@ -6,6 +6,7 @@
         "@babel/preset-react": "^7.9.4",
         "@babel/preset-typescript": "^7.12.7",
         "@babel/runtime": "7.17.9",
+        "@emotion/babel-plugin": "^11.9.2",
         "@emotion/react": "^11.8.2",
         "@emotion/styled": "^11.8.1",
         "@popperjs/core": "^2.11.4",
@@ -54,7 +55,6 @@
         "yaml-loader": "^0.6.0"
     },
     "devDependencies": {
-        "@emotion/babel-plugin": "^11.9.2",
         "@types/tinymce": "^4.6.4",
         "@typescript-eslint/eslint-plugin": "^5.19.0",
         "@typescript-eslint/parser": "^5.19.0",

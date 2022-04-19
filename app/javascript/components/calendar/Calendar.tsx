@@ -103,7 +103,7 @@ function materializedMonths(startDate: Date, monthsCount: number) {
 }
 
 class YearMonth {
-  constructor(public year: number, public month: number) {}
+  constructor(public year: number, public month: number) { }
 
   firstDate(): Date {
     return new Date(this.year, this.month, 1);
@@ -127,7 +127,7 @@ class YearMonth {
 
 interface CalendarMonthProps {
   month: YearMonth;
-  dayElement(date: Date): React.ReactElement;
+  dayElement(dateString: string): React.ReactElement;
 }
 
 function CalendarMonth({ month, dayElement }: CalendarMonthProps) {
@@ -157,7 +157,7 @@ function CalendarMonth({ month, dayElement }: CalendarMonthProps) {
               dateTime={dateString}
               key={`day-${dateString}`}
             >
-              {dayElement(day)}
+              {dayElement(dateString)}
             </time>
           );
         })}
@@ -190,7 +190,7 @@ const CalendarMonthMemo = React.memo(CalendarMonth);
 interface CalendarProps {
   start?: string | Date;
   monthsCount?: number | string;
-  dayElement(date: Date): React.ReactElement;
+  dayElement(dateString: string): React.ReactElement;
 }
 
 function Calendar({ start, dayElement, monthsCount = 12 }: CalendarProps) {

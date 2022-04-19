@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  parseISO,
   formatISO,
   isBefore,
   isAfter,
@@ -126,21 +127,21 @@ const formatDate = new Intl.DateTimeFormat("de-CH", {
 }).format;
 
 interface CalendarDayProps {
-  date: Date;
-  occupancyWindow?: OccupancyWindow;
+  dateString: string;
+  occupancies?: Set<Occupancy>;
   onClick?(e: React.MouseEvent): void;
   classNames?: string | ((date: Date) => string);
   disabled?: boolean | ((date: Date) => boolean);
 }
 
 export function CalendarDay({
-  date,
-  occupancyWindow,
+  dateString,
+  occupancies = new Set(),
   classNames,
   disabled,
   onClick,
 }: CalendarDayProps) {
-  const occupancies = occupanciesAt(date, occupancyWindow);
+  const date = parseISO(dateString);
   const { t } = useTranslation();
   const slots = occupancySlotsInCalendarDay(date, occupancies);
 
@@ -171,9 +172,8 @@ export function CalendarDay({
           return (
             <dl
               className="my-2"
-              key={`${formatISO(date, { representation: "date" })} -${
-                occupancy.id
-              }`}
+              key={`${formatISO(date, { representation: "date" })} -${occupancy.id
+                }`}
             >
               <dt>
                 {formatDate(occupancy.begins_at)} -{" "}
@@ -211,8 +211,6 @@ export function CalendarDay({
     </OverlayTrigger>
   );
 }
-export const CalendarDayMemo = React.memo(CalendarDay);
-
 interface CalendarWithOccupanciesProps {
   start?: Date | string;
   monthsCount?: number;
@@ -230,18 +228,21 @@ function CalendarWithOccupancies({
   classNamesCallback,
   disabledCallback,
 }: CalendarWithOccupanciesProps) {
-  const dayElement = (date: Date) => (
-    <CalendarDayMemo
-      occupancyWindow={occupancyWindow}
-      date={date}
-      onClick={onClickCallback}
-      classNames={classNamesCallback}
-      disabled={
-        disabledCallback ||
-        ((date: Date) => defaultDisabledCallback(date, occupancyWindow))
-      }
-    ></CalendarDayMemo>
-  );
+
+  const dayElement = (dateString: string) =>
+    React.useCallback((dateString: string) => {
+      const occupancies = occupanciesAt(dateString, occupancyWindow);
+      return <CalendarDay
+        occupancies={occupancies}
+        dateString={dateString}
+        onClick={onClickCallback}
+        classNames={classNamesCallback}
+        disabled={
+          disabledCallback ||
+          ((date: Date) => defaultDisabledCallback(date, occupancyWindow))
+        }
+      ></CalendarDay>
+    }, [dateString, !!occupancyWindow])(dateString);
 
   return (
     <div className="occupancyCalendar">
