@@ -8,7 +8,7 @@ module Manage
     association :purpose,       blueprint: Manage::BookingPurposeSerializer
 
     fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref,
-           :committed_request, :approximate_headcount, :remarks
+           :committed_request, :approximate_headcount, :remarks, :home_id
 
     field :operator_responsibilities do |booking|
       booking.operator_responsibilities.to_h do |operator_responsibility|

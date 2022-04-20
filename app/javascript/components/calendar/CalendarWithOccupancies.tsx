@@ -172,7 +172,9 @@ export function CalendarDay({
           return (
             <dl
               className="my-2"
-              key={`${formatISO(date, { representation: "date" })}-${occupancy.id}`}
+              key={`${formatISO(date, { representation: "date" })}-${
+                occupancy.id
+              }`}
             >
               <dt>
                 {formatDate(occupancy.begins_at)} -{" "}

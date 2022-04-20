@@ -63,9 +63,9 @@ export function BookingForm({
       const errorMessages = submitErrors[errorKey];
       errorMessages
         ? setError(errorKey, {
-          type: "submit",
-          message: errorMessages?.join(", "),
-        })
+            type: "submit",
+            message: errorMessages?.join(", "),
+          })
         : clearErrors(errorKey);
     }
   }, [submitErrors]);
@@ -80,7 +80,7 @@ export function BookingForm({
           <Form.Control
             {...register("home_id")}
             as="select"
-            defaultValue={booking.home.id}
+            defaultValue={booking.home_id}
           >
             {Array.from(organisation.homes).map((home) => (
               <option key={home.id} value={home.id}>
