@@ -22,7 +22,7 @@ const styles = (slotColors: (string | undefined)[]) => {
   const backgroundize = (color: string) => color;
   const foregroundize = (color: string) =>
     chroma.css(color).darker(3).toString();
-  const fallbackColor = "#FFFFFF00";
+  const fallbackColor = "#FFFFFF";
   const textColor = foregroundize(slotColors[0] || slotColors[1] || "#000000");
   let fontWeight = "normal";
   let topLeftColor = fallbackColor;
@@ -62,6 +62,8 @@ const styles = (slotColors: (string | undefined)[]) => {
     border-left-color: ${topLeftColor};
     border-right-color: ${bottomRightColor};
     border-bottom-color: ${bottomRightColor};
+    transition: all 0.1s ease-in-out;
+    opacity: 1;
 
     &[disabled] {
       opacity: 0.3;

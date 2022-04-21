@@ -14,7 +14,7 @@ class HomeSettings < Settings
   attribute :booking_margin, DurationType.new, default: 0
   attribute :min_occupation, :integer, default: 0
   attribute :tentative_occupancy_color, :string, default: '#e8bc56'
-  attribute :occupied_occupancy_color, :string, default: '#e85f5f'
+  attribute :occupied_occupancy_color, :string, default: '#e85f5f' || '#f2a2a2'
   attribute :closed_occupancy_color, :string, default: '#929292'
 
   validates :booking_margin, :booking_window, :awaiting_contract_deadline, :overdue_request_deadline,
