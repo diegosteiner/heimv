@@ -2,6 +2,15 @@
 
 #### Unreleased
 
+#### Version 22.4.2
+
+Released on 21.04.2022
+
+- Improve performance of datetime control
+- Add configurable color to occupancies
+- Allow birthdates to be optional
+- Add configurable durations per home
+
 #### Version 22.4.1
 
 Released on 04.04.2022
