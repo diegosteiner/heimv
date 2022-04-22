@@ -24,6 +24,8 @@
 
 module DataDigests
   class Booking < ::DataDigest
+    ::DataDigest.register_subtype self
+
     def prefilter
       @prefilter ||= ::Booking::Filter.new(prefilter_params)
     rescue StandardError

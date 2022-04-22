@@ -24,6 +24,8 @@
 
 module DataDigests
   class HomeBookingPlan < DataDigests::Booking
+    ::DataDigest.register_subtype self
+
     protected
 
     def build_header(_period, **_options)

@@ -2,7 +2,7 @@
   = hidden_field_tag :supersede_invoice_id, params[:supersede_invoice_id].presence
 
   fieldset[v-pre]
-    = f.collection_select :type, Invoices::TYPES.values, :to_s, :human_model_name, { include_blank: true }, readonly: true
+    = f.select :type, subtype_options_for_select(Invoice.subtypes), { include_blank: true }, readonly: true
     = f.label :booking_id
     .row
       .col
@@ -16,7 +16,7 @@
     = f.text_area :text, class: 'rich-text-area'
     = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
     = f.date_field :payable_until, lang: I18n.locale
-    = f.collection_select :payment_info_type, PaymentInfos::TYPES.values, :to_s, :human_model_name, include_blank: true
+    = f.select :payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
 
     h5.mt-4= InvoicePart.model_name.human(count: :other)
     = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|

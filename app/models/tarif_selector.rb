@@ -22,6 +22,8 @@
 #
 
 class TarifSelector < ApplicationRecord
+  include Subtypeable
+
   belongs_to :tarif, inverse_of: :tarif_selectors
   has_many :usages, through: :tarif
   has_one :home, through: :tarif

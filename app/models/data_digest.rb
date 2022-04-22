@@ -25,6 +25,7 @@
 require 'csv'
 
 class DataDigest < ApplicationRecord
+  include Subtypeable
   Formatter = Struct.new(:default_options, :block)
   PeriodicData = Struct.new(:data_digest, :period, :header, :footer, :data)
 

@@ -23,6 +23,8 @@
 
 module TarifSelectors
   class OccupancyDuration < NumericDistinction
+    TarifSelector.register_subtype self
+
     def self.distinction_regex
       /\A([><=])?(\d*)\s*([smhd]?)\z/
     end

@@ -33,6 +33,8 @@
 
 module Tarifs
   class MinOccupation < Tarif
+    Tarif.register_subtype self
+
     def recalculate_usage(usage)
       booking = usage.booking
       min = booking.home.settings.min_occupation * booking.occupancy.nights

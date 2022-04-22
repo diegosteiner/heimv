@@ -24,6 +24,8 @@
 
 module DataDigests
   class Tarif < DataDigests::Booking
+    ::DataDigest.register_subtype self
+
     def tarif_ids=(tarif_ids)
       data_digest_params['tarif_ids'] = tarif_ids.compact_blank
     end

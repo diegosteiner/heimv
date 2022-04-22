@@ -33,6 +33,8 @@
 
 module Tarifs
   class Price < Tarif
+    Tarif.register_subtype self
+
     def unit
       organisation.currency
     end

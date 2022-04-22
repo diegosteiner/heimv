@@ -23,6 +23,8 @@
 
 module TarifSelectors
   class TenantOrganisation < TarifSelector
+    TarifSelector.register_subtype self
+
     validates :distinction, presence: true
 
     def apply?(usage)

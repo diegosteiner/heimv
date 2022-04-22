@@ -28,6 +28,8 @@
 
 module InvoiceParts
   class Percentage < InvoicePart
+    InvoicePart.register_subtype self
+
     def calculated_amount
       sum_of_predecessors * amount / 100
     end

@@ -23,6 +23,8 @@
 
 module TarifSelectors
   class BookingOvernightStays < NumericDistinction
+    TarifSelector.register_subtype self
+
     def presumable_usage(usage)
       usage.booking.overnight_stays
     end

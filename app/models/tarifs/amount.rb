@@ -33,5 +33,6 @@
 
 module Tarifs
   class Amount < ::Tarif
+    Tarif.register_subtype self
   end
 end

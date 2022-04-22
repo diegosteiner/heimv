@@ -2,6 +2,8 @@
 
 module PaymentInfos
   class QrBill < ::PaymentInfo
+    ::PaymentInfo.register_subtype self
+
     QRTYPE = 'SPC'
     VERSION = '0200'
     CODING_TYPE = '1'

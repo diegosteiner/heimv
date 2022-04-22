@@ -23,6 +23,8 @@
 
 module TarifSelectors
   class BookingApproximateHeadcountPerNight < NumericDistinction
+    TarifSelector.register_subtype self
+
     def presumable_usage(usage)
       usage.booking.approximate_headcount
     end

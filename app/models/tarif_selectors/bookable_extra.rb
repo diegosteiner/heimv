@@ -23,6 +23,8 @@
 
 module TarifSelectors
   class BookableExtra < TarifSelector
+    TarifSelector.register_subtype self
+
     validate do
       next if home.bookable_extras.exists?(id: distinction)
 

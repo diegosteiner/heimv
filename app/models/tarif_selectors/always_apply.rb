@@ -23,6 +23,8 @@
 
 module TarifSelectors
   class AlwaysApply < TarifSelector
+    TarifSelector.register_subtype self
+
     def apply?(_usage)
       true
     end

@@ -24,6 +24,8 @@
 
 module DataDigests
   class Tenant < DataDigests::Booking
+    ::DataDigest.register_subtype self
+
     protected
 
     def build_header(_period, **options)

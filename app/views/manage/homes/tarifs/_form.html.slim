@@ -17,10 +17,10 @@
           = f.text_field "unit_#{locale.to_s}", label: Tarif.human_attribute_name(:unit)
 
     = f.hidden_field :id
-    = f.select :type, type_options_for_select(Tarifs::TYPES)
+    = f.select :type, subtype_options_for_select(Tarif.subtypes)
     = f.text_field :tarif_group
     = f.number_field :ordinal, step: 1.0
-    = f.collection_select :invoice_type, Invoices::TYPES.values, :to_s, :human_model_name, include_blank: true
+    = f.select :invoice_type, subtype_options_for_select(Tarif.subtypes), include_blank: true
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.number_field :price_per_unit, step: 0.01
     = f.check_box :tenant_visible
@@ -34,7 +34,7 @@
         .col-1.pt-2
           = tuc.check_box :_destroy, { checked: !tuc.object.new_record? || @tarif.new_record?, skip_label: true }, '0', '1'
         .col-4
-          = tuc.collection_select :type, TarifSelectors::TYPES.values, :to_s, :human_model_name , skip_label: true
+          = tuc.select :type, subtype_options_for_select(TarifSelector.subtypes) , skip_label: true, include_blank: true
         .col-3
           = tuc.text_field :distinction, skip_label: true
         .col-2.pt-2

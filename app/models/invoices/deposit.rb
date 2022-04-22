@@ -34,5 +34,6 @@
 
 module Invoices
   class Deposit < ::Invoice
+    ::Invoice.register_subtype self
   end
 end

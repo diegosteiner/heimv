@@ -33,6 +33,7 @@
 #
 
 class Invoice < ApplicationRecord
+  include Subtypeable
   include Discard::Model
 
   belongs_to :booking, inverse_of: :invoices, touch: true

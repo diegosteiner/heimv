@@ -34,6 +34,8 @@
 
 module Invoices
   class LateNotice < ::Invoice
+    ::Invoice.register_subtype self
+
     def suggested_invoice_parts
       I18n.with_locale(booking.locale) do
         super + Invoice.of(booking).kept.unpaid.map do |unpaid_invoice|

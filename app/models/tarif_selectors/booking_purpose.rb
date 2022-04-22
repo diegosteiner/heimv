@@ -23,6 +23,8 @@
 
 module TarifSelectors
   class BookingPurpose < TarifSelector
+    TarifSelector.register_subtype self
+
     validate do
       next if home.organisation.booking_purposes.exists?(key: distinction)
 

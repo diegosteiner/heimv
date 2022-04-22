@@ -27,6 +27,7 @@
 #
 
 class InvoicePart < ApplicationRecord
+  include Subtypeable
   include RankedModel
 
   belongs_to :invoice, inverse_of: :invoice_parts, touch: true

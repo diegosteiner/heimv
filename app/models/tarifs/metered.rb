@@ -33,6 +33,8 @@
 
 module Tarifs
   class Metered < Tarif
+    Tarif.register_subtype self
+
     def before_usage_save(usage)
       usage.used_units ||= usage.meter_reading_period&.used_units
     end

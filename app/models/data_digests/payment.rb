@@ -24,6 +24,8 @@
 
 module DataDigests
   class Payment < DataDigest
+    ::DataDigest.register_subtype self
+
     def prefilter
       @prefilter ||= ::Payment::Filter.new(prefilter_params)
     rescue StandardError

@@ -2,6 +2,8 @@
 
 module PaymentInfos
   class OrangePaymentSlip < ::PaymentInfo
+    ::PaymentInfo.register_subtype self
+
     def code_line
       invoice_ref_strategy.code_line(invoice)
     end

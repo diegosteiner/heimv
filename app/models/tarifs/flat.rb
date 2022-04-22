@@ -33,6 +33,8 @@
 
 module Tarifs
   class Flat < Tarif
+    Tarif.register_subtype self
+
     def unit
       model_name.human
     end

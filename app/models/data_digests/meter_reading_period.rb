@@ -24,6 +24,8 @@
 
 module DataDigests
   class MeterReadingPeriod < DataDigest
+    ::DataDigest.register_subtype self
+
     def prefilter
       @prefilter ||= ::MeterReadingPeriod::Filter.new(prefilter_params)
     rescue StandardError

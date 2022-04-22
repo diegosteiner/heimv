@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Polymorphable
+module Subtypeable
   extend ActiveSupport::Concern
 
   # included do
@@ -9,12 +9,12 @@ module Polymorphable
   # end
 
   class_methods do
-    def register_polymorphable_type(name, klass)
-      polymorphable_types[name] = klass
+    def register_subtype(klass, name: klass.to_s.to_sym)
+      subtypes[name] = klass
     end
 
-    def polymorphable_types
-      @polymorphable_types ||= {}
+    def subtypes
+      @subtypes ||= {}
     end
   end
 end

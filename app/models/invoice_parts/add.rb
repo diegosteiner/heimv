@@ -28,5 +28,6 @@
 
 module InvoiceParts
   class Add < InvoicePart
+    InvoicePart.register_subtype self
   end
 end

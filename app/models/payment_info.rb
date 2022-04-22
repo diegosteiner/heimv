@@ -3,6 +3,7 @@
 class PaymentInfo
   extend ActiveModel::Translation
   extend ActiveModel::Naming
+  include Subtypeable
 
   attr_reader :invoice
 

@@ -34,6 +34,8 @@
 
 module Invoices
   class Invoice < ::Invoice
+    ::Invoice.register_subtype self
+
     def suggested_invoice_parts
       deposits = Invoices::Deposit.of(booking).kept
       I18n.with_locale(booking.locale) do

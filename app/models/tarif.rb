@@ -35,6 +35,7 @@ class Tarif < ApplicationRecord
   extend TemplateRenderable
   include TemplateRenderable
   extend Mobility
+  include Subtypeable
 
   belongs_to :booking, autosave: false, optional: true
   belongs_to :home, optional: true

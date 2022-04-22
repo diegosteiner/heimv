@@ -24,6 +24,8 @@
 
 module DataDigests
   class ParahotelerieStatistics < DataDigests::Tarif
+    ::DataDigest.register_subtype self
+
     protected
 
     def build_header(_period, **_options)
