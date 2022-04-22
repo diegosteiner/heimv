@@ -13,8 +13,10 @@ import {
   getMinutes,
   isAfter,
   isBefore,
+  addYears,
 } from "date-fns/esm";
 import CalendarWithOccupancies from "./CalendarWithOccupancies";
+import { getYear } from "date-fns";
 
 const formatDate = new Intl.DateTimeFormat("de-CH", {
   year: "numeric",
@@ -153,7 +155,8 @@ export default function OccupancyDateTimeFormControl({
     if (disabled) return;
 
     const value = (event.target as HTMLInputElement).value;
-    const parsedValue = parse(value, "dd.MM.yyyy", new Date());
+    let parsedValue = parse(value, "dd.MM.yyyy", new Date());
+    if (getYear(parsedValue) < 100) parsedValue = addYears(parsedValue, 2000);
     if (!setDateValue({ date: parsedValue })) {
       setCalendarControlValue((prev) => ({
         ...prev,

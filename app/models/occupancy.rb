@@ -66,9 +66,11 @@ class Occupancy < ApplicationRecord
     errors.add(:ends_at, :invalid) unless complete? && begins_at < ends_at
   end
   validate on: %i[public_create public_update] do
-    next if ends_at.blank?
-
-    errors.add(:ends_at, :too_far_in_future) unless ends_at < home.settings.booking_window.from_now
+    window = home.settings.booking_window
+    errors.add(:begins_at, :too_far_in_past) if begins_at && begins_at < window.ago
+    errors.add(:ends_at, :too_far_in_past) if ends_at && ends_at < window.ago
+    errors.add(:begins_at, :too_far_in_future) if begins_at && begins_at > window.from_now
+    errors.add(:ends_at, :too_far_in_future) if ends_at && ends_at > window.from_now
   end
   validate on: %i[public_create public_update] do
     acceptable_hours = (7.hours)..(22.hours)

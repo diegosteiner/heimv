@@ -70,8 +70,8 @@ class InvoicePart < ApplicationRecord
 
     I18n.with_locale(usage.booking.locale) do
       new(attributes.reverse_merge(
-            usage: usage, label: usage.tarif.label, breakdown: usage.breakdown,
-            ordinal: usage.tarif.ordinal, amount: usage.price
+            usage: usage, label: usage.tarif.label, ordinal: usage.tarif.ordinal,
+            breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price
           ))
     end
   end
