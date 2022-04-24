@@ -867,6 +867,10 @@ en:
     designated_documents:
       form:
         all_locales: all
+    homes:
+      navigation:
+        closedowns: Schliessungen
+        general: General
     invoices:
       form:
         suggested_invoice_parts: Vorgeschlagene Positionen

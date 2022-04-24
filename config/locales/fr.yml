@@ -1927,6 +1927,10 @@ fr:
     designated_documents:
       form:
         all_locales: Alle
+    homes:
+      navigation:
+        closedowns: Schliessungen
+        general: Allgemein
     invoices:
       form:
         suggested_invoice_parts: Suggested invoice parts

@@ -1,22 +1,14 @@
 h1.mt-0.mb-5= Home.model_name.human(count: :other)
-.table-responsive
-  table.table.table-hover.align-middle.align-middle
-    thead
-      tr
-        th= Home.human_attribute_name(:name)
-        th
 
-    tbody
-      - @homes.each do |home|
-        tr[data-href=manage_home_path(home) data-id=home.to_param]
-          td
-            = link_to home.name, manage_home_path(home)
-          td.p-1.text-end
-            .btn-group
-              = link_to edit_manage_home_path(home), class: 'btn btn-default'
-                span.fa.fa-edit
-              = link_to manage_home_path(home), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
-                span.fa.fa-trash
+- @homes.each do |home|
+  .col-md-3
+    .card
+      - if home.cover_image_url.present?
+        img.card-img-top src=home.cover_image_url alt=home.name height=200
+      .card-body
+        h5.card-title=home.name
+        p=home.address
+        = link_to t('show'), manage_home_path(home), class: 'stretched-link'
 
 br
 = link_to new_manage_home_path, class: 'btn btn-primary' do

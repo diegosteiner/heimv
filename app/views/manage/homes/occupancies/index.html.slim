@@ -18,7 +18,7 @@
           td
             = l(occupancy.ends_at)
           td
-            = occupancy.occupancy_type
+            = Occupancy.human_enum(:occupancy_type, occupancy.occupancy_type)
           td
             = link_to occupancy.booking.ref, manage_booking_path(occupancy.booking) if occupancy.booking
           td

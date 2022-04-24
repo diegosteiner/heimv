@@ -20,9 +20,7 @@ describe 'Home CRUD', :devise, type: :feature do
   it 'can see a home' do
     home
     visit manage_homes_path
-    within find_resource_in_table(home) do
-      click_link home.name
-    end
+    click_link I18n.t('show')
     expect(page).to have_current_path(manage_home_path(home, org: nil, locale: :de))
     expect(page).to have_content home.name
   end
@@ -38,6 +36,7 @@ describe 'Home CRUD', :devise, type: :feature do
   it 'can delete existing home' do
     home
     visit manage_homes_path(org: nil)
+    click_link I18n.t('show')
     click_link I18n.t('destroy')
     page.driver.browser.switch_to.alert.accept
     expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Home.model_name.human)

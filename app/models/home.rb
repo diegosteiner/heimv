@@ -26,8 +26,6 @@
 #
 
 class Home < ApplicationRecord
-  validates :name, presence: true
-  has_one_attached :house_rules
   has_many :occupancies, dependent: :destroy
   has_many :bookings, dependent: :restrict_with_error
   has_many :tarifs, ->(home) { Tarif.unscoped.where(home: home, booking: nil).ordered },
@@ -40,10 +38,11 @@ class Home < ApplicationRecord
 
   belongs_to :organisation, inverse_of: :homes
 
-  attribute :settings, Settings::Type.new(HomeSettings), default: -> { HomeSettings.new }
-
   scope :ordered, -> { order(name: :ASC) }
 
+  attribute :settings, Settings::Type.new(HomeSettings), default: -> { HomeSettings.new }
+
+  validates :name, presence: true
   validates :ref, uniqueness: { scope: %i[organisation_id] }
   validate -> { errors.add(:settings, :invalid) unless settings.valid? }
 
@@ -56,4 +55,6 @@ class Home < ApplicationRecord
   def to_liquid
     Manage::HomeSerializer.render_as_hash(self).deep_stringify_keys
   end
+
+  def cover_image_url; end
 end
