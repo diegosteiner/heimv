@@ -68,7 +68,11 @@ jobs:
 
       - if: failure()
         name: dump screenshots
-        run: cp -r tmp/capybara ./artifacts/
+        run: cp -r ./tmp/capybara ./artifacts/
+
+      - if: failure()
+        name: dump screenshots
+        run: cp -r ./app/tmp/capybara ./artifacts/
 
       - if: failure()
         name: upload artifacts
