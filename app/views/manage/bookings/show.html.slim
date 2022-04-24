@@ -2,7 +2,7 @@
 = render partial: 'manage/bookings/navigation', locals: { booking: @booking }
 
 
-- cache(@booking) do
+- cache([@booking.cache_key, I18n.locale, current_role]) do
   section.row.mt-4
     .col-md-9
       .card

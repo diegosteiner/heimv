@@ -30,7 +30,7 @@
 class Occupancy < ApplicationRecord
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
   belongs_to :home
-  belongs_to :booking, inverse_of: :occupancy, optional: true
+  belongs_to :booking, inverse_of: :occupancy, optional: true, touch: true
 
   has_one :organisation, through: :home
 

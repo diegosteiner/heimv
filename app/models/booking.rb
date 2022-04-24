@@ -149,7 +149,7 @@ class Booking < ApplicationRecord
   end
 
   def cache_key
-    [super, updated_at.to_i].join('-')
+    "#{super}@#{updated_at.to_i}"
   end
 
   def update_deadline!
