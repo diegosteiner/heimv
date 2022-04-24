@@ -127,11 +127,6 @@ class Occupancy < ApplicationRecord
   end
 
   def color
-    super || booking&.color ||
-      {
-        tentative: home.settings.tentative_occupancy_color,
-        occupied: home.settings.occupied_occupancy_color,
-        closed: home.settings.closed_occupancy_color
-      }.fetch(occupancy_type&.to_sym, '#FFFFFF00')
+    super || booking&.color || home&.settings&.occupancy_color(self)
   end
 end

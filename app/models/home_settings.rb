@@ -23,4 +23,12 @@ class HomeSettings < Settings
             :booking_window, numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
+
+  def occupancy_color(occupancy)
+    {
+      tentative: tentative_occupancy_color,
+      occupied: occupied_occupancy_color,
+      closed: closed_occupancy_color
+    }.fetch(occupancy&.occupancy_type&.to_sym, '#FFFFFF00')
+  end
 end
