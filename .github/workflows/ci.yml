@@ -68,11 +68,7 @@ jobs:
 
       - if: failure()
         name: dump screenshots
-        run: cp -r ./tmp/capybara ./artifacts/
-
-      - if: failure()
-        name: dump screenshots
-        run: cp -r ./app/tmp/capybara ./artifacts/
+        run: docker-compose --file docker-compose.ci.yml cp e2e_test:/home/develop/app/tmp/capybara ./artifacts/capybara
 
       - if: failure()
         name: upload artifacts

@@ -31,7 +31,7 @@ class BookingTransition < ApplicationRecord
   class_attribute :updated_timestamp_column
   self.updated_timestamp_column = :updated_at
 
-  belongs_to :booking, inverse_of: :booking_transitions
+  belongs_to :booking, inverse_of: :booking_transitions, touch: true
 
   scope :ordered, -> { order(sort_key: :ASC) }
 

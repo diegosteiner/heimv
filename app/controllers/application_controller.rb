@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   default_form_builder BootstrapForm::FormBuilder
   before_action :prepare_exception_notification_context, :current_locale, :set_default_meta_tags
-  helper_method :current_organisation, :home_path, :current_role
+  helper_method :current_organisation, :home_path, :cache_key
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.role_admin?
   end
@@ -57,6 +57,10 @@ class ApplicationController < ActionController::Base
 
   def current_role
     current_organisation && current_user&.in(current_organisation)&.role
+  end
+
+  def cache_key(*keys)
+    [keys, I18n.locale, current_role].flatten.join('-')
   end
 
   def home_path
