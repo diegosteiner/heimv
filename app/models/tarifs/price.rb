@@ -39,6 +39,12 @@ module Tarifs
       organisation.currency
     end
 
+    def breakdown(usage)
+      return if usage.used_units.zero?
+
+      number_to_currency(usage.used_units * price_per_unit, currency: organisation.currency)
+    end
+
     def price_per_unit
       1
     end

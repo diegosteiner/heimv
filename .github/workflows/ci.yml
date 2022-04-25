@@ -66,9 +66,9 @@ jobs:
         name: dump log
         run: docker-compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
 
-      - if: failure()
-        name: dump screenshots
-        run: docker-compose --file docker-compose.ci.yml cp e2e_test:/home/develop/app/tmp/capybara ./artifacts/capybara
+      # - if: failure()
+      #   name: dump screenshots
+      #   run: docker-compose --file docker-compose.ci.yml cp e2e_test:/home/develop/app/tmp/capybara ./artifacts/capybara
 
       - if: failure()
         name: upload artifacts

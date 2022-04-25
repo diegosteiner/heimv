@@ -32,6 +32,8 @@
 #
 
 class Tarif < ApplicationRecord
+  include ActiveSupport::NumberHelper
+
   extend TemplateRenderable
   include TemplateRenderable
   extend Mobility
@@ -92,6 +94,12 @@ class Tarif < ApplicationRecord
 
   def self_and_booking_copy_ids
     [id] + booking_copy_ids
+  end
+
+  def breakdown(usage)
+    I18n.t('invoice_parts.breakdown',
+           used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
+           unit: unit, price_per_unit: number_to_currency(price_per_unit || 0, currency: organisation.currency))
   end
 
   def <=>(other)

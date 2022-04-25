@@ -2,7 +2,8 @@
 
 .card
   .card-body
-    = render_hash_as_dl(@home.attributes.slice(*%w(name address)), Home)
+    h3.card-title.mt-1.mb-4= @home.name
+    = render_hash_as_dl(@home.attributes.slice(*%w(address)), Home)
 
     = link_to edit_manage_home_path(@home), class: 'btn btn-primary' do
       span.fa.fa-edit

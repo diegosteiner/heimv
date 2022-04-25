@@ -25,8 +25,6 @@
 #
 
 class Usage < ApplicationRecord
-  include ActiveSupport::NumberHelper
-
   belongs_to :tarif, -> { includes(:tarif_selectors) }, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages
   has_many :invoice_parts, dependent: :nullify
@@ -81,10 +79,7 @@ class Usage < ApplicationRecord
   end
 
   def breakdown
-    I18n.t('invoice_parts.breakdown',
-           used_units: number_to_rounded(used_units || 0, precision: 2, strip_insignificant_zeros: true),
-           unit: tarif.unit,
-           price_per_unit: number_to_currency(tarif.price_per_unit || 0, currency: organisation.currency))
+    tarif&.breakdown(self)
   end
 
   # TODO: decouple
