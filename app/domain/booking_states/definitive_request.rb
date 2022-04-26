@@ -20,7 +20,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.tenant.present? && booking.tenant.valid?
+      booking.tenant&.valid?
     end
 
     infer_transition(to: :upcoming) do |booking|

@@ -37,7 +37,7 @@ nav.navbar.justify-content-between.px-0
       i.fa.fa-exclamation-circle
     = t('.too_many_records')
 - else
-  - cache(cache_key(current_organisation.id, current_organisation.bookings.maximum(:updated_at))) do
+  - cache_unless(@filter.active?, cache_key(current_organisation.id, current_organisation.bookings.maximum(:updated_at))) do
     - grouped_bookings = @bookings.group_by { |booking| booking.booking_state.to_sym }
     - BookingStates.all.values.each do |state|
       - bookings = grouped_bookings[state.to_sym]

@@ -26,7 +26,7 @@ module BookingStates
 
     infer_transition(to: :overdue_request, &:deadline_exceeded?)
     infer_transition(to: :definitive_request) do |booking|
-      booking.tenant.valid?(:public_update) && booking.committed_request
+      booking.tenant&.valid?(:public_update) && booking.committed_request
     end
 
     def relevant_time

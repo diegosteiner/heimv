@@ -22,7 +22,7 @@
 #
 
 module TarifSelectors
-  class OccupancyDuration < NumericDistinction
+  class OccupancyDuration < TarifSelector
     TarifSelector.register_subtype self
 
     def self.distinction_regex
