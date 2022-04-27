@@ -8,7 +8,7 @@ module BookingActions
       end
 
       def allowed?
-        booking.booking_flow.yield_self do |booking_flow|
+        booking.booking_flow.then do |booking_flow|
           booking_flow.in_state?(:open_request) && booking_flow.can_transition_to?(transition_to)
         end
       end

@@ -10,5 +10,5 @@
 # end
 
 Rails.application.routes.default_url_options[:host] = (Rails.env.test? &&
-                                                      ENV['E2E_TARGET_HOST']) ||
+                                                      ENV.fetch('E2E_TARGET_HOST', nil)) ||
                                                       ENV.fetch('APP_HOST')

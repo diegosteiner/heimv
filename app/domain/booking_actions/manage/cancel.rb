@@ -5,7 +5,7 @@ module BookingActions
     class Cancel < BookingActions::Base
       def call!
         booking.errors.clear
-        booking.booking_flow.yield_self do |booking_flow|
+        booking.booking_flow.then do |booking_flow|
           if booking_flow.can_transition_to?(:declined_request)
             booking_flow.transition_to(:declined_request)
           elsif booking_flow.can_transition_to?(:cancelation_pending)

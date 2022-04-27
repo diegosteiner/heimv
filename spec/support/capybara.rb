@@ -11,14 +11,14 @@ Capybara.register_driver :selenium do |app|
   options.add_argument('--no-default-browser-check')
   options.add_argument('--start-maximized')
 
-  url = "http://#{ENV['SELENIUM_HOST']}/wd/hub"
+  url = "http://#{ENV.fetch('SELENIUM_HOST', nil)}/wd/hub"
   Capybara::Selenium::Driver.new(app, browser: :chrome, url: url, capabilities: [options])
 end
 
 Capybara.run_server = ENV['E2E_SERVER_PORT'].present?
-Capybara.server_port = ENV['E2E_SERVER_PORT']
+Capybara.server_port = ENV.fetch('E2E_SERVER_PORT', nil)
 Capybara.server_host = '0.0.0.0'
-Capybara.app_host = "http://#{ENV['E2E_TARGET_HOST']}" if ENV['E2E_TARGET_HOST'].present?
+Capybara.app_host = "http://#{ENV.fetch('E2E_TARGET_HOST', nil)}" if ENV['E2E_TARGET_HOST'].present?
 # Selenium::WebDriver.logger.level = :debug
 Capybara.default_driver = :selenium
 Capybara.default_max_wait_time = 10

@@ -13,7 +13,7 @@ Rails.application.config.to_prepare do
     ActionMailer::Base.delivery_method = :smtp
     ActionMailer::Base.smtp_settings = smtp_settings
     Pony.options = {
-      from: smtp_settings[:from] || ENV['MAIL_FROM'] || 'test@heimv.local',
+      from: smtp_settings[:from] || ENV.fetch('MAIL_FROM', nil) || 'test@heimv.local',
       via: :smtp,
       via_options: smtp_settings,
       charset: 'UTF-8'
