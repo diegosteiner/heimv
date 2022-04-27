@@ -21,6 +21,7 @@ gem 'devise-i18n'
 gem 'discard'
 gem 'factory_bot_rails', require: false
 gem 'faker', require: false
+gem 'faraday', require: false
 gem 'hiredis'
 gem 'icalendar'
 gem 'inline_svg'

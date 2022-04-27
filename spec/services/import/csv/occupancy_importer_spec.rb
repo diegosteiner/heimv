@@ -44,12 +44,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
     end
 
     context 'with pfadiheime.ch csv' do
-      let(:header_mapping) do
-        %w[ignore.id ignore.cottage_id ignore.user_id occupancy.begins_at occupancy.ends_at occupancy.remarks
-           occupancy.occupancy_type ignore.created_at ignore.updated_at tenant.email ignore.occupancy_type
-           booking.remarks ignore.slug booking.headcount tenant.birth_date booking.tenant_organisation tenant.name
-           tenant.street_address tenant.street_address_2 tenant.zipcode tenant.city tenant.phone]
-      end
+      let(:header_mapping) { Import::PfadiheimeImporter::OCCUPANCY_HEADER_MAPPING }
       let(:csv) do
         <<~ENDCSV
           id,cottage_id,user_id,start_date,end_date,remarks,reservation_type,created_at,updated_at,contact_email,occupancy_type,purpose,headcount,birthdate,tenant_organisation,address_line1,address_line2,address_line3,zip,place,phone

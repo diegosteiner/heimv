@@ -185,6 +185,10 @@ GEM
       railties (>= 5.0.0)
     faker (2.20.0)
       i18n (>= 1.8.11, < 2)
+    faraday (2.2.0)
+      faraday-net_http (~> 2.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (2.0.2)
     ffi (1.15.5)
     foreman (0.87.2)
     globalid (1.0.0)
@@ -391,6 +395,7 @@ GEM
     rubocop-rspec (2.10.0)
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
@@ -476,6 +481,7 @@ DEPENDENCIES
   exception_notification
   factory_bot_rails
   faker
+  faraday
   foreman
   hiredis
   i18n-tasks
