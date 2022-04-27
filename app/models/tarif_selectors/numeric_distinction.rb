@@ -31,12 +31,15 @@ module TarifSelectors
 
     def apply?(usage, presumable_usage = presumable_usage(usage))
       _match, operator, threshold_usage = *self.class.distinction_regex.match(distinction)
+      threshold_usage = threshold_usage.to_i
+      return if presumable_usage.blank? || threshold_usage.blank?
 
-      return if presumable_usage.blank?
-      return presumable_usage < threshold_usage.to_i if operator == '<'
-      return presumable_usage > threshold_usage.to_i if operator == '>'
-
-      threshold_usage.blank? || presumable_usage == threshold_usage.to_i
+      {
+        '<' => presumable_usage < threshold_usage,
+        '<=' => presumable_usage <= threshold_usage,
+        '>' => presumable_usage > threshold_usage,
+        '>=' => presumable_usage >= threshold_usage
+      }.fetch(operator, presumable_usage == threshold_usage)
     end
 
     def presumable_usage(usage); end

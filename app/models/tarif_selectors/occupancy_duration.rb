@@ -26,7 +26,7 @@ module TarifSelectors
     TarifSelector.register_subtype self
 
     def self.distinction_regex
-      /\A([><=])?(\d*)\s*([smhd]?)\z/
+      /\A([><]?=?)(\d*)\s*([smhd]?)\z/
     end
 
     validates :distinction, format: { with: distinction_regex }, allow_blank: true
@@ -34,12 +34,14 @@ module TarifSelectors
     def apply?(usage, presumable_usage = presumable_usage(usage))
       _match, operator, threshold_value, threshold_unit = *self.class.distinction_regex.match(distinction)
       threshold_usage = threshold_usage(threshold_value.to_i, threshold_unit)
+      return if presumable_usage.blank? || threshold_usage.blank?
 
-      return if presumable_usage.blank?
-      return presumable_usage < threshold_usage if operator == '<'
-      return presumable_usage > threshold_usage if operator == '>'
-
-      threshold_usage.blank? || presumable_usage == threshold_usage
+      {
+        '<' => presumable_usage < threshold_usage,
+        '<=' => presumable_usage <= threshold_usage,
+        '>' => presumable_usage > threshold_usage,
+        '>=' => presumable_usage >= threshold_usage
+      }.fetch(operator, presumable_usage == threshold_usage)
     end
 
     def presumable_usage(usage)

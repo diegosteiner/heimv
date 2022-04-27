@@ -22,10 +22,6 @@ class OnboardingService
     @organisation = organisation
   end
 
-  def complete?
-    organisation.valid? && missing_rich_text_templates.zero?
-  end
-
   def create_home!(**attributes)
     organisation.homes.create!(attributes)
   end

@@ -508,7 +508,7 @@ de:
       tarif_selectors/booking_approximate_headcount_per_night:
         one: Anzahl TN Tarifwähler
       tarif_selectors/booking_nights:
-        one: nächte tarifwähler
+        one: Anzahl Nächte tarifwähler
       tarif_selectors/booking_overnight_stays:
         one: Übernachtungen Tarifwähler
       tarif_selectors/booking_purpose:
