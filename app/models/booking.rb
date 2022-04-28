@@ -174,6 +174,10 @@ class Booking < ApplicationRecord
     self.tenant ||= Tenant.find_or_initialize_by(email: email, organisation: organisation)
   end
 
+  def build_tenant(attributes = {})
+    super(attributes.merge(organisation: organisation || attributes[:organisation]))
+  end
+
   def occupancy
     super || self.occupancy = build_occupancy(booking: self, home: home)
   end
