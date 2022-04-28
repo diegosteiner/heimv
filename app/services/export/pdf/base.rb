@@ -7,6 +7,7 @@ module Export
     class Base
       FONTS_PATH = Rails.root.join('app/javascript/fonts')
       include Prawn::View
+      include ActiveSupport::NumberHelper
 
       def self.add_font_family(name, **options)
         font_families[name.to_s] = options

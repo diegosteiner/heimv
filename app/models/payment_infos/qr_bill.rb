@@ -45,7 +45,7 @@ module PaymentInfos
         ucr_place: '',
         ucr_country: '',
         amount: formatted_amount,
-        currency: CURRENCY,
+        currency: currency,
         ezp_address_type: ADDRESS_TYPE,
         ezp_name: debitor_address_lines[0],
         ezp_address_line_1: debitor_address_lines[1],
@@ -75,7 +75,7 @@ module PaymentInfos
     end
 
     def currency
-      CURRENCY
+      organisation.currency.upcase
     end
 
     def formatted_amount
