@@ -23,25 +23,29 @@
           .row
             .col-md-6
               dl
-                dt= Booking.human_attribute_name(:tenant)
+                dt
+                  = Booking.human_attribute_name(:tenant)
+
+                  - unless @booking.tenant.complete?
+                    i.fa.fa-exclamation-triangle.text-warning<>[data-bs-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete', default: '')]
+
+                  - if can?(:edit, @booking.tenant) && !@booking.tenant.complete?
+                    = link_to edit_manage_tenant_path(@booking.tenant) 
+                      i.fa.fa-edit<>
+                      
                 - if @booking.tenant_organisation.present?
                   dd= @booking.tenant_organisation
+
                 - if @booking.tenant.present?
-                  - tenant = @booking.tenant
                   dd
-                    = link_to tenant.name, manage_tenant_path(tenant)
-                    - unless @booking.tenant.complete?
-                      i.fa.fa-exclamation-triangle.text-warning<>[data-bs-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete', default: '')]
-                    - if can?(:edit, @booking.tenant) && !@booking.tenant.complete?
-                      = link_to edit_manage_tenant_path(tenant) 
-                        i.fa.fa-edit<>
+                    = link_to @booking.tenant.name, manage_tenant_path(@booking.tenant)
                   dd
-                    - tenant.address_lines.each do |line|
+                    - @booking.tenant.address_lines.each do |line|
                       = line 
                       br
-                  dd= mail_to tenant.email
+                  dd= mail_to @booking.tenant.email
                   dd
-                    - tenant.phone&.lines&.each do |phone|
+                    - @booking.tenant.phone&.lines&.each do |phone|
                       = link_to phone, "tel:#{phone}", class: 'd-block'
 
                   - if @booking.tenant.birth_date.present?
