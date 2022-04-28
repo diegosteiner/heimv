@@ -1,18 +1,22 @@
 # frozen_string_literal: true
 
-class OrganisationMailer
-  def initialize(organisation)
-    @organisation = organisation
-    @options = {
-      from: (organisation.mail_from || organisation.email),
-      reply_to: organisation.email,
-      charset: 'UTF-8'
-    }
-    @options[:via_options] = SmtpSettings.from_h_or_default(organisation.smtp_settings).symbolize_keys
+class OrganisationMailer < ApplicationMailer
+  default from: -> { (@organisation.mail_from || @organisation.email) },
+          reply_to: -> { @organisation.email },
+          charset: 'UTF-8'
+
+  before_action :set_organisation
+  after_action :set_delivery_options
+
+  protected
+
+  def set_delivery_options
+    mail.delivery_method.settings.merge!(@organisation.smtp_settings) if @organisation.smtp_settings.present?
   end
 
-  def mail(**args)
-    Rails.logger.info "SMTP Mail to #{args[:to]} [#{@organisation.name}] #{args.inspect}"
-    Pony.mail(@options.merge(args))
+  # rubocop:disable Naming/MemoizedInstanceVariableName
+  def set_organisation
+    @organisation ||= params[:organisation]
   end
+  # rubocop:enable Naming/MemoizedInstanceVariableName
 end

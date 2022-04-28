@@ -67,12 +67,11 @@ class Organisation < ApplicationRecord
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
   validates :locale, presence: true
   validate -> { errors.add(:settings, :invalid) unless settings.valid? }
-  validate do
-    errors.add(:smtp_settings, :invalid) unless smtp_settings.is_a?(Hash) || smtp_settings.nil?
-  end
+  validate -> { errors.add(:smtp_settings, :invalid) unless smtp_settings.nil? || smtp_settings.valid? }
 
   attribute :booking_flow_type, default: BookingFlows::Default.to_s
   attribute :settings, Settings::Type.new(OrganisationSettings), default: -> { OrganisationSettings.new }
+  attribute :smtp_settings, Settings::Type.new(SmtpSettings)
 
   def booking_flow_class
     @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)
@@ -90,23 +89,8 @@ class Organisation < ApplicationRecord
     @address_lines ||= address.lines.map(&:strip).compact_blank.presence || []
   end
 
-  def smtp_settings_json
-    JSON.generate(smtp_settings)
-  end
-
-  def smtp_settings_json=(value)
-    self.smtp_settings = JSON.parse(value)
-  rescue JSON::ParserError
-    errors.add(:smtp_settings_json, :invalid)
-    smtp_settings_json
-  end
-
   def to_s
     name
-  end
-
-  def mailer
-    @mailer ||= OrganisationMailer.new(self)
   end
 
   def locale

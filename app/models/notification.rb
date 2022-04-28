@@ -140,20 +140,11 @@ class Notification < ApplicationRecord
 
   protected
 
-  def invoke_mailer!
-    organisation.mailer.mail(to: to, subject: subject, cc: cc, bcc: bcc, body: text,
-                             html_body: body, attachments: prepare_attachments_for_mail)
-  end
-
   def invoke_mailer
-    invoke_mailer!
+    BookingMailer.with(notification: self).notification.deliver_now
     true
   rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
     Rails.logger.error(e.message)
-    # defined?(Sentry) && Sentry.with_scope do |scope|
-    #   scope.set_tags(booking: booking.id)
-    #   Sentry.capture_exception(e)
-    # end
     false
   end
 end
