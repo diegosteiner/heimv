@@ -1,8 +1,7 @@
 h2 = @data_digest.label
 
 ul 
-  - @periods.each do |name, range_generator|
+  - @periods.keys.each do |period|
     li 
-      - range = range_generator.call(Time.zone.now)
-      = link_to digest_manage_data_digest_path(@data_digest, from: range.begin&.iso8601, to: range.end&.iso8601)
-        = t(name, scope: %i[activerecord enums data_digest periods])
+      = link_to digest_manage_data_digest_path(@data_digest, range: period)
+        = t(period, scope: %i[activerecord enums data_digest periods])

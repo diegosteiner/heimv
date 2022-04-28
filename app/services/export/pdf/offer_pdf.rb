@@ -47,17 +47,18 @@ module Export
 
       def tarif_table_data
         I18n.with_locale(@booking.locale) do
-          [tarif_table_headers] +
-            usages.map do |usage|
-              [
-                usage.tarif.label,
-                usage.tarif.unit,
-                number_to_currency(usage.tarif.price_per_unit || 0, currency: @organisation.currency),
-                usage.presumed_used_units,
-                number_to_currency(usage.presumed_price || 0, currency: @organisation.currency)
-              ]
-            end
+          [tarif_table_headers] + usages.map { |usage| tarif_table_usage_row(usage) }
         end
+      end
+
+      def tarif_table_usage_row(usage)
+        [
+          usage.tarif.label,
+          usage.tarif.unit,
+          number_to_currency(usage.tarif.price_per_unit || 0, currency: @organisation.currency),
+          usage.presumed_used_units,
+          number_to_currency(usage.presumed_price || 0, currency: @organisation.currency)
+        ]
       end
 
       def tarif_table_headers
