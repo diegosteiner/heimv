@@ -7,8 +7,7 @@ module Manage
     end
 
     sanitize do |params|
-      sanitizer = Rails::Html::SafeListSanitizer.new
-      params[:text] = sanitizer.sanitize(params[:text])
+      params[:text] = RichTextSanitizer.sanitize(params[:text])
       params
     end
   end

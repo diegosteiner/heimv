@@ -31,6 +31,8 @@ class Settings
     def cast_value(value)
       case value
       when String
+        return nil if value.blank?
+
         cast_value(ActiveSupport::JSON.decode(value))
       when Hash
         settings_class.new(value.stringify_keys.slice(*defaults.keys))

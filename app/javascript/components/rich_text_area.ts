@@ -9,7 +9,7 @@ export function setup() {
       height: 500,
       menubar: false,
       plugins: [
-        "advlist autolink lists link image anchor",
+        "advlist autolink lists link image anchor table",
         "searchreplace code table help template",
       ],
       toolbar:

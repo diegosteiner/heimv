@@ -65,7 +65,7 @@ class RichTextTemplate < ApplicationRecord
     context = context&.stringify_keys || {}
     parts = [title, body].map do |part|
       liquid_template = Liquid::Template.parse(part)
-      self.class.sanitize_html(liquid_template.render!(context.to_liquid))
+      RichTextSanitizer.sanitize(liquid_template.render!(context.to_liquid))
     end
     InterpolationResult.new(*parts)
   end
@@ -99,13 +99,6 @@ class RichTextTemplate < ApplicationRecord
       requirement = self::Requirement.new(key, context, required_by, optional)
       required_templates[key] ||= []
       required_templates[key] << requirement
-    end
-
-    def sanitize_html(html)
-      sanitizer = Rails::Html::SafeListSanitizer.new
-      sanitizer.sanitize(html,
-                         tags: Rails::Html::SafeListSanitizer.allowed_tags + %w[table tr td th thead tbody],
-                         attributes: Rails::Html::SafeListSanitizer.allowed_attributes)
     end
   end
 end

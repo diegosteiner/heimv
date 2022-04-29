@@ -36,13 +36,19 @@ class RichTextTemplateService
   def create_missing!(include_optional: true)
     title = {}
     body = {}
-    missing_requirements(include_optional: include_optional).map do |requirement|
-      scope = [:rich_text_templates, requirement.key]
+    missing_requirements.map do |requirement|
       I18n.available_locales.map do |locale|
-        title[locale] = I18n.t(:default_title, scope: scope, locale: locale, default: nil)
-        body[locale]  = I18n.t(:default_body, scope: scope, locale: locale, default: nil)
+        title[locale] = defaults_for_locale(:default_title, requirement.key, locale)
+        body[locale]  = defaults_for_locale(:default_body, requirement.key, locale)
       end
-      RichTextTemplate.create(key: requirement.key, title_i18n: title, body_i18n: body, organisation: organisation)
+      organisation.rich_text_templates.create(key: requirement.key, title_i18n: title, body_i18n: body,
+                                              enabled: !requirement.optional || include_optional)
     end
+  end
+
+  private
+
+  def defaults_for_locale(kind, key, locale)
+    I18n.t(kind, scope: [:rich_text_templates, key], locale: locale, default: nil)
   end
 end
