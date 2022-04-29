@@ -9,6 +9,8 @@ class SmtpSettings < Settings
   attribute :tls, :boolean, default: false
   attribute :authentication, :string
   attribute :enable_starttls_auto, :boolean, default: true
+  attribute :open_timeout, :integer, default: 5
+  attribute :read_timeout, :integer, default: 5
 
   def self.from_env
     from_json(ENV.fetch('SMTP_SETTINGS'))
