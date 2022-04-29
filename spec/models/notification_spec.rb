@@ -75,10 +75,13 @@ RSpec.describe Notification, type: :model do
   describe '#deliver' do
     let(:operator) { create(:operator, locale: :it) }
     let(:notification) { create(:notification, to: email) }
-    subject { notification.deliver }
+    subject(:message) { notification.deliver }
 
     it do
-      is_expected.to be true
+      is_expected.to be_truthy
+      expect(message.to).to eq(notification.to)
+      expect(message.cc).to eq(notification.cc)
+      expect(message.subject).to eq(notification.subject)
       expect(notification.sent_at).not_to be nil
     end
   end

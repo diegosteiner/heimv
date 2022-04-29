@@ -60,18 +60,15 @@ class Notification < ApplicationRecord
     valid? && organisation.notifications_enabled? && booking.notifications_enabled?
   end
 
-  def queue_for_delivery
-    deliverable? && update(queued_for_delivery: true)
-  end
-
   def deliver
-    return false unless deliverable?
+    return false unless deliverable? && update!(queued_for_delivery: true)
 
-    queue_for_delivery && invoke_mailer && update(sent_at: Time.zone.now)
-  end
-
-  def prepare_attachments_for_mail
-    attachments.to_h { |attachment| [attachment.filename.to_s, attachment.blob.download] }
+    message_delivery.deliver_now!.tap do
+      update!(sent_at: Time.zone.now)
+    end
+  rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
+    Rails.logger.error(e.message)
+    false
   end
 
   def resolve_template
@@ -140,11 +137,7 @@ class Notification < ApplicationRecord
 
   protected
 
-  def invoke_mailer
-    BookingMailer.with(notification: self).notification.deliver_now
-    true
-  rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
-    Rails.logger.error(e.message)
-    false
+  def message_delivery
+    @message_delivery ||= OrganisationMailer.booking_email(self)
   end
 end
