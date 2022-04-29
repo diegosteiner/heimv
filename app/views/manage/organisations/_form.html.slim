@@ -14,7 +14,7 @@
     = f.text_field :mail_from
     = f.email_field :bcc
     - if current_user.role_admin?
-      div[v-pre]= f.text_area :smtp_settings_json, rows: 4
+      div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
 
   fieldset
     h3.mt-4= Contract.model_name.human(count: :other)

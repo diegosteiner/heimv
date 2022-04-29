@@ -61,13 +61,12 @@ class Notification < ApplicationRecord
   end
 
   def deliver
-    return false unless deliverable? && update!(queued_for_delivery: true)
+    return false unless deliverable? && update!(queued_for_delivery: true, sent_at: Time.zone.now)
 
-    message_delivery.deliver_now!.tap do
-      update!(sent_at: Time.zone.now)
-    end
-  rescue Net::SMTPFatalError, Net::SMTPAuthenticationError => e
+    message_delivery.deliver_now!
+  rescue Net::SMTPFatalError, Net::SMTPAuthenticationError, Net::ReadTimeout => e
     Rails.logger.error(e.message)
+    update(sent_at: nil)
     false
   end
 

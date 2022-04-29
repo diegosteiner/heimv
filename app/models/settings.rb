@@ -8,6 +8,10 @@ class Settings
     attributes
   end
 
+  def to_json(*args)
+    to_h.to_json(*args)
+  end
+
   class Type < ActiveModel::Type::Value
     attr_reader :settings_class
 
