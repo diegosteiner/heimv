@@ -26,7 +26,7 @@ class OnboardingService
     organisation.homes.create!(attributes)
   end
 
-  def create_missing_rich_text_templates!(include_optional: true)
-    RichTextTemplateService.new(organisation).create_missing!(include_optional: include_optional)
+  def create_missing_rich_text_templates!
+    RichTextTemplateService.new(organisation).create_missing!
   end
 end

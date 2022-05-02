@@ -11,12 +11,9 @@ class OrganisationMailer < ApplicationMailer
   def booking_email(notification)
     @organisation = notification.organisation
     @notification = notification
-    prepared_attachments = notification.attachments.to_h do |attachment|
-      [attachment.filename.to_s, attachment.blob.download]
-    end
+    attach_active_storage_attachments(notification.attachments)
 
-    mail(to: notification.to, cc: notification.cc, bcc: notification.bcc,
-         subject: notification.subject, attachments: prepared_attachments) do |format|
+    mail(to: notification.to, cc: notification.cc, bcc: notification.bcc, subject: notification.subject) do |format|
       format.text { render plain: @notification.text }
       format.html
     end
@@ -27,6 +24,14 @@ class OrganisationMailer < ApplicationMailer
   end
 
   protected
+
+  def attach_active_storage_attachments(values)
+    values.map do |attachment|
+      next unless attachment.present? && attachment.filename.present?
+
+      attachments[attachment.filename.to_s] = attachment.blob.download
+    end
+  end
 
   def set_delivery_options
     mail.delivery_method.settings.merge!(@organisation.smtp_settings.to_h) if @organisation.smtp_settings.present?
