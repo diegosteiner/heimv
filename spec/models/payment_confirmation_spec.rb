@@ -12,6 +12,10 @@ RSpec.describe PaymentConfirmation, type: :model do
   let(:payment) { create(:payment, booking: booking, invoice: nil) }
   subject(:confirmation) { described_class.new(payment) }
 
+  before do
+    allow(RichTextTemplate).to receive(:template_key_valid?).and_return(true)
+  end
+
   describe '#notification' do
     subject(:notification) { confirmation.notification }
 

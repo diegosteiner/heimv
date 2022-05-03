@@ -120,7 +120,7 @@ class Notification < ApplicationRecord
             self.addressed_to = :tenant
             self.locale = value.locale
             [value.email]
-          when Operator, Organisation
+          when Operator, OperatorResponsibility, Organisation
             self.addressed_to = :manager
             self.locale = value.locale
             [value.email]

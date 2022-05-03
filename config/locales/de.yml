@@ -1210,7 +1210,19 @@ de:
       default_title: Infos bitte
       description: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
     booking_agent_cancelled_notification:
-      default_body: "<p>Lieber Vermittler</p>\r\n<p>Wir best&auml;tigen Dir die Stornierung Deiner Reservation:</p>\r\n<ul>\r\n<li>Unsere Referenz: {{ booking.ref }}</li>\r\n<li>Deine Referenz: {{ booking.booking_agent_ref }}</li>\r\n<li>Lagerhaus: {{booking.home.name}}</li>\r\n<li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>\r\n</ul>\r\n<p>{{ booking.organisation.message_footer }}</p>"
+      default_body: |
+        <p>Lieber Vermittler</p>
+
+        <p>Wir best&auml;tigen Dir die Stornierung Deiner Reservation:</p>
+
+        <ul>
+          <li>Unsere Referenz: {{ booking.ref }}</li>
+          <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
+          <li>Lagerhaus: {{booking.home.name}}</li>
+          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+        </ul>
+
+        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Vermittlung storniert
       description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
     booking_agent_request_accepted_notification:
@@ -1355,7 +1367,7 @@ de:
       default_title: Definitive Reservation bestätigt
       description: Benachrichtigung für definitive Mietanfrage (Mieter)
     foreign_payment_info_text:
-      default_body: "\n"
+      default_body: ''
       default_title: ''
       description: Text für Zahlunginformationen für ausländische Mieter
     invoices_deposit_text:
@@ -1475,7 +1487,30 @@ de:
       default_title: Abgesagte Belegung
       description: Benachrichtigung für abgesagte Belegung (Funktionär)
     operator_upcoming_soon_notification:
-      default_body: "<p>Hallo</p>\n\n<p>Die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> findet demnächst statt</p>\n\n<p><strong>Reservationsdetails</strong></p>\n\n<ul>\n  <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>\n  <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>\n  <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>\n  <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>\\n  <li>Mietzweck: <strong>{{ booking.purpose.title }}</strong></li>\n  <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>\n  <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>\n  <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>\n</ul>\n  \n<p><strong>Kontaktperson</strong></p>\n  \n<p>\n  {{ booking.tenant.name }}<br />\n  <a href=\"mailto:{{booking.tenant.email}}\">{{ booking.tenant.email }}</a><br />\n  <a href=\"tel:{{booking.tenant.phone}}\">{{ booking.tenant.phone }}</a><br />\n</p>\n<p><a href=\"{{booking.links.manage}}\">Buchung verwalten</a></p>\n"
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> findet demnächst statt</p>\n\n<p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietzweck: <strong>{{ booking.purpose.title }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+          <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>\n  <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
+        </ul>
+
+        <p><strong>Kontaktperson</strong></p>
+
+        <p>
+          {{ booking.tenant.name }}<br />
+          <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
+          <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
+        </p>
+
+        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Baldige Belegung
       description: Benachrichtigung für baldige Belegung (Funktionär)
     overdue_notification:
@@ -1626,7 +1661,21 @@ de:
       default_title: Anzahlung und unterschriebenen Vertrag eingegangen
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
-      default_body: "<p>{{ booking.tenant.salutation_name }}</p>\n\n<p>Wir haben den von Dir unterzeichneten Vertrag und die Anzahlung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Pfadihaus.</p>\n\n<p><strong>Reservationsdetails</strong></p>\n\n<ul>\n  <li>Buchungsreferenz: {{ booking.ref }}</li>\n  <li>Lagerhaus: {{booking.home.name}}</li>\n  <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>\n  <li>Organisation: {{ booking.tenant_organisation }}</li>\n  <li>Mietzweck: {{ booking.purpose.title }}</li>\n  <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>\n  <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>\n  </li>\n</ul>\n  \n<p>Bitte vereinbare mit dem Heimwart rechtzeitig den Übernahmetermin.</p>\n"
+      default_body: |
+        <p>{{ booking.tenant.salutation_name }}</p>
+
+        <p>Wir haben den von Dir unterzeichneten Vertrag und die Anzahlung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Pfadihaus.</p>\n\n<p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: {{ booking.ref }}</li>
+          <li>Lagerhaus: {{booking.home.name}}</li>
+          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Organisation: {{ booking.tenant_organisation }}</li>\n  <li>Mietzweck: {{ booking.purpose.title }}</li>
+          <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
+          <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
+        </ul>
+
+        <p>Bitte vereinbare mit dem Heimwart rechtzeitig den Übernahmetermin.</p>
       default_title: Letzte Informationen zu deinem Besuch im {{booking.home.name}}
       description: Benachrichtigung für baldige Belegung (Mieter)
     usage_report_text:

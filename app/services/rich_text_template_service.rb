@@ -46,6 +46,14 @@ class RichTextTemplateService
     end
   end
 
+  def replace_in_template!(search, replace)
+    @organisation.rich_text_templates.each do |rich_text_template|
+      rich_text_template.body_i18n.transform_values! { _1.gsub(search, replace) }
+      rich_text_template.title_i18n.transform_values! { _1.gsub(search, replace) }
+      rich_text_template.save
+    end
+  end
+
   private
 
   def defaults_for_locale(kind, key, locale)

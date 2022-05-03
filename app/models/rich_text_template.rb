@@ -30,45 +30,9 @@
 class RichTextTemplate < ApplicationRecord
   Requirement = Struct.new(:key, :context, :required_by, :optional)
   InterpolationResult = Struct.new(:title, :body)
+
   extend Mobility
   extend Translatable
-  translates :title, :body, column_suffix: '_i18n', locale_accessors: true
-
-  belongs_to :organisation, inverse_of: :rich_text_templates
-  belongs_to :home, optional: true, inverse_of: :rich_text_templates
-  has_many :notifications, inverse_of: :rich_text_template, dependent: :nullify
-
-  scope :ordered, -> { order(key: :ASC, home_id: :ASC) }
-  scope :enabled, -> { where(enabled: true) }
-
-  validates :key, uniqueness: { scope: %i[key organisation_id home_id] }
-  validate do
-    required_templates = self.class.required_templates
-    errors.add(:key, :invalid) if key && required_templates.any? && !required_templates.key?(key.to_sym)
-  end
-  validate do
-    body_i18n.each do |locale, body|
-      Liquid::Template.parse(body, error_mode: :strict)
-    rescue Liquid::SyntaxError
-      errors.add("body_#{locale}", :invalid)
-    end
-  end
-  validate do
-    title_i18n.each do |_locale, title|
-      Liquid::Template.parse(title, error_mode: :strict)
-    rescue Liquid::SyntaxError
-      errors.add("body_#{title}", :invalid)
-    end
-  end
-
-  def interpolate(context)
-    context = context&.stringify_keys || {}
-    parts = [title, body].map do |part|
-      liquid_template = Liquid::Template.parse(part)
-      RichTextSanitizer.sanitize(liquid_template.render!(context.to_liquid))
-    end
-    InterpolationResult.new(*parts)
-  end
 
   class << self
     def by_key!(key, home_id: nil)
@@ -82,12 +46,8 @@ class RichTextTemplate < ApplicationRecord
       nil
     end
 
-    def replace_in_template!(search, replace)
-      find_each do |rich_text_template|
-        rich_text_template.body_i18n.transform_values! { _1.gsub(search, replace) }
-        rich_text_template.title_i18n.transform_values! { _1.gsub(search, replace) }
-        rich_text_template.save
-      end
+    def template_key_valid?(key)
+      key && required_templates.keys.include?(key.to_sym)
     end
 
     def required_templates
@@ -100,5 +60,40 @@ class RichTextTemplate < ApplicationRecord
       required_templates[key] ||= []
       required_templates[key] << requirement
     end
+  end
+
+  translates :title, :body, column_suffix: '_i18n', locale_accessors: true
+
+  belongs_to :organisation, inverse_of: :rich_text_templates
+  belongs_to :home, optional: true, inverse_of: :rich_text_templates
+  has_many :notifications, inverse_of: :rich_text_template, dependent: :nullify
+
+  scope :ordered, -> { order(key: :ASC, home_id: :ASC) }
+  scope :enabled, -> { where(enabled: true) }
+
+  validates :key, uniqueness: { scope: %i[key organisation_id home_id] }
+  validate { errors.add(:key, :invalid) if key && !self.class.template_key_valid?(key.to_sym) }
+  validate do
+    body_i18n.each do |locale, body|
+      Liquid::Template.parse(body, error_mode: :strict)
+    rescue Liquid::SyntaxError
+      errors.add("body_#{locale}", :invalid)
+    end
+  end
+  validate do
+    title_i18n.each do |locale, title|
+      Liquid::Template.parse(title, error_mode: :strict)
+    rescue Liquid::SyntaxError
+      errors.add("body_#{locale}", :invalid)
+    end
+  end
+
+  def interpolate(context)
+    context = context&.stringify_keys || {}
+    parts = [title, body].map do |part|
+      liquid_template = Liquid::Template.parse(part)
+      RichTextSanitizer.sanitize(liquid_template.render!(context.to_liquid))
+    end
+    InterpolationResult.new(*parts)
   end
 end

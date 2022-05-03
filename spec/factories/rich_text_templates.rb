@@ -31,7 +31,7 @@ FactoryBot.define do
   factory :rich_text_template do
     organisation
     title { 'Test' }
-    key { :test }
+    sequence(:key) { |i| "template_#{i}" }
     body { Faker::Lorem.paragraph }
   end
 

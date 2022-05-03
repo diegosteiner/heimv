@@ -88,10 +88,10 @@ RSpec.describe Notification, type: :model do
 
   describe '#template' do
     before do
-      allow(RichTextTemplate).to receive(:required_templates).and_return({ test: RichTextTemplate::Requirement.new })
+      allow(RichTextTemplate).to receive(:template_key_valid?).and_return(true)
     end
 
-    let(:template) { create(:rich_text_template, organisation: booking.organisation) }
+    let(:template) { create(:rich_text_template, key: :test, organisation: booking.organisation) }
     let(:notification) { build(:notification, booking: booking, to: booking) }
     let(:booking) { create(:booking, locale: I18n.locale) }
 
