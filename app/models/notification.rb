@@ -52,9 +52,7 @@ class Notification < ApplicationRecord
 
   scope :failed, -> { where(queued_for_delivery: true, sent_at: nil).where(arel_table[:created_at].lt(1.hour.ago)) }
 
-  before_validation do
-    apply_template(resolve_template)
-  end
+  before_validation :apply_template
 
   def deliverable?
     valid? && organisation.notifications_enabled? && booking.notifications_enabled?
@@ -76,7 +74,7 @@ class Notification < ApplicationRecord
     organisation.rich_text_templates.enabled.by_key(rich_text_template_key, home_id: booking.home_id)
   end
 
-  def apply_template(rich_text_template)
+  def apply_template(rich_text_template = resolve_template)
     return if rich_text_template.blank?
 
     self.rich_text_template = rich_text_template

@@ -1505,7 +1505,7 @@ de:
         <p><strong>Kontaktperson</strong></p>
 
         <p>
-          {{ booking.tenant.name }}<br />
+          {{ booking.tenant.full_name }}<br />
           <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
           <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
         </p>
@@ -1693,7 +1693,7 @@ de:
       two_words_connector: " und "
       words_connector: ", "
   tenant:
-    salutation: Hallo %{name}
+    salutation: Hallo %{friendly_name}
   time:
     formats:
       date: "%d.%m.%Y"

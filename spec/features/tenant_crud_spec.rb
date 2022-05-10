@@ -34,7 +34,7 @@ describe 'Tenant CRUD', :devise, skip: true do
     end
     expect(page).to have_current_path(manage_tenant_path(tenant))
     expect(page).to have_http_status(200)
-    expect(page).to have_content tenant.name
+    expect(page).to have_content tenant.full_name
   end
 
   it 'can edit existing tenant' do
@@ -57,6 +57,6 @@ describe 'Tenant CRUD', :devise, skip: true do
       click_link I18n.t('destroy')
     end
     expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Tenant.model_name.human)
-    expect(page).not_to have_content tenant.name
+    expect(page).not_to have_content tenant.full_name
   end
 end

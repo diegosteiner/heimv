@@ -64,12 +64,26 @@ class Tenant < ApplicationRecord
     self.search_cache = contact_lines.flatten.join('\n')
   end
 
+  def full_name
+    [first_name, last_name].compact_blank.join(' ')
+  end
+
   def name
-    "#{first_name} #{last_name}"
+    full_name
+  end
+
+  def names
+    @names ||= {
+      first_name: first_name.presence,
+      last_name: last_name.presence,
+      full_name: full_name,
+      nickname: nickname.presence,
+      friendly_name: [nickname, first_name].compact_blank.first
+    }
   end
 
   def salutation_name
-    I18n.t('tenant.salutation', name: [nickname, first_name].first(&:present?))
+    I18n.t('tenant.salutation', **names)
   end
 
   def address_lines
@@ -81,7 +95,7 @@ class Tenant < ApplicationRecord
   end
 
   def full_address_lines
-    [name, address_lines].flatten
+    [full_name, address_lines].flatten
   end
 
   def address
@@ -97,7 +111,7 @@ class Tenant < ApplicationRecord
   end
 
   def to_s
-    "##{id} #{name}"
+    "##{id} #{names[:full_name]}"
   end
 
   def complete?

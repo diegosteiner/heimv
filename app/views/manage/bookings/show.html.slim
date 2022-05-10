@@ -38,7 +38,7 @@
 
                 - if @booking.tenant.present?
                   dd
-                    = link_to @booking.tenant.name, manage_tenant_path(@booking.tenant)
+                    = link_to @booking.tenant.full_name, manage_tenant_path(@booking.tenant)
                   dd
                     - @booking.tenant.address_lines.each do |line|
                       = line 

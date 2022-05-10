@@ -57,7 +57,7 @@ module DataDigests
     def build_data_row(payment)
       payment.instance_eval do
         [
-          ref, booking.ref, I18n.l(paid_at, format: :default), amount, booking.tenant.name, remarks
+          ref, booking.ref, I18n.l(paid_at, format: :default), amount, booking.tenant.full_name, remarks
         ]
       end
     end
