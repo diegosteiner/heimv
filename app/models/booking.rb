@@ -169,9 +169,9 @@ class Booking < ApplicationRecord
   end
 
   def set_tenant
-    return if email.blank?
+    return if email.blank? || tenant&.email.present?
 
-    self.tenant ||= Tenant.find_or_initialize_by(email: email, organisation: organisation)
+    self.tenant = Tenant.find_or_initialize_by(email: email, organisation: organisation)
   end
 
   def build_tenant(attributes = {})

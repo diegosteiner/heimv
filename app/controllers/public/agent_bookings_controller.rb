@@ -16,7 +16,7 @@ module Public
       @agent_booking.assign_attributes(agent_booking_params.merge(organisation: current_organisation))
 
       if @agent_booking.save
-        redirect_to edit_public_agent_booking_path(@agent_booking.token)
+        respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
       else
         render 'new'
       end
@@ -32,10 +32,10 @@ module Public
 
     def update
       if @agent_booking.booking_agent_responsible?
-        @agent_booking.assign_attributes(agent_booking_params)
-        @agent_booking.save
+        @agent_booking.update(agent_booking_params)
         BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
       end
+      @agent_booking.valid? # Clear Errors
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
     end
 

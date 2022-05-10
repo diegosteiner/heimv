@@ -37,7 +37,7 @@
 
 class AgentBooking < ApplicationRecord
   belongs_to :booking_agent, inverse_of: :agent_bookings
-  belongs_to :booking, inverse_of: :agent_booking, validate: true
+  belongs_to :booking, inverse_of: :agent_booking, validate: true, autosave: true
   belongs_to :organisation
   belongs_to :home
   has_one :occupancy, through: :booking
@@ -55,7 +55,7 @@ class AgentBooking < ApplicationRecord
 
   accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
 
-  def email=(value)
+  def tenant_email=(value)
     super
     booking.email = value
   end
@@ -67,7 +67,7 @@ class AgentBooking < ApplicationRecord
 
   def booking
     super || self.booking = build_booking(committed_request: false, notifications_enabled: true,
-                                          home: home, organisation: organisation)
+                                          home: home, organisation: organisation, email: tenant_email.presence)
   end
 
   def booking_agent_responsible?

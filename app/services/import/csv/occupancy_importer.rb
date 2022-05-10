@@ -50,8 +50,7 @@ module Import
                   [row['occupancy.ends_at_date'], row['occupancy.ends_at_time']].compact_blank.join('T')
 
         occupancy.assign_attributes(begins_at: parse_datetime(begins_at),
-                                    ends_at: parse_datetime(ends_at),
-                                    remarks: row['occupancy.remarks'])
+                                    ends_at: parse_datetime(ends_at))
       end
 
       actor :occupancy_type do |occupancy, row|

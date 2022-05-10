@@ -44,7 +44,7 @@ class Tenant < ApplicationRecord
   has_many :bookings, dependent: :restrict_with_error
   belongs_to :organisation
 
-  locale_enum
+  locale_enum default: I18n.locale
 
   validates :email, allow_nil: true, format: { with: Devise.email_regexp }, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update
