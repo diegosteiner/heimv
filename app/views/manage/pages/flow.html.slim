@@ -1,9 +1,10 @@
 .container
-  .row
+  h1.mb-5.text-center= t('.title')
+  .row.justify-content-center
     .col-md-4
       = inline_svg_pack_tag('static/states.svg')
     .col-md-1
-    .col
+    .col-md-4
       - @states.each do |booking_state|
         .mb-5.mt-2
           h4.mt-0 = booking_state.t(:label)

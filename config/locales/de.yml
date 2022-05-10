@@ -29,6 +29,7 @@ de:
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
         tentative_occupancy_color: Farbe für provisorischen Belegungen
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
+        upcoming_soon_window: Frist für baldige Belegung
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerabschnitts ab
         begins_at_before: Beginn des Zählerabschnitts bis
@@ -722,9 +723,9 @@ de:
     - November
     - Dezember
     order:
-    - :day
-    - :month
-    - :year
+    - ":day"
+    - ":month"
+    - ":year"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1037,12 +1038,103 @@ de:
       form:
         general: Allgemein
         more_settings: Weitere Einstellungen
+    pages:
+      flow:
+        title: Buchungsprozess
     payments:
       index:
         new_import: Zahlungen aus CAMT.054-Datei importieren
     rich_text_templates:
       form:
         all_homes: Alle Heime
+        help_html: |
+          <p>Variabeln im Text verwenden:</p>
+
+          <pre>
+            Hallo {{ booking.tenant.first_name }}!
+          </pre>
+
+          <p>Folgende Variabeln stehen zur Verfügung:</p>
+          <pre>
+            booking:
+              agent_booking:
+              approximate_headcount: Erwartete Anzahl Personen
+              cancellation_reason: Annulierungsgrund
+              committed_request: Verbindlichkeit der Mietanfrage
+              deadline: Frist
+                at: Fris bis Datum / Uhrzeit (muss mit "| datetime_format" kombiniert werden)
+                postponable_for: Verlängerbar für n Sekunden
+              home: Heim
+                address: Adresse des Heims
+                name: Name des Heims
+              invoice_address: Rechnungsadresse
+              links: Links
+                edit: Link für den Mieter
+                manage: Link für den Vermieter
+              occupancy: Belegung
+                begins_at: Beginn der Belegung (muss mit "| datetime_format" kombiniert werden)
+                ends_at: Ende der Belegung (muss mit "| datetime_format" kombiniert werden)
+                home_id: ID des Heims
+                occupancy_type: Belegungstyp
+                remarks: Bemerkungen des Mieters
+              organisation: Organisation
+                address: Addresse der Organisation, Sitz
+                booking_purposes: Liste aller Mietzwecke der Organisation
+                email: E-Mail der Organisation
+                esr_beneficiary_account: 01-318421-1
+                links: Links
+                  privacy_statement_pdf: Link zur Datenschutzerklärung
+                  terms_pdf: Link zu den AGB
+                name: Name der Organisation
+              purpose: Mietzweck
+                key: Schlüssel
+                title: Mietzweck
+              ref: Referenznummer der Buchung
+              remarks: Bemerkungen des Mieters
+              tenant: Mieter
+                address_addon: Addresszusatz
+                city: Ort
+                email: E-Mail
+                first_name: Vorname
+                last_name: Nachname
+                nickname: Pfadiname
+                salutation_name: Anrede mit Name
+                street_address: Addresse
+                zipcode: PLZ
+              tenant_organisation: Organisation des Mieters
+              operator_responsibilities: Verantwortlichkeiten für diese Buchung
+                home_handover: Hausübergabe
+                  operator: Verantwortliche Person
+                    name: Name
+                    email: E-Mail
+                    contact-info: Kontaktinformationen
+                home_return: Hausrücknahme
+                  operator: Verantwortliche Person
+                    name: Name
+                    email: E-Mail
+                    contact-info: Kontaktinformationen
+                administration: Verwaltung / Allgemeine Anliegen
+                  operator: Verantwortliche Person
+                    name: Name
+                    email: E-Mail
+                    contact-info: Kontaktinformationen
+                billing: Verrechnung
+                  operator: Verantwortliche Person
+                    name: Name
+                    email: E-Mail
+                    contact-info: Kontaktinformationen
+            </pre>
+
+            Logik im Text verwenden:
+
+            <pre>
+            {% if booking.purpose.key == 'camp' %}
+              Wir wünschen euch viel Spass in eurem Lager in unserem Heim!
+            {% else %}
+              Wir wünschen Ihnen einen schönen Aufenthalt in unserem Heim!
+            {% endif %}
+            </pre>
+        help_title: Hilfe zu Variabeln
       index:
         group_booking_agent_notifications: Benachrichtigungen (Vermittler)
         group_document_text: Texte für Dokumente
@@ -1490,7 +1582,9 @@ de:
       default_body: |
         <p>Hallo</p>
 
-        <p>Die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> findet demnächst statt</p>\n\n<p><strong>Reservationsdetails</strong></p>
+        <p>Die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> findet demnächst statt</p>
+
+        <p><strong>Reservationsdetails</strong></p>
 
         <ul>
           <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
@@ -1499,7 +1593,8 @@ de:
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
           <li>Mietzweck: <strong>{{ booking.purpose.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
-          <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>\n  <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
+          <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
+          <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
         </ul>
 
         <p><strong>Kontaktperson</strong></p>
@@ -1664,13 +1759,16 @@ de:
       default_body: |
         <p>{{ booking.tenant.salutation_name }}</p>
 
-        <p>Wir haben den von Dir unterzeichneten Vertrag und die Anzahlung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Pfadihaus.</p>\n\n<p><strong>Reservationsdetails</strong></p>
+        <p>Wir haben den von Dir unterzeichneten Vertrag und die Anzahlung erhalten. Damit steht deinem Anlass nichts mehr im Weg. Wir wünschen Dir und Deiner Gruppe einen schönen Aufenthalt in unserem Pfadihaus.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
 
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
-          <li>Organisation: {{ booking.tenant_organisation }}</li>\n  <li>Mietzweck: {{ booking.purpose.title }}</li>
+          <li>Organisation: {{ booking.tenant_organisation }}</li>
+          <li>Mietzweck: {{ booking.purpose.title }}</li>
           <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
           <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
         </ul>

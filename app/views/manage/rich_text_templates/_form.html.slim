@@ -1,7 +1,8 @@
 = form_with(model: [:manage, @rich_text_template.becomes(RichTextTemplate)], local: true) do |f|
 
   fieldset
-    = f.text_field :key, disabled: !@rich_text_template.new_record?
+    - if @rich_text_template.new_record?
+      = f.text_field :key
     = f.collection_select :home_id, current_organisation.homes, :id, :name, { include_blank: t('.all_homes') }
     = f.check_box :enabled
 
@@ -19,6 +20,11 @@
         .tab-pane.pt-3[id="title-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="title-#{locale}-tab" role='tabpanel']
           = f.text_field "title_#{locale.to_s}", label: RichTextTemplate.human_attribute_name(:title)
           div[v-pre]= f.text_area "body_#{locale.to_s}", label: RichTextTemplate.human_attribute_name(:body), rows: 15, class: 'rich-text-area'
+
+    details
+      summary 
+        = t('.help_title')
+      = t('.help_html')
 
   .form-actions.pt-4.mt-3
     = f.submit
