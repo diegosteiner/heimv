@@ -682,7 +682,10 @@ en:
       long: "%e. %B %Y"
       short: "%e. %b"
     month_names: '[nil, "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
-    order: '[":day", ":month", ":year"]'
+    order:
+    - :day
+    - :month
+    - :year
   datetime:
     distance_in_words:
       about_x_hours:

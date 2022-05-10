@@ -2,6 +2,10 @@
 
 #### Unreleased
 
+- Fix agent bookings where no email was sent out
+- Fix missing attachments on notifications
+- Move Rich Text Template help to form
+
 #### Version 22.4.2
 
 Released on 21.04.2022

@@ -1,14 +1,16 @@
 h1.mt-0.mb-5= Home.model_name.human(count: :other)
 
-- @homes.each do |home|
-  .col-md-3
-    .card
-      - if home.cover_image_url.present?
-        img.card-img-top src=home.cover_image_url alt=home.name height=200
-      .card-body
-        h5.card-title=home.name
-        p=home.address
-        = link_to t('show'), manage_home_path(home), class: 'stretched-link'
+.container 
+  .row
+    - @homes.each do |home|
+      .col-md-3
+        .card.mb-5
+          - if home.cover_image_url.present?
+            img.card-img-top src=home.cover_image_url alt=home.name height=200
+          .card-body
+            h5.card-title=home.name
+            p=home.address
+            = link_to t('show'), manage_home_path(home), class: 'stretched-link'
 
 br
 = link_to new_manage_home_path, class: 'btn btn-primary' do
