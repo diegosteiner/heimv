@@ -25,7 +25,7 @@ module BookingStates
       booking.operators_for(:home_handover, :home_return).each do |operator|
         next if operator.email.blank?
 
-        booking.notifications.new(template: :operator_cancellation_pending_notification, to: operator.email)&.deliver
+        booking.notifications.new(template: :operator_cancellation_pending_notification, to: operator)&.deliver
       end
     end
 
