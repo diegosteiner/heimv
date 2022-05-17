@@ -83,6 +83,7 @@ class Booking < ApplicationRecord
   has_one  :occupancy, inverse_of: :booking, dependent: :destroy, validate: true
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
+  has_one_attached :usage_report
 
   has_secure_token :token, length: 48
 
