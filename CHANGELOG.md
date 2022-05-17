@@ -2,9 +2,16 @@
 
 #### Unreleased
 
+#### Version 22.5.1
+
+Released on 17.05.2022
+
 - Fix agent bookings where no email was sent out
 - Fix missing attachments on notifications
 - Move Rich Text Template help to form
+- Fix operator emails that are not sent out
+- Add creditor adress to organisation
+- Fix redirection issue after login
 
 #### Version 22.4.2
 
