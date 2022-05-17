@@ -29,7 +29,7 @@ module PaymentInfos
         qrtype: QRTYPE,
         version: VERSION,
         coding_type: CODING_TYPE,
-        cr_account: creditor_account.delete(' '),
+        cr_account: creditor_account&.delete(' '),
         cr_address_type: ADDRESS_TYPE,
         cr_name: creditor_address_lines[0],
         cr_address_line_1: creditor_address_lines[1],
@@ -99,10 +99,12 @@ module PaymentInfos
                                                                 unchecked_ref: invoice.ref)
     end
 
-    def ref
-      return scor_ref if ref_type == :SCOR
+    def qrr_ref
+      invoice.ref.rjust(27, '0')
+    end
 
-      invoice.ref
+    def ref
+      ref_type == :SCOR ? scor_ref : qrr_ref
     end
 
     def formatted_ref

@@ -29,7 +29,7 @@ module RefStrategies
     end
 
     def with_checksum(ref)
-      ref.to_s + checksum(ref).to_s
+      "#{ref}#{checksum(ref)}"
     end
 
     def format_ref(ref)
