@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
 
   def home_path
     if current_organisation
-      return manage_root_path if current_role == :manager
+      return manage_root_path if current_role&.to_sym == :manager
 
       return organisation_path
     end
@@ -102,7 +102,7 @@ class ApplicationController < ActionController::Base
   end
 
   def return_to_path(default = nil)
-    params[:return_to].presence || default || root_path
+    params[:return_to].presence || default || home_path
   end
 
   def after_sign_in_path_for(_resource)
