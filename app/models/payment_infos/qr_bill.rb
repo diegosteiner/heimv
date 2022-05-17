@@ -63,7 +63,7 @@ module PaymentInfos
     # rubocop:enable Metrics/MethodLength
 
     def creditor_address_lines
-      @creditor_address_lines ||= organisation.address_lines
+      @creditor_address_lines ||= organisation.creditor_address_lines
     end
 
     def debitor_address_lines

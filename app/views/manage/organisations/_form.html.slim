@@ -25,6 +25,7 @@
   fieldset
     h3.mt-4= Invoice.model_name.human(count: :other)
     = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
+    div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
     = f.text_field :esr_beneficiary_account
     = f.text_field :esr_ref_prefix
     = f.text_field :iban

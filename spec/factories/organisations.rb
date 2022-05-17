@@ -8,6 +8,7 @@
 #  address                   :text
 #  bcc                       :string
 #  booking_flow_type         :string
+#  creditor_address          :text
 #  currency                  :string           default("CHF")
 #  default_payment_info_type :string
 #  email                     :string

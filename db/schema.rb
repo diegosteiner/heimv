@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_19_115020) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_17_084757) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -389,6 +389,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_19_115020) do
     t.string "ref_template", default: "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s"
     t.jsonb "settings", default: {}
     t.string "qr_iban"
+    t.text "creditor_address"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 

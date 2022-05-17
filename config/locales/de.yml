@@ -105,6 +105,7 @@ de:
         tenant_id: Mieter
         tenant_organisation: Mieter Organisation
         transition_to: Neuer Status
+        usage_report: Verbrauchsformular
       booking_agent:
         address: Adresse
         code: Vermittler-Code
@@ -215,6 +216,7 @@ de:
         address: Anschrift
         bcc: BCC
         contract_signature: Vertragsunterschrift Bild
+        creditor_address: Anschrift auf Rechnungen
         default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
         esr_ref_prefix: ESR Identifikationsnummer / Präfix

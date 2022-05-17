@@ -8,6 +8,7 @@
 #  address                   :text
 #  bcc                       :string
 #  booking_flow_type         :string
+#  creditor_address          :text
 #  currency                  :string           default("CHF")
 #  default_payment_info_type :string
 #  email                     :string
@@ -87,6 +88,12 @@ class Organisation < ApplicationRecord
 
   def address_lines
     @address_lines ||= address.lines.map(&:strip).compact_blank.presence || []
+  end
+
+  def creditor_address_lines
+    return address_lines if creditor_address.blank?
+
+    @creditor_address_lines ||= creditor_address.lines.map(&:strip).compact_blank.presence
   end
 
   def to_s

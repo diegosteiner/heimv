@@ -16,7 +16,7 @@
 #  iban                            :string
 #  import_data                     :jsonb
 #  last_name                       :string
-#  locale                          :string           default(NULL), not null
+#  locale                          :string           default("de"), not null
 #  nickname                        :string
 #  phone                           :text
 #  remarks                         :text

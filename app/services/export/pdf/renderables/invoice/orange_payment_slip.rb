@@ -18,7 +18,7 @@ module Export
             start_new_page if cursor < 240
             bounding_box([-60, 235], width: 595, height: HEIGHT) do
               render_background if render_background?
-              render_sender_address
+              render_creditor_address
               render_counterfoil_address
               render_amount
               render_esr_beneficiary_account
@@ -38,11 +38,11 @@ module Export
             image img, width: 595, height: HEIGHT, vposition: -4
           end
 
-          def render_sender_address
+          def render_creditor_address
             [8, 180].each do |x|
               bounding_box([x, 275], width: 150, height: 80) do
                 default_leading 1
-                text payment_info.organisation.address, size: 8, style: :bold
+                text payment_info.organisation.creditor_address_lines.join("\n"), size: 8, style: :bold
               end
             end
           end
