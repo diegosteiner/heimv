@@ -1,3 +1,4 @@
+- title "#{Booking.model_name.human} #{@booking.to_s} - #{Tarif.model_name.human(count: 2)}"
 = render partial: 'manage/bookings/navigation', locals: { active: :tarifs, booking: @booking }
 
 - if @usages.any?

@@ -1,3 +1,4 @@
+- title "#{Booking.model_name.human} #{@booking.to_s} - #{Notification.model_name.human(count: 2)}"
 = render partial: 'manage/bookings/navigation', locals: { active: :notifications, booking: @booking }
 
 - unless @booking.notifications_enabled?

@@ -1,4 +1,5 @@
 - if @booking.present?
+  - title "#{Booking.model_name.human} #{@booking.to_s} - #{Payment.model_name.human(count: 2)}"
   = render partial: 'manage/bookings/navigation', locals: { active: :payments, booking: @booking }
 - else 
   h1.mt-0.mb-5= Payment.model_name.human(count: :other)
