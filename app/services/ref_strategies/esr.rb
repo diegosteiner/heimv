@@ -50,10 +50,16 @@ module RefStrategies
     end
 
     def find_invoice_by_ref(ref, scope: Invoice)
-      ref = ref.delete(' ').ljust(27)
       ref_column = Invoice.arel_table[:ref]
       padded_ref_column = Arel::Nodes::NamedFunction.new('LPAD', [ref_column, 27, Arel::Nodes.build_quoted('0')])
-      scope.where(padded_ref_column.eq(ref)).first
+      scope.where(padded_ref_column.eq(normalize_ref(ref))).first
+    end
+
+    def normalize_ref(ref)
+      ref = ref.delete(' ')
+      qr_ref = ref.match(/\ARF\d{2}(?<ref>\d+)\z/)
+      ref = qr_ref[:ref] if qr_ref
+      ref.rjust(27, '0')
     end
 
     def account_nr_to_code(value)

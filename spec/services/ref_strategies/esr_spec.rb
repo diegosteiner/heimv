@@ -25,4 +25,20 @@ RSpec.describe RefStrategies::ESR, type: :model do
 
     it { is_expected.to eq('0100000060004>000000010000140000000000018+ 013184211>') }
   end
+
+  describe '#normalize_ref' do
+    subject { ref_strategy.normalize_ref(ref) }
+
+    context 'with RF Reference' do
+      let(:ref) { 'RF42 0100 0250 9000 0789 0' }
+
+      it { is_expected.to eq('000000000001000250900007890') }
+    end
+
+    context 'with normal Reference' do
+      let(:ref) { '0100 0250 9000 0789 0' }
+
+      it { is_expected.to eq('000000000001000250900007890') }
+    end
+  end
 end
