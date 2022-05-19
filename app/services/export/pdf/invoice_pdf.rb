@@ -18,7 +18,8 @@ module Export
 
       to_render do
         render Renderables::PageHeader.new(text: booking.ref, logo: organisation.logo)
-        render Renderables::AddressedHeader.new(booking, recipient_address: booking.invoice_address.presence)
+        render Renderables::AddressedHeader.new(booking, issuer_address: booking.organisation.creditor_address,
+                                                         recipient_address: booking.invoice_address.presence)
       end
 
       to_render do
