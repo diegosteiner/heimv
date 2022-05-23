@@ -12,7 +12,8 @@ module BookingActions
       end
 
       def allowed?
-        booking.contract.present? && !booking.contract.sent? && booking.tenant.email.present?
+        booking.contract.present? && !booking.contract.sent? &&
+          booking.tenant.email.present? && booking.committed_request
       end
 
       def prepare_attachments(booking, deposits, contract)
