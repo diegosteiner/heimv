@@ -1337,7 +1337,7 @@ it:
       two_words_connector: " und "
       words_connector: ", "
   tenant:
-    salutation: Hallo %{friendly_name}
+    salutation: Buongiorno %{friendly_name}
   time:
     formats:
       date: "%d.%m.%Y"
