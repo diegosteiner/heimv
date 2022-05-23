@@ -35,6 +35,7 @@ module BookingStates
       booking.occupancy.tentative!
       booking.update!(editable: false)
       booking.deadline&.clear
+      OperatorResponsibilityAssignmentService.new(booking).assign(:home_handover, :home_return)
       booking.notifications.new(template: :manage_definitive_request_notification,
                                 to: booking.operators_for(:administration).first || booking.organisation)&.deliver
       booking.notifications.new(template: :definitive_request_notification,

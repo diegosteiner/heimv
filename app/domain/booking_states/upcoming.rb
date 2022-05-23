@@ -23,7 +23,6 @@ module BookingStates
     after_transition do |booking|
       booking.occupancy.occupied!
       booking.deadline&.clear
-      OperatorResponsibilityAssignmentService.new(booking).assign(:home_handover, :home_return)
       booking.notifications.new(template: :upcoming_notification, to: booking.tenant).deliver
     end
 
