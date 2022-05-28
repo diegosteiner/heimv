@@ -1,33 +1,34 @@
 - active ||= nil
 
-nav.booking-nav.navbar.p-0.bg-primary.navbar-dark.nowrap.mb-4
-  = link_to manage_booking_path(booking) do
-    h5.ps-4.m-0.me-5.navbar-brand.text-white= booking.ref
-  ul.nav.nav-tabs.pt-2.nowrap
-    - if booking.to_param
-      li.nav-item
-        a.nav-link[href=manage_booking_path(booking) class=('active' if active.nil?)]
-          = Booking.model_name.human
-      li.nav-item
-        a.nav-link[href=manage_booking_tarifs_path(booking) class=('active' if active == :tarifs)]
-          = Tarif.model_name.human(count: :other)
-      / li.nav-item
-      /   a.nav-link[href=manage_booking_offers_path(booking) class=('active' if active == :offers)]
-      /     = Offer.model_name.human(count: :other)
-      li.nav-item
-        a.nav-link[href=manage_booking_contracts_path(booking) class=('active' if active == :contracts)]
-          = Contract.model_name.human(count: :other)
-      li.nav-item
-        a.nav-link[href=manage_booking_usages_path(booking) class=('active' if active == :usages)]
-          = Usage.model_name.human(count: :other)
-      li.nav-item
-        a.nav-link[href=manage_booking_invoices_path(booking) class=('active' if active == :invoices)]
-          = Invoice.model_name.human(count: :other)
-      li.nav-item
-        a.nav-link[href=manage_booking_payments_path(booking) class=('active' if active == :payments)]
-          = Payment.model_name.human(count: :other)
-      li.nav-item
-        a.nav-link[href=manage_booking_notifications_path(booking) class=('active' if active == :notifications)]
-          = Notification.model_name.human(count: :other)
-      / li.nav-item
-      /   a.nav-link[href='#booking-transitions']= BookingTransition.model_name.human(count: :other)
+- unless booking.new_record?
+  nav.booking-nav.navbar.p-0.bg-primary.navbar-dark.nowrap.mb-4
+    = link_to manage_booking_path(booking) do
+      h5.ps-4.m-0.me-5.navbar-brand.text-white= booking.ref
+    ul.nav.nav-tabs.pt-2.nowrap
+      - if booking.to_param
+        li.nav-item
+          a.nav-link[href=manage_booking_path(booking) class=('active' if active.nil?)]
+            = Booking.model_name.human
+        li.nav-item
+          a.nav-link[href=manage_booking_tarifs_path(booking) class=('active' if active == :tarifs)]
+            = Tarif.model_name.human(count: :other)
+        / li.nav-item
+        /   a.nav-link[href=manage_booking_offers_path(booking) class=('active' if active == :offers)]
+        /     = Offer.model_name.human(count: :other)
+        li.nav-item
+          a.nav-link[href=manage_booking_contracts_path(booking) class=('active' if active == :contracts)]
+            = Contract.model_name.human(count: :other)
+        li.nav-item
+          a.nav-link[href=manage_booking_usages_path(booking) class=('active' if active == :usages)]
+            = Usage.model_name.human(count: :other)
+        li.nav-item
+          a.nav-link[href=manage_booking_invoices_path(booking) class=('active' if active == :invoices)]
+            = Invoice.model_name.human(count: :other)
+        li.nav-item
+          a.nav-link[href=manage_booking_payments_path(booking) class=('active' if active == :payments)]
+            = Payment.model_name.human(count: :other)
+        li.nav-item
+          a.nav-link[href=manage_booking_notifications_path(booking) class=('active' if active == :notifications)]
+            = Notification.model_name.human(count: :other)
+        / li.nav-item
+        /   a.nav-link[href='#booking-transitions']= BookingTransition.model_name.human(count: :other)

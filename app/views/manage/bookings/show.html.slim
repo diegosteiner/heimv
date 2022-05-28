@@ -1,5 +1,5 @@
 - title "#{Booking.model_name.human} #{@booking.to_s}"
-= render partial: 'manage/bookings/navigation', locals: { booking: @booking }
+= render partial: 'manage/bookings/navigation', locals: { booking: @booking } 
 
 - cache(cache_key(@booking.cache_key)) do
   section.row.mt-4
