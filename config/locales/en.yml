@@ -370,7 +370,7 @@ en:
             deadline:
               not_postponable: kann nicht verlängert werden
             transition_to:
-              invalid_transition: 'Ungültiger Statusübergang: %{transition}'
+              invalid_transition: "Ungültiger Statusübergang: %{transition}"
           booking_margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
         occupancy:
@@ -379,7 +379,7 @@ en:
         tenant:
           incomplete: Angaben unvollständig
       notifications:
-        record_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+        record_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
         restrict_dependent_destroy:
           has_many: Datensatz kann nicht gelöscht werden, da abhängige %{record} existieren.
           has_one: Datensatz kann nicht gelöscht werden, da ein abhängiger %{record}-Datensatz existiert.
@@ -685,9 +685,9 @@ en:
       short: "%e. %b"
     month_names: '[nil, "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
     order:
-    - :day
-    - :month
-    - :year
+      - :day
+      - :month
+      - :year
   datetime:
     distance_in_words:
       about_x_hours:
@@ -757,7 +757,7 @@ en:
       later_than: muss nach %{other} sein
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
-      model_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+      model_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
       not_a_number: ist keine Zahl
       not_an_integer: muss ganzzahlig sein
       odd: muss ungerade sein
@@ -775,10 +775,10 @@ en:
         one: hat die falsche Länge (muss genau 1 Zeichen haben)
         other: hat die falsche Länge (muss genau %{count} Zeichen haben)
     template:
-      body: 'Bitte überprüfe die folgenden Felder:'
+      body: "Bitte überprüfe die folgenden Felder:"
       header:
-        one: 'Konnte %{model} nicht speichern: ein Fehler.'
-        other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
+        one: "Konnte %{model} nicht speichern: ein Fehler."
+        other: "Konnte %{model} nicht speichern: %{count} Fehler."
   export:
     pdf:
       renderables:
@@ -794,126 +794,126 @@ en:
   faker:
     address:
       building_number:
-      - "#"
-      - "#"
-      - "##"
-      - "#a"
-      - "#b"
+        - "#"
+        - "#"
+        - "##"
+        - "#a"
+        - "#b"
       city:
-      - Zürich
-      - Genf
-      - Basel
-      - Bern
-      - Lausanne
-      - Winterthur
-      - Luzern
-      - St. Gallen
-      - Lugano
-      - Biel/Bienne
-      - Thun
-      - Köniz
-      - La Chaux-de-Fonds
-      - Freiburg
-      - Schaffhausen
-      - Chur
-      - Vernier
-      - Neuenburg
-      - Uster
-      - Sitten
-      - Lancy
-      - Yverdon-les-Bains
-      - Emmen
-      - Zug
-      - Kriens
-      - Rapperswil-Jona
-      - Dübendorf
-      - Dietikon
-      - Montreux
-      - Frauenfeld
-      - Wetzikon
-      - Wil
-      - Baar
-      - Meyrin
-      - Bulle
-      - Kreuzlingen
-      - Wädenswil
-      - Carouge
-      - Riehen
-      - Renens
-      - Aarau
-      - Allschwil
-      - Wettingen
-      - Horgen
-      - Nyon
-      - Vevey
-      - Bülach
-      - Reinach
-      - Baden
-      - Adliswil
-      - Volketswil
-      - Kloten
+        - Zürich
+        - Genf
+        - Basel
+        - Bern
+        - Lausanne
+        - Winterthur
+        - Luzern
+        - St. Gallen
+        - Lugano
+        - Biel/Bienne
+        - Thun
+        - Köniz
+        - La Chaux-de-Fonds
+        - Freiburg
+        - Schaffhausen
+        - Chur
+        - Vernier
+        - Neuenburg
+        - Uster
+        - Sitten
+        - Lancy
+        - Yverdon-les-Bains
+        - Emmen
+        - Zug
+        - Kriens
+        - Rapperswil-Jona
+        - Dübendorf
+        - Dietikon
+        - Montreux
+        - Frauenfeld
+        - Wetzikon
+        - Wil
+        - Baar
+        - Meyrin
+        - Bulle
+        - Kreuzlingen
+        - Wädenswil
+        - Carouge
+        - Riehen
+        - Renens
+        - Aarau
+        - Allschwil
+        - Wettingen
+        - Horgen
+        - Nyon
+        - Vevey
+        - Bülach
+        - Reinach
+        - Baden
+        - Adliswil
+        - Volketswil
+        - Kloten
       country_code:
-      - CH
+        - CH
       default_country:
-      - Schweiz
+        - Schweiz
       full_address:
-      - "#{street_address}, #{city} #{zip_code}"
+        - "#{street_address}, #{city} #{zip_code}"
       postcode:
-      - 1###
-      - 2###
-      - 3###
-      - 4###
-      - 5###
-      - 6###
-      - 7###
-      - 8###
-      - 9###
+        - 1###
+        - 2###
+        - 3###
+        - 4###
+        - 5###
+        - 6###
+        - 7###
+        - 8###
+        - 9###
       street_address:
-      - "#{street_name} #{building_number}"
+        - "#{street_name} #{building_number}"
       street_name:
-      - "#{Name.first_name}#{street_suffix}"
-      - "#{Name.first_name}#{street_suffix}"
-      - "#{Name.first_name}#{street_suffix}"
-      - "#{street_prefix} #{Name.last_name}"
+        - "#{Name.first_name}#{street_suffix}"
+        - "#{Name.first_name}#{street_suffix}"
+        - "#{Name.first_name}#{street_suffix}"
+        - "#{street_prefix} #{Name.last_name}"
       street_prefix:
-      - Im
-      - Am
+        - Im
+        - Am
       street_suffix:
-      - strasse
-      - weg
+        - strasse
+        - weg
     company:
       name:
-      - "#{prefix} #{Address.city}"
-      - "#{prefix} #{Address.city}"
-      - "#{prefix} #{Address.city}-#{Address.city}"
+        - "#{prefix} #{Address.city}"
+        - "#{prefix} #{Address.city}"
+        - "#{prefix} #{Address.city}-#{Address.city}"
       prefix:
-      - Pfadi
-      - Pfadiabteilung
-      - Verein
-      - Jubla
-      - Schule
+        - Pfadi
+        - Pfadiabteilung
+        - Verein
+        - Jubla
+        - Schule
     internet:
       domain_suffix:
-      - com
-      - net
-      - biz
-      - ch
-      - de
-      - li
-      - at
-      - ch
-      - ch
+        - com
+        - net
+        - biz
+        - ch
+        - de
+        - li
+        - at
+        - ch
+        - ch
     phone_number:
       formats:
-      - '0800 ### ###'
-      - '0800 ## ## ##'
-      - '0## ### ## ##'
-      - '0## ### ## ##'
-      - "+41 ## ### ## ##"
-      - '0900 ### ###'
-      - '076 ### ## ##'
-      - "+4178 ### ## ##"
-      - '0041 79 ### ## ##'
+        - "0800 ### ###"
+        - "0800 ## ## ##"
+        - "0## ### ## ##"
+        - "0## ### ## ##"
+        - "+41 ## ### ## ##"
+        - "0900 ### ###"
+        - "076 ### ## ##"
+        - "+4178 ### ## ##"
+        - "0041 79 ### ## ##"
   flash:
     actions:
       create:
@@ -957,7 +957,7 @@ en:
           contract_signed: Vertrag unterschieben markieren
       import:
         headers: Headers
-        import_error: 'Import fehlgeschlagen: '
+        import_error: "Import fehlgeschlagen: "
         import_file: Import Datei (CSV)
         import_success: Import erfolgreich
       index:
@@ -1114,14 +1114,14 @@ en:
       format:
         delimiter: "'"
         format: "%u %n"
-        precision: '2'
+        precision: 2
         separator: "."
-        significant: Significant
-        strip_insignificant_zeros: Strip insignificant zeros
+        significant: false
+        strip_insignificant_zeros: false
         unit: CHF
     format:
       delimiter: "'"
-      precision: '2'
+      precision: "2"
       separator: "."
       significant: Significant
       strip_insignificant_zeros: Strip insignificant zeros
@@ -1143,9 +1143,9 @@ en:
             one: Billion
             other: Billionen
       format:
-        precision: '1'
-        significant: 'true'
-        strip_insignificant_zeros: 'true'
+        precision: "1"
+        significant: "true"
+        strip_insignificant_zeros: "true"
       storage_units:
         format: "%n %u"
         units:
