@@ -60,6 +60,7 @@ group :development do
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'
   gem 'listen', '~> 3.0.5'
+  gem 'squasher'
 end
 
 group :development, :test do
