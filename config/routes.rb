@@ -59,7 +59,7 @@ Rails.application.routes.draw do
       resources :designated_documents
       resources :bookable_extras
       resources :booking_agents
-      resources :booking_purposes, except: :show
+      resources :booking_categories, except: :show
       resources :rich_text_templates do
         post :create_missing, on: :collection
       end

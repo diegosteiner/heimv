@@ -30,7 +30,7 @@ module DataDigests
 
     def build_header(_period, **_options)
       [
-        ::Booking.human_attribute_name(:ref), ::Booking.human_attribute_name(:purpose),
+        ::Booking.human_attribute_name(:ref), ::Booking.human_attribute_name(:purpose_description),
         ::Booking.human_attribute_name(:approximate_headcount),
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
         ::Occupancy.human_attribute_name(:nights), ::Tenant.model_name.human, ::Tenant.human_attribute_name(:phone)
@@ -38,7 +38,7 @@ module DataDigests
     end
 
     def build_data_row(booking)
-      [booking.ref, booking.purpose.to_s, booking.approximate_headcount] +
+      [booking.ref, "#{booking.purpose_description} (#{booking.category.title})", booking.approximate_headcount] +
         occupancy_cells(booking.occupancy) +
         tenant_cells(booking)
     end

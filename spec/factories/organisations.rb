@@ -54,8 +54,8 @@ FactoryBot.define do
     locale { I18n.locale }
 
     after(:build) do |organisation, _evaluator|
-      build(:booking_purpose, key: :camp, title: 'Lager', organisation: organisation)
-      build(:booking_purpose, key: :private, title: 'Fest', organisation: organisation)
+      build(:booking_category, key: :camp, title: 'Lager', organisation: organisation)
+      build(:booking_category, key: :private, title: 'Fest', organisation: organisation)
     end
 
     trait :with_rich_text_templates do

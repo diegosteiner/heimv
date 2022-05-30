@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_17_084757) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_30_075755) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -98,16 +98,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_084757) do
     t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
   end
 
-  create_table "booking_purposes", force: :cascade do |t|
+  create_table "booking_categories", force: :cascade do |t|
     t.bigint "organisation_id", null: false
     t.string "key"
     t.jsonb "title_i18n"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "ordinal"
-    t.index ["key", "organisation_id"], name: "index_booking_purposes_on_key_and_organisation_id", unique: true
-    t.index ["ordinal"], name: "index_booking_purposes_on_ordinal"
-    t.index ["organisation_id"], name: "index_booking_purposes_on_organisation_id"
+    t.jsonb "description_i18n"
+    t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
+    t.index ["ordinal"], name: "index_booking_categories_on_ordinal"
+    t.index ["organisation_id"], name: "index_booking_categories_on_organisation_id"
   end
 
   create_table "booking_transitions", force: :cascade do |t|
@@ -137,7 +138,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_084757) do
     t.integer "approximate_headcount"
     t.text "remarks"
     t.text "invoice_address"
-    t.string "purpose_key"
     t.string "ref"
     t.boolean "editable", default: true
     t.boolean "usages_entered", default: false
@@ -150,11 +150,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_084757) do
     t.boolean "usages_presumed", default: false
     t.bigint "deadline_id"
     t.string "locale"
-    t.integer "purpose_id"
+    t.integer "booking_category_id"
     t.string "booking_flow_type"
     t.string "token"
     t.datetime "conditions_accepted_at", precision: nil
     t.string "color"
+    t.string "purpose_description"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
@@ -225,6 +226,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_084757) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.jsonb "settings"
+    t.integer "min_occupation"
     t.index ["organisation_id"], name: "index_homes_on_organisation_id"
     t.index ["ref", "organisation_id"], name: "index_homes_on_ref_and_organisation_id", unique: true
   end
@@ -527,7 +529,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_084757) do
   add_foreign_key "bookable_extras", "organisations"
   add_foreign_key "booked_extras", "bookable_extras"
   add_foreign_key "booking_agents", "organisations"
-  add_foreign_key "booking_purposes", "organisations"
+  add_foreign_key "booking_categories", "organisations"
   add_foreign_key "booking_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"

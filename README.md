@@ -81,13 +81,13 @@ Prepare a csv with these columns, including a header, as utf-8:
 - ref (which will set the reference, optional)
 - remarks (optional)
 - organisation (which refers to the tenants organisation, optional)
-- purpose (which corresponds to the purpose keys set for the organisation, optional)
+- category (which corresponds to the booking category keys set for the organisation, optional)
 - phone
 
 Options:
 
 - initial_state: State to which the booking shall be transitioned
-- default_purpose:
+- default_category:
 - headers: Header map e.g. for import from pfadiheime.ch
 
 ```

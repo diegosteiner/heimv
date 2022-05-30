@@ -1,0 +1,25 @@
+
+h1.mt-0.mb-5= BookingCategory.model_name.human(count: :other)
+
+.table-responsive
+  table.table.table-hover.align-middle
+
+    tbody
+      - @booking_categories.each do |booking_category|
+        tr[data-href=manage_booking_category_path(booking_category) data-id=booking_category.to_param]
+          td
+            = link_to booking_category.title, edit_manage_booking_category_path(booking_category)
+          td
+            = booking_category.key
+          td.p-1.text-end 
+            .btn-group
+              = link_to edit_manage_booking_category_path(booking_category), class: 'btn btn-default' do
+                span.fa.fa-edit
+              = link_to manage_booking_category_path(booking_category), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
+
+br
+= link_to new_manage_booking_category_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: BookingCategory.model_name.human)

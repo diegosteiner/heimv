@@ -22,17 +22,17 @@
 #
 
 module TarifSelectors
-  class BookingPurpose < TarifSelector
+  class BookingCategory < TarifSelector
     TarifSelector.register_subtype self
 
     validate do
-      next if home.organisation.booking_purposes.exists?(key: distinction)
+      next if home.organisation.booking_categories.exists?(key: distinction)
 
       errors.add(:distinction, :invalid)
     end
 
     def apply?(usage)
-      distinction == usage.booking.purpose&.key
+      distinction == usage.booking.category&.key
     end
   end
 end

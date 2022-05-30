@@ -7,6 +7,7 @@
 #  id               :bigint           not null, primary key
 #  address          :text
 #  janitor          :text
+#  min_occupation   :integer
 #  name             :string
 #  ref              :string
 #  requests_allowed :boolean          default(FALSE)

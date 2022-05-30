@@ -42,7 +42,7 @@ module DataDigests
       [
         ::Booking.human_attribute_name(:ref), ::Home.model_name.human,
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
-        ::Booking.human_attribute_name(:purpose)
+        ::Booking.human_attribute_name(:purpose_description)
       ]
     end
 
@@ -57,7 +57,7 @@ module DataDigests
           ref, home.name,
           I18n.l(occupancy.begins_at, format: :short),
           I18n.l(occupancy.ends_at, format: :short),
-          purpose.to_s
+          "#{purpose_description} (#{category.title})"
         ]
       end
     end

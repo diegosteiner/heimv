@@ -20,7 +20,7 @@
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
-#  purpose_key            :string
+#  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
 #  state_data             :json
@@ -30,10 +30,10 @@
 #  usages_presumed        :boolean          default(FALSE)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  booking_category_id    :integer
 #  deadline_id            :bigint
 #  home_id                :bigint           not null
 #  organisation_id        :bigint           not null
-#  purpose_id             :integer
 #  tenant_id              :integer
 #
 # Indexes
@@ -56,14 +56,15 @@ class Booking < ApplicationRecord
   include BookingStateConcern
 
   DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :purpose, { tenant: :organisation, deadline: :booking, occupancy: :home,
-                                  agent_booking: %i[booking_agent organisation home] }].freeze
+                      :category, { tenant: :organisation, deadline: :booking, occupancy: :home,
+                                   agent_booking: %i[booking_agent organisation home] }].freeze
 
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, optional: true
   belongs_to :deadline, inverse_of: :booking, optional: true
-  belongs_to :purpose, inverse_of: :bookings, class_name: 'BookingPurpose', optional: true
+  belongs_to :category, inverse_of: :bookings, class_name: 'BookingCategory', optional: true,
+                        foreign_key: :booking_category_id
 
   has_many :invoices, dependent: :destroy, autosave: false
   has_many :payments, dependent: :destroy, autosave: false
@@ -91,11 +92,12 @@ class Booking < ApplicationRecord
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create
-  validates :purpose, :tenant, presence: true, on: :public_update
+  validates :category, :tenant, presence: true, on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :approximate_headcount, numericality: { greater_than: 0 }, on: :public_update
   validates :invoice_address, length: { maximum: 255 }
-  validates :tenant_organisation, length: { maximum: 150 }
+  validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
+  validates :purpose_description, presence: true, on: :public_update
 
   validate(on: %i[public_create public_update]) do
     next errors.add(:base, :conflicting) if occupancy.conflicting.present?

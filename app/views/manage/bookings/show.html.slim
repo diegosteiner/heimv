@@ -54,8 +54,8 @@
 
             .col-md-6
               dl
-                dt= Booking.human_attribute_name(:purpose)
-                dd= @booking.purpose
+                dt= Booking.human_attribute_name(:purpose_description)
+                dd= "#{@booking.purpose_description} (#{@booking.category})"
             
               dl
                 dt= Booking.human_attribute_name(:approximate_headcount)
