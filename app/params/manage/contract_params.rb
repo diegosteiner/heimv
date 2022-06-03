@@ -7,7 +7,7 @@ module Manage
     end
 
     sanitize do |params|
-      params[:text] = RichTextSanitizer.sanitize(params[:text])
+      params[:text] = RichTextSanitizer.sanitize(params[:text]) if params[:text].present?
       params
     end
   end
