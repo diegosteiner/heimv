@@ -270,9 +270,9 @@
           "tarif_group": "Schäden",
           "tenant_visible": true,
           "transient": false,
-          "type": "Tarifs::Flat",
+          "type": "Tarifs::Price",
           "unit_i18n": {
-            "de": "Pauschale"
+            "de": "nach Betrag"
           },
           "valid_from": "2019-05-28T11:03:52+02:00",
           "valid_until": null
