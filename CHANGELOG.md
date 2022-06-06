@@ -2,6 +2,15 @@
 
 #### Unreleased
 
+#### Version 22.5.2
+
+Released on 30.05.2022
+
+- Add new validations for bookings
+- Fix problems with locales other than DE
+- Hide send contract button when booking is not definintive
+- Set automatic operator-responsibilities earlier in the process
+
 #### Version 22.5.1
 
 Released on 17.05.2022
