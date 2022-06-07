@@ -72,7 +72,20 @@
           - @booking.errors[:committed_request].each do |error|
             .invalid-feedback.d-block = error
 
-        = f.collection_select :purpose_id, current_organisation.booking_purposes, :id, :title, { required: true }, disabled: !@booking.editable
+        = f.collection_select :booking_category_id, current_organisation.booking_categories, :id, :title, { required: true }, disabled: !@booking.editable
+
+        / .btn-group-vertical.w-100.mb-3
+        /   = f.label :committed_request, Booking.human_attribute_name(:booking_category_id),  required: true
+        /   = f.collection_radio_buttons_without_bootstrap :booking_category_id, current_organisation.booking_categories, :id, :title do |builder|
+        /     = builder.radio_button class: 'btn-check'
+        /     = builder.label class: 'btn btn-outline-primary text-start m-0 p-2' do
+        /       h6.m-0= builder.object.title
+              
+        /       - if builder.object.description.present?
+        /         p.mb-0.pt-2.small= builder.object.description
+
+
+        = f.text_field :purpose_description, disabled: !@booking.editable
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable
 

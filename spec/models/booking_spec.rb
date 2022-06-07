@@ -20,7 +20,7 @@
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
-#  purpose_key            :string
+#  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
 #  state_data             :json
@@ -30,10 +30,10 @@
 #  usages_presumed        :boolean          default(FALSE)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  booking_category_id    :integer
 #  deadline_id            :bigint
 #  home_id                :bigint           not null
 #  organisation_id        :bigint           not null
-#  purpose_id             :integer
 #  tenant_id              :integer
 #
 # Indexes

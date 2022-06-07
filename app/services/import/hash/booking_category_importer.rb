@@ -2,7 +2,7 @@
 
 module Import
   module Hash
-    class BookingPurposeImporter < Base
+    class BookingCategoryImporter < Base
       attr_reader :organisation
 
       use_attributes(*%w[key title_i18n])
@@ -13,7 +13,7 @@ module Import
       end
 
       def initialize_record(hash)
-        organisation.booking_purposes.find_or_initialize_by(hash.slice('key'))
+        organisation.booking_categories.find_or_initialize_by(hash.slice('key'))
       end
     end
   end

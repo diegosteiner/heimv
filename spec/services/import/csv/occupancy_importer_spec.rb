@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Import::Csv::OccupancyImporter, type: :model do
   let(:organisation) { create(:organisation) }
   let(:options) { {} }
-  let!(:booking_purpose) { create(:booking_purpose, organisation: organisation, key: 'youth_camp') }
+  let!(:booking_category) { create(:booking_category, organisation: organisation, key: 'youth_camp') }
   let(:home) { create(:home, organisation: organisation) }
   let(:importer) { described_class.new(home, csv: { headers: header_mapping }) }
 
@@ -14,7 +14,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
 
     context 'with custom csv' do
       let(:header_mapping) do
-        %w[occupancy.begins_at occupancy.ends_at booking.purpose booking.ref booking.tenant_organisation
+        %w[occupancy.begins_at occupancy.ends_at booking.category booking.ref booking.tenant_organisation
            tenant.email tenant.phone booking.remarks]
       end
       let(:csv) do
@@ -35,7 +35,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
 
       it do
         booking = result.records.first.booking
-        expect(booking.purpose).to eq(booking_purpose)
+        expect(booking.category).to eq(booking_category)
         expect(booking.ref).to eq('0815')
         expect(booking.remarks).to eq('Bemerkung')
         expect(booking.notifications_enabled).to be false

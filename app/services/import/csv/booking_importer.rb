@@ -8,7 +8,7 @@ module Import
 
       def self.supported_headers
         super + ['booking.ref', 'booking.remarks', 'booking.headcount', 'booking.tenant_organisation',
-                 'booking.purpose', 'booking.email', 'usage.*'] +
+                 'booking.category', 'booking.purpose', 'booking.email', 'usage.*'] +
           OccupancyImporter.supported_headers +
           TenantImporter.supported_headers
       end
@@ -34,7 +34,7 @@ module Import
       actor do |booking, row|
         booking&.assign_attributes(import_data: row.to_h, editable: false,
                                    notifications_enabled: false, ref: row['booking.ref'],
-                                   remarks: row['booking.remarks'],
+                                   remarks: row['booking.remarks'], purpose_description: row['booking.purpose'],
                                    approximate_headcount: row['booking.headcount']&.to_i,
                                    tenant_organisation: row['booking.tenant_organisation'])
       end
@@ -44,9 +44,9 @@ module Import
         booking.transition_to = Array.wrap(options[:initial_state])
       end
 
-      actor :purpose do |booking, row, options|
-        booking.purpose = organisation.booking_purposes.find_by(key: row['booking.purpose']) ||
-                          options[:default_purpose]
+      actor :category do |booking, row, options|
+        booking.category = organisation.booking_categories.find_by(key: row['booking.category']) ||
+                           options[:default_category]
       end
 
       actor :tenant do |booking, row|

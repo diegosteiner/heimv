@@ -26,7 +26,7 @@ module Ability
       next unless user.organisations.include?(organisation)
 
       can :manage, Home, organisation: organisation
-      can :manage, BookingPurpose, organisation: organisation
+      can :manage, BookingCategory, organisation: organisation
       can :manage, DataDigest, organisation: organisation
       can :manage, RichTextTemplate, organisation: organisation
       can :manage, Tarif, home: { organisation: organisation }
@@ -59,7 +59,7 @@ module Ability
       next unless user.organisations.include?(organisation)
 
       can :read, Home, organisation: organisation
-      can :read, BookingPurpose, organisation: organisation
+      can :read, BookingCategory, organisation: organisation
       can %i[read digest], DataDigest, organisation: organisation
       can :read, RichTextTemplate, organisation: organisation
       can :read, Tarif, home: { organisation: organisation }

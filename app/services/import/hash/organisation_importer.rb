@@ -26,10 +26,10 @@ module Import
       end
 
       actor do |organisation, hash|
-        next unless hash['booking_purposes'].respond_to?(:each)
+        next unless hash['booking_categories'].respond_to?(:each)
 
-        importer = BookingPurposeImporter.new(organisation, **options)
-        hash['booking_purposes'].each { |purpose| organisation.booking_purposes << importer.import(purpose) }
+        importer = BookingCategoryImporter.new(organisation, **options)
+        hash['booking_categories'].each { |category| organisation.booking_categories << importer.import(category) }
       end
     end
   end

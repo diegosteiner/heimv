@@ -86,7 +86,8 @@ describe 'Booking', :devise, type: :feature do
     visit edit_public_booking_path(id: @booking)
     fill_in 'booking_approximate_headcount', with: booking.approximate_headcount
     fill_in 'booking_tenant_organisation', with: booking.tenant_organisation
-    find('#booking_purpose_id').select(booking.purpose.title)
+    fill_in 'booking_purpose_description', with: booking.purpose_description
+    find('#booking_booking_category_id').select(booking.category.title)
     choose 'booking_committed_request_false'
     submit_form
     expect(page).to have_content(I18n.t('flash.public.bookings.update.notice'))

@@ -5,10 +5,10 @@ module Manage
     association :tenant,        blueprint: Manage::TenantSerializer
     association :deadline,      blueprint: Manage::DeadlineSerializer
     association :home,          blueprint: Manage::HomeSerializer
-    association :purpose,       blueprint: Manage::BookingPurposeSerializer
+    association :category,       blueprint: Manage::BookingCategorySerializer
 
-    fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref,
-           :committed_request, :approximate_headcount, :remarks, :home_id
+    fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request,
+           :purpose_description, :approximate_headcount, :remarks, :home_id
 
     field :operator_responsibilities do |booking|
       booking.operator_responsibilities.to_h do |operator_responsibility|

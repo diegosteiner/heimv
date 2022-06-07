@@ -2,7 +2,7 @@
 
 module Public
   class OrganisationSerializer < ApplicationSerializer
-    association :booking_purposes, blueprint: Public::BookingPurposeSerializer
+    association :booking_categories, blueprint: Public::BookingCategorySerializer
     association :homes, blueprint: Public::HomeSerializer
 
     fields :name, :address, :booking_flow_type, :invoice_ref_strategy_type, :location, :slug,

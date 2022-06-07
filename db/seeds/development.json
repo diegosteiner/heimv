@@ -1,7 +1,7 @@
 {
   "address": "Verein Pfadiheime\r\nHeimverwaltung\r\n\r\n8000 Zürich",
   "booking_flow_type": "BookingFlows::Default",
-  "booking_purposes": [
+  "booking_categories": [
     {
       "key": "camp",
       "ordinal": 0,

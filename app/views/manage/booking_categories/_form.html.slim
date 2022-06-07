@@ -1,4 +1,4 @@
-= form_with(model: [:manage, @booking_purpose], local: true) do |f|
+= form_with(model: [:manage, @booking_category], local: true) do |f|
 
   fieldset
     ul.nav.nav-tabs.mt-4 role="tablist"
@@ -13,11 +13,12 @@
       - I18n.available_locales.each do |locale|
         - current_locale = locale == I18n.locale
         .tab-pane.pt-3[id="title-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="title-#{locale}-tab" role='tabpanel']
-          = f.text_field "title_#{locale.to_s}", label: BookingPurpose.human_attribute_name(:title)
+          = f.text_field "title_#{locale.to_s}", label: BookingCategory.human_attribute_name(:title)
+          = f.text_area "description_#{locale.to_s}", label: BookingCategory.human_attribute_name(:description)
 
     = f.text_field :key
     = f.number_field :ordinal_position
 
   .form-actions.pt-4.mt-3
     = f.submit
-    = link_to t(:back), manage_booking_purposes_path, class: 'btn btn-default'
+    = link_to t(:back), manage_booking_categories_path, class: 'btn btn-default'

@@ -20,7 +20,7 @@
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
-#  purpose_key            :string
+#  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
 #  state_data             :json
@@ -30,10 +30,10 @@
 #  usages_presumed        :boolean          default(FALSE)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  booking_category_id    :integer
 #  deadline_id            :bigint
 #  home_id                :bigint           not null
 #  organisation_id        :bigint           not null
-#  purpose_id             :integer
 #  tenant_id              :integer
 #
 # Indexes
@@ -62,6 +62,7 @@ FactoryBot.define do
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }
     notifications_enabled { true }
+    purpose_description { 'Pfadilager Test' }
     transient do
       initial_state { nil }
       begins_at { nil }
@@ -76,7 +77,7 @@ FactoryBot.define do
       booking.occupancy = evaluator.occupancy if evaluator.occupancy.present?
       booking.occupancy.begins_at = evaluator.begins_at if evaluator.begins_at.present?
       booking.occupancy.ends_at = evaluator.ends_at if evaluator.ends_at.present?
-      booking.purpose ||= booking.organisation.booking_purposes.sample
+      booking.category ||= booking.organisation.booking_categories.sample
     end
 
     after(:create) do |booking, evaluator|
