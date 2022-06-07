@@ -1,25 +1,36 @@
 HeimV - A Tool to manage tenants and occupancies for group homes
-Copyright (C) 2017-2020 Diego Steiner
 
-HeimV is free software: you can redistribute it and/or modify it
-under the terms of the GNU Affero General Public License version 3 as
-published by the Free Software Foundation with the addition of the
-following permission added to Section 15 as permitted in Section 7(a):
-FOR ANY PART OF THE COVERED WORK IN WHICH THE COPYRIGHT IS OWNED BY
-THOMAS LEITNER, THOMAS LEITNER DISCLAIMS THE WARRANTY OF NON
-INFRINGEMENT OF THIRD PARTY RIGHTS.
+Copyright (C) 2017- Diego Steiner
 
-HeimV is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public
-License for more details.
+"Commons Clause" License Condition v1.0
 
-You should have received a copy of the GNU Affero General Public License
-along with HeimV. If not, see <http://www.gnu.org/licenses/>.
+The Software is provided to you by the Licensor under the License, as defined below, subject to the following condition.
 
-The interactive user interfaces in modified source and object code
-versions of HeimV must display Appropriate Legal Notices, as required
-under Section 5 of the GNU Affero General Public License version 3.
+Without limiting other conditions in the License, the grant of rights under the License will not include, and the
+License does not grant to you, the right to Sell the Software.
 
-If you want to use HeimV in a commercial setting, a commercial licence
-is required. For a commercial licence please get in touch: license@heimv.ch. 
+For purposes of the foregoing, "Sell" means practicing any or all of the rights granted to you under the License to
+provide to third parties, for a fee or other consideration (including without limitation fees for hosting or
+consulting/support services related to the Software), a product or service whose value derives, entirely or
+substantially, from the functionality of the Software. Any license notice or attribution required by the License must
+also include this Commons Clause License Condition notice.
+
+Software: HeimV
+License: MIT 
+Licensor: HeimV Software, Inhaber Diego Steiner. For a commercial licence please get in touch: license@heimv.ch. 
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
