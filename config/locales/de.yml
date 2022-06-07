@@ -84,9 +84,9 @@ de:
         bookable_extra_ids: Buchbare Extras
         booking_agent_code: Vermittler-Code
         booking_agent_ref: Vermittler-Referenz
-        booking_category_id: Art der Miete
+        booking_category_id: Mietkategorie
         cancellation_reason: Annulierungsgrund
-        category: Art der Miete
+        category: Mietkategorie
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         deadline: Frist bis

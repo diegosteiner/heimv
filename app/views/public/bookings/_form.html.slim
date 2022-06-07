@@ -55,7 +55,7 @@
             .col-md-8
               = cf.text_field :city, disabled: !@booking.editable
 
-          = cf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code) } do
+          = cf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code), required: true } do
             = cf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable
           = cf.text_area :phone, rows: 1, disabled: !@booking.editable
           = cf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
@@ -65,24 +65,23 @@
         h5= t('.booking_details')
         = f.text_field :tenant_organisation, help: t('optional'), disabled: !@booking.editable
         = f.text_area :invoice_address, help: t('optional'), disabled: !@booking.editable
-        = f.form_group :committed_request
+        = f.form_group :committed_request, class: 'required'
           = f.label :committed_request, Booking.human_attribute_name(:committed_request)
           = f.radio_button(:committed_request, false, label: t(:'activerecord.enums.booking.committed_request.provisional_request'), disabled: (!@booking.editable || @booking.committed_request?))
           = f.radio_button :committed_request, true, label: t(:'activerecord.enums.booking.committed_request.definitive_request'), disabled: !@booking.editable
           - @booking.errors[:committed_request].each do |error|
             .invalid-feedback.d-block = error
 
-        = f.collection_select :booking_category_id, current_organisation.booking_categories, :id, :title, { required: true }, disabled: !@booking.editable
-
-        / .btn-group-vertical.w-100.mb-3
-        /   = f.label :committed_request, Booking.human_attribute_name(:booking_category_id),  required: true
-        /   = f.collection_radio_buttons_without_bootstrap :booking_category_id, current_organisation.booking_categories, :id, :title do |builder|
-        /     = builder.radio_button class: 'btn-check'
-        /     = builder.label class: 'btn btn-outline-primary text-start m-0 p-2' do
-        /       h6.m-0= builder.object.title
-              
-        /       - if builder.object.description.present?
-        /         p.mb-0.pt-2.small= builder.object.description
+        = f.form_group :booking_category_id
+          = f.label :booking_category_id, Booking.human_attribute_name(:booking_category_id), class: 'required'
+          = f.collection_radio_buttons_without_bootstrap :booking_category_id, current_organisation.booking_categories, :id, :title do |builder|
+            .form-check
+              = builder.radio_button class: 'form-check-input', disabled: !@booking.editable
+              = builder.label class: 'form-check-label' do
+                = builder.object.title
+                
+                - if builder.object.description.present?
+                  p.small.my-1.text-muted= builder.object.description
 
 
         = f.text_field :purpose_description, disabled: !@booking.editable

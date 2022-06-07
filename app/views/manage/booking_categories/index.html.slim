@@ -8,9 +8,11 @@ h1.mt-0.mb-5= BookingCategory.model_name.human(count: :other)
       - @booking_categories.each do |booking_category|
         tr[data-href=manage_booking_category_path(booking_category) data-id=booking_category.to_param]
           td
+            .badge.bg-secondary= booking_category.key
+          td
             = link_to booking_category.title, edit_manage_booking_category_path(booking_category)
           td
-            = booking_category.key
+            small= booking_category.description
           td.p-1.text-end 
             .btn-group
               = link_to edit_manage_booking_category_path(booking_category), class: 'btn btn-default' do
