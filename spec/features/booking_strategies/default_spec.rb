@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
 describe 'Booking', :devise, type: :feature do
-  let(:organisation) { create(:organisation, :with_rich_text_templates, settings: { feature_new_bookings: true }) }
+  let(:organisation) { create(:organisation, :with_rich_text_templates) }
   let(:organisation_user) { create(:organisation_user, :manager, organisation: organisation) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation: organisation) }
   let(:tenant) { create(:tenant, organisation: organisation) }
+  let!(:responsibilities) do
+    OperatorResponsibility.responsibilities.keys.map do |responsibility|
+      create(:operator_responsibility, organisation: organisation, responsibility: responsibility, home: home)
+    end
+  end
   let(:occupancy) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
     ends_at = begins_at + 1.week + 4.hours + 15.minutes
@@ -24,6 +29,19 @@ describe 'Booking', :devise, type: :feature do
           skip_infer_transition: false,
           committed_request: false,
           notifications_enabled: true)
+  end
+  let(:expected_notifications) do
+    %w[payment_due_notification payment_confirmation_notification upcoming_notification
+       operator_upcoming_soon_notification operator_upcoming_soon_notification
+       upcoming_soon_notification awaiting_contract_notification
+       definitive_request_notification manage_definitive_request_notification
+       provisional_request_notification open_request_notification
+       manage_new_booking_notification unconfirmed_request_notification]
+  end
+
+  let(:expected_transitions) do
+    %w[unconfirmed_request open_request provisional_request definitive_request
+       awaiting_contract upcoming upcoming_soon active past payment_due completed]
   end
 
   it 'flows through happy path' do
@@ -44,18 +62,20 @@ describe 'Booking', :devise, type: :feature do
     check_booking
   end
 
-  def fill_request_form(email:, begins_at:, ends_at:)
-    fill_in 'email', with: email
-    fill_in 'begins_at_date', with: begins_at.strftime('%d.%m.%Y')
-    select(format('%02d', begins_at.hour), from: 'begins_at_hours')
-    fill_in 'ends_at_date', with: ends_at.strftime('%d.%m.%Y')
-    select(format('%02d', ends_at.hour), from: 'ends_at_hours')
-    check 'accept_conditions'
+  def fill_request_form(email:, begins_at:, ends_at:, home:)
+    select(home.to_s, from: 'booking_home_id')
+    fill_in 'booking_email', with: email
+    fill_in 'booking_occupancy_begins_at_date', with: begins_at.strftime('%d.%m.%Y')
+    select(format('%02d', begins_at.hour), from: 'booking_occupancy_begins_at_hours')
+    fill_in 'booking_occupancy_ends_at_date', with: ends_at.strftime('%d.%m.%Y')
+    select(format('%02d', ends_at.hour), from: 'booking_occupancy_ends_at_hours')
+    check 'booking_accept_conditions'
   end
 
   def create_request
     visit new_booking_path
-    fill_request_form(email: tenant.email, begins_at: booking.occupancy.begins_at, ends_at: booking.occupancy.ends_at)
+    fill_request_form(email: tenant.email, begins_at: booking.occupancy.begins_at,
+                      ends_at: booking.occupancy.ends_at, home: booking.home)
     submit_form
     flash = Rails::Html::FullSanitizer.new.sanitize(I18n.t('flash.public.bookings.create.notice', email: tenant.email))
     expect(page).to have_content(flash)
@@ -155,13 +175,6 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def check_booking
-    expected_notifications = %w[payment_due_notification payment_confirmation_notification upcoming_notification
-                                upcoming_soon_notification awaiting_contract_notification
-                                definitive_request_notification manage_definitive_request_notification
-                                provisional_request_notification open_request_notification
-                                manage_new_booking_notification unconfirmed_request_notification]
-    expected_transitions = %w[unconfirmed_request open_request provisional_request definitive_request
-                              awaiting_contract upcoming upcoming_soon active past payment_due completed]
     expect(@booking.notifications.map { |notification| notification.rich_text_template.key })
       .to contain_exactly(*expected_notifications)
     expect(@booking.booking_transitions.ordered.map(&:to_state)).to contain_exactly(*expected_transitions)

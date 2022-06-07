@@ -1,6 +1,7 @@
 .mx-auto.w-md
   h3 = t(:'.title')
-  - if params[:fallback].blank? && current_organisation.settings.feature_new_bookings
+  / - if params[:fallback].blank? && current_organisation.settings.feature_new_bookings
+  - if false
     = react_component('public/booking/new/BookingFormWrapper', booking: Public::BookingSerializer.render_as_hash(@booking), organisation: Public::OrganisationSerializer.render_as_hash(current_organisation))
   - else 
     .card

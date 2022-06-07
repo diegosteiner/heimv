@@ -100,8 +100,9 @@ class Occupancy < ApplicationRecord
   end
 
   def overlapping(margin = 0)
-    return unless complete?
+    return unless complete? && home.present?
 
+    margin ||= 0
     home.occupancies.at(from: begins_at - margin, to: ends_at + margin)
   end
 

@@ -34,10 +34,8 @@
 FactoryBot.define do
   factory :operator_responsibility do
     organisation
-    home
-    operator
-    # sequence :ordinal
-    # responsibility { 1 }
-    remarks { 'MyText' }
+    operator { build(:operator, organisation: organisation) }
+    responsibility { :home_handover }
+    remarks { 'Some remarks about the responsibility' }
   end
 end
