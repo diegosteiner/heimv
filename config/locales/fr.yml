@@ -580,7 +580,6 @@ fr:
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
       checklist:
-        assign_responsibilities: Verantwortlichkeiten zuweisen
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
       description: Der Mieter hat den Vertrag und (falls vorhanden) die Anzahlungs-Rechnung erhalten, aber noch nicht unterschrieben retourniert bzw. bezahlt.
@@ -607,6 +606,7 @@ fr:
       label: Mietanfrage (abgelehnt)
     definitive_request:
       checklist:
+        assign_responsibilities: Verantwortlichkeiten zuweisen
         choose_tarifs: Tarife festlegen
         create_contract: Vertrag erstellen
         create_deposit: Anzahlung erstellen

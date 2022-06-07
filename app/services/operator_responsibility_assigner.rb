@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class OperatorResponsibilityAssignmentService
+class OperatorResponsibilityAssigner
   def initialize(booking)
     @booking = booking
   end

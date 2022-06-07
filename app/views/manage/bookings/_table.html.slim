@@ -42,7 +42,7 @@
               i.fa.fa-sticky-note-o 
               =<> booking.internal_remarks
 
-          - if booking.booking_state.responsibilities.present?
+          - if booking.organisation.operators.any? && booking.booking_state.responsibilities.present?
               - booking.operator_responsibilities.where(responsibility: booking.booking_state.responsibilities).each do |operator_responsibility|
                 .d-block
                   i.fa.fa-key

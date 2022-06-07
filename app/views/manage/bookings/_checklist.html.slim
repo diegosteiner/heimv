@@ -2,5 +2,5 @@ ul.fa-ul.mb-0.checklist
   - booking.booking_state.checklist.to_a.each do |check_item|
     li
       i.fa-li.fa[class=(check_item.checked ? 'fa-check-square-o text-success' : 'fa-square-o')]
-      = link_to(check_item.url_hint)
+      = link_to(check_item.url_hint, 'aria-label' => check_item.key)
         = booking.booking_state.translate(check_item.key, scope: :checklist)

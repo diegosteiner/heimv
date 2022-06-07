@@ -33,7 +33,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe OperatorResponsibilityAssignmentService, type: :model do
+RSpec.describe OperatorResponsibilityAssigner, type: :model do
   subject(:service) { described_class.new(booking) }
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }

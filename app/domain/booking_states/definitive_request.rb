@@ -9,10 +9,11 @@ module BookingStates
 
     def checklist
       [
+        assign_responsibilities_checklist_item,
         choose_tarifs_checklist_item,
         create_contract_checklist_item,
         create_deposit_checklist_item
-      ]
+      ].compact
     end
 
     def self.to_sym
@@ -35,7 +36,7 @@ module BookingStates
       booking.occupancy.tentative!
       booking.update!(editable: false)
       booking.deadline&.clear
-      OperatorResponsibilityAssignmentService.new(booking).assign(:home_handover, :home_return)
+      OperatorResponsibilityAssigner.new(booking).assign(:home_handover, :home_return)
       booking.notifications.new(template: :manage_definitive_request_notification,
                                 to: booking.operators_for(:administration).first || booking.organisation)&.deliver
       booking.notifications.new(template: :definitive_request_notification,
@@ -74,6 +75,13 @@ module BookingStates
                             booking,
                             **default_params.merge({ invoice: { type: Invoices::Deposit.model_name.to_s } })
                           ))
+    end
+
+    def assign_responsibilities_checklist_item
+      return if booking.organisation.operators.none?
+
+      ChecklistItem.new(:assign_responsibilities, booking.operators_for(:home_handover).present?,
+                        manage_booking_operator_responsibilities_path(booking, org: booking.organisation.slug))
     end
   end
 end

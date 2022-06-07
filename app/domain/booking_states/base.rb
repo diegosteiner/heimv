@@ -104,10 +104,6 @@ module BookingStates
       []
     end
 
-    def assign_operator_responsibilities(responsibilities = self.responsibilities)
-      OperatorResponsibilityAssignmentService.new(@booking).assign_all(*responsibilities)
-    end
-
     def public_actions
       self.class.available_public_actions.filter_map { |action_klass| action_klass.new(booking: @booking) }
     end
