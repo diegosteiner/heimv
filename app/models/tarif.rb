@@ -96,6 +96,14 @@ class Tarif < ApplicationRecord
     [id] + booking_copy_ids
   end
 
+  def price(usage)
+    ((usage.used_units || 0.0) * (price_per_unit.presence || 1.0) * 20.0).floor / 20.0
+  end
+
+  def presumed_price(usage)
+    ((usage.presumed_used_units || 0.0) * (price_per_unit.presence || 1.0) * 20.0).floor / 20.0
+  end
+
   def breakdown(usage)
     I18n.t('invoice_parts.breakdown',
            used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
