@@ -14,7 +14,7 @@ module BookingStates
       booking.deadline&.clear
       invoice = booking.invoices.sent.open.order(payable_until: :asc).last
       payable_until = invoice&.payable_until
-      next unless payable_until.present?
+      next if payable_until.blank?
 
       postponable_for = booking.home.settings.deadline_postponable_for
       booking.deadlines.create(at: payable_until, postponable_for: postponable_for) unless booking.deadline

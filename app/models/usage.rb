@@ -46,11 +46,11 @@ class Usage < ApplicationRecord
   validates :used_units, numericality: true, allow_nil: true
 
   def price
-    ((used_units || 0.0) * (tarif.price_per_unit || 1.0) * 20.0).floor / 20.0
+    ((used_units || 0.0) * (tarif.price_per_unit.presence || 1.0) * 20.0).floor / 20.0
   end
 
   def presumed_price
-    ((presumed_used_units || 0.0) * (tarif.price_per_unit || 1.0) * 20.0).floor / 20.0
+    ((presumed_used_units || 0.0) * (tarif.price_per_unit.presence || 1.0) * 20.0).floor / 20.0
   end
 
   def of_tarif?(other_tarif)

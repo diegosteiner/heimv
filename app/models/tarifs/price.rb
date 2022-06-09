@@ -46,7 +46,7 @@ module Tarifs
     end
 
     def price_per_unit
-      1
+      nil
     end
   end
 end
