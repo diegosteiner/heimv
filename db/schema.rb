@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_30_075755) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -102,8 +102,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_30_075755) do
     t.bigint "organisation_id", null: false
     t.string "key"
     t.jsonb "title_i18n"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "ordinal"
     t.jsonb "description_i18n"
     t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
@@ -316,8 +316,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_30_075755) do
     t.text "text"
     t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_offers_on_booking_id"
   end
 
@@ -327,8 +327,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_30_075755) do
     t.integer "ordinal"
     t.integer "responsibility"
     t.text "remarks"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "home_id"
     t.bigint "organisation_id", null: false
     t.index ["booking_id"], name: "index_operator_responsibilities_on_booking_id"
@@ -344,8 +344,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_30_075755) do
     t.string "email"
     t.text "contact_info"
     t.bigint "organisation_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "locale", default: "de", null: false
     t.index ["organisation_id"], name: "index_operators_on_organisation_id"
   end
