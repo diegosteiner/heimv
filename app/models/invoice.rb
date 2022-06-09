@@ -44,6 +44,7 @@ class Invoice < ApplicationRecord
 
   scope :ordered,  -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :unpaid,   -> { kept.where(arel_table[:amount_open].gt(0)) }
+  scope :open,     -> { kept.where.not(arel_table[:amount_open].eq(0)) }
   scope :overpaid, -> { kept.where(arel_table[:amount_open].lt(0)) }
   scope :paid,     -> { kept.where(arel_table[:amount_open].lteq(0)) }
   scope :sent,     -> { kept.where.not(sent_at: nil) }

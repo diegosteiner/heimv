@@ -1,7 +1,7 @@
 = form_with(model: [:manage, @booking, @payment], local: true) do |f|
 
   fieldset
-    - invoices = @payment.organisation.invoices.includes(:organisation).unpaid
+    - invoices = @payment.organisation.invoices.includes(:organisation).open
     = f.collection_select :invoice_id, [@payment.invoice, invoices].flatten.compact.uniq, :id, :to_s, include_blank: true
     = f.number_field :amount, step: 0.05
     = f.date_field :paid_at, lang: I18n.locale

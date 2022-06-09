@@ -18,7 +18,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      !booking.invoices.unpaid.exists?
+      !booking.invoices.open.exists?
     end
 
     after_transition do |booking|

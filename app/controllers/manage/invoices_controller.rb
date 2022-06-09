@@ -11,7 +11,7 @@ module Manage
                   elsif params[:all].present?
                     @invoices
                   else
-                    @invoices.kept.unpaid
+                    @invoices.kept.open
                   end
       @invoices = @invoices.where(booking: { organisation: current_organisation })
                            .includes(:organisation, :payments).ordered.with_attached_pdf
