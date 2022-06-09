@@ -17,7 +17,7 @@
           = f.text_field "unit_#{locale.to_s}", label: Tarif.human_attribute_name(:unit)
 
     = f.hidden_field :id
-    = f.select :type, subtype_options_for_select(Tarif.subtypes)
+    = f.select :type, subtype_options_for_select(Tarif.subtypes), include_blank: true
     = f.text_field :tarif_group
     = f.number_field :ordinal, step: 1.0
     = f.select :invoice_type, subtype_options_for_select(Invoice.subtypes), include_blank: true
