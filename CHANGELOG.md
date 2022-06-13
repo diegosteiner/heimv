@@ -2,6 +2,8 @@
 
 #### Unreleased
 
+#### Version 22.6.1
+
 - Rename booking_purposes to booking_categories and add description
 - Fix for overpaid invoices
 - Assign responsibilities earlier
