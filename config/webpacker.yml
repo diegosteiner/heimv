@@ -8,6 +8,7 @@ default: &default
   cache_path: tmp/webpacker
   check_yarn_integrity: false
   webpack_compile_output: true
+  ensure_consistent_versioning: true
   extract_css: true
 
   # Additional paths webpack should look up modules
