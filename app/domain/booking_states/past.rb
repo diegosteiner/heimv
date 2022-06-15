@@ -15,7 +15,8 @@ module BookingStates
     end
 
     infer_transition(to: :payment_due) do |booking|
-      Invoices::Invoice.of(booking).kept.sent.exists?
+      invoices = Invoices::Invoice.of(booking).kept
+      invoices.any?(&:sent?) || (invoices.any? && invoices.none?(&:open?))
     end
 
     def relevant_time

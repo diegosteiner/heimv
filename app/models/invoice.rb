@@ -87,6 +87,14 @@ class Invoice < ApplicationRecord
     overpaid? || amount_open.zero?
   end
 
+  def sent?
+    sent_at.present?
+  end
+
+  def open?
+    !amount_open.zero?
+  end
+
   def overpaid?
     amount_open.negative?
   end
