@@ -26,16 +26,18 @@
         = f.select :home_id, current_organisation.homes.map { |home| [home.to_s, home.to_param] }, {}, disabled: true, required: true
 
         = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
+                                                    id: 'booking_occupancy_begins_at',
                                                     name: 'booking[occupancy_attributes][begins_at]',
                                                     value: @booking.occupancy.begins_at&.iso8601,
                                                     disabled: !@booking.editable?, required: true,
-                                                    invalidFeedback: @booking.errors['occupancy.begins_at']&.to_sentence)
+                                                    invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.begins_at') }.to_sentence)
 
         = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
+                                                    id: 'booking_occupancy_ends_at',
                                                     name: 'booking[occupancy_attributes][ends_at]',
                                                     value: @booking.occupancy.ends_at&.iso8601,
                                                     disabled: !@booking.editable?, required: true,
-                                                    invalidFeedback: @booking.errors['occupancy.ends_at']&.to_sentence)
+                                                    invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.ends_at') }.to_sentence)
 
         = f.email_field :email, disabled: true
         = f.fields_for :tenant, @booking.tenant do |cf|

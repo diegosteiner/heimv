@@ -32,7 +32,7 @@ function valueAsDate(value: string | Date): Date | undefined {
   return dateValue;
 }
 
-function dateToCalendarControlValue(date?: Date): CalendarControlValue {
+function dateToCalendarControlValue(date: Date): CalendarControlValue {
   const hours = closestNumber((date && getHours(date)) || 0, availableHours);
   const minutes = closestNumber(
     (date && getMinutes(date)) || 0,
@@ -52,10 +52,10 @@ function dateToCalendarControlValue(date?: Date): CalendarControlValue {
   };
 }
 
-export const availableHours = [
+export const goodHours = [
   8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
 ];
-export const allHours = [
+export const availableHours = [
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
   22, 23, 24,
 ];
@@ -85,6 +85,7 @@ interface CalendarControlProps {
   occupancyWindow?: OccupancyWindow;
   minDate?: Date;
   maxDate?: Date;
+  restrictTime?: boolean;
 }
 
 export default function OccupancyDateTimeFormControl({
@@ -95,16 +96,14 @@ export default function OccupancyDateTimeFormControl({
   disabled = false,
   onChange,
   onBlur,
-  className,
   isInvalid = false,
   minDate,
   maxDate,
-  occupancyWindow,
 }: CalendarControlProps) {
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [calendarControlValue, setCalendarControlValue] =
     React.useState<CalendarControlValue>({
-      hours: Math.min(...availableHours),
+      hours: Math.min(...goodHours),
       minutes: Math.min(...availableMinutes),
       text: "",
     });
@@ -128,7 +127,7 @@ export default function OccupancyDateTimeFormControl({
 
     date = setHours(
       date,
-      hours || calendarControlValue?.hours || Math.min(...availableHours)
+      hours || calendarControlValue?.hours || Math.min(...goodHours)
     );
     date = setMinutes(
       date,
@@ -228,12 +227,8 @@ export default function OccupancyDateTimeFormControl({
             as="select"
             id={`${id}_hours`}
           >
-            {allHours.map((hour) => (
-              <option
-                disabled={!availableHours.includes(hour)}
-                key={hour}
-                value={hour}
-              >
+            {availableHours.map((hour) => (
+              <option key={hour} value={hour}>
                 {hour.toString().padStart(2, "0")}
               </option>
             ))}
