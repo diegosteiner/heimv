@@ -7,6 +7,7 @@ h1.mt-0.mb-5= BookableExtra.model_name.human(count: :other)
   table.table.table-hover.align-middle
     thead
       tr
+        th
         th= BookableExtra.human_attribute_name(:title)
         th= BookableExtra.human_attribute_name(:description)
         th
@@ -14,6 +15,8 @@ h1.mt-0.mb-5= BookableExtra.model_name.human(count: :other)
     tbody
       - @bookable_extras.each do |bookable_extra|
         tr[data-href=manage_bookable_extra_path(bookable_extra) data-bs-id=bookable_extra.to_param]
+          td
+            .badge.bg-secondary= bookable_extra.id
           td 
             = bookable_extra.title
           td 

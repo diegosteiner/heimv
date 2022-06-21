@@ -5,7 +5,7 @@ module Manage
     association :tenant,        blueprint: Manage::TenantSerializer
     association :deadline,      blueprint: Manage::DeadlineSerializer
     association :home,          blueprint: Manage::HomeSerializer
-    association :category,       blueprint: Manage::BookingCategorySerializer
+    association :category,      blueprint: Manage::BookingCategorySerializer
 
     fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request,
            :purpose_description, :approximate_headcount, :remarks, :home_id
@@ -15,6 +15,15 @@ module Manage
         [
           operator_responsibility.responsibility,
           OperatorResponsibilitySerializer.render_as_hash(operator_responsibility)
+        ]
+      end
+    end
+
+    field :booked_extras do |booking|
+      booking.booked_extras.to_h do |booked_extra|
+        [
+          booked_extra.bookable_extra.id,
+          Public::BookableExtraSerializer.render_as_hash(booked_extra.bookable_extra)
         ]
       end
     end
