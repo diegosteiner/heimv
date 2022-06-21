@@ -2,6 +2,6 @@
 
 module Public
   class BookingCategorySerializer < ApplicationSerializer
-    fields :key, :title_i18n, :title
+    fields :key, :title_i18n, :title, :description_i18n
   end
 end
