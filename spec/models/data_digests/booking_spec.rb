@@ -5,6 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
+#  columns            :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -44,10 +45,10 @@ RSpec.describe DataDigests::Booking, type: :model do
   end
 
   describe '#csv' do
-    it { expect(data_digest.digest(period, format: :csv)).to include('Heim') }
+    it { expect(data_digest.digest(period).format(:csv)).to include('Heim') }
   end
 
   describe '#pdf' do
-    it { expect(data_digest.digest(period, format: :pdf)).not_to be_blank }
+    it { expect(data_digest.digest(period).format(:pdf)).not_to be_blank }
   end
 end

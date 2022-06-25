@@ -5,6 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
+#  columns            :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -32,8 +33,12 @@ module DataDigests
       ::Booking::Filter.new
     end
 
-    def scope
-      @scope ||= prefilter.apply(organisation.bookings.ordered.with_default_includes)
+    def period_filter(period)
+      ::Booking::Filter.new(begins_at_after: period.begin, begins_at_before: period.end)
+    end
+
+    def base_scope
+      @base_scope ||= organisation.bookings.ordered.with_default_includes
     end
 
     protected
@@ -48,11 +53,6 @@ module DataDigests
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
         ::Booking.human_attribute_name(:purpose_description), ::Occupancy.human_attribute_name(:nights)
       ]
-    end
-
-    def build_data(period, **_options)
-      filter = ::Booking::Filter.new(begins_at_after: period.begin, begins_at_before: period.end)
-      filter.apply(scope).map { |booking| build_data_row(booking) }
     end
 
     def build_data_row(booking)

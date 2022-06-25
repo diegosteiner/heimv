@@ -2,6 +2,7 @@
 = form_with(model: @data_digest, url: form_url, scope: :data_digest, local: true) do |f|
   = f.hidden_field :type
   = f.text_field :label
+  = f.text_area :columns
 
   - if @data_digest.is_a?(DataDigests::Tarif)
     = f.select :tarif_ids, @data_digest.tarif_options, {}, multiple: true

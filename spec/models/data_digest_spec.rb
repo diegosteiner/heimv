@@ -5,6 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
+#  columns            :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb

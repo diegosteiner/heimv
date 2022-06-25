@@ -6,6 +6,7 @@
 #
 #  id               :bigint           not null, primary key
 #  description_i18n :jsonb
+#  key              :string
 #  title_i18n       :jsonb
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

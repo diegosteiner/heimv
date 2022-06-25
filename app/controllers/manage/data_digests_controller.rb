@@ -20,14 +20,12 @@ module Manage
     end
 
     def digest
+      @periodic_data = @data_digest.digest(period)
+
       respond_to do |format|
-        format.html { @periodic_data = @data_digest.digest(period) }
-        format.csv do
-          send_data @data_digest.digest(period, format: :csv), filename: "#{@data_digest.label}.csv"
-        end
-        format.pdf do
-          send_data @data_digest.digest(period, format: :pdf), filename: "#{@data_digest.label}.pdf"
-        end
+        format.html
+        format.csv { send_data @periodic_data.format(:csv), filename: "#{@data_digest.label}.csv" }
+        format.pdf { send_data @periodic_data.format(:pdf), filename: "#{@data_digest.label}.pdf" }
       end
     end
 

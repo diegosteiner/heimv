@@ -5,6 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
+#  columns            :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -32,18 +33,17 @@ module DataDigests
       ::Payment::Filter.new
     end
 
-    def scope
-      @scope ||= prefilter.apply(organisation.payments.ordered)
+    def base_scope
+      @base_scope ||= organisation.payments.ordered
+    end
+
+    def period_filter(period)
+      ::Payment::Filter.new(paid_at_after: period.begin, paid_at_before: period.end)
     end
 
     protected
 
-    def build_data(period, **_options)
-      filter = ::Payment::Filter.new(paid_at_after: period.begin, paid_at_before: period.end)
-      filter.apply(scope).map { |payment| build_data_row(payment) }
-    end
-
-    def build_header(_period, **_options)
+    def build_header
       [
         ::Payment.human_attribute_name(:ref),
         ::Booking.human_attribute_name(:ref),

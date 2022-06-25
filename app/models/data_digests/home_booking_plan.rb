@@ -5,6 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
+#  columns            :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -28,7 +29,7 @@ module DataDigests
 
     protected
 
-    def build_header(_period, **_options)
+    def build_header
       [
         ::Booking.human_attribute_name(:ref), ::Booking.human_attribute_name(:purpose_description),
         ::Booking.human_attribute_name(:approximate_headcount),

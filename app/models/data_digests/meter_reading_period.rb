@@ -5,6 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
+#  columns            :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -32,18 +33,17 @@ module DataDigests
       ::MeterReadingPeriod::Filter.new
     end
 
-    def scope
-      @scope ||= prefilter.apply(::MeterReadingPeriod.joins(:tarif).where(tarif: { home: organisation.homes }).ordered)
+    def base_scope
+      @base_scope ||= ::MeterReadingPeriod.joins(:tarif).where(tarif: { home: organisation.homes }).ordered
+    end
+
+    def period_filter(period)
+      ::MeterReadingPeriod::Filter.new(ends_at_after: period.begin, ends_at_before: period.end)
     end
 
     protected
 
-    def build_data(period, **_options)
-      filter = ::MeterReadingPeriod::Filter.new(ends_at_after: period.begin, ends_at_before: period.end)
-      filter.apply(scope).map { |meter_reading_period| build_data_row(meter_reading_period) }
-    end
-
-    def build_header(_period, **_options)
+    def build_header
       [
         ::Tarif.human_attribute_name(:label),
         ::Home.model_name.human,
