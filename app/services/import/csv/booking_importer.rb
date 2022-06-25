@@ -61,8 +61,8 @@ module Import
           next unless usage_header_match && value.present?
 
           used_units = value&.to_d
-          tarif = home.tarifs.find(usage_header_match[1])
-          booking.usages.build(tarif: tarif, used_units: used_units) if used_units.positive?
+          tarif = home.tarifs.find_by(id: usage_header_match[1])
+          booking.usages.build(tarif: tarif, used_units: used_units) if tarif.present? && used_units.positive?
         end
       end
     end
