@@ -37,6 +37,8 @@ class BookingCategory < ApplicationRecord
 
   delegate :to_s, to: :title
 
+  validates :key, length: { minimum: 3, maximum: 50 }, allow_nil: true
+
   def to_liquid
     to_s
   end

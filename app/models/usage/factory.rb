@@ -15,18 +15,8 @@ class Usage
       end
     end
 
-    def prefill(usages); end
-
-    def select(usages = @booking.usages)
-      prefiller = TarifPrefiller.new
-      usages.each do |usage|
-        usage.apply ||= usage.adopted_by_vote?
-        usage.used_units ||= prefiller.alleged_units(usage)
-      end
-    end
-
-    def build_and_select
-      select(build)
+    def preselect(usages = build)
+      usages.select(&:preselect)
     end
   end
 end

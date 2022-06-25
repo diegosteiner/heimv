@@ -25,6 +25,13 @@
 #
 
 class Usage < ApplicationRecord
+  PREFILL_METHODS = {
+    flat: -> { 1 },
+    nights: -> { booking.occupancy.nights },
+    headcount_nights: -> { booking.occupancy.nights * (booking.approximate_headcount || 0) },
+    headcount: -> { booking.approximate_headcount || 0 }
+  }.with_indifferent_access.freeze
+
   belongs_to :tarif, -> { includes(:tarif_selectors) }, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages
   has_many :invoice_parts, dependent: :nullify
@@ -53,6 +60,11 @@ class Usage < ApplicationRecord
     tarif&.presumed_price(self)
   end
 
+  def presumed_units
+    prefill_proc = PREFILL_METHODS.fetch(tarif.prefill_usage_method, nil)
+    (prefill_proc && instance_exec(&prefill_proc)) || 0
+  end
+
   def of_tarif?(other_tarif)
     other_tarif.self_and_booking_copy_ids.include?(tarif_id)
   end
@@ -72,6 +84,12 @@ class Usage < ApplicationRecord
   def adopted_by_vote?
     votes = tarif_selector_votes.values.flatten.compact
     votes.any? && votes.all?
+  end
+
+  def preselect
+    self.apply ||= adopted_by_vote?
+    self.used_units ||= presumed_units
+    new_record?
   end
 
   def used?

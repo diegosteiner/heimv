@@ -9,7 +9,7 @@ module Manage
 
       def index
         @usages = @booking.usages.to_a
-        @suggested_usages = Usage::Factory.new(@booking).build_and_select.select(&:new_record?)
+        @suggested_usages = Usage::Factory.new(@booking).preselect
         respond_with :manage, @usages
       end
 

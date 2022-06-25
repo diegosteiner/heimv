@@ -54,7 +54,7 @@ class Tarif < ApplicationRecord
   scope :valid_now, -> { where(valid_until: nil) }
   scope :find_with_booking_copies, ->(tarif_ids) { where(id: tarif_ids).or(where(booking_copy_template_id: tarif_ids)) }
 
-  enum prefill_usage_method: TarifPrefiller::PREFILL_METHODS.keys.index_with(&:to_s)
+  enum prefill_usage_method: Usage::PREFILL_METHODS.keys.index_with(&:to_s)
 
   validates :type, presence: true
   attribute :price_per_unit, default: 0
