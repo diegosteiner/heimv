@@ -115,6 +115,7 @@ en:
         provision: Provision
         request_deadline_minutes: Frist für Anfragen
       booking_category:
+        description: Beschreibung
         key: Schlüssel
         ordinal: Ordnungsnummer
         ordinal_position: Anzeigeposition
