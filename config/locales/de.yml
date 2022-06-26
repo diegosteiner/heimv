@@ -25,7 +25,7 @@ de:
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         min_occupation: Mindestbelegung
         occupied_occupancy_color: Farbe für definitive Belegungen
-        overdue_request_deadline: Frist für Reservationsanfragen
+        overdue_request_deadline: Frist für überfällige Reservationsanfragen
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
         tentative_occupancy_color: Farbe für provisorischen Belegungen
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse

@@ -2,6 +2,6 @@
 
 module Public
   class BookableExtraSerializer < ApplicationSerializer
-    fields :key, :title_i18n, :description_i18n
+    fields :id, :title_i18n, :description_i18n
   end
 end
