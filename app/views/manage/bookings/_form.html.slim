@@ -70,7 +70,7 @@
               = option.label class: "form-check-label", for: id
 
     = f.collection_select :booking_category_id, current_organisation.booking_categories, :id, :title, include_blank: true
-    = f.text_field :purpose_description, disabled: !@booking.editable
+    = f.text_field :purpose_description
     = f.number_field :approximate_headcount
     = f.text_area :remarks
     = f.text_area :internal_remarks

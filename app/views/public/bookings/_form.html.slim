@@ -84,6 +84,8 @@
                 
                 - if builder.object.description.present?
                   p.small.my-1.text-muted= builder.object.description
+          - @booking.errors[:category].each do |error|
+            .invalid-feedback.d-block = error
 
 
         = f.text_field :purpose_description, disabled: !@booking.editable
