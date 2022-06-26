@@ -63,7 +63,13 @@ end
   def digest(period)
     return unless period.is_a?(Range)
 
-    PeriodicData.new(self, period, build_header, build_footer, build_data(data_of_period(period)))
+    PeriodicData.new(self, period, 
+      columns.map { |column| column_header(column) }, 
+      columns.map { |column| column_footer(column) }, 
+      data_of_period(period).map do |data|
+        columns.map { |column| column_data(column, data) } 
+      end
+    )
   end
 
   def period(period_sym, at: Time.zone.now)
@@ -80,29 +86,21 @@ end
 
   def prefilter; end
 
+  def columns
+    super.presence || self.class.default_columns
+  end
+
   protected
 
-  def build_header
-    columns.map do |column|
-      header = column[:header]
-      header && Liquid::Template.parse(header).render!
-    end
+  def column_header(column)
+    header = column[:header]
+    header && Liquid::Template.parse(header).render!
   end
 
-  def build_footer
-    []
+  def column_footer(column)
   end
 
-  def build_data(data_of_period)
-    column_templates = columns.map do |column|
-      Liquid::Template.parse(column[:body])
-    end
-    data_of_period.map do |subject|
-      column_templates.map { |column_template| column_template.render!(data_row_context(subject)) }
-    end
-  end
-
-  def data_row_context(_subject)
+  def column_data(column, subject)
   end
 
   class PeriodicData

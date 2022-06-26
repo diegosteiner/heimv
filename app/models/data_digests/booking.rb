@@ -68,6 +68,34 @@ module DataDigests
           "#{purpose_description} (#{category&.title})", occupancy&.nights
         ]
       end
+    def self.default_columns 
+      [
+        {
+          header: ::Booking.human_attribute_name(:ref),
+          body: "{{ ref }}",
+        },
+        {
+          header: ::Home.model_name.human,
+          body: "{{ booking.home.name }}"
+        },
+        {
+          header: ::Occupancy.human_attribute_name(:begins_at),
+          body: "{{ booking.occupancy.begins_at | datetime_format }}"
+        },
+        {
+          header: ::Occupancy.human_attribute_name(:ends_at),
+          body: "{{ booking.occupancy.ends_at | datetime_format }}"
+        },
+        {
+          header: ::Booking.human_attribute_name(:purpose_description),
+          body: "{{ booking.purpose_description }}\n{{ booking.category.title }}"
+        }
+      ]
+    end
+
+    def column_data(column, booking)
+      template = Liquid::Template.parse(column[:body])
+      template.render!(booking.to_liquid) 
     end
   end
 end
