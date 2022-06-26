@@ -644,7 +644,7 @@ en:
       relevant_time: Ende der Belegung %{time}
     payment_due:
       checklist:
-        invoice_paid: Rechnung beglichen
+        invoices_paid: Rechnung beglichen
       label: Belegung (Zahlung ausstehend)
       relevant_time: Frist %{time}
     payment_overdue:

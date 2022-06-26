@@ -2,8 +2,12 @@
 
 module BookingStates
   class PaymentDue < Base
+    include Rails.application.routes.url_helpers
+
     def checklist
-      []
+      [
+        invoice_paid_checklist_item
+      ]
     end
 
     def self.to_sym
@@ -27,6 +31,11 @@ module BookingStates
 
     def relevant_time
       booking.deadline&.at
+    end
+
+    def invoice_paid_checklist_item
+      ChecklistItem.new(:invoices_paid, booking.invoices.kept.all?(&:paid?),
+                        manage_booking_invoices_path(booking, org: booking.organisation.slug))
     end
   end
 end
