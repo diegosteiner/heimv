@@ -38,7 +38,7 @@ RSpec.describe DataDigests::Booking, type: :model do
     it { is_expected.to be_a(DataDigest::PeriodicData) }
     its(:header) do
       is_expected.to eq(['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung',
-                         'Beschreibung des Mietzwecks'])
+                         'Beschreibung des Mietzwecks', 'Nächte'])
     end
     it { expect(periodic_data.data.count).to be(3) }
   end

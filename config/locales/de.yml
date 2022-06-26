@@ -275,7 +275,7 @@ de:
         tarif: Tarif
       tenant:
         address: Adresse
-        address_addon: Addresszusatz / Schule / Firma
+        address_addon: Adresszusatz / Schule / Firma
         allow_bookings_without_contract: Buchungen ohne Vertrag erlauben
         birth_date: Geburtsdatum
         city: Ort
@@ -585,7 +585,7 @@ de:
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
       checklist:
-        contract_signed: Vertrag unterschieben
+        contract_signed: Vertrag unterschrieben
         deposit_paid: Anzahlung beglichen
       description: Der Mieter hat den Vertrag und (falls vorhanden) die Anzahlungs-Rechnung erhalten, aber noch nicht unterschrieben retourniert bzw. bezahlt.
       label: Reservation (Vertrag offen)
@@ -626,7 +626,7 @@ de:
       relevant_time: Eingereicht %{time}
     overdue:
       checklist:
-        contract_signed: Vertrag unterschieben
+        contract_signed: Vertrag unterschrieben
         deposit_paid: Anzahlung beglichen
       label: Reservation (Vertrag überfällig)
       relevant_time: Frist %{time}
@@ -928,9 +928,9 @@ de:
       - weg
     company:
       name:
-      - "#{prefix} #{Address.city}"
-      - "#{prefix} #{Address.city}"
-      - "#{prefix} #{Address.city}-#{Address.city}"
+      - "#{prefix} #{Adress.city}"
+      - "#{prefix} #{Adress.city}"
+      - "#{prefix} #{Adress.city}-#{Adress.city}"
       prefix:
       - Pfadi
       - Pfadiabteilung
@@ -999,7 +999,7 @@ de:
       contracts:
         index:
           contract_sent: Vertrag versendet markieren
-          contract_signed: Vertrag unterschieben markieren
+          contract_signed: Vertrag unterschrieben markieren
       import:
         headers: Headers
         import_error: 'Import fehlgeschlagen: '
@@ -1085,7 +1085,7 @@ de:
                 occupancy_type: Belegungstyp
                 remarks: Bemerkungen des Mieters
               organisation: Organisation
-                address: Addresse der Organisation, Sitz
+                address: Adresse der Organisation, Sitz
                 booking_categories: Liste aller Mietzwecke der Organisation
                 email: E-Mail der Organisation
                 esr_beneficiary_account: 01-318421-1
@@ -1100,14 +1100,14 @@ de:
               ref: Referenznummer der Buchung
               remarks: Bemerkungen des Mieters
               tenant: Mieter
-                address_addon: Addresszusatz
+                address_addon: Adresszusatz
                 city: Ort
                 email: E-Mail
                 first_name: Vorname
                 last_name: Nachname
                 nickname: Pfadiname
                 salutation_name: Anrede mit Name
-                street_address: Addresse
+                street_address: Adresse
                 zipcode: PLZ
               tenant_organisation: Organisation des Mieters
               operator_responsibilities: Verantwortlichkeiten für diese Buchung
