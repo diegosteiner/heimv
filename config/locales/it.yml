@@ -87,6 +87,7 @@ it:
         booking_category_id: Art der Miete
         cancellation_reason: Annulierungsgrund
         category: Art der Miete
+        color: Farbe im Kalender
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         deadline: Frist bis
