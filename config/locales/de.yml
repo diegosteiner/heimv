@@ -437,6 +437,9 @@ de:
       data_digests/tarif:
         one: Tarif Auszug
         other: Tarif Auszüge
+      data_digests/tax:
+        one: Kurtaxen Auszug
+        other: Kurtaxen Auszüge
       data_digests/tenant:
         one: Mieter Auszug
         other: Mieter Auszüge

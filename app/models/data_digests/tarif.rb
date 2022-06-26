@@ -48,7 +48,11 @@ module DataDigests
     protected
 
     def build_header(_period, **options)
-      super + tarifs.flat_map do |tarif|
+      super + build_tarif_headers
+    end
+
+    def build_tarif_headers
+      tarifs.flat_map do |tarif|
         [
           "#{tarif.label} (#{::Usage.human_attribute_name(:used_units)})",
           "#{tarif.label} (#{::Usage.human_attribute_name(:price)})"
@@ -57,7 +61,11 @@ module DataDigests
     end
 
     def build_data_row(booking)
-      super + tarifs.flat_map do |tarif|
+      super + build_tarif_columns(booking)
+    end
+
+    def build_tarif_columns(booking)
+      tarifs.flat_map do |tarif|
         usage = booking.usages.of_tarif(tarif).take
         next ['', ''] unless usage
 

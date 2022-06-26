@@ -39,10 +39,14 @@ module DataDigests
     protected
 
     def build_header(_period, **_options)
+      build_booking_headers
+    end
+
+    def build_booking_headers
       [
         ::Booking.human_attribute_name(:ref), ::Home.model_name.human,
         ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
-        ::Booking.human_attribute_name(:purpose_description)
+        ::Booking.human_attribute_name(:purpose_description), ::Occupancy.human_attribute_name(:nights)
       ]
     end
 
@@ -52,12 +56,16 @@ module DataDigests
     end
 
     def build_data_row(booking)
+      build_booking_columns(booking)
+    end
+
+    def build_booking_columns(booking)
       booking.instance_eval do
         [
           ref, home.name,
           I18n.l(occupancy.begins_at, format: :short),
           I18n.l(occupancy.ends_at, format: :short),
-          "#{purpose_description} (#{category.title})"
+          "#{purpose_description} (#{category&.title})", occupancy&.nights
         ]
       end
     end
