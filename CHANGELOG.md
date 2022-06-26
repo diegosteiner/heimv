@@ -2,7 +2,18 @@
 
 #### Unreleased
 
+#### Version 22.6.2
+
+Released on 26.06.2022
+
+- Add checklist item for payment_due
+- Fix purpose_description field in booking form
+- Fix DE typos
+- Add booked_extras to serializer so it can be used in contract
+
 #### Version 22.6.1
+
+Released on 09.06.2022
 
 - Rename booking_purposes to booking_categories and add description
 - Fix for overpaid invoices
