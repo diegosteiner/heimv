@@ -4,6 +4,11 @@ module Manage
   class OperatorsController < BaseController
     load_and_authorize_resource :operator
 
+    def index
+      @operators = @operators.where(organisation: current_organisation)
+      respond_with :manage, @operators
+    end
+
     def new
       respond_with :manage, @operator
     end
