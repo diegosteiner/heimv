@@ -16,11 +16,11 @@ module Manage
     end
 
     def show
-      @periods = @data_digest.class.periods
+      @periods = DataDigest::PERIODS
     end
 
     def digest
-      @periodic_data = @data_digest.digest(period)
+      @periodic_data = @data_digest.evaluate(period)
 
       respond_to do |format|
         format.html
@@ -50,7 +50,7 @@ module Manage
     private
 
     def period
-      period = @data_digest.period(params[:range])
+      period = DataDigest.period(params[:range])
       return period if period.present?
 
       from = params[:from]

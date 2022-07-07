@@ -25,77 +25,49 @@
 
 module DataDigests
   class Booking < ::DataDigest
+    DEFAULT_COLUMN_CONFIG = [
+      {
+        header: ::Booking.human_attribute_name(:ref),
+        body: '{{ booking.ref }}'
+      },
+      {
+        header: ::Home.model_name.human,
+        body: '{{ booking.home.name }}'
+      },
+      {
+        header: ::Occupancy.human_attribute_name(:begins_at),
+        body: '{{ booking.occupancy.begins_at | datetime_format }}'
+      },
+      {
+        header: ::Occupancy.human_attribute_name(:ends_at),
+        body: '{{ booking.occupancy.ends_at | datetime_format }}'
+      },
+      {
+        header: ::Booking.human_attribute_name(:purpose_description),
+        body: "{{ booking.purpose_description }}\n{{ booking.category.title }}"
+      },
+      {
+        header: ::Occupancy.human_attribute_name(:nights),
+        body: '{{ booking.occupancy.nights }}'
+      }
+    ].freeze
+
     ::DataDigest.register_subtype self
 
-    def prefilter
-      @prefilter ||= ::Booking::Filter.new(prefilter_params)
+    column_type :default do
+      body do |booking|
+        @templates[:body]&.render!('booking' => booking)
+      end
+    end
+
+    def filter(period = nil)
+      ::Booking::Filter.new(prefilter_params.merge(begins_at_after: period&.begin, begins_at_before: period&.end))
     rescue StandardError
       ::Booking::Filter.new
     end
 
-    def period_filter(period)
-      ::Booking::Filter.new(begins_at_after: period.begin, begins_at_before: period.end)
-    end
-
     def base_scope
       @base_scope ||= organisation.bookings.ordered.with_default_includes
-    end
-
-    protected
-
-    def build_header(_period, **_options)
-      build_booking_headers
-    end
-
-    def build_booking_headers
-      [
-        ::Booking.human_attribute_name(:ref), ::Home.model_name.human,
-        ::Occupancy.human_attribute_name(:begins_at), ::Occupancy.human_attribute_name(:ends_at),
-        ::Booking.human_attribute_name(:purpose_description), ::Occupancy.human_attribute_name(:nights)
-      ]
-    end
-
-    def build_data_row(booking)
-      build_booking_columns(booking)
-    end
-
-    def build_booking_columns(booking)
-      booking.instance_eval do
-        [
-          ref, home.name,
-          I18n.l(occupancy.begins_at, format: :short),
-          I18n.l(occupancy.ends_at, format: :short),
-          "#{purpose_description} (#{category&.title})", occupancy&.nights
-        ]
-      end
-    def self.default_columns 
-      [
-        {
-          header: ::Booking.human_attribute_name(:ref),
-          body: "{{ ref }}",
-        },
-        {
-          header: ::Home.model_name.human,
-          body: "{{ booking.home.name }}"
-        },
-        {
-          header: ::Occupancy.human_attribute_name(:begins_at),
-          body: "{{ booking.occupancy.begins_at | datetime_format }}"
-        },
-        {
-          header: ::Occupancy.human_attribute_name(:ends_at),
-          body: "{{ booking.occupancy.ends_at | datetime_format }}"
-        },
-        {
-          header: ::Booking.human_attribute_name(:purpose_description),
-          body: "{{ booking.purpose_description }}\n{{ booking.category.title }}"
-        }
-      ]
-    end
-
-    def column_data(column, booking)
-      template = Liquid::Template.parse(column[:body])
-      template.render!(booking.to_liquid) 
     end
   end
 end

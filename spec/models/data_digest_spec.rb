@@ -26,9 +26,30 @@
 require 'rails_helper'
 
 RSpec.describe DataDigest, type: :model do
-  let(:data_digest) { create(:data_digest) }
+  subject(:data_digest) { create(:data_digest) }
 
   describe '#period' do
-    it { expect(data_digest.period(:ever)).to eq(Range.new(nil, nil)) }
+    it { expect(DataDigest.period(:ever)).to eq(Range.new(nil, nil)) }
+  end
+
+  describe '#columns' do
+    let(:column_config) do
+      [
+        {
+          header: 'Test Header 1',
+          body: '{{ booking.ref }}'
+        },
+        {
+          header: 'Test Header 2',
+          body: '{{ booking.name }}'
+        }
+      ]
+    end
+
+    subject(:data_digest) { create(:data_digest, column_config: column_config) }
+    subject(:columns) { data_digest.columns }
+
+    it { expect(columns.count).to eq(2) }
+    it { is_expected.to all(be_a DataDigest::Column) }
   end
 end

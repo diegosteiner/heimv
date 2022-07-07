@@ -11,7 +11,7 @@ p=  [ \
         - @periodic_data.header.each do |header|
           th= header
     tbody
-      - @periodic_data.data.each do |row|
+      - @periodic_data.rows.each do |row|
         tr
           - row.each do |cell|
             td= cell
