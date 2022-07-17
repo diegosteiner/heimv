@@ -2,6 +2,12 @@
 
 #### Unreleased
 
+#### Version 22.7.1
+
+Released on 17.07.2022
+
+- Fix small bugs and update dependencies
+
 #### Version 22.6.2
 
 Released on 26.06.2022
