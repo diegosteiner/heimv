@@ -4,10 +4,10 @@ class Booking
   class Filter < ApplicationFilter
     attribute :ref
     attribute :tenant
-    attribute :homes, default: []
-    attribute :current_booking_states, default: []
-    attribute :previous_booking_states, default: []
-    attribute :booking_states, default: []
+    attribute :homes, default: -> { [] }
+    attribute :current_booking_states, default: -> { [] }
+    attribute :previous_booking_states, default: -> { [] }
+    attribute :booking_states, default: -> { [] }
     attribute :begins_at_after, :datetime
     attribute :begins_at_before, :datetime
     attribute :ends_at_after, :datetime

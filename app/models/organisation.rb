@@ -70,7 +70,7 @@ class Organisation < ApplicationRecord
   validate -> { errors.add(:settings, :invalid) unless settings.valid? }
   validate -> { errors.add(:smtp_settings, :invalid) unless smtp_settings.nil? || smtp_settings.valid? }
 
-  attribute :booking_flow_type, default: BookingFlows::Default.to_s
+  attribute :booking_flow_type, default: -> { BookingFlows::Default.to_s }
   attribute :settings, Settings::Type.new(OrganisationSettings), default: -> { OrganisationSettings.new }
   attribute :smtp_settings, Settings::Type.new(SmtpSettings)
 
