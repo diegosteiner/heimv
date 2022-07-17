@@ -22,9 +22,10 @@ module Manage
       if limit_reached?
         @organisation_user.errors.add(:base, :limit_reached)
       else
-        onboarding = OnboardingService.new(current_organisation)
         email = params.dig(:organisation_user, :email)
+        onboarding = OnboardingService.new(current_organisation)
         @organisation_user = onboarding.add_or_invite_user!(email: email, role: organisation_user_params[:role])
+                                       .in(current_organisation)
       end
       respond_with :manage, @organisation_user, location: manage_organisation_users_path
     end
@@ -50,10 +51,8 @@ module Manage
     def role_param; end
 
     def limit_reached?
-      return false if current_organisation.users_limit.nil? ||
-                      current_organisation.users_limit < current_organisation.users.count
-
-      true
+      current_organisation.users_limit.present? &&
+        current_organisation.organisation_users.count > current_organisation.users_limit
     end
 
     def organisation_user_params
