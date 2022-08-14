@@ -9,7 +9,7 @@ nav.p-3
     i.fa.fa-bars
 
   #navbar-main-nav.collapse.navbar-collapse.show.position-fixed-lg
-    ul.list-unstyled
+    ul.list-unstyled.nav.flex-column
       li.nav-item
         = link_to OccupancyCalendar.model_name.human(count: :other), manage_root_path, class: 'nav-link'
       li.nav-item
