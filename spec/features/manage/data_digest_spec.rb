@@ -6,19 +6,19 @@ describe 'Data Digests', :devise, type: :feature do
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation: organisation) }
   let(:booking) { create(:booking, organisation: organisation, home: home, skip_infer_transition: false) }
-  let(:data_digest) { create(:data_digest, type: DataDigests::Booking) }
+  let(:data_digest) { create(:data_digest, type: DataDigests::Booking, organisation: organisation) }
 
   before do
     signin(user, user.password)
   end
 
   it 'can create new data digest' do
-    name = "Test Data Digest 123"
+    name = 'Test Data Digest 123'
     visit new_manage_data_digest_path(type: DataDigests::Booking, org: organisation.slug)
     fill_in :data_digest_label, with: name
     submit_form
 
-    expect(page).to have_content I18n.t('flash.actions.create.notice', 
+    expect(page).to have_content I18n.t('flash.actions.create.notice',
                                         resource_name: DataDigests::Booking.model_name.human)
     # expect(page).to have_content name
     click_on name
@@ -29,9 +29,8 @@ describe 'Data Digests', :devise, type: :feature do
     visit manage_data_digest_path(data_digest, org: organisation.slug)
     bookings = create_list(:booking, 3, organisation: organisation, home: home)
     click_on I18n.t('activerecord.enums.data_digest.periods.ever')
-    expect(page).to have_content booking.ref
-    click_on :csv
+    bookings.each { |booking| expect(page).to have_content booking.ref }
+    click_on 'CSV'
     bookings.each { |booking| expect(page).to have_content booking.ref }
   end
-
 end

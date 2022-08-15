@@ -15,7 +15,7 @@ p=  [ \
         tr
           - row.each do |cell|
             td= cell
-    - if @periodic_data.footer   
+    - if @periodic_data.footer&.any?(&:present?) 
       tfooter
         - @periodic_data.footer.each do |footer|
           td= footer

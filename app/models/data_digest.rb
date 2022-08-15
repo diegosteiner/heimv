@@ -5,7 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
-#  columns            :jsonb
+#  columns_config     :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -53,8 +53,6 @@ class DataDigest < ApplicationRecord
   belongs_to :organisation
   validates :label, presence: true
 
-  attribute :column_config, :json
-
   class << self
     def column_types
       @column_types ||= (superclass.respond_to?(:column_types) && superclass.column_types&.dup) || {}
@@ -81,14 +79,19 @@ class DataDigest < ApplicationRecord
     raise NotImplementedError
   end
 
-  def column_config
-    super.presence
+  def columns
+    @columns ||= (columns_config || self.class::DEFAULT_COLUMN_CONFIG).map do |config|
+      config.symbolize_keys!
+      column_type = config.fetch(:type, :default)&.to_sym
+      self.class.column_types.fetch(column_type, ColumnType.new).column_from_config(config)
+    end
   end
 
-  def columns
-    @columns ||= (column_config || self.class::DEFAULT_COLUMN_CONFIG).map do |config|
-      self.class.column_types.fetch(config.fetch(:type, :default), ColumnType.new).column(config)
-    end
+  def columns_config=(value)
+    value = value.presence
+    value = JSON.parse(value) if value.is_a?(String)
+    value = Array.wrap(value)
+    super(value.presence)
   end
 
   class ColumnType
@@ -108,7 +111,7 @@ class DataDigest < ApplicationRecord
       @body = block
     end
 
-    def column(config)
+    def column_from_config(config)
       Column.new(config, header: @header, footer: @footer, body: @body)
     end
   end
@@ -117,9 +120,9 @@ class DataDigest < ApplicationRecord
     attr_accessor :config
 
     def initialize(config, header: nil, footer: nil, body: nil)
-      @config = config
+      @config = config.symbolize_keys
       @blocks = { header: header, footer: footer, body: body }
-      @templates = config.slice(*@blocks.keys).transform_values { |template| Liquid::Template.parse(template) }
+      @templates = @config.slice(*@blocks.keys).transform_values { |template| Liquid::Template.parse(template) }
     end
 
     def header
@@ -131,7 +134,7 @@ class DataDigest < ApplicationRecord
     end
 
     def body(record)
-      @body ||= instance_exec(record, &(@blocks[:body] || -> { @templates[:body]&.render! }))
+      instance_exec(record, &(@blocks[:body] || -> { @templates[:body]&.render! }))
     end
   end
 
@@ -186,7 +189,7 @@ class DataDigest < ApplicationRecord
 
       CSV.generate(**options) do |csv|
         csv << header
-        csv << rows
+        rows.each { |row| csv << row }
         csv << footer if footer.any?(&:present?)
       end
     end

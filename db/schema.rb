@@ -72,7 +72,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_25_115910) do
     t.bigint "organisation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "key"
     t.index ["home_id"], name: "index_bookable_extras_on_home_id"
     t.index ["organisation_id"], name: "index_bookable_extras_on_organisation_id"
   end
@@ -186,7 +185,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_25_115910) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
-    t.jsonb "columns"
+    t.jsonb "columns_config"
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 

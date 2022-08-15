@@ -5,7 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
-#  columns            :jsonb
+#  columns_config     :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -33,7 +33,7 @@ RSpec.describe DataDigest, type: :model do
   end
 
   describe '#columns' do
-    let(:column_config) do
+    let(:columns_config) do
       [
         {
           header: 'Test Header 1',
@@ -46,7 +46,7 @@ RSpec.describe DataDigest, type: :model do
       ]
     end
 
-    subject(:data_digest) { create(:data_digest, column_config: column_config) }
+    subject(:data_digest) { create(:data_digest, columns_config: columns_config) }
     subject(:columns) { data_digest.columns }
 
     it { expect(columns.count).to eq(2) }

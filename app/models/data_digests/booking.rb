@@ -5,7 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
-#  columns            :jsonb
+#  columns_config     :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -25,6 +25,8 @@
 
 module DataDigests
   class Booking < ::DataDigest
+    ::DataDigest.register_subtype self
+
     DEFAULT_COLUMN_CONFIG = [
       {
         header: ::Booking.human_attribute_name(:ref),
@@ -49,14 +51,36 @@ module DataDigests
       {
         header: ::Occupancy.human_attribute_name(:nights),
         body: '{{ booking.occupancy.nights }}'
+      },
+      {
+        header: ::Tenant.model_name.human,
+        body: '{{ booking.tenant.full_name }}'
+      },
+      {
+        header: ::Tenant.human_attribute_name(:address),
+        body: "{{ booking.tenant.address_lines | join: \"\n\" }}"
+      },
+      {
+        header: ::Tenant.human_attribute_name(:email),
+        body: '{{ booking.tenant.email }}'
+      },
+      {
+        header: ::Tenant.human_attribute_name(:phone),
+        body: '{{ booking.tenant.phone }}'
       }
     ].freeze
-
-    ::DataDigest.register_subtype self
 
     column_type :default do
       body do |booking|
         @templates[:body]&.render!('booking' => booking)
+      end
+    end
+
+    column_type :usage do
+      body do |booking|
+        tarif = ::Tarif.find_by(id: @config[:tarif_id])
+        usage = booking.usages.of_tarif(tarif).take
+        @templates[:body]&.render!('booking' => booking, 'usage' => usage)
       end
     end
 
