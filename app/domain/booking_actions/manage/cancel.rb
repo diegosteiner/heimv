@@ -5,7 +5,7 @@ module BookingActions
     class Cancel < BookingActions::Base
       def call!
         booking.errors.clear
-        
+
         if booking.can_transition_to?(:declined_request)
           booking.transition_to(:declined_request, metadata: { current_user: context[:current_user] })
         elsif booking.can_transition_to?(:cancelation_pending)
@@ -14,8 +14,8 @@ module BookingActions
       end
 
       def allowed?
-        booking.booking_flow.can_transition_to?(:declined_request) ||
-          booking.booking_flow.can_transition_to?(:cancelation_pending)
+        booking.can_transition_to?(:declined_request) ||
+          booking.can_transition_to?(:cancelation_pending)
       end
 
       def button_options

@@ -62,9 +62,9 @@ FactoryBot.define do
     approximate_headcount { rand(1..30) }
     notifications_enabled { true }
     purpose_description { 'Pfadilager Test' }
+    skip_infer_transitions { true }
     transient do
       initial_state { nil }
-      auto { false }
       begins_at { nil }
       ends_at { nil }
       occupancy { association :occupancy, home: home, occupancy_type: :free }
@@ -82,7 +82,7 @@ FactoryBot.define do
 
     after(:create) do |booking, evaluator|
       BookingTransition.initial_for(booking, evaluator.initial_state) if evaluator.initial_state.present?
-      booking.transition_to(nil, auto: true, metadata: { factory: true }) if evaluator.auto
+      booking.infer_transitions
     end
   end
 end

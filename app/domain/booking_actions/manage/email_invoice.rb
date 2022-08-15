@@ -14,7 +14,6 @@ module BookingActions
                        .map { |invoice| invoice.pdf.blob }
         notification.attach(pdfs)
         notification.deliver && invoices.each(&:sent!)
-        booking.auto_transition
       end
 
       def allowed?

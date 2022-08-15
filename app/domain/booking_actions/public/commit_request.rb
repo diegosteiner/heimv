@@ -4,7 +4,7 @@ module BookingActions
   module Public
     class CommitRequest < BookingActions::Base
       def call!
-        booking.update(committed_request: true) && booking.auto_transition
+        booking.update(committed_request: true)
       end
 
       def allowed?

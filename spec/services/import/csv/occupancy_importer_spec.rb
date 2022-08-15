@@ -7,7 +7,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
   let(:options) { {} }
   let!(:booking_category) { create(:booking_category, organisation: organisation, key: 'youth_camp') }
   let(:home) { create(:home, organisation: organisation) }
-  let(:importer) { described_class.new(home, csv: { headers: header_mapping }) }
+  let(:importer) { described_class.new(home, csv: { headers: header_mapping }, initial_state: :provisional_request) }
 
   describe '#parse' do
     let(:result) { importer.parse(csv, **options) }

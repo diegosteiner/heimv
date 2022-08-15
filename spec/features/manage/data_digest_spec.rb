@@ -5,7 +5,7 @@ describe 'Data Digests', :devise, type: :feature do
   let(:organisation_user) { create(:organisation_user, :manager, organisation: organisation) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation: organisation) }
-  let(:booking) { create(:booking, organisation: organisation, home: home, auto: true) }
+  let(:booking) { create(:booking, organisation: organisation, home: home, skip_infer_transitions: false) }
   let(:data_digest) { create(:data_digest, type: DataDigests::Booking, organisation: organisation) }
 
   before do

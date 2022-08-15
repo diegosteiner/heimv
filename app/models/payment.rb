@@ -47,7 +47,6 @@ class Payment < ApplicationRecord
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
   after_save :recalculate_invoice
-  after_save { booking.auto_transition }
 
   before_validation do
     self.booking = invoice&.booking || booking

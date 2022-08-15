@@ -14,7 +14,8 @@ describe BookingStateConcern do
 
   describe '#transition_to' do
     it 'add an error when trying to transition into invalid state' do
-      expect(booking.transition_to(:nonexistent, auto: false)).to be_falsy
+      # booking.skip_infer_transitions = true
+      expect(booking.transition_to(:nonexistent)).to be_falsy
       expect(booking.errors[:transition_to]).not_to be_empty
     end
 

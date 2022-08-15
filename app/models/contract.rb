@@ -37,7 +37,6 @@ class Contract < ApplicationRecord
   scope :signed, -> { where.not(signed_at: nil) }
 
   before_save :oust, :generatate_pdf, :set_signed_at
-  after_save { booking.auto_transition }
 
   def generatate_pdf
     self.pdf = {

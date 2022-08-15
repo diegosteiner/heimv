@@ -8,9 +8,7 @@ module BookingActions
       end
 
       def allowed?
-        booking.booking_flow.then do |booking_flow|
-          booking_flow.in_state?(:open_request) && booking_flow.can_transition_to?(transition_to)
-        end
+        booking.in_state?(:open_request) && booking.can_transition_to?(transition_to)
       end
 
       def button_options

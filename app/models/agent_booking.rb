@@ -37,7 +37,7 @@
 
 class AgentBooking < ApplicationRecord
   belongs_to :booking_agent, inverse_of: :agent_bookings
-  belongs_to :booking, inverse_of: :agent_booking, validate: true, autosave: true
+  belongs_to :booking, inverse_of: :agent_booking, validate: true, autosave: true, touch: true
   belongs_to :organisation
   belongs_to :home
   has_one :occupancy, through: :booking
