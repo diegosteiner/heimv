@@ -38,13 +38,13 @@ module Manage
 
     def create
       @booking.organisation = current_organisation
-      @booking.transition_to ||= BookingStates::OpenRequest
-      @booking.save
+      @booking.save && @booking.transition_to(BookingStates::OpenRequest)
       respond_with :manage, @booking
     end
 
     def update
       @booking.update(booking_params) if booking_params
+      @booking.transition_to(Array.wrap(params.dig(:booking, :transition_to)), metadata: { user_id: current_user.id })
       call_booking_action
       respond_with :manage, @booking
     end
@@ -67,7 +67,7 @@ module Manage
     end
 
     def call_booking_action
-      booking_action&.call(booking: @booking)
+      booking_action&.call(booking: @booking, current_user: current_user)
     rescue BookingActions::Base::NotAllowed
       @booking.errors.add(:base, :action_not_allowed)
     end

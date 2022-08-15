@@ -9,6 +9,7 @@ module BookingActions
         notification = booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant)
         notification.attach(prepare_attachments(booking, deposits, contract).map(&:blob))
         notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver
+        booking.transition_to
       end
 
       def allowed?

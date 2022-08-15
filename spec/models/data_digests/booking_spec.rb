@@ -43,13 +43,13 @@ RSpec.describe DataDigests::Booking, type: :model do
       it { expect(periodic_data.data.count).to be(3) }
       its(:header) do
         is_expected.to eq(['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung',
-                          'Beschreibung des Mietzwecks', 'Nächte', 'Mieter', 'Adresse', 'Email', 'Telefon'])
+                           'Beschreibung des Mietzwecks', 'Nächte', 'Mieter', 'Adresse', 'Email', 'Telefon'])
       end
     end
 
     context 'with usage columns' do
       let(:tarif) { create(:tarif, home: home, price_per_unit: 10) }
-      let!(:usages) do 
+      let!(:usages) do
         bookings.map do |booking|
           create(:usage, booking: booking, tarif: tarif, used_units: 1.5)
         end
@@ -72,7 +72,7 @@ RSpec.describe DataDigests::Booking, type: :model do
       it { is_expected.to be_a(DataDigest::PeriodicData) }
       it { expect(periodic_data.data.count).to be(3) }
       its(:header) { is_expected.to eq(['Ref', 'Usage Price']) }
-      its(:rows) { is_expected.to eq(bookings.map { |booking| [booking.ref, "CHF 15.00"] }) }
+      its(:rows) { is_expected.to eq(bookings.map { |booking| [booking.ref, 'CHF 15.00'] }) }
     end
   end
 

@@ -4,26 +4,18 @@ require 'active_support/concern'
 
 module BookingStateConcern
   extend ActiveSupport::Concern
-
   included do
     include Statesman::Adapters::ActiveRecordQueries[transition_class: BookingTransition, initial_state: :initial]
-
-    attr_accessor :transition_to, :skip_infer_transition
-
-    after_save :apply_booking_transitions
-    after_touch :apply_booking_transitions
+    delegate :can_transition_to?, to: :booking_flow
   end
 
-  def apply_booking_transitions(transitions = Array.wrap(transition_to))
-    while (next_transition = transitions.shift)
-      next booking_flow.transition_to(next_transition) if booking_flow.can_transition_to?(next_transition)
+  def transition_to(transitions = [], metadata: nil, auto: true)
+    Array.wrap(transitions).compact.each do |next_transition|
+      next booking_flow.transition_to(next_transition, metadata: metadata) if can_transition_to?(next_transition)
 
       errors.add(:transition_to, :invalid_transition, transition: next_transition)
       return false
-    end
-
-    self.transition_to = []
-    booking_flow.auto unless skip_infer_transition
+    end + (auto ? booking_flow.auto : [])
   end
 
   def booking_flow_class

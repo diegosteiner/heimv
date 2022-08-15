@@ -31,13 +31,20 @@ class BookingTransition < ApplicationRecord
   class_attribute :updated_timestamp_column
   self.updated_timestamp_column = :updated_at
 
-  belongs_to :booking, inverse_of: :booking_transitions, touch: true
+  belongs_to :booking, inverse_of: :booking_transitions # , touch: true
 
   scope :ordered, -> { order(sort_key: :ASC) }
 
   before_save :serialize_booking
   after_destroy :update_most_recent, if: :most_recent?
   after_save :update_booking_state_cache
+
+  def self.initial_for(booking, state)
+    last_transition = booking.booking_transitions.ordered.last
+    last_transition&.update(most_recent: false)
+    sort_key = (last_transition&.sort_key || 0) + 1
+    create(booking: booking, to_state: state, sort_key: sort_key, most_recent: true)
+  end
 
   private
 
@@ -52,7 +59,7 @@ class BookingTransition < ApplicationRecord
   end
 
   def update_most_recent
-    last_transition = booking.booking_transitions.order(:sort_key).last
+    last_transition = booking.booking_transitions.ordered.last
     return if last_transition.blank?
 
     # rubocop:disable Rails/SkipsModelValidations

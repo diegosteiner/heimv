@@ -5,6 +5,7 @@ module BookingActions
     class CommitBookingAgentRequest < CommitRequest
       def call!
         agent_booking.update(committed_request: true)
+        agent_booking.booking.transition_to
       end
 
       def allowed?

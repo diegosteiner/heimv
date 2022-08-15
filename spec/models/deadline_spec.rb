@@ -35,6 +35,7 @@ RSpec.describe Deadline, type: :model do
     context 'with no deadline in place' do
       it do
         expect(booking.deadline).to be(nil)
+        booking.transition_to
         deadline.save
         expect(booking.deadline).to eq(deadline)
       end

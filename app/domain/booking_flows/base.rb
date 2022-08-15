@@ -49,7 +49,7 @@ module BookingFlows
           raise CircularTransitionError if passed_transitions.include?(to)
 
           Statesman::Machine.retry_conflicts(3) do
-            passed_transitions << to if transition_to(to)
+            passed_transitions << to if transition_to(to, metadata: { auto: true })
           end
         end
         object.valid?

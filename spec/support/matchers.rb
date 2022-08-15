@@ -7,10 +7,14 @@ RSpec::Matchers.define :transition_to do |to_state|
     allow(state_machine).to receive(:current_state).and_wrap_original do |original, *args|
       @from_state.presence || original.call(*args)
     end
-    state_machine.transition_to(to_state)
+    state_machine.transition_to(to_state, auto: @auto || false)
   end
 
   chain :from do |from_state|
     @from_state = from_state
+  end
+
+  chain :with_auto do |auto|
+    @auto = auto
   end
 end

@@ -58,13 +58,13 @@ FactoryBot.define do
 
     home
     tenant_organisation { Faker::Company.name }
-    skip_infer_transition { true }
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }
     notifications_enabled { true }
     purpose_description { 'Pfadilager Test' }
     transient do
       initial_state { nil }
+      auto { false }
       begins_at { nil }
       ends_at { nil }
       occupancy { association :occupancy, home: home, occupancy_type: :free }
@@ -81,9 +81,8 @@ FactoryBot.define do
     end
 
     after(:create) do |booking, evaluator|
-      next if evaluator.initial_state.blank?
-
-      BookingTransition.create(booking: booking, to_state: evaluator.initial_state, sort_key: 1, most_recent: true)
+      BookingTransition.initial_for(booking, evaluator.initial_state) if evaluator.initial_state.present?
+      booking.transition_to(nil, auto: true, metadata: { factory: true }) if evaluator.auto
     end
   end
 end

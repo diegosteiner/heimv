@@ -7,9 +7,9 @@ module BookingActions
         booking.errors.clear
         booking.booking_flow.then do |booking_flow|
           if booking_flow.can_transition_to?(:declined_request)
-            booking_flow.transition_to(:declined_request)
+            booking_flow.transition_to(:declined_request, metadata: { current_user: context[:current_user] })
           elsif booking_flow.can_transition_to?(:cancelation_pending)
-            booking_flow.transition_to(:cancelation_pending)
+            booking_flow.transition_to(:cancelation_pending, metadata: { current_user: context[:current_user] })
           end
         end
       end

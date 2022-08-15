@@ -3,7 +3,7 @@
 describe 'Booking', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_rich_text_templates) }
   let(:home) { create(:home, organisation: organisation) }
-  let!(:new_booking) { build(:booking, organisation: organisation, home: home, skip_infer_transition: false) }
+  let!(:new_booking) { build(:booking, organisation: organisation, home: home, auto: true) }
 
   describe 'new', skip: true do
     context 'with correct information' do

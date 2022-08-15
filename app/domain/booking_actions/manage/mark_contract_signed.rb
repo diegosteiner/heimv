@@ -11,6 +11,7 @@ module BookingActions
         end
 
         booking.contract.signed!
+        booking.transition_to
       end
 
       def allowed?
