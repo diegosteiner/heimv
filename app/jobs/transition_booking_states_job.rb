@@ -6,7 +6,7 @@ class TransitionBookingStatesJob < ApplicationJob
   def perform(bookings = Booking.inconcluded)
     transitions = {}
     bookings.includes(Booking::DEFAULT_INCLUDES).find_each do |booking|
-      transitions[booking.ref] = booking.transition_to&.join(' => ').presence
+      transitions[booking.ref] = booking.auto_transition&.join(' => ').presence
     end
     Rails.logger.info transitions.compact.inspect
     true

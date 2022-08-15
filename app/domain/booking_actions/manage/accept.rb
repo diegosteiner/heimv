@@ -4,7 +4,7 @@ module BookingActions
   module Manage
     class Accept < BookingActions::Base
       def call!
-        booking.booking_flow.transition_to(transition_to, metadata: { current_user: context[:current_user] })
+        booking.transition_to(transition_to, metadata: { current_user: context[:current_user] })
       end
 
       def allowed?

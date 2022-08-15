@@ -57,7 +57,7 @@ class Invoice < ApplicationRecord
   before_save :recalculate
   before_update :generate_pdf, if: :generate_pdf?
   after_create { generate_ref? && generate_ref && save }
-  after_save { booking.transition_to }
+  after_save { booking.auto_transition }
   delegate :invoice_address_lines, to: :booking
 
   def generate_pdf?

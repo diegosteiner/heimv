@@ -26,7 +26,7 @@ module Public
     def create
       @booking = prepare_create_booking
       respond_to do |format|
-        if @booking.save(context: :public_create) && @booking.transition_to
+        if @booking.save(context: :public_create) && @booking.auto_transition
           format.html { redirect_to root_path, notice: create_booking_notice }
           format.json { render json: { status: :created }, status: :created }
         else
@@ -39,7 +39,7 @@ module Public
     def update
       if @booking.editable?
         @booking.assign_attributes(update_params)
-        @booking.save(context: :public_update) && @booking.transition_to
+        @booking.save(context: :public_update) && @booking.auto_transition
       end
       call_booking_action
       respond_with :public, @booking, location: edit_public_booking_path(@booking.token)

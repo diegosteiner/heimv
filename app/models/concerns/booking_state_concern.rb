@@ -15,7 +15,11 @@ module BookingStateConcern
 
       errors.add(:transition_to, :invalid_transition, transition: next_transition)
       return false
-    end + (auto ? booking_flow.auto : [])
+    end + (auto && auto_transition || [])
+  end
+
+  def auto_transition
+    booking_flow.auto
   end
 
   def booking_flow_class

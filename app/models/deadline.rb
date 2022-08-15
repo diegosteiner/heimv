@@ -36,7 +36,7 @@ class Deadline < ApplicationRecord
   validates :at, presence: true
   attribute :length
   after_save :update_booking_deadline
-  after_save { booking&.transition_to }
+  after_save { booking&.auto_transition }
 
   def length=(duration)
     self.at ||= duration&.from_now

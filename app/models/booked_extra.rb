@@ -22,5 +22,5 @@ class BookedExtra < ApplicationRecord
   belongs_to :booking, inverse_of: :booked_extras
   belongs_to :bookable_extra, inverse_of: :booked_extras
 
-  after_save { booking.transition_to }
+  after_save { booking.auto_transition }
 end
