@@ -76,7 +76,7 @@ class Booking < ApplicationRecord
   has_many :offers, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
-  has_many :booking_transitions, dependent: :delete_all, autosave: false
+  has_many :state_transitions, dependent: :delete_all, autosave: false # , class_name: 'Booking::StateTransition'
   has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
   has_many :booked_extras, inverse_of: :booking, dependent: :destroy
   has_many :bookable_extras, through: :booked_extras
