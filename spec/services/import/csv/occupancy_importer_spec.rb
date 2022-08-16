@@ -69,6 +69,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         expect(booking.tenant.email).to eq('tenant22@heimv.local')
         expect(booking.booking_state).to be_a(BookingStates::OpenRequest)
         expect(booking.committed_request).to be_truthy
+        binding.pry
         expect(booking.occupancy).to be_occupied
       end
 

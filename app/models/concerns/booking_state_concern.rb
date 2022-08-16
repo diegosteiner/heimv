@@ -5,7 +5,9 @@ require 'active_support/concern'
 module BookingStateConcern
   extend ActiveSupport::Concern
   included do
-    include Statesman::Adapters::ActiveRecordQueries[transition_class: BookingTransition, initial_state: :initial]
+    include Statesman::Adapters::ActiveRecordQueries[transition_class: Booking::StateTransition,
+                                                     initial_state: :initial, 
+                                                     transition_name: :state_transition]
     delegate :can_transition_to?, :in_state?, to: :booking_flow
 
     attr_accessor :skip_infer_transitions

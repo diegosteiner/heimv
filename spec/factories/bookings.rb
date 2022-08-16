@@ -81,7 +81,7 @@ FactoryBot.define do
     end
 
     after(:create) do |booking, evaluator|
-      BookingTransition.initial_for(booking, evaluator.initial_state) if evaluator.initial_state.present?
+      Booking::StateTransition.initial_for(booking, evaluator.initial_state) if evaluator.initial_state.present?
       booking.infer_transitions
     end
   end

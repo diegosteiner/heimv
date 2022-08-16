@@ -34,7 +34,8 @@ module BookingFlows
     end
 
     def initialize(object, options = {})
-      super(object, options.reverse_merge(transition_class: BookingTransition))
+      super(object, options.reverse_merge(transition_class: Booking::StateTransition, 
+                                          association_name: :state_transitions))
     end
 
     def booking_state
