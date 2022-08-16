@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_16_084403) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_16_084404) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -111,20 +111,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_084403) do
     t.index ["organisation_id"], name: "index_booking_categories_on_organisation_id"
   end
 
-  create_table "booking_deadlines", force: :cascade do |t|
-    t.datetime "at", precision: nil
-    t.uuid "booking_id"
-    t.string "responsible_type"
-    t.bigint "responsible_id"
-    t.integer "postponable_for", default: 0
-    t.boolean "armed", default: true
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.text "remarks"
-    t.index ["booking_id"], name: "index_booking_deadlines_on_booking_id"
-    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
-  end
-
   create_table "booking_state_transitions", force: :cascade do |t|
     t.string "to_state", null: false
     t.integer "sort_key", null: false
@@ -201,6 +187,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_084403) do
     t.bigint "organisation_id", null: false
     t.jsonb "columns_config"
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
+  end
+
+  create_table "deadlines", force: :cascade do |t|
+    t.datetime "at", precision: nil
+    t.uuid "booking_id"
+    t.string "responsible_type"
+    t.bigint "responsible_id"
+    t.integer "postponable_for", default: 0
+    t.boolean "armed", default: true
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.text "remarks"
+    t.index ["booking_id"], name: "index_deadlines_on_booking_id"
+    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
   end
 
   create_table "designated_documents", force: :cascade do |t|
@@ -530,12 +530,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_084403) do
   add_foreign_key "booked_extras", "bookable_extras"
   add_foreign_key "booking_agents", "organisations"
   add_foreign_key "booking_categories", "organisations"
-  add_foreign_key "booking_deadlines", "bookings"
   add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "data_digests", "organisations"
+  add_foreign_key "deadlines", "bookings"
   add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"

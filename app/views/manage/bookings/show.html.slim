@@ -135,7 +135,7 @@
     .col-md-3
 
       ul.list-group
-        - @booking.booking_transitions.order(created_at: :desc).each do |transition|
+        - @booking.state_transitions.order(created_at: :desc).each do |transition|
           li.list-group-item
             span.badge.bg-primary
               = t(:label, scope: [:booking_states, transition.to_state])

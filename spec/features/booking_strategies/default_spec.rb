@@ -178,6 +178,6 @@ describe 'Booking', :devise, type: :feature do
   def check_booking
     expect(@booking.notifications.map { |notification| notification.rich_text_template.key })
       .to contain_exactly(*expected_notifications)
-    expect(@booking.booking_transitions.ordered.map(&:to_state)).to contain_exactly(*expected_transitions)
+    expect(@booking.state_transitions.ordered.map(&:to_state)).to contain_exactly(*expected_transitions)
   end
 end

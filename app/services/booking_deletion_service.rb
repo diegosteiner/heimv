@@ -30,6 +30,6 @@ class BookingDeletionService
     booking.invoices.destroy_all
     booking.payments.destroy_all
     booking.notifications.destroy_all
-    booking.booking_transitions.destroy_all
+    booking.state_transitions.destroy_all
   end
 end

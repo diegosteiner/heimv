@@ -28,8 +28,8 @@ module Import
       end
 
       def persist_record(booking)
-        binding.pry
-        booking.save && booking.transition_to(options[:initial_state])
+        booking.transition_to ||= options[:initial_state]
+        booking.save
       end
 
       actor do |booking, row|

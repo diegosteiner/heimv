@@ -25,20 +25,11 @@
 #  fk_rails_...  (booking_id => bookings.id)
 #
 
-require 'rails_helper'
-
-RSpec.describe Booking::StateTransition, type: :model do
-  let(:booking) { create(:booking) }
-  let(:transition) { build(:booking_transition, booking: booking, to_state: to_state) }
-  let(:to_state) { :any }
-
-  describe '#serialize_booking' do
-    let(:booking_attrs) { %i[id home_id tenant_id state] }
-
-    it do
-      expect(transition.save).to be true
-      expect(transition.booking_data.slice(*booking_attrs)).to eq booking.attributes.slice(*booking_attrs)
-    end
+FactoryBot.define do
+  factory :booking_state_transition, class: 'Booking::StateTransition' do
+    to_state { booking.initial_state || :initial }
+    sort_key { 0 }
+    most_recent { true }
+    booking
   end
 end
-:state

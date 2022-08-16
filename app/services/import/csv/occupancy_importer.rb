@@ -14,7 +14,7 @@ module Import
       def initialize(home, **options)
         super(**options)
         @home = home.is_a?(Home) ? home : Home.find(home)
-        @booking_importer = BookingImporter.new(home)
+        @booking_importer = BookingImporter.new(home, **options)
       end
 
       def default_options

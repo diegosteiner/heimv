@@ -38,13 +38,12 @@ module Manage
 
     def create
       @booking.organisation = current_organisation
-      @booking.save && @booking.transition_to(BookingStates::OpenRequest)
+      @booking.update(transition_to: BookingStates::OpenRequest)
       respond_with :manage, @booking
     end
 
     def update
       @booking.update(booking_params) if booking_params
-      @booking.transition_to(Array.wrap(params.dig(:booking, :transition_to)), metadata: { user_id: current_user.id })
       call_booking_action
       respond_with :manage, @booking
     end
