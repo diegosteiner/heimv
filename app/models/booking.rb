@@ -56,8 +56,9 @@ class Booking < ApplicationRecord
   include BookingStateConcern
 
   DEFAULT_INCLUDES = [:organisation, :home, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :category, { tenant: :organisation, deadline: :booking, occupancy: :home,
-                                   agent_booking: %i[booking_agent organisation home] }].freeze
+                      :category, :booked_extras, :logs, 
+                      { tenant: :organisation, deadline: :booking, occupancy: :home,
+                        agent_booking: %i[booking_agent organisation home] }].freeze
 
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings
@@ -88,8 +89,6 @@ class Booking < ApplicationRecord
   has_one_attached :usage_report
 
   has_secure_token :token, length: 48
-
-  attribute :accept_conditions, default: false
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create

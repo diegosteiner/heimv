@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_16_141209) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_17_105400) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -165,6 +165,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_141209) do
     t.datetime "conditions_accepted_at", precision: nil
     t.string "color"
     t.string "purpose_description"
+    t.boolean "accept_conditions", default: false
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"

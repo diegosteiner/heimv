@@ -22,7 +22,7 @@
 class Booking
   class Log < ApplicationRecord
     belongs_to :booking, inverse_of: :logs
-    belongs_to :user, inverse_of: :booking_logs
+    belongs_to :user, inverse_of: :booking_logs, optional: true
 
     # def self.log_update(booking, **attributes)
     #   return unless booking.previous_changes.any? ||
@@ -50,9 +50,9 @@ class Booking
                                   transitions: booking.previous_transitions
                                 }).compact_blank
 
-      return if data.values.any?
+      return if data.values.none?
 
-      booking.logs.create(booking: booking, user: user, data: data)
+      create!(booking: booking, user: user, data: data)
     end
   end
 end
