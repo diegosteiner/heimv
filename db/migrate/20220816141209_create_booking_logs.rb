@@ -3,6 +3,7 @@ class CreateBookingLogs < ActiveRecord::Migration[7.0]
     create_table :booking_logs do |t|
       t.uuid :booking_id, null: false, foreign_key: true
       t.references :user, null: true, foreign_key: true
+      t.integer :trigger, null: false
       t.jsonb :data
 
       t.timestamps

@@ -44,7 +44,7 @@ module Manage
 
     def update
       @booking.update(booking_params) if booking_params
-      Booking::Log.log(@booking, action: booking_action, user: current_user)
+      Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
       call_booking_action
       respond_with :manage, @booking
     end

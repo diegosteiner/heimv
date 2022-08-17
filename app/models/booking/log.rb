@@ -6,6 +6,7 @@
 #
 #  id         :bigint           not null, primary key
 #  data       :jsonb
+#  trigger    :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  booking_id :uuid             not null
@@ -24,26 +25,9 @@ class Booking
     belongs_to :booking, inverse_of: :logs
     belongs_to :user, inverse_of: :booking_logs, optional: true
 
-    # def self.log_update(booking, **attributes)
-    #   return unless booking.previous_changes.any? ||
-    #                 booking.tenant.previous_changes.any? ||
-    #                 booking.occupancy.previous_changes.any? ||
-    #                 booking.previous_transitions.present?
+    enum trigger: { manager: 0, tenant: 1, auto: 2 }, _prefix: true
 
-    #   booking.logs.create(attributes.merge(kind: :update, data: { booking: booking.previous_changes,
-    #                                                               tenant: booking.tenant.previous_changes,
-    #                                                               occupancy: booking.occupancy.previous_changes,
-    #                                                               transitions: booking.previous_transitions }))
-    # end
-
-    # def self.log_action(booking, action, **attributes)
-    #   return if action.blank?
-
-    #   booking.logs.create(attributes.merge(kind: :action, data: { action: action,
-    #                                                               transitions: booking.previous_transitions }))
-    # end
-
-    def self.log(booking, action: nil, user: nil, data: {})
+    def self.log(booking, trigger:, action: nil, user: nil, data: {})
       data = data.reverse_merge({
                                   booking: booking.previous_changes, occupancy: booking.occupancy.previous_changes,
                                   tenant: booking.tenant.previous_changes, action: action,
@@ -52,7 +36,7 @@ class Booking
 
       return if data.values.none?
 
-      create!(booking: booking, user: user, data: data)
+      create!(booking: booking, trigger: trigger, user: user, data: data)
     end
   end
 end

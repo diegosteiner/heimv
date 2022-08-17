@@ -40,7 +40,7 @@ module Public
       if @booking.editable?
         @booking.assign_attributes(update_params)
         @booking.save(context: :public_update)
-        Booking::Log.log(@booking, action: booking_action, user: current_user, data: { public: true })
+        Booking::Log.log(@booking, trigger: :tenant, action: booking_action, user: current_user)
       end
       call_booking_action
       respond_with :public, @booking, location: edit_public_booking_path(@booking.token)
