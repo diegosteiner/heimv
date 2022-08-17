@@ -18,6 +18,7 @@ class AddColumnsToDataDigests < ActiveRecord::Migration[7.0]
     DataDigest.where(type: 'DataDigests::Tax').update_all(type: 'DataDigests::Booking')
     DataDigest.where(type: 'DataDigests::Tarif').update_all(type: 'DataDigests::Booking')
     DataDigest.where(type: 'DataDigests::Tenant').update_all(type: 'DataDigests::Booking')
+    DataDigest.where(type: 'DataDigests::MeterReadingPeriod').update_all(type: 'DataDigests::Booking')
   end
 
   def migrate_tarifs 
