@@ -62,7 +62,7 @@ class Usage < ApplicationRecord
 
   def presumed_units
     prefill_proc = PREFILL_METHODS.fetch(tarif.prefill_usage_method, nil)
-    (prefill_proc && instance_exec(&prefill_proc)) || 0
+    (prefill_proc && instance_exec(&prefill_proc)).presence
   end
 
   def of_tarif?(other_tarif)
