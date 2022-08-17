@@ -34,7 +34,7 @@ module Export
       end
 
       to_render do
-        table_data = [@periodic_data.header] + @periodic_data.data
+        table_data = [@periodic_data.header] + @periodic_data.rows
         table(table_data, width: bounds.width) do
           cells.style(size: 8, borders: [])
           row(0).font_style = :bold

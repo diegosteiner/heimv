@@ -5,6 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
+#  columns_config     :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -26,38 +27,61 @@ module DataDigests
   class Payment < DataDigest
     ::DataDigest.register_subtype self
 
-    def prefilter
-      @prefilter ||= ::Payment::Filter.new(prefilter_params)
+    DEFAULT_COLUMN_CONFIG = [
+      {
+        header: ::Payment.human_attribute_name(:ref),
+        body: '{{ payment.invoice.ref }}'
+      },
+      {
+        header: ::Booking.human_attribute_name(:ref),
+        body: '{{ payment.booking.ref }}'
+      },
+      {
+        header: ::Payment.human_attribute_name(:paid_at),
+        body: '{{ payment.paid_at }}'
+      },
+      {
+        header: ::Payment.human_attribute_name(:amount),
+        body: '{{ payment.amount | round: 2 }}'
+      },
+      {
+        header: ::Tenant.model_name.human,
+        body: "{{ payment.booking.tenant.full_address_lines | join: \"\n\" }}"
+      },
+      {
+        header: ::Payment.human_attribute_name(:remarks),
+        body: '{{ payment.remarks }}'
+      }
+    ].freeze
+
+    column_type :default do
+      body do |payment|
+        @templates[:body]&.render!('payment' => payment)
+      end
+    end
+
+    def filter(period = nil)
+      ::Payment::Filter.new(prefilter_params.merge(paid_at_after: period&.begin, paid_at_before: period&.end))
     rescue StandardError
       ::Payment::Filter.new
     end
 
-    def scope
-      @scope ||= prefilter.apply(organisation.payments.ordered)
+    def base_scope
+      @base_scope ||= organisation.payments.ordered
     end
 
     protected
 
-    def build_data(period, **_options)
-      filter = ::Payment::Filter.new(paid_at_after: period.begin, paid_at_before: period.end)
-      filter.apply(scope).map { |payment| build_data_row(payment) }
-    end
-
-    def build_header(_period, **_options)
+    def build_header
       [
-        ::Payment.human_attribute_name(:ref),
-        ::Booking.human_attribute_name(:ref),
-        ::Payment.human_attribute_name(:paid_at),
-        ::Payment.human_attribute_name(:amount),
-        ::Tenant.model_name.human,
-        ::Payment.human_attribute_name(:remarks)
+        ::Booking.human_attribute_name(:ref)
       ]
     end
 
     def build_data_row(payment)
       payment.instance_eval do
         [
-          ref, booking.ref, I18n.l(paid_at, format: :default), amount, booking.tenant.full_name, remarks
+          ref, payment.booking.ref, I18n.l(paid_at, format: :default), amount, payment.booking.tenant.full_name, remarks
         ]
       end
     end

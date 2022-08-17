@@ -25,6 +25,10 @@ class ImportSeeder
   private
 
   def rich_text_templates(organisation)
+    Dir.glob(File.expand_path('app/**/*.rb', Rails.root)).each do |model_file|
+      require model_file
+    end
+
     RichTextTemplateService.new(organisation).create_missing!
   end
 

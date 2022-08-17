@@ -28,7 +28,8 @@ module Import
       end
 
       def persist_record(booking)
-        booking.save && booking.apply_booking_transitions
+        booking.transition_to ||= options[:initial_state]
+        booking.save
       end
 
       actor do |booking, row|
@@ -39,9 +40,8 @@ module Import
                                    tenant_organisation: row['booking.tenant_organisation'])
       end
 
-      actor :state do |booking, _row, options|
+      actor :state do |booking, _row, _options|
         booking.committed_request ||= booking.occupancy&.occupied?
-        booking.transition_to = Array.wrap(options[:initial_state])
       end
 
       actor :category do |booking, row, options|

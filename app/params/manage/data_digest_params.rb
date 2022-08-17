@@ -3,7 +3,7 @@
 module Manage
   class DataDigestParams < ApplicationParams
     def self.permitted_keys
-      %i[type label] + [{ tarif_ids: [], prefilter_params: {} }]
+      %i[type label columns_config] + [{ tarif_ids: [], prefilter_params: {} }]
     end
   end
 end

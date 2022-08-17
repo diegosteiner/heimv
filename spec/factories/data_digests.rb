@@ -5,6 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
+#  columns_config     :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -29,6 +30,5 @@ FactoryBot.define do
     label { Faker::Name.name }
     factory :booking_data_digest, class: 'DataDigests::Booking'
     factory :payment_data_digest, class: 'DataDigests::Payment'
-    factory :tarif_data_digest, class: 'DataDigests::Tarif'
   end
 end

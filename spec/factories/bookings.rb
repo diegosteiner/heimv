@@ -5,6 +5,7 @@
 # Table name: bookings
 #
 #  id                     :uuid             not null, primary key
+#  accept_conditions      :boolean          default(FALSE)
 #  approximate_headcount  :integer
 #  booking_flow_type      :string
 #  booking_state_cache    :string           default("initial"), not null
@@ -58,11 +59,11 @@ FactoryBot.define do
 
     home
     tenant_organisation { Faker::Company.name }
-    skip_infer_transition { true }
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }
     notifications_enabled { true }
     purpose_description { 'Pfadilager Test' }
+    skip_infer_transitions { true }
     transient do
       initial_state { nil }
       begins_at { nil }
@@ -81,9 +82,8 @@ FactoryBot.define do
     end
 
     after(:create) do |booking, evaluator|
-      next if evaluator.initial_state.blank?
-
-      BookingTransition.create(booking: booking, to_state: evaluator.initial_state, sort_key: 1, most_recent: true)
+      Booking::StateTransition.initial_for(booking, evaluator.initial_state) if evaluator.initial_state.present?
+      booking.apply_transitions
     end
   end
 end

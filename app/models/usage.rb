@@ -45,7 +45,7 @@ class Usage < ApplicationRecord
   before_create :create_tarif_booking_copy
 
   scope :ordered, -> { joins(:tarif).includes(:tarif).order(Tarif.arel_table[:ordinal].asc) }
-  scope :of_tarif, ->(tarif) { where(tarif_id: tarif.self_and_booking_copy_ids) }
+  scope :of_tarif, ->(tarif) { where(tarif_id: tarif&.self_and_booking_copy_ids) }
   scope :amount, -> { joins(:tarif).where(tarifs: { type: Tarifs::Amount.to_s }) }
   scope :tenant_visible, -> { includes(:tarif).where(tarifs: { tenant_visible: true }) }
 
@@ -62,7 +62,7 @@ class Usage < ApplicationRecord
 
   def presumed_units
     prefill_proc = PREFILL_METHODS.fetch(tarif.prefill_usage_method, nil)
-    (prefill_proc && instance_exec(&prefill_proc)) || 0
+    (prefill_proc && instance_exec(&prefill_proc)).presence
   end
 
   def of_tarif?(other_tarif)
@@ -98,6 +98,10 @@ class Usage < ApplicationRecord
 
   def breakdown
     tarif&.breakdown(self)
+  end
+
+  def to_liquid
+    Manage::UsageSerializer.render_as_hash(self).deep_stringify_keys
   end
 
   # TODO: decouple

@@ -5,6 +5,7 @@
 # Table name: bookings
 #
 #  id                     :uuid             not null, primary key
+#  accept_conditions      :boolean          default(FALSE)
 #  approximate_headcount  :integer
 #  booking_flow_type      :string
 #  booking_state_cache    :string           default("initial"), not null
@@ -55,9 +56,10 @@
 class Booking < ApplicationRecord
   include BookingStateConcern
 
-  DEFAULT_INCLUDES = [:organisation, :home, :booking_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :category, { tenant: :organisation, deadline: :booking, occupancy: :home,
-                                   agent_booking: %i[booking_agent organisation home] }].freeze
+  DEFAULT_INCLUDES = [:organisation, :home, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
+                      :category, :booked_extras, :logs,
+                      { tenant: :organisation, deadline: :booking, occupancy: :home,
+                        agent_booking: %i[booking_agent organisation home] }].freeze
 
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :home, inverse_of: :bookings
@@ -76,10 +78,11 @@ class Booking < ApplicationRecord
   has_many :offers, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
   has_many :used_tarifs, through: :usages, class_name: 'Tarif', source: :tarif, inverse_of: :booking
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
-  has_many :booking_transitions, dependent: :delete_all, autosave: false
+  has_many :state_transitions, dependent: :delete_all, autosave: false
   has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
   has_many :booked_extras, inverse_of: :booking, dependent: :destroy
   has_many :bookable_extras, through: :booked_extras
+  has_many :logs, inverse_of: :booking, dependent: :destroy
 
   has_one  :occupancy, inverse_of: :booking, dependent: :destroy, validate: true
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
@@ -87,8 +90,6 @@ class Booking < ApplicationRecord
   has_one_attached :usage_report
 
   has_secure_token :token, length: 48
-
-  attribute :accept_conditions, default: false
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create
@@ -189,6 +190,12 @@ class Booking < ApplicationRecord
   def organisation
     super || self.organisation = home&.organisation
   end
+
+  # def save(...)
+  #   super(...)
+  # rescue ActiveRecord::NotNullViolation
+  #   binding.pry
+  # end
 
   private
 

@@ -11,17 +11,17 @@ p=  [ \
         - @periodic_data.header.each do |header|
           th= header
     tbody
-      - @periodic_data.data.each do |row|
+      - @periodic_data.rows.each do |row|
         tr
           - row.each do |cell|
             td= cell
-    - if @periodic_data.footer   
+    - if @periodic_data.footer&.any?(&:present?) 
       tfooter
         - @periodic_data.footer.each do |footer|
           td= footer
 
 br
 .btn-group
-  - @data_digest.class.formatters.keys.each do |format|
+  - @periodic_data.formatters.keys.each do |format|
     = link_to url_for(from: params[:from], to: params[:to], format: format), class: 'btn btn-primary' do
       = format.to_s.upcase

@@ -4,13 +4,11 @@ module BookingActions
   module Manage
     class Accept < BookingActions::Base
       def call!
-        booking.booking_flow.transition_to(transition_to)
+        booking.update(transition_to: transition_to)
       end
 
       def allowed?
-        booking.booking_flow.then do |booking_flow|
-          booking_flow.in_state?(:open_request) && booking_flow.can_transition_to?(transition_to)
-        end
+        booking.in_state?(:open_request) && booking.can_transition_to?(transition_to)
       end
 
       def button_options
