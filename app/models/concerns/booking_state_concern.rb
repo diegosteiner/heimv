@@ -10,7 +10,7 @@ module BookingStateConcern
                                                      transition_name: :state_transition]
     delegate :can_transition_to?, :in_state?, to: :booking_flow
 
-    attr_accessor :transition_to, :skip_infer_transitions
+    attr_accessor :transition_to, :skip_infer_transitions, :previous_transitions
 
     after_save :apply_transitions
     after_touch :apply_transitions
@@ -23,9 +23,10 @@ module BookingStateConcern
       errors.add(:transition_to, :invalid_transition, transition: next_transition)
       return false
     end
-    self.transition_to = nil
     applied_transitions += booking_flow.infer if infer_transitions
-    applied_transitions.flatten.compact_blank
+    self.transition_to = nil
+    self.previous_transitions ||= []
+    self.previous_transitions += applied_transitions.flatten.compact_blank
   end
 
   def booking_flow_class

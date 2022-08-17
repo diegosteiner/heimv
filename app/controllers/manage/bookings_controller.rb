@@ -44,6 +44,7 @@ module Manage
 
     def update
       @booking.update(booking_params) if booking_params
+      Booking::Log.log(@booking, action: booking_action, user: current_user)
       call_booking_action
       respond_with :manage, @booking
     end
@@ -66,7 +67,7 @@ module Manage
     end
 
     def call_booking_action
-      booking_action&.call(booking: @booking, current_user: current_user)
+      booking_action&.call(booking: @booking)
     rescue BookingActions::Base::NotAllowed
       @booking.errors.add(:base, :action_not_allowed)
     end

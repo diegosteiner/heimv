@@ -40,6 +40,7 @@ module Public
       if @booking.editable?
         @booking.assign_attributes(update_params)
         @booking.save(context: :public_update)
+      Booking::Log.log(@booking, action: booking_action, user: current_user, data: { public: true })
       end
       call_booking_action
       respond_with :public, @booking, location: edit_public_booking_path(@booking.token)
@@ -64,7 +65,7 @@ module Public
     end
 
     def call_booking_action
-      booking_action&.call(booking: @booking, current_user: current_user)
+      booking_action&.call(booking: @booking)
     rescue BookingActions::Base::NotAllowed
       @booking.errors.add(:base, :action_not_allowed)
     end

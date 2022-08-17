@@ -51,7 +51,15 @@ class RichTextTemplate < ApplicationRecord
     end
 
     def required_templates
-      @required_templates ||= {}
+      @required_templates ||= load_requirements && {}
+    end
+
+    def load_requirements
+      return true unless Rails.env.development?
+
+      Dir.glob(File.expand_path("app/**/*.rb", Rails.root)).each do |model_file|
+        require model_file
+      end
     end
 
     def require_template(key, context: [], required_by: nil, optional: false)
