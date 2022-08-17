@@ -190,7 +190,7 @@ class Booking < ApplicationRecord
   def organisation
     super || self.organisation = home&.organisation
   end
-  
+
   # def save(...)
   #   super(...)
   # rescue ActiveRecord::NotNullViolation
@@ -207,5 +207,4 @@ class Booking < ApplicationRecord
   def set_ref
     self.ref ||= BookingRefService.new.generate(self)
   end
-
 end

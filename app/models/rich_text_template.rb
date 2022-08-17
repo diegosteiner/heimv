@@ -57,7 +57,7 @@ class RichTextTemplate < ApplicationRecord
     def load_requirements
       return true unless Rails.env.development?
 
-      Dir.glob(File.expand_path("app/**/*.rb", Rails.root)).each do |model_file|
+      Dir.glob(File.expand_path('app/**/*.rb', Rails.root)).each do |model_file|
         require model_file
       end
     end
