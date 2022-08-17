@@ -56,7 +56,7 @@ class Booking < ApplicationRecord
   include BookingStateConcern
 
   DEFAULT_INCLUDES = [:organisation, :home, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :category, :booked_extras, :logs, 
+                      :category, :booked_extras, :logs,
                       { tenant: :organisation, deadline: :booking, occupancy: :home,
                         agent_booking: %i[booking_agent organisation home] }].freeze
 
