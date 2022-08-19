@@ -5,6 +5,7 @@
 # Table name: data_digests
 #
 #  id                 :bigint           not null, primary key
+#  columns_config     :jsonb
 #  data_digest_params :jsonb
 #  label              :string
 #  prefilter_params   :jsonb
@@ -25,9 +26,30 @@
 require 'rails_helper'
 
 RSpec.describe DataDigest, type: :model do
-  let(:data_digest) { create(:data_digest) }
+  subject(:data_digest) { create(:data_digest) }
 
   describe '#period' do
-    it { expect(data_digest.period(:ever)).to eq(Range.new(nil, nil)) }
+    it { expect(DataDigest.period(:ever)).to eq(Range.new(nil, nil)) }
+  end
+
+  describe '#columns' do
+    let(:columns_config) do
+      [
+        {
+          header: 'Test Header 1',
+          body: '{{ booking.ref }}'
+        },
+        {
+          header: 'Test Header 2',
+          body: '{{ booking.name }}'
+        }
+      ]
+    end
+
+    subject(:data_digest) { create(:data_digest, columns_config: columns_config) }
+    subject(:columns) { data_digest.columns }
+
+    it { expect(columns.count).to eq(2) }
+    it { is_expected.to all(be_a DataDigest::Column) }
   end
 end

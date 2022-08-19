@@ -60,7 +60,7 @@ class Booking
     filter :had_booking_state do |bookings|
       states = previous_booking_states.compact_blank
 
-      bookings.joins(:booking_transitions).where(booking_transitions: { to_state: states }) if states.any?
+      bookings.joins(:state_transitions).where(state_transitions: { to_state: states }) if states.any?
     end
   end
 end

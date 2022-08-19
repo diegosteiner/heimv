@@ -3,23 +3,21 @@
   = f.hidden_field :type
   = f.text_field :label
 
+  - if can?(:manage, DataDigest)
+    = f.text_area :columns_config, value: JSON.generate(@data_digest.columns_config)
+ 
   - if @data_digest.is_a?(DataDigests::Tarif)
     = f.select :tarif_ids, @data_digest.tarif_options, {}, multiple: true
-
+ 
   - if @data_digest.is_a?(DataDigests::Booking)
     h5= Booking::Filter.model_name.human
-    = f.fields_for :prefilter_params, @data_digest.prefilter do |ff|
+    = f.fields_for :prefilter_params, @data_digest.filter do |ff|
       = render partial: 'manage/bookings/filter_fields', locals: { f: ff }
 
   - if @data_digest.is_a?(DataDigests::Payment)
     h5= Payment::Filter.model_name.human
-    = f.fields_for :prefilter_params, @data_digest.prefilter do |ff|
+    = f.fields_for :prefilter_params, @data_digest.filter do |ff|
       = render partial: 'manage/payments/filter_fields', locals: { f: ff }
-
-  - if @data_digest.is_a?(DataDigests::MeterReadingPeriod)
-    h5= MeterReadingPeriod::Filter.model_name.human
-    = f.fields_for :prefilter_params, @data_digest.prefilter do |ff|
-      = render partial: 'manage/homes/meter_reading_periods/filter_fields', locals: { f: ff }
 
   = f.submit
 

@@ -27,9 +27,9 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingTransition, type: :model do
-  let(:booking) { create(:booking, skip_infer_transition: true) }
-  let(:transition) { build(:booking_transition, booking: booking, to_state: to_state) }
+RSpec.describe Booking::StateTransition, type: :model do
+  let(:booking) { create(:booking) }
+  let(:transition) { build(:booking_state_transition, booking: booking, to_state: to_state) }
   let(:to_state) { :any }
 
   describe '#serialize_booking' do

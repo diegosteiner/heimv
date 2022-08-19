@@ -4,26 +4,29 @@ require 'active_support/concern'
 
 module BookingStateConcern
   extend ActiveSupport::Concern
-
   included do
-    include Statesman::Adapters::ActiveRecordQueries[transition_class: BookingTransition, initial_state: :initial]
+    include Statesman::Adapters::ActiveRecordQueries[transition_class: Booking::StateTransition,
+                                                     initial_state: :initial,
+                                                     transition_name: :state_transition]
+    delegate :can_transition_to?, :in_state?, to: :booking_flow
 
-    attr_accessor :transition_to, :skip_infer_transition
+    attr_accessor :transition_to, :skip_infer_transitions, :previous_transitions
 
-    after_save :apply_booking_transitions
-    after_touch :apply_booking_transitions
+    after_save :apply_transitions
+    after_touch :apply_transitions
   end
 
-  def apply_booking_transitions(transitions = Array.wrap(transition_to))
-    while (next_transition = transitions.shift)
-      next booking_flow.transition_to(next_transition) if booking_flow.can_transition_to?(next_transition)
+  def apply_transitions(transitions = transition_to, metadata: nil, infer_transitions: !skip_infer_transitions)
+    applied_transitions = Array.wrap(transitions).compact.each do |next_transition|
+      next booking_flow.transition_to(next_transition, metadata: metadata) if can_transition_to?(next_transition)
 
       errors.add(:transition_to, :invalid_transition, transition: next_transition)
       return false
     end
-
-    self.transition_to = []
-    booking_flow.auto unless skip_infer_transition
+    applied_transitions += booking_flow.infer if infer_transitions
+    self.transition_to = nil
+    self.previous_transitions ||= []
+    self.previous_transitions += applied_transitions.flatten.compact_blank
   end
 
   def booking_flow_class

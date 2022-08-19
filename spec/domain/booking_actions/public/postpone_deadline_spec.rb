@@ -13,6 +13,7 @@ describe BookingActions::Public::PostponeDeadline do
     allow(booking).to receive(:deadline).and_return(deadline)
     allow(booking).to receive(:booking_flow).and_return(booking_flow)
     allow(booking_flow).to receive(:booking_state).and_return(initial_state)
+    allow(booking_flow).to receive(:infer).and_return([])
   end
 
   context 'when deadline is not postponable' do

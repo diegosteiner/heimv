@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 22.8.1
+
+Released on 19.08.2022
+
+- Feature: Add logs for booking updates and actions
+- Feature: Make data digests columns configurable (admin only)
+- Fix: Calculation for MeterReadingPeriod usages
+
 #### Version 22.7.1
 
 Released on 17.07.2022

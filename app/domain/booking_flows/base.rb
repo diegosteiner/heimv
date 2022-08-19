@@ -34,7 +34,8 @@ module BookingFlows
     end
 
     def initialize(object, options = {})
-      super(object, options.reverse_merge(transition_class: BookingTransition))
+      super(object, options.reverse_merge(transition_class: Booking::StateTransition,
+                                          association_name: :state_transitions))
     end
 
     def booking_state
@@ -43,13 +44,13 @@ module BookingFlows
       @booking_state = BookingStates.all[current_state&.to_sym]&.new(booking)
     end
 
-    def auto(max_steps = 10)
+    def infer(max_steps = 10)
       [].tap do |passed_transitions|
         while (to = infer_next_state) && passed_transitions.count <= max_steps
           raise CircularTransitionError if passed_transitions.include?(to)
 
           Statesman::Machine.retry_conflicts(3) do
-            passed_transitions << to if transition_to(to)
+            passed_transitions << to if transition_to(to, metadata: { infered: true })
           end
         end
         object.valid?

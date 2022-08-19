@@ -53,7 +53,7 @@ gem 'statesman'
 gem 'ttfunk'
 
 group :development do
-  gem 'annotate', git: 'https://github.com/dabit/annotate_models.git', branch: 'rails-7'
+  gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'foreman'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_17_105400) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -102,8 +102,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
     t.bigint "organisation_id", null: false
     t.string "key"
     t.jsonb "title_i18n"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "ordinal"
     t.jsonb "description_i18n"
     t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
@@ -111,7 +111,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
     t.index ["organisation_id"], name: "index_booking_categories_on_organisation_id"
   end
 
-  create_table "booking_transitions", force: :cascade do |t|
+  create_table "booking_logs", force: :cascade do |t|
+    t.uuid "booking_id", null: false
+    t.bigint "user_id"
+    t.integer "trigger", null: false
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_booking_logs_on_user_id"
+  end
+
+  create_table "booking_state_transitions", force: :cascade do |t|
     t.string "to_state", null: false
     t.integer "sort_key", null: false
     t.uuid "booking_id", null: false
@@ -122,7 +132,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
     t.json "booking_data", default: {}
     t.index ["booking_id", "most_recent"], name: "index_booking_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["booking_id", "sort_key"], name: "index_booking_transitions_parent_sort", unique: true
-    t.index ["booking_id"], name: "index_booking_transitions_on_booking_id"
+    t.index ["booking_id"], name: "index_booking_state_transitions_on_booking_id"
   end
 
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -156,6 +166,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
     t.datetime "conditions_accepted_at", precision: nil
     t.string "color"
     t.string "purpose_description"
+    t.boolean "accept_conditions", default: false
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["home_id"], name: "index_bookings_on_home_id"
@@ -185,6 +196,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
+    t.jsonb "columns_config"
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
@@ -316,8 +328,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
     t.text "text"
     t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until", precision: nil
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["booking_id"], name: "index_offers_on_booking_id"
   end
 
@@ -327,8 +339,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
     t.integer "ordinal"
     t.integer "responsibility"
     t.text "remarks"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "home_id"
     t.bigint "organisation_id", null: false
     t.index ["booking_id"], name: "index_operator_responsibilities_on_booking_id"
@@ -344,8 +356,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
     t.string "email"
     t.text "contact_info"
     t.bigint "organisation_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "locale", default: "de", null: false
     t.index ["organisation_id"], name: "index_operators_on_organisation_id"
   end
@@ -529,7 +541,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_195539) do
   add_foreign_key "booked_extras", "bookable_extras"
   add_foreign_key "booking_agents", "organisations"
   add_foreign_key "booking_categories", "organisations"
-  add_foreign_key "booking_transitions", "bookings"
+  add_foreign_key "booking_logs", "users"
+  add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"

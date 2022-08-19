@@ -80,8 +80,10 @@ class ApplicationController < ActionController::Base
 
   def prepare_exception_notification_context
     request.env['exception_notifier.exception_data'] = {
-      email: current_user&.email, params: params.to_unsafe_h,
-      url: request.url, organisation: current_organisation&.name
+      email: current_user&.email,
+      params: params.to_unsafe_h,
+      url: request.url,
+      organisation: current_organisation&.name
     }
   end
 

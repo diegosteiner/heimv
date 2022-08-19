@@ -5,6 +5,7 @@
 # Table name: bookings
 #
 #  id                     :uuid             not null, primary key
+#  accept_conditions      :boolean          default(FALSE)
 #  approximate_headcount  :integer
 #  booking_flow_type      :string
 #  booking_state_cache    :string           default("initial"), not null

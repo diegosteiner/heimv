@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 describe BookingFlows::Default do
-  let(:booking) { create(:booking, skip_infer_transition: true) }
+  let(:booking) { create(:booking) }
   subject(:booking_flow) { described_class.new(booking) }
 
   describe 'allowed transitions' do

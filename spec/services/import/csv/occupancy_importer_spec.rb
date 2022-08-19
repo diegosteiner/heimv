@@ -7,12 +7,13 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
   let(:options) { {} }
   let!(:booking_category) { create(:booking_category, organisation: organisation, key: 'youth_camp') }
   let(:home) { create(:home, organisation: organisation) }
-  let(:importer) { described_class.new(home, csv: { headers: header_mapping }) }
+  let(:importer) { described_class.new(home, csv: { headers: header_mapping }, initial_state: initial_state) }
 
   describe '#parse' do
     let(:result) { importer.parse(csv, **options) }
 
     context 'with custom csv' do
+      let(:initial_state) { :open_request }
       let(:header_mapping) do
         %w[occupancy.begins_at occupancy.ends_at booking.category booking.ref booking.tenant_organisation
            tenant.email tenant.phone booking.remarks]
@@ -44,6 +45,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
     end
 
     context 'with pfadiheime.ch csv' do
+      let(:initial_state) { :provisional_request }
       let(:header_mapping) { Import::PfadiheimeImporter::OCCUPANCY_HEADER_MAPPING }
       let(:csv) do
         <<~ENDCSV
@@ -54,7 +56,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         ENDCSV
       end
 
-      it { result.records.each { expect(_1).to be_valid } }
+      it { expect(result.records).to all(be_valid) }
 
       it do
         occupancy = result.records.first
@@ -67,14 +69,14 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         expect(booking.tenant.first_name).to eq('Peter')
         expect(booking.tenant.last_name).to eq('Muster')
         expect(booking.tenant.email).to eq('tenant22@heimv.local')
-        expect(booking.booking_state).to be_a(BookingStates::OpenRequest)
+        expect(booking.booking_state).to be_a(BookingStates::DefinitiveRequest)
         expect(booking.committed_request).to be_truthy
-        expect(booking.occupancy).to be_occupied
+        expect(booking.occupancy).to be_tentative
       end
 
       it do
         booking = result.records.second.booking
-        expect(booking.booking_state).to be_a(BookingStates::OpenRequest)
+        expect(booking.booking_state).to be_a(BookingStates::ProvisionalRequest)
         expect(booking.approximate_headcount).to eq 12
         expect(booking.email).to eq('tenant22@heimv.local')
         expect(booking.committed_request).to be_falsy

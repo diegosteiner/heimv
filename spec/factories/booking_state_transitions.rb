@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: booking_transitions
+# Table name: booking_state_transitions
 #
 #  id           :bigint           not null, primary key
 #  booking_data :json
@@ -16,9 +16,9 @@
 #
 # Indexes
 #
-#  index_booking_transitions_on_booking_id       (booking_id)
-#  index_booking_transitions_parent_most_recent  (booking_id,most_recent) UNIQUE WHERE most_recent
-#  index_booking_transitions_parent_sort         (booking_id,sort_key) UNIQUE
+#  index_booking_state_transitions_on_booking_id  (booking_id)
+#  index_booking_transitions_parent_most_recent   (booking_id,most_recent) UNIQUE WHERE most_recent
+#  index_booking_transitions_parent_sort          (booking_id,sort_key) UNIQUE
 #
 # Foreign Keys
 #
@@ -26,7 +26,7 @@
 #
 
 FactoryBot.define do
-  factory :booking_transition do
+  factory :booking_state_transition, class: 'Booking::StateTransition' do
     to_state { booking.initial_state || :initial }
     sort_key { 0 }
     most_recent { true }

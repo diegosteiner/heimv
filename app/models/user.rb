@@ -34,6 +34,7 @@ class User < ApplicationRecord
   belongs_to :default_organisation, optional: true, class_name: 'Organisation'
   has_many :organisation_users, dependent: :destroy
   has_many :organisations, through: :organisation_users
+  has_many :booking_logs, inverse_of: :user, dependent: :destroy, class_name: 'Booking::Log'
 
   validates :email, presence: true
   validate do

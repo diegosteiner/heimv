@@ -5,18 +5,13 @@ module BookingActions
     class Cancel < BookingActions::Base
       def call!
         booking.errors.clear
-        booking.booking_flow.then do |booking_flow|
-          if booking_flow.can_transition_to?(:cancelled_request)
-            booking_flow.transition_to(:cancelled_request)
-          elsif booking_flow.can_transition_to?(:cancelation_pending)
-            booking_flow.transition_to(:cancelation_pending)
-          end
-        end
+        booking.update(transition_to: cancelled_request) if booking.can_transition_to?(:cancelled_request)
+        booking.update(transition_to: cancelation_pending) if booking.can_transition_to?(:cancelation_pending)
       end
 
       def allowed?
-        booking.booking_flow.can_transition_to?(:cancelled_request) ||
-          booking.booking_flow.can_transition_to?(:cancelation_pending)
+        booking.can_transition_to?(:cancelled_request) ||
+          booking.can_transition_to?(:cancelation_pending)
       end
 
       def button_options
