@@ -54,7 +54,7 @@ module DataDigests
       },
       {
         header: ::Tenant.model_name.human,
-        body: '{{ booking.tenant.full_name }}'
+        body: "{{ booking.tenant.full_name }}\n{{ booking.tenant_organisation }}"
       },
       {
         header: ::Tenant.human_attribute_name(:address),

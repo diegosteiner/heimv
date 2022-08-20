@@ -5,8 +5,8 @@ module BookingActions
     class Cancel < BookingActions::Base
       def call!
         booking.errors.clear
-        booking.update(transition_to: declined_request) if booking.can_transition_to?(:declined_request)
-        booking.update(transition_to: cancelation_pending) if booking.can_transition_to?(:cancelation_pending)
+        booking.update(transition_to: :declined_request) if booking.can_transition_to?(:declined_request)
+        booking.update(transition_to: :cancelation_pending) if booking.can_transition_to?(:cancelation_pending)
       end
 
       def allowed?
