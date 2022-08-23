@@ -1,7 +1,7 @@
 / Rails flash notifications styled for Bootstrap 4.0
 - flash.each do |name, message|
   - if message.is_a?(String)
-    .alert.alert-dismissible[class="alert-#{name.to_s == 'notice' ? 'success' : 'danger'}"]
+    .alert.alert-dismissible[class="alert-#{name.to_s == 'notice' ? 'success' : 'danger'}" role="alert"]
       div[id="flash_#{name}"]
         == message
       button.btn-close[type="button" data-bs-dismiss="alert" aria-hidden="true"]

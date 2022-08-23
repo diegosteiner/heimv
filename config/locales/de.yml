@@ -672,6 +672,8 @@ de:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
+  bookings:
+    not_committed_yet: Die Buchung ist noch nicht definitiv.
   confirm: Sind sie sicher?
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
