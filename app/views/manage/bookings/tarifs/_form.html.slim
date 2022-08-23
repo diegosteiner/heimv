@@ -1,8 +1,0 @@
-= form_with(model: [:manage, tarif.parent, tarif.becomes(Tarif)], local: true) do |f|
-
-  fieldset
-    = f.hidden_field :id
-    = f.number_field :price_per_unit, step: 0.01
-
-  .form-actions.pt-4.mt-3
-    = f.submit

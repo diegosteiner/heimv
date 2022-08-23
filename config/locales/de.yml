@@ -263,11 +263,11 @@ de:
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         ordinal: Ordnungsnummer
+        pin: Preis pro Einheit einfrieren
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis (pro Einheit)
         tarif_group: Tarifgruppe
         tenant_visible: Für Mieter sichtbar (Vertrag)
-        transient: Tarif NICHT einfrieren
         type: Typ
         unit: Einheit
       tarif_selector:
@@ -295,9 +295,9 @@ de:
         zipcode: PLZ
       usage:
         apply: Anwenden
-        presumed_price: Verausichtlicher Preis
-        presumed_used_units: Verausichtlicher Verbrauch
+        committed: verbindlich
         price: Preis
+        price_per_unit: Preis pro Einheit
         remarks: Bemerkungen
         used_units: Verbrauch
       user:
@@ -672,8 +672,6 @@ de:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
-  bookings:
-    not_committed_yet: Die Buchung ist noch nicht definitiv.
   confirm: Sind sie sicher?
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
@@ -1013,17 +1011,19 @@ de:
         canned_filter_default: Standardansicht
         canned_filter_upcoming: Zukünftige Belegungen
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
+      navigation:
+        costs: Kosten
+      not_committed_yet: Die Buchung ist noch nicht definitiv.
       show:
         checklist: Checkliste
         public_booking_url: Link für Mieter
-      tarifs:
+      usages:
         index:
           applicable_tarifs: Anwendbare Tarife
+          save_and_continue: Speichern und Rechnung erstellen
           used_tarifs: Angewandte Tarife
-      usages:
         table:
           save: "%{model_name} speichern"
-          save_and_continue: Speichern und Rechnung erstellen
     dashboard:
       index:
         ics_link: als ICAL

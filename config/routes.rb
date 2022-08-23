@@ -45,11 +45,8 @@ Rails.application.routes.draw do
         scope module: :bookings do
           resources :contracts
           resources :offers
-          resources :tarifs
           resources :usages do
-            collection do
-              put '/', action: :update_many
-            end
+            put :/, action: :update_many, on: :collection
           end
         end
       end

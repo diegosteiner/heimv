@@ -4,12 +4,12 @@ module Manage
   class TarifsController < BaseController
     def create
       @tarif.save
-      respond_with :manage, @tarif.parent, @tarif
+      respond_with :manage, @tarif.home, @tarif
     end
 
     def update
       @tarif.update(tarif_params)
-      respond_with :manage, @tarif.parent, @tarif
+      respond_with :manage, @tarif.home, @tarif
     end
 
     protected

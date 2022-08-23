@@ -10,17 +10,11 @@
           a.nav-link[href=manage_booking_path(booking) class=('active' if active.nil?)]
             = Booking.model_name.human
         li.nav-item
-          a.nav-link[href=manage_booking_tarifs_path(booking) class=('active' if active == :tarifs)]
-            = Tarif.model_name.human(count: :other)
-        / li.nav-item
-        /   a.nav-link[href=manage_booking_offers_path(booking) class=('active' if active == :offers)]
-        /     = Offer.model_name.human(count: :other)
+          a.nav-link[href=manage_booking_usages_path(booking) class=('active' if active == :usages)]
+            = t('.costs')
         li.nav-item
           a.nav-link[href=manage_booking_contracts_path(booking) class=('active' if active == :contracts)]
             = Contract.model_name.human(count: :other)
-        li.nav-item
-          a.nav-link[href=manage_booking_usages_path(booking) class=('active' if active == :usages)]
-            = Usage.model_name.human(count: :other)
         li.nav-item
           a.nav-link[href=manage_booking_invoices_path(booking) class=('active' if active == :invoices)]
             = Invoice.model_name.human(count: :other)
@@ -30,5 +24,3 @@
         li.nav-item
           a.nav-link[href=manage_booking_notifications_path(booking) class=('active' if active == :notifications)]
             = Notification.model_name.human(count: :other)
-        / li.nav-item
-        /   a.nav-link[href='#booking-transitions']= BookingTransition.model_name.human(count: :other)

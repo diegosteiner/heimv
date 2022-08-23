@@ -5,7 +5,9 @@
 # Table name: usages
 #
 #  id                  :bigint           not null, primary key
+#  committed           :boolean          default(FALSE)
 #  presumed_used_units :decimal(, )
+#  price_per_unit      :decimal(, )
 #  remarks             :text
 #  used_units          :decimal(, )
 #  created_at          :datetime         not null
@@ -42,10 +44,10 @@ class Usage < ApplicationRecord
 
   before_validation { tarif&.before_usage_validation(self) }
   before_save { tarif&.before_usage_save(self) }
-  before_create :create_tarif_booking_copy
+  before_create :pin_price_per_unit
 
   scope :ordered, -> { joins(:tarif).includes(:tarif).order(Tarif.arel_table[:ordinal].asc) }
-  scope :of_tarif, ->(tarif) { where(tarif_id: tarif&.self_and_booking_copy_ids) }
+  scope :of_tarif, ->(tarif) { where(tarif_id: tarif) }
   scope :amount, -> { joins(:tarif).where(tarifs: { type: Tarifs::Amount.to_s }) }
   scope :tenant_visible, -> { includes(:tarif).where(tarifs: { tenant_visible: true }) }
 
@@ -56,33 +58,20 @@ class Usage < ApplicationRecord
     tarif&.price(self)
   end
 
-  def presumed_price
-    tarif&.presumed_price(self)
-  end
-
   def presumed_units
     prefill_proc = PREFILL_METHODS.fetch(tarif.prefill_usage_method, nil)
     (prefill_proc && instance_exec(&prefill_proc)).presence
   end
 
-  def of_tarif?(other_tarif)
-    other_tarif.self_and_booking_copy_ids.include?(tarif_id)
-  end
-
-  def create_tarif_booking_copy
-    return if tarif.booking_copy? || tarif.transient?
-
-    self.tarif = tarif.build_booking_copy(booking).tap(&:save)
-  end
-
-  def tarif_selector_votes
-    @tarif_selector_votes ||= tarif_selectors.index_with do |selector|
-      selector.vote_for(self)
-    end
+  def pin_price_per_unit
+    self.price_per_unit = (tarif.pin? && tarif.price_per_unit) || nil
   end
 
   def adopted_by_vote?
-    votes = tarif_selector_votes.values.flatten.compact
+    votes = tarif_selectors.index_with do |selector|
+      selector.vote_for(self)
+    end
+    votes = votes.values.flatten.compact
     votes.any? && votes.all?
   end
 
@@ -94,6 +83,10 @@ class Usage < ApplicationRecord
 
   def used?
     used_units.present? && used_units.positive?
+  end
+
+  def price_per_unit
+    super || tarif&.price_per_unit
   end
 
   def breakdown
@@ -111,7 +104,7 @@ class Usage < ApplicationRecord
 
   def build_meter_reading_period(attrs = {})
     super.tap do |meter_reading_period|
-      meter_reading_period.start_value ||= MeterReadingPeriod.where(tarif: tarif.original)
+      meter_reading_period.start_value ||= MeterReadingPeriod.where(tarif: tarif)
                                                              .ordered&.last&.start_value
     end
   end

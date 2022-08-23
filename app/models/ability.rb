@@ -30,7 +30,6 @@ module Ability
       can :manage, DataDigest, organisation: organisation
       can :manage, RichTextTemplate, organisation: organisation
       can :manage, Tarif, home: { organisation: organisation }
-      can :manage, Tarif, booking: { organisation: organisation }
       can :manage, TarifSelector, home: { organisation: organisation }
       can :manage, Tenant, organisation: organisation
       can :manage, Booking, organisation: organisation
@@ -63,7 +62,6 @@ module Ability
       can %i[read digest], DataDigest, organisation: organisation
       can :read, RichTextTemplate, organisation: organisation
       can :read, Tarif, home: { organisation: organisation }
-      can :read, Tarif, booking: { organisation: organisation }
       can :read, TarifSelector, home: { organisation: organisation }
       can :read, Tenant, organisation: organisation
       can :read, Booking, organisation: organisation

@@ -39,7 +39,7 @@ class MeterReadingPeriod < ApplicationRecord
   before_validation do
     self.begins_at ||= booking&.occupancy&.begins_at
     self.ends_at ||= booking&.occupancy&.ends_at
-    self.tarif ||= usage&.tarif&.original
+    self.tarif ||= usage&.tarif
   end
 
   def used_units

@@ -5,7 +5,9 @@
 # Table name: usages
 #
 #  id                  :bigint           not null, primary key
+#  committed           :boolean          default(FALSE)
 #  presumed_used_units :decimal(, )
+#  price_per_unit      :decimal(, )
 #  remarks             :text
 #  used_units          :decimal(, )
 #  created_at          :datetime         not null
