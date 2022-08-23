@@ -50,7 +50,7 @@ module BookingStates
     protected
 
     def choose_tarifs_checklist_item
-      ChecklistItem.new(:choose_tarifs, booking.booking_copy_tarifs.exists?,
+      ChecklistItem.new(:choose_tarifs, booking.usages.any?,
                         manage_booking_tarifs_path(
                           booking, org: booking.organisation.slug, locale: I18n.locale
                         ))
