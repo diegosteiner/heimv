@@ -7,7 +7,7 @@
     = render layout: 'manage/bookings/usages/table', locals: { usages: @usages } do
       - if can?(:manage, @booking)
         button.ms-2.btn.btn-primary[type=:submit name=:return_to value=manage_booking_invoices_path(@booking)]
-          = t('.save_and_continue')
+          = t('manage.bookings.usages.index.save_and_continue')
 
       = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ms-3' do 
         i.fa.fa-print<>
