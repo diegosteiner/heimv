@@ -38,7 +38,7 @@ module Manage
 
     def create
       @booking.organisation = current_organisation
-      @booking.transition_to ||= BookingStates::OpenRequest
+      @booking.transition_to ||= :open_request
       @booking.save
       Booking::Log.log(@booking, trigger: :manager, user: current_user)
       respond_with :manage, @booking
@@ -46,8 +46,8 @@ module Manage
 
     def update
       @booking.update(booking_params) if booking_params
-      Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
       call_booking_action
+      Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
       respond_with :manage, @booking
     end
 

@@ -313,6 +313,11 @@ de:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
+      booking_log:
+        trigger:
+          auto: System
+          manager: Verwaltung
+          tenant: Mieter
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -1016,6 +1021,7 @@ de:
       not_committed_yet: Die Buchung ist noch nicht definitiv.
       show:
         checklist: Checkliste
+        logged_changes: "%{changes} bearbeitet"
         public_booking_url: Link für Mieter
       usages:
         index:
