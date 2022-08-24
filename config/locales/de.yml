@@ -1012,7 +1012,7 @@ de:
         canned_filter_upcoming: Zukünftige Belegungen
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       navigation:
-        costs: Kosten
+        costs: Tarife & Verbrauch
       not_committed_yet: Die Buchung ist noch nicht definitiv.
       show:
         checklist: Checkliste
