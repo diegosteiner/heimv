@@ -313,6 +313,11 @@ it:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
+      booking_log:
+        trigger:
+          auto: System
+          manager: Verwaltung
+          tenant: Mieter
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -1015,6 +1020,7 @@ it:
         too_many_records: Too many records
       show:
         checklist: Checkliste
+        logged_changes: "%{changes} bearbeitet"
         public_booking_url: Link für Mieter
       tarifs:
         index:

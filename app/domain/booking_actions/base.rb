@@ -39,9 +39,5 @@ module BookingActions
         variant: 'primary'
       }
     end
-
-    def warn?
-      false
-    end
   end
 end

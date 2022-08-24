@@ -191,12 +191,6 @@ class Booking < ApplicationRecord
     super || self.organisation = home&.organisation
   end
 
-  # def save(...)
-  #   super(...)
-  # rescue ActiveRecord::NotNullViolation
-  #   binding.pry
-  # end
-
   private
 
   def reject_tenant_attributes?(tenant_attributes)
