@@ -313,6 +313,11 @@ de:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
+      booking_log:
+        trigger:
+          auto: System
+          manager: Verwaltung
+          tenant: Mieter
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -518,7 +523,7 @@ de:
       tarif_selectors/booking_approximate_headcount_per_night:
         one: Anzahl TN Tarifwähler
       tarif_selectors/booking_category:
-        one: Mietzweck Tarifwähler
+        one: Mietkategorie Tarifwähler
       tarif_selectors/booking_nights:
         one: Anzahl Nächte tarifwähler
       tarif_selectors/booking_overnight_stays:
@@ -561,6 +566,9 @@ de:
         label: Anfrage definitv setzen
       email_contract_and_deposit:
         label: Vertrag und Anzahlung verschicken
+      email_contract_without_deposit:
+        confirm: Den Vertrag wirklich ohne Anzahlung verschicken?
+        label: Vertrag ohne Anzahlung verschicken
       email_invoice:
         label: Rechnung verschicken
       mark_contract_signed:
@@ -613,10 +621,10 @@ de:
       label: Mietanfrage (abgelehnt)
     definitive_request:
       checklist:
-        assign_responsibilities: Verantwortlichkeiten zuweisen
+        assign_responsibilities: Verantwortlichkeiten zuweisen (optional)
         choose_tarifs: Tarife festlegen
         create_contract: Vertrag erstellen
-        create_deposit: Anzahlung erstellen
+        create_deposit: Anzahlung erstellen (optional)
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
       label: Mietanfrage (definitiv)
       relevant_time: Eingereicht %{time}
@@ -669,6 +677,8 @@ de:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
+  bookings:
+    not_committed_yet: Die Buchung ist noch nicht definitiv.
   confirm: Sind sie sicher?
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
@@ -1010,6 +1020,7 @@ de:
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       show:
         checklist: Checkliste
+        logged_changes: "%{changes} bearbeitet"
         public_booking_url: Link für Mieter
       tarifs:
         index:
@@ -1085,7 +1096,7 @@ de:
                 remarks: Bemerkungen des Mieters
               organisation: Organisation
                 address: Adresse der Organisation, Sitz
-                booking_categories: Liste aller Mietzwecke der Organisation
+                booking_categories: Liste aller Mietkategorien der Organisation
                 email: E-Mail der Organisation
                 esr_beneficiary_account: 01-318421-1
                 links: Links
@@ -1281,7 +1292,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
       default_title: Vertrag für deine Reservation
@@ -1303,7 +1314,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
       default_title: Infos bitte
@@ -1371,7 +1382,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
 
         <p>Du kannst auf unserem <a href="https://app.heimv.ch">Reservationssystem</a> jederzeit eine neue Reservation erstellen.</p>
@@ -1390,7 +1401,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
 
@@ -1413,7 +1424,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
 
@@ -1440,7 +1451,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
 
@@ -1460,7 +1471,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
       default_title: Definitive Reservation bestätigt
@@ -1506,7 +1517,7 @@ de:
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
           <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
-          <li>Mietzweck: <strong>{{ booking.category.title }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
         </ul>
 
@@ -1526,7 +1537,7 @@ de:
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
           <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
-          <li>Mietzweck: <strong>{{ booking.category.title }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
         </ul>
 
@@ -1556,7 +1567,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
 
@@ -1578,7 +1589,7 @@ de:
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
           <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
-          <li>Mietzweck: <strong>{{ booking.category.title }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
         </ul>
 
@@ -1598,7 +1609,7 @@ de:
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
           <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
-          <li>Mietzweck: <strong>{{ booking.category.title }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
           <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
           <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
@@ -1634,7 +1645,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
       default_title: Anfrage überfällig
@@ -1652,7 +1663,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
       default_title: Zahlungseingang
@@ -1670,7 +1681,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
 
         <p><strong>Zahlungsdetails</strong>
@@ -1690,7 +1701,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
 
         <p><strong>Zahlungsdetails</strong>
@@ -1712,7 +1723,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
       default_title: Provisorische Reservation bestätigt
@@ -1758,7 +1769,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
       default_title: Anzahlung und unterschriebenen Vertrag eingegangen
       description: Benachrichtigung für zukünftige Belegung (Mieter)
@@ -1775,7 +1786,7 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietzweck: {{ booking.category.title }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
           <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
         </ul>

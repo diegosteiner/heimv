@@ -134,11 +134,43 @@
                 =< t(:edit)
     .col-md-3
 
-      ul.list-group
-        - @booking.state_transitions.order(created_at: :desc).each do |transition|
-          li.list-group-item
-            span.badge.bg-primary
-              = t(:label, scope: [:booking_states, transition.to_state])
-            br
-            small
-              = time_tag transition.created_at
+      - if @booking.logs.none?
+        ul.list-group
+          - @booking.state_transitions.order(created_at: :desc).each do |transition|
+            li.list-group-item
+              span.badge.bg-primary
+                = t(:label, scope: [:booking_states, transition.to_state])
+              br
+              small
+                = time_tag transition.created_at
+      - else
+        ul.list-group
+          - @booking.logs.order(created_at: :desc).each do |log|
+            li.list-group-item
+              .mb-2.text-muted
+                small= time_tag log.created_at
+
+              - if log.logged_action.present?
+                div 
+                  strong= log.logged_action.translate(:label)
+              - elsif log.logged_changes.present? 
+                div
+                  = t('.logged_changes', changes: log.logged_changes.keys.map { |klass| klass.model_name.human }.to_sentence)
+
+              - Array.wrap(log.logged_transitions).each do |transition|
+                  span.badge.bg-primary.me-2= t(:label, scope: [:booking_states, transition])
+
+              - if log.user 
+                .mt-2.text-muted
+                  i.fa.fa-user.me-2
+                  = log.user.email
+              - elsif log.trigger_tenant?
+                .mt-2.text-muted
+                  i.fa.fa-user.me-2
+                  = Tenant.model_name.human
+              - elsif log.trigger_auto?
+                .mt-2.text-muted
+                  i.fa.fa-cog.me-2
+                  = Booking::Log.human_enum(:trigger, :auto)
+
+

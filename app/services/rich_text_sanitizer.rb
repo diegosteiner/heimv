@@ -11,6 +11,6 @@ class RichTextSanitizer
   end
 
   def self.allowed_attributes
-    Rails::Html::SafeListSanitizer.allowed_attributes
+    Rails::Html::SafeListSanitizer.allowed_attributes + %w[cell-spacing cell-padding]
   end
 end

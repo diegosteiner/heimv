@@ -313,6 +313,11 @@ en:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
+      booking_log:
+        trigger:
+          auto: System
+          manager: Verwaltung
+          tenant: Mieter
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -561,6 +566,9 @@ en:
         label: Anfrage definitv setzen
       email_contract_and_deposit:
         label: Vertrag und Anzahlung verschicken
+      email_contract_without_deposit:
+        confirm: Den Vertrag wirklich ohne Anzahlung verschicken?
+        label: Vertrag ohne Anzahlung verschicken
       email_invoice:
         label: Rechnung verschicken
       mark_contract_signed:
@@ -669,6 +677,8 @@ en:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
+  bookings:
+    not_committed_yet: Die Buchung ist noch nicht definitiv.
   confirm: Sind sie sicher?
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
@@ -970,6 +980,7 @@ en:
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       show:
         checklist: Checkliste
+        logged_changes: "%{changes} bearbeitet"
         public_booking_url: Link für Mieter
       tarifs:
         index:

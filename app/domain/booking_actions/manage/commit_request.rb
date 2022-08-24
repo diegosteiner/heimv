@@ -15,7 +15,10 @@ module BookingActions
 
       def button_options
         super.merge(
-          variant: 'primary'
+          variant: 'primary',
+          data: {
+            confirm: I18n.t(:confirm)
+          }
         )
       end
 
