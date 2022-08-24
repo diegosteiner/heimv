@@ -2,6 +2,13 @@
 
 #### Unreleased
 
+#### Version 22.8.2
+
+Released on 24.08.2022
+
+- Feature: Log activities on bookings
+- Feature: Add warnings when booking is not yet committed
+
 #### Version 22.8.1
 
 Released on 19.08.2022
