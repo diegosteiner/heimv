@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied, with: :unauthorized
   rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_csrf_token
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :not_found
+  rescue_from ActionDispatch::Http::Parameters::ParseError, with: :invalid_params
 
   default_form_builder BootstrapForm::FormBuilder
   before_action :prepare_exception_notification_context, :current_locale, :set_default_meta_tags
@@ -97,6 +98,12 @@ class ApplicationController < ActionController::Base
     else
       redirect_back alert: t('unauthorized'), fallback_location: root_path
     end
+  end
+
+  def invalid_params
+    prepare_exception_notification_context
+    ExceptionNotifier.notify_exception(ActionDispatch::Http::Parameters::ParseError.new)
+    redirect_back alert: t('errors.invalid_csrf_token'), fallback_location: root_path
   end
 
   def invalid_csrf_token
