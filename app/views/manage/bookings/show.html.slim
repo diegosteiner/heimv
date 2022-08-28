@@ -159,7 +159,7 @@
                 i.fa.fa-cog.me-2
                 = Booking::Log.human_enum(:trigger, :auto)
       
-      - @booking.state_transitions.where(Booking::StateTransition.arel_table[:created_at].lteq(@booking.logs.first.created_at)).order(created_at: :desc).each do |transition|
+      - @booking.state_transitions.where(Booking::StateTransition.arel_table[:created_at].lteq(@booking.logs.first&.created_at || Time.zone.now)).order(created_at: :desc).each do |transition|
         li.list-group-item
           .mb-2.text-muted
             small= time_tag transition.created_at
