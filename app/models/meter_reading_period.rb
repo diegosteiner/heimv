@@ -34,12 +34,17 @@ class MeterReadingPeriod < ApplicationRecord
   scope :ordered, -> { order(ends_at: :asc) }
 
   validates :start_value, :end_value, numericality: true, allow_nil: true
-  validates :begins_at, :ends_at, presence: true
 
   before_validation do
     self.begins_at ||= booking&.occupancy&.begins_at
     self.ends_at ||= booking&.occupancy&.ends_at
     self.tarif ||= usage&.tarif
+    infer_start_value
+  end
+
+  def infer_start_value
+    self.start_value ||= self.class.where(tarif: tarif).where.not(id: id)
+                             .where(self.class.arel_table[:ends_at].lteq(begins_at)).ordered.last&.end_value
   end
 
   def used_units

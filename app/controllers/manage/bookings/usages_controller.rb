@@ -7,7 +7,7 @@ module Manage
       load_and_authorize_resource :usage, through: :booking
 
       def index
-        @usages = @usages.includes(:tarif)
+        @usages = @usages.includes(tarif: :tarif_selectors)
         @suggested_usages = Usage::Factory.new(@booking).build(usages: @usages)
         @suggested_usages = @suggested_usages.select(&:preselect) if suggest_usages?
         respond_to do |format|
@@ -52,7 +52,7 @@ module Manage
       private
 
       def suggest_usages?
-        @booking.usages.none? || params[:suggest_usages].present?
+        @booking.usages.none?(&:persisted?) || params[:suggest_usages].present?
       end
 
       def usage_params

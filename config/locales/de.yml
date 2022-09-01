@@ -1005,7 +1005,6 @@ de:
         index:
           applicable_tarifs: Anwendbare Tarife
           save_and_continue: Speichern und Rechnung erstellen
-          used_tarifs: Angewandte Tarife
         table:
           save: "%{model_name} speichern"
     dashboard:

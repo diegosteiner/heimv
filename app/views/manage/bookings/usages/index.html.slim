@@ -2,7 +2,6 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :usages, booking: @booking }
 
 - if @usages.any?
-  h1= t('.used_tarifs', default: 'Angewandte Tarife')
   section.mt-4
     = render layout: 'manage/bookings/usages/table', locals: { usages: @usages } do
       - if can?(:manage, @booking)
@@ -12,6 +11,7 @@
       = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ms-3' do 
         i.fa.fa-print<>
 
+  hr.mt-5
 h1.mt-5= t('.applicable_tarifs', default: 'Verfügbare Tarife')
 section.mt-4
   = render partial: 'manage/bookings/usages/table', locals: { usages: @suggested_usages }

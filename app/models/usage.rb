@@ -101,11 +101,4 @@ class Usage < ApplicationRecord
   has_one :meter_reading_period, dependent: :nullify
 
   accepts_nested_attributes_for :meter_reading_period, reject_if: :all_blank
-
-  def build_meter_reading_period(attrs = {})
-    super.tap do |meter_reading_period|
-      meter_reading_period.start_value ||= MeterReadingPeriod.where(tarif: tarif)
-                                                             .ordered&.last&.start_value
-    end
-  end
 end
