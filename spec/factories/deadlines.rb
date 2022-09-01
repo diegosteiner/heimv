@@ -17,8 +17,8 @@
 #
 # Indexes
 #
-#  index_deadlines_on_booking_id                           (booking_id)
-#  index_deadlines_on_responsible_type_and_responsible_id  (responsible_type,responsible_id)
+#  index_deadlines_on_booking_id   (booking_id)
+#  index_deadlines_on_responsible  (responsible_type,responsible_id)
 #
 # Foreign Keys
 #

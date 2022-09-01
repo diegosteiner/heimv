@@ -230,7 +230,6 @@ en:
         logo: Logo
         mail_from: Absender von Emails
         name: Name
-        notification_footer: Fusszeile für Nachrichten
         notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
         qr_iban: QR-IBAN
