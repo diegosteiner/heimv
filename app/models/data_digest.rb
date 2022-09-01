@@ -12,7 +12,7 @@
 #  type               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  organisation_id    :bigint           not null
+#  organisation_id    :bigint           default(1), not null
 #
 # Indexes
 #
@@ -52,6 +52,10 @@ class DataDigest < ApplicationRecord
 
   belongs_to :organisation
   validates :label, presence: true
+
+  def group
+    super.presence
+  end
 
   class << self
     def column_types

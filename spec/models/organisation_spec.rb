@@ -9,7 +9,7 @@
 #  bcc                       :string
 #  booking_flow_type         :string
 #  creditor_address          :text
-#  currency                  :string           default("CHF")
+#  currency                  :string
 #  default_payment_info_type :string
 #  email                     :string
 #  esr_beneficiary_account   :string

@@ -9,7 +9,7 @@
 #  bcc                       :string
 #  booking_flow_type         :string
 #  creditor_address          :text
-#  currency                  :string           default("CHF")
+#  currency                  :string
 #  default_payment_info_type :string
 #  email                     :string
 #  esr_beneficiary_account   :string
@@ -62,7 +62,7 @@ class Organisation < ApplicationRecord
   locale_enum default: I18n.locale
 
   validates :booking_flow_type, presence: true
-  validates :invoice_ref_strategy_type, presence: true
+  validates :currency, :invoice_ref_strategy_type, presence: true
   validates :name, :email, presence: true
   validates :slug, uniqueness: true, allow_nil: true
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }

@@ -9,7 +9,7 @@
 #  bcc                       :string
 #  booking_flow_type         :string
 #  creditor_address          :text
-#  currency                  :string           default("CHF")
+#  currency                  :string
 #  default_payment_info_type :string
 #  email                     :string
 #  esr_beneficiary_account   :string
@@ -52,6 +52,7 @@ FactoryBot.define do
     slug { nil }
     location { nil }
     locale { I18n.locale }
+    currency { 'CHF' }
 
     after(:build) do |organisation, _evaluator|
       build(:booking_category, key: :camp, title: 'Lager', organisation: organisation)
