@@ -131,8 +131,8 @@ en:
         title: Titel
       data_digest:
         columns_config: Spaltenkonfiguration
+        group: Gruppe
         label: Name
-        tarif_ids: Tarife
         type: Art
       deadline:
         armed: Aktiviert
@@ -426,30 +426,9 @@ en:
       data_digests/booking:
         one: Buchungen Auszug
         other: Buchungen Auszüge
-      data_digests/booking_data_digest:
-        one: Belegungen Bericht
-        other: Belegungen Berichte
-      data_digests/home_booking_plan:
-        one: Belegungsplan Auszug
-        other: Belegungsplan Auszüge
-      data_digests/meter_reading_period:
-        one: Zähler Auszug
-        other: Zähler Auszüge
-      data_digests/parahotelerie_statistics:
-        one: Parahotelerie Statistik Auszug
-        other: Parahotelerie Statistik Auszüge
       data_digests/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
-      data_digests/tarif:
-        one: Tarif Auszug
-        other: Tarif Auszüge
-      data_digests/tax:
-        one: Kurtaxen Auszug
-        other: Kurtaxen Auszüge
-      data_digests/tenant:
-        one: Mieter Auszug
-        other: Mieter Auszüge
       deadline:
         one: Frist
         other: Fristen

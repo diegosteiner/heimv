@@ -44,7 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "agent_bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "agent_bookings", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "booking_id"
     t.string "booking_agent_code"
     t.string "booking_agent_ref"
@@ -92,7 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.decimal "provision"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "organisation_id", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.integer "request_deadline_minutes", default: 14400
     t.index ["code", "organisation_id"], name: "index_booking_agents_on_code_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
@@ -102,8 +102,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.bigint "organisation_id", null: false
     t.string "key"
     t.jsonb "title_i18n"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "ordinal"
     t.jsonb "description_i18n"
     t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
@@ -135,7 +135,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.index ["booking_id"], name: "index_booking_state_transitions_on_booking_id"
   end
 
-  create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "bookings", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "home_id", null: false
     t.bigint "organisation_id", null: false
     t.string "booking_state_cache", default: "initial", null: false
@@ -192,11 +192,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.string "type"
     t.string "label"
     t.jsonb "prefilter_params", default: {}
-    t.jsonb "data_digest_params", default: {}
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "organisation_id", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.jsonb "columns_config"
+    t.jsonb "data_digest_params", default: {}
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
@@ -211,7 +211,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.datetime "updated_at", precision: nil, null: false
     t.text "remarks"
     t.index ["booking_id"], name: "index_deadlines_on_booking_id"
-    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
+    t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible_type_and_responsible_id"
   end
 
   create_table "designated_documents", force: :cascade do |t|
@@ -307,7 +307,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.index ["rich_text_template_id"], name: "index_notifications_on_rich_text_template_id"
   end
 
-  create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "occupancies", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "begins_at", precision: nil, null: false
     t.datetime "ends_at", precision: nil, null: false
     t.bigint "home_id", null: false
@@ -328,8 +328,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.text "text"
     t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_offers_on_booking_id"
   end
 
@@ -339,8 +339,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.integer "ordinal"
     t.integer "responsibility"
     t.text "remarks"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "home_id"
     t.bigint "organisation_id", null: false
     t.index ["booking_id"], name: "index_operator_responsibilities_on_booking_id"
@@ -356,8 +356,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.string "email"
     t.text "contact_info"
     t.bigint "organisation_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "locale", default: "de", null: false
     t.index ["organisation_id"], name: "index_operators_on_organisation_id"
   end
@@ -379,8 +379,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.string "booking_flow_type"
     t.string "invoice_ref_strategy_type"
     t.string "esr_beneficiary_account"
-    t.text "notification_footer"
-    t.string "currency", default: "CHF"
+    t.string "currency"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "iban"
@@ -403,6 +402,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.jsonb "settings", default: {}
     t.string "qr_iban"
     t.text "creditor_address"
+    t.text "notification_footer"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
@@ -425,7 +425,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.string "key"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "organisation_id", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.bigint "home_id"
     t.jsonb "title_i18n", default: {}
     t.jsonb "body_i18n", default: {}
@@ -486,7 +486,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.jsonb "import_data"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "organisation_id", null: false
+    t.bigint "organisation_id", default: 1, null: false
     t.string "country_code", default: "CH"
     t.string "nickname"
     t.string "address_addon"
