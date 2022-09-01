@@ -53,7 +53,7 @@
           "price_per_unit": "180.0",
           "tarif_group": "Anzahlung",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -71,7 +71,7 @@
           "price_per_unit": "300.0",
           "tarif_group": "Anzahlung",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -89,7 +89,7 @@
           "price_per_unit": "480.0",
           "tarif_group": "Anzahlung",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -107,7 +107,7 @@
           "price_per_unit": "600.0",
           "tarif_group": "Anzahlung",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -125,7 +125,7 @@
           "price_per_unit": "15.0",
           "tarif_group": "Lager/Kurs",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Übernachtung"
@@ -143,7 +143,7 @@
           "price_per_unit": "20.0",
           "tarif_group": "Lager/Kurs",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Übernachtung"
@@ -161,7 +161,7 @@
           "price_per_unit": "10.0",
           "tarif_group": "Lager/Kurs",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::OvernightStay",
           "unit_i18n": {
             "de": "pro Nacht"
@@ -179,7 +179,7 @@
           "price_per_unit": "0.5",
           "tarif_group": "Kurtaxe",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Übernachtung"
@@ -197,7 +197,7 @@
           "price_per_unit": "600.0",
           "tarif_group": "Privater Anlass / Fest",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "pro Tag"
@@ -215,7 +215,7 @@
           "price_per_unit": "2.0",
           "tarif_group": "Kurtaxe",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Übernachtung"
@@ -233,7 +233,7 @@
           "price_per_unit": "475.0",
           "tarif_group": "Privater Anlass / Fest",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "pro Tag"
@@ -251,7 +251,7 @@
           "price_per_unit": "350.0",
           "tarif_group": "Privater Anlass / Fest",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "pro Tag"
@@ -269,7 +269,7 @@
           "price_per_unit": "0.0",
           "tarif_group": "Schäden",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Price",
           "unit_i18n": {
             "de": "nach Betrag"
@@ -287,7 +287,7 @@
           "price_per_unit": "0.5",
           "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Metered",
           "unit_i18n": {
             "de": "kWh"
@@ -305,7 +305,7 @@
           "price_per_unit": "100.0",
           "tarif_group": "Reservationsgebühr",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -323,7 +323,7 @@
           "price_per_unit": "0.25",
           "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Metered",
           "unit_i18n": {
             "de": "kWh"
@@ -341,7 +341,7 @@
           "price_per_unit": "15.0",
           "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Harass"
@@ -359,7 +359,7 @@
           "price_per_unit": "5.0",
           "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "pro 60 L Sack"

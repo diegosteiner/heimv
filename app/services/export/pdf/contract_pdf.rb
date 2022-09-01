@@ -42,7 +42,7 @@ module Export
       end
 
       def tarifs
-        @tarifs ||= @booking.used_tarifs.where(tenant_visible: true)
+        @tarifs ||= @booking.tarifs.where(tenant_visible: true)
       end
 
       def tarif_table_data

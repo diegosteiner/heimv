@@ -5,7 +5,9 @@
 # Table name: usages
 #
 #  id                  :bigint           not null, primary key
+#  committed           :boolean          default(FALSE)
 #  presumed_used_units :decimal(, )
+#  price_per_unit      :decimal(, )
 #  remarks             :text
 #  used_units          :decimal(, )
 #  created_at          :datetime         not null
@@ -27,8 +29,9 @@
 require 'rails_helper'
 
 RSpec.describe Usage, type: :model do
+  let(:tarif) { create(:tarif, price_per_unit: 3.33) }
+
   describe '#price' do
-    let(:tarif) { create(:tarif, price_per_unit: 3.33) }
     let(:usage) { build(:usage, tarif: tarif, used_units: 2) }
     subject { usage.price }
 
@@ -36,7 +39,8 @@ RSpec.describe Usage, type: :model do
   end
 
   describe '#save' do
-    let(:usage) { build(:usage) }
+    let(:booking) { create(:booking, home: tarif.home) }
+    let(:usage) { build(:usage, booking: booking, tarif: tarif) }
 
     it { expect(usage.save!).to be true }
   end

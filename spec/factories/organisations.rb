@@ -22,7 +22,6 @@
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
-#  notification_footer       :text
 #  notifications_enabled     :boolean          default(TRUE)
 #  payment_deadline          :integer          default(30), not null
 #  qr_iban                   :string
@@ -52,6 +51,7 @@ FactoryBot.define do
     slug { nil }
     location { nil }
     locale { I18n.locale }
+    currency { 'CHF' }
 
     after(:build) do |organisation, _evaluator|
       build(:booking_category, key: :camp, title: 'Lager', organisation: organisation)

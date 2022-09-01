@@ -22,7 +22,6 @@
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
-#  notification_footer       :text
 #  notifications_enabled     :boolean          default(TRUE)
 #  payment_deadline          :integer          default(30), not null
 #  qr_iban                   :string
@@ -62,7 +61,7 @@ class Organisation < ApplicationRecord
   locale_enum default: I18n.locale
 
   validates :booking_flow_type, presence: true
-  validates :invoice_ref_strategy_type, presence: true
+  validates :currency, :invoice_ref_strategy_type, presence: true
   validates :name, :email, presence: true
   validates :slug, uniqueness: true, allow_nil: true
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }

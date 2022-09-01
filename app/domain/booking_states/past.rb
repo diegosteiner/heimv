@@ -26,7 +26,7 @@ module BookingStates
     protected
 
     def enter_usages_checklist_item
-      ChecklistItem.new(:create_usages, booking.usages_entered?,
+      ChecklistItem.new(:create_usages, booking.usages.all?(&:committed),
                         manage_booking_usages_path(booking, org: booking.organisation.slug))
     end
 

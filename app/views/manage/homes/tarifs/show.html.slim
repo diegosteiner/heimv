@@ -4,14 +4,14 @@
   .card-body
     = render_hash_as_dl(@tarif.attributes.slice(*%w(type appliable unit price_per_unit label)), Tarif)
     br
-    = link_to edit_manage_home_tarif_path(@tarif.parent, @tarif), class: 'btn btn-primary' do
+    = link_to edit_manage_home_tarif_path(@tarif.home, @tarif), class: 'btn btn-primary' do
       span.fa.fa-edit
       '
       = t(:edit)
     '
-    = link_to manage_home_tarifs_path(@tarif.parent), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
+    = link_to manage_home_tarifs_path(@tarif.home), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
       span.fa.fa-trash
       '
       = t(:destroy)
 br
-= link_to t(:back), [:manage, @tarif.parent], class: 'btn btn-default'
+= link_to t(:back), [:manage, @tarif.home], class: 'btn btn-default'

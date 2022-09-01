@@ -37,5 +37,6 @@ FactoryBot.define do
     confirmed_at { Time.zone.now }
     email { generate(:email) }
     password { 'heimverwaltung' }
+    default_organisation { nil }
   end
 end

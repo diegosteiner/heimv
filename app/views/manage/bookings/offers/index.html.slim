@@ -5,10 +5,10 @@
     p.text-center.my-5
       = t(:no_records_yet, model_name: Offer.model_name.human(count: :other))
       =<> link_to t(:add_record, model_name: Offer.model_name.human), new_manage_booking_offer_path(@booking)
-  - elsif @booking.used_tarifs.none?
+  - elsif @booking.usages.none?
     p.text-center.my-5
       = t(:no_records_yet, model_name: Tarif.model_name.human(count: :other))
-      =<> link_to t(:add_record, model_name: Tarif.model_name.human(count: :other)), manage_booking_tarifs_path(@booking)
+      =<> link_to t(:add_record, model_name: Tarif.model_name.human(count: :other)), manage_booking_usages_path(@booking)
   - else
     p.text-center.my-5
       = t(:no_records_yet, model_name: Usage.model_name.human(count: :other))

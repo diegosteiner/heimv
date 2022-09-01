@@ -1,5 +1,17 @@
 - title "#{Booking.model_name.human} #{@booking.to_s} - #{Usage.model_name.human(count: 2)}"
 = render partial: 'manage/bookings/navigation', locals: { active: :usages, booking: @booking }
 
-= render partial: 'manage/bookings/usages/table', locals: { usages: @usages, usage_links: true, used_units_field: (params[:presumed].present? ? :presumed : :used) }
+- if @usages.any?
+  section.mt-4
+    = render layout: 'manage/bookings/usages/table', locals: { usages: @usages } do
+      - if can?(:manage, @booking)
+        button.ms-2.btn.btn-primary[type=:submit name=:return_to value=manage_booking_invoices_path(@booking)]
+          = t('manage.bookings.usages.index.save_and_continue')
 
+      = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ms-3' do 
+        i.fa.fa-print<>
+
+  hr.mt-5
+h1.mt-5= t('.applicable_tarifs', default: 'Verfügbare Tarife')
+section.mt-4
+  = render partial: 'manage/bookings/usages/table', locals: { usages: @suggested_usages }
