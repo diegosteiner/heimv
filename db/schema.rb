@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_01_101503) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -194,7 +194,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", default: 1, null: false
     t.jsonb "columns_config"
-    t.jsonb "data_digest_params", default: {}
+    t.string "group"
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
@@ -400,7 +400,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.jsonb "settings", default: {}
     t.string "qr_iban"
     t.text "creditor_address"
-    t.text "notification_footer"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
