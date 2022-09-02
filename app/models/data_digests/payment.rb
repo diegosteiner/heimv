@@ -34,7 +34,7 @@ module DataDigests
       },
       {
         header: ::Booking.human_attribute_name(:ref),
-        body: '{{ payment.booking.ref }}'
+        body: '{{ booking.ref }}'
       },
       {
         header: ::Payment.human_attribute_name(:paid_at),
@@ -46,7 +46,7 @@ module DataDigests
       },
       {
         header: ::Tenant.model_name.human,
-        body: "{{ payment.booking.tenant.full_address_lines | join: \"\n\" }}"
+        body: "{{ booking.tenant.full_address_lines | join: \"\n\" }}"
       },
       {
         header: ::Payment.human_attribute_name(:remarks),
@@ -56,7 +56,11 @@ module DataDigests
 
     column_type :default do
       body do |payment|
-        @templates[:body]&.render!('payment' => payment)
+        template_variables = {
+          'booking' => Manage::BookingSerializer.render_as_hash(payment.booking),
+          'payment' => Manage::PaymentSerializer.render_as_hash(payment)
+        }
+        @templates[:body]&.render!(template_variables.transform_values(&:deep_stringify_keys))
       end
     end
 
@@ -68,22 +72,6 @@ module DataDigests
 
     def base_scope
       @base_scope ||= organisation.payments.ordered
-    end
-
-    protected
-
-    def build_header
-      [
-        ::Booking.human_attribute_name(:ref)
-      ]
-    end
-
-    def build_data_row(payment)
-      payment.instance_eval do
-        [
-          ref, payment.booking.ref, I18n.l(paid_at, format: :default), amount, payment.booking.tenant.full_name, remarks
-        ]
-      end
     end
   end
 end

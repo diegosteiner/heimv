@@ -425,6 +425,9 @@ it:
       data_digests/booking:
         one: Buchungen Auszug
         other: Buchungen Auszüge
+      data_digests/invoice_part:
+        one: Rechnungspositionen Auszug
+        other: Rechnungspositionen Auszüge
       data_digests/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge

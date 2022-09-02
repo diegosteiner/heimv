@@ -30,5 +30,6 @@ FactoryBot.define do
     label { Faker::Name.name }
     factory :booking_data_digest, class: 'DataDigests::Booking'
     factory :payment_data_digest, class: 'DataDigests::Payment'
+    factory :invoice_part_data_digest, class: 'DataDigests::InvoicePart'
   end
 end
