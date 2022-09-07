@@ -9,7 +9,7 @@ class CacheStoreConfigService
     ActiveSupport::Cache::MemoryStore.new
   end
 
-  def self.redis(redis_url = ENV['REDIS_URL'])
+  def self.redis(redis_url = ENV.fetch('REDIS_URL', nil))
     return if redis_url.blank?
 
     ActiveSupport::Cache::RedisCacheStore.new(url: redis_url,

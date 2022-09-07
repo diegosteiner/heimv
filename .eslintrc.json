@@ -24,7 +24,8 @@
     "prettier/prettier": "warn",
     "react/jsx-uses-vars": "error",
     "react/prop-types": "off",
-    "max-len": ["error", 120]
+    "max-len": ["error", 120],
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }]
   },
   "env": {
     "browser": true,
