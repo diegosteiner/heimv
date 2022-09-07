@@ -24,11 +24,11 @@ class HomeSettings < Settings
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
 
-  def occupancy_color(occupancy)
+  def occupancy_colors
     {
       tentative: tentative_occupancy_color,
       occupied: occupied_occupancy_color,
       closed: closed_occupancy_color
-    }.fetch(occupancy&.occupancy_type&.to_sym, '#FFFFFF00')
+    }.tap { |hash| hash.default = '#FFFFFF00' }
   end
 end

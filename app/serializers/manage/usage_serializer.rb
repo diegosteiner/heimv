@@ -4,6 +4,6 @@ module Manage
   class UsageSerializer < ApplicationSerializer
     association :tarif, blueprint: Manage::TarifSerializer
 
-    fields :used_units, :price
+    fields :used_units, :price, :remarks
   end
 end

@@ -44,7 +44,9 @@
       },
       "tarifs": [
         {
-          "invoice_type": "Invoices::Deposit",
+          "invoice_types": [
+            "deposit"
+          ],
           "label_i18n": {
             "de": "Anzahlung (1 Nacht)"
           },
@@ -53,7 +55,7 @@
           "price_per_unit": "180.0",
           "tarif_group": "Anzahlung",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -62,7 +64,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Deposit",
+          "invoice_types": [
+            "deposit"
+          ],
           "label_i18n": {
             "de": "Anzahlung (2 Nächte)"
           },
@@ -71,7 +75,7 @@
           "price_per_unit": "300.0",
           "tarif_group": "Anzahlung",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -80,7 +84,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Deposit",
+          "invoice_types": [
+            "deposit"
+          ],
           "label_i18n": {
             "de": "Anzahlung (3 Nächte)"
           },
@@ -89,7 +95,7 @@
           "price_per_unit": "480.0",
           "tarif_group": "Anzahlung",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -98,7 +104,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Deposit",
+          "invoice_types": [
+            "deposit"
+          ],
           "label_i18n": {
             "de": "Anzahlung (4 Nächte)"
           },
@@ -107,7 +115,7 @@
           "price_per_unit": "600.0",
           "tarif_group": "Anzahlung",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -116,7 +124,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Lagertarif (unter 25 jährig)"
           },
@@ -125,7 +135,7 @@
           "price_per_unit": "15.0",
           "tarif_group": "Lager/Kurs",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Übernachtung"
@@ -134,7 +144,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Lagertarif (über 25 jährig)"
           },
@@ -143,7 +155,7 @@
           "price_per_unit": "20.0",
           "tarif_group": "Lager/Kurs",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Übernachtung"
@@ -152,7 +164,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Mindestbelegung Lagertarif"
           },
@@ -161,7 +175,7 @@
           "price_per_unit": "10.0",
           "tarif_group": "Lager/Kurs",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::OvernightStay",
           "unit_i18n": {
             "de": "pro Nacht"
@@ -170,7 +184,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Kurtaxe (ab 12 -18jährig)"
           },
@@ -179,7 +195,7 @@
           "price_per_unit": "0.5",
           "tarif_group": "Kurtaxe",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Übernachtung"
@@ -188,7 +204,7 @@
           "valid_until": null
         },
         {
-          "invoice_type": "",
+          "invoice_types": [],
           "label_i18n": {
             "de": "Festtarif 1 Nacht"
           },
@@ -197,7 +213,7 @@
           "price_per_unit": "600.0",
           "tarif_group": "Privater Anlass / Fest",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "pro Tag"
@@ -206,7 +222,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Kurtaxe (ab 18 Jahren)"
           },
@@ -215,7 +233,7 @@
           "price_per_unit": "2.0",
           "tarif_group": "Kurtaxe",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Übernachtung"
@@ -224,7 +242,7 @@
           "valid_until": null
         },
         {
-          "invoice_type": "",
+          "invoice_types": [],
           "label_i18n": {
             "de": "Festtarrif 2 Nächte"
           },
@@ -233,7 +251,7 @@
           "price_per_unit": "475.0",
           "tarif_group": "Privater Anlass / Fest",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "pro Tag"
@@ -242,7 +260,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Festtarrif 0 Nächte"
           },
@@ -251,7 +271,7 @@
           "price_per_unit": "350.0",
           "tarif_group": "Privater Anlass / Fest",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "pro Tag"
@@ -260,7 +280,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Schäden"
           },
@@ -269,7 +291,7 @@
           "price_per_unit": "0.0",
           "tarif_group": "Schäden",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Price",
           "unit_i18n": {
             "de": "nach Betrag"
@@ -278,7 +300,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Strom (Hochtarif)"
           },
@@ -287,7 +311,7 @@
           "price_per_unit": "0.5",
           "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Metered",
           "unit_i18n": {
             "de": "kWh"
@@ -296,7 +320,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Reservationsgebühr"
           },
@@ -305,7 +331,7 @@
           "price_per_unit": "100.0",
           "tarif_group": "Reservationsgebühr",
           "tenant_visible": true,
-          "transient": false,
+          "pin": true,
           "type": "Tarifs::Flat",
           "unit_i18n": {
             "de": "Pauschale"
@@ -314,7 +340,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Strom (Niedertarif)"
           },
@@ -323,7 +351,7 @@
           "price_per_unit": "0.25",
           "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Metered",
           "unit_i18n": {
             "de": "kWh"
@@ -332,7 +360,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Brennholz"
           },
@@ -341,7 +371,7 @@
           "price_per_unit": "15.0",
           "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "Harass"
@@ -350,7 +380,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Abfall"
           },
@@ -359,7 +391,7 @@
           "price_per_unit": "5.0",
           "tarif_group": "Nebenkosten",
           "tenant_visible": true,
-          "transient": true,
+          "pin": false,
           "type": "Tarifs::Amount",
           "unit_i18n": {
             "de": "pro 60 L Sack"

@@ -2,10 +2,7 @@
 
 module Manage
   class InvoiceSerializer < ApplicationSerializer
-    DEFAULT_INCLUDES = 'booking.occupancy,booking.tenant,booking.home'
-
-    association :booking, blueprint: Manage::BookingSerializer
-
-    fields :type, :text, :issued_at, :payable_until, :ref, :sent_at
+    fields :type, :text, :issued_at, :payable_until, :ref, :sent_at, :booking_id,
+           :amount_paid, :percentage_paid
   end
 end

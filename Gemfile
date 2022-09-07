@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 ruby '3.1.2'
 
+gem 'active_flag'
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
 gem 'blueprinter'
@@ -14,7 +15,6 @@ gem 'cancancan'
 gem 'connection_pool'
 gem 'countries'
 gem 'country_select', '~> 6.0'
-gem 'dalli'
 gem 'date_time_attribute'
 gem 'devise'
 gem 'devise-i18n'
@@ -22,7 +22,6 @@ gem 'discard'
 gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'faraday', require: false
-gem 'hiredis'
 gem 'icalendar'
 gem 'inline_svg'
 gem 'kramdown'

@@ -4,15 +4,15 @@
 #
 # Table name: data_digests
 #
-#  id                 :bigint           not null, primary key
-#  columns_config     :jsonb
-#  data_digest_params :jsonb
-#  label              :string
-#  prefilter_params   :jsonb
-#  type               :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  organisation_id    :bigint           not null
+#  id               :bigint           not null, primary key
+#  columns_config   :jsonb
+#  group            :string
+#  label            :string
+#  prefilter_params :jsonb
+#  type             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  organisation_id  :bigint           not null
 #
 # Indexes
 #
@@ -72,15 +72,17 @@ module DataDigests
 
     column_type :default do
       body do |booking|
-        @templates[:body]&.render!('booking' => booking)
+        context = TemplateContext.new(booking: booking, organisation: booking.organisation, home: booking.home)
+        @templates[:body]&.render!(context.cached)
       end
     end
 
     column_type :usage do
       body do |booking|
         tarif = ::Tarif.find_by(id: @config[:tarif_id])
-        usage = booking.usages.of_tarif(tarif).take
-        @templates[:body]&.render!('booking' => booking, 'usage' => usage)
+        context = TemplateContext.new(booking: booking, organisation: booking.organisation,
+                                      home: booking.home, usage: booking.usages.of_tarif(tarif).take)
+        @templates[:body]&.render!(context.cached)
       end
     end
 

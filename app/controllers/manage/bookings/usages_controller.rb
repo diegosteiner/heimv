@@ -7,7 +7,9 @@ module Manage
       load_and_authorize_resource :usage, through: :booking
 
       def index
-        @usages = @usages.includes(:tarif)
+        @usages = @usages.includes(tarif: :tarif_selectors)
+        @suggested_usages = Usage::Factory.new(@booking).build(usages: @usages)
+        @suggested_usages = @suggested_usages.select(&:preselect) if suggest_usages?
         respond_to do |format|
           format.html
           format.pdf do
@@ -31,7 +33,6 @@ module Manage
       end
 
       def update_many
-        set_usage_flags
         @booking.update(booking_usages_params)
         respond_with :manage, @booking, @usages,
                      responder_flash_messages(Usage.model_name.human(count: :other))
@@ -50,9 +51,8 @@ module Manage
 
       private
 
-      def set_usage_flags
-        @booking.usages_entered ||= params[:usages_entered].present?
-        @booking.usages_presumed ||= params[:usages_presumed].present?
+      def suggest_usages?
+        @booking.usages.none?(&:persisted?) || params[:suggest_usages].present?
       end
 
       def usage_params

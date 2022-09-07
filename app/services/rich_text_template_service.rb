@@ -9,26 +9,30 @@ class RichTextTemplateService
     @organisation = organisation
   end
 
-  # rubocop:disable Metrics/AbcSize
   def load_defaults_from_organisation!
     Dir[Rails.root.join('config/locales/*.yml')].each do |locale_file|
       yaml = YAML.load_file(locale_file)
       locale = yaml.keys.first
-
-      organisation.rich_text_templates.each do |rich_text_template|
-        key = rich_text_template.key
-        yaml[locale]['rich_text_templates'][key]['default_title'] = rich_text_template.title_i18n[locale]
-        yaml[locale]['rich_text_templates'][key]['default_body'] = rich_text_template.body_i18n[locale]
-      end
+      set_rich_text_template_defaults(yaml, locale)
 
       File.open(locale_file, 'wb') { _1.write yaml.to_yaml }
     end
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def set_rich_text_template_defaults(yaml, locale)
+    organisation.rich_text_templates.each do |rich_text_template|
+      key = rich_text_template.key
+      title = rich_text_template.title_i18n[locale]
+      body = rich_text_template.body_i18n[locale]
+
+      yaml[locale]['rich_text_templates'][key]['default_title'] = title if title
+      yaml[locale]['rich_text_templates'][key]['default_body'] = body if body
+    end
+  end
 
   def missing_requirements(include_optional: true)
     existing_keys = organisation.rich_text_templates.pluck(:key)
-    RichTextTemplate.required_templates.values.flatten.filter do |requirement|
+    RichTextTemplate.required_templates.values.flatten.uniq.filter do |requirement|
       existing_keys.exclude?(requirement.key.to_s) && (!requirement.optional || include_optional)
     end
   end

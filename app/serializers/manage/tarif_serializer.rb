@@ -2,8 +2,16 @@
 
 module Manage
   class TarifSerializer < ApplicationSerializer
+    fields :label, :pin, :prefill_usage_method, :price_per_unit,
+           :tarif_group, :tenant_visible, :type, :unit, :ordinal,
+           :label_i18n, :unit_i18n, :valid_from, :valid_until
+
+    field :invoice_types do |tarif|
+      tarif.invoice_types.to_a
+    end
+
     view :export do
-      fields(*Import::Hash::TarifImporter.used_attributes.map(&:to_sym))
+      include_view :default
     end
   end
 end

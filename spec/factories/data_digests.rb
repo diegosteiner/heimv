@@ -4,15 +4,15 @@
 #
 # Table name: data_digests
 #
-#  id                 :bigint           not null, primary key
-#  columns_config     :jsonb
-#  data_digest_params :jsonb
-#  label              :string
-#  prefilter_params   :jsonb
-#  type               :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  organisation_id    :bigint           not null
+#  id               :bigint           not null, primary key
+#  columns_config   :jsonb
+#  group            :string
+#  label            :string
+#  prefilter_params :jsonb
+#  type             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  organisation_id  :bigint           not null
 #
 # Indexes
 #
@@ -30,5 +30,6 @@ FactoryBot.define do
     label { Faker::Name.name }
     factory :booking_data_digest, class: 'DataDigests::Booking'
     factory :payment_data_digest, class: 'DataDigests::Payment'
+    factory :invoice_part_data_digest, class: 'DataDigests::InvoicePart'
   end
 end

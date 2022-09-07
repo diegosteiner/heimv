@@ -114,7 +114,14 @@ class Invoice < ApplicationRecord
   end
 
   def amount_paid
-    payments.sum(&:amount)
+    payments.sum(&:amount) || 0
+  end
+
+  def percentage_paid
+    return 1 if amount.nil? || amount.zero?
+    return 0 if amount_paid.zero?
+
+    amount / amount_paid
   end
 
   def sent!
@@ -137,19 +144,15 @@ class Invoice < ApplicationRecord
     @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
   end
 
-  def to_liquid
-    Manage::InvoiceSerializer.render_as_hash(self).deep_stringify_keys
-  end
-
   def suggested_invoice_parts
-    usages = booking.usages.tenant_visible.where.not(id: invoice_parts.map(&:usage_id))
+    usages = booking.usages.where.not(id: invoice_parts.map(&:usage_id))
     usages.map do |usage|
       InvoiceParts::Add.from_usage(usage, apply: apply_invoice_part?(usage))
     end
   end
 
   def apply_invoice_part?(usage)
-    tarif_invoice_type = usage.tarif.invoice_type
-    new_record? && tarif_invoice_type.present? && type.to_s == tarif_invoice_type
+    tarif = usage.tarif
+    new_record? && tarif && tarif.tenant_visible && tarif.invoice_types.include?(Tarif::INVOICE_TYPES.key(self.class))
   end
 end

@@ -26,8 +26,7 @@ module Import
       end
 
       actor do |tarif, row|
-        invoice_type = row['tarif.invoice_type']
-        tarif.invoice_type = Invoices.const_get(invoice_type) if invoice_type
+        tarif[:invoice_types] = row['tarif.invoice_type'].to_i
       end
     end
   end

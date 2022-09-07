@@ -28,8 +28,7 @@
 class Home < ApplicationRecord
   has_many :occupancies, dependent: :destroy
   has_many :bookings, dependent: :restrict_with_error
-  has_many :tarifs, ->(home) { Tarif.unscoped.where(home: home, booking: nil).ordered },
-           dependent: :destroy, inverse_of: :home
+  has_many :tarifs, -> { ordered }, dependent: :destroy, inverse_of: :home
   has_many :meter_reading_periods, -> { ordered }, through: :tarifs, inverse_of: :home, dependent: :destroy
   has_many :rich_text_templates, inverse_of: :home, dependent: :destroy
   has_many :operator_responsibilities, inverse_of: :home, dependent: :destroy
@@ -50,10 +49,6 @@ class Home < ApplicationRecord
 
   def to_s
     name
-  end
-
-  def to_liquid
-    Manage::HomeSerializer.render_as_hash(self).deep_stringify_keys
   end
 
   def cover_image_url; end

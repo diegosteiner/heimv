@@ -26,7 +26,6 @@ class BookingDeletionService
   def delete_dependent!(booking)
     booking.logs.destroy_all
     booking.usages.destroy_all
-    booking.booking_copy_tarifs.destroy_all
     booking.contracts.destroy_all
     booking.invoices.destroy_all
     booking.payments.destroy_all

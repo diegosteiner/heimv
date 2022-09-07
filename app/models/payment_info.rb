@@ -31,8 +31,4 @@ class PaymentInfo
       formatted_amount: format('%<amount>0.2f', amount: amount)
     }
   end
-
-  def to_liquid
-    to_h.deep_stringify_keys
-  end
 end

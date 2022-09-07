@@ -4,15 +4,15 @@
 #
 # Table name: data_digests
 #
-#  id                 :bigint           not null, primary key
-#  columns_config     :jsonb
-#  data_digest_params :jsonb
-#  label              :string
-#  prefilter_params   :jsonb
-#  type               :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  organisation_id    :bigint           not null
+#  id               :bigint           not null, primary key
+#  columns_config   :jsonb
+#  group            :string
+#  label            :string
+#  prefilter_params :jsonb
+#  type             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  organisation_id  :bigint           not null
 #
 # Indexes
 #
@@ -34,7 +34,7 @@ module DataDigests
       },
       {
         header: ::Booking.human_attribute_name(:ref),
-        body: '{{ payment.booking.ref }}'
+        body: '{{ booking.ref }}'
       },
       {
         header: ::Payment.human_attribute_name(:paid_at),
@@ -46,7 +46,7 @@ module DataDigests
       },
       {
         header: ::Tenant.model_name.human,
-        body: "{{ payment.booking.tenant.full_address_lines | join: \"\n\" }}"
+        body: "{{ booking.tenant.full_address_lines | join: \"\n\" }}"
       },
       {
         header: ::Payment.human_attribute_name(:remarks),
@@ -56,7 +56,10 @@ module DataDigests
 
     column_type :default do
       body do |payment|
-        @templates[:body]&.render!('payment' => payment)
+        booking = payment.booking
+        context = TemplateContext.new(booking: booking, organisation: booking.organisation,
+                                      home: booking.home, payment: payment)
+        @templates[:body]&.render!(context.cached)
       end
     end
 
@@ -68,22 +71,6 @@ module DataDigests
 
     def base_scope
       @base_scope ||= organisation.payments.ordered
-    end
-
-    protected
-
-    def build_header
-      [
-        ::Booking.human_attribute_name(:ref)
-      ]
-    end
-
-    def build_data_row(payment)
-      payment.instance_eval do
-        [
-          ref, payment.booking.ref, I18n.l(paid_at, format: :default), amount, payment.booking.tenant.full_name, remarks
-        ]
-      end
     end
   end
 end

@@ -131,8 +131,8 @@ fr:
         title: Titel
       data_digest:
         columns_config: Spaltenkonfiguration
+        group: Gruppe
         label: Name
-        tarif_ids: Tarife
         type: Art
       deadline:
         armed: Aktiviert
@@ -165,6 +165,7 @@ fr:
         issued_at: Ausgestellt am
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
+        percentage_paid: "% bezahlt"
         print_payment_slip: Einzahlungsschein drucken
         ref: Referenznummer
         sent_at: Rechnungsdatum
@@ -230,7 +231,6 @@ fr:
         logo: Logo
         mail_from: Absender von Emails
         name: Name
-        notification_footer: Fusszeile für Nachrichten
         notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
         qr_iban: QR-IBAN
@@ -259,15 +259,16 @@ fr:
         namespace: Bereich
         title: Titel
       tarif:
-        invoice_type: Appartient au type de facture
+        accountancy_account: zugewiesenes Buchhaltungskonto
+        invoice_types: Ausgewiesen in Rechnungsarten
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
         ordinal: numéro d'ordre
+        pin: ne PAS fixer le tarif à la réservation
         prefill_usage_method: méthode de pré-remplissage
         price_per_unit: prix (par unité)
         tarif_group: groupe tarifaire
         tenant_visible: visible pour le locataire (contrat et facture)
-        transient: ne PAS fixer le tarif à la réservation
         type: type
         unit: unité
       tarif_selector:
@@ -295,9 +296,9 @@ fr:
         zipcode: PLZ
       usage:
         apply: Appliquer
-        presumed_price: prix estimé
-        presumed_used_units: consommation estimée
+        committed: verbindlich
         price: Prix
+        price_per_unit: Preis pro Einheit
         remarks: Remarques
         used_units: Consommation
       user:
@@ -426,30 +427,12 @@ fr:
       data_digests/booking:
         one: Buchungen Auszug
         other: Buchungen Auszüge
-      data_digests/booking_data_digest:
-        one: Belegungen Bericht
-        other: Belegungen Berichte
-      data_digests/home_booking_plan:
-        one: Belegungsplan Auszug
-        other: Belegungsplan Auszüge
-      data_digests/meter_reading_period:
-        one: Zähler Auszug
-        other: Zähler Auszüge
-      data_digests/parahotelerie_statistics:
-        one: Parahotelerie Statistik Auszug
-        other: Parahotelerie Statistik Auszüge
+      data_digests/invoice_part:
+        one: Rechnungspositionen Auszug
+        other: Rechnungspositionen Auszüge
       data_digests/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
-      data_digests/tarif:
-        one: Tarif Auszug
-        other: Tarif Auszüge
-      data_digests/tax:
-        one: Kurtaxen Auszug
-        other: Kurtaxen Auszüge
-      data_digests/tenant:
-        one: Mieter Auszug
-        other: Mieter Auszüge
       deadline:
         one: Frist
         other: Fristen
@@ -677,8 +660,6 @@ fr:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
-  bookings:
-    not_committed_yet: Die Buchung ist noch nicht definitiv.
   confirm: Sind sie sicher?
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
@@ -985,6 +966,7 @@ fr:
           notice: Deine Reservationsanfrage wurde erfasst und ein E-Mail mit dem Bestätigungslink an %{email} gesendet. Bitte klicke den Link um die Anfrage abzuschliessen.
         update:
           notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
+  from: von
   generated: wird automatisch generiert
   helpers:
     select:
@@ -1018,18 +1000,19 @@ fr:
         canned_filter_default: Canned filter default
         canned_filter_upcoming: Canned filter upcoming
         too_many_records: Too many records
+      navigation:
+        costs: Kosten
+      not_committed_yet: Die Buchung ist noch nicht definitiv.
       show:
         checklist: Checkliste
         logged_changes: "%{changes} bearbeitet"
         public_booking_url: Link für Mieter
-      tarifs:
+      usages:
         index:
           applicable_tarifs: Anwendbare Tarife
-          used_tarifs: Angewandte Tarife
-      usages:
+          save_and_continue: Speichern und Rechnung erstellen
         table:
           save: "%{model_name} speichern"
-          save_and_continue: Speichern und Rechnung erstellen
     dashboard:
       index:
         ics_link: comme ICAL

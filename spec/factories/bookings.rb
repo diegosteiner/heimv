@@ -27,8 +27,6 @@
 #  state_data             :json
 #  tenant_organisation    :string
 #  token                  :string
-#  usages_entered         :boolean          default(FALSE)
-#  usages_presumed        :boolean          default(FALSE)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  booking_category_id    :integer

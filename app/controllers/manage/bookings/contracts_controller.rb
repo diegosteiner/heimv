@@ -16,7 +16,8 @@ module Manage
         rich_text_template = current_organisation.rich_text_templates.enabled.by_key(:contract_text,
                                                                                      home_id: @booking.home_id)
         I18n.with_locale(@booking.locale) do
-          @contract.text = rich_text_template&.interpolate('booking' => @booking)&.body
+          @contract.text = rich_text_template&.interpolate(booking: @booking, home: @booking.home,
+                                                           organisation: @booking.organisation)&.body
         end
         respond_with :manage, @booking, @contract
       end

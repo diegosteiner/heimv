@@ -2,12 +2,10 @@
 = form_with(model: @data_digest, url: form_url, scope: :data_digest, local: true) do |f|
   = f.hidden_field :type
   = f.text_field :label
+  = f.text_field :group
 
   - if can?(:manage, DataDigest)
     = f.text_area :columns_config, value: JSON.generate(@data_digest.columns_config)
- 
-  - if @data_digest.is_a?(DataDigests::Tarif)
-    = f.select :tarif_ids, @data_digest.tarif_options, {}, multiple: true
  
   - if @data_digest.is_a?(DataDigests::Booking)
     h5= Booking::Filter.model_name.human

@@ -1,8 +1,4 @@
 = form_with(url: manage_booking_usages_path(@booking), scope: :usages, method: :PUT, local: true, html: { novalidate: true }) do |f|
-  = hidden_field_tag :return_to, return_to if defined?(return_to)
-  = hidden_field_tag :usages_entered, 1 if defined?(used_units_field) && (used_units_field == :used)
-  = hidden_field_tag :usages_presumed, 1 if defined?(used_units_field) && (used_units_field == :presumed)
-
   .table-responsive
     table.table.align-middle
       thead
@@ -11,9 +7,8 @@
           th= Tarif.model_name.human
           th= Tarif.human_attribute_name(:price_per_unit)
           th= Tarif.human_attribute_name(:unit)
-          - if defined?(used_units_field) && used_units_field
-            th[style="width: 30%;"]= Usage.model_name.human
-            th= Usage.human_attribute_name(:price)
+          th[style="width: 30%;"]= Usage.model_name.human
+          th= Usage.human_attribute_name(:price)
           th
 
       - grouped_usages = usages.group_by { |usage| usage.tarif.tarif_group }
@@ -23,7 +18,7 @@
 
         thead
           tr
-            th.pt-4[colspan='9']
+            th[colspan='9']
               h5
                 = tarif_group
                 a.badge.rounded-pill.bg-secondary.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
@@ -40,38 +35,24 @@
                   = uf.hidden_field :tarif_id
                   = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label, wrapper: { style: 'margin-bottom: 0 !important' } }, '0', '1'
                 td
-                  = number_to_currency(usage.tarif.price_per_unit, unit: '')
+                  = number_to_currency(usage.price_per_unit, unit: '')
                   small.d-block.text-secondary= @booking.organisation.currency
                 td
                   = usage.tarif.unit
                   small.d-block.text-secondary= usage.tarif.class.model_name.human
-
-                - if defined?(used_units_field) && used_units_field
-                  td
-                    = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif, presumed: (used_units_field == :presumed) }
-                  td
-                    = number_to_currency(usage.price, unit: '')
-                    small.d-block.text-secondary= @booking.organisation.currency
-                - else
-                  = uf.hidden_field :used_units
+                td
+                  = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
+                td
+                  = number_to_currency(usage.price, unit: '')
+                  small.d-block.text-secondary= @booking.organisation.currency
                 td.text-end
                   .btn-group
-                    - if defined?(usage_links) && usage_links && !usage.new_record?
+                    - if !usage.new_record?
                       = link_to edit_manage_booking_usage_path(@booking, usage), class: 'btn btn-default' do
                         span.fa.fa-edit
-                    - if defined?(tarif_links) && tarif_links && usage.tarif.booking_copy?
-                      = link_to edit_manage_booking_tarif_path(@booking, usage.tarif), class: 'btn btn-default' do
-                        span.fa.fa-edit
-    .mt-5
+  .mt-4
+    - if can?(:manage, @booking)
+      button.btn.btn-secondary[type=:submit name=:commit]
+        = t('.save', model_name: Usage.model_name.human)
 
-      - if can?(:manage, @booking)
-        button.btn.btn-secondary[type=:submit name=:commit]
-          = t('.save', model_name: defined?(used_units_field) && used_units_field ? Usage.model_name.human : Tarif.model_name.human(count: :other))
-
-        - if defined?(used_units_field)
-          button.ms-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking)]
-            = t('.save_and_continue')
-
-        - if defined?(used_units_field)
-          = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ms-3' do 
-            i.fa.fa-print<>
+    = yield

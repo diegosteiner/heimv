@@ -6,14 +6,12 @@ module Public
     association :homes, blueprint: Public::HomeSerializer
 
     fields :name, :address, :booking_flow_type, :invoice_ref_strategy_type, :location, :slug,
-           :esr_beneficiary_account, :email, :payment_deadline, :notifications_enabled
+           :esr_beneficiary_account, :email, :payment_deadline, :notifications_enabled, :currency
 
     field :designated_documents do |organisation|
-      DesignatedDocument.designations.keys.filter_map do |designation|
-        next unless organisation.designated_documents.exists?(designation: designation)
-
+      organisation.designated_documents.pluck(:designation).map do |designation|
         [designation, url.public_designated_document_url(org: organisation.slug, designation: designation)]
-      end.to_h
+      end
     end
 
     field :logo do |organisation|

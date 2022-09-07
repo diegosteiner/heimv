@@ -7,8 +7,5 @@
       = fm.number_field :end_value, skip_label: true, wrapper: false, class: 'text-end w-100 me-1', tabindex: 1
       small.form-text.text-muted= MeterReadingPeriod.human_attribute_name(:end_value)
   div
-    - if presumed
-      = f.number_field :presumed_used_units, skip_label: true, wrapper: false, class: 'text-end w-100 presumed-usage', tabindex: 1
-    - else
-      = f.number_field :used_units, skip_label: true, wrapper: false, class: 'text-end w-100', tabindex: 1
+    = f.number_field :used_units, skip_label: true, wrapper: false, class: 'text-end w-100', tabindex: 1
     small.form-text.text-muted= Usage.human_attribute_name(:used_units)

@@ -87,7 +87,6 @@
           - @booking.errors[:category].each do |error|
             .invalid-feedback.d-block = error
 
-
         = f.text_field :purpose_description, disabled: !@booking.editable
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable

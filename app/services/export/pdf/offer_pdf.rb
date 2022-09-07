@@ -57,7 +57,7 @@ module Export
           usage.tarif.unit,
           number_to_currency(usage.tarif.price_per_unit || 0, currency: @organisation.currency),
           usage.presumed_used_units,
-          number_to_currency(usage.presumed_price || 0, currency: @organisation.currency)
+          number_to_currency(usage.price || 0, currency: @organisation.currency)
         ]
       end
 

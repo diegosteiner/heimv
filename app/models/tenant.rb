@@ -120,10 +120,6 @@ class Tenant < ApplicationRecord
       (!birth_date_required? || birth_date.present?)
   end
 
-  def to_liquid
-    Public::TenantSerializer.render_as_hash(self).deep_stringify_keys
-  end
-
   def birth_date_required?
     organisation.settings.tenant_birth_date_required
   end

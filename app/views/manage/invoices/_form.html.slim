@@ -9,7 +9,8 @@
         = f.hidden_field :booking_id, id: ''
         = f.collection_select :booking_id, [@invoice.booking, @invoice.organisation.bookings.inconcluded.order(ref: :ASC)].flatten, :id, :to_s, { hide_label: true }, disabled: true
       .col-1.d-grid
-        a.btn.btn-default[type="button" data-bs-toggle="disable" href="#invoice_booking_id"]
+        input.btn-check[type="checkbox" id="toggle_invoice_booking_id" data-bs-toggle="disable" data-bs-target="#invoice_booking_id"]
+        label.btn.btn-default.mb-3 for="toggle_invoice_booking_id" 
           i.fa.fa-unlock
 
     = f.text_field :ref, help: t('generated')

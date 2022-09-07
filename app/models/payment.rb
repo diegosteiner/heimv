@@ -60,10 +60,6 @@ class Payment < ApplicationRecord
     PaymentConfirmation.new(self).deliver unless write_off
   end
 
-  def to_liquid
-    Manage::PaymentSerializer.render_as_hash(self).deep_stringify_keys
-  end
-
   def recalculate_invoice
     invoice&.recalculate!
   end

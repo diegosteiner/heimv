@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_07_085404) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -150,14 +150,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.text "invoice_address"
     t.string "ref"
     t.boolean "editable", default: true
-    t.boolean "usages_entered", default: false
     t.boolean "notifications_enabled", default: false
     t.jsonb "import_data"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.text "internal_remarks"
     t.boolean "concluded", default: false
-    t.boolean "usages_presumed", default: false
     t.bigint "deadline_id"
     t.string "locale"
     t.integer "booking_category_id"
@@ -192,11 +190,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.string "type"
     t.string "label"
     t.jsonb "prefilter_params", default: {}
-    t.jsonb "data_digest_params", default: {}
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
     t.jsonb "columns_config"
+    t.string "group"
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
@@ -379,7 +377,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.string "booking_flow_type"
     t.string "invoice_ref_strategy_type"
     t.string "esr_beneficiary_account"
-    t.text "notification_footer"
     t.string "currency", default: "CHF"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -448,23 +445,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
 
   create_table "tarifs", force: :cascade do |t|
     t.string "type"
-    t.boolean "transient", default: false
+    t.boolean "pin", default: true
     t.uuid "booking_id"
     t.bigint "home_id"
-    t.bigint "booking_copy_template_id"
     t.decimal "price_per_unit"
     t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until", precision: nil
     t.integer "ordinal"
     t.string "tarif_group"
-    t.string "invoice_type"
     t.string "prefill_usage_method"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "tenant_visible", default: true
     t.jsonb "label_i18n", default: {}
     t.jsonb "unit_i18n", default: {}
-    t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
+    t.string "accountancy_account"
+    t.integer "invoice_types", default: 0, null: false
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
     t.index ["type"], name: "index_tarifs_on_type"
@@ -507,6 +503,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_115708) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.decimal "presumed_used_units"
+    t.boolean "committed", default: false
+    t.decimal "price_per_unit"
     t.index ["booking_id"], name: "index_usages_on_booking_id"
     t.index ["tarif_id", "booking_id"], name: "index_usages_on_tarif_id_and_booking_id", unique: true
   end
