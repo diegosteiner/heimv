@@ -2,14 +2,14 @@
 
 class CacheStoreConfigService
   def self.derive
-    redis
+    redis || in_memory
   end
 
   def self.in_memory
     ActiveSupport::Cache::MemoryStore.new
   end
 
-  def self.redis(redis_url = ENV.slice('REDIS_TLS_URL', 'REDIS_URL').values.compact.first)
+  def self.redis(redis_url = ENV['REDIS_URL'])
     return if redis_url.blank?
 
     ActiveSupport::Cache::RedisCacheStore.new(url: redis_url, driver: :hiredis,
