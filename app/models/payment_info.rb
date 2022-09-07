@@ -8,6 +8,7 @@ class PaymentInfo
   attr_reader :invoice
 
   delegate :amount, :ref, :invoice_ref_strategy, :organisation, :booking, to: :invoice
+  delegate :iban, to: :organisation
 
   def initialize(invoice)
     @invoice = invoice
@@ -21,14 +22,17 @@ class PaymentInfo
     invoice_ref_strategy.format_ref(ref)
   end
 
+  def formatted_amount
+    format('%<amount>0.2f', amount: amount)
+  end
+
   def self.human_model_name(*args)
     model_name.human(*args)
   end
 
   def to_h
     {
-      ref: ref, amount: amount, formatted_ref: formatted_ref, iban: organisation.iban,
-      formatted_amount: format('%<amount>0.2f', amount: amount)
+      ref: ref, amount: amount, formatted_ref: formatted_ref, iban: iban, formatted_amount: formatted_amount
     }
   end
 end
