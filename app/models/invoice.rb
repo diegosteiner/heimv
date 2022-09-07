@@ -145,14 +145,14 @@ class Invoice < ApplicationRecord
   end
 
   def suggested_invoice_parts
-    usages = booking.usages.tenant_visible.where.not(id: invoice_parts.map(&:usage_id))
+    usages = booking.usages.where.not(id: invoice_parts.map(&:usage_id))
     usages.map do |usage|
       InvoiceParts::Add.from_usage(usage, apply: apply_invoice_part?(usage))
     end
   end
 
   def apply_invoice_part?(usage)
-    tarif_invoice_type = usage.tarif.invoice_type
-    new_record? && tarif_invoice_type.present? && type.to_s == tarif_invoice_type
+    tarif = usage.tarif
+    new_record? && tarif && tarif.tenant_visible && tarif.invoice_type.present? && type.to_s == tarif.invoice_type
   end
 end
