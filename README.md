@@ -137,7 +137,7 @@ Prepare a csv with these columns, including a header, as utf-8:
 - tarif_group
 - unit
 - price
-- invoice_type
+- invoice_types
 
 Then import data with:
 

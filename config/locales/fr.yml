@@ -259,7 +259,8 @@ fr:
         namespace: Bereich
         title: Titel
       tarif:
-        invoice_type: Appartient au type de facture
+        accountancy_account: zugewiesenes Buchhaltungskonto
+        invoice_types: Ausgewiesen in Rechnungsarten
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
         ordinal: numéro d'ordre

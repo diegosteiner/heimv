@@ -5,7 +5,8 @@
 # Table name: tarifs
 #
 #  id                   :bigint           not null, primary key
-#  invoice_type         :string
+#  accountancy_account  :string
+#  invoice_types        :integer          default(0), not null
 #  label_i18n           :jsonb
 #  ordinal              :integer
 #  pin                  :boolean          default(TRUE)
@@ -30,12 +31,14 @@
 #
 
 class Tarif < ApplicationRecord
+  INVOICE_TYPES = { deposit: Invoices::Deposit, invoice: Invoices::Invoice, late_notice: Invoices::LateNotice }.freeze
   include ActiveSupport::NumberHelper
 
   extend TemplateRenderable
   include TemplateRenderable
   extend Mobility
   include Subtypeable
+  flag :invoice_types, INVOICE_TYPES.keys
 
   belongs_to :home, optional: true
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
@@ -57,6 +60,8 @@ class Tarif < ApplicationRecord
 
   accepts_nested_attributes_for :tarif_selectors, reject_if: :all_blank, allow_destroy: true
 
+  delegate :organisation, to: :home
+
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')
   end
@@ -64,8 +69,6 @@ class Tarif < ApplicationRecord
   def unit_with_prefix
     [unit_prefix, unit].compact_blank.join(' ')
   end
-
-  delegate :organisation, to: :home
 
   def before_usage_validation(_usage); end
 

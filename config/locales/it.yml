@@ -259,7 +259,8 @@ it:
         namespace: Bereich
         title: Titel
       tarif:
-        invoice_type: Rechnungstyp
+        accountancy_account: zugewiesenes Buchhaltungskonto
+        invoice_types: Ausgewiesen in Rechnungsarten
         label: Tarif
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         ordinal: Ordnungsnummer

@@ -20,8 +20,9 @@
     = f.select :type, subtype_options_for_select(Tarif.subtypes), include_blank: true
     = f.text_field :tarif_group
     = f.number_field :ordinal, step: 1.0
-    = f.select :invoice_type, subtype_options_for_select(Invoice.subtypes), include_blank: true
+    = f.collection_check_boxes :invoice_types, Tarif.invoice_types.keys, :itself, ->(key) { Tarif::INVOICE_TYPES[key]&.model_name&.human }
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
+    = f.text_field :accountancy_account
     = f.number_field :price_per_unit, step: 0.01
     = f.check_box :tenant_visible
     = f.check_box :pin

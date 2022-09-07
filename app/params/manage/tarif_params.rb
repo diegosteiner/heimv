@@ -7,10 +7,10 @@ module Manage
     end
 
     def self.permitted_keys
-      %i[type label unit price_per_unit ordinal tarif_group invoice_type
+      %i[type label unit price_per_unit ordinal tarif_group accountancy_account
          tenant_visible prefill_usage_method pin] +
         I18n.available_locales.map { |locale| ["label_#{locale}", "unit_#{locale}"] }.flatten +
-        [{ tarif_selectors_attributes: TarifSelectorParams.permitted_keys + %i[id _destroy] }]
+        [{ invoice_types: [], tarif_selectors_attributes: TarifSelectorParams.permitted_keys + %i[id _destroy] }]
     end
   end
 end

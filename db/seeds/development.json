@@ -44,7 +44,9 @@
       },
       "tarifs": [
         {
-          "invoice_type": "Invoices::Deposit",
+          "invoice_types": [
+            "deposit"
+          ],
           "label_i18n": {
             "de": "Anzahlung (1 Nacht)"
           },
@@ -62,7 +64,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Deposit",
+          "invoice_types": [
+            "deposit"
+          ],
           "label_i18n": {
             "de": "Anzahlung (2 Nächte)"
           },
@@ -80,7 +84,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Deposit",
+          "invoice_types": [
+            "deposit"
+          ],
           "label_i18n": {
             "de": "Anzahlung (3 Nächte)"
           },
@@ -98,7 +104,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Deposit",
+          "invoice_types": [
+            "deposit"
+          ],
           "label_i18n": {
             "de": "Anzahlung (4 Nächte)"
           },
@@ -116,7 +124,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Lagertarif (unter 25 jährig)"
           },
@@ -134,7 +144,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Lagertarif (über 25 jährig)"
           },
@@ -152,7 +164,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Mindestbelegung Lagertarif"
           },
@@ -170,7 +184,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Kurtaxe (ab 12 -18jährig)"
           },
@@ -188,7 +204,7 @@
           "valid_until": null
         },
         {
-          "invoice_type": "",
+          "invoice_types": [],
           "label_i18n": {
             "de": "Festtarif 1 Nacht"
           },
@@ -206,7 +222,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Kurtaxe (ab 18 Jahren)"
           },
@@ -224,7 +242,7 @@
           "valid_until": null
         },
         {
-          "invoice_type": "",
+          "invoice_types": [],
           "label_i18n": {
             "de": "Festtarrif 2 Nächte"
           },
@@ -242,7 +260,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Festtarrif 0 Nächte"
           },
@@ -260,7 +280,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Schäden"
           },
@@ -278,7 +300,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Strom (Hochtarif)"
           },
@@ -296,7 +320,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Reservationsgebühr"
           },
@@ -314,7 +340,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Strom (Niedertarif)"
           },
@@ -332,7 +360,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Brennholz"
           },
@@ -350,7 +380,9 @@
           "valid_until": null
         },
         {
-          "invoice_type": "Invoices::Invoice",
+          "invoice_types": [
+            "invoice"
+          ],
           "label_i18n": {
             "de": "Abfall"
           },

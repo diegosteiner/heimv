@@ -5,7 +5,8 @@
 # Table name: tarifs
 #
 #  id                   :bigint           not null, primary key
-#  invoice_type         :string
+#  accountancy_account  :string
+#  invoice_types        :integer          default(0), not null
 #  label_i18n           :jsonb
 #  ordinal              :integer
 #  pin                  :boolean          default(TRUE)

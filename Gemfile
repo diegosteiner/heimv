@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 ruby '3.1.2'
 
+gem 'active_flag'
 gem 'aws-sdk-s3', require: false
 gem 'barnes'
 gem 'blueprinter'

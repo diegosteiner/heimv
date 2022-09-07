@@ -6,12 +6,12 @@ RSpec.describe Import::Csv::TarifImporter, type: :model do
   let(:organisation) { create(:organisation) }
   let(:home) { create(:home, organisation: organisation) }
   let(:header_mapping) do
-    %w[tarif.ordinal tarif.label tarif.type tarif.tarif_group tarif.unit tarif.price tarif.invoice_type]
+    %w[tarif.ordinal tarif.label tarif.type tarif.tarif_group tarif.unit tarif.price tarif.invoice_types]
   end
   let(:importer) { described_class.new(home, csv: { headers: header_mapping }) }
   let(:csv) do
     <<~ENDCSV
-      "ordinal","label","type","tarif_group","unit","price","invoice_type"
+      "ordinal","label","type","tarif_group","unit","price","invoice_types"
       11,"Tagesmiete auswärtige Pfadi","Tarifs::Flat","Tagesmiete",,150,
       12,"Tagesmiete Dritte / Privat","Tarifs::Flat","Tagesmiete",,380,
       ,,,,,,

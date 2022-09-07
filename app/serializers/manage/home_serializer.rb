@@ -8,7 +8,7 @@ module Manage
     end
 
     view :export do
-      fields(*Import::Hash::HomeImporter.used_attributes.map(&:to_sym))
+      include_view :default
       association :tarifs, blueprint: Manage::TarifSerializer, view: :export
     end
   end

@@ -5,7 +5,8 @@
 # Table name: tarifs
 #
 #  id                   :bigint           not null, primary key
-#  invoice_type         :string
+#  accountancy_account  :string
+#  invoice_types        :integer          default(0), not null
 #  label_i18n           :jsonb
 #  ordinal              :integer
 #  pin                  :boolean          default(TRUE)
@@ -36,7 +37,7 @@ FactoryBot.define do
     unit { 'Übernachtung (unter 16 Jahren)' }
     price_per_unit { 15.0 }
     home
-    invoice_type { Invoices::Invoice.to_s }
+    invoice_types { Tarif.invoice_types.keys }
     prefill_usage_method { nil }
   end
 end

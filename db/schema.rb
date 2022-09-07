@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_01_101503) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_07_085404) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -453,13 +453,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_101503) do
     t.datetime "valid_until", precision: nil
     t.integer "ordinal"
     t.string "tarif_group"
-    t.string "invoice_type"
     t.string "prefill_usage_method"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "tenant_visible", default: true
     t.jsonb "label_i18n", default: {}
     t.jsonb "unit_i18n", default: {}
+    t.string "accountancy_account"
+    t.integer "invoice_types", default: 0, null: false
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
     t.index ["type"], name: "index_tarifs_on_type"
