@@ -49,8 +49,8 @@ RSpec.describe DataDigests::InvoicePart, type: :model do
 
     it { is_expected.to be_a(DataDigest::PeriodicData) }
     # it { expect(periodic_data.data.count).to be(invoice_parts.count) }
-    # its(:header) do
-    #   is_expected.to eq(['Referenznummer', 'Buchungsreferenz', 'Paid at', 'Ausgestellt am',
+    # it(:header) do
+    #   is_expected.to have_attributes(header: ['Referenznummer', 'Buchungsreferenz', 'Paid at', 'Ausgestellt am',
     #                      'Tarifbezeichnung', 'Text', 'Aufschlüsselung', 'Betrag', 'Remarks'])
     # end
   end

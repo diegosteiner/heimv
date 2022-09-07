@@ -41,9 +41,10 @@ RSpec.describe DataDigests::Booking, type: :model do
     context 'with default columns' do
       it { is_expected.to be_a(DataDigest::PeriodicData) }
       it { expect(periodic_data.data.count).to be(3) }
-      its(:header) do
-        is_expected.to eq(['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung',
-                           'Beschreibung des Mietzwecks', 'Nächte', 'Mieter', 'Adresse', 'Email', 'Telefon'])
+      it do
+        is_expected.to have_attributes(header: ['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung',
+                                                'Beschreibung des Mietzwecks', 'Nächte', 'Mieter', 'Adresse', 'Email',
+                                                'Telefon'])
       end
     end
 
@@ -71,8 +72,10 @@ RSpec.describe DataDigests::Booking, type: :model do
 
       it { is_expected.to be_a(DataDigest::PeriodicData) }
       it { expect(periodic_data.data.count).to be(3) }
-      its(:header) { is_expected.to eq(['Ref', 'Usage Price']) }
-      its(:rows) { is_expected.to eq(bookings.map { |booking| [booking.ref, 'CHF 15.00'] }) }
+      it {
+        is_expected.to have_attributes(header: ['Ref', 'Usage Price'],
+                                       rows: bookings.map { |booking| [booking.ref, 'CHF 15.00'] })
+      }
     end
   end
 
