@@ -34,7 +34,9 @@ class OrganisationMailer < ApplicationMailer
   end
 
   def set_delivery_options
-    mail.delivery_method.settings.merge!(@organisation.smtp_settings.to_h) if @organisation.smtp_settings.present?
+    return unless Rails.env.production? && @organisation.smtp_settings.present?
+
+    mail.delivery_method.settings.merge!(@organisation.smtp_settings.to_h)
   end
 
   # rubocop:disable Naming/MemoizedInstanceVariableName
