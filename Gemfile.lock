@@ -141,7 +141,6 @@ GEM
       countries (~> 4.2)
       sort_alphabetical (~> 1.1)
     crass (1.0.6)
-    dalli (3.2.2)
     database_cleaner (2.0.1)
       database_cleaner-active_record (~> 2.0.0)
     database_cleaner-active_record (2.0.1)
@@ -188,7 +187,6 @@ GEM
     globalid (1.0.0)
       activesupport (>= 5.0)
     highline (2.0.3)
-    hiredis (0.6.3)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     i18n-tasks (0.9.37)
@@ -465,7 +463,6 @@ DEPENDENCIES
   connection_pool
   countries
   country_select (~> 6.0)
-  dalli
   database_cleaner
   date_time_attribute
   devise
@@ -477,7 +474,6 @@ DEPENDENCIES
   faker
   faraday
   foreman
-  hiredis
   i18n-tasks
   i18n-tasks-csv
   icalendar

@@ -12,7 +12,7 @@ class CacheStoreConfigService
   def self.redis(redis_url = ENV['REDIS_URL'])
     return if redis_url.blank?
 
-    ActiveSupport::Cache::RedisCacheStore.new(url: redis_url, driver: :hiredis,
+    ActiveSupport::Cache::RedisCacheStore.new(url: redis_url,
                                               namespace: :heimv_cache,
                                               connect_timeout: 30, # Defaults to 20 seconds
                                               read_timeout: 0.2, # Defaults to 1 second
