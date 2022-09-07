@@ -13,7 +13,8 @@ module Manage
       def new
         @offer.valid_from = Time.zone.now
         @offer.text = current_organisation.rich_text_templates.enabled.by_key(:offer_text)
-          &.interpolate('booking' => @booking)&.body
+          &.interpolate(booking: @booking, home: @booking.home,
+                        organisation: @booking.organisation)&.body
         respond_with :manage, @booking, @offer
       end
 

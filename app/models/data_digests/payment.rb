@@ -56,11 +56,10 @@ module DataDigests
 
     column_type :default do
       body do |payment|
-        template_variables = {
-          'booking' => Manage::BookingSerializer.render_as_hash(payment.booking),
-          'payment' => Manage::PaymentSerializer.render_as_hash(payment)
-        }
-        @templates[:body]&.render!(template_variables.transform_values(&:deep_stringify_keys))
+        booking = payment.booking
+        context = TemplateContext.new(booking: booking, organisation: booking.organisation,
+                                      home: booking.home, payment: payment)
+        @templates[:body]&.render!(context.cached)
       end
     end
 

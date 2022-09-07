@@ -51,9 +51,5 @@ class Home < ApplicationRecord
     name
   end
 
-  def to_liquid
-    Manage::HomeSerializer.render_as_hash(self).deep_stringify_keys
-  end
-
   def cover_image_url; end
 end

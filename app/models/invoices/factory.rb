@@ -26,16 +26,17 @@ module Invoices
     def defaults(booking)
       {
         type: Invoices::Invoice.to_s, issued_at: Time.zone.today, booking: booking,
-        payment_info_type: booking.organisation.default_payment_info_type || PaymentInfos::OrangePaymentSlip
+        payment_info_type: booking.organisation.default_payment_info_type || PaymentInfos::QrBill
       }
     end
 
     def rich_text_template(invoice)
       key = "#{invoice.model_name.param_key}_text"
-      rich_text_template = invoice.organisation.rich_text_templates.enabled.by_key(key,
-                                                                                   home_id: invoice.booking.home_id)
+      booking = invoice.booking
+      rich_text_template = invoice.organisation.rich_text_templates.enabled.by_key(key, home_id: booking.home_id)
       I18n.with_locale(invoice.booking.locale) do
-        rich_text_template&.interpolate('invoice' => invoice, 'booking' => invoice.booking)&.body
+        rich_text_template&.interpolate(invoice: invoice, booking: invoice.booking,
+                                        home: booking.home, organisation: booking.organisation)&.body
       end
     end
 

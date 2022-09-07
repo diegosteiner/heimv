@@ -157,10 +157,6 @@ class Booking < ApplicationRecord
     deadlines.reload && update(deadline: deadlines.next.take)
   end
 
-  def to_liquid
-    Manage::BookingSerializer.render_as_hash(self).deep_stringify_keys
-  end
-
   def invoice_address_lines
     @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
   end

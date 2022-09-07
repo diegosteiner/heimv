@@ -25,24 +25,24 @@
 
 module DataDigests
   class InvoicePart < DataDigest
-    ::DataDigest.register_subtype self
+    # ::DataDigest.register_subtype self
 
     DEFAULT_COLUMN_CONFIG = [
       {
         header: ::Invoice.human_attribute_name(:ref),
-        body: '{{ invoice_part.invoice.ref }}'
+        body: '{{ invoice.ref }}'
       },
       {
         header: ::Booking.human_attribute_name(:ref),
         body: '{{ booking.ref }}'
       },
       {
-        header: ::Invoice.human_attribute_name(:paid_at),
-        body: '{{ invoice_part.invoice.paid_at }}'
+        header: ::Invoice.human_attribute_name(:amount_paid),
+        body: '{{ invoice.percentage_paid }}'
       },
       {
         header: ::Invoice.human_attribute_name(:issued_at),
-        body: '{{ invoice_part.invoice.issued_at }}'
+        body: '{{ invoice.issued_at }}'
       },
       {
         header: ::Tarif.human_attribute_name(:label),
@@ -61,18 +61,17 @@ module DataDigests
         body: '{{ invoice_part.amount | round: 2 }}'
       },
       {
-        header: ::Invoice.human_attribute_name(:remarks),
-        body: '{{ invoice_part.invoice.remarks }}'
+        header: ::Usage.human_attribute_name(:remarks),
+        body: '{{ invoice_part.usage.remarks }}'
       }
     ].freeze
 
     column_type :default do
       body do |invoice_part|
-        template_variables = {
-          'booking' => Manage::BookingSerializer.render_as_hash(invoice_part.booking),
-          'invoice_part' => Manage::InvoicePartSerializer.render_as_hash(invoice_part)
-        }
-        @templates[:body]&.render!(template_variables.transform_values(&:deep_stringify_keys))
+        booking = invoice_part.booking
+        context = TemplateContext.new(booking: booking, home: booking.home, invoice: invoice_part.invoice,
+                                      invoice_part: invoice_part, organisation: booking.organisation)
+        @templates[:body]&.render!(context.cached)
       end
     end
 
@@ -83,7 +82,7 @@ module DataDigests
     end
 
     def base_scope
-      @base_scope ||= ::InvoicePart.joins(usage: :tarif, invoice: :booking)
+      @base_scope ||= ::InvoicePart.joins(usage: :tarif, invoice: :booking).limit(10)
                                    .where(invoices: { bookings: { organisation_id: organisation } })
     end
   end

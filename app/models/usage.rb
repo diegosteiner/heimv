@@ -93,10 +93,6 @@ class Usage < ApplicationRecord
     tarif&.breakdown(self)
   end
 
-  def to_liquid
-    Manage::UsageSerializer.render_as_hash(self).deep_stringify_keys
-  end
-
   # TODO: decouple
   has_one :meter_reading_period, dependent: :nullify
 

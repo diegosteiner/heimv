@@ -72,19 +72,17 @@ module DataDigests
 
     column_type :default do
       body do |booking|
-        @templates[:body]&.render!('booking' => Manage::BookingSerializer.render_as_hash(booking).deep_stringify_keys)
+        context = TemplateContext.new(booking: booking, organisation: booking.organisation, home: booking.home)
+        @templates[:body]&.render!(context.cached)
       end
     end
 
     column_type :usage do
       body do |booking|
         tarif = ::Tarif.find_by(id: @config[:tarif_id])
-        usage = booking.usages.of_tarif(tarif).take
-        template_variables = {
-          'booking' => Manage::BookingSerializer.render_as_hash(booking),
-          'usage' => Manage::UsageSerializer.render_as_hash(usage)
-        }
-        @templates[:body]&.render!(template_variables.transform_values(&:deep_stringify_keys))
+        context = TemplateContext.new(booking: booking, organisation: booking.organisation,
+                                      home: booking.home, usage: booking.usages.of_tarif(tarif).take)
+        @templates[:body]&.render!(context.cached)
       end
     end
 

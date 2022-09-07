@@ -4,8 +4,15 @@ module Manage
   class InvoicePartSerializer < ApplicationSerializer
     association :tarif, blueprint: Manage::TarifSerializer
     association :usage, blueprint: Manage::UsageSerializer
-    association :invoice, blueprint: Manage::InvoiceSerializer
 
-    fields :amount, :label, :breakdown
+    fields :amount, :label, :breakdown, :usage_id
+
+    field :tarif_id do |invoice_part|
+      invoice_part.tarif&.id
+    end
+
+    field :booking_id do |invoice_part|
+      invoice_part.booking&.id
+    end
   end
 end

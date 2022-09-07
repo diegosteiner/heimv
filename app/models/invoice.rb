@@ -114,7 +114,14 @@ class Invoice < ApplicationRecord
   end
 
   def amount_paid
-    payments.sum(&:amount)
+    payments.sum(&:amount) || 0
+  end
+
+  def percentage_paid
+    return 1 if amount.nil? || amount.zero?
+    return 0 if amount_paid.zero?
+
+    amount / amount_paid
   end
 
   def sent!
@@ -135,10 +142,6 @@ class Invoice < ApplicationRecord
 
   def payment_info
     @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
-  end
-
-  def to_liquid
-    Manage::InvoiceSerializer.render_as_hash(self).deep_stringify_keys
   end
 
   def suggested_invoice_parts

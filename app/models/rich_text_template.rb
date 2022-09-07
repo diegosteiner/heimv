@@ -89,10 +89,10 @@ class RichTextTemplate < ApplicationRecord
   end
 
   def interpolate(context)
-    context = context&.stringify_keys || {}
+    context = TemplateContext.new(context)
     parts = [title, body].map do |part|
-      liquid_template = Liquid::Template.parse(part)
-      RichTextSanitizer.sanitize(liquid_template.render!(context.to_liquid))
+      template = Liquid::Template.parse(part)
+      RichTextSanitizer.sanitize(template.render!(context.to_h))
     end
     InterpolationResult.new(*parts)
   end

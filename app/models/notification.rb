@@ -104,7 +104,7 @@ class Notification < ApplicationRecord
   end
 
   def context
-    super || { 'booking' => booking }
+    super || { booking: booking, home: booking&.home, organisation: booking&.organisation, mail: self }
   end
 
   def text
