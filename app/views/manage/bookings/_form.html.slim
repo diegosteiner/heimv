@@ -19,15 +19,22 @@
                                                 value: @booking.occupancy.ends_at&.iso8601, required: true,
                                                 invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.ends_at') }.to_sentence)
 
-  fieldset
-    h5= Booking.human_attribute_name(:tenant)
+    = f.fields_for :occupancy do |of|
+        = of.label :color
+        = of.check_box :color, { id: 'toggle_booking_occupancy_attributes_color', checked: @booking.occupancy.override_color?, \
+                                  data: { 'bs-toggle' => "disable", 'bs-target' => "#booking_occupancy_attributes_color" } }, "1", "" 
+          = of.color_field :color, hide_label: true, style: 'min-width: 5em;'
+
+  fieldset.mt-3
+    h5.mt-0= Booking.human_attribute_name(:tenant)
 
     .row
       .col
         = f.hidden_field :tenant_id, id: ''
         = f.collection_select :tenant_id, current_organisation.tenants.ordered, :id, :to_s, { include_blank: true, hide_label: true }, { disabled: true }
       .col-1.d-grid
-        a.btn.btn-default[type="button" data-bs-toggle="disable" href="#booking_tenant_id"]
+        input.btn-check[type="checkbox" id="toggle_booking_tenant_id" data-bs-toggle="disable" data-bs-target="#booking_tenant_id"]
+        label.btn.btn-default.mb-3 for="toggle_booking_tenant_id" 
           i.fa.fa-unlock
 
     = f.fields_for :tenant, (@booking.tenant || @booking.build_tenant) do |cf|
@@ -52,7 +59,7 @@
     = f.text_field :tenant_organisation
     = f.text_area :invoice_address
 
-  fieldset.mt-4
+  fieldset.mt-3
     = f.form_group :committed_request
       = f.label :committed_request, Booking.human_attribute_name(:committed_request)
       = f.radio_button :committed_request, false, label: t(:'activerecord.enums.booking.committed_request.provisional_request'), checked: @booking.committed_request.blank?
@@ -78,8 +85,8 @@
     = f.check_box :notifications_enabled
     = f.check_box :editable
 
-  fieldset.mt-4
-    h5= AgentBooking.model_name.human
+  fieldset.mt-3
+    h5.mt-0= AgentBooking.model_name.human
     = f.fields_for :agent_booking do |af|
       = af.text_field :booking_agent_code
       = af.text_field :booking_agent_ref

@@ -1,15 +1,15 @@
-div
-  .d-flex
-    .me-2
-      i.fa.fa-home
-    = link_to occupancy.home, manage_home_path(occupancy.home)
-  .d-flex[class=(:'text-danger' if occupancy.conflicting.present?)]
-    .me-2.pt-2
-      i.fa.fa-calendar
-    div
-      strong
-        = time_tag occupancy.begins_at, format: :short_with_weekday
-      br
-      .small
-        = t(:until)
-        =<> time_tag occupancy.ends_at, format: :short_with_weekday
+.occupancy-info
+  .text-center
+    i.fa.fa-home
+  = link_to occupancy.home, manage_home_path(occupancy.home)
+  .text-center
+    i.fa.fa-calendar
+  strong[class=(:'text-danger' if occupancy.conflicting.present?)]
+    = t(:from)
+    =<> time_tag occupancy.begins_at, format: :short_with_weekday
+  .text-center
+    span[style="color: #{occupancy.color}"]
+      | ⬤
+  div
+    = t(:until)
+    =<> time_tag occupancy.ends_at, format: :short_with_weekday

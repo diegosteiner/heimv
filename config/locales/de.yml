@@ -966,6 +966,7 @@ de:
           notice: Deine Reservationsanfrage wurde erfasst. Soeben hast du ein E-Mail mit dem Bestätigungslink auf <strong>%{email}</strong> erhalten. Bitte klicke den Link um die Anfrage zu bestätigen und abzuschliessen. Solltest du das Mail nicht erhalten haben, siehe im Spam nach oder melde dich bei der Verwaltung.
         update:
           notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
+  from: von
   generated: wird automatisch generiert
   helpers:
     select:

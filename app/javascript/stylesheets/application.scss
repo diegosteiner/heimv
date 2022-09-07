@@ -198,6 +198,12 @@ tr.disabled {
   height: 500px;
 }
 
+.occupancy-info {
+  display: grid;
+  grid-template-columns: 2em auto;
+  grid-template-rows: auto auto auto;
+}
+
 .booking-nav {
   justify-content: flex-start;
   border-top-left-radius: 0.25rem;

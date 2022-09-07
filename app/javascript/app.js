@@ -19,11 +19,16 @@ function csrfForm() {
 
 function toggleDisable() {
   document.querySelectorAll('[data-bs-toggle="disable"]').forEach((element) => {
-    element.onclick = (ev) => {
-      const target = document.querySelector(element.getAttribute("href"));
-      if (target) target.disabled = false;
-      ev.preventDefault();
+    const handler = () => {
+      document.querySelectorAll(element.dataset.bsTarget).forEach((target) => {
+        target.disabled = !element.checked;
+      });
     };
+    element.addEventListener("change", (event) => {
+      event.preventDefault;
+      handler();
+    });
+    handler();
   });
 }
 

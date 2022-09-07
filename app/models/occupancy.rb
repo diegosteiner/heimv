@@ -59,7 +59,7 @@ class Occupancy < ApplicationRecord
     .or(ends_at(before: to, after: from))
   end)
 
-  validates :color, format: { with: COLOR_REGEX }, allow_nil: true
+  validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validates :begins_at, :ends_at, presence: true
   validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
   validate do
@@ -132,7 +132,11 @@ class Occupancy < ApplicationRecord
     super(value.presence) if value != color
   end
 
+  def override_color?
+    self[:color].present?
+  end
+
   def color
-    super || booking&.color || home&.settings&.occupancy_color(self)
+    super.presence || home&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
   end
 end
