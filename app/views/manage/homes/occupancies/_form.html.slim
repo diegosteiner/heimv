@@ -13,7 +13,11 @@
                                                 required: true)
     
     = f.text_area :remarks
-    = f.text_field :color, value: @occupancy.color_in_database
+    = f.form_group do
+      = f.label :color
+      = f.check_box :color, { id: 'toggle_occupancy_color', checked: @occupancy.override_color?, \
+                                data: { 'bs-toggle' => "disable", 'bs-target' => "#occupancy_color" } }, "1", "" 
+        = f.color_field :color, hide_label: true, style: 'min-width: 5em;'
 
   .form-actions.pt-4.mt-3
     = f.submit
