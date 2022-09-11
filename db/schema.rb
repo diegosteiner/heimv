@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_07_085404) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_11_200442) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -461,7 +461,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_07_085404) do
     t.jsonb "unit_i18n", default: {}
     t.string "accountancy_account"
     t.integer "invoice_types", default: 0, null: false
+    t.bigint "depends_on_tarif_id"
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
+    t.index ["depends_on_tarif_id"], name: "index_tarifs_on_depends_on_tarif_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
     t.index ["type"], name: "index_tarifs_on_type"
   end
@@ -568,6 +570,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_07_085404) do
   add_foreign_key "rich_text_templates", "homes"
   add_foreign_key "rich_text_templates", "organisations"
   add_foreign_key "tarif_selectors", "tarifs"
+  add_foreign_key "tarifs", "tarifs", column: "depends_on_tarif_id"
   add_foreign_key "tenants", "organisations"
   add_foreign_key "usages", "bookings"
   add_foreign_key "usages", "tarifs"

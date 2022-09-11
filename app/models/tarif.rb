@@ -45,6 +45,7 @@ class Tarif < ApplicationRecord
   has_many :tarif_selectors, dependent: :destroy, inverse_of: :tarif
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
+  has_many :dependent_tarifs, class_name: 'Tarif', dependent: :nullify
 
   scope :ordered, -> { order(:ordinal) }
   scope :pinned, -> { where(pin: true) }

@@ -34,11 +34,14 @@ module Tarifs
   class MinOccupation < Tarif
     Tarif.register_subtype self
 
-    def recalculate_usage(usage)
-      booking = usage.booking
-      min = booking.home.settings.min_occupation * booking.occupancy.nights
-      delta = min - booking.actual_overnight_stays
-      usage.update(used_units: delta.positive? ? delta : 0)
+    belongs_to :depends_on_tarif, class_name: 'Tarif', optional: true
+
+    def price(usage)
+      [0, super - price_cleared(usage)].max
+    end
+
+    def price_cleared(usage)
+      usage.booking.usages.of_tarif(depends_on_tarif).take&.price || 0
     end
   end
 end

@@ -39,8 +39,7 @@
         "deposit_payment_deadline": "864000",
         "upcoming_soon_window": "1209600",
         "deadline_postponable_for": "259200",
-        "booking_margin": "0",
-        "min_occupation": 0
+        "booking_margin": "0"
       },
       "tarifs": [
         {

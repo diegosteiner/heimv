@@ -8,7 +8,6 @@
     
   fieldset.mt-4
     = f.fields_for :settings, @home.settings || HomeSettings.new do |sf|  
-      = sf.number_field :min_occupation, step: 1
       = sf.text_field :booking_margin, value: sf.object.booking_margin&.iso8601
       = sf.text_field :awaiting_contract_deadline, value: sf.object.awaiting_contract_deadline&.iso8601
       = sf.text_field :deadline_postponable_for, value: sf.object.deadline_postponable_for&.iso8601

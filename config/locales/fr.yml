@@ -23,7 +23,6 @@ fr:
         deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
         invoice_payment_deadline: Standardmässige Zahlungsfrist
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
-        min_occupation: Mindestbelegung
         occupied_occupancy_color: Farbe für definitive Belegungen
         overdue_request_deadline: Frist für Reservationsanfragen
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
@@ -151,7 +150,6 @@ fr:
       home:
         address: Adresse
         booking_margin: Zeitabstand zwischen Buchungen
-        min_occupation: Mindestbelegung / Nacht
         name: Name
         ref: Kurzname / Referenz
         requests_allowed: Reservationsanfragen erlauben
@@ -260,6 +258,7 @@ fr:
         title: Titel
       tarif:
         accountancy_account: zugewiesenes Buchhaltungskonto
+        depends_on_tarif_id: Abhängig von Tarif
         invoice_types: Ausgewiesen in Rechnungsarten
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
@@ -523,7 +522,7 @@ fr:
       tarifs/metered:
         one: par relevé de compteur
       tarifs/min_occupation:
-        one: Occupation minimale
+        one: Mindestbetrag
       tarifs/overnight_stay:
         one: Nuitées
       tarifs/price:

@@ -1,4 +1,4 @@
-= form_with(model: [:manage, @tarif.home, @tarif.becomes(Tarif)], local: @tarif) do |f|
+= form_with(model: [:manage, @tarif.home, @tarif.becomes(Tarif)], local: true) do |f|
 
   fieldset
     ul.nav.nav-tabs.mt-4 role="tablist"
@@ -23,10 +23,11 @@
     = f.collection_check_boxes :invoice_types, Tarif.invoice_types.keys, :itself, ->(key) { Tarif::INVOICE_TYPES[key]&.model_name&.human }
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.text_field :accountancy_account
+    - if @tarif.is_a?(Tarifs::MinOccupation)
+      = f.collection_select :depends_on_tarif_id, @tarif.home.tarifs.where.not(id: @tarif.id), :id, :label, include_blank: true
     = f.number_field :price_per_unit, step: 0.01
     = f.check_box :tenant_visible
     = f.check_box :pin
-    br
 
     label= TarifSelector.model_name.human(count: :other)
     = f.fields_for :tarif_selectors, @tarif.tarif_selectors do |tuc|

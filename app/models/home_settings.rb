@@ -12,7 +12,6 @@ class HomeSettings < Settings
   attribute :upcoming_soon_window, DurationType.new, default: -> { 14.days }
   attribute :deadline_postponable_for, DurationType.new, default: -> { 3.days }
   attribute :booking_margin, DurationType.new, default: 0
-  attribute :min_occupation, :integer, default: 0
   attribute :tentative_occupancy_color, :string, default: '#e8bc56'
   attribute :occupied_occupancy_color, :string, default: '#e85f5f' || '#f2a2a2'
   attribute :closed_occupancy_color, :string, default: '#929292'
