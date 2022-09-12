@@ -93,6 +93,10 @@ class Usage < ApplicationRecord
     tarif&.breakdown(self)
   end
 
+  def updated_after_past?
+    updated_at > booking.ends_at
+  end
+
   # TODO: decouple
   has_one :meter_reading_period, dependent: :nullify
 
