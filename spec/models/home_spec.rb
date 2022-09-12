@@ -43,7 +43,6 @@ RSpec.describe Home, type: :model do
       expect(settings.deposit_payment_deadline).to eq(10.days)
       expect(settings.deadline_postponable_for).to eq(3.days)
       expect(settings.booking_margin).to eq(0)
-      expect(settings.min_occupation).to eq(0)
     end
   end
 end
