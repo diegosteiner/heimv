@@ -93,4 +93,5 @@
 
   .form-actions.pt-4.mt-3
     = f.submit
-    =<> link_to t(:back), manage_bookings_path, class: 'btn btn-default'
+    - unless @booking.new_record?
+      =<> link_to t(:back), manage_booking_path(@booking), class: 'btn btn-default'

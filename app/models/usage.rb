@@ -94,7 +94,7 @@ class Usage < ApplicationRecord
   end
 
   def updated_after_past?
-    updated_at > booking.ends_at
+    updated_at > booking.occupancy.ends_at
   end
 
   # TODO: decouple
