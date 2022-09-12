@@ -17,7 +17,7 @@ class AddSettingsToHomes < ActiveRecord::Migration[7.0]
     Home.transaction do
       Home.find_each do |home|
         home.settings ||= HomeSettings.new
-        home.settings.min_occupation = home.min_occupation || 0
+        # home.settings.min_occupation = home.min_occupation || 0
         home.settings.booking_margin = home.booking_margin || 0
         home.save!
       end
