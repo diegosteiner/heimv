@@ -4,24 +4,26 @@
 #
 # Table name: tarifs
 #
-#  id                   :bigint           not null, primary key
-#  accountancy_account  :string
-#  invoice_types        :integer          default(0), not null
-#  label_i18n           :jsonb
-#  ordinal              :integer
-#  pin                  :boolean          default(TRUE)
-#  prefill_usage_method :string
-#  price_per_unit       :decimal(, )
-#  tarif_group          :string
-#  tenant_visible       :boolean          default(TRUE)
-#  type                 :string
-#  unit_i18n            :jsonb
-#  valid_from           :datetime
-#  valid_until          :datetime
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  booking_id           :uuid
-#  home_id              :bigint
+#  id                      :bigint           not null, primary key
+#  accountancy_account     :string
+#  invoice_types           :integer          default(0), not null
+#  label_i18n              :jsonb
+#  minimum_price_per_night :decimal(, )
+#  minimum_price_total     :decimal(, )
+#  ordinal                 :integer
+#  pin                     :boolean          default(TRUE)
+#  prefill_usage_method    :string
+#  price_per_unit          :decimal(, )
+#  tarif_group             :string
+#  tenant_visible          :boolean          default(TRUE)
+#  type                    :string
+#  unit_i18n               :jsonb
+#  valid_from              :datetime
+#  valid_until             :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  booking_id              :uuid
+#  home_id                 :bigint
 #
 # Indexes
 #
@@ -78,16 +80,40 @@ class Tarif < ApplicationRecord
   def price(usage)
     used_units = usage.used_units || 0.0
     price_per_unit = usage.price_per_unit.presence || self.price_per_unit.presence || 1.0
-    (used_units * price_per_unit * 20.0).floor / 20.0
+    price = round(used_units * price_per_unit)
+    [price, minimum_price(usage)].compact.max
+  end
+
+  def minimum_price(usage)
+    round([minimum_price_total, (minimum_price_per_night || 0) * (usage.booking.occupancy.nights || 0)].compact.max)
+  end
+
+  def minimum_price?(usage)
+    price(usage) == minimum_price(usage)
   end
 
   def breakdown(usage)
-    I18n.t('invoice_parts.breakdown',
-           used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
-           unit: unit, price_per_unit: number_to_currency(price_per_unit || 0, currency: organisation.currency))
+    key = :minimum if minimum_price?(usage)
+    key ||= :flat if is_a?(Tarifs::Flat)
+    key ||= :default
+    I18n.t(key, scope: 'invoice_parts.breakdown', **breakdown_options(usage))
   end
 
   def <=>(other)
     ordinal <=> other.ordinal
+  end
+
+  private
+
+  def breakdown_options(usage)
+    {
+      used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
+      unit: unit, price_per_unit: number_to_currency(price_per_unit || 0, currency: organisation.currency),
+      minimum_price: number_to_currency(minimum_price(usage), currency: organisation.currency)
+    }
+  end
+
+  def round(price)
+    (price * 20.0).floor / 20.0
   end
 end

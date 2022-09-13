@@ -110,6 +110,7 @@ ignore_unused:
   - "booking_states.*"
   - "manage.rich_text_templates.index.group_*"
   - "public.bookings.new.*"
+  - "invoice_parts.breakdown.*"
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 ignore_eq_base:

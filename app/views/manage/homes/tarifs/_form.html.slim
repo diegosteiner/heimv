@@ -23,9 +23,9 @@
     = f.collection_check_boxes :invoice_types, Tarif.invoice_types.keys, :itself, ->(key) { Tarif::INVOICE_TYPES[key]&.model_name&.human }
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.text_field :accountancy_account
-    - if @tarif.is_a?(Tarifs::MinOccupation)
-      = f.collection_select :depends_on_tarif_id, @tarif.home.tarifs.where.not(id: @tarif.id), :id, :label, include_blank: true
     = f.number_field :price_per_unit, step: 0.01
+    = f.number_field :minimum_price_per_night, step: 0.01
+    = f.number_field :minimum_price_total, step: 0.01
     = f.check_box :tenant_visible
     = f.check_box :pin
 

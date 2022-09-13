@@ -258,10 +258,11 @@ fr:
         title: Titel
       tarif:
         accountancy_account: zugewiesenes Buchhaltungskonto
-        depends_on_tarif_id: Abhängig von Tarif
         invoice_types: Ausgewiesen in Rechnungsarten
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
+        minimum_price_per_night: Minimaler Preis (pro Nacht)
+        minimum_price_total: Minimaler Preis (Total)
         ordinal: numéro d'ordre
         pin: ne PAS fixer le tarif à la réservation
         prefill_usage_method: méthode de pré-remplissage
@@ -977,7 +978,10 @@ fr:
   import: Import
   import_records: "%{model_name} importieren"
   invoice_parts:
-    breakdown: "%{used_units} × %{unit} à %{price_per_unit}"
+    breakdown:
+      default: "%{used_units} × %{unit} à %{price_per_unit}"
+      flat: Pauschale à %{price_per_unit}
+      minimum: Mindestbetrag %{minimum_price}
     unpaid_invoice: Offener Betrag fällig am %{payable_until}
   layouts:
     footer:
@@ -1011,6 +1015,7 @@ fr:
           applicable_tarifs: Anwendbare Tarife
           save_and_continue: Speichern und %{invoice_type} erstellen
         table:
+          minimum_price: Mindestbetrag
           save: "%{model_name} speichern"
     dashboard:
       index:
