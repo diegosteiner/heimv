@@ -969,7 +969,7 @@ en:
       usages:
         index:
           applicable_tarifs: Anwendbare Tarife
-          save_and_continue: Speichern und Rechnung erstellen
+          save_and_continue: Speichern und %{invoice_type} erstellen
         table:
           save: "%{model_name} speichern"
     dashboard:

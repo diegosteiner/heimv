@@ -12,6 +12,10 @@ module BookingStates
       ]
     end
 
+    def invoice_type
+      Invoices::Deposit
+    end
+
     def self.to_sym
       :overdue
     end

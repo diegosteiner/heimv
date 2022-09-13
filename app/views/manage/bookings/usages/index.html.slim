@@ -4,9 +4,10 @@
 - if @usages.any?
   section.mt-4
     = render layout: 'manage/bookings/usages/table', locals: { usages: @usages } do
-      - if can?(:manage, @booking)
-        button.ms-2.btn.btn-primary[type=:submit name=:return_to value=manage_booking_invoices_path(@booking)]
-          = t('manage.bookings.usages.index.save_and_continue')
+      - invoice_type = @booking.booking_state.invoice_type
+      - if can?(:manage, @booking) && invoice_type.present? && !@booking.invoices.where(type: invoice_type.to_s).exists?
+        button.ms-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking, invoice:  { type: invoice_type })]
+          = t('manage.bookings.usages.index.save_and_continue', invoice_type: invoice_type.model_name.human)
 
       = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ms-3' do 
         i.fa.fa-print<>

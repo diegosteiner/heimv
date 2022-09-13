@@ -104,6 +104,8 @@ module BookingStates
       []
     end
 
+    def invoice_type; end
+
     def public_actions
       self.class.available_public_actions.filter_map { |action_klass| action_klass.new(booking: @booking) }
     end

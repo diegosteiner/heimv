@@ -10,6 +10,10 @@ module BookingStates
       :active
     end
 
+    def invoice_type
+      Invoices::Invoice
+    end
+
     after_transition do |booking|
       booking.occupancy.occupied!
     end

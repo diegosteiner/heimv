@@ -16,6 +16,10 @@ module BookingStates
       ].compact
     end
 
+    def invoice_type
+      Invoices::Deposit
+    end
+
     def self.to_sym
       :definitive_request
     end

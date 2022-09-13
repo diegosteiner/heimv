@@ -14,6 +14,10 @@ module BookingStates
       []
     end
 
+    def invoice_type
+      Invoices::LateNotice
+    end
+
     after_transition do |booking|
       booking.notifications.new(template: :payment_overdue_notification, to: booking.tenant).deliver
     end

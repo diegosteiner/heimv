@@ -12,6 +12,10 @@ module BookingStates
       :upcoming
     end
 
+    def invoice_type
+      Invoices::Deposit
+    end
+
     def self.hidden
       true
     end
