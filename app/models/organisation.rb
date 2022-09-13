@@ -99,6 +99,10 @@ class Organisation < ApplicationRecord
     name
   end
 
+  def to_param
+    slug
+  end
+
   def locale
     super || I18n.locale || I18n.default_locale
   end

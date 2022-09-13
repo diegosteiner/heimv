@@ -27,7 +27,7 @@ module Public
       @booking = prepare_create_booking
       respond_to do |format|
         if @booking.save(context: :public_create)
-          format.html { redirect_to root_path, notice: create_booking_notice }
+          format.html { redirect_to organisation_path, notice: create_booking_notice }
           format.json { render json: { status: :created }, status: :created }
         else
           format.html { render :new }

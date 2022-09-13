@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
       return organisation_path
     end
     if current_user
-      return url_for(org: current_user.default_organisation.slug) if current_user.default_organisation
+      return url_for(org: current_user.default_organisation) if current_user.default_organisation
 
       return root_path
     end

@@ -5,7 +5,7 @@
 
   - if current_organisation.present?
     span.mx-1 &middot;
-    span= link_to current_organisation.name, root_path
+    span= link_to current_organisation.name, organisation_path
 
   span.mx-1 &middot;
   span= link_to t('.privacy_statement'), privacy_path
