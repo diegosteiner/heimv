@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 22.9.2
+
+Released on 07.09.2022
+
+- Feature: Set a minimum price per tarif
+- Fix: Checkmarks for entering usages
+- Feature: Jump directly to new invoice after entering usages
+
 #### Version 22.9.1
 
 Released on 07.09.2022
