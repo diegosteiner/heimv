@@ -2,7 +2,7 @@
 
 describe 'Booking', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_rich_text_templates) }
-  let(:org) { organisation.slug }
+  let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation: organisation) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation: organisation) }

@@ -14,7 +14,7 @@ describe 'Data Digests', :devise, type: :feature do
 
   it 'can create new data digest' do
     name = 'Test Data Digest 123'
-    visit new_manage_data_digest_path(type: DataDigests::Booking, org: organisation.slug)
+    visit new_manage_data_digest_path(type: DataDigests::Booking, org: organisation)
     fill_in :data_digest_label, with: name
     submit_form
 
@@ -26,7 +26,7 @@ describe 'Data Digests', :devise, type: :feature do
   end
 
   it 'can see a booking' do
-    visit manage_data_digest_path(data_digest, org: organisation.slug)
+    visit manage_data_digest_path(data_digest, org: organisation)
     bookings = create_list(:booking, 3, organisation: organisation, home: home)
     click_on I18n.t('activerecord.enums.data_digest.periods.ever')
     bookings.each { |booking| expect(page).to have_content booking.ref }

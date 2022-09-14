@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    { org: current_organisation&.slug || params[:org], locale: current_locale }.merge(super)
+    { org: current_organisation&.to_param || params[:org], locale: current_locale }.merge(super)
   end
 
   def set_default_meta_tags

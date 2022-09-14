@@ -16,7 +16,7 @@ module Public
     field :links do |booking|
       next { edit: nil } if booking.new_record?
 
-      { edit: url.edit_public_booking_url(booking.token || booking.to_param, org: booking.organisation.slug) }
+      { edit: url.edit_public_booking_url(booking.token || booking.to_param, org: booking.organisation) }
     end
   end
 end

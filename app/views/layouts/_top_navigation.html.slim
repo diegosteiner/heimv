@@ -10,7 +10,7 @@ nav#navbar-top.navbar.fixed-top.navbar-light.navbar-expand-lg
             i.fa.fa-user
             =<> current_user&.email || t(:'nav.sign_in')
           .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
-            = link_to t(:'nav.manage'), manage_root_path(org: current_organisation.slug), class: 'dropdown-item' if can?(:read, current_organisation)
+            = link_to t(:'nav.manage'), manage_root_path(org: current_organisation), class: 'dropdown-item' if can?(:read, current_organisation)
             = link_to t(:'nav.edit_account'), edit_account_path, class: 'dropdown-item'
             = link_to t(:'nav.sign_out'), destroy_user_session_path, :method=>'delete', class: 'dropdown-item'
       - else

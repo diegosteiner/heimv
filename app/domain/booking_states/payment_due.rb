@@ -39,7 +39,7 @@ module BookingStates
 
     def invoice_paid_checklist_item
       ChecklistItem.new(:invoices_paid, booking.invoices.kept.all?(&:paid?),
-                        manage_booking_invoices_path(booking, org: booking.organisation.slug))
+                        manage_booking_invoices_path(booking, org: booking.organisation))
     end
   end
 end

@@ -9,7 +9,7 @@ class BookingAtService
   end
 
   def at(date, manage: false)
-    org = @home.organisation.slug
+    org = @home.organisation.to_param
 
     if date
       bookings = Booking::Filter.new(filter_params(date)).apply(@bookings) || []

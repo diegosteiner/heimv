@@ -12,7 +12,7 @@ module Public
     field :links do |agent_booking|
       {
         edit: url.edit_public_agent_booking_url(agent_booking.token || agent_booking.to_param,
-                                                org: agent_booking.organisation.slug)
+                                                org: agent_booking.organisation)
       }
     end
   end

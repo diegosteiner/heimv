@@ -29,6 +29,6 @@ nav.p-3
           = Organisation.model_name.human
           i.fa.fa-cog.ps-2
       li.nav-item
-        = link_to manage_flow_path(org: current_organisation.slug), class: 'nav-link'
+        = link_to manage_flow_path(org: current_organisation), class: 'nav-link'
           = t('.help')
           i.fa.fa-question-circle.ps-2

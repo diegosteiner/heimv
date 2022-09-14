@@ -56,13 +56,13 @@ module BookingStates
     def choose_tarifs_checklist_item
       ChecklistItem.new(:choose_tarifs, booking.usages.any?,
                         manage_booking_usages_path(
-                          booking, org: booking.organisation.slug, locale: I18n.locale
+                          booking, org: booking.organisation, locale: I18n.locale
                         ))
     end
 
     def create_contract_checklist_item
       checked = booking.contract.present?
-      default_params = { org: booking.organisation.slug, locale: I18n.locale }
+      default_params = { org: booking.organisation, locale: I18n.locale }
       ChecklistItem.new(:create_contract, checked,
                         (checked &&
                           manage_booking_contracts_path(booking, **default_params)) ||
@@ -71,7 +71,7 @@ module BookingStates
 
     def create_deposit_checklist_item
       checked = Invoices::Deposit.of(booking).kept.exists?
-      default_params = { org: booking.organisation.slug, locale: I18n.locale }
+      default_params = { org: booking.organisation, locale: I18n.locale }
       ChecklistItem.new(:create_deposit, checked,
                         (checked &&
                           manage_booking_invoices_path(booking, **default_params)) ||
@@ -85,7 +85,7 @@ module BookingStates
       return if booking.organisation.operators.none?
 
       ChecklistItem.new(:assign_responsibilities, booking.operators_for(:home_handover).present?,
-                        manage_booking_operator_responsibilities_path(booking, org: booking.organisation.slug))
+                        manage_booking_operator_responsibilities_path(booking, org: booking.organisation))
     end
   end
 end
