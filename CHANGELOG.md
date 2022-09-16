@@ -2,6 +2,12 @@
 
 #### Unreleased
 
+#### Version 22.9.3
+
+Released on 16.09.2022
+
+- Fix: MinOccupation tarif calculations
+
 #### Version 22.9.2
 
 Released on 07.09.2022
