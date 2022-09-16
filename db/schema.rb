@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_13_130150) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_16_074929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -461,8 +461,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_13_130150) do
     t.jsonb "unit_i18n", default: {}
     t.string "accountancy_account"
     t.integer "invoice_types", default: 0, null: false
-    t.decimal "minimum_price_per_night"
-    t.decimal "minimum_price_total"
+    t.decimal "minimum_usage_per_night"
+    t.decimal "minimum_usage_total"
     t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
     t.index ["type"], name: "index_tarifs_on_type"

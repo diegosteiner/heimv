@@ -8,8 +8,8 @@
 #  accountancy_account     :string
 #  invoice_types           :integer          default(0), not null
 #  label_i18n              :jsonb
-#  minimum_price_per_night :decimal(, )
-#  minimum_price_total     :decimal(, )
+#  minimum_usage_per_night :decimal(, )
+#  minimum_usage_total     :decimal(, )
 #  ordinal                 :integer
 #  pin                     :boolean          default(TRUE)
 #  prefill_usage_method    :string
@@ -35,5 +35,13 @@
 module Tarifs
   class OvernightStay < ::Tarif
     Tarif.register_subtype self
+
+    def before_usage_validation(usage)
+      min_occupation_usages = usage.booking.usages.joins(:tarif).where(tarifs: { type: Tarifs::MinOccupation.to_s })
+      min_occupation_usages.find_each do |min_occupation_usage|
+        min_occupation_usage.tarif.before_usage_validation(min_occupation_usage)
+        min_occupation_usage.save
+      end
+    end
   end
 end

@@ -24,8 +24,9 @@
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.text_field :accountancy_account
     = f.number_field :price_per_unit, step: 0.01
-    = f.number_field :minimum_price_per_night, step: 0.01
-    = f.number_field :minimum_price_total, step: 0.01
+    - if @tarif.is_a?(Tarifs::MinOccupation)
+      = f.number_field :minimum_usage_per_night, step: 0.01
+      / = f.number_field :minimum_usage_total, step: 0.01
     = f.check_box :tenant_visible
     = f.check_box :pin
 

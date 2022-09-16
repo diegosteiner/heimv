@@ -8,8 +8,8 @@
 #  accountancy_account     :string
 #  invoice_types           :integer          default(0), not null
 #  label_i18n              :jsonb
-#  minimum_price_per_night :decimal(, )
-#  minimum_price_total     :decimal(, )
+#  minimum_usage_per_night :decimal(, )
+#  minimum_usage_total     :decimal(, )
 #  ordinal                 :integer
 #  pin                     :boolean          default(TRUE)
 #  prefill_usage_method    :string
@@ -35,5 +35,16 @@
 module Tarifs
   class MinOccupation < Tarif
     Tarif.register_subtype self
+
+    def calculate_usage_delta(usage)
+      booking = usage.booking
+      minimum_usage = (minimum_usage_per_night || 0) * (booking.occupancy.nights || 0)
+      delta = minimum_usage - booking.actual_overnight_stays
+      delta.positive? ? delta : 0
+    end
+
+    def before_usage_validation(usage)
+      usage.used_units = calculate_usage_delta(usage)
+    end
   end
 end

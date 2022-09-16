@@ -8,8 +8,8 @@
 #  accountancy_account     :string
 #  invoice_types           :integer          default(0), not null
 #  label_i18n              :jsonb
-#  minimum_price_per_night :decimal(, )
-#  minimum_price_total     :decimal(, )
+#  minimum_usage_per_night :decimal(, )
+#  minimum_usage_total     :decimal(, )
 #  ordinal                 :integer
 #  pin                     :boolean          default(TRUE)
 #  prefill_usage_method    :string

@@ -8,8 +8,8 @@
 #  accountancy_account     :string
 #  invoice_types           :integer          default(0), not null
 #  label_i18n              :jsonb
-#  minimum_price_per_night :decimal(, )
-#  minimum_price_total     :decimal(, )
+#  minimum_usage_per_night :decimal(, )
+#  minimum_usage_total     :decimal(, )
 #  ordinal                 :integer
 #  pin                     :boolean          default(TRUE)
 #  prefill_usage_method    :string
@@ -80,20 +80,10 @@ class Tarif < ApplicationRecord
   def price(usage)
     used_units = usage.used_units || 0.0
     price_per_unit = usage.price_per_unit.presence || self.price_per_unit.presence || 1.0
-    price = round(used_units * price_per_unit)
-    [price, minimum_price(usage)].compact.max
-  end
-
-  def minimum_price(usage)
-    round([minimum_price_total, (minimum_price_per_night || 0) * (usage.booking.occupancy.nights || 0)].compact.max)
-  end
-
-  def minimum_price?(usage)
-    price(usage) == minimum_price(usage)
+    round(used_units * price_per_unit)
   end
 
   def breakdown(usage)
-    key = :minimum if minimum_price?(usage)
     key ||= :flat if is_a?(Tarifs::Flat)
     key ||= :default
     I18n.t(key, scope: 'invoice_parts.breakdown', **breakdown_options(usage))
