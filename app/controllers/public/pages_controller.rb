@@ -5,7 +5,7 @@ module Public
     skip_before_action :require_organisation!, only: :home
 
     def home
-      return redirect_to new_user_session_path if current_user.blank?
+      return redirect_to new_user_session_path if current_user.blank? && current_organisation.blank?
       return redirect_to home_path if current_organisation || current_user.default_organisation
 
       @organisations = current_user.organisation_users.map(&:organisation)
