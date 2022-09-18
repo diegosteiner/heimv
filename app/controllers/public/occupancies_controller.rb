@@ -27,8 +27,9 @@ module Public
     end
 
     def at
-      bookings = Booking.accessible_by(current_ability).merge(@home.bookings)
-      redirect_to BookingAtService.new(@home, bookings).at(Time.zone.parse(params[:date]), manage: can?(:manage, @home))
+      date = Time.zone.parse(params[:date])
+      occupancies = Occupancy.accessible_by(current_ability).merge(@home.occupancies)
+      redirect_to OccupancyAtService.new(@home, occupancies).redirect_to(date, manage: can?(:manage, @home))
     end
 
     private

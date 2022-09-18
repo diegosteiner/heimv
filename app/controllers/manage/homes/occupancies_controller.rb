@@ -11,8 +11,8 @@ module Manage
       end
 
       def index
-        @occupancies = @occupancies.closed.ordered
-        respond_with :manage, @occupancy
+        @occupancies = @occupancies.closed.ordered.ends_at(after: Time.zone.now)
+        respond_with :manage, @occupancies
       end
 
       def new

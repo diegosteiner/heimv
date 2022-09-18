@@ -194,6 +194,7 @@ en:
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
+        home_id: Heim
         nights: Nächte
         occupancy_type: Belegungsart
         remarks: Bemerkungen
