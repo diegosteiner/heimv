@@ -30,8 +30,8 @@ module BookingStates
     protected
 
     def enter_usages_checklist_item
-      ChecklistItem.new(:create_usages, booking.usages.any?(&:updated_after_past?),
-                        manage_booking_usages_path(booking, org: booking.organisation))
+      checked = booking.usages.any?(&:updated_after_past?) || Invoices::Invoice.of(booking).kept.exists?
+      ChecklistItem.new(:create_usages, checked, manage_booking_usages_path(booking, org: booking.organisation))
     end
 
     def create_invoice_checklist_item
