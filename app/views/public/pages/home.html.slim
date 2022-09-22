@@ -1,10 +1,10 @@
 .container 
-  .row.row-cols-3
+  .row.row-cols-4
     - @organisations.each do |organisation|
       .col
         .card.mb-3
-          = image_tag organisation.logo, class: 'card-img-top' if organisation.logo.present?
           .card-body 
-            = link_to organisation_path(org: organisation) do
-              
-              h4.card-title.text-center.my-3= organisation.name
+            = link_to manage_root_path(org: organisation) do
+              .ratio.ratio-16x9
+                = image_tag organisation.logo, style: 'object-fit: cover; object-position: center center;' if organisation.logo.present?
+              h4.card-title.text-center.mt-4.mb-3= organisation.name

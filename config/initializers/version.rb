@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-Rails.application.config.version = File.read(Rails.root.join('VERSION')).strip
+Rails.application.config.version = Rails.root.join('VERSION').read.strip

@@ -14,7 +14,7 @@ module Manage
 
     def show
       respond_to do |format|
-        format.html { redirect_to }
+        format.html { redirect_to manage_root_path }
         format.json { render json: Manage::OrganisationSerializer.render(@organisation, view: :export) }
       end
     end
