@@ -10,7 +10,9 @@ h1.mt-0.mb-5= Home.model_name.human(count: :other)
               img.card-img-top src=home.cover_image_url alt=home.name height=200
           .card-body
             h5.card-title.m-0=home.name
-            p=home.address
+            p
+              =home.address
+              | &nbsp;
             = link_to t('show'), manage_home_path(home), class: 'stretched-link'
 
 br

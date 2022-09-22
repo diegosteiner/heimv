@@ -5,7 +5,7 @@ module Manage
     load_and_authorize_resource :home
 
     def index
-      @homes = @homes.where(organisation: current_organisation)
+      @homes = @homes.where(organisation: current_organisation).order(:created_at)
       respond_with :manage, @homes
     end
 
