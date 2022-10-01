@@ -6,5 +6,5 @@
           .card-body 
             = link_to manage_root_path(org: organisation) do
               .ratio.ratio-16x9
-                = image_tag organisation.logo, style: 'object-fit: cover; object-position: center center;' if organisation.logo.present?
+                = image_tag organisation.logo, style: 'object-fit: contain; object-position: center center;' if organisation.logo.present?
               h4.card-title.text-center.mt-4.mb-3= organisation.name
