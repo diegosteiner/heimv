@@ -42,9 +42,9 @@ RSpec.describe Invoice, type: :model do
   end
 
   describe '#payment_info' do
-    let(:invoice) { create(:invoice, payment_info_type: PaymentInfos::OrangePaymentSlip.to_s) }
+    let(:invoice) { create(:invoice, payment_info_type: PaymentInfos::QrBill.to_s) }
     subject { invoice.payment_info }
 
-    it { is_expected.to be_a(PaymentInfos::OrangePaymentSlip) }
+    it { is_expected.to be_a(PaymentInfos::QrBill) }
   end
 end

@@ -60,8 +60,6 @@ module Export
         render case payment_info
                when PaymentInfos::QrBill
                  Renderables::Invoice::QrBill.new(payment_info)
-               when PaymentInfos::OrangePaymentSlip
-                 Renderables::Invoice::OrangePaymentSlip.new(payment_info)
                when PaymentInfos::ForeignPaymentInfo
                  Renderables::Invoice::ForeignPaymentInfo.new(payment_info)
                when PaymentInfos::TextPaymentInfo
