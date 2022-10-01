@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 22.10.1
+
+Released on 1.10.2022
+
+- Feature: Create offers through invoices
+- Fix: Remove orange payment slip
+- Fix: Show all homes on dashboard
+
 #### Version 22.9.3
 
 Released on 16.09.2022
