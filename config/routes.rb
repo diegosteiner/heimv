@@ -44,7 +44,6 @@ Rails.application.routes.draw do
         resources :notifications, shallow: true, only: %i[index show edit update]
         scope module: :bookings do
           resources :contracts
-          resources :offers
           resources :usages do
             put :/, action: :update_many, on: :collection
           end

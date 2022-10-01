@@ -5,9 +5,14 @@ require 'prawn'
 module Export
   module Pdf
     class InvoicePdf < Base
+      PAYMENT_INFOS = {
+        PaymentInfos::QrBill => Renderables::Invoice::QrBill,
+        PaymentInfos::ForeignPaymentInfo => Renderables::Invoice::ForeignPaymentInfo,
+        PaymentInfos::TextPaymentInfo => Renderables::Invoice::TextPaymentInfo
+      }.freeze
       attr_reader :invoice
 
-      delegate :booking, :organisation, to: :invoice
+      delegate :booking, :organisation, :payment_info, to: :invoice
 
       def initialize(invoice)
         super()
@@ -23,6 +28,8 @@ module Export
       end
 
       to_render do
+        next if invoice.is_a?(Invoices::Offer)
+
         font_size(9) do
           text "#{::Booking.human_attribute_name(:ref)}: #{invoice.booking.ref}"
           text "#{::Invoice.human_attribute_name(:sent_at)}: #{I18n.l(invoice.sent_at&.to_date || Time.zone.today)}"
@@ -56,15 +63,18 @@ module Export
       end
 
       to_render do
-        payment_info = invoice.payment_info
-        render case payment_info
-               when PaymentInfos::QrBill
-                 Renderables::Invoice::QrBill.new(payment_info)
-               when PaymentInfos::ForeignPaymentInfo
-                 Renderables::Invoice::ForeignPaymentInfo.new(payment_info)
-               when PaymentInfos::TextPaymentInfo
-                 Renderables::Invoice::TextPaymentInfo.new(payment_info)
-               end
+        render PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info) if payment_info
+      end
+
+      to_render do
+        next unless invoice.is_a?(Invoices::Offer)
+
+        bounding_box([0, cursor - 30], width: bounds.width) do
+          issuer_signature_label = I18n.t('contracts.issuer_signature_label')
+          render Renderables::Signature.new(issuer_signature_label, signature_image: organisation.contract_signature,
+                                                                    date: invoice.issued_at,
+                                                                    location: organisation.location)
+        end
       end
     end
   end

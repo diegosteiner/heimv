@@ -33,7 +33,8 @@
 #
 
 class Tarif < ApplicationRecord
-  INVOICE_TYPES = { deposit: Invoices::Deposit, invoice: Invoices::Invoice, late_notice: Invoices::LateNotice }.freeze
+  INVOICE_TYPES = { deposit: Invoices::Deposit, invoice: Invoices::Invoice,
+                    late_notice: Invoices::LateNotice, offer: Invoices::Offer }.freeze
   include ActiveSupport::NumberHelper
 
   extend TemplateRenderable

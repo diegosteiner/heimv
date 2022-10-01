@@ -39,7 +39,6 @@ module Ability
       can :manage, Invoice, booking: { organisation: organisation }
       can :manage, InvoicePart, invoice: { booking: { organisation: organisation } }
       can :manage, Contract, booking: { organisation: organisation }
-      can :manage, Offer, booking: { organisation: organisation }
       can :manage, Payment, booking: { organisation: organisation }
       can :manage, Deadline, booking: { organisation: organisation }
       can :manage, Usage, booking: { organisation: organisation }
@@ -71,7 +70,6 @@ module Ability
       can :read, Invoice, booking: { organisation: organisation }
       can :read, InvoicePart, invoice: { booking: { organisation: organisation } }
       can :read, Contract, booking: { organisation: organisation }
-      can :read, Offer, booking: { organisation: organisation }
       can :read, Payment, booking: { organisation: organisation }
       can :read, Deadline, booking: { organisation: organisation }
       can :read, Usage, booking: { organisation: organisation }

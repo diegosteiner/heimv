@@ -195,10 +195,6 @@ it:
         nights: Nächte
         occupancy_type: Belegungsart
         remarks: Bemerkungen
-      offer:
-        text: Offertentext
-        valid_from: Gültig ab
-        valid_until: Gültig bis
       operator:
         contact_info: Kontaktinformationen
         email: Email
@@ -461,6 +457,9 @@ it:
       invoices/late_notice:
         one: Mahnung
         other: Mahnungen
+      invoices/offer:
+        one: Offerte
+        other: Offerten
       meter_reading_period:
         one: Zählerstand
         other: Zählerstände
@@ -470,9 +469,6 @@ it:
       occupancy:
         one: Belegung
         other: Belegungen
-      offer:
-        one: Offerte
-        other: Offerten
       operator:
         one: Funktionär
         other: Funktionäre
@@ -1231,8 +1227,6 @@ it:
     - Do
     - Fr
     - Sa
-  offers:
-    issuer_signature_label: Datum, Unterschrift Vermieter
   optional: optional
   payable_by: Payable by
   payment_part_title: Payment part title
@@ -1293,14 +1287,14 @@ it:
       description: Text für Rechnung
     invoices_late_notice_text:
       description: Text für Rechnung (Mahnung)
+    invoices_offer_text:
+      description: Text für Offerte
     manage_definitive_request_notification:
       description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
     manage_new_booking_notification:
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
     notification_footer:
       description: Fusszeile für Benachrichtigungen
-    offer_text:
-      description: Text für Offerte
     open_request_notification:
       description: Benachrichtigung für offene Mietanfrage (Mieter)
     operator_cancelation_pending_notification:

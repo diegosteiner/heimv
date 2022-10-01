@@ -79,9 +79,6 @@
     button#dropdownInvoiceTypesButton.btn.btn-primary.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" type="button" 
       = t(:add_record, model_name: Invoice.model_name.human)
     .dropdown-menu aria-labelledby="dropdownInvoiceTypesButton" 
-      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit }), class: 'dropdown-item'
-        = Invoices::Deposit.model_name.human
-      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Invoice }), class: 'dropdown-item'
-        = Invoices::Invoice.model_name.human
-      = link_to new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::LateNotice }), class: 'dropdown-item'
-        = Invoices::LateNotice.model_name.human
+      - Invoice.subtypes.values.each do |invoice_type|
+        = link_to new_manage_booking_invoice_path(@booking, invoice: { type: invoice_type }), class: 'dropdown-item'
+          = invoice_type.model_name.human

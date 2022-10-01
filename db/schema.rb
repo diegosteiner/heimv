@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_16_074929) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_01_180357) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -321,16 +321,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_16_074929) do
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
   end
 
-  create_table "offers", force: :cascade do |t|
-    t.uuid "booking_id"
-    t.text "text"
-    t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
-    t.datetime "valid_until", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["booking_id"], name: "index_offers_on_booking_id"
-  end
-
   create_table "operator_responsibilities", force: :cascade do |t|
     t.uuid "booking_id"
     t.bigint "operator_id", null: false
@@ -557,7 +547,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_16_074929) do
   add_foreign_key "notifications", "bookings"
   add_foreign_key "notifications", "rich_text_templates"
   add_foreign_key "occupancies", "homes"
-  add_foreign_key "offers", "bookings"
   add_foreign_key "operator_responsibilities", "bookings"
   add_foreign_key "operator_responsibilities", "homes"
   add_foreign_key "operator_responsibilities", "operators"
