@@ -144,6 +144,7 @@ en:
         name: Name
         remarks: Bemerkungen
         send_with_contract: Mit dem Vertrag versenden
+        send_with_last_infos: Mit letzen Infos (baldige Belegung) versenden
       home:
         address: Adresse
         booking_margin: Zeitabstand zwischen Buchungen

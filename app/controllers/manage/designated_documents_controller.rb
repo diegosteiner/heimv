@@ -2,12 +2,10 @@
 
 module Manage
   class DesignatedDocumentsController < BaseController
-    load_and_authorize_resource :home
-    load_and_authorize_resource :designated_document, through: :home, shallow: true
+    load_and_authorize_resource :designated_document
 
     def index
       @designated_documents = @designated_documents.where(organisation: current_organisation)
-      @designated_documents = @designated_documents.where(home: @home) if @home
       respond_with :manage, @designated_documents
     end
 
@@ -46,7 +44,8 @@ module Manage
     end
 
     def designated_document_params
-      params[:designated_document]&.permit(:designation, :file, :locale, :remarks, :home_id, :name, :send_with_contract)
+      params[:designated_document]&.permit(:designation, :file, :locale, :remarks, :home_id, :name, 
+                                           :send_with_contract, :send_with_last_infos)
     end
   end
 end

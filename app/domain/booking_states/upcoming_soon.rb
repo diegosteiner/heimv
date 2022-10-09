@@ -35,7 +35,8 @@ module BookingStates
       notification = booking.notifications.new(template: :upcoming_soon_notification, to: booking.tenant)
       next unless notification.valid?
 
-      notification.attach(DesignatedDocument.in_context(booking).with_locale(booking.locale).house_rules.blobs)
+      notification.attach(DesignatedDocument.in_context(booking).with_locale(booking.locale)
+                                            .where(send_with_last_infos: true).blobs)
       notification.save! && notification.deliver
     end
 

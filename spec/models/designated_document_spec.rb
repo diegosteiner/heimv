@@ -4,16 +4,17 @@
 #
 # Table name: designated_documents
 #
-#  id                 :bigint           not null, primary key
-#  designation        :integer
-#  locale             :string
-#  name               :string
-#  remarks            :text
-#  send_with_contract :boolean          default(FALSE), not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  home_id            :bigint
-#  organisation_id    :bigint           not null
+#  id                   :bigint           not null, primary key
+#  designation          :integer
+#  locale               :string
+#  name                 :string
+#  remarks              :text
+#  send_with_contract   :boolean          default(FALSE), not null
+#  send_with_last_infos :boolean          default(FALSE)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  home_id              :bigint
+#  organisation_id      :bigint           not null
 #
 # Indexes
 #

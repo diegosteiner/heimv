@@ -9,11 +9,9 @@ Rails.application.routes.draw do
       root to: 'dashboard#index'
       get 'flow', to: 'pages#flow'
       resources :homes do
-        resources :designated_documents, to: 'designated_documents'
         resources :bookable_extras, to: 'bookable_extras'
         scope module: :homes do
           resources :occupancies, except: %w[show], shallow: true
-          resources :tarif_selectors, except: %w[show]
           resources :meter_reading_periods, only: %w[index]
           resources :tarifs do
             put '/', action: :update_many, on: :collection
