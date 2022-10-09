@@ -30,7 +30,7 @@ RSpec.describe DataDigests::InvoicePart, type: :model do
   let(:period) { DataDigest.period(:ever) }
   let(:home) { create(:home, organisation: organisation) }
   let(:organisation) { create(:organisation) }
-  let(:tarifs) { create_list(:tarif, 4, home: home) }
+  let(:tarifs) { create_list(:tarif, 4, organisation: organisation, home: home) }
 
   let!(:invoice_parts) do
     create_list(:booking, 3, home: home).map do |booking|

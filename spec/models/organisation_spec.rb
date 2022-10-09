@@ -57,7 +57,6 @@ RSpec.describe Organisation, type: :model do
 
     it do
       expect(settings.tenant_birth_date_required).to be(true)
-      expect(settings.feature_new_bookings).to be(true)
     end
   end
 end

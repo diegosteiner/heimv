@@ -31,6 +31,13 @@ module Import
         importer = BookingCategoryImporter.new(organisation, **options)
         hash['booking_categories'].each { |category| organisation.booking_categories << importer.import(category) }
       end
+
+      actor do |organisation, hash|
+        next unless hash['tarifs'].respond_to?(:each)
+
+        importer = TarifImporter.new(organisation, **options)
+        hash['tarifs'].each { |tarif| organisation.tarifs << importer.import(tarif) }
+      end
     end
   end
 end

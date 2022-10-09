@@ -3,29 +3,30 @@
 module Import
   module Csv
     class TarifImporter < Base
-      delegate :organisation, to: :home
-      attr_reader :home
+      attr_reader :organisation
 
-      def initialize(home, **options)
+      def initialize(organisation, **options)
         super(**options)
-        @home = home
+        @organisation = organisation
       end
 
       def initialize_record(row)
         tarif_type = row['tarif.type']
         tarif_klass = (tarif_type && Tarifs.const_get(tarif_type)) || Tarifs::Amount
-        tarif_klass.new(home: home)
+        tarif_klass.new(organisation: organisation)
       end
 
       actor do |tarif, row|
         tarif.assign_attributes(label: row['tarif.label'],
                                 price_per_unit: row['tarif.price']&.to_f || 0,
                                 tarif_group: row['tarif.tarif_group'],
+                                home_id: row['tarif.home_id'],
                                 unit: row['tarif.unit'],
                                 ordinal: row['tarif.ordinal']&.to_i)
       end
 
       actor do |tarif, row|
+        # TODO: check
         tarif[:invoice_types] = row['tarif.invoice_type'].to_i
       end
     end

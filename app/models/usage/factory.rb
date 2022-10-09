@@ -8,7 +8,7 @@ class Usage
       @booking = booking
     end
 
-    def build(tarifs: booking.home.tarifs.ordered, usages: booking.usages)
+    def build(tarifs: booking.organisation.tarifs.where(home_id: [booking.home, nil]).ordered, usages: booking.usages)
       tarifs.where.not(id: usages.map(&:tarif_id)).map do |tarif|
         Usage.new(tarif: tarif, apply: nil, booking: booking)
       end

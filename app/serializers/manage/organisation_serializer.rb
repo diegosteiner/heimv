@@ -2,11 +2,12 @@
 
 module Manage
   class OrganisationSerializer < Public::OrganisationSerializer
-    association :booking_categories, blueprint: BookingCategorySerializer, view: :export
+    association :booking_categories, blueprint: BookingCategorySerializer
     association :rich_text_templates, blueprint: RichTextTemplateSerializer
-    association :homes, blueprint: HomeSerializer, view: :export
+    association :homes, blueprint: HomeSerializer
     association :tenants, blueprint: TenantSerializer
     association :designated_documents, blueprint: DesignatedDocumentSerializer
+    association :tarifs, blueprint: TarifSerializer
 
     fields :iban, :mail_from
     field :settings do |organisation|
@@ -15,6 +16,8 @@ module Manage
 
     view :export do
       include_view :default
+
+      association :booking_categories, blueprint: BookingCategorySerializer, view: :export
     end
   end
 end

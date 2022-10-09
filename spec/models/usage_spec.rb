@@ -29,7 +29,8 @@
 require 'rails_helper'
 
 RSpec.describe Usage, type: :model do
-  let(:tarif) { create(:tarif, price_per_unit: 3.33) }
+  let(:home) { create(:home) }
+  let(:tarif) { create(:tarif, organisation: home.organisation, price_per_unit: 3.33) }
 
   describe '#price' do
     let(:usage) { build(:usage, tarif: tarif, used_units: 2) }
@@ -39,7 +40,7 @@ RSpec.describe Usage, type: :model do
   end
 
   describe '#save' do
-    let(:booking) { create(:booking, home: tarif.home) }
+    let(:booking) { create(:booking, home: home) }
     let(:usage) { build(:usage, booking: booking, tarif: tarif) }
 
     it { expect(usage.save!).to be true }

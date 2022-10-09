@@ -15,13 +15,6 @@ module Import
       def initialize_record(_hash)
         organisation.homes.build
       end
-
-      actor do |home, hash|
-        next unless hash['tarifs'].respond_to?(:each)
-
-        importer = TarifImporter.new(home, **options)
-        hash['tarifs'].each { |tarif| home.tarifs << importer.import(tarif) }
-      end
     end
   end
 end

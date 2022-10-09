@@ -9,7 +9,6 @@ module Manage
 
     view :export do
       include_view :default
-      association :tarifs, blueprint: Manage::TarifSerializer, view: :export
     end
   end
 end

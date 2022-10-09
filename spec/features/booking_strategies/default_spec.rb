@@ -17,7 +17,7 @@ describe 'Booking', :devise, type: :feature do
     ends_at = begins_at + 1.week + 4.hours + 15.minutes
     build(:occupancy, begins_at: begins_at, ends_at: ends_at)
   end
-  let!(:tarifs) { create_list(:tarif, 2, home: home) }
+  let!(:tarifs) { create_list(:tarif, 2, organisation: organisation) }
   let(:new_booking_path) do
     new_public_booking_path(booking: { home_id: home.id, occupancy_attributes:
       { begins_at: booking.occupancy.begins_at.iso8601, ends_at: booking.occupancy.ends_at.iso8601 } })
@@ -51,7 +51,7 @@ describe 'Booking', :devise, type: :feature do
     visit_booking
     accept_booking
     commit_request
-    define_tarifs
+    choose_tarifs
     create_contract
     create_deposit
     confirm_booking
@@ -110,7 +110,7 @@ describe 'Booking', :devise, type: :feature do
     click_on :commit_request
   end
 
-  def define_tarifs
+  def choose_tarifs
     visit manage_booking_path(@booking, org: org)
     find('.checklist a[aria-label="choose_tarifs"]').click
     tarifs.each do |tarif|

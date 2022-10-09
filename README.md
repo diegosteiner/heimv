@@ -145,11 +145,17 @@ Then import data with:
 cat data.csv | bin/rails r Import::Csv::TarifImporter.new(home).read
 ```
 
+## Backup & Restore
+
+```
+cat ./path/to/backup.dump | docker exec -i $(docker ps -q --filter name=heimv-db-)  pg_restore -U postgres -d heimv_development --host=localhost
+```
+
 ## Copyright & License
 
 🎂 1000th commit 🎂
 
-Coypright 2017 Diego P. Steiner & contributors
+Copyright 2017-2022 Diego P. Steiner & contributors
 
 If you want to use HeimV in a commercial setting, a commercial licence
 is required. For a commercial licence please get in touch: license@heimv.ch.

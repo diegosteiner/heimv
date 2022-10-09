@@ -45,8 +45,6 @@ class Home < ApplicationRecord
   validates :ref, uniqueness: { scope: %i[organisation_id] }
   validate -> { errors.add(:settings, :invalid) unless settings.valid? }
 
-  accepts_nested_attributes_for :tarifs, reject_if: :all_blank, update_only: true
-
   def to_s
     name
   end

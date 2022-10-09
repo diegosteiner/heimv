@@ -13,10 +13,6 @@ Rails.application.routes.draw do
         scope module: :homes do
           resources :occupancies, except: %w[show], shallow: true
           resources :meter_reading_periods, only: %w[index]
-          resources :tarifs do
-            put '/', action: :update_many, on: :collection
-            post :import, on: :collection
-          end
         end
       end
       resource :organisation, only: %i[edit update show]
@@ -29,6 +25,10 @@ Rails.application.routes.draw do
       end
       resources :payments, only: :index do
         match :new_import, via: %i[get post], on: :collection
+        post :import, on: :collection
+      end
+      resources :tarifs do
+        put '/', action: :update_many, on: :collection
         post :import, on: :collection
       end
       resources :bookings do

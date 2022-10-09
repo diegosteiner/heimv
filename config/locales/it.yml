@@ -253,6 +253,7 @@ it:
         title: Titel
       tarif:
         accountancy_account: zugewiesenes Buchhaltungskonto
+        home_id: Gültig für Heim
         invoice_types: Ausgewiesen in Rechnungsarten
         label: Tarif
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
@@ -955,6 +956,9 @@ it:
       update:
         alert: "%{resource_name} konnte nicht aktualisiert werden."
         notice: "%{resource_name} wurde erfolgreich aktualisiert."
+      update_many:
+        alert: Die Änderungen konnten nicht gespeichert werden.
+        notice: Die Änderungen wurden erfolgreich gespeichert.
     public:
       bookings:
         create:

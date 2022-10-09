@@ -4,11 +4,10 @@ require 'rails_helper'
 
 RSpec.describe Import::Csv::TarifImporter, type: :model do
   let(:organisation) { create(:organisation) }
-  let(:home) { create(:home, organisation: organisation) }
   let(:header_mapping) do
     %w[tarif.ordinal tarif.label tarif.type tarif.tarif_group tarif.unit tarif.price tarif.invoice_types]
   end
-  let(:importer) { described_class.new(home, csv: { headers: header_mapping }) }
+  let(:importer) { described_class.new(organisation, csv: { headers: header_mapping }) }
   let(:csv) do
     <<~ENDCSV
       "ordinal","label","type","tarif_group","unit","price","invoice_types"
@@ -34,7 +33,7 @@ RSpec.describe Import::Csv::TarifImporter, type: :model do
     it { is_expected.to be_valid }
     it { is_expected.to be_a(Tarifs::Flat) }
     it do
-      expect(record.home).to eq(home)
+      expect(record.organisation).to eq(organisation)
       expect(record.ordinal).to eq(11)
       expect(record.label).to eq('Tagesmiete auswärtige Pfadi')
       expect(record.tarif_group).to eq('Tagesmiete')

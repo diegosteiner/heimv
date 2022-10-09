@@ -252,7 +252,8 @@ de:
         namespace: Bereich
         title: Titel
       tarif:
-        accountancy_account: zugewiesenes Buchhaltungskonto
+        accountancy_account: Buchhaltungskonto
+        home_id: Gültig für Heim
         invoice_types: Ausgewiesen in Rechnungsarten
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
@@ -512,7 +513,7 @@ de:
         one: Tarifwähler-Tarif
         other: Tarifwähler-Tarife
       tarifs/amount:
-        one: nach Verbrauch / pro Einheit
+        one: nach Verbrauch
       tarifs/flat:
         one: Pauschale
       tarifs/metered:
@@ -954,6 +955,9 @@ de:
       update:
         alert: "%{resource_name} konnte nicht aktualisiert werden."
         notice: "%{resource_name} wurde erfolgreich aktualisiert."
+      update_many:
+        alert: Die Änderungen konnten nicht gespeichert werden.
+        notice: Die Änderungen wurden erfolgreich gespeichert.
     public:
       bookings:
         create:

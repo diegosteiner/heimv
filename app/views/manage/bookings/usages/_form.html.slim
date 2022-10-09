@@ -4,7 +4,7 @@
   fieldset
     = f.hidden_field :tarif_id
 
-    = f.collection_select :tarif_id, @booking.home.tarifs, :id, :label
+    = f.collection_select :tarif_id, @booking.organisation.tarifs, :id, :label
     = f.number_field :price_per_unit, step: 0.01
     = f.number_field :used_units, step: 0.01
     = f.check_box :committed

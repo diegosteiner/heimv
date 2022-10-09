@@ -24,12 +24,18 @@
 #  updated_at              :datetime         not null
 #  booking_id              :uuid
 #  home_id                 :bigint
+#  organisation_id         :bigint           not null
 #
 # Indexes
 #
-#  index_tarifs_on_booking_id  (booking_id)
-#  index_tarifs_on_home_id     (home_id)
-#  index_tarifs_on_type        (type)
+#  index_tarifs_on_booking_id       (booking_id)
+#  index_tarifs_on_home_id          (home_id)
+#  index_tarifs_on_organisation_id  (organisation_id)
+#  index_tarifs_on_type             (type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class Tarif < ApplicationRecord
@@ -44,6 +50,7 @@ class Tarif < ApplicationRecord
   flag :invoice_types, INVOICE_TYPES.keys
 
   belongs_to :home, optional: true
+  belongs_to :organisation, inverse_of: :tarifs
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
   has_many :tarif_selectors, dependent: :destroy, inverse_of: :tarif
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
@@ -63,8 +70,6 @@ class Tarif < ApplicationRecord
   translates :unit, column_suffix: '_i18n', locale_accessors: true
 
   accepts_nested_attributes_for :tarif_selectors, reject_if: :all_blank, allow_destroy: true
-
-  delegate :organisation, to: :home
 
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')

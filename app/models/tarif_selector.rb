@@ -35,7 +35,7 @@ class TarifSelector < ApplicationRecord
   end
 
   def valid_tarifs
-    home.tarifs
+    organisation.tarifs
   end
 
   def vote_for(usage)

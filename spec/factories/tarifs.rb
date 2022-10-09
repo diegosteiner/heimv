@@ -24,12 +24,18 @@
 #  updated_at              :datetime         not null
 #  booking_id              :uuid
 #  home_id                 :bigint
+#  organisation_id         :bigint           not null
 #
 # Indexes
 #
-#  index_tarifs_on_booking_id  (booking_id)
-#  index_tarifs_on_home_id     (home_id)
-#  index_tarifs_on_type        (type)
+#  index_tarifs_on_booking_id       (booking_id)
+#  index_tarifs_on_home_id          (home_id)
+#  index_tarifs_on_organisation_id  (organisation_id)
+#  index_tarifs_on_type             (type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 FactoryBot.define do
@@ -38,7 +44,7 @@ FactoryBot.define do
     label { 'Preis pro Übernachtung' }
     unit { 'Übernachtung (unter 16 Jahren)' }
     price_per_unit { 15.0 }
-    home
+    organisation
     invoice_types { Tarif.invoice_types.keys }
     prefill_usage_method { nil }
   end

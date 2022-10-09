@@ -24,12 +24,18 @@
 #  updated_at              :datetime         not null
 #  booking_id              :uuid
 #  home_id                 :bigint
+#  organisation_id         :bigint           not null
 #
 # Indexes
 #
-#  index_tarifs_on_booking_id  (booking_id)
-#  index_tarifs_on_home_id     (home_id)
-#  index_tarifs_on_type        (type)
+#  index_tarifs_on_booking_id       (booking_id)
+#  index_tarifs_on_home_id          (home_id)
+#  index_tarifs_on_organisation_id  (organisation_id)
+#  index_tarifs_on_type             (type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 require 'rails_helper'
@@ -38,7 +44,7 @@ RSpec.describe Organisation, type: :model do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:booking) { create(:booking, home: home) }
-  let(:tarif) { create(:tarif, type: Tarifs::Amount.to_s, price_per_unit: 10) }
+  let(:tarif) { create(:tarif, type: Tarifs::Amount.to_s, price_per_unit: 10, organisation: organisation) }
   let(:usage) { create(:usage, booking: booking, tarif: tarif, used_units: 7) }
 
   describe '#save' do

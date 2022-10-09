@@ -14,7 +14,7 @@ module Import
       end
 
       def initialize_record(_hash)
-        home.tarifs.build
+        organisation.tarifs.build
       end
     end
   end

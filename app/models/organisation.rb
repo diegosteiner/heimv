@@ -54,6 +54,7 @@ class Organisation < ApplicationRecord
   has_many :invoices, through: :bookings
   has_many :organisation_users, dependent: :destroy
   has_many :users, through: :organisation_users
+  has_many :tarifs, dependent: :destroy, inverse_of: :organisation
 
   has_one_attached :logo
   has_one_attached :contract_signature

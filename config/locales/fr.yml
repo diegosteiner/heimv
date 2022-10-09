@@ -253,6 +253,7 @@ fr:
         title: Titel
       tarif:
         accountancy_account: zugewiesenes Buchhaltungskonto
+        home_id: Gültig für Heim
         invoice_types: Ausgewiesen in Rechnungsarten
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
@@ -955,6 +956,9 @@ fr:
       update:
         alert: "%{resource_name} konnte nicht aktualisiert werden."
         notice: "%{resource_name} wurde erfolgreich aktualisiert."
+      update_many:
+        alert: Die Änderungen konnten nicht gespeichert werden.
+        notice: Die Änderungen wurden erfolgreich gespeichert.
     public:
       bookings:
         create:
