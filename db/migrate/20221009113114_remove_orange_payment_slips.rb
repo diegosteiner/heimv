@@ -1,7 +1,9 @@
 class RemoveOrangePaymentSlips < ActiveRecord::Migration[7.0]
   def up
-    Invoice.where(payment_info_type: "PaymentInfos::OrangePaymentSlip").find_each do |invoice| 
-      invoice.update(payment_info_type: invoice.organisation.default_payment_info_type)
+    Organisation.find_each do |organisation|
+        Invoice.where(payment_info_type: "PaymentInfos::OrangePaymentSlip")
+               .joins(:booking).where(booking: { organisation: organisation })
+               .update_all(payment_info_type: organisation.default_payment_info_type)
     end
   end
 end

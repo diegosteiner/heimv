@@ -148,7 +148,7 @@ cat data.csv | bin/rails r Import::Csv::TarifImporter.new(home).read
 ## Backup & Restore
 
 ```
-cat ./path/to/backup.dump | docker exec -i $(docker ps -q --filter name=heimv-db-)  pg_restore -U postgres -d heimv_development --host=localhost
+cat ./path/to/backup.dump | docker exec -i $(docker ps -q --filter name=heimv-db-)  pg_restore -U postgres -d heimv_development --host=localhost --no-privileges --no-owner
 ```
 
 ## Copyright & License
