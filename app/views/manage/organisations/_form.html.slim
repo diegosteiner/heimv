@@ -51,6 +51,9 @@
       - if can?(:manage, Operator, { organisation: current_organisation })
         li
           = link_to OperatorResponsibility.model_name.human(count: :other), manage_operator_responsibilities_path
+      - if can?(:manage, BookableExtra, { organisation: current_organisation })
+        li
+          = link_to BookableExtra.model_name.human(count: :other), manage_bookable_extras_path
 
   .form-actions.pt-4.mt-3
     = f.submit

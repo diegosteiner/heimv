@@ -94,7 +94,7 @@
         - if @booking.home&.bookable_extras&.any?
           h5= Booking.human_attribute_name(:bookable_extra_ids)
           .mb-3
-            = f.collection_check_boxes_without_bootstrap(:bookable_extra_ids, @booking.home.bookable_extras, :id, :title) do |option|
+            = f.collection_check_boxes_without_bootstrap(:bookable_extra_ids, @booking.organisation.bookable_extras, :id, :title) do |option|
               - id = "input-bookable-extra-#{option.object.id}"
               .form-check
                 = option.check_box class: "form-check-input", id: id, disabled: !@booking.editable

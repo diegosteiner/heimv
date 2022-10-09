@@ -74,6 +74,7 @@ de:
         tenant_email: Email des Mieters
       bookable_extra:
         description: Beschreibung
+        home_id: Gültig für Heim
         title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen

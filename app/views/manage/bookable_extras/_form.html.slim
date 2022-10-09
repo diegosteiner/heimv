@@ -17,5 +17,6 @@
           = f.text_field "title_#{locale.to_s}", label: BookableExtra.human_attribute_name(:title)
           = f.text_area "description_#{locale.to_s}", label: BookableExtra.human_attribute_name(:description)
 
+  = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true
   .form-actions.pt-4.mt-3
     = f.submit

@@ -10,6 +10,7 @@ h1.mt-0.mb-5= BookableExtra.model_name.human(count: :other)
         th
         th= BookableExtra.human_attribute_name(:title)
         th= BookableExtra.human_attribute_name(:description)
+        th= BookableExtra.human_attribute_name(:home_id)
         th
 
     tbody
@@ -21,6 +22,8 @@ h1.mt-0.mb-5= BookableExtra.model_name.human(count: :other)
             = bookable_extra.title
           td 
             = bookable_extra.description
+          td 
+            = link_to bookable_extra.home, manage_home_path(bookable_extra.home)
           td.p-1.text-end 
             .btn-group
               = link_to edit_manage_bookable_extra_path(bookable_extra), class: 'btn btn-default' do

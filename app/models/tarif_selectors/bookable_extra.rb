@@ -26,7 +26,7 @@ module TarifSelectors
     TarifSelector.register_subtype self
 
     validate do
-      next if home.bookable_extras.exists?(id: distinction)
+      next if organisation.bookable_extras.exists?(id: distinction)
 
       errors.add(:distinction, :invalid)
     end

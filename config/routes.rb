@@ -9,7 +9,6 @@ Rails.application.routes.draw do
       root to: 'dashboard#index'
       get 'flow', to: 'pages#flow'
       resources :homes do
-        resources :bookable_extras, to: 'bookable_extras'
         scope module: :homes do
           resources :occupancies, except: %w[show], shallow: true
           resources :meter_reading_periods, only: %w[index]
@@ -17,6 +16,7 @@ Rails.application.routes.draw do
       end
       resource :organisation, only: %i[edit update show]
       resources :organisation_users, except: %i[show]
+      resources :bookable_extras, to: 'bookable_extras'
       resources :data_digests do
         get '/digest', on: :member, action: :digest, as: :digest
       end
