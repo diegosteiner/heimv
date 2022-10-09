@@ -2,9 +2,15 @@
 
 #### Unreleased
 
+#### Version 22.10.2
+
+Released on 09.10.2022
+
+- Feature: Add organisation-wide tarifs and bookable extras
+
 #### Version 22.10.1
 
-Released on 1.10.2022
+Released on 01.10.2022
 
 - Feature: Create offers through invoices
 - Fix: Remove orange payment slip
