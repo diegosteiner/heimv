@@ -19,7 +19,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      booking.deadlines.create(length: booking.home.settings.overdue_request_deadline,
+      booking.deadlines.create(length: booking.organisation.settings.overdue_request_deadline,
                                remarks: booking.booking_state.t(:label))
       booking.notifications.new(template: :overdue_request_notification, to: booking.tenant)&.deliver
     end

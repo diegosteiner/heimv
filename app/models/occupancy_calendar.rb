@@ -11,7 +11,7 @@ class OccupancyCalendar
 
   def initialize(attributes)
     super(attributes)
-    self.window_to ||= home.settings.booking_window.from_now
+    self.window_to ||= home.organisation.settings.booking_window.from_now
   end
 
   def occupancies

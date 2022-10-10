@@ -15,20 +15,6 @@ it:
         previous_booking_states: Vergangene Status
         ref: Buchungsreferenz
         tenant: Mieter
-      home_settings:
-        awaiting_contract_deadline: Frist für Vertragseingänge
-        booking_margin: Abstand zwischen Buchungen
-        closed_occupancy_color: Farbe für Schliessungen
-        deadline_postponable_for: Fristverlängerung
-        deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
-        invoice_payment_deadline: Standardmässige Zahlungsfrist
-        last_minute_warning: Frist für Kurzfristige Reservationsanfragen
-        occupied_occupancy_color: Farbe für definitive Belegungen
-        overdue_request_deadline: Frist für Reservationsanfragen
-        provisional_request_deadline: Frist für provisorische Reservationsanfragen
-        tentative_occupancy_color: Farbe für provisorischen Belegungen
-        unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
-        upcoming_soon_window: Frist für baldige Belegung
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerabschnitts ab
         begins_at_before: Beginn des Zählerabschnitts bis
@@ -43,7 +29,20 @@ it:
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
       organisation_settings:
+        awaiting_contract_deadline: Frist für Vertragseingänge
+        booking_margin: Abstand zwischen Buchungen
+        closed_occupancy_color: Farbe für Schliessungen
+        deadline_postponable_for: Fristverlängerung
+        deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
+        invoice_payment_deadline: Standardmässige Zahlungsfrist
+        last_minute_warning: Frist für Kurzfristige Reservationsanfragen
+        occupied_occupancy_color: Farbe für definitive Belegungen
+        overdue_request_deadline: Frist für Reservationsanfragen
+        provisional_request_deadline: Frist für provisorische Reservationsanfragen
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
+        tentative_occupancy_color: Farbe für provisorischen Belegungen
+        unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
+        upcoming_soon_window: Frist für baldige Belegung
       payment/filter:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis

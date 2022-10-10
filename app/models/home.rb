@@ -10,7 +10,6 @@
 #  name             :string
 #  ref              :string
 #  requests_allowed :boolean          default(FALSE)
-#  settings         :jsonb
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  organisation_id  :bigint           not null
@@ -39,11 +38,8 @@ class Home < ApplicationRecord
 
   scope :ordered, -> { order(name: :ASC) }
 
-  attribute :settings, Settings::Type.new(HomeSettings), default: -> { HomeSettings.new }
-
   validates :name, presence: true
   validates :ref, uniqueness: { scope: %i[organisation_id] }
-  validate -> { errors.add(:settings, :invalid) unless settings.valid? }
 
   def to_s
     name

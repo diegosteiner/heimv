@@ -41,7 +41,7 @@ module Invoices
     end
 
     def payable_until(invoice)
-      settings = invoice.booking.home.settings
+      settings = invoice.booking.organisation.settings
       return settings.deposit_payment_deadline.from_now if invoice.is_a?(Invoices::Deposit)
 
       settings.invoice_payment_deadline.from_now

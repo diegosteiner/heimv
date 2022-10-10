@@ -26,10 +26,31 @@
     h3.mt-4= Invoice.model_name.human(count: :other)
     = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
     div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
-    = f.text_field :esr_beneficiary_account
-    = f.text_field :esr_ref_prefix
     = f.text_field :iban
     = f.text_field :qr_iban
+
+  = f.fields_for :settings, @organisation.settings || OrganisationSettings.new do |sf|  
+    - settings = sf.object
+    fieldset
+      h3.mt-4= Tenant.model_name.human(count: :other)
+      = sf.check_box :tenant_birth_date_required
+    fieldset
+      h3.mt-4= Occupancy.model_name.human(count: :other)
+      = sf.color_field :tentative_occupancy_color, style: 'width: 5em;'
+      = sf.color_field :occupied_occupancy_color, style: 'width: 5em;'
+      = sf.color_field :closed_occupancy_color, style: 'width: 5em;'
+    fieldset
+      h3.mt-4= Deadline.model_name.human(count: :other)
+      = sf.text_field :booking_margin, value: settings.booking_margin&.iso8601
+      = sf.text_field :awaiting_contract_deadline, value: settings.awaiting_contract_deadline&.iso8601
+      = sf.text_field :deadline_postponable_for, value: settings.deadline_postponable_for&.iso8601
+      = sf.text_field :deposit_payment_deadline, value: settings.deposit_payment_deadline&.iso8601
+      = sf.text_field :invoice_payment_deadline, value: settings.invoice_payment_deadline&.iso8601
+      = sf.text_field :last_minute_warning, value: settings.last_minute_warning&.iso8601
+      = sf.text_field :overdue_request_deadline, value: settings.overdue_request_deadline&.iso8601
+      = sf.text_field :provisional_request_deadline, value: settings.provisional_request_deadline&.iso8601
+      = sf.text_field :unconfirmed_request_deadline, value: settings.unconfirmed_request_deadline&.iso8601
+      = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
 
   fieldset
     h3.mt-4= t('.more_settings')

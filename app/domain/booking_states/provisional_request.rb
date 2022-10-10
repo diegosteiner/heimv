@@ -18,8 +18,8 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      booking.deadlines.create(length: booking.home.settings.provisional_request_deadline,
-                               postponable_for: booking.home.settings.deadline_postponable_for,
+      booking.deadlines.create(length: booking.organisation.settings.provisional_request_deadline,
+                               postponable_for: booking.organisation.settings.deadline_postponable_for,
                                remarks: booking.booking_state.t(:label))
     end
 

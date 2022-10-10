@@ -3,14 +3,14 @@
 module Import
   module Hash
     class TarifImporter < Base
-      attr_reader :home
+      attr_reader :organisation
 
       use_attributes(*%w[invoice_types label_i18n ordinal prefill_usage_method price_per_unit tarif_group
-                         pin type unit_i18n valid_from valid_until tenant_visible])
+                         pin type unit_i18n valid_from valid_until tenant_visible home_id])
 
-      def initialize(home, **options)
+      def initialize(organisation, **options)
         super(**options)
-        @home = home
+        @organisation = organisation
       end
 
       def initialize_record(_hash)
