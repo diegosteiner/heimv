@@ -2,6 +2,6 @@
 
 module Public
   class HomeSerializer < ApplicationSerializer
-    fields :id, :name
+    fields :id, :name, :address
   end
 end

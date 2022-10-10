@@ -9,7 +9,7 @@ module Manage
     association :designated_documents, blueprint: DesignatedDocumentSerializer
     association :tarifs, blueprint: TarifSerializer
 
-    fields :iban, :mail_from
+    fields :qr_iban, :esr_beneficiary_account, :iban, :mail_from
     field :settings do |organisation|
       organisation.settings.to_h
     end

@@ -162,7 +162,6 @@ it:
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
         percentage_paid: "% bezahlt"
-        print_payment_slip: Einzahlungsschein drucken
         ref: Referenznummer
         sent_at: Rechnungsdatum
         text: Text

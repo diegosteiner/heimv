@@ -23,7 +23,6 @@
 #  mail_from                 :string
 #  name                      :string
 #  notifications_enabled     :boolean          default(TRUE)
-#  payment_deadline          :integer          default(30), not null
 #  qr_iban                   :string
 #  ref_template              :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
 #  representative_address    :string

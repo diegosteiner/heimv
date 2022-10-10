@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_10_113834) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -263,7 +263,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_113834) do
     t.text "text"
     t.string "ref"
     t.decimal "amount", default: "0.0"
-    t.boolean "print_payment_slip", default: false
     t.datetime "discarded_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -373,7 +372,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_113834) do
     t.string "iban"
     t.string "representative_address"
     t.string "email"
-    t.integer "payment_deadline", default: 30, null: false
     t.string "location"
     t.boolean "notifications_enabled", default: true
     t.string "bcc"
@@ -436,7 +434,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_113834) do
   create_table "tarifs", force: :cascade do |t|
     t.string "type"
     t.boolean "pin", default: true
-    t.uuid "booking_id"
     t.bigint "home_id"
     t.decimal "price_per_unit"
     t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
@@ -454,7 +451,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_113834) do
     t.decimal "minimum_usage_per_night"
     t.decimal "minimum_usage_total"
     t.bigint "organisation_id", null: false
-    t.index ["booking_id"], name: "index_tarifs_on_booking_id"
     t.index ["home_id"], name: "index_tarifs_on_home_id"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
     t.index ["type"], name: "index_tarifs_on_type"

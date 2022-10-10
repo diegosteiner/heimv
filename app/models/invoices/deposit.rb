@@ -4,21 +4,20 @@
 #
 # Table name: invoices
 #
-#  id                 :bigint           not null, primary key
-#  amount             :decimal(, )      default(0.0)
-#  amount_open        :decimal(, )
-#  discarded_at       :datetime
-#  issued_at          :datetime
-#  payable_until      :datetime
-#  payment_info_type  :string
-#  print_payment_slip :boolean          default(FALSE)
-#  ref                :string
-#  sent_at            :datetime
-#  text               :text
-#  type               :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  booking_id         :uuid
+#  id                :bigint           not null, primary key
+#  amount            :decimal(, )      default(0.0)
+#  amount_open       :decimal(, )
+#  discarded_at      :datetime
+#  issued_at         :datetime
+#  payable_until     :datetime
+#  payment_info_type :string
+#  ref               :string
+#  sent_at           :datetime
+#  text              :text
+#  type              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  booking_id        :uuid
 #
 # Indexes
 #
