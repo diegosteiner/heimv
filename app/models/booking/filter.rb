@@ -4,6 +4,7 @@ class Booking
   class Filter < ApplicationFilter
     attribute :ref
     attribute :tenant
+    attribute :categories
     attribute :homes, default: -> { [] }
     attribute :current_booking_states, default: -> { [] }
     attribute :previous_booking_states, default: -> { [] }
@@ -13,11 +14,6 @@ class Booking
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
     attribute :occupancy_type
-
-    # Ensures backwards compatibilty
-    def booking_states=(value)
-      self.current_booking_states = value
-    end
 
     def occupancy_filter
       @occupancy_filter ||= Occupancy::Filter.new({ begins_at_before: begins_at_before,
@@ -39,8 +35,16 @@ class Booking
     end
 
     filter :homes do |bookings|
-      relevant_homes = homes.compact_blank
+      relevant_homes = Array.wrap(homes).compact_blank
       bookings.where(home_id: relevant_homes) if relevant_homes.present?
+    end
+
+    filter :categories do |bookings|
+      categories = Array.wrap(categories).compact_blank
+      next if categories.blank?
+
+      category_ids = BookingCategory.where(key: categories).pluck(:id) + categories
+      bookings.where(booking_category_id: category_ids)
     end
 
     filter :tenant do |bookings|
@@ -52,13 +56,13 @@ class Booking
     end
 
     filter :has_booking_state do |bookings|
-      states = current_booking_states.compact_blank
+      states = Array.wrap(current_booking_states).compact_blank
 
       bookings.where(booking_state_cache: states) if states.any?
     end
 
     filter :had_booking_state do |bookings|
-      states = previous_booking_states.compact_blank
+      states = Array.wrap(previous_booking_states).compact_blank
 
       bookings.joins(:state_transitions).where(state_transitions: { to_state: states }) if states.any?
     end

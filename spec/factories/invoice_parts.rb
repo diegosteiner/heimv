@@ -28,10 +28,9 @@
 
 FactoryBot.define do
   factory :invoice_part, class: InvoiceParts::Add.to_s do
-    invoice { nil }
     usage { nil }
-    # type ''
-    amount { '9.99' }
+    invoice
+    amount { rand(50.0..1000.0) }
     label { 'MyText' }
     breakdown { 'MyText' }
   end
