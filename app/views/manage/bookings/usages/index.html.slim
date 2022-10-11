@@ -9,9 +9,6 @@
         button.ms-2.btn.btn-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking, invoice:  { type: invoice_type })]
           = t('manage.bookings.usages.index.save_and_continue', invoice_type: invoice_type.model_name.human)
 
-      = link_to manage_booking_usages_path(@booking, format: :pdf), class: 'btn btn-default ms-3' do 
-        i.fa.fa-print<>
-
   hr.mt-5
 h1.mt-5= t('.applicable_tarifs', default: 'Verfügbare Tarife')
 section.mt-4

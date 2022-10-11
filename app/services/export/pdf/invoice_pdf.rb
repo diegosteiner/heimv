@@ -22,7 +22,8 @@ module Export
       add_font_family 'ocr', normal: File.join(FONTS_PATH, 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf')
 
       to_render do
-        render Renderables::PageHeader.new(text: booking.ref, logo: organisation.logo)
+        header_text = "#{Booking.human_model_name} #{booking.ref}"
+        render Renderables::PageHeader.new(text: header_text, logo: organisation.logo)
         render Renderables::AddressedHeader.new(booking, issuer_address: booking.organisation.creditor_address,
                                                          recipient_address: booking.invoice_address.presence)
       end

@@ -13,7 +13,8 @@ module Export
       end
 
       to_render do
-        render Renderables::PageHeader.new(text: @booking.ref, logo: @organisation.logo)
+        header_text = "#{Booking.human_model_name} #{@booking.ref}"
+        render Renderables::PageHeader.new(text: header_text, logo: @organisation.logo)
         render Renderables::AddressedHeader.new(@booking, recipient_address: @booking.tenant.contact_lines)
         render Renderables::RichText.new(@contract.text)
       end

@@ -10,13 +10,8 @@ module Manage
         @usages = @usages.includes(tarif: :tarif_selectors)
         @suggested_usages = Usage::Factory.new(@booking).build(usages: @usages)
         @suggested_usages = @suggested_usages.select(&:preselect) if suggest_usages?
-        respond_to do |format|
-          format.html
-          format.pdf do
-            send_data Export::Pdf::UsageReportPdf.new(@booking).render_document,
-                      filename: "#{@booking.ref}.pdf", type: 'application/pdf', disposition: :inline
-          end
-        end
+
+        respond_with :manage, @booking, @usages
       end
 
       def show
