@@ -657,10 +657,9 @@ de:
       relevant_time: Beginn der Belegung %{time}
   confirm: Sind sie sicher?
   contracts:
-    issuer_signature_label: Datum, Unterschrift Vermieter
+    issuer_signature_label: Datum, Ort, Unterschrift Vermieter
     represented_by: vertreten durch
-    tenant_signature_label: Datum, Unterschrift Mieter
-  creditor_account: Creditor account
+    tenant_signature_label: Datum, Ort, Unterschrift Mieter
   currency: Currency
   data_digests:
     period_from: von %{date}
