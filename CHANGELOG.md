@@ -2,6 +2,13 @@
 
 #### Unreleased
 
+#### Version 22.10.3
+
+Released on 12.10.2022
+
+- Improvement: Add better help for variables for rich text templates
+- Fix: Allow change of locale
+
 #### Version 22.10.2
 
 Released on 09.10.2022
