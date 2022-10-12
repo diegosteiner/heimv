@@ -49,7 +49,7 @@ class CostEstimation
 
   def projection
     mean_costs = self.class.mean_costs_per_person_per_day(reference_bookings, fixcosts: fixcosts)
-    fixcosts + ((mean_costs || 0 * person_days))
+    fixcosts + ((mean_costs || 0) * person_days)
   end
 
   def projection_difference
