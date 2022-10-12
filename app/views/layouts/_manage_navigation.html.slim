@@ -11,21 +11,21 @@ nav.p-3
   #navbar-main-nav.collapse.navbar-collapse.show.position-fixed-lg
     ul.list-unstyled.nav.flex-column
       li.nav-item
-        = link_to OccupancyCalendar.model_name.human(count: :other), manage_root_path, class: 'nav-link'
+        = link_to OccupancyCalendar.model_name.human(count: 2), manage_root_path, class: 'nav-link'
       li.nav-item
-        = link_to Booking.model_name.human(count: :other), manage_bookings_path, class: 'nav-link'
+        = link_to Booking.model_name.human(count: 2), manage_bookings_path, class: 'nav-link'
       li.nav-item
-        = link_to Tenant.model_name.human(count: :other), manage_tenants_path, class: 'nav-link'
+        = link_to Tenant.model_name.human(count: 2), manage_tenants_path, class: 'nav-link'
       li.nav-item
-        = link_to Invoice.model_name.human(count: :other), manage_invoices_path, class: 'nav-link'
+        = link_to Invoice.model_name.human(count: 2), manage_invoices_path, class: 'nav-link'
       li.nav-item
-        = link_to Payment.model_name.human(count: :other), manage_payments_path, class: 'nav-link'
+        = link_to Payment.model_name.human(count: 2), manage_payments_path, class: 'nav-link'
       li.nav-item
-        = link_to Home.model_name.human(count: :other), manage_homes_path, class: 'nav-link'
+        = link_to Home.model_name.human(count: 2), manage_homes_path, class: 'nav-link'
       li.nav-item
-        = link_to Tarif.model_name.human(count: :other), manage_tarifs_path, class: 'nav-link'
+        = link_to Tarif.model_name.human(count: 2), manage_tarifs_path, class: 'nav-link'
       li.nav-item
-        = link_to DataDigest.model_name.human(count: :other), manage_data_digests_path, class: 'nav-link'
+        = link_to DataDigest.model_name.human(count: 2), manage_data_digests_path, class: 'nav-link'
       li.nav-item
         = link_to edit_manage_organisation_path, class: 'nav-link'
           = Organisation.model_name.human

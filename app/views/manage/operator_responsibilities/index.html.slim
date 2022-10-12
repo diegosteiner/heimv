@@ -2,7 +2,7 @@
   - title "#{Booking.model_name.human} #{@booking.to_s} - #{OperatorResponsibility.model_name.human(count: 2)}"
   = render partial: 'manage/bookings/navigation', locals: { booking: @booking }
 - else
-  h1.mt-0.mb-5= OperatorResponsibility.model_name.human(count: :other)
+  h1.mt-0.mb-5= OperatorResponsibility.model_name.human(count: 2)
 
 .table-responsive
   table.table.table-hover.align-middle

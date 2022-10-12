@@ -52,7 +52,8 @@ class ApplicationController < ActionController::Base
   def current_locale
     return @current_locale if @current_locale.present?
 
-    @current_locale = (I18n.available_locales & [params[:locale]&.to_sym, I18n.default_locale]).first
+    requested_locale = params[:locale]&.to_sym
+    @current_locale = I18n.available_locales.include?(requested_locale) ? requested_locale : I18n.default_locale
     I18n.locale = @current_locale
   end
 

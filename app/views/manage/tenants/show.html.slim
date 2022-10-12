@@ -26,7 +26,7 @@
 
 - if @tenant.bookings.none?
   p.text-center.my-5
-    = t(:no_records_yet, model_name: Booking.model_name.human(count: :other))
+    = t(:no_records_yet, model_name: Booking.model_name.human(count: 2))
 - else
   table.table.table-hover.align-middle.mt-5
     thead

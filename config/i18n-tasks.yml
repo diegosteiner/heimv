@@ -92,7 +92,7 @@ ignore_missing:
   - "number.precision.format.delimiter"
   - "{devise,simple_form}.*"
   - "rich_text_templates.*.{default_title,default_body}"
-  - "amount"
+  - "{amount,creditor_account}"
 
 ## Consider these keys used:
 ignore_unused:

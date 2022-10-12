@@ -30,7 +30,7 @@ module Manage
       def update_many
         @booking.update(booking_usages_params)
         respond_with :manage, @booking, @usages,
-                     responder_flash_messages(Usage.model_name.human(count: :other))
+                     responder_flash_messages(Usage.model_name.human(count: 2))
                        .merge(location: return_to_path(manage_booking_usages_path(@booking)))
       end
 

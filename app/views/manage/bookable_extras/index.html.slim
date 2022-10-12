@@ -1,7 +1,7 @@
 - if @home.present?
   = render partial: 'manage/homes/navigation', locals: { active: :bookable_extras }
 
-h1.mt-0.mb-5= BookableExtra.model_name.human(count: :other)
+h1.mt-0.mb-5= BookableExtra.model_name.human(count: 2)
 
 .table-responsive
   table.table.table-hover.align-middle

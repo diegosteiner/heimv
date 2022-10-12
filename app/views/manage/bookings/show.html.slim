@@ -77,7 +77,7 @@
 
               - if @booking.bookable_extras.any?
                 dl
-                  dt= BookedExtra.model_name.human(count: :other)
+                  dt= BookedExtra.model_name.human(count: 2)
                   dd
                     ul 
                       - @booking.bookable_extras.each do |bookable_extra|
@@ -111,7 +111,7 @@
               - if(can? :manage, Operator)
                 dl
                   dt
-                    = OperatorResponsibility.model_name.human(count: :other)
+                    = OperatorResponsibility.model_name.human(count: 2)
                     = link_to(manage_booking_operator_responsibilities_path(@booking), class: 'ms-2')
                       .fa.fa-edit
                   dd

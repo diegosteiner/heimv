@@ -4,8 +4,8 @@
 - if @booking.usages.none?
   .alert.alert-warning[role="alert"]
     p.m-0
-      = t(:no_records_yet, model_name: Tarif.model_name.human(count: :other))
-      =<> link_to t(:add_record, model_name: Tarif.model_name.human(count: :other)), manage_booking_usages_path(@booking)
+      = t(:no_records_yet, model_name: Tarif.model_name.human(count: 2))
+      =<> link_to t(:add_record, model_name: Tarif.model_name.human(count: 2)), manage_booking_usages_path(@booking)
 
 - unless @booking.committed_request
   .alert.alert-warning[role="alert"]
@@ -14,7 +14,7 @@
 
 - if @contracts.none?
   p.text-center.my-5
-    = t(:no_records_yet, model_name: Contract.model_name.human(count: :other))
+    = t(:no_records_yet, model_name: Contract.model_name.human(count: 2))
     =<> link_to t(:add_record, model_name: Contract.model_name.human), new_manage_booking_contract_path(@booking)
 - else
   section.mt-4

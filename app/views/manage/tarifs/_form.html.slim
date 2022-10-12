@@ -31,7 +31,7 @@
     = f.check_box :tenant_visible
     = f.check_box :pin
 
-    label= TarifSelector.model_name.human(count: :other)
+    label= TarifSelector.model_name.human(count: 2)
     = f.fields_for :tarif_selectors, @tarif.tarif_selectors do |tuc|
       = tuc.hidden_field :id
       .row

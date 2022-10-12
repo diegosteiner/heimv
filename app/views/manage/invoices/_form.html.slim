@@ -19,7 +19,7 @@
     = f.date_field :payable_until, lang: I18n.locale
     = f.select :payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
 
-    h5.mt-4= InvoicePart.model_name.human(count: :other)
+    h5.mt-4= InvoicePart.model_name.human(count: 2)
     = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
       = ipf.hidden_field :id
       = ipf.hidden_field :usage_id
