@@ -30,11 +30,11 @@ class CostEstimation
   end
 
   def days
-    booking.occupancy.nights + 1
+    (booking.occupancy.nights || 0) + 1
   end
 
   def person_days
-    days * booking.approximate_headcount
+    days * (booking.approximate_headcount || 1)
   end
 
   def per_person_per_day
@@ -44,12 +44,12 @@ class CostEstimation
   def reference_bookings
     Booking::Filter.new(previous_booking_states: %i[completed], ends_at_after: 1.year.ago,
                         homes: booking.home_id, categories: booking.booking_category_id)
-                   .apply(booking.organisation.bookings)
+                   .apply(booking.organisation.bookings.where.not(approximate_headcount: nil))
   end
 
   def projection
     mean_costs = self.class.mean_costs_per_person_per_day(reference_bookings, fixcosts: fixcosts)
-    fixcosts + ((mean_costs * person_days) || 1)
+    fixcosts + ((mean_costs || 0 * person_days))
   end
 
   def projection_difference
@@ -64,16 +64,19 @@ class CostEstimation
                      .apply(organisation.bookings)
     end
 
+    def estimations(bookings, fixcosts: 0)
+      bookings.index_with { |booking| new(booking, fixcosts: fixcosts) }
+    end
+
     def projection(bookings, fixcosts: 0)
       errors = []
-      samples = bookings.map do |booking|
-        cost_estimation = new(booking, fixcosts: fixcosts)
+      samples = estimations(bookings, fixcosts: fixcosts).transform_values do |cost_estimation|
         next cost_estimation.projection if cost_estimation.total.blank?
 
         errors << cost_estimation.projection_difference
         cost_estimation.total
       end
-      { total: samples.sum, errors: errors, samples: samples }
+      { total: samples.values.sum, errors: errors, samples: samples }
     end
 
     def mean_costs_per_person_per_day(bookings, fixcosts: 0)
