@@ -37,7 +37,7 @@ gem 'pg'
 gem 'prawn'
 gem 'prawn-markup'
 gem 'prawn-table'
-gem 'puma'
+gem 'puma', '~> 5.6' # FIXME: https://github.com/teamcapybara/capybara wait for release
 gem 'rack-mini-profiler'
 gem 'rails', '~> 7.0.0'
 gem 'rails-i18n', '~> 7.0'
