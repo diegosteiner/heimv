@@ -113,6 +113,7 @@ class Notification < ApplicationRecord
 
   # rubocop:disable Metrics/MethodLength
   def to=(value)
+    value = value.presence
     super case value
           when Tenant, Booking
             self.addressed_to = :tenant
