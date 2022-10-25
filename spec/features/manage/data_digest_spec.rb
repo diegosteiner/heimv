@@ -14,7 +14,7 @@ describe 'Data Digests', :devise, type: :feature do
 
   it 'can create new data digest' do
     name = 'Test Data Digest 123'
-    visit new_manage_data_digest_path(type: DataDigestTemplates::Booking, org: organisation)
+    visit new_manage_data_digest_template_path(type: DataDigestTemplates::Booking, org: organisation)
     fill_in :data_digest_label, with: name
     submit_form
 

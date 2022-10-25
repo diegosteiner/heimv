@@ -11,7 +11,8 @@ RSpec.describe TransitionBookingStatesJob, type: :job do
     context 'with deadlines' do
       let(:home) { create(:home) }
       let(:booking) do
-        create(:booking, initial_state: :provisional_request, home: home, organisation: home.organisation)
+        create(:booking, initial_state: :provisional_request, home: home, organisation: home.organisation,
+                         committed_request: false)
       end
 
       before do
@@ -19,7 +20,7 @@ RSpec.describe TransitionBookingStatesJob, type: :job do
         booking.deadlines.create(at: 15.minutes.ago)
       end
 
-      it { expect(transitions).to eq({ booking.id => %w[definitive_request overdue_request] }) }
+      it { expect(transitions).to eq({ booking.id => %w[overdue_request] }) }
     end
   end
 end
