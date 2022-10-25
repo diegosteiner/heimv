@@ -30,7 +30,7 @@ RSpec.describe DataDigest, type: :model do
   subject(:data_digest) { create(:data_digest) }
 
   describe '#period' do
-    it { expect(DataDigest::PERIODS[:ever]).to eq(Range.new(nil, nil)) }
+    it { expect(DataDigest::PERIODS[:ever].call(nil)).to eq(Range.new(nil, nil)) }
   end
 
   describe '#crunch', skip: true do

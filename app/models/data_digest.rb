@@ -71,6 +71,10 @@ class DataDigest < ApplicationRecord
     self.period_to ||= period_range&.end
   end
 
+  def organisation
+    super || self.organisation = data_digest_template&.organisation
+  end
+
   def crunch(records = data_digest_template.records(period_from..period_to))
     columns = data_digest_template.columns
     self.data = records.find_each.map do |record|
@@ -115,7 +119,9 @@ class DataDigest < ApplicationRecord
                              force_quotes: true, encoding: 'utf-8' })
 
     CSV.generate(**options) do |csv|
+      csv << header
       data&.each { |row| csv << row }
+      csv << footer if footer.any?(&:present?)
     end
   end
 

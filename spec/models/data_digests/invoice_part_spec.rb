@@ -24,11 +24,17 @@
 require 'rails_helper'
 
 RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
-  subject(:data_digest) { create(:invoice_part_data_digest, organisation: organisation) }
-  let(:period) { DataDigest.period(:ever) }
+  subject(:data_digest) { data_digest_template.data_digests.create }
+  let(:columns_config) { nil }
+  let(:data_digest_template) do
+    create(:invoice_part_data_digest_template, columns_config: columns_config, organisation: organisation)
+  end
   let(:home) { create(:home, organisation: organisation) }
   let(:organisation) { create(:organisation) }
   let(:tarifs) { create_list(:tarif, 4, organisation: organisation, home: home) }
+  before do
+    data_digest.crunch!
+  end
 
   let!(:invoice_parts) do
     create_list(:booking, 3, home: home).map do |booking|
@@ -40,12 +46,8 @@ RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
     end.flatten
   end
 
-  it { is_expected.to be_a(described_class) }
-
-  describe '#evaluate' do
-    subject(:periodic_data) { data_digest.evaluate(period) }
-
-    it { is_expected.to be_a(DataDigest::PeriodicData) }
+  describe '#data' do
+    it { is_expected.to be_a(DataDigest) }
     # it { expect(periodic_data.data.count).to be(invoice_parts.count) }
     # it(:header) do
     #   is_expected.to have_attributes(header: ['Referenznummer', 'Buchungsreferenz', 'Paid at', 'Ausgestellt am',
@@ -54,10 +56,10 @@ RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
   end
 
   describe '#csv' do
-    it { expect(data_digest.evaluate(period).format(:csv)).to include('Betrag') }
+    it { expect(data_digest.format(:csv)).to include('Betrag') }
   end
 
   describe '#pdf' do
-    it { expect(data_digest.evaluate(period).format(:pdf)).not_to be_blank }
+    it { expect(data_digest.format(:pdf)).not_to be_blank }
   end
 end

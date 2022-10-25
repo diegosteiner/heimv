@@ -26,7 +26,7 @@ module Manage
     def create
       data_digest_templates
       @data_digest.organisation = current_organisation
-      @data_digest.save && CrunchDataDigestJob.perform_now(@data_digest.id)
+      @data_digest.save && CrunchDataDigestJob.perform_later(@data_digest.id)
       respond_with :manage, @data_digest, location: manage_data_digests_path
     end
 
