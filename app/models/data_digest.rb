@@ -119,8 +119,8 @@ class DataDigest < ApplicationRecord
     end
   end
 
-  # formatter(:pdf) do |options = {}|
-  #   options.reverse_merge!({ document_options: { page_layout: :landscape } })
-  #   Export::Pdf::DataDigestPeriodPdf.new(self, **options).render_document
-  # end
+  formatter(:pdf) do |options = {}|
+    options.reverse_merge!({ document_options: { page_layout: :landscape } })
+    Export::Pdf::DataDigestPdf.new(self, **options).render_document
+  end
 end

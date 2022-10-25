@@ -19,7 +19,7 @@ module Manage
       respond_to do |format|
         format.html
         format.csv { send_data @data_digest.format(:csv), filename: "#{@data_digest.label}.csv" }
-        # format.pdf { send_data @data_digest.format(:pdf), filename: "#{@data_digest.label}.pdf" }
+        format.pdf { send_data @data_digest.format(:pdf), filename: "#{@data_digest.label}.pdf" }
       end
     end
 
