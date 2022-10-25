@@ -15,17 +15,15 @@ describe 'Data Digests', :devise, type: :feature do
   it 'can create new data digest' do
     name = 'Test Data Digest 123'
     visit new_manage_data_digest_template_path(type: DataDigestTemplates::Booking, org: organisation)
-    fill_in :data_digest_label, with: name
+    fill_in :data_digest_template_label, with: name
     submit_form
 
     expect(page).to have_content I18n.t('flash.actions.create.notice',
                                         resource_name: DataDigestTemplates::Booking.model_name.human)
-    # expect(page).to have_content name
-    click_on name
     expect(page).to have_content name
   end
 
-  it 'can see a booking', pending: true do
+  it 'can see a booking', skip: true do
     visit manage_data_digest_path(data_digest, org: organisation)
     bookings = create_list(:booking, 3, organisation: organisation, home: home)
     click_on I18n.t('activerecord.enums.data_digest.periods.ever')
