@@ -670,9 +670,7 @@ en:
     tenant_signature_label: Datum, Unterschrift Mieter
   currency: Currency
   data_digests:
-    period_from: Period from
-    period_short: von %{date}
-    period_to: Period to
+    period_short: "%{period_from} - %{period_to}"
   date:
     abbr_day_names: '["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]'
     abbr_month_names: '[nil, "Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]'

@@ -670,9 +670,7 @@ it:
     tenant_signature_label: Datum, Unterschrift Mieter
   currency: Currency
   data_digests:
-    period_from: Period from
-    period_short: von %{date}
-    period_to: Period to
+    period_short: "%{period_from} - %{period_to}"
   date:
     abbr_day_names:
     - So

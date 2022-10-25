@@ -1,6 +1,8 @@
 = form_with(model: [:manage, @data_digest], local: true) do |f|
   = f.grouped_collection_select :data_digest_template_id, @data_digest_templates.group_by(&:group), :last, :first, :id, :label, include_blank: true
-  / = f.select :period, DataDigest::PERIODS.keys.map { _1 }, include_blank: true
+  - if can?(:manage, DataDigestTemplate, { organisation: current_organisation })
+    p= link_to DataDigestTemplate.model_name.human(count: 2), manage_data_digest_templates_path
+  = f.select :period, DataDigest::PERIODS.keys.map { [t(_1, scope: %i[activerecord enums data_digest periods]), _1] }, include_blank: true
   = f.datetime_field :period_from, include_blank: true
   = f.datetime_field :period_to, include_blank: true
 
@@ -9,4 +11,4 @@
   / - @periods.keys.each do |period|
   /   li 
   /     = link_to digest_manage_data_digest_path(@data_digest, range: period)
-  /       = t(period, scope: %i[activerecord enums data_digest periods])
+  /       = 

@@ -53,6 +53,7 @@ class DataDigest < ApplicationRecord
   belongs_to :organisation
 
   delegate :label, to: :data_digest_template
+  attr_reader :period
 
   def self.formatters
     @formatters ||= (superclass.respond_to?(:formatters) && superclass.formatters&.dup) || {}
@@ -62,24 +63,29 @@ class DataDigest < ApplicationRecord
     formatters[format.to_sym] = Formatter.new(default_options, block)
   end
 
-  def period
-    period_from..period_to
-  end
-
   def period=(period_key)
+    @period = period_key
     period_range = PERIODS[period_key]
 
     self.period_from ||= period_range&.begin
     self.period_to ||= period_range&.end
   end
 
-  def crunch(records = data_digest_template.records(period))
+  def crunch(records = data_digest_template.records(period_from..period_to))
     columns = data_digest_template.columns
     self.data = records.find_each.map do |record|
-                  columns.map { |column| column.body(record) }
-                end
+      columns.map { |column| column.body(record) }
+    end
   end
-  
+
+  def crunch!
+    crunch && save!
+  end
+
+  def crunched?
+    data.present?
+  end
+
   def header
     data_digest_template.columns.map(&:header)
   end
@@ -98,15 +104,15 @@ class DataDigest < ApplicationRecord
     self.class.formatters
   end
 
-  def localized_period 
+  def localized_period
     I18n.t('data_digests.period_short',
-       period_from: period_from && I18n.l(period_from) || '',
-       period_to: period_to && I18n.l(period_to) || '')
+           period_from: (period_from && I18n.l(period_from)) || '',
+           period_to: (period_to && I18n.l(period_to)) || '')
   end
 
   formatter(:csv) do |options = {}|
     options.reverse_merge!({ col_sep: ';', write_headers: true, skip_blanks: true,
-                              force_quotes: true, encoding: 'utf-8' })
+                             force_quotes: true, encoding: 'utf-8' })
 
     CSV.generate(**options) do |csv|
       data&.each { |row| csv << row }

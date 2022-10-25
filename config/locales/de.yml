@@ -126,6 +126,7 @@ de:
         text: Vertragstext
         title: Titel
       data_digest:
+        created_at: Erstellt am
         data_digest_template_id: Auszugsvorlage
         period: Periode
         period_from: von
@@ -670,9 +671,7 @@ de:
     tenant_signature_label: Datum, Ort, Unterschrift Mieter
   currency: Currency
   data_digests:
-    period_from: Period from
     period_short: "%{period_from} - %{period_to}"
-    period_to: Period to
   date:
     abbr_day_names:
     - So
