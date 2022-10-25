@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_25_105844) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -186,7 +186,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
   end
 
-  create_table "data_digests", force: :cascade do |t|
+  create_table "data_digest_templates", force: :cascade do |t|
     t.string "type"
     t.string "label"
     t.jsonb "prefilter_params", default: {}
@@ -195,6 +195,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
     t.bigint "organisation_id", null: false
     t.jsonb "columns_config"
     t.string "group"
+    t.index ["organisation_id"], name: "index_data_digest_templates_on_organisation_id"
+  end
+
+  create_table "data_digests", force: :cascade do |t|
+    t.bigint "data_digest_template_id", null: false
+    t.bigint "organisation_id", null: false
+    t.datetime "period_from", precision: nil
+    t.datetime "period_to", precision: nil
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["data_digest_template_id"], name: "index_data_digests_on_data_digest_template_id"
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
@@ -534,6 +546,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
+  add_foreign_key "data_digest_templates", "organisations"
+  add_foreign_key "data_digests", "data_digest_templates"
   add_foreign_key "data_digests", "organisations"
   add_foreign_key "deadlines", "bookings"
   add_foreign_key "homes", "organisations"

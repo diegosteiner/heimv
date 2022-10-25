@@ -1,0 +1,44 @@
+h1.mt-0.mb-5= DataDigest.model_name.human(count: 2)
+.table-responsive
+  table.table.table-hover.align-middle
+    thead
+      tr
+        th= DataDigest.human_attribute_name(:label)
+        th= DataDigest.human_attribute_name(:type)
+        th
+
+    - @data_digest_templates.to_a.group_by(&:group).each do |group, data_digest_templates|
+      - next if data_digest_templates.empty?
+      - if group.present?
+        thead
+          tr
+            th.pt-4[colspan='3']
+              h5
+                = group
+      tbody
+        - data_digest_templates.each do |data_digest_template|
+          tr[data-href=manage_data_digest_template_path(data_digest_template) data-id=data_digest_template.to_param]
+            td
+              = link_to data_digest_template.label, manage_data_digest_template_path(data_digest_template)
+
+            td
+              = data_digest_template.class.model_name.human
+
+            td.py-1.text-end
+              .btn-group
+                = link_to new_manage_data_digest_path(data_digest: { data_digest_template_id: data_digest_template.id }), class: 'btn btn-default' do
+                  span.fa.fa-play
+                = link_to edit_manage_data_digest_template_path(data_digest_template), class: 'btn btn-default' do
+                  span.fa.fa-edit
+                = link_to manage_data_digest_template_path(data_digest_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                  span.fa.fa-trash
+
+br
+.btn-group
+  button.btn.btn-primary.dropdown-toggle[data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
+    = t(:add_record, model_name: DataDigest.model_name.human)
+    '
+  .dropdown-menu
+    - DataDigestTemplate.subtypes.values.each do |data_digest_template_type|
+      = link_to data_digest_template_type.model_name.human, new_manage_data_digest_template_path(type: data_digest_template_type), class: 'dropdown-item'
+

@@ -4,29 +4,30 @@
 #
 # Table name: data_digests
 #
-#  id               :bigint           not null, primary key
-#  columns_config   :jsonb
-#  group            :string
-#  label            :string
-#  prefilter_params :jsonb
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint           not null
+#  id                      :bigint           not null, primary key
+#  data                    :jsonb
+#  period_from             :datetime
+#  period_to               :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  data_digest_template_id :bigint           not null
+#  organisation_id         :bigint           not null
 #
 # Indexes
 #
-#  index_data_digests_on_organisation_id  (organisation_id)
+#  index_data_digests_on_data_digest_template_id  (data_digest_template_id)
+#  index_data_digests_on_organisation_id          (organisation_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (data_digest_template_id => data_digest_templates.id)
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
 require 'csv'
 
 class DataDigest < ApplicationRecord
-  DEFAULT_COLUMN_CONFIG = [].freeze
+  Formatter = Struct.new(:default_options, :block)
   PERIODS = {
     ever: ->(_at) { Range.new(nil, nil) },
     last_year: ->(at) { ((at - 1.year).beginning_of_year)..((at - 1.year).end_of_year) },
@@ -48,159 +49,72 @@ class DataDigest < ApplicationRecord
     from_now: ->(at) { at..nil }
   }.freeze
 
-  include Subtypeable
-
+  belongs_to :data_digest_template, inverse_of: :data_digests
   belongs_to :organisation
-  validates :label, presence: true
 
-  def group
-    super.presence
+  delegate :label, to: :data_digest_template
+
+  def self.formatters
+    @formatters ||= (superclass.respond_to?(:formatters) && superclass.formatters&.dup) || {}
   end
 
-  class << self
-    def column_types
-      @column_types ||= (superclass.respond_to?(:column_types) && superclass.column_types&.dup) || {}
-    end
-
-    def column_type(name, column_type = nil, &block)
-      column_types[name] = column_type || ColumnType.new(&block)
-    end
-
-    def period(period_sym, at: Time.zone.now)
-      PERIODS[period_sym&.to_sym]&.call(at)
-    end
+  def self.formatter(format, default_options: {}, &block)
+    formatters[format.to_sym] = Formatter.new(default_options, block)
   end
 
-  def evaluate(period)
-    PeriodicData.new(self, period, columns, filter(period).apply(base_scope))
+  def period
+    period_from..period_to
   end
 
-  def base_scope
-    raise NotImplementedError
+  def period=(period_key)
+    period_range = PERIODS[period_key]
+
+    self.period_from ||= period_range&.begin
+    self.period_to ||= period_range&.end
   end
 
-  def filter(period)
-    raise NotImplementedError
+  def crunch(records = data_digest_template.records(period))
+    columns = data_digest_template.columns
+    self.data = records.find_each.map do |record|
+                  columns.map { |column| column.body(record) }
+                end
+  end
+  
+  def header
+    data_digest_template.columns.map(&:header)
   end
 
-  def columns
-    @columns ||= (columns_config || self.class::DEFAULT_COLUMN_CONFIG).map do |config|
-      config.symbolize_keys!
-      column_type = config.fetch(:type, :default)&.to_sym
-      self.class.column_types.fetch(column_type, ColumnType.new).column_from_config(config)
-    end
+  def footer
+    data_digest_template.columns.map(&:footer)
   end
 
-  def columns_config=(value)
-    value = value.presence
-    value = JSON.parse(value) if value.is_a?(String)
-    value = Array.wrap(value)
-    super(value.presence)
+  def format(format, **options)
+    formatter = formatters[format&.to_sym]
+    block = formatter&.block
+    instance_exec(options, &block) if block.present?
   end
 
-  class ColumnType
-    def initialize(&block)
-      instance_exec(&block) if block_given?
-    end
+  def formatters
+    self.class.formatters
+  end
 
-    def header(&block)
-      @header = block
-    end
+  def localized_period 
+    I18n.t('data_digests.period_short',
+       period_from: period_from && I18n.l(period_from) || '',
+       period_to: period_to && I18n.l(period_to) || '')
+  end
 
-    def footer(&block)
-      @footer = block
-    end
+  formatter(:csv) do |options = {}|
+    options.reverse_merge!({ col_sep: ';', write_headers: true, skip_blanks: true,
+                              force_quotes: true, encoding: 'utf-8' })
 
-    def body(&block)
-      @body = block
-    end
-
-    def column_from_config(config)
-      Column.new(config, header: @header, footer: @footer, body: @body)
+    CSV.generate(**options) do |csv|
+      data&.each { |row| csv << row }
     end
   end
 
-  class Column
-    attr_accessor :config
-
-    def initialize(config, header: nil, footer: nil, body: nil)
-      @config = config.symbolize_keys
-      @blocks = { header: header, footer: footer, body: body }
-      @templates = @config.slice(*@blocks.keys).transform_values { |template| Liquid::Template.parse(template) }
-    end
-
-    def header
-      @header ||= instance_exec(&(@blocks[:header] || -> { @templates[:header]&.render! }))
-    end
-
-    def footer
-      @footer ||= instance_exec(&(@blocks[:footer] || -> { @templates[:footer]&.render! }))
-    end
-
-    def body(record)
-      instance_exec(record, &(@blocks[:body] || -> { @templates[:body]&.render! }))
-    end
-  end
-
-  class PeriodicData
-    Formatter = Struct.new(:default_options, :block)
-    attr_reader :data_digest, :period, :columns, :data
-
-    class << self
-      def formatters
-        @formatters ||= (superclass.respond_to?(:formatters) && superclass.formatters&.dup) || {}
-      end
-
-      def formatter(format, default_options: {}, &block)
-        formatters[format.to_sym] = Formatter.new(default_options, block)
-      end
-    end
-
-    def initialize(data_digest, period, columns, data)
-      @data_digest = data_digest
-      @period = period
-      @columns = columns
-      @data = data
-    end
-
-    def format(format, **options)
-      formatter = formatters[format&.to_sym]
-      block = formatter&.block
-      instance_exec(options, &block) if block.present?
-    end
-
-    def formatters
-      self.class.formatters
-    end
-
-    def header
-      columns.map(&:header)
-    end
-
-    def footer
-      columns.map(&:footer)
-    end
-
-    def rows
-      @rows ||= data.map do |row|
-        columns.map { |column| column.body(row) }
-      end
-    end
-
-    formatter(:csv) do |options = {}|
-      options.reverse_merge!({ col_sep: ';', write_headers: true, skip_blanks: true,
-                               force_quotes: true, encoding: 'utf-8' })
-
-      CSV.generate(**options) do |csv|
-        csv << header
-        rows.each { |row| csv << row }
-        csv << footer if footer.any?(&:present?)
-      end
-    end
-
-    formatter(:pdf) do |options = {}|
-      options.reverse_merge!({ document_options: { page_layout: :landscape } })
-      Export::Pdf::DataDigestPeriodPdf.new(self, **options).render_document
-    end
-  end
+  # formatter(:pdf) do |options = {}|
+  #   options.reverse_merge!({ document_options: { page_layout: :landscape } })
+  #   Export::Pdf::DataDigestPeriodPdf.new(self, **options).render_document
+  # end
 end

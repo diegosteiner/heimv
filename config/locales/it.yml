@@ -126,6 +126,11 @@ it:
         text: Vertragstext
         title: Titel
       data_digest:
+        data_digest_template_id: Auszugsvorlage
+        period: Periode
+        period_from: von
+        period_to: bis
+      data_digest_template:
         columns_config: Spaltenkonfiguration
         group: Gruppe
         label: Name
@@ -419,13 +424,16 @@ it:
       data_digest:
         one: Auszug
         other: Auszüge
-      data_digests/booking:
+      data_digest_template:
+        one: Auszugsvorlage
+        other: Auszugsvorlagen
+      data_digest_templates/booking:
         one: Buchungen Auszug
         other: Buchungen Auszüge
-      data_digests/invoice_part:
+      data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
-      data_digests/payment:
+      data_digest_templates/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
       deadline:
@@ -662,8 +670,9 @@ it:
     tenant_signature_label: Datum, Unterschrift Mieter
   currency: Currency
   data_digests:
-    period_from: von %{date}
-    period_to: bis %{date}
+    period_from: Period from
+    period_short: von %{date}
+    period_to: Period to
   date:
     abbr_day_names:
     - So

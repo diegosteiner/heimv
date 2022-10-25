@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: data_digests
+# Table name: data_digest_templates
 #
 #  id               :bigint           not null, primary key
 #  columns_config   :jsonb
@@ -16,7 +16,7 @@
 #
 # Indexes
 #
-#  index_data_digests_on_organisation_id  (organisation_id)
+#  index_data_digest_templates_on_organisation_id  (organisation_id)
 #
 # Foreign Keys
 #
@@ -24,7 +24,7 @@
 #
 
 FactoryBot.define do
-  factory :data_digest do
+  factory :data_digest_template do
     organisation
     prefilter_params { '' }
     label { Faker::Name.name }

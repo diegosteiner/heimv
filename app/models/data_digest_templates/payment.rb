@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: data_digests
+# Table name: data_digest_templates
 #
 #  id               :bigint           not null, primary key
 #  columns_config   :jsonb
@@ -16,16 +16,16 @@
 #
 # Indexes
 #
-#  index_data_digests_on_organisation_id  (organisation_id)
+#  index_data_digest_templates_on_organisation_id  (organisation_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
-module DataDigests
-  class Payment < DataDigest
-    ::DataDigest.register_subtype self
+module DataDigestTemplates
+  class Payment < DataDigestTemplate
+    ::DataDigestTemplate.register_subtype self
 
     DEFAULT_COLUMN_CONFIG = [
       {

@@ -4,23 +4,21 @@
 #
 # Table name: data_digests
 #
-#  id               :bigint           not null, primary key
-#  columns_config   :jsonb
-#  group            :string
-#  label            :string
-#  prefilter_params :jsonb
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint           not null
+#  id                      :bigint           not null, primary key
+#  data                    :jsonb
+#  period_from             :datetime
+#  period_to               :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  data_digest_template_id :bigint           not null
 #
 # Indexes
 #
-#  index_data_digests_on_organisation_id  (organisation_id)
+#  index_data_digests_on_data_digest_template_id  (data_digest_template_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (organisation_id => organisations.id)
+#  fk_rails_...  (data_digest_template_id => data_digest_templates.id)
 #
 
 require 'rails_helper'

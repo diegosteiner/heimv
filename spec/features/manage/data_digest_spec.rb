@@ -25,7 +25,7 @@ describe 'Data Digests', :devise, type: :feature do
     expect(page).to have_content name
   end
 
-  it 'can see a booking' do
+  it 'can see a booking', pending: true do
     visit manage_data_digest_path(data_digest, org: organisation)
     bookings = create_list(:booking, 3, organisation: organisation, home: home)
     click_on I18n.t('activerecord.enums.data_digest.periods.ever')
