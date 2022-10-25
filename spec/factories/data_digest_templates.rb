@@ -28,8 +28,8 @@ FactoryBot.define do
     organisation
     prefilter_params { '' }
     label { Faker::Name.name }
-    factory :booking_data_digest, class: 'DataDigests::Booking'
-    factory :payment_data_digest, class: 'DataDigests::Payment'
-    factory :invoice_part_data_digest, class: 'DataDigests::InvoicePart'
+    factory :booking_data_digest_template, class: 'DataDigestTemplates::Booking'
+    factory :payment_data_digest_template, class: 'DataDigestTemplates::Payment'
+    factory :invoice_part_data_digest_template, class: 'DataDigestTemplates::InvoicePart'
   end
 end

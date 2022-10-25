@@ -23,7 +23,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DataDigests::Booking, type: :model do
+RSpec.describe DataDigestTemplates::Booking, type: :model do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:columns_config) { nil }

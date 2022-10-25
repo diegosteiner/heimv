@@ -26,7 +26,7 @@ module Manage
     def create
       data_digest_templates
       @data_digest.organisation = current_organisation
-      @data_digest.save && @data_digest.crunch!
+      @data_digest.save && CrunchDataDigestJob.perform_now(@data_digest.id)
       respond_with :manage, @data_digest, location: manage_data_digests_path
     end
 
@@ -43,7 +43,7 @@ module Manage
     end
 
     def data_digest_params
-      params[:data_digest]&.permit(:data_digest_template_id, :period_from, :period_to)
+      params[:data_digest]&.permit(:data_digest_template_id, :period_from, :period_to, :period)
     end
   end
 end

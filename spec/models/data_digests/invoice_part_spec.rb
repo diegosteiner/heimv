@@ -23,7 +23,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DataDigests::InvoicePart, type: :model do
+RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
   subject(:data_digest) { create(:invoice_part_data_digest, organisation: organisation) }
   let(:period) { DataDigest.period(:ever) }
   let(:home) { create(:home, organisation: organisation) }

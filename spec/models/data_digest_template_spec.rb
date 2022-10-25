@@ -26,8 +26,6 @@
 require 'rails_helper'
 
 RSpec.describe DataDigestTemplate, type: :model do
-  subject(:data_digest_template) { create(:data_digest_template) }
-
   describe '#columns' do
     let(:columns_config) do
       [
@@ -42,10 +40,10 @@ RSpec.describe DataDigestTemplate, type: :model do
       ]
     end
 
-    subject(:data_digest) { create(:data_digest, columns_config: columns_config) }
-    subject(:columns) { data_digest.columns }
+    subject(:data_digest_template) { create(:data_digest_template, columns_config: columns_config) }
+    subject(:columns) { data_digest_template.columns }
 
     it { expect(columns.count).to eq(2) }
-    it { is_expected.to all(be_a DataDigest::Column) }
+    it { is_expected.to all(be_a DataDigestTemplate::Column) }
   end
 end

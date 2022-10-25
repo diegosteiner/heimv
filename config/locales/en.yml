@@ -126,6 +126,7 @@ en:
         text: Vertragstext
         title: Titel
       data_digest:
+        created_at: Erstellt am
         data_digest_template_id: Auszugsvorlage
         period: Periode
         period_from: von

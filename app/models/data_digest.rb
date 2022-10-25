@@ -64,8 +64,8 @@ class DataDigest < ApplicationRecord
   end
 
   def period=(period_key)
-    @period = period_key
-    period_range = PERIODS[period_key]
+    @period = period_key&.to_sym
+    period_range = PERIODS[@period]&.call(Time.zone.now)
 
     self.period_from ||= period_range&.begin
     self.period_to ||= period_range&.end

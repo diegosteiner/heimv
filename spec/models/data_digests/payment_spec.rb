@@ -23,7 +23,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DataDigests::Payment, type: :model do
+RSpec.describe DataDigestTemplates::Payment, type: :model do
   subject(:data_digest) { create(:payment_data_digest) }
   let(:period) { DataDigest.period(:ever) }
 

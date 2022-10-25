@@ -13,7 +13,9 @@ class CreatePersistentDataDigests < ActiveRecord::Migration[7.0]
 
     reversible do |direction|
       direction.up do 
-        # rename all types in data_digest_templates
+        DataDigestTemplate.where(type: 'DataDigests::Booking').update_all(type: 'DataDigestTemplates::Booking')
+        DataDigestTemplate.where(type: 'DataDigests::InvoicePart').update_all(type: 'DataDigestTemplates::InvoicePart')
+        DataDigestTemplate.where(type: 'DataDigests::Payment').update_all(type: 'DataDigestTemplates::Payment')
       end
     end
   end
