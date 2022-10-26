@@ -21,9 +21,11 @@ services:
       - db
       - selenium
       - e2e_target
+      - redis
     networks:
       default:
       selenium:
+
 
   e2e_target:
     build: .
@@ -49,12 +51,14 @@ services:
       default:
       selenium:
 
+
   selenium:
     image: selenium/standalone-chrome-debug
     logging:
       driver: none
     networks:
       selenium:
+
 
   db:
     image: postgres:14-alpine
@@ -74,6 +78,7 @@ services:
 
 volumes:
   db_data:
+
 
 networks:
   selenium:
