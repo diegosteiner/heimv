@@ -14,6 +14,7 @@ class CacheStoreConfigService
 
     ActiveSupport::Cache::RedisCacheStore.new(url: redis_url,
                                               namespace: :heimv_cache,
+                                              ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE },
                                               connect_timeout: 30, # Defaults to 20 seconds
                                               read_timeout: 0.2, # Defaults to 1 second
                                               write_timeout: 0.2, # Defaults to 1 second
