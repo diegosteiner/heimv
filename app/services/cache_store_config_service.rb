@@ -9,12 +9,11 @@ class CacheStoreConfigService
     ActiveSupport::Cache::MemoryStore.new
   end
 
-  def self.redis(redis_url = ENV.fetch('REDIS_URL', nil))
-    return if redis_url.blank?
+  def self.redis
+    return if $redis.blank?
 
-    ActiveSupport::Cache::RedisCacheStore.new(url: redis_url,
+    ActiveSupport::Cache::RedisCacheStore.new(redis: $redis,
                                               namespace: :heimv_cache,
-                                              ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE },
                                               connect_timeout: 30, # Defaults to 20 seconds
                                               read_timeout: 0.2, # Defaults to 1 second
                                               write_timeout: 0.2, # Defaults to 1 second
