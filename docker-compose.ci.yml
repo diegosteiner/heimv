@@ -72,7 +72,7 @@ services:
       - "1080:80"
 
   redis:
-    image: "redis:alpine"
+    image: "redis:6"
 
 volumes:
   db_data:

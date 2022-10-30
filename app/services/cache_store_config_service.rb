@@ -10,6 +10,7 @@ class CacheStoreConfigService
   end
 
   def self.redis
+    require Rails.root.join('config/initializers/redis')
     return if $redis.blank?
 
     ActiveSupport::Cache::RedisCacheStore.new(redis: $redis,
