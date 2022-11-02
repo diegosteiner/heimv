@@ -1,5 +1,8 @@
 h1.mt-0= DataDigest.model_name.human(count: 2)
 
+- if can?(:manage, DataDigestTemplate, { organisation: current_organisation })
+  p= link_to t(:add_record, model_name: DataDigestTemplate.model_name.human(count: 2)), manage_data_digest_templates_path
+
 .table-responsive.mt-5
   table.table.table-hover.align-middle
     thead
@@ -7,14 +10,14 @@ h1.mt-0= DataDigest.model_name.human(count: 2)
         th= DataDigestTemplate.human_attribute_name(:label)
         th= DataDigestTemplate.human_attribute_name(:type)
         th= DataDigest.human_attribute_name(:period)
-        th= DataDigest.human_attribute_name(:created_at)
+        th= DataDigest.human_attribute_name(:crunching_finished_at)
         th
 
       tbody
         - @data_digests.each do |data_digest|
           tr[data-href=manage_data_digest_path(data_digest) data-id=data_digest.to_param]
             td
-              - if data_digest.crunched?
+              - if data_digest.crunching_finished?
                 = link_to data_digest.label, manage_data_digest_path(data_digest)
               - else 
                 span.text-muted= data_digest.label
@@ -26,10 +29,13 @@ h1.mt-0= DataDigest.model_name.human(count: 2)
               = data_digest.localized_period
 
             td
-              = l data_digest.created_at
+              - if data_digest.crunching_finished_at.present?
+                = l data_digest.crunching_finished_at
+              - else 
+                | -
 
             td.py-1.text-end
-              - if data_digest.crunched?
+              - if data_digest.crunching_finished?
                 .btn-group
                   - data_digest.formatters.keys.each do |format|
                     = link_to manage_data_digest_path(data_digest, format: format), class: 'btn btn-primary' do

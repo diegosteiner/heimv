@@ -127,6 +127,8 @@ en:
         title: Titel
       data_digest:
         created_at: Erstellt am
+        crunching_finished_at: Verarbeitung beendet
+        crunching_started_at: Verarbeitung gestartet
         data_digest_template_id: Auszugsvorlage
         period: Periode
         period_from: von
@@ -984,6 +986,9 @@ en:
     dashboard:
       index:
         ics_link: als ICAL
+    data_digests:
+      form:
+        or: Or
     designated_documents:
       form:
         all_locales: all

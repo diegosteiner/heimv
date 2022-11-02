@@ -3,6 +3,7 @@
 module Manage
   class DataDigestsController < BaseController
     load_and_authorize_resource :data_digest
+    helper_method :data_digest_templates
 
     def index
       @data_digests = @data_digests.where(organisation: current_organisation).order(created_at: :ASC)
@@ -10,7 +11,6 @@ module Manage
     end
 
     def new
-      data_digest_templates
       @data_digest = DataDigest.new(data_digest_params)
       respond_with :manage, @data_digest
     end
@@ -24,7 +24,6 @@ module Manage
     end
 
     def create
-      data_digest_templates
       @data_digest.organisation = current_organisation
       @data_digest.save && CrunchDataDigestJob.perform_later(@data_digest.id)
       respond_with :manage, @data_digest, location: manage_data_digests_path

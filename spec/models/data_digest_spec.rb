@@ -5,6 +5,8 @@
 # Table name: data_digests
 #
 #  id                      :bigint           not null, primary key
+#  crunching_finished_at   :datetime
+#  crunching_started_at    :datetime
 #  data                    :jsonb
 #  period_from             :datetime
 #  period_to               :datetime

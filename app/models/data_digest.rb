@@ -5,6 +5,8 @@
 # Table name: data_digests
 #
 #  id                      :bigint           not null, primary key
+#  crunching_finished_at   :datetime
+#  crunching_started_at    :datetime
 #  data                    :jsonb
 #  period_from             :datetime
 #  period_to               :datetime
@@ -75,19 +77,25 @@ class DataDigest < ApplicationRecord
     super || self.organisation = data_digest_template&.organisation
   end
 
-  def crunch(records = data_digest_template.records(period_from..period_to))
+  def records
+    data_digest_template.records(period_from..period_to)
+  end
+
+  def crunch
     columns = data_digest_template.columns
-    self.data = records.find_each.map do |record|
+    self.data = records.map do |record|
       columns.map { |column| column.body(record) }
     end
   end
 
   def crunch!
-    crunch && save!
+    update(crunching_started_at: Time.zone.now) &&
+      crunch &&
+      update(crunching_finished_at: Time.zone.now)
   end
 
-  def crunched?
-    data.present?
+  def crunching_finished?
+    crunching_finished_at.present?
   end
 
   def header
