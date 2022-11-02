@@ -3,8 +3,8 @@ h1.mt-0.mb-5= DataDigest.model_name.human(count: 2)
   table.table.table-hover.align-middle
     thead
       tr
-        th= DataDigest.human_attribute_name(:label)
-        th= DataDigest.human_attribute_name(:type)
+        th= DataDigestTemplate.human_attribute_name(:label)
+        th= DataDigestTemplate.human_attribute_name(:type)
         th
 
     - @data_digest_templates.to_a.group_by(&:group).each do |group, data_digest_templates|

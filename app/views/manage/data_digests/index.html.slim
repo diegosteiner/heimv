@@ -1,7 +1,7 @@
 h1.mt-0= DataDigest.model_name.human(count: 2)
 
 - if can?(:manage, DataDigestTemplate, { organisation: current_organisation })
-  p= link_to t(:add_record, model_name: DataDigestTemplate.model_name.human(count: 2)), manage_data_digest_templates_path
+  p= link_to DataDigestTemplate.model_name.human(count: 2), manage_data_digest_templates_path
 
 .table-responsive.mt-5
   table.table.table-hover.align-middle

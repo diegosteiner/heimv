@@ -5,7 +5,8 @@ module Manage
     load_and_authorize_resource :data_digest_template
 
     def index
-      @data_digest_templates = @data_digest_templates.where(organisation: current_organisation).order(type: :ASC)
+      @data_digest_templates = @data_digest_templates.where(organisation: current_organisation)
+                                                     .order(group: :ASC, label: :ASC, created_at: :DESC)
       respond_with :manage, @data_digest_templates.order(created_at: :ASC)
     end
 
