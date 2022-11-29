@@ -10,17 +10,17 @@ module Manage
       respond_with :manage, @data_digests.order(created_at: :ASC)
     end
 
-    def new
-      @data_digest = DataDigest.new(data_digest_params)
-      respond_with :manage, @data_digest
-    end
-
     def show
       respond_to do |format|
         format.html
         format.csv { send_data @data_digest.format(:csv), filename: "#{@data_digest.label}.csv" }
         format.pdf { send_data @data_digest.format(:pdf), filename: "#{@data_digest.label}.pdf" }
       end
+    end
+
+    def new
+      @data_digest = DataDigest.new(data_digest_params)
+      respond_with :manage, @data_digest
     end
 
     def create

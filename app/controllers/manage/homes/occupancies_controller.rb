@@ -6,13 +6,13 @@ module Manage
       load_and_authorize_resource :home
       load_and_authorize_resource :occupancy, through: :home, shallow: true
 
-      def show
-        respond_with :public, @occupancy
-      end
-
       def index
         @occupancies = @occupancies.closed.ordered.ends_at(after: Time.zone.now)
         respond_with :manage, @occupancies
+      end
+
+      def show
+        respond_with :public, @occupancy
       end
 
       def new

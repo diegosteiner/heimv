@@ -5,6 +5,10 @@ module Public
     before_action :set_booking, only: %i[show edit update]
     respond_to :html
 
+    def show
+      redirect_to edit_public_booking_path(@booking)
+    end
+
     def new
       @booking = current_organisation.bookings.new(create_params)
       @booking.organisation = current_organisation
@@ -12,10 +16,6 @@ module Public
       @booking.occupancy.ends_at ||= @booking.occupancy.begins_at
 
       respond_with :public, @booking
-    end
-
-    def show
-      redirect_to edit_public_booking_path(@booking)
     end
 
     def edit

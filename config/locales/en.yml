@@ -568,6 +568,8 @@ en:
         label: Zahlungseingang bestätigen
       postpone_deadline:
         label: Frist verlängern
+      skip_invoice:
+        label: Endabrechnung überspringen
     public:
       cancel:
         label: Stornieren

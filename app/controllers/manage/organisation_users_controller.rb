@@ -10,11 +10,11 @@ module Manage
       respond_with :manage, @organisation_users
     end
 
-    def edit
+    def new
       respond_with :manage, @organisation_user
     end
 
-    def new
+    def edit
       respond_with :manage, @organisation_user
     end
 

@@ -18,11 +18,6 @@ module Manage
       respond_with :manage, @invoices
     end
 
-    def new
-      @invoice = Invoices::Factory.new.call(@booking, invoice_params, params[:supersede_invoice_id])
-      respond_with :manage, @booking, @invoice
-    end
-
     def show
       @booking = @invoice.booking
       respond_to do |format|
@@ -31,6 +26,11 @@ module Manage
           redirect_to url_for(@invoice.pdf)
         end
       end
+    end
+
+    def new
+      @invoice = Invoices::Factory.new.call(@booking, invoice_params, params[:supersede_invoice_id])
+      respond_with :manage, @booking, @invoice
     end
 
     def edit

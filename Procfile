@@ -1,3 +1,3 @@
 web: bin/rails s
-worker: bin/queue
+worker: bin/sidekiq-job-worker
 release: bin/rails db:migrate

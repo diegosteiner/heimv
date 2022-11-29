@@ -5,10 +5,18 @@ module Public
     load_and_authorize_resource :agent_booking, except: %i[show edit update]
     before_action :set_agent_booking, only: %i[show edit update]
 
+    def show
+      redirect_to edit_public_agent_booking_path(@agent_booking.token || @agent_booking.to_param)
+    end
+
     def new
       @agent_booking = AgentBooking.new(organisation: current_organisation)
       @agent_booking.assign_attributes(agent_booking_params)
       @agent_booking.occupancy.ends_at ||= @agent_booking.occupancy.begins_at
+      respond_with :public, @agent_booking
+    end
+
+    def edit
       respond_with :public, @agent_booking
     end
 
@@ -20,14 +28,6 @@ module Public
       else
         render 'new'
       end
-    end
-
-    def show
-      redirect_to edit_public_agent_booking_path(@agent_booking.token || @agent_booking.to_param)
-    end
-
-    def edit
-      respond_with :public, @agent_booking
     end
 
     def update

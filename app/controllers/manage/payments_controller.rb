@@ -15,14 +15,14 @@ module Manage
       respond_with :manage, @payments
     end
 
+    def show
+      respond_with :manage, @payment
+    end
+
     def new
       @payment.paid_at ||= Time.zone.now
       @payment.amount ||= @payment.invoice&.amount_open
       respond_with :manage, @booking, @payment
-    end
-
-    def show
-      respond_with :manage, @payment
     end
 
     def edit
