@@ -51,7 +51,7 @@ class Booking
     end
 
     def logged_changes
-      changes = data&.slice(*%w[booking tenant occupancy])&.filter { |_key, value| value.present? } || []
+      changes = data&.slice('booking', 'tenant', 'occupancy')&.filter { |_key, value| value.present? } || []
       changes.transform_keys { |key| LOGGED_CHANGES_MAP[key] }
     end
   end

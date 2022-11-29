@@ -1,6 +1,9 @@
 - title "#{Booking.model_name.human} #{@booking.to_s}"
 = render partial: 'manage/bookings/navigation', locals: { booking: @booking } 
 
+- unless @booking.notifications_enabled?
+  .alert.alert-warning.my-4[role=alert]= t('manage.bookings.notifications_not_enabled')
+
 - cache(cache_key(@booking.cache_key)) do
   section.row.mt-4
     .col-md-9

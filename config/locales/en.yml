@@ -975,6 +975,7 @@ en:
       navigation:
         costs: Kosten
       not_committed_yet: Die Buchung ist noch nicht definitiv.
+      notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
       show:
         checklist: Checkliste
         logged_changes: "%{changes} bearbeitet"
@@ -1004,8 +1005,6 @@ en:
     notifications:
       edit:
         deliver: Speichern und nochmals versenden
-      index:
-        notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
     organisation_users:
       index:
         invite_user: Neuen Benutzer einladen
