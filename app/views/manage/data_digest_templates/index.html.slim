@@ -19,15 +19,13 @@ h1.mt-0.mb-5= DataDigest.model_name.human(count: 2)
         - data_digest_templates.each do |data_digest_template|
           tr[data-href=manage_data_digest_template_path(data_digest_template) data-id=data_digest_template.to_param]
             td
-              = link_to data_digest_template.label, manage_data_digest_template_path(data_digest_template)
+              = link_to data_digest_template.label, new_manage_data_digest_path(data_digest: { data_digest_template_id: data_digest_template.id })
 
             td
               = data_digest_template.class.model_name.human
 
             td.py-1.text-end
               .btn-group
-                = link_to new_manage_data_digest_path(data_digest: { data_digest_template_id: data_digest_template.id }), class: 'btn btn-default' do
-                  span.fa.fa-play
                 = link_to edit_manage_data_digest_template_path(data_digest_template), class: 'btn btn-default' do
                   span.fa.fa-edit
                 = link_to manage_data_digest_template_path(data_digest_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
