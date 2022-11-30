@@ -29,7 +29,7 @@ module Manage
     end
 
     def new
-      @invoice = Invoices::Factory.new.call(@booking, invoice_params, params[:supersede_invoice_id])
+      @invoice = Invoices::Factory.new.call(@booking, invoice_params)
       respond_with :manage, @booking, @invoice
     end
 
@@ -51,7 +51,7 @@ module Manage
     end
 
     def destroy
-      @invoice.discard!
+      @invoice.discarded? ? @invoice.destroy : @invoice.discard!
       respond_with :manage, @invoice, location: manage_booking_path(@invoice.booking)
     end
 

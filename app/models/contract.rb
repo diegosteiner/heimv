@@ -36,7 +36,7 @@ class Contract < ApplicationRecord
   scope :ordered, -> { order(valid_from: :asc) }
   scope :signed, -> { where.not(signed_at: nil) }
 
-  before_save :oust, :generatate_pdf, :set_signed_at
+  before_save :supersede, :generatate_pdf, :set_signed_at
 
   def generatate_pdf
     self.pdf = {
@@ -46,13 +46,13 @@ class Contract < ApplicationRecord
     }
   end
 
-  def oust
+  def supersede(**attributes)
     return unless was_sent? && (changed & %w[text]).any?
 
-    new_contract = dup
-    new_contract.update!(valid_from: Time.zone.now, sent_at: nil, signed_at: nil)
+    successor = dup
+    successor.update!(**attributes.merge(valid_from: Time.zone.now, sent_at: nil, signed_at: nil))
     restore_attributes
-    assign_attributes(valid_until: new_contract.valid_from)
+    assign_attributes(valid_until: successor.valid_from)
   end
 
   def filename
@@ -79,7 +79,7 @@ class Contract < ApplicationRecord
     signed_at.present?
   end
 
-  def ousted?
+  def superseded?
     valid_until.present?
   end
 

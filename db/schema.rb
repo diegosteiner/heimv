@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_29_164329) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_30_130520) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -282,9 +282,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_29_164329) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "payment_info_type"
     t.decimal "amount_open"
+    t.bigint "supersede_invoice_id"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
     t.index ["ref"], name: "index_invoices_on_ref"
+    t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
     t.index ["type"], name: "index_invoices_on_type"
   end
 
@@ -555,6 +557,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_29_164329) do
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
+  add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "notifications", "bookings"

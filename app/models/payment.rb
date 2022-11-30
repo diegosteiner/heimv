@@ -61,6 +61,9 @@ class Payment < ApplicationRecord
   end
 
   def recalculate_invoice
-    invoice&.recalculate!
+    return if invoice.blank?
+
+    invoice.recalculate
+    invoice.save if invoice.amount_open_changed?
   end
 end

@@ -6,21 +6,20 @@ module Invoices
     RichTextTemplate.require_template(:invoices_invoice_text, context: %i[booking invoice], required_by: self)
     RichTextTemplate.require_template(:invoices_late_notice_text, context: %i[booking invoice], required_by: self)
 
-    def call(booking, params = {}, supersede_invoice_id = nil)
-      invoice = ::Invoice.new(defaults(booking).merge(params))
-      invoice.payable_until ||= payable_until(invoice)
-      invoice.text ||= rich_text_template(invoice)
-      invoice.invoice_parts = supersede_invoice_invoice_parts(invoice, supersede_invoice_id)
-      invoice
+    def call(booking, params = {})
+      ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
+        invoice.payable_until ||= payable_until(invoice)
+        invoice.text ||= rich_text_template(invoice)
+        prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
+      end
     end
 
-    private
+    def prepare_to_supersede(invoice)
+      supersede_invoice = invoice.supersede_invoice
 
-    def supersede_invoice_invoice_parts(invoice, supersede_invoice_id)
-      return [] if supersede_invoice_id.blank?
-
-      supersede_invoice = invoice.booking.organisation.invoices.find(supersede_invoice_id)
-      supersede_invoice.invoice_parts.map(&:dup)
+      invoice.booking ||= supersede_invoice.booking
+      invoice.ref ||= supersede_invoice.ref
+      invoice.invoice_parts = supersede_invoice.invoice_parts&.map(&:dup)
     end
 
     def defaults(booking)

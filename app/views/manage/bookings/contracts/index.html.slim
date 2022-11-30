@@ -28,21 +28,21 @@
 
       tbody
         - @contracts.each do |contract|
-          tr[data-href=manage_booking_contract_path(@booking, contract) class=('disabled' if contract.ousted?)]
+          tr[data-href=manage_booking_contract_path(@booking, contract) class=('disabled' if contract.superseded?)]
             td
               - if contract.pdf.attached?
                 = link_to url_for(contract.pdf), target: '_blank'
                   span.fa.fa-print<>
                   span= contract.filename
 
-            - if contract.sent? || contract.ousted?
+            - if contract.sent? || contract.superseded?
               td
                 = l(contract.sent_at) if contract.sent?
             - else
               td.py-2
                 = button_to manage_booking_contract_path(@booking, contract), method: :patch, params: { contract: { sent_at: Time.zone.today }}, class: 'btn btn-sm btn-outline-success'
                   = t('.contract_sent')
-            - if contract.signed? || contract.ousted?
+            - if contract.signed? || contract.superseded?
               td
                 - if contract.signed_pdf.attached?
                   = link_to l(contract.signed_at), url_for(contract.signed_pdf), target: '_blank'
@@ -54,7 +54,7 @@
                   = t('.contract_signed')
             td.py-1.text-end
               .btn-group
-                - unless contract.ousted?
+                - unless contract.superseded?
                   = link_to edit_manage_booking_contract_path(@booking, contract), class: 'btn btn-default' do
                     span.fa.fa-edit
                 = link_to manage_booking_contract_path(@booking, contract), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do

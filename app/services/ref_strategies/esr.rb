@@ -38,18 +38,7 @@ module RefStrategies
       ref.reverse.chars.in_groups_of(5).reverse.map { |group| group.reverse.join }.join(' ')
     end
 
-    def code_line(invoice, esr_mode: '01')
-      code = {
-        esr_mode: esr_mode,
-        amount_in_cents: invoice.amount_in_cents,
-        checksum: checksum(esr_mode + format('%<amount_in_cents>010d', amount_in_cents: invoice.amount_in_cents)),
-        ref: invoice.ref.to_s.rjust(27, '0'),
-        account_nr: account_nr_to_code(invoice.organisation.esr_beneficiary_account)
-      }
-      format('%<esr_mode>s%<amount_in_cents>010d%<checksum>d>%<ref>s+ %<account_nr>s>', code)
-    end
-
-    def find_invoice_by_ref(ref, scope: Invoice)
+    def find_invoice_by_ref(ref, scope:)
       ref_column = Invoice.arel_table[:ref]
       padded_ref_column = Arel::Nodes::NamedFunction.new('LPAD', [ref_column, 27, Arel::Nodes.build_quoted('0')])
       scope.where(padded_ref_column.eq(normalize_ref(ref))).first
