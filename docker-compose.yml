@@ -21,9 +21,11 @@ services:
       SMTP_SETTINGS: '{ "address":"mail" }'
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
       REDIS_URL: "redis://redis/0"
+      ACTIVE_JOB_QUEUE_ADAPTER: "sidekiq"
     depends_on:
       - db
       - mail
+      - redis
     tty: true
     stdin_open: true
     networks:

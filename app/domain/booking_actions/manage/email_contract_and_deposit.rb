@@ -12,8 +12,10 @@ module BookingActions
       end
 
       def allowed?
-        booking.contract.present? && !booking.contract.sent? && Invoices::Deposit.of(booking).kept.any? &&
-          booking.tenant.email.present? && booking.committed_request
+        booking.instance_exec do
+          notifications_enabled && committed_request && contract.present? && !contract.sent? &&
+            tenant.email.present? && Invoices::Deposit.of(self).kept.any?
+        end
       end
 
       private

@@ -52,7 +52,8 @@ module Manage
     end
 
     def destroy
-      @booking.destroy
+      deletion_service = BookingDeletionService.new(current_organisation)
+      deletion_service.delete!(@booking)
       respond_with :manage, @booking, location: return_to_path(manage_bookings_path)
     end
 

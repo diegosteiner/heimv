@@ -6,5 +6,6 @@ Rails.application.config.to_prepare do
   else
     ActionMailer::Base.delivery_method = :smtp
     ActionMailer::Base.smtp_settings = SmtpSettings.from_env.to_h
+    ActionMailer::Base.delivery_job = MailDeliveryJob
   end
 end

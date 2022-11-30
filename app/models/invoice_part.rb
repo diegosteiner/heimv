@@ -49,7 +49,10 @@ class InvoicePart < ApplicationRecord
   end
 
   after_save do
-    invoice.recalculate! if amount_previously_changed?
+    next unless amount_previously_changed?
+
+    invoice.recalculate
+    invoice.save if invoice.amount_changed?
   end
 
   def calculated_amount

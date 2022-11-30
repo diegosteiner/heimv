@@ -17,9 +17,8 @@ Rails.application.routes.draw do
       resource :organisation, only: %i[edit update show]
       resources :organisation_users, except: %i[show]
       resources :bookable_extras, to: 'bookable_extras'
-      resources :data_digests do
-        get '/digest', on: :member, action: :digest, as: :digest
-      end
+      resources :data_digests, except: %i[update edit]
+      resources :data_digest_templates
       resources :invoices do
         resources :invoice_parts, except: %i[index show]
       end

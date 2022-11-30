@@ -2,7 +2,7 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :notifications, booking: @booking }
 
 - unless @booking.notifications_enabled?
-  .alert.alert-warning.my-4= t('.notifications_not_enabled')
+  .alert.alert-warning.my-4[role=alert]= t('manage.bookings.notifications_not_enabled')
 
 table.table.table-hover.align-middle
   thead

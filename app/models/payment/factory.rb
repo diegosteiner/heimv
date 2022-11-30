@@ -22,7 +22,7 @@ class Payment
     end
 
     def find_invoice_by_ref(ref)
-      @organisation.invoice_ref_strategy.find_invoice_by_ref(ref, scope: @organisation.invoices)
+      @organisation.invoice_ref_strategy.find_invoice_by_ref(ref, scope: @organisation.invoices.kept)
     end
 
     def from_camt_transaction(transaction, entry)

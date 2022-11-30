@@ -1,7 +1,26 @@
-h2 = @data_digest.label
+h2= @data_digest.label
+p=  @data_digest.localized_period
 
-ul 
-  - @periods.keys.each do |period|
-    li 
-      = link_to digest_manage_data_digest_path(@data_digest, range: period)
-        = t(period, scope: %i[activerecord enums data_digest periods])
+.table-responsive
+  table.table-striped.table.table-responsive
+    - if @data_digest.header
+      thead
+        - @data_digest.header.each do |header|
+          th= header
+    
+    tbody
+      - @data_digest.data&.each do |row|
+        tr
+          - row.each do |cell|
+            td= cell
+
+    - if @data_digest.footer&.any?(&:present?) 
+      tfooter
+        - @data_digest.footer.each do |footer|
+          td= footer
+
+br
+.btn-group
+  - @data_digest.formatters.keys.each do |format|
+    = link_to url_for(from: params[:from], to: params[:to], format: format), class: 'btn btn-primary' do
+      = format.to_s.upcase

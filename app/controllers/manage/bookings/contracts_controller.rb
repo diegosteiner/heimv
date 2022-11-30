@@ -12,6 +12,14 @@ module Manage
         respond_with :manage, @contracts
       end
 
+      def show
+        respond_to do |format|
+          format.pdf do
+            reditect_to url_for(@contract.pdf)
+          end
+        end
+      end
+
       def new
         rich_text_template = current_organisation.rich_text_templates.enabled.by_key(:contract_text,
                                                                                      home_id: @booking.home_id)
@@ -22,14 +30,6 @@ module Manage
         respond_with :manage, @booking, @contract
       end
 
-      def show
-        respond_to do |format|
-          format.pdf do
-            reditect_to url_for(@contract.pdf)
-          end
-        end
-      end
-
       def edit
         respond_with :manage, @contract
       end
@@ -37,11 +37,13 @@ module Manage
       def create
         @contract.valid_from = Time.zone.now
         @contract.save
+        Booking::Log.log(@contract.booking, trigger: :manager, user: current_user)
         respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
       end
 
       def update
         @contract.update(contract_params)
+        Booking::Log.log(@contract.booking, trigger: :manager, user: current_user)
         respond_with :manage, @contract, location: manage_booking_contracts_path(@booking)
       end
 

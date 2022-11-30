@@ -16,7 +16,8 @@ port        ENV.fetch('PORT', 3000)
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch('RAILS_ENV', 'development')
+# environment ENV.fetch('RAILS_ENV', 'development')
+environment 'production'
 
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch('PIDFILE', 'tmp/pids/server.pid')
@@ -41,7 +42,5 @@ plugin :tmp_restart
 
 require 'barnes'
 before_fork do
-  # worker specific setup
-
   Barnes.start # Must have enabled worker mode for this to block to be called
 end

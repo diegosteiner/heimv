@@ -75,6 +75,9 @@
       - if can?(:manage, BookableExtra, { organisation: current_organisation })
         li
           = link_to BookableExtra.model_name.human(count: 2), manage_bookable_extras_path
+      - if can?(:manage, DataDigestTemplate, { organisation: current_organisation })
+        li
+          = link_to DataDigestTemplate.model_name.human(count: 2), manage_data_digest_templates_path
 
   .form-actions.pt-4.mt-3
     = f.submit

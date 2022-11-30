@@ -9,7 +9,6 @@
 #  body                  :text
 #  cc                    :string           default([]), is an Array
 #  locale                :string           default(NULL), not null
-#  queued_for_delivery   :boolean          default(FALSE)
 #  sent_at               :datetime
 #  subject               :string
 #  to                    :string           default([]), is an Array
@@ -59,13 +58,9 @@ class Notification < ApplicationRecord
   end
 
   def deliver
-    return false unless deliverable? && update!(queued_for_delivery: true, sent_at: Time.zone.now)
+    return false unless deliverable? && update!(sent_at: Time.zone.now)
 
-    message_delivery.deliver_now!
-  rescue Net::SMTPFatalError, Net::SMTPAuthenticationError, Net::ReadTimeout => e
-    Rails.logger.error(e.message)
-    update(sent_at: nil)
-    false
+    message_delivery.tap(&:deliver_later)
   end
 
   def resolve_template
@@ -113,6 +108,7 @@ class Notification < ApplicationRecord
 
   # rubocop:disable Metrics/MethodLength
   def to=(value)
+    value = value.presence
     super case value
           when Tenant, Booking
             self.addressed_to = :tenant

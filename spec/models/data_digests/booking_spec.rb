@@ -2,58 +2,61 @@
 
 # == Schema Information
 #
-# Table name: data_digests
+# Table name: data_digest_templates
 #
-#  id               :bigint           not null, primary key
-#  columns_config   :jsonb
-#  group            :string
-#  label            :string
-#  prefilter_params :jsonb
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint           not null
+#  id                      :bigint           not null, primary key
+#  data                    :jsonb
+#  period_from             :datetime
+#  period_to               :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  data_digest_template_template_id :bigint           not null
 #
 # Indexes
 #
-#  index_data_digests_on_organisation_id  (organisation_id)
+#  index_data_digest_templates_on_data_digest_template_template_id  (data_digest_template_template_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (organisation_id => organisations.id)
+#  fk_rails_...  (data_digest_template_template_id => data_digest_template_templates.id)
 #
 
 require 'rails_helper'
 
-RSpec.describe DataDigests::Booking, type: :model do
+RSpec.describe DataDigestTemplates::Booking, type: :model do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:columns_config) { nil }
-  let(:period) { DataDigest.period(:ever) }
-  let(:data_digest) { create(:booking_data_digest, columns_config: columns_config, organisation: organisation) }
+  subject(:data_digest) { data_digest_template.data_digests.create }
+  let(:data_digest_template) do
+    create(:booking_data_digest_template, columns_config: columns_config, organisation: organisation)
+  end
   let!(:bookings) do
     create_list(:booking, 3, organisation: organisation)
   end
 
-  describe '#evaluate' do
-    subject(:periodic_data) { data_digest.evaluate(period) }
+  before do
+    data_digest.crunch!
+  end
 
+  describe '#data' do
     context 'with default columns' do
-      it { is_expected.to be_a(DataDigest::PeriodicData) }
-      it { expect(periodic_data.data.count).to be(3) }
+      it { expect(data_digest).to be_a(DataDigest) }
+      it { expect(data_digest.data.count).to be(3) }
       it do
-        is_expected.to have_attributes(header: ['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung',
-                                                'Beschreibung des Mietzwecks', 'Nächte', 'Mieter', 'Adresse', 'Email',
-                                                'Telefon'])
+        expect(data_digest.header).to eq ['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung',
+                                          'Beschreibung des Mietzwecks', 'Nächte', 'Mieter', 'Adresse', 'Email',
+                                          'Telefon']
       end
     end
 
     context 'with usage columns' do
       let(:tarif) { create(:tarif, home: home, organisation: organisation, price_per_unit: 10) }
-      let!(:usages) do
+      before do
         bookings.map do |booking|
           create(:usage, booking: booking, tarif: tarif, used_units: 1.5)
         end
+        data_digest.crunch!
       end
       let(:columns_config) do
         [
@@ -70,20 +73,19 @@ RSpec.describe DataDigests::Booking, type: :model do
         ]
       end
 
-      it { is_expected.to be_a(DataDigest::PeriodicData) }
-      it { expect(periodic_data.data.count).to be(3) }
-      it {
-        is_expected.to have_attributes(header: ['Ref', 'Usage Price'],
-                                       rows: bookings.map { |booking| [booking.ref, 'CHF 15.00'] })
-      }
+      it { expect(data_digest.data.count).to be(3) }
+      it do
+        expect(data_digest.header).to eq(['Ref', 'Usage Price'])
+        expect(data_digest.data).to include(*bookings.map { |booking| [booking.ref, 'CHF 15.00'] })
+      end
     end
   end
 
   describe '#csv' do
-    it { expect(data_digest.evaluate(period).format(:csv)).to include('Heim') }
+    it { expect(data_digest.format(:csv)).to include('Heim') }
   end
 
   describe '#pdf' do
-    it { expect(data_digest.evaluate(period).format(:pdf)).not_to be_blank }
+    it { expect(data_digest.format(:pdf)).not_to be_blank }
   end
 end

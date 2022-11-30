@@ -9,11 +9,11 @@ module Manage
       respond_with :manage, @operators
     end
 
-    def new
+    def show
       respond_with :manage, @operator
     end
 
-    def show
+    def new
       respond_with :manage, @operator
     end
 

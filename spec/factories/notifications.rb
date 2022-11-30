@@ -9,7 +9,6 @@
 #  body                  :text
 #  cc                    :string           default([]), is an Array
 #  locale                :string           default(NULL), not null
-#  queued_for_delivery   :boolean          default(FALSE)
 #  sent_at               :datetime
 #  subject               :string
 #  to                    :string           default([]), is an Array

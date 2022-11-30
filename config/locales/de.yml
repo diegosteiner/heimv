@@ -126,6 +126,14 @@ de:
         text: Vertragstext
         title: Titel
       data_digest:
+        created_at: Erstellt am
+        crunching_finished_at: Verarbeitung beendet
+        crunching_started_at: Verarbeitung gestartet
+        data_digest_template_id: Auszugsvorlage
+        period: Periode
+        period_from: von
+        period_to: bis
+      data_digest_template:
         columns_config: Spaltenkonfiguration
         group: Gruppe
         label: Name
@@ -419,13 +427,16 @@ de:
       data_digest:
         one: Auszug
         other: Auszüge
-      data_digests/booking:
+      data_digest_template:
+        one: Auszugsvorlage
+        other: Auszugsvorlagen
+      data_digest_templates/booking:
         one: Buchungen Auszug
         other: Buchungen Auszüge
-      data_digests/invoice_part:
+      data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
-      data_digests/payment:
+      data_digest_templates/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
       deadline:
@@ -557,6 +568,8 @@ de:
         label: Zahlungseingang bestätigen
       postpone_deadline:
         label: Frist verlängern
+      skip_invoice:
+        label: Endabrechnung überspringen
     public:
       cancel:
         label: Stornieren
@@ -624,7 +637,7 @@ de:
       relevant_time: Frist %{time}
     past:
       checklist:
-        create_invoice: Rechnung stellen
+        create_invoice: Endabrechnung erstellen
         create_usages: Verbrauch erfassen
       description: Die Belegung ist vorüber. Die Verwaltung kann jetzt den Verbrauch erfassen und die Schlussrechnung erstellen.
       label: Belegung (vergangen)
@@ -662,8 +675,7 @@ de:
     tenant_signature_label: Datum, Ort, Unterschrift Mieter
   currency: Currency
   data_digests:
-    period_from: von %{date}
-    period_to: bis %{date}
+    period_short: "%{period_from} - %{period_to}"
   date:
     abbr_day_names:
     - So
@@ -1002,6 +1014,7 @@ de:
       navigation:
         costs: Tarife & Verbrauch
       not_committed_yet: Die Buchung ist noch nicht definitiv.
+      notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
       show:
         checklist: Checkliste
         logged_changes: "%{changes} bearbeitet"
@@ -1015,6 +1028,9 @@ de:
     dashboard:
       index:
         ics_link: als ICAL
+    data_digests:
+      form:
+        or: oder
     designated_documents:
       form:
         all_locales: Alle
@@ -1028,8 +1044,6 @@ de:
     notifications:
       edit:
         deliver: Speichern und nochmals versenden
-      index:
-        notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
     organisation_users:
       index:
         invite_user: Neuen Benutzer einladen

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/integer/time'
-require Rails.root.join('app/services/cache_store_config_service')
+require Rails.root.join('app/services/cache_store_factory')
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -48,7 +48,7 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  config.cache_store = (CacheStoreConfigService.derive)
+  config.cache_store = CacheStoreFactory.redis(config.redis_config)
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque

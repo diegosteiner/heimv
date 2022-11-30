@@ -20,6 +20,7 @@ Then inside the container you may run:
 
 - `bin/rails-dev-server` to start rails server
 - `bin/webpacker-dev-server` to start webpack dev server
+- `bin/sidekiq-job-worker` to start the sidekiq worker process
 
 To visit the automatically created default organization, visit http://localhost:3000/.
 

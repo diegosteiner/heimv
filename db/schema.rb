@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_30_130520) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -186,7 +186,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
   end
 
-  create_table "data_digests", force: :cascade do |t|
+  create_table "data_digest_templates", force: :cascade do |t|
     t.string "type"
     t.string "label"
     t.jsonb "prefilter_params", default: {}
@@ -195,6 +195,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
     t.bigint "organisation_id", null: false
     t.jsonb "columns_config"
     t.string "group"
+    t.index ["organisation_id"], name: "index_data_digest_templates_on_organisation_id"
+  end
+
+  create_table "data_digests", force: :cascade do |t|
+    t.bigint "data_digest_template_id", null: false
+    t.bigint "organisation_id", null: false
+    t.datetime "period_from", precision: nil
+    t.datetime "period_to", precision: nil
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "crunching_started_at"
+    t.datetime "crunching_finished_at"
+    t.index ["data_digest_template_id"], name: "index_data_digests_on_data_digest_template_id"
     t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
   end
 
@@ -268,9 +282,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "payment_info_type"
     t.decimal "amount_open"
+    t.bigint "supersede_invoice_id"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
     t.index ["ref"], name: "index_invoices_on_ref"
+    t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
     t.index ["type"], name: "index_invoices_on_type"
   end
 
@@ -298,7 +314,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
     t.integer "addressed_to", default: 0, null: false
     t.string "to", default: [], array: true
     t.string "cc", default: [], array: true
-    t.boolean "queued_for_delivery", default: false
     t.string "locale", default: "de", null: false
     t.index ["booking_id"], name: "index_notifications_on_booking_id"
     t.index ["rich_text_template_id"], name: "index_notifications_on_rich_text_template_id"
@@ -534,12 +549,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_140949) do
   add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
+  add_foreign_key "data_digest_templates", "organisations"
+  add_foreign_key "data_digests", "data_digest_templates"
   add_foreign_key "data_digests", "organisations"
   add_foreign_key "deadlines", "bookings"
   add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
+  add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "notifications", "bookings"

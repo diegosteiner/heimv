@@ -1,42 +1,50 @@
-h1.mt-0.mb-5= DataDigest.model_name.human(count: 2)
-.table-responsive
+h1.mt-0= DataDigest.model_name.human(count: 2)
+
+- if can?(:manage, DataDigestTemplate, { organisation: current_organisation })
+  p= link_to DataDigestTemplate.model_name.human(count: 2), manage_data_digest_templates_path
+
+.table-responsive.mt-5
   table.table.table-hover.align-middle
     thead
       tr
-        th= DataDigest.human_attribute_name(:label)
-        th= DataDigest.human_attribute_name(:type)
+        th= DataDigestTemplate.human_attribute_name(:label)
+        th= DataDigestTemplate.human_attribute_name(:type)
+        th= DataDigest.human_attribute_name(:period)
+        th= DataDigest.human_attribute_name(:crunching_finished_at)
         th
 
-    - @data_digests.to_a.group_by(&:group).each do |group, data_digests|
-      - next if data_digests.empty?
-      - if group.present?
-        thead
-          tr
-            th.pt-4[colspan='3']
-              h5
-                = group
       tbody
-        - data_digests.each do |data_digest|
+        - @data_digests.each do |data_digest|
           tr[data-href=manage_data_digest_path(data_digest) data-id=data_digest.to_param]
             td
-              = link_to data_digest.label, manage_data_digest_path(data_digest)
+              - if data_digest.crunching_finished?
+                = link_to data_digest.label, manage_data_digest_path(data_digest)
+              - else 
+                span.text-muted= data_digest.label
 
             td
               = data_digest.class.model_name.human
 
+            td
+              = data_digest.localized_period
+
+            td
+              - if data_digest.crunching_finished_at.present?
+                = l data_digest.crunching_finished_at
+              - else 
+                | -
+
             td.py-1.text-end
+              - if data_digest.crunching_finished?
+                .btn-group
+                  - data_digest.formatters.keys.each do |format|
+                    = link_to manage_data_digest_path(data_digest, format: format), class: 'btn btn-primary' do
+                      = format.to_s.upcase
               .btn-group
-                = link_to edit_manage_data_digest_path(data_digest), class: 'btn btn-default' do
-                  span.fa.fa-edit
                 = link_to manage_data_digest_path(data_digest), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
                   span.fa.fa-trash
 
-br
-.btn-group
-  button.btn.btn-primary.dropdown-toggle[data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"]
-    = t(:add_record, model_name: DataDigest.model_name.human)
-    '
-  .dropdown-menu
-    - DataDigest.subtypes.values.each do |data_digest_type|
-      = link_to data_digest_type.model_name.human, new_manage_data_digest_path(type: data_digest_type), class: 'dropdown-item'
-
+= link_to new_manage_data_digest_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: DataDigest.model_name.human)

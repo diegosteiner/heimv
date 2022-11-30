@@ -26,7 +26,7 @@ describe BookingActions::Public::PostponeDeadline do
     it { expect { action }.to(change { booking.deadline.at }) }
 
     context 'when booking is too close' do
-      let(:occupancy) { build(:occupancy, begins_at: 3.days.from_now, ends_at: 4.days.from_now) }
+      let(:occupancy) { build(:occupancy, begins_at: 2.days.from_now, ends_at: 4.days.from_now) }
       let(:booking) { create(:booking, initial_state: initial_state, occupancy: occupancy) }
 
       it { expect { action }.to raise_error(BookingActions::Base::NotAllowed) }

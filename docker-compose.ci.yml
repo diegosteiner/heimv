@@ -16,11 +16,13 @@ services:
       SELENIUM_HOST: "selenium:4444"
       SMTP_SETTINGS: '{ "address":"mail" }'
       MAIL_FROM: "no-reply@heimv.local"
+      REDIS_URL: "redis://redis/1"
     command: bin/check
     depends_on:
       - db
       - selenium
       - e2e_target
+      - redis
     networks:
       default:
       selenium:
@@ -70,7 +72,7 @@ services:
       - "1080:80"
 
   redis:
-    image: "redis:alpine"
+    image: "redis:6"
 
 volumes:
   db_data:

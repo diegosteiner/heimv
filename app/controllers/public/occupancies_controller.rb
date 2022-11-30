@@ -9,15 +9,15 @@ module Public
     before_action :set_calendar, only: %i[calendar index]
     respond_to :json, :ics
 
-    def show
-      respond_with :public, @occupancy
-    end
-
     def index
       respond_to do |format|
         format.json { render json: OccupancySerializer.render(@calendar.occupancies) }
         format.ics { render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies) }
       end
+    end
+
+    def show
+      respond_with :public, @occupancy
     end
 
     def embed; end
