@@ -77,6 +77,10 @@ class Organisation < ApplicationRecord
     @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)
   end
 
+  def country_code
+    'CH'
+  end
+
   def invoice_ref_strategy
     @invoice_ref_strategy ||= RefStrategies.const_get(invoice_ref_strategy_type).new
   end
