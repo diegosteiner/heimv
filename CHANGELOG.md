@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 22.11.1
+
+Released on 30.11.2022
+
+- Refactor data_digests
+- Add worker queue for background jobs
+- Simplify process to create late notices from invoices
+
 #### Version 22.10.3
 
 Released on 12.10.2022
