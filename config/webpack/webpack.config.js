@@ -40,6 +40,10 @@ const customConfig = {
         ],
         include: /\.module\.[a-z]+$/
       },
+      {
+        test: /\.ya?ml$/,
+        use: 'yaml-loader'
+      }
     ],
   }
 }
