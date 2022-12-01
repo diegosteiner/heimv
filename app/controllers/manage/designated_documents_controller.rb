@@ -22,26 +22,20 @@ module Manage
     def create
       @designated_document.assign_attributes(organisation: current_organisation)
       @designated_document.update(designated_document_params)
-      respond_with :manage, @designated_document, location: return_to_path
+      respond_with :manage, @designated_document, location: manage_designated_documents_path
     end
 
     def update
       @designated_document.update(designated_document_params)
-      respond_with :manage, @designated_document, location: return_to_path
+      respond_with :manage, @designated_document, location: manage_designated_documents_path
     end
 
     def destroy
       @designated_document.destroy
-      respond_with :manage, @designated_document, location: return_to_path
+      respond_with :manage, @designated_document, location: manage_designated_documents_path
     end
 
     private
-
-    def return_to_path
-      return manage_home_designated_documents_path(@designated_document.home) if @designated_document.home.present?
-
-      manage_designated_documents_path
-    end
 
     def designated_document_params
       params[:designated_document]&.permit(:designation, :file, :locale, :remarks, :home_id, :name,
