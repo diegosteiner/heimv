@@ -30,13 +30,17 @@ module BookingConditions
     BookingCondition.register_subtype self
 
     validate do
-      next if organisation.homes.exists?(id: distinction)
+      next if distinction_scope.exists?(id: distinction)
 
       errors.add(:distinction, :invalid)
     end
 
     def evaluate(booking)
       distinction == booking.occupancy&.home&.id&.to_s
+    end
+
+    def distinction_scope
+      organisation.homes
     end
   end
 end

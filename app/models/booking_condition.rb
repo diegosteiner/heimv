@@ -46,11 +46,19 @@ class BookingCondition < ApplicationRecord
     }.fetch(operator, -> { value == other_value }).call
   end
 
+  def self.fullfills_all?(booking, booking_conditions)
+    evaluated_conditions = booking_conditions.filter_map do |condition|
+      condition.evaluate(booking) || (condition.must_condition ? false : nil)
+    end
+    evaluated_conditions.any? && evaluated_conditions.all?
+  end
+
   def distinction_match
     @distinction_match ||= self.class.distinction_regex.match(distinction)
   end
 
   validates :distinction, format: { with: distinction_regex }, allow_blank: true
+  validates :type, presence: true
 
   def to_s
     "#{model_name.human}: #{distinction}"

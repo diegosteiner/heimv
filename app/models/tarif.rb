@@ -67,7 +67,8 @@ class Tarif < ApplicationRecord
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :unit, column_suffix: '_i18n', locale_accessors: true
 
-  accepts_nested_attributes_for :booking_conditions, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :booking_conditions, reject_if: :reject_booking_conditition_attributes?,
+                                                     allow_destroy: true
 
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')
@@ -95,6 +96,10 @@ class Tarif < ApplicationRecord
 
   def <=>(other)
     ordinal <=> other.ordinal
+  end
+
+  def reject_booking_conditition_attributes?(attributes)
+    attributes[:type].blank?
   end
 
   private

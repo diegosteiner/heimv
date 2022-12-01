@@ -30,8 +30,8 @@ module BookingConditions
     BookingCondition.register_subtype self
 
     validate do
-      next if organisation.booking_categories.exists?(key: distinction) ||
-              organisation.booking_categories.exists?(id: distinction)
+      next if distinction_scope.exists?(key: distinction) ||
+              distinction_scope.exists?(id: distinction)
 
       errors.add(:distinction, :invalid)
     end
@@ -39,6 +39,10 @@ module BookingConditions
     def evaluate(booking)
       distinction == booking.category&.key ||
         distinction == booking.category&.id&.to_s
+    end
+
+    def distinction_scope
+      organisation.booking_categories
     end
   end
 end
