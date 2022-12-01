@@ -24,12 +24,12 @@ class BookingDeletionService
   private
 
   def delete_dependent!(booking)
-    booking.logs.destroy_all
-    booking.usages.destroy_all
-    booking.contracts.destroy_all
-    booking.invoices.destroy_all
-    booking.payments.destroy_all
-    booking.notifications.destroy_all
-    booking.state_transitions.destroy_all
+    booking.logs.delete_all
+    booking.usages.delete_all
+    booking.contracts.delete_all
+    booking.invoices.delete_all
+    booking.payments.delete_all
+    booking.notifications.delete_all
+    booking.state_transitions.delete_all
   end
 end
