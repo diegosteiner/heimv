@@ -418,22 +418,26 @@ de:
         one: Art der Miete
         other: Mietkategorien
       booking_condition:
-        one: Tarifwähler
-        other: Tarifwähler
+        one: Bedingung
+        other: Bedingungen
       booking_conditions/always_apply:
-        one: Immer-Ein Tarifwähler
+        one: Immer
       booking_conditions/bookable_extra:
-        one: Buchbares Extra Tarifwähler
+        one: Buchbares Extra Bedingung
       booking_conditions/booking_approximate_headcount_per_night:
-        one: Anzahl TN Tarifwähler
+        one: Anzahl TN Bedingung
       booking_conditions/booking_category:
-        one: Mietkategorie Tarifwähler
+        one: Mietkategorie Bedingung
       booking_conditions/booking_nights:
-        one: Anzahl Nächte tarifwähler
+        one: Anzahl Nächte Bedingung
       booking_conditions/booking_overnight_stays:
-        one: Übernachtungen Tarifwähler
+        one: Übernachtungen Bedingung
       booking_conditions/occupancy_duration:
-        one: Belegungsdauer Tarifwähler
+        one: Belegungsdauer Bedingung
+      booking_conditions/occupiable:
+        one: Heim Bedingung
+      booking_conditions/tenant_organisation:
+        one: Organisation des Mieters Bedingung
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -518,9 +522,6 @@ de:
       tarif:
         one: Tarif
         other: Tarife
-      tarif_booking_condition:
-        one: Tarifwähler-Tarif
-        other: Tarifwähler-Tarife
       tarifs/amount:
         one: nach Verbrauch
       tarifs/flat:

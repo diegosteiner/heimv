@@ -67,22 +67,15 @@ class Usage < ApplicationRecord
     self.price_per_unit = (tarif.pin? && tarif.price_per_unit) || nil
   end
 
-  # def adopted_by_vote?
-  #   votes = booking_conditions.index_with do |selector|
-  #     selector.vote_for(self)
-
-  # def vote_for(usage)
-  #   return nil unless tarif == usage.tarif
-
-  #   apply?(usage) || (booking_condition ? false : nil)
-  # end
-  #   end
-  #   votes = votes.values.flatten.compact
-  #   votes.any? && votes.all?
-  # end
+  def booking_conditions_met?
+    evaluated_conditions = booking_conditions.filter_map do |condition|
+      condition.evaluate(booking) || (condition.must_condition ? false : nil)
+    end
+    evaluated_conditions.any? && evalated_conditions.all?
+  end
 
   def preselect
-    self.apply ||= adopted_by_vote?
+    self.apply ||= booking_conditions_met?
     self.used_units ||= presumed_units
     new_record?
   end
