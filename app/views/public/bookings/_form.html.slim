@@ -91,7 +91,7 @@
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable
 
-        - bookable_extras = @booking.organisation.bookable_extras.where(home: [nil, @booking.home])
+        - bookable_extras = @booking.organisation.bookable_extras
         - if bookable_extras.any?
           h5= Booking.human_attribute_name(:bookable_extra_ids)
           .mb-3
