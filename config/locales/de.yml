@@ -117,6 +117,10 @@ de:
         ordinal: Ordnungsnummer
         ordinal_position: Anzeigeposition
         title: Titel
+      booking_condition:
+        distinction: Bedingung
+        must_condition: Muss-Kriterium
+        type: Typ
       contract:
         issuer: Vermieter
         pdf: PDF
@@ -274,11 +278,6 @@ de:
         tenant_visible: Für Mieter sichtbar (Vertrag)
         type: Typ
         unit: pro Einheit
-      tarif_selector:
-        type: Typ
-      tarif_tarif_selector:
-        override: Überschreiben
-        tarif: Tarif
       tenant:
         address: Adresse
         address_addon: Adresszusatz / Schule / Firma
@@ -418,6 +417,23 @@ de:
       booking_category:
         one: Art der Miete
         other: Mietkategorien
+      booking_condition:
+        one: Tarifwähler
+        other: Tarifwähler
+      booking_conditions/always_apply:
+        one: Immer-Ein Tarifwähler
+      booking_conditions/bookable_extra:
+        one: Buchbares Extra Tarifwähler
+      booking_conditions/booking_approximate_headcount_per_night:
+        one: Anzahl TN Tarifwähler
+      booking_conditions/booking_category:
+        one: Mietkategorie Tarifwähler
+      booking_conditions/booking_nights:
+        one: Anzahl Nächte tarifwähler
+      booking_conditions/booking_overnight_stays:
+        one: Übernachtungen Tarifwähler
+      booking_conditions/occupancy_duration:
+        one: Belegungsdauer Tarifwähler
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -502,24 +518,7 @@ de:
       tarif:
         one: Tarif
         other: Tarife
-      tarif_selector:
-        one: Tarifwähler
-        other: Tarifwähler
-      tarif_selectors/always_apply:
-        one: Immer-Ein Tarifwähler
-      tarif_selectors/bookable_extra:
-        one: Buchbares Extra Tarifwähler
-      tarif_selectors/booking_approximate_headcount_per_night:
-        one: Anzahl TN Tarifwähler
-      tarif_selectors/booking_category:
-        one: Mietkategorie Tarifwähler
-      tarif_selectors/booking_nights:
-        one: Anzahl Nächte tarifwähler
-      tarif_selectors/booking_overnight_stays:
-        one: Übernachtungen Tarifwähler
-      tarif_selectors/occupancy_duration:
-        one: Belegungsdauer Tarifwähler
-      tarif_tarif_selector:
+      tarif_booking_condition:
         one: Tarifwähler-Tarif
         other: Tarifwähler-Tarife
       tarifs/amount:

@@ -76,6 +76,7 @@ h6 {
   & > nav {
     grid-area: navigation;
     background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(4px);
     min-width: 250px;
   }
 

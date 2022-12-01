@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_30_130520) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_01_101531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -109,6 +109,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_130520) do
     t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
     t.index ["ordinal"], name: "index_booking_categories_on_ordinal"
     t.index ["organisation_id"], name: "index_booking_categories_on_organisation_id"
+  end
+
+  create_table "booking_conditions", force: :cascade do |t|
+    t.bigint "qualifiable_id"
+    t.boolean "must_condition", default: true
+    t.string "distinction"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "type"
+    t.string "qualifiable_type"
+    t.bigint "organisation_id"
+    t.index ["organisation_id"], name: "index_booking_conditions_on_organisation_id"
+    t.index ["qualifiable_id", "qualifiable_type"], name: "index_booking_conditions_on_qualifiable_id_and_qualifiable_type"
   end
 
   create_table "booking_logs", force: :cascade do |t|
@@ -436,16 +449,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_130520) do
     t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"
   end
 
-  create_table "tarif_selectors", force: :cascade do |t|
-    t.bigint "tarif_id"
-    t.boolean "veto", default: true
-    t.string "distinction"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "type"
-    t.index ["tarif_id"], name: "index_tarif_selectors_on_tarif_id"
-  end
-
   create_table "tarifs", force: :cascade do |t|
     t.string "type"
     t.boolean "pin", default: true
@@ -544,6 +547,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_130520) do
   add_foreign_key "booked_extras", "bookable_extras"
   add_foreign_key "booking_agents", "organisations"
   add_foreign_key "booking_categories", "organisations"
+  add_foreign_key "booking_conditions", "organisations"
+  add_foreign_key "booking_conditions", "tarifs", column: "qualifiable_id"
   add_foreign_key "booking_logs", "users"
   add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "bookings", "homes"
@@ -574,7 +579,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_130520) do
   add_foreign_key "payments", "invoices"
   add_foreign_key "rich_text_templates", "homes"
   add_foreign_key "rich_text_templates", "organisations"
-  add_foreign_key "tarif_selectors", "tarifs"
   add_foreign_key "tarifs", "organisations"
   add_foreign_key "tenants", "organisations"
   add_foreign_key "usages", "bookings"

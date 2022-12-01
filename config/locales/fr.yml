@@ -117,6 +117,10 @@ fr:
         ordinal: Ordnungsnummer
         ordinal_position: Anzeigeposition
         title: Titel
+      booking_condition:
+        distinction: Bedingung
+        must_condition: Muss-Kriterium
+        type: Typ
       contract:
         issuer: Vermieter
         pdf: PDF
@@ -274,11 +278,6 @@ fr:
         tenant_visible: visible pour le locataire (contrat et facture)
         type: type
         unit: unité
-      tarif_selector:
-        type: Typ
-      tarif_tarif_selector:
-        override: Überschreiben
-        tarif: Tarif
       tenant:
         address: Adresse
         address_addon: Addresszusatz
@@ -418,6 +417,23 @@ fr:
       booking_category:
         one: Mietzweck
         other: Mietzwecke
+      booking_condition:
+        one: Sélecteur de tarif
+        other: Sélecteur de tarif
+      booking_conditions/always_apply:
+        one: Sélecteur de tarif toujours-un
+      booking_conditions/bookable_extra:
+        one: Extra réservable Sélecteur de tarif
+      booking_conditions/booking_approximate_headcount_per_night:
+        one: Nombre de TN Sélecteur de tarif
+      booking_conditions/booking_category:
+        one: Objet de la location Sélecteur de tarif
+      booking_conditions/booking_nights:
+        one: Nuits Sélecteurs de tarifs
+      booking_conditions/booking_overnight_stays:
+        one: Nuitées Sélecteur de tarif
+      booking_conditions/occupancy_duration:
+        one: nächte tarifwähler
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -502,24 +518,7 @@ fr:
       tarif:
         one: tarif
         other: Tarifs
-      tarif_selector:
-        one: Sélecteur de tarif
-        other: Sélecteur de tarif
-      tarif_selectors/always_apply:
-        one: Sélecteur de tarif toujours-un
-      tarif_selectors/bookable_extra:
-        one: Extra réservable Sélecteur de tarif
-      tarif_selectors/booking_approximate_headcount_per_night:
-        one: Nombre de TN Sélecteur de tarif
-      tarif_selectors/booking_category:
-        one: Objet de la location Sélecteur de tarif
-      tarif_selectors/booking_nights:
-        one: Nuits Sélecteurs de tarifs
-      tarif_selectors/booking_overnight_stays:
-        one: Nuitées Sélecteur de tarif
-      tarif_selectors/occupancy_duration:
-        one: nächte tarifwähler
-      tarif_tarif_selector:
+      tarif_booking_condition:
         one: tarif du sélecteur de tarif
         other: Tarifs du sélecteur de tarif
       tarifs/amount:

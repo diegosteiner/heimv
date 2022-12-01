@@ -1,5 +1,5 @@
-class MigrateBookingPurposeTarifSelectors < ActiveRecord::Migration[7.0]
+class MigrateBookingPurposeBookingConditions < ActiveRecord::Migration[7.0]
   def change
-    TarifSelector.where(type: 'TarifSelectors::BookingPurpose').update_all(type: 'TarifSelectors::BookingCategory')
+    BookingCondition.where(type: 'BookingConditions::BookingPurpose').update_all(type: 'BookingConditions::BookingCategory')
   end
 end

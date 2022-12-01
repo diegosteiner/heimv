@@ -34,10 +34,10 @@ class Usage < ApplicationRecord
     headcount: -> { booking.approximate_headcount || 0 }
   }.with_indifferent_access.freeze
 
-  belongs_to :tarif, -> { includes(:tarif_selectors) }, inverse_of: :usages
+  belongs_to :tarif, -> { includes(:booking_conditions) }, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages, touch: true
   has_many :invoice_parts, dependent: :nullify
-  has_many :tarif_selectors, through: :tarif
+  has_many :booking_conditions, through: :tarif
   has_one :organisation, through: :booking
 
   attribute :apply, default: true
@@ -67,13 +67,19 @@ class Usage < ApplicationRecord
     self.price_per_unit = (tarif.pin? && tarif.price_per_unit) || nil
   end
 
-  def adopted_by_vote?
-    votes = tarif_selectors.index_with do |selector|
-      selector.vote_for(self)
-    end
-    votes = votes.values.flatten.compact
-    votes.any? && votes.all?
-  end
+  # def adopted_by_vote?
+  #   votes = booking_conditions.index_with do |selector|
+  #     selector.vote_for(self)
+
+  # def vote_for(usage)
+  #   return nil unless tarif == usage.tarif
+
+  #   apply?(usage) || (booking_condition ? false : nil)
+  # end
+  #   end
+  #   votes = votes.values.flatten.compact
+  #   votes.any? && votes.all?
+  # end
 
   def preselect
     self.apply ||= adopted_by_vote?

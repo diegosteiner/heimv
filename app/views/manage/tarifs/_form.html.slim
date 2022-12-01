@@ -31,18 +31,18 @@
     = f.check_box :tenant_visible
     = f.check_box :pin
 
-    label= TarifSelector.model_name.human(count: 2)
-    = f.fields_for :tarif_selectors, @tarif.tarif_selectors do |tuc|
-      = tuc.hidden_field :id
+    label= BookingCondition.model_name.human(count: 2)
+    = f.fields_for :booking_conditions, @tarif.booking_conditions do |bcf|
+      = bcf.hidden_field :id
       .row
         .col-1.pt-2
-          = tuc.check_box :_destroy, { checked: !tuc.object.new_record? || @tarif.new_record?, skip_label: true }, '0', '1'
+          = bcf.check_box :_destroy, { checked: !bcf.object.new_record? || @tarif.new_record?, skip_label: true }, '0', '1'
         .col-4
-          = tuc.select :type, subtype_options_for_select(TarifSelector.subtypes) , skip_label: true, include_blank: true
-        .col-3
-          = tuc.text_field :distinction, skip_label: true
-        .col-2.pt-2
-          = tuc.check_box :veto
+          = bcf.select :type, subtype_options_for_select(BookingCondition.subtypes) , skip_label: true, include_blank: true
+        .col-4
+          = bcf.text_field :distinction, skip_label: true
+        .col-3.pt-2
+          = bcf.check_box :must_condition
 
   .form-actions.pt-4.mt-3
     = f.submit
