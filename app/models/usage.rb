@@ -71,7 +71,7 @@ class Usage < ApplicationRecord
     evaluated_conditions = booking_conditions.filter_map do |condition|
       condition.evaluate(booking) || (condition.must_condition ? false : nil)
     end
-    evaluated_conditions.any? && evalated_conditions.all?
+    evaluated_conditions.any? && evaluated_conditions.all?
   end
 
   def preselect

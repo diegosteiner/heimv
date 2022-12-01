@@ -522,6 +522,9 @@ de:
       tarif:
         one: Tarif
         other: Tarife
+      tarif_booking_condition:
+        one: Tarifwähler-Tarif
+        other: Tarifwähler-Tarife
       tarifs/amount:
         one: nach Verbrauch
       tarifs/flat:

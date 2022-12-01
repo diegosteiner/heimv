@@ -434,6 +434,10 @@ fr:
         one: Nuitées Sélecteur de tarif
       booking_conditions/occupancy_duration:
         one: nächte tarifwähler
+      booking_conditions/occupiable:
+        one: Heim Bedingung
+      booking_conditions/tenant_organisation:
+        one: Organisation des Mieters Bedingung
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
