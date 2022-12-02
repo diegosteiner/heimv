@@ -17,7 +17,7 @@ i18n
     resources,
     lng: "de",
     debug: true,
-    // keySeparator: false, // we do not use keys in form messages.welcome
+    keySeparator: ".",
 
     interpolation: {
       escapeValue: false, // react already safes from xss,
