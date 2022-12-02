@@ -130,7 +130,7 @@ de:
         title: Titel
       data_digest:
         created_at: Erstellt am
-        crunching_finished_at: Verarbeitung beendet
+        crunching_finished_at: Verarbeitung abgeschlossen
         crunching_started_at: Verarbeitung gestartet
         data_digest_template_id: Auszugsvorlage
         period: Periode
@@ -1035,6 +1035,8 @@ de:
       index:
         ics_link: als ICAL
     data_digests:
+      create:
+        job_started: Der Auszug wird zusammengestellt. Die Verarbeitung der Daten kann einige Minuten dauern. Laden Sie die Seite neu, um zu prüfen, ob die Verarbeitung abgeschlossen wurde.
       form:
         or: oder
     designated_documents:

@@ -1036,6 +1036,8 @@ it:
       index:
         ics_link: come ICAL
     data_digests:
+      create:
+        job_started: Der Auszug wird zusammengestellt. Die Verarbeitung der Daten kann einige Minuten dauern. Laden Sie die Seite neu, um zu prüfen, ob die Verarbeitung abgeschlossen wurde.
       form:
         or: Or
     designated_documents:

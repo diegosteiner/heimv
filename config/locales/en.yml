@@ -996,6 +996,8 @@ en:
       index:
         ics_link: als ICAL
     data_digests:
+      create:
+        job_started: Job started
       form:
         or: Or
     designated_documents:
