@@ -276,7 +276,7 @@ de:
         tarif_group: Tarifgruppe
         tenant_visible: Für Mieter sichtbar (Vertrag)
         type: Typ
-        unit: pro Einheit
+        unit: Einheit
       tenant:
         address: Adresse
         address_addon: Adresszusatz / Schule / Firma

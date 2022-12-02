@@ -6,11 +6,13 @@ module Manage
 
     def index
       @tarifs = @tarifs.where(organisation: current_organisation).ordered
-      @tarifs = @tarifs.where(home_id: params[:home_id]) if params[:home_id]
+      # @tarifs = @tarifs.where(home_id: params[:home_id]) if params[:home_id]
       respond_with :manage, @tarifs
     end
 
     def new
+      tarif_to_clone = current_organisation.tarifs.find(params[:clone]) if params[:clone]
+      @tarif = tarif_to_clone.dup if tarif_to_clone.present?
       respond_with :manage, @tarif
     end
 
@@ -21,7 +23,7 @@ module Manage
 
     def create
       @tarif.update(organisation: current_organisation)
-      respond_with :manage, @tarif, location: manage_tarif_path(@tarif)
+      respond_with :manage, @tarif, location: edit_manage_tarif_path(@tarif)
     end
 
     def import

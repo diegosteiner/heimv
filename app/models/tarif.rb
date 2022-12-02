@@ -53,7 +53,6 @@ class Tarif < ApplicationRecord
   has_many :booking_conditions, as: :qualifiable, dependent: :destroy
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
-  has_many :dependent_tarifs, class_name: 'Tarif', dependent: :nullify
 
   scope :ordered, -> { order(:ordinal) }
   scope :pinned, -> { where(pin: true) }
@@ -113,5 +112,10 @@ class Tarif < ApplicationRecord
 
   def round(price)
     (price * 20.0).floor / 20.0
+  end
+
+  def initialize_copy(origin)
+    super
+    self.booking_conditions = origin.booking_conditions.map(&:dup)
   end
 end
