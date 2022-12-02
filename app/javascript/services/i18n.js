@@ -2,15 +2,13 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 import de from "../../../config/locales/de.yml";
-// import fr from '../../../config/locales/fr.yml';
-// import it from '../../../config/locales/it.yml';
+import fr from "../../../config/locales/fr.yml";
+import it from "../../../config/locales/it.yml";
 
 const resources = {
-  de: {
-    translation: {
-      ...de,
-    },
-  },
+  de: { translation: de.de },
+  fr: { translation: fr.fr },
+  it: { translation: it.it },
 };
 
 i18n
@@ -18,7 +16,7 @@ i18n
   .init({
     resources,
     lng: "de",
-    // debug: true,
+    debug: true,
     // keySeparator: false, // we do not use keys in form messages.welcome
 
     interpolation: {
