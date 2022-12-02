@@ -29,14 +29,30 @@
 require 'rails_helper'
 
 RSpec.describe Usage, type: :model do
+  let(:organisation) { home.organisation }
   let(:home) { create(:home) }
-  let(:tarif) { create(:tarif, organisation: home.organisation, price_per_unit: 3.33) }
+  let(:tarif) { create(:tarif, organisation: organisation, price_per_unit: 3.33) }
 
   describe '#price' do
     let(:usage) { build(:usage, tarif: tarif, used_units: 2) }
     subject { usage.price }
 
     it { is_expected.to eq(6.65) }
+  end
+
+  describe '#preselect' do
+    let(:booking) { create(:booking, home: home) }
+    let(:usage) { build(:usage, booking: booking, tarif: tarif) }
+    before do
+      BookingConditions::OccupancyDuration.create(qualifiable: tarif, distinction: '>1d')
+      BookingConditions::BookingApproximateHeadcountPerNight.create(qualifiable: tarif, distinction: '>10')
+      BookingConditions::TenantOrganisation.create(qualifiable: tarif, distinction: 'test', must_condition: false)
+    end
+
+    it do
+      expect(usage.preselect).to be true
+      expect(usage.apply).to be true
+    end
   end
 
   describe '#save' do

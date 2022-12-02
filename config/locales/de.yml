@@ -73,7 +73,6 @@ de:
         tenant_email: Email des Mieters
       bookable_extra:
         description: Beschreibung
-        home_id: Gültig für Heim
         title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
@@ -117,6 +116,10 @@ de:
         ordinal: Ordnungsnummer
         ordinal_position: Anzeigeposition
         title: Titel
+      booking_condition:
+        distinction: Bedingung
+        must_condition: Muss-Kriterium
+        type: Typ
       contract:
         issuer: Vermieter
         pdf: PDF
@@ -127,7 +130,7 @@ de:
         title: Titel
       data_digest:
         created_at: Erstellt am
-        crunching_finished_at: Verarbeitung beendet
+        crunching_finished_at: Verarbeitung abgeschlossen
         crunching_started_at: Verarbeitung gestartet
         data_digest_template_id: Auszugsvorlage
         period: Periode
@@ -274,11 +277,6 @@ de:
         tenant_visible: Für Mieter sichtbar (Vertrag)
         type: Typ
         unit: pro Einheit
-      tarif_selector:
-        type: Typ
-      tarif_tarif_selector:
-        override: Überschreiben
-        tarif: Tarif
       tenant:
         address: Adresse
         address_addon: Adresszusatz / Schule / Firma
@@ -418,6 +416,31 @@ de:
       booking_category:
         one: Art der Miete
         other: Mietkategorien
+      booking_condition:
+        one: Bedingung
+        other: Bedingungen
+      booking_conditions/always_apply:
+        one: Immer
+      booking_conditions/bookable_extra:
+        one: Buchbares Extra Bedingung
+      booking_conditions/booking_approximate_headcount_per_night:
+        one: Anzahl TN Bedingung
+      booking_conditions/booking_category:
+        one: Mietkategorie Bedingung
+      booking_conditions/booking_nights:
+        one: Anzahl Nächte Bedingung
+      booking_conditions/booking_overnight_stays:
+        one: Übernachtungen Bedingung
+      booking_conditions/booking_state:
+        one: Status Bedingung
+      booking_conditions/occupancy_duration:
+        one: Belegungsdauer Bedingung
+      booking_conditions/occupiable:
+        one: Heim Bedingung
+      booking_conditions/season:
+        one: Saison Bedingung
+      booking_conditions/tenant_organisation:
+        one: Organisation des Mieters Bedingung
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -502,24 +525,7 @@ de:
       tarif:
         one: Tarif
         other: Tarife
-      tarif_selector:
-        one: Tarifwähler
-        other: Tarifwähler
-      tarif_selectors/always_apply:
-        one: Immer-Ein Tarifwähler
-      tarif_selectors/bookable_extra:
-        one: Buchbares Extra Tarifwähler
-      tarif_selectors/booking_approximate_headcount_per_night:
-        one: Anzahl TN Tarifwähler
-      tarif_selectors/booking_category:
-        one: Mietkategorie Tarifwähler
-      tarif_selectors/booking_nights:
-        one: Anzahl Nächte tarifwähler
-      tarif_selectors/booking_overnight_stays:
-        one: Übernachtungen Tarifwähler
-      tarif_selectors/occupancy_duration:
-        one: Belegungsdauer Tarifwähler
-      tarif_tarif_selector:
+      tarif_booking_condition:
         one: Tarifwähler-Tarif
         other: Tarifwähler-Tarife
       tarifs/amount:
@@ -1029,6 +1035,8 @@ de:
       index:
         ics_link: als ICAL
     data_digests:
+      create:
+        job_started: Der Auszug wird zusammengestellt. Die Verarbeitung der Daten kann einige Minuten dauern. Laden Sie die Seite neu, um zu prüfen, ob die Verarbeitung abgeschlossen wurde.
       form:
         or: oder
     designated_documents:

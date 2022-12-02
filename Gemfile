@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.1.2'
+ruby '3.1.3'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
@@ -37,7 +37,7 @@ gem 'pg'
 gem 'prawn'
 gem 'prawn-markup'
 gem 'prawn-table'
-gem 'puma', '~> 5.6' # FIXME: https://github.com/teamcapybara/capybara wait for release
+gem 'puma'
 gem 'rack-mini-profiler'
 gem 'rails', '~> 7.0.0'
 gem 'rails-i18n', '~> 7.0'

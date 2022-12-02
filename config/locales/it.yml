@@ -73,7 +73,6 @@ it:
         tenant_email: Email des Mieters
       bookable_extra:
         description: Beschreibung
-        home_id: Gültig für Heim
         title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
@@ -117,6 +116,10 @@ it:
         ordinal: Ordnungsnummer
         ordinal_position: Anzeigeposition
         title: Titel
+      booking_condition:
+        distinction: Bedingung
+        must_condition: Muss-Kriterium
+        type: Typ
       contract:
         issuer: Vermieter
         pdf: PDF
@@ -274,11 +277,6 @@ it:
         tenant_visible: Für Mieter sichtbar (Vertrag und Rechnung)
         type: Typ
         unit: Einheit
-      tarif_selector:
-        type: Typ
-      tarif_tarif_selector:
-        override: Überschreiben
-        tarif: Tarif
       tenant:
         address: Adresse
         address_addon: Addresszusatz
@@ -418,6 +416,31 @@ it:
       booking_category:
         one: Mietzweck
         other: Mietzwecke
+      booking_condition:
+        one: Tarifwähler
+        other: Tarifwähler
+      booking_conditions/always_apply:
+        one: Immer-Ein Tarifwähler
+      booking_conditions/bookable_extra:
+        one: Buchbares Extra Tarifwähler
+      booking_conditions/booking_approximate_headcount_per_night:
+        one: Anzahl TN Tarifwähler
+      booking_conditions/booking_category:
+        one: Mietzweck Tarifwähler
+      booking_conditions/booking_nights:
+        one: Nächte Tarifwähler
+      booking_conditions/booking_overnight_stays:
+        one: Übernachtungen Tarifwähler
+      booking_conditions/booking_state:
+        one: Status Bedingung
+      booking_conditions/occupancy_duration:
+        one: nächte tarifwähler
+      booking_conditions/occupiable:
+        one: Heim Bedingung
+      booking_conditions/season:
+        one: Saison Bedingung
+      booking_conditions/tenant_organisation:
+        one: Organisation des Mieters Bedingung
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -502,24 +525,7 @@ it:
       tarif:
         one: Tarif
         other: Tarife
-      tarif_selector:
-        one: Tarifwähler
-        other: Tarifwähler
-      tarif_selectors/always_apply:
-        one: Immer-Ein Tarifwähler
-      tarif_selectors/bookable_extra:
-        one: Buchbares Extra Tarifwähler
-      tarif_selectors/booking_approximate_headcount_per_night:
-        one: Anzahl TN Tarifwähler
-      tarif_selectors/booking_category:
-        one: Mietzweck Tarifwähler
-      tarif_selectors/booking_nights:
-        one: Nächte Tarifwähler
-      tarif_selectors/booking_overnight_stays:
-        one: Übernachtungen Tarifwähler
-      tarif_selectors/occupancy_duration:
-        one: nächte tarifwähler
-      tarif_tarif_selector:
+      tarif_booking_condition:
         one: Tarifwähler-Tarif
         other: Tarifwähler-Tarife
       tarifs/amount:
@@ -1030,6 +1036,8 @@ it:
       index:
         ics_link: come ICAL
     data_digests:
+      create:
+        job_started: Der Auszug wird zusammengestellt. Die Verarbeitung der Daten kann einige Minuten dauern. Laden Sie die Seite neu, um zu prüfen, ob die Verarbeitung abgeschlossen wurde.
       form:
         or: Or
     designated_documents:

@@ -15,7 +15,7 @@ module Manage
     end
 
     def edit
-      @tarif.tarif_selectors.build
+      @tarif.booking_conditions.build
       respond_with :manage, @tarif
     end
 
@@ -44,7 +44,7 @@ module Manage
 
     def update
       @tarif.update(tarif_params)
-      respond_with :manage, @tarif, location: manage_tarifs_path
+      respond_with :manage, @tarif, location: edit_manage_tarif_path(@tarif)
     end
 
     def destroy

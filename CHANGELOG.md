@@ -2,6 +2,13 @@
 
 #### Unreleased
 
+#### Version 22.12.1
+
+Released on 02.12.2022
+
+- Improve Booking Conditions
+- Tweak UI
+
 #### Version 22.11.1
 
 Released on 30.11.2022
