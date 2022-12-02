@@ -431,10 +431,14 @@ de:
         one: Anzahl Nächte Bedingung
       booking_conditions/booking_overnight_stays:
         one: Übernachtungen Bedingung
+      booking_conditions/booking_state:
+        one: Status Bedingung
       booking_conditions/occupancy_duration:
         one: Belegungsdauer Bedingung
       booking_conditions/occupiable:
         one: Heim Bedingung
+      booking_conditions/season:
+        one: Saison Bedingung
       booking_conditions/tenant_organisation:
         one: Organisation des Mieters Bedingung
       booking_transition:

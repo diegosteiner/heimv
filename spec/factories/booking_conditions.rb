@@ -29,6 +29,7 @@ FactoryBot.define do
   factory :booking_condition do
     association :qualifiable, factory: :tarif
     distinction { '' }
-    veto { false }
+    must_condition { true }
+    organisation
   end
 end
