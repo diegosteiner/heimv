@@ -85,6 +85,7 @@
     = f.text_area :cancellation_reason
     = f.check_box :notifications_enabled
     = f.check_box :editable
+    = f.collection_select :transition_to, @booking.booking_flow.allowed_transitions, :itself, ->(state) { t(:label, scope: [:booking_states, state]) }, { include_blank: true }
 
   fieldset.mt-3
     h5.mt-0= AgentBooking.model_name.human

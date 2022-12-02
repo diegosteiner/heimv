@@ -17,7 +17,7 @@ module BookingStateConcern
   end
 
   def apply_transitions(transitions = transition_to, metadata: nil, infer_transitions: !skip_infer_transitions)
-    applied_transitions = Array.wrap(transitions).compact.each do |next_transition|
+    applied_transitions = Array.wrap(transitions).compact_blank.each do |next_transition|
       next booking_flow.transition_to(next_transition, metadata: metadata) if can_transition_to?(next_transition)
 
       errors.add(:transition_to, :invalid_transition, transition: next_transition)

@@ -7,7 +7,7 @@ module Manage
 
     def index
       @bookings = @bookings.where(organisation: current_organisation)
-      @bookings = @filter.apply_cached(@bookings.with_default_includes.ordered)
+      @bookings = @filter.apply(@bookings.with_default_includes.ordered, cached: true)
       respond_with :manage, @bookings
     end
 
