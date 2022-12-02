@@ -1130,22 +1130,22 @@ fr:
                   operator: Verantwortliche Person
                     name: Name
                     email: E-Mail
-                    contact-info: Kontaktinformationen
+                    contact_info: Kontaktinformationen
                 home_return: Hausrücknahme
                   operator: Verantwortliche Person
                     name: Name
                     email: E-Mail
-                    contact-info: Kontaktinformationen
+                    contact_info: Kontaktinformationen
                 administration: Verwaltung / Allgemeine Anliegen
                   operator: Verantwortliche Person
                     name: Name
                     email: E-Mail
-                    contact-info: Kontaktinformationen
+                    contact_info: Kontaktinformationen
                 billing: Verrechnung
                   operator: Verantwortliche Person
                     name: Name
                     email: E-Mail
-                    contact-info: Kontaktinformationen
+                    contact_info: Kontaktinformationen
             </pre>
 
             Logik im Text verwenden:

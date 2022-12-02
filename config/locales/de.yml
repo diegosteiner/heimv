@@ -1078,9 +1078,9 @@ de:
           <p>Folgende Variabeln stehen zur Verfügung:</p>
           <h5>Buchung</h5>
           <dl>
-              <dt>Beginn der Belegung</dt><dd><pre>{{ booking.occupancy.begins_at | datetime_format }}</pre></dd>
+              <dt>Beginn der Belegung</dt><dd><pre>{{ booking.occupancy.begins_at | datetime_format }}</pre></dd><dd><pre>{{ booking.occupancy.begins_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
+              <dt>Ende der Belegung</dt><dd><pre>{{ booking.occupancy.ends_at | datetime_format }}</pre></dd><dd><pre>{{ booking.occupancy.ends_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
               <dt>Erwartete Anzahl Personen</dt><dd><pre>{{ booking.approximate_headcount }}</pre></dd>
-              <dt>Ende der Belegung</dt><dd><pre>{{ booking.occupancy.ends_at | datetime_format }}</pre></dd>
               <dt>Annulierungsgrund</dt><dd><pre>{{ booking.cancellation_reason }}</pre></dd>
               <dt>Verbindlichkeit der Mietanfrage</dt><dd><pre>{{ booking.committed_request }}</pre></dd>
               <dt>ID des Heims</dt><dd><pre>{{ booking.home_id }}</pre></dd>
@@ -1110,16 +1110,16 @@ de:
               <dt>Organisation des Mieters</dt><dd><pre>{{ booking.tenant.tenant_organisation }}</pre></dd>
               <dt>Name der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>
               <dt>E-Mail der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>
-              <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact-info }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>
               <dt>Name der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>
               <dt>E-Mail der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>
-              <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact-info }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>
               <dt>Name der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>
               <dt>E-Mail der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>
-              <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.contact-info }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>
               <dt>Name der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>
               <dt>E-Mail der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>
-              <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.contact-info }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>
             </dl>
             <h5>Organisation</h5>
             <dl>
