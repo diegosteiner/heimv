@@ -1,6 +1,6 @@
 ### === base === ###                 
 FROM ruby:3.1.3-alpine AS base
-RUN apk add --no-cache --update postgresql-dev tzdata libssl1.1
+RUN apk add --no-cache --update postgresql-dev tzdata libssl1.1 nodejs
 RUN adduser -D develop
 RUN gem install bundler
 # ENV PYTHON=/usr/bin/python3
@@ -17,7 +17,6 @@ RUN apk add --update build-base \
     curl \
     gnupg \
     openssh-client \
-    nodejs
 
 RUN gem install solargraph standardrb ruby-debug-ide debug rufo
 
