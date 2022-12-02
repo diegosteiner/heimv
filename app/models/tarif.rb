@@ -50,7 +50,7 @@ class Tarif < ApplicationRecord
   belongs_to :home, optional: true
   belongs_to :organisation, inverse_of: :tarifs
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
-  has_many :tarif_selectors, dependent: :destroy, inverse_of: :tarif
+  has_many :booking_conditions, as: :qualifiable, dependent: :destroy
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
   has_many :dependent_tarifs, class_name: 'Tarif', dependent: :nullify
@@ -67,7 +67,8 @@ class Tarif < ApplicationRecord
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :unit, column_suffix: '_i18n', locale_accessors: true
 
-  accepts_nested_attributes_for :tarif_selectors, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :booking_conditions, reject_if: :reject_booking_conditition_attributes?,
+                                                     allow_destroy: true
 
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')
@@ -95,6 +96,10 @@ class Tarif < ApplicationRecord
 
   def <=>(other)
     ordinal <=> other.ordinal
+  end
+
+  def reject_booking_conditition_attributes?(attributes)
+    attributes[:type].blank?
   end
 
   private

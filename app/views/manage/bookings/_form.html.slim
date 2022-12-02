@@ -67,7 +67,7 @@
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error
 
-      - bookable_extras = @booking.organisation.bookable_extras.where(home: [nil, @booking.home])
+      - bookable_extras = @booking.organisation.bookable_extras
       - if bookable_extras.any?
         .my-3
           .mb-2= Booking.human_attribute_name(:bookable_extra_ids)

@@ -6,7 +6,6 @@ module Manage
 
     def index
       @bookable_extras = @bookable_extras.where(organisation: current_organisation)
-      @bookable_extras = @bookable_extras.where(home_id: params[:home_id]) if params[:home_id]
       respond_with :manage, @bookable_extras
     end
 
@@ -38,7 +37,7 @@ module Manage
 
     def bookable_extra_params
       permitted_keys = I18n.available_locales.map { |locale| ["title_#{locale}", "description_#{locale}"] }.flatten
-      params[:bookable_extra]&.permit(%i[home_id] + permitted_keys)
+      params[:bookable_extra]&.permit(permitted_keys)
     end
   end
 end

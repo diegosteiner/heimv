@@ -32,7 +32,7 @@ h1.mt-0= DataDigest.model_name.human(count: 2)
               - if data_digest.crunching_finished_at.present?
                 = l data_digest.crunching_finished_at
               - else 
-                | -
+                .spinner-border.spinner-border-sm role="status"
 
             td.py-1.text-end
               - if data_digest.crunching_finished?
