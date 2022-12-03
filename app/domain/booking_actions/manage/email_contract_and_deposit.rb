@@ -5,10 +5,10 @@ module BookingActions
     class EmailContractAndDeposit < BookingActions::Base
       RichTextTemplate.require_template(:awaiting_contract_notification, context: %i[booking], required_by: self)
 
-      def call!(contract = booking.contract, deposits = Invoices::Deposit.of(booking).kept.unsent)
+      def call!
         notification = booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant)
-        notification.attach(prepare_attachments(booking, deposits, contract).map(&:blob))
-        notification.save! && contract.sent! && deposits.each(&:sent!) && notification.deliver
+        notification.attach(prepare_attachments.map(&:blob))
+        notification.save! && contract.sent! && invoices.each(&:sent!) && notification.deliver
       end
 
       def allowed?
@@ -20,10 +20,18 @@ module BookingActions
 
       private
 
-      def prepare_attachments(booking, deposits, contract)
+      def invoices
+        @invoices ||= booking.invoices.kept.unsent.where(type: [Invoices::Deposit.to_s, Invoices::Offer.to_s])
+      end
+
+      def contract
+        booking.contract
+      end
+
+      def prepare_attachments
         [
           DesignatedDocument.in_context(booking).with_locale(booking.locale).where(send_with_contract: true),
-          deposits.map(&:pdf),
+          invoices.map(&:pdf),
           contract.pdf
         ].flatten.compact
       end

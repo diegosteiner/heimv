@@ -367,8 +367,8 @@ de:
           readonly: Lesend
       tarif:
         prefill_usage_methods:
-          flat: Fix
-          headcount: "# Personen"
+          flat: Pauschale
+          headcount: Anzahl Personen
           headcount_nights: Übernachtungen
           nights: Nächte
     errors:
@@ -414,7 +414,7 @@ de:
         one: Vermittler
         other: Vermittler
       booking_category:
-        one: Art der Miete
+        one: Mietkategorie
         other: Mietkategorien
       booking_condition:
         one: Bedingung
@@ -622,6 +622,7 @@ de:
         choose_tarifs: Tarife festlegen
         create_contract: Vertrag erstellen
         create_deposit: Anzahlung erstellen (optional)
+        create_offer: Offerte erstellen (optional)
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
       label: Mietanfrage (definitiv)
       relevant_time: Eingereicht %{time}
@@ -657,6 +658,8 @@ de:
       label: Belegung (Zahlung überfällig)
       relevant_time: Frist %{time}
     provisional_request:
+      checklist:
+        create_offer: Offerte erstellen (optional)
       description: Der Mieter hat die Anfrage als provisorisch markiert. Solange die Anfrage nicht definitiv ist, muss kein Vertrag ausgestellt werden.
       label: Mietanfrage (provisorisch)
       public_info: Deine provisorische Mietanfrage ist bestätigt.

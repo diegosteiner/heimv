@@ -10,6 +10,7 @@ module Invoices
       ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
         invoice.payable_until ||= payable_until(invoice)
         invoice.text ||= rich_text_template(invoice)
+        invoice.payment_info_type = payment_info_type(invoice)
         prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
       end
     end
@@ -23,13 +24,13 @@ module Invoices
     end
 
     def defaults(booking)
-      {
-        type: Invoices::Invoice.to_s, issued_at: Time.zone.today, booking: booking,
-        payment_info_type: payment_info_type(booking)
-      }
+      { type: Invoices::Invoice.to_s, issued_at: Time.zone.today, booking: booking }
     end
 
-    def payment_info_type(booking)
+    def payment_info_type(invoice)
+      return if invoice.type.to_s == Invoices::Offer.to_s
+
+      booking = invoice.booking
       country_code = booking.tenant&.country_code&.upcase
       return PaymentInfos::ForeignPaymentInfo if country_code && country_code != booking.organisation.country_code
 

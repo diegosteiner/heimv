@@ -32,8 +32,8 @@
             td
               - if contract.pdf.attached?
                 = link_to url_for(contract.pdf), target: '_blank'
-                  span.fa.fa-print<>
                   span= contract.filename
+                  span.ms-2.fa.fa-print
 
             - if contract.sent? || contract.superseded?
               td

@@ -4,8 +4,12 @@ module BookingStates
   class ProvisionalRequest < Base
     RichTextTemplate.require_template(:provisional_request_notification, context: %i[booking], required_by: self)
 
+    include Rails.application.routes.url_helpers
+
     def checklist
-      []
+      [
+        create_offer_checklist_item
+      ]
     end
 
     def invoice_type
@@ -33,6 +37,20 @@ module BookingStates
 
     def relevant_time
       booking.deadline&.at
+    end
+
+    protected
+
+    def create_offer_checklist_item
+      checked = Invoices::Offer.of(booking).kept.exists?
+      default_params = { org: booking.organisation, locale: I18n.locale }
+      ChecklistItem.new(:create_offer, checked,
+                        (checked &&
+                          manage_booking_invoices_path(booking, **default_params)) ||
+                          new_manage_booking_invoice_path(
+                            booking,
+                            **default_params.merge({ invoice: { type: Invoices::Offer.model_name.to_s } })
+                          ))
     end
   end
 end

@@ -622,6 +622,7 @@ en:
         choose_tarifs: Tarife festlegen
         create_contract: Vertrag erstellen
         create_deposit: Anzahlung erstellen
+        create_offer: Offerte erstellen (optional)
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
       label: Mietanfrage (definitiv)
       relevant_time: Eingereicht %{time}
@@ -657,6 +658,8 @@ en:
       label: Belegung (Zahlung überfällig)
       relevant_time: Frist %{time}
     provisional_request:
+      checklist:
+        create_offer: Offerte erstellen (optional)
       description: Der Mieter hat die Anfrage als provisorisch markiert. Solange die Anfrage nicht definitiv ist, muss kein Vertrag ausgestellt werden.
       label: Mietanfrage (provisorisch)
       public_info: Deine provisorische Mietanfrage ist bestätigt.

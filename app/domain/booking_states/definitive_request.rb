@@ -12,7 +12,8 @@ module BookingStates
         assign_responsibilities_checklist_item,
         choose_tarifs_checklist_item,
         create_contract_checklist_item,
-        create_deposit_checklist_item
+        create_deposit_checklist_item,
+        create_offer_checklist_item
       ].compact
     end
 
@@ -78,6 +79,18 @@ module BookingStates
                           new_manage_booking_invoice_path(
                             booking,
                             **default_params.merge({ invoice: { type: Invoices::Deposit.model_name.to_s } })
+                          ))
+    end
+
+    def create_offer_checklist_item
+      checked = Invoices::Offer.of(booking).kept.exists?
+      default_params = { org: booking.organisation, locale: I18n.locale }
+      ChecklistItem.new(:create_offer, checked,
+                        (checked &&
+                          manage_booking_invoices_path(booking, **default_params)) ||
+                          new_manage_booking_invoice_path(
+                            booking,
+                            **default_params.merge({ invoice: { type: Invoices::Offer.model_name.to_s } })
                           ))
     end
 
