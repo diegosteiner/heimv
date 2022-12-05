@@ -263,8 +263,8 @@ de:
         title: Titel
       tarif:
         accountancy_account: Buchhaltungskonto
+        associated_types: Ausgewiesen in Dokumenten
         home_id: Gültig für Heim
-        invoice_types: Ausgewiesen in Rechnungsarten
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum_usage_per_night: Minimaler Verbrauch (pro Nacht)
@@ -274,7 +274,6 @@ de:
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis (pro Einheit)
         tarif_group: Tarifgruppe
-        tenant_visible: Für Mieter sichtbar (Vertrag)
         type: Typ
         unit: Einheit
       tenant:

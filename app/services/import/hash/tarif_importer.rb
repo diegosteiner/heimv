@@ -5,8 +5,8 @@ module Import
     class TarifImporter < Base
       attr_reader :organisation
 
-      use_attributes(*%w[invoice_types label_i18n ordinal prefill_usage_method price_per_unit tarif_group
-                         pin type unit_i18n valid_from valid_until tenant_visible home_id])
+      use_attributes(*%w[associated_types label_i18n ordinal prefill_usage_method price_per_unit tarif_group
+                         pin type unit_i18n valid_from valid_until home_id])
 
       def initialize(organisation, **options)
         super(**options)

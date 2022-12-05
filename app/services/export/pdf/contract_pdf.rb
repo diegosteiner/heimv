@@ -20,7 +20,7 @@ module Export
       end
 
       to_render do
-        next if tarifs.blank?
+        next if @contract.tarifs.blank?
 
         move_down 10
         table(tarif_table_data, width: bounds.width) do
@@ -42,14 +42,10 @@ module Export
         end
       end
 
-      def tarifs
-        @tarifs ||= @booking.tarifs.where(tenant_visible: true)
-      end
-
       def tarif_table_data
         I18n.with_locale(@booking.locale) do
           [[Tarif.model_name.human, Tarif.human_attribute_name(:unit), Tarif.human_attribute_name(:price_per_unit)]] +
-            tarifs.map do |tarif|
+            @contract.tarifs.map do |tarif|
               [tarif.label, tarif.unit, number_to_currency(tarif.price_per_unit || 0, currency: @organisation.currency)]
             end
         end

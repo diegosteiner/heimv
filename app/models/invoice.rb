@@ -158,6 +158,6 @@ class Invoice < ApplicationRecord
 
   def apply_invoice_part?(usage)
     tarif = usage.tarif
-    new_record? && tarif && tarif.tenant_visible && tarif.invoice_types.include?(Tarif::INVOICE_TYPES.key(self.class))
+    new_record? && tarif && tarif.associated_types.include?(Tarif::ASSOCIATED_TYPES.key(self.class))
   end
 end

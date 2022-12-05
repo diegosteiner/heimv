@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_02_155744) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_04_162550) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -459,11 +459,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_02_155744) do
     t.string "prefill_usage_method"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "tenant_visible", default: true
     t.jsonb "label_i18n", default: {}
     t.jsonb "unit_i18n", default: {}
     t.string "accountancy_account"
-    t.integer "invoice_types", default: 0, null: false
+    t.integer "associated_types", default: 0, null: false
     t.decimal "minimum_usage_per_night"
     t.decimal "minimum_usage_total"
     t.bigint "organisation_id", null: false

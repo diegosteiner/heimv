@@ -27,7 +27,7 @@ module Import
 
       actor do |tarif, row|
         # TODO: check
-        tarif[:invoice_types] = row['tarif.invoice_type'].to_i
+        tarif[:associated_types] = row['tarif.invoice_type'].to_i
       end
     end
   end

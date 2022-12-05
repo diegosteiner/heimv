@@ -6,7 +6,7 @@
 #
 #  id                      :bigint           not null, primary key
 #  accountancy_account     :string
-#  invoice_types           :integer          default(0), not null
+#  associated_types        :integer          default(0), not null
 #  label_i18n              :jsonb
 #  minimum_usage_per_night :decimal(, )
 #  minimum_usage_total     :decimal(, )
@@ -15,7 +15,6 @@
 #  prefill_usage_method    :string
 #  price_per_unit          :decimal(, )
 #  tarif_group             :string
-#  tenant_visible          :boolean          default(TRUE)
 #  type                    :string
 #  unit_i18n               :jsonb
 #  valid_from              :datetime
@@ -37,15 +36,15 @@
 #
 
 class Tarif < ApplicationRecord
-  INVOICE_TYPES = { deposit: Invoices::Deposit, invoice: Invoices::Invoice,
-                    late_notice: Invoices::LateNotice, offer: Invoices::Offer }.freeze
+  ASSOCIATED_TYPES = { deposit: Invoices::Deposit, invoice: Invoices::Invoice, late_notice: Invoices::LateNotice,
+                       offer: Invoices::Offer, contract: ::Contract }.freeze
   include ActiveSupport::NumberHelper
 
   extend TemplateRenderable
   include TemplateRenderable
   extend Mobility
   include Subtypeable
-  flag :invoice_types, INVOICE_TYPES.keys
+  flag :associated_types, ASSOCIATED_TYPES.keys
 
   belongs_to :home, optional: true
   belongs_to :organisation, inverse_of: :tarifs

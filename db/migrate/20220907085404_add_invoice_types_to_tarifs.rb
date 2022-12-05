@@ -6,7 +6,7 @@ class AddInvoiceTypesToTarifs < ActiveRecord::Migration[7.0]
     reversible do |direction|
       direction.up do 
         Tarif.find_each do |tarif|
-          invoice_types = Tarif::INVOICE_TYPES.filter { |key, value| value.to_s == tarif.invoice_type }.keys
+          invoice_types = Tarif::ASSOCIATED_TYPES.filter { |key, value| value.to_s == tarif.invoice_type }.keys
           tarif.update(invoice_types: invoice_types) if invoice_types.present?
         end
       end

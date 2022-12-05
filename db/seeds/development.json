@@ -45,7 +45,7 @@
   "tarifs": [
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "deposit"
       ],
       "label": "Anzahlung (1 Nacht)",
@@ -57,7 +57,6 @@
       "prefill_usage_method": "flat",
       "price_per_unit": "180.0",
       "tarif_group": "Anzahlung",
-      "tenant_visible": true,
       "type": "Tarifs::Flat",
       "unit": "Pauschale",
       "unit_i18n": {
@@ -68,7 +67,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "deposit"
       ],
       "label": "Anzahlung (2 Nächte)",
@@ -80,7 +79,6 @@
       "prefill_usage_method": "flat",
       "price_per_unit": "300.0",
       "tarif_group": "Anzahlung",
-      "tenant_visible": true,
       "type": "Tarifs::Flat",
       "unit": "Pauschale",
       "unit_i18n": {
@@ -91,7 +89,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "deposit"
       ],
       "label": "Anzahlung (3 Nächte)",
@@ -103,7 +101,6 @@
       "prefill_usage_method": "flat",
       "price_per_unit": "480.0",
       "tarif_group": "Anzahlung",
-      "tenant_visible": true,
       "type": "Tarifs::Flat",
       "unit": "Pauschale",
       "unit_i18n": {
@@ -114,7 +111,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "deposit"
       ],
       "label": "Anzahlung (4 Nächte)",
@@ -126,7 +123,6 @@
       "prefill_usage_method": "flat",
       "price_per_unit": "600.0",
       "tarif_group": "Anzahlung",
-      "tenant_visible": true,
       "type": "Tarifs::Flat",
       "unit": "Pauschale",
       "unit_i18n": {
@@ -137,7 +133,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Lagertarif (unter 25 jährig)",
@@ -149,7 +145,6 @@
       "prefill_usage_method": null,
       "price_per_unit": "15.0",
       "tarif_group": "Lager/Kurs",
-      "tenant_visible": true,
       "type": "Tarifs::Amount",
       "unit": "Übernachtung",
       "unit_i18n": {
@@ -160,7 +155,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Lagertarif (über 25 jährig)",
@@ -172,7 +167,6 @@
       "prefill_usage_method": null,
       "price_per_unit": "20.0",
       "tarif_group": "Lager/Kurs",
-      "tenant_visible": true,
       "type": "Tarifs::Amount",
       "unit": "Übernachtung",
       "unit_i18n": {
@@ -183,7 +177,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Mindestbelegung Lagertarif",
@@ -195,7 +189,6 @@
       "prefill_usage_method": "nights",
       "price_per_unit": "10.0",
       "tarif_group": "Lager/Kurs",
-      "tenant_visible": true,
       "type": "Tarifs::OvernightStay",
       "unit": "pro Nacht",
       "unit_i18n": {
@@ -206,7 +199,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Kurtaxe (ab 12 -18jährig)",
@@ -218,7 +211,6 @@
       "prefill_usage_method": null,
       "price_per_unit": "0.5",
       "tarif_group": "Kurtaxe",
-      "tenant_visible": true,
       "type": "Tarifs::Amount",
       "unit": "Übernachtung",
       "unit_i18n": {
@@ -229,7 +221,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [],
+      "associated_types": [],
       "label": "Festtarif 1 Nacht",
       "label_i18n": {
         "de": "Festtarif 1 Nacht"
@@ -239,7 +231,6 @@
       "prefill_usage_method": "nights",
       "price_per_unit": "600.0",
       "tarif_group": "Privater Anlass / Fest",
-      "tenant_visible": true,
       "type": "Tarifs::Amount",
       "unit": "pro Tag",
       "unit_i18n": {
@@ -250,7 +241,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Kurtaxe (ab 18 Jahren)",
@@ -262,7 +253,6 @@
       "prefill_usage_method": null,
       "price_per_unit": "2.0",
       "tarif_group": "Kurtaxe",
-      "tenant_visible": true,
       "type": "Tarifs::Amount",
       "unit": "Übernachtung",
       "unit_i18n": {
@@ -273,7 +263,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [],
+      "associated_types": [],
       "label": "Festtarrif 2 Nächte",
       "label_i18n": {
         "de": "Festtarrif 2 Nächte"
@@ -283,7 +273,6 @@
       "prefill_usage_method": "nights",
       "price_per_unit": "475.0",
       "tarif_group": "Privater Anlass / Fest",
-      "tenant_visible": true,
       "type": "Tarifs::Amount",
       "unit": "pro Tag",
       "unit_i18n": {
@@ -294,7 +283,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Festtarrif 0 Nächte",
@@ -306,7 +295,6 @@
       "prefill_usage_method": "nights",
       "price_per_unit": "350.0",
       "tarif_group": "Privater Anlass / Fest",
-      "tenant_visible": true,
       "type": "Tarifs::Amount",
       "unit": "pro Tag",
       "unit_i18n": {
@@ -317,7 +305,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice",
         "offer"
       ],
@@ -330,7 +318,6 @@
       "prefill_usage_method": null,
       "price_per_unit": null,
       "tarif_group": "Schaden",
-      "tenant_visible": true,
       "type": "Tarifs::Price",
       "unit": "CHF",
       "unit_i18n": {
@@ -341,7 +328,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Strom (Hochtarif)",
@@ -353,7 +340,6 @@
       "prefill_usage_method": null,
       "price_per_unit": "0.5",
       "tarif_group": "Nebenkosten",
-      "tenant_visible": true,
       "type": "Tarifs::Metered",
       "unit": "kWh",
       "unit_i18n": {
@@ -364,7 +350,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Reservationsgebühr",
@@ -376,7 +362,6 @@
       "prefill_usage_method": "flat",
       "price_per_unit": "100.0",
       "tarif_group": "Reservationsgebühr",
-      "tenant_visible": true,
       "type": "Tarifs::Flat",
       "unit": "Pauschale",
       "unit_i18n": {
@@ -387,7 +372,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Strom (Niedertarif)",
@@ -399,7 +384,6 @@
       "prefill_usage_method": null,
       "price_per_unit": "0.25",
       "tarif_group": "Nebenkosten",
-      "tenant_visible": true,
       "type": "Tarifs::Metered",
       "unit": "kWh",
       "unit_i18n": {
@@ -410,7 +394,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Brennholz",
@@ -422,7 +406,6 @@
       "prefill_usage_method": null,
       "price_per_unit": "15.0",
       "tarif_group": "Nebenkosten",
-      "tenant_visible": true,
       "type": "Tarifs::Amount",
       "unit": "Harass",
       "unit_i18n": {
@@ -433,7 +416,7 @@
     },
     {
       "home_id": null,
-      "invoice_types": [
+      "associated_types": [
         "invoice"
       ],
       "label": "Abfall",
@@ -445,7 +428,6 @@
       "prefill_usage_method": null,
       "price_per_unit": "5.0",
       "tarif_group": "Nebenkosten",
-      "tenant_visible": true,
       "type": "Tarifs::Amount",
       "unit": "pro 60 L Sack",
       "unit_i18n": {

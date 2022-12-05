@@ -26,17 +26,16 @@
 
   fieldset
     = f.number_field :price_per_unit, step: 0.01
+    = f.check_box :pin
 
     - if @tarif.is_a?(Tarifs::MinOccupation)
       = f.number_field :minimum_usage_per_night, step: 0.01
       / = f.number_field :minimum_usage_total, step: 0.01
 
   fieldset
-    = f.collection_check_boxes :invoice_types, Tarif.invoice_types.keys, :itself, ->(key) { Tarif::INVOICE_TYPES[key]&.model_name&.human }
+    = f.collection_check_boxes :associated_types, Tarif.associated_types.keys, :itself, ->(key) { Tarif::ASSOCIATED_TYPES[key]&.model_name&.human }
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.text_field :accountancy_account
-    = f.check_box :tenant_visible
-    = f.check_box :pin
 
     label= BookingCondition.model_name.human(count: 2)
     = f.fields_for :booking_conditions, @tarif.booking_conditions do |bcf|

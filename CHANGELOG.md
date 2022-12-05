@@ -58,7 +58,7 @@ Released on 07.09.2022
 
 - Feature: Unify tarifs and usages in a single tab
 - Feature: Set indiviual colors for occupancies through booking
-- Feature: Define multiple invoice_types per tarif
+- Feature: Define multiple associated_types per tarif
 - Fix: Show invoice_parts for missing usages
 
 #### Version 22.8.2

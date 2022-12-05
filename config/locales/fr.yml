@@ -263,8 +263,8 @@ fr:
         title: Titel
       tarif:
         accountancy_account: zugewiesenes Buchhaltungskonto
+        associated_types: Ausgewiesen in Rechnungsarten
         home_id: Gültig für Heim
-        invoice_types: Ausgewiesen in Rechnungsarten
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
         minimum_usage_per_night: Minimaler Preis (pro Nacht)
@@ -274,7 +274,6 @@ fr:
         prefill_usage_method: méthode de pré-remplissage
         price_per_unit: prix (par unité)
         tarif_group: groupe tarifaire
-        tenant_visible: visible pour le locataire (contrat et facture)
         type: type
         unit: unité
       tenant:

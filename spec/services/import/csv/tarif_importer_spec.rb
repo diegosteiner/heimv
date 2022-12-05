@@ -5,12 +5,12 @@ require 'rails_helper'
 RSpec.describe Import::Csv::TarifImporter, type: :model do
   let(:organisation) { create(:organisation) }
   let(:header_mapping) do
-    %w[tarif.ordinal tarif.label tarif.type tarif.tarif_group tarif.unit tarif.price tarif.invoice_types]
+    %w[tarif.ordinal tarif.label tarif.type tarif.tarif_group tarif.unit tarif.price tarif.associated_types]
   end
   let(:importer) { described_class.new(organisation, csv: { headers: header_mapping }) }
   let(:csv) do
     <<~ENDCSV
-      "ordinal","label","type","tarif_group","unit","price","invoice_types"
+      "ordinal","label","type","tarif_group","unit","price","associated_types"
       11,"Tagesmiete auswärtige Pfadi","Tarifs::Flat","Tagesmiete",,150,
       12,"Tagesmiete Dritte / Privat","Tarifs::Flat","Tagesmiete",,380,
       ,,,,,,

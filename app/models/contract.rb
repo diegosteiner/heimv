@@ -83,6 +83,12 @@ class Contract < ApplicationRecord
     valid_until.present?
   end
 
+  def tarifs
+    @tarifs ||= booking.tarifs.select do |tarif|
+      tarif.associated_types.include?(Tarif::ASSOCIATED_TYPES.key(self.class))
+    end
+  end
+
   private
 
   def set_signed_at

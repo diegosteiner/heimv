@@ -49,7 +49,6 @@ class Usage < ApplicationRecord
   scope :ordered, -> { joins(:tarif).includes(:tarif).order(Tarif.arel_table[:ordinal].asc) }
   scope :of_tarif, ->(tarif) { where(tarif_id: tarif) }
   scope :amount, -> { joins(:tarif).where(tarifs: { type: Tarifs::Amount.to_s }) }
-  scope :tenant_visible, -> { includes(:tarif).where(tarifs: { tenant_visible: true }) }
 
   validates :tarif_id, uniqueness: { scope: :booking_id }, allow_nil: true
   validates :used_units, numericality: true, allow_nil: true
