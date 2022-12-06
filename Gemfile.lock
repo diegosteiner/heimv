@@ -160,6 +160,9 @@ GEM
       warden (~> 1.2.3)
     devise-i18n (1.10.2)
       devise (>= 4.8.0)
+    devise_invitable (2.0.6)
+      actionmailer (>= 5.0)
+      devise (>= 4.6)
     diff-lcs (1.5.0)
     discard (1.2.1)
       activerecord (>= 4.2, < 8)
@@ -467,6 +470,7 @@ DEPENDENCIES
   date_time_attribute
   devise
   devise-i18n
+  devise_invitable
   discard
   dotenv-rails
   exception_notification

@@ -119,8 +119,8 @@ Devise.setup do |config|
   # config.send_password_change_notification = false
 
   # ==> Configuration for :invitable
-  # The period the generated invitation token is valid, after
-  # this period, the invited resource won't be able to accept the invitation.
+  # The period the generated invitation token is valid.
+  # After this period, the invited resource won't be able to accept the invitation.
   # When invite_for is 0 (the default), the invitation won't expire.
   # config.invite_for = 2.weeks
 
@@ -136,10 +136,11 @@ Devise.setup do |config|
 
   # The key to be used to check existing users when sending an invitation
   # and the regexp used to test it when validate_on_invite is not set.
-  # config.invite_key = {:email => /\A[^@]+@[^@]+\z/}
-  # config.invite_key = {:email => /\A[^@]+@[^@]+\z/, :username => nil}
+  # config.invite_key = { email: /\A[^@]+@[^@]+\z/ }
+  # config.invite_key = { email: /\A[^@]+@[^@]+\z/, username: nil }
 
-  # Flag that force a record to be valid before being actually invited
+  # Ensure that invited record is valid.
+  # The invitation won't be sent if this check fails.
   # Default: false
   # config.validate_on_invite = true
 
