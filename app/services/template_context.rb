@@ -10,7 +10,8 @@ class TemplateContext
     InvoicePart => Manage::InvoicePartSerializer,
     Tenant => Manage::TenantSerializer,
     Usage => Manage::UsageSerializer,
-    PaymentInfo => Manage::PaymentInfoSerializer
+    PaymentInfo => Manage::PaymentInfoSerializer,
+    Contract => Manage::ContractSerializer
   }.freeze
 
   def initialize(context)

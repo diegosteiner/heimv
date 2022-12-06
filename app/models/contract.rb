@@ -27,6 +27,7 @@ class Contract < ApplicationRecord
   RichTextTemplate.require_template(:contract_text, context: %i[booking], required_by: self)
 
   belongs_to :booking, inverse_of: :contracts, touch: true
+  has_one :organisation, through: :booking
   has_one_attached :pdf
   has_one_attached :signed_pdf
 
@@ -83,9 +84,19 @@ class Contract < ApplicationRecord
     valid_until.present?
   end
 
-  def tarifs
-    @tarifs ||= booking.tarifs.select do |tarif|
-      tarif.associated_types.include?(Tarif::ASSOCIATED_TYPES.key(self.class))
+  def load_text_from_rich_text_template
+    rich_text_template = organisation.rich_text_templates.enabled.by_key(:contract_text, home_id: booking.home_id)
+    interpolated_text = I18n.with_locale(booking.locale) do
+      rich_text_template&.interpolate booking: booking, home: booking.home,
+                                      organisation: booking.organisation, contract: self,
+                                      tarifs_table: Export::Pdf::ContractPdf::TARIFS_TABLE_PLACEHOLDER_TEXT
+    end
+    self.text ||= interpolated_text&.body
+  end
+
+  def usages
+    @usages ||= booking.usages.select do |usage|
+      usage.tarif.associated_types.include?(Tarif::ASSOCIATED_TYPES.key(self.class))
     end
   end
 
