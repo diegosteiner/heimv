@@ -12,15 +12,13 @@ class OnboardingService
     new(organisation)
   end
 
-  def add_or_invite_user!(email: organisation.email, password: SecureRandom.base64(32), role: :manager)
-    User.find_or_initialize_by(email: email).tap do |user|
-      if user.new_record?
-        user.update!(password: password, default_organisation_id: nil) &&
-          user.send_reset_password_instructions
-      end
-      user.organisation_users.create(organisation: organisation, role: role)
-      user.default_organisation ||= organisation
-      user.save
+  def add_or_invite_user!(email: organisation.email, role: :manager, invited_by: nil, password: nil)
+    user = User.find_or_initialize_by(email: email)
+    user.invite!(invited_by) if password.blank?
+    user.update(password: password) if password.present?
+    user.organisation_users.create(organisation: organisation, role: role).tap do |organisation_user|
+      organisation_user.user.default_organisation ||= organisation
+      organisation_user.user.save
     end
   end
 

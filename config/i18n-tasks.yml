@@ -97,7 +97,7 @@ ignore_missing:
 ## Consider these keys used:
 ignore_unused:
   - "{activerecord,activemodel}.*"
-  - "{authlogic,kaminari}.*"
+  - "{authlogic,kaminari,devise}.*"
   - "{time,datetime,date,support,number,helpers}.*"
   - "errors.*"
   - "locales.*"

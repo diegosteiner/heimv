@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 
   def home_path
     if current_organisation
-      return manage_root_path if current_role&.to_sym == :manager
+      return manage_root_path if %i[readonly manager].include?(current_role&.to_sym)
 
       return organisation_path
     end

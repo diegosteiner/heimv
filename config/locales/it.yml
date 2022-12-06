@@ -303,10 +303,25 @@ it:
         remarks: Bemerkungen
         used_units: Verbrauch
       user:
+        created_at: Erstellt am
+        current_password: Bisheriges Passwort
+        current_sign_in_at: Aktuelle Anmeldung vom
+        current_sign_in_ip: IP der aktuellen Anmeldung
         default_organisation_id: Hauptorganisation
         email: Email
+        encrypted_password: Verschlüsseltes Passwort
+        failed_attempts: Fehlversuche
+        last_sign_in_at: Letzte Anmeldung am
+        last_sign_in_ip: IP der letzten Anmeldung
+        locked_at: Gesperrt am
         password: Passwort
         password_confirmation: Passwort wiederholen
+        remember_created_at: Angemeldet bleiben vom
+        remember_me: Angemeldet bleiben
+        reset_password_sent_at: Passwort-Zurücksetzen-E-Mail gesendet am
+        reset_password_token: Passwort-Zurücksetzen-Token
+        sign_in_count: Anzahl Anmeldungen
+        updated_at: Aktualisiert am
     back: Zurück
     confirm: Sind Sie sicher?
     destroy: Löschen
@@ -791,6 +806,15 @@ it:
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
+    messages:
+      already_confirmed: was already confirmed, please try signing in
+      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      expired: ist abgelaufen, bitte neu anfordern
+      not_found: nicht gefunden
+      not_locked: ist nicht gesperrt
+      not_saved:
+        one: "%{resource} konnte aufgrund eines Fehlers nicht gespeichert werden:"
+        other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
     notifications:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden
@@ -1364,6 +1388,10 @@ it:
     formats:
       date: "%d.%m.%Y"
       default: "%d.%m.%Y %H:%M"
+      devise:
+        mailer:
+          invitation_instructions:
+            accept_until_format: "%B %d, %Y %I:%M %p"
       short: "%d.%m.%Y %H:%M"
       short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"
