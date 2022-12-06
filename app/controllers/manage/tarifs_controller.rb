@@ -17,7 +17,8 @@ module Manage
     end
 
     def edit
-      @tarif.booking_conditions.build
+      @tarif.selecting_conditions.build
+      @tarif.enabling_conditions.build
       respond_with :manage, @tarif
     end
 

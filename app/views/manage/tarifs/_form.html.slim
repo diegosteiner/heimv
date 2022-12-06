@@ -37,8 +37,12 @@
     = f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.text_field :accountancy_account
 
-    label= BookingCondition.model_name.human(count: 2)
-    = f.fields_for :booking_conditions, @tarif.booking_conditions do |bcf|
+    label= Tarif.human_attribute_name(:selecting_conditions)
+    = f.fields_for :selecting_conditions, @tarif.selecting_conditions do |bcf|
+      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+
+    label= Tarif.human_attribute_name(:enabling_conditions)
+    = f.fields_for :enabling_conditions, @tarif.enabling_conditions do |bcf|
       = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 
   .form-actions.pt-4.mt-3

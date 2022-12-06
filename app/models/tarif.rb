@@ -49,7 +49,8 @@ class Tarif < ApplicationRecord
   belongs_to :home, optional: true
   belongs_to :organisation, inverse_of: :tarifs
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
-  has_many :booking_conditions, as: :qualifiable, dependent: :destroy
+  has_many :selecting_conditions, -> { where(group: :selecting) }, as: :qualifiable, dependent: :destroy, class_name: :BookingCondition
+  has_many :enabling_conditions, -> { where(group: :enabling) }, as: :qualifiable, dependent: :destroy, class_name: :BookingCondition
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
 
@@ -65,8 +66,11 @@ class Tarif < ApplicationRecord
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :unit, column_suffix: '_i18n', locale_accessors: true
 
-  accepts_nested_attributes_for :booking_conditions, reject_if: :reject_booking_conditition_attributes?,
-                                                     allow_destroy: true
+  accepts_nested_attributes_for :enabling_conditions, allow_destroy: true,
+                                  reject_if: :reject_booking_conditition_attributes?
+  accepts_nested_attributes_for :selecting_conditions, allow_destroy: true,
+                                  reject_if: :reject_booking_conditition_attributes?
+                                                    
 
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')
@@ -115,6 +119,7 @@ class Tarif < ApplicationRecord
 
   def initialize_copy(origin)
     super
-    self.booking_conditions = origin.booking_conditions.map(&:dup)
+    self.selecting_conditions = origin.selecting_conditions.map(&:dup)
+    self.enabling_conditions = origin.enabling_conditions.map(&:dup)
   end
 end

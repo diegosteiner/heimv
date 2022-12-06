@@ -6,6 +6,7 @@
 #
 #  id               :bigint           not null, primary key
 #  distinction      :string
+#  group            :string
 #  must_condition   :boolean          default(TRUE)
 #  qualifiable_type :string
 #  type             :string

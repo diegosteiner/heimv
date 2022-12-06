@@ -264,6 +264,7 @@ it:
       tarif:
         accountancy_account: zugewiesenes Buchhaltungskonto
         associated_types: Ausgewiesen in Rechnungsarten
+        enabling_conditions: Bedingungen für erlaubte Auswahl
         home_id: Gültig für Heim
         label: Tarif
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
@@ -273,6 +274,7 @@ it:
         pin: Tarif NICHT auf Buchung fixieren
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis pro Einheit
+        selecting_conditions: Bedingungen für automatische Auswahl
         tarif_group: Tarifgruppe
         type: Typ
         unit: Einheit

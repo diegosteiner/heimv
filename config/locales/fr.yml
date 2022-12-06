@@ -264,6 +264,7 @@ fr:
       tarif:
         accountancy_account: zugewiesenes Buchhaltungskonto
         associated_types: Ausgewiesen in Rechnungsarten
+        enabling_conditions: Bedingungen für erlaubte Auswahl
         home_id: Gültig für Heim
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
@@ -273,6 +274,7 @@ fr:
         pin: ne PAS fixer le tarif à la réservation
         prefill_usage_method: méthode de pré-remplissage
         price_per_unit: prix (par unité)
+        selecting_conditions: Bedingungen für automatische Auswahl
         tarif_group: groupe tarifaire
         type: type
         unit: unité
