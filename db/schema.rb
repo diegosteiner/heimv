@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_06_085902) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_06_103948) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -451,7 +451,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_06_085902) do
   create_table "tarifs", force: :cascade do |t|
     t.string "type"
     t.boolean "pin", default: true
-    t.bigint "home_id"
     t.decimal "price_per_unit"
     t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "valid_until", precision: nil
@@ -467,7 +466,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_06_085902) do
     t.decimal "minimum_usage_per_night"
     t.decimal "minimum_usage_total"
     t.bigint "organisation_id", null: false
-    t.index ["home_id"], name: "index_tarifs_on_home_id"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
     t.index ["type"], name: "index_tarifs_on_type"
   end

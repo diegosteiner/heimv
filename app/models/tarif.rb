@@ -21,12 +21,10 @@
 #  valid_until             :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  home_id                 :bigint
 #  organisation_id         :bigint           not null
 #
 # Indexes
 #
-#  index_tarifs_on_home_id          (home_id)
 #  index_tarifs_on_organisation_id  (organisation_id)
 #  index_tarifs_on_type             (type)
 #
@@ -46,16 +44,22 @@ class Tarif < ApplicationRecord
   include Subtypeable
   flag :associated_types, ASSOCIATED_TYPES.keys
 
-  belongs_to :home, optional: true
   belongs_to :organisation, inverse_of: :tarifs
-  has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
-  has_many :selecting_conditions, -> { where(group: :selecting) }, as: :qualifiable, dependent: :destroy, class_name: :BookingCondition
-  has_many :enabling_conditions, -> { where(group: :enabling) }, as: :qualifiable, dependent: :destroy, class_name: :BookingCondition
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
+  has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
+  # rubocop:disable Rails/InverseOf
+  has_many :selecting_conditions, lambda {
+                                    where(group: :selecting)
+                                  }, as: :qualifiable, dependent: :destroy, class_name: :BookingCondition
+  has_many :enabling_conditions, lambda {
+                                   where(group: :enabling)
+                                 }, as: :qualifiable, dependent: :destroy, class_name: :BookingCondition
+  # rubocop:enable Rails/InverseOf
 
   scope :ordered, -> { order(:ordinal) }
   scope :pinned, -> { where(pin: true) }
+  scope :include_conditions, -> { includes(:selecting_conditions, :enabling_conditions) }
   # scope :valid_now, -> { where(valid_until: nil) }
 
   enum prefill_usage_method: Usage::PREFILL_METHODS.keys.index_with(&:to_s)
@@ -67,10 +71,9 @@ class Tarif < ApplicationRecord
   translates :unit, column_suffix: '_i18n', locale_accessors: true
 
   accepts_nested_attributes_for :enabling_conditions, allow_destroy: true,
-                                  reject_if: :reject_booking_conditition_attributes?
+                                                      reject_if: :reject_booking_conditition_attributes?
   accepts_nested_attributes_for :selecting_conditions, allow_destroy: true,
-                                  reject_if: :reject_booking_conditition_attributes?
-                                                    
+                                                       reject_if: :reject_booking_conditition_attributes?
 
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')

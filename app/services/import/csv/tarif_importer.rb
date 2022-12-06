@@ -20,14 +20,13 @@ module Import
         tarif.assign_attributes(label: row['tarif.label'],
                                 price_per_unit: row['tarif.price']&.to_f || 0,
                                 tarif_group: row['tarif.tarif_group'],
-                                home_id: row['tarif.home_id'],
                                 unit: row['tarif.unit'],
                                 ordinal: row['tarif.ordinal']&.to_i)
       end
 
       actor do |tarif, row|
         # TODO: check
-        tarif[:associated_types] = row['tarif.invoice_type'].to_i
+        # tarif[:associated_types] = row['tarif.invoice_type']
       end
     end
   end

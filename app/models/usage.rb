@@ -34,10 +34,9 @@ class Usage < ApplicationRecord
     headcount: -> { booking.approximate_headcount || 0 }
   }.with_indifferent_access.freeze
 
-  belongs_to :tarif, -> { includes(:booking_conditions) }, inverse_of: :usages
+  belongs_to :tarif, -> { include_conditions }, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages, touch: true
   has_many :invoice_parts, dependent: :nullify
-  has_many :booking_conditions, through: :tarif
   has_one :organisation, through: :booking
 
   attribute :apply, default: true
@@ -67,7 +66,7 @@ class Usage < ApplicationRecord
   end
 
   def preselect
-    self.apply ||= BookingCondition.fullfills_all?(booking, booking_conditions)
+    self.apply ||= enabled_by_condition? && selected_by_condition?
     self.used_units ||= presumed_units
     new_record?
   end
@@ -86,6 +85,14 @@ class Usage < ApplicationRecord
 
   def updated_after_past?
     updated_at > booking.occupancy.ends_at
+  end
+
+  def enabled_by_condition?
+    tarif.enabling_conditions.none? || BookingCondition.fullfills_all?(booking, tarif.enabling_conditions)
+  end
+
+  def selected_by_condition?
+    tarif.selecting_conditions.any? && BookingCondition.fullfills_all?(booking, tarif.selecting_conditions)
   end
 
   # TODO: decouple

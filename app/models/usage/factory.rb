@@ -8,14 +8,14 @@ class Usage
       @booking = booking
     end
 
-    def build(tarifs: booking.organisation.tarifs.where(home_id: [booking.home, nil]).ordered, usages: booking.usages)
-      tarifs.where.not(id: usages.map(&:tarif_id)).map do |tarif|
-        Usage.new(tarif: tarif, apply: nil, booking: booking)
-      end
-    end
+    def build(tarifs: booking.organisation.tarifs.include_conditions, usages: booking.usages, preselect: false)
+      tarifs.where.not(id: usages.map(&:tarif_id)).filter_map do |tarif|
+        usage = Usage.new(tarif: tarif, apply: nil, booking: booking)
+        next unless usage.enabled_by_condition?
 
-    def preselect
-      usages.select(&:preselect)
+        usage.preselect if preselect
+        usage
+      end
     end
   end
 end

@@ -44,7 +44,6 @@
   "slug": null,
   "tarifs": [
     {
-      "home_id": null,
       "associated_types": [
         "deposit"
       ],
@@ -66,7 +65,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "deposit"
       ],
@@ -88,7 +86,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "deposit"
       ],
@@ -110,7 +107,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "deposit"
       ],
@@ -132,7 +128,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -154,7 +149,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -176,7 +170,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -198,7 +191,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -220,7 +212,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [],
       "label": "Festtarif 1 Nacht",
       "label_i18n": {
@@ -240,7 +231,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -262,7 +252,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [],
       "label": "Festtarrif 2 Nächte",
       "label_i18n": {
@@ -282,7 +271,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -304,7 +292,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice",
         "offer"
@@ -327,7 +314,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -349,7 +335,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -371,7 +356,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -393,7 +377,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],
@@ -415,7 +398,6 @@
       "valid_until": null
     },
     {
-      "home_id": null,
       "associated_types": [
         "invoice"
       ],

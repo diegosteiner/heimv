@@ -34,9 +34,6 @@
               td
                 = tf.hidden_field :id
               td
-                - if tarif.home
-                  small.text-muted= tarif.home.to_s
-                
                 p.mb-0 = tarif.label
               td
                 = tf.select :type, subtype_options_for_select(Tarif.subtypes), { skip_label: true, wrapper: false }, { disabled: true }

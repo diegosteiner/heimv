@@ -2,7 +2,6 @@
   fieldset
     = f.hidden_field :id
     = f.select :type, subtype_options_for_select(Tarif.subtypes), include_blank: true
-    = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true
     .row
       .col-sm-3 = f.number_field :ordinal, step: 1.0
       .col-sm = f.text_field :tarif_group

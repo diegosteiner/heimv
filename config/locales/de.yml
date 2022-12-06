@@ -265,7 +265,6 @@ de:
         accountancy_account: Buchhaltungskonto
         associated_types: Ausgewiesen in Dokumenten
         enabling_conditions: Bedingungen für erlaubte Auswahl
-        home_id: Gültig für Heim
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum_usage_per_night: Minimaler Verbrauch (pro Nacht)

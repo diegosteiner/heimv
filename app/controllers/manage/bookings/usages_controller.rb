@@ -7,7 +7,7 @@ module Manage
       load_and_authorize_resource :usage, through: :booking
 
       def index
-        @usages = @usages.includes(tarif: :booking_conditions)
+        @usages = @usages.includes(:tarif)
         @suggested_usages = Usage::Factory.new(@booking).build(usages: @usages)
         @suggested_usages = @suggested_usages.select(&:preselect) if suggest_usages?
 

@@ -48,10 +48,9 @@ class BookingCondition < ApplicationRecord
   end
 
   def self.fullfills_all?(booking, booking_conditions)
-    evaluated_conditions = booking_conditions.map do |condition|
+    booking_conditions.map do |condition|
       condition.evaluate(booking) || (condition.must_condition ? false : nil)
-    end.compact
-    evaluated_conditions.any? && evaluated_conditions.all?
+    end.compact.all?
   end
 
   def distinction_match

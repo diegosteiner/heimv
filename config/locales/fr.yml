@@ -265,7 +265,6 @@ fr:
         accountancy_account: zugewiesenes Buchhaltungskonto
         associated_types: Ausgewiesen in Rechnungsarten
         enabling_conditions: Bedingungen für erlaubte Auswahl
-        home_id: Gültig für Heim
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
         minimum_usage_per_night: Minimaler Preis (pro Nacht)

@@ -6,7 +6,6 @@ module Manage
 
     def index
       @tarifs = @tarifs.where(organisation: current_organisation).ordered
-      # @tarifs = @tarifs.where(home_id: params[:home_id]) if params[:home_id]
       respond_with :manage, @tarifs
     end
 
