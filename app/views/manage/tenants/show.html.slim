@@ -38,7 +38,7 @@
         th
 
     tbody
-      - @tenant.bookings.each do |booking|
+      - @tenant.bookings.ordered.each do |booking|
         tr[data-href=manage_booking_path(booking)]
           td
             = link_to booking.ref, manage_booking_path(booking)

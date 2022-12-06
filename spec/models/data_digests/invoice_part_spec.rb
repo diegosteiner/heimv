@@ -31,7 +31,7 @@ RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
   end
   let(:home) { create(:home, organisation: organisation) }
   let(:organisation) { create(:organisation) }
-  let(:tarifs) { create_list(:tarif, 4, organisation: organisation, home: home) }
+  let(:tarifs) { create_list(:tarif, 4, organisation: organisation) }
   before do
     data_digest.crunch!
   end

@@ -51,7 +51,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
     end
 
     context 'with usage columns' do
-      let(:tarif) { create(:tarif, home: home, organisation: organisation, price_per_unit: 10) }
+      let(:tarif) { create(:tarif, organisation: organisation, price_per_unit: 10) }
       before do
         bookings.map do |booking|
           create(:usage, booking: booking, tarif: tarif, used_units: 1.5)

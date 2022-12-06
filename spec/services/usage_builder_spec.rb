@@ -11,7 +11,7 @@ RSpec.describe Usage::Factory, type: :model do
 
     let(:home) { create(:home) }
     let!(:used_home_tarif) { create(:tarif, organisation: home.organisation, pin: true) }
-    let!(:home_tarifs) { create_list(:tarif, 3, organisation: home.organisation, home: home, pin: true) }
+    let!(:home_tarifs) { create_list(:tarif, 3, organisation: home.organisation, pin: true) }
     let!(:booking_tarifs) { create_list(:tarif, 4, organisation: home.organisation) }
     let!(:existing_usage) { create(:usage, booking: booking, tarif: used_home_tarif) }
 
