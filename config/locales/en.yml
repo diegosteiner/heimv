@@ -303,10 +303,25 @@ en:
         remarks: Bemerkungen
         used_units: Verbrauch
       user:
+        created_at: Created at
+        current_password: Current password
+        current_sign_in_at: Current sign in at
+        current_sign_in_ip: Current sign in IP
         default_organisation_id: Hauptorganisation
         email: Email
-        password: Passwort
-        password_confirmation: Passwort wiederholen
+        encrypted_password: Encrypted password
+        failed_attempts: Failed attempts
+        last_sign_in_at: Last sign in at
+        last_sign_in_ip: Last sign in IP
+        locked_at: Locked at
+        password: Password
+        password_confirmation: Password confirmation
+        remember_created_at: Remember created at
+        remember_me: Remember me
+        reset_password_sent_at: Reset password sent at
+        reset_password_token: Reset password token
+        sign_in_count: Sign in count
+        updated_at: Updated at
     back: Zurück
     confirm: Sind Sie sicher?
     destroy: Löschen
@@ -771,10 +786,76 @@ en:
         ignore: If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password.
         someone_invited_you: Someone has invited you to %{url}, you can accept it through the link below.
         subject: Invitation instructions
+    omniauth_callbacks:
+      failure: Could not authenticate you from %{kind} because "%{reason}".
+      success: Successfully authenticated from %{kind} account.
+    passwords:
+      edit:
+        change_my_password: Change my password
+        change_your_password: Change your password
+        confirm_new_password: Confirm new password
+        new_password: New password
+      new:
+        forgot_your_password: Forgot your password?
+        send_me_reset_password_instructions: Send me reset password instructions
+      no_token: You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
+      send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
+      updated: Your password has been changed successfully. You are now signed in.
+      updated_not_active: Your password has been changed successfully.
+    registrations:
+      destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
+      edit:
+        are_you_sure: Are you sure?
+        cancel_my_account: Cancel my account
+        leave_blank_if_you_don_t_want_to_change_it: leave blank if you don't want to change it
+        title: Edit %{resource}
+        unhappy: Unhappy?
+        update: Update
+        we_need_your_current_password_to_confirm_your_changes: we need your current password to confirm your changes
+      new:
+        sign_up: Sign up
+      signed_up: Welcome! You have signed up successfully.
+      signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
+      updated: Your account has been updated successfully.
+      updated_but_not_signed_in: Your account has been updated successfully, but since your password was changed, you need to sign in again.
+    sessions:
+      already_signed_out: Signed out successfully.
+      new:
+        sign_in: Log in
+      signed_in: Signed in successfully.
+      signed_out: Signed out successfully.
+    shared:
+      links:
+        back: Back
+        didn_t_receive_confirmation_instructions: Didn't receive confirmation instructions?
+        didn_t_receive_unlock_instructions: Didn't receive unlock instructions?
+        forgot_your_password: Forgot your password?
+        sign_in: Log in
+        sign_in_with_provider: Sign in with %{provider}
+        sign_up: Sign up
+      minimum_password_length:
+        one: "(%{count} character minimum)"
+        other: "(%{count} characters minimum)"
+    unlocks:
+      new:
+        resend_unlock_instructions: Resend unlock instructions
+      send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
+      send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
+      unlocked: Your account has been unlocked successfully. Please sign in to continue.
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
+    messages:
+      already_confirmed: was already confirmed, please try signing in
+      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      expired: has expired, please request a new one
+      not_found: not found
+      not_locked: was not locked
+      not_saved:
+        one: '1 error prohibited this %{resource} from being saved:'
+        other: "%{count} errors prohibited this %{resource} from being saved:"
     notifications:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden

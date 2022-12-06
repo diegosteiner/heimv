@@ -303,10 +303,25 @@ de:
         remarks: Bemerkungen
         used_units: Verbrauch
       user:
+        created_at: Erstellt am
+        current_password: Bisheriges Passwort
+        current_sign_in_at: Aktuelle Anmeldung vom
+        current_sign_in_ip: IP der aktuellen Anmeldung
         default_organisation_id: Hauptorganisation
-        email: Email
+        email: E-Mail
+        encrypted_password: Verschlüsseltes Passwort
+        failed_attempts: Fehlversuche
+        last_sign_in_at: Letzte Anmeldung am
+        last_sign_in_ip: IP der letzten Anmeldung
+        locked_at: Gesperrt am
         password: Passwort
-        password_confirmation: Passwort wiederholen
+        password_confirmation: Passwortbestätigung
+        remember_created_at: Angemeldet bleiben vom
+        remember_me: Angemeldet bleiben
+        reset_password_sent_at: Passwort-Zurücksetzen-E-Mail gesendet am
+        reset_password_token: Passwort-Zurücksetzen-Token
+        sign_in_count: Anzahl Anmeldungen
+        updated_at: Aktualisiert am
     back: Zurück
     confirm: Sind Sie sicher?
     destroy: Löschen
@@ -787,10 +802,115 @@ de:
   deadline_exceeded: Deadline exceeded
   destroy: Löschen
   destroy_record: "%{model_name} löschen"
+  devise:
+    failure:
+      already_authenticated: Du bist bereits angemeldet.
+      inactive: Ihr Account ist nicht aktiv.
+      invalid: "%{authentication_keys} oder Passwort ungültig."
+      invited: Du hast bereits eine Einladung erhalten. Nimm die Einladung an um dein Nutzerkonto zu erstellen.
+      not_found_in_database: "%{authentication_keys} oder Passwort ungültig."
+      timeout: Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an.
+      unauthenticated: Du musst dich anmelden oder registrieren, bevor du fortfahren kannst.
+    invitations:
+      edit:
+        header: Setze ein Passwort
+        submit_button: Passwort setzen
+      invitation_removed: Deine Einladung wurde gelöscht.
+      invitation_token_invalid: Der Einladungs-Code ist ungültig!
+      new:
+        header: Einladung schicken
+        submit_button: Einladung schicken
+      no_invitations_remaining: Es gibt keine weiteren Einladungen
+      send_instructions: Eine Einladung wurde an %{email} verschickt.
+      updated: Dein Passwort wurde gesetzt. Du bist nun angemeldet.
+      updated_not_active: Dein Passwort wurde gesetzt.
+    mailer:
+      email_changed:
+        greeting: Hallo %{recipient}!
+        message: Wir schreiben Ihnen, um Sie darüber zu informieren, dass Ihre E-Mail-Adresse zu %{email} geändert wurde.
+        message_unconfirmed:
+        subject: E-Mail-Adresse geändert
+      invitation_instructions:
+        accept: Einladung annehmen
+        accept_until: Diese Einladung ist gültig bis zum %{due_date}.
+        hello: Hallo %{email}
+        ignore: Wenn du die Einladung nicht annehmen willst, ignoriere diese E-Mail einfach. Es wird kein Benutzerkonto erstellt solange du nicht die Einladung mittels des Links oben annimmst.
+        someone_invited_you: Jemand hat dich zu %{url} eingeladen. Du kannst die Einladung mit dem Link unten annehmen.
+        subject: Einladung
+      password_change:
+        greeting: Hallo %{recipient}!
+        message: Wir kontaktieren Sie, um Ihnen mitzuteilen, dass Ihr Passwort geändert wurde.
+        subject: Passwort geändert
+      reset_password_instructions:
+        action: Passwort ändern
+        greeting: Hallo %{recipient}!
+        instruction: Jemand hat einen Link angefordert, um Ihr Passwort zu ändern. Klicken Sie auf den unten aufgeführten Link um das Passwort zu ändern.
+        instruction_2: Bitte ignorieren Sie diese E-Mail, wenn Sie kein neues Passwort angefordert haben.
+        instruction_3: Das Passwort wird nicht geändert bis Sie den obenstehenden Link abrufen und ein neues Passwort bestimmen.
+        subject: Anleitung für das Zurücksetzen Ihres Passworts
+    omniauth_callbacks:
+      failure: Sie konnten nicht mit Ihrem %{kind}-Account angemeldet werden, weil "%{reason}".
+      success: Sie haben sich erfolgreich mit Ihrem %{kind}-Account angemeldet.
+    passwords:
+      edit:
+        change_my_password: Ändere mein Passwort
+        change_your_password: Passwort ändern
+        confirm_new_password: Neues Passwort bestätigen
+        new_password: Neues Passwort
+      new:
+        forgot_your_password: Passwort vergessen?
+        send_me_reset_password_instructions: Anleitung schicken, um mein Passwort zurückzusetzen
+      no_token: Sie können sich nicht auf dieser Seite anmelden, wenn Sie nicht von einer Passwort-Zurücksetzen-E-Mail kommen. Wenn Sie von solch einer E-Mail kommen, überprüfen Sie bitte, ob Sie die gesamte URL verwendeten.
+      send_instructions: In wenigen Minuten erhälst du eine E-Mail mit der Anleitung, wie du dein Passwort zurücksetzen kannst.
+      send_paranoid_instructions: Falls Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten eine E-Mail, mit der Anleitung, wie Sie Ihr Passwort zurücksetzen können.
+      updated: "\t\nIhr Passwort wurde geändert. Sie sind jetzt angemeldet."
+      updated_not_active: Ihr Passwort wurde geändert.
+    registrations:
+      destroyed: Ihr Account wurde gelöscht.
+      edit:
+        are_you_sure: Sind Sie sicher?
+        cancel_my_account: Konto löschen
+        leave_blank_if_you_don_t_want_to_change_it: freilassen, wenn Sie das nicht ändern wollen
+        title: "%{resource} bearbeiten"
+        unhappy: Unglücklich
+        update: Aktualisieren
+        we_need_your_current_password_to_confirm_your_changes: wir benötigen Ihr aktuelles Passwort, um die Änderung zu bestätigen
+      new:
+        sign_up: Registrieren
+      signed_up: Sie haben sich erfolgreich registriert.
+      signed_up_but_inactive: Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, weil Ihr Account noch nicht aktiviert ist.
+      update_needs_confirmation: Ihre Daten wurden aktualisiert, aber Sie müssen Ihre neue E-Mail-Adresse bestätigen. Sie erhalten in wenigen Minuten eine E-Mail, mit der Sie die Änderung Ihrer E-Mail-Adresse abschliessen können.
+      updated: Ihre Daten wurden aktualisiert.
+      updated_but_not_signed_in: Ihre Daten wurden aktualisiert, aber da sich Ihr Passwort geändert hat, müssen Sie sich erneut anmelden
+    sessions:
+      already_signed_out: Erfolgreich abgemeldet.
+      new:
+        sign_in: Anmelden
+      signed_in: Erfolgreich angemeldet.
+      signed_out: Erfolgreich abgemeldet.
+    shared:
+      links:
+        back: Zurück
+        forgot_your_password: Passwort vergessen?
+        sign_in: Anmelden
+        sign_in_with_provider: Mit %{provider} anmelden
+        sign_up: Registrieren
+      minimum_password_length:
+        one: "(mindestens %{count} Zeichen)"
+        other: "(mindestens %{count} Zeichen)"
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
+    messages:
+      already_confirmed: was already confirmed, please try signing in
+      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      expired: ist abgelaufen, bitte neu anfordern
+      not_found: nicht gefunden
+      not_locked: ist nicht gesperrt
+      not_saved:
+        one: "%{resource} konnte aufgrund eines Fehlers nicht gespeichert werden:"
+        other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
     notifications:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden
@@ -825,7 +945,7 @@ de:
         one: hat die falsche Länge (muss genau 1 Zeichen haben)
         other: hat die falsche Länge (muss genau %{count} Zeichen haben)
     template:
-      body: 'Bitte überprüfe die folgenden Felder:'
+      body: 'Bitte überprüfen Sie die folgenden Felder:'
       header:
         one: 'Konnte %{model} nicht speichern: ein Fehler.'
         other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
@@ -1807,6 +1927,10 @@ de:
     formats:
       date: "%d.%m.%Y"
       default: "%d.%m.%Y %H:%M"
+      devise:
+        mailer:
+          invitation_instructions:
+            accept_until_format: "%B %d, %Y %I:%M %p"
       short: "%d.%m.%Y %H:%M"
       short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"
