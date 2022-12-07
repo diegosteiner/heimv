@@ -18,6 +18,7 @@
 # Indexes
 #
 #  index_booking_conditions_on_organisation_id                      (organisation_id)
+#  index_booking_conditions_on_qualifiable                          (qualifiable_id,qualifiable_type,group)
 #  index_booking_conditions_on_qualifiable_id_and_qualifiable_type  (qualifiable_id,qualifiable_type)
 #
 # Foreign Keys

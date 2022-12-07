@@ -28,7 +28,7 @@
       tbody.collapse.show[id=collapse_id]
         - group_tarifs.each do |tarif|
           = f.fields_for tarif.id.to_s, tarif do |tf|
-            tr.bg-white
+            tr.bg-white[class=('disabled' if tarif.discarded?)]
               td
                 small.text-secondary= tarif.ordinal
               td
@@ -38,15 +38,16 @@
               td
                 = tf.select :type, subtype_options_for_select(Tarif.subtypes), { skip_label: true, wrapper: false }, { disabled: true }
               td
-                = tf.number_field :price_per_unit, skip_label: true, wrapper: false
+                = tf.number_field :price_per_unit, skip_label: true, wrapper: false, disabled: tarif.discarded?
               td
                 = tf.static_control :unit, skip_label: true, wrapper: false
               td.text-end
                 .btn-group
-                  = link_to edit_manage_tarif_path(tarif), class: 'btn btn-default' do
-                    span.fa.fa-edit
-                  = link_to new_manage_tarif_path(clone: tarif.to_param), class: 'btn btn-default' do
-                    span.fa.fa-clone
+                  - unless tarif.discarded?
+                    = link_to edit_manage_tarif_path(tarif), class: 'btn btn-default' do
+                      span.fa.fa-edit
+                    = link_to new_manage_tarif_path(clone: tarif.to_param), class: 'btn btn-default' do
+                      span.fa.fa-clone
                   = link_to manage_tarif_path(tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                     span.fa.fa-trash
   = f.submit t("helpers.submit.update", model: Tarif.model_name.human(count: 2))

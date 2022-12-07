@@ -50,7 +50,7 @@ module Manage
     end
 
     def destroy
-      @tarif.destroy
+      @tarif.discarded? ? @tarif.destroy : @tarif.discard!
       respond_with :manage, @tarif, location: manage_tarifs_path
     end
 

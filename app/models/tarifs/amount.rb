@@ -7,6 +7,7 @@
 #  id                      :bigint           not null, primary key
 #  accountancy_account     :string
 #  associated_types        :integer          default(0), not null
+#  discarded_at            :datetime
 #  label_i18n              :jsonb
 #  minimum_usage_per_night :decimal(, )
 #  minimum_usage_total     :decimal(, )
@@ -25,6 +26,7 @@
 #
 # Indexes
 #
+#  index_tarifs_on_discarded_at     (discarded_at)
 #  index_tarifs_on_organisation_id  (organisation_id)
 #  index_tarifs_on_type             (type)
 #

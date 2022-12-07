@@ -8,7 +8,7 @@ module Manage
 
       def index
         @usages = @usages.includes(:tarif)
-        @suggested_usages = Usage::Factory.new(@booking).build(usages: @usages, preselect: suggest_usages?)
+        @suggested_usages = Usage::Factory.new(@booking).build(preselect: suggest_usages?)
 
         respond_with :manage, @booking, @usages
       end
