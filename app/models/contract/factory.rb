@@ -8,11 +8,11 @@ class Contract
       end
     end
 
-    protected
-
     def defaults(booking)
       { booking: booking }
     end
+
+    protected
 
     def rich_text_template(contract)
       booking = contract.booking
@@ -20,9 +20,7 @@ class Contract
                                    .enabled.by_key(:contract_text, home_id: booking.home_id)
       return if rich_text_template.blank?
 
-      I18n.with_locale(booking.locale) do
-        rich_text_template.interpolate(template_context(contract))
-      end.body
+      I18n.with_locale(booking.locale) { rich_text_template.interpolate(template_context(contract)) }.body
     end
 
     def template_context(contract)

@@ -27,6 +27,8 @@ class Invoice
       { type: Invoices::Invoice.to_s, issued_at: Time.zone.today, booking: booking }
     end
 
+    protected
+
     def payment_info_type(invoice)
       return if invoice.type.to_s == Invoices::Offer.to_s
 
@@ -41,10 +43,16 @@ class Invoice
       key = "#{invoice.model_name.param_key}_text"
       booking = invoice.booking
       rich_text_template = invoice.organisation.rich_text_templates.enabled.by_key(key, home_id: booking.home_id)
-      I18n.with_locale(invoice.booking.locale) do
-        rich_text_template&.interpolate(invoice: invoice, booking: invoice.booking,
-                                        home: booking.home, organisation: booking.organisation)&.body
-      end
+      return if rich_text_template.blank?
+
+      I18n.with_locale(booking.locale) { rich_text_template.interpolate(template_context(invoice)) }.body
+    end
+
+    def template_context(invoice)
+      TemplateContext.new(
+        invoice: invoice, booking: invoice.booking, home: invoice.booking.home,
+        organisation: invoice.booking.organisation
+      )
     end
 
     def payable_until(invoice)
