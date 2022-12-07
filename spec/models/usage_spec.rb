@@ -40,18 +40,25 @@ RSpec.describe Usage, type: :model do
     it { is_expected.to eq(6.65) }
   end
 
-  describe '#preselect' do
-    let(:booking) { create(:booking, home: home) }
-    let(:usage) { build(:usage, booking: booking, tarif: tarif) }
-    before do
-      BookingConditions::OccupancyDuration.create(qualifiable: tarif, distinction: '>1d')
-      BookingConditions::BookingApproximateHeadcountPerNight.create(qualifiable: tarif, distinction: '>10')
-      BookingConditions::TenantOrganisation.create(qualifiable: tarif, distinction: 'test', must_condition: false)
-    end
+  describe Usage::Factory do
+    describe 'build' do
+      let(:booking) { create(:booking, home: home) }
+      subject(:usages) { factory.build(preselect: true) }
+      subject(:factory) { Usage::Factory.new(booking) }
+      before do
+        BookingConditions::OccupancyDuration.create(qualifiable: tarif, group: :selecting, distinction: '>1d')
+        BookingConditions::BookingApproximateHeadcountPerNight.create(qualifiable: tarif, group: :selecting,
+                                                                      distinction: '>10')
+        BookingConditions::TenantOrganisation.create(qualifiable: tarif, group: :selecting, distinction: 'test',
+                                                     must_condition: false)
+      end
 
-    it do
-      expect(usage.preselect).to be true
-      expect(usage.apply).to be true
+      it do
+        expect(usages.count).to be > 0
+        usage = usages.first
+        expect(usage.apply).to be true
+        expect(usage.tarif).to eq(tarif)
+      end
     end
   end
 

@@ -67,12 +67,6 @@ class Usage < ApplicationRecord
     self.price_per_unit = (tarif.pin? && tarif.price_per_unit) || nil
   end
 
-  def preselect
-    self.apply ||= enabled_by_condition? && selected_by_condition?
-    self.used_units ||= presumed_units
-    new_record?
-  end
-
   def used?
     used_units.present? && used_units.positive?
   end
@@ -94,7 +88,8 @@ class Usage < ApplicationRecord
   end
 
   def selected_by_condition?
-    tarif.selecting_conditions.any? && BookingCondition.fullfills_all?(booking, tarif.selecting_conditions)
+    enabled_by_condition? &&
+      tarif.selecting_conditions.any? && BookingCondition.fullfills_all?(booking, tarif.selecting_conditions)
   end
 
   # TODO: decouple
