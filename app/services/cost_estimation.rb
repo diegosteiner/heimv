@@ -8,11 +8,15 @@ class CostEstimation
     @fixcosts = fixcosts
   end
 
+  def used
+    booking.usages.sum(&:price)
+  end
+
   def total
     invoices = Invoices::Invoice.of(booking).kept
     return if invoices.blank?
 
-    deposit + invoices.sum(:amount)
+    @total ||= deposit + invoices.sum(:amount)
   end
 
   def deposit
@@ -20,11 +24,13 @@ class CostEstimation
   end
 
   def per_day
+    return if total.nil?
+
     [total - fixcosts, 0].max / days
   end
 
   def per_person
-    return 0.0 unless booking.approximate_headcount.to_i.positive?
+    return unless booking.approximate_headcount.to_i.positive? && total.present?
 
     [total - fixcosts, 0].max / booking.approximate_headcount
   end
@@ -38,6 +44,8 @@ class CostEstimation
   end
 
   def per_person_per_day
+    return if total.nil?
+
     total / [person_days, 1].max
   end
 

@@ -11,9 +11,9 @@ module BookingStates
       [
         assign_responsibilities_checklist_item,
         choose_tarifs_checklist_item,
-        create_contract_checklist_item,
         create_deposit_checklist_item,
-        create_offer_checklist_item
+        create_offer_checklist_item,
+        create_contract_checklist_item
       ].compact
     end
 

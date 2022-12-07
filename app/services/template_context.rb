@@ -11,7 +11,8 @@ class TemplateContext
     Tenant => Manage::TenantSerializer,
     Usage => Manage::UsageSerializer,
     PaymentInfo => Manage::PaymentInfoSerializer,
-    Contract => Manage::ContractSerializer
+    Contract => Manage::ContractSerializer,
+    CostEstimation => Manage::CostEstimationSerializer
   }.freeze
 
   def initialize(context)

@@ -1256,6 +1256,12 @@ de:
               <dt>Link zu den AGB</dt><dd><pre>{{ organisation.links.terms_pdf }}</pre></dd>
               <dt>Name der Organisation</dt><dd><pre>{{ organisation.name }}</pre></dd>
             </dl>
+            <h5>Kosten</h5>
+            <dl>
+              <dt>Verbrauch</dt><dd><pre>{{ cost_estimation.used }}</pre></dd>
+              <dt>Verrechnet</dt><dd><pre>{{ cost_estimation.total }}</pre></dd>
+              <dt>Anzahlung</dt><dd><pre>{{ cost_estimation.deposit }}</pre></dd>
+            </dl>
 
             Logik im Text verwenden:
 
