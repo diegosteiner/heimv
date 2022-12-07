@@ -87,12 +87,6 @@ class Tarif < ApplicationRecord
 
   def before_usage_save(_usage); end
 
-  def price(usage)
-    used_units = usage.used_units || 0.0
-    price_per_unit = usage.price_per_unit.presence || self.price_per_unit.presence || 1.0
-    round(used_units * price_per_unit)
-  end
-
   def breakdown(usage)
     key ||= :flat if is_a?(Tarifs::Flat)
     key ||= :default
@@ -114,10 +108,6 @@ class Tarif < ApplicationRecord
       used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
       unit: unit, price_per_unit: number_to_currency(price_per_unit || 0, currency: organisation.currency)
     }
-  end
-
-  def round(price)
-    (price * 20.0).floor / 20.0
   end
 
   def initialize_copy(origin)

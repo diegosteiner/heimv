@@ -53,7 +53,9 @@ class Usage < ApplicationRecord
   validates :used_units, numericality: true, allow_nil: true
 
   def price
-    tarif&.price(self)
+    price_per_unit = self.price_per_unit.presence || tarif.price_per_unit.presence || 1.0
+    price = (used_units || 0.0) * price_per_unit
+    (price * 20.0).floor / 20.0
   end
 
   def presumed_units

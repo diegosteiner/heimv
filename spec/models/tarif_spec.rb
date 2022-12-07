@@ -47,7 +47,7 @@ RSpec.describe Organisation, type: :model do
   end
 
   describe '#price' do
-    subject(:price) { tarif.price(usage) }
+    subject(:price) { usage.price }
     it { is_expected.to eq(70.0) }
     # it { expect(tarif.minimum_price?(usage)).to be_falsy }
 

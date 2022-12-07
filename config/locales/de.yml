@@ -1549,7 +1549,7 @@ de:
       default_body: |
         <h2>Vertrag</h2>
 
-        (bitte Vertragsvorlage anpassen)
+        <p>(bitte Vertragsvorlage anpassen)</p>
 
         {{ tarifs_table_placeholder }}
       default_title: Vertrag
