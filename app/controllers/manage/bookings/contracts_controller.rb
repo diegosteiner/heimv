@@ -21,7 +21,7 @@ module Manage
       end
 
       def new
-        @contract.load_text_from_rich_text_template
+        @contract = Contract::Factory.new.call(@booking)
         respond_with :manage, @booking, @contract
       end
 

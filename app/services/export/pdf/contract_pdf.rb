@@ -5,7 +5,7 @@ require 'prawn'
 module Export
   module Pdf
     class ContractPdf < Base
-      TARIFS_TABLE_PLACEHOLDER_TEXT = '{{ contract.tarifs_table }}'
+      TARIFS_TABLE_PLACEHOLDER = '{{ tarifs_table_placeholder }}'
 
       def initialize(contract)
         super()
@@ -21,7 +21,7 @@ module Export
       end
 
       to_render do
-        text_parts = @contract.text&.split(TARIFS_TABLE_PLACEHOLDER_TEXT) || []
+        text_parts = @contract.text&.split(TARIFS_TABLE_PLACEHOLDER) || []
         text_parts.each_with_index do |text_part, index|
           render Renderables::RichText.new(text_part)
           render_tarifs_table unless index == text_parts.size - 1

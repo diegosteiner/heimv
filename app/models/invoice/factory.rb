@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Invoices
+class Invoice
   class Factory
     RichTextTemplate.require_template(:invoices_deposit_text, context: %i[booking invoice], required_by: self)
     RichTextTemplate.require_template(:invoices_invoice_text, context: %i[booking invoice], required_by: self)

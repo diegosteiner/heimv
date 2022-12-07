@@ -29,7 +29,7 @@ module Manage
     end
 
     def new
-      @invoice = Invoices::Factory.new.call(@booking, invoice_params)
+      @invoice = Invoice::Factory.new.call(@booking, invoice_params)
       respond_with :manage, @booking, @invoice
     end
 

@@ -84,18 +84,8 @@ class Contract < ApplicationRecord
     valid_until.present?
   end
 
-  def load_text_from_rich_text_template
-    rich_text_template = organisation.rich_text_templates.enabled.by_key(:contract_text, home_id: booking.home_id)
-    interpolated_text = I18n.with_locale(booking.locale) do
-      rich_text_template&.interpolate booking: booking, home: booking.home,
-                                      organisation: booking.organisation, contract: self,
-                                      tarifs_table: Export::Pdf::ContractPdf::TARIFS_TABLE_PLACEHOLDER_TEXT
-    end
-    self.text ||= interpolated_text&.body
-  end
-
   def usages
-    @usages ||= booking.usages.select do |usage|
+    @usages ||= booking&.usages&.select do |usage|
       usage.tarif.associated_types.include?(Tarif::ASSOCIATED_TYPES.key(self.class))
     end
   end

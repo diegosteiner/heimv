@@ -5,7 +5,7 @@ class AddExplicitTarifsTablePlaceholderToContractTexts < ActiveRecord::Migration
       rtt.body_i18n.each do |locale, body|
         next if body.blank?
 
-        rtt.send("body_#{locale}=", body + "\n{{ tarifs_table }}")
+        rtt.send("body_#{locale}=", body + "\n#{Export::Pdf::ContractPdf::TARIFS_TABLE_PLACEHOLDER}")
       end
       rtt.save!
     end
