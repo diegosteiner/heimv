@@ -1,19 +1,25 @@
 h1.mt-0.mb-5= RichTextTemplate.model_name.human(count: 2)
 
-- @rich_text_templates.group_by { |rich_text_template| rich_text_template_group(rich_text_template) }.each do |group, rich_text_templates|
-  h3.mt-5= t(".group_#{group}")
-  table.table.table-hover.align-middle
+table.table.table-hover.align-middle
+  thead
+    tr
+      th 
+      th= RichTextTemplate.human_attribute_name(:title)
+      th
+
+  - grouped_templates = @rich_text_templates.group_by { |rich_text_template| rich_text_template_group(rich_text_template) }
+  - grouped_templates.each do |group, rich_text_templates|
+    
     thead
       tr
-        th= RichTextTemplate.human_attribute_name(:title)
-        th= Home.model_name.human
-        th
+        th.pt-4[colspan='3']
+          h4= t(".group_#{group}")
+
     tbody
       - rich_text_templates.each do |rich_text_template|
         tr 
+          th
           td= link_to t(:description, scope: [:rich_text_templates, rich_text_template.key], default: rich_text_template.title), manage_rich_text_template_path(rich_text_template)
-          td
-            = link_to rich_text_template.home.name, manage_home_path(rich_text_template.home) if rich_text_template.home
           td.p-1.text-end
             - if can?(:manage, rich_text_template)
               .btn-group

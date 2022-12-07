@@ -42,7 +42,7 @@ RSpec.describe Usage, type: :model do
 
   describe Usage::Factory do
     describe 'build' do
-      let(:booking) { create(:booking, home: home) }
+      let(:booking) { create(:booking, home: home, approximate_headcount: 12) }
       subject(:usages) { factory.build(preselect: true) }
       subject(:factory) { Usage::Factory.new(booking) }
       before do
