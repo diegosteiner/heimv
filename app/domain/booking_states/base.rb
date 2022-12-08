@@ -38,8 +38,8 @@ module BookingStates
       end
 
       def add_callback(callback_type: nil, callback_class: Statesman::Callback, from: nil, to: to_s, &block)
-        from = from.nil? ? nil : from.to_s
-        to = Array(to).map { _1.nil? ? nil : _1.to_s }
+        from = from&.to_s
+        to = Array(to).compact_blank.map(&:to_s)
         callbacks[callback_type] << callback_class.new(from: from, to: to, callback: block)
       end
 

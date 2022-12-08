@@ -21,6 +21,6 @@ Liquid::Template.register_filter(Module.new do
   end
 
   def currency(value)
-    ::ActiveSupport::NumberHelper.number_to_currency(value)
+    ActiveSupport::NumberHelper.number_to_currency(value)
   end
 end)
