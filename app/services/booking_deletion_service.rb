@@ -24,12 +24,11 @@ class BookingDeletionService
   private
 
   def delete_dependent!(booking)
-    booking.logs.delete_all
-    booking.usages.delete_all
-    booking.contracts.delete_all
-    booking.invoices.delete_all
-    booking.payments.delete_all
-    booking.notifications.delete_all
-    booking.state_transitions.delete_all
+    dependent_associations = [booking.logs, booking.usages, booking.contracts, booking.invoices,
+                              booking.payments, booking.notifications, booking.state_transitions]
+
+    dependent_associations.each(&:destroy_all)
+    dependent_associations.each(&:reload)
+    dependent_associations.each(&:delete_all)
   end
 end
