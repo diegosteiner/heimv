@@ -28,36 +28,19 @@
 #
 
 class Occupancy < ApplicationRecord
+  include Timespanable
+
+  timespan :begins_at, :ends_at
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
   belongs_to :home
   belongs_to :booking, inverse_of: :occupancy, optional: true, touch: true
 
   has_one :organisation, through: :home
 
-  date_time_attribute :begins_at, timezone: Time.zone.name
-  date_time_attribute :ends_at, timezone: Time.zone.name
-
   enum occupancy_type: { free: 0, tentative: 1, occupied: 2, closed: 3 }
 
   scope :ordered, -> { order(begins_at: :ASC) }
-  scope :future, -> { begins_at(after: Time.zone.now) }
-  scope :today, ->(date = Time.zone.today) { at(from: date.beginning_of_day, to: date.end_of_day) }
   scope :blocking, -> { where(occupancy_type: %i[tentative occupied closed]) }
-  scope :begins_at, (lambda do |before: nil, after: nil|
-    return where(arel_table[:begins_at].between(after..before)) if before.present? && after.present?
-    return where(arel_table[:begins_at].gt(after)) if after.present?
-    return where(arel_table[:begins_at].lt(before)) if before.present?
-  end)
-  scope :ends_at, (lambda do |before: nil, after: nil|
-    return where(arel_table[:ends_at].between(after..before)) if before.present? && after.present?
-    return where(arel_table[:ends_at].gt(after)) if after.present?
-    return where(arel_table[:ends_at].lt(before)) if before.present?
-  end)
-  scope :at, (lambda do |from:, to:|
-    begins_at(before: from).ends_at(after: to)
-    .or(begins_at(before: to, after: from))
-    .or(ends_at(before: to, after: from))
-  end)
 
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validates :begins_at, :ends_at, presence: true
