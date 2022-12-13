@@ -138,10 +138,6 @@ class Booking < ApplicationRecord
     contracts.valid.last
   end
 
-  def agent_booking?
-    agent_booking.present?
-  end
-
   def operators_for(*responsibilities)
     responsibilities.map do |responsibility|
       operator_responsibilities.where(responsibility: responsibility).first

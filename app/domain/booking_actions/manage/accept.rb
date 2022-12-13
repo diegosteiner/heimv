@@ -24,7 +24,7 @@ module BookingActions
       protected
 
       def transition_to
-        if booking.agent_booking?
+        if booking.agent_booking.present?
           :booking_agent_request
         elsif booking.committed_request
           :definitive_request

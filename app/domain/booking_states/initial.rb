@@ -6,9 +6,12 @@ module BookingStates
       :initial
     end
 
-    infer_transition(to: :open_request, &:agent_booking?)
+    infer_transition(to: :open_request) do |booking|
+      booking.agent_booking.present?
+    end
+
     infer_transition(to: :unconfirmed_request) do |booking|
-      booking.email.present? && !booking.agent_booking?
+      booking.email.present? && booking.agent_booking.blank?
     end
 
     def self.hidden

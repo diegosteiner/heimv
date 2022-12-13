@@ -19,7 +19,7 @@ module Public
     end
 
     def edit
-      @booking.committed_request ||= @booking.agent_booking&.committed_request if @booking.agent_booking?
+      @booking.committed_request ||= @booking.agent_booking&.committed_request if @booking.agent_booking.present?
       respond_with :public, @booking
     end
 
