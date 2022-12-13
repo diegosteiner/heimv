@@ -19,9 +19,10 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      OperatorResponsibilityAssigner.new(booking).assign(:administration, :billing)
+      OperatorResponsibility.assign(booking, :administration, :billing)
       booking.notifications.new(template: :manage_new_booking_notification,
-                                to: booking.operators_for(:administration).first || booking.organisation)&.deliver
+                                to: OperatorResponsibility.for(booking,
+                                                               :administration).first || booking.organisation)&.deliver
       if booking.agent_booking.present?
         # booking.notifications.new(template:  :open_booking_agent_request_notification,
         # to: booking.agent_booking.booking_agent).deliver

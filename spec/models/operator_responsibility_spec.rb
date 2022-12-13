@@ -33,15 +33,14 @@
 #
 require 'rails_helper'
 
-RSpec.describe OperatorResponsibilityAssigner, type: :model do
-  subject(:service) { described_class.new(booking) }
+RSpec.describe OperatorResponsibility, type: :model do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:operator) { create(:operator, organisation: organisation) }
   let(:booking) { create(:booking, organisation: organisation, home: home) }
 
-  describe '#assign' do
-    subject(:responsibility) { service.assign(:administration)&.first }
+  describe '::assign' do
+    subject(:responsibility) { described_class.assign(booking, :administration)&.first }
 
     context 'with defined responibilities' do
       before do

@@ -138,12 +138,6 @@ class Booking < ApplicationRecord
     contracts.valid.last
   end
 
-  def operators_for(*responsibilities)
-    responsibilities.map do |responsibility|
-      operator_responsibilities.where(responsibility: responsibility).first
-    end.compact.uniq
-  end
-
   def cache_key
     "#{super}@#{updated_at.iso8601(3)}"
   end

@@ -41,9 +41,10 @@ module BookingStates
       booking.occupancy.tentative!
       booking.update!(editable: false)
       booking.deadline&.clear
-      OperatorResponsibilityAssigner.new(booking).assign(:home_handover, :home_return)
+      OperatorResponsibility.assign(booking, :home_handover, :home_return)
       booking.notifications.new(template: :manage_definitive_request_notification,
-                                to: booking.operators_for(:administration).first || booking.organisation)&.deliver
+                                to: OperatorResponsibility.for(booking,
+                                                               :administration).first || booking.organisation)&.deliver
       booking.notifications.new(template: :definitive_request_notification,
                                 to: booking.tenant).deliver
     end
@@ -97,7 +98,7 @@ module BookingStates
     def assign_responsibilities_checklist_item
       return if booking.organisation.operators.none?
 
-      ChecklistItem.new(:assign_responsibilities, booking.operators_for(:home_handover).present?,
+      ChecklistItem.new(:assign_responsibilities, OperatorResponsibility.for(booking, :home_handover).present?,
                         manage_booking_operator_responsibilities_path(booking, org: booking.organisation))
     end
   end

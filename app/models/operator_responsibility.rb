@@ -48,4 +48,26 @@ class OperatorResponsibility < ApplicationRecord
   validates :responsibility, presence: true
   validates :responsibility, uniqueness: { scope: :booking_id }, if: :booking_id
   ranks :ordinal, with_same: :organisation_id
+
+  def self.for(booking, *responsibilities)
+    responsibilities.map do |responsibility|
+      where(booking: booking, responsibility: responsibility).first
+    end.compact.uniq
+  end
+
+  def self.assign(booking, *responsibilities)
+    responsibilities.map do |responsibility|
+      existing_operator = self.for(booking, responsibility).first
+      next existing_operator if existing_operator.present?
+
+      matching(booking, responsibility).first&.dup&.tap do |operator_responsibility|
+        operator_responsibility.update(booking: booking, home: booking.home)
+      end
+    end
+  end
+
+  def self.matching(booking, responsibility)
+    booking.organisation.operator_responsibilities.ordered
+           .where(responsibility: responsibility, home: [booking.home, nil], booking: nil)
+  end
 end
