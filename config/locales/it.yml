@@ -399,7 +399,6 @@ it:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           booking_margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
-        occupancy:
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
         tenant:

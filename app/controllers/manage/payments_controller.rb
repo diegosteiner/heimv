@@ -66,7 +66,7 @@ module Manage
     private
 
     def bookings_for_import
-      current_organisation.bookings.accessible_by(current_ability).inconcluded.order(ref: :ASC)
+      current_organisation.bookings.accessible_by(current_ability).where(concluded: false).order(ref: :ASC)
     end
 
     def invoices_for_import

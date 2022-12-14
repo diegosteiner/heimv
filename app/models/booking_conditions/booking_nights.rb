@@ -37,7 +37,7 @@ module BookingConditions
     end
 
     def evaluate(booking)
-      evaluate_numeric(booking.occupancy.nights)
+      evaluate_numeric(booking.nights)
     end
   end
 end

@@ -19,11 +19,11 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.occupancy.conflicting.none?
+      booking.occupancies.map(&:conflicting).none?
     end
 
     after_transition do |booking|
-      booking.occupancy.occupied!
+      booking.occupied!
       booking.deadline&.clear
       booking.deadlines.create(length: booking.organisation.settings.awaiting_contract_deadline,
                                postponable_for: booking.organisation.settings.deadline_postponable_for,

@@ -25,7 +25,7 @@ module BookingStates
       booking.deadline&.clear
       booking.deadlines.create(length: booking.organisation.settings.unconfirmed_request_deadline,
                                remarks: booking.booking_state.t(:label))
-      booking.occupancy.tentative!
+      booking.tentative!
       booking.notifications.new(template: :unconfirmed_request_notification, to: booking.tenant).deliver
     end
 

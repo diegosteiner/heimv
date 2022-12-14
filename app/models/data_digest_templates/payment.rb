@@ -57,8 +57,7 @@ module DataDigestTemplates
     column_type :default do
       body do |payment|
         booking = payment.booking
-        context = TemplateContext.new(booking: booking, organisation: booking.organisation,
-                                      home: booking.home, payment: payment)
+        context = TemplateContext.new(booking: booking, organisation: booking.organisation, payment: payment)
         @templates[:body]&.render!(context.cached)
       end
     end

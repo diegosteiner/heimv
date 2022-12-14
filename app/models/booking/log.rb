@@ -30,7 +30,7 @@ class Booking
 
     def self.log(booking, trigger:, action: nil, user: nil, data: {})
       data = data.reverse_merge({
-                                  booking: booking.previous_changes, occupancy: booking.occupancy&.previous_changes,
+                                  booking: booking.previous_changes,
                                   tenant: booking.tenant&.previous_changes, action: action,
                                   transitions: booking.previous_transitions
                                 }).compact_blank

@@ -18,13 +18,13 @@
         = f.collection_select :home_id, current_organisation.homes, :id, :to_s, {}, disabled: !@agent_booking.booking_agent_responsible?
         = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
                                                     name: 'agent_booking[occupancy_attributes][begins_at]',
-                                                    value: @agent_booking.occupancy.begins_at&.iso8601, 
+                                                    value: @agent_booking.begins_at&.iso8601, 
                                                     disabled: !@agent_booking.booking.editable?, required: true,
                                                     invalidFeedback: @agent_booking.booking.errors['occupancy.begins_at']&.to_sentence)
 
         = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
                                                     name: 'agent_booking[occupancy_attributes][ends_at]',
-                                                    value: @agent_booking.occupancy.ends_at&.iso8601, 
+                                                    value: @agent_booking.ends_at&.iso8601, 
                                                     disabled: !@agent_booking.booking.editable?, required: true,
                                                     invalidFeedback: @agent_booking.booking.errors['occupancy.ends_at']&.to_sentence)
 

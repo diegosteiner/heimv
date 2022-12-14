@@ -43,7 +43,7 @@ FactoryBot.define do
 
     after(:build) do |agent_booking, _evaluator|
       agent_booking.organisation ||= agent_booking.booking.organisation || build(:organisation)
-      agent_booking.home ||= agent_booking.booking.home
+      # agent_booking.home ||= agent_booking.booking.home
       # agent_booking.booking_agent ||= build(:booking_agent, organisation: agent_booking.organisation)
     end
   end

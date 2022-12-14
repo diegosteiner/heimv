@@ -12,7 +12,7 @@ module Public
     def new
       @agent_booking = AgentBooking.new(organisation: current_organisation)
       @agent_booking.assign_attributes(agent_booking_params)
-      @agent_booking.occupancy.ends_at ||= @agent_booking.occupancy.begins_at
+      @agent_booking.ends_at ||= @agent_booking.begins_at
       respond_with :public, @agent_booking
     end
 

@@ -20,7 +20,7 @@ describe 'Booking', :devise, type: :feature do
   let!(:tarifs) { create_list(:tarif, 2, organisation: organisation) }
   let(:new_booking_path) do
     new_public_booking_path(booking: { home_id: home.id, occupancy_attributes:
-      { begins_at: booking.occupancy.begins_at.iso8601, ends_at: booking.occupancy.ends_at.iso8601 } })
+      { begins_at: booking.begins_at.iso8601, ends_at: booking.ends_at.iso8601 } })
   end
   let(:booking) do
     build(:booking,
@@ -74,8 +74,8 @@ describe 'Booking', :devise, type: :feature do
 
   def create_request
     visit new_booking_path
-    fill_request_form(email: tenant.email, begins_at: booking.occupancy.begins_at,
-                      ends_at: booking.occupancy.ends_at, home: booking.home)
+    fill_request_form(email: tenant.email, begins_at: booking.begins_at,
+                      ends_at: booking.ends_at, homes: booking.homes)
     submit_form
     flash = Rails::Html::FullSanitizer.new.sanitize(I18n.t('flash.public.bookings.create.notice', email: tenant.email))
     expect(page).to have_content(flash)

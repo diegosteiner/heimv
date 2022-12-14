@@ -2,10 +2,10 @@
 
 module Public
   class BookingSerializer < ApplicationSerializer
-    DEFAULT_INCLUDES = 'occupancy,home'
+    DEFAULT_INCLUDES = 'occupancies'
 
-    association :occupancy,     blueprint: Public::OccupancySerializer
-    association :home,          blueprint: Public::HomeSerializer
+    association :homes,         blueprint: Public::HomeSerializer
+    # association :occupancies,   blueprint: Public::OccupancySerializer
     association :organisation,  blueprint: Public::OrganisationSerializer
     association :agent_booking, blueprint: Public::AgentBookingSerializer
 

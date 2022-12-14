@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_13_203825) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -149,7 +149,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
   end
 
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "home_id", null: false
     t.bigint "organisation_id", null: false
     t.string "booking_state_cache", default: "initial", null: false
     t.string "tenant_organisation"
@@ -178,9 +177,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
     t.string "color"
     t.string "purpose_description"
     t.boolean "accept_conditions", default: false
+    t.datetime "begins_at"
+    t.datetime "ends_at"
+    t.integer "occupancy_type"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
-    t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
@@ -560,7 +561,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
   add_foreign_key "booking_conditions", "tarifs", column: "qualifiable_id"
   add_foreign_key "booking_logs", "users"
   add_foreign_key "booking_state_transitions", "bookings"
-  add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "data_digest_templates", "organisations"

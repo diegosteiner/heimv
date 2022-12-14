@@ -39,15 +39,21 @@ module Tarifs
   class MinOccupation < Tarif
     Tarif.register_subtype self
 
-    def calculate_usage_delta(usage)
-      booking = usage.booking
-      minimum_usage = (minimum_usage_per_night || 0) * (booking.occupancy.nights || 0)
-      delta = minimum_usage - booking.actual_overnight_stays
-      delta.positive? ? delta : 0
-    end
-
     def before_usage_validation(usage)
       usage.used_units = calculate_usage_delta(usage)
+    end
+
+    protected
+
+    def actual_overnight_stays(_booking)
+      usages.filter_map { |usage| usage.tarif.is_a?(Tarifs::OvernightStay) && usage.used_units }.compact.sum
+    end
+
+    def calculate_usage_delta(usage)
+      booking = usage.booking
+      minimum_usage = (minimum_usage_per_night || 0) * (booking.nights || 0)
+      delta = minimum_usage - actual_overnight_stays(booking)
+      delta.positive? ? delta : 0
     end
   end
 end

@@ -35,12 +35,12 @@ class RichTextTemplate < ApplicationRecord
   extend Translatable
 
   class << self
-    def by_key!(key, home_id: nil)
-      where(key: key, home_id: [home_id, nil]).order(home_id: :ASC).take!
+    def by_key!(key)
+      where(key: key).order(home_id: :ASC).take!
     end
 
-    def by_key(key, home_id: nil)
-      by_key!(key, home_id: home_id)
+    def by_key(key)
+      by_key!(key)
     rescue ActiveRecord::RecordNotFound => e
       Rails.logger.warn(e.message)
       nil

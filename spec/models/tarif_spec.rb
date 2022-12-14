@@ -61,7 +61,7 @@ RSpec.describe Organisation, type: :model do
 
     # context 'with minimum_price_per_night' do
     #   before { tarif.update(minimum_price_per_night: 100.0) }
-    #   it { expect(booking.occupancy.nights).to eq(7) }
+    #   it { expect(booking.nights).to eq(7) }
     #   it { is_expected.to eq(700.0) }
     #   it { expect(tarif.minimum_price?(usage)).to be_truthy }
     # end

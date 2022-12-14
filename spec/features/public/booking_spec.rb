@@ -8,10 +8,10 @@ describe 'Booking', :devise, type: :feature do
   describe 'new', skip: true do
     context 'with correct information' do
       it 'cannot create new booking request' do
-        visit new_public_booking_path(booking: { occupancy_attributes: { begins_at: new_booking.occupancy.begins_at } })
+        visit new_public_booking_path(booking: { occupancy_attributes: { begins_at: new_booking.begins_at } })
         select home.name, from: :booking_home_id
         fill_in 'booking[occupancy_attributes][begins_at_date]',
-                with: I18n.l(new_booking.occupancy.begins_at_date, format: :short)
+                with: I18n.l(new_booking.begins_at_date, format: :short)
         fill_in 'booking[occupancy_attributes][ends_at_date]', with: 'invalid'
         fill_in :booking_email, with: new_booking.tenant.email
         fill_in :booking_tenant_organisation, with: new_booking.tenant_organisation
@@ -24,7 +24,7 @@ describe 'Booking', :devise, type: :feature do
       let(:path) do
         { booking: {
           occupancy_attributes: {
-            begins_at: new_booking.occupancy.begins_at, ends_at: new_booking.occupancy.ends_at
+            begins_at: new_booking.begins_at, ends_at: new_booking.ends_at
           }
         } }
       end

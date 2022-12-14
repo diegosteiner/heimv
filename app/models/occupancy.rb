@@ -28,98 +28,48 @@
 #
 
 class Occupancy < ApplicationRecord
+  COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
+  OCCUPANCY_TYPES = { free: 0, tentative: 1, occupied: 2, closed: 3 }.freeze
+
   include Timespanable
 
   timespan :begins_at, :ends_at
-  COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
   belongs_to :home
-  belongs_to :booking, inverse_of: :occupancy, optional: true, touch: true
+  belongs_to :booking, inverse_of: :occupancies, optional: true, touch: true
 
   has_one :organisation, through: :home
 
-  enum occupancy_type: { free: 0, tentative: 1, occupied: 2, closed: 3 }
+  enum occupancy_type: OCCUPANCY_TYPES
 
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :blocking, -> { where(occupancy_type: %i[tentative occupied closed]) }
 
+  before_validation :sync_with_booking
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
-  validates :begins_at, :ends_at, presence: true
-  validates :begins_at_date, :begins_at_time, :ends_at_date, :ends_at_time, presence: true
-  validate do
-    errors.add(:ends_at, :invalid) unless complete? && begins_at < ends_at
-  end
-  validate on: :public_create do
-    min = Time.zone.today.beginning_of_day
-    errors.add(:begins_at, :too_far_in_past) if begins_at && begins_at < min
-    errors.add(:ends_at, :too_far_in_past) if ends_at && ends_at < min
-  end
-  validate on: %i[public_create public_update] do
-    max = organisation&.settings&.booking_window&.from_now
-    next unless max
-
-    errors.add(:begins_at, :too_far_in_future) if begins_at && begins_at > max
-    errors.add(:ends_at, :too_far_in_future) if ends_at && ends_at > max
-  end
-  validate on: %i[public_create public_update] do
-    acceptable_hours = (7.hours)..(22.hours)
-    errors.add(:begins_at_time, :invalid) unless acceptable_hours.include?(begins_at&.seconds_since_midnight)
-    errors.add(:ends_at_time, :invalid) unless acceptable_hours.include?(ends_at&.seconds_since_midnight)
-  end
 
   def to_s
     "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)}"
   end
 
-  def today?(date = Time.zone.today)
-    ((begins_at.to_date)..(ends_at.to_date)).cover?(date)
-  end
-
-  def past?(at = Time.zone.now)
-    ends_at < at
-  end
-
-  def complete?
-    begins_at.present? && ends_at.present?
-  end
-
-  def overlapping(margin = 0)
-    return unless complete? && home.present?
+  def conflicting(margin = 0)
+    return if begins_at.blank? || ends_at.blank? || home.blank?
 
     margin ||= 0
-    home.occupancies.at(from: begins_at - margin, to: ends_at + margin)
-  end
-
-  def conflicting(margin = 0)
-    overlapping(margin)&.blocking&.where&.not(id: id)
-  end
-
-  def span
-    return unless complete?
-
-    begins_at..ends_at
-  end
-
-  def duration
-    return unless complete?
-
-    ActiveSupport::Duration.build(ends_at - begins_at)
-  end
-
-  def nights
-    return unless complete?
-
-    (ends_at.to_date - begins_at.to_date).to_i
+    home.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking.where.not(id: id)
   end
 
   def color=(value)
     super(value.presence) if value != color
   end
 
-  def override_color?
-    self[:color].present?
+  def color
+    super.presence || booking&.color
   end
 
-  def color
-    super.presence || home&.organisation&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
-  end
+  def sync_with_booking 
+    return if booking.blank?
+
+    assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
+                      occupancy_type: booking.occupancy_type)
+    end
 end

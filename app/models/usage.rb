@@ -29,8 +29,8 @@
 class Usage < ApplicationRecord
   PREFILL_METHODS = {
     flat: -> { 1 },
-    nights: -> { booking.occupancy.nights },
-    headcount_nights: -> { booking.occupancy.nights * (booking.approximate_headcount || 0) },
+    nights: -> { booking.nights },
+    headcount_nights: -> { booking.nights * (booking.approximate_headcount || 0) },
     headcount: -> { booking.approximate_headcount || 0 }
   }.with_indifferent_access.freeze
 
@@ -80,7 +80,7 @@ class Usage < ApplicationRecord
   end
 
   def updated_after_past?
-    updated_at > booking.occupancy.ends_at
+    updated_at > booking.ends_at
   end
 
   def enabled_by_condition?

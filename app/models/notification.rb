@@ -66,7 +66,7 @@ class Notification < ApplicationRecord
   def resolve_template
     return if rich_text_template_key.blank? || organisation.blank? || booking.blank?
 
-    organisation.rich_text_templates.enabled.by_key(rich_text_template_key, home_id: booking.home_id)
+    organisation.rich_text_templates.enabled.by_key(rich_text_template_key)
   end
 
   def apply_template(rich_text_template = resolve_template)
@@ -99,7 +99,7 @@ class Notification < ApplicationRecord
   end
 
   def context
-    super || { booking: booking, home: booking&.home, organisation: booking&.organisation, mail: self }
+    super || { booking: booking, organisation: booking&.organisation, mail: self }
   end
 
   def text

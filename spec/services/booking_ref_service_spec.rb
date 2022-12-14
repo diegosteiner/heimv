@@ -23,7 +23,7 @@ RSpec.describe BookingRefService, type: :model do
 
     context 'with default template and multiple bookings' do
       before do
-        create(:booking, home: booking.home, begins_at: begins_at - 4.hours, ends_at: begins_at - 2.hours)
+        create(:booking, homes: booking.homes, begins_at: begins_at - 4.hours, ends_at: begins_at - 2.hours)
       end
       it { is_expected.to eq('P20301015a') }
     end

@@ -6,7 +6,7 @@
           .me-3
             i.fa.fa-info-circle
           p.m-0= @booking.booking_state.t(:public_info)
-      - if @booking.occupancy.begins_at < @booking.organisation.settings.last_minute_warning.seconds.from_now
+      - if @booking.begins_at < @booking.organisation.settings.last_minute_warning.seconds.from_now
         .alert.alert-warning.d-flex
           .me-3
             i.fa.fa-exclamation-triangle
@@ -28,14 +28,14 @@
         = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
                                                     id: 'booking_occupancy_begins_at',
                                                     name: 'booking[occupancy_attributes][begins_at]',
-                                                    value: @booking.occupancy.begins_at&.iso8601,
+                                                    value: @booking.begins_at&.iso8601,
                                                     disabled: !@booking.editable?, required: true,
                                                     invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.begins_at') }.to_sentence)
 
         = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
                                                     id: 'booking_occupancy_ends_at',
                                                     name: 'booking[occupancy_attributes][ends_at]',
-                                                    value: @booking.occupancy.ends_at&.iso8601,
+                                                    value: @booking.ends_at&.iso8601,
                                                     disabled: !@booking.editable?, required: true,
                                                     invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.ends_at') }.to_sentence)
 

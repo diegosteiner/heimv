@@ -41,11 +41,11 @@ module BookingStates
     end
 
     infer_transition(to: :active) do |booking|
-      booking.occupancy.today? || booking.occupancy.past?
+      booking.today? || booking.past?
     end
 
     def relevant_time
-      booking.occupancy.begins_at
+      booking.begins_at
     end
   end
 end

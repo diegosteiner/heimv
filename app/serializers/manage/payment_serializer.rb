@@ -2,7 +2,7 @@
 
 module Manage
   class PaymentSerializer < ApplicationSerializer
-    DEFAULT_INCLUDES = 'booking.occupancy,booking.tenant,booking.home'
+    DEFAULT_INCLUDES = 'booking.occupancies,booking.tenant,booking.booking.occupancies.home'
 
     association :invoice, blueprint: Manage::InvoiceSerializer
 

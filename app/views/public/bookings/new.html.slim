@@ -19,13 +19,13 @@
             = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
                                                         id: 'booking_occupancy_begins_at',
                                                         name: 'booking[occupancy_attributes][begins_at]',
-                                                        value: @booking.occupancy.begins_at&.iso8601, required: true,
+                                                        value: @booking.begins_at&.iso8601, required: true,
                                                         invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.begins_at') }.to_sentence)
 
             = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
                                                         id: 'booking_occupancy_ends_at',
                                                         name: 'booking[occupancy_attributes][ends_at]',
-                                                        value: @booking.occupancy.ends_at&.iso8601, required: true,
+                                                        value: @booking.ends_at&.iso8601, required: true,
                                                         invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.ends_at') }.to_sentence)
             = f.email_field :email
             = f.text_field :tenant_organisation

@@ -15,19 +15,13 @@ class Booking
     attribute :ends_at_before, :datetime
     attribute :occupancy_type
 
-    def occupancy_filter
-      @occupancy_filter ||= Occupancy::Filter.new({ begins_at_before: begins_at_before,
-                                                    begins_at_after: begins_at_after,
-                                                    ends_at_before: ends_at_before,
-                                                    ends_at_after: ends_at_after })
-    end
-
-    filter :occupancy do |bookings|
-      bookings.where(occupancy: occupancy_filter.apply(Occupancy.where.not(booking: nil)))
+    filter :begins_at_ends_at do |occupancies|
+      occupancies.begins_at(after: begins_at_after, before: begins_at_before)
+                 .ends_at(after: ends_at_after, before: ends_at_before)
     end
 
     filter :occupancy_type do |bookings|
-      bookings.joins(:occupancy).merge(Occupancy.where(occupancy_type: occupancy_type)) if occupancy_type.present?
+      bookings.where(occupancy_type: occupancy_type) if occupancy_type.present?
     end
 
     filter :ref do |bookings|
@@ -36,7 +30,7 @@ class Booking
 
     filter :homes do |bookings|
       relevant_homes = Array.wrap(homes).compact_blank
-      bookings.where(home_id: relevant_homes) if relevant_homes.present?
+      bookings.where(home_ids: relevant_homes) if relevant_homes.present?
     end
 
     filter :categories do |bookings|

@@ -38,11 +38,11 @@ module DataDigestTemplates
       },
       {
         header: ::Occupancy.human_attribute_name(:begins_at),
-        body: '{{ booking.occupancy.begins_at | datetime_format }}'
+        body: '{{ booking.begins_at | datetime_format }}'
       },
       {
         header: ::Occupancy.human_attribute_name(:ends_at),
-        body: '{{ booking.occupancy.ends_at | datetime_format }}'
+        body: '{{ booking.ends_at | datetime_format }}'
       },
       {
         header: ::Booking.human_attribute_name(:purpose_description),
@@ -50,7 +50,7 @@ module DataDigestTemplates
       },
       {
         header: ::Occupancy.human_attribute_name(:nights),
-        body: '{{ booking.occupancy.nights }}'
+        body: '{{ booking.nights }}'
       },
       {
         header: ::Tenant.model_name.human,
@@ -72,7 +72,7 @@ module DataDigestTemplates
 
     column_type :default do
       body do |booking|
-        context = TemplateContext.new(booking: booking, organisation: booking.organisation, home: booking.home)
+        context = TemplateContext.new(booking: booking, organisation: booking.organisation)
         @templates[:body]&.render!(context.cached)
       end
     end
@@ -81,7 +81,7 @@ module DataDigestTemplates
       body do |booking|
         tarif = ::Tarif.find_by(id: @config[:tarif_id])
         context = TemplateContext.new(booking: booking, organisation: booking.organisation,
-                                      home: booking.home, usage: booking.usages.of_tarif(tarif).take)
+                                      usage: booking.usages.of_tarif(tarif).take)
         @templates[:body]&.render!(context.cached)
       end
     end

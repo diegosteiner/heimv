@@ -399,7 +399,6 @@ de:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           booking_margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
-        occupancy:
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
         tenant:
@@ -1201,8 +1200,8 @@ de:
           <p>Folgende Variabeln stehen zur Verfügung:</p>
           <h5>Buchung</h5>
           <dl>
-              <dt>Beginn der Belegung</dt><dd><pre>{{ booking.occupancy.begins_at | datetime_format }}</pre></dd><dd><pre>{{ booking.occupancy.begins_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
-              <dt>Ende der Belegung</dt><dd><pre>{{ booking.occupancy.ends_at | datetime_format }}</pre></dd><dd><pre>{{ booking.occupancy.ends_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
+              <dt>Beginn der Belegung</dt><dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd><dd><pre>{{ booking.begins_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
+              <dt>Ende der Belegung</dt><dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd><dd><pre>{{ booking.ends_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
               <dt>Erwartete Anzahl Personen</dt><dd><pre>{{ booking.approximate_headcount }}</pre></dd>
               <dt>Annulierungsgrund</dt><dd><pre>{{ booking.cancellation_reason }}</pre></dd>
               <dt>Verbindlichkeit der Mietanfrage</dt><dd><pre>{{ booking.committed_request }}</pre></dd>
@@ -1214,7 +1213,7 @@ de:
               <dt>Frist Verlängerbar für n Sekunden</dt><dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>
               <dt>Link für den Mieter</dt><dd><pre>{{ booking.links.edit }}</pre></dd>
               <dt>Link für den Vermieter</dt><dd><pre>{{ booking.links.manage }}</pre></dd>
-              <dt>Belegungstyp</dt><dd><pre>{{ booking.occupancy.occupancy_type }}</pre></dd>
+              <dt>Belegungstyp</dt><dd><pre>{{ booking.occupancy_type }}</pre></dd>
               <dt>Schlüssel der Mietkategorie</dt><dd><pre>{{ booking.category.key }}</pre></dd>
               <dt>Bezeichnung der Mietkategorie</dt><dd><pre>{{ booking.category.title }}</pre></dd>
               <dt>Beschreibung der Mietkategorie</dt><dd><pre>{{ booking.category.description }}</pre></dd>
@@ -1409,7 +1408,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1431,7 +1430,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1448,7 +1447,7 @@ de:
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
         </ul>
 
         <p>{{ booking.organisation.message_footer }}</p>
@@ -1464,7 +1463,7 @@ de:
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}</li>
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
         </ul>
 
         <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
@@ -1480,7 +1479,7 @@ de:
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Bearbeitungslink: <a href="{{booking.links.edit}}">{{booking.links.edit}}</a></li>
         </ul>
 
@@ -1499,7 +1498,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
@@ -1518,7 +1517,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1541,7 +1540,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1573,7 +1572,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1593,7 +1592,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1607,7 +1606,7 @@ de:
     invoices_deposit_text:
       default_body: |
         <p>{{ booking.ref }}
-        {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
+        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
         <h1>Anzahlung {{booking.home.name}}</h1>
       default_title: Anzahlung
@@ -1615,7 +1614,7 @@ de:
     invoices_invoice_text:
       default_body: |
         <p>{{ booking.ref }}
-        {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
+        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
         <h1>Rechnung {{booking.home.name}}</h1>
       default_title: Rechnung
@@ -1623,7 +1622,7 @@ de:
     invoices_late_notice_text:
       default_body: |
         <p>{{ booking.ref }}
-        {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
+        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
         <h1>Mahnung {{booking.home.name}}</h1>
       default_title: Mahnung
@@ -1645,7 +1644,7 @@ de:
         <ul>
           <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
-          <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
           <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
@@ -1665,7 +1664,7 @@ de:
         <ul>
           <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
-          <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
           <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
@@ -1689,7 +1688,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1711,7 +1710,7 @@ de:
         <ul>
           <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
-          <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
           <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
@@ -1731,7 +1730,7 @@ de:
         <ul>
           <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
-          <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
           <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
@@ -1767,7 +1766,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1785,7 +1784,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1803,7 +1802,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
@@ -1823,7 +1822,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
@@ -1845,7 +1844,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1891,7 +1890,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
@@ -1908,7 +1907,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
@@ -1922,7 +1921,7 @@ de:
       default_body: |
         <h1>Belegung {{ booking.ref }}</h1>
 
-        <p>{{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.address }}</p>
+        <p>{{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.address }}</p>
       default_title: Verbrauchsformular
       description: Text für Verbrauchsformular
   search: Suchen

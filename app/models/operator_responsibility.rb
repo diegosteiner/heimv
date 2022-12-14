@@ -61,13 +61,13 @@ class OperatorResponsibility < ApplicationRecord
       next existing_operator if existing_operator.present?
 
       matching(booking, responsibility).first&.dup&.tap do |operator_responsibility|
-        operator_responsibility.update(booking: booking, home: booking.home)
+        operator_responsibility.update(booking: booking)
       end
     end
   end
 
   def self.matching(booking, responsibility)
     booking.organisation.operator_responsibilities.ordered
-           .where(responsibility: responsibility, home: [booking.home, nil], booking: nil)
+           .where(responsibility: responsibility, home: (booking.homes + [nil]), booking: nil)
   end
 end

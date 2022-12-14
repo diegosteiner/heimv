@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :usage do
-    tarif { association :tarif, home: booking.home }
+    tarif { association :tarif, organisation: booking.organisation }
     used_units { 9.99 }
     remarks { 'Test' }
     booking

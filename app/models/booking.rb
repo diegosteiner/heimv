@@ -7,6 +7,7 @@
 #  id                     :uuid             not null, primary key
 #  accept_conditions      :boolean          default(FALSE)
 #  approximate_headcount  :integer
+#  begins_at              :datetime
 #  booking_flow_type      :string
 #  booking_state_cache    :string           default("initial"), not null
 #  cancellation_reason    :text
@@ -16,11 +17,13 @@
 #  conditions_accepted_at :datetime
 #  editable               :boolean          default(TRUE)
 #  email                  :string
+#  ends_at                :datetime
 #  import_data            :jsonb
 #  internal_remarks       :text
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
+#  occupancy_type         :integer
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
@@ -31,7 +34,6 @@
 #  updated_at             :datetime         not null
 #  booking_category_id    :integer
 #  deadline_id            :bigint
-#  home_id                :bigint           not null
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
 #
@@ -39,7 +41,6 @@
 #
 #  index_bookings_on_booking_state_cache  (booking_state_cache)
 #  index_bookings_on_deadline_id          (deadline_id)
-#  index_bookings_on_home_id              (home_id)
 #  index_bookings_on_locale               (locale)
 #  index_bookings_on_organisation_id      (organisation_id)
 #  index_bookings_on_ref                  (ref)
@@ -47,20 +48,19 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (home_id => homes.id)
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class Booking < ApplicationRecord
   include BookingStateConcern
+  include Timespanable
 
-  DEFAULT_INCLUDES = [:organisation, :home, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
+  DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :category, :booked_extras, :logs,
-                      { tenant: :organisation, deadline: :booking, occupancy: :home,
-                        agent_booking: %i[booking_agent organisation home] }].freeze
+                      { tenant: :organisation, deadline: :booking, occupancies: :home,
+                        agent_booking: %i[booking_agent organisation] }].freeze
 
   belongs_to :organisation, inverse_of: :bookings
-  belongs_to :home, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, optional: true
   belongs_to :deadline, inverse_of: :booking, optional: true
   belongs_to :category, inverse_of: :bookings, class_name: 'BookingCategory', optional: true,
@@ -79,10 +79,12 @@ class Booking < ApplicationRecord
   has_many :bookable_extras, through: :booked_extras
   has_many :logs, inverse_of: :booking, dependent: :destroy
 
-  has_one  :occupancy, inverse_of: :booking, dependent: :destroy, validate: true
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
   has_one_attached :usage_report
+
+  has_many :occupancies, inverse_of: :booking, dependent: :destroy, autosave: true
+  has_many :homes, through: :occupancies
 
   has_secure_token :token, length: 48
 
@@ -94,23 +96,26 @@ class Booking < ApplicationRecord
   validates :invoice_address, length: { maximum: 255 }
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
   validates :purpose_description, presence: true, on: :public_update
+  validates :color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
+  validates :begins_at_time, :ends_at_time, numericality: { in: (7.hours)..(22.hours) },
+                                            on: %i[public_create public_update]
 
   validate(on: %i[public_create public_update]) do
-    next errors.add(:base, :conflicting) if occupancy.conflicting.present?
-    next if home.blank? || occupancy.conflicting(organisation.settings.booking_margin).blank?
+    next errors.add(:base, :conflicting) if occupancies.any?(&:conflicting)
+    next if occupancies.map { |occupancy| occupancy.conflicting(organisation.settings.booking_margin) }.none?
 
     errors.add(:base, :booking_margin_too_small, margin: organisation.settings.booking_margin&.in_minutes&.to_i)
   end
 
-  scope :ordered, -> { joins(:occupancy).order(Occupancy.arel_table[:begins_at]) }
+  scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
-  scope :inconcluded, -> { where(concluded: false) }
 
-  before_validation :organisation, :occupancy, :set_tenant
+  enum occupancy_type: Occupancy::OCCUPANCY_TYPES
+
+  before_validation :set_tenant
+  before_validation { occupancies.each(&:sync_with_booking) }
   before_create :set_ref
-  after_create :reload
 
-  accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank, update_only: true
@@ -118,12 +123,13 @@ class Booking < ApplicationRecord
   delegate :to_s, to: :ref
   delegate :exceeded?, to: :deadline, prefix: true, allow_nil: true
 
-  def overnight_stays
-    occupancy.nights * approximate_headcount
-  end
+  timespan :begins_at, :ends_at
 
-  def actual_overnight_stays
-    usages.filter_map { |usage| usage.tarif.is_a?(Tarifs::OvernightStay) && usage.used_units }.compact.sum
+  def overnight_stays
+    return unless begins_at.present? && ends_at.present?
+
+    nights = (ends_at.to_date - begins_at.to_date).to_i
+    nights * approximate_headcount
   end
 
   def conclude
@@ -164,12 +170,12 @@ class Booking < ApplicationRecord
     super(attributes.merge(organisation: organisation || attributes[:organisation]))
   end
 
-  def occupancy
-    super || self.occupancy = build_occupancy(booking: self, home: home)
+  def override_color?
+    self[:color].present?
   end
 
-  def organisation
-    super || self.organisation = home&.organisation
+  def color
+    super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
   end
 
   private

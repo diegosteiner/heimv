@@ -10,7 +10,7 @@ module BookingActions
       end
 
       def allowed?
-        booking.deadline&.postponable? && booking.deadline.postponable_until < booking.occupancy.begins_at
+        booking.deadline&.postponable? && booking.deadline.postponable_until < booking.begins_at
       end
 
       def booking
