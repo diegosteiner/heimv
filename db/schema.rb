@@ -179,7 +179,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_13_203825) do
     t.boolean "accept_conditions", default: false
     t.datetime "begins_at"
     t.datetime "ends_at"
-    t.integer "occupancy_type"
+    t.integer "occupancy_type", default: 0, null: false
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["locale"], name: "index_bookings_on_locale"

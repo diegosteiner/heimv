@@ -22,7 +22,7 @@
 #
 class Booking
   class Log < ApplicationRecord
-    LOGGED_CHANGES_MAP = { 'booking' => Booking, 'occupancy' => Occupancy, 'tenant' => Tenant }.freeze
+    LOGGED_CHANGES_MAP = { 'booking' => Booking, 'tenant' => Tenant }.freeze
     belongs_to :booking, inverse_of: :logs
     belongs_to :user, inverse_of: :booking_logs, optional: true
 
@@ -51,7 +51,7 @@ class Booking
     end
 
     def logged_changes
-      changes = data&.slice('booking', 'tenant', 'occupancy')&.filter { |_key, value| value.present? } || []
+      changes = data&.slice('booking', 'tenant')&.filter { |_key, value| value.present? } || []
       changes.transform_keys { |key| LOGGED_CHANGES_MAP[key] }
     end
   end

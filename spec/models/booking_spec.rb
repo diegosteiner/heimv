@@ -23,7 +23,7 @@
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
-#  occupancy_type         :integer
+#  occupancy_type         :integer          default("free"), not null
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
@@ -95,30 +95,6 @@ describe Booking, type: :model do
         expect(booking.save).to be true
         expect(booking.tenant_id).to eq(existing_tenant.id)
       end
-    end
-  end
-
-  describe 'Occupancy', pending: true do
-    let(:booking_params) do
-      attributes_for(:booking).merge(occupancy_attributes: attributes_for(:occupancy),
-                                     tenant: tenant, homes: [home])
-    end
-
-    it 'creates all occupancy-related attributes in occupancy' do
-      expect(booking).to be_valid
-      expect(booking.save).to be true
-      expect(booking.occupancy).not_to be_new_record
-    end
-
-    it 'creates all occupancy-related attributes in occupancy' do
-      new_booking = described_class.create(booking_params)
-      expect(new_booking).to be_truthy
-      expect(new_booking.occupancy).not_to be_new_record
-    end
-
-    it 'updates all occupancy-related attributes in occupancy' do
-      update_booking = create(:booking)
-      expect(update_booking.update(booking_params)).to be true
     end
   end
 end

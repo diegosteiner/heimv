@@ -44,20 +44,19 @@ class Occupancy < ApplicationRecord
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :blocking, -> { where(occupancy_type: %i[tentative occupied closed]) }
 
-  before_validation :sync_with_booking
+  before_validation :update_from_booking
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate do
-    errors.add(:home_id, :invalid) unless home&.organisation&.==(booking&.organisation)
+    errors.add(:home_id, :invalid) if booking && organisation && !organisation == booking.organisation
   end
 
   def to_s
     "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)}"
   end
 
-  def conflicting(margin = 0)
+  def conflicting(margin = organisation&.settings&.booking_margin || 0)
     return if begins_at.blank? || ends_at.blank? || home.blank?
 
-    margin ||= 0
     home.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking.where.not(id: id)
   end
 
@@ -69,7 +68,7 @@ class Occupancy < ApplicationRecord
     super.presence || booking&.color
   end
 
-  def sync_with_booking
+  def update_from_booking
     return if booking.blank?
 
     assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,

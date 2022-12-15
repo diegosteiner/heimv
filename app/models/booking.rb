@@ -23,7 +23,7 @@
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
-#  occupancy_type         :integer
+#  occupancy_type         :integer          default("free"), not null
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
@@ -89,6 +89,7 @@ class Booking < ApplicationRecord
   has_secure_token :token, length: 48
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
+  validates :home_ids, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create
   validates :category, :tenant, presence: true, on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
@@ -97,14 +98,14 @@ class Booking < ApplicationRecord
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
   validates :purpose_description, presence: true, on: :public_update
   validates :color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
-  validates :begins_at_time, :ends_at_time, numericality: { in: (7.hours)..(22.hours) },
-                                            on: %i[public_create public_update]
 
   validate(on: %i[public_create public_update]) do
-    next errors.add(:base, :conflicting) if occupancies.any?(&:conflicting)
-    next if occupancies.map { |occupancy| occupancy.conflicting(organisation.settings.booking_margin) }.none?
+    next errors.add(:base, :conflicting) if conflicting_occupancies(0).any?
 
-    errors.add(:base, :booking_margin_too_small, margin: organisation.settings.booking_margin&.in_minutes&.to_i)
+    margin = organisation.settings.booking_margin
+    next if margin.zero? || confliction_occupancies(margin).none?
+
+    errors.add(:base, :booking_margin_too_small, margin: margin&.in_minutes&.to_i)
   end
 
   scope :ordered, -> { order(begins_at: :ASC) }
@@ -113,7 +114,7 @@ class Booking < ApplicationRecord
   enum occupancy_type: Occupancy::OCCUPANCY_TYPES
 
   before_validation :set_tenant
-  before_validation { occupancies.each(&:sync_with_booking) }
+  before_validation :update_occpancies
   before_create :set_ref
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -130,6 +131,10 @@ class Booking < ApplicationRecord
 
     nights = (ends_at.to_date - begins_at.to_date).to_i
     nights * approximate_headcount
+  end
+
+  def conflicting_occupancies(margin = 0)
+    occupancies.map { _1.conflicting(margin) }.flatten.compact
   end
 
   def conclude
@@ -150,6 +155,10 @@ class Booking < ApplicationRecord
 
   def update_deadline!
     deadlines.reload && update(deadline: deadlines.next.take)
+  end
+
+  def update_occpancies
+    occupancies.each(&:update_from_booking)
   end
 
   def invoice_address_lines

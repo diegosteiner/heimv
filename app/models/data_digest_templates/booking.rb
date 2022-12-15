@@ -37,11 +37,11 @@ module DataDigestTemplates
         body: '{{ booking.home.name }}'
       },
       {
-        header: ::Occupancy.human_attribute_name(:begins_at),
+        header: ::Booking.human_attribute_name(:begins_at),
         body: '{{ booking.begins_at | datetime_format }}'
       },
       {
-        header: ::Occupancy.human_attribute_name(:ends_at),
+        header: ::Booking.human_attribute_name(:ends_at),
         body: '{{ booking.ends_at | datetime_format }}'
       },
       {

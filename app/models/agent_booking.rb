@@ -42,6 +42,8 @@ class AgentBooking < ApplicationRecord
 
   has_secure_token :token, length: 48
 
+  accepts_nested_attributes_for :booking
+
   validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request
   validates :booking_agent_code, presence: true
   validate do

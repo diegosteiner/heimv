@@ -2,7 +2,7 @@ class AddBeginsAtAndEndsAtToBookings < ActiveRecord::Migration[7.0]
   def change
     add_column :bookings, :begins_at, :datetime, null: true
     add_column :bookings, :ends_at, :datetime, null: true
-    add_column :bookings, :occupancy_type, :integer, null: true
+    add_column :bookings, :occupancy_type, :integer, null: false, default: 0
     remove_reference :bookings, :home, index: true, foreign_key: true
 
     reversible do |direction|

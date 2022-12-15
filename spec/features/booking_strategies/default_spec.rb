@@ -12,19 +12,16 @@ describe 'Booking', :devise, type: :feature do
       create(:operator_responsibility, organisation: organisation, responsibility: responsibility)
     end
   end
-  let(:occupancy) do
-    begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
-    ends_at = begins_at + 1.week + 4.hours + 15.minutes
-    build(:occupancy, begins_at: begins_at, ends_at: ends_at)
-  end
   let!(:tarifs) { create_list(:tarif, 2, organisation: organisation) }
   let(:new_booking_path) do
-    new_public_booking_path(booking: { home_id: home.id, occupancy_attributes:
-      { begins_at: booking.begins_at.iso8601, ends_at: booking.ends_at.iso8601 } })
+    new_public_booking_path(booking: { home_id: home.id, begins_at: booking.begins_at.iso8601,
+                                       ends_at: booking.ends_at.iso8601 })
   end
   let(:booking) do
+    begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
     build(:booking,
-          occupancy: occupancy,
+          begins_at: begins_at,
+          ends_at: begins_at + 1.week + 4.hours + 15.minutes,
           organisation: organisation,
           homes: [home], tenant: nil,
           committed_request: false,
@@ -62,13 +59,13 @@ describe 'Booking', :devise, type: :feature do
     check_booking
   end
 
-  def fill_request_form(email:, begins_at:, ends_at:, home:)
-    select(home.to_s, from: 'booking_home_id')
+  def fill_request_form(email:, begins_at:, ends_at:, homes:)
+    homes.each { |home| select(home.to_s, from: 'booking_home_ids') }
     fill_in 'booking_email', with: email
-    fill_in 'booking_occupancy_begins_at_date', with: begins_at.strftime('%d.%m.%Y')
-    select(format('%02d', begins_at.hour), from: 'booking_occupancy_begins_at_hours')
-    fill_in 'booking_occupancy_ends_at_date', with: ends_at.strftime('%d.%m.%Y')
-    select(format('%02d', ends_at.hour), from: 'booking_occupancy_ends_at_hours')
+    fill_in 'booking_begins_at_date', with: begins_at.strftime('%d.%m.%Y')
+    select(format('%02d', begins_at.hour), from: 'booking_begins_at_hours')
+    fill_in 'booking_ends_at_date', with: ends_at.strftime('%d.%m.%Y')
+    select(format('%02d', ends_at.hour), from: 'booking_ends_at_hours')
     check 'booking_accept_conditions'
   end
 

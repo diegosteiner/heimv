@@ -11,7 +11,6 @@ module Public
 
     def new
       @booking = current_organisation.bookings.new(create_params)
-      @booking.organisation = current_organisation
       @booking.ends_at ||= @booking.begins_at
 
       respond_with :public, @booking

@@ -5,7 +5,7 @@ module Timespanable
 
   included do
     def past?(at = Time.zone.now)
-      send(@timespan_ends_at_attribute)&.<(at)
+      span&.end&.<(at)
     end
 
     def today?(date = Time.zone.today)
@@ -40,21 +40,14 @@ module Timespanable
       @timespan_begins_at_attribute = begins_at_attribute
       @timespan_ends_at_attribute = ends_at_attribute
 
-      # TODO: remove when getting rid of multiparam attributes
-      date_time_attribute begins_at_attribute, timezone: Time.zone.name
-      date_time_attribute ends_at_attribute, timezone: Time.zone.name
-
       define_timespan_scopes
-      define_timespan_validations
-    end
 
-    private
-
-    def define_timespan_validations
       validates timespan_begins_at_attribute, timespan_ends_at_attribute, presence: true
       validates timespan_ends_at_attribute, comparison: { greater_than_or_equal_to: timespan_begins_at_attribute },
                                             allow_blank: true
     end
+
+    private
 
     def define_timespan_scopes
       scope :begins_at, timespan_scope_lambda(arel_table[timespan_begins_at_attribute])

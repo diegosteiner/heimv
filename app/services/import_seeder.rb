@@ -50,7 +50,8 @@ class ImportSeeder
   end
 
   def bookings(home)
-    FactoryBot.create_list(:booking, 3, homes: [home], initial_state: :open_request, notifications_enabled: true)
+    FactoryBot.create_list(:booking, 3, homes: [home], organisation: home.organisation,
+                                        initial_state: :open_request, notifications_enabled: true)
   end
 
   def truncate

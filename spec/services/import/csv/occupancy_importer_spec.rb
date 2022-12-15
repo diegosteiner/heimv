@@ -56,7 +56,9 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         ENDCSV
       end
 
-      it { expect(result.records).to all(be_valid) }
+      it {
+        expect(result.records).to all(be_valid)
+      }
 
       it do
         occupancy = result.records.first

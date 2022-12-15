@@ -19,7 +19,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.occupancies.map(&:conflicting).none?
+      booking.conflicting_occupancies.none?
     end
 
     after_transition do |booking|

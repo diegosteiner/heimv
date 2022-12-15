@@ -76,6 +76,7 @@ it:
         title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
+        begins_at: Beginn der Belegung
         bookable_extra_ids: Buchbare Extras
         booking_agent_code: Vermittler-Code
         booking_agent_ref: Vermittler-Referenz
@@ -87,13 +88,15 @@ it:
         created_at: Erstellt am
         deadline: Frist bis
         editable: Durch Mieter bearbeitbar
+        ends_at: Ende der Belegung
         home: Heim
-        home_id: Heim
+        home_ids: Heime
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         locale: Sprache
         notifications_enabled: Aus der Applikation generierte Emails versenden
-        occupancy: Belegung
+        occupancies: Belegungen
+        occupancy_type: Art der Belegungen
         purpose_description: Beschreibung des Mietzwecks
         ref: Buchungsreferenz
         remarks: Bemerkungen

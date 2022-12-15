@@ -36,8 +36,8 @@ class MeterReadingPeriod < ApplicationRecord
   validates :start_value, :end_value, numericality: true, allow_nil: true
 
   before_validation do
-    self.begins_at ||= booking&.occupancy&.begins_at
-    self.ends_at ||= booking&.occupancy&.ends_at
+    self.begins_at ||= booking&.begins_at
+    self.ends_at ||= booking&.ends_at
     self.tarif ||= usage&.tarif
     infer_start_value
   end

@@ -14,7 +14,9 @@ module BookingStates
       Invoices::Invoice
     end
 
-    after_transition(&:occupied!)
+    after_transition do |booking|
+      booking.occupied!
+    end
 
     infer_transition(to: :past, &:past?)
 

@@ -9,7 +9,7 @@ module Manage
     association :deadline,      blueprint: Manage::DeadlineSerializer
     association :category,      blueprint: Manage::BookingCategorySerializer
 
-    fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request,
+    fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request, :color,
            :purpose_description, :approximate_headcount, :remarks, :home_ids, :begins_at, :ends_at, :occupancy_type
 
     field :operator_responsibilities do |booking|

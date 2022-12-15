@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Public::BookingParams do
-  let(:params_hash) { { booking: build(:booking).attributes } }
+  let(:params_hash) { { booking: build(:booking).attributes.merge(home_ids: [1]) } }
   let(:params) { ActionController::Parameters.new(params_hash) }
   let(:booking) { build_stubbed(:booking) }
 
