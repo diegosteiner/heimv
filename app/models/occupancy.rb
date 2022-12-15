@@ -46,6 +46,9 @@ class Occupancy < ApplicationRecord
 
   before_validation :sync_with_booking
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
+  validate do
+    errors.add(:home_id, :invalid) unless home&.organisation&.==(booking&.organisation)
+  end
 
   def to_s
     "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)}"
@@ -66,10 +69,10 @@ class Occupancy < ApplicationRecord
     super.presence || booking&.color
   end
 
-  def sync_with_booking 
+  def sync_with_booking
     return if booking.blank?
 
     assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
                       occupancy_type: booking.occupancy_type)
-    end
+  end
 end

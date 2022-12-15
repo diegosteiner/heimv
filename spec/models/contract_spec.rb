@@ -26,7 +26,8 @@
 require 'rails_helper'
 
 RSpec.describe Contract, type: :model do
-  let(:booking) { create(:booking) }
+  let(:organisation) { create(:organisation) }
+  let(:booking) { create(:booking, organisation: organisation) }
   let(:contract) { build(:contract, booking: booking) }
 
   describe '#save' do

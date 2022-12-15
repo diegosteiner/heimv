@@ -57,7 +57,7 @@ describe Booking, type: :model do
   let(:organisation) { home.organisation }
   let(:tenant) { create(:tenant, organisation: organisation) }
   let(:home) { create(:home) }
-  let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
+  let(:booking) { build(:booking, tenant: tenant, homes: [home], organisation: organisation) }
 
   describe '#locale' do
     it 'has default locale' do
@@ -85,7 +85,7 @@ describe Booking, type: :model do
     end
 
     context 'with existing tenant' do
-      let(:booking) { build(:booking, tenant: nil, home: home, organisation: organisation) }
+      let(:booking) { build(:booking, tenant: nil, homes: [home], organisation: organisation) }
       let(:existing_tenant) { create(:tenant, organisation: organisation) }
       let(:tenant) { nil }
 
@@ -101,7 +101,7 @@ describe Booking, type: :model do
   describe 'Occupancy', pending: true do
     let(:booking_params) do
       attributes_for(:booking).merge(occupancy_attributes: attributes_for(:occupancy),
-                                     tenant: tenant, home: home)
+                                     tenant: tenant, homes: [home])
     end
 
     it 'creates all occupancy-related attributes in occupancy' do

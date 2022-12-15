@@ -52,6 +52,8 @@ class BookingCondition < ApplicationRecord
     booking_conditions.map do |condition|
       condition.evaluate(booking) || (condition.must_condition ? false : nil)
     end.compact.all?
+
+    # TODO: rescue?
   end
 
   def distinction_match

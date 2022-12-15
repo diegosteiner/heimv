@@ -12,7 +12,7 @@ describe Public::BookingParams do
 
     it do
       expect(subject).to be_permitted
-      expect(subject.keys).to include('home_id', 'tenant_organisation')
+      expect(subject.keys).to include('home_ids', 'begins_at', 'ends_at', 'tenant_organisation')
     end
   end
 
@@ -22,7 +22,7 @@ describe Public::BookingParams do
     it do
       expect(subject).to be_permitted
       expect(subject.keys).to include('tenant_organisation')
-      expect(subject.keys).not_to include('home_id')
+      expect(subject.keys).not_to include('home_ids')
     end
   end
 end

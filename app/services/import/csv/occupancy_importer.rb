@@ -69,7 +69,7 @@ module Import
       actor :booking do |occupancy, row|
         next unless occupancy.tentative? || occupancy.occupied?
 
-        @booking_importer.import_row(row, initial: organisation.bookings.new(home: home, occupancy: occupancy))
+        @booking_importer.import_row(row, initial: organisation.bookings.new(occupancies: [occupancy]))
       end
     end
   end

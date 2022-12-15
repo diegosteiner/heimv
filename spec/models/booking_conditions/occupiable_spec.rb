@@ -36,7 +36,7 @@ RSpec.describe BookingConditions::Occupiable, type: :model do
     let(:booking_condition) { described_class.new(distinction: distinction, organisation: organisation) }
     let(:booking) { create(:booking, organisation: organisation) }
     let(:organisation) { create(:organisation) }
-    let(:occupiable) { create(:home, organisation: organisation, name: 'Testheim') }
+    let(:occupiable) { create(:home, organisation: organisation) }
 
     context 'without category' do
       it { is_expected.to be_falsy }
@@ -45,7 +45,8 @@ RSpec.describe BookingConditions::Occupiable, type: :model do
 
     context 'with occupiable by id' do
       let(:distinction) { occupiable.id }
-      let(:booking) { create(:booking, organisation: organisation, home: occupiable) }
+      let(:booking) { create(:booking, organisation: organisation, homes: [occupiable]) }
+
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_truthy }
     end

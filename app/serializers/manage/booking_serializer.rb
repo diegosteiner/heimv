@@ -3,6 +3,7 @@
 module Manage
   class BookingSerializer < Public::BookingSerializer
     association :homes,         blueprint: Manage::HomeSerializer
+    association :home,          blueprint: Manage::HomeSerializer
     association :occupancies,   blueprint: Public::OccupancySerializer
     association :tenant,        blueprint: Manage::TenantSerializer
     association :deadline,      blueprint: Manage::DeadlineSerializer

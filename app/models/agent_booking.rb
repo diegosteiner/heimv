@@ -37,7 +37,7 @@
 
 class AgentBooking < ApplicationRecord
   belongs_to :booking_agent, inverse_of: :agent_bookings
-  belongs_to :booking, inverse_of: :agent_bookinge, autosave: true, touch: true
+  belongs_to :booking, inverse_of: :agent_booking, autosave: true, touch: true
   belongs_to :organisation
 
   has_secure_token :token, length: 48

@@ -3,22 +3,21 @@
 require 'rails_helper'
 
 RSpec.describe Usage::Factory, type: :model do
-  let(:booking) { create(:booking, initial_state: :awaiting_contract, home: home) }
+  let(:booking) { create(:booking, initial_state: :awaiting_contract) }
+  let(:organisation) { booking.organisation }
   let(:builder) { described_class.new(booking) }
 
   describe '#build' do
     subject { builder.build }
 
-    let(:home) { create(:home) }
-    let!(:used_home_tarif) { create(:tarif, organisation: home.organisation, pin: true) }
-    let!(:home_tarifs) { create_list(:tarif, 3, organisation: home.organisation, pin: true) }
-    let!(:booking_tarifs) { create_list(:tarif, 4, organisation: home.organisation) }
-    let!(:existing_usage) { create(:usage, booking: booking, tarif: used_home_tarif) }
+    let!(:used_tarif) { create(:tarif, organisation: organisation, pin: true) }
+    let!(:tarifs) { create_list(:tarif, 3, organisation: organisation, pin: true) }
+    let!(:existing_usage) { create(:usage, booking: booking, tarif: used_tarif) }
 
     it do
       expect(subject).to(be_all { |actual| actual.is_a?(Usage) })
       tarif_ids = subject.map(&:tarif_id)
-      expect(tarif_ids).to include(*home_tarifs.map(&:id))
+      expect(tarif_ids).to include(*tarifs.map(&:id))
       expect(tarif_ids).not_to include(existing_usage.id)
     end
   end

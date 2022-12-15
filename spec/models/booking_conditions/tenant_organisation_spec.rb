@@ -34,8 +34,9 @@ RSpec.describe BookingConditions::TenantOrganisation, type: :model do
     subject { booking_condition.evaluate(booking) }
     let(:distinction) { '' }
     let(:tenant_organisation) { 'test' }
-    let(:booking_condition) { described_class.new(distinction: distinction, organisation: booking.organisation) }
-    let(:booking) { create(:booking, tenant_organisation: tenant_organisation) }
+    let(:booking_condition) { described_class.new(distinction: distinction, organisation: organisation) }
+    let(:organisation) { create(:organisation) }
+    let(:booking) { create(:booking, organisation: organisation, tenant_organisation: tenant_organisation) }
 
     it { is_expected.to be_falsy }
 

@@ -178,6 +178,10 @@ class Booking < ApplicationRecord
     super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
   end
 
+  def home
+    homes.first
+  end
+
   private
 
   def reject_tenant_attributes?(tenant_attributes)

@@ -31,8 +31,9 @@ RSpec.describe BookingConditions::BookingApproximateHeadcountPerNight, type: :mo
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
     let(:distinction) { '' }
-    let(:booking_condition) { described_class.new(distinction: distinction, organisation: booking.organisation) }
-    let(:booking) { create(:booking, approximate_headcount: 10) }
+    let(:organisation) { create(:organisation) }
+    let(:booking_condition) { described_class.new(distinction: distinction, organisation: organisation) }
+    let(:booking) { create(:booking, approximate_headcount: 10, organisation: organisation) }
 
     it { is_expected.to be_falsy }
 

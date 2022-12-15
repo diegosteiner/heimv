@@ -33,9 +33,10 @@ RSpec.describe BookingConditions::BookingOvernightStays, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
     let(:distinction) { '' }
-    let(:booking_condition) { described_class.new(distinction: distinction, organisation: booking.organisation) }
+    let(:booking_condition) { described_class.new(distinction: distinction, organisation: organisation) }
+    let(:organisation) { create(:organisation) }
     let(:booking) do
-      create(:booking, approximate_headcount: 10,
+      create(:booking, approximate_headcount: 10, organisation: organisation,
                        begins_at: 4.weeks.from_now, ends_at: 5.weeks.from_now)
     end
 

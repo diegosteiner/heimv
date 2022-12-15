@@ -53,6 +53,7 @@
 
 FactoryBot.define do
   factory :booking do
+    organisation
     sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
     sequence(:begins_at) { |i| (Time.zone.now + i.month).change(hour: 9, minute: 0) }
     ends_at { (begins_at + 1.week).change(hour: 14, minute: 0) }
@@ -63,10 +64,10 @@ FactoryBot.define do
     notifications_enabled { true }
     purpose_description { 'Pfadilager Test' }
     skip_infer_transitions { true }
+    homes { build_list :home, 1, organisation: organisation }
     transient do
       initial_state { nil }
-      tenant { association :tenant, organisation: organisation, email: email }
-      homes { build_list :home, 1, organisation: organisation }
+      tenant { build :tenant, organisation: organisation, email: email }
     end
 
     after(:build) do |booking, evaluator|

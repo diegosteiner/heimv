@@ -39,7 +39,8 @@ require 'rails_helper'
 
 RSpec.describe AgentBooking, type: :model do
   describe '#assign_booking_agent' do
-    let(:booking) { create(:booking) }
+    let(:organisation) { create(:organisation) }
+    let(:booking) { create(:booking, organisation: organisation) }
     let(:agent_booking) { build(:agent_booking, booking: booking) }
     let(:booking_agent) { create(:booking_agent, organisation: booking.organisation, code: 'CODE123') }
 
