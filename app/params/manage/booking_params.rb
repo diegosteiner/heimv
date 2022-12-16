@@ -6,7 +6,7 @@ module Manage
       permitted_keys = super
       nested_keys = permitted_keys.extract_options!
       permitted_keys + %i[tenant_id notifications_enabled internal_remarks transition_to
-                          cancellation_reason editable usage_report color] +
+                          cancellation_reason editable usage_report occupancy_color] +
         [nested_keys.merge(usages_attributes: UsageParams.permitted_keys + %i[_destroy id],
                            tenant_attributes: TenantParams.permitted_keys,
                            agent_booking_attributes: Public::AgentBookingParams.permitted_keys,

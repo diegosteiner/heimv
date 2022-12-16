@@ -84,7 +84,10 @@ class DataDigest < ApplicationRecord
   def crunch
     columns = data_digest_template.columns
     self.data = records.map do |record|
-      columns.map { |column| column.body(record) }
+      template_context_cache = {}
+      columns.map do |column|
+        column.body(record, template_context_cache)
+      end
     end
   end
 

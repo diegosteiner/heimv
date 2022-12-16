@@ -18,10 +18,10 @@
                                                 value: @booking.ends_at&.iso8601, required: true,
                                                 invalidFeedback: @booking.errors[:ends_at].to_sentence)
 
-    = f.label :color
-    = f.check_box :color, { id: 'toggle_booking_color', checked: @booking.override_color?, \
-                              data: { 'bs-toggle' => "disable", 'bs-target' => "#booking_color" } }, "1", "" 
-      = f.color_field :color, hide_label: true, style: 'min-width: 5em;'
+    = f.label :occupancy_color
+    = f.check_box :occupancy_color, { id: 'toggle_booking_occupancy_color', checked: @booking.override_occupancy_color?, \
+                              data: { 'bs-toggle' => "disable", 'bs-target' => "#booking_occupancy_color" } }, "1", "" 
+      = f.color_field :occupancy_color, hide_label: true, style: 'min-width: 5em;'
 
   fieldset.mt-3
     h5.mt-0= Booking.human_attribute_name(:tenant)

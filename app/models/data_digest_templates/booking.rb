@@ -49,7 +49,7 @@ module DataDigestTemplates
         body: "{{ booking.purpose_description }}\n{{ booking.category.title }}"
       },
       {
-        header: ::Occupancy.human_attribute_name(:nights),
+        header: ::Booking.human_attribute_name(:nights),
         body: '{{ booking.nights }}'
       },
       {
@@ -71,18 +71,20 @@ module DataDigestTemplates
     ].freeze
 
     column_type :default do
-      body do |booking|
-        context = TemplateContext.new(booking: booking, organisation: booking.organisation)
-        @templates[:body]&.render!(context.cached)
+      body do |booking, template_context_cache|
+        context = template_context_cache[cache_key(booking)] ||=
+          TemplateContext.new(booking: booking, organisation: booking.organisation).to_h
+        @templates[:body]&.render!(context)
       end
     end
 
     column_type :usage do
-      body do |booking|
+      body do |booking, template_context_cache|
         tarif = ::Tarif.find_by(id: @config[:tarif_id])
-        context = TemplateContext.new(booking: booking, organisation: booking.organisation,
-                                      usage: booking.usages.of_tarif(tarif).take)
-        @templates[:body]&.render!(context.cached)
+        context = template_context_cache[cache_key(booking)] ||=
+          TemplateContext.new(booking: booking, organisation: booking.organisation,
+                              usage: booking.usages.of_tarif(tarif).take).to_h
+        @templates[:body]&.render!(context)
       end
     end
 

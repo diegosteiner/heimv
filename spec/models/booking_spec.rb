@@ -11,7 +11,6 @@
 #  booking_flow_type      :string
 #  booking_state_cache    :string           default("initial"), not null
 #  cancellation_reason    :text
-#  color                  :string
 #  committed_request      :boolean
 #  concluded              :boolean          default(FALSE)
 #  conditions_accepted_at :datetime
@@ -23,6 +22,7 @@
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
+#  occupancy_color        :string
 #  occupancy_type         :integer          default("free"), not null
 #  purpose_description    :string
 #  ref                    :string

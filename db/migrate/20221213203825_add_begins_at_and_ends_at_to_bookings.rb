@@ -4,6 +4,7 @@ class AddBeginsAtAndEndsAtToBookings < ActiveRecord::Migration[7.0]
     add_column :bookings, :ends_at, :datetime, null: true
     add_column :bookings, :occupancy_type, :integer, null: false, default: 0
     remove_reference :bookings, :home, index: true, foreign_key: true
+    rename_column :bookings, :color, :occupancy_color
 
     reversible do |direction|
       direction.up do 
@@ -26,6 +27,7 @@ class AddBeginsAtAndEndsAtToBookings < ActiveRecord::Migration[7.0]
       rtts.replace_in_template!("booking.occupancy.ends_at", "booking.ends_at")
       rtts.replace_in_template!("booking.occupancy.occupancy_type", "booking.occupancy_type")
       rtts.replace_in_template!("booking.home_id ==", "booking.home_id contains")
+      # rtts.replace_in_template!("booking.home.", "booking.homes | map: \"\" | join: \", \"")
     end
   end
 end

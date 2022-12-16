@@ -11,7 +11,6 @@
 #  booking_flow_type      :string
 #  booking_state_cache    :string           default("initial"), not null
 #  cancellation_reason    :text
-#  color                  :string
 #  committed_request      :boolean
 #  concluded              :boolean          default(FALSE)
 #  conditions_accepted_at :datetime
@@ -23,6 +22,7 @@
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
+#  occupancy_color        :string
 #  occupancy_type         :integer          default("free"), not null
 #  purpose_description    :string
 #  ref                    :string
@@ -86,7 +86,9 @@ class Booking < ApplicationRecord
   has_many :occupancies, inverse_of: :booking, dependent: :destroy, autosave: true
   has_many :homes, through: :occupancies
 
+  timespan :begins_at, :ends_at
   has_secure_token :token, length: 48
+  enum occupancy_type: Occupancy::OCCUPANCY_TYPES
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
   validates :home_ids, presence: true, on: %i[public_update public_create]
@@ -97,7 +99,7 @@ class Booking < ApplicationRecord
   validates :invoice_address, length: { maximum: 255 }
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
   validates :purpose_description, presence: true, on: :public_update
-  validates :color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
+  validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
 
   validate(on: %i[public_create public_update]) do
     next errors.add(:base, :conflicting) if conflicting_occupancies(0).any?
@@ -111,8 +113,6 @@ class Booking < ApplicationRecord
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
-  enum occupancy_type: Occupancy::OCCUPANCY_TYPES
-
   before_validation :set_tenant
   before_validation :update_occpancies
   before_create :set_ref
@@ -123,8 +123,6 @@ class Booking < ApplicationRecord
 
   delegate :to_s, to: :ref
   delegate :exceeded?, to: :deadline, prefix: true, allow_nil: true
-
-  timespan :begins_at, :ends_at
 
   def overnight_stays
     return unless begins_at.present? && ends_at.present?
@@ -179,11 +177,11 @@ class Booking < ApplicationRecord
     super(attributes.merge(organisation: organisation || attributes[:organisation]))
   end
 
-  def override_color?
-    self[:color].present?
+  def override_occupancy_color?
+    self[:occupancy_color].present?
   end
 
-  def color
+  def occupancy_color
     super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
   end
 

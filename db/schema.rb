@@ -174,7 +174,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_13_203825) do
     t.string "booking_flow_type"
     t.string "token"
     t.datetime "conditions_accepted_at", precision: nil
-    t.string "color"
+    t.string "occupancy_color"
     t.string "purpose_description"
     t.boolean "accept_conditions", default: false
     t.datetime "begins_at"

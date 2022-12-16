@@ -65,7 +65,7 @@ class Occupancy < ApplicationRecord
   end
 
   def color
-    super.presence || booking&.color
+    super.presence || booking&.occupancy_color
   end
 
   def update_from_booking

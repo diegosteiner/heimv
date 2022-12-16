@@ -83,7 +83,6 @@ de:
         booking_category_id: Mietkategorie
         cancellation_reason: Annulierungsgrund
         category: Mietkategorie
-        color: Farbe im Kalender
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         deadline: Frist bis
@@ -94,8 +93,10 @@ de:
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         locale: Sprache
+        nights: Nächte
         notifications_enabled: Aus der Applikation generierte Emails versenden
         occupancies: Belegungen
+        occupancy_color: Farbe im Kalender
         occupancy_type: Art der Belegungen
         purpose_description: Beschreibung des Mietzwecks
         ref: Buchungsreferenz
@@ -206,7 +207,6 @@ de:
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
         home_id: Heim
-        nights: Nächte
         occupancy_type: Belegungsart
         remarks: Bemerkungen
       operator:

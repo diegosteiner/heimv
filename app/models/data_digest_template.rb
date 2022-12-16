@@ -108,6 +108,10 @@ class DataDigestTemplate < ApplicationRecord
       @templates = @config.slice(*@blocks.keys).transform_values { |template| Liquid::Template.parse(template) }
     end
 
+    def column_type
+      @config.fetch(:type, :default)
+    end
+
     def header
       @header ||= instance_exec(&(@blocks[:header] || -> { @templates[:header]&.render! }))
     end
@@ -116,8 +120,12 @@ class DataDigestTemplate < ApplicationRecord
       @footer ||= instance_exec(&(@blocks[:footer] || -> { @templates[:footer]&.render! }))
     end
 
-    def body(record)
-      instance_exec(record, &(@blocks[:body] || -> { @templates[:body]&.render! }))
+    def body(record, template_context_cache = {})
+      instance_exec(record, template_context_cache, &(@blocks[:body] || -> { @templates[:body]&.render! }))
+    end
+
+    def cache_key(record)
+      [column_type, record.class, record.id].join(':')
     end
   end
 end
