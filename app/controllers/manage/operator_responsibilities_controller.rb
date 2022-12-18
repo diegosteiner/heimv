@@ -4,7 +4,7 @@ module Manage
   class OperatorResponsibilitiesController < BaseController
     load_and_authorize_resource :booking
     load_and_authorize_resource :operator_responsibility, through: :booking, shallow: true
-    before_action :set_homes, :set_operators, only: %i[new create edit update]
+    before_action :set_operators, only: %i[new create edit update]
 
     def index
       @operator_responsibilities = @operator_responsibilities.ordered
@@ -20,13 +20,13 @@ module Manage
 
     def edit
       @booking ||= @operator_responsibility.booking
+      @operator_responsibility.assigning_conditions.build if @booking.nil?
       respond_with :manage, @operator_responsibility
     end
 
     def create
       @booking ||= @operator_responsibility.booking
-      @operator_responsibility.assign_attributes(organisation: current_organisation,
-                                                 home: @booking&.home, booking: @booking)
+      @operator_responsibility.assign_attributes(organisation: current_organisation, booking: @booking)
       @operator_responsibility.update(operator_responsibility_params)
       respond_with :manage, @operator_responsibility, location: return_to_path
     end
@@ -45,10 +45,6 @@ module Manage
 
     private
 
-    def set_homes
-      @homes = current_organisation.homes.accessible_by(current_ability)
-    end
-
     def set_operators
       @operators = current_organisation.operators.accessible_by(current_ability)
     end
@@ -60,8 +56,9 @@ module Manage
     end
 
     def operator_responsibility_params
-      params.require(:operator_responsibility).permit(:operator_id, :home_id, :booking_id,
-                                                      :ordinal_position, :responsibility, :remarks)
+      params.require(:operator_responsibility)
+            .permit(:operator_id, :booking_id, :ordinal_position, :responsibility, :remarks,
+                    assigning_conditions_attributes: BookingConditionParams.permitted_keys + %i[id _destroy])
     end
   end
 end

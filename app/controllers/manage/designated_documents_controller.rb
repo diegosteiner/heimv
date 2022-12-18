@@ -40,9 +40,8 @@ module Manage
     def designated_document_params
       params[:designated_document]&.permit(:designation, :file, :locale, :remarks, :name,
                                            :send_with_contract, :send_with_last_infos,
-                                           attaching_conditions_attributes: BookingConditionParams.permitted_keys + %i[
-                                             id _destroy
-                                           ])
+                                           attaching_conditions_attributes: BookingConditionParams.permitted_keys +
+                                             %i[id _destroy])
     end
   end
 end

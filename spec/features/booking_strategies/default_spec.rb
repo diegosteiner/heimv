@@ -9,7 +9,8 @@ describe 'Booking', :devise, type: :feature do
   let(:tenant) { create(:tenant, organisation: organisation) }
   let!(:responsibilities) do
     OperatorResponsibility.responsibilities.keys.map do |responsibility|
-      create(:operator_responsibility, organisation: organisation, responsibility: responsibility)
+      create(:operator_responsibility, organisation: organisation, responsibility: responsibility,
+                                       assigning_conditions: [BookingConditions::AlwaysApply.new])
     end
   end
   let!(:tarifs) { create_list(:tarif, 2, organisation: organisation) }
