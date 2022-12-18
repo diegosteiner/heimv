@@ -66,14 +66,14 @@ class Booking < ApplicationRecord
   belongs_to :category, inverse_of: :bookings, class_name: 'BookingCategory', optional: true,
                         foreign_key: :booking_category_id
 
-  has_many :invoices, dependent: :destroy, autosave: false
-  has_many :payments, dependent: :destroy, autosave: false
+  has_many :invoices, dependent: :destroy
+  has_many :payments, dependent: :destroy
   has_many :notifications, dependent: :destroy, inverse_of: :booking, autosave: true, validate: false
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :tarifs, through: :usages, inverse_of: :bookings
-  has_many :contracts, -> { ordered }, dependent: :destroy, autosave: false, inverse_of: :booking
+  has_many :contracts, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
-  has_many :state_transitions, dependent: :delete_all, autosave: false
+  has_many :state_transitions, dependent: :delete_all
   has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
   has_many :booked_extras, inverse_of: :booking, dependent: :destroy
   has_many :bookable_extras, through: :booked_extras

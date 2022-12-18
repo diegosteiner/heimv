@@ -152,9 +152,9 @@ de:
         remarks: Bemerkungen
         responsible: Verantwortlich
       designated_document:
+        attaching_conditions: Bedingungen
         designation: Art des Dokuments
         file: Datei
-        home_id: Heim
         locale: Sprache
         name: Name
         remarks: Bemerkungen

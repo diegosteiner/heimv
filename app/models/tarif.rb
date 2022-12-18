@@ -51,15 +51,10 @@ class Tarif < ApplicationRecord
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
-  # rubocop:disable Rails/InverseOf
-  has_many :selecting_conditions, lambda {
-                                    where(group: :selecting)
-                                  }, as: :qualifiable, dependent: :destroy, class_name: :BookingCondition
-  has_many :enabling_conditions, lambda {
-                                   where(group: :enabling)
-                                 }, as: :qualifiable, dependent: :destroy, class_name: :BookingCondition
-  # rubocop:enable Rails/InverseOf
-
+  has_many :selecting_conditions, -> { qualifiable_group(:selecting) }, as: :qualifiable, dependent: :destroy,
+                                                                        class_name: :BookingCondition, inverse_of: false
+  has_many :enabling_conditions, -> { qualifiable_group(:enabling) }, as: :qualifiable, dependent: :destroy,
+                                                                      class_name: :BookingCondition, inverse_of: false
   scope :ordered, -> { order(:ordinal) }
   scope :pinned, -> { where(pin: true) }
   scope :include_conditions, -> { includes(:selecting_conditions, :enabling_conditions) }
@@ -77,6 +72,8 @@ class Tarif < ApplicationRecord
                                                       reject_if: :reject_booking_conditition_attributes?
   accepts_nested_attributes_for :selecting_conditions, allow_destroy: true,
                                                        reject_if: :reject_booking_conditition_attributes?
+
+  before_validation :update_booking_conditions
 
   def unit_prefix
     self.class.human_attribute_name(:unit_prefix, default: '')
@@ -102,6 +99,11 @@ class Tarif < ApplicationRecord
 
   def reject_booking_conditition_attributes?(attributes)
     attributes[:type].blank?
+  end
+
+  def update_booking_conditions
+    enabling_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :enabling) }
+    selecting_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :selecting) }
   end
 
   private

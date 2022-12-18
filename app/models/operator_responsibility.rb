@@ -49,6 +49,19 @@ class OperatorResponsibility < ApplicationRecord
   validates :responsibility, uniqueness: { scope: :booking_id }, if: :booking_id
   ranks :ordinal, with_same: :organisation_id
 
+  # before_validation :update_booking_conditions
+
+  # accepts_nested_attributes_for :assigning_conditions, allow_destroy: true,
+  #                                                      reject_if: :reject_booking_conditition_attributes?
+
+  # def reject_booking_conditition_attributes?(attributes)
+  #   attributes[:type].blank?
+  # end
+
+  # def update_booking_conditions
+  #   assigning_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :assigning) }
+  # end
+
   def self.for(booking, *responsibilities)
     responsibilities.map do |responsibility|
       where(booking: booking, responsibility: responsibility).first

@@ -13,12 +13,10 @@
 #  send_with_last_infos :boolean          default(FALSE)
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  home_id              :bigint
 #  organisation_id      :bigint           not null
 #
 # Indexes
 #
-#  index_designated_documents_on_home_id          (home_id)
 #  index_designated_documents_on_organisation_id  (organisation_id)
 #
 FactoryBot.define do

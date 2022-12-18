@@ -24,7 +24,6 @@
 # Foreign Keys
 #
 #  fk_rails_...  (organisation_id => organisations.id)
-#  fk_rails_...  (qualifiable_id => tarifs.id)
 #
 
 class BookingCondition < ApplicationRecord
@@ -33,7 +32,7 @@ class BookingCondition < ApplicationRecord
   belongs_to :qualifiable, polymorphic: true, optional: true
   belongs_to :organisation
 
-  before_validation :set_organisation
+  scope :qualifiable_group, ->(group) { where(group: group) }
 
   def self.distinction_regex
     //
@@ -67,11 +66,17 @@ class BookingCondition < ApplicationRecord
     "#{model_name.human}: #{distinction}"
   end
 
-  def set_organisation
-    self.organisation ||= qualifiable.try(:organisation)
+  def qualifiable=(value)
+    self.organisation ||= value.try(:organisation)
+    super
   end
 
   def evaluate(booking)
     booking.present?
+  end
+
+  def self.polymorphic_association(name, group, **options)
+    default_options = { as: :qualifiable, dependent: :destroy, class_name: to_s }
+    [name, -> { where(group: group) }, default_options.merge(options)]
   end
 end

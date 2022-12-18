@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_13_203825) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_18_132137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -245,13 +245,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_13_203825) do
     t.string "locale"
     t.text "remarks"
     t.bigint "organisation_id", null: false
-    t.bigint "home_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "send_with_contract", default: false, null: false
     t.boolean "send_with_last_infos", default: false
-    t.index ["home_id"], name: "index_designated_documents_on_home_id"
     t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
   end
 
@@ -440,13 +438,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_13_203825) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
-    t.bigint "home_id"
     t.jsonb "title_i18n", default: {}
     t.jsonb "body_i18n", default: {}
     t.jsonb "body_i18n_markdown", default: {}
     t.boolean "enabled", default: true
-    t.index ["home_id"], name: "index_rich_text_templates_on_home_id"
-    t.index ["key", "home_id", "organisation_id"], name: "index_rich_text_templates_on_key_and_home_and_organisation", unique: true
+    t.index ["key", "organisation_id"], name: "index_rich_text_templates_on_key_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"
   end
 
@@ -558,7 +554,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_13_203825) do
   add_foreign_key "booking_agents", "organisations"
   add_foreign_key "booking_categories", "organisations"
   add_foreign_key "booking_conditions", "organisations"
-  add_foreign_key "booking_conditions", "tarifs", column: "qualifiable_id"
   add_foreign_key "booking_logs", "users"
   add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "bookings", "organisations"
@@ -586,7 +581,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_13_203825) do
   add_foreign_key "organisation_users", "users"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
-  add_foreign_key "rich_text_templates", "homes"
   add_foreign_key "rich_text_templates", "organisations"
   add_foreign_key "tarifs", "organisations"
   add_foreign_key "tenants", "organisations"
