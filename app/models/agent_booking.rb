@@ -42,7 +42,7 @@ class AgentBooking < ApplicationRecord
 
   has_secure_token :token, length: 48
 
-  accepts_nested_attributes_for :booking
+  accepts_nested_attributes_for :booking, reject_if: :all_blank, update_only: true
 
   validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request
   validates :booking_agent_code, presence: true

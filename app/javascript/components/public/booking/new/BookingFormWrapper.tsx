@@ -13,13 +13,11 @@ import { BookingForm, ErrorMessages } from "./BookingForm";
 
 function preparePostData(booking: Booking) {
   return {
-    home_id: booking.home_id,
+    home_ids: booking.home_ids,
     email: booking.email,
     accept_conditions: booking.accept_conditions,
-    occupancy_attributes: {
-      begins_at: booking.begins_at,
-      ends_at: booking.ends_at,
-    },
+    begins_at: booking.begins_at,
+    ends_at: booking.ends_at,
     tenant_organisation: booking.tenant_organisation,
   };
 }
@@ -68,7 +66,7 @@ export default function BookingFormWrapper({
       setSubmitState({
         isSubmitting: false,
         ok: false,
-        errors: error.response?.data?.errors as ErrorMessages,
+        errors: {},
       });
     }
   };

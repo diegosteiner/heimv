@@ -105,7 +105,7 @@ class Booking < ApplicationRecord
     next errors.add(:base, :conflicting) if conflicting_occupancies(0).any?
 
     margin = organisation.settings.booking_margin
-    next if margin.zero? || confliction_occupancies(margin).none?
+    next if margin.zero? || conflicting_occupancies(margin).none?
 
     errors.add(:base, :booking_margin_too_small, margin: margin&.in_minutes&.to_i)
   end

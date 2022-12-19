@@ -1,27 +1,27 @@
-import {
-  Occupancy,
-  OccupancyJsonData,
-  fromJson as occupancyFromJson,
-} from "./Occupancy";
+import parseISO from "date-fns/parseISO";
+import { OccupancyJsonData, fromJson as occupancyFromJson } from "./Occupancy";
 
 export type Booking = {
-  home_id: number;
-  occupancy: Occupancy;
+  home_ids: number | number[];
+  begins_at: Date;
+  ends_at: Date;
   email: string;
   tenant_organisation: string;
   accept_conditions: boolean;
 };
 
 export type BookingJsonData = Booking & {
-  occupancy: OccupancyJsonData;
+  begins_at: string;
+  ends_at: string;
 };
 
 export function fromJson(json: BookingJsonData): Booking {
-  const { occupancy, ...rest } = json;
+  const { begins_at, ends_at } = json;
 
   return {
-    occupancy: occupancyFromJson(occupancy),
-    ...rest,
+    ...json,
+    begins_at: parseISO(begins_at),
+    ends_at: parseISO(ends_at),
   };
 }
 
