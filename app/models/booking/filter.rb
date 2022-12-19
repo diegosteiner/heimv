@@ -30,7 +30,7 @@ class Booking
 
     filter :homes do |bookings|
       relevant_homes = Array.wrap(homes).compact_blank
-      bookings.where(home_ids: relevant_homes) if relevant_homes.present?
+      bookings.joins(:occupancies).where(occupancies: { home_id: relevant_homes }) if relevant_homes.present?
     end
 
     filter :categories do |bookings|

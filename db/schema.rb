@@ -53,14 +53,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_19_132551) do
     t.text "remarks"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "home_id"
     t.bigint "organisation_id"
     t.string "tenant_email"
     t.bigint "booking_agent_id", null: false
     t.string "token"
     t.index ["booking_agent_id"], name: "index_agent_bookings_on_booking_agent_id"
     t.index ["booking_id"], name: "index_agent_bookings_on_booking_id"
-    t.index ["home_id"], name: "index_agent_bookings_on_home_id"
     t.index ["organisation_id"], name: "index_agent_bookings_on_organisation_id"
     t.index ["token"], name: "index_agent_bookings_on_token", unique: true
   end
@@ -544,7 +542,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_19_132551) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bookings", "booking_agents"
   add_foreign_key "agent_bookings", "bookings"
-  add_foreign_key "agent_bookings", "homes"
   add_foreign_key "agent_bookings", "organisations"
   add_foreign_key "bookable_extras", "organisations"
   add_foreign_key "booked_extras", "bookable_extras"

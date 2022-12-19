@@ -4,8 +4,7 @@
   = f.text_field :label
   = f.text_field :group
 
-  - if can?(:manage, DataDigestTemplate)
-    = f.text_area :columns_config, value: JSON.generate(@data_digest_template.columns_config)
+  = f.text_area :columns_config, value: JSON.generate(@data_digest_template.columns_config)
  
   - if @data_digest_template.is_a?(DataDigestTemplates::Booking)
     h5= Booking::Filter.model_name.human
