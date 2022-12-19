@@ -63,7 +63,7 @@ class Organisation < ApplicationRecord
   validates :booking_flow_type, presence: true
   validates :currency, :invoice_ref_strategy_type, presence: true
   validates :name, :email, presence: true
-  validates :slug, uniqueness: true, allow_nil: true
+  validates :slug, uniqueness: true, allow_blank: true
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
   validates :locale, presence: true
   validate -> { errors.add(:settings, :invalid) unless settings.valid? }

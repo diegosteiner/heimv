@@ -46,7 +46,7 @@ class Tenant < ApplicationRecord
 
   locale_enum default: I18n.locale
 
-  validates :email, allow_nil: true, format: { with: Devise.email_regexp }, uniqueness: { scope: :organisation_id }
+  validates :email, allow_blank: true, format: { with: Devise.email_regexp }, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :street_address, length: { maximum: 255 }

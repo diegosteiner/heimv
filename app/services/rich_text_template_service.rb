@@ -58,6 +58,13 @@ class RichTextTemplateService
     end
   end
 
+  def find_in_template(search)
+    @organisation.rich_text_templates.filter do |rich_text_template|
+      rich_text_template.body_i18n.values.any? { _1.scan(search).present? } ||
+        rich_text_template.title_i18n.values.any? { _1.scan(search).present? }
+    end
+  end
+
   private
 
   def defaults_for_locale(kind, key, locale)

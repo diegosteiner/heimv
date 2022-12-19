@@ -160,6 +160,7 @@ de:
         remarks: Bemerkungen
         send_with_contract: Mit dem Vertrag versenden
         send_with_last_infos: Mit letzen Infos (baldige Belegung) versenden
+        updated_at: Letzte Änderung
       home:
         address: Adresse
         booking_margin: Zeitabstand zwischen Buchungen
@@ -217,6 +218,7 @@ de:
       operator_booking:
         responsibility: Verantwortlichkeit
       operator_responsibility:
+        assigning_conditions: Bedingungen
         booking_id: Buchung
         home_id: Heim
         operator_id: Funktionär

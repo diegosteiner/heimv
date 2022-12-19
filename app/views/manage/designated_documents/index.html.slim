@@ -7,6 +7,7 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: 2)
         th= DesignatedDocument.human_attribute_name(:name)
         th= DesignatedDocument.human_attribute_name(:designation)
         th= DesignatedDocument.human_attribute_name(:locale)
+        th= DesignatedDocument.human_attribute_name(:updated_at)
         th
 
     tbody
@@ -19,6 +20,8 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: 2)
             = DesignatedDocument.human_enum(:designation, designated_document.designation)
           td 
             = designated_document.locale
+          td 
+            = l(designated_document.updated_at)
           td.p-1.text-end 
             .btn-group
               - if designated_document.file.attached?

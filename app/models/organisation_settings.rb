@@ -18,7 +18,7 @@ class OrganisationSettings < Settings
   attribute :closed_occupancy_color, :string, default: '#929292'
 
   validates :tentative_occupancy_color, :occupied_occupancy_color,
-            :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
+            :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
 
   validates :booking_margin, :booking_window, :awaiting_contract_deadline, :overdue_request_deadline,
             :unconfirmed_request_deadline, :provisional_request_deadline, :last_minute_warning,
