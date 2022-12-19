@@ -11,7 +11,6 @@ Rails.application.routes.draw do
       resources :homes do
         scope module: :homes do
           resources :occupancies, except: %w[show], shallow: true
-          resources :meter_reading_periods, only: %w[index]
         end
       end
       resource :organisation, only: %i[edit update show]

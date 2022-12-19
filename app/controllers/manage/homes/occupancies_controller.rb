@@ -7,7 +7,8 @@ module Manage
       load_and_authorize_resource :occupancy, through: :home, shallow: true
 
       def index
-        @occupancies = @occupancies.closed.ordered.ends_at(after: Time.zone.now)
+        @occupancies = @occupancies.ordered.ends_at(after: Time.zone.now)
+        @occupancies = @occupancies.closed if params[:all].blank?
         respond_with :manage, @occupancies
       end
 
