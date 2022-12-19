@@ -3,8 +3,6 @@
   fieldset
     - if @rich_text_template.new_record?
       = f.text_field :key
-    - if @rich_text_template.home_id.present?
-      = f.collection_select :home_id, current_organisation.homes, :id, :name, { include_blank: t('.all_homes') }
     = f.check_box :enabled
 
     ul.nav.nav-tabs.mt-4 role="tablist"

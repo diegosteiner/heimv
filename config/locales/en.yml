@@ -1138,7 +1138,6 @@ en:
         new_import: Zahlungen aus CAMT.054-Datei importieren
     rich_text_templates:
       form:
-        all_homes: Alle Heime
         help_html: |
           <p>Variabeln im Text verwenden:</p>
 

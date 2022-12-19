@@ -1,5 +1,4 @@
 = form_with(model: [:manage, @designated_document], local: true) do |f|
-  = f.hidden_field :home_id
   = f.select :designation, DesignatedDocument.designations.keys.map { [DesignatedDocument.human_enum(:designation, _1), _1] }, include_blank: true
   = f.select :locale, I18n.available_locales.map { [_1, _1] }, include_blank: t('.all_locales')
   = f.text_field :name

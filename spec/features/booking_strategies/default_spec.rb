@@ -15,7 +15,7 @@ describe 'Booking', :devise, type: :feature do
   end
   let!(:tarifs) { create_list(:tarif, 2, organisation: organisation) }
   let(:new_booking_path) do
-    new_public_booking_path(booking: { home_id: home.id, begins_at: booking.begins_at.iso8601,
+    new_public_booking_path(booking: { home_ids: [home.id], begins_at: booking.begins_at.iso8601,
                                        ends_at: booking.ends_at.iso8601 })
   end
   let(:booking) do

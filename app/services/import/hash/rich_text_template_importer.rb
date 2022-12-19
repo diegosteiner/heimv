@@ -5,7 +5,7 @@ module Import
     class RichTextTemplateImporter < Base
       attr_reader :organisation
 
-      use_attributes(*%w[key title_i18n body_i18n home_id enabled])
+      use_attributes(*%w[key title_i18n body_i18n enabled])
 
       def initialize(organisation, **options)
         super(**options)

@@ -34,7 +34,7 @@ RSpec.describe Booking::StateTransition, type: :model do
   let(:to_state) { :any }
 
   describe '#serialize_booking' do
-    let(:booking_attrs) { %i[id home_id tenant_id state] }
+    let(:booking_attrs) { %i[id home_ids tenant_id state] }
 
     it do
       expect(transition.save).to be true

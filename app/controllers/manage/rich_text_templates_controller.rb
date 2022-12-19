@@ -7,8 +7,7 @@ module Manage
     helper_method :rich_text_template_group
 
     def index
-      @rich_text_templates = @rich_text_templates.ordered.includes(:home).where(organisation: current_organisation)
-      @rich_text_templates = @rich_text_templates.where(home_id: params[:home_id]) if params[:home_id]
+      @rich_text_templates = @rich_text_templates.ordered.where(organisation: current_organisation)
       @rich_text_templates = @rich_text_templates.where(key: params[:key]) if params[:key]
     end
 

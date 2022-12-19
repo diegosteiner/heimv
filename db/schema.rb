@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_18_165351) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_19_132551) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -438,7 +438,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_18_165351) do
     t.bigint "organisation_id", null: false
     t.jsonb "title_i18n", default: {}
     t.jsonb "body_i18n", default: {}
-    t.jsonb "body_i18n_markdown", default: {}
     t.boolean "enabled", default: true
     t.index ["key", "organisation_id"], name: "index_rich_text_templates_on_key_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"

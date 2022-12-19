@@ -4,6 +4,7 @@ class Invoice
   class Factory
     RichTextTemplate.require_template(:invoices_deposit_text, context: %i[booking invoice], required_by: self)
     RichTextTemplate.require_template(:invoices_invoice_text, context: %i[booking invoice], required_by: self)
+    RichTextTemplate.require_template(:invoices_offer_text, context: %i[booking invoice], required_by: self)
     RichTextTemplate.require_template(:invoices_late_notice_text, context: %i[booking invoice], required_by: self)
 
     def call(booking, params = {})

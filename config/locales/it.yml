@@ -1097,7 +1097,6 @@ it:
         new_import: New import
     rich_text_templates:
       form:
-        all_homes: All homes
         help_html: |
           <p>Variabeln im Text verwenden:</p>
 
