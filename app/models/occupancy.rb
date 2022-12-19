@@ -71,7 +71,6 @@ class Occupancy < ApplicationRecord
   def update_from_booking
     return if booking.blank?
 
-    assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
-                      occupancy_type: booking.occupancy_type)
+    assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at, occupancy_type: booking.occupancy_type)
   end
 end

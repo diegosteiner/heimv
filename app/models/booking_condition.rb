@@ -74,9 +74,4 @@ class BookingCondition < ApplicationRecord
   def evaluate(booking)
     booking.present?
   end
-
-  def self.polymorphic_association(name, group, **options)
-    default_options = { as: :qualifiable, dependent: :destroy, class_name: to_s }
-    [name, -> { where(group: group) }, default_options.merge(options)]
-  end
 end

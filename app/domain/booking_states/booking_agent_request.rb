@@ -33,7 +33,10 @@ module BookingStates
       booking.tentative!
     end
 
-    infer_transition(to: :cancelled_request, &:deadline_exceeded?)
+    infer_transition(to: :cancelled_request) do |booking|
+      booking.deadline_exceeded?
+    end
+
     infer_transition(to: :awaiting_tenant) do |booking|
       booking.agent_booking.valid? && booking.agent_booking.committed_request
     end

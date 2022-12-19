@@ -18,9 +18,8 @@ module Public
 
     def document
       @document ||= current_organisation.designated_documents
-                                        .with_locale(I18n.locale)
                                         .where(designation: params[:designation])
-                                        .order(locale: :asc).take!
+                                        .with_locale(I18n.locale).take!
     end
   end
 end

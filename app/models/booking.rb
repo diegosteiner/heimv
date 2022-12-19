@@ -113,8 +113,7 @@ class Booking < ApplicationRecord
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
-  before_validation :set_tenant
-  before_validation :update_occpancies
+  before_validation :set_tenant, :update_occupancies
   before_create :set_ref
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -155,7 +154,7 @@ class Booking < ApplicationRecord
     deadlines.reload && update(deadline: deadlines.next.take)
   end
 
-  def update_occpancies
+  def update_occupancies
     occupancies.each(&:update_from_booking)
   end
 
@@ -186,6 +185,7 @@ class Booking < ApplicationRecord
   end
 
   def home
+    Rails.logger.warn('Deprecated call to home')
     homes.first
   end
 

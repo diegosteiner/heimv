@@ -32,8 +32,13 @@ module BookingStates
       booking.tentative!
     end
 
-    infer_transition(to: :definitive_request, &:committed_request)
-    infer_transition(to: :overdue_request, &:deadline_exceeded?)
+    infer_transition(to: :definitive_request) do |booking|
+      booking.committed_request
+    end
+
+    infer_transition(to: :overdue_request) do |booking|
+      booking.deadline_exceeded?
+    end
 
     def relevant_time
       booking.deadline&.at

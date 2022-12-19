@@ -24,7 +24,10 @@ module BookingStates
       booking.notifications.new(template: :overdue_request_notification, to: booking.tenant)&.deliver
     end
 
-    infer_transition(to: :definitive_request, &:committed_request)
+    infer_transition(to: :definitive_request) do |booking|
+      booking.committed_request
+    end
+
     infer_transition(to: :declined_request) do |booking|
       booking.deadline_exceeded? && booking.agent_booking.blank?
     end

@@ -16,7 +16,9 @@ module BookingStates
       :unconfirmed_request
     end
 
-    infer_transition(to: :declined_request, &:deadline_exceeded?)
+    infer_transition(to: :declined_request) do |booking|
+      booking.deadline_exceeded?
+    end
     infer_transition(to: :open_request) do |booking|
       booking.valid?(:public_update) || booking.agent_booking.present?
     end

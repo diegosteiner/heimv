@@ -32,7 +32,6 @@ class OperatorResponsibility < ApplicationRecord
   include RankedModel
 
   belongs_to :organisation, inverse_of: :operator_responsibilities
-  belongs_to :home, inverse_of: :operator_responsibilities, optional: true
   belongs_to :operator, inverse_of: :operator_responsibilities
   belongs_to :booking, inverse_of: :operator_responsibilities, optional: true, touch: true
 

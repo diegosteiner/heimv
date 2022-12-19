@@ -30,7 +30,10 @@ module BookingStates
                                remarks: booking.booking_state.t(:label))
     end
 
-    infer_transition(to: :overdue, &:deadline_exceeded?)
+    infer_transition(to: :overdue) do |booking|
+      booking.deadline_exceeded?
+    end
+
     infer_transition(to: :upcoming) do |booking|
       booking.contracts.signed.any? && Invoices::Deposit.of(booking).kept.all?(&:paid?)
     end
