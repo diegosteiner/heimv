@@ -18,7 +18,7 @@ module BookingStates
       booking.occupied!
     end
 
-    after_transition(to: :past) do |booking|
+    infer_transition(to: :past) do |booking|
       booking.past?
     end
 
