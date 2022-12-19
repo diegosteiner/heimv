@@ -24,7 +24,6 @@
 # Foreign Keys
 #
 #  fk_rails_...  (organisation_id => organisations.id)
-#  fk_rails_...  (qualifiable_id => tarifs.id)
 #
 
 module BookingConditions
@@ -38,7 +37,7 @@ module BookingConditions
     end
 
     def evaluate(booking)
-      distinction == booking.occupancy&.home&.id&.to_s
+      booking.home_ids.include?(distinction.to_i)
     end
 
     def distinction_scope

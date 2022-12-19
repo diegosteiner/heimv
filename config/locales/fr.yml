@@ -76,24 +76,28 @@ fr:
         title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
+        begins_at: Beginn der Belegung
         bookable_extra_ids: Buchbare Extras
         booking_agent_code: Vermittler-Code
         booking_agent_ref: Vermittler-Referenz
         booking_category_id: Art der Miete
         cancellation_reason: Annulierungsgrund
         category: Art der Miete
-        color: Farbe im Kalender
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         deadline: Frist bis
         editable: Durch Mieter bearbeitbar
+        ends_at: Ende der Belegung
         home: Heim
-        home_id: Heim
+        home_ids: Heime
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         locale: Sprache
+        nights: Nächte
         notifications_enabled: Aus der Applikation generierte Emails versenden
-        occupancy: Belegung
+        occupancies: Belegungen
+        occupancy_color: Farbe im Kalender
+        occupancy_type: Art der Belegungen
         purpose_description: Beschreibung des Mietzwecks
         ref: Buchungsreferenz
         remarks: Bemerkungen
@@ -148,9 +152,9 @@ fr:
         remarks: Bemerkungen
         responsible: Verantwortlich
       designated_document:
+        attaching_conditions: Bedingungen
         designation: Art des Dokuments
         file: Datei
-        home_id: Heim
         locale: Sprache
         name: Name
         remarks: Bemerkungen
@@ -203,7 +207,6 @@ fr:
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
         home_id: Heim
-        nights: Nächte
         occupancy_type: Belegungsart
         remarks: Bemerkungen
       operator:
@@ -399,7 +402,6 @@ fr:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           booking_margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
-        occupancy:
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
         tenant:

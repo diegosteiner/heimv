@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_18_165351) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -149,7 +149,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
   end
 
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "home_id", null: false
     t.bigint "organisation_id", null: false
     t.string "booking_state_cache", default: "initial", null: false
     t.string "tenant_organisation"
@@ -175,12 +174,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
     t.string "booking_flow_type"
     t.string "token"
     t.datetime "conditions_accepted_at", precision: nil
-    t.string "color"
+    t.string "occupancy_color"
     t.string "purpose_description"
     t.boolean "accept_conditions", default: false
+    t.datetime "begins_at"
+    t.datetime "ends_at"
+    t.integer "occupancy_type", default: 0, null: false
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
-    t.index ["home_id"], name: "index_bookings_on_home_id"
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"
@@ -244,13 +245,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
     t.string "locale"
     t.text "remarks"
     t.bigint "organisation_id", null: false
-    t.bigint "home_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "send_with_contract", default: false, null: false
     t.boolean "send_with_last_infos", default: false
-    t.index ["home_id"], name: "index_designated_documents_on_home_id"
     t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
   end
 
@@ -356,10 +355,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
     t.text "remarks"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "home_id"
     t.bigint "organisation_id", null: false
     t.index ["booking_id"], name: "index_operator_responsibilities_on_booking_id"
-    t.index ["home_id"], name: "index_operator_responsibilities_on_home_id"
     t.index ["operator_id"], name: "index_operator_responsibilities_on_operator_id"
     t.index ["ordinal"], name: "index_operator_responsibilities_on_ordinal"
     t.index ["organisation_id"], name: "index_operator_responsibilities_on_organisation_id"
@@ -439,13 +436,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
-    t.bigint "home_id"
     t.jsonb "title_i18n", default: {}
     t.jsonb "body_i18n", default: {}
     t.jsonb "body_i18n_markdown", default: {}
     t.boolean "enabled", default: true
-    t.index ["home_id"], name: "index_rich_text_templates_on_home_id"
-    t.index ["key", "home_id", "organisation_id"], name: "index_rich_text_templates_on_key_and_home_and_organisation", unique: true
+    t.index ["key", "organisation_id"], name: "index_rich_text_templates_on_key_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"
   end
 
@@ -557,10 +552,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
   add_foreign_key "booking_agents", "organisations"
   add_foreign_key "booking_categories", "organisations"
   add_foreign_key "booking_conditions", "organisations"
-  add_foreign_key "booking_conditions", "tarifs", column: "qualifiable_id"
   add_foreign_key "booking_logs", "users"
   add_foreign_key "booking_state_transitions", "bookings"
-  add_foreign_key "bookings", "homes"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "data_digest_templates", "organisations"
@@ -578,7 +571,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
   add_foreign_key "notifications", "rich_text_templates"
   add_foreign_key "occupancies", "homes"
   add_foreign_key "operator_responsibilities", "bookings"
-  add_foreign_key "operator_responsibilities", "homes"
   add_foreign_key "operator_responsibilities", "operators"
   add_foreign_key "operator_responsibilities", "organisations"
   add_foreign_key "operators", "organisations"
@@ -586,7 +578,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_134938) do
   add_foreign_key "organisation_users", "users"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
-  add_foreign_key "rich_text_templates", "homes"
   add_foreign_key "rich_text_templates", "organisations"
   add_foreign_key "tarifs", "organisations"
   add_foreign_key "tenants", "organisations"

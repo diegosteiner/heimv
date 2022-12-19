@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_role
-    current_organisation && current_user&.in(current_organisation)&.role
+    current_user&.in_organisation(current_organisation)&.role
   end
 
   def cache_key(*keys)

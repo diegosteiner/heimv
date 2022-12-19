@@ -51,14 +51,14 @@ class User < ApplicationRecord
   validate do
     next if default_organisation_id.blank?
 
-    errors.add(:default_organisation_id, :invalid) unless organisation_ids.include?(default_organisation_id)
+    errors.add(:default_organisation_id, :invalid) if in_organisation(default_organisation_id).blank?
   end
 
   def to_s
     email
   end
 
-  def in(organisation)
+  def in_organisation(organisation)
     return if organisation.nil?
 
     organisation_users.find_by(organisation: organisation)

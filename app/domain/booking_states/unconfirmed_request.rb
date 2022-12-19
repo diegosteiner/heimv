@@ -16,16 +16,18 @@ module BookingStates
       :unconfirmed_request
     end
 
-    infer_transition(to: :declined_request, &:deadline_exceeded?)
+    infer_transition(to: :declined_request) do |booking|
+      booking.deadline_exceeded?
+    end
     infer_transition(to: :open_request) do |booking|
-      booking.valid?(:public_update) || booking.agent_booking?
+      booking.valid?(:public_update) || booking.agent_booking.present?
     end
 
     after_transition do |booking|
       booking.deadline&.clear
       booking.deadlines.create(length: booking.organisation.settings.unconfirmed_request_deadline,
                                remarks: booking.booking_state.t(:label))
-      booking.occupancy.tentative!
+      booking.tentative!
       booking.notifications.new(template: :unconfirmed_request_notification, to: booking.tenant).deliver
     end
 

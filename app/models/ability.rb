@@ -16,7 +16,8 @@ module Ability
       can :set_password, User, id: user.id if user.present?
       can :manage, :all if user&.role_admin?
 
-      abilities_block = self.class.roles[user&.in(organisation)&.role&.to_sym]
+      role = user&.in_organisation(organisation)&.role&.to_sym
+      abilities_block = self.class.roles[role]
       instance_exec(user, organisation, &abilities_block) if abilities_block
     end
   end

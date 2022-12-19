@@ -15,15 +15,15 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupancy.occupied!
+      booking.occupied!
     end
 
     infer_transition(to: :past) do |booking|
-      booking.occupancy.past?
+      booking.past?
     end
 
     def relevant_time
-      booking.occupancy.ends_at
+      booking.ends_at
     end
   end
 end

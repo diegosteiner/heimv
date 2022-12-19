@@ -9,6 +9,3 @@ nav.mb-4
       li.nav-item
         a.nav-link[href=manage_home_occupancies_path(@home) class=('active' if active == :occupancies)]
           = t('.closedowns')
-      li.nav-item
-        a.nav-link[href=manage_home_meter_reading_periods_path(@home) class=('active' if active == :meter_reading_periods)]
-          = MeterReadingPeriod.model_name.human(count: 2)

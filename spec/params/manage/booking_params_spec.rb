@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Manage::BookingParams do
-  let(:params_hash) { { booking: build(:booking).attributes } }
+  let(:params_hash) { { booking: build(:booking).attributes.merge('home_ids' => [1]) } }
   let(:params) { ActionController::Parameters.new(params_hash) }
 
   describe '#permit' do
@@ -11,7 +11,7 @@ describe Manage::BookingParams do
 
     it do
       expect(subject).to be_permitted
-      expect(subject.keys).to include('home_id')
+      expect(subject.keys).to include('home_ids')
     end
   end
 end

@@ -17,7 +17,7 @@ class Contract
     def rich_text_template(contract)
       booking = contract.booking
       rich_text_template = contract.organisation.rich_text_templates
-                                   .enabled.by_key(:contract_text, home_id: booking.home_id)
+                                   .enabled.by_key(:contract_text)
       return if rich_text_template.blank?
 
       I18n.with_locale(booking.locale) { rich_text_template.interpolate(template_context(contract)) }.body
@@ -26,7 +26,7 @@ class Contract
     def template_context(contract)
       booking = contract.booking
       TemplateContext.new(
-        booking: booking, home: booking.home, organisation: booking.organisation, contract: contract,
+        booking: booking, organisation: booking.organisation, contract: contract,
         cost_estimation: CostEstimation.new(booking),
         tarifs_table_placeholder: Export::Pdf::ContractPdf::TARIFS_TABLE_PLACEHOLDER
       )

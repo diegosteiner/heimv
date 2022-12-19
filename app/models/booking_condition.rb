@@ -24,7 +24,6 @@
 # Foreign Keys
 #
 #  fk_rails_...  (organisation_id => organisations.id)
-#  fk_rails_...  (qualifiable_id => tarifs.id)
 #
 
 class BookingCondition < ApplicationRecord
@@ -33,7 +32,7 @@ class BookingCondition < ApplicationRecord
   belongs_to :qualifiable, polymorphic: true, optional: true
   belongs_to :organisation
 
-  before_validation :set_organisation
+  scope :qualifiable_group, ->(group) { where(group: group) }
 
   def self.distinction_regex
     //
@@ -52,6 +51,8 @@ class BookingCondition < ApplicationRecord
     booking_conditions.map do |condition|
       condition.evaluate(booking) || (condition.must_condition ? false : nil)
     end.compact.all?
+
+    # TODO: rescue?
   end
 
   def distinction_match
@@ -65,8 +66,9 @@ class BookingCondition < ApplicationRecord
     "#{model_name.human}: #{distinction}"
   end
 
-  def set_organisation
-    self.organisation ||= qualifiable.try(:organisation)
+  def qualifiable=(value)
+    self.organisation ||= value.try(:organisation)
+    super
   end
 
   def evaluate(booking)

@@ -76,24 +76,28 @@ de:
         title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
+        begins_at: Beginn der Belegung
         bookable_extra_ids: Buchbare Extras
         booking_agent_code: Vermittler-Code
         booking_agent_ref: Vermittler-Referenz
         booking_category_id: Mietkategorie
         cancellation_reason: Annulierungsgrund
         category: Mietkategorie
-        color: Farbe im Kalender
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         deadline: Frist bis
         editable: Durch Mieter bearbeitbar
+        ends_at: Ende der Belegung
         home: Heim
-        home_id: Heim
+        home_ids: Heime
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         locale: Sprache
+        nights: Nächte
         notifications_enabled: Aus der Applikation generierte Emails versenden
-        occupancy: Belegung
+        occupancies: Belegungen
+        occupancy_color: Farbe im Kalender
+        occupancy_type: Art der Belegungen
         purpose_description: Beschreibung des Mietzwecks
         ref: Buchungsreferenz
         remarks: Bemerkungen
@@ -148,9 +152,9 @@ de:
         remarks: Bemerkungen
         responsible: Verantwortlich
       designated_document:
+        attaching_conditions: Bedingungen
         designation: Art des Dokuments
         file: Datei
-        home_id: Heim
         locale: Sprache
         name: Name
         remarks: Bemerkungen
@@ -203,7 +207,6 @@ de:
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
         home_id: Heim
-        nights: Nächte
         occupancy_type: Belegungsart
         remarks: Bemerkungen
       operator:
@@ -399,7 +402,6 @@ de:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           booking_margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
           conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
-        occupancy:
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
         tenant:
@@ -1191,88 +1193,7 @@ de:
     rich_text_templates:
       form:
         all_homes: Alle Heime
-        help_html: |
-          <p>Variabeln im Text verwenden:</p>
-
-          <pre>
-            Hallo {{ booking.tenant.first_name }}!
-          </pre>
-
-          <p>Folgende Variabeln stehen zur Verfügung:</p>
-          <h5>Buchung</h5>
-          <dl>
-              <dt>Beginn der Belegung</dt><dd><pre>{{ booking.occupancy.begins_at | datetime_format }}</pre></dd><dd><pre>{{ booking.occupancy.begins_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
-              <dt>Ende der Belegung</dt><dd><pre>{{ booking.occupancy.ends_at | datetime_format }}</pre></dd><dd><pre>{{ booking.occupancy.ends_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
-              <dt>Erwartete Anzahl Personen</dt><dd><pre>{{ booking.approximate_headcount }}</pre></dd>
-              <dt>Annulierungsgrund</dt><dd><pre>{{ booking.cancellation_reason }}</pre></dd>
-              <dt>Verbindlichkeit der Mietanfrage</dt><dd><pre>{{ booking.committed_request }}</pre></dd>
-              <dt>ID des Heims</dt><dd><pre>{{ booking.home_id }}</pre></dd>
-              <dt>Adresse des Heims</dt><dd><pre>{{ booking.home.address }}</pre></dd>
-              <dt>Name des Heims</dt><dd><pre>{{ booking.home.name }}</pre></dd>
-              <dt>Rechnungsadresse</dt><dd><pre>{{ booking.invoice_address }}</pre></dd>
-              <dt>Frist bis Datum / Uhrzeit</dt><dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>
-              <dt>Frist Verlängerbar für n Sekunden</dt><dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>
-              <dt>Link für den Mieter</dt><dd><pre>{{ booking.links.edit }}</pre></dd>
-              <dt>Link für den Vermieter</dt><dd><pre>{{ booking.links.manage }}</pre></dd>
-              <dt>Belegungstyp</dt><dd><pre>{{ booking.occupancy.occupancy_type }}</pre></dd>
-              <dt>Schlüssel der Mietkategorie</dt><dd><pre>{{ booking.category.key }}</pre></dd>
-              <dt>Bezeichnung der Mietkategorie</dt><dd><pre>{{ booking.category.title }}</pre></dd>
-              <dt>Beschreibung der Mietkategorie</dt><dd><pre>{{ booking.category.description }}</pre></dd>
-              <dt>Beschreibung der Mietzwecks</dt><dd><pre>{{ booking.purpose_description }}</pre></dd>
-              <dt>Referenznummer der Buchung</dt><dd><pre>{{ booking.ref }}</pre></dd>
-              <dt>Bemerkungen des Mieters</dt><dd><pre>{{ booking.remarks }}</pre></dd>
-              <dt>Adresszusatz des Mieters</dt><dd><pre>{{ booking.tenant.address_addon }}</pre></dd>
-              <dt>Ort des Mieters</dt><dd><pre>{{ booking.tenant.city }}</pre></dd>
-              <dt>E-Mail des Mieters</dt><dd><pre>{{ booking.tenant.email }}</pre></dd>
-              <dt>Vorname des Mieters</dt><dd><pre>{{ booking.tenant.first_name }}</pre></dd>
-              <dt>Nachname des Mieters</dt><dd><pre>{{ booking.tenant.last_name }}</pre></dd>
-              <dt>Pfadiname des Mieters</dt><dd><pre>{{ booking.tenant.nickname }}</pre></dd>
-              <dt>Anrede mit Name des Mieters</dt><dd><pre>{{ booking.tenant.salutation_name }}</pre></dd>
-              <dt>Adresse des Mieters</dt><dd><pre>{{ booking.tenant.street_address }}</pre></dd>
-              <dt>PLZ des Mieters</dt><dd><pre>{{ booking.tenant.zipcode }}</pre></dd>
-              <dt>Organisation des Mieters</dt><dd><pre>{{ booking.tenant.tenant_organisation }}</pre></dd>
-              <dt>Name der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>
-              <dt>E-Mail der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>
-              <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>
-              <dt>Name der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>
-              <dt>E-Mail der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>
-              <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>
-              <dt>Name der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>
-              <dt>E-Mail der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>
-              <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>
-              <dt>Name der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>
-              <dt>E-Mail der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>
-              <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>
-            </dl>
-            <h5>Organisation</h5>
-            <dl>
-              <dt>Adresse der Organisation, Sitz</dt><dd><pre>{{ organisation.address }}</pre></dd>
-              <dt>Liste aller Mietkategorien der Organisation</dt><dd><pre>{{ organisation.booking_categories }}</pre></dd>
-              <dt>E-Mail der Organisation</dt><dd><pre>{{ organisation.email }}</pre></dd>
-              <dt>PC-Kontonummer</dt><dd><pre>{{ organisation.esr_beneficiary_account }}</pre></dd>
-              <dt>IBAN</dt><dd><pre>{{ organisation.iban }}</pre></dd>
-              <dt>QR-IBAN</dt><dd><pre>{{ organisation.qr_iban }}</pre></dd>
-              <dt>Link zur Datenschutzerklärung</dt><dd><pre>{{ organisation.links.privacy_statement_pdf }}</pre></dd>
-              <dt>Link zu den AGB</dt><dd><pre>{{ organisation.links.terms_pdf }}</pre></dd>
-              <dt>Name der Organisation</dt><dd><pre>{{ organisation.name }}</pre></dd>
-            </dl>
-            <h5>Kosten</h5>
-            <dl>
-              <dt>Verbrauch</dt><dd><pre>{{ cost_estimation.used | currency }}</pre></dd>
-              <dt>Verrechnet</dt><dd><pre>{{ cost_estimation.total | currency }}</pre></dd>
-              <dt>Anzahlung</dt><dd><pre>{{ cost_estimation.deposit | currency }}</pre></dd>
-            </dl>
-
-            Logik im Text verwenden:
-
-            <pre>{% if booking.home_id == 1 %}Passage nur sichtbar, wenn ID des Heims der Buchung gleich 1 ist{% endif %}</pre>
-            <pre>
-            {% if booking.category.key == 'camp' %}
-              Wir wünschen euch viel Spass in eurem Lager in unserem Heim!
-            {% else %}
-              Wir wünschen Ihnen einen schönen Aufenthalt in unserem Heim!
-            {% endif %}
-            </pre>
+        help_html: "<p>Variabeln im Text verwenden:</p>\n\n<pre>\n  Hallo {{ booking.tenant.first_name }}!\n</pre>\n\n<p>Folgende Variabeln stehen zur Verfügung:</p>\n<h5>Buchung</h5>\n<dl>\n    <dt>Beginn der Belegung</dt><dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd><dd><pre>{{ booking.begins_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    <dt>Ende der Belegung</dt><dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd><dd><pre>{{ booking.ends_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    \n    <dt>Erwartete Anzahl Personen</dt><dd><pre>{{ booking.approximate_headcount }}</pre></dd>\n    <dt>Annulierungsgrund</dt><dd><pre>{{ booking.cancellation_reason }}</pre></dd>\n    <dt>Verbindlichkeit der Mietanfrage</dt><dd><pre>{{ booking.committed_request }}</pre></dd>\n\n    <dt>ID des Heims</dt><dd><pre>{{ booking.home.id }}</pre></dd>\n    <dt>IDs aller belegten Heime</dt><dd><pre>{{ booking.home_ids }}</pre></dd>\n    <dt>Name des Heims</dt><dd><pre>{{ booking.home.name }}</pre></dd>\n    <dt>Adresse des Heims</dt><dd><pre>{{ booking.home.address }}</pre></dd>\n\n    <dt>Name aller belegten Heime</dt><dd><pre>{{ booking.homes | map: \"name\" | join: \", \" }}</pre></dd>\n    <dt>Liste belegten Heime</dt><dd><pre><ul>{% for home in booking.homes %}<li>{{ home.name }}</li>{% endfor %}</ul></pre></dd>\n\n    <dt>Rechnungsadresse</dt><dd><pre>{{ booking.invoice_address }}</pre></dd>\n    <dt>Frist bis Datum / Uhrzeit</dt><dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>\n    <dt>Frist Verlängerbar für n Sekunden</dt><dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>\n    <dt>Link für den Mieter</dt><dd><pre>{{ booking.links.edit }}</pre></dd>\n    <dt>Link für den Vermieter</dt><dd><pre>{{ booking.links.manage }}</pre></dd>\n    <dt>Belegungstyp</dt><dd><pre>{{ booking.occupancy_type }}</pre></dd>\n    <dt>Schlüssel der Mietkategorie</dt><dd><pre>{{ booking.category.key }}</pre></dd>\n    <dt>Bezeichnung der Mietkategorie</dt><dd><pre>{{ booking.category.title }}</pre></dd>\n    <dt>Beschreibung der Mietkategorie</dt><dd><pre>{{ booking.category.description }}</pre></dd>\n    <dt>Beschreibung der Mietzwecks</dt><dd><pre>{{ booking.purpose_description }}</pre></dd>\n    <dt>Referenznummer der Buchung</dt><dd><pre>{{ booking.ref }}</pre></dd>\n    <dt>Bemerkungen des Mieters</dt><dd><pre>{{ booking.remarks }}</pre></dd>\n    <dt>Adresszusatz des Mieters</dt><dd><pre>{{ booking.tenant.address_addon }}</pre></dd>\n    <dt>Ort des Mieters</dt><dd><pre>{{ booking.tenant.city }}</pre></dd>\n    <dt>E-Mail des Mieters</dt><dd><pre>{{ booking.tenant.email }}</pre></dd>\n    <dt>Vorname des Mieters</dt><dd><pre>{{ booking.tenant.first_name }}</pre></dd>\n    <dt>Nachname des Mieters</dt><dd><pre>{{ booking.tenant.last_name }}</pre></dd>\n    <dt>Pfadiname des Mieters</dt><dd><pre>{{ booking.tenant.nickname }}</pre></dd>\n    <dt>Anrede mit Name des Mieters</dt><dd><pre>{{ booking.tenant.salutation_name }}</pre></dd>\n    <dt>Adresse des Mieters</dt><dd><pre>{{ booking.tenant.street_address }}</pre></dd>\n    <dt>PLZ des Mieters</dt><dd><pre>{{ booking.tenant.zipcode }}</pre></dd>\n    <dt>Organisation des Mieters</dt><dd><pre>{{ booking.tenant.tenant_organisation }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>\n  </dl>\n  <h5>Organisation</h5>\n  <dl>\n    <dt>Adresse der Organisation, Sitz</dt><dd><pre>{{ organisation.address }}</pre></dd>\n    <dt>Liste aller Mietkategorien der Organisation</dt><dd><pre>{{ organisation.booking_categories }}</pre></dd>\n    <dt>E-Mail der Organisation</dt><dd><pre>{{ organisation.email }}</pre></dd>\n    <dt>PC-Kontonummer</dt><dd><pre>{{ organisation.esr_beneficiary_account }}</pre></dd>\n    <dt>IBAN</dt><dd><pre>{{ organisation.iban }}</pre></dd>\n    <dt>QR-IBAN</dt><dd><pre>{{ organisation.qr_iban }}</pre></dd>\n    <dt>Link zur Datenschutzerklärung</dt><dd><pre>{{ organisation.links.privacy_statement_pdf }}</pre></dd>\n    <dt>Link zu den AGB</dt><dd><pre>{{ organisation.links.terms_pdf }}</pre></dd>\n    <dt>Name der Organisation</dt><dd><pre>{{ organisation.name }}</pre></dd>\n  </dl>\n  <h5>Kosten</h5>\n  <dl>\n    <dt>Verbrauch</dt><dd><pre>{{ cost_estimation.used | currency }}</pre></dd>\n    <dt>Verrechnet</dt><dd><pre>{{ cost_estimation.total | currency }}</pre></dd>\n    <dt>Anzahlung</dt><dd><pre>{{ cost_estimation.deposit | currency }}</pre></dd>\n  </dl>\n\n  Logik im Text verwenden:\n\n  <pre>{% if booking.home_ids contains 1 %}Passage nur sichtbar, wenn ID des Heims der Buchung gleich 1 ist{% endif %}</pre>\n  <pre>\n  {% if booking.category.key == 'camp' %}\n    Wir wünschen euch viel Spass in eurem Lager in unserem Heim!\n  {% else %}\n    Wir wünschen Ihnen einen schönen Aufenthalt in unserem Heim!\n  {% endif %}\n  </pre>\n"
         help_title: Hilfe zu Variabeln
       index:
         group_booking_agent_notifications: Benachrichtigungen (Vermittler)
@@ -1409,7 +1330,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1431,7 +1352,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1448,7 +1369,7 @@ de:
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
         </ul>
 
         <p>{{ booking.organisation.message_footer }}</p>
@@ -1464,7 +1385,7 @@ de:
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}</li>
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
         </ul>
 
         <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
@@ -1480,7 +1401,7 @@ de:
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Bearbeitungslink: <a href="{{booking.links.edit}}">{{booking.links.edit}}</a></li>
         </ul>
 
@@ -1499,7 +1420,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
@@ -1518,7 +1439,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}, {{ booking.home.address }}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1541,7 +1462,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1573,7 +1494,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1593,7 +1514,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1607,7 +1528,7 @@ de:
     invoices_deposit_text:
       default_body: |
         <p>{{ booking.ref }}
-        {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
+        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
         <h1>Anzahlung {{booking.home.name}}</h1>
       default_title: Anzahlung
@@ -1615,7 +1536,7 @@ de:
     invoices_invoice_text:
       default_body: |
         <p>{{ booking.ref }}
-        {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
+        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
         <h1>Rechnung {{booking.home.name}}</h1>
       default_title: Rechnung
@@ -1623,7 +1544,7 @@ de:
     invoices_late_notice_text:
       default_body: |
         <p>{{ booking.ref }}
-        {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</p>
+        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
         <h1>Mahnung {{booking.home.name}}</h1>
       default_title: Mahnung
@@ -1645,7 +1566,7 @@ de:
         <ul>
           <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
-          <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
           <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
@@ -1665,7 +1586,7 @@ de:
         <ul>
           <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
-          <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
           <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
@@ -1689,7 +1610,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1711,7 +1632,7 @@ de:
         <ul>
           <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
-          <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
           <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
@@ -1731,7 +1652,7 @@ de:
         <ul>
           <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
           <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
-          <li>Reservation: <strong>{{ booking.occupancy.begins_at | datetime_format }}</strong> bis <strong>{{ booking.occupancy.ends_at | datetime_format }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
           <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
           <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
@@ -1767,7 +1688,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1785,7 +1706,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1803,7 +1724,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
@@ -1823,7 +1744,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
@@ -1845,7 +1766,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
@@ -1891,7 +1812,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
@@ -1908,7 +1829,7 @@ de:
         <ul>
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
@@ -1922,7 +1843,7 @@ de:
       default_body: |
         <h1>Belegung {{ booking.ref }}</h1>
 
-        <p>{{ booking.occupancy.begins_at | datetime_format }} bis {{ booking.occupancy.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.address }}</p>
+        <p>{{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.address }}</p>
       default_title: Verbrauchsformular
       description: Text für Verbrauchsformular
   search: Suchen

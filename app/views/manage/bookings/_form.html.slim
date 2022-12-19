@@ -4,26 +4,24 @@
       = f.error_summary
 
   fieldset
-    h5.mt-0= Booking.human_attribute_name(:occupancy)
-    = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true
+    = f.collection_select :home_ids, current_organisation.homes.ordered, :id, :to_s, { include_blank: true }, { multiple: false }
 
-    = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
-                                                id: 'booking_occupancy_begins_at',
-                                                name: 'booking[occupancy_attributes][begins_at]', 
-                                                value: @booking.occupancy.begins_at&.iso8601, required: true,
-                                                invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.begins_at') }.to_sentence)
+    = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
+                                                id: 'booking_begins_at',
+                                                name: 'booking[begins_at]', 
+                                                value: @booking.begins_at&.iso8601, required: true,
+                                                invalidFeedback: @booking.errors[:begins_at].to_sentence)
 
-    = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
-                                                id: 'booking_occupancy_ends_at',
-                                                name: 'booking[occupancy_attributes][ends_at]',
-                                                value: @booking.occupancy.ends_at&.iso8601, required: true,
-                                                invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.ends_at') }.to_sentence)
+    = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:ends_at),
+                                                id: 'booking_ends_at',
+                                                name: 'booking[ends_at]',
+                                                value: @booking.ends_at&.iso8601, required: true,
+                                                invalidFeedback: @booking.errors[:ends_at].to_sentence)
 
-    = f.fields_for :occupancy do |of|
-        = of.label :color
-        = of.check_box :color, { id: 'toggle_booking_occupancy_attributes_color', checked: @booking.occupancy.override_color?, \
-                                  data: { 'bs-toggle' => "disable", 'bs-target' => "#booking_occupancy_attributes_color" } }, "1", "" 
-          = of.color_field :color, hide_label: true, style: 'min-width: 5em;'
+    = f.label :occupancy_color
+    = f.check_box :occupancy_color, { id: 'toggle_booking_occupancy_color', checked: @booking.override_occupancy_color?, \
+                              data: { 'bs-toggle' => "disable", 'bs-target' => "#booking_occupancy_color" } }, "1", "" 
+      = f.color_field :occupancy_color, hide_label: true, style: 'min-width: 5em;'
 
   fieldset.mt-3
     h5.mt-0= Booking.human_attribute_name(:tenant)

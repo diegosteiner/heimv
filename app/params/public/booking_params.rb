@@ -5,30 +5,18 @@ module Public
     class Update < ApplicationParams
       def self.permitted_keys
         [:tenant_organisation, :cancellation_reason, :invoice_address, :locale, :committed_request,
-         :purpose_description, :booking_category_id, :approximate_headcount, :remarks,
+         :purpose_description, :booking_category_id, :approximate_headcount, :remarks, :begins_at, :ends_at,
          { tenant_attributes: TenantParams.permitted_keys.without(:email),
-           deadlines_attributes: %i[id postpone],
-           bookable_extra_ids: [],
-           occupancy_attributes: OccupancyParams.permitted_keys }]
-      end
-
-      sanitize do |params|
-        next if params[:occupancy_attributes].blank?
-
-        params.merge(occupancy_attributes: OccupancyParams.new(params[:occupancy_attributes]).permitted)
+           deadlines_attributes: %i[id postpone], bookable_extra_ids: [] }]
       end
     end
 
     class Create < Update
       def self.permitted_keys
-        super + [:home_id, :email, :accept_conditions, :email,
-                 { agent_booking_attributes: %i[booking_agent_code booking_agent_ref] }]
-      end
-
-      sanitize do |params|
-        next if params[:occupancy_attributes].blank?
-
-        params.merge(occupancy_attributes: OccupancyParams.new(params[:occupancy_attributes]).permitted)
+        permitted_keys = super
+        nested_keys = permitted_keys.extract_options!
+        nested_keys.merge!(agent_booking_attributes: %i[booking_agent_code booking_agent_ref], home_ids: [])
+        permitted_keys + [:email, :accept_conditions, :home_ids, nested_keys]
       end
     end
   end

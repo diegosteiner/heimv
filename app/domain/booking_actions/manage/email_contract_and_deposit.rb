@@ -30,7 +30,7 @@ module BookingActions
 
       def prepare_attachments
         [
-          DesignatedDocument.in_context(booking).with_locale(booking.locale).where(send_with_contract: true),
+          DesignatedDocument.for_booking(booking).where(send_with_contract: true),
           invoices.map(&:pdf),
           contract.pdf
         ].flatten.compact

@@ -1,6 +1,3 @@
-- if @home.present?
-  = render partial: 'manage/homes/navigation', locals: { active: :designated_documents }
-
 h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: 2)
 
 .table-responsive
@@ -9,7 +6,6 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: 2)
       tr
         th= DesignatedDocument.human_attribute_name(:name)
         th= DesignatedDocument.human_attribute_name(:designation)
-        th= DesignatedDocument.human_attribute_name(:home_id)
         th= DesignatedDocument.human_attribute_name(:locale)
         th
 
@@ -21,8 +17,6 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: 2)
               = designated_document.name
           td 
             = DesignatedDocument.human_enum(:designation, designated_document.designation)
-          td 
-            = link_to designated_document.home, manage_home_path(designated_document.home) if designated_document.home
           td 
             = designated_document.locale
           td.p-1.text-end 
@@ -36,13 +30,7 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: 2)
                 span.fa.fa-trash
 
 br
-- if @home.present? 
-  = link_to new_manage_home_designated_document_path(@home), class: 'btn btn-primary' do
-    span.fa.fa-file-o
-    '
-    = t(:add_record, model_name: DesignatedDocument.model_name.human)
-- else
-  = link_to new_manage_designated_document_path, class: 'btn btn-primary' do
-    span.fa.fa-file-o
-    '
-    = t(:add_record, model_name: DesignatedDocument.model_name.human)
+= link_to new_manage_designated_document_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: DesignatedDocument.model_name.human)

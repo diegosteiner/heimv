@@ -2,7 +2,7 @@
 
 module Manage
   class RichTextTemplateSerializer < ApplicationSerializer
-    fields :key, :title_i18n, :body_i18n, :home_id
+    fields :key, :title_i18n, :body_i18n
 
     view :export do
       include_view :default

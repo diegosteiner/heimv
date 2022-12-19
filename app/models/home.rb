@@ -25,11 +25,8 @@
 #
 
 class Home < ApplicationRecord
-  has_many :occupancies, dependent: :destroy
-  has_many :bookings, dependent: :restrict_with_error
-  has_many :rich_text_templates, inverse_of: :home, dependent: :destroy
-  has_many :operator_responsibilities, inverse_of: :home, dependent: :destroy
-  has_many :designated_documents, dependent: :destroy, inverse_of: :home
+  has_many :occupancies, dependent: :restrict_with_error
+  has_many :bookings, through: :occupancies
 
   belongs_to :organisation, inverse_of: :homes
 

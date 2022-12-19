@@ -3,9 +3,9 @@
 class TransitionBookingStatesJob < ApplicationJob
   queue_as :default
 
-  def perform(bookings = Booking.inconcluded)
+  def perform(bookings = Booking.where(concluded: false))
     transitions = {}
-    bookings.includes(Booking::DEFAULT_INCLUDES).find_each do |booking|
+    bookings.with_default_includes.find_each do |booking|
       booking_transitions = booking.apply_transitions&.compact_blank
       Booking::Log.log(booking, trigger: :auto) if booking_transitions.present?
       transitions[booking.id] = booking_transitions

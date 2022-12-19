@@ -8,5 +8,9 @@
   = f.check_box :send_with_last_infos
   = f.text_area :remarks
 
+  label= DesignatedDocument.human_attribute_name(:attaching_conditions)
+  = f.fields_for :attaching_conditions, @designated_document.attaching_conditions.to_a do |bcf|
+    = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+
   .form-actions.pt-4.mt-3
     = f.submit

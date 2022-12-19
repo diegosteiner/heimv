@@ -30,10 +30,13 @@ module BookingStates
     after_transition do |booking|
       booking.notifications.new(template: :booking_agent_request_notification,
                                 to: booking.agent_booking.booking_agent).deliver
-      booking.occupancy.tentative!
+      booking.tentative!
     end
 
-    infer_transition(to: :cancelled_request, &:deadline_exceeded?)
+    infer_transition(to: :cancelled_request) do |booking|
+      booking.deadline_exceeded?
+    end
+
     infer_transition(to: :awaiting_tenant) do |booking|
       booking.agent_booking.valid? && booking.agent_booking.committed_request
     end

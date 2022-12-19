@@ -24,7 +24,7 @@ module BookingStates
     end
 
     def relevant_time
-      booking.occupancy.ends_at
+      booking.ends_at
     end
 
     protected

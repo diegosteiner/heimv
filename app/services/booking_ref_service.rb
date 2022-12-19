@@ -11,24 +11,24 @@ class BookingRefService
     ref_parts.merge!(hash)
   end
 
-  ref_part home_ref: ->(booking) { booking.home.ref },
-           year: ->(booking) { booking.occupancy.begins_at.year },
-           month: ->(booking) { booking.occupancy.begins_at.month },
-           day: ->(booking) { booking.occupancy.begins_at.day }
+  ref_part home_ref: ->(booking) { booking.homes.map(&:ref).join },
+           year: ->(booking) { booking.begins_at.year },
+           month: ->(booking) { booking.begins_at.month },
+           day: ->(booking) { booking.begins_at.day }
 
   ref_part same_month_count: (lambda do |booking|
-    day = booking.occupancy.begins_at
-    booking.home.occupancies.begins_at(after: day.beginning_of_month, before: day.end_of_month).count
+    day = booking.begins_at
+    booking.organisation.bookings.begins_at(after: day.beginning_of_month, before: day.end_of_month).count
   end)
 
   ref_part same_year_count: (lambda do |booking|
-    day = booking.occupancy.begins_at
-    booking.home.occupancies.begins_at(after: day.beginning_of_year, before: day.end_of_year).count
+    day = booking.begins_at
+    booking.organisation.bookings.begins_at(after: day.beginning_of_year, before: day.end_of_year).count
   end)
 
   ref_part same_day_alpha: (lambda do |booking|
-    day = booking.occupancy.begins_at
-    count = booking.home.occupancies.begins_at(after: day.beginning_of_day, before: day.end_of_day).count
+    day = booking.begins_at
+    count = booking.organisation.bookings.begins_at(after: day.beginning_of_day, before: day.end_of_day).count
 
     next '' if count < 2
     next count if count > 25

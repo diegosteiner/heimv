@@ -20,7 +20,6 @@ module Manage
 
     def new
       @booking.organisation = current_organisation
-      @booking.build_occupancy
       @booking.build_tenant
       respond_with :manage, @booking
     end

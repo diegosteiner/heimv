@@ -22,7 +22,7 @@
 #
 class Booking
   class Log < ApplicationRecord
-    LOGGED_CHANGES_MAP = { 'booking' => Booking, 'occupancy' => Occupancy, 'tenant' => Tenant }.freeze
+    LOGGED_CHANGES_MAP = { 'booking' => Booking, 'tenant' => Tenant }.freeze
     belongs_to :booking, inverse_of: :logs
     belongs_to :user, inverse_of: :booking_logs, optional: true
 
@@ -30,7 +30,7 @@ class Booking
 
     def self.log(booking, trigger:, action: nil, user: nil, data: {})
       data = data.reverse_merge({
-                                  booking: booking.previous_changes, occupancy: booking.occupancy&.previous_changes,
+                                  booking: booking.previous_changes,
                                   tenant: booking.tenant&.previous_changes, action: action,
                                   transitions: booking.previous_transitions
                                 }).compact_blank
@@ -51,7 +51,7 @@ class Booking
     end
 
     def logged_changes
-      changes = data&.slice('booking', 'tenant', 'occupancy')&.filter { |_key, value| value.present? } || []
+      changes = data&.slice('booking', 'tenant')&.filter { |_key, value| value.present? } || []
       changes.transform_keys { |key| LOGGED_CHANGES_MAP[key] }
     end
   end

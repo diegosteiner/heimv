@@ -24,7 +24,7 @@ module Import
       end
 
       def initialize_record(_row)
-        organisation.bookings.new(home: home)
+        organisation.bookings.new(homes: [home])
       end
 
       def persist_record(booking)
@@ -41,7 +41,8 @@ module Import
       end
 
       actor :state do |booking, _row, _options|
-        booking.committed_request ||= booking.occupancy&.occupied?
+        booking.occupancy_type = booking.occupancies.map(&:occupancy_type).max
+        booking.committed_request ||= booking.occupied?
       end
 
       actor :category do |booking, row, options|

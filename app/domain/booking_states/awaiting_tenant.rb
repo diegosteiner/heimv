@@ -28,7 +28,10 @@ module BookingStates
                                 to: booking.agent_booking.booking_agent).deliver
     end
 
-    infer_transition(to: :overdue_request, &:deadline_exceeded?)
+    infer_transition(to: :overdue_request) do |booking|
+      booking.deadline_exceeded?
+    end
+
     infer_transition(to: :definitive_request) do |booking|
       booking.tenant&.valid?(:public_update) && booking.committed_request
     end

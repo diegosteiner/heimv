@@ -14,8 +14,8 @@ module Public
     def changelog; end
 
     def privacy
-      @privacy_statement = DesignatedDocument.in_context(current_organisation).with_locale(I18n.locale)
-                                             .privacy_statement.first
+      @privacy_statement = current_organisation.designated_documents.with_locale(I18n.locale)
+                                               .privacy_statement.first
     end
 
     def ext

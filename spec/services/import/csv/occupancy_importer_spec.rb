@@ -56,7 +56,9 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         ENDCSV
       end
 
-      it { expect(result.records).to all(be_valid) }
+      it {
+        expect(result.records).to all(be_valid)
+      }
 
       it do
         occupancy = result.records.first
@@ -71,7 +73,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         expect(booking.tenant.email).to eq('tenant22@heimv.local')
         expect(booking.booking_state).to be_a(BookingStates::DefinitiveRequest)
         expect(booking.committed_request).to be_truthy
-        expect(booking.occupancy).to be_tentative
+        expect(booking).to be_tentative
       end
 
       it do
@@ -80,7 +82,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
         expect(booking.approximate_headcount).to eq 12
         expect(booking.email).to eq('tenant22@heimv.local')
         expect(booking.committed_request).to be_falsy
-        expect(booking.occupancy).to be_tentative
+        expect(booking).to be_tentative
       end
 
       it do

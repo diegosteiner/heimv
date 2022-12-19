@@ -24,7 +24,6 @@
 # Foreign Keys
 #
 #  fk_rails_...  (organisation_id => organisations.id)
-#  fk_rails_...  (qualifiable_id => tarifs.id)
 #
 
 module BookingConditions
@@ -40,9 +39,8 @@ module BookingConditions
     end
 
     def evaluate(booking)
-      occupancy = booking.occupancy
-      years = [occupancy&.begins_at&.year, occupancy&.ends_at&.year]
-      phased_season_spans(years).any? { |season| season.overlaps?(occupancy.span) }
+      years = [booking.begins_at&.year, booking.ends_at&.year]
+      phased_season_spans(years).any? { |season| season.overlaps?(booking.span) }
     end
 
     protected

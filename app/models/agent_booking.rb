@@ -37,12 +37,12 @@
 
 class AgentBooking < ApplicationRecord
   belongs_to :booking_agent, inverse_of: :agent_bookings
-  belongs_to :booking, inverse_of: :agent_booking, validate: true, autosave: true, touch: true
+  belongs_to :booking, inverse_of: :agent_booking, autosave: true, touch: true
   belongs_to :organisation
-  belongs_to :home
-  has_one :occupancy, through: :booking
 
   has_secure_token :token, length: 48
+
+  accepts_nested_attributes_for :booking, reject_if: :all_blank, update_only: true
 
   validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request
   validates :booking_agent_code, presence: true
@@ -51,23 +51,14 @@ class AgentBooking < ApplicationRecord
     errors.add(:tenant_email, :invalid) if tenant_email.present? && tenant_email == booking_agent&.email
   end
 
-  delegate :occupancy, to: :booking, allow_nil: true
-
-  accepts_nested_attributes_for :occupancy, reject_if: :all_blank, update_only: true
-
   def tenant_email=(value)
     super
     booking.email = value
   end
 
-  def home=(value)
-    super
-    booking.home = value
-  end
-
   def booking
     super || self.booking = build_booking(committed_request: false, notifications_enabled: true,
-                                          home: home, organisation: organisation, email: tenant_email.presence)
+                                          organisation: organisation, email: tenant_email.presence)
   end
 
   def booking_agent_responsible?

@@ -24,7 +24,6 @@
 # Foreign Keys
 #
 #  fk_rails_...  (organisation_id => organisations.id)
-#  fk_rails_...  (qualifiable_id => tarifs.id)
 #
 
 require 'rails_helper'
@@ -33,9 +32,10 @@ RSpec.describe BookingConditions::BookableExtra, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
     let(:distinction) { '' }
-    let(:booking_condition) { described_class.new(distinction: distinction, organisation: booking.organisation) }
-    let(:booking) { create(:booking) }
-    let(:bookable_extra) { create(:bookable_extra, organisation: booking.organisation) }
+    let(:organisation) { create(:organisation) }
+    let(:booking_condition) { described_class.new(distinction: distinction, organisation: organisation) }
+    let(:booking) { create(:booking, organisation: organisation) }
+    let(:bookable_extra) { create(:bookable_extra, organisation: organisation) }
     let(:distinction) { bookable_extra.id.to_s }
 
     context 'without extra enabled' do

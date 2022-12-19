@@ -9,8 +9,11 @@ RSpec.describe BookingRefService, type: :model do
     subject(:ref) { ref_strategy.generate(booking, template) }
     let(:template) { nil }
     let(:begins_at) { DateTime.new(2030, 10, 15, 14) }
-    let(:home) { create(:home, ref: 'P') }
-    let(:booking) { create(:booking, begins_at: begins_at, ends_at: begins_at + 2.hours, home: home) }
+    let(:organisation) { create(:organisation) }
+    let(:home) { create(:home, ref: 'P', organisation: organisation) }
+    let(:booking) do
+      create(:booking, organisation: organisation, begins_at: begins_at, ends_at: begins_at + 2.hours, homes: [home])
+    end
 
     context 'with default template' do
       it { is_expected.to eq('P20301015') }
@@ -23,7 +26,8 @@ RSpec.describe BookingRefService, type: :model do
 
     context 'with default template and multiple bookings' do
       before do
-        create(:booking, home: booking.home, begins_at: begins_at - 4.hours, ends_at: begins_at - 2.hours)
+        create(:booking, homes: booking.homes, begins_at: begins_at - 4.hours, ends_at: begins_at - 2.hours,
+                         organisation: organisation)
       end
       it { is_expected.to eq('P20301015a') }
     end

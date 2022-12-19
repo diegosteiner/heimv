@@ -9,7 +9,8 @@ RSpec::Matchers.define :have_state do |expected|
 end
 
 describe BookingStateConcern do
-  let(:booking) { create(:booking) }
+  let(:organisation) { create(:organisation) }
+  let(:booking) { create(:booking, organisation: organisation) }
   let(:target_state) { :open_request }
 
   describe '#apply_transitions' do

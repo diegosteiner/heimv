@@ -7,20 +7,23 @@
 #  id                     :uuid             not null, primary key
 #  accept_conditions      :boolean          default(FALSE)
 #  approximate_headcount  :integer
+#  begins_at              :datetime
 #  booking_flow_type      :string
 #  booking_state_cache    :string           default("initial"), not null
 #  cancellation_reason    :text
-#  color                  :string
 #  committed_request      :boolean
 #  concluded              :boolean          default(FALSE)
 #  conditions_accepted_at :datetime
 #  editable               :boolean          default(TRUE)
 #  email                  :string
+#  ends_at                :datetime
 #  import_data            :jsonb
 #  internal_remarks       :text
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
+#  occupancy_color        :string
+#  occupancy_type         :integer          default("free"), not null
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
@@ -31,7 +34,6 @@
 #  updated_at             :datetime         not null
 #  booking_category_id    :integer
 #  deadline_id            :bigint
-#  home_id                :bigint           not null
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
 #
@@ -39,7 +41,6 @@
 #
 #  index_bookings_on_booking_state_cache  (booking_state_cache)
 #  index_bookings_on_deadline_id          (deadline_id)
-#  index_bookings_on_home_id              (home_id)
 #  index_bookings_on_locale               (locale)
 #  index_bookings_on_organisation_id      (organisation_id)
 #  index_bookings_on_ref                  (ref)
@@ -47,35 +48,30 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (home_id => homes.id)
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
 FactoryBot.define do
   factory :booking do
+    organisation
     sequence(:email) { |n| "booking-#{n}@heimverwaltung.example.com" }
-
-    home
+    sequence(:begins_at) { |i| (Time.zone.now + i.month).change(hour: 9, minute: 0) }
+    ends_at { (begins_at + 1.week).change(hour: 14, minute: 0) }
+    occupancy_type { Booking.occupancy_types[:free] }
     tenant_organisation { Faker::Company.name }
     committed_request { [true, false].sample }
     approximate_headcount { rand(1..30) }
     notifications_enabled { true }
     purpose_description { 'Pfadilager Test' }
     skip_infer_transitions { true }
+    homes { build_list :home, 1, organisation: organisation }
     transient do
       initial_state { nil }
-      begins_at { nil }
-      ends_at { nil }
-      occupancy { association :occupancy, home: home, occupancy_type: :free }
-      tenant { association :tenant, organisation: organisation, email: email }
+      tenant { build :tenant, organisation: organisation, email: email }
     end
 
     after(:build) do |booking, evaluator|
-      # booking.organisation ||= booking.occupancy.organisation || booking.tenant.organisation
       booking.tenant = evaluator.tenant if evaluator.tenant.present?
-      booking.occupancy = evaluator.occupancy if evaluator.occupancy.present?
-      booking.occupancy.begins_at = evaluator.begins_at if evaluator.begins_at.present?
-      booking.occupancy.ends_at = evaluator.ends_at if evaluator.ends_at.present?
       booking.category ||= booking.organisation.booking_categories.sample
     end
 

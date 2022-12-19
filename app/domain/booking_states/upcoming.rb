@@ -25,17 +25,17 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupancy.occupied!
+      booking.occupied!
       booking.deadline&.clear
       booking.notifications.new(template: :upcoming_notification, to: booking.tenant).deliver
     end
 
     infer_transition(to: :upcoming_soon) do |booking|
-      booking.organisation.settings.upcoming_soon_window.from_now > booking.occupancy.begins_at
+      booking.organisation.settings.upcoming_soon_window.from_now > booking.begins_at
     end
 
     def relevant_time
-      booking.occupancy.begins_at
+      booking.begins_at
     end
   end
 end

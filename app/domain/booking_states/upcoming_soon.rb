@@ -24,7 +24,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.operators_for(:home_handover, :home_return).each do |operator|
+      OperatorResponsibility.for_booking(booking, :home_handover, :home_return).each do |operator|
         next if operator.email.blank?
 
         booking.notifications.new(template: :operator_upcoming_soon_notification, to: operator)&.deliver
@@ -35,17 +35,16 @@ module BookingStates
       notification = booking.notifications.new(template: :upcoming_soon_notification, to: booking.tenant)
       next unless notification.valid?
 
-      notification.attach(DesignatedDocument.in_context(booking).with_locale(booking.locale)
-                                            .where(send_with_last_infos: true).blobs)
+      notification.attach(DesignatedDocument.for_booking(booking).where(send_with_last_infos: true).blobs)
       notification.save! && notification.deliver
     end
 
     infer_transition(to: :active) do |booking|
-      booking.occupancy.today? || booking.occupancy.past?
+      booking.today? || booking.past?
     end
 
     def relevant_time
-      booking.occupancy.begins_at
+      booking.begins_at
     end
   end
 end

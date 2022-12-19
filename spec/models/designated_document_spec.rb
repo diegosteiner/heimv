@@ -13,12 +13,10 @@
 #  send_with_last_infos :boolean          default(FALSE)
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  home_id              :bigint
 #  organisation_id      :bigint           not null
 #
 # Indexes
 #
-#  index_designated_documents_on_home_id          (home_id)
 #  index_designated_documents_on_organisation_id  (organisation_id)
 #
 require 'rails_helper'
@@ -81,41 +79,30 @@ RSpec.describe DesignatedDocument, type: :model do
     end
   end
 
-  describe '::in_context' do
-    subject(:in_context) { described_class.in_context(context) }
-    let(:other_home) { create(:home, organisation: organisation) }
-    let(:other_organisation) { create(:organisation) }
-    let(:documents) do
+  describe '::for_booking' do
+    subject(:for_booking) { described_class.for_booking(booking) }
+    let(:booking) { create(:booking, organisation: organisation) }
+    let(:conditions) do
       {
-        on_organisation: create(:designated_document, organisation: organisation),
-        on_home: create(:designated_document, organisation: organisation),
-        on_other_organisation: create(:designated_document, organisation: other_organisation),
-        on_other_home: create(:designated_document, organisation: organisation, home: other_home)
+        always: [BookingConditions::AlwaysApply.new(organisation: organisation)],
+        wrong_home: [BookingConditions::Occupiable.new(distinction: home.id)],
+        correct_home: [BookingConditions::Occupiable.new(distinction: booking.home_ids.first)]
       }
     end
 
-    context 'with organisation' do
-      let(:context) { organisation }
-
-      it do
-        documents
-        is_expected.to include(documents[:on_organisation])
-        is_expected.not_to include(documents[:on_other_home])
-        is_expected.not_to include(documents[:on_other_organisation])
-        is_expected.not_to include(documents[:on_other_home])
+    let(:documents) do
+      conditions.transform_values do |condition|
+        create(:designated_document, organisation: organisation, attaching_conditions: condition)
       end
     end
 
-    context 'with home' do
-      let(:context) { home }
+    it do
+      documents
 
-      it do
-        documents
-        is_expected.to include(documents[:on_organisation])
-        is_expected.to include(documents[:on_home])
-        is_expected.not_to include(documents[:on_other_organisation])
-        is_expected.not_to include(documents[:on_other_home])
-      end
+      expect(for_booking.count).to eq(2)
+      expect(documents[:always].attach_to?(booking)).to be_truthy
+      expect(documents[:correct_home].attach_to?(booking)).to be_truthy
+      expect(documents[:wrong_home].attach_to?(booking)).to be_falsy
     end
   end
 end

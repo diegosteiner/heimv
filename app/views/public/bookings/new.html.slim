@@ -1,47 +1,43 @@
 .mx-auto.w-md
   h3 = t(:'.title')
-  / - if params[:fallback].blank? && current_organisation.settings.feature_new_bookings
-  - if false
-    = react_component('public/booking/new/BookingFormWrapper', booking: Public::BookingSerializer.render_as_hash(@booking), organisation: Public::OrganisationSerializer.render_as_hash(current_organisation))
-  - else 
-    .card
-      .card-body
-        = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
-          = hidden_field_tag :fallback, true
-          - if @booking.errors[:base].present?
-            .alert.alert-danger.d-flex
-              .me-3
-                i.fa.fa-exclamation-circle               
-              = @booking.errors[:base].to_sentence
-          = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
-          fieldset[data-range-role="unit"]
-            = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true
-            = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
-                                                        id: 'booking_occupancy_begins_at',
-                                                        name: 'booking[occupancy_attributes][begins_at]',
-                                                        value: @booking.occupancy.begins_at&.iso8601, required: true,
-                                                        invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.begins_at') }.to_sentence)
+  .card
+    .card-body
+      = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
+        = hidden_field_tag :fallback, true
+        - if @booking.errors[:base].present?
+          .alert.alert-danger.d-flex
+            .me-3
+              i.fa.fa-exclamation-circle               
+            = @booking.errors[:base].to_sentence
+        = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
+        fieldset[data-range-role="unit"]
+          = f.collection_select :home_ids, current_organisation.homes.ordered, :id, :to_s, include_blank: true
+          = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
+                                                      id: 'booking_begins_at',
+                                                      name: 'booking[begins_at]',
+                                                      value: @booking.begins_at&.iso8601, required: true,
+                                                      invalidFeedback: @booking.errors[:begins_at].to_sentence)
 
-            = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
-                                                        id: 'booking_occupancy_ends_at',
-                                                        name: 'booking[occupancy_attributes][ends_at]',
-                                                        value: @booking.occupancy.ends_at&.iso8601, required: true,
-                                                        invalidFeedback: @booking.errors.filter_map { |error| error.message if error.attribute.start_with?('occupancy.ends_at') }.to_sentence)
-            = f.email_field :email
-            = f.text_field :tenant_organisation
+          = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:ends_at),
+                                                      id: 'booking_ends_at',
+                                                      name: 'booking[ends_at]',
+                                                      value: @booking.ends_at&.iso8601, required: true,
+                                                      invalidFeedback: @booking.errors[:ends_at].to_sentence)
+          = f.email_field :email
+          = f.text_field :tenant_organisation
 
-            - if current_organisation.booking_agents.any?
-              = link_to new_public_agent_booking_path(agent_booking: Public::AgentBookingParams.new(params[:booking]).to_h)
-                = BookingAgent.model_name.human
+          - if current_organisation.booking_agents.any?
+            = link_to new_public_agent_booking_path(agent_booking: Public::AgentBookingParams.new(params[:booking]).to_h)
+              = BookingAgent.model_name.human
 
-          .form-actions.mt-4
-            - links = { \
-                terms_pdf_url: public_designated_document_url(designation: :terms), \
-                privacy_statement_pdf_url: privacy_url() \
-              }
-            = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', **links)
-            br
-            = f.submit
+        .form-actions.mt-4
+          - links = { \
+              terms_pdf_url: public_designated_document_url(designation: :terms), \
+              privacy_statement_pdf_url: privacy_url() \
+            }
+          = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', **links)
+          br
+          = f.submit
 
   - if current_organisation.email.present?
     p.mt-3.text-center.small== t('.problems_html', email: current_organisation.email)

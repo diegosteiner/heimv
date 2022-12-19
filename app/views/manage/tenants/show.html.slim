@@ -33,7 +33,6 @@
       tr
         th= Booking.human_attribute_name(:ref)
         th= Occupancy.model_name.human
-        th= Booking.human_attribute_name(:home)
         th= Booking.human_attribute_name(:state)
         th
 
@@ -43,9 +42,7 @@
           td
             = link_to booking.ref, manage_booking_path(booking)
           td
-            = render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: booking.occupancy }
-          td
-            = booking.home.to_s
+            = render partial: 'manage/occupancies/occupancy_range', locals: { booking: booking }
           td 
             = booking.booking_state.t(:label)
           

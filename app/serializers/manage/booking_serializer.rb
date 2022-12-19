@@ -2,13 +2,15 @@
 
 module Manage
   class BookingSerializer < Public::BookingSerializer
+    association :homes,         blueprint: Manage::HomeSerializer
+    association :home,          blueprint: Manage::HomeSerializer
+    association :occupancies,   blueprint: Public::OccupancySerializer
     association :tenant,        blueprint: Manage::TenantSerializer
     association :deadline,      blueprint: Manage::DeadlineSerializer
-    association :home,          blueprint: Manage::HomeSerializer
     association :category,      blueprint: Manage::BookingCategorySerializer
 
-    fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request,
-           :purpose_description, :approximate_headcount, :remarks, :home_id
+    fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request, :occupancy_color,
+           :purpose_description, :approximate_headcount, :remarks, :home_ids, :begins_at, :ends_at, :occupancy_type
 
     field :operator_responsibilities do |booking|
       booking.operator_responsibilities.to_h do |operator_responsibility|

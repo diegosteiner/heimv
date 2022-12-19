@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Manage
-  class OccupancyParams < Public::OccupancyParams
+  class OccupancyParams < ApplicationParams
     def self.permitted_keys
-      super + %i[occupancy_type remarks color]
+      %i[begins_at ends_at occupancy_type remarks color]
     end
   end
 end

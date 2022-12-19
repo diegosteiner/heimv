@@ -27,14 +27,6 @@ class TemplateContext
     end.deep_stringify_keys
   end
 
-  def cache_key
-    [self.class, @original_context.hash, I18n.locale].join('-')
-  end
-
-  def cached(**options)
-    Rails.cache.fetch(cache_key, **options) { to_h }
-  end
-
   def self.serializer_for(value)
     value&.class&.ancestors&.each do |ancestor|
       serializer = SERIALIZERS[ancestor]

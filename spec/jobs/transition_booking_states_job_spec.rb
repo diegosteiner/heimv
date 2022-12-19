@@ -11,7 +11,7 @@ RSpec.describe TransitionBookingStatesJob, type: :job do
     context 'with deadlines' do
       let(:home) { create(:home) }
       let(:booking) do
-        create(:booking, initial_state: :provisional_request, home: home, organisation: home.organisation,
+        create(:booking, initial_state: :provisional_request, homes: [home], organisation: home.organisation,
                          committed_request: false)
       end
 

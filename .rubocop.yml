@@ -72,3 +72,6 @@ Style/GlobalVars:
     - "app/services/cache_store_config_service.rb"
     - "config/initializers/redis.rb"
     - "config/initializers/sidekiq.rb"
+
+Style/SymbolProc:
+  Enabled: false

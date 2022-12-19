@@ -42,7 +42,7 @@ class Invoice
     def rich_text_template(invoice)
       key = "#{invoice.model_name.param_key}_text"
       booking = invoice.booking
-      rich_text_template = invoice.organisation.rich_text_templates.enabled.by_key(key, home_id: booking.home_id)
+      rich_text_template = invoice.organisation.rich_text_templates.enabled.by_key(key)
       return if rich_text_template.blank?
 
       I18n.with_locale(booking.locale) { rich_text_template.interpolate(template_context(invoice)) }.body
@@ -50,7 +50,7 @@ class Invoice
 
     def template_context(invoice)
       TemplateContext.new(
-        invoice: invoice, booking: invoice.booking, home: invoice.booking.home,
+        invoice: invoice, booking: invoice.booking,
         organisation: invoice.booking.organisation
       )
     end

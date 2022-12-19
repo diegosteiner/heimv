@@ -17,7 +17,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupancy.free!
+      booking.free!
       booking.conclude
       booking.deadline&.clear
       booking.notifications.new(template: :cancelled_request_notification,

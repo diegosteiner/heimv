@@ -29,11 +29,16 @@ module BookingStates
 
     after_transition do |booking|
       booking.notifications.new(template: :provisional_request_notification, to: booking.tenant).deliver
-      booking.occupancy.tentative!
+      booking.tentative!
     end
 
-    infer_transition(to: :definitive_request, &:committed_request)
-    infer_transition(to: :overdue_request, &:deadline_exceeded?)
+    infer_transition(to: :definitive_request) do |booking|
+      booking.committed_request
+    end
+
+    infer_transition(to: :overdue_request) do |booking|
+      booking.deadline_exceeded?
+    end
 
     def relevant_time
       booking.deadline&.at

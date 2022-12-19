@@ -1,15 +1,18 @@
 .occupancy-info
   .text-center
     i.fa.fa-home
-  = link_to occupancy.home, manage_home_path(occupancy.home)
+  div
+    - booking.occupancies.each do |occupancy|
+      = link_to occupancy.home, manage_home_path(occupancy.home), class: (:'text-danger' if occupancy.conflicting.present?)
   .text-center
     i.fa.fa-calendar
-  strong[class=(:'text-danger' if occupancy.conflicting.present?)]
+  strong
     = t(:from)
-    =<> time_tag occupancy.begins_at, format: :short_with_weekday
+    =<> time_tag booking.begins_at, format: :short_with_weekday
   .text-center
-    span[style="color: #{occupancy.color}"]
+    span[style="color: #{booking.occupancy_color}"]
       | ⬤
   div
     = t(:until)
-    =<> time_tag occupancy.ends_at, format: :short_with_weekday
+    =<> time_tag booking.ends_at, format: :short_with_weekday
+

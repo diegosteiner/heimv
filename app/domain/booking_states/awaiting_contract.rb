@@ -19,18 +19,21 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.occupancy.conflicting.none?
+      booking.conflicting_occupancies.none?
     end
 
     after_transition do |booking|
-      booking.occupancy.occupied!
+      booking.occupied!
       booking.deadline&.clear
       booking.deadlines.create(length: booking.organisation.settings.awaiting_contract_deadline,
                                postponable_for: booking.organisation.settings.deadline_postponable_for,
                                remarks: booking.booking_state.t(:label))
     end
 
-    infer_transition(to: :overdue, &:deadline_exceeded?)
+    infer_transition(to: :overdue) do |booking|
+      booking.deadline_exceeded?
+    end
+
     infer_transition(to: :upcoming) do |booking|
       booking.contracts.signed.any? && Invoices::Deposit.of(booking).kept.all?(&:paid?)
     end

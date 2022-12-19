@@ -37,20 +37,20 @@ module DataDigestTemplates
         body: '{{ booking.home.name }}'
       },
       {
-        header: ::Occupancy.human_attribute_name(:begins_at),
-        body: '{{ booking.occupancy.begins_at | datetime_format }}'
+        header: ::Booking.human_attribute_name(:begins_at),
+        body: '{{ booking.begins_at | datetime_format }}'
       },
       {
-        header: ::Occupancy.human_attribute_name(:ends_at),
-        body: '{{ booking.occupancy.ends_at | datetime_format }}'
+        header: ::Booking.human_attribute_name(:ends_at),
+        body: '{{ booking.ends_at | datetime_format }}'
       },
       {
         header: ::Booking.human_attribute_name(:purpose_description),
         body: "{{ booking.purpose_description }}\n{{ booking.category.title }}"
       },
       {
-        header: ::Occupancy.human_attribute_name(:nights),
-        body: '{{ booking.occupancy.nights }}'
+        header: ::Booking.human_attribute_name(:nights),
+        body: '{{ booking.nights }}'
       },
       {
         header: ::Tenant.model_name.human,
@@ -71,18 +71,20 @@ module DataDigestTemplates
     ].freeze
 
     column_type :default do
-      body do |booking|
-        context = TemplateContext.new(booking: booking, organisation: booking.organisation, home: booking.home)
-        @templates[:body]&.render!(context.cached)
+      body do |booking, template_context_cache|
+        context = template_context_cache[cache_key(booking)] ||=
+          TemplateContext.new(booking: booking, organisation: booking.organisation).to_h
+        @templates[:body]&.render!(context)
       end
     end
 
     column_type :usage do
-      body do |booking|
+      body do |booking, template_context_cache|
         tarif = ::Tarif.find_by(id: @config[:tarif_id])
-        context = TemplateContext.new(booking: booking, organisation: booking.organisation,
-                                      home: booking.home, usage: booking.usages.of_tarif(tarif).take)
-        @templates[:body]&.render!(context.cached)
+        context = template_context_cache[cache_key(booking)] ||=
+          TemplateContext.new(booking: booking, organisation: booking.organisation,
+                              usage: booking.usages.of_tarif(tarif).take).to_h
+        @templates[:body]&.render!(context)
       end
     end
 

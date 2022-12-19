@@ -67,11 +67,12 @@ module DataDigestTemplates
     ].freeze
 
     column_type :default do
-      body do |invoice_part|
+      body do |invoice_part, template_context_cache|
         booking = invoice_part.booking
-        context = TemplateContext.new(booking: booking, home: booking.home, invoice: invoice_part.invoice,
-                                      invoice_part: invoice_part, organisation: booking.organisation)
-        @templates[:body]&.render!(context.cached)
+        context = template_context_cache[cache_key(invoice_part)] ||=
+          TemplateContext.new(booking: booking, invoice: invoice_part.invoice,
+                              invoice_part: invoice_part, organisation: booking.organisation).to_h
+        @templates[:body]&.render!(context)
       end
     end
 

@@ -10,12 +10,12 @@ module Manage
     end
 
     def new
-      @designated_document.home = @home
       @designated_document.assign_attributes(designated_document_params) if designated_document_params
       respond_with :manage, @designated_document
     end
 
     def edit
+      @designated_document.attaching_conditions.build
       respond_with :manage, @designated_document
     end
 
@@ -38,8 +38,10 @@ module Manage
     private
 
     def designated_document_params
-      params[:designated_document]&.permit(:designation, :file, :locale, :remarks, :home_id, :name,
-                                           :send_with_contract, :send_with_last_infos)
+      params[:designated_document]&.permit(:designation, :file, :locale, :remarks, :name,
+                                           :send_with_contract, :send_with_last_infos,
+                                           attaching_conditions_attributes: BookingConditionParams.permitted_keys +
+                                             %i[id _destroy])
     end
   end
 end

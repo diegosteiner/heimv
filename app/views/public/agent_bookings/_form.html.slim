@@ -8,26 +8,28 @@
           .ms-3
             i.fa.fa-exclamation-circle               
           = errors.to_sentence
-      fieldset
-        - if @agent_booking.booking&.deadline
-          .mb-3
-            label=Booking.human_attribute_name(:deadline)
-            div
-              =<> l(@agent_booking.booking.deadline.at, format: :short)
+      = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|
+        fieldset
+          - if @agent_booking.booking.deadline
+            .mb-3
+              label=Booking.human_attribute_name(:deadline)
+              div
+                =<> l(@agent_booking.booking.deadline.at, format: :short)
 
-        = f.collection_select :home_id, current_organisation.homes, :id, :to_s, {}, disabled: !@agent_booking.booking_agent_responsible?
-        = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:begins_at),
-                                                    name: 'agent_booking[occupancy_attributes][begins_at]',
-                                                    value: @agent_booking.occupancy.begins_at&.iso8601, 
-                                                    disabled: !@agent_booking.booking.editable?, required: true,
-                                                    invalidFeedback: @agent_booking.booking.errors['occupancy.begins_at']&.to_sentence)
+          = bf.collection_select :home_ids, current_organisation.homes, :id, :to_s, {}, disabled: !@agent_booking.booking_agent_responsible?
+          = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
+                                                      name: 'agent_booking[booking_attributes][begins_at]',
+                                                      value: @agent_booking.booking.begins_at&.iso8601, 
+                                                      disabled: !@agent_booking.booking.editable?, required: true,
+                                                      invalidFeedback: @agent_booking.booking.errors[:begins_at]&.to_sentence)
 
-        = react_component('calendar/CalendarControlGroup', label: Occupancy.human_attribute_name(:ends_at),
-                                                    name: 'agent_booking[occupancy_attributes][ends_at]',
-                                                    value: @agent_booking.occupancy.ends_at&.iso8601, 
-                                                    disabled: !@agent_booking.booking.editable?, required: true,
-                                                    invalidFeedback: @agent_booking.booking.errors['occupancy.ends_at']&.to_sentence)
+          = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:ends_at),
+                                                      name: 'agent_booking[booking_attributes][ends_at]',
+                                                      value: @agent_booking.booking.ends_at&.iso8601, 
+                                                      disabled: !@agent_booking.booking.editable?, required: true,
+                                                      invalidFeedback: @agent_booking.booking.errors[:ends_at]&.to_sentence)
 
+      fieldset 
         = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
         = f.text_field :booking_agent_code, disabled: !@agent_booking.booking_agent_responsible?
         = f.text_field :booking_agent_ref, required: false, disabled: !@agent_booking.booking_agent_responsible?

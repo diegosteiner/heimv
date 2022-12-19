@@ -40,7 +40,7 @@ require 'rails_helper'
 RSpec.describe Organisation, type: :model do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
-  let(:booking) { create(:booking, home: home) }
+  let(:booking) { create(:booking, organisation: organisation, homes: [home]) }
   let(:tarif) { create(:tarif, type: Tarifs::Amount.to_s, price_per_unit: 10, organisation: organisation) }
   let(:usage) { create(:usage, booking: booking, tarif: tarif, used_units: 7) }
 
@@ -61,7 +61,7 @@ RSpec.describe Organisation, type: :model do
 
     # context 'with minimum_price_per_night' do
     #   before { tarif.update(minimum_price_per_night: 100.0) }
-    #   it { expect(booking.occupancy.nights).to eq(7) }
+    #   it { expect(booking.nights).to eq(7) }
     #   it { is_expected.to eq(700.0) }
     #   it { expect(tarif.minimum_price?(usage)).to be_truthy }
     # end

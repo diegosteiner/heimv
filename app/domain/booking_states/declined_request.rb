@@ -21,7 +21,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupancy.free!
+      booking.free!
       booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline_exceeded?
       booking.conclude
       booking.deadline&.clear

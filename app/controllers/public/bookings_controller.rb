@@ -11,15 +11,13 @@ module Public
 
     def new
       @booking = current_organisation.bookings.new(create_params)
-      @booking.organisation = current_organisation
-      @booking.build_occupancy unless @booking.occupancy
-      @booking.occupancy.ends_at ||= @booking.occupancy.begins_at
+      @booking.ends_at ||= @booking.begins_at
 
       respond_with :public, @booking
     end
 
     def edit
-      @booking.committed_request ||= @booking.agent_booking&.committed_request if @booking.agent_booking?
+      @booking.committed_request ||= @booking.agent_booking&.committed_request if @booking.agent_booking.present?
       respond_with :public, @booking
     end
 

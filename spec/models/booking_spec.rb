@@ -7,20 +7,23 @@
 #  id                     :uuid             not null, primary key
 #  accept_conditions      :boolean          default(FALSE)
 #  approximate_headcount  :integer
+#  begins_at              :datetime
 #  booking_flow_type      :string
 #  booking_state_cache    :string           default("initial"), not null
 #  cancellation_reason    :text
-#  color                  :string
 #  committed_request      :boolean
 #  concluded              :boolean          default(FALSE)
 #  conditions_accepted_at :datetime
 #  editable               :boolean          default(TRUE)
 #  email                  :string
+#  ends_at                :datetime
 #  import_data            :jsonb
 #  internal_remarks       :text
 #  invoice_address        :text
 #  locale                 :string
 #  notifications_enabled  :boolean          default(FALSE)
+#  occupancy_color        :string
+#  occupancy_type         :integer          default("free"), not null
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
@@ -31,7 +34,6 @@
 #  updated_at             :datetime         not null
 #  booking_category_id    :integer
 #  deadline_id            :bigint
-#  home_id                :bigint           not null
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
 #
@@ -39,7 +41,6 @@
 #
 #  index_bookings_on_booking_state_cache  (booking_state_cache)
 #  index_bookings_on_deadline_id          (deadline_id)
-#  index_bookings_on_home_id              (home_id)
 #  index_bookings_on_locale               (locale)
 #  index_bookings_on_organisation_id      (organisation_id)
 #  index_bookings_on_ref                  (ref)
@@ -47,7 +48,6 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (home_id => homes.id)
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
@@ -57,7 +57,7 @@ describe Booking, type: :model do
   let(:organisation) { home.organisation }
   let(:tenant) { create(:tenant, organisation: organisation) }
   let(:home) { create(:home) }
-  let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
+  let(:booking) { build(:booking, tenant: tenant, homes: [home], organisation: organisation) }
 
   describe '#locale' do
     it 'has default locale' do
@@ -85,7 +85,7 @@ describe Booking, type: :model do
     end
 
     context 'with existing tenant' do
-      let(:booking) { build(:booking, tenant: nil, home: home, organisation: organisation) }
+      let(:booking) { build(:booking, tenant: nil, homes: [home], organisation: organisation) }
       let(:existing_tenant) { create(:tenant, organisation: organisation) }
       let(:tenant) { nil }
 
@@ -95,31 +95,6 @@ describe Booking, type: :model do
         expect(booking.save).to be true
         expect(booking.tenant_id).to eq(existing_tenant.id)
       end
-    end
-  end
-
-  describe 'Occupancy' do
-    let(:booking_params) do
-      attributes_for(:booking).merge(occupancy_attributes: attributes_for(:occupancy),
-                                     tenant: tenant, home: home)
-    end
-
-    it 'creates all occupancy-related attributes in occupancy' do
-      expect(booking).to be_valid
-      expect(booking.save).to be true
-      expect(booking.occupancy).not_to be_new_record
-    end
-
-    it 'creates all occupancy-related attributes in occupancy' do
-      new_booking = described_class.create(booking_params)
-      expect(new_booking).to be_truthy
-      expect(new_booking.occupancy).not_to be_new_record
-      expect(new_booking.occupancy.home).to eq(new_booking.home)
-    end
-
-    it 'updates all occupancy-related attributes in occupancy' do
-      update_booking = create(:booking)
-      expect(update_booking.update(booking_params)).to be true
     end
   end
 end

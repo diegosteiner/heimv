@@ -13,10 +13,10 @@
             .col-md-6
               dl
                 dt= Occupancy.model_name.human
-                dd= render partial: 'manage/occupancies/occupancy_range', locals: { occupancy: @booking.occupancy }
+                dd= render partial: 'manage/occupancies/occupancy_range', locals: { booking: @booking }
 
             .col-md-6
-              - if @booking.agent_booking?
+              - if @booking.agent_booking.present?
                 dl
                   dt= BookingAgent.model_name.human
                   dd= link_to @booking.booking_agent.name, manage_booking_agent_path(@booking.booking_agent)

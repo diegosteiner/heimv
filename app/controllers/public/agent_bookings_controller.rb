@@ -12,7 +12,7 @@ module Public
     def new
       @agent_booking = AgentBooking.new(organisation: current_organisation)
       @agent_booking.assign_attributes(agent_booking_params)
-      @agent_booking.occupancy.ends_at ||= @agent_booking.occupancy.begins_at
+      @agent_booking.booking.ends_at ||= @agent_booking.booking.begins_at
       respond_with :public, @agent_booking
     end
 
@@ -35,7 +35,7 @@ module Public
         @agent_booking.update(agent_booking_params)
         BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
       end
-      @agent_booking.valid? # Clear Errors
+      @agent_booking.save
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
     end
 

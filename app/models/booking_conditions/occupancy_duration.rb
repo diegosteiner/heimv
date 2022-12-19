@@ -24,7 +24,6 @@
 # Foreign Keys
 #
 #  fk_rails_...  (organisation_id => organisations.id)
-#  fk_rails_...  (qualifiable_id => tarifs.id)
 #
 
 module BookingConditions
@@ -36,7 +35,7 @@ module BookingConditions
     end
 
     def evaluate(booking)
-      value = booking.occupancy&.duration
+      value = booking.duration
       return if value.blank? || distinction_match.blank? || distinction_match[:threshold].blank?
 
       threshold = threshold_unit(distinction_match[:threshold], distinction_match[:threshold_unit])

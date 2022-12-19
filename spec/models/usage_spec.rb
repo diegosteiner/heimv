@@ -29,8 +29,7 @@
 require 'rails_helper'
 
 RSpec.describe Usage, type: :model do
-  let(:organisation) { home.organisation }
-  let(:home) { create(:home) }
+  let(:organisation) { create(:organisation) }
   let(:tarif) { create(:tarif, organisation: organisation, price_per_unit: 3.33) }
 
   describe '#price' do
@@ -42,7 +41,7 @@ RSpec.describe Usage, type: :model do
 
   describe Usage::Factory do
     describe 'build' do
-      let(:booking) { create(:booking, home: home, approximate_headcount: 12) }
+      let(:booking) { create(:booking, organisation: organisation, approximate_headcount: 12) }
       subject(:usages) { factory.build(preselect: true) }
       subject(:factory) { Usage::Factory.new(booking) }
       before do
@@ -63,7 +62,7 @@ RSpec.describe Usage, type: :model do
   end
 
   describe '#save' do
-    let(:booking) { create(:booking, home: home) }
+    let(:booking) { create(:booking) }
     let(:usage) { build(:usage, booking: booking, tarif: tarif) }
 
     it { expect(usage.save!).to be true }
