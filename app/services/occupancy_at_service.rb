@@ -25,7 +25,8 @@ class OccupancyAtService
   def at(date)
     return Occupancy.none if date.blank?
 
-    Occupancy::Filter.new(begins_at_before: date.end_of_day, ends_at_after: date.beginning_of_day).apply(@occupancies)
+    Occupancy::Filter.new(begins_at_before: date.end_of_day, ends_at_after: date.beginning_of_day,
+                          occupancy_type: %i[tentative occupied closed]).apply(@occupancies)
   end
 
   def booking_filter_params(date)
