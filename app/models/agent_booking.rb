@@ -41,6 +41,8 @@ class AgentBooking < ApplicationRecord
 
   accepts_nested_attributes_for :booking, reject_if: :all_blank, update_only: true
 
+  before_validation :update_booking
+
   validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request
   validates :booking_agent_code, presence: true
   validate do
@@ -53,9 +55,13 @@ class AgentBooking < ApplicationRecord
     booking.email = value
   end
 
+  def update_booking
+    booking.organisation ||= organisation
+  end
+
   def booking
     super || self.booking = build_booking(committed_request: false, notifications_enabled: true,
-                                          organisation: organisation, email: tenant_email.presence)
+                                          email: tenant_email.presence)
   end
 
   def booking_agent_responsible?
