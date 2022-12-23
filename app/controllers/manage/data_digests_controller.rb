@@ -16,6 +16,8 @@ module Manage
         format.csv { send_data @data_digest.format(:csv), filename: "#{@data_digest.label}.csv" }
         format.pdf { send_data @data_digest.format(:pdf), filename: "#{@data_digest.label}.pdf" }
       end
+    rescue Prawn::Errors::CannotFit
+      redirect_to manage_data_digests_path, alert: t('.pdf_error')
     end
 
     def new
