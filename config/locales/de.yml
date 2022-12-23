@@ -488,8 +488,8 @@ de:
         one: Dokument
         other: Dokumente
       home:
-        one: Mietobjekt
-        other: Mietobjekte
+        one: Heim
+        other: Heime
       invoice:
         one: Rechnung
         other: Rechnungen
