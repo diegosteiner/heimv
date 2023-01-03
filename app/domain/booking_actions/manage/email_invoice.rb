@@ -6,7 +6,8 @@ module BookingActions
       RichTextTemplate.require_template(:payment_due_notification, context: %i[booking], required_by: self)
 
       def call!(invoices = booking.invoices.unsent)
-        notification = booking.notifications.new(template: :payment_due_notification, to: booking.tenant)
+        notification = booking.notifications.new(template: :payment_due_notification, to: booking.tenant,
+                                                 template_context: { invoices: invoices })
         return unless notification
 
         pdfs = invoices.with_default_includes

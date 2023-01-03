@@ -28,6 +28,7 @@ class TemplateContext
   end
 
   def self.serializer_for(value)
+    value = value.first if value.is_a?(Array)
     value&.class&.ancestors&.each do |ancestor|
       serializer = SERIALIZERS[ancestor]
       return serializer if serializer.present?

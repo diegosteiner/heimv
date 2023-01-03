@@ -1,9 +1,7 @@
 ### === base === ###                 
 FROM ruby:3.1.3-alpine AS base
 RUN apk add --no-cache --update postgresql-dev tzdata libssl1.1 nodejs
-RUN adduser -D develop
 RUN gem install bundler
-# ENV PYTHON=/usr/bin/python3
 
 ### === development === ###                 
 FROM base AS development
@@ -22,6 +20,8 @@ RUN gem install solargraph standardrb ruby-debug-ide debug rufo
 
 ENV BUNDLE_CACHE_ALL=true
 ENV BUNDLE_PATH=/home/develop/app/vendor/bundle
+RUN adduser -D develop && \
+    chown -R develop /home/develop
 USER develop
 RUN mkdir -p /home/develop/app
 WORKDIR /home/develop/app

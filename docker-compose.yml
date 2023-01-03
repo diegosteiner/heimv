@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: development
-    user: "${UID:-0}:${GID:-0}"
+    # user: "${UID:-0}:${GID:-0}"
     volumes:
       - home:/home/develop:cached
       - .:/home/develop/app:cached
@@ -29,7 +29,7 @@ services:
     tty: true
     stdin_open: true
     networks:
-      default:
+      main:
       selenium:
         # aliases:
         #   - "app.local"
@@ -48,14 +48,20 @@ services:
     environment:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
+    networks:
+      main:
 
   redis:
     image: redis:6
+    networks:
+      main:
 
   mail:
     image: tophfr/mailcatcher
     ports:
       - "1080:80"
+    networks:
+      main:
 
 volumes:
   db_data:
@@ -63,3 +69,4 @@ volumes:
 
 networks:
   selenium:
+  main:

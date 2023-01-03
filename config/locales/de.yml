@@ -1374,8 +1374,6 @@ de:
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
         </ul>
-
-        <p>{{ booking.organisation.message_footer }}</p>
       default_title: Vermittlung storniert
       description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
     booking_agent_request_accepted_notification:
@@ -1502,8 +1500,6 @@ de:
           <li>Mietkategorie: {{ booking.category.title }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
-
-        <p>{{ organisation.message_footer }}</p>
       default_title: Reservationsanfrage abgelehnt
       description: Benachrichtigung für abgelehnte Reservationsanfrage (Mieter)
     definitive_request_notification:

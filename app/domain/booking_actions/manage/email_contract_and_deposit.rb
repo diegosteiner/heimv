@@ -6,7 +6,8 @@ module BookingActions
       RichTextTemplate.require_template(:awaiting_contract_notification, context: %i[booking], required_by: self)
 
       def call!
-        notification = booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant)
+        notification = booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
+                                                 template_context: { contract: contract, invoices: invoices })
         notification.attach(prepare_attachments.map(&:blob))
         notification.save! && contract.sent! && invoices.each(&:sent!) && notification.deliver
       end

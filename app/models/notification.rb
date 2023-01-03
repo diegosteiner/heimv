@@ -47,7 +47,7 @@ class Notification < ApplicationRecord
   delegate :attach, to: :attachments
 
   attribute :rich_text_template_key
-  attribute :context
+  attribute :template_context
 
   scope :failed, -> { where(queued_for_delivery: true, sent_at: nil).where(arel_table[:created_at].lt(1.hour.ago)) }
 
@@ -74,7 +74,7 @@ class Notification < ApplicationRecord
 
     self.rich_text_template = rich_text_template
     I18n.with_locale(locale) do
-      interpolation_result = rich_text_template.interpolate(context)
+      interpolation_result = rich_text_template.interpolate(template_context)
       self.subject = interpolation_result.title
       self.body = interpolation_result.body
     end
@@ -89,7 +89,7 @@ class Notification < ApplicationRecord
   end
 
   def footer
-    organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(context)&.body
+    organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(template_context)&.body
   end
 
   def body
@@ -98,8 +98,8 @@ class Notification < ApplicationRecord
     super
   end
 
-  def context
-    super || { booking: booking, organisation: booking&.organisation, mail: self }
+  def template_context
+    @template_context ||= { booking: booking, organisation: booking&.organisation, mail: self }.merge(super || {})
   end
 
   def text
