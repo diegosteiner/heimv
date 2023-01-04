@@ -65,15 +65,9 @@ class OperatorResponsibility < ApplicationRecord
     assigning_conditions.any? && BookingCondition.fullfills_all?(booking, assigning_conditions)
   end
 
-  def self.for_booking(booking, *responsibilities)
-    responsibilities.map do |responsibility|
-      where(booking: booking, responsibility: responsibility).first
-    end.compact.uniq
-  end
-
   def self.assign(booking, *responsibilities)
     responsibilities.map do |responsibility|
-      existing_operator = for_booking(booking, responsibility).first
+      existing_operator = where(booking: booking, responsibility: responsibility).first
       next existing_operator if existing_operator.present?
 
       matching(booking, responsibility).first&.dup&.tap do |operator_responsibility|

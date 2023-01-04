@@ -184,6 +184,12 @@ class Booking < ApplicationRecord
     super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
   end
 
+  def responsibilities
+    @responsibilities ||= operator_responsibilities.group_by(&:responsibility)
+                                                   .transform_values(&:first)
+                                                   .symbolize_keys
+  end
+
   def home
     Rails.logger.warn('Deprecated call to home')
     homes.first

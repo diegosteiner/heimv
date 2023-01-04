@@ -35,10 +35,21 @@ RSpec.describe OperatorResponsibility, type: :model do
   let(:operator) { create(:operator, organisation: organisation) }
   let(:booking) { create(:booking, organisation: organisation) }
 
+  describe 'booking#responsibilities' do
+    let!(:operator_responsibility) do
+      create(:operator_responsibility, organisation: organisation, operator: operator,
+                                       responsibility: :home_handover, booking: booking)
+    end
+
+    it 'acts as hash' do
+      expect(booking.responsibilities).to eq({ home_handover: operator_responsibility })
+    end
+  end
+
   describe '::assign' do
     subject(:responsibility) { described_class.assign(booking, :administration)&.first }
 
-    context 'with defined responibilities' do
+    context 'with defined responsibilities' do
       before do
         create_list(:operator_responsibility, 4, organisation: organisation, operator: operator,
                                                  responsibility: :administration, booking: nil,

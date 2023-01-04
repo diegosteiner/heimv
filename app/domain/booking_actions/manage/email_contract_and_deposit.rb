@@ -7,10 +7,9 @@ module BookingActions
                                                                          required_by: self)
 
       def call!
-        notification = booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
-                                                 template_context: { contract: contract, invoices: invoices })
-        notification.attach(prepare_attachments.map(&:blob))
+        notification = prepare_notification
         notification.save! && contract.sent! && invoices.each(&:sent!) && notification.deliver
+        notification.dup.tap { _1.to = operator }.deliver if operator&.email.present?
       end
 
       def allowed?
@@ -38,8 +37,19 @@ module BookingActions
         ].flatten.compact
       end
 
+      def prepare_notification
+        booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
+                                  template_context: { contract: contract, invoices: invoices }).tap do |notification|
+          notification.attach(prepare_attachments.map(&:blob))
+        end
+      end
+
       def booking
         context.fetch(:booking)
+      end
+
+      def operator 
+        booking.responsibilities[:billing]
       end
     end
   end
