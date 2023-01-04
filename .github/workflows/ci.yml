@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: buildx
         uses: docker/setup-buildx-action@master
@@ -22,14 +22,14 @@ jobs:
         run: mkdir -p artifacts
 
       - name: docker login
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: docker build test
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           load: true
           push: false
@@ -39,7 +39,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: docker build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           load: true
           push: false
@@ -55,7 +55,7 @@ jobs:
 
       - if: github.event_name != 'pull_request'
         name: docker push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: true
           tags: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"

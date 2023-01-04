@@ -40,7 +40,7 @@ module BookingActions
                 .map { |invoice| invoice.pdf.blob }
       end
 
-      def operator 
+      def operator
         booking.responsibilities[:billing]
       end
     end

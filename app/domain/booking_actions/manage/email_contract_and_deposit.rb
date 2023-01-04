@@ -48,7 +48,7 @@ module BookingActions
         context.fetch(:booking)
       end
 
-      def operator 
+      def operator
         booking.responsibilities[:billing]
       end
     end
