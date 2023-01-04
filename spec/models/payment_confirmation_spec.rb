@@ -20,7 +20,7 @@ RSpec.describe PaymentConfirmation, type: :model do
     subject(:notification) { confirmation.notification }
 
     it do
-      expect(notification.context.keys).to eq(%w[booking payment])
+      expect(notification.template_context.keys).to include(*%w[booking payment])
       expect(notification).to be_valid
       expect(notification.body).to include(payment.amount.to_s)
     end

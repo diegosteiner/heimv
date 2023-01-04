@@ -21,14 +21,17 @@ class TemplateContext
 
   def to_h
     @to_h ||= @original_context.transform_values do |value|
-      serializer = self.class.serializer_for(value)
-      serializer.try(:render_as_hash, value) ||
-        value.try(:to_h) || value.try(:to_s) || value.presence
+      self.class.serialize_value(value)
     end.deep_stringify_keys
   end
 
+  def self.serialize_value(value, serializer: serializer_for(value))
+    return value.map { serialize_value(_1) } if value.is_a?(Array) || value.is_a?(ActiveRecord::Relation)
+
+    serializer.try(:render_as_hash, value) || value.try(:to_h) || value.try(:to_s) || value.presence
+  end
+
   def self.serializer_for(value)
-    value = value.first if value.is_a?(Array)
     value&.class&.ancestors&.each do |ancestor|
       serializer = SERIALIZERS[ancestor]
       return serializer if serializer.present?

@@ -3,7 +3,7 @@
 module BookingActions
   module Manage
     class MarkContractSigned < BookingActions::Base
-      RichTextTemplate.require_template(:contract_signed_notification, context: %i[booking], required_by: self)
+      RichTextTemplate.require_template(:contract_signed_notification, template_context: %i[booking], required_by: self)
 
       def call!
         booking.contract.signed!

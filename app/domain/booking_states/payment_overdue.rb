@@ -2,7 +2,7 @@
 
 module BookingStates
   class PaymentOverdue < Base
-    RichTextTemplate.require_template(:payment_overdue_notification, context: %i[booking], required_by: self)
+    RichTextTemplate.require_template(:payment_overdue_notification, template_context: %i[booking], required_by: self)
 
     include Rails.application.routes.url_helpers
 

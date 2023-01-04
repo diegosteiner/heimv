@@ -29,7 +29,7 @@
 #
 
 class Notification < ApplicationRecord
-  RichTextTemplate.require_template(:notification_footer, context: %i[booking], required_by: self)
+  RichTextTemplate.require_template(:notification_footer, template_context: %i[booking], required_by: self)
 
   belongs_to :booking, inverse_of: :notifications
   belongs_to :rich_text_template, optional: true
@@ -99,7 +99,7 @@ class Notification < ApplicationRecord
   end
 
   def template_context
-    @template_context ||= { booking: booking, organisation: booking&.organisation, mail: self }.merge(super || {})
+    { booking: booking, organisation: booking&.organisation, notification: self }.merge(super || {}).stringify_keys
   end
 
   def text

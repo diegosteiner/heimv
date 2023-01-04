@@ -50,9 +50,9 @@ class RichTextTemplate < ApplicationRecord
       @required_templates ||= {}
     end
 
-    def require_template(key, context: [], required_by: nil, optional: false)
+    def require_template(key, template_context: [], required_by: nil, optional: false)
       key = key.to_sym
-      requirement = self::Requirement.new(key, context, required_by, optional)
+      requirement = self::Requirement.new(key, template_context, required_by, optional)
       required_templates[key] ||= []
       required_templates[key] << requirement
     end
