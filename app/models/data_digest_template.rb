@@ -124,8 +124,8 @@ class DataDigestTemplate < ApplicationRecord
       instance_exec(record, template_context_cache, &(@blocks[:body] || -> { @templates[:body]&.render! }))
     end
 
-    def cache_key(record)
-      [column_type, record.class, record.id].join(':')
+    def cache_key(record, *parts)
+      [column_type, record.class, record.id].concat(parts).join(':')
     end
   end
 end

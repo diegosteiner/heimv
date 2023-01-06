@@ -81,7 +81,7 @@ module DataDigestTemplates
     column_type :usage do
       body do |booking, template_context_cache|
         tarif = ::Tarif.find_by(id: @config[:tarif_id])
-        context = template_context_cache[cache_key(booking)] ||=
+        context = template_context_cache[cache_key(booking, :usage, tarif.id)] ||=
           TemplateContext.new(booking: booking, organisation: booking.organisation,
                               usage: booking.usages.of_tarif(tarif).take).to_h
         @templates[:body]&.render!(context)
