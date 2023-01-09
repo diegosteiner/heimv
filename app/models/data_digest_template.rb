@@ -32,10 +32,6 @@ class DataDigestTemplate < ApplicationRecord
   has_many :data_digests, inverse_of: :data_digest_template, dependent: :destroy
   validates :label, presence: true
 
-  def group
-    super.presence
-  end
-
   class << self
     def column_types
       @column_types ||= (superclass.respond_to?(:column_types) && superclass.column_types&.dup) || {}
@@ -48,6 +44,17 @@ class DataDigestTemplate < ApplicationRecord
     def period(period_sym, at: Time.zone.now)
       PERIODS[period_sym&.to_sym]&.call(at)
     end
+
+    def replace_in_columns_config!(search, replace, scope: DataDigestTemplate.all)
+      scope.where.not(columns_config: nil).find_each do |template|
+        json = JSON.generate(template.columns_config).gsub(search, replace)
+        template.update!(columns_config: json)
+      end
+    end
+  end
+
+  def group
+    super.presence
   end
 
   def base_scope
@@ -71,10 +78,13 @@ class DataDigestTemplate < ApplicationRecord
   end
 
   def columns_config=(value)
-    value = value.presence
-    value = JSON.parse(value) if value.is_a?(String)
-    value = Array.wrap(value)
+    value = JSON.parse(value.presence) if value.is_a?(String)
+    value = Array.wrap(value.presence)
     super(value.presence)
+  end
+
+  def eject_columns_config
+    self.columns_config ||= self.class::DEFAULT_COLUMN_CONFIG
   end
 
   class ColumnType

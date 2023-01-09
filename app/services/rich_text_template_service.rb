@@ -50,16 +50,16 @@ class RichTextTemplateService
     end
   end
 
-  def replace_in_template!(search, replace)
-    @organisation.rich_text_templates.each do |rich_text_template|
+  def replace_in_template!(search, replace, scope: @organisation.rich_text_templates)
+    scope.each do |rich_text_template|
       rich_text_template.body_i18n.transform_values! { _1.gsub(search, replace) }
       rich_text_template.title_i18n.transform_values! { _1.gsub(search, replace) }
       rich_text_template.save
     end
   end
 
-  def find_in_template(search)
-    @organisation.rich_text_templates.filter do |rich_text_template|
+  def find_in_template(search, scope: @organisation.rich_text_templates)
+    scope.filter do |rich_text_template|
       rich_text_template.body_i18n.values.any? { _1.scan(search).present? } ||
         rich_text_template.title_i18n.values.any? { _1.scan(search).present? }
     end
