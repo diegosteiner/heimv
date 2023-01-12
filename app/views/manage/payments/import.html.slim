@@ -15,7 +15,7 @@
         th= Payment.human_attribute_name(:amount)
         th= Payment.human_attribute_name(:paid_at)
         th= Payment.human_attribute_name(:remarks)
-    tbody
+    tbody.shadow-sm
       - @payments.each_with_index do |payment, i|
         = f.fields_for "#{i}", payment do |pf|
           tr.bg-white[class=(payment.invoice.blank? && 'alert-warning' || payment.errors.any? && 'alert-danger')]

@@ -1,6 +1,7 @@
 - active ||= nil
 
-nav.mb-4
+h1.mt-0= Home.model_name.human
+nav.my-3
   ul.nav.nav-pills
     - if @home.to_param
       li.nav-item

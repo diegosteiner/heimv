@@ -26,7 +26,7 @@
           th= Contract.human_attribute_name(:signed_at)
           th
 
-      tbody
+      tbody.shadow-sm
         - @contracts.each do |contract|
           tr[data-href=manage_booking_contract_path(@booking, contract) class=('disabled' if contract.superseded?)]
             td

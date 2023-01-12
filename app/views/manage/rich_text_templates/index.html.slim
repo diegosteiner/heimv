@@ -1,12 +1,7 @@
-h1.mt-0.mb-5= RichTextTemplate.model_name.human(count: 2)
+h1.mt-0.mb-1= RichTextTemplate.model_name.human(count: 2)
 
 table.table.table-hover.align-middle
-  thead
-    tr
-      th 
-      th= RichTextTemplate.human_attribute_name(:title)
-      th
-
+  
   - grouped_templates = @rich_text_templates.group_by { |rich_text_template| rich_text_template_group(rich_text_template) }
   - grouped_templates.each do |group, rich_text_templates|
     
@@ -15,7 +10,7 @@ table.table.table-hover.align-middle
         th.pt-4[colspan='3']
           h4= t(".group_#{group}")
 
-    tbody
+    tbody.shadow-sm
       - rich_text_templates.each do |rich_text_template|
         tr 
           th

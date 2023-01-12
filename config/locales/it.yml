@@ -15,6 +15,13 @@ it:
         previous_booking_states: Vergangene Status
         ref: Buchungsreferenz
         tenant: Mieter
+      invoice/filter:
+        invoice_type: Rechungsart
+        issued_at_after: Rechnungsdatum nach
+        issued_at_before: Rechnungsdatum vor
+        paid: Beglichen / Bezahlt
+        payable_until_after: Zahlbar bis nach
+        payable_until_before: Zahlbar bis vor
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerabschnitts ab
         begins_at_before: Beginn des Zählerabschnitts bis
@@ -992,6 +999,7 @@ it:
       - '076 ### ## ##'
       - "+4178 ### ## ##"
       - '0041 79 ### ## ##'
+  filter: Filter
   flash:
     actions:
       create:

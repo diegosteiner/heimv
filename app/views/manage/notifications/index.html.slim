@@ -12,7 +12,7 @@ table.table.table-hover.align-middle
       th= Notification.human_attribute_name(:subject)
       th
 
-  tbody
+  tbody.shadow-sm
     - @notifications.each do |notification|
       tr[data-href=manage_notification_path(notification)]
         td

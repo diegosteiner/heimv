@@ -4,17 +4,13 @@ module Manage
   class InvoicesController < BaseController
     load_and_authorize_resource :booking
     load_and_authorize_resource :invoice, through: :booking, shallow: true
+    before_action :set_filter, only: :index
 
     def index
-      @invoices = if @booking.present?
-                    @booking.invoices
-                  elsif params[:all].present?
-                    @invoices
-                  else
-                    @invoices.kept.open
-                  end
+      @invoices = @invoices.where(booking: @booking) if @booking.present?
       @invoices = @invoices.where(booking: { organisation: current_organisation })
                            .includes(:organisation, :payments).ordered.with_attached_pdf
+      @invoices = @filter.apply(@invoices, cached: false)
       respond_with :manage, @invoices
     end
 
@@ -56,6 +52,16 @@ module Manage
     end
 
     private
+
+    def set_filter
+      default_filter_params = { paid: false }
+      @filter = Invoice::Filter.new(default_filter_params.merge(invoice_filter_params || {}))
+    end
+
+    def invoice_filter_params
+      params[:filter]&.permit(%w[issued_at_after issued_at_before payable_until_after payable_until_before
+                                 invoice_type paid])
+    end
 
     def invoice_params
       InvoiceParams.new(params[:invoice]).permitted

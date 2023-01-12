@@ -24,7 +24,7 @@
                 a.badge.rounded-pill.bg-secondary.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
                   = group_usages.count
 
-        tbody.collapse.show[id=collapse_id]
+        tbody.shadow-sm.collapse.show[id=collapse_id]
           - group_usages.each do |usage|
             = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
               tr.bg-white

@@ -11,7 +11,7 @@ h1.mt-0.mb-5= Tenant.model_name.human(count: 2)
           =< Tenant.human_attribute_name(:phone)
         th
         th
-    tbody
+    tbody.shadow-sm
       - @tenants.each do |tenant|
         tr[data-href=manage_tenant_path(tenant) data-bs-id=tenant.to_param]
           td

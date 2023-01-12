@@ -8,7 +8,7 @@ table.table
       th= Payment.human_attribute_name(:paid_at)
       th= Payment.human_attribute_name(:remarks)
 
-  tbody
+  tbody.shadow-sm
     - @payments.each do |payment|
       tr[class=(!payment.applies && 'text-muted' || !payment.valid? && 'alert-danger' || payment.invoice.blank? && 'alert-warning' || payment.persisted? && 'alert-success')]
         td

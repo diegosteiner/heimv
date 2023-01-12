@@ -8,7 +8,7 @@ p=  @data_digest.localized_period
         - @data_digest.header.each do |header|
           th= header
     
-    tbody
+    tbody.shadow-sm
       - @data_digest.data&.each do |row|
         tr
           - row.each do |cell|

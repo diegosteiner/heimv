@@ -2,7 +2,7 @@ h1.mt-0.mb-5= BookingAgent.model_name.human(count: 2)
 .table-responsive
   table.table.table-hover.align-middle
 
-    tbody
+    tbody.shadow-sm
       - @booking_agents.each do |booking_agent|
         tr[data-href=manage_booking_agent_path(booking_agent) data-id=booking_agent.to_param]
           td

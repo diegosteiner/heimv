@@ -36,7 +36,7 @@
         th= Booking.human_attribute_name(:state)
         th
 
-    tbody
+    tbody.shadow-sm
       - @tenant.bookings.ordered.each do |booking|
         tr[data-href=manage_booking_path(booking)]
           td

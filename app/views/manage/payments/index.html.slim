@@ -18,7 +18,7 @@
         th.text-end= Payment.human_attribute_name(:amount)
         th
 
-    tbody
+    tbody.shadow-sm
       - @payments.each do |payment|
         tr[data-href=manage_payment_path(payment)]
           td

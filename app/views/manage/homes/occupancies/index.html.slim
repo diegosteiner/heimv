@@ -10,7 +10,7 @@
         th= Occupancy.human_attribute_name(:remarks)
         th
 
-    tbody
+    tbody.shadow-sm
       - @occupancies.each do |occupancy|
         tr[data-bs-href=manage_occupancy_path(occupancy) data-id=occupancy.to_param]
           td

@@ -25,7 +25,7 @@
               a.badge.rounded-pill.bg-secondary.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
                 = group_tarifs.count
 
-      tbody.collapse.show[id=collapse_id]
+      tbody.shadow-sm.collapse.show[id=collapse_id]
         - group_tarifs.each do |tarif|
           = f.fields_for tarif.id.to_s, tarif do |tf|
             tr.bg-white[class=('disabled' if tarif.discarded?)]

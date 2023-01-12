@@ -83,7 +83,7 @@ module Manage
     end
 
     def booking_filter_params
-      Manage::BookingFilterParams.new(params).permitted
+      Manage::BookingFilterParams.new(params[:filter]).permitted
     end
 
     def booking_import_params

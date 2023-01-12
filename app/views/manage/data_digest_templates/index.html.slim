@@ -15,7 +15,7 @@ h1.mt-0.mb-5= DataDigest.model_name.human(count: 2)
             th.pt-4[colspan='3']
               h5
                 = group
-      tbody
+      tbody.shadow-sm
         - data_digest_templates.each do |data_digest_template|
           tr[data-href=manage_data_digest_template_path(data_digest_template) data-id=data_digest_template.to_param]
             td

@@ -1,3 +1,5 @@
+h1.mt-0.mb-5= OrganisationUser.model_name.human(count: 2)
+
 .table-responsive
   table.table.table-hover.align-middle
     thead
@@ -6,7 +8,7 @@
         th= OrganisationUser.human_attribute_name(:role)
         th
 
-    tbody
+    tbody.shadow-sm
       - @organisation_users.each do |organisation_user|
         tr[data-href=manage_organisation_user_path(organisation_user) data-id=organisation_user.to_param]
           td

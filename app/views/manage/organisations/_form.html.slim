@@ -1,83 +1,101 @@
 = form_with(model: [:manage, organisation], url: manage_organisation_path(org: params[:org]), local: true) do |f|
   fieldset
-    h3.mt-4= t('.general')
-    = f.text_field :slug if current_user.role_admin?
-    = f.text_field :name
-    div[v-pre]= f.text_area :address, rows: 4
-    = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
-    = f.collection_select :locale, Organisation.locales, :first, :first
+    h3.mt-5= t('.general')
+    .card 
+      .card-body
+        = f.text_field :slug if current_user.role_admin?
+        = f.text_field :name
+        div[v-pre]= f.text_area :address, rows: 4
+        = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
+        = f.collection_select :locale, Organisation.locales, :first, :first
 
   fieldset
-    h3.mt-4= Notification.model_name.human(count: 2)
-    div.pb-3= f.check_box :notifications_enabled
-    = f.email_field :email
-    = f.text_field :mail_from
-    = f.email_field :bcc
-    - if current_user.role_admin?
-      div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
+    h3.mt-5= Notification.model_name.human(count: 2)
+    .card 
+      .card-body
+        div.pb-3= f.check_box :notifications_enabled
+        = f.email_field :email
+        = f.text_field :mail_from
+        = f.email_field :bcc
+        - if current_user.role_admin?
+          div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
 
   fieldset
-    h3.mt-4= Contract.model_name.human(count: 2)
-    div[v-pre]= f.text_area :representative_address, rows: 4
-    = f.text_field :location
-    = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
+    h3.mt-5= Contract.model_name.human(count: 2)
+    .card 
+      .card-body
+        div[v-pre]= f.text_area :representative_address, rows: 4
+        = f.text_field :location
+        = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
     
   fieldset
-    h3.mt-4= Invoice.model_name.human(count: 2)
-    = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
-    div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
-    = f.text_field :iban
-    = f.text_field :qr_iban
+    h3.mt-5= Invoice.model_name.human(count: 2)
+    .card 
+      .card-body
+        = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
+        div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
+        = f.text_field :iban
+        = f.text_field :qr_iban
 
   = f.fields_for :settings, @organisation.settings || OrganisationSettings.new do |sf|  
     - settings = sf.object
     fieldset
-      h3.mt-4= Tenant.model_name.human(count: 2)
-      = sf.check_box :tenant_birth_date_required
+      h3.mt-5= Tenant.model_name.human(count: 2)
+      .card 
+        .card-body
+           = sf.check_box :tenant_birth_date_required
+
     fieldset
-      h3.mt-4= Occupancy.model_name.human(count: 2)
-      = sf.color_field :tentative_occupancy_color, style: 'width: 5em;'
-      = sf.color_field :occupied_occupancy_color, style: 'width: 5em;'
-      = sf.color_field :closed_occupancy_color, style: 'width: 5em;'
+      h3.mt-5= Occupancy.model_name.human(count: 2)
+      .card 
+        .card-body
+          = sf.color_field :tentative_occupancy_color, style: 'width: 5em;'
+          = sf.color_field :occupied_occupancy_color, style: 'width: 5em;'
+          = sf.color_field :closed_occupancy_color, style: 'width: 5em;'
+
     fieldset
-      h3.mt-4= Deadline.model_name.human(count: 2)
-      = sf.text_field :booking_margin, value: settings.booking_margin&.iso8601
-      = sf.text_field :awaiting_contract_deadline, value: settings.awaiting_contract_deadline&.iso8601
-      = sf.text_field :deadline_postponable_for, value: settings.deadline_postponable_for&.iso8601
-      = sf.text_field :deposit_payment_deadline, value: settings.deposit_payment_deadline&.iso8601
-      = sf.text_field :invoice_payment_deadline, value: settings.invoice_payment_deadline&.iso8601
-      = sf.text_field :last_minute_warning, value: settings.last_minute_warning&.iso8601
-      = sf.text_field :overdue_request_deadline, value: settings.overdue_request_deadline&.iso8601
-      = sf.text_field :provisional_request_deadline, value: settings.provisional_request_deadline&.iso8601
-      = sf.text_field :unconfirmed_request_deadline, value: settings.unconfirmed_request_deadline&.iso8601
-      = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
+      h3.mt-5= Deadline.model_name.human(count: 2)
+      .card 
+        .card-body
+          = sf.text_field :booking_margin, value: settings.booking_margin&.iso8601
+          = sf.text_field :awaiting_contract_deadline, value: settings.awaiting_contract_deadline&.iso8601
+          = sf.text_field :deadline_postponable_for, value: settings.deadline_postponable_for&.iso8601
+          = sf.text_field :deposit_payment_deadline, value: settings.deposit_payment_deadline&.iso8601
+          = sf.text_field :invoice_payment_deadline, value: settings.invoice_payment_deadline&.iso8601
+          = sf.text_field :last_minute_warning, value: settings.last_minute_warning&.iso8601
+          = sf.text_field :overdue_request_deadline, value: settings.overdue_request_deadline&.iso8601
+          = sf.text_field :provisional_request_deadline, value: settings.provisional_request_deadline&.iso8601
+          = sf.text_field :unconfirmed_request_deadline, value: settings.unconfirmed_request_deadline&.iso8601
+          = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
 
   fieldset
-    h3.mt-4= t('.more_settings')
-    ul.pb-3
-      li
-        = link_to BookingCategory.model_name.human(count: 2), manage_booking_categories_path
-      li
-        = link_to RichTextTemplate.model_name.human(count: 2), manage_rich_text_templates_path
-      li
-        = link_to DesignatedDocument.model_name.human(count: 2), manage_designated_documents_path
-      li
-        = link_to BookingAgent.model_name.human(count: 2), manage_booking_agents_path
-      - if can?(:manage, OrganisationUser, { organisation: current_organisation })
-        li
-          = link_to OrganisationUser.model_name.human, manage_organisation_users_path
-      - if can?(:manage, Operator, { organisation: current_organisation })
-        li
-          = link_to Operator.model_name.human(count: 2), manage_operators_path
-      - if can?(:manage, Operator, { organisation: current_organisation })
-        li
-          = link_to OperatorResponsibility.model_name.human(count: 2), manage_operator_responsibilities_path
-      - if can?(:manage, BookableExtra, { organisation: current_organisation })
-        li
-          = link_to BookableExtra.model_name.human(count: 2), manage_bookable_extras_path
-      - if can?(:manage, DataDigestTemplate, { organisation: current_organisation })
-        li
-          = link_to DataDigestTemplate.model_name.human(count: 2), manage_data_digest_templates_path
+    h3.mt-5= t('.more_settings')
+    .card 
+      .card-body
+        ul.mb-0
+          li
+            = link_to BookingCategory.model_name.human(count: 2), manage_booking_categories_path
+          li
+            = link_to RichTextTemplate.model_name.human(count: 2), manage_rich_text_templates_path
+          li
+            = link_to DesignatedDocument.model_name.human(count: 2), manage_designated_documents_path
+          li
+            = link_to BookingAgent.model_name.human(count: 2), manage_booking_agents_path
+          - if can?(:manage, OrganisationUser, { organisation: current_organisation })
+            li
+              = link_to OrganisationUser.model_name.human, manage_organisation_users_path
+          - if can?(:manage, Operator, { organisation: current_organisation })
+            li
+              = link_to Operator.model_name.human(count: 2), manage_operators_path
+          - if can?(:manage, Operator, { organisation: current_organisation })
+            li
+              = link_to OperatorResponsibility.model_name.human(count: 2), manage_operator_responsibilities_path
+          - if can?(:manage, BookableExtra, { organisation: current_organisation })
+            li
+              = link_to BookableExtra.model_name.human(count: 2), manage_bookable_extras_path
+          - if can?(:manage, DataDigestTemplate, { organisation: current_organisation })
+            li
+              = link_to DataDigestTemplate.model_name.human(count: 2), manage_data_digest_templates_path
 
   .form-actions.pt-4.mt-3
     = f.submit

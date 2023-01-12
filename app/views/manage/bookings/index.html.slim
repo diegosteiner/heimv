@@ -1,6 +1,17 @@
 - title Booking.model_name.human(count: 2)
 
-nav.navbar.justify-content-between.px-0
+h1.my-0= Booking.model_name.human(count: 2)
+
+.my-3
+  .btn-group.me-3[role="group"]
+    button.btn.btn-primary[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
+      i.fa.fa-filter<>
+      = t(:filter)
+    = link_to manage_bookings_path(current_booking_states: BookingStates.displayed_by_default), class: 'btn btn-outline-primary'
+      = t('.canned_filter_default')
+    = link_to manage_bookings_path(current_booking_states: [:upcoming, :upcoming_soon]), class: 'btn btn-outline-primary'
+      = t('.canned_filter_upcoming')
+  
   .dropdown.d-inline-block
     button#dropdownNewBookingButton.btn.btn-primary.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" type="button" 
       = t(:add_record, model_name: Booking.model_name.human)
@@ -12,24 +23,17 @@ nav.navbar.justify-content-between.px-0
       = link_to(import_manage_bookings_path, class: 'dropdown-item')
         = t(:import)
 
-  div
-    = link_to manage_bookings_path(current_booking_states: BookingStates.displayed_by_default), class: 'btn btn-outline-secondary bg-white me-2'
-      = t('.canned_filter_default')
-    = link_to manage_bookings_path(current_booking_states: [:upcoming, :upcoming_soon]), class: 'btn btn-outline-secondary bg-white me-2'
-      = t('.canned_filter_upcoming')
 
-    a[href='#filter' data-bs-toggle='collapse' class='btn btn-primary']
-      i.fa.fa-search<>
-      = t(:search)
-
-#filter.collapse
-  .py-3
-    = form_with(model: @filter, url: manage_bookings_path, scope: '', method: :GET, local: true) do |f|
-      = render partial: 'filter_fields', locals: { f: f }
-      hr.my-4
-      = f.submit t(:search)
-      =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary bg-white'
-        = t(:reset)
+#filter.modal.fade
+  .modal-dialog.modal-lg
+    .modal-content 
+      = form_with(model: @filter, url: manage_bookings_path, scope: 'filter', method: :GET, local: true) do |f|
+        .modal-body
+          = render partial: 'filter_fields', locals: { f: f }
+        .modal-footer
+          = f.submit t(:filter), class: 'btn btn-primary'
+          =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary bg-white'
+            = t(:reset)
 
 - if @bookings.count > 250
   .alert.alert-danger.d-flex
@@ -53,6 +57,3 @@ nav.navbar.justify-content-between.px-0
 
         .collapse.show[id=collapse_id]
           == render partial: 'table', locals: { bookings: bookings }
-
-hr.my-5
-

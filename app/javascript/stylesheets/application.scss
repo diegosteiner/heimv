@@ -35,6 +35,7 @@ h6 {
   min-height: 100vh;
   padding-top: 55px;
   background-image: url(../images/background.svg);
+  // background-color: #f6f4ff;
   background-repeat: no-repeat;
   background-size: max(100vw, 1200px) 520px;
   background-position: top left;
@@ -121,6 +122,10 @@ legend.required:after {
 .btn-link {
   padding: 0;
   border: none;
+}
+
+.btn-default {
+  box-shadow: none;
 }
 
 select[disabled="disabled"] {

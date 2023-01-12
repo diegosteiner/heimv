@@ -59,9 +59,7 @@ module Timespanable
 
     def timespan_scope_lambda(arel_column)
       lambda do |before: nil, after: nil|
-        return where(arel_column.between(after..before)) if before.present? && after.present?
-        return where(arel_column.gt(after)) if after.present?
-        return where(arel_column.lt(before)) if before.present?
+        return where(arel_column.between(after..before)) if before.present? || after.present?
       end
     end
 

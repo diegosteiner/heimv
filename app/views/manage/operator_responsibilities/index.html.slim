@@ -14,7 +14,7 @@
         th= Operator.model_name.human
         th
 
-    tbody
+    tbody.shadow-sm
       - @operator_responsibilities.each do |operator_responsibility|
         tr[data-href=manage_operator_responsibility_path(operator_responsibility) data-bs-id=operator_responsibility.to_param]
           - unless @booking.present?

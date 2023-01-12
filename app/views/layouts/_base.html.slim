@@ -14,8 +14,8 @@ html[lang="#{I18n.locale}-CH"]
         == render 'layouts/top_navigation'
       - if (controller.is_a?(Manage::BaseController))
         == render 'layouts/manage_navigation'
-      main.container.pt-2.pb-5[role='main']
-        .py-4== render 'layouts/flashes'
+      main.container.p-4[role='main']
+        == render 'layouts/flashes'
         == yield
       footer.py-2
         == render 'layouts/footer'

@@ -7,7 +7,7 @@ table.table.table-hover.align-middle
       th
       th
 
-  tbody
+  tbody.shadow-sm
     - @<%= plural_table_name %>.each do |<%= singular_table_name %>|
       tr[data-href=<%= singular_table_name %>_path(<%= singular_table_name %>)]
 <% attributes.each do |attribute| -%>

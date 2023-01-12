@@ -4,7 +4,7 @@ h1.mt-0.mb-5= BookingCategory.model_name.human(count: 2)
 .table-responsive
   table.table.table-hover.align-middle
 
-    tbody
+    tbody.shadow-sm
       - @booking_categories.each do |booking_category|
         tr[data-href=manage_booking_category_path(booking_category) data-id=booking_category.to_param]
           td
