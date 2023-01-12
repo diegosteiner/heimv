@@ -110,4 +110,16 @@ class Organisation < ApplicationRecord
   def locale
     super || I18n.locale || I18n.default_locale
   end
+
+  # rubocop:disable Metrics/AbcSize
+  def initialize_copy(origin)
+    super
+    self.rich_text_templates = origin.rich_text_templates.map(&:dup)
+    self.booking_agents = origin.booking_agents.map(&:dup)
+    self.booking_categories = origin.booking_categories.map(&:dup)
+    self.tarifs = origin.tarifs.map(&:dup)
+    self.bookable_extras = origin.bookable_extras.map(&:dup)
+    self.designated_documents = origin.designated_documents.map(&:dup)
+  end
+  # rubocop:enable Metrics/AbcSize
 end

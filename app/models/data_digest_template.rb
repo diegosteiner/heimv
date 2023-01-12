@@ -22,6 +22,7 @@
 #
 #  fk_rails_...  (organisation_id => organisations.id)
 #
+require 'json'
 
 class DataDigestTemplate < ApplicationRecord
   DEFAULT_COLUMN_CONFIG = [].freeze
