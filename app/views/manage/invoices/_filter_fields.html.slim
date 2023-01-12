@@ -1,0 +1,13 @@
+.row
+  .col
+    = f.select :invoice_type, subtype_options_for_select(Invoice.subtypes), { include_blank: true }, readonly: true
+  .col 
+    br
+    .pt-3= f.check_box :paid
+.row
+  .col
+    = f.date_field :issued_at_after, include_blank: true
+    = f.date_field :issued_at_before, include_blank: true
+  .col
+    = f.date_field :payable_until_after, include_blank: true
+    = f.date_field :payable_until_before, include_blank: true

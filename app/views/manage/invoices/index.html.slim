@@ -2,7 +2,21 @@
   - title "#{Booking.model_name.human} #{@booking.to_s} - #{Invoice.model_name.human(count: 2)}"
   = render partial: 'manage/bookings/navigation', locals: { active: :invoices, booking: @booking }
 - else 
-  h1.mt-0.mb-5= Invoice.model_name.human(count: 2)
+  h1.my-0= Invoice.model_name.human(count: 2)
+
+.my-3
+  button.btn.btn-outline-primary[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
+    i.fa.fa-filter<>
+    = t(:filter)
+
+#filter.modal.fade
+  .modal-dialog.modal-lg
+    .modal-content 
+      = form_with(model: @filter, url: manage_invoices_path, scope: 'filter', method: :GET, local: true) do |f|
+        .modal-body
+          = render partial: 'filter_fields', locals: { f: f }
+        .modal-footer
+          = f.submit t(:filter), class: 'btn btn-primary'
 
 - if @booking && !@booking.committed_request
   .alert.alert-warning[role="alert"]
@@ -26,7 +40,7 @@
           th= Invoice.human_attribute_name(:amount_open)
           th
 
-      tbody
+      tbody.shadow-sm
         - @invoices.each do |invoice|
           tr[data-href=manage_invoice_path(invoice) class=('disabled' if invoice.discarded?)]
             td.align-middle
