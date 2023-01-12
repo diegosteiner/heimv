@@ -482,6 +482,9 @@ en:
       data_digest_templates/booking:
         one: Buchungen Auszug
         other: Buchungen Auszüge
+      data_digest_templates/invoice:
+        one: Rechnungen Auszug
+        other: Rechnungen Auszüge
       data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
@@ -1404,7 +1407,6 @@ en:
       description: Benachrichtigung für baldige Belegung (Mieter)
     usage_report_text:
       description: Text für Verbrauchsformular
-  search: Suchen
   show: Anzeigen
   support:
     array:

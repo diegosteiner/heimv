@@ -482,6 +482,9 @@ de:
       data_digest_templates/booking:
         one: Buchungen Auszug
         other: Buchungen Auszüge
+      data_digest_templates/invoice:
+        one: Rechnungen Auszug
+        other: Rechnungen Auszüge
       data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
@@ -1853,7 +1856,6 @@ de:
         <p>{{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.address }}</p>
       default_title: Verbrauchsformular
       description: Text für Verbrauchsformular
-  search: Suchen
   show: Anzeigen
   support:
     array:

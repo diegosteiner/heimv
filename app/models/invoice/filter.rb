@@ -7,7 +7,7 @@ class Invoice
     attribute :payable_until_after, :datetime
     attribute :payable_until_before, :datetime
     attribute :invoice_type, default: -> { [] }
-    attribute :paid, :boolean, default: false
+    attribute :paid, :boolean
 
     filter :issued_at do |invoices|
       next unless issued_at_before.present? || issued_at_after.present?
@@ -22,6 +22,8 @@ class Invoice
     end
 
     filter :paid do |invoices|
+      next if paid.nil?
+
       paid ? invoices.paid : invoices.open
     end
 
