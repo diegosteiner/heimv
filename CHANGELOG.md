@@ -2,12 +2,21 @@
 
 #### Unreleased
 
+#### Version 23.1.1
+
+Released on 13.01.2023
+
+- Add filter for invoices
+- Add data_digest for invoices
+- Normalize typography
+
 #### Version 22.12.2
 
 Released on 23.12.2022
 
 - Allow bookings to occupy multiple homes
 - Add conditions to designated documents and responsibilities
+
 #### Version 22.12.1
 
 Released on 02.12.2022

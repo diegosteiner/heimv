@@ -19,7 +19,7 @@ de:
         invoice_type: Rechungsart
         issued_at_after: Rechnungsdatum nach
         issued_at_before: Rechnungsdatum vor
-        paid: Beglichen / Bezahlt
+        paid: Zahlungstatus
         payable_until_after: Zahlbar bis nach
         payable_until_before: Zahlbar bis vor
       meter_reading_period/filter:
@@ -375,6 +375,10 @@ de:
           price_list: Preisliste
           privacy_statement: Datenschutzerklärung
           terms: Geschäftsbedingungen / AGB
+      invoice/filter:
+        paid:
+          only_paid: Nur belichene
+          only_unpaid: Nur offene
       occupancy:
         occupancy_type:
           closed: Geschlossen

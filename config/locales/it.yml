@@ -375,6 +375,10 @@ it:
           price_list: Preisliste
           privacy_statement: Datenschutzerklärung
           terms: Geschäftsbedingungen / AGB
+      invoice/filter:
+        paid:
+          only_paid: Nur belichene
+          only_unpaid: Nur offene
       occupancy:
         occupancy_type:
           closed: Geschlossen
