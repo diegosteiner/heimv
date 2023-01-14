@@ -167,6 +167,8 @@ GEM
       dotenv (= 2.8.1)
       railties (>= 3.2)
     erubi (1.11.0)
+    et-orbi (1.2.7)
+      tzinfo
     exception_notification (4.5.0)
       actionmailer (>= 5.2, < 8)
       activesupport (>= 5.2, < 8)
@@ -184,6 +186,9 @@ GEM
     faraday-net_http (3.0.2)
     ffi (1.15.5)
     foreman (0.87.2)
+    fugit (1.8.0)
+      et-orbi (~> 1, >= 1.2.7)
+      raabro (~> 1.4)
     globalid (1.0.0)
       activesupport (>= 5.0)
     highline (2.0.3)
@@ -281,6 +286,7 @@ GEM
     public_suffix (5.0.1)
     puma (6.0.1)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.6.1)
     rack (2.2.4)
     rack-mini-profiler (3.0.0)
@@ -407,6 +413,9 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.11.0)
+    sidekiq-cron (1.9.1)
+      fugit (~> 1.8)
+      sidekiq (>= 4.2.1)
     simple_po_parser (1.1.6)
     sixarm_ruby_unaccent (1.2.0)
     slim (4.1.0)
@@ -514,6 +523,7 @@ DEPENDENCIES
   sentry-ruby
   shakapacker (~> 6.0)
   sidekiq
+  sidekiq-cron
   slim-rails
   squasher
   statesman
