@@ -29,7 +29,7 @@ class DataDigestTemplate < ApplicationRecord
 
   include Subtypeable
 
-  belongs_to :organisation
+  belongs_to :organisation, inverse_of: :data_digest_templates
   has_many :data_digests, inverse_of: :data_digest_template, dependent: :destroy
   validates :label, presence: true
 

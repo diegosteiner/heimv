@@ -10,11 +10,9 @@ cd heimv
 docker-compose up app
 ```
 
-or with VS Code
+or with VS Code: [Reopen in Container] with Remote Containers Extension
 
-- Start in Container with Remote Containers Extension
-
-### Development Servers
+### Development servers
 
 Then inside the container you may run:
 
@@ -22,7 +20,14 @@ Then inside the container you may run:
 - `bin/webpacker-dev-server` to start webpack dev server
 - `bin/sidekiq-job-worker` to start the sidekiq worker process
 
-To visit the automatically created default organization, visit http://localhost:3000/.
+To visit the automatically created default organization, visit http://heimv.localhost:3000/.
+
+### Login
+
+After starting the development servers, open the browser http://heimv.localhost:3000/ and log in with:
+
+- Manager: manager@heimv.local, heimverwaltung
+- Read only user: reader@heimv.local, heimverwaltung
 
 ### Commands
 
@@ -156,7 +161,7 @@ cat ./path/to/backup.dump | docker exec -i $(docker ps -q --filter name=heimv-db
 
 🎂 1000th commit 🎂
 
-Copyright 2017-2022 Diego P. Steiner & contributors
+Copyright 2017-2023 Diego P. Steiner & contributors
 
 If you want to use HeimV in a commercial setting, a commercial licence
 is required. For a commercial licence please get in touch: license@heimv.ch.
