@@ -58,4 +58,13 @@ RSpec.describe Organisation, type: :model do
       expect(settings.tenant_birth_date_required).to be(true)
     end
   end
+
+  describe '#dup' do
+    let(:organisation) { create(:organisation) }
+    it do
+      new_organisation = organisation.dup
+      new_organisation.slug = 'new-test'
+      expect(new_organisation).to be_valid
+    end
+  end
 end

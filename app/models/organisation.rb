@@ -111,7 +111,7 @@ class Organisation < ApplicationRecord
     super || I18n.locale || I18n.default_locale
   end
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   def initialize_copy(origin)
     super
     self.rich_text_templates = origin.rich_text_templates.map(&:dup)
@@ -120,6 +120,13 @@ class Organisation < ApplicationRecord
     self.tarifs = origin.tarifs.map(&:dup)
     self.bookable_extras = origin.bookable_extras.map(&:dup)
     self.designated_documents = origin.designated_documents.map(&:dup)
+    self.data_digest_templates = origin.data_digest_templates.map(&:dup)
+
+    return if origin.logo.blank?
+
+    file.attach(io: StringIO.new(origin.logo.download),
+                filename: origin.logo.filename,
+                content_type: origin.logo.content_type)
   end
-  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 end

@@ -61,4 +61,14 @@ class DesignatedDocument < ApplicationRecord
   def attach_to?(booking)
     attaching_conditions.none? || BookingCondition.fullfills_all?(booking, attaching_conditions)
   end
+
+  def initialize_copy(origin)
+    super
+    self.attaching_conditions = origin.attaching_conditions.map(&:dup)
+    return if origin.file.blank?
+
+    file.attach(io: StringIO.new(origin.file.download),
+                filename: origin.file.filename,
+                content_type: origin.file.content_type)
+  end
 end

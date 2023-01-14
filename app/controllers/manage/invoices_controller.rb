@@ -10,7 +10,7 @@ module Manage
       @invoices = @invoices.where(booking: @booking) if @booking.present?
       @invoices = @invoices.where(booking: { organisation: current_organisation })
                            .includes(:organisation, :payments).ordered.with_attached_pdf
-      @invoices = @filter.apply(@invoices, cached: false)
+      @invoices = @filter.apply(@invoices, cached: true) if @filter.any?
       respond_with :manage, @invoices
     end
 
