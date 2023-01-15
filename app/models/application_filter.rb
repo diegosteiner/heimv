@@ -25,7 +25,7 @@ class ApplicationFilter
   end
 
   def any?
-    attributes.values.any?(&:present?)
+    !attributes.values.all?(&:nil?)
   end
 
   def cached_ids(base_relation)

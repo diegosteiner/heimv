@@ -41,19 +41,18 @@ h1.my-0= Booking.model_name.human(count: 2)
       i.fa.fa-exclamation-circle
     = t('.too_many_records')
 - else
-  - cache_unless(@filter.any?, cache_key(current_organisation.id, current_organisation.bookings.maximum(:updated_at))) do
-    - grouped_bookings = @bookings.group_by { |booking| booking.booking_state.to_sym }
-    - BookingStates.all.values.each do |state|
-      - bookings = grouped_bookings[state.to_sym]
-      - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
-      - next if bookings.blank?
+  - grouped_bookings = @bookings.group_by { |booking| booking.booking_state.to_sym }
+  - BookingStates.all.values.each do |state|
+    - bookings = grouped_bookings[state.to_sym]
+    - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
+    - next if bookings.blank?
 
-      section.mt-4
-        h3
-          = state.t(:label)
-          a.badge.rounded-pill.bg-danger.badge-small.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
-            = bookings.count
-        p.text-muted = state.t(:help)
+    section.mt-4
+      h3
+        = state.t(:label)
+        a.badge.rounded-pill.bg-danger.badge-small.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
+          = bookings.count
+      p.text-muted = state.t(:help)
 
-        .collapse.show[id=collapse_id]
-          == render partial: 'table', locals: { bookings: bookings }
+      .collapse.show[id=collapse_id]
+        == render partial: 'table', locals: { bookings: bookings }
