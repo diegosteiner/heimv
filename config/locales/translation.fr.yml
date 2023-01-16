@@ -4,12 +4,12 @@ fr:
     attributes:
       booking/filter:
         begins_at: à partir de
-        begins_at_after: Beginn der Belegung ab
-        begins_at_before: Beginn der Belegung bis
-        current_booking_states: Status
-        ends_at: Bis
-        ends_at_after: Ende der Belegung ab
-        ends_at_before: Ende der Belegung bis
+        begins_at_after: Début de l'occupation à partir du
+        begins_at_before: Début de l'occupation jusqu'au
+        current_booking_states: Statut
+        ends_at: Jusqu'à
+        ends_at_after: Fin de l'occupation à partir de
+        ends_at_before: Fin de l'occupation jusqu'au
         homes: Heime
         only_inconcluded: nur offene Buchungen
         previous_booking_states: Vergangene Status
@@ -711,7 +711,7 @@ fr:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
-  confirm: Sind Sie sicher?
+  confirm: Sind sie sicher?
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
     represented_by: vertreten durch
@@ -834,7 +834,7 @@ fr:
       expired: ist abgelaufen, bitte neu anfordern
       greater_than: doit être supérieur à %{count}
       greater_than_or_equal_to: doit être supérieur ou égal à %{count}
-      in: doit être dans l'intervalle %{count}
+      in:
       inclusion: n'est pas inclus(e) dans la liste
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}

@@ -71,11 +71,9 @@ fr:
       less_than_x_minutes:
         one: weniger als eine Minute
         other: weniger als %{count} Minuten
-        zero: moins d'une minute
       less_than_x_seconds:
         one: weniger als eine Sekunde
         other: weniger als %{count} Sekunden
-        zero: moins d'une seconde
       over_x_years:
         one: mehr als ein Jahr
         other: mehr als %{count} Jahre
@@ -101,6 +99,41 @@ fr:
       month: Monat
       second: Sekunde
       year: Jahr
+  i18n:
+    transliterate:
+      rule:
+        À: A
+        Â: A
+        Æ: Ae
+        Ç: C
+        È: E
+        É: E
+        Ê: E
+        Ë: E
+        Î: I
+        Ï: I
+        Ô: O
+        Ù: U
+        Û: U
+        Ü: U
+        à: a
+        â: a
+        æ: ae
+        ç: c
+        è: e
+        é: e
+        ê: e
+        ë: e
+        î: i
+        ï: i
+        ô: o
+        ù: u
+        û: u
+        ü: u
+        ÿ: "y"
+        Œ: Oe
+        œ: oe
+        Ÿ: Y
   number:
     currency:
       format:
@@ -157,6 +190,7 @@ fr:
       format:
         delimiter: ''
         format: "%n%"
+        precision: 1
     precision:
       format:
         delimiter: ''
