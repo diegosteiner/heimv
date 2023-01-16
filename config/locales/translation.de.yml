@@ -334,9 +334,6 @@ de:
         reset_password_token: Passwort-Zurücksetzen-Token
         sign_in_count: Anzahl Anmeldungen
         updated_at: Aktualisiert am
-    back: Zurück
-    confirm: Sind Sie sicher?
-    destroy: Löschen
     enums:
       booking:
         committed_request:
@@ -405,6 +402,10 @@ de:
     errors:
       messages:
         content_type: ungültiges Format
+        record_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+        restrict_dependent_destroy:
+          has_many: Datensatz kann nicht gelöscht werden, da abhängige %{record} existieren.
+          has_one: Datensatz kann nicht gelöscht werden, da ein abhängiger %{record}-Datensatz existiert.
       models:
         booking:
           action_not_allowed: Diese Aktion ist nicht erlaubt
@@ -710,7 +711,7 @@ de:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
-  confirm: Sind sie sicher?
+  confirm: Sind Sie sicher?
   contracts:
     issuer_signature_label: Datum, Ort, Unterschrift Vermieter
     represented_by: vertreten durch
@@ -822,14 +823,45 @@ de:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
     messages:
+      accepted: muss akzeptiert werden
       already_confirmed: was already confirmed, please try signing in
+      blank: muss ausgefüllt werden
+      confirmation: stimmt nicht mit %{attribute} überein
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      empty: muss ausgefüllt werden
+      equal_to: muss genau %{count} sein
+      even: muss gerade sein
+      exclusion: ist nicht verfügbar
       expired: ist abgelaufen, bitte neu anfordern
+      greater_than: muss grösser als %{count} sein
+      greater_than_or_equal_to: muss grösser oder gleich %{count} sein
+      in: muss in enthalten sein %{count}
+      inclusion: ist kein gültiger Wert
+      invalid: ist nicht gültig
+      less_than: muss kleiner als %{count} sein
+      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
+      model_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+      not_a_number: ist keine Zahl
+      not_an_integer: muss ganzzahlig sein
       not_found: nicht gefunden
       not_locked: ist nicht gesperrt
       not_saved:
         one: "%{resource} konnte aufgrund eines Fehlers nicht gespeichert werden:"
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
+      odd: muss ungerade sein
+      other_than: darf nicht gleich %{count} sein
+      present: darf nicht ausgefüllt werden
+      required: muss ausgefüllt werden
+      taken: ist bereits vergeben
+      too_long:
+        one: ist zu lang (mehr als ein Zeichen)
+        other: ist zu lang (mehr als %{count} Zeichen)
+      too_short:
+        one: ist zu kurz (weniger als ein Zeichen)
+        other: ist zu kurz (weniger als %{count} Zeichen)
+      wrong_length:
+        one: hat die falsche Länge (muss genau ein Zeichen haben)
+        other: hat die falsche Länge (muss genau %{count} Zeichen haben)
     notifications:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden

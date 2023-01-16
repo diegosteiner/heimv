@@ -334,9 +334,6 @@ en:
         reset_password_token: Reset password token
         sign_in_count: Sign in count
         updated_at: Updated at
-    back: Zurück
-    confirm: Sind Sie sicher?
-    destroy: Löschen
     enums:
       booking:
         committed_request:
@@ -405,6 +402,10 @@ en:
     errors:
       messages:
         content_type: ungültiges Format
+        record_invalid: 'Validation failed: %{errors}'
+        restrict_dependent_destroy:
+          has_many: Cannot delete record because dependent %{record} exist
+          has_one: Cannot delete record because a dependent %{record} exists
       models:
         booking:
           action_not_allowed: Diese Aktion ist nicht erlaubt
@@ -710,7 +711,7 @@ en:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
-  confirm: Sind sie sicher?
+  confirm: Sind Sie sicher?
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
     represented_by: vertreten durch
@@ -807,14 +808,45 @@ en:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
     messages:
+      accepted: must be accepted
       already_confirmed: was already confirmed, please try signing in
+      blank: can't be blank
+      confirmation: doesn't match %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      empty: can't be empty
+      equal_to: must be equal to %{count}
+      even: must be even
+      exclusion: is reserved
       expired: has expired, please request a new one
+      greater_than: must be greater than %{count}
+      greater_than_or_equal_to: must be greater than or equal to %{count}
+      in: must be in %{count}
+      inclusion: is not included in the list
+      invalid: is invalid
+      less_than: must be less than %{count}
+      less_than_or_equal_to: must be less than or equal to %{count}
+      model_invalid: 'Validation failed: %{errors}'
+      not_a_number: is not a number
+      not_an_integer: must be an integer
       not_found: not found
       not_locked: was not locked
       not_saved:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
+      odd: must be odd
+      other_than: must be other than %{count}
+      present: must be blank
+      required: must exist
+      taken: has already been taken
+      too_long:
+        one: is too long (maximum is one character)
+        other: is too long (maximum is %{count} characters)
+      too_short:
+        one: is too short (minimum is one character)
+        other: is too short (minimum is %{count} characters)
+      wrong_length:
+        one: is the wrong length (should be one character)
+        other: is the wrong length (should be %{count} characters)
     notifications:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden

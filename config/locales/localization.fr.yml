@@ -33,8 +33,8 @@ fr:
     - Samstag
     formats:
       default: "%d.%m.%Y"
-      long: "%e. %B %Y"
-      short: "%e. %b"
+      long: "%-d %B %Y"
+      short: "%-d %b"
     month_names:
     -
     - Januar
@@ -71,9 +71,11 @@ fr:
       less_than_x_minutes:
         one: weniger als eine Minute
         other: weniger als %{count} Minuten
+        zero: moins d'une minute
       less_than_x_seconds:
         one: weniger als eine Sekunde
         other: weniger als %{count} Sekunden
+        zero: moins d'une seconde
       over_x_years:
         one: mehr als ein Jahr
         other: mehr als %{count} Jahre
@@ -103,15 +105,16 @@ fr:
     currency:
       format:
         delimiter: "'"
-        format: "%u %n"
+        format: "%n %u"
         precision: 2
         separator: "."
         significant: false
         strip_insignificant_zeros: false
-        unit: CHF
+        unit: sFr.
     format:
       delimiter: "'"
-      precision: 2
+      precision: 3
+      round_mode: default
       separator: "."
       significant: false
       strip_insignificant_zeros: false
@@ -135,7 +138,7 @@ fr:
           unit: ''
       format:
         delimiter: ''
-        precision: 1
+        precision: 3
         significant: true
         strip_insignificant_zeros: true
       storage_units:
@@ -159,17 +162,20 @@ fr:
         delimiter: ''
   support:
     array:
-      last_word_connector: " und "
-      two_words_connector: " und "
+      last_word_connector: " et "
+      two_words_connector: " et "
       words_connector: ", "
   time:
+    am: am
     formats:
       date: "%d.%m.%Y"
-      default: "%d.%m.%Y %H:%M"
+      default: "%d. %B %Y %H h %M"
       devise:
         mailer:
           invitation_instructions:
             accept_until_format: "%B %d, %Y %I:%M %p"
-      short: "%d.%m.%Y %H:%M"
+      long: "%A, %d %B %Y %H h %M min %S s %Z"
+      short: "%d %b %H h %M"
       short_with_weekday: "%a, %d.%m.%Y %H:%M"
       time: "%H:%M"
+    pm: pm
