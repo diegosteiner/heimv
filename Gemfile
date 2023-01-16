@@ -50,6 +50,7 @@ gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'slim-rails'
 gem 'statesman'
+gem 'translation'
 gem 'ttfunk'
 
 group :development do

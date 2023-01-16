@@ -28,7 +28,8 @@ data:
     ## For example, write devise and simple form keys to their respective files:
     # - ['{devise, simple_form}.*', 'config/locales/\1.%{locale}.yml']
     ## Catch-all default:
-    - config/locales/%{locale}.yml
+    - ['{date,number,support,time,i18n,datetime}.*', 'config/locales/localization.%{locale}.yml']
+    - config/locales/translation.%{locale}.yml
 
   ## Specify the router (see Readme for details). Valid values: conservative_router, pattern_router, or a custom class.
   # router: convervative_router
@@ -98,7 +99,7 @@ ignore_missing:
 ignore_unused:
   - "{activerecord,activemodel}.*"
   - "{authlogic,kaminari,devise}.*"
-  - "{time,datetime,date,support,number,helpers}.*"
+  - "{time,datetime,date,support,number,helpers,i18n}.*"
   - "errors.*"
   - "locales.*"
   - "flash.*"

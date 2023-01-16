@@ -14,7 +14,8 @@ RUN apk add --update build-base \
     less \
     curl \
     gnupg \
-    openssh-client
+    openssh-client \
+    musl musl-utils musl-locales
 
 RUN gem install solargraph standardrb ruby-debug-ide debug rufo
 

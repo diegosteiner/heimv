@@ -22,6 +22,7 @@ services:
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
       REDIS_URL: "redis://redis/0"
       ACTIVE_JOB_QUEUE_ADAPTER: "sidekiq"
+      TRANSLATION_IO_API_KEY: ${TRANSLATION_IO_API_KEY}
     depends_on:
       - db
       - mail
