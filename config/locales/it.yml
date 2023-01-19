@@ -1,15 +1,15 @@
 ---
-fr:
+it:
   activemodel:
     attributes:
       booking/filter:
-        begins_at: à partir de
-        begins_at_after: Début de l'occupation à partir du
-        begins_at_before: Début de l'occupation jusqu'au
-        current_booking_states: Statut
-        ends_at: Jusqu'à
-        ends_at_after: Fin de l'occupation à partir de
-        ends_at_before: Fin de l'occupation jusqu'au
+        begins_at: Von
+        begins_at_after: Beginn der Belegung ab
+        begins_at_before: Beginn der Belegung bis
+        current_booking_states: Status
+        ends_at: Bis
+        ends_at_after: Ende der Belegung ab
+        ends_at_before: Ende der Belegung bis
         homes: Heime
         only_inconcluded: nur offene Buchungen
         previous_booking_states: Vergangene Status
@@ -56,7 +56,7 @@ fr:
     models:
       occupancy_calendar:
         one: Belegungsplan
-        other: Belegungsplane
+        other: Belegungspläne
       payment_info:
         one: Zahlungsteil
         other: Zahlungsteile
@@ -277,18 +277,18 @@ fr:
         accountancy_account: zugewiesenes Buchhaltungskonto
         associated_types: Ausgewiesen in Rechnungsarten
         enabling_conditions: Bedingungen für erlaubte Auswahl
-        label: Désignation du tarif
-        meter: Nom du compteur (pour les tarifs par relevé de compteur)
+        label: Tarif
+        meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum_usage_per_night: Minimaler Preis (pro Nacht)
         minimum_usage_total: Minimaler Preis (Total)
-        ordinal: numéro d'ordre
-        pin: ne PAS fixer le tarif à la réservation
-        prefill_usage_method: méthode de pré-remplissage
-        price_per_unit: prix (par unité)
+        ordinal: Ordnungsnummer
+        pin: Tarif NICHT auf Buchung fixieren
+        prefill_usage_method: Vorausfüllmethode
+        price_per_unit: Preis pro Einheit
         selecting_conditions: Bedingungen für automatische Auswahl
-        tarif_group: groupe tarifaire
-        type: type
-        unit: unité
+        tarif_group: Tarifgruppe
+        type: Typ
+        unit: Einheit
       tenant:
         address: Adresse
         address_addon: Addresszusatz
@@ -308,12 +308,12 @@ fr:
         street_address: Strasse / Nr.
         zipcode: PLZ
       usage:
-        apply: Appliquer
+        apply: Anwenden
         committed: verbindlich
-        price: Prix
+        price: Preis
         price_per_unit: Preis pro Einheit
-        remarks: Remarques
-        used_units: Consommation
+        remarks: Bemerkungen
+        used_units: Verbrauch
       user:
         created_at: Erstellt am
         current_password: Bisheriges Passwort
@@ -402,10 +402,10 @@ fr:
     errors:
       messages:
         content_type: ungültiges Format
-        record_invalid: 'La validation a échoué : %{errors}'
+        record_invalid: 'Validazione fallita: %{errors}'
         restrict_dependent_destroy:
-          has_many: Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent
-          has_one: Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record} dépendant(e) existe
+          has_many: Il record non può essere cancellato perchè esistono %{record} dipendenti
+          has_one: Il record non può essere cancellato perchè esiste un %{record} dipendente
       models:
         booking:
           action_not_allowed: Diese Aktion ist nicht erlaubt
@@ -448,20 +448,20 @@ fr:
         one: Mietzweck
         other: Mietzwecke
       booking_condition:
-        one: Sélecteur de tarif
-        other: Sélecteur de tarif
+        one: Tarifwähler
+        other: Tarifwähler
       booking_conditions/always_apply:
-        one: Sélecteur de tarif toujours-un
+        one: Immer-Ein Tarifwähler
       booking_conditions/bookable_extra:
-        one: Extra réservable Sélecteur de tarif
+        one: Buchbares Extra Tarifwähler
       booking_conditions/booking_approximate_headcount_per_night:
-        one: Nombre de TN Sélecteur de tarif
+        one: Anzahl TN Tarifwähler
       booking_conditions/booking_category:
-        one: Objet de la location Sélecteur de tarif
+        one: Mietzweck Tarifwähler
       booking_conditions/booking_nights:
-        one: Nuits Sélecteurs de tarifs
+        one: Nächte Tarifwähler
       booking_conditions/booking_overnight_stays:
-        one: Nuitées Sélecteur de tarif
+        one: Übernachtungen Tarifwähler
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/occupancy_duration:
@@ -557,21 +557,21 @@ fr:
         one: Textvorlage
         other: Textvorlagen
       tarif:
-        one: tarif
-        other: Tarifs
+        one: Tarif
+        other: Tarife
       tarif_booking_condition:
-        one: tarif du sélecteur de tarif
-        other: Tarifs du sélecteur de tarif
+        one: Tarifwähler-Tarif
+        other: Tarifwähler-Tarife
       tarifs/amount:
-        one: après utilisation
+        one: nach Gebrauch
       tarifs/flat:
-        one: Forfait
+        one: Pauschale
       tarifs/metered:
-        one: par relevé de compteur
+        one: nach Zählerstand
       tarifs/min_occupation:
         one: Mindestbetrag
       tarifs/overnight_stay:
-        one: Nuitées
+        one: Übernachtungen
       tarifs/price:
         one: Betrag
       tenant:
@@ -719,148 +719,247 @@ fr:
   currency: Currency
   data_digests:
     period_short: "%{period_from} - %{period_to}"
+  date:
+    abbr_day_names:
+    - So
+    - Mo
+    - Di
+    - Mi
+    - Do
+    - Fr
+    - Sa
+    abbr_month_names:
+    -
+    - Jan
+    - Feb
+    - Mär
+    - Apr
+    - Mai
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Okt
+    - Nov
+    - Dez
+    day_names:
+    - Sonntag
+    - Montag
+    - Dienstag
+    - Mittwoch
+    - Donnerstag
+    - Freitag
+    - Samstag
+    formats:
+      default: "%d-%m-%Y"
+      long: "%d %B %Y"
+      short: "%d %b"
+    month_names:
+    -
+    - Januar
+    - Februar
+    - März
+    - April
+    - Mai
+    - Juni
+    - Juli
+    - August
+    - September
+    - Oktober
+    - November
+    - Dezember
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: etwa eine Stunde
+        other: etwa %{count} Stunden
+      about_x_months:
+        one: etwa ein Monat
+        other: etwa %{count} Monate
+      about_x_years:
+        one: etwa ein Jahr
+        other: etwa %{count} Jahre
+      almost_x_years:
+        one: fast ein Jahr
+        other: fast %{count} Jahre
+      half_a_minute: eine halbe Minute
+      less_than_x_minutes:
+        one: weniger als eine Minute
+        other: weniger als %{count} Minuten
+      less_than_x_seconds:
+        one: weniger als eine Sekunde
+        other: weniger als %{count} Sekunden
+      over_x_years:
+        one: mehr als ein Jahr
+        other: mehr als %{count} Jahre
+      x_days:
+        one: ein Tag
+        other: "%{count} Tage"
+      x_minutes:
+        one: eine Minute
+        other: "%{count} Minuten"
+      x_months:
+        one: ein Monat
+        other: "%{count} Monate"
+      x_seconds:
+        one: eine Sekunde
+        other: "%{count} Sekunden"
+      x_years:
+        one: 1 Jahr
+        other: "%{count} Jahre"
+    prompts:
+      day: Tag
+      hour: Stunden
+      minute: Minute
+      month: Monat
+      second: Sekunde
+      year: Jahr
   deadline_exceeded: Deadline exceeded
   destroy: Löschen
   destroy_record: "%{model_name} löschen"
   devise:
     failure:
-      already_authenticated: Vous êtes déjà connecté(e).
-      inactive: Votre compte n’est pas encore activé.
-      invalid: "%{authentication_keys} ou mot de passe incorrect."
-      invited: Vous avez une invitation en attente, acceptez-la pour terminer la création de votre compte.
-      not_found_in_database: "%{authentication_keys} ou mot de passe incorrect."
-      timeout: Votre session est expirée, veuillez vous reconnecter pour continuer.
-      unauthenticated: Vous devez vous connecter ou vous enregistrer pour continuer.
+      already_authenticated: Hai già effettuato l'accesso.
+      inactive: Il tuo account non è stato ancora attivato.
+      invalid: Credenziali %{authentication_keys} o password non valide.
+      invited: Hai un invito in sospeso, accettalo per completare la creazione del tuo account.
+      not_found_in_database: Credenziali %{authentication_keys} o password non valide.
+      timeout: Sessione scaduta, accedere nuovamente per continuare.
+      unauthenticated: Devi accedere o registrarti per continuare.
     invitations:
       edit:
-        header: Confirmation
-        submit_button: Confirmer
-      invitation_removed: Votre invitation a été supprimée.
-      invitation_token_invalid: Le jeton d'invitation fourni n'est pas valide!
+        header: Imposta la tua password
+        submit_button: Imposta la password
+      invitation_removed: Il tuo invito è stato rimosso.
+      invitation_token_invalid: Il token di invito fornito non è valido!
       new:
-        header: Nouvel utilisateur
-        submit_button: Envoyer
-      no_invitations_remaining: Il n'y a plus d'invitations restantes
-      send_instructions: Un e-mail d'invitation a été envoyé à %{email}.
-      updated: Votre mot de passe a été défini avec succès. Vous êtes maintenant connecté.
-      updated_not_active: Votre mot de passe a été défini avec succès.
+        header: Inoltra l'invito
+        submit_button: Inoltra un invito
+      no_invitations_remaining: Non sono più disponibili inviti.
+      send_instructions: Un'email di invito è stata inoltrata a %{email}.
+      updated: La tua password è stata impostata correttamente. Ora sei connesso.
+      updated_not_active: La tua password è stata impostata correttamente.
     mailer:
       email_changed:
-        greeting: Bonjour %{recipient} !
-        message: Nous vous contactons pour vous notifier que votre adresse email a été changée en %{email}.
-        subject: Email modifié
+        greeting: Ciao %{recipient}!
+        message: Ti stiamo contattando per notificarti che la tua email è stata cambiata in %{email}.
+        subject: Email modificata
       invitation_instructions:
-        accept: Accepter l'invitation
-        accept_until: Cette invitation sera valable jusqu'au %{due_date}.
-        hello: Bonjour %{email}
-        ignore: Si vous ne souhaitez pas accepter cette invitation, veuillez ignorer cet e-mail.<br />Votre compte ne sera pas créé tant que vous n'accéderez pas au lien ci-dessous et que vous ayez défini votre mot de passe.
-        someone_invited_you: Vous avez été invité à rejoindre %{url}, vous pouvez accepter cette invitation via le lien ci-dessous.
-        subject: Vous avez reçu une invitation
+        accept: Accetta l'invito
+        accept_until: L'invito sarà valido fino a %{due_date}.
+        hello: Buongiorno %{email}
+        ignore: Se non si desidera accettare l'invito si prega di ignorare la presente email.<br />L'account non sarà creato finché non verrà impostata la password (v. link sotto).
+        someone_invited_you: Qualcuno ti ha invitato a %{url}, accetta tramite il link qua sotto.
+        subject: Istruzioni per l'invito
       password_change:
-        greeting: Bonjour %{recipient} !
-        message: Nous vous contactons pour vous notifier que votre mot de passe a été modifié.
-        subject: Mot de passe modifié
+        greeting: Ciao %{recipient}!
+        message: Ti stiamo contattando per notificarti che la tua password è stata modificata.
+        subject: Password modificata
       reset_password_instructions:
-        action: Changer mon mot de passe
-        greeting: Bonjour %{recipient} !
-        instruction: 'Quelqu''un a demandé un lien pour changer votre mot de passe, le voici :'
-        instruction_2: Si vous n'avez pas émis cette demande, merci d'ignorer cet email.
-        instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
-        subject: Instructions pour changer le mot de passe
+        action: Cambia la mia password
+        greeting: Ciao %{recipient}!
+        instruction: Qualcuno ha richiesto di resettare la tua password, se lo vuoi davvero puoi farlo cliccando sul link qui sotto.
+        instruction_2: Se non sei stato tu ad effettuare questa richiesta puoi ignorare questa mail.
+        instruction_3: La tua password non cambierà finchè non accederai al link sopra.
+        subject: Istruzioni per reimpostare la password
     omniauth_callbacks:
-      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : ''%{reason}''.'
-      success: Autorisé par votre compte %{kind}.
+      failure: Non è stato possibile autorizzarti da %{kind} perchè "%{reason}".
+      success: Autorizzato con successo dall'account %{kind}.
     passwords:
       edit:
-        change_my_password: Changer mon mot de passe
-        change_your_password: Changer votre mot de passe
-        confirm_new_password: Confirmez votre nouveau mot de passe
-        new_password: Nouveau mot de passe
+        change_my_password: Cambia la mia password
+        change_your_password: Cambia la tua password
+        confirm_new_password: Conferma la nuova password
+        new_password: Nuova password
       new:
-        forgot_your_password: Mot de passe oublié ?
-        send_me_reset_password_instructions: Envoyez-moi des instructions pour réinitialiser mon mot de passe
-      no_token: Vous ne pouvez pas accéder à cette page si vous n’y accédez pas depuis un email de réinitialisation de mot de passe. Si vous venez en effet d’un tel email, vérifiez que vous avez copié l’adresse URL en entier.
-      send_instructions: Vous allez recevoir sous quelques minutes un email vous indiquant comment réinitialiser votre mot de passe.
-      send_paranoid_instructions: Si votre email existe dans notre base de données, vous recevrez un lien vous permettant de récupérer votre mot de passe.
-      updated: Votre mot de passe a bien été modifié. Vous êtes maintenant connecté(e).
-      updated_not_active: Votre mot de passe a bien été modifié.
+        forgot_your_password: Password dimenticata?
+        send_me_reset_password_instructions: Inviami le istruzioni per resettare la password
+      no_token: Puoi accedere a questa pagina solamente dalla email di reset della password. Se vieni dalla email controlla di aver inserito l'url completo riportato nella email.
+      send_instructions: Riceverai un messaggio email con le istruzioni per reimpostare la tua password entro qualche minuto.
+      send_paranoid_instructions: Se la tua email esiste nel nostro database, riceverai un messaggio email contentente un link per il ripristino della password
+      updated: La tua password è stata cambiata. Ora sei collegato.
+      updated_not_active: La tua password è stata cambiata.
     registrations:
-      destroyed: Au revoir ! Votre compte a bien été supprimé. Nous espérons vous revoir bientôt.
+      destroyed: Arrivederci! L'account è stato cancellato. Speriamo di rivederti presto.
       edit:
-        are_you_sure: Êtes-vous sûr ?
-        cancel_my_account: Supprimer mon compte
-        leave_blank_if_you_don_t_want_to_change_it: laissez ce champ vide pour le laisser inchangé
-        title: Éditer %{resource}
-        unhappy: Pas content ?
-        update: Modifier
-        we_need_your_current_password_to_confirm_your_changes: nous avons besoin de votre mot de passe actuel pour valider ces modifications
+        are_you_sure: Sei sicuro?
+        cancel_my_account: Rimuovi il mio account
+        leave_blank_if_you_don_t_want_to_change_it: lascia in bianco se non vuoi cambiarla
+        title: Modifica %{resource}
+        unhappy: Scontento
+        update: Aggiorna
+        we_need_your_current_password_to_confirm_your_changes: abbiamo bisogno della tua password attuale per confermare i cambiamenti
       new:
-        sign_up: Inscription
-      signed_up: Bienvenue ! Vous vous êtes bien enregistré(e).
-      signed_up_but_inactive: Vous vous êtes bien enregistré(e). Cependant, nous n’avons pas pu vous connecter car votre compte n’a pas encore été activé.
-      update_needs_confirmation: Vous avez bien modifié votre compte, mais nous devons vérifier votre nouvelle adresse email. Veuillez consulter vos emails et cliquer sur le lien de confirmation pour confirmer votre nouvelle adresse.
-      updated: Votre compte a bien été modifié.
-      updated_but_not_signed_in: Votre compte a été mis à jour avec succès. Vous devez vous reconnecter car votre mot de passe a été modifié.
+        sign_up: Registrati
+      signed_up: Iscrizione eseguita correttamente. Se abilitata, una conferma è stata inviata al tuo indirizzo email.
+      signed_up_but_inactive: Iscrizione eseguita correttamente. Però non puoi accedere in quanto il tuo account non è ancora attivo.
+      update_needs_confirmation: Il tuo account è stato aggiornato, ma dobbiamo verificare la tua email. Ti invitiamo a consultare la tua email e cliccare sul link di conferma.
+      updated: Il tuo account è stato aggiornato.
+      updated_but_not_signed_in: Il tuo account è stato aggiornato con successo, ma dato che la tua password è cambiata, devi accedere di nuovo.
     sessions:
-      already_signed_out: Déconnecté(e).
+      already_signed_out: Sei uscito correttamente.
       new:
-        sign_in: Connexion
-      signed_in: Connecté(e).
-      signed_out: Déconnecté(e).
+        sign_in: Accedi
+      signed_in: Accesso effettuato con successo.
+      signed_out: Sei uscito correttamente.
     shared:
       links:
-        back: Retour
-        forgot_your_password: Mot de passe oublié ?
-        sign_in: Connexion
-        sign_in_with_provider: Connexion avec %{provider}
-        sign_up: Inscription
+        back: Indietro
+        forgot_your_password: Password dimenticata?
+        sign_in: Accedi
+        sign_in_with_provider: Accedi con %{provider}
+        sign_up: Registrati
       minimum_password_length:
-        one: "(%{count} caractère au moins)"
-        other: "(%{count} caractères au moins)"
+        one: "(minimo %{count} carattere)"
+        other: "(minimo %{count} caratteri)"
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
     messages:
-      accepted: doit être accepté(e)
+      accepted: deve essere accettata
       already_confirmed: was already confirmed, please try signing in
-      blank: doit être rempli(e)
-      confirmation: ne concorde pas avec %{attribute}
+      blank: non può essere lasciato in bianco
+      confirmation: non coincide con %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
-      empty: doit être rempli(e)
-      equal_to: doit être égal à %{count}
-      even: doit être pair
-      exclusion: n'est pas disponible
+      empty: non può essere vuoto
+      equal_to: deve essere uguale a %{count}
+      even: deve essere pari
+      exclusion: è riservato
       expired: ist abgelaufen, bitte neu anfordern
-      greater_than: doit être supérieur à %{count}
-      greater_than_or_equal_to: doit être supérieur ou égal à %{count}
+      greater_than: deve essere maggiore di %{count}
+      greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
       in:
-      inclusion: n'est pas inclus(e) dans la liste
-      invalid: n'est pas valide
-      less_than: doit être inférieur à %{count}
-      less_than_or_equal_to: doit être inférieur ou égal à %{count}
-      model_invalid: 'Validation échouée : %{errors}'
-      not_a_number: n'est pas un nombre
-      not_an_integer: doit être un nombre entier
+      inclusion: non è compreso tra le opzioni disponibili
+      invalid: non è valido
+      less_than: deve essere minore di %{count}
+      less_than_or_equal_to: deve essere minore o uguale a %{count}
+      model_invalid: 'Validazione fallita: %{errors}'
+      not_a_number: non è un numero
+      not_an_integer: non è un numero intero
       not_found: nicht gefunden
       not_locked: ist nicht gesperrt
       not_saved:
         one: "%{resource} konnte aufgrund eines Fehlers nicht gespeichert werden:"
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
-      odd: doit être impair
-      other_than: doit être différent de %{count}
-      present: doit être vide
-      required: doit exister
-      taken: est déjà utilisé(e)
+      odd: deve essere dispari
+      other_than: devono essere di numero diverso da %{count}
+      present: deve essere lasciato in bianco
+      required: deve esistere
+      taken: è già presente
       too_long:
-        one: est trop long (pas plus d'un caractère)
-        other: est trop long (pas plus de %{count} caractères)
+        one: è troppo lungo (il massimo è 1 carattere)
+        other: è troppo lungo (il massimo è %{count} caratteri)
       too_short:
-        one: est trop court (au moins un caractère)
-        other: est trop court (au moins %{count} caractères)
+        one: è troppo corto (il minimo è 1 carattere)
+        other: è troppo corto (il minimo è %{count} caratteri)
       wrong_length:
-        one: ne fait pas la bonne longueur (doit comporter un seul caractère)
-        other: ne fait pas la bonne longueur (doit comporter %{count} caractères)
+        one: è della lunghezza sbagliata (deve essere di 1 carattere)
+        other: è della lunghezza sbagliata (deve essere di %{count} caratteri)
     notifications:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden
@@ -985,7 +1084,7 @@ fr:
           save: "%{model_name} speichern"
     dashboard:
       index:
-        ics_link: comme ICAL
+        ics_link: come ICAL
     data_digests:
       create:
         job_started: Der Auszug wird zusammengestellt. Die Verarbeitung der Daten kann einige Minuten dauern. Laden Sie die Seite neu, um zu prüfen, ob die Verarbeitung abgeschlossen wurde.
@@ -1122,6 +1221,65 @@ fr:
     sign_in: Anmelden
     sign_out: Abmelden
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
+  number:
+    currency:
+      format:
+        delimiter: "'"
+        format: "%u %n"
+        precision: 2
+        separator: "."
+        significant: false
+        strip_insignificant_zeros: false
+        unit: CHF
+    format:
+      delimiter: ","
+      precision: 2
+      round_mode: default
+      separator: "."
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion:
+            one: Milliarde
+            other: Milliarden
+          million:
+            one: Million
+            other: Millionen
+          quadrillion:
+            one: Billiarde
+            other: Billiarden
+          thousand: Tausend
+          trillion:
+            one: Billion
+            other: Billionen
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          eb: EB
+          gb: GB
+          kb: KB
+          mb: MB
+          pb: PB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ''
   occupancy_calendar:
     months:
     - Januar
@@ -1304,8 +1462,27 @@ fr:
       default_title:
       description: Text für Verbrauchsformular
   show: Anzeigen
+  support:
+    array:
+      last_word_connector: " e "
+      two_words_connector: " e "
+      words_connector: ", "
   tenant:
-    salutation: Bonjour %{friendly_name}
+    salutation: Buongiorno %{friendly_name}
+  time:
+    am: am
+    formats:
+      date: "%d.%m.%Y"
+      default: "%a %d %b %Y, %H:%M:%S %z"
+      devise:
+        mailer:
+          invitation_instructions:
+            accept_until_format: "%B %d, %Y %I:%M %p"
+      long: "%d %B %Y %H:%M"
+      short: "%d %b %H:%M"
+      short_with_weekday: "%a, %d.%m.%Y %H:%M"
+      time: "%H:%M"
+    pm: pm
   titles:
     application: HeimV %{organisation}
   unauthorized: Sie haben keine Berechtigung für diese Seite. Bitte loggen Sie sich ein

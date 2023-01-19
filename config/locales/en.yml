@@ -1,5 +1,5 @@
 ---
-it:
+en:
   activemodel:
     attributes:
       booking/filter:
@@ -135,8 +135,8 @@ it:
         issuer: Vermieter
         pdf: PDF
         sent_at: Vertragsdatum
-        signed_at: Unterschrieben am
-        signed_pdf: Unterschriebenes PDF
+        signed_at: Von Mieter Unterschrieben am
+        signed_pdf: Von Mieter Unterschriebenes PDF
         text: Vertragstext
         title: Titel
       data_digest:
@@ -155,7 +155,7 @@ it:
       deadline:
         armed: Aktiviert
         at: Bis
-        postponable_for: Verlängerbar
+        postponable_for: Verlängerbar um Sekunden
         remarks: Bemerkungen
         responsible: Verantwortlich
       designated_document:
@@ -180,7 +180,7 @@ it:
         amount_paid: bezahlter Betrag
         booking_id: Buchung
         esr_number: ESR Nummer
-        invoice_parts: Positionen
+        invoice_parts: Rechnungspositionen
         issued_at: Ausgestellt am
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
@@ -192,10 +192,10 @@ it:
       invoice_part:
         amount: Betrag
         apply: Anwenden
-        breakdown: Text
+        breakdown: Aufschlüsselung
         label: Text
         ordinal_position: Ordnungsnummer
-        type: Positionsart
+        type: Art der Rechnungsposition
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -235,14 +235,14 @@ it:
       organisation:
         address: Adresse
         bcc: BCC
-        contract_signature: Vertragsunterschrift
+        contract_signature: Vertragsunterschrift Bild
         creditor_address: Anschrift auf Rechnungen
-        default_payment_info_type: Standartzahlungsart
-        esr_beneficiary_account: ESR Teilnehmernummer
-        esr_ref_prefix: ESR Referenznummer Präfix
+        default_payment_info_type: Standartzahlungsteil
+        esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
+        esr_ref_prefix: ESR Identifikationsnummer / Präfix
         iban: IBAN
         locale: Sprache
-        location: Ort
+        location: Vertragsunterschrift Ort
         logo: Logo
         mail_from: Absender von Emails
         name: Name
@@ -268,7 +268,7 @@ it:
       rich_text_template:
         body: Text
         enabled: Aktiviert
-        home_id: Heim
+        home_id: Gültig für Heim
         key: ID
         locale: Sprache
         namespace: Bereich
@@ -277,14 +277,14 @@ it:
         accountancy_account: zugewiesenes Buchhaltungskonto
         associated_types: Ausgewiesen in Rechnungsarten
         enabling_conditions: Bedingungen für erlaubte Auswahl
-        label: Tarif
+        label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum_usage_per_night: Minimaler Preis (pro Nacht)
         minimum_usage_total: Minimaler Preis (Total)
         ordinal: Ordnungsnummer
         pin: Tarif NICHT auf Buchung fixieren
         prefill_usage_method: Vorausfüllmethode
-        price_per_unit: Preis pro Einheit
+        price_per_unit: Preis (pro Einheit)
         selecting_conditions: Bedingungen für automatische Auswahl
         tarif_group: Tarifgruppe
         type: Typ
@@ -315,25 +315,25 @@ it:
         remarks: Bemerkungen
         used_units: Verbrauch
       user:
-        created_at: Erstellt am
-        current_password: Bisheriges Passwort
-        current_sign_in_at: Aktuelle Anmeldung vom
-        current_sign_in_ip: IP der aktuellen Anmeldung
+        created_at: Created at
+        current_password: Current password
+        current_sign_in_at: Current sign in at
+        current_sign_in_ip: Current sign in IP
         default_organisation_id: Hauptorganisation
         email: Email
-        encrypted_password: Verschlüsseltes Passwort
-        failed_attempts: Fehlversuche
-        last_sign_in_at: Letzte Anmeldung am
-        last_sign_in_ip: IP der letzten Anmeldung
-        locked_at: Gesperrt am
-        password: Passwort
-        password_confirmation: Passwort wiederholen
-        remember_created_at: Angemeldet bleiben vom
-        remember_me: Angemeldet bleiben
-        reset_password_sent_at: Passwort-Zurücksetzen-E-Mail gesendet am
-        reset_password_token: Passwort-Zurücksetzen-Token
-        sign_in_count: Anzahl Anmeldungen
-        updated_at: Aktualisiert am
+        encrypted_password: Encrypted password
+        failed_attempts: Failed attempts
+        last_sign_in_at: Last sign in at
+        last_sign_in_ip: Last sign in IP
+        locked_at: Locked at
+        password: Password
+        password_confirmation: Password confirmation
+        remember_created_at: Remember created at
+        remember_me: Remember me
+        reset_password_sent_at: Reset password sent at
+        reset_password_token: Reset password token
+        sign_in_count: Sign in count
+        updated_at: Updated at
     enums:
       booking:
         committed_request:
@@ -402,10 +402,10 @@ it:
     errors:
       messages:
         content_type: ungültiges Format
-        record_invalid: 'Validazione fallita: %{errors}'
+        record_invalid: 'Validation failed: %{errors}'
         restrict_dependent_destroy:
-          has_many: Il record non può essere cancellato perchè esistono %{record} dipendenti
-          has_one: Il record non può essere cancellato perchè esiste un %{record} dipendente
+          has_many: Cannot delete record because dependent %{record} exist
+          has_one: Cannot delete record because a dependent %{record} exists
       models:
         booking:
           action_not_allowed: Diese Aktion ist nicht erlaubt
@@ -509,8 +509,8 @@ it:
         one: Rechnung
         other: Rechnungen
       invoice_part:
-        one: Position
-        other: Positionen
+        one: Rechungsposition
+        other: Rechungspositionen
       invoice_parts/add:
         one: Normale Rechungsposition
         other: Normale Rechnungspositionen
@@ -622,20 +622,20 @@ it:
   booking_states:
     active:
       description: Die Mieter sind gemäss der Belegung vor Ort
-      label: Aktive Belegung
+      label: Belegung (anwesend)
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
       checklist:
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
       description: Der Mieter hat den Vertrag und (falls vorhanden) die Anzahlungs-Rechnung erhalten, aber noch nicht unterschrieben retourniert bzw. bezahlt.
-      label: Reservation (Vertrag ausstehend)
+      label: Reservation (Vertrag offen)
       relevant_time: Frist %{time}
     awaiting_tenant:
-      label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
+      label: vermittelte Mietanfrage (fehlende Mieterangaben)
       relevant_time: Frist %{time}
     booking_agent_request:
-      label: Mietanfrage (provisorisch via Vermittler)
+      label: vermittelte Mietanfrage (provisorisch)
       relevant_time: Frist %{time}
     cancelation_pending:
       description: Die Belegung wurde storniert, es sind aber noch Rechnungen offen, die zuerst als bezahlt markiert werden müssen.
@@ -643,8 +643,8 @@ it:
     cancelled:
       label: Storniert
     cancelled_request:
-      description: Der Mieter hat die Anfrage zurückgezogen
-      label: Mietanfrage (zurückgezogen)
+      description: Die Frist ist abgelaufen oder der Mieter hat die Anfrage zurückgezogen
+      label: Mietanfrage (zurückgezogen/abgelaufen)
     completed:
       label: Belegung (abgeschlossen)
     declined_request:
@@ -674,7 +674,7 @@ it:
       relevant_time: Frist %{time}
     overdue_request:
       label: Mietanfrage (Antwort überfällig)
-      public_info: Deine Mietanfrage ist überfällig. Bitte setzte Sie entweder auf definitiv oder annuliere die Anfrage ganz.
+      public_info: Deine Mietanfrage ist überfällig. Bitte setzte sie entweder auf definitiv oder annuliere die Anfrage ganz.
       relevant_time: Frist %{time}
     past:
       checklist:
@@ -700,7 +700,7 @@ it:
       relevant_time: Frist %{time}
     unconfirmed_request:
       description: Der Mieter hat seine E-Mail Adresse noch nicht bestätigt, die Anfrage ist noch ungültig.
-      label: Mietanfrage (Email unbestätigt)
+      label: Mietanfrage (unbestätigt)
       public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
       relevant_time: Frist %{time}
     upcoming:
@@ -711,7 +711,7 @@ it:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
-  confirm: Sind sie sicher?
+  confirm: Sind Sie sicher?
   contracts:
     issuer_signature_label: Datum, Unterschrift Vermieter
     represented_by: vertreten durch
@@ -719,148 +719,233 @@ it:
   currency: Currency
   data_digests:
     period_short: "%{period_from} - %{period_to}"
+  date:
+    abbr_day_names:
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
+    abbr_month_names:
+    -
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+    day_names:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
+    formats:
+      default: "%Y-%m-%d"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    -
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+    order:
+    - :year
+    - :month
+    - :day
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: about one hour
+        other: about %{count} hours
+      about_x_months:
+        one: about one month
+        other: about %{count} months
+      about_x_years:
+        one: about one year
+        other: about %{count} years
+      almost_x_years:
+        one: almost one year
+        other: almost %{count} years
+      half_a_minute: half a minute
+      less_than_x_minutes:
+        one: less than a minute
+        other: less than %{count} minutes
+      less_than_x_seconds:
+        one: less than one second
+        other: less than %{count} seconds
+      over_x_years:
+        one: over one year
+        other: over %{count} years
+      x_days:
+        one: one day
+        other: "%{count} days"
+      x_minutes:
+        one: a minute
+        other: "%{count} minutes"
+      x_months:
+        one: a month
+        other: "%{count} months"
+      x_seconds:
+        one: a second
+        other: "%{count} seconds"
+      x_years:
+        one: a year
+        other: "%{count} years"
+    prompts:
+      day: Day
+      hour: Hour
+      minute: Minute
+      month: Month
+      second: Second
+      year: Year
   deadline_exceeded: Deadline exceeded
   destroy: Löschen
   destroy_record: "%{model_name} löschen"
   devise:
     failure:
-      already_authenticated: Hai già effettuato l'accesso.
-      inactive: Il tuo account non è stato ancora attivato.
-      invalid: Credenziali %{authentication_keys} o password non valide.
-      invited: Hai un invito in sospeso, accettalo per completare la creazione del tuo account.
-      not_found_in_database: Credenziali %{authentication_keys} o password non valide.
-      timeout: Sessione scaduta, accedere nuovamente per continuare.
-      unauthenticated: Devi accedere o registrarti per continuare.
+      invited: You have a pending invitation, accept it to finish creating your account.
     invitations:
       edit:
-        header: Imposta la tua password
-        submit_button: Imposta la password
-      invitation_removed: Il tuo invito è stato rimosso.
-      invitation_token_invalid: Il token di invito fornito non è valido!
+        header: Set your password
+        submit_button: Set my password
+      invitation_removed: Your invitation was removed.
+      invitation_token_invalid: The invitation token provided is not valid!
       new:
-        header: Inoltra l'invito
-        submit_button: Inoltra un invito
-      no_invitations_remaining: Non sono più disponibili inviti.
-      send_instructions: Un'email di invito è stata inoltrata a %{email}.
-      updated: La tua password è stata impostata correttamente. Ora sei connesso.
-      updated_not_active: La tua password è stata impostata correttamente.
+        header: Send invitation
+        submit_button: Send an invitation
+      no_invitations_remaining: No invitations remaining
+      send_instructions: An invitation email has been sent to %{email}.
+      updated: Your password was set successfully. You are now signed in.
+      updated_not_active: Your password was set successfully.
     mailer:
-      email_changed:
-        greeting: Ciao %{recipient}!
-        message: Ti stiamo contattando per notificarti che la tua email è stata cambiata in %{email}.
-        subject: Email modificata
       invitation_instructions:
-        accept: Accetta l'invito
-        accept_until: L'invito sarà valido fino a %{due_date}.
-        hello: Buongiorno %{email}
-        ignore: Se non si desidera accettare l'invito si prega di ignorare la presente email.<br />L'account non sarà creato finché non verrà impostata la password (v. link sotto).
-        someone_invited_you: Qualcuno ti ha invitato a %{url}, accetta tramite il link qua sotto.
-        subject: Istruzioni per l'invito
-      password_change:
-        greeting: Ciao %{recipient}!
-        message: Ti stiamo contattando per notificarti che la tua password è stata modificata.
-        subject: Password modificata
-      reset_password_instructions:
-        action: Cambia la mia password
-        greeting: Ciao %{recipient}!
-        instruction: Qualcuno ha richiesto di resettare la tua password, se lo vuoi davvero puoi farlo cliccando sul link qui sotto.
-        instruction_2: Se non sei stato tu ad effettuare questa richiesta puoi ignorare questa mail.
-        instruction_3: La tua password non cambierà finchè non accederai al link sopra.
-        subject: Istruzioni per reimpostare la password
+        accept: Accept invitation
+        accept_until: This invitation will be due in %{due_date}.
+        hello: Hello %{email}
+        ignore: If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password.
+        someone_invited_you: Someone has invited you to %{url}, you can accept it through the link below.
+        subject: Invitation instructions
     omniauth_callbacks:
-      failure: Non è stato possibile autorizzarti da %{kind} perchè "%{reason}".
-      success: Autorizzato con successo dall'account %{kind}.
+      failure: Could not authenticate you from %{kind} because "%{reason}".
+      success: Successfully authenticated from %{kind} account.
     passwords:
       edit:
-        change_my_password: Cambia la mia password
-        change_your_password: Cambia la tua password
-        confirm_new_password: Conferma la nuova password
-        new_password: Nuova password
+        change_my_password: Change my password
+        change_your_password: Change your password
+        confirm_new_password: Confirm new password
+        new_password: New password
       new:
-        forgot_your_password: Password dimenticata?
-        send_me_reset_password_instructions: Inviami le istruzioni per resettare la password
-      no_token: Puoi accedere a questa pagina solamente dalla email di reset della password. Se vieni dalla email controlla di aver inserito l'url completo riportato nella email.
-      send_instructions: Riceverai un messaggio email con le istruzioni per reimpostare la tua password entro qualche minuto.
-      send_paranoid_instructions: Se la tua email esiste nel nostro database, riceverai un messaggio email contentente un link per il ripristino della password
-      updated: La tua password è stata cambiata. Ora sei collegato.
-      updated_not_active: La tua password è stata cambiata.
+        forgot_your_password: Forgot your password?
+        send_me_reset_password_instructions: Send me reset password instructions
+      no_token: You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
+      send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
+      updated: Your password has been changed successfully. You are now signed in.
+      updated_not_active: Your password has been changed successfully.
     registrations:
-      destroyed: Arrivederci! L'account è stato cancellato. Speriamo di rivederti presto.
+      destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
       edit:
-        are_you_sure: Sei sicuro?
-        cancel_my_account: Rimuovi il mio account
-        leave_blank_if_you_don_t_want_to_change_it: lascia in bianco se non vuoi cambiarla
-        title: Modifica %{resource}
-        unhappy: Scontento
-        update: Aggiorna
-        we_need_your_current_password_to_confirm_your_changes: abbiamo bisogno della tua password attuale per confermare i cambiamenti
+        are_you_sure: Are you sure?
+        cancel_my_account: Cancel my account
+        leave_blank_if_you_don_t_want_to_change_it: leave blank if you don't want to change it
+        title: Edit %{resource}
+        unhappy: Unhappy?
+        update: Update
+        we_need_your_current_password_to_confirm_your_changes: we need your current password to confirm your changes
       new:
-        sign_up: Registrati
-      signed_up: Iscrizione eseguita correttamente. Se abilitata, una conferma è stata inviata al tuo indirizzo email.
-      signed_up_but_inactive: Iscrizione eseguita correttamente. Però non puoi accedere in quanto il tuo account non è ancora attivo.
-      update_needs_confirmation: Il tuo account è stato aggiornato, ma dobbiamo verificare la tua email. Ti invitiamo a consultare la tua email e cliccare sul link di conferma.
-      updated: Il tuo account è stato aggiornato.
-      updated_but_not_signed_in: Il tuo account è stato aggiornato con successo, ma dato che la tua password è cambiata, devi accedere di nuovo.
+        sign_up: Sign up
+      signed_up: Welcome! You have signed up successfully.
+      signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
+      updated: Your account has been updated successfully.
+      updated_but_not_signed_in: Your account has been updated successfully, but since your password was changed, you need to sign in again.
     sessions:
-      already_signed_out: Sei uscito correttamente.
+      already_signed_out: Signed out successfully.
       new:
-        sign_in: Accedi
-      signed_in: Accesso effettuato con successo.
-      signed_out: Sei uscito correttamente.
+        sign_in: Log in
+      signed_in: Signed in successfully.
+      signed_out: Signed out successfully.
     shared:
       links:
-        back: Indietro
-        forgot_your_password: Password dimenticata?
-        sign_in: Accedi
-        sign_in_with_provider: Accedi con %{provider}
-        sign_up: Registrati
+        back: Back
+        didn_t_receive_confirmation_instructions: Didn't receive confirmation instructions?
+        didn_t_receive_unlock_instructions: Didn't receive unlock instructions?
+        forgot_your_password: Forgot your password?
+        sign_in: Log in
+        sign_in_with_provider: Sign in with %{provider}
+        sign_up: Sign up
       minimum_password_length:
-        one: "(minimo %{count} carattere)"
-        other: "(minimo %{count} caratteri)"
+        one: "(%{count} character minimum)"
+        other: "(%{count} characters minimum)"
+    unlocks:
+      new:
+        resend_unlock_instructions: Resend unlock instructions
+      send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
+      send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
+      unlocked: Your account has been unlocked successfully. Please sign in to continue.
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
     invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
     messages:
-      accepted: deve essere accettata
+      accepted: must be accepted
       already_confirmed: was already confirmed, please try signing in
-      blank: non può essere lasciato in bianco
-      confirmation: non coincide con %{attribute}
+      blank: can't be blank
+      confirmation: doesn't match %{attribute}
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
-      empty: non può essere vuoto
-      equal_to: deve essere uguale a %{count}
-      even: deve essere pari
-      exclusion: è riservato
-      expired: ist abgelaufen, bitte neu anfordern
-      greater_than: deve essere maggiore di %{count}
-      greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
-      in:
-      inclusion: non è compreso tra le opzioni disponibili
-      invalid: non è valido
-      less_than: deve essere minore di %{count}
-      less_than_or_equal_to: deve essere minore o uguale a %{count}
-      model_invalid: 'Validazione fallita: %{errors}'
-      not_a_number: non è un numero
-      not_an_integer: non è un numero intero
-      not_found: nicht gefunden
-      not_locked: ist nicht gesperrt
+      empty: can't be empty
+      equal_to: must be equal to %{count}
+      even: must be even
+      exclusion: is reserved
+      expired: has expired, please request a new one
+      greater_than: must be greater than %{count}
+      greater_than_or_equal_to: must be greater than or equal to %{count}
+      in: must be in %{count}
+      inclusion: is not included in the list
+      invalid: is invalid
+      less_than: must be less than %{count}
+      less_than_or_equal_to: must be less than or equal to %{count}
+      model_invalid: 'Validation failed: %{errors}'
+      not_a_number: is not a number
+      not_an_integer: must be an integer
+      not_found: not found
+      not_locked: was not locked
       not_saved:
-        one: "%{resource} konnte aufgrund eines Fehlers nicht gespeichert werden:"
-        other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
-      odd: deve essere dispari
-      other_than: devono essere di numero diverso da %{count}
-      present: deve essere lasciato in bianco
-      required: deve esistere
-      taken: è già presente
+        one: '1 error prohibited this %{resource} from being saved:'
+        other: "%{count} errors prohibited this %{resource} from being saved:"
+      odd: must be odd
+      other_than: must be other than %{count}
+      present: must be blank
+      required: must exist
+      taken: has already been taken
       too_long:
-        one: è troppo lungo (il massimo è 1 carattere)
-        other: è troppo lungo (il massimo è %{count} caratteri)
+        one: is too long (maximum is one character)
+        other: is too long (maximum is %{count} characters)
       too_short:
-        one: è troppo corto (il minimo è 1 carattere)
-        other: è troppo corto (il minimo è %{count} caratteri)
+        one: is too short (minimum is one character)
+        other: is too short (minimum is %{count} characters)
       wrong_length:
-        one: è della lunghezza sbagliata (deve essere di 1 carattere)
-        other: è della lunghezza sbagliata (deve essere di %{count} caratteri)
+        one: is the wrong length (should be one character)
+        other: is the wrong length (should be %{count} characters)
     notifications:
       accepted: muss akzeptiert werden
       blank: muss ausgefüllt werden
@@ -895,7 +980,7 @@ it:
         one: hat die falsche Länge (muss genau 1 Zeichen haben)
         other: hat die falsche Länge (muss genau %{count} Zeichen haben)
     template:
-      body: 'Bitte überprüfen Sie die folgenden Felder:'
+      body: 'Bitte überprüfe die folgenden Felder:'
       header:
         one: 'Konnte %{model} nicht speichern: ein Fehler.'
         other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
@@ -911,6 +996,129 @@ it:
             payment_part_title: Zahlteil
             receipt_title: Empfangsschein
             ref: Referenz
+  faker:
+    address:
+      building_number:
+      - "#"
+      - "#"
+      - "##"
+      - "#a"
+      - "#b"
+      city:
+      - Zürich
+      - Genf
+      - Basel
+      - Bern
+      - Lausanne
+      - Winterthur
+      - Luzern
+      - St. Gallen
+      - Lugano
+      - Biel/Bienne
+      - Thun
+      - Köniz
+      - La Chaux-de-Fonds
+      - Freiburg
+      - Schaffhausen
+      - Chur
+      - Vernier
+      - Neuenburg
+      - Uster
+      - Sitten
+      - Lancy
+      - Yverdon-les-Bains
+      - Emmen
+      - Zug
+      - Kriens
+      - Rapperswil-Jona
+      - Dübendorf
+      - Dietikon
+      - Montreux
+      - Frauenfeld
+      - Wetzikon
+      - Wil
+      - Baar
+      - Meyrin
+      - Bulle
+      - Kreuzlingen
+      - Wädenswil
+      - Carouge
+      - Riehen
+      - Renens
+      - Aarau
+      - Allschwil
+      - Wettingen
+      - Horgen
+      - Nyon
+      - Vevey
+      - Bülach
+      - Reinach
+      - Baden
+      - Adliswil
+      - Volketswil
+      - Kloten
+      country_code:
+      - CH
+      default_country:
+      - Schweiz
+      full_address:
+      - "#{street_address}, #{city} #{zip_code}"
+      postcode:
+      - 1###
+      - 2###
+      - 3###
+      - 4###
+      - 5###
+      - 6###
+      - 7###
+      - 8###
+      - 9###
+      street_address:
+      - "#{street_name} #{building_number}"
+      street_name:
+      - "#{Name.first_name}#{street_suffix}"
+      - "#{Name.first_name}#{street_suffix}"
+      - "#{Name.first_name}#{street_suffix}"
+      - "#{street_prefix} #{Name.last_name}"
+      street_prefix:
+      - Im
+      - Am
+      street_suffix:
+      - strasse
+      - weg
+    company:
+      name:
+      - "#{prefix} #{Address.city}"
+      - "#{prefix} #{Address.city}"
+      - "#{prefix} #{Address.city}-#{Address.city}"
+      prefix:
+      - Pfadi
+      - Pfadiabteilung
+      - Verein
+      - Jubla
+      - Schule
+    internet:
+      domain_suffix:
+      - com
+      - net
+      - biz
+      - ch
+      - de
+      - li
+      - at
+      - ch
+      - ch
+    phone_number:
+      formats:
+      - '0800 ### ###'
+      - '0800 ## ## ##'
+      - '0## ### ## ##'
+      - '0## ### ## ##'
+      - "+41 ## ### ## ##"
+      - '0900 ### ###'
+      - '076 ### ## ##'
+      - "+4178 ### ## ##"
+      - '0041 79 ### ## ##'
   filter: Filter
   flash:
     actions:
@@ -951,24 +1159,24 @@ it:
     unpaid_invoice: Offener Betrag fällig am %{payable_until}
   layouts:
     footer:
-      privacy_statement: Privacy statement
+      privacy_statement: Datenschutzerklärung
     manage_navigation:
-      help: Help
+      help: Hilfe
   manage:
     bookings:
       contracts:
         index:
           contract_sent: Vertrag versendet markieren
-          contract_signed: Vertrag unterschieben
+          contract_signed: Vertrag unterschieben markieren
       import:
         headers: Headers
         import_error: 'Import fehlgeschlagen: '
-        import_file: Import file
-        import_success: Import success
+        import_file: Import Datei (CSV)
+        import_success: Import erfolgreich
       index:
-        canned_filter_default: Canned filter default
-        canned_filter_upcoming: Canned filter upcoming
-        too_many_records: Too many records
+        canned_filter_default: Standardansicht
+        canned_filter_upcoming: Zukünftige Belegungen
+        too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       navigation:
         costs: Kosten
       not_committed_yet: Die Buchung ist noch nicht definitiv.
@@ -985,40 +1193,40 @@ it:
           save: "%{model_name} speichern"
     dashboard:
       index:
-        ics_link: come ICAL
+        ics_link: als ICAL
     data_digests:
       create:
-        job_started: Der Auszug wird zusammengestellt. Die Verarbeitung der Daten kann einige Minuten dauern. Laden Sie die Seite neu, um zu prüfen, ob die Verarbeitung abgeschlossen wurde.
+        job_started: Job started
       form:
         or: Or
       show:
         pdf_error: Es ist ein Fehler beim erstellen des PDFs aufgetreten. Versuche es mit dem CSV Export.
     designated_documents:
       form:
-        all_locales: Alle
+        all_locales: all
     homes:
       navigation:
         closedowns: Schliessungen
-        general: Allgemein
+        general: General
     invoices:
       form:
-        suggested_invoice_parts: Suggested invoice parts
+        suggested_invoice_parts: Vorgeschlagene Positionen
     notifications:
       edit:
         deliver: Speichern und nochmals versenden
     organisation_users:
       index:
-        invite_user: Invite user
+        invite_user: Neuen Benutzer einladen
     organisations:
       form:
-        general: General
+        general: Allgemein
         more_settings: Weitere Einstellungen
     pages:
       flow:
         title: Buchungsprozess
     payments:
       index:
-        new_import: New import
+        new_import: Zahlungen aus CAMT.054-Datei importieren
     rich_text_templates:
       form:
         help_html: |
@@ -1117,37 +1325,69 @@ it:
         group_other: Weitere
         group_tenant_notifications: Benachrichtigungen (Mieter)
   nav:
-    edit_account: Account
+    edit_account: Passwort ändern
     manage: Verwaltung
     sign_in: Anmelden
     sign_out: Abmelden
   no_records_yet: Es sind noch keine %{model_name} erstellt worden.
+  number:
+    currency:
+      format:
+        delimiter: ","
+        format: "%u%n"
+        precision: 2
+        separator: "."
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "$"
+    format:
+      delimiter: ","
+      precision: 3
+      round_mode: default
+      separator: "."
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: Billion
+          million: Million
+          quadrillion: Quadrillion
+          thousand: Thousand
+          trillion: Trillion
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          eb: EB
+          gb: GB
+          kb: KB
+          mb: MB
+          pb: PB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ''
   occupancy_calendar:
-    months:
-    - Januar
-    - Februar
-    - März
-    - April
-    - Mai
-    - Juni
-    - Juli
-    - August
-    - September
-    - Oktober
-    - November
-    - Dezember
+    months: '["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]'
     next: "→"
     prev: "←"
-    weekdays:
-    - So
-    - Mo
-    - Di
-    - Mi
-    - Do
-    - Fr
-    - Sa
+    weekdays: '["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]'
   optional: optional
-  payable_by: Payable by
+  payable_by: Zahlbar durch
   payment_part_title: Payment part title
   public:
     agent_bookings:
@@ -1174,139 +1414,97 @@ it:
         current_organisation_privacy_statment_url: Link zur Datenschutzerklärung der verarbeitenden Organisation
   receipt_title: Receipt title
   ref: Ref
-  reset: Reset
+  reset: Zurücksetzen
   rich_text_templates:
     awaiting_contract_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für Vertragsaustellung und Anzahlung (Mieter)
     awaiting_tenant_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
     booking_agent_cancelled_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
     booking_agent_request_accepted_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
     booking_agent_request_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
     cancelled_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für annullierte Reservation (Mieter)
     cancelled_request_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
     contract_signed_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für Vertragseingang (Mieter)
     contract_text:
-      default_body:
-      default_title:
       description: Text für Vertrag
     declined_request_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für abgelehnte Reservationsanfrage (Mieter)
     definitive_request_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für definitive Mietanfrage (Mieter)
     foreign_payment_info_text:
       description: Text für Zahlunginformationen für ausländische Mieter
     invoices_deposit_text:
-      default_body:
-      default_title:
       description: Text für Rechnung (Anzahlung)
     invoices_invoice_text:
-      default_body:
-      default_title:
       description: Text für Rechnung
     invoices_late_notice_text:
-      default_body:
-      default_title:
       description: Text für Rechnung (Mahnung)
     invoices_offer_text:
-      default_body:
-      default_title:
       description: Text für Offerte
     manage_definitive_request_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für definitive Mietanfrage (Verwaltung)
     manage_new_booking_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
     notification_footer:
       description: Fusszeile für Benachrichtigungen
     open_request_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für offene Mietanfrage (Mieter)
     operator_cancelation_pending_notification:
-      default_body:
-      default_title:
-      description: Benachrichtigung für baldige Belegung (Funktionär)
+      description: Benachrichtigung für abgesagte Belegung (Funktionär)
     operator_upcoming_soon_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für baldige Belegung (Funktionär)
     overdue_notification:
-      default_title:
       description: Benachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
     overdue_request_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für überfällige Reservationsanfrage (Mieter)
     payment_confirmation_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für Zahlungsbestätigung
     payment_due_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für fällige Zahlung (Mieter)
     payment_overdue_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für überfällige Rechnung (Mieter)
     provisional_request_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für provisorische Mietanfrage (Mieter)
     text_payment_info_text:
-      default_body:
-      default_title:
       description: Text für Zahlunginformationen
     unconfirmed_request_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für unbestätigte Mietanfrage (Mieter)
     upcoming_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
-      default_body:
-      default_title:
       description: Benachrichtigung für baldige Belegung (Mieter)
     usage_report_text:
-      default_body:
-      default_title:
       description: Text für Verbrauchsformular
   show: Anzeigen
+  support:
+    array:
+      last_word_connector: ", and "
+      two_words_connector: " and "
+      words_connector: ", "
   tenant:
-    salutation: Buongiorno %{friendly_name}
+    salutation: Hallo %{friendly_name}
+  time:
+    am: am
+    formats:
+      date: "%d.%m.%Y"
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      devise:
+        mailer:
+          invitation_instructions:
+            accept_until_format: "%B %d, %Y %I:%M %p"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+      short_with_weekday: "%a, %d.%m.%Y %H:%M"
+      time: "%H:%M"
+    pm: pm
   titles:
     application: HeimV %{organisation}
-  unauthorized: Sie haben keine Berechtigung für diese Seite. Bitte loggen Sie sich ein
+  unauthorized: Du hast keine Berechtigung für diese Seite. Bitte logge dich ein
   until: bis
