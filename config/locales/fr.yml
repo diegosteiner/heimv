@@ -933,7 +933,7 @@ fr:
       expired: ist abgelaufen, bitte neu anfordern
       greater_than: doit être supérieur à %{count}
       greater_than_or_equal_to: doit être supérieur ou égal à %{count}
-      in:
+      in: muss in enthalten sein %{count}
       inclusion: n'est pas inclus(e) dans la liste
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}

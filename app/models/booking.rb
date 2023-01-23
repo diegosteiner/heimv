@@ -166,6 +166,10 @@ class Booking < ApplicationRecord
     super.presence || tenant&.email.presence
   end
 
+  def email=(value)
+    super(value.downcase)
+  end
+
   def set_tenant
     return if email.blank? || tenant&.email.present?
 

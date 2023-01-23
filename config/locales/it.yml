@@ -933,7 +933,7 @@ it:
       expired: ist abgelaufen, bitte neu anfordern
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
-      in:
+      in: muss in enthalten sein %{count}
       inclusion: non è compreso tra le opzioni disponibili
       invalid: non è valido
       less_than: deve essere minore di %{count}
@@ -1277,6 +1277,7 @@ it:
       format:
         delimiter: ''
         format: "%n%"
+        precision: '1'
     precision:
       format:
         delimiter: ''

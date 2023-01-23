@@ -75,3 +75,7 @@ Style/GlobalVars:
 
 Style/SymbolProc:
   Enabled: false
+
+# TODO: bug with false positives
+Lint/UnusedMethodArgument:
+  Enabled: false

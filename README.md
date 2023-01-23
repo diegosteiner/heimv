@@ -61,6 +61,10 @@ onboarding.create_missing_rich_text_templates!(include_optional: true)
 onboarding.add_or_invite_user!
 ```
 
+## Translations
+
+Translations are driven by [translation.io](https://translation.io/) and their free service for opensource projects.
+
 ## Cronjobs
 
 Automatically change after some time has passed:
