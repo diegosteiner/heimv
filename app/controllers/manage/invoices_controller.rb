@@ -7,10 +7,10 @@ module Manage
     before_action :set_filter, only: :index
 
     def index
-      @invoices = @invoices.where(booking: @booking) if @booking.present?
       @invoices = @invoices.where(booking: { organisation: current_organisation })
                            .includes(:organisation, :payments).ordered.with_attached_pdf
-      @invoices = @filter.apply(@invoices, cached: true) if @filter.any?
+      @invoices = @invoices.where(booking: @booking) if @booking.present?
+      @invoices = @filter.apply(@invoices, cached: false) if @filter.any? && @booking.blank?
       respond_with :manage, @invoices
     end
 
