@@ -12,6 +12,7 @@ module Public
     def new
       @agent_booking = AgentBooking.new(organisation: current_organisation)
       @agent_booking.assign_attributes(agent_booking_params)
+      @agent_booking.booking.assign_attributes(booking_params) if booking_params.present?
       @agent_booking.booking.ends_at ||= @agent_booking.booking.begins_at
       respond_with :public, @agent_booking
     end
@@ -51,6 +52,10 @@ module Public
 
     def agent_booking_params
       AgentBookingParams.new(params[:agent_booking]).permitted
+    end
+
+    def booking_params
+      BookingParams::Create.new(params[:booking]).permitted
     end
   end
 end

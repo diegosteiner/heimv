@@ -167,7 +167,7 @@ class Booking < ApplicationRecord
   end
 
   def email=(value)
-    super(value.downcase)
+    super(value&.downcase)
   end
 
   def set_tenant

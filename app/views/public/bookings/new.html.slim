@@ -11,7 +11,12 @@
             = @booking.errors[:base].to_sentence
         = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
         fieldset[data-range-role="unit"]
-          = f.collection_select :home_ids, current_organisation.homes.ordered, :id, :to_s, include_blank: true
+
+          - homes = current_organisation.homes.ordered
+          .row
+            .col-md-6
+              = f.collection_select :home_ids, homes, :id, :to_s, { include_blank: homes.many? }
+
           = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
                                                       id: 'booking_begins_at',
                                                       name: 'booking[begins_at]',
@@ -26,18 +31,17 @@
           = f.email_field :email
           = f.text_field :tenant_organisation
 
-          - if current_organisation.booking_agents.any?
-            = link_to new_public_agent_booking_path(agent_booking: Public::AgentBookingParams.new(params[:booking]).to_h)
-              = BookingAgent.model_name.human
-
-        .form-actions.mt-4
+        .form-actions.mt-3
           - links = { \
               terms_pdf_url: public_designated_document_url(designation: :terms), \
               privacy_statement_pdf_url: privacy_url() \
             }
           = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', **links)
-          br
-          = f.submit
+          = f.submit t('.submit'), class: 'btn btn-primary btn-lg'
+          
+          button.btn.btn-default.p-0.text-primary.d-block.mt-3#agent-booking-button
+            = BookingAgent.model_name.human
+
 
   - if current_organisation.email.present?
     p.mt-3.text-center.small== t('.problems_html', email: current_organisation.email)

@@ -15,7 +15,9 @@ class OrganisationMailer < ApplicationMailer
 
     mail(to: notification.to, cc: notification.cc, bcc: notification.bcc, subject: notification.subject) do |format|
       format.text { render plain: @notification.text }
-      format.html
+      # rubocop:disable Rails/OutputSafety
+      format.html { render html:  @notification.body.html_safe }
+      # rubocop:enable Rails/OutputSafety
     end
   end
 

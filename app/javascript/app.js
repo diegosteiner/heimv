@@ -32,10 +32,22 @@ function toggleDisable() {
   });
 }
 
+function setupBookingAgentBookingButton() {
+  document
+    .getElementById("agent-booking-button")
+    ?.addEventListener("click", (event) => {
+      const form = event.target.form;
+      form.action = "../agent_bookings/new";
+      form.method = "GET";
+      form.noValidate = true;
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   csrfForm();
   toggleDisable();
   setupRichTextArea();
+  setupBookingAgentBookingButton();
 });
 
 Rails.start();
