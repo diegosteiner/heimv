@@ -10,8 +10,7 @@ module Public
     end
 
     def new
-      @booking = current_organisation.bookings.new(create_params)
-      @booking.ends_at ||= @booking.begins_at
+      @booking = prepare_new_booking
 
       respond_with :public, @booking
     end
@@ -55,10 +54,25 @@ module Public
                  current_organisation.bookings.find(params[:id])
     end
 
+    def booking_from_params
+      current_organisation.bookings.new(create_params)
+    end
+
     def prepare_create_booking
-      current_organisation.bookings.new(create_params).tap do |booking|
-        booking.assign_attributes(notifications_enabled: true)
-        booking.set_tenant && booking.tenant.locale ||= I18n.locale
+      current_organisation.bookings.new(create_params).instance_exec do
+        assign_attributes(notifications_enabled: true)
+        set_tenant && tenant.locale ||= I18n.locale
+        self
+      end
+    end
+
+    def prepare_new_booking
+      prepare_create_booking.instance_exec do
+        next self if begins_at.blank?
+
+        self.begins_at += organisation.settings.begins_at_default_time if begins_at.seconds_since_midnight.zero?
+        self.ends_at ||= begins_at + organisation.settings.ends_at_default_time
+        self
       end
     end
 

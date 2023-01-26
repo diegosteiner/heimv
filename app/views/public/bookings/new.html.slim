@@ -13,9 +13,7 @@
         fieldset[data-range-role="unit"]
 
           - homes = current_organisation.homes.ordered
-          .row
-            .col-md-6
-              = f.collection_select :home_ids, homes, :id, :to_s, { include_blank: homes.many? }
+          = f.collection_select :home_ids, homes, :id, :to_s, { include_blank: homes.many? }
 
           = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
                                                       id: 'booking_begins_at',

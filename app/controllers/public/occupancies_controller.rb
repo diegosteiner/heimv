@@ -27,7 +27,7 @@ module Public
     end
 
     def at
-      date = Time.zone.parse(params[:date])
+      date = Date.parse(params[:date]) if params[:date].present?
       occupancies = Occupancy.accessible_by(current_ability).merge(@home.occupancies)
       redirect_to OccupancyAtService.new(@home, occupancies).redirect_to(date, manage: can?(:manage, @home))
     end

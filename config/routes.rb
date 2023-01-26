@@ -67,9 +67,12 @@ Rails.application.routes.draw do
       get 'privacy', to: 'pages#privacy'
       resources :homes, only: %i[show index] do
         resources :occupancies, only: %i[index show] do
-          get :embed, on: :collection
-          get :calendar, on: :collection
-          get '@:date', on: :collection, as: :at, action: :at
+          collection do
+            get :embed
+            get :calendar
+            get :at
+            get '@:date', action: :at
+          end
         end
       end
       root to: 'pages#home'

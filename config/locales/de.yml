@@ -37,10 +37,12 @@ de:
         ends_at_before: Ende der Belegung bis
       organisation_settings:
         awaiting_contract_deadline: Frist für Vertragseingänge
+        begins_at_default_time: Standardzeit für den Beginn der Belegung (ab Mitternacht)
         booking_margin: Abstand zwischen Buchungen
         closed_occupancy_color: Farbe für Schliessungen
         deadline_postponable_for: Fristverlängerung
         deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
+        ends_at_default_time: Standardzeit für das Ende der Belegung (ab Beginn)
         invoice_payment_deadline: Standardmässige Zahlungsfrist
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         occupied_occupancy_color: Farbe für definitive Belegungen

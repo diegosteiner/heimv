@@ -14,7 +14,8 @@ module Manage
          overdue_request_deadline unconfirmed_request_deadline provisional_request_deadline
          last_minute_warning upcoming_soon_window invoice_payment_deadline
          deposit_payment_deadline deadline_postponable_for
-         occupied_occupancy_color tentative_occupancy_color closed_occupancy_color]
+         occupied_occupancy_color tentative_occupancy_color closed_occupancy_color
+         begins_at_default_time ends_at_default_time]
     end
 
     def self.admin_permitted_keys

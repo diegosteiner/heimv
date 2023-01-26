@@ -131,9 +131,9 @@ const formatDate = new Intl.DateTimeFormat("de-CH", {
 interface CalendarDayProps {
   dateString: string;
   occupancies?: Set<Occupancy>;
-  onClick?(e: React.MouseEvent): void;
   classNames?: string | ((date: Date) => string);
   disabled?: boolean | ((date: Date) => boolean);
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 export function CalendarDay({
@@ -152,12 +152,14 @@ export function CalendarDay({
 
   const button = (
     <button
-      type="button"
-      disabled={disabled}
+      type="submit"
+      name="date"
       onClick={onClick}
+      disabled={disabled}
       value={formatISO(date, { representation: "date" })}
       className={classNames}
       css={styles(slots.map((slot) => slot?.color))}
+      formTarget="_top"
     >
       {date.getDate()}
     </button>
@@ -218,7 +220,7 @@ interface CalendarWithOccupanciesProps {
   start?: Date | string;
   monthsCount?: number;
   occupancyWindow?: OccupancyWindow;
-  onClickCallback?: (e: React.MouseEvent) => void;
+  onClick?: (e: React.MouseEvent) => void;
   classNamesCallback?: (date: Date) => string;
   disabledCallback?: (date: Date) => boolean;
 }
@@ -227,9 +229,9 @@ function CalendarWithOccupancies({
   start,
   occupancyWindow,
   monthsCount,
-  onClickCallback,
   classNamesCallback,
   disabledCallback,
+  onClick,
 }: CalendarWithOccupanciesProps) {
   const dayElement = (dateString: string) =>
     React.useCallback(
@@ -239,8 +241,8 @@ function CalendarWithOccupancies({
           <CalendarDay
             occupancies={occupancies}
             dateString={dateString}
-            onClick={onClickCallback}
             classNames={classNamesCallback}
+            onClick={onClick}
             disabled={
               disabledCallback ||
               ((date: Date) => defaultDisabledCallback(date, occupancyWindow))

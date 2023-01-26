@@ -16,6 +16,8 @@ class OrganisationSettings < Settings
   attribute :tentative_occupancy_color, :string, default: '#e8bc56'
   attribute :occupied_occupancy_color, :string, default: '#e85f5f' || '#f2a2a2'
   attribute :closed_occupancy_color, :string, default: '#929292'
+  attribute :begins_at_default_time, DurationType.new, default: -> { 8.hours }
+  attribute :ends_at_default_time, DurationType.new, default: -> { 3.days }
 
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true

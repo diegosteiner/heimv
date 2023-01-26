@@ -18,6 +18,8 @@ import {
 import CalendarWithOccupancies from "./CalendarWithOccupancies";
 import { getYear } from "date-fns";
 
+export type HourRange = number[] | string;
+
 const formatDate = new Intl.DateTimeFormat("de-CH", {
   year: "numeric",
   month: "2-digit",
@@ -32,7 +34,11 @@ function valueAsDate(value: string | Date): Date | undefined {
   return dateValue;
 }
 
-function dateToCalendarControlValue(date: Date): CalendarControlValue {
+function dateToCalendarControlValue(
+  date: Date,
+  availableHours: number[],
+  availableMinutes: number[]
+): CalendarControlValue {
   const hours = closestNumber((date && getHours(date)) || 0, availableHours);
   const minutes = closestNumber(
     (date && getMinutes(date)) || 0,
@@ -52,18 +58,28 @@ function dateToCalendarControlValue(date: Date): CalendarControlValue {
   };
 }
 
-export const goodHours = [
-  8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-];
-export const availableHours = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  22, 23, 24,
-];
 export const availableMinutes = [0, 15, 30, 45];
 
 const closestNumber = (n: number, range: number[]) => {
   return range.reduce((a, b) => (Math.abs(b - n) < Math.abs(a - n) ? b : a));
 };
+
+// function range(start: number, end: number) {
+//   return [...Array(Math.abs(end - start))].map((_, i) => start + i)
+// }
+
+// function parseHourRange(value: string | number[] | undefined): number[]  {
+//   if (value === undefined) return range(8, 21)
+//   if (typeof value !== 'string') return value
+
+//   const fromToMatch = Array.from(value.matchAll(new RegExp('(\d+)\s*-\s*(\d+)')), match => match[1])
+//   if(fromToMatch) return range(parseInt(fromToMatch[0]) ?? 0, parseInt(fromToMatch[1]) ?? 0)
+
+//   const  = Array.from(value.matchAll(new RegExp('(\d+)\s*-\s*(\d+)')), match => match[1])
+//   if(fromToMatch) return range(parseInt(fromToMatch[0]) ?? 0, parseInt(fromToMatch[1]) ?? 0)
+
+//   return
+// }
 
 type CalendarControlValue = {
   date?: Date;
@@ -85,7 +101,7 @@ interface CalendarControlProps {
   occupancyWindow?: OccupancyWindow;
   minDate?: Date;
   maxDate?: Date;
-  restrictTime?: boolean;
+  availableHours?: number[] | string;
 }
 
 export default function OccupancyDateTimeFormControl({
@@ -100,10 +116,11 @@ export default function OccupancyDateTimeFormControl({
   minDate,
   maxDate,
 }: CalendarControlProps) {
+  const availableHours = [...Array(23)].map((_, i) => 0 + i);
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [calendarControlValue, setCalendarControlValue] =
     React.useState<CalendarControlValue>({
-      hours: Math.min(...goodHours),
+      hours: Math.min(...availableHours),
       minutes: Math.min(...availableMinutes),
       text: "",
     });
@@ -114,7 +131,9 @@ export default function OccupancyDateTimeFormControl({
       dateValue &&
       dateValue.toISOString() != calendarControlValue.date?.toISOString()
     )
-      setDateValue(dateToCalendarControlValue(dateValue));
+      setDateValue(
+        dateToCalendarControlValue(dateValue, availableHours, availableMinutes)
+      );
   }, [value, onChange]);
 
   const setDateValue = ({
@@ -127,13 +146,15 @@ export default function OccupancyDateTimeFormControl({
 
     date = setHours(
       date,
-      hours || calendarControlValue?.hours || Math.min(...goodHours)
+      hours || calendarControlValue?.hours || Math.min(...availableHours)
     );
     date = setMinutes(
       date,
       minutes || calendarControlValue?.minutes || Math.min(...availableMinutes)
     );
-    setCalendarControlValue(dateToCalendarControlValue(date));
+    setCalendarControlValue(
+      dateToCalendarControlValue(date, availableHours, availableMinutes)
+    );
     onChange && onChange(date);
     return date;
   };
@@ -263,7 +284,7 @@ export default function OccupancyDateTimeFormControl({
         <Modal.Body>
           <CalendarWithOccupancies
             start={formatISO(calendarControlValue.date || new Date())}
-            onClickCallback={handleClick}
+            onClick={handleClick}
             classNamesCallback={classNameCallback}
             disabledCallback={disabledCallback}
           ></CalendarWithOccupancies>
