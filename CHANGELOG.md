@@ -2,6 +2,13 @@
 
 #### Unreleased
 
+#### Version 23.1.2
+
+Released on 31.01.2023
+
+- Improve form for booking agents
+- Add config for default times
+
 #### Version 23.1.1
 
 Released on 13.01.2023
