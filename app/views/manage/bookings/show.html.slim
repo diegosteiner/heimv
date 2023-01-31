@@ -30,7 +30,7 @@
                   = Booking.human_attribute_name(:tenant)
 
                   - unless @booking.tenant.present? && @booking.tenant.complete?
-                    i.fa.fa-exclamation-triangle.text-warning<>[data-bs-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete', default: '')]
+                    i.fa.fa-exclamation-triangle.text-warning<>[data-bs-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete')]
 
                   - if @booking.tenant.present? && can?(:edit, @booking.tenant) && !@booking.tenant.complete?
                     = link_to edit_manage_tenant_path(@booking.tenant) 

@@ -19,16 +19,19 @@ module Import
         @tenant_importer = TenantImporter.new(organisation)
       end
 
-      def default_options
-        super.merge({ initial_state: :open_request })
-      end
-
       def initialize_record(_row)
         organisation.bookings.new(homes: [home])
       end
 
+      def initial_state
+        state = options[:initial_state]
+        return state if state && organisation.booking_flow_class.successors['initial'].include?(state.to_s)
+
+        :open_request
+      end
+
       def persist_record(booking)
-        booking.transition_to ||= options[:initial_state]
+        booking.transition_to ||= initial_state
         booking.save
       end
 

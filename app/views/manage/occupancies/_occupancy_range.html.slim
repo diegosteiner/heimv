@@ -1,9 +1,16 @@
 .occupancy-info
   .text-center
     i.fa.fa-home
-  div
+  ul.list-none.p-0.m-0
     - booking.occupancies.each do |occupancy|
-      = link_to occupancy.home, manage_home_path(occupancy.home), class: (:'text-danger' if occupancy.conflicting.present?)
+      = link_to manage_home_path(occupancy.home) do
+        - if occupancy.conflicting.present?
+          .text-danger
+            = occupancy.home
+            i.fa.fa-exclamation-triangle<>[data-bs-toggle="tooltip" title=occupancy.conflicting.map(&:to_s).join(', ')]
+        - else 
+          = occupancy.home
+
   .text-center
     i.fa.fa-calendar
   strong

@@ -54,11 +54,14 @@ class Occupancy < ApplicationRecord
     "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)}"
   end
 
+  # rubocop:disable Metrics/AbcSize
   def conflicting(margin = organisation&.settings&.booking_margin || 0)
     return if begins_at.blank? || ends_at.blank? || home.blank?
 
-    home.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking.where.not(id: id)
+    home.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking
+        .where.not(id: id).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def color=(value)
     super(value.presence) if value != color
