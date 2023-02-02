@@ -30,12 +30,21 @@ function OccupancyCalendar({
     })();
   }, []);
 
+  const handleClick = (e: React.MouseEvent): void => {
+    const target = e.target as HTMLButtonElement;
+    e.preventDefault();
+    if (!target.value || !window.top) return;
+    const url = occupancyAtUrl.replace("__DATE__", target.value);
+    window.top.location.href = url;
+  };
+
   return (
     <form action={occupancyAtUrl} method="GET">
       <CalendarWithOccupancies
         start={start}
         monthsCount={monthsCount}
         occupancyWindow={occupancyWindow}
+        onClick={handleClick}
       ></CalendarWithOccupancies>
     </form>
   );
