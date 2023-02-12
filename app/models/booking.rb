@@ -196,6 +196,7 @@ class Booking < ApplicationRecord
 
   def home
     raise 'Deprecated call to home' if homes.many?
+
     homes.first
   end
 
