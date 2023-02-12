@@ -21,9 +21,9 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear
       invoice = booking.invoices.sent.open.order(payable_until: :asc).last
-      payable_until = invoice&.payable_until
-      next if payable_until.blank?
+      next if invoice.blank?
 
+      payable_until = invoice.payable_until + booking.organisation.settings.payment_overdue_deadline
       postponable_for = booking.organisation.settings.deadline_postponable_for
       booking.deadlines.create(at: payable_until, postponable_for: postponable_for) unless booking.deadline
     end

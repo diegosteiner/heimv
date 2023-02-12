@@ -5,6 +5,7 @@ class OrganisationSettings < Settings
   attribute :booking_window, DurationType.new, default: -> { 30.months }
   attribute :awaiting_contract_deadline, DurationType.new, default: -> { 10.days }
   attribute :overdue_request_deadline, DurationType.new, default: -> { 3.days }
+  attribute :payment_overdue_deadline, DurationType.new, default: -> { 3.days }
   attribute :unconfirmed_request_deadline, DurationType.new, default: -> { 3.days }
   attribute :provisional_request_deadline, DurationType.new, default: -> { 10.days }
   attribute :last_minute_warning, DurationType.new, default: -> { 10.days }
@@ -25,7 +26,8 @@ class OrganisationSettings < Settings
   validates :booking_margin, :booking_window, :awaiting_contract_deadline, :overdue_request_deadline,
             :unconfirmed_request_deadline, :provisional_request_deadline, :last_minute_warning,
             :invoice_payment_deadline, :deposit_payment_deadline, :deadline_postponable_for, :upcoming_soon_window,
-            :booking_window, numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
+            :payment_overdue_deadline, :booking_window,
+            numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
 
   def occupancy_colors
     {
