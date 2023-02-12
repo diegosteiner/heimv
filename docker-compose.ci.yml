@@ -52,7 +52,7 @@ services:
       selenium:
 
   selenium:
-    image: selenium/standalone-chrome-debug
+    image: selenium/standalone-chrome
     logging:
       driver: none
     networks:

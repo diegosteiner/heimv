@@ -2,8 +2,8 @@
 
 - unless booking.new_record?
   nav.booking-nav.navbar.p-0.bg-primary.navbar-dark.nowrap.mb-4
-    = link_to manage_booking_path(booking) do
-      h5.ps-4.m-0.me-5.navbar-brand.text-white= booking.ref
+    .d-flex.ps-4.me-4.align-items-center.text-white.navbar-brand
+      h5.m-0.me-1= booking.ref
     ul.nav.nav-tabs.pt-2.nowrap
       - if booking.to_param
         li.nav-item
