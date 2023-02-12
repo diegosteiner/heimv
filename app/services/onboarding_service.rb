@@ -20,9 +20,8 @@ class OnboardingService
     user = User.find_or_initialize_by(email: email)
     user.update!(password: password || SecureRandom.base64(32))
     user.invite!(invited_by) if password.blank?
-    user.organisation_users.create(organisation: organisation, role: role).tap do |organisation_user|
-      organisation_user.user.default_organisation ||= organisation
-      organisation_user.user.save
+    user.organisation_users.create!(organisation: organisation, role: role).tap do
+      user.update!(default_organisation: organisation) if user.default_organisation.blank?
     end
   end
 

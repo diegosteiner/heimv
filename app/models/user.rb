@@ -49,9 +49,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true
   validate do
-    next if default_organisation_id.blank?
-
-    errors.add(:default_organisation_id, :invalid) if in_organisation(default_organisation_id).blank?
+    errors.add(:default_organisation_id, :invalid) if default_organisation && !in_organisation?(default_organisation)
   end
 
   def to_s
@@ -62,6 +60,10 @@ class User < ApplicationRecord
     return if organisation.nil?
 
     organisation_users.find_by(organisation: organisation)
+  end
+
+  def in_organisation?(organisation)
+    in_organisation(organisation).present?
   end
 
   # Include default devise modules. Others available are:

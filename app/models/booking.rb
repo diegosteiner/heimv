@@ -195,7 +195,7 @@ class Booking < ApplicationRecord
   end
 
   def home
-    Rails.logger.warn('Deprecated call to home')
+    raise 'Deprecated call to home' if homes.many?
     homes.first
   end
 

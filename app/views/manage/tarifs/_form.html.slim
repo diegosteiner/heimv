@@ -4,7 +4,12 @@
     = f.select :type, subtype_options_for_select(Tarif.subtypes), include_blank: true
     .row
       .col-sm-3 = f.number_field :ordinal, step: 1.0
-      .col-sm = f.text_field :tarif_group
+      .col-sm 
+        = f.text_field :tarif_group, list: 'tarif-group-datalist'
+        datalist id='tarif-group-datalist'
+          - current_organisation.tarifs.pluck(:tarif_group).uniq.each do |tarif_group|
+            option value=tarif_group
+              = tarif_group
 
 
   fieldset
