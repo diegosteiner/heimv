@@ -89,9 +89,9 @@ module DataDigestTemplates
     end
 
     def filter(period = nil)
-      ::Booking::Filter.new(prefilter_params.merge(begins_at_after: period&.begin, begins_at_before: period&.end))
-    rescue StandardError
-      ::Booking::Filter.new
+      filter_params = { begins_at_after: period&.begin, begins_at_before: period&.end }
+      filter_params = filter_params.merge(prefilter_params) if prefilter_params.present?
+      ::Booking::Filter.new(filter_params)
     end
 
     def base_scope
