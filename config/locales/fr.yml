@@ -3,36 +3,36 @@ fr:
   activemodel:
     attributes:
       booking/filter:
-        begins_at: à partir de
-        begins_at_after: Début de l'occupation à partir du
-        begins_at_before: Début de l'occupation jusqu'au
-        current_booking_states: Statut
-        ends_at: Jusqu'à
-        ends_at_after: Fin de l'occupation à partir de
-        ends_at_before: Fin de l'occupation jusqu'au
-        homes: Heime
-        only_inconcluded: nur offene Buchungen
-        previous_booking_states: Vergangene Status
-        ref: Buchungsreferenz
-        tenant: Mieter
+        begins_at: à partir du / de
+        begins_at_after: Début de la location
+        begins_at_before: 'Location jusqu''au '
+        current_booking_states: Statuts
+        ends_at: Jusqu'au / jusqu'à
+        ends_at_after: Fin de la location
+        ends_at_before: Fin de la location
+        homes: Chalets
+        only_inconcluded: Uniquement les réservations ouvertes/libres (?)
+        previous_booking_states: Anciens statuts
+        ref: "(Numéro de) Référence de location"
+        tenant: Locataire
       invoice/filter:
         invoice_type: Rechungsart
         issued_at_after: Rechnungsdatum nach
         issued_at_before: Rechnungsdatum vor
         paid: Beglichen / Bezahlt
-        payable_until_after: Zahlbar bis nach
-        payable_until_before: Zahlbar bis vor
+        payable_until_after: Payable jusqu'au / après le
+        payable_until_before: Payable jusqu'au / avant le
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerabschnitts ab
         begins_at_before: Beginn des Zählerabschnitts bis
         ends_at_after: Ende der Zählerabschnitts ab
         ends_at_before: Ende der Zählerabschnitts bis
-        tarif_ids: Tarife
+        tarif_ids: Tarifs
       occupancy/filter:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
-        ends_at: Bis
+        ends_at: Jusqu'à
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
       organisation_settings:
@@ -48,7 +48,7 @@ fr:
         occupied_occupancy_color: Farbe für definitive Belegungen
         overdue_request_deadline: Frist für Reservationsanfragen
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
-        tenant_birth_date_required: Geburtsdatum Pflichteingabe
+        tenant_birth_date_required: Date de naissance, Indication-information obligatoire
         tentative_occupancy_color: Farbe für provisorischen Belegungen
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
         upcoming_soon_window: Frist für baldige Belegung
@@ -376,7 +376,7 @@ fr:
           terms: Geschäftsbedingungen / AGB
       invoice/filter:
         paid:
-          only_paid: Nur beglichene
+          only_paid: Nur belichene
           only_unpaid: Nur offene
       occupancy:
         occupancy_type:

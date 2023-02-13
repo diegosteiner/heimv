@@ -3,68 +3,68 @@ it:
   activemodel:
     attributes:
       booking/filter:
-        begins_at: Von
-        begins_at_after: Beginn der Belegung ab
-        begins_at_before: Beginn der Belegung bis
-        current_booking_states: Status
-        ends_at: Bis
-        ends_at_after: Ende der Belegung ab
-        ends_at_before: Ende der Belegung bis
-        homes: Heime
-        only_inconcluded: nur offene Buchungen
-        previous_booking_states: Vergangene Status
-        ref: Buchungsreferenz
-        tenant: Mieter
+        begins_at: Da
+        begins_at_after: Inizio occupazione da
+        begins_at_before: Inizio occupazione fino a
+        current_booking_states: Stato
+        ends_at: Fino a
+        ends_at_after: Fine occupazione da
+        ends_at_before: Fine dell'occupazione fino a
+        homes: Case
+        only_inconcluded: solo prenotazioni aperte
+        previous_booking_states: Stato passato
+        ref: Riferimento di prenotazione
+        tenant: Inquilino
       invoice/filter:
-        invoice_type: Rechungsart
-        issued_at_after: Rechnungsdatum nach
-        issued_at_before: Rechnungsdatum vor
-        paid: Beglichen / Bezahlt
-        payable_until_after: Zahlbar bis nach
-        payable_until_before: Zahlbar bis vor
+        invoice_type: Tipo di fattura
+        issued_at_after: Data di fatturazione dopo
+        issued_at_before: Data di fatturazione precedente
+        paid: Stato del pagamento
+        payable_until_after: Pagabile fino a dopo
+        payable_until_before: Pagabile fino a prima di
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerabschnitts ab
         begins_at_before: Beginn des Zählerabschnitts bis
         ends_at_after: Ende der Zählerabschnitts ab
         ends_at_before: Ende der Zählerabschnitts bis
-        tarif_ids: Tarife
+        tarif_ids: Tariffe
       occupancy/filter:
-        begins_at: Von
-        begins_at_after: Beginn der Belegung ab
-        begins_at_before: Beginn der Belegung bis
-        ends_at: Bis
-        ends_at_after: Ende der Belegung ab
-        ends_at_before: Ende der Belegung bis
+        begins_at: Da
+        begins_at_after: Inizio occupazione da
+        begins_at_before: Inizio occupazione fino a
+        ends_at: Fino a
+        ends_at_after: Fine occupazione da
+        ends_at_before: Fine dell'occupazione fino a
       organisation_settings:
-        awaiting_contract_deadline: Frist für Vertragseingänge
+        awaiting_contract_deadline: Periodo per i contratti in entrata
         begins_at_default_time: Standardzeit für den Beginn der Belegung (ab Mitternacht)
-        booking_margin: Abstand zwischen Buchungen
-        closed_occupancy_color: Farbe für Schliessungen
-        deadline_postponable_for: Fristverlängerung
-        deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
+        booking_margin: Durata tra le prenotazioni
+        closed_occupancy_color: Colore per le chiusure
+        deadline_postponable_for: Proroga della scadenza
+        deposit_payment_deadline: Periodo di pagamento standard (acconto)
         ends_at_default_time: Standardzeit für das Ende der Belegung (ab Beginn)
-        invoice_payment_deadline: Standardmässige Zahlungsfrist
-        last_minute_warning: Frist für Kurzfristige Reservationsanfragen
-        occupied_occupancy_color: Farbe für definitive Belegungen
-        overdue_request_deadline: Frist für Reservationsanfragen
-        provisional_request_deadline: Frist für provisorische Reservationsanfragen
+        invoice_payment_deadline: Periodo di pagamento standard
+        last_minute_warning: Periodo per le richieste di prenotazione a breve termine
+        occupied_occupancy_color: Colore per le occupazioni definitive
+        overdue_request_deadline: Periodo per le richieste di prenotazione in ritardo
+        provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
-        tentative_occupancy_color: Farbe für provisorischen Belegungen
+        tentative_occupancy_color: Colore per le occupazioni provvisorie
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
-        upcoming_soon_window: Frist für baldige Belegung
+        upcoming_soon_window: Periodo per l'occupazione anticipata
       payment/filter:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis
     models:
       occupancy_calendar:
-        one: Belegungsplan
-        other: Belegungspläne
+        one: Piano di occupazione
+        other: Piani di occupazione
       payment_info:
         one: Zahlungsteil
         other: Zahlungsteile
       payment_infos/foreign_payment_info:
-        one: Zahlungsteil für Mieter aus dem Ausland
-        other: Zahlungsteile für Mieter aus dem Ausland
+        one: Sezione di pagamento per gli inquilini stranieri
+        other: Sezioni di pagamento per gli inquilini stranieri
       payment_infos/qr_bill:
         one: QR-Rechnung (experimentell)
         other: QR-Rechnungen (experimentell)
@@ -79,13 +79,13 @@ it:
         booking_agent_code: Vermittlercode
         booking_agent_ref: Ihre Referenz
         home: Heim
-        tenant_email: Email des Mieters
+        tenant_email: Email dell'inquilino
       bookable_extra:
         description: Beschreibung
         title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
-        begins_at: Beginn der Belegung
+        begins_at: Inizio dell'occupazione
         bookable_extra_ids: Buchbare Extras
         booking_agent_code: Vermittler-Code
         booking_agent_ref: Vermittler-Referenz
@@ -95,8 +95,8 @@ it:
         committed_request: Verbindlichkeit der Mietanfrage
         created_at: Erstellt am
         deadline: Frist bis
-        editable: Durch Mieter bearbeitbar
-        ends_at: Ende der Belegung
+        editable: Modificabile dagli inquilini
+        ends_at: Fine dell'occupazione
         home: Heim
         home_ids: Heime
         internal_remarks: Interne Bemerkungen
@@ -104,16 +104,16 @@ it:
         locale: Sprache
         nights: Nächte
         notifications_enabled: Aus der Applikation generierte Emails versenden
-        occupancies: Belegungen
+        occupancies: Occupazioni
         occupancy_color: Farbe im Kalender
-        occupancy_type: Art der Belegungen
+        occupancy_type: Tipo di occupazione
         purpose_description: Beschreibung des Mietzwecks
         ref: Buchungsreferenz
         remarks: Bemerkungen
         state: Status
-        tenant: Mieter
-        tenant_id: Mieter
-        tenant_organisation: Mieter Organisation
+        tenant: Inquilino
+        tenant_id: Inquilino
+        tenant_organisation: Inquilino (organizzazione)
         transition_to: Neuer Status
         usage_report: Verbrauchsformular
       booking_agent:
@@ -134,11 +134,11 @@ it:
         must_condition: Muss-Kriterium
         type: Typ
       contract:
-        issuer: Vermieter
+        issuer: Proprietario
         pdf: PDF
         sent_at: Vertragsdatum
-        signed_at: Unterschrieben am
-        signed_pdf: Unterschriebenes PDF
+        signed_at: Firmato dall'inquilino il
+        signed_pdf: PDF firmato dall'inquilino
         text: Vertragstext
         title: Titel
       data_digest:
@@ -175,7 +175,7 @@ it:
         booking_margin: Zeitabstand zwischen Buchungen
         name: Name
         ref: Kurzname / Referenz
-        requests_allowed: Reservationsanfragen erlauben
+        requests_allowed: Consentire le richieste di prenotazione
       invoice:
         amount: Betrag
         amount_open: offener Betrag
@@ -199,25 +199,25 @@ it:
         ordinal_position: Ordnungsnummer
         type: Positionsart
       meter_reading_period:
-        begins_at: Beginn
-        end_value: Zählerstand neu
+        begins_at: Inizio
+        end_value: Lettura del contatore nuova
         ends_at: Ende
-        start_value: Zählerstand alt
+        start_value: Lettura del contatore vecchia
       notification:
         body: Inhalt
         sent_at: Zuletzt gesendet am
         subject: Betreff
         to: An
       occupancy:
-        begins_at: Beginn der Belegung
-        begins_at_date: Beginn der Belegung (Datum)
-        begins_at_time: Beginn der Belegung (Zeit)
+        begins_at: Inizio dell'occupazione
+        begins_at_date: Inizio dell'occupazione (data)
+        begins_at_time: Inizio dell'occupazione (ora)
         color: Farbe im Kalender
-        ends_at: Ende der Belegung
-        ends_at_date: Ende der Belegung (Datum)
-        ends_at_time: Ende der Belegung (Zeit)
+        ends_at: Fine dell'occupazione
+        ends_at_date: Fine dell'occupazione (data)
+        ends_at_time: Fine dell'occupazione (ora)
         home_id: Heim
-        occupancy_type: Belegungsart
+        occupancy_type: Tipo di occupazione
         remarks: Bemerkungen
       operator:
         contact_info: Kontaktinformationen
@@ -280,7 +280,7 @@ it:
         associated_types: Ausgewiesen in Rechnungsarten
         enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarif
-        meter: Name des Zählers (bei Tarifen nach Zählerstand)
+        meter: Nome del contatore (per le tariffe in base alla lettura del contatore)
         minimum_usage_per_night: Minimaler Preis (pro Nacht)
         minimum_usage_total: Minimaler Preis (Total)
         ordinal: Ordnungsnummer
@@ -306,7 +306,7 @@ it:
         nickname: Pfadiname
         phone: Telefon
         remarks: Interne Bemerkungen
-        reservations_allowed: Darf Reservationsanfragen schicken
+        reservations_allowed: Può inviare richieste di prenotazione
         street_address: Strasse / Nr.
         zipcode: PLZ
       usage:
@@ -345,7 +345,7 @@ it:
         trigger:
           auto: System
           manager: Verwaltung
-          tenant: Mieter
+          tenant: Inquilino
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -376,7 +376,7 @@ it:
           terms: Geschäftsbedingungen / AGB
       invoice/filter:
         paid:
-          only_paid: Nur beglichene
+          only_paid: Nur belichene
           only_unpaid: Nur offene
       occupancy:
         occupancy_type:
@@ -467,13 +467,13 @@ it:
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/occupancy_duration:
-        one: nächte tarifwähler
+        one: Durata dell'occupazione (condizione)
       booking_conditions/occupiable:
         one: Heim Bedingung
       booking_conditions/season:
         one: Saison Bedingung
       booking_conditions/tenant_organisation:
-        one: Organisation des Mieters Bedingung
+        one: Organizzazione dell'inquilino (condizione)
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -532,14 +532,14 @@ it:
         one: Offerte
         other: Offerten
       meter_reading_period:
-        one: Zählerstand
-        other: Zählerstände
+        one: Lettura del contatore
+        other: Letture dei contatori
       notification:
         one: Benachrichtigung
         other: Benachrichtigungen
       occupancy:
-        one: Belegung
-        other: Belegungen
+        one: Occupazione
+        other: Occupazioni
       operator:
         one: Funktionär
         other: Funktionäre
@@ -569,7 +569,7 @@ it:
       tarifs/flat:
         one: Pauschale
       tarifs/metered:
-        one: nach Zählerstand
+        one: secondo la lettura del contatore
       tarifs/min_occupation:
         one: Mindestbetrag
       tarifs/overnight_stay:
@@ -577,8 +577,8 @@ it:
       tarifs/price:
         one: Betrag
       tenant:
-        one: Mieter
-        other: Mieter
+        one: Inquilino
+        other: Inquilino
       usage:
         one: Verbrauch
         other: Verbrauch
@@ -624,14 +624,14 @@ it:
   booking_states:
     active:
       description: Die Mieter sind gemäss der Belegung vor Ort
-      label: Aktive Belegung
-      relevant_time: Ende der Belegung %{time}
+      label: Occupazione (attuale)
+      relevant_time: Fine dell'occupazione %{time}
     awaiting_contract:
       checklist:
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
       description: Der Mieter hat den Vertrag und (falls vorhanden) die Anzahlungs-Rechnung erhalten, aber noch nicht unterschrieben retourniert bzw. bezahlt.
-      label: Reservation (Vertrag ausstehend)
+      label: Prenotazione (contratto in attesa)
       relevant_time: Frist %{time}
     awaiting_tenant:
       label: Mietanfrage (definitiv via Vermittler, fehlende Mieterangaben)
@@ -648,7 +648,7 @@ it:
       description: Der Mieter hat die Anfrage zurückgezogen
       label: Mietanfrage (zurückgezogen)
     completed:
-      label: Belegung (abgeschlossen)
+      label: Occupazione (completata)
     declined_request:
       deadline_exceeded: Frist abgelaufen
       label: Mietanfrage (abgelehnt)
@@ -672,7 +672,7 @@ it:
       checklist:
         contract_signed: Vertrag unterschieben
         deposit_paid: Anzahlung beglichen
-      label: Reservation (Vertrag überfällig)
+      label: Prenotazione (contratto scaduto)
       relevant_time: Frist %{time}
     overdue_request:
       label: Mietanfrage (Antwort überfällig)
@@ -683,15 +683,15 @@ it:
         create_invoice: Rechnung stellen
         create_usages: Verbrauch erfassen
       description: Die Belegung ist vorüber. Die Verwaltung kann jetzt den Verbrauch erfassen und die Schlussrechnung erstellen.
-      label: Belegung (vergangen)
-      relevant_time: Ende der Belegung %{time}
+      label: Occupazione (passata)
+      relevant_time: Fine dell'occupazione %{time} %{time}
     payment_due:
       checklist:
         invoices_paid: Rechnung beglichen
-      label: Belegung (Zahlung ausstehend)
+      label: Occupazione (in attesa di pagamento)
       relevant_time: Frist %{time}
     payment_overdue:
-      label: Belegung (Zahlung überfällig)
+      label: Occupazione (pagamento in ritardo)
       relevant_time: Frist %{time}
     provisional_request:
       checklist:
@@ -707,17 +707,17 @@ it:
       relevant_time: Frist %{time}
     upcoming:
       description: Der Mieter hat den Vertrag unterschrieben retourniert und die Anzahlung (falls vorhanden) beglichen.
-      label: Belegung (zukünftig)
-      relevant_time: Beginn der Belegung %{time}
+      label: Occupazione (futura)
+      relevant_time: Inizio dell'occupazione %{time}
     upcoming_soon:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
-      label: Belegung (demnächst)
-      relevant_time: Beginn der Belegung %{time}
+      label: Occupazione (in arrivo)
+      relevant_time: Inizio dell'occupazione %{time}
   confirm: Sind sie sicher?
   contracts:
-    issuer_signature_label: Datum, Unterschrift Vermieter
+    issuer_signature_label: Data, luogo, firma Locatore
     represented_by: vertreten durch
-    tenant_signature_label: Datum, Unterschrift Mieter
+    tenant_signature_label: Data, luogo, firma Inquilino
   currency: Currency
   data_digests:
     period_short: "%{period_from} - %{period_to}"
@@ -1077,7 +1077,7 @@ it:
       show:
         checklist: Checkliste
         logged_changes: "%{changes} bearbeitet"
-        public_booking_url: Link für Mieter
+        public_booking_url: Link per gli inquilini
       usages:
         index:
           applicable_tarifs: Anwendbare Tarife
@@ -1122,94 +1122,7 @@ it:
         new_import: New import
     rich_text_templates:
       form:
-        help_html: |
-          <p>Variabeln im Text verwenden:</p>
-
-          <pre>
-            Hallo {{ booking.tenant.first_name }}!
-          </pre>
-
-          <p>Folgende Variabeln stehen zur Verfügung:</p>
-          <pre>
-            booking:
-              agent_booking:
-              approximate_headcount: Erwartete Anzahl Personen
-              cancellation_reason: Annulierungsgrund
-              committed_request: Verbindlichkeit der Mietanfrage
-              deadline: Frist
-                at: Fris bis Datum / Uhrzeit (muss mit "| datetime_format" kombiniert werden)
-                postponable_for: Verlängerbar für n Sekunden
-              home: Heim
-                address: Adresse des Heims
-                name: Name des Heims
-              invoice_address: Rechnungsadresse
-              links: Links
-                edit: Link für den Mieter
-                manage: Link für den Vermieter
-              occupancy: Belegung
-                begins_at: Beginn der Belegung (muss mit "| datetime_format" kombiniert werden)
-                ends_at: Ende der Belegung (muss mit "| datetime_format" kombiniert werden)
-                home_id: ID des Heims
-                occupancy_type: Belegungstyp
-                remarks: Bemerkungen des Mieters
-              organisation: Organisation
-                address: Addresse der Organisation, Sitz
-                booking_categories: Liste aller Mietzwecke der Organisation
-                email: E-Mail der Organisation
-                esr_beneficiary_account: 01-318421-1
-                links: Links
-                  privacy_statement_pdf: Link zur Datenschutzerklärung
-                  terms_pdf: Link zu den AGB
-                name: Name der Organisation
-              category: Art der Miete
-                key: Schlüssel
-                title: Bezeichnung
-                description: Beschreibung
-              ref: Referenznummer der Buchung
-              remarks: Bemerkungen des Mieters
-              tenant: Mieter
-                address_addon: Addresszusatz
-                city: Ort
-                email: E-Mail
-                first_name: Vorname
-                last_name: Nachname
-                nickname: Pfadiname
-                salutation_name: Anrede mit Name
-                street_address: Addresse
-                zipcode: PLZ
-              tenant_organisation: Organisation des Mieters
-              operator_responsibilities: Verantwortlichkeiten für diese Buchung
-                home_handover: Hausübergabe
-                  operator: Verantwortliche Person
-                    name: Name
-                    email: E-Mail
-                    contact_info: Kontaktinformationen
-                home_return: Hausrücknahme
-                  operator: Verantwortliche Person
-                    name: Name
-                    email: E-Mail
-                    contact_info: Kontaktinformationen
-                administration: Verwaltung / Allgemeine Anliegen
-                  operator: Verantwortliche Person
-                    name: Name
-                    email: E-Mail
-                    contact_info: Kontaktinformationen
-                billing: Verrechnung
-                  operator: Verantwortliche Person
-                    name: Name
-                    email: E-Mail
-                    contact_info: Kontaktinformationen
-            </pre>
-
-            Logik im Text verwenden:
-
-            <pre>
-            {% if booking.category.key == 'camp' %}
-              Wir wünschen euch viel Spass in eurem Lager in unserem Heim!
-            {% else %}
-              Wir wünschen Ihnen einen schönen Aufenthalt in unserem Heim!
-            {% endif %}
-            </pre>
+        help_html: "<p>Utilizzare le variabili nel testo:</p>\n\n<pre>\n  Buongiorno {{ booking.tenant.first_name }}!\n</pre>\n\n<p>Sono disponibili le seguenti variabili:</p>\n<h5>Prenotazione</h5>\n<dl>\n    <dt>Inizio dell'occupazione</dt><dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd><dd><pre>{{ booking.begins_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    <dt>Fine dell'occupazione</dt><dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd><dd><pre>{{ booking.ends_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    \n    <dt>Numero previsto di persone</dt><dd><pre>{{ booking.approximate_headcount }}</pre></dd>\n    <dt>Motivo della cancellazione</dt><dd><pre>{{ booking.cancellation_reason }}</pre></dd>\n    <dt>Natura vincolante della richiesta d'occupazione</dt><dd><pre>{{ booking.committed_request }}</pre></dd>\n\n    <dt>ID della casa</dt><dd><pre>{{ booking.home.id }}</pre></dd>\n    <dt>ID di tutte le case occupate</dt><dd><pre>{{ booking.home_ids }}</pre></dd>\n    <dt>Nome della casa</dt><dd><pre>{{ booking.home.name }}</pre></dd>\n    <dt>Indirizzo della casa</dt><dd><pre>{{ booking.home.address }}</pre></dd>\n\n    <dt>Nome di tutte le case occupate</dt><dd><pre>{{ booking.homes | map: \"name\" | join: \", \" }}</pre></dd>\n    <dt>Elenco delle case occupate</dt><dd><pre><ul>{% for home in booking.homes %}<li>{{ home.name }}</li>{% endfor %}</ul></pre></dd>\n\n    <dt>Indirizzo per la fattura</dt><dd><pre>{{ booking.invoice_address }}</pre></dd>\n    <dt>Scadenza fino alla data / ora</dt><dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>\n    <dt>Periodo prolungabile per n secondi</dt><dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>\n    <dt>Link per l'inquilino</dt><dd><pre>{{ booking.links.edit }}</pre></dd>\n    <dt>Link per il locatore</dt><dd><pre>{{ booking.links.manage }}</pre></dd>\n    <dt>Tipo di occupazione</dt><dd><pre>{{ booking.occupancy_type }}</pre></dd>\n    <dt>Schlüssel der Mietkategorie</dt><dd><pre>{{ booking.category.key }}</pre></dd>\n    <dt>Designazione della categoria di locazione</dt><dd><pre>{{ booking.category.title }}</pre></dd>\n    <dt>Descrizione della categoria di locazione</dt><dd><pre>{{ booking.category.description }}</pre></dd>\n    <dt>Descrizione dello scopo della locazione</dt><dd><pre>{{ booking.purpose_description }}</pre></dd>\n    <dt>Numero di riferimento della prenotazione</dt><dd><pre>{{ booking.ref }}</pre></dd>\n    <dt>Osservazioni dell'inquilino</dt><dd><pre>{{ booking.remarks }}</pre></dd>\n    <dt>Adresszusatz des Mieters</dt><dd><pre>{{ booking.tenant.address_addon }}</pre></dd>\n    <dt>Ort des Mieters</dt><dd><pre>{{ booking.tenant.city }}</pre></dd>\n    <dt>E-Mail des Mieters</dt><dd><pre>{{ booking.tenant.email }}</pre></dd>\n    <dt>Vorname des Mieters</dt><dd><pre>{{ booking.tenant.first_name }}</pre></dd>\n    <dt>Nachname des Mieters</dt><dd><pre>{{ booking.tenant.last_name }}</pre></dd>\n    <dt>Pfadiname des Mieters</dt><dd><pre>{{ booking.tenant.nickname }}</pre></dd>\n    <dt>Anrede mit Name des Mieters</dt><dd><pre>{{ booking.tenant.salutation_name }}</pre></dd>\n    <dt>Adresse des Mieters</dt><dd><pre>{{ booking.tenant.street_address }}</pre></dd>\n    <dt>PLZ des Mieters</dt><dd><pre>{{ booking.tenant.zipcode }}</pre></dd>\n    <dt>Organisation des Mieters</dt><dd><pre>{{ booking.tenant.tenant_organisation }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>\n  </dl>\n  <h5>Organisation</h5>\n  <dl>\n    <dt>Adresse der Organisation, Sitz</dt><dd><pre>{{ organisation.address }}</pre></dd>\n    <dt>Liste aller Mietkategorien der Organisation</dt><dd><pre>{{ organisation.booking_categories }}</pre></dd>\n    <dt>E-Mail der Organisation</dt><dd><pre>{{ organisation.email }}</pre></dd>\n    <dt>PC-Kontonummer</dt><dd><pre>{{ organisation.esr_beneficiary_account }}</pre></dd>\n    <dt>IBAN</dt><dd><pre>{{ organisation.iban }}</pre></dd>\n    <dt>QR-IBAN</dt><dd><pre>{{ organisation.qr_iban }}</pre></dd>\n    <dt>Link zur Datenschutzerklärung</dt><dd><pre>{{ organisation.links.privacy_statement_pdf }}</pre></dd>\n    <dt>Link zu den AGB</dt><dd><pre>{{ organisation.links.terms_pdf }}</pre></dd>\n    <dt>Name der Organisation</dt><dd><pre>{{ organisation.name }}</pre></dd>\n  </dl>\n  <h5>Kosten</h5>\n  <dl>\n    <dt>Verbrauch</dt><dd><pre>{{ cost_estimation.used | currency }}</pre></dd>\n    <dt>Verrechnet</dt><dd><pre>{{ cost_estimation.total | currency }}</pre></dd>\n    <dt>Anzahlung</dt><dd><pre>{{ cost_estimation.deposit | currency }}</pre></dd>\n  </dl>\n\n  Logik im Text verwenden:\n\n  <pre>{% if booking.home_ids contains 1 %}Passage nur sichtbar, wenn ID des Heims der Buchung gleich 1 ist{% endif %}</pre>\n  <pre>\n  {% if booking.category.key == 'camp' %}\n    Wir wünschen euch viel Spass in eurem Lager in unserem Heim!\n  {% else %}\n    Wir wünschen Ihnen einen schönen Aufenthalt in unserem Heim!\n  {% endif %}\n  </pre>\n\n28\n47\n"
         help_title: Hilfe zu Variabeln
       index:
         group_booking_agent_notifications: Benachrichtigungen (Vermittler)
@@ -1313,22 +1226,22 @@ it:
   public:
     agent_bookings:
       edit:
-        title: Reservation bearbeiten
+        title: Modifica della prenotazione
       form:
         tenant_email_help: Bitte NICHT die E-Mail Adresse des Vermittlers verwenden. Wir benötigen die E-Mail Adresse des Mieters erst wenn die Anfrage definitiv wird, damit wir den Kontakt aufnehmen können.
       new:
-        title: Reservation
+        title: Prenotazione
     bookings:
       edit:
-        title: Reservation bearbeiten
+        title: Modifica della prenotazione
       form:
-        booking_details: Angaben zur Reservation
+        booking_details: Dettagli della prenotazione
         last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
       new:
         accept_conditions_html: Ich bin mit den <a href="%{privacy_statement_pdf_url}" target="_blank">Datenschutzbestimmungen</a> und den <a href="%{terms_pdf_url}" target="_blank">AGB</a> einverstanden
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
-        submit: Reservationsanfrage abschicken
-        title: Reservation
+        submit: Invia la richiesta di prenotazione
+        title: Prenotazione
     pages:
       privacy:
         current_organisation_privacy_statment_title: Datenschutzerklärung von %{organisation}
@@ -1339,7 +1252,7 @@ it:
   rich_text_templates:
     awaiting_contract_notification:
       default_body:
-      default_title:
+      default_title: Contratto per la prenotazione
       description: Benachrichtigung für Vertragsaustellung und Anzahlung (Mieter)
     awaiting_tenant_notification:
       default_body:
@@ -1359,12 +1272,12 @@ it:
       description: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
     cancelled_notification:
       default_body:
-      default_title:
-      description: Benachrichtigung für annullierte Reservation (Mieter)
+      default_title: Risoluzione del contratto / Annullamento della prenotazione
+      description: Notifica di prenotazione annullata (inquilino)
     cancelled_request_notification:
       default_body:
-      default_title:
-      description: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
+      default_title: La richiesta di prenotazione è stata annullata
+      description: Notifica per richiesta di prenotazione ritirata (inquilino)
     contract_signed_notification:
       default_body:
       default_title:
@@ -1375,8 +1288,8 @@ it:
       description: Text für Vertrag
     declined_request_notification:
       default_body:
-      default_title:
-      description: Benachrichtigung für abgelehnte Reservationsanfrage (Mieter)
+      default_title: Richiesta di prenotazione respinta
+      description: Notifica di richiesta di prenotazione rifiutata (inquilino)
     definitive_request_notification:
       default_body:
       default_title:
@@ -1423,7 +1336,7 @@ it:
       description: Benachrichtigung für baldige Belegung (Funktionär)
     overdue_notification:
       default_title:
-      description: Benachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
+      description: Notifica per prenotazione in ritardo, contratto mancante (inquilino)
     overdue_request_notification:
       default_body:
       default_title:
@@ -1442,7 +1355,7 @@ it:
       description: Benachrichtigung für überfällige Rechnung (Mieter)
     provisional_request_notification:
       default_body:
-      default_title:
+      default_title: Prenotazione provvisoria confermata
       description: Benachrichtigung für provisorische Mietanfrage (Mieter)
     text_payment_info_text:
       default_body:
