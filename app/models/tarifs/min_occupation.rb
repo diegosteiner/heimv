@@ -45,8 +45,8 @@ module Tarifs
 
     protected
 
-    def actual_overnight_stays(_booking)
-      usages.filter_map { |usage| usage.tarif.is_a?(Tarifs::OvernightStay) && usage.used_units }.compact.sum
+    def actual_overnight_stays(booking)
+      booking.usages.filter_map { |usage| usage.tarif.is_a?(Tarifs::OvernightStay) && usage.used_units }.compact.sum
     end
 
     def calculate_usage_delta(usage)
