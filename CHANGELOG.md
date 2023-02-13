@@ -2,6 +2,14 @@
 
 #### Unreleased
 
+#### Version 23.2.2
+
+Released on 13.02.2023
+
+- Fix min occupation tarif
+- Update ruby version to 3.2
+- Add deadline for awaiting tenant and payment overdue
+
 #### Version 23.1.2
 
 Released on 31.01.2023
