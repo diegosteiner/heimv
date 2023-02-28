@@ -16,52 +16,52 @@ fr:
         ref: "(Numéro de) Référence de location"
         tenant: Locataire
       invoice/filter:
-        invoice_type: Rechungsart
-        issued_at_after: Rechnungsdatum nach
-        issued_at_before: Rechnungsdatum vor
-        paid: Beglichen / Bezahlt
+        invoice_type: Type de facture/facturation
+        issued_at_after: Délai de paiement après le
+        issued_at_before: Délai de paiement avant le
+        paid: Statut de paiement
         payable_until_after: Payable jusqu'au / après le
         payable_until_before: Payable jusqu'au / avant le
       meter_reading_period/filter:
-        begins_at_after: Beginn des Zählerabschnitts ab
-        begins_at_before: Beginn des Zählerabschnitts bis
-        ends_at_after: Ende der Zählerabschnitts ab
-        ends_at_before: Ende der Zählerabschnitts bis
+        begins_at_after: Début de période du compteur à partir du
+        begins_at_before: Début de période du compteur jusqu'au
+        ends_at_after: Fin de période du compteur à partir du
+        ends_at_before: Fin de période du compteur jusqu'au
         tarif_ids: Tarifs
       occupancy/filter:
-        begins_at: Von
-        begins_at_after: Beginn der Belegung ab
-        begins_at_before: Beginn der Belegung bis
-        ends_at: Jusqu'à
-        ends_at_after: Ende der Belegung ab
-        ends_at_before: Ende der Belegung bis
+        begins_at: De
+        begins_at_after: Début de la location à partir du
+        begins_at_before: Début de la location jusqu'au
+        ends_at: Jusqu'à / jusqu'au
+        ends_at_after: Fin de la location à partir du
+        ends_at_before: Fin de la location jusqu'au
       organisation_settings:
-        awaiting_contract_deadline: Frist für Vertragseingänge
-        begins_at_default_time: Standardzeit für den Beginn der Belegung (ab Mitternacht)
-        booking_margin: Abstand zwischen Buchungen
-        closed_occupancy_color: Farbe für Schliessungen
-        deadline_postponable_for: Fristverlängerung
-        deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
-        ends_at_default_time: Standardzeit für das Ende der Belegung (ab Beginn)
-        invoice_payment_deadline: Standardmässige Zahlungsfrist
-        last_minute_warning: Frist für Kurzfristige Reservationsanfragen
-        occupied_occupancy_color: Farbe für definitive Belegungen
-        overdue_request_deadline: Frist für Reservationsanfragen
-        provisional_request_deadline: Frist für provisorische Reservationsanfragen
-        tenant_birth_date_required: Date de naissance, Indication-information obligatoire
-        tentative_occupancy_color: Farbe für provisorischen Belegungen
-        unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
-        upcoming_soon_window: Frist für baldige Belegung
+        awaiting_contract_deadline: Délai de réception du contrat
+        begins_at_default_time: Heure de début de location par défaut (à partir de minuit)
+        booking_margin: Espacement/période entre les réservations
+        closed_occupancy_color: Couleur pour les clôtures
+        deadline_postponable_for: Prolongation du délai
+        deposit_payment_deadline: Délai de paiement standard (acompte)
+        ends_at_default_time: Heure de fin de location par défaut (à partir du début)
+        invoice_payment_deadline: Délai de paiement standard
+        last_minute_warning: Délai pour les demandes de réservation de dernière minute
+        occupied_occupancy_color: Couleur pour les locations définitives
+        overdue_request_deadline: Délai pour les demandes de réservation en retard
+        provisional_request_deadline: Délai pour les demandes de réservation provisoires
+        tenant_birth_date_required: Date de naissance, Indication obligatoire
+        tentative_occupancy_color: Couleur pour les locations provisoires
+        unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
+        upcoming_soon_window: Délai pour location prochaine
       payment/filter:
-        paid_at_after: Zahlung ab
-        paid_at_before: Zahlung bis
+        paid_at_after: Paiement à partir du
+        paid_at_before: Paiement jusqu'au
     models:
       occupancy_calendar:
-        one: Belegungsplan
-        other: Belegungsplane
+        one: Plan de locations
+        other: Plans de locations
       payment_info:
-        one: Zahlungsteil
-        other: Zahlungsteile
+        one: Partie/zone de paiement
+        other: Parties/zones de paiement
       payment_infos/foreign_payment_info:
         one: Zahlungsteil für Mieter aus dem Ausland
         other: Zahlungsteile für Mieter aus dem Ausland
@@ -935,7 +935,7 @@ fr:
       expired: ist abgelaufen, bitte neu anfordern
       greater_than: doit être supérieur à %{count}
       greater_than_or_equal_to: doit être supérieur ou égal à %{count}
-      in: muss in enthalten sein %{count}
+      in:
       inclusion: n'est pas inclus(e) dans la liste
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}

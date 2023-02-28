@@ -37,12 +37,12 @@ it:
         ends_at_before: Fine dell'occupazione fino a
       organisation_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
-        begins_at_default_time: Standardzeit für den Beginn der Belegung (ab Mitternacht)
+        begins_at_default_time:
         booking_margin: Durata tra le prenotazioni
         closed_occupancy_color: Colore per le chiusure
         deadline_postponable_for: Proroga della scadenza
         deposit_payment_deadline: Periodo di pagamento standard (acconto)
-        ends_at_default_time: Standardzeit für das Ende der Belegung (ab Beginn)
+        ends_at_default_time:
         invoice_payment_deadline: Periodo di pagamento standard
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         occupied_occupancy_color: Colore per le occupazioni definitive
@@ -935,7 +935,7 @@ it:
       expired: ist abgelaufen, bitte neu anfordern
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
-      in: muss in enthalten sein %{count}
+      in:
       inclusion: non è compreso tra le opzioni disponibili
       invalid: non è valido
       less_than: deve essere minore di %{count}
