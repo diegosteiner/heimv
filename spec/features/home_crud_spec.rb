@@ -10,7 +10,7 @@ describe 'Home CRUD', :devise, type: :feature do
   before { signin(user, user.password) }
 
   it 'can create new home' do
-    visit new_manage_home_path
+    visit new_manage_occupiable_path
     fill_in :home_name, with: new_home.name
     submit_form
     expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Home.model_name.human)
@@ -19,14 +19,14 @@ describe 'Home CRUD', :devise, type: :feature do
 
   it 'can see a home' do
     home
-    visit manage_homes_path
+    visit manage_occupiables_path
     click_link I18n.t('show')
-    expect(page).to have_current_path(manage_home_path(home, org: nil, locale: :de))
+    expect(page).to have_current_path(manage_occupiable_path(home, org: nil, locale: :de))
     expect(page).to have_content home.name
   end
 
   it 'can edit existing home' do
-    visit edit_manage_home_path(home, org: nil)
+    visit edit_manage_occupiable_path(home, org: nil)
     fill_in :home_name, with: new_home.name
     submit_form
     expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Home.model_name.human)
@@ -35,7 +35,7 @@ describe 'Home CRUD', :devise, type: :feature do
 
   it 'can delete existing home' do
     home
-    visit manage_homes_path(org: nil)
+    visit manage_occupiables_path(org: nil)
     click_link I18n.t('show')
     click_link I18n.t('destroy')
     page.driver.browser.switch_to.alert.accept

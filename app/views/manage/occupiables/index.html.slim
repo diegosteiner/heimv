@@ -1,0 +1,21 @@
+h1.mt-0.mb-5= Occupiable.model_name.human(count: 2)
+
+.container 
+  .row
+    - @occupiables.each do |occupiable|
+      .col-md-3
+        .card.mb-5
+          .card-img-top.bg-secondary.bg-gradient.ratio.ratio-16x9
+            - if occupiable.cover_image_url.present?
+              img.card-img-top src=occupiable.cover_image_url alt=occupiable.name height=200
+          .card-body
+            h5.card-title.m-0=occupiable.name
+            p
+              =occupiable.description
+            = link_to t('edit'), edit_manage_occupiable_path(occupiable), class: 'stretched-link'
+
+br
+= link_to new_manage_occupiable_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: Occupiable.model_name.human)

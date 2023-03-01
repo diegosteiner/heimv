@@ -3,13 +3,13 @@
     i.fa.fa-home
   ul.list-none.p-0.m-0
     - booking.occupancies.each do |occupancy|
-      = link_to manage_home_path(occupancy.home) do
+      = link_to manage_occupiable_path(occupancy.occupiable) do
         - if occupancy.conflicting.present?
           .text-danger
-            = occupancy.home
+            = occupancy.occupiable
             i.fa.fa-exclamation-triangle<>[data-bs-toggle="tooltip" title=occupancy.conflicting.map(&:to_s).join(', ')]
         - else 
-          = occupancy.home
+          = occupancy.occupiable
 
   .text-center
     i.fa.fa-calendar

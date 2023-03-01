@@ -1,0 +1,18 @@
+.card
+  .card-body
+    h3.card-title.mt-1.mb-4= @occupiable.name
+    = render_hash_as_dl(@occupiable.attributes.slice(*%w(address)), Occupiable)
+
+    = link_to edit_manage_occupiable_path(@occupiable), class: 'btn btn-primary' do
+      span.fa.fa-edit
+      '
+      = t(:edit)
+
+    '
+    = link_to manage_occupiable_path(@occupiable), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
+      span.fa.fa-trash
+      '
+      = t(:destroy)
+
+br
+= link_to t(:back), manage_occupiables_path, class: 'btn btn-default'

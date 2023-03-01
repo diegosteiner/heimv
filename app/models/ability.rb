@@ -26,31 +26,31 @@ module Ability
     role :manager do |user, organisation|
       next unless user.organisations.include?(organisation)
 
-      can :manage, Home, organisation: organisation
-      can :manage, BookingCategory, organisation: organisation
-      can :manage, DataDigestTemplate, organisation: organisation
-      can :manage, DataDigest, organisation: organisation
-      can :manage, RichTextTemplate, organisation: organisation
-      can :manage, Tarif, organisation: organisation
-      can :manage, BookingCondition, tarif: { organisation: organisation }
-      can :manage, Tenant, organisation: organisation
       can :manage, Booking, organisation: organisation
-      can :manage, Occupancy, home: { organisation: organisation }
-      can :manage, MeterReadingPeriod, home: { organisation: organisation }
       can :manage, BookingAgent, organisation: organisation
+      can :manage, BookingCategory, organisation: organisation
+      can :manage, BookingCondition, tarif: { organisation: organisation }
+      can :manage, BookableExtra, organisation: organisation
+      can :manage, Contract, booking: { organisation: organisation }
+      can :manage, DataDigest, organisation: organisation
+      can :manage, DataDigestTemplate, organisation: organisation
+      can :manage, Deadline, booking: { organisation: organisation }
+      can :manage, DesignatedDocument, organisation: organisation
       can :manage, Invoice, booking: { organisation: organisation }
       can :manage, InvoicePart, invoice: { booking: { organisation: organisation } }
-      can :manage, Contract, booking: { organisation: organisation }
-      can :manage, Payment, booking: { organisation: organisation }
-      can :manage, Deadline, booking: { organisation: organisation }
-      can :manage, Usage, booking: { organisation: organisation }
-      can :manage, OrganisationUser, organisation: organisation
+      can :manage, MeterReadingPeriod, home: { organisation: organisation }
+      can :manage, Notification, booking: { organisation: organisation }
+      can :manage, Occupiable, organisation: organisation
+      can :manage, Occupancy, occupiable: { organisation: organisation }
       can :manage, Operator, organisation: organisation
       can :manage, OperatorResponsibility, organisation: organisation
-      can :manage, Notification, booking: { organisation: organisation }
-      can :manage, DesignatedDocument, organisation: organisation
-      can :manage, BookableExtra, organisation: organisation
       can %i[read edit update], Organisation, id: organisation.id
+      can :manage, OrganisationUser, organisation: organisation
+      can :manage, Payment, booking: { organisation: organisation }
+      can :manage, RichTextTemplate, organisation: organisation
+      can :manage, Tarif, organisation: organisation
+      can :manage, Tenant, organisation: organisation
+      can :manage, Usage, booking: { organisation: organisation }
 
       # cannot :manage, User, role_admin: true
     end
@@ -58,15 +58,15 @@ module Ability
     role :readonly do |user, organisation|
       next unless user.organisations.include?(organisation)
 
-      can :read, Home, organisation: organisation
+      can :read, Occupiable, organisation: organisation
       can :read, BookingCategory, organisation: organisation
       can %i[read], DataDigest, organisation: organisation
       can :read, RichTextTemplate, organisation: organisation
-      can :read, Tarif, home: { organisation: organisation }
-      can :read, BookingCondition, home: { organisation: organisation }
+      can :read, Tarif, organisation: organisation
+      can :read, BookingCondition, tarif: { organisation: organisation }
       can :read, Tenant, organisation: organisation
       can :read, Booking, organisation: organisation
-      can :read, Occupancy, home: { organisation: organisation }
+      can :read, Occupancy, occupiable: { organisation: organisation }
       can :read, MeterReadingPeriod, home: { organisation: organisation }
       can :read, BookingAgent, organisation: organisation
       can :read, Invoice, booking: { organisation: organisation }
@@ -88,7 +88,7 @@ module Ability
     role nil do |_user, organisation|
       can :read, Home, { organisation: organisation, requests_allowed: true }
 
-      can %i[read embed calendar at], Occupancy, home: { requests_allowed: true, organisation: organisation }
+      can %i[read embed calendar at], Occupancy, occupiable: { requests_allowed: true, organisation: organisation }
 
       can %i[create read update], AgentBooking, { organisation: organisation }
       can %i[create read update], Booking, { organisation: organisation, concluded: false }
@@ -98,7 +98,7 @@ module Ability
       can :read, Home, { organisation: organisation }
       can :read, Organisation, id: organisation.id
 
-      can %i[read embed calendar at], Occupancy, home: { organisation: organisation }
+      can %i[read embed calendar at], Occupancy, occupiable: { organisation: organisation }
 
       can %i[create read update], AgentBooking, { organisation: organisation }
       can %i[create read update], Booking, { organisation: organisation, concluded: false }
@@ -107,7 +107,7 @@ module Ability
     role :manager do |_user, organisation|
       can :manage, Home, { organisation: organisation }
       can :manage, Organisation, id: organisation.id
-      can :manage, Occupancy, home: { organisation: organisation }
+      can :manage, Occupancy, occupiable: { organisation: organisation }
       can :manage, AgentBooking, { organisation: organisation }
       can :manage, Booking, { organisation: organisation }
     end

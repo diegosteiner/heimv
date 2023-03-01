@@ -84,7 +84,7 @@ class Booking < ApplicationRecord
   has_one_attached :usage_report
 
   has_many :occupancies, inverse_of: :booking, dependent: :destroy, autosave: true
-  has_many :homes, through: :occupancies
+  has_many :occupiables, through: :occupancies
 
   timespan :begins_at, :ends_at
   has_secure_token :token, length: 48

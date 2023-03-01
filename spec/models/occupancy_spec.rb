@@ -13,18 +13,18 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  booking_id     :uuid
-#  home_id        :bigint           not null
+#  occupiable_id  :bigint           not null
 #
 # Indexes
 #
 #  index_occupancies_on_begins_at       (begins_at)
 #  index_occupancies_on_ends_at         (ends_at)
-#  index_occupancies_on_home_id         (home_id)
 #  index_occupancies_on_occupancy_type  (occupancy_type)
+#  index_occupancies_on_occupiable_id   (occupiable_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (home_id => homes.id)
+#  fk_rails_...  (occupiable_id => occupiables.id)
 #
 
 require 'rails_helper'

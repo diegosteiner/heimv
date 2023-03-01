@@ -17,7 +17,7 @@ module Manage
       end
 
       def new
-        @occupancy.home = @home
+        @occupancy.occupiable = @home
         respond_with :manage, @occupancy
       end
 
@@ -27,17 +27,17 @@ module Manage
 
       def create
         @occupancy.update(home: @home, occupancy_type: :closed)
-        respond_with :manage, @occupancy, location: manage_home_occupancies_path(@home)
+        respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@home)
       end
 
       def update
         @occupancy.update(occupancy_params)
-        respond_with :manage, @occupancy, location: manage_home_occupancies_path(@occupancy.home)
+        respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupancy.occupiable)
       end
 
       def destroy
         @occupancy.destroy
-        respond_with :manage, @occupancy, location: manage_home_occupancies_path(@occupancy.home)
+        respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupancy.occupiable)
       end
 
       private

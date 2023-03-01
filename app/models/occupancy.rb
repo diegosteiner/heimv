@@ -13,18 +13,18 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  booking_id     :uuid
-#  home_id        :bigint           not null
+#  occupiable_id  :bigint           not null
 #
 # Indexes
 #
 #  index_occupancies_on_begins_at       (begins_at)
 #  index_occupancies_on_ends_at         (ends_at)
-#  index_occupancies_on_home_id         (home_id)
 #  index_occupancies_on_occupancy_type  (occupancy_type)
+#  index_occupancies_on_occupiable_id   (occupiable_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (home_id => homes.id)
+#  fk_rails_...  (occupiable_id => occupiables.id)
 #
 
 class Occupancy < ApplicationRecord
@@ -34,10 +34,10 @@ class Occupancy < ApplicationRecord
   include Timespanable
 
   timespan :begins_at, :ends_at
-  belongs_to :home
+  belongs_to :occupiable, inverse_of: :occupancies
   belongs_to :booking, inverse_of: :occupancies, optional: true, touch: true
 
-  has_one :organisation, through: :home
+  has_one :organisation, through: :occpiable
 
   enum occupancy_type: OCCUPANCY_TYPES
 
@@ -47,7 +47,7 @@ class Occupancy < ApplicationRecord
   before_validation :update_from_booking
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate do
-    errors.add(:home_id, :invalid) if booking && organisation && !organisation == booking.organisation
+    errors.add(:base, :invalid) if booking && organisation && !organisation == booking.organisation
   end
 
   def to_s
@@ -56,9 +56,9 @@ class Occupancy < ApplicationRecord
 
   # rubocop:disable Metrics/AbcSize
   def conflicting(margin = organisation&.settings&.booking_margin || 0)
-    return if begins_at.blank? || ends_at.blank? || home.blank?
+    return if begins_at.blank? || ends_at.blank? || occupiable.blank?
 
-    home.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking
+    occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking
         .where.not(id: id).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
   end
   # rubocop:enable Metrics/AbcSize

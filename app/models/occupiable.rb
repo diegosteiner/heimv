@@ -28,12 +28,18 @@
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
-FactoryBot.define do
-  factory :home do
-    organisation
-    name { "Pfadiheim #{Faker::Address.city}" }
-    address { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
-    sequence(:ref) { |i| "H#{i}" }
-    requests_allowed { true }
+class Occupiable < ApplicationRecord
+  has_many :occupancies, inverse_of: :occupiable, dependent: :restrict_with_error
+
+  belongs_to :organisation, inverse_of: :occupiables
+
+  scope :ordered, -> { order(name: :ASC) }
+
+  validates :name, presence: true
+
+  def to_s
+    name
   end
+
+  def cover_image_url; end
 end

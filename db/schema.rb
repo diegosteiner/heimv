@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_09_144833) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_01_155736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -251,19 +251,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_144833) do
     t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
   end
 
-  create_table "homes", force: :cascade do |t|
-    t.bigint "organisation_id", null: false
-    t.string "name"
-    t.string "ref"
-    t.text "address"
-    t.text "janitor"
-    t.boolean "requests_allowed", default: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["organisation_id"], name: "index_homes_on_organisation_id"
-    t.index ["ref", "organisation_id"], name: "index_homes_on_ref_and_organisation_id", unique: true
-  end
-
   create_table "invoice_parts", force: :cascade do |t|
     t.bigint "invoice_id"
     t.bigint "usage_id"
@@ -332,7 +319,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_144833) do
   create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "begins_at", precision: nil, null: false
     t.datetime "ends_at", precision: nil, null: false
-    t.bigint "home_id", null: false
+    t.bigint "occupiable_id", null: false
     t.integer "occupancy_type", default: 0, null: false
     t.text "remarks"
     t.datetime "created_at", precision: nil, null: false
@@ -341,8 +328,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_144833) do
     t.string "color"
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
-    t.index ["home_id"], name: "index_occupancies_on_home_id"
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
+    t.index ["occupiable_id"], name: "index_occupancies_on_occupiable_id"
+  end
+
+  create_table "occupiables", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.string "name"
+    t.string "ref"
+    t.text "description"
+    t.text "janitor"
+    t.boolean "bookable", default: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "type", null: false
+    t.boolean "occupiable", default: false
+    t.bigint "home_id"
+    t.index ["home_id"], name: "index_occupiables_on_home_id"
+    t.index ["organisation_id"], name: "index_occupiables_on_organisation_id"
+    t.index ["ref", "organisation_id"], name: "index_occupiables_on_ref_and_organisation_id", unique: true
   end
 
   create_table "operator_responsibilities", force: :cascade do |t|
@@ -556,7 +560,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_144833) do
   add_foreign_key "data_digests", "data_digest_templates"
   add_foreign_key "data_digests", "organisations"
   add_foreign_key "deadlines", "bookings"
-  add_foreign_key "homes", "organisations"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
@@ -565,7 +568,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_144833) do
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "notifications", "bookings"
   add_foreign_key "notifications", "rich_text_templates"
-  add_foreign_key "occupancies", "homes"
+  add_foreign_key "occupancies", "occupiables"
+  add_foreign_key "occupiables", "organisations"
   add_foreign_key "operator_responsibilities", "bookings"
   add_foreign_key "operator_responsibilities", "operators"
   add_foreign_key "operator_responsibilities", "organisations"
