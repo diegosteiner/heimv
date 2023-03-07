@@ -86,7 +86,7 @@ RSpec.describe DesignatedDocument, type: :model do
       {
         always: [BookingConditions::AlwaysApply.new(organisation: organisation)],
         wrong_home: [BookingConditions::Occupiable.new(distinction: home.id)],
-        correct_home: [BookingConditions::Occupiable.new(distinction: booking.home_ids.first)]
+        correct_home: [BookingConditions::Occupiable.new(distinction: booking.home_id)]
       }
     end
 

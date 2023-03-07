@@ -34,6 +34,7 @@
 #  updated_at             :datetime         not null
 #  booking_category_id    :integer
 #  deadline_id            :bigint
+#  home_id                :integer          not null
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
 #
@@ -56,10 +57,11 @@ class Booking < ApplicationRecord
   include Timespanable
 
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :category, :booked_extras, :logs,
-                      { tenant: :organisation, deadline: :booking, occupancies: :home,
+                      :category, :booked_extras, :logs, :home,
+                      { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
                         agent_booking: %i[booking_agent organisation] }].freeze
 
+  belongs_to :home, autosave: true
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, optional: true
   belongs_to :deadline, inverse_of: :booking, optional: true
@@ -91,7 +93,7 @@ class Booking < ApplicationRecord
   enum occupancy_type: Occupancy::OCCUPANCY_TYPES
 
   validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
-  validates :home_ids, presence: true, on: %i[public_update public_create]
+  validates :occupiable_ids, presence: true, on: %i[public_update public_create]
   validates :accept_conditions, acceptance: true, on: :public_create
   validates :category, :tenant, presence: true, on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
@@ -101,19 +103,10 @@ class Booking < ApplicationRecord
   validates :purpose_description, presence: true, on: :public_update
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
 
-  validate(on: %i[public_create public_update]) do
-    next errors.add(:base, :conflicting) if conflicting_occupancies(0).any?
-
-    margin = organisation.settings.booking_margin
-    next if margin.zero? || conflicting_occupancies(margin).none?
-
-    errors.add(:base, :booking_margin_too_small, margin: margin&.in_minutes&.to_i)
-  end
-
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
-  before_validation :set_tenant, :update_occupancies
+  before_validation :set_tenant, :initialize_occupancies # , :update_occupancies
   before_create :set_ref
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -128,10 +121,6 @@ class Booking < ApplicationRecord
 
     nights = (ends_at.to_date - begins_at.to_date).to_i
     nights * approximate_headcount
-  end
-
-  def conflicting_occupancies(margin = 0)
-    occupancies.map { _1.conflicting(margin) }.flatten.compact
   end
 
   def conclude
@@ -184,6 +173,10 @@ class Booking < ApplicationRecord
     self[:occupancy_color].present?
   end
 
+  def initialize_occupancies
+    return if !home_id_changed? || home.blank? || occupancies.any?
+  end
+
   def occupancy_color
     super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
   end
@@ -192,12 +185,6 @@ class Booking < ApplicationRecord
     @responsibilities ||= operator_responsibilities.group_by(&:responsibility)
                                                    .transform_values(&:first)
                                                    .symbolize_keys
-  end
-
-  def home
-    raise 'Deprecated call to home' if homes.many?
-
-    homes.first
   end
 
   private

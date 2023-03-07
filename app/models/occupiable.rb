@@ -11,7 +11,7 @@
 #  name            :string
 #  occupiable      :boolean          default(FALSE)
 #  ref             :string
-#  type            :string           not null
+#  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  home_id         :bigint
@@ -32,8 +32,11 @@ class Occupiable < ApplicationRecord
   has_many :occupancies, inverse_of: :occupiable, dependent: :restrict_with_error
 
   belongs_to :organisation, inverse_of: :occupiables
+  belongs_to :home, inverse_of: :occupiables, optional: true
 
   scope :ordered, -> { order(name: :ASC) }
+  scope :occupiable, -> { where(occupiable: true) }
+  scope :bookable, -> { where(bookable: true) }
 
   validates :name, presence: true
 

@@ -11,7 +11,7 @@
 #  name            :string
 #  occupiable      :boolean          default(FALSE)
 #  ref             :string
-#  type            :string           not null
+#  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  home_id         :bigint
@@ -32,6 +32,7 @@ class Home < Occupiable
   # has_many :bookings, inverse_of: :home
 
   belongs_to :organisation, inverse_of: :homes
+  has_many :occupiables, inverse_of: :home, dependent: :nullify
 
   validates :ref, uniqueness: { scope: %i[organisation_id] }
 

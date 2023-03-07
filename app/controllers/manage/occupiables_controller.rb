@@ -9,10 +9,6 @@ module Manage
       respond_with :manage, @occupiables
     end
 
-    def show
-      respond_with :manage, @occupiable
-    end
-
     def new
       respond_with :manage, @occupiable
     end
@@ -24,12 +20,12 @@ module Manage
     def create
       @occupiable.organisation = current_organisation
       @occupiable.update(occupiable_params) unless enforce_limit
-      respond_with :manage, @occupiable
+      respond_with :manage, @occupiable.becomes(Occupiable), location: manage_occupiables_path
     end
 
     def update
       @occupiable.update(occupiable_params)
-      respond_with :manage, @occupiable, location: manage_occupiables_path
+      respond_with :manage, @occupiable.becomes(Occupiable), location: manage_occupiables_path
     end
 
     def destroy

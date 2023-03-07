@@ -20,7 +20,7 @@ module Import
       end
 
       def initialize_record(_row)
-        organisation.bookings.new(homes: [home])
+        organisation.bookings.new(home: home)
       end
 
       def initial_state

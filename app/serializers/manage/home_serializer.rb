@@ -2,10 +2,10 @@
 
 module Manage
   class HomeSerializer < Public::HomeSerializer
-    fields :janitor, :address
+    fields :janitor, :description
 
     view :export do
-      field :requests_allowed
+      fields :bookable, :occupiable, :home_id
 
       include_view :default
     end

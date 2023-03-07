@@ -23,8 +23,10 @@
             label=Booking.human_attribute_name(:deadline)
             div
               =<> l(@booking.deadline.at, format: :short)
-        = f.select :home_ids, current_organisation.homes.map { |home| [home.to_s, home.to_param] }, {}, disabled: true, required: true
 
+      = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f }
+
+      fieldset 
         = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
                                                     id: 'booking_begins_at',
                                                     name: 'booking[begins_at]',

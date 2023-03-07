@@ -32,7 +32,7 @@ FactoryBot.define do
     sequence(:begins_at) { |i| (Time.zone.now + i.month).change(hour: 9, minute: 0) }
     ends_at { (begins_at + 1.week).change(hour: 14, minute: 0) }
     occupancy_type { Occupancy.occupancy_types[:free] }
-    home
+    occupiable
 
     trait :occupied do
       occupancy_type { Occupancy.occupancy_types[:occupied] }

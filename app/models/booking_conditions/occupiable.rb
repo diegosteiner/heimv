@@ -37,11 +37,11 @@ module BookingConditions
     end
 
     def evaluate(booking)
-      booking.home_ids.include?(distinction.to_i)
+      booking.occupiable_ids.include?(distinction.to_i)
     end
 
     def distinction_scope
-      organisation.homes
+      organisation.occupiables.occupiable
     end
   end
 end

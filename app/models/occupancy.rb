@@ -37,7 +37,7 @@ class Occupancy < ApplicationRecord
   belongs_to :occupiable, inverse_of: :occupancies
   belongs_to :booking, inverse_of: :occupancies, optional: true, touch: true
 
-  has_one :organisation, through: :occpiable
+  has_one :organisation, through: :occupiable
 
   enum occupancy_type: OCCUPANCY_TYPES
 
@@ -49,17 +49,27 @@ class Occupancy < ApplicationRecord
   validate do
     errors.add(:base, :invalid) if booking && organisation && !organisation == booking.organisation
   end
+  validate(on: %i[public_create public_update]) do
+    next errors.add(:base, :conflicting) if conflicting(0).any?
+
+    margin = organisation.settings.booking_margin
+    next if margin.zero? || conflicting(margin).none?
+
+    errors.add(:base, :margin_too_small, margin: margin&.in_minutes&.to_i)
+  end
 
   def to_s
-    "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)}"
+    "#{occupiable}: #{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)} #{occupancy_type}"
+  rescue StandardError
+    super
   end
 
   # rubocop:disable Metrics/AbcSize
-  def conflicting(margin = organisation&.settings&.booking_margin || 0)
+  def conflicting(margin = 0)
     return if begins_at.blank? || ends_at.blank? || occupiable.blank?
 
     occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking
-        .where.not(id: id).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
+              .where.not(id: id).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
   end
   # rubocop:enable Metrics/AbcSize
 

@@ -32,7 +32,8 @@ require 'rails_helper'
 
 RSpec.describe Notification, type: :model do
   let(:email) { 'test@heimv.local' }
-  let(:notification) { build(:notification, to: email) }
+  let(:booking) { create(:booking) }
+  let(:notification) { build(:notification, booking: booking, to: email) }
 
   describe '#save' do
     it { expect(notification.save).to be true }

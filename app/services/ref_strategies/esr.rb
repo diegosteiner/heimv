@@ -14,7 +14,7 @@ module RefStrategies
     def generate(invoice)
       with_checksum format('%<prefix>s%<home_id>03d%<tenant_id>06d%<invoice_id>07d',
                            prefix: digits(invoice.organisation.esr_ref_prefix).join,
-                           home_id: invoice.booking.home_ids.first,
+                           home_id: invoice.booking.home_id,
                            tenant_id: invoice.booking.tenant.id,
                            invoice_id: invoice.id)
     end

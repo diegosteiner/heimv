@@ -51,7 +51,7 @@ class CostEstimation
 
   def reference_bookings
     Booking::Filter.new(previous_booking_states: %i[completed], ends_at_after: 1.year.ago,
-                        homes: booking.home_ids, categories: booking.booking_category_id)
+                        homes: booking.home_id, categories: booking.booking_category_id)
                    .apply(booking.organisation.bookings.where.not(approximate_headcount: nil))
   end
 

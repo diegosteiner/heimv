@@ -3,9 +3,9 @@
     .alert.alert-danger.pt-4
       = f.error_summary
 
-  fieldset
-    = f.collection_select :home_ids, current_organisation.homes.ordered, :id, :to_s, { include_blank: true }, { multiple: false }
+  = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f }
 
+  fieldset
     = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
                                                 id: 'booking_begins_at',
                                                 name: 'booking[begins_at]', 

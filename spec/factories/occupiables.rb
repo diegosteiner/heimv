@@ -11,7 +11,7 @@
 #  name            :string
 #  occupiable      :boolean          default(FALSE)
 #  ref             :string
-#  type            :string           not null
+#  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  home_id         :bigint
@@ -29,11 +29,16 @@
 #
 
 FactoryBot.define do
-  factory :home do
+  factory :occupiable do
     organisation
     name { "Pfadiheim #{Faker::Address.city}" }
-    address { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
+    description { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     sequence(:ref) { |i| "H#{i}" }
-    requests_allowed { true }
+    bookable { false }
+    occupiable { true }
+
+    factory :home, class: 'Home' do
+      bookable { true }
+    end
   end
 end

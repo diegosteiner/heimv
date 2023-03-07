@@ -28,7 +28,7 @@ class AddBeginsAtAndEndsAtToBookings < ActiveRecord::Migration[7.0]
       rtts.replace_in_template!("booking.occupancy.begins_at", "booking.begins_at")
       rtts.replace_in_template!("booking.occupancy.ends_at", "booking.ends_at")
       rtts.replace_in_template!("booking.occupancy.occupancy_type", "booking.occupancy_type")
-      rtts.replace_in_template!("booking.home_id ==", "booking.home_ids contains")
+      # rtts.replace_in_template!("booking.home_id ==", "booking.home_ids contains")
       # rtts.replace_in_template!("booking.home.", "booking.homes | map: \"\" | join: \", \"")
     end
   end

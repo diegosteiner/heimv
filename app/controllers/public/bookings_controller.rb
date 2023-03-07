@@ -10,7 +10,7 @@ module Public
     end
 
     def new
-      @booking = prepare_new_booking
+      @booking = preparation_service.prepare_new(create_params)
 
       respond_with :public, @booking
     end
@@ -21,7 +21,7 @@ module Public
     end
 
     def create
-      @booking = prepare_create_booking
+      @booking = preparation_service.prepare_create(create_params)
       respond_to do |format|
         if @booking.save(context: :public_create)
           format.html { redirect_to organisation_path, notice: create_booking_notice }
@@ -58,22 +58,8 @@ module Public
       current_organisation.bookings.new(create_params)
     end
 
-    def prepare_create_booking
-      current_organisation.bookings.new(create_params).instance_exec do
-        assign_attributes(notifications_enabled: true)
-        set_tenant && tenant.locale ||= I18n.locale
-        self
-      end
-    end
-
-    def prepare_new_booking
-      prepare_create_booking.instance_exec do
-        next self if begins_at.blank?
-
-        self.begins_at += organisation.settings.begins_at_default_time if begins_at.seconds_since_midnight.zero?
-        self.ends_at ||= begins_at + organisation.settings.ends_at_default_time
-        self
-      end
+    def preparation_service
+      @preparation_service ||= BookingPreparationService.new(current_organisation)
     end
 
     def call_booking_action

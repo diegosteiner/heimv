@@ -13,7 +13,6 @@ class RenameHomesToOccupiables < ActiveRecord::Migration[7.0]
       end
     end
 
-    change_column_null :occupiables, :type, false
     rename_column :occupancies, :home_id, :occupiable_id
   end
 end

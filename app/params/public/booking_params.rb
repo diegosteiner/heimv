@@ -15,8 +15,8 @@ module Public
       def self.permitted_keys
         permitted_keys = super
         nested_keys = permitted_keys.extract_options!
-        nested_keys.merge!(agent_booking_attributes: %i[booking_agent_code booking_agent_ref], home_ids: [])
-        permitted_keys + [:email, :accept_conditions, :home_ids, nested_keys]
+        nested_keys.merge!(agent_booking_attributes: %i[booking_agent_code booking_agent_ref], occupiable_ids: [])
+        permitted_keys + [:email, :accept_conditions, :occupiable_ids, :home_id, nested_keys]
       end
     end
   end

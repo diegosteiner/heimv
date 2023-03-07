@@ -98,7 +98,6 @@ fr:
         editable: Durch Mieter bearbeitbar
         ends_at: Ende der Belegung
         home: Heim
-        home_ids: Heime
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         locale: Sprache
@@ -107,6 +106,7 @@ fr:
         occupancies: Belegungen
         occupancy_color: Farbe im Kalender
         occupancy_type: Art der Belegungen
+        occupiable_ids: Heime
         purpose_description: Beschreibung des Mietzwecks
         ref: Buchungsreferenz
         remarks: Bemerkungen
@@ -172,10 +172,10 @@ fr:
         updated_at: Letzte Änderung
       home:
         address: Adresse
+        bookable: Reservationsanfragen erlauben
         booking_margin: Zeitabstand zwischen Buchungen
         name: Name
         ref: Kurzname / Referenz
-        requests_allowed: Reservationsanfragen erlauben
       invoice:
         amount: Betrag
         amount_open: offener Betrag
@@ -416,10 +416,11 @@ fr:
               not_postponable: kann nicht verlängert werden
             transition_to:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
-          booking_margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
-          conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
+        occupancy:
+          conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
+          margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
         tenant:
           incomplete: Angaben unvollständig
       notifications:
@@ -1132,10 +1133,6 @@ fr:
     designated_documents:
       form:
         all_locales: Alle
-    homes:
-      navigation:
-        closedowns: Schliessungen
-        general: Allgemein
     invoices:
       form:
         suggested_invoice_parts: Suggested invoice parts
