@@ -19,4 +19,6 @@
         br
 .row
     .col
-        = f.collection_select:homes, current_organisation.homes, :id, :name, { include_blank: true }, multiple: true, size: 10
+        = f.collection_select :homes, current_organisation.homes, :id, :name, { include_blank: true }, multiple: true, size: 10
+    .col
+        = f.collection_select :occupiables, current_organisation.occupiables, :id, :name, { include_blank: true }, multiple: true, size: 10

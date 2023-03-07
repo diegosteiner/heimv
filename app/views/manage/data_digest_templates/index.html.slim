@@ -1,5 +1,8 @@
-h1.mt-0.mb-5= DataDigest.model_name.human(count: 2)
-.table-responsive
+h1.mt-0= DataDigest.model_name.human(count: 2)
+
+p= link_to DataDigest.model_name.human(count: 2), manage_data_digests_path
+
+.table-responsive.mt-5
   table.table.table-hover.align-middle
     thead
       tr

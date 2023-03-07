@@ -6,6 +6,7 @@ class Booking
     attribute :tenant
     attribute :categories
     attribute :homes, default: -> { [] }
+    attribute :occupiables, default: -> { [] }
     attribute :current_booking_states, default: -> { [] }
     attribute :previous_booking_states, default: -> { [] }
     attribute :booking_states, default: -> { [] }
@@ -30,7 +31,14 @@ class Booking
 
     filter :homes do |bookings|
       relevant_homes = Array.wrap(homes).compact_blank
-      bookings.joins(:occupancies).where(occupancies: { home_id: relevant_homes }) if relevant_homes.present?
+      bookings.joins(:occupancies).where(home_id: relevant_homes) if relevant_homes.present?
+    end
+
+    filter :occupiables do |bookings|
+      relevant_occupiables = Array.wrap(occupiables).compact_blank
+      if relevant_occupiables.present?
+        bookings.joins(:occupancies).where(occupancies: { occupiable_id: relevant_occupiables })
+      end
     end
 
     filter :categories do |bookings|
