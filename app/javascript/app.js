@@ -44,37 +44,48 @@ function setupBookingAgentBookingButton() {
 }
 
 function setupOccupiableSelect() {
-  Array.from(document.getElementsByClassName('occupiables-select')).forEach(baseElement => {
-    const selectElement = baseElement.querySelector('select')
+  Array.from(document.getElementsByClassName("occupiables-select")).forEach(
+    (baseElement) => {
+      const selectElement = baseElement.querySelector("select");
 
-    // includes blank
-    if (selectElement.getElementsByTagName('option').length <= 2) {
-      selectElement.setAttribute("readonly", true)
-      return
+      // includes blank
+      if (selectElement.getElementsByTagName("option").length <= 2) {
+        selectElement.setAttribute("readonly", true);
+        return;
+      }
+
+      const allCheckboxElements =
+        baseElement.getElementsByClassName("form-check");
+      const handler = () => {
+        const homeId = selectElement.value;
+        const visibleCheckboxElements = baseElement.querySelectorAll(
+          `.form-check[data-home-id='${homeId}']`
+        );
+        Array.from(allCheckboxElements).forEach((checkboxWrapperElement) => {
+          checkboxWrapperElement
+            .querySelector('input[type="checkbox"]')
+            .setAttribute("disabled", true);
+          // checkboxElement.classList.add('d-none')
+        });
+
+        Array.from(visibleCheckboxElements).forEach(
+          (checkboxWrapperElement) => {
+            const checkboxElement = checkboxWrapperElement.querySelector(
+              'input[type="checkbox"]'
+            );
+            checkboxElement.removeAttribute("disabled");
+            if (visibleCheckboxElements.length <= 1) {
+              checkboxElement.checked = true;
+            } else {
+              checkboxWrapperElement.classList.remove("d-none");
+            }
+          }
+        );
+      };
+      selectElement.addEventListener("change", handler);
+      handler();
     }
-
-    const allCheckboxElements = baseElement.getElementsByClassName('form-check')
-    const handler = () => {
-      const homeId = selectElement.value
-      const visibleCheckboxElements = baseElement.querySelectorAll(`.form-check[data-home-id='${homeId}']`)
-      Array.from(allCheckboxElements).forEach(checkboxWrapperElement => {
-        checkboxWrapperElement.querySelector('input[type="checkbox"]').setAttribute('disabled', true)
-        // checkboxElement.classList.add('d-none')
-      })
-
-      Array.from(visibleCheckboxElements).forEach(checkboxWrapperElement => {
-        const checkboxElement = checkboxWrapperElement.querySelector('input[type="checkbox"]')
-        checkboxElement.removeAttribute('disabled')
-        if (visibleCheckboxElements.length <= 1) {
-          checkboxElement.checked = true
-        } else {
-          checkboxWrapperElement.classList.remove('d-none')
-        }
-      })
-    }
-    selectElement.addEventListener('change', handler)
-    handler()
-  })
+  );
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -86,4 +97,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 Rails.start();
-ReactRailsUJS.useContext(require.context("components", true))
+ReactRailsUJS.useContext(require.context("components", true));

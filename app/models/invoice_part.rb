@@ -42,7 +42,7 @@ class InvoicePart < ApplicationRecord
 
   scope :ordered, -> { rank(:ordinal) }
 
-  validates :type, presence: true
+  validates :type, inclusion: { in: ->(_) { InvoicePart.subtypes.keys.map(&:to_s) } }
 
   before_validation do
     self.amount = amount&.floor(2) || 0

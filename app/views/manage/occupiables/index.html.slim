@@ -1,10 +1,10 @@
 h1.mt-0.mb-5= Occupiable.model_name.human(count: 2)
 
 .container 
-  .row
+  .row.align-items-stretch
     - @occupiables.each do |occupiable|
-      .col-md-3
-        .card.mb-5
+      .col-md-3.mb-5
+        .card.h-100
           .card-img-top.bg-secondary.bg-gradient.ratio.ratio-16x9
             - if occupiable.cover_image_url.present?
               img.card-img-top src=occupiable.cover_image_url alt=occupiable.name height=200

@@ -39,6 +39,7 @@ class Occupiable < ApplicationRecord
   scope :bookable, -> { where(bookable: true) }
 
   validates :name, presence: true
+  validates :type, inclusion: { in: %w[Home Occupiable] }
 
   def to_s
     name
