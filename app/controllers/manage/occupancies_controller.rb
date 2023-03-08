@@ -16,7 +16,7 @@ module Manage
     end
 
     def new
-      @occupancy.occupiable = @occupiable
+      @occupancy.assign_attributes(occupiable: @occupiable, linked: false, occupancy_type: :closed)
       respond_with :manage, @occupancy
     end
 

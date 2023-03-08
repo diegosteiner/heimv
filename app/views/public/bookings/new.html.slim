@@ -1,14 +1,14 @@
-.mx-auto.w-md
-  h3 = t(:'.title')
-  .card
-    .card-body
-      = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
-        = hidden_field_tag :fallback, true
-        - if @booking.errors[:base].present?
+= form_with(model: @booking, url: public_bookings_path, local: true) do |f|
+  .mx-auto.w-md
+    h3 = t(:'.title')
+    .card
+      .card-body
+        - if @booking.errors.any?
           .alert.alert-danger.d-flex
             .me-3
               i.fa.fa-exclamation-circle               
-            = @booking.errors[:base].to_sentence
+            = @booking.errors.full_messages.to_sentence
+        
         = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
 
         = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f }

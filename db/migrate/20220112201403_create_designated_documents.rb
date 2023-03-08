@@ -12,18 +12,18 @@ class CreateDesignatedDocuments < ActiveRecord::Migration[6.1]
     add_index :designated_documents, %i[designation locale home_id organisation_id], unique: true,
                         name: "index_designated_documentss_on_designation_and_locale"
 
-    reversible do |direction|
-      direction.up do 
-        Organisation.find_each do |organisation| 
-          add_as_designated_document(organisation.terms_pdf&.blob, :terms, organisation)
-          add_as_designated_document(organisation.privacy_statement_pdf&.blob, :privacy_statement, organisation)
-        end
+    # reversible do |direction|
+    #   direction.up do 
+    #     Organisation.find_each do |organisation| 
+    #       add_as_designated_document(organisation.terms_pdf&.blob, :terms, organisation)
+    #       add_as_designated_document(organisation.privacy_statement_pdf&.blob, :privacy_statement, organisation)
+    #     end
 
-        Home.find_each do |home| 
-          add_as_designated_document(home.house_rules&.blob, :house_rules, home)
-        end
-      end
-    end
+    #     Home.find_each do |home| 
+    #       add_as_designated_document(home.house_rules&.blob, :house_rules, home)
+    #     end
+    #   end
+    # end
   end
 
   private

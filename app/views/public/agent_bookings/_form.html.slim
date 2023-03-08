@@ -2,12 +2,12 @@
 = form_with(model: [:public, @agent_booking], url: url) do |f|
   .card[class=('bg-light' unless @agent_booking.booking_agent_responsible?)]
     .card-body
-      - errors = (@agent_booking.errors[:base])
-      - if errors.present?
+      - if @agent_booking.errors.any?
         .alert.alert-danger.d-flex
-          .ms-3
+          .me-3
             i.fa.fa-exclamation-circle               
-          = errors.to_sentence
+          = @agent_booking.errors.full_messages.to_sentence
+
       = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|
         fieldset
           - if @agent_booking.booking.deadline

@@ -96,7 +96,7 @@ class Booking < ApplicationRecord
   validates :email, format: Devise.email_regexp, allow_nil: true
   validates :invoice_address, length: { maximum: 255 }
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
-  validates :approximate_headcount, numericality: { greater_than: 0 }, allow_nil: true
+  validates :approximate_headcount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
 
   validates :email, :occupiable_ids, presence: true, on: %i[public_update public_create]

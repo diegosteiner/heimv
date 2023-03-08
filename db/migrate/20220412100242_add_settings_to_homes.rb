@@ -4,8 +4,8 @@ class AddSettingsToHomes < ActiveRecord::Migration[7.0]
 
     reversible do |direction|
       direction.up do
-        migrate_organisation_settings 
-        migrate_home_settings
+        # migrate_organisation_settings 
+        # migrate_home_settings
       end
     end
 

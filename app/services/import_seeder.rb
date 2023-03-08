@@ -34,7 +34,8 @@ class ImportSeeder
 
   def organisation(file)
     import_data = JSON.parse(File.read(file))
-    Import::Hash::OrganisationImporter.new.import(import_data).tap(&:save!)
+    organisation = Import::Hash::OrganisationImporter.new.import(import_data)
+    organisation.tap(&:save!)
   end
 
   def users(organisation, users: nil)

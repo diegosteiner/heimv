@@ -52,12 +52,12 @@ class Occupancy < ApplicationRecord
     errors.add(:linked, :invalid) if linked && booking.blank?
   end
   validate on: %i[public_create public_update agent_booking] do
-    next errors.add(:occupiable_id, :conflicting) if conflicting(0).any?
+    next errors.add(:base, :conflicting) if conflicting(0).any?
 
     margin = organisation.settings.booking_margin
     next if margin.zero? || conflicting(margin).none?
 
-    errors.add(:occupiable_id, :margin_too_small, margin: margin&.in_minutes&.to_i)
+    errors.add(:base, :margin_too_small, margin: margin&.in_minutes&.to_i)
   end
 
   def to_s
