@@ -8,6 +8,7 @@
 #  begins_at      :datetime         not null
 #  color          :string
 #  ends_at        :datetime         not null
+#  linked         :boolean          default(TRUE)
 #  occupancy_type :integer          default("free"), not null
 #  remarks        :text
 #  created_at     :datetime         not null
@@ -48,14 +49,15 @@ class Occupancy < ApplicationRecord
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate do
     errors.add(:base, :invalid) if booking && organisation && !organisation == booking.organisation
+    errors.add(:linked, :invalid) if linked && booking.blank?
   end
-  validate(on: %i[public_create public_update]) do
-    next errors.add(:base, :conflicting) if conflicting(0).any?
+  validate on: %i[public_create public_update agent_booking] do
+    next errors.add(:occupiable_id, :conflicting) if conflicting(0).any?
 
     margin = organisation.settings.booking_margin
     next if margin.zero? || conflicting(margin).none?
 
-    errors.add(:base, :margin_too_small, margin: margin&.in_minutes&.to_i)
+    errors.add(:occupiable_id, :margin_too_small, margin: margin&.in_minutes&.to_i)
   end
 
   def to_s
@@ -83,7 +85,7 @@ class Occupancy < ApplicationRecord
   end
 
   def update_from_booking
-    return if booking.blank?
+    return if !linked || booking.blank?
 
     assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at, occupancy_type: booking.occupancy_type)
   end

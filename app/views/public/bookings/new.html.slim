@@ -35,9 +35,10 @@
             }
           = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', **links)
           = f.submit t('.submit'), class: 'btn btn-primary btn-lg'
-          
-          button.btn.btn-default.p-0.text-primary.d-block.mt-3#agent-booking-button
-            = BookingAgent.model_name.human
+
+          - if current_organisation.booking_agents.any? 
+            button.btn.btn-default.p-0.text-primary.d-block.mt-3#agent-booking-button
+              = BookingAgent.model_name.human
 
 
   - if current_organisation.email.present?

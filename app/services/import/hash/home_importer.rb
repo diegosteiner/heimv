@@ -5,7 +5,7 @@ module Import
     class HomeImporter < Base
       attr_reader :organisation
 
-      use_attributes(*%w[name description bookable ref occupiable])
+      use_attributes(*%w[name description active ref occupiable home_id])
 
       def initialize(organisation, **options)
         super(**options)

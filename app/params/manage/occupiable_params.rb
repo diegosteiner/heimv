@@ -3,7 +3,7 @@
 module Manage
   class OccupiableParams < ApplicationParams
     def self.permitted_keys
-      %i[name description bookable occupiable home_id type ref]
+      %i[name description active occupiable home_id type ref]
     end
   end
 end

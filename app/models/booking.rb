@@ -61,7 +61,7 @@ class Booking < ApplicationRecord
                       { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
                         agent_booking: %i[booking_agent organisation] }].freeze
 
-  belongs_to :home, autosave: true
+  belongs_to :home
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, optional: true
   belongs_to :deadline, inverse_of: :booking, optional: true
@@ -80,33 +80,33 @@ class Booking < ApplicationRecord
   has_many :booked_extras, inverse_of: :booking, dependent: :destroy
   has_many :bookable_extras, through: :booked_extras
   has_many :logs, inverse_of: :booking, dependent: :destroy
-
-  has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
-  has_one  :booking_agent, through: :agent_booking
-  has_one_attached :usage_report
-
   has_many :occupancies, inverse_of: :booking, dependent: :destroy, autosave: true
   has_many :occupiables, through: :occupancies
 
+  has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
+  has_one  :booking_agent, through: :agent_booking
+
+  has_one_attached :usage_report
+
   timespan :begins_at, :ends_at
+
   has_secure_token :token, length: 48
   enum occupancy_type: Occupancy::OCCUPANCY_TYPES
 
-  validates :email, format: Devise.email_regexp, presence: true, on: %i[public_update public_create]
-  validates :occupiable_ids, presence: true, on: %i[public_update public_create]
-  validates :accept_conditions, acceptance: true, on: :public_create
-  validates :category, :tenant, presence: true, on: :public_update
-  validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
-  validates :approximate_headcount, numericality: { greater_than: 0 }, on: :public_update
+  validates :email, format: Devise.email_regexp, allow_nil: true
   validates :invoice_address, length: { maximum: 255 }
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
-  validates :purpose_description, presence: true, on: :public_update
-  validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
+  validates :approximate_headcount, numericality: { greater_than: 0 }, allow_nil: true
+  validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
+
+  validates :email, :occupiable_ids, presence: true, on: %i[public_update public_create]
+  validates :category, :tenant, :approximate_headcount, :purpose_description, presence: true, on: :public_update
+  validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
 
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
-  before_validation :set_tenant, :initialize_occupancies # , :update_occupancies
+  before_validation :set_tenant, :update_occupancies
   before_create :set_ref
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -171,10 +171,6 @@ class Booking < ApplicationRecord
 
   def override_occupancy_color?
     self[:occupancy_color].present?
-  end
-
-  def initialize_occupancies
-    return if !home_id_changed? || home.blank? || occupancies.any?
   end
 
   def occupancy_color

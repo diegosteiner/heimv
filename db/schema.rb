@@ -327,6 +327,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_201507) do
     t.datetime "updated_at", precision: nil, null: false
     t.uuid "booking_id"
     t.string "color"
+    t.boolean "linked", default: true
     t.index ["begins_at"], name: "index_occupancies_on_begins_at"
     t.index ["ends_at"], name: "index_occupancies_on_ends_at"
     t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
@@ -339,7 +340,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_201507) do
     t.string "ref"
     t.text "description"
     t.text "janitor"
-    t.boolean "bookable", default: false
+    t.boolean "active", default: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "type"

@@ -8,6 +8,7 @@
 #  begins_at      :datetime         not null
 #  color          :string
 #  ends_at        :datetime         not null
+#  linked         :boolean          default(TRUE)
 #  occupancy_type :integer          default("free"), not null
 #  remarks        :text
 #  created_at     :datetime         not null

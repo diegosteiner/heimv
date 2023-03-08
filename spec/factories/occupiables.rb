@@ -5,7 +5,7 @@
 # Table name: occupiables
 #
 #  id              :bigint           not null, primary key
-#  bookable        :boolean          default(FALSE)
+#  active          :boolean          default(FALSE)
 #  description     :text
 #  janitor         :text
 #  name            :string
@@ -34,11 +34,9 @@ FactoryBot.define do
     name { "Pfadiheim #{Faker::Address.city}" }
     description { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     sequence(:ref) { |i| "H#{i}" }
-    bookable { false }
+    active { true }
     occupiable { true }
 
-    factory :home, class: 'Home' do
-      bookable { true }
-    end
+    factory :home, class: 'Home'
   end
 end

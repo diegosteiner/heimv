@@ -5,7 +5,7 @@
 # Table name: occupiables
 #
 #  id              :bigint           not null, primary key
-#  bookable        :boolean          default(FALSE)
+#  active          :boolean          default(FALSE)
 #  description     :text
 #  janitor         :text
 #  name            :string
@@ -36,7 +36,7 @@ class Occupiable < ApplicationRecord
 
   scope :ordered, -> { order(name: :ASC) }
   scope :occupiable, -> { where(occupiable: true) }
-  scope :bookable, -> { where(bookable: true) }
+  scope :active, -> { where(active: true) }
 
   validates :name, presence: true
   validates :type, inclusion: { in: %w[Home Occupiable] }, allow_nil: true

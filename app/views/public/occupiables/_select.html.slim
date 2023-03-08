@@ -1,14 +1,19 @@
 fieldset.occupiables-select.mb-3
   - occupancies = booking.occupancies.index_by { |occupancy| occupancy.occupiable }
   = form.collection_select :home_id, current_organisation.homes, :id, :to_s, { include_blank: current_organisation.homes.many? }, { disabled: !booking.editable }
-  - if @booking.errors['occupancies.base'].any?
-    p.text-danger= @booking.errors['occupancies.base'].to_sentence
+  
+  - messages = booking.occupancies.map { |occupancy| occupancy.errors.full_messages }.flatten
+  - if messages.any?
+    p.errors.d-none.text-danger= messages.to_sentence
+
   = form.collection_check_boxes_without_bootstrap :occupiable_ids, current_organisation.occupiables.occupiable.ordered, :id, :to_s, hide_label: true do |builder|
     - occupiable = builder.object
     - occupancy = occupancies[occupiable]
-    .form-check[data-home-id=occupiable.home_id data-occupiable-id=occupiable.id]
-      = builder.check_box class: 'form-check-input', disabled: !booking.editable
+    .form-check.d-none.mt-2[data-home-id=occupiable.home_id data-occupiable-id=occupiable.id]
+      = builder.check_box class: 'form-check-input', readonly: !booking.editable
       = builder.label class: 'form-check-label' do
         span= occupiable.to_s 
+        - if occupiable.description.present?
+          p.text-muted.m-0= occupiable.description
         - if occupancy.present? && occupancy.errors.any?
           p.text-danger.m-0= occupancy.errors.full_messages.to_sentence

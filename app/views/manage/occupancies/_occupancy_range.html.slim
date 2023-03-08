@@ -1,9 +1,9 @@
 .occupancy-info
   .text-center
     i.fa.fa-home
-  ul.list-none.p-0.m-0
+  ul.list-unstyled.p-0.m-0.d-flex.flex-wrap
     - booking.occupancies.each do |occupancy|
-      = link_to manage_occupiable_path(occupancy.occupiable) do
+      li.me-2= link_to edit_manage_occupancy_path(occupancy) do
         - if occupancy.conflicting.present?
           .text-danger
             = occupancy.occupiable

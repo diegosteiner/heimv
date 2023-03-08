@@ -5,7 +5,7 @@
 # Table name: occupiables
 #
 #  id              :bigint           not null, primary key
-#  bookable        :boolean          default(FALSE)
+#  active          :boolean          default(FALSE)
 #  description     :text
 #  janitor         :text
 #  name            :string

@@ -12,7 +12,8 @@ h1.mt-0.mb-5= Occupiable.model_name.human(count: 2)
             h5.card-title.m-0=occupiable.name
             p
               =occupiable.description
-            = link_to t('edit'), edit_manage_occupiable_path(occupiable), class: 'stretched-link'
+            p.m-0= link_to Occupancy.model_name.human(count: 2), manage_occupiable_occupancies_path(occupiable)
+            p.m-0= link_to t('edit'), edit_manage_occupiable_path(occupiable)
 
 br
 = link_to new_manage_occupiable_path, class: 'btn btn-primary' do

@@ -9,6 +9,10 @@ module Manage
       respond_with :manage, @occupiables
     end
 
+    def show
+      respond_with :manage, @occupiable
+    end
+
     def new
       respond_with :manage, @occupiable
     end

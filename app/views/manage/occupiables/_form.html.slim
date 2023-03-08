@@ -5,7 +5,7 @@
     = f.text_field :name
     = f.text_field :ref
     = f.text_area :description
-    = f.check_box :bookable
+    = f.check_box :active
     = f.check_box :occupiable
     = f.collection_select :home_id, current_organisation.homes, :id, :to_s, include_blank: true
 

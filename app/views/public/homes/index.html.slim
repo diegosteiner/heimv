@@ -1,4 +1,4 @@
-- current_organisation.homes.where(bookable: true).each do |home|
+- current_organisation.homes.active.each do |home|
   .card.my-3
     .card-body
       h1.mt-2.text-center[id="home-#{home.id}"]

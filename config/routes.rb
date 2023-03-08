@@ -9,9 +9,7 @@ Rails.application.routes.draw do
       root to: 'dashboard#index'
       get 'flow', to: 'pages#flow'
       resources :occupiables do
-        scope module: :occupiables do
-          resources :occupancies, except: %w[show], shallow: true
-        end
+        resources :occupancies, except: %w[show], shallow: true
       end
       resource :organisation, only: %i[edit update show]
       resources :organisation_users, except: %i[show]

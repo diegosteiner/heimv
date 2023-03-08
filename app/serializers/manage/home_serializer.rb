@@ -5,7 +5,7 @@ module Manage
     fields :janitor, :description
 
     view :export do
-      fields :bookable, :occupiable, :home_id
+      fields :active, :occupiable, :home_id
 
       include_view :default
     end

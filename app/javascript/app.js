@@ -56,6 +56,7 @@ function setupOccupiableSelect() {
 
       const allCheckboxElements =
         baseElement.getElementsByClassName("form-check");
+      const errorElement = baseElement.querySelector("p.errors");
       const handler = () => {
         const homeId = selectElement.value;
         const visibleCheckboxElements = baseElement.querySelectorAll(
@@ -65,7 +66,7 @@ function setupOccupiableSelect() {
           checkboxWrapperElement
             .querySelector('input[type="checkbox"]')
             .setAttribute("disabled", true);
-          // checkboxElement.classList.add('d-none')
+          checkboxWrapperElement.classList.add("d-none");
         });
 
         Array.from(visibleCheckboxElements).forEach(
@@ -76,8 +77,10 @@ function setupOccupiableSelect() {
             checkboxElement.removeAttribute("disabled");
             if (visibleCheckboxElements.length <= 1) {
               checkboxElement.checked = true;
+              errorElement?.classList?.remove("d-none");
             } else {
               checkboxWrapperElement.classList.remove("d-none");
+              errorElement?.classList?.add("d-none");
             }
           }
         );
