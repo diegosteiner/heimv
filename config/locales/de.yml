@@ -404,6 +404,7 @@ de:
     errors:
       messages:
         content_type: ungültiges Format
+        occupancy_conflict: Das Mietobjekt ist zum gewünschten Zeitpunkt bereits belegt
         record_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
         restrict_dependent_destroy:
           has_many: Datensatz kann nicht gelöscht werden, da abhängige %{record} existieren.

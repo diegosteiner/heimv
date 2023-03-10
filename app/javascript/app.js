@@ -11,9 +11,7 @@ function csrfForm() {
   const csrfToken = document.querySelector("meta[name=csrf-token]")?.content;
   if (!csrfToken) return;
 
-  const authTokenInput = document.querySelector(
-    "input[name=authenticity_token]"
-  );
+  const authTokenInput = document.querySelector("input[name=authenticity_token]");
   if (authTokenInput) authTokenInput.value = csrfToken;
 }
 
@@ -33,62 +31,46 @@ function toggleDisable() {
 }
 
 function setupBookingAgentBookingButton() {
-  document
-    .getElementById("agent-booking-button")
-    ?.addEventListener("click", (event) => {
-      const form = event.target.form;
-      form.action = "../agent_bookings/new";
-      form.method = "GET";
-      form.noValidate = true;
-    });
+  document.getElementById("agent-booking-button")?.addEventListener("click", (event) => {
+    const form = event.target.form;
+    form.action = "../agent_bookings/new";
+    form.method = "GET";
+    form.noValidate = true;
+  });
 }
 
 function setupOccupiableSelect() {
-  Array.from(document.getElementsByClassName("occupiables-select")).forEach(
-    (baseElement) => {
-      const selectElement = baseElement.querySelector("select");
+  Array.from(document.getElementsByClassName("occupiables-select")).forEach((baseElement) => {
+    const selectElement = baseElement.querySelector("select");
+    const handler = (checkAll = true) => {
+      const homeId = selectElement.value;
+      const occupiablesCheckboxesElement = baseElement.querySelector(".occupiables-checkboxes");
+      const allCheckboxElements = occupiablesCheckboxesElement.querySelectorAll(".form-check");
+      let visibleCount = 0;
 
-      // includes blank
-      if (selectElement.getElementsByTagName("option").length <= 2) {
-        selectElement.setAttribute("readonly", true);
-        return;
-      }
+      allCheckboxElements.forEach((checkboxWrapperElement) => {
+        const checkboxElement = checkboxWrapperElement.querySelector('input[type="checkbox"]');
 
-      const allCheckboxElements =
-        baseElement.getElementsByClassName("form-check");
-      const errorElement = baseElement.querySelector("p.errors");
-      const handler = () => {
-        const homeId = selectElement.value;
-        const visibleCheckboxElements = baseElement.querySelectorAll(
-          `.form-check[data-home-id='${homeId}']`
-        );
-        Array.from(allCheckboxElements).forEach((checkboxWrapperElement) => {
-          checkboxWrapperElement
-            .querySelector('input[type="checkbox"]')
-            .setAttribute("disabled", true);
+        if (checkboxWrapperElement.dataset.homeId == homeId) {
+          checkboxElement.removeAttribute("disabled");
+          if (checkAll) checkboxElement.checked = true;
+          checkboxWrapperElement.classList.remove("d-none");
+          visibleCount++;
+        } else {
+          checkboxElement.setAttribute("disabled", true);
           checkboxWrapperElement.classList.add("d-none");
-        });
+        }
+      });
 
-        Array.from(visibleCheckboxElements).forEach(
-          (checkboxWrapperElement) => {
-            const checkboxElement = checkboxWrapperElement.querySelector(
-              'input[type="checkbox"]'
-            );
-            checkboxElement.removeAttribute("disabled");
-            if (visibleCheckboxElements.length <= 1) {
-              checkboxElement.checked = true;
-              errorElement?.classList?.remove("d-none");
-            } else {
-              checkboxWrapperElement.classList.remove("d-none");
-              errorElement?.classList?.add("d-none");
-            }
-          }
-        );
-      };
-      selectElement.addEventListener("change", handler);
-      handler();
-    }
-  );
+      if (visibleCount == 1) {
+        // occupiablesCheckboxesElement.classList.add("d-none");
+      } else {
+        occupiablesCheckboxesElement.classList.remove("d-none");
+      }
+    };
+    selectElement.addEventListener("change", handler);
+    handler(false);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {

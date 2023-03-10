@@ -404,6 +404,7 @@ fr:
     errors:
       messages:
         content_type: ungültiges Format
+        occupancy_conflict: Das Mietobjekt ist zum gewünschten Zeitpunkt bereits belegt
         record_invalid: 'La validation a échoué : %{errors}'
         restrict_dependent_destroy:
           has_many: Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent

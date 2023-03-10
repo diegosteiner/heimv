@@ -1,15 +1,17 @@
-fieldset.occupiables-select.mb-3
+fieldset.occupiables-select
   - occupancies = booking.occupancies.index_by { |occupancy| occupancy.occupiable }
   = form.collection_select :home_id, current_organisation.homes, :id, :to_s, { include_blank: current_organisation.homes.many? }, { disabled: !booking.editable }
   
-  = form.collection_check_boxes_without_bootstrap :occupiable_ids, current_organisation.occupiables.occupiable.ordered, :id, :to_s, hide_label: true do |builder|
-    - occupiable = builder.object
-    - occupancy = occupancies[occupiable]
-    .form-check.mt-2[data-home-id=occupiable.home_id data-occupiable-id=occupiable.id]
-      = builder.check_box class: 'form-check-input', readonly: !booking.editable
-      = builder.label class: 'form-check-label' do
-        span= occupiable.to_s 
-        - if occupiable.description.present?
-          p.text-muted.m-0= occupiable.description
-        - if occupancy.present? && occupancy.conflicting&.any?
-          p.text-danger.m-0.errors= occupancy.errors.full_message(:occupiable, :occupied)
+  .occupiables-checkboxes.mb-3
+    = form.collection_check_boxes_without_bootstrap :occupiable_ids, current_organisation.occupiables.occupiable.ordered, :id, :to_s, hide_label: true do |builder|
+      - occupiable = builder.object
+      - occupancy = occupancies[occupiable]
+
+      .form-check.mt-2[data-home-id=occupiable.home_id data-occupiable-id=occupiable.id]
+        = builder.check_box class: 'form-check-input', readonly: !booking.editable
+        = builder.label class: 'form-check-label' do
+          span= occupiable.to_s 
+          - if occupiable.description.present?
+            p.text-muted.m-0= occupiable.description
+          - if occupancy&.errors&.any?
+            .invalid-feedback.d-block= occupancy.errors.full_messages.to_sentence

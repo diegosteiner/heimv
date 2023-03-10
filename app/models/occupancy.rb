@@ -48,16 +48,13 @@ class Occupancy < ApplicationRecord
   before_validation :update_from_booking
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate do
-    errors.add(:base, :invalid) if booking && organisation && !organisation == booking.organisation
+    errors.add(:occupiable_id, :invalid) if booking && organisation && !organisation == booking.organisation
+    errors.add(:base, :occupancy_conflict) if conflicting?
     errors.add(:linked, :invalid) if linked && booking.blank?
   end
-  validate on: %i[public_create public_update agent_booking] do
-    next errors.add(:base, :conflicting) if conflicting(0).any?
 
-    margin = organisation.settings.booking_margin
-    next if margin.zero? || conflicting(margin).none?
-
-    errors.add(:base, :margin_too_small, margin: margin&.in_minutes&.to_i)
+  def conflicting?(...)
+    conflicting(...).any?
   end
 
   def to_s
@@ -67,7 +64,7 @@ class Occupancy < ApplicationRecord
   end
 
   # rubocop:disable Metrics/AbcSize
-  def conflicting(margin = 0)
+  def conflicting(margin = organisation.settings.booking_margin)
     return if begins_at.blank? || ends_at.blank? || occupiable.blank?
 
     occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking

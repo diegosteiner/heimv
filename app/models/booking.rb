@@ -102,6 +102,9 @@ class Booking < ApplicationRecord
   validates :email, :occupiable_ids, presence: true, on: %i[public_update public_create]
   validates :category, :tenant, :approximate_headcount, :purpose_description, presence: true, on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
+  validate on: %i[public_create public_update agent_booking] do
+    next errors.add(:home_id, :occupancy_conflict) if occupancies.any?(&:conflicting?)
+  end
 
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }

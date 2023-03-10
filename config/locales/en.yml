@@ -404,6 +404,7 @@ en:
     errors:
       messages:
         content_type: ungültiges Format
+        occupancy_conflict: Das Mietobjekt ist zum gewünschten Zeitpunkt bereits belegt
         record_invalid: 'Validation failed: %{errors}'
         restrict_dependent_destroy:
           has_many: Cannot delete record because dependent %{record} exist

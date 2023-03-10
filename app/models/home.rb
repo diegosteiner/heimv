@@ -39,4 +39,10 @@ class Home < Occupiable
   def to_s
     name
   end
+
+  def home
+    self
+  end
+
+  delegate :id, to: :home, prefix: true
 end
