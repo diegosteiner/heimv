@@ -11,6 +11,7 @@ fr:
         ends_at_after: Fin de la location
         ends_at_before: Fin de la location
         homes: Chalets
+        occupiables: Mietobjekte
         only_inconcluded: Uniquement les réservations ouvertes/libres (?)
         previous_booking_states: Anciens statuts
         ref: "(Numéro de) Référence de location"
@@ -97,7 +98,7 @@ fr:
         deadline: Délai jusqu'au
         editable: Possibilité de traitement par le locataire
         ends_at: Fin de la location
-        home: Chalet
+        home_id: Hauptmietobjekt
         internal_remarks: Remarques internes
         invoice_address: Adresse de facturation (si différente)
         locale: Langue
@@ -170,12 +171,6 @@ fr:
         send_with_contract: Mit dem Vertrag versenden
         send_with_last_infos: Mit letzen Infos (baldige Belegung) versenden
         updated_at: Letzte Änderung
-      home:
-        address: Adresse
-        bookable: Reservationsanfragen erlauben
-        booking_margin: Zeitabstand zwischen Buchungen
-        name: Name
-        ref: Kurzname / Referenz
       invoice:
         amount: Betrag
         amount_open: offener Betrag
@@ -216,9 +211,18 @@ fr:
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
-        home_id: Heim
+        linked: An Buchung gebunden
         occupancy_type: Belegungsart
+        occupiable_id: Mietobjekt
         remarks: Bemerkungen
+      occupiable:
+        active: Aktiv
+        description: Beschreibung
+        home_id: Hauptmietobjekt
+        name: Name
+        occupiable: Belegbar
+        ref: Kurzname / Referenz
+        type: Typ
       operator:
         contact_info: Kontaktinformationen
         email: Email
@@ -270,7 +274,6 @@ fr:
       rich_text_template:
         body: Text
         enabled: Aktiviert
-        home_id: Heim
         key: ID
         locale: Sprache
         namespace: Bereich
@@ -404,7 +407,7 @@ fr:
     errors:
       messages:
         content_type: ungültiges Format
-        occupancy_conflict:
+        occupancy_conflict: Das Mietobjekt ist zum gewünschten Zeitpunkt bereits belegt
         record_invalid: 'La validation a échoué : %{errors}'
         restrict_dependent_destroy:
           has_many: Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent
@@ -419,9 +422,6 @@ fr:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
-        occupancy:
-          conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
-          margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
         tenant:
           incomplete: Angaben unvollständig
       notifications:
@@ -542,6 +542,9 @@ fr:
       occupancy:
         one: Belegung
         other: Belegungen
+      occupiable:
+        one: Mietobjekt
+        other: Mietobjekte
       operator:
         one: Funktionär
         other: Funktionäre
@@ -937,7 +940,7 @@ fr:
       expired: ist abgelaufen, bitte neu anfordern
       greater_than: doit être supérieur à %{count}
       greater_than_or_equal_to: doit être supérieur ou égal à %{count}
-      in:
+      in: muss in enthalten sein %{count}
       inclusion: n'est pas inclus(e) dans la liste
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}

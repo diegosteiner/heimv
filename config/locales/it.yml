@@ -11,6 +11,7 @@ it:
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
         homes: Case
+        occupiables: Mietobjekte
         only_inconcluded: solo prenotazioni aperte
         previous_booking_states: Stato passato
         ref: Riferimento di prenotazione
@@ -37,12 +38,12 @@ it:
         ends_at_before: Fine dell'occupazione fino a
       organisation_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
-        begins_at_default_time:
+        begins_at_default_time: Standardzeit für den Beginn der Belegung (ab Mitternacht)
         booking_margin: Durata tra le prenotazioni
         closed_occupancy_color: Colore per le chiusure
         deadline_postponable_for: Proroga della scadenza
         deposit_payment_deadline: Periodo di pagamento standard (acconto)
-        ends_at_default_time:
+        ends_at_default_time: Standardzeit für das Ende der Belegung (ab Beginn)
         invoice_payment_deadline: Periodo di pagamento standard
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         occupied_occupancy_color: Colore per le occupazioni definitive
@@ -97,7 +98,7 @@ it:
         deadline: Frist bis
         editable: Modificabile dagli inquilini
         ends_at: Fine dell'occupazione
-        home: Heim
+        home_id: Hauptmietobjekt
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         locale: Sprache
@@ -170,12 +171,6 @@ it:
         send_with_contract: Mit dem Vertrag versenden
         send_with_last_infos: Mit letzen Infos (baldige Belegung) versenden
         updated_at: Letzte Änderung
-      home:
-        address: Adresse
-        bookable: Consentire le richieste di prenotazione
-        booking_margin: Zeitabstand zwischen Buchungen
-        name: Name
-        ref: Kurzname / Referenz
       invoice:
         amount: Betrag
         amount_open: offener Betrag
@@ -216,9 +211,18 @@ it:
         ends_at: Fine dell'occupazione
         ends_at_date: Fine dell'occupazione (data)
         ends_at_time: Fine dell'occupazione (ora)
-        home_id: Heim
+        linked: An Buchung gebunden
         occupancy_type: Tipo di occupazione
+        occupiable_id: Mietobjekt
         remarks: Bemerkungen
+      occupiable:
+        active: Aktiv
+        description: Beschreibung
+        home_id: Hauptmietobjekt
+        name: Name
+        occupiable: Belegbar
+        ref: Kurzname / Referenz
+        type: Typ
       operator:
         contact_info: Kontaktinformationen
         email: Email
@@ -270,7 +274,6 @@ it:
       rich_text_template:
         body: Text
         enabled: Aktiviert
-        home_id: Heim
         key: ID
         locale: Sprache
         namespace: Bereich
@@ -404,7 +407,7 @@ it:
     errors:
       messages:
         content_type: ungültiges Format
-        occupancy_conflict:
+        occupancy_conflict: Das Mietobjekt ist zum gewünschten Zeitpunkt bereits belegt
         record_invalid: 'Validazione fallita: %{errors}'
         restrict_dependent_destroy:
           has_many: Il record non può essere cancellato perchè esistono %{record} dipendenti
@@ -419,9 +422,6 @@ it:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
-        occupancy:
-          conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
-          margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
         tenant:
           incomplete: Angaben unvollständig
       notifications:
@@ -542,6 +542,9 @@ it:
       occupancy:
         one: Occupazione
         other: Occupazioni
+      occupiable:
+        one: Mietobjekt
+        other: Mietobjekte
       operator:
         one: Funktionär
         other: Funktionäre
@@ -937,7 +940,7 @@ it:
       expired: ist abgelaufen, bitte neu anfordern
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
-      in:
+      in: muss in enthalten sein %{count}
       inclusion: non è compreso tra le opzioni disponibili
       invalid: non è valido
       less_than: deve essere minore di %{count}

@@ -1,6 +1,6 @@
 fieldset.occupiables-select
   - occupancies = booking.occupancies.index_by { |occupancy| occupancy.occupiable }
-  = form.collection_select :home_id, current_organisation.homes, :id, :to_s, { include_blank: current_organisation.homes.many? }, { disabled: !booking.editable }
+  = form.collection_select :home_id, current_organisation.homes.active, :id, :to_s, { include_blank: current_organisation.homes.many? }, { disabled: !booking.editable }
   
   .occupiables-checkboxes.mb-3
     = form.collection_check_boxes_without_bootstrap :occupiable_ids, current_organisation.occupiables.occupiable.ordered, :id, :to_s, hide_label: true do |builder|
@@ -10,7 +10,12 @@ fieldset.occupiables-select
       .form-check.mt-2[data-home-id=occupiable.home_id data-occupiable-id=occupiable.id]
         = builder.check_box class: 'form-check-input', readonly: !booking.editable
         = builder.label class: 'form-check-label' do
-          span= occupiable.to_s 
+          - if occupancy&.conflicting?
+            .text-danger
+              = occupiable
+              i.fa.fa-exclamation-triangle<>[data-bs-toggle="tooltip" title=occupancy.conflicting.map(&:to_s).join(', ')]
+          - else 
+            = occupiable
           - if occupiable.description.present?
             p.text-muted.m-0= occupiable.description
           - if occupancy&.errors&.any?

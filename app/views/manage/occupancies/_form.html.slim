@@ -1,7 +1,7 @@
 = form_with(model: [:manage, @occupiable&.becomes(Occupiable), @occupancy], local: true) do |f|
 
   fieldset
-    = f.collection_select :occupiable_id, current_organisation.occupiables.ordered, :id, :to_s, include_blank: true
+    = f.collection_select :occupiable_id, current_organisation.occupiables.active.ordered, :id, :to_s, include_blank: true
     = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
                                                 name: 'occupancy[begins_at]',
                                                 value: @occupancy.begins_at&.iso8601,
@@ -12,9 +12,9 @@
                                                 value: @occupancy.ends_at&.iso8601,
                                                 required: true)
     
-    = f.select :occupancy_type, Occupancy.occupancy_types.keys.map { [Occupancy.human_enum(:occupancy_types, _1), _1] }, include_blank: true
-    = f.check_box :linked
+    = f.select :occupancy_type, Occupancy.occupancy_types.keys.map { [Occupancy.human_enum(:occupancy_type, _1), _1] }, include_blank: true
     = f.text_area :remarks
+    = f.check_box :linked
     = f.form_group do
       = f.label :color
       = f.check_box :color, { id: 'toggle_occupancy_color', checked: @occupancy[:color].present?, \
