@@ -2,6 +2,6 @@
 
 module Public
   class OccupiableSerializer < ApplicationSerializer
-    fields :id, :name, :description, :active, :occupiable
+    fields :id, :name, :description, :active, :occupiable, :home_id
   end
 end
