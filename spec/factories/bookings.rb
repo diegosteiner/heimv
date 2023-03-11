@@ -34,6 +34,7 @@
 #  updated_at             :datetime         not null
 #  booking_category_id    :integer
 #  deadline_id            :bigint
+#  home_id                :integer          not null
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
 #
@@ -64,7 +65,7 @@ FactoryBot.define do
     notifications_enabled { true }
     purpose_description { 'Pfadilager Test' }
     skip_infer_transitions { true }
-    homes { build_list :home, 1, organisation: organisation }
+    home { build :home, organisation: organisation }
     transient do
       initial_state { nil }
       tenant { build :tenant, organisation: organisation, email: email }
@@ -77,6 +78,7 @@ FactoryBot.define do
 
     after(:create) do |booking, evaluator|
       Booking::StateTransition.initial_for(booking, evaluator.initial_state) if evaluator.initial_state.present?
+      booking.occupiables = [booking.home] if booking.occupancies.none?
       booking.apply_transitions
     end
   end

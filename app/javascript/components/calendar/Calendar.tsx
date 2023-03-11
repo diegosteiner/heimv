@@ -1,12 +1,4 @@
-import {
-  getYear,
-  getDay,
-  parseISO,
-  formatISO,
-  isValid,
-  eachDayOfInterval,
-  endOfMonth,
-} from "date-fns/esm";
+import { getYear, getDay, parseISO, formatISO, isValid, eachDayOfInterval, endOfMonth } from "date-fns/esm";
 import * as React from "react";
 import styled from "@emotion/styled";
 import { getMonth } from "date-fns";
@@ -87,9 +79,7 @@ const monthNameFormatter = new Intl.DateTimeFormat(undefined, {
 const weekdayNameFormatter = new Intl.DateTimeFormat(undefined, {
   weekday: "short",
 });
-const materializedWeekdays = [1, 2, 3, 4, 5, 6, 7].map((i) =>
-  weekdayNameFormatter.format(new Date(2021, 2, i))
-);
+const materializedWeekdays = [1, 2, 3, 4, 5, 6, 7].map((i) => weekdayNameFormatter.format(new Date(2021, 2, i)));
 
 function materializedMonths(startDate: Date, monthsCount: number) {
   const startYearMonth = new YearMonth(getYear(startDate), getMonth(startDate));
@@ -152,11 +142,7 @@ function CalendarMonth({ month, dayElement }: CalendarMonthProps) {
         {daysOfMonth.map((day) => {
           const dateString = formatISO(day, { representation: "date" });
           return (
-            <time
-              className="calendarDay"
-              dateTime={dateString}
-              key={`day-${dateString}`}
-            >
+            <time className="calendarDay" dateTime={dateString} key={`day-${dateString}`}>
               {dayElement(dateString)}
             </time>
           );
@@ -204,9 +190,7 @@ function Calendar({ start, dayElement, monthsCount = 12 }: CalendarProps) {
   const [visibleMonths, setVisibleMonths] = React.useState<YearMonth[]>(() =>
     materializedMonths(startDate as Date, monthsCountNumber)
   );
-  const year = Array.from(
-    new Set(visibleMonths.map((month) => month.year))
-  ).join("/");
+  const year = Array.from(new Set(visibleMonths.map((month) => month.year))).join("/");
   const [touchStart, setTouchStart] = React.useState<{
     x: number;
     y: number;
@@ -214,16 +198,12 @@ function Calendar({ start, dayElement, monthsCount = 12 }: CalendarProps) {
   const prevMonth = () =>
     setVisibleMonths((visibleMonthsWas) => {
       const repealed = visibleMonthsWas.pop();
-      return repealed
-        ? [repealed.subMonths(monthsCountNumber), ...visibleMonthsWas]
-        : visibleMonthsWas;
+      return repealed ? [repealed.subMonths(monthsCountNumber), ...visibleMonthsWas] : visibleMonthsWas;
     });
   const nextMonth = () =>
     setVisibleMonths((visibleMonthsWas) => {
       const repealed = visibleMonthsWas.shift();
-      return repealed
-        ? [...visibleMonthsWas, repealed.addMonths(monthsCountNumber)]
-        : visibleMonthsWas;
+      return repealed ? [...visibleMonthsWas, repealed.addMonths(monthsCountNumber)] : visibleMonthsWas;
     });
   const handleTouchStart = ({ changedTouches }: React.TouchEvent) => {
     setTouchStart({

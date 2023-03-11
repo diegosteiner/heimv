@@ -11,9 +11,7 @@ function csrfForm() {
   const csrfToken = document.querySelector("meta[name=csrf-token]")?.content;
   if (!csrfToken) return;
 
-  const authTokenInput = document.querySelector(
-    "input[name=authenticity_token]"
-  );
+  const authTokenInput = document.querySelector("input[name=authenticity_token]");
   if (authTokenInput) authTokenInput.value = csrfToken;
 }
 
@@ -33,14 +31,46 @@ function toggleDisable() {
 }
 
 function setupBookingAgentBookingButton() {
-  document
-    .getElementById("agent-booking-button")
-    ?.addEventListener("click", (event) => {
-      const form = event.target.form;
-      form.action = "../agent_bookings/new";
-      form.method = "GET";
-      form.noValidate = true;
-    });
+  document.getElementById("agent-booking-button")?.addEventListener("click", (event) => {
+    const form = event.target.form;
+    form.action = "../agent_bookings/new";
+    form.method = "GET";
+    form.noValidate = true;
+  });
+}
+
+function setupOccupiableSelect() {
+  Array.from(document.getElementsByClassName("occupiables-select")).forEach((baseElement) => {
+    const selectElement = baseElement.querySelector("select");
+    const handler = (checkAll = true) => {
+      const homeId = selectElement.value;
+      const occupiablesCheckboxesElement = baseElement.querySelector(".occupiables-checkboxes");
+      const allCheckboxElements = occupiablesCheckboxesElement.querySelectorAll(".form-check");
+      let visibleCount = 0;
+
+      allCheckboxElements.forEach((checkboxWrapperElement) => {
+        const checkboxElement = checkboxWrapperElement.querySelector('input[type="checkbox"]');
+
+        if (checkboxWrapperElement.dataset.homeId == homeId) {
+          checkboxElement.removeAttribute("disabled");
+          if (checkAll) checkboxElement.checked = true;
+          checkboxWrapperElement.classList.remove("d-none");
+          visibleCount++;
+        } else {
+          checkboxElement.setAttribute("disabled", true);
+          checkboxWrapperElement.classList.add("d-none");
+        }
+      });
+
+      if (visibleCount == 1) {
+        // occupiablesCheckboxesElement.classList.add("d-none");
+      } else {
+        occupiablesCheckboxesElement.classList.remove("d-none");
+      }
+    };
+    selectElement.addEventListener("change", handler);
+    handler(false);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -48,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleDisable();
   setupRichTextArea();
   setupBookingAgentBookingButton();
+  setupOccupiableSelect();
 });
 
 Rails.start();

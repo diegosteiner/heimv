@@ -5,7 +5,7 @@ describe 'Data Digests', :devise, type: :feature do
   let(:organisation_user) { create(:organisation_user, :manager, organisation: organisation) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation: organisation) }
-  let(:booking) { create(:booking, organisation: organisation, homes: [home], skip_infer_transitions: false) }
+  let(:booking) { create(:booking, organisation: organisation, home: home, skip_infer_transitions: false) }
   let(:data_digest) { create(:data_digest, type: DataDigestTemplates::Booking, organisation: organisation) }
 
   before do
@@ -25,7 +25,7 @@ describe 'Data Digests', :devise, type: :feature do
 
   it 'can see a booking', skip: true do
     visit manage_data_digest_path(data_digest, org: organisation)
-    bookings = create_list(:booking, 3, organisation: organisation, homes: [home])
+    bookings = create_list(:booking, 3, organisation: organisation, home: home)
     click_on I18n.t('activerecord.enums.data_digest.periods.ever')
     bookings.each { |booking| expect(page).to have_content booking.ref }
     click_on 'CSV'

@@ -67,6 +67,7 @@ class Invoice < ApplicationRecord
   after_create { generate_ref? && generate_ref && save }
   delegate :invoice_address_lines, to: :booking
 
+  validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
   validate do
     errors.add(:supersede_invoice_id, :invalid) if supersede_invoice && supersede_invoice.organisation != organisation
   end

@@ -37,7 +37,7 @@ RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
   end
 
   let!(:invoice_parts) do
-    create_list(:booking, 3, organisation: organisation, homes: [home]).map do |booking|
+    create_list(:booking, 3, organisation: organisation, home: home).map do |booking|
       invoice = create(:invoice, booking: booking)
       tarifs.map do |tarif|
         usage = create(:usage, booking: booking, tarif: tarif)

@@ -1,4 +1,14 @@
-= render partial: 'manage/homes/navigation', locals: { active: :occupancies }
+h1.m-0= Occupancy.model_name.human(count: 2)
+.mb-5= link_to @occupiable.to_s, manage_occupiable_path(@occupiable)
+
+.card.mb-5
+  .card-body
+    = react_component('calendar/OccupancyCalendar', { \ 
+        calendarUrl: calendar_home_occupancies_url(org: current_organisation&.slug, home_id: @occupiable.to_param, format: :json), \
+        occupancyAtUrl: at_home_occupancies_url(org: current_organisation&.slug, home_id: @occupiable.to_param, date: '__DATE__'), \
+        monthsCount: 8 \
+      })
+
 .table-responsive
   table.table.table-hover.align-middle
     thead
@@ -35,7 +45,7 @@
                   span.fa.fa-trash
 
 br
-= link_to new_manage_home_occupancy_path, class: 'btn btn-primary' do
+= link_to new_manage_occupiable_occupancy_path, class: 'btn btn-primary' do
   span.fa.fa-file-o
   '
   = t(:add_record, model_name: Occupancy.model_name.human)

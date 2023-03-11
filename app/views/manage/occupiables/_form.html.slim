@@ -1,0 +1,18 @@
+= form_with(model: [:manage, @occupiable.becomes(Occupiable)], local: true) do |f|
+
+  fieldset
+    = f.select :type, [Home, Occupiable].map { |type| [type.model_name.human, type.to_s] }
+    = f.text_field :name
+    = f.text_field :ref
+    = f.text_area :description
+    = f.check_box :active
+    = f.check_box :occupiable
+    = f.collection_select :home_id, current_organisation.homes, :id, :to_s, include_blank: true
+
+  .form-actions.pt-4.mt-3
+    = f.submit
+    - unless @occupiable.new_record?
+      =<> link_to manage_occupiable_path(@occupiable), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-danger' do
+        span.fa.fa-trash
+        '
+        = t(:destroy)

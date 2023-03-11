@@ -41,6 +41,7 @@ FactoryBot.define do
     issued_at { 1.week.ago }
     payable_until { 3.months.from_now }
     text { Faker::Lorem.sentences }
+    type { Invoices::Invoice }
 
     after(:build) do |invoice|
       build_list(:invoice_part, 3, invoice: invoice)

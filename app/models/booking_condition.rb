@@ -32,6 +32,8 @@ class BookingCondition < ApplicationRecord
   belongs_to :qualifiable, polymorphic: true, optional: true
   belongs_to :organisation
 
+  validates :type, inclusion: { in: ->(_) { BookingCondition.subtypes.keys.map(&:to_s) } }
+
   scope :qualifiable_group, ->(group) { where(group: group) }
 
   def self.distinction_regex

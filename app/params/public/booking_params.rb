@@ -6,7 +6,7 @@ module Public
       def self.permitted_keys
         [:tenant_organisation, :cancellation_reason, :invoice_address, :locale, :committed_request,
          :purpose_description, :booking_category_id, :approximate_headcount, :remarks, :begins_at, :ends_at,
-         { tenant_attributes: TenantParams.permitted_keys.without(:email),
+         { tenant_attributes: TenantParams.permitted_keys.without(:email), occupiable_ids: [],
            deadlines_attributes: %i[id postpone], bookable_extra_ids: [] }]
       end
     end
@@ -15,8 +15,8 @@ module Public
       def self.permitted_keys
         permitted_keys = super
         nested_keys = permitted_keys.extract_options!
-        nested_keys.merge!(agent_booking_attributes: %i[booking_agent_code booking_agent_ref], home_ids: [])
-        permitted_keys + [:email, :accept_conditions, :home_ids, nested_keys]
+        nested_keys.merge!(agent_booking_attributes: %i[booking_agent_code booking_agent_ref])
+        permitted_keys + [:email, :accept_conditions, :home_id, nested_keys]
       end
     end
   end

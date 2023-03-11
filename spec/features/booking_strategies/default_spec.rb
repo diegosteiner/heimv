@@ -15,7 +15,7 @@ describe 'Booking', :devise, type: :feature do
   end
   let!(:tarifs) { create_list(:tarif, 2, organisation: organisation) }
   let(:new_booking_path) do
-    new_public_booking_path(booking: { home_ids: [home.id], begins_at: booking.begins_at.iso8601,
+    new_public_booking_path(booking: { home_id: home.id, begins_at: booking.begins_at.iso8601,
                                        ends_at: booking.ends_at.iso8601 })
   end
   let(:booking) do
@@ -24,7 +24,7 @@ describe 'Booking', :devise, type: :feature do
           begins_at: begins_at,
           ends_at: begins_at + 1.week + 4.hours + 15.minutes,
           organisation: organisation,
-          homes: [home], tenant: nil,
+          home: home, tenant: nil,
           committed_request: false,
           notifications_enabled: true)
   end
@@ -60,8 +60,8 @@ describe 'Booking', :devise, type: :feature do
     check_booking
   end
 
-  def fill_request_form(email:, begins_at:, ends_at:, homes:)
-    homes.each { |home| select(home.to_s, from: 'booking_home_ids') }
+  def fill_request_form(email:, begins_at:, ends_at:, home:)
+    select(home.to_s, from: 'booking_home_id')
     fill_in 'booking_email', with: email
     fill_in 'booking_begins_at_date', with: begins_at.strftime('%d.%m.%Y')
     select(format('%02d', begins_at.hour), from: 'booking_begins_at_hours')
@@ -73,7 +73,7 @@ describe 'Booking', :devise, type: :feature do
   def create_request
     visit new_booking_path
     fill_request_form(email: tenant.email, begins_at: booking.begins_at,
-                      ends_at: booking.ends_at, homes: booking.homes)
+                      ends_at: booking.ends_at, home: booking.home)
     submit_form
     flash = Rails::Html::FullSanitizer.new.sanitize(I18n.t('flash.public.bookings.create.notice', email: tenant.email))
     expect(page).to have_content(flash)

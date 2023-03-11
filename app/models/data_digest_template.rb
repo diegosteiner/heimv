@@ -32,6 +32,7 @@ class DataDigestTemplate < ApplicationRecord
   belongs_to :organisation, inverse_of: :data_digest_templates
   has_many :data_digests, inverse_of: :data_digest_template, dependent: :destroy
   validates :label, presence: true
+  validates :type, inclusion: { in: ->(_) { DataDigestTemplate.subtypes.keys.map(&:to_s) } }
 
   class << self
     def column_types

@@ -34,7 +34,8 @@ class ImportSeeder
 
   def organisation(file)
     import_data = JSON.parse(File.read(file))
-    Import::Hash::OrganisationImporter.new.import(import_data).tap(&:save!)
+    organisation = Import::Hash::OrganisationImporter.new.import(import_data)
+    organisation.tap(&:save!)
   end
 
   def users(organisation, users: nil)
@@ -50,7 +51,7 @@ class ImportSeeder
   end
 
   def bookings(home)
-    FactoryBot.create_list(:booking, 3, homes: [home], organisation: home.organisation,
+    FactoryBot.create_list(:booking, 3, home: home, organisation: home.organisation,
                                         initial_state: :open_request, notifications_enabled: true)
   end
 

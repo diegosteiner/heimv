@@ -34,6 +34,7 @@
 #  updated_at             :datetime         not null
 #  booking_category_id    :integer
 #  deadline_id            :bigint
+#  home_id                :integer          not null
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
 #
@@ -57,7 +58,7 @@ describe Booking, type: :model do
   let(:organisation) { home.organisation }
   let(:tenant) { create(:tenant, organisation: organisation) }
   let(:home) { create(:home) }
-  let(:booking) { build(:booking, tenant: tenant, homes: [home], organisation: organisation) }
+  let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
 
   describe '#locale' do
     it 'has default locale' do
@@ -85,7 +86,7 @@ describe Booking, type: :model do
     end
 
     context 'with existing tenant' do
-      let(:booking) { build(:booking, tenant: nil, homes: [home], organisation: organisation) }
+      let(:booking) { build(:booking, tenant: nil, home: home, organisation: organisation) }
       let(:existing_tenant) { create(:tenant, organisation: organisation) }
       let(:tenant) { nil }
 

@@ -1,11 +1,15 @@
 = form_with(model: [:manage, @booking], novalidate: true) do |f|
   - if @booking.errors.any?
-    .alert.alert-danger.pt-4
-      = f.error_summary
+    .alert.alert-danger.d-flex
+      .me-3
+        i.fa.fa-exclamation-circle               
+      ul.m-0
+        - @booking.errors.full_messages.each do |message|
+          li= message
+
+  = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f }
 
   fieldset
-    = f.collection_select :home_ids, current_organisation.homes.ordered, :id, :to_s, { include_blank: true }, { multiple: false }
-
     = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
                                                 id: 'booking_begins_at',
                                                 name: 'booking[begins_at]', 

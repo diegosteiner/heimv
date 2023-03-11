@@ -8,14 +8,9 @@ export function setup() {
       content_css: false,
       height: 500,
       menubar: false,
-      plugins: [
-        "advlist autolink lists link image anchor table",
-        "searchreplace code table help template",
-      ],
+      plugins: ["advlist autolink lists link image anchor table", "searchreplace code table help template"],
       toolbar:
-        "undo redo | formatselect | " +
-        "bold italic | bullist numlist table | template " +
-        "removeformat | code help",
+        "undo redo | formatselect | " + "bold italic | bullist numlist table | template " + "removeformat | code help",
       // templates: [{ title: "Test", description: "Desc", content: "{{ booking.ref }}" }],
       content_style:
         'body { font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, ' +
