@@ -25,7 +25,7 @@ module Manage
     end
 
     def create
-      @occupancy.update(occupiable: @occupiable, occupancy_type: :closed)
+      @occupancy.update(occupiable: @occupiable)
       respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupiable)
     end
 
