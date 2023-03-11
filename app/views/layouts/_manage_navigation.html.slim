@@ -21,15 +21,21 @@ nav.p-3
       li.nav-item
         = link_to Payment.model_name.human(count: 2), manage_payments_path, class: 'nav-link'
       li.nav-item
-        = link_to Occupiable.model_name.human(count: 2), manage_occupiables_path, class: 'nav-link'
-      li.nav-item
-        = link_to Tarif.model_name.human(count: 2), manage_tarifs_path, class: 'nav-link'
-      li.nav-item
         = link_to DataDigest.model_name.human(count: 2), manage_data_digest_templates_path, class: 'nav-link'
-      li.nav-item
-        = link_to edit_manage_organisation_path, class: 'nav-link'
-          = Organisation.model_name.human
-          i.fa.fa-cog.ps-2
+      - if current_role == :admin
+        li.nav-item
+          = link_to edit_manage_organisation_path, class: 'nav-link'
+            = Organisation.model_name.human
+            i.fa.fa-cog.ps-2
+        ul.list-unstyled.ps-3
+          li.nav-item
+            = link_to Occupiable.model_name.human(count: 2), manage_occupiables_path, class: 'nav-link'
+          li.nav-item
+            = link_to Tarif.model_name.human(count: 2), manage_tarifs_path, class: 'nav-link'
+          li.nav-item
+            = link_to RichTextTemplate.model_name.human(count: 2), manage_rich_text_templates_path, class: 'nav-link'
+          li.nav-item
+            = link_to DesignatedDocument.model_name.human(count: 2), manage_designated_documents_path, class: 'nav-link'
       li.nav-item
         = link_to manage_flow_path(org: current_organisation), class: 'nav-link'
           = t('.help')

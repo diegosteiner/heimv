@@ -41,6 +41,7 @@ class ImportSeeder
   def users(organisation, users: nil)
     onboarding = OnboardingService.new(organisation)
     users ||= [
+      { email: 'supermanager@heimv.local', role: :admin, password: 'heimverwaltung' },
       { email: 'manager@heimv.local', role: :manager, password: 'heimverwaltung' },
       { email: 'reader@heimv.local', role: :readonly, password: 'heimverwaltung' }
     ]

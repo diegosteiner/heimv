@@ -23,12 +23,10 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class OrganisationUser < ApplicationRecord
-  ROLES = %i[tenant admin manager readonly].freeze
-
   belongs_to :organisation, inverse_of: :organisation_users
   belongs_to :user, inverse_of: :organisation_users, autosave: true
 
-  enum role: { none: 0, readonly: 1, manager: 2 }, _prefix: :role
+  enum role: { none: 0, readonly: 1, admin: 2, manager: 3 }, _prefix: :role
 
   after_initialize :set_default_role, if: :new_record?
 
