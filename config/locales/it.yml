@@ -11,7 +11,7 @@ it:
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
         homes: Case
-        occupiables: Mietobjekte
+        occupiables: Heime
         only_inconcluded: solo prenotazioni aperte
         previous_booking_states: Stato passato
         ref: Riferimento di prenotazione
@@ -38,12 +38,12 @@ it:
         ends_at_before: Fine dell'occupazione fino a
       organisation_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
-        begins_at_default_time: Standardzeit für den Beginn der Belegung (ab Mitternacht)
+        begins_at_default_time:
         booking_margin: Durata tra le prenotazioni
         closed_occupancy_color: Colore per le chiusure
         deadline_postponable_for: Proroga della scadenza
         deposit_payment_deadline: Periodo di pagamento standard (acconto)
-        ends_at_default_time: Standardzeit für das Ende der Belegung (ab Beginn)
+        ends_at_default_time:
         invoice_payment_deadline: Periodo di pagamento standard
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         occupied_occupancy_color: Colore per le occupazioni definitive
@@ -98,7 +98,7 @@ it:
         deadline: Frist bis
         editable: Modificabile dagli inquilini
         ends_at: Fine dell'occupazione
-        home_id: Hauptmietobjekt
+        home_id: Heim
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         locale: Sprache
@@ -211,16 +211,16 @@ it:
         ends_at: Fine dell'occupazione
         ends_at_date: Fine dell'occupazione (data)
         ends_at_time: Fine dell'occupazione (ora)
-        linked: An Buchung gebunden
+        linked:
         occupancy_type: Tipo di occupazione
-        occupiable_id: Mietobjekt
+        occupiable_id:
         remarks: Bemerkungen
       occupiable:
-        active: Aktiv
+        active:
         description: Beschreibung
-        home_id: Hauptmietobjekt
+        home_id: Heim
         name: Name
-        occupiable: Belegbar
+        occupiable:
         ref: Kurzname / Referenz
         type: Typ
       operator:
@@ -407,7 +407,7 @@ it:
     errors:
       messages:
         content_type: ungültiges Format
-        occupancy_conflict: Das Mietobjekt ist zum gewünschten Zeitpunkt bereits belegt
+        occupancy_conflict:
         record_invalid: 'Validazione fallita: %{errors}'
         restrict_dependent_destroy:
           has_many: Il record non può essere cancellato perchè esistono %{record} dipendenti
@@ -543,8 +543,8 @@ it:
         one: Occupazione
         other: Occupazioni
       occupiable:
-        one: Mietobjekt
-        other: Mietobjekte
+        one:
+        other: Heime
       operator:
         one: Funktionär
         other: Funktionäre
@@ -940,7 +940,7 @@ it:
       expired: ist abgelaufen, bitte neu anfordern
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
-      in: muss in enthalten sein %{count}
+      in:
       inclusion: non è compreso tra le opzioni disponibili
       invalid: non è valido
       less_than: deve essere minore di %{count}

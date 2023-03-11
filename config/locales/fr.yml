@@ -11,7 +11,7 @@ fr:
         ends_at_after: Fin de la location
         ends_at_before: Fin de la location
         homes: Chalets
-        occupiables: Mietobjekte
+        occupiables: Heime
         only_inconcluded: Uniquement les réservations ouvertes/libres (?)
         previous_booking_states: Anciens statuts
         ref: "(Numéro de) Référence de location"
@@ -98,7 +98,7 @@ fr:
         deadline: Délai jusqu'au
         editable: Possibilité de traitement par le locataire
         ends_at: Fin de la location
-        home_id: Hauptmietobjekt
+        home_id: Heim
         internal_remarks: Remarques internes
         invoice_address: Adresse de facturation (si différente)
         locale: Langue
@@ -211,16 +211,16 @@ fr:
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
-        linked: An Buchung gebunden
+        linked:
         occupancy_type: Belegungsart
-        occupiable_id: Mietobjekt
+        occupiable_id:
         remarks: Bemerkungen
       occupiable:
-        active: Aktiv
+        active:
         description: Beschreibung
-        home_id: Hauptmietobjekt
+        home_id: Heim
         name: Name
-        occupiable: Belegbar
+        occupiable:
         ref: Kurzname / Referenz
         type: Typ
       operator:
@@ -407,7 +407,7 @@ fr:
     errors:
       messages:
         content_type: ungültiges Format
-        occupancy_conflict: Das Mietobjekt ist zum gewünschten Zeitpunkt bereits belegt
+        occupancy_conflict:
         record_invalid: 'La validation a échoué : %{errors}'
         restrict_dependent_destroy:
           has_many: Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent
@@ -543,8 +543,8 @@ fr:
         one: Belegung
         other: Belegungen
       occupiable:
-        one: Mietobjekt
-        other: Mietobjekte
+        one:
+        other: Heime
       operator:
         one: Funktionär
         other: Funktionäre
@@ -940,7 +940,7 @@ fr:
       expired: ist abgelaufen, bitte neu anfordern
       greater_than: doit être supérieur à %{count}
       greater_than_or_equal_to: doit être supérieur ou égal à %{count}
-      in: muss in enthalten sein %{count}
+      in:
       inclusion: n'est pas inclus(e) dans la liste
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}
