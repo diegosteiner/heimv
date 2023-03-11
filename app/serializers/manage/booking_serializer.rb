@@ -2,8 +2,10 @@
 
 module Manage
   class BookingSerializer < Public::BookingSerializer
+    DEFAULT_INCLUDES = 'occupancies,tenant,occupancies.occupiable,home'
+
     association :home,          blueprint: Manage::HomeSerializer
-    association :occupancies,   blueprint: Public::OccupancySerializer
+    association :occupancies,   blueprint: Manage::OccupancySerializer
     association :tenant,        blueprint: Manage::TenantSerializer
     association :deadline,      blueprint: Manage::DeadlineSerializer
     association :category,      blueprint: Manage::BookingCategorySerializer

@@ -54,7 +54,7 @@ class Occupancy < ApplicationRecord
   end
 
   def conflicting?(...)
-    conflicting(...).any?
+    conflicting(...)&.any?
   end
 
   def to_s

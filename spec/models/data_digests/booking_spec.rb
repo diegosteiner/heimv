@@ -63,7 +63,8 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
       it { expect(data_digest).to be_a(DataDigest) }
       it { expect(data_digest.data.count).to be(3) }
       it do
-        expect(data_digest.header).to eq ['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung',
+        expect(data_digest.header).to eq ['Buchungsreferenz', 'Hauptmietobjekt',
+                                          'Beginn der Belegung', 'Ende der Belegung',
                                           'Beschreibung des Mietzwecks', 'Nächte', 'Mieter', 'Adresse', 'Email',
                                           'Telefon']
       end
@@ -101,7 +102,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
   end
 
   describe '#csv' do
-    it { expect(data_digest.format(:csv)).to include('Heim') }
+    it { expect(data_digest.format(:csv)).to include('Hauptmietobjekt') }
   end
 
   describe '#pdf' do

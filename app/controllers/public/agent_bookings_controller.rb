@@ -32,11 +32,12 @@ module Public
     end
 
     def update
-      if @agent_booking.booking_agent_responsible?
+      begin
         @agent_booking.assign_attributes(agent_booking_params)
-        @agent_booking.save
-        BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
+      rescue ActiveRecord::RecordInvalid
+        # See https://github.com/rails/rails/issues/17368
       end
+      BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
       @agent_booking.save(context: :agent_booking)
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
     end

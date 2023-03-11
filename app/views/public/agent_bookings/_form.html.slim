@@ -6,6 +6,9 @@
         .alert.alert-danger.d-flex
           .me-3
             i.fa.fa-exclamation-circle               
+          - @agent_booking.errors.delete("booking.tenant.bookings")
+          - @agent_booking.errors.delete("booking.agent_booking.tenant_email")
+          - @agent_booking.errors.delete("booking.occupancies.base")
           = @agent_booking.errors.full_messages.to_sentence
 
       = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|

@@ -99,11 +99,12 @@ class Booking < ApplicationRecord
   validates :approximate_headcount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
 
-  validates :email, :occupiable_ids, presence: true, on: %i[public_update public_create]
+  validates :email, presence: true, on: %i[public_update public_create]
   validates :category, :tenant, :approximate_headcount, :purpose_description, presence: true, on: :public_update
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validate on: %i[public_create public_update agent_booking] do
     next errors.add(:home_id, :occupancy_conflict) if occupancies.any?(&:conflicting?)
+    next errors.add(:occupiable_ids, :blank) if occupancies.none?
   end
 
   scope :ordered, -> { order(begins_at: :ASC) }

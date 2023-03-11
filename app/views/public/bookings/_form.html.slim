@@ -15,6 +15,8 @@
         .alert.alert-danger.d-flex
           .me-3
             i.fa.fa-exclamation-circle               
+          - @booking.errors.delete("tenant.bookings")
+          - @booking.errors.delete("occupancies.base")
           = @booking.errors.full_messages.to_sentence
       = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
       fieldset
