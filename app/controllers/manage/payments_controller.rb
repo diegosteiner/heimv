@@ -40,11 +40,9 @@ module Manage
       @payments = params[:camt_file].presence &&
                   Payment::Factory.new(current_organisation).from_camt_file(params[:camt_file])
 
-      if @payments.present?
-        render 'import'
-      else
-        respond_with :manage, @payments
-      end
+      render 'import' if @payments.present?
+    rescue CamtParser::Errors::BaseError, Nokogiri::SyntaxError => ex
+      flash.now[:alert] = t('.exception', errors: ex.message)
     end
 
     def create
