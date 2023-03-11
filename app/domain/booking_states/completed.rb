@@ -2,6 +2,8 @@
 
 module BookingStates
   class Completed < Base
+    RichTextTemplate.require_template(:completed_notification, template_context: %i[booking],
+                                                               required_by: self, optional: true)
     def checklist
       []
     end
@@ -25,6 +27,7 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear
       booking.conclude
+      booking.notifications.new(template: :completed_notification, to: booking.tenant)&.deliver
     end
 
     def relevant_time; end

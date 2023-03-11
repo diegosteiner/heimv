@@ -38,4 +38,8 @@ class OrganisationUser < ApplicationRecord
   def set_default_role
     self.role ||= :readonly
   end
+
+  def role?(*roles)
+    roles.compact_blank.any? { role&.to_sym == _1.to_sym }
+  end
 end

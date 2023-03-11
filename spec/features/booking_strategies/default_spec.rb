@@ -34,7 +34,7 @@ describe 'Booking', :devise, type: :feature do
        upcoming_soon_notification awaiting_contract_notification awaiting_contract_notification
        definitive_request_notification manage_definitive_request_notification
        provisional_request_notification open_request_notification
-       manage_new_booking_notification unconfirmed_request_notification]
+       manage_new_booking_notification unconfirmed_request_notification completed_notification]
   end
 
   let(:expected_transitions) do

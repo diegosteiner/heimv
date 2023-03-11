@@ -22,7 +22,7 @@ nav.p-3
         = link_to Payment.model_name.human(count: 2), manage_payments_path, class: 'nav-link'
       li.nav-item
         = link_to DataDigest.model_name.human(count: 2), manage_data_digest_templates_path, class: 'nav-link'
-      - if current_role == :admin
+      - if current_organisation_user.role_admin? || current_user.role_admin?
         li.nav-item
           = link_to edit_manage_organisation_path, class: 'nav-link'
             = Organisation.model_name.human

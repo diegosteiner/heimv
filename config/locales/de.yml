@@ -1508,6 +1508,10 @@ de:
         <p>Für Fragen oder weitere Auskünfte wendest Du Dich an unseren Heimverwalter</p>
       default_title: Deine Reservationsanfrage wurde annulliert
       description: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
+    completed_notification:
+      default_body:
+      default_title: Buchung abgeschlossen
+      description: Benachrichtigung für den Abschluss der Buchung (Mieter)
     contract_signed_notification:
       default_body: |
         <p>{{ booking.tenant.salutation_name }}</p>

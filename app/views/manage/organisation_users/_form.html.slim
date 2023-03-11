@@ -5,7 +5,7 @@
 
   fieldset
     = f.email_field :email, disabled: !@organisation_user.new_record?
-    = f.select :role, allowed_roles.map { |role| [OrganisationUser.human_enum(:role, role), role] }
+    = f.select :role, OrganisationUser.roles.keys.map { |role| [OrganisationUser.human_enum(:role, role), role] }
 
   .form-actions.pt-4.mt-3
     = f.submit
