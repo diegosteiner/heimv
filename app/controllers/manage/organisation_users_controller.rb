@@ -50,10 +50,7 @@ module Manage
     end
 
     def organisation_user_params
-      permitted_params = []
-      requested_role = params.dig(:organisation_user, :role)
-      permitted_params << :role if allowed_roles.include?(requested_role)
-      params[:organisation_user].permit(permitted_params)
+      params[:organisation_user].permit(:role)
     end
   end
 end

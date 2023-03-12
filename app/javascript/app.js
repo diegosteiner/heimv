@@ -63,7 +63,7 @@ function setupOccupiableSelect() {
       });
 
       if (visibleCount == 1) {
-        // occupiablesCheckboxesElement.classList.add("d-none");
+        occupiablesCheckboxesElement.classList.add("d-none");
       } else {
         occupiablesCheckboxesElement.classList.remove("d-none");
       }

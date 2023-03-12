@@ -22,5 +22,5 @@ h1.mt-0.mb-5= OrganisationUser.model_name.human(count: 2)
               = link_to manage_organisation_user_path(organisation_user), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
                 span.fa.fa-trash
 
-  '
-  = link_to t('.invite_user'), new_manage_organisation_user_path, class: 'btn btn-primary'
+'
+= link_to t('.invite_user'), new_manage_organisation_user_path, class: 'btn btn-primary'
