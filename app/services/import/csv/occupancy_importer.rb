@@ -26,8 +26,15 @@ module Import
       end
 
       def persist_record(occupancy)
-        @booking_importer.persist_record(occupancy.booking) if occupancy.booking.present?
-        occupancy.save
+        booking = occupancy.booking
+        return occupancy.save if booking.blank?
+
+        if @booking_importer.persist_record(booking)
+          true
+        else
+          booking.errors.each { |error| occupancy.errors.import(error) }
+          false
+        end
       end
 
       def skip_row?(row, _index)
