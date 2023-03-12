@@ -36,6 +36,7 @@ module Ability
       can :manage, BookingCondition, tarif: { organisation: organisation }
       can :manage, BookableExtra, organisation: organisation
       can :manage, DesignatedDocument, organisation: organisation
+      can :manage, Occupiable, organisation: organisation
       can :manage, Operator, organisation: organisation
       can %i[read edit update], Organisation, id: organisation.id
       can :manage, OrganisationUser, organisation: organisation
