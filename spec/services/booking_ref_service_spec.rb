@@ -12,7 +12,7 @@ RSpec.describe BookingRefService, type: :model do
     let(:organisation) { create(:organisation) }
     let(:home) { create(:home, ref: 'P', organisation: organisation) }
     let(:booking) do
-      create(:booking, organisation: organisation, begins_at: begins_at, ends_at: begins_at + 2.hours, homes: [home])
+      create(:booking, organisation: organisation, begins_at: begins_at, ends_at: begins_at + 2.hours, home: home)
     end
 
     context 'with default template' do
@@ -26,7 +26,7 @@ RSpec.describe BookingRefService, type: :model do
 
     context 'with default template and multiple bookings' do
       before do
-        create(:booking, homes: booking.homes, begins_at: begins_at - 4.hours, ends_at: begins_at - 2.hours,
+        create(:booking, home: booking.home, begins_at: begins_at - 4.hours, ends_at: begins_at - 2.hours,
                          organisation: organisation)
       end
       it { is_expected.to eq('P20301015a') }

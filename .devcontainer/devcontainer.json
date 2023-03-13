@@ -24,14 +24,16 @@
   },
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-	"rebornix.Ruby",
-	"castwide.solargraph",
-	"eamodio.gitlens",
-	"lokalise.i18n-ally",
-	"esbenp.prettier-vscode",
-	"sianglim.slim",
-	"testdouble.vscode-standard-ruby"
-],
+    "rebornix.Ruby",
+    "castwide.solargraph",
+    "eamodio.gitlens",
+    "lokalise.i18n-ally",
+    "esbenp.prettier-vscode",
+    "sianglim.slim",
+    "testdouble.vscode-standard-ruby",
+    "DavidAnson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint"
+  ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [
   // 	3000

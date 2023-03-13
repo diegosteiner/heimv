@@ -31,7 +31,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
     create(:booking_data_digest_template, columns_config: columns_config, organisation: organisation)
   end
   let!(:bookings) do
-    create_list(:booking, 3, organisation: organisation, homes: [home])
+    create_list(:booking, 3, organisation: organisation, home: home)
   end
   subject(:data_digest) { data_digest_template.data_digests.create }
 
@@ -50,7 +50,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
         (period_from + 1.week)..(period_to - 1.week),    # is completely contained
         (period_to - 1.week)..(period_to + 1.week),      # overlaps, and begins after
         (period_to + 1.week)..(period_to + 2.weeks)      # no overlap
-      ].map { create(:booking, homes: [home], organisation: organisation, begins_at: _1.begin, ends_at: _1.end) }
+      ].map { create(:booking, home: home, organisation: organisation, begins_at: _1.begin, ends_at: _1.end) }
     end
 
     it do
@@ -63,7 +63,8 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
       it { expect(data_digest).to be_a(DataDigest) }
       it { expect(data_digest.data.count).to be(3) }
       it do
-        expect(data_digest.header).to eq ['Buchungsreferenz', 'Heim', 'Beginn der Belegung', 'Ende der Belegung',
+        expect(data_digest.header).to eq ['Buchungsreferenz', 'Hauptmietobjekt',
+                                          'Beginn der Belegung', 'Ende der Belegung',
                                           'Beschreibung des Mietzwecks', 'Nächte', 'Mieter', 'Adresse', 'Email',
                                           'Telefon']
       end
@@ -101,7 +102,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
   end
 
   describe '#csv' do
-    it { expect(data_digest.format(:csv)).to include('Heim') }
+    it { expect(data_digest.format(:csv)).to include('Hauptmietobjekt') }
   end
 
   describe '#pdf' do

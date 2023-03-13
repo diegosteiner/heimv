@@ -24,7 +24,7 @@ module Public
     def create
       @agent_booking.assign_attributes(agent_booking_params.merge(organisation: current_organisation))
 
-      if @agent_booking.save
+      if @agent_booking.save(context: :agent_booking)
         respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
       else
         render 'new'
@@ -32,11 +32,13 @@ module Public
     end
 
     def update
-      if @agent_booking.booking_agent_responsible?
-        @agent_booking.update(agent_booking_params)
-        BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
+      begin
+        @agent_booking.assign_attributes(agent_booking_params)
+      rescue ActiveRecord::RecordInvalid
+        # See https://github.com/rails/rails/issues/17368
       end
-      @agent_booking.save
+      BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
+      @agent_booking.save(context: :agent_booking)
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
     end
 

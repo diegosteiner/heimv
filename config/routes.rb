@@ -8,10 +8,8 @@ Rails.application.routes.draw do
     namespace :manage do
       root to: 'dashboard#index'
       get 'flow', to: 'pages#flow'
-      resources :homes do
-        scope module: :homes do
-          resources :occupancies, except: %w[show], shallow: true
-        end
+      resources :occupiables do
+        resources :occupancies, except: %w[show], shallow: true
       end
       resource :organisation, only: %i[edit update show]
       resources :organisation_users, except: %i[show]

@@ -34,9 +34,7 @@ export default function CalendarControlGroup({
         required={required}
         isInvalid={isInvalid}
       ></OccupancyDateTimeFormControl>
-      <Form.Control.Feedback type="invalid">
-        {invalidFeedback}
-      </Form.Control.Feedback>
+      <Form.Control.Feedback type="invalid">{invalidFeedback}</Form.Control.Feedback>
     </Form.Group>
   );
 }

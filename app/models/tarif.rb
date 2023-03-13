@@ -62,7 +62,7 @@ class Tarif < ApplicationRecord
 
   enum prefill_usage_method: Usage::PREFILL_METHODS.keys.index_with(&:to_s)
 
-  validates :type, presence: true
+  validates :type, presence: true, inclusion: { in: ->(_) { Tarif.subtypes.keys.map(&:to_s) } }
   attribute :price_per_unit, default: 0
 
   translates :label, column_suffix: '_i18n', locale_accessors: true

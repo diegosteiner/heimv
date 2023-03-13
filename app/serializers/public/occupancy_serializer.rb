@@ -2,9 +2,9 @@
 
 module Public
   class OccupancySerializer < ApplicationSerializer
-    association :home,        blueprint: Public::HomeSerializer
+    association :occupiable, blueprint: Public::OccupiableSerializer
 
-    fields :begins_at, :ends_at, :occupancy_type, :home_id, :remarks, :id, :nights, :color
+    fields :begins_at, :ends_at, :occupancy_type, :occupiable_id, :remarks, :id, :nights, :color
 
     field :ref do |occupancy|
       occupancy.booking&.ref

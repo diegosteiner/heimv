@@ -1,11 +1,7 @@
 import * as React from "react";
 import { Card, Alert } from "react-bootstrap";
 import { useTranslation, Trans } from "react-i18next";
-import {
-  BookingJsonData,
-  Booking,
-  fromJson as bookingFromJson,
-} from "../../../../models/Booking";
+import { BookingJsonData, Booking, fromJson as bookingFromJson } from "../../../../models/Booking";
 import { Organisation } from "../../../../models/Organisation";
 import axios, { AxiosError } from "axios";
 import { getCsrfToken } from "../../../../services/csrf";
@@ -34,10 +30,7 @@ type SubmitState = {
   submittedTo?: string;
 };
 
-export default function BookingFormWrapper({
-  booking,
-  organisation,
-}: BookingFormWrapperProps) {
+export default function BookingFormWrapper({ booking, organisation }: BookingFormWrapperProps) {
   const { t } = useTranslation();
   const [submitState, setSubmitState] = React.useState<SubmitState>({
     isSubmitting: undefined,
@@ -74,10 +67,7 @@ export default function BookingFormWrapper({
     return (
       <Card border="success">
         <Card.Body className="text-center">
-          <i
-            style={{ fontSize: "10em" }}
-            className="fa fa-calendar-check-o mb-3 text-success"
-          />
+          <i style={{ fontSize: "10em" }} className="fa fa-calendar-check-o mb-3 text-success" />
           <p>
             <Trans
               i18nKey="flash.public.bookings.create.notice"

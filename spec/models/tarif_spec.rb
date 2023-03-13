@@ -40,7 +40,7 @@ require 'rails_helper'
 RSpec.describe Organisation, type: :model do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
-  let(:booking) { create(:booking, organisation: organisation, homes: [home]) }
+  let(:booking) { create(:booking, organisation: organisation, home: home) }
   let(:tarif) { create(:tarif, type: Tarifs::Amount.to_s, price_per_unit: 10, organisation: organisation) }
   let(:usage) { create(:usage, booking: booking, tarif: tarif, used_units: 7) }
 

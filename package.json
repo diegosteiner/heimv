@@ -44,7 +44,7 @@
         "react_ujs": "^2.6.1",
         "sass": "^1.49.9",
         "sass-loader": "^12.6.0",
-        "shakapacker": "6.5.6",
+        "shakapacker": "6.6.0",
         "style-loader": "^3.3.1",
         "terser-webpack-plugin": "5.3.6",
         "tinymce": "^5",
@@ -64,7 +64,7 @@
         "eslint-config-prettier": "^8.4.0",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react": "^7.30.0",
-        "eslint-webpack-plugin": "^3.1.1",
+        "eslint-webpack-plugin": "^4.0.0",
         "prettier": "^2.6.0",
         "webpack-bundle-analyzer": "^4.3.0",
         "webpack-dev-server": "^4.9.0"

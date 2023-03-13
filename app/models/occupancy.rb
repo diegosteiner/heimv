@@ -8,23 +8,24 @@
 #  begins_at      :datetime         not null
 #  color          :string
 #  ends_at        :datetime         not null
+#  linked         :boolean          default(TRUE)
 #  occupancy_type :integer          default("free"), not null
 #  remarks        :text
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  booking_id     :uuid
-#  home_id        :bigint           not null
+#  occupiable_id  :bigint           not null
 #
 # Indexes
 #
 #  index_occupancies_on_begins_at       (begins_at)
 #  index_occupancies_on_ends_at         (ends_at)
-#  index_occupancies_on_home_id         (home_id)
 #  index_occupancies_on_occupancy_type  (occupancy_type)
+#  index_occupancies_on_occupiable_id   (occupiable_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (home_id => homes.id)
+#  fk_rails_...  (occupiable_id => occupiables.id)
 #
 
 class Occupancy < ApplicationRecord
@@ -34,10 +35,10 @@ class Occupancy < ApplicationRecord
   include Timespanable
 
   timespan :begins_at, :ends_at
-  belongs_to :home
+  belongs_to :occupiable, inverse_of: :occupancies
   belongs_to :booking, inverse_of: :occupancies, optional: true, touch: true
 
-  has_one :organisation, through: :home
+  has_one :organisation, through: :occupiable
 
   enum occupancy_type: OCCUPANCY_TYPES
 
@@ -47,19 +48,29 @@ class Occupancy < ApplicationRecord
   before_validation :update_from_booking
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate do
-    errors.add(:home_id, :invalid) if booking && organisation && !organisation == booking.organisation
+    errors.add(:occupiable_id, :invalid) if booking && organisation && !organisation == booking.organisation
+    errors.add(:linked, :invalid) if linked && booking.blank?
+  end
+  validate on: %i[public_create public_update agent_booking] do
+    errors.add(:base, :occupancy_conflict) if conflicting?
+  end
+
+  def conflicting?(...)
+    conflicting(...)&.any?
   end
 
   def to_s
-    "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)}"
+    "#{occupiable}: #{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)} #{occupancy_type}"
+  rescue StandardError
+    super
   end
 
   # rubocop:disable Metrics/AbcSize
-  def conflicting(margin = organisation&.settings&.booking_margin || 0)
-    return if begins_at.blank? || ends_at.blank? || home.blank?
+  def conflicting(margin = organisation.settings.booking_margin)
+    return if begins_at.blank? || ends_at.blank? || occupiable.blank?
 
-    home.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking
-        .where.not(id: id).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
+    occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking
+              .where.not(id: id).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -73,7 +84,7 @@ class Occupancy < ApplicationRecord
   end
 
   def update_from_booking
-    return if booking.blank?
+    return if !linked || booking.blank?
 
     assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at, occupancy_type: booking.occupancy_type)
   end

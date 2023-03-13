@@ -1,4 +1,5 @@
-.row
+/ h3.my-2.text-center= Booking:.model_name.human
+.row.mt-3
     .col
         = f.text_field :ref
     .col
@@ -11,12 +12,14 @@
         = f.datetime_field :ends_at_after, include_blank: true
         = f.datetime_field :ends_at_before, include_blank: true
 .row
+    .col
+        = f.collection_select :homes, current_organisation.homes, :id, :name, { include_blank: true }, multiple: true, size: 3
+    .col
+        = f.collection_select :occupiables, current_organisation.occupiables, :id, :name, { include_blank: true }, multiple: true, size: 3
+.row
     - states = BookingStates.all.map { |key, state| [state.t, key] }
     .col
         = f.select :current_booking_states, states, { include_blank: true }, multiple: true, size: 10
     .col
         = f.select :previous_booking_states, states, { include_blank: true }, multiple: true, size: 10
         br
-.row
-    .col
-        = f.collection_select:homes, current_organisation.homes, :id, :name, { include_blank: true }, multiple: true, size: 10

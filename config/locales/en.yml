@@ -11,6 +11,7 @@ en:
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
         homes: Heime
+        occupiables: Mietobjekte
         only_inconcluded: nur offene Buchungen
         previous_booking_states: Vergangene Status
         ref: Buchungsreferenz
@@ -97,8 +98,7 @@ en:
         deadline: Frist bis
         editable: Durch Mieter bearbeitbar
         ends_at: Ende der Belegung
-        home: Heim
-        home_ids: Heime
+        home_id: Hauptmietobjekt
         internal_remarks: Interne Bemerkungen
         invoice_address: Rechnungsadresse (falls abweichend)
         locale: Sprache
@@ -107,6 +107,7 @@ en:
         occupancies: Belegungen
         occupancy_color: Farbe im Kalender
         occupancy_type: Art der Belegungen
+        occupiable_ids: Heime
         purpose_description: Beschreibung des Mietzwecks
         ref: Buchungsreferenz
         remarks: Bemerkungen
@@ -170,12 +171,6 @@ en:
         send_with_contract: Mit dem Vertrag versenden
         send_with_last_infos: Mit letzen Infos (baldige Belegung) versenden
         updated_at: Letzte Änderung
-      home:
-        address: Adresse
-        booking_margin: Zeitabstand zwischen Buchungen
-        name: Name
-        ref: Kurzname / Referenz
-        requests_allowed: Reservationsanfragen erlauben
       invoice:
         amount: Betrag
         amount_open: offener Betrag
@@ -216,9 +211,18 @@ en:
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
-        home_id: Heim
+        linked: An Buchung gebunden
         occupancy_type: Belegungsart
+        occupiable_id: Mietobjekt
         remarks: Bemerkungen
+      occupiable:
+        active: Aktiv
+        description: Beschreibung
+        home_id: Hauptmietobjekt
+        name: Name
+        occupiable: Belegbar
+        ref: Kurzname / Referenz
+        type: Typ
       operator:
         contact_info: Kontaktinformationen
         email: Email
@@ -270,7 +274,6 @@ en:
       rich_text_template:
         body: Text
         enabled: Aktiviert
-        home_id: Gültig für Heim
         key: ID
         locale: Sprache
         namespace: Bereich
@@ -404,6 +407,7 @@ en:
     errors:
       messages:
         content_type: ungültiges Format
+        occupancy_conflict: Das Mietobjekt ist zum gewünschten Zeitpunkt bereits belegt
         record_invalid: 'Validation failed: %{errors}'
         restrict_dependent_destroy:
           has_many: Cannot delete record because dependent %{record} exist
@@ -416,8 +420,6 @@ en:
               not_postponable: kann nicht verlängert werden
             transition_to:
               invalid_transition: 'Ungültiger Statusübergang: %{transition}'
-          booking_margin_too_small: Der Mindestabstand von %{margin} Minuten zwischen Belegungen wird nicht eingehalten
-          conflicting: Das Heim ist zum gewünschten Zeitpunkt bereits belegt
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
         tenant:
@@ -540,6 +542,9 @@ en:
       occupancy:
         one: Belegung
         other: Belegungen
+      occupiable:
+        one: Mietobjekt
+        other: Mietobjekte
       operator:
         one: Funktionär
         other: Funktionäre
@@ -1206,10 +1211,6 @@ en:
     designated_documents:
       form:
         all_locales: all
-    homes:
-      navigation:
-        closedowns: Schliessungen
-        general: General
     invoices:
       form:
         suggested_invoice_parts: Vorgeschlagene Positionen

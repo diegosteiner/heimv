@@ -1,20 +1,21 @@
-.mx-auto.w-md
-  h3 = t(:'.title')
-  .card
-    .card-body
-      = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
-        = hidden_field_tag :fallback, true
-        - if @booking.errors[:base].present?
+= form_with(model: @booking, url: public_bookings_path, local: true) do |f|
+  .mx-auto.w-md
+    h3 = t(:'.title')
+    .card
+      .card-body
+        - if @booking.errors.any?
           .alert.alert-danger.d-flex
             .me-3
               i.fa.fa-exclamation-circle               
-            = @booking.errors[:base].to_sentence
+            - @booking.errors.delete("tenant.bookings")
+            - @booking.errors.delete("occupancies.base")
+            = @booking.errors.full_messages.to_sentence
+        
         = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
-        fieldset[data-range-role="unit"]
 
-          - homes = current_organisation.homes.ordered
-          = f.collection_select :home_ids, homes, :id, :to_s, { include_blank: homes.many? }
+        = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f }
 
+        fieldset
           = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
                                                       id: 'booking_begins_at',
                                                       name: 'booking[begins_at]',
@@ -36,9 +37,10 @@
             }
           = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', **links)
           = f.submit t('.submit'), class: 'btn btn-primary btn-lg'
-          
-          button.btn.btn-default.p-0.text-primary.d-block.mt-3#agent-booking-button
-            = BookingAgent.model_name.human
+
+          - if current_organisation.booking_agents.any? 
+            button.btn.btn-default.p-0.text-primary.d-block.mt-3#agent-booking-button
+              = BookingAgent.model_name.human
 
 
   - if current_organisation.email.present?

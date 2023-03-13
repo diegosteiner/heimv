@@ -44,7 +44,7 @@ RSpec.describe BookingConditions::Occupiable, type: :model do
 
     context 'with occupiable by id' do
       let(:distinction) { occupiable.id }
-      let(:booking) { create(:booking, organisation: organisation, homes: [occupiable]) }
+      let(:booking) { create(:booking, organisation: organisation, home: occupiable) }
 
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_truthy }

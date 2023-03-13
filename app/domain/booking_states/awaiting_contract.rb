@@ -19,7 +19,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.conflicting_occupancies.none?
+      booking.valid?(:public_update)
     end
 
     after_transition do |booking|

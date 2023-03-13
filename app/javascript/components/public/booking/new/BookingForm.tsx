@@ -11,12 +11,7 @@ export type ErrorMessages = {
   [index: string]: string[];
 };
 
-type FormKey =
-  | "email"
-  | "occupancy.begins_at"
-  | "occupancy.ends_at"
-  | "accept_conditions"
-  | "tenant_organisation";
+type FormKey = "email" | "occupancy.begins_at" | "occupancy.ends_at" | "accept_conditions" | "tenant_organisation";
 
 interface BookingFormProps {
   booking: Booking;
@@ -25,12 +20,7 @@ interface BookingFormProps {
   errors?: ErrorMessages;
 }
 
-export function BookingForm({
-  booking,
-  organisation,
-  onSubmit,
-  errors: submitErrors,
-}: BookingFormProps) {
+export function BookingForm({ booking, organisation, onSubmit, errors: submitErrors }: BookingFormProps) {
   const { t } = useTranslation();
   const {
     register,
@@ -77,11 +67,7 @@ export function BookingForm({
           <Form.Label>
             <Trans t={t} i18nKey="activerecord.attributes.booking.home" />
           </Form.Label>
-          <Form.Control
-            {...register("home_id")}
-            as="select"
-            defaultValue={booking.home_id}
-          >
+          <Form.Control {...register("home_id")} as="select" defaultValue={booking.home_id}>
             {Array.from(organisation.homes).map((home) => (
               <option key={home.id} value={home.id}>
                 {home.name}
@@ -96,17 +82,13 @@ export function BookingForm({
           <Trans t={t} i18nKey="activerecord.attributes.occupancy.begins_at" />
         </Form.Label>
         <Controller
-          render={({
-            field: { onChange, onBlur, value, name },
-            fieldState: { error },
-          }) => (
+          render={({ field: { onChange, onBlur, value, name }, fieldState: { error } }) => (
             <>
               <OccupancyDateTimeFormControl
                 isInvalid={!!error}
                 onBlur={onBlur}
                 onChange={(value) => {
-                  compareAsc(value, getValues("occupancy.ends_at")) > 0 &&
-                    setValue("occupancy.ends_at", value);
+                  compareAsc(value, getValues("occupancy.ends_at")) > 0 && setValue("occupancy.ends_at", value);
                   onChange(value);
                 }}
                 value={value}
@@ -121,18 +103,12 @@ export function BookingForm({
           rules={{
             required: t("errors.notifications.required").toString(),
             validate: {
-              invalidDate: (value) =>
-                isValidDate(value) ||
-                t("errors.notifications.invalid").toString(),
-              future: (value) =>
-                compareAsc(value, new Date()) >= 0 ||
-                t("errors.notifications.future").toString(),
+              invalidDate: (value) => isValidDate(value) || t("errors.notifications.invalid").toString(),
+              future: (value) => compareAsc(value, new Date()) >= 0 || t("errors.notifications.future").toString(),
             },
           }}
         ></Controller>
-        <Form.Control.Feedback type="invalid">
-          {errors.occupancy?.begins_at?.message}
-        </Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">{errors.occupancy?.begins_at?.message}</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -140,10 +116,7 @@ export function BookingForm({
           <Trans t={t} i18nKey="activerecord.attributes.occupancy.ends_at" />
         </Form.Label>
         <Controller
-          render={({
-            field: { onChange, onBlur, value, name },
-            fieldState: { error },
-          }) => (
+          render={({ field: { onChange, onBlur, value, name }, fieldState: { error } }) => (
             <OccupancyDateTimeFormControl
               isInvalid={!!error}
               onBlur={onBlur}
@@ -159,22 +132,16 @@ export function BookingForm({
           rules={{
             required: t("errors.notifications.required").toString(),
             validate: {
-              invalidDate: (value) =>
-                isValidDate(value) ||
-                t("errors.notifications.invalid").toString(),
+              invalidDate: (value) => isValidDate(value) || t("errors.notifications.invalid").toString(),
               laterThanStart: (value) =>
                 compareAsc(value, getValues("occupancy.begins_at")) >= 0 ||
                 t("errors.notifications.later_than", {
-                  other: t(
-                    "activerecord.attributes.occupancy.begins_at"
-                  ).toString(),
+                  other: t("activerecord.attributes.occupancy.begins_at").toString(),
                 }).toString(),
             },
           }}
         ></Controller>
-        <Form.Control.Feedback type="invalid">
-          {errors.occupancy?.ends_at?.message}
-        </Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">{errors.occupancy?.ends_at?.message}</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -188,22 +155,16 @@ export function BookingForm({
           {...register("email", {
             validate: {
               email: (value) =>
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ||
-                t("errors.notifications.invalid").toString(),
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || t("errors.notifications.invalid").toString(),
             },
           })}
         ></Form.Control>
-        <Form.Control.Feedback type="invalid">
-          {errors.email?.message}
-        </Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">{errors.email?.message}</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="mb-3">
         <Form.Label>
-          <Trans
-            t={t}
-            i18nKey="activerecord.attributes.booking.tenant_organisation"
-          />
+          <Trans t={t} i18nKey="activerecord.attributes.booking.tenant_organisation" />
         </Form.Label>
         <Form.Control {...register("tenant_organisation")}></Form.Control>
       </Form.Group>
@@ -225,8 +186,7 @@ export function BookingForm({
             <Trans
               i18nKey="public.bookings.new.accept_conditions_html"
               values={{
-                privacy_statement_pdf_url:
-                  organisation.designated_documents.privacy_statement,
+                privacy_statement_pdf_url: organisation.designated_documents.privacy_statement,
                 terms_pdf_url: organisation.designated_documents.terms_pdf,
               }}
               components={{ a: <a /> }}

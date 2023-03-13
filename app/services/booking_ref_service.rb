@@ -11,7 +11,7 @@ class BookingRefService
     ref_parts.merge!(hash)
   end
 
-  ref_part home_ref: ->(booking) { booking.homes.map(&:ref).join },
+  ref_part home_ref: ->(booking) { booking.home.ref },
            year: ->(booking) { booking.begins_at.year },
            month: ->(booking) { booking.begins_at.month },
            day: ->(booking) { booking.begins_at.day }

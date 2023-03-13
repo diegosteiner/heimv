@@ -19,7 +19,7 @@ class OccupancyAtService
       return edit_manage_occupancy_path(id: occupancies.first, org: org)       if occupancies.count == 1
     end
 
-    new_public_booking_path(org: org, booking: { home_ids: @home.to_param, begins_at: date })
+    new_public_booking_path(org: org, booking: { home_id: @home.to_param, begins_at: date })
   end
 
   def at(date)

@@ -1,6 +1,6 @@
-![HeimV Logo](app/javascript/images/logo.png)
-
 # HeimV Heimverwaltung
+
+![HeimV Logo](app/javascript/images/logo.png)
 
 ## Development
 
@@ -20,11 +20,11 @@ Then inside the container you may run:
 - `bin/webpacker-dev-server` to start webpack dev server
 - `bin/sidekiq-job-worker` to start the sidekiq worker process
 
-To visit the automatically created default organization, visit http://heimv.localhost:3000/.
+To visit the automatically created default organization, visit <http://heimv.localhost:3000/>.
 
 ### Login
 
-After starting the development servers, open the browser http://heimv.localhost:3000/ and log in with:
+After starting the development servers, open the browser <http://heimv.localhost:3000/> and log in with:
 
 - Manager: manager@heimv.local, heimverwaltung
 - Read only user: reader@heimv.local, heimverwaltung
@@ -42,7 +42,7 @@ Copy env.example to .env and change configuration there
 
 ## Embed Calendar for a Home
 
-```
+```html
 <iframe
   sandbox="allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-top-navigation"
   src="https://app.heimv.ch/{{organisation.slug}}/homes/{{home.id}}/occupancies/embed?display_months=9"
@@ -55,7 +55,7 @@ Copy env.example to .env and change configuration there
 
 Create a organisation with richtext templates and a user:
 
-```
+```ruby
 onboarding = OnboardingService.create(name: <name>, email: <email>, slug: <slug>)
 onboarding.create_missing_rich_text_templates!(include_optional: true)
 onboarding.add_or_invite_user!
@@ -69,13 +69,13 @@ Translations are driven by [translation.io](https://translation.io/) and their f
 
 Automatically change after some time has passed:
 
-```
+```bash
 bin/rails r TransitionBookingStatesJob.perform_now
 ```
 
 Resend failed Notification attemps:
 
-```
+```bash
 bin/rails r RetryFailedNotificationsJob.perform_now
 ```
 
@@ -100,20 +100,20 @@ Options:
 - default_category:
 - headers: Header map e.g. for import from pfadiheime.ch
 
-```
+```ruby
 headers = "
 ignore.id,ignore.cottage_id,ignore.user_id,occupancy.begins_at,occupancy.ends_at,occupancy.remarks,occupancy.occupancy_type,ignore.created_at,ignore.updated_at,tenant.email,ignore.occupancy_type,booking.remarks,ignore.slug,booking.headcount,tenant.birth_date,booking.tenant_organisation,tenant.name,tenant.street_address,tenant.street_address_2,tenant.zipcode,tenant.city,tenant.phone"
 ```
 
 Then import data with:
 
-```
+```bash
 cat data.csv | bin/rails r "Import::Csv::OccupancyImporter.new(home).parse(ARGF, **options)"
 ```
 
 or with heroku:
 
-```
+```bash
 cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::OccupancyImporter.new(home).parse"'
 ```
 
@@ -133,7 +133,7 @@ Prepare a csv with these columns, including a header, as utf-8:
 
 Then import data with:
 
-```
+```bash
 cat data.csv | bin/rails r "Import::Csv::TenantImporter.new(organisation).parse"
 ```
 
@@ -151,13 +151,13 @@ Prepare a csv with these columns, including a header, as utf-8:
 
 Then import data with:
 
-```
+```bash
 cat data.csv | bin/rails r Import::Csv::TarifImporter.new(home).read
 ```
 
 ## Backup & Restore
 
-```
+```bash
 cat ./path/to/backup.dump | docker exec -i $(docker ps -q --filter name=heimv-db-)  pg_restore -U postgres -d heimv_development --host=localhost --no-privileges --no-owner
 ```
 

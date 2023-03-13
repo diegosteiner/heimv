@@ -29,13 +29,14 @@ module Public
     def at
       date = Date.parse(params[:date]) if params[:date].present?
       occupancies = Occupancy.accessible_by(current_ability).merge(@home.occupancies)
-      redirect_to OccupancyAtService.new(@home, occupancies).redirect_to(date, manage: can?(:manage, @home))
+      manage = current_organisation_user.present?
+      redirect_to OccupancyAtService.new(@home, occupancies).redirect_to(date, manage: manage)
     end
 
     private
 
     def set_calendar
-      @calendar = OccupancyCalendar.new(home: @home, window_from: 2.months.ago) if can?(:manage, @home)
+      @calendar = OccupancyCalendar.new(home: @home, window_from: 2.months.ago) if current_organisation_user.present?
       @calendar = OccupancyCalendar.new(home: @home) if @calendar.blank?
     end
   end

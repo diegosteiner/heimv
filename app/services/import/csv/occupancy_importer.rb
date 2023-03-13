@@ -22,12 +22,19 @@ module Import
       end
 
       def initialize_record(_row)
-        home.occupancies.new
+        home.occupancies.new(linked: false)
       end
 
       def persist_record(occupancy)
-        @booking_importer.persist_record(occupancy.booking) if occupancy.booking.present?
-        occupancy.save
+        booking = occupancy.booking
+        return occupancy.save if booking.blank?
+
+        if @booking_importer.persist_record(booking)
+          true
+        else
+          booking.errors.each { |error| occupancy.errors.import(error) }
+          false
+        end
       end
 
       def skip_row?(row, _index)
@@ -69,8 +76,9 @@ module Import
       actor :booking do |occupancy, row|
         next unless occupancy.tentative? || occupancy.occupied?
 
-        booking = organisation.bookings.new(occupancies: [occupancy], begins_at: occupancy.begins_at,
-                                            ends_at: occupancy.ends_at)
+        occupancy.assign_attributes(linked: true)
+        booking = organisation.bookings.new(occupancies: [occupancy], home: home,
+                                            begins_at: occupancy.begins_at, ends_at: occupancy.ends_at)
         @booking_importer.import_row(row, initial: booking)
       end
     end

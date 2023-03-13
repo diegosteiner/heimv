@@ -40,10 +40,7 @@ function dateToCalendarControlValue(
   availableMinutes: number[]
 ): CalendarControlValue {
   const hours = closestNumber((date && getHours(date)) || 0, availableHours);
-  const minutes = closestNumber(
-    (date && getMinutes(date)) || 0,
-    availableMinutes
-  );
+  const minutes = closestNumber((date && getMinutes(date)) || 0, availableMinutes);
 
   if (date) {
     date = setHours(date, hours);
@@ -118,43 +115,25 @@ export default function OccupancyDateTimeFormControl({
 }: CalendarControlProps) {
   const availableHours = [...Array(23)].map((_, i) => 0 + i);
   const [showModal, setShowModal] = React.useState<boolean>(false);
-  const [calendarControlValue, setCalendarControlValue] =
-    React.useState<CalendarControlValue>({
-      hours: Math.min(...availableHours),
-      minutes: Math.min(...availableMinutes),
-      text: "",
-    });
+  const [calendarControlValue, setCalendarControlValue] = React.useState<CalendarControlValue>({
+    hours: Math.min(...availableHours),
+    minutes: Math.min(...availableMinutes),
+    text: "",
+  });
 
   React.useEffect(() => {
     const dateValue = valueAsDate(value);
-    if (
-      dateValue &&
-      dateValue.toISOString() != calendarControlValue.date?.toISOString()
-    )
-      setDateValue(
-        dateToCalendarControlValue(dateValue, availableHours, availableMinutes)
-      );
+    if (dateValue && dateValue.toISOString() != calendarControlValue.date?.toISOString())
+      setDateValue(dateToCalendarControlValue(dateValue, availableHours, availableMinutes));
   }, [value, onChange]);
 
-  const setDateValue = ({
-    date,
-    hours,
-    minutes,
-  }: Partial<CalendarControlValue>) => {
+  const setDateValue = ({ date, hours, minutes }: Partial<CalendarControlValue>) => {
     date = date || calendarControlValue?.date;
     if (!date || !isValid(date)) return;
 
-    date = setHours(
-      date,
-      hours || calendarControlValue?.hours || Math.min(...availableHours)
-    );
-    date = setMinutes(
-      date,
-      minutes || calendarControlValue?.minutes || Math.min(...availableMinutes)
-    );
-    setCalendarControlValue(
-      dateToCalendarControlValue(date, availableHours, availableMinutes)
-    );
+    date = setHours(date, hours || calendarControlValue?.hours || Math.min(...availableHours));
+    date = setMinutes(date, minutes || calendarControlValue?.minutes || Math.min(...availableMinutes));
+    setCalendarControlValue(dateToCalendarControlValue(date, availableHours, availableMinutes));
     onChange && onChange(date);
     return date;
   };
@@ -180,34 +159,24 @@ export default function OccupancyDateTimeFormControl({
     if (!setDateValue({ date: parsedValue })) {
       setCalendarControlValue((prev) => ({
         ...prev,
-        text:
-          (calendarControlValue?.date &&
-            formatDate(calendarControlValue.date)) ||
-          value,
+        text: (calendarControlValue?.date && formatDate(calendarControlValue.date)) || value,
       }));
     }
     onBlur && onBlur();
   };
 
   const classNameCallback = (date: Date) =>
-    calendarControlValue?.date && isSameDay(date, calendarControlValue.date)
-      ? "bg-primary text-white"
-      : "";
+    calendarControlValue?.date && isSameDay(date, calendarControlValue.date) ? "bg-primary text-white" : "";
 
   const disabledCallback = (date: Date) =>
-    (minDate && isBefore(date, minDate)) ||
-    (maxDate && isAfter(date, maxDate)) ||
-    false;
+    (minDate && isBefore(date, minDate)) || (maxDate && isAfter(date, maxDate)) || false;
 
   return (
     <div id={id} className={(!!isInvalid && "is-invalid") || ""}>
       <input
         type="hidden"
         name={name}
-        value={
-          (calendarControlValue.date && formatISO(calendarControlValue.date)) ||
-          ""
-        }
+        value={(calendarControlValue.date && formatISO(calendarControlValue.date)) || ""}
       />
       <Row>
         <Col>
@@ -236,10 +205,7 @@ export default function OccupancyDateTimeFormControl({
             className="d-inline-block w-auto"
             onChange={(e: React.ChangeEvent) =>
               setDateValue({
-                hours: closestNumber(
-                  parseInt((e.target as HTMLInputElement).value),
-                  availableHours
-                ),
+                hours: closestNumber(parseInt((e.target as HTMLInputElement).value), availableHours),
               })
             }
             isInvalid={isInvalid}
@@ -260,10 +226,7 @@ export default function OccupancyDateTimeFormControl({
             className="d-inline-block w-auto"
             onChange={(e: React.ChangeEvent) =>
               setDateValue({
-                minutes: closestNumber(
-                  parseInt((e.target as HTMLInputElement).value),
-                  availableMinutes
-                ),
+                minutes: closestNumber(parseInt((e.target as HTMLInputElement).value), availableMinutes),
               })
             }
             isInvalid={isInvalid}
