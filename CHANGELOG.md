@@ -2,6 +2,16 @@
 
 #### Unreleased
 
+#### Version 23.3.1
+
+Released on 13.03.2023
+
+- Feature: Bookings can now have multiple occupancies
+- Feature: Add new role "administrator" with full rights on organisation
+- Feature: Add new notification for completed bookings
+- Improvement: Add french and italian translations (Thanks Yannick Wehrli and Rolf Steiner)
+- Improvement: Add better errors for import of occupancies
+
 #### Version 23.2.2
 
 Released on 13.02.2023
