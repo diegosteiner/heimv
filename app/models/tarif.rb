@@ -97,6 +97,10 @@ class Tarif < ApplicationRecord
     ordinal <=> other.ordinal
   end
 
+  def to_s
+    "##{ordinal}: #{label} (#{self.class.model_name.human})"
+  end
+
   def reject_booking_conditition_attributes?(attributes)
     attributes[:type].blank?
   end

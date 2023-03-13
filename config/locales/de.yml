@@ -470,12 +470,16 @@ de:
         one: Übernachtungen Bedingung
       booking_conditions/booking_state:
         one: Status Bedingung
+      booking_conditions/home:
+        one: Hauptmietobjekt Bedingung
       booking_conditions/occupancy_duration:
         one: Belegungsdauer Bedingung
       booking_conditions/occupiable:
         one: Mietobjekt Bedingung
       booking_conditions/season:
         one: Saison Bedingung
+      booking_conditions/tarif:
+        one: Ausgewählter Tarif Bedingung
       booking_conditions/tenant_organisation:
         one: Organisation des Mieters Bedingung
       booking_transition:
