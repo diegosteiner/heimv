@@ -76,6 +76,10 @@ module DataDigestTemplates
       end
     end
 
+    def prefilter
+      @prefilter ||= ::InvoicePart::Filter.new(prefilter_params.presence || {})
+    end
+
     def filter(_period = nil)
       # ::InvoicePart::Filter.new(prefilter_params.merge(paid_at_after: period&.begin, paid_at_before: period&.end))
       # rescue StandardError

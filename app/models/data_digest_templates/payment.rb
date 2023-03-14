@@ -63,10 +63,12 @@ module DataDigestTemplates
       end
     end
 
+    def prefilter
+      @prefilter ||= ::Payment::Filter.new(prefilter_params.presence || {})
+    end
+
     def filter(period = nil)
-      ::Payment::Filter.new(prefilter_params.merge(paid_at_after: period&.begin, paid_at_before: period&.end))
-    rescue StandardError
-      ::Payment::Filter.new
+      ::Payment::Filter.new(paid_at_after: period&.begin, paid_at_before: period&.end)
     end
 
     def base_scope

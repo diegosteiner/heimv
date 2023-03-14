@@ -67,8 +67,12 @@ class DataDigestTemplate < ApplicationRecord
     raise NotImplementedError
   end
 
+  def prefilter
+    raise NotImplementedError
+  end
+
   def records(period)
-    filter(period).apply(base_scope)
+    filter(period).apply(prefilter.apply(base_scope))
   end
 
   def columns
