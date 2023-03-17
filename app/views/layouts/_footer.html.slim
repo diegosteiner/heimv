@@ -9,3 +9,8 @@
 
   span.mx-1 &middot;
   span= link_to t('.privacy_statement'), privacy_path
+
+  span.mx-1 &middot;
+  span.locales
+    - %i[de fr it].each do |locale|
+      =<> link_to locale, url_for(locale: locale), class: (locale.to_sym == I18n.locale.to_sym && 'fw-bold' || nil)

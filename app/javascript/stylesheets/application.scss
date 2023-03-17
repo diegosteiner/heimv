@@ -52,12 +52,12 @@ h6 {
     }
   }
 
-  & > main {
+  &>main {
     grid-area: main;
     flex-grow: 1;
   }
 
-  & > header {
+  &>header {
     grid-area: header;
   }
 
@@ -74,18 +74,22 @@ h6 {
     }
   }
 
-  & > nav {
+  &>nav {
     grid-area: navigation;
     background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(4px);
     min-width: 250px;
   }
 
-  & > footer {
+  &>footer {
     grid-area: footer;
     background-color: #ddd9f6;
     border-top: 1px solid $primary;
     color: $primary;
+
+    .locales {
+      text-transform: uppercase;
+    }
   }
 }
 
@@ -104,7 +108,7 @@ legend.required:after {
   color: red;
 }
 
-.field_with_errors ~ .invalid-feedback {
+.field_with_errors~.invalid-feedback {
   display: block;
 }
 
@@ -139,6 +143,7 @@ select[disabled="disabled"] {
   > :not(:first-child) {
     border-top: none;
   }
+
   tbody {
     background-color: $card-bg;
     background-clip: border-box;
@@ -154,7 +159,7 @@ select[disabled="disabled"] {
   }
 }
 
-.card > .table {
+.card>.table {
   margin: 0;
 }
 
@@ -163,6 +168,7 @@ th.spacer {
 }
 
 tr.disabled {
+
   td,
   a {
     color: #bbb;
