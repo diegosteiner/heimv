@@ -118,8 +118,13 @@ ignore_unused:
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 ignore_eq_base:
-  #   all:
-  #     - common.ok
+  all:
+    - 'number.*'
+    - 'time.{pm,am,formats.*}'
+    - 'date.{order,formats.*}'
+    - '{activerecord, activemodel}.errors.format'
+    - errors.format
+    - support.array.words_connector
   fr,it,en:
     - rich_text_templates.*.default_body
     - rich_text_templates.*.default_title

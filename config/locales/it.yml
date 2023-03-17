@@ -24,8 +24,6 @@ it:
         payable_until_after: Pagabile fino a dopo
         payable_until_before: Pagabile fino a prima di
       meter_reading_period/filter:
-        begins_at_after: Beginn des Zählerabschnitts ab
-        begins_at_before: Beginn des Zählerabschnitts bis
         ends_at_after:
         ends_at_before:
         tarif_ids: Tariffe
@@ -108,54 +106,33 @@ it:
         occupancy_color: Colore nel calendario
         occupancy_type: Tipo di occupazione
         occupiable_ids: Proprietà in affitto
-        occupiables: Heime
         purpose_description: Descrizione dello scopo del contratto di affitto
         ref: Riferimento di prenotazione
         remarks: Osservazioni
-        state: Status
         tenant: Inquilino
         tenant_id: Inquilino
         tenant_organisation: Inquilino (organizzazione)
         transition_to: Nuovo stato
         usage_report: Forma di consumo
       booking_agent:
-        address: Adresse
         code: Codice del mediatore
-        email: Email
-        name: Name
         provision: Commissione
         request_deadline_minutes: Periodo per le richieste
       booking_category:
-        description: Beschreibung
         key: Chiava
-        ordinal: Ordnungsnummer
-        ordinal_position: Anzeigeposition
-        title: Titel
       booking_condition:
         distinction: Condizione
-        must_condition: Muss-Kriterium
-        type: Typ
       contract:
         issuer: Proprietario
         pdf: PDF
         sent_at: Data del contratto
         signed_at: Firmato dall'inquilino il
         signed_pdf: PDF firmato dall'inquilino
-        text: Vertragstext
-        title: Titel
       data_digest:
         created_at: Creato il
         crunching_finished_at: Elaborazione completata
-        crunching_started_at: Verarbeitung gestartet
-        data_digest_template_id: Auszugsvorlage
-        period: Periode
-        period_from: von
-        period_to: bis
       data_digest_template:
         columns_config: Configurazione delle colonne
-        group: Gruppe
-        label: Name
-        type: Art
       deadline:
         armed: Attivato
         at: Fino a
@@ -200,15 +177,10 @@ it:
         ends_at: Fine
         start_value: Lettura del contatore vecchio
       notification:
-        body: Inhalt
-        sent_at: Zuletzt gesendet am
-        subject: Betreff
-        to: An
       occupancy:
         begins_at: Inizio dell'occupazione
         begins_at_date: Inizio dell'occupazione (data)
         begins_at_time: Inizio dell'occupazione (ora)
-        color: Farbe im Kalender
         ends_at: Fine dell'occupazione
         ends_at_date: Fine dell'occupazione (data)
         ends_at_time: Fine dell'occupazione (ora)
@@ -220,126 +192,57 @@ it:
         active: Attivo
         description: Beschreibung
         home_id: Oggetto principale di affitto
-        name: Name
         occupiable:
         ref: Nome breve / riferimento
-        type: Typ
       operator:
         contact_info: Informazioni di contatto
         email: Email
         locale: Lingua
-        name: Name
       operator_booking:
-        responsibility: Verantwortlichkeit
       operator_responsibility:
         assigning_conditions: Condizioni
-        booking_id: Buchung
         home_id: Oggetto principale di affitto
         operator_id: Funzionario
-        ordinal_position: Ordnungsnummer
         remarks: Osservazioni
-        responsibility: Verantwortlichkeit
       organisation:
-        address: Adresse
-        bcc: BCC
-        contract_signature: Vertragsunterschrift
-        creditor_address: Anschrift auf Rechnungen
-        default_payment_info_type: Standartzahlungsart
-        esr_beneficiary_account: ESR Teilnehmernummer
         esr_ref_prefix: Numero di identificazione del PVR / prefisso
-        iban: IBAN
         locale: Lingua
-        location: Ort
-        logo: Logo
-        mail_from: Absender von Emails
-        name: Name
-        notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Informativa sulla privacy
         qr_iban: QR-IBAN
         representative_address: Indirizzo della rappresentanza per i contratti
-        settings: Einstellungen
         slug: Namespace
-        smtp_settings: Mailserver Einstellungen
-        smtp_settings_json: Mailserver Einstellungen
-        terms_pdf: AGB
       organisation_user:
-        email: Email
-        role: Rolle
       payment:
-        amount: Betrag
         confirm: Inviare automaticamente la conferma di pagamento
-        invoice_id: Rechnung
-        paid_at: Bezahlt am
         remarks: Osservazioni
-        write_off: Abschreibung
       rich_text_template:
-        body: Text
-        enabled: Aktiviert
         key: ID
         locale: Lingua
-        namespace: Bereich
-        title: Titel
       tarif:
-        accountancy_account: zugewiesenes Buchhaltungskonto
-        associated_types: Ausgewiesen in Rechnungsarten
         enabling_conditions: Condizioni per la selezione consentita
-        label: Tarif
         meter: Nome del contatore (per le tariffe in base alla lettura del contatore)
         minimum_usage_per_night: Consumo minimo (per notte)
         minimum_usage_total: Consumo minimo (totale)
-        ordinal: Ordnungsnummer
-        pin: Tarif NICHT auf Buchung fixieren
         prefill_usage_method: Metodo di riempimento anticipato
-        price_per_unit: Preis pro Einheit
         selecting_conditions: Condizioni per la selezione automatica
-        tarif_group: Tarifgruppe
-        type: Typ
-        unit: Einheit
       tenant:
-        address: Adresse
-        address_addon: Addresszusatz
-        allow_bookings_without_contract: Buchungen ohne Vertrag erlauben
         birth_date: Data di nascita
-        city: Ort
-        country_code: Land
-        email: Email
-        first_name: Vorname
-        iban: IBAN
-        last_name: Nachname
         locale: Lingua
-        nickname: Pfadiname
-        phone: Telefon
         remarks: Osservazioni interne
         reservations_allowed: Può inviare richieste di prenotazione
-        street_address: Strasse / Nr.
-        zipcode: PLZ
       usage:
-        apply: Anwenden
-        committed: verbindlich
-        price: Preis
-        price_per_unit: Preis pro Einheit
         remarks: Osservazioni
         used_units: Consumo
       user:
         created_at: Creato il
         current_password: Password precedente
-        current_sign_in_at: Aktuelle Anmeldung vom
-        current_sign_in_ip: IP der aktuellen Anmeldung
-        default_organisation_id: Hauptorganisation
         email: Email
         encrypted_password: Password criptata
-        failed_attempts: Fehlversuche
-        last_sign_in_at: Letzte Anmeldung am
-        last_sign_in_ip: IP der letzten Anmeldung
-        locked_at: Gesperrt am
-        password: Password
         password_confirmation: Conferma della password
         remember_created_at: Angemeldet bleiben vom
         remember_me: Angemeldet bleiben
         reset_password_sent_at: Email di reimpostazione della password inviata il
         reset_password_token: Token per la reimpostazione della password
-        sign_in_count: Anzahl Anmeldungen
-        updated_at: Aktualisiert am
     enums:
       booking:
         committed_request:
@@ -348,46 +251,25 @@ it:
       booking_log:
         trigger:
           auto: System
-          manager: Verwaltung
           tenant: Inquilino
       data_digest:
         periods:
-          ever: Aller Zeiten
-          from_now: Ab heute
-          last_12_months: Letzte 12 Monate
           last_30_days: Ultimi 30 giorni
-          last_3_months: Letzte 3 Monate
-          last_6_months: Letzte 6 Monate
-          last_month: Letzer Monat
-          last_year: Letztes Jahr
           next_12_months: Prossimi 12 mesi
           next_30_days: Prossimi 30 giorni
           next_3_months: Prossimi 3 mesi
           next_6_months: Prossimi 6 mesi
           next_month: Prossimo mese
           next_year: Anno prossimo
-          this_month: Dieser Monat
-          this_week: Diese Woche
-          this_year: Dieses Jahr
-          today: Heute
-          until_now: Bis heute
       designated_document:
         designation:
-          house_rules: Hausordnung
           other: "-"
-          price_list: Preisliste
           privacy_statement: Informativa sulla privacy
           terms: Termini e condizioni
       invoice/filter:
         paid:
-          only_paid: Nur belichene
-          only_unpaid: Nur offene
       occupancy:
         occupancy_type:
-          closed: Geschlossen
-          free: Frei
-          occupied: definitiv Besetzt
-          tentative: provisorisch Besetzt
       operator_responsibility:
         responsibility:
           administration: Administration
@@ -402,8 +284,6 @@ it:
           readonly: Lesend
       tarif:
         prefill_usage_methods:
-          flat: Fix
-          headcount: "# Personen"
           headcount_nights: Pernottamenti
           nights: Notti
     errors:
@@ -416,14 +296,11 @@ it:
           has_one: Il record non può essere cancellato perchè esiste un %{record} dipendente
       models:
         booking:
-          action_not_allowed: Diese Aktion ist nicht erlaubt
           attributes:
             deadline:
               not_postponable: non può essere prolongato
             transition_to:
               invalid_transition: 'Transizione di stato non valida: %{transition}'
-          too_far_in_future: ist zu weit in der Zukunft
-          too_far_in_past: ist zu weit in der Vergangenheit
         tenant:
           incomplete: Informazioni incomplete
       notifications:
@@ -432,27 +309,9 @@ it:
           has_many: Il record non può essere cancellato perché esistano %{record} record dipendenti.
           has_one: Il record non può essere cancellato perché esiste un record %{record} dipendente.
     models:
-      agent_booking:
-        one: Vermittlung
-        other: Vermittlungen
-      bookable_extra:
-        one: Buchbares Extra
-        other: Buchbare Extras
-      booked_extra:
-        one: Gebuchtes Extra
-        other: Gebuchte Extras
-      booking:
-        one: Buchung
-        other: Buchungen
-      booking/filter:
-        one: Buchungsfilter
-        other: Buchungsfilter
       booking_agent:
         one: Mediatore
         other: Mediatore
-      booking_category:
-        one: Mietzweck
-        other: Mietzwecke
       booking_condition:
         one: Condizione
         other: Condizioni
@@ -488,59 +347,31 @@ it:
         one: Transizione di stato
         other: Transizioni di stato
       contract:
-        one: Vertrag
         other: Contratti
       data_digest:
-        one: Auszug
         other: Estratti
       data_digest_template:
-        one: Auszugsvorlage
-        other: Auszugsvorlagen
       data_digest_templates/booking:
-        one: Buchungen Auszug
         other: Estratti di prenotazioni
       data_digest_templates/invoice:
-        one: Rechnungen Auszug
         other: Estratti di fatture
       data_digest_templates/invoice_part:
-        one: Rechnungspositionen Auszug
         other: Estratti di voci di fattura
       data_digest_templates/payment:
-        one: Zahlungen Auszug
         other: Estratti di pagamenti
       deadline:
         one: Scadenza
         other: Scadenze
       designated_document:
-        one: Dokument
-        other: Dokumente
       home:
         one: Oggetto principale di affitto
         other: Oggetti principali di affitto
-      invoice:
-        one: Rechnung
-        other: Rechnungen
-      invoice_part:
-        one: Position
-        other: Positionen
-      invoice_parts/add:
-        one: Normale Rechungsposition
-        other: Normale Rechnungspositionen
       invoice_parts/percentage:
         one: Sconto
         other: Sconto
       invoices/deposit:
         one: Acconto
         other: Acconti
-      invoices/invoice:
-        one: Rechnung
-        other: Rechnungen
-      invoices/late_notice:
-        one: Mahnung
-        other: Mahnungen
-      invoices/offer:
-        one: Offerte
-        other: Offerten
       meter_reading_period:
         one: Lettura del contatore
         other: Letture dei contatori
@@ -556,65 +387,30 @@ it:
       operator:
         one: Funzionario
         other: Funzionari
-      operator_responsibility:
-        one: Verantwortlichkeit
-        other: Verantwortlichkeiten
-      organisation:
-        one: Organisation
-        other: Organisationen
-      organisation_user:
-        one: Benutzer
-        other: Benutzer
-      payment:
-        one: Zahlung
-        other: Zahlungen
-      rich_text_template:
-        one: Textvorlage
-        other: Textvorlagen
-      tarif:
-        one: Tarif
-        other: Tarife
-      tarif_booking_condition:
-        one:
-        other:
       tarifs/amount:
         one: in base al consumo
       tarifs/flat:
-        one: Pauschale
       tarifs/metered:
         one: secondo la lettura del contatore
       tarifs/min_occupation:
-        one: Mindestbetrag
       tarifs/overnight_stay:
         one: Pernottamenti
       tarifs/price:
-        one: Betrag
       tenant:
         one: Inquilino
         other: Inquilino
       usage:
         one: Consumo
         other: Consumo
-      user:
-        one: Benutzer
-        other: Benutzer
   add_record: aggiungere %{model_name}
   back: Indietro
   booking_actions:
     manage:
-      accept:
-        label: Anfrage akzeptieren
-      cancel:
-        label: Ablehnen
-      commit_request:
-        label: Anfrage definitv setzen
       email_contract_and_deposit:
         label: Inviare il contratto e il acconto
       email_contract_without_deposit:
         confirm: Inviare davvero il contratto senza un acconto?
         label: Inviare il contratto senza acconto
-      email_invoice:
-        label: Rechnung verschicken
       mark_contract_signed:
         label: Confermare la ricezione del contratto
       mark_deposits_paid:
@@ -626,12 +422,6 @@ it:
       skip_invoice:
         label: Saltare il conto finale
     public:
-      cancel:
-        label: Stornieren
-      commit_booking_agent_request:
-        label: Anfrage definitv setzen
-      commit_request:
-        label: Anfrage definitv setzen
       postpone_deadline:
         label: Prolungare il periodo
   booking_states:
@@ -641,7 +431,6 @@ it:
       relevant_time: Fine dell'occupazione %{time}
     awaiting_contract:
       checklist:
-        contract_signed: Vertrag unterschieben
         deposit_paid: Acconto versato
       description: L'inquilino ha ricevuto il contratto e (se disponibile) la fattura di acconto, ma non li ha ancora firmati e restituiti o pagati.
       label: Prenotazione (contratto in attesa)
@@ -654,9 +443,7 @@ it:
       relevant_time: Termine %{time}
     cancelation_pending:
       description: L'occupazione è stata annullata, ma ci sono ancora fatture in sospeso che devono essere contrassegnate come pagate.
-      label: Stornierung pendent
     cancelled:
-      label: Storniert
     cancelled_request:
       description: Il termine è scaduto o l'inquilino ha ritirato la richiesta
       label: Richiesta di affitto (ritirata/scaduta)
@@ -667,23 +454,17 @@ it:
       label: Richiesta di affitto(respinta)
     definitive_request:
       checklist:
-        assign_responsibilities: Verantwortlichkeiten zuweisen
-        choose_tarifs: Tarife festlegen
-        create_contract: Vertrag erstellen
         create_deposit: Creare un acconto (opzionale)
         create_offer: Offerte erstellen (optional)
       description: L'inquilino ha contrassegnato la richiesta come definitiva. È necessario stabilire le tariffe e redigere un contratto.
       label: Richiesta di affitto(definitiva)
-      relevant_time: Eingereicht %{time}
     initial:
       label: "-"
     open_request:
       label: Richiesta di affitto(aperta)
       public_info: La vostra richiesta di affitto è stata inviata e sarà presto elaborata dall'amministrazione.
-      relevant_time: Eingereicht %{time}
     overdue:
       checklist:
-        contract_signed: Vertrag unterschieben
         deposit_paid: Acconto versato
       label: Prenotazione (contratto scaduto)
       relevant_time: Termine %{time}
@@ -693,14 +474,12 @@ it:
       relevant_time: Termine %{time}
     past:
       checklist:
-        create_invoice: Rechnung stellen
         create_usages: Registrare il consumo
       description: L'occupazione è terminata. L'amministrazione può ora registrare i consumi e preparare la fattura finale.
       label: Occupazione (passata)
       relevant_time: Fine dell'occupazione %{time} %{time}
     payment_due:
       checklist:
-        invoices_paid: Rechnung beglichen
       label: Occupazione (in attesa di pagamento)
       relevant_time: Termine %{time}
     payment_overdue:
@@ -736,27 +515,27 @@ it:
     period_short: "%{period_from} - %{period_to}"
   date:
     abbr_day_names:
-    - So
-    - Mo
-    - Di
-    - Mi
-    - Do
-    - Fr
-    - Sa
+    - Dom
+    - Lun
+    - Mar
+    - Mer
+    - Gio
+    - Ven
+    - Sab
     abbr_month_names:
-    -
-    - Jan
+    - 
+    - Gen
     - Feb
     - Mar
     - Apr
-    - Mai
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Okt
+    - Mag
+    - Giu
+    - Lug
+    - Ago
+    - Set
+    - Ott
     - Nov
-    - Dez
+    - Dic
     day_names:
     - Domenica
     - Lunedì
@@ -770,19 +549,19 @@ it:
       long: "%d %B %Y"
       short: "%d %b"
     month_names:
-    -
-    - Januar
-    - Februar
+    - 
+    - Gennaio
+    - Febbraio
     - Marzo
-    - April
-    - Mai
-    - Juni
-    - Juli
-    - August
-    - September
-    - Oktober
-    - November
-    - Dezember
+    - Aprile
+    - Maggio
+    - Giugno
+    - Luglio
+    - Agosto
+    - Settembre
+    - Ottobre
+    - Novembre
+    - Dicembre
     order:
     - :day
     - :month
@@ -790,50 +569,49 @@ it:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: etwa eine Stunde
-        other: etwa %{count} Stunden
+        one: circa un'ora
+        other: circa %{count} ore
       about_x_months:
-        one: etwa ein Monat
-        other: etwa %{count} Monate
+        one: circa un mese
+        other: circa %{count} mesi
       about_x_years:
-        one: etwa ein Jahr
-        other: etwa %{count} Jahre
+        one: circa un anno
+        other: circa %{count} anni
       almost_x_years:
-        one: fast ein Jahr
-        other: fast %{count} Jahre
-      half_a_minute: eine halbe Minute
-      less_than_x_minutes:
-        one: weniger als eine Minute
-        other: weniger als %{count} Minuten
+        one: circa %{count} anno
+        other: circa %{count} anni
+      half_a_minute: mezzo minuto
       less_than_x_seconds:
-        one: weniger als eine Sekunde
-        other: weniger als %{count} Sekunden
+        one: meno di un secondo
+        other: meno di %{count} secondi
+      less_than_x_minutes:
+        one: meno di un minuto
+        other: meno di %{count} minuti
       over_x_years:
-        one: mehr als ein Jahr
-        other: mehr als %{count} Jahre
-      x_days:
-        one: ein Tag
-        other: "%{count} giorni"
-      x_minutes:
-        one: eine Minute
-        other: "%{count} Minuten"
-      x_months:
-        one: ein Monat
-        other: "%{count} Monate"
+        one: oltre un anno
+        other: oltre %{count} anni
       x_seconds:
-        one: eine Sekunde
-        other: "%{count} Sekunden"
+        one: "%{count} secondo"
+        other: "%{count} secondi"
+      x_minutes:
+        one: "%{count} minuto"
+        other: "%{count} minuti"
+      x_days:
+        one: "%{count} giorno"
+        other: "%{count} giorni"
+      x_months:
+        one: "%{count} mese"
+        other: "%{count} mesi"
       x_years:
-        one: 1 Jahr
-        other: "%{count} Jahre"
+        one: "%{count} anno"
+        other: "%{count} anni"
     prompts:
-      day: Tag
-      hour: Stunden
-      minute: Minute
-      month: Monat
-      second: Sekunde
-      year: Jahr
-  deadline_exceeded: Deadline exceeded
+      second: Secondi
+      minute: Minuto
+      hour: Ora
+      day: Giorno
+      month: Mese
+      year: Anno
   destroy: Cancellare
   destroy_record: Cancellare %{model_name}
   devise:
@@ -934,7 +712,6 @@ it:
   edit: Bearbeiten
   errors:
     format: "%{attribute} %{message}"
-    invalid_csrf_token: Eingabe konnte nicht verarbeitet werden, bitte versuche es erneut.
     messages:
       accepted: deve essere accettata
       already_confirmed: was already confirmed, please try signing in
@@ -945,7 +722,6 @@ it:
       equal_to: deve essere uguale a %{count}
       even: deve essere pari
       exclusion: non è disponibile
-      expired: ist abgelaufen, bitte neu anfordern
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
       in: deve essere incluso in %{count}
@@ -956,11 +732,6 @@ it:
       model_invalid: 'Validazione fallita: %{errors}'
       not_a_number: non è un numero
       not_an_integer: non è un numero intero
-      not_found: nicht gefunden
-      not_locked: ist nicht gesperrt
-      not_saved:
-        one: "%{resource} konnte aufgrund eines Fehlers nicht gespeichert werden:"
-        other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
       odd: deve essere dispari
       other_than: devono essere di numero diverso da %{count}
       present: non deve essere compilato
@@ -976,56 +747,29 @@ it:
         one: è della lunghezza sbagliata (deve essere di 1 carattere)
         other: è della lunghezza sbagliata (deve essere di %{count} caratteri)
     notifications:
-      accepted: muss akzeptiert werden
       blank: non può essere vuoto
       confirmation: non corrisponde a %{attribute}
       empty: non può essere vuoto
-      equal_to: muss genau %{count} sein
-      even: muss gerade sein
       exclusion: non è disponibile
       future: deve essere nel futuro
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
       inclusion: non è un valore valido
       invalid: non è valido
-      later_than: muss nach %{other} sein
-      less_than: muss kleiner als %{count} sein
-      less_than_or_equal_to: muss kleiner oder gleich %{count} sein
       model_invalid: 'Controllo di validità fallito: %{errors}'
-      not_a_number: ist keine Zahl
-      not_an_integer: muss ganzzahlig sein
-      odd: muss ungerade sein
-      other_than: darf nicht gleich %{count} sein
       present: non deve essere compilato
       required: non può essere vuoto
-      taken: ist bereits vergeben
-      too_long:
-        one: ist zu lang (mehr als 1 Zeichen)
-        other: ist zu lang (mehr als %{count} Zeichen)
-      too_short:
-        one: ist zu kurz (weniger als 1 Zeichen)
-        other: ist zu kurz (weniger als %{count} Zeichen)
       wrong_length:
         one: ha una lunghezza sbagliata (deve avere esattamente 1 carattere)
         other: ha una lunghezza sbagliata (deve contenere esattamente %{count} caratteri)
     template:
       body: 'Si prega di controllare i seguenti campi:'
-      header:
-        one: 'Konnte %{model} nicht speichern: ein Fehler.'
-        other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
   export:
     pdf:
       renderables:
         invoice:
           qr_bill:
-            amount: Betrag
-            creditor_account: Konto / Zahlbar an
             currency: Valuta
-            payable_by: Zahlbar durch
-            payment_part_title: Zahlteil
-            receipt_title: Empfangsschein
-            ref: Referenz
-  filter: Filter
   flash:
     actions:
       create:
@@ -1034,9 +778,6 @@ it:
       destroy:
         alert: "%{resource_name} non può essere cancellato."
         notice: "%{resource_name} è stato cancellato con successo."
-      update:
-        alert: "%{resource_name} konnte nicht aktualisiert werden."
-        notice: "%{resource_name} wurde erfolgreich aktualisiert."
       update_many:
         alert: Non è stato possibile salvare le modifiche.
         notice: Le modifiche sono state salvate con successo.
@@ -1045,97 +786,46 @@ it:
         create:
           notice: La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un'e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l'e-mail, controllate lo spam o contattate l'amministrazione.
         update:
-          notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
-  from: von
-  generated: wird automatisch generiert
   helpers:
     select:
       prompt: Selezionare
-    submit:
-      create: Erstellen
-      submit: Speichern
-      update: Speichern
-  import: Import
-  import_records: "%{model_name} importieren"
   invoice_parts:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
-      flat: Pauschale à %{price_per_unit}
-      minimum: Mindestbetrag %{minimum_price}
     unpaid_invoice: Importo aperto dovuto al %{payable_until}
   layouts:
     footer:
       privacy_statement: Informativa sulla privacy
     manage_navigation:
-      help: Help
   manage:
     bookings:
       contracts:
-        index:
-          contract_sent: Vertrag versendet markieren
-          contract_signed: Vertrag unterschieben
-      import:
-        headers: Headers
-        import_error: 'Import fehlgeschlagen: '
-        import_file: Import file
-        import_success: Import success
       index:
         canned_filter_default: Vista standard
         canned_filter_upcoming: Occupazioni future
         too_many_records: Sono state trovate troppe prenotazioni. Si prega di restringere la ricerca.
       navigation:
         costs: Tariffe e consumi
-      not_committed_yet: Die Buchung ist noch nicht definitiv.
       notifications_not_enabled: Le notifiche via e-mail per questa prenotazione non sono attivate.
       show:
-        checklist: Checkliste
-        logged_changes: "%{changes} bearbeitet"
         public_booking_url: Link per gli inquilini
       usages:
         index:
-          applicable_tarifs: Anwendbare Tarife
-          save_and_continue: Speichern und %{invoice_type} erstellen
         table:
-          save: "%{model_name} speichern"
     dashboard:
       index:
         ics_link: come ICAL
     data_digests:
       create:
-        job_started: Der Auszug wird zusammengestellt. Die Verarbeitung der Daten kann einige Minuten dauern. Laden Sie die Seite neu, um zu prüfen, ob die Verarbeitung abgeschlossen wurde.
       form:
-        or: Or
       show:
-        pdf_error: Es ist ein Fehler beim erstellen des PDFs aufgetreten. Versuche es mit dem CSV Export.
     designated_documents:
       form:
-        all_locales: Alle
     invoices:
       form:
-        suggested_invoice_parts: Suggested invoice parts
-    notifications:
-      edit:
-        deliver: Speichern und nochmals versenden
-    organisation_users:
-      index:
-        invite_user: Invite user
-    organisations:
-      form:
-        general: General
-        more_settings: Weitere Einstellungen
-    pages:
-      flow:
-        title: Buchungsprozess
-    payments:
-      index:
-        new_import: New import
-      new_import:
-        camt_file:
-        exception:
     rich_text_templates:
       form:
         help_html: "<p>Utilizzare le variabili nel testo:</p>\n\n<pre>\n  Buongiorno {{ booking.tenant.first_name }}!\n</pre>\n\n<p>Sono disponibili le seguenti variabili:</p>\n<h5>Prenotazione</h5>\n<dl>\n    <dt>Inizio dell'occupazione</dt><dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd><dd><pre>{{ booking.begins_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    <dt>Fine dell'occupazione</dt><dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd><dd><pre>{{ booking.ends_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    \n    <dt>Numero previsto di persone</dt><dd><pre>{{ booking.approximate_headcount }}</pre></dd>\n    <dt>Motivo della cancellazione</dt><dd><pre>{{ booking.cancellation_reason }}</pre></dd>\n    <dt>Natura vincolante della richiesta d'occupazione</dt><dd><pre>{{ booking.committed_request }}</pre></dd>\n\n    <dt>ID del oggetto principale di affitto/dt><dd><pre>{{ booking.home.id }}</pre></dd>\n    <dt>ID di tutte i oggetti di affitto occupati</dt><dd><pre>{{ booking.home_ids }}</pre></dd>\n    <dt>Nome del del oggetto principale di affitto</dt><dd><pre>{{ booking.home.name }}</pre></dd>\n    <dt>Indirizzo del del oggetto principale di affitto</dt><dd><pre>{{ booking.home.address }}</pre></dd>\n\n    <dt>Nome di tutti oggetti principali di affitto occupati</dt><dd><pre>{{ booking.homes | map: \"name\" | join: \", \" }}</pre></dd>\n    <dt>Elenco dei oggetti principali di affitto occupati</dt><dd><pre><ul>{% for home in booking.homes %}<li>{{ home.name }}</li>{% endfor %}</ul></pre></dd>\n\n    <dt>Indirizzo per la fattura</dt><dd><pre>{{ booking.invoice_address }}</pre></dd>\n    <dt>Scadenza fino alla data / ora</dt><dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>\n    <dt>Periodo prolungabile per n secondi</dt><dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>\n    <dt>Link per l'inquilino</dt><dd><pre>{{ booking.links.edit }}</pre></dd>\n    <dt>Link per il propietario</dt><dd><pre>{{ booking.links.manage }}</pre></dd>\n    <dt>Tipo di occupazione</dt><dd><pre>{{ booking.occupancy_type }}</pre></dd>\n    <dt>Chiave della categoria di affitto</dt><dd><pre>{{ booking.category.key }}</pre></dd>\n    <dt>Designazione della categoria di affitto</dt><dd><pre>{{ booking.category.title }}</pre></dd>\n    <dt>Descrizione della categoria di affitto</dt><dd><pre>{{ booking.category.description }}</pre></dd>\n    <dt>Descrizione dello scopo della affitto</dt><dd><pre>{{ booking.purpose_description }}</pre></dd>\n    <dt>Numero di riferimento della prenotazione</dt><dd><pre>{{ booking.ref }}</pre></dd>\n    <dt>Osservazioni dell'inquilino</dt><dd><pre>{{ booking.remarks }}</pre></dd>\n    <dt>Adresszusatz des Mieters</dt><dd><pre>{{ booking.tenant.address_addon }}</pre></dd>\n    <dt>Località del inquilino</dt><dd><pre>{{ booking.tenant.city }}</pre></dd>\n    <dt>E-Mail del inquilino</dt><dd><pre>{{ booking.tenant.email }}</pre></dd>\n    <dt>Nome del inquilino</dt><dd><pre>{{ booking.tenant.first_name }}</pre></dd>\n    <dt>Cognome del inquilino</dt><dd><pre>{{ booking.tenant.last_name }}</pre></dd>\n    <dt>Totem scout del inquilino</dt><dd><pre>{{ booking.tenant.nickname }}</pre></dd>\n    <dt>Saluto con nome dell'inquilino</dt><dd><pre>{{ booking.tenant.salutation_name }}</pre></dd>\n    <dt>Indirizzo dell'inquilino</dt><dd><pre>{{ booking.tenant.street_address }}</pre></dd>\n    <dt>NPA dell'inquilino</dt><dd><pre>{{ booking.tenant.zipcode }}</pre></dd>\n    <dt>Organizzazione dell'inquilino</dt><dd><pre>{{ booking.tenant.tenant_organisation }}</pre></dd>\n    <dt>Nome della persona responsabile della consegna della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>\n    <dt>E-Mail della persona responsabile della consegna della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>\n    <dt>Informazioni di contatto della persona responsabile della consegna della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>\n    <dt>Nome della persona responsabile della ripresa della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>\n    <dt>E-Mail della persona responsabile della ripresa della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>\n    <dt>Informazioni di contatto della persona responsabile della ripresa della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>\n    <dt>Nome della persona responsabile dell'amministrazione / delle questioni generali</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>\n    <dt>E-Mail della persona responsabile dell'amministrazione / delle questioni generali</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>\n    <dt>Informazioni di contatto della persona responsabile dell'amministrazione / delle questioni generali</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>\n    <dt>Nome della persona responsabile della fatturazione</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>\n    <dt>E-Mail della persona responsabile della fatturazione</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>\n    <dt>Informazioni di contattodella persona responsabile della fatturazione</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>\n  </dl>\n  <h5>Organizzazione</h5>\n  <dl>\n    <dt>Indirizzo dell'organizzazione, sede legale</dt><dd><pre>{{ organisation.address }}</pre></dd>\n    <dt>Elenco di tutte le categorie di affitto dell'organizzazione</dt><dd><pre>{{ organisation.booking_categories }}</pre></dd>\n    <dt>E-Mail dell'organizzazione</dt><dd><pre>{{ organisation.email }}</pre></dd>\n    <dt>Numero di conto postale</dt><dd><pre>{{ organisation.esr_beneficiary_account }}</pre></dd>\n    <dt>IBAN</dt><dd><pre>{{ organisation.iban }}</pre></dd>\n    <dt>QR-IBAN</dt><dd><pre>{{ organisation.qr_iban }}</pre></dd>\n    <dt>Link al documento sulla privacy</dt><dd><pre>{{ organisation.links.privacy_statement_pdf }}</pre></dd>\n    <dt>Link al GTC</dt><dd><pre>{{ organisation.links.terms_pdf }}</pre></dd>\n    <dt>Nome dell'organizzazione</dt><dd><pre>{{ organisation.name }}</pre></dd>\n  </dl>\n  <h5>Costi</h5>\n  <dl>\n    <dt>Consumo</dt><dd><pre>{{ cost_estimation.used | currency }}</pre></dd>\n    <dt>Fatturato</dt><dd><pre>{{ cost_estimation.total | currency }}</pre></dd>\n    <dt>Acconto</dt><dd><pre>{{ cost_estimation.deposit | currency }}</pre></dd>\n  </dl>\n\n  Usare la logica nel testo:\n\n  <pre>{% if booking.home_ids contains 1 %}Passaggio visibile solo se l'ID della casa di prenotazione è uguale a 1{% endif %}</pre>\n  <pre>\n  {% if booking.category.key == 'camp' %}\n    Vi auguriamo di divertirvi molto nel vostro campo nella nostra casa!\n  {% else %}\n    Vi auguriamo un piacevole soggiorno nella nostra casa!\n  {% endif %}\n  </pre>\n\n28\n47\n"
-        help_title: Hilfe zu Variabeln
       index:
         group_booking_agent_notifications: Notifiche (mediatore)
         group_document_text: Testi per documenti
@@ -1342,7 +1032,7 @@ it:
           <li>Il vostro riferimento: {{ booking.booking_agent_ref }}</li>
           <li>Casa: {{booking.home.name}}</li>
           <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
-          <li>{{prenotazione.modifica_a | datetime_format }} <a href="{{booking.links.edit}}">{{booking.links.edit}}</a></li>
+          <li><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></li>
         </ul>
 
         <p>La richiesta è stata accettata. È possibile utilizzare il seguente link per estendere, cancellare o dichiarare definitiva la prenotazione. La prenotazione provvisoria è valida per 10 giorni e può essere prolungata per altri 3 giorni. Se desiderate prolungare la prenotazione, inviateci un'e-mail con la data.</p>
@@ -1497,12 +1187,12 @@ it:
         <p><strong>Dettagli della prenotazione</strong></p>
 
         <ul>
-          <li>Riferimento della prenotazione: {{ booking <strong>.ref }}</strong></li>
-          <li>Casa: {{ booking <strong>.home.name }}</strong></li>
-          <li>Prenotazione: da {{ booking <strong>.begins_at | datetime_format</strong> }} a <strong>{{ booking.ends_at | datetime_format }}</strong></li>
-          <li>Organizzazione: {{ booking <strong>.tenant_organisation }}</strong></li>
-          <li>Categoria di affitto: {{ booking <strong>.category.title</strong> }}</li>
-          <li>Osservazioni: <strong>{{ booking.remarks }}</strong></li>
+          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
+          <li>Casa: {{ booking.home.name }}</li>
+          <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
+          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
+          <li>Categoria di affitto: {{ booking.category.title }}</li>
+          <li>Osservazioni: <strong>{{ booking.remarks }}</li>
         </ul>
 
         <p><a href="{{booking.links.manage}}">Gestisci la prenotazione</a></p>
@@ -1517,12 +1207,12 @@ it:
         <p><strong>Dettagli della prenotazione</strong></p>
 
         <ul>
-          <li>Riferimento della prenotazione: {{ booking <strong>.ref }}</strong></li>
-          <li>Casa: {{ booking <strong>.home.name }}</strong></li>
-          <li>Prenotazione: {{ booking <strong>.begins_at | datetime_format</strong> }} a <strong>{{ booking.ends_at | datetime_format }}</strong></li>
-          <li>Organizzazione: {{ booking <strong>.tenant_organisation }}</strong></li>
-          <li>Categoria di affitto: {{ booking <strong>.category.title</strong> }}</li>
-          <li>Osservazioni: <strong>{{ booking.remarks }}</strong></li>
+          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
+          <li>Casa: {{ booking.home.name }}</li>
+          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
+          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
+          <li>Categoria di affitto: {{ booking.category.title }}</li>
+          <li>Osservazioni: <strong>{{ booking.remarks }}</li>
         </ul>
 
         <p><a href="{{booking.links.manage}}">Gestisci la prenotazione</a></p>
@@ -1561,12 +1251,12 @@ it:
         <p><strong>Dettagli della prenotazione</strong></p>
 
         <ul>
-          <li>Riferimento della prenotazione: <strong>{{ booking.ref }}</strong></li>
-          <li>Casa: {{ booking <strong>.home.name }}</strong></li>
-          <li>Prenotazione: {{ booking <strong>.begins_at | datetime_format</strong> }} a <strong>{{ booking.ends_at | datetime_format }}</strong></li>
-          <li>Organizzazione: {{ booking <strong>.tenant_organisation }}</strong></li>
-          <li>Categoria di affitto: {{ booking <strong>.category.title</strong> }}</li>
-          <li>Osservazioni: <strong>{{ booking.remarks }}</strong></li>
+          <li>Riferimento della prenotazione: <strong>{{ booking.ref }}</li>
+          <li>Casa: {{ booking.home.name }}</li>
+          <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
+          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
+          <li>Categoria di affitto: {{ booking.category.title }}</li>
+          <li>Osservazioni: <strong>{{ booking.remarks }}</li>
         </ul>
 
         <p><a href="{{ booking.links.manage }}">Gestisci la prenotazione</a></p>
@@ -1581,14 +1271,14 @@ it:
         <p><strong>Dettagli della prenotazione</strong></p>
 
         <ul>
-          <li>Riferimento della prenotazione: {{ booking <strong>.ref }}</strong></li>
-          <li>Casa: {{ booking <strong>.home.name }}</strong></li>
-          <li>Prenotazione: da {{ booking <strong>.begins_at | datetime_format</strong> }} a <strong>{{ booking.ends_at | datetime_format }}</strong></li>
-          <li>Organizzazione: {{ booking <strong>.tenant_organisation }}</strong></li>
-          <li>Categoria di affitto: {{ booking <strong>.category.title</strong> }}</li>
-          <li>Osservazioni: <strong>{{ booking.remarks }}</strong></li>
-          <li>Consegna della casa: {{ booking <strong>.operator_responsibilities.home_handover.operator.name</strong>}}, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
-          <li>Ripresa della casa: {{ booking.operator_responsibilities <strong>.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
+          <li>Riferimento della prenotazione: {{ booking.ref }}</li>
+          <li>Casa: {{ booking.home.name }}</li>
+          <li>Prenotazione: da {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
+          <li>Organizzazione: {{ booking.tenant_organisation }}</li>
+          <li>Categoria di affitto: {{ booking.category.title }}</li>
+          <li>Osservazioni: <strong>{{ booking.remarks }}</li>
+          <li>Consegna della casa: {{ booking.operator_responsibilities.home_handover.operator.name }}, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
+          <li>Ripresa della casa: {{ booking.operator_responsibilities.home_return.operator.name }}, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
         </ul>
 
         <p><strong>Persona di contatto</strong></p>
@@ -1762,8 +1452,8 @@ it:
           <li>Prenotazione: {{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}</li>
           <li>Organizzazione: {{ booking.tenant_organisation }}</li>
           <li>Categoria di affitto: {{ booking.category.title }}</li>
-          <li>Consegna della casa: {{ booking <strong>.operator_responsibilities.home_handover.operator.name</strong>}}, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
-          <li>Ripresa della casa: {{ booking.operator_responsibilities <strong>.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
+          <li>Consegna della casa: {{ booking.operator_responsibilities.home_handover.operator.name }}, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
+          <li>Ripresa della casa: {{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
         </ul>
 
         <p>Si prega di concordare per tempo la data di consegna con il custode.</p>
@@ -1801,4 +1491,3 @@ it:
   titles:
     application: HeimV %{organisation}
   unauthorized: Non sei autorizzato a visualizzare questa pagina. Effettuare il login per favore.
-  until: bis
