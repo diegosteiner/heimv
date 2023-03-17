@@ -11,7 +11,7 @@ fr:
         ends_at_after: Fin de la location
         ends_at_before: Fin de la location
         homes: Chalets
-        occupiables: Heime
+        occupiables:
         only_inconcluded: Uniquement les réservations ouvertes/libres (?)
         previous_booking_states: Anciens statuts
         ref: "(Numéro de) Référence de location"
@@ -98,7 +98,7 @@ fr:
         deadline: Délai jusqu'au
         editable: Possibilité de traitement par le locataire
         ends_at: Fin de la location
-        home_id: Heim
+        home_id: Objet principal de la location
         internal_remarks: Remarques internes
         invoice_address: Adresse de facturation (si différente)
         locale: Langue
@@ -107,35 +107,36 @@ fr:
         occupancies: Locations
         occupancy_color: Couleur dans le calendrier
         occupancy_type: Type de locations
-        occupiable_ids: Heime
+        occupiable_ids: Objets de location
+        occupiables: Objets de location
         purpose_description: Description de la raison de la location
         ref: Référence de réservation
         remarks: Remarques
         state: Status
-        tenant: Mieter
-        tenant_id: Mieter
-        tenant_organisation: Mieter Organisation
-        transition_to: Neuer Status
-        usage_report: Verbrauchsformular
+        tenant: Locataire
+        tenant_id: Locataire
+        tenant_organisation: Organisation/entité locataire
+        transition_to: Nouveau statut
+        usage_report: Formulaire de consommation
       booking_agent:
         address: Adresse
-        code: Vermittler-Code
+        code: Code de l'intermédiaire
         email: Email
-        name: Name
-        provision: Provision
-        request_deadline_minutes: Frist für Anfragen
+        name: Nom
+        provision: Commission
+        request_deadline_minutes: Délai pour les demandes
       booking_category:
-        description: Beschreibung
-        key: Schlüssel
-        ordinal: Ordnungsnummer
-        ordinal_position: Anzeigeposition
-        title: Titel
+        description: Description
+        key: Clé
+        ordinal: Numéro d'ordre
+        ordinal_position: Position de l'affichage
+        title: Titre
       booking_condition:
-        distinction: Bedingung
-        must_condition: Muss-Kriterium
-        type: Typ
+        distinction: Condition
+        must_condition: Critère obligatoire
+        type: Type
       contract:
-        issuer: Vermieter
+        issuer: Intermédiaire
         pdf: PDF
         sent_at: Vertragsdatum
         signed_at: Unterschrieben am
@@ -218,7 +219,7 @@ fr:
       occupiable:
         active:
         description: Beschreibung
-        home_id: Heim
+        home_id:
         name: Name
         occupiable:
         ref: Kurzname / Referenz
@@ -233,7 +234,7 @@ fr:
       operator_responsibility:
         assigning_conditions: Bedingungen
         booking_id: Buchung
-        home_id: Heim
+        home_id:
         operator_id: Funktionär
         ordinal_position: Ordnungsnummer
         remarks: Bemerkungen
@@ -395,6 +396,7 @@ fr:
           home_return: Hausrücknahme
       organisation_user:
         role:
+          admin: Administration
           manager: Verwaltung
           none: "-"
           readonly: Lesend
@@ -468,12 +470,16 @@ fr:
         one: Nuitées Sélecteur de tarif
       booking_conditions/booking_state:
         one: Status Bedingung
+      booking_conditions/home:
+        one:
       booking_conditions/occupancy_duration:
         one: nächte tarifwähler
       booking_conditions/occupiable:
-        one: Heim Bedingung
+        one:
       booking_conditions/season:
         one: Saison Bedingung
+      booking_conditions/tarif:
+        one:
       booking_conditions/tenant_organisation:
         one: Organisation des Mieters Bedingung
       booking_transition:
@@ -507,8 +513,8 @@ fr:
         one: Dokument
         other: Dokumente
       home:
-        one: Heim
-        other: Heime
+        one:
+        other:
       invoice:
         one: Rechnung
         other: Rechnungen
@@ -544,7 +550,7 @@ fr:
         other: Belegungen
       occupiable:
         one:
-        other: Heime
+        other:
       operator:
         one: Funktionär
         other: Funktionäre
@@ -750,13 +756,13 @@ fr:
     - Nov
     - Dez
     day_names:
-    - Sonntag
-    - Montag
-    - Dienstag
-    - Mittwoch
-    - Donnerstag
-    - Freitag
-    - Samstag
+    - Dimanche
+    - Lundi
+    - Mardi
+    - Mercredi
+    - Jeudi
+    - Vendredi
+    - Samedi
     formats:
       default: "%d.%m.%Y"
       long: "%-d %B %Y"
@@ -1156,6 +1162,9 @@ fr:
     payments:
       index:
         new_import: New import
+      new_import:
+        camt_file:
+        exception:
     rich_text_templates:
       form:
         help_html: |
@@ -1401,6 +1410,9 @@ fr:
       default_body:
       default_title:
       description: Benachrichtigung für zurückgezogene Reservationsanfrage (Mieter)
+    completed_notification:
+      default_title:
+      description:
     contract_signed_notification:
       default_body:
       default_title:
