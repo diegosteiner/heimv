@@ -321,25 +321,25 @@ fr:
         remarks: Remarques
         used_units: Consommation
       user:
-        created_at:
-        current_password:
-        current_sign_in_at:
-        current_sign_in_ip:
+        created_at: Enregistré à
+        current_password: Mot de passe actuel
+        current_sign_in_at: Date de la connexion actuelle
+        current_sign_in_ip: IP de la connexion actuelle
         default_organisation_id:
-        email:
-        encrypted_password:
-        failed_attempts:
-        last_sign_in_at:
-        last_sign_in_ip:
-        locked_at:
-        password:
-        password_confirmation:
-        remember_created_at:
-        remember_me:
-        reset_password_sent_at:
-        reset_password_token:
-        sign_in_count:
-        updated_at:
+        email: Email
+        encrypted_password: Mot de passe chiffré
+        failed_attempts: Tentatives échouées
+        last_sign_in_at: Date de la dernière connexion
+        last_sign_in_ip: IP de la dernière connexion
+        locked_at: Verrouillé à
+        password: Mot de passe
+        password_confirmation: Confirmation du mot de passe
+        remember_created_at: Mémorisé à
+        remember_me: Se souvenir de moi ?
+        reset_password_sent_at: Clé de réinitialisation créée à
+        reset_password_token: Clé de réinitialisation du mot de passe
+        sign_in_count: Nombre des connexions
+        updated_at: Date de mise à jour
     enums:
       booking:
         committed_request:
@@ -798,11 +798,9 @@ fr:
       less_than_x_minutes:
         one: moins d'une minute
         other: moins de %{count} minutes
-        zero: moins d'une minute
       less_than_x_seconds:
         one: moins d'une seconde
         other: moins de %{count} secondes
-        zero: moins d'une seconde
       over_x_years:
         one: plus d'un an
         other: plus de %{count} ans
@@ -970,17 +968,11 @@ fr:
       wrong_length:
         one: ne fait pas la bonne longueur (doit comporter un seul caractère)
         other: ne fait pas la bonne longueur (doit comporter %{count} caractères)
-    notifications:
-      accepted:
-      future:
-      invalid:
-      later_than:
-      required:
     template:
-      body:
+      body: 'Veuillez vérifier les champs suivants : '
       header:
-        one:
-        other:
+        one: 'Impossible d''enregistrer ce(tte) %{model} : 1 erreur'
+        other: 'Impossible d''enregistrer ce(tte) %{model} : %{count} erreurs'
   export:
     pdf:
       renderables:
@@ -1172,11 +1164,19 @@ fr:
       decimal_units:
         format: "%n %u"
         units:
-          billion: milliard
-          million: million
-          quadrillion: million de milliards
+          billion:
+            one:
+            other:
+          million:
+            one:
+            other:
+          quadrillion:
+            one:
+            other:
           thousand: millier
-          trillion: billion
+          trillion:
+            one:
+            other:
           unit: ''
       format:
         delimiter: ''
@@ -1205,9 +1205,28 @@ fr:
         delimiter: ''
   occupancy_calendar:
     months:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
     next:
     prev:
     weekdays:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
   optional:
   payable_by:
   payment_part_title:
@@ -1239,72 +1258,134 @@ fr:
   reset:
   rich_text_templates:
     awaiting_contract_notification:
+      default_body:
+      default_title:
       description:
     awaiting_tenant_notification:
+      default_body:
+      default_title:
       description:
     booking_agent_cancelled_notification:
+      default_body:
+      default_title:
       description:
     booking_agent_request_accepted_notification:
+      default_body:
+      default_title:
       description:
     booking_agent_request_notification:
+      default_body:
+      default_title:
       description:
     cancelled_notification:
+      default_body:
+      default_title:
       description:
     cancelled_request_notification:
+      default_body:
+      default_title:
       description:
     completed_notification:
+      default_title:
       description:
     contract_signed_notification:
+      default_body:
+      default_title:
       description:
     contract_text:
+      default_body:
+      default_title:
       description:
     declined_request_notification:
+      default_body:
+      default_title:
       description:
     definitive_request_notification:
+      default_body:
+      default_title:
       description:
     foreign_payment_info_text:
       description:
     invoices_deposit_text:
+      default_body:
+      default_title:
       description:
     invoices_invoice_text:
+      default_body:
+      default_title:
       description:
     invoices_late_notice_text:
+      default_body:
+      default_title:
       description:
     invoices_offer_text:
+      default_body:
+      default_title:
       description:
     manage_definitive_request_notification:
+      default_body:
+      default_title:
       description:
     manage_new_booking_notification:
+      default_body:
+      default_title:
       description:
     notification_footer:
       description:
     open_request_notification:
+      default_body:
+      default_title:
       description:
     operator_cancelation_pending_notification:
+      default_body:
+      default_title:
       description:
     operator_upcoming_soon_notification:
+      default_body:
+      default_title:
       description:
     overdue_notification:
+      default_title:
       description:
     overdue_request_notification:
+      default_body:
+      default_title:
       description:
     payment_confirmation_notification:
+      default_body:
+      default_title:
       description:
     payment_due_notification:
+      default_body:
+      default_title:
       description:
     payment_overdue_notification:
+      default_body:
+      default_title:
       description:
     provisional_request_notification:
+      default_body:
+      default_title:
       description:
     text_payment_info_text:
+      default_body:
+      default_title:
       description:
     unconfirmed_request_notification:
+      default_body:
+      default_title:
       description:
     upcoming_notification:
+      default_body:
+      default_title:
       description:
     upcoming_soon_notification:
+      default_body:
+      default_title:
       description:
     usage_report_text:
+      default_body:
+      default_title:
       description:
   show:
   support:

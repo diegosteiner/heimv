@@ -323,23 +323,23 @@ it:
       user:
         created_at: Creato il
         current_password: Password precedente
-        current_sign_in_at:
-        current_sign_in_ip:
+        current_sign_in_at: Accesso corrente il
+        current_sign_in_ip: IP accesso corrente
         default_organisation_id:
         email: Email
         encrypted_password: Password criptata
-        failed_attempts:
-        last_sign_in_at:
-        last_sign_in_ip:
-        locked_at:
-        password:
+        failed_attempts: Tentativi falliti
+        last_sign_in_at: Ultimo accesso il
+        last_sign_in_ip: Ultimo IP di accesso
+        locked_at: Bloccato il
+        password: Password
         password_confirmation: Conferma della password
         remember_created_at: Angemeldet bleiben vom
         remember_me: Angemeldet bleiben
         reset_password_sent_at: Email di reimpostazione della password inviata il
         reset_password_token: Token per la reimpostazione della password
-        sign_in_count:
-        updated_at:
+        sign_in_count: Numero di accessi
+        updated_at: Aggiornato il
     enums:
       booking:
         committed_request:
@@ -426,11 +426,6 @@ it:
           too_far_in_past:
         tenant:
           incomplete: Informazioni incomplete
-      notifications:
-        record_invalid: 'Controllo di validità fallito: %{errors}'
-        restrict_dependent_destroy:
-          has_many: Il record non può essere cancellato perché esistano %{record} record dipendenti.
-          has_one: Il record non può essere cancellato perché esiste un record %{record} dipendente.
     models:
       agent_booking:
         one:
@@ -488,19 +483,25 @@ it:
         one: Transizione di stato
         other: Transizioni di stato
       contract:
+        one:
         other: Contratti
       data_digest:
+        one:
         other: Estratti
       data_digest_template:
         one:
         other:
       data_digest_templates/booking:
+        one:
         other: Estratti di prenotazioni
       data_digest_templates/invoice:
+        one:
         other: Estratti di fatture
       data_digest_templates/invoice_part:
+        one:
         other: Estratti di voci di fattura
       data_digest_templates/payment:
+        one:
         other: Estratti di pagamenti
       deadline:
         one: Scadenza
@@ -590,8 +591,8 @@ it:
         one: Consumo
         other: Consumo
       user:
-        one:
-        other:
+        one: Utente
+        other: Utenti
   add_record: aggiungere %{model_name}
   back: Indietro
   booking_actions:
@@ -939,7 +940,7 @@ it:
       equal_to: deve essere uguale a %{count}
       even: deve essere pari
       exclusion: non è disponibile
-      expired:
+      expired: è scaduto, si prega di richiederne uno nuovo
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
       in: deve essere incluso in %{count}
@@ -950,11 +951,11 @@ it:
       model_invalid: 'Validazione fallita: %{errors}'
       not_a_number: non è un numero
       not_an_integer: non è un numero intero
-      not_found:
-      not_locked:
+      not_found: non trovato
+      not_locked: non era bloccato
       not_saved:
-        one:
-        other:
+        one: 'Non posso salvare questo %{resource}: 1 errore'
+        other: 'Non posso salvare questo %{resource}: %{count} errori.'
       odd: deve essere dispari
       other_than: devono essere di numero diverso da %{count}
       present: non deve essere compilato
@@ -969,44 +970,11 @@ it:
       wrong_length:
         one: è della lunghezza sbagliata (deve essere di 1 carattere)
         other: è della lunghezza sbagliata (deve essere di %{count} caratteri)
-    notifications:
-      accepted:
-      blank: non può essere vuoto
-      confirmation: non corrisponde a %{attribute}
-      empty: non può essere vuoto
-      equal_to:
-      even:
-      exclusion: non è disponibile
-      future: deve essere nel futuro
-      greater_than: deve essere maggiore di %{count}
-      greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
-      inclusion: non è un valore valido
-      invalid: non è valido
-      later_than:
-      less_than:
-      less_than_or_equal_to:
-      model_invalid: 'Controllo di validità fallito: %{errors}'
-      not_a_number:
-      not_an_integer:
-      odd:
-      other_than:
-      present: non deve essere compilato
-      required: non può essere vuoto
-      taken:
-      too_long:
-        one:
-        other:
-      too_short:
-        one:
-        other:
-      wrong_length:
-        one: ha una lunghezza sbagliata (deve avere esattamente 1 carattere)
-        other: ha una lunghezza sbagliata (deve contenere esattamente %{count} caratteri)
     template:
       body: 'Si prega di controllare i seguenti campi:'
       header:
-        one:
-        other:
+        one: 'Non posso salvare questo %{model}: 1 errore'
+        other: 'Non posso salvare questo %{model}: %{count} errori.'
   export:
     pdf:
       renderables:
@@ -1046,9 +1014,9 @@ it:
     select:
       prompt: Selezionare
     submit:
-      create:
-      submit:
-      update:
+      create: Crea %{model}
+      submit: Invia %{model}
+      update: Aggiorna %{model}
   import:
   import_records:
   invoice_parts:
