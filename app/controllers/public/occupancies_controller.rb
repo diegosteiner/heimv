@@ -29,7 +29,7 @@ module Public
     def at
       date = parse_date(params[:date])
       occupancies = Occupancy.accessible_by(current_ability).merge(@home.occupancies)
-      manage = current_organisation_user.present? || current_user.role_admin.presence
+      manage = current_organisation_user.present? || current_user&.role_admin&.presence
       redirect_to OccupancyAtService.new(@home, occupancies).redirect_to(date, manage: manage)
     end
 
