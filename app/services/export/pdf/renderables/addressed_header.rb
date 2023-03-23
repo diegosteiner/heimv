@@ -23,7 +23,7 @@ module Export
         end
 
         def recipient_address
-          @options[:recipient_address].presence || booking.tenant.full_address_lines
+          @options[:recipient_address].presence || booking.tenant&.full_address_lines
         end
 
         def represented_recipient

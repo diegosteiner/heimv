@@ -5,9 +5,7 @@
     = f.text_area :text, rows: 25, class: 'rich-text-area'
     = f.date_field :sent_at unless @contract.new_record?
     = f.file_field :signed_pdf unless @contract.new_record?
-    / = f.date_field :signed_at
-    / = f.datetime_local_field :valid_from
-    / = f.datetime_local_field :valid_until
+    = f.check_box :signed_at, { checked: @contract.signed_at.present? }, @contract.signed_at.nil? ? DateTime.now : @contract.signed_at
 
   .form-actions.pt-4.mt-3
     = f.submit class: 'btn btn-primary'
