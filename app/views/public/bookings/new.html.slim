@@ -13,7 +13,7 @@
         
         = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
 
-        = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f }
+        = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f, disabled: false }
 
         fieldset
           = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),

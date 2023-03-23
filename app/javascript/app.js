@@ -46,7 +46,7 @@ function setupOccupiableSelect() {
       const homeId = selectElement.value;
       const occupiablesCheckboxesElement = baseElement.querySelector(".occupiables-checkboxes");
       const allCheckboxElements = occupiablesCheckboxesElement.querySelectorAll(".form-check");
-      let visibleCount = 0;
+      let visibleCheckboxElements = [];
 
       allCheckboxElements.forEach((checkboxWrapperElement) => {
         const checkboxElement = checkboxWrapperElement.querySelector('input[type="checkbox"]');
@@ -55,14 +55,14 @@ function setupOccupiableSelect() {
           checkboxElement.removeAttribute("disabled");
           if (checkAll) checkboxElement.checked = true;
           checkboxWrapperElement.classList.remove("d-none");
-          visibleCount++;
+          visibleCheckboxElements.push(checkboxElement);
         } else {
           checkboxElement.setAttribute("disabled", true);
           checkboxWrapperElement.classList.add("d-none");
         }
       });
 
-      if (visibleCount == 1) {
+      if (visibleCheckboxElements.length == 1 && visibleCheckboxElements[0].checked) {
         occupiablesCheckboxesElement.classList.add("d-none");
       } else {
         occupiablesCheckboxesElement.classList.remove("d-none");

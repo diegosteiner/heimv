@@ -7,7 +7,7 @@
         - @booking.errors.full_messages.each do |message|
           li= message
 
-  = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f }
+  = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f, disabled: false }
 
   fieldset
     = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),

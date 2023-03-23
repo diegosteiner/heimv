@@ -19,7 +19,7 @@
               div
                 =<> l(@agent_booking.booking.deadline.at, format: :short)
 
-        = render partial: 'public/occupiables/select', locals: { booking: @agent_booking.booking, form: bf }
+        = render partial: 'public/occupiables/select', locals: { booking: @agent_booking.booking, form: bf, disabled: !@agent_booking.booking.editable }
 
         fieldset
           = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
