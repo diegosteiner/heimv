@@ -1153,10 +1153,6 @@ de:
       help: Hilfe
   manage:
     bookings:
-      contracts:
-        index:
-          contract_sent: Vertrag versendet markieren
-          contract_signed: Vertrag unterschrieben markieren
       import:
         headers: Headers
         import_error: 'Import fehlgeschlagen: '
