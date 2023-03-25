@@ -29,4 +29,22 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
     subject { qr_bill.qr_data.values }
     it { is_expected.to eq(expected_payload) }
   end
+
+  describe '#formatted_ref' do
+    subject { qr_bill.formatted_ref }
+    before do
+      allow(invoice).to receive(:ref).and_return('12345678910111213')
+    end
+
+    context 'with QRR Ref' do
+      let(:organisation) do
+        create(:organisation, qr_iban: '01-318421-1', address: "Organisation\nTeststrasse 1\n8000 Zürich")
+      end
+      it { is_expected.to eq('00 00000 00012 34567 89101 11213') }
+    end
+
+    context 'with SCOR Ref' do
+      it { is_expected.to eq('RF 37123 45678 91011 1213') }
+    end
+  end
 end

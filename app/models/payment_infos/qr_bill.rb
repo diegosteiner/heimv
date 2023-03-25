@@ -108,7 +108,7 @@ module PaymentInfos
     end
 
     def formatted_ref
-      ref.chars.in_groups_of(4).map(&:join).join(' ')
+      [ref[..1], ref[2..].chars.in_groups_of(5).map(&:join)].join(' ')
     end
 
     def qrcode

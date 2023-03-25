@@ -37,7 +37,6 @@
 FactoryBot.define do
   factory :invoice do
     booking
-    ref { Faker::Bank.iban }
     issued_at { 1.week.ago }
     payable_until { 3.months.from_now }
     text { Faker::Lorem.sentences }
