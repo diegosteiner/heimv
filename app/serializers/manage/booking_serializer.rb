@@ -6,6 +6,7 @@ module Manage
 
     association :home,          blueprint: Manage::HomeSerializer
     association :occupancies,   blueprint: Manage::OccupancySerializer
+    association :occupiables,   blueprint: Manage::OccupiableSerializer
     association :tenant,        blueprint: Manage::TenantSerializer
     association :deadline,      blueprint: Manage::DeadlineSerializer
     association :category,      blueprint: Manage::BookingCategorySerializer
