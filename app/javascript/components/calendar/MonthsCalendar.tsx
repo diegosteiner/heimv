@@ -2,6 +2,7 @@ import { getYear, getDay, parseISO, formatISO, isValid, eachDayOfInterval, endOf
 import * as React from "react";
 import styled from "@emotion/styled";
 import { getMonth } from "date-fns";
+import { initializeDate, monthNameFormatter, weekdayNameFormatter } from "./calendar_functions";
 
 const StyledCalendar = styled.div`
   .calendarNav {
@@ -73,12 +74,6 @@ const StyledCalendar = styled.div`
   }
 `;
 
-const monthNameFormatter = new Intl.DateTimeFormat(undefined, {
-  month: "long",
-});
-const weekdayNameFormatter = new Intl.DateTimeFormat(undefined, {
-  weekday: "short",
-});
 const materializedWeekdays = [1, 2, 3, 4, 5, 6, 7].map((i) => weekdayNameFormatter.format(new Date(2021, 2, i)));
 
 function materializedMonths(startDate: Date, monthsCount: number) {
@@ -179,14 +174,12 @@ interface CalendarProps {
   dayElement(dateString: string): React.ReactElement;
 }
 
-function Calendar({ start, dayElement, monthsCount = 12 }: CalendarProps) {
+function MonthsCalendar({ start, dayElement, monthsCount = 12 }: CalendarProps) {
   const monthsCountNumber: number = Number.isInteger(monthsCount)
     ? (monthsCount as number)
     : parseInt(monthsCount.toString());
 
-  let startDate = typeof start === "string" ? parseISO(start) : start;
-  if (!isValid(startDate)) startDate = new Date();
-
+  const startDate = initializeDate(start);
   const [visibleMonths, setVisibleMonths] = React.useState<YearMonth[]>(() =>
     materializedMonths(startDate as Date, monthsCountNumber)
   );
@@ -239,4 +232,4 @@ function Calendar({ start, dayElement, monthsCount = 12 }: CalendarProps) {
   );
 }
 
-export default Calendar;
+export default MonthsCalendar;

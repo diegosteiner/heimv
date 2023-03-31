@@ -1,12 +1,15 @@
 import * as React from "react";
 import { parseISO, formatISO, isBefore, isAfter, setHours, startOfDay, endOfDay, isWithinInterval } from "date-fns/esm";
-import Calendar from "./Calendar";
+import MonthsCalendar from "./MonthsCalendar";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 import { css } from "@emotion/react";
 import * as chroma from "chroma.ts";
 import { useTranslation } from "react-i18next";
 import { OccupancyWindow, occupanciesAt } from "../../models/OccupancyWindow";
 import { Occupancy } from "../../models/Occupancy";
+import YearCalendar from "./YearCalendar";
+import { getDay } from "date-fns";
+import { materializedWeekdays } from "./calendar_functions";
 
 const styles = (slotColors: (string | undefined)[]) => {
   // const backgroundize = (color: string) => chroma.css(color).brighter(0.75).saturate(-0.25).toString()
@@ -114,9 +117,17 @@ interface CalendarDayProps {
   classNames?: string | ((date: Date) => string);
   disabled?: boolean | ((date: Date) => boolean);
   onClick?: (e: React.MouseEvent) => void;
+  label?: (date: Date) => string;
 }
 
-export function CalendarDay({ dateString, occupancies = new Set(), classNames, disabled, onClick }: CalendarDayProps) {
+export function CalendarDay({
+  dateString,
+  occupancies = new Set(),
+  classNames,
+  disabled,
+  onClick,
+  label,
+}: CalendarDayProps) {
   const date = parseISO(dateString);
   const { t } = useTranslation();
   const slots = occupancySlotsInCalendarDay(date, occupancies);
@@ -135,7 +146,7 @@ export function CalendarDay({ dateString, occupancies = new Set(), classNames, d
       css={styles(slots.map((slot) => slot?.color))}
       formTarget="_top"
     >
-      {date.getDate()}
+      {label ? label(date) : date.getDate()}
     </button>
   );
 
@@ -209,6 +220,7 @@ function CalendarWithOccupancies({
             dateString={dateString}
             classNames={classNamesCallback}
             onClick={onClick}
+            // label={(date) => materializedWeekdays[getDay(date)]}
             disabled={disabledCallback || ((date: Date) => defaultDisabledCallback(date, occupancyWindow))}
           ></CalendarDay>
         );
@@ -218,7 +230,8 @@ function CalendarWithOccupancies({
 
   return (
     <div className="occupancyCalendar">
-      <Calendar start={start} monthsCount={monthsCount} dayElement={dayElement}></Calendar>
+      <MonthsCalendar start={start} monthsCount={monthsCount} dayElement={dayElement}></MonthsCalendar>
+      {/* <YearCalendar start={start} dayElement={dayElement}></YearCalendar> */}
     </div>
   );
 }
