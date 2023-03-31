@@ -14,9 +14,9 @@ class OccupancyAtService
     if date && manage
       occupancies = at(date)
       bookings = occupancies.filter_map(&:booking)
-      return manage_bookings_path(booking_filter_params(date).merge(org: org)) if bookings.count > 1
-      return manage_booking_path(bookings.first, org: org)                     if bookings.count == 1
-      return edit_manage_occupancy_path(id: occupancies.first, org: org)       if occupancies.count == 1
+      return manage_bookings_path(filter: booking_filter_params(date), org: org) if bookings.count > 1
+      return manage_booking_path(bookings.first, org: org)                       if bookings.count == 1
+      return edit_manage_occupancy_path(id: occupancies.first, org: org)         if occupancies.count == 1
     end
 
     new_public_booking_path(org: org, booking: { home_id: @home.to_param, begins_at: date })
