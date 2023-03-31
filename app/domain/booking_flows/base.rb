@@ -57,6 +57,10 @@ module BookingFlows
       end
     end
 
+    def possible_transitions
+      successors_for(current_state)
+    end
+
     def infer_next_state
       self.class.callbacks[:infer].each do |callback|
         from = callback.from.to_s
