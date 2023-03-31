@@ -36,10 +36,11 @@ fr:
         ends_at: Jusqu'à / jusqu'au
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
+      occupiable_settings:
+        booking_margin: Espacement/période entre les réservations
       organisation_settings:
         awaiting_contract_deadline: Délai de réception du contrat
         begins_at_default_time: Heure de début de location par défaut (à partir de minuit)
-        booking_margin: Espacement/période entre les réservations
         closed_occupancy_color: Couleur pour les clôtures
         deadline_postponable_for: Prolongation du délai
         deposit_payment_deadline: Délai de paiement standard (acompte)

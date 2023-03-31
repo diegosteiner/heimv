@@ -9,6 +9,9 @@
     = f.check_box :occupiable
     = f.collection_select :home_id, current_organisation.homes, :id, :to_s, include_blank: true
 
+  = f.fields_for :settings, @occupiable.settings || OccupiableSettings.new do |sf|  
+    = sf.text_field :booking_margin, value: sf.object.booking_margin&.iso8601
+
   .form-actions.pt-4.mt-3
     = f.submit
     - unless @occupiable.new_record?

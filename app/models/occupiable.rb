@@ -11,6 +11,7 @@
 #  name            :string
 #  occupiable      :boolean          default(FALSE)
 #  ref             :string
+#  settings        :jsonb
 #  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -33,6 +34,8 @@ class Occupiable < ApplicationRecord
 
   belongs_to :organisation, inverse_of: :occupiables
   belongs_to :home, inverse_of: :occupiables, optional: true
+
+  attribute :settings, Settings::Type.new(OccupiableSettings), default: -> { OccupiableSettings.new }
 
   scope :ordered, -> { order(name: :ASC) }
   scope :occupiable, -> { where(occupiable: true) }

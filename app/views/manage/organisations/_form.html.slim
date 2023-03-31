@@ -60,7 +60,6 @@
       h3.mt-5= Deadline.model_name.human(count: 2)
       .card 
         .card-body
-          = sf.text_field :booking_margin, value: settings.booking_margin&.iso8601
           = sf.text_field :awaiting_contract_deadline, value: settings.awaiting_contract_deadline&.iso8601
           = sf.text_field :deadline_postponable_for, value: settings.deadline_postponable_for&.iso8601
           = sf.text_field :deposit_payment_deadline, value: settings.deposit_payment_deadline&.iso8601

@@ -11,6 +11,7 @@
 #  name            :string
 #  occupiable      :boolean          default(FALSE)
 #  ref             :string
+#  settings        :jsonb
 #  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
