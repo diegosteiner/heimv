@@ -9,6 +9,7 @@ module Public
     before_action :set_calendar, only: %i[calendar index]
     respond_to :json, :ics
 
+    # CAUTION: Used by Gruppenhaus!
     def index
       respond_to do |format|
         format.json { render json: OccupancySerializer.render(@calendar.occupancies) }
@@ -26,22 +27,7 @@ module Public
       render json: OccupancyCalendarSerializer.render(@calendar)
     end
 
-    def at
-      date = parse_date(params[:date])
-      occupancies = Occupancy.accessible_by(current_ability).merge(@home.occupancies)
-      manage = current_organisation_user.present? || current_user&.role_admin&.presence
-      redirect_to OccupancyAtService.new(@home, occupancies).redirect_to(date, manage: manage)
-    end
-
     private
-
-    def parse_date(value, format: nil)
-      return if value.blank?
-
-      Date.parse(value, format: format)
-    rescue Date::Error, TypeError
-      nil
-    end
 
     def set_calendar
       window_from = current_organisation_user.present? ? 2.months.ago : Time.zone.now.beginning_of_day

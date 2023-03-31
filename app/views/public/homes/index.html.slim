@@ -5,6 +5,6 @@
         = home
       = react_component('calendar/OccupancyCalendar', { \ 
           calendarUrl: calendar_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, format: :json), \
-          occupancyAtUrl: at_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, date: '__DATE__'), \
+          occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, occupiable_id: home.to_param, date: '__DATE__'), \
           monthsCount: params.fetch(:display_months, 8) \
         })
