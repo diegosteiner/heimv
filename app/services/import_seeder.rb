@@ -42,7 +42,7 @@ class ImportSeeder
     onboarding = OnboardingService.new(organisation)
     users ||= [
       { email: 'supermanager@heimv.local', role: :admin, password: 'heimverwaltung' },
-      { email: 'manager@heimv.local', role: :manager, password: 'heimverwaltung' },
+      { email: 'manager@heimv.local', role: :admin, password: 'heimverwaltung' },
       { email: 'reader@heimv.local', role: :readonly, password: 'heimverwaltung' }
     ]
 
