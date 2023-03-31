@@ -1,13 +1,13 @@
-- current_organisation.homes.each do |home|
+- current_organisation.occupiables.active.each do |occupiable|
   .card.my-3
     .card-body
-      h1.mt-2.text-center= home
+      h1.mt-2.text-center= occupiable
       = react_component('calendar/OccupancyCalendar', { \ 
-          calendarUrl: calendar_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, format: :json), \
-          occupancyAtUrl: at_home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, date: '__DATE__'), \
+          calendarUrl: occupiable_calendar_url(org: current_organisation&.slug, occupiable_id: occupiable.to_param, format: :json), \
+          occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, occupiable_id: occupiable.to_param, date: '__DATE__'), \
           monthsCount: params.fetch(:display_months, 8) \
         })
 
       .text-end.small
-        = link_to home_occupancies_url(org: current_organisation&.slug, home_id: home.to_param, format: :ics)
+        = link_to home_occupancies_url(org: current_organisation&.slug, home_id: occupiable.to_param, format: :ics)
           = t('.ics_link')

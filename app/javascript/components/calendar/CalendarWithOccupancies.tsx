@@ -155,34 +155,35 @@ export function CalendarDay({
   const popover = (
     <Popover id="popover-basic">
       <Popover.Body>
-        {Array.from(occupancies).map((occupancy) => {
-          const deadline = occupancy.deadline;
+        <ul className="list-unstyled">
+          {Array.from(occupancies).map((occupancy) => {
+            const deadline = occupancy.deadline;
 
-          return (
-            <dl className="my-2" key={`${formatISO(date, { representation: "date" })}-${occupancy.id}`}>
-              <dt>
-                {formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}
-              </dt>
-              <dd>
-                <span>
-                  <>
+            return (
+              <li className="my-3" key={`${formatISO(date, { representation: "date" })}-${occupancy.id}`}>
+                <span className="d-block">{occupancy.occupiable.name}</span>
+                <strong className="d-block">
+                  {formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}
+                </strong>
+                <div className="d-block">
+                  <span>
                     {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`)}
                     <br />
                     {occupancy.ref || occupancy.remarks}
-                  </>
-                </span>
-                {deadline && (
-                  <span>
-                    <>
-                      {" "}
-                      ({t("until")} {formatDate(deadline)})
-                    </>
                   </span>
-                )}
-              </dd>
-            </dl>
-          );
-        })}
+                  {deadline && (
+                    <span>
+                      <>
+                        {" "}
+                        ({t("until")} {formatDate(deadline)})
+                      </>
+                    </span>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </Popover.Body>
     </Popover>
   );

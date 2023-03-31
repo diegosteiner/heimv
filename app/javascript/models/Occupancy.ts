@@ -1,16 +1,5 @@
 import parseISO from "date-fns/parseISO";
 
-export type OccupancyJsonData = {
-  begins_at: string;
-  ends_at: string;
-  occupancy_type: string;
-  id: string;
-  ref: string | null;
-  deadline: string | null;
-  remarks: string | null;
-  color?: string;
-};
-
 export type Occupancy = {
   id: string;
   begins_at: Date;
@@ -20,9 +9,21 @@ export type Occupancy = {
   deadline: Date | null;
   remarks: string | null;
   color?: string;
+  occupiable: Occupiable;
 };
 
-export function fromJson(json: OccupancyJsonData): Occupancy {
+export type Occupiable = {
+  id: string;
+  name: string;
+};
+
+export function fromJson(
+  json: Occupancy & {
+    begins_at: string;
+    ends_at: string;
+    deadline: string | null;
+  }
+): Occupancy {
   const { begins_at, ends_at, deadline, ...rest } = json;
 
   return {

@@ -3,13 +3,13 @@
 class OccupancyAtService
   include Rails.application.routes.url_helpers
 
-  def initialize(home, occupancies)
-    @home = home
+  def initialize(occupiable, occupancies)
+    @occupiable = occupiable
     @occupancies = occupancies
   end
 
   def redirect_to(date, manage: false)
-    org = @home.organisation
+    org = @occupiable.organisation
 
     if date && manage
       occupancies = at(date)
@@ -19,7 +19,7 @@ class OccupancyAtService
       return edit_manage_occupancy_path(id: occupancies.first, org: org)         if occupancies.count == 1
     end
 
-    new_public_booking_path(org: org, booking: { home_id: @home.to_param, begins_at: date })
+    new_public_booking_path(org: org, booking: { home_id: @occupiable.home_id, begins_at: date })
   end
 
   def at(date)
@@ -33,7 +33,7 @@ class OccupancyAtService
     return unless date
 
     {
-      homes: [@home.id], current_booking_states: [nil],
+      occupiables: [@occupiable.id], current_booking_states: [nil],
       begins_at_before: date.end_of_day, ends_at_after: date.beginning_of_day,
       occupancy_type: %i[tentative occupied]
     }

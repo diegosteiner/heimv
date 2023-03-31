@@ -73,6 +73,14 @@ Rails.application.routes.draw do
           end
         end
       end
+      resources :occupiables, only: [] do
+        resource :calendar, only: [] do
+          get :embed
+          get :index
+          get :at
+          get '@:date', action: :at
+        end
+      end
       root to: 'pages#home'
     end
   end

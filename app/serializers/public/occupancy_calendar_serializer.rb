@@ -4,7 +4,7 @@ module Public
   class OccupancyCalendarSerializer < ApplicationSerializer
     DEFAULT_INCLUDES = 'occupancies.booking,occupancies.booking.organisation'
 
-    association :home, blueprint: Public::HomeSerializer
+    association :occupiables, blueprint: Public::OccupiableSerializer
     association :occupancies, blueprint: Public::OccupancySerializer
 
     fields :window_from, :window_to

@@ -19,7 +19,7 @@ class IcalService
       ical_event.location =    occupancy.occupiable.to_s
       ical_event.description = occupancy.remarks.presence
       ical_event.summary =     occupancy.booking&.ref
-      ical_event.location =    occupancy.booking&.to_s
+      ical_event.location =    occupancy.occupiable&.to_s
       ical_event.status =      occupancy.occupancy_type
     end
   end
