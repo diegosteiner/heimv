@@ -1,3 +1,4 @@
+import { isWithinInterval } from "date-fns";
 import { addHours, endOfDay, isBefore, startOfDay } from "date-fns/esm";
 import { isAfter } from "date-fns/esm";
 import { forwardRef, MouseEventHandler, Ref, useMemo } from "react";
@@ -54,28 +55,29 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
   const dayStart = startOfDay(date);
   const dayMid = addHours(dayStart, 12);
   const dayEnd = endOfDay(date);
+  const allDayInterval = { start: dayStart, end: dayEnd };
+  const forenoonInterval = { start: dayStart, end: dayMid };
+  const afternoonInterval = { start: dayMid, end: dayEnd };
   const slots = { allday: new Set<Occupancy>(), forenoon: new Set<Occupancy>(), afternoon: new Set<Occupancy>() };
 
   occupancies.forEach((occupancy) => {
     const { begins_at, ends_at } = occupancy;
 
+    // begins before and ends after that day => allDay
+    if (isBefore(begins_at, dayStart) && isAfter(ends_at, dayEnd)) return slots.allday.add(occupancy);
+
+    // ends in the afternoon or begins in the forenoon, there are no others => allDay
     if (
-      (isBefore(begins_at, dayStart) && isAfter(ends_at, dayMid)) ||
-      (isBefore(begins_at, dayMid) && isAfter(ends_at, dayEnd))
+      occupancies.size == 1 &&
+      (isWithinInterval(ends_at, afternoonInterval) || isWithinInterval(begins_at, forenoonInterval))
     )
       return slots.allday.add(occupancy);
 
-    if (
-      (isAfter(ends_at, dayMid) && isBefore(ends_at, dayEnd)) ||
-      (isAfter(begins_at, dayMid) && isBefore(begins_at, dayEnd))
-    )
-      slots.afternoon.add(occupancy);
+    // ends that day => foreNoon
+    if (isWithinInterval(ends_at, allDayInterval)) return slots.forenoon.add(occupancy);
 
-    if (
-      (isAfter(ends_at, dayStart) && isBefore(ends_at, dayEnd)) ||
-      (isAfter(begins_at, dayStart) && isBefore(begins_at, dayMid))
-    )
-      slots.forenoon.add(occupancy);
+    // begins that day => afternoon
+    if (isWithinInterval(begins_at, allDayInterval)) return slots.afternoon.add(occupancy);
   });
 
   return slots;
