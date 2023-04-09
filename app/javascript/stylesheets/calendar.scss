@@ -99,7 +99,7 @@
       cursor: pointer;
     }
 
-    .halfdays {
+    .slots {
       position: absolute;
       height: 150%;
       width: 150%;
@@ -113,6 +113,14 @@
       &>div {
         flex-grow: 1;
       }
+    }
+  }
+}
+
+#occupancy-popover {
+  ul.occupancies {
+    &>li+li {
+      margin-top: 2em;
     }
   }
 }

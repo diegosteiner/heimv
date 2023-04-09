@@ -1,4 +1,5 @@
 import * as React from "react";
+import { forwardRef, Ref } from "react";
 import { Popover } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Occupancy } from "../../models/Occupancy";
@@ -10,17 +11,17 @@ interface OccupancyPopoverProps {
   occupancyWindow?: OccupancyWindow;
 }
 
-export const OccupancyPopover = React.forwardRef(function OccupancyPopover({
-  dateString,
-  occupancyWindow,
-}: OccupancyPopoverProps) {
+export const OccupancyPopover = forwardRef(function OccupancyPopover(
+  { dateString, occupancyWindow, ...props }: OccupancyPopoverProps,
+  ref: Ref<HTMLDivElement>
+) {
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
   if (!occupancies || occupancies.size <= 0) return <></>;
 
   return (
-    <Popover id="popover-basic">
+    <Popover id="occupancy-popover" ref={ref} {...props}>
       <Popover.Body>
-        <ul className="list-unstyled">
+        <ul className="list-unstyled p-0 m-0 occupancies">
           {Array.from(occupancies).map((occupancy) => (
             <OccupancyLi key={occupancy.id} occupancy={occupancy}></OccupancyLi>
           ))}
@@ -35,8 +36,8 @@ function OccupancyLi({ occupancy }: { occupancy: Occupancy }) {
   const { t } = useTranslation();
 
   return (
-    <li className="my-3">
-      <div>{occupancy.occupiable.name}</div>
+    <li>
+      <i>{occupancy.occupiable.name}</i>
       <strong className="d-block">
         {formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}
       </strong>
