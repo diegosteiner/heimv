@@ -68,6 +68,14 @@
     }
   }
 
+  button.selected-date {
+    outline-width: 0.5em;
+    outline-style: solid;
+    outline-color: rgba(var(--bs-primary-rgb), 0.9);
+    z-index: 10;
+    font-weight: bold;
+  }
+
   button.occupancy-calendar-date {
     position: relative;
     background: transparent;
@@ -78,7 +86,7 @@
     padding: 0;
     overflow: hidden;
 
-    &.occupied>label {
+    &.has-occupancies>label {
       font-weight: bold;
     }
 
@@ -92,7 +100,7 @@
       top: 50%;
       margin-top: -0.5em;
       line-height: 1em;
-      z-index: 1;
+      z-index: 2;
       width: 100%;
       text-align: center;
       opacity: 0.8;
@@ -109,6 +117,7 @@
       left: -25%;
       display: flex;
       gap: 1px;
+      z-index: 1;
 
       &>div {
         flex-grow: 1;

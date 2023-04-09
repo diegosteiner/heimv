@@ -30,19 +30,22 @@ export const OccupancyCalendarDate = forwardRef(function OccupancyCalendarDate(
   const date = startOfDay(parseDate(dateString));
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
   const slots = useMemo(() => splitSlots(date, occupancies), [date, occupancies]);
+  const className = `occupancy-calendar-date ${occupancies.size > 0 && "has-occupancies"} ${
+    classNameCallback && classNameCallback(date)
+  }`;
 
   return (
     <button
       type="submit"
       name="date"
       disabled={disabledCallback && disabledCallback(date)}
-      className={classNameCallback && classNameCallback(date)}
+      className={className}
       onClick={onClick}
       value={dateString}
       ref={ref}
       {...props}
     >
-      <label style={{ fontWeight: occupancies.size > 0 ? "bold" : "normal" }}>{labelCallback(date)}</label>
+      <label>{labelCallback(date)}</label>
       <div className="slots" style={{ backgroundColor: findMostRelevantOccupancy(slots.allday)?.color }}>
         <div className="forenoon" style={{ backgroundColor: findMostRelevantOccupancy(slots.forenoon)?.color }}></div>
         <div className="afternoon" style={{ backgroundColor: findMostRelevantOccupancy(slots.afternoon)?.color }}></div>

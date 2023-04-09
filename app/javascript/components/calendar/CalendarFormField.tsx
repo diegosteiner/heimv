@@ -16,6 +16,7 @@ import {
   addYears,
 } from "date-fns/esm";
 import { getYear } from "date-fns";
+import OccupancyCalendar from "./OccupancyCalendar";
 
 export type HourRange = number[] | string;
 
@@ -84,7 +85,7 @@ type CalendarControlValue = {
   text: string;
 };
 
-interface CalendarControlProps {
+interface CalendarInputProps {
   value: string | Date;
   name?: string;
   id?: string;
@@ -98,9 +99,10 @@ interface CalendarControlProps {
   minDate?: Date;
   maxDate?: Date;
   availableHours?: number[] | string;
+  calendarUrl?: string;
 }
 
-export default function OccupancyDateTimeFormControl({
+export function CalendarInput({
   value = "",
   name,
   id,
@@ -111,7 +113,8 @@ export default function OccupancyDateTimeFormControl({
   isInvalid = false,
   minDate,
   maxDate,
-}: CalendarControlProps) {
+  calendarUrl,
+}: CalendarInputProps) {
   const availableHours = [...Array(23)].map((_, i) => 0 + i);
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [calendarControlValue, setCalendarControlValue] = React.useState<CalendarControlValue>({
@@ -142,7 +145,7 @@ export default function OccupancyDateTimeFormControl({
   const handleClick = (event: React.MouseEvent) => {
     if (disabled) return;
 
-    const parsedValue = parseISO((event.target as HTMLInputElement).value);
+    const parsedValue = parseISO((event.currentTarget as HTMLInputElement).value);
     if (!isValid(parsedValue)) return;
 
     setDateValue({ date: parsedValue });
@@ -165,7 +168,7 @@ export default function OccupancyDateTimeFormControl({
   };
 
   const classNameCallback = (date: Date) =>
-    calendarControlValue?.date && isSameDay(date, calendarControlValue.date) ? "bg-primary text-white" : "";
+    calendarControlValue?.date && isSameDay(date, calendarControlValue.date) ? "selected-date" : "";
 
   const disabledCallback = (date: Date) =>
     (minDate && isBefore(date, minDate)) || (maxDate && isAfter(date, maxDate)) || false;
@@ -244,14 +247,54 @@ export default function OccupancyDateTimeFormControl({
       </Row>
       <Modal size="lg" show={showModal} onHide={handleClose}>
         <Modal.Body>
-          <CalendarWithOccupancies
-            start={formatISO(calendarControlValue.date || new Date())}
-            onClick={handleClick}
-            classNamesCallback={classNameCallback}
+          <OccupancyCalendar
+            calendarUrl={calendarUrl}
+            classNameCallback={classNameCallback}
             disabledCallback={disabledCallback}
-          ></CalendarWithOccupancies>
+            onClick={handleClick}
+          ></OccupancyCalendar>
         </Modal.Body>
       </Modal>
     </div>
+  );
+}
+
+interface CalendarFormField {
+  value: string;
+  name: string;
+  id?: string;
+  label: string;
+  required?: boolean;
+  disabled?: boolean;
+  isInvalid?: boolean;
+  invalidFeedback?: string;
+  calendarUrl?: string;
+}
+
+export default function CalendarFormField({
+  value,
+  name,
+  id,
+  label,
+  required = false,
+  disabled = false,
+  invalidFeedback,
+  isInvalid = !!invalidFeedback,
+  calendarUrl,
+}: CalendarFormField) {
+  return (
+    <Form.Group className="mb-3">
+      <Form.Label className={required ? "required" : ""}>{label}</Form.Label>
+      <CalendarInput
+        disabled={disabled}
+        value={value}
+        name={name}
+        id={id}
+        required={required}
+        isInvalid={isInvalid}
+        calendarUrl={calendarUrl}
+      ></CalendarInput>
+      <Form.Control.Feedback type="invalid">{invalidFeedback}</Form.Control.Feedback>
+    </Form.Group>
   );
 }

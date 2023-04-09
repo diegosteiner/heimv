@@ -10,27 +10,38 @@ import { OverlayTrigger } from "react-bootstrap";
 
 interface OccupancyCalendarProps {
   start?: string;
-  monthsCount?: number;
-  occupancyAtUrl: string;
-  calendarUrl: string;
+  occupancyAtUrl?: string;
+  calendarUrl?: string;
+  onClick?: MouseEventHandler;
+  classNameCallback?: (date: Date) => string;
+  disabledCallback?: (date: Date) => boolean;
 }
 
 // type ViewType = "months" | "year";
 
-function OccupancyCalendar({ start, calendarUrl, occupancyAtUrl }: OccupancyCalendarProps) {
+function OccupancyCalendar({
+  start,
+  calendarUrl,
+  occupancyAtUrl,
+  classNameCallback,
+  disabledCallback,
+  onClick,
+}: OccupancyCalendarProps) {
   // const [view, setView] = useState<ViewType>("months");
   const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindow | undefined>();
 
   useEffect(() => {
     (async () => {
+      if (!calendarUrl) return;
       const result = await fetch(calendarUrl);
       if (result.status == 200) setOccupancyWindow(fromJson(await result.json()));
     })();
-  }, []);
+  }, [calendarUrl]);
 
-  const handleClick: MouseEventHandler = useCallback(
+  onClick ??= useCallback<MouseEventHandler>(
     (event) => {
       event.preventDefault();
+      if (!occupancyAtUrl) return;
       const target = event.currentTarget as HTMLButtonElement;
       if (!target.value || !window.top) return;
       window.top.location.href = occupancyAtUrl.replace("__DATE__", target.value);
@@ -38,12 +49,10 @@ function OccupancyCalendar({ start, calendarUrl, occupancyAtUrl }: OccupancyCale
     [occupancyAtUrl]
   );
 
-  const disabledCallback = useCallback(
+  disabledCallback ??= useCallback(
     (date: Date) => !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end),
     [occupancyWindow]
   );
-
-  const classNameCallback = useCallback(() => "occupancy-calendar-date", []);
 
   const dateElementFactory: DateElementFactory = useCallback(
     (dateString: string, labelCallback: (date: Date) => string) => (
@@ -57,7 +66,7 @@ function OccupancyCalendar({ start, calendarUrl, occupancyAtUrl }: OccupancyCale
           occupancyWindow={occupancyWindow}
           disabledCallback={disabledCallback}
           classNameCallback={classNameCallback}
-          onClick={handleClick}
+          onClick={onClick}
         ></OccupancyCalendarDate>
       </OverlayTrigger>
     ),
