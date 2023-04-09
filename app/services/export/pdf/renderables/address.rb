@@ -19,8 +19,8 @@ module Export
         end
 
         def render
-          bounding_box [x_position, y_position], width: 200, height: 140 do
-            text @options[:label], size: 12, style: :bold if @options[:label]
+          bounding_box [x_position, y_position], width: 200, height: 110 do
+            text @options[:label], size: 10, style: :bold if @options[:label]
             move_down 5
 
             if representing?

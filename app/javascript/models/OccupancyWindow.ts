@@ -1,5 +1,5 @@
 import { Occupancy, OccupancyJsonType, fromJson as occupancyFromJson } from "./Occupancy";
-import { parseISO, eachDayOfInterval, formatISO, isDate } from "date-fns";
+import { parseISO, eachDayOfInterval, formatISO } from "date-fns";
 
 export type OccupancyWindow = {
   start: Date;

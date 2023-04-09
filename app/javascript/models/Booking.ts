@@ -1,5 +1,4 @@
 import parseISO from "date-fns/parseISO";
-import { OccupancyJsonData, fromJson as occupancyFromJson } from "./Occupancy";
 
 export type Booking = {
   home_ids: number | number[];
