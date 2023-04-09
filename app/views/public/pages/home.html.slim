@@ -1,7 +1,7 @@
 .container 
   .row
     - @organisations.each do |organisation|
-      .col-lg-4.col-md-3
+      .col-lg-3.col-md-3
         .card.mb-3
           .card-body 
             = link_to manage_root_path(org: organisation) do
