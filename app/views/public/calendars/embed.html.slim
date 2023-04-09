@@ -12,5 +12,5 @@ html[lang="#{I18n.locale}-CH"]
     = react_component('calendar/OccupancyCalendar', { \ 
         calendarUrl: occupiable_calendar_url(org: current_organisation&.slug, occupiable_id: @occupiable.to_param, format: :json), \
         occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, occupiable_id: @occupiable.to_param, date: '__DATE__'), \
-        monthsCount: params.fetch(:display_months, 8) \
+        defaultView: params[:default_view] \
       })

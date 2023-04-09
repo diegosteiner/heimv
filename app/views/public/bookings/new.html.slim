@@ -16,13 +16,13 @@
         = render partial: 'public/occupiables/select', locals: { booking: @booking, form: f, disabled: false }
 
         fieldset
-          = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:begins_at),
+          = react_component('calendar/CalendarFormField', label: Booking.human_attribute_name(:begins_at),
                                                       id: 'booking_begins_at',
                                                       name: 'booking[begins_at]',
                                                       value: @booking.begins_at&.iso8601, required: true,
                                                       invalidFeedback: @booking.errors[:begins_at].to_sentence)
 
-          = react_component('calendar/CalendarControlGroup', label: Booking.human_attribute_name(:ends_at),
+          = react_component('calendar/CalendarFormField', label: Booking.human_attribute_name(:ends_at),
                                                       id: 'booking_ends_at',
                                                       name: 'booking[ends_at]',
                                                       value: @booking.ends_at&.iso8601, required: true,

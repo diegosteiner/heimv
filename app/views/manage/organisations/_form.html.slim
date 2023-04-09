@@ -56,6 +56,8 @@
           = sf.text_field :begins_at_default_time, value: settings.begins_at_default_time&.iso8601
           = sf.text_field :ends_at_default_time, value: settings.ends_at_default_time&.iso8601
 
+          = sf.select :default_calendar_view, %i[months year].map { |view| [view, view] }
+
     fieldset
       h3.mt-5= Deadline.model_name.human(count: 2)
       .card 

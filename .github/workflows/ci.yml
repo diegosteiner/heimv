@@ -29,8 +29,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: docker build test
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
+          context: .
           load: true
           push: false
           target: build
@@ -39,8 +40,9 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: docker build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
+          context: .
           load: true
           push: false
           tags: ghcr.io/${{ github.repository }}:latest

@@ -28,6 +28,8 @@
     "prettier/prettier": "warn",
     "react/jsx-uses-vars": "error",
     "react/prop-types": "off",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
     "max-len": [
       "error",
       {

@@ -1,41 +1,89 @@
+import { MouseEventHandler, useCallback, useEffect, useState } from "react";
+import { DateElementFactory } from "./CalendarDate";
+import MonthsCalendar from "./MonthsCalendar";
+import { OccupancyCalendarDate } from "./OccupancyCalendarDate";
 import * as React from "react";
-import { OccupancyWindow, fromJson as occupancyWindowFromJson } from "../../models/OccupancyWindow";
-import CalendarWithOccupancies from "./CalendarWithOccupancies";
+import { OccupancyPopover } from "./OccupancyPopover";
+import { fromJson, OccupancyWindow } from "../../models/OccupancyWindow";
+import { isAfter, isBefore } from "date-fns/esm";
+import { OverlayTrigger } from "react-bootstrap";
+import YearCalendar from "./YearCalendar";
 
 interface OccupancyCalendarProps {
   start?: string;
-  monthsCount?: number;
-  occupancyAtUrl: string;
-  calendarUrl: string;
+  occupancyAtUrl?: string;
+  calendarUrl?: string;
+  onClick?: MouseEventHandler;
+  classNameCallback?: (date: Date) => string;
+  disabledCallback?: (date: Date) => boolean;
+  defaultView?: ViewType;
 }
 
-function OccupancyCalendar({ start, calendarUrl, occupancyAtUrl, monthsCount }: OccupancyCalendarProps) {
-  const [occupancyWindow, setOccupancyWindow] = React.useState<OccupancyWindow | undefined>();
+type ViewType = "months" | "year";
 
-  React.useEffect(() => {
+function OccupancyCalendar({
+  start,
+  calendarUrl,
+  occupancyAtUrl,
+  classNameCallback,
+  disabledCallback,
+  onClick,
+  defaultView,
+}: OccupancyCalendarProps) {
+  const [view] = useState<ViewType>(defaultView || "months");
+  const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindow | undefined>();
+
+  useEffect(() => {
     (async () => {
+      if (!calendarUrl) return;
       const result = await fetch(calendarUrl);
-      if (result.status == 200) setOccupancyWindow(occupancyWindowFromJson(await result.json()));
+      if (result.status == 200) setOccupancyWindow(fromJson(await result.json()));
     })();
-  }, []);
+  }, [calendarUrl]);
 
-  const handleClick = (e: React.MouseEvent): void => {
-    const target = e.target as HTMLButtonElement;
-    e.preventDefault();
-    if (!target.value || !window.top) return;
-    const url = occupancyAtUrl.replace("__DATE__", target.value);
-    window.top.location.href = url;
-  };
+  onClick ??= useCallback<MouseEventHandler>(
+    (event) => {
+      event.preventDefault();
+      if (!occupancyAtUrl) return;
+      const target = event.currentTarget as HTMLButtonElement;
+      if (!target.value || !window.top) return;
+      window.top.location.href = occupancyAtUrl.replace("__DATE__", target.value);
+    },
+    [occupancyAtUrl]
+  );
+
+  disabledCallback ??= useCallback(
+    (date: Date) => !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end),
+    [occupancyWindow]
+  );
+
+  const dateElementFactory: DateElementFactory = useCallback(
+    (dateString: string, labelCallback: (date: Date) => string) => (
+      <OverlayTrigger
+        trigger={["focus", "hover"]}
+        overlay={<OccupancyPopover occupancyWindow={occupancyWindow} dateString={dateString}></OccupancyPopover>}
+      >
+        <OccupancyCalendarDate
+          dateString={dateString}
+          labelCallback={labelCallback}
+          occupancyWindow={occupancyWindow}
+          disabledCallback={disabledCallback}
+          classNameCallback={classNameCallback}
+          onClick={onClick}
+        ></OccupancyCalendarDate>
+      </OverlayTrigger>
+    ),
+    [occupancyWindow]
+  );
 
   return (
-    <form action={occupancyAtUrl} method="GET">
-      <CalendarWithOccupancies
-        start={start}
-        monthsCount={monthsCount}
-        occupancyWindow={occupancyWindow}
-        onClick={handleClick}
-      ></CalendarWithOccupancies>
-    </form>
+    <React.StrictMode>
+      <div className="calendar">
+        {(view == "year" && (
+          <YearCalendar initialFirstDate={start} dateElementFactory={dateElementFactory}></YearCalendar>
+        )) || <MonthsCalendar initialFirstDate={start} dateElementFactory={dateElementFactory}></MonthsCalendar>}
+      </div>
+    </React.StrictMode>
   );
 }
 
