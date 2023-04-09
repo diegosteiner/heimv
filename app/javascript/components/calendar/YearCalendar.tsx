@@ -1,73 +1,76 @@
-import { css } from "@emotion/react";
-import { eachMonthOfInterval, endOfYear } from "date-fns";
-import { getYear, getDay, parseISO, formatISO, isValid, eachDayOfInterval, endOfMonth } from "date-fns/esm";
-import startOfYear from "date-fns/startOfYear";
-import * as React from "react";
-import { parseDate, monthNameFormatter } from "./calendar_functions";
+import { addYears, eachMonthOfInterval, endOfYear, subYears } from "date-fns";
+import { getYear, formatISO, eachDayOfInterval, endOfMonth, startOfMonth, getDate, getDay } from "date-fns/esm";
+import { useState } from "react";
+import { CalendarDate, DateElementFactory } from "./CalendarDate";
+import { CalendarNav } from "./CalendarNav";
+import { parseDate, monthNameFormatter, materializedWeekdays } from "./calendar_functions";
+import { useSwipeable } from "react-swipeable";
 
 interface YearCalendarProps {
-  start?: string | Date;
-  dayElement(dateString: string): React.ReactElement;
+  initialFirstDate?: string | Date;
+  dateElementFactory: DateElementFactory;
 }
 
-const style = css`
-  .year-calendar-month {
-    display: grid;
-    grid-template-columns: minmax(5rem, auto) repeat(31, 2rem);
-    height: 1.5rem;
-  }
-
-  .calendarDay {
-    font-size: 0.8em;
-    text-align: center;
-  }
-
-  .dayOfMonth {
-    text-align: center;
-    font-weight: bold;
-  }
-`;
-
-export default function YearCalendar({ start, dayElement }: YearCalendarProps) {
-  const firstDateOfYear = startOfYear(parseDate(start));
+export default function YearCalendar({ initialFirstDate, dateElementFactory }: YearCalendarProps) {
+  const [firstDate, setFirstDate] = useState<Date>(parseDate(initialFirstDate));
+  const nextMonth = () => setFirstDate((prevFirstDate) => addYears(prevFirstDate, 1));
+  const prevMonth = () => setFirstDate((prevFirstDate) => subYears(prevFirstDate, 1));
+  const interval = { start: firstDate, end: addYears(firstDate, 1) };
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: prevMonth,
+    onSwipedRight: nextMonth,
+  });
 
   return (
-    <div css={style}>
-      <div className="year-calendar-month">
-        <div></div>
-        {Array.from({ length: 31 }, (_, i) => i + 1).map((n) => (
-          <div className="dayOfMonth" key={n}>
-            {n}.
-          </div>
-        ))}
+    <div className="year-calendar" {...swipeHandlers}>
+      <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
+        <header>{getYear(firstDate)}</header>
+      </CalendarNav>
+      <div className="months">
+        <header className="month">
+          <div></div>
+          {Array.from({ length: 31 }, (_, i) => i + 1).map((n) => (
+            <div className="day-of-month" key={n}>
+              {n}.
+            </div>
+          ))}
+        </header>
+        {eachMonthOfInterval(interval).map((date) => {
+          const dateString = formatISO(date, { representation: "date" });
+          return (
+            <YearCalendarMonth
+              dateString={dateString}
+              key={dateString}
+              dateElementFactory={dateElementFactory}
+            ></YearCalendarMonth>
+          );
+        })}
       </div>
-      {eachMonthOfInterval({ start: firstDateOfYear, end: endOfYear(firstDateOfYear) }).map((firstDateOfMonth) => (
-        <YearCalendarMonth
-          key={formatISO(firstDateOfMonth)}
-          firstDateOfMonth={firstDateOfMonth}
-          dayElement={dayElement}
-        ></YearCalendarMonth>
-      ))}
+      <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
+        <footer>{getYear(firstDate)}</footer>
+      </CalendarNav>
     </div>
   );
 }
 
 interface YearCalendarMonthProps {
-  firstDateOfMonth: Date;
-  dayElement(dateString: string): React.ReactElement;
+  dateString: string;
+  dateElementFactory: DateElementFactory;
 }
 
-export function YearCalendarMonth({ firstDateOfMonth, dayElement }: YearCalendarMonthProps) {
-  return (
-    <div className="year-calendar-month">
-      <div>{monthNameFormatter.format(firstDateOfMonth)}</div>
+export function YearCalendarMonth({ dateString, dateElementFactory }: YearCalendarMonthProps) {
+  const date = startOfMonth(parseDate(dateString));
 
-      {eachDayOfInterval({ start: firstDateOfMonth, end: endOfMonth(firstDateOfMonth) }).map((date) => {
+  return (
+    <div className="month">
+      <div>{monthNameFormatter.format(date)}</div>
+
+      {eachDayOfInterval({ start: date, end: endOfMonth(date) }).map((date) => {
         const dateString = formatISO(date, { representation: "date" });
         return (
-          <time className="calendarDay" dateTime={dateString} key={`day-${dateString}`}>
-            {dayElement(dateString)}
-          </time>
+          <CalendarDate key={dateString} dateString={dateString}>
+            {dateElementFactory(dateString, (date) => materializedWeekdays[getDay(date)])}
+          </CalendarDate>
         );
       })}
     </div>

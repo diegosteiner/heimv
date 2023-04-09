@@ -7,6 +7,7 @@ import { OccupancyPopover } from "./OccupancyPopover";
 import { fromJson, OccupancyWindow } from "../../models/OccupancyWindow";
 import { isAfter, isBefore } from "date-fns/esm";
 import { OverlayTrigger } from "react-bootstrap";
+import YearCalendar from "./YearCalendar";
 
 interface OccupancyCalendarProps {
   start?: string;
@@ -15,9 +16,10 @@ interface OccupancyCalendarProps {
   onClick?: MouseEventHandler;
   classNameCallback?: (date: Date) => string;
   disabledCallback?: (date: Date) => boolean;
+  defaultView?: ViewType;
 }
 
-// type ViewType = "months" | "year";
+type ViewType = "months" | "year";
 
 function OccupancyCalendar({
   start,
@@ -26,8 +28,9 @@ function OccupancyCalendar({
   classNameCallback,
   disabledCallback,
   onClick,
+  defaultView,
 }: OccupancyCalendarProps) {
-  // const [view, setView] = useState<ViewType>("months");
+  const [view] = useState<ViewType>(defaultView || "months");
   const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindow | undefined>();
 
   useEffect(() => {
@@ -76,8 +79,9 @@ function OccupancyCalendar({
   return (
     <React.StrictMode>
       <div className="calendar">
-        <MonthsCalendar initialFirstDate={start} dateElementFactory={dateElementFactory}></MonthsCalendar>
-        {/* <YearCalendar start={start} dayElement={dayElement}></YearCalendar> */}
+        {(view == "year" && (
+          <YearCalendar initialFirstDate={start} dateElementFactory={dateElementFactory}></YearCalendar>
+        )) || <MonthsCalendar initialFirstDate={start} dateElementFactory={dateElementFactory}></MonthsCalendar>}
       </div>
     </React.StrictMode>
   );

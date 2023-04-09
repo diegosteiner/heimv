@@ -18,6 +18,22 @@
     }
   }
 
+  .year-calendar {
+    overflow-x: scroll;
+
+    .month {
+      display: grid;
+      grid-template-columns: minmax(5rem, auto) repeat(31, 2rem);
+      height: 1.5rem;
+      gap: 1px;
+    }
+
+    .day-of-month {
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
   .months-calendar {
 
     .months {
@@ -68,12 +84,18 @@
     }
   }
 
-  button.selected-date {
+  button.occupancy-calendar-date.selected-date {
     outline-width: 0.5em;
     outline-style: solid;
-    outline-color: rgba(var(--bs-primary-rgb), 0.9);
+    outline-color: rgba(var(--bs-primary-rgb), 0.6);
+    background-color: var(--bs-primary);
     z-index: 10;
-    font-weight: bold;
+
+    &>label {
+      color: white;
+      font-weight: bold;
+      opacity: 1;
+    }
   }
 
   button.occupancy-calendar-date {
@@ -109,12 +131,12 @@
 
     .slots {
       position: absolute;
-      height: 150%;
-      width: 150%;
+      height: 170%;
+      width: 170%;
       transform: rotateZ(45deg);
       transform-style: preserve-3d;
-      top: -25%;
-      left: -25%;
+      top: -35%;
+      left: -35%;
       display: flex;
       gap: 1px;
       z-index: 1;
