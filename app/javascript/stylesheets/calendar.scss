@@ -1,0 +1,115 @@
+.calendar {
+  .calendar-nav {
+    display: flex;
+    font-size: 2em;
+
+    header,
+    footer {
+      flex: 2 1;
+      text-align: center;
+    }
+
+    button {
+      display: block;
+      flex: 1 1;
+      text-align: center;
+      background: transparent;
+      border: none;
+    }
+  }
+
+  .months-calendar {
+
+    .months {
+      overflow: hidden;
+      display: grid;
+      gap: 1.5em;
+      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+      grid-auto-rows: max-content;
+    }
+
+    .month {
+      aspect-ratio: 1 / 1;
+      box-sizing: border-box;
+
+      header>h3 {
+        font-weight: bold;
+        font-size: 1.25em;
+        text-align: center;
+        padding: 1em 0;
+        margin: 0;
+      }
+
+      .weekdays {
+        font-weight: bold;
+        text-align: center;
+        gap: 0.25em;
+        font-size: 0.75em;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+      }
+
+      .dates {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        gap: 1px;
+      }
+    }
+
+    .date {
+      display: block;
+      aspect-ratio: 1 / 1;
+      text-align: center;
+      padding: 0;
+
+    }
+  }
+
+  button.occupancy-calendar-date {
+    position: relative;
+    background: transparent;
+    border: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+
+    &.occupied>.label {
+      font-weight: bold;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &>.label {
+      display: block;
+      position: absolute;
+      top: 50%;
+      margin-top: -0.5em;
+      line-height: 1em;
+      z-index: 1;
+      width: 100%;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .halfdays {
+      position: absolute;
+      height: 150%;
+      width: 150%;
+      transform: rotateZ(45deg);
+      transform-style: preserve-3d;
+      top: -25%;
+      left: -25%;
+      display: flex;
+      gap: 1px;
+
+      &>div {
+        flex-grow: 1;
+      }
+    }
+  }
+}

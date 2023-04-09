@@ -1,7 +1,16 @@
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
 
-export function initializeDate(value: Date | string | undefined, defaultDate: Date = new Date()) {
+export const formatDate = new Intl.DateTimeFormat("de-CH", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "numeric",
+  minute: "numeric",
+  hour12: false,
+}).format;
+
+export function parseDate(value: Date | string | undefined, defaultDate: Date = new Date()) {
   if (!value) return defaultDate;
 
   const date = typeof value === "string" ? parseISO(value) : value;

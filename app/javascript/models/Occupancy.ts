@@ -4,7 +4,7 @@ export type Occupancy = {
   id: string;
   begins_at: Date;
   ends_at: Date;
-  occupancy_type: string;
+  occupancy_type: "free" | "tentative" | "occupied" | "closed";
   ref: string | null;
   deadline: Date | null;
   remarks: string | null;
@@ -12,18 +12,18 @@ export type Occupancy = {
   occupiable: Occupiable;
 };
 
+export type OccupancyJsonType = Occupancy & {
+  begins_at: string;
+  ends_at: string;
+  deadline: string | null;
+};
+
 export type Occupiable = {
   id: string;
   name: string;
 };
 
-export function fromJson(
-  json: Occupancy & {
-    begins_at: string;
-    ends_at: string;
-    deadline: string | null;
-  }
-): Occupancy {
+export function fromJson(json: OccupancyJsonType): Occupancy {
   const { begins_at, ends_at, deadline, ...rest } = json;
 
   return {

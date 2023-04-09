@@ -1,24 +1,20 @@
-import { Occupancy, OccupancyJsonData, fromJson as occupancyFromJson } from "./Occupancy";
+import { Occupancy, OccupancyJsonType, fromJson as occupancyFromJson } from "./Occupancy";
 import { parseISO, eachDayOfInterval, formatISO, isDate } from "date-fns";
-
-export type OccupiedDates = {
-  [key: string]: Set<Occupancy>;
-};
 
 export type OccupancyWindow = {
   start: Date;
   end: Date;
   occupancies: Occupancy[];
-  occupiedDates: OccupiedDates;
+  occupiedDates: Map<string, Set<Occupancy>>;
 };
 
-export type OccupancyWindowJsonData = {
+export type OccupancyWindowJsonType = {
   window_from: string;
   window_to: string;
-  occupancies: OccupancyJsonData[];
+  occupancies: OccupancyJsonType[];
 };
 
-export function fromJson(json: OccupancyWindowJsonData): OccupancyWindow {
+export function fromJson(json: OccupancyWindowJsonType): OccupancyWindow {
   const occupancies = Array.from(json.occupancies).map(occupancyFromJson);
 
   return {
@@ -32,22 +28,22 @@ export function fromJson(json: OccupancyWindowJsonData): OccupancyWindow {
 const dateFormat = (date: Date) => formatISO(date, { representation: "date" });
 
 function getOccupiedDates(occupancies: Occupancy[]) {
-  const occupiedDates: OccupiedDates = {};
+  const occupiedDates = new Map<string, Set<Occupancy>>();
 
   for (const occupancy of occupancies) {
     eachDayOfInterval({
       start: occupancy.begins_at,
       end: occupancy.ends_at,
     }).forEach((occupiedDate) => {
-      const occupiedDateString = dateFormat(occupiedDate);
-      occupiedDates[occupiedDateString] = occupiedDates[occupiedDateString]?.add(occupancy) || new Set([occupancy]);
+      const key = dateFormat(occupiedDate);
+      occupiedDates.set(key, occupiedDates.get(key)?.add(occupancy) || new Set([occupancy]));
     });
   }
 
   return occupiedDates;
 }
 
-export function occupanciesAt(date: Date | string, occupancyWindow?: OccupancyWindow): Set<Occupancy> {
-  const dateString = isDate(date) ? dateFormat(date as Date) : (date as string);
-  return occupancyWindow?.occupiedDates[dateString] || new Set<Occupancy>();
-}
+// export function occupanciesAt(date: Date | string, occupancyWindow?: OccupancyWindow): Set<Occupancy> {
+//   const dateString = isDate(date) ? dateFormat(date as Date) : (date as string);
+//   return occupancyWindow?.occupiedDates[dateString] || new Set<Occupancy>();
+// }

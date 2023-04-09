@@ -15,7 +15,6 @@ import {
   isBefore,
   addYears,
 } from "date-fns/esm";
-import CalendarWithOccupancies from "./CalendarWithOccupancies";
 import { getYear } from "date-fns";
 
 export type HourRange = number[] | string;

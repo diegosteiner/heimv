@@ -3,7 +3,7 @@ import { eachMonthOfInterval, endOfYear } from "date-fns";
 import { getYear, getDay, parseISO, formatISO, isValid, eachDayOfInterval, endOfMonth } from "date-fns/esm";
 import startOfYear from "date-fns/startOfYear";
 import * as React from "react";
-import { initializeDate, monthNameFormatter } from "./calendar_functions";
+import { parseDate, monthNameFormatter } from "./calendar_functions";
 
 interface YearCalendarProps {
   start?: string | Date;
@@ -29,7 +29,7 @@ const style = css`
 `;
 
 export default function YearCalendar({ start, dayElement }: YearCalendarProps) {
-  const firstDateOfYear = startOfYear(initializeDate(start));
+  const firstDateOfYear = startOfYear(parseDate(start));
 
   return (
     <div css={style}>
