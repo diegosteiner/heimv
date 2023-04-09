@@ -1,16 +1,16 @@
 import { addHours, endOfDay, isBefore, startOfDay } from "date-fns/esm";
 import { isAfter } from "date-fns/esm";
-import { useContext } from "react";
-import { Occupancy } from "../../models/Occupancy";
+import { MouseEventHandler, useMemo } from "react";
+import { findMostRelevantOccupancy, Occupancy } from "../../models/Occupancy";
 import { OccupancyWindow } from "../../models/OccupancyWindow";
 import { parseDate } from "./calendar_functions";
-import { CalendarBehaviorContext } from "./OccupancyCalendar";
-import { OccupancyWindowContext } from "./OccupancyWindowContext";
 
 interface OccupancyCalendarDateProps {
   dateString: string;
   labelCallback: (date: Date) => string;
   disabledCallback?: (date: Date) => boolean;
+  classNameCallback?: (date: Date) => string;
+  onClick?: MouseEventHandler;
   occupancyWindow?: OccupancyWindow;
 }
 
@@ -18,42 +18,39 @@ export function OccupancyCalendarDate({
   dateString,
   labelCallback,
   occupancyWindow,
+  classNameCallback,
   disabledCallback,
+  onClick,
 }: OccupancyCalendarDateProps) {
   const date = startOfDay(parseDate(dateString));
-  const { onClick } = useContext(CalendarBehaviorContext);
-  occupancyWindow ??= useContext(OccupancyWindowContext);
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
-  const times = splitByTimeOfDay(date, occupancies);
-  disabledCallback ??= (date: Date) =>
-    !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end);
+  const times = useMemo(() => splitByTimeOfDay(date, occupancies), [date, occupancies]);
 
-  console.count(dateString);
   return (
     <button
       type="submit"
       name="date"
-      disabled={disabledCallback(date)}
+      disabled={disabledCallback && disabledCallback(date)}
+      className={classNameCallback && classNameCallback(date)}
       onClick={onClick}
       value={dateString}
-      className={`occupancy-calendar-date ${occupancies?.size && "occupied"}`}
     >
-      <div className="label">{labelCallback(date)}</div>
+      <label style={{ fontWeight: occupancies.size > 0 ? "bold" : "normal" }}>{labelCallback(date)}</label>
       <div className="halfdays" style={{ backgroundColor: findMostRelevantOccupancy(times.allday)?.color }}>
-        <div className="forenoon" style={{ backgroundColor: findMostRelevantOccupancy(times.forenoon)?.color }}></div>
-        <div className="afternoon" style={{ backgroundColor: findMostRelevantOccupancy(times.afternoon)?.color }}></div>
+        <div style={{ backgroundColor: findMostRelevantOccupancy(times.forenoon)?.color }}></div>
+        <div style={{ backgroundColor: findMostRelevantOccupancy(times.afternoon)?.color }}></div>
       </div>
     </button>
   );
 }
 
-function splitByTimeOfDay(date: Date, occupancies?: Set<Occupancy>) {
+function splitByTimeOfDay(date: Date, occupancies: Set<Occupancy>) {
   const dayStart = startOfDay(date);
   const dayMid = addHours(dayStart, 12);
   const dayEnd = endOfDay(date);
   const times = { allday: new Set<Occupancy>(), forenoon: new Set<Occupancy>(), afternoon: new Set<Occupancy>() };
 
-  occupancies?.forEach((occupancy) => {
+  occupancies.forEach((occupancy) => {
     const { begins_at, ends_at } = occupancy;
 
     if (
@@ -76,21 +73,4 @@ function splitByTimeOfDay(date: Date, occupancies?: Set<Occupancy>) {
   });
 
   return times;
-}
-
-const occupancyTypeMapping = ["free", "tentative", "occupied", "closed"];
-
-function findMostRelevantOccupancy(occupancies: Set<Occupancy>): Occupancy | undefined {
-  let topCandidate: Occupancy | undefined;
-  let topScore: number | undefined;
-
-  occupancies.forEach((currentCandidate) => {
-    const currentScore = occupancyTypeMapping.indexOf(currentCandidate.occupancy_type);
-    if (topScore && topScore > currentScore) return;
-
-    topScore = currentScore;
-    topCandidate = currentCandidate;
-  });
-
-  return topCandidate;
 }

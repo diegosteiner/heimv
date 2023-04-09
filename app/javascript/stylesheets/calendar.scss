@@ -21,22 +21,24 @@
   .months-calendar {
 
     .months {
+      padding: 1em 0;
       overflow: hidden;
       display: grid;
-      gap: 1.5em;
+      gap: 5%;
       grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-      grid-auto-rows: max-content;
+      grid-template-rows: auto auto auto;
+      grid-auto-rows: 0;
     }
 
     .month {
-      aspect-ratio: 1 / 1;
+      overflow: hidden;
       box-sizing: border-box;
 
       header>h3 {
         font-weight: bold;
         font-size: 1.25em;
         text-align: center;
-        padding: 1em 0;
+        padding-bottom: 1em;
         margin: 0;
       }
 
@@ -76,7 +78,7 @@
     padding: 0;
     overflow: hidden;
 
-    &.occupied>.label {
+    &.occupied>label {
       font-weight: bold;
     }
 
@@ -84,7 +86,7 @@
       opacity: 0.8;
     }
 
-    &>.label {
+    &>label {
       display: block;
       position: absolute;
       top: 50%;
@@ -94,6 +96,7 @@
       width: 100%;
       text-align: center;
       opacity: 0.8;
+      cursor: pointer;
     }
 
     .halfdays {

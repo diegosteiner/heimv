@@ -33,3 +33,20 @@ export function fromJson(json: OccupancyJsonType): Occupancy {
     deadline: deadline ? parseISO(deadline) : null,
   };
 }
+
+const occupancyTypeMapping = ["free", "tentative", "occupied", "closed"];
+
+export function findMostRelevantOccupancy(occupancies: Set<Occupancy>): Occupancy | undefined {
+  let topCandidate: Occupancy | undefined;
+  let topScore: number | undefined;
+
+  occupancies.forEach((currentCandidate) => {
+    const currentScore = occupancyTypeMapping.indexOf(currentCandidate.occupancy_type);
+    if (topScore && topScore > currentScore) return;
+
+    topScore = currentScore;
+    topCandidate = currentCandidate;
+  });
+
+  return topCandidate;
+}
