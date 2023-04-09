@@ -6,6 +6,7 @@ import * as React from "react";
 import { OccupancyPopover } from "./OccupancyPopover";
 import { fromJson, OccupancyWindow } from "../../models/OccupancyWindow";
 import { isAfter, isBefore } from "date-fns/esm";
+import { OverlayTrigger } from "react-bootstrap";
 
 interface OccupancyCalendarProps {
   start?: string;
@@ -46,7 +47,11 @@ function OccupancyCalendar({ start, calendarUrl, occupancyAtUrl }: OccupancyCale
 
   const dateElementFactory: DateElementFactory = useCallback(
     (dateString: string, labelCallback: (date: Date) => string) => (
-      <OccupancyPopover dateString={dateString} occupancyWindow={occupancyWindow}>
+      <OverlayTrigger
+        trigger={["focus", "hover"]}
+        overlay={<div>Test</div>}
+        // overlay={<OccupancyPopover occupancyWindow={occupancyWindow} dateString={dateString}></OccupancyPopover>}
+      >
         <OccupancyCalendarDate
           dateString={dateString}
           labelCallback={labelCallback}
@@ -55,7 +60,7 @@ function OccupancyCalendar({ start, calendarUrl, occupancyAtUrl }: OccupancyCale
           classNameCallback={classNameCallback}
           onClick={handleClick}
         ></OccupancyCalendarDate>
-      </OccupancyPopover>
+      </OverlayTrigger>
     ),
     [occupancyWindow]
   );
