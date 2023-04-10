@@ -102,19 +102,19 @@ Options:
 
 ```ruby
 headers = "
-ignore.id,ignore.cottage_id,ignore.user_id,occupancy.begins_at,occupancy.ends_at,occupancy.remarks,occupancy.occupancy_type,ignore.created_at,ignore.updated_at,tenant.email,ignore.occupancy_type,booking.remarks,ignore.slug,booking.headcount,tenant.birth_date,booking.tenant_organisation,tenant.name,tenant.street_address,tenant.street_address_2,tenant.zipcode,tenant.city,tenant.phone"
+ignore.id,ignore.cottage_id,ignore.user_id,booking.begins_at,booking.ends_at,booking.remarks,booking.occupancy_type,ignore.created_at,ignore.updated_at,tenant.email,ignore.occupancy_type,booking.remarks,ignore.slug,booking.headcount,tenant.birth_date,booking.tenant_organisation,tenant.name,tenant.street_address,tenant.street_address_2,tenant.zipcode,tenant.city,tenant.phone"
 ```
 
 Then import data with:
 
 ```bash
-cat data.csv | bin/rails r "Import::Csv::OccupancyImporter.new(home).parse(ARGF, **options)"
+cat data.csv | bin/rails r "Import::Csv::BookingImporter.new(home).parse(ARGF, **options)"
 ```
 
 or with heroku:
 
 ```bash
-cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::OccupancyImporter.new(home).parse"'
+cat data.csv | heroku run --no-tty -- 'bin/rails r "Import::Csv::BookingImporter.new(home).parse"'
 ```
 
 ### Tenants

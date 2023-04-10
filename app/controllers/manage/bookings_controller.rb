@@ -66,8 +66,8 @@ module Manage
       home = current_organisation.homes.find booking_import_params[:home_id]
       headers = booking_import_params[:headers].presence&.split(/[,;]/) || true
       initial_state = booking_import_params[:initial_state]
-      Import::Csv::OccupancyImporter.new(home, initial_state: initial_state, csv: { headers: headers })
-                                    .parse_file(booking_import_params[:file])
+      Import::Csv::BookingImporter.new(home, initial_state: initial_state, csv: { headers: headers })
+                                  .parse_file(booking_import_params[:file])
     end
 
     def call_booking_action

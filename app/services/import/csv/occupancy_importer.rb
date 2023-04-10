@@ -3,18 +3,17 @@
 module Import
   module Csv
     class OccupancyImporter < Base
-      delegate :organisation, to: :home
-      attr_reader :home
+      attr_reader :organisation
+
+      def initialize(organisation, **options)
+        super(**options)
+        @organisation = organisation
+      end
 
       def self.supported_headers
         super + ['occupancy.begins_at', 'occupancy.begins_at_date', 'occupancy.begins_at_time', 'occupancy.ends_at',
-                 'occupancy.ends_at_date', 'occupancy.ends_at_time', 'occupancy.remarks', 'occupancy.occupancy_type']
-      end
-
-      def initialize(home, **options)
-        super(**options)
-        @home = home.is_a?(Home) ? home : Home.find(home)
-        @booking_importer = BookingImporter.new(home, **options)
+                 'occupancy.ends_at_date', 'occupancy.ends_at_time', 'occupancy.remarks', 'occupancy.occupancy_type',
+                 'occupancy.occupiable_id']
       end
 
       def default_options
@@ -22,19 +21,12 @@ module Import
       end
 
       def initialize_record(_row)
-        home.occupancies.new(linked: false)
+        Occupancy.new(linked: false)
       end
 
       def persist_record(occupancy)
-        booking = occupancy.booking
-        return occupancy.save if booking.blank?
-
-        if @booking_importer.persist_record(booking)
-          true
-        else
-          booking.errors.each { |error| occupancy.errors.import(error) }
-          false
-        end
+        occupancy.errors.add(:occupiable_id, :invalid) unless occupancy.occupiable&.organisation == organisation
+        super if occupancy.valid?
       end
 
       def skip_row?(row, _index)
@@ -57,7 +49,12 @@ module Import
                   [row['occupancy.ends_at_date'], row['occupancy.ends_at_time']].compact_blank.join('T')
 
         occupancy.assign_attributes(begins_at: parse_datetime(begins_at),
-                                    ends_at: parse_datetime(ends_at))
+                                    ends_at: parse_datetime(ends_at),
+                                    remarks: row['occupancy.remarks'].presence)
+      end
+
+      actor :occupiable do |occupancy, row|
+        occupancy.occupiable = organisation.occupiables.find_by(id: row['occupancy.occupiable_id'])
       end
 
       actor :occupancy_type do |occupancy, row|
@@ -73,14 +70,14 @@ module Import
                                     end
       end
 
-      actor :booking do |occupancy, row|
-        next unless occupancy.tentative? || occupancy.occupied?
+      # actor :booking do |occupancy, row|
+      #   next unless occupancy.tentative? || occupancy.occupied?
 
-        occupancy.assign_attributes(linked: true)
-        booking = organisation.bookings.new(occupancies: [occupancy], home: home,
-                                            begins_at: occupancy.begins_at, ends_at: occupancy.ends_at)
-        @booking_importer.import_row(row, initial: booking)
-      end
+      #   occupancy.assign_attributes(linked: true)
+      #   booking = organisation.bookings.new(occupancies: [occupancy], home: home,
+      #                                       begins_at: occupancy.begins_at, ends_at: occupancy.ends_at)
+      #   @booking_importer.import_row(row, initial: booking)
+      # end
     end
   end
 end
