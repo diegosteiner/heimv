@@ -45,7 +45,7 @@ export const OccupancyCalendarDate = forwardRef(function OccupancyCalendarDate(
       ref={ref}
       {...props}
     >
-      <label>{labelCallback(date)}</label>
+      <div className="label">{labelCallback(date)}</div>
       <div className="slots" style={{ backgroundColor: findMostRelevantOccupancy(slots.allday)?.color }}>
         <div className="forenoon" style={{ backgroundColor: findMostRelevantOccupancy(slots.forenoon)?.color }}></div>
         <div className="afternoon" style={{ backgroundColor: findMostRelevantOccupancy(slots.afternoon)?.color }}></div>

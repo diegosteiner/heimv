@@ -52,8 +52,8 @@ function MonthsCalendar({ initialFirstDate, dateElementFactory }: MonthsCalendar
   const prevMonth = () => setFirstDate((prevFirstDate) => subMonths(prevFirstDate, 1));
   const interval = { start: firstDate, end: addMonths(firstDate, 11) };
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: prevMonth,
-    onSwipedRight: nextMonth,
+    onSwipedLeft: nextMonth,
+    onSwipedRight: prevMonth,
   });
 
   return (

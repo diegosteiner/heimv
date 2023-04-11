@@ -4,7 +4,6 @@ import { useState } from "react";
 import { CalendarDate, DateElementFactory } from "./CalendarDate";
 import { CalendarNav } from "./CalendarNav";
 import { parseDate, monthNameFormatter, materializedWeekdays } from "./calendar_functions";
-import { useSwipeable } from "react-swipeable";
 
 interface YearCalendarProps {
   initialFirstDate?: string | Date;

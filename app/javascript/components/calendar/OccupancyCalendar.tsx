@@ -61,6 +61,7 @@ function OccupancyCalendar({
     (dateString: string, labelCallback: (date: Date) => string) => (
       <OverlayTrigger
         trigger={["focus", "hover"]}
+        transition={false}
         overlay={<OccupancyPopover occupancyWindow={occupancyWindow} dateString={dateString}></OccupancyPopover>}
       >
         <OccupancyCalendarDate
