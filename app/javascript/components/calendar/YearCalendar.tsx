@@ -1,4 +1,4 @@
-import { addYears, eachMonthOfInterval, subYears } from "date-fns";
+import { addYears, eachMonthOfInterval, startOfYear, subYears } from "date-fns";
 import { getYear, formatISO, eachDayOfInterval, endOfMonth, startOfMonth, getDay } from "date-fns/esm";
 import { useState } from "react";
 import { CalendarDate, DateElementFactory } from "./CalendarDate";
@@ -12,17 +12,13 @@ interface YearCalendarProps {
 }
 
 export default function YearCalendar({ initialFirstDate, dateElementFactory }: YearCalendarProps) {
-  const [firstDate, setFirstDate] = useState<Date>(parseDate(initialFirstDate));
+  const [firstDate, setFirstDate] = useState<Date>(startOfYear(parseDate(initialFirstDate)));
   const nextMonth = () => setFirstDate((prevFirstDate) => addYears(prevFirstDate, 1));
   const prevMonth = () => setFirstDate((prevFirstDate) => subYears(prevFirstDate, 1));
   const interval = { start: firstDate, end: addYears(firstDate, 1) };
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: prevMonth,
-    onSwipedRight: nextMonth,
-  });
 
   return (
-    <div className="year-calendar" {...swipeHandlers}>
+    <div className="year-calendar">
       <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
         <header>{getYear(firstDate)}</header>
       </CalendarNav>

@@ -23,14 +23,19 @@
 
     .month {
       display: grid;
-      grid-template-columns: minmax(5rem, auto) repeat(31, 2rem);
+      grid-template-columns: minmax(5rem, auto) repeat(31, minmax(1.5rem, 2rem));
       height: 1.5rem;
       gap: 1px;
+      margin-bottom: 1px;
     }
 
     .day-of-month {
       text-align: center;
       font-weight: bold;
+    }
+
+    button.occupancy-calendar-date {
+      font-size: 0.8em;
     }
   }
 
@@ -154,4 +159,9 @@
       margin-top: 2em;
     }
   }
+
 }
+
+// .popover {
+//   pointer-events: none;
+// }
