@@ -1,6 +1,5 @@
 import * as React from "react";
-import { forwardRef, Ref } from "react";
-import { Popover } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Occupancy } from "../../models/Occupancy";
 import { OccupancyWindow } from "../../models/OccupancyWindow";
@@ -11,23 +10,23 @@ interface OccupancyPopoverProps {
   occupancyWindow?: OccupancyWindow;
 }
 
-export const OccupancyPopover = forwardRef(function OccupancyPopover(
-  { dateString, occupancyWindow, ...props }: OccupancyPopoverProps,
-  ref: Ref<HTMLDivElement>
-) {
+export const OccupancyPopover = React.memo(function OccupancyPopover({
+  dateString,
+  occupancyWindow,
+}: OccupancyPopoverProps) {
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
   if (!occupancies || occupancies.size <= 0) return <></>;
 
   return (
-    <Popover id="occupancy-popover" ref={ref} {...props}>
-      <Popover.Body>
+    <Card id="occupancy-popover">
+      <Card.Body>
         <ul className="list-unstyled p-0 m-0 occupancies">
           {Array.from(occupancies).map((occupancy) => (
             <OccupancyLi key={occupancy.id} occupancy={occupancy}></OccupancyLi>
           ))}
         </ul>
-      </Popover.Body>
-    </Popover>
+      </Card.Body>
+    </Card>
   );
 });
 

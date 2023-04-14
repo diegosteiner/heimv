@@ -5206,6 +5206,11 @@ react-swipeable@^7.0.0:
   resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-7.0.0.tgz#7a12570ee435d35ac700511de338384aa78d12cd"
   integrity sha512-NI7KGfQ6gwNFN0Hor3vytYW3iRfMMaivGEuxcADOOfBCx/kqwXE8IfHFxEcxSUkxCYf38COLKYd9EMYZghqaUA==
 
+react-tiny-popover@^7.2.4:
+  version "7.2.4"
+  resolved "https://registry.yarnpkg.com/react-tiny-popover/-/react-tiny-popover-7.2.4.tgz#b11fe9b43d1fc8ac46e760419346afd41d6111ee"
+  integrity sha512-T7ZSwXcUtPXCog3Bux9+TjoTvUeMi/+zI0Yv/TkIznZCWUg0XTt2797G0IiT5mTVeJeLivUzdOmKA1hOQdMfOQ==
+
 react-transition-group@^4.4.2:
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"

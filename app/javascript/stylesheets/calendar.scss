@@ -157,7 +157,9 @@
   }
 }
 
-#occupancy-popover {
+.react-tiny-popover-container {
+  z-index: 10;
+
   ul.occupancies {
     &>li+li {
       margin-top: 2em;
@@ -165,7 +167,3 @@
   }
 
 }
-
-// .popover {
-//   pointer-events: none;
-// }

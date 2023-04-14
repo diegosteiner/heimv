@@ -3,10 +3,8 @@ import { DateElementFactory } from "./CalendarDate";
 import MonthsCalendar from "./MonthsCalendar";
 import { OccupancyCalendarDate } from "./OccupancyCalendarDate";
 import * as React from "react";
-import { OccupancyPopover } from "./OccupancyPopover";
 import { fromJson, OccupancyWindow } from "../../models/OccupancyWindow";
 import { isAfter, isBefore } from "date-fns/esm";
-import { OverlayTrigger } from "react-bootstrap";
 import YearCalendar from "./YearCalendar";
 
 interface OccupancyCalendarProps {
@@ -59,20 +57,14 @@ function OccupancyCalendar({
 
   const dateElementFactory: DateElementFactory = useCallback(
     (dateString: string, labelCallback: (date: Date) => string) => (
-      <OverlayTrigger
-        trigger={["focus", "hover"]}
-        transition={false}
-        overlay={<OccupancyPopover occupancyWindow={occupancyWindow} dateString={dateString}></OccupancyPopover>}
-      >
-        <OccupancyCalendarDate
-          dateString={dateString}
-          labelCallback={labelCallback}
-          occupancyWindow={occupancyWindow}
-          disabledCallback={disabledCallback}
-          classNameCallback={classNameCallback}
-          onClick={onClick}
-        ></OccupancyCalendarDate>
-      </OverlayTrigger>
+      <OccupancyCalendarDate
+        dateString={dateString}
+        labelCallback={labelCallback}
+        occupancyWindow={occupancyWindow}
+        disabledCallback={disabledCallback}
+        classNameCallback={classNameCallback}
+        onClick={onClick}
+      ></OccupancyCalendarDate>
     ),
     [occupancyWindow]
   );
