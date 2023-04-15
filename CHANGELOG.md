@@ -2,6 +2,15 @@
 
 #### Unreleased
 
+#### Version 23.4.1
+
+Released on 15.04.2023
+
+- Feature: Calendar view is switchable
+- Feature: Extras in Templates
+- Fix: Import of bookings
+- Fix: Calendar perfomance 
+
 #### Version 23.3.1
 
 Released on 13.03.2023
