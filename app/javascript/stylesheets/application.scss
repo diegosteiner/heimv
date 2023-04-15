@@ -37,8 +37,8 @@ h6 {
   background-image: url(../images/background.svg);
   background-color: #faf9ff;
   background-repeat: no-repeat;
-  background-size: max(100vw, 1200px) 520px;
-  background-position: top left;
+  background-size: cover;
+  background-position: center top;
   background-attachment: fixed;
 
   @include media-breakpoint-down(md) {
@@ -76,8 +76,8 @@ h6 {
 
   &>nav {
     grid-area: navigation;
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(4px);
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(3px);
     min-width: 250px;
   }
 

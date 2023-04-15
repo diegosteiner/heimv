@@ -7,9 +7,9 @@ h1.my-0= Booking.model_name.human(count: 2)
     button.btn.btn-primary[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
       i.fa.fa-filter<>
       = t(:filter)
-    = link_to manage_bookings_path(filter: { current_booking_states: BookingStates.displayed_by_default }), class: 'btn btn-outline-primary'
+    = link_to manage_bookings_path(filter: { current_booking_states: BookingStates.displayed_by_default }), class: 'btn btn-outline-primary bg-body'
       = t('.canned_filter_default')
-    = link_to manage_bookings_path(filter: { current_booking_states: [:upcoming, :upcoming_soon] }), class: 'btn btn-outline-primary'
+    = link_to manage_bookings_path(filter: { current_booking_states: [:upcoming, :upcoming_soon] }), class: 'btn btn-outline-primary bg-body'
       = t('.canned_filter_upcoming')
   
   .dropdown.d-inline-block

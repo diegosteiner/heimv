@@ -1,11 +1,11 @@
-import { MouseEventHandler, useCallback, useEffect, useState } from "react";
+import { Dispatch, MouseEventHandler, SetStateAction, createContext, useCallback, useEffect, useState } from "react";
 import { DateElementFactory } from "./CalendarDate";
 import MonthsCalendar from "./MonthsCalendar";
 import { OccupancyCalendarDate } from "./OccupancyCalendarDate";
-import * as React from "react";
 import { fromJson, OccupancyWindow } from "../../models/OccupancyWindow";
 import { isAfter, isBefore } from "date-fns/esm";
 import YearCalendar from "./YearCalendar";
+import * as React from "react";
 
 interface OccupancyCalendarProps {
   start?: string;
@@ -18,6 +18,11 @@ interface OccupancyCalendarProps {
 }
 
 type ViewType = "months" | "year";
+type CalendarViewContextType = {
+  view: ViewType;
+  setView?: Dispatch<SetStateAction<ViewType>>;
+};
+export const CalendarViewContext = createContext<CalendarViewContextType>({ view: "months" });
 
 function OccupancyCalendar({
   start,
@@ -28,8 +33,9 @@ function OccupancyCalendar({
   onClick,
   defaultView,
 }: OccupancyCalendarProps) {
-  const [view] = useState<ViewType>(defaultView || "months");
+  const [view, setView] = useState<ViewType>(defaultView || "months");
   const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindow | undefined>();
+  const initialFirstDate = start;
 
   useEffect(() => {
     (async () => {
@@ -71,11 +77,14 @@ function OccupancyCalendar({
 
   return (
     <React.StrictMode>
-      <div className="calendar">
-        {(view == "year" && (
-          <YearCalendar initialFirstDate={start} dateElementFactory={dateElementFactory}></YearCalendar>
-        )) || <MonthsCalendar initialFirstDate={start} dateElementFactory={dateElementFactory}></MonthsCalendar>}
-      </div>
+      <CalendarViewContext.Provider value={{ view, setView }}>
+        <div className="calendar">
+          {({ months: MonthsCalendar, year: YearCalendar }[view] || MonthsCalendar)({
+            initialFirstDate,
+            dateElementFactory,
+          })}
+        </div>
+      </CalendarViewContext.Provider>
     </React.StrictMode>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CalendarDate, DateElementFactory } from "./CalendarDate";
 import { CalendarNav } from "./CalendarNav";
 import { parseDate, monthNameFormatter, materializedWeekdays } from "./calendar_functions";
+import { useSwipeable } from "react-swipeable";
 
 interface YearCalendarProps {
   initialFirstDate?: string | Date;
@@ -15,11 +16,15 @@ export default function YearCalendar({ initialFirstDate, dateElementFactory }: Y
   const nextMonth = () => setFirstDate((prevFirstDate) => addYears(prevFirstDate, 1));
   const prevMonth = () => setFirstDate((prevFirstDate) => subYears(prevFirstDate, 1));
   const interval = { start: firstDate, end: addYears(firstDate, 1) };
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: nextMonth,
+    onSwipedRight: prevMonth,
+  });
 
   return (
-    <div className="year-calendar">
+    <div className="year-calendar" {...swipeHandlers}>
       <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
-        <header>{getYear(firstDate)}</header>
+        {getYear(firstDate)}
       </CalendarNav>
       <div className="months">
         <header className="month">
@@ -42,7 +47,7 @@ export default function YearCalendar({ initialFirstDate, dateElementFactory }: Y
         })}
       </div>
       <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
-        <footer>{getYear(firstDate)}</footer>
+        {getYear(firstDate)}
       </CalendarNav>
     </div>
   );
