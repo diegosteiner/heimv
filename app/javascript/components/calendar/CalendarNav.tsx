@@ -12,15 +12,16 @@ export function CalendarNav({ onPrev, onNext, children }: CalendarNavProps) {
 
   return (
     <nav className="calendar-nav">
+      <div className="views"></div>
       <div className="pages">
         <button onClick={onPrev} className="prev" type="button">
-          ←
+          🡰
         </button>
+        <div className="label">{children}</div>
         <button onClick={onNext} className="next" type="button">
-          →
+          🡲
         </button>
       </div>
-      <div className="label">{children}</div>
       <div className="views">
         <button className={view == "months" ? "active" : ""} onClick={() => setView && setView("months")}>
           ⚏

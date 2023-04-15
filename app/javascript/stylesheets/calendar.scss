@@ -2,11 +2,11 @@
 
   .calendar-nav {
     display: flex;
-    font-size: 2em;
     justify-content: space-between;
 
     .pages {
       display: flex;
+      justify-content: center;
 
       button {
         display: block;
@@ -21,10 +21,16 @@
       }
     }
 
+    .label {
+      font-size: 2em;
+    }
+
     .views {
+      width: 20%;
       font-size: 1rem;
       display: flex;
       align-items: center;
+      justify-content: flex-end;
 
       button {
         padding: 0.25rem;
