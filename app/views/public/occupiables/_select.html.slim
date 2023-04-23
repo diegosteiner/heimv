@@ -1,6 +1,11 @@
 fieldset.occupiables-select
   - occupancies = booking.occupancies.index_by { |occupancy| occupancy.occupiable }
-  = form.collection_select :home_id, current_organisation.homes.active, :id, :to_s, { include_blank: current_organisation.homes.many? }, { disabled: disabled }
+  - homes = current_organisation.homes.active
+
+  - if homes.count <= 1
+    = form.hidden_field :home_id, value: homes.first&.id
+  - else
+    = form.collection_select :home_id, homes, :id, :to_s, { include_blank: current_organisation.homes.many? }, { disabled: disabled }
   
   .occupiables-checkboxes.mb-3
     = form.collection_check_boxes_without_bootstrap :occupiable_ids, current_organisation.occupiables.occupiable.ordered, :id, :to_s, hide_label: true do |builder|

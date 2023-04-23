@@ -42,34 +42,30 @@ function setupBookingAgentBookingButton() {
 function setupOccupiableSelect() {
   Array.from(document.getElementsByClassName("occupiables-select")).forEach((baseElement) => {
     const selectElement = baseElement.querySelector("select");
-    const handler = (checkAll = true) => {
+    const handler = () => {
       const homeId = selectElement.value;
       const occupiablesCheckboxesElement = baseElement.querySelector(".occupiables-checkboxes");
       const allCheckboxElements = occupiablesCheckboxesElement.querySelectorAll(".form-check");
-      let visibleCheckboxElements = [];
+      const currentOccupiableCheckboxes = occupiablesCheckboxesElement.querySelectorAll(
+        `.form-check[data-home-id="${homeId}"] input[type="checkbox"]`
+      );
 
       allCheckboxElements.forEach((checkboxWrapperElement) => {
         const checkboxElement = checkboxWrapperElement.querySelector('input[type="checkbox"]');
 
         if (checkboxWrapperElement.dataset.homeId == homeId) {
           checkboxElement.removeAttribute("disabled");
-          if (checkAll) checkboxElement.checked = true;
           checkboxWrapperElement.classList.remove("d-none");
-          visibleCheckboxElements.push(checkboxElement);
+          if (currentOccupiableCheckboxes.length == 1 || checkboxElement.value == homeId)
+            checkboxElement.checked = true;
         } else {
           checkboxElement.setAttribute("disabled", true);
           checkboxWrapperElement.classList.add("d-none");
         }
       });
-
-      if (visibleCheckboxElements.length == 1 && visibleCheckboxElements[0].checked) {
-        occupiablesCheckboxesElement.classList.add("d-none");
-      } else {
-        occupiablesCheckboxesElement.classList.remove("d-none");
-      }
     };
-    selectElement.addEventListener("change", handler);
-    handler(false);
+    selectElement.addEventListener("change", () => handler());
+    handler();
   });
 }
 
