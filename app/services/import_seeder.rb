@@ -11,6 +11,7 @@ class ImportSeeder
   }.freeze
 
   def seed(set = Rails.env.to_sym)
+    Rails.logger.info "Seeding #{set}"
     return unless FILES[set]
 
     truncate
@@ -25,6 +26,7 @@ class ImportSeeder
   private
 
   def rich_text_templates(organisation)
+    Rails.logger.info 'Adding rich text template'
     Dir.glob(File.expand_path('app/**/*.rb', Rails.root)).each do |model_file|
       require model_file
     end
@@ -34,6 +36,7 @@ class ImportSeeder
 
   def organisation(file)
     import_data = JSON.parse(File.read(file))
+    Rails.logger.info "Adding organisation #{import_data[:name]}"
     organisation = Import::Hash::OrganisationImporter.new.import(import_data)
     organisation.tap(&:save!)
   end
@@ -47,16 +50,19 @@ class ImportSeeder
     ]
 
     users.map do |user|
+      Rails.logger.info "Adding user #{user[:email]} as #{user[:role]}"
       onboarding.add_or_invite_user!(role: user[:role], email: user[:email], password: user[:password])
     end
   end
 
   def bookings(home)
+    Rails.logger.info "Adding bookings for #{home.name}"
     FactoryBot.create_list(:booking, 3, home: home, organisation: home.organisation,
                                         initial_state: :open_request, notifications_enabled: true)
   end
 
   def truncate
+    Rails.logger.info 'Trucating all tables'
     tables = ActiveRecord::Base.connection.tables - %w[schema_migrations ar_internal_metadata]
     ActiveRecord::Base.connection.truncate_tables(*tables)
   end

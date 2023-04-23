@@ -24,20 +24,23 @@
   "booking_flow_type": "BookingFlows::Default",
   "currency": "CHF",
   "designated_documents": [],
-  "email": "info@heimv.local",
+  "email": "demo1@heimv.local",
   "esr_beneficiary_account": null,
   "homes": [
     {
-      "address": "9876 Einsiedeln",
+      "description": "9876 Einsiedeln",
       "id": 1,
-      "name": "Pfadiheim Stolz"
+      "name": "Pfadiheim Stolz",
+      "occupiable": true,
+      "active": true,
+      "home_id": 1
     }
   ],
   "iban": "CH75 3000 0002 1571 4845 3",
   "invoice_ref_strategy_type": "RefStrategies::ESR",
   "location": "",
   "mail_from": "info@heimv.local",
-  "name": "Heimverein Development",
+  "name": "Heimverein Musterhaus",
   "notifications_enabled": true,
   "qr_iban": "CH75 3000 0002 1571 4845 3",
   "settings": {},
