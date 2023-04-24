@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 if defined?(ExceptionNotification)
+  require 'exception_notification/sidekiq'
+
   Rails.application.config.middleware.use ExceptionNotification::Rack,
                                           email: {
                                             sender_address: ENV.fetch('MAIL_FROM', nil),
@@ -8,8 +10,4 @@ if defined?(ExceptionNotification)
                                             exception_recipients: ENV.fetch('EXCEPTION_RECIPIENTS',
                                                                             'info@heimv.ch').split(',')
                                           }
-end
-
-defined?(Sentry) && ENV['SENTRY_DSN'].present? && Sentry.init do |config|
-  config.dsn = ENV.fetch('SENTRY_DSN', nil)
 end
