@@ -2,6 +2,15 @@
 
 #### Unreleased
 
+#### Version 23.4.2
+
+Released on 24.04.2023
+
+- Fix: SVG calendar icons
+- Fix: Show definitive_requests as occupied in calendar
+- Improvement: Selection of occupiables
+- Improvement: Add more french translations (Thanks Yannick Wehrli)
+
 #### Version 23.4.1
 
 Released on 15.04.2023
