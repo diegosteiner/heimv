@@ -9,7 +9,7 @@ module BookingActions
       def call!(contract = booking.contract)
         notification = booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
                                                  template_context: { contract: contract })
-        notification.attach(prepare_attachments(booking, contract).map(&:blob))
+        notification.attach(prepare_attachments(booking, contract))
         notification.save! && contract.sent! && notification.deliver
       end
 

@@ -29,7 +29,6 @@ class DesignatedDocument < ApplicationRecord
   enum designation: { other: 0, privacy_statement: 1, terms: 2, house_rules: 3, price_list: 4 }
 
   scope :with_locale, ->(locale) { where(locale: [locale, nil]).order(locale: :ASC) }
-  scope :blobs, -> { filter_map { |designated_document| designated_document.file&.blob } }
   scope :for_booking, (lambda do |booking|
     candidates = where(organisation: booking.organisation).with_locale(booking.locale)
     where(id: candidates.filter_map { |document| document.attach_to?(booking) && document.id })
@@ -56,6 +55,12 @@ class DesignatedDocument < ApplicationRecord
 
   def locale=(value)
     super(value.presence)
+  end
+
+  def attach_to(attachable)
+    return if file.blank? || !attachable.respond_to?(:attach) || file.blob.blank?
+
+    attachable.attach(file.blob)
   end
 
   def attach_to?(booking)

@@ -44,7 +44,6 @@ class Notification < ApplicationRecord
   validates :rich_text_template, presence: true, if: :rich_text_template_key?
 
   delegate :bcc, to: :organisation
-  delegate :attach, to: :attachments
 
   attribute :rich_text_template_key
   attribute :template_context
@@ -61,6 +60,15 @@ class Notification < ApplicationRecord
     return false unless deliverable? && update!(sent_at: Time.zone.now)
 
     message_delivery.tap(&:deliver_later)
+  end
+
+  def attach(*files_or_documents_to_attach)
+    files_or_documents_to_attach.flatten.map do |attachment|
+      next attachment.attach_to(attachments) if attachment.is_a?(DesignatedDocument)
+      next attachments.attach(attachment.blob) if attachment.respond_to?(:blob) && attachment.blob.present?
+
+      attachments.attach(attachment)
+    end
   end
 
   def resolve_template

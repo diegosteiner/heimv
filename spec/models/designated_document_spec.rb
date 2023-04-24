@@ -47,19 +47,6 @@ RSpec.describe DesignatedDocument, type: :model do
     end
   end
 
-  describe '::blobs' do
-    subject(:blobs) { described_class.where(organisation: organisation).blobs }
-    let(:documents) do
-      create_list(:designated_document, 2, organisation: organisation)
-    end
-
-    it do
-      documents
-      is_expected.to include(documents.first.file.blob)
-      is_expected.to include(documents.last.file.blob)
-    end
-  end
-
   describe '::locale' do
     subject(:with_locale) { described_class.with_locale(locale).where(organisation: organisation) }
     let(:locale) { :de }

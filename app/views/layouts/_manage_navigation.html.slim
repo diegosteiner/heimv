@@ -37,6 +37,6 @@ nav.p-3
           li.nav-item
             = link_to DesignatedDocument.model_name.human(count: 2), manage_designated_documents_path, class: 'nav-link'
       li.nav-item
-        = link_to manage_flow_path(org: current_organisation), class: 'nav-link'
+        = link_to manage_flow_path(org: current_organisation, locale: I18n.locale), class: 'nav-link'
           = t('.help')
           i.fa.fa-question-circle.ps-2

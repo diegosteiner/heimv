@@ -40,7 +40,7 @@ module BookingActions
       def prepare_notification
         booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
                                   template_context: { contract: contract, invoices: invoices }).tap do |notification|
-          notification.attach(prepare_attachments.map(&:blob))
+          notification.attach(prepare_attachments)
         end
       end
 

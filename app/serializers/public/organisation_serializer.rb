@@ -10,8 +10,11 @@ module Public
 
     field :designated_documents do |organisation|
       organisation.designated_documents.pluck(:designation).map do |designation|
-        [designation, url.public_designated_document_url(org: organisation, designation: designation)]
-      end
+        next if designation.blank?
+
+        [designation,
+         url.public_designated_document_url(org: organisation, designation: designation, locale: I18n.locale)]
+      end.compact_blank.to_h
     end
 
     field :logo do |organisation|
@@ -24,7 +27,7 @@ module Public
 
     field :links do |organisation|
       {
-        post_bookings: url.public_bookings_url(org: organisation, format: :json)
+        post_bookings: url.public_bookings_url(org: organisation, locale: I18n.locale, format: :json)
       }
     end
   end
