@@ -3,6 +3,7 @@
   .calendar-nav {
     display: flex;
     justify-content: space-between;
+    height: 3em;
 
     .pages {
       display: flex;
@@ -19,6 +20,11 @@
         height: 100%;
         padding: 0.75em;
         width: 3em;
+
+        &>svg {
+          max-height: 100%;
+          max-width: 100%;
+        }
       }
     }
 
@@ -35,14 +41,20 @@
 
       button {
         padding: 0.5rem;
-        padding-top: 0;
         background: none;
         border: none;
         opacity: 0.25;
-        min-width: 2rem;
+        height: 100%;
+        width: 2.25em;
 
         &.active {
           opacity: 1;
+        }
+
+        &>svg {
+          height: 100%;
+          max-height: 100%;
+          max-width: 100%;
         }
       }
 

@@ -109,7 +109,7 @@ it:
         occupancy_color: Colore nel calendario
         occupancy_type: Tipo di occupazione
         occupiable_ids: Proprietà in affitto
-        occupiables: Oggetto in affitto
+        occupiables: Proprietà in affitto
         purpose_description: Descrizione dello scopo del contratto di affitto
         ref: Riferimento di prenotazione
         remarks: Osservazioni
@@ -219,7 +219,7 @@ it:
         remarks: Osservazioni
       occupiable:
         active: Attivo
-        description: Beschreibung
+        description: Descrizione
         home_id: Oggetto principale di affitto
         name: Nome
         occupiable: Può essere occupato
@@ -548,7 +548,7 @@ it:
         other: Occupazioni
       occupiable:
         one: Proprietà in affitto
-        other: Heime
+        other: Proprietà in affitto
       operator:
         one: Funzionario
         other: Funzionari
