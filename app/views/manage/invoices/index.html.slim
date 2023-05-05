@@ -13,6 +13,7 @@
     .modal-dialog.modal-lg
       .modal-content 
         = form_with(model: @filter, url: manage_invoices_path, scope: 'filter', method: :GET, local: true) do |f|
+          = hidden_field_tag :locale, I18n.locale
           .modal-body
             = render partial: 'filter_fields', locals: { f: f }
           .modal-footer

@@ -28,7 +28,7 @@
                                                       value: @booking.ends_at&.iso8601, required: true,
                                                       invalidFeedback: @booking.errors[:ends_at].to_sentence)
           = f.email_field :email
-          = f.text_field :tenant_organisation
+          = f.hidden_field :locale, value: I18n.locale
 
         .form-actions.mt-3
           - links = { \

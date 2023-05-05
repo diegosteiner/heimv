@@ -19,7 +19,7 @@ class OnboardingService
   def add_or_invite_user!(email: organisation.email, role: :manager, invited_by: nil, password: nil)
     user = User.find_or_initialize_by(email: email)
     user.update!(password: password || SecureRandom.base64(32)) if user.new_record?
-    user.invite!(invited_by) if password.blank?
+    user.invite!(invited_by) if password.blank? && user.new_record?
     user.organisation_users.create!(organisation: organisation, role: role).tap do
       user.update!(default_organisation: organisation) if user.default_organisation.blank?
     end

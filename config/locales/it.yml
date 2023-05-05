@@ -1751,7 +1751,7 @@ it:
     am: am
     formats:
       date: "%d.%m.%Y"
-      default: "%a %d %b %Y, %H:%M:%S %z"
+      default: "%a %d %b %Y, %H:%M"
       devise:
         mailer:
           invitation_instructions:
