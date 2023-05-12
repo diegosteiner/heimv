@@ -156,7 +156,7 @@ fr:
         columns_config: Configuration des colonnes
         group: Groupe
         label: Nom
-        type: Genre/sorte/manière (préciser)
+        type: Sorte
       deadline:
         armed: Activé
         at: Jusqu'à
@@ -236,7 +236,7 @@ fr:
         assigning_conditions: Conditions
         booking_id: Réservation
         home_id: Principal objet de location
-        operator_id: Fonctionnaire
+        operator_id: Gardiens
         ordinal_position: Numéro d'ordre
         remarks: Remarques
         responsibility: Responsabilité
@@ -548,8 +548,8 @@ fr:
         one: Objet de location
         other: Objets de location
       operator:
-        one: Fonctionnaire
-        other: Fonctionnaires
+        one: Gardien
+        other: Gardiens
       operator_responsibility:
         one: Responsabilité
         other: Responsabilités
@@ -592,7 +592,7 @@ fr:
       user:
         one: Compte
         other: Compte
-  add_record:
+  add_record: Ajouter %{model_name}
   back: Retour
   booking_actions:
     manage:
@@ -1014,8 +1014,8 @@ fr:
       prompt: Veuillez sélectionner
     submit:
       create: Créer un(e) %{model}
-      submit: Enregistrer ce(tte) %{model}
-      update: Modifier ce(tte) %{model}
+      submit: Enregistrer
+      update: Valider ces informations %{model}
   i18n:
     transliterate:
       rule:
@@ -1059,6 +1059,8 @@ fr:
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum_price}
     unpaid_invoice: Montant en suspens dû le %{payable_until}
+  invoices:
+    total:
   layouts:
     footer:
       privacy_statement: Déclaration de confidentialité
@@ -1246,7 +1248,7 @@ fr:
         booking_details: Informations sur la réservation
         last_minute_warning: Attention ! La date de réservation est proche. Merci de t'annoncer en plus par téléphone ou par e-mail auprès de l'administration
       new:
-        accept_conditions_html:
+        accept_conditions_html: 'J''accepte les <a href="%{privacy_statement_pdf_url}" target="_blank">dispositions relatives à la protection des données</a> et les <a href="%{terms_pdf_url}" target="_blank">CGV</a> '
         problems_html:
         submit: Envoyer une demande de réservation
         title: Réservation
@@ -1309,7 +1311,7 @@ fr:
     definitive_request_notification:
       default_body:
       default_title: Réservation définitive confirmée
-      description:
+      description: Notification de demande de location définitive (locataire)
     foreign_payment_info_text:
       description: Texte pour les informations de paiement pour les locataires étrangers
     invoices_deposit_text:
@@ -1387,7 +1389,7 @@ fr:
       description: Notification pour location future (locataire)
     upcoming_soon_notification:
       default_body:
-      default_title:
+      default_title: Dernières informations sur votre visite au {{booking.home.name}}
       description: Notification pour location prochaine (locataire)
     usage_report_text:
       default_body:

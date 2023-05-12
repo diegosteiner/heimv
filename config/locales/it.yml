@@ -541,8 +541,8 @@ it:
         one: Lettura del contatore
         other: Letture dei contatori
       notification:
-        one: Benachrichtigung
-        other: Benachrichtigungen
+        one:
+        other:
       occupancy:
         one: Occupazione
         other: Occupazioni
@@ -725,7 +725,7 @@ it:
   confirm: Sind sie sicher?
   contracts:
     issuer_signature_label: Data, luogo, firma del propietario
-    represented_by: vertreten durch
+    represented_by:
     tenant_signature_label: Data, luogo, firma del inquilino
   currency: Currency
   data_digests:
@@ -1026,6 +1026,8 @@ it:
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum_price}
     unpaid_invoice: Importo aperto dovuto al %{payable_until}
+  invoices:
+    total:
   layouts:
     footer:
       privacy_statement: Informativa sulla privacy

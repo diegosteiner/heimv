@@ -2,6 +2,9 @@
 
 #### Unreleased
 
+- Feature: Group invoice parts
+
+
 #### Version 23.4.2
 
 Released on 24.04.2023

@@ -21,38 +21,12 @@
 
     h5.mt-4= InvoicePart.model_name.human(count: 2)
     = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
-      = ipf.hidden_field :id
-      = ipf.hidden_field :usage_id
-      = ipf.hidden_field :type
-      .row
-        .col-1.pt-2
-          = ipf.check_box :_destroy, { checked: ipf.object.apply, hide_label: true }, '0', '1'
-        .col-4
-          = ipf.text_field :label, hide_label: true
-        .col-4
-          = ipf.text_field :breakdown, hide_label: true
-        .col-2
-          = ipf.number_field :amount, hide_label: true, class: 'text-end', step: 0.01
-        .col-1.pt-2
-          - unless ipf.object.new_record?
-            = link_to edit_manage_invoice_invoice_part_path(@invoice, ipf.object)
-              i.fa.fa-pencil
+      = render partial: ipf.object.template_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
 
 
     h5.mt-4= t('.suggested_invoice_parts')
     = f.fields_for :invoice_parts, @invoice.suggested_invoice_parts do |ipf|
-      = ipf.hidden_field :id
-      = ipf.hidden_field :usage_id
-      = ipf.hidden_field :type
-      .row
-        .col-1.pt-2
-          = ipf.check_box :_destroy, { checked: ipf.object.apply, hide_label: true }, '0', '1'
-        .col-5
-          = ipf.text_field :label, hide_label: true
-        .col-4
-          = ipf.text_field :breakdown, hide_label: true
-        .col-2
-          = ipf.number_field :amount, hide_label: true, class: 'text-end', step: 0.01
+      = render partial: ipf.object.template_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
 
     div
       - unless @invoice.new_record?

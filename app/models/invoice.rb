@@ -88,10 +88,12 @@ class Invoice < ApplicationRecord
   end
 
   def generate_pdf
-    self.pdf = {
-      io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
-      filename: filename, content_type: 'application/pdf'
-    }
+    I18n.with_locale(booking.locale) do
+      self.pdf = {
+        io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
+        filename: filename, content_type: 'application/pdf'
+      }
+    end
   end
 
   def generate_ref
@@ -151,14 +153,6 @@ class Invoice < ApplicationRecord
   end
 
   def suggested_invoice_parts
-    usages = booking.usages.where.not(id: invoice_parts.map(&:usage_id))
-    usages.map do |usage|
-      InvoiceParts::Add.from_usage(usage, apply: apply_invoice_part?(usage))
-    end
-  end
-
-  def apply_invoice_part?(usage)
-    tarif = usage.tarif
-    new_record? && tarif && tarif.associated_types.include?(Tarif::ASSOCIATED_TYPES.key(self.class))
+    ::InvoicePart::Factory.new(self).call
   end
 end

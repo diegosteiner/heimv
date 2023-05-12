@@ -40,6 +40,7 @@ class Usage < ApplicationRecord
   has_one :organisation, through: :booking
 
   attribute :apply, default: true
+  delegate :tarif_group, to: :tarif, allow_nil: true
 
   before_validation { tarif&.before_usage_validation(self) }
   before_save { tarif&.before_usage_save(self) }

@@ -43,24 +43,7 @@ module Export
       to_render do
         render Renderables::RichText.new(invoice.text)
         move_down 20
-        table invoice_parts_table_data,
-              column_widths: [nil, nil, 30, 55],
-              width: bounds.width,
-              cell_style: { borders: [], padding: [0, 4, 4, 0] } do
-          cells.style(size: 10)
-          column(2).style(align: :right)
-          column(3).style(align: :right)
-          row(-1).style(borders: [:top], font_style: :bold, padding: [4, 4, 4, 0])
-        end
-      end
-
-      def invoice_parts_table_data
-        helpers = ActionController::Base.helpers
-        data = invoice.invoice_parts.map do |invoice_part|
-          [invoice_part.label, invoice_part.breakdown, organisation.currency,
-           helpers.number_to_currency(invoice_part.calculated_amount, unit: '')]
-        end
-        data << ['Total', '', organisation.currency, helpers.number_to_currency(invoice.amount, unit: '')]
+        render Renderables::Invoice::InvoicePartsTable.new(invoice)
       end
 
       to_render do

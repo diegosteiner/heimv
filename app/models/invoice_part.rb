@@ -29,6 +29,8 @@
 class InvoicePart < ApplicationRecord
   include Subtypeable
   include RankedModel
+  extend TemplateRenderable
+  include TemplateRenderable
 
   belongs_to :invoice, inverse_of: :invoice_parts, touch: true
   belongs_to :usage, inverse_of: :invoice_parts, optional: true

@@ -1,0 +1,15 @@
+div.mt-4
+  = f.hidden_field :id
+  = f.hidden_field :usage_id
+  = f.hidden_field :type
+
+  .row
+    .col-1.py-2
+      = f.check_box :_destroy, { checked: invoice_part.apply, hide_label: true }, '0', '1'
+    .col-4
+      = f.text_field :label, hide_label: true
+    .col-6
+    .col-1.p-2
+      - unless invoice_part.new_record? || invoice_part.invoice.blank?
+        = link_to edit_manage_invoice_invoice_part_path(invoice_part.invoice, invoice_part)
+          i.fa.fa-pencil
