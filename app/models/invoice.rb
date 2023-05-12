@@ -88,12 +88,10 @@ class Invoice < ApplicationRecord
   end
 
   def generate_pdf
-    I18n.with_locale(booking.locale) do
-      self.pdf = {
-        io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
-        filename: filename, content_type: 'application/pdf'
-      }
-    end
+    self.pdf = {
+      io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
+      filename: filename, content_type: 'application/pdf'
+    }
   end
 
   def generate_ref

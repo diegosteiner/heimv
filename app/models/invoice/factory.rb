@@ -9,11 +9,13 @@ class Invoice
                                                                   required_by: self)
 
     def call(booking, params = {})
-      ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
-        invoice.payable_until ||= payable_until(invoice)
-        invoice.text ||= rich_text_template(invoice)
-        invoice.payment_info_type = payment_info_type(invoice)
-        prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
+      I18n.with_locale(booking.locale) do
+        ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
+          invoice.payable_until ||= payable_until(invoice)
+          invoice.text ||= rich_text_template(invoice)
+          invoice.payment_info_type = payment_info_type(invoice)
+          prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
+        end
       end
     end
 

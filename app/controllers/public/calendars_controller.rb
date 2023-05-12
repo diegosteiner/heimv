@@ -12,7 +12,7 @@ module Public
     def index
       respond_to do |format|
         format.json { render json: OccupancyCalendarSerializer.render(@calendar) }
-        format.html { render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies) }
+        format.ics { render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies) }
       end
     end
 
