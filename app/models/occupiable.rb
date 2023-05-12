@@ -10,6 +10,7 @@
 #  janitor         :text
 #  name            :string
 #  occupiable      :boolean          default(FALSE)
+#  ordinal         :integer
 #  ref             :string
 #  settings        :jsonb
 #  type            :string
@@ -30,6 +31,8 @@
 #
 
 class Occupiable < ApplicationRecord
+  include RankedModel
+
   has_many :occupancies, inverse_of: :occupiable, dependent: :restrict_with_error
 
   belongs_to :organisation, inverse_of: :occupiables
@@ -40,6 +43,9 @@ class Occupiable < ApplicationRecord
   scope :ordered, -> { order(name: :ASC) }
   scope :occupiable, -> { where(occupiable: true) }
   scope :active, -> { where(active: true) }
+  scope :ordered, -> { rank(:ordinal) }
+
+  ranks :ordinal, with_same: :organisation_id
 
   validates :name, presence: true
   validates :type, inclusion: { in: %w[Home Occupiable] }, allow_nil: true

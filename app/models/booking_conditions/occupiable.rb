@@ -41,7 +41,7 @@ module BookingConditions
     end
 
     def distinction_scope
-      organisation.occupiables.occupiable
+      organisation.occupiables.occupiable.ordered
     end
   end
 end

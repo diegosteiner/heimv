@@ -10,6 +10,7 @@
 #  janitor         :text
 #  name            :string
 #  occupiable      :boolean          default(FALSE)
+#  ordinal         :integer
 #  ref             :string
 #  settings        :jsonb
 #  type            :string

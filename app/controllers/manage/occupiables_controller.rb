@@ -5,7 +5,7 @@ module Manage
     load_and_authorize_resource :occupiable
 
     def index
-      @occupiables = @occupiables.where(organisation: current_organisation).order(:created_at)
+      @occupiables = @occupiables.where(organisation: current_organisation).ordered
       respond_with :manage, @occupiables
     end
 

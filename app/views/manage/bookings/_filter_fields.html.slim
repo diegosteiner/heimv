@@ -15,7 +15,7 @@
     .col
         = f.collection_select :homes, current_organisation.homes, :id, :name, { include_blank: true }, multiple: true, size: 3
     .col
-        = f.collection_select :occupiables, current_organisation.occupiables, :id, :name, { include_blank: true }, multiple: true, size: 3
+        = f.collection_select :occupiables, current_organisation.occupiables.ordered, :id, :name, { include_blank: true }, multiple: true, size: 3
 .row
     - states = BookingStates.all.map { |key, state| [state.t, key] }
     .col
