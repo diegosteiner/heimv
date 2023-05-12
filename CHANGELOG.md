@@ -2,8 +2,10 @@
 
 #### Unreleased
 
-- Feature: Group invoice parts
+#### Version 23.5.1
 
+- Feature: Group invoice parts
+- Fix: ICAL Links
 
 #### Version 23.4.2
 
@@ -21,7 +23,7 @@ Released on 15.04.2023
 - Feature: Calendar view is switchable
 - Feature: Extras in Templates
 - Fix: Import of bookings
-- Fix: Calendar perfomance 
+- Fix: Calendar perfomance
 
 #### Version 23.3.1
 
