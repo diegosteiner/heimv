@@ -17,10 +17,25 @@ class IcalService
       ical_event.last_modified = formatted_datetime(occupancy.updated_at)
 
       ical_event.location =    occupancy.occupiable.to_s
-      ical_event.description = occupancy.remarks.presence
-      ical_event.summary =     occupancy.booking&.ref
+      ical_event.summary =     occupancy.booking&.ref || occupancy.remarks
       ical_event.location =    occupancy.occupiable&.to_s
       ical_event.status =      occupancy.occupancy_type
+      ical_event.description = occupancy.remarks.presence
+    end
+  end
+
+  def manage_occupancy_to_ical(occupancy)
+    occupancy_to_ical(occupancy).tap do |ical_event|
+      ical_event.description = occupancy.booking&.instance_eval do
+        [
+          tenant_organisation,
+          "#{purpose_description} (#{category})",
+          tenant.full_name,
+          tenant.address_lines,
+          tenant.email,
+          tenant.phone&.lines
+        ].flatten.compact_blank.join("\n")
+      end
     end
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength

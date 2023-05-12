@@ -1,4 +1,4 @@
-- current_organisation.occupiables.occupiable.ordered.each do |occupiable|
+- @occupiables.each do |occupiable|
   .card.my-3
     .card-body
       h1.mt-2.text-center= occupiable
@@ -9,5 +9,5 @@
         })
 
       .text-end.small
-        = link_to home_occupancies_url(org: current_organisation&.slug, locale: I18n.locale,home_id: occupiable.to_param, format: :ics)
+        = link_to occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, format: :ics)
           = t('.ics_link')

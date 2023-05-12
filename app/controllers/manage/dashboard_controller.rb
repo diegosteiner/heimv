@@ -2,8 +2,10 @@
 
 module Manage
   class DashboardController < BaseController
-    authorize_resource :booking
+    authorize_resource :organisation
 
-    def index; end
+    def index
+      @occupiables = current_organisation.occupiables.occupiable.ordered
+    end
   end
 end
