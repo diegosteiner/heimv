@@ -1,4 +1,5 @@
 .calendar {
+  position: relative;
 
   .calendar-nav {
     display: flex;
@@ -80,7 +81,7 @@
       font-weight: bold;
     }
 
-    button.occupancy-calendar-date {
+    button.occupancy-calendar-date .label {
       font-size: 0.8em;
     }
   }
@@ -130,9 +131,7 @@
     .date {
       display: block;
       aspect-ratio: 1 / 1;
-      text-align: center;
       padding: 0;
-
     }
   }
 
@@ -158,35 +157,41 @@
   }
 
   button.occupancy-calendar-date {
-    position: relative;
     background: transparent;
     border: none;
     display: block;
     width: 100%;
     height: 100%;
     padding: 0;
-    overflow: hidden;
     color: black;
+    text-align: start;
 
-    &.has-occupancies>.label {
+    &.has-occupancies>.wrapper>.label {
       font-weight: bold;
     }
 
-    &:hover {
-      opacity: 0.8;
-    }
-
-    &>.label {
-      display: block;
-      position: absolute;
-      top: 50%;
-      margin-top: -0.5em;
-      line-height: 1em;
-      z-index: 2;
+    .wrapper {
+      position: relative;
+      overflow: hidden;
       width: 100%;
-      text-align: center;
-      opacity: 0.8;
-      cursor: pointer;
+      height: 100%;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &>.label {
+        display: block;
+        position: absolute;
+        top: 50%;
+        margin-top: -0.5em;
+        line-height: 1em;
+        z-index: 2;
+        width: 100%;
+        text-align: center;
+        opacity: 0.8;
+        cursor: pointer;
+      }
     }
 
     .slots {
@@ -205,7 +210,20 @@
         flex-grow: 1;
       }
     }
+
+    &:focus-visible .occupancy-popover,
+    &:hover .occupancy-popover {
+      display: block;
+    }
   }
+}
+
+.occupancy-popover {
+  position: absolute;
+  transform: translate(-43%, -100%);
+  z-index: 10;
+  display: none;
+
 }
 
 .react-tiny-popover-container {

@@ -58,25 +58,8 @@ function dateToCalendarControlValue(
 export const availableMinutes = [0, 15, 30, 45];
 
 const closestNumber = (n: number, range: number[]) => {
-  return range.reduce((a, b) => (Math.abs(b - n) < Math.abs(a - n) ? b : a));
+  return range.includes(n) ? n : range.reduce((a, b) => (Math.abs(b - n) < Math.abs(a - n) ? b : a));
 };
-
-// function range(start: number, end: number) {
-//   return [...Array(Math.abs(end - start))].map((_, i) => start + i)
-// }
-
-// function parseHourRange(value: string | number[] | undefined): number[]  {
-//   if (value === undefined) return range(8, 21)
-//   if (typeof value !== 'string') return value
-
-//   const fromToMatch = Array.from(value.matchAll(new RegExp('(\d+)\s*-\s*(\d+)')), match => match[1])
-//   if(fromToMatch) return range(parseInt(fromToMatch[0]) ?? 0, parseInt(fromToMatch[1]) ?? 0)
-
-//   const  = Array.from(value.matchAll(new RegExp('(\d+)\s*-\s*(\d+)')), match => match[1])
-//   if(fromToMatch) return range(parseInt(fromToMatch[0]) ?? 0, parseInt(fromToMatch[1]) ?? 0)
-
-//   return
-// }
 
 type CalendarControlValue = {
   date?: Date;
@@ -130,11 +113,11 @@ export function CalendarInput({
   }, [value, onChange]);
 
   const setDateValue = ({ date, hours, minutes }: Partial<CalendarControlValue>) => {
-    date = date || calendarControlValue?.date;
-    if (!date || !isValid(date)) return;
+    date = date ?? calendarControlValue?.date;
+    if (date == undefined || date == null || !isValid(date)) return;
 
-    date = setHours(date, hours || calendarControlValue?.hours || Math.min(...availableHours));
-    date = setMinutes(date, minutes || calendarControlValue?.minutes || Math.min(...availableMinutes));
+    date = setHours(date, hours ?? (calendarControlValue?.hours || Math.min(...availableHours)));
+    date = setMinutes(date, minutes ?? (calendarControlValue?.minutes || Math.min(...availableMinutes)));
     setCalendarControlValue(dateToCalendarControlValue(date, availableHours, availableMinutes));
     onChange && onChange(date);
     return date;

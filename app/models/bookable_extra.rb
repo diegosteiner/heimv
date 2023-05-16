@@ -28,4 +28,8 @@ class BookableExtra < ApplicationRecord
 
   translates :title, column_suffix: '_i18n', locale_accessors: true
   translates :description, column_suffix: '_i18n', locale_accessors: true
+
+  def to_s
+    title
+  end
 end

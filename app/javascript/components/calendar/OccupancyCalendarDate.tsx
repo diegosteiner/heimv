@@ -1,12 +1,11 @@
 import { isWithinInterval } from "date-fns";
 import { addHours, endOfDay, isBefore, startOfDay } from "date-fns/esm";
 import { isAfter } from "date-fns/esm";
-import { MouseEventHandler, useMemo, useState } from "react";
+import { MouseEventHandler, useMemo } from "react";
 import { findMostRelevantOccupancy, Occupancy } from "../../models/Occupancy";
 import { OccupancyWindow } from "../../models/OccupancyWindow";
 import { parseDate } from "./calendar_functions";
 import { OccupancyPopover } from "./OccupancyPopover";
-import { Popover } from "react-tiny-popover";
 
 interface OccupancyCalendarDateProps {
   dateString: string;
@@ -28,46 +27,39 @@ export function OccupancyCalendarDate({
   const date = startOfDay(parseDate(dateString));
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
   const slots = useMemo(() => splitSlots(date, occupancies), [date, occupancies]);
-  const className = `occupancy-calendar-date ${occupancies.size > 0 && "has-occupancies"} ${
-    classNameCallback && classNameCallback(date)
-  }`;
-  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+  const classNames = [
+    "occupancy-calendar-date",
+    occupancies.size > 0 && "has-occupancies",
+    classNameCallback && classNameCallback(date),
+  ].filter((className) => className);
 
-  const button = useMemo(
+  return useMemo(
     () => (
       <button
         type="submit"
         name="date"
         disabled={disabledCallback && disabledCallback(date)}
-        className={className}
+        className={classNames.join(" ")}
         onClick={onClick}
-        onMouseOver={() => setIsPopoverOpen(true)}
-        onMouseOut={() => setIsPopoverOpen(false)}
         value={dateString}
       >
-        <div className="label">{labelCallback(date)}</div>
-        <div className="slots" style={{ backgroundColor: findMostRelevantOccupancy(slots.allday)?.color }}>
-          <div className="forenoon" style={{ backgroundColor: findMostRelevantOccupancy(slots.forenoon)?.color }}></div>
-          <div
-            className="afternoon"
-            style={{ backgroundColor: findMostRelevantOccupancy(slots.afternoon)?.color }}
-          ></div>
+        <OccupancyPopover dateString={dateString} occupancyWindow={occupancyWindow}></OccupancyPopover>
+        <div className="wrapper">
+          <div className="label">{labelCallback(date)}</div>
+          <div className="slots" style={{ backgroundColor: findMostRelevantOccupancy(slots.allday)?.color }}>
+            <div
+              className="forenoon"
+              style={{ backgroundColor: findMostRelevantOccupancy(slots.forenoon)?.color }}
+            ></div>
+            <div
+              className="afternoon"
+              style={{ backgroundColor: findMostRelevantOccupancy(slots.afternoon)?.color }}
+            ></div>
+          </div>
         </div>
       </button>
     ),
     [date, occupancies]
-  );
-
-  if (occupancies.size <= 0) return button;
-
-  return (
-    <Popover
-      isOpen={isPopoverOpen}
-      positions={["top", "bottom", "left", "right"]} // preferred positions by priority
-      content={<OccupancyPopover dateString={dateString} occupancyWindow={occupancyWindow}></OccupancyPopover>}
-    >
-      {button}
-    </Popover>
   );
 }
 

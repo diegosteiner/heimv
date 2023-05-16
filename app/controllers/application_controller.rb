@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def cache_key(*keys)
-    [keys, I18n.locale, current_organisation_user&.role].flatten.join('-')
+    [keys, I18n.locale, current_organisation_user&.role].flatten.join('---')
   end
 
   def home_path

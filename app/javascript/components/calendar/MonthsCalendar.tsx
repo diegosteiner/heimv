@@ -2,7 +2,6 @@ import { getYear, getDay, formatISO, eachDayOfInterval, endOfMonth, eachMonthOfI
 import { addMonths, getDate, startOfMonth, subMonths } from "date-fns";
 import { parseDate, materializedWeekdays, monthNameFormatter } from "./calendar_functions";
 import { CalendarNav } from "./CalendarNav";
-import { useSwipeable } from "react-swipeable";
 import { memo, useState } from "react";
 import { CalendarDate, DateElementFactory } from "./CalendarDate";
 
@@ -51,13 +50,9 @@ function MonthsCalendar({ initialFirstDate, dateElementFactory }: MonthsCalendar
   const nextMonth = () => setFirstDate((prevFirstDate) => addMonths(prevFirstDate, 1));
   const prevMonth = () => setFirstDate((prevFirstDate) => subMonths(prevFirstDate, 1));
   const interval = { start: firstDate, end: addMonths(firstDate, 7) };
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: nextMonth,
-    onSwipedRight: prevMonth,
-  });
 
   return (
-    <div className="months-calendar" {...swipeHandlers}>
+    <div className="months-calendar">
       <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
         {getYear(firstDate)}
       </CalendarNav>
