@@ -11,6 +11,11 @@ module Public
       @organisations = Organisation.accessible_by(current_ability)
     end
 
+    def health
+      check = HealthService.new
+      render json: check.to_h, status: check.ok? ? 200 : 500
+    end
+
     def changelog; end
 
     def privacy

@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       get 'b/:id(/edit)', to: 'bookings#edit'
       get 'changelog', to: 'pages#changelog'
       get 'privacy', to: 'pages#privacy'
+      get 'health', to: 'pages#health'
       resources :homes, only: %i[show index] do
         resources :occupancies, only: %i[index show] do
           collection do
