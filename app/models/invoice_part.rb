@@ -76,12 +76,10 @@ class InvoicePart < ApplicationRecord
   def self.from_usage(usage, **attributes)
     return unless usage
 
-    I18n.with_locale(usage.booking.locale) do
-      new(attributes.reverse_merge(
-            usage: usage, label: usage.tarif.label, ordinal: usage.tarif.ordinal,
-            breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price
-          ))
-    end
+    new(attributes.reverse_merge(
+          usage: usage, label: usage.tarif.label, ordinal: usage.tarif.ordinal,
+          breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price
+        ))
   end
 
   class Filter < ApplicationFilter

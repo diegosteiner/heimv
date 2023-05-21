@@ -19,7 +19,7 @@ module Manage
     end
 
     def new
-      @booking.organisation = current_organisation
+      @booking.assign_attributes(organisation: current_organisation, notifications_enabled: true)
       @booking.build_tenant
       respond_with :manage, @booking
     end

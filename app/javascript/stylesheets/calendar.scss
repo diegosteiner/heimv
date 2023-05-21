@@ -87,20 +87,34 @@
   }
 
   .months-calendar {
-
     .months {
       padding: 1em 0;
-      overflow: hidden;
       position: relative;
       display: grid;
       gap: 1.5em;
       grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-      grid-template-rows: auto auto;
-      grid-auto-rows: 0;
+      grid-auto-rows: auto auto;
+    }
+
+    @media screen and (max-width: 576px) {
+      .month:nth-last-child(-n+7) {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .month:nth-last-child(-n+4) {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 1200px) {
+      .month:nth-last-child(-n+2) {
+        display: none;
+      }
     }
 
     .month {
-      overflow: hidden;
       box-sizing: border-box;
 
       header>h3 {
