@@ -32,7 +32,7 @@ class InvoicePart
 
       apply = suggest?
       [
-        InvoiceParts::Title.new(apply: apply, label: Invoices::Deposit.model_name.human),
+        InvoiceParts::Text.new(apply: apply, label: Invoices::Deposit.model_name.human),
         InvoiceParts::Add.new(apply: apply, label: Invoices::Deposit.model_name.human, amount: - deposited_amount)
       ]
     end
@@ -46,7 +46,7 @@ class InvoicePart
     end
 
     def usage_group_to_invoice_part(group, group_usages, position_cursor = 0)
-      InvoiceParts::Title.new(label: group, ordinal_position: position_cursor, apply: group_usages.any?(&:apply))
+      InvoiceParts::Text.new(label: group, ordinal_position: position_cursor, apply: group_usages.any?(&:apply))
     end
 
     def suggest?

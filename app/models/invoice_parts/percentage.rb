@@ -33,5 +33,10 @@ module InvoiceParts
     def calculated_amount
       sum_of_predecessors * amount / 100
     end
+
+    def breakdown
+      self[:breakdown].presence ||
+        ActiveSupport::NumberHelper.number_to_percentage(amount, precision: 0)
+    end
   end
 end

@@ -115,7 +115,7 @@ class Tarif < ApplicationRecord
   def breakdown_options(usage)
     {
       used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
-      unit: unit, price_per_unit: number_to_currency(price_per_unit || 0, currency: organisation.currency)
+      unit: unit, price_per_unit: number_to_currency(price_per_unit || 0, unit: organisation.currency)
     }
   end
 

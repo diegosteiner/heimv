@@ -53,13 +53,11 @@ module Export
       end
 
       def tarif_table_data
-        I18n.with_locale(@booking.locale) do
-          [[Tarif.model_name.human, Tarif.human_attribute_name(:unit), Tarif.human_attribute_name(:price_per_unit)]] +
-            @contract.usages.map do |usage|
-              tarif = usage.tarif
-              [tarif.label, tarif.unit, number_to_currency(usage.price_per_unit || 0, currency: @organisation.currency)]
-            end
-        end
+        [[Tarif.model_name.human, Tarif.human_attribute_name(:unit), Tarif.human_attribute_name(:price_per_unit)]] +
+          @contract.usages.map do |usage|
+            tarif = usage.tarif
+            [tarif.label, tarif.unit, number_to_currency(usage.price_per_unit || 0, unit: @organisation.currency)]
+          end
       end
     end
   end

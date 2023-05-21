@@ -27,7 +27,7 @@
 #
 
 module InvoiceParts
-  class Title < InvoicePart
+  class Text < InvoicePart
     InvoicePart.register_subtype self
   end
 end

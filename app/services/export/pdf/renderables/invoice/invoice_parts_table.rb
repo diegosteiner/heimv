@@ -56,7 +56,7 @@ module Export
             [].tap do |groups|
               group ||= []
               invoice_parts.each do |invoice_part|
-                next group << invoice_part_table_row_data(invoice_part) unless invoice_part.is_a? ::InvoiceParts::Title
+                next group << invoice_part_table_row_data(invoice_part) unless invoice_part.is_a? ::InvoiceParts::Text
 
                 groups << group if group.any?
                 group = [invoice_part_table_row_data(invoice_part)]
@@ -67,11 +67,11 @@ module Export
 
           def invoice_part_table_row_data(invoice_part)
             case invoice_part
-            when ::InvoiceParts::Add
+            when ::InvoiceParts::Text
+              [{ content: invoice_part.label, font_style: :bold }, '', '', '']
+            else
               [invoice_part.label, invoice_part.breakdown, organisation.currency,
                helpers.number_to_currency(invoice_part.calculated_amount, unit: '')]
-            when ::InvoiceParts::Title
-              [{ content: invoice_part.label, size: 7 }, '', '', '']
             end
           end
         end
