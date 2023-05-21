@@ -2,6 +2,12 @@
 
 #### Unreleased
 
+#### Version 23.5.2
+
+- Fix: Percentage invoice parts
+- Fix: Calendar popovers and responsiveness
+- Fix: Locale for pdfs
+
 #### Version 23.5.1
 
 - Feature: Group invoice parts
