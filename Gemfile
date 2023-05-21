@@ -55,8 +55,6 @@ gem 'ttfunk'
 
 group :development do
   gem 'annotate'
-  gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'foreman'
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'

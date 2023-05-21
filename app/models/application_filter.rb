@@ -38,4 +38,8 @@ class ApplicationFilter
     digest = Digest::SHA1
     [self.class, digest.hexdigest(relation.pluck(:id).to_s), digest.hexdigest(attributes.values.to_s)].join('-')
   end
+
+  def reflections
+    {}
+  end
 end

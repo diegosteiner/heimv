@@ -93,3 +93,5 @@ yarn-debug.log*
 /.ash_history
 .vscode/settings.json
 .byebug_history
+
+/local
