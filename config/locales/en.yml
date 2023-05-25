@@ -1126,7 +1126,6 @@ en:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum_price}
-    unpaid_invoice: Offener Betrag fällig am %{payable_until}
   layouts:
     footer:
       privacy_statement: Datenschutzerklärung
@@ -1134,10 +1133,6 @@ en:
       help: Hilfe
   manage:
     bookings:
-      contracts:
-        index:
-          contract_sent: Vertrag versendet markieren
-          contract_signed: Vertrag unterschieben markieren
       import:
         headers: Headers
         import_error: 'Import fehlgeschlagen: '
@@ -1186,7 +1181,6 @@ en:
     organisations:
       form:
         general: Allgemein
-        more_settings: Weitere Einstellungen
     pages:
       flow:
         title: Buchungsprozess

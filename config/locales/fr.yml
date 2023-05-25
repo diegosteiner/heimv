@@ -1058,7 +1058,6 @@ fr:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum_price}
-    unpaid_invoice: Montant en suspens dû le %{payable_until}
   invoices:
     total:
   layouts:
@@ -1066,12 +1065,9 @@ fr:
       privacy_statement: Déclaration de confidentialité
     manage_navigation:
       help: Aide
+      settings: Einstellungen
   manage:
     bookings:
-      contracts:
-        index:
-          contract_sent:
-          contract_signed:
       import:
         headers: En-têtes
         import_error: 'Échec de l''importation : '
@@ -1120,7 +1116,6 @@ fr:
     organisations:
       form:
         general: Généralités
-        more_settings: Autres paramètres
     pages:
       flow:
         title: Processus de réservation

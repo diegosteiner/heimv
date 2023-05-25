@@ -1025,7 +1025,6 @@ it:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum_price}
-    unpaid_invoice: Importo aperto dovuto al %{payable_until}
   invoices:
     total:
   layouts:
@@ -1033,12 +1032,9 @@ it:
       privacy_statement: Informativa sulla privacy
     manage_navigation:
       help: Aiuto
+      settings: Impostazioni
   manage:
     bookings:
-      contracts:
-        index:
-          contract_sent: Designare il contratto come spedito
-          contract_signed: Designare il contratto come firmato
       import:
         headers: Intestazioni
         import_error: 'Importazione non riuscita:'
@@ -1087,7 +1083,6 @@ it:
     organisations:
       form:
         general: Generalmente
-        more_settings: Più configurazioni
     pages:
       flow:
         title: Processo di prenotazione

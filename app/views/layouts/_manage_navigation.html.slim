@@ -24,18 +24,35 @@ nav.p-3
         = link_to DataDigest.model_name.human(count: 2), manage_data_digest_templates_path, class: 'nav-link'
       - if current_organisation_user&.role_admin? || current_user&.role_admin?
         li.nav-item
-          = link_to edit_manage_organisation_path, class: 'nav-link'
-            = Organisation.model_name.human
-            i.fa.fa-cog.ps-2
-        ul
-          li.nav-item
-            = link_to Occupiable.model_name.human(count: 2), manage_occupiables_path, class: 'nav-link'
-          li.nav-item
-            = link_to Tarif.model_name.human(count: 2), manage_tarifs_path, class: 'nav-link'
-          li.nav-item
-            = link_to RichTextTemplate.model_name.human(count: 2), manage_rich_text_templates_path, class: 'nav-link'
-          li.nav-item
-            = link_to DesignatedDocument.model_name.human(count: 2), manage_designated_documents_path, class: 'nav-link'
+          a.nav-link.dropdown-toggle href="#settingsNav" role="button" data-bs-toggle="collapse" aria-expanded="false"
+            = t('.settings')
+
+          ul.list-unstyled.ps-3.collapse#settingsNav
+            li
+              = link_to edit_manage_organisation_path, class: 'nav-link'
+                = Organisation.model_name.human
+                i.fa.fa-cog.ps-2
+            li
+              = link_to Occupiable.model_name.human(count: 2), manage_occupiables_path, class: 'nav-link'
+            li
+              = link_to Tarif.model_name.human(count: 2), manage_tarifs_path, class: 'nav-link'
+            li
+              = link_to BookingCategory.model_name.human(count: 2), manage_booking_categories_path, class: 'nav-link'
+            li
+              = link_to RichTextTemplate.model_name.human(count: 2), manage_rich_text_templates_path, class: 'nav-link'
+            li
+              = link_to DesignatedDocument.model_name.human(count: 2), manage_designated_documents_path, class: 'nav-link'
+            li
+              = link_to BookingAgent.model_name.human(count: 2), manage_booking_agents_path, class: 'nav-link'
+            li
+              = link_to OrganisationUser.model_name.human, manage_organisation_users_path, class: 'nav-link'
+            li
+              = link_to Operator.model_name.human(count: 2), manage_operators_path, class: 'nav-link'
+            li
+              = link_to OperatorResponsibility.model_name.human(count: 2), manage_operator_responsibilities_path, class: 'nav-link'
+            li
+              = link_to BookableExtra.model_name.human(count: 2), manage_bookable_extras_path, class: 'nav-link'
+                
       li.nav-item
         = link_to manage_flow_path(org: current_organisation, locale: I18n.locale), class: 'nav-link'
           = t('.help')
