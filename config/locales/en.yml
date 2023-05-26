@@ -601,7 +601,7 @@ en:
       email_contract_without_deposit:
         confirm: Den Vertrag wirklich ohne Anzahlung verschicken?
         label: Vertrag ohne Anzahlung verschicken
-      email_invoice:
+      email_invoices:
         label: Rechnung verschicken
       mark_contract_signed:
         label: Vertragseingang bestätigen

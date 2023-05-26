@@ -5,7 +5,7 @@ module BookingActions
     def self.all
       @all ||= [
         Accept, EmailContractAndDeposit, EmailContractWithoutDeposit,
-        EmailInvoice, BookingActions::Public::PostponeDeadline,
+        EmailInvoices, EmailOffers, BookingActions::Public::PostponeDeadline,
         MarkContractSigned, BookingActions::Manage::CommitRequest,
         BookingActions::Public::CommitBookingAgentRequest, Cancel
       ].index_by(&:action_name)

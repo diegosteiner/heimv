@@ -607,7 +607,7 @@ fr:
       email_contract_without_deposit:
         confirm: Vraiment envoyer le contrat sans acompte ?
         label: Envoyer un contrat sans acompte
-      email_invoice:
+      email_invoices:
         label: Envoyer une facture
       mark_contract_signed:
         label: Confirmer la réception du contrat

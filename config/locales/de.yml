@@ -607,8 +607,10 @@ de:
       email_contract_without_deposit:
         confirm: Den Vertrag wirklich ohne Anzahlung verschicken?
         label: Vertrag ohne Anzahlung verschicken
-      email_invoice:
+      email_invoices:
         label: Rechnung verschicken
+      email_offers:
+        label: Offerte verschicken
       mark_contract_signed:
         label: Vertragseingang bestätigen
       mark_deposits_paid:
@@ -1623,6 +1625,23 @@ de:
       default_body: ''
       default_title: ''
       description: Fusszeile für Benachrichtigungen
+    offer_notification:
+      default_body: |
+        <p>{{ booking.tenant.salutation_name }}</p>
+
+        <p>Mit dieser Nachricht erhältst Du die Offerte für Deinen Besuch.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: {{ booking.ref }}</li>
+          <li>Lagerhaus: {{booking.home.name}}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+          <li>Organisation: {{ booking.tenant_organisation }}</li>
+          <li>Mietkategorie: {{ booking.category.title }}</li>
+        </ul>
+      default_title: Deine Offerte
+      description: Benachrichtigung für Offerte
     open_request_notification:
       default_body: |
         <p>{{ booking.tenant.salutation_name }}</p>

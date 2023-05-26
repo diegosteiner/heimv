@@ -167,7 +167,7 @@ describe 'Booking', :devise, type: :feature do
 
   def finalize_booking
     visit manage_booking_path(@booking, org: org)
-    click_on :email_invoice
+    click_on :email_invoices
     click_on :postpone_deadline
     visit manage_booking_invoices_path(@booking, org: org)
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)

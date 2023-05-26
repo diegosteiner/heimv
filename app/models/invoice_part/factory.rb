@@ -28,7 +28,8 @@ class InvoicePart
     def from_deposits
       deposits = Invoices::Deposit.of(@invoice.booking).kept
       deposited_amount = deposits.sum(&:amount_paid)
-      return [] unless deposited_amount.positive? && @invoice.new_record?
+      return [] unless deposited_amount.positive? && @invoice.new_record? &&
+                       !@invoice.is_a?(Invoices::Offer)
 
       apply = suggest?
       [

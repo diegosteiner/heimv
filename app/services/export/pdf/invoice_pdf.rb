@@ -49,17 +49,6 @@ module Export
       to_render do
         render PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info) if payment_info
       end
-
-      to_render do
-        next unless invoice.is_a?(Invoices::Offer)
-
-        bounding_box([0, cursor - 30], width: bounds.width) do
-          issuer_signature_label = I18n.t('contracts.issuer_signature_label')
-          render Renderables::Signature.new(issuer_signature_label, signature_image: organisation.contract_signature,
-                                                                    date: invoice.issued_at,
-                                                                    location: organisation.location)
-        end
-      end
     end
   end
 end

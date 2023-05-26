@@ -2,8 +2,9 @@
 
 module BookingActions
   module Manage
-    class EmailInvoice < BookingActions::Base
-      RichTextTemplate.require_template(:payment_due_notification, template_context: %i[booking], required_by: self)
+    class EmailInvoices < BookingActions::Base
+      RichTextTemplate.require_template(:payment_due_notification, template_context: %i[booking offers],
+                                                                   required_by: self)
 
       def call!
         notification = prepare_notification
@@ -12,10 +13,8 @@ module BookingActions
       end
 
       def allowed?
-        booking.instance_exec do
-          notifications_enabled && invoices.unsent.any? &&
-            !booking_flow.in_state?(:definitive_request) && tenant.email.present?
-        end
+        invoices.any? && booking.notifications_enabled &&
+          !booking.booking_flow.in_state?(:definitive_request) && booking.tenant.email.present?
       end
 
       protected
@@ -25,7 +24,8 @@ module BookingActions
       end
 
       def invoices
-        booking.invoices.unsent
+        context[:invoices].presence ||
+          booking.invoices.unsent.where(type: [Invoices::Deposit, Invoices::Invoice, Invoices::LateNotice].map(&:to_s))
       end
 
       def prepare_notification

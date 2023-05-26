@@ -609,7 +609,7 @@ it:
       email_contract_without_deposit:
         confirm: Inviare davvero il contratto senza un acconto?
         label: Inviare il contratto senza acconto
-      email_invoice:
+      email_invoices:
         label: Inviare la fattura
       mark_contract_signed:
         label: Confermare la ricezione del contratto
