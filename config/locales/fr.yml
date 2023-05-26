@@ -608,7 +608,9 @@ fr:
         confirm: Vraiment envoyer le contrat sans acompte ?
         label: Envoyer un contrat sans acompte
       email_invoices:
-        label: Envoyer une facture
+        label: Rechnung verschicken
+      email_offers:
+        label: Envoyer une offre
       mark_contract_signed:
         label: Confirmer la réception du contrat
       mark_deposits_paid:
@@ -670,7 +672,7 @@ fr:
       label: Demande de location (définitive)
       relevant_time: Déposé %{time}
     initial:
-      label:
+      label: "-"
     open_request:
       label: Demande de location (ouverte)
       public_info: Votre demande de location a été envoyée et sera traitée prochainement par l'administration.
@@ -727,7 +729,7 @@ fr:
     tenant_signature_label: Date, lieu, signature du locataire
   currency: Monnaie
   data_digests:
-    period_short:
+    period_short: "%{period_from} - %{period_to}"
   date:
     abbr_day_names:
     - dim
@@ -1059,13 +1061,13 @@ fr:
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum_price}
   invoices:
-    total:
+    total: Total
   layouts:
     footer:
       privacy_statement: Déclaration de confidentialité
     manage_navigation:
       help: Aide
-      settings: Einstellungen
+      settings: Réglages
   manage:
     bookings:
       import:
@@ -1335,6 +1337,10 @@ fr:
       description: Notification de nouvelle demande de location (administration)
     notification_footer:
       description: Pied de page pour les notifications
+    offer_notification:
+      default_body:
+      default_title: Ton offre
+      description: Notification d'offre
     open_request_notification:
       default_body:
       default_title: Confirmation de votre demande de location

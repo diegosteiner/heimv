@@ -611,6 +611,8 @@ it:
         label: Inviare il contratto senza acconto
       email_invoices:
         label: Inviare la fattura
+      email_offers:
+        label:
       mark_contract_signed:
         label: Confermare la ricezione del contratto
       mark_deposits_paid:
@@ -829,7 +831,7 @@ it:
       month: Mese
       second: Secondi
       year: Anno
-  deadline_exceeded:
+  deadline_exceeded: Scadenza superata
   destroy: Cancellare
   destroy_record: Cancellare %{model_name}
   devise:
@@ -1026,7 +1028,7 @@ it:
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum_price}
   invoices:
-    total:
+    total: Totale
   layouts:
     footer:
       privacy_statement: Informativa sulla privacy
@@ -1490,6 +1492,10 @@ it:
       description: Notifica di una nuova richiesta di affitto (amministrazione)
     notification_footer:
       description: Piè di pagina per le notifiche
+    offer_notification:
+      default_body:
+      default_title: La vostra offerta
+      description: Notifica di offerta
     open_request_notification:
       default_body: |
         <p>{{ booking.tenant.salutation_name }}</p>
