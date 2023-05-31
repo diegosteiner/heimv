@@ -4,17 +4,18 @@
 #
 # Table name: occupancies
 #
-#  id             :uuid             not null, primary key
-#  begins_at      :datetime         not null
-#  color          :string
-#  ends_at        :datetime         not null
-#  linked         :boolean          default(TRUE)
-#  occupancy_type :integer          default("free"), not null
-#  remarks        :text
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  booking_id     :uuid
-#  occupiable_id  :bigint           not null
+#  id                 :uuid             not null, primary key
+#  begins_at          :datetime         not null
+#  color              :string
+#  ends_at            :datetime         not null
+#  ignore_conflicting :boolean          default(FALSE), not null
+#  linked             :boolean          default(TRUE)
+#  occupancy_type     :integer          default("free"), not null
+#  remarks            :text
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  booking_id         :uuid
+#  occupiable_id      :bigint           not null
 #
 # Indexes
 #

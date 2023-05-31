@@ -81,7 +81,7 @@ module Import
       end
 
       actor do |booking, row|
-        booking&.assign_attributes(import_data: row.to_h, editable: false,
+        booking&.assign_attributes(import_data: row.to_h, editable: false, ignore_conflicting: false,
                                    notifications_enabled: false, ref: row['booking.ref'],
                                    remarks: row['booking.remarks'], purpose_description: row['booking.purpose'],
                                    internal_remarks: row['booking.internal_remarks'],

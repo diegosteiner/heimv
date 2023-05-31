@@ -23,7 +23,7 @@
                                                 invalidFeedback: @booking.errors[:ends_at].to_sentence)
 
     = f.label :occupancy_color
-    = f.check_box :occupancy_color, { id: 'toggle_booking_occupancy_color', checked: @booking.override_occupancy_color?, \
+    = f.check_box :occupancy_color, { id: 'toggle_booking_occupancy_color', checked: @booking[:occupancy_color].present?, \
                               data: { 'bs-toggle' => "disable", 'bs-target' => "#booking_occupancy_color" } }, "1", "" 
       = f.color_field :occupancy_color, hide_label: true, style: 'min-width: 5em;'
 
@@ -87,6 +87,7 @@
     = f.text_area :cancellation_reason
     = f.check_box :notifications_enabled
     = f.check_box :editable
+    = f.check_box :ignore_conflicting
     = f.collection_select :transition_to, @booking.booking_flow.possible_transitions, :itself, ->(state) { t(:label, scope: [:booking_states, state]) }, { include_blank: true }
 
   fieldset.mt-3

@@ -17,6 +17,7 @@
 #  editable               :boolean          default(TRUE)
 #  email                  :string
 #  ends_at                :datetime
+#  ignore_conflicting     :boolean          default(FALSE), not null
 #  import_data            :jsonb
 #  internal_remarks       :text
 #  invoice_address        :text

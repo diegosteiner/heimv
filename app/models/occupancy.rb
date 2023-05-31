@@ -4,17 +4,18 @@
 #
 # Table name: occupancies
 #
-#  id             :uuid             not null, primary key
-#  begins_at      :datetime         not null
-#  color          :string
-#  ends_at        :datetime         not null
-#  linked         :boolean          default(TRUE)
-#  occupancy_type :integer          default("free"), not null
-#  remarks        :text
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  booking_id     :uuid
-#  occupiable_id  :bigint           not null
+#  id                 :uuid             not null, primary key
+#  begins_at          :datetime         not null
+#  color              :string
+#  ends_at            :datetime         not null
+#  ignore_conflicting :boolean          default(FALSE), not null
+#  linked             :boolean          default(TRUE)
+#  occupancy_type     :integer          default("free"), not null
+#  remarks            :text
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  booking_id         :uuid
+#  occupiable_id      :bigint           not null
 #
 # Indexes
 #
@@ -48,11 +49,9 @@ class Occupancy < ApplicationRecord
   before_validation :update_from_booking
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate do
+    errors.add(:base, :occupancy_conflict) if !ignore_conflicting && conflicting?
     errors.add(:occupiable_id, :invalid) if booking && organisation && !organisation == booking.organisation
     errors.add(:linked, :invalid) if linked && booking.blank?
-  end
-  validate on: %i[public_create public_update agent_booking] do
-    errors.add(:base, :occupancy_conflict) if conflicting?
   end
 
   def conflicting?(...)
@@ -69,8 +68,8 @@ class Occupancy < ApplicationRecord
   def conflicting(margin = occupiable.settings.booking_margin)
     return if begins_at.blank? || ends_at.blank? || occupiable.blank?
 
-    occupiable.occupancies.at(from: begins_at - margin, to: ends_at + margin).blocking
-              .where.not(id: id).where.not(begins_at: ends_at).where.not(ends_at: begins_at)
+    occupiable.occupancies.blocking.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
+              .where.not(id: id).where.not(ignore_conflicting: true)
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -86,6 +85,7 @@ class Occupancy < ApplicationRecord
   def update_from_booking
     return if !linked || booking.blank?
 
-    assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at, occupancy_type: booking.occupancy_type)
+    assign_attributes(begins_at: booking.begins_at, ends_at: booking.ends_at,
+                      occupancy_type: booking.occupancy_type, ignore_conflicting: booking.ignore_conflicting)
   end
 end

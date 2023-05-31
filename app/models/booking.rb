@@ -17,6 +17,7 @@
 #  editable               :boolean          default(TRUE)
 #  email                  :string
 #  ends_at                :datetime
+#  ignore_conflicting     :boolean          default(FALSE), not null
 #  import_data            :jsonb
 #  internal_remarks       :text
 #  invoice_address        :text
@@ -171,10 +172,6 @@ class Booking < ApplicationRecord
 
   def build_tenant(attributes = {})
     super(attributes.merge(organisation: organisation || attributes[:organisation]))
-  end
-
-  def override_occupancy_color?
-    self[:occupancy_color].present?
   end
 
   def occupancy_color

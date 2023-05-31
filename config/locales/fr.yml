@@ -608,7 +608,7 @@ fr:
         confirm: Vraiment envoyer le contrat sans acompte ?
         label: Envoyer un contrat sans acompte
       email_invoices:
-        label: Rechnung verschicken
+        label: Envoyer une facture
       email_offers:
         label: Envoyer une offre
       mark_contract_signed:
