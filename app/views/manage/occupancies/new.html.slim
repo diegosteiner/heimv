@@ -1,5 +1,7 @@
 h1.m-0= Occupancy.model_name.human(count: 2)
-.mb-5= link_to @occupiable.to_s, manage_occupiable_path(@occupiable)
+
+- if @occupiable.present?
+  .mb-5= link_to @occupiable.to_s, manage_occupiable_path(@occupiable)
 
 .row.justify-content-center
   .col-lg-8

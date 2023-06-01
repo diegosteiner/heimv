@@ -25,8 +25,9 @@ module Manage
     end
 
     def create
-      @occupancy.update(occupiable: @occupiable)
-      respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupiable)
+      @occupancy.occupiable = @occupiable if @occupiable.present?
+      @occupancy.save
+      respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupancy&.occupiable)
     end
 
     def update

@@ -57,6 +57,7 @@ module Ability
       can :manage, Invoice, booking: { organisation: organisation }
       can :manage, InvoicePart, invoice: { booking: { organisation: organisation } }
       can :manage, Notification, booking: { organisation: organisation }
+      can :new, Occupancy
       can :manage, Occupancy, occupiable: { organisation: organisation }
       can :manage, OperatorResponsibility, organisation: organisation
       can :manage, Payment, booking: { organisation: organisation }

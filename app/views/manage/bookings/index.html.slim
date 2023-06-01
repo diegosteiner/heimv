@@ -20,6 +20,8 @@ h1.my-0= Booking.model_name.human(count: 2)
         = t('add_record', model_name: Booking.model_name.human)
       = link_to(new_public_agent_booking_path, class: 'dropdown-item')
         = t('add_record', model_name: AgentBooking.model_name.human)
+      = link_to(new_manage_occupancy_path, class: 'dropdown-item')
+        = t('add_record', model_name: Occupancy.model_name.human)
       = link_to(import_manage_bookings_path, class: 'dropdown-item')
         = t(:import)
 

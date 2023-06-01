@@ -9,8 +9,9 @@ Rails.application.routes.draw do
       root to: 'dashboard#index'
       get 'flow', to: 'pages#flow'
       resources :occupiables do
-        resources :occupancies, except: %w[show], shallow: true
+        resources :occupancies, only: %i[index new create]
       end
+      resources :occupancies, only: %w[new create edit update destroy]
       resource :organisation, only: %i[edit update show]
       resources :organisation_users, except: %i[show]
       resources :bookable_extras, to: 'bookable_extras'
