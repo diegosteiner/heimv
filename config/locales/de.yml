@@ -1173,6 +1173,8 @@ de:
       index:
         canned_filter_default: Standardansicht
         canned_filter_upcoming: Zukünftige Belegungen
+        new: Neu
+        new_closed_occupancy: Schliessung
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       navigation:
         costs: Tarife & Verbrauch

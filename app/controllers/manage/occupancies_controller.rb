@@ -16,7 +16,8 @@ module Manage
     end
 
     def new
-      @occupancy.assign_attributes(occupiable: @occupiable, linked: false, occupancy_type: :closed)
+      @occupancy.assign_attributes({ linked: false, occupancy_type: :closed }.merge(occupancy_params))
+      @occupancy.occupiable = @occupiable if @occupiable.present?
       respond_with :manage, @occupancy
     end
 
@@ -43,7 +44,7 @@ module Manage
     private
 
     def occupancy_params
-      OccupancyParams.new(params.require(:occupancy)).permitted
+      OccupancyParams.new(params[:occupancy]).permitted
     end
   end
 end

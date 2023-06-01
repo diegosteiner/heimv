@@ -14,14 +14,14 @@ h1.my-0= Booking.model_name.human(count: 2)
   
   .dropdown.d-inline-block
     button#dropdownNewBookingButton.btn.btn-primary.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" type="button" 
-      = t(:add_record, model_name: Booking.model_name.human)
+      = t('.new')
     .dropdown-menu aria-labelledby="dropdownNewBookingButton" 
       = link_to(new_manage_booking_path, class: 'dropdown-item')
-        = t('add_record', model_name: Booking.model_name.human)
+        = Booking.model_name.human
       = link_to(new_public_agent_booking_path, class: 'dropdown-item')
-        = t('add_record', model_name: AgentBooking.model_name.human)
-      = link_to(new_manage_occupancy_path, class: 'dropdown-item')
-        = t('add_record', model_name: Occupancy.model_name.human)
+        = AgentBooking.model_name.human
+      = link_to(new_manage_occupancy_path(occupancy: { occupancy_type: :closed }), class: 'dropdown-item')
+        = t('.new_closed_occupancy')
       = link_to(import_manage_bookings_path, class: 'dropdown-item')
         = t(:import)
 
