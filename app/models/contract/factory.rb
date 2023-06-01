@@ -4,12 +4,14 @@ class Contract
   class Factory
     def call(booking, params = {})
       ::Contract.new(defaults(booking).merge(params)).tap do |contract|
-        contract.text ||= rich_text_template(contract)
+        I18n.with_locale(contract.locale) do
+          contract.text ||= rich_text_template(contract)
+        end
       end
     end
 
     def defaults(booking)
-      { booking: booking }
+      { booking: booking, locale: booking.locale || I18n.locale }
     end
 
     protected

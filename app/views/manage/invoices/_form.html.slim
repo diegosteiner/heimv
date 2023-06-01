@@ -14,6 +14,7 @@
           i.fa.fa-unlock
 
     = f.text_field :ref, help: t('generated')
+    = f.collection_select :locale, Invoice.locales, :first, :first
     = f.text_area :text, class: 'rich-text-area'
     = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
     = f.date_field :payable_until, lang: I18n.locale

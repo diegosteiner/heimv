@@ -2,6 +2,7 @@
   = f.error_summary
 
   fieldset[v-pre]
+    = f.collection_select :locale, Contract.locales, :first, :first
     = f.text_area :text, rows: 25, class: 'rich-text-area'
     = f.date_field :sent_at unless @contract.new_record?
     = f.file_field :signed_pdf unless @contract.new_record?

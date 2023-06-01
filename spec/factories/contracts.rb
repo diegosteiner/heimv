@@ -5,6 +5,7 @@
 # Table name: contracts
 #
 #  id          :bigint           not null, primary key
+#  locale      :string
 #  sent_at     :date
 #  signed_at   :date
 #  text        :text

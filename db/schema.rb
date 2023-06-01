@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_31_131105) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_01_114813) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -197,6 +197,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_131105) do
     t.datetime "valid_until", precision: nil
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.string "locale"
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
   end
 
@@ -282,6 +283,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_131105) do
     t.string "payment_info_type"
     t.decimal "amount_open"
     t.bigint "supersede_invoice_id"
+    t.string "locale"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
     t.index ["ref"], name: "index_invoices_on_ref"

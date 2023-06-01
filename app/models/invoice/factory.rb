@@ -9,8 +9,8 @@ class Invoice
                                                                   required_by: self)
 
     def call(booking, params = {})
-      I18n.with_locale(booking.locale) do
-        ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
+      ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
+        I18n.with_locale(invoice.locale) do
           invoice.payment_info_type = payment_info_type(invoice)
           invoice.text ||= rich_text_template(invoice)
           invoice.payable_until ||= payable_until(invoice)
@@ -28,7 +28,10 @@ class Invoice
     end
 
     def defaults(booking)
-      { type: Invoices::Invoice.to_s, issued_at: Time.zone.today, booking: booking }
+      {
+        type: Invoices::Invoice.to_s, issued_at: Time.zone.today,
+        booking: booking, locale: booking.locale || I18n.locale
+      }
     end
 
     protected
@@ -45,11 +48,10 @@ class Invoice
 
     def rich_text_template(invoice)
       key = "#{invoice.model_name.param_key}_text"
-      booking = invoice.booking
       rich_text_template = invoice.organisation.rich_text_templates.enabled.by_key(key)
       return if rich_text_template.blank?
 
-      I18n.with_locale(booking.locale) { rich_text_template.interpolate(template_context(invoice)) }.body
+      rich_text_template.interpolate(template_context(invoice)).body
     end
 
     def template_context(invoice)

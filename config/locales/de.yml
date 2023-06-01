@@ -142,6 +142,7 @@ de:
         type: Typ
       contract:
         issuer: Vermieter
+        locale: Sprache
         pdf: PDF
         sent_at: Vertragsdatum
         signed_at: Von Mieter Unterschrieben am
@@ -185,6 +186,7 @@ de:
         esr_number: ESR Nummer
         invoice_parts: Rechnungspositionen
         issued_at: Ausgestellt am
+        locale: Sprache
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
         percentage_paid: "% bezahlt"

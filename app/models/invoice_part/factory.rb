@@ -11,7 +11,9 @@ class InvoicePart
     end
 
     def call
-      from_usages + from_deposits
+      I18n.with_locale(invoice.locale || I18n.locale) do
+        from_usages + from_deposits
+      end
     end
 
     def from_usages

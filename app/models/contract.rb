@@ -5,6 +5,7 @@
 # Table name: contracts
 #
 #  id          :bigint           not null, primary key
+#  locale      :string
 #  sent_at     :date
 #  signed_at   :date
 #  text        :text
@@ -26,6 +27,8 @@
 class Contract < ApplicationRecord
   RichTextTemplate.require_template(:contract_text, template_context: %i[booking], required_by: self)
 
+  locale_enum default: I18n.locale
+
   belongs_to :booking, inverse_of: :contracts, touch: true
   has_one :organisation, through: :booking
   has_one_attached :pdf
@@ -40,11 +43,13 @@ class Contract < ApplicationRecord
   before_save :supersede, :generatate_pdf, :set_signed_at
 
   def generatate_pdf
-    self.pdf = {
-      io: StringIO.new(Export::Pdf::ContractPdf.new(self).render_document),
-      filename: filename,
-      content_type: 'application/pdf'
-    }
+    I18n.with_locale(locale || I18n.locale) do
+      self.pdf = {
+        io: StringIO.new(Export::Pdf::ContractPdf.new(self).render_document),
+        filename: filename,
+        content_type: 'application/pdf'
+      }
+    end
   end
 
   def supersede(**attributes)

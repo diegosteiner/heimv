@@ -9,6 +9,7 @@
 #  amount_open          :decimal(, )
 #  discarded_at         :datetime
 #  issued_at            :datetime
+#  locale               :string
 #  payable_until        :datetime
 #  payment_info_type    :string
 #  ref                  :string
@@ -37,6 +38,8 @@
 class Invoice < ApplicationRecord
   include Subtypeable
   include Discard::Model
+
+  locale_enum default: I18n.locale
 
   belongs_to :booking, inverse_of: :invoices, touch: true
   belongs_to :supersede_invoice, class_name: :Invoice, optional: true, inverse_of: :superseded_by_invoices
@@ -88,10 +91,12 @@ class Invoice < ApplicationRecord
   end
 
   def generate_pdf
-    self.pdf = {
-      io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
-      filename: filename, content_type: 'application/pdf'
-    }
+    I18n.with_locale(locale || I18n.locale) do
+      self.pdf = {
+        io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
+        filename: filename, content_type: 'application/pdf'
+      }
+    end
   end
 
   def generate_ref

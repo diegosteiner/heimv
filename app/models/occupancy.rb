@@ -65,7 +65,7 @@ class Occupancy < ApplicationRecord
   end
 
   # rubocop:disable Metrics/AbcSize
-  def conflicting(margin = occupiable.settings.booking_margin)
+  def conflicting(margin = occupiable&.settings&.booking_margin || 0)
     return if begins_at.blank? || ends_at.blank? || occupiable.blank?
 
     occupiable.occupancies.blocking.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
