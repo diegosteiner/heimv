@@ -2,13 +2,28 @@
 
 #### Unreleased
 
+#### Version 23.6.1
+
+Released on 01.06.2023
+
+- Fix: Allow managers to add occupancies
+- Fix: Add locale to invoices and contracts
+- Feature: Add tenant data digest
+- Feature: Add ignore_conflicts to bookings and occupancies
+- Feature: Hide categories when theres only one
+- Feature: Improve navigation for managers
+
 #### Version 23.5.2
+
+Released on 21.05.2023
 
 - Fix: Percentage invoice parts
 - Fix: Calendar popovers and responsiveness
 - Fix: Locale for pdfs
 
 #### Version 23.5.1
+
+Released on 12.05.2023
 
 - Feature: Group invoice parts
 - Fix: ICAL Links
