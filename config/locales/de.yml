@@ -509,6 +509,9 @@ de:
       data_digest_templates/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge
+      data_digest_templates/tenant:
+        one: Mieter Auszug
+        other: Mieter Auszüge
       deadline:
         one: Frist
         other: Fristen

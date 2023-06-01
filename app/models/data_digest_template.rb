@@ -72,7 +72,8 @@ class DataDigestTemplate < ApplicationRecord
   end
 
   def records(period)
-    filter(period).apply(prefilter.apply(base_scope))
+    prefiltered = prefilter&.apply(base_scope) || base_scope
+    filter(period)&.apply(prefiltered) || prefiltered
   end
 
   def columns
