@@ -78,18 +78,21 @@
           - @booking.errors[:committed_request].each do |error|
             .invalid-feedback.d-block = error
 
-        = f.form_group :booking_category_id
-          = f.label :booking_category_id, Booking.human_attribute_name(:booking_category_id), class: 'required'
-          = f.collection_radio_buttons_without_bootstrap :booking_category_id, current_organisation.booking_categories, :id, :title do |builder|
-            .form-check
-              = builder.radio_button class: 'form-check-input', disabled: !@booking.editable
-              = builder.label class: 'form-check-label' do
-                = builder.object.title
-                
-                - if builder.object.description.present?
-                  p.small.my-1.text-muted= builder.object.description
-          - @booking.errors[:category].each do |error|
-            .invalid-feedback.d-block = error
+        - if current_organisation.booking_categories.many?
+          = f.form_group :booking_category_id
+            = f.label :booking_category_id, Booking.human_attribute_name(:booking_category_id), class: 'required'
+            = f.collection_radio_buttons_without_bootstrap :booking_category_id, current_organisation.booking_categories, :id, :title do |builder|
+              .form-check
+                = builder.radio_button class: 'form-check-input', disabled: !@booking.editable
+                = builder.label class: 'form-check-label' do
+                  = builder.object.title
+                  
+                  - if builder.object.description.present?
+                    p.small.my-1.text-muted= builder.object.description
+            - @booking.errors[:category].each do |error|
+              .invalid-feedback.d-block = error
+        - else 
+          = f.hidden_field :booking_category_id, value: current_organisation.booking_categories.take.id
 
         = f.text_field :purpose_description, disabled: !@booking.editable
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
