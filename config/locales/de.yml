@@ -67,6 +67,9 @@ de:
       payment_infos/foreign_payment_info:
         one: Zahlungsteil für Mieter aus dem Ausland
         other: Zahlungsteile für Mieter aus dem Ausland
+      payment_infos/on_arrival:
+        one: Zahlung bei Ankunft
+        other: Zahlungen bei Ankunft
       payment_infos/qr_bill:
         one: QR-Rechnung
         other: QR-Rechnungen
