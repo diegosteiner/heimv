@@ -69,7 +69,7 @@ class Occupancy < ApplicationRecord
     return if begins_at.blank? || ends_at.blank? || occupiable.blank?
 
     occupiable.occupancies.blocking.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
-              .where.not(id: id).where.not(ignore_conflicting: true)
+              .where.not(id: id)
   end
   # rubocop:enable Metrics/AbcSize
 

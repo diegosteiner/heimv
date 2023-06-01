@@ -217,6 +217,7 @@ de:
         ends_at: Ende der Belegung
         ends_at_date: Ende der Belegung (Datum)
         ends_at_time: Ende der Belegung (Zeit)
+        ignore_conflicting: Terminkonflikte ignorieren
         linked: An Buchung gebunden
         occupancy_type: Belegungsart
         occupiable_id: Mietobjekt
@@ -401,7 +402,7 @@ de:
           home_return: Hausrücknahme
       organisation_user:
         role:
-          admin: Administration
+          admin: Admin
           manager: Verwaltung
           none: "-"
           readonly: Lesend

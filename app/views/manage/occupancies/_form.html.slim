@@ -15,6 +15,7 @@
     = f.select :occupancy_type, Occupancy.occupancy_types.keys.map { [Occupancy.human_enum(:occupancy_type, _1), _1] }, include_blank: true
     = f.text_area :remarks
     = f.check_box :linked
+    = f.check_box :ignore_conflicting
     = f.form_group do
       = f.label :color
       = f.check_box :color, { id: 'toggle_occupancy_color', checked: @occupancy[:color].present?, \
