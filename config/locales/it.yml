@@ -67,6 +67,9 @@ it:
       payment_infos/foreign_payment_info:
         one: Sezione di pagamento per gli inquilini stranieri
         other: Sezioni di pagamento per gli inquilini stranieri
+      payment_infos/on_arrival:
+        one:
+        other:
       payment_infos/qr_bill:
         one: Fattura QR
         other: Fatture QR
@@ -100,6 +103,7 @@ it:
         editable: Modificabile dagli inquilini
         ends_at: Fine dell'occupazione
         home_id: Oggetto principale di affitto
+        ignore_conflicting:
         internal_remarks: Osservazioni interne
         invoice_address: Indirizzo di fatturazione (se diverso)
         locale: Lingua
@@ -138,6 +142,7 @@ it:
         type: Tipo
       contract:
         issuer: Proprietario
+        locale: Lingua
         pdf: PDF
         sent_at: Data del contratto
         signed_at: Firmato dall'inquilino il
@@ -181,6 +186,7 @@ it:
         esr_number: Numero del PVR
         invoice_parts: Voci della fattura
         issued_at: Rilasciato il
+        locale: Lingua
         payable_until: Pagabile fino a
         payment_info_type: Sezione di pagamento
         percentage_paid: "% pagati"
@@ -213,6 +219,7 @@ it:
         ends_at: Fine dell'occupazione
         ends_at_date: Fine dell'occupazione (data)
         ends_at_time: Fine dell'occupazione (ora)
+        ignore_conflicting:
         linked: Legato alla prenotazione
         occupancy_type: Tipo di occupazione
         occupiable_id: Proprietà in affitto
@@ -1045,6 +1052,8 @@ it:
       index:
         canned_filter_default: Vista standard
         canned_filter_upcoming: Occupazioni future
+        new:
+        new_closed_occupancy:
         too_many_records: Sono state trovate troppe prenotazioni. Si prega di restringere la ricerca.
       navigation:
         costs: Tariffe e consumi

@@ -67,6 +67,9 @@ fr:
       payment_infos/foreign_payment_info:
         one: Partie/zone de paiement pour locataire étranger
         other: Parties/zones de paiement pour locataire étranger
+      payment_infos/on_arrival:
+        one:
+        other:
       payment_infos/qr_bill:
         one: Facture QR (expérimentale)
         other: Factures QR (expérimentales)
@@ -100,6 +103,7 @@ fr:
         editable: Possibilité de traitement par le locataire
         ends_at: Fin de la location
         home_id: Principal objet de location
+        ignore_conflicting:
         internal_remarks: Remarques internes
         invoice_address: Adresse de facturation (si différente)
         locale: Langue
@@ -138,6 +142,7 @@ fr:
         type: Type
       contract:
         issuer: Bailleur
+        locale: Sprache
         pdf: PDF
         sent_at: Date du contrat
         signed_at: Signé par le locataire le
@@ -181,6 +186,7 @@ fr:
         esr_number: Numéro de BVR
         invoice_parts: Postes de la facture
         issued_at: Créé le
+        locale: Sprache
         payable_until: Payable jusqu'au
         payment_info_type: Section paiement
         percentage_paid: "% payé"
@@ -213,6 +219,7 @@ fr:
         ends_at: Fin de la location
         ends_at_date: Fin de la location (date)
         ends_at_time: Fin de la location (heure)
+        ignore_conflicting:
         linked: Lié à la réservation
         occupancy_type: Type de location
         occupiable_id: Objet de location
@@ -1078,6 +1085,8 @@ fr:
       index:
         canned_filter_default: Vue standard
         canned_filter_upcoming: Locations futures
+        new:
+        new_closed_occupancy:
         too_many_records: Trop de réservations ont été trouvées. Veuillez restreindre la recherche.
       navigation:
         costs: Tarifs & consommation
