@@ -63,6 +63,7 @@ module Ability
       can :manage, Payment, booking: { organisation: organisation }
       can :manage, Tenant, organisation: organisation
       can :manage, Usage, booking: { organisation: organisation }
+      can :read, PlanBBackup, organisation: organisation
     end
 
     role :readonly do |user, organisation|

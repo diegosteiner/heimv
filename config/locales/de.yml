@@ -280,6 +280,9 @@ de:
         paid_at: Bezahlt am
         remarks: Bemerkungen
         write_off: Abschreibung
+      plan_b_backup:
+        created_at: Erstellt am
+        zip: Zip
       rich_text_template:
         body: Text
         enabled: Aktiviert
@@ -572,6 +575,9 @@ de:
       payment:
         one: Zahlung
         other: Zahlungen
+      plan_b_backup:
+        one: "«Plan B» Backup"
+        other: "«Plan B» Backups"
       rich_text_template:
         one: Textvorlage
         other: Textvorlagen

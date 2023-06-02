@@ -10,4 +10,9 @@ clean_data_digests:
   class: CleanDataDigestsJob
   queue: default
 
+clean_data_digests:
+  cron: "0 0 * * *"
+  class: PlanBBackupJob
+  queue: default
+
 

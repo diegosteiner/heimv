@@ -529,6 +529,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  rubyzip
   selenium-webdriver
   sentry-rails
   sentry-ruby

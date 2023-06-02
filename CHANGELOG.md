@@ -2,6 +2,8 @@
 
 #### Unreleased
 
+- Feature: Add plan_b backups
+
 #### Version 23.6.1
 
 Released on 01.06.2023

@@ -6,6 +6,6 @@ module Manage
 
     association :booking, blueprint: Manage::BookingSerializer
 
-    fields :sent_at, :signed_at
+    fields :sent_at, :signed_at, :locale
   end
 end

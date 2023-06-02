@@ -76,6 +76,10 @@ class DataDigestTemplate < ApplicationRecord
     filter(period)&.apply(prefiltered) || prefiltered
   end
 
+  def digest(period = nil)
+    DataDigest.new(data_digest_template: self, period: period)
+  end
+
   def columns
     @columns ||= (columns_config || self.class::DEFAULT_COLUMN_CONFIG).map do |config|
       config.symbolize_keys!

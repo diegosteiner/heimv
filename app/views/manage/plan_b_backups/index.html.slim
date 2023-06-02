@@ -1,0 +1,26 @@
+h1.mt-0= PlanBBackup.model_name.human(count: 2)
+
+.table-responsive.mt-5
+  table.table.table-hover.align-middle
+    thead
+      tr
+        th= PlanBBackup.human_attribute_name(:created_at)
+        th= PlanBBackup.human_attribute_name(:zip)
+        th
+
+      tbody.shadow-sm
+        - @plan_b_backups.each do |plan_b_backup|
+          tr
+            td
+              = l(plan_b_backup.created_at)
+            td
+              - if plan_b_backup.zip.present?
+                = link_to plan_b_backup.zip.filename, url_for(plan_b_backup.zip)
+              - else 
+                | -
+
+
+/ = link_to new_manage_plan_b_backup_path, class: 'btn btn-primary' do
+/   span.fa.fa-file-o
+/   '
+/   = t(:add_record, model_name: PlanBBackup.model_name.human)

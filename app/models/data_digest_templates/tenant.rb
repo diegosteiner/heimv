@@ -28,8 +28,16 @@ module DataDigestTemplates
     ::DataDigestTemplate.register_subtype self
     DEFAULT_COLUMN_CONFIG = [
       {
-        header: ::Tenant.model_name.human,
-        body: '{{ tenant.full_name }}'
+        header: ::Tenant.human_attribute_name(:id),
+        body: '{{ tenant.id }}'
+      },
+      {
+        header: ::Tenant.human_attribute_name(:first_name),
+        body: '{{ tenant.first_name }}'
+      },
+      {
+        header: ::Tenant.human_attribute_name(:last_name),
+        body: '{{ tenant.last_name }}'
       },
       {
         header: ::Tenant.human_attribute_name(:address),

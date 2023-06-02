@@ -51,6 +51,8 @@ nav.p-3
               = link_to OperatorResponsibility.model_name.human(count: 2), manage_operator_responsibilities_path, class: 'nav-link'
             li
               = link_to BookableExtra.model_name.human(count: 2), manage_bookable_extras_path, class: 'nav-link'
+            li
+              = link_to PlanBBackup.model_name.human(count: 2), manage_plan_b_backups_path, class: 'nav-link'
                 
       li.nav-item
         = link_to manage_flow_path(org: current_organisation, locale: I18n.locale), class: 'nav-link'

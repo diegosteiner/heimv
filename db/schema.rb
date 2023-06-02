@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_01_114813) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -441,6 +441,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_01_114813) do
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
   end
 
+  create_table "plan_b_backups", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_plan_b_backups_on_organisation_id"
+  end
+
   create_table "rich_text_templates", force: :cascade do |t|
     t.string "key"
     t.datetime "created_at", precision: nil, null: false
@@ -586,6 +593,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_01_114813) do
   add_foreign_key "organisation_users", "users"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "invoices"
+  add_foreign_key "plan_b_backups", "organisations"
   add_foreign_key "rich_text_templates", "organisations"
   add_foreign_key "tarifs", "organisations"
   add_foreign_key "tenants", "organisations"

@@ -110,6 +110,7 @@ class DataDigest < ApplicationRecord
   end
 
   def format(format, **options)
+    data || crunch
     formatter = formatters[format&.to_sym]
     block = formatter&.block
     instance_exec(options, &block) if block.present?
