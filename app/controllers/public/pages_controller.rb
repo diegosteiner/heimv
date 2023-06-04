@@ -2,7 +2,7 @@
 
 module Public
   class PagesController < BaseController
-    skip_before_action :require_organisation!, only: :home
+    skip_before_action :require_organisation!, only: %i[home health]
 
     def home
       return redirect_to new_user_session_path if current_user.blank? && current_organisation.blank?
