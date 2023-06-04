@@ -42,6 +42,7 @@
     = f.fields_for :tenant, (@booking.tenant || @booking.build_tenant) do |cf|
       = cf.hidden_field :id
       = f.email_field :email
+      = f.check_box :notifications_enabled
       = cf.text_field :first_name
       = cf.text_field :last_name
       = cf.text_field :street_address
@@ -84,7 +85,6 @@
     = f.text_area :remarks
     = f.text_area :internal_remarks
     = f.text_area :cancellation_reason
-    = f.check_box :notifications_enabled
     = f.check_box :editable
     = f.check_box :ignore_conflicting
     = f.collection_select :transition_to, @booking.booking_flow.possible_transitions, :itself, ->(state) { t(:label, scope: [:booking_states, state]) }, { include_blank: true }

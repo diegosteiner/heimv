@@ -16,6 +16,8 @@ class InvoicePart
       end
     end
 
+    protected
+
     def from_usages
       usages = booking.usages.ordered.where.not(id: invoice.invoice_parts.map(&:usage_id))
       invoice_parts = []
@@ -43,7 +45,7 @@ class InvoicePart
     def usages_to_invoice_parts(usages, position_cursor = 0)
       usages.map do |usage|
         invoice_type_match = usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
-        apply = suggest? && invoice_type_match
+        apply = suggest? && invoice_type_match && !usage_already_invoiced?(usage)
         InvoiceParts::Add.from_usage(usage, apply: apply, ordinal_position: (position_cursor += 1))
       end
     end
@@ -54,6 +56,13 @@ class InvoicePart
 
     def suggest?
       invoice.invoice_parts.none?
+    end
+
+    def usage_already_invoiced?(usage)
+      InvoicePart.joins(:invoice).exists?(usage: usage,
+                                          invoice: { discarded_at: nil, type: [
+                                            Invoices::Deposit.to_s, Invoices::Invoice.to_s
+                                          ] })
     end
   end
 end

@@ -13,11 +13,23 @@ describe 'Booking', :devise, type: :feature do
                                        assigning_conditions: [BookingConditions::AlwaysApply.new])
     end
   end
-  let!(:tarifs) { create_list(:tarif, 2, organisation: organisation) }
+  let(:deposit_tarifs) do
+    create(:tarif, organisation: organisation,  tarif_group: 'Anzahlung',
+                   associated_types: %i[deposit offer contract])
+  end
+
+  let(:invoice_tarifs) do
+    create_list(:tarif, 2, organisation: organisation, tarif_group: 'Übernachtungen',
+                           associated_types: %i[invoice offer contract])
+  end
+
+  let!(:tarifs) { [deposit_tarifs, invoice_tarifs].flatten }
+
   let(:new_booking_path) do
     new_public_booking_path(booking: { home_id: home.id, begins_at: booking.begins_at.iso8601,
                                        ends_at: booking.ends_at.iso8601 })
   end
+
   let(:booking) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
     build(:booking,
@@ -28,6 +40,7 @@ describe 'Booking', :devise, type: :feature do
           committed_request: false,
           notifications_enabled: true)
   end
+
   let(:expected_notifications) do
     %w[payment_due_notification payment_due_notification payment_confirmation_notification
        upcoming_notification operator_upcoming_soon_notification operator_upcoming_soon_notification

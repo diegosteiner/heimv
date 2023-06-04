@@ -29,6 +29,7 @@
 class Usage < ApplicationRecord
   PREFILL_METHODS = {
     flat: -> { 1 },
+    days: -> { booking.nights + 1 },
     nights: -> { booking.nights },
     headcount_nights: -> { booking.nights * (booking.approximate_headcount || 0) },
     headcount: -> { booking.approximate_headcount || 0 }
