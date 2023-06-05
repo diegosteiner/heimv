@@ -8,7 +8,6 @@ class HealthService
   end
 
   def db_ok?
-    ApplicationRecord.establish_connection
     ApplicationRecord.connection
     ApplicationRecord.connected?
   rescue StandardError
