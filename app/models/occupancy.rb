@@ -48,8 +48,11 @@ class Occupancy < ApplicationRecord
 
   before_validation :update_from_booking
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
-  validate do
+  validate on: %i[public_create public_update agent_booking manage_create manage_update] do
     errors.add(:base, :occupancy_conflict) if !ignore_conflicting && conflicting?
+  end
+  
+  validate do
     errors.add(:occupiable_id, :invalid) if booking && organisation && !organisation == booking.organisation
     errors.add(:linked, :invalid) if linked && booking.blank?
   end
