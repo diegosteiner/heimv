@@ -38,13 +38,14 @@ module Manage
     def create
       @booking.organisation = current_organisation
       @booking.transition_to ||= :open_request
-      @booking.save
+      @booking.save(context: :manage_create)
       Booking::Log.log(@booking, trigger: :manager, user: current_user)
       respond_with :manage, @booking
     end
 
     def update
-      @booking.update(booking_params) if booking_params
+      @booking.assign_attributes(booking_params)
+      @booking.save(context: :manage_update) if booking_params
       call_booking_action
       Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
       respond_with :manage, @booking
