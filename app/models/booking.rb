@@ -133,7 +133,7 @@ class Booking < ApplicationRecord
   end
 
   def locale
-    tenant&.locale&.presence || organisation.locale
+    tenant&.locale.presence || organisation.locale
   end
 
   def contract
