@@ -577,8 +577,8 @@ de:
         one: Zahlung
         other: Zahlungen
       plan_b_backup:
-        one: "«Plan B» Backup"
-        other: "«Plan B» Backups"
+        one: Plan-B Backup
+        other: Plan-B Backups
       rich_text_template:
         one: Textvorlage
         other: Textvorlagen
