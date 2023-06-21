@@ -36,8 +36,7 @@ class OccupancyAtService
 
     {
       occupiables: [@occupiable.id], current_booking_states: [nil],
-      begins_at_before: date.end_of_day, ends_at_after: date.beginning_of_day,
-      occupancy_type: %i[tentative occupied]
+      at_date: date, occupancy_type: %i[tentative occupied]
     }
   end
 end

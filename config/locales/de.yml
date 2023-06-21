@@ -610,6 +610,7 @@ de:
         one: Account
         other: Account
   add_record: "%{model_name} hinzufügen"
+  and: und
   back: Zurück
   booking_actions:
     manage:
@@ -1186,6 +1187,7 @@ de:
         new: Neu
         new_closed_occupancy: Schliessung
         new_request: Reservationsanfrage
+        no_records_yet: 'Es wurden keine Buchungen gefunden. Neue Buchung hinzufügen: %{options}.'
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       navigation:
         costs: Tarife & Verbrauch
@@ -1336,6 +1338,7 @@ de:
     - Fr
     - Sa
   optional: optional
+  or: oder
   payable_by: Zahlbar durch
   payment_part_title: Payment part title
   public:
