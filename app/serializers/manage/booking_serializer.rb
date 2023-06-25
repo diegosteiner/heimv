@@ -30,12 +30,12 @@ module Manage
     end
 
     field :links do |booking|
-      next { edit: nil, manage: nil } if booking.new_record?
-
       {
         edit: url.edit_public_booking_url(booking.token, org: booking.organisation, locale: I18n.locale),
         manage: url.manage_booking_url(booking.to_param, org: booking.organisation, locale: I18n.locale)
       }
+    rescue ActionController::UrlGenerationError
+      { edit: nil, manage: nil }
     end
   end
 end

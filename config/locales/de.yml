@@ -23,6 +23,10 @@ de:
         paid: Zahlungstatus
         payable_until_after: Zahlbar bis nach
         payable_until_before: Zahlbar bis vor
+      invoice_part/filter:
+        homes: Hauptmietobjekte
+        issued_at_after: Rechnungsdatum nach
+        issued_at_before: Rechnungsdatum vor
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerabschnitts ab
         begins_at_before: Beginn des Zählerabschnitts bis
