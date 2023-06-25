@@ -90,7 +90,7 @@ class PlanBBackup < ApplicationRecord
   belongs_to :organisation
   has_one_attached :zip
 
-  before_save :generatate_pdf
+  before_save :generatate_zip
 
   protected
 
@@ -111,22 +111,23 @@ class PlanBBackup < ApplicationRecord
 
   def data_digests
     [
-      bookings_data_digest_template.digest(:ever),
+      bookings_data_digest_template.digest(:last_and_next_12_months),
       tenant_data_digest_template.digest(:ever),
-      invoices_data_digest_template.digest(:ever)
+      invoices_data_digest_template.digest(:last_and_next_12_months)
     ]
   end
 
   def data_digest_csv_zip
     Zip::OutputStream.write_buffer do |zip|
       data_digests.each.with_index(1) do |digest, _index|
+        Rails.logger.info "-->|x|<-- zipping #{digest.label}"
         zip.put_next_entry("#{digest.label}.csv")
         zip.write(digest.format(:csv))
       end
     end.tap(&:rewind)
   end
 
-  def generatate_pdf
+  def generatate_zip
     I18n.with_locale(organisation.locale || I18n.locale) do
       self.zip = {
         io: data_digest_csv_zip,

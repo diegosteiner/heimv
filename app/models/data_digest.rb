@@ -48,7 +48,8 @@ class DataDigest < ApplicationRecord
     next_12_months: ->(at) { at..(at + 12.months) },
     next_year: ->(at) { ((at + 1.year).beginning_of_year)..((at + 1.year).end_of_year) },
     until_now: ->(at) { nil..at },
-    from_now: ->(at) { at..nil }
+    from_now: ->(at) { at..nil },
+    last_and_next_12_months: ->(at) { (at - 12.months)..(at + 12.months) }
   }.freeze
 
   belongs_to :data_digest_template, inverse_of: :data_digests
@@ -83,7 +84,10 @@ class DataDigest < ApplicationRecord
 
   def crunch
     columns = data_digest_template.columns
+    i = 0
     self.data = records.map do |record|
+      i += 1
+      Rails.logger.info "crunching record #{i}/#{records.count}"
       template_context_cache = {}
       columns.map do |column|
         column.body(record, template_context_cache)
