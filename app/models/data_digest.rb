@@ -83,16 +83,14 @@ class DataDigest < ApplicationRecord
   end
 
   def crunch
-    columns = data_digest_template.columns
-    i = 0
-    self.data = records.map do |record|
-      i += 1
-      Rails.logger.info "crunching record #{i}/#{records.count}"
+    self.data = []
+    records.find_each(batch_size: 100) do |record|
       template_context_cache = {}
-      columns.map do |column|
+      data << data_digest_template.columns.map do |column|
         column.body(record, template_context_cache)
       end
     end
+    data
   end
 
   def crunch!
