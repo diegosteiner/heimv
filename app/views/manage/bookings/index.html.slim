@@ -17,9 +17,9 @@ h1.my-0= Booking.model_name.human(count: 2)
       span.fa.fa-file-o<>
       = t('.new')
     .dropdown-menu aria-labelledby="dropdownNewBookingButton" 
-      = link_to(new_manage_booking_path, class: 'dropdown-item')
+      = link_to(new_manage_booking_path(booking: @filter&.derive_booking_attributes), class: 'dropdown-item')
         = Booking.model_name.human
-      = link_to(new_public_booking_path, class: 'dropdown-item')
+      = link_to(new_public_booking_path(booking: @filter&.derive_booking_attributes), class: 'dropdown-item')
         = t('.new_request')
       = link_to(new_manage_occupancy_path(occupancy: { occupancy_type: :closed }), class: 'dropdown-item')
         = t('.new_closed_occupancy')
@@ -27,7 +27,6 @@ h1.my-0= Booking.model_name.human(count: 2)
         = AgentBooking.model_name.human
       = link_to(import_manage_bookings_path, class: 'dropdown-item')
         = t(:import)
-
 
 #filter.modal.fade
   .modal-dialog.modal-lg
@@ -41,7 +40,14 @@ h1.my-0= Booking.model_name.human(count: 2)
           =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary bg-white'
             = t(:reset)
 
-- if @bookings.count > 250
+- if @bookings.count <= 0
+  p.text-center.my-5
+    = t('.no_records_yet', options: [ \
+       link_to(t('.new_request'), new_public_booking_path(booking: @filter&.derive_booking_attributes)), \
+       link_to(Booking.model_name.human, new_manage_booking_path(booking: @filter&.derive_booking_attributes)) \
+      ].join(" #{t(:or)} ")).html_safe
+       
+- elsif @bookings.count > 250
   .alert.alert-danger.d-flex
     .me-3
       i.fa.fa-exclamation-circle

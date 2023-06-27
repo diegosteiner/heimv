@@ -103,7 +103,7 @@ fr:
         editable: Possibilité de traitement par le locataire
         ends_at: Fin de la location
         home_id: Principal objet de location
-        ignore_conflicting:
+        ignore_conflicting: Ignorer les conflits de dates
         internal_remarks: Remarques internes
         invoice_address: Adresse de facturation (si différente)
         locale: Langue
@@ -219,7 +219,7 @@ fr:
         ends_at: Fin de la location
         ends_at_date: Fin de la location (date)
         ends_at_time: Fin de la location (heure)
-        ignore_conflicting:
+        ignore_conflicting: Ignorer les conflits de dates
         linked: Lié à la réservation
         occupancy_type: Type de location
         occupiable_id: Objet de location
@@ -280,6 +280,9 @@ fr:
         paid_at: Payé le
         remarks: Remarques
         write_off: Amortissement
+      plan_b_backup:
+        created_at: Erstellt am
+        zip:
       rich_text_template:
         body: Texte
         enabled: Activé
@@ -406,10 +409,11 @@ fr:
         role:
           admin: Administration
           manager: Administration
-          none:
+          none: "-"
           readonly: Lecture
       tarif:
         prefill_usage_methods:
+          days:
           flat: Forfait
           headcount: Nombre de personnes
           headcount_nights: Nuitées
@@ -509,6 +513,9 @@ fr:
       data_digest_templates/payment:
         one: Extrait de paiements
         other: Extrait de paiements
+      data_digest_templates/tenant:
+        one:
+        other:
       deadline:
         one: Délai
         other: Délais
@@ -569,6 +576,9 @@ fr:
       payment:
         one: Paiement
         other: Paiements
+      plan_b_backup:
+        one:
+        other:
       rich_text_template:
         one: Modèle de texte
         other: Modèles de texte
@@ -600,6 +610,7 @@ fr:
         one: Compte
         other: Compte
   add_record: Ajouter %{model_name}
+  and:
   back: Retour
   booking_actions:
     manage:
@@ -1085,8 +1096,10 @@ fr:
       index:
         canned_filter_default: Vue standard
         canned_filter_upcoming: Locations futures
-        new:
+        new: Nouveau
         new_closed_occupancy:
+        new_request:
+        no_records_yet:
         too_many_records: Trop de réservations ont été trouvées. Veuillez restreindre la recherche.
       navigation:
         costs: Tarifs & consommation
@@ -1237,6 +1250,7 @@ fr:
     - ven
     - sam
   optional: facultatif
+  or: Or
   payable_by: Payable par
   payment_part_title: Titre de la partie paiement
   public:
@@ -1255,7 +1269,7 @@ fr:
         last_minute_warning: Attention ! La date de réservation est proche. Merci de t'annoncer en plus par téléphone ou par e-mail auprès de l'administration
       new:
         accept_conditions_html: 'J''accepte les <a href="%{privacy_statement_pdf_url}" target="_blank">dispositions relatives à la protection des données</a> et les <a href="%{terms_pdf_url}" target="_blank">CGV</a> '
-        problems_html:
+        problems_html: Des problèmes avec la réservation ? Adresse-toi à <a href="mailto:%{email}">%{email}</a>.
         submit: Envoyer une demande de réservation
         title: Réservation
     pages:

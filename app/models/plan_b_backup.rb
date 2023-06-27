@@ -35,7 +35,7 @@ class PlanBBackup < ApplicationRecord
       body: '{{ booking.home.name }}'
     },
     {
-      header: ::Home.model_name.human,
+      header: ::Occupiable.model_name.human(count: 2),
       body: '{{ booking.occupiable_ids | join: ", " }}'
     },
     {
@@ -45,6 +45,10 @@ class PlanBBackup < ApplicationRecord
     {
       header: ::Booking.human_attribute_name(:ends_at),
       body: '{{ booking.ends_at | datetime_format }}'
+    },
+    {
+      header: ::Booking.human_attribute_name(:state),
+      body: '{{ booking.current_state }}'
     },
     {
       header: ::Booking.human_attribute_name(:purpose_description),
@@ -67,7 +71,7 @@ class PlanBBackup < ApplicationRecord
       body: '{{ booking.internal_remarks }}'
     },
     {
-      header: ::Tenant.human_attribute_name(:id),
+      header: ::Booking.human_attribute_name(:tenant_id),
       body: '{{ booking.tenant_id }}'
     },
     {
@@ -90,7 +94,7 @@ class PlanBBackup < ApplicationRecord
   belongs_to :organisation
   has_one_attached :zip
 
-  before_save :generatate_pdf
+  before_save :generatate_zip
 
   protected
 
@@ -111,9 +115,9 @@ class PlanBBackup < ApplicationRecord
 
   def data_digests
     [
-      bookings_data_digest_template.digest(:ever),
+      bookings_data_digest_template.digest(:last_and_next_12_months),
       tenant_data_digest_template.digest(:ever),
-      invoices_data_digest_template.digest(:ever)
+      invoices_data_digest_template.digest(:last_and_next_12_months)
     ]
   end
 
@@ -126,7 +130,7 @@ class PlanBBackup < ApplicationRecord
     end.tap(&:rewind)
   end
 
-  def generatate_pdf
+  def generatate_zip
     I18n.with_locale(organisation.locale || I18n.locale) do
       self.zip = {
         io: data_digest_csv_zip,

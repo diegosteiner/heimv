@@ -25,7 +25,7 @@
 
 module DataDigestTemplates
   class InvoicePart < DataDigestTemplate
-    # ::DataDigestTemplate.register_subtype self
+    ::DataDigestTemplate.register_subtype self
 
     DEFAULT_COLUMN_CONFIG = [
       {
@@ -37,12 +37,24 @@ module DataDigestTemplates
         body: '{{ booking.ref }}'
       },
       {
+        header: ::Booking.human_attribute_name(:home_id),
+        body: '{{ booking.home_id }}'
+      },
+      {
+        header: ::Home.model_name.human,
+        body: '{{ booking.home.name }}'
+      },
+      {
         header: ::Invoice.human_attribute_name(:amount_paid),
         body: '{{ invoice.percentage_paid }}'
       },
       {
         header: ::Invoice.human_attribute_name(:issued_at),
         body: '{{ invoice.issued_at }}'
+      },
+      {
+        header: ::Tarif.model_name.human,
+        body: '{{ invoice_part.tarif_id }}'
       },
       {
         header: ::Tarif.human_attribute_name(:label),
@@ -80,14 +92,13 @@ module DataDigestTemplates
       @prefilter ||= ::InvoicePart::Filter.new(prefilter_params.presence || {})
     end
 
-    def filter(_period = nil)
-      # ::InvoicePart::Filter.new(prefilter_params.merge(paid_at_after: period&.begin, paid_at_before: period&.end))
+    def filter(period = nil)
+      ::InvoicePart::Filter.new(issued_at_after: period&.begin, issued_at_before: period&.end)
       # rescue StandardError
-      ::InvoicePart::Filter.new
     end
 
     def base_scope
-      @base_scope ||= ::InvoicePart.joins(usage: :tarif, invoice: :booking).limit(10)
+      @base_scope ||= ::InvoicePart.joins(usage: :tarif, invoice: :booking)
                                    .where(invoices: { bookings: { organisation_id: organisation } })
     end
   end

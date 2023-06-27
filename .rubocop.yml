@@ -79,3 +79,7 @@ Style/SymbolProc:
 # TODO: bug with false positives
 Lint/UnusedMethodArgument:
   Enabled: false
+
+# TODO: bug
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false

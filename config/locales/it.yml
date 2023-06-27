@@ -280,6 +280,9 @@ it:
         paid_at: Pagato il
         remarks: Osservazioni
         write_off: Ammortamento
+      plan_b_backup:
+        created_at: Creato il
+        zip:
       rich_text_template:
         body: Testo
         enabled: Attivato
@@ -410,6 +413,7 @@ it:
           readonly: Lesend
       tarif:
         prefill_usage_methods:
+          days:
           flat: Forfettario
           headcount: Numero di persone
           headcount_nights: Pernottamenti
@@ -511,6 +515,9 @@ it:
       data_digest_templates/payment:
         one: Pagamenti (estratto)
         other: Estratti di pagamenti
+      data_digest_templates/tenant:
+        one:
+        other:
       deadline:
         one: Scadenza
         other: Scadenze
@@ -571,6 +578,9 @@ it:
       payment:
         one: Pagamento
         other: Pagamenti
+      plan_b_backup:
+        one:
+        other:
       rich_text_template:
         one: Modello di testo
         other: Modelli di testo
@@ -602,6 +612,7 @@ it:
         one: Utente
         other: Utenti
   add_record: aggiungere %{model_name}
+  and:
   back: Indietro
   booking_actions:
     manage:
@@ -1054,6 +1065,8 @@ it:
         canned_filter_upcoming: Occupazioni future
         new:
         new_closed_occupancy:
+        new_request:
+        no_records_yet:
         too_many_records: Sono state trovate troppe prenotazioni. Si prega di restringere la ricerca.
       navigation:
         costs: Tariffe e consumi
@@ -1204,6 +1217,7 @@ it:
     - Ven.
     - Sab.
   optional: opzionale
+  or: O
   payable_by: Pagabile da
   payment_part_title:
   public:

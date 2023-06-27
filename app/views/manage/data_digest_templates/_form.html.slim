@@ -21,5 +21,10 @@
     = f.fields_for :prefilter_params, @data_digest_template.filter do |ff|
       = render partial: 'manage/invoices/filter_fields', locals: { f: ff }
 
+  - elsif @data_digest_template.is_a?(DataDigestTemplates::InvoicePart)
+    h5= InvoicePart::Filter.model_name.human
+    = f.fields_for :prefilter_params, @data_digest_template.filter do |ff|
+      = render partial: 'manage/invoice_parts/filter_fields', locals: { f: ff }
+
   = f.submit
 

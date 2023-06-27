@@ -83,17 +83,9 @@ class InvoicePart < ApplicationRecord
   end
 
   class Filter < ApplicationFilter
-    #   attribute :ref
-    #   attribute :tenant
-    #   attribute :homes, default: -> { [] }
-    #   attribute :current_booking_states, default: -> { [] }
-    #   attribute :previous_booking_states, default: -> { [] }
-    #   attribute :booking_states, default: -> { [] }
-    #   attribute :begins_at_after, :datetime
-    #   attribute :begins_at_before, :datetime
-    #   attribute :ends_at_after, :datetime
-    #   attribute :ends_at_before, :datetime
-    #   attribute :occupancy_type
+    attribute :homes, default: -> { [] }
+    attribute :issued_at_after, :datetime
+    attribute :issued_at_before, :datetime
 
     #   # Ensures backwards compatibilty
     #   def booking_states=(value)
@@ -119,10 +111,19 @@ class InvoicePart < ApplicationRecord
     #     bookings.where(Booking.arel_table[:ref].matches("%#{ref.strip}%")) if ref.present?
     #   end
 
-    #   filter :homes do |bookings|
-    #     relevant_homes = homes.compact_blank
-    #     bookings.where(home_id: relevant_homes) if relevant_homes.present?
-    #   end
+    filter :homes do |invoice_parts|
+      relevant_homes = Array.wrap(homes).compact_blank
+      if relevant_homes.present?
+        invoice_parts.joins(invoice: :booking)
+                     .where(invoice: { bookings: { home_id: relevant_homes } })
+      end
+    end
+
+    filter :issued_at do |invoice_parts|
+      next unless issued_at_before.present? || issued_at_after.present?
+
+      invoice_parts.joins(:invoice).where(Invoice.arel_table[:issued_at].between(issued_at_after..issued_at_before))
+    end
 
     #   filter :tenant do |bookings|
     #     next bookings if tenant.blank?

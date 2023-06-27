@@ -2,7 +2,11 @@
 
 ## Unreleased
 
+## Version 23.6.2
+Released on 27.06.2023
+
 - Feature: Add plan_b backups
+- Feature: Add InvoicePart data digests
 
 ## Version 23.6.1
 

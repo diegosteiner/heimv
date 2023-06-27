@@ -14,11 +14,19 @@ class Booking
     attribute :begins_at_before, :datetime
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
+    attribute :at_date, :date
     attribute :occupancy_type
 
-    filter :begins_at_ends_at do |occupancies|
-      occupancies.begins_at(after: begins_at_after, before: begins_at_before)
-                 .ends_at(after: ends_at_after, before: ends_at_before)
+    filter :at_date do |bookings|
+      next if at_date.blank?
+
+      bookings.begins_at(after: at_date.beginning_of_day, before: at_date.end_of_day)
+              .ends_at(after: at_date.beginning_of_day, before: at_date.end_of_day)
+    end
+
+    filter :begins_at_ends_at do |bookings|
+      bookings.begins_at(after: begins_at_after, before: begins_at_before)
+              .ends_at(after: ends_at_after, before: ends_at_before)
     end
 
     filter :occupancy_type do |bookings|
@@ -54,7 +62,7 @@ class Booking
 
       bookings.joins(:tenant)
               .where(Tenant.arel_table[:search_cache].matches("%#{tenant}%")
-          .or(Booking.arel_table[:tenant_organisation].matches("%#{tenant}%")))
+              .or(Booking.arel_table[:tenant_organisation].matches("%#{tenant}%")))
     end
 
     filter :has_booking_state do |bookings|
@@ -68,5 +76,17 @@ class Booking
 
       bookings.joins(:state_transitions).where(state_transitions: { to_state: states }) if states.any?
     end
+
+    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+    def derive_booking_attributes
+      {}.tap do |attributes|
+        attributes[:begins_at] = at_date if at_date.present?
+        attributes[:begins_at] = begins_at_before || begins_at_after if begins_at_before || begins_at_after
+        attributes[:ends_at] = ends_at_before || ends_at_after if ends_at_before || ends_at_after
+        attributes[:home_id] = Array.wrap(homes).compact_blank.first
+        attributes[:occupiable_ids] = occupiables
+      end
+    end
+    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
   end
 end

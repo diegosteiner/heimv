@@ -19,7 +19,7 @@ module Export
         end
 
         def render
-          bounding_box [x_position, y_position], width: 200, height: 110 do
+          bounding_box [x_position, y_position], width: 200, height: (@options[:height] || 120) do
             text @options[:label], size: 10, style: :bold if @options[:label]
             move_down 5
 

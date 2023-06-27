@@ -84,7 +84,7 @@ class RichTextTemplate < ApplicationRecord
   end
 
   def interpolate(context)
-    context = context.is_a?(TemplateContext) ? context : TemplateContext.new(context)
+    context = TemplateContext.new(context) unless context.is_a?(TemplateContext)
     parts = [title, body].map do |part|
       template = Liquid::Template.parse(part)
       RichTextSanitizer.sanitize(template.render!(context.to_h))
