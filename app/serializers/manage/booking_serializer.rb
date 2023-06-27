@@ -29,6 +29,10 @@ module Manage
       end
     end
 
+    field :current_state do |booking|
+      booking.booking_state.to_sym
+    end
+
     field :links do |booking|
       {
         edit: url.edit_public_booking_url(booking.token, org: booking.organisation, locale: I18n.locale),

@@ -37,6 +37,14 @@ module DataDigestTemplates
         body: '{{ booking.ref }}'
       },
       {
+        header: ::Booking.human_attribute_name(:home_id),
+        body: '{{ booking.home_id }}'
+      },
+      {
+        header: ::Home.model_name.human,
+        body: '{{ booking.home.name }}'
+      },
+      {
         header: ::Invoice.human_attribute_name(:amount_paid),
         body: '{{ invoice.percentage_paid }}'
       },
@@ -45,7 +53,7 @@ module DataDigestTemplates
         body: '{{ invoice.issued_at }}'
       },
       {
-        header: ::Tarif.human_attribute_name(:id),
+        header: ::Tarif.model_name.human,
         body: '{{ invoice_part.tarif_id }}'
       },
       {

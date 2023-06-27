@@ -35,7 +35,7 @@ class PlanBBackup < ApplicationRecord
       body: '{{ booking.home.name }}'
     },
     {
-      header: ::Home.model_name.human,
+      header: ::Occupiable.model_name.human(count: 2),
       body: '{{ booking.occupiable_ids | join: ", " }}'
     },
     {
@@ -45,6 +45,10 @@ class PlanBBackup < ApplicationRecord
     {
       header: ::Booking.human_attribute_name(:ends_at),
       body: '{{ booking.ends_at | datetime_format }}'
+    },
+    {
+      header: ::Booking.human_attribute_name(:state),
+      body: '{{ booking.current_state }}'
     },
     {
       header: ::Booking.human_attribute_name(:purpose_description),
@@ -67,7 +71,7 @@ class PlanBBackup < ApplicationRecord
       body: '{{ booking.internal_remarks }}'
     },
     {
-      header: ::Tenant.human_attribute_name(:id),
+      header: ::Booking.human_attribute_name(:tenant_id),
       body: '{{ booking.tenant_id }}'
     },
     {
@@ -120,7 +124,6 @@ class PlanBBackup < ApplicationRecord
   def data_digest_csv_zip
     Zip::OutputStream.write_buffer do |zip|
       data_digests.each.with_index(1) do |digest, _index|
-        Rails.logger.info "-->|x|<-- zipping #{digest.label}"
         zip.put_next_entry("#{digest.label}.csv")
         zip.write(digest.format(:csv))
       end
