@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_03_094539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -102,6 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "ordinal"
     t.jsonb "description_i18n"
+    t.datetime "discarded_at"
     t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
     t.index ["ordinal"], name: "index_booking_categories_on_ordinal"
     t.index ["organisation_id"], name: "index_booking_categories_on_organisation_id"
@@ -130,6 +131,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_booking_logs_on_user_id"
+  end
+
+  create_table "booking_questions", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.datetime "discarded_at"
+    t.jsonb "label_i18n"
+    t.jsonb "description_i18n"
+    t.string "type"
+    t.integer "ordinal"
+    t.string "key"
+    t.boolean "required", default: false
+    t.jsonb "options"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discarded_at"], name: "index_booking_questions_on_discarded_at"
+    t.index ["organisation_id"], name: "index_booking_questions_on_organisation_id"
+    t.index ["type"], name: "index_booking_questions_on_type"
   end
 
   create_table "booking_state_transitions", force: :cascade do |t|
@@ -180,6 +198,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
     t.integer "occupancy_type", default: 0, null: false
     t.integer "home_id", null: false
     t.boolean "ignore_conflicting", default: false, null: false
+    t.jsonb "booking_questions"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["locale"], name: "index_bookings_on_locale"
@@ -352,6 +371,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
     t.bigint "home_id"
     t.jsonb "settings"
     t.integer "ordinal"
+    t.datetime "discarded_at"
     t.index ["home_id"], name: "index_occupiables_on_home_id"
     t.index ["organisation_id"], name: "index_occupiables_on_organisation_id"
     t.index ["ref", "organisation_id"], name: "index_occupiables_on_ref_and_organisation_id", unique: true
@@ -568,6 +588,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
   add_foreign_key "booking_categories", "organisations"
   add_foreign_key "booking_conditions", "organisations"
   add_foreign_key "booking_logs", "users"
+  add_foreign_key "booking_questions", "organisations"
   add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"

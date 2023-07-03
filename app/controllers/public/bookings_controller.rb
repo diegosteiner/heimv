@@ -34,10 +34,9 @@ module Public
     end
 
     def update
-      if @booking.editable?
-        @booking.assign_attributes(update_params)
-        @booking.save(context: :public_update)
-      end
+      process_booking_questions
+      @booking.assign_attributes(update_params) if @booking.editable?
+      @booking.save(context: :public_update)
       call_booking_action
       Booking::Log.log(@booking, trigger: :tenant, action: booking_action, user: current_user)
       respond_with :public, @booking, location: edit_public_booking_path(@booking.token)
@@ -66,6 +65,11 @@ module Public
       booking_action&.call(booking: @booking)
     rescue BookingActions::Base::NotAllowed
       @booking.errors.add(:base, :action_not_allowed)
+    end
+
+    def process_booking_questions
+      sanitized_params = params.dig(:booking, :booking_questions)
+      @booking.booking_questions = Manage::BookingQuestionParams.sanitize_booking_params(@booking, sanitized_params)
     end
 
     def booking_action

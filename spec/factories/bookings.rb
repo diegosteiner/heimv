@@ -9,6 +9,7 @@
 #  approximate_headcount  :integer
 #  begins_at              :datetime
 #  booking_flow_type      :string
+#  booking_questions      :jsonb
 #  booking_state_cache    :string           default("initial"), not null
 #  cancellation_reason    :text
 #  committed_request      :boolean

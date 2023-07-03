@@ -1,0 +1,31 @@
+= form_with(model: [:manage, @booking_question.becomes(BookingQuestion)], local: true) do |f|
+  fieldset
+    = f.hidden_field :id
+    = f.select :type, subtype_options_for_select(BookingQuestion.subtypes), include_blank: true
+    = f.number_field :ordinal_position, step: 1.0
+    = f.check_box :required
+
+  fieldset
+    ul.nav.nav-tabs.mt-4 role="tablist"
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        li.nav-item
+          = link_to locale.upcase, "#booking_question-#{locale}-tab",
+            class: "nav-link #{'active' if current_locale}",
+            aria: { controls: "booking_question-#{locale}-tab", selected: current_locale },
+            data: { "bs-toggle": 'tab' }, role: 'tab'
+    .tab-content
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        .tab-pane.pt-3[id="booking_question-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="booking_question-#{locale}-tab" role='tabpanel']
+          = f.text_field "label_#{locale.to_s}", label: BookingQuestion.human_attribute_name(:label)
+          = f.text_field "description_#{locale.to_s}", label: BookingQuestion.human_attribute_name(:description)
+
+    / label= BookingQuestion.human_attribute_name(:applying_conditions)
+    / = f.fields_for :applying_conditions, @booking_question.applying_conditions do |bqf|
+    /   = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bqf }
+
+
+  .form-actions.pt-4.mt-3
+    = f.submit
+    =< link_to t(:back), manage_booking_questions_path, class: 'btn btn-default'

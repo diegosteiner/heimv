@@ -7,6 +7,7 @@
 #  id              :bigint           not null, primary key
 #  active          :boolean          default(FALSE)
 #  description     :text
+#  discarded_at    :datetime
 #  janitor         :text
 #  name            :string
 #  occupiable      :boolean          default(FALSE)
