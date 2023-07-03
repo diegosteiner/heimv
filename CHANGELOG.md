@@ -2,7 +2,10 @@
 
 ## Unreleased
 
+- Feature: Add soft delete for booking categories
+
 ## Version 23.6.2
+
 Released on 27.06.2023
 
 - Feature: Add plan_b backups
