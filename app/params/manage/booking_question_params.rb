@@ -14,10 +14,7 @@ module Manage
       return if booking_questions.empty? || params.empty?
 
       booking_questions.to_h do |question|
-        value = question.sanitize_value(params[question.id.to_s])
-        next unless question.value_valid?(value, booking: booking)
-
-        [question.id, value]
+        [question.id, question.cast(params[question.id.to_s])]
       end
     end
   end

@@ -113,8 +113,7 @@
                       p= line
 
         - @booking.organisation.booking_questions.each do |question|
-          = f.text_field question.form_input_name, label: question.label, help: question.description, value: question.value_for(@booking), required: question.required
-          
+          = render partial: question.template_path('booking_form_field'), locals: { booking: @booking, question: question, form: f }
 
       .form-actions.pt-4.mt-3
         - if @booking.editable

@@ -8,7 +8,7 @@ h1.mt-0.mb-5= BookingQuestion.model_name.human(count: 2)
           td
             .badge.bg-secondary= booking_question.key
           td
-            = link_to booking_question.title, edit_manage_booking_question_path(booking_question)
+            = link_to booking_question.label, edit_manage_booking_question_path(booking_question)
           td
             small= booking_question.description
           td.p-1.text-end 

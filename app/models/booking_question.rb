@@ -45,18 +45,37 @@ class BookingQuestion < ApplicationRecord
   translates :description, column_suffix: '_i18n', locale_accessors: true
 
   def value_for(booking)
-    booking&.booking_questions&.[](id)
+    booking&.booking_questions&.[](id.to_s)
   end
 
-  def value_valid?(value, booking: nil)
-    true
+  def validate_booking(booking)
+    return unless required && value_for(booking).blank?
+
+    booking.errors.add(ActiveModel::NestedError.new(form_input_name,
+                                                    :presence))
   end
 
-  def sanitize_value(value)
-    value.to_s
+  def cast(value)
+    ActiveModel::Type::String.new.cast(value)
   end
 
   def form_input_name
     "booking_questions[#{id}]"
+  end
+
+  def form_error_name
+    "booking_questions.#{id}"
+  end
+
+  def applies_to_booking?(booking)
+    applying_conditions.none? || BookingCondition.fullfills_all?(booking, applying_conditions)
+  end
+
+  def self.validate_booking(booking)
+    where(organisation: booking&.organisation).map do |booking_question|
+      next unless booking_question.applies_to_booking?(booking)
+
+      booking_question.validate_booking(booking)
+    end
   end
 end

@@ -141,8 +141,18 @@ de:
         ordinal_position: Anzeigeposition
         title: Titel
       booking_condition:
+        compare_attribute: Attribut
+        compare_operator: Operator
+        compare_value: Vergleichswert
         distinction: Bedingung
         must_condition: Muss-Kriterium
+        type: Typ
+      booking_question:
+        description: Beschreibung
+        key: Schlüssel
+        label: Name
+        ordinal_position: Ordnungsnummer
+        required: Pflichteingabe
         type: Typ
       contract:
         issuer: Vermieter
@@ -493,6 +503,17 @@ de:
         one: Ausgewählter Tarif Bedingung
       booking_conditions/tenant_organisation:
         one: Organisation des Mieters Bedingung
+      booking_question:
+        one: Zusatzinfo
+        other: Zusatzinfos
+      booking_question/check_box:
+        one: Ankreuz Zusatzinfo
+      booking_question/number:
+        one: Nummerische Zusatzinfo
+      booking_question/string:
+        one: Kurztext Zusatzinfo
+      booking_question/text:
+        one: Langtext Zusatzinfo
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
