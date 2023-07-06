@@ -86,10 +86,10 @@
                       - @booking.bookable_extras.each do |bookable_extra|
                         li= bookable_extra.title
 
-              - @booking.organisation.booking_questions.each do |question|
+              - @booking.booking_question_responses.each do |response|
                 dl
-                  dt= question.label
-                  dd= question.value_for(@booking)
+                  dt= response.booking_question.label
+                  dd= response.value
 
       .card.mt-4
         .card-body

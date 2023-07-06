@@ -1,4 +1,5 @@
-= form.text_field question.form_input_name, label: question.label, \ 
-                                            help: question.description, \ 
-                                            value: question.value_for(booking), \
-                                            required: question.required
+
+= form.text_field :value, label: question.label, \ 
+                          help: question.description, \ 
+                          value: response.value, \
+                          required: question.required

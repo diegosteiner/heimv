@@ -36,39 +36,57 @@ class BookingQuestion < ApplicationRecord
   include Discard::Model
 
   belongs_to :organisation, inverse_of: :booking_questions
+  has_many :booking_question_responses, dependent: :destroy, inverse_of: :booking_question
   has_many :applying_conditions, -> { qualifiable_group(:applying) }, as: :qualifiable, dependent: :destroy,
                                                                       class_name: :BookingCondition, inverse_of: false
   scope :ordered, -> { order(:ordinal) }
+  scope :include_conditions, -> { includes(:applying_conditions) }
   ranks :ordinal, with_same: :organisation_id
 
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :description, column_suffix: '_i18n', locale_accessors: true
 
-  def value_for(booking)
-    booking&.booking_questions&.[](id.to_s)
-  end
+  before_validation :update_booking_conditions
 
-  def validate_booking(booking)
-    return unless required && value_for(booking).blank?
+  accepts_nested_attributes_for :applying_conditions, allow_destroy: true,
+                                                      reject_if: :reject_booking_conditition_attributes?
+  # def value_for(booking)
+  #   booking&.booking_questions&.[](id.to_s)
+  # end
 
-    booking.errors.add(ActiveModel::NestedError.new(form_input_name,
-                                                    :presence))
-  end
+  # def validate_booking(booking)
+  #   return unless required && value_for(booking).blank?
+
+  #   booking.errors.add(ActiveModel::NestedError.new(form_input_name,
+  #                                                   :presence))
+  # end
 
   def cast(value)
     ActiveModel::Type::String.new.cast(value)
   end
 
-  def form_input_name
-    "booking_questions[#{id}]"
+  # def form_input_name
+  #   "booking_questions[#{id}]"
+  # end
+
+  # def form_error_name
+  #   "booking_questions.#{id}"
+  # end
+
+  def reject_booking_conditition_attributes?(attributes)
+    attributes[:type].blank?
   end
 
-  def form_error_name
-    "booking_questions.#{id}"
+  def update_booking_conditions
+    applying_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :applying) }
   end
 
   def applies_to_booking?(booking)
     applying_conditions.none? || BookingCondition.fullfills_all?(booking, applying_conditions)
+  end
+
+  def self.applying_to_booking(booking)
+    booking.organisation.booking_questions.filter { |question| question.applies_to_booking?(booking) }
   end
 
   def self.validate_booking(booking)

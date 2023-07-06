@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_03_094539) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_04_140325) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -131,6 +131,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_094539) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_booking_logs_on_user_id"
+  end
+
+  create_table "booking_question_responses", force: :cascade do |t|
+    t.uuid "booking_id", null: false
+    t.bigint "booking_question_id", null: false
+    t.jsonb "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_question_id"], name: "index_booking_question_responses_on_booking_question_id"
   end
 
   create_table "booking_questions", force: :cascade do |t|
@@ -588,6 +597,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_094539) do
   add_foreign_key "booking_categories", "organisations"
   add_foreign_key "booking_conditions", "organisations"
   add_foreign_key "booking_logs", "users"
+  add_foreign_key "booking_question_responses", "booking_questions"
   add_foreign_key "booking_questions", "organisations"
   add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "bookings", "organisations"

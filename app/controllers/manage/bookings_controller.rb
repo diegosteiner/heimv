@@ -45,7 +45,7 @@ module Manage
 
     def update
       @booking.assign_attributes(booking_params)
-      @booking.save(context: :manage_update) if booking_params
+      @booking.save(context: :manage_update)
       call_booking_action
       Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
       respond_with :manage, @booking

@@ -1,4 +1,4 @@
-= form.check_box question.form_input_name, label: question.label, \ 
-                                           checked: question.value_for(booking), \
-                                           required: question.required 
-.text-muted= question.description
+= form.form_group :value, label: { text: question.description } do 
+  = form.check_box :value, label: question.label, \ 
+                         checked: response.value, \
+                         required: question.required 

@@ -11,12 +11,14 @@ module Public
 
     def new
       @booking = preparation_service.prepare_new(create_params)
+      @booking.booking_question_responses = BookingQuestionResponse.for_booking(@booking)
 
       respond_with :public, @booking
     end
 
     def edit
       @booking.committed_request ||= @booking.agent_booking&.committed_request if @booking.agent_booking.present?
+      BookingQuestionResponse.prepare_booking(@booking)
       respond_with :public, @booking
     end
 
@@ -34,7 +36,6 @@ module Public
     end
 
     def update
-      process_booking_questions
       @booking.assign_attributes(update_params) if @booking.editable?
       @booking.save(context: :public_update)
       call_booking_action
@@ -67,10 +68,10 @@ module Public
       @booking.errors.add(:base, :action_not_allowed)
     end
 
-    def process_booking_questions
-      sanitized_params = params.dig(:booking, :booking_questions)
-      @booking.booking_questions = Manage::BookingQuestionParams.sanitize_booking_params(@booking, sanitized_params)
-    end
+    # def process_booking_questions
+    #   sanitized_params = params.dig(:booking, :booking_questions)
+    #   @booking.booking_questions = Manage::BookingQuestionParams.sanitize_booking_params(@booking, sanitized_params)
+    # end
 
     def booking_action
       BookingActions::Public.all[params[:booking_action]]

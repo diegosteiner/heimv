@@ -32,7 +32,7 @@ module BookingQuestions
     BookingQuestion.register_subtype self
 
     def cast(value)
-      ActiveModel::Type::Number.new.cast(value)
+      ActiveModel::Type::Decimal.new.cast(value)
     end
   end
 end

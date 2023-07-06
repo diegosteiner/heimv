@@ -112,8 +112,11 @@
                     - option.object.description.lines.each do |line|
                       p= line
 
-        - @booking.organisation.booking_questions.each do |question|
-          = render partial: question.template_path('booking_form_field'), locals: { booking: @booking, question: question, form: f }
+        = f.fields_for :booking_question_responses, @booking.booking_question_responses do |bqrf|
+          - response = bqrf.object
+          - question = response.booking_question
+          = bqrf.hidden_field :booking_question_id
+          = render partial: response.booking_question.template_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf }
 
       .form-actions.pt-4.mt-3
         - if @booking.editable
