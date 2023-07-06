@@ -4,6 +4,7 @@
 
 - Feature: Add soft delete for booking categories
 - Feature: Add custom booking questions
+- Fix: Implement QR bill standards more closely
 
 ## Version 23.6.2
 
