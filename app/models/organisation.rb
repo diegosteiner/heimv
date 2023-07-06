@@ -50,6 +50,7 @@ class Organisation < ApplicationRecord
   has_many :designated_documents, dependent: :destroy, inverse_of: :organisation
   has_many :data_digest_templates, dependent: :destroy, inverse_of: :organisation
   has_many :bookable_extras, dependent: :destroy
+  has_many :booking_questions, dependent: :destroy, inverse_of: :organisation
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
   has_many :organisation_users, dependent: :destroy

@@ -9,6 +9,7 @@
 #  approximate_headcount  :integer
 #  begins_at              :datetime
 #  booking_flow_type      :string
+#  booking_questions      :jsonb
 #  booking_state_cache    :string           default("initial"), not null
 #  cancellation_reason    :text
 #  committed_request      :boolean
@@ -60,7 +61,8 @@ class Booking < ApplicationRecord
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :category, :booked_extras, :logs, :home,
                       { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
-                        agent_booking: %i[booking_agent organisation] }].freeze
+                        agent_booking: %i[booking_agent organisation],
+                        booking_question_responses: :booking_question }].freeze
 
   belongs_to :home
   belongs_to :organisation, inverse_of: :bookings
@@ -83,6 +85,8 @@ class Booking < ApplicationRecord
   has_many :logs, inverse_of: :booking, dependent: :destroy
   has_many :occupancies, inverse_of: :booking, dependent: :destroy, autosave: true
   has_many :occupiables, through: :occupancies
+  has_many :booking_question_responses, -> { ordered }, dependent: :destroy, autosave: true, inverse_of: :booking
+  has_many :booking_questions, through: :booking_question_responses
 
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
@@ -156,12 +160,17 @@ class Booking < ApplicationRecord
     @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
   end
 
+  def booking_question_responses_attributes=(attributes)
+    self.booking_question_responses = BookingQuestionResponse.process_nested_attributes(self, attributes)
+  end
+
   def email
     super.presence || tenant&.email.presence
   end
 
   def email=(value)
-    super(value&.downcase)
+    value = value&.downcase
+    super(value) && tenant&.email=value
   end
 
   def set_tenant

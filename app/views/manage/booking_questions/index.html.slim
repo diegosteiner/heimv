@@ -1,0 +1,22 @@
+h1.mt-0.mb-5= BookingQuestion.model_name.human(count: 2)
+.table-responsive
+  table.table.table-hover.align-middle
+
+    tbody.shadow-sm
+      - @booking_questions.each do |booking_question|
+        tr[data-href=manage_booking_question_path(booking_question) data-id=booking_question.to_param]
+          td
+            => link_to booking_question.label, edit_manage_booking_question_path(booking_question)
+            .badge.bg-secondary= booking_question.key || booking_question.id
+          td
+            = booking_question.class.model_name.human
+          td.p-1.text-end 
+            .btn-group
+              = link_to edit_manage_booking_question_path(booking_question), class: 'btn btn-default' do
+                span.fa.fa-edit
+              = link_to manage_booking_question_path(booking_question), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
+
+section.mt-4
+  =<> link_to new_manage_booking_question_path, class: 'btn btn-primary'
+    = t(:add_record, model_name: BookingQuestion.model_name.human)

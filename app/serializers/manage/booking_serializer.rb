@@ -29,6 +29,15 @@ module Manage
       end
     end
 
+    field :booking_question_responses do |booking|
+      booking.booking_question_responses.to_h do |booking_question_response|
+        [
+          booking_question_response.booking_question_id,
+          Public::BookingQuestionResponseSerializer.render_as_hash(booking_question_response)
+        ]
+      end
+    end
+
     field :current_state do |booking|
       booking.booking_state.to_sym
     end

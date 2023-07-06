@@ -14,7 +14,8 @@ Rails.application.routes.draw do
       resources :occupancies, only: %w[new create edit update destroy]
       resource :organisation, only: %i[edit update show]
       resources :organisation_users, except: %i[show]
-      resources :bookable_extras, to: 'bookable_extras'
+      resources :bookable_extras
+      resources :booking_questions
       resources :data_digests, except: %i[update edit]
       resources :data_digest_templates
       resources :plan_b_backups, only: %i[index]

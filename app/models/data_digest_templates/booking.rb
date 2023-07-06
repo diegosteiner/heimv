@@ -88,6 +88,16 @@ module DataDigestTemplates
       end
     end
 
+    column_type :booking_question_response do
+      body do |booking, template_context_cache|
+        response = booking.booking_question_responses.find_by(booking_question_id: @config[:id])
+        context = template_context_cache[cache_key(booking, :booking_question_response, response&.id)] ||=
+          TemplateContext.new(booking: booking, organisation: booking.organisation,
+                              booking_question_response: response).to_h
+        @templates[:body]&.render!(context)
+      end
+    end
+
     def prefilter
       @prefilter ||= ::Booking::Filter.new(prefilter_params.presence || {})
     end
