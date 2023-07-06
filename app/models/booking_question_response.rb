@@ -25,14 +25,21 @@ class BookingQuestionResponse < ApplicationRecord
 
   scope :ordered, -> { joins(:booking_question).order(BookingQuestion.arel_table[:ordinal].asc) }
 
-  # def self.for_booking(booking, **rest)
-  #   existing_responses = booking.booking_question_responses.index_by(&:booking_question_id)
-  #   questions = booking.organisation.booking_questions.filter { |question| question.applies_to_booking?(booking) }
-  #   questions.map do |question|
-  #     existing_responses[question.id] ||
-  #       booking.booking_question_responses.build(rest.merge(booking_question: question))
-  #   end
-  # end
+  validates :value, length: { maximum: 1000 }
+  validate on: %i[public_create public_update agent_booking manage_create manage_update] do
+    errors.add(:value, :blank) if booking_question.required && value.blank?
+  end
+
+  def self.process_nested_attributes(booking, attributes)
+    existing_responses = booking.booking_question_responses.index_by(&:booking_question_id)
+    questions = BookingQuestion.applying_to_booking(booking).index_by(&:id)
+    attributes&.values&.map do |attribute_set|
+      question = questions[attribute_set[:booking_question_id]&.to_i]
+      response = existing_responses[question.id] || booking.booking_question_responses.build
+      response&.assign_attributes(booking_question: question, value: question.cast(attribute_set[:value]))
+      response
+    end
+  end
 
   def self.prepare_booking(booking)
     booking.booking_questions = BookingQuestion.applying_to_booking(booking)

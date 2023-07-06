@@ -46,32 +46,15 @@ class BookingQuestion < ApplicationRecord
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :description, column_suffix: '_i18n', locale_accessors: true
 
+  validates :type, presence: true, inclusion: { in: ->(_) { BookingQuestion.subtypes.keys.map(&:to_s) } }
   before_validation :update_booking_conditions
 
   accepts_nested_attributes_for :applying_conditions, allow_destroy: true,
                                                       reject_if: :reject_booking_conditition_attributes?
-  # def value_for(booking)
-  #   booking&.booking_questions&.[](id.to_s)
-  # end
-
-  # def validate_booking(booking)
-  #   return unless required && value_for(booking).blank?
-
-  #   booking.errors.add(ActiveModel::NestedError.new(form_input_name,
-  #                                                   :presence))
-  # end
 
   def cast(value)
     ActiveModel::Type::String.new.cast(value)
   end
-
-  # def form_input_name
-  #   "booking_questions[#{id}]"
-  # end
-
-  # def form_error_name
-  #   "booking_questions.#{id}"
-  # end
 
   def reject_booking_conditition_attributes?(attributes)
     attributes[:type].blank?
@@ -86,14 +69,8 @@ class BookingQuestion < ApplicationRecord
   end
 
   def self.applying_to_booking(booking)
-    booking.organisation.booking_questions.filter { |question| question.applies_to_booking?(booking) }
-  end
-
-  def self.validate_booking(booking)
-    where(organisation: booking&.organisation).map do |booking_question|
-      next unless booking_question.applies_to_booking?(booking)
-
-      booking_question.validate_booking(booking)
+    booking.organisation.booking_questions.include_conditions.filter do |question|
+      question.applies_to_booking?(booking)
     end
   end
 end

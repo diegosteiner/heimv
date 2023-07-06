@@ -12,7 +12,9 @@ class TemplateContext
     Usage => Manage::UsageSerializer,
     PaymentInfo => Manage::PaymentInfoSerializer,
     Contract => Manage::ContractSerializer,
-    CostEstimation => Manage::CostEstimationSerializer
+    CostEstimation => Manage::CostEstimationSerializer,
+    BookingQuestion => Public::BookingQuestionSerializer,
+    BookingQuestionResponse => Public::BookingQuestionResponseSerializer
   }.freeze
 
   def initialize(context)

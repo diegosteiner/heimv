@@ -7,7 +7,7 @@ h1.mt-0.mb-5= BookingQuestion.model_name.human(count: 2)
         tr[data-href=manage_booking_question_path(booking_question) data-id=booking_question.to_param]
           td
             => link_to booking_question.label, edit_manage_booking_question_path(booking_question)
-            .badge.bg-secondary= booking_question.key
+            .badge.bg-secondary= booking_question.key || booking_question.id
           td
             = booking_question.class.model_name.human
           td.p-1.text-end 

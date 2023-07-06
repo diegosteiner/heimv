@@ -161,14 +161,7 @@ class Booking < ApplicationRecord
   end
 
   def booking_question_responses_attributes=(attributes)
-    # BookingQuestionResponse.assign_to
-    existing_responses = booking_question_responses.index_by(&:booking_question_id)
-    attributes&.values&.map do |attribute_set|
-      question = organisation.booking_questions.find(attribute_set[:booking_question_id])
-      response = existing_responses[question.id] || booking_question_responses.build
-      response&.assign_attributes(booking_question: question, value: question.cast(attribute_set[:value]))
-      response
-    end
+    self.booking_question_responses = BookingQuestionResponse.process_nested_attributes(self, attributes)
   end
 
   def email

@@ -28,11 +28,11 @@
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 module BookingQuestions
-  class Number < BookingQuestion
+  class Integer < BookingQuestion
     BookingQuestion.register_subtype self
 
     def cast(value)
-      ActiveModel::Type::Decimal.new.cast(value)
+      ActiveModel::Type::Integer.new.cast(value)
     end
   end
 end

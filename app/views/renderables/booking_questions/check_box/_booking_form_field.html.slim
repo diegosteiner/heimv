@@ -1,4 +1,4 @@
-= form.form_group :value, label: { text: question.description } do 
-  = form.check_box :value, label: question.label, \ 
-                         checked: response.value, \
-                         required: question.required 
+= form.label question.description if question.description.present?
+= form.check_box :value, label: question.label, \ 
+                        checked: response.value, \
+                        required: question.required 

@@ -36,17 +36,4 @@ RSpec.describe BookingQuestion, type: :model do
       create(:booking_question, type: type, organisation: organisation)
     end
   end
-
-  describe Manage::BookingQuestionParams do
-    describe '::sanitize_booking_params' do
-      let(:booking) { create(:booking, organisation: organisation) }
-      let(:params) { (questions.to_h { |q| [q.id.to_s, 'test'] }).merge({ 'nonsense' => [1, 2] }) }
-      subject(:sanitized) { described_class.sanitize_booking_params(booking, params) }
-
-      it 'applies only valid data' do
-        expect(sanitized.keys).to eq(questions.map(&:id))
-        expect(sanitized.values).to all eq('test')
-      end
-    end
-  end
 end

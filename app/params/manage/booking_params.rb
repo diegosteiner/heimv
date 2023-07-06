@@ -11,7 +11,7 @@ module Manage
                            tenant_attributes: TenantParams.permitted_keys,
                            agent_booking_attributes: Public::AgentBookingParams.permitted_keys,
                            deadline_attributes: %i[at postponable_for],
-                           booking_question_responses_attributes: [:booking_question_id, { value: {} }])]
+                           booking_question_responses_attributes: %i[booking_question_id value])]
     end
   end
 end

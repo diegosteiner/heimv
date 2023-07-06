@@ -8,6 +8,8 @@ module Manage
     association :tenants, blueprint: TenantSerializer
     association :designated_documents, blueprint: DesignatedDocumentSerializer
     association :tarifs, blueprint: TarifSerializer
+    association :booking_categories, blueprint: BookingCategorySerializer
+    association :booking_questions, blueprint: Public::BookingQuestionSerializer
 
     fields :qr_iban, :esr_beneficiary_account, :iban, :mail_from
     field :settings do |organisation|
