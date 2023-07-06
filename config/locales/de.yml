@@ -1031,6 +1031,7 @@ de:
             currency: Währung
             payable_by: Zahlbar durch
             payment_part_title: Zahlteil
+            receipt_office: Annahmestelle
             receipt_title: Empfangsschein
             ref: Referenz
   faker:

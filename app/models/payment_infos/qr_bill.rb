@@ -63,11 +63,11 @@ module PaymentInfos
     # rubocop:enable Metrics/MethodLength
 
     def creditor_address_lines
-      @creditor_address_lines ||= organisation.creditor_address_lines
+      @creditor_address_lines ||= prepare_address_lines(organisation.creditor_address_lines, size: 3)
     end
 
     def debitor_address_lines
-      @debitor_address_lines ||= invoice.invoice_address_lines
+      @debitor_address_lines ||= prepare_address_lines(invoice.invoice_address_lines, size: 3)
     end
 
     def creditor_account
@@ -79,7 +79,7 @@ module PaymentInfos
     end
 
     def formatted_amount
-      format('%<amount>.2f', amount: amount)
+      ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.', unit: '', delimiter: ' ')
     end
 
     def checksum(ref)
@@ -113,6 +113,12 @@ module PaymentInfos
 
     def qrcode
       @qrcode ||= RQRCode::QRCode.new(qr_data.values.join("\n"), level: :m, mode: :byte_8bit)
+    end
+
+    private
+
+    def prepare_address_lines(address_lines, size: 3)
+      address_lines.take(size) + ([''] * (size - address_lines.size))
     end
   end
 end

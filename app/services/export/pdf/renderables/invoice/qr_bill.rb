@@ -36,41 +36,52 @@ module Export
               text translate('receipt_title'), size: 11, style: :bold
               move_down 9
               render_creditor
-              move_down 9
               render_ref
+              render_debitor
               render_amount(bounds.left, 101)
+              render_receipt_office
+            end
+          end
+
+          def render_receipt_office
+            bounding_box([100, 60], width: 60) do
+              text translate('receipt_office'), size: 6, style: :bold
             end
           end
 
           def render_amount(left, bottom)
             bounding_box([left, bottom], width: 40) do
-              text translate('currency'), size: 7, style: :bold
+              text translate('currency'), size: 6, style: :bold
               move_down 3
               text qr_bill.currency
             end
             bounding_box([left + 50, bottom], width: 100) do
-              text translate('amount'), size: 7, style: :bold
+              text translate('amount'), size: 6, style: :bold
               move_down 3
               text qr_bill.formatted_amount
             end
           end
 
           def render_creditor
-            text translate('creditor_account'), size: 7, style: :bold
+            text translate('creditor_account'), size: 6, style: :bold
+            move_down 3
             text qr_bill.creditor_account
             text qr_bill.creditor_address_lines.join("\n")
-            move_down 2
+            move_down 7
           end
 
           def render_debitor
-            text translate('payable_by'), size: 7, style: :bold
+            text translate('payable_by'), size: 6, style: :bold
+            move_down 3
             text qr_bill.debitor_address_lines.join("\n")
-            move_down 2
+            move_down 7
           end
 
           def render_ref
-            text translate('ref'), size: 7, style: :bold
+            text translate('ref'), size: 6, style: :bold
+            move_down 3
             text qr_bill.formatted_ref
+            move_down 7
           end
 
           def render_qrcode_part
@@ -87,9 +98,7 @@ module Export
             bounding_box([bounds.left + 335, bounds.top], width: 180, height: HEIGHT) do
               move_down PADDING
               render_creditor
-              move_down 9
               render_ref
-              move_down 9
               render_debitor
             end
           end
