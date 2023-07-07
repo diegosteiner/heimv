@@ -102,7 +102,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_04_140325) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "ordinal"
     t.jsonb "description_i18n"
-    t.datetime "discarded_at"
     t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
     t.index ["ordinal"], name: "index_booking_categories_on_ordinal"
     t.index ["organisation_id"], name: "index_booking_categories_on_organisation_id"
@@ -380,7 +379,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_04_140325) do
     t.bigint "home_id"
     t.jsonb "settings"
     t.integer "ordinal"
-    t.datetime "discarded_at"
     t.index ["home_id"], name: "index_occupiables_on_home_id"
     t.index ["organisation_id"], name: "index_occupiables_on_organisation_id"
     t.index ["ref", "organisation_id"], name: "index_occupiables_on_ref_and_organisation_id", unique: true

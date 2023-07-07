@@ -47,11 +47,13 @@ de:
         begins_at_default_time: Standardzeit für den Beginn der Belegung (ab Mitternacht)
         closed_occupancy_color: Farbe für Schliessungen
         deadline_postponable_for: Fristverlängerung
+        default_calendar_view: Standard Kalenderansicht
         deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
         ends_at_default_time: Standardzeit für das Ende der Belegung (ab Beginn)
         invoice_payment_deadline: Standardmässige Zahlungsfrist
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         occupied_occupancy_color: Farbe für definitive Belegungen
+        occupied_occupancy_states: Status, bei welchen die Buchung als «definitiv» gilt
         overdue_request_deadline: Frist für überfällige Reservationsanfragen
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
         tenant_birth_date_required: Geburtsdatum Pflichteingabe

@@ -22,7 +22,6 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupied!
       booking.notifications.new(template: :overdue_notification, to: booking.tenant)&.deliver
     end
 

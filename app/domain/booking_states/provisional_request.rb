@@ -29,8 +29,8 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.notifications.new(template: :provisional_request_notification, to: booking.tenant).deliver
       booking.tentative!
+      booking.notifications.new(template: :provisional_request_notification, to: booking.tenant).deliver
     end
 
     infer_transition(to: :definitive_request) do |booking|

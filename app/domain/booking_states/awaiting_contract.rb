@@ -23,7 +23,14 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupied!
+      if occupied_occupancy_state?(booking)
+        booking.occupied!
+      elsif !booking.occupied?
+        booking.tentative!
+      end
+    end
+
+    after_transition do |booking|
       booking.deadline&.clear
       booking.deadlines.create(length: booking.organisation.settings.awaiting_contract_deadline,
                                postponable_for: booking.organisation.settings.deadline_postponable_for,

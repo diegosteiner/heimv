@@ -39,7 +39,14 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupied!
+      if occupied_occupancy_state?(booking)
+        booking.occupied!
+      elsif !booking.occupied?
+        booking.tentative!
+      end
+    end
+
+    after_transition do |booking|
       booking.update!(editable: false)
       booking.deadline&.clear
       OperatorResponsibility.assign(booking, :home_handover, :home_return)

@@ -67,6 +67,10 @@ module BookingStates
         add_callback(callback_type: :guards, callback_class: Statesman::Guard, from: from, &block)
       end
 
+      def occupied_occupancy_state?(booking)
+        booking&.organisation&.settings&.occupied_occupancy_states&.include?(to_s)
+      end
+
       def available_public_actions
         BookingActions::Public.all.values
       end

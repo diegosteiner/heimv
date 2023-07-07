@@ -12,4 +12,9 @@ module BookingStates
   def self.displayed_by_default
     all.values.filter_map { |state| state.to_sym unless state.hidden }
   end
+
+  def self.occupied_occupancy_able
+    @occupied_occupancy_able ||= [DefinitiveRequest, AwaitingTenant, AwaitingContract,
+                                  Upcoming, UpcomingSoon].index_by(&:to_sym)
+  end
 end
