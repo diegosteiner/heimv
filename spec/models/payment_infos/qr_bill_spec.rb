@@ -50,7 +50,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
 
   describe 'prepare_address_lines' do
     let(:address_lines) { %w[Line1 Line2 Line3 Line4] }
-    subject { qr_bill.send(:prepare_address_lines) }
+    subject { qr_bill.send(:prepare_address_lines, address_lines) }
 
     it { is_expected.to eq(%w[Line1 Line2 Line3]) }
   end
