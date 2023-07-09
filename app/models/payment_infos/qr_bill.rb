@@ -118,7 +118,7 @@ module PaymentInfos
     private
 
     def prepare_address_lines(address_lines, size: 3)
-      address_lines.take(size) + ([''] * (size - address_lines.size))
+      (address_lines || ([] + ([''] * size))).take(size)
     end
   end
 end
