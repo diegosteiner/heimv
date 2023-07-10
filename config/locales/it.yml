@@ -137,7 +137,7 @@ it:
         ordinal_position: Posizione di visualizzazione
         title: Titolo
       booking_condition:
-        distinction: Condizione
+        compare_value: Condizione
         must_condition: Criterio obbligatorio
         type: Tipo
       contract:

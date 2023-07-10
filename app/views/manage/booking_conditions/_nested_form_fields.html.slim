@@ -6,9 +6,9 @@
   .col-4
     = form.select :type, subtype_options_for_select(BookingCondition.subtypes) , skip_label: true, include_blank: true
   .col-4
-    - if form.object.try(:distinction_scope)
-      = form.collection_select :distinction, form.object.distinction_scope, :id, :to_s, skip_label: true, include_blank: true
+    - if form.object.try(:compare_value_scope)
+      = form.collection_select :compare_value, form.object.compare_value_scope, :id, :to_s, skip_label: true, include_blank: true
     - else
-      = form.text_field :distinction, skip_label: true
+      = form.text_field :compare_value, skip_label: true
   .col-3.pt-2
     = form.check_box :must_condition

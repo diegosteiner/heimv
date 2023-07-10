@@ -4,16 +4,18 @@
 #
 # Table name: booking_conditions
 #
-#  id               :bigint           not null, primary key
-#  distinction      :string
-#  group            :string
-#  must_condition   :boolean          default(TRUE)
-#  qualifiable_type :string
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint
-#  qualifiable_id   :bigint
+#  id                :bigint           not null, primary key
+#  compare_attribute :string
+#  compare_operator  :string
+#  compare_value     :string
+#  group             :string
+#  must_condition    :boolean          default(TRUE)
+#  qualifiable_type  :string
+#  type              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  organisation_id   :bigint
+#  qualifiable_id    :bigint
 #
 # Indexes
 #
@@ -31,9 +33,9 @@ require 'rails_helper'
 RSpec.describe BookingConditions::BookingState, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
-    let(:booking_condition) { described_class.new(distinction: distinction, organisation: organisation) }
+    let(:booking_condition) { described_class.new(compare_value: compare_value, organisation: organisation) }
     let(:organisation) { create(:organisation) }
-    let(:distinction) { 'open_request' }
+    let(:compare_value) { 'open_request' }
 
     context 'with different state' do
       let(:booking) { create(:booking, organisation: organisation) }

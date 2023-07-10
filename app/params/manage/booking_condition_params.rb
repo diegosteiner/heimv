@@ -4,8 +4,8 @@ module Manage
   class BookingConditionParams < ApplicationParams
     def self.permitted_keys
       # TODO: check
-      # %i[qualifiable_id qualifiable_type type must_condition distinction]
-      %i[type must_condition distinction]
+      # %i[qualifiable_id qualifiable_type type must_condition compare_value]
+      %i[type must_condition compare_value]
     end
   end
 end

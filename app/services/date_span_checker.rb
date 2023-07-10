@@ -1,41 +1,45 @@
 # frozen_string_literal: true
 
 class DateSpanChecker
-  REGEX = %r{\A
-            ((?<begins_at_day>\d{1,2})\.(?<begins_at_month>\d{1,2})(\.(?<begins_at_year>\d{4})?)?)?
+  REGEX = /\A
+            (?:(?<begins_at_day>\d{1,2})\.(?<begins_at_month>\d{1,2})(?:\.(?<begins_at_year>\d{4})?)?)?
             -
-            ((?<ends_at_day>\d{1,2})\.(?<ends_at_month>\d{1,2})(\.(?<ends_at_year>\d{4})?)?)?
-          \z}x.freeze
+            (?:(?<ends_at_day>\d{1,2})\.(?<ends_at_month>\d{1,2})(?:\.(?<ends_at_year>\d{4})?)?)?
+          \z/x
 
   attr_reader :begins_at, :ends_at
-  NullableDate = Struct.new(:year, :month, :day) do 
+
+  NullableDate = Struct.new(:year, :month, :day) do
     def self.from_date(value)
       new(value.year, value.month, value.day)
     end
-    
+
     def >=(other)
       self > other || self == other
     end
 
-    def >(other)
-      compare_year = year && other.year
-      return year > other.year if compare_year && year != other.year
-
-      compare_month = month && other.month 
-      return month > other.month if compare_month && month != other.month
-
-      compare_day = day && other.day 
-      return day > other.day if compare_day && day != other.day
-    
-      false
-    end
-
     def <(other)
+      return self.class.from_date(other) > self if other.is_a?(Date)
+
       other > self
     end
 
     def <=(other)
       self < other || self == other
+    end
+
+    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def >(other)
+      return self > self.class.from_date(other) if other.is_a?(Date)
+
+      compare_year = year && other.year
+      return year > other.year if compare_year && year != other.year
+
+      compare_month = month && other.month
+      return month > other.month if compare_month && month != other.month
+
+      compare_day = day && other.day
+      return day > other.day if compare_day && day != other.day
     end
 
     def ==(other)
@@ -44,10 +48,11 @@ class DateSpanChecker
         (!month || !other.month || day == other.month) &&
         (!year || !other.year || day == other.year))
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   end
 
   def self.parse(value)
-    new **REGEX.match(value).named_captures.symbolize_keys.transform_values { _1.presence&.to_i }
+    new(**REGEX.match(value).named_captures.symbolize_keys.transform_values { _1.presence&.to_i })
   end
 
   def initialize(**attrs)
@@ -56,14 +61,11 @@ class DateSpanChecker
   end
 
   def overlap?(other)
-    case other 
-    when NullableDate 
-      begins_at <= other && ends_at >= other
-    when Date, DateTime
-      overlap?(NullableDate.from_date(other))
-    when Range 
-      overlap?(other.begin) || overlap?(other.end) || 
-      (begins_at >= NullableDate.from_date(other.begin) && ends_at <= NullableDate.from_date(other.end))
+    case other
+    when NullableDate, Date, DateTime, ActiveSupport::TimeWithZone
+      begins_at <= other.to_date && ends_at >= other.to_date
+    when Range
+      overlap?(other.begin) || overlap?(other.end) || (begins_at >= other.begin && ends_at <= other.end)
     end
   end
 end

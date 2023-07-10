@@ -4,16 +4,18 @@
 #
 # Table name: booking_conditions
 #
-#  id               :bigint           not null, primary key
-#  distinction      :string
-#  group            :string
-#  must_condition   :boolean          default(TRUE)
-#  qualifiable_type :string
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint
-#  qualifiable_id   :bigint
+#  id                :bigint           not null, primary key
+#  compare_attribute :string
+#  compare_operator  :string
+#  compare_value     :string
+#  group             :string
+#  must_condition    :boolean          default(TRUE)
+#  qualifiable_type  :string
+#  type              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  organisation_id   :bigint
+#  qualifiable_id    :bigint
 #
 # Indexes
 #
@@ -31,8 +33,8 @@ require 'rails_helper'
 RSpec.describe BookingConditions::BookingOvernightStays, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
-    let(:distinction) { '' }
-    let(:booking_condition) { described_class.new(distinction: distinction, organisation: organisation) }
+    let(:compare_value) { '' }
+    let(:booking_condition) { described_class.new(compare_value: compare_value, organisation: organisation) }
     let(:organisation) { create(:organisation) }
     let(:booking) do
       create(:booking, approximate_headcount: 10, organisation: organisation,
@@ -43,13 +45,13 @@ RSpec.describe BookingConditions::BookingOvernightStays, type: :model do
     it { expect(booking.overnight_stays).to eq(70) }
 
     context 'with non-matching condition' do
-      let(:distinction) { '<3' }
+      let(:compare_value) { '<3' }
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_falsy }
     end
 
     context 'with matching condition' do
-      let(:distinction) { '>=60' }
+      let(:compare_value) { '>=60' }
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_truthy }
     end

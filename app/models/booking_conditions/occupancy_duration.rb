@@ -4,16 +4,18 @@
 #
 # Table name: booking_conditions
 #
-#  id               :bigint           not null, primary key
-#  distinction      :string
-#  group            :string
-#  must_condition   :boolean          default(TRUE)
-#  qualifiable_type :string
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint
-#  qualifiable_id   :bigint
+#  id                :bigint           not null, primary key
+#  compare_attribute :string
+#  compare_operator  :string
+#  compare_value     :string
+#  group             :string
+#  must_condition    :boolean          default(TRUE)
+#  qualifiable_type  :string
+#  type              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  organisation_id   :bigint
+#  qualifiable_id    :bigint
 #
 # Indexes
 #
@@ -30,16 +32,16 @@ module BookingConditions
   class OccupancyDuration < ::BookingCondition
     BookingCondition.register_subtype self
 
-    def self.distinction_regex
+    def self.compare_value_regex
       /\A(?<operator>[><=]=?)(?<threshold>\d+)\s*(?<threshold_unit>[smhd]?)\z/
     end
 
     def evaluate(booking)
       value = booking.duration
-      return if value.blank? || distinction_match.blank? || distinction_match[:threshold].blank?
+      return if value.blank? || compare_value_match.blank? || compare_value_match[:threshold].blank?
 
-      threshold = threshold_unit(distinction_match[:threshold], distinction_match[:threshold_unit])
-      self.class.binary_comparison(value, threshold, operator: distinction_match[:operator])
+      threshold = threshold_unit(compare_value_match[:threshold], compare_value_match[:threshold_unit])
+      self.class.binary_comparison(value, threshold, operator: compare_value_match[:operator])
     end
 
     protected

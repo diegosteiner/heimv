@@ -4,16 +4,18 @@
 #
 # Table name: booking_conditions
 #
-#  id               :bigint           not null, primary key
-#  distinction      :string
-#  group            :string
-#  must_condition   :boolean          default(TRUE)
-#  qualifiable_type :string
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint
-#  qualifiable_id   :bigint
+#  id                :bigint           not null, primary key
+#  compare_attribute :string
+#  compare_operator  :string
+#  compare_value     :string
+#  group             :string
+#  must_condition    :boolean          default(TRUE)
+#  qualifiable_type  :string
+#  type              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  organisation_id   :bigint
+#  qualifiable_id    :bigint
 #
 # Indexes
 #
@@ -31,8 +33,8 @@ require 'rails_helper'
 RSpec.describe BookingConditions::BookingCategory, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
-    let(:distinction) { '' }
-    let(:booking_condition) { described_class.new(distinction: distinction, organisation: organisation) }
+    let(:compare_value) { '' }
+    let(:booking_condition) { described_class.new(compare_value: compare_value, organisation: organisation) }
     let(:booking) { create(:booking, organisation: organisation) }
     let(:organisation) { create(:organisation) }
     let(:booking_category) { create(:booking_category, organisation: organisation, key: 'test') }
@@ -43,14 +45,14 @@ RSpec.describe BookingConditions::BookingCategory, type: :model do
     end
 
     context 'with category by key' do
-      let(:distinction) { booking_category.key }
+      let(:compare_value) { booking_category.key }
       let(:booking) { create(:booking, organisation: organisation, category: booking_category) }
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_truthy }
     end
 
     context 'with category by id' do
-      let(:distinction) { booking_category.id }
+      let(:compare_value) { booking_category.id }
       let(:booking) { create(:booking, organisation: organisation, category: booking_category) }
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_truthy }

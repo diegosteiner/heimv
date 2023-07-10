@@ -137,7 +137,7 @@ fr:
         ordinal_position: Position de l'affichage
         title: Titre
       booking_condition:
-        distinction: Condition
+        compare_value: Condition
         must_condition: Critère obligatoire
         type: Type
       contract:
@@ -477,14 +477,14 @@ fr:
         one: Nuitées Sélecteur de tarif
       booking_conditions/booking_state:
         one: Status Bedingung
+      booking_conditions/date_span:
+        one: Belegungsdatum Bedingung
       booking_conditions/home:
         one: Condition du principal objet de location
       booking_conditions/occupancy_duration:
         one: Condition de la durée de location
       booking_conditions/occupiable:
         one: Condition de l'objet de location
-      booking_conditions/season:
-        one: Condition de saison
       booking_conditions/tarif:
         one: 'Condition du tarif sélectionné '
       booking_conditions/tenant_organisation:

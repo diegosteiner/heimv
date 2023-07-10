@@ -4,16 +4,18 @@
 #
 # Table name: booking_conditions
 #
-#  id               :bigint           not null, primary key
-#  distinction      :string
-#  group            :string
-#  must_condition   :boolean          default(TRUE)
-#  qualifiable_type :string
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint
-#  qualifiable_id   :bigint
+#  id                :bigint           not null, primary key
+#  compare_attribute :string
+#  compare_operator  :string
+#  compare_value     :string
+#  group             :string
+#  must_condition    :boolean          default(TRUE)
+#  qualifiable_type  :string
+#  type              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  organisation_id   :bigint
+#  qualifiable_id    :bigint
 #
 # Indexes
 #
@@ -36,7 +38,7 @@ class BookingCondition < ApplicationRecord
 
   scope :qualifiable_group, ->(group) { where(group: group) }
 
-  def self.distinction_regex
+  def self.compare_value_regex
     //
   end
 
@@ -57,15 +59,15 @@ class BookingCondition < ApplicationRecord
     # TODO: rescue?
   end
 
-  def distinction_match
-    @distinction_match ||= self.class.distinction_regex.match(distinction)
+  def compare_value_match
+    @compare_value_match ||= self.class.compare_value_regex.match(compare_value)
   end
 
-  validates :distinction, format: { with: distinction_regex }, allow_blank: true
+  validates :compare_value, format: { with: compare_value_regex }, allow_blank: true
   validates :type, presence: true
 
   def to_s
-    "#{model_name.human}: #{distinction}"
+    "#{model_name.human}: #{compare_value}"
   end
 
   def qualifiable=(value)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_04_140325) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_10_122219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -110,13 +110,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_04_140325) do
   create_table "booking_conditions", force: :cascade do |t|
     t.bigint "qualifiable_id"
     t.boolean "must_condition", default: true
-    t.string "distinction"
+    t.string "compare_value"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "type"
     t.string "qualifiable_type"
     t.bigint "organisation_id"
     t.string "group"
+    t.string "compare_attribute"
+    t.string "compare_operator"
     t.index ["organisation_id"], name: "index_booking_conditions_on_organisation_id"
     t.index ["qualifiable_id", "qualifiable_type", "group"], name: "index_booking_conditions_on_qualifiable"
     t.index ["qualifiable_id", "qualifiable_type"], name: "index_booking_conditions_on_qualifiable_id_and_qualifiable_type"

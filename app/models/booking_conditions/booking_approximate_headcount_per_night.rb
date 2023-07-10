@@ -4,16 +4,18 @@
 #
 # Table name: booking_conditions
 #
-#  id               :bigint           not null, primary key
-#  distinction      :string
-#  group            :string
-#  must_condition   :boolean          default(TRUE)
-#  qualifiable_type :string
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint
-#  qualifiable_id   :bigint
+#  id                :bigint           not null, primary key
+#  compare_attribute :string
+#  compare_operator  :string
+#  compare_value     :string
+#  group             :string
+#  must_condition    :boolean          default(TRUE)
+#  qualifiable_type  :string
+#  type              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  organisation_id   :bigint
+#  qualifiable_id    :bigint
 #
 # Indexes
 #
@@ -29,10 +31,10 @@
 module BookingConditions
   class BookingApproximateHeadcountPerNight < ::BookingCondition
     BookingCondition.register_subtype self
-    include NumericDistinction
+    include NumericCompareValue
 
-    def self.distinction_regex
-      NumericDistinction::DISTINCTION_REGEX
+    def self.compare_value_regex
+      NumericCompareValue::COMPARE_VALUE_REGEX
     end
 
     def evaluate(booking)

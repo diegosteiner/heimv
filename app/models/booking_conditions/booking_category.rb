@@ -4,16 +4,18 @@
 #
 # Table name: booking_conditions
 #
-#  id               :bigint           not null, primary key
-#  distinction      :string
-#  group            :string
-#  must_condition   :boolean          default(TRUE)
-#  qualifiable_type :string
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint
-#  qualifiable_id   :bigint
+#  id                :bigint           not null, primary key
+#  compare_attribute :string
+#  compare_operator  :string
+#  compare_value     :string
+#  group             :string
+#  must_condition    :boolean          default(TRUE)
+#  qualifiable_type  :string
+#  type              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  organisation_id   :bigint
+#  qualifiable_id    :bigint
 #
 # Indexes
 #
@@ -31,18 +33,18 @@ module BookingConditions
     BookingCondition.register_subtype self
 
     validate do
-      next if distinction_scope.exists?(key: distinction) ||
-              distinction_scope.exists?(id: distinction)
+      next if compare_value_scope.exists?(key: compare_value) ||
+              compare_value_scope.exists?(id: compare_value)
 
-      errors.add(:distinction, :invalid)
+      errors.add(:compare_value, :invalid)
     end
 
     def evaluate(booking)
-      distinction == booking.category&.key ||
-        distinction == booking.category&.id&.to_s
+      compare_value == booking.category&.key ||
+        compare_value == booking.category&.id&.to_s
     end
 
-    def distinction_scope
+    def compare_value_scope
       organisation.booking_categories
     end
   end

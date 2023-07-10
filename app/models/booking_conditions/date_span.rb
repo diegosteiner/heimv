@@ -32,8 +32,8 @@ module BookingConditions
   class DateSpan < ::BookingCondition
     BookingCondition.register_subtype self
 
-    def self.distinction_regex
-      DateSpanChecker::REGEX 
+    def self.compare_value_regex
+      DateSpanChecker::REGEX
     end
 
     validate do
@@ -41,8 +41,7 @@ module BookingConditions
     end
 
     def evaluate(booking)
-      @date_span_checker ||= DateSpanChecker.parse(distinction)
-
+      @date_span_checker ||= DateSpanChecker.parse(compare_value)
       @date_span_checker.overlap?(booking.span)
     end
   end

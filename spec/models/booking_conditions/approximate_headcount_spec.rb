@@ -5,7 +5,7 @@
 # Table name: booking_conditions
 #
 #  id               :bigint           not null, primary key
-#  distinction      :string
+#  compare_value      :string
 #  must_condition   :boolean          default(TRUE)
 #  qualifiable_type :string
 #  type             :string
@@ -30,21 +30,21 @@ require 'rails_helper'
 RSpec.describe BookingConditions::BookingApproximateHeadcountPerNight, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
-    let(:distinction) { '' }
+    let(:compare_value) { '' }
     let(:organisation) { create(:organisation) }
-    let(:booking_condition) { described_class.new(distinction: distinction, organisation: organisation) }
+    let(:booking_condition) { described_class.new(compare_value: compare_value, organisation: organisation) }
     let(:booking) { create(:booking, approximate_headcount: 10, organisation: organisation) }
 
     it { is_expected.to be_falsy }
 
     context 'with non-matching condition' do
-      let(:distinction) { '<5' }
+      let(:compare_value) { '<5' }
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_falsy }
     end
 
     context 'with matching condition' do
-      let(:distinction) { '>=5' }
+      let(:compare_value) { '>=5' }
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_truthy }
     end
