@@ -57,6 +57,7 @@
           = sf.text_field :ends_at_default_time, value: settings.ends_at_default_time&.iso8601
 
           = sf.select :default_calendar_view, %i[months year].map { |view| [view, view] }
+          = sf.collection_check_boxes :occupied_occupancy_states, BookingStates.occupied_occupancy_able.values, :to_s, ->(state) { state&.t(:label) }
 
     fieldset
       h3.mt-5= Deadline.model_name.human(count: 2)

@@ -23,6 +23,14 @@ module BookingStates
     end
 
     after_transition do |booking|
+      if occupied_occupancy_state?(booking)
+        booking.occupied!
+      elsif !booking.occupied?
+        booking.tentative!
+      end
+    end
+
+    after_transition do |booking|
       booking.notifications.new(template: :awaiting_tenant_notification, to: booking.tenant).deliver
       booking.notifications.new(template: :booking_agent_request_accepted_notification,
                                 to: booking.agent_booking.booking_agent).deliver

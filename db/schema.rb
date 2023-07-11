@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_04_140325) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -132,6 +132,32 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
     t.index ["user_id"], name: "index_booking_logs_on_user_id"
   end
 
+  create_table "booking_question_responses", force: :cascade do |t|
+    t.uuid "booking_id", null: false
+    t.bigint "booking_question_id", null: false
+    t.jsonb "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_question_id"], name: "index_booking_question_responses_on_booking_question_id"
+  end
+
+  create_table "booking_questions", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.datetime "discarded_at"
+    t.jsonb "label_i18n"
+    t.jsonb "description_i18n"
+    t.string "type"
+    t.integer "ordinal"
+    t.string "key"
+    t.boolean "required", default: false
+    t.jsonb "options"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discarded_at"], name: "index_booking_questions_on_discarded_at"
+    t.index ["organisation_id"], name: "index_booking_questions_on_organisation_id"
+    t.index ["type"], name: "index_booking_questions_on_type"
+  end
+
   create_table "booking_state_transitions", force: :cascade do |t|
     t.string "to_state", null: false
     t.integer "sort_key", null: false
@@ -180,6 +206,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
     t.integer "occupancy_type", default: 0, null: false
     t.integer "home_id", null: false
     t.boolean "ignore_conflicting", default: false, null: false
+    t.jsonb "booking_questions"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["locale"], name: "index_bookings_on_locale"
@@ -568,6 +595,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_083552) do
   add_foreign_key "booking_categories", "organisations"
   add_foreign_key "booking_conditions", "organisations"
   add_foreign_key "booking_logs", "users"
+  add_foreign_key "booking_question_responses", "booking_questions"
+  add_foreign_key "booking_questions", "organisations"
   add_foreign_key "booking_state_transitions", "bookings"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"

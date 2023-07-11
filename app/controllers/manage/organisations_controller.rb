@@ -8,7 +8,7 @@ module Manage
     def show
       respond_to do |format|
         format.html { redirect_to manage_root_path }
-        format.json { render json: Manage::OrganisationSerializer.render(@organisation, view: :export) }
+        format.json { render json: Manage::OrganisationSerializer.render(@organisation) }
       end
     end
 
@@ -28,7 +28,7 @@ module Manage
     def organisation_params
       return params.require(:organisation).permit(OrganisationParams.admin_permitted_keys) if current_user.role_admin?
 
-      OrganisationParams.new(params[:organisation])
+      OrganisationParams.new(params[:organisation]).permitted
     end
   end
 end

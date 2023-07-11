@@ -1,0 +1,4 @@
+= form.label question.description if question.description.present?
+= form.check_box :value, label: question.label, \ 
+                        checked: response.value, \
+                        required: question.required 

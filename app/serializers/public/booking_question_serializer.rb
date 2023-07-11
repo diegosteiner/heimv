@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+module Public
+  class BookingQuestionSerializer < ApplicationSerializer
+    fields :key, :label_i18n, :ordinal, :description_i18n, :required, :type, :label, :description
+  end
+end

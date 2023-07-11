@@ -50,6 +50,7 @@ class Organisation < ApplicationRecord
   has_many :designated_documents, dependent: :destroy, inverse_of: :organisation
   has_many :data_digest_templates, dependent: :destroy, inverse_of: :organisation
   has_many :bookable_extras, dependent: :destroy
+  has_many :booking_questions, dependent: :destroy, inverse_of: :organisation
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
   has_many :organisation_users, dependent: :destroy
@@ -69,8 +70,11 @@ class Organisation < ApplicationRecord
   validates :slug, uniqueness: true, allow_blank: true
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
   validates :locale, presence: true
-  validate -> { errors.add(:settings, :invalid) unless settings.valid? }
-  validate -> { errors.add(:smtp_settings, :invalid) unless smtp_settings.nil? || smtp_settings.valid? }
+  validate do
+    errors.add(:settings, :invalid) unless settings.valid?
+    errors.add(:smtp_settings, :invalid) unless smtp_settings.nil? || smtp_settings.valid?
+    errors.add(:creditor_address, :invalid) if creditor_address_lines.count > 3
+  end
 
   attribute :booking_flow_type, default: -> { BookingFlows::Default.to_s }
   attribute :settings, Settings::Type.new(OrganisationSettings), default: -> { OrganisationSettings.new }

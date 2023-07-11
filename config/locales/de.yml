@@ -47,11 +47,13 @@ de:
         begins_at_default_time: Standardzeit für den Beginn der Belegung (ab Mitternacht)
         closed_occupancy_color: Farbe für Schliessungen
         deadline_postponable_for: Fristverlängerung
+        default_calendar_view: Standard Kalenderansicht
         deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
         ends_at_default_time: Standardzeit für das Ende der Belegung (ab Beginn)
         invoice_payment_deadline: Standardmässige Zahlungsfrist
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         occupied_occupancy_color: Farbe für definitive Belegungen
+        occupied_occupancy_states: Status, bei welchen die Buchung als «definitiv» gilt
         overdue_request_deadline: Frist für überfällige Reservationsanfragen
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
@@ -141,8 +143,19 @@ de:
         ordinal_position: Anzeigeposition
         title: Titel
       booking_condition:
+        compare_attribute: Attribut
+        compare_operator: Operator
+        compare_value: Vergleichswert
         distinction: Bedingung
         must_condition: Muss-Kriterium
+        type: Typ
+      booking_question:
+        applying_conditions: Bedingungen
+        description: Beschreibung
+        key: Schlüssel
+        label: Name
+        ordinal_position: Ordnungsnummer
+        required: Pflichteingabe
         type: Typ
       contract:
         issuer: Vermieter
@@ -493,6 +506,17 @@ de:
         one: Ausgewählter Tarif Bedingung
       booking_conditions/tenant_organisation:
         one: Organisation des Mieters Bedingung
+      booking_question:
+        one: Zusatzinfo
+        other: Zusatzinfos
+      booking_questions/check_box:
+        one: Zusatzinfo als Checkbox
+      booking_questions/integer:
+        one: Zusatzinfo als Ganzzahl
+      booking_questions/string:
+        one: Zusatzinfo als Kurztext
+      booking_questions/text:
+        one: Zusatzinfo als Langtext
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -1009,6 +1033,7 @@ de:
             currency: Währung
             payable_by: Zahlbar durch
             payment_part_title: Zahlteil
+            receipt_office: Annahmestelle
             receipt_title: Empfangsschein
             ref: Referenz
   faker:

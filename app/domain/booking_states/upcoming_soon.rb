@@ -24,6 +24,10 @@ module BookingStates
     end
 
     after_transition do |booking|
+      booking.occupied! if occupied_occupancy_state?(booking)
+    end
+
+    after_transition do |booking|
       booking.responsibilities.slice(:home_handover, :home_return).each_value do |operator|
         next if operator.email.blank?
 

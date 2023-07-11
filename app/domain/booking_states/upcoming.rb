@@ -25,7 +25,10 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupied!
+      booking.occupied! if occupied_occupancy_state?(booking)
+    end
+
+    after_transition do |booking|
       booking.deadline&.clear
       booking.notifications.new(template: :upcoming_notification, to: booking.tenant).deliver
     end

@@ -21,10 +21,14 @@ module Manage
     def new
       @booking.assign_attributes(organisation: current_organisation, notifications_enabled: true)
       @booking.build_tenant
+      BookingQuestionResponse.prepare_booking(@booking)
+
       respond_with :manage, @booking
     end
 
-    def edit; end
+    def edit
+      BookingQuestionResponse.prepare_booking(@booking)
+    end
 
     def new_import
       render 'import'
@@ -45,7 +49,7 @@ module Manage
 
     def update
       @booking.assign_attributes(booking_params)
-      @booking.save(context: :manage_update) if booking_params
+      @booking.save(context: :manage_update)
       call_booking_action
       Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
       respond_with :manage, @booking

@@ -2,7 +2,13 @@
 
 ## Unreleased
 
+- Feature: Add soft delete for booking categories
+- Feature: Add custom booking questions
+- Fix: Implement QR bill standards more closely
+- Feature: Add definitive state options for organisation
+
 ## Version 23.6.2
+
 Released on 27.06.2023
 
 - Feature: Add plan_b backups
