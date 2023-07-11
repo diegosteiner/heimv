@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## Version 23.7.1
+
+Released on 11.07.2023
+
 - Feature: Add soft delete for booking categories
 - Feature: Add custom booking questions
 - Fix: Implement QR bill standards more closely
