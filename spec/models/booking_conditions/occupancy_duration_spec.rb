@@ -33,9 +33,14 @@ require 'rails_helper'
 RSpec.describe BookingConditions::OccupancyDuration, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
-    let(:compare_value) { '' }
-    let(:booking_condition) { described_class.new(compare_value: compare_value, organisation: organisation) }
+    let(:compare_value) { nil }
+    let(:compare_operator) { :'=' }
+    let(:compare_attribute) { nil }
     let(:organisation) { create(:organisation) }
+    let(:booking_condition) do
+      described_class.new(compare_value: compare_value, organisation: organisation,
+                          compare_operator: compare_operator, compare_attribute: compare_attribute)
+    end
     let(:booking) do
       create(:booking, begins_at: 4.weeks.from_now, ends_at: 5.weeks.from_now, organisation: organisation)
     end
@@ -43,13 +48,15 @@ RSpec.describe BookingConditions::OccupancyDuration, type: :model do
     it { is_expected.to be_falsy }
 
     context 'with non-matching condition' do
-      let(:compare_value) { '<8h' }
+      let(:compare_operator) { :< }
+      let(:compare_value) { '8h' }
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_falsy }
     end
 
     context 'with matching condition' do
-      let(:compare_value) { '>1d' }
+      let(:compare_operator) { :> }
+      let(:compare_value) { '1d' }
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_truthy }
     end

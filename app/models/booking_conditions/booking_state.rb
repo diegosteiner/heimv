@@ -35,8 +35,8 @@ module BookingConditions
       {
         '=': ->(booking, compare_value) { booking.booking_flow.current_state&.to_s == compare_value },
         '!=': ->(booking, compare_value) { !evaluate_operator(:'=', with: [booking, compare_value]) },
-        '>': ->(booking, compare_value) { booking_state_transition_include?(booking, compare_value) },
-        '<': ->(booking, compare_value) { !booking_state_transition_include?(booking, compare_value) }
+        '>': ->(booking, compare_value) { booking_state_transitions_include?(booking, compare_value) },
+        '<': ->(booking, compare_value) { !booking_state_transitions_include?(booking, compare_value) }
       }.freeze
     end
 

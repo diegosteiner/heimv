@@ -42,6 +42,8 @@ module BookingConditions
 
     def evaluate(booking)
       compare_value_match = compare_value_regex.match(compare_value)
+      return false unless compare_value_match
+
       threshold = threshold_unit(compare_value_match[:threshold], compare_value_match[:threshold_unit])
       evaluate_operator(compare_operator || :'=', with: [booking.duration, threshold])
     end

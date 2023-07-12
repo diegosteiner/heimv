@@ -62,7 +62,7 @@ module BookingFlows
     end
 
     def past_transitions
-      booking.includes(:state_transitions).state_transitions.pluck(:to_state).map(&:to_sym)
+      object.state_transitions.pluck(:to_state).map(&:to_sym)
     end
 
     def infer_next_state

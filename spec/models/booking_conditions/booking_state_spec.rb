@@ -56,9 +56,9 @@ RSpec.describe BookingConditions::BookingState, type: :model do
     context 'with previous matching state' do
       let(:compare_operator) { '>' }
       before do
-        booking.apply_transitions(:provisional_request, :definitive_request)
+        booking.apply_transitions(%i[provisional_request definitive_request])
       end
-      it { expect(booking.state.to_sym).to eq(:definitive_request) }
+      it { expect(booking.booking_state.to_sym).to eq(:definitive_request) }
       it { is_expected.to be_truthy }
     end
   end

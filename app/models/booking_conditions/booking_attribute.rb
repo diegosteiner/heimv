@@ -50,5 +50,14 @@ module BookingConditions
       value = evaluate_attribute(compare_attribute, with: booking)
       evaluate_operator(compare_operator || :'=', with: [value, compare_value])
     end
+
+    def compare_value
+      case compare_attribute&.to_sym
+      when :nights, :days, :approximate_headcount, :overnight_stays
+        super&.to_i
+      else
+        super.presence
+      end
+    end
   end
 end
