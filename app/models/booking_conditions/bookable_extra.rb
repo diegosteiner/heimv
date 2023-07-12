@@ -33,7 +33,7 @@ module BookingConditions
     BookingCondition.register_subtype self
 
     validate do
-      errors.add(:compare_value, :invalid) unless compare_values_for_select.exists?(id: compare_value)
+      errors.add(:compare_value, :invalid) unless compare_values.exists?(id: compare_value)
     end
 
     def compare_values

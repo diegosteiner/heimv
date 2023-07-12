@@ -33,7 +33,7 @@ module BookingConditions
     BookingCondition.register_subtype self
 
     def compare_operators
-      NUMERIC_OPERATORS
+      DEFAULT_OPERATORS
     end
 
     def compare_value_regex
@@ -42,9 +42,8 @@ module BookingConditions
 
     def evaluate(booking)
       compare_value_match = compare_value_regex.match(compare_value)
-      booking_duration = booking.duration
       threshold = threshold_unit(compare_value_match[:threshold], compare_value_match[:threshold_unit])
-      evaluate_operator(booking_duration, threshold)
+      evaluate_operator(compare_operator || :'=', with: [booking.duration, threshold])
     end
 
     protected

@@ -483,14 +483,10 @@ de:
         one: Immer
       booking_conditions/bookable_extra:
         one: Buchbares Extra Bedingung
-      booking_conditions/booking_approximate_headcount_per_night:
-        one: Anzahl TN Bedingung
+      booking_conditions/booking_attribute:
+        one: Buchungsattribut Bedingung
       booking_conditions/booking_category:
         one: Mietkategorie Bedingung
-      booking_conditions/booking_nights:
-        one: Anzahl Nächte Bedingung
-      booking_conditions/booking_overnight_stays:
-        one: Übernachtungen Bedingung
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/date_span:
@@ -503,8 +499,6 @@ de:
         one: Mietobjekt Bedingung
       booking_conditions/tarif:
         one: Ausgewählter Tarif Bedingung
-      booking_conditions/tenant_organisation:
-        one: Organisation des Mieters Bedingung
       booking_question:
         one: Zusatzinfo
         other: Zusatzinfos
@@ -675,6 +669,14 @@ de:
         label: Anfrage definitv setzen
       postpone_deadline:
         label: Frist verlängern
+  booking_conditions:
+    booking_attribute:
+      attributes:
+        approximate_headcount: Erwartete Anzahl Personen
+        days: Tage
+        nights: Nächte
+        overnight_stays: Erwartete Anzahl Übernachtungen
+        tenant_organisation: Organisation des Mieters
   booking_states:
     active:
       description: Die Mieter sind gemäss der Belegung vor Ort

@@ -33,12 +33,13 @@ class BookingCondition < ApplicationRecord
   extend Translatable
   include Translatable
 
-  NUMERIC_OPERATORS = {
-    '=': ->(value, compare_value) { value == compare_value },
-    '>': ->(value, compare_value) { value > compare_value },
-    '>=': ->(value, compare_value) { value >= compare_value },
-    '<': ->(value, compare_value) { value < compare_value },
-    '<=': ->(value, compare_value) { value <= compare_value }
+  DEFAULT_OPERATORS = {
+    '=': ->(value, other_value) { value == other_value },
+    '!=': ->(value, other_value) { value != other_value },
+    '>': ->(value, other_value) { value > other_value },
+    '>=': ->(value, other_value) { value >= other_value },
+    '<': ->(value, other_value) { value < other_value },
+    '<=': ->(value, other_value) { value <= other_value }
   }.freeze
 
   belongs_to :qualifiable, polymorphic: true, optional: true
@@ -104,12 +105,16 @@ class BookingCondition < ApplicationRecord
     # TODO: rescue?
   end
 
-  def evaluate(booking)
-    evaluate_operator(booking)
+  # def evaluate(booking)
+  #   evaluate_operator(booking)
+  # end
+
+  def evaluate_operator(operator, with: nil)
+    compare_operators[operator&.to_sym].call(*Array.wrap(with))
   end
 
-  def evaluate_operator(booking, operator: compare_operator)
-    compare_operators_for_select[operator].call(booking, compare_value)
+  def evaluate_attribute(attribute, with: nil)
+    compare_attributes[attribute&.to_sym]&.call(*Array.wrap(with))
   end
 
   def to_s

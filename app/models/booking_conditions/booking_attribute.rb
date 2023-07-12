@@ -43,11 +43,12 @@ module BookingConditions
     end
 
     def compare_operators
-      NUMERIC_OPERATORS
+      DEFAULT_OPERATORS
     end
 
     def evaluate(booking)
-      evaluate_operator(ATTRIBUTES[compare_attribute]&.call(booking))
+      value = evaluate_attribute(compare_attribute, with: booking)
+      evaluate_operator(compare_operator || :'=', with: [value, compare_value])
     end
   end
 end
