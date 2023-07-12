@@ -19,7 +19,7 @@ class DateSpanChecker
     end
 
     def <(other)
-      return self.class.from_date(other) > self if other.is_a?(Date)
+      return self.class.from_date(other.to_date) > self if other.respond_to?(:to_date)
 
       other > self
     end
@@ -30,7 +30,7 @@ class DateSpanChecker
 
     # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def >(other)
-      return self > self.class.from_date(other) if other.is_a?(Date)
+      return self > self.class.from_date(other.to_date) if other.respond_to?(:to_date)
 
       compare_year = year && other.year
       return year > other.year if compare_year && year != other.year
@@ -52,7 +52,10 @@ class DateSpanChecker
   end
 
   def self.parse(value)
-    new(**REGEX.match(value).named_captures.symbolize_keys.transform_values { _1.presence&.to_i })
+    match_data = REGEX.match(value)
+    return unless match_data
+
+    new(**match_data.named_captures.symbolize_keys.transform_values { _1.presence&.to_i })
   end
 
   def initialize(**attrs)

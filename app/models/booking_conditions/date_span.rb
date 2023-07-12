@@ -38,7 +38,7 @@ module BookingConditions
 
     def evaluate(booking)
       @date_span_checker ||= DateSpanChecker.parse(compare_value)
-      @date_span_checker.overlap?(booking.span)
+      @date_span_checker&.overlap?(booking.span)
     end
   end
 end
