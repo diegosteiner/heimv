@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_12_102400) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_12_145228) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -508,6 +508,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_12_102400) do
     t.decimal "minimum_usage_total"
     t.bigint "organisation_id", null: false
     t.datetime "discarded_at"
+    t.decimal "vat"
     t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
     t.index ["type"], name: "index_tarifs_on_type"

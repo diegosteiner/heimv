@@ -12,7 +12,7 @@ class InvoicePart
 
     def call
       I18n.with_locale(invoice.locale || I18n.locale) do
-        from_usages + from_deposits
+        from_usages + from_deposits + from_vat
       end
     end
 
@@ -35,11 +35,28 @@ class InvoicePart
       return [] unless deposited_amount.positive? && @invoice.new_record? &&
                        !@invoice.is_a?(Invoices::Offer)
 
-      apply = suggest?
       [
-        InvoiceParts::Text.new(apply: apply, label: Invoices::Deposit.model_name.human),
-        InvoiceParts::Add.new(apply: apply, label: Invoices::Deposit.model_name.human, amount: - deposited_amount)
+        InvoiceParts::Text.new(apply: suggest?, label: Invoices::Deposit.model_name.human),
+        InvoiceParts::Add.new(apply: suggest?, label: Invoices::Deposit.model_name.human, amount: - deposited_amount)
       ]
+    end
+
+    def from_vat
+      usages_grouped_by_vat = booking.usages.filter { |usage| usage.tarif.vat.present? }
+                                     .group_by { |usage| usage.tarif.vat }
+      return [] if usages_grouped_by_vat.blank?
+
+      [InvoiceParts::Text.new(apply: suggest?, label: I18n.t('invoice_parts.from_vat.title'))] +
+        usages_grouped_by_vat.map do |vat, usages|
+          vat_group_to_invoice_parts(vat, usages)
+        end
+    end
+
+    def vat_group_to_invoice_parts(vat, usages)
+      price = usages.sum(&:price)
+      InvoiceParts::Add.new(apply: suggest?, label: I18n.t('invoice_parts.from_vat.label', vat: vat),
+                            breakdown: I18n.t('invoice_parts.from_vat.breakdown', vat: vat, price: price),
+                            amount: (price / 100 * vat))
     end
 
     def usages_to_invoice_parts(usages, position_cursor = 0)

@@ -322,6 +322,7 @@ de:
         tarif_group: Tarifgruppe
         type: Typ
         unit: Einheit
+        vat: MwSt. in Prozent
       tenant:
         address: Adresse
         address_addon: Adresszusatz / Schule / Firma
@@ -1202,6 +1203,10 @@ de:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum_price}
+    from_vat:
+      breakdown: "%{vat}% von %{price}"
+      label: Mehrwertsteuersatz %{vat}%
+      title: MwSt.
   invoices:
     total: Total
   layouts:
