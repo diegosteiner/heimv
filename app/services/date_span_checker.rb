@@ -43,6 +43,8 @@ class DateSpanChecker
     end
 
     def ==(other)
+      return self == self.class.from_date(other.to_date) if other.respond_to?(:to_date)
+
       super ||
         ((!day || !other.day || day == other.day) &&
         (!month || !other.month || day == other.month) &&

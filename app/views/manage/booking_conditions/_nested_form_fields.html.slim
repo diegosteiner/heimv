@@ -1,21 +1,23 @@
 
 = form.hidden_field :id
 .row
-  .col-1.pt-2
+  .col-md-1.pt-2
     = form.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
-  .col-3
+  .col-md-3
     = form.hidden_field :type
     = form.select :type, subtype_options_for_select(BookingCondition.subtypes), { skip_label: true, include_blank: true }, disabled: form.object.type.present?
-  .col-2
-    - if form.object&.compare_attributes_for_select.present?
-      = form.select :compare_attribute, form.object.compare_attributes_for_select, skip_label: true, include_blank: true
-  .col-2
-    - if form.object&.compare_operators_for_select.present?
-      = form.select :compare_operator, form.object.compare_operators_for_select, skip_label: true, include_blank: true
-  .col-2
-    - if form.object&.compare_values_for_select
-      = form.select :compare_value, form.object.compare_values_for_select, skip_label: true, include_blank: true
-    - else
-      = form.text_field :compare_value, skip_label: true
-  .col-2.pt-2
-    = form.check_box :must_condition
+
+  - if form.object.type.present?
+    .col-md-2
+      - if form.object&.compare_attributes_for_select.present?
+        = form.select :compare_attribute, form.object.compare_attributes_for_select, skip_label: true, include_blank: true
+    .col-md-2
+      - if form.object&.compare_operators_for_select.present?
+        = form.select :compare_operator, form.object.compare_operators_for_select, skip_label: true, include_blank: true
+    .col-md-2
+      - if form.object&.compare_values_for_select
+        = form.select :compare_value, form.object.compare_values_for_select, skip_label: true, include_blank: true
+      - else
+        = form.text_field :compare_value, skip_label: true
+    .col-md-2.pt-2
+      = form.check_box :must_condition

@@ -490,7 +490,7 @@ de:
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/date_span:
-        one: Belegungsdatum Bedingung
+        one: Datum Bedingung
       booking_conditions/home:
         one: Hauptmietobjekt Bedingung
       booking_conditions/occupancy_duration:
@@ -677,6 +677,12 @@ de:
         nights: Nächte
         overnight_stays: Erwartete Anzahl Übernachtungen
         tenant_organisation: Organisation des Mieters
+    date_span:
+      attributes:
+        begins_at: Beginn der Belegung
+        ends_at: Ende der Belegung
+        now: Heute
+        span: Belegungszeitraum
   booking_states:
     active:
       description: Die Mieter sind gemäss der Belegung vor Ort
