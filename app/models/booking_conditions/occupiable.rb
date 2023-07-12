@@ -33,16 +33,14 @@ module BookingConditions
     BookingCondition.register_subtype self
 
     validate do
-      next if compare_value_scope.exists?(id: compare_value)
-
-      errors.add(:compare_value, :invalid)
+      errors.add(:compare_value, :invalid) unless compare_values.exists?(id: compare_value)
     end
 
     def evaluate(booking)
       booking.occupiable_ids.include?(compare_value.to_i)
     end
 
-    def compare_value_scope
+    def compare_values
       organisation.occupiables.occupiable.ordered
     end
   end

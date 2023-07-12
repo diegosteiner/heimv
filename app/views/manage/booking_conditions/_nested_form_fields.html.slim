@@ -3,12 +3,18 @@
 .row
   .col-1.pt-2
     = form.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
-  .col-4
+  .col-3
     = form.select :type, subtype_options_for_select(BookingCondition.subtypes) , skip_label: true, include_blank: true
-  .col-4
-    - if form.object.try(:compare_value_scope)
-      = form.collection_select :compare_value, form.object.compare_value_scope, :id, :to_s, skip_label: true, include_blank: true
+  .col-2
+    - if form.object&.compare_attributes_for_select.present?
+      = form.select :compare_attribute, form.object.compare_attributes_for_select, skip_label: true, include_blank: true
+  .col-2
+    - if form.object&.compare_operators_for_select.present?
+      = form.select :compare_operator, form.object.compare_operators_for_select, skip_label: true, include_blank: true
+  .col-2
+    - if form.object&.compare_values_for_select
+      = form.select :compare_value, form.object.compare_values_for_select, skip_label: true, include_blank: true
     - else
       = form.text_field :compare_value, skip_label: true
-  .col-3.pt-2
+  .col-2.pt-2
     = form.check_box :must_condition

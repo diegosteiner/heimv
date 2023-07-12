@@ -29,16 +29,25 @@
 #
 
 module BookingConditions
-  class BookingNights < ::BookingCondition
+  class BookingAttribute < BookingCondition
     BookingCondition.register_subtype self
-    include NumericCompareValue
 
-    def self.compare_value_regex
-      NumericCompareValue::COMPARE_VALUE_REGEX
+    def compare_attributes
+      {
+        nights: ->(booking) { booking.nights },
+        days: ->(booking) { booking.nights + 1 },
+        tenant_organisation: ->(booking) { booking.tenant_organisation },
+        approximate_headcount: ->(booking) { booking.approximate_headcount },
+        overnight_stays: ->(booking) { booking.approximate_headcount * booking.nights }
+      }.freeze
+    end
+
+    def compare_operators
+      NUMERIC_OPERATORS
     end
 
     def evaluate(booking)
-      evaluate_numeric(booking.nights)
+      evaluate_operator(ATTRIBUTES[compare_attribute]&.call(booking))
     end
   end
 end

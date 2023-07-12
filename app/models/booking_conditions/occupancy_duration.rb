@@ -32,16 +32,19 @@ module BookingConditions
   class OccupancyDuration < ::BookingCondition
     BookingCondition.register_subtype self
 
-    def self.compare_value_regex
-      /\A(?<operator>[><=]=?)(?<threshold>\d+)\s*(?<threshold_unit>[smhd]?)\z/
+    def compare_operators
+      NUMERIC_OPERATORS
+    end
+
+    def compare_value_regex
+      /\A(?<threshold>\d+)\s*(?<threshold_unit>[smhd])\z/
     end
 
     def evaluate(booking)
-      value = booking.duration
-      return if value.blank? || compare_value_match.blank? || compare_value_match[:threshold].blank?
-
+      compare_value_match = compare_value_regex.match(compare_value)
+      booking_duration = booking.duration
       threshold = threshold_unit(compare_value_match[:threshold], compare_value_match[:threshold_unit])
-      self.class.binary_comparison(value, threshold, operator: compare_value_match[:operator])
+      evaluate_operator(booking_duration, threshold)
     end
 
     protected

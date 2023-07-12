@@ -32,12 +32,8 @@ module BookingConditions
   class DateSpan < ::BookingCondition
     BookingCondition.register_subtype self
 
-    def self.compare_value_regex
+    def compare_value_regex
       DateSpanChecker::REGEX
-    end
-
-    validate do
-      # TODO
     end
 
     def evaluate(booking)

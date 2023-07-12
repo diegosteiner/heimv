@@ -33,8 +33,8 @@ module BookingConditions
     BookingCondition.register_subtype self
 
     validate do
-      next if compare_value_scope.exists?(key: compare_value) ||
-              compare_value_scope.exists?(id: compare_value)
+      next if compare_values.exists?(key: compare_value) ||
+              compare_values.exists?(id: compare_value)
 
       errors.add(:compare_value, :invalid)
     end
@@ -44,8 +44,8 @@ module BookingConditions
         compare_value == booking.category&.id&.to_s
     end
 
-    def compare_value_scope
-      organisation.booking_categories
+    def compare_values
+      organisation.booking_categories.ordered
     end
   end
 end

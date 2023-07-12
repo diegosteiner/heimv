@@ -33,17 +33,15 @@ module BookingConditions
     BookingCondition.register_subtype self
 
     validate do
-      next if compare_value_scope.exists?(id: compare_value)
-
-      errors.add(:compare_value, :invalid)
+      errors.add(:compare_value, :invalid) unless compare_values_for_select.exists?(id: compare_value)
     end
 
     def evaluate(booking)
       booking.usages.map(&:tarif_id).include?(compare_value.to_i)
     end
 
-    def compare_value_scope
-      organisation.tarifs
+    def compare_values
+      organisation.tarifs.ordered
     end
   end
 end
