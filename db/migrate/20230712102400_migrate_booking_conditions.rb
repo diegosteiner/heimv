@@ -32,7 +32,7 @@ class MigrateBookingConditions < ActiveRecord::Migration[7.0]
       match_data = regex.match(condition.compare_value)
       operator = match_data&.captures&.first
       new_attributes = { compare_value: condition.compare_value&.gsub(regex, ''), compare_operator: operator }
-      # puts "#{condition.id}: #{condition.compare_value} => #{new_attributes.inspect}"
+      puts "#{condition.id}: #{condition.compare_value} => #{new_attributes.inspect}"
       condition.update!(**new_attributes)
     end
   end
