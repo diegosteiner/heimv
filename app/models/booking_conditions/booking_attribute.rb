@@ -29,30 +29,32 @@
 #
 
 module BookingConditions
-  class BookingCategory < BookingCondition
+  class BookingAttribute < BookingCondition
     BookingCondition.register_subtype self
-    def compare_operators
+
+    def compare_attributes
       {
-        '=': lambda { |booking, compare_value|
-               [booking.category&.key, booking.category&.id&.to_s].include?(compare_value)
-             },
-        '!=': ->(booking, compare_value) { !evaluate_operator(:'=', with: [booking, compare_value]) }
+        nights: ->(booking) { booking.nights },
+        days: ->(booking) { booking.nights + 1 },
+        tenant_organisation: ->(booking) { booking.tenant_organisation },
+        approximate_headcount: ->(booking) { booking.approximate_headcount },
+        overnight_stays: ->(booking) { booking.approximate_headcount * booking.nights }
       }.freeze
     end
 
-    validate do
-      next if compare_values.exists?(key: compare_value) ||
-              compare_values.exists?(id: compare_value)
-
-      errors.add(:compare_value, :invalid)
+    def compare_operators
+      DEFAULT_OPERATORS
     end
 
     def evaluate(booking)
-      evaluate_operator(compare_operator || :'=', with: [booking, compare_value])
-    end
-
-    def compare_values
-      organisation.booking_categories.ordered
+      value = evaluate_attribute(compare_attribute, with: booking)
+      cast_compare_value = case compare_attribute&.to_sym
+                           when :nights, :days, :approximate_headcount, :overnight_stays
+                             compare_value&.to_i
+                           else
+                             compare_value.presence
+                           end
+      evaluate_operator(compare_operator || :'=', with: [value, cast_compare_value])
     end
   end
 end

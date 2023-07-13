@@ -20,6 +20,7 @@
 #  unit_i18n               :jsonb
 #  valid_from              :datetime
 #  valid_until             :datetime
+#  vat                     :decimal(, )
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  organisation_id         :bigint           not null

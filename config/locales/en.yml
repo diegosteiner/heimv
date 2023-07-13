@@ -132,7 +132,7 @@ en:
         ordinal_position: Anzeigeposition
         title: Titel
       booking_condition:
-        distinction: Bedingung
+        compare_value: Bedingung
         must_condition: Muss-Kriterium
         type: Typ
       contract:
@@ -464,12 +464,12 @@ en:
         one: Übernachtungen Tarifwähler
       booking_conditions/booking_state:
         one: Status Bedingung
+      booking_conditions/date_span:
+        one: Belegungsdatum Bedingung
       booking_conditions/occupancy_duration:
         one: nächte tarifwähler
       booking_conditions/occupiable:
         one: Heim Bedingung
-      booking_conditions/season:
-        one: Saison Bedingung
       booking_conditions/tenant_organisation:
         one: Organisation des Mieters Bedingung
       booking_transition:

@@ -69,11 +69,6 @@ module Public
       @booking.errors.add(:base, :action_not_allowed)
     end
 
-    # def process_booking_questions
-    #   sanitized_params = params.dig(:booking, :booking_questions)
-    #   @booking.booking_questions = Manage::BookingQuestionParams.sanitize_booking_params(@booking, sanitized_params)
-    # end
-
     def booking_action
       BookingActions::Public.all[params[:booking_action]]
     end

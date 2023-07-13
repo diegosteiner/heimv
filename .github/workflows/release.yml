@@ -1,0 +1,25 @@
+---
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: docker login
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: docker tag
+        run: |
+          docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+          docker tag ghcr.io/${{ github.repository }}:${{ github.ref_name }}" ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
+          docker push ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}

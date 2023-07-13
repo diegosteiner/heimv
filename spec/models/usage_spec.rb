@@ -45,11 +45,12 @@ RSpec.describe Usage, type: :model do
       subject(:usages) { factory.build(preselect: true) }
       subject(:factory) { Usage::Factory.new(booking) }
       before do
-        BookingConditions::OccupancyDuration.create(qualifiable: tarif, group: :selecting, distinction: '>1d')
-        BookingConditions::BookingApproximateHeadcountPerNight.create(qualifiable: tarif, group: :selecting,
-                                                                      distinction: '>10')
-        BookingConditions::TenantOrganisation.create(qualifiable: tarif, group: :selecting, distinction: 'test',
-                                                     must_condition: false)
+        BookingConditions::OccupancyDuration.create(qualifiable: tarif, group: :selecting, compare_value: '1d',
+                                                    compare_operator: :>)
+        BookingConditions::BookingAttribute.create(qualifiable: tarif, group: :selecting, compare_value: '10',
+                                                   compare_attribute: :approximate_headcount, compare_operator: :>)
+        BookingConditions::BookingAttribute.create(qualifiable: tarif, group: :selecting, compare_value: 'test',
+                                                   compare_attribute: :tenant_organisation, must_condition: false)
       end
 
       it do

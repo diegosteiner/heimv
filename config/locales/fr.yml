@@ -23,6 +23,10 @@ fr:
         paid: Statut de paiement
         payable_until_after: Payable jusqu'au / après le
         payable_until_before: Payable jusqu'au / avant le
+      invoice_part/filter:
+        homes: Chalets
+        issued_at_after: Délai de paiement après le
+        issued_at_before: Délai de paiement avant le
       meter_reading_period/filter:
         begins_at_after: Début de période du compteur à partir du
         begins_at_before: Début de période du compteur jusqu'au
@@ -43,11 +47,13 @@ fr:
         begins_at_default_time: Heure de début de location par défaut (à partir de minuit)
         closed_occupancy_color: Couleur pour les clôtures
         deadline_postponable_for: Prolongation du délai
+        default_calendar_view:
         deposit_payment_deadline: Délai de paiement standard (acompte)
         ends_at_default_time: Heure de fin de location par défaut (à partir du début)
         invoice_payment_deadline: Délai de paiement standard
         last_minute_warning: Délai pour les demandes de réservation de dernière minute
         occupied_occupancy_color: Couleur pour les locations définitives
+        occupied_occupancy_states:
         overdue_request_deadline: Délai pour les demandes de réservation en retard
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
         tenant_birth_date_required: Date de naissance, Indication obligatoire
@@ -137,9 +143,19 @@ fr:
         ordinal_position: Position de l'affichage
         title: Titre
       booking_condition:
-        distinction: Condition
+        compare_attribute:
+        compare_operator:
+        compare_value: Sélecteur de tarif
         must_condition: Critère obligatoire
         type: Type
+      booking_question:
+        applying_conditions: Bedingungen
+        description: Beschreibung
+        key: Clé
+        label: Name
+        ordinal_position: Ordnungsnummer
+        required:
+        type: type
       contract:
         issuer: Bailleur
         locale: Sprache
@@ -469,6 +485,8 @@ fr:
         one: Extra réservable Sélecteur de tarif
       booking_conditions/booking_approximate_headcount_per_night:
         one: Nombre de TN Sélecteur de tarif
+      booking_conditions/booking_attribute:
+        one:
       booking_conditions/booking_category:
         one: Objet de la location Sélecteur de tarif
       booking_conditions/booking_nights:
@@ -477,18 +495,29 @@ fr:
         one: Nuitées Sélecteur de tarif
       booking_conditions/booking_state:
         one: Status Bedingung
+      booking_conditions/date_span:
+        one:
       booking_conditions/home:
         one: Condition du principal objet de location
       booking_conditions/occupancy_duration:
         one: Condition de la durée de location
       booking_conditions/occupiable:
         one: Condition de l'objet de location
-      booking_conditions/season:
-        one: Condition de saison
       booking_conditions/tarif:
         one: 'Condition du tarif sélectionné '
       booking_conditions/tenant_organisation:
         one: Organisation du locataire Condition
+      booking_question:
+        one:
+        other:
+      booking_questions/check_box:
+        one:
+      booking_questions/integer:
+        one:
+      booking_questions/string:
+        one:
+      booking_questions/text:
+        one:
       booking_transition:
         one: Changement de statut
         other: Changements de statut
@@ -648,6 +677,20 @@ fr:
         label: Confirmer la demande
       postpone_deadline:
         label: Prolonger le délai
+  booking_conditions:
+    booking_attribute:
+      attributes:
+        approximate_headcount: Nombre de personnes attendues
+        days:
+        nights: Nächte
+        overnight_stays:
+        tenant_organisation:
+    date_span:
+      attributes:
+        begins_at: Beginn der Belegung
+        ends_at: Ende der Belegung
+        now: Heute
+        span:
   booking_states:
     active:
       description: Les locataires sont sur place selon la location
@@ -1004,6 +1047,7 @@ fr:
             currency: Monnaie
             payable_by: Payable par
             payment_part_title: Partie numérique
+            receipt_office:
             receipt_title: Récépissé
             ref: Référence
   filter: Filtre

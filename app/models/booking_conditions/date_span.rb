@@ -29,30 +29,26 @@
 #
 
 module BookingConditions
-  class BookingCategory < BookingCondition
+  class DateSpan < ::BookingCondition
     BookingCondition.register_subtype self
-    def compare_operators
+
+    def compare_attributes
       {
-        '=': lambda { |booking, compare_value|
-               [booking.category&.key, booking.category&.id&.to_s].include?(compare_value)
-             },
-        '!=': ->(booking, compare_value) { !evaluate_operator(:'=', with: [booking, compare_value]) }
+        begins_at: ->(booking) { booking.begins_at },
+        ends_at: ->(booking) { booking.ends_at },
+        span: ->(booking) { booking.span },
+        now: ->(_booking) { Time.zone.today }
       }.freeze
     end
 
-    validate do
-      next if compare_values.exists?(key: compare_value) ||
-              compare_values.exists?(id: compare_value)
-
-      errors.add(:compare_value, :invalid)
+    def compare_value_regex
+      DateSpanChecker::REGEX
     end
 
     def evaluate(booking)
-      evaluate_operator(compare_operator || :'=', with: [booking, compare_value])
-    end
-
-    def compare_values
-      organisation.booking_categories.ordered
+      @date_span_checker ||= DateSpanChecker.parse(compare_value)
+      value = evaluate_attribute(compare_attribute || :span, with: booking)
+      @date_span_checker&.overlap?(value)
     end
   end
 end

@@ -23,6 +23,10 @@ it:
         paid: Stato del pagamento
         payable_until_after: Pagabile fino a dopo
         payable_until_before: Pagabile fino a prima di
+      invoice_part/filter:
+        homes: Oggetti principali di affitto
+        issued_at_after: Data di fatturazione dopo
+        issued_at_before: Data di fatturazione precedente
       meter_reading_period/filter:
         begins_at_after:
         begins_at_before:
@@ -43,11 +47,13 @@ it:
         begins_at_default_time: Ora standard per l'inizio dell'occupazione (da mezzanotte)
         closed_occupancy_color: Colore per le chiusure
         deadline_postponable_for: Proroga del periodo
+        default_calendar_view:
         deposit_payment_deadline: Periodo di pagamento standard (acconto)
         ends_at_default_time: Ora standard per la fine dell'occupazione (dall'inizio)
         invoice_payment_deadline: Periodo di pagamento standard
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         occupied_occupancy_color: Colore per le occupazioni definitive
+        occupied_occupancy_states:
         overdue_request_deadline: Periodo per le richieste di prenotazione in ritardo
         provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
         tenant_birth_date_required: 'Data di nascita: inserimento obbligatorio'
@@ -137,8 +143,18 @@ it:
         ordinal_position: Posizione di visualizzazione
         title: Titolo
       booking_condition:
-        distinction: Condizione
+        compare_attribute:
+        compare_operator:
+        compare_value: Condizione
         must_condition: Criterio obbligatorio
+        type: Tipo
+      booking_question:
+        applying_conditions: Condizioni
+        description: Descrizione
+        key: Chiava
+        label: Nome
+        ordinal_position: Numero di serie
+        required:
         type: Tipo
       contract:
         issuer: Proprietario
@@ -469,6 +485,8 @@ it:
         one: Extra prenotabili (condizione)
       booking_conditions/booking_approximate_headcount_per_night:
         one: Numero di partecipanti (condizione)
+      booking_conditions/booking_attribute:
+        one:
       booking_conditions/booking_category:
         one: Categoria di affitto (condizione)
       booking_conditions/booking_nights:
@@ -477,6 +495,8 @@ it:
         one: 'Condizione pernottamenti '
       booking_conditions/booking_state:
         one: Stato (condizione)
+      booking_conditions/date_span:
+        one:
       booking_conditions/home:
         one: Oggetto principale di affitto (condizione)
       booking_conditions/occupancy_duration:
@@ -491,6 +511,17 @@ it:
         one: Tariffa selezionata (condizione)
       booking_conditions/tenant_organisation:
         one: Organizzazione dell'inquilino (condizione)
+      booking_question:
+        one:
+        other:
+      booking_questions/check_box:
+        one:
+      booking_questions/integer:
+        one:
+      booking_questions/string:
+        one:
+      booking_questions/text:
+        one:
       booking_transition:
         one: Transizione di stato
         other: Transizioni di stato
@@ -650,6 +681,20 @@ it:
         label: Impostare la richiesta come definitiva
       postpone_deadline:
         label: Prolungare il periodo
+  booking_conditions:
+    booking_attribute:
+      attributes:
+        approximate_headcount: Numero di persone previsto
+        days:
+        nights: Notti
+        overnight_stays:
+        tenant_organisation:
+    date_span:
+      attributes:
+        begins_at: Inizio dell'occupazione
+        ends_at: Fine dell'occupazione
+        now: Oggi
+        span:
   booking_states:
     active:
       description: Secondo le informazioni sull'occupazione, gli affittuari sono sul posto
@@ -1006,6 +1051,7 @@ it:
             currency: Valuta
             payable_by: Pagabile da
             payment_part_title: Sezione di pagamento
+            receipt_office:
             receipt_title: Ricevuta
             ref: Riferimento
   filter: filtro
