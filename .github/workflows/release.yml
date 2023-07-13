@@ -20,6 +20,6 @@ jobs:
 
       - name: docker tag
         run: |
-          docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-          docker tag ghcr.io/${{ github.repository }}:${{ github.ref_name }} ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
+          docker pull ghcr.io/${{ github.repository }}:main
+          docker tag ghcr.io/${{ github.repository }}:main ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
           docker push ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
