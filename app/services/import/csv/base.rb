@@ -42,7 +42,7 @@ module Import
       end
 
       def parse_file(file)
-        parse(file.read.force_encoding('UTF-8'))
+        parse(file&.read&.force_encoding('UTF-8'))
       end
 
       def import_row(row, initial: initialize_record(row))

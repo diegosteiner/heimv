@@ -97,7 +97,7 @@ class Organisation < ApplicationRecord
   end
 
   def address_lines
-    @address_lines ||= address.lines.map(&:strip).compact_blank.presence || []
+    @address_lines ||= address&.lines&.map(&:strip)&.compact_blank || []
   end
 
   def creditor_address_lines

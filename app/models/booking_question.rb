@@ -69,6 +69,8 @@ class BookingQuestion < ApplicationRecord
   end
 
   def self.applying_to_booking(booking)
+    return none unless booking&.organisation.present?
+
     booking.organisation.booking_questions.include_conditions.filter do |question|
       question.applies_to_booking?(booking)
     end

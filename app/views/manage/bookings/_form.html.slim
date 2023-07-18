@@ -1,4 +1,4 @@
-= form_with(model: [:manage, @booking], novalidate: true) do |f|
+= form_with(model: [:manage, @booking], html: { novalidate: true }) do |f|
   - if @booking.errors.any?
     .alert.alert-danger.d-flex
       .me-3
