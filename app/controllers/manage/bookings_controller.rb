@@ -35,8 +35,14 @@ module Manage
     end
 
     def import
-      @result = booking_import
-      redirect_to manage_bookings_path, notice: t('.import_success') if @result.ok?
+      @import = Import.new(booking_import_params.merge(organisation: current_organisation))
+
+      if @import.valid?
+        result = @import.result
+        return redirect_to manage_bookings_path, notice: t('.import_success') if result.ok?
+      end
+
+      flash.now[:alert] = t('.import_error')
     end
 
     def create
@@ -67,14 +73,6 @@ module Manage
       @filter = Booking::Filter.new(default_booking_filter_params.merge(booking_filter_params))
     end
 
-    def booking_import
-      home = current_organisation.homes.find booking_import_params[:home_id]
-      headers = booking_import_params[:headers].presence&.split(/[,;]/) || true
-      initial_state = booking_import_params[:initial_state]
-      Import::Csv::BookingImporter.new(home, initial_state: initial_state, csv: { headers: headers })
-                                  .parse_file(booking_import_params[:file])
-    end
-
     def call_booking_action
       booking_action&.call(booking: @booking)
     rescue BookingActions::Base::NotAllowed
@@ -94,11 +92,28 @@ module Manage
     end
 
     def booking_import_params
-      params.require(:import).permit(%i[home_id file headers initial_state])
+      params[:manage_bookings_controller_import]&.permit(%i[home_id file headers initial_state]) || {}
     end
 
     def default_booking_filter_params
       { 'current_booking_states' => BookingStates.displayed_by_default }
+    end
+
+    class Import < Import::ApplicationImport
+      attribute :home_id
+      attribute :initial_state
+
+      validates :home_id, presence: true
+
+      def import!
+        return unless valid?
+
+        home = organisation.homes.find(home_id)
+        headers = self.headers.presence&.split(/[,;]/) || true
+
+        ::Import::Csv::BookingImporter.new(home, initial_state: initial_state, csv: { headers: headers })
+                                      .parse_file(file)
+      end
     end
   end
 end

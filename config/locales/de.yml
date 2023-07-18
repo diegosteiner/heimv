@@ -1219,7 +1219,7 @@ de:
     bookings:
       import:
         headers: Headers
-        import_error: 'Import fehlgeschlagen: '
+        import_error: Import fehlgeschlagen
         import_file: Import Datei (CSV)
         import_success: Import erfolgreich
       index:

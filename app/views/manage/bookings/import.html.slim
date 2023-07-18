@@ -1,18 +1,18 @@
 - title Booking.model_name.human(count: 2)
 
 #import
-  - if @result&.errors&.any?
+  - errors = @import.result&.errors
+  - if errors&.any? 
     .alert.alert-danger
-      p = t('.import_error')
       ul
-        - @result.errors.each do |error|
+        - errors.each do |error|
           li
             strong= error.attribute
             ' :
             
             = error.message.full_messages.to_sentence
 
-  = form_with(url: import_manage_bookings_path, scope: :import, method: :POST, local: true) do |f|
+  = form_with(url: import_manage_bookings_path, model: @import, method: :POST, local: true) do |f|
     = f.file_field :file, accept: :csv, label: t('.import_file')
     = f.collection_select :home_id, current_organisation.homes.ordered, :id, :to_s, include_blank: true, label: Home.model_name.human
     = f.text_field :headers, label: t('.headers')

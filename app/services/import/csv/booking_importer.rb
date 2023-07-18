@@ -7,7 +7,7 @@ module Import
       attr_reader :home
 
       def self.supported_headers
-        super + ['booking.ref', 'booking.remarks', 'booking.headcount', 'booking.tenant_organisation',
+        super + ['booking.ref', 'booking.headcount', 'booking.tenant_organisation',
                  'booking.category', 'booking.purpose', 'booking.email', 'usage.*', 'booking.occupiable_ids',
                  'booking.internal_remarks', 'booking.begins_at', 'booking.begins_at_date', 'booking.begins_at_time',
                  'booking.ends_at', 'booking.ends_at_date', 'booking.ends_at_time', 'booking.remarks',
@@ -59,7 +59,7 @@ module Import
                     [row['booking.begins_at_date'], row['booking.begins_at_time']].compact_blank.join('T')
         ends_at = row['booking.ends_at'] ||
                   [row['booking.ends_at_date'], row['booking.ends_at_time']].compact_blank.join('T')
-        occupiable_ids = row['booking.occupiable_ids']&.split(',')&.compact_blank || home.id
+        occupiable_ids = row['booking.occupiable_ids']&.split(',')&.compact_blank.presence || home.id
 
         booking.assign_attributes(begins_at: parse_datetime(begins_at), ends_at: parse_datetime(ends_at),
                                   occupiable_ids: occupiable_ids)
