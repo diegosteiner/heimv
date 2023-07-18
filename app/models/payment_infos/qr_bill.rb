@@ -31,9 +31,9 @@ module PaymentInfos
         coding_type: CODING_TYPE,
         cr_account: creditor_account&.delete(' '),
         cr_address_type: ADDRESS_TYPE,
-        cr_name: creditor_address_lines[0],
-        cr_address_line_1: creditor_address_lines[1],
-        cr_address_line_2: creditor_address_lines[2],
+        cr_name: creditor_address_lines.fetch(0, ''),
+        cr_address_line_1: creditor_address_lines.fetch(1, ''),
+        cr_address_line_2: creditor_address_lines.fetch(2, ''),
         cr_zipcode: '',
         cr_place: '',
         cr_country: COUNTRY_CODE,
@@ -47,9 +47,9 @@ module PaymentInfos
         amount: formatted_amount,
         currency: currency,
         ezp_address_type: ADDRESS_TYPE,
-        ezp_name: debitor_address_lines[0],
-        ezp_address_line_1: debitor_address_lines[1],
-        ezp_address_line_2: debitor_address_lines[2],
+        ezp_name: debitor_address_lines.fetch(0, ''),
+        ezp_address_line_1: debitor_address_lines.fetch(1, ''),
+        ezp_address_line_2: debitor_address_lines.fetch(2, ''),
         ezp_zipcode: '',
         ezp_place: '',
         ezp_country: COUNTRY_CODE,
@@ -63,11 +63,11 @@ module PaymentInfos
     # rubocop:enable Metrics/MethodLength
 
     def creditor_address_lines
-      @creditor_address_lines ||= prepare_address_lines(organisation.creditor_address_lines, size: 3)
+      @creditor_address_lines ||= organisation.creditor_address_lines || []
     end
 
     def debitor_address_lines
-      @debitor_address_lines ||= prepare_address_lines(invoice.invoice_address_lines, size: 3)
+      @debitor_address_lines ||= invoice.invoice_address_lines || []
     end
 
     def creditor_account
@@ -113,12 +113,6 @@ module PaymentInfos
 
     def qrcode
       @qrcode ||= RQRCode::QRCode.new(qr_data.values.join("\n"), level: :m, mode: :byte_8bit)
-    end
-
-    private
-
-    def prepare_address_lines(address_lines, size: 3)
-      (address_lines || ([] + ([''] * size))).take(size)
     end
   end
 end
