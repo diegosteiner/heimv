@@ -84,7 +84,8 @@ class DataDigest < ApplicationRecord
 
   def crunch
     self.data = []
-    records.find_each(batch_size: 100) do |record|
+    records.pluck(:id).uniq.each do |record_id|
+      record = data_digest_template.base_scope.find(record_id)
       template_context_cache = {}
       data << data_digest_template.columns.map do |column|
         column.body(record, template_context_cache)

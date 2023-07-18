@@ -2,5 +2,5 @@
     .col
         = f.text_field :ref
     .col
-        = f.date_select :paid_at_after, include_blank: true
-        = f.date_select :paid_at_before, include_blank: true
+        = f.date_field :paid_at_after, include_blank: true
+        = f.date_field :paid_at_before, include_blank: true

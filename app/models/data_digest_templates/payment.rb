@@ -38,7 +38,7 @@ module DataDigestTemplates
       },
       {
         header: ::Payment.human_attribute_name(:paid_at),
-        body: '{{ payment.paid_at }}'
+        body: '{{ payment.paid_at | datetime_format }}'
       },
       {
         header: ::Payment.human_attribute_name(:amount),

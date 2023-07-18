@@ -3,8 +3,8 @@
 class Payment
   class Filter < ApplicationFilter
     attribute :ref
-    attribute :paid_at_after, :date
-    attribute :paid_at_before, :date
+    attribute :paid_at_after, :datetime
+    attribute :paid_at_before, :datetime
 
     filter :paid do |payments|
       next payments unless paid_at_after || paid_at_before
