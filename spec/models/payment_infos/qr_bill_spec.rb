@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe PaymentInfos::QrBill, type: :model do
-  let(:organisation) { create(:organisation, iban: '01-318421-1', address: "Organisation\nStrasse 1\n8000 Zürich\nX") }
+  let(:organisation) { create(:organisation, iban: '01-318421-1', address: "Organisation\nStrasse 1\n8000 Zürich") }
   let(:tenant) do
     create(:tenant, organisation: organisation, first_name: 'Peter', last_name: 'Muster',
                     street_address: 'Teststrasse 2', zipcode: 8049, city: 'Zürich')

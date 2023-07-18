@@ -76,11 +76,15 @@ FactoryBot.define do
     after(:build) do |booking, evaluator|
       booking.tenant = evaluator.tenant if evaluator.tenant.present?
       booking.category ||= booking.organisation.booking_categories.sample
+      booking.occupiables = [booking.home] if booking.occupancies.none?
+    end
+
+    before(:create) do |booking|
+      booking.home.save!
     end
 
     after(:create) do |booking, evaluator|
       Booking::StateTransition.initial_for(booking, evaluator.initial_state) if evaluator.initial_state.present?
-      booking.occupiables = [booking.home] if booking.occupancies.none?
       booking.apply_transitions
     end
   end

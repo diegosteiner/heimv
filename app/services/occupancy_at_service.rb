@@ -9,19 +9,18 @@ class OccupancyAtService
   end
 
   def redirect_to(date, manage: false)
-    org = @occupiable.organisation
+    defaults = { org: @occupiable.organisation, locale: I18n.locale }
 
     if date && manage
       occupancies = at(date)
       bookings = occupancies.filter_map(&:booking)
-      return manage_booking_path(bookings.first, org: org)               if bookings.count == 1
-      return edit_manage_occupancy_path(id: occupancies.first, org: org) if occupancies.count == 1
+      return manage_booking_path(bookings.first, **defaults)               if bookings.count == 1
+      return edit_manage_occupancy_path(id: occupancies.first, **defaults) if occupancies.count == 1
 
-      return manage_bookings_path(filter: booking_filter_params(date), org: org)
+      return manage_bookings_path(filter: booking_filter_params(date), **defaults)
     end
 
-    new_public_booking_path(org: org, locale: I18n.locale,
-                            booking: { occupiable_ids: [@occupiable.id], begins_at: date })
+    new_public_booking_path(booking: { occupiable_ids: [@occupiable.id], begins_at: date }, **defaults)
   end
 
   def at(date)
