@@ -47,13 +47,13 @@ fr:
         begins_at_default_time: Heure de début de location par défaut (à partir de minuit)
         closed_occupancy_color: Couleur pour les clôtures
         deadline_postponable_for: Prolongation du délai
-        default_calendar_view:
+        default_calendar_view: Affichage du calendrier par défaut
         deposit_payment_deadline: Délai de paiement standard (acompte)
         ends_at_default_time: Heure de fin de location par défaut (à partir du début)
         invoice_payment_deadline: Délai de paiement standard
         last_minute_warning: Délai pour les demandes de réservation de dernière minute
         occupied_occupancy_color: Couleur pour les locations définitives
-        occupied_occupancy_states:
+        occupied_occupancy_states: Statuts pour lesquels la réservation est considérée comme "définitive
         overdue_request_deadline: Délai pour les demandes de réservation en retard
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
         tenant_birth_date_required: Date de naissance, Indication obligatoire
@@ -74,8 +74,8 @@ fr:
         one: Partie/zone de paiement pour locataire étranger
         other: Parties/zones de paiement pour locataire étranger
       payment_infos/on_arrival:
-        one:
-        other:
+        one: Paiement à l'arrivée
+        other: Paiements à l'arrivée
       payment_infos/qr_bill:
         one: Facture QR (expérimentale)
         other: Factures QR (expérimentales)
@@ -143,8 +143,8 @@ fr:
         ordinal_position: Position de l'affichage
         title: Titre
       booking_condition:
-        compare_attribute:
-        compare_operator:
+        compare_attribute: Attribut
+        compare_operator: Opérateur
         compare_value: Sélecteur de tarif
         must_condition: Critère obligatoire
         type: Type
@@ -154,7 +154,7 @@ fr:
         key: Clé
         label: Name
         ordinal_position: Ordnungsnummer
-        required:
+        required: Saisie obligatoire
         type: type
       contract:
         issuer: Bailleur
@@ -298,7 +298,7 @@ fr:
         write_off: Amortissement
       plan_b_backup:
         created_at: Erstellt am
-        zip:
+        zip: Zip
       rich_text_template:
         body: Texte
         enabled: Activé
@@ -322,6 +322,7 @@ fr:
         tarif_group: groupe tarifaire
         type: type
         unit: unité
+        vat:
       tenant:
         address: Adresse
         address_addon: Complément d'adresse / école / entreprise
@@ -429,7 +430,7 @@ fr:
           readonly: Lecture
       tarif:
         prefill_usage_methods:
-          days:
+          days: Jour
           flat: Forfait
           headcount: Nombre de personnes
           headcount_nights: Nuitées
@@ -496,7 +497,7 @@ fr:
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/date_span:
-        one:
+        one: Date Condition
       booking_conditions/home:
         one: Condition du principal objet de location
       booking_conditions/occupancy_duration:
@@ -508,16 +509,16 @@ fr:
       booking_conditions/tenant_organisation:
         one: Organisation du locataire Condition
       booking_question:
-        one:
-        other:
+        one: Infos supplémentaires
+        other: Informations supplémentaires
       booking_questions/check_box:
-        one:
+        one: Informations supplémentaires sous forme de case à cocher
       booking_questions/integer:
-        one:
+        one: Information supplémentaire sous forme de nombre entier
       booking_questions/string:
-        one:
+        one: Informations complémentaires sous forme de texte court
       booking_questions/text:
-        one:
+        one: Informations complémentaires sous forme de texte
       booking_transition:
         one: Changement de statut
         other: Changements de statut
@@ -543,7 +544,7 @@ fr:
         one: Extrait de paiements
         other: Extrait de paiements
       data_digest_templates/tenant:
-        one:
+        one: Départ du locataire
         other:
       deadline:
         one: Délai
@@ -606,8 +607,8 @@ fr:
         one: Paiement
         other: Paiements
       plan_b_backup:
-        one:
-        other:
+        one: Backup
+        other: Backups
       rich_text_template:
         one: Modèle de texte
         other: Modèles de texte
@@ -639,7 +640,7 @@ fr:
         one: Compte
         other: Compte
   add_record: Ajouter %{model_name}
-  and:
+  and: et
   back: Retour
   booking_actions:
     manage:
@@ -681,7 +682,7 @@ fr:
     booking_attribute:
       attributes:
         approximate_headcount: Nombre de personnes attendues
-        days:
+        days: Jour
         nights: Nächte
         overnight_stays:
         tenant_organisation:
@@ -690,7 +691,7 @@ fr:
         begins_at: Beginn der Belegung
         ends_at: Ende der Belegung
         now: Heute
-        span:
+        span: Période d'occupation
   booking_states:
     active:
       description: Les locataires sont sur place selon la location
@@ -1122,6 +1123,10 @@ fr:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum_price}
+    from_vat:
+      breakdown:
+      label:
+      title:
   invoices:
     total: Total
   layouts:
@@ -1141,8 +1146,8 @@ fr:
         canned_filter_default: Vue standard
         canned_filter_upcoming: Locations futures
         new: Nouveau
-        new_closed_occupancy:
-        new_request:
+        new_closed_occupancy: Fermeture
+        new_request: Demande de réservation
         no_records_yet:
         too_many_records: Trop de réservations ont été trouvées. Veuillez restreindre la recherche.
       navigation:
@@ -1322,6 +1327,12 @@ fr:
         current_organisation_privacy_statment_url: Lien vers la déclaration de confidentialité de l'organisation qui traite les données
   receipt_title: Titre de la réception
   ref: Ref
+  renderables:
+    booking_questions:
+      check_box:
+        value:
+          'false':
+          'true':
   reset: Réinitialiser
   rich_text_templates:
     awaiting_contract_notification:

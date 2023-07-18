@@ -322,6 +322,7 @@ it:
         tarif_group: Gruppo tariffario
         type: Tipo
         unit: Unità
+        vat:
       tenant:
         address: Indirizzo
         address_addon: Suffisso indirizzo / scuola / azienda
@@ -1091,6 +1092,10 @@ it:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum_price}
+    from_vat:
+      breakdown:
+      label:
+      title:
   invoices:
     total: Totale
   layouts:
@@ -1291,6 +1296,12 @@ it:
         current_organisation_privacy_statment_url: Link all'informativa sulla privacy dell'organizzazione di trattamento
   receipt_title:
   ref: Ref
+  renderables:
+    booking_questions:
+      check_box:
+        value:
+          'false':
+          'true':
   reset: Reset
   rich_text_templates:
     awaiting_contract_notification:
