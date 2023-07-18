@@ -62,9 +62,10 @@ export function YearCalendarMonth({ dateString, dateElementFactory }: YearCalend
 
       {eachDayOfInterval({ start: date, end: endOfMonth(date) }).map((date) => {
         const dateString = formatISO(date, { representation: "date" });
+        const weekdayName = materializedWeekdays[(getDay(date) + 6) % materializedWeekdays.length];
         return (
           <CalendarDate key={dateString} dateString={dateString}>
-            {dateElementFactory(dateString, (date) => materializedWeekdays[getDay(date)])}
+            {dateElementFactory(dateString, () => weekdayName)}
           </CalendarDate>
         );
       })}
