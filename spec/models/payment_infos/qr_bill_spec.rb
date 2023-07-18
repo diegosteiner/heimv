@@ -20,7 +20,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
     let(:expected_payload) do
       [
         'SPC', '0200', '1', '01-318421-1',
-        'K', 'Organisation', 'Teststrasse 1', '8000 Zürich', '', '', 'CH',
+        'K', 'Organisation', 'Strasse 1', '8000 Zürich', '', '', 'CH',
         '', '', '', '', '', '', '', '255.35',
         'CHF', 'K', 'Peter Muster', 'Teststrasse 2', '8049 Zürich CH', '', '', 'CH',
         'SCOR', 'RF1800000123456789', '', 'EPD'
