@@ -439,7 +439,7 @@ de:
       messages:
         content_type: ungültiges Format
         occupancy_conflict: ist zum gewünschten Zeitpunkt bereits belegt
-        record_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+        record_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
         restrict_dependent_destroy:
           has_many: Datensatz kann nicht gelöscht werden, da abhängige %{record} existieren.
           has_one: Datensatz kann nicht gelöscht werden, da ein abhängiger %{record}-Datensatz existiert.
@@ -450,7 +450,7 @@ de:
             deadline:
               not_postponable: kann nicht verlängert werden
             transition_to:
-              invalid_transition: 'Ungültiger Statusübergang: %{transition}'
+              invalid_transition: "Ungültiger Statusübergang: %{transition}"
           too_far_in_future: ist zu weit in der Zukunft
           too_far_in_past: ist zu weit in der Vergangenheit
         tenant:
@@ -786,57 +786,57 @@ de:
     period_short: "%{period_from} - %{period_to}"
   date:
     abbr_day_names:
-    - So
-    - Mo
-    - Di
-    - Mi
-    - Do
-    - Fr
-    - Sa
+      - So
+      - Mo
+      - Di
+      - Mi
+      - Do
+      - Fr
+      - Sa
     abbr_month_names:
-    -
-    - Jan
-    - Feb
-    - Mär
-    - Apr
-    - Mai
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Okt
-    - Nov
-    - Dez
+      -
+      - Jan
+      - Feb
+      - Mär
+      - Apr
+      - Mai
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Okt
+      - Nov
+      - Dez
     day_names:
-    - Sonntag
-    - Montag
-    - Dienstag
-    - Mittwoch
-    - Donnerstag
-    - Freitag
-    - Samstag
+      - Sonntag
+      - Montag
+      - Dienstag
+      - Mittwoch
+      - Donnerstag
+      - Freitag
+      - Samstag
     formats:
       default: "%d.%m.%Y"
       long: "%e. %B %Y"
       short: "%e. %b"
     month_names:
-    -
-    - Januar
-    - Februar
-    - März
-    - April
-    - Mai
-    - Juni
-    - Juli
-    - August
-    - September
-    - Oktober
-    - November
-    - Dezember
+      -
+      - Januar
+      - Februar
+      - März
+      - April
+      - Mai
+      - Juni
+      - Juli
+      - August
+      - September
+      - Oktober
+      - November
+      - Dezember
     order:
-    - :day
-    - :month
-    - :year
+      - :day
+      - :month
+      - :year
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1004,7 +1004,7 @@ de:
       invalid: ist nicht gültig
       less_than: muss kleiner als %{count} sein
       less_than_or_equal_to: muss kleiner oder gleich %{count} sein
-      model_invalid: 'Gültigkeitsprüfung ist fehlgeschlagen: %{errors}'
+      model_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
       not_a_number: ist keine Zahl
       not_an_integer: muss ganzzahlig sein
       not_found: nicht gefunden
@@ -1027,10 +1027,16 @@ de:
         one: hat die falsche Länge (muss genau ein Zeichen haben)
         other: hat die falsche Länge (muss genau %{count} Zeichen haben)
     template:
-      body: 'Bitte überprüfen Sie die folgenden Felder:'
+      body: "Bitte überprüfen Sie die folgenden Felder:"
       header:
-        one: 'Konnte %{model} nicht speichern: ein Fehler.'
-        other: 'Konnte %{model} nicht speichern: %{count} Fehler.'
+        one: "Konnte %{model} nicht speichern: ein Fehler."
+        other: "Konnte %{model} nicht speichern: %{count} Fehler."
+  renderables:
+    booking_questions:
+      check_box:
+        value:
+          true: Ja
+          false: Nein
   export:
     pdf:
       renderables:
@@ -1047,125 +1053,125 @@ de:
   faker:
     address:
       building_number:
-      - "#"
-      - "#"
-      - "##"
-      - "#a"
-      - "#b"
+        - "#"
+        - "#"
+        - "##"
+        - "#a"
+        - "#b"
       city:
-      - Zürich
-      - Genf
-      - Basel
-      - Bern
-      - Lausanne
-      - Winterthur
-      - Luzern
-      - St. Gallen
-      - Lugano
-      - Biel/Bienne
-      - Thun
-      - Köniz
-      - La Chaux-de-Fonds
-      - Freiburg - Schaffhausen
-      - Chur
-      - Vernier
-      - Neuenburg
-      - Uster
-      - Sitten
-      - Lancy
-      - Yverdon-les-Bains
-      - Emmen
-      - Zug
-      - Kriens
-      - Rapperswil-Jona
-      - Dübendorf
-      - Dietikon
-      - Montreux
-      - Frauenfeld
-      - Wetzikon
-      - Wil
-      - Baar
-      - Meyrin
-      - Bulle
-      - Kreuzlingen
-      - Wädenswil
-      - Carouge
-      - Riehen
-      - Renens
-      - Aarau
-      - Allschwil
-      - Wettingen
-      - Horgen
-      - Nyon
-      - Vevey
-      - Bülach
-      - Reinach
-      - Baden
-      - Adliswil
-      - Volketswil
-      - Kloten
+        - Zürich
+        - Genf
+        - Basel
+        - Bern
+        - Lausanne
+        - Winterthur
+        - Luzern
+        - St. Gallen
+        - Lugano
+        - Biel/Bienne
+        - Thun
+        - Köniz
+        - La Chaux-de-Fonds
+        - Freiburg - Schaffhausen
+        - Chur
+        - Vernier
+        - Neuenburg
+        - Uster
+        - Sitten
+        - Lancy
+        - Yverdon-les-Bains
+        - Emmen
+        - Zug
+        - Kriens
+        - Rapperswil-Jona
+        - Dübendorf
+        - Dietikon
+        - Montreux
+        - Frauenfeld
+        - Wetzikon
+        - Wil
+        - Baar
+        - Meyrin
+        - Bulle
+        - Kreuzlingen
+        - Wädenswil
+        - Carouge
+        - Riehen
+        - Renens
+        - Aarau
+        - Allschwil
+        - Wettingen
+        - Horgen
+        - Nyon
+        - Vevey
+        - Bülach
+        - Reinach
+        - Baden
+        - Adliswil
+        - Volketswil
+        - Kloten
       country_code:
-      - CH
+        - CH
       default_country:
-      - Schweiz
+        - Schweiz
       full_address:
-      - "#{street_address}, #{city} #{zip_code}"
+        - "#{street_address}, #{city} #{zip_code}"
       postcode:
-      - 1###
-      - 2###
-      - 3###
-      - 4###
-      - 5###
-      - 6###
-      - 7###
-      - 8###
-      - 9###
+        - 1###
+        - 2###
+        - 3###
+        - 4###
+        - 5###
+        - 6###
+        - 7###
+        - 8###
+        - 9###
       street_address:
-      - "#{street_name} #{building_number}"
+        - "#{street_name} #{building_number}"
       street_name:
-      - "#{Name.first_name}#{street_suffix}"
-      - "#{Name.first_name}#{street_suffix}"
-      - "#{Name.first_name}#{street_suffix}"
-      - "#{street_prefix} #{Name.last_name}"
+        - "#{Name.first_name}#{street_suffix}"
+        - "#{Name.first_name}#{street_suffix}"
+        - "#{Name.first_name}#{street_suffix}"
+        - "#{street_prefix} #{Name.last_name}"
       street_prefix:
-      - Im
-      - Am
+        - Im
+        - Am
       street_suffix:
-      - strasse
-      - weg
+        - strasse
+        - weg
     company:
       name:
-      - "#{prefix} #{Adress.city}"
-      - "#{prefix} #{Adress.city}"
-      - "#{prefix} #{Adress.city}-#{Adress.city}"
+        - "#{prefix} #{Adress.city}"
+        - "#{prefix} #{Adress.city}"
+        - "#{prefix} #{Adress.city}-#{Adress.city}"
       prefix:
-      - Pfadi
-      - Pfadiabteilung
-      - Verein
-      - Jubla
-      - Schule
+        - Pfadi
+        - Pfadiabteilung
+        - Verein
+        - Jubla
+        - Schule
     internet:
       domain_suffix:
-      - com
-      - net
-      - biz
-      - ch
-      - de
-      - li
-      - at
-      - ch
-      - ch
+        - com
+        - net
+        - biz
+        - ch
+        - de
+        - li
+        - at
+        - ch
+        - ch
     phone_number:
       formats:
-      - '0800 ### ###'
-      - '0800 ## ## ##'
-      - '0## ### ## ##'
-      - '0## ### ## ##'
-      - "+41 ## ### ## ##"
-      - '0900 ### ###'
-      - '076 ### ## ##'
-      - "+4178 ### ## ##"
-      - '0041 79 ### ## ##'
+        - "0800 ### ###"
+        - "0800 ## ## ##"
+        - "0## ### ## ##"
+        - "0## ### ## ##"
+        - "+41 ## ### ## ##"
+        - "0900 ### ###"
+        - "076 ### ## ##"
+        - "+4178 ### ## ##"
+        - "0041 79 ### ## ##"
   filter: Filter
   flash:
     actions:
@@ -1219,7 +1225,7 @@ de:
     bookings:
       import:
         headers: Headers
-        import_error: 'Import fehlgeschlagen: '
+        import_error: "Import fehlgeschlagen: "
         import_file: Import Datei (CSV)
         import_success: Import erfolgreich
       index:
@@ -1228,7 +1234,7 @@ de:
         new: Neu
         new_closed_occupancy: Schliessung
         new_request: Reservationsanfrage
-        no_records_yet: 'Es wurden keine Buchungen gefunden. Neue Buchung hinzufügen: %{options}.'
+        no_records_yet: "Es wurden keine Buchungen gefunden. Neue Buchung hinzufügen: %{options}."
         too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       navigation:
         costs: Tarife & Verbrauch
@@ -1277,7 +1283,7 @@ de:
         new_import: Zahlungen aus CAMT.054-Datei importieren
       new_import:
         camt_file: CAMT.054-Datei (.xml)
-        exception: 'Zahlungsdatei konnte nicht verarbeitet werden: %{errors}'
+        exception: "Zahlungsdatei konnte nicht verarbeitet werden: %{errors}"
     rich_text_templates:
       form:
         help_html: "<p>Variabeln im Text verwenden:</p>\n\n<pre>\n  Hallo {{ booking.tenant.first_name }}!\n</pre>\n\n<p>Folgende Variabeln stehen zur Verfügung:</p>\n<h5>Buchung</h5>\n<dl>\n    <dt>Beginn der Belegung</dt><dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd><dd><pre>{{ booking.begins_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    <dt>Ende der Belegung</dt><dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd><dd><pre>{{ booking.ends_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    \n    <dt>Erwartete Anzahl Personen</dt><dd><pre>{{ booking.approximate_headcount }}</pre></dd>\n    <dt>Annulierungsgrund</dt><dd><pre>{{ booking.cancellation_reason }}</pre></dd>\n    <dt>Verbindlichkeit der Mietanfrage</dt><dd><pre>{{ booking.committed_request }}</pre></dd>\n\n    <dt>ID des Hauptmietobjekts</dt><dd><pre>{{ booking.home.id }}</pre></dd>\n    <dt>IDs aller belegten Mietobjekte</dt><dd><pre>{{ booking.occupiable_ids }}</pre></dd>\n    <dt>Name des Hauptmietobjekts</dt><dd><pre>{{ booking.home.name }}</pre></dd>\n    <dt>Adresse des Hauptmietobjekts</dt><dd><pre>{{ booking.home.description }}</pre></dd>\n\n    <dt>Name aller belegten Mietobjekte</dt><dd><pre>{{ booking.occupiables | map: \"name\" | join: \", \" }}</pre></dd>\n    <dt>Liste belegten Hauptmietobjekte</dt><dd><pre><ul>{% for home in booking.occupiables %}<li>{{ home.name }}</li>{% endfor %}</ul></pre></dd>\n\n    <dt>Rechnungsadresse</dt><dd><pre>{{ booking.invoice_address }}</pre></dd>\n    <dt>Frist bis Datum / Uhrzeit</dt><dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>\n    <dt>Frist Verlängerbar für n Sekunden</dt><dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>\n    <dt>Link für den Mieter</dt><dd><pre>{{ booking.links.edit }}</pre></dd>\n    <dt>Link für den Vermieter</dt><dd><pre>{{ booking.links.manage }}</pre></dd>\n    <dt>Belegungstyp</dt><dd><pre>{{ booking.occupancy_type }}</pre></dd>\n    <dt>Schlüssel der Mietkategorie</dt><dd><pre>{{ booking.category.key }}</pre></dd>\n    <dt>Bezeichnung der Mietkategorie</dt><dd><pre>{{ booking.category.title }}</pre></dd>\n    <dt>Beschreibung der Mietkategorie</dt><dd><pre>{{ booking.category.description }}</pre></dd>\n    <dt>Beschreibung der Mietzwecks</dt><dd><pre>{{ booking.purpose_description }}</pre></dd>\n    <dt>Referenznummer der Buchung</dt><dd><pre>{{ booking.ref }}</pre></dd>\n    <dt>Bemerkungen des Mieters</dt><dd><pre>{{ booking.remarks }}</pre></dd>\n    <dt>Adresszusatz des Mieters</dt><dd><pre>{{ booking.tenant.address_addon }}</pre></dd>\n    <dt>Ort des Mieters</dt><dd><pre>{{ booking.tenant.city }}</pre></dd>\n    <dt>E-Mail des Mieters</dt><dd><pre>{{ booking.tenant.email }}</pre></dd>\n    <dt>Vorname des Mieters</dt><dd><pre>{{ booking.tenant.first_name }}</pre></dd>\n    <dt>Nachname des Mieters</dt><dd><pre>{{ booking.tenant.last_name }}</pre></dd>\n    <dt>Pfadiname des Mieters</dt><dd><pre>{{ booking.tenant.nickname }}</pre></dd>\n    <dt>Anrede mit Name des Mieters</dt><dd><pre>{{ booking.tenant.salutation_name }}</pre></dd>\n    <dt>Adresse des Mieters</dt><dd><pre>{{ booking.tenant.street_address }}</pre></dd>\n    <dt>PLZ des Mieters</dt><dd><pre>{{ booking.tenant.zipcode }}</pre></dd>\n    <dt>Organisation des Mieters</dt><dd><pre>{{ booking.tenant.tenant_organisation }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>\n    <dt>Name der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>\n    <dt>E-Mail der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>\n    <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>\n  </dl>\n  <h5>Organisation</h5>\n  <dl>\n    <dt>Adresse der Organisation, Sitz</dt><dd><pre>{{ organisation.address }}</pre></dd>\n    <dt>Liste aller Mietkategorien der Organisation</dt><dd><pre>{{ organisation.booking_categories }}</pre></dd>\n    <dt>E-Mail der Organisation</dt><dd><pre>{{ organisation.email }}</pre></dd>\n    <dt>PC-Kontonummer</dt><dd><pre>{{ organisation.esr_beneficiary_account }}</pre></dd>\n    <dt>IBAN</dt><dd><pre>{{ organisation.iban }}</pre></dd>\n    <dt>QR-IBAN</dt><dd><pre>{{ organisation.qr_iban }}</pre></dd>\n    <dt>Link zur Datenschutzerklärung</dt><dd><pre>{{ organisation.links.privacy_statement_pdf }}</pre></dd>\n    <dt>Link zu den AGB</dt><dd><pre>{{ organisation.links.terms_pdf }}</pre></dd>\n    <dt>Name der Organisation</dt><dd><pre>{{ organisation.name }}</pre></dd>\n  </dl>\n  <h5>Kosten</h5>\n  <dl>\n    <dt>Verbrauch</dt><dd><pre>{{ cost_estimation.used | currency }}</pre></dd>\n    <dt>Verrechnet</dt><dd><pre>{{ cost_estimation.total | currency }}</pre></dd>\n    <dt>Anzahlung</dt><dd><pre>{{ cost_estimation.deposit | currency }}</pre></dd>\n  </dl>\n\n  Logik im Text verwenden:\n\n  <pre>{% if booking.home_id contains 1 %}Passage nur sichtbar, wenn ID des Hauptmietobjekts der Buchung gleich 1 ist{% endif %}</pre>\n  <pre>\n  {% if booking.category.key == 'camp' %}\n    Wir wünschen euch viel Spass in eurem Lager in unserem Heim!\n  {% else %}\n    Wir wünschen Ihnen einen schönen Aufenthalt in unserem Heim!\n  {% endif %}\n  </pre>\n"
@@ -1328,9 +1334,9 @@ de:
           trillion:
             one: Billion
             other: Billionen
-          unit: ''
+          unit: ""
       format:
-        delimiter: ''
+        delimiter: ""
         precision: 1
         significant: true
         strip_insignificant_zeros: true
@@ -1348,36 +1354,36 @@ de:
           tb: TB
     percentage:
       format:
-        delimiter: ''
+        delimiter: ""
         format: "%n%"
-        precision: '1'
+        precision: "1"
     precision:
       format:
-        delimiter: ''
+        delimiter: ""
   occupancy_calendar:
     months:
-    - Januar
-    - Februar
-    - März
-    - April
-    - Mai
-    - Juni
-    - Juli
-    - August
-    - September
-    - Oktober
-    - November
-    - Dezember
+      - Januar
+      - Februar
+      - März
+      - April
+      - Mai
+      - Juni
+      - Juli
+      - August
+      - September
+      - Oktober
+      - November
+      - Dezember
     next: "→"
     prev: "←"
     weekdays:
-    - So
-    - Mo
-    - Di
-    - Mi
-    - Do
-    - Fr
-    - Sa
+      - So
+      - Mo
+      - Di
+      - Mi
+      - Do
+      - Fr
+      - Sa
   optional: optional
   or: oder
   payable_by: Zahlbar durch
@@ -1612,8 +1618,8 @@ de:
       default_title: Definitive Reservation bestätigt
       description: Benachrichtigung für definitive Mietanfrage (Mieter)
     foreign_payment_info_text:
-      default_body: ''
-      default_title: ''
+      default_body: ""
+      default_title: ""
       description: Text für Zahlunginformationen für ausländische Mieter
     invoices_deposit_text:
       default_body: |
@@ -1686,8 +1692,8 @@ de:
       default_title: Neue Mietanfrage
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
     notification_footer:
-      default_body: ''
-      default_title: ''
+      default_body: ""
+      default_title: ""
       description: Fusszeile für Benachrichtigungen
     offer_notification:
       default_body: |
