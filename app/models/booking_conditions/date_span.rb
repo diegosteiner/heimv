@@ -45,7 +45,7 @@ module BookingConditions
       DateSpanChecker::REGEX
     end
 
-    def evaluate(booking)
+    def evaluate!(booking)
       @date_span_checker ||= DateSpanChecker.parse(compare_value)
       value = evaluate_attribute(compare_attribute || :span, with: booking)
       @date_span_checker&.overlap?(value)

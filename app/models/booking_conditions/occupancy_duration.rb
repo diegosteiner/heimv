@@ -40,7 +40,7 @@ module BookingConditions
       /\A(?<threshold>\d+)\s*(?<threshold_unit>[smhd])\z/
     end
 
-    def evaluate(booking)
+    def evaluate!(booking)
       compare_value_match = compare_value_regex.match(compare_value)
       return false unless compare_value_match
 

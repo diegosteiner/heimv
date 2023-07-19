@@ -166,7 +166,7 @@ describe 'Booking', :devise, type: :feature do
     visit manage_booking_path(@booking, org: org)
     find('.checklist li:nth-child(1) a').click
     # page.driver.browser.navigate.refresh
-    find_all('input[type="number"]').each do |usage_field|
+    find_all('input[inputmode="numeric"]').each do |usage_field|
       usage_field.fill_in with: 22
     end
     submit_form

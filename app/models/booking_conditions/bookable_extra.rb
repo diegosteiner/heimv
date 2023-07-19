@@ -40,7 +40,7 @@ module BookingConditions
       organisation.bookable_extras
     end
 
-    def evaluate(booking)
+    def evaluate!(booking)
       booking.bookable_extra_ids.include?(compare_value&.to_i)
     end
   end

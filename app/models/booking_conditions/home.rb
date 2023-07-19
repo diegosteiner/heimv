@@ -36,7 +36,7 @@ module BookingConditions
       errors.add(:compare_value, :invalid) unless compare_values.exists?(id: compare_value)
     end
 
-    def evaluate(booking)
+    def evaluate!(booking)
       booking.home_id == compare_value.to_i
     end
 

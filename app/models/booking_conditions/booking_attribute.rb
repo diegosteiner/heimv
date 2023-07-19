@@ -46,7 +46,7 @@ module BookingConditions
       DEFAULT_OPERATORS
     end
 
-    def evaluate(booking)
+    def evaluate!(booking)
       value = evaluate_attribute(compare_attribute, with: booking)
       cast_compare_value = case compare_attribute&.to_sym
                            when :nights, :days, :approximate_headcount, :overnight_stays
@@ -54,6 +54,8 @@ module BookingConditions
                            else
                              compare_value.presence
                            end
+      return if value.blank? || cast_compare_value.blank?
+
       evaluate_operator(compare_operator || :'=', with: [value, cast_compare_value])
     end
   end

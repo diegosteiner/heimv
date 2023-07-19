@@ -105,9 +105,11 @@ class BookingCondition < ApplicationRecord
     # TODO: rescue?
   end
 
-  # def evaluate(booking)
-  #   evaluate_operator(booking)
-  # end
+  def evaluate(booking)
+    evaluate!(booking)
+  rescue StandardError
+    nil
+  end
 
   def evaluate_operator(operator, with: nil)
     compare_operators[operator&.to_sym].call(*Array.wrap(with))

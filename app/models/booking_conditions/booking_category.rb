@@ -47,7 +47,7 @@ module BookingConditions
       errors.add(:compare_value, :invalid)
     end
 
-    def evaluate(booking)
+    def evaluate!(booking)
       evaluate_operator(compare_operator || :'=', with: [booking, compare_value])
     end
 

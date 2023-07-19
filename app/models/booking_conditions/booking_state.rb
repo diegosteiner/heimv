@@ -46,7 +46,7 @@ module BookingConditions
       organisation.booking_flow_class.state_classes.transform_values(&:translate).to_a
     end
 
-    def evaluate(booking)
+    def evaluate!(booking)
       evaluate_operator(compare_operator || :'=', with: [booking, compare_value])
     end
 
