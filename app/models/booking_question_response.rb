@@ -33,7 +33,7 @@ class BookingQuestionResponse < ApplicationRecord
   def self.process_nested_attributes(booking, attributes)
     existing_responses = indexed_by_booking_question_id(booking)
     questions = BookingQuestion.applying_to_booking(booking).index_by(&:id)
-    attributes&.values&.map do |attribute_set|
+    attributes&.values&.filter_map do |attribute_set|
       question = questions[attribute_set[:booking_question_id]&.to_i]
       next if question.blank?
 
