@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## Version 23.7.3
+
+Released on 25.07.2023
+
+- Bugfixes
+
 ## Version 23.7.2
 
 Released on 13.07.2023
