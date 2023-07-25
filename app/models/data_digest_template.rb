@@ -89,9 +89,10 @@ class DataDigestTemplate < ApplicationRecord
   end
 
   def columns_config=(value)
-    value = JSON.parse(value.presence) if value.is_a?(String)
-    value = Array.wrap(value.presence)
-    super(value.presence)
+    value = value.presence
+    value = JSON.parse(value) if value.is_a?(String)
+    value = Array.wrap(value)
+    super(value)
   end
 
   def eject_columns_config
