@@ -31,6 +31,8 @@ module Manage
     end
 
     def new_import
+      @import = Import.new(organisation: current_organisation)
+
       render 'import'
     end
 
