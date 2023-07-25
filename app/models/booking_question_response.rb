@@ -35,7 +35,9 @@ class BookingQuestionResponse < ApplicationRecord
     questions = BookingQuestion.applying_to_booking(booking).index_by(&:id)
     attributes&.values&.map do |attribute_set|
       question = questions[attribute_set[:booking_question_id]&.to_i]
-      response = existing_responses[question.id] || booking.booking_question_responses.build
+      next unless question.present?
+
+      response = existing_responses.fetch(question.id, nil) || booking.booking_question_responses.build
       response&.assign_attributes(booking_question: question, value: question.cast(attribute_set[:value]))
       response
     end
