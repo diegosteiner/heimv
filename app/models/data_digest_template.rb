@@ -81,7 +81,7 @@ class DataDigestTemplate < ApplicationRecord
   end
 
   def columns
-    @columns ||= (columns_config || self.class::DEFAULT_COLUMN_CONFIG).map do |config|
+    @columns ||= (columns_config.presence || self.class::DEFAULT_COLUMN_CONFIG).map do |config|
       config.symbolize_keys!
       column_type = config.fetch(:type, :default)&.to_sym
       self.class.column_types.fetch(column_type, ColumnType.new).column_from_config(config)

@@ -31,16 +31,20 @@ class BookingQuestionResponse < ApplicationRecord
   end
 
   def self.process_nested_attributes(booking, attributes)
-    existing_responses = booking.booking_question_responses.index_by(&:booking_question_id)
+    existing_responses = indexed_by_booking_question_id(booking)
     questions = BookingQuestion.applying_to_booking(booking).index_by(&:id)
     attributes&.values&.map do |attribute_set|
       question = questions[attribute_set[:booking_question_id]&.to_i]
-      next unless question.present?
+      next if question.blank?
 
-      response = existing_responses.fetch(question.id, nil) || booking.booking_question_responses.build
-      response&.assign_attributes(booking_question: question, value: question.cast(attribute_set[:value]))
+      response = existing_responses.fetch(question.id, booking.booking_question_responses.build)
+      response.assign_attributes(booking_question: question, value: question.cast(attribute_set[:value]))
       response
     end
+  end
+
+  def self.indexed_by_booking_question_id(booking)
+    (booking&.booking_question_responses.presence || []).index_by(&:booking_question_id)
   end
 
   def self.prepare_booking(booking)

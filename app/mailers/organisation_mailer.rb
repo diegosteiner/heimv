@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class OrganisationMailer < ApplicationMailer
+  BOOKING_HEADER_NAME = 'X-Heimv-Booking-Id'
+  NOTIFICATION_HEADER_NAME = 'X-Heimv-Notification-Id'
+
   default from: -> { (@organisation.mail_from || @organisation.email) },
           reply_to: -> { @organisation.email },
           charset: 'UTF-8'
@@ -11,8 +14,10 @@ class OrganisationMailer < ApplicationMailer
   def booking_email(notification)
     @organisation = notification.organisation
     @notification = notification
-    attach_active_storage_attachments(notification.attachments)
+    return if @notification.blank?
 
+    set_headers
+    attach_active_storage_attachments(notification.attachments)
     mail(to: notification.to, cc: notification.cc, bcc: notification.bcc, subject: notification.subject) do |format|
       format.text { render plain: @notification.text }
       # rubocop:disable Rails/OutputSafety
@@ -35,6 +40,11 @@ class OrganisationMailer < ApplicationMailer
     end
   end
 
+  def set_headers
+    headers[NOTIFICATION_HEADER_NAME] = @notification.to_param
+    headers[BOOKING_HEADER_NAME] = @notification.booking.to_param
+  end
+
   def set_delivery_options
     return unless Rails.env.production? && @organisation.smtp_settings.present?
 
@@ -46,4 +56,16 @@ class OrganisationMailer < ApplicationMailer
     @organisation ||= params
   end
   # rubocop:enable Naming/MemoizedInstanceVariableName
+
+  class DeliveryObserver
+    def self.delivered_email(mail)
+      notification = Notification.find_by(id: mail.header[NOTIFICATION_HEADER_NAME]&.value)
+
+      # rubocop:disable Rails/SkipsModelValidations
+      notification&.touch(:sent_at)
+      # rubocop:enable Rails/SkipsModelValidations
+    end
+  end
+
+  register_observer DeliveryObserver
 end

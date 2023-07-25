@@ -57,9 +57,7 @@ class Notification < ApplicationRecord
   end
 
   def deliver
-    return false unless deliverable? && update!(sent_at: Time.zone.now)
-
-    message_delivery.tap(&:deliver_later)
+    deliverable? && save && message_delivery.tap(&:deliver_later)
   end
 
   def attach(*files_or_documents_to_attach)

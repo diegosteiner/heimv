@@ -78,11 +78,13 @@ RSpec.describe Notification, type: :model do
     subject(:message) { notification.deliver }
 
     it do
-      is_expected.to be_truthy
+      expect(notification.sent_at).to be_nil
+      expect { message }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(message.to).to eq(notification.to)
       expect(message.cc).to eq(notification.cc)
       expect(message.subject).to eq(notification.subject)
-      expect(notification.sent_at).not_to be nil
+      notification.reload
+      expect(notification.sent_at).not_to be_nil
     end
   end
 
