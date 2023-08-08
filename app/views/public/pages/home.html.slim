@@ -2,7 +2,7 @@
   .row
     - @organisations.each do |organisation|
       .col-lg-3.col-md-3
-        .card.mb-3
+        .card.shadow-sm.mb-3
           .card-body 
             = link_to manage_root_path(org: organisation) do
               .ratio.ratio-16x9

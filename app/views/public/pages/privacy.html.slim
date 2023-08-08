@@ -1,6 +1,6 @@
 - files = [Rails.root.join("docs/#{I18n.locale}/privacy.md"), Rails.root.join("docs/#{I18n.default_locale}/privacy.md")]
 
-.card 
+.card.shadow-sm 
   .card-body.p-5
     == Markdown.new(File.read(files.find { |file| File.exist? file })).to_html
 

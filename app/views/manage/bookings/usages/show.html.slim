@@ -1,5 +1,5 @@
 = render partial: 'manage/bookings/navigation', locals: { active: :usages, booking: @booking }
-.card
+.card.shadow-sm
   .card-body
     = render_hash_as_dl(@usage.attributes.slice(*%w(usage_type to_s issued_at payable_until text)), Usage)
     br

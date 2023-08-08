@@ -2,7 +2,7 @@
 h3.mb-4= t(:description, scope: [:rich_text_templates, @rich_text_template.key], default: @rich_text_template.title)
 .text-muted= @rich_text_template.key
 
-.card
+.card.shadow-sm
   .card-body
     == @rich_text_template.body
 

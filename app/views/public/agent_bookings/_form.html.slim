@@ -1,6 +1,6 @@
 - url = @agent_booking.new_record? ? public_agent_bookings_path : public_agent_booking_path(@agent_booking.token || @agent_booking.to_param)
 = form_with(model: [:public, @agent_booking], url: url) do |f|
-  .card[class=('bg-light' unless @agent_booking.booking_agent_responsible?)]
+  .card.shadow-sm[class=('bg-light' unless @agent_booking.booking_agent_responsible?)]
     .card-body
       - if @agent_booking.errors.any?
         .alert.alert-danger.d-flex

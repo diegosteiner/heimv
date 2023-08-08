@@ -1,7 +1,7 @@
 h1.m-0= Occupancy.model_name.human(count: 2)
 .mb-5= link_to @occupiable.to_s, manage_occupiable_path(@occupiable)
 
-.card.mb-5
+.card.shadow-sm.mb-5
   .card-body
     = react_component('calendar/OccupancyCalendar', { \ 
         calendarUrl: occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: @occupiable.to_param, format: :json), \

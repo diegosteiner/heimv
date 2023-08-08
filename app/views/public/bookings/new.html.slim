@@ -1,7 +1,7 @@
 = form_with(model: @booking, url: public_bookings_path, local: true) do |f|
   .mx-auto.w-md
     h3 = t(:'.title')
-    .card
+    .card.shadow-sm
       .card-body
         - if @booking.errors.any?
           .alert.alert-danger.d-flex

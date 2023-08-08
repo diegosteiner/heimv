@@ -1,6 +1,6 @@
 .row.justify-content-center
   .col-lg-8
-    .card
+    .card.shadow-sm
       .card-body
         = form_with url: new_import_manage_payments_path, method: :POST, local: true do |f|
           = f.file_field 'camt_file', label: t('.camt_file')
