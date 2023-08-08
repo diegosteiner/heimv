@@ -59,7 +59,7 @@ group :development do
   gem 'foreman'
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'
-  gem 'listen', '~> 3.0.5'
+  gem 'listen'
   gem 'squasher'
 end
 
