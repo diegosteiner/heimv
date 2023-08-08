@@ -1,11 +1,12 @@
-# Note: You must restart bin/webpacker-dev-server for changes to take effect
+# Note: You must restart bin/shakapacker-dev-server for changes to take effect
 
 default: &default
   source_path: app/javascript
   source_entry_path: /
+  nested_entries: false
   public_root_path: public
   public_output_path: packs
-  cache_path: tmp/webpacker
+  cache_path: tmp/shakapacker
   check_yarn_integrity: false
   webpack_compile_output: true
   ensure_consistent_versioning: true

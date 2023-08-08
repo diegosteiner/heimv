@@ -1,7 +1,7 @@
-const { webpackConfig, merge, isDevelopment } = require('shakapacker')
+const { generateWebpackConfig, merge } = require("shakapacker");
 const customConfig = {
   resolve: {
-    extensions: ['.ts', '.tsx', '.jsx', '.css', '.scss']
+    extensions: [".ts", ".tsx", ".jsx", ".css", ".scss"],
   },
   module: {
     rules: [
@@ -9,43 +9,43 @@ const customConfig = {
         test: /\.(sc|sa|c)ss$/i,
         use: [
           {
-            loader: require('mini-css-extract-plugin').loader,
+            loader: require("mini-css-extract-plugin").loader,
           },
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               sourceMap: true,
               importLoaders: 2,
               modules: {
-                localIdentName: '[path][name]__[local]--[hash:base64:5]',
-                exportLocalsConvention: 'camelCase',
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                exportLocalsConvention: "camelCase",
               },
             },
           },
           {
-            loader: 'postcss-loader',
+            loader: "postcss-loader",
             options: {
               sourceMap: true,
             },
           },
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
               sourceMap: true,
               sassOptions: {
-                outputStyle: 'compressed',
+                outputStyle: "compressed",
               },
             },
           },
         ],
-        include: /\.module\.[a-z]+$/
+        include: /\.module\.[a-z]+$/,
       },
       {
         test: /\.ya?ml$/,
-        use: 'yaml-loader'
-      }
+        use: "yaml-loader",
+      },
     ],
-  }
-}
+  },
+};
 
-module.exports = merge(webpackConfig, customConfig)
+module.exports = merge(generateWebpackConfig(), customConfig);

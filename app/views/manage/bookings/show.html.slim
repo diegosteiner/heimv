@@ -7,7 +7,7 @@
 - cache(cache_key(@booking.cache_key)) do
   section.row.mt-4
     .col-md-9
-      .card
+      .card.shadow-sm
         .card-body
           .row
             .col-md-6
@@ -94,7 +94,7 @@
                   - else 
                     dd= response.value
 
-      .card.mt-4
+      .card.shadow-sm.mt-4
         .card-body
           .row
             .col-md-6
@@ -144,7 +144,7 @@
                 span.fa.fa-edit
                 =< t(:edit)
     .col-md-3
-      ul.list-group
+      ul.list-group.shadow-sm
         - @booking.logs.order(created_at: :desc).each do |log|
           li.list-group-item
             .mb-2.text-muted
