@@ -11,6 +11,7 @@ module Manage
                            .includes(:organisation, :payments).ordered.with_attached_pdf
       @invoices = @invoices.where(booking: @booking) if @booking.present?
       @invoices = @filter.apply(@invoices, cached: false) if @filter.any? && @booking.blank?
+
       respond_with :manage, @invoices
     end
 
@@ -35,9 +36,7 @@ module Manage
     end
 
     def create
-      if @invoice.save && params[:supersede_invoice_id].present?
-        current_organisation.invoices.find(params[:supersede_invoice_id]).discard!
-      end
+      @invoice.save
       respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
     end
 

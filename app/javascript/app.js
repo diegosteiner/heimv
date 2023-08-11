@@ -47,7 +47,7 @@ function setupOccupiableSelect() {
       const occupiablesCheckboxesElement = baseElement.querySelector(".occupiables-checkboxes");
       const allCheckboxElements = occupiablesCheckboxesElement.querySelectorAll(".form-check");
       const currentOccupiableCheckboxes = occupiablesCheckboxesElement.querySelectorAll(
-        `.form-check[data-home-id="${homeId}"] input[type="checkbox"]`
+        `.form-check[data-home-id="${homeId}"] input[type="checkbox"]`,
       );
 
       allCheckboxElements.forEach((checkboxWrapperElement) => {

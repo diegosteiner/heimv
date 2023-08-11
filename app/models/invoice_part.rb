@@ -50,13 +50,6 @@ class InvoicePart < ApplicationRecord
     self.amount = amount&.floor(2) || 0
   end
 
-  after_save do
-    next unless amount_previously_changed?
-
-    invoice.recalculate
-    invoice.save if invoice.amount_changed?
-  end
-
   def calculated_amount
     amount
   end
@@ -87,30 +80,6 @@ class InvoicePart < ApplicationRecord
     attribute :issued_at_after, :datetime
     attribute :issued_at_before, :datetime
 
-    #   # Ensures backwards compatibilty
-    #   def booking_states=(value)
-    #     self.current_booking_states = value
-    #   end
-
-    #   def occupancy_filter
-    #     @occupancy_filter ||= Occupancy::Filter.new({ begins_at_before: begins_at_before,
-    #                                                   begins_at_after: begins_at_after,
-    #                                                   ends_at_before: ends_at_before,
-    #                                                   ends_at_after: ends_at_after })
-    #   end
-
-    #   filter :occupancy do |bookings|
-    #     bookings.where(occupancy: occupancy_filter.apply(Occupancy.where.not(booking: nil)))
-    #   end
-
-    #   filter :occupancy_type do |bookings|
-    #     bookings.joins(:occupancy).merge(Occupancy.where(occupancy_type: occupancy_type)) if occupancy_type.present?
-    #   end
-
-    #   filter :ref do |bookings|
-    #     bookings.where(Booking.arel_table[:ref].matches("%#{ref.strip}%")) if ref.present?
-    #   end
-
     filter :homes do |invoice_parts|
       relevant_homes = Array.wrap(homes).compact_blank
       if relevant_homes.present?
@@ -124,26 +93,5 @@ class InvoicePart < ApplicationRecord
 
       invoice_parts.joins(:invoice).where(Invoice.arel_table[:issued_at].between(issued_at_after..issued_at_before))
     end
-
-    #   filter :tenant do |bookings|
-    #     next bookings if tenant.blank?
-
-    #     bookings.joins(:tenant)
-    #             .where(Tenant.arel_table[:search_cache].matches("%#{tenant}%")
-    #         .or(Booking.arel_table[:tenant_organisation].matches("%#{tenant}%")))
-    #   end
-
-    #   filter :has_booking_state do |bookings|
-    #     states = current_booking_states.compact_blank
-
-    #     bookings.where(booking_state_cache: states) if states.any?
-    #   end
-
-    #   filter :had_booking_state do |bookings|
-    #     states = previous_booking_states.compact_blank
-
-    #     bookings.joins(:state_transitions).where(state_transitions: { to_state: states }) if states.any?
-    #   end
-    # end
   end
 end

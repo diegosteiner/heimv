@@ -52,7 +52,7 @@ class Invoice < ApplicationRecord
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
-  scope :ordered,  -> { order(payable_until: :ASC, issued_at: :ASC) }
+  scope :ordered,  -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :unpaid,   -> { kept.where(arel_table[:amount_open].gt(0)) }
   scope :open,     -> { kept.where.not(arel_table[:amount_open].eq(0)) }
   scope :overpaid, -> { kept.where(arel_table[:amount_open].lt(0)) }
@@ -65,8 +65,9 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :recalculate
-  before_create :supersede
+  after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
+  after_save :recalculate!
   after_create { generate_ref? && generate_ref && save }
   delegate :invoice_address_lines, to: :booking
 
@@ -83,11 +84,11 @@ class Invoice < ApplicationRecord
     ref.blank?
   end
 
-  def supersede
-    return if supersede_invoice.blank?
+  def supersede!
+    return if supersede_invoice.blank? || supersede_invoice.discarded?
 
     self.payments = supersede_invoice.payments
-    supersede_invoice.discard
+    supersede_invoice.discard!
   end
 
   def generate_pdf
@@ -118,6 +119,11 @@ class Invoice < ApplicationRecord
   def recalculate
     self.amount = invoice_parts.ordered.inject(0) { |sum, invoice_part| invoice_part.to_sum(sum) }
     self.amount_open = amount - amount_paid
+  end
+
+  def recalculate!
+    recalculate
+    save! if amount_changed? || amount_open_changed?
   end
 
   def filename

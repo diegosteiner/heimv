@@ -37,7 +37,7 @@ function valueAsDate(value: string | Date): Date | undefined {
 function dateToCalendarControlValue(
   date: Date,
   availableHours: number[],
-  availableMinutes: number[]
+  availableMinutes: number[],
 ): CalendarControlValue {
   const hours = closestNumber((date && getHours(date)) || 0, availableHours);
   const minutes = closestNumber((date && getMinutes(date)) || 0, availableMinutes);

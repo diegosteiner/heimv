@@ -59,7 +59,7 @@ export function OccupancyCalendarDate({
         </div>
       </button>
     ),
-    [date, occupancies]
+    [date, occupancies],
   );
 }
 

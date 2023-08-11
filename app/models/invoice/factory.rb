@@ -24,7 +24,6 @@ class Invoice
 
       invoice.booking ||= supersede_invoice.booking
       invoice.ref ||= supersede_invoice.ref
-      invoice.invoice_parts = supersede_invoice.invoice_parts&.map(&:dup)
     end
 
     def defaults(booking)

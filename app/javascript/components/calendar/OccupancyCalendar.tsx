@@ -53,12 +53,12 @@ function OccupancyCalendar({
       if (!target.value || !window.top) return;
       window.top.location.href = occupancyAtUrl.replace("__DATE__", target.value);
     },
-    [occupancyAtUrl]
+    [occupancyAtUrl],
   );
 
   disabledCallback ??= useCallback(
     (date: Date) => !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end),
-    [occupancyWindow]
+    [occupancyWindow],
   );
 
   const dateElementFactory: DateElementFactory = useCallback(
@@ -72,7 +72,7 @@ function OccupancyCalendar({
         onClick={onClick}
       ></OccupancyCalendarDate>
     ),
-    [occupancyWindow]
+    [occupancyWindow],
   );
 
   return (
