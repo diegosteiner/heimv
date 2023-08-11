@@ -19,7 +19,6 @@
 #
 require 'zip'
 
-# rubocop:disable Metrics/ClassLength
 class PlanBBackup < ApplicationRecord
   BOOKING_COLUMNS_CONFIG = [
     {
@@ -144,4 +143,3 @@ class PlanBBackup < ApplicationRecord
     "#{self.class.model_name.human}_#{Time.zone.today}_#{organisation}.zip"
   end
 end
-# rubocop:enable Metrics/ClassLength

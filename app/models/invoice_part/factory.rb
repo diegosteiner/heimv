@@ -71,7 +71,7 @@ class InvoicePart
         next unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
 
         apply = suggest? && !usage_already_invoiced?(usage)
-        InvoiceParts::Add.from_usage(usage, apply: apply)
+        InvoiceParts::Add.from_usage(usage, apply: apply, vat: usage.tarif.vat)
       end
     end
 

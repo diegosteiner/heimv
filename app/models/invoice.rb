@@ -164,4 +164,10 @@ class Invoice < ApplicationRecord
   def suggested_invoice_parts
     ::InvoicePart::Factory.new(self).call
   end
+
+  def vat
+    invoice_parts.filter { |invoice_part| invoice_part.vat.present? && invoice_part.vat.positive? }
+                 .group_by(&:vat)
+                 .to_h { |vat, vat_invoice_parts| [vat, vat_invoice_parts.sum(&:calculated_amount) * vat / 100] }
+  end
 end

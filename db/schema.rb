@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_12_145228) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_11_103703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -293,6 +293,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_12_145228) do
     t.integer "ordinal"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.decimal "vat"
     t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
     t.index ["usage_id"], name: "index_invoice_parts_on_usage_id"
   end

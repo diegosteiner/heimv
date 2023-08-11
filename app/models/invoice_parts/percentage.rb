@@ -10,6 +10,7 @@
 #  label      :string
 #  ordinal    :integer
 #  type       :string
+#  vat        :decimal(, )
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  invoice_id :bigint
