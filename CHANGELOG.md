@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## Version 23.8.1
+
+Released on 15.08.2023
+
+- Feature: Add VAT to invoice parts
+
 ## Version 23.7.3
 
 Released on 25.07.2023

@@ -27,7 +27,7 @@ module BookingStates
         # booking.notifications.new(template:  :open_booking_agent_request_notification,
         # to: booking.agent_booking.booking_agent).deliver
       else
-        booking.notifications.new(template: :open_request_notification, to: booking.tenant).deliver
+        booking.notifications.new(template: :open_request_notification, to: booking.tenant)&.deliver
       end
     end
 
