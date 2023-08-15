@@ -44,7 +44,7 @@ module PaymentInfos
         ucr_zipcode: '',
         ucr_place: '',
         ucr_country: '',
-        amount: ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.', unit: ''),
+        amount: formatted_amount(delimitter: ''),
         currency: currency,
         ezp_address_type: ADDRESS_TYPE,
         ezp_name: debitor_address_lines.fetch(0, ''),
@@ -78,8 +78,9 @@ module PaymentInfos
       organisation.currency.upcase
     end
 
-    def formatted_amount
-      ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.', unit: '', delimiter: ' ')
+    def formatted_amount(delimitter: ' ')
+      ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.',
+                                                             unit: '', delimiter: delimitter)
     end
 
     def checksum(ref)

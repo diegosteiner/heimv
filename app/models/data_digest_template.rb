@@ -96,7 +96,7 @@ class DataDigestTemplate < ApplicationRecord
   end
 
   def eject_columns_config
-    self.columns_config ||= self.class::DEFAULT_COLUMN_CONFIG
+    self.columns_config = self.class::DEFAULT_COLUMN_CONFIG if columns_config.blank?
   end
 
   class ColumnType

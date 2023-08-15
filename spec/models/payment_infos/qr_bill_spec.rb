@@ -14,14 +14,14 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
 
   describe '#qr_data' do
     before do
-      allow(invoice).to receive(:amount).and_return(255.35)
+      allow(invoice).to receive(:amount).and_return(1255.35)
       allow(invoice).to receive(:ref).and_return('00000123456789')
     end
     let(:expected_payload) do
       [
         'SPC', '0200', '1', '01-318421-1',
         'K', 'Organisation', 'Strasse 1', '8000 Zürich', '', '', 'CH',
-        '', '', '', '', '', '', '', '255.35',
+        '', '', '', '', '', '', '', '1255.35',
         'CHF', 'K', 'Peter Muster', 'Teststrasse 2', '8049 Zürich CH', '', '', 'CH',
         'SCOR', 'RF1800000123456789', '', 'EPD'
       ]
