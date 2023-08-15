@@ -71,7 +71,7 @@ class InvoicePart < ApplicationRecord
     return unless usage
 
     new(attributes.reverse_merge(
-          usage: usage, label: usage.tarif.label, ordinal: usage.tarif.ordinal,
+          usage: usage, label: usage.tarif.label, ordinal: usage.tarif.ordinal, vat: usage.tarif.vat,
           breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price
         ))
   end

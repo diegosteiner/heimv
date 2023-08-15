@@ -30,5 +30,9 @@
 module InvoiceParts
   class Add < InvoicePart
     InvoicePart.register_subtype self
+
+    def calculated_amount
+      amount
+    end
   end
 end

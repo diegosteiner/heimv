@@ -30,5 +30,13 @@
 module InvoiceParts
   class Text < InvoicePart
     InvoicePart.register_subtype self
+
+    def calculated_amount
+      nil
+    end
+
+    def to_sum(sum)
+      sum
+    end
   end
 end

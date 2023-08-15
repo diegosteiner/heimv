@@ -168,6 +168,6 @@ class Invoice < ApplicationRecord
   def vat
     invoice_parts.filter { |invoice_part| invoice_part.vat.present? && invoice_part.vat.positive? }
                  .group_by(&:vat)
-                 .to_h { |vat, vat_invoice_parts| [vat, vat_invoice_parts.sum(&:calculated_amount) * vat / 100] }
+                 .to_h { |vat, vip| [vat, vip.sum(&:calculated_amount) / (100 + vat) * vat] }
   end
 end

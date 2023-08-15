@@ -44,24 +44,6 @@ class InvoicePart
       ]
     end
 
-    # def from_vat
-    #   usages_grouped_by_vat = booking.usages.filter { |usage| usage.tarif.vat.present? }
-    #                                  .group_by { |usage| usage.tarif.vat }
-    #   return [] if usages_grouped_by_vat.blank?
-
-    #   [InvoiceParts::Text.new(apply: suggest?, label: I18n.t('invoice_parts.from_vat.title'))] +
-    #     usages_grouped_by_vat.map do |vat, usages|
-    #       vat_group_to_invoice_parts(vat, usages)
-    #     end
-    # end
-
-    # def vat_group_to_invoice_parts(vat, usages)
-    #   price = usages.sum(&:price)
-    #   InvoiceParts::Add.new(apply: suggest?, label: I18n.t('invoice_parts.from_vat.label', vat: vat),
-    #                         breakdown: I18n.t('invoice_parts.from_vat.breakdown', vat: vat, price: price),
-    #                         amount: (price / 100 * vat))
-    # end
-
     def from_supersede_invoice
       @invoice.supersede_invoice&.invoice_parts&.map(&:dup) if @invoice.new_record?
     end
@@ -70,8 +52,7 @@ class InvoicePart
       usages.filter_map do |usage|
         next unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
 
-        apply = suggest? && !usage_already_invoiced?(usage)
-        InvoiceParts::Add.from_usage(usage, apply: apply, vat: usage.tarif.vat)
+        InvoiceParts::Add.from_usage(usage, apply: suggest? && !usage_already_invoiced?(usage))
       end
     end
 
