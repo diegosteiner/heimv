@@ -1211,7 +1211,21 @@ de:
     vat_title: in den Preisen enhaltene MwSt.
   layouts:
     footer:
-      privacy_statement: Datenschutzerklärung
+      legal:
+        heimv_privacy: Datenschutzerklärung der Plattform
+        organisation_privacy: Datenschutzerklärung der Organisation
+        title: Rechtliches
+      locales:
+        de: auf Deutsch
+        fr: en français
+        it: in italiano
+        title: Sprachen
+      manage:
+        title: Organisation
+      version:
+        changelog: Changelog
+        github: GitHub
+        title: Software
     manage_navigation:
       help: Hilfe
       settings: Einstellungen

@@ -86,10 +86,7 @@ h6 {
     background-color: #ddd9f6;
     border-top: 1px solid $primary;
     color: $primary;
-
-    .locales {
-      text-transform: uppercase;
-    }
+    display: flex;
   }
 }
 
