@@ -21,13 +21,13 @@ module Manage
     def new
       @booking.assign_attributes(organisation: current_organisation, notifications_enabled: true)
       @booking.build_tenant
-      BookingQuestionResponse.prepare_booking(@booking)
+      BookingQuestion.prepare_booking(@booking)
 
       respond_with :manage, @booking
     end
 
     def edit
-      BookingQuestionResponse.prepare_booking(@booking)
+      BookingQuestion.prepare_booking(@booking)
     end
 
     def new_import

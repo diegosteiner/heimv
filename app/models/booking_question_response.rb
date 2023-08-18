@@ -26,8 +26,14 @@ class BookingQuestionResponse < ApplicationRecord
   scope :ordered, -> { joins(:booking_question).order(BookingQuestion.arel_table[:ordinal].asc) }
 
   validates :value, length: { maximum: 1000 }
-  validate on: %i[public_create public_update agent_booking manage_create manage_update] do
+  validate on: %i[public_create public_update] do
     errors.add(:value, :blank) if booking_question.required && value.blank?
+  end
+
+  delegate :editable, to: :booking
+
+  def value
+    super.presence && booking_question&.cast(super)
   end
 
   def self.process_nested_attributes(booking, attributes)
@@ -45,9 +51,5 @@ class BookingQuestionResponse < ApplicationRecord
 
   def self.indexed_by_booking_question_id(booking)
     (booking&.booking_question_responses.presence || []).index_by(&:booking_question_id)
-  end
-
-  def self.prepare_booking(booking)
-    booking.booking_questions = BookingQuestion.applying_to_booking(booking)
   end
 end

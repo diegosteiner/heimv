@@ -75,4 +75,8 @@ class BookingQuestion < ApplicationRecord
       question.applies_to_booking?(booking)
     end
   end
+
+  def self.prepare_booking(booking)
+    booking.booking_questions = applying_to_booking(booking)
+  end
 end

@@ -51,8 +51,6 @@ class BookingCondition < ApplicationRecord
   validates :type, presence: true, inclusion: { in: ->(_) { BookingCondition.subtypes.keys.map(&:to_s) } }
   validates :compare_value, format: { with: ->(condition) { condition.compare_value_regex } }, allow_blank: true
   validate do
-    errors.add(:compare_attribute, :inclusion) unless compare_attribute.blank? ||
-                                                      compare_attributes&.keys&.include?(compare_attribute.to_sym)
     errors.add(:compare_operator, :inclusion) unless compare_operator.blank? ||
                                                      compare_operators&.keys&.include?(compare_operator.to_sym)
   end

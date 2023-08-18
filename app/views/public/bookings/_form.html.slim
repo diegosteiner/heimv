@@ -118,10 +118,9 @@
           - response = bqrf.object
           - question = response.booking_question
           = bqrf.hidden_field :booking_question_id
-          = render partial: response.booking_question.template_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf }
+          = render partial: response.booking_question.template_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: response.editable }
 
       .form-actions.pt-4.mt-3
-        - if @booking.editable
-          =<> f.submit class: 'btn btn-primary'
+        =<> f.submit class: 'btn btn-primary'
 
         = render partial: 'manage/bookings/actions', locals: { actions: @booking.booking_state.public_actions, form: f }
