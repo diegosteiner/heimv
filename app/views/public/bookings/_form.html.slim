@@ -99,21 +99,6 @@
         = f.text_field :purpose_description, disabled: !@booking.editable
         = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable
-
-        - bookable_extras = @booking.organisation.bookable_extras
-        - if bookable_extras.any?
-          h5= Booking.human_attribute_name(:bookable_extra_ids)
-          .mb-3
-            = f.collection_check_boxes_without_bootstrap(:bookable_extra_ids, bookable_extras, :id, :title) do |option|
-              - id = "input-bookable-extra-#{option.object.id}"
-              .form-check
-                = option.check_box class: "form-check-input", id: id, disabled: !@booking.editable
-                = option.label class: "form-check-label", for: id
-                - if option.object.description.present?
-                  .text-muted
-                    - option.object.description.lines.each do |line|
-                      p= line
-
         = f.fields_for :booking_question_responses, @booking.booking_question_responses do |bqrf|
           - response = bqrf.object
           - question = response.booking_question

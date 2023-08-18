@@ -78,14 +78,6 @@
                   dt= Booking.human_attribute_name(:remarks)
                   dd= @booking.remarks
 
-              - if @booking.bookable_extras.any?
-                dl
-                  dt= BookedExtra.model_name.human(count: 2)
-                  dd
-                    ul 
-                      - @booking.bookable_extras.each do |bookable_extra|
-                        li= bookable_extra.title
-
               - @booking.booking_question_responses.each do |response|
                 dl
                   dt= response.booking_question.label
