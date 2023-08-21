@@ -55,6 +55,7 @@ fr:
         occupied_occupancy_color: Couleur pour les locations définitives
         occupied_occupancy_states: Statuts pour lesquels la réservation est considérée comme "définitive
         overdue_request_deadline: Délai pour les demandes de réservation en retard
+        payment_overdue_deadline:
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
         tenant_birth_date_required: Date de naissance, Indication obligatoire
         tentative_occupancy_color: Couleur pour les locations provisoires
@@ -158,7 +159,7 @@ fr:
         type: type
       contract:
         issuer: Bailleur
-        locale: Sprache
+        locale: Langue
         pdf: PDF
         sent_at: Date du contrat
         signed_at: Signé par le locataire le
@@ -202,7 +203,7 @@ fr:
         esr_number: Numéro de BVR
         invoice_parts: Postes de la facture
         issued_at: Créé le
-        locale: Sprache
+        locale: Langue
         payable_until: Payable jusqu'au
         payment_info_type: Section paiement
         percentage_paid: "% payé"
@@ -217,6 +218,7 @@ fr:
         label: Texte
         ordinal_position: Numéro d'ordre
         type: Type de poste de facturation
+        vat:
       meter_reading_period:
         begins_at: Début
         end_value: Nouvelle valeur du compteur
@@ -494,6 +496,8 @@ fr:
         one: Nuits Sélecteurs de tarifs
       booking_conditions/booking_overnight_stays:
         one: Nuitées Sélecteur de tarif
+      booking_conditions/booking_question:
+        one:
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/date_span:
@@ -1129,9 +1133,26 @@ fr:
       title:
   invoices:
     total: Total
+    vat_label:
+    vat_title:
   layouts:
     footer:
+      legal:
+        heimv_privacy:
+        organisation_privacy:
+        title:
+      locales:
+        de:
+        fr:
+        it:
+        title:
+      manage:
+        title: Organisation
       privacy_statement: Déclaration de confidentialité
+      version:
+        changelog:
+        github:
+        title:
     manage_navigation:
       help: Aide
       settings: Réglages
