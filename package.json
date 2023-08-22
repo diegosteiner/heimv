@@ -26,6 +26,7 @@
         "css-minimizer-webpack-plugin": "^5.0.1",
         "date-fns": "^2.29.2",
         "font-awesome": "^4.7.0",
+        "froala-editor": "^4.1.1",
         "i18next": "^23.4.3",
         "json-loader": "^0.5.7",
         "mini-css-extract-plugin": "^2.7.2",
