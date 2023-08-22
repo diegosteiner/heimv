@@ -31,7 +31,7 @@
           tr[data-href=manage_booking_contract_path(@booking, contract) class=('disabled' if contract.superseded?)]
             td
               - if contract.pdf.attached?
-                = link_to url_for(contract.pdf), target: '_blank'
+                = link_to manage_booking_contract_path(@booking, contract, format: :pdf), target: '_blank'
                   span= contract.filename
                   span.ms-2.fa.fa-print
 
