@@ -8,9 +8,10 @@ export function setup() {
       content_css: false,
       height: 500,
       menubar: false,
-      plugins: ["advlist autolink lists link image anchor table", "searchreplace code table help template"],
-      toolbar:
-        "undo redo | formatselect | " + "bold italic | bullist numlist table | template " + "removeformat | code help",
+      convert_urls: false,
+      allow_unsafe_link_target: true,
+      plugins: "autolink link anchor lists image table template searchreplace code paste textpattern",
+      toolbar: "undo redo | blocks | bold italic removeformat | bullist numlist link image table | template code",
       // templates: [{ title: "Test", description: "Desc", content: "{{ booking.ref }}" }],
       content_style:
         'body { font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, ' +
@@ -24,16 +25,14 @@ function loadEditor() {
   return Promise.all([
     import(/* webpackChunkName: "tinymce" */ "tinymce"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/icons/default"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/models/dom"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/themes/silver"),
-    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/advlist"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/anchor"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/code"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/link"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/autolink"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/lists"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/image"),
-    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/help"),
-    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/paste"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/searchreplace"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/template"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/table"),

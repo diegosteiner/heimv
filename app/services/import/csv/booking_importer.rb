@@ -111,16 +111,16 @@ module Import
         end
       end
 
-      actor :extras do |booking, row|
-        row.each do |header, value|
-          extra_header_match = /^extra\.(\d+)/.match(header)
-          value = ActiveModel::Type::Boolean.new.cast(value)
-          next unless extra_header_match && value
+      # actor :extras do |booking, row|
+      #   row.each do |header, value|
+      #     extra_header_match = /^extra\.(\d+)/.match(header)
+      #     value = ActiveModel::Type::Boolean.new.cast(value)
+      #     next unless extra_header_match && value
 
-          bookable_extra = organisation.bookable_extras.find_by(id: extra_header_match[1])
-          booking.bookable_extras << bookable_extra if bookable_extra.present?
-        end
-      end
+      #     bookable_extra = organisation.bookable_extras.find_by(id: extra_header_match[1])
+      #     booking.bookable_extras << bookable_extra if bookable_extra.present?
+      #   end
+      # end
     end
   end
 end

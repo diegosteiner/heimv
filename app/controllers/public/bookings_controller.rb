@@ -11,14 +11,14 @@ module Public
 
     def new
       @booking = preparation_service.prepare_new(create_params)
-      BookingQuestionResponse.prepare_booking(@booking)
+      BookingQuestion.prepare_booking(@booking)
 
       respond_with :public, @booking
     end
 
     def edit
       @booking.committed_request ||= @booking.agent_booking&.committed_request if @booking.agent_booking.present?
-      BookingQuestionResponse.prepare_booking(@booking)
+      BookingQuestion.prepare_booking(@booking)
 
       respond_with :public, @booking
     end

@@ -29,7 +29,8 @@ module Export
       end
 
       to_render do
-        bounding_box([0, cursor - 20], width: bounds.width) do
+        start_new_page if cursor < 82
+        bounding_box([0, cursor - 20], width: bounds.width, height: 82) do
           issuer_signature_label = I18n.t('contracts.issuer_signature_label')
           render Renderables::Signature.new(issuer_signature_label, signature_image: @organisation.contract_signature,
                                                                     date: @contract.valid_from,

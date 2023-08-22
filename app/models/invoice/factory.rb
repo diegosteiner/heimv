@@ -12,8 +12,8 @@ class Invoice
       ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
         I18n.with_locale(invoice.locale) do
           invoice.payment_info_type = payment_info_type(invoice)
-          invoice.text ||= rich_text_template(invoice)
           invoice.payable_until ||= payable_until(invoice)
+          invoice.text ||= rich_text_template(invoice)
           prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
         end
       end

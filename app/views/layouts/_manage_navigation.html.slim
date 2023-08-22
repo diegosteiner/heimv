@@ -1,12 +1,13 @@
 
-nav.p-3
-  button.navbar-toggler.btn.d-md-none[
-    aria-controls="navbar-main-nav"
-    aria-expanded="false"
-    data-bs-target="#navbar-main-nav"
-    data-bs-toggle="collapse"
-    type="button"]
-    i.fa.fa-bars
+nav.px-3
+  div
+    button.btn.d-md-none.btn-lg.d-block.ms-auto.shadow-none[
+      aria-controls="navbar-main-nav"
+      aria-expanded="false"
+      data-bs-target="#navbar-main-nav"
+      data-bs-toggle="collapse"
+      type="button"]
+      i.fa.fa-bars
 
   #navbar-main-nav.collapse.navbar-collapse.show.position-fixed-lg
     ul.list-unstyled.nav.flex-column
@@ -49,8 +50,6 @@ nav.p-3
               = link_to Operator.model_name.human(count: 2), manage_operators_path, class: 'nav-link'
             li
               = link_to OperatorResponsibility.model_name.human(count: 2), manage_operator_responsibilities_path, class: 'nav-link'
-            li
-              = link_to BookableExtra.model_name.human(count: 2), manage_bookable_extras_path, class: 'nav-link'
             li
               = link_to BookingQuestion.model_name.human(count: 2), manage_booking_questions_path, class: 'nav-link'
             li

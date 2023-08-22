@@ -15,7 +15,7 @@ module Manage
       def show
         respond_to do |format|
           format.pdf do
-            reditect_to url_for(@contract.pdf)
+            redirect_to url_for(@contract.pdf)
           end
         end
       end

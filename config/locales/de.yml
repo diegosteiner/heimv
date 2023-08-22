@@ -490,6 +490,8 @@ de:
         one: Buchungsattribut Bedingung
       booking_conditions/booking_category:
         one: Mietkategorie Bedingung
+      booking_conditions/booking_question:
+        one: Zusatzinfo Bedingung
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/date_span:

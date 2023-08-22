@@ -55,6 +55,7 @@ it:
         occupied_occupancy_color: Colore per le occupazioni definitive
         occupied_occupancy_states:
         overdue_request_deadline: Periodo per le richieste di prenotazione in ritardo
+        payment_overdue_deadline:
         provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
         tenant_birth_date_required: 'Data di nascita: inserimento obbligatorio'
         tentative_occupancy_color: Colore per le occupazioni provvisorie
@@ -217,6 +218,7 @@ it:
         label: Testo
         ordinal_position: Numero di serie
         type: Tipo di voce della fattura
+        vat:
       meter_reading_period:
         begins_at: Inizio
         end_value: Lettura del contatore nuovo
@@ -494,6 +496,8 @@ it:
         one: Numero di notti (condizione)
       booking_conditions/booking_overnight_stays:
         one: 'Condizione pernottamenti '
+      booking_conditions/booking_question:
+        one:
       booking_conditions/booking_state:
         one: Stato (condizione)
       booking_conditions/date_span:
@@ -1098,9 +1102,26 @@ it:
       title:
   invoices:
     total: Totale
+    vat_label:
+    vat_title:
   layouts:
     footer:
+      legal:
+        heimv_privacy:
+        organisation_privacy:
+        title:
+      locales:
+        de:
+        fr:
+        it:
+        title:
+      manage:
+        title: Organizzazione
       privacy_statement: Informativa sulla privacy
+      version:
+        changelog:
+        github:
+        title:
     manage_navigation:
       help: Aiuto
       settings: Impostazioni

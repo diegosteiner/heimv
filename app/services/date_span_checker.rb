@@ -39,7 +39,7 @@ class DateSpanChecker
       return month > other.month if compare_month && month != other.month
 
       compare_day = day && other.day
-      return day > other.day if compare_day && day != other.day
+      day > other.day if compare_day && day != other.day
     end
 
     def ==(other)

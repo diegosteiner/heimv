@@ -2,38 +2,46 @@
 .container.small
   .row.mt-3
 
-    .col-md-3 
-      h2.m-0.mb-2.small= t('.manage.title')
+    .col-md-3.position-relative 
+      span.fa.fa-home.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25
+      .position-relative
+        h2.m-0.mb-2.small= t('.manage.title')
 
-      ul.list-unstyled
-        li= current_organisation&.name
-        - if current_organisation.present?
-          li= mail_to current_organisation&.email, current_organisation&.email
+        ul.list-unstyled
+          li= current_organisation&.name
+          - if current_organisation.present?
+            li= mail_to current_organisation&.email, current_organisation&.email
 
       / - if current_user.present?
       /   select class="form-select"
       /     - current_user.organisations.each do |org|
       /       option[value=url_for(org: org.slug)]= org 
 
-    .col-md-3 
-      h2.m-0.mb-2.small= t('.legal.title')
-      ul.list-unstyled 
-        li= link_to t('.legal.heimv_privacy'), ENV.fetch('PRIVACY_STATEMENT_URL', 'https://www.heimv.ch/privacy')
-        li= link_to t('.legal.organisation_privacy'), privacy_path
+    .col-md-3.position-relative
+      span.fa.fa-balance-scale.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25
+      .position-relative
+        h2.m-0.mb-2.small= t('.legal.title')
+        ul.list-unstyled 
+          li= link_to t('.legal.heimv_privacy'), ENV.fetch('PRIVACY_STATEMENT_URL', 'https://www.heimv.ch/privacy')
+          li= link_to t('.legal.organisation_privacy'), privacy_path
     
-    .col-md-3 
-      h2.m-0.mb-2.small
-        = t('.locales.title')
-      ul.list-unstyled 
-        - %i[de fr it].each do |locale|
-          li=<> link_to t(locale, scope: 'layouts.footer.locales'), url_for(params.clone.permit!.merge({ locale: locale, only_path: true })), class: (locale.to_sym == I18n.locale.to_sym && 'fw-bold' || nil)
+    .col-md-3.position-relative 
+      span.fa.fa-comments.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25
+      .position-relative
+        h2.m-0.mb-2.small
+          = t('.locales.title')
+        ul.list-unstyled 
+          - %i[de fr it].each do |locale|
+            li=<> link_to t(locale, scope: 'layouts.footer.locales'), url_for(params.clone.permit!.merge({ locale: locale, only_path: true })), class: (locale.to_sym == I18n.locale.to_sym && 'fw-bold' || nil)
 
-    .col-md-3 
-      h2.m-0.mb-2.small= t('.version.title')
-      ul.list-unstyled 
-        li = Rails.configuration.version
-        li= link_to  t('.version.changelog'), changelog_path
-        li= link_to  t('.version.github'), ENV.fetch('GITHUB_URL', 'https://github.com/diegosteiner/heimv/')
+    .col-md-3.position-relative 
+      span.fa.fa-github.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25
+      .position-relative
+        h2.m-0.mb-2.small= t('.version.title')
+        ul.list-unstyled 
+          li = Rails.configuration.version
+          li= link_to  t('.version.changelog'), changelog_path
+          li= link_to  t('.version.github'), ENV.fetch('GITHUB_URL', 'https://github.com/diegosteiner/heimv/')
 
 
 

@@ -7,7 +7,7 @@ module Public
         [:tenant_organisation, :cancellation_reason, :invoice_address, :locale, :committed_request,
          :purpose_description, :booking_category_id, :approximate_headcount, :remarks, :begins_at, :ends_at,
          { tenant_attributes: TenantParams.permitted_keys.without(:email), occupiable_ids: [],
-           deadlines_attributes: %i[id postpone], bookable_extra_ids: [],
+           deadlines_attributes: %i[id postpone],
            booking_question_responses_attributes: %i[booking_question_id value] }]
       end
     end
