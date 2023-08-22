@@ -1,97 +1,40 @@
 export function setup() {
   if (!document.querySelector(".rich-text-area")) return;
 
-  loadEditor().then((froala) => {
-    new froala(".rich-text-area", {
-      charCounterCount: false,
-      imagePaste: false,
-      imageUpload: false,
-      // enter: 1,
-      htmlUntouched: true,
-      toolbarInline: false,
-      // attribution: false,
-      toolbarVisibleWithoutSelection: false,
-      toolbarBottom: false,
-      quickInsertEnabled: false,
-      toolbarButtons: {
-        moreText: {
-          buttons: [
-            "bold",
-            "italic",
-            // "underline",
-            // "fontFamily",
-            // "fontSize",
-            "paragraphFormat",
-            // "strikeThrough",
-            // "subscript",
-            // "superscript",
-            // "textColor",
-            // "backgroundColor",
-            "inlineClass",
-            "inlineStyle",
-            "clearFormatting",
-          ],
-          buttonsVisible: 4,
-        },
-        moreParagraph: {
-          buttons: [
-            // "alignLeft",
-            // "alignCenter",
-            "formatOLSimple",
-            // "alignRight",
-            // "alignJustify",
-            // "formatOL",
-            "formatUL",
-            // "paragraphStyle",
-            // "lineHeight",
-            // "outdent",
-            // "indent",
-          ],
-          buttonsVisible: 3,
-        },
-        moreRich: {
-          buttons: ["insertImage", "insertTable", "insertLink", "specialCharacters"],
-          buttonsVisible: 4,
-        },
-        moreMisc: {
-          buttons: ["undo", "redo", "fullscreen", "html"],
-          align: "right",
-          buttonsVisible: 4,
-        },
-      },
-      pluginsEnabled: [
-        // 'align',
-        "codeBeautifier",
-        "codeView",
-        // 'colors',
-        // 'fontFamily',
-        // 'fontSize',
-        "lineBreaker",
-        // 'lineHeight',
-        "link",
-        "lists",
-        "paragraphFormat",
-        "paragraphStyle",
-        "quickInsert",
-        // 'save',
-        "table",
-        "url",
-        "image",
-        // 'imageManager',
-        "draggable",
-        // 'WPlaceholdersPlugin'
-        "wordPaste",
-        "specialCharacters",
-        "trackChanges",
-      ],
-      // paragraphFormatSelectiont: true,
+  loadEditor().then((tinymce) => {
+    tinymce.init({
+      selector: ".rich-text-area",
+      skin: false,
+      content_css: false,
+      height: 500,
+      menubar: false,
+      convert_urls: false,
+      allow_unsafe_link_target: true,
+      plugins: "autolink link anchor lists image table template searchreplace code paste textpattern",
+      toolbar: "undo redo | blocks | bold italic removeformat | bullist numlist link image table | template code",
+      // templates: [{ title: "Test", description: "Desc", content: "{{ booking.ref }}" }],
+      content_style:
+        'body { font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, ' +
+        '"Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", ' +
+        '"Segoe UI Symbol", "Noto Color Emoji"; font-size: 0.85em }',
     });
   });
 }
 
 function loadEditor() {
   return Promise.all([
-    import(/* webpackChunkName: "froala" */ "froala-editor/js/froala_editor.pkgd.min.js"),
-    import(/* webpackChunkName: "froala" */ "froala-editor/css/froala_editor.pkgd.min.css"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/icons/default"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/models/dom"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/themes/silver"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/anchor"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/code"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/link"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/autolink"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/lists"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/image"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/searchreplace"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/template"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/table"),
   ]).then((imports) => imports[0].default);
 }
