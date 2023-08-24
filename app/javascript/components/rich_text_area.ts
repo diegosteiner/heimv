@@ -10,7 +10,7 @@ export function setup() {
       menubar: false,
       convert_urls: false,
       allow_unsafe_link_target: true,
-      plugins: "autolink link anchor lists image table template searchreplace code paste textpattern",
+      plugins: "autolink link anchor lists image table template searchreplace code",
       toolbar: "undo redo | blocks | bold italic removeformat | bullist numlist link image table | template code",
       // templates: [{ title: "Test", description: "Desc", content: "{{ booking.ref }}" }],
       content_style:

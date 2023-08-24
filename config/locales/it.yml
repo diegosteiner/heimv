@@ -154,6 +154,7 @@ it:
         description: Descrizione
         key: Chiava
         label: Nome
+        mode:
         ordinal_position: Numero di serie
         required:
         type: Tipo
@@ -380,6 +381,11 @@ it:
           auto: System
           manager: Amministrazione
           tenant: Inquilino
+      booking_question:
+        modes:
+          always_editable:
+          booking_editable:
+          not_visible:
       data_digest:
         periods:
           ever: Tutti tempi

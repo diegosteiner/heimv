@@ -154,6 +154,7 @@ fr:
         description: Beschreibung
         key: Clé
         label: Name
+        mode:
         ordinal_position: Ordnungsnummer
         required: Saisie obligatoire
         type: type
@@ -380,6 +381,11 @@ fr:
           auto: Système
           manager: Administration
           tenant: Locataire
+      booking_question:
+        modes:
+          always_editable:
+          booking_editable:
+          not_visible:
       data_digest:
         periods:
           ever: De tous les temps

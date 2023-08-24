@@ -153,7 +153,8 @@ de:
         applying_conditions: Bedingungen
         description: Beschreibung
         key: Schlüssel
-        label: Name
+        label: Bezeichnung
+        mode: Eingabemodus
         ordinal_position: Ordnungsnummer
         required: Pflichteingabe
         type: Typ
@@ -380,6 +381,11 @@ de:
           auto: System
           manager: Verwaltung
           tenant: Mieter
+      booking_question:
+        modes:
+          always_editable: Für Mieter sichtbar, jederzeit bearbeitbar
+          booking_editable: Für Mieter sichtbar, bearbeitbar bis definitiv
+          not_visible: Für Mieter unsichtbar
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -491,7 +497,7 @@ de:
       booking_conditions/booking_category:
         one: Mietkategorie Bedingung
       booking_conditions/booking_question:
-        one: Zusatzinfo Bedingung
+        one: Zusätzliche Angabe Bedingung
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/date_span:
@@ -505,16 +511,16 @@ de:
       booking_conditions/tarif:
         one: Ausgewählter Tarif Bedingung
       booking_question:
-        one: Zusatzinfo
-        other: Zusatzinfos
+        one: Zusätzliche Angabe
+        other: Zusätzliche Angaben
       booking_questions/check_box:
-        one: Zusatzinfo als Checkbox
+        one: Zusätzliche Angabe als Checkbox
       booking_questions/integer:
-        one: Zusatzinfo als Ganzzahl
+        one: Zusätzliche Angabe als Ganzzahl
       booking_questions/string:
-        one: Zusatzinfo als Kurztext
+        one: Zusätzliche Angabe als Kurztext
       booking_questions/text:
-        one: Zusatzinfo als Langtext
+        one: Zusätzliche Angabe als Langtext
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
