@@ -69,12 +69,19 @@ function setupOccupiableSelect() {
   });
 }
 
+function setupOrgChangeSelect() {
+  document.getElementById("change-org")?.addEventListener("change", (event) => {
+    window.location = event.target.value;
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   csrfForm();
   toggleDisable();
   setupRichTextArea();
   setupBookingAgentBookingButton();
   setupOccupiableSelect();
+  setupOrgChangeSelect();
 });
 
 Rails.start();

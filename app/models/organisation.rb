@@ -64,6 +64,8 @@ class Organisation < ApplicationRecord
 
   locale_enum default: I18n.locale
 
+  scope :ordered, -> { order(name: :ASC) }
+
   validates :booking_flow_type, presence: true
   validates :currency, :invoice_ref_strategy_type, presence: true
   validates :name, :email, presence: true
