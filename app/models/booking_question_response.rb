@@ -30,7 +30,12 @@ class BookingQuestionResponse < ApplicationRecord
     errors.add(:value, :blank) if booking_question.required && value.blank?
   end
 
-  delegate :editable, to: :booking
+  def editable
+    return false unless booking_question
+    return true if booking_question.mode_always_editable?
+
+    booking.editable
+  end
 
   def value
     super.presence && booking_question&.cast(super)

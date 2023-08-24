@@ -9,6 +9,7 @@
 #  discarded_at     :datetime
 #  key              :string
 #  label_i18n       :jsonb
+#  mode             :integer          default("booking_editable"), not null
 #  options          :jsonb
 #  ordinal          :integer
 #  required         :boolean          default(FALSE)
@@ -39,14 +40,19 @@ class BookingQuestion < ApplicationRecord
   has_many :booking_question_responses, dependent: :destroy, inverse_of: :booking_question
   has_many :applying_conditions, -> { qualifiable_group(:applying) }, as: :qualifiable, dependent: :destroy,
                                                                       class_name: :BookingCondition, inverse_of: false
+
+  enum mode: { booking_editable: 0, not_visible: 1, always_editable: 2 }, _prefix: :mode
+
   scope :ordered, -> { order(:ordinal) }
   scope :include_conditions, -> { includes(:applying_conditions) }
+  scope :tenant_visible, -> { where(mode: %i[booking_editable always_editable]) }
   ranks :ordinal, with_same: :organisation_id
 
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :description, column_suffix: '_i18n', locale_accessors: true
 
   validates :type, presence: true, inclusion: { in: ->(_) { BookingQuestion.subtypes.keys.map(&:to_s) } }
+  validates :mode, presence: true
   before_validation :update_booking_conditions
 
   accepts_nested_attributes_for :applying_conditions, allow_destroy: true,

@@ -10,12 +10,17 @@ class RichTextTemplateService
   end
 
   def load_defaults_from_organisation!
-    Dir[Rails.root.join('config/locales/*.yml')].each do |locale_file|
+    load_defaults_from_organisation.each_pair do |locale_file, yaml|
+      File.open(locale_file, 'wb') { _1.write yaml.to_yaml }
+    end
+  end
+
+  def load_defaults_from_organisation
+    Dir[Rails.root.join('config/locales/*.yml')].to_h do |locale_file|
       yaml = YAML.load_file(locale_file)
       locale = yaml.keys.first
       set_rich_text_template_defaults(yaml, locale)
-
-      File.open(locale_file, 'wb') { _1.write yaml.to_yaml }
+      [locale_file, yaml]
     end
   end
 
