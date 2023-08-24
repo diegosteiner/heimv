@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## Version 23.8.3
+
+Released on 24.08.2023
+
+- Feature: Add more control over booking_questions
+- Feature: Add organisation changer in footer
+
 ## Version 23.8.2
 
 Released on 22.08.2023
