@@ -41,7 +41,7 @@ class BookingQuestion < ApplicationRecord
   has_many :applying_conditions, -> { qualifiable_group(:applying) }, as: :qualifiable, dependent: :destroy,
                                                                       class_name: :BookingCondition, inverse_of: false
 
-  enum mode: { booking_editable: 0, not_visible: 1, always_editable: 2 }, _prefix: :mode
+  enum mode: { booking_editable: 0, not_visible: 1, always_editable: 2, blank_editable: 3 }, _prefix: :mode
 
   scope :ordered, -> { order(:ordinal) }
   scope :include_conditions, -> { includes(:applying_conditions) }
@@ -80,9 +80,5 @@ class BookingQuestion < ApplicationRecord
     booking.organisation.booking_questions.include_conditions.filter do |question|
       question.applies_to_booking?(booking)
     end
-  end
-
-  def self.prepare_booking(booking)
-    booking.booking_questions = applying_to_booking(booking)
   end
 end

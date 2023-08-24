@@ -27,12 +27,13 @@ class BookingQuestionResponse < ApplicationRecord
 
   validates :value, length: { maximum: 1000 }
   validate on: %i[public_create public_update] do
-    errors.add(:value, :blank) if booking_question.required && value.blank?
+    errors.add(:value, :blank) if booking_question&.required && value.blank?
   end
 
   def editable
     return false unless booking_question
     return true if booking_question.mode_always_editable?
+    return value.blank? if booking_question.mode_blank_editable?
 
     booking.editable
   end
@@ -41,16 +42,21 @@ class BookingQuestionResponse < ApplicationRecord
     super.presence && booking_question&.cast(super)
   end
 
-  def self.process_nested_attributes(booking, attributes)
+  def self.process_nested_attributes(booking, attributes, manage: false)
     existing_responses = indexed_by_booking_question_id(booking)
+    attributes_by_question_id = attributes&.values&.index_by { _1[:booking_question_id]&.to_i } || {}
     questions = BookingQuestion.applying_to_booking(booking).index_by(&:id)
-    attributes&.values&.filter_map do |attribute_set|
-      question = questions[attribute_set[:booking_question_id]&.to_i]
-      next if question.blank?
+    questions.values.map do |question|
+      attributes_of_response = attributes_by_question_id[question.id]
+      build_response(booking, question, existing_responses, attributes_of_response, manage: manage)
+    end
+  end
 
-      response = existing_responses.fetch(question.id, booking.booking_question_responses.build)
-      response.assign_attributes(booking_question: question, value: question.cast(attribute_set[:value]))
-      response
+  def self.build_response(booking, question, existing_responses, attributes, manage: false)
+    existing_responses.fetch(question.id, booking.booking_question_responses.build).tap do |response|
+      next if (!manage && question.mode_not_visible?) || (!manage && !response.editable)
+
+      response.assign_attributes(booking_question: question, value: question.cast(attributes[:value]))
     end
   end
 

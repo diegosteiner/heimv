@@ -384,6 +384,7 @@ de:
       booking_question:
         modes:
           always_editable: Für Mieter sichtbar, jederzeit bearbeitbar
+          blank_editable: Für Mieter sichtbar, bearbeitbar wenn leer
           booking_editable: Für Mieter sichtbar, bearbeitbar bis definitiv
           not_visible: Für Mieter unsichtbar
       data_digest:
@@ -515,6 +516,8 @@ de:
         other: Zusätzliche Angaben
       booking_questions/check_box:
         one: Zusätzliche Angabe als Checkbox
+      booking_questions/date:
+        one: Zusätzliche Angabe als Datum
       booking_questions/integer:
         one: Zusätzliche Angabe als Ganzzahl
       booking_questions/string:

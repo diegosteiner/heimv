@@ -123,6 +123,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :agent_booking, reject_if: :all_blank, update_only: true
+  accepts_nested_attributes_for :booking_question_responses, reject_if: :all_blank, update_only: true
 
   delegate :to_s, to: :ref
   delegate :exceeded?, to: :deadline, prefix: true, allow_nil: true
@@ -160,10 +161,6 @@ class Booking < ApplicationRecord
 
   def invoice_address_lines
     @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
-  end
-
-  def booking_question_responses_attributes=(attributes)
-    self.booking_question_responses = BookingQuestionResponse.process_nested_attributes(self, attributes)
   end
 
   def email

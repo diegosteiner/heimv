@@ -21,13 +21,13 @@ module Manage
     def new
       @booking.assign_attributes(organisation: current_organisation, notifications_enabled: true)
       @booking.build_tenant
-      BookingQuestion.prepare_booking(@booking)
+      @booking.booking_questions = BookingQuestion.applying_to_booking(@booking)
 
       respond_with :manage, @booking
     end
 
     def edit
-      BookingQuestion.prepare_booking(@booking)
+      @booking.booking_questions = BookingQuestion.applying_to_booking(@booking)
     end
 
     def new_import
@@ -50,6 +50,9 @@ module Manage
     def create
       @booking.organisation = current_organisation
       @booking.transition_to ||= :open_request
+      responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params,
+                                                                    manage: true)
+      @booking.booking_question_responses = responses unless responses.nil?
       @booking.save(context: :manage_create)
       Booking::Log.log(@booking, trigger: :manager, user: current_user)
       respond_with :manage, @booking
@@ -57,6 +60,9 @@ module Manage
 
     def update
       @booking.assign_attributes(booking_params)
+      responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params,
+                                                                    manage: true)
+      @booking.booking_question_responses = responses unless responses.nil?
       @booking.save(context: :manage_update)
       call_booking_action
       Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
@@ -95,6 +101,11 @@ module Manage
 
     def booking_import_params
       params[:manage_bookings_controller_import]&.permit(%i[home_id file headers initial_state]) || {}
+    end
+
+    def booking_question_responses_params
+      params[:booking]&.permit(booking_question_responses_attributes: %i[booking_question_id value])
+                      &.fetch(:booking_question_responses_attributes, nil)
     end
 
     def default_booking_filter_params
