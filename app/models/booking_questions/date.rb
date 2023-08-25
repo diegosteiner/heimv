@@ -9,6 +9,7 @@
 #  discarded_at     :datetime
 #  key              :string
 #  label_i18n       :jsonb
+#  mode             :integer          default("booking_editable"), not null
 #  options          :jsonb
 #  ordinal          :integer
 #  required         :boolean          default(FALSE)

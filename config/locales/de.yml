@@ -140,8 +140,7 @@ de:
       booking_category:
         description: Beschreibung
         key: Schlüssel
-        ordinal: Ordnungsnummer
-        ordinal_position: Anzeigeposition
+        ordinal_position: Ordnungsnummer
         title: Titel
       booking_condition:
         compare_attribute: Attribut
@@ -249,6 +248,7 @@ de:
         home_id: Hauptmietobjekt
         name: Name
         occupiable: Belegbar
+        ordinal_position: Ordnungsnummer
         ref: Kurzname / Referenz
         type: Typ
       operator:
@@ -317,7 +317,7 @@ de:
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum_usage_per_night: Minimaler Verbrauch (pro Nacht)
         minimum_usage_total: Minimaler Verbrauch (Total)
-        ordinal: Ordnungsnummer
+        ordinal_position: Ordnungsnummer
         pin: Preis pro Einheit einfrieren
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis (pro Einheit)

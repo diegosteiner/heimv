@@ -17,7 +17,7 @@
           = f.text_area "description_#{locale.to_s}", label: BookingCategory.human_attribute_name(:description)
 
     = f.text_field :key
-    = f.number_field :ordinal_position
+    = f.text_field :ordinal_position
 
   .form-actions.pt-4.mt-3
     = f.submit

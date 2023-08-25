@@ -43,10 +43,10 @@ class BookingQuestion < ApplicationRecord
 
   enum mode: { booking_editable: 0, not_visible: 1, always_editable: 2, blank_editable: 3 }, _prefix: :mode
 
-  scope :ordered, -> { order(:ordinal) }
+  scope :ordered, -> { rank(:ordinal) }
   scope :include_conditions, -> { includes(:applying_conditions) }
   scope :tenant_visible, -> { where(mode: %i[booking_editable always_editable]) }
-  ranks :ordinal, with_same: :organisation_id
+  ranks :ordinal, with_same: :organisation_id, class_name: 'BookingQuestion'
 
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :description, column_suffix: '_i18n', locale_accessors: true
