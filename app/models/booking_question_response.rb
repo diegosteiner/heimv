@@ -54,7 +54,7 @@ class BookingQuestionResponse < ApplicationRecord
 
   def self.build_response(booking, question, existing_responses, attributes, manage: false)
     existing_responses.fetch(question.id, booking.booking_question_responses.build).tap do |response|
-      next if (!manage && question.mode_not_visible?) || (!manage && !response.editable)
+      next if attributes.blank? || (!manage && question.mode_not_visible?) || (!manage && !response.editable)
 
       response.assign_attributes(booking_question: question, value: question.cast(attributes[:value]))
     end
