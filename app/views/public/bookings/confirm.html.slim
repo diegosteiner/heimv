@@ -6,7 +6,7 @@
 
       .text-center.my-4
         span.fa.fa-envelope.display-1.text-success
-        strong.d-block= sanitize(@email)
+        strong.d-block= @booking.email
 
-      = t('flash.public.bookings.create.notice', email: sanitize(@email)).html_safe
+      = t('flash.public.bookings.create.notice', email: @booking.email).html_safe
 

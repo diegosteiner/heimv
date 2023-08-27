@@ -27,7 +27,7 @@ module Public
       @booking = preparation_service.prepare_create(create_params)
       respond_to do |format|
         if @booking.save(context: :public_create)
-          format.html { redirect_to confirm_public_bookings_path(email: @booking.email) }
+          format.html { render :confirm }
           format.json { render json: { status: :created }, status: :created }
         else
           format.html { render :new }
