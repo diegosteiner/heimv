@@ -36,10 +36,6 @@ module Public
       end
     end
 
-    def confirm
-      @email = params[:email]
-    end
-
     def update
       @booking.assign_attributes(update_params) if @booking.editable?
       responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params)
