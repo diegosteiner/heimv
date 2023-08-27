@@ -66,7 +66,7 @@ class Booking < ApplicationRecord
 
   belongs_to :home
   belongs_to :organisation, inverse_of: :bookings
-  belongs_to :tenant, inverse_of: :bookings, optional: true
+  belongs_to :tenant, inverse_of: :bookings, optional: true # , autosave: true
   belongs_to :deadline, inverse_of: :booking, optional: true
   belongs_to :category, inverse_of: :bookings, class_name: 'BookingCategory', optional: true,
                         foreign_key: :booking_category_id
@@ -172,18 +172,10 @@ class Booking < ApplicationRecord
     super(value) && tenant&.email=value
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
   def set_tenant
-    return if email.blank? || tenant&.email.present? || organisation.blank?
+    return if email.blank? || organisation.blank?
 
-    self.tenant = organisation.tenants.find_by(email: email) || tenant || build_tenant
-    tenant.organisation = organisation
-    tenant.email ||= email
-  end
-  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
-
-  def build_tenant(attributes = {})
-    super(attributes.merge(organisation: organisation || attributes[:organisation]))
+    self.tenant = Tenant.for_booking(self)
   end
 
   def occupancy_color
