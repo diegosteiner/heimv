@@ -645,7 +645,6 @@ de:
         one: Account
         other: Account
   add_record: "%{model_name} hinzufügen"
-  and: und
   back: Zurück
   booking_actions:
     manage:
@@ -1428,10 +1427,6 @@ de:
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
         title: Reservation
-    pages:
-      privacy:
-        current_organisation_privacy_statment_title: Datenschutzerklärung von %{organisation}
-        current_organisation_privacy_statment_url: Link zur Datenschutzerklärung der verarbeitenden Organisation
   receipt_title: Receipt title
   ref: Ref
   renderables:
