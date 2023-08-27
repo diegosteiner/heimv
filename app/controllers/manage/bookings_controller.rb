@@ -19,7 +19,8 @@ module Manage
     end
 
     def new
-      @booking.assign_attributes(organisation: current_organisation, notifications_enabled: true)
+      @booking.assign_attributes(organisation: current_organisation, notifications_enabled: true, 
+                                 transition_to: :provisional_request)
       @booking.build_tenant
       @booking.booking_questions = BookingQuestion.applying_to_booking(@booking)
 

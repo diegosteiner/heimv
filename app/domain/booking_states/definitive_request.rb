@@ -47,7 +47,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.update!(editable: false)
+      booking.update!(editable: false, committed_request: true)
       booking.deadline&.clear
       OperatorResponsibility.assign(booking, :home_handover, :home_return)
       to = booking.responsibilities[:administration] || booking.organisation

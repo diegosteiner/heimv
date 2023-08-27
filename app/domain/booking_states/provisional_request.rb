@@ -30,6 +30,8 @@ module BookingStates
 
     after_transition do |booking|
       booking.tentative!
+      next if booking.committed_request
+
       booking.notifications.new(template: :provisional_request_notification, to: booking.tenant).deliver
     end
 
