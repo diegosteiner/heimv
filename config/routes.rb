@@ -60,7 +60,9 @@ Rails.application.routes.draw do
       resource :organisation, only: :show
       get 'designated_documents/:designation', to: 'designated_documents#show', as: :public_designated_document
       resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
-      resources :bookings, only: %i[new create edit update], as: :public_bookings
+      resources :bookings, only: %i[new create edit update], as: :public_bookings do
+        get :confirm, on: :collection
+      end
       get 'b/:id(/edit)', to: 'bookings#edit'
       get 'changelog', to: 'pages#changelog'
       get 'privacy', to: 'pages#privacy'

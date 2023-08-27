@@ -1,0 +1,12 @@
+.mx-auto.w-md
+  
+  .card.shadow.border-success.bg-success-light 
+    .card-body 
+      h2.mt-0.mb-3.text-center= t('.title')
+
+      .text-center.my-4
+        span.fa.fa-envelope.display-1.text-success
+        strong.d-block= sanitize(@email)
+
+      = t('flash.public.bookings.create.notice', email: sanitize(@email)).html_safe
+

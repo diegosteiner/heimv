@@ -1416,6 +1416,8 @@ de:
       new:
         title: Reservation
     bookings:
+      confirm:
+        title: Bitte E-Mail Adresse bestätigen
       edit:
         title: Reservation bearbeiten
       form:

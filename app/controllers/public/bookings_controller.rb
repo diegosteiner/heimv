@@ -27,13 +27,17 @@ module Public
       @booking = preparation_service.prepare_create(create_params)
       respond_to do |format|
         if @booking.save(context: :public_create)
-          format.html { redirect_to organisation_path, notice: create_booking_notice }
+          format.html { redirect_to confirm_public_bookings_path(email: @booking.email) }
           format.json { render json: { status: :created }, status: :created }
         else
           format.html { render :new }
           format.json { respond_with :public, @booking }
         end
       end
+    end
+
+    def confirm
+      @email = params[:email]
     end
 
     def update
@@ -47,10 +51,6 @@ module Public
     end
 
     private
-
-    def create_booking_notice
-      t('flash.public.bookings.create.notice', email: @booking.email)
-    end
 
     def set_booking
       @booking = current_organisation.bookings.find_by(token: params[:id]) ||

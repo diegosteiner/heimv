@@ -19,7 +19,8 @@ module Manage
     end
 
     def new
-      @booking.assign_attributes(organisation: current_organisation, notifications_enabled: true, 
+      @booking = preparation_service.prepare_new(booking_params)
+      @booking.assign_attributes(organisation: current_organisation, notifications_enabled: true,
                                  transition_to: :provisional_request)
       @booking.build_tenant
       @booking.booking_questions = BookingQuestion.applying_to_booking(@booking)
@@ -50,7 +51,6 @@ module Manage
 
     def create
       @booking.organisation = current_organisation
-      @booking.transition_to ||= :open_request
       responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params,
                                                                     manage: true)
       @booking.booking_question_responses = responses unless responses.nil?
@@ -77,6 +77,10 @@ module Manage
     end
 
     private
+
+    def preparation_service
+      @preparation_service ||= BookingPreparationService.new(current_organisation)
+    end
 
     def set_filter
       @filter = Booking::Filter.new(default_booking_filter_params.merge(booking_filter_params))

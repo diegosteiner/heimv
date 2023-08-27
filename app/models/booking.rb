@@ -172,11 +172,15 @@ class Booking < ApplicationRecord
     super(value) && tenant&.email=value
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
   def set_tenant
-    return if email.blank? || tenant&.email.present?
+    return if email.blank? || tenant&.email.present? || organisation.blank?
 
-    self.tenant = Tenant.find_or_initialize_by(email: email, organisation: organisation)
+    self.tenant = organisation.tenants.find_by(email: email) || tenant || build_tenant
+    tenant.organisation = organisation
+    tenant.email ||= email
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
 
   def build_tenant(attributes = {})
     super(attributes.merge(organisation: organisation || attributes[:organisation]))
