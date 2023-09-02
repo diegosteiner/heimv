@@ -41,7 +41,7 @@
                   = usage.tarif.unit
                   small.d-block.text-secondary= usage.tarif.class.model_name.human
                 td
-                  = render partial: usage.tarif.template_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
+                  = render partial: usage.tarif.to_partial_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
                 td
                   = number_to_currency(usage.price, unit: '')
                   small.d-block.text-secondary= @booking.organisation.currency

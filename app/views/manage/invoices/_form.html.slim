@@ -22,12 +22,12 @@
 
     h5.mt-4= InvoicePart.model_name.human(count: 2)
     = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
-      = render partial: ipf.object.template_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
+      = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
 
 
     h5.mt-4= t('.suggested_invoice_parts')
     = f.fields_for :invoice_parts, @invoice.suggested_invoice_parts do |ipf|
-      = render partial: ipf.object.template_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
+      = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
 
     div
       - unless @invoice.new_record?
