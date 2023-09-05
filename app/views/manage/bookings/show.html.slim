@@ -85,8 +85,8 @@
               - @booking.booking_question_responses.each do |response|
                 dl
                   dt= response.booking_question.label
-                  - if lookup_context.template_exists? response.booking_question.template_path('value'), [], true
-                    dd= render partial: response.booking_question.template_path('value'), locals: { value: response.value }
+                  - if lookup_context.template_exists? response.booking_question.to_partial_path('value'), [], true
+                    dd= render partial: response.booking_question.to_partial_path('value'), locals: { value: response.value }
                   - else 
                     dd= response.value
 

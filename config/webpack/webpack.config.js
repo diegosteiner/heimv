@@ -32,6 +32,7 @@ const customConfig = {
             loader: "sass-loader",
             options: {
               sourceMap: true,
+              warnRuleAsWarning: true,
               sassOptions: {
                 outputStyle: "compressed",
               },

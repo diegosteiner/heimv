@@ -3,7 +3,7 @@
     = f.hidden_field :id
     = f.select :type, subtype_options_for_select(BookingQuestion.subtypes), include_blank: true, required: true
     = f.select :mode, enum_options_for_select(BookingQuestion, :modes, @booking_question.mode), include_blank: true
-    = f.number_field :ordinal_position, step: 1.0
+    = f.text_field :ordinal_position
     = f.text_field :key
     = f.check_box :required
 

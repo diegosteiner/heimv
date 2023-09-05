@@ -11,7 +11,7 @@ describe 'Occupiable', :devise, type: :feature do
 
   it 'can create new occupiable' do
     visit new_manage_occupiable_path
-    fill_in :occupiable_name, with: new_occupiable.name
+    fill_in :occupiable_name_de, with: new_occupiable.name
     submit_form
     expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Occupiable.model_name.human)
     expect(page).to have_content new_occupiable.name
@@ -25,7 +25,7 @@ describe 'Occupiable', :devise, type: :feature do
 
   it 'can edit existing occupiable' do
     visit edit_manage_occupiable_path(occupiable, org: nil)
-    fill_in :occupiable_name, with: new_occupiable.name
+    fill_in :occupiable_name_de, with: new_occupiable.name
     submit_form
     expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Occupiable.model_name.human)
     expect(page).to have_content new_occupiable.name

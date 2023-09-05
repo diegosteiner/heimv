@@ -1,14 +1,29 @@
 = form_with(model: [:manage, @occupiable.becomes(Occupiable)], local: true) do |f|
 
   fieldset
+    ul.nav.nav-tabs.mt-4 role="tablist"
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        li.nav-item
+          = link_to locale.upcase, "#name-#{locale}-tab",
+            class: "nav-link #{'active' if current_locale}",
+            aria: { controls: "name-#{locale}-tab", selected: current_locale },
+            data: { "bs-toggle": 'tab' }, role: 'tab'
+
+    .tab-content
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        .tab-pane.pt-3[id="name-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="name-#{locale}-tab" role='tabpanel']
+          = f.text_field "name_#{locale.to_s}", label: Occupiable.human_attribute_name(:name)
+          = f.text_area "description_#{locale.to_s}", label: Occupiable.human_attribute_name(:description)
+
+  fieldset
     = f.select :type, [Home, Occupiable].map { |type| [type.model_name.human, type.to_s] }
-    = f.text_field :name
     = f.text_field :ref
-    = f.text_area :description
     = f.check_box :active
     = f.check_box :occupiable
     = f.collection_select :home_id, current_organisation.homes, :id, :to_s, include_blank: true
-    = f.number_field :ordnial
+    = f.text_field :ordinal_position
 
   = f.fields_for :settings, @occupiable.settings || OccupiableSettings.new do |sf|  
     = sf.text_field :booking_margin, value: sf.object.booking_margin&.iso8601

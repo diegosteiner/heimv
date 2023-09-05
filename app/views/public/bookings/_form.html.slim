@@ -104,7 +104,7 @@
           - question = response.booking_question
           - next if question.mode_not_visible?
           = bqrf.hidden_field :booking_question_id
-          = render partial: response.booking_question.template_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: !response.editable }
+          = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: !response.editable }
 
       .form-actions.pt-4.mt-3
         =<> f.submit class: 'btn btn-primary'

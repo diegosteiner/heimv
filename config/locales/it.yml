@@ -654,7 +654,6 @@ it:
         one: Utente
         other: Utenti
   add_record: aggiungere %{model_name}
-  and:
   back: Indietro
   booking_actions:
     manage:
@@ -1102,10 +1101,6 @@ it:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum_price}
-    from_vat:
-      breakdown:
-      label:
-      title:
   invoices:
     total: Totale
     vat_label:
@@ -1123,7 +1118,6 @@ it:
         title:
       manage:
         title: Organizzazione
-      privacy_statement: Informativa sulla privacy
       version:
         changelog:
         github:
@@ -1317,10 +1311,6 @@ it:
         problems_html: Problemi con la prenotazione? Contattare <a href="mailto:%{email}">%{email}</a>.
         submit: Invia la richiesta di prenotazione
         title: Prenotazione
-    pages:
-      privacy:
-        current_organisation_privacy_statment_title: Informativa sulla privacy di %{organisation}
-        current_organisation_privacy_statment_url: Link all'informativa sulla privacy dell'organizzazione di trattamento
   receipt_title:
   ref: Ref
   renderables:

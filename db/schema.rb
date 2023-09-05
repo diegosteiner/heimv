@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_24_084628) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_25_125830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -371,9 +371,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_084628) do
 
   create_table "occupiables", force: :cascade do |t|
     t.bigint "organisation_id", null: false
-    t.string "name"
     t.string "ref"
-    t.text "description"
     t.text "janitor"
     t.boolean "active", default: false
     t.datetime "created_at", precision: nil, null: false
@@ -383,6 +381,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_084628) do
     t.bigint "home_id"
     t.jsonb "settings"
     t.integer "ordinal"
+    t.jsonb "name_i18n"
+    t.jsonb "description_i18n"
     t.index ["home_id"], name: "index_occupiables_on_home_id"
     t.index ["organisation_id"], name: "index_occupiables_on_organisation_id"
     t.index ["ref", "organisation_id"], name: "index_occupiables_on_ref_and_organisation_id", unique: true

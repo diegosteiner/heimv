@@ -72,7 +72,11 @@
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error
 
-    = f.collection_select :booking_category_id, current_organisation.booking_categories, :id, :title, include_blank: true
+    - if current_organisation.booking_categories.many?
+      = f.collection_select :booking_category_id, current_organisation.booking_categories, :id, :title, include_blank: true
+    - else 
+      = f.hidden_field :booking_category_id, value: current_organisation.booking_categories.take.id
+      
     = f.text_field :purpose_description
     = f.number_field :approximate_headcount
     = f.text_area :remarks
@@ -86,7 +90,7 @@
       - response = bqrf.object
       - question = response.booking_question
       = bqrf.hidden_field :booking_question_id
-      = render partial: response.booking_question.template_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: false }
+      = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: false }
 
   fieldset.mt-3
     h5.mt-0= AgentBooking.model_name.human

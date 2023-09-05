@@ -24,8 +24,12 @@
         .col-md-4.col-lg-3.py-3.d-block.overflow-x-hidden
           - if booking.tenant.present?
             small= Tenant.model_name.human
-            p.m-0=link_to booking.tenant.full_name, manage_tenant_path(booking.tenant)
-            p.m-0= booking.tenant_organisation.presence
+            p.m-0 = link_to booking.tenant.full_name, manage_tenant_path(booking.tenant)
+            p.m-0
+              = mail_to booking.email do
+                span.fa.fa-envelope-o.me-2 
+                = booking.email
+            p.m-0 = booking.tenant_organisation.presence
           - if booking.agent_booking.present?
               small= BookingAgent.model_name.human
               p.m-0=link_to booking.agent_booking.booking_agent, manage_booking_agent_path(booking.booking_agent)

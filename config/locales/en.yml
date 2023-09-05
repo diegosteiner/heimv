@@ -1127,8 +1127,6 @@ en:
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum_price}
   layouts:
-    footer:
-      privacy_statement: Datenschutzerklärung
     manage_navigation:
       help: Hilfe
   manage:
@@ -1369,10 +1367,6 @@ en:
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
         title: Reservation
-    pages:
-      privacy:
-        current_organisation_privacy_statment_title: Datenschutzerklärung von %{organisation}
-        current_organisation_privacy_statment_url: Link zur Datenschutzerklärung der verarbeitenden Organisation
   receipt_title: Receipt title
   ref: Ref
   reset: Zurücksetzen

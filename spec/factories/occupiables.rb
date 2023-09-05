@@ -4,20 +4,20 @@
 #
 # Table name: occupiables
 #
-#  id              :bigint           not null, primary key
-#  active          :boolean          default(FALSE)
-#  description     :text
-#  janitor         :text
-#  name            :string
-#  occupiable      :boolean          default(FALSE)
-#  ordinal         :integer
-#  ref             :string
-#  settings        :jsonb
-#  type            :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  home_id         :bigint
-#  organisation_id :bigint           not null
+#  id               :bigint           not null, primary key
+#  active           :boolean          default(FALSE)
+#  description_i18n :jsonb
+#  janitor          :text
+#  name_i18n        :jsonb
+#  occupiable       :boolean          default(FALSE)
+#  ordinal          :integer
+#  ref              :string
+#  settings         :jsonb
+#  type             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  home_id          :bigint
+#  organisation_id  :bigint           not null
 #
 # Indexes
 #

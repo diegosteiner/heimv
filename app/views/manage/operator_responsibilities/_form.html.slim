@@ -2,7 +2,7 @@
   - if @booking.present?
     = f.hidden_field :booking_id
   - else
-    = f.number_field :ordinal_position
+    = f.text_field :ordinal_position
 
   = f.select :responsibility, OperatorResponsibility.responsibilities.keys.map { |responsibility| [OperatorResponsibility.human_enum(:responsibility, responsibility), responsibility] }, include_blank: true
   = f.collection_select :operator_id, @operators, :id, :name, include_blank: true

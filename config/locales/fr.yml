@@ -650,7 +650,6 @@ fr:
         one: Compte
         other: Compte
   add_record: Ajouter %{model_name}
-  and: et
   back: Retour
   booking_actions:
     manage:
@@ -1133,10 +1132,6 @@ fr:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum_price}
-    from_vat:
-      breakdown:
-      label:
-      title:
   invoices:
     total: Total
     vat_label:
@@ -1154,7 +1149,6 @@ fr:
         title:
       manage:
         title: Organisation
-      privacy_statement: Déclaration de confidentialité
       version:
         changelog:
         github:
@@ -1348,10 +1342,6 @@ fr:
         problems_html: Des problèmes avec la réservation ? Adresse-toi à <a href="mailto:%{email}">%{email}</a>.
         submit: Envoyer une demande de réservation
         title: Réservation
-    pages:
-      privacy:
-        current_organisation_privacy_statment_title: Déclaration de confidentialité de l'%{organisation}
-        current_organisation_privacy_statment_url: Lien vers la déclaration de confidentialité de l'organisation qui traite les données
   receipt_title: Titre de la réception
   ref: Ref
   renderables:

@@ -4,20 +4,20 @@
 #
 # Table name: occupiables
 #
-#  id              :bigint           not null, primary key
-#  active          :boolean          default(FALSE)
-#  description     :text
-#  janitor         :text
-#  name            :string
-#  occupiable      :boolean          default(FALSE)
-#  ordinal         :integer
-#  ref             :string
-#  settings        :jsonb
-#  type            :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  home_id         :bigint
-#  organisation_id :bigint           not null
+#  id               :bigint           not null, primary key
+#  active           :boolean          default(FALSE)
+#  description_i18n :jsonb
+#  janitor          :text
+#  name_i18n        :jsonb
+#  occupiable       :boolean          default(FALSE)
+#  ordinal          :integer
+#  ref              :string
+#  settings         :jsonb
+#  type             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  home_id          :bigint
+#  organisation_id  :bigint           not null
 #
 # Indexes
 #
@@ -32,6 +32,7 @@
 
 class Occupiable < ApplicationRecord
   include RankedModel
+  extend Mobility
 
   has_many :occupancies, inverse_of: :occupiable, dependent: :restrict_with_error
 
@@ -40,12 +41,12 @@ class Occupiable < ApplicationRecord
 
   attribute :settings, Settings::Type.new(OccupiableSettings), default: -> { OccupiableSettings.new }
 
-  scope :ordered, -> { order(name: :ASC) }
+  translates :name, :description, column_suffix: '_i18n', locale_accessors: true
+  ranks :ordinal, with_same: :organisation_id, class_name: 'Occupiable'
+
   scope :occupiable, -> { where(occupiable: true) }
   scope :active, -> { where(active: true) }
   scope :ordered, -> { rank(:ordinal) }
-
-  ranks :ordinal, with_same: :organisation_id
 
   validates :name, presence: true
   validates :type, inclusion: { in: %w[Home Occupiable] }, allow_nil: true
