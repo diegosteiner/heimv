@@ -149,6 +149,12 @@
     }
   }
 
+  .date.today {
+    outline-width: 0.25em;
+    outline-style: solid;
+    outline-color: rgba(var(--bs-primary-rgb), 0.6);
+  }
+
   button.occupancy-calendar-date.selected-date {
     outline-width: 0.5em;
     outline-style: solid;

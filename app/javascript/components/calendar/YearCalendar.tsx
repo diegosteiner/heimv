@@ -1,4 +1,4 @@
-import { addYears, eachMonthOfInterval, startOfYear, subYears } from "date-fns";
+import { addMonths, addYears, eachMonthOfInterval, startOfYear, subYears } from "date-fns";
 import { getYear, formatISO, eachDayOfInterval, endOfMonth, startOfMonth, getDay } from "date-fns/esm";
 import { useState } from "react";
 import { CalendarDate, DateElementFactory } from "./CalendarDate";
@@ -14,7 +14,7 @@ export default function YearCalendar({ initialFirstDate, dateElementFactory }: Y
   const [firstDate, setFirstDate] = useState<Date>(startOfYear(parseDate(initialFirstDate)));
   const nextMonth = () => setFirstDate((prevFirstDate) => addYears(prevFirstDate, 1));
   const prevMonth = () => setFirstDate((prevFirstDate) => subYears(prevFirstDate, 1));
-  const interval = { start: firstDate, end: addYears(firstDate, 1) };
+  const interval = { start: firstDate, end: addMonths(firstDate, 11) };
 
   return (
     <div className="year-calendar">
