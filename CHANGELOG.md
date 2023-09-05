@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## Version 23.9.1
+
+- Bugfixes
+- Feature: Show current date in calendar
+- Feature: Translate occupiable names and descriptions
+
 ## Version 23.8.3
 
 Released on 24.08.2023

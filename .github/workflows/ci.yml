@@ -45,9 +45,12 @@ jobs:
           context: .
           load: true
           push: false
+          target: production
           tags: ghcr.io/${{ github.repository }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          # build-args:
+          #   FOOTER_VERSION: "${{ github.ref_name }}"
 
       - name: migrate
         run: docker-compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
@@ -55,14 +58,18 @@ jobs:
       - name: bin/check
         run: docker-compose --file docker-compose.ci.yml run e2e_test bin/check
 
+      - name: docker tag
+        run: docker tag ghcr.io/${{ github.repository }}:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+
       - if: github.event_name != 'pull_request'
         name: docker push
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        # uses: docker/build-push-action@v3
+        # with:
+        #   push: true
+        #   tags: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+        #   cache-from: type=gha
+        #   cache-to: type=gha,mode=max
 
       - if: failure()
         name: dump log
