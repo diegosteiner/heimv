@@ -55,6 +55,10 @@ class AgentBooking < ApplicationRecord
     booking.email = value
   end
 
+  def tenant_email
+    super || booking.email
+  end
+
   def update_booking
     booking.organisation ||= organisation
   end
