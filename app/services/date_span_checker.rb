@@ -21,6 +21,8 @@ class DateSpanChecker
     def <(other)
       return self.class.from_date(other.to_date) > self if other.respond_to?(:to_date)
 
+      # return true if [year, other.year].compact.count == 1
+
       other > self
     end
 
@@ -31,6 +33,8 @@ class DateSpanChecker
     # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def >(other)
       return self > self.class.from_date(other.to_date) if other.respond_to?(:to_date)
+
+      # return true if [year, other.year].compact.count == 1
 
       compare_year = year && other.year
       return year > other.year if compare_year && year != other.year
@@ -47,8 +51,8 @@ class DateSpanChecker
 
       super ||
         ((!day || !other.day || day == other.day) &&
-        (!month || !other.month || day == other.month) &&
-        (!year || !other.year || day == other.year))
+        (!month || !other.month || month == other.month) &&
+        (!year || !other.year || year == other.year))
     end
     # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   end
@@ -68,9 +72,15 @@ class DateSpanChecker
   def overlap?(other)
     case other
     when NullableDate, Date, DateTime, ActiveSupport::TimeWithZone
-      begins_at <= other.to_date && ends_at >= other.to_date
+      gte_begins_at = begins_at <= other.to_date
+      lte_ends_at = ends_at >= other.to_date
+      begins_at > ends_at ? gte_begins_at || lte_ends_at : gte_begins_at && lte_ends_at
     when Range
-      overlap?(other.begin) || overlap?(other.end) || (begins_at >= other.begin && ends_at <= other.end)
+      overlap_range?(other)
     end
+  end
+
+  def overlap_range?(range)
+    overlap?(range.begin) || overlap?(range.end) || (begins_at >= range.begin && ends_at <= range.end)
   end
 end

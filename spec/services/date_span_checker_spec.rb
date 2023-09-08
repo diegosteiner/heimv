@@ -34,6 +34,28 @@ RSpec.describe DateSpanChecker, type: :service do
     end
   end
 
+  describe 'Date#==' do
+    it do
+      expect(date(2000, 1, nil) == date(2000, 1, 1)).to be_truthy
+    end
+
+    it do
+      expect(date(2000, 1, 1) == date(2000, nil, 1)).to be_truthy
+    end
+
+    it do
+      expect(date(nil, 1, 1) == date(2000, nil, 1)).to be_truthy
+    end
+
+    it do
+      expect(date(2023, 4, 1) == date(2000, 4, 1)).to be_falsy
+    end
+
+    it do
+      expect(date(2023, 4, 1) == Date.new(2023, 1, 1)).to be_falsy
+    end
+  end
+
   describe 'Date#>=' do
     it do
       expect(date(nil, 2, 28) >= date(2000, 1, 1)).to be_truthy
@@ -96,6 +118,18 @@ RSpec.describe DateSpanChecker, type: :service do
     context 'with open start' do
       let(:string_value) { '-31.10.2023' }
       let(:compare_value) { Date.new(2021, 3, 12) }
+      it { is_expected.to be_truthy }
+    end
+
+    context 'without year not overlapping' do
+      let(:string_value) { '1.4.-30.09.' }
+      let(:compare_value) { Date.new(2023, 1, 1) }
+      it { is_expected.to be_falsy }
+    end
+
+    context 'without year overlapping' do
+      let(:string_value) { '1.10.-30.03.' }
+      let(:compare_value) { Date.new(2023, 1, 1) }
       it { is_expected.to be_truthy }
     end
   end
