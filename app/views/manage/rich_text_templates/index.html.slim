@@ -13,7 +13,11 @@ table.table.table-hover.align-middle
     tbody.shadow-sm
       - rich_text_templates.each do |rich_text_template|
         tr 
-          th
+          td
+            - if rich_text_template.enabled 
+              span.fa.fa-check.text-success 
+            - else 
+              span.fa.fa-times.text-muted
           td= link_to t(:description, scope: [:rich_text_templates, rich_text_template.key], default: rich_text_template.title), manage_rich_text_template_path(rich_text_template)
           td.p-1.text-end
             - if can?(:manage, rich_text_template)

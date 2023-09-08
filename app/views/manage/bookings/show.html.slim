@@ -82,13 +82,16 @@
                   dt= Booking.human_attribute_name(:remarks)
                   dd= @booking.remarks
 
-              - @booking.booking_question_responses.each do |response|
-                dl
-                  dt= response.booking_question.label
-                  - if lookup_context.template_exists? response.booking_question.to_partial_path('value'), [], true
-                    dd= render partial: response.booking_question.to_partial_path('value'), locals: { value: response.value }
-                  - else 
-                    dd= response.value
+              dl
+                dt= BookingQuestion.model_name.human(count: 2)
+                - @booking.booking_question_responses.each do |response|
+                  dd.row.mb-0
+                    .col-sm-6= response.booking_question.label
+                    .col-sm-6
+                      - if lookup_context.template_exists? response.booking_question.to_partial_path('value'), [], true
+                        em= render partial: response.booking_question.to_partial_path('value'), locals: { value: response.value }
+                      - else 
+                        em= response.value
 
       .card.shadow-sm.mt-4
         .card-body

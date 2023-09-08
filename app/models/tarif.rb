@@ -61,9 +61,9 @@ class Tarif < ApplicationRecord
   scope :include_conditions, -> { includes(:selecting_conditions, :enabling_conditions) }
   # scope :valid_now, -> { where(valid_until: nil) }
 
-  enum prefill_usage_method: Usage::PREFILL_METHODS.keys.index_with(&:to_s)
-
   validates :type, presence: true, inclusion: { in: ->(_) { Tarif.subtypes.keys.map(&:to_s) } }
+  validates :prefill_usage_method, inclusion: { in: ->(tarif) { tarif.prefill_usage_method_options_for_select.keys } },
+                                   allow_blank: true
   attribute :price_per_unit, default: 0
 
   translates :label, column_suffix: '_i18n', locale_accessors: true
@@ -109,6 +109,15 @@ class Tarif < ApplicationRecord
   def update_booking_conditions
     enabling_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :enabling) }
     selecting_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :selecting) }
+  end
+
+  def prefill_usage_method_options_for_select
+    built_in = Usage::PREFILL_METHODS.keys.to_h { [_1, Tarif.human_enum(:prefill_usage_methods, _1)] }
+    booking_question_types = %w[BookingQuestions::Integer]
+    booking_questions = organisation.booking_questions.ordered.where(type: booking_question_types).to_h do |question|
+      [question.id, question.label]
+    end
+    built_in.merge(booking_questions).stringify_keys
   end
 
   private
