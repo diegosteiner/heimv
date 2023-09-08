@@ -45,7 +45,7 @@ module Tarifs
     end
 
     def prefill_usage_method
-      :flat
+      'flat'
     end
   end
 end
