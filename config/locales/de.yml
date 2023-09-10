@@ -319,7 +319,8 @@ de:
         minimum_usage_total: Minimaler Verbrauch (Total)
         ordinal_position: Ordnungsnummer
         pin: Preis pro Einheit einfrieren
-        prefill_usage_method: Vorausfüllmethode
+        prefill_usage_booking_question_id: Verbrauchsvorschlag aus Angabe
+        prefill_usage_method: Verbrauchsvorschlag Faktor
         price_per_unit: Preis (pro Einheit)
         selecting_conditions: Bedingungen für automatische Auswahl
         tarif_group: Tarifgruppe
@@ -439,11 +440,11 @@ de:
           readonly: Lesend
       tarif:
         prefill_usage_methods:
-          days: Tage
-          flat: Pauschale
-          headcount: Anzahl Personen
-          headcount_nights: Übernachtungen
-          nights: Nächte
+          days: "× Tage"
+          flat: "× 1"
+          headcount: "× Anzahl Personen"
+          headcount_nights: "× Übernachtungen"
+          nights: "× Nächte"
     errors:
       messages:
         content_type: ungültiges Format
