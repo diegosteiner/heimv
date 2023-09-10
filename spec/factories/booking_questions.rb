@@ -32,5 +32,11 @@ FactoryBot.define do
   factory :booking_question do
     label { 'Anzahl Kinder?' }
     description { 'Bitte Kinder' }
+    organisation
+    required { false }
+
+    trait :integer do
+      type { BookingQuestions::Integer.to_s }
+    end
   end
 end

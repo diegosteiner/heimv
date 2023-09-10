@@ -38,7 +38,9 @@
 
   fieldset
     = f.collection_check_boxes :associated_types, Tarif.associated_types.keys, :itself, ->(key) { Tarif::ASSOCIATED_TYPES[key]&.model_name&.human }
-    = f.collection_select :prefill_usage_method, @tarif.prefill_usage_method_options_for_select, :first, :last, include_blank: true
+    .row
+      .col-md-6= f.collection_select :prefill_usage_booking_question_id, @tarif.prefill_usage_booking_questions, :id, :label, include_blank: true
+      .col-md-6= f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.text_field :accountancy_account
     = f.number_field :vat, step: 0.1
 

@@ -62,6 +62,39 @@ RSpec.describe Usage, type: :model do
     end
   end
 
+  describe '#presumed_units' do
+    let(:booking) { create(:booking) }
+    let(:usage) { build(:usage, booking: booking, tarif: tarif) }
+    let(:booking_question) { create(:booking_question, :integer, organisation: organisation) }
+    let(:booking_question_response) do
+      booking_question.booking_question_responses.create(booking: booking, value: 25)
+    end
+    subject { usage.presumed_units }
+
+    context 'with no prefill method and no booking question' do
+      it { is_expected.to be nil }
+    end
+
+    context 'with only prefill method' do
+      let(:tarif) { organisation.tarifs.create(prefill_usage_method: :nights) }
+      it { is_expected.to eq(booking.nights) }
+    end
+
+    context 'with only booking queston' do
+      let(:tarif) { organisation.tarifs.create(prefill_usage_booking_question: booking_question) }
+      before { booking_question_response }
+      it { is_expected.to eq(25) }
+    end
+
+    context 'with both prefill method and booking queston' do
+      let(:tarif) do
+        organisation.tarifs.create(prefill_usage_booking_question: booking_question, prefill_usage_method: :nights)
+      end
+      before { booking_question_response }
+      it { is_expected.to eq(25 * booking.nights) }
+    end
+  end
+
   describe '#save' do
     let(:booking) { create(:booking) }
     let(:usage) { build(:usage, booking: booking, tarif: tarif) }

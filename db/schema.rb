@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_25_125830) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_113315) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -511,8 +511,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_125830) do
     t.bigint "organisation_id", null: false
     t.datetime "discarded_at"
     t.decimal "vat"
+    t.bigint "prefill_usage_booking_question_id"
     t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
+    t.index ["prefill_usage_booking_question_id"], name: "index_tarifs_on_prefill_usage_booking_question_id"
     t.index ["type"], name: "index_tarifs_on_type"
   end
 
@@ -629,6 +631,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_125830) do
   add_foreign_key "payments", "invoices"
   add_foreign_key "plan_b_backups", "organisations"
   add_foreign_key "rich_text_templates", "organisations"
+  add_foreign_key "tarifs", "booking_questions", column: "prefill_usage_booking_question_id"
   add_foreign_key "tarifs", "organisations"
   add_foreign_key "tenants", "organisations"
   add_foreign_key "usages", "bookings"
