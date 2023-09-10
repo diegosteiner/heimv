@@ -357,6 +357,7 @@ de:
         current_password: Bisheriges Passwort
         current_sign_in_at: Aktuelle Anmeldung vom
         current_sign_in_ip: IP der aktuellen Anmeldung
+        default_calendar_view: Standard Kalenderansicht
         default_organisation_id: Hauptorganisation
         email: E-Mail
         encrypted_password: Verschlüsseltes Passwort
@@ -445,6 +446,10 @@ de:
           headcount: "× Anzahl Personen"
           headcount_nights: "× Übernachtungen"
           nights: "× Nächte"
+      user:
+        default_calendar_views:
+          months: Monatsansicht
+          year: Jahresansicht
     errors:
       messages:
         content_type: ungültiges Format

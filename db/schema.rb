@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_10_113315) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_161651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -415,6 +415,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_113315) do
     t.index ["organisation_id"], name: "index_operators_on_organisation_id"
   end
 
+  create_table "organisation_api_keys", force: :cascade do |t|
+    t.string "key"
+    t.datetime "discarded_at"
+    t.string "label"
+    t.bigint "organisation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_organisation_api_keys_on_organisation_id"
+  end
+
   create_table "organisation_users", force: :cascade do |t|
     t.bigint "organisation_id", null: false
     t.bigint "user_id", null: false
@@ -583,6 +593,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_113315) do
     t.string "invited_by_type"
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
+    t.string "token"
+    t.integer "default_calendar_view"
     t.index ["default_organisation_id"], name: "index_users_on_default_organisation_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
@@ -625,6 +637,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_113315) do
   add_foreign_key "operator_responsibilities", "operators"
   add_foreign_key "operator_responsibilities", "organisations"
   add_foreign_key "operators", "organisations"
+  add_foreign_key "organisation_api_keys", "organisations"
   add_foreign_key "organisation_users", "organisations"
   add_foreign_key "organisation_users", "users"
   add_foreign_key "payments", "bookings"

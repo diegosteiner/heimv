@@ -8,6 +8,7 @@
 #  confirmation_sent_at    :datetime
 #  confirmation_token      :string
 #  confirmed_at            :datetime
+#  default_calendar_view   :integer
 #  email                   :string           default(""), not null
 #  encrypted_password      :string           default(""), not null
 #  invitation_accepted_at  :datetime
@@ -21,6 +22,7 @@
 #  reset_password_sent_at  :datetime
 #  reset_password_token    :string
 #  role_admin              :boolean          default(FALSE)
+#  token                   :string
 #  unconfirmed_email       :string
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
@@ -46,6 +48,9 @@ class User < ApplicationRecord
   has_many :organisation_users, dependent: :destroy
   has_many :organisations, through: :organisation_users
   has_many :booking_logs, inverse_of: :user, dependent: :destroy, class_name: 'Booking::Log'
+
+  enum default_calendar_view: { months: 0, year: 1 }
+  has_secure_token :token, length: 48
 
   validates :email, presence: true
   validate do
