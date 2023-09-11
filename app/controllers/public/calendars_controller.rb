@@ -21,8 +21,8 @@ module Public
                                                                                         current_organisation)
       respond_to do |format|
         format.ics do
-          render html: IcalService.new.occupancies_to_ical(@calendar.occupancies,
-                                                           include_tenant_details: include_tenant_details)
+          render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies,
+                                                            include_tenant_details: include_tenant_details)
         end
       end
     end

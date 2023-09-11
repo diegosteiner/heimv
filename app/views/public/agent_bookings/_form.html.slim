@@ -12,6 +12,7 @@
           = @agent_booking.errors.full_messages.to_sentence
 
       = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|
+        h4.mt-0= Occupancy.model_name.human
         fieldset
           - if @agent_booking.booking.deadline
             .mb-3
@@ -34,10 +35,16 @@
                                                       disabled: !@agent_booking.booking.editable?, required: true,
                                                       invalidFeedback: @agent_booking.booking.errors[:ends_at]&.to_sentence)
 
-      fieldset 
-        = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
+        fieldset 
+          h4= Tenant.model_name.human
+          = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
+          = bf.text_field :tenant_organisation, required: false 
+          = bf.text_field :purpose_description, required: false 
+          = bf.text_area :remarks, required: false
+          
       
       fieldset 
+        h4= AgentBooking.model_name.human
         = f.text_field :booking_agent_code, disabled: !@agent_booking.booking_agent_responsible?
         = f.text_field :booking_agent_ref, required: false, disabled: !@agent_booking.booking_agent_responsible?
 
