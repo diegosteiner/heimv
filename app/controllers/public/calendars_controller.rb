@@ -12,7 +12,10 @@ module Public
     def index
       respond_to do |format|
         format.json { render json: OccupancyCalendarSerializer.render(@calendar) }
-        format.ics { render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies) }
+        format.ics do
+          render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies,
+                                                            include_tenant_details: include_tenant_details)
+        end
       end
     end
 
@@ -26,6 +29,11 @@ module Public
     end
 
     private
+
+    def include_tenant_details
+      (current_organisation_user.present? || User.find_by_token(params[:token], current_organisation)) &&
+        params[:include_tenant_details].present?
+    end
 
     def parse_date(value, format: nil)
       return if value.blank?
