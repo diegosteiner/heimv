@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## Version 23.9.2
+
+- Feature: Notify operators for upcoming bookings
+- Feature: Embed tenant information in private ical
+- Feature: Add more fields for booking agents
+
 ## Version 23.9.1
 
 - Bugfixes
