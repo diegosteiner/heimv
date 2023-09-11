@@ -17,9 +17,9 @@ class IcalService
       ical_event.dtend =         formatted_datetime(occupancy.ends_at)
       ical_event.created =       formatted_datetime(occupancy.created_at)
       ical_event.last_modified = formatted_datetime(occupancy.updated_at)
-      ical_event.dtstamp = formatted_datetime(occupancy.updated_at)
-      ical_event.uid = occupancy.id
+      ical_event.dtstamp =       formatted_datetime(occupancy.updated_at)
 
+      ical_event.uid =         occupancy.id
       ical_event.location =    occupancy.occupiable.to_s
       ical_event.summary =     occupancy.booking&.ref || occupancy.remarks
       ical_event.location =    occupancy.occupiable&.to_s
