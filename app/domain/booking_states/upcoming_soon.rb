@@ -28,7 +28,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.responsibilities.slice(:home_handover, :home_return).each_value do |operator|
+      booking.responsibilities.slice(:home_handover, :home_return).values.uniq.each do |operator|
         next if operator.email.blank?
 
         booking.notifications.new(template: :operator_upcoming_soon_notification, to: operator)&.deliver

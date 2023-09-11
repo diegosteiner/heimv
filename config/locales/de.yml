@@ -1782,6 +1782,32 @@ de:
         <p><a href="{{ booking.links.manage }}">Buchung verwalten</a></p>
       default_title: Abgesagte Belegung
       description: Benachrichtigung für abgesagte Belegung (Funktionär)
+    operator_upcoming_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Die Vorabeiten für die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> sind abgeschlossen</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+        </ul>
+
+        <p><strong>Kontaktperson</strong></p>
+
+        <p>
+          {{ booking.tenant.full_name }}<br />
+          <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
+          <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
+        </p>
+      default_title: Belegung
+      description: Benachrichtigung für Belegung (Funktionär)
     operator_upcoming_soon_notification:
       default_body: |
         <p>Hallo</p>
@@ -1808,8 +1834,6 @@ de:
           <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
           <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
         </p>
-
-        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Baldige Belegung
       description: Benachrichtigung für baldige Belegung (Funktionär)
     overdue_notification:

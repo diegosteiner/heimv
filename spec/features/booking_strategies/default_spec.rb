@@ -43,7 +43,8 @@ describe 'Booking', :devise, type: :feature do
 
   let(:expected_notifications) do
     %w[payment_due_notification payment_due_notification payment_confirmation_notification
-       upcoming_notification operator_upcoming_soon_notification operator_upcoming_soon_notification
+       upcoming_notification operator_upcoming_notification operator_upcoming_notification
+       operator_upcoming_soon_notification operator_upcoming_soon_notification
        upcoming_soon_notification awaiting_contract_notification awaiting_contract_notification
        definitive_request_notification manage_definitive_request_notification
        provisional_request_notification open_request_notification
