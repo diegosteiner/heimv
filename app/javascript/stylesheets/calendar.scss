@@ -153,12 +153,6 @@
     position: relative;
 
     &::after {
-      // outline-width: 0.25em;
-      // outline-style: solid;
-      // outline-offset: -0.2em;
-      // outline-color: rgba(255, 0, 0, 0.8);
-      // box-shadow: 0 0 0.5em rgba(255, 0, 0, 0.8);
-
       display: block;
       border: 0.4em solid rgba(255, 0, 0, 0.65);
       content: '';
