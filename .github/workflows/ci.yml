@@ -58,7 +58,8 @@ jobs:
       - name: bin/check
         run: docker-compose --file docker-compose.ci.yml run e2e_test bin/check
 
-      - name: docker tag
+      - if: github.event_name != 'pull_request'
+        name: docker tag
         run: docker tag ghcr.io/${{ github.repository }}:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
       - if: github.event_name != 'pull_request'

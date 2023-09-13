@@ -61,10 +61,13 @@ class Usage < ApplicationRecord
   end
 
   def presumed_units
-    prefill_proc = PREFILL_METHODS.fetch(tarif.prefill_usage_method, nil)
-    return instance_exec(&prefill_proc).presence if prefill_proc.present?
+    prefill_proc = PREFILL_METHODS[tarif.prefill_usage_method]
+    prefill_factor = instance_exec(&prefill_proc) if prefill_proc.present?
+    booking_question = tarif.prefill_usage_booking_question
+    question_factor = booking.booking_question_responses.find_by(booking_question: booking_question)&.value
+    return nil if prefill_factor.blank? && question_factor.blank?
 
-    booking.booking_question_responses.find_by(booking_question_id: tarif.prefill_usage_method)&.value&.presence
+    (prefill_factor.presence || 1) * (question_factor.presence || 1)
   end
 
   def pin_price_per_unit

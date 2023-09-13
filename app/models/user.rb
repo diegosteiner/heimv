@@ -8,6 +8,7 @@
 #  confirmation_sent_at    :datetime
 #  confirmation_token      :string
 #  confirmed_at            :datetime
+#  default_calendar_view   :integer
 #  email                   :string           default(""), not null
 #  encrypted_password      :string           default(""), not null
 #  invitation_accepted_at  :datetime
@@ -21,6 +22,7 @@
 #  reset_password_sent_at  :datetime
 #  reset_password_token    :string
 #  role_admin              :boolean          default(FALSE)
+#  token                   :string
 #  unconfirmed_email       :string
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
@@ -47,7 +49,11 @@ class User < ApplicationRecord
   has_many :organisations, through: :organisation_users
   has_many :booking_logs, inverse_of: :user, dependent: :destroy, class_name: 'Booking::Log'
 
+  enum default_calendar_view: { months: 0, year: 1 }
+  has_secure_token :token, length: 48
+
   validates :email, presence: true
+  validates :token, length: { minimum: 48 }, allow_nil: true
   validate do
     errors.add(:default_organisation_id, :invalid) if default_organisation && !in_organisation?(default_organisation)
   end
@@ -64,6 +70,12 @@ class User < ApplicationRecord
 
   def in_organisation?(organisation)
     in_organisation(organisation).present?
+  end
+
+  def self.find_by_token(token, organisation)
+    return nil unless token.present? && organisation.present?
+
+    organisation.users.find_by(token: token, role_admin: false)
   end
 
   # Include default devise modules. Others available are:

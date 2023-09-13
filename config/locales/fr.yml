@@ -55,7 +55,7 @@ fr:
         occupied_occupancy_color: Couleur pour les locations définitives
         occupied_occupancy_states: Statuts pour lesquels la réservation est considérée comme "définitive
         overdue_request_deadline: Délai pour les demandes de réservation en retard
-        payment_overdue_deadline:
+        payment_overdue_deadline: Date limite de paiement dépassée
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
         tenant_birth_date_required: Date de naissance, Indication obligatoire
         tentative_occupancy_color: Couleur pour les locations provisoires
@@ -154,7 +154,7 @@ fr:
         description: Beschreibung
         key: Clé
         label: Name
-        mode:
+        mode: Mode de saisie
         ordinal_position: Ordnungsnummer
         required: Saisie obligatoire
         type: type
@@ -219,7 +219,7 @@ fr:
         label: Texte
         ordinal_position: Numéro d'ordre
         type: Type de poste de facturation
-        vat:
+        vat: TVA incluse en pourcentage
       meter_reading_period:
         begins_at: Début
         end_value: Nouvelle valeur du compteur
@@ -249,6 +249,7 @@ fr:
         home_id: Principal objet de location
         name: Nom
         occupiable: Vérifiable/justifiable
+        ordinal_position: Ordnungsnummer
         ref: Nom abrégé / Référence
         type: Type
       operator:
@@ -318,14 +319,16 @@ fr:
         minimum_usage_per_night: Consommation minimale (par nuit)
         minimum_usage_total: Consommation minimale (total)
         ordinal: numéro d'ordre
+        ordinal_position: Ordnungsnummer
         pin: ne PAS fixer le tarif à la réservation
+        prefill_usage_booking_question_id:
         prefill_usage_method: méthode de pré-remplissage
         price_per_unit: prix (par unité)
         selecting_conditions: Conditions de sélection automatique
         tarif_group: groupe tarifaire
         type: type
         unit: unité
-        vat:
+        vat: TVA incluse en pourcentage
       tenant:
         address: Adresse
         address_addon: Complément d'adresse / école / entreprise
@@ -356,6 +359,7 @@ fr:
         current_password: Mot de passe actuel
         current_sign_in_at: Date de la connexion actuelle
         current_sign_in_ip: IP de la connexion actuelle
+        default_calendar_view: Affichage du calendrier par défaut
         default_organisation_id: Organisation principale
         email: Email
         encrypted_password: Mot de passe chiffré
@@ -383,12 +387,13 @@ fr:
           tenant: Locataire
       booking_question:
         modes:
-          always_editable:
-          booking_editable:
-          not_visible:
+          always_editable: Visible par les locataires, modifiable à tout moment
+          blank_editable:
+          booking_editable: Visible pour les locataires, modifiable jusqu'à définitif
+          not_visible: Invisible pour les locataires
       data_digest:
         periods:
-          ever: De tous les temps
+          ever: Aller Zeiten
           from_now: À partir d'aujourd'hui
           last_12_months: 12 derniers mois
           last_30_days: 30 derniers jours
@@ -443,6 +448,10 @@ fr:
           headcount: Nombre de personnes
           headcount_nights: Nuitées
           nights: Nuits
+      user:
+        default_calendar_views:
+          months:
+          year:
     errors:
       messages:
         content_type: Format non valide
@@ -523,6 +532,8 @@ fr:
         other: Informations supplémentaires
       booking_questions/check_box:
         one: Informations supplémentaires sous forme de case à cocher
+      booking_questions/date:
+        one:
       booking_questions/integer:
         one: Information supplémentaire sous forme de nombre entier
       booking_questions/string:
@@ -1332,6 +1343,8 @@ fr:
       new:
         title: Réservation
     bookings:
+      confirm:
+        title:
       edit:
         title: Traiter une réservation
       form:
@@ -1444,6 +1457,10 @@ fr:
       default_body:
       default_title: Location annulée
       description: Notification pour location annulée (propriétaire)
+    operator_upcoming_notification:
+      default_body:
+      default_title: Belegung
+      description:
     operator_upcoming_soon_notification:
       default_body:
       default_title: Location prochaine

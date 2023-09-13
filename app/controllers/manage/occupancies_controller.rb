@@ -6,13 +6,13 @@ module Manage
     load_and_authorize_resource :occupancy, through: :occupiable, shallow: true
 
     def index
-      @occupancies = @occupancies.ordered.ends_at(after: Time.zone.now)
-      @occupancies = @occupancies.closed if params[:all].blank?
+      @occupancies = @occupancies.ordered.ends_at(after: 3.months.ago)
+
       respond_with :manage, @occupancies
     end
 
     def show
-      respond_with :public, @occupancy
+      respond_with :manage, @occupancy
     end
 
     def new

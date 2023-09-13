@@ -6,13 +6,24 @@ module Public
     load_and_authorize_resource :occupancy, through: :occupiable
     layout false
     after_action :allow_embed, only: %i[embed]
-    before_action :set_calendar, only: %i[index]
+    before_action :set_calendar, only: %i[index private_ical_feed]
     respond_to :json, :ics
 
     def index
       respond_to do |format|
         format.json { render json: OccupancyCalendarSerializer.render(@calendar) }
         format.ics { render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies) }
+      end
+    end
+
+    def private_ical_feed
+      include_tenant_details = current_organisation_user.present? || User.find_by_token(params[:token],
+                                                                                        current_organisation)
+      respond_to do |format|
+        format.ics do
+          render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies,
+                                                            include_tenant_details: include_tenant_details)
+        end
       end
     end
 

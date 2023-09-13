@@ -4,36 +4,39 @@
 #
 # Table name: tarifs
 #
-#  id                      :bigint           not null, primary key
-#  accountancy_account     :string
-#  associated_types        :integer          default(0), not null
-#  discarded_at            :datetime
-#  label_i18n              :jsonb
-#  minimum_usage_per_night :decimal(, )
-#  minimum_usage_total     :decimal(, )
-#  ordinal                 :integer
-#  pin                     :boolean          default(TRUE)
-#  prefill_usage_method    :string
-#  price_per_unit          :decimal(, )
-#  tarif_group             :string
-#  type                    :string
-#  unit_i18n               :jsonb
-#  valid_from              :datetime
-#  valid_until             :datetime
-#  vat                     :decimal(, )
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
-#  organisation_id         :bigint           not null
+#  id                                :bigint           not null, primary key
+#  accountancy_account               :string
+#  associated_types                  :integer          default(0), not null
+#  discarded_at                      :datetime
+#  label_i18n                        :jsonb
+#  minimum_usage_per_night           :decimal(, )
+#  minimum_usage_total               :decimal(, )
+#  ordinal                           :integer
+#  pin                               :boolean          default(TRUE)
+#  prefill_usage_method              :string
+#  price_per_unit                    :decimal(, )
+#  tarif_group                       :string
+#  type                              :string
+#  unit_i18n                         :jsonb
+#  valid_from                        :datetime
+#  valid_until                       :datetime
+#  vat                               :decimal(, )
+#  created_at                        :datetime         not null
+#  updated_at                        :datetime         not null
+#  organisation_id                   :bigint           not null
+#  prefill_usage_booking_question_id :bigint
 #
 # Indexes
 #
-#  index_tarifs_on_discarded_at     (discarded_at)
-#  index_tarifs_on_organisation_id  (organisation_id)
-#  index_tarifs_on_type             (type)
+#  index_tarifs_on_discarded_at                       (discarded_at)
+#  index_tarifs_on_organisation_id                    (organisation_id)
+#  index_tarifs_on_prefill_usage_booking_question_id  (prefill_usage_booking_question_id)
+#  index_tarifs_on_type                               (type)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (organisation_id => organisations.id)
+#  fk_rails_...  (prefill_usage_booking_question_id => booking_questions.id)
 #
 
 class Tarif < ApplicationRecord
@@ -49,6 +52,7 @@ class Tarif < ApplicationRecord
   flag :associated_types, ASSOCIATED_TYPES.keys
 
   belongs_to :organisation, inverse_of: :tarifs
+  belongs_to :prefill_usage_booking_question, class_name: 'BookingQuestion', inverse_of: :tarifs, optional: true
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
@@ -56,14 +60,14 @@ class Tarif < ApplicationRecord
                                                                         class_name: :BookingCondition, inverse_of: false
   has_many :enabling_conditions, -> { qualifiable_group(:enabling) }, as: :qualifiable, dependent: :destroy,
                                                                       class_name: :BookingCondition, inverse_of: false
+
+  enum prefill_usage_method: Usage::PREFILL_METHODS.keys.index_with(&:to_s)
+
   scope :ordered, -> { order(:ordinal) }
   scope :pinned, -> { where(pin: true) }
   scope :include_conditions, -> { includes(:selecting_conditions, :enabling_conditions) }
-  # scope :valid_now, -> { where(valid_until: nil) }
 
   validates :type, presence: true, inclusion: { in: ->(_) { Tarif.subtypes.keys.map(&:to_s) } }
-  validates :prefill_usage_method, inclusion: { in: ->(tarif) { tarif.prefill_usage_method_options_for_select.keys } },
-                                   allow_blank: true
   attribute :price_per_unit, default: 0
 
   translates :label, column_suffix: '_i18n', locale_accessors: true
@@ -111,13 +115,9 @@ class Tarif < ApplicationRecord
     selecting_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :selecting) }
   end
 
-  def prefill_usage_method_options_for_select
-    built_in = Usage::PREFILL_METHODS.keys.to_h { [_1, Tarif.human_enum(:prefill_usage_methods, _1)] }
+  def prefill_usage_booking_questions
     booking_question_types = %w[BookingQuestions::Integer]
-    booking_questions = organisation.booking_questions.ordered.where(type: booking_question_types).to_h do |question|
-      [question.id, question.label]
-    end
-    built_in.merge(booking_questions).stringify_keys
+    organisation.booking_questions.ordered.where(type: booking_question_types)
   end
 
   private

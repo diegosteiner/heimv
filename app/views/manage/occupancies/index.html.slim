@@ -6,7 +6,7 @@ h1.m-0= Occupancy.model_name.human(count: 2)
     = react_component('calendar/OccupancyCalendar', { \ 
         calendarUrl: occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: @occupiable.to_param, format: :json), \
         occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: @occupiable.to_param, date: '__DATE__'), \
-        defaultView: current_organisation&.settings&.default_calendar_view \
+        defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
       })
 
 .table-responsive

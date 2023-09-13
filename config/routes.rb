@@ -80,6 +80,7 @@ Rails.application.routes.draw do
           get :embed
           get :index
           get :at
+          get :private_ical_feed
           get '@:date', action: :at
         end
       end

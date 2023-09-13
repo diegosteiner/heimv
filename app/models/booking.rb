@@ -105,7 +105,8 @@ class Booking < ApplicationRecord
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
 
   validates :email, presence: true, on: %i[public_update public_create]
-  validates :category, :tenant, :approximate_headcount, :purpose_description, presence: true, on: :public_update
+  validates :tenant, :approximate_headcount, :purpose_description, presence: true, on: :public_update
+  validates :category, presence: true, on: %i[public_update agent_booking]
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validate do
     next errors.add(:occupiable_ids, :blank) if occupancies.none?

@@ -249,6 +249,7 @@ it:
         home_id: Oggetto principale di affitto
         name: Nome
         occupiable: Può essere occupato
+        ordinal_position: Numero di serie
         ref: Nome breve / riferimento
         type: Tipo
       operator:
@@ -318,7 +319,9 @@ it:
         minimum_usage_per_night: Consumo minimo (per notte)
         minimum_usage_total: Consumo minimo (totale)
         ordinal: Numero di serie
+        ordinal_position: Numero di serie
         pin: Congelare il prezzo per unità
+        prefill_usage_booking_question_id:
         prefill_usage_method: Metodo di riempimento anticipato
         price_per_unit: Prezzo (per unità)
         selecting_conditions: Condizioni per la selezione automatica
@@ -356,6 +359,7 @@ it:
         current_password: Password precedente
         current_sign_in_at: Accesso corrente il
         current_sign_in_ip: IP accesso corrente
+        default_calendar_view:
         default_organisation_id: Organizzazione principale
         email: Email
         encrypted_password: Password criptata
@@ -384,6 +388,7 @@ it:
       booking_question:
         modes:
           always_editable:
+          blank_editable:
           booking_editable:
           not_visible:
       data_digest:
@@ -443,6 +448,10 @@ it:
           headcount: Numero di persone
           headcount_nights: Pernottamenti
           nights: Notti
+      user:
+        default_calendar_views:
+          months:
+          year:
     errors:
       messages:
         content_type: formato non valido
@@ -526,6 +535,8 @@ it:
         one:
         other:
       booking_questions/check_box:
+        one:
+      booking_questions/date:
         one:
       booking_questions/integer:
         one:
@@ -1301,6 +1312,8 @@ it:
       new:
         title: Prenotazione
     bookings:
+      confirm:
+        title:
       edit:
         title: Modifica della prenotazione
       form:
@@ -1635,6 +1648,10 @@ it:
         <p><a href="{{ booking.links.manage }}">Gestisci la prenotazione</a></p>
       default_title: Occupazione annullata
       description: Notifica di occupazione annullata (funzionario)
+    operator_upcoming_notification:
+      default_body:
+      default_title: Occupazione
+      description:
     operator_upcoming_soon_notification:
       default_body: |
         <p>Salve</p>
