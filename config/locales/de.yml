@@ -746,7 +746,6 @@ de:
     initial:
       label: "-"
     open_request:
-      help: Help
       label: Mietanfrage (offen)
       public_info: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
       relevant_time: Eingereicht %{time}

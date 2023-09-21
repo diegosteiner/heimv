@@ -29,7 +29,7 @@ class OrganisationSettings < Settings
   validates :booking_window, :awaiting_contract_deadline, :overdue_request_deadline,
             :unconfirmed_request_deadline, :provisional_request_deadline, :last_minute_warning,
             :invoice_payment_deadline, :deposit_payment_deadline, :deadline_postponable_for, :upcoming_soon_window,
-            :payment_overdue_deadline, :booking_window,
+            :payment_overdue_deadline,
             numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
 
   def occupancy_colors

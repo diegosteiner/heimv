@@ -40,4 +40,36 @@ RSpec.describe Deadline, type: :model do
       end
     end
   end
+
+  describe '#create' do
+    subject(:deadline) { booking.deadlines.create(length: length) }
+
+    context 'with length set' do
+      let(:length) { 1.week }
+
+      it 'creates armed deadline' do
+        expect(deadline.armed).to be_truthy
+        expect(deadline.at).to be > 5.days.from_now
+        expect(deadline.at).to be < 9.days.from_now
+      end
+    end
+
+    context 'with length not set' do
+      let(:length) { nil }
+
+      it 'creates unarmed deadline' do
+        expect(deadline.armed).to be_falsy
+        expect(deadline.at).to be_nil
+      end
+    end
+
+    context 'with length not set' do
+      let(:length) { 0 }
+
+      it 'creates unarmed deadline' do
+        expect(deadline.armed).to be_falsy
+        expect(deadline.at).to be_nil
+      end
+    end
+  end
 end
