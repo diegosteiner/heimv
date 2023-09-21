@@ -1,0 +1,13 @@
+- @occupiables.each do |occupiable|
+  .card.shadow-sm.my-3
+    .card-body
+      h1.mt-2.text-center= occupiable
+      = react_component('calendar/OccupancyCalendar', { \ 
+          calendarUrl: occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, format: :json), \
+          occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, date: '__DATE__'), \
+          defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
+        })
+
+      .text-end.small
+        = link_to occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, format: :ics)
+          = t('.ics_link')

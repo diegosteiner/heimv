@@ -1169,6 +1169,8 @@ fr:
       settings: Réglages
   manage:
     bookings:
+      calendar:
+        ics_link: comme ICAL
       import:
         headers: En-têtes
         import_error: 'Échec de l''importation : '
@@ -1196,9 +1198,6 @@ fr:
           save_and_continue: Enregistrer et créer %{invoice_type}
         table:
           save: Enregistrer %{model_name}
-    dashboard:
-      index:
-        ics_link: comme ICAL
     data_digests:
       create:
         job_started: L'extrait est en cours de compilation. Le traitement des données peut prendre quelques minutes. Rechargez la page pour vérifier que le traitement est terminé.

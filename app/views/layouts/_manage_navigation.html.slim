@@ -12,7 +12,7 @@ nav.px-3
   #navbar-main-nav.collapse.navbar-collapse.show.position-fixed-lg
     ul.list-unstyled.nav.flex-column
       li.nav-item
-        = link_to OccupancyCalendar.model_name.human(count: 2), manage_root_path, class: 'nav-link'
+        = link_to OccupancyCalendar.model_name.human(count: 2), calendar_manage_bookings_path, class: 'nav-link'
       li.nav-item
         = link_to Booking.model_name.human(count: 2), manage_bookings_path, class: 'nav-link'
       li.nav-item

@@ -746,6 +746,7 @@ de:
     initial:
       label: "-"
     open_request:
+      help: Help
       label: Mietanfrage (offen)
       public_info: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
       relevant_time: Eingereicht %{time}
@@ -1247,6 +1248,8 @@ de:
       settings: Einstellungen
   manage:
     bookings:
+      calendar:
+        ics_link: als ICAL
       import:
         headers: Headers
         import_error: Import fehlgeschlagen
@@ -1274,9 +1277,6 @@ de:
           save_and_continue: Speichern und %{invoice_type} erstellen
         table:
           save: "%{model_name} speichern"
-    dashboard:
-      index:
-        ics_link: als ICAL
     data_digests:
       create:
         job_started: Der Auszug wird zusammengestellt. Die Verarbeitung der Daten kann einige Minuten dauern. Laden Sie die Seite neu, um zu prüfen, ob die Verarbeitung abgeschlossen wurde.

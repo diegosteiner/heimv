@@ -1,4 +1,4 @@
-import { addMonths, addYears, eachMonthOfInterval, startOfYear, subYears } from "date-fns";
+import { addMonths, addYears, eachMonthOfInterval, subYears } from "date-fns";
 import { getYear, formatISO, eachDayOfInterval, endOfMonth, startOfMonth, getDay } from "date-fns/esm";
 import { useState } from "react";
 import { CalendarDate, DateElementFactory } from "./CalendarDate";

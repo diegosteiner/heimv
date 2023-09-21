@@ -8,6 +8,7 @@ class BookingPreparationService
   def prepare_create(params)
     @organisation.bookings.new(params).instance_exec do
       assign_attributes(notifications_enabled: true)
+      self.organisation ||= @organisation
       self.home ||= occupiables.first&.home
       set_tenant && tenant.locale ||= I18n.locale
       self

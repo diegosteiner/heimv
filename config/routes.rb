@@ -6,7 +6,8 @@ Rails.application.routes.draw do
 
   scope '(:org)' do
     namespace :manage do
-      root to: 'dashboard#index'
+      root to: 'bookings#calendar'
+      get 'dashboard', to: 'dashboard#index'
       get 'flow', to: 'pages#flow'
       resources :occupiables do
         resources :occupancies, only: %i[index new create]
@@ -31,6 +32,7 @@ Rails.application.routes.draw do
       end
       resources :bookings do
         get :import, on: :collection, to: 'bookings#new_import'
+        get :calendar, on: :collection
         post :import, on: :collection
 
         resources :invoices, shallow: true

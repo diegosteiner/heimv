@@ -5,7 +5,7 @@ module Manage
     authorize_resource :organisation
 
     def index
-      @occupiables = current_organisation.occupiables.occupiable.ordered
+      @dashboard = ManageDashboardData.new(current_organisation)
     end
   end
 end

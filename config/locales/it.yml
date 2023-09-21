@@ -1138,6 +1138,8 @@ it:
       settings: Impostazioni
   manage:
     bookings:
+      calendar:
+        ics_link: come ICAL
       import:
         headers: Intestazioni
         import_error: 'Importazione non riuscita:'
@@ -1165,9 +1167,6 @@ it:
           save_and_continue: Salvare e creare %{invoice_type}.
         table:
           save: Salvare %{model_name}.
-    dashboard:
-      index:
-        ics_link: come ICAL
     data_digests:
       create:
         job_started: L'estratto è compilato. L'elaborazione dei dati può richiedere alcuni minuti. Ricarica la pagina per verificare che l'elaborazione sia stata completata.
