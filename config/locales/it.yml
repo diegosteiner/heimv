@@ -760,6 +760,7 @@ it:
     initial:
       label: "-"
     open_request:
+      help:
       label: Richiesta di affitto(aperta)
       public_info: La vostra richiesta di affitto è stata inviata e sarà presto elaborata dall'amministrazione.
       relevant_time: Presentato %{time}
