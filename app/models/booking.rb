@@ -174,9 +174,7 @@ class Booking < ApplicationRecord
   end
 
   def set_tenant
-    return if email.blank? || organisation.blank?
-
-    self.tenant = Tenant.for_booking(self)
+    self.tenant = Tenant.for_booking(self) if organisation.present?
   end
 
   def occupancy_color

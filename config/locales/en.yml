@@ -1131,6 +1131,8 @@ en:
       help: Hilfe
   manage:
     bookings:
+      calendar:
+        ics_link: als ICAL
       import:
         headers: Headers
         import_error: 'Import fehlgeschlagen: '
@@ -1154,9 +1156,6 @@ en:
           save_and_continue: Speichern und %{invoice_type} erstellen
         table:
           save: "%{model_name} speichern"
-    dashboard:
-      index:
-        ics_link: als ICAL
     data_digests:
       create:
         job_started: Job started

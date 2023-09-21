@@ -98,7 +98,7 @@ export function CalendarInput({
   maxDate,
   calendarUrl,
 }: CalendarInputProps) {
-  const availableHours = [...Array(23)].map((_, i) => 0 + i);
+  const availableHours = [...Array(24)].map((_, i) => 0 + i);
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [calendarControlValue, setCalendarControlValue] = React.useState<CalendarControlValue>({
     hours: Math.min(...availableHours),

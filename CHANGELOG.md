@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## Version 23.9.3
+
+- Feature: Allow deadlines to be 0 in settings to skip
+- Bugfixes
+
 ## Version 23.9.2
 
 - Feature: Notify operators for upcoming bookings

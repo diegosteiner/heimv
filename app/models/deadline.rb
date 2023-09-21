@@ -38,7 +38,8 @@ class Deadline < ApplicationRecord
   after_save :update_booking_deadline
 
   def length=(duration)
-    self.at ||= duration&.from_now
+    self.armed = duration.present? && !duration.zero?
+    self.at ||= duration&.from_now unless duration&.zero?
   end
 
   def exceeded?(other = Time.zone.now)

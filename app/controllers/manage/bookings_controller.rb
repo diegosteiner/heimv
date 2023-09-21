@@ -18,6 +18,10 @@ module Manage
       end
     end
 
+    def calendar
+      @occupiables = current_organisation.occupiables.occupiable.ordered
+    end
+
     def new
       @booking = preparation_service.prepare_new(booking_params)
       @booking.assign_attributes(organisation: current_organisation, transition_to: :provisional_request)

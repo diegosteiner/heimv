@@ -1,13 +1,33 @@
-- @occupiables.each do |occupiable|
-  .card.shadow-sm.my-3
-    .card-body
-      h1.mt-2.text-center= occupiable
-      = react_component('calendar/OccupancyCalendar', { \ 
-          calendarUrl: occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, format: :json), \
-          occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, date: '__DATE__'), \
-          defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
-        })
+.container
+  ul.list-unstyled.mt-4
+    - %i[open_bookings definitive_bookings overdue_bookings past_bookings].each do |state_group|
+      li 
+        - count = @dashboard.state_group_counts[state_group]
+        - state_classes = @dashboard.state_class_groups[state_group]
+        = link_to manage_bookings_path(filter: { current_booking_states: state_classes&.map(&:to_sym) })
+          = state_classes&.first&.translate(:label) 
+          - if count.zero?
+            span.ms-3.badge.badge.rounded-pill.bg-success
+              span.fa.fa-check
+          - else
+            span.ms-3.badge.badge.rounded-pill.bg-danger= count
 
-      .text-end.small
-        = link_to occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, format: :ics)
-          = t('.ics_link')
+  div 
+    h1= Booking::Log.model_name.human(count: 2)
+
+    .table-responsive
+      table.table.table-hover.align-middle
+
+        tbody.shadow-sm
+          - @dashboard.logs_since(1.week.ago).each do |log|
+            tr
+              td
+                => link_to log.booking.ref, edit_manage_booking_path(log.booking)
+              td
+                = time_tag log.created_at
+
+              td
+                - Array.wrap(log.logged_transitions).each do |transition|
+                    span.badge.bg-primary.me-2= t(:label, scope: [:booking_states, transition])
+
+

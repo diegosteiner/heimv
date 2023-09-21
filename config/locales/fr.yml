@@ -150,10 +150,10 @@ fr:
         must_condition: Critère obligatoire
         type: Type
       booking_question:
-        applying_conditions: Bedingungen
-        description: Beschreibung
+        applying_conditions: Conditions
+        description: Description
         key: Clé
-        label: Name
+        label: Désignation
         mode: Mode de saisie
         ordinal_position: Ordnungsnummer
         required: Saisie obligatoire
@@ -320,8 +320,8 @@ fr:
         minimum_usage_total: Consommation minimale (total)
         ordinal: numéro d'ordre
         ordinal_position: Ordnungsnummer
-        pin: ne PAS fixer le tarif à la réservation
-        prefill_usage_booking_question_id:
+        pin: 'Prix figer à la réservation  '
+        prefill_usage_booking_question_id: Consommation proposée à partir de l'indication
         prefill_usage_method: méthode de pré-remplissage
         price_per_unit: prix (par unité)
         selecting_conditions: Conditions de sélection automatique
@@ -388,7 +388,7 @@ fr:
       booking_question:
         modes:
           always_editable: Visible par les locataires, modifiable à tout moment
-          blank_editable:
+          blank_editable: Visible par les locataires, modifiable si vide
           booking_editable: Visible pour les locataires, modifiable jusqu'à définitif
           not_visible: Invisible pour les locataires
       data_digest:
@@ -450,8 +450,8 @@ fr:
           nights: Nuits
       user:
         default_calendar_views:
-          months:
-          year:
+          months: Vue mensuelle
+          year: Vue annuelle
     errors:
       messages:
         content_type: Format non valide
@@ -504,7 +504,7 @@ fr:
       booking_conditions/booking_approximate_headcount_per_night:
         one: Nombre de TN Sélecteur de tarif
       booking_conditions/booking_attribute:
-        one:
+        one: Conditions de réservation
       booking_conditions/booking_category:
         one: Objet de la location Sélecteur de tarif
       booking_conditions/booking_nights:
@@ -512,7 +512,7 @@ fr:
       booking_conditions/booking_overnight_stays:
         one: Nuitées Sélecteur de tarif
       booking_conditions/booking_question:
-        one:
+        one: Informations supplémentaires (condition)
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/date_span:
@@ -566,7 +566,7 @@ fr:
         other: Extrait de paiements
       data_digest_templates/tenant:
         one: Départ du locataire
-        other:
+        other: Départ du locataire
       deadline:
         one: Délai
         other: Délais
@@ -705,7 +705,7 @@ fr:
         days: Jour
         nights: Nächte
         overnight_stays:
-        tenant_organisation:
+        tenant_organisation: Organisation des locataires
     date_span:
       attributes:
         begins_at: Beginn der Belegung
@@ -756,6 +756,7 @@ fr:
     initial:
       label: "-"
     open_request:
+      help:
       label: Demande de location (ouverte)
       public_info: Votre demande de location a été envoyée et sera traitée prochainement par l'administration.
       relevant_time: Déposé %{time}
@@ -1154,21 +1155,23 @@ fr:
         organisation_privacy:
         title:
       locales:
-        de:
-        fr:
-        it:
-        title:
+        de: en allemand
+        fr: en français
+        it: en italien
+        title: Langues
       manage:
         title: Organisation
       version:
         changelog:
         github:
-        title:
+        title: Logiciel
     manage_navigation:
       help: Aide
       settings: Réglages
   manage:
     bookings:
+      calendar:
+        ics_link: comme ICAL
       import:
         headers: En-têtes
         import_error: 'Échec de l''importation : '
@@ -1196,9 +1199,6 @@ fr:
           save_and_continue: Enregistrer et créer %{invoice_type}
         table:
           save: Enregistrer %{model_name}
-    dashboard:
-      index:
-        ics_link: comme ICAL
     data_digests:
       create:
         job_started: L'extrait est en cours de compilation. Le traitement des données peut prendre quelques minutes. Rechargez la page pour vérifier que le traitement est terminé.
@@ -1344,7 +1344,7 @@ fr:
         title: Réservation
     bookings:
       confirm:
-        title:
+        title: Veuillez confirmer votre adresse e-mail
       edit:
         title: Traiter une réservation
       form:
@@ -1361,8 +1361,8 @@ fr:
     booking_questions:
       check_box:
         value:
-          'false':
-          'true':
+          'false': Non
+          'true': Oui
   reset: Réinitialiser
   rich_text_templates:
     awaiting_contract_notification:
@@ -1460,7 +1460,7 @@ fr:
     operator_upcoming_notification:
       default_body:
       default_title: Belegung
-      description:
+      description: Notification pour location annulée (propriétaire)
     operator_upcoming_soon_notification:
       default_body:
       default_title: Location prochaine
