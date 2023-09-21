@@ -37,7 +37,8 @@ class BookingQuestion < ApplicationRecord
   include Discard::Model
 
   belongs_to :organisation, inverse_of: :booking_questions
-  has_many :tarifs, dependent: :destroy, inverse_of: :prefill_usage_booking_question
+  has_many :tarifs, dependent: :restrict_with_error, inverse_of: :prefill_usage_booking_question,
+                    foreign_key: :prefill_usage_booking_question_id
   has_many :booking_question_responses, dependent: :destroy, inverse_of: :booking_question
   has_many :applying_conditions, -> { qualifiable_group(:applying) }, as: :qualifiable, dependent: :destroy,
                                                                       class_name: :BookingCondition, inverse_of: false
