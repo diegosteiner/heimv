@@ -88,13 +88,13 @@ describe Booking, type: :model do
     end
 
     context 'with existing tenant' do
-      let(:booking) { build(:booking, tenant: nil, home: home, organisation: organisation) }
-      let(:existing_tenant) { create(:tenant, organisation: organisation) }
+      let(:booking) do
+        build(:booking, tenant: nil, home: home, organisation: organisation, email: existing_tenant.email)
+      end
+      let(:existing_tenant) { create(:tenant, organisation: organisation, email: 'test@example.com') }
       let(:tenant) { nil }
 
       it 'uses existing tenant when email is correct' do
-        booking.email = existing_tenant.email
-
         expect(booking.save).to be true
         expect(booking.tenant_id).to eq(existing_tenant.id)
       end

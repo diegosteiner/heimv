@@ -49,32 +49,4 @@ RSpec.describe Tenant, type: :model do
     let(:tenant) { build(:tenant, organisation: organisation) }
     it { expect(tenant.save).to be true }
   end
-
-  describe '::for_booking' do
-    let(:tenant) { create(:tenant, organisation: organisation, email: 'some@existing.local') }
-    let(:booking) { build(:booking, organisation: organisation, email: tenant.email, home: home) }
-    subject { described_class.for_booking(booking) }
-
-    context 'with existing booking and tenant' do
-      it do
-        booking.update(tenant: tenant)
-        expect(booking.tenant).not_to be_new_record
-        expect(subject).to be(booking.tenant)
-      end
-    end
-
-    context 'with existing tenant' do
-      it { expect(subject).to eq(tenant) }
-    end
-
-    context 'without existing tenant' do
-      let(:tenant) { build(:tenant, organisation: organisation, email: 'some@existing.local') }
-
-      it do
-        expect(subject).to be_new_record
-        expect(subject.organisation).to eq(organisation)
-        expect(subject.email).to eq(tenant.email)
-      end
-    end
-  end
 end

@@ -118,7 +118,7 @@ class Booking < ApplicationRecord
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
-  before_validation :set_tenant, :update_occupancies
+  before_validation :update_occupancies
   before_create :set_ref
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -173,8 +173,11 @@ class Booking < ApplicationRecord
     super(value) && tenant&.email=value
   end
 
-  def set_tenant
-    self.tenant = Tenant.for_booking(self) if organisation.present?
+  def tenant
+    return super if super.present? || organisation.blank? || self[:email].blank?
+
+    self.tenant = organisation.tenants.find_by(email: self[:email]) ||
+                  build_tenant(organisation: organisation, email: self[:email])
   end
 
   def occupancy_color
