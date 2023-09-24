@@ -23,4 +23,8 @@ Liquid::Template.register_filter(Module.new do
   def currency(value)
     ActiveSupport::NumberHelper.number_to_currency(value)
   end
+
+  def as_liquid(value)
+    "{{ #{value} }}"
+  end
 end)

@@ -33,7 +33,7 @@ class Deadline < ApplicationRecord
   scope :after, ->(at = Time.zone.now) { where(arel_table[:at].gteq(at)) }
   scope :next, -> { armed.ordered }
 
-  validates :at, presence: true
+  # validates :at, presence: true
   attribute :length
   after_save :update_booking_deadline
 

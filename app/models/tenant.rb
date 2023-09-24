@@ -121,15 +121,6 @@ class Tenant < ApplicationRecord
   end
 
   def birth_date_required?
-    organisation.settings.tenant_birth_date_required
-  end
-
-  def self.for_booking(booking)
-    return booking.tenant if booking.tenant.present? && !booking.tenant.new_record?
-
-    tenant = booking.organisation.tenants.find_by(email: booking.email) || booking.tenant || new
-    tenant.organisation = booking.organisation
-    tenant.email = booking.email
-    tenant
+    organisation&.settings&.tenant_birth_date_required
   end
 end
