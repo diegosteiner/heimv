@@ -70,7 +70,7 @@ module Ability
     role :readonly do |user, organisation|
       next unless user.in_organisation?(organisation)
 
-      can :read, Booking, organisation: organisation
+      can %i[read calendar], Booking, organisation: organisation
       can :read, BookingAgent, organisation: organisation
       can :read, BookingCategory, organisation: organisation
       can :read, BookingCondition, tarif: { organisation: organisation }
@@ -83,7 +83,7 @@ module Ability
       can :read, InvoicePart, invoice: { booking: { organisation: organisation } }
       can :read, Notification, booking: { organisation: organisation }
       can %i[read calendar at embed], Occupancy, occupiable: { organisation: organisation }
-      can :read, Occupiable, organisation: organisation
+      can %i[read calendar], Occupiable, organisation: organisation
       can :read, Operator, organisation: organisation
       can :read, OperatorResponsibility, organisation: organisation
       can %i[read edit], Organisation, id: organisation.id
