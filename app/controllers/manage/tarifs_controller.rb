@@ -12,6 +12,7 @@ module Manage
     def new
       tarif_to_clone = current_organisation.tarifs.find(params[:clone]) if params[:clone]
       @tarif = tarif_to_clone.dup if tarif_to_clone.present?
+      @tarif.organisation = current_organisation
       respond_with :manage, @tarif
     end
 
