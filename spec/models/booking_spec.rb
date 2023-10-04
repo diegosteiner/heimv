@@ -96,7 +96,7 @@ describe Booking, type: :model do
 
       it 'uses existing tenant when email is correct' do
         expect(booking.save).to be true
-        expect(booking.tenant_id).to eq(existing_tenant.id)
+        expect(booking.tenant.id).to eq(existing_tenant.id)
       end
     end
   end

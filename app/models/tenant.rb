@@ -120,6 +120,10 @@ class Tenant < ApplicationRecord
       (!birth_date_required? || birth_date.present?)
   end
 
+  def changed_values
+    changes.transform_values(&:last)
+  end
+
   def birth_date_required?
     organisation&.settings&.tenant_birth_date_required
   end
