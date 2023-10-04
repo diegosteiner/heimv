@@ -48,7 +48,7 @@ module Export
             {
               width: bounds.width,
               column_widths: [190, 207, 27, nil],
-              cell_style: { borders: [], padding: [0, 4, 4, 0] }.merge(cell_style)
+              cell_style: { borders: [], padding: [0, 4, 4, 0], valign: :bottom }.merge(cell_style)
             }
           end
 

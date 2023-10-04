@@ -10,8 +10,10 @@ export function setup() {
       menubar: false,
       convert_urls: false,
       allow_unsafe_link_target: true,
-      plugins: "autolink link anchor lists image table template searchreplace code",
-      toolbar: "undo redo | blocks | bold italic removeformat | bullist numlist link image table | template code",
+      fix_list_elements: false,
+      plugins: "autolink link anchor lists image table template searchreplace code pagebreak",
+      toolbar:
+        "undo redo | blocks | bold italic removeformat | bullist numlist link image table pagebreak | template code",
       // templates: [{ title: "Test", description: "Desc", content: "{{ booking.ref }}" }],
       content_style:
         'body { font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, ' +
@@ -36,5 +38,6 @@ function loadEditor() {
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/searchreplace"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/template"),
     import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/table"),
+    import(/* webpackChunkName: "tinymce" */ "tinymce/plugins/pagebreak"),
   ]).then((imports) => imports[0].default);
 }
