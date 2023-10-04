@@ -4,7 +4,6 @@
     .card.shadow-sm
       .card-body
         - if @booking.errors.any?
-          = @booking.deadline.inspect
           .alert.alert-danger.d-flex
             .me-3
               i.fa.fa-exclamation-circle               

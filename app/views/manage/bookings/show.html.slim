@@ -29,17 +29,17 @@
                 dt
                   = Booking.human_attribute_name(:tenant)
 
-                  - unless @booking.tenant.present? && @booking.tenant.complete?
+                  - unless @booking.tenant&.complete?
                     i.fa.fa-exclamation-triangle.text-warning<>[data-bs-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete')]
 
-                  - if @booking.tenant.present? && can?(:edit, @booking.tenant) && !@booking.tenant.complete?
+                  - if @booking.tenant.present? && can?(:edit, @booking.tenant) && !@booking.tenant.new_record?
                     = link_to edit_manage_tenant_path(@booking.tenant) 
                       i.fa.fa-edit<>
                       
                 - if @booking.tenant_organisation.present?
                   dd= @booking.tenant_organisation
 
-                - if @booking.tenant.present?
+                - if @booking.tenant.present? && !@booking.tenant.new_record?
                   dd
                     = link_to @booking.tenant.full_name, manage_tenant_path(@booking.tenant)
                   dd
