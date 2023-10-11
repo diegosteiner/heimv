@@ -9,7 +9,7 @@ html[lang="#{I18n.locale}-CH"]
     == javascript_pack_tag 'app'
     == stylesheet_pack_tag 'app'
   body[style='background-color: transparent;']
-    = react_component('calendar/OccupancyCalendar', { \ 
+    = react_component('occupancies/OccupancyOverviewCalendar', { \ 
         calendarUrl: occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: @occupiable.to_param, format: :json), \
         occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: @occupiable.to_param, date: '__DATE__'), \
         defaultView: params[:default_view], months: params[:months] \

@@ -4,60 +4,51 @@ import { isAfter } from "date-fns/esm";
 import { MouseEventHandler, useMemo } from "react";
 import { findMostRelevantOccupancy, Occupancy } from "../../models/Occupancy";
 import { OccupancyWindow } from "../../models/OccupancyWindow";
-import { parseDate } from "./calendar_functions";
+import { parseDate } from "../calendar/functions";
 import { OccupancyPopover } from "./OccupancyPopover";
 
-interface OccupancyCalendarDateProps {
+interface DateWithOccupanciesProps {
   dateString: string;
-  labelCallback: (date: Date) => string;
-  disabledCallback?: (date: Date) => boolean;
-  classNameCallback?: (date: Date) => string;
   onClick?: MouseEventHandler;
   occupancyWindow?: OccupancyWindow;
 }
 
-export function OccupancyCalendarDate({
-  dateString,
-  labelCallback,
-  occupancyWindow,
-  classNameCallback,
-  disabledCallback,
-  onClick,
-}: OccupancyCalendarDateProps) {
+export function DateWithOccupancies({ dateString, occupancyWindow }: DateWithOccupanciesProps) {
   const date = startOfDay(parseDate(dateString));
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
   const slots = useMemo(() => splitSlots(date, occupancies), [date, occupancies]);
-  const classNames = [
-    "occupancy-calendar-date",
-    occupancies.size > 0 && "has-occupancies",
-    classNameCallback && classNameCallback(date),
-  ].filter((className) => className);
-
+  const classNames = ["occupancy-calendar-date", occupancies.size > 0 && "has-occupancies"];
   return useMemo(
     () => (
-      <button
-        type="submit"
-        name="date"
-        disabled={disabledCallback && disabledCallback(date)}
-        className={classNames.join(" ")}
-        onClick={onClick}
-        value={dateString}
-      >
+      <div className={classNames.filter((className) => className).join(" ")}>
         <OccupancyPopover dateString={dateString} occupancyWindow={occupancyWindow}></OccupancyPopover>
-        <div className="wrapper">
-          <div className="label">{labelCallback(date)}</div>
-          <div className="slots" style={{ backgroundColor: findMostRelevantOccupancy(slots.allday)?.color }}>
-            <div
-              className="forenoon"
-              style={{ backgroundColor: findMostRelevantOccupancy(slots.forenoon)?.color }}
-            ></div>
-            <div
-              className="afternoon"
-              style={{ backgroundColor: findMostRelevantOccupancy(slots.afternoon)?.color }}
-            ></div>
-          </div>
-        </div>
-      </button>
+        <svg viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+          {Array.from(slots.allday).some(Boolean) && (
+            <rect
+              className="occupancy-slot"
+              y="0"
+              x="0"
+              width="48"
+              height="48"
+              fill={findMostRelevantOccupancy(slots.allday)?.color}
+            ></rect>
+          )}
+          {Array.from(slots.forenoon).some(Boolean) && (
+            <polygon
+              className="occupancy-slot"
+              points="0,0 0,46 46,0"
+              fill={findMostRelevantOccupancy(slots.forenoon)?.color}
+            />
+          )}
+          {Array.from(slots.afternoon).some(Boolean) && (
+            <polygon
+              className="occupancy-slot"
+              points="48,0 48,48 0,48"
+              fill={findMostRelevantOccupancy(slots.afternoon)?.color}
+            />
+          )}
+        </svg>
+      </div>
     ),
     [date, occupancies],
   );

@@ -80,10 +80,6 @@
       text-align: center;
       font-weight: bold;
     }
-
-    button.occupancy-calendar-date .label {
-      font-size: 0.8em;
-    }
   }
 
   .months-calendar {
@@ -170,28 +166,7 @@
     }
   }
 
-  button.occupancy-calendar-date.selected-date {
-    outline-width: 0.5em;
-    outline-style: solid;
-    outline-color: rgba(var(--bs-primary-rgb), 0.6);
-    background-color: var(--bs-primary);
-    z-index: 10;
-
-    &>.label {
-      color: white;
-      font-weight: bold;
-      opacity: 1;
-    }
-  }
-
-  button.occupancy-calendar-date:disabled {
-    &>.label {
-      color: #777;
-      cursor: initial;
-    }
-  }
-
-  button.occupancy-calendar-date {
+  .date-action {
     background: transparent;
     border: none;
     display: block;
@@ -199,33 +174,40 @@
     height: 100%;
     padding: 0;
     color: black;
-    text-align: start;
+    position: relative;
 
-    &.has-occupancies>.wrapper>.label {
+    &>.label {
+      display: block;
+      position: absolute;
+      top: 50%;
+      margin-top: -0.5em;
+      line-height: 1em;
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+      opacity: 0.8;
+      cursor: pointer;
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      &>.label {
+        color: #777;
+        cursor: initial;
+      }
+    }
+
+    &.has-occupancies>svg>text {
       font-weight: bold;
     }
 
-    .wrapper {
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
+    svg {
+      cursor: pointer;
+      overflow: visible;
 
-      &:hover {
-        opacity: 0.8;
-      }
-
-      &>.label {
-        display: block;
-        position: absolute;
-        top: 50%;
-        margin-top: -0.5em;
-        line-height: 1em;
-        z-index: 2;
-        width: 100%;
-        text-align: center;
-        opacity: 0.8;
-        cursor: pointer;
+      rect:not([fill]),
+      polygon:not([fill]) {
+        fill: transparent
       }
     }
 

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { CalendarViewContext } from "./OccupancyCalendar";
+import { CalendarViewContext } from "./Calendar";
 
 interface CalendarNavProps {
   onPrev(): void;
