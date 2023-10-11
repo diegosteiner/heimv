@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_10_161651) do
+ActiveRecord::Schema[7.1].define(version: 2023_10_06_135554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -415,16 +415,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_161651) do
     t.index ["organisation_id"], name: "index_operators_on_organisation_id"
   end
 
-  create_table "organisation_api_keys", force: :cascade do |t|
-    t.string "key"
-    t.datetime "discarded_at"
-    t.string "label"
-    t.bigint "organisation_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organisation_id"], name: "index_organisation_api_keys_on_organisation_id"
-  end
-
   create_table "organisation_users", force: :cascade do |t|
     t.bigint "organisation_id", null: false
     t.bigint "user_id", null: false
@@ -637,7 +627,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_161651) do
   add_foreign_key "operator_responsibilities", "operators"
   add_foreign_key "operator_responsibilities", "organisations"
   add_foreign_key "operators", "organisations"
-  add_foreign_key "organisation_api_keys", "organisations"
   add_foreign_key "organisation_users", "organisations"
   add_foreign_key "organisation_users", "users"
   add_foreign_key "payments", "bookings"

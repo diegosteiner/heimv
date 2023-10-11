@@ -13,17 +13,6 @@ class CreateOrganisationUsers < ActiveRecord::Migration[7.0]
     rename_column :users, :organisation_id, :default_organisation_id 
     add_column :users, :role_admin, :boolean, default: false
     change_column_null :users, :default_organisation_id, true
-
-    reversible do |direction|
-      direction.up do 
-        User.find_each do |user|
-          user.organisation_users.create(organisation: user.default_organisation, 
-                                         role: ROLE_MAPPING.fetch(user.role, 0))
-          user.update(role_admin: true) if user.role == 1
-        end
-      end
-    end
-    
     remove_column :users, :role, :integer, default: 0, null: false
   end
 end

@@ -70,7 +70,7 @@
 
     .month {
       display: grid;
-      grid-template-columns: minmax(5rem, auto) repeat(31, minmax(1.5rem, 2rem));
+      grid-template-columns: minmax(8rem, auto) repeat(31, minmax(1.5rem, 2rem));
       height: 1.5rem;
       gap: 1px;
       margin-bottom: 1px;
