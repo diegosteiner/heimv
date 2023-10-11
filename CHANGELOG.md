@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## Version 23.10.1
+
+- Improvement: Limit year calender scroll to 1 month 
+- Bugfixes
+
 ## Version 23.9.3
 
 - Feature: Allow deadlines to be 0 in settings to skip
