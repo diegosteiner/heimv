@@ -79,6 +79,10 @@ Style/SymbolProc:
 Lint/UnusedMethodArgument:
   Enabled: false
 
+# TODO: bug with false positives
+Style/RedundantDoubleSplatHashBraces:
+  Enabled: false
+
 # TODO: bug
 Rails/UniqueValidationWithoutIndex:
   Enabled: false
