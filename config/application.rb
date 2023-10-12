@@ -46,5 +46,12 @@ module Heimverwaltung
     config.active_job.queue_adapter = ENV.fetch('ACTIVE_JOB_QUEUE_ADAPTER', :inline)
 
     config.redis_config = { url: ENV.fetch('REDIS_URL', nil), ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE } }
+
+    # Log to STDOUT by default
+    config.logger = ActiveSupport::Logger.new($stdout)
+                                         .tap  { |logger| logger.formatter = Logger::Formatter.new }
+                                         .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
+
+    config.log_level = ENV.fetch('LOG_LEVEL', :warn).to_sym
   end
 end
