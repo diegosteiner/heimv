@@ -5,7 +5,7 @@
     = form.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
   .col-md-3
     = form.hidden_field :type
-    = form.select :type, subtype_options_for_select(BookingCondition.subtypes), { skip_label: true, include_blank: true }, disabled: form.object.type.present?
+    = form.select :type, subtype_options_for_select(BookingCondition.subtypes), { skip_label: true, include_blank: true }, disabled: form.object.type.present?, required: !form.object.new_record?
 
   - if form.object.type.present?
     .col-md-2
