@@ -20,7 +20,7 @@
 #  fk_rails_...  (booking_question_id => booking_questions.id)
 #
 class BookingQuestionResponse < ApplicationRecord
-  belongs_to :booking, inverse_of: :booking_question_responses
+  belongs_to :booking, inverse_of: :booking_question_responses, touch: true
   belongs_to :booking_question, inverse_of: :booking_question_responses
 
   scope :ordered, -> { joins(:booking_question).order(BookingQuestion.arel_table[:ordinal].asc) }

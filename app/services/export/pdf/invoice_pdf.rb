@@ -33,11 +33,11 @@ module Export
         next if invoice.is_a?(Invoices::Offer)
 
         font_size(9) do
-          text "#{::Booking.human_attribute_name(:ref)}: #{invoice.booking.ref}"
           text "#{::Invoice.human_attribute_name(:sent_at)}: #{I18n.l(invoice.sent_at&.to_date || Time.zone.today)}"
-          next unless invoice.payable_until
-
-          text "#{::Invoice.human_attribute_name(:payable_until)}: #{I18n.l(invoice.payable_until.to_date)}"
+          if invoice.payable_until
+            text "#{::Invoice.human_attribute_name(:payable_until)}: #{I18n.l(invoice.payable_until.to_date)}"
+          end
+          text "#{::Booking.human_attribute_name(:ref)}: #{invoice.booking.ref}"
         end
       end
 
