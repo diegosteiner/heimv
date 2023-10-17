@@ -48,8 +48,11 @@ function OccupancyOverviewCalendar({
       return (
         <CalendarDate dateString={dateString}>
           <a className="date-action" href={disabled ? undefined : href} aria-disabled={disabled}>
-            <DateWithOccupancies dateString={dateString} occupancyWindow={occupancyWindow}></DateWithOccupancies>
-            <div className="label">{labelCallback(date)}</div>
+            <DateWithOccupancies
+              dateString={dateString}
+              label={labelCallback(date)}
+              occupancyWindow={occupancyWindow}
+            ></DateWithOccupancies>
           </a>
         </CalendarDate>
       );

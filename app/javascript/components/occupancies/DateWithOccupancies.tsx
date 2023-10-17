@@ -11,9 +11,10 @@ interface DateWithOccupanciesProps {
   dateString: string;
   onClick?: MouseEventHandler;
   occupancyWindow?: OccupancyWindow;
+  label: string;
 }
 
-export function DateWithOccupancies({ dateString, occupancyWindow }: DateWithOccupanciesProps) {
+export function DateWithOccupancies({ dateString, occupancyWindow, label }: DateWithOccupanciesProps) {
   const date = startOfDay(parseDate(dateString));
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
   const slots = useMemo(() => splitSlots(date, occupancies), [date, occupancies]);
@@ -48,6 +49,7 @@ export function DateWithOccupancies({ dateString, occupancyWindow }: DateWithOcc
             />
           )}
         </svg>
+        <div className="label">{label}</div>
       </div>
     ),
     [date, occupancies],

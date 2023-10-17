@@ -64,16 +64,14 @@
 
   .year-calendar {
     .months {
-      overflow-x: scroll;
       margin: 1em 0;
+      position: relative;
     }
 
     .month {
       display: grid;
       grid-template-columns: minmax(8rem, auto) repeat(31, minmax(1.5rem, 2rem));
-      height: 1.5rem;
       gap: 1px;
-      margin-bottom: 1px;
     }
 
     .day-of-month {
@@ -176,7 +174,23 @@
     color: black;
     position: relative;
 
-    &>.label {
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      .label {
+        color: #777;
+        cursor: initial;
+      }
+    }
+
+  }
+
+  .occupancy-calendar-date {
+    &:hover svg {
+      opacity: 0.8;
+    }
+
+    .label {
       display: block;
       position: absolute;
       top: 50%;
@@ -189,15 +203,7 @@
       cursor: pointer;
     }
 
-    &:disabled,
-    &[aria-disabled='true'] {
-      &>.label {
-        color: #777;
-        cursor: initial;
-      }
-    }
-
-    &.has-occupancies>svg>text {
+    &.has-occupancies .label {
       font-weight: bold;
     }
 
@@ -208,23 +214,6 @@
       rect:not([fill]),
       polygon:not([fill]) {
         fill: transparent
-      }
-    }
-
-    .slots {
-      position: absolute;
-      height: 170%;
-      width: 170%;
-      transform: rotateZ(45deg);
-      transform-style: preserve-3d;
-      top: -35%;
-      left: -35%;
-      display: flex;
-      gap: 1px;
-      z-index: 1;
-
-      &>div {
-        flex-grow: 1;
       }
     }
 
@@ -240,4 +229,12 @@
   transform: translate(-43%, -100%);
   z-index: 10;
   display: none;
+  width: max-content;
+
+  ul.occupancies {
+    &>li+li {
+      margin-top: 2em;
+    }
+  }
+
 }
