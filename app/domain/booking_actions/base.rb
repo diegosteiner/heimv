@@ -22,6 +22,12 @@ module BookingActions
       new(context).call
     end
 
+    def self.call_and_redirect(context)
+      action = new(context)
+      action.call
+      action.redirect_to
+    end
+
     def self.allowed?(context)
       new(context).allowed?
     end
@@ -33,6 +39,8 @@ module BookingActions
     def to_s
       self.class.action_name
     end
+
+    def redirect_to; end
 
     def button_options
       {

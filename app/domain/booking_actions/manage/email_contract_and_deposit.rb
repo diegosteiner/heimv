@@ -7,9 +7,9 @@ module BookingActions
                                                                          required_by: self)
 
       def call!
-        notification = prepare_notification
-        notification.save! && contract.sent! && invoices.each(&:sent!) && notification.deliver
-        notification.dup.tap { _1.to = operator }.deliver if operator&.email.present?
+        @notification = prepare_notification
+        @notification.save! && contract.sent! && invoices.each(&:sent!)
+        @notification.dup.tap { _1.to = operator }.deliver if operator&.email.present?
       end
 
       def allowed?
@@ -18,6 +18,12 @@ module BookingActions
             tenant.email.present? && Invoices::Deposit.of(self).kept.any?
         end
       end
+
+      # def redirect_to
+      #   return unless @notification&.valid?
+
+      #   Rails.application.routes.url_helpers.edit_manage_notification_path(booking, @notification)
+      # end
 
       private
 

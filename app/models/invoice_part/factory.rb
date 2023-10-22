@@ -13,9 +13,9 @@ class InvoicePart
     def call
       I18n.with_locale(invoice.locale || I18n.locale) do
         [
+          from_deposits.presence,
           from_supersede_invoice.presence,
-          from_usages.presence,
-          from_deposits.presence
+          from_usages.presence
         ].flatten.compact.each_with_index { |invoice_part, i| invoice_part.ordinal_position = i }
       end
     end
@@ -40,7 +40,7 @@ class InvoicePart
 
       [
         InvoiceParts::Text.new(apply: suggest?, label: Invoices::Deposit.model_name.human),
-        InvoiceParts::Add.new(apply: suggest?, label: Invoices::Deposit.model_name.human, amount: - deposited_amount)
+        InvoiceParts::Add.new(apply: suggest?, label: I18n.t('.deposited_amount'), amount: - deposited_amount)
       ]
     end
 
@@ -52,7 +52,7 @@ class InvoicePart
       usages.filter_map do |usage|
         next unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
 
-        InvoiceParts::Add.from_usage(usage, apply: suggest? && !usage_already_invoiced?(usage))
+        InvoiceParts::Add.from_usage(usage, apply: suggest?)
       end
     end
 
@@ -62,13 +62,6 @@ class InvoicePart
 
     def suggest?
       invoice.invoice_parts.none?
-    end
-
-    def usage_already_invoiced?(usage)
-      InvoicePart.joins(:invoice).exists?(usage: usage,
-                                          invoice: { discarded_at: nil, type: [
-                                            Invoices::Deposit.to_s, Invoices::Invoice.to_s
-                                          ] })
     end
   end
 end

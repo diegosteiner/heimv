@@ -64,13 +64,11 @@ module Manage
 
     def update
       @booking.assign_attributes(booking_params)
-      responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params,
-                                                                    manage: true)
-      @booking.booking_question_responses = responses unless responses.nil?
+      process_booking_question_responses
       @booking.save(context: :manage_update)
-      call_booking_action
-      Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
-      respond_with :manage, @booking
+      redirect_to = call_booking_action
+      write_booking_log
+      respond_with :manage, @booking, location: redirect_to
     end
 
     def destroy
@@ -85,12 +83,22 @@ module Manage
       @preparation_service ||= BookingPreparationService.new(current_organisation)
     end
 
+    def write_booking_log
+      Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
+    end
+
     def set_filter
       @filter = Booking::Filter.new(default_booking_filter_params.merge(booking_filter_params))
     end
 
+    def process_booking_question_responses
+      responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params,
+                                                                    manage: true)
+      @booking.booking_question_responses = responses unless responses.nil?
+    end
+
     def call_booking_action
-      booking_action&.call(booking: @booking)
+      booking_action&.call_and_redirect(booking: @booking)
     rescue BookingActions::Base::NotAllowed
       @booking.errors.add(:base, :action_not_allowed)
     end

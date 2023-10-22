@@ -113,7 +113,11 @@ class Invoice < ApplicationRecord
   end
 
   def open?
-    !amount_open.zero?
+    !settled?
+  end
+
+  def settled?
+    amount_open.zero?
   end
 
   def recalculate
