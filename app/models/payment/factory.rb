@@ -47,8 +47,9 @@ class Payment
       payments = payments_params.values.filter_map { |payment_params| Payment.new(payment_params) }
       payments = payments.select(&:applies)
 
-      # TODO: fix
-      payments.all?(&:save)
+      Payment.transaction do
+        raise ActiveRecord::Rollback unless payments.all?(&:save)
+      end
 
       payments
     end

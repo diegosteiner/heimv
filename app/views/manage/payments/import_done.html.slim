@@ -10,7 +10,7 @@ table.table
 
   tbody.shadow-sm
     - @payments.each do |payment|
-      tr[class=(!payment.applies && 'text-muted' || !payment.valid? && 'alert-danger' || payment.invoice.blank? && 'alert-warning' || payment.persisted? && 'alert-success')]
+      tr[class=(!payment.applies && 'text-muted' || !payment.valid? && 'bg-danger-subtle' || payment.invoice.blank? && 'bg-warning-subtle' || payment.persisted? && 'bg-success-subtle')]
         td
         td
           = link_to payment.invoice, manage_invoice_path(payment.invoice) if payment.invoice.present?
