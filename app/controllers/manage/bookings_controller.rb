@@ -98,7 +98,8 @@ module Manage
     end
 
     def call_booking_action
-      booking_action&.call_and_redirect(booking: @booking)
+      result = booking_action&.call(booking: @booking)
+      instance_eval(&result.redirect_proc) if result&.redirect_proc.present?
     rescue BookingActions::Base::NotAllowed
       @booking.errors.add(:base, :action_not_allowed)
     end

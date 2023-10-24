@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_06_135554) do
+ActiveRecord::Schema[7.1].define(version: 2023_10_24_072125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -347,6 +347,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_06_135554) do
     t.string "to", default: [], array: true
     t.string "cc", default: [], array: true
     t.string "locale", default: "de", null: false
+    t.string "bcc"
     t.index ["booking_id"], name: "index_notifications_on_booking_id"
     t.index ["rich_text_template_id"], name: "index_notifications_on_rich_text_template_id"
   end

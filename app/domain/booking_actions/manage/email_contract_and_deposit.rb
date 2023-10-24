@@ -7,9 +7,10 @@ module BookingActions
                                                                          required_by: self)
 
       def call!
-        @notification = prepare_notification
-        @notification.save! && contract.sent! && invoices.each(&:sent!)
-        @notification.dup.tap { _1.to = operator }.deliver if operator&.email.present?
+        notification = prepare_notification
+        notification.save! && contract.sent! && invoices.each(&:sent!)
+
+        Result.new ok: notification.valid?, redirect_proc: redirect_proc(notification)
       end
 
       def allowed?
@@ -19,13 +20,15 @@ module BookingActions
         end
       end
 
-      # def redirect_to
-      #   return unless @notification&.valid?
-
-      #   Rails.application.routes.url_helpers.edit_manage_notification_path(booking, @notification)
-      # end
-
       private
+
+      def redirect_proc(notification)
+        return unless notification&.persisted?
+
+        proc do
+          edit_manage_notification_path(notification)
+        end
+      end
 
       def invoices
         @invoices ||= booking.invoices.kept.unsent.where(type: [Invoices::Deposit.to_s, Invoices::Offer.to_s])
@@ -46,6 +49,7 @@ module BookingActions
       def prepare_notification
         booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
                                   template_context: { contract: contract, invoices: invoices }).tap do |notification|
+          notification.bcc = operator.email if operator&.email.present?
           notification.attach(prepare_attachments)
         end
       end

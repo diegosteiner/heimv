@@ -6,6 +6,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  addressed_to          :integer          default("manager"), not null
+#  bcc                   :string
 #  body                  :text
 #  cc                    :string           default([]), is an Array
 #  locale                :string           default(NULL), not null

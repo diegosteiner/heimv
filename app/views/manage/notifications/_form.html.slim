@@ -1,0 +1,13 @@
+= form_with(model: [:manage, @booking, @notification], local: true) do |f|
+
+  fieldset[v-pre]
+    = f.text_field :subject
+    = f.datetime_local_field :sent_at, step: 1
+    = f.text_area :body, class: 'rich-text-area'
+
+  .form-actions.pt-4.mt-3
+    - if @notification.deliverable?
+      = f.button name: :'deliver', value: true, class: 'btn btn-primary'
+        = t('.deliver')
+
+    =<> f.submit

@@ -45,9 +45,10 @@ class Payment
 
     def from_import(payments_params)
       payments = payments_params.values.filter_map { |payment_params| Payment.new(payment_params) }
+      payments = payments.select(&:applies)
 
       Payment.transaction do
-        raise ActiveRecord::Rollback unless payments.select(&:applies).all?(&:save)
+        raise ActiveRecord::Rollback unless payments.all?(&:save)
       end
 
       payments

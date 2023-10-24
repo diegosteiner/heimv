@@ -4,15 +4,9 @@
   .col-lg-8
     .card.shadow-sm
       .card-body
-        = form_with(model: [:manage, @booking, @notification], local: true) do |f|
+        == render 'form'
 
-          fieldset
-            = f.text_field :subject
-            = f.datetime_local_field :sent_at, step: 1
-            = f.text_area :body
-
-          .form-actions.pt-4.mt-3
-            => f.submit
-            - if @notification.deliverable?
-              = f.button name: :'deliver', value: true, class: 'btn btn-outline-primary'
-                = t('.deliver')
+      .card-footer 
+        ul.my-0
+          - @notification.attachments.each do |attachment|
+            li= link_to attachment.filename, attachment, target: :_blank

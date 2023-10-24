@@ -7,7 +7,9 @@ module BookingActions
 
       def call!
         notification = prepare_notification
-        notification.deliver && offers.each(&:sent!)
+        notification.save! && offers.each(&:sent!)
+
+        Result.new ok: notification.valid?, redirect_proc: redirect_proc(notification)
       end
 
       def allowed?
@@ -15,6 +17,14 @@ module BookingActions
       end
 
       protected
+
+      def redirect_proc(notification)
+        return unless notification&.persisted?
+
+        proc do
+          edit_manage_notification_path(notification)
+        end
+      end
 
       def booking
         context.fetch(:booking)

@@ -7,10 +7,10 @@ module BookingActions
                                                                          required_by: self)
 
       def call!(contract = booking.contract)
-        notification = booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
-                                                 template_context: { contract: contract })
-        notification.attach(prepare_attachments(booking, contract))
-        notification.save! && contract.sent! && notification.deliver
+        notification = prepare_notification
+        notification.save! && contract.sent!
+
+        Result.new ok: notification.valid?, redirect_proc: redirect_proc(notification)
       end
 
       def allowed?
@@ -30,11 +30,26 @@ module BookingActions
 
       private
 
+      def redirect_proc(notification)
+        return unless notification&.persisted?
+
+        proc do
+          edit_manage_notification_path(notification)
+        end
+      end
+
       def prepare_attachments(booking, contract)
         [
           DesignatedDocument.for_booking(booking).where(send_with_contract: true),
           contract.pdf
         ].flatten.compact
+      end
+
+      def prepare_notification
+        booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
+                                  template_context: { contract: contract }).tap do |notification|
+          notification.attach(prepare_attachments(booking, contract))
+        end
       end
 
       def booking

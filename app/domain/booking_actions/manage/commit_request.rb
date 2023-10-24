@@ -4,7 +4,7 @@ module BookingActions
   module Manage
     class CommitRequest < BookingActions::Base
       def call!
-        booking.update(committed_request: true)
+        Result.new ok: booking.update(committed_request: true)
       end
 
       def allowed?

@@ -1290,8 +1290,8 @@ de:
       form:
         suggested_invoice_parts: Vorgeschlagene Positionen
     notifications:
-      edit:
-        deliver: Speichern und nochmals versenden
+      form:
+        deliver: Speichern und versenden
     organisation_users:
       index:
         invite_user: Neuen Benutzer einladen

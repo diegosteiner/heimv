@@ -6,6 +6,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  addressed_to          :integer          default("manager"), not null
+#  bcc                   :string
 #  body                  :text
 #  cc                    :string           default([]), is an Array
 #  locale                :string           default(NULL), not null
@@ -43,12 +44,8 @@ class Notification < ApplicationRecord
   validates :to, :locale, presence: true
   validates :rich_text_template, presence: true, if: :rich_text_template_key?
 
-  delegate :bcc, to: :organisation
-
   attribute :rich_text_template_key
   attribute :template_context
-
-  scope :failed, -> { where(queued_for_delivery: true, sent_at: nil).where(arel_table[:created_at].lt(1.hour.ago)) }
 
   before_validation :apply_template
 
@@ -110,6 +107,10 @@ class Notification < ApplicationRecord
 
   def text
     ActionView::Base.full_sanitizer.sanitize(body)
+  end
+
+  def bcc
+    [super, organisation&.bcc].compact
   end
 
   # rubocop:disable Metrics/MethodLength
