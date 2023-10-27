@@ -23,6 +23,7 @@
               = pf.hidden_field :id
               = pf.check_box :applies, skip_label: true
               = pf.hidden_field :ref
+              = pf.hidden_field :camt_instr_id
               = pf.hidden_field :data
             td.py-2
               = pf.collection_select :invoice_id, @invoices, :id, :to_s, skip_label: true, include_blank: true, required: false

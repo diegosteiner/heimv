@@ -10,7 +10,7 @@ module Manage
         @payments = @booking.payments.ordered
       else
         @payments = @payments.joins(:booking).where(booking: { organisation: current_organisation }).ordered
-        @payments = @payments.last_year if params[:all].blank?
+        @payments = @payments.recent if params[:all].blank?
       end
       respond_with :manage, @payments
     end
