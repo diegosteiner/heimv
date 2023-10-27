@@ -79,7 +79,7 @@ class BookingQuestion < ApplicationRecord
   def self.applying_to_booking(booking)
     return none if booking&.organisation.blank?
 
-    booking.organisation.booking_questions.include_conditions.filter do |question|
+    booking.organisation.booking_questions.include_conditions.ordered.filter do |question|
       question.applies_to_booking?(booking)
     end
   end
