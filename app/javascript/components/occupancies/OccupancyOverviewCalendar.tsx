@@ -1,11 +1,11 @@
-import { MouseEventHandler, useCallback, useEffect, useState } from "react";
+import { MouseEventHandler, useCallback } from "react";
 import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
-import { fromJson, OccupancyWindow } from "../../models/OccupancyWindow";
 import { isAfter, isBefore } from "date-fns/esm";
 import * as React from "react";
 import { parseISO } from "date-fns";
 import Calendar, { ViewType } from "../calendar/Calendar";
 import { DateWithOccupancies } from "./DateWithOccupancies";
+import { OccupancyWindowContext } from "./OccupancyWindowContext";
 
 interface OccupancyOverviewCalendarProps {
   start?: string;
@@ -17,22 +17,9 @@ interface OccupancyOverviewCalendarProps {
   defaultView?: ViewType;
 }
 
-function OccupancyOverviewCalendar({
-  start,
-  calendarUrl,
-  occupancyAtUrl,
-  defaultView,
-}: OccupancyOverviewCalendarProps) {
-  const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindow | undefined>();
+function OccupancyOverviewCalendar({ start, occupancyAtUrl, defaultView }: OccupancyOverviewCalendarProps) {
+  const occupancyWindow = React.useContext(OccupancyWindowContext);
   const initialFirstDate = start;
-
-  useEffect(() => {
-    (async () => {
-      if (!calendarUrl) return;
-      const result = await fetch(calendarUrl);
-      if (result.status == 200) setOccupancyWindow(fromJson(await result.json()));
-    })();
-  }, [calendarUrl]);
 
   const disabledCallback = useCallback(
     (date: Date) => !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end),

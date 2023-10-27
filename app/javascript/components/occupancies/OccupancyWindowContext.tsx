@@ -1,24 +1,22 @@
-import { createContext, ReactElement, useEffect, useState } from "react";
+import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { fromJson, OccupancyWindow } from "../../models/OccupancyWindow";
 
 export const OccupancyWindowContext = createContext<OccupancyWindow | undefined>(undefined);
 
-interface OccupancyWindowProviderProps {
+type OccupancyWindowProviderProps = PropsWithChildren<{
   url: string;
-  children?: ReactElement;
-}
+}>;
 
 export function OccupancyWindowProvider({ url, children }: OccupancyWindowProviderProps) {
   const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindow | undefined>();
 
-  OccupancyWindowContext.Provider;
-
   useEffect(() => {
     (async () => {
+      if (!url) return;
       const result = await fetch(url);
       if (result.status == 200) setOccupancyWindow(fromJson(await result.json()));
     })();
-  }, []);
+  }, [url]);
 
   return <OccupancyWindowContext.Provider value={occupancyWindow}>{children}</OccupancyWindowContext.Provider>;
 }
