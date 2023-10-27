@@ -1292,6 +1292,7 @@ de:
     notifications:
       form:
         deliver: Speichern und versenden
+        not_sent: Diese Nachricht wurde noch nicht versendet
     organisation_users:
       index:
         invite_user: Neuen Benutzer einladen

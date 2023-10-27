@@ -57,6 +57,10 @@ class Notification < ApplicationRecord
     deliverable? && save && message_delivery.tap(&:deliver_later)
   end
 
+  def delivered?
+    sent_at.present?
+  end
+
   def attach(*files_or_documents_to_attach)
     files_or_documents_to_attach.flatten.map do |attachment|
       next attachment.attach_to(attachments) if attachment.is_a?(DesignatedDocument)

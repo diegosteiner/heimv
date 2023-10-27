@@ -2,6 +2,11 @@
 
 .row.justify-content-center
   .col-lg-8
+
+    - unless @notification.delivered?
+      .alert.alert-warning.mb-3[role="alert"]
+        p.m-0= t('manage.notifications.form.not_sent')
+
     .card.shadow-sm
       .card-body
         == render 'form'
