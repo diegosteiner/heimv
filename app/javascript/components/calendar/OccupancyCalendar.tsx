@@ -15,6 +15,7 @@ interface OccupancyCalendarProps {
   classNameCallback?: (date: Date) => string;
   disabledCallback?: (date: Date) => boolean;
   defaultView?: ViewType;
+  months?: string | number;
 }
 
 type ViewType = "months" | "year";
@@ -32,10 +33,12 @@ function OccupancyCalendar({
   disabledCallback,
   onClick,
   defaultView,
+  months,
 }: OccupancyCalendarProps) {
   const [view, setView] = useState<ViewType>(defaultView || "months");
   const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindow | undefined>();
   const initialFirstDate = start;
+  months = Number(months);
 
   useEffect(() => {
     (async () => {
@@ -82,6 +85,7 @@ function OccupancyCalendar({
           {({ months: MonthsCalendar, year: YearCalendar }[view] || MonthsCalendar)({
             initialFirstDate,
             dateElementFactory,
+            months,
           })}
         </div>
       </CalendarViewContext.Provider>

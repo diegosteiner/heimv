@@ -8,6 +8,7 @@ import { parseDate, materializedWeekdays } from "./calendar_functions";
 interface YearCalendarProps {
   initialFirstDate?: string | Date;
   dateElementFactory: DateElementFactory;
+  months?: number;
 }
 
 const monthNameFormatter = new Intl.DateTimeFormat(document.documentElement.lang, {
@@ -15,11 +16,11 @@ const monthNameFormatter = new Intl.DateTimeFormat(document.documentElement.lang
   year: "numeric",
 });
 
-export default function YearCalendar({ initialFirstDate, dateElementFactory }: YearCalendarProps) {
+export default function YearCalendar({ initialFirstDate, dateElementFactory, months }: YearCalendarProps) {
   const [firstDate, setFirstDate] = useState<Date>(startOfMonth(parseDate(initialFirstDate)));
   const nextMonth = () => setFirstDate((prevFirstDate) => addMonths(prevFirstDate, 1));
   const prevMonth = () => setFirstDate((prevFirstDate) => subMonths(prevFirstDate, 1));
-  const interval = { start: firstDate, end: addMonths(firstDate, 11) };
+  const interval = { start: firstDate, end: addMonths(firstDate, Math.max(months || 12, 12) - 1) };
 
   return (
     <div className="year-calendar">
