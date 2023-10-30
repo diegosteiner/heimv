@@ -1197,6 +1197,7 @@ fr:
         index:
           applicable_tarifs: Tarifs applicables
           save_and_continue: Enregistrer et créer %{invoice_type}
+          suggest_usages:
         table:
           save: Enregistrer %{model_name}
     data_digests:

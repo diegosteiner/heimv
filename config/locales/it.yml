@@ -1166,6 +1166,7 @@ it:
         index:
           applicable_tarifs: Tariffe applicabili
           save_and_continue: Salvare e creare %{invoice_type}.
+          suggest_usages:
         table:
           save: Salvare %{model_name}.
     data_digests:
