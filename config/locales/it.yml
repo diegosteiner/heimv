@@ -1166,6 +1166,7 @@ it:
         index:
           applicable_tarifs: Tariffe applicabili
           save_and_continue: Salvare e creare %{invoice_type}.
+          suggest_usages:
         table:
           save: Salvare %{model_name}.
     data_digests:
@@ -1184,6 +1185,9 @@ it:
     notifications:
       edit:
         deliver: Salvare e inviare di nuovo
+      form:
+        deliver:
+        not_sent:
     organisation_users:
       index:
         invite_user: Invitare un nuovo utente

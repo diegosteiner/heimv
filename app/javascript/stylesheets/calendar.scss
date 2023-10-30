@@ -258,16 +258,4 @@
   transform: translate(-43%, -100%);
   z-index: 10;
   display: none;
-
-}
-
-.react-tiny-popover-container {
-  z-index: 10;
-
-  ul.occupancies {
-    &>li+li {
-      margin-top: 2em;
-    }
-  }
-
 }

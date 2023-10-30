@@ -74,6 +74,7 @@ module Ability
       can :read, BookingAgent, organisation: organisation
       can :read, BookingCategory, organisation: organisation
       can :read, BookingCondition, tarif: { organisation: organisation }
+      can :read, BookingQuestion, organisation: organisation
       can :read, Contract, booking: { organisation: organisation }
       can %i[read new create], DataDigest, organisation: organisation
       can :read, DataDigestTemplate, organisation: organisation

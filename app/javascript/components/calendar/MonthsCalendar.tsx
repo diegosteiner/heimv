@@ -43,13 +43,14 @@ const CalendarMonth = memo(function CalendarMonth({ dateString, dateElementFacto
 interface MonthsCalendarProps {
   initialFirstDate?: string | Date;
   dateElementFactory: DateElementFactory;
+  months?: number;
 }
 
-function MonthsCalendar({ initialFirstDate, dateElementFactory }: MonthsCalendarProps) {
+function MonthsCalendar({ initialFirstDate, dateElementFactory, months }: MonthsCalendarProps) {
   const [firstDate, setFirstDate] = useState<Date>(parseDate(initialFirstDate));
   const nextMonth = () => setFirstDate((prevFirstDate) => addMonths(prevFirstDate, 1));
   const prevMonth = () => setFirstDate((prevFirstDate) => subMonths(prevFirstDate, 1));
-  const interval = { start: firstDate, end: addMonths(firstDate, 7) };
+  const interval = { start: firstDate, end: addMonths(firstDate, (months || 8) - 1) };
 
   return (
     <div className="months-calendar">

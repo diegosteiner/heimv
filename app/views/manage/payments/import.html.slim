@@ -23,11 +23,12 @@
               = pf.hidden_field :id
               = pf.check_box :applies, skip_label: true
               = pf.hidden_field :ref
+              = pf.hidden_field :camt_instr_id
               = pf.hidden_field :data
             td.py-2
-              = pf.collection_select :invoice_id, @invoices, :id, :to_s, skip_label: true, include_blank: true
+              = pf.collection_select :invoice_id, @invoices, :id, :to_s, skip_label: true, include_blank: true, required: false
             td.py-2
-              = pf.collection_select :booking_id, @bookings, :id, :to_s, skip_label: true, include_blank: true
+              = pf.collection_select :booking_id, @bookings, :id, :to_s, skip_label: true, include_blank: true, required: false
             td.py-2
               = pf.number_field :amount, skip_label: true, step: 0.05
             td.py-2

@@ -16,7 +16,7 @@
     = f.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code) } do
       = f.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control'
 
-    = f.text_area :phone, rows: 2
+    = f.text_field :phone
     = f.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
     = f.text_field :iban
     = f.text_area :remarks

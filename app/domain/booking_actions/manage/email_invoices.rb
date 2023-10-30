@@ -8,8 +8,9 @@ module BookingActions
 
       def call!
         notification = prepare_notification
-        notification.deliver && invoices.each(&:sent!)
-        notification.dup.tap { _1.to = operator }.deliver if operator&.email.present?
+        notification.save! && invoices.each(&:sent!)
+
+        Result.new ok: notification.valid?, redirect_proc: redirect_proc(notification)
       end
 
       def allowed?
@@ -18,6 +19,14 @@ module BookingActions
       end
 
       protected
+
+      def redirect_proc(notification)
+        return unless notification&.persisted?
+
+        proc do
+          edit_manage_notification_path(notification)
+        end
+      end
 
       def booking
         context.fetch(:booking)
@@ -31,6 +40,7 @@ module BookingActions
       def prepare_notification
         booking.notifications.new(template: :payment_due_notification, to: booking.tenant,
                                   template_context: { invoices: invoices }) do |notification|
+          notification.bcc = operator.email if operator&.email.present?
           notification.attach(prepare_attachments)
         end
       end

@@ -10,17 +10,19 @@ table.table
 
   tbody.shadow-sm
     - @payments.each do |payment|
-      tr[class=(!payment.applies && 'text-muted' || !payment.valid? && 'alert-danger' || payment.invoice.blank? && 'alert-warning' || payment.persisted? && 'alert-success')]
-        td
-        td
+      tr[class=(!payment.applies && 'text-muted' || !payment.valid? && 'bg-danger-subtle' || payment.invoice.blank? && 'bg-warning-subtle' || payment.persisted? && 'bg-success-subtle')]
+        td.bg-transparent
+        td.bg-transparent
           = link_to payment.invoice, manage_invoice_path(payment.invoice) if payment.invoice.present?
-        td
+        td.bg-transparent
           = link_to payment.booking, manage_booking_path(payment.booking) if payment.booking.present?
-        td
+        td.bg-transparent
           = number_to_currency(payment.amount, unit:payment.organisation.currency) if payment.organisation.present?
-        td
+        td.bg-transparent
           = l payment.paid_at
-        td
+        td.bg-transparent
           p= payment.remarks
+          - if payment.errors.any?
+            p.text-danger= payment.errors.full_messages.to_sentence
 
 

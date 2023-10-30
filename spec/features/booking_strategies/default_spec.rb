@@ -42,10 +42,10 @@ describe 'Booking', :devise, type: :feature do
   end
 
   let(:expected_notifications) do
-    %w[payment_due_notification payment_due_notification payment_confirmation_notification
+    %w[payment_due_notification payment_confirmation_notification
        upcoming_notification operator_upcoming_notification operator_upcoming_notification
        operator_upcoming_soon_notification operator_upcoming_soon_notification
-       upcoming_soon_notification awaiting_contract_notification awaiting_contract_notification
+       upcoming_soon_notification awaiting_contract_notification
        definitive_request_notification manage_definitive_request_notification
        provisional_request_notification open_request_notification
        manage_new_booking_notification unconfirmed_request_notification completed_notification]
@@ -70,6 +70,7 @@ describe 'Booking', :devise, type: :feature do
     perform_booking
     set_usages
     create_invoice
+    send_invoice
     finalize_booking
     check_booking
   end
@@ -150,6 +151,8 @@ describe 'Booking', :devise, type: :feature do
   def confirm_booking
     visit manage_booking_path(@booking, org: org)
     click_on :email_contract_and_deposit
+    submit_form
+    visit manage_booking_path(@booking, org: org)
     click_on :mark_contract_signed
   end
 
@@ -179,9 +182,14 @@ describe 'Booking', :devise, type: :feature do
     submit_form
   end
 
-  def finalize_booking
+  def send_invoice
     visit manage_booking_path(@booking, org: org)
     click_on :email_invoices
+    submit_form
+    visit manage_booking_path(@booking, org: org)
+  end
+
+  def finalize_booking
     click_on :postpone_deadline
     visit manage_booking_invoices_path(@booking, org: org)
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)

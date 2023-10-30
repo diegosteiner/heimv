@@ -3,6 +3,7 @@
 module BookingActions
   class Base
     class NotAllowed < StandardError; end
+    Result = Struct.new(:ok, :redirect_proc, keyword_init: true)
 
     include Translatable
     extend Translatable
@@ -33,6 +34,8 @@ module BookingActions
     def to_s
       self.class.action_name
     end
+
+    def redirect_to; end
 
     def button_options
       {

@@ -2,9 +2,15 @@
 
 ## Unreleased
 
+## Version 23.10.2
+
+- Improvement: Recognize payment duplicates more accurately
+- Feature: Edit contract and invoice emails before send
+- Updates
+
 ## Version 23.10.1
 
-- Improvement: Limit year calender scroll to 1 month 
+- Improvement: Limit year calender scroll to 1 month
 - Bugfixes
 
 ## Version 23.9.3

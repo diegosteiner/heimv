@@ -4,9 +4,7 @@ module BookingActions
   module Public
     class PostponeDeadline < BookingActions::Base
       def call!
-        return booking.deadline.postpone if allowed?
-
-        booking.deadline.errors.add(:base, :not_postponable)
+        Result.new ok: booking.deadline.postpone
       end
 
       def allowed?

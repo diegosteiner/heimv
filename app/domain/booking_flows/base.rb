@@ -65,6 +65,16 @@ module BookingFlows
       object.state_transitions.pluck(:to_state).map(&:to_sym)
     end
 
+    def rollback_to!(state)
+      state = object.state_transitions.where(to_state: state).last unless state.is_a? Booking::StateTransition
+      return if state.blank?
+
+      # rubocop:disable Rails/SkipsModelValidations
+      object.state_transitions.where(Booking::StateTransition.arel_table[:created_at].gt(state.created_at))
+            .destroy_all && object.touch
+      # rubocop:enable Rails/SkipsModelValidations
+    end
+
     def infer_next_state
       self.class.callbacks[:infer].each do |callback|
         from = callback.from.to_s

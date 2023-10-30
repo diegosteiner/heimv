@@ -4,7 +4,7 @@ module BookingActions
   module Manage
     class Accept < BookingActions::Base
       def call!
-        booking.update(transition_to: transition_to)
+        Result.new ok: booking.update(transition_to: transition_to)
       end
 
       def allowed?

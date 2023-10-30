@@ -42,7 +42,7 @@ class Payment < ApplicationRecord
   end
 
   scope :ordered, -> { order(paid_at: :DESC) }
-  scope :last_year, -> { where(arel_table[:paid_at].gt(1.year.ago)) }
+  scope :recent, -> { where(arel_table[:paid_at].gt(3.months.ago)) }
 
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
@@ -53,7 +53,7 @@ class Payment < ApplicationRecord
   end
 
   def duplicates
-    Payment.where(booking: booking, paid_at: paid_at, amount: amount).where.not(id: [id])
+    Payment.where(booking: booking, paid_at: paid_at, amount: amount, camt_instr_id: camt_instr_id).where.not(id: [id])
   end
 
   def confirm!

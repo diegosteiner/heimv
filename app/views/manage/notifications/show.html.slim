@@ -2,15 +2,22 @@
 
 .card.shadow-sm
   .card-body
-    .mb-3
-      = Notification.human_attribute_name(:to)
-      ' : 
-      - @notification.to.each do |to|
-        = mail_to(to)
-        '
+    ul.mb-3.list-unstyled
+      li
+        = Notification.human_attribute_name(:to)
+        ' : 
+        - @notification.to.each do |to|
+          = mail_to(to)
+          '
+      li
+        = Notification.human_attribute_name(:sent_at)
+        ' : 
+        = @notification.sent_at.present? ? l(@notification.sent_at) : '-'
+
     h5.card-title= @notification.subject
 
     == @notification.body
+  
   .card-footer 
     ul.my-0
       - @notification.attachments.each do |attachment|

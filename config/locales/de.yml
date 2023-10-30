@@ -1274,6 +1274,7 @@ de:
         index:
           applicable_tarifs: Anwendbare Tarife
           save_and_continue: Speichern und %{invoice_type} erstellen
+          suggest_usages: Tarife und Verbrauch vorschlagen
         table:
           save: "%{model_name} speichern"
     data_digests:
@@ -1290,8 +1291,9 @@ de:
       form:
         suggested_invoice_parts: Vorgeschlagene Positionen
     notifications:
-      edit:
-        deliver: Speichern und nochmals versenden
+      form:
+        deliver: Speichern und versenden
+        not_sent: Diese Nachricht wurde noch nicht versendet
     organisation_users:
       index:
         invite_user: Neuen Benutzer einladen

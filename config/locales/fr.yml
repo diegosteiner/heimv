@@ -533,7 +533,7 @@ fr:
       booking_questions/check_box:
         one: Informations supplémentaires sous forme de case à cocher
       booking_questions/date:
-        one:
+        one: Indication supplémentaire sous forme de date
       booking_questions/integer:
         one: Information supplémentaire sous forme de nombre entier
       booking_questions/string:
@@ -704,7 +704,7 @@ fr:
         approximate_headcount: Nombre de personnes attendues
         days: Jour
         nights: Nächte
-        overnight_stays:
+        overnight_stays: Nombre de nuitées attendues
         tenant_organisation: Organisation des locataires
     date_span:
       attributes:
@@ -1101,7 +1101,7 @@ fr:
     submit:
       create: Créer un(e) %{model}
       submit: Enregistrer
-      update: Valider ces informations %{model}
+      update: Enregistrer
   i18n:
     transliterate:
       rule:
@@ -1197,6 +1197,7 @@ fr:
         index:
           applicable_tarifs: Tarifs applicables
           save_and_continue: Enregistrer et créer %{invoice_type}
+          suggest_usages:
         table:
           save: Enregistrer %{model_name}
     data_digests:
@@ -1215,6 +1216,9 @@ fr:
     notifications:
       edit:
         deliver: Enregistrer et envoyer à nouveau
+      form:
+        deliver:
+        not_sent:
     organisation_users:
       index:
         invite_user: Inviter un nouvel utilisateur

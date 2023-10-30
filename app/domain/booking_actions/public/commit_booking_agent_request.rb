@@ -4,7 +4,7 @@ module BookingActions
   module Public
     class CommitBookingAgentRequest < CommitRequest
       def call!
-        agent_booking.update(committed_request: true)
+        Result.new ok: booking.update(committed_request: true)
       end
 
       def allowed?

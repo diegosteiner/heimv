@@ -4,7 +4,7 @@ module BookingActions
   module Manage
     class SkipInvoice < BookingActions::Base
       def call!
-        booking.update(transition_to: :completed)
+        Result.new ok: booking.update(transition_to: :completed)
       end
 
       def allowed?
