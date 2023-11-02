@@ -39,7 +39,7 @@ module BookingStates
     end
 
     infer_transition(to: :awaiting_tenant) do |booking|
-      booking.agent_booking.valid? && booking.agent_booking.committed_request
+      booking.agent_booking.valid? && booking.committed_request
     end
 
     def relevant_time

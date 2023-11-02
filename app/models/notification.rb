@@ -99,18 +99,18 @@ class Notification < ApplicationRecord
     organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(template_context)&.body
   end
 
-  def body
-    return super.presence&.+(footer) if footer.present?
-
-    super
-  end
-
   def template_context
     { booking: booking, organisation: booking&.organisation, notification: self }.merge(super || {}).stringify_keys
   end
 
   def text
-    ActionView::Base.full_sanitizer.sanitize(body)
+    ActionView::Base.full_sanitizer.sanitize(html)
+  end
+
+  def html
+    # rubocop:disable Rails/OutputSafety
+    [body, footer].compact_blank.join.html_safe
+    # rubocop:enable Rails/OutputSafety
   end
 
   def bcc
