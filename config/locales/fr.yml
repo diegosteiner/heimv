@@ -140,7 +140,6 @@ fr:
       booking_category:
         description: Description
         key: Clé
-        ordinal: Numéro d'ordre
         ordinal_position: Position de l'affichage
         title: Titre
       booking_condition:
@@ -318,7 +317,6 @@ fr:
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
         minimum_usage_per_night: Consommation minimale (par nuit)
         minimum_usage_total: Consommation minimale (total)
-        ordinal: numéro d'ordre
         ordinal_position: Ordnungsnummer
         pin: 'Prix figer à la réservation  '
         prefill_usage_booking_question_id: Consommation proposée à partir de l'indication
@@ -501,16 +499,10 @@ fr:
         one: Sélecteur de tarif toujours-un
       booking_conditions/bookable_extra:
         one: Extra réservable Sélecteur de tarif
-      booking_conditions/booking_approximate_headcount_per_night:
-        one: Nombre de TN Sélecteur de tarif
       booking_conditions/booking_attribute:
         one: Conditions de réservation
       booking_conditions/booking_category:
         one: Objet de la location Sélecteur de tarif
-      booking_conditions/booking_nights:
-        one: Nuits Sélecteurs de tarifs
-      booking_conditions/booking_overnight_stays:
-        one: Nuitées Sélecteur de tarif
       booking_conditions/booking_question:
         one: Informations supplémentaires (condition)
       booking_conditions/booking_state:
@@ -525,8 +517,6 @@ fr:
         one: Condition de l'objet de location
       booking_conditions/tarif:
         one: 'Condition du tarif sélectionné '
-      booking_conditions/tenant_organisation:
-        one: Organisation du locataire Condition
       booking_question:
         one: Infos supplémentaires
         other: Informations supplémentaires
@@ -756,7 +746,6 @@ fr:
     initial:
       label: "-"
     open_request:
-      help:
       label: Demande de location (ouverte)
       public_info: Votre demande de location a été envoyée et sera traitée prochainement par l'administration.
       relevant_time: Déposé %{time}

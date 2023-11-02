@@ -128,7 +128,6 @@ en:
       booking_category:
         description: Beschreibung
         key: Schlüssel
-        ordinal: Ordnungsnummer
         ordinal_position: Anzeigeposition
         title: Titel
       booking_condition:
@@ -287,7 +286,6 @@ en:
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum_usage_per_night: Minimaler Preis (pro Nacht)
         minimum_usage_total: Minimaler Preis (Total)
-        ordinal: Ordnungsnummer
         pin: Tarif NICHT auf Buchung fixieren
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis (pro Einheit)
@@ -454,14 +452,8 @@ en:
         one: Immer-Ein Tarifwähler
       booking_conditions/bookable_extra:
         one: Buchbares Extra Tarifwähler
-      booking_conditions/booking_approximate_headcount_per_night:
-        one: Anzahl TN Tarifwähler
       booking_conditions/booking_category:
         one: Mietzweck Tarifwähler
-      booking_conditions/booking_nights:
-        one: Nächte Tarifwähler
-      booking_conditions/booking_overnight_stays:
-        one: Übernachtungen Tarifwähler
       booking_conditions/booking_state:
         one: Status Bedingung
       booking_conditions/date_span:
@@ -470,8 +462,6 @@ en:
         one: nächte tarifwähler
       booking_conditions/occupiable:
         one: Heim Bedingung
-      booking_conditions/tenant_organisation:
-        one: Organisation des Mieters Bedingung
       booking_transition:
         one: Statusübergang
         other: Statusübergänge

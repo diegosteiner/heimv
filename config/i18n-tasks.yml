@@ -97,6 +97,7 @@ ignore_missing:
   - "{amount,creditor_account}"
   - "i18n.transliterate.*"
   - "faker.*"
+  - "{receipt_office}"
 
 ## Consider these keys used:
 ignore_unused:
