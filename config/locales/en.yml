@@ -1169,9 +1169,6 @@ en:
     invoices:
       form:
         suggested_invoice_parts: Vorgeschlagene Positionen
-    notifications:
-      edit:
-        deliver: Speichern und nochmals versenden
     organisation_users:
       index:
         invite_user: Neuen Benutzer einladen

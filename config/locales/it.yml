@@ -1183,8 +1183,6 @@ it:
       form:
         suggested_invoice_parts: Posizioni consigliate
     notifications:
-      edit:
-        deliver: Salvare e inviare di nuovo
       form:
         deliver:
         not_sent:

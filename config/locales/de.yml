@@ -1221,6 +1221,7 @@ de:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum_price}
+    deposited_amount: Gutschrift aus Anzahlung
   invoices:
     total: Total
     vat_label: zu MwSt. Satz von %{vat}%

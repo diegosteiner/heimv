@@ -120,6 +120,7 @@ ignore_unused:
 ignore_eq_base:
   all:
     - "number.*"
+    - "datetime.*"
     - "time.{pm,am,formats.*}"
     - "date.{order,formats.*}"
     - "{activerecord, activemodel}.errors.format"

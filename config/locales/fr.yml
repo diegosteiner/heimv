@@ -1214,8 +1214,6 @@ fr:
       form:
         suggested_invoice_parts: Positions proposées
     notifications:
-      edit:
-        deliver: Enregistrer et envoyer à nouveau
       form:
         deliver:
         not_sent:
