@@ -10,7 +10,7 @@ end
 
 describe BookingStateConcern do
   let(:organisation) { create(:organisation) }
-  let(:booking) { create(:booking, organisation: organisation) }
+  let(:booking) { create(:booking, organisation:) }
   let(:target_state) { :open_request }
 
   describe '#apply_transitions' do

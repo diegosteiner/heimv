@@ -33,11 +33,12 @@ require 'rails_helper'
 RSpec.describe BookingConditions::Occupiable, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
+
     let(:compare_value) { '' }
-    let(:booking_condition) { described_class.new(compare_value: compare_value, organisation: organisation) }
-    let(:booking) { create(:booking, organisation: organisation) }
+    let(:booking_condition) { described_class.new(compare_value:, organisation:) }
+    let(:booking) { create(:booking, organisation:) }
     let(:organisation) { create(:organisation) }
-    let(:occupiable) { create(:home, organisation: organisation) }
+    let(:occupiable) { create(:home, organisation:) }
 
     context 'without category' do
       it { is_expected.to be_falsy }
@@ -46,7 +47,7 @@ RSpec.describe BookingConditions::Occupiable, type: :model do
 
     context 'with occupiable by id' do
       let(:compare_value) { occupiable.id }
-      let(:booking) { create(:booking, organisation: organisation, home: occupiable) }
+      let(:booking) { create(:booking, organisation:, home: occupiable) }
 
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_truthy }

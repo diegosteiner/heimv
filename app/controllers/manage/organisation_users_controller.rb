@@ -24,7 +24,7 @@ module Manage
       else
         email = params.dig(:organisation_user, :email)
         onboarding = OnboardingService.new(current_organisation)
-        @organisation_user = onboarding.add_or_invite_user!(email: email, role: organisation_user_params[:role],
+        @organisation_user = onboarding.add_or_invite_user!(email:, role: organisation_user_params[:role],
                                                             invited_by: current_user)
       end
       respond_with :manage, @organisation_user, location: manage_organisation_users_path

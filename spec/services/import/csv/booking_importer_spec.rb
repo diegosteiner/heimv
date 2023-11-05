@@ -5,9 +5,9 @@ require 'rails_helper'
 RSpec.describe Import::Csv::BookingImporter, type: :model do
   let(:organisation) { create(:organisation) }
   let(:options) { {} }
-  let!(:booking_category) { create(:booking_category, organisation: organisation, key: 'youth_camp') }
-  let(:home) { create(:home, organisation: organisation) }
-  let(:importer) { described_class.new(home, csv: { headers: header_mapping }, initial_state: initial_state) }
+  let!(:booking_category) { create(:booking_category, organisation:, key: 'youth_camp') }
+  let(:home) { create(:home, organisation:) }
+  let(:importer) { described_class.new(home, csv: { headers: header_mapping }, initial_state:) }
 
   describe '#parse' do
     let(:result) { importer.parse(csv, **options) }
@@ -31,6 +31,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
 
       context 'with first booking' do
         let(:booking) { bookings.first }
+
         it do
           expect(bookings.first.begins_at).to eq(Time.zone.local(2021, 5, 1, 10, 0, 0))
           expect(bookings.first.ends_at).to eq(Time.zone.local(2021, 5, 9, 18, 15, 0))
@@ -64,6 +65,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
 
       context 'with first booking' do
         let(:booking) { bookings.first }
+
         it do
           expect(booking.begins_at).to eq(Time.zone.local(2019, 6, 20, 12, 0, 0))
           expect(booking.ends_at).to eq(Time.zone.local(2019, 6, 20, 22, 0, 0))
@@ -81,6 +83,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
 
       context 'with second booking' do
         let(:booking) { bookings.second }
+
         it do
           expect(booking.booking_state).to be_a(BookingStates::ProvisionalRequest)
           expect(booking.approximate_headcount).to eq 12

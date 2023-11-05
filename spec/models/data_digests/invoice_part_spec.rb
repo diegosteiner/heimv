@@ -25,25 +25,26 @@ require 'rails_helper'
 
 RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
   subject(:data_digest) { data_digest_template.data_digests.create }
-  let(:columns_config) { nil }
-  let(:data_digest_template) do
-    create(:invoice_part_data_digest_template, columns_config: columns_config, organisation: organisation)
-  end
-  let(:home) { create(:home, organisation: organisation) }
-  let(:organisation) { create(:organisation) }
-  let(:tarifs) { create_list(:tarif, 4, organisation: organisation) }
-  before do
-    data_digest.crunch!
-  end
 
+  let(:columns_config) { nil }
   let!(:invoice_parts) do
-    create_list(:booking, 3, organisation: organisation, home: home).map do |booking|
-      invoice = create(:invoice, booking: booking)
+    create_list(:booking, 3, organisation:, home:).map do |booking|
+      invoice = create(:invoice, booking:)
       tarifs.map do |tarif|
-        usage = create(:usage, booking: booking, tarif: tarif)
-        create(:invoice_part, invoice: invoice, usage: usage)
+        usage = create(:usage, booking:, tarif:)
+        create(:invoice_part, invoice:, usage:)
       end
     end.flatten
+  end
+  let(:data_digest_template) do
+    create(:invoice_part_data_digest_template, columns_config:, organisation:)
+  end
+  let(:home) { create(:home, organisation:) }
+  let(:organisation) { create(:organisation) }
+  let(:tarifs) { create_list(:tarif, 4, organisation:) }
+
+  before do
+    data_digest.crunch!
   end
 
   describe '#data' do

@@ -44,7 +44,7 @@ FactoryBot.define do
     type { Invoices::Invoice }
 
     after(:build) do |invoice|
-      build_list(:invoice_part, 3, invoice: invoice)
+      build_list(:invoice_part, 3, invoice:)
     end
   end
 end

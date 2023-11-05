@@ -10,9 +10,9 @@ RSpec.describe Usage::Factory, type: :model do
   describe '#build' do
     subject { builder.build }
 
-    let!(:used_tarif) { create(:tarif, organisation: organisation, pin: true) }
-    let!(:tarifs) { create_list(:tarif, 3, organisation: organisation, pin: true) }
-    let!(:existing_usage) { create(:usage, booking: booking, tarif: used_tarif) }
+    let!(:used_tarif) { create(:tarif, organisation:, pin: true) }
+    let!(:tarifs) { create_list(:tarif, 3, organisation:, pin: true) }
+    let!(:existing_usage) { create(:usage, booking:, tarif: used_tarif) }
 
     it do
       expect(subject).to(be_all { |actual| actual.is_a?(Usage) })

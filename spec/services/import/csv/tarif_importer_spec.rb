@@ -26,12 +26,14 @@ RSpec.describe Import::Csv::TarifImporter, type: :model do
   end
 
   describe '#parse' do
-    subject(:import) { importer.parse(csv) }
     subject(:record) { import.records.first }
+
+    let(:import) { importer.parse(csv) }
 
     it { expect(import.records.compact.count).to eq(10) }
     it { is_expected.to be_valid }
     it { is_expected.to be_a(Tarifs::Flat) }
+
     it do
       expect(record.organisation).to eq(organisation)
       expect(record.ordinal).to eq(11)

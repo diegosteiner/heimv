@@ -58,9 +58,9 @@ require 'rails_helper'
 
 describe Booking, type: :model do
   let(:organisation) { home.organisation }
-  let(:tenant) { create(:tenant, organisation: organisation) }
+  let(:tenant) { create(:tenant, organisation:) }
   let(:home) { create(:home) }
-  let(:booking) { build(:booking, tenant: tenant, home: home, organisation: organisation) }
+  let(:booking) { build(:booking, tenant:, home:, organisation:) }
 
   describe '#locale' do
     it 'has default locale' do
@@ -89,9 +89,9 @@ describe Booking, type: :model do
 
     context 'with existing tenant' do
       let(:booking) do
-        build(:booking, tenant: nil, home: home, organisation: organisation, email: existing_tenant.email)
+        build(:booking, tenant: nil, home:, organisation:, email: existing_tenant.email)
       end
-      let(:existing_tenant) { create(:tenant, organisation: organisation, email: 'test@example.com') }
+      let(:existing_tenant) { create(:tenant, organisation:, email: 'test@example.com') }
       let(:tenant) { nil }
 
       it 'uses existing tenant when email is correct' do

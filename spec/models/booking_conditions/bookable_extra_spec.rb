@@ -33,11 +33,12 @@ require 'rails_helper'
 RSpec.describe BookingConditions::BookableExtra, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
+
     let(:compare_value) { '' }
     let(:organisation) { create(:organisation) }
-    let(:booking_condition) { described_class.new(compare_value: compare_value, organisation: organisation) }
-    let(:booking) { create(:booking, organisation: organisation) }
-    let(:bookable_extra) { create(:bookable_extra, organisation: organisation) }
+    let(:booking_condition) { described_class.new(compare_value:, organisation:) }
+    let(:booking) { create(:booking, organisation:) }
+    let(:bookable_extra) { create(:bookable_extra, organisation:) }
     let(:compare_value) { bookable_extra.id.to_s }
 
     context 'without extra enabled' do
@@ -47,8 +48,9 @@ RSpec.describe BookingConditions::BookableExtra, type: :model do
 
     context 'with extra enabled' do
       before do
-        booking.booked_extras.create(bookable_extra: bookable_extra)
+        booking.booked_extras.create(bookable_extra:)
       end
+
       it { expect(booking_condition).to be_valid }
       it { is_expected.to be_truthy }
     end

@@ -33,7 +33,7 @@ module Public
       window_from = current_organisation_user.present? ? 2.months.ago : Time.zone.now.beginning_of_day
 
       @calendar = OccupancyCalendar.new(organisation: current_organisation, occupiables: @home.occupiables,
-                                        window_from: window_from)
+                                        window_from:)
     end
   end
 end

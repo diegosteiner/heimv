@@ -57,7 +57,7 @@ class ImportSeeder
 
   def bookings(home)
     Rails.logger.info "Adding bookings for #{home.name}"
-    FactoryBot.create_list(:booking, 3, home: home, organisation: home.organisation,
+    FactoryBot.create_list(:booking, 3, home:, organisation: home.organisation,
                                         initial_state: :open_request, notifications_enabled: true)
   end
 

@@ -56,7 +56,7 @@ class CostEstimation
   end
 
   def projection
-    mean_costs = self.class.mean_costs_per_person_per_day(reference_bookings, fixcosts: fixcosts)
+    mean_costs = self.class.mean_costs_per_person_per_day(reference_bookings, fixcosts:)
     fixcosts + ((mean_costs || 0) * person_days)
   end
 
@@ -73,22 +73,22 @@ class CostEstimation
     end
 
     def estimations(bookings, fixcosts: 0)
-      bookings.index_with { |booking| new(booking, fixcosts: fixcosts) }
+      bookings.index_with { |booking| new(booking, fixcosts:) }
     end
 
     def projection(bookings, fixcosts: 0)
       errors = []
-      samples = estimations(bookings, fixcosts: fixcosts).transform_values do |cost_estimation|
+      samples = estimations(bookings, fixcosts:).transform_values do |cost_estimation|
         next cost_estimation.projection if cost_estimation.total.blank?
 
         errors << cost_estimation.projection_difference
         cost_estimation.total
       end
-      { total: samples.values.sum, errors: errors, samples: samples }
+      { total: samples.values.sum, errors:, samples: }
     end
 
     def mean_costs_per_person_per_day(bookings, fixcosts: 0)
-      samples = bookings.map { |booking| new(booking, fixcosts: fixcosts).per_person_per_day }
+      samples = bookings.map { |booking| new(booking, fixcosts:).per_person_per_day }
 
       # cut off 10% on each end and take the mean of it
       samples.sort.slice(samples.count * 0.1, samples.count * 0.8)[samples.count * 0.4]

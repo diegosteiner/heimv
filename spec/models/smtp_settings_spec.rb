@@ -11,7 +11,7 @@ RSpec.describe SmtpSettings, type: :model do
     end
 
     it {
-      is_expected.to include(
+      expect(subject).to include(
         address: 'example.com',
         user_name: 'smtpuser@example.com',
         password: 'secret',

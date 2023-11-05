@@ -43,7 +43,7 @@ class MeterReadingPeriod < ApplicationRecord
   end
 
   def infer_start_value
-    self.start_value ||= self.class.where(tarif: tarif).where.not(id: id)
+    self.start_value ||= self.class.where(tarif:).where.not(id:)
                              .where(self.class.arel_table[:ends_at].lteq(begins_at)).ordered.last&.end_value
   end
 

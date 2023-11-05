@@ -40,31 +40,31 @@ module BookingStates
       def add_callback(callback_type: nil, callback_class: Statesman::Callback, from: nil, to: to_s, &block)
         from = from&.to_s
         to = Array(to).compact_blank.map(&:to_s)
-        callbacks[callback_type] << callback_class.new(from: from, to: to, callback: block)
+        callbacks[callback_type] << callback_class.new(from:, to:, callback: block)
       end
 
       def infer_transition(to: nil, &block)
-        add_callback(callback_type: :infer, from: to_sym, to: to, &block)
+        add_callback(callback_type: :infer, from: to_sym, to:, &block)
       end
 
       def before_transition(from: nil, &block)
-        add_callback(callback_type: :before, from: from, &block)
+        add_callback(callback_type: :before, from:, &block)
       end
 
       def after_transition(from: nil, &block)
-        add_callback(callback_type: :after, from: from, &block)
+        add_callback(callback_type: :after, from:, &block)
       end
 
       def after_transition_failure(from: nil, &block)
-        add_callback(callback_type: :after_transition_failure, from: from, &block)
+        add_callback(callback_type: :after_transition_failure, from:, &block)
       end
 
       def after_guard_failure(from: nil, &block)
-        add_callback(callback_type: :after_guard_failure, from: from, &block)
+        add_callback(callback_type: :after_guard_failure, from:, &block)
       end
 
       def guard_transition(from: nil, &block)
-        add_callback(callback_type: :guards, callback_class: Statesman::Guard, from: from, &block)
+        add_callback(callback_type: :guards, callback_class: Statesman::Guard, from:, &block)
       end
 
       def occupied_occupancy_state?(booking)

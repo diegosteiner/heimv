@@ -32,13 +32,13 @@ require 'rails_helper'
 
 RSpec.describe OperatorResponsibility, type: :model do
   let(:organisation) { create(:organisation) }
-  let(:operator) { create(:operator, organisation: organisation) }
-  let(:booking) { create(:booking, organisation: organisation) }
+  let(:operator) { create(:operator, organisation:) }
+  let(:booking) { create(:booking, organisation:) }
 
   describe 'booking#responsibilities' do
     let!(:operator_responsibility) do
-      create(:operator_responsibility, organisation: organisation, operator: operator,
-                                       responsibility: :home_handover, booking: booking)
+      create(:operator_responsibility, organisation:, operator:,
+                                       responsibility: :home_handover, booking:)
     end
 
     it 'acts as hash' do
@@ -51,7 +51,7 @@ RSpec.describe OperatorResponsibility, type: :model do
 
     context 'with defined responsibilities' do
       before do
-        create_list(:operator_responsibility, 4, organisation: organisation, operator: operator,
+        create_list(:operator_responsibility, 4, organisation:, operator:,
                                                  responsibility: :administration, booking: nil,
                                                  assigning_conditions: [BookingConditions::AlwaysApply.new])
       end
@@ -64,9 +64,9 @@ RSpec.describe OperatorResponsibility, type: :model do
     context 'with existing operator_responsibilities' do
       before do
         4.times do
-          booking = create(:booking, organisation: organisation)
-          create(:operator_responsibility, organisation: organisation, responsibility: :home_handover,
-                                           operator: operator, booking: booking)
+          booking = create(:booking, organisation:)
+          create(:operator_responsibility, organisation:, responsibility: :home_handover,
+                                           operator:, booking:)
         end
       end
 

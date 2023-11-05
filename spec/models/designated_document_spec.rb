@@ -23,8 +23,8 @@ require 'rails_helper'
 
 RSpec.describe DesignatedDocument, type: :model do
   let(:organisation) { create(:organisation) }
-  let(:home) { create(:home, organisation: organisation) }
-  let(:document) { build(:designated_document, organisation: organisation) }
+  let(:home) { create(:home, organisation:) }
+  let(:document) { build(:designated_document, organisation:) }
   let(:file) { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/designated_document.txt'), 'text/plain') }
 
   describe '#designation' do
@@ -48,30 +48,32 @@ RSpec.describe DesignatedDocument, type: :model do
   end
 
   describe '::locale' do
-    subject(:with_locale) { described_class.with_locale(locale).where(organisation: organisation) }
+    subject(:with_locale) { described_class.with_locale(locale).where(organisation:) }
+
     let(:locale) { :de }
     let(:documents) do
       {
-        with_matching_locale: create(:designated_document, organisation: organisation, locale: :de),
-        without_matching_locale: create(:designated_document, organisation: organisation, locale: :fr),
-        without_locale: create(:designated_document, organisation: organisation, locale: nil)
+        with_matching_locale: create(:designated_document, organisation:, locale: :de),
+        without_matching_locale: create(:designated_document, organisation:, locale: :fr),
+        without_locale: create(:designated_document, organisation:, locale: nil)
       }
     end
 
     it do
       documents
-      is_expected.to include(documents[:with_matching_locale])
-      is_expected.to include(documents[:without_locale])
-      is_expected.not_to include(documents[:without_matching_locale])
+      expect(subject).to include(documents[:with_matching_locale])
+      expect(subject).to include(documents[:without_locale])
+      expect(subject).not_to include(documents[:without_matching_locale])
     end
   end
 
   describe '::for_booking' do
     subject(:for_booking) { described_class.for_booking(booking) }
-    let(:booking) { create(:booking, organisation: organisation) }
+
+    let(:booking) { create(:booking, organisation:) }
     let(:conditions) do
       {
-        always: [BookingConditions::AlwaysApply.new(organisation: organisation)],
+        always: [BookingConditions::AlwaysApply.new(organisation:)],
         wrong_home: [BookingConditions::Occupiable.new(compare_value: home.id)],
         correct_home: [BookingConditions::Occupiable.new(compare_value: booking.home_id)]
       }
@@ -79,7 +81,7 @@ RSpec.describe DesignatedDocument, type: :model do
 
     let(:documents) do
       conditions.transform_values do |condition|
-        create(:designated_document, organisation: organisation, attaching_conditions: condition)
+        create(:designated_document, organisation:, attaching_conditions: condition)
       end
     end
 

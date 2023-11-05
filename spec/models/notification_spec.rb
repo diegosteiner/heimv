@@ -34,39 +34,44 @@ require 'rails_helper'
 RSpec.describe Notification, type: :model do
   let(:email) { 'test@heimv.local' }
   let(:booking) { create(:booking) }
-  let(:notification) { build(:notification, booking: booking, to: email) }
+  let(:notification) { build(:notification, booking:, to: email) }
 
   describe '#save' do
     it { expect(notification.save).to be true }
   end
 
   describe '#to' do
-    let(:notification) { build(:notification, to: to) }
     subject { notification.to }
+
+    let(:notification) { build(:notification, to:) }
 
     context 'with operator' do
       let(:to) { create(:operator) }
+
       it { is_expected.to eq([to.email]) }
       it { expect(notification).to be_addressed_to_manager }
       it { expect(notification.locale).to eq(to.locale) }
     end
 
     context 'with organisation' do
-      let(:to) { create(:organisation, email: email, locale: :it) }
+      let(:to) { create(:organisation, email:, locale: :it) }
+
       it { is_expected.to eq([to.email]) }
       it { expect(notification).to be_addressed_to_manager }
       it { expect(notification.locale).to eq(to.locale) }
     end
 
     context 'with tenant' do
-      let(:to) { create(:tenant, email: email) }
+      let(:to) { create(:tenant, email:) }
+
       it { is_expected.to eq([to.email]) }
       it { expect(notification).to be_addressed_to_tenant }
       # it { expect(notification.locale).to eq(to.locale) }
     end
 
     context 'with booking' do
-      let(:to) { create(:booking, email: email, locale: :it) }
+      let(:to) { create(:booking, email:, locale: :it) }
+
       it { is_expected.to eq([to.email]) }
       it { expect(notification).to be_addressed_to_tenant }
       it { expect(notification.locale).to eq(to.locale) }
@@ -74,9 +79,10 @@ RSpec.describe Notification, type: :model do
   end
 
   describe '#deliver' do
+    subject(:message) { notification.deliver }
+
     let(:operator) { create(:operator, locale: :it) }
     let(:notification) { create(:notification, to: email) }
-    subject(:message) { notification.deliver }
 
     it do
       expect(notification.sent_at).to be_nil
@@ -95,11 +101,12 @@ RSpec.describe Notification, type: :model do
     end
 
     let(:template) { create(:rich_text_template, key: :test, organisation: booking.organisation) }
-    let(:notification) { build(:notification, booking: booking, to: booking) }
+    let(:notification) { build(:notification, booking:, to: booking) }
     let(:booking) { create(:booking, locale: I18n.locale) }
 
     context 'with template available' do
       subject(:new_notification) { booking.notifications.new(template: template.key, to: booking) }
+
       it do
         expect(new_notification.save).to be true
         expect(new_notification.rich_text_template).to eq(template)
@@ -112,7 +119,7 @@ RSpec.describe Notification, type: :model do
     context 'without template available' do
       it do
         new_notification = booking.notifications.new(template: :nonexistent, to: booking)
-        expect(new_notification.rich_text_template).to be(nil)
+        expect(new_notification.rich_text_template).to be_nil
         expect(new_notification).not_to be_deliverable
       end
     end

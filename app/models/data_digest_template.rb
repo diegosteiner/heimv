@@ -39,8 +39,8 @@ class DataDigestTemplate < ApplicationRecord
       @column_types ||= (superclass.respond_to?(:column_types) && superclass.column_types&.dup) || {}
     end
 
-    def column_type(name, column_type = nil, &block)
-      column_types[name] = column_type || ColumnType.new(&block)
+    def column_type(name, column_type = nil, &)
+      column_types[name] = column_type || ColumnType.new(&)
     end
 
     def period(period_sym, at: Time.zone.now)
@@ -77,7 +77,7 @@ class DataDigestTemplate < ApplicationRecord
   end
 
   def digest(period = nil)
-    DataDigest.new(data_digest_template: self, period: period)
+    DataDigest.new(data_digest_template: self, period:)
   end
 
   def columns
@@ -100,8 +100,8 @@ class DataDigestTemplate < ApplicationRecord
   end
 
   class ColumnType
-    def initialize(&block)
-      instance_exec(&block) if block_given?
+    def initialize(&)
+      instance_exec(&) if block_given?
     end
 
     def header(&block)
@@ -126,7 +126,7 @@ class DataDigestTemplate < ApplicationRecord
 
     def initialize(config, header: nil, footer: nil, body: nil)
       @config = config.symbolize_keys
-      @blocks = { header: header, footer: footer, body: body }
+      @blocks = { header:, footer:, body: }
       @templates = @config.slice(*@blocks.keys).transform_values { |template| Liquid::Template.parse(template) }
     end
 

@@ -58,7 +58,7 @@ module DataDigestTemplates
       body do |payment, tempalte_context_cache|
         booking = payment.booking
         context = tempalte_context_cache[cache_key(payment)] ||=
-          TemplateContext.new(booking: booking, organisation: booking.organisation, payment: payment).to_h
+          TemplateContext.new(booking:, organisation: booking.organisation, payment:).to_h
         @templates[:body]&.render!(context)
       end
     end

@@ -2,10 +2,10 @@
 
 describe 'Occupiable', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_rich_text_templates) }
-  let(:organisation_user) { create(:organisation_user, :admin, organisation: organisation) }
+  let(:organisation_user) { create(:organisation_user, :admin, organisation:) }
   let(:user) { organisation_user.user }
-  let(:occupiable) { create(:occupiable, organisation: organisation) }
-  let(:new_occupiable) { build(:occupiable, organisation: organisation) }
+  let(:occupiable) { create(:occupiable, organisation:) }
+  let(:new_occupiable) { build(:occupiable, organisation:) }
 
   before { signin(user, user.password) }
 

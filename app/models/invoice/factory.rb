@@ -2,11 +2,11 @@
 
 class Invoice
   class Factory
-    RichTextTemplate.require_template(:invoices_deposit_text, template_context: %i[booking invoice], required_by: self)
-    RichTextTemplate.require_template(:invoices_invoice_text, template_context: %i[booking invoice], required_by: self)
-    RichTextTemplate.require_template(:invoices_offer_text, template_context: %i[booking invoice], required_by: self)
-    RichTextTemplate.require_template(:invoices_late_notice_text, template_context: %i[booking invoice],
-                                                                  required_by: self)
+    RichTextTemplate.define(:invoices_deposit_text, template_context: %i[booking invoice], required_by: self)
+    RichTextTemplate.define(:invoices_invoice_text, template_context: %i[booking invoice], required_by: self)
+    RichTextTemplate.define(:invoices_offer_text, template_context: %i[booking invoice], required_by: self)
+    RichTextTemplate.define(:invoices_late_notice_text, template_context: %i[booking invoice],
+                                                        required_by: self)
 
     def call(booking, params = {})
       ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
@@ -29,7 +29,7 @@ class Invoice
     def defaults(booking)
       {
         type: Invoices::Invoice.to_s, issued_at: Time.zone.today,
-        booking: booking, locale: booking.locale || I18n.locale
+        booking:, locale: booking.locale || I18n.locale
       }
     end
 
@@ -55,7 +55,7 @@ class Invoice
 
     def template_context(invoice)
       TemplateContext.new(
-        invoice: invoice, booking: invoice.booking,
+        invoice:, booking: invoice.booking,
         organisation: invoice.booking.organisation
       )
     end

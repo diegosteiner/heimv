@@ -44,9 +44,9 @@ require 'rails_helper'
 RSpec.describe Organisation, type: :model do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
-  let(:booking) { create(:booking, organisation: organisation, home: home) }
-  let(:tarif) { create(:tarif, type: Tarifs::Amount.to_s, price_per_unit: 10, organisation: organisation) }
-  let(:usage) { create(:usage, booking: booking, tarif: tarif, used_units: 7) }
+  let(:booking) { create(:booking, organisation:, home:) }
+  let(:tarif) { create(:tarif, type: Tarifs::Amount.to_s, price_per_unit: 10, organisation:) }
+  let(:usage) { create(:usage, booking:, tarif:, used_units: 7) }
 
   describe '#save' do
     it { expect(tarif.save).to be true }
@@ -54,6 +54,7 @@ RSpec.describe Organisation, type: :model do
 
   describe '#price' do
     subject(:price) { usage.price }
+
     it { is_expected.to eq(70.0) }
     # it { expect(tarif.minimum_price?(usage)).to be_falsy }
 

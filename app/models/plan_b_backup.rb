@@ -98,17 +98,17 @@ class PlanBBackup < ApplicationRecord
   protected
 
   def bookings_data_digest_template
-    DataDigestTemplates::Booking.new(organisation: organisation, columns_config: BOOKING_COLUMNS_CONFIG,
+    DataDigestTemplates::Booking.new(organisation:, columns_config: BOOKING_COLUMNS_CONFIG,
                                      label: DataDigestTemplates::Booking.model_name.human)
   end
 
   def tenant_data_digest_template
-    DataDigestTemplates::Tenant.new(organisation: organisation,
+    DataDigestTemplates::Tenant.new(organisation:,
                                     label: DataDigestTemplates::Tenant.model_name.human)
   end
 
   def invoices_data_digest_template
-    DataDigestTemplates::Invoice.new(organisation: organisation,
+    DataDigestTemplates::Invoice.new(organisation:,
                                      label: DataDigestTemplates::Invoice.model_name.human)
   end
 
@@ -133,7 +133,7 @@ class PlanBBackup < ApplicationRecord
     I18n.with_locale(organisation.locale || I18n.locale) do
       self.zip = {
         io: data_digest_csv_zip,
-        filename: filename,
+        filename:,
         content_type: 'application/zip'
       }
     end

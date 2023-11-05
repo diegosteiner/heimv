@@ -182,12 +182,12 @@ class Booking < ApplicationRecord
 
     existing_tenant = find_existing_tenant
     existing_tenant&.assign_attributes(tenant&.changed_values&.except(:email, :organisation_id) || {})
-    self.tenant = existing_tenant || tenant || build_tenant(email: email, organisation: organisation)
+    self.tenant = existing_tenant || tenant || build_tenant(email:, organisation:)
   end
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def find_existing_tenant
-    Tenant.find_by(email: email, organisation: organisation) unless organisation.blank? || email.blank?
+    Tenant.find_by(email:, organisation:) unless organisation.blank? || email.blank?
   end
 
   def occupancy_color

@@ -79,64 +79,73 @@ RSpec.describe DateSpanChecker, type: :service do
   end
 
   describe '#overlap?' do
+    subject { checker.overlap?(compare_value) }
+
     let(:string_value) { '28.2.2022-31.10.2022' }
     let(:compare_value) { nil }
 
-    subject { checker.overlap?(compare_value) }
-
     context 'with date inside range' do
       let(:compare_value) { Date.new(2022, 3, 12) }
+
       it { is_expected.to be_truthy }
     end
 
     context 'with date too far in the future' do
       let(:compare_value) { Date.new(2025, 3, 12) }
+
       it { is_expected.to be_falsy }
     end
 
     context 'with date too far in the past' do
       let(:compare_value) { Date.new(2020, 3, 12) }
+
       it { is_expected.to be_falsy }
     end
 
     context 'with range overlapping' do
       let(:compare_value) { Range.new(Date.new(2020, 3, 12), Date.new(2022, 3, 12)) }
+
       it { is_expected.to be_truthy }
     end
 
     context 'with range overspanning' do
       let(:compare_value) { Range.new(Date.new(2020, 3, 12), Date.new(2024, 3, 12)) }
+
       it { is_expected.to be_truthy }
     end
 
     context 'with open end' do
       let(:string_value) { '28.2.-' }
       let(:compare_value) { Date.new(2025, 3, 12) }
+
       it { is_expected.to be_truthy }
     end
 
     context 'with open start' do
       let(:string_value) { '-31.10.2023' }
       let(:compare_value) { Date.new(2021, 3, 12) }
+
       it { is_expected.to be_truthy }
     end
 
     context 'without year not overlapping' do
       let(:string_value) { '1.4.-30.09.' }
       let(:compare_value) { Date.new(2023, 1, 1) }
+
       it { is_expected.to be_falsy }
     end
 
     context 'without year overlapping' do
       let(:string_value) { '1.10.-30.03.' }
       let(:compare_value) { Date.new(2023, 1, 1) }
+
       it { is_expected.to be_truthy }
     end
   end
 
   protected
 
-  def date(*args)
-    described_class::NullableDate.new(*args)
+  def date(*)
+    described_class::NullableDate.new(*)
   end
 end

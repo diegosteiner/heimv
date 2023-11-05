@@ -30,7 +30,7 @@ class Booking
     end
 
     filter :occupancy_type do |bookings|
-      bookings.where(occupancy_type: occupancy_type) if occupancy_type.present?
+      bookings.where(occupancy_type:) if occupancy_type.present?
     end
 
     filter :ref do |bookings|

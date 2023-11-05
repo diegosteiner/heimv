@@ -24,23 +24,25 @@
 require 'rails_helper'
 
 RSpec.describe DataDigestTemplates::Booking, type: :model do
+  subject(:data_digest) { data_digest_template.data_digests.create }
+
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:columns_config) { nil }
   let(:data_digest_template) do
-    create(:booking_data_digest_template, columns_config: columns_config, organisation: organisation)
+    create(:booking_data_digest_template, columns_config:, organisation:)
   end
   let!(:bookings) do
-    create_list(:booking, 3, organisation: organisation, home: home)
+    create_list(:booking, 3, organisation:, home:)
   end
-  subject(:data_digest) { data_digest_template.data_digests.create }
 
   before do
     data_digest.crunch!
   end
 
   describe '#filter' do
-    subject(:data_digest) { data_digest_template.data_digests.create(period_from: period_from, period_to: period_to) }
+    subject(:data_digest) { data_digest_template.data_digests.create(period_from:, period_to:) }
+
     let(:period_from) { Date.new(2023, 1, 1).beginning_of_day }
     let(:period_to) { Date.new(2023, 2, 1).beginning_of_day }
     let!(:bookings) do
@@ -50,11 +52,11 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
         (period_from + 1.week)..(period_to - 1.week),    # is completely contained
         (period_to - 1.week)..(period_to + 1.week),      # overlaps, and begins after
         (period_to + 1.week)..(period_to + 2.weeks)      # no overlap
-      ].map { create(:booking, home: home, organisation: organisation, begins_at: _1.begin, ends_at: _1.end) }
+      ].map { create(:booking, home:, organisation:, begins_at: _1.begin, ends_at: _1.end) }
     end
 
     it do
-      expect(data_digest.records).to contain_exactly(*bookings[2..3])
+      expect(data_digest.records).to match_array(bookings[2..3])
     end
   end
 
@@ -62,6 +64,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
     context 'with default columns' do
       it { expect(data_digest).to be_a(DataDigest) }
       it { expect(data_digest.data.count).to be(3) }
+
       it do
         expect(data_digest.header).to eq ['Buchungsreferenz', 'Hauptmietobjekt',
                                           'Beginn der Belegung', 'Ende der Belegung',
@@ -71,13 +74,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
     end
 
     context 'with usage columns' do
-      let(:tarif) { create(:tarif, organisation: organisation, price_per_unit: 10) }
-      before do
-        bookings.map do |booking|
-          create(:usage, booking: booking, tarif: tarif, used_units: 1.5)
-        end
-        data_digest.crunch!
-      end
+      let(:tarif) { create(:tarif, organisation:, price_per_unit: 10) }
       let(:columns_config) do
         [
           {
@@ -93,7 +90,15 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
         ]
       end
 
+      before do
+        bookings.map do |booking|
+          create(:usage, booking:, tarif:, used_units: 1.5)
+        end
+        data_digest.crunch!
+      end
+
       it { expect(data_digest.data.count).to be(3) }
+
       it do
         expect(data_digest.header).to eq(['Ref', 'Usage Price'])
         expect(data_digest.data).to include(*bookings.map { |booking| [booking.ref, 'CHF 15.00'] })

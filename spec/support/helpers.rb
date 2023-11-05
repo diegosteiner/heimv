@@ -25,7 +25,7 @@ module SpecHelpers
     end
 
     def sign_out
-      find('#user-menu')
+      find_by_id('user-menu')
       click_on destroy_user_session_path
     end
   end

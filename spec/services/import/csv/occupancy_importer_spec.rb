@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe Import::Csv::OccupancyImporter, type: :model do
   let(:organisation) { create(:organisation) }
-  let(:occupiable) { create(:occupiable, organisation: organisation) }
+  let(:occupiable) { create(:occupiable, organisation:) }
   let(:options) { {} }
-  let(:importer) { described_class.new(organisation, csv: { headers: header_mapping }, initial_state: initial_state) }
+  let(:importer) { described_class.new(organisation, csv: { headers: header_mapping }, initial_state:) }
 
   describe '#parse' do
     let(:result) { importer.parse(csv, **options) }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'User Account', :devise, skip: true do
+describe 'User Account', :devise, :skip do
   let(:user) { create(:user) }
 
   describe 'Edit Account' do

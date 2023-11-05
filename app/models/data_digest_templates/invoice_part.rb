@@ -82,8 +82,8 @@ module DataDigestTemplates
       body do |invoice_part, template_context_cache|
         booking = invoice_part.booking
         context = template_context_cache[cache_key(invoice_part)] ||=
-          TemplateContext.new(booking: booking, invoice: invoice_part.invoice,
-                              invoice_part: invoice_part, organisation: booking.organisation).to_h
+          TemplateContext.new(booking:, invoice: invoice_part.invoice,
+                              invoice_part:, organisation: booking.organisation).to_h
         @templates[:body]&.render!(context)
       end
     end

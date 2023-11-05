@@ -13,7 +13,7 @@ module Import
       def initialize_record(row)
         tarif_type = row['tarif.type']
         tarif_klass = (tarif_type && Tarifs.const_get(tarif_type)) || Tarifs::Amount
-        tarif_klass.new(organisation: organisation)
+        tarif_klass.new(organisation:)
       end
 
       actor do |tarif, row|

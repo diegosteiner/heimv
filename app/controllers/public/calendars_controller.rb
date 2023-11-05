@@ -22,7 +22,7 @@ module Public
       respond_to do |format|
         format.ics do
           render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies,
-                                                            include_tenant_details: include_tenant_details)
+                                                            include_tenant_details:)
         end
       end
     end
@@ -33,7 +33,7 @@ module Public
       date = parse_date(params[:date])
       occupancies = Occupancy.accessible_by(current_ability).merge(@occupiable.occupancies)
       manage = current_organisation_user.present? || current_user&.role_admin.presence
-      redirect_to OccupancyAtService.new(@occupiable, occupancies).redirect_to(date, manage: manage)
+      redirect_to OccupancyAtService.new(@occupiable, occupancies).redirect_to(date, manage:)
     end
 
     private
@@ -41,7 +41,7 @@ module Public
     def parse_date(value, format: nil)
       return if value.blank?
 
-      Date.parse(value, format: format)
+      Date.parse(value, format:)
     rescue Date::Error, TypeError
       nil
     end
@@ -50,7 +50,7 @@ module Public
       window_from = current_organisation_user.present? ? 2.months.ago : Time.zone.now.beginning_of_day
 
       @calendar = OccupancyCalendar.new(organisation: current_organisation, occupiables: @occupiable,
-                                        window_from: window_from)
+                                        window_from:)
     end
   end
 end

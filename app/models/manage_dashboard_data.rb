@@ -18,7 +18,7 @@ class ManageDashboardData
   end
 
   def logs_since(since)
-    Booking::Log.joins(:booking).where(booking: { organisation: organisation })
+    Booking::Log.joins(:booking).where(booking: { organisation: })
                 .where(Booking::Log.arel_table[:created_at].gteq(since))
                 .where(trigger: %i[auto tenant])
   end

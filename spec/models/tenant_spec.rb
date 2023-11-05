@@ -43,10 +43,11 @@ require 'rails_helper'
 
 RSpec.describe Tenant, type: :model do
   let(:organisation) { create(:organisation) }
-  let(:home) { create(:home, organisation: organisation) }
+  let(:home) { create(:home, organisation:) }
 
   describe '#save' do
-    let(:tenant) { build(:tenant, organisation: organisation) }
+    let(:tenant) { build(:tenant, organisation:) }
+
     it { expect(tenant.save).to be true }
   end
 end

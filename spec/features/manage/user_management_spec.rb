@@ -3,7 +3,7 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe 'User Management', :devise, skip: true do
+describe 'User Management', :devise, :skip do
   after { Warden.test_reset! }
 
   let(:organisation) { create(:organisation) }
@@ -11,7 +11,7 @@ describe 'User Management', :devise, skip: true do
   let(:manager) { organisation_manager_user.user }
   let(:organisation_user) { create(:organisation_user) }
   let(:user) { organisation_user.user }
-  let!(:users) { create_list(:organisation_user, 4, organisation: organisation) }
+  let!(:users) { create_list(:organisation_user, 4, organisation:) }
 
   context 'as manager' do
     before { login_as(manager, scope: :user) }
@@ -31,7 +31,7 @@ describe 'User Management', :devise, skip: true do
         click_link user.email
       end
       expect(page).to have_current_path(manage_user_path(user))
-      expect(page).to have_http_status(200)
+      expect(page).to have_http_status(:ok)
       expect(page).to have_content user.email
     end
 
@@ -40,7 +40,7 @@ describe 'User Management', :devise, skip: true do
       visit edit_manage_user_path(user)
       fill_in :user_email, with: changed_user.email
       submit_form
-      expect(page).to have_http_status 200
+      expect(page).to have_http_status :ok
       expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: User.model_name.human)
       expect(page).to have_content changed_user.email
     end
@@ -60,11 +60,11 @@ describe 'User Management', :devise, skip: true do
     it 'get denied' do
       login_as(user, scope: :user)
       visit manage_organisation_users_path
-      expect(page).to have_http_status(403)
+      expect(page).to have_http_status(:forbidden)
       visit manage_user_path(user)
-      expect(page).to have_http_status(403)
+      expect(page).to have_http_status(:forbidden)
       visit edit_manage_user_path(user)
-      expect(page).to have_http_status(403)
+      expect(page).to have_http_status(:forbidden)
     end
   end
 end

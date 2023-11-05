@@ -60,7 +60,7 @@ class Invoice < ApplicationRecord
   scope :sent,     -> { kept.where.not(sent_at: nil) }
   scope :unsent,   -> { kept.where(sent_at: nil) }
   scope :overdue,  ->(at = Time.zone.today) { kept.where(arel_table[:payable_until].lteq(at)) }
-  scope :of,       ->(booking) { where(booking: booking) }
+  scope :of,       ->(booking) { where(booking:) }
   scope :with_default_includes, -> { includes(%i[invoice_parts payments organisation]) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
@@ -95,7 +95,7 @@ class Invoice < ApplicationRecord
     I18n.with_locale(locale || I18n.locale) do
       self.pdf = {
         io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
-        filename: filename, content_type: 'application/pdf'
+        filename:, content_type: 'application/pdf'
       }
     end
   end

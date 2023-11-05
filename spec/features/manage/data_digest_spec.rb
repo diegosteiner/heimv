@@ -2,11 +2,11 @@
 
 describe 'Data Digests', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_rich_text_templates) }
-  let(:organisation_user) { create(:organisation_user, :admin, organisation: organisation) }
+  let(:organisation_user) { create(:organisation_user, :admin, organisation:) }
   let(:user) { organisation_user.user }
-  let(:home) { create(:home, organisation: organisation) }
-  let(:booking) { create(:booking, organisation: organisation, home: home, skip_infer_transitions: false) }
-  let(:data_digest) { create(:data_digest, type: DataDigestTemplates::Booking, organisation: organisation) }
+  let(:home) { create(:home, organisation:) }
+  let(:booking) { create(:booking, organisation:, home:, skip_infer_transitions: false) }
+  let(:data_digest) { create(:data_digest, type: DataDigestTemplates::Booking, organisation:) }
 
   before do
     signin(user, user.password)
@@ -23,9 +23,9 @@ describe 'Data Digests', :devise, type: :feature do
     expect(page).to have_content name
   end
 
-  it 'can see a booking', skip: true do
+  it 'can see a booking', :skip do
     visit manage_data_digest_path(data_digest, org: organisation)
-    bookings = create_list(:booking, 3, organisation: organisation, home: home)
+    bookings = create_list(:booking, 3, organisation:, home:)
     click_on I18n.t('activerecord.enums.data_digest.periods.ever')
     bookings.each { |booking| expect(page).to have_content booking.ref }
     click_on 'CSV'

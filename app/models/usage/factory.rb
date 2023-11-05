@@ -10,7 +10,7 @@ class Usage
 
     def build(tarifs: booking.organisation.tarifs.include_conditions.ordered.kept, preselect: false)
       tarifs.where.not(id: booking.usages.map(&:tarif_id)).map do |tarif|
-        Usage.new(tarif: tarif, apply: nil, booking: booking).tap do |usage|
+        Usage.new(tarif:, apply: nil, booking:).tap do |usage|
           next unless preselect
 
           usage.apply ||= usage.selected_by_condition?

@@ -3,7 +3,7 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe 'Tenant CRUD', :devise, skip: true do
+describe 'Tenant CRUD', :devise, :skip do
   before { signin(user, user.password) }
 
   after { Warden.test_reset! }
@@ -19,7 +19,7 @@ describe 'Tenant CRUD', :devise, skip: true do
     fill_in :tenant_last_name, with: new_tenant.last_name
     fill_in :tenant_email, with: new_tenant.email
     submit_form
-    expect(page).to have_http_status(200)
+    expect(page).to have_http_status(:ok)
     expect(page).to have_content I18n.t('flash.actions.create.notice', resource_name: Tenant.model_name.human)
     expect(page).to have_content new_tenant.first_name
     expect(page).to have_content new_tenant.last_name
@@ -33,7 +33,7 @@ describe 'Tenant CRUD', :devise, skip: true do
       click_link tenant.name
     end
     expect(page).to have_current_path(manage_tenant_path(tenant))
-    expect(page).to have_http_status(200)
+    expect(page).to have_http_status(:ok)
     expect(page).to have_content tenant.full_name
   end
 
@@ -43,7 +43,7 @@ describe 'Tenant CRUD', :devise, skip: true do
     fill_in :tenant_last_name, with: new_tenant.last_name
     fill_in :tenant_email, with: new_tenant.email
     submit_form
-    expect(page).to have_http_status(200)
+    expect(page).to have_http_status(:ok)
     expect(page).to have_content I18n.t('flash.actions.update.notice', resource_name: Tenant.model_name.human)
     expect(page).to have_content new_tenant.first_name
     expect(page).to have_content new_tenant.last_name
