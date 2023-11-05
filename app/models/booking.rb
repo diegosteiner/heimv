@@ -173,7 +173,7 @@ class Booking < ApplicationRecord
   end
 
   def tenant
-    super || @tenant ||= find_existing_tenant if email.present? && organisation.present?
+    super || @tenant ||= (find_existing_tenant if email.present? && organisation.present?)
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity
