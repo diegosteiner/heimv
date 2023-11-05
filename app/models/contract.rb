@@ -25,7 +25,7 @@
 #
 
 class Contract < ApplicationRecord
-  RichTextTemplate.require_template(:contract_text, template_context: %i[booking], required_by: self)
+  RichTextTemplate.define(:contract_text, template_context: %i[booking], required_by: self)
 
   locale_enum default: I18n.locale
 

@@ -35,23 +35,23 @@ class RichTextTemplateService
     end
   end
 
-  def missing_requirements(include_optional: true)
+  def missing_templates(include_optional: true)
     existing_keys = organisation.rich_text_templates.pluck(:key)
-    RichTextTemplate.required_templates.values.flatten.uniq.filter do |requirement|
-      existing_keys.exclude?(requirement.key.to_s) && (!requirement.optional || include_optional)
+    RichTextTemplate.definitions.values.flatten.uniq.filter do |definition|
+      existing_keys.exclude?(definition[:key].to_s) && (!definition.fetch(:optional, false) || include_optional)
     end
   end
 
   def create_missing!(include_optional: true)
     title = {}
     body = {}
-    missing_requirements.map do |requirement|
+    missing_templates.map do |definition|
       I18n.available_locales.map do |locale|
-        title[locale] = defaults_for_locale(:default_title, requirement.key, locale)
-        body[locale]  = defaults_for_locale(:default_body, requirement.key, locale)
+        title[locale] = defaults_for_locale(:default_title, definition[:key], locale)
+        body[locale]  = defaults_for_locale(:default_body, definition[:key], locale)
       end
-      organisation.rich_text_templates.create(key: requirement.key, title_i18n: title, body_i18n: body,
-                                              enabled: !requirement.optional || include_optional)
+      organisation.rich_text_templates.create(key: definition[:key], title_i18n: title, body_i18n: body,
+                                              enabled: !definition.fetch(:optional, false || include_optional))
     end
   end
 

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class PaymentConfirmation
-  RichTextTemplate.require_template(:payment_confirmation_notification, template_context: %i[booking payment],
-                                                                        required_by: self)
+  RichTextTemplate.define(:payment_confirmation_notification, template_context: %i[booking payment],
+                                                              required_by: self)
 
   attr_reader :payment
 

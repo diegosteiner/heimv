@@ -23,7 +23,7 @@ module Manage
 
     def rich_text_templates_by_requirer
       rich_text_templates = Hash.new { |hash, key| hash[key] = [] }
-      RichTextTemplate.required_templates.values.flatten.each_with_object(rich_text_templates) do |required, memo|
+      RichTextTemplate.definitions.values.flatten.each_with_object(rich_text_templates) do |required, memo|
         next unless required.required_by
 
         memo[required.required_by] << required.key

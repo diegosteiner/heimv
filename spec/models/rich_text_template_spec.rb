@@ -40,10 +40,34 @@ RSpec.describe RichTextTemplate, type: :model do
     end
   end
 
-  describe '::require_template' do
+  describe '::define' do
     it 'adds key to list' do
-      expect { RichTextTemplate.require_template(:test1) }.to change { RichTextTemplate.required_templates.count }.by(1)
-      expect(RichTextTemplate.required_templates.keys).to include(:test1)
+      expect { RichTextTemplate.define(:test1) }.to change { RichTextTemplate.definitions.count }.by(1)
+      definition = RichTextTemplate.definitions[:test1]
+      expect(definition[:template_class]).to(eq(RichTextTemplate))
+      expect(definition[:key]).to(eq(:test1))
+    end
+
+    after { RichTextTemplate.definitions.delete(:test1) }
+  end
+
+  describe '#use' do
+    let(:key) { :test2 }
+    let(:rich_text_template) { create(:rich_text_template, key:) }
+    let(:booking) { create(:booking, organisation: rich_text_template.organisation) }
+    let(:context) { { booking: } }
+    subject { rich_text_template.use(**context) }
+
+    before { RichTextTemplate.define(key, context_keys: %i[booking]) }
+    after { RichTextTemplate.definitions.delete(key) }
+
+    context 'with context' do
+      it { is_expected.to be_a RichTextTemplate::InterpolationResult }
+    end
+
+    context 'with missing context' do
+      let(:context) { { nonexistant: booking } }
+      it { expect { subject }.to raise_error(RichTextTemplate::InvalidContext) }
     end
   end
 end

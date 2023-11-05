@@ -2,8 +2,8 @@
 
 module BookingStates
   class CancelationPending < Base
-    RichTextTemplate.require_template(:operator_cancelation_pending_notification,
-                                      template_context: %i[booking], required_by: self, optional: true)
+    RichTextTemplate.define(:operator_cancelation_pending_notification,
+                            template_context: %i[booking], required_by: self, optional: true)
     def checklist
       []
     end

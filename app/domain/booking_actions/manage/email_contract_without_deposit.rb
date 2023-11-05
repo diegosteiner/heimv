@@ -3,9 +3,6 @@
 module BookingActions
   module Manage
     class EmailContractWithoutDeposit < EmailContractAndDeposit
-      RichTextTemplate.require_template(:awaiting_contract_notification, template_context: %i[booking],
-                                                                         required_by: self)
-
       def call!(contract = booking.contract)
         notification = prepare_notification
         notification.save! && contract.sent!

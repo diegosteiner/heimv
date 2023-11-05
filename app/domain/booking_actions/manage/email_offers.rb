@@ -3,7 +3,7 @@
 module BookingActions
   module Manage
     class EmailOffers < BookingActions::Base
-      RichTextTemplate.require_template(:offer_notification, template_context: %i[booking invoices], required_by: self)
+      RichTextTemplate.define(:offer_notification, template_context: %i[booking invoices], required_by: self)
 
       def call!
         notification = prepare_notification

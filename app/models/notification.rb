@@ -30,7 +30,7 @@
 #
 
 class Notification < ApplicationRecord
-  RichTextTemplate.require_template(:notification_footer, template_context: %i[booking], required_by: self)
+  RichTextTemplate.define(:notification_footer, template_context: %i[booking], required_by: self)
 
   belongs_to :booking, inverse_of: :notifications
   belongs_to :rich_text_template, optional: true

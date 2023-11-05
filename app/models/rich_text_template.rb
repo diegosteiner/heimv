@@ -24,8 +24,9 @@
 #
 
 class RichTextTemplate < ApplicationRecord
-  Requirement = Struct.new(:key, :context, :required_by, :optional)
   InterpolationResult = Struct.new(:title, :body)
+  InvalidDefinition = Class.new(StandardError)
+  InvalidContext = Class.new(StandardError)
 
   extend Mobility
   extend Translatable
@@ -43,18 +44,20 @@ class RichTextTemplate < ApplicationRecord
     end
 
     def template_key_valid?(key)
-      key && required_templates.keys.include?(key.to_sym)
+      key && definitions.keys.include?(key.to_sym)
     end
 
-    def required_templates
-      @required_templates ||= {}
+    def definitions
+      return @definitions ||= {} if self == RichTextTemplate
+
+      RichTextTemplate.definitions.filter { _1[:template_class] == self }
     end
 
-    def require_template(key, template_context: [], required_by: nil, optional: false)
-      key = key.to_sym
-      requirement = self::Requirement.new(key, template_context, required_by, optional)
-      required_templates[key] ||= []
-      required_templates[key] << requirement
+    def define(key, **definition)
+      key = key&.to_sym
+      raise InvalidDefinition if key.blank? || RichTextTemplate.definitions.key?(key)
+
+      RichTextTemplate.definitions[key] = definition.merge(template_class: self, key:)
     end
   end
 
@@ -90,5 +93,16 @@ class RichTextTemplate < ApplicationRecord
       RichTextSanitizer.sanitize(template.render!(context.to_h))
     end
     InterpolationResult.new(*parts)
+  end
+
+  def definitition
+    self.class.definitions[key&.to_sym]
+  end
+
+  def use(**context)
+    missing_context = definitition.fetch(:context_keys, []) - context.keys
+    raise InvalidContext, "Missing keys were: #{missing_context.join(', ')}" if missing_context.any?
+
+    interpolate(context)
   end
 end

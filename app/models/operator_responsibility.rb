@@ -29,6 +29,7 @@
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 class OperatorResponsibility < ApplicationRecord
+  RESPONSIBILITIES = { administration: 0, home_handover: 1, home_return: 2, billing: 3 }.freeze
   include RankedModel
 
   belongs_to :organisation, inverse_of: :operator_responsibilities
@@ -38,7 +39,7 @@ class OperatorResponsibility < ApplicationRecord
   has_many :assigning_conditions, -> { qualifiable_group(:assigning) }, as: :qualifiable, dependent: :destroy,
                                                                         class_name: :BookingCondition, inverse_of: false
 
-  enum responsibility: { administration: 0, home_handover: 1, home_return: 2, billing: 3 }.freeze
+  enum responsibility: RESPONSIBILITIES
 
   scope :ordered, -> { rank(:ordinal) }
 
