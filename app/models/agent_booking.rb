@@ -61,12 +61,14 @@ class AgentBooking < ApplicationRecord
 
   def update_booking
     booking.organisation ||= organisation
-    booking.tenant&.organisation ||= organisation
+    booking.tenant || booking.build_tenant
+    booking.tenant.organisation ||= organisation
+    booking.email ||= tenant_email
   end
 
   def booking
     super || self.booking = build_booking(committed_request: false, notifications_enabled: true,
-                                          organisation: organisation, email: self[:tenant_email].presence)
+                                          organisation:, email: self[:tenant_email].presence)
   end
 
   def booking_agent_responsible?

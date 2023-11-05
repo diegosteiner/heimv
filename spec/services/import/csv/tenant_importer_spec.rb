@@ -17,10 +17,12 @@ RSpec.describe Import::Csv::TenantImporter, type: :model do
   end
 
   describe '#parse' do
-    let(:import) { importer.parse(csv) }
     subject(:record) { import.records.first }
 
+    let(:import) { importer.parse(csv) }
+
     it { is_expected.to be_valid }
+
     it do
       expect(record.first_name).to eq('Peter')
       expect(record.last_name).to eq('Muster')

@@ -45,7 +45,7 @@ class BookingCondition < ApplicationRecord
   belongs_to :qualifiable, polymorphic: true, optional: true
   belongs_to :organisation
 
-  scope :qualifiable_group, ->(group) { where(group: group) }
+  scope :qualifiable_group, ->(group) { where(group:) }
   delegate :compare_operators_for_select, to: :class
 
   validates :type, presence: true, inclusion: { in: ->(_) { BookingCondition.subtypes.keys.map(&:to_s) } }

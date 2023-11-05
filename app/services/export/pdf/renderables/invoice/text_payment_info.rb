@@ -15,7 +15,7 @@ module Export
           def render
             start_new_page if cursor < height
 
-            bounding_box([0, height], width: bounds.width, height: height) do
+            bounding_box([0, height], width: bounds.width, height:) do
               render_title
               render_text_in_columns
             end
@@ -36,7 +36,7 @@ module Export
           end
 
           def render_text_in_columns
-            column_box([0, height - 30], columns: 2, width: bounds.width, height: height) do
+            column_box([0, height - 30], columns: 2, width: bounds.width, height:) do
               markup(@payment_info.body)
             end
           end

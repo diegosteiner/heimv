@@ -48,7 +48,7 @@ class BookingQuestionResponse < ApplicationRecord
     questions = BookingQuestion.applying_to_booking(booking).index_by(&:id)
     questions.values.map do |question|
       attributes_of_response = attributes_by_question_id[question.id]
-      build_response(booking, question, existing_responses, attributes_of_response, manage: manage)
+      build_response(booking, question, existing_responses, attributes_of_response, manage:)
     end
   end
 

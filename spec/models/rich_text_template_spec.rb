@@ -32,7 +32,7 @@ RSpec.describe RichTextTemplate, type: :model do
 
   describe 'by_key' do
     let(:key) { :test }
-    let(:template) { create(:rich_text_template, key: key) }
+    let(:template) { create(:rich_text_template, key:) }
     let(:organisation) { template.organisation }
 
     it do

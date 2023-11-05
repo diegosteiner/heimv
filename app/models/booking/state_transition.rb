@@ -44,7 +44,7 @@ class Booking
       last_transition = booking.state_transitions.ordered.last
       last_transition&.update(most_recent: false)
       sort_key = (last_transition&.sort_key || 0) + 1
-      create(booking: booking, to_state: state, sort_key: sort_key, most_recent: true)
+      create(booking:, to_state: state, sort_key:, most_recent: true)
     end
 
     private
@@ -55,7 +55,7 @@ class Booking
 
     def update_booking_state_cache
       # rubocop:disable Rails/SkipsModelValidations
-      booking.update_columns(booking_state_cache: to_state, updated_at: updated_at)
+      booking.update_columns(booking_state_cache: to_state, updated_at:)
       # rubocop:enable Rails/SkipsModelValidations
     end
 

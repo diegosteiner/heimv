@@ -140,7 +140,6 @@ it:
       booking_category:
         description: Descrizione
         key: Chiava
-        ordinal: Numero di serie
         ordinal_position: Posizione di visualizzazione
         title: Titolo
       booking_condition:
@@ -318,7 +317,6 @@ it:
         meter: Nome del contatore (per le tariffe in base alla lettura del contatore)
         minimum_usage_per_night: Consumo minimo (per notte)
         minimum_usage_total: Consumo minimo (totale)
-        ordinal: Numero di serie
         ordinal_position: Numero di serie
         pin: Congelare il prezzo per unità
         prefill_usage_booking_question_id:
@@ -501,16 +499,10 @@ it:
         one: Sempre
       booking_conditions/bookable_extra:
         one: Extra prenotabili (condizione)
-      booking_conditions/booking_approximate_headcount_per_night:
-        one: Numero di partecipanti (condizione)
       booking_conditions/booking_attribute:
         one:
       booking_conditions/booking_category:
         one: Categoria di affitto (condizione)
-      booking_conditions/booking_nights:
-        one: Numero di notti (condizione)
-      booking_conditions/booking_overnight_stays:
-        one: 'Condizione pernottamenti '
       booking_conditions/booking_question:
         one:
       booking_conditions/booking_state:
@@ -523,14 +515,8 @@ it:
         one: Durata dell'occupazione (condizione)
       booking_conditions/occupiable:
         one: Oggetto in affitto  (condizione)
-      booking_conditions/season:
-        one: 'Stagione  (condizione)
-
-          '
       booking_conditions/tarif:
         one: Tariffa selezionata (condizione)
-      booking_conditions/tenant_organisation:
-        one: Organizzazione dell'inquilino (condizione)
       booking_question:
         one:
         other:
@@ -760,7 +746,6 @@ it:
     initial:
       label: "-"
     open_request:
-      help:
       label: Richiesta di affitto(aperta)
       public_info: La vostra richiesta di affitto è stata inviata e sarà presto elaborata dall'amministrazione.
       relevant_time: Presentato %{time}
@@ -1183,8 +1168,6 @@ it:
       form:
         suggested_invoice_parts: Posizioni consigliate
     notifications:
-      edit:
-        deliver: Salvare e inviare di nuovo
       form:
         deliver:
         not_sent:

@@ -73,7 +73,7 @@ module DataDigestTemplates
     column_type :default do
       body do |booking, template_context_cache|
         context = template_context_cache[cache_key(booking)] ||=
-          TemplateContext.new(booking: booking, organisation: booking.organisation).to_h
+          TemplateContext.new(booking:, organisation: booking.organisation).to_h
         @templates[:body]&.render!(context)
       end
     end
@@ -82,7 +82,7 @@ module DataDigestTemplates
       body do |booking, template_context_cache|
         tarif = ::Tarif.find_by(id: @config[:tarif_id])
         context = template_context_cache[cache_key(booking, :usage, tarif.id)] ||=
-          TemplateContext.new(booking: booking, organisation: booking.organisation,
+          TemplateContext.new(booking:, organisation: booking.organisation,
                               usage: booking.usages.of_tarif(tarif).take).to_h
         @templates[:body]&.render!(context)
       end
@@ -92,7 +92,7 @@ module DataDigestTemplates
       body do |booking, template_context_cache|
         response = booking.booking_question_responses.find_by(booking_question_id: @config[:id])
         context = template_context_cache[cache_key(booking, :booking_question_response, response&.id)] ||=
-          TemplateContext.new(booking: booking, organisation: booking.organisation,
+          TemplateContext.new(booking:, organisation: booking.organisation,
                               booking_question_response: response).to_h
         @templates[:body]&.render!(context)
       end

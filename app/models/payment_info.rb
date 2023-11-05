@@ -23,16 +23,16 @@ class PaymentInfo
   end
 
   def formatted_amount
-    format('%<amount>0.2f', amount: amount)
+    format('%<amount>0.2f', amount:)
   end
 
-  def self.human_model_name(*args)
-    model_name.human(*args)
+  def self.human_model_name(*)
+    model_name.human(*)
   end
 
   def to_h
     {
-      ref: ref, amount: amount, formatted_ref: formatted_ref, iban: iban, formatted_amount: formatted_amount
+      ref:, amount:, formatted_ref:, iban:, formatted_amount:
     }
   end
 end

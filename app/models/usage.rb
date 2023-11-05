@@ -71,7 +71,7 @@ class Usage < ApplicationRecord
     booking_question = tarif.prefill_usage_booking_question
     return nil if booking_question.blank? || booking.blank?
 
-    booking.booking_question_responses.find_by(booking_question: booking_question)&.value.presence || 0
+    booking.booking_question_responses.find_by(booking_question:)&.value.presence || 0
   end
 
   def presumed_units

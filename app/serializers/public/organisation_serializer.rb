@@ -13,7 +13,7 @@ module Public
         next if designation.blank?
 
         [designation,
-         url.public_designated_document_url(org: organisation, designation: designation, locale: I18n.locale)]
+         url.public_designated_document_url(org: organisation, designation:, locale: I18n.locale)]
       end.compact_blank.to_h
     end
 

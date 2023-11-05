@@ -33,18 +33,20 @@ require 'rails_helper'
 RSpec.describe BookingConditions::BookingState, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
+
     let(:booking_condition) do
-      described_class.new(compare_value: compare_value, organisation: organisation, compare_operator: compare_operator)
+      described_class.new(compare_value:, organisation:, compare_operator:)
     end
     let(:organisation) { create(:organisation) }
     let(:booking) do
-      create(:booking, organisation: organisation, initial_state: :open_request, committed_request: false)
+      create(:booking, organisation:, initial_state: :open_request, committed_request: false)
     end
     let(:compare_value) { 'open_request' }
     let(:compare_operator) { '=' }
 
     context 'with non matching state' do
-      let(:booking) { create(:booking, organisation: organisation) }
+      let(:booking) { create(:booking, organisation:) }
+
       it { is_expected.to be_falsy }
     end
 
@@ -55,9 +57,11 @@ RSpec.describe BookingConditions::BookingState, type: :model do
 
     context 'with previous matching state' do
       let(:compare_operator) { '>' }
+
       before do
         booking.apply_transitions(%i[provisional_request definitive_request])
       end
+
       it { expect(booking.booking_state.to_sym).to eq(:definitive_request) }
       it { is_expected.to be_truthy }
     end

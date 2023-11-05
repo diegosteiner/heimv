@@ -26,7 +26,7 @@ module Import
       end
 
       def initialize_record(_row)
-        organisation.bookings.new(home: home)
+        organisation.bookings.new(home:)
       end
 
       def initial_state
@@ -62,7 +62,7 @@ module Import
         occupiable_ids = row['booking.occupiable_ids']&.split(',')&.compact_blank.presence || home.id
 
         booking.assign_attributes(begins_at: parse_datetime(begins_at), ends_at: parse_datetime(ends_at),
-                                  occupiable_ids: occupiable_ids)
+                                  occupiable_ids:)
       end
 
       actor :occupancy_type do |booking, row|
@@ -107,7 +107,7 @@ module Import
 
           used_units = value&.to_d
           tarif = organisation.tarifs.find_by(id: usage_header_match[1])
-          booking.usages.build(tarif: tarif, used_units: used_units) if tarif.present? && used_units.positive?
+          booking.usages.build(tarif:, used_units:) if tarif.present? && used_units.positive?
         end
       end
 

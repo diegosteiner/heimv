@@ -29,12 +29,12 @@ require 'rails_helper'
 
 RSpec.describe Deadline, type: :model do
   let(:booking) { create(:booking) }
-  let(:deadline) { build(:deadline, booking: booking) }
+  let(:deadline) { build(:deadline, booking:) }
 
   describe '#save' do
     context 'with no deadline in place' do
       it do
-        expect(booking.deadline).to be(nil)
+        expect(booking.deadline).to be_nil
         deadline.save
         expect(booking.deadline).to eq(deadline)
       end
@@ -42,7 +42,7 @@ RSpec.describe Deadline, type: :model do
   end
 
   describe '#create' do
-    subject(:deadline) { booking.deadlines.create(length: length) }
+    subject(:deadline) { booking.deadlines.create(length:) }
 
     context 'with length set' do
       let(:length) { 1.week }

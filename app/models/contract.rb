@@ -46,14 +46,14 @@ class Contract < ApplicationRecord
     I18n.with_locale(locale || I18n.locale) do
       self.pdf = {
         io: StringIO.new(Export::Pdf::ContractPdf.new(self).render_document),
-        filename: filename,
+        filename:,
         content_type: 'application/pdf'
       }
     end
   end
 
   def supersede(**attributes)
-    return unless was_sent? && (changed & %w[text]).any?
+    return unless was_sent? && changed.intersect?(%w[text])
 
     successor = dup
     successor.update!(**attributes.merge(valid_from: Time.zone.now, sent_at: nil, signed_at: nil))

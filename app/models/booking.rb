@@ -66,7 +66,7 @@ class Booking < ApplicationRecord
 
   belongs_to :home
   belongs_to :organisation, inverse_of: :bookings
-  belongs_to :tenant, inverse_of: :bookings, optional: true # , autosave: true
+  belongs_to :tenant, inverse_of: :bookings, autosave: true
   belongs_to :deadline, inverse_of: :booking, optional: true
   belongs_to :category, inverse_of: :bookings, class_name: 'BookingCategory', optional: true,
                         foreign_key: :booking_category_id
@@ -98,6 +98,8 @@ class Booking < ApplicationRecord
   has_secure_token :token, length: 48
   enum occupancy_type: Occupancy::OCCUPANCY_TYPES
 
+  normalizes :email, with: -> { _1.presence&.strip&.downcase }
+
   validates :email, format: Devise.email_regexp, allow_nil: true
   validates :invoice_address, length: { maximum: 255 }
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
@@ -105,7 +107,7 @@ class Booking < ApplicationRecord
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
 
   validates :email, presence: true, on: %i[public_update public_create]
-  validates :tenant, :approximate_headcount, :purpose_description, presence: true, on: :public_update
+  validates :approximate_headcount, :purpose_description, presence: true, on: :public_update
   validates :category, presence: true, on: %i[public_update agent_booking]
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validate do
@@ -118,7 +120,7 @@ class Booking < ApplicationRecord
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
-  before_validation :update_occupancies, :normalize_tenant
+  before_validation :update_occupancies, :assert_tenant!
   before_create :set_ref
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -164,25 +166,28 @@ class Booking < ApplicationRecord
     @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
   end
 
-  def email
-    super.presence || tenant&.email.presence
-  end
-
   def email=(value)
-    value = value&.downcase
-    super(value) && tenant&.email=value
+    super(value)
+
+    tenant&.email=value
   end
 
   def tenant
-    super || organisation&.tenants&.find_or_initialize_by(email: self[:email]) || build_tenant(email: self[:email])
+    super || @tenant ||= (find_existing_tenant if email.present? && organisation.present?)
   end
 
-  def normalize_tenant
-    return if organisation.blank? || email.blank? || !tenant.new_record?
+  # rubocop:disable Metrics/CyclomaticComplexity
+  def assert_tenant!
+    return if tenant_id.present?
 
-    self.tenant = Tenant.find_or_initialize_by(email: email, organisation: organisation) do |new_tenant|
-      new_tenant.assign_attributes(tenant&.changed_values&.except(:email, :organisation))
-    end
+    existing_tenant = find_existing_tenant
+    existing_tenant&.assign_attributes(tenant&.changed_values&.except(:email, :organisation_id) || {})
+    self.tenant = existing_tenant || tenant || build_tenant(email:, organisation:)
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
+
+  def find_existing_tenant
+    Tenant.find_by(email:, organisation:) unless organisation.blank? || email.blank?
   end
 
   def occupancy_color

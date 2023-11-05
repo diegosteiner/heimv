@@ -53,7 +53,7 @@ class Payment < ApplicationRecord
   end
 
   def duplicates
-    Payment.where(booking: booking, paid_at: paid_at, amount: amount, camt_instr_id: camt_instr_id).where.not(id: [id])
+    Payment.where(booking:, paid_at:, amount:, camt_instr_id:).where.not(id: [id])
   end
 
   def confirm!

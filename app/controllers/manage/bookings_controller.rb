@@ -141,7 +141,7 @@ module Manage
         home = organisation.homes.find(home_id)
         headers = self.headers.presence&.split(/[,;]/) || true
 
-        ::Import::Csv::BookingImporter.new(home, initial_state: initial_state, csv: { headers: headers })
+        ::Import::Csv::BookingImporter.new(home, initial_state:, csv: { headers: })
                                       .parse_file(file)
       end
     end

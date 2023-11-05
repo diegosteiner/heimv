@@ -45,7 +45,7 @@ module PaymentInfos
         ucr_place: '',
         ucr_country: '',
         amount: formatted_amount(delimitter: ''),
-        currency: currency,
+        currency:,
         ezp_address_type: ADDRESS_TYPE,
         ezp_name: debitor_address_lines.fetch(0, ''),
         ezp_address_line_1: debitor_address_lines.fetch(1, ''),
@@ -53,8 +53,8 @@ module PaymentInfos
         ezp_zipcode: '',
         ezp_place: '',
         ezp_country: COUNTRY_CODE,
-        ref_type: ref_type,
-        ref: ref,
+        ref_type:,
+        ref:,
         additional_information: '',
         trailer: EPD
       }.transform_values { _1.to_s.strip }

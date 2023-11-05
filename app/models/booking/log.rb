@@ -31,13 +31,13 @@ class Booking
     def self.log(booking, trigger:, action: nil, user: nil, data: {})
       data = data.reverse_merge({
                                   booking: booking.previous_changes,
-                                  tenant: booking.tenant&.previous_changes, action: action,
+                                  tenant: booking.tenant&.previous_changes, action:,
                                   transitions: booking.previous_transitions
                                 }).compact_blank
 
       return if data.values.none?
 
-      create!(booking: booking, trigger: trigger, user: user, data: data)
+      create!(booking:, trigger:, user:, data:)
     end
 
     def logged_transitions

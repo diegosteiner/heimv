@@ -45,13 +45,18 @@ RSpec.describe Invoice, type: :model do
   end
 
   describe '#payment_info' do
-    let(:invoice) { create(:invoice, payment_info_type: PaymentInfos::QrBill.to_s) }
     subject { invoice.payment_info }
+
+    let(:invoice) { create(:invoice, payment_info_type: PaymentInfos::QrBill.to_s) }
 
     it { is_expected.to be_a(PaymentInfos::QrBill) }
   end
 
   describe '#supersede' do
+    subject(:successor) do
+      factory.call(predecessor.booking, type: Invoices::LateNotice, supersede_invoice: predecessor)
+    end
+
     let(:predecessor) do
       create(:invoice, type: Invoices::Invoice).tap do |invoice|
         invoice.payments = build_list(:payment, 1, amount: 100.0)
@@ -59,9 +64,6 @@ RSpec.describe Invoice, type: :model do
       end
     end
     let(:factory) { Invoice::Factory.new }
-    subject(:successor) do
-      factory.call(predecessor.booking, type: Invoices::LateNotice, supersede_invoice: predecessor)
-    end
 
     it 'discards the old invoice' do
       successor.save

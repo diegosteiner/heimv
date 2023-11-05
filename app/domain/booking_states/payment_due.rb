@@ -25,7 +25,7 @@ module BookingStates
 
       payable_until = invoice.payable_until + booking.organisation.settings.payment_overdue_deadline
       postponable_for = booking.organisation.settings.deadline_postponable_for
-      booking.deadlines.create(at: payable_until, postponable_for: postponable_for) unless booking.deadline
+      booking.deadlines.create(at: payable_until, postponable_for:) unless booking.deadline
     end
 
     infer_transition(to: :payment_overdue) do |booking|

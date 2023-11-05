@@ -20,7 +20,7 @@ module Export
 
         def render_text
           width = bounds.width / 2
-          bounding_box [bounds.right - width, bounds.top + 55], width: width, height: 50 do
+          bounding_box [bounds.right - width, bounds.top + 55], width:, height: 50 do
             text @text, align: :right, size: 7 if @text.present? || @text.nil?
           end
         end

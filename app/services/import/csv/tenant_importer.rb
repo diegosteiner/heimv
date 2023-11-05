@@ -18,9 +18,9 @@ module Import
 
       def initialize_record(row)
         email = row['tenant.email']&.strip
-        return Tenant.new(organisation: organisation) if email.blank?
+        return Tenant.new(organisation:) if email.blank?
 
-        Tenant.find_or_initialize_by(email: email, organisation: organisation)
+        Tenant.find_or_initialize_by(email:, organisation:)
       end
 
       actor do |tenant, row|

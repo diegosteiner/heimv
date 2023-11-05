@@ -17,7 +17,7 @@ module PaymentInfos
     end
 
     def to_h
-      super.merge(esr_beneficiary_account: esr_beneficiary_account, booking_ref: booking.ref)
+      super.merge(esr_beneficiary_account:, booking_ref: booking.ref)
     end
 
     protected

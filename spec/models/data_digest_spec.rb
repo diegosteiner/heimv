@@ -35,7 +35,7 @@ RSpec.describe DataDigest, type: :model do
     it { expect(DataDigest::PERIODS[:ever].call(nil)).to eq(Range.new(nil, nil)) }
   end
 
-  describe '#crunch', skip: true do
+  describe '#crunch', :skip do
     # subject(:data_digest) { create(:data_digest, columns_config: columns_config) }
     # subject(:columns) { data_digest.columns }
 

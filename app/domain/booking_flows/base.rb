@@ -25,7 +25,7 @@ module BookingFlows
 
       def state(state_class, initial: false, to: [])
         state_classes[state_class.to_sym] = state_class
-        super(state_class, initial: initial)
+        super(state_class, initial:)
         successors[state_class.to_s] = [successors[state_class.to_s], to].flatten.compact.map(&:to_s)
         state_class.callbacks.each do |callback_type, state_callbacks|
           callbacks[callback_type] += state_callbacks

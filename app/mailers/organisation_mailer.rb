@@ -20,9 +20,7 @@ class OrganisationMailer < ApplicationMailer
     attach_active_storage_attachments(notification.attachments)
     mail(to: notification.to, cc: notification.cc, bcc: notification.bcc, subject: notification.subject) do |format|
       format.text { render plain: @notification.text }
-      # rubocop:disable Rails/OutputSafety
-      format.html { render html:  @notification.body&.html_safe }
-      # rubocop:enable Rails/OutputSafety
+      format.html { render html:  @notification.html }
     end
   end
 

@@ -52,6 +52,6 @@ module Heimverwaltung
                                          .tap  { |logger| logger.formatter = Logger::Formatter.new }
                                          .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
-    config.log_level = ENV.fetch('LOG_LEVEL', :warn).to_sym
+    config.log_level = ENV.fetch('LOG_LEVEL', Rails.env.development? ? :debug : :warn).to_sym
   end
 end

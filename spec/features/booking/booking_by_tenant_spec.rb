@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-describe 'Booking', :devise, type: :feature do
+describe 'Booking by tenant', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_rich_text_templates) }
   let(:org) { organisation.to_param }
-  let(:organisation_user) { create(:organisation_user, :manager, organisation: organisation) }
+  let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
-  let(:home) { create(:home, organisation: organisation) }
-  let(:tenant) { create(:tenant, organisation: organisation) }
+  let(:home) { create(:home, organisation:) }
+  let(:tenant) { create(:tenant, organisation:) }
   let!(:responsibilities) do
     OperatorResponsibility.responsibilities.keys.map do |responsibility|
-      create(:operator_responsibility, organisation: organisation, responsibility: responsibility,
+      create(:operator_responsibility, organisation:, responsibility:,
                                        assigning_conditions: [BookingConditions::AlwaysApply.new])
     end
   end
   let(:deposit_tarifs) do
-    create(:tarif, organisation: organisation,  tarif_group: 'Anzahlung',
+    create(:tarif, organisation:, tarif_group: 'Anzahlung',
                    associated_types: %i[deposit offer contract])
   end
 
   let(:invoice_tarifs) do
-    create_list(:tarif, 2, organisation: organisation, tarif_group: 'Übernachtungen',
+    create_list(:tarif, 2, organisation:, tarif_group: 'Übernachtungen',
                            associated_types: %i[invoice offer contract])
   end
 
@@ -33,10 +33,10 @@ describe 'Booking', :devise, type: :feature do
   let(:booking) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
     build(:booking,
-          begins_at: begins_at,
+          begins_at:,
           ends_at: begins_at + 1.week + 4.hours + 15.minutes,
-          organisation: organisation,
-          home: home, tenant: nil,
+          organisation:,
+          home:, tenant: nil,
           committed_request: false,
           notifications_enabled: true)
   end
@@ -114,7 +114,7 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def accept_booking
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     click_on :accept
     click_on :postpone_deadline
   end
@@ -125,7 +125,7 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def choose_tarifs
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     find('.checklist a[aria-label="choose_tarifs"]').click
     tarifs.each do |tarif|
       expect(page).to have_content(tarif.label)
@@ -135,29 +135,29 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def create_contract
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     find('.checklist a[aria-label="create_contract"]').click
-    visit new_manage_booking_contract_path(@booking, org: org)
+    visit new_manage_booking_contract_path(@booking, org:)
     submit_form
     find('table tbody tr:nth-child(1) td:nth-child(1) a').click
   end
 
   def create_deposit
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     find('.checklist a[aria-label="create_deposit"]').click
     submit_form
   end
 
   def confirm_booking
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     click_on :email_contract_and_deposit
     submit_form
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     click_on :mark_contract_signed
   end
 
   def perform_booking
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     click_on :allowed_transitions
     click_on :upcoming_soon
     click_on :allowed_transitions
@@ -167,7 +167,7 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def set_usages
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     find('.checklist li:nth-child(1) a').click
     # page.driver.browser.navigate.refresh
     find_all('input[inputmode="numeric"]').each do |usage_field|
@@ -177,28 +177,28 @@ describe 'Booking', :devise, type: :feature do
   end
 
   def create_invoice
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     find('.checklist li:nth-child(2) a').click
     submit_form
   end
 
   def send_invoice
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
     click_on :email_invoices
     submit_form
-    visit manage_booking_path(@booking, org: org)
+    visit manage_booking_path(@booking, org:)
   end
 
   def finalize_booking
     click_on :postpone_deadline
-    visit manage_booking_invoices_path(@booking, org: org)
+    visit manage_booking_invoices_path(@booking, org:)
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
     submit_form
   end
 
   def check_booking
     expect(@booking.notifications.map { |notification| notification.rich_text_template.key })
-      .to contain_exactly(*expected_notifications)
-    expect(@booking.state_transitions.ordered.map(&:to_state)).to contain_exactly(*expected_transitions)
+      .to match_array(expected_notifications)
+    expect(@booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
   end
 end

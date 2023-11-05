@@ -65,7 +65,7 @@ class User < ApplicationRecord
   def in_organisation(organisation)
     return if organisation.nil?
 
-    organisation_users.find_by(organisation: organisation)
+    organisation_users.find_by(organisation:)
   end
 
   def in_organisation?(organisation)
@@ -75,7 +75,7 @@ class User < ApplicationRecord
   def self.find_by_token(token, organisation)
     return nil unless token.present? && organisation.present?
 
-    organisation.users.find_by(token: token, role_admin: false)
+    organisation.users.find_by(token:, role_admin: false)
   end
 
   # Include default devise modules. Others available are:

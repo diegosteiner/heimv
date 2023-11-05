@@ -29,7 +29,7 @@ class Invoice
     def defaults(booking)
       {
         type: Invoices::Invoice.to_s, issued_at: Time.zone.today,
-        booking: booking, locale: booking.locale || I18n.locale
+        booking:, locale: booking.locale || I18n.locale
       }
     end
 
@@ -55,7 +55,7 @@ class Invoice
 
     def template_context(invoice)
       TemplateContext.new(
-        invoice: invoice, booking: invoice.booking,
+        invoice:, booking: invoice.booking,
         organisation: invoice.booking.organisation
       )
     end

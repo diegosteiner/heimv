@@ -67,18 +67,18 @@ class OperatorResponsibility < ApplicationRecord
 
   def self.assign(booking, *responsibilities)
     responsibilities.map do |responsibility|
-      existing_operator = where(booking: booking, responsibility: responsibility).first
+      existing_operator = where(booking:, responsibility:).first
       next existing_operator if existing_operator.present?
 
       matching(booking, responsibility).first&.dup&.tap do |operator_responsibility|
-        operator_responsibility.update(booking: booking)
+        operator_responsibility.update(booking:)
       end
     end
   end
 
   def self.matching(booking, responsibility)
     booking.organisation.operator_responsibilities.ordered
-           .where(responsibility: responsibility, booking: nil)
+           .where(responsibility:, booking: nil)
            .filter { |operator_responsibility| operator_responsibility.assign_to_booking?(booking) }
   end
 end

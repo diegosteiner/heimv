@@ -50,9 +50,10 @@ RSpec.describe Organisation, type: :model do
   end
 
   describe '#settings' do
+    subject(:settings) { organisation.settings }
+
     let(:settings_hash) { { test: 3600, feature_new_bookings: true } }
     let(:organisation) { build(:organisation, settings: settings_hash) }
-    subject(:settings) { organisation.settings }
 
     it do
       expect(settings.tenant_birth_date_required).to be(true)
@@ -61,6 +62,7 @@ RSpec.describe Organisation, type: :model do
 
   describe '#dup' do
     let(:organisation) { create(:organisation) }
+
     it do
       new_organisation = organisation.dup
       new_organisation.slug = 'new-test'

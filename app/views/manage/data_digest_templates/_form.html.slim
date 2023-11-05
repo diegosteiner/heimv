@@ -8,22 +8,22 @@
  
   - if @data_digest_template.is_a?(DataDigestTemplates::Booking)
     h5= Booking::Filter.model_name.human
-    = f.fields_for :prefilter_params, @data_digest_template.filter do |ff|
+    = f.fields_for :prefilter_params, @data_digest_template.prefilter do |ff|
       = render partial: 'manage/bookings/filter_fields', locals: { f: ff }
 
   - elsif @data_digest_template.is_a?(DataDigestTemplates::Payment)
     h5= Payment::Filter.model_name.human
-    = f.fields_for :prefilter_params, @data_digest_template.filter do |ff|
+    = f.fields_for :prefilter_params, @data_digest_template.prefilter do |ff|
       = render partial: 'manage/payments/filter_fields', locals: { f: ff }
 
   - elsif @data_digest_template.is_a?(DataDigestTemplates::Invoice)
     h5= Invoice::Filter.model_name.human
-    = f.fields_for :prefilter_params, @data_digest_template.filter do |ff|
+    = f.fields_for :prefilter_params, @data_digest_template.prefilter do |ff|
       = render partial: 'manage/invoices/filter_fields', locals: { f: ff }
 
   - elsif @data_digest_template.is_a?(DataDigestTemplates::InvoicePart)
     h5= InvoicePart::Filter.model_name.human
-    = f.fields_for :prefilter_params, @data_digest_template.filter do |ff|
+    = f.fields_for :prefilter_params, @data_digest_template.prefilter do |ff|
       = render partial: 'manage/invoice_parts/filter_fields', locals: { f: ff }
 
   = f.submit

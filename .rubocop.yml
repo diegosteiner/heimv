@@ -5,7 +5,7 @@ require:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.2
   Exclude:
     - "bin/*"
     - "script/**/*"
@@ -74,6 +74,9 @@ Style/GlobalVars:
 
 Style/SymbolProc:
   Enabled: false
+
+# RSpec/MultipleExpectations:
+#   Max: 3
 
 # TODO: bug with false positives
 Lint/UnusedMethodArgument:

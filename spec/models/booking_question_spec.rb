@@ -34,7 +34,7 @@ RSpec.describe BookingQuestion, type: :model do
   let(:organisation) { create(:organisation) }
   let(:questions) do
     BookingQuestion.subtypes.values.map do |type|
-      create(:booking_question, type: type, organisation: organisation)
+      create(:booking_question, type:, organisation:)
     end
   end
 end

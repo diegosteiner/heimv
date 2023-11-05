@@ -11,7 +11,7 @@ class HealthService
   end
 
   def jobs_ok?
-    Sidekiq::Stats.new.queues.present?
+    !Sidekiq::Stats.new.queues.nil?
   rescue StandardError => e
     Rails.logger.error(e)
     false

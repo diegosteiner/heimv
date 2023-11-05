@@ -25,24 +25,27 @@ require 'rails_helper'
 
 RSpec.describe DataDigestTemplates::Payment, type: :model do
   subject(:data_digest) { data_digest_template.data_digests.create }
+
   let(:columns_config) { nil }
   let(:data_digest_template) do
-    create(:payment_data_digest_template, columns_config: columns_config)
+    create(:payment_data_digest_template, columns_config:)
   end
 
   before do
     create_list(:booking, 3, organisation: data_digest.organisation).map do |booking|
-      invoice = create(:invoice, booking: booking)
-      create(:payment, invoice: invoice, amount: invoice.amount)
+      invoice = create(:invoice, booking:)
+      create(:payment, invoice:, amount: invoice.amount)
     end
     data_digest.crunch!
   end
 
   describe '#data' do
     it { is_expected.to be_a(DataDigest) }
+
     it do
       expect(data_digest.header).to eq ['Ref', 'Buchungsreferenz', 'Bezahlt am', 'Betrag', 'Mieter', 'Bemerkungen']
     end
+
     it { expect(data_digest.data.count).to be(3) }
   end
 

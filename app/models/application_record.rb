@@ -9,8 +9,8 @@ class ApplicationRecord < ActiveRecord::Base
     I18n.t(value.to_s.demodulize.underscore, scope: [:activerecord, :enums, model_name.singular, enum])
   end
 
-  def self.human_model_name(*args)
-    model_name.human(*args)
+  def self.human_model_name(*)
+    model_name.human(*)
   end
 
   def self.locale_enum(name = :locale, prefix: true, default: nil)

@@ -31,9 +31,9 @@ class Payment
       remarks = [transaction.name, entry.description].compact_blank.join("\n\n")
 
       Payment.new(
-        invoice: invoice, booking: invoice&.booking, applies: invoice.present?, ref: ref,
+        invoice:, booking: invoice&.booking, applies: invoice.present?, ref:,
         paid_at: entry.value_date, amount: transaction.amount, data: camt_transaction_to_h(transaction),
-        camt_instr_id: transaction.reference, remarks: remarks
+        camt_instr_id: transaction.reference, remarks:
       )
     end
 

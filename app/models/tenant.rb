@@ -76,7 +76,7 @@ class Tenant < ApplicationRecord
     @names ||= {
       first_name: first_name.presence,
       last_name: last_name.presence,
-      full_name: full_name,
+      full_name:,
       nickname: nickname.presence,
       friendly_name: [nickname, first_name].compact_blank.first
     }

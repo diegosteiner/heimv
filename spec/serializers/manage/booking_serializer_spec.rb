@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Manage::BookingSerializer, type: :model do
   subject { described_class.render_as_hash(booking) }
+
   let(:booking) { create(:booking) }
 
   it { is_expected.to include({ ref: booking.ref }) }

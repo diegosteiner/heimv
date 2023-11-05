@@ -10,7 +10,7 @@ module BookingActions
                         elsif booking.can_transition_to?(:cancelation_pending)
                           :cancelation_pending
                         end
-        Result.new ok: booking.update(transition_to: transition_to)
+        Result.new ok: booking.update(transition_to:)
       end
 
       def allowed?

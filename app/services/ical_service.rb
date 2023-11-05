@@ -4,7 +4,7 @@ class IcalService
   def occupancies_to_ical(occupancies, include_tenant_details: false)
     ical = Icalendar::Calendar.new
     ical_events = occupancies.flat_map do |occupancy|
-      occupancy_to_ical(occupancy, include_tenant_details: include_tenant_details)
+      occupancy_to_ical(occupancy, include_tenant_details:)
     end
     ical_events.each { |occupancy| ical.add_event(occupancy) }
     ical.to_ical

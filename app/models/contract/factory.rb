@@ -11,7 +11,7 @@ class Contract
     end
 
     def defaults(booking)
-      { booking: booking, locale: booking.locale || I18n.locale }
+      { booking:, locale: booking.locale || I18n.locale }
     end
 
     protected
@@ -28,7 +28,7 @@ class Contract
     def template_context(contract)
       booking = contract.booking
       TemplateContext.new(
-        booking: booking, organisation: booking.organisation, contract: contract,
+        booking:, organisation: booking.organisation, contract:,
         cost_estimation: CostEstimation.new(booking),
         tarifs_table_placeholder: Export::Pdf::ContractPdf::TARIFS_TABLE_PLACEHOLDER
       )

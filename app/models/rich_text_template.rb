@@ -32,7 +32,7 @@ class RichTextTemplate < ApplicationRecord
 
   class << self
     def by_key!(key)
-      where(key: key).take!
+      where(key:).take!
     end
 
     def by_key(key)
