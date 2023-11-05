@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## Version 23.11.1
+
+- Bugfixes
+
 ## Version 23.10.2
 
 - Improvement: Recognize payment duplicates more accurately
