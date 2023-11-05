@@ -53,7 +53,7 @@ class Contract < ApplicationRecord
   end
 
   def supersede(**attributes)
-    return unless was_sent? && (changed & %w[text]).any?
+    return unless was_sent? && changed.intersect?(%w[text])
 
     successor = dup
     successor.update!(**attributes.merge(valid_from: Time.zone.now, sent_at: nil, signed_at: nil))
