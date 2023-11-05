@@ -48,7 +48,7 @@ module BookingActions
 
       def prepare_notification
         booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
-                                  template_context: { contract: contract, invoices: invoices }).tap do |notification|
+                                  template_context: { contract:, invoices: }).tap do |notification|
           notification.bcc = operator.email if operator&.email.present?
           notification.attach(prepare_attachments)
         end

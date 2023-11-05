@@ -3,7 +3,7 @@
 require 'rails_helper'
 describe BookingFlows::Default do
   let(:home) { create(:home) }
-  let(:booking) { create(:booking, organisation: home.organisation, home: home) }
+  let(:booking) { create(:booking, organisation: home.organisation, home:) }
   subject(:booking_flow) { described_class.new(booking) }
 
   describe 'allowed transitions' do

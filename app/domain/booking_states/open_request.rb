@@ -22,7 +22,7 @@ module BookingStates
       booking.deadline&.clear
       OperatorResponsibility.assign(booking, :administration, :billing)
       to = booking.responsibilities[:administration] || booking.organisation
-      booking.notifications.new(template: :manage_new_booking_notification, to: to)&.deliver
+      booking.notifications.new(template: :manage_new_booking_notification, to:)&.deliver
       if booking.agent_booking.present?
         # booking.notifications.new(template:  :open_booking_agent_request_notification,
         # to: booking.agent_booking.booking_agent).deliver

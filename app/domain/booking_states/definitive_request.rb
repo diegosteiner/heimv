@@ -51,7 +51,7 @@ module BookingStates
       booking.deadline&.clear
       OperatorResponsibility.assign(booking, :home_handover, :home_return)
       to = booking.responsibilities[:administration] || booking.organisation
-      booking.notifications.new(template: :manage_definitive_request_notification, to: to)&.deliver
+      booking.notifications.new(template: :manage_definitive_request_notification, to:)&.deliver
       booking.notifications.new(template: :definitive_request_notification, to: booking.tenant).deliver
     end
 

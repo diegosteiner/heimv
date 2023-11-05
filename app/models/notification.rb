@@ -100,7 +100,7 @@ class Notification < ApplicationRecord
   end
 
   def template_context
-    { booking: booking, organisation: booking&.organisation, notification: self }.merge(super || {}).stringify_keys
+    { booking:, organisation: booking&.organisation, notification: self }.merge(super || {}).stringify_keys
   end
 
   def text

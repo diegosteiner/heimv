@@ -46,7 +46,7 @@ class Contract < ApplicationRecord
     I18n.with_locale(locale || I18n.locale) do
       self.pdf = {
         io: StringIO.new(Export::Pdf::ContractPdf.new(self).render_document),
-        filename: filename,
+        filename:,
         content_type: 'application/pdf'
       }
     end

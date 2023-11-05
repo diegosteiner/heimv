@@ -73,6 +73,6 @@ class RichTextTemplateService
   private
 
   def defaults_for_locale(kind, key, locale)
-    I18n.t(kind, scope: [:rich_text_templates, key], locale: locale, default: nil)
+    I18n.t(kind, scope: [:rich_text_templates, key], locale:, default: nil)
   end
 end
