@@ -36,7 +36,7 @@ class InvoicePart
       deposits = Invoices::Deposit.of(@invoice.booking).kept
       deposited_amount = deposits.sum(&:amount_paid)
       return [] unless deposited_amount.positive? && @invoice.new_record? &&
-                       !@invoice.is_a?(Invoices::Offer)
+                       @invoice.is_a?(Invoices::Invoice)
 
       [
         InvoiceParts::Text.new(apply: suggest?, label: Invoices::Deposit.model_name.human),

@@ -102,6 +102,7 @@ module Manage
       instance_eval(&result.redirect_proc) if result&.redirect_proc.present?
     rescue BookingActions::Base::NotAllowed
       @booking.errors.add(:base, :action_not_allowed)
+      nil
     end
 
     def booking_action
