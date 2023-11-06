@@ -183,6 +183,7 @@ class Booking < ApplicationRecord
     existing_tenant = find_existing_tenant
     existing_tenant&.assign_attributes(tenant&.changed_values&.except(:email, :organisation_id) || {})
     self.tenant = existing_tenant || tenant || build_tenant(email:, organisation:)
+    tenant.organisation = organisation
   end
   # rubocop:enable Metrics/CyclomaticComplexity
 

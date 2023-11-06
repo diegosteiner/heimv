@@ -45,6 +45,7 @@ class Tenant < ApplicationRecord
   belongs_to :organisation
 
   locale_enum default: I18n.locale
+  normalizes :email, with: -> { _1.presence&.strip&.downcase }
 
   validates :email, allow_blank: true, format: { with: Devise.email_regexp }, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update
@@ -55,10 +56,6 @@ class Tenant < ApplicationRecord
   validates :birth_date, presence: true, on: :public_update, if: :birth_date_required?
 
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
-
-  before_validation do
-    self.email = email&.strip.presence
-  end
 
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')
