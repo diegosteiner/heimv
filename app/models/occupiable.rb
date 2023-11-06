@@ -43,12 +43,14 @@ class Occupiable < ApplicationRecord
 
   translates :name, :description, column_suffix: '_i18n', locale_accessors: true
   ranks :ordinal, with_same: :organisation_id, class_name: 'Occupiable'
+  normalizes :ref, with: -> { _1.presence&.strip }
 
   scope :occupiable, -> { where(occupiable: true) }
   scope :active, -> { where(active: true) }
   scope :ordered, -> { rank(:ordinal) }
 
   validates :name, presence: true
+  validates :ref, uniqueness: { scope: :organisation }
   validates :type, inclusion: { in: %w[Home Occupiable] }, allow_nil: true
 
   def to_s

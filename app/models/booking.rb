@@ -166,12 +166,6 @@ class Booking < ApplicationRecord
     @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
   end
 
-  def email=(value)
-    super(value)
-
-    tenant&.email=value
-  end
-
   def tenant
     super || @tenant ||= (find_existing_tenant if email.present? && organisation.present?)
   end
@@ -183,7 +177,7 @@ class Booking < ApplicationRecord
     existing_tenant = find_existing_tenant
     existing_tenant&.assign_attributes(tenant&.changed_values&.except(:email, :organisation_id) || {})
     self.tenant = existing_tenant || tenant || build_tenant(email:, organisation:)
-    tenant.organisation = organisation
+    tenant.assign_attributes(organisation:, email:)
   end
   # rubocop:enable Metrics/CyclomaticComplexity
 

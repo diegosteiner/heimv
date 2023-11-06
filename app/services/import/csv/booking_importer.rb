@@ -11,7 +11,7 @@ module Import
                  'booking.category', 'booking.purpose', 'booking.email', 'usage.*', 'booking.occupiable_ids',
                  'booking.internal_remarks', 'booking.begins_at', 'booking.begins_at_date', 'booking.begins_at_time',
                  'booking.ends_at', 'booking.ends_at_date', 'booking.ends_at_time', 'booking.remarks',
-                 'booking.occupancy_type', 'booking.color', 'booking.transition_to', 'extra.*'] +
+                 'booking.occupancy_type', 'booking.color', 'booking.transition_to', 'booking_question.*'] +
           TenantImporter.supported_headers
       end
 
@@ -23,6 +23,7 @@ module Import
         super(**options)
         @home = home.is_a?(Home) ? home : Home.find(home)
         @tenant_importer = TenantImporter.new(organisation)
+        @booking_ref_service = BookingRefService.new
       end
 
       def initialize_record(_row)
@@ -38,6 +39,8 @@ module Import
 
       def persist_record(booking)
         booking.transition_to ||= initial_state
+        booking.assert_tenant!
+        booking.ref = @booking_ref_service.generate(booking)
         booking.save
       end
 
@@ -111,16 +114,18 @@ module Import
         end
       end
 
-      # actor :extras do |booking, row|
-      #   row.each do |header, value|
-      #     extra_header_match = /^extra\.(\d+)/.match(header)
-      #     value = ActiveModel::Type::Boolean.new.cast(value)
-      #     next unless extra_header_match && value
+      actor :booking_question do |booking, row|
+        row.each do |header, value|
+          question_header_match = /^booking_question\.(\d+)/.match(header)
+          next unless question_header_match && value
 
-      #     bookable_extra = organisation.bookable_extras.find_by(id: extra_header_match[1])
-      #     booking.bookable_extras << bookable_extra if bookable_extra.present?
-      #   end
-      # end
+          booking_question = organisation.booking_questions.find_by(id: question_header_match[1])
+          next if booking_question.blank?
+
+          cast_value = booking_question.cast(value)
+          booking.booking_question_responses.build(booking_question:, value: cast_value)
+        end
+      end
     end
   end
 end
