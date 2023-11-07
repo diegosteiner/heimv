@@ -166,23 +166,27 @@ class Booking < ApplicationRecord
     @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
   end
 
+  def email
+    super || tenant&.email
+  end
+
   def tenant
-    super || @tenant ||= (find_existing_tenant if email.present? && organisation.present?)
+    super || @tenant ||= find_existing_tenant(tenant: nil)
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   def assert_tenant!
-    return if tenant_id.present?
+    self.tenant = find_existing_tenant&.merge_with_new(tenant) ||
+                  tenant ||
+                  build_tenant(email: self[:email], organisation:)
 
-    existing_tenant = find_existing_tenant
-    existing_tenant&.assign_attributes(tenant&.changed_values&.except(:email, :organisation_id) || {})
-    self.tenant = existing_tenant || tenant || build_tenant(email:, organisation:)
-    tenant.assign_attributes(organisation:, email:)
+    tenant.organisation = organisation
+    tenant.email ||= self[:email]
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
 
-  def find_existing_tenant
-    Tenant.find_by(email:, organisation:) unless organisation.blank? || email.blank?
+  def find_existing_tenant(tenant: self.tenant)
+    return tenant if tenant&.persisted?
+
+    Tenant.find_by(email: self[:email], organisation:) unless organisation.blank? || self[:email].blank?
   end
 
   def occupancy_color

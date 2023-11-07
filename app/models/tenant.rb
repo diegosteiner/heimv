@@ -124,4 +124,11 @@ class Tenant < ApplicationRecord
   def birth_date_required?
     organisation&.settings&.tenant_birth_date_required
   end
+
+  def merge_with_new(tenant)
+    return self if tenant == self || tenant.persisted?
+
+    assign_attributes(tenant&.changed_values&.except(:email, :organisation_id) || {})
+    self
+  end
 end

@@ -37,9 +37,8 @@ module Public
     end
 
     def update
+      process_booking_question_responses
       @booking.assign_attributes(update_params) if @booking.editable?
-      responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params)
-      @booking.booking_question_responses = responses unless responses.nil?
       @booking.save(context: :public_update)
       call_booking_action
       Booking::Log.log(@booking, trigger: :tenant, action: booking_action, user: current_user)
@@ -55,6 +54,11 @@ module Public
 
     def booking_from_params
       current_organisation.bookings.new(create_params)
+    end
+
+    def process_booking_question_responses
+      responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params)
+      @booking.booking_question_responses = responses unless responses.nil?
     end
 
     def preparation_service
