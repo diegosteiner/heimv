@@ -17,7 +17,7 @@ RUN apk add --update build-base \
     openssh-client \
     musl musl-utils musl-locales
 
-RUN gem install solargraph standardrb ruby-debug-ide debug rufo
+RUN gem install standardrb ruby-debug-ide debug ruby-lsp
 
 ENV BUNDLE_CACHE_ALL=true
 ENV BUNDLE_PATH=/home/develop/app/vendor/bundle

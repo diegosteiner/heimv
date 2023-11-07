@@ -2,9 +2,7 @@
   "name": "HeimV",
   // Update the 'dockerComposeFile' list if you have more compose files or use different names.
   // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
-  "dockerComposeFile": [
-    "../docker-compose.yml"
-  ],
+  "dockerComposeFile": ["../docker-compose.yml"],
   // The 'service' property is the name of the service for the container that VS Code should
   // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
   "service": "app",
@@ -15,24 +13,16 @@
   "settings": {
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
-    "terminal.integrated.defaultProfile.linux": "ash",
-    "ruby.useBundler": true,
-    "ruby.useLanguageServer": true,
-    "[ruby]": {},
-    "solargraph.commandPath": "/usr/local/bundle/bin/solargraph",
-    "solargraph.bundlerPath": "/usr/local/bin/bundle"
+    "terminal.integrated.defaultProfile.linux": "ash"
   },
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "rebornix.Ruby",
-    "castwide.solargraph",
-    "eamodio.gitlens",
-    "lokalise.i18n-ally",
     "esbenp.prettier-vscode",
     "sianglim.slim",
     "testdouble.vscode-standard-ruby",
     "DavidAnson.vscode-markdownlint",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "Shopify.ruby-extensions-pack"
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [
