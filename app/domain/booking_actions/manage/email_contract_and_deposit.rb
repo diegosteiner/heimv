@@ -3,8 +3,7 @@
 module BookingActions
   module Manage
     class EmailContractAndDeposit < BookingActions::Base
-      RichTextTemplate.define(:awaiting_contract_notification, template_context: %i[booking],
-                                                               required_by: self)
+      MailTemplate.define(:awaiting_contract_notification, context: %i[booking])
 
       def call!
         notification = prepare_notification

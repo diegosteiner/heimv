@@ -3,7 +3,7 @@
 module BookingActions
   module Manage
     class EmailOffers < BookingActions::Base
-      RichTextTemplate.define(:offer_notification, template_context: %i[booking invoices], required_by: self)
+      MailTemplate.define(:offer_notification, context: %i[booking invoices], optional: true)
 
       def call!
         notification = prepare_notification
@@ -13,7 +13,8 @@ module BookingActions
       end
 
       def allowed?
-        offers.any? && booking.notifications_enabled && booking.tenant.email.present?
+        offers.any? && booking.notifications_enabled && booking.tenant.email.present? &&
+          MailTemplate.where(key: :offer_notification, enabled: true)
       end
 
       protected

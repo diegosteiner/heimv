@@ -9,6 +9,7 @@
 #  enabled         :boolean          default(TRUE)
 #  key             :string
 #  title_i18n      :jsonb
+#  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  organisation_id :bigint           not null
@@ -17,6 +18,7 @@
 #
 #  index_rich_text_templates_on_key_and_organisation_id  (key,organisation_id) UNIQUE
 #  index_rich_text_templates_on_organisation_id          (organisation_id)
+#  index_rich_text_templates_on_type                     (type)
 #
 # Foreign Keys
 #
@@ -24,39 +26,30 @@
 #
 
 class MailTemplate < RichTextTemplate
-  RECIPIENT_FLAGS = [:tenant] + OperatorResponsibility::RESPONSIBILITIES.keys
   ATTACHABLE_BOOKING_DOCUMENTS = {
-    unsent_deposits: ->(booking) { booking.invoices.deposit.unsent },
-    unsent_invoices: ->(booking) { booking.invoices.invoice.unsent },
-    unsent_late_notices: ->(booking) { booking.invoices.late_notice.unsent },
-    unsent_offers: ->(booking) { booking.invoices.offers.unsent },
-    unsent_contract: ->(booking) { booking.contract.unsent }
+    unsent_deposits: ->(booking) { booking.invoices.deposit.unsent.map(&:pdf) },
+    unsent_invoices: ->(booking) { booking.invoices.invoice.unsent.map(&:pdf) },
+    unsent_late_notices: ->(booking) { booking.invoices.late_notice.unsent.map(&:pdf) },
+    unsent_offers: ->(booking) { booking.invoices.offers.unsent.map(&:pdf) },
+    unsent_contract: ->(booking) { booking.contract.unsent.map(&:pdf) },
+    designated_documents: ->(booking) { designated_documents.for_booking(booking) }
   }.freeze
 
-  # has_and_belongs_to_many :designated_documents
-
-  flag :attach_booking_documents, ATTACHABLE_BOOKING_DOCUMENTS.keys
-  flag :to, RECIPIENT_FLAGS
-  flag :cc, RECIPIENT_FLAGS
-  flag :bcc, RECIPIENT_FLAGS
-
-  private
-
-  def build_notification(booking)
-    I18n.with_locale(booking.locale) do
-      booking.build_notification.tap do |notification|
-        interpolation_result = interpolate(booking)
-        notification.subject = interpolation_result.title
-        notification.body = interpolation_result.body
-        notification.attach(*prepare_attachments)
+  def use(booking, to:, attach: [], **context)
+    to = resolve_to(to)
+    locale = to&.locale || booking.locale
+    context = context.reverse_merge({ booking: })
+    I18n.with_locale(locale) do
+      interpolated = super(**context)
+      booking.build_notification(subject: interpolated.title, body: interpolated.body, locale:).tap do |notification|
+        notification.attach(*prepare_attachments(booking, attach))
       end
     end
   end
 
-  def prepare_attachments
-    [
-      designated_documents.for_booking(booking),
-      ATTACHABLE_BOOKING_DOCUMENTS.slice(attach_booking_documents).map(&:pdf)
-    ].flatten.compact
+  private
+
+  def prepare_attachments(booking, attach = [])
+    Array.wrap(attach).map { ATTACHABLE_BOOKING_DOCUMENTS[_1]&.call(booking) }.flatten.compact
   end
 end

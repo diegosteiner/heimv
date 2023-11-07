@@ -2,9 +2,8 @@
 
 module BookingStates
   class OpenRequest < Base
-    RichTextTemplate.define(:manage_new_booking_notification, template_context: %i[booking],
-                                                              required_by: self)
-    RichTextTemplate.define(:open_request_notification, template_context: %i[booking], required_by: self)
+    RichTextTemplate.define(:manage_new_booking_notification, template_context: %i[booking])
+    MailTemplate.define(:open_request_notification, context: %i[booking])
 
     def checklist
       []

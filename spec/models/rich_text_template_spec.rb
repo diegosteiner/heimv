@@ -9,6 +9,7 @@
 #  enabled         :boolean          default(TRUE)
 #  key             :string
 #  title_i18n      :jsonb
+#  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  organisation_id :bigint           not null
@@ -17,6 +18,7 @@
 #
 #  index_rich_text_templates_on_key_and_organisation_id  (key,organisation_id) UNIQUE
 #  index_rich_text_templates_on_organisation_id          (organisation_id)
+#  index_rich_text_templates_on_type                     (type)
 #
 # Foreign Keys
 #
@@ -58,7 +60,7 @@ RSpec.describe RichTextTemplate, type: :model do
     let(:context) { { booking: } }
     subject { rich_text_template.use(**context) }
 
-    before { RichTextTemplate.define(key, context_keys: %i[booking]) }
+    before { RichTextTemplate.define(key, context: %i[booking]) }
     after { RichTextTemplate.definitions.delete(key) }
 
     context 'with context' do

@@ -2,7 +2,7 @@
 
 module BookingStates
   class CancelledRequest < Base
-    RichTextTemplate.define(:cancelled_request_notification, template_context: %i[booking], required_by: self)
+    MailTemplate.define(:cancelled_request_notification, context: %i[booking])
 
     def checklist
       []

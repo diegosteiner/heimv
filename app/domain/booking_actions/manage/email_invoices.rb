@@ -3,8 +3,7 @@
 module BookingActions
   module Manage
     class EmailInvoices < BookingActions::Base
-      RichTextTemplate.define(:payment_due_notification, template_context: %i[booking invoices],
-                                                         required_by: self)
+      MailTemplate.define(:payment_due_notification, context: %i[booking invoices])
 
       def call!
         notification = prepare_notification

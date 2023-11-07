@@ -2,9 +2,8 @@
 
 module BookingStates
   class AwaitingTenant < Base
-    RichTextTemplate.define(:awaiting_tenant_notification, template_context: %i[booking], required_by: self)
-    RichTextTemplate.define(:booking_agent_request_accepted_notification, template_context: %i[booking],
-                                                                          required_by: self)
+    MailTemplate.define(:awaiting_tenant_notification, context: %i[booking])
+    MailTemplate.define(:booking_agent_request_accepted_notification, context: %i[booking])
 
     def checklist
       []

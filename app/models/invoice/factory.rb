@@ -2,11 +2,10 @@
 
 class Invoice
   class Factory
-    RichTextTemplate.define(:invoices_deposit_text, template_context: %i[booking invoice], required_by: self)
-    RichTextTemplate.define(:invoices_invoice_text, template_context: %i[booking invoice], required_by: self)
-    RichTextTemplate.define(:invoices_offer_text, template_context: %i[booking invoice], required_by: self)
-    RichTextTemplate.define(:invoices_late_notice_text, template_context: %i[booking invoice],
-                                                        required_by: self)
+    RichTextTemplate.define(:invoices_deposit_text, context: %i[booking invoice])
+    RichTextTemplate.define(:invoices_invoice_text, context: %i[booking invoice])
+    RichTextTemplate.define(:invoices_offer_text, context: %i[booking invoice])
+    RichTextTemplate.define(:invoices_late_notice_text, context: %i[booking invoice])
 
     def call(booking, params = {})
       ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|

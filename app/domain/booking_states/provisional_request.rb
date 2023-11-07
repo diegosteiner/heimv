@@ -2,8 +2,7 @@
 
 module BookingStates
   class ProvisionalRequest < Base
-    RichTextTemplate.define(:provisional_request_notification, template_context: %i[booking],
-                                                               required_by: self)
+    MailTemplate.define(:provisional_request_notification, context: %i[booking])
 
     include Rails.application.routes.url_helpers
 

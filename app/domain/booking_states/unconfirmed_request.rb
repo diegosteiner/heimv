@@ -2,8 +2,7 @@
 
 module BookingStates
   class UnconfirmedRequest < Base
-    RichTextTemplate.define(:unconfirmed_request_notification, template_context: %i[booking],
-                                                               required_by: self)
+    MailTemplate.define(:unconfirmed_request_notification, context: %i[booking])
 
     def checklist
       []

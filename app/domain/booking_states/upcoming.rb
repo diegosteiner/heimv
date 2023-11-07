@@ -2,8 +2,8 @@
 
 module BookingStates
   class Upcoming < Base
-    RichTextTemplate.define(:upcoming_notification, template_context: %i[booking], required_by: self)
-    RichTextTemplate.define(:operator_upcoming_notification, template_context: %i[booking], required_by: self)
+    MailTemplate.define(:upcoming_notification, context: %i[booking])
+    MailTemplate.define(:operator_upcoming_notification, context: %i[booking])
 
     def checklist
       []

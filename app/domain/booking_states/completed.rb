@@ -2,8 +2,7 @@
 
 module BookingStates
   class Completed < Base
-    RichTextTemplate.define(:completed_notification, template_context: %i[booking],
-                                                     required_by: self, optional: true)
+    MailTemplate.define(:completed_notification, context: %i[booking], optional: true)
     def checklist
       []
     end
