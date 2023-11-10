@@ -20,7 +20,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      invoice = booking.invoices.sent.open.order(payable_until: :asc).last
+      invoice = booking.invoices.sent.kept.unsettled.ordered.last
       next if invoice.blank?
 
       payable_until = invoice.payable_until + booking.organisation.settings.payment_overdue_deadline
@@ -33,7 +33,7 @@ module BookingStates
     end
 
     infer_transition(to: :completed) do |booking|
-      !booking.invoices.open.kept.exists? && !booking.invoices.overpaid.kept.exists?
+      !booking.invoices.kept.unsettled.exists? && !booking.invoices.overpaid.kept.exists?
     end
 
     def relevant_time

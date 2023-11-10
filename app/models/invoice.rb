@@ -52,15 +52,15 @@ class Invoice < ApplicationRecord
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
-  scope :ordered,  -> { order(payable_until: :ASC, created_at: :ASC) }
-  scope :unpaid,   -> { kept.where(arel_table[:amount_open].gt(0)) }
-  scope :open,     -> { kept.where.not(arel_table[:amount_open].eq(0)) }
-  scope :overpaid, -> { kept.where(arel_table[:amount_open].lt(0)) }
-  scope :paid,     -> { kept.where(arel_table[:amount_open].lteq(0)) }
-  scope :sent,     -> { kept.where.not(sent_at: nil) }
-  scope :unsent,   -> { kept.where(sent_at: nil) }
-  scope :overdue,  ->(at = Time.zone.today) { kept.where(arel_table[:payable_until].lteq(at)) }
-  scope :of,       ->(booking) { where(booking:) }
+  scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
+  scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
+  scope :unsettled, -> { kept.where.not(type: 'Invoices::Offer').where.not(arel_table[:amount_open].eq(0)) }
+  scope :overpaid,  -> { kept.where(arel_table[:amount_open].lt(0)) }
+  scope :paid,      -> { kept.where(arel_table[:amount_open].lteq(0)) }
+  scope :sent,      -> { where.not(sent_at: nil) }
+  scope :unsent,    -> { kept.where(sent_at: nil) }
+  scope :overdue,   ->(at = Time.zone.today) { kept.where(arel_table[:payable_until].lteq(at)) }
+  scope :of,        ->(booking) { where(booking:) }
   scope :with_default_includes, -> { includes(%i[invoice_parts payments organisation]) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
@@ -112,7 +112,7 @@ class Invoice < ApplicationRecord
     sent_at.present?
   end
 
-  def open?
+  def unsettled?
     !settled?
   end
 

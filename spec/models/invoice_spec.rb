@@ -44,6 +44,17 @@ RSpec.describe Invoice, type: :model do
     it { is_expected.not_to be_blank }
   end
 
+  describe '::unsettled' do
+    let!(:offer) { create(:invoice, type: Invoices::Offer) }
+    let!(:invoice) { create(:invoice) }
+    subject(:unsettled) { described_class.unsettled }
+
+    it 'does not list the offer as unsettled' do
+      is_expected.to include(invoice)
+      is_expected.not_to include(offer)
+    end
+  end
+
   describe '#payment_info' do
     subject { invoice.payment_info }
 

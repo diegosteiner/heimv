@@ -14,7 +14,7 @@ class ManageDashboardData
   end
 
   def open_invoices
-    organisation.invoices.open
+    organisation.invoices.kept.unsettled
   end
 
   def logs_since(since)

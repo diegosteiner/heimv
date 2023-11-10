@@ -4,17 +4,18 @@
 #
 # Table name: payments
 #
-#  id         :bigint           not null, primary key
-#  amount     :decimal(, )
-#  data       :jsonb
-#  paid_at    :date
-#  ref        :string
-#  remarks    :text
-#  write_off  :boolean          default(FALSE), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  booking_id :uuid
-#  invoice_id :bigint
+#  id            :bigint           not null, primary key
+#  amount        :decimal(, )
+#  data          :jsonb
+#  paid_at       :date
+#  ref           :string
+#  remarks       :text
+#  write_off     :boolean          default(FALSE), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  booking_id    :uuid
+#  camt_instr_id :string
+#  invoice_id    :bigint
 #
 # Indexes
 #

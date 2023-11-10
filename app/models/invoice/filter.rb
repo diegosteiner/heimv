@@ -24,7 +24,7 @@ class Invoice
     filter :paid do |invoices|
       next if paid.nil?
 
-      paid ? invoices.paid : invoices.open
+      paid ? invoices.paid : invoices.kept.unsettled
     end
 
     filter :invoice_type do |invoices|

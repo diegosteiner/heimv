@@ -23,7 +23,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      !booking.invoices.open.exists?
+      !booking.invoices.kept.unsettled.exists?
     end
 
     after_transition do |booking|
