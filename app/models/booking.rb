@@ -176,15 +176,14 @@ class Booking < ApplicationRecord
 
   def assert_tenant!
     self.tenant = find_existing_tenant&.merge_with_new(tenant) ||
-                  tenant ||
-                  build_tenant(email: self[:email], organisation:)
+                  tenant || build_tenant(email: self[:email], organisation:)
 
     tenant.organisation = organisation
     tenant.email ||= self[:email]
   end
 
   def find_existing_tenant(tenant: self.tenant)
-    return tenant if tenant&.persisted?
+    return tenant if tenant&.persisted? && tenant&.valid?
 
     Tenant.find_by(email: self[:email], organisation:) unless organisation.blank? || self[:email].blank?
   end
