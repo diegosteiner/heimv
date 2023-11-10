@@ -25,6 +25,10 @@ module BookingStates
         []
       end
 
+      def templates
+        @templates ||= []
+      end
+
       def callbacks
         @callbacks ||= {
           before: [],

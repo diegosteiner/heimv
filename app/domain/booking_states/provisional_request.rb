@@ -2,7 +2,7 @@
 
 module BookingStates
   class ProvisionalRequest < Base
-    MailTemplate.define(:provisional_request_notification, context: %i[booking])
+    templates << MailTemplate.define(:provisional_request_notification, context: %i[booking])
 
     include Rails.application.routes.url_helpers
 
@@ -31,7 +31,7 @@ module BookingStates
       booking.tentative!
       next if booking.committed_request
 
-      booking.notifications.new(template: :provisional_request_notification, to: booking.tenant).deliver
+      MailTemplate.use(:provisional_request_notification, booking, to: :tenant, &:deliver)
     end
 
     infer_transition(to: :definitive_request) do |booking|

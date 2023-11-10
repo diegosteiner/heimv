@@ -37,8 +37,7 @@ module BookingActions
       end
 
       def prepare_notification
-        booking.notifications.new(template: :payment_due_notification, to: booking.tenant,
-                                  template_context: { invoices: }) do |notification|
+        MailTemplate.use(:payment_due_notification, booking, to: booking.tenant,  { invoices: }) do |notification|
           notification.bcc = operator.email if operator&.email.present?
           notification.attach(prepare_attachments)
         end

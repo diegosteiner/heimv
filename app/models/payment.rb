@@ -58,7 +58,7 @@ class Payment < ApplicationRecord
   end
 
   def confirm!
-    PaymentConfirmation.new(self).deliver unless write_off
+    PaymentConfirmation.new(self, &:deliver) unless write_off
   end
 
   def recalculate_invoice

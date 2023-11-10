@@ -95,6 +95,10 @@ class Contract < ApplicationRecord
     end
   end
 
+  def attach_to(attachments)
+    attachments&.attach(filename => pdf.blob) if pdf&.blob.present?
+  end
+
   private
 
   def set_signed_at

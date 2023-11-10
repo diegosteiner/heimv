@@ -2,8 +2,8 @@
 
 module BookingStates
   class Cancelled < Base
-    MailTemplate.define(:cancelled_notification, context: %i[booking])
-    MailTemplate.define(:booking_agent_cancelled_notification, context: %i[booking])
+    templates << MailTemplate.define(:cancelled_notification, context: %i[booking])
+    templates << MailTemplate.define(:booking_agent_cancelled_notification, context: %i[booking])
 
     def checklist
       []
@@ -28,11 +28,10 @@ module BookingStates
     after_transition do |booking|
       booking.free!
       booking.conclude
-      booking.notifications.new(template: :cancelled_notification, to: booking.tenant).deliver
+      MailTemplate.use(:cancelled_notification, booking, to: :tenant, &:deliver)
       next if booking.agent_booking.blank?
 
-      booking.notifications.new(template: :booking_agent_cancelled_notification,
-                                to: booking.agent_booking.booking_agent).deliver
+      MailTemplate.use(:booking_agent_cancelled_notification, booking, to: :booking_agent, &:deliver)
     end
 
     def relevant_time; end

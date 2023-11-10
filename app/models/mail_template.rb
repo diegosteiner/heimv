@@ -26,30 +26,36 @@
 #
 
 class MailTemplate < RichTextTemplate
-  ATTACHABLE_BOOKING_DOCUMENTS = {
-    unsent_deposits: ->(booking) { booking.invoices.deposit.unsent.map(&:pdf) },
-    unsent_invoices: ->(booking) { booking.invoices.invoice.unsent.map(&:pdf) },
-    unsent_late_notices: ->(booking) { booking.invoices.late_notice.unsent.map(&:pdf) },
-    unsent_offers: ->(booking) { booking.invoices.offers.unsent.map(&:pdf) },
-    unsent_contract: ->(booking) { booking.contract.unsent.map(&:pdf) },
-    designated_documents: ->(booking) { designated_documents.for_booking(booking) }
-  }.freeze
+  def deliver(*)
+    use(*).map { [_2, _2&.deliver] }
+  end
 
-  def use(booking, to:, attach: [], **context)
-    to = resolve_to(to)
-    locale = to&.locale || booking.locale
-    context = context.reverse_merge({ booking: })
-    I18n.with_locale(locale) do
-      interpolated = super(**context)
-      booking.build_notification(subject: interpolated.title, body: interpolated.body, locale:).tap do |notification|
-        notification.attach(*prepare_attachments(booking, attach))
-      end
+  def use(booking, to: nil, attach: [], **context, &)
+    booking.notifications.build(to: resolve_to(to, booking)).tap do |notification|
+      notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
+      notification.attach(*Array.wrap(attach))
+      notification.tap(&) if block_given?
     end
   end
 
-  private
+  def use_default(booking, tos: nil, attach: nil, **, &)
+    Array.wrap(tos || definition[:to]).index_with do |to|
+      use(booking, to:, attach: attach.presence || definition[:attach], **, &)
+    end
+  end
 
-  def prepare_attachments(booking, attach = [])
-    Array.wrap(attach).map { ATTACHABLE_BOOKING_DOCUMENTS[_1]&.call(booking) }.flatten.compact
+  def resolve_to(to, booking)
+    booking&.instance_eval do
+      return tenant if to == :tenant
+      return agent_booking&.booking_agent if to == :booking_agent
+      return responsibilities[to] if responsibilities[to].present?
+      return organisation if to == :administation
+    end
+
+    to
+  end
+
+  def self.use(key, booking, **, &)
+    booking.organisation.rich_text_templates.where(type: to_s).by_key(key)&.use(booking, **, &)
   end
 end

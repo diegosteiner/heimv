@@ -40,9 +40,10 @@ class RichTextTemplate < ApplicationRecord
 
     def by_key(key)
       by_key!(key)
-    rescue ActiveRecord::RecordNotFound => e
-      Rails.logger.warn(e.message)
-      nil
+    rescue ActiveRecord::RecordNotFound
+      # rescue ActiveRecord::RecordNotFound => e
+      #   Rails.logger.warn(e.message)
+      #   nil
     end
 
     def template_key_valid?(key)
@@ -52,7 +53,7 @@ class RichTextTemplate < ApplicationRecord
     def definitions
       return @definitions ||= {} if self == RichTextTemplate
 
-      RichTextTemplate.definitions.filter { _1[:template_class] == self }
+      RichTextTemplate.definitions.filter { _2[:template_class] == self }
     end
 
     def define(key, **definition)
@@ -97,12 +98,14 @@ class RichTextTemplate < ApplicationRecord
     InterpolationResult.new(*parts)
   end
 
-  def definitition
-    self.class.definitions[key&.to_sym]
+  def definition
+    RichTextTemplate.definitions[key&.to_sym]
   end
 
   def use(**context)
-    missing_context = definitition.fetch(:context, []) - context.keys
+    raise InvalidDefinition unless definition
+
+    missing_context = definition.fetch(:context, []) - context.keys
     raise InvalidContext, "Missing keys were: #{missing_context.join(', ')}" if missing_context.any?
 
     interpolate(context)

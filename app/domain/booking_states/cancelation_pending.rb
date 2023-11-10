@@ -26,11 +26,8 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.responsibilities.slice(:home_handover, :home_return).each_value do |operator|
-        next if operator.email.blank?
-
-        booking.notifications.new(template: :operator_cancellation_pending_notification, to: operator)&.deliver
-      end
+      MailTemplate.use(:operator_cancellation_pending_notification, booking, to: :home_handover, &:deliver)
+      MailTemplate.use(:operator_cancellation_pending_notification, booking, to: :home_return, &:deliver)
     end
 
     infer_transition(to: :cancelled) do |booking|

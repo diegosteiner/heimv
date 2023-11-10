@@ -3,12 +3,12 @@
 module BookingActions
   module Manage
     class EmailContractAndDeposit < BookingActions::Base
-      MailTemplate.define(:awaiting_contract_notification, context: %i[booking])
+      MailTemplate.define(:awaiting_contract_notification, context: %i[booking contract])
 
       def call!
-        notification = prepare_notification
-        notification.save! && contract.sent! && invoices.each(&:sent!)
-
+        notification = MailTemplate.use(:awaiting_contract_notification, to: :tenant, contract:, invoices:)
+        notification.attach :contract, :contract_documents, invoices
+        notification.save && contract.sent! && invoices.each(&:sent!)
         Result.new ok: notification.valid?, redirect_proc: redirect_proc(notification)
       end
 
@@ -37,28 +37,8 @@ module BookingActions
         booking.contract
       end
 
-      def prepare_attachments
-        [
-          DesignatedDocument.for_booking(booking).where(send_with_contract: true),
-          invoices.map(&:pdf),
-          contract.pdf
-        ].flatten.compact
-      end
-
-      def prepare_notification
-        booking.notifications.new(template: :awaiting_contract_notification, to: booking.tenant,
-                                  template_context: { contract:, invoices: }).tap do |notification|
-          notification.bcc = operator.email if operator&.email.present?
-          notification.attach(prepare_attachments)
-        end
-      end
-
       def booking
         context.fetch(:booking)
-      end
-
-      def operator
-        booking.responsibilities[:billing]
       end
     end
   end

@@ -169,6 +169,10 @@ class Invoice < ApplicationRecord
     ::InvoicePart::Factory.new(self).call
   end
 
+  def attach_to(attachments)
+    attachments&.attach(filename => pdf.blob) if pdf&.blob.present?
+  end
+
   def vat
     invoice_parts.filter { |invoice_part| invoice_part.vat.present? && invoice_part.vat.positive? }
                  .group_by(&:vat)

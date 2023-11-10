@@ -11,7 +11,7 @@ module BookingActions
 
         return result unless Invoices::Deposit.of(booking).kept.unpaid.exists?
 
-        booking.notifications.new(template: :contract_signed_notification, to: booking.tenant).deliver
+        MailTemplate.use(:contract_signed_notification, booking, to: :tenant, &:deliver)
         result
       end
 

@@ -2,7 +2,7 @@
 
 module BookingStates
   class PaymentOverdue < Base
-    MailTemplate.define(:payment_overdue_notification, context: %i[booking])
+    templates << MailTemplate.define(:payment_overdue_notification, context: %i[booking])
 
     include Rails.application.routes.url_helpers
 
@@ -19,7 +19,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.notifications.new(template: :payment_overdue_notification, to: booking.tenant).deliver
+      MailTemplate.use(:payment_overdue_notification, booking, to: :tenant, &:deliver)
     end
 
     infer_transition(to: :completed) do |booking|

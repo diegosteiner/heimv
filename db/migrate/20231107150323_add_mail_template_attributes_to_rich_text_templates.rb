@@ -11,5 +11,6 @@ class AddMailTemplateAttributesToRichTextTemplates < ActiveRecord::Migration[7.1
     end
 
     change_column_null :rich_text_templates, :type, true
+    rename_column :notifications, :rich_text_template_id, :mail_template_id
   end
 end

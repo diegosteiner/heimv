@@ -2,7 +2,7 @@
 
 module BookingStates
   class BookingAgentRequest < Base
-    MailTemplate.define(:booking_agent_request_notification, context: %i[booking])
+    templates << MailTemplate.define(:booking_agent_request_notification, context: %i[booking])
 
     def checklist
       []
@@ -29,7 +29,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.notifications.new(template: :booking_agent_request_notification,
-                                to: booking.agent_booking.booking_agent).deliver
+                                to: booking.agent_booking.booking_agent, &:deliver)
       booking.tentative!
     end
 

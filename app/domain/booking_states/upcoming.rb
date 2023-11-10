@@ -2,8 +2,8 @@
 
 module BookingStates
   class Upcoming < Base
-    MailTemplate.define(:upcoming_notification, context: %i[booking])
-    MailTemplate.define(:operator_upcoming_notification, context: %i[booking])
+    templates << MailTemplate.define(:upcoming_notification, context: %i[booking])
+    templates << MailTemplate.define(:operator_upcoming_notification, context: %i[booking])
 
     def checklist
       []
@@ -31,14 +31,14 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      booking.notifications.new(template: :upcoming_notification, to: booking.tenant).deliver
+      MailTemplate.use(:upcoming_notification, booking, to: :tenant, &:deliver)
     end
 
     after_transition do |booking|
       booking.responsibilities.slice(:home_handover, :home_return).values.uniq.each do |operator|
         next if operator.email.blank?
 
-        booking.notifications.new(template: :operator_upcoming_notification, to: operator)&.deliver
+        booking.notifications.new(template: :operator_upcoming_notification, to: operator, &:deliver)
       end
     end
 

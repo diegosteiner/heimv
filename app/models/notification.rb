@@ -4,36 +4,45 @@
 #
 # Table name: notifications
 #
-#  id                    :bigint           not null, primary key
-#  addressed_to          :integer          default("manager"), not null
-#  bcc                   :string
-#  body                  :text
-#  cc                    :string           default([]), is an Array
-#  locale                :string           default(NULL), not null
-#  sent_at               :datetime
-#  subject               :string
-#  to                    :string           default([]), is an Array
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  booking_id            :uuid
-#  rich_text_template_id :bigint
+#  id               :bigint           not null, primary key
+#  addressed_to     :integer          default("manager"), not null
+#  bcc              :string
+#  body             :text
+#  cc               :string           default([]), is an Array
+#  locale           :string           default(NULL), not null
+#  sent_at          :datetime
+#  subject          :string
+#  to               :string           default([]), is an Array
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  booking_id       :uuid
+#  mail_template_id :bigint
 #
 # Indexes
 #
-#  index_notifications_on_booking_id             (booking_id)
-#  index_notifications_on_rich_text_template_id  (rich_text_template_id)
+#  index_notifications_on_booking_id        (booking_id)
+#  index_notifications_on_mail_template_id  (mail_template_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (rich_text_template_id => rich_text_templates.id)
+#  fk_rails_...  (mail_template_id => rich_text_templates.id)
 #
 
 class Notification < ApplicationRecord
   RichTextTemplate.define(:notification_footer, context: %i[booking])
+  ATTACHABLE_BOOKING_DOCUMENTS = {
+    unsent_deposits: ->(booking) { booking.invoices.deposit.unsent },
+    unsent_invoices: ->(booking) { booking.invoices.invoice.unsent },
+    unsent_late_notices: ->(booking) { booking.invoices.late_notice.unsent },
+    unsent_offers: ->(booking) { booking.invoices.offers.unsent },
+    unsent_contract: ->(booking) { booking.contract.unsent },
+    last_info_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_last_infos: true) },
+    contract_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_contract: true) }
+  }.freeze
 
   belongs_to :booking, inverse_of: :notifications
-  belongs_to :rich_text_template, optional: true
+  belongs_to :mail_template, optional: true
   has_many_attached :attachments
   has_one :tenant, through: :booking
   has_one :organisation, through: :booking
@@ -42,12 +51,7 @@ class Notification < ApplicationRecord
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
 
   validates :to, :locale, presence: true
-  validates :rich_text_template, presence: true, if: :rich_text_template_key?
-
-  attribute :rich_text_template_key
   attribute :template_context
-
-  before_validation :apply_template
 
   def deliverable?
     valid? && organisation.notifications_enabled? && booking.notifications_enabled?
@@ -61,46 +65,28 @@ class Notification < ApplicationRecord
     sent_at.present?
   end
 
-  def attach(*files_or_documents_to_attach)
-    files_or_documents_to_attach.flatten.map do |attachment|
-      next attachment.attach_to(attachments) if attachment.is_a?(DesignatedDocument)
-      next attachments.attach(attachment.blob) if attachment.respond_to?(:blob) && attachment.blob.present?
+  def attach(*attachables)
+    attachables.map do |attachable|
+      next attachable.attach_to(self) if attachable.respond_to?(:attach_to)
+      next attach(attachable.blob) if attachable.try?(:blob).present?
+      next attach(*attachable_booking_documents(key)) if attachable_booking_documents(key)
 
-      attachments.attach(attachment)
+      attachments.attach(attachable)
     end
   end
 
-  def resolve_template
-    return if rich_text_template_key.blank? || organisation.blank? || booking.blank?
-
-    organisation.rich_text_templates.enabled.by_key(rich_text_template_key)
-  end
-
-  def apply_template(rich_text_template = resolve_template)
-    return if rich_text_template.blank?
-
-    self.rich_text_template = rich_text_template
+  def apply_template(mail_template, context: {})
+    self.mail_template = mail_template
+    self.template_context = context.merge(booking:, organisation:, notification: self)
     I18n.with_locale(locale) do
-      interpolation_result = rich_text_template.interpolate(template_context)
+      interpolation_result = mail_template.becomes(RichTextTemplate).use(**template_context)
       self.subject = interpolation_result.title
       self.body = interpolation_result.body
     end
   end
 
-  def template=(rich_text_template_or_key)
-    if rich_text_template_or_key.is_a?(Symbol) || rich_text_template_or_key.is_a?(String)
-      self.rich_text_template_key = rich_text_template_or_key
-    else
-      self.rich_text_template = rich_text_template_or_key
-    end
-  end
-
   def footer
-    organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(template_context)&.body
-  end
-
-  def template_context
-    { booking:, organisation: booking&.organisation, notification: self }.merge(super || {}).stringify_keys
+    organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(organisation:)&.body
   end
 
   def text
@@ -117,27 +103,13 @@ class Notification < ApplicationRecord
     [super, organisation&.bcc].compact
   end
 
-  # rubocop:disable Metrics/MethodLength
   def to=(value)
-    value = value.presence
-    super case value
-          when Tenant, Booking
-            self.addressed_to = :tenant
-            self.locale = value.locale
-            [value.email]
-          when Operator, OperatorResponsibility, Organisation
-            self.addressed_to = :manager
-            self.locale = value.locale
-            [value.email]
-          when BookingAgent
-            self.addressed_to = :booking_agent
-            self.locale = value.locale
-            [value.email]
-          else
-            [value&.to_s]
-          end.flatten.compact
+    self.locale = value.locale if value.respond_to?(:locale)
+    # self.addressed_to = value  # TODO: change db field
+
+    value = value.email if value.respond_to?(:email)
+    super([value.presence].flatten.compact)
   end
-  # rubocop:enable Metrics/MethodLength
 
   protected
 

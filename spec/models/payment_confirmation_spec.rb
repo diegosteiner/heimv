@@ -7,9 +7,9 @@ RSpec.describe PaymentConfirmation, type: :model do
 
   let(:booking) { create(:booking, notifications_enabled: true) }
   let!(:template) do
-    create(:rich_text_template, key: :payment_confirmation_notification,
-                                organisation: booking.organisation,
-                                body: '{{ payment.amount }}')
+    create(:mail_template, key: :payment_confirmation_notification,
+                           organisation: booking.organisation,
+                           body: '{{ payment.amount }}')
   end
   let(:payment) { create(:payment, booking:, invoice: nil) }
 
@@ -21,6 +21,7 @@ RSpec.describe PaymentConfirmation, type: :model do
     subject(:notification) { confirmation.notification }
 
     it do
+      binding.pry
       expect(notification.template_context.keys).to include(*%w[booking payment])
       expect(notification).to be_valid
       expect(notification.body).to include(payment.amount.to_s)

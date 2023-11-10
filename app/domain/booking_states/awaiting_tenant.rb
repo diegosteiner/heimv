@@ -2,8 +2,8 @@
 
 module BookingStates
   class AwaitingTenant < Base
-    MailTemplate.define(:awaiting_tenant_notification, context: %i[booking])
-    MailTemplate.define(:booking_agent_request_accepted_notification, context: %i[booking])
+    templates << MailTemplate.define(:awaiting_tenant_notification, context: %i[booking])
+    templates << MailTemplate.define(:booking_agent_request_accepted_notification, context: %i[booking])
 
     def checklist
       []
@@ -30,9 +30,8 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.notifications.new(template: :awaiting_tenant_notification, to: booking.tenant).deliver
-      booking.notifications.new(template: :booking_agent_request_accepted_notification,
-                                to: booking.agent_booking.booking_agent).deliver
+      MailTemplate.use(:awaiting_tenant_notification, booking, to: :tenant, &:deliver)
+      MailTemplate.use(:booking_agent_request_accepted_notification, booking, to: :booking_agent, &:deliver)
     end
 
     after_transition do |booking|
