@@ -92,13 +92,9 @@ it:
         booking_agent_ref: Il vostro riferimento
         home: Casa
         tenant_email: Email dell'inquilino
-      bookable_extra:
-        description: Descrizione
-        title: Designazione
       booking:
         approximate_headcount: Numero di persone previsto
         begins_at: Inizio dell'occupazione
-        bookable_extra_ids: Extra prenotabili
         booking_agent_code: Codice del mediatore
         booking_agent_ref: Riferimento del mediatore
         booking_category_id: Categoria di affitto
@@ -474,12 +470,6 @@ it:
       agent_booking:
         one: Mediazione
         other: Mediazioni
-      bookable_extra:
-        one: Extra prenotabile
-        other: Extra prenotabili
-      booked_extra:
-        one: Extra prenotato
-        other: Extra prenotati
       booking:
         one: Prenotazione
         other: Prenotazioni
@@ -497,8 +487,6 @@ it:
         other: Condizioni
       booking_conditions/always_apply:
         one: Sempre
-      booking_conditions/bookable_extra:
-        one: Extra prenotabili (condizione)
       booking_conditions/booking_attribute:
         one:
       booking_conditions/booking_category:

@@ -92,13 +92,9 @@ fr:
         booking_agent_ref: Votre référence
         home: Chalet
         tenant_email: Email du locataire
-      bookable_extra:
-        description: Description
-        title: Désignation
       booking:
         approximate_headcount: Nombre de personnes attendues
         begins_at: Début de la location
-        bookable_extra_ids: Extras à réserver
         booking_agent_code: Code de l'intermédiaire
         booking_agent_ref: Référence de l'intermédiaire
         booking_category_id: Catégorie de location
@@ -474,12 +470,6 @@ fr:
       agent_booking:
         one: Transmission
         other: Transmissions
-      bookable_extra:
-        one: Extra à réserver
-        other: Extras à réserver
-      booked_extra:
-        one: Extra réservé
-        other: Extras réservés
       booking:
         one: Réservation
         other: Réservations
@@ -497,8 +487,6 @@ fr:
         other: Sélecteur de tarif
       booking_conditions/always_apply:
         one: Sélecteur de tarif toujours-un
-      booking_conditions/bookable_extra:
-        one: Extra réservable Sélecteur de tarif
       booking_conditions/booking_attribute:
         one: Conditions de réservation
       booking_conditions/booking_category:

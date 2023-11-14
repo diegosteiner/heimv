@@ -82,13 +82,9 @@ en:
         booking_agent_ref: Ihre Referenz
         home: Heim
         tenant_email: Email des Mieters
-      bookable_extra:
-        description: Beschreibung
-        title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         begins_at: Beginn der Belegung
-        bookable_extra_ids: Buchbare Extras
         booking_agent_code: Vermittler-Code
         booking_agent_ref: Vermittler-Referenz
         booking_category_id: Art der Miete
@@ -427,12 +423,6 @@ en:
       agent_booking:
         one: Vermittlung
         other: Vermittlungen
-      bookable_extra:
-        one: Buchbares Extra
-        other: Buchbare Extras
-      booked_extra:
-        one: Gebuchtes Extra
-        other: Gebuchte Extras
       booking:
         one: Buchung
         other: Buchungen
@@ -450,8 +440,6 @@ en:
         other: Tarifwähler
       booking_conditions/always_apply:
         one: Immer-Ein Tarifwähler
-      booking_conditions/bookable_extra:
-        one: Buchbares Extra Tarifwähler
       booking_conditions/booking_category:
         one: Mietzweck Tarifwähler
       booking_conditions/booking_state:
