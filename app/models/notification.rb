@@ -67,7 +67,7 @@ class Notification < ApplicationRecord
   end
 
   def attach(*attachables)
-    attachables.map do |attachable|
+    attachables.flatten.compact.map do |attachable|
       next attachable.attach_to(self) if attachable.respond_to?(:attach_to)
       next attach(attachable.blob) if attachable.try(:blob).present?
 

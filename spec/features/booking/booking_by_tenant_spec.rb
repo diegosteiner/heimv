@@ -197,7 +197,7 @@ describe 'Booking by tenant', :devise, type: :feature do
   end
 
   def check_booking
-    expect(@booking.notifications.map { |notification| notification.rich_text_template.key })
+    expect(@booking.notifications.map { |notification| notification.mail_template.key })
       .to match_array(expected_notifications)
     expect(@booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
   end

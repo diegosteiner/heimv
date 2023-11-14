@@ -95,11 +95,8 @@ class Contract < ApplicationRecord
     end
   end
 
-  def attach_to(attachable)
-    attachments = attachable.try(:attachments) || attachable
-    return if pdf&.blob.blank? || attachments.blank?
-
-    attachments[filename] = pdf.blob
+  def attach_to(attached)
+    attached.attach(io: StringIO.new(pdf.blob.download), filename:) if pdf&.blob.present?
   end
 
   private
