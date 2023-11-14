@@ -34,7 +34,6 @@ module Ability
       can(:manage, BookingAgent, organisation:)
       can(:manage, BookingCategory, organisation:)
       can :manage, BookingCondition, tarif: { organisation: }
-      can(:manage, BookableExtra, organisation:)
       can(:manage, BookingQuestion, organisation:)
       can(:manage, DesignatedDocument, organisation:)
       can(:manage, Occupiable, organisation:)

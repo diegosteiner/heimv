@@ -5,13 +5,14 @@
 # Table name: notifications
 #
 #  id               :bigint           not null, primary key
-#  addressed_to     :integer          default("manager"), not null
+#  addressed_to     :string           default(NULL)
 #  bcc              :string
 #  body             :text
 #  cc               :string           default([]), is an Array
 #  locale           :string           default(NULL), not null
 #  sent_at          :datetime
 #  subject          :string
+#  template_context :text
 #  to               :string           default([]), is an Array
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -36,7 +37,7 @@ class Notification < ApplicationRecord
     unsent_invoices: ->(booking) { booking.invoices.invoice.unsent },
     unsent_late_notices: ->(booking) { booking.invoices.late_notice.unsent },
     unsent_offers: ->(booking) { booking.invoices.offers.unsent },
-    unsent_contract: ->(booking) { booking.contract.unsent },
+    contract: ->(booking) { booking.contract.unsent },
     last_info_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_last_infos: true) },
     contract_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_contract: true) }
   }.freeze
@@ -51,6 +52,7 @@ class Notification < ApplicationRecord
   enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
 
   validates :to, :locale, presence: true
+  before_validation
   attribute :template_context
 
   def deliverable?
@@ -68,14 +70,24 @@ class Notification < ApplicationRecord
   def attach(*attachables)
     attachables.map do |attachable|
       next attachable.attach_to(self) if attachable.respond_to?(:attach_to)
-      next attach(attachable.blob) if attachable.try?(:blob).present?
-      next attach(*attachable_booking_documents(key)) if attachable_booking_documents(key)
+      next attach(attachable.blob) if attachable.try(:blob).present?
+
+      booking_documents = attachable_booking_documents(attachable)
+      next attach(*booking_documents) unless booking_documents.nil?
 
       attachments.attach(attachable)
     end
   end
 
-  def apply_template(mail_template, context: {})
+  def attachable_booking_documents(key)
+    return if booking.blank? || !ATTACHABLE_BOOKING_DOCUMENTS.key?(key)
+
+    ATTACHABLE_BOOKING_DOCUMENTS[key].call(booking) || []
+  end
+
+  def apply_template(mail_template, locale: nil, context: {})
+    locale ||= booking&.locale
+    self.locale = locale
     self.mail_template = mail_template
     self.template_context = context.merge(booking:, organisation:, notification: self)
     I18n.with_locale(locale) do

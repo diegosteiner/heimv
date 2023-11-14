@@ -6,13 +6,10 @@ module BookingActions
       MailTemplate.define(:offer_notification, context: %i[booking invoices], optional: true)
 
       def call!
-        notification = MailTemplate.use(:offer_notification, booking, to: booking.tenant,
-                                                                      attach: offers,
-                                                                      invoices: offers)
+        mail = MailTemplate.use(:offer_notification, booking, to: booking.tenant, attach: offers, invoices: offers)
+        mail.save && offers.each(&:sent!)
 
-        notification.save && offers.each(&:sent!)
-
-        Result.new ok: notification.valid?, redirect_proc: redirect_proc(notification)
+        Result.new ok: mail.valid?, redirect_proc: redirect_proc(mail)
       end
 
       def allowed?

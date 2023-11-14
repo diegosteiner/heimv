@@ -22,8 +22,7 @@ module BookingStates
       OperatorResponsibility.assign(booking, :administration, :billing)
       MailTemplate.use(:manage_new_booking_notification, booking, to: :administration, &:deliver)
       if booking.agent_booking.present?
-        # booking.notifications.new(template:  :open_booking_agent_request_notification,
-        # to: booking.agent_booking.booking_agent, &:deliver)
+        # MailTemplate.use(:open_booking_agent_request_notification, booking, to: :booking_agent, &:deliver)
       else
         MailTemplate.use(:open_request_notification, booking, to: :tenant, &:deliver)
       end

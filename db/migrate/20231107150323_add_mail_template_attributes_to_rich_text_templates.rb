@@ -1,5 +1,9 @@
 class AddMailTemplateAttributesToRichTextTemplates < ActiveRecord::Migration[7.1]
   def change
+    Rails.application.eager_load!
+
+    raise StandardError if MailTemplate.definitions.blank?
+
     add_column :rich_text_templates, :type, :string
     add_index :rich_text_templates, :type
 

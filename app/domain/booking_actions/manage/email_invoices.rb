@@ -6,10 +6,10 @@ module BookingActions
       MailTemplate.define(:payment_due_notification, context: %i[booking invoices])
 
       def call!
-        notification = prepare_notification
-        notification.save! && invoices.each(&:sent!)
+        mail = MailTemplate.use(:payment_due_notification, booking, to: booking.tenant, invoices:)
+        mail.save && invoices.each(&:sent!)
 
-        Result.new ok: notification.valid?, redirect_proc: redirect_proc(notification)
+        Result.new ok: mail.valid?, redirect_proc: redirect_proc(mail)
       end
 
       def allowed?
@@ -34,18 +34,6 @@ module BookingActions
       def invoices
         context[:invoices].presence ||
           booking.invoices.unsent.where(type: [Invoices::Deposit, Invoices::Invoice, Invoices::LateNotice].map(&:to_s))
-      end
-
-      def prepare_notification
-        MailTemplate.use(:payment_due_notification, booking, to: booking.tenant,  { invoices: }) do |notification|
-          notification.bcc = operator.email if operator&.email.present?
-          notification.attach(prepare_attachments)
-        end
-      end
-
-      def prepare_attachments
-        invoices.with_default_includes.includes([:pdf_blob, { pdf_attachment: [:blob] }])
-                .map { |invoice| invoice.pdf.blob }
       end
 
       def operator

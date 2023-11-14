@@ -50,8 +50,8 @@ class RichTextTemplateService
         title[locale] = defaults_for_locale(:default_title, definition[:key], locale)
         body[locale]  = defaults_for_locale(:default_body, definition[:key], locale)
       end
-      organisation.rich_text_templates.create(key: definition[:key], title_i18n: title, body_i18n: body,
-                                              enabled: !definition.fetch(:optional, false) || include_optional)
+      RichTextTemplate.create(key: definition[:key], type: definition[:type], organisation:, title_i18n: title,
+                              body_i18n: body, enabled: !definition.fetch(:optional, false) || include_optional)
     end
   end
 

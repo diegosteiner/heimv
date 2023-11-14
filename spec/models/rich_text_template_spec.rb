@@ -46,7 +46,7 @@ RSpec.describe RichTextTemplate, type: :model do
     it 'adds key to list' do
       expect { RichTextTemplate.define(:test1) }.to change { RichTextTemplate.definitions.count }.by(1)
       definition = RichTextTemplate.definitions[:test1]
-      expect(definition[:template_class]).to(eq(RichTextTemplate))
+      expect(definition[:type]).to(eq(RichTextTemplate))
       expect(definition[:key]).to(eq(:test1))
     end
 

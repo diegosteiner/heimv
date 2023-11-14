@@ -29,6 +29,7 @@ class RichTextTemplate < ApplicationRecord
   InterpolationResult = Struct.new(:title, :body)
   InvalidDefinition = Class.new(StandardError)
   InvalidContext = Class.new(StandardError)
+  NoTemplate = Class.new(StandardError)
 
   extend Mobility
   extend Translatable
@@ -36,14 +37,16 @@ class RichTextTemplate < ApplicationRecord
   class << self
     def by_key!(key)
       where(key:).take!
+    rescue ActiveRecord::RecordNotFound
+      raise NoTemplate
     end
 
     def by_key(key)
       by_key!(key)
-    rescue ActiveRecord::RecordNotFound
       # rescue ActiveRecord::RecordNotFound => e
       #   Rails.logger.warn(e.message)
-      #   nil
+    rescue NoTemplate
+      nil
     end
 
     def template_key_valid?(key)
@@ -53,14 +56,14 @@ class RichTextTemplate < ApplicationRecord
     def definitions
       return @definitions ||= {} if self == RichTextTemplate
 
-      RichTextTemplate.definitions.filter { _2[:template_class] == self }
+      RichTextTemplate.definitions.filter { _2[:type] == self }
     end
 
     def define(key, **definition)
       key = key&.to_sym
       raise InvalidDefinition if key.blank? || RichTextTemplate.definitions.key?(key)
 
-      RichTextTemplate.definitions[key] = definition.merge(template_class: self, key:)
+      RichTextTemplate.definitions[key] = definition.merge(type: self, key:)
     end
   end
 

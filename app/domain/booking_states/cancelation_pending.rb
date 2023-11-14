@@ -2,8 +2,7 @@
 
 module BookingStates
   class CancelationPending < Base
-    RichTextTemplate.define(:operator_cancelation_pending_notification,
-                            template_context: %i[booking], required_by: self, optional: true)
+    templates << MailTemplate.define(:operator_cancellation_pending_notification, context: %i[booking], optional: true)
     def checklist
       []
     end
@@ -23,9 +22,6 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear
       booking.update!(editable: false)
-    end
-
-    after_transition do |booking|
       MailTemplate.use(:operator_cancellation_pending_notification, booking, to: :home_handover, &:deliver)
       MailTemplate.use(:operator_cancellation_pending_notification, booking, to: :home_return, &:deliver)
     end

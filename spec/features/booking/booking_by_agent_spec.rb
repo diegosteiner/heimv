@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'Booking by tenant', :devise, type: :feature do
-  let(:organisation) { create(:organisation, :with_rich_text_templates) }
+  let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
@@ -113,7 +113,7 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def check_booking
     booking = @agent_booking.booking.reload
-    expect(booking.notifications.map { |notification| notification.rich_text_template.key })
+    expect(booking.notifications.map { |notification| notification.mail_template.key })
       .to match_array(expected_notifications)
     expect(booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
   end

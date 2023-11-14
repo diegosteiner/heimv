@@ -33,5 +33,5 @@ FactoryBot.define do
     body { Faker::Lorem.paragraph }
   end
 
-  factory :mail_template, parent: :rich_text_template
+  factory :mail_template, parent: :rich_text_template, class: MailTemplate.to_s
 end

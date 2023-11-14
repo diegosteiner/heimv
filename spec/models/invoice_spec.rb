@@ -38,6 +38,7 @@
 require 'rails_helper'
 
 RSpec.describe Invoice, type: :model do
+  let(:organisation) { create(:organisation, :with_templates) }
   let(:invoice) { create(:invoice) }
 
   describe '#ref' do

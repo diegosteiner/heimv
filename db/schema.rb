@@ -343,11 +343,12 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_07_150323) do
     t.text "body"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "addressed_to", default: 0, null: false
+    t.string "addressed_to", default: "0"
     t.string "to", default: [], array: true
     t.string "cc", default: [], array: true
     t.string "locale", default: "de", null: false
     t.string "bcc"
+    t.text "template_context"
     t.index ["booking_id"], name: "index_notifications_on_booking_id"
     t.index ["mail_template_id"], name: "index_notifications_on_mail_template_id"
   end

@@ -6,10 +6,10 @@ module BookingActions
       MailTemplate.define(:awaiting_contract_notification, context: %i[booking contract])
 
       def call!
-        notification = MailTemplate.use(:awaiting_contract_notification, to: :tenant, contract:, invoices:)
-        notification.attach :contract, :contract_documents, invoices
-        notification.save && contract.sent! && invoices.each(&:sent!)
-        Result.new ok: notification.valid?, redirect_proc: redirect_proc(notification)
+        mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, contract:, invoices:)
+        mail.attach :contract, :contract_documents, invoices
+        mail.save && contract.sent! && invoices.each(&:sent!)
+        Result.new ok: mail.valid?, redirect_proc: redirect_proc(mail)
       end
 
       def allowed?

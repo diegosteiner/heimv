@@ -26,12 +26,8 @@
 #
 
 class MailTemplate < RichTextTemplate
-  def deliver(*)
-    use(*).map { [_2, _2&.deliver] }
-  end
-
   def use(booking, to: nil, attach: [], **context, &)
-    booking.notifications.build(to: resolve_to(to, booking)).tap do |notification|
+    Notification.build(booking:, to: resolve_to(to, booking)).tap do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
       notification.attach(*Array.wrap(attach))
       notification.tap(&) if block_given?
@@ -44,18 +40,32 @@ class MailTemplate < RichTextTemplate
     end
   end
 
-  def resolve_to(to, booking)
-    booking&.instance_eval do
-      return tenant if to == :tenant
-      return agent_booking&.booking_agent if to == :booking_agent
-      return responsibilities[to] if responsibilities[to].present?
-      return organisation if to == :administation
-    end
-
-    to
+  def resolve_to(*)
+    self.class.resolve_to(*)
   end
 
-  def self.use(key, booking, **, &)
-    booking.organisation.rich_text_templates.where(type: to_s).by_key(key)&.use(booking, **, &)
+  class << self
+    def resolve_to(to, booking)
+      booking&.instance_eval do
+        return tenant if to == :tenant
+        return agent_booking&.booking_agent if to == :booking_agent
+        return responsibilities[to] if responsibilities[to].present?
+        return organisation if to == :administation
+      end
+
+      to
+    end
+
+    def use(key, booking, **, &)
+      use!(key, booking, **, &)
+    rescue RichTextTemplate::NoTemplate
+      nil
+    end
+
+    def use!(key, booking, **, &)
+      raise RichTextTemplate::InvalidDefinition unless definitions.key?(key)
+
+      booking.organisation.rich_text_templates.where(type: to_s).by_key!(key).use(booking, **, &)
+    end
   end
 end

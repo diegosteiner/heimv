@@ -57,7 +57,7 @@ FactoryBot.define do
       build(:booking_category, key: :private, title: 'Fest', organisation:)
     end
 
-    trait :with_rich_text_templates do
+    trait :with_templates do
       after(:create) do |organisation|
         onboarding = OnboardingService.new(organisation)
         onboarding.create_missing_rich_text_templates!

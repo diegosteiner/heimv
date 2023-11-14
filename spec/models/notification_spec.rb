@@ -5,13 +5,14 @@
 # Table name: notifications
 #
 #  id               :bigint           not null, primary key
-#  addressed_to     :integer          default("manager"), not null
+#  addressed_to     :string           default(NULL)
 #  bcc              :string
 #  body             :text
 #  cc               :string           default([]), is an Array
 #  locale           :string           default(NULL), not null
 #  sent_at          :datetime
 #  subject          :string
+#  template_context :text
 #  to               :string           default([]), is an Array
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

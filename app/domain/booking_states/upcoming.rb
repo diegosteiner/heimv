@@ -38,7 +38,7 @@ module BookingStates
       booking.responsibilities.slice(:home_handover, :home_return).values.uniq.each do |operator|
         next if operator.email.blank?
 
-        booking.notifications.new(template: :operator_upcoming_notification, to: operator, &:deliver)
+        MailTemplate.use(:operator_upcoming_notification, booking, to: operator, &:deliver)
       end
     end
 

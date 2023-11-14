@@ -4,10 +4,10 @@ module BookingActions
   module Manage
     class EmailContractWithoutDeposit < EmailContractAndDeposit
       def call!(contract = booking.contract)
-        notification = prepare_notification
-        notification.save! && contract.sent!
-
-        Result.new ok: notification.valid?, redirect_proc: redirect_proc(notification)
+        mail = MailTemplate.use(:awaiting_contract_notification, booking,
+                                to: booking.tenant, contract:, attach: [contract, :contract_documents])
+        mail.save && contract.sent!
+        Result.new ok: mail.valid?, redirect_proc: redirect_proc(mail)
       end
 
       def allowed?
@@ -32,19 +32,6 @@ module BookingActions
 
         proc do
           edit_manage_notification_path(notification)
-        end
-      end
-
-      def prepare_attachments(booking, contract)
-        [
-          DesignatedDocument.for_booking(booking).where(send_with_contract: true),
-          contract.pdf
-        ].flatten.compact
-      end
-
-      def prepare_notification
-        MailTemplate.use(:awaiting_contract_notification, booking, to: booking.tenant,  { contract: }).tap do |notification|
-          notification.attach(prepare_attachments(booking, contract))
         end
       end
 

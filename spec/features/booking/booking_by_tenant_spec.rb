@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'Booking by tenant', :devise, type: :feature do
-  let(:organisation) { create(:organisation, :with_rich_text_templates) }
+  let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
