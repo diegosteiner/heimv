@@ -169,8 +169,11 @@ class Invoice < ApplicationRecord
     ::InvoicePart::Factory.new(self).call
   end
 
-  def attach_to(attachments)
-    attachments&.attach(filename => pdf.blob) if pdf&.blob.present?
+  def attach_to(attachable)
+    attachments = attachable.try(:attachments) || attachable
+    return if pdf&.blob.blank? || attachments.blank?
+
+    attachments[filename] = pdf.blob
   end
 
   def vat

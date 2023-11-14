@@ -5,14 +5,13 @@
 # Table name: notifications
 #
 #  id               :bigint           not null, primary key
-#  addressed_to     :string           default(NULL)
+#  addressed_to     :integer          default("manager"), not null
 #  bcc              :string
 #  body             :text
 #  cc               :string           default([]), is an Array
 #  locale           :string           default(NULL), not null
 #  sent_at          :datetime
 #  subject          :string
-#  template_context :text
 #  to               :string           default([]), is an Array
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -37,7 +36,7 @@ class Notification < ApplicationRecord
     unsent_invoices: ->(booking) { booking.invoices.invoice.unsent },
     unsent_late_notices: ->(booking) { booking.invoices.late_notice.unsent },
     unsent_offers: ->(booking) { booking.invoices.offers.unsent },
-    contract: ->(booking) { booking.contract.unsent },
+    contract: ->(booking) { booking.contract },
     last_info_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_last_infos: true) },
     contract_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_contract: true) }
   }.freeze

@@ -57,8 +57,11 @@ class DesignatedDocument < ApplicationRecord
     super(value.presence)
   end
 
-  def attach_to(attachments)
-    attachments&.attach(name => file.blob) if file&.blob.present?
+  def attach_to(attachable)
+    attachments = attachable.try(:attachments) || attachable
+    return if file&.blob.blank? || attachments.blank?
+
+    attachments[name] = file.blob
   end
 
   def attach_to?(booking)
