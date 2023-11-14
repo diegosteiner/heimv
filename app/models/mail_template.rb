@@ -50,10 +50,9 @@ class MailTemplate < RichTextTemplate
         return tenant if to == :tenant
         return agent_booking&.booking_agent if to == :booking_agent
         return responsibilities[to] if responsibilities[to].present?
-        return organisation if to == :administation
+        return organisation if to == :administration
       end
-
-      to
+      # raise StandardError, "#{to} is not a valid recipient" unless responsibilities.key?(to)
     end
 
     def use(key, booking, **, &)

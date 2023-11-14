@@ -4,10 +4,11 @@ module BookingActions
   module Manage
     class EmailContractWithoutDeposit < EmailContractAndDeposit
       def call!(contract = booking.contract)
-        mail = MailTemplate.use(:awaiting_contract_notification, booking,
-                                to: booking.tenant, contract:, attach: [contract, :contract_documents])
-        mail.save && contract.sent!
-        Result.new ok: mail.valid?, redirect_proc: redirect_proc(mail)
+        mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: booking.tenant, contract:)
+        mail.attach contract, :contract_documents
+        mail.save! && contract.sent!
+
+        Result.new ok: true, redirect_proc: proc { edit_manage_notification_path(notification) }
       end
 
       def allowed?
@@ -26,14 +27,6 @@ module BookingActions
       end
 
       private
-
-      def redirect_proc(notification)
-        return unless notification&.persisted?
-
-        proc do
-          edit_manage_notification_path(notification)
-        end
-      end
 
       def booking
         context.fetch(:booking)

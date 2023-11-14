@@ -6,10 +6,10 @@ module BookingActions
       MailTemplate.define(:payment_due_notification, context: %i[booking invoices])
 
       def call!
-        mail = MailTemplate.use(:payment_due_notification, booking, to: booking.tenant, invoices:)
-        mail.save && invoices.each(&:sent!)
+        mail = MailTemplate.use!(:payment_due_notification, booking, to: :tenant, invoices:)
+        mail.save! && invoices.each(&:sent!)
 
-        Result.new ok: mail.valid?, redirect_proc: redirect_proc(mail)
+        Result.new ok: mail.valid?, redirect_proc: proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?
@@ -18,14 +18,6 @@ module BookingActions
       end
 
       protected
-
-      def redirect_proc(notification)
-        return unless notification&.persisted?
-
-        proc do
-          edit_manage_notification_path(notification)
-        end
-      end
 
       def booking
         context.fetch(:booking)

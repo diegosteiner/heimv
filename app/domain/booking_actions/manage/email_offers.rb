@@ -7,9 +7,9 @@ module BookingActions
 
       def call!
         mail = MailTemplate.use(:offer_notification, booking, to: booking.tenant, attach: offers, invoices: offers)
-        mail.save && offers.each(&:sent!)
+        mail.save! && offers.each(&:sent!)
 
-        Result.new ok: mail.valid?, redirect_proc: redirect_proc(mail)
+        Result.new ok: true, redirect_proc: proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?
@@ -18,14 +18,6 @@ module BookingActions
       end
 
       protected
-
-      def redirect_proc(notification)
-        return unless notification&.persisted?
-
-        proc do
-          edit_manage_notification_path(notification)
-        end
-      end
 
       def booking
         context.fetch(:booking)
