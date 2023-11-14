@@ -56,7 +56,6 @@ gem 'ttfunk'
 
 group :development do
   gem 'annotate'
-  gem 'foreman'
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'
   gem 'listen'
@@ -76,6 +75,7 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'simplecov', require: false
 end
 
 group :test do
@@ -86,6 +86,4 @@ end
 
 group :production do
   gem 'exception_notification'
-  gem 'sentry-rails'
-  gem 'sentry-ruby'
 end
