@@ -7,12 +7,8 @@ module Manage
     def usage; end
 
     def flow
-      # @templates = booking_states.index_with do |booking_state|
-      #   booking_state.templates.pluck(:key)
-      # end
-      booking_states
-      @templates = RichTextTemplate.definitions.values.group_by { _1[:required_by] }.transform_values do |group|
-        group.pluck(:key)
+      @templates = booking_states.index_with do |booking_state|
+        booking_state.templates.pluck(:key)
       end
       @templates[BookingStates::DefinitiveRequest] << :contract_text
       @templates[BookingStates::DefinitiveRequest] << :invoices_deposit_text
