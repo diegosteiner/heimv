@@ -1,6 +1,9 @@
 - url = @agent_booking.new_record? ? public_agent_bookings_path : public_agent_booking_path(@agent_booking.token || @agent_booking.to_param)
 = form_with(model: [:public, @agent_booking], url: url) do |f|
   .card.shadow-sm[class=('bg-light' unless @agent_booking.booking_agent_responsible?)]
+    - if %i[open_request booking_agent_request awaiting_tenant definitive_request].include? @agent_booking.booking.booking_state.to_sym
+      .card-header.bg-warning-subtle.text-center
+        = @agent_booking.booking.booking_state.translate(:label)
     .card-body
       - if @agent_booking.errors.any?
         .alert.alert-danger.d-flex

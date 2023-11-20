@@ -18,7 +18,7 @@ gem 'country_select'
 gem 'devise'
 gem 'devise_invitable'
 gem 'discard'
-gem 'factory_bot_rails', require: false
+gem 'factory_bot_rails', '~> 6.2.0', require: false
 gem 'faker', require: false
 gem 'faraday', require: false
 gem 'icalendar'

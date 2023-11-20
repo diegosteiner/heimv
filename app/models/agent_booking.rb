@@ -59,6 +59,10 @@ class AgentBooking < ApplicationRecord
     super || booking.email
   end
 
+  def committed_request
+    booking&.committed_request
+  end
+
   def update_booking
     booking.organisation ||= organisation
     booking.tenant || booking.build_tenant

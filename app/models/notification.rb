@@ -134,8 +134,8 @@ class Notification < ApplicationRecord
             self.locale = value.locale
             [value.email]
           else
-            [value&.to_s].flatten.compact
-          end
+            [value&.to_s]
+          end.flatten.compact
   end
   # rubocop:enable Metrics/MethodLength
 

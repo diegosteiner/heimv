@@ -71,7 +71,7 @@ RSpec.describe Usage, type: :model do
 
     let(:booking) { create(:booking) }
     let(:usage) { build(:usage, booking:, tarif:) }
-    let(:booking_question) { create(:booking_question, :integer, organisation:) }
+    let(:booking_question) { create(:booking_question, organisation:) }
     let(:booking_question_response) do
       booking_question.booking_question_responses.create(booking:, value: 25)
     end

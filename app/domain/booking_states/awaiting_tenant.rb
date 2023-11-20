@@ -19,7 +19,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.agent_booking.present?
+      booking.agent_booking.present? && booking.email.present?
     end
 
     after_transition do |booking|

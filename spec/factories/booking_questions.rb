@@ -34,9 +34,6 @@ FactoryBot.define do
     description { 'Bitte Kinder' }
     organisation
     required { false }
-
-    trait :integer do
-      type { BookingQuestions::Integer.to_s }
-    end
+    type { BookingQuestions::Integer.to_s }
   end
 end
