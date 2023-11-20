@@ -4,15 +4,16 @@
 #
 # Table name: rich_text_templates
 #
-#  id              :bigint           not null, primary key
-#  body_i18n       :jsonb
-#  enabled         :boolean          default(TRUE)
-#  key             :string
-#  title_i18n      :jsonb
-#  type            :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  organisation_id :bigint           not null
+#  id                           :bigint           not null, primary key
+#  attachable_booking_documents :integer
+#  body_i18n                    :jsonb
+#  enabled                      :boolean          default(TRUE)
+#  key                          :string
+#  title_i18n                   :jsonb
+#  type                         :string
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  organisation_id              :bigint           not null
 #
 # Indexes
 #

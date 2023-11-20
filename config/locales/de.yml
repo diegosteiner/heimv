@@ -215,6 +215,8 @@ de:
         ordinal_position: Ordnungsnummer
         type: Art der Rechnungsposition
         vat: inkl. MwSt. in Prozent
+      mail_template:
+        attachable_booking_documents: Anhänge
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -417,6 +419,15 @@ de:
         paid:
           only_paid: Nur beglichene
           only_unpaid: Nur offene
+      mail_template:
+        attachable_booking_documents:
+          contract: Vertrag
+          contract_documents: Dokumente markiert als «mit Vertrag versenden»
+          last_info_documents: Dokumente markiert als «mit letzten Infos versenden»
+          unsent_deposits: Unversendete Anzahlungen
+          unsent_invoices: Unversendete Rechnungen
+          unsent_late_notices: Unversendete Mahnungen
+          unsent_offers: Unversendete Offerte
       occupancy:
         occupancy_type:
           closed: Geschlossen
@@ -578,6 +589,9 @@ de:
       invoices/offer:
         one: Offerte
         other: Offerten
+      mail_template:
+        one: Mailvorlage
+        other: Mailvorlagen
       meter_reading_period:
         one: Zählerstand
         other: Zählerstände

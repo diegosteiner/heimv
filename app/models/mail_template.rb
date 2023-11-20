@@ -4,15 +4,16 @@
 #
 # Table name: rich_text_templates
 #
-#  id              :bigint           not null, primary key
-#  body_i18n       :jsonb
-#  enabled         :boolean          default(TRUE)
-#  key             :string
-#  title_i18n      :jsonb
-#  type            :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  organisation_id :bigint           not null
+#  id                           :bigint           not null, primary key
+#  attachable_booking_documents :integer
+#  body_i18n                    :jsonb
+#  enabled                      :boolean          default(TRUE)
+#  key                          :string
+#  title_i18n                   :jsonb
+#  type                         :string
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  organisation_id              :bigint           not null
 #
 # Indexes
 #
@@ -26,22 +27,22 @@
 #
 
 class MailTemplate < RichTextTemplate
-  def use(booking, to: nil, attach: [], **context, &)
+  flag :attachable_booking_documents, Notification::ATTACHABLE_BOOKING_DOCUMENTS.keys
+
+  def use(booking, to: nil, **context, &)
     Notification.build(booking:, to: resolve_to(to, booking)).tap do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
-      notification.attach(*Array.wrap(attach))
+      notification.attach(*Array.wrap(attachable_booking_documents))
       notification.tap(&) if block_given?
-    end
-  end
-
-  def use_default(booking, tos: nil, attach: nil, **, &)
-    Array.wrap(tos || definition[:to]).index_with do |to|
-      use(booking, to:, attach: attach.presence || definition[:attach], **, &)
     end
   end
 
   def resolve_to(*)
     self.class.resolve_to(*)
+  end
+
+  def attachable_booking_documents
+    super || definition[:attach] || nil
   end
 
   class << self

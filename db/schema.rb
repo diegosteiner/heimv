@@ -490,6 +490,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_07_150323) do
     t.jsonb "body_i18n", default: {}
     t.boolean "enabled", default: true
     t.string "type"
+    t.integer "attachable_booking_documents"
     t.index ["key", "organisation_id"], name: "index_rich_text_templates_on_key_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"
     t.index ["type"], name: "index_rich_text_templates_on_type"

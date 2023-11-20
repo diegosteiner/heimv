@@ -98,6 +98,7 @@ ignore_missing:
   - "i18n.transliterate.*"
   - "faker.*"
   - "{receipt_office}"
+  - "label"
 
 ## Consider these keys used:
 ignore_unused:

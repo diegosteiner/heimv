@@ -28,12 +28,12 @@ module Manage
     def create
       @rich_text_template.organisation = current_organisation
       @rich_text_template.save
-      respond_with :manage, @rich_text_template
+      respond_with :manage, @rich_text_template.becomes(RichTextTemplate)
     end
 
     def update
       @rich_text_template.update(rich_text_template_params)
-      respond_with :manage, @rich_text_template
+      respond_with :manage, @rich_text_template.becomes(RichTextTemplate)
     end
 
     def destroy

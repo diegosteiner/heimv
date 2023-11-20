@@ -6,6 +6,7 @@ class AddMailTemplateAttributesToRichTextTemplates < ActiveRecord::Migration[7.1
 
     add_column :rich_text_templates, :type, :string
     add_index :rich_text_templates, :type
+    add_column :rich_text_templates, :attachable_booking_documents, :integer, null: true
 
     reversible do |direction|
       direction.up do

@@ -17,6 +17,11 @@ module BookingActions
       @templates ||= []
     end
 
+    def label
+      # i18n-tasks-ignore
+      translate(:label)
+    end
+
     def call
       raise NotAllowed unless allowed?
 
