@@ -43,16 +43,21 @@ class RichTextTemplateService
   end
 
   def create_missing!(include_optional: true)
+    missing_templates.map do |definition|
+      build_from_defintion(definition).tap(&:save!)
+    end
+  end
+
+  def build_from_defintion(definition)
     title = {}
     body = {}
-    missing_templates.map do |definition|
-      I18n.available_locales.map do |locale|
-        title[locale] = defaults_for_locale(:default_title, definition[:key], locale)
-        body[locale]  = defaults_for_locale(:default_body, definition[:key], locale)
-      end
-      RichTextTemplate.create(key: definition[:key], type: definition[:type], organisation:, title_i18n: title,
-                              body_i18n: body, enabled: !definition.fetch(:optional, false) || include_optional)
+    I18n.available_locales.map do |locale|
+      title[locale] = defaults_for_locale(:default_title, definition[:key], locale)
+      body[locale]  = defaults_for_locale(:default_body, definition[:key], locale)
     end
+    RichTextTemplate.new(key: definition[:key], type: definition[:type].to_s, organisation:,
+                         title_i18n: title, body_i18n: body, enabled: !definition.fetch(:optional, false),
+                         attachable_booking_documents: definition[:attach])
   end
 
   def replace_in_template!(search, replace, scope: @organisation.rich_text_templates)

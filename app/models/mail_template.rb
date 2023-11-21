@@ -30,6 +30,8 @@ class MailTemplate < RichTextTemplate
   flag :attachable_booking_documents, Notification::ATTACHABLE_BOOKING_DOCUMENTS.keys
 
   def use(booking, to: nil, **context, &)
+    return unless enabled
+
     Notification.build(booking:, to: resolve_to(to, booking)).tap do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
       notification.attach(*Array.wrap(attachable_booking_documents))
@@ -41,8 +43,8 @@ class MailTemplate < RichTextTemplate
     self.class.resolve_to(*)
   end
 
-  def attachable_booking_documents
-    super || definition[:attach] || nil
+  def reset_attachable_booking_documents!
+    update!(attachable_booking_documents: definition[:attach])
   end
 
   class << self

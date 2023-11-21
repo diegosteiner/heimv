@@ -60,6 +60,10 @@ class RichTextTemplate < ApplicationRecord
       RichTextTemplate.definitions.filter { _2[:type] == self }
     end
 
+    def undefine(key)
+      RichTextTemplate.definitions.delete(key)
+    end
+
     def define(key, **definition)
       key = key&.to_sym
       raise InvalidDefinition if key.blank? || RichTextTemplate.definitions.key?(key)
