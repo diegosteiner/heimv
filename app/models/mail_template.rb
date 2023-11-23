@@ -27,37 +27,16 @@
 #
 
 class MailTemplate < RichTextTemplate
-  flag :attachable_booking_documents, Notification::ATTACHABLE_BOOKING_DOCUMENTS.keys
-
   def use(booking, to: nil, **context, &)
     return unless enabled
 
     Notification.build(booking:, to: resolve_to(to, booking)).tap do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
-      notification.attach(*Array.wrap(attachable_booking_documents))
       notification.tap(&) if block_given?
     end
   end
 
-  def resolve_to(*)
-    self.class.resolve_to(*)
-  end
-
-  def reset_attachable_booking_documents!
-    update!(attachable_booking_documents: definition[:attach])
-  end
-
   class << self
-    def resolve_to(to, booking)
-      booking&.instance_eval do
-        return tenant if to == :tenant
-        return agent_booking&.booking_agent if to == :booking_agent
-        return responsibilities[to] if responsibilities[to].present?
-        return organisation if to == :administration
-      end
-      # raise StandardError, "#{to} is not a valid recipient" unless responsibilities.key?(to)
-    end
-
     def use(key, booking, **, &)
       use!(key, booking, **, &)
     rescue RichTextTemplate::NoTemplate

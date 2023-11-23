@@ -48,7 +48,6 @@ class Notification < ApplicationRecord
   has_one :organisation, through: :booking
 
   locale_enum
-  enum addressed_to: { manager: 0, tenant: 1, booking_agent: 2 }, _prefix: true
 
   validates :to, :locale, presence: true
   before_validation
@@ -110,16 +109,29 @@ class Notification < ApplicationRecord
     # rubocop:enable Rails/OutputSafety
   end
 
-  def bcc
+  def deliver_bcc
     [super, organisation&.bcc].compact
   end
 
   def to=(value)
     self.locale = value.locale if value.respond_to?(:locale)
-    # self.addressed_to = value  # TODO: change db field
+    super(value)
+  end
 
-    value = value.email if value.respond_to?(:email)
-    super([value.presence].flatten.compact)
+  def self.resolve_to(to, booking)
+    booking&.instance_eval do
+      return tenant if to == :tenant
+      return agent_booking&.booking_agent if to == :booking_agent
+      return responsibilities[to] if responsibilities[to].present?
+      return organisation if to == :administration
+    end
+    # raise StandardError, "#{to} is not a valid recipient" unless responsibilities.key?(to)
+  end
+
+  def deliver_to
+    to = self.class.resolve_to(self.to, booking)
+    to = to&.email if to.respond_to?(:email)
+    super([to.presence].flatten.compact)
   end
 
   protected

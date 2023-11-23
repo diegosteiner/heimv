@@ -6,17 +6,28 @@ class AddMailTemplateAttributesToRichTextTemplates < ActiveRecord::Migration[7.1
 
     add_column :rich_text_templates, :type, :string
     add_index :rich_text_templates, :type
-    add_column :rich_text_templates, :attachable_booking_documents, :integer, default: 0
 
     reversible do |direction|
       direction.up do
         RichTextTemplate.update_all(type: RichTextTemplate.to_s)
         RichTextTemplate.where(key: MailTemplate.definitions.keys).update_all(type: MailTemplate.to_s)
-        MailTemplate.find_each(&:reset_attachable_booking_documents!)
       end
     end
 
     change_column_null :rich_text_templates, :type, true
     rename_column :notifications, :rich_text_template_id, :mail_template_id
+    rename_column :notifications, :to, :deliver_to
+    add_column :notifications, :to, :string
+
+    reversible do |direction|
+      mapping = { 0 => :administration, 1 => :tenant, 2=> :booking_agent }
+      direction.up do
+        Notification.find_each do |notification|
+          notification.update(to: mapping.fetch(notification[:addressed_to]&.to_i, nil))
+        end
+      end
+    end
+
+    remove_column :notifications, :addressed_to, :integer
   end
 end
