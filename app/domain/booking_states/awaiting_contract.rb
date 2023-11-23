@@ -19,7 +19,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.valid?(:public_update)
+      booking.valid?
     end
 
     after_transition do |booking|
