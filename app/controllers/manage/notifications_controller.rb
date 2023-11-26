@@ -19,11 +19,6 @@ module Manage
       respond_with :manage, @notification
     end
 
-    # def create
-    #   @notification.save
-    #   respond_with :manage, @notification, location: manage_booking_notifications_path(@booking)
-    # end
-
     def update
       @notification.update(notification_params)
       @notification.deliver if @notification.valid? && params[:deliver].present?

@@ -5,6 +5,14 @@
     = f.datetime_local_field :sent_at, step: 1
     = f.text_area :body, class: 'rich-text-area'
 
+  fieldset 
+    ul.my-0
+      - f.fields_for :attachments do |af|
+        li
+          = af.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
+          = af.object.inspect
+          = link_to af.object&.filename, af.object, target: :_blank
+
   .form-actions.pt-4.mt-3
     - if @notification.deliverable?
       = f.button name: :'deliver', value: true, class: 'btn btn-primary'

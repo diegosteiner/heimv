@@ -4,22 +4,19 @@
 #
 # Table name: rich_text_templates
 #
-#  id                           :bigint           not null, primary key
-#  attachable_booking_documents :integer
-#  body_i18n                    :jsonb
-#  enabled                      :boolean          default(TRUE)
-#  key                          :string
-#  title_i18n                   :jsonb
-#  type                         :string
-#  created_at                   :datetime         not null
-#  updated_at                   :datetime         not null
-#  organisation_id              :bigint           not null
+#  id              :bigint           not null, primary key
+#  body_i18n       :jsonb
+#  enabled         :boolean          default(TRUE)
+#  key             :string
+#  title_i18n      :jsonb
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  organisation_id :bigint           not null
 #
 # Indexes
 #
 #  index_rich_text_templates_on_key_and_organisation_id  (key,organisation_id) UNIQUE
 #  index_rich_text_templates_on_organisation_id          (organisation_id)
-#  index_rich_text_templates_on_type                     (type)
 #
 # Foreign Keys
 #
@@ -30,7 +27,7 @@ class MailTemplate < RichTextTemplate
   def use(booking, to: nil, **context, &)
     return unless enabled
 
-    Notification.build(booking:, to: resolve_to(to, booking)).tap do |notification|
+    Notification.build(booking:, to:).tap do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
       notification.tap(&) if block_given?
     end
