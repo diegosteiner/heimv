@@ -3,7 +3,7 @@
 module BookingActions
   module Manage
     class EmailOffers < BookingActions::Base
-      MailTemplate.define(:offer_notification, context: %i[booking invoices], optional: true)
+      templates << MailTemplate.define(:offer_notification, context: %i[booking invoices], optional: true)
 
       def call!
         mail = MailTemplate.use(:offer_notification, booking, to: booking.tenant, attach: offers, invoices: offers)

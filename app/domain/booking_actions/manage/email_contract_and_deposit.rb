@@ -3,7 +3,7 @@
 module BookingActions
   module Manage
     class EmailContractAndDeposit < BookingActions::Base
-      MailTemplate.define(:awaiting_contract_notification, context: %i[booking contract])
+      templates << MailTemplate.define(:awaiting_contract_notification, context: %i[booking contract])
 
       def call!
         mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, contract:, invoices:)

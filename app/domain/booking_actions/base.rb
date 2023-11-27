@@ -13,7 +13,7 @@ module BookingActions
       @context = context
     end
 
-    def templates
+    def self.templates
       @templates ||= []
     end
 

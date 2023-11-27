@@ -4,7 +4,8 @@ module Manage
   class RichTextTemplatesController < BaseController
     load_and_authorize_resource :rich_text_template
     respond_to :json
-    helper_method :rich_text_template_group
+    helper_method :rich_text_templates_by_booking_action, :rich_text_templates_by_booking_state,
+                  :rich_text_templates_by_rest, :rich_text_templates_by_document
 
     def index
       @rich_text_templates = @rich_text_templates.ordered.where(organisation: current_organisation)
@@ -47,18 +48,35 @@ module Manage
       RichTextTemplateParams.new(params.require(:rich_text_template)).permitted
     end
 
-    def rich_text_template_group(rich_text_template)
-      key = rich_text_template.key.to_s
-      return :manage_notifications if key.starts_with?('manage_')
-
-      if key.ends_with?('_notification')
-        return :booking_agent_notifications if key.include?('booking_agent')
-
-        return :tenant_notifications
+    def rich_text_templates_by_booking_state
+      current_organisation.booking_flow_class.state_classes.values.to_h do |booking_state|
+        templates = booking_state.templates.map { |definition| @rich_text_templates.find_by(key: definition[:key]) }
+        [booking_state, templates.compact_blank]
       end
-      return :document_text if rich_text_template.key.to_s.ends_with?('_text')
+    end
 
-      :other
+    def rich_text_templates_by_booking_action
+      (BookingActions::Manage.all.values + BookingActions::Public.all.values).to_h do |booking_action|
+        templates = booking_action.templates.map { |definition| @rich_text_templates.find_by(key: definition[:key]) }
+        [booking_action, templates.compact_blank]
+      end
+    end
+
+    def rich_text_templates_by_document
+      {
+        Invoices::Offer => @rich_text_templates.where(key: :invoices_offer_text),
+        Invoices::Deposit => @rich_text_templates.where(key: :invoices_deposit_text),
+        Invoices::Invoice => @rich_text_templates.where(key: :invoices_invoice_text),
+        Invoices::LateNotice => @rich_text_templates.where(key: :invoices_late_notice_text),
+        Contract => @rich_text_templates.where(key: :contract_text)
+      }.filter { _2.present? }
+    end
+
+    def rich_text_templates_by_rest
+      @rich_text_templates.to_a -
+        rich_text_templates_by_booking_action.values.flatten -
+        rich_text_templates_by_document.values.flatten -
+        rich_text_templates_by_booking_state.values.flatten
     end
   end
 end

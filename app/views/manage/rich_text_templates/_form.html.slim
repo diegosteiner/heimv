@@ -27,8 +27,7 @@
       = t('.help_html')
     
   - if @rich_text_template.is_a?(MailTemplate)
-    fieldset.mt-3
-      = f.collection_check_boxes :attachable_booking_documents, MailTemplate.attachable_booking_documents.keys, :itself, ->(key) { MailTemplate.human_enum(:attachable_booking_documents, key) }
+    / fieldset.mt-3
 
   .form-actions.pt-4.mt-3
     = f.submit

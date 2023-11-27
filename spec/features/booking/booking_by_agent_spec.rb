@@ -25,6 +25,7 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   let(:expected_notifications) do
     %w[manage_new_booking_notification
+       open_booking_agent_request_notification
        booking_agent_request_notification
        awaiting_tenant_notification
        booking_agent_request_accepted_notification

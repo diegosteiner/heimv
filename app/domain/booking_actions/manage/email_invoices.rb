@@ -3,7 +3,7 @@
 module BookingActions
   module Manage
     class EmailInvoices < BookingActions::Base
-      MailTemplate.define(:payment_due_notification, context: %i[booking invoices])
+      templates << MailTemplate.define(:payment_due_notification, context: %i[booking invoices])
 
       def call!
         mail = MailTemplate.use!(:payment_due_notification, booking, to: :tenant, invoices:)
