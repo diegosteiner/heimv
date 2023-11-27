@@ -23,7 +23,7 @@ table.table.table-hover.align-middle
           - else
             = '-'
         td
-          - notification.to.each do |to|
+          - notification.deliver_to.each do |to|
             => mail_to to, to
         td
           = link_to notification.subject, manage_notification_path(notification)

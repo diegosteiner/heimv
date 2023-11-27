@@ -4,11 +4,11 @@ module BookingActions
   module Manage
     class EmailContractWithoutDeposit < EmailContractAndDeposit
       def call!(contract = booking.contract)
-        mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: booking.tenant, contract:)
+        mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, contract:)
         mail.attach contract, :contract_documents
         mail.save! && contract.sent!
 
-        Result.new ok: true, redirect_proc: proc { edit_manage_notification_path(notification) }
+        Result.new ok: true, redirect_proc: proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?

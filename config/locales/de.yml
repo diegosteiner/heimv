@@ -223,6 +223,7 @@ de:
         ends_at: Ende
         start_value: Zählerstand alt
       notification:
+        attachments: Anhänge
         body: Inhalt
         sent_at: Zuletzt gesendet am
         subject: Betreff

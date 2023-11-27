@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_27_112153) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_07_150323) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -337,19 +337,19 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_27_112153) do
 
   create_table "notifications", force: :cascade do |t|
     t.uuid "booking_id"
-    t.bigint "rich_text_template_id"
+    t.bigint "mail_template_id"
     t.datetime "sent_at", precision: nil
     t.string "subject"
     t.text "body"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "addressed_to", default: 0, null: false
-    t.string "to", default: [], array: true
+    t.string "deliver_to", default: [], array: true
     t.string "cc", default: [], array: true
     t.string "locale", default: "de", null: false
     t.string "bcc"
+    t.string "to"
     t.index ["booking_id"], name: "index_notifications_on_booking_id"
-    t.index ["rich_text_template_id"], name: "index_notifications_on_rich_text_template_id"
+    t.index ["mail_template_id"], name: "index_notifications_on_mail_template_id"
   end
 
   create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -489,8 +489,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_27_112153) do
     t.jsonb "title_i18n", default: {}
     t.jsonb "body_i18n", default: {}
     t.boolean "enabled", default: true
+    t.string "type"
     t.index ["key", "organisation_id"], name: "index_rich_text_templates_on_key_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"
+    t.index ["type"], name: "index_rich_text_templates_on_type"
   end
 
   create_table "tarifs", force: :cascade do |t|
@@ -622,7 +624,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_27_112153) do
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "notifications", "bookings"
-  add_foreign_key "notifications", "rich_text_templates"
+  add_foreign_key "notifications", "rich_text_templates", column: "mail_template_id"
   add_foreign_key "occupancies", "occupiables"
   add_foreign_key "occupiables", "organisations"
   add_foreign_key "operator_responsibilities", "bookings"

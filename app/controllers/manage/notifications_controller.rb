@@ -21,6 +21,7 @@ module Manage
 
     def update
       @notification.update(notification_params)
+      delete_attachments
       @notification.deliver if @notification.valid? && params[:deliver].present?
       respond_with :manage, @notification, location: manage_notification_path(@notification)
     end
@@ -34,6 +35,12 @@ module Manage
 
     def set_booking
       @booking = @notification&.booking
+    end
+
+    def delete_attachments
+      @notification.attachments.each do |attachment|
+        attachment.purge if params.dig(:notification, :attachments, attachment.to_param, '_destroy') == '1'
+      end
     end
 
     def notification_params

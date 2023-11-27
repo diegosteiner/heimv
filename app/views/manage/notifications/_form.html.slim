@@ -6,12 +6,12 @@
     = f.text_area :body, class: 'rich-text-area'
 
   fieldset 
-    ul.my-0
-      - f.fields_for :attachments do |af|
-        li
-          = af.check_box :_destroy, { checked: true, skip_label: true }, '0', '1'
-          = af.object.inspect
-          = link_to af.object&.filename, af.object, target: :_blank
+    label.form_label= Notification.human_attribute_name(:attachments)
+    ul.my-0.list-unstyled
+      - @notification.attachments.each do |attachment|
+        = f.fields_for "attachments[]", attachment do |af|
+          li = af.check_box :_destroy, { checked: true, wrapper: { style: 'margin-bottom: 0 !important;'} }, '0', '1' do
+            = link_to af.object&.filename, af.object, target: :_blank
 
   .form-actions.pt-4.mt-3
     - if @notification.deliverable?

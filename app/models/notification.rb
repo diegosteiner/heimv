@@ -4,29 +4,29 @@
 #
 # Table name: notifications
 #
-#  id                    :bigint           not null, primary key
-#  addressed_to          :integer          default(0), not null
-#  bcc                   :string
-#  body                  :text
-#  cc                    :string           default([]), is an Array
-#  locale                :string           default(NULL), not null
-#  sent_at               :datetime
-#  subject               :string
-#  to                    :string           default([]), is an Array
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  booking_id            :uuid
-#  rich_text_template_id :bigint
+#  id               :bigint           not null, primary key
+#  bcc              :string
+#  body             :text
+#  cc               :string           default([]), is an Array
+#  deliver_to       :string           default([]), is an Array
+#  locale           :string           default(NULL), not null
+#  sent_at          :datetime
+#  subject          :string
+#  to               :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  booking_id       :uuid
+#  mail_template_id :bigint
 #
 # Indexes
 #
-#  index_notifications_on_booking_id             (booking_id)
-#  index_notifications_on_rich_text_template_id  (rich_text_template_id)
+#  index_notifications_on_booking_id        (booking_id)
+#  index_notifications_on_mail_template_id  (mail_template_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (rich_text_template_id => rich_text_templates.id)
+#  fk_rails_...  (mail_template_id => rich_text_templates.id)
 #
 
 class Notification < ApplicationRecord
@@ -50,7 +50,6 @@ class Notification < ApplicationRecord
   locale_enum
 
   validates :to, :locale, presence: true
-  before_validation
   attribute :template_context
 
   def deliverable?
@@ -113,26 +112,36 @@ class Notification < ApplicationRecord
     [super, organisation&.bcc].compact
   end
 
-  def to=(value)
-    self.locale = value.locale if value.respond_to?(:locale)
-    super(value)
-  end
-
-  def self.resolve_to(to, booking)
-    booking&.instance_eval do
-      return tenant if to == :tenant
-      return agent_booking&.booking_agent if to == :booking_agent
-      return responsibilities[to] if responsibilities[to].present?
-      return organisation if to == :administration
-    end
-    # raise StandardError, "#{to} is not a valid recipient" unless responsibilities.key?(to)
-  end
-
   def deliver_to
-    to = self.class.resolve_to(self.to, booking)
-    to = to&.email if to.respond_to?(:email)
-    super([to.presence].flatten.compact)
+    [to.try(:email).presence || to.to_s.presence].flatten.compact
   end
+
+  def locale
+    to.try(:locale) || super
+  end
+
+  def to
+    return nil if self[:to].blank?
+
+    booking&.roles&.[](self[:to].to_sym) || self[:to].to_s
+  end
+
+  # rubocop:disable Metrics/MethodLength
+  def to=(value)
+    super case value
+          when Tenant
+            :tenant
+          when Organisation
+            :administration
+          when BookingAgent
+            :booking_agent
+          when OperatorResponsibility
+            value.responsibility
+          else
+            value.try(:email).presence || value.to_s
+          end
+  end
+  # rubocop:enable Metrics/MethodLength
 
   protected
 

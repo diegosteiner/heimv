@@ -19,7 +19,7 @@ class AddMailTemplateAttributesToRichTextTemplates < ActiveRecord::Migration[7.1
       end
     end
 
-    remove_column :notifications, :addressed_to, :integer
+    # remove_column :notifications, :addressed_to, :integer
   end
 end
 
