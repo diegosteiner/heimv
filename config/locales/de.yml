@@ -216,7 +216,6 @@ de:
         type: Art der Rechnungsposition
         vat: inkl. MwSt. in Prozent
       mail_template:
-        attachable_booking_documents: Anhänge
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu

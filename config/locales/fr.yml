@@ -215,12 +215,15 @@ fr:
         ordinal_position: Numéro d'ordre
         type: Type de poste de facturation
         vat: TVA incluse en pourcentage
+      mail_template:
+        attachable_booking_documents:
       meter_reading_period:
         begins_at: Début
         end_value: Nouvelle valeur du compteur
         ends_at: Fin
         start_value: Ancienne valeur du compteur
       notification:
+        attachments:
         body: Contenu
         sent_at: Dernier envoi le
         subject: Sujet
@@ -417,6 +420,15 @@ fr:
         paid:
           only_paid: Uniquement les factures réglées
           only_unpaid: Seulement ouvert
+      mail_template:
+        attachable_booking_documents:
+          contract: Contrat
+          contract_documents:
+          last_info_documents:
+          unsent_deposits:
+          unsent_invoices:
+          unsent_late_notices:
+          unsent_offers:
       occupancy:
         occupancy_type:
           closed: Fermé
@@ -578,6 +590,9 @@ fr:
       invoices/offer:
         one: Offre
         other: Offres
+      mail_template:
+        one:
+        other:
       meter_reading_period:
         one: Relevé du compteur
         other: Relevés de compteurs
@@ -1121,6 +1136,7 @@ fr:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum_price}
+    deposited_amount:
   invoices:
     total: Total
     vat_label:
@@ -1214,11 +1230,18 @@ fr:
         help_html:
         help_title: Aide sur les variables
       index:
+        booking_action:
+        booking_state:
+        document: Document
         group_booking_agent_notifications: Notifications (intermédiaires)
         group_document_text: Textes pour documents
         group_manage_notifications: Notifications (administration)
         group_other: Autres
         group_tenant_notifications: Notifications (locataires)
+        rich_text_templates_by_booking_action:
+        rich_text_templates_by_booking_state:
+        rich_text_templates_by_document:
+        rich_text_templates_by_rest:
   nav:
     edit_account: Gérer le compte
     manage: Administration
@@ -1428,6 +1451,8 @@ fr:
       default_body:
       default_title: Ton offre
       description: Notification d'offre
+    open_booking_agent_request_notification:
+      description:
     open_request_notification:
       default_body:
       default_title: Confirmation de votre demande de location
