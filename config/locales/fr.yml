@@ -92,13 +92,9 @@ fr:
         booking_agent_ref: Votre référence
         home: Chalet
         tenant_email: Email du locataire
-      bookable_extra:
-        description: Description
-        title: Désignation
       booking:
         approximate_headcount: Nombre de personnes attendues
         begins_at: Début de la location
-        bookable_extra_ids: Extras à réserver
         booking_agent_code: Code de l'intermédiaire
         booking_agent_ref: Référence de l'intermédiaire
         booking_category_id: Catégorie de location
@@ -225,6 +221,7 @@ fr:
         ends_at: Fin
         start_value: Ancienne valeur du compteur
       notification:
+        attachments:
         body: Contenu
         sent_at: Dernier envoi le
         subject: Sujet
@@ -421,6 +418,15 @@ fr:
         paid:
           only_paid: Uniquement les factures réglées
           only_unpaid: Seulement ouvert
+      mail_template:
+        attachable_booking_documents:
+          contract: Contrat
+          contract_documents:
+          last_info_documents:
+          unsent_deposits:
+          unsent_invoices:
+          unsent_late_notices:
+          unsent_offers:
       occupancy:
         occupancy_type:
           closed: Fermé
@@ -474,12 +480,6 @@ fr:
       agent_booking:
         one: Transmission
         other: Transmissions
-      bookable_extra:
-        one: Extra à réserver
-        other: Extras à réserver
-      booked_extra:
-        one: Extra réservé
-        other: Extras réservés
       booking:
         one: Réservation
         other: Réservations
@@ -497,8 +497,6 @@ fr:
         other: Sélecteur de tarif
       booking_conditions/always_apply:
         one: Sélecteur de tarif toujours-un
-      booking_conditions/bookable_extra:
-        one: Extra réservable Sélecteur de tarif
       booking_conditions/booking_attribute:
         one: Conditions de réservation
       booking_conditions/booking_category:
@@ -590,6 +588,9 @@ fr:
       invoices/offer:
         one: Offre
         other: Offres
+      mail_template:
+        one:
+        other:
       meter_reading_period:
         one: Relevé du compteur
         other: Relevés de compteurs
@@ -660,11 +661,6 @@ fr:
         label: Refuser
       commit_request:
         label: Confirmer la demande
-      email_contract_and_deposit:
-        label: Envoyer le contrat et l'acompte
-      email_contract_without_deposit:
-        confirm: Vraiment envoyer le contrat sans acompte ?
-        label: Envoyer un contrat sans acompte
       email_invoices:
         label: Envoyer une facture
       email_offers:
@@ -1133,6 +1129,7 @@ fr:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum_price}
+    deposited_amount:
   invoices:
     total: Total
     vat_label:
@@ -1226,11 +1223,13 @@ fr:
         help_html:
         help_title: Aide sur les variables
       index:
-        group_booking_agent_notifications: Notifications (intermédiaires)
-        group_document_text: Textes pour documents
-        group_manage_notifications: Notifications (administration)
-        group_other: Autres
-        group_tenant_notifications: Notifications (locataires)
+        booking_action:
+        booking_state:
+        document: Document
+        rich_text_templates_by_booking_action:
+        rich_text_templates_by_booking_state:
+        rich_text_templates_by_document:
+        rich_text_templates_by_rest:
   nav:
     edit_account: Gérer le compte
     manage: Administration
@@ -1440,6 +1439,8 @@ fr:
       default_body:
       default_title: Ton offre
       description: Notification d'offre
+    open_booking_agent_request_notification:
+      description:
     open_request_notification:
       default_body:
       default_title: Confirmation de votre demande de location

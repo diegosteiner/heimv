@@ -2,8 +2,8 @@
 
 module BookingStates
   class Upcoming < Base
-    RichTextTemplate.define(:upcoming_notification, template_context: %i[booking], required_by: self)
-    RichTextTemplate.define(:operator_upcoming_notification, template_context: %i[booking], required_by: self)
+    templates << MailTemplate.define(:upcoming_notification, context: %i[booking])
+    templates << MailTemplate.define(:operator_upcoming_notification, context: %i[booking])
 
     def checklist
       []
@@ -21,7 +21,7 @@ module BookingStates
       true
     end
 
-    def responsibilities
+    def roles
       %i[home_handover home_return]
     end
 
@@ -31,15 +31,9 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      booking.notifications.new(template: :upcoming_notification, to: booking.tenant).deliver
-    end
-
-    after_transition do |booking|
-      booking.responsibilities.slice(:home_handover, :home_return).values.uniq.each do |operator|
-        next if operator.email.blank?
-
-        booking.notifications.new(template: :operator_upcoming_notification, to: operator)&.deliver
-      end
+      MailTemplate.use(:upcoming_notification, booking, to: :tenant, &:deliver)
+      MailTemplate.use(:operator_upcoming_notification, booking, to: :home_handover, &:deliver)
+      MailTemplate.use(:operator_upcoming_notification, booking, to: :home_return, &:deliver)
     end
 
     infer_transition(to: :upcoming_soon) do |booking|

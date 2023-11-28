@@ -29,6 +29,7 @@
 #
 
 class Payment < ApplicationRecord
+  MailTemplate.define(:payment_confirmation_notification, context: %i[booking payment])
   belongs_to :invoice, optional: true
   belongs_to :booking, touch: true
   has_one :organisation, through: :booking
@@ -58,7 +59,9 @@ class Payment < ApplicationRecord
   end
 
   def confirm!
-    PaymentConfirmation.new(self).deliver unless write_off
+    return if write_off || !confirm?
+
+    MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, payment: self, &:deliver)
   end
 
   def recalculate_invoice

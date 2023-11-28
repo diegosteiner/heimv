@@ -1,0 +1,17 @@
+tr 
+  td
+    - if rich_text_template.enabled 
+      span.fa.fa-check.text-success 
+    - else 
+      span.fa.fa-times.text-muted
+  td= link_to t(:description, scope: [:rich_text_templates, rich_text_template.key], default: rich_text_template.title), manage_rich_text_template_path(rich_text_template)
+  td= yield 
+  td.p-1.text-end
+    - if can?(:manage, rich_text_template)
+      .btn-group
+        = link_to new_manage_rich_text_template_path(dup: rich_text_template.to_param), class: 'btn btn-default'
+          span.fa.fa-clone
+        = link_to edit_manage_rich_text_template_path(rich_text_template), class: 'btn btn-default'
+          span.fa.fa-edit
+        = link_to manage_rich_text_template_path(rich_text_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
+          span.fa.fa-trash

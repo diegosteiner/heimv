@@ -2,8 +2,7 @@
 
 module BookingStates
   class OverdueRequest < Base
-    RichTextTemplate.define(:overdue_request_notification, template_context: %i[booking], required_by: self,
-                                                           optional: true)
+    templates << MailTemplate.define(:overdue_request_notification, context: %i[booking], optional: true)
 
     def checklist
       []
@@ -21,7 +20,7 @@ module BookingStates
       booking.deadline&.clear
       length = booking.organisation.settings.overdue_request_deadline
       booking.deadlines.create(length:, remarks: booking.booking_state.t(:label)) unless length.negative?
-      booking.notifications.new(template: :overdue_request_notification, to: booking.tenant)&.deliver
+      MailTemplate.use(:overdue_request_notification, booking, to: :tenant, &:deliver)
     end
 
     infer_transition(to: :definitive_request) do |booking|

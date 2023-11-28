@@ -1,8 +1,10 @@
 - title "#{Booking.model_name.human} #{@booking.to_s} - #{Notification.model_name.human(count: 2)}"
-= render partial: 'manage/bookings/navigation', locals: { active: :notifications, booking: @booking }
 
-- unless @booking.notifications_enabled?
-  .alert.alert-warning.my-4[role=alert]= t('manage.bookings.notifications_not_enabled')
+- if @booking.present?
+  = render partial: 'manage/bookings/navigation', locals: { active: :notifications, booking: @booking }
+
+  - unless @booking.notifications_enabled?
+    .alert.alert-warning.my-4[role=alert]= t('manage.bookings.notifications_not_enabled')
 
 table.table.table-hover.align-middle
   thead
@@ -21,7 +23,7 @@ table.table.table-hover.align-middle
           - else
             = '-'
         td
-          - notification.to.each do |to|
+          - notification.deliver_to.each do |to|
             => mail_to to, to
         td
           = link_to notification.subject, manage_notification_path(notification)

@@ -9,6 +9,7 @@
 #  enabled         :boolean          default(TRUE)
 #  key             :string
 #  title_i18n      :jsonb
+#  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  organisation_id :bigint           not null
@@ -17,6 +18,7 @@
 #
 #  index_rich_text_templates_on_key_and_organisation_id  (key,organisation_id) UNIQUE
 #  index_rich_text_templates_on_organisation_id          (organisation_id)
+#  index_rich_text_templates_on_type                     (type)
 #
 # Foreign Keys
 #
@@ -27,6 +29,7 @@ class RichTextTemplate < ApplicationRecord
   InterpolationResult = Struct.new(:title, :body)
   InvalidDefinition = Class.new(StandardError)
   InvalidContext = Class.new(StandardError)
+  NoTemplate = Class.new(StandardError)
 
   extend Mobility
   extend Translatable
@@ -34,12 +37,15 @@ class RichTextTemplate < ApplicationRecord
   class << self
     def by_key!(key)
       where(key:).take!
+    rescue ActiveRecord::RecordNotFound
+      raise NoTemplate
     end
 
     def by_key(key)
       by_key!(key)
-    rescue ActiveRecord::RecordNotFound => e
-      Rails.logger.warn(e.message)
+      # rescue ActiveRecord::RecordNotFound => e
+      #   Rails.logger.warn(e.message)
+    rescue NoTemplate
       nil
     end
 
@@ -50,14 +56,18 @@ class RichTextTemplate < ApplicationRecord
     def definitions
       return @definitions ||= {} if self == RichTextTemplate
 
-      RichTextTemplate.definitions.filter { _1[:template_class] == self }
+      RichTextTemplate.definitions.filter { _2[:type] == self }
+    end
+
+    def undefine(key)
+      RichTextTemplate.definitions.delete(key)
     end
 
     def define(key, **definition)
       key = key&.to_sym
       raise InvalidDefinition if key.blank? || RichTextTemplate.definitions.key?(key)
 
-      RichTextTemplate.definitions[key] = definition.merge(template_class: self, key:)
+      RichTextTemplate.definitions[key] = definition.merge(type: self, key:)
     end
   end
 
@@ -95,12 +105,14 @@ class RichTextTemplate < ApplicationRecord
     InterpolationResult.new(*parts)
   end
 
-  def definitition
-    self.class.definitions[key&.to_sym]
+  def definition
+    RichTextTemplate.definitions[key&.to_sym]
   end
 
   def use(**context)
-    missing_context = definitition.fetch(:context_keys, []) - context.keys
+    raise InvalidDefinition unless definition
+
+    missing_context = definition.fetch(:context, []) - context.keys
     raise InvalidContext, "Missing keys were: #{missing_context.join(', ')}" if missing_context.any?
 
     interpolate(context)

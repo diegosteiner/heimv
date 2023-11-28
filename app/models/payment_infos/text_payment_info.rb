@@ -4,7 +4,7 @@ module PaymentInfos
   class TextPaymentInfo < ::PaymentInfo
     ::PaymentInfo.register_subtype self
 
-    RichTextTemplate.define(:text_payment_info_text, template_context: %i[payment_info], required_by: self)
+    RichTextTemplate.define(:text_payment_info_text, context: %i[payment_info])
 
     delegate :esr_beneficiary_account, to: :organisation
 

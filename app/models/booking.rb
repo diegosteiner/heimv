@@ -59,7 +59,7 @@ class Booking < ApplicationRecord
   include Timespanable
 
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
-                      :category, :booked_extras, :logs, :home,
+                      :category, :logs, :home,
                       { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
                         agent_booking: %i[booking_agent organisation],
                         booking_question_responses: :booking_question }].freeze
@@ -80,8 +80,6 @@ class Booking < ApplicationRecord
   has_many :deadlines, dependent: :delete_all, inverse_of: :booking
   has_many :state_transitions, dependent: :delete_all
   has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
-  has_many :booked_extras, inverse_of: :booking, dependent: :destroy
-  has_many :bookable_extras, through: :booked_extras
   has_many :logs, inverse_of: :booking, dependent: :destroy
   has_many :occupancies, inverse_of: :booking, dependent: :destroy, autosave: true
   has_many :occupiables, through: :occupancies
@@ -171,7 +169,7 @@ class Booking < ApplicationRecord
   end
 
   def tenant
-    super || @tenant ||= find_existing_tenant(tenant: nil)
+    super || @tenant ||= find_existing_tenant(current_tenant: nil)
   end
 
   def assert_tenant!
@@ -182,8 +180,9 @@ class Booking < ApplicationRecord
     tenant.email ||= self[:email]
   end
 
-  def find_existing_tenant(tenant: self.tenant)
-    return tenant if tenant&.persisted? && tenant&.valid?
+  def find_existing_tenant(current_tenant: tenant)
+    return current_tenant if current_tenant&.persisted? && current_tenant&.valid? &&
+                             current_tenant.email == self[:email]
 
     Tenant.find_by(email: self[:email], organisation:) unless organisation.blank? || self[:email].blank?
   end
@@ -192,10 +191,10 @@ class Booking < ApplicationRecord
     super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
   end
 
-  def responsibilities
-    @responsibilities ||= operator_responsibilities.group_by(&:responsibility)
-                                                   .transform_values(&:first)
-                                                   .symbolize_keys
+  def roles
+    @roles ||= { administration: organisation, tenant:, booking_agent: agent_booking&.booking_agent }.merge(
+      operator_responsibilities.group_by(&:responsibility).transform_values(&:first)
+    ).symbolize_keys.filter { |_role, value| value.present? }
   end
 
   private

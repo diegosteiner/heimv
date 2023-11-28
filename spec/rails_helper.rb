@@ -11,6 +11,10 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 require 'selenium/webdriver'
 require 'capybara-screenshot/rspec'
+require 'simplecov'
+
+# SimpleCov.add_filter 'vendor'
+# SimpleCov.start 'rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -58,4 +62,8 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include Rails.application.routes.url_helpers
+
+  config.after(:suite) do
+    # SimpleCov.result.format!
+  end
 end

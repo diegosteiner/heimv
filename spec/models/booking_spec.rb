@@ -77,6 +77,45 @@ describe Booking, type: :model do
     end
   end
 
+  describe '#roles' do
+    subject(:roles) { booking.roles }
+    before do
+      booking.save
+      booking.reload
+    end
+
+    it { expect(roles).to eq({ administration: organisation, tenant: booking.tenant }) }
+
+    context 'with agent_booking' do
+      let(:booking_agent) { create(:booking_agent, organisation:) }
+      let!(:agent_booking) { create(:agent_booking, organisation:, booking:, booking_agent_code: booking_agent.code) }
+
+      it { expect(roles[:booking_agent]).to eq(booking_agent) }
+    end
+
+    context 'with operator responsibilities' do
+      let(:responsibilities) do
+        {
+          administration: create(:operator, organisation:),
+          home_handover: create(:operator, organisation:),
+          home_return: create(:operator, organisation:),
+          billing: create(:operator, organisation:)
+        }
+      end
+      before do
+        responsibilities.each do |responsibility, operator|
+          booking.operator_responsibilities.create(responsibility:, operator:)
+        end
+      end
+
+      it do
+        responsibilities.each do |responsibility, operator|
+          expect(roles[responsibility].operator).to eq(operator)
+        end
+      end
+    end
+  end
+
   describe 'Tenant' do
     context 'with new tenant' do
       it 'uses existing tenant when email is correct' do

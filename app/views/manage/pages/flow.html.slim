@@ -6,16 +6,15 @@
     .col-md-1
     .col-md-4
       - @booking_states.each do |booking_state|
+        - next if @templates[booking_state].blank?
         .mb-5.mt-2
           h4.mt-0 = booking_state.t(:label)
           p= booking_state.t(:description)
-
-          - if @templates[booking_state].present?
-            = RichTextTemplate.model_name.human(count: 2)
-            | :
-            ul.mt-1 
-              - @templates[booking_state]&.each do |key|
-                li= link_to(manage_rich_text_templates_path(key: key))
-                  = t(:description, scope: [:rich_text_templates, key])
+          = RichTextTemplate.model_name.human(count: 2)
+          | :
+          ul.mt-1 
+            - @templates[booking_state]&.each do |key|
+              li= link_to(manage_rich_text_templates_path(key: key))
+                = t(:description, scope: [:rich_text_templates, key])
 
 

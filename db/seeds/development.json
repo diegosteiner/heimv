@@ -28,9 +28,11 @@
   "esr_beneficiary_account": null,
   "homes": [
     {
-      "address": "9876 Einsiedeln",
+      "description": "9876 Einsiedeln",
       "id": 1,
-      "name": "Pfadiheim Stolz"
+      "name": "Pfadiheim Stolz",
+      "active": true,
+      "home_id": 1
     }
   ],
   "iban": "CH75 3000 0002 1571 4845 3",

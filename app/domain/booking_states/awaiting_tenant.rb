@@ -2,9 +2,8 @@
 
 module BookingStates
   class AwaitingTenant < Base
-    RichTextTemplate.define(:awaiting_tenant_notification, template_context: %i[booking], required_by: self)
-    RichTextTemplate.define(:booking_agent_request_accepted_notification, template_context: %i[booking],
-                                                                          required_by: self)
+    templates << MailTemplate.define(:awaiting_tenant_notification, context: %i[booking])
+    templates << MailTemplate.define(:booking_agent_request_accepted_notification, context: %i[booking])
 
     def checklist
       []
@@ -31,16 +30,12 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.notifications.new(template: :awaiting_tenant_notification, to: booking.tenant).deliver
-      booking.notifications.new(template: :booking_agent_request_accepted_notification,
-                                to: booking.agent_booking.booking_agent).deliver
-    end
-
-    after_transition do |booking|
       booking.deadline&.clear
       booking.deadlines.create(length: booking.organisation.settings.provisional_request_deadline,
                                postponable_for: booking.organisation.settings.deadline_postponable_for,
                                remarks: booking.booking_state.t(:label))
+      MailTemplate.use!(:awaiting_tenant_notification, booking, to: :tenant, &:deliver)
+      MailTemplate.use(:booking_agent_request_accepted_notification, booking, to: :booking_agent, &:deliver)
     end
 
     infer_transition(to: :overdue_request) do |booking|

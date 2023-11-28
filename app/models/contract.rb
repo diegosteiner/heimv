@@ -25,7 +25,7 @@
 #
 
 class Contract < ApplicationRecord
-  RichTextTemplate.define(:contract_text, template_context: %i[booking], required_by: self)
+  RichTextTemplate.define(:contract_text, context: %i[booking])
 
   locale_enum default: I18n.locale
 
@@ -93,6 +93,10 @@ class Contract < ApplicationRecord
     @usages ||= booking&.usages&.select do |usage|
       usage.tarif.associated_types.include?(Tarif::ASSOCIATED_TYPES.key(self.class))
     end
+  end
+
+  def attach_to(attached)
+    attached.attach(io: StringIO.new(pdf.blob.download), filename:) if pdf&.blob.present?
   end
 
   private

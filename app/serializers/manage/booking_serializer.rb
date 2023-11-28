@@ -12,20 +12,12 @@ module Manage
     association :category,      blueprint: Manage::BookingCategorySerializer
 
     fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request, :tenant_id, :locale,
-           :id, :purpose_description, :approximate_headcount, :remarks, :home_id, :occupiable_ids, :bookable_extra_ids
+           :id, :purpose_description, :approximate_headcount, :remarks, :home_id, :occupiable_ids
 
     field :operator_responsibilities do |booking|
-      booking.responsibilities.transform_values do |operator_responsibility|
-        OperatorResponsibilitySerializer.render_as_hash(operator_responsibility)
-      end
-    end
-
-    field :booked_extras do |booking|
-      booking.booked_extras.to_h do |booked_extra|
-        [
-          booked_extra.bookable_extra.id,
-          Public::BookableExtraSerializer.render_as_hash(booked_extra.bookable_extra)
-        ]
+      booking.operator_responsibilities.to_h do |operator_responsibility|
+        [operator_responsibility.responsibility,
+         OperatorResponsibilitySerializer.render_as_hash(operator_responsibility)]
       end
     end
 

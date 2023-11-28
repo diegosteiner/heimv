@@ -4,29 +4,28 @@
 #
 # Table name: notifications
 #
-#  id                    :bigint           not null, primary key
-#  addressed_to          :integer          default("manager"), not null
-#  bcc                   :string
-#  body                  :text
-#  cc                    :string           default([]), is an Array
-#  locale                :string           default(NULL), not null
-#  sent_at               :datetime
-#  subject               :string
-#  to                    :string           default([]), is an Array
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  booking_id            :uuid
-#  rich_text_template_id :bigint
+#  id               :bigint           not null, primary key
+#  bcc              :string
+#  body             :text
+#  cc               :string           default([]), is an Array
+#  deliver_to       :string           default([]), is an Array
+#  sent_at          :datetime
+#  subject          :string
+#  to               :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  booking_id       :uuid
+#  mail_template_id :bigint
 #
 # Indexes
 #
-#  index_notifications_on_booking_id             (booking_id)
-#  index_notifications_on_rich_text_template_id  (rich_text_template_id)
+#  index_notifications_on_booking_id        (booking_id)
+#  index_notifications_on_mail_template_id  (mail_template_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (rich_text_template_id => rich_text_templates.id)
+#  fk_rails_...  (mail_template_id => rich_text_templates.id)
 #
 
 FactoryBot.define do
@@ -34,7 +33,7 @@ FactoryBot.define do
     body { '# Body' }
     sent_at { nil }
     subject { 'Subject' }
-    locale { I18n.locale }
+    to { :tenant }
 
     booking
   end

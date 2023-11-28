@@ -49,7 +49,6 @@ class Organisation < ApplicationRecord
   has_many :booking_categories, -> { ordered }, inverse_of: :organisation, dependent: :destroy
   has_many :designated_documents, dependent: :destroy, inverse_of: :organisation
   has_many :data_digest_templates, dependent: :destroy, inverse_of: :organisation
-  has_many :bookable_extras, dependent: :destroy
   has_many :booking_questions, dependent: :destroy, inverse_of: :organisation
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
@@ -63,6 +62,7 @@ class Organisation < ApplicationRecord
   has_one_attached :contract_signature
 
   locale_enum default: I18n.locale
+  attr_writer :booking_flow_class
 
   scope :ordered, -> { order(name: :ASC) }
 
@@ -127,7 +127,7 @@ class Organisation < ApplicationRecord
     self.booking_agents = origin.booking_agents.map(&:dup)
     self.booking_categories = origin.booking_categories.map(&:dup)
     self.tarifs = origin.tarifs.map(&:dup)
-    self.bookable_extras = origin.bookable_extras.map(&:dup)
+    self.booking_questions = origin.booking_questions.map(&:dup)
     self.designated_documents = origin.designated_documents.map(&:dup)
     self.data_digest_templates = origin.data_digest_templates.map(&:dup)
 
