@@ -2,7 +2,7 @@
 
 module BookingStates
   class DeclinedRequest < Base
-    RichTextTemplate.define(:declined_request_notification, template_context: %i[booking], required_by: self)
+    templates << MailTemplate.define(:declined_request_notification, context: %i[booking])
 
     def checklist
       []
@@ -25,8 +25,8 @@ module BookingStates
       booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline_exceeded?
       booking.conclude
       booking.deadline&.clear
-      booking.notifications.new(template: :declined_request_notification,
-                                to: booking.agent_booking&.booking_agent || booking.tenant).deliver
+      MailTemplate.use(:declined_request_notification, booking,
+                       to: booking.agent_booking ? :booking_agent : :tenant, &:deliver)
     end
 
     def relevant_time; end

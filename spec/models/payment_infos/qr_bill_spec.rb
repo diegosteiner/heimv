@@ -5,7 +5,9 @@ require 'rails_helper'
 RSpec.describe PaymentInfos::QrBill, type: :model do
   subject(:qr_bill) { described_class.new(invoice) }
 
-  let(:organisation) { create(:organisation, iban: '01-318421-1', address: "Organisation\nStrasse 1\n8000 Zürich") }
+  let(:organisation) do
+    create(:organisation, :with_templates, iban: '01-318421-1', address: "Organisation\nStrasse 1\n8000 Zürich")
+  end
   let(:tenant) do
     create(:tenant, organisation:, first_name: 'Peter', last_name: 'Muster',
                     street_address: 'Teststrasse 2', zipcode: 8049, city: 'Zürich')

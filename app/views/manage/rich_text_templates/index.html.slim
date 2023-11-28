@@ -1,33 +1,69 @@
 h1.mt-0.mb-1= RichTextTemplate.model_name.human(count: 2)
 
 table.table.table-hover.align-middle
-  
-  - grouped_templates = @rich_text_templates.group_by { |rich_text_template| rich_text_template_group(rich_text_template) }
-  - grouped_templates.each do |group, rich_text_templates|
-    
-    thead
-      tr
-        th.pt-4[colspan='3']
-          h4= t(".group_#{group}")
+  thead
+    tr 
+      th.bg-transparent[colspan=4]
+        h5.mt-5= t(".rich_text_templates_by_booking_state")
+    tr
+      th
+      th= RichTextTemplate.model_name.human 
+      th= t('.booking_state')
+      th
 
+  - rich_text_templates_by_booking_state.each do |booking_state, rich_text_templates|
     tbody.shadow-sm
       - rich_text_templates.each do |rich_text_template|
-        tr 
-          td
-            - if rich_text_template.enabled 
-              span.fa.fa-check.text-success 
-            - else 
-              span.fa.fa-times.text-muted
-          td= link_to t(:description, scope: [:rich_text_templates, rich_text_template.key], default: rich_text_template.title), manage_rich_text_template_path(rich_text_template)
-          td.p-1.text-end
-            - if can?(:manage, rich_text_template)
-              .btn-group
-                = link_to new_manage_rich_text_template_path(dup: rich_text_template.to_param), class: 'btn btn-default'
-                  span.fa.fa-clone
-                = link_to edit_manage_rich_text_template_path(rich_text_template), class: 'btn btn-default'
-                  span.fa.fa-edit
-                = link_to manage_rich_text_template_path(rich_text_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
-                  span.fa.fa-trash
+        = render layout: 'table_row', locals: { rich_text_template: }
+          = booking_state.t
+
+  thead
+    tr 
+      th.bg-transparent[colspan=4]
+        h5.mt-5= t(".rich_text_templates_by_document")
+    tr
+      th
+      th= RichTextTemplate.model_name.human 
+      th= t('.document')
+      th
+
+  - rich_text_templates_by_document.each do |document, rich_text_templates|
+    tbody.shadow-sm
+      - rich_text_templates.each do |rich_text_template|
+        = render layout: 'table_row', locals: { rich_text_template: }
+          = document.model_name.human
+
+  thead
+    tr 
+      th.bg-transparent[colspan=4]
+        h5.mt-5= t(".rich_text_templates_by_booking_action")
+    tr
+      th
+      th= RichTextTemplate.model_name.human 
+      th= t('.booking_action')
+      th
+
+  - rich_text_templates_by_booking_action.each do |booking_action, rich_text_templates|
+    tbody.shadow-sm
+      - rich_text_templates.each do |rich_text_template|
+        = render layout: 'table_row', locals: { rich_text_template: }
+          = booking_action.t
+
+  thead
+    tr 
+      th.bg-transparent[colspan=4]
+        h5.mt-5= t(".rich_text_templates_by_rest")
+    tr
+      th
+      th= RichTextTemplate.model_name.human 
+      th
+      th
+
+  tbody.shadow-sm
+    - rich_text_templates_by_rest.each do |rich_text_template|
+      = render layout: 'table_row', locals: { rich_text_template: }
+        = ''
+
 
 br
 = link_to new_manage_rich_text_template_path, class: 'btn btn-primary' do

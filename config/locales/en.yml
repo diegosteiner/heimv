@@ -82,13 +82,9 @@ en:
         booking_agent_ref: Ihre Referenz
         home: Heim
         tenant_email: Email des Mieters
-      bookable_extra:
-        description: Beschreibung
-        title: Bezeichnung
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         begins_at: Beginn der Belegung
-        bookable_extra_ids: Buchbare Extras
         booking_agent_code: Vermittler-Code
         booking_agent_ref: Vermittler-Referenz
         booking_category_id: Art der Miete
@@ -427,12 +423,6 @@ en:
       agent_booking:
         one: Vermittlung
         other: Vermittlungen
-      bookable_extra:
-        one: Buchbares Extra
-        other: Buchbare Extras
-      booked_extra:
-        one: Gebuchtes Extra
-        other: Gebuchte Extras
       booking:
         one: Buchung
         other: Buchungen
@@ -450,8 +440,6 @@ en:
         other: Tarifwähler
       booking_conditions/always_apply:
         one: Immer-Ein Tarifwähler
-      booking_conditions/bookable_extra:
-        one: Buchbares Extra Tarifwähler
       booking_conditions/booking_category:
         one: Mietzweck Tarifwähler
       booking_conditions/booking_state:
@@ -586,11 +574,6 @@ en:
         label: Ablehnen
       commit_request:
         label: Anfrage definitv setzen
-      email_contract_and_deposit:
-        label: Vertrag und Anzahlung verschicken
-      email_contract_without_deposit:
-        confirm: Den Vertrag wirklich ohne Anzahlung verschicken?
-        label: Vertrag ohne Anzahlung verschicken
       email_invoices:
         label: Rechnung verschicken
       mark_contract_signed:
@@ -1262,12 +1245,6 @@ en:
             {% endif %}
             </pre>
         help_title: Hilfe zu Variabeln
-      index:
-        group_booking_agent_notifications: Benachrichtigungen (Vermittler)
-        group_document_text: Texte für Dokumente
-        group_manage_notifications: Benachrichtigungen (Verwaltung)
-        group_other: Weitere
-        group_tenant_notifications: Benachrichtigungen (Mieter)
   nav:
     edit_account: Passwort ändern
     manage: Verwaltung

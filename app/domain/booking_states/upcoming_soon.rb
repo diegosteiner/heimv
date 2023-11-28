@@ -2,10 +2,8 @@
 
 module BookingStates
   class UpcomingSoon < Base
-    RichTextTemplate.define(:upcoming_soon_notification,
-                            template_context: %i[booking], required_by: self, optional: true)
-    RichTextTemplate.define(:operator_upcoming_soon_notification,
-                            template_context: %i[booking], required_by: self, optional: true)
+    templates << MailTemplate.define(:upcoming_soon_notification, context: %i[booking], optional: true)
+    templates << MailTemplate.define(:operator_upcoming_soon_notification, context: %i[booking], optional: true)
 
     def checklist
       []
@@ -15,7 +13,7 @@ module BookingStates
       Invoices::Deposit
     end
 
-    def responsibilities
+    def roles
       %i[home_handover home_return]
     end
 
@@ -25,22 +23,9 @@ module BookingStates
 
     after_transition do |booking|
       booking.occupied! if occupied_occupancy_state?(booking)
-    end
-
-    after_transition do |booking|
-      booking.responsibilities.slice(:home_handover, :home_return).values.uniq.each do |operator|
-        next if operator.email.blank?
-
-        booking.notifications.new(template: :operator_upcoming_soon_notification, to: operator)&.deliver
-      end
-    end
-
-    after_transition do |booking|
-      notification = booking.notifications.new(template: :upcoming_soon_notification, to: booking.tenant)
-      next unless notification.valid?
-
-      notification.attach(DesignatedDocument.for_booking(booking).where(send_with_last_infos: true))
-      notification.save! && notification.deliver
+      MailTemplate.use(:operator_upcoming_soon_notification, booking, to: :home_handover, &:deliver)
+      MailTemplate.use(:operator_upcoming_soon_notification, booking, to: :home_return, &:deliver)
+      MailTemplate.use(:upcoming_soon_notification, booking, to: :tenant, attach: :last_info_documents, &:deliver)
     end
 
     infer_transition(to: :active) do |booking|

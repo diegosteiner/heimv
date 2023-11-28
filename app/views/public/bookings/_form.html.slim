@@ -6,7 +6,7 @@
           .me-3
             i.fa.fa-info-circle
           p.m-0= @booking.booking_state.t(:public_info)
-      - if @booking.begins_at < @booking.organisation.settings.last_minute_warning.seconds.from_now
+      - if @booking.organisation.settings.last_minute_warning&.>(0) && @booking.begins_at - @booking.created_at < @booking.organisation.settings.last_minute_warning
         .alert.alert-warning.d-flex
           .me-3
             i.fa.fa-exclamation-triangle

@@ -23,9 +23,9 @@
 #
 FactoryBot.define do
   factory :operator do
-    name { 'MyString' }
-    email { 'operator@heimv.local' }
-    contact_info { 'MyText' }
+    name { 'Operator Fourmi' }
+    sequence(:email) { |i| "operator_#{i}@heimv.local" }
+    contact_info { 'Operator Tel' }
     locale { I18n.locale }
     organisation
   end

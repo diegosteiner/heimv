@@ -12,6 +12,3 @@
         == render 'form'
 
       .card-footer 
-        ul.my-0
-          - @notification.attachments.each do |attachment|
-            li= link_to attachment.filename, attachment, target: :_blank

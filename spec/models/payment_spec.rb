@@ -31,5 +31,21 @@
 require 'rails_helper'
 
 RSpec.describe Payment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:booking) { create(:booking, notifications_enabled: true) }
+  let!(:template) do
+    create(:mail_template, key: :payment_confirmation_notification,
+                           organisation: booking.organisation,
+                           body: '{{ payment.amount }}')
+  end
+  let(:payment) { create(:payment, booking:, invoice: nil, confirm: true) }
+
+  describe '#confirm!' do
+    subject(:mail) { payment.confirm! }
+
+    it do
+      expect(mail.template_context.keys).to include(*%i[booking payment])
+      expect(mail).to be_valid
+      expect(mail.body).to include(payment.amount.to_s)
+    end
+  end
 end

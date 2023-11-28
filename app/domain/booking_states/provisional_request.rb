@@ -2,8 +2,7 @@
 
 module BookingStates
   class ProvisionalRequest < Base
-    RichTextTemplate.define(:provisional_request_notification, template_context: %i[booking],
-                                                               required_by: self)
+    templates << MailTemplate.define(:provisional_request_notification, context: %i[booking])
 
     include Rails.application.routes.url_helpers
 
@@ -26,13 +25,10 @@ module BookingStates
       booking.deadlines.create(length: booking.organisation.settings.provisional_request_deadline,
                                postponable_for: booking.organisation.settings.deadline_postponable_for,
                                remarks: booking.booking_state.t(:label))
-    end
-
-    after_transition do |booking|
       booking.tentative!
       next if booking.committed_request
 
-      booking.notifications.new(template: :provisional_request_notification, to: booking.tenant).deliver
+      MailTemplate.use(:provisional_request_notification, booking, to: :tenant, &:deliver)
     end
 
     infer_transition(to: :definitive_request) do |booking|

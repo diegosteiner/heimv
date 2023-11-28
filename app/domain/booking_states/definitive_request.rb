@@ -2,10 +2,8 @@
 
 module BookingStates
   class DefinitiveRequest < Base
-    RichTextTemplate.define(:definitive_request_notification, template_context: %i[booking],
-                                                              required_by: self)
-    RichTextTemplate.define(:manage_definitive_request_notification, template_context: %i[booking],
-                                                                     required_by: self, optional: true)
+    templates << MailTemplate.define(:definitive_request_notification, context: %i[booking])
+    templates << MailTemplate.define(:manage_definitive_request_notification, context: %i[booking], optional: true)
     include Rails.application.routes.url_helpers
 
     def checklist
@@ -50,9 +48,8 @@ module BookingStates
       booking.update!(editable: false, committed_request: true)
       booking.deadline&.clear
       OperatorResponsibility.assign(booking, :home_handover, :home_return)
-      to = booking.responsibilities[:administration] || booking.organisation
-      booking.notifications.new(template: :manage_definitive_request_notification, to:)&.deliver
-      booking.notifications.new(template: :definitive_request_notification, to: booking.tenant).deliver
+      MailTemplate.use(:manage_definitive_request_notification, booking, to: :administration, &:deliver)
+      MailTemplate.use(:definitive_request_notification, booking, to: :tenant, &:deliver)
     end
 
     def relevant_time
@@ -100,7 +97,7 @@ module BookingStates
     def assign_responsibilities_checklist_item
       return if booking.organisation.operators.none?
 
-      ChecklistItem.new(:assign_responsibilities, booking.responsibilities[:home_handover].present?,
+      ChecklistItem.new(:assign_responsibilities, booking.roles[:home_handover].present?,
                         manage_booking_operator_responsibilities_path(booking, org: booking.organisation))
     end
   end

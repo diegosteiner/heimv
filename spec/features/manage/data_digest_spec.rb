@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'Data Digests', :devise, type: :feature do
-  let(:organisation) { create(:organisation, :with_rich_text_templates) }
+  let(:organisation) { create(:organisation, :with_templates) }
   let(:organisation_user) { create(:organisation_user, :admin, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }

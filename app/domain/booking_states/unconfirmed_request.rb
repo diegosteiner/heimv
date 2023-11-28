@@ -2,8 +2,7 @@
 
 module BookingStates
   class UnconfirmedRequest < Base
-    RichTextTemplate.define(:unconfirmed_request_notification, template_context: %i[booking],
-                                                               required_by: self)
+    templates << MailTemplate.define(:unconfirmed_request_notification, context: %i[booking])
 
     def checklist
       []
@@ -29,7 +28,7 @@ module BookingStates
       booking.deadlines.create(length: booking.organisation.settings.unconfirmed_request_deadline,
                                remarks: booking.booking_state.t(:label))
       booking.tentative!
-      booking.notifications.new(template: :unconfirmed_request_notification, to: booking.tenant).deliver
+      MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:deliver)
     end
 
     def relevant_time

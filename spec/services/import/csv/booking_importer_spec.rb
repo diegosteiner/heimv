@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Import::Csv::BookingImporter, type: :model do
-  let(:organisation) { create(:organisation) }
+  let(:organisation) { create(:organisation, :with_templates) }
   let(:options) { {} }
   let!(:booking_category) { create(:booking_category, organisation:, key: 'youth_camp') }
   let(:home) { create(:home, organisation:) }

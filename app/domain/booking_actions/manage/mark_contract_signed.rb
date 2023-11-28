@@ -3,16 +3,16 @@
 module BookingActions
   module Manage
     class MarkContractSigned < BookingActions::Base
-      RichTextTemplate.define(:contract_signed_notification, template_context: %i[booking], required_by: self)
+      templates << MailTemplate.define(:contract_signed_notification, context: %i[booking])
 
       def call!
         booking.contract.signed!
-        result = Result.new ok: booking.update(committed_request: true)
+        booking.update(committed_request: true)
 
-        return result unless Invoices::Deposit.of(booking).kept.unpaid.exists?
+        return Result.ok unless Invoices::Deposit.of(booking).kept.unpaid.exists?
 
-        booking.notifications.new(template: :contract_signed_notification, to: booking.tenant).deliver
-        result
+        MailTemplate.use(:contract_signed_notification, booking, to: :tenant, &:deliver)
+        Result.ok
       end
 
       def allowed?

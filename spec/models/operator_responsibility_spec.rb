@@ -35,14 +35,15 @@ RSpec.describe OperatorResponsibility, type: :model do
   let(:operator) { create(:operator, organisation:) }
   let(:booking) { create(:booking, organisation:) }
 
-  describe 'booking#responsibilities' do
+  describe 'booking#roles' do
     let!(:operator_responsibility) do
       create(:operator_responsibility, organisation:, operator:,
                                        responsibility: :home_handover, booking:)
     end
 
     it 'acts as hash' do
-      expect(booking.responsibilities).to eq({ home_handover: operator_responsibility })
+      expect(booking.roles).to eq({ home_handover: operator_responsibility, administration: organisation,
+                                    tenant: booking.tenant })
     end
   end
 

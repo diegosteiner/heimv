@@ -2,11 +2,23 @@
 
 ## Unreleased
 
+## Version 23.11.2
+
+Released on 28.11.2023
+
+- Improvement: Add MailTemplate to RichTextTemplates
+- Improvement: Add more specs
+- Bugfixes
+
 ## Version 23.11.1
+
+Released on 05.11.2023
 
 - Bugfixes
 
 ## Version 23.10.2
+
+Released on 30.10.2023
 
 - Improvement: Recognize payment duplicates more accurately
 - Feature: Edit contract and invoice emails before send
@@ -14,21 +26,29 @@
 
 ## Version 23.10.1
 
+Released on 11.10.2023
+
 - Improvement: Limit year calender scroll to 1 month
 - Bugfixes
 
 ## Version 23.9.3
+
+Released on 21.09.2023
 
 - Feature: Allow deadlines to be 0 in settings to skip
 - Bugfixes
 
 ## Version 23.9.2
 
+Released on 11.09.2023
+
 - Feature: Notify operators for upcoming bookings
 - Feature: Embed tenant information in private ical
 - Feature: Add more fields for booking agents
 
 ## Version 23.9.1
+
+Released on 05.09.2023
 
 - Bugfixes
 - Feature: Show current date in calendar

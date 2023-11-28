@@ -2,9 +2,9 @@
 
 module BookingStates
   class OpenRequest < Base
-    RichTextTemplate.define(:manage_new_booking_notification, template_context: %i[booking],
-                                                              required_by: self)
-    RichTextTemplate.define(:open_request_notification, template_context: %i[booking], required_by: self)
+    templates << MailTemplate.define(:manage_new_booking_notification, context: %i[booking])
+    templates << MailTemplate.define(:open_booking_agent_request_notification, context: %i[booking])
+    templates << MailTemplate.define(:open_request_notification, context: %i[booking])
 
     def checklist
       []
@@ -21,19 +21,14 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear
       OperatorResponsibility.assign(booking, :administration, :billing)
-      to = booking.responsibilities[:administration] || booking.organisation
-      booking.notifications.new(template: :manage_new_booking_notification, to:)&.deliver
+      MailTemplate.use(:manage_new_booking_notification, booking, to: :administration, &:deliver)
+
       if booking.agent_booking.present?
-        # booking.notifications.new(template:  :open_booking_agent_request_notification,
-        # to: booking.agent_booking.booking_agent).deliver
+        MailTemplate.use(:open_booking_agent_request_notification, booking, to: :booking_agent, &:deliver)
       else
-        booking.notifications.new(template: :open_request_notification, to: booking.tenant)&.deliver
+        MailTemplate.use(:open_request_notification, booking, to: :tenant, &:deliver)
       end
     end
-
-    # infer_transition(from: :open_request, to: :provisional_request) do |booking|
-    #   !booking.tenant&.reservations_allowed
-    # end
 
     def relevant_time
       booking.created_at

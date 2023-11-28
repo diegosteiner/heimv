@@ -6,8 +6,8 @@
       li
         = Notification.human_attribute_name(:to)
         ' : 
-        - @notification.to.each do |to|
-          = mail_to(to)
+        - @notification.deliver_to.each do |deliver_to|
+          = mail_to(deliver_to)
           '
       li
         = Notification.human_attribute_name(:sent_at)

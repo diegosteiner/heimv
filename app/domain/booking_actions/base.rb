@@ -2,8 +2,12 @@
 
 module BookingActions
   class Base
-    class NotAllowed < StandardError; end
-    Result = Struct.new(:ok, :redirect_proc, keyword_init: true)
+    Result = Struct.new(:ok, :redirect_proc, keyword_init: true) do
+      def self.ok(**)
+        new(ok: true, **)
+      end
+    end
+    NotAllowed = Class.new(StandardError)
 
     include Translatable
     extend Translatable
@@ -11,6 +15,15 @@ module BookingActions
 
     def initialize(context)
       @context = context
+    end
+
+    def self.templates
+      @templates ||= []
+    end
+
+    def label
+      # i18n-tasks-ignore
+      translate(:label)
     end
 
     def call

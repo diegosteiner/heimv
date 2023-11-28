@@ -1,4 +1,5 @@
-= form_with(model: [:manage, @rich_text_template.becomes(RichTextTemplate)], local: true) do |f|
+- url =  @rich_text_template.persisted? ? manage_rich_text_template_path(@rich_text_template) : manage_rich_text_templates_path
+= form_with(model: @rich_text_template, scope: :rich_text_template, url:, local: true) do |f|
 
   fieldset
     - if @rich_text_template.new_record?
@@ -24,6 +25,9 @@
       summary 
         = t('.help_title')
       = t('.help_html')
+    
+  - if @rich_text_template.is_a?(MailTemplate)
+    / fieldset.mt-3
 
   .form-actions.pt-4.mt-3
     = f.submit

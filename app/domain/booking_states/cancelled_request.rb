@@ -2,7 +2,7 @@
 
 module BookingStates
   class CancelledRequest < Base
-    RichTextTemplate.define(:cancelled_request_notification, template_context: %i[booking], required_by: self)
+    templates << MailTemplate.define(:cancelled_request_notification, context: %i[booking])
 
     def checklist
       []
@@ -20,8 +20,8 @@ module BookingStates
       booking.free!
       booking.conclude
       booking.deadline&.clear
-      booking.notifications.new(template: :cancelled_request_notification,
-                                to: booking.agent_booking&.booking_agent || booking.tenant).deliver
+      MailTemplate.use(:cancelled_request_notification, booking,
+                       to: booking.agent_booking ? :booking_agent : :tenant, &:deliver)
     end
 
     def relevant_time; end
