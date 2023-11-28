@@ -661,11 +661,6 @@ fr:
         label: Refuser
       commit_request:
         label: Confirmer la demande
-      email_contract_and_deposit:
-        label: Envoyer le contrat et l'acompte
-      email_contract_without_deposit:
-        confirm: Vraiment envoyer le contrat sans acompte ?
-        label: Envoyer un contrat sans acompte
       email_invoices:
         label: Envoyer une facture
       email_offers:

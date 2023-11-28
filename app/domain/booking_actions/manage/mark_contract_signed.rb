@@ -7,12 +7,12 @@ module BookingActions
 
       def call!
         booking.contract.signed!
-        result = Result.new ok: booking.update(committed_request: true)
+        booking.update(committed_request: true)
 
-        return result unless Invoices::Deposit.of(booking).kept.unpaid.exists?
+        return Result.ok unless Invoices::Deposit.of(booking).kept.unpaid.exists?
 
         MailTemplate.use(:contract_signed_notification, booking, to: :tenant, &:deliver)
-        result
+        Result.ok
       end
 
       def allowed?

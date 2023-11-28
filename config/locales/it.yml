@@ -661,11 +661,6 @@ it:
         label: Rifiutare
       commit_request:
         label: Impostare la richiesta come definitiva
-      email_contract_and_deposit:
-        label: Inviare il contratto e il acconto
-      email_contract_without_deposit:
-        confirm: Inviare davvero il contratto senza un acconto?
-        label: Inviare il contratto senza acconto
       email_invoices:
         label: Inviare la fattura
       email_offers:

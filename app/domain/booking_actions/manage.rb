@@ -4,7 +4,7 @@ module BookingActions
   module Manage
     def self.all
       @all ||= [
-        Accept, EmailContractAndDeposit, EmailContractWithoutDeposit,
+        Accept, EmailContract, MarkContractSent,
         EmailInvoices, EmailOffers, BookingActions::Public::PostponeDeadline,
         MarkContractSigned, BookingActions::Manage::CommitRequest,
         BookingActions::Public::CommitBookingAgentRequest, Cancel

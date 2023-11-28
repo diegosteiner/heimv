@@ -6,11 +6,11 @@ RSpec::Matchers.define :notify do |mail_template|
   def matching_notification(booking, key, to)
     notifications = booking.notifications.joins(:mail_template).where(mail_template: { key: })
     notifications.where(to:) if to.present?
-    notifications.take
+    notifications
   end
 
   match do |booking|
-    notification = matching_notification(booking, mail_template, @to)
+    notification = matching_notification(booking, mail_template, @to).take
     next false if notification.blank? || !notification.valid?
     next false if (@save || @deliver) && !notification.persisted?
     next false if @deliver && notification.instance_variable_get('@message_delivery').blank?
@@ -19,7 +19,7 @@ RSpec::Matchers.define :notify do |mail_template|
   end
 
   failure_message do |booking|
-    notification = notification_by_key(booking, mail_template)
+    notification = matching_notification(booking, mail_template, @to).take
     next "Notification '#{mail_template}' not found for booking #{booking.to_param}" if notification.blank?
     next "Notification '#{mail_template}' not valid" unless notification.valid?
 

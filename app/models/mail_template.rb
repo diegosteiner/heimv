@@ -30,7 +30,7 @@ class MailTemplate < RichTextTemplate
     return nil unless enabled
 
     Notification.build(booking:, to:).tap do |notification|
-      return nil if notification.resolve_to.nil?
+      return nil if notification.deliver_to.blank?
 
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
       notification.tap(&) if block_given?

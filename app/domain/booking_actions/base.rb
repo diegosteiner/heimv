@@ -2,7 +2,11 @@
 
 module BookingActions
   class Base
-    Result = Struct.new(:ok, :redirect_proc, keyword_init: true)
+    Result = Struct.new(:ok, :redirect_proc, keyword_init: true) do
+      def self.ok(**)
+        new(ok: true, **)
+      end
+    end
     NotAllowed = Class.new(StandardError)
 
     include Translatable

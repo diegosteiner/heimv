@@ -662,15 +662,17 @@ de:
         label: Ablehnen
       commit_request:
         label: Anfrage definitv setzen
-      email_contract_and_deposit:
-        label: Vertrag und Anzahlung verschicken
-      email_contract_without_deposit:
+      email_contract:
         confirm: Den Vertrag wirklich ohne Anzahlung verschicken?
-        label: Vertrag ohne Anzahlung verschicken
+        label: Vertrag versenden
+        label_with_deposit: Vertrag und Anzahlung verschicken
+        label_without_deposit: Vertrag ohne Anzahlung verschicken
       email_invoices:
         label: Rechnung verschicken
       email_offers:
         label: Offerte verschicken
+      mark_contract_sent:
+        label: Vertrag als versendet markieren
       mark_contract_signed:
         label: Vertragseingang bestätigen
       mark_deposits_paid:

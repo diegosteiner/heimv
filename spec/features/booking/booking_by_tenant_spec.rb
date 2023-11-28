@@ -150,7 +150,7 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def confirm_booking
     visit manage_booking_path(@booking, org:)
-    click_on :email_contract_and_deposit
+    click_on :email_contract
     submit_form
     visit manage_booking_path(@booking, org:)
     click_on :mark_contract_signed
