@@ -13,7 +13,7 @@ module BookingStates
       Invoices::Deposit
     end
 
-    def responsibilities
+    def roles
       %i[home_handover home_return]
     end
 

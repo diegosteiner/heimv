@@ -108,7 +108,7 @@ module BookingStates
       []
     end
 
-    def responsibilities
+    def roles
       []
     end
 

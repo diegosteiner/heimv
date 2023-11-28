@@ -9,7 +9,7 @@ module BookingActions
         mail = MailTemplate.use(:offer_notification, booking, to: booking.tenant, attach: offers, invoices: offers)
         mail.save! && offers.each(&:sent!)
 
-        Result.new ok: true, redirect_proc: proc { edit_manage_notification_path(mail) }
+        Result.ok redirect_proc: proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?

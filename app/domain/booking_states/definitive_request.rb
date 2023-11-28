@@ -97,7 +97,7 @@ module BookingStates
     def assign_responsibilities_checklist_item
       return if booking.organisation.operators.none?
 
-      ChecklistItem.new(:assign_responsibilities, booking.responsibilities[:home_handover].present?,
+      ChecklistItem.new(:assign_responsibilities, booking.roles[:home_handover].present?,
                         manage_booking_operator_responsibilities_path(booking, org: booking.organisation))
     end
   end

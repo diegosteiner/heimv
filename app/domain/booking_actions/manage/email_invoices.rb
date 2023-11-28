@@ -29,7 +29,7 @@ module BookingActions
       end
 
       def operator
-        booking.responsibilities[:billing]
+        booking.roles[:billing]
       end
     end
   end

@@ -169,7 +169,7 @@ class Booking < ApplicationRecord
   end
 
   def tenant
-    super || @tenant ||= find_existing_tenant(tenant: nil)
+    super || @tenant ||= find_existing_tenant(current_tenant: nil)
   end
 
   def assert_tenant!
@@ -180,18 +180,15 @@ class Booking < ApplicationRecord
     tenant.email ||= self[:email]
   end
 
-  def find_existing_tenant(tenant: self.tenant)
-    return tenant if tenant&.persisted? && tenant&.valid?
+  def find_existing_tenant(current_tenant: tenant)
+    return current_tenant if current_tenant&.persisted? && current_tenant&.valid? &&
+                             current_tenant.email == self[:email]
 
     Tenant.find_by(email: self[:email], organisation:) unless organisation.blank? || self[:email].blank?
   end
 
   def occupancy_color
     super.presence || organisation&.settings&.occupancy_colors&.[](occupancy_type&.to_sym)
-  end
-
-  def responsibilities
-    @responsibilities ||= operator_responsibilities.group_by(&:responsibility).transform_values(&:first).symbolize_keys
   end
 
   def roles

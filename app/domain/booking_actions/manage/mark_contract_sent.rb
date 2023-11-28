@@ -9,7 +9,7 @@ module BookingActions
         booking.contract.sent!
         mail = MailTemplate.use(:contract_sent_notification, booking, to: :tenant, &:save)
 
-        Result.new ok: true, redirect_proc: mail && proc { edit_manage_notification_path(mail) }
+        Result.ok redirect_proc: mail && proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?

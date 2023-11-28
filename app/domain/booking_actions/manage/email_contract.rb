@@ -10,7 +10,7 @@ module BookingActions
         mail.attach :contract, :contract_documents, deposits
         mail.save! && contract.sent! && deposits.each(&:sent!)
 
-        Result.new ok: true, redirect_proc: proc { edit_manage_notification_path(mail) }
+        Result.ok redirect_proc: proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?

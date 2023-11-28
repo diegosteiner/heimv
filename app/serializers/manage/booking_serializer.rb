@@ -15,8 +15,9 @@ module Manage
            :id, :purpose_description, :approximate_headcount, :remarks, :home_id, :occupiable_ids
 
     field :operator_responsibilities do |booking|
-      booking.responsibilities.transform_values do |operator_responsibility|
-        OperatorResponsibilitySerializer.render_as_hash(operator_responsibility)
+      booking.operator_responsibilities.to_h do |operator_responsibility|
+        [operator_responsibility.responsibility,
+         OperatorResponsibilitySerializer.render_as_hash(operator_responsibility)]
       end
     end
 
