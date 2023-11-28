@@ -30,9 +30,7 @@ def add_type_to_rich_text_templates
 end
 
 def map_addressed_to_to_to
-  mapping = { 0 => :administration, 1 => :tenant, 2=> :booking_agent }
-
-  Notification.find_each do |notification|
-    notification.update(to: mapping.fetch(notification[:addressed_to]&.to_i, nil))
+  { 0 => :administration, 1 => :tenant, 2=> :booking_agent }.each do |addressed_to, to|
+    Notification.where(addressed_to:).update_all(to:)
   end
 end
