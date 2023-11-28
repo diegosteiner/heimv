@@ -9,7 +9,6 @@
 #  body             :text
 #  cc               :string           default([]), is an Array
 #  deliver_to       :string           default([]), is an Array
-#  locale           :string           default(NULL), not null
 #  sent_at          :datetime
 #  subject          :string
 #  to               :string
@@ -47,10 +46,16 @@ class Notification < ApplicationRecord
   has_one :tenant, through: :booking
   has_one :organisation, through: :booking
 
-  locale_enum
-
-  validates :to, :locale, presence: true
   attribute :template_context
+  validates :to, :locale, presence: true
+  validate do
+    next if booking.nil? || to.blank?
+    next if booking.roles.keys.include?(to.to_sym)
+
+    # next if Devise.email_regexp =~ to.to_s
+
+    errors.add(:to, :invalid)
+  end
 
   def deliverable?
     valid? && organisation.notifications_enabled? && booking.notifications_enabled?
@@ -82,9 +87,7 @@ class Notification < ApplicationRecord
     ATTACHABLE_BOOKING_DOCUMENTS[key].call(booking) || []
   end
 
-  def apply_template(mail_template, locale: nil, context: {})
-    locale ||= booking&.locale
-    self.locale = locale
+  def apply_template(mail_template, context: {})
     self.mail_template = mail_template
     self.template_context = context.merge(booking:, organisation:, notification: self)
     I18n.with_locale(locale) do
@@ -113,35 +116,27 @@ class Notification < ApplicationRecord
   end
 
   def deliver_to
-    [to.try(:email).presence || to.to_s.presence].flatten.compact
+    [resolve_to.try(:email).presence || resolve_to.to_s.presence].flatten.compact
   end
 
   def locale
-    to.try(:locale) || super
+    @locale = resolve_to.try(:locale) || @locale.presence || booking&.locale
   end
 
-  def to
-    return nil if self[:to].blank?
-
-    booking&.roles&.[](self[:to].to_sym) || self[:to].to_s
+  def resolve_to
+    to.presence && booking&.roles&.[](to.to_sym)
   end
 
-  # rubocop:disable Metrics/MethodLength
   def to=(value)
     super case value
-          when Tenant
-            :tenant
-          when Organisation
-            :administration
-          when BookingAgent
-            :booking_agent
+          when Tenant, Organisation, BookingAgent
+            { Tenant => :tenant, Organisation => :administration, BookingAgent => :booking_agent }[value.class]
           when OperatorResponsibility
             value.responsibility
           else
-            value.try(:email).presence || value.to_s
+            value.to_sym
           end
   end
-  # rubocop:enable Metrics/MethodLength
 
   protected
 

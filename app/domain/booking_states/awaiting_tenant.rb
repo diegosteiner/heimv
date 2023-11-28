@@ -30,15 +30,12 @@ module BookingStates
     end
 
     after_transition do |booking|
-      MailTemplate.use(:awaiting_tenant_notification, booking, to: :tenant, &:deliver)
-      MailTemplate.use(:booking_agent_request_accepted_notification, booking, to: :booking_agent, &:deliver)
-    end
-
-    after_transition do |booking|
       booking.deadline&.clear
       booking.deadlines.create(length: booking.organisation.settings.provisional_request_deadline,
                                postponable_for: booking.organisation.settings.deadline_postponable_for,
                                remarks: booking.booking_state.t(:label))
+      MailTemplate.use(:awaiting_tenant_notification, booking, to: :tenant, &:deliver)
+      MailTemplate.use(:booking_agent_request_accepted_notification, booking, to: :booking_agent, &:deliver)
     end
 
     infer_transition(to: :overdue_request) do |booking|

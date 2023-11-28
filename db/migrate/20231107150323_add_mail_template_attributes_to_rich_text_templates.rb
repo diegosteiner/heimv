@@ -11,6 +11,7 @@ class AddMailTemplateAttributesToRichTextTemplates < ActiveRecord::Migration[7.1
     rename_column :notifications, :rich_text_template_id, :mail_template_id
     rename_column :notifications, :to, :deliver_to
     add_column :notifications, :to, :string
+    remove_column :notifications, :locale, :string, null: true
 
     reversible do |direction|
       direction.up do

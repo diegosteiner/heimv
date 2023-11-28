@@ -9,7 +9,6 @@
 #  body             :text
 #  cc               :string           default([]), is an Array
 #  deliver_to       :string           default([]), is an Array
-#  locale           :string           default(NULL), not null
 #  sent_at          :datetime
 #  subject          :string
 #  to               :string
@@ -34,7 +33,6 @@ FactoryBot.define do
     body { '# Body' }
     sent_at { nil }
     subject { 'Subject' }
-    locale { I18n.locale }
     to { :tenant }
 
     booking

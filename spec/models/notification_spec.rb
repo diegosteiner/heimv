@@ -9,7 +9,6 @@
 #  body             :text
 #  cc               :string           default([]), is an Array
 #  deliver_to       :string           default([]), is an Array
-#  locale           :string           default(NULL), not null
 #  sent_at          :datetime
 #  subject          :string
 #  to               :string
@@ -46,9 +45,9 @@ RSpec.describe Notification, type: :model do
     context 'with tenant' do
       it do
         notification.to = booking.tenant
-        expect(notification.to).to eq(booking.tenant)
         notification.save
-        expect(notification.to_in_database).to eq('tenant')
+        expect(notification.to.to_sym).to eq(:tenant)
+        expect(notification.resolve_to).to eq(booking.tenant)
         expect(notification.deliver_to).to eq([booking.tenant.email])
         expect(notification.locale).to eq(booking.tenant.locale)
       end
@@ -59,9 +58,9 @@ RSpec.describe Notification, type: :model do
       let!(:agent_booking) { booking.create_agent_booking(organisation:, booking_agent_code: booking_agent.code) }
       it do
         notification.to = booking_agent
-        expect(notification.to).to eq(booking_agent)
         notification.save
-        expect(notification.to_in_database).to eq('booking_agent')
+        expect(notification.to.to_sym).to eq(:booking_agent)
+        expect(notification.resolve_to).to eq(booking_agent)
         expect(notification.deliver_to).to eq([booking_agent.email])
         # expect(notification.locale).to eq(booking_agent.locale)
       end
@@ -73,9 +72,9 @@ RSpec.describe Notification, type: :model do
 
       it do
         notification.to = responsibility
-        expect(notification.to).to eq(responsibility)
         notification.save
-        expect(notification.to_in_database).to eq('home_handover')
+        expect(notification.to.to_sym).to eq(:home_handover)
+        expect(notification.resolve_to).to eq(responsibility)
         expect(notification.deliver_to).to eq([operator.email])
         expect(notification.locale).to eq(operator.locale)
       end
@@ -84,9 +83,9 @@ RSpec.describe Notification, type: :model do
     context 'with organisation' do
       it do
         notification.to = :administration
-        expect(notification.to).to eq(organisation)
         notification.save
-        expect(notification.to_in_database).to eq('administration')
+        expect(notification.to.to_sym).to eq(:administration)
+        expect(notification.resolve_to).to eq(organisation)
         expect(notification.deliver_to).to eq([organisation.email])
         expect(notification.locale).to eq(organisation.locale)
       end

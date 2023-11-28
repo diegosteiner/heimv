@@ -1250,12 +1250,6 @@ en:
             {% endif %}
             </pre>
         help_title: Hilfe zu Variabeln
-      index:
-        group_booking_agent_notifications: Benachrichtigungen (Vermittler)
-        group_document_text: Texte für Dokumente
-        group_manage_notifications: Benachrichtigungen (Verwaltung)
-        group_other: Weitere
-        group_tenant_notifications: Benachrichtigungen (Mieter)
   nav:
     edit_account: Passwort ändern
     manage: Verwaltung

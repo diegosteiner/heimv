@@ -215,8 +215,6 @@ fr:
         ordinal_position: Numéro d'ordre
         type: Type de poste de facturation
         vat: TVA incluse en pourcentage
-      mail_template:
-        attachable_booking_documents:
       meter_reading_period:
         begins_at: Début
         end_value: Nouvelle valeur du compteur
@@ -1233,11 +1231,6 @@ fr:
         booking_action:
         booking_state:
         document: Document
-        group_booking_agent_notifications: Notifications (intermédiaires)
-        group_document_text: Textes pour documents
-        group_manage_notifications: Notifications (administration)
-        group_other: Autres
-        group_tenant_notifications: Notifications (locataires)
         rich_text_templates_by_booking_action:
         rich_text_templates_by_booking_state:
         rich_text_templates_by_document:

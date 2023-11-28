@@ -62,6 +62,7 @@ class Organisation < ApplicationRecord
   has_one_attached :contract_signature
 
   locale_enum default: I18n.locale
+  attr_writer :booking_flow_class
 
   scope :ordered, -> { order(name: :ASC) }
 

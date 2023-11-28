@@ -215,8 +215,6 @@ it:
         ordinal_position: Numero di serie
         type: Tipo di voce della fattura
         vat:
-      mail_template:
-        attachable_booking_documents:
       meter_reading_period:
         begins_at: Inizio
         end_value: Lettura del contatore nuovo
@@ -1198,11 +1196,6 @@ it:
         booking_action:
         booking_state:
         document: Documento
-        group_booking_agent_notifications: Notifiche (mediatore)
-        group_document_text: Testi per documenti
-        group_manage_notifications: Notifiche (amministrazione)
-        group_other: Altri
-        group_tenant_notifications: Notifiche (inquilino)
         rich_text_templates_by_booking_action:
         rich_text_templates_by_booking_state:
         rich_text_templates_by_document:

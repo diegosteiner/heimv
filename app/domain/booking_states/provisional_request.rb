@@ -25,9 +25,6 @@ module BookingStates
       booking.deadlines.create(length: booking.organisation.settings.provisional_request_deadline,
                                postponable_for: booking.organisation.settings.deadline_postponable_for,
                                remarks: booking.booking_state.t(:label))
-    end
-
-    after_transition do |booking|
       booking.tentative!
       next if booking.committed_request
 

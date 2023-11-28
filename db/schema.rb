@@ -345,7 +345,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_07_150323) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "deliver_to", default: [], array: true
     t.string "cc", default: [], array: true
-    t.string "locale", default: "de", null: false
     t.string "bcc"
     t.string "to"
     t.index ["booking_id"], name: "index_notifications_on_booking_id"

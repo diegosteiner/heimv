@@ -27,9 +27,11 @@
 
 class MailTemplate < RichTextTemplate
   def use(booking, to: nil, **context, &)
-    return unless enabled
+    return nil unless enabled
 
     Notification.build(booking:, to:).tap do |notification|
+      return nil if notification.resolve_to.nil?
+
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
       notification.tap(&) if block_given?
     end
