@@ -28,7 +28,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
         'SPC', '0200', '1', '01-318421-1',
         'K', 'Organisation', 'Strasse 1', '8000 Zürich', '', '', 'CH',
         '', '', '', '', '', '', '', '1255.35',
-        'CHF', 'K', 'Peter Muster', 'Teststrasse 2', '8049 Zürich CH', '', '', 'CH',
+        'CHF', 'K', 'Peter Muster', 'Teststrasse 2', '8049 Zürich', '', '', 'CH',
         'SCOR', 'RF1800000123456789', '', 'EPD'
       ]
     end

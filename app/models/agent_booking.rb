@@ -38,6 +38,7 @@ class AgentBooking < ApplicationRecord
   belongs_to :organisation
 
   has_secure_token :token, length: 48
+  normalizes :tenant_email, with: -> { _1.presence&.strip&.downcase }
 
   accepts_nested_attributes_for :booking, reject_if: :all_blank, update_only: true
 
@@ -52,11 +53,11 @@ class AgentBooking < ApplicationRecord
 
   def tenant_email=(value)
     super
-    booking.email = value
+    booking.email ||= value
   end
 
   def tenant_email
-    super || booking.email
+    super.presence || booking.email
   end
 
   def committed_request

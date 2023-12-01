@@ -1597,6 +1597,9 @@ de:
       default_body:
       default_title: Buchung abgeschlossen
       description: Benachrichtigung für den Abschluss der Buchung (Mieter)
+    contract_sent_notification:
+      default_title: Vertrag versendet
+      description: Benachrichtigung für per Post versendeten Vertrag (Mieter)
     contract_signed_notification:
       default_body: |
         <p>{{ booking.tenant.salutation_name }}</p>
