@@ -5,7 +5,11 @@
     - if @rich_text_template.new_record?
       = f.text_field :key
     = f.check_box :enabled
+    
+    - if @rich_text_template.is_a?(MailTemplate)
+      = f.check_box :autodeliver
 
+  fieldset 
     ul.nav.nav-tabs.mt-4 role="tablist"
       - I18n.available_locales.each do |locale|
         - current_locale = locale == I18n.locale
@@ -25,9 +29,6 @@
       summary 
         = t('.help_title')
       = t('.help_html')
-    
-  - if @rich_text_template.is_a?(MailTemplate)
-    / fieldset.mt-3
 
   .form-actions.pt-4.mt-3
     = f.submit

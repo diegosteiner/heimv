@@ -52,6 +52,7 @@ class Organisation < ApplicationRecord
   has_many :booking_questions, dependent: :destroy, inverse_of: :organisation
   has_many :payments, through: :bookings
   has_many :invoices, through: :bookings
+  has_many :notifications, through: :bookings
   has_many :organisation_users, dependent: :destroy
   has_many :occupiables, dependent: :destroy
   has_many :users, through: :organisation_users

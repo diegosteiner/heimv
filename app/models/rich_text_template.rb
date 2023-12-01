@@ -5,6 +5,7 @@
 # Table name: rich_text_templates
 #
 #  id              :bigint           not null, primary key
+#  autodeliver     :boolean          default(TRUE)
 #  body_i18n       :jsonb
 #  enabled         :boolean          default(TRUE)
 #  key             :string
@@ -38,7 +39,7 @@ class RichTextTemplate < ApplicationRecord
     def by_key!(key)
       where(key:).take!
     rescue ActiveRecord::RecordNotFound
-      raise NoTemplate
+      raise NoTemplate, "No template found for key '#{key}'"
     end
 
     def by_key(key)
@@ -110,7 +111,7 @@ class RichTextTemplate < ApplicationRecord
   end
 
   def use(**context)
-    raise InvalidDefinition unless definition
+    raise InvalidDefinition, "No definition found for key '#{key}'" unless definition
 
     missing_context = definition.fetch(:context, []) - context.keys
     raise InvalidContext, "Missing keys were: #{missing_context.join(', ')}" if missing_context.any?

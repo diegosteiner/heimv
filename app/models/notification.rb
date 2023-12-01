@@ -66,6 +66,16 @@ class Notification < ApplicationRecord
     deliverable? && update(sent_at: Time.zone.now) && message_delivery.tap(&:deliver_later)
   end
 
+  def autodeliver?
+    mail_template&.autodeliver
+  end
+
+  def autodeliver
+    return save && false unless autodeliver?
+
+    deliver
+  end
+
   def delivered?
     sent_at.present? && delivered_at.present?
   end

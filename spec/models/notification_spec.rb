@@ -91,6 +91,37 @@ RSpec.describe Notification, type: :model do
     end
   end
 
+  describe '#autodeliver' do
+    subject(:autodeliver) { notification.autodeliver }
+    let(:autodeliver) { nil }
+    let(:key) { :test_autodeliver }
+    let(:mail_template) { create(:mail_template, key:, organisation: notification.organisation, autodeliver:) }
+    before { MailTemplate.define(key) }
+    after { MailTemplate.undefine(key) }
+    before { notification.apply_template(mail_template) }
+
+    context 'with autodeliver' do
+      let(:autodeliver) { true }
+
+      it { expect(notification.autodeliver?).to be_truthy }
+      it do
+        expect(notification).to receive(:deliver).and_return(true)
+        expect(notification.autodeliver).to be_truthy
+      end
+    end
+
+    context 'without autodeliver' do
+      let(:autodeliver) { nil }
+
+      it { expect(notification.autodeliver?).to be_falsy }
+      it do
+        expect(notification).not_to receive(:deliver)
+        expect(notification.autodeliver).to be_falsy
+        expect(notification).to be_persisted
+      end
+    end
+  end
+
   describe '#deliver' do
     subject(:message) { notification.deliver }
 

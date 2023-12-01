@@ -21,6 +21,16 @@ nav.px-3
         = link_to Invoice.model_name.human(count: 2), manage_invoices_path, class: 'nav-link'
       li.nav-item
         = link_to Payment.model_name.human(count: 2), manage_payments_path, class: 'nav-link'
+
+      - if current_organisation.settings.show_outbox
+        - outbox_count = current_organisation.notifications.unsent.count        
+        li.nav-item
+          = link_to  manage_notifications_path, class: 'nav-link' do
+            = t('.outbox')
+            - if outbox_count > 0
+              span.badge.rounded-pill.bg-danger.ms-1
+                = outbox_count
+
       li.nav-item
         = link_to DataDigest.model_name.human(count: 2), manage_data_digest_templates_path, class: 'nav-link'
         li.nav-item

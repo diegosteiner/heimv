@@ -47,7 +47,9 @@ de:
         begins_at_default_time: Standardzeit für den Beginn der Belegung (ab Mitternacht)
         closed_occupancy_color: Farbe für Schliessungen
         deadline_postponable_for: Fristverlängerung
+        default_begins_at_time: Standardzeit für den Beginn der Belegung
         default_calendar_view: Standard Kalenderansicht
+        default_ends_at_time: Standardzeit für das Ende der Belegung
         deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
         ends_at_default_time: Standardzeit für das Ende der Belegung (ab Beginn)
         invoice_payment_deadline: Standardmässige Zahlungsfrist
@@ -57,6 +59,7 @@ de:
         overdue_request_deadline: Frist für überfällige Reservationsanfragen
         payment_overdue_deadline: Frist für Zahlung überfällig
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
+        show_outbox: Postausgang anzeigen
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
         tentative_occupancy_color: Farbe für provisorischen Belegungen
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
@@ -301,6 +304,7 @@ de:
         created_at: Erstellt am
         zip: Zip
       rich_text_template:
+        autodeliver: Automatisch versenden
         body: Text
         enabled: Aktiviert
         key: ID
@@ -1249,6 +1253,7 @@ de:
         title: Software
     manage_navigation:
       help: Hilfe
+      outbox: Postausgang
       settings: Einstellungen
   manage:
     bookings:
@@ -1322,9 +1327,9 @@ de:
         booking_action: Aktion
         booking_state: Buchungsstatus
         document: Dokument
-        rich_text_templates_by_booking_action: nach Aktion
-        rich_text_templates_by_booking_state: nach Buchungsstatus
-        rich_text_templates_by_document: nach Dokument
+        rich_text_templates_by_booking_action: Aktionen
+        rich_text_templates_by_booking_state: Buchungsstatus
+        rich_text_templates_by_document: Dokumente
         rich_text_templates_by_rest: Sonstige
   nav:
     edit_account: Account verwalten

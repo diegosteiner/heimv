@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_01_114815) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_01_125422) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -488,6 +488,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_01_114815) do
     t.jsonb "body_i18n", default: {}
     t.boolean "enabled", default: true
     t.string "type"
+    t.boolean "autodeliver", default: true
     t.index ["key", "organisation_id"], name: "index_rich_text_templates_on_key_and_organisation_id", unique: true
     t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"
     t.index ["type"], name: "index_rich_text_templates_on_type"
