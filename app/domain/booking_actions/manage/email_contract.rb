@@ -3,14 +3,15 @@
 module BookingActions
   module Manage
     class EmailContract < BookingActions::Base
-      templates << MailTemplate.define(:awaiting_contract_notification, context: %i[booking contract])
+      templates << MailTemplate.define(:awaiting_contract_notification, context: %i[booking contract],
+                                                                        autodeliver: false)
 
       def call!
         mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, contract:, invoices: deposits)
         mail.attach :contract, :contract_documents, deposits
         mail.save! && contract.sent! && deposits.each(&:sent!)
 
-        Result.ok redirect_proc: proc { edit_manage_notification_path(mail) }
+        Result.ok redirect_proc: !mail.autodeliver && proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?

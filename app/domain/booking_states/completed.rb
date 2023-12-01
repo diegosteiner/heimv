@@ -26,7 +26,7 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear
       booking.conclude
-      MailTemplate.use(:completed_notification, booking, to: :tenant, &:deliver)
+      MailTemplate.use(:completed_notification, booking, to: :tenant, &:autodeliver)
     end
 
     def relevant_time; end

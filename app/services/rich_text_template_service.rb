@@ -56,6 +56,7 @@ class RichTextTemplateService
       body[locale]  = defaults_for_locale(:default_body, definition[:key], locale)
     end
     RichTextTemplate.new({ key: definition[:key], type: definition[:type].to_s, organisation:, title_i18n: title,
+                           autodeliver: definition.fetch(:autodeliver, true),
                            body_i18n: body, enabled: !definition.fetch(:optional, false) }.merge(attributes))
   end
 

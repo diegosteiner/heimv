@@ -48,8 +48,8 @@ module BookingStates
       booking.update!(editable: false, committed_request: true)
       booking.deadline&.clear
       OperatorResponsibility.assign(booking, :home_handover, :home_return)
-      MailTemplate.use(:manage_definitive_request_notification, booking, to: :administration, &:deliver)
-      MailTemplate.use(:definitive_request_notification, booking, to: :tenant, &:deliver)
+      MailTemplate.use(:manage_definitive_request_notification, booking, to: :administration, &:autodeliver)
+      MailTemplate.use(:definitive_request_notification, booking, to: :tenant, &:autodeliver)
     end
 
     def relevant_time

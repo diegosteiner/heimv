@@ -21,7 +21,7 @@ module BookingStates
       booking.conclude
       booking.deadline&.clear
       MailTemplate.use(:cancelled_request_notification, booking,
-                       to: booking.agent_booking ? :booking_agent : :tenant, &:deliver)
+                       to: booking.agent_booking ? :booking_agent : :tenant, &:autodeliver)
     end
 
     def relevant_time; end
