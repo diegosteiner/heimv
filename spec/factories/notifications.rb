@@ -5,10 +5,9 @@
 # Table name: notifications
 #
 #  id               :bigint           not null, primary key
-#  bcc              :string
 #  body             :text
-#  cc               :string           default([]), is an Array
 #  deliver_to       :string           default([]), is an Array
+#  delivered_at     :datetime
 #  sent_at          :datetime
 #  subject          :string
 #  to               :string

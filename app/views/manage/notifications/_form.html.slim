@@ -1,8 +1,8 @@
 = form_with(model: [:manage, @booking, @notification], local: true) do |f|
 
   fieldset[v-pre]
+    = f.collection_select :to, @notification.booking.roles.keys, :itself, :itself
     = f.text_field :subject
-    = f.datetime_local_field :sent_at, step: 1
     = f.text_area :body, class: 'rich-text-area'
 
   fieldset 

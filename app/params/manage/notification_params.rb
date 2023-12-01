@@ -3,7 +3,7 @@
 module Manage
   class NotificationParams < ApplicationParams
     def self.permitted_keys
-      %i[subject body sent_at]
+      %i[subject body to]
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_07_150323) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_01_114815) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -343,11 +343,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_07_150323) do
     t.text "body"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "addressed_to", default: 0, null: false
     t.string "deliver_to", default: [], array: true
-    t.string "cc", default: [], array: true
-    t.string "bcc"
     t.string "to"
+    t.datetime "delivered_at"
     t.index ["booking_id"], name: "index_notifications_on_booking_id"
     t.index ["mail_template_id"], name: "index_notifications_on_mail_template_id"
   end
