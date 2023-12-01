@@ -432,6 +432,14 @@ de:
           unsent_invoices: Unversendete Rechnungen
           unsent_late_notices: Unversendete Mahnungen
           unsent_offers: Unversendete Offerte
+      notification:
+        to:
+          administration: Verwaltung
+          billing: Kassier
+          booking_agent: Vermittler
+          home_handover: Funktionär Hausübergabe
+          home_return: Funktionär Hausrücknahme
+          tenant: Mieter
       occupancy:
         occupancy_type:
           closed: Geschlossen

@@ -1,9 +1,9 @@
 = form_with(model: [:manage, @booking, @notification], local: true) do |f|
 
   fieldset[v-pre]
-    = f.collection_select :to, @notification.booking.roles.keys, :itself, :itself
+    = f.collection_select :to, @notification.booking.roles.keys, :itself, ->(to) { Notification.human_enum(:to, to) }
     = f.text_field :subject
-    = f.text_area :body, class: 'rich-text-area'
+    = f.text_area :body, class: 'rich-text-area', skip_label: true
 
   fieldset 
     label.form_label= Notification.human_attribute_name(:attachments)
