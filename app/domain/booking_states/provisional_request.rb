@@ -28,7 +28,7 @@ module BookingStates
       booking.tentative!
       next if booking.committed_request
 
-      MailTemplate.use(:provisional_request_notification, booking, to: :tenant, &:deliver)
+      MailTemplate.use(:provisional_request_notification, booking, to: :tenant, &:autodeliver)
     end
 
     infer_transition(to: :definitive_request) do |booking|

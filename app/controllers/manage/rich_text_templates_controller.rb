@@ -68,7 +68,9 @@ module Manage
         Invoices::Deposit => @rich_text_templates.where(key: :invoices_deposit_text),
         Invoices::Invoice => @rich_text_templates.where(key: :invoices_invoice_text),
         Invoices::LateNotice => @rich_text_templates.where(key: :invoices_late_notice_text),
-        Contract => @rich_text_templates.where(key: :contract_text)
+        Contract => @rich_text_templates.where(key: :contract_text),
+        PaymentInfos::TextPaymentInfo => @rich_text_templates.where(key: :text_payment_info_text),
+        PaymentInfos::ForeignPaymentInfo => @rich_text_templates.where(key: :foreign_payment_info_text)
       }.filter { _2.present? }
     end
 

@@ -13,6 +13,8 @@
         = Notification.human_attribute_name(:sent_at)
         ' : 
         = @notification.sent_at.present? ? l(@notification.sent_at) : '-'
+        - if @notification.delivered_at.present?
+          span.fa.fa-check.text-success.ms-1
 
     h5.card-title= @notification.subject
 

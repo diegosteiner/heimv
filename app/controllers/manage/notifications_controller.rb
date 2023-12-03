@@ -8,6 +8,7 @@ module Manage
 
     def index
       @notifications = @notifications.order(created_at: :DESC)
+      @notifications = @notifications.unsent if @booking.blank?
       respond_with :manage, @notifications
     end
 
@@ -21,15 +22,15 @@ module Manage
 
     def update
       @notification.update(notification_params)
-      delete_attachments
+      purge_attachments
       @notification.deliver if @notification.valid? && params[:deliver].present?
       respond_with :manage, @notification, location: manage_notification_path(@notification)
     end
 
-    # def destroy
-    #   @notification.destroy
-    #   respond_with :manage, @notification, location: manage_booking_path(@notification.booking)
-    # end
+    def destroy
+      @notification.destroy
+      respond_with :manage, @notification, location: manage_booking_path(@notification.booking)
+    end
 
     private
 
@@ -37,7 +38,7 @@ module Manage
       @booking = @notification&.booking
     end
 
-    def delete_attachments
+    def purge_attachments
       @notification.attachments.each do |attachment|
         attachment.purge if params.dig(:notification, :attachments, attachment.to_param, '_destroy') == '1'
       end

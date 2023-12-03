@@ -47,7 +47,9 @@ fr:
         begins_at_default_time: Heure de début de location par défaut (à partir de minuit)
         closed_occupancy_color: Couleur pour les clôtures
         deadline_postponable_for: Prolongation du délai
+        default_begins_at_time:
         default_calendar_view: Affichage du calendrier par défaut
+        default_ends_at_time:
         deposit_payment_deadline: Délai de paiement standard (acompte)
         ends_at_default_time: Heure de fin de location par défaut (à partir du début)
         invoice_payment_deadline: Délai de paiement standard
@@ -57,6 +59,7 @@ fr:
         overdue_request_deadline: Délai pour les demandes de réservation en retard
         payment_overdue_deadline: Date limite de paiement dépassée
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
+        show_outbox:
         tenant_birth_date_required: Date de naissance, Indication obligatoire
         tentative_occupancy_color: Couleur pour les locations provisoires
         unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
@@ -221,7 +224,7 @@ fr:
         ends_at: Fin
         start_value: Ancienne valeur du compteur
       notification:
-        attachments:
+        attachments: Annexes
         body: Contenu
         sent_at: Dernier envoi le
         subject: Sujet
@@ -300,6 +303,7 @@ fr:
         created_at: Erstellt am
         zip: Zip
       rich_text_template:
+        autodeliver:
         body: Texte
         enabled: Activé
         key: ID
@@ -421,12 +425,20 @@ fr:
       mail_template:
         attachable_booking_documents:
           contract: Contrat
-          contract_documents:
-          last_info_documents:
-          unsent_deposits:
-          unsent_invoices:
-          unsent_late_notices:
-          unsent_offers:
+          contract_documents: Documents indiqués comme "à envoyer avec le contrat"
+          last_info_documents: Documents indiqués comme "envoyer avec les dernières infos"
+          unsent_deposits: Acomptes non versés
+          unsent_invoices: Factures non envoyées
+          unsent_late_notices: Rappels non envoyés
+          unsent_offers: Offre non envoyée
+      notification:
+        to:
+          administration: Administration
+          billing:
+          booking_agent: Intermédiaire
+          home_handover:
+          home_return:
+          tenant: Locataire
       occupancy:
         occupancy_type:
           closed: Fermé
@@ -589,8 +601,8 @@ fr:
         one: Offre
         other: Offres
       mail_template:
-        one:
-        other:
+        one: Modèle de couriel
+        other: Modèles de courriel
       meter_reading_period:
         one: Relevé du compteur
         other: Relevés de compteurs
@@ -661,10 +673,17 @@ fr:
         label: Refuser
       commit_request:
         label: Confirmer la demande
+      email_contract:
+        confirm: Vraiment envoyer le contrat sans acompte ?
+        label:
+        label_with_deposit: Envoyer le contrat et l'acompte
+        label_without_deposit: Envoyer un contrat sans acompte
       email_invoices:
         label: Envoyer une facture
       email_offers:
         label: Envoyer une offre
+      mark_contract_sent:
+        label:
       mark_contract_signed:
         label: Confirmer la réception du contrat
       mark_deposits_paid:
@@ -1054,7 +1073,7 @@ fr:
             currency: Monnaie
             payable_by: Payable par
             payment_part_title: Partie numérique
-            receipt_office:
+            receipt_office: Point de collecte
             receipt_title: Récépissé
             ref: Référence
   filter: Filtre
@@ -1129,17 +1148,17 @@ fr:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum_price}
-    deposited_amount:
+    deposited_amount: Avoir à partir d'un acompte
   invoices:
     total: Total
-    vat_label:
-    vat_title:
+    vat_label: au taux de TVA. Taux de %{vat}%
+    vat_title: TVA incluse dans les prix
   layouts:
     footer:
       legal:
-        heimv_privacy:
-        organisation_privacy:
-        title:
+        heimv_privacy: Déclaration de confidentialité de la plate-forme
+        organisation_privacy: Déclaration de confidentialité de l'organisation
+        title: Mentions légales
       locales:
         de: en allemand
         fr: en français
@@ -1153,6 +1172,7 @@ fr:
         title: Logiciel
     manage_navigation:
       help: Aide
+      outbox:
       settings: Réglages
   manage:
     bookings:
@@ -1183,7 +1203,7 @@ fr:
         index:
           applicable_tarifs: Tarifs applicables
           save_and_continue: Enregistrer et créer %{invoice_type}
-          suggest_usages:
+          suggest_usages: Proposer des tarifs et des consommations
         table:
           save: Enregistrer %{model_name}
     data_digests:
@@ -1201,8 +1221,8 @@ fr:
         suggested_invoice_parts: Positions proposées
     notifications:
       form:
-        deliver:
-        not_sent:
+        deliver: Enregistrer et envoyer
+        not_sent: Ce message n'a pas encore été envoyé
     organisation_users:
       index:
         invite_user: Inviter un nouvel utilisateur
@@ -1223,7 +1243,7 @@ fr:
         help_html:
         help_title: Aide sur les variables
       index:
-        booking_action:
+        booking_action: Action
         booking_state:
         document: Document
         rich_text_templates_by_booking_action:

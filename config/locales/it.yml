@@ -47,7 +47,9 @@ it:
         begins_at_default_time: Ora standard per l'inizio dell'occupazione (da mezzanotte)
         closed_occupancy_color: Colore per le chiusure
         deadline_postponable_for: Proroga del periodo
+        default_begins_at_time:
         default_calendar_view:
+        default_ends_at_time:
         deposit_payment_deadline: Periodo di pagamento standard (acconto)
         ends_at_default_time: Ora standard per la fine dell'occupazione (dall'inizio)
         invoice_payment_deadline: Periodo di pagamento standard
@@ -57,6 +59,7 @@ it:
         overdue_request_deadline: Periodo per le richieste di prenotazione in ritardo
         payment_overdue_deadline:
         provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
+        show_outbox:
         tenant_birth_date_required: 'Data di nascita: inserimento obbligatorio'
         tentative_occupancy_color: Colore per le occupazioni provvisorie
         unconfirmed_request_deadline: Termine ultimo per la conferma dell'indirizzo e-mail
@@ -300,6 +303,7 @@ it:
         created_at: Creato il
         zip:
       rich_text_template:
+        autodeliver:
         body: Testo
         enabled: Attivato
         key: ID
@@ -427,6 +431,14 @@ it:
           unsent_invoices:
           unsent_late_notices:
           unsent_offers:
+      notification:
+        to:
+          administration: Verwaltung
+          billing:
+          booking_agent: Mediatore
+          home_handover:
+          home_return:
+          tenant: Inquilino
       occupancy:
         occupancy_type:
           closed: Chiuso
@@ -661,9 +673,16 @@ it:
         label: Rifiutare
       commit_request:
         label: Impostare la richiesta come definitiva
+      email_contract:
+        confirm: Inviare davvero il contratto senza un acconto?
+        label:
+        label_with_deposit: Inviare il contratto e il acconto
+        label_without_deposit: Inviare il contratto senza acconto
       email_invoices:
         label: Inviare la fattura
       email_offers:
+        label:
+      mark_contract_sent:
         label:
       mark_contract_signed:
         label: Confermare la ricezione del contratto
@@ -1118,6 +1137,7 @@ it:
         title:
     manage_navigation:
       help: Aiuto
+      outbox:
       settings: Impostazioni
   manage:
     bookings:

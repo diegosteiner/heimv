@@ -3,9 +3,8 @@
 module Manage
   class RichTextTemplateParams < ApplicationParams
     def self.permitted_keys
-      %i[key enabled attachable_booking_documents] +
-        I18n.available_locales.map { |locale| ["title_#{locale}", "body_#{locale}"] }.flatten +
-        [{ attachable_booking_documents: [] }]
+      %i[key enabled autodeliver] +
+        I18n.available_locales.map { |locale| ["title_#{locale}", "body_#{locale}"] }.flatten
     end
 
     sanitize do |params|

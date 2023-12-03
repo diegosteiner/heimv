@@ -5,6 +5,7 @@
 # Table name: rich_text_templates
 #
 #  id              :bigint           not null, primary key
+#  autodeliver     :boolean          default(TRUE)
 #  body_i18n       :jsonb
 #  enabled         :boolean          default(TRUE)
 #  key             :string
@@ -29,11 +30,14 @@ class MailTemplate < RichTextTemplate
   def use(booking, to: nil, **context, &)
     return nil unless enabled
 
-    Notification.build(booking:, to:).tap do |notification|
-      return nil if notification.deliver_to.blank?
-
-      notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
-      notification.tap(&) if block_given?
+    booking&.notifications&.build(to:) do |notification|
+      if notification.deliver_to.blank?
+        notification.destroy
+        return
+      else
+        notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
+        notification.tap(&) if block_given?
+      end
     end
   end
 

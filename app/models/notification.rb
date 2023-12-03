@@ -5,10 +5,9 @@
 # Table name: notifications
 #
 #  id               :bigint           not null, primary key
-#  bcc              :string
 #  body             :text
-#  cc               :string           default([]), is an Array
 #  deliver_to       :string           default([]), is an Array
+#  delivered_at     :datetime
 #  sent_at          :datetime
 #  subject          :string
 #  to               :string
@@ -46,6 +45,8 @@ class Notification < ApplicationRecord
   has_one :tenant, through: :booking
   has_one :organisation, through: :booking
 
+  scope :unsent, -> { where(sent_at: nil) }
+
   attribute :template_context
   validates :to, :locale, presence: true
   validate do
@@ -62,11 +63,21 @@ class Notification < ApplicationRecord
   end
 
   def deliver
-    deliverable? && save && message_delivery.tap(&:deliver_later)
+    deliverable? && update(sent_at: Time.zone.now, delivered_at: nil) && message_delivery.tap(&:deliver_later)
+  end
+
+  def autodeliver?
+    mail_template&.autodeliver
+  end
+
+  def autodeliver
+    return save && false unless autodeliver?
+
+    deliver
   end
 
   def delivered?
-    sent_at.present?
+    sent_at.present? && delivered_at.present?
   end
 
   def attach(*attachables)
@@ -112,7 +123,7 @@ class Notification < ApplicationRecord
   end
 
   def deliver_bcc
-    [super, organisation&.bcc].compact
+    [organisation&.bcc].compact
   end
 
   def deliver_to

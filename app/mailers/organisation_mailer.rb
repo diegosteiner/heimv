@@ -18,7 +18,7 @@ class OrganisationMailer < ApplicationMailer
 
     set_headers
     attach_active_storage_attachments(notification.attachments)
-    mail(to: notification.deliver_to, cc: notification.bcc,
+    mail(to: notification.deliver_to, bcc: notification.deliver_bcc,
          subject: notification.subject) do |format|
       format.text { render plain: @notification.text }
       format.html { render html:  @notification.html }
@@ -61,7 +61,7 @@ class OrganisationMailer < ApplicationMailer
       notification = Notification.find_by(id: mail.header[NOTIFICATION_HEADER_NAME]&.value)
 
       # rubocop:disable Rails/SkipsModelValidations
-      notification&.touch(:sent_at)
+      notification&.touch(:delivered_at)
       # rubocop:enable Rails/SkipsModelValidations
     end
   end

@@ -3,16 +3,16 @@
 module BookingActions
   module Manage
     class MarkContractSigned < BookingActions::Base
-      templates << MailTemplate.define(:contract_signed_notification, context: %i[booking])
+      templates << MailTemplate.define(:contract_signed_notification, context: %i[booking], autodeliver: false)
 
       def call!
         booking.contract.signed!
         booking.update(committed_request: true)
 
-        return Result.ok unless Invoices::Deposit.of(booking).kept.unpaid.exists?
+        return Result.ok unless deposits.exists?
 
-        MailTemplate.use(:contract_signed_notification, booking, to: :tenant, &:deliver)
-        Result.ok
+        mail = MailTemplate.use(:contract_signed_notification, booking, to: :tenant)
+        Result.ok redirect_proc: mail && (!mail.autodeliver && proc { edit_manage_notification_path(mail) })
       end
 
       def allowed?
@@ -21,6 +21,12 @@ module BookingActions
 
       def booking
         context.fetch(:booking)
+      end
+
+      protected
+
+      def deposits
+        Invoices::Deposit.of(booking).kept.unpaid
       end
     end
   end

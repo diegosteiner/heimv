@@ -9,36 +9,38 @@
         = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
         = f.collection_select :locale, Organisation.locales, :first, :first
 
-  fieldset
-    h3.mt-5= Notification.model_name.human(count: 2)
-    .card.shadow-sm 
-      .card-body
-        div.pb-3= f.check_box :notifications_enabled
-        = f.email_field :email
-        = f.text_field :mail_from
-        = f.email_field :bcc
-        - if current_user.role_admin?
-          div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
-
-  fieldset
-    h3.mt-5= Contract.model_name.human(count: 2)
-    .card.shadow-sm 
-      .card-body
-        div[v-pre]= f.text_area :representative_address, rows: 4
-        = f.text_field :location
-        = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
-    
-  fieldset
-    h3.mt-5= Invoice.model_name.human(count: 2)
-    .card.shadow-sm 
-      .card-body
-        = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
-        div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
-        = f.text_field :iban
-        = f.text_field :qr_iban
-
   = f.fields_for :settings, @organisation.settings || OrganisationSettings.new do |sf|  
     - settings = sf.object
+    
+    fieldset
+      h3.mt-5= Notification.model_name.human(count: 2)
+      .card.shadow-sm 
+        .card-body
+          = f.check_box :notifications_enabled
+          = sf.check_box :show_outbox
+          = f.email_field :email
+          = f.text_field :mail_from
+          = f.email_field :bcc
+          - if current_user.role_admin?
+            div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
+
+    fieldset
+      h3.mt-5= Contract.model_name.human(count: 2)
+      .card.shadow-sm 
+        .card-body
+          div[v-pre]= f.text_area :representative_address, rows: 4
+          = f.text_field :location
+          = f.file_field :contract_signature, help: organisation.contract_signature.attached? && image_tag(organisation.contract_signature, width: 120)
+      
+    fieldset
+      h3.mt-5= Invoice.model_name.human(count: 2)
+      .card.shadow-sm 
+        .card-body
+          = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
+          div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
+          = f.text_field :iban
+          = f.text_field :qr_iban
+
     fieldset
       h3.mt-5= Tenant.model_name.human(count: 2)
       .card.shadow-sm 
@@ -55,6 +57,8 @@
 
           = sf.text_field :begins_at_default_time, value: settings.begins_at_default_time&.iso8601
           = sf.text_field :ends_at_default_time, value: settings.ends_at_default_time&.iso8601
+          / = sf.text_field :default_begins_at_time, value: settings.default_begins_at_time&.iso8601
+          / = sf.text_field :default_ends_at_time, value: settings.default_ends_at_time&.iso8601
 
           = sf.select :default_calendar_view, %i[months year].map { |view| [view, view] }
           = sf.collection_check_boxes :occupied_occupancy_states, BookingStates.occupied_occupancy_able.values, :to_s, ->(state) { state&.t(:label) }

@@ -3,13 +3,14 @@
 module BookingActions
   module Manage
     class EmailOffers < BookingActions::Base
-      templates << MailTemplate.define(:offer_notification, context: %i[booking invoices], optional: true)
+      templates << MailTemplate.define(:offer_notification, context: %i[booking invoices], optional: true,
+                                                            autodeliver: false)
 
       def call!
-        mail = MailTemplate.use(:offer_notification, booking, to: booking.tenant, attach: offers, invoices: offers)
+        mail = MailTemplate.use!(:offer_notification, booking, to: booking.tenant, attach: offers, invoices: offers)
         mail.save! && offers.each(&:sent!)
 
-        Result.ok redirect_proc: proc { edit_manage_notification_path(mail) }
+        Result.ok redirect_proc: !mail.autodeliver && proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?

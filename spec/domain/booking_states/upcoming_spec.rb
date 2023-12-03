@@ -12,6 +12,7 @@ describe BookingStates::Upcoming do
   subject(:transition) { booking.booking_flow.transition_to(described_class.to_sym) }
   subject(:transitioned_booking) do
     booking.booking_flow.transition_to(described_class.to_sym)
+    booking.save
     booking
   end
 
@@ -20,6 +21,7 @@ describe BookingStates::Upcoming do
     it { expect(transitioned_booking.deadline).to be(nil) }
     it { expect(transitioned_booking).to be_occupied }
     it { expect(transitioned_booking).to notify(:upcoming_notification).to(:tenant) }
+    it { expect(transitioned_booking.notifications.count).to eq(1) }
 
     context 'with operator' do
       let(:operator) { create(:operator, organisation:) }

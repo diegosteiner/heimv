@@ -28,10 +28,10 @@ module BookingStates
     after_transition do |booking|
       booking.free!
       booking.conclude
-      MailTemplate.use(:cancelled_notification, booking, to: :tenant, &:deliver)
+      MailTemplate.use(:cancelled_notification, booking, to: :tenant, &:autodeliver)
       next if booking.agent_booking.blank?
 
-      MailTemplate.use(:booking_agent_cancelled_notification, booking, to: :booking_agent, &:deliver)
+      MailTemplate.use(:booking_agent_cancelled_notification, booking, to: :booking_agent, &:autodeliver)
     end
 
     def relevant_time; end

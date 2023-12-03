@@ -5,6 +5,7 @@
 # Table name: rich_text_templates
 #
 #  id              :bigint           not null, primary key
+#  autodeliver     :boolean          default(TRUE)
 #  body_i18n       :jsonb
 #  enabled         :boolean          default(TRUE)
 #  key             :string

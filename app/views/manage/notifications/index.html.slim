@@ -9,6 +9,8 @@
 table.table.table-hover.align-middle
   thead
     tr
+      - if @booking.blank?
+        th= Booking.model_name.human
       th= Notification.human_attribute_name(:sent_at)
       th= Notification.human_attribute_name(:to)
       th= Notification.human_attribute_name(:subject)
@@ -17,11 +19,18 @@ table.table.table-hover.align-middle
   tbody.shadow-sm
     - @notifications.each do |notification|
       tr[data-href=manage_notification_path(notification)]
+        - if @booking.blank?
+          td 
+            = link_to  notification.booking.ref, manage_booking_path(notification.booking)
+
         td
           - if notification.sent_at
             = l(notification.sent_at, format: :short)
           - else
             = '-'
+          - if notification.delivered_at.present?
+            span.fa.fa-check.text-success.ms-1
+
         td
           - notification.deliver_to.each do |to|
             => mail_to to, to
@@ -33,3 +42,5 @@ table.table.table-hover.align-middle
               span.fa.fa-eye
             = link_to edit_manage_notification_path(notification), class: 'btn btn-default' do
               span.fa.fa-edit
+            = link_to manage_notification_path(notification), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+              span.fa.fa-trash
