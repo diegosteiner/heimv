@@ -31,13 +31,11 @@ class MailTemplate < RichTextTemplate
     return nil unless enabled
 
     booking&.notifications&.build(to:) do |notification|
-      if notification.deliver_to.blank?
-        notification.destroy
-        return
-      else
-        notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
-        notification.tap(&) if block_given?
-      end
+      notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
+
+      notification.destroy && return unless notification.deliverable?
+
+      notification.tap(&) if block_given?
     end
   end
 

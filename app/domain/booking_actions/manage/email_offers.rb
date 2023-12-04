@@ -14,8 +14,8 @@ module BookingActions
       end
 
       def allowed?
-        offers.any? && booking.notifications_enabled && booking.tenant.email.present? &&
-          MailTemplate.where(key: :offer_notification, enabled: true)
+        offers.any? && booking.notifications_enabled && booking.email.present? &&
+          MailTemplate.exists?(key: :offer_notification, enabled: true)
       end
 
       protected
