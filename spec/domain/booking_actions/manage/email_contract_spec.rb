@@ -25,6 +25,7 @@ describe BookingActions::Manage::EmailContract do
     it { expect(call.ok).to be_truthy }
     it { expect(booking_after_call).to notify(:awaiting_contract_notification).to(:tenant) }
     it { expect(booking_after_call.contract).to be_sent }
+    it { expect(booking_after_call.notifications.last.attachments).to be_present }
 
     context 'with deposit' do
       let!(:deposit) { Invoice::Factory.new.call(booking, type: Invoices::Deposit.to_s).tap(&:save) }

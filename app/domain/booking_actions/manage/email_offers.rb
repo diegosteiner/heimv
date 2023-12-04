@@ -7,7 +7,8 @@ module BookingActions
                                                             autodeliver: false)
 
       def call!
-        mail = MailTemplate.use!(:offer_notification, booking, to: booking.tenant, attach: offers, invoices: offers)
+        mail = MailTemplate.use!(:offer_notification, booking, to: booking.tenant, invoices: offers)
+        mail.attach(offers)
         mail.save! && offers.each(&:sent!)
 
         Result.ok redirect_proc: !mail.autodeliver && proc { edit_manage_notification_path(mail) }

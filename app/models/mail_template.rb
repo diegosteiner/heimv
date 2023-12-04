@@ -32,7 +32,6 @@ class MailTemplate < RichTextTemplate
 
     booking&.notifications&.build(to:) do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
-
       notification.destroy && return unless notification.deliverable?
 
       notification.tap(&) if block_given?
