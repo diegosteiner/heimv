@@ -240,3 +240,15 @@ tr.disabled {
     }
   }
 }
+
+#searchbar {
+  opacity: 0.5;
+
+  &>input {
+    flex-grow: 1;
+  }
+
+  &:has(input:focus) {
+    opacity: 1;
+  }
+}

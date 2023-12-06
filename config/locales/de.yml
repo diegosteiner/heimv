@@ -14,8 +14,7 @@ de:
         occupiables: Mietobjekte
         only_inconcluded: nur offene Buchungen
         previous_booking_states: Vergangene Status
-        ref: Buchungsreferenz
-        tenant: Mieter
+        q: Buchungsreferenz, Mieter, Organisation
       invoice/filter:
         invoice_type: Rechungsart
         issued_at_after: Rechnungsdatum nach

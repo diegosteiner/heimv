@@ -2,8 +2,7 @@
 
 class Booking
   class Filter < ApplicationFilter
-    attribute :ref
-    attribute :tenant
+    attribute :q
     attribute :categories
     attribute :homes, default: -> { [] }
     attribute :occupiables, default: -> { [] }
@@ -33,10 +32,6 @@ class Booking
       bookings.where(occupancy_type:) if occupancy_type.present?
     end
 
-    filter :ref do |bookings|
-      bookings.where(Booking.arel_table[:ref].matches("%#{ref.strip}%")) if ref.present?
-    end
-
     filter :homes do |bookings|
       relevant_homes = Array.wrap(homes).compact_blank
       bookings.joins(:occupancies).where(home_id: relevant_homes) if relevant_homes.present?
@@ -57,12 +52,14 @@ class Booking
       bookings.where(booking_category_id: category_ids)
     end
 
-    filter :tenant do |bookings|
-      next bookings if tenant.blank?
+    filter :q do |bookings|
+      next bookings if q.blank?
 
+      match = "%#{q.strip}%"
       bookings.joins(:tenant)
-              .where(Tenant.arel_table[:search_cache].matches("%#{tenant}%")
-              .or(Booking.arel_table[:tenant_organisation].matches("%#{tenant}%")))
+              .where(Tenant.arel_table[:search_cache].matches(match)
+              .or(Booking.arel_table[:tenant_organisation].matches(match))
+              .or(Booking.arel_table[:ref].matches("#{q.strip}%")))
     end
 
     filter :has_booking_state do |bookings|
