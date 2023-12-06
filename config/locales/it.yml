@@ -14,8 +14,6 @@ it:
         occupiables: Proprietà in affitto
         only_inconcluded: solo prenotazioni aperte
         previous_booking_states: Stato passato
-        ref: Riferimento di prenotazione
-        tenant: Inquilino
       invoice/filter:
         invoice_type: Tipo di fattura
         issued_at_after: Data di fatturazione dopo

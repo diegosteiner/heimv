@@ -14,8 +14,6 @@ fr:
         occupiables: Objet de location
         only_inconcluded: Uniquement les réservations ouvertes/libres (?)
         previous_booking_states: Anciens statuts
-        ref: "(Numéro de) Référence de location"
-        tenant: Locataire
       invoice/filter:
         invoice_type: Type de facture/facturation
         issued_at_after: Délai de paiement après le
