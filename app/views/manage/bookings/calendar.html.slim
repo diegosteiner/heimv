@@ -15,8 +15,6 @@
   /             defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
   /           })
 
-  = react_component('organisation/OrganisationProvider', { \ 
+  = react_component('rails/manage/BookingsCalendar', { \ 
       id: current_organisation.slug \
-    }) do
-      = react_component('organisation/Test')
-
+    }) 
