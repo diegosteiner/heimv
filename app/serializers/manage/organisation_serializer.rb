@@ -11,7 +11,8 @@ module Manage
     association :booking_categories, blueprint: BookingCategorySerializer
     association :booking_questions, blueprint: Public::BookingQuestionSerializer
 
-    fields :qr_iban, :esr_beneficiary_account, :iban, :mail_from
+    fields :qr_iban, :esr_beneficiary_account, :iban, :mail_from,
+           :booking_flow_type, :invoice_ref_strategy_type, :notifications_enabled, :location
     field :settings do |organisation|
       organisation.settings.to_h
     end
