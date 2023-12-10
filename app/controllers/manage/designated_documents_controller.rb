@@ -5,7 +5,7 @@ module Manage
     load_and_authorize_resource :designated_document
 
     def index
-      @designated_documents = @designated_documents.where(organisation: current_organisation)
+      @designated_documents = @designated_documents.where(organisation: current_organisation).order(created_at: :ASC)
       respond_with :manage, @designated_documents
     end
 
