@@ -19,6 +19,7 @@ interface OccupancyOverviewCalendarProps {
 
 function OccupancyOverviewCalendar({ start, occupancyAtUrl, defaultView }: OccupancyOverviewCalendarProps) {
   const occupancyWindow = React.useContext(OccupancyWindowContext);
+  console.log(occupancyWindow);
   const initialFirstDate = start;
 
   const disabledCallback = useCallback(
@@ -33,7 +34,7 @@ function OccupancyOverviewCalendar({ start, occupancyAtUrl, defaultView }: Occup
       const href = occupancyAtUrl?.replace("__DATE__", dateString);
 
       return (
-        <CalendarDate dateString={dateString}>
+        <CalendarDate dateString={dateString} key={dateString}>
           <a className="date-action" href={disabled ? undefined : href} aria-disabled={disabled}>
             <DateWithOccupancies
               dateString={dateString}

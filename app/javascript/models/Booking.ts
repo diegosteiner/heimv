@@ -1,7 +1,8 @@
 import parseISO from "date-fns/parseISO";
 
 export type Booking = {
-  home_ids: number | number[];
+  home_id: number;
+  occupiable_ids: number[];
   begins_at: Date;
   ends_at: Date;
   email: string;
@@ -9,12 +10,12 @@ export type Booking = {
   accept_conditions: boolean;
 };
 
-export type BookingJsonData = Booking & {
-  begins_at: string;
-  ends_at: string;
-};
+// export type BookingJsonData = Booking & {
+//   begins_at: string;
+//   ends_at: string;
+// };
 
-export function fromJson(json: BookingJsonData): Booking {
+export function parse(json: Booking & { begins_at: string; ends_at: string }): Booking {
   const { begins_at, ends_at } = json;
 
   return {

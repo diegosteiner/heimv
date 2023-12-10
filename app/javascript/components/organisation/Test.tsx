@@ -3,7 +3,6 @@ import { OrganisationContext } from "./OrganisationProvider";
 
 export default function Test() {
   const organisation = React.useContext(OrganisationContext);
-  debugger;
 
   return (
     <dl>

@@ -8,9 +8,9 @@ import {
   formatISO,
   eachMonthOfInterval,
 } from "date-fns";
-import { parseDate, materializedWeekdays, monthNameFormatter } from "./functions";
 import { memo } from "react";
 import { DateElementFactory } from "./CalendarDate";
+import { materializedWeekdays, monthNameFormatter, parseDate } from "../../services/date";
 
 interface CalendarMonthProps {
   dateString: string;

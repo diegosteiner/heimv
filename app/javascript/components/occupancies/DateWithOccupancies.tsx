@@ -4,8 +4,8 @@ import { isAfter } from "date-fns/esm";
 import { MouseEventHandler, useMemo } from "react";
 import { findMostRelevantOccupancy, Occupancy } from "../../models/Occupancy";
 import { OccupancyWindow } from "../../models/OccupancyWindow";
-import { parseDate } from "../calendar/functions";
 import { OccupancyPopover } from "./OccupancyPopover";
+import { parseDate } from "../../services/date";
 
 interface DateWithOccupanciesProps {
   dateString: string;

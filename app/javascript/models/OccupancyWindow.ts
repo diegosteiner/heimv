@@ -5,7 +5,7 @@ export type OccupancyWindow = {
   start: Date;
   end: Date;
   occupancies: Occupancy[];
-  occupiedDates: Map<string, Set<Occupancy>>;
+  occupiedDates?: Map<string, Set<Occupancy>>;
 };
 
 export type OccupancyWindowJsonType = {
@@ -14,20 +14,20 @@ export type OccupancyWindowJsonType = {
   occupancies: OccupancyJsonType[];
 };
 
-export function fromJson(json: OccupancyWindowJsonType): OccupancyWindow {
+export function parse(json: OccupancyWindowJsonType): OccupancyWindow {
   const occupancies = Array.from(json.occupancies).map(occupancyFromJson);
 
   return {
     start: parseISO(json.window_from),
     end: parseISO(json.window_to),
-    occupiedDates: getOccupiedDates(occupancies),
+    // occupiedDates: getOccupiedDates(occupancies),
     occupancies,
   };
 }
 
 const dateFormat = (date: Date) => formatISO(date, { representation: "date" });
 
-function getOccupiedDates(occupancies: Occupancy[]) {
+export function getOccupiedDates(occupancies: Occupancy[]) {
   const occupiedDates = new Map<string, Set<Occupancy>>();
 
   for (const occupancy of occupancies) {

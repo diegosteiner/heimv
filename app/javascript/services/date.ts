@@ -1,5 +1,21 @@
-import isValid from "date-fns/isValid";
-import parseISO from "date-fns/parseISO";
+import { compareAsc, formatISO, isValid, parseISO } from "date-fns";
+
+export function parseISOorUndefined(value: string | Date | undefined): Date | undefined {
+  const date = typeof value === "string" ? parseISO(value) : value;
+  return isValid(date) ? date : undefined;
+}
+
+export function formatISOorUndefined(value: string | Date | undefined): string | undefined {
+  if (!value) return undefined;
+  if (typeof value === "string") return value;
+
+  return formatISO(value);
+}
+
+export function toInterval(dates: Date[]) {
+  const [start, end] = dates.sort(compareAsc);
+  return { start, end };
+}
 
 export const formatDate = new Intl.DateTimeFormat("de-CH", {
   year: "numeric",

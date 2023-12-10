@@ -1,5 +1,6 @@
-import OccupiableSelect from "../../occupiables/OccupiableSelect";
+import BookingOccupancySelect from "../../occupancies/BookingOccupancySelect";
 import OrganisationProvider from "../../organisation/OrganisationProvider";
+import * as React from "react";
 
 type Props = {
   organisationId: string;
@@ -7,8 +8,10 @@ type Props = {
 
 export default function BookingsCalendar({ organisationId }: Props) {
   return (
-    <OrganisationProvider id={organisationId}>
-      <OccupiableSelect></OccupiableSelect>
-    </OrganisationProvider>
+    <React.StrictMode>
+      <OrganisationProvider id={organisationId}>
+        <BookingOccupancySelect></BookingOccupancySelect>
+      </OrganisationProvider>
+    </React.StrictMode>
   );
 }

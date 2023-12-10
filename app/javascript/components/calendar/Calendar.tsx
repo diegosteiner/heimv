@@ -5,9 +5,9 @@ import * as React from "react";
 import { DateElementFactory } from "./CalendarDate";
 import { CalendarNav } from "./CalendarNav";
 import getYear from "date-fns/getYear";
-import { parseDate } from "./functions";
 import addMonths from "date-fns/addMonths";
 import subMonths from "date-fns/subMonths";
+import { parseDate } from "../../services/date";
 
 interface CalendarProps {
   initialFirstDate?: string;
@@ -29,23 +29,21 @@ function Calendar({ initialFirstDate, defaultView, dateElementFactory }: Calenda
   const prevMonth = () => setFirstDate((prevFirstDate) => subMonths(prevFirstDate, 1));
 
   return (
-    <React.StrictMode>
-      <CalendarViewContext.Provider value={{ view, setView }}>
-        <div className="calendar">
-          <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
-            {getYear(firstDate)}
-          </CalendarNav>
-          {({ months: MonthsCalendar, year: YearCalendar }[view] || MonthsCalendar)({
-            firstDate,
-            dateElementFactory,
-          })}
-          <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
-            {getYear(firstDate)}
-          </CalendarNav>
-          ;
-        </div>
-      </CalendarViewContext.Provider>
-    </React.StrictMode>
+    <CalendarViewContext.Provider value={{ view, setView }}>
+      <div className="calendar">
+        <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
+          {getYear(firstDate)}
+        </CalendarNav>
+        {({ months: MonthsCalendar, year: YearCalendar }[view] || MonthsCalendar)({
+          firstDate,
+          dateElementFactory,
+        })}
+        <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
+          {getYear(firstDate)}
+        </CalendarNav>
+        ;
+      </div>
+    </CalendarViewContext.Provider>
   );
 }
 

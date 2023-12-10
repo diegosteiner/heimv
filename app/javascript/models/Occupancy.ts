@@ -6,7 +6,7 @@ export type Occupancy = {
   ends_at: Date;
   occupancy_type: "free" | "tentative" | "occupied" | "closed";
   ref: string | null;
-  deadline: Date | null;
+  deadline?: Date | null;
   remarks: string | null;
   color?: string;
   occupiable: Occupiable;

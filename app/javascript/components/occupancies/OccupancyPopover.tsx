@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Occupancy } from "../../models/Occupancy";
 import { OccupancyWindow } from "../../models/OccupancyWindow";
-import { formatDate } from "../calendar/functions";
+import { formatDate } from "../../services/date";
 
 interface OccupancyPopoverProps {
   dateString: string;

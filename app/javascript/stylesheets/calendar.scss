@@ -175,6 +175,10 @@
     color: black;
     position: relative;
 
+    &.highlighted {
+      outline: 2px solid red;
+    }
+
 
     &:disabled,
     &[aria-disabled='true'] {
