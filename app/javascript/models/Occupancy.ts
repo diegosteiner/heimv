@@ -1,36 +1,38 @@
-import parseISO from "date-fns/parseISO";
+import { Occupiable } from "../types";
+import { parseISOorUndefined } from "../services/date";
 
 export type Occupancy = {
   id: string;
-  begins_at: Date;
-  ends_at: Date;
-  occupancy_type: "free" | "tentative" | "occupied" | "closed";
-  ref: string | null;
-  deadline?: Date | null;
-  remarks: string | null;
+  beginsAt: Date;
+  endsAt: Date;
+  occupancyType: "free" | "tentative" | "occupied" | "closed";
+  ref?: string;
+  deadline?: Date;
+  remarks?: string;
   color?: string;
-  occupiable: Occupiable;
+  occupiable?: Occupiable;
+  occupiableId: number;
 };
 
-export type OccupancyJsonType = Occupancy & {
+export type OccupancyJson = {
   begins_at: string;
   ends_at: string;
-  deadline: string | null;
+  deadline?: string;
+  occupiable_id: number;
+  occupiable: Occupiable;
+  occupancy_type: Occupancy["occupancyType"];
 };
 
-export type Occupiable = {
-  id: string;
-  name: string;
-};
-
-export function fromJson(json: OccupancyJsonType): Occupancy {
-  const { begins_at, ends_at, deadline, ...rest } = json;
+export function parse(json: OccupancyJson): Partial<Occupancy> {
+  const { begins_at, ends_at, deadline, occupiable_id, occupancy_type, ...rest } = json;
 
   return {
     ...rest,
-    begins_at: parseISO(begins_at),
-    ends_at: parseISO(ends_at),
-    deadline: deadline ? parseISO(deadline) : null,
+    beginsAt: parseISOorUndefined(begins_at),
+    endsAt: parseISOorUndefined(ends_at),
+    deadline: parseISOorUndefined(deadline),
+    occupiableId: occupiable_id,
+    occupancyType: occupancy_type,
   };
 }
 
@@ -41,7 +43,7 @@ export function findMostRelevantOccupancy(occupancies: Set<Occupancy>): Occupanc
   let topScore: number | undefined;
 
   occupancies.forEach((currentCandidate) => {
-    const currentScore = occupancyTypeMapping.indexOf(currentCandidate.occupancy_type);
+    const currentScore = occupancyTypeMapping.indexOf(currentCandidate.occupancyType);
     if (topScore && topScore > currentScore) return;
 
     topScore = currentScore;

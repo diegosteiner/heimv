@@ -5,18 +5,18 @@ import { ApiClient } from "../../services/api_client";
 export const OrganisationContext = createContext<Organisation | undefined>(undefined);
 
 type OrganisationProviderProps = PropsWithChildren<{
-  id: string;
+  org: string;
 }>;
 
-export default function OrganisationProvider({ id, children }: OrganisationProviderProps) {
+export default function OrganisationProvider({ org, children }: OrganisationProviderProps) {
   const [organisation, setOrganisation] = useState<Organisation | undefined>();
 
   useEffect(() => {
     (async () => {
-      const api = new ApiClient(id);
+      const api = new ApiClient(org);
       setOrganisation(await api.getOrganisation());
     })();
-  }, [id]);
+  }, [org]);
 
   return <OrganisationContext.Provider value={organisation}>{children}</OrganisationContext.Provider>;
 }

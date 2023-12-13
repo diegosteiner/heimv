@@ -48,12 +48,13 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def fill_request_form(email:, begins_at:, ends_at:, home:)
     check "booking_occupiable_ids_#{home.id}"
+    binding.pry
     # select(home.to_s, from: 'booking_home_id')
     fill_in 'booking_email', with: email
     fill_in 'booking_begins_at_date', with: begins_at.strftime('%d.%m.%Y')
-    select(format('%02d', begins_at.hour), from: 'booking_begins_at_hours')
+    select(format('%02d:00', begins_at.hour), from: 'booking_begins_at_time')
     fill_in 'booking_ends_at_date', with: ends_at.strftime('%d.%m.%Y')
-    select(format('%02d', ends_at.hour), from: 'booking_ends_at_hours')
+    select(format('%02d:00', ends_at.hour), from: 'booking_ends_at_time')
     check 'booking_accept_conditions'
   end
 

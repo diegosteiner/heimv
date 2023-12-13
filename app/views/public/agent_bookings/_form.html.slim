@@ -23,20 +23,17 @@
               div
                 =<> l(@agent_booking.booking.deadline.at, format: :short)
 
-        = render partial: 'public/occupiables/select', locals: { booking: @agent_booking.booking, form: bf, disabled: !@agent_booking.booking.editable }
-
-        fieldset
-          = react_component('calendar/CalendarFormField', label: Booking.human_attribute_name(:begins_at),
-                                                      name: 'agent_booking[booking_attributes][begins_at]',
-                                                      value: @agent_booking.booking.begins_at&.iso8601, 
-                                                      disabled: !@agent_booking.booking.editable?, required: true,
-                                                      invalidFeedback: @agent_booking.booking.errors[:begins_at]&.to_sentence)
-
-          = react_component('calendar/CalendarFormField', label: Booking.human_attribute_name(:ends_at),
-                                                      name: 'agent_booking[booking_attributes][ends_at]',
-                                                      value: @agent_booking.booking.ends_at&.iso8601, 
-                                                      disabled: !@agent_booking.booking.editable?, required: true,
-                                                      invalidFeedback: @agent_booking.booking.errors[:ends_at]&.to_sentence)
+        fieldset 
+          = react_component('react_rails/BookingOccupancyForm', { \ 
+              org: current_organisation.slug, \
+              booking: Public::BookingSerializer.render_as_hash(@agent_booking.booking), \
+              namePrefix: 'agent_booking[booking_attributes]', \ 
+              required: true, \
+              disabled: !@agent_booking.booking.editable?, \
+              occupiableInvalidFeedback: @agent_booking.booking.errors.to_hash(true).slice(:occupiable_ids, :home_id).values.flatten.to_sentence, \
+              occupancyInvalidFeedback: @agent_booking.booking.errors.to_hash(true).slice(:begins_at, :begins_at_time, :ends_at, :ends_at_time).values.flatten.to_sentence, \
+              defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
+            }) 
 
         fieldset 
           h4= Tenant.model_name.human

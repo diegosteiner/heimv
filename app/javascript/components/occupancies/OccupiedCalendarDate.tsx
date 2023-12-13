@@ -3,18 +3,18 @@ import { addHours, endOfDay, isBefore, startOfDay } from "date-fns/esm";
 import { isAfter } from "date-fns/esm";
 import { MouseEventHandler, useMemo } from "react";
 import { findMostRelevantOccupancy, Occupancy } from "../../models/Occupancy";
-import { OccupancyWindow } from "../../models/OccupancyWindow";
+import { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
 import { OccupancyPopover } from "./OccupancyPopover";
 import { parseDate } from "../../services/date";
 
-interface DateWithOccupanciesProps {
+interface OccupiedCalendarDateProps {
   dateString: string;
   onClick?: MouseEventHandler;
-  occupancyWindow?: OccupancyWindow;
+  occupancyWindow?: OccupancyWindowWithOccupiedDates;
   label: string;
 }
 
-export function DateWithOccupancies({ dateString, occupancyWindow, label }: DateWithOccupanciesProps) {
+export function OccupiedCalendarDate({ dateString, occupancyWindow, label }: OccupiedCalendarDateProps) {
   const date = startOfDay(parseDate(dateString));
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
   const slots = useMemo(() => splitSlots(date, occupancies), [date, occupancies]);
@@ -66,23 +66,23 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
   const slots = { allday: new Set<Occupancy>(), forenoon: new Set<Occupancy>(), afternoon: new Set<Occupancy>() };
 
   occupancies.forEach((occupancy) => {
-    const { begins_at, ends_at } = occupancy;
+    const { beginsAt, endsAt } = occupancy;
 
     // begins before and ends after that day => allDay
-    if (isBefore(begins_at, dayStart) && isAfter(ends_at, dayEnd)) return slots.allday.add(occupancy);
+    if (isBefore(beginsAt, dayStart) && isAfter(endsAt, dayEnd)) return slots.allday.add(occupancy);
 
     // ends in the afternoon or begins in the forenoon, there are no others => allDay
     if (
       occupancies.size == 1 &&
-      (isWithinInterval(ends_at, afternoonInterval) || isWithinInterval(begins_at, forenoonInterval))
+      (isWithinInterval(endsAt, afternoonInterval) || isWithinInterval(beginsAt, forenoonInterval))
     )
       return slots.allday.add(occupancy);
 
     // ends that day => foreNoon
-    if (isWithinInterval(ends_at, allDayInterval)) return slots.forenoon.add(occupancy);
+    if (isWithinInterval(endsAt, allDayInterval)) return slots.forenoon.add(occupancy);
 
     // begins that day => afternoon
-    if (isWithinInterval(begins_at, allDayInterval)) return slots.afternoon.add(occupancy);
+    if (isWithinInterval(beginsAt, allDayInterval)) return slots.afternoon.add(occupancy);
   });
 
   return slots;

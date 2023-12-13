@@ -1,11 +1,16 @@
 import { useContext } from "react";
 import { Form } from "react-bootstrap";
 import { OrganisationContext } from "../organisation/OrganisationProvider";
-import { TranslatedString } from "../../types";
 import { useTranslation } from "react-i18next";
+import { cx } from "@emotion/css";
+import { translatedString } from "../../services/i18n";
 
-type Props = OccupiableSelectState & {
+type OccupiableSelectProps = OccupiableSelectState & {
   onChange: (set: (prev: OccupiableSelectState) => OccupiableSelectState) => void;
+  namePrefix?: string;
+  required?: boolean;
+  disabled?: boolean;
+  invalidFeedback?: string;
 };
 
 export type OccupiableSelectState = {
@@ -13,15 +18,21 @@ export type OccupiableSelectState = {
   occupiableIds: number[] | undefined;
 };
 
-export default function OccupiableSelect({ homeId, occupiableIds, onChange }: Props) {
+export default function OccupiableSelect({
+  homeId,
+  occupiableIds,
+  namePrefix,
+  disabled,
+  required,
+  invalidFeedback,
+  onChange,
+}: OccupiableSelectProps) {
   const organisation = useContext(OrganisationContext);
   const occupiables = organisation?.homes?.find((home) => home.id === homeId)?.occupiables;
+  const hideHomeSelect = organisation?.homes?.length === 1;
   const { i18n } = useTranslation();
-  const setHomeId = (homeId: number | undefined) => {
-    onChange((prev) => ({ ...prev, homeId }));
-  };
-
-  const toggleOccupiableId = (occupiableId: number, value: boolean) => {
+  const setHomeId = (homeId: number) => onChange((prev) => ({ ...prev, homeId }));
+  const setOccupiableId = (occupiableId: number, value: boolean) => {
     onChange(({ occupiableIds, homeId }) => {
       occupiableIds ||= [];
       occupiableIds =
@@ -35,8 +46,14 @@ export default function OccupiableSelect({ homeId, occupiableIds, onChange }: Pr
 
   return (
     <>
-      <Form.Group className="mb-3">
-        <Form.Select name="home_id" value={homeId} onChange={(event) => setHomeId(parseInt(event.currentTarget.value))}>
+      <Form.Group className={cx({ "mb-3": true, "d-none": hideHomeSelect })}>
+        <Form.Select
+          name={`${namePrefix}[home_id]`}
+          disabled={disabled}
+          required={required}
+          value={homeId}
+          onChange={(event) => setHomeId(parseInt(event.target.value))}
+        >
           <option></option>
           {organisation?.homes.map((home) => (
             <option key={home.id} value={home.id}>
@@ -48,16 +65,21 @@ export default function OccupiableSelect({ homeId, occupiableIds, onChange }: Pr
 
       <Form.Group className="mb-3">
         {occupiables?.map((occupiable) => (
-          <Form.Check
-            type="checkbox"
-            value={occupiable.id}
-            checked={occupiableIds?.includes(occupiable.id)}
-            onChange={(event) => toggleOccupiableId(occupiable.id, event.currentTarget.checked)}
-            key={occupiable.id}
-            id={`occupiable-${occupiable.id}`}
-            label={occupiable.name_i18n[i18n.language as keyof TranslatedString]}
-          />
+          <Form.Check type="checkbox" key={occupiable.id} id={`booking_occupiable_ids_${occupiable.id}`}>
+            <Form.Check.Input
+              type="checkbox"
+              value={occupiable.id}
+              name={`${namePrefix}[occupiable_ids][]`}
+              checked={occupiableIds?.includes(occupiable.id)}
+              onChange={(event) => setOccupiableId(occupiable.id, event.target.checked)}
+            />
+            <Form.Check.Label>
+              {translatedString(occupiable.name_i18n, i18n)}
+              <p className="text-muted m-0">{translatedString(occupiable.description_i18n, i18n)}</p>
+            </Form.Check.Label>
+          </Form.Check>
         ))}
+        {!!invalidFeedback && <div className="invalid-feedback d-block">{invalidFeedback}</div>}
       </Form.Group>
     </>
   );

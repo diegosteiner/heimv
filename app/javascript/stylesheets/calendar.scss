@@ -1,3 +1,5 @@
+@import "./variables";
+
 .calendar {
   position: relative;
 
@@ -174,17 +176,24 @@
     padding: 0;
     color: black;
     position: relative;
+    cursor: pointer;
 
     &.highlighted {
-      outline: 2px solid red;
-    }
+      outline: 1px solid $primary;
+      background-color: $primary;
 
+      .label {
+        font-weight: bold;
+        color: white;
+      }
+    }
 
     &:disabled,
     &[aria-disabled='true'] {
+      cursor: default;
+
       .label {
         color: #777;
-        cursor: initial;
       }
     }
 
@@ -205,7 +214,7 @@
       width: 100%;
       text-align: center;
       opacity: 0.8;
-      cursor: pointer;
+      cursor: inherit;
     }
 
     &.has-occupancies .label {
@@ -213,8 +222,8 @@
     }
 
     svg {
-      cursor: pointer;
-      overflow: visible;
+      cursor: inherit;
+      overflow: none;
 
       rect:not([fill]),
       polygon:not([fill]) {
@@ -235,6 +244,7 @@
   z-index: 10;
   display: none;
   width: max-content;
+  text-align: start;
 
   ul.occupancies {
     &>li+li {

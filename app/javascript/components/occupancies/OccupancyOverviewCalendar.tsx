@@ -1,10 +1,10 @@
-import { MouseEventHandler, useCallback } from "react";
+import { MouseEventHandler, useCallback, useContext } from "react";
 import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
 import { isAfter, isBefore } from "date-fns/esm";
 import * as React from "react";
 import { parseISO } from "date-fns";
 import Calendar, { ViewType } from "../calendar/Calendar";
-import { DateWithOccupancies } from "./DateWithOccupancies";
+import { OccupiedCalendarDate } from "./OccupiedCalendarDate";
 import { OccupancyWindowContext } from "./OccupancyWindowContext";
 
 interface OccupancyOverviewCalendarProps {
@@ -17,10 +17,8 @@ interface OccupancyOverviewCalendarProps {
   defaultView?: ViewType;
 }
 
-function OccupancyOverviewCalendar({ start, occupancyAtUrl, defaultView }: OccupancyOverviewCalendarProps) {
-  const occupancyWindow = React.useContext(OccupancyWindowContext);
-  console.log(occupancyWindow);
-  const initialFirstDate = start;
+function OccupancyOverviewCalendar({ occupancyAtUrl, defaultView }: OccupancyOverviewCalendarProps) {
+  const occupancyWindow = useContext(OccupancyWindowContext);
 
   const disabledCallback = useCallback(
     (date: Date) => !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end),
@@ -36,11 +34,11 @@ function OccupancyOverviewCalendar({ start, occupancyAtUrl, defaultView }: Occup
       return (
         <CalendarDate dateString={dateString} key={dateString}>
           <a className="date-action" href={disabled ? undefined : href} aria-disabled={disabled}>
-            <DateWithOccupancies
+            <OccupiedCalendarDate
               dateString={dateString}
               label={labelCallback(date)}
               occupancyWindow={occupancyWindow}
-            ></DateWithOccupancies>
+            ></OccupiedCalendarDate>
           </a>
         </CalendarDate>
       );
@@ -48,13 +46,7 @@ function OccupancyOverviewCalendar({ start, occupancyAtUrl, defaultView }: Occup
     [occupancyWindow],
   );
 
-  return (
-    <Calendar
-      initialFirstDate={initialFirstDate}
-      defaultView={defaultView}
-      dateElementFactory={dateElementFactory}
-    ></Calendar>
-  );
+  return <Calendar defaultView={defaultView} dateElementFactory={dateElementFactory}></Calendar>;
 }
 
 export default OccupancyOverviewCalendar;

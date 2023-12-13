@@ -112,7 +112,7 @@ class Booking < ApplicationRecord
     next errors.add(:occupiable_ids, :blank) if occupancies.none?
   end
   validate on: %i[public_create public_update agent_booking] do
-    next errors.add(:home_id, :occupancy_conflict) if occupancies.any?(&:conflicting?)
+    next errors.add(:occupiable_ids, :occupancy_conflict) if occupancies.any?(&:conflicting?)
   end
 
   scope :ordered, -> { order(begins_at: :ASC) }

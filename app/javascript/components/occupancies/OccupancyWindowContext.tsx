@@ -1,11 +1,11 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
-import { getOccupiedDates, OccupancyWindow } from "../../models/OccupancyWindow";
+import { calculateOccupiedDates, OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
 import { Occupiable } from "../../types";
 import { OrganisationContext } from "../organisation/OrganisationProvider";
 import { ApiClient } from "../../services/api_client";
 import { max } from "date-fns";
 
-export const OccupancyWindowContext = createContext<OccupancyWindow | undefined>(undefined);
+export const OccupancyWindowContext = createContext<OccupancyWindowWithOccupiedDates | undefined>(undefined);
 
 type OccupancyWindowProviderProps = PropsWithChildren<{
   occupiableIds?: Occupiable["id"][];
@@ -13,7 +13,7 @@ type OccupancyWindowProviderProps = PropsWithChildren<{
 
 export function OccupancyWindowProvider({ occupiableIds, children }: OccupancyWindowProviderProps) {
   const organisation = useContext(OrganisationContext);
-  const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindow | undefined>();
+  const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindowWithOccupiedDates | undefined>();
 
   useEffect(() => {
     (async () => {
@@ -32,8 +32,7 @@ export function OccupancyWindowProvider({ occupiableIds, children }: OccupancyWi
         end: max([memo?.end, occupancyWindow.end]),
         occupancies: [...(memo?.occupancies || []), ...occupancyWindow.occupancies],
       }));
-      mergedOccupancyWindow.occupiedDates = getOccupiedDates(mergedOccupancyWindow.occupancies);
-      setOccupancyWindow(mergedOccupancyWindow);
+      setOccupancyWindow(calculateOccupiedDates(mergedOccupancyWindow));
     })();
   }, [organisation, occupiableIds]);
 

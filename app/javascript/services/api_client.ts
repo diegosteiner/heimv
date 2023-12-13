@@ -1,4 +1,4 @@
-import { OccupancyWindow, parse as parseOcupancyWindow } from "../models/OccupancyWindow";
+import { OccupancyWindow, OccupancyWindowJson, parse as parseOcupancyWindow } from "../models/OccupancyWindow";
 import { Occupiable, Organisation } from "../types";
 
 export class ApiClient {
@@ -23,6 +23,6 @@ export class ApiClient {
     const json = await response.json();
     if (response.status !== 200) throw new Error(json.error);
 
-    return parseOcupancyWindow(json as unknown);
+    return parseOcupancyWindow(json as unknown as OccupancyWindowJson);
   }
 }

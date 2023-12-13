@@ -1,33 +1,39 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useRef, useState } from "react";
 import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
 import { isAfter, isBefore } from "date-fns/esm";
 import * as React from "react";
-import { formatISO, isEqual, isWithinInterval, parseISO } from "date-fns";
+import { formatISO, isSameDay, parseISO } from "date-fns";
 import Calendar, { ViewType } from "../calendar/Calendar";
-import { DateWithOccupancies } from "./DateWithOccupancies";
+import { OccupiedCalendarDate } from "./OccupiedCalendarDate";
 import { OccupancyWindowContext } from "./OccupancyWindowContext";
-import { parseISOorUndefined, toInterval } from "../../services/date";
+import { isBetweenDates, parseISOorUndefined, toInterval } from "../../services/date";
 import { cx } from "@emotion/css";
 import { OccupancyWindow } from "../../models/OccupancyWindow";
-import { DateInterval } from "../../types";
 
-function highlight(date: Date, { start, end }: DateInterval, hovering: Date | undefined): boolean {
+function highlight(
+  date: Date,
+  beginsAt: Date | undefined,
+  endsAt: Date | undefined,
+  hovering: Date | undefined,
+): boolean {
   if (!date) return false;
-  if (start && end) return isWithinInterval(date, { start, end });
-  if (!hovering) return false;
-  if (!start && !end) return isEqual(date, hovering);
-  return isWithinInterval(date, toInterval([(start || end) as Date, hovering]));
+  const { start, end } = toInterval([beginsAt, endsAt]);
+  if (!start) return !!hovering && isSameDay(date, hovering);
+  if (isSameDay(date, start)) return true;
+  if (!end) return !!hovering && (isSameDay(date, hovering) || isBetweenDates(date, [start, hovering]));
+  return (hovering && isSameDay(date, hovering)) || isBetweenDates(date, [start, end]);
 }
 
 function disable(date: Date, occupancyWindow?: OccupancyWindow) {
-  return !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end);
+  if (!occupancyWindow) return false;
+  return isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end);
 }
 
 interface OccupancyIntervalCalendarProps {
   defaultView?: ViewType;
   beginsAtString?: string | undefined;
   endsAtString?: string | undefined;
-  onChange?: (interval: DateInterval) => void;
+  onChange?: (value: { endsAt?: Date | undefined; beginsAt?: Date | undefined }) => void;
 }
 
 function OccupancyIntervalCalendar({
@@ -39,21 +45,35 @@ function OccupancyIntervalCalendar({
   const occupancyWindow = useContext(OccupancyWindowContext);
   const beginsAt = parseISOorUndefined(beginsAtString),
     endsAt = parseISOorUndefined(endsAtString);
-  const [hovering, setHoveringDate] = useState<Date | undefined>();
-  const handleClick = (date: Date) => {
-    if (!onChange || !date) return;
-    if ((beginsAt && endsAt) || (!beginsAt && !endsAt)) {
-      onChange({ start: date, end: undefined });
-      return;
+  const [hovering, setHovering] = useState<Date | undefined>();
+  const setHoveringTimeout = useRef<ReturnType<typeof setTimeout> | undefined>();
+
+  const handleClick = useCallback(
+    (date: Date) => {
+      if (!onChange || !date) return;
+      if ((beginsAt && endsAt) || (!beginsAt && !endsAt)) {
+        onChange({ beginsAt: date, endsAt: undefined });
+        return;
+      }
+      const interval = toInterval([beginsAt, endsAt, date]);
+      onChange({ beginsAt: interval.start, endsAt: interval.end });
+    },
+    [beginsAt, endsAt],
+  );
+  const handleHover = (date: Date | undefined) => {
+    if (setHoveringTimeout.current) {
+      clearTimeout(setHoveringTimeout.current);
+      setHoveringTimeout.current = undefined;
     }
-    onChange(toInterval([(beginsAt || endsAt) as Date, date]));
+
+    date ? setHovering(date) : (setHoveringTimeout.current = setTimeout(() => setHovering(undefined), 100));
   };
 
   const dateElementFactory: DateElementFactory = useCallback(
     (dateString: string, labelCallback: (date: Date) => string) => {
       const date = parseISO(dateString);
       const disabled = disable(date, occupancyWindow);
-      const highlighted = highlight(date, { start: beginsAt, end: endsAt }, hovering);
+      const highlighted = highlight(date, beginsAt, endsAt, hovering);
 
       return (
         <CalendarDate dateString={dateString} key={dateString}>
@@ -61,14 +81,14 @@ function OccupancyIntervalCalendar({
             disabled={disabled}
             className={cx({ "date-action": true, highlighted })}
             onClick={() => handleClick(date)}
-            onMouseEnter={() => setHoveringDate(date)}
-            onMouseLeave={() => setHoveringDate(undefined)}
+            onMouseEnter={() => handleHover(date)}
+            onMouseLeave={() => handleHover(undefined)}
           >
-            <DateWithOccupancies
+            <OccupiedCalendarDate
               dateString={dateString}
               label={labelCallback(date)}
               occupancyWindow={occupancyWindow}
-            ></DateWithOccupancies>
+            ></OccupiedCalendarDate>
           </button>
         </CalendarDate>
       );

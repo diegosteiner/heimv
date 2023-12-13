@@ -1,4 +1,4 @@
-import { compareAsc, formatISO, isValid, parseISO } from "date-fns";
+import { compareAsc, formatISO, isDate, isValid, isWithinInterval, parseISO } from "date-fns";
 
 export function parseISOorUndefined(value: string | Date | undefined): Date | undefined {
   const date = typeof value === "string" ? parseISO(value) : value;
@@ -12,9 +12,15 @@ export function formatISOorUndefined(value: string | Date | undefined): string |
   return formatISO(value);
 }
 
-export function toInterval(dates: Date[]) {
-  const [start, end] = dates.sort(compareAsc);
-  return { start, end };
+export function toInterval(values: (Date | undefined)[]): { start: Date | undefined; end: Date | undefined } {
+  const dates = values.filter((date: Date | undefined) => date && isDate(date) && isValid(date)) as Date[];
+  dates.sort(compareAsc);
+  return { start: dates.shift(), end: dates.pop() };
+}
+
+export function isBetweenDates(date: Date, dates: (Date | undefined)[]): boolean {
+  const { start, end } = toInterval(dates);
+  return !!start && !!end && isWithinInterval(date, { start, end });
 }
 
 export const formatDate = new Intl.DateTimeFormat("de-CH", {
@@ -43,3 +49,7 @@ export const weekdayNameFormatter = new Intl.DateTimeFormat(document.documentEle
 });
 
 export const materializedWeekdays = [1, 2, 3, 4, 5, 6, 7].map((i) => weekdayNameFormatter.format(new Date(2021, 2, i)));
+
+export const closestNumber = (n: number, range: number[]) => {
+  return range.includes(n) ? n : range.reduce((a, b) => (Math.abs(b - n) < Math.abs(a - n) ? b : a));
+};

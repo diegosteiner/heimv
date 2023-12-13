@@ -1,35 +1,27 @@
-import parseISO from "date-fns/parseISO";
+import { parseISOorUndefined } from "../services/date";
 
 export type Booking = {
-  home_id: number;
-  occupiable_ids: number[];
-  begins_at: Date;
-  ends_at: Date;
-  email: string;
-  tenant_organisation: string;
-  accept_conditions: boolean;
+  beginsAt: Date;
+  endsAt: Date;
+  homeId: number;
+  occupiableIds: number[];
+  organisationId: number;
 };
 
-// export type BookingJsonData = Booking & {
-//   begins_at: string;
-//   ends_at: string;
-// };
+export type BookingJson = {
+  begins_at?: string;
+  ends_at?: string;
+  home_id?: number;
+  occupiable_ids?: number[];
+};
 
-export function parse(json: Booking & { begins_at: string; ends_at: string }): Booking {
-  const { begins_at, ends_at } = json;
+export function parse(json: BookingJson): Partial<Booking> {
+  const { begins_at, ends_at, home_id, occupiable_ids } = json;
 
   return {
-    ...json,
-    begins_at: parseISO(begins_at),
-    ends_at: parseISO(ends_at),
+    beginsAt: parseISOorUndefined(begins_at),
+    endsAt: parseISOorUndefined(ends_at),
+    homeId: home_id,
+    occupiableIds: occupiable_ids,
   };
 }
-
-// export function toJson(json: Booking): BookingJsonData {
-//   const { occupancy, ...rest } = json;
-
-//   return {
-//     occupancy: occupancyFromJson(occupancy),
-//     ...rest
-//   };
-// }

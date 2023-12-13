@@ -56,8 +56,3 @@ export type Occupiable = {
   name_i18n: TranslatedString;
   description_i18n: TranslatedString;
 };
-
-export type DateInterval = {
-  start: Date | undefined;
-  end: Date | undefined;
-};
