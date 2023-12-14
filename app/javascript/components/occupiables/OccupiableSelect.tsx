@@ -49,6 +49,7 @@ export default function OccupiableSelect({
       <Form.Group className={cx({ "mb-3": true, "d-none": hideHomeSelect })}>
         <Form.Select
           name={`${namePrefix}[home_id]`}
+          id="booking_home_id"
           disabled={disabled}
           required={required}
           value={homeId}

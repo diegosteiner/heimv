@@ -26,7 +26,7 @@
 FactoryBot.define do
   factory :booking_category do
     organisation { nil }
-    key { 'MyString' }
-    title_i18n { '' }
+    sequence(:key) { |i| "category_#{i}" }
+    title_i18n { Faker::Commerce.department }
   end
 end

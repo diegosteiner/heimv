@@ -99,6 +99,7 @@ export function OccupancyIntervalFormControl({
             <InputGroup hasValidation>
               <Form.Control
                 value={beginsAt.text}
+                id={`booking_begins_at_date`}
                 required={required}
                 disabled={disabled}
                 isInvalid={!!invalidFeedback || (beginsAt.text.length > 0 && !beginsAt.date)}
@@ -120,6 +121,7 @@ export function OccupancyIntervalFormControl({
           <Col sm={3}>
             <Form.Select
               value={beginsAt.time}
+              id={`booking_begins_at_time`}
               required={required}
               disabled={disabled}
               isInvalid={!!invalidFeedback}
@@ -155,6 +157,7 @@ export function OccupancyIntervalFormControl({
             <InputGroup>
               <Form.Control
                 value={endsAt.text}
+                id={`booking_ends_at_date`}
                 isInvalid={!!invalidFeedback || (endsAt.text.length > 0 && !endsAt.date)}
                 onChange={(event) => setEndsAt((prev) => ({ ...prev, text: event.target.value }))}
                 onBlur={(event) =>
@@ -174,6 +177,7 @@ export function OccupancyIntervalFormControl({
           <Col sm={3}>
             <Form.Select
               value={endsAt.time}
+              id={`booking_ends_at_time`}
               isInvalid={!!invalidFeedback}
               onChange={(event) =>
                 setEndsAt((prev) =>
