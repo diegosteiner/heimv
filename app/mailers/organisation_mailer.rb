@@ -4,7 +4,7 @@ class OrganisationMailer < ApplicationMailer
   BOOKING_HEADER_NAME = 'X-Heimv-Booking-Id'
   NOTIFICATION_HEADER_NAME = 'X-Heimv-Notification-Id'
 
-  default from: -> { (@organisation.mail_from || @organisation.email) },
+  default from: -> { @organisation.mail_from || @organisation.email },
           reply_to: -> { @organisation.email },
           charset: 'UTF-8'
 

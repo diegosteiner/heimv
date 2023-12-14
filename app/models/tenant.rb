@@ -87,7 +87,7 @@ class Tenant < ApplicationRecord
     [
       address_addon&.strip,
       street_address&.lines&.map(&:strip),
-      [zipcode, city, (country_code != organisation&.country_code && country_code)].compact_blank.join(' ')
+      [zipcode, city, country_code != organisation&.country_code && country_code].compact_blank.join(' ')
     ].flatten.compact_blank
   end
 

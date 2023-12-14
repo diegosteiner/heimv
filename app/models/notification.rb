@@ -139,14 +139,14 @@ class Notification < ApplicationRecord
   end
 
   def to=(value)
-    super case value
+    super(case value
           when Tenant, Organisation, BookingAgent
             { Tenant => :tenant, Organisation => :administration, BookingAgent => :booking_agent }[value.class]
           when OperatorResponsibility
             value.responsibility
           else
             value.to_sym
-          end
+          end)
   end
 
   protected

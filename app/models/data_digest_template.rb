@@ -135,15 +135,15 @@ class DataDigestTemplate < ApplicationRecord
     end
 
     def header
-      @header ||= instance_exec(&(@blocks[:header] || -> { @templates[:header]&.render! }))
+      @header ||= instance_exec(&@blocks[:header] || -> { @templates[:header]&.render! })
     end
 
     def footer
-      @footer ||= instance_exec(&(@blocks[:footer] || -> { @templates[:footer]&.render! }))
+      @footer ||= instance_exec(&@blocks[:footer] || -> { @templates[:footer]&.render! })
     end
 
     def body(record, template_context_cache = {})
-      instance_exec(record, template_context_cache, &(@blocks[:body] || -> { @templates[:body]&.render! }))
+      instance_exec(record, template_context_cache, &@blocks[:body] || -> { @templates[:body]&.render! })
     end
 
     def cache_key(record, *parts)
