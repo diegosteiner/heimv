@@ -1,3 +1,5 @@
+@import "./variables";
+
 .calendar {
   position: relative;
 
@@ -64,14 +66,13 @@
 
   .year-calendar {
     .months {
-      overflow-x: scroll;
       margin: 1em 0;
+      position: relative;
     }
 
     .month {
       display: grid;
       grid-template-columns: minmax(8rem, auto) repeat(31, minmax(1.5rem, 2rem));
-      height: 1.5rem;
       gap: 1px;
       margin-bottom: 1px;
     }
@@ -79,10 +80,6 @@
     .day-of-month {
       text-align: center;
       font-weight: bold;
-    }
-
-    button.occupancy-calendar-date .label {
-      font-size: 0.8em;
     }
   }
 
@@ -170,28 +167,7 @@
     }
   }
 
-  button.occupancy-calendar-date.selected-date {
-    outline-width: 0.5em;
-    outline-style: solid;
-    outline-color: rgba(var(--bs-primary-rgb), 0.6);
-    background-color: var(--bs-primary);
-    z-index: 10;
-
-    &>.label {
-      color: white;
-      font-weight: bold;
-      opacity: 1;
-    }
-  }
-
-  button.occupancy-calendar-date:disabled {
-    &>.label {
-      color: #777;
-      cursor: initial;
-    }
-  }
-
-  button.occupancy-calendar-date {
+  .date-action {
     background: transparent;
     border: none;
     display: block;
@@ -199,50 +175,59 @@
     height: 100%;
     padding: 0;
     color: black;
-    text-align: start;
+    position: relative;
+    cursor: pointer;
 
-    &.has-occupancies>.wrapper>.label {
+    &.highlighted {
+      outline: 1px solid $primary;
+      background-color: $primary;
+
+      .label {
+        font-weight: bold;
+        color: white;
+      }
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      cursor: default;
+
+      .label {
+        color: #777;
+      }
+    }
+
+  }
+
+  .occupancy-calendar-date {
+    &:hover svg {
+      opacity: 0.8;
+    }
+
+    .label {
+      display: block;
+      position: absolute;
+      top: 50%;
+      margin-top: -0.5em;
+      line-height: 1em;
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+      opacity: 0.8;
+      cursor: inherit;
+    }
+
+    &.has-occupancies .label {
       font-weight: bold;
     }
 
-    .wrapper {
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
+    svg {
+      cursor: inherit;
+      overflow: none;
 
-      &:hover {
-        opacity: 0.8;
-      }
-
-      &>.label {
-        display: block;
-        position: absolute;
-        top: 50%;
-        margin-top: -0.5em;
-        line-height: 1em;
-        z-index: 2;
-        width: 100%;
-        text-align: center;
-        opacity: 0.8;
-        cursor: pointer;
-      }
-    }
-
-    .slots {
-      position: absolute;
-      height: 170%;
-      width: 170%;
-      transform: rotateZ(45deg);
-      transform-style: preserve-3d;
-      top: -35%;
-      left: -35%;
-      display: flex;
-      gap: 1px;
-      z-index: 1;
-
-      &>div {
-        flex-grow: 1;
+      rect:not([fill]),
+      polygon:not([fill]) {
+        fill: transparent
       }
     }
 
@@ -258,4 +243,13 @@
   transform: translate(-43%, -100%);
   z-index: 10;
   display: none;
+  width: max-content;
+  text-align: start;
+
+  ul.occupancies {
+    &>li+li {
+      margin-top: 2em;
+    }
+  }
+
 }

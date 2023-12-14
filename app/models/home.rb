@@ -38,6 +38,8 @@ class Home < Occupiable
 
   validates :ref, uniqueness: { scope: %i[organisation_id] }
 
+  after_create { update(home: home || self) }
+
   def to_s
     name
   end
@@ -46,5 +48,7 @@ class Home < Occupiable
     self
   end
 
-  delegate :id, to: :home, prefix: true
+  def home_id
+    id
+  end
 end

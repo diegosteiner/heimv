@@ -1,6 +1,6 @@
 ### === base === ###                 
 FROM ruby:3.2.2-alpine AS base
-RUN apk add --no-cache --update postgresql-dev tzdata libssl1.1 nodejs
+RUN apk add --no-cache --update postgresql-dev tzdata nodejs
 RUN gem install bundler
 
 ### === development === ###                 

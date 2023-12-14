@@ -12,7 +12,7 @@ module Manage
     association :category,      blueprint: Manage::BookingCategorySerializer
 
     fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request, :tenant_id, :locale,
-           :id, :purpose_description, :approximate_headcount, :remarks, :home_id, :occupiable_ids
+           :id, :purpose_description, :approximate_headcount, :remarks
 
     field :operator_responsibilities do |booking|
       booking.operator_responsibilities.to_h do |operator_responsibility|

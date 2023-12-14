@@ -1,9 +1,16 @@
-import { getYear, getDay, formatISO, eachDayOfInterval, endOfMonth, eachMonthOfInterval } from "date-fns/esm";
-import { addMonths, getDate, startOfMonth, subMonths } from "date-fns";
-import { parseDate, materializedWeekdays, monthNameFormatter } from "./calendar_functions";
-import { CalendarNav } from "./CalendarNav";
-import { memo, useState } from "react";
-import { CalendarDate, DateElementFactory } from "./CalendarDate";
+import {
+  addMonths,
+  getDate,
+  startOfMonth,
+  getDay,
+  eachDayOfInterval,
+  endOfMonth,
+  formatISO,
+  eachMonthOfInterval,
+} from "date-fns";
+import { memo } from "react";
+import { DateElementFactory } from "./CalendarDate";
+import { materializedWeekdays, monthNameFormatter, parseDate } from "../../services/date";
 
 interface CalendarMonthProps {
   dateString: string;
@@ -29,11 +36,8 @@ const CalendarMonth = memo(function CalendarMonth({ dateString, dateElementFacto
         ))}
         {eachDayOfInterval({ start: date, end: endOfMonth(date) }).map((date) => {
           const dateString = formatISO(date, { representation: "date" });
-          return (
-            <CalendarDate key={dateString} dateString={dateString}>
-              {dateElementFactory(dateString, (date) => getDate(date).toString())}
-            </CalendarDate>
-          );
+
+          return dateElementFactory(dateString, (date) => getDate(date).toString());
         })}
       </div>
     </div>
@@ -41,24 +45,16 @@ const CalendarMonth = memo(function CalendarMonth({ dateString, dateElementFacto
 });
 
 interface MonthsCalendarProps {
-  initialFirstDate?: string | Date;
+  firstDate: Date;
   dateElementFactory: DateElementFactory;
   months?: number;
 }
 
-function MonthsCalendar({ initialFirstDate, dateElementFactory, months }: MonthsCalendarProps) {
-  const [firstDate, setFirstDate] = useState<Date>(parseDate(initialFirstDate));
-  const nextMonth = () => setFirstDate((prevFirstDate) => addMonths(prevFirstDate, 1));
-  const prevMonth = () => setFirstDate((prevFirstDate) => subMonths(prevFirstDate, 1));
-  const interval = { start: firstDate, end: addMonths(firstDate, (months || 8) - 1) };
-
+function MonthsCalendar({ firstDate, dateElementFactory }: MonthsCalendarProps) {
   return (
     <div className="months-calendar">
-      <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
-        {getYear(firstDate)}
-      </CalendarNav>
       <div className="months">
-        {eachMonthOfInterval(interval).map((date) => {
+        {eachMonthOfInterval({ start: firstDate, end: addMonths(firstDate, 7) }).map((date) => {
           const dateString = formatISO(date, { representation: "date" });
           return (
             <CalendarMonth
@@ -69,9 +65,6 @@ function MonthsCalendar({ initialFirstDate, dateElementFactory, months }: Months
           );
         })}
       </div>
-      <CalendarNav onNext={nextMonth} onPrev={prevMonth}>
-        {getYear(firstDate)}
-      </CalendarNav>
     </div>
   );
 }

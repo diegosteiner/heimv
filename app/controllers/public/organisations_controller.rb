@@ -3,10 +3,12 @@
 module Public
   class OrganisationsController < BaseController
     before_action :set_organisation
-    # authorize_resource :organisation
 
     def show
-      redirect_to homes_path
+      respond_to do |format|
+        format.html { redirect_to homes_path }
+        format.json { render json: OrganisationSerializer.render_as_json(@organisation) }
+      end
     end
 
     protected

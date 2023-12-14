@@ -52,7 +52,7 @@ services:
       selenium:
 
   selenium:
-    image: selenium/standalone-chrome
+    image: selenium/standalone-chrome:119.0
     logging:
       driver: none
     networks:

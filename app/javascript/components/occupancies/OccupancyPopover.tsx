@@ -2,12 +2,13 @@ import * as React from "react";
 import { Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Occupancy } from "../../models/Occupancy";
-import { OccupancyWindow } from "../../models/OccupancyWindow";
-import { formatDate } from "./calendar_functions";
+import { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
+import { formatDate } from "../../services/date";
+import { translatedString } from "../../services/i18n";
 
 interface OccupancyPopoverProps {
   dateString: string;
-  occupancyWindow?: OccupancyWindow;
+  occupancyWindow?: OccupancyWindowWithOccupiedDates;
 }
 
 export const OccupancyPopover = React.memo(function OccupancyPopover({
@@ -32,18 +33,18 @@ export const OccupancyPopover = React.memo(function OccupancyPopover({
 
 function OccupancyLi({ occupancy }: { occupancy: Occupancy }) {
   const deadline = occupancy.deadline;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <li>
-      <i>{occupancy.occupiable.name}</i>
+      <i>{occupancy.occupiable?.name_i18n && translatedString(occupancy.occupiable.name_i18n, i18n)}</i>
       <strong className="d-block">
-        {formatDate(occupancy.begins_at)} - {formatDate(occupancy.ends_at)}
+        {formatDate(occupancy.beginsAt)} - {formatDate(occupancy.endsAt)}
       </strong>
       <div>
         <span style={{ color: occupancy.color }}>⬤</span>&nbsp;
         <span>
-          {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancy_type}`)}
+          {t(`activerecord.enums.occupancy.occupancy_type.${occupancy.occupancyType}`)}
           <br />
           {occupancy.ref || occupancy.remarks}
         </span>
