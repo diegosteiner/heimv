@@ -49,6 +49,8 @@ export default function OccupancySelect({
   disabled,
   occupancyInvalidFeedback,
   occupiableInvalidFeedback,
+  defaultBeginsAtTime,
+  defaultEndsAtTime,
 }: OccupancySelectProps) {
   const organisation = useContext(OrganisationContext);
   if (!organisation) return <></>;
@@ -85,6 +87,8 @@ export default function OccupancySelect({
           invalidFeedback={occupancyInvalidFeedback}
           initialBeginsAt={initial.beginsAt}
           initialEndsAt={initial.endsAt}
+          defaultBeginsAtTime={defaultBeginsAtTime}
+          defaultEndsAtTime={defaultEndsAtTime}
           required={required}
           disabled={disabled}
         ></OccupancyIntervalFormControl>

@@ -23,11 +23,13 @@ class OrganisationSettings < Settings
                                                                 BookingStates.occupied_occupancy_able.keys.map(&:to_s)
                                                               }
   attribute :show_outbox, :boolean, default: false
-  attribute :default_begins_at_time, :string, default: '08:00'
-  attribute :default_ends_at_time, :string, default: '16:00'
+  attribute :default_begins_at_time, :string
+  attribute :default_ends_at_time, :string
 
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
+
+  validates :default_begins_at_time, :default_ends_at_time, format: { with: /\A\d{2}:\d{2}\z/ }, allow_blank: true
 
   validates :booking_window, :awaiting_contract_deadline, :overdue_request_deadline,
             :unconfirmed_request_deadline, :provisional_request_deadline, :last_minute_warning,

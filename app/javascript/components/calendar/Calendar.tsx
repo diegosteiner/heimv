@@ -9,11 +9,11 @@ import addMonths from "date-fns/addMonths";
 import subMonths from "date-fns/subMonths";
 import { parseDate } from "../../services/date";
 
-interface CalendarProps {
+type CalendarProps = {
   initialFirstDate?: string;
   dateElementFactory: DateElementFactory;
   defaultView?: ViewType;
-}
+};
 
 export type ViewType = "months" | "year";
 type CalendarViewContextType = {

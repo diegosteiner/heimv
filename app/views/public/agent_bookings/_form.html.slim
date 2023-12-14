@@ -30,6 +30,8 @@
               namePrefix: 'agent_booking[booking_attributes]', \ 
               required: true, \
               disabled: !@agent_booking.booking.editable?, \
+              defaultBeginsAtTime: current_organisation&.settings&.default_begins_at_time, \
+              defaultEndsAtTime: current_organisation&.settings&.default_ends_at_time, \
               occupiableInvalidFeedback: @agent_booking.booking.errors.to_hash(true).slice(:occupiable_ids, :home_id).values.flatten.to_sentence, \
               occupancyInvalidFeedback: @agent_booking.booking.errors.to_hash(true).slice(:begins_at, :begins_at_time, :ends_at, :ends_at_time).values.flatten.to_sentence, \
               defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
