@@ -33,7 +33,7 @@ function OccupancyOverviewCalendar({ occupancyAtUrl, defaultView }: OccupancyOve
 
       return (
         <CalendarDate dateString={dateString} key={dateString}>
-          <a className="date-action" href={disabled ? undefined : href} aria-disabled={disabled}>
+          <a className="date-action" target="_top" href={disabled ? undefined : href} aria-disabled={disabled}>
             <OccupiedCalendarDate
               dateString={dateString}
               label={labelCallback(date)}
