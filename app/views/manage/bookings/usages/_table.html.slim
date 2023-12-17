@@ -53,6 +53,6 @@
   .mt-4
     - if can?(:manage, @booking)
       button.btn.btn-secondary[type=:submit name=:commit]
-        = t('.save', model_name: Usage.model_name.human)
+        = t('.save', model_name: [Tarif.model_name.human(count: 2), Usage.model_name.human].to_sentence)
 
     = yield
