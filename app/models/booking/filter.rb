@@ -15,6 +15,7 @@ class Booking
     attribute :ends_at_before, :datetime
     attribute :at_date, :date
     attribute :occupancy_type
+    attribute :concluded, default: :inconcluded
 
     filter :at_date do |bookings|
       next if at_date.blank?
@@ -50,6 +51,13 @@ class Booking
 
       category_ids = BookingCategory.where(key: categories).pluck(:id) + categories
       bookings.where(booking_category_id: category_ids)
+    end
+
+    filter :concluded do |bookings|
+      include_concluded = concluded.present? && %w[all concluded 1].include?(concluded.to_s)
+      include_inconcluded = concluded.blank? || %w[all inconcluded 0].include?(concluded.to_s)
+
+      bookings.where(concluded: [include_concluded ? true : nil, include_inconcluded ? false : nil].compact)
     end
 
     filter :q do |bookings|

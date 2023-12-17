@@ -12,7 +12,6 @@ it:
         ends_at_before: Fine dell'occupazione fino a
         homes: Principali proprietà in affitto
         occupiables: Proprietà in affitto
-        only_inconcluded: solo prenotazioni aperte
         previous_booking_states: Stato passato
       invoice/filter:
         invoice_type: Tipo di fattura

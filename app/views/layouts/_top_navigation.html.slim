@@ -9,7 +9,6 @@ nav#navbar-top.navbar.fixed-top.navbar-light.navbar-expand-lg
         = form_with(url: manage_bookings_path, method: :get, id: 'searchbar', class: 'input-group d-flex') do |f|
           button.btn.bg-white.border-0[type="submit"]
             span.fa.fa-search
-          input.d-none[name="filter[current_booking_states][]" value="" type="hidden"]
           input.form-control.bg-white.border-0[name="filter[q]" type="search" tabindex=1 value=params.dig(:filter, :q).presence placeholder=Booking::Filter.human_attribute_name(:q)]
 
     .col-md-3.col-12

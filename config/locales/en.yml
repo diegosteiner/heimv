@@ -12,7 +12,6 @@ en:
         ends_at_before: Ende der Belegung bis
         homes: Heime
         occupiables: Mietobjekte
-        only_inconcluded: nur offene Buchungen
         previous_booking_states: Vergangene Status
       invoice/filter:
         invoice_type: Rechungsart

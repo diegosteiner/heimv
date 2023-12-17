@@ -2,6 +2,8 @@
 .row.mt-3
   .col
     = f.text_field :q
+  .col 
+    = f.select :concluded, %i[inconcluded concluded all].map { [t(_1, scope: 'activerecord.enums.booking/filter.concluded'), _1] }
 .row
   .col
     = f.datetime_field :begins_at_after, include_blank: true
