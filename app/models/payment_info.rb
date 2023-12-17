@@ -14,6 +14,10 @@ class PaymentInfo
     @invoice = invoice
   end
 
+  def show?
+    true
+  end
+
   def invoice_address
     invoice.booking.invoice_address.presence || invoice.booking.tenant.full_address_lines.join("\n")
   end

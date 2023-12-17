@@ -61,7 +61,7 @@ module Export
       end
 
       to_render do
-        render PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info) if payment_info
+        render PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info) if payment_info&.show?
       end
 
       def vat_table_data

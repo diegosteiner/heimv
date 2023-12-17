@@ -78,6 +78,10 @@ module PaymentInfos
       organisation.currency.upcase
     end
 
+    def show?
+      invoice.amount.positive?
+    end
+
     def formatted_amount(delimitter: ' ')
       ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.',
                                                              unit: '', delimiter: delimitter)
