@@ -32,11 +32,11 @@
 
         
         .form-actions.mt-3
-          - links = { \
-              terms_pdf_url: public_designated_document_url(designation: :terms), \
-              privacy_statement_pdf_url: privacy_url() \
-            }
-          = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', **links)
+          - conditions_html = { \
+              privacy_policy: privacy_url(), \
+              terms: current_organisation.designated_documents.where(designation: :terms).present? && public_designated_document_url(designation: :terms) \
+            }.filter { _2.present? }.map { |key, url| t(".#{key}_condition_html", url:) }.to_sentence.html_safe
+          = f.check_box :accept_conditions, required: true, label: t('.accept_conditions_html', conditions_html:)
           = f.submit t('.submit'), class: 'btn btn-primary btn-lg'
 
           - if current_organisation.booking_agents.any? 

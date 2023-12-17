@@ -91,7 +91,9 @@ describe 'Booking by tenant', :devise, type: :feature do
     fill_request_form(email: tenant.email, begins_at: booking.begins_at,
                       ends_at: booking.ends_at, home: booking.home)
     submit_form
-    flash = Rails::Html::FullSanitizer.new.sanitize(I18n.t('flash.public.bookings.create.notice', email: tenant.email))
+    flash = Rails::Html::FullSanitizer.new.sanitize(I18n.t('flash.public.bookings.create.notice',
+                                                           email: tenant.email,
+                                                           mailto_organisation: organisation.email))
     expect(page).to have_content(flash)
     @booking = Booking.last
   end
