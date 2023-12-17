@@ -50,11 +50,11 @@ interface MonthsCalendarProps {
   months?: number;
 }
 
-function MonthsCalendar({ firstDate, dateElementFactory }: MonthsCalendarProps) {
+function MonthsCalendar({ firstDate, months, dateElementFactory }: MonthsCalendarProps) {
   return (
     <div className="months-calendar">
       <div className="months">
-        {eachMonthOfInterval({ start: firstDate, end: addMonths(firstDate, 7) }).map((date) => {
+        {eachMonthOfInterval({ start: firstDate, end: addMonths(firstDate, (months || 8) - 1) }).map((date) => {
           const dateString = formatISO(date, { representation: "date" });
           return (
             <CalendarMonth

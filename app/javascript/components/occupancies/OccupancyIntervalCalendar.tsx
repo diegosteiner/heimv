@@ -31,6 +31,7 @@ function disable(date: Date, occupancyWindow?: OccupancyWindow) {
 
 interface OccupancyIntervalCalendarProps {
   defaultView?: ViewType;
+  months?: number;
   beginsAtString?: string | undefined;
   endsAtString?: string | undefined;
   onChange?: (value: { endsAt?: Date | undefined; beginsAt?: Date | undefined }) => void;
@@ -40,6 +41,7 @@ function OccupancyIntervalCalendar({
   beginsAtString,
   endsAtString,
   defaultView,
+  months,
   onChange,
 }: OccupancyIntervalCalendarProps) {
   const occupancyWindow = useContext(OccupancyWindowContext);
@@ -99,6 +101,7 @@ function OccupancyIntervalCalendar({
   return (
     <Calendar
       initialFirstDate={formatISO(beginsAt || new Date())}
+      months={months}
       defaultView={defaultView}
       dateElementFactory={dateElementFactory}
     ></Calendar>

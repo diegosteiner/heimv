@@ -1,5 +1,4 @@
 import { BookingJson, parse } from "../../models/Booking";
-import { ViewType } from "../calendar/Calendar";
 import OccupancySelect from "../occupancies/OccupancySelect";
 import OrganisationProvider from "../organisation/OrganisationProvider";
 import * as React from "react";
@@ -7,7 +6,6 @@ import * as React from "react";
 type BookingOccupancyFormProps = {
   org: string;
   booking: BookingJson;
-  defaultView?: ViewType;
   namePrefix?: string;
   required?: boolean;
   disabled?: boolean;
@@ -25,7 +23,6 @@ export default function BookingOccupancyForm(props: BookingOccupancyFormProps) {
       <OrganisationProvider org={props.org}>
         <OccupancySelect
           initial={{ ...booking }}
-          defaultView={props.defaultView}
           namePrefix={props.namePrefix}
           disabled={props.disabled}
           required={props.required}

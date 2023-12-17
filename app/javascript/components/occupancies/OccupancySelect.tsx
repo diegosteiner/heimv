@@ -43,7 +43,6 @@ function inferHomeId(organisation?: Organisation, occupiableIds?: number[]): num
 
 export default function OccupancySelect({
   initial,
-  defaultView,
   namePrefix,
   required,
   disabled,
@@ -53,13 +52,11 @@ export default function OccupancySelect({
   defaultEndsAtTime,
 }: OccupancySelectProps) {
   const organisation = useContext(OrganisationContext);
-  if (!organisation) return <></>;
-
+  const { t } = useTranslation();
   const [occupiableState, setOccupiableState] = useState<OccupiableSelectState>({
     homeId: initial.homeId,
     occupiableIds: initial.occupiableIds || [],
   });
-  const { t } = useTranslation();
 
   useEffect(() => {
     setOccupiableState((prev) => ({
@@ -68,6 +65,7 @@ export default function OccupancySelect({
     }));
   }, [organisation]);
 
+  if (!organisation) return <></>;
   return (
     <Form.Group>
       <Form.Label className={cx({ required })}>{t("activerecord.attributes.booking.occupiable_ids")}</Form.Label>
@@ -82,7 +80,7 @@ export default function OccupancySelect({
       ></OccupiableSelect>
       <OccupancyWindowProvider occupiableIds={occupiableState.occupiableIds}>
         <OccupancyIntervalFormControl
-          defaultView={defaultView}
+          months={9}
           namePrefix={namePrefix}
           invalidFeedback={occupancyInvalidFeedback}
           initialBeginsAt={initial.beginsAt}

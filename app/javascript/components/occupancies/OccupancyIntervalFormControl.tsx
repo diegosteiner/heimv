@@ -5,7 +5,6 @@ import OccupancyIntervalCalendar from "./OccupancyIntervalCalendar";
 import { closestNumber, formatISOorUndefined } from "../../services/date";
 import { addYears, getHours, getMinutes, getYear, isValid, parse, setHours, setMinutes } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { ViewType } from "../calendar/Calendar";
 import { cx } from "@emotion/css";
 
 export const availableMinutes = [0, 15, 30, 45];
@@ -62,9 +61,9 @@ type OccupancyIntervalFormControlProps = {
   namePrefix?: string;
   required?: boolean;
   disabled?: boolean;
+  months?: number;
   initialBeginsAt?: Date;
   initialEndsAt?: Date;
-  defaultView?: ViewType;
   defaultBeginsAtTime?: string;
   defaultEndsAtTime?: string;
   invalidFeedback?: string | undefined;
@@ -74,9 +73,9 @@ export function OccupancyIntervalFormControl({
   namePrefix,
   required,
   disabled,
+  months,
   initialBeginsAt,
   initialEndsAt,
-  defaultView,
   defaultBeginsAtTime,
   defaultEndsAtTime,
   invalidFeedback,
@@ -211,7 +210,8 @@ export function OccupancyIntervalFormControl({
           <OccupancyIntervalCalendar
             beginsAtString={formatISOorUndefined(beginsAt.date)}
             endsAtString={formatISOorUndefined(endsAt.date)}
-            defaultView={defaultView}
+            months={months}
+            defaultView="months"
             onChange={(value) => {
               if ("beginsAt" in value && value.beginsAt != beginsAt.date)
                 setBeginsAt((prev) =>
