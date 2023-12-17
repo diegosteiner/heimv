@@ -33,7 +33,7 @@ h6 {
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr auto;
   min-height: 100vh;
-  padding-top: 55px;
+  padding-top: 3.3rem;
   background-image: url(../images/background.svg);
   background-color: #faf9ff;
   background-repeat: no-repeat;
@@ -44,6 +44,7 @@ h6 {
   @include media-breakpoint-down(md) {
     display: flex;
     flex-direction: column;
+    padding-top: 5.7rem;
   }
 
   &.development {
@@ -87,6 +88,10 @@ h6 {
     border-top: 1px solid $primary;
     color: $primary;
     display: flex;
+
+    .fa.display-5 {
+      font-size: calc(1.425rem + 2.1vw);
+    }
   }
 }
 

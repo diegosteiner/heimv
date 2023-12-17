@@ -14,17 +14,9 @@ class BookingPreparationService
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def prepare_new(...)
-    prepare_create(...).instance_exec do
-      # self.occupiables = organisation.occupiables if occupancies.none?
-      self.occupiables = home.occupiables if home&.occupiables&.count == 1
-      next self if begins_at.blank?
-
-      self.begins_at += organisation.settings.begins_at_default_time if begins_at.seconds_since_midnight.zero?
-      self.ends_at ||= begins_at + organisation.settings.ends_at_default_time
-      self
+    prepare_create(...).tap do |booking|
+      booking.occupiables = booking.home.occupiables if booking.home&.occupiables&.count == 1
     end
   end
-  # rubocop:enable Metrics/AbcSize
 end

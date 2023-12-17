@@ -1,4 +1,4 @@
-import { MouseEventHandler, useCallback, useContext } from "react";
+import { useCallback, useContext } from "react";
 import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
 import { isAfter, isBefore } from "date-fns/esm";
 import * as React from "react";
@@ -8,16 +8,12 @@ import { OccupiedCalendarDate } from "./OccupiedCalendarDate";
 import { OccupancyWindowContext } from "./OccupancyWindowContext";
 
 interface OccupancyOverviewCalendarProps {
-  start?: string;
   occupancyAtUrl?: string;
-  calendarUrl?: string;
-  onClick?: MouseEventHandler;
-  classNameCallback?: (date: Date) => string;
-  disabledCallback?: (date: Date) => boolean;
+  months?: number;
   defaultView?: ViewType;
 }
 
-function OccupancyOverviewCalendar({ occupancyAtUrl, defaultView }: OccupancyOverviewCalendarProps) {
+function OccupancyOverviewCalendar({ occupancyAtUrl, months, defaultView }: OccupancyOverviewCalendarProps) {
   const occupancyWindow = useContext(OccupancyWindowContext);
 
   const disabledCallback = useCallback(
@@ -46,7 +42,7 @@ function OccupancyOverviewCalendar({ occupancyAtUrl, defaultView }: OccupancyOve
     [occupancyWindow],
   );
 
-  return <Calendar defaultView={defaultView} dateElementFactory={dateElementFactory}></Calendar>;
+  return <Calendar defaultView={defaultView} months={months} dateElementFactory={dateElementFactory}></Calendar>;
 }
 
 export default OccupancyOverviewCalendar;

@@ -6,6 +6,7 @@ import { OccupancyWindowProvider } from "../occupancies/OccupancyWindowContext";
 
 type OccupiableCalendarProps = {
   org: string;
+  months?: number;
   occupiableIds: number[];
   defaultView: ViewType;
   occupancyAtUrl: string;
@@ -14,6 +15,7 @@ type OccupiableCalendarProps = {
 export default function OccupiableCalendar({
   org,
   occupiableIds,
+  months,
   defaultView,
   occupancyAtUrl,
 }: OccupiableCalendarProps) {
@@ -23,6 +25,7 @@ export default function OccupiableCalendar({
         <OccupancyWindowProvider occupiableIds={occupiableIds}>
           <OccupancyOverviewCalendar
             defaultView={defaultView}
+            months={months}
             occupancyAtUrl={occupancyAtUrl}
           ></OccupancyOverviewCalendar>
         </OccupancyWindowProvider>

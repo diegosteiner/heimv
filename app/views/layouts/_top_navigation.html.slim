@@ -1,21 +1,14 @@
 nav#navbar-top.navbar.fixed-top.navbar-light.navbar-expand-lg
-  .container-fluid
-    .col-md-3.col-12
+  .container-fluid.row-gap-2
+    .col-4.col-md-3
       = link_to home_path, class: 'navbar-brand' do
         = image_tag asset_pack_path('static/images/logo.svg'), class: "d-inline-block align-top", width: 90
 
-    - if current_user.present?
-      .col-md-4.offset-md-1.col-12
-        = form_with(url: manage_bookings_path, method: :get, id: 'searchbar', class: 'input-group d-flex') do |f|
-          button.btn.bg-white.border-0[type="submit"]
-            span.fa.fa-search
-          input.form-control.bg-white.border-0[name="filter[q]" type="search" tabindex=1 value=params.dig(:filter, :q).presence placeholder=Booking::Filter.human_attribute_name(:q)]
-
-    .col-md-3.col-12
+    .col-8.col-md-3.order-md-last
       ul.navbar-nav.justify-content-end
         - if current_user.present?
           li.nav-item.dropdown
-            a.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" href="#"
+            a.nav-link.dropdown-toggle.text-end aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" href="#"
               i.fa.fa-user
               =<> current_user&.email || t(:'nav.sign_in')
             .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
@@ -25,3 +18,10 @@ nav#navbar-top.navbar.fixed-top.navbar-light.navbar-expand-lg
         - else
           li.nav-item
             = link_to t(:'nav.sign_in'), new_user_session_path, class: 'nav-link'
+
+    - if current_user.present?
+      .col-12.col-md-4.offset-md-1
+        = form_with(url: manage_bookings_path, method: :get, id: 'searchbar', class: 'input-group d-flex') do |f|
+          button.btn.bg-white.border-0[type="submit"]
+            span.fa.fa-search
+          input.form-control.bg-white.border-0[name="filter[q]" type="search" tabindex=1 value=params.dig(:filter, :q).presence placeholder=Booking::Filter.human_attribute_name(:q)]
