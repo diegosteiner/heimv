@@ -109,7 +109,9 @@ class Notification < ApplicationRecord
   end
 
   def footer
-    organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(organisation:)&.body
+    I18n.with_locale(locale) do
+      organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(organisation:)&.body
+    end
   end
 
   def text
