@@ -10,6 +10,7 @@ module Manage
     association :tenant,        blueprint: Manage::TenantSerializer
     association :deadline,      blueprint: Manage::DeadlineSerializer
     association :category,      blueprint: Manage::BookingCategorySerializer
+    association :contract,      blueprint: Manage::ContractSerializer
 
     fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request, :tenant_id, :locale,
            :id, :purpose_description, :approximate_headcount, :remarks

@@ -7,7 +7,8 @@ module BookingActions
                                                                         autodeliver: false)
 
       def call!
-        mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, contract:, invoices: deposits)
+        mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, booking:, contract:,
+                                                                           invoices: deposits)
         mail.attach :contract, :contract_documents, deposits
         mail.save! && contract.sent! && deposits.each(&:sent!)
 
