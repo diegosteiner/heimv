@@ -19,11 +19,11 @@ class OrganisationSettings < Settings
   attribute :begins_at_default_time, DurationType.new, default: -> { 8.hours }
   attribute :ends_at_default_time, DurationType.new, default: -> { 3.days }
   attribute :default_calendar_view, :string, default: 'months'
+  attribute :default_begins_at_time, :string, default: -> { '08:00' }
+  attribute :default_ends_at_time, :string, default: -> { '16:00' }
   attribute :occupied_occupancy_states, array: true, default: lambda {
                                                                 BookingStates.occupied_occupancy_able.keys.map(&:to_s)
                                                               }
-  attribute :default_begins_at_time, :string, default: -> { '08:00' }
-  attribute :default_ends_at_time, :string, default: -> { '16:00' }
 
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
