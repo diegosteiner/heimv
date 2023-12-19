@@ -5,21 +5,19 @@ class BookingPreparationService
     @organisation = organisation
   end
 
-  # rubocop:disable Metrics/AbcSize
   def prepare_create(params)
     @organisation.bookings.new(params.reverse_merge({ notifications_enabled: true })).tap do |booking|
-      settings = @organisation.settings
-      booking.begins_at = adjust_time(booking.begins_at, settings&.default_begins_at_time)
-      booking.ends_at = adjust_time(booking.ends_at, settings&.default_ends_at_time)
       booking.home ||= booking.occupiables.first&.home
       booking.tenant&.locale ||= I18n.locale
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
-  def prepare_new(...)
-    prepare_create(...).tap do |booking|
+  def prepare_new(params) # rubocop:disable Metrics/AbcSize
+    prepare_create(params).tap do |booking|
+      settings = @organisation.settings
       booking.occupiables = booking.home.occupiables if booking.home&.occupiables&.count == 1
+      booking.begins_at = adjust_time(booking.begins_at, settings&.default_begins_at_time)
+      booking.ends_at = adjust_time(booking.ends_at, settings&.default_ends_at_time)
     end
   end
 
