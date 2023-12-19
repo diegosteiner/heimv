@@ -30,8 +30,8 @@ function parseLocaleDate(value: string, format?: string): Date | undefined {
 
 function buildControlDateValue({ date, time, text }: Partial<ControlDateValue>): ControlDateValue {
   let [hours, minutes] = time?.split(":").map((value) => parseInt(value)) || [];
-  hours = closestNumber(hours || (date && getHours(date)) || 0, availableHours);
-  minutes = closestNumber(minutes || (date && getMinutes(date)) || 0, availableMinutes);
+  hours = closestNumber(hours ?? (date && getHours(date)) ?? 0, availableHours);
+  minutes = closestNumber(minutes ?? (date && getMinutes(date)) ?? 0, availableMinutes);
   time = formatTime(hours, minutes);
 
   if (text) {
@@ -81,10 +81,10 @@ export function OccupancyIntervalFormControl({
   invalidFeedback,
 }: OccupancyIntervalFormControlProps) {
   const [showModal, setShowModal] = useState(false);
-  const [beginsAt, setBeginsAt] = useState<ControlDateValue>(
+  const [beginsAt, setBeginsAt] = useState<ControlDateValue>(() =>
     buildControlDateValue({ date: initialBeginsAt, time: !initialBeginsAt ? defaultBeginsAtTime : undefined }),
   );
-  const [endsAt, setEndsAt] = useState<ControlDateValue>(
+  const [endsAt, setEndsAt] = useState<ControlDateValue>(() =>
     buildControlDateValue({ date: initialEndsAt, time: !initialEndsAt ? defaultEndsAtTime : undefined }),
   );
   const { t } = useTranslation();

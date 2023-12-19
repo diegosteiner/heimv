@@ -6,6 +6,7 @@ module Manage
 
     def index
       @tarifs = @tarifs.where(organisation: current_organisation).ordered
+      @tarifs = @tarifs.kept if params[:all].blank?
       respond_with :manage, @tarifs
     end
 
