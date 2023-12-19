@@ -53,10 +53,10 @@ export default function OccupancySelect({
 }: OccupancySelectProps) {
   const organisation = useContext(OrganisationContext);
   const { t } = useTranslation();
-  const [occupiableState, setOccupiableState] = useState<OccupiableSelectState>({
+  const [occupiableState, setOccupiableState] = useState<OccupiableSelectState>(() => ({
     homeId: initial.homeId,
     occupiableIds: initial.occupiableIds || [],
-  });
+  }));
 
   useEffect(() => {
     setOccupiableState((prev) => ({

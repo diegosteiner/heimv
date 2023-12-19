@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { Form } from "react-bootstrap";
 import { OrganisationContext } from "../organisation/OrganisationProvider";
 import { useTranslation } from "react-i18next";
@@ -6,7 +6,7 @@ import { cx } from "@emotion/css";
 import { translatedString } from "../../services/i18n";
 
 type OccupiableSelectProps = OccupiableSelectState & {
-  onChange: (set: (prev: OccupiableSelectState) => OccupiableSelectState) => void;
+  onChange: Dispatch<SetStateAction<OccupiableSelectState>>;
   namePrefix?: string;
   required?: boolean;
   disabled?: boolean;
@@ -27,11 +27,17 @@ export default function OccupiableSelect({
   invalidFeedback,
   onChange,
 }: OccupiableSelectProps) {
-  const organisation = useContext(OrganisationContext);
-  const occupiables = organisation?.homes?.find((home) => home.id === homeId)?.occupiables;
-  const hideHomeSelect = organisation?.homes?.length === 1;
   const { i18n } = useTranslation();
-  const setHomeId = (homeId: number) => onChange((prev) => ({ ...prev, homeId }));
+  const organisation = useContext(OrganisationContext);
+  const home = organisation?.homes?.find((home) => home.id === homeId);
+  const occupiables = home?.occupiables;
+  const hideHomeSelect = organisation?.homes?.length === 1;
+  const setHomeId = (homeId: number) => {
+    const newHome = organisation?.homes?.find((home) => home.id === homeId);
+    const newOccupiables = newHome?.occupiables;
+    const x = { homeId, occupiableIds: newOccupiables?.length === 1 ? [newOccupiables[0].id] : [] };
+    onChange(x);
+  };
   const setOccupiableId = (occupiableId: number, value: boolean) => {
     onChange(({ occupiableIds, homeId }) => {
       occupiableIds ||= [];
