@@ -93,7 +93,7 @@ export function OccupancyIntervalFormControl({
     <>
       <div className="mb-3">
         <Form.Label className={cx({ required })}>{t("activerecord.attributes.booking.begins_at")}</Form.Label>
-        <Row>
+        <Row className="row-gap-2">
           <Col sm={6}>
             <InputGroup hasValidation>
               <Form.Control
@@ -151,7 +151,7 @@ export function OccupancyIntervalFormControl({
       </div>
       <div className="mb-3">
         <Form.Label className={cx({ required })}>{t("activerecord.attributes.booking.ends_at")}</Form.Label>
-        <Row>
+        <Row className="row-gap-2">
           <Col sm={6}>
             <InputGroup>
               <Form.Control
