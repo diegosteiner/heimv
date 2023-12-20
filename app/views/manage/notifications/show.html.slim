@@ -4,6 +4,11 @@
   .card-body
     ul.mb-3.list-unstyled
       li
+        = Notification.human_attribute_name(:created_at)
+        ' : 
+        - l(@notification.created_at)
+      
+      li
         = Notification.human_attribute_name(:to)
         ' : 
         - @notification.deliver_to.each do |deliver_to|
