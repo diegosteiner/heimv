@@ -226,6 +226,7 @@ de:
       notification:
         attachments: Anhänge
         body: Inhalt
+        created_at: Erstellt am
         footer: Fusszeile
         sent_at: Zuletzt gesendet am
         subject: Betreff

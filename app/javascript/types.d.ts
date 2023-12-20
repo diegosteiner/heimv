@@ -52,7 +52,7 @@ export type Occupiable = {
   occupiable: boolean;
   home_id: number;
   // settings: Settings;
-  ordinal: number;
+  ordinal: number | undefined;
   name_i18n: TranslatedString;
   description_i18n: TranslatedString;
 };

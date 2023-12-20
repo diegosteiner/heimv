@@ -6,7 +6,7 @@
       li
         = Notification.human_attribute_name(:created_at)
         ' : 
-        - l(@notification.created_at)
+        = l(@notification.created_at)
       
       li
         = Notification.human_attribute_name(:to)

@@ -13,6 +13,13 @@ type OccupiableSelectProps = OccupiableSelectState & {
   invalidFeedback?: string;
 };
 
+function ordinalOrder(a: { ordinal?: number | undefined }, b: { ordinal?: number | undefined }): number {
+  if (a.ordinal == undefined && b.ordinal == undefined) return 0;
+  if (a.ordinal == undefined) return 1;
+  if (b.ordinal == undefined) return -1;
+  return a.ordinal - b.ordinal;
+}
+
 export type OccupiableSelectState = {
   homeId: number | undefined;
   occupiableIds: number[] | undefined;
@@ -30,7 +37,9 @@ export default function OccupiableSelect({
   const { i18n } = useTranslation();
   const organisation = useContext(OrganisationContext);
   const home = organisation?.homes?.find((home) => home.id === homeId);
-  const occupiables = home?.occupiables?.filter((occupiable) => occupiable.occupiable && occupiable.active);
+  const occupiables = home?.occupiables
+    ?.filter((occupiable) => occupiable.occupiable && occupiable.active)
+    ?.sort(ordinalOrder);
   const hideHomeSelect = organisation?.homes?.length === 1;
   const setHomeId = (homeId: number) => {
     const newHome = organisation?.homes?.find((home) => home.id === homeId);
