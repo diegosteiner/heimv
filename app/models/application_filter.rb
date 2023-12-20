@@ -6,6 +6,10 @@ class ApplicationFilter
   extend ActiveModel::Translation
   include ActiveModel::Attributes
 
+  def initialize(attributes = {})
+    super(attributes.symbolize_keys.slice(*self.class.attribute_names.map(&:to_sym)))
+  end
+
   def apply(base_relation, cached: false)
     return base_relation.none unless valid?
 

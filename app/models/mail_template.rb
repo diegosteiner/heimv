@@ -27,13 +27,14 @@
 #
 
 class MailTemplate < RichTextTemplate
-  def use(booking, to: nil, **context, &)
+  def use(booking, to: nil, attach: nil, **context, &)
     return nil unless enabled
 
     booking&.notifications&.build(to:) do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
       notification.destroy && return unless notification.deliverable?
 
+      notification.attach(attach)
       notification.tap(&) if block_given?
     end
   end

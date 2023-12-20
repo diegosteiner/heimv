@@ -1,8 +1,8 @@
 = cache([current_organisation, current_user, I18n.locale], expires_in: 1.hour)
   .d-none.d-md-block[style="min-width: 250px;"]
   .container.small
-    .row.mt-3
-      .col-md-3.position-relative 
+    .row
+      .col-md-3.position-relative.pt-3
         span.fa.fa-home.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25
         .position-relative
           h2.m-0.mb-2.small= t('.manage.title')
@@ -17,7 +17,7 @@
               li= current_organisation&.name
               li= mail_to current_organisation&.email, current_organisation&.email
 
-      .col-md-3.position-relative
+      .col-md-3.position-relative.pt-3
         span.fa.fa-balance-scale.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25
         .position-relative
           h2.m-0.mb-2.small= t('.legal.title')
@@ -26,7 +26,7 @@
             - if current_organisation.present?
               li= link_to t('.legal.organisation_privacy'), privacy_path
       
-      .col-md-3.position-relative 
+      .col-md-3.position-relative.pt-3 
         span.fa.fa-comments.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25
         .position-relative
           h2.m-0.mb-2.small
@@ -35,7 +35,7 @@
             - %i[de fr it].each do |locale|
               li=<> link_to t(locale, scope: 'layouts.footer.locales'), url_for(params.clone.permit!.merge({ locale: locale, only_path: true })), class: (locale.to_sym == I18n.locale.to_sym && 'fw-bold' || nil)
 
-      .col-md-3.position-relative 
+      .col-md-3.position-relative.pt-3 
         span.fa.fa-github.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25
         .position-relative
           h2.m-0.mb-2.small= t('.version.title')

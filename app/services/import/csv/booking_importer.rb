@@ -16,7 +16,7 @@ module Import
       end
 
       def default_options
-        super.merge({ datetime_format: ['%FT%T', '%F %T %z', '%FT%H:%M', '%d.%m.%YT%H:%M'] })
+        super.merge({ datetime_format: ['%FT%T', '%F %T %z', '%FT%H:%M', '%d.%m.%YT%H:%M', '%m/%d/%Y'] })
       end
 
       def initialize(home, **options)
@@ -41,7 +41,10 @@ module Import
         booking.transition_to ||= initial_state
         booking.assert_tenant!
         booking.ref ||= @booking_ref_service.generate(booking)
-        booking.save
+        return false unless booking.save
+
+        booking.deadline&.clear
+        true
       end
 
       def skip_row?(row, _index)

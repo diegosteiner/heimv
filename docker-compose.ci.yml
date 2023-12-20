@@ -52,14 +52,14 @@ services:
       selenium:
 
   selenium:
-    image: selenium/standalone-chrome
+    image: selenium/standalone-chrome:119.0
     logging:
       driver: none
     networks:
       selenium:
 
   db:
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -72,7 +72,7 @@ services:
       - "1080:80"
 
   redis:
-    image: "redis:6"
+    image: redis:6
 
 volumes:
   db_data:

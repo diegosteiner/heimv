@@ -6,25 +6,25 @@ class BookingPreparationService
   end
 
   def prepare_create(params)
-    @organisation.bookings.new(params).instance_exec do
-      assign_attributes(notifications_enabled: true)
-      self.home ||= occupiables.first&.home
-      tenant&.locale ||= I18n.locale
-      self
+    @organisation.bookings.new(params.reverse_merge({ notifications_enabled: true })).tap do |booking|
+      booking.home ||= booking.occupiables.first&.home
+      booking.tenant&.locale ||= I18n.locale
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def prepare_new(...)
-    prepare_create(...).instance_exec do
-      # self.occupiables = organisation.occupiables if occupancies.none?
-      self.occupiables = home.occupiables if home&.occupiables&.count == 1
-      next self if begins_at.blank?
-
-      self.begins_at += organisation.settings.begins_at_default_time if begins_at.seconds_since_midnight.zero?
-      self.ends_at ||= begins_at + organisation.settings.ends_at_default_time
-      self
+  def prepare_new(params) # rubocop:disable Metrics/AbcSize
+    prepare_create(params).tap do |booking|
+      settings = @organisation.settings
+      booking.occupiables = booking.home.occupiables if booking.home&.occupiables&.count == 1
+      booking.begins_at = adjust_time(booking.begins_at, settings&.default_begins_at_time)
+      booking.ends_at = adjust_time(booking.ends_at, settings&.default_ends_at_time)
     end
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def adjust_time(value, default_time)
+    return value.presence if value.blank? || value != value.midnight # || (10 < params[:begins_at]&.size)
+
+    time_hash = OrganisationSettings.time_hash(default_time)
+    time_hash.present? ? value.change(time_hash) : value
+  end
 end

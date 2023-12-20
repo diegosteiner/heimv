@@ -58,7 +58,9 @@ class DesignatedDocument < ApplicationRecord
   end
 
   def attach_to(attached)
-    attached.attach(io: StringIO.new(file.blob.download), filename: name) if file&.blob.present?
+    return if file&.blob.blank?
+
+    attached.attach(io: StringIO.new(file.blob.download), filename: name.presence || designation.to_s)
   end
 
   def attach_to?(booking)

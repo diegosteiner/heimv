@@ -5,8 +5,9 @@
       h2.mt-0.mb-3.text-center= t('.title')
 
       .text-center.my-4
-        span.fa.fa-envelope.display-1.text-success
+        .display-1
+          span.fa.fa-envelope.text-success
         strong.d-block= @booking.email
 
-      = t('flash.public.bookings.create.notice', email: @booking.email).html_safe
+      = t('flash.public.bookings.create.notice', email: @booking.email, mailto_organisation: mail_to(@booking.organisation.email)).html_safe
 

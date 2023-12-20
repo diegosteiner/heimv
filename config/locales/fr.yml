@@ -6,16 +6,15 @@ fr:
         begins_at: à partir du / de
         begins_at_after: Début de la location
         begins_at_before: 'Location jusqu''au '
+        concluded:
         current_booking_states: Statuts
         ends_at: Jusqu'au / jusqu'à
         ends_at_after: Fin de la location
         ends_at_before: Fin de la location
         homes: Principaux objets de location
         occupiables: Objet de location
-        only_inconcluded: Uniquement les réservations ouvertes/libres (?)
         previous_booking_states: Anciens statuts
-        ref: "(Numéro de) Référence de location"
-        tenant: Locataire
+        q:
       invoice/filter:
         invoice_type: Type de facture/facturation
         issued_at_after: Délai de paiement après le
@@ -379,6 +378,11 @@ fr:
         committed_request:
           definitive_request: Demande de location définitive
           provisional_request: Demande de location provisoire
+      booking/filter:
+        concluded:
+          all:
+          concluded:
+          inconcluded:
       booking_log:
         trigger:
           auto: Système
@@ -737,6 +741,7 @@ fr:
       relevant_time: Délai %{time}
     cancelation_pending:
       description: La location a été annulée, mais il reste des factures ouvertes qui doivent d'abord être marquées comme payées.
+      help: La location a été annulée, mais il reste des factures ouvertes qui doivent d'abord être marquées comme payées.
       label: Annulation en suspens
     cancelled:
       label: Annulé
@@ -1094,7 +1099,7 @@ fr:
     public:
       bookings:
         create:
-          notice: Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n'avez pas reçu le mail, vérifiez dans les spams ou contactez l'administration.
+          notice: 'Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n''avez pas reçu le mail, vérifiez dans les spams ou contactez l''administration: %{mailto_organisation}'
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
   from: de
@@ -1361,9 +1366,11 @@ fr:
         booking_details: Informations sur la réservation
         last_minute_warning: Attention ! La date de réservation est proche. Merci de t'annoncer en plus par téléphone ou par e-mail auprès de l'administration
       new:
-        accept_conditions_html: 'J''accepte les <a href="%{privacy_statement_pdf_url}" target="_blank">dispositions relatives à la protection des données</a> et les <a href="%{terms_pdf_url}" target="_blank">CGV</a> '
+        accept_conditions_html: J'accepte %{conditions_html}
+        privacy_policy_condition_html: la <a href="%{url}" target="_blank">dispositions relatives à la protection des données</a>
         problems_html: Des problèmes avec la réservation ? Adresse-toi à <a href="mailto:%{email}">%{email}</a>.
         submit: Envoyer une demande de réservation
+        terms_condition_html: les <a href="%{url}" target="_blank">CGV</a>
         title: Réservation
   receipt_title: Titre de la réception
   ref: Ref
@@ -1406,6 +1413,9 @@ fr:
     completed_notification:
       default_title: Réservation terminée
       description: Notification de clôture de la réservation (locataire)
+    contract_sent_notification:
+      default_title:
+      description:
     contract_signed_notification:
       default_body:
       default_title: Recevoir le contrat signé

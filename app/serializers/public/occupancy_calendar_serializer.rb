@@ -8,8 +8,5 @@ module Public
     association :occupancies, blueprint: Public::OccupancySerializer
 
     fields :window_from, :window_to
-
-    # field :links do
-    # end
   end
 end

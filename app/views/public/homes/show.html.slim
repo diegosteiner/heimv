@@ -7,8 +7,9 @@ h1.mt-2.text-center
       h1.mt-2.text-center[id="occupiable-#{occupiable.id}"]
         = occupiable
 
-      = react_component('calendar/OccupancyCalendar', { \ 
-          calendarUrl: occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, format: :json), \
+      = react_component('react_rails/OccupiableCalendar', { \ 
+          org: current_organisation.slug, \
+          occupiableIds: occupiable.occupiable_ids + [occupiable.id], \
           occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, date: '__DATE__'), \
           defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
-        })
+        }) 

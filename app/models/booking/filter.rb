@@ -2,8 +2,7 @@
 
 class Booking
   class Filter < ApplicationFilter
-    attribute :ref
-    attribute :tenant
+    attribute :q
     attribute :categories
     attribute :homes, default: -> { [] }
     attribute :occupiables, default: -> { [] }
@@ -16,6 +15,7 @@ class Booking
     attribute :ends_at_before, :datetime
     attribute :at_date, :date
     attribute :occupancy_type
+    attribute :concluded, default: :inconcluded
 
     filter :at_date do |bookings|
       next if at_date.blank?
@@ -31,10 +31,6 @@ class Booking
 
     filter :occupancy_type do |bookings|
       bookings.where(occupancy_type:) if occupancy_type.present?
-    end
-
-    filter :ref do |bookings|
-      bookings.where(Booking.arel_table[:ref].matches("%#{ref.strip}%")) if ref.present?
     end
 
     filter :homes do |bookings|
@@ -57,12 +53,21 @@ class Booking
       bookings.where(booking_category_id: category_ids)
     end
 
-    filter :tenant do |bookings|
-      next bookings if tenant.blank?
+    filter :concluded do |bookings|
+      include_concluded = concluded.present? && %w[all concluded 1].include?(concluded.to_s)
+      include_inconcluded = concluded.blank? || %w[all inconcluded 0].include?(concluded.to_s)
 
+      bookings.where(concluded: [include_concluded ? true : nil, include_inconcluded ? false : nil].compact)
+    end
+
+    filter :q do |bookings|
+      next bookings if q.blank?
+
+      match = "%#{q.strip}%"
       bookings.joins(:tenant)
-              .where(Tenant.arel_table[:search_cache].matches("%#{tenant}%")
-              .or(Booking.arel_table[:tenant_organisation].matches("%#{tenant}%")))
+              .where(Tenant.arel_table[:search_cache].matches(match)
+              .or(Booking.arel_table[:tenant_organisation].matches(match))
+              .or(Booking.arel_table[:ref].matches("#{q.strip}%")))
     end
 
     filter :has_booking_state do |bookings|

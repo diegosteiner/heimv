@@ -5,7 +5,7 @@ module Public
     load_and_authorize_resource :home
 
     def index
-      @homes = @homes.where(organisation: current_organisation)
+      @homes = @homes.where(organisation: current_organisation).active
       respond_with :public, @homes
     end
 

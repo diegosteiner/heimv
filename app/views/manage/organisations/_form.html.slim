@@ -17,7 +17,6 @@
       .card.shadow-sm 
         .card-body
           = f.check_box :notifications_enabled
-          = sf.check_box :show_outbox
           = f.email_field :email
           = f.text_field :mail_from
           = f.email_field :bcc
@@ -55,10 +54,8 @@
           = sf.color_field :occupied_occupancy_color, style: 'width: 5em;'
           = sf.color_field :closed_occupancy_color, style: 'width: 5em;'
 
-          = sf.text_field :begins_at_default_time, value: settings.begins_at_default_time&.iso8601
-          = sf.text_field :ends_at_default_time, value: settings.ends_at_default_time&.iso8601
-          / = sf.text_field :default_begins_at_time, value: settings.default_begins_at_time&.iso8601
-          / = sf.text_field :default_ends_at_time, value: settings.default_ends_at_time&.iso8601
+          = sf.text_field :default_begins_at_time, value: settings.default_begins_at_time
+          = sf.text_field :default_ends_at_time, value: settings.default_ends_at_time
 
           = sf.select :default_calendar_view, %i[months year].map { |view| [view, view] }
           = sf.collection_check_boxes :occupied_occupancy_states, BookingStates.occupied_occupancy_able.values, :to_s, ->(state) { state&.t(:label) }

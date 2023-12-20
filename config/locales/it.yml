@@ -6,16 +6,15 @@ it:
         begins_at: Da
         begins_at_after: Inizio occupazione da
         begins_at_before: Inizio occupazione fino a
+        concluded:
         current_booking_states: Stato
         ends_at: Fino a
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
         homes: Principali proprietà in affitto
         occupiables: Proprietà in affitto
-        only_inconcluded: solo prenotazioni aperte
         previous_booking_states: Stato passato
-        ref: Riferimento di prenotazione
-        tenant: Inquilino
+        q:
       invoice/filter:
         invoice_type: Tipo di fattura
         issued_at_after: Data di fatturazione dopo
@@ -379,6 +378,11 @@ it:
         committed_request:
           definitive_request: Richiesta di affitto definitivo
           provisional_request: Richiesta di affitto provvisoria
+      booking/filter:
+        concluded:
+          all:
+          concluded:
+          inconcluded:
       booking_log:
         trigger:
           auto: System
@@ -737,6 +741,7 @@ it:
       relevant_time: Termine %{time}
     cancelation_pending:
       description: L'occupazione è stata annullata, ma ci sono ancora fatture in sospeso che devono essere contrassegnate come pagate.
+      help: L'occupazione è stata annullata, ma ci sono ancora fatture in sospeso che devono essere contrassegnate come pagate.
       label: Cancellazione in attesa
     cancelled:
       label: Cancellato
@@ -1094,7 +1099,7 @@ it:
     public:
       bookings:
         create:
-          notice: La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un'e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l'e-mail, controllate lo spam o contattate l'amministrazione.
+          notice: 'La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un''e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l''e-mail, controllate lo spam o contattate l''amministrazione:  %{mailto_organisation}. '
         update:
           notice: La richiesta di prenotazione è stata aggiornata. Potete chiudere la finestra del browser.
   from: da
@@ -1326,9 +1331,11 @@ it:
         booking_details: Dettagli della prenotazione
         last_minute_warning: Attenzione! La data di prenotazione è a breve termine. Si prega di contattare l'amministrazione anche per telefono o per e-mail.
       new:
-        accept_conditions_html: 'Accetto le <a href="%{privacy_statement_pdf_url}" target="_blank">norme sulla protezione dei dati</a> e le <a href="%{terms_pdf_url}" target="_blank">condizioni generali di contratto.</a> '
+        accept_conditions_html: 'Accetto %{conditions_html} '
+        privacy_policy_condition_html: le <a href="%{url}" target="_blank">norme sulla protezione dei dati</a>
         problems_html: Problemi con la prenotazione? Contattare <a href="mailto:%{email}">%{email}</a>.
         submit: Invia la richiesta di prenotazione
+        terms_condition_html: il <a href="%{url}" target="_blank">condizioni generali di contratto</a>
         title: Prenotazione
   receipt_title:
   ref: Ref
@@ -1471,6 +1478,9 @@ it:
     completed_notification:
       default_title: Prenotazione completata
       description: Notifica di completamento della prenotazione (inquilino)
+    contract_sent_notification:
+      default_title:
+      description:
     contract_signed_notification:
       default_body: |
         <p>{{ booking.tenant.salutation_name }}</p>

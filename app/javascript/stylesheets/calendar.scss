@@ -1,5 +1,8 @@
+@import "./variables";
+
 .calendar {
   position: relative;
+  container: calendar / inline-size;
 
   .calendar-nav {
     display: flex;
@@ -33,12 +36,20 @@
       font-size: 2em;
     }
 
+    .actions {
+      justify-content: flex-start;
+    }
+
     .views {
+      justify-content: flex-end;
+    }
+
+    .views,
+    .actions {
       width: 20%;
       font-size: 1rem;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
 
       button {
         padding: 0.5rem;
@@ -64,14 +75,14 @@
 
   .year-calendar {
     .months {
-      overflow-x: scroll;
       margin: 1em 0;
+      position: relative;
+      overflow-x: scroll;
     }
 
     .month {
       display: grid;
       grid-template-columns: minmax(8rem, auto) repeat(31, minmax(1.5rem, 2rem));
-      height: 1.5rem;
       gap: 1px;
       margin-bottom: 1px;
     }
@@ -80,39 +91,45 @@
       text-align: center;
       font-weight: bold;
     }
-
-    button.occupancy-calendar-date .label {
-      font-size: 0.8em;
-    }
   }
 
   .months-calendar {
+    --min-month-width: 15rem;
+
     .months {
       padding: 1em 0;
       position: relative;
       display: grid;
       gap: 1.5em;
-      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(var(--min-month-width), 1fr));
       grid-auto-rows: auto auto;
+
+      // @container (min-width: calc(15rem * 2)) {
+      //   grid-template-columns: repeat(2, auto);
+      // }
+
+      // @container (min-width: calc(15rem * 3)) {
+      //   grid-template-columns: repeat(3, auto);
+      // }
+
+      // // @container calendar (min-width: calc(var(--min-month-width * 1))) {
+      // @container (min-width: calc(15rem * 4)) {
+      //   grid-template-columns: repeat(4, auto);
+      // }
+
+      // @container (min-height: calc(15rem * 2)) {
+      //   grid-template-rows: repeat(2, auto);
+      // }
+
+      // @container (min-height: calc(15rem * 3)) {
+      //   grid-template-rows: repeat(3, auto);
+      // }
+
+      // // @container calendar (min-width: calc(var(--min-month-width * 1))) {
+      // @container (min-height: calc(15rem * 4)) {
+      //   grid-template-rows: repeat(4, auto);
+      // }
     }
-
-    // @media screen and (max-width: 576px) {
-    //   .month:nth-last-child(-n+7) {
-    //     display: none;
-    //   }
-    // }
-
-    // @media screen and (max-width: 768px) {
-    //   .month:nth-last-child(-n+4) {
-    //     display: none;
-    //   }
-    // }
-
-    // @media screen and (max-width: 1200px) {
-    //   .month:nth-last-child(-n+2) {
-    //     display: none;
-    //   }
-    // }
 
     .month {
       box-sizing: border-box;
@@ -170,28 +187,7 @@
     }
   }
 
-  button.occupancy-calendar-date.selected-date {
-    outline-width: 0.5em;
-    outline-style: solid;
-    outline-color: rgba(var(--bs-primary-rgb), 0.6);
-    background-color: var(--bs-primary);
-    z-index: 10;
-
-    &>.label {
-      color: white;
-      font-weight: bold;
-      opacity: 1;
-    }
-  }
-
-  button.occupancy-calendar-date:disabled {
-    &>.label {
-      color: #777;
-      cursor: initial;
-    }
-  }
-
-  button.occupancy-calendar-date {
+  .date-action {
     background: transparent;
     border: none;
     display: block;
@@ -199,50 +195,63 @@
     height: 100%;
     padding: 0;
     color: black;
-    text-align: start;
+    position: relative;
+    cursor: pointer;
 
-    &.has-occupancies>.wrapper>.label {
+    &.highlighted {
+      outline: 1px solid $primary;
+      background-color: $primary;
+
+      .label {
+        font-weight: bold;
+        color: white;
+      }
+
+      .occupancy-calendar-date svg {
+        opacity: 0.7;
+      }
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      cursor: default;
+
+      .label {
+        color: #777;
+      }
+    }
+
+  }
+
+  .occupancy-calendar-date {
+    &:hover svg {
+      opacity: 0.8;
+    }
+
+    .label {
+      display: block;
+      position: absolute;
+      top: 50%;
+      margin-top: -0.5em;
+      line-height: 1em;
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+      opacity: 0.8;
+      cursor: inherit;
+    }
+
+    &.has-occupancies .label {
       font-weight: bold;
     }
 
-    .wrapper {
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
+    svg {
+      cursor: inherit;
+      overflow: clip;
 
-      &:hover {
-        opacity: 0.8;
-      }
-
-      &>.label {
-        display: block;
-        position: absolute;
-        top: 50%;
-        margin-top: -0.5em;
-        line-height: 1em;
-        z-index: 2;
-        width: 100%;
-        text-align: center;
-        opacity: 0.8;
-        cursor: pointer;
-      }
-    }
-
-    .slots {
-      position: absolute;
-      height: 170%;
-      width: 170%;
-      transform: rotateZ(45deg);
-      transform-style: preserve-3d;
-      top: -35%;
-      left: -35%;
-      display: flex;
-      gap: 1px;
-      z-index: 1;
-
-      &>div {
-        flex-grow: 1;
+      rect:not([fill]),
+      polygon:not([fill]) {
+        fill: transparent
       }
     }
 
@@ -258,4 +267,13 @@
   transform: translate(-43%, -100%);
   z-index: 10;
   display: none;
+  width: max-content;
+  text-align: start;
+
+  ul.occupancies {
+    &>li+li {
+      margin-top: 2em;
+    }
+  }
+
 }

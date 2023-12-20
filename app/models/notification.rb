@@ -81,7 +81,7 @@ class Notification < ApplicationRecord
   end
 
   def attach(*attachables)
-    attachables.flatten.compact.map do |attachable|
+    attachables.flatten.compact_blank.map do |attachable|
       next attachable.attach_to(self) if attachable.respond_to?(:attach_to)
       next attach(attachable.blob) if attachable.try(:blob).present?
 
@@ -109,7 +109,9 @@ class Notification < ApplicationRecord
   end
 
   def footer
-    organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(organisation:)&.body
+    I18n.with_locale(locale) do
+      organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(organisation:)&.body
+    end
   end
 
   def text
@@ -139,14 +141,14 @@ class Notification < ApplicationRecord
   end
 
   def to=(value)
-    super case value
+    super(case value
           when Tenant, Organisation, BookingAgent
             { Tenant => :tenant, Organisation => :administration, BookingAgent => :booking_agent }[value.class]
           when OperatorResponsibility
             value.responsibility
           else
             value.to_sym
-          end
+          end)
   end
 
   protected

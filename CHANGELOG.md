@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## Version 23.12.1
+
+Released on 19.12.2023
+
+- Feature: Add global searchbar and improve filters
+- Feature: Add occupancies to booking form
+- Feature: Set default times for bookings
+- Feature: Do not show payment info when amount is not positive
+- Improvement: Improve responsiveness of layout
+- Bugfixes
+
 ## Version 23.11.2
 
 Released on 28.11.2023

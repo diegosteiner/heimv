@@ -1,18 +1,27 @@
-import { useContext } from "react";
-import { CalendarViewContext } from "./OccupancyCalendar";
+import { PropsWithChildren, useContext } from "react";
+import { CalendarViewContext } from "./Calendar";
 
 interface CalendarNavProps {
   onPrev(): void;
   onNext(): void;
-  children?: React.ReactNode;
+  onToday(): void;
 }
 
-export function CalendarNav({ onPrev, onNext, children }: CalendarNavProps) {
+export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChildren<CalendarNavProps>) {
   const { view, setView } = useContext(CalendarViewContext);
 
   return (
     <nav className="calendar-nav">
-      <div className="views"></div>
+      <div className="actions">
+        {onToday && (
+          <button className="today active" onClick={() => onToday()}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+              <rect width="75" height="26" x="13" y="13" ry="3" />
+              <rect width="75" height="75" x="13" y="13" ry="3" fill="none" stroke="black" strokeWidth="10" />
+            </svg>
+          </button>
+        )}
+      </div>
       <div className="pages">
         <button onClick={onPrev} className="prev" type="button">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">

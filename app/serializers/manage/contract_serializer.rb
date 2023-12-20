@@ -2,10 +2,7 @@
 
 module Manage
   class ContractSerializer < ApplicationSerializer
-    DEFAULT_INCLUDES = 'booking.occupancies,booking.tenant,booking.occupancies.occupiable,booking.home'
-
-    association :booking, blueprint: Manage::BookingSerializer
-
+    identifier :id
     fields :sent_at, :signed_at, :locale
   end
 end

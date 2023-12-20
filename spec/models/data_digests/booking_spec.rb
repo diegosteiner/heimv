@@ -29,18 +29,10 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:columns_config) { nil }
-  let(:data_digest_template) do
-    create(:booking_data_digest_template, columns_config:, organisation:)
-  end
-  let!(:bookings) do
-    create_list(:booking, 3, organisation:, home:)
-  end
+  let(:data_digest_template) { create(:booking_data_digest_template, columns_config:, organisation:) }
+  let!(:bookings) { create_list(:booking, 3, organisation:, home:) }
 
-  before do
-    data_digest.crunch!
-  end
-
-  describe '#filter' do
+  describe '#records' do
     subject(:data_digest) { data_digest_template.data_digests.create(period_from:, period_to:) }
 
     let(:period_from) { Date.new(2023, 1, 1).beginning_of_day }
@@ -56,11 +48,22 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
     end
 
     it do
+      data_digest.crunch!
       expect(data_digest.records).to match_array(bookings[2..3])
+    end
+
+    context 'with legacy prefilter' do
+      before { data_digest_template.update(prefilter_params: { nonsense: true }) }
+
+      it 'does not crash' do
+        data_digest.crunch!
+        expect(data_digest.records).to be_present
+      end
     end
   end
 
   describe '#data' do
+    before { data_digest.crunch! }
     context 'with default columns' do
       it { expect(data_digest).to be_a(DataDigest) }
       it { expect(data_digest.data.count).to be(3) }
