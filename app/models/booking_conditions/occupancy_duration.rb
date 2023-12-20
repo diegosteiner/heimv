@@ -45,7 +45,7 @@ module BookingConditions
       return false unless compare_value_match
 
       threshold = threshold_unit(compare_value_match[:threshold], compare_value_match[:threshold_unit])
-      evaluate_operator(compare_operator || :'=', with: [booking.duration, threshold])
+      evaluate_operator(compare_operator.presence || :'=', with: [booking.duration, threshold])
     end
 
     protected

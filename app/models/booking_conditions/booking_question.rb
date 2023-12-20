@@ -45,7 +45,7 @@ module BookingConditions
       cast_compare_value = booking_question.cast(compare_value)
       return if value.blank? || cast_compare_value.blank?
 
-      evaluate_operator(compare_operator || :'=', with: [value, cast_compare_value])
+      evaluate_operator(compare_operator.presence || :'=', with: [value, cast_compare_value])
     end
 
     def booking_question

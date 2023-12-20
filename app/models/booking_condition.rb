@@ -96,11 +96,11 @@ class BookingCondition < ApplicationRecord
   end
 
   def self.fullfills_all?(booking, booking_conditions)
-    booking_conditions.map do |condition|
-      condition.evaluate(booking) || (condition.must_condition ? false : nil)
-    end.compact.all?
+    booking_conditions.map { _1.fullfills?(booking) }.compact.all?
+  end
 
-    # TODO: rescue?
+  def fullfills?(booking)
+    evaluate(booking) || (must_condition ? false : nil)
   end
 
   def evaluate(booking)

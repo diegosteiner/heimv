@@ -17,7 +17,7 @@ class BookingRefService
            day: ->(booking) { booking.begins_at.day }
 
   ref_part occupiable_refs: (lambda do |booking|
-    booking.occupiables.ordered.map(&:ref).join
+    booking.occupancies.map(&:occupiable).sort_by(&:ordinal).map(&:ref).join
   end)
 
   ref_part same_month_count: (lambda do |booking|

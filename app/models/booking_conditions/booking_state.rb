@@ -47,7 +47,7 @@ module BookingConditions
     end
 
     def evaluate!(booking)
-      evaluate_operator(compare_operator || :'=', with: [booking, compare_value])
+      evaluate_operator(compare_operator.presence || :'=', with: [booking, compare_value])
     end
 
     protected
