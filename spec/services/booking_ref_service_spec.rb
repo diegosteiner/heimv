@@ -34,5 +34,19 @@ RSpec.describe BookingRefService, type: :model do
 
       it { is_expected.to eq('P20301015a') }
     end
+
+    describe '#occupiable_refs' do
+      let(:template) { '%<occupiable_refs>s-%<year>04d%<month>02d' }
+      let(:occupiables) do
+        %w[A B C].map do |ref|
+          create(:occupiable, home:, organisation:, ref:, active: true, occupiable: true)
+        end
+      end
+      let(:booking) do
+        create(:booking, organisation:, begins_at:, ends_at: begins_at + 2.hours, home:, occupiables:)
+      end
+
+      it { is_expected.to eq('ABC-203010') }
+    end
   end
 end
