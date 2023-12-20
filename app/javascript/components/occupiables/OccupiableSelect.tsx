@@ -30,7 +30,7 @@ export default function OccupiableSelect({
   const { i18n } = useTranslation();
   const organisation = useContext(OrganisationContext);
   const home = organisation?.homes?.find((home) => home.id === homeId);
-  const occupiables = home?.occupiables;
+  const occupiables = home?.occupiables?.filter((occupiable) => occupiable.occupiable && occupiable.active);
   const hideHomeSelect = organisation?.homes?.length === 1;
   const setHomeId = (homeId: number) => {
     const newHome = organisation?.homes?.find((home) => home.id === homeId);
