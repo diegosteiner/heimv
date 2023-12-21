@@ -15,7 +15,7 @@ class Booking
     attribute :ends_at_before, :datetime
     attribute :at_date, :date
     attribute :occupancy_type
-    attribute :concluded, default: :inconcluded
+    attribute :concluded
 
     filter :at_date do |bookings|
       next if at_date.blank?
@@ -56,8 +56,9 @@ class Booking
     filter :concluded do |bookings|
       include_concluded = concluded.blank? || %w[all concluded 1].include?(concluded.to_s)
       include_inconcluded = concluded.blank? || %w[all inconcluded 0].include?(concluded.to_s)
+      arel_values = [include_concluded ? true : nil, include_inconcluded ? false : nil].compact
 
-      bookings.where(concluded: [include_concluded ? true : nil, include_inconcluded ? false : nil].compact)
+      bookings.where(concluded: arel_values)
     end
 
     filter :q do |bookings|
