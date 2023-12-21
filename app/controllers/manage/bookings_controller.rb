@@ -127,7 +127,7 @@ module Manage
     end
 
     def default_booking_filter_params
-      { 'current_booking_states' => BookingStates.displayed_by_default }
+      { 'concluded' => 'concluded', 'current_booking_states' => BookingStates.displayed_by_default }
     end
 
     class Import < Import::ApplicationImport

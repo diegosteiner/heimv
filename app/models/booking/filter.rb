@@ -54,7 +54,7 @@ class Booking
     end
 
     filter :concluded do |bookings|
-      include_concluded = concluded.present? && %w[all concluded 1].include?(concluded.to_s)
+      include_concluded = concluded.blank? || %w[all concluded 1].include?(concluded.to_s)
       include_inconcluded = concluded.blank? || %w[all inconcluded 0].include?(concluded.to_s)
 
       bookings.where(concluded: [include_concluded ? true : nil, include_inconcluded ? false : nil].compact)
