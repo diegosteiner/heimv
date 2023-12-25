@@ -92,6 +92,7 @@ class DataDigestTemplate < ApplicationRecord
     value = value.presence
     value = JSON.parse(value) if value.is_a?(String)
     value = Array.wrap(value)
+    value = nil if value == self.class::DEFAULT_COLUMN_CONFIG
     super(value)
   end
 
