@@ -78,12 +78,20 @@ module DataDigestTemplates
       end
     end
 
+    column_type :costs do
+      body do |booking, template_context_cache|
+        costs = CostEstimation.new(booking)
+        context = template_context_cache[cache_key(booking, :costs)] ||=
+          TemplateContext.new(costs:).to_h
+        @templates[:body]&.render!(context)
+      end
+    end
+
     column_type :usage do
       body do |booking, template_context_cache|
         tarif = ::Tarif.find_by(id: @config[:tarif_id])
         context = template_context_cache[cache_key(booking, :usage, tarif.id)] ||=
-          TemplateContext.new(booking:, organisation: booking.organisation,
-                              usage: booking.usages.of_tarif(tarif).take).to_h
+          TemplateContext.new(usage: booking.usages.of_tarif(tarif).take).to_h
         @templates[:body]&.render!(context)
       end
     end
@@ -92,8 +100,7 @@ module DataDigestTemplates
       body do |booking, template_context_cache|
         response = booking.booking_question_responses.find_by(booking_question_id: @config[:id])
         context = template_context_cache[cache_key(booking, :booking_question_response, response&.id)] ||=
-          TemplateContext.new(booking:, organisation: booking.organisation,
-                              booking_question_response: response).to_h
+          TemplateContext.new(booking_question_response: response).to_h
         @templates[:body]&.render!(context)
       end
     end

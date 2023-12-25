@@ -41,11 +41,13 @@
         "react-dom": "^18.2.0",
         "react-hook-form": "^7.46.2",
         "react-i18next": "^13.0.0",
+        "react-sortablejs": "^6.1.4",
         "react-swipeable": "^7.0.0",
         "react_ujs": "^3.1.1",
         "sass": "^1.68.0",
         "sass-loader": "^13.3.2",
         "shakapacker": "7.1.0",
+        "sortablejs": "^1.15.1",
         "style-loader": "^3.3.1",
         "terser-webpack-plugin": "5.3.9",
         "tinymce": "^6.6.2",
@@ -58,6 +60,7 @@
         "yaml-loader": "^0.8.0"
     },
     "devDependencies": {
+        "@types/sortablejs": "^1.15.7",
         "@types/tinymce": "^4.6.6",
         "@typescript-eslint/eslint-plugin": "^6.7.2",
         "@typescript-eslint/parser": "^6.7.2",

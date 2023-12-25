@@ -12,27 +12,27 @@ class CostEstimation
     booking.usages.sum(&:price)
   end
 
-  def total
+  def invoiced
     invoices = Invoices::Invoice.of(booking).kept
     return if invoices.blank?
 
-    @total ||= deposit + invoices.sum(:amount)
+    @invoiced ||= deposited + invoices.sum(:amount)
   end
 
-  def deposit
+  def deposited
     Invoices::Deposit.of(booking).kept.sum(:amount) || 0
   end
 
   def per_day
-    return if total.nil?
+    return if invoiced.nil?
 
-    [total - fixcosts, 0].max / days
+    [invoiced - fixcosts, 0].max / days
   end
 
   def per_person
-    return unless booking.approximate_headcount.to_i.positive? && total.present?
+    return unless booking.approximate_headcount.to_i.positive? && invoiced.present?
 
-    [total - fixcosts, 0].max / booking.approximate_headcount
+    [invoiced - fixcosts, 0].max / booking.approximate_headcount
   end
 
   def days
@@ -44,13 +44,13 @@ class CostEstimation
   end
 
   def per_person_per_day
-    return if total.nil?
+    return if invoiced.nil?
 
-    total / [person_days, 1].max
+    invoiced / [person_days, 1].max
   end
 
   def reference_bookings
-    Booking::Filter.new(previous_booking_states: %i[completed], ends_at_after: 1.year.ago,
+    Booking::Filter.new(concluded: :concluded, ends_at_after: 1.year.ago,
                         homes: booking.home_id, categories: booking.booking_category_id)
                    .apply(booking.organisation.bookings.where.not(approximate_headcount: nil))
   end
@@ -61,14 +61,14 @@ class CostEstimation
   end
 
   def projection_difference
-    return nil unless total
+    return nil unless invoiced
 
-    projection - total
+    projection - invoiced
   end
 
   class << self
     def reference_bookings(organisation)
-      Booking::Filter.new(previous_booking_states: %i[completed], ends_at_after: 2.years.ago)
+      Booking::Filter.new(concluded: :concluded, ends_at_after: 2.years.ago)
                      .apply(organisation.bookings)
     end
 
@@ -79,10 +79,10 @@ class CostEstimation
     def projection(bookings, fixcosts: 0)
       errors = []
       samples = estimations(bookings, fixcosts:).transform_values do |cost_estimation|
-        next cost_estimation.projection if cost_estimation.total.blank?
+        next cost_estimation.projection if cost_estimation.invoiced.blank?
 
         errors << cost_estimation.projection_difference
-        cost_estimation.total
+        cost_estimation.invoiced
       end
       { total: samples.values.sum, errors:, samples: }
     end
