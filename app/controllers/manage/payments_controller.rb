@@ -38,7 +38,7 @@ module Manage
       @bookings = bookings_for_import
       @invoices = invoices_for_import
       @payments = params[:camt_file].presence &&
-                  Payment::Factory.new(current_organisation).from_camt_file(params[:camt_file])
+                  CamtService.new(current_organisation).payments_from_file(params[:camt_file])
 
       render 'import' if @payments.present?
     rescue CamtParser::Errors::BaseError, Nokogiri::SyntaxError => e
