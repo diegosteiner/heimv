@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## Version 23.12.2
+
+Released on 28.12.2023
+
+- Feature: Add column_config for data digests
+- Feature: Improve deposit detection
+- Bugfixes
+
 ## Version 23.12.1
 
 Released on 19.12.2023

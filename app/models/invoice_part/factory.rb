@@ -13,6 +13,7 @@ class InvoicePart
     def call
       I18n.with_locale(invoice.locale || I18n.locale) do
         [
+          from_payments.presence,
           from_deposits.presence,
           from_supersede_invoice.presence,
           from_usages.presence
@@ -30,6 +31,17 @@ class InvoicePart
         title = usage_group_to_invoice_part(group, invoice_parts_group)
         [title, invoice_parts_group]
       end.flatten
+    end
+
+    def from_payments
+      payed_amount = @invoice.booking.payments.where(invoice: nil, write_off: false).sum(:amount)
+      return [] unless payed_amount.positive? && @invoice.new_record?
+
+      [
+        InvoiceParts::Text.new(apply: suggest?, label: Invoices::Deposit.model_name.human),
+        InvoiceParts::Add.new(apply: suggest?, label: I18n.t('invoice_parts.deposited_amount'),
+                              amount: - payed_amount)
+      ]
     end
 
     def from_deposits
