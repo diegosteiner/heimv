@@ -65,7 +65,7 @@ class Invoice
       settings = invoice.booking.organisation.settings
       if invoice.is_a?(Invoices::Deposit)
         return [settings.deposit_payment_deadline.from_now,
-                invoice.booking.begins_at]
+                invoice.booking.begins_at].min
       end
 
       settings.invoice_payment_deadline.from_now
