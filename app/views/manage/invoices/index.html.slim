@@ -62,6 +62,9 @@
                   .text-danger= l(invoice.payable_until, format: :date)
                 - else
                   =l(invoice.payable_until, format: :date)
+              - if invoice.sent?
+                span.badge.badge-pill.bg-success.ms-1
+                  span.fa.fa-envelope-open.text-white[title="#{Invoice.human_attribute_name(:sent_at)}: #{l(invoice.sent_at)}"]
 
             td.align-middle
               = number_to_currency(invoice.amount)
@@ -87,8 +90,9 @@
                     - unless invoice.is_a?(Invoices::LateNotice)
                       = link_to new_manage_booking_invoice_path(invoice.booking, invoice: { type: Invoices::LateNotice, supersede_invoice_id: invoice.to_param }), class: 'btn btn-default' do
                         = Invoices::LateNotice.model_name.human
-                    = link_to edit_manage_invoice_path(invoice), class: 'btn btn-default' do
-                      span.fa.fa-edit
+                    - unless invoice.sent?
+                      = link_to edit_manage_invoice_path(invoice), class: 'btn btn-default' do
+                        span.fa.fa-edit
                   = link_to manage_invoice_path(invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                     span.fa.fa-trash
 
