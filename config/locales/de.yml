@@ -333,8 +333,9 @@ de:
       tenant:
         address: Adresse
         address_addon: Adresszusatz / Schule / Firma
-        allow_bookings_without_contract: Buchungen ohne Vertrag erlauben
         birth_date: Geburtsdatum
+        bookings_without_contract: Buchungen ohne Vertrag
+        bookings_without_invoice: Buchungen ohne Rechnung
         city: Ort
         country_code: Land
         email: Email

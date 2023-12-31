@@ -23,6 +23,10 @@ module BookingStates
       invoices.any?(&:sent?) || (invoices.any? && invoices.none?(&:unsettled?))
     end
 
+    infer_transition(to: :completed) do |booking|
+      booking.tenant.bookings_without_invoice
+    end
+
     def relevant_time
       booking.ends_at
     end
