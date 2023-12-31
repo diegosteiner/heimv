@@ -6,7 +6,7 @@
         = f.text_field :slug if current_user.role_admin?
         = f.text_field :name
         div[v-pre]= f.text_area :address, rows: 4
-        = f.file_field :logo, help: organisation.logo.attached? && image_tag(organisation.logo, width: 120)
+        = f.file_field :logo, help: organisation.logo.present? && organisation.logo.persisted? && image_tag(organisation.logo, width: 120)
         = f.collection_select :locale, Organisation.locales, :first, :first
 
   = f.fields_for :settings, @organisation.settings || OrganisationSettings.new do |sf|  
