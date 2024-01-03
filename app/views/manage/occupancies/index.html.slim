@@ -42,7 +42,7 @@ h1.m-0= Occupancy.model_name.human(count: 2)
                 = link_to manage_occupancy_path(occupancy), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' , title: t(:destroy) do
                   span.fa.fa-trash
               - else
-                button.btn.btn-default[disabled]
+                button.btn.btn-default.border-0.text-muted[disabled]
                   span.fa.fa-trash
 
 br

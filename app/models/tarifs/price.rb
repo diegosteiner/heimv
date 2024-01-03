@@ -44,7 +44,7 @@ module Tarifs
     Tarif.register_subtype self
 
     def unit
-      organisation.currency
+      super || organisation.currency
     end
 
     def breakdown(usage)
