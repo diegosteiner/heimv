@@ -330,8 +330,8 @@ it:
       tenant:
         address: Indirizzo
         address_addon: Suffisso indirizzo / scuola / azienda
-        allow_bookings_without_contract: Consentire prenotazioni senza contratto
         birth_date: Data di nascita
+        bookings_without_contract: Consentire prenotazioni senza contratto
         city: Località
         country_code: Paese
         email: E-mail

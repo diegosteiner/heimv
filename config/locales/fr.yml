@@ -330,8 +330,8 @@ fr:
       tenant:
         address: Adresse
         address_addon: Complément d'adresse / école / entreprise
-        allow_bookings_without_contract: Autoriser les réservations sans contrat
         birth_date: Date de naissance
+        bookings_without_contract: Autoriser les réservations sans contrat
         city: Lieu
         country_code: Pays
         email: Email

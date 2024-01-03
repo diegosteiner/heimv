@@ -90,9 +90,8 @@
                     - unless invoice.is_a?(Invoices::LateNotice)
                       = link_to new_manage_booking_invoice_path(invoice.booking, invoice: { type: Invoices::LateNotice, supersede_invoice_id: invoice.to_param }), class: 'btn btn-default' do
                         = Invoices::LateNotice.model_name.human
-                    - unless invoice.sent?
-                      = link_to edit_manage_invoice_path(invoice), class: 'btn btn-default' do
-                        span.fa.fa-edit
+                  = link_to edit_manage_invoice_path(invoice), class: "btn btn-default #{invoice.sent? ? 'disabled text-muted' : ''} border-0 p-2" do
+                    span.fa.fa-edit
                   = link_to manage_invoice_path(invoice), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
                     span.fa.fa-trash
 

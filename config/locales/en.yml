@@ -289,8 +289,8 @@ en:
       tenant:
         address: Adresse
         address_addon: Addresszusatz
-        allow_bookings_without_contract: Buchungen ohne Vertrag erlauben
         birth_date: Geburtsdatum
+        bookings_without_contract: Buchungen ohne Vertrag erlauben
         city: Ort
         country_code: Land
         email: Email
