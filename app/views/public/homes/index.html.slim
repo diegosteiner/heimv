@@ -5,7 +5,7 @@
         = home
       = react_component('react_rails/OccupiableCalendar', { \ 
           org: current_organisation.slug, \
-          occupiableIds: home.occupiable_ids + [home.id], \
+          occupiableIds: home.self_and_occupiable_ids, \
           occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: home.to_param, date: '__DATE__'), \
           defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
         }) 
