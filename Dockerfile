@@ -64,6 +64,7 @@ RUN bundle exec bootsnap precompile app/ lib/
 FROM base AS production
 
 EXPOSE 3000
+CMD ["bin/rails", "s", "-b", "0.0.0.0"]
 
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
