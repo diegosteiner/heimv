@@ -34,6 +34,9 @@ COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
     bundle exec bootsnap precompile --gemfile
 
+COPY package.json yarn.lock ./
+RUN yarn install
+
 COPY . .
 
 RUN bundle exec bootsnap precompile app/ lib/
