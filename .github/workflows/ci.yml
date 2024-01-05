@@ -34,12 +34,12 @@ jobs:
           context: .
           load: true
           push: false
-          target: build
+          target: development
           tags: ghcr.io/${{ github.repository }}-test:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: docker build
+      - name: docker build target
         uses: docker/build-push-action@v4
         with:
           context: .
