@@ -6,8 +6,8 @@ services:
       target: development
     # user: "${UID:-0}:${GID:-0}"
     volumes:
-      - home:/home/develop:cached
-      - .:/home/develop/app:cached
+      - .:/rails
+      - bundle:/usr/local/bundle:cached
     ports:
       - "3000:3000"
       - "3035:3035"
@@ -68,7 +68,7 @@ services:
 
 volumes:
   db_data:
-  home:
+  bundle:
 
 networks:
   selenium:
