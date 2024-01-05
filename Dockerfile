@@ -50,15 +50,21 @@ USER rails:rails
 
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="development" \
+    NODE_ENV="production"  
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
+COPY package.json yarn.lock ./
+RUN yarn install
+
 COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
+
+RUN yarn install && bin/shakapacker
 
 ### === production === ###
 FROM base AS production
