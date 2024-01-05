@@ -30,6 +30,8 @@ RUN gem install standardrb ruby-lsp
 ### === build === ### 
 FROM base AS build                                                      
 
+RUN apk add --update build-base
+
 USER rails:rails
 
 ENV RAILS_ENV="production" \
