@@ -34,7 +34,7 @@ jobs:
           context: .
           load: true
           push: false
-          target: development
+          target: test
           tags: ghcr.io/${{ github.repository }}-test:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
