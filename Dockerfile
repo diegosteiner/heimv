@@ -44,7 +44,7 @@ RUN bundle exec bootsnap precompile app/ lib/
 ### === build === ### 
 FROM base AS build                                                      
 
-RUN apk add --update build-base
+RUN apk add --update build-base yarn
 
 USER rails:rails
 
