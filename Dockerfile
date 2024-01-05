@@ -30,14 +30,14 @@ RUN gem install standardrb ruby-lsp
 ### === test === ###                 
 FROM development AS test
 
-COPY Gemfile Gemfile.lock ./
+COPY --chown=rails:rails Gemfile Gemfile.lock ./
 RUN bundle install && \
     bundle exec bootsnap precompile --gemfile
 
-COPY package.json yarn.lock ./
+COPY --chown=rails:rails package.json yarn.lock ./
 RUN yarn install
 
-COPY . .
+COPY --chown=rails:rails . .
 
 RUN bundle exec bootsnap precompile app/ lib/
 
@@ -53,18 +53,17 @@ ENV RAILS_ENV="production" \
     BUNDLE_WITHOUT="development" \
     NODE_ENV="production"  
 
-COPY Gemfile Gemfile.lock ./
+COPY --chown=rails:rails Gemfile Gemfile.lock ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
-COPY package.json yarn.lock ./
+COPY --chown=rails:rails package.json yarn.lock ./
 RUN yarn install
 
-COPY . .
-RUN bundle exec bootsnap precompile app/ lib/
-
-RUN yarn install && bin/shakapacker
+COPY --chown=rails:rails . .
+RUN bundle exec bootsnap precompile app/ lib/ && \
+    bin/shakapacker
 
 ### === production === ###
 FROM base AS production
