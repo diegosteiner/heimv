@@ -6,7 +6,7 @@ services:
       target: test
     image: ghcr.io/diegosteiner/heimv-test
     volumes:
-      - ./tmp:./tmp
+      - ./tmp:tmp
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
