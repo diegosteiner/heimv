@@ -1,10 +1,12 @@
-version: "3.8"
+version: "3.9"
 services:
   e2e_test:
     build:
       context: .
       target: test
     image: ghcr.io/diegosteiner/heimv-test
+    volumes:
+      - ./tmp:./tmp
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
