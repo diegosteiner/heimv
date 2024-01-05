@@ -3,8 +3,10 @@ services:
   e2e_test:
     build:
       context: .
-      target: build
+      target: development
     image: ghcr.io/diegosteiner/heimv-test
+    volumes:
+      - .:/rails
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
