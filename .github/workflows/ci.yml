@@ -55,9 +55,6 @@ jobs:
       - name: migrate
         run: docker-compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
 
-      - name: bundle
-        run: docker-compose --file docker-compose.ci.yml run e2e_test bundle install
-
       - name: bin/check
         run: docker-compose --file docker-compose.ci.yml run e2e_test bin/check
 

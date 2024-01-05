@@ -27,6 +27,16 @@ USER rails:rails
 
 RUN gem install standardrb ruby-lsp
 
+### === test === ###                 
+FROM base AS test
+
+RUN bundle install && \
+    bundle exec bootsnap precompile --gemfile
+
+COPY . .
+
+RUN bundle exec bootsnap precompile app/ lib/
+
 ### === build === ### 
 FROM base AS build                                                      
 
