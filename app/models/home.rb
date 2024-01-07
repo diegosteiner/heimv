@@ -51,4 +51,8 @@ class Home < Occupiable
   def home_id
     id
   end
+
+  def self_and_occupiable_ids
+    [id, occupiable_ids].flatten.compact.uniq
+  end
 end

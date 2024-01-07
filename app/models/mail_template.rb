@@ -27,7 +27,7 @@
 #
 
 class MailTemplate < RichTextTemplate
-  def use(booking, to: nil, attach: nil, **context, &)
+  def use(booking, to: nil, attach: nil, **context, &callback)
     return nil unless enabled
 
     booking&.notifications&.build(to:) do |notification|
@@ -35,7 +35,7 @@ class MailTemplate < RichTextTemplate
       notification.destroy && return unless notification.deliverable?
 
       notification.attach(attach)
-      notification.tap(&) if block_given?
+      notification.tap(&callback) if callback.present?
     end
   end
 

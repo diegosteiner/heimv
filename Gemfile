@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.2.2'
+ruby '3.3.0'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
@@ -59,6 +59,7 @@ group :development do
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'
   gem 'listen'
+  gem 'ruby-lsp'
   gem 'squasher'
 end
 

@@ -20,6 +20,7 @@ module BookingStates
     end
 
     after_transition do |booking|
+      booking.free!
       booking.deadline&.clear
       booking.update!(editable: false)
       MailTemplate.use(:operator_cancelation_pending_notification, booking, to: :home_handover, &:autodeliver)

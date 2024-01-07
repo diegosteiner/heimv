@@ -1,9 +1,9 @@
-version: "3.8"
+version: "3.9"
 services:
   e2e_test:
     build:
       context: .
-      target: build
+      target: test
     image: ghcr.io/diegosteiner/heimv-test
     environment:
       APP_HOST: "e2e_test"
@@ -75,6 +75,7 @@ services:
     image: redis:6
 
 volumes:
+  bundle:
   db_data:
 
 networks:

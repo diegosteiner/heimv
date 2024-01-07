@@ -46,7 +46,7 @@
         "react_ujs": "^3.1.1",
         "sass": "^1.68.0",
         "sass-loader": "^13.3.2",
-        "shakapacker": "7.1.0",
+        "shakapacker": "7.2.1",
         "sortablejs": "^1.15.1",
         "style-loader": "^3.3.1",
         "terser-webpack-plugin": "5.3.9",

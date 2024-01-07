@@ -6,12 +6,11 @@ services:
       target: development
     # user: "${UID:-0}:${GID:-0}"
     volumes:
-      - home:/home/develop:cached
-      - .:/home/develop/app:cached
+      - .:/rails
+      - bundle:/usr/local/bundle:cached
     ports:
       - "3000:3000"
       - "3035:3035"
-    # command: ["bin/rails-dev-server"]
     environment:
       APP_HOST: ${APP_HOST:-heimv.localhost:3000}
       E2E_SERVER_PORT: "3001"
@@ -68,7 +67,7 @@ services:
 
 volumes:
   db_data:
-  home:
+  bundle:
 
 networks:
   selenium:

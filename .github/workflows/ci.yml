@@ -34,12 +34,12 @@ jobs:
           context: .
           load: true
           push: false
-          target: build
+          target: test
           tags: ghcr.io/${{ github.repository }}-test:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: docker build
+      - name: docker build target
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -54,6 +54,9 @@ jobs:
 
       - name: migrate
         run: docker-compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
+
+      - name: migrate
+        run: docker-compose --file docker-compose.ci.yml up -d e2e_target
 
       - name: bin/check
         run: docker-compose --file docker-compose.ci.yml run e2e_test bin/check
@@ -74,11 +77,11 @@ jobs:
 
       - if: failure()
         name: dump log
-        run: docker-compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
+        run: docker compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
 
-      # - if: failure()
-      #   name: dump screenshots
-      #   run: docker-compose --file docker-compose.ci.yml cp e2e_test:/home/develop/app/tmp/capybara ./artifacts/capybara
+      - if: failure()
+        name: dump tmp
+        run: docker compose --file docker-compose.ci.yml cp e2e_test:/rails/tmp ./artifacts/tmp
 
       - if: failure()
         name: upload artifacts

@@ -11,7 +11,7 @@ html[lang="#{I18n.locale}-CH"]
   body[style='background-color: transparent;']
     = react_component('react_rails/OccupiableCalendar', { \ 
         org: current_organisation.slug, \
-        occupiableIds: @home.occupiable_ids + [@home.id], \
+        occupiableIds: @home.self_and_occupiable_ids, \
         occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: @home.to_param, date: '__DATE__'), \
         defaultView: params[:default_view], months: params[:months] \
       })
