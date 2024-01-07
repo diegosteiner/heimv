@@ -38,7 +38,7 @@ class DesignatedDocument < ApplicationRecord
 
   before_validation :update_booking_conditions
 
-  delegate :blob, to: :file, allow_nil: true
+  delegate :blob, :content_type, :filename, to: :file, allow_nil: true
 
   validates :file, presence: true
 
@@ -57,10 +57,8 @@ class DesignatedDocument < ApplicationRecord
     super(value.presence)
   end
 
-  def attach_to(attached)
-    return if file&.blob.blank?
-
-    attached.attach(io: StringIO.new(file.blob.download), filename: name.presence || designation.to_s)
+  def to_attachable
+    { io: StringIO.new(blob.download), filename:, content_type: } if blob.present?
   end
 
   def attach_to?(booking)

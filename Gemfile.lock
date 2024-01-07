@@ -296,6 +296,7 @@ GEM
     prime (0.1.2)
       forwardable
       singleton
+    prism (0.19.0)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -433,6 +434,10 @@ GEM
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
+    ruby-lsp (0.13.2)
+      language_server-protocol (~> 3.17.0)
+      prism (>= 0.19.0, < 0.20)
+      sorbet-runtime (>= 0.5.5685)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
@@ -470,6 +475,7 @@ GEM
       actionpack (>= 3.1)
       railties (>= 3.1)
       slim (>= 3.0, < 6.0, != 5.0.0)
+    sorbet-runtime (0.5.11178)
     squasher (0.7.3)
     statesman (12.0.0)
     statsd-ruby (1.5.0)
@@ -563,6 +569,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  ruby-lsp
   rubyzip
   selenium-webdriver
   shakapacker (~> 7.0)

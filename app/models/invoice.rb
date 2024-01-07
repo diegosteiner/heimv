@@ -169,8 +169,8 @@ class Invoice < ApplicationRecord
     ::InvoicePart::Factory.new(self).call
   end
 
-  def attach_to(attached)
-    attached.attach(io: StringIO.new(pdf.blob.download), filename:) if pdf&.blob.present?
+  def to_attachable
+    { io: StringIO.new(pdf.blob.download), filename:, content_type: pdf.content_type } if pdf&.blob.present?
   end
 
   def vat

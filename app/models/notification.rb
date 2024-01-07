@@ -29,15 +29,6 @@
 
 class Notification < ApplicationRecord
   RichTextTemplate.define(:notification_footer, context: %i[booking])
-  ATTACHABLE_BOOKING_DOCUMENTS = {
-    unsent_deposits: ->(booking) { booking.invoices.deposit.unsent },
-    unsent_invoices: ->(booking) { booking.invoices.invoice.unsent },
-    unsent_late_notices: ->(booking) { booking.invoices.late_notice.unsent },
-    unsent_offers: ->(booking) { booking.invoices.offers.unsent },
-    contract: ->(booking) { booking.contract },
-    last_info_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_last_infos: true) },
-    contract_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_contract: true) }
-  }.freeze
 
   belongs_to :booking, inverse_of: :notifications
   belongs_to :mail_template, optional: true
@@ -76,26 +67,13 @@ class Notification < ApplicationRecord
     deliver
   end
 
+  def attach(*)
+    @attachment_manager ||= AttachmentManager.new(booking, target: attachments)
+    @attachment_manager.attach_all(*)
+  end
+
   def delivered?
     sent_at.present? && delivered_at.present?
-  end
-
-  def attach(*attachables)
-    attachables.flatten.compact_blank.map do |attachable|
-      next attachable.attach_to(self) if attachable.respond_to?(:attach_to)
-      next attach(attachable.blob) if attachable.try(:blob).present?
-
-      booking_documents = attachable_booking_documents(attachable)
-      next attach(*booking_documents) unless booking_documents.nil?
-
-      attachments.attach(attachable)
-    end
-  end
-
-  def attachable_booking_documents(key)
-    return if booking.blank? || !ATTACHABLE_BOOKING_DOCUMENTS.key?(key)
-
-    ATTACHABLE_BOOKING_DOCUMENTS[key].call(booking) || []
   end
 
   def apply_template(mail_template, context: {})

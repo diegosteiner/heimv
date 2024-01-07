@@ -59,6 +59,7 @@ group :development do
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'
   gem 'listen'
+  gem 'ruby-lsp'
   gem 'squasher'
 end
 
