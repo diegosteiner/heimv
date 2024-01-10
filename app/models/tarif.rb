@@ -42,6 +42,14 @@
 class Tarif < ApplicationRecord
   ASSOCIATED_TYPES = { deposit: Invoices::Deposit, invoice: Invoices::Invoice, late_notice: Invoices::LateNotice,
                        offer: Invoices::Offer, contract: ::Contract }.freeze
+  PREFILL_METHODS = {
+    flat: -> { 1 },
+    days: -> { booking.nights + 1 },
+    nights: -> { booking.nights },
+    headcount_nights: -> { booking.nights * (booking.approximate_headcount || 0) },
+    headcount: -> { booking.approximate_headcount || 0 }
+  }.with_indifferent_access.freeze
+
   include ActiveSupport::NumberHelper
 
   extend TemplateRenderable
@@ -61,7 +69,7 @@ class Tarif < ApplicationRecord
   has_many :enabling_conditions, -> { qualifiable_group(:enabling) }, as: :qualifiable, dependent: :destroy,
                                                                       class_name: :BookingCondition, inverse_of: false
 
-  enum prefill_usage_method: Usage::PREFILL_METHODS.keys.index_with(&:to_s)
+  enum prefill_usage_method: Tarif::PREFILL_METHODS.keys.index_with(&:to_s)
 
   scope :ordered, -> { order(:ordinal) }
   scope :pinned, -> { where(pin: true) }
@@ -92,6 +100,32 @@ class Tarif < ApplicationRecord
 
   def before_usage_save(_usage); end
 
+  def prefill_usage_booking_questions
+    booking_question_types = %w[BookingQuestions::Integer]
+    organisation.booking_questions.ordered.where(type: booking_question_types)
+  end
+
+  def presumed_units_question_factor(usage)
+    booking_question = prefill_usage_booking_question
+    return nil if booking_question.blank? || usage&.booking&.blank?
+
+    usage.booking.booking_question_responses.find_by(booking_question:)&.value.presence || 0
+  end
+
+  def presumed_units_prefill_factor(usage)
+    prefill_proc = PREFILL_METHODS[prefill_usage_method]
+    return if prefill_proc.blank?
+
+    usage.instance_exec(&prefill_proc).presence || 0
+  end
+
+  def presumed_units(usage)
+    return nil if presumed_units_prefill_factor(usage).blank? &&
+                  presumed_units_question_factor(usage).blank?
+
+    (presumed_units_prefill_factor(usage).presence || 1) * (presumed_units_question_factor(usage).presence || 1)
+  end
+
   def breakdown(usage)
     key ||= :flat if is_a?(Tarifs::Flat)
     key ||= :default
@@ -113,11 +147,6 @@ class Tarif < ApplicationRecord
   def update_booking_conditions
     enabling_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :enabling) }
     selecting_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :selecting) }
-  end
-
-  def prefill_usage_booking_questions
-    booking_question_types = %w[BookingQuestions::Integer]
-    organisation.booking_questions.ordered.where(type: booking_question_types)
   end
 
   private

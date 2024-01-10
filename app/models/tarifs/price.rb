@@ -53,6 +53,10 @@ module Tarifs
       number_to_currency(usage.used_units, unit: organisation.currency)
     end
 
+    def presumed_units(usage)
+      self[:price_per_unit].presence
+    end
+
     def price_per_unit
       nil
     end
