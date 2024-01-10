@@ -27,14 +27,6 @@
 #
 
 class Usage < ApplicationRecord
-  PREFILL_METHODS = {
-    flat: -> { 1 },
-    days: -> { booking.nights + 1 },
-    nights: -> { booking.nights },
-    headcount_nights: -> { booking.nights * (booking.approximate_headcount || 0) },
-    headcount: -> { booking.approximate_headcount || 0 }
-  }.with_indifferent_access.freeze
-
   belongs_to :tarif, -> { include_conditions }, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages, touch: true
   has_many :invoice_parts, dependent: :nullify
@@ -60,24 +52,8 @@ class Usage < ApplicationRecord
     (price * 20.0).floor / 20.0
   end
 
-  def presumed_units_prefill_factor
-    prefill_proc = PREFILL_METHODS[tarif.prefill_usage_method]
-    return if prefill_proc.blank?
-
-    instance_exec(&prefill_proc).presence || 0
-  end
-
-  def presumed_units_question_factor
-    booking_question = tarif.prefill_usage_booking_question
-    return nil if booking_question.blank? || booking.blank?
-
-    booking.booking_question_responses.find_by(booking_question:)&.value.presence || 0
-  end
-
   def presumed_units
-    return nil if presumed_units_prefill_factor.blank? && presumed_units_question_factor.blank?
-
-    (presumed_units_prefill_factor.presence || 1) * (presumed_units_question_factor.presence || 1)
+    tarif&.presumed_units(self)
   end
 
   def pin_price_per_unit

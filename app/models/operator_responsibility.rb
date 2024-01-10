@@ -63,7 +63,7 @@ class OperatorResponsibility < ApplicationRecord
   end
 
   def assign_to_booking?(booking)
-    assigning_conditions.any? && BookingCondition.fullfills_all?(booking, assigning_conditions)
+    assigning_conditions.none? || BookingCondition.fullfills_all?(booking, assigning_conditions)
   end
 
   def self.assign(booking, *responsibilities)

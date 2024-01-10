@@ -29,7 +29,7 @@ class Contract
       booking = contract.booking
       TemplateContext.new(
         booking:, organisation: booking.organisation, contract:,
-        cost_estimation: CostEstimation.new(booking),
+        costs: CostEstimation.new(booking),
         tarifs_table_placeholder: Export::Pdf::ContractPdf::TARIFS_TABLE_PLACEHOLDER
       )
     end
