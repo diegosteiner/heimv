@@ -247,7 +247,6 @@ en:
         name: Name
         notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
-        qr_iban: QR-IBAN
         representative_address: Adresse der Vertretung für Verträge
         settings: Einstellungen
         slug: Namespace

@@ -38,7 +38,6 @@
           = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
           div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
           = f.text_field :iban
-          = f.text_field :qr_iban
 
     fieldset
       h3.mt-5= Tenant.model_name.human(count: 2)

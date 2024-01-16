@@ -281,7 +281,6 @@ fr:
         name: Nom
         notifications_enabled: Messages activés
         privacy_statement_pdf: Déclaration de confidentialité
-        qr_iban: QR-IBAN
         representative_address: Adresse de la suppléance pour les contrats
         settings: Réglages
         slug: Espace de nommage

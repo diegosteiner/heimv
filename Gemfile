@@ -21,6 +21,7 @@ gem 'discard'
 gem 'factory_bot_rails', '~> 6.2.0', require: false
 gem 'faker', require: false
 gem 'faraday', require: false
+gem 'iban-tools'
 gem 'icalendar'
 gem 'inline_svg'
 gem 'kramdown'

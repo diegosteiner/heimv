@@ -220,6 +220,7 @@ GEM
       terminal-table (>= 1.5.1)
     i18n-tasks-csv (1.1)
       i18n-tasks (~> 0.9)
+    iban-tools (1.2.1)
     icalendar (2.10.1)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
@@ -541,6 +542,7 @@ DEPENDENCIES
   faraday
   i18n-tasks
   i18n-tasks-csv
+  iban-tools
   icalendar
   inline_svg
   kramdown

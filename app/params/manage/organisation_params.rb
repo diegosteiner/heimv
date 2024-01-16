@@ -4,7 +4,7 @@ module Manage
   class OrganisationParams < ApplicationParams
     def self.permitted_keys
       %i[name address logo location bcc
-         ref_template iban qr_iban mail_from locale default_payment_info_type creditor_address
+         ref_template iban mail_from locale default_payment_info_type creditor_address
          representative_address contract_signature email notifications_enabled] +
         [{ settings: settings_permitted_keys }]
     end

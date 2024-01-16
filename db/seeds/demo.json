@@ -42,7 +42,6 @@
   "mail_from": "info@heimv.local",
   "name": "Heimverein Musterhaus",
   "notifications_enabled": true,
-  "qr_iban": "CH75 3000 0002 1571 4845 3",
   "settings": {},
   "slug": null,
   "tarifs": [
