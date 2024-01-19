@@ -1578,6 +1578,10 @@ it:
       default_body: <h1 id="offerte">Offerta</h1>
       default_title: Offerta
       description: Testo per l'offerta
+    manage_cancelation_pending_notification:
+      default_body:
+      default_title:
+      description:
     manage_definitive_request_notification:
       default_body: |
         <p>Salve</p>

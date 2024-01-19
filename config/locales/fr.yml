@@ -1457,6 +1457,10 @@ fr:
       default_body:
       default_title: Offre
       description: Texte pour l'offre
+    manage_cancelation_pending_notification:
+      default_body:
+      default_title:
+      description:
     manage_definitive_request_notification:
       default_body:
       default_title: Demande de location {{ booking.ref }} définitive

@@ -1712,6 +1712,26 @@ de:
         '
       default_title: Offerte
       description: Text für Offerte
+    manage_cancelation_pending_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Die Reservation {{ booking.ref }} wird storniert</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+        </ul>
+
+        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
+      default_title: Stornierung Reservation {{ booking.ref }}
+      description: Benachrichtigung für stornierte Reservation (Verwaltung)
     manage_definitive_request_notification:
       default_body: |
         <p>Hallo</p>
@@ -1750,7 +1770,7 @@ de:
         </ul>
 
         <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
-      default_title: Neue Mietanfrage
+      default_title: Neue Mietanfrage {{ booking.ref }}
       description: Benachrichtigung für neue Mietanfrage (Verwaltung)
     notification_footer:
       default_body: ''
