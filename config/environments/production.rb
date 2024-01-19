@@ -58,6 +58,12 @@ Rails.application.configure do
   # config.active_job.queue_adapter = :resque
   config.cache_store = CacheStoreFactory.redis(config.redis_config)
 
+  # Use a real queuing backend for Active Job (and separate queues per environment).
+  # config.active_job.queue_name_prefix = "heimverwaltung_production"
+  config.active_job.queue_adapter = :solid_queue
+
+  config.action_mailer.perform_caching = false
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
