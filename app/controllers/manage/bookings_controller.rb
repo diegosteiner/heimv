@@ -25,7 +25,8 @@ module Manage
 
     def new
       @booking = preparation_service.prepare_new(booking_params)
-      @booking.assign_attributes(organisation: current_organisation, transition_to: :provisional_request)
+      @booking.assign_attributes(organisation: current_organisation,
+                                 transition_to: current_organisation.settings.default_manage_transition_to_state)
       @booking.booking_questions = BookingQuestion.applying_to_booking(@booking)
 
       respond_with :manage, @booking

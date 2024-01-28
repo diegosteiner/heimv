@@ -56,6 +56,8 @@
           = sf.text_field :default_begins_at_time, value: settings.default_begins_at_time
           = sf.text_field :default_ends_at_time, value: settings.default_ends_at_time
 
+          = sf.select :default_manage_transition_to_state, settings.manage_transition_to_states(@organisation).map { [_1.t(:label), _1.to_sym] }, value: settings.default_manage_transition_to_state
+
           = sf.select :default_calendar_view, %i[months year].map { |view| [view, view] }
           = sf.collection_check_boxes :occupied_occupancy_states, BookingStates.occupied_occupancy_able.values, :to_s, ->(state) { state&.t(:label) }
 

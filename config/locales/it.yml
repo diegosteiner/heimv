@@ -43,14 +43,12 @@ it:
         booking_margin: Durata tra le prenotazioni
       organisation_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
-        begins_at_default_time: Ora standard per l'inizio dell'occupazione (da mezzanotte)
         closed_occupancy_color: Colore per le chiusure
         deadline_postponable_for: Proroga del periodo
         default_begins_at_time:
         default_calendar_view:
         default_ends_at_time:
         deposit_payment_deadline: Periodo di pagamento standard (acconto)
-        ends_at_default_time: Ora standard per la fine dell'occupazione (dall'inizio)
         invoice_payment_deadline: Periodo di pagamento standard
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         occupied_occupancy_color: Colore per le occupazioni definitive
