@@ -20,7 +20,9 @@ Liquid::Template.register_filter(Module.new do
     nil
   end
 
-  def currency(value)
+  def currency(value, unit = nil)
+    return ActiveSupport::NumberHelper.number_to_currency(value, unit:) if unit.present?
+
     ActiveSupport::NumberHelper.number_to_currency(value)
   end
 
