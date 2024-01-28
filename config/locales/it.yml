@@ -48,6 +48,7 @@ it:
         default_begins_at_time:
         default_calendar_view:
         default_ends_at_time:
+        default_manage_transition_to_state:
         deposit_payment_deadline: Periodo di pagamento standard (acconto)
         invoice_payment_deadline: Periodo di pagamento standard
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
@@ -188,6 +189,7 @@ it:
         locale: Lingua
         name: Nome
         remarks: Osservazioni
+        send_with_accepted:
         send_with_contract: Inviare con il contratto
         send_with_last_infos: Invia con le ultime informazioni (occupazione a breve)
         updated_at: Ultima modifica
