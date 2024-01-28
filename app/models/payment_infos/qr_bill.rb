@@ -71,7 +71,7 @@ module PaymentInfos
     end
 
     def creditor_account
-      organisation.iban.presence
+      organisation.iban.to_s.presence
     end
 
     def currency
