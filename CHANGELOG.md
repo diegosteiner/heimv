@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## Version 24.1.1
+
+Released on 28.01.2023
+
+- Feature: Set default state for new bookings in manager
+- Feature: Add designated documents for accepted notification
+- Bugfixes
+
 ## Version 23.12.2
 
 Released on 28.12.2023
