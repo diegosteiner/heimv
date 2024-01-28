@@ -49,7 +49,9 @@ module BookingStates
       booking.deadline&.clear
       OperatorResponsibility.assign(booking, :home_handover, :home_return)
       MailTemplate.use(:manage_definitive_request_notification, booking, to: :administration, &:autodeliver)
-      MailTemplate.use(:definitive_request_notification, booking, to: :tenant, &:autodeliver)
+      mail = MailTemplate.use(:definitive_request_notification, booking, to: :tenant)
+      mail&.attach :accepted_documents if booking.state_transitions.last(2).map(&:to_state) == [OpenRequest.to_s, to_s]
+      mail&.autodeliver
     end
 
     def relevant_time

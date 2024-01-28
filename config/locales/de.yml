@@ -189,6 +189,7 @@ de:
         locale: Sprache
         name: Name
         remarks: Bemerkungen
+        send_with_accepted: Mit dem Akzeptieren der Buchung versenden
         send_with_contract: Mit dem Vertrag versenden
         send_with_last_infos: Mit letzen Infos (baldige Belegung) versenden
         updated_at: Letzte Änderung
