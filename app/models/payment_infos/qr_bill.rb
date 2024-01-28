@@ -29,7 +29,7 @@ module PaymentInfos
         qrtype: QRTYPE,
         version: VERSION,
         coding_type: CODING_TYPE,
-        cr_account: creditor_account&.delete(' '),
+        cr_account: creditor_account&.to_s&.delete(' '),
         cr_address_type: ADDRESS_TYPE,
         cr_name: creditor_address_lines.fetch(0, ''),
         cr_address_line_1: creditor_address_lines.fetch(1, ''),
@@ -71,7 +71,7 @@ module PaymentInfos
     end
 
     def creditor_account
-      organisation.qr_iban.presence || organisation.iban.presence
+      organisation.iban.to_s.presence
     end
 
     def currency
@@ -96,7 +96,7 @@ module PaymentInfos
     end
 
     def ref_type
-      organisation.qr_iban.present? ? :QRR : :SCOR
+      organisation.iban&.qrr? ? :QRR : :SCOR
     end
 
     def scor_ref

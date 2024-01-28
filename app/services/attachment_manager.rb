@@ -8,7 +8,8 @@ class AttachmentManager
     unsent_offers: ->(booking) { booking.invoices.offers.unsent },
     contract: ->(booking) { booking.contract },
     last_info_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_last_infos: true) },
-    contract_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_contract: true) }
+    contract_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_contract: true) },
+    accepted_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_accepted: true) }
   }.freeze
 
   def initialize(booking, target:)

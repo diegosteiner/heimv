@@ -4,9 +4,11 @@ require 'rails_helper'
 
 RSpec.describe PaymentInfos::QrBill, type: :model do
   subject(:qr_bill) { described_class.new(invoice) }
+  let(:iban) { 'CH72 0900 0000 1571 4845 3' }
+  let(:qr_iban) { 'CH75 3000 0002 1571 4845 3' }
 
   let(:organisation) do
-    create(:organisation, :with_templates, iban: '01-318421-1', address: "Organisation\nStrasse 1\n8000 Zürich")
+    create(:organisation, :with_templates, iban:, address: "Organisation\nStrasse 1\n8000 Zürich")
   end
   let(:tenant) do
     create(:tenant, organisation:, first_name: 'Peter', last_name: 'Muster',
@@ -25,7 +27,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
 
     let(:expected_payload) do
       [
-        'SPC', '0200', '1', '01-318421-1',
+        'SPC', '0200', '1', iban.delete(' '),
         'K', 'Organisation', 'Strasse 1', '8000 Zürich', '', '', 'CH',
         '', '', '', '', '', '', '', '1255.35',
         'CHF', 'K', 'Peter Muster', 'Teststrasse 2', '8049 Zürich', '', '', 'CH',
@@ -44,9 +46,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
     end
 
     context 'with QRR Ref' do
-      let(:organisation) do
-        create(:organisation, qr_iban: '01-318421-1', address: "Organisation\nTeststrasse 1\n8000 Zürich")
-      end
+      let(:iban) { qr_iban }
 
       it { is_expected.to eq('00 00000 00012 34567 89101 11213') }
     end

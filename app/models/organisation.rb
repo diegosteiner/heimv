@@ -23,7 +23,6 @@
 #  mail_from                 :string
 #  name                      :string
 #  notifications_enabled     :boolean          default(TRUE)
-#  qr_iban                   :string
 #  ref_template              :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
 #  representative_address    :string
 #  settings                  :jsonb
@@ -77,11 +76,13 @@ class Organisation < ApplicationRecord
     errors.add(:settings, :invalid) unless settings.valid?
     errors.add(:smtp_settings, :invalid) unless smtp_settings.nil? || smtp_settings.valid?
     errors.add(:creditor_address, :invalid) if creditor_address_lines.count > 3
+    errors.add(:iban, :invalid) if iban.present? && !iban.valid?
   end
 
   attribute :booking_flow_type, default: -> { BookingFlows::Default.to_s }
   attribute :settings, Settings::Type.new(OrganisationSettings), default: -> { OrganisationSettings.new }
   attribute :smtp_settings, Settings::Type.new(SmtpSettings)
+  attribute :iban, IBAN::Type.new
 
   def booking_flow_class
     @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)

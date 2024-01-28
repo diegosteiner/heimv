@@ -6,7 +6,7 @@ fr:
         begins_at: à partir du / de
         begins_at_after: Début de la location
         begins_at_before: 'Location jusqu''au '
-        concluded:
+        concluded: Clôture des écritures
         current_booking_states: Statuts
         ends_at: Jusqu'au / jusqu'à
         ends_at_after: Fin de la location
@@ -14,7 +14,7 @@ fr:
         homes: Principaux objets de location
         occupiables: Objet de location
         previous_booking_states: Anciens statuts
-        q:
+        q: Référence de réservation, locataire, organisation
       invoice/filter:
         invoice_type: Type de facture/facturation
         issued_at_after: Délai de paiement après le
@@ -43,14 +43,13 @@ fr:
         booking_margin: Espacement/période entre les réservations
       organisation_settings:
         awaiting_contract_deadline: Délai de réception du contrat
-        begins_at_default_time: Heure de début de location par défaut (à partir de minuit)
         closed_occupancy_color: Couleur pour les clôtures
         deadline_postponable_for: Prolongation du délai
-        default_begins_at_time:
+        default_begins_at_time: Heure de début de l'occupation par défaut
         default_calendar_view: Affichage du calendrier par défaut
-        default_ends_at_time:
+        default_ends_at_time: Heure de fin d'occupation par défaut
+        default_manage_transition_to_state:
         deposit_payment_deadline: Délai de paiement standard (acompte)
-        ends_at_default_time: Heure de fin de location par défaut (à partir du début)
         invoice_payment_deadline: Délai de paiement standard
         last_minute_warning: Délai pour les demandes de réservation de dernière minute
         occupied_occupancy_color: Couleur pour les locations définitives
@@ -58,7 +57,7 @@ fr:
         overdue_request_deadline: Délai pour les demandes de réservation en retard
         payment_overdue_deadline: Date limite de paiement dépassée
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
-        show_outbox:
+        show_outbox: Afficher le courrier sortant
         tenant_birth_date_required: Date de naissance, Indication obligatoire
         tentative_occupancy_color: Couleur pour les locations provisoires
         unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
@@ -190,6 +189,7 @@ fr:
         locale: Langue
         name: Nom
         remarks: Remarques
+        send_with_accepted:
         send_with_contract: Envoyer avec le contrat
         send_with_last_infos: Envoyer avec les dernières informations (location prochaine)
         updated_at: Dernière modification
@@ -225,6 +225,8 @@ fr:
       notification:
         attachments: Annexes
         body: Contenu
+        created_at: Créé le
+        footer:
         sent_at: Dernier envoi le
         subject: Sujet
         to: À
@@ -281,7 +283,6 @@ fr:
         name: Nom
         notifications_enabled: Messages activés
         privacy_statement_pdf: Déclaration de confidentialité
-        qr_iban: QR-IBAN
         representative_address: Adresse de la suppléance pour les contrats
         settings: Réglages
         slug: Espace de nommage
@@ -302,7 +303,7 @@ fr:
         created_at: Erstellt am
         zip: Zip
       rich_text_template:
-        autodeliver:
+        autodeliver: Envoyer automatiquement
         body: Texte
         enabled: Activé
         key: ID
@@ -331,7 +332,8 @@ fr:
         address: Adresse
         address_addon: Complément d'adresse / école / entreprise
         birth_date: Date de naissance
-        bookings_without_contract: Autoriser les réservations sans contrat
+        bookings_without_contract:
+        bookings_without_invoice:
         city: Lieu
         country_code: Pays
         email: Email
@@ -380,9 +382,9 @@ fr:
           provisional_request: Demande de location provisoire
       booking/filter:
         concluded:
-          all:
-          concluded:
-          inconcluded:
+          all: ouvert et fermé
+          concluded: terminé
+          inconcluded: ouvert
       booking_log:
         trigger:
           auto: Système
@@ -438,10 +440,10 @@ fr:
       notification:
         to:
           administration: Administration
-          billing:
+          billing: Caissier
           booking_agent: Intermédiaire
-          home_handover:
-          home_return:
+          home_handover: Gardien - remise d’hébergement
+          home_return: Gardien - Ouverture d’hébergement
           tenant: Locataire
       occupancy:
         occupancy_type:
@@ -457,7 +459,7 @@ fr:
           home_return: Reddition des locaux
       organisation_user:
         role:
-          admin: Administration
+          admin: Admin
           manager: Administration
           none: "-"
           readonly: Lecture
@@ -679,7 +681,7 @@ fr:
         label: Confirmer la demande
       email_contract:
         confirm: Vraiment envoyer le contrat sans acompte ?
-        label:
+        label: Envoyer le contrat
         label_with_deposit: Envoyer le contrat et l'acompte
         label_without_deposit: Envoyer un contrat sans acompte
       email_invoices:
@@ -687,7 +689,7 @@ fr:
       email_offers:
         label: Envoyer une offre
       mark_contract_sent:
-        label:
+        label: Marquer le contrat comme envoyé
       mark_contract_signed:
         label: Confirmer la réception du contrat
       mark_deposits_paid:
@@ -1173,11 +1175,11 @@ fr:
         title: Organisation
       version:
         changelog:
-        github:
+        github: GitHub
         title: Logiciel
     manage_navigation:
       help: Aide
-      outbox:
+      outbox: Courrier sortant
       settings: Réglages
   manage:
     bookings:
@@ -1249,12 +1251,12 @@ fr:
         help_title: Aide sur les variables
       index:
         booking_action: Action
-        booking_state:
+        booking_state: Statut comptable
         document: Document
-        rich_text_templates_by_booking_action:
-        rich_text_templates_by_booking_state:
-        rich_text_templates_by_document:
-        rich_text_templates_by_rest:
+        rich_text_templates_by_booking_action: Actions
+        rich_text_templates_by_booking_state: Statut comptable
+        rich_text_templates_by_document: Documents
+        rich_text_templates_by_rest: Autres
   nav:
     edit_account: Gérer le compte
     manage: Administration
@@ -1414,7 +1416,7 @@ fr:
       default_title: Réservation terminée
       description: Notification de clôture de la réservation (locataire)
     contract_sent_notification:
-      default_title:
+      default_title: Contrat envoyé
       description:
     contract_signed_notification:
       default_body:
@@ -1455,6 +1457,10 @@ fr:
       default_body:
       default_title: Offre
       description: Texte pour l'offre
+    manage_cancelation_pending_notification:
+      default_body:
+      default_title:
+      description:
     manage_definitive_request_notification:
       default_body:
       default_title: Demande de location {{ booking.ref }} définitive
@@ -1470,7 +1476,7 @@ fr:
       default_title: Ton offre
       description: Notification d'offre
     open_booking_agent_request_notification:
-      description:
+      description: Notification de demande de location ouverte (locataire)
     open_request_notification:
       default_body:
       default_title: Confirmation de votre demande de location

@@ -4,7 +4,7 @@ module Manage
   class OrganisationParams < ApplicationParams
     def self.permitted_keys
       %i[name address logo location bcc
-         ref_template iban qr_iban mail_from locale default_payment_info_type creditor_address
+         ref_template iban mail_from locale default_payment_info_type creditor_address
          representative_address contract_signature email notifications_enabled] +
         [{ settings: settings_permitted_keys }]
     end
@@ -15,7 +15,7 @@ module Manage
          last_minute_warning upcoming_soon_window invoice_payment_deadline
          deposit_payment_deadline deadline_postponable_for payment_overdue_deadline
          occupied_occupancy_color tentative_occupancy_color closed_occupancy_color
-         begins_at_default_time ends_at_default_time default_calendar_view
+         default_calendar_view default_manage_transition_to_state
          default_begins_at_time default_ends_at_time show_outbox] +
         [{ occupied_occupancy_states: [] }]
     end

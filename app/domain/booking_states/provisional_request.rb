@@ -28,7 +28,9 @@ module BookingStates
       booking.tentative!
       next if booking.committed_request
 
-      MailTemplate.use(:provisional_request_notification, booking, to: :tenant, &:autodeliver)
+      mail = MailTemplate.use(:provisional_request_notification, booking, to: :tenant)
+      mail&.attach :accepted_documents if booking.state_transitions.last(2).map(&:to_state) == [OpenRequest.to_s, to_s]
+      mail&.autodeliver
     end
 
     infer_transition(to: :definitive_request) do |booking|

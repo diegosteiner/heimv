@@ -43,8 +43,20 @@ FactoryBot.define do
     text { Faker::Lorem.sentences }
     type { Invoices::Invoice }
 
-    after(:build) do |invoice|
-      build_list(:invoice_part, 3, invoice:)
+    after(:build) do |invoice, evaluator|
+      if evaluator.amount&.positive?
+        build(:invoice_part, amount: evaluator.amount, invoice:)
+      else
+        build_list(:invoice_part, 3, invoice:)
+      end
+    end
+
+    factory :deposit do
+      type { Invoices::Deposit }
+    end
+
+    factory :offer do
+      type { Invoices::Offer }
     end
   end
 end

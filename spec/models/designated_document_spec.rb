@@ -9,6 +9,7 @@
 #  locale               :string
 #  name                 :string
 #  remarks              :text
+#  send_with_accepted   :boolean          default(FALSE), not null
 #  send_with_contract   :boolean          default(FALSE), not null
 #  send_with_last_infos :boolean          default(FALSE)
 #  created_at           :datetime         not null

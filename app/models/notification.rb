@@ -43,8 +43,9 @@ class Notification < ApplicationRecord
   validate do
     next if booking.nil? || to.blank?
     next if booking.roles.keys.include?(to.to_sym)
+    next if deliver_to.present?
 
-    # next if Devise.email_regexp =~ to.to_s
+    # next if Array.wrap(deliver_to).all? { Devise.email_regexp.match(_1) }
 
     errors.add(:to, :invalid)
   end
@@ -107,7 +108,7 @@ class Notification < ApplicationRecord
   end
 
   def deliver_to
-    [resolve_to.try(:email).presence || resolve_to.to_s.presence].flatten.compact
+    [resolve_to.try(:email).presence].flatten.compact
   end
 
   def locale

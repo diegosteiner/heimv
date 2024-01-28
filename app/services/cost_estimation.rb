@@ -16,11 +16,15 @@ class CostEstimation
     invoices = Invoices::Invoice.of(booking).kept
     return if invoices.blank?
 
-    @invoiced ||= deposited + invoices.sum(:amount)
+    @invoiced ||= invoices.sum(:amount)
   end
 
-  def deposited
+  def invoiced_deposits
     Invoices::Deposit.of(booking).kept.sum(:amount) || 0
+  end
+
+  def paid
+    booking.payments.where(write_off: false).sum(:amount)
   end
 
   def per_day

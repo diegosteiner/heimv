@@ -43,14 +43,13 @@ it:
         booking_margin: Durata tra le prenotazioni
       organisation_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
-        begins_at_default_time: Ora standard per l'inizio dell'occupazione (da mezzanotte)
         closed_occupancy_color: Colore per le chiusure
         deadline_postponable_for: Proroga del periodo
         default_begins_at_time:
         default_calendar_view:
         default_ends_at_time:
+        default_manage_transition_to_state:
         deposit_payment_deadline: Periodo di pagamento standard (acconto)
-        ends_at_default_time: Ora standard per la fine dell'occupazione (dall'inizio)
         invoice_payment_deadline: Periodo di pagamento standard
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         occupied_occupancy_color: Colore per le occupazioni definitive
@@ -190,6 +189,7 @@ it:
         locale: Lingua
         name: Nome
         remarks: Osservazioni
+        send_with_accepted:
         send_with_contract: Inviare con il contratto
         send_with_last_infos: Invia con le ultime informazioni (occupazione a breve)
         updated_at: Ultima modifica
@@ -225,6 +225,8 @@ it:
       notification:
         attachments:
         body: Contenuto
+        created_at: Creato il
+        footer:
         sent_at: Inviato l'ultima volta il
         subject: Oggetto
         to: A
@@ -281,7 +283,6 @@ it:
         name: Nome
         notifications_enabled: Messaggi abilitati
         privacy_statement_pdf: Informativa sulla privacy
-        qr_iban: QR-IBAN
         representative_address: Indirizzo della rappresentanza per i contratti
         settings: 'Impostazioni '
         slug: Namespace
@@ -331,7 +332,8 @@ it:
         address: Indirizzo
         address_addon: Suffisso indirizzo / scuola / azienda
         birth_date: Data di nascita
-        bookings_without_contract: Consentire prenotazioni senza contratto
+        bookings_without_contract:
+        bookings_without_invoice:
         city: Località
         country_code: Paese
         email: E-mail
@@ -817,7 +819,7 @@ it:
   confirm: Sind sie sicher?
   contracts:
     issuer_signature_label: Data, luogo, firma del propietario
-    represented_by:
+    represented_by: rappresentato da
     tenant_signature_label: Data, luogo, firma del inquilino
   currency: Currency
   data_digests:
@@ -1576,6 +1578,10 @@ it:
       default_body: <h1 id="offerte">Offerta</h1>
       default_title: Offerta
       description: Testo per l'offerta
+    manage_cancelation_pending_notification:
+      default_body:
+      default_title:
+      description:
     manage_definitive_request_notification:
       default_body: |
         <p>Salve</p>

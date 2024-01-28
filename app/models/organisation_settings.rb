@@ -16,8 +16,7 @@ class OrganisationSettings < Settings
   attribute :tentative_occupancy_color, :string, default: '#e8bc56'
   attribute :occupied_occupancy_color, :string, default: '#e85f5f' || '#f2a2a2'
   attribute :closed_occupancy_color, :string, default: '#929292'
-  attribute :begins_at_default_time, DurationType.new, default: -> { 8.hours }
-  attribute :ends_at_default_time, DurationType.new, default: -> { 3.days }
+  attribute :default_manage_transition_to_state, :string, default: -> { BookingStates::ProvisionalRequest.to_sym }
   attribute :default_calendar_view, :string, default: 'months'
   attribute :default_begins_at_time, :string, default: -> { '08:00' }
   attribute :default_ends_at_time, :string, default: -> { '16:00' }
@@ -47,5 +46,9 @@ class OrganisationSettings < Settings
   def self.time_hash(value)
     time_array = value&.split(':')
     { hour: time_array&.first, minutes: time_array&.second }
+  end
+
+  def manage_transition_to_states(organisation)
+    organisation.booking_flow_class.successors['initial'].map { BookingStates.all.fetch(_1.to_sym) }.compact_blank
   end
 end
