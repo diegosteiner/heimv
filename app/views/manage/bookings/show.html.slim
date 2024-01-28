@@ -127,7 +127,7 @@
                     = render partial: 'manage/operator_responsibilities/list', locals: { responsibilities: @booking.operator_responsibilities }
 
           - if can?(:manage, @booking)
-            = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
+            = form_with(url: manage_booking_call_action_path(@booking), method: :post, local: true) do |f|
               = render partial: 'manage/bookings/actions', locals: { actions: @booking.booking_state.manage_actions, form: f }
               '
               .dropdown.d-inline
