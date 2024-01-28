@@ -41,6 +41,7 @@ Rails.application.routes.draw do
         resources :deadlines, shallow: true, only: %i[edit update]
         resources :notifications, shallow: true
         scope module: :bookings do
+          post 'actions(/:id)', to: 'booking_actions#call', as: 'call_action'
           resources :contracts
           resources :usages do
             put :/, action: :update_many, on: :collection
