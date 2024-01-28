@@ -18,7 +18,7 @@ class CamtService
   end
 
   def payments_from_entry(entry)
-    return unless entry.booked? && entry.credit? && entry.currency.upcase == @organisation.currency.upcase
+    return unless entry.credit? && entry.currency.upcase == @organisation.currency.upcase
 
     entry.transactions.map do |transaction|
       payment_from_transaction(transaction, entry)
