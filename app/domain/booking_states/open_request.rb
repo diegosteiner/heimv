@@ -20,6 +20,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
+      booking.update(concluded: false)
       OperatorResponsibility.assign(booking, :administration, :billing)
       MailTemplate.use(:manage_new_booking_notification, booking, to: :administration, &:autodeliver)
 

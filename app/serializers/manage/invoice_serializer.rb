@@ -3,6 +3,6 @@
 module Manage
   class InvoiceSerializer < ApplicationSerializer
     fields :type, :text, :issued_at, :payable_until, :ref, :sent_at, :booking_id,
-           :amount_paid, :percentage_paid, :amount, :locale
+           :amount_paid, :percentage_paid, :amount, :locale, :vat
   end
 end

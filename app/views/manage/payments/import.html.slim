@@ -1,45 +1,50 @@
 = form_with(url: import_manage_payments_path, scope: :payments, method: :POST, local: true, layout: :inline) do |f|
-  table.table
-    colgroup
-      col[style='width: 1rem;']
-      col[style='width: 10rem;']
-      col[style='width: 10rem;']
-      col[style='width: 10rem;']
-      col[style='width: 10rem;']
-      col
-    thead
-      tr.bg-white
-        th
-        th= Invoice.model_name.human
-        th= Booking.model_name.human
-        th= Payment.human_attribute_name(:amount)
-        th= Payment.human_attribute_name(:paid_at)
-        th= Payment.human_attribute_name(:remarks)
-    tbody.shadow-sm
-      - @payments.each_with_index do |payment, i|
-        = f.fields_for "#{i}", payment do |pf|
-          tr.bg-white[class=(payment.invoice.blank? && 'alert-warning' || payment.errors.any? && 'alert-danger')]
-            td.py-3
-              = pf.hidden_field :id
-              = pf.check_box :applies, skip_label: true
-              = pf.hidden_field :ref
-              = pf.hidden_field :camt_instr_id
-              = pf.hidden_field :data
-            td.py-2
-              = pf.collection_select :invoice_id, @invoices, :id, :to_s, skip_label: true, include_blank: true, required: false
-            td.py-2
-              = pf.collection_select :booking_id, @bookings, :id, :to_s, skip_label: true, include_blank: true, required: false
-            td.py-2
-              = pf.number_field :amount, skip_label: true, step: 0.05
-            td.py-2
-              = pf.date_field :paid_at, skip_label: true, lang: I18n.locale
-            td.py-2
-              - if payment.applies && payment.errors.any?
-                = pf.hidden_field :remarks
-                ul.mb-0
-                  - payment.errors.full_messages.each do |error|
-                    li= error
-              - else
-                = pf.text_area :remarks, skip_label: true, rows: 6
-  = f.submit t('helpers.submit.create', model: Payment.model_name.human(count: 2))
+	.table-responsive
+    table.table
+      colgroup
+        col[style='width: 1rem;']
+        col[style='min-width: 10rem;']
+        col[style='min-width: 10rem;']
+        col[style='min-width: 10rem;']
+        col[style='min-width: 10rem;']
+        col[style='min-width: 10rem;']
+        col
+      thead
+        tr.bg-white
+          th
+          th= Invoice.model_name.human
+          th= Booking.model_name.human
+          th= Payment.human_attribute_name(:amount)
+          th= Payment.human_attribute_name(:paid_at)
+          th= Payment.human_attribute_name(:remarks)
+          th= Payment.human_attribute_name(:confirm)
+      tbody.shadow-sm
+        - @payments.each_with_index do |payment, i|
+          = f.fields_for "#{i}", payment do |pf|
+            tr.bg-white[class=(payment.invoice.blank? && 'alert-warning' || payment.errors.any? && 'alert-danger')]
+              td.py-3
+                = pf.hidden_field :id
+                = pf.check_box :applies, skip_label: true
+                = pf.hidden_field :ref
+                = pf.hidden_field :camt_instr_id
+                = pf.hidden_field :data
+              td.py-2
+                = pf.collection_select :invoice_id, @invoices, :id, :to_s, skip_label: true, include_blank: true, required: false
+              td.py-2
+                = pf.collection_select :booking_id, @bookings, :id, :to_s, skip_label: true, include_blank: true, required: false
+              td.py-2
+                = pf.number_field :amount, skip_label: true, step: 0.05
+              td.py-2
+                = pf.date_field :paid_at, skip_label: true, lang: I18n.locale
+              td.py-2
+                - if payment.applies && payment.errors.any?
+                  = pf.hidden_field :remarks
+                  ul.mb-0
+                    - payment.errors.full_messages.each do |error|
+                      li= error
+                - else
+                  = pf.text_area :remarks, skip_label: true, rows: 6
+              td.py-2
+                = pf.check_box :confirm
+    = f.submit t('helpers.submit.create', model: Payment.model_name.human(count: 2))
 

@@ -29,9 +29,10 @@ class CamtService
     ref = transaction.creditor_reference
     invoice = find_invoice_by_ref(ref)
     remarks = [transaction.name, entry.description].compact_blank.join("\n\n")
+    applies = invoice.present?
 
     Payment.new(
-      invoice:, booking: invoice&.booking, applies: invoice.present?, ref:,
+      invoice:, booking: invoice&.booking, applies:, ref:, confirm: applies,
       paid_at: entry.value_date, amount: transaction.amount, data: transaction_to_h(transaction),
       camt_instr_id: transaction.reference, remarks:
     )

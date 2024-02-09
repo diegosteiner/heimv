@@ -2,9 +2,18 @@
 
 ## Unreleased
 
+## Version 24.2.1
+
+Released on 09.02.2024
+
+- Feature: Send confirmation for payments when importing CAMT-Files
+- Feature: Display tax with totals
+- Fix: Rollback timezone in ical feeds
+- Fix: Correctly handle resurrected requests
+
 ## Version 24.1.1
 
-Released on 28.01.2023
+Released on 28.01.2024
 
 - Feature: Set default state for new bookings in manager
 - Feature: Add designated documents for accepted notification
