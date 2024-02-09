@@ -14,8 +14,6 @@ class IcalService
     ical = Icalendar::Calendar.new
     ical_events = occupancies.flat_map { |occupancy| occupancy_to_ical(occupancy, include_tenant_details:) }
     ical_events.each { |occupancy| ical.add_event(occupancy) }
-    timezone = TZInfo::Timezone.get Time.zone.tzinfo.identifier
-    ical.add_timezone timezone.ical_timezone Time.zone.now
     ical.to_ical
   end
 
@@ -57,6 +55,6 @@ class IcalService
   end
 
   def icalendar_datetime(datetime)
-    Icalendar::Values::DateTime.new(datetime, tzid: datetime.zone)
+    Icalendar::Values::DateTime.new(datetime.utc.strftime(Icalendar::Values::DateTime::FORMAT))
   end
 end
