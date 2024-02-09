@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
         resources :invoices, shallow: true
         resources :payments, shallow: true
-        resources :operator_responsibilities, except: %i[show], to: 'operator_responsibilities'
+        resources :operator_responsibilities, except: %i[show]
         resources :deadlines, shallow: true, only: %i[edit update]
         resources :notifications, shallow: true
         scope module: :bookings do
