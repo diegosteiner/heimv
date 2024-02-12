@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class IBAN < IBANTools::IBAN
-  def to_s
-    prettify
+  delegate :to_liquid, :to_s, to: :prettify
+
+  def to_sym
+    @code&.to_sym
   end
 
   def valid?

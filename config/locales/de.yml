@@ -1329,6 +1329,8 @@ de:
       flow:
         title: Buchungsprozess
     payments:
+      form:
+        save_and_confirm: Speichern und Zahlungsbestätigung verschicken
       index:
         new_import: Zahlungen aus CAMT.054-Datei importieren
       new_import:
