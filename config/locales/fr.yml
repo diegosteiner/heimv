@@ -1240,6 +1240,8 @@ fr:
       flow:
         title: Processus de réservation
     payments:
+      form:
+        save_and_confirm:
       index:
         new_import: Importer des paiements à partir du fichier CAMT.054
       new_import:

@@ -1205,6 +1205,8 @@ it:
       flow:
         title: Processo di prenotazione
     payments:
+      form:
+        save_and_confirm:
       index:
         new_import: Importa i pagamenti dal file CAMT.054
       new_import:

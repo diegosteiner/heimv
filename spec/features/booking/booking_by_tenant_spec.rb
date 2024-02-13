@@ -195,7 +195,7 @@ describe 'Booking by tenant', :devise, type: :feature do
     click_on :postpone_deadline
     visit manage_booking_invoices_path(@booking, org:)
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
-    submit_form
+    find_all('[type="submit"]').last.click
   end
 
   def check_booking
