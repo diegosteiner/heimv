@@ -40,7 +40,6 @@ module Ability
       can(:manage, Operator, organisation:)
       can %i[read edit update], Organisation, id: organisation.id
       can(:manage, OrganisationUser, organisation:)
-      can(:manage, RichTextTemplate, organisation:)
       can :manage, Tarif, organisation:
     end
 
@@ -63,6 +62,7 @@ module Ability
       can :manage, Payment, booking: { organisation: }
       can(:manage, Tenant, organisation:)
       can :manage, Usage, booking: { organisation: }
+      can(:manage, RichTextTemplate, organisation:)
       can :read, PlanBBackup, organisation:
     end
 

@@ -34,7 +34,7 @@ class Occupiable < ApplicationRecord
   include RankedModel
   extend Mobility
 
-  has_many :occupancies, inverse_of: :occupiable, dependent: :restrict_with_error
+  has_many :occupancies, -> { ordered }, inverse_of: :occupiable, dependent: :restrict_with_error
 
   belongs_to :organisation, inverse_of: :occupiables
   belongs_to :home, inverse_of: :occupiables, optional: true

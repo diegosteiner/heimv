@@ -20,8 +20,7 @@ class Booking
     filter :at_date do |bookings|
       next if at_date.blank?
 
-      bookings.begins_at(after: at_date.beginning_of_day, before: at_date.end_of_day)
-              .ends_at(after: at_date.beginning_of_day, before: at_date.end_of_day)
+      bookings.at(from: at_date.beginning_of_day, to: at_date.end_of_day)
     end
 
     filter :begins_at_ends_at do |bookings|
