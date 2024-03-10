@@ -63,12 +63,8 @@ module DataDigestTemplates
       end
     end
 
-    def prefilter
-      @prefilter ||= ::Payment::Filter.new(prefilter_params.presence || {})
-    end
-
-    def filter(period = nil)
-      ::Payment::Filter.new(paid_at_after: period&.begin, paid_at_before: period&.end)
+    def periodfilter(period = nil)
+      filter_class.new(paid_at_after: period&.begin, paid_at_before: period&.end)
     end
 
     def filter_class

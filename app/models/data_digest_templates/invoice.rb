@@ -67,12 +67,8 @@ module DataDigestTemplates
       end
     end
 
-    def prefilter
-      @prefilter ||= ::Invoice::Filter.new(prefilter_params.presence || {})
-    end
-
-    def filter(period = nil)
-      ::Invoice::Filter.new(issued_at_after: period&.begin, issued_at_before: period&.end)
+    def periodfilter(period = nil)
+      filter_class.new(issued_at_after: period&.begin, issued_at_before: period&.end)
     end
 
     def filter_class
