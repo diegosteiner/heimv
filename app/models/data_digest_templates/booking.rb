@@ -113,6 +113,10 @@ module DataDigestTemplates
       ::Booking::Filter.new(begins_at_after: period&.begin, begins_at_before: period&.end)
     end
 
+    def filter_class
+      ::Booking::Filter
+    end
+
     def base_scope
       @base_scope ||= organisation.bookings.ordered.with_default_includes
     end

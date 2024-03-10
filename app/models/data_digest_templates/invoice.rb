@@ -75,6 +75,10 @@ module DataDigestTemplates
       ::Invoice::Filter.new(issued_at_after: period&.begin, issued_at_before: period&.end)
     end
 
+    def filter_class
+      ::Invoice::Filter
+    end
+
     def base_scope
       @base_scope ||= ::Invoice.joins(:booking).where(bookings: { organisation_id: organisation }).kept
     end

@@ -71,6 +71,10 @@ module DataDigestTemplates
       ::Payment::Filter.new(paid_at_after: period&.begin, paid_at_before: period&.end)
     end
 
+    def filter_class
+      ::Payment::Filter
+    end
+
     def base_scope
       @base_scope ||= organisation.payments.ordered
     end

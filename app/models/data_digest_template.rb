@@ -67,6 +67,8 @@ class DataDigestTemplate < ApplicationRecord
     raise NotImplementedError
   end
 
+  def filter_class; end
+
   def prefilter
     raise NotImplementedError
   end

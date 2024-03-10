@@ -97,6 +97,10 @@ module DataDigestTemplates
       # rescue StandardError
     end
 
+    def filter_class
+      ::InvoicePart::Filter
+    end
+
     def base_scope
       @base_scope ||= ::InvoicePart.joins(usage: :tarif, invoice: :booking)
                                    .where(invoices: { bookings: { organisation_id: organisation } })
