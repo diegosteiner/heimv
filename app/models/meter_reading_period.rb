@@ -30,6 +30,7 @@ class MeterReadingPeriod < ApplicationRecord
   belongs_to :tarif
   has_one :home, through: :tarif
   has_one :booking, through: :usage
+  has_one :organisation, through: :tarif
 
   scope :ordered, -> { order(ends_at: :asc) }
 
@@ -58,10 +59,18 @@ class MeterReadingPeriod < ApplicationRecord
     attribute :begins_at_before, :datetime
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
-    attribute :tarif_ids
+    attribute :tarif_ids, array: true, default: -> { [] }
+    attribute :occupiable_ids, array: true, default: -> { [] }
 
-    filter :tarif do |meter_reading_periods|
+    filter :tarifs do |meter_reading_periods|
       meter_reading_periods.where(tarif_id: tarif_ids) if tarif_ids.present?
+    end
+
+    filter :occupiables do |meter_reading_periods|
+      next if occupiable_ids.blank?
+
+      meter_reading_periods.joins(usage: { booking: :occupancies })
+                           .where(usages: { bookings: { occupancies: { occupiable_id: occupiable_ids } } })
     end
 
     filter :begins_at do |meter_reading_periods|

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Feature: Add new data digest template for meter reading periods
+
 ## Version 24.2.1
 
 Released on 09.02.2024

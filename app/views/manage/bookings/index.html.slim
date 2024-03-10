@@ -34,7 +34,7 @@ h1.my-0= Booking.model_name.human(count: 2)
       = form_with(model: @filter, url: manage_bookings_path, scope: 'filter', method: :GET, local: true) do |f|
         = hidden_field_tag :locale, I18n.locale
         .modal-body
-          = render partial: 'filter_fields', locals: { f: f }
+          = render partial: @filter.to_partial_path('filter_fields'), locals: { f: f }
         .modal-footer
           = f.submit t(:filter), class: 'btn btn-primary'
           =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary bg-white'
