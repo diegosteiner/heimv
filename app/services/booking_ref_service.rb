@@ -3,6 +3,10 @@
 class BookingRefService
   DEFAULT_TEMPLATE = '%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s'
 
+  def initialize(organisation)
+    @organisation = organisation
+  end
+
   def self.ref_parts
     @ref_parts ||= {}
   end
@@ -41,8 +45,8 @@ class BookingRefService
     (count + 95).chr
   end)
 
-  def generate(booking, template_string = booking.organisation.booking_ref_template)
-    template_string ||= DEFAULT_TEMPLATE
+  def generate(booking, template_string = @organisation.booking_ref_template)
+    template_string = template_string.presence || DEFAULT_TEMPLATE
     ref_parts = self.class.ref_parts.select { |key| template_string.include?(key.to_s) }
                     .transform_values { |callable| callable.call(booking) }
     format(template_string, ref_parts)

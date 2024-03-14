@@ -53,6 +53,7 @@ de:
         deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
         invoice_payment_deadline: Standardmässige Zahlungsfrist
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
+        locales: Sprachen
         occupied_occupancy_color: Farbe für definitive Belegungen
         occupied_occupancy_states: Status, bei welchen die Buchung als «definitiv» gilt
         overdue_request_deadline: Frist für überfällige Reservationsanfragen
@@ -279,7 +280,8 @@ de:
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
         esr_ref_prefix: ESR Identifikationsnummer / Präfix
         iban: IBAN
-        locale: Sprache
+        locale: Hauptsprache
+        locales: Sprachen
         location: Vertragsunterschrift Ort
         logo: Logo
         mail_from: Absender von Emails

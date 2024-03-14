@@ -17,7 +17,7 @@ module Manage
          occupied_occupancy_color tentative_occupancy_color closed_occupancy_color
          default_calendar_view default_manage_transition_to_state
          default_begins_at_time default_ends_at_time show_outbox] +
-        [{ occupied_occupancy_states: [] }]
+        [{ locales: [], occupied_occupancy_states: [] }]
     end
 
     def self.admin_permitted_keys

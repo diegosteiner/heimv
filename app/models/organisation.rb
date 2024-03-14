@@ -88,10 +88,6 @@ class Organisation < ApplicationRecord
     @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)
   end
 
-  def country_code
-    'CH'
-  end
-
   def slug=(value)
     self[:slug] = value.presence
   end
@@ -116,6 +112,12 @@ class Organisation < ApplicationRecord
 
   def locale
     super || I18n.locale || I18n.default_locale
+  end
+
+  def locales
+    locales = Organisation.locales.keys.map(&:to_s)
+    locales &= settings.locales if settings.locales.present?
+    locales
   end
 
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity

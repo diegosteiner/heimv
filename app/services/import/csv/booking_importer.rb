@@ -23,7 +23,7 @@ module Import
         super(**options)
         @home = home.is_a?(Home) ? home : Home.find(home)
         @tenant_importer = TenantImporter.new(organisation)
-        @booking_ref_service = BookingRefService.new
+        @booking_ref_service = BookingRefService.new(organisation)
       end
 
       def initialize_record(_row)
