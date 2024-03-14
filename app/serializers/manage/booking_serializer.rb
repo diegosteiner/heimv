@@ -4,6 +4,8 @@ module Manage
   class BookingSerializer < Public::BookingSerializer
     DEFAULT_INCLUDES = 'occupancies,tenant,occupancies.occupiable,home'
 
+    identifier :id
+
     association :home,          blueprint: Manage::HomeSerializer
     association :occupancies,   blueprint: Manage::OccupancySerializer
     association :occupiables,   blueprint: Manage::OccupiableSerializer
@@ -13,7 +15,7 @@ module Manage
     association :contract,      blueprint: Manage::ContractSerializer
 
     fields :tenant_organisation, :cancellation_reason, :invoice_address, :ref, :committed_request, :tenant_id, :locale,
-           :id, :purpose_description, :approximate_headcount, :remarks
+           :purpose_description, :approximate_headcount, :remarks
 
     field :operator_responsibilities do |booking|
       booking.operator_responsibilities.to_h do |operator_responsibility|

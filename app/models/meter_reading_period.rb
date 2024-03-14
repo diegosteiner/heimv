@@ -59,8 +59,16 @@ class MeterReadingPeriod < ApplicationRecord
     attribute :begins_at_before, :datetime
     attribute :ends_at_after, :datetime
     attribute :ends_at_before, :datetime
-    attribute :tarif_ids, array: true, default: -> { [] }
-    attribute :occupiable_ids, array: true, default: -> { [] }
+    attribute :tarif_ids, default: -> { [] }
+    attribute :occupiable_ids, default: -> { [] }
+
+    def tarif_ids=(value)
+      super(Array.wrap(value).flatten.compact_blank)
+    end
+
+    def occupiable_ids=(value)
+      super(Array.wrap(value).flatten.compact_blank)
+    end
 
     filter :tarifs do |meter_reading_periods|
       meter_reading_periods.where(tarif_id: tarif_ids) if tarif_ids.present?
