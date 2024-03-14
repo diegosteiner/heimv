@@ -8,6 +8,8 @@
 #  address                   :text
 #  bcc                       :string
 #  booking_flow_type         :string
+#  booking_ref_template      :string           default("")
+#  country_code              :string           default("CH"), not null
 #  creditor_address          :text
 #  currency                  :string           default("CHF")
 #  default_payment_info_type :string
@@ -16,14 +18,12 @@
 #  esr_ref_prefix            :string
 #  homes_limit               :integer
 #  iban                      :string
-#  invoice_ref_strategy_type :string
-#  invoice_ref_template      :string           default("%<prefix>s%<home_id>03d%<tenant_id>06d%<invoice_id>07d")
+#  invoice_ref_template      :string           default("")
 #  locale                    :string           default("de")
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
 #  notifications_enabled     :boolean          default(TRUE)
-#  ref_template              :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
 #  representative_address    :string
 #  settings                  :jsonb
 #  slug                      :string
@@ -42,7 +42,6 @@ FactoryBot.define do
     name { 'Heimverein St. Georg' }
     address { 'MyText' }
     booking_flow_type { BookingFlows::Default.to_s }
-    invoice_ref_strategy_type { RefStrategies::ESR.to_s }
     email { 'test@test.test' }
     esr_beneficiary_account { 'MyString' }
     notifications_enabled { true }

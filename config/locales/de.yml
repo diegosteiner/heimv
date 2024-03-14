@@ -274,6 +274,7 @@ de:
         bcc: BCC
         contract_signature: Vertragsunterschrift Bild
         creditor_address: Anschrift auf Rechnungen
+        currency: Währung
         default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
         esr_ref_prefix: ESR Identifikationsnummer / Präfix

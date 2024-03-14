@@ -41,7 +41,7 @@ class BookingRefService
     (count + 95).chr
   end)
 
-  def generate(booking, template_string = booking.organisation.ref_template)
+  def generate(booking, template_string = booking.organisation.booking_ref_template)
     template_string ||= DEFAULT_TEMPLATE
     ref_parts = self.class.ref_parts.select { |key| template_string.include?(key.to_s) }
                     .transform_values { |callable| callable.call(booking) }

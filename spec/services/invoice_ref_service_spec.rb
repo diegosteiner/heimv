@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe RefStrategies::ESR, type: :model do
+RSpec.describe InvoiceRefService, type: :model do
   subject(:ref_strategy) { described_class.new }
 
   describe '#checksum' do

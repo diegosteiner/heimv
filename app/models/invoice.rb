@@ -101,7 +101,7 @@ class Invoice < ApplicationRecord
   end
 
   def generate_ref
-    self.ref = invoice_ref_strategy.generate(self)
+    self.ref = invoice_ref_service.generate(self)
   end
 
   def paid?
@@ -150,15 +150,15 @@ class Invoice < ApplicationRecord
   end
 
   def formatted_ref
-    invoice_ref_strategy.format_ref(ref)
+    invoice_ref_service.format_ref(ref)
   end
 
   def to_s
     "#{booking.ref} - #{formatted_ref}"
   end
 
-  def invoice_ref_strategy
-    @invoice_ref_strategy ||= organisation.invoice_ref_strategy
+  def invoice_ref_service
+    @invoice_ref_service ||= InvoiceRefService.new(organisation)
   end
 
   def payment_info

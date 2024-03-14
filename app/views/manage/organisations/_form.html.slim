@@ -38,12 +38,25 @@
           = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
           div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
           = f.text_field :iban
+    
+          - if current_user.role_admin?
+          	= f.text_field :invoice_ref_template
+            = f.text_field :currency
 
     fieldset
       h3.mt-5= Tenant.model_name.human(count: 2)
       .card.shadow-sm 
         .card-body
            = sf.check_box :tenant_birth_date_required
+
+    - if current_user.role_admin?
+      fieldset
+        h3.mt-5= Booking.model_name.human(count: 2)
+        .card.shadow-sm 
+          .card-body
+
+            = f.text_field :booking_ref_template
+            = f.select :booking_flow_type, [BookingFlows::Default].map { [_1.to_s, _1.to_s] }
 
     fieldset
       h3.mt-5= Occupancy.model_name.human(count: 2)
