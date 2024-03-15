@@ -7,7 +7,7 @@ class RichTextSanitizer
   end
 
   def self.allowed_tags
-    Rails::Html::SafeListSanitizer.allowed_tags + %w[table tr td th thead tbody liquid]
+    Rails::Html::SafeListSanitizer.allowed_tags + %w[table tr td th thead tbody span liquid]
   end
 
   def self.allowed_attributes

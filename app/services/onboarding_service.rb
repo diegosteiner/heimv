@@ -5,8 +5,7 @@ class OnboardingService
 
   def self.create(**attributes)
     defaults = {
-      booking_flow_type: BookingFlows::Default,
-      invoice_ref_strategy_type: RefStrategies::ESR
+      booking_flow_type: BookingFlows::Default
     }
     organisation = Organisation.create!(defaults.merge(attributes))
     new(organisation)

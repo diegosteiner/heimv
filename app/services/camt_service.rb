@@ -39,7 +39,8 @@ class CamtService
   end
 
   def find_invoice_by_ref(ref)
-    @organisation.invoice_ref_strategy.find_invoice_by_ref(ref, scope: @organisation.invoices.kept)
+    invoice_ref_service = InvoiceRefService.new(@organisation)
+    invoice_ref_service.find_invoice_by_ref(ref, scope: @organisation.invoices.kept)
   end
 
   def transaction_to_h(transaction)

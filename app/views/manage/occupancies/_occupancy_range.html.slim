@@ -3,13 +3,15 @@
     i.fa.fa-home
   ul.list-unstyled.p-0.m-0.d-flex.flex-wrap
     - booking.occupancies.each do |occupancy|
-      li.me-2= link_to edit_manage_occupancy_path(occupancy) do
+      li.me-2
         - if occupancy.conflicting?
-          .text-danger
-            i.fa.fa-exclamation-triangle<>[data-bs-toggle="tooltip" title=occupancy.conflicting.map(&:to_s).join(', ')]
+          - tooltip = occupancy.conflicting.map(&:to_s).join(', ')
+          = link_to manage_bookings_path(filter: { begins_at_before: occupancy.ends_at, ends_at_after: occupancy.begins_at, occupiable_ids: occupancy.occupiable_id }), { "data-bs-toggle": "tooltip", title: tooltip, class: "text-danger" } do
+            i.fa.fa-exclamation-triangle<>
             = occupancy.occupiable
         - else 
-          = occupancy.occupiable
+          = link_to edit_manage_occupancy_path(occupancy) do
+            = occupancy.occupiable
 
   .text-center
     i.fa.fa-calendar

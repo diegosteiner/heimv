@@ -143,7 +143,7 @@ function ColumnConfigForm({ config, onUpdate, onRemove }: ColumnConfigFormProps)
       <Col md={3}>{typeSpecificComponents[config.type]?.()}</Col>
       <Col md={1} className="align-self-center justify-content-end d-flex">
         <div className="btn-group">
-          <button className="btn btn-default" onClick={() => onRemove(config)}>
+          <button type="button" className="btn btn-default" onClick={() => onRemove(config)}>
             <span className="fa fa-trash"></span>
           </button>
         </div>

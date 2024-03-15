@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_28_123553) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_14_145711) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -430,7 +430,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_28_123553) do
     t.string "name"
     t.text "address"
     t.string "booking_flow_type"
-    t.string "invoice_ref_strategy_type"
     t.string "esr_beneficiary_account"
     t.string "currency", default: "CHF"
     t.datetime "created_at", precision: nil, null: false
@@ -449,10 +448,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_28_123553) do
     t.jsonb "smtp_settings"
     t.string "esr_ref_prefix"
     t.string "default_payment_info_type"
-    t.string "invoice_ref_template", default: "%<prefix>s%<home_id>03d%<tenant_id>06d%<invoice_id>07d"
-    t.string "ref_template", default: "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s"
+    t.string "invoice_ref_template", default: ""
+    t.string "booking_ref_template", default: ""
     t.jsonb "settings", default: {}
     t.text "creditor_address"
+    t.string "country_code", default: "CH", null: false
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 

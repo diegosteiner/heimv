@@ -25,7 +25,6 @@
   "currency": "CHF",
   "designated_documents": [],
   "email": "demo1@heimv.local",
-  "esr_beneficiary_account": null,
   "homes": [
     {
       "description": "9876 Einsiedeln",
@@ -37,7 +36,6 @@
     }
   ],
   "iban": "CH75 3000 0002 1571 4845 3",
-  "invoice_ref_strategy_type": "RefStrategies::ESR",
   "location": "",
   "mail_from": "info@heimv.local",
   "name": "Heimverein Musterhaus",

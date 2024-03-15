@@ -27,10 +27,11 @@ de:
         issued_at_after: Rechnungsdatum nach
         issued_at_before: Rechnungsdatum vor
       meter_reading_period/filter:
-        begins_at_after: Beginn des Zählerabschnitts ab
-        begins_at_before: Beginn des Zählerabschnitts bis
-        ends_at_after: Ende der Zählerabschnitts ab
-        ends_at_before: Ende der Zählerabschnitts bis
+        begins_at_after: Beginn des Zählerstandperiode ab
+        begins_at_before: Beginn des Zählerstandperiode bis
+        ends_at_after: Ende der Zählerstandperiode ab
+        ends_at_before: Ende der Zählerstandperiode bis
+        occupiable_ids: Mietobjekte
         tarif_ids: Tarife
       occupancy/filter:
         begins_at: Von
@@ -52,6 +53,7 @@ de:
         deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
         invoice_payment_deadline: Standardmässige Zahlungsfrist
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
+        locales: Sprachen
         occupied_occupancy_color: Farbe für definitive Belegungen
         occupied_occupancy_states: Status, bei welchen die Buchung als «definitiv» gilt
         overdue_request_deadline: Frist für überfällige Reservationsanfragen
@@ -273,11 +275,13 @@ de:
         bcc: BCC
         contract_signature: Vertragsunterschrift Bild
         creditor_address: Anschrift auf Rechnungen
+        currency: Währung
         default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
         esr_ref_prefix: ESR Identifikationsnummer / Präfix
         iban: IBAN
-        locale: Sprache
+        locale: Hauptsprache
+        locales: Sprachen
         location: Vertragsunterschrift Ort
         logo: Logo
         mail_from: Absender von Emails
@@ -405,6 +409,7 @@ de:
           last_30_days: Letze 30 Tage
           last_3_months: Letzte 3 Monate
           last_6_months: Letzte 6 Monate
+          last_and_next_12_months: Letzte und nächste 12 Monate
           last_month: Letzer Monat
           last_year: Letztes Jahr
           next_12_months: Nächste 12 Monate
@@ -568,6 +573,9 @@ de:
       data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
+      data_digest_templates/meter_reading_period:
+        one: Zählerstand Auszug
+        other: Zählerstände Auszüge
       data_digest_templates/payment:
         one: Zahlungen Auszug
         other: Zahlungen Auszüge

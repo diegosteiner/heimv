@@ -1,16 +1,20 @@
 = form_with(model: [:manage, organisation], url: manage_organisation_path(org: params[:org]), local: true) do |f|
-  fieldset
-    h3.mt-5= t('.general')
-    .card.shadow-sm 
-      .card-body
-        = f.text_field :slug if current_user.role_admin?
-        = f.text_field :name
-        div[v-pre]= f.text_area :address, rows: 4
-        = f.file_field :logo, help: organisation.logo.present? && organisation.logo.persisted? && image_tag(organisation.logo, width: 120)
-        = f.collection_select :locale, Organisation.locales, :first, :first
-
   = f.fields_for :settings, @organisation.settings || OrganisationSettings.new do |sf|  
     - settings = sf.object
+
+    fieldset
+      h3.mt-5= t('.general')
+      .card.shadow-sm 
+        .card-body
+          = f.text_field :slug if current_user.role_admin?
+          = f.text_field :name
+          div[v-pre]= f.text_area :address, rows: 4
+          = f.file_field :logo, help: organisation.logo.present? && organisation.logo.persisted? && image_tag(organisation.logo, width: 120)
+          = f.select :locale, organisation.locales.map { [_1.upcase, _1.downcase] }
+
+          - if current_user.role_admin?
+            = sf.label :locales
+            = sf.collection_check_boxes :locales, Organisation.locales.keys.map(&:to_s), :downcase, :upcase, inline: true, skip_label: true
     
     fieldset
       h3.mt-5= Notification.model_name.human(count: 2)
@@ -38,12 +42,25 @@
           = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
           div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
           = f.text_field :iban
+    
+          - if current_user.role_admin?
+          	= f.text_field :invoice_ref_template
+            = f.text_field :currency
 
     fieldset
       h3.mt-5= Tenant.model_name.human(count: 2)
       .card.shadow-sm 
         .card-body
            = sf.check_box :tenant_birth_date_required
+
+    - if current_user.role_admin?
+      fieldset
+        h3.mt-5= Booking.model_name.human(count: 2)
+        .card.shadow-sm 
+          .card-body
+
+            = f.text_field :booking_ref_template
+            = f.select :booking_flow_type, [BookingFlows::Default].map { [_1.to_s, _1.to_s] }
 
     fieldset
       h3.mt-5= Occupancy.model_name.human(count: 2)

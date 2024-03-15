@@ -105,12 +105,12 @@ module DataDigestTemplates
       end
     end
 
-    def prefilter
-      @prefilter ||= ::Booking::Filter.new(prefilter_params.presence || {})
+    def periodfilter(period = nil)
+      filter_class.new(begins_at_after: period&.begin, begins_at_before: period&.end)
     end
 
-    def filter(period = nil)
-      ::Booking::Filter.new(begins_at_after: period&.begin, begins_at_before: period&.end)
+    def filter_class
+      ::Booking::Filter
     end
 
     def base_scope

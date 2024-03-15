@@ -88,13 +88,13 @@ module DataDigestTemplates
       end
     end
 
-    def prefilter
-      @prefilter ||= ::InvoicePart::Filter.new(prefilter_params.presence || {})
+    def periodfilter(period = nil)
+      filter_class.new(issued_at_after: period&.begin, issued_at_before: period&.end)
+      # rescue StandardError
     end
 
-    def filter(period = nil)
-      ::InvoicePart::Filter.new(issued_at_after: period&.begin, issued_at_before: period&.end)
-      # rescue StandardError
+    def filter_class
+      ::InvoicePart::Filter
     end
 
     def base_scope

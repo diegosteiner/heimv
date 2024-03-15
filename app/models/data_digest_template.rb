@@ -63,17 +63,17 @@ class DataDigestTemplate < ApplicationRecord
     raise NotImplementedError
   end
 
-  def filter(period)
-    raise NotImplementedError
-  end
+  def periodfilter(period); end
 
   def prefilter
-    raise NotImplementedError
+    @prefilter ||= filter_class&.new(prefilter_params.presence || {})
   end
+
+  def filter_class; end
 
   def records(period)
     prefiltered = prefilter&.apply(base_scope) || base_scope
-    filter(period)&.apply(prefiltered) || prefiltered
+    periodfilter(period)&.apply(prefiltered) || prefiltered
   end
 
   def digest(period = nil)

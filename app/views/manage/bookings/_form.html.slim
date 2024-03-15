@@ -58,7 +58,7 @@
 
       = cf.text_field :phone
       = cf.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
-      = cf.collection_select :locale, Tenant.locales, :first, :first
+      = cf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }
     = f.text_field :tenant_organisation
     = f.text_area :invoice_address
 

@@ -4,7 +4,7 @@ module Manage
   class OrganisationParams < ApplicationParams
     def self.permitted_keys
       %i[name address logo location bcc
-         ref_template iban mail_from locale default_payment_info_type creditor_address
+         iban mail_from locale default_payment_info_type creditor_address
          representative_address contract_signature email notifications_enabled] +
         [{ settings: settings_permitted_keys }]
     end
@@ -17,11 +17,11 @@ module Manage
          occupied_occupancy_color tentative_occupancy_color closed_occupancy_color
          default_calendar_view default_manage_transition_to_state
          default_begins_at_time default_ends_at_time show_outbox] +
-        [{ occupied_occupancy_states: [] }]
+        [{ locales: [], occupied_occupancy_states: [] }]
     end
 
     def self.admin_permitted_keys
-      permitted_keys + %i[smtp_settings slug]
+      permitted_keys + %i[smtp_settings slug booking_ref_template invoice_ref_template booking_flow_type currency]
     end
   end
 end

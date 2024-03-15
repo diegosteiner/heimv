@@ -2,6 +2,8 @@
 
 class ApplicationFilter
   include ActiveModel::Model
+  extend TemplateRenderable
+  include TemplateRenderable
   extend ActiveModel::Naming
   extend ActiveModel::Translation
   include ActiveModel::Attributes

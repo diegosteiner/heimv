@@ -44,7 +44,11 @@ module Tarifs
     Tarif.register_subtype self
 
     def before_usage_save(usage)
-      usage.used_units ||= usage.meter_reading_period&.used_units
+      meter_reading_period = usage.meter_reading_period
+      return if meter_reading_period.blank?
+
+      usage.used_units ||= meter_reading_period.used_units
+      meter_reading_period.assign_attributes(begins_at: usage.booking.begins_at, ends_at: usage.booking.ends_at)
     end
   end
 end

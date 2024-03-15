@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## Version 24.3.1
+
+- Feature: Add new data digest template for meter reading periods
+- Feature: Improve conflict resolve options for bookings
+- Feature: Allow enabling languages for organisations
+- Bugfixes
+
 ## Version 24.2.1
 
 Released on 09.02.2024

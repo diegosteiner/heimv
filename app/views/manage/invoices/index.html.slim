@@ -15,7 +15,7 @@
         = form_with(model: @filter, url: manage_invoices_path, scope: 'filter', method: :GET, local: true) do |f|
           = hidden_field_tag :locale, I18n.locale
           .modal-body
-            = render partial: 'filter_fields', locals: { f: f }
+            = render partial: @filter.to_partial_path('filter_fields'), locals: { f: f }
           .modal-footer
             = f.submit t(:filter), class: 'btn btn-primary'
 

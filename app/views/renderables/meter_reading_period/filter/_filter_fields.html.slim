@@ -1,0 +1,12 @@
+.row 
+  .col
+    = f.grouped_collection_select :tarif_ids, current_organisation.tarifs.ordered.group_by(&:tarif_group), :last, :first, :id, :label, include_blank: true, multiple: true, size: 6
+  .col
+    = f.collection_select :occupiable_ids, current_organisation.occupiables.ordered, :id, :name, { include_blank: true }, multiple: true, size: 6
+.row
+  .col
+    = f.date_field :begins_at_after, include_blank: true
+    = f.date_field :begins_at_before, include_blank: true
+  .col
+    = f.date_field :ends_at_after, include_blank: true
+    = f.date_field :ends_at_before, include_blank: true

@@ -10,8 +10,8 @@ module Manage
     association :tarifs, blueprint: TarifSerializer
     association :booking_questions, blueprint: Public::BookingQuestionSerializer
 
-    fields :esr_beneficiary_account, :iban, :mail_from,
-           :booking_flow_type, :invoice_ref_strategy_type, :notifications_enabled, :location
+    fields :esr_beneficiary_account, :iban, :mail_from, :booking_ref_template,
+           :booking_flow_type, :invoice_ref_template, :notifications_enabled, :location
 
     field :designated_documents do |organisation|
       organisation.designated_documents.pluck(:designation).map do |designation|

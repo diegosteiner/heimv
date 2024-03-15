@@ -62,7 +62,12 @@ class Occupancy < ApplicationRecord
   end
 
   def to_s
-    "#{occupiable}: #{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)} #{occupancy_type}"
+    booking_string = booking.present? ? "[#{booking.ref}] " : ''
+    occupiable_string = "@#{occupiable}: "
+    range_string = "#{I18n.l(begins_at, format: :short)} - #{I18n.l(ends_at, format: :short)} "
+    occupancy_type_string = occupancy_type
+
+    [booking_string, occupiable_string, range_string, occupancy_type_string].join
   rescue StandardError
     super
   end

@@ -13,7 +13,6 @@ export function setup() {
       fix_list_elements: false,
       forced_root_block: "div",
       extended_valid_elements: "liquid",
-      custom_elements: "~liquid",
       plugins: "autolink link anchor lists image table template searchreplace code pagebreak",
       toolbar: "undo redo | blocks | bold italic removeformat | bullist numlist link image table pagebreak | code",
       // templates: [{ title: "Test", description: "Desc", content: "{{ booking.ref }}" }],

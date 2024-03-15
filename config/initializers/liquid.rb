@@ -9,14 +9,14 @@ Liquid::Template.register_filter(Module.new do
   def date_format(value, format = I18n.t('date.formats.default'))
     value = Date.iso8601(value) unless value.respond_to?(:strftime)
     I18n.l(value, format:)
-  rescue Date::Error
+  rescue Date::Error, TypeError
     nil
   end
 
   def datetime_format(value, format = I18n.t('time.formats.default'))
     value = DateTime.iso8601(value) unless value.respond_to?(:strftime)
     I18n.l(value, format:)
-  rescue Date::Error
+  rescue Date::Error, TypeError
     nil
   end
 

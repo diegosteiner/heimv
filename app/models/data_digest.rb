@@ -133,7 +133,8 @@ class DataDigest < ApplicationRecord
     options.reverse_merge!({ col_sep: ';', write_headers: true, skip_blanks: true,
                              force_quotes: true, encoding: 'utf-8' })
 
-    CSV.generate(**options) do |csv|
+    bom = "\uFEFF"
+    bom + CSV.generate(**options) do |csv|
       csv << header
       data&.each { |row| csv << row }
       csv << footer if footer.any?(&:present?)

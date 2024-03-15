@@ -108,6 +108,7 @@ class Booking < ApplicationRecord
   validates :approximate_headcount, :purpose_description, presence: true, on: :public_update
   validates :category, presence: true, on: %i[public_update agent_booking]
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
+  validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
   validate do
     next errors.add(:occupiable_ids, :blank) if occupancies.none?
   end
@@ -205,6 +206,6 @@ class Booking < ApplicationRecord
   end
 
   def set_ref
-    self.ref ||= BookingRefService.new.generate(self)
+    self.ref ||= BookingRefService.new(organisation).generate(self)
   end
 end
