@@ -1,10 +1,14 @@
 .container 
   .row
     - @organisations.each do |organisation|
-      .col-lg-3.col-md-3
+      .col-lg-4.col-md-4
         .card.shadow-sm.mb-3
-          .card-body 
-            = link_to manage_root_path(org: organisation) do
-              .ratio.ratio-16x9
-                = image_tag organisation.logo, style: 'object-fit: contain; object-position: center center;' if organisation.logo.present?
-              h5.card-title.text-center.mt-4.mb-3= organisation.name
+          .card-body.row 
+            .col-4
+                .ratio.ratio-16x9
+                  = image_tag organisation.logo, style: 'object-fit: contain; object-position: center center;' if organisation.logo.present?
+            .col-8.justify-content-center.d-flex.flex-column
+              div
+                h6.m-0= organisation.name
+                = link_to manage_root_path(org: organisation), class: 'stretched-link' do 
+                  = t("nav.manage")

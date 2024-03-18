@@ -117,12 +117,12 @@
                 dd= render partial: 'manage/bookings/checklist', locals: { booking: @booking }
 
             .col-md-6
-              - if(can? :manage, Operator)
                 dl
                   dt
                     = OperatorResponsibility.model_name.human(count: 2)
-                    = link_to(manage_booking_operator_responsibilities_path(@booking), class: 'ms-2')
-                      .fa.fa-edit
+                    - if(can? :manage, OperatorResponsibility)
+                      = link_to(manage_booking_operator_responsibilities_path(@booking), class: 'ms-2')
+                        .fa.fa-edit
                   dd
                     = render partial: 'manage/operator_responsibilities/list', locals: { responsibilities: @booking.operator_responsibilities }
 
