@@ -55,7 +55,7 @@ class Invoice < ApplicationRecord
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
   scope :unsettled, -> { kept.where.not(type: 'Invoices::Offer').where.not(arel_table[:amount_open].eq(0)) }
-  scope :overpaid,  -> { kept.where(arel_table[:amount_open].lt(0)) }
+  scope :credit,    -> { kept.where(arel_table[:amount_open].lt(0)) }
   scope :paid,      -> { kept.where(arel_table[:amount_open].lteq(0)) }
   scope :sent,      -> { where.not(sent_at: nil) }
   scope :unsent,    -> { kept.where(sent_at: nil) }
@@ -105,7 +105,7 @@ class Invoice < ApplicationRecord
   end
 
   def paid?
-    amount_open.negative? || amount_open.zero?
+    credit? || amount_open.zero?
   end
 
   def sent?
@@ -118,6 +118,10 @@ class Invoice < ApplicationRecord
 
   def settled?
     amount_open.zero?
+  end
+
+  def credit?
+    amount_open.negative?
   end
 
   def recalculate

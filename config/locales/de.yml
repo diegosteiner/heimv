@@ -799,7 +799,8 @@ de:
       relevant_time: Ende der Belegung %{time}
     payment_due:
       checklist:
-        invoices_paid: Rechnungen beglichen
+        credit_issued: Gutschrift ausbezahlt
+        invoice_paid: Rechnung beglichen
       label: Belegung (Zahlung ausstehend)
       relevant_time: Frist %{time}
     payment_overdue:

@@ -5,9 +5,7 @@ module BookingStates
     include Rails.application.routes.url_helpers
 
     def checklist
-      [
-        invoice_paid_checklist_item
-      ]
+      booking.invoices.kept.sent.unsettled.ordered.map { settle_invoice_checklist_item(_1) }
     end
 
     def invoice_type
@@ -20,29 +18,35 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      invoice = booking.invoices.sent.kept.unsettled.ordered.last
-      next if invoice.blank?
+      unpaid_invoices = booking.invoices.kept.sent.unpaid.ordered
+      payable_until = unpaid_invoices.map(&:payable_until).max
+      next if payable_until.blank?
 
-      payable_until = invoice.payable_until&.+(booking.organisation.settings.payment_overdue_deadline)
-      postponable_for = booking.organisation.settings.deadline_postponable_for
-      booking.deadlines.create(at: payable_until, postponable_for:) if payable_until.present? && !booking.deadline
+      booking.deadlines.create(at: payable_until + booking.organisation.settings.payment_overdue_deadline,
+                               postponable_for: booking.organisation.settings.deadline_postponable_for)
+    end
+
+    infer_transition(to: :completed) do |booking|
+      !booking.invoices.kept.sent.unsettled.exists?
     end
 
     infer_transition(to: :payment_overdue) do |booking|
       booking.deadline_exceeded?
     end
 
-    infer_transition(to: :completed) do |booking|
-      !booking.invoices.kept.unsettled.exists? && !booking.invoices.overpaid.kept.exists?
-    end
-
     def relevant_time
       booking.deadline&.at
     end
 
-    def invoice_paid_checklist_item
-      ChecklistItem.new(:invoices_paid, booking.invoices.kept.all?(&:settled?),
-                        manage_booking_invoices_path(booking, org: booking.organisation, locale: I18n.locale))
+    protected
+
+    def settle_invoice_checklist_item(invoice)
+      ChecklistItem.new(invoice.credit? ? :credit_issued : :invoice_paid,
+                        invoice.settled?,
+                        new_manage_booking_payment_path(booking,
+                                                        payment: { invoice_id: invoice.id },
+                                                        org: booking.organisation,
+                                                        locale: I18n.locale))
     end
   end
 end

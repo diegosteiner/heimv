@@ -31,6 +31,7 @@ fr:
         begins_at_before: Début de période du compteur jusqu'au
         ends_at_after: Fin de période du compteur à partir du
         ends_at_before: Fin de période du compteur jusqu'au
+        occupiable_ids: Objets de location
         tarif_ids: Tarifs
       occupancy/filter:
         begins_at: De
@@ -52,6 +53,7 @@ fr:
         deposit_payment_deadline: Délai de paiement standard (acompte)
         invoice_payment_deadline: Délai de paiement standard
         last_minute_warning: Délai pour les demandes de réservation de dernière minute
+        locales: Langues
         occupied_occupancy_color: Couleur pour les locations définitives
         occupied_occupancy_states: Statuts pour lesquels la réservation est considérée comme "définitive
         overdue_request_deadline: Délai pour les demandes de réservation en retard
@@ -272,11 +274,13 @@ fr:
         bcc: BCC
         contract_signature: Image de signature de contrat
         creditor_address: Adresse sur les factures
+        currency: Währung
         default_payment_info_type: Partie paiement standard
         esr_beneficiary_account: Numéro de participant BVR / compte postal
         esr_ref_prefix: Numéro d'identification BVR / Préfixe
         iban: IBAN
         locale: Langue
+        locales: Langues
         location: Lieu de signature du contrat
         logo: Logo
         mail_from: Expéditeur des e-mails
@@ -404,6 +408,7 @@ fr:
           last_30_days: 30 derniers jours
           last_3_months: 3 derniers mois
           last_6_months: 6 derniers mois
+          last_and_next_12_months:
           last_month: Dernier mois
           last_year: Dernière année
           next_12_months: Prochains 12 mois
@@ -567,6 +572,9 @@ fr:
       data_digest_templates/invoice_part:
         one: Extrait des postes de la facture
         other: Extraits des postes de facturation
+      data_digest_templates/meter_reading_period:
+        one:
+        other:
       data_digest_templates/payment:
         one: Extrait de paiements
         other: Extrait de paiements
@@ -790,6 +798,8 @@ fr:
       relevant_time: Fin de la location %{time}
     payment_due:
       checklist:
+        credit_issued:
+        invoice_paid:
         invoices_paid: Factures réglées
       label: Location (paiement en attente)
       relevant_time: Délai %{time}
@@ -1317,6 +1327,9 @@ fr:
           mb: Mo
           pb: Po
           tb: To
+    nth:
+      ordinalized:
+      ordinals:
     percentage:
       format:
         delimiter: ''

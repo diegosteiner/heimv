@@ -19,8 +19,7 @@ module BookingStates
     end
 
     infer_transition(to: :payment_due) do |booking|
-      invoices = Invoices::Invoice.of(booking).kept
-      invoices.any?(&:sent?) || (invoices.any? && invoices.none?(&:unsettled?))
+      booking.invoices.invoice.kept.any?(&:sent?)
     end
 
     infer_transition(to: :completed) do |booking|
