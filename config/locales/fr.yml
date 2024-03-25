@@ -731,15 +731,24 @@ fr:
         ends_at: Ende der Belegung
         now: Heute
         span: Période d'occupation
+  booking_state_checklist_item:
+    contract_created: Créer un contrat
+    contract_signed: Contrat signé
+    create_offer: Créer une offre (facultatif)
+    create_usages: Saisir la consommation
+    credit_issued:
+    deposit_created: Créer un acompte (facultatif)
+    deposit_paid: Acompte réglé
+    invoice_created: Établir le décompte final
+    invoice_paid:
+    responsibilities_assigned: Attribuer des responsabilités (facultatif)
+    tarifs_chosen: Définir les tarifs
   booking_states:
     active:
       description: Les locataires sont sur place selon la location
       label: Location (présent)
       relevant_time: Fin de la location %{time}
     awaiting_contract:
-      checklist:
-        contract_signed: Contrat signé
-        deposit_paid: Acompte réglé
       description: Le locataire a reçu le contrat et (le cas échéant) la facture d'acompte, mais ne l'a pas encore renvoyé signé respectivement payé.
       label: Réservation (contrat ouvert)
       relevant_time: Délai %{time}
@@ -764,12 +773,6 @@ fr:
       deadline_exceeded: Délai expiré
       label: Demande de location (refusée)
     definitive_request:
-      checklist:
-        assign_responsibilities: Attribuer des responsabilités (facultatif)
-        choose_tarifs: Définir les tarifs
-        create_contract: Créer un contrat
-        create_deposit: Créer un acompte (facultatif)
-        create_offer: Créer une offre (facultatif)
       description: Le locataire a marqué la demande comme définitive. Il faut fixer les tarifs et établir un contrat.
       label: Demande de location (définitive)
       relevant_time: Déposé %{time}
@@ -780,9 +783,6 @@ fr:
       public_info: Votre demande de location a été envoyée et sera traitée prochainement par l'administration.
       relevant_time: Déposé %{time}
     overdue:
-      checklist:
-        contract_signed: Contrat signé
-        deposit_paid: Acompte réglé
       label: Réservation (contrat en retard)
       relevant_time: Délai %{time}
     overdue_request:
@@ -790,25 +790,16 @@ fr:
       public_info: Votre demande de location est en retard. Veuillez soit la confirmer, soit l'annuler complètement.
       relevant_time: Délai %{time}
     past:
-      checklist:
-        create_invoice: Établir le décompte final
-        create_usages: Saisir la consommation
       description: La location est terminée. L'administration peut maintenant enregistrer la consommation et établir la facture finale.
       label: Location (passée)
       relevant_time: Fin de la location %{time}
     payment_due:
-      checklist:
-        credit_issued:
-        invoice_paid:
-        invoices_paid: Factures réglées
       label: Location (paiement en attente)
       relevant_time: Délai %{time}
     payment_overdue:
       label: Location (paiement en retard)
       relevant_time: Délai %{time}
     provisional_request:
-      checklist:
-        create_offer: Créer une offre (facultatif)
       description: Le locataire a marqué la demande comme provisoire. Tant que la demande n'est pas définitive, aucun contrat ne doit être établi.
       label: Demande de location (provisoire)
       public_info: Votre demande de location provisoire est confirmée.

@@ -5,7 +5,7 @@ module BookingStates
     include Rails.application.routes.url_helpers
 
     def checklist
-      booking.invoices.kept.sent.unsettled.ordered.map { settle_invoice_checklist_item(_1) }
+      BookingStateChecklistItem.prepare(:invoices_settled, booking:)
     end
 
     def invoice_type
@@ -36,17 +36,6 @@ module BookingStates
 
     def relevant_time
       booking.deadline&.at
-    end
-
-    protected
-
-    def settle_invoice_checklist_item(invoice)
-      ChecklistItem.new(invoice.credit? ? :credit_issued : :invoice_paid,
-                        invoice.settled?,
-                        new_manage_booking_payment_path(booking,
-                                                        payment: { invoice_id: invoice.id },
-                                                        org: booking.organisation,
-                                                        locale: I18n.locale))
     end
   end
 end
