@@ -92,6 +92,7 @@ ignore_missing:
   - "number.human.format.delimiter"
   - "number.percentage.format.delimiter"
   - "number.precision.format.delimiter"
+  - "number.nth.*"
   - "{devise,simple_form}.*"
   - "rich_text_templates.*.{default_title,default_body}"
   - "{amount,creditor_account}"
