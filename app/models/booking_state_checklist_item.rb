@@ -56,7 +56,7 @@ class BookingStateChecklistItem
       BookingStateChecklistItem.new(key: :deposit_created, context: { booking: }, checked:, url:)
     end,
 
-    create_offer: lambda do |booking|
+    offer_created: lambda do |booking|
       return if booking.organisation.rich_text_templates.enabled.by_key(:invoices_offer_text).blank?
 
       checked = Invoices::Offer.of(booking).kept.exists?
@@ -66,7 +66,7 @@ class BookingStateChecklistItem
               proc { new_manage_booking_invoice_path(_1.booking, invoice: { type: Invoices::Offer.model_name.to_s }) }
             end
 
-      BookingStateChecklistItem.new(key: :create_offer, context: { booking: }, checked:, url:)
+      BookingStateChecklistItem.new(key: :offer_created, context: { booking: }, checked:, url:)
     end,
 
     responsibilities_assigned: lambda do |booking|
@@ -79,7 +79,7 @@ class BookingStateChecklistItem
 
     usages_entered: lambda do |booking|
       checked = booking.usages.any?(&:updated_after_past?) || Invoices::Invoice.of(booking).kept.exists?
-      BookingStateChecklistItem.new(key: :create_usages, context: { booking: }, checked:,
+      BookingStateChecklistItem.new(key: :usages_entered, context: { booking: }, checked:,
                                     url: proc { manage_booking_usages_path(_1.booking) })
     end
   }.freeze

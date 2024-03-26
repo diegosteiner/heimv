@@ -734,15 +734,14 @@ it:
   booking_state_checklist_item:
     contract_created: Creare contratto
     contract_signed: Contratto firmato
-    create_offer: Offerte erstellen (optional)
-    create_usages: Registrare il consumo
     credit_issued:
     deposit_created: Creare un acconto (opzionale)
     deposit_paid: Acconto versato
     invoice_created: Creare il conto finale
-    invoice_paid:
+    offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Assegnare le responsabilità (opzionale)
     tarifs_chosen: Fissare le tariffe
+    usages_entered: Registrare il consumo
   booking_states:
     active:
       description: Secondo le informazioni sull'occupazione, gli affittuari sono sul posto

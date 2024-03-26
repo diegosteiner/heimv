@@ -7,7 +7,7 @@ module BookingStates
     include Rails.application.routes.url_helpers
 
     def checklist
-      BookingStateChecklistItem.prepare(:create_offer, booking:)
+      BookingStateChecklistItem.prepare(:offer_created, booking:)
     end
 
     def invoice_type

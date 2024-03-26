@@ -735,15 +735,15 @@ de:
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterschrieben
-    create_offer: Offerte erstellen (optional)
-    create_usages: Verbrauch erfassen
     credit_issued: Gutschrift ausbezahlt
     deposit_created: Anzahlung erstellen (optional)
     deposit_paid: Anzahlung beglichen
     invoice_created: Endabrechnung erstellen
-    invoice_paid: Rechnung beglichen
+    invoices_settled: Rechnungen beglichen
+    offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen (optional)
     tarifs_chosen: Tarife festlegen
+    usages_entered: Verbrauch erfassen
   booking_states:
     active:
       description: Die Mieter sind gemäss der Belegung vor Ort
