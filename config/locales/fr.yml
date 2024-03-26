@@ -735,12 +735,13 @@ fr:
     contract_created: Créer un contrat
     contract_signed: Contrat signé
     credit_issued:
-    deposit_created: Créer un acompte (facultatif)
+    deposit_created: Anzahlung erstellen
     deposit_paid: Acompte réglé
     invoice_created: Établir le décompte final
-    offer_created: Créer une offre (facultatif)
+    invoices_settled: Rechnung beglichen
+    offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Attribuer des responsabilités (facultatif)
-    tarifs_chosen: Définir les tarifs
+    tarifs_chosen: Tarife festlegen
     usages_entered: Saisir la consommation
   booking_states:
     active:
