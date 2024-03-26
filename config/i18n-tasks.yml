@@ -92,6 +92,7 @@ ignore_missing:
   - "number.human.format.delimiter"
   - "number.percentage.format.delimiter"
   - "number.precision.format.delimiter"
+  - "number.nth.*"
   - "{devise,simple_form}.*"
   - "rich_text_templates.*.{default_title,default_body}"
   - "{amount,creditor_account}"
@@ -117,6 +118,7 @@ ignore_unused:
   - "manage.rich_text_templates.index.group_*"
   - "public.bookings.new.*"
   - "invoice_parts.breakdown.*"
+  - "booking_state_checklist_item.*"
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 ignore_eq_base:

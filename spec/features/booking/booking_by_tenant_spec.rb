@@ -128,7 +128,7 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def choose_tarifs
     visit manage_booking_path(@booking, org:)
-    find('.checklist a[aria-label="choose_tarifs"]').click
+    find('.checklist a[aria-label="tarifs_chosen"]').click
     tarifs.each do |tarif|
       expect(page).to have_content(tarif.label)
     end
@@ -138,7 +138,7 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def create_contract
     visit manage_booking_path(@booking, org:)
-    find('.checklist a[aria-label="create_contract"]').click
+    find('.checklist a[aria-label="contract_created"]').click
     visit new_manage_booking_contract_path(@booking, org:)
     submit_form
     find('table tbody tr:nth-child(1) td:nth-child(1) a').click
@@ -146,7 +146,7 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def create_deposit
     visit manage_booking_path(@booking, org:)
-    find('.checklist a[aria-label="create_deposit"]').click
+    find('.checklist a[aria-label="deposit_created"]').click
     submit_form
   end
 

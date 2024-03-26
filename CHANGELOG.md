@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## Version 24.3.2
+
+- Fix: Edit operators
+- Fix: Downgrade Prawn to resolve PDF font issue 
+- Feature: Improve handling of invoices that are credits
+
 ## Version 24.3.1
 
 - Feature: Add new data digest template for meter reading periods

@@ -8,8 +8,6 @@ module BookingStates
 
     delegate :to_s, to: :to_sym
 
-    ChecklistItem = Struct.new(:key, :checked, :url_hint)
-
     class << self
       def to_sym
         raise NotImplementedError

@@ -34,7 +34,7 @@ gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
 gem 'pg'
-gem 'prawn'
+gem 'prawn', '~> 2.4.0' # https://github.com/prawnpdf/prawn/issues/1346
 gem 'prawn-markup'
 gem 'prawn-table'
 gem 'puma'
@@ -53,7 +53,7 @@ gem 'sidekiq-cron'
 gem 'slim-rails'
 gem 'statesman'
 gem 'translation'
-gem 'ttfunk'
+gem 'ttfunk', '~> 1.7.0' # https://github.com/prawnpdf/prawn/issues/1346
 
 group :development do
   gem 'annotate'

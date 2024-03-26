@@ -1,7 +1,7 @@
 = form_with(model: [:manage, @operator], local: true) do |f|
   = f.text_field :name
   = f.email_field :email
-  = f.collection_select :locale, current_orgnaisation.locales, :first, :first
+  = f.select :locale, current_organisation.locales.map { [_1, _1] }
   = f.text_area :contact_info
 
   .form-actions.pt-4.mt-3

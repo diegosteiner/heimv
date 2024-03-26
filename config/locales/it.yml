@@ -31,6 +31,7 @@ it:
         begins_at_before:
         ends_at_after:
         ends_at_before:
+        occupiable_ids: Proprietà in affitto
         tarif_ids: Tariffe
       occupancy/filter:
         begins_at: Da
@@ -52,6 +53,7 @@ it:
         deposit_payment_deadline: Periodo di pagamento standard (acconto)
         invoice_payment_deadline: Periodo di pagamento standard
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
+        locales:
         occupied_occupancy_color: Colore per le occupazioni definitive
         occupied_occupancy_states:
         overdue_request_deadline: Periodo per le richieste di prenotazione in ritardo
@@ -272,11 +274,13 @@ it:
         bcc: BCC
         contract_signature: Immagine della firma del contratto
         creditor_address: Indirizzo sulle fatture
+        currency: Valuta
         default_payment_info_type: Parte di pagamento standard
         esr_beneficiary_account:
         esr_ref_prefix: Numero di identificazione del PVR / prefisso
         iban: IBAN
         locale: Lingua
+        locales:
         location: Luogo della firma del contratto
         logo: Logo
         mail_from: Mittente di e-mail
@@ -404,6 +408,7 @@ it:
           last_30_days: Ultimi 30 giorni
           last_3_months: Ultimi 3 mesi
           last_6_months: Ultimi 6 mesi
+          last_and_next_12_months:
           last_month: 'Mese scorso '
           last_year: Anno scorso
           next_12_months: Prossimi 12 mesi
@@ -567,6 +572,9 @@ it:
       data_digest_templates/invoice_part:
         one: Voci di fattura (estratto)
         other: Estratti di voci di fattura
+      data_digest_templates/meter_reading_period:
+        one:
+        other:
       data_digest_templates/payment:
         one: Pagamenti (estratto)
         other: Estratti di pagamenti
@@ -723,15 +731,24 @@ it:
         ends_at: Fine dell'occupazione
         now: Oggi
         span:
+  booking_state_checklist_item:
+    contract_created: Creare contratto
+    contract_signed: Contratto firmato
+    credit_issued:
+    deposit_created: Creare un acconto (opzionale)
+    deposit_paid: Acconto versato
+    invoice_created: Creare il conto finale
+    invoices_settled:
+    offer_created: Offerte erstellen (optional)
+    responsibilities_assigned: Assegnare le responsabilità (opzionale)
+    tarifs_chosen: Fissare le tariffe
+    usages_entered: Registrare il consumo
   booking_states:
     active:
       description: Secondo le informazioni sull'occupazione, gli affittuari sono sul posto
       label: Occupazione (attuale)
       relevant_time: Fine dell'occupazione %{time}
     awaiting_contract:
-      checklist:
-        contract_signed: Contratto firmato
-        deposit_paid: Acconto versato
       description: L'inquilino ha ricevuto il contratto e (se disponibile) la fattura di acconto, ma non li ha ancora firmati e restituiti o pagati.
       label: Prenotazione (contratto in attesa)
       relevant_time: Termine %{time}
@@ -756,12 +773,6 @@ it:
       deadline_exceeded: Termine scaduto
       label: Richiesta di affitto(respinta)
     definitive_request:
-      checklist:
-        assign_responsibilities: Assegnare le responsabilità (opzionale)
-        choose_tarifs: Fissare le tariffe
-        create_contract: Creare contratto
-        create_deposit: Creare un acconto (opzionale)
-        create_offer: Offerte erstellen (optional)
       description: L'inquilino ha contrassegnato la richiesta come definitiva. È necessario stabilire le tariffe e redigere un contratto.
       label: Richiesta di affitto(definitiva)
       relevant_time: Presentato %{time}
@@ -772,9 +783,6 @@ it:
       public_info: La vostra richiesta di affitto è stata inviata e sarà presto elaborata dall'amministrazione.
       relevant_time: Presentato %{time}
     overdue:
-      checklist:
-        contract_signed: Contratto firmato
-        deposit_paid: Acconto versato
       label: Prenotazione (contratto scaduto)
       relevant_time: Termine %{time}
     overdue_request:
@@ -782,23 +790,16 @@ it:
       public_info: La richiesta di affitto è scaduta. Si prega di impostarla come definitiva o di annullare del tutto la richiesta.
       relevant_time: Termine %{time}
     past:
-      checklist:
-        create_invoice: Creare il conto finale
-        create_usages: Registrare il consumo
       description: L'occupazione è terminata. L'amministrazione può ora registrare i consumi e preparare la fattura finale.
       label: Occupazione (passata)
       relevant_time: Fine dell'occupazione %{time} %{time}
     payment_due:
-      checklist:
-        invoices_paid: Fatture pagate
       label: Occupazione (in attesa di pagamento)
       relevant_time: Termine %{time}
     payment_overdue:
       label: Occupazione (pagamento in ritardo)
       relevant_time: Termine %{time}
     provisional_request:
-      checklist:
-        create_offer: Offerte erstellen (optional)
       description: L'inquilino ha contrassegnato la richiesta come provvisoria. Finché la richiesta non è definitiva, non è necessario emettere alcun contratto.
       label: richiesta di affitto mediata (provvisoria)
       public_info: La richiesta di affitto provvisoria è confermata.
@@ -1282,6 +1283,9 @@ it:
           mb: MB
           pb: PB
           tb: TB
+    nth:
+      ordinalized:
+      ordinals:
     percentage:
       format:
         delimiter: ''

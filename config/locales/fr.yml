@@ -31,6 +31,7 @@ fr:
         begins_at_before: Début de période du compteur jusqu'au
         ends_at_after: Fin de période du compteur à partir du
         ends_at_before: Fin de période du compteur jusqu'au
+        occupiable_ids: Objets de location
         tarif_ids: Tarifs
       occupancy/filter:
         begins_at: De
@@ -52,6 +53,7 @@ fr:
         deposit_payment_deadline: Délai de paiement standard (acompte)
         invoice_payment_deadline: Délai de paiement standard
         last_minute_warning: Délai pour les demandes de réservation de dernière minute
+        locales: Langues
         occupied_occupancy_color: Couleur pour les locations définitives
         occupied_occupancy_states: Statuts pour lesquels la réservation est considérée comme "définitive
         overdue_request_deadline: Délai pour les demandes de réservation en retard
@@ -272,11 +274,13 @@ fr:
         bcc: BCC
         contract_signature: Image de signature de contrat
         creditor_address: Adresse sur les factures
+        currency: Währung
         default_payment_info_type: Partie paiement standard
         esr_beneficiary_account: Numéro de participant BVR / compte postal
         esr_ref_prefix: Numéro d'identification BVR / Préfixe
         iban: IBAN
         locale: Langue
+        locales: Langues
         location: Lieu de signature du contrat
         logo: Logo
         mail_from: Expéditeur des e-mails
@@ -404,6 +408,7 @@ fr:
           last_30_days: 30 derniers jours
           last_3_months: 3 derniers mois
           last_6_months: 6 derniers mois
+          last_and_next_12_months:
           last_month: Dernier mois
           last_year: Dernière année
           next_12_months: Prochains 12 mois
@@ -567,6 +572,9 @@ fr:
       data_digest_templates/invoice_part:
         one: Extrait des postes de la facture
         other: Extraits des postes de facturation
+      data_digest_templates/meter_reading_period:
+        one:
+        other:
       data_digest_templates/payment:
         one: Extrait de paiements
         other: Extrait de paiements
@@ -723,15 +731,24 @@ fr:
         ends_at: Ende der Belegung
         now: Heute
         span: Période d'occupation
+  booking_state_checklist_item:
+    contract_created: Créer un contrat
+    contract_signed: Contrat signé
+    credit_issued:
+    deposit_created: Anzahlung erstellen
+    deposit_paid: Acompte réglé
+    invoice_created: Établir le décompte final
+    invoices_settled: Rechnung beglichen
+    offer_created: Offerte erstellen (optional)
+    responsibilities_assigned: Attribuer des responsabilités (facultatif)
+    tarifs_chosen: Tarife festlegen
+    usages_entered: Saisir la consommation
   booking_states:
     active:
       description: Les locataires sont sur place selon la location
       label: Location (présent)
       relevant_time: Fin de la location %{time}
     awaiting_contract:
-      checklist:
-        contract_signed: Contrat signé
-        deposit_paid: Acompte réglé
       description: Le locataire a reçu le contrat et (le cas échéant) la facture d'acompte, mais ne l'a pas encore renvoyé signé respectivement payé.
       label: Réservation (contrat ouvert)
       relevant_time: Délai %{time}
@@ -756,12 +773,6 @@ fr:
       deadline_exceeded: Délai expiré
       label: Demande de location (refusée)
     definitive_request:
-      checklist:
-        assign_responsibilities: Attribuer des responsabilités (facultatif)
-        choose_tarifs: Définir les tarifs
-        create_contract: Créer un contrat
-        create_deposit: Créer un acompte (facultatif)
-        create_offer: Créer une offre (facultatif)
       description: Le locataire a marqué la demande comme définitive. Il faut fixer les tarifs et établir un contrat.
       label: Demande de location (définitive)
       relevant_time: Déposé %{time}
@@ -772,9 +783,6 @@ fr:
       public_info: Votre demande de location a été envoyée et sera traitée prochainement par l'administration.
       relevant_time: Déposé %{time}
     overdue:
-      checklist:
-        contract_signed: Contrat signé
-        deposit_paid: Acompte réglé
       label: Réservation (contrat en retard)
       relevant_time: Délai %{time}
     overdue_request:
@@ -782,23 +790,16 @@ fr:
       public_info: Votre demande de location est en retard. Veuillez soit la confirmer, soit l'annuler complètement.
       relevant_time: Délai %{time}
     past:
-      checklist:
-        create_invoice: Établir le décompte final
-        create_usages: Saisir la consommation
       description: La location est terminée. L'administration peut maintenant enregistrer la consommation et établir la facture finale.
       label: Location (passée)
       relevant_time: Fin de la location %{time}
     payment_due:
-      checklist:
-        invoices_paid: Factures réglées
       label: Location (paiement en attente)
       relevant_time: Délai %{time}
     payment_overdue:
       label: Location (paiement en retard)
       relevant_time: Délai %{time}
     provisional_request:
-      checklist:
-        create_offer: Créer une offre (facultatif)
       description: Le locataire a marqué la demande comme provisoire. Tant que la demande n'est pas définitive, aucun contrat ne doit être établi.
       label: Demande de location (provisoire)
       public_info: Votre demande de location provisoire est confirmée.
@@ -1317,6 +1318,9 @@ fr:
           mb: Mo
           pb: Po
           tb: To
+    nth:
+      ordinalized:
+      ordinals:
     percentage:
       format:
         delimiter: ''

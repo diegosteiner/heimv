@@ -732,15 +732,24 @@ de:
         ends_at: Ende der Belegung
         now: Heute
         span: Belegungszeitraum
+  booking_state_checklist_item:
+    contract_created: Vertrag erstellen
+    contract_signed: Vertrag unterschrieben
+    credit_issued: Gutschrift ausbezahlt
+    deposit_created: Anzahlung erstellen (optional)
+    deposit_paid: Anzahlung beglichen
+    invoice_created: Endabrechnung erstellen
+    invoices_settled: Rechnungen beglichen
+    offer_created: Offerte erstellen (optional)
+    responsibilities_assigned: Verantwortlichkeiten zuweisen (optional)
+    tarifs_chosen: Tarife festlegen
+    usages_entered: Verbrauch erfassen
   booking_states:
     active:
       description: Die Mieter sind gemäss der Belegung vor Ort
       label: Belegung (anwesend)
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
-      checklist:
-        contract_signed: Vertrag unterschrieben
-        deposit_paid: Anzahlung beglichen
       description: Der Mieter hat den Vertrag und (falls vorhanden) die Anzahlungs-Rechnung erhalten, aber noch nicht unterschrieben retourniert bzw. bezahlt.
       label: Reservation (Vertrag offen)
       relevant_time: Frist %{time}
@@ -765,12 +774,6 @@ de:
       deadline_exceeded: Frist abgelaufen
       label: Mietanfrage (abgelehnt)
     definitive_request:
-      checklist:
-        assign_responsibilities: Verantwortlichkeiten zuweisen (optional)
-        choose_tarifs: Tarife festlegen
-        create_contract: Vertrag erstellen
-        create_deposit: Anzahlung erstellen (optional)
-        create_offer: Offerte erstellen (optional)
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
       label: Mietanfrage (definitiv)
       relevant_time: Eingereicht %{time}
@@ -781,9 +784,6 @@ de:
       public_info: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
       relevant_time: Eingereicht %{time}
     overdue:
-      checklist:
-        contract_signed: Vertrag unterschrieben
-        deposit_paid: Anzahlung beglichen
       label: Reservation (Vertrag überfällig)
       relevant_time: Frist %{time}
     overdue_request:
@@ -791,23 +791,16 @@ de:
       public_info: Deine Mietanfrage ist überfällig. Bitte setzte sie entweder auf definitiv oder annuliere die Anfrage ganz.
       relevant_time: Frist %{time}
     past:
-      checklist:
-        create_invoice: Endabrechnung erstellen
-        create_usages: Verbrauch erfassen
       description: Die Belegung ist vorüber. Die Verwaltung kann jetzt den Verbrauch erfassen und die Schlussrechnung erstellen.
       label: Belegung (vergangen)
       relevant_time: Ende der Belegung %{time}
     payment_due:
-      checklist:
-        invoices_paid: Rechnungen beglichen
       label: Belegung (Zahlung ausstehend)
       relevant_time: Frist %{time}
     payment_overdue:
       label: Belegung (Zahlung überfällig)
       relevant_time: Frist %{time}
     provisional_request:
-      checklist:
-        create_offer: Offerte erstellen (optional)
       description: Der Mieter hat die Anfrage als provisorisch markiert. Solange die Anfrage nicht definitiv ist, muss kein Vertrag ausgestellt werden.
       label: Mietanfrage (provisorisch)
       public_info: Deine provisorische Mietanfrage ist bestätigt.

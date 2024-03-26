@@ -12,7 +12,7 @@ class Invoice
         I18n.with_locale(invoice.locale) do
           invoice.payment_info_type = payment_info_type(invoice)
           invoice.payable_until ||= payable_until(invoice)
-          invoice.text ||= rich_text_template(invoice)
+          invoice.text ||= text_from_template(invoice)
           prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
         end
       end
@@ -44,7 +44,7 @@ class Invoice
       booking.organisation.default_payment_info_type || PaymentInfos::QrBill
     end
 
-    def rich_text_template(invoice)
+    def text_from_template(invoice)
       key = "#{invoice.model_name.param_key}_text"
       rich_text_template = invoice.organisation.rich_text_templates.enabled.by_key(key)
       return if rich_text_template.blank?
@@ -55,6 +55,7 @@ class Invoice
     def template_context(invoice)
       TemplateContext.new(
         invoice:, booking: invoice.booking,
+        costs: CostEstimation.new(invoice.booking),
         organisation: invoice.booking.organisation
       )
     end
