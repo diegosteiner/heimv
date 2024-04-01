@@ -3,8 +3,8 @@
 module BookingActions
   module Manage
     class CommitRequest < BookingActions::Base
-      def call!
-        Result.new ok: booking.update(committed_request: true)
+      def invoke!
+        Result.new success: booking.update(committed_request: true)
       end
 
       def allowed?
@@ -13,13 +13,8 @@ module BookingActions
           !booking.committed_request
       end
 
-      def button_options
-        super.merge(
-          variant: 'primary',
-          data: {
-            confirm: I18n.t(:confirm)
-          }
-        )
+      def confirm
+        I18n.t(:confirm)
       end
 
       def booking

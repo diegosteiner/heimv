@@ -2,12 +2,15 @@
 
 module BookingActions
   class Base
-    Result = Struct.new(:ok, :redirect_proc, keyword_init: true) do
-      def self.ok(**)
-        new(ok: true, **)
+    Result = Struct.new(:success, :redirect_proc, :error, keyword_init: true) do
+      def self.success(**)
+        new(success: true, **)
+      end
+
+      def self.failure(**)
+        new(success: false, **)
       end
     end
-    NotAllowed = Class.new(StandardError)
 
     include Translatable
     extend Translatable
@@ -26,34 +29,27 @@ module BookingActions
       translate(:label)
     end
 
-    def call
-      raise NotAllowed unless allowed?
+    def invoke(*)
+      # i18n-tasks-ignore
+      return Result.failure error: translate(:not_allowed) unless allowed?
 
-      call!
+      invoke!(*)
     end
 
-    def self.call(context)
-      new(context).call
+    def self.to_sym
+      name.demodulize.underscore.to_sym
     end
 
-    def self.allowed?(context)
-      new(context).allowed?
+    def to_sym
+      self.class.to_sym
     end
 
-    def self.action_name
-      name.demodulize.underscore
+    def variant
+      :primary
     end
 
-    def to_s
-      self.class.action_name
-    end
-
-    def redirect_to; end
-
-    def button_options
-      {
-        variant: 'primary'
-      }
+    def confirm
+      nil
     end
   end
 end

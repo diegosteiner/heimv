@@ -1273,6 +1273,10 @@ de:
       settings: Einstellungen
   manage:
     bookings:
+      booking_actions:
+        invoke:
+          failure: Aktion fehlgeschlagen
+          success: Aktion erfolgreich
       calendar:
         ics_link: als ICAL
       import:

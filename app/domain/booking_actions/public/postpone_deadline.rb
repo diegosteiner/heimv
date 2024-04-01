@@ -3,8 +3,8 @@
 module BookingActions
   module Public
     class PostponeDeadline < BookingActions::Base
-      def call!
-        Result.new ok: booking.deadline.postpone
+      def invoke!
+        Result.new success: booking.deadline.postpone
       end
 
       def allowed?

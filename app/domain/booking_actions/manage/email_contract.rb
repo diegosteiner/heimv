@@ -6,13 +6,13 @@ module BookingActions
       templates << MailTemplate.define(:awaiting_contract_notification, context: %i[booking contract],
                                                                         autodeliver: false)
 
-      def call!
+      def invoke!
         mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, booking:, contract:,
                                                                            invoices: deposits)
         mail.attach :contract, :contract_documents, deposits
         mail.save! && contract.sent! && deposits.each(&:sent!)
 
-        Result.ok redirect_proc: !mail.autodeliver && proc { edit_manage_notification_path(mail) }
+        Result.success redirect_proc: !mail.autodeliver && proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?
@@ -25,10 +25,8 @@ module BookingActions
         translate(deposits.present? ? :label_with_deposit : :label_without_deposit)
       end
 
-      def button_options
-        return super if deposits.present?
-
-        super.merge(data: { confirm: translate(:confirm) })
+      def confirm
+        translate(:confirm) if deposits.blank?
       end
 
       protected

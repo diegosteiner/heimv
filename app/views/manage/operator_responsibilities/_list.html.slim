@@ -1,6 +1,9 @@
-ul.list-unstyled
-  - responsibilities.each do |operator_responsibility|
-    li
-      = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
-      ' :
-      =< link_to(operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator))
+- if responsibilities.blank?
+  | –
+- else
+  ul.list-unstyled
+    - responsibilities.each do |operator_responsibility|
+      li
+        = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
+        ' :
+        =< link_to(operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator))

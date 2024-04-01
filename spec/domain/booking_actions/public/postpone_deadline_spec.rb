@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 describe BookingActions::Public::PostponeDeadline do
-  subject(:action) { described_class.call(booking:) }
+  subject(:action) { described_class.new(booking:) }
+  subject(:invoke) { action.invoke }
 
   let(:booking) { create(:booking, initial_state:) }
   let(:deadline) { create(:deadline, booking:, at: 2.days.from_now, postponable_for: 1.day) }
@@ -20,18 +21,18 @@ describe BookingActions::Public::PostponeDeadline do
   context 'when deadline is not postponable' do
     let!(:deadline) { create(:deadline, booking:, postponable_for: nil) }
 
-    it { expect { action }.to raise_error(BookingActions::Base::NotAllowed) }
+    it { expect(invoke.success).to be_falsy }
   end
 
   context 'with provisional_request' do
-    it { expect { action }.to(change { booking.deadline.at }) }
+    it { expect { invoke }.to(change { booking.deadline.at }) }
 
     context 'when booking is too close' do
       let(:booking) do
         create(:booking, initial_state:, begins_at: 2.days.from_now, ends_at: 4.days.from_now)
       end
 
-      it { expect { action }.to raise_error(BookingActions::Base::NotAllowed) }
+      it { expect(invoke.success).to be_falsy }
     end
   end
 
@@ -40,7 +41,7 @@ describe BookingActions::Public::PostponeDeadline do
 
     it do
       expect(booking.deadline).to receive(:postpone)
-      action
+      invoke
     end
   end
 
@@ -49,7 +50,7 @@ describe BookingActions::Public::PostponeDeadline do
 
     it do
       expect(booking.deadline).to receive(:postpone)
-      action
+      invoke
     end
   end
 end

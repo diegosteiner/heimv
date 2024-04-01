@@ -37,7 +37,7 @@ module Public
       rescue ActiveRecord::RecordInvalid
         # See https://github.com/rails/rails/issues/17368
       end
-      BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
+      invoke_booking_action
       @agent_booking.save(context: :agent_booking)
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
     end
@@ -48,8 +48,10 @@ module Public
       @agent_booking = AgentBooking.find_by(token: params[:id]) || AgentBooking.find(params[:id])
     end
 
-    def booking_action
-      params[:booking_action]
+    def invoke_booking_action
+      booking_action = BookingActions::Public.all[params[:booking_action]&.to_sym]&.new(booking: @agent_booking.booking)
+      result = booking_action&.invoke
+      @agent_booking.booking.errors.add(:base, :action_not_allowed) if booking_action && !result&.success
     end
 
     def agent_booking_params

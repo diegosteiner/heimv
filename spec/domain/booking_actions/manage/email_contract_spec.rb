@@ -4,9 +4,9 @@ require 'rails_helper'
 
 describe BookingActions::Manage::EmailContract do
   subject(:action) { described_class.new(booking:) }
-  subject(:call) { described_class.call(booking:) }
-  subject(:booking_after_call) do
-    call
+  subject(:invoke) { action.invoke }
+  subject(:booking_after_invoke) do
+    invoke
     booking
   end
 
@@ -21,17 +21,17 @@ describe BookingActions::Manage::EmailContract do
     it { expect(allowed).to be_truthy }
   end
 
-  describe '#call!' do
-    it { expect(call.ok).to be_truthy }
-    it { expect(booking_after_call).to notify(:awaiting_contract_notification).to(:tenant) }
-    it { expect(booking_after_call.contract).to be_sent }
-    it { expect(booking_after_call.notifications.last.attachments).to be_present }
+  describe '#invoke' do
+    it { expect(invoke.success).to be_truthy }
+    it { expect(booking_after_invoke).to notify(:awaiting_contract_notification).to(:tenant) }
+    it { expect(booking_after_invoke.contract).to be_sent }
+    it { expect(booking_after_invoke.notifications.last.attachments).to be_present }
 
     context 'with deposit' do
       let!(:deposit) { Invoice::Factory.new.call(booking, type: Invoices::Deposit.to_s).tap(&:save) }
 
       it do
-        call
+        invoke
         expect(deposit.reload).to be_sent
       end
     end

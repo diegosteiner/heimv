@@ -54,5 +54,9 @@
       .form-actions.pt-4.mt-3
         - if @agent_booking.booking_agent_responsible?
           =<> f.submit
-        - if @agent_booking.booking&.booking_state.present?
-          = render partial: 'manage/bookings/actions', locals: { actions: @agent_booking.booking.booking_state.public_actions, form: f }
+          - @agent_booking.booking.booking_state&.public_actions&.filter(&:allowed?).each do |action|
+            - button_options = { name: :booking_action, value: action.to_sym}
+            - button_options[:class] = "me-1 btn btn-outline-#{action.variant}"
+            - button_options[:data] = { confirm: action.confirm } if action.confirm.present?
+            = f.button(**button_options)
+              = action.label 

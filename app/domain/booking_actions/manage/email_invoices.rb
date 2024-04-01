@@ -5,12 +5,12 @@ module BookingActions
     class EmailInvoices < BookingActions::Base
       templates << MailTemplate.define(:payment_due_notification, context: %i[booking invoices], autodeliver: false)
 
-      def call!
+      def invoke!
         mail = MailTemplate.use!(:payment_due_notification, booking, to: :tenant, invoices:)
         mail.attach(invoices)
         mail.save! && invoices.each(&:sent!)
 
-        Result.ok redirect_proc: !mail.autodeliver && proc { edit_manage_notification_path(mail) }
+        Result.success redirect_proc: !mail.autodeliver && proc { edit_manage_notification_path(mail) }
       end
 
       def allowed?

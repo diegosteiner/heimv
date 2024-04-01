@@ -40,6 +40,17 @@ After starting the development servers, open the browser <http://heimv.localhost
 
 Copy env.example to .env and change configuration there
 
+## Embed Calendar for an Occupiable
+
+```html
+<iframe
+  sandbox="allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-top-navigation"
+  src="https://app.heimv.ch/{{organisation.slug}}/occupiables/{{occupiables.id}}/calendar/embed?display_months=9"
+  style="width: 100%; overflow-x: hidden; overflow-y: scroll; height: 960px; border: none;">
+  border="0"
+</iframe>
+```
+
 ## Embed Calendar for a Home
 
 ```html
