@@ -29,15 +29,14 @@ class Booking
     enum trigger: { manager: 0, tenant: 1, auto: 2 }, _prefix: true
 
     def self.log(booking, trigger:, action: nil, user: nil, data: {})
-      data = data.reverse_merge({
-                                  booking: booking.previous_changes,
-                                  tenant: booking.tenant&.previous_changes, action:,
-                                  transitions: booking.previous_transitions
-                                }).compact_blank
+      data = data.reverse_merge(
+        booking: booking.previous_changes,
+        tenant: booking.tenant&.previous_changes,
+        action: action.is_a?(BookingActions::Base) ? action.class.name : action,
+        transitions: booking.previous_transitions
+      ).compact_blank
 
-      return if data.values.none?
-
-      create!(booking:, trigger:, user:, data:)
+      create!(booking:, trigger:, user:, data:) if data.values.any?
     end
 
     def logged_transitions
@@ -45,7 +44,8 @@ class Booking
     end
 
     def logged_action
-      BookingActions.const_get(data.fetch('action', nil)) if data.is_a?(Hash) && data['action'].present?
+      action_class = data.try('[]', 'action')
+      BookingActions.const_get(action_class) if action_class.is_a?(String)
     rescue NameError
       nil
     end

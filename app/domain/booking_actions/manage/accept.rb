@@ -3,18 +3,16 @@
 module BookingActions
   module Manage
     class Accept < BookingActions::Base
-      def call!
-        Result.new ok: booking.update(transition_to:)
+      def invoke!
+        Result.new success: booking.update(transition_to:)
       end
 
       def allowed?
         booking.in_state?(:open_request) && booking.can_transition_to?(transition_to)
       end
 
-      def button_options
-        super.merge(
-          variant: 'success'
-        )
+      def variant
+        :success
       end
 
       def booking

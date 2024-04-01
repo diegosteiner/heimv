@@ -8,7 +8,7 @@ module BookingActions
         CommitBookingAgentRequest,
         PostponeDeadline,
         Cancel
-      ].index_by(&:action_name)
+      ].index_by(&:to_sym)
     end
   end
 end

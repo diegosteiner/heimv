@@ -47,7 +47,7 @@ module Manage
 
       if @import.valid?
         result = @import.result
-        return redirect_to manage_bookings_path, notice: t('.import_success') if result.ok?
+        return redirect_to manage_bookings_path, notice: t('.import_success') if result.success?
       end
 
       flash.now[:alert] = t('.import_error')
@@ -59,7 +59,7 @@ module Manage
                                                                     manage: true)
       @booking.booking_question_responses = responses unless responses.nil?
       @booking.save(context: :manage_create)
-      Booking::Log.log(@booking, trigger: :manager, user: current_user)
+      write_booking_log
       respond_with :manage, @booking
     end
 

@@ -61,14 +61,14 @@
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
               - if can?(:manage, booking)
-                = form_with(url: manage_booking_path(booking), method: :patch, local: true) do |f|
+                = form_with(url: manage_booking_invoke_action_path(booking)) do |f|
                   - cache(cache_key(booking.cache_key)) do 
-                    - BookingActions::Manage.all.values.each do |action_klass|
-                      - action = action_klass.new(booking: booking)
-                      - next unless action.allowed?
-
-                      button[type="submit" name='booking_action' value=action.to_s  class="dropdown-item text-#{action.button_options[:variant]}"]
-                        = action.translate
+                    - booking.booking_state.manage_actions.filter(&:allowed?).each do |action|
+                      - button_options = { name: :id, value: action.to_sym}
+                      - button_options[:class] = "dropdown-item text-#{action.variant}"
+                      - button_options[:data] = { confirm: action.confirm } if action.confirm.present?
+                      = f.button(**button_options)
+                        = action.label 
               .dropdown-divider
               = link_to t(:show), manage_booking_path(booking), class: 'dropdown-item' if can?(:show, booking)
               = link_to t(:edit), edit_manage_booking_path(booking), class: 'dropdown-item' if can?(:edit, booking)

@@ -3,14 +3,14 @@
 module BookingActions
   module Public
     class Cancel < BookingActions::Base
-      def call!
+      def invoke!
         booking.errors.clear
         transition_to = if booking.can_transition_to?(:declined_request)
                           :declined_request
                         elsif booking.can_transition_to?(:cancelation_pending)
                           :cancelation_pending
                         end
-        Result.new ok: booking.update(transition_to:)
+        Result.new success: booking.update(transition_to:)
       end
 
       def allowed?
@@ -18,13 +18,12 @@ module BookingActions
           booking.can_transition_to?(:cancelation_pending)
       end
 
-      def button_options
-        super.merge(
-          variant: 'danger',
-          data: {
-            confirm: I18n.t(:confirm)
-          }
-        )
+      def variant
+        :danger
+      end
+
+      def confirm
+        I18n.t(:confirm)
       end
 
       def booking
