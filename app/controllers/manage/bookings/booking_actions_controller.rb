@@ -26,7 +26,6 @@ module Manage
 
       def booking_action
         @booking_action ||= BookingActions::Manage.all[params[:id]&.to_sym]&.new({ booking: @booking }).tap do |action|
-          binding.pry if action.blank?
           raise ActiveRecord::RecordNotFound if action.blank?
         end
       end
