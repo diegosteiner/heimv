@@ -1149,6 +1149,10 @@ it:
       settings: Impostazioni
   manage:
     bookings:
+      booking_actions:
+        invoke:
+          failure:
+          success:
       calendar:
         ics_link: come ICAL
       import:
