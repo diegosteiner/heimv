@@ -82,15 +82,16 @@
       h3.mt-5= Deadline.model_name.human(count: 2)
       .card.shadow-sm 
         .card-body
+          = sf.text_field :unconfirmed_request_deadline, value: settings.unconfirmed_request_deadline&.iso8601
+          = sf.text_field :provisional_request_deadline, value: settings.provisional_request_deadline&.iso8601
+          = sf.text_field :awaiting_tenant_deadline, value: settings.awaiting_tenant_deadline&.iso8601
+          = sf.text_field :overdue_request_deadline, value: settings.overdue_request_deadline&.iso8601
           = sf.text_field :awaiting_contract_deadline, value: settings.awaiting_contract_deadline&.iso8601
           = sf.text_field :deadline_postponable_for, value: settings.deadline_postponable_for&.iso8601
           = sf.text_field :deposit_payment_deadline, value: settings.deposit_payment_deadline&.iso8601
+          = sf.text_field :last_minute_warning, value: settings.last_minute_warning&.iso8601
           = sf.text_field :invoice_payment_deadline, value: settings.invoice_payment_deadline&.iso8601
           = sf.text_field :payment_overdue_deadline, value: settings.payment_overdue_deadline&.iso8601
-          = sf.text_field :last_minute_warning, value: settings.last_minute_warning&.iso8601
-          = sf.text_field :overdue_request_deadline, value: settings.overdue_request_deadline&.iso8601
-          = sf.text_field :provisional_request_deadline, value: settings.provisional_request_deadline&.iso8601
-          = sf.text_field :unconfirmed_request_deadline, value: settings.unconfirmed_request_deadline&.iso8601
           = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
 
   .form-actions.pt-4.mt-3

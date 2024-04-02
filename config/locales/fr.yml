@@ -44,6 +44,7 @@ fr:
         booking_margin: Espacement/période entre les réservations
       organisation_settings:
         awaiting_contract_deadline: Délai de réception du contrat
+        awaiting_tenant_deadline:
         closed_occupancy_color: Couleur pour les clôtures
         deadline_postponable_for: Prolongation du délai
         default_begins_at_time: Heure de début de l'occupation par défaut

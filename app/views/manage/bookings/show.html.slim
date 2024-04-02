@@ -4,7 +4,7 @@
 - unless @booking.notifications_enabled?
   .alert.alert-warning.my-4[role=alert]= t('manage.bookings.notifications_not_enabled')
 
-- cache(cache_key(@booking.cache_key)) do
+- cache(@booking.cache_key) do
   section.row.mt-4
     .col-md-9
       .card.shadow-sm
@@ -150,38 +150,37 @@
                   span.fa.fa-edit
                   =< t(:edit)
     .col-md-3
-      ul.list-group.shadow-sm
+      ul.timeline
         - @booking.logs.order(created_at: :desc).each do |log|
-          li.list-group-item
-            .mb-2.text-muted
-              small= time_tag log.created_at
+          li
+            .mb-2.text-muted.text-sm
+              time datetime=log.created_at.iso8601 
+                = l(log.created_at, format: :short)
+            .card.shadow-sm.mb-4
+              .card-body
 
-            .mb-2
-              - if log.logged_action.present?
-                  strong= log.logged_action.translate(:label)
-              - elsif log.logged_changes.present? 
-                  = t('.logged_changes', changes: log.logged_changes.keys.map { |klass| klass.model_name.human }.to_sentence)
+                .mb-2
+                  - if log.logged_action.present?
+                      strong= log.logged_action.translate(:label)
+                  - elsif log.logged_changes.present? 
+                      strong= t('.logged_changes', changes: log.logged_changes.keys.map { |klass| klass.model_name.human }.to_sentence)
 
-            - Array.wrap(log.logged_transitions).each do |transition|
-                span.badge.bg-primary.me-2= t(:label, scope: [:booking_states, transition])
+                ul.list-unstyled
+                  - Array.wrap(log.logged_transitions).each do |transition|
+                      li= t(:label, scope: [:booking_states, transition])
 
-            .mt-2.text-muted
-              - if log.user 
-                i.fa.fa-user.me-2
-                = log.user.email
-              - elsif log.trigger_tenant?
-                i.fa.fa-user.me-2
-                = Tenant.model_name.human
-              - elsif log.trigger_auto?
-                i.fa.fa-cog.me-2
-                = Booking::Log.human_enum(:trigger, :auto)
-      
-        - @booking.state_transitions.where(Booking::StateTransition.arel_table[:created_at].lteq(@booking.logs.first&.created_at || Time.zone.now)).order(created_at: :desc).each do |transition|
-          li.list-group-item
-            .mb-2.text-muted
-              small= time_tag transition.created_at
-
-            span.badge.bg-primary.me-2
-              = t(:label, scope: [:booking_states, transition.to_state])
-
-
+                .mt-2.text-muted
+                  - if log.trigger_tenant?
+                    i.fa.fa-user.me-2
+                    = Tenant.model_name.human
+                  - elsif log.trigger_booking_agent?
+                    i.fa.fa-user.me-2
+                    = BookingAgent.model_name.human
+                    =<> log.booking.agent_booking&.booking_agent&.name 
+                  - elsif log.trigger_auto?
+                    i.fa.fa-cog.me-2
+                    = Booking::Log.human_enum(:trigger, :auto)
+                  - elsif log.user 
+                    i.fa.fa-user.me-2
+                    = log.user.email
+          

@@ -31,7 +31,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      booking.deadlines.create(length: booking.organisation.settings.provisional_request_deadline,
+      booking.deadlines.create(length: booking.organisation.settings.awaiting_tenant_deadline,
                                postponable_for: booking.organisation.settings.deadline_postponable_for,
                                remarks: booking.booking_state.t(:label))
       MailTemplate.use!(:awaiting_tenant_notification, booking, to: :tenant, &:autodeliver)
@@ -43,7 +43,7 @@ module BookingStates
     end
 
     infer_transition(to: :definitive_request) do |booking|
-      booking.tenant&.valid?(:public_update) && booking.committed_request
+      booking.committed_request && booking.tenant&.valid?(:public_update)
     end
 
     def relevant_time

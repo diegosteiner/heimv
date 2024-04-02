@@ -257,3 +257,32 @@ tr.disabled {
     opacity: 1;
   }
 }
+
+ul.timeline {
+  position: relative;
+  list-style: none;
+  padding-left: 2rem;
+
+  &>li {
+    position: relative;
+  }
+
+  &:before {
+    content: '';
+    background-image: linear-gradient(to bottom, rgba($primary, 1), rgba($primary, 0));
+    position: absolute;
+    bottom: 0;
+    top: 8px;
+    left: 0.9rem;
+    width: 3px;
+  }
+
+  &>li:before {
+    content: '⬤';
+    position: absolute;
+    color: $primary;
+    left: -1.5rem;
+    top: 0;
+    text-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+  }
+}
