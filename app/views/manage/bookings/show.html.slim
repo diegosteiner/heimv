@@ -6,7 +6,7 @@
 
 - cache(@booking.cache_key) do
   section.row.mt-4
-    .col-md-9
+    .col-md-9.mb-4
       .card.shadow-sm
         .card-body
           .row
@@ -127,8 +127,8 @@
                     = render partial: 'manage/operator_responsibilities/list', locals: { responsibilities: @booking.operator_responsibilities }
 
           - if can?(:manage, @booking)
-            .row.mt-5
-              = form_with(url: manage_booking_invoke_action_path(@booking), class: 'col-md-8 d-flex gap-1') do |f|
+            .row.mt-4
+              = form_with(url: manage_booking_invoke_action_path(@booking), class: 'col-md-8 d-flex gap-1 mt-2') do |f|
                 - @booking.booking_state.manage_actions.filter(&:allowed?).each do |action|
                   - button_options = { name: :id, value: action.to_sym}
                   - button_options[:class] = "btn btn-outline-#{action.variant}"
@@ -136,7 +136,7 @@
                   = f.button(**button_options)
                     = action.label 
                       
-              .col-md-4.d-flex.gap-1.justify-content-end
+              .col-md-4.d-flex.gap-1.justify-content-end.mt-2
                 = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
                   .dropdown.d-inline
                     button.btn.btn-outline-primary.dropdown-toggle[type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value='allowed_transitions']
