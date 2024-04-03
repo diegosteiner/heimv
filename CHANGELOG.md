@@ -2,13 +2,25 @@
 
 ## Unreleased
 
+## Version 24.4.1
+
+Released on 03.04.2024
+
+- Feature: Improve log timeline
+- Fix: Fix deposit paid checklist
+- Fix: Move actions to separate controller
+
 ## Version 24.3.2
+
+Released on 15.03.2024
 
 - Fix: Edit operators
 - Fix: Downgrade Prawn to resolve PDF font issue 
 - Feature: Improve handling of invoices that are credits
 
 ## Version 24.3.1
+
+Released on 10.03.2024
 
 - Feature: Add new data digest template for meter reading periods
 - Feature: Improve conflict resolve options for bookings
