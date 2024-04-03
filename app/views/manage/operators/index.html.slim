@@ -1,12 +1,17 @@
-h1.mt-0.mb-5= Operator.model_name.human(count: 2)
-.table-responsive
-  table.table.table-hover.align-middle
+h1.mt-0= Operator.model_name.human(count: 2)
+= link_to OperatorResponsibility.model_name.human(count: 2), manage_operator_responsibilities_path
 
+.table-responsive.mt-5
+  table.table.table-hover.align-middle
     tbody.shadow-sm
       - @operators.each do |operator|
         tr
           td
             = link_to operator.name, edit_manage_operator_path(operator)
+          td
+            = mail_to operator.email if operator.email
+          td
+            = operator.contact_info
           td.p-1.text-end 
             .btn-group
               = link_to edit_manage_operator_path(operator), class: 'btn btn-default' do

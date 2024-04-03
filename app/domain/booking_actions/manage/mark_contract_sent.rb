@@ -5,11 +5,11 @@ module BookingActions
     class MarkContractSent < BookingActions::Base
       templates << MailTemplate.define(:contract_sent_notification, context: %i[booking], autodeliver: false)
 
-      def call!
+      def invoke!
         booking.contract.sent!
         mail = MailTemplate.use(:contract_sent_notification, booking, to: :tenant, &:save)
 
-        Result.ok redirect_proc: mail && (!mail.autodeliver && proc { edit_manage_notification_path(mail) })
+        Result.success redirect_proc: mail && (!mail.autodeliver && proc { edit_manage_notification_path(mail) })
       end
 
       def allowed?

@@ -1,6 +1,9 @@
-ul.fa-ul.mb-0.checklist
-  - booking.booking_state.checklist.to_a.each do |check_item|
-    li
-      i.fa-li.fa[class=(check_item.checked ? 'fa-check-square-o text-success' : 'fa-square-o')]
-      - url = check_item.url.is_a?(Proc) ? instance_exec(check_item, &check_item.url) : url 
-      = link_to_if(url.present?, check_item.label, url, 'aria-label' => check_item.key)
+- if booking.booking_state.checklist.to_a.blank?
+  | –
+- else
+  ul.fa-ul.mb-0.checklist
+    - booking.booking_state.checklist.to_a.each do |check_item|
+      li
+        i.fa-li.fa[class=(check_item.checked ? 'fa-check-square-o text-success' : 'fa-square-o')]
+        - url = check_item.url.is_a?(Proc) ? instance_exec(check_item, &check_item.url) : url 
+        = link_to_if(url.present?, check_item.label, url, 'aria-label' => check_item.key)

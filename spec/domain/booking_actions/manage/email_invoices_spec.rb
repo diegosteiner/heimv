@@ -4,9 +4,9 @@ require 'rails_helper'
 
 describe BookingActions::Manage::EmailInvoices do
   subject(:action) { described_class.new(booking:) }
-  subject(:call) { described_class.call(booking:) }
-  subject(:booking_after_call) do
-    call
+  subject(:invoke) { action.invoke }
+  subject(:booking_after_invoke) do
+    invoke
     booking
   end
 
@@ -21,12 +21,12 @@ describe BookingActions::Manage::EmailInvoices do
     it { expect(allowed).to be_truthy }
   end
 
-  describe '#call!' do
-    it { expect(call.ok).to be_truthy }
-    it { expect(booking_after_call).to notify(:payment_due_notification).to(:tenant) }
-    it { expect(booking_after_call.notifications.last.attachments).to be_present }
+  describe '#invoke' do
+    it { expect(invoke.success).to be_truthy }
+    it { expect(booking_after_invoke).to notify(:payment_due_notification).to(:tenant) }
+    it { expect(booking_after_invoke.notifications.last.attachments).to be_present }
     it do
-      call
+      invoke
       expect(invoice.reload).to be_sent
     end
   end

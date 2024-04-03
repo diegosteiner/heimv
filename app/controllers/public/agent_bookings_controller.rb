@@ -13,7 +13,6 @@ module Public
       @agent_booking = AgentBooking.new(organisation: current_organisation)
       @agent_booking.assign_attributes(agent_booking_params)
       @agent_booking.booking.assign_attributes(booking_params) if booking_params.present?
-      @agent_booking.booking.ends_at ||= @agent_booking.booking.begins_at
       respond_with :public, @agent_booking
     end
 
@@ -25,6 +24,7 @@ module Public
       @agent_booking.assign_attributes(agent_booking_params.merge(organisation: current_organisation))
 
       if @agent_booking.save(context: :agent_booking)
+        write_booking_log
         respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
       else
         render 'new'
@@ -37,19 +37,30 @@ module Public
       rescue ActiveRecord::RecordInvalid
         # See https://github.com/rails/rails/issues/17368
       end
-      BookingActions::Public.all[booking_action]&.call(booking: @agent_booking.booking) if booking_action
+      invoke_booking_action
+      write_booking_log
       @agent_booking.save(context: :agent_booking)
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
     end
 
     private
 
+    def write_booking_log
+      Booking::Log.log(@agent_booking.booking, trigger: :booking_agent, action: booking_action, user: current_user)
+    end
+
     def set_agent_booking
       @agent_booking = AgentBooking.find_by(token: params[:id]) || AgentBooking.find(params[:id])
     end
 
     def booking_action
-      params[:booking_action]
+      @booking_action ||= BookingActions::Public.all[params[:booking_action]&.to_sym]
+                                                &.new(booking: @agent_booking.booking)
+    end
+
+    def invoke_booking_action
+      result = booking_action&.invoke
+      @agent_booking.booking.errors.add(:base, :action_not_allowed) if booking_action && !result&.success
     end
 
     def agent_booking_params

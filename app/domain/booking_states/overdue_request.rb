@@ -24,11 +24,11 @@ module BookingStates
     end
 
     infer_transition(to: :definitive_request) do |booking|
-      booking.committed_request
+      booking.committed_request && (booking&.tenant&.valid?(:public_update) || !booking.agent_booking)
     end
 
     infer_transition(to: :declined_request) do |booking|
-      booking.deadline_exceeded? && booking.agent_booking.blank?
+      booking.deadline_exceeded? && !booking.agent_booking
     end
 
     def relevant_time

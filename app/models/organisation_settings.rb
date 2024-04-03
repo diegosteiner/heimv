@@ -4,6 +4,7 @@ class OrganisationSettings < Settings
   attribute :tenant_birth_date_required, :boolean, default: true
   attribute :booking_window, DurationType.new, default: -> { 30.months }
   attribute :awaiting_contract_deadline, DurationType.new, default: -> { 10.days }
+  attribute :awaiting_tenant_deadline, DurationType.new, default: -> { 10.days }
   attribute :overdue_request_deadline, DurationType.new, default: -> { 3.days }
   attribute :payment_overdue_deadline, DurationType.new, default: -> { 3.days }
   attribute :unconfirmed_request_deadline, DurationType.new, default: -> { 3.days }

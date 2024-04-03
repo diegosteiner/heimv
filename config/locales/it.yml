@@ -44,6 +44,7 @@ it:
         booking_margin: Durata tra le prenotazioni
       organisation_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
+        awaiting_tenant_deadline:
         closed_occupancy_color: Colore per le chiusure
         deadline_postponable_for: Proroga del periodo
         default_begins_at_time:
@@ -1149,6 +1150,10 @@ it:
       settings: Impostazioni
   manage:
     bookings:
+      booking_actions:
+        invoke:
+          failure:
+          success:
       calendar:
         ics_link: come ICAL
       import:
