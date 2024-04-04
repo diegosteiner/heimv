@@ -47,7 +47,7 @@ module Manage
 
     def create
       @payment.booking = @payment.booking || @booking
-      @payment.save
+      @payment.save && write_booking_log
       respond_with :manage, @payment, location: manage_booking_payments_path(@payment.booking)
     end
 
@@ -65,6 +65,10 @@ module Manage
 
     def bookings_for_import
       current_organisation.bookings.accessible_by(current_ability).where(concluded: false).order(ref: :ASC)
+    end
+
+    def write_booking_log
+      Booking::Log.log(@payment.booking, trigger: :manager, action: Payment, user: current_user)
     end
 
     def invoices_for_import

@@ -57,8 +57,8 @@ class Occupancy < ApplicationRecord
     errors.add(:linked, :invalid) if linked && booking.blank?
   end
 
-  def conflicting?(*)
-    conflicting(*)&.any?
+  def conflicting?(...)
+    conflicting(...)&.any?
   end
 
   def to_s

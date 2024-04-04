@@ -16,10 +16,6 @@ module BookingActions
       def confirm
         I18n.t(:confirm)
       end
-
-      def booking
-        context.fetch(:booking)
-      end
     end
   end
 end

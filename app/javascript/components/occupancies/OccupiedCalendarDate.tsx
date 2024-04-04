@@ -21,7 +21,7 @@ export function OccupiedCalendarDate({ dateString, occupancyWindow, label }: Occ
   const classNames = ["occupancy-calendar-date", occupancies.size > 0 && "has-occupancies"];
   return useMemo(
     () => (
-      <div className={classNames.filter((className) => className).join(" ")}>
+      <div className={classNames.filter((className) => className).join(" ")} aria-haspopup="true">
         <OccupancyPopover dateString={dateString} occupancyWindow={occupancyWindow}></OccupancyPopover>
         <svg viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
           {Array.from(slots.allday).some(Boolean) && (

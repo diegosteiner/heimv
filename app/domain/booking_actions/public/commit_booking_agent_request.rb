@@ -12,9 +12,7 @@ module BookingActions
           agent_booking.booking&.booking_flow&.in_state?(:booking_agent_request)
       end
 
-      def agent_booking
-        context.fetch(:booking)&.agent_booking
-      end
+      delegate :agent_booking, to: :booking
     end
   end
 end

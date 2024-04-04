@@ -15,7 +15,7 @@ class BookingStateChecklistItem
 
     invoices_settled: lambda do |booking|
       BookingStateChecklistItem.new(key: :invoices_settled, context: { booking: },
-                                    checked: Invoices::Invoice.of(booking).kept.all?(&:settled?),
+                                    checked: booking.invoices.kept.all?(&:settled?),
                                     url: proc { manage_booking_invoices_path(_1.booking) })
     end,
 

@@ -55,7 +55,7 @@ module Public
 
     def booking_action
       @booking_action ||= BookingActions::Public.all[params[:booking_action]&.to_sym]
-                                                &.new(booking: @agent_booking.booking)
+                                                &.new(@agent_booking.booking)
     end
 
     def invoke_booking_action

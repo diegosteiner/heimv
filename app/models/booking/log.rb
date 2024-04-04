@@ -47,7 +47,7 @@ class Booking
       action_class = data.try('[]', 'action')
       BookingActions.const_get(action_class) if action_class.is_a?(String)
     rescue NameError
-      nil
+      action_class
     end
 
     def logged_changes

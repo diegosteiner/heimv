@@ -30,8 +30,8 @@ class PaymentInfo
     format('%<amount>0.2f', amount:)
   end
 
-  def self.human_model_name(*)
-    model_name.human(*)
+  def self.human_model_name(...)
+    model_name.human(...)
   end
 
   def to_h

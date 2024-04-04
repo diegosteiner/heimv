@@ -61,14 +61,7 @@
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
               - if can?(:manage, booking)
-                = form_with(url: manage_booking_invoke_action_path(booking)) do |f|
-                  - cache(cache_key(booking.cache_key)) do 
-                    - booking.booking_state.manage_actions.filter(&:allowed?).each do |action|
-                      - button_options = { name: :id, value: action.to_sym}
-                      - button_options[:class] = "dropdown-item text-#{action.variant}"
-                      - button_options[:data] = { confirm: action.confirm } if action.confirm.present?
-                      = f.button(**button_options)
-                        = action.label 
+                = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking:, button_class: proc { |action| "dropdown-item text-#{action.variant}" } }
               .dropdown-divider
               = link_to t(:show), manage_booking_path(booking), class: 'dropdown-item' if can?(:show, booking)
               = link_to t(:edit), edit_manage_booking_path(booking), class: 'dropdown-item' if can?(:edit, booking)

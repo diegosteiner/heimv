@@ -128,13 +128,7 @@
 
           - if can?(:manage, @booking)
             .row.mt-4
-              = form_with(url: manage_booking_invoke_action_path(@booking), class: 'col-md-8 d-flex gap-1 mt-2') do |f|
-                - @booking.booking_state.manage_actions.filter(&:allowed?).each do |action|
-                  - button_options = { name: :id, value: action.to_sym}
-                  - button_options[:class] = "btn btn-outline-#{action.variant}"
-                  - button_options[:data] = { confirm: action.confirm } if action.confirm.present?
-                  = f.button(**button_options)
-                    = action.label 
+              = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking: @booking, form_class: 'col-md-8 d-flex gap-1 mt-2', button_class: proc { |action| "btn btn-outline-#{action.variant}" } }
                       
               .col-md-4.d-flex.gap-1.justify-content-end.mt-2
                 = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
@@ -161,7 +155,13 @@
 
                 .mb-2
                   - if log.logged_action.present?
-                      strong= log.logged_action.translate(:label)
+                    - if log.logged_action.respond_to?(:label)
+                      strong= log.logged_action.label
+                    - elsif log.logged_action.respond_to?(:model_name)
+                      strong= log.logged_action.model_name.human
+                    - else 
+                      strong= log.logged_action.to_s
+
                   - elsif log.logged_changes.present? 
                       strong= t('.logged_changes', changes: log.logged_changes.keys.map { |klass| klass.model_name.human }.to_sentence)
 

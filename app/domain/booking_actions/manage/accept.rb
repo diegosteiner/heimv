@@ -15,10 +15,6 @@ module BookingActions
         :success
       end
 
-      def booking
-        context.fetch(:booking)
-      end
-
       protected
 
       def transition_to
