@@ -263,16 +263,20 @@ ul.timeline {
   list-style: none;
 
   background-image: linear-gradient(to bottom, rgba($primary, 1), rgba($primary, 0));
-  background-size: 3px 100%;
+  background-size: 4px 100%;
   background-repeat: no-repeat;
-  background-position: 0.85rem 0.5rem;
+  background-position: calc(0.75rem + 2px) 0.5rem;
 
   &>li:before {
-    content: '⬤';
+    content: '';
     position: absolute;
-    color: $primary;
+    // border: 2px solid $primary;
+    border-radius: 50%;
+    background-color: $primary;
+    width: 1rem;
+    height: 1rem;
     left: 0.5rem;
-    // top: 0;
-    text-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+    // top: 0;dd
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
   }
 }

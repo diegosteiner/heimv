@@ -229,7 +229,7 @@ fr:
         attachments: Annexes
         body: Contenu
         created_at: Créé le
-        footer:
+        footer: Pied de page
         sent_at: Dernier envoi le
         subject: Sujet
         to: À
@@ -409,7 +409,7 @@ fr:
           last_30_days: 30 derniers jours
           last_3_months: 3 derniers mois
           last_6_months: 6 derniers mois
-          last_and_next_12_months:
+          last_and_next_12_months: Derniers et prochains 12 mois
           last_month: Dernier mois
           last_year: Dernière année
           next_12_months: Prochains 12 mois
@@ -1210,8 +1210,9 @@ fr:
       notifications_not_enabled: Les notifications pour cette réservation ne sont pas activées.
       show:
         checklist: Liste de contrôle
-        logged_changes: "%{changes} édité"
         public_booking_url: Lien pour le locataire
+      timeline:
+        logged_changes: "%{changes} bearbeitet"
       usages:
         index:
           applicable_tarifs: Tarifs applicables

@@ -1,0 +1,39 @@
+ul.timeline
+	- booking_logs.each do |log|
+		li
+			.mb-2.text-muted.text-sm
+				time datetime=log.created_at.iso8601 
+					= l(log.created_at, format: :short)
+			.card.shadow-sm.mb-4
+				.card-body
+
+					.mb-2
+						- if log.logged_action.present?
+							- if log.logged_action.respond_to?(:label)
+								strong= log.logged_action.label
+							- elsif log.logged_action.respond_to?(:model_name)
+								strong= log.logged_action.model_name.human
+							- else 
+								strong= log.logged_action.to_s
+
+						- elsif log.logged_changes.present? 
+								strong= t('.logged_changes', changes: log.logged_changes.keys.map { |klass| klass.model_name.human }.to_sentence)
+
+					ul.list-unstyled
+						- Array.wrap(log.logged_transitions).each do |transition|
+								li= t(:label, scope: [:booking_states, transition])
+
+					.mt-2.text-muted
+						- if log.trigger_tenant?
+							i.fa.fa-user.me-2
+							= Tenant.model_name.human
+						- elsif log.trigger_booking_agent?
+							i.fa.fa-user.me-2
+							= BookingAgent.model_name.human
+							=<> log.booking.agent_booking&.booking_agent&.name 
+						- elsif log.trigger_auto?
+							i.fa.fa-cog.me-2
+							= Booking::Log.human_enum(:trigger, :auto)
+						- elsif log.user 
+							i.fa.fa-user.me-2
+							= log.user.email
