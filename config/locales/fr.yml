@@ -705,6 +705,8 @@ fr:
         label: Confirmer la réception du paiement
       mark_invoices_paid:
         label: Confirmer la réception du paiement
+      mark_invoices_refunded:
+        label:
       postpone_deadline:
         label: Prolonger le délai
       skip_invoice:
@@ -739,6 +741,8 @@ fr:
     deposit_created: Anzahlung erstellen
     deposit_paid: Acompte réglé
     invoice_created: Établir le décompte final
+    invoice_paid:
+    invoice_refunded:
     invoices_paid: Rechnung beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Attribuer des responsabilités (facultatif)
