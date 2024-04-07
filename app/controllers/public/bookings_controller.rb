@@ -79,11 +79,11 @@ module Public
     end
 
     def create_params
-      BookingParams::Create.new(params[:booking] || params)
+      BookingParams::Create.new.permit((params[:booking] || params))
     end
 
     def update_params
-      BookingParams::Update.new(params[:booking])
+      BookingParams::Update.new.permit(params[:booking])
     end
 
     def booking_question_responses_params

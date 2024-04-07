@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Manage
-  class BookingParams < Public::BookingParams::Create
+  class BookingParams < ApplicationParams
     def self.permitted_keys
       permitted_keys = super
       nested_keys = permitted_keys.extract_options!
