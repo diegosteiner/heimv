@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class BookingStateChecklistItem
+  include ActiveModel::Model
+  include Translatable
+  extend Translatable
+  extend ActiveModel::Naming
+  extend ActiveModel::Translation
+  include ActiveModel::Attributes
+
   ITEMS = {
     invoice_created: lambda do |booking|
       checked = Invoices::Invoice.of(booking).kept.exists?
@@ -14,9 +21,14 @@ class BookingStateChecklistItem
     end,
 
     invoices_settled: lambda do |booking|
-      BookingStateChecklistItem.new(key: :invoices_settled, context: { booking: },
-                                    checked: booking.invoices.kept.all?(&:settled?),
-                                    url: proc { manage_booking_invoices_path(_1.booking) })
+      booking.invoices.kept.ordered.map do |invoice|
+        label_key = invoice.refund? ? :invoice_refunded : :invoice_paid
+        label_invoice = "#{invoice.class.model_name.human} #{invoice.formatted_ref}"
+        BookingStateChecklistItem.new(key: :invoice_settled, context: { booking: },
+                                      label: BookingStateChecklistItem.translate(label_key, invoice: label_invoice),
+                                      checked: invoice.settled?,
+                                      url: proc { manage_booking_invoices_path(_1.booking) })
+      end
     end,
 
     deposit_paid: lambda do |booking|
@@ -84,19 +96,14 @@ class BookingStateChecklistItem
     end
   }.freeze
 
-  include ActiveModel::Model
-  include Translatable
-  extend ActiveModel::Naming
-  extend ActiveModel::Translation
-  include ActiveModel::Attributes
-
   attribute :key
+  attribute :label
   attribute :url
   attribute :context, default: -> { {} }
   attribute :checked, default: false
 
-  def label(*)
-    translate(key, *)
+  def label
+    super.presence || translate(key)
   end
 
   def booking
@@ -104,7 +111,7 @@ class BookingStateChecklistItem
   end
 
   def self.prepare(*items, booking:)
-    self[*items].map { |key, item_proc| item_proc.call(booking) if items.include?(key) }.compact
+    self[*items].flat_map { |key, item_proc| item_proc.call(booking) if items.include?(key) }.compact_blank
   end
 
   def self.[](*items)

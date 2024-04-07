@@ -740,7 +740,9 @@ de:
     deposit_created: Anzahlung erstellen (optional)
     deposit_paid: Anzahlung beglichen
     invoice_created: Endabrechnung erstellen
-    invoices_settled: Rechnungen beglichen
+    invoice_paid: "%{invoice} bezahlt"
+    invoice_refunded: "%{invoice} erstattet"
+    invoices_paid: Rechnungen beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen (optional)
     tarifs_chosen: Tarife festlegen

@@ -739,7 +739,7 @@ it:
     deposit_created: Creare un acconto (opzionale)
     deposit_paid: Acconto versato
     invoice_created: Creare il conto finale
-    invoices_settled:
+    invoices_paid:
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Assegnare le responsabilità (opzionale)
     tarifs_chosen: Fissare le tariffe

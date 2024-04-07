@@ -739,7 +739,7 @@ fr:
     deposit_created: Anzahlung erstellen
     deposit_paid: Acompte réglé
     invoice_created: Établir le décompte final
-    invoices_settled: Rechnung beglichen
+    invoices_paid: Rechnung beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Attribuer des responsabilités (facultatif)
     tarifs_chosen: Tarife festlegen
