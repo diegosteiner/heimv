@@ -62,6 +62,19 @@ Copy env.example to .env and change configuration there
 </iframe>
 ```
 
+## Embed via ICAL
+
+Use this feed in a ICAL compatible calendar app:
+
+https://app.heimv.ch/{{organisation.slug}}/occupiables/{{occupiable.id}}/calendar.ics
+
+Use this feed to get more info (token required)
+
+https://app.heimv.ch/{{organisation.slug}}/occupiables/{{occupiable.id}}/calendar/private_ical_feed.ics?token={{token}}
+
+The token can be generated with `user.regenerate_token`
+
+
 ## Add Organisation
 
 Create a organisation with richtext templates and a user:

@@ -37,7 +37,7 @@ class IcalService
       next unless include_tenant_details
 
       ical_event.contact = icalendar_contact(occupancy)
-      ical_event.attendee = icalendar_attendee(occupancy)
+      # ical_event.attendee = icalendar_attendee(occupancy)
     end
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -50,9 +50,9 @@ class IcalService
     end
   end
 
-  def icalendar_attendee(occupancy)
-    Icalendar::Values::CalAddress.new
-  end
+  # def icalendar_attendee(occupancy)
+  #   Icalendar::Values::CalAddress.new
+  # end
 
   def icalendar_datetime(datetime)
     Icalendar::Values::DateTime.new(datetime.utc.strftime(Icalendar::Values::DateTime::FORMAT))
