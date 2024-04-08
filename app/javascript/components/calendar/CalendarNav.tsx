@@ -21,7 +21,9 @@ export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChil
             </svg>
           </button>
         )) || <div></div>}
-        <div></div>
+        <button>
+          <span className="fa fa-question-circle"></span>
+        </button>
       </div>
       <div className="pages">
         <button onClick={onPrev} className="prev" type="button">
