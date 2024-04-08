@@ -264,7 +264,7 @@
 
 .occupancy-popover {
   position: absolute;
-  transform: translate(-43%, -100%);
+  transform: translate(-43%, 2.5em);
   z-index: 10;
   display: none;
   width: max-content;
@@ -275,5 +275,12 @@
       margin-top: 2em;
     }
   }
+}
 
+.calendar .year-calendar {
+  .month:nth-last-child(-n + 6) {
+    .occupancy-popover {
+      transform: translate(-43%, -100%);
+    }
+  }
 }
