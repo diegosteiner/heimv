@@ -113,11 +113,11 @@ module BookingStates
     def invoice_type; end
 
     def public_actions
-      self.class.available_public_actions.filter_map { |action_klass| action_klass.new(booking: @booking) }
+      self.class.available_public_actions.filter_map { |action_klass| action_klass.new(@booking) }
     end
 
     def manage_actions
-      self.class.available_manage_actions.filter_map { |action_klass| action_klass.new(booking: @booking) }
+      self.class.available_manage_actions.filter_map { |action_klass| action_klass.new(@booking) }
     end
 
     def relevant_time; end

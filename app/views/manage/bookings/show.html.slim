@@ -128,13 +128,7 @@
 
           - if can?(:manage, @booking)
             .row.mt-4
-              = form_with(url: manage_booking_invoke_action_path(@booking), class: 'col-md-8 d-flex gap-1 mt-2') do |f|
-                - @booking.booking_state.manage_actions.filter(&:allowed?).each do |action|
-                  - button_options = { name: :id, value: action.to_sym}
-                  - button_options[:class] = "btn btn-outline-#{action.variant}"
-                  - button_options[:data] = { confirm: action.confirm } if action.confirm.present?
-                  = f.button(**button_options)
-                    = action.label 
+              = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking: @booking, form_class: 'col-md-8 d-flex gap-1 mt-2', button_class: proc { |action| "btn btn-outline-#{action.variant}" } }
                       
               .col-md-4.d-flex.gap-1.justify-content-end.mt-2
                 = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
@@ -150,37 +144,5 @@
                   span.fa.fa-edit
                   =< t(:edit)
     .col-md-3
-      ul.timeline
-        - @booking.logs.order(created_at: :desc).each do |log|
-          li
-            .mb-2.text-muted.text-sm
-              time datetime=log.created_at.iso8601 
-                = l(log.created_at, format: :short)
-            .card.shadow-sm.mb-4
-              .card-body
-
-                .mb-2
-                  - if log.logged_action.present?
-                      strong= log.logged_action.translate(:label)
-                  - elsif log.logged_changes.present? 
-                      strong= t('.logged_changes', changes: log.logged_changes.keys.map { |klass| klass.model_name.human }.to_sentence)
-
-                ul.list-unstyled
-                  - Array.wrap(log.logged_transitions).each do |transition|
-                      li= t(:label, scope: [:booking_states, transition])
-
-                .mt-2.text-muted
-                  - if log.trigger_tenant?
-                    i.fa.fa-user.me-2
-                    = Tenant.model_name.human
-                  - elsif log.trigger_booking_agent?
-                    i.fa.fa-user.me-2
-                    = BookingAgent.model_name.human
-                    =<> log.booking.agent_booking&.booking_agent&.name 
-                  - elsif log.trigger_auto?
-                    i.fa.fa-cog.me-2
-                    = Booking::Log.human_enum(:trigger, :auto)
-                  - elsif log.user 
-                    i.fa.fa-user.me-2
-                    = log.user.email
+      = render partial: 'timeline', locals: { booking_logs: @booking.logs.order(created_at: :desc) }
           

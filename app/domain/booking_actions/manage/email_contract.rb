@@ -12,7 +12,7 @@ module BookingActions
         mail.attach :contract, :contract_documents, deposits
         mail.save! && contract.sent! && deposits.each(&:sent!)
 
-        Result.success redirect_proc: !mail.autodeliver && proc { edit_manage_notification_path(mail) }
+        Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
       end
 
       def allowed?
@@ -41,10 +41,6 @@ module BookingActions
 
       def contract
         booking.contract
-      end
-
-      def booking
-        context.fetch(:booking)
       end
     end
   end

@@ -706,6 +706,8 @@ de:
         label: Zahlungseingang bestätigen
       mark_invoices_paid:
         label: Zahlungseingang bestätigen
+      mark_invoices_refunded:
+        label: Gutschriften als rückerstattet markieren
       postpone_deadline:
         label: Frist verlängern
       skip_invoice:
@@ -740,7 +742,9 @@ de:
     deposit_created: Anzahlung erstellen (optional)
     deposit_paid: Anzahlung beglichen
     invoice_created: Endabrechnung erstellen
-    invoices_settled: Rechnungen beglichen
+    invoice_paid: "%{invoice} bezahlt"
+    invoice_refunded: "%{invoice} erstattet"
+    invoices_paid: Rechnungen beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen (optional)
     tarifs_chosen: Tarife festlegen
@@ -1299,8 +1303,9 @@ de:
       notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
       show:
         checklist: Checkliste
-        logged_changes: "%{changes} bearbeitet"
         public_booking_url: Link für Mieter
+      timeline:
+        logged_changes: "%{changes} bearbeitet"
       usages:
         index:
           applicable_tarifs: Anwendbare Tarife

@@ -13,10 +13,6 @@ module BookingActions
           booking.booking_flow.in_state?(:provisional_request, :overdue_request) &&
           !booking.committed_request
       end
-
-      def booking
-        context.fetch(:booking)
-      end
     end
   end
 end

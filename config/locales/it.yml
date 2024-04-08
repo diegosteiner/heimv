@@ -705,6 +705,8 @@ it:
         label: Confermare la ricezione del pagamento
       mark_invoices_paid:
         label: Confermare la ricezione del pagamento
+      mark_invoices_refunded:
+        label:
       postpone_deadline:
         label: Prolungare il periodo
       skip_invoice:
@@ -739,7 +741,9 @@ it:
     deposit_created: Creare un acconto (opzionale)
     deposit_paid: Acconto versato
     invoice_created: Creare il conto finale
-    invoices_settled:
+    invoice_paid:
+    invoice_refunded:
+    invoices_paid:
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Assegnare le responsabilità (opzionale)
     tarifs_chosen: Fissare le tariffe
@@ -1175,8 +1179,9 @@ it:
       notifications_not_enabled: Le notifiche via e-mail per questa prenotazione non sono attivate.
       show:
         checklist: Check-list
-        logged_changes: "%{changes} modificati"
         public_booking_url: Link per gli inquilini
+      timeline:
+        logged_changes: "%{changes} modificati"
       usages:
         index:
           applicable_tarifs: Tariffe applicabili

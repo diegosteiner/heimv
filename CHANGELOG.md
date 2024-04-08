@@ -15,8 +15,8 @@ Released on 03.04.2024
 Released on 15.03.2024
 
 - Fix: Edit operators
-- Fix: Downgrade Prawn to resolve PDF font issue 
-- Feature: Improve handling of invoices that are credits
+- Fix: Downgrade Prawn to resolve PDF font issue
+- Feature: Improve handling of invoices that are refunds
 
 ## Version 24.3.1
 
@@ -361,7 +361,7 @@ Released on 17.05.2022
 - Fix missing attachments on notifications
 - Move Rich Text Template help to form
 - Fix operator emails that are not sent out
-- Add creditor adress to organisation
+- Add refundor adress to organisation
 - Fix redirection issue after login
 
 ## Version 22.4.2

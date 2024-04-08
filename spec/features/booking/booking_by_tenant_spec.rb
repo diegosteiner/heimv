@@ -155,7 +155,8 @@ describe 'Booking by tenant', :devise, type: :feature do
     click_on :email_contract
     submit_form
     visit manage_booking_path(@booking, org:)
-    click_on :mark_contract_signed
+    click_on BookingActions::Manage::MarkContractSigned.label
+    submit_form
   end
 
   def perform_booking

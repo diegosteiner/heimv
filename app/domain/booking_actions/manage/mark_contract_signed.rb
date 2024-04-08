@@ -5,25 +5,34 @@ module BookingActions
     class MarkContractSigned < BookingActions::Base
       templates << MailTemplate.define(:contract_signed_notification, context: %i[booking], autodeliver: false)
 
-      def invoke!
+      def invoke!(signed_pdf: nil)
+        booking.contract.update(signed_pdf:) if signed_pdf.present?
         booking.contract.signed!
         booking.update(committed_request: true)
 
         return Result.success unless deposits.exists?
 
         mail = MailTemplate.use(:contract_signed_notification, booking, to: :tenant)
-        Result.success redirect_proc: mail && (!mail.autodeliver && proc { edit_manage_notification_path(mail) })
+        Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
       end
 
       def allowed?
         booking.contract&.sent? && !booking.contract&.signed?
       end
 
-      def booking
-        context.fetch(:booking)
+      def prepare?
+        true
+      end
+
+      def self.params_schema
+        Dry::Schema.Params do
+          optional(:signed_pdf).value(type?: ActionDispatch::Http::UploadedFile)
+        end
       end
 
       protected
+
+      def draft_mail; end
 
       def deposits
         Invoices::Deposit.of(booking).kept.unpaid

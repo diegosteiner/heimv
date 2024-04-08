@@ -229,7 +229,7 @@ fr:
         attachments: Annexes
         body: Contenu
         created_at: Créé le
-        footer:
+        footer: Pied de page
         sent_at: Dernier envoi le
         subject: Sujet
         to: À
@@ -409,7 +409,7 @@ fr:
           last_30_days: 30 derniers jours
           last_3_months: 3 derniers mois
           last_6_months: 6 derniers mois
-          last_and_next_12_months:
+          last_and_next_12_months: Derniers et prochains 12 mois
           last_month: Dernier mois
           last_year: Dernière année
           next_12_months: Prochains 12 mois
@@ -705,6 +705,8 @@ fr:
         label: Confirmer la réception du paiement
       mark_invoices_paid:
         label: Confirmer la réception du paiement
+      mark_invoices_refunded:
+        label:
       postpone_deadline:
         label: Prolonger le délai
       skip_invoice:
@@ -739,7 +741,9 @@ fr:
     deposit_created: Anzahlung erstellen
     deposit_paid: Acompte réglé
     invoice_created: Établir le décompte final
-    invoices_settled: Rechnung beglichen
+    invoice_paid:
+    invoice_refunded:
+    invoices_paid: Rechnung beglichen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Attribuer des responsabilités (facultatif)
     tarifs_chosen: Tarife festlegen
@@ -1210,8 +1214,9 @@ fr:
       notifications_not_enabled: Les notifications pour cette réservation ne sont pas activées.
       show:
         checklist: Liste de contrôle
-        logged_changes: "%{changes} édité"
         public_booking_url: Lien pour le locataire
+      timeline:
+        logged_changes: "%{changes} bearbeitet"
       usages:
         index:
           applicable_tarifs: Tarifs applicables

@@ -1106,8 +1106,9 @@ en:
       notifications_not_enabled: Benachrichtigungen für diese Buchung sind nicht aktiviert.
       show:
         checklist: Checkliste
-        logged_changes: "%{changes} bearbeitet"
         public_booking_url: Link für Mieter
+      timeline:
+        logged_changes: "%{changes} bearbeitet"
       usages:
         index:
           applicable_tarifs: Anwendbare Tarife

@@ -41,7 +41,7 @@ module Public
       @booking.assign_attributes(update_params) if @booking.editable?
       @booking.save(context: :public_update)
       invoke_booking_action
-      Booking::Log.log(@booking, trigger: :tenant, action: booking_action, user: current_user)
+      write_booking_log
       respond_with :public, @booking, location: edit_public_booking_path(@booking.token)
     end
 
@@ -50,6 +50,10 @@ module Public
     def set_booking
       @booking = current_organisation.bookings.find_by(token: params[:id]) ||
                  current_organisation.bookings.find(params[:id])
+    end
+
+    def write_booking_log
+      Booking::Log.log(@booking, trigger: :tenant, action: booking_action, user: current_user)
     end
 
     def booking_from_params
@@ -71,7 +75,7 @@ module Public
     end
 
     def booking_action
-      BookingActions::Public.all[params[:booking_action]&.to_sym]&.new(booking: @booking)
+      BookingActions::Public.all[params[:booking_action]&.to_sym]&.new(@booking)
     end
 
     def create_params

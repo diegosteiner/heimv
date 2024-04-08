@@ -13,11 +13,12 @@ module BookingActions
     end
 
     include Translatable
+    include TemplateRenderable
     extend Translatable
-    attr_reader :context
+    attr_reader :booking
 
-    def initialize(context)
-      @context = context
+    def initialize(booking)
+      @booking = booking
     end
 
     def self.templates
@@ -25,15 +26,19 @@ module BookingActions
     end
 
     def label
+      self.class.label
+    end
+
+    def self.label
       # i18n-tasks-ignore
       translate(:label)
     end
 
-    def invoke(*)
+    def invoke(...)
       # i18n-tasks-ignore
       return Result.failure error: translate(:not_allowed) unless allowed?
 
-      invoke!(*)
+      invoke!(...)
     end
 
     def self.to_sym
@@ -51,5 +56,11 @@ module BookingActions
     def confirm
       nil
     end
+
+    def prepare?
+      false
+    end
+
+    def self.params_schema; end
   end
 end

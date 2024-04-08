@@ -68,9 +68,14 @@ class Notification < ApplicationRecord
     deliver
   end
 
-  def attach(*)
+  def autodeliver_with_redirect_proc
+    notification_id = to_param
+    proc { edit_manage_notification_path(id: notification_id) } unless autodeliver
+  end
+
+  def attach(...)
     @attachment_manager ||= AttachmentManager.new(booking, target: attachments)
-    @attachment_manager.attach_all(*)
+    @attachment_manager.attach_all(...)
   end
 
   def delivered?

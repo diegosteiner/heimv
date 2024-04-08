@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe BookingActions::Manage::EmailInvoices do
-  subject(:action) { described_class.new(booking:) }
+  subject(:action) { described_class.new(booking) }
   subject(:invoke) { action.invoke }
   subject(:booking_after_invoke) do
     invoke

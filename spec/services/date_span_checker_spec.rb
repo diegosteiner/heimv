@@ -145,7 +145,7 @@ RSpec.describe DateSpanChecker, type: :service do
 
   protected
 
-  def date(*)
-    described_class::NullableDate.new(*)
+  def date(...)
+    described_class::NullableDate.new(...)
   end
 end
