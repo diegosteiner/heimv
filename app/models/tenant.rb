@@ -45,7 +45,7 @@ class Tenant < ApplicationRecord
   belongs_to :organisation
 
   locale_enum default: I18n.locale
-  normalizes :email, with: ->(email) { email.present? && EmailAddress.normal(email) }
+  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
 
   validates :email, allow_blank: true, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update

@@ -39,7 +39,7 @@ class AgentBooking < ApplicationRecord
 
   has_secure_token :token, length: 48
 
-  normalizes :tenant_email, with: ->(email) { email.present? && EmailAddress.normal(email) }
+  normalizes :tenant_email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
 
   accepts_nested_attributes_for :booking, reject_if: :all_blank, update_only: true
 
@@ -53,7 +53,7 @@ class AgentBooking < ApplicationRecord
   validate do
     errors.add(:booking_agent_code, :invalid) if booking_agent.blank?
     errors.add(:tenant_email, :invalid) if tenant_email.present? && tenant_email == booking_agent&.email
-    errors.add(:tenant_email, :invalid) unless tenant_email.nil? || EmailAddress.valid?(tenant_email)
+    errors.add(:tenant_email, :invalid) unless tenant_email.blank? || EmailAddress.valid?(tenant_email)
   end
 
   def tenant_email=(value)

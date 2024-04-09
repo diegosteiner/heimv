@@ -96,7 +96,7 @@ class Booking < ApplicationRecord
   has_secure_token :token, length: 48
   enum occupancy_type: Occupancy::OCCUPANCY_TYPES
 
-  normalizes :email, with: ->(email) { email.present? && EmailAddress.normal(email) }
+  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
 
   validates :invoice_address, length: { maximum: 255 }
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }

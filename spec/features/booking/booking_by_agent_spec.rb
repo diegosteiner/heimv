@@ -82,7 +82,7 @@ describe 'Booking by tenant', :devise, type: :feature do
     submit_form
 
     expect(page).to have_content(I18n.t('flash.actions.create.notice', resource_name: AgentBooking.model_name.human))
-    expect(@agent_booking = AgentBooking.last).to be_present
+    expect(@agent_booking = AgentBooking.last).to be_valid
     expect(@agent_booking.booking_agent_ref).to eq(agent_ref)
   end
 
