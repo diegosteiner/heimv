@@ -6,6 +6,7 @@
 #
 #  id              :bigint           not null, primary key
 #  role            :integer          not null
+#  token           :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  organisation_id :bigint           not null

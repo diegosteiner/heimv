@@ -32,7 +32,8 @@ module Manage
 
     def update
       @organisation_user.update(organisation_user_params)
-      respond_with :manage, @organisation_user, location: manage_organisation_users_path
+      @organisation_user.regenerate_token if params.dig(:organisation_user, :regenerate_token).present?
+      respond_with :manage, @organisation_user, location: edit_manage_organisation_user_path(@organisation_user)
     end
 
     def destroy

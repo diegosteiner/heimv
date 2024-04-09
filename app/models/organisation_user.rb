@@ -6,6 +6,7 @@
 #
 #  id              :bigint           not null, primary key
 #  role            :integer          not null
+#  token           :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  organisation_id :bigint           not null
@@ -27,6 +28,8 @@ class OrganisationUser < ApplicationRecord
   belongs_to :user, inverse_of: :organisation_users, autosave: true
 
   enum role: { none: 0, readonly: 1, admin: 2, manager: 3 }, _prefix: :role
+
+  has_secure_token :token, length: 48
 
   after_initialize :set_default_role, if: :new_record?
 

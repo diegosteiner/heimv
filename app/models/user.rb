@@ -75,12 +75,6 @@ class User < ApplicationRecord
     in_organisation(organisation).present?
   end
 
-  def self.find_by_token(token, organisation)
-    return nil unless token.present? && organisation.present?
-
-    organisation.users.find_by(token:, role_admin: false)
-  end
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable, :invitable,
   devise :invitable, :database_authenticatable, :recoverable, :rememberable, :validatable
