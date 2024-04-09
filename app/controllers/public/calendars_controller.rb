@@ -17,12 +17,15 @@ module Public
     end
 
     def private_ical_feed
-      include_tenant_details = current_organisation_user.present? || User.find_by_token(params[:token],
-                                                                                        current_organisation)
+      organisation_user = current_organisation_user.present? ||
+                          current_organisation.users.find_by(token: params[:token])
+
+      raise CanCan::AccessDenied if organisation_user.blank?
+
       respond_to do |format|
         format.ics do
           render plain: IcalService.new.occupancies_to_ical(@calendar.occupancies,
-                                                            include_tenant_details:)
+                                                            include_tenant_details: true)
         end
       end
     end
