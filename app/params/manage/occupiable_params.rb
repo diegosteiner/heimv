@@ -1,11 +1,24 @@
 # frozen_string_literal: true
 
 module Manage
-  class OccupiableParams < ApplicationParams
-    def self.permitted_keys
-      %i[name description active occupiable type ref home_id ordinal_position] +
-        I18n.available_locales.map { |locale| ["name_#{locale}", "description_#{locale}"] }.flatten +
-        [{ settings: %i[booking_margin] }]
+  class OccupiableParams < ApplicationParamsSchema
+    define do
+      optional(:name).filled(:string)
+      optional(:description).maybe(:string)
+      optional(:active).filled(:bool)
+      optional(:occupiable).filled(:bool)
+      optional(:type).filled(:string)
+      optional(:ref).filled(:string)
+      optional(:home_id).maybe(:integer)
+      optional(:ordinal_position).maybe(:string)
+      optional(:settings).hash do
+        required(:booking_margin).maybe(:string)
+      end
+
+      I18n.available_locales.map do |locale|
+        optional(:"name_#{locale}").maybe(:string)
+        optional(:"description_#{locale}").maybe(:string)
+      end
     end
   end
 end

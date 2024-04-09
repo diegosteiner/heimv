@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 module Manage
-  class NotificationParams < ApplicationParams
-    def self.permitted_keys
-      %i[subject body to]
+  class NotificationParams < ApplicationParamsSchema
+    define do
+      optional(:subject).maybe(:string)
+      optional(:body).maybe(:string)
+      optional(:to).maybe(:string)
     end
   end
 end

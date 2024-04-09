@@ -11,11 +11,11 @@ module Public
         optional(:committed_request).maybe(:bool)
         optional(:purpose_description).maybe(:string)
         optional(:booking_category_id).maybe(:integer)
+        # optional(:home_id).maybe(:integer)
         optional(:approximate_headcount).maybe(:integer)
         optional(:remarks).maybe(:string)
         optional(:begins_at).maybe(:date_time)
         optional(:ends_at).maybe(:date_time)
-
         optional(:tenant_attributes).hash(TenantParams::Update.new)
         optional(:occupiable_ids).array(:integer)
         optional(:deadlines_attributes).schema do
@@ -32,8 +32,10 @@ module Public
           optional(:booking_agent_ref).maybe(:string)
         end
         required(:email).filled(:string)
-        optional(:home_id).filled(:integer)
-        optional(:accept_conditions).maybe(:bool)
+        required(:begins_at).filled(:date_time)
+        required(:ends_at).filled(:date_time)
+        required(:home_id).filled(:integer)
+        required(:accept_conditions).filled(:bool)
       end
     end
   end

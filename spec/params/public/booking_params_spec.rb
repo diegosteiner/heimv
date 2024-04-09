@@ -8,21 +8,19 @@ describe Public::BookingParams do
   let(:booking) { build_stubbed(:booking) }
 
   describe Public::BookingParams::Create do
-    subject { described_class.new(params.require(:booking)) }
+    subject { described_class.permit(params.require(:booking)) }
 
     it do
-      expect(subject).to be_permitted
-      expect(subject.keys).to include('home_id', 'begins_at', 'ends_at', 'tenant_organisation')
+      expect(subject.keys).to include(:home_id, :begins_at, :ends_at, :tenant_organisation)
     end
   end
 
   describe Public::BookingParams::Update do
-    subject { described_class.new(params.require(:booking)) }
+    subject { described_class.permit(params.require(:booking)) }
 
     it do
-      expect(subject).to be_permitted
-      expect(subject.keys).to include('tenant_organisation')
-      expect(subject.keys).not_to include('home_id')
+      expect(subject.keys).to include(:tenant_organisation)
+      expect(subject.keys).not_to include(:home_id)
     end
   end
 end

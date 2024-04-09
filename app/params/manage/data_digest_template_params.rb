@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
 module Manage
-  class DataDigestTemplateParams < ApplicationParams
-    def self.permitted_keys
-      %i[type label group columns_config] + [{ prefilter_params: {} }]
+  class DataDigestTemplateParams < ApplicationParamsSchema
+    define do
+      optional(:type).maybe(:string)
+      optional(:label).filled(:string)
+      optional(:group).maybe(:string)
+
+      # optional(:columns_config).maybe(:string)
+      # + [{ prefilter_params: {} }]
     end
   end
 end

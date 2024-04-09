@@ -18,7 +18,7 @@ module Public
 
         before(:key_coercer) do |result|
           params = result.to_h
-          multiparam = params.slice('birth_date(1i)', 'birth_date(2i)', 'birth_date(3i)')
+          multiparam = params&.slice('birth_date(1i)', 'birth_date(2i)', 'birth_date(3i)')
           next params unless multiparam.present? && params['birth_date'].blank?
 
           params[:birth_date] = multiparam.values.join('-')

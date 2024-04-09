@@ -1,10 +1,20 @@
 # frozen_string_literal: true
 
 module Manage
-  class UsageParams < ApplicationParams
-    def self.permitted_keys
-      %i[tarif_id booking_id used_units remarks price_per_unit committed] +
-        [{ meter_reading_period_attributes: %i[start_value end_value id _destroy] }]
+  class UsageParams < ApplicationParamsSchema
+    define do
+      optional(:tarif_id).filled(:integer)
+      optional(:booking_id).filled(:string)
+      optional(:used_units).filled(:decimal)
+      optional(:remarks).filled(:string)
+      optional(:price_per_unit).filled(:decimal)
+      optional(:committed).filled(:bool)
+      optional(:meter_reading_period_attributes).hash do
+        optional(:start_value).maybe(:decimal)
+        optional(:end_value).maybe(:decimal)
+        required(:id).filled(:integer)
+        optional(:_destroy).filled(:bool)
+      end
     end
   end
 end

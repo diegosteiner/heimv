@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 module Manage
-  class TenantParams # < Public::TenantParams
-    # def self.permitted_keys
-    #   super + %i[reservations_allowed remarks bookings_without_contract bookings_without_invoice]
-    # end
+  class TenantParams < Public::TenantParams::Create
+    define do
+      optional(:reservations_allowed).filled(:bool)
+      optional(:remarks).maybe(:string)
+      optional(:bookings_without_contract).filled(:bool)
+      optional(:bookings_without_invoice).filled(:bool)
+    end
   end
 end

@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
 module Manage
-  class BookingAgentParams < ApplicationParams
-    def self.permitted_keys
-      %i[name code email address provision request_deadline_minutes]
+  class BookingAgentParams < ApplicationParamsSchema
+    define do
+      optional(:name).maybe(:string)
+      optional(:code).maybe(:string)
+      optional(:email).maybe(:string)
+      optional(:address).maybe(:string)
+      optional(:provision).maybe(:string)
+      optional(:request_deadline_minutes).maybe(:integer)
     end
   end
 end
