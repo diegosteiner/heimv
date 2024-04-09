@@ -1,4 +1,4 @@
-= f.file_field :signed_pdf, label: Contract.human_attribute_name(:signed_pdf)
+= f.file_field :signed_pdf, label: Contract.human_attribute_name(:signed_pdf), help: t(:optional)
 
 = f.button name: :commit, class: 'btn btn-primary'
 	= @booking_action.label

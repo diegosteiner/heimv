@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## Version 24.4.2
+
+- Feature: Improve E-Mail validation
+- Feature: Improve private ICAL feed
+
 ## Version 24.4.1
 
 Released on 03.04.2024

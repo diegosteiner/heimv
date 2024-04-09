@@ -297,6 +297,7 @@ fr:
       organisation_user:
         email: Email
         role: Rôle
+        token:
       payment:
         amount: Montant
         confirm: Envoyer automatiquement une confirmation de paiement
@@ -1195,6 +1196,7 @@ fr:
           success:
       calendar:
         ics_link: comme ICAL
+        private_ics_link:
       import:
         headers: En-têtes
         import_error: 'Échec de l''importation : '
@@ -1242,6 +1244,8 @@ fr:
         deliver: Enregistrer et envoyer
         not_sent: Ce message n'a pas encore été envoyé
     organisation_users:
+      form:
+        regenerate_token:
       index:
         invite_user: Inviter un nouvel utilisateur
     organisations:
