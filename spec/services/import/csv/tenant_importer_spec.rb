@@ -12,7 +12,7 @@ RSpec.describe Import::Csv::TenantImporter, type: :model do
   let(:csv) do
     <<~ENDCSV
       "Nachname","Vorname","Adresse","PLZ","Ort","Land","E-Mail","Mobiltelefon","Festnetz"
-      "Muster","Peter","Teststrasse 24","8049","Zürich",,"test@example.com",,"044 444 44 44"
+      "Muster","Peter","Teststrasse 24","8049","Zürich",,"test@heimv.test",,"044 444 44 44"
     ENDCSV
   end
 
@@ -29,7 +29,7 @@ RSpec.describe Import::Csv::TenantImporter, type: :model do
       expect(record.street_address).to eq('Teststrasse 24')
       expect(record.zipcode).to eq('8049')
       expect(record.city).to eq('Zürich')
-      expect(record.email).to eq('test@example.com')
+      expect(record.email).to eq('test@heimv.test')
     end
   end
 end

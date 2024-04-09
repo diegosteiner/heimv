@@ -19,6 +19,7 @@ gem 'devise'
 gem 'devise_invitable'
 gem 'discard'
 gem 'dry-schema'
+gem 'email_address'
 gem 'factory_bot_rails', '~> 6.2.0', require: false
 gem 'faker', require: false
 gem 'faraday', require: false

@@ -52,7 +52,7 @@ FactoryBot.define do
     phone { '044 444 44 44' }
     locale { I18n.locale }
     email do |c|
-      "#{[c.first_name, c.last_name].join('.').downcase.sub(/[^a-z_.\d]/i, '')}@heimverwaltung.example.com"
+      "#{[c.first_name, c.last_name].join('.').downcase.sub(/[^a-z_.\d]/i, '')}@heimv.test"
     end
   end
 end

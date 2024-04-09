@@ -38,17 +38,22 @@ class AgentBooking < ApplicationRecord
   belongs_to :organisation
 
   has_secure_token :token, length: 48
-  normalizes :tenant_email, with: -> { _1.presence&.strip&.downcase }
+
+  normalizes :tenant_email, with: ->(email) { email.present? && EmailAddress.normal(email) }
 
   accepts_nested_attributes_for :booking, reject_if: :all_blank, update_only: true
 
   before_validation :update_booking
+  after_validation do
+    %w[booking.email booking.tenant.email booking.home].each { |error| errors.delete(error) }
+  end
 
-  validates :tenant_email, format: Devise.email_regexp, presence: true, if: :committed_request
+  validates :tenant_email, presence: true, if: :committed_request
   validates :booking_agent_code, presence: true
   validate do
     errors.add(:booking_agent_code, :invalid) if booking_agent.blank?
     errors.add(:tenant_email, :invalid) if tenant_email.present? && tenant_email == booking_agent&.email
+    errors.add(:tenant_email, :invalid) unless tenant_email.nil? || EmailAddress.valid?(tenant_email)
   end
 
   def tenant_email=(value)

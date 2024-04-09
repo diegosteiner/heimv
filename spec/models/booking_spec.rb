@@ -130,7 +130,7 @@ describe Booking, type: :model do
       let(:booking) do
         build(:booking, tenant: nil, home:, organisation:, email: existing_tenant.email)
       end
-      let(:existing_tenant) { create(:tenant, organisation:, email: 'test@example.com') }
+      let(:existing_tenant) { create(:tenant, organisation:, email: 'test@heimv.test') }
       let(:tenant) { nil }
 
       it 'uses existing tenant when email is correct' do

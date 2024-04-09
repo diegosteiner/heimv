@@ -22,7 +22,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
       let(:csv) do
         <<~ENDCSV
           "begins_at","ends_at","purpose","ref","organisation","email","phone","remarks"
-          2021-05-01T10:00:00,2021-05-09T18:15:00,"youth_camp","0815","Pfadi Test","test@example.com","079 1234 67 88","Bemerkung"
+          2021-05-01T10:00:00,2021-05-09T18:15:00,"youth_camp","0815","Pfadi Test","test@heimv.test","079 1234 67 88","Bemerkung"
         ENDCSV
       end
 
