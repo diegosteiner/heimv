@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Manage::BookingParams do
-  let(:params_hash) { { booking: build(:booking).attributes.merge('home_id' => 1) } }
+  let(:params) { { booking: build(:booking).attributes.merge('home_id' => 1) } }
 
   describe '#permit' do
     subject { described_class.permit(params[:booking]) }

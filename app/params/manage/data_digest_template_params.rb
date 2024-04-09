@@ -7,6 +7,7 @@ module Manage
       optional(:label).filled(:string)
       optional(:group).maybe(:string)
 
+      raise NotImplemented
       # optional(:columns_config).maybe(:string)
       # + [{ prefilter_params: {} }]
     end
