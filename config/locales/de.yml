@@ -711,6 +711,8 @@ de:
         label: Gutschriften als rückerstattet markieren
       postpone_deadline:
         label: Frist verlängern
+      revert_cancel:
+        label: Annulation rückgängig machen
       skip_invoice:
         label: Endabrechnung überspringen
     public:

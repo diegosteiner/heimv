@@ -31,7 +31,7 @@ module BookingActions
 
     def self.label
       # i18n-tasks-ignore
-      translate(:label)
+      translate(:label, default: try(:model_name) || to_s)
     end
 
     def invoke(...)
