@@ -297,6 +297,7 @@ it:
       organisation_user:
         email: E-mail
         role: Ruolo
+        token:
       payment:
         amount: Importo
         confirm: Inviare automaticamente la conferma di pagamento
@@ -1160,6 +1161,7 @@ it:
           success:
       calendar:
         ics_link: come ICAL
+        private_ics_link:
       import:
         headers: Intestazioni
         import_error: 'Importazione non riuscita:'
@@ -1207,6 +1209,8 @@ it:
         deliver:
         not_sent:
     organisation_users:
+      form:
+        regenerate_token:
       index:
         invite_user: Invitare un nuovo utente
     organisations:

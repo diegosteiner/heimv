@@ -96,24 +96,23 @@ class Booking < ApplicationRecord
   has_secure_token :token, length: 48
   enum occupancy_type: Occupancy::OCCUPANCY_TYPES
 
-  normalizes :email, with: -> { _1.presence&.strip&.downcase }
+  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
 
-  validates :email, format: Devise.email_regexp, allow_nil: true
   validates :invoice_address, length: { maximum: 255 }
   validates :tenant_organisation, :purpose_description, length: { maximum: 150 }
   validates :approximate_headcount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
-
   validates :email, presence: true, on: %i[public_update public_create]
   validates :approximate_headcount, :purpose_description, presence: true, on: :public_update
   validates :category, presence: true, on: %i[public_update agent_booking]
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
   validate do
-    next errors.add(:occupiable_ids, :blank) if occupancies.none?
+    errors.add(:occupiable_ids, :blank) if occupancies.none?
+    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email)
   end
   validate on: %i[public_create public_update agent_booking] do
-    next errors.add(:occupiable_ids, :occupancy_conflict) if occupancies.any?(&:conflicting?)
+    errors.add(:occupiable_ids, :occupancy_conflict) if occupancies.any?(&:conflicting?)
   end
 
   scope :ordered, -> { order(begins_at: :ASC) }

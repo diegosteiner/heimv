@@ -298,6 +298,7 @@ de:
       organisation_user:
         email: Email
         role: Rolle
+        token: Token
       payment:
         amount: Betrag
         confirm: Zahlungsbestätigung automatisch verschicken
@@ -710,6 +711,8 @@ de:
         label: Gutschriften als rückerstattet markieren
       postpone_deadline:
         label: Frist verlängern
+      revert_cancel:
+        label: Annulation rückgängig machen
       skip_invoice:
         label: Endabrechnung überspringen
     public:
@@ -1284,6 +1287,7 @@ de:
           success: Aktion erfolgreich
       calendar:
         ics_link: als ICAL
+        private_ics_link: als privater ICAL
       import:
         headers: Headers
         import_error: Import fehlgeschlagen
@@ -1331,6 +1335,8 @@ de:
         deliver: Speichern und versenden
         not_sent: Diese Nachricht wurde noch nicht versendet
     organisation_users:
+      form:
+        regenerate_token: Token neu generieren
       index:
         invite_user: Neuen Benutzer einladen
     organisations:

@@ -16,5 +16,10 @@
           }) 
 
         .text-end.small
+          - if current_organisation_user&.token.present?
+            = link_to private_ical_feed_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, format: :ics, token: current_organisation_user.token)
+              = t('.private_ics_link')
+            '<> |
+
           = link_to occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, format: :ics)
             = t('.ics_link')

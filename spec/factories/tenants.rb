@@ -51,8 +51,6 @@ FactoryBot.define do
     birth_date { 22.years.ago.to_date }
     phone { '044 444 44 44' }
     locale { I18n.locale }
-    email do |c|
-      "#{[c.first_name, c.last_name].join('.').downcase.sub(/[^a-z_.\d]/i, '')}@heimverwaltung.example.com"
-    end
+    sequence(:email) { |n| "tenant#{n}@heimv.test" }
   end
 end

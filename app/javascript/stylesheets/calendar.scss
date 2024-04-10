@@ -91,6 +91,16 @@
       text-align: center;
       font-weight: bold;
     }
+
+    .month .occupancy-popover {
+      transform: translate(-43%, 2.55em);
+    }
+
+    .month:nth-last-child(-n + 6) {
+      .occupancy-popover {
+        transform: translate(-43%, -105%);
+      }
+    }
   }
 
   .months-calendar {
@@ -163,6 +173,16 @@
       display: block;
       aspect-ratio: 1 / 1;
       padding: 0;
+    }
+
+    .date .occupancy-popover {
+      transform: translate(-43%, -100%);
+    }
+
+    .date:nth-child(-n + 14) {
+      .occupancy-popover {
+        transform: translate(-43%, 3.25em);
+      }
     }
   }
 
@@ -260,19 +280,19 @@
       display: block;
     }
   }
-}
 
-.occupancy-popover {
-  position: absolute;
-  transform: translate(-43%, -100%);
-  z-index: 10;
-  display: none;
-  width: max-content;
-  text-align: start;
+  .occupancy-popover {
+    position: absolute;
+    z-index: 10;
+    display: none;
+    width: max-content;
+    text-align: start;
+    max-width: min(90vw, 20rem);
 
-  ul.occupancies {
-    &>li+li {
-      margin-top: 2em;
+    ul.occupancies {
+      &>li+li {
+        margin-top: 2em;
+      }
     }
   }
 

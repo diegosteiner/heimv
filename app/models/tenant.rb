@@ -45,18 +45,22 @@ class Tenant < ApplicationRecord
   belongs_to :organisation
 
   locale_enum default: I18n.locale
-  normalizes :email, with: -> { _1.presence&.strip&.downcase }
+  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
 
-  validates :email, allow_blank: true, format: { with: Devise.email_regexp }, uniqueness: { scope: :organisation_id }
+  validates :email, allow_blank: true, uniqueness: { scope: :organisation_id }
   validates :email, presence: true, on: :public_update
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :street_address, length: { maximum: 255 }
   validates :phone, presence: true, length: { minimum: 10, maximum: 255 }, on: :public_update
   validates :locale, presence: true
   validates :birth_date, presence: true, on: :public_update, if: :birth_date_required?
+  validate do
+    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email)
+  end
 
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
 
+  after_validation { errors.delete(:bookings) }
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')
   end

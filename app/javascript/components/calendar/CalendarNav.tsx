@@ -13,14 +13,17 @@ export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChil
   return (
     <nav className="calendar-nav">
       <div className="actions">
-        {onToday && (
+        {(onToday && (
           <button className="today active" onClick={() => onToday()}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
               <rect width="75" height="26" x="13" y="13" ry="3" />
               <rect width="75" height="75" x="13" y="13" ry="3" fill="none" stroke="black" strokeWidth="10" />
             </svg>
           </button>
-        )}
+        )) || <div></div>}
+        <button>
+          <span className="fa fa-question-circle"></span>
+        </button>
       </div>
       <div className="pages">
         <button onClick={onPrev} className="prev" type="button">

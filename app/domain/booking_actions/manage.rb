@@ -7,7 +7,7 @@ module BookingActions
         Accept, EmailContract, MarkContractSent, MarkInvoicesRefunded,
         EmailInvoices, EmailOffers, BookingActions::Public::PostponeDeadline,
         MarkContractSigned, BookingActions::Manage::CommitRequest,
-        BookingActions::Public::CommitBookingAgentRequest, Cancel
+        BookingActions::Public::CommitBookingAgentRequest, Cancel, RevertCancel
       ].index_by(&:to_sym)
     end
   end

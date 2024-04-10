@@ -27,8 +27,12 @@ class Operator < ApplicationRecord
   belongs_to :organisation, inverse_of: :operators
   has_many :operator_responsibilities, inverse_of: :operator, dependent: :destroy
 
-  validates :email, format: Devise.email_regexp, allow_blank: true
+  normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
+
   validates :locale, presence: true
+  validate do
+    errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email)
+  end
 
   def to_s
     name

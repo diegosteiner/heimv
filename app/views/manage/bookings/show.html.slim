@@ -128,7 +128,7 @@
 
           - if can?(:manage, @booking)
             .row.mt-4
-              = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking: @booking, form_class: 'col-md-8 d-flex gap-1 mt-2', button_class: proc { |action| "btn btn-outline-#{action.variant}" } }
+              = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking: @booking, form_class: 'col-md-8 d-flex gap-1 mt-2 align-items-start', button_class: proc { |action| "btn btn-outline-#{action.variant}" } }
                       
               .col-md-4.d-flex.gap-1.justify-content-end.mt-2
                 = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|

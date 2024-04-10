@@ -199,6 +199,8 @@ GEM
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
+    email_address (0.2.4)
+      simpleidn
     erubi (1.12.0)
     et-orbi (1.2.11)
       tzinfo
@@ -500,6 +502,8 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
+    simpleidn (0.2.1)
+      unf (~> 0.1.4)
     singleton (0.2.0)
     slim (5.2.1)
       temple (~> 0.10.0)
@@ -526,6 +530,9 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unaccent (0.4.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.9.1)
     unicode-display_width (2.5.0)
     uri (0.13.0)
     warden (1.2.9)
@@ -566,6 +573,7 @@ DEPENDENCIES
   discard
   dotenv-rails
   dry-schema
+  email_address
   exception_notification
   factory_bot_rails (~> 6.2.0)
   faker
