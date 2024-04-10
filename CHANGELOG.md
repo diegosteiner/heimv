@@ -4,8 +4,11 @@
 
 ## Version 24.4.2
 
+Released on 10.04.2024
+
 - Feature: Improve E-Mail validation
 - Feature: Improve private ICAL feed
+- Feature: Allow revert cancel action
 
 ## Version 24.4.1
 
