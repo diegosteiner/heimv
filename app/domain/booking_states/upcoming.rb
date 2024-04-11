@@ -31,9 +31,9 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear
-      MailTemplate.use(:upcoming_notification, booking, to: :tenant, &:autodeliver)
-      MailTemplate.use(:operator_upcoming_notification, booking, to: :home_handover, &:autodeliver)
-      MailTemplate.use(:operator_upcoming_notification, booking, to: :home_return, &:autodeliver)
+      MailTemplate.use(:upcoming_notification, booking, to: :tenant, &:autodeliver!)
+      MailTemplate.use(:operator_upcoming_notification, booking, to: :home_handover, &:autodeliver!)
+      MailTemplate.use(:operator_upcoming_notification, booking, to: :home_return, &:autodeliver!)
     end
 
     infer_transition(to: :upcoming_soon) do |booking|

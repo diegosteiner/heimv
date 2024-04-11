@@ -19,7 +19,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      MailTemplate.use(:overdue_notification, booking, to: :tenant, &:autodeliver)
+      MailTemplate.use(:overdue_notification, booking, to: :tenant, &:autodeliver!)
     end
 
     infer_transition(to: :upcoming) do |booking|

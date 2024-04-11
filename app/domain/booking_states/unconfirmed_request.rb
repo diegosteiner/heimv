@@ -28,7 +28,7 @@ module BookingStates
       booking.deadlines.create(length: booking.organisation.settings.unconfirmed_request_deadline,
                                remarks: booking.booking_state.t(:label))
       booking.tentative!
-      MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:autodeliver)
+      MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:autodeliver!)
     end
 
     def relevant_time

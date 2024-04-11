@@ -28,7 +28,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      MailTemplate.use(:booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver)
+      MailTemplate.use(:booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver!)
       booking.tentative!
     end
 

@@ -22,12 +22,12 @@ module BookingStates
       booking.deadline&.clear
       booking.update(concluded: false)
       OperatorResponsibility.assign(booking, :administration, :billing)
-      MailTemplate.use(:manage_new_booking_notification, booking, to: :administration, &:autodeliver)
+      MailTemplate.use(:manage_new_booking_notification, booking, to: :administration, &:autodeliver!)
 
       if booking.agent_booking.present?
-        MailTemplate.use(:open_booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver)
+        MailTemplate.use(:open_booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver!)
       else
-        MailTemplate.use(:open_request_notification, booking, to: :tenant, &:autodeliver)
+        MailTemplate.use(:open_request_notification, booking, to: :tenant, &:autodeliver!)
       end
     end
 
