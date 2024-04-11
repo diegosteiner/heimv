@@ -106,7 +106,7 @@ RSpec.describe Notification, type: :model do
       it { expect(notification.autodeliver?).to be_truthy }
       it do
         expect(notification).to receive(:deliver).and_return(true)
-        expect(notification.autodeliver).to be_truthy
+        expect(notification.autodeliver!).to be_truthy
       end
     end
 
@@ -116,7 +116,7 @@ RSpec.describe Notification, type: :model do
       it { expect(notification.autodeliver?).to be_falsy }
       it do
         expect(notification).not_to receive(:deliver)
-        expect(notification.autodeliver).to be_falsy
+        expect(notification.autodeliver!).to be_falsy
         expect(notification).to be_persisted
       end
     end

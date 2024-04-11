@@ -67,6 +67,10 @@ class Notification < ApplicationRecord
     deliver if autodeliver?
   end
 
+  def autodeliver
+    deliver if save && autodeliver?
+  end
+
   def autodeliver_with_redirect_proc
     return if autodeliver!
 
