@@ -6,18 +6,16 @@ ul.timeline
 					= l(log.created_at, format: :short)
 			.card.shadow-sm.mb-4
 				.card-body
+					- if log.logged_action.present?
+						- if log.logged_action.respond_to?(:label)
+							strong= log.logged_action.label
+						- elsif log.logged_action.respond_to?(:model_name)
+							strong= log.logged_action.model_name.human
+						- else 
+							strong= log.logged_action.to_s
 
-					.mb-2
-						- if log.logged_action.present?
-							- if log.logged_action.respond_to?(:label)
-								strong= log.logged_action.label
-							- elsif log.logged_action.respond_to?(:model_name)
-								strong= log.logged_action.model_name.human
-							- else 
-								strong= log.logged_action.to_s
-
-						- elsif log.logged_changes.present? 
-								strong= t('.logged_changes', changes: log.logged_changes.keys.map { |klass| klass.model_name.human }.to_sentence)
+					- elsif log.logged_changes.present? 
+							strong= t('.logged_changes', changes: log.logged_changes.keys.map { |klass| klass.model_name.human }.to_sentence)
 
 					ul.list-unstyled
 						- Array.wrap(log.logged_transitions).each do |transition|
