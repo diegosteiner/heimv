@@ -61,10 +61,6 @@ module BookingFlows
       successors_for(current_state)
     end
 
-    def past_transitions
-      object.state_transitions.pluck(:to_state).map(&:to_sym)
-    end
-
     def rollback_to!(state)
       state = object.state_transitions.where(to_state: state).last unless state.is_a? Booking::StateTransition
       return if state.blank?
