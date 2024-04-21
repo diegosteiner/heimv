@@ -22,6 +22,7 @@ class OrganisationSettings < Settings
   attribute :default_begins_at_time, :string, default: -> { '08:00' }
   attribute :default_ends_at_time, :string, default: -> { '16:00' }
   attribute :locales, array: true, default: -> { I18n.available_locales.map(&:to_s) }
+  # attribute :conflicting_occupancy_types, array: true, default: -> { Occupancy::OCCUPANCY_TYPES.keys - %i[free] }
   attribute :occupied_occupancy_states, array: true, default: lambda {
                                                                 BookingStates.occupied_occupancy_able.keys.map(&:to_s)
                                                               }

@@ -17,7 +17,9 @@ class OccupancyCalendar
 
   def occupancies
     @occupancies ||= Array.wrap(occupiables).flat_map do |occupiable|
-      occupiable.occupancies.blocking.at(from: window_from, to: window_to).includes(booking: [:deadline])
+      occupiable.occupancies
+                .at(from: window_from, to: window_to).includes(booking: [:deadline])
+                .where(occupancy_type: Occupancy::CONFLICTING_OCCUPANCY_TYPES)
     end
   end
 end
