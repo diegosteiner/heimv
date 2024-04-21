@@ -8,7 +8,7 @@ module BookingActions
           invoice.payments.create!(amount: invoice.amount_open, confirm: false, paid_at: Time.zone.now)
         end
 
-        Result.ok
+        Result.success
       end
 
       def allowed?

@@ -8,9 +8,7 @@ module BookingActions
       end
 
       def allowed?
-        booking.valid? &&
-          booking.in_state?(:provisional_request, :overdue_request) &&
-          !booking.committed_request
+        booking.valid? && !booking.committed_request
       end
 
       def confirm
