@@ -87,6 +87,7 @@ FactoryBot.define do
       next if evaluator.initial_state.blank?
 
       Booking::StateTransition.initial_for(booking, evaluator.initial_state)
+      booking.booking_flow.current_state(force_reload: true)
       booking.apply_transitions
     end
   end

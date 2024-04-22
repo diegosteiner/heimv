@@ -17,11 +17,10 @@ module BookingStateConcern
   end
 
   def apply_transitions(transitions = transition_to, metadata: nil, infer_transitions: !skip_infer_transitions)
-    booking_flow.current_state(force_reload: true)
-    self.applied_transitions = Array.wrap(transitions).compact_blank.map do |next_transition|
-      next booking_flow.transition_to(next_transition, metadata:) if can_transition_to?(next_transition)
+    self.applied_transitions = Array.wrap(transitions).compact_blank.map do |transition|
+      next transition if can_transition_to?(transition) && booking_flow.transition_to(transition, metadata:)
 
-      errors.add(:transition_to, :invalid_transition, transition: next_transition)
+      errors.add(:transition_to, :invalid_transition, transition:)
       return false
     end
     self.transition_to = nil
