@@ -44,6 +44,10 @@ module BookingFlows
       @booking_state = BookingStates.all[current_state&.to_sym]&.new(booking)
     end
 
+    def booking
+      object
+    end
+
     def infer(max_steps = 10)
       [].tap do |passed_transitions|
         while (to = infer_next_state) && passed_transitions.count <= max_steps
@@ -53,7 +57,7 @@ module BookingFlows
             passed_transitions << to if transition_to(to, metadata: { infered: true })
           end
         end
-        object.valid?
+        booking.valid?
       end
     end
 
@@ -62,12 +66,12 @@ module BookingFlows
     end
 
     def rollback_to!(state)
-      state = object.state_transitions.where(to_state: state).last unless state.is_a? Booking::StateTransition
+      state = booking.state_transitions.where(to_state: state).last unless state.is_a? Booking::StateTransition
       return if state.blank?
 
       # rubocop:disable Rails/SkipsModelValidations
-      object.state_transitions.where(Booking::StateTransition.arel_table[:created_at].gt(state.created_at))
-            .destroy_all && object.touch
+      booking.state_transitions.where(Booking::StateTransition.arel_table[:created_at].gt(state.created_at))
+             .destroy_all && booking.touch
       # rubocop:enable Rails/SkipsModelValidations
     end
 
@@ -77,7 +81,7 @@ module BookingFlows
         to = callback.to.first
 
         next unless from == current_state&.to_s || from.blank?
-        next unless callback.callback.call(object) && can_transition_to?(to)
+        next unless callback.callback.call(booking) && can_transition_to?(to)
 
         return to
       end
