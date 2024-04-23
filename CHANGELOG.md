@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Feature: Allow discard of booking categories
+
+
 ## Version 24.4.2
 
 Released on 10.04.2024

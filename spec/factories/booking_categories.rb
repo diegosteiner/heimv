@@ -6,6 +6,7 @@
 #
 #  id               :bigint           not null, primary key
 #  description_i18n :jsonb
+#  discarded_at     :datetime
 #  key              :string
 #  ordinal          :integer
 #  title_i18n       :jsonb
@@ -15,6 +16,7 @@
 #
 # Indexes
 #
+#  index_booking_categories_on_discarded_at             (discarded_at)
 #  index_booking_categories_on_key_and_organisation_id  (key,organisation_id) UNIQUE
 #  index_booking_categories_on_ordinal                  (ordinal)
 #  index_booking_categories_on_organisation_id          (organisation_id)

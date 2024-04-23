@@ -25,7 +25,7 @@ module Manage
     end
 
     def destroy
-      @booking_category.destroy
+      @booking_category.discarded? ? @booking_category.destroy : @booking_category.discard!
       respond_with :manage, @booking_category, location: manage_booking_categories_path
     end
 
