@@ -80,8 +80,12 @@ jobs:
         run: docker-compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
 
       - if: failure()
+        name: get failed e2e_test container
+        run: $(docker-compose --file docker-compose.ci.yml ps -q e2e_test)
+
+      - if: failure()
         name: dump tmp
-        run: docker cp $(docker-compose --file docker-compose.ci.yml ps -q e2e_test)/rails/tmp ./artifacts/tmp
+        run: docker cp $(docker-compose --file docker-compose.ci.yml ps -q e2e_test):/rails/tmp ./artifacts/tmp
 
       - if: failure()
         name: upload artifacts
