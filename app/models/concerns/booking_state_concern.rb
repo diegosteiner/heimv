@@ -30,9 +30,10 @@ module BookingStateConcern
   end
 
   def update_booking_state_cache!
+    Rails.logger.info("Booking<#{booking.id}>@#{booking_state&.to_s}")
     return unless booking_state_cache != booking_state&.to_s
 
-    update_columns(booking_state_cache: booking_state.to_s) # rubocop:disable Rails/SkipsModelValidations
+    update_columns(booking_state_cache: booking_state.to_s, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def booking_flow
