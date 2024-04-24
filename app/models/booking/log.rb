@@ -33,7 +33,7 @@ class Booking
         booking: booking.previous_changes,
         tenant: booking.tenant&.previous_changes,
         action: action.is_a?(BookingActions::Base) ? action.class.name : action,
-        transitions: booking.previous_transitions
+        transitions: booking.applied_transitions
       ).compact_blank
 
       create!(booking:, trigger:, user:, data:) if data.values.any?

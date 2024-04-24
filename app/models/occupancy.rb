@@ -32,6 +32,7 @@
 class Occupancy < ApplicationRecord
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
   OCCUPANCY_TYPES = { free: 0, tentative: 1, occupied: 2, closed: 3 }.freeze
+  CONFLICTING_OCCUPANCY_TYPES = (OCCUPANCY_TYPES.keys - %i[free]).freeze
 
   include Timespanable
 
@@ -44,7 +45,6 @@ class Occupancy < ApplicationRecord
   enum occupancy_type: OCCUPANCY_TYPES
 
   scope :ordered, -> { order(begins_at: :ASC) }
-  scope :blocking, -> { where(occupancy_type: %i[tentative occupied closed]) }
 
   before_validation :update_from_booking
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
@@ -72,14 +72,15 @@ class Occupancy < ApplicationRecord
     super
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def conflicting(margin = occupiable&.settings&.booking_margin || 0)
-    return if begins_at.blank? || ends_at.blank? || occupiable.blank?
+  def conflicting(margin: occupiable&.settings&.booking_margin || 0,
+                  conflicting_occupancy_types: Occupancy::CONFLICTING_OCCUPANCY_TYPES)
+    return unless valid?
 
-    occupiable.occupancies.blocking.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
+    occupiable.occupancies
+              .at(from: begins_at - margin - 1, to: ends_at + margin + 1)
+              .where(occupancy_type: conflicting_occupancy_types)
               .where.not(id:)
   end
-  # rubocop:enable Metrics/AbcSize
 
   def color=(value)
     super(value.presence) if value != color

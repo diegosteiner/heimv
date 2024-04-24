@@ -71,10 +71,11 @@
       - @booking.errors[:committed_request].each do |error|
         .invalid-feedback.d-block = error
 
-    - if current_organisation.booking_categories.many?
-      = f.collection_select :booking_category_id, current_organisation.booking_categories, :id, :title, include_blank: true
+    - booking_categories = [current_organisation.booking_categories.kept, @booking.category].flatten.compact_blank.uniq
+    - if booking_categories.many?
+      = f.collection_select :booking_category_id, booking_categories, :id, :title, include_blank: true
     - else 
-      = f.hidden_field :booking_category_id, value: current_organisation.booking_categories.take.id
+      = f.hidden_field :booking_category_id, value: booking_categories.frist&.id
       
     = f.text_field :purpose_description
     = f.number_field :approximate_headcount

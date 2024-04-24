@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: buildx
         uses: docker/setup-buildx-action@master
@@ -22,14 +22,14 @@ jobs:
         run: mkdir -p artifacts
 
       - name: docker login
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: docker build test
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           load: true
@@ -40,7 +40,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: docker build target
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           load: true
@@ -77,11 +77,11 @@ jobs:
 
       - if: failure()
         name: dump log
-        run: docker compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
+        run: docker-compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
 
       - if: failure()
         name: dump tmp
-        run: docker compose --file docker-compose.ci.yml cp e2e_test:/rails/tmp ./artifacts/tmp
+        run: docker cp $(docker-compose --file docker-compose.ci.yml ps -qa e2e_test | head -n1):/rails/tmp ./artifacts/tmp
 
       - if: failure()
         name: upload artifacts

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_09_145255) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_23_074713) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -102,6 +102,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_09_145255) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "ordinal"
     t.jsonb "description_i18n"
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_booking_categories_on_discarded_at"
     t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
     t.index ["ordinal"], name: "index_booking_categories_on_ordinal"
     t.index ["organisation_id"], name: "index_booking_categories_on_organisation_id"
