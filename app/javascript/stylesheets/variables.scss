@@ -1,4 +1,4 @@
-@import '~bootstrap/scss/functions';
+@import 'bootstrap/scss/functions';
 $enable-shadows: true;
 // Template: https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
 $primary: #333399;
@@ -8,6 +8,6 @@ $box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
 $font-family-base: Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
 $font-size-base: 0.85rem;
 $headings-font-family: 'Patua One', cursive;
-$fa-font-path: '~font-awesome/fonts';
-@import '~font-awesome/scss/font-awesome';
-@import '~bootstrap/scss/_variables';
+$fa-font-path: 'font-awesome/fonts';
+@import 'font-awesome/scss/font-awesome';
+@import 'bootstrap/scss/_variables';
