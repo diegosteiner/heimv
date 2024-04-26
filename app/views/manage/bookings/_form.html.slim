@@ -8,7 +8,7 @@
           li= message
 
   fieldset 
-    = react_component('react_rails/BookingOccupancyForm', { \ 
+    = react_component('BookingOccupancyForm', { \ 
         org: current_organisation.slug, \
         booking: Public::BookingSerializer.render_as_hash(@booking), \
         namePrefix: 'booking', \ 
@@ -75,7 +75,7 @@
     - if booking_categories.many?
       = f.collection_select :booking_category_id, booking_categories, :id, :title, include_blank: true
     - else 
-      = f.hidden_field :booking_category_id, value: booking_categories.frist&.id
+      = f.hidden_field :booking_category_id, value: booking_categories.first&.id
       
     = f.text_field :purpose_description
     = f.number_field :approximate_headcount

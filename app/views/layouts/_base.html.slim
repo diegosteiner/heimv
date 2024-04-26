@@ -6,11 +6,14 @@ html[lang=I18n.locale]
     link rel="icon" href="/favicon.ico" /
     link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" /
     meta name="theme-color" content="#7575d1" /
-    == stylesheet_pack_tag 'app'
+    
+    == vite_client_tag
+    == vite_react_refresh_tag
+    == vite_stylesheet_tag 'app.scss'
     == csrf_meta_tags
     == csp_meta_tag
     == display_meta_tags
-    == javascript_pack_tag 'app', defer: true
+    == vite_javascript_tag 'app', defer: true
 
   body
     .app-container[class=Rails.env]

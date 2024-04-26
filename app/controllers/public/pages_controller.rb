@@ -29,7 +29,7 @@ module Public
 
     def ext
       respond_to do |format|
-        format.js render(file: helpers.asset_pack_path('ext'))
+        format.js render(file: helpers.vite_asset_path('ext'))
       end
     end
   end

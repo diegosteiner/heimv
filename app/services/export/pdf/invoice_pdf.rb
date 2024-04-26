@@ -20,8 +20,6 @@ module Export
         @invoice = invoice
       end
 
-      add_font_family 'ocr', normal: File.join(FONTS_PATH, 'ocrb', 'webfonts', 'OCR-B-regular-web.ttf')
-
       to_render do
         header_text = "#{Booking.human_model_name} #{booking.ref}"
         render Renderables::PageHeader.new(text: header_text, logo: organisation.logo)

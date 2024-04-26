@@ -14,7 +14,7 @@
         = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
 
         fieldset 
-          = react_component('react_rails/BookingOccupancyForm', { \ 
+          = react_component('BookingOccupancyForm', { \ 
               org: current_organisation.slug, \
               booking: Public::BookingSerializer.render_as_hash(@booking), \
               namePrefix: 'booking', \ 

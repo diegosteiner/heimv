@@ -13,9 +13,6 @@
 #     policy.img_src     :self, :https, :data
 #     policy.object_src  :none
 #     policy.script_src  :self, :https
-#     policy.style_src   :self, :https
-#     # Specify URI for violation reports
-#     # policy.report_uri "/csp-violation-report-endpoint"
 #   end
 #
 #   # Generate session nonces for permitted importmap, inline scripts, and inline styles.
@@ -29,10 +26,21 @@ Rails.application.config.content_security_policy do |policy|
   policy.default_src :self, :https
   policy.style_src :self, :https, :unsafe_inline
   policy.img_src :self, :https, :data
+  policy.script_src :self, :unsafe_inline, :unsafe_eval
 
-  if Rails.env.development?
+  case Rails.env
+  when :development
     policy.default_src :self, :unsafe_inline
-    policy.script_src :self, :unsafe_inline, :unsafe_eval
-    policy.connect_src :self, :https, 'http://*.localhost:3035', 'ws://*.localhost:3035'
+    policy.style_src(*policy.style_src, :unsafe_inline)
+    policy.script_src(*policy.script_src, :unsafe_eval, "http://#{ViteRuby.config.host_with_port}")
+    policy.connect_src(*policy.connect_src,
+                       'http://localhost:3000',
+                       'http://*.localhost:3000',
+                       "http://#{ViteRuby.config.host_with_port}",
+                       "http://*.#{ViteRuby.config.host_with_port}",
+                       "ws://#{ViteRuby.config.host_with_port}",
+                       "ws://*.#{ViteRuby.config.host_with_port}")
+  when :test
+    policy.script_src(*policy.script_src, :blob, :unsafe_eval)
   end
 end

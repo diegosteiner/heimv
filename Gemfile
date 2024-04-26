@@ -49,13 +49,13 @@ gem 'redis'
 gem 'responders'
 gem 'rqrcode'
 gem 'rubyzip'
-gem 'shakapacker', '~> 7.0'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'slim-rails'
 gem 'statesman'
 gem 'translation'
 gem 'ttfunk', '~> 1.7.0' # https://github.com/prawnpdf/prawn/issues/1346
+gem 'vite_rails'
 
 group :development do
   gem 'annotate'
