@@ -9,7 +9,7 @@ services:
       - bundle:/usr/local/bundle:cached
     ports:
       - "3000:3000"
-      - "3035:3035"
+      - "3036:3036"
     environment:
       APP_HOST: ${APP_HOST:-heimv.localhost:3000}
       E2E_SERVER_PORT: "3001"

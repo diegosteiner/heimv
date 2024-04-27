@@ -2,8 +2,15 @@
 
 ## Unreleased
 
-- Feature: Allow discard of booking categories
+## Version 24.4.3
 
+Released on 27.04.2024
+
+- Feature: Allow discard of booking categories
+- Feature: Allow booking categories to be discarded
+- Refactor: Replace webpacker with vite
+- Refactor: Improve booking_state cache for better performance
+- Fix: Fix error when cancelling
 
 ## Version 24.4.2
 

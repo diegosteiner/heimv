@@ -28,9 +28,7 @@ module Public
     end
 
     def ext
-      respond_to do |format|
-        format.js render(file: helpers.vite_asset_path('ext'))
-      end
+      raise NotImplementedError
     end
   end
 end
