@@ -2,7 +2,6 @@ import "~/services/i18n";
 import "bootstrap/dist/js/bootstrap.bundle";
 import Rails from "rails-ujs";
 import ReactRailsUJS from "react_ujs";
-import { setup as setupRichTextArea } from "~/components/rich_text_area";
 
 function csrfForm() {
   const csrfToken = document.querySelector("meta[name=csrf-token]")?.content;
@@ -70,6 +69,12 @@ function setupOrgChangeSelect() {
   document.getElementById("change-org")?.addEventListener("change", (event) => {
     window.location = event.target.value;
   });
+}
+
+function setupRichTextArea() {
+  if (!document.querySelector(".rich-text-area")) return;
+
+  import("~/services/rich_text_area");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
