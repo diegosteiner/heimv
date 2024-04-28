@@ -17,7 +17,7 @@ or with VS Code: [Reopen in Container] with Remote Containers Extension
 Then inside the container you may run:
 
 - `bin/rails-dev-server` to start rails server
-- `bin/shakapacker-dev-server` to start webpack dev server
+- `bin/vite dev` to start vite dev server
 - `bin/sidekiq-job-worker` to start the sidekiq worker process
 
 To visit the automatically created default organization, visit <http://heimv.localhost:3000/>.
@@ -26,8 +26,8 @@ To visit the automatically created default organization, visit <http://heimv.loc
 
 After starting the development servers, open the browser <http://heimv.localhost:3000/> and log in with:
 
-- Manager: manager@heimv.local, heimverwaltung
-- Read only user: reader@heimv.local, heimverwaltung
+- Manager: <manager@heimv.local>, heimverwaltung
+- Read only user: <reader@heimv.local>, heimverwaltung
 
 ### Commands
 
@@ -66,14 +66,13 @@ Copy env.example to .env and change configuration there
 
 Use this feed in a ICAL compatible calendar app:
 
-https://app.heimv.ch/{{organisation.slug}}/occupiables/{{occupiable.id}}/calendar.ics
+<https://app.heimv.ch/{{organisation.slug}}/occupiables/{{occupiable.id}}/calendar.ics>
 
 Use this feed to get more info (token required)
 
-https://app.heimv.ch/{{organisation.slug}}/occupiables/{{occupiable.id}}/calendar/private_ical_feed.ics?token={{token}}
+<https://app.heimv.ch/{{organisation.slug}}/occupiables/{{occupiable.id}}/calendar/private_ical_feed.ics?token={{token}}>
 
 The token can be generated with `user.regenerate_token`
-
 
 ## Add Organisation
 
@@ -192,6 +191,6 @@ cat ./path/to/backup.dump | docker exec -i $(docker ps -q --filter name=heimv-db
 Copyright 2017-2023 Diego P. Steiner & contributors
 
 If you want to use HeimV in a commercial setting, a commercial licence
-is required. For a commercial licence please get in touch: license@heimv.ch.
+is required. For a commercial licence please get in touch: <license@heimv.ch>.
 Other than that, the project is licensed under the AGPLv3 License.
 See LICENCE for details.

@@ -4,7 +4,7 @@ module BookingActions
   module Public
     class Cancel < BookingActions::Base
       def invoke!
-        booking.errors.clear
+        booking.reload
         transition_to = if booking.can_transition_to?(:declined_request)
                           :declined_request
                         elsif booking.can_transition_to?(:cancelation_pending)

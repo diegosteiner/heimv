@@ -8,7 +8,7 @@
       .card-body
         h1.mt-2.text-center= occupiable
         
-        = react_component('react_rails/OccupiableCalendar', { \ 
+        = react_component('OccupiableCalendar', { \ 
             org: current_organisation.slug, \
             occupiableIds: [occupiable.id], \
             occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, date: '__DATE__'), \

@@ -4,23 +4,23 @@ module Manage
   module Bookings
     class BookingActionsController < BaseController
       load_and_authorize_resource :booking
+      before_action do
+        authorize! :manage, @booking
+      end
 
       def prepare
-        authorize! :manage, @booking
-
         nil unless booking_action
       end
 
-      def invoke
-        authorize! :manage, @booking
-
+      def invoke # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
         @result = booking_action.invoke(**booking_action_params)
 
         if @result&.success
           write_booking_log
           redirect_to @result.redirect_proc || manage_booking_path(@booking), notice: t('.success')
         else
-          redirect_to manage_booking_path(@booking), alert: @result.error.presence || t('.failure')
+          ExceptionNotification.notify_exception(@result&.error) if defined?(ExceptionNotification)
+          redirect_to manage_booking_path(@booking), alert: @result&.error.presence || t('.failure')
         end
       end
 

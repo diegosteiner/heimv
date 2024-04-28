@@ -63,7 +63,7 @@ RUN yarn install
 
 COPY --chown=rails:rails . .
 RUN bundle exec bootsnap precompile app/ lib/ && \
-    bin/shakapacker
+    bin/vite build
 
 ### === production === ###
 FROM base AS production

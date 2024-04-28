@@ -62,15 +62,20 @@ class Notification < ApplicationRecord
     mail_template&.autodeliver
   end
 
-  def autodeliver
-    return save && false unless autodeliver?
+  def autodeliver!
+    save!
+    deliver if autodeliver?
+  end
 
-    deliver
+  def autodeliver
+    deliver if save && autodeliver?
   end
 
   def autodeliver_with_redirect_proc
-    notification_id = to_param
-    proc { edit_manage_notification_path(id: notification_id) } unless autodeliver
+    return if autodeliver!
+
+    closure_notification_id = to_param
+    proc { edit_manage_notification_path(id: closure_notification_id) }
   end
 
   def attach(...)

@@ -24,7 +24,7 @@
                 =<> l(@agent_booking.booking.deadline.at, format: :short)
 
         fieldset 
-          = react_component('react_rails/BookingOccupancyForm', { \ 
+          = react_component('BookingOccupancyForm', { \ 
               org: current_organisation.slug, \
               booking: Public::BookingSerializer.render_as_hash(@agent_booking.booking), \
               namePrefix: 'agent_booking[booking_attributes]', \ 

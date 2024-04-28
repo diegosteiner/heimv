@@ -73,4 +73,23 @@ RSpec.describe RichTextTemplate, type: :model do
       it { expect { subject }.to raise_error(RichTextTemplate::InvalidContext) }
     end
   end
+
+  describe '#interpolate' do
+    let(:title) { '' }
+    let(:body) { '' }
+    let(:rich_text_template) { build(:rich_text_template, body:, title:) }
+    let(:context) { { booking: create(:booking, initial_state: :open_request) } }
+    subject(:interpolate) { rich_text_template.interpolate(context) }
+
+    context 'with booking_condition filter', pending: true do
+      let(:body) do
+        <<~BODY
+          {% assign is_open_request = booking | booking_condition: "BookingState", "=", "open_request" %}
+          {% if is_open_request %}Nice!{% else %}Bummer{% endif %}
+        BODY
+      end
+
+      it { expect(interpolate.body.strip).to eq('Nice!') }
+    end
+  end
 end

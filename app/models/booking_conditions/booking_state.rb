@@ -53,7 +53,7 @@ module BookingConditions
     protected
 
     def booking_state_transitions_include?(booking, state)
-      booking.booking_flow.past_transitions.include?(state&.to_sym)
+      booking.state_transitions.pluck(:to_state).map(&:to_sym).include?(state&.to_sym)
     end
   end
 end

@@ -29,4 +29,12 @@ Liquid::Template.register_filter(Module.new do
   def as_liquid(value)
     "{{ #{value} }}"
   end
+
+  def booking_condition(value, type, *args)
+    # compare_value = args.pop
+    # compare_operator = args.pop
+    # compare_attribute = args.pop
+    # booking_condition = BookingConditions.const_get(type)&.new(compare_attribute:, compare_operator:, compare_value:)
+    # booking_condition&.evaluate(Booking.find(value.fetch('id')))
+  end
 end)

@@ -25,9 +25,9 @@ module BookingStates
       booking.free!
       booking.deadline&.clear
       booking.update!(editable: false)
-      MailTemplate.use(:operator_cancelation_pending_notification, booking, to: :home_handover, &:autodeliver)
-      MailTemplate.use(:operator_cancelation_pending_notification, booking, to: :home_return, &:autodeliver)
-      MailTemplate.use(:manage_cancelation_pending_notification, booking, to: :administration, &:autodeliver)
+      MailTemplate.use(:operator_cancelation_pending_notification, booking, to: :home_handover, &:autodeliver!)
+      MailTemplate.use(:operator_cancelation_pending_notification, booking, to: :home_return, &:autodeliver!)
+      MailTemplate.use(:manage_cancelation_pending_notification, booking, to: :administration, &:autodeliver!)
     end
 
     infer_transition(to: :cancelled) do |booking|

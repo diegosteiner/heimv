@@ -62,7 +62,7 @@ class Payment < ApplicationRecord
   def confirm!
     return if write_off || !confirm?
 
-    MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, booking:, payment: self, &:autodeliver)
+    MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, booking:, payment: self, &:autodeliver!)
   end
 
   def recalculate_invoice

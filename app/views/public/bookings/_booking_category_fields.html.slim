@@ -1,7 +1,8 @@
-- if current_organisation.booking_categories.many?
+- booking_categories = [current_organisation.booking_categories.kept, booking.category].flatten.compact_blank.uniq
+- if booking_categories.many?
   = f.form_group :booking_category_id
     = f.label :booking_category_id, Booking.human_attribute_name(:booking_category_id), class: 'required'
-    = f.collection_radio_buttons_without_bootstrap :booking_category_id, current_organisation.booking_categories, :id, :title do |builder|
+    = f.collection_radio_buttons_without_bootstrap :booking_category_id, booking_categories, :id, :title do |builder|
       .form-check
         = builder.radio_button class: 'form-check-input', disabled: !booking.editable
         = builder.label class: 'form-check-label' do
@@ -12,4 +13,4 @@
     - booking.errors[:category].each do |error|
       .invalid-feedback.d-block = error
 - else 
-  = f.hidden_field :booking_category_id, value: current_organisation.booking_categories.take.id
+  = f.hidden_field :booking_category_id, value: booking_categories.first&.id

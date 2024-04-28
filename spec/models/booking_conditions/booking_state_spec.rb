@@ -34,13 +34,9 @@ RSpec.describe BookingConditions::BookingState, type: :model do
   describe '#evaluate' do
     subject { booking_condition.evaluate(booking) }
 
-    let(:booking_condition) do
-      described_class.new(compare_value:, organisation:, compare_operator:)
-    end
+    let(:booking_condition) { described_class.new(compare_value:, organisation:, compare_operator:) }
     let(:organisation) { create(:organisation) }
-    let(:booking) do
-      create(:booking, organisation:, initial_state: :open_request, committed_request: false)
-    end
+    let(:booking) { create(:booking, organisation:, initial_state: :open_request, committed_request: false) }
     let(:compare_value) { 'open_request' }
     let(:compare_operator) { '=' }
 

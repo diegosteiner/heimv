@@ -38,7 +38,6 @@ class Booking
 
     before_save :serialize_booking
     after_destroy :update_most_recent, if: :most_recent?
-    after_save :update_booking_state_cache
 
     def self.initial_for(booking, state)
       last_transition = booking.state_transitions.ordered.last
@@ -51,12 +50,6 @@ class Booking
 
     def serialize_booking
       self.booking_data = booking.attributes
-    end
-
-    def update_booking_state_cache
-      # rubocop:disable Rails/SkipsModelValidations
-      booking.update_columns(booking_state_cache: to_state, updated_at:)
-      # rubocop:enable Rails/SkipsModelValidations
     end
 
     def update_most_recent
