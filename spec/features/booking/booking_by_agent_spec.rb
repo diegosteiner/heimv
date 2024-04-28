@@ -74,7 +74,6 @@ describe 'Booking by agent', :devise, type: :feature do
   def create_agent_booking_request
     visit new_booking_path
     fill_request_form(email: nil, begins_at: booking.begins_at, ends_at: booking.ends_at, home: booking.home)
-    binding.pry
     click_on 'agent-booking-button'
 
     choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
