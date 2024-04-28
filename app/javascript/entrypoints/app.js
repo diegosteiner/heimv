@@ -77,6 +77,7 @@ function setupRichTextArea() {
   import("~/services/rich_text_area");
 }
 
+Rails.start();
 document.addEventListener("DOMContentLoaded", () => {
   csrfForm();
   toggleDisable();
@@ -85,8 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupOccupiableSelect();
   setupOrgChangeSelect();
 });
-
-Rails.start();
 
 // https://github.com/reactjs/react-rails/issues/1134#issuecomment-1415112288
 function viteConstructorRequireContext(reqCtx) {
