@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Booking by tenant', :devise, type: :feature do
+describe 'Booking by agent', :devise, type: :feature do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
@@ -74,7 +74,7 @@ describe 'Booking by tenant', :devise, type: :feature do
   def create_agent_booking_request
     visit new_booking_path
     fill_request_form(email: nil, begins_at: booking.begins_at, ends_at: booking.ends_at, home: booking.home)
-    click_button BookingAgent.model_name.human
+    click_on 'agent-booking-button'
 
     choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
     fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
