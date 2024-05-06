@@ -1,6 +1,6 @@
 import { isWithinInterval } from "date-fns";
-import { addHours, endOfDay, isBefore, startOfDay } from "date-fns/esm";
-import { isAfter } from "date-fns/esm";
+import { addHours, endOfDay, isBefore, startOfDay } from "date-fns";
+import { isAfter } from "date-fns";
 import { MouseEventHandler, useMemo } from "react";
 import { findMostRelevantOccupancy, Occupancy } from "../../models/Occupancy";
 import { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";

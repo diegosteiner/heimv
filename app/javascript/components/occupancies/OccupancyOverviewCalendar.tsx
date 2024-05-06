@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
-import { isAfter, isBefore } from "date-fns/esm";
+import { isAfter, isBefore } from "date-fns";
 import * as React from "react";
 import { parseISO } from "date-fns";
 import Calendar, { ViewType } from "../calendar/Calendar";
