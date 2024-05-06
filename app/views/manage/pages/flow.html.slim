@@ -2,7 +2,7 @@
   h1.mb-5.text-center= t('.title')
   .row.justify-content-center
     .col-md-4
-      = inline_svg_pack_tag('static/images/states.svg')
+      == render file: Rails.root.join('app/javascript/images/states.svg')
     .col-md-1
     .col-md-4
       - @booking_states.each do |booking_state|
