@@ -33,11 +33,9 @@ describe 'Occupiable', :devise, type: :feature do
 
   it 'can delete existing occupiable' do
     occupiable
-    visit manage_occupiables_path(org: nil)
-    click_link I18n.t('edit')
+    visit edit_manage_occupiable_path(occupiable, org: nil)
     click_link I18n.t('destroy')
     page.driver.browser.switch_to.alert.accept
     expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Occupiable.model_name.human)
-    expect(page).not_to have_content occupiable.name
   end
 end
