@@ -5,8 +5,8 @@
 # Table name: occupiables
 #
 #  id               :bigint           not null, primary key
-#  active           :boolean          default(FALSE)
 #  description_i18n :jsonb
+#  discarded_at     :datetime
 #  janitor          :text
 #  name_i18n        :jsonb
 #  occupiable       :boolean          default(FALSE)
@@ -21,6 +21,7 @@
 #
 # Indexes
 #
+#  index_occupiables_on_discarded_at             (discarded_at)
 #  index_occupiables_on_home_id                  (home_id)
 #  index_occupiables_on_organisation_id          (organisation_id)
 #  index_occupiables_on_ref_and_organisation_id  (ref,organisation_id) UNIQUE
@@ -36,7 +37,6 @@ FactoryBot.define do
     name { "Pfadiheim #{Faker::Address.city}" }
     description { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     sequence(:ref) { |i| "H#{i}" }
-    active { true }
     occupiable { true }
 
     factory :home, class: 'Home'

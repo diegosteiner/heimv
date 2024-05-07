@@ -29,24 +29,12 @@ export type BookingCategory = {
   title_i18n: TranslatedString;
 };
 
-export type Home = {
-  id: number;
-  active: boolean;
-  description: string;
-  description_i18n: TranslatedString;
-  home_id: number;
-  name: string;
-  name_i18n: TranslatedString;
-  occupiable: boolean;
-  occupiables: Occupiable[];
-};
-
 export type Occupiable = {
   id: number;
   organisation_id: number;
   ref: string | null;
   // janitor: null;
-  active: boolean;
+  discarded_at: string;
   created_at: Date;
   updated_at: Date;
   occupiable: boolean;
@@ -54,5 +42,11 @@ export type Occupiable = {
   // settings: Settings;
   ordinal: number | undefined;
   name_i18n: TranslatedString;
+  name: string;
   description_i18n: TranslatedString;
+  description: string;
+};
+
+export type Home = Occupiable & {
+  occupiables: Occupiable[];
 };

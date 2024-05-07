@@ -40,7 +40,7 @@ RSpec.describe BookingRefService, type: :model do
       let(:template) { '%<occupiable_refs>s-%<year>04d%<month>02d' }
       let(:occupiables) do
         %w[A B C].map do |ref|
-          create(:occupiable, home:, organisation:, ref:, active: true, occupiable: true)
+          create(:occupiable, home:, organisation:, ref:, occupiable: true)
         end
       end
       let(:booking) do

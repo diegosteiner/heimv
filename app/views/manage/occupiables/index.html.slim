@@ -5,15 +5,20 @@ h1.mt-0.mb-5= Occupiable.model_name.human(count: 2)
     - @occupiables.each do |occupiable|
       .col-md-3.mb-5
         .card.shadow-sm.h-100
-          .card-img-top.bg-secondary.bg-gradient.ratio.ratio-16x9
+          .card-img-top.bg-secondary.bg-gradient.ratio.ratio-16x9[class=('opacity-50' if occupiable.discarded?)]
             - if occupiable.cover_image_url.present?
               img.card-img-top src=occupiable.cover_image_url alt=occupiable.name height=200
-          .card-body
+          .card-body[class=('opacity-50' if occupiable.discarded?)]
             h5.card-title.m-0=occupiable.name
             p
               =occupiable.description
             p.m-0= link_to Occupancy.model_name.human(count: 2), manage_occupiable_occupancies_path(occupiable)
-            p.m-0= link_to t('edit'), edit_manage_occupiable_path(occupiable)
+            .mt-3.d-flex.justify-content-end
+              - unless occupiable.discarded?
+                = link_to edit_manage_occupiable_path(occupiable), class: 'btn btn-default' do
+                  span.fa.fa-edit
+              = link_to manage_occupiable_path(occupiable), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
 
 br
 = link_to new_manage_occupiable_path, class: 'btn btn-primary' do

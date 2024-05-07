@@ -5,8 +5,8 @@
 # Table name: occupiables
 #
 #  id               :bigint           not null, primary key
-#  active           :boolean          default(FALSE)
 #  description_i18n :jsonb
+#  discarded_at     :datetime
 #  janitor          :text
 #  name_i18n        :jsonb
 #  occupiable       :boolean          default(FALSE)
@@ -21,6 +21,7 @@
 #
 # Indexes
 #
+#  index_occupiables_on_discarded_at             (discarded_at)
 #  index_occupiables_on_home_id                  (home_id)
 #  index_occupiables_on_organisation_id          (organisation_id)
 #  index_occupiables_on_ref_and_organisation_id  (ref,organisation_id) UNIQUE
@@ -32,6 +33,7 @@
 
 class Occupiable < ApplicationRecord
   include RankedModel
+  include Discard::Model
   extend Mobility
 
   has_many :occupancies, -> { ordered }, inverse_of: :occupiable, dependent: :restrict_with_error
@@ -46,7 +48,6 @@ class Occupiable < ApplicationRecord
   normalizes :ref, with: -> { _1.presence&.strip }
 
   scope :occupiable, -> { where(occupiable: true) }
-  scope :active, -> { where(active: true) }
   scope :ordered, -> { rank(:ordinal) }
 
   validates :name, presence: true

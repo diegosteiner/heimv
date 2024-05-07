@@ -247,7 +247,6 @@ it:
         occupiable_id: Proprietà in affitto
         remarks: Osservazioni
       occupiable:
-        active: Attivo
         description: Descrizione
         home_id: Oggetto principale di affitto
         name: Nome

@@ -248,7 +248,6 @@ de:
         occupiable_id: Mietobjekt
         remarks: Bemerkungen
       occupiable:
-        active: Aktiv
         description: Beschreibung
         home_id: Hauptmietobjekt
         name: Name

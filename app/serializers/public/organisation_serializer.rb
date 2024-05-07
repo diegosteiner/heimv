@@ -6,7 +6,7 @@ module Public
 
     association :booking_categories, blueprint: Public::BookingCategorySerializer
     association :homes, blueprint: Public::HomeSerializer do |organisation|
-      organisation.homes.active
+      organisation.homes.kept
     end
 
     fields :name, :address, :email, :currency, :country_code

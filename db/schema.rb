@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_23_074713) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_07_112036) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -375,7 +375,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_23_074713) do
     t.bigint "organisation_id", null: false
     t.string "ref"
     t.text "janitor"
-    t.boolean "active", default: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "type"
@@ -385,6 +384,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_23_074713) do
     t.integer "ordinal"
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_occupiables_on_discarded_at"
     t.index ["home_id"], name: "index_occupiables_on_home_id"
     t.index ["organisation_id"], name: "index_occupiables_on_organisation_id"
     t.index ["ref", "organisation_id"], name: "index_occupiables_on_ref_and_organisation_id", unique: true
