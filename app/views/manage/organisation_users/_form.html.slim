@@ -7,12 +7,14 @@
     = f.email_field :email, disabled: !@organisation_user.new_record?
     = f.select :role, OrganisationUser.roles.keys.map { |role| [OrganisationUser.human_enum(:role, role), role] }
 
-  fieldset 
-    = f.label :token
-    .input-group.mb-3
-      = f.text_field :token, disabled: true, skip_label: true, wrapper: false
-      = f.button :regenerate_token, value: '1', class: 'btn btn-outline-danger'
-        = t(".regenerate_token")
+	
+  - if @organisation_user.persisted?
+    fieldset 
+      = f.label :token
+      .input-group.mb-3
+        = f.text_field :token, disabled: true, skip_label: true, wrapper: false
+        = f.button :regenerate_token, value: '1', class: 'btn btn-outline-danger'
+          = t(".regenerate_token")
 
   .form-actions.pt-4.mt-3
     = f.submit

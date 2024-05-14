@@ -15,7 +15,11 @@ class OnboardingService
     new(origin.dup)
   end
 
-  def add_or_invite_user!(email: organisation.email, role: :manager, invited_by: nil, password: nil)
+  def add_or_invite_user!(...)
+    add_or_invite_user(...).save!
+  end
+
+  def add_or_invite_user(email: organisation.email, role: :manager, invited_by: nil, password: nil)
     user = User.find_or_initialize_by(email:)
 
     if user.new_record?
@@ -23,8 +27,8 @@ class OnboardingService
       user.invite!(invited_by) if password.blank?
     end
 
-    user.organisation_users.create!(organisation:, role:).tap do
-      user.update!(default_organisation: organisation) if user.default_organisation.blank?
+    user.organisation_users.create(organisation:, role:).tap do
+      user.update(default_organisation: organisation) if user.default_organisation.blank?
     end
   end
 
