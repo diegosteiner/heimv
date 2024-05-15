@@ -1,7 +1,7 @@
 h1.mt-2.text-center
   = @home
   
-- @home.occupiables.active.ordered.each do |occupiable|
+- @home.occupiables.kept.ordered.each do |occupiable|
   .card.shadow-sm.my-3
     .card-body
       h1.mt-2.text-center[id="occupiable-#{occupiable.id}"]

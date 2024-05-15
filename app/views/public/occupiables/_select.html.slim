@@ -1,6 +1,6 @@
 fieldset.occupiables-select
   - occupancies = booking.occupancies.index_by { |occupancy| occupancy.occupiable }
-  - homes = current_organisation.homes.active
+  - homes = current_organisation.homes.kept
 
   - if homes.count <= 1
     = form.hidden_field :home_id, value: homes.first&.id

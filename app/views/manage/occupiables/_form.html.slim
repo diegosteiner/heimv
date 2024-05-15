@@ -20,7 +20,6 @@
   fieldset
     = f.select :type, [Home, Occupiable].map { |type| [type.model_name.human, type.to_s] }
     = f.text_field :ref
-    = f.check_box :active
     = f.check_box :occupiable
     = f.collection_select :home_id, current_organisation.homes, :id, :to_s, include_blank: true
     = f.text_field :ordinal_position

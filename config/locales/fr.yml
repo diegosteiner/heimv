@@ -247,7 +247,6 @@ fr:
         occupiable_id: Objet de location
         remarks: Remarques
       occupiable:
-        active: Actif
         description: Description
         home_id: Principal objet de location
         name: Nom

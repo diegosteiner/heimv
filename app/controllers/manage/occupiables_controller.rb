@@ -33,7 +33,7 @@ module Manage
     end
 
     def destroy
-      @occupiable.destroy
+      @occupiable.discarded? ? @occupiable.destroy : @occupiable.discard!
       respond_with :manage, @occupiable, location: manage_occupiables_path
     end
 

@@ -84,8 +84,7 @@ class InvoicePart < ApplicationRecord
     filter :homes do |invoice_parts|
       relevant_homes = Array.wrap(homes).compact_blank
       if relevant_homes.present?
-        invoice_parts.joins(invoice: :booking)
-                     .where(invoice: { bookings: { home_id: relevant_homes } })
+        invoice_parts.joins(invoice: :booking).where(invoices: { bookings: { home_id: relevant_homes } })
       end
     end
 

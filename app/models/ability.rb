@@ -98,10 +98,10 @@ module Ability
 
   class Public < Base
     role nil do |_user, organisation|
-      can :read, Home, { organisation:, active: true }
-      can :read, Occupiable, { organisation:, active: true }
+      can :read, Home, { organisation:, discarded_at: nil }
+      can :read, Occupiable, { organisation:, discarded_at: nil }
 
-      can %i[read embed calendar at], Occupancy, occupiable: { active: true, organisation: }
+      can %i[read embed calendar at], Occupancy, occupiable: { discarded_at: nil, organisation: }
 
       can %i[create read update], AgentBooking, { organisation: }
       can %i[create read update], Booking, { organisation:, concluded: false }
@@ -109,7 +109,7 @@ module Ability
 
     role :readonly do |_user, organisation|
       can :read, Home, { organisation: }
-      can :read, Occupiable, { organisation:, active: true }
+      can :read, Occupiable, { organisation: }
       can :read, Organisation, id: organisation.id
 
       can %i[read embed calendar at], Occupancy, occupiable: { organisation: }

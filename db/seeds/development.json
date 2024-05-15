@@ -30,7 +30,6 @@
       "description": "9876 Einsiedeln",
       "id": 1,
       "name": "Pfadiheim Stolz",
-      "active": true,
       "occupiable": true,
       "home_id": 1
     }

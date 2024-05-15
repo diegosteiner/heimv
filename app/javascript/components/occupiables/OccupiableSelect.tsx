@@ -38,7 +38,7 @@ export default function OccupiableSelect({
   const organisation = useContext(OrganisationContext);
   const home = organisation?.homes?.find((home) => home.id === homeId);
   const occupiables = home?.occupiables
-    ?.filter((occupiable) => occupiable.occupiable && occupiable.active)
+    ?.filter((occupiable) => occupiable.occupiable && !occupiable.discarded_at)
     ?.sort(ordinalOrder);
   const hideHomeSelect = organisation?.homes?.length === 1;
   const setHomeId = (homeId: number) => {

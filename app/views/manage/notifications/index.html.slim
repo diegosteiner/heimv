@@ -11,6 +11,7 @@ table.table.table-hover.align-middle
     tr
       - if @booking.blank?
         th= Booking.model_name.human
+      th= Notification.human_attribute_name(:created_at)
       th= Notification.human_attribute_name(:sent_at)
       th= Notification.human_attribute_name(:to)
       th= Notification.human_attribute_name(:subject)
@@ -21,15 +22,21 @@ table.table.table-hover.align-middle
       tr[data-href=manage_notification_path(notification)]
         - if @booking.blank?
           td 
-            = link_to  notification.booking.ref, manage_booking_path(notification.booking)
+            = link_to notification.booking.ref, manage_booking_path(notification.booking)
 
         td
-          - if notification.sent_at
-            = l(notification.sent_at, format: :short)
-          - else
-            = '-'
+          = l(notification.created_at)
+      
+        td
+          = notification.sent_at.present? ? l(notification.sent_at) : '-'
           - if notification.delivered_at.present?
             span.fa.fa-check.text-success.ms-1
+            - if notification.sent_at
+              = l(notification.sent_at, format: :short)
+            - else
+              = '-'
+            - if notification.delivered_at.present?
+              span.fa.fa-check.text-success.ms-1
 
         td
           - notification.deliver_to.each do |to|
