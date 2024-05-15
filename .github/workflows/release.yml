@@ -7,19 +7,17 @@ on:
       - published
 
 jobs:
-  tag:
+  release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: docker login
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: docker tag
+      - name: Tag
         run: |
-          docker pull ghcr.io/${{ github.repository }}:main
-          docker tag ghcr.io/${{ github.repository }}:main ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
-          docker push ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
+          echo "${{ github.event.release.tag_name }}" > VERSION
+          git tag -a "${{ github.event.release.tag_name }}" -m "chore: Release ${{ github.event.release.tag_name }}"
+          git push origin "${{ github.event.release.tag_name }} {{ github.ref_name }} "
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
