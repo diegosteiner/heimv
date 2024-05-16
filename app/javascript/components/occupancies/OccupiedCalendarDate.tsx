@@ -75,10 +75,13 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
     const endsAfterDayEnd = isAfter(endsAt, dayEnd);
     const endsBeforeDayEnd = isBefore(endsAt, dayEnd);
 
+    // Single day booking
+    if (beginsAfterDayStart && beginsBeforeDayMid && endsAfterDayMid && endsBeforeDayEnd)
+      return slots.allday.add(occupancy);
+
     // Indicate change of tenant
     if (beginsBeforeDayStart && endsAfterDayMid && endsBeforeDayEnd) return slots.forenoon.add(occupancy);
     if (beginsAfterDayStart && beginsBeforeDayMid && endsAfterDayEnd) return slots.afternoon.add(occupancy);
-    // "Lunch" Booking is not handled
 
     if (beginsBeforeDayMid && endsAfterDayMid) return slots.allday.add(occupancy);
     if (beginsBeforeDayMid && endsAfterDayStart) return slots.forenoon.add(occupancy);
