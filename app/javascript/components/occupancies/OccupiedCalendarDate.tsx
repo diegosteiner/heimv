@@ -1,4 +1,4 @@
-import { isWithinInterval } from "date-fns";
+import { isFirstDayOfMonth, isWithinInterval } from "date-fns";
 import { addHours, endOfDay, isBefore, startOfDay } from "date-fns";
 import { isAfter } from "date-fns";
 import { MouseEventHandler, useMemo } from "react";
@@ -60,29 +60,31 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
   const dayStart = startOfDay(date);
   const dayMid = addHours(dayStart, 12);
   const dayEnd = endOfDay(date);
-  const allDayInterval = { start: dayStart, end: dayEnd };
-  const forenoonInterval = { start: dayStart, end: dayMid };
-  const afternoonInterval = { start: dayMid, end: dayEnd };
   const slots = { allday: new Set<Occupancy>(), forenoon: new Set<Occupancy>(), afternoon: new Set<Occupancy>() };
 
   occupancies.forEach((occupancy) => {
     const { beginsAt, endsAt } = occupancy;
 
-    // begins before and ends after that day => allDay
-    if (isBefore(beginsAt, dayStart) && isAfter(endsAt, dayEnd)) return slots.allday.add(occupancy);
+    const beginsBeforeDayStart = isBefore(beginsAt, dayStart);
+    const beginsBeforeDayMid = isBefore(beginsAt, dayMid);
+    const beginsAfterDayStart = isAfter(beginsAt, dayStart);
+    const beginsAfterDayMid = isAfter(beginsAt, dayMid);
 
-    // ends in the afternoon or begins in the forenoon, there are no others => allDay
-    if (
-      occupancies.size == 1 &&
-      (isWithinInterval(endsAt, afternoonInterval) || isWithinInterval(beginsAt, forenoonInterval))
-    )
-      return slots.allday.add(occupancy);
+    const endsAfterDayStart = isAfter(endsAt, dayStart);
+    const endsAfterDayMid = isAfter(endsAt, dayMid);
+    const endsAfterDayEnd = isAfter(endsAt, dayEnd);
+    const endsBeforeDayEnd = isBefore(endsAt, dayEnd);
 
-    // ends that day => foreNoon
-    if (isWithinInterval(endsAt, allDayInterval)) return slots.forenoon.add(occupancy);
+    // Indicate change of tenant
+    if (beginsBeforeDayStart && endsAfterDayMid && endsBeforeDayEnd) return slots.forenoon.add(occupancy);
+    if (beginsAfterDayStart && beginsBeforeDayMid && endsAfterDayEnd) return slots.afternoon.add(occupancy);
+    // "Lunch" Booking is not handled
 
-    // begins that day => afternoon
-    if (isWithinInterval(beginsAt, allDayInterval)) return slots.afternoon.add(occupancy);
+    if (beginsBeforeDayMid && endsAfterDayMid) return slots.allday.add(occupancy);
+    if (beginsBeforeDayMid && endsAfterDayStart) return slots.forenoon.add(occupancy);
+    if (beginsAfterDayMid && endsAfterDayMid) return slots.afternoon.add(occupancy);
+
+    debugger;
   });
 
   return slots;
