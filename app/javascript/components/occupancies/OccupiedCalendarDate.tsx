@@ -65,15 +65,15 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
   occupancies.forEach((occupancy) => {
     const { beginsAt, endsAt } = occupancy;
 
-    const beginsBeforeDayStart = isBefore(beginsAt, dayStart);
+    // const beginsBeforeDayStart = isBefore(beginsAt, dayStart);
     const beginsBeforeDayMid = isBefore(beginsAt, dayMid);
-    const beginsAfterDayStart = isAfter(beginsAt, dayStart);
+    // const beginsAfterDayStart = isAfter(beginsAt, dayStart);
     const beginsAfterDayMid = isAfter(beginsAt, dayMid);
 
     const endsAfterDayStart = isAfter(endsAt, dayStart);
     const endsAfterDayMid = isAfter(endsAt, dayMid);
-    const endsAfterDayEnd = isAfter(endsAt, dayEnd);
-    const endsBeforeDayEnd = isBefore(endsAt, dayEnd);
+    // const endsAfterDayEnd = isAfter(endsAt, dayEnd);
+    // const endsBeforeDayEnd = isBefore(endsAt, dayEnd);
 
     // Single day booking
     // if (beginsAfterDayStart && beginsBeforeDayMid && endsAfterDayMid && endsBeforeDayEnd)
