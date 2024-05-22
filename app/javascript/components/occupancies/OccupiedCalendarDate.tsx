@@ -68,7 +68,7 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
     // const beginsBeforeDayStart = isBefore(beginsAt, dayStart);
     const beginsBeforeDayMid = isBefore(beginsAt, dayMid);
     // const beginsAfterDayStart = isAfter(beginsAt, dayStart);
-    const beginsAfterDayMid = isAfter(beginsAt, dayMid);
+    // const beginsAfterDayMid = isAfter(beginsAt, dayMid);
 
     const endsAfterDayStart = isAfter(endsAt, dayStart);
     const endsAfterDayMid = isAfter(endsAt, dayMid);
@@ -85,9 +85,7 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
 
     if (beginsBeforeDayMid && endsAfterDayMid) return slots.allday.add(occupancy);
     if (beginsBeforeDayMid && endsAfterDayStart) return slots.forenoon.add(occupancy);
-    if (beginsAfterDayMid && endsAfterDayMid) return slots.afternoon.add(occupancy);
-
-    debugger;
+    if (!beginsBeforeDayMid && endsAfterDayMid) return slots.afternoon.add(occupancy);
   });
 
   return slots;
