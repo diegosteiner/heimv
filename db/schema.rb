@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_07_112036) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_22_162320) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -325,6 +325,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_07_112036) do
     t.index ["type"], name: "index_invoices_on_type"
   end
 
+  create_table "mail_template_designated_document2s", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "mail_template_designated_documents", id: false, force: :cascade do |t|
+    t.bigint "mail_template_id"
+    t.bigint "designated_document_id"
+    t.index ["designated_document_id"], name: "idx_on_designated_document_id_590865e4e7"
+    t.index ["mail_template_id"], name: "index_mail_template_designated_documents_on_mail_template_id"
+  end
+
   create_table "meter_reading_periods", force: :cascade do |t|
     t.bigint "tarif_id"
     t.bigint "usage_id"
@@ -624,6 +636,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_07_112036) do
   add_foreign_key "invoice_parts", "usages"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
+  add_foreign_key "mail_template_designated_documents", "designated_documents"
+  add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"
   add_foreign_key "meter_reading_periods", "tarifs"
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "notifications", "bookings"

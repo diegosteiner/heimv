@@ -6,10 +6,7 @@ class AttachmentManager
     unsent_invoices: ->(booking) { booking.invoices.invoice.unsent },
     unsent_late_notices: ->(booking) { booking.invoices.late_notice.unsent },
     unsent_offers: ->(booking) { booking.invoices.offers.unsent },
-    contract: ->(booking) { booking.contract },
-    last_info_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_last_infos: true) },
-    contract_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_contract: true) },
-    accepted_documents: ->(booking) { DesignatedDocument.for_booking(booking).where(send_with_accepted: true) }
+    contract: ->(booking) { booking.contract }
   }.freeze
 
   def initialize(booking, target:)
@@ -18,7 +15,7 @@ class AttachmentManager
   end
 
   def attach_all(*attachables)
-    attachables.flatten.map { |it| attach_one(it) }
+    attachables.flatten.map { attach_one(_1) }
   end
 
   def attach_one(attachable)

@@ -9,7 +9,7 @@
     - if @rich_text_template.is_a?(MailTemplate)
       = f.check_box :autodeliver
 
-  fieldset 
+  fieldset.mb-3
     ul.nav.nav-tabs.mt-4 role="tablist"
       - I18n.available_locales.each do |locale|
         - current_locale = locale == I18n.locale
@@ -30,6 +30,16 @@
         = t('.help_title')
       = t('.help_html')
 
-  .form-actions.pt-4.mt-3
+  - if @rich_text_template.is_a?(MailTemplate)
+    fieldset.mb-3
+      .mb-2= DesignatedDocument.model_name.human(count: 2)
+      = hidden_field_tag "rich_text_template[designated_document_ids][]"
+      - current_organisation.designated_documents.each do |designated_document|
+        - html_id = "rich_text_template_designated_document_ids_#{designated_document.id}"
+        .form-check
+          = check_box_tag "rich_text_template[designated_document_ids][]", designated_document.id, @rich_text_template.designated_documents.include?(designated_document), id: html_id, class: "form-check-input"
+          label.form-check-label[for=html_id]= designated_document.name
+
+  .form-actions.pt-4
     = f.submit
     = link_to t(:back), manage_rich_text_templates_path, class: 'btn btn-default'

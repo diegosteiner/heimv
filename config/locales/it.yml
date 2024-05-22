@@ -437,8 +437,6 @@ it:
       mail_template:
         attachable_booking_documents:
           contract: Contratto
-          contract_documents:
-          last_info_documents:
           unsent_deposits:
           unsent_invoices:
           unsent_late_notices:
