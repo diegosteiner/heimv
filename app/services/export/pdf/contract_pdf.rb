@@ -5,8 +5,6 @@ require 'prawn'
 module Export
   module Pdf
     class ContractPdf < Base
-      TARIFS_TABLE_PLACEHOLDER = '{{ tarifs_table_placeholder }}'
-
       def initialize(contract)
         super()
         @contract = contract
@@ -21,11 +19,8 @@ module Export
       end
 
       to_render do
-        text_parts = @contract.text&.split(TARIFS_TABLE_PLACEHOLDER) || []
-        text_parts.each_with_index do |text_part, index|
-          render Renderables::RichText.new(text_part)
-          render_tarifs_table unless index == text_parts.size - 1
-        end
+        special_tokens = { TARIFS: -> { render_tarifs_table } }
+        Renderables::RichText.split(@contract.text, special_tokens).each { render _1 }
       end
 
       to_render do

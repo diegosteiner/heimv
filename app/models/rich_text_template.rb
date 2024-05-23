@@ -118,4 +118,12 @@ class RichTextTemplate < ApplicationRecord
 
     interpolate(context)
   end
+
+  def replace_in_body(search, replace = '')
+    body_i18n.transform_values! { _1.gsub(search, replace) }
+  end
+
+  def replace_in_title(search, replace = '')
+    title_i18n.transform_values! { _1.gsub(search, replace) }
+  end
 end

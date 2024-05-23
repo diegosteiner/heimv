@@ -30,7 +30,14 @@ module Export
       end
 
       def render(renderable)
-        renderable.render_into(document) if renderable.is_a?(Renderable)
+        case renderable
+        when Export::Pdf::Renderable
+          renderable.render_into(document)
+        when Proc
+          instance_exec(&renderable)
+        else
+          raise ArgumentError
+        end
       end
 
       def render_document

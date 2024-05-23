@@ -16,6 +16,8 @@ module Export
           end
 
           def render
+            move_down 20
+
             split_invoice_part_groups.each do |group_data|
               move_down 5
               render_invoice_parts_table(group_data)
