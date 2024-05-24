@@ -707,6 +707,8 @@ fr:
         label:
       postpone_deadline:
         label: Prolonger le délai
+      revert_cancel:
+        label:
       skip_invoice:
         label: Sauter le décompte final
     public:
