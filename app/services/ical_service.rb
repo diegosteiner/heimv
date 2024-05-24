@@ -30,24 +30,26 @@ class IcalService
 
       ical_event.uid =         occupancy.id
       ical_event.location =    occupancy.occupiable.to_s
-      ical_event.summary =     occupancy.booking&.ref || occupancy.remarks
       ical_event.location =    occupancy.occupiable&.to_s
       ical_event.status =      STATUS_MAP.fetch(occupancy.occupancy_type, nil)
       ical_event.color =       occupancy.color
       ical_event.description = occupancy.remarks.presence
+      ical_event.summary =     occupancy.booking&.ref ||
+                               occupancy.remarks.presence ||
+                               Occupancy.human_enum(:occupancy_type, occupancy.occupancy_type)
     end
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def occupancy_to_ical_with_tenant_details(occupancy)
-    ical_event = occupancy_to_ical(occupancy)
-    details = booking_details(occupancy.booking)
-    return ical_event if details.blank?
+    occupancy_to_ical(occupancy).tap do |ical_event|
+      details = booking_details(occupancy.booking)
+      next if details.blank?
 
-    ical_event.summary = details[:summary]
-    ical_event.description = format_lines(details.values, occupancy.remarks.presence)
-    ical_event.attendee = icalendar_address(details[:tenant_contact])
-    ical_event
+      ical_event.summary = details[:summary]
+      ical_event.description = format_lines(details.values, occupancy.remarks.presence)
+      ical_event.attendee = icalendar_address(details[:tenant_contact])
+    end
   end
 
   def icalendar_address(address)
