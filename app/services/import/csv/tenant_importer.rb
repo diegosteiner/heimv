@@ -11,8 +11,8 @@ module Import
                  'tenant.nickname', 'tenant.address_addon', 'tenant.locale']
       end
 
-      def initialize(organisation, **options)
-        super(**options)
+      def initialize(organisation, **)
+        super(**)
         @organisation = organisation
       end
 

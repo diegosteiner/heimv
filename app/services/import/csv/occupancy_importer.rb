@@ -5,8 +5,8 @@ module Import
     class OccupancyImporter < Base
       attr_reader :organisation
 
-      def initialize(organisation, **options)
-        super(**options)
+      def initialize(organisation, **)
+        super(**)
         @organisation = organisation
       end
 
