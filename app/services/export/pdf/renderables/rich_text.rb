@@ -35,7 +35,7 @@ module Export
           special_tokens = SUPPORTED_SPECIAL_TOKENS.merge(special_tokens.slice(*SUPPORTED_SPECIAL_TOKENS.keys))
           regexp = Regexp.new("(#{SUPPORTED_SPECIAL_TOKEN_TAGS.keys.join('|')})", 'i')
           body.split(regexp).map do |part|
-            special_tokens.fetch(SUPPORTED_SPECIAL_TOKEN_TAGS[part], new(part))
+            special_tokens.fetch(SUPPORTED_SPECIAL_TOKEN_TAGS[part.upcase], new(part))
           end
         end
       end

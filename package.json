@@ -79,6 +79,6 @@
     "private": true,
     "scripts": {
         "check:types": "tsc --project tsconfig.json",
-        "check:style": "eslint --ext .js,.ts,.jsx,.tsx app/javascript"
+        "check:style": "eslint app/javascript --ext .js,.ts,.jsx,.tsx "
     }
 }
