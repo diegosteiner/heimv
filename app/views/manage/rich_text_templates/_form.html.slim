@@ -38,7 +38,14 @@
         - html_id = "rich_text_template_designated_document_ids_#{designated_document.id}"
         .form-check
           = check_box_tag "rich_text_template[designated_document_ids][]", designated_document.id, @rich_text_template.designated_documents.include?(designated_document), id: html_id, class: "form-check-input"
-          label.form-check-label[for=html_id]= designated_document.name
+          label.form-check-label[for=html_id]
+            = link_to edit_manage_designated_document_path(designated_document)
+              = designated_document.name
+            - conditions_count = designated_document.attaching_conditions.count
+            - if conditions_count > 0
+              span.ms-1.text-muted.text-sm
+                =<> conditions_count
+                = BookingCondition.model_name.human(count: conditions_count)
 
   .form-actions.pt-4
     = f.submit
