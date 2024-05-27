@@ -4,6 +4,9 @@ module Export
   module Pdf
     module Renderables
       class RichText < Renderable
+        SUPPORTED_SPECIAL_TOKENS = { PAGE_BREAK: -> { start_new_page }, TARIFS: nil }.freeze
+        SUPPORTED_SPECIAL_TOKEN_TAGS = SUPPORTED_SPECIAL_TOKENS.keys.to_h { ["{{ #{_1.to_s.upcase} }}", _1] }.freeze
+
         def initialize(body)
           super()
           @body = body.is_a?(::Markdown) ? body.to_html : body
@@ -24,6 +27,16 @@ module Export
 
         def render
           @document.markup(@body, **markup_options)
+        end
+
+        def self.split(body, special_tokens = {})
+          return [] if body.blank?
+
+          special_tokens = SUPPORTED_SPECIAL_TOKENS.merge(special_tokens.slice(*SUPPORTED_SPECIAL_TOKENS.keys))
+          regexp = Regexp.new("(#{SUPPORTED_SPECIAL_TOKEN_TAGS.keys.join('|')})", 'i')
+          body.split(regexp).map do |part|
+            special_tokens.fetch(SUPPORTED_SPECIAL_TOKEN_TAGS[part.upcase], new(part))
+          end
         end
       end
     end

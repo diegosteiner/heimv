@@ -437,8 +437,6 @@ it:
       mail_template:
         attachable_booking_documents:
           contract: Contratto
-          contract_documents:
-          last_info_documents:
           unsent_deposits:
           unsent_invoices:
           unsent_late_notices:
@@ -709,6 +707,8 @@ it:
         label:
       postpone_deadline:
         label: Prolungare il periodo
+      revert_cancel:
+        label:
       skip_invoice:
         label: Saltare il conto finale
     public:

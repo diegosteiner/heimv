@@ -19,8 +19,8 @@ module Import
         super.merge({ datetime_format: ['%FT%T', '%F %T %z', '%FT%H:%M', '%d.%m.%YT%H:%M', '%m/%d/%Y'] })
       end
 
-      def initialize(home, **options)
-        super(**options)
+      def initialize(home, **)
+        super(**)
         @home = home.is_a?(Home) ? home : Home.find(home)
         @tenant_importer = TenantImporter.new(organisation)
         @booking_ref_service = BookingRefService.new(organisation)

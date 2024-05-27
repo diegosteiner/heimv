@@ -7,8 +7,8 @@ module Import
 
       use_attributes(*%w[name description discarded_at ref occupiable home_id])
 
-      def initialize(organisation, **options)
-        super(**options)
+      def initialize(organisation, **)
+        super(**)
         @organisation = organisation
       end
 

@@ -3,7 +3,7 @@
 module Manage
   class TarifSerializer < ApplicationSerializer
     fields :label, :pin, :prefill_usage_method, :price_per_unit, :tarif_group, :type, :unit, :ordinal,
-           :label_i18n, :unit_i18n, :valid_from, :valid_until
+           :label_i18n, :unit_i18n, :valid_from, :valid_until, :accountancy_account
 
     field :associated_types do |tarif|
       tarif.associated_types.to_a

@@ -9,7 +9,7 @@ module BookingActions
       def invoke!
         mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, booking:, contract:,
                                                                            invoices: deposits)
-        mail.attach :contract, :contract_documents, deposits
+        mail.attach :contract, deposits
         mail.save! && contract.sent! && deposits.each(&:sent!)
 
         Result.success redirect_proc: mail&.autodeliver_with_redirect_proc

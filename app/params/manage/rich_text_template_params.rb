@@ -3,7 +3,7 @@
 module Manage
   class RichTextTemplateParams < ApplicationParams
     def self.permitted_keys
-      %i[key enabled autodeliver] +
+      %i[key enabled autodeliver] + [{ designated_document_ids: [] }] +
         I18n.available_locales.map { |locale| ["title_#{locale}", "body_#{locale}"] }.flatten
     end
 

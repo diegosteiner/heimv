@@ -40,9 +40,8 @@ module Export
       end
 
       to_render do
-        render Renderables::RichText.new(invoice.text)
-        move_down 20
-        render Renderables::Invoice::InvoicePartsTable.new(invoice)
+        special_tokens = { TARIFS: Renderables::Invoice::InvoicePartsTable.new(invoice) }
+        Renderables::RichText.split(invoice.text, special_tokens).each { render _1 }
       end
 
       to_render do

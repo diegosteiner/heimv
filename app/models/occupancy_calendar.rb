@@ -11,7 +11,7 @@ class OccupancyCalendar
   attribute :window_to
 
   def initialize(attributes)
-    super(attributes)
+    super
     self.window_to ||= organisation.settings.booking_window.from_now
   end
 

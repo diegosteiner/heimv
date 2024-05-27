@@ -437,8 +437,6 @@ fr:
       mail_template:
         attachable_booking_documents:
           contract: Contrat
-          contract_documents: Documents indiqués comme "à envoyer avec le contrat"
-          last_info_documents: Documents indiqués comme "envoyer avec les dernières infos"
           unsent_deposits: Acomptes non versés
           unsent_invoices: Factures non envoyées
           unsent_late_notices: Rappels non envoyés
@@ -709,6 +707,8 @@ fr:
         label:
       postpone_deadline:
         label: Prolonger le délai
+      revert_cancel:
+        label:
       skip_invoice:
         label: Sauter le décompte final
     public:

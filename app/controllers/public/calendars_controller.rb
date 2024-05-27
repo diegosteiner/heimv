@@ -18,7 +18,7 @@ module Public
 
     def private_ical_feed
       organisation_user = current_organisation_user.present? ||
-                          current_organisation.users.find_by(token: params[:token])
+                          current_organisation.organisation_users.find_by(token: params[:token])
 
       raise CanCan::AccessDenied if organisation_user.blank?
 

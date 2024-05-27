@@ -27,6 +27,9 @@
 #
 
 class MailTemplate < RichTextTemplate
+  has_many :mail_template_designated_documents, dependent: :destroy
+  has_many :designated_documents, through: :mail_template_designated_documents
+
   def use(booking, to: nil, attach: nil, **context, &callback)
     return nil unless enabled
 
@@ -34,7 +37,7 @@ class MailTemplate < RichTextTemplate
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
       notification.destroy && return unless notification.deliverable?
 
-      notification.attach(attach)
+      notification.attach(designated_documents.for_booking(booking))
       notification.tap(&callback) if callback.present?
     end
   end

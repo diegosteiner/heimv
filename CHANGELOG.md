@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## Version 24.5.1
+
+- Feature: Use {{ TARIFS }} placeholder in contract and invoice templates
+- Feature: Attach DesignatedDocuments to any MailTemplates
+- Fix: Fix 12:00 bug in calendar
+
 ## Version 24.4.3
 
 Released on 27.04.2024

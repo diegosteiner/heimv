@@ -3,9 +3,6 @@
   = f.select :locale, I18n.available_locales.map { [_1, _1] }, include_blank: t('.all_locales')
   = f.text_field :name
   = f.file_field :file, required: @designated_document.file.blank?
-  = f.check_box :send_with_accepted
-  = f.check_box :send_with_contract
-  = f.check_box :send_with_last_infos
   = f.text_area :remarks
 
   label= DesignatedDocument.human_attribute_name(:attaching_conditions)

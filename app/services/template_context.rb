@@ -25,7 +25,7 @@ class TemplateContext
   def to_h
     @to_h ||= @original_context.transform_values do |value|
       self.class.serialize_value(value)
-    end.deep_stringify_keys
+    end.merge(Export::Pdf::Renderables::RichText::SUPPORTED_SPECIAL_TOKEN_TAGS.invert).deep_stringify_keys
   end
 
   def self.serialize_value(value, serializer: serializer_for(value))
