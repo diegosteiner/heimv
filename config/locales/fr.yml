@@ -529,8 +529,6 @@ fr:
         one: Status Bedingung
       booking_conditions/date_span:
         one: Date Condition
-      booking_conditions/home:
-        one: Condition du principal objet de location
       booking_conditions/occupancy_duration:
         one: Condition de la durée de location
       booking_conditions/occupiable:

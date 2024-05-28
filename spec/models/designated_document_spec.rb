@@ -75,8 +75,8 @@ RSpec.describe DesignatedDocument, type: :model do
     let(:conditions) do
       {
         always: [BookingConditions::AlwaysApply.new(organisation:)],
-        wrong_home: [BookingConditions::Occupiable.new(compare_value: home.id)],
-        correct_home: [BookingConditions::Occupiable.new(compare_value: booking.home_id)]
+        wrong_home: [BookingConditions::Occupiable.new(compare_value: home.id, compare_attribute: :home)],
+        correct_home: [BookingConditions::Occupiable.new(compare_value: booking.home_id, compare_attribute: :home)]
       }
     end
 

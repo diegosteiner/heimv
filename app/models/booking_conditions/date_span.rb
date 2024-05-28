@@ -34,10 +34,10 @@ module BookingConditions
 
     def compare_attributes
       {
-        begins_at: ->(booking) { booking.begins_at },
-        ends_at: ->(booking) { booking.ends_at },
-        span: ->(booking) { booking.span },
-        now: ->(_booking) { Time.zone.today }
+        begins_at: ->(booking:) { booking.begins_at },
+        ends_at: ->(booking:) { booking.ends_at },
+        span: ->(booking:) { booking.span },
+        now: ->(_booking:) { Time.zone.today }
       }.freeze
     end
 
@@ -47,8 +47,8 @@ module BookingConditions
 
     def evaluate!(booking)
       @date_span_checker ||= DateSpanChecker.parse(compare_value)
-      value = evaluate_attribute(compare_attribute || :span, with: booking)
-      @date_span_checker&.overlap?(value)
+      actual_value = evaluate_attribute(compare_attribute || :span, with: { booking: })
+      @date_span_checker&.overlap?(actual_value)
     end
   end
 end

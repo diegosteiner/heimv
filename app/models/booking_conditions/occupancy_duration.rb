@@ -32,8 +32,10 @@ module BookingConditions
   class OccupancyDuration < ::BookingCondition
     BookingCondition.register_subtype self
 
+    attribute :compare_operator, default: -> { :'=' }
+
     def compare_operators
-      DEFAULT_OPERATORS
+      NUMERIC_OPERATORS
     end
 
     def compare_value_regex
@@ -44,8 +46,8 @@ module BookingConditions
       compare_value_match = compare_value_regex.match(compare_value)
       return false unless compare_value_match
 
-      threshold = threshold_unit(compare_value_match[:threshold], compare_value_match[:threshold_unit])
-      evaluate_operator(compare_operator.presence || :'=', with: [booking.duration, threshold])
+      compare_value = threshold_unit(compare_value_match[:threshold], compare_value_match[:threshold_unit])
+      evaluate_operator(compare_operator.presence || :'=', with: { actual_value: booking.duration, compare_value: })
     end
 
     protected

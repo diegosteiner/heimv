@@ -529,8 +529,6 @@ it:
         one: Stato (condizione)
       booking_conditions/date_span:
         one:
-      booking_conditions/home:
-        one: Oggetto principale di affitto (condizione)
       booking_conditions/occupancy_duration:
         one: Durata dell'occupazione (condizione)
       booking_conditions/occupiable:

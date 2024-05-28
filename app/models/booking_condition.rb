@@ -33,14 +33,17 @@ class BookingCondition < ApplicationRecord
   extend Translatable
   include Translatable
 
-  DEFAULT_OPERATORS = {
-    '=': ->(value, other_value) { value == other_value },
-    '!=': ->(value, other_value) { value != other_value },
-    '>': ->(value, other_value) { value > other_value },
-    '>=': ->(value, other_value) { value >= other_value },
-    '<': ->(value, other_value) { value < other_value },
-    '<=': ->(value, other_value) { value <= other_value }
+  EQUALITY_OPERATORS = {
+    '=': ->(actual_value:, compare_value:) { actual_value == compare_value },
+    '!=': ->(actual_value:, compare_value:) { actual_value != compare_value }
   }.freeze
+
+  NUMERIC_OPERATORS = {
+    '>': ->(actual_value:, compare_value:) { actual_value > compare_value },
+    '>=': ->(actual_value:, compare_value:) { actual_value >= compare_value },
+    '<': ->(actual_value:, compare_value:) { actual_value < compare_value },
+    '<=': ->(actual_value:, compare_value:) { actual_value <= compare_value }
+  }.reverse_merge(EQUALITY_OPERATORS).freeze
 
   belongs_to :qualifiable, polymorphic: true, optional: true
   belongs_to :organisation
@@ -109,12 +112,12 @@ class BookingCondition < ApplicationRecord
     nil
   end
 
-  def evaluate_operator(operator, with: nil)
-    compare_operators[operator&.to_sym].call(*Array.wrap(with))
+  def evaluate_operator(operator, with: {})
+    compare_operators[operator&.to_sym].call(**with)
   end
 
   def evaluate_attribute(attribute, with: nil)
-    compare_attributes[attribute&.to_sym]&.call(*Array.wrap(with))
+    compare_attributes[attribute&.to_sym]&.call(**with)
   end
 
   def to_s

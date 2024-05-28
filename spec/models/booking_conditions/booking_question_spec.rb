@@ -32,7 +32,7 @@ require 'rails_helper'
 
 RSpec.describe BookingConditions::BookingQuestion, type: :model do
   describe '#evaluate' do
-    subject { booking_condition.evaluate(booking) }
+    subject { booking_condition.evaluate!(booking) }
 
     let(:booking) { create(:booking, organisation:) }
     let(:compare_value) { nil }

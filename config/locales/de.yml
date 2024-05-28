@@ -530,8 +530,6 @@ de:
         one: Status Bedingung
       booking_conditions/date_span:
         one: Datum Bedingung
-      booking_conditions/home:
-        one: Hauptmietobjekt Bedingung
       booking_conditions/occupancy_duration:
         one: Belegungsdauer Bedingung
       booking_conditions/occupiable:
@@ -735,6 +733,10 @@ de:
         ends_at: Ende der Belegung
         now: Heute
         span: Belegungszeitraum
+    occupiable:
+      attributes:
+        home: Hauptmietobjekt
+        occupiable: Mietobjekt
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterschrieben

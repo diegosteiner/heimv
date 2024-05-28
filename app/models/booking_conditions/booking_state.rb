@@ -31,12 +31,15 @@
 module BookingConditions
   class BookingState < BookingCondition
     BookingCondition.register_subtype self
+
+    attribute :compare_operator, default: -> { :'=' }
+
     def compare_operators
       {
-        '=': ->(booking, compare_value) { booking.booking_flow.current_state&.to_s == compare_value },
-        '!=': ->(booking, compare_value) { !evaluate_operator(:'=', with: [booking, compare_value]) },
-        '>': ->(booking, compare_value) { booking_state_transitions_include?(booking, compare_value) },
-        '<': ->(booking, compare_value) { !booking_state_transitions_include?(booking, compare_value) }
+        '=': ->(booking:, compare_value:) { booking.booking_flow.current_state&.to_s == compare_value },
+        '!=': ->(booking:, compare_value:) { !evaluate_operator(:'=', with: [booking, compare_value]) },
+        '>': ->(booking:, compare_value:) { booking_state_transitions_include?(booking, compare_value) },
+        '<': ->(booking:, compare_value:) { !booking_state_transitions_include?(booking, compare_value) }
       }.freeze
     end
 
@@ -47,7 +50,7 @@ module BookingConditions
     end
 
     def evaluate!(booking)
-      evaluate_operator(compare_operator.presence || :'=', with: [booking, compare_value])
+      evaluate_operator(compare_operator.presence || :'=', with: { booking:, compare_value: })
     end
 
     protected

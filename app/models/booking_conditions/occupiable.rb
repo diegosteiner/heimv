@@ -32,16 +32,37 @@ module BookingConditions
   class Occupiable < BookingCondition
     BookingCondition.register_subtype self
 
+    attribute :compare_operator, default: -> { :'=' }
+
+    def compare_attributes
+      {
+        occupiable: ->(booking:) { booking.occupiable_ids },
+        home: ->(booking:) { booking.home_id }
+      }.freeze
+    end
+
+    def compare_operators
+      {
+        '=': lambda { |actual_value:, compare_value:|
+               Array.wrap(actual_value).compact_blank.map(&:to_i).include?(compare_value.presence&.to_i)
+             },
+        '!=': ->(actual_value:, compare_value:) { !evaluate_operator(:'=', with: { actual_value:, compare_value: }) }
+      }.freeze
+    end
+
     validate do
       errors.add(:compare_value, :invalid) unless compare_values.exists?(id: compare_value)
+      errors.add(:compare_operator, :invalid) unless compare_operators.keys.include?(compare_operator&.to_sym)
+      errors.add(:compare_attributes, :invalid) unless compare_attributes.keys.include?(compare_attribute&.to_sym)
     end
 
     def evaluate!(booking)
-      booking.occupiable_ids.include?(compare_value.to_i)
+      actual_value = evaluate_attribute(compare_attribute, with: { booking: })
+      evaluate_operator(compare_operator.presence || :'=', with: { actual_value:, compare_value: })
     end
 
     def compare_values
-      organisation.occupiables.occupiable.ordered
+      organisation.occupiables.ordered
     end
   end
 end
