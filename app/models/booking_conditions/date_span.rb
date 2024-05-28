@@ -32,14 +32,12 @@ module BookingConditions
   class DateSpan < ::BookingCondition
     BookingCondition.register_subtype self
 
-    def compare_attributes
-      {
-        begins_at: ->(booking:) { booking.begins_at },
-        ends_at: ->(booking:) { booking.ends_at },
-        span: ->(booking:) { booking.span },
-        now: ->(_booking:) { Time.zone.today }
-      }.freeze
-    end
+    compare_operator :'='
+
+    compare_attribute :begins_at, ->(booking:) { booking.begins_at }
+    compare_attribute :ends_at, ->(booking:) { booking.ends_at }
+    compare_attribute :span, ->(booking:) { booking.span }
+    compare_attribute :now, ->(_booking:) { Time.zone.today }
 
     def compare_value_regex
       DateSpanChecker::REGEX

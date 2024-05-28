@@ -34,9 +34,7 @@ module BookingConditions
 
     attribute :compare_operator, default: -> { :'=' }
 
-    def compare_operators
-      NUMERIC_OPERATORS
-    end
+    compare_operators.merge! NUMERIC_OPERATORS
 
     def compare_value_regex
       /\A(?<threshold>\d+)\s*(?<threshold_unit>[smhd])\z/

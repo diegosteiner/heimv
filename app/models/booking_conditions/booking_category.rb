@@ -31,15 +31,17 @@
 module BookingConditions
   class BookingCategory < BookingCondition
     BookingCondition.register_subtype self
-    def compare_operators
-      {
-        '=': lambda { |actual_value:, compare_value:|
-               [actual_value&.key, actual_value&.id&.to_s].compact_blank.include?(compare_value&.to_s)
-             },
-        '!=': ->(actual_value:, compare_value:) { !evaluate_operator(:'=', with: { actual_value:, compare_value: }) }
-      }.freeze
-    end
 
+    attribute :compare_operator, default: -> { :'=' }
+
+    compare_operator :'=', (lambda do |actual_value:, compare_value:|
+      [actual_value&.key, actual_value&.id&.to_s].compact_blank.include?(compare_value&.to_s)
+    end)
+    compare_operator :'!=', (lambda do |actual_value:, compare_value:|
+      !evaluate_operator(:'=', with: { actual_value:, compare_value: })
+    end)
+
+    validates :compare_operator, presence: true
     validate do
       next if compare_values.exists?(key: compare_value) ||
               compare_values.exists?(id: compare_value)
@@ -49,7 +51,7 @@ module BookingConditions
 
     def evaluate!(booking)
       actual_value = booking.category
-      evaluate_operator(compare_operator.presence || :'=', with: { actual_value:, compare_value: })
+      evaluate_operator(compare_operator, with: { actual_value:, compare_value: })
     end
 
     def compare_values

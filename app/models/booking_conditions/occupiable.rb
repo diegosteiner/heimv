@@ -34,26 +34,20 @@ module BookingConditions
 
     attribute :compare_operator, default: -> { :'=' }
 
-    def compare_attributes
-      {
-        occupiable: ->(booking:) { booking.occupiable_ids },
-        home: ->(booking:) { booking.home_id }
-      }.freeze
-    end
+    compare_attribute :occupiable, ->(booking:) { booking.occupiable_ids }
+    compare_attribute :home, ->(booking:) { booking.home_id }
 
-    def compare_operators
-      {
-        '=': lambda { |actual_value:, compare_value:|
-               Array.wrap(actual_value).compact_blank.map(&:to_i).include?(compare_value.presence&.to_i)
-             },
-        '!=': ->(actual_value:, compare_value:) { !evaluate_operator(:'=', with: { actual_value:, compare_value: }) }
-      }.freeze
-    end
+    compare_operator :'=', (lambda do |actual_value:, compare_value:|
+      Array.wrap(actual_value).compact_blank.map(&:to_i).include?(compare_value.presence&.to_i)
+    end)
 
+    compare_operator :'!=', (lambda do |actual_value:, compare_value:|
+      !evaluate_operator(:'=', with: { actual_value:, compare_value: })
+    end)
+
+    validates :compare_attribute, :compare_operator, presence: true
     validate do
       errors.add(:compare_value, :invalid) unless compare_values.exists?(id: compare_value)
-      errors.add(:compare_operator, :invalid) unless compare_operators.keys.include?(compare_operator&.to_sym)
-      errors.add(:compare_attributes, :invalid) unless compare_attributes.keys.include?(compare_attribute&.to_sym)
     end
 
     def evaluate!(booking)

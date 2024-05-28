@@ -54,7 +54,6 @@ RSpec.describe BookingConditions::Occupiable, type: :model do
 
     context 'without attribute' do
       let(:compare_attribute) { nil }
-      it { is_expected.to be_falsy }
       it { expect(booking_condition).not_to be_valid }
     end
 

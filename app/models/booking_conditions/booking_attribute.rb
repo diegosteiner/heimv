@@ -34,19 +34,15 @@ module BookingConditions
 
     attribute :compare_operator, default: -> { :'=' }
 
-    def compare_attributes
-      {
-        nights: ->(booking:) { booking.nights },
-        days: ->(booking:) { booking.nights + 1 },
-        tenant_organisation: ->(booking:) { booking.tenant_organisation },
-        approximate_headcount: ->(booking:) { booking.approximate_headcount },
-        overnight_stays: ->(booking:) { booking.approximate_headcount * booking.nights }
-      }.freeze
-    end
+    compare_attribute :nights, ->(booking:) { booking.nights }
+    compare_attribute :days, ->(booking:) { booking.nights + 1 }
+    compare_attribute :tenant_organisation, ->(booking:) { booking.tenant_organisation }
+    compare_attribute :approximate_headcount, ->(booking:) { booking.approximate_headcount }
+    compare_attribute :overnight_stays, ->(booking:) { booking.approximate_headcount * booking.nights }
 
-    def compare_operators
-      NUMERIC_OPERATORS
-    end
+    compare_operators.merge! NUMERIC_OPERATORS
+
+    validates :compare_attribute, :compare_operator, presence: true
 
     def evaluate!(booking)
       actual_value = evaluate_attribute(compare_attribute, with: { booking: })
@@ -58,7 +54,7 @@ module BookingConditions
                            end
       return if actual_value.blank? || cast_compare_value.blank?
 
-      evaluate_operator(compare_operator.presence || :'=', with: { actual_value:, compare_value: cast_compare_value })
+      evaluate_operator(compare_operator, with: { actual_value:, compare_value: cast_compare_value })
     end
   end
 end
