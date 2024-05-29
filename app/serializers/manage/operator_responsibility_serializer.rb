@@ -4,6 +4,6 @@ module Manage
   class OperatorResponsibilitySerializer < ApplicationSerializer
     association :operator, blueprint: Manage::OperatorSerializer
 
-    fields :booking_id, :responsibility
+    fields :booking_id, :responsibility, :remarks
   end
 end
