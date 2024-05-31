@@ -132,16 +132,16 @@ class BookingCondition < ApplicationRecord
       @compare_operators ||= {}
     end
 
-    def compare_operator(key, block = nil)
-      compare_operators[key&.to_sym] = block
+    def compare_operator(**args)
+      compare_operators.merge!(args.symbolize_keys)
     end
 
     def compare_attributes
       @compare_attributes ||= {}
     end
 
-    def compare_attribute(key, block = nil)
-      compare_attributes[key&.to_sym] = block
+    def compare_attribute(**args)
+      compare_attributes.merge!(args.symbolize_keys)
     end
   end
 end

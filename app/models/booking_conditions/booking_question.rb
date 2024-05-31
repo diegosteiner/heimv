@@ -38,14 +38,16 @@ module BookingConditions
       organisation.booking_questions.index_by { _1.id.to_s.to_sym }
     end
 
-    compare_operators.merge! NUMERIC_OPERATORS
+    compare_operator(**NUMERIC_OPERATORS)
+
+    validates :compare_operator, :compare_attribute, presence: true
 
     def evaluate!(booking)
       actual_value = booking.booking_question_responses.find_by(booking_question:)&.value
       cast_compare_value = booking_question.cast(compare_value)
       return if actual_value.blank? || cast_compare_value.blank?
 
-      evaluate_operator(compare_operator, with: { actual_value:, compare_value: cast_compare_value })
+      evaluate_operator(compare_operator || :'=', with: { actual_value:, compare_value: cast_compare_value })
     end
 
     def booking_question

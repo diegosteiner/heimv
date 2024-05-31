@@ -32,21 +32,31 @@ module BookingConditions
   class DateSpan < ::BookingCondition
     BookingCondition.register_subtype self
 
-    compare_operator :'='
+    attribute :compare_operator, default: -> { :'=' }
 
-    compare_attribute :begins_at, ->(booking:) { booking.begins_at }
-    compare_attribute :ends_at, ->(booking:) { booking.ends_at }
-    compare_attribute :span, ->(booking:) { booking.span }
-    compare_attribute :now, ->(_booking:) { Time.zone.today }
+    compare_operator '=': ->(actual_value:) { date_span_checker&.overlap?(actual_value) },
+                     '!=': ->(**with) { !evaluate_operator(:'=', with:) }
+
+    compare_attribute begins_at: ->(booking:) { booking.begins_at },
+                      ends_at: ->(booking:) { booking.ends_at },
+                      span: ->(booking:) { booking.span },
+                      now: ->(_booking:) { Time.zone.today }
+
+    validates :compare_attribute, :compare_operator, presence: true
 
     def compare_value_regex
       DateSpanChecker::REGEX
     end
 
     def evaluate!(booking)
-      @date_span_checker ||= DateSpanChecker.parse(compare_value)
       actual_value = evaluate_attribute(compare_attribute || :span, with: { booking: })
-      @date_span_checker&.overlap?(actual_value)
+      evaluate_operator(compare_operator || :'=', with: { actual_value: })
+    end
+
+    protected
+
+    def date_span_checker
+      @date_span_checker ||= DateSpanChecker.parse(compare_value)
     end
   end
 end

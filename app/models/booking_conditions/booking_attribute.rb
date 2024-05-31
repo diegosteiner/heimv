@@ -34,13 +34,13 @@ module BookingConditions
 
     attribute :compare_operator, default: -> { :'=' }
 
-    compare_attribute :nights, ->(booking:) { booking.nights }
-    compare_attribute :days, ->(booking:) { booking.nights + 1 }
-    compare_attribute :tenant_organisation, ->(booking:) { booking.tenant_organisation }
-    compare_attribute :approximate_headcount, ->(booking:) { booking.approximate_headcount }
-    compare_attribute :overnight_stays, ->(booking:) { booking.approximate_headcount * booking.nights }
+    compare_attribute nights: ->(booking:) { booking.nights },
+                      days: ->(booking:) { booking.nights + 1 },
+                      tenant_organisation: ->(booking:) { booking.tenant_organisation },
+                      approximate_headcount: ->(booking:) { booking.approximate_headcount },
+                      overnight_stays: ->(booking:) { booking.approximate_headcount * booking.nights }
 
-    compare_operators.merge! NUMERIC_OPERATORS
+    compare_operator(**NUMERIC_OPERATORS)
 
     validates :compare_attribute, :compare_operator, presence: true
 

@@ -34,16 +34,11 @@ module BookingConditions
 
     attribute :compare_operator, default: -> { :'=' }
 
-    compare_attribute :occupiable, ->(booking:) { booking.occupiable_ids }
-    compare_attribute :home, ->(booking:) { booking.home_id }
+    compare_attribute occupiable: ->(booking:) { booking.occupiable_ids },
+                      home: ->(booking:) { booking.home_id }
 
-    compare_operator :'=', (lambda do |actual_value:, compare_value:|
-      Array.wrap(actual_value).compact_blank.map(&:to_i).include?(compare_value.presence&.to_i)
-    end)
-
-    compare_operator :'!=', (lambda do |actual_value:, compare_value:|
-      !evaluate_operator(:'=', with: { actual_value:, compare_value: })
-    end)
+    compare_operator '=': ->(actual_value:, compare_value:) { actual_value.include?(compare_value.presence&.to_i) },
+                     '!=': ->(**with) { !evaluate_operator(:'=', with:) }
 
     validates :compare_attribute, :compare_operator, presence: true
     validate do
@@ -52,6 +47,7 @@ module BookingConditions
 
     def evaluate!(booking)
       actual_value = evaluate_attribute(compare_attribute, with: { booking: })
+      actual_value = Array.wrap(actual_value).compact_blank.map(&:to_i)
       evaluate_operator(compare_operator.presence || :'=', with: { actual_value:, compare_value: })
     end
 

@@ -32,12 +32,17 @@ module BookingConditions
   class Tarif < BookingCondition
     BookingCondition.register_subtype self
 
+    attribute :compare_operator, default: -> { :'=' }
+
+    compare_operator '=': ->(actual_value:, compare_value:) { actual_value.include?(compare_value.presence&.to_i) },
+                     '!=': ->(**with) { !evaluate_operator(:'=', with:) }
     validate do
       errors.add(:compare_value, :invalid) unless compare_values.exists?(id: compare_value)
     end
 
     def evaluate!(booking)
-      booking.usages.map(&:tarif_id).include?(compare_value.to_i)
+      actual_value = booking.usages.map(&:tarif_id)
+      evaluate_operator(compare_operator || :'=', with: { actual_value:, compare_value: })
     end
 
     def compare_values
