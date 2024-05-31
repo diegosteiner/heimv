@@ -36,6 +36,8 @@ module BookingConditions
 
     compare_operator '=': ->(actual_value:, compare_value:) { actual_value.include?(compare_value.presence&.to_i) },
                      '!=': ->(**with) { !evaluate_operator(:'=', with:) }
+
+    validates :compare_operator, :compare_value, presence: true
     validate do
       errors.add(:compare_value, :invalid) unless compare_values.exists?(id: compare_value)
     end

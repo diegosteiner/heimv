@@ -9,6 +9,9 @@ class RemoveHomeBookingCondtions < ActiveRecord::Migration[7.1]
       compare_attribute: :home,
       compare_operator: :'='
     })
+    BookingCondition.where(compare_operator: [nil, ''])
+      .where.not(type: "BookingConditions::AlwaysApply")
+      .update_all({ compare_operator: :'=' })
   end
 
   def down
