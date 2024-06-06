@@ -29,6 +29,7 @@
 class MailTemplate < RichTextTemplate
   has_many :mail_template_designated_documents, dependent: :destroy
   has_many :designated_documents, through: :mail_template_designated_documents
+  has_many :notifications, dependent: :nullify
 
   def use(booking, to: nil, attach: nil, **context, &callback)
     return nil unless enabled

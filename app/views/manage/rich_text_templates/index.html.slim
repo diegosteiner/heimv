@@ -1,5 +1,11 @@
 h1.mt-0.mb-1= RichTextTemplate.model_name.human(count: 2)
 
+- if @missing_templates.any?
+  .alert.alert-warning.mt-3[role="alert"]
+    = form_with(url: create_missing_manage_rich_text_templates_path, method: :POST) do |f|
+        = t('.missing_templates', count: @missing_templates.count)
+        = f.submit class: 'alert-link bg-transparent border-0 ms-1', value: t('.create_missing')
+
 table.table.table-hover.align-middle
   thead
     tr 

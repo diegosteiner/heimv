@@ -42,22 +42,19 @@ class RichTextTemplateService
     end
   end
 
-  def create_missing!(include_optional: true)
-    missing_templates(include_optional:).map do |definition|
-      build_from_defintion(definition, **(include_optional ? { enabled: true } : {})).tap(&:save!)
+  def create_missing!(enable_optional: true)
+    missing_templates(include_optional: true).map do |definition|
+      enabled = !definition.fetch(:optional, false) || enable_optional
+      build_from_defintion(definition, enabled:).tap(&:save!)
     end
   end
 
-  def build_from_defintion(definition, **attributes)
-    title = {}
-    body = {}
-    I18n.available_locales.map do |locale|
-      title[locale] = defaults_for_locale(:default_title, definition[:key], locale)
-      body[locale]  = defaults_for_locale(:default_body, definition[:key], locale)
-    end
-    RichTextTemplate.new({ key: definition[:key], type: definition[:type].to_s, organisation:, title_i18n: title,
-                           autodeliver: definition.fetch(:autodeliver, true),
-                           body_i18n: body, enabled: !definition.fetch(:optional, false) }.merge(attributes))
+  def build_from_defintion(definition, enabled: nil)
+    enabled ||= !definition.fetch(:optional, false)
+    template = RichTextTemplate.new({ key: definition[:key], type: definition[:type].to_s, organisation:,
+                                      autodeliver: definition.fetch(:autodeliver, true), enabled: })
+    template.load_locale_defaults
+    template
   end
 
   def replace_in_template!(search, replace, scope: @organisation.rich_text_templates)
@@ -66,11 +63,5 @@ class RichTextTemplateService
       rich_text_template.replace_in_title(search, replace)
       rich_text_template.save
     end
-  end
-
-  private
-
-  def defaults_for_locale(kind, key, locale)
-    I18n.t(kind, scope: [:rich_text_templates, key], locale:, default: nil)
   end
 end
