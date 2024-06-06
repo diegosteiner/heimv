@@ -54,6 +54,12 @@
                   - if @booking.tenant.birth_date.present?
                     dd= l(@booking.tenant.birth_date)
 
+                  - if @booking.agent_booking.present?
+                    dd
+                      - @booking.agent_booking.tenant_infos&.lines&.each do |line|
+                        = line 
+                        br
+
 
             .col-md-6
               - if @booking.category.present? || @booking.purpose_description.present?

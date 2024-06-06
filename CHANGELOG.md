@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## Version 24.6.1
+
+Released on 06.06.2024
+
+- Feature: Soad locale defaults for rich text templates
+- Feature: Show message when not all rich text templates are created
+- Feature: Allow booking agent to fill in approximate headcount
+
 ## Version 24.5.2
 
 Released on 27.05.2024

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_27_092928) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_06_123804) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_092928) do
     t.string "tenant_email"
     t.bigint "booking_agent_id", null: false
     t.string "token"
+    t.text "tenant_infos"
     t.index ["booking_agent_id"], name: "index_agent_bookings_on_booking_agent_id"
     t.index ["booking_id"], name: "index_agent_bookings_on_booking_id"
     t.index ["organisation_id"], name: "index_agent_bookings_on_organisation_id"

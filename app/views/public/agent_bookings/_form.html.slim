@@ -39,10 +39,10 @@
 
         fieldset 
           h4= Tenant.model_name.human
+          = f.text_area :tenant_infos, required: false, rows: 3, help: t('.tenant_infos_help')
           = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
-          = bf.text_field :tenant_organisation, required: false 
           = render partial: 'public/bookings/booking_category_fields', locals: { booking: @agent_booking.booking, f: bf }
-          = bf.text_field :purpose_description, required: false 
+          = bf.number_field :approximate_headcount, required: false 
           = bf.text_area :remarks, required: false
           
       

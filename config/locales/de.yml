@@ -96,6 +96,7 @@ de:
         booking_agent_ref: Ihre Referenz
         home: Heim
         tenant_email: Email des Mieters
+        tenant_infos: Informationen zum Mieter
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         begins_at: Beginn der Belegung
@@ -1467,6 +1468,7 @@ de:
         title: Reservation bearbeiten
       form:
         tenant_email_help: Bitte NICHT die E-Mail Adresse des Vermittlers verwenden. Wir benötigen die E-Mail Adresse des Mieters erst wenn die Anfrage definitiv wird, damit wir den Kontakt aufnehmen können.
+        tenant_infos_help: Name der Organisation, verantwortlichen Person, Mietzweck, weitere Informationen zur Vermittlung
       new:
         title: Reservation
     bookings:
