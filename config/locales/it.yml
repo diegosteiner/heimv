@@ -153,9 +153,9 @@ it:
         description: Descrizione
         key: Chiava
         label: Nome
-        mode:
         ordinal_position: Numero di serie
         required:
+        tenant_mode:
         type: Tipo
       contract:
         issuer: Proprietario
@@ -399,8 +399,8 @@ it:
         modes:
           always_editable:
           blank_editable:
-          booking_editable:
           not_visible:
+          provisional_editable:
       data_digest:
         periods:
           ever: Tutti tempi

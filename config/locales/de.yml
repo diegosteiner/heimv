@@ -151,12 +151,13 @@ de:
         type: Typ
       booking_question:
         applying_conditions: Bedingungen
+        booking_agent_mode: Eingabemodus für Vermittler
         description: Beschreibung
         key: Schlüssel
         label: Bezeichnung
-        mode: Eingabemodus
         ordinal_position: Ordnungsnummer
         required: Pflichteingabe
+        tenant_mode: Eingabemodus für Mieter
         type: Typ
       contract:
         issuer: Vermieter
@@ -398,11 +399,16 @@ de:
           manager: Verwaltung
           tenant: Mieter
       booking_question:
-        modes:
+        booking_agent_modes:
+          always_editable: Für Vermittler sichtbar, jederzeit bearbeitbar
+          blank_editable: Für Vermittler sichtbar, bearbeitbar wenn leer
+          not_visible: Für Vermittler unsichtbar
+          provisional_editable: Für Vermittler sichtbar, bearbeitbar bis definitiv
+        tenant_modes:
           always_editable: Für Mieter sichtbar, jederzeit bearbeitbar
           blank_editable: Für Mieter sichtbar, bearbeitbar wenn leer
-          booking_editable: Für Mieter sichtbar, bearbeitbar bis definitiv
           not_visible: Für Mieter unsichtbar
+          provisional_editable: Für Mieter sichtbar, bearbeitbar bis definitiv
       data_digest:
         periods:
           ever: Aller Zeiten

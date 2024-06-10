@@ -13,10 +13,13 @@ module Public
       @agent_booking = AgentBooking.new(organisation: current_organisation)
       @agent_booking.assign_attributes(agent_booking_params)
       @agent_booking.booking.assign_attributes(booking_params) if booking_params.present?
+      @agent_booking.booking.booking_questions = BookingQuestion.applying_to_booking(@agent_booking.booking)
       respond_with :public, @agent_booking
     end
 
     def edit
+      @agent_booking.booking.booking_questions = BookingQuestion.applying_to_booking(@agent_booking.booking)
+
       respond_with :public, @agent_booking
     end
 

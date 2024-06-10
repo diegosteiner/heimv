@@ -88,9 +88,10 @@ describe 'Booking by agent', :devise, type: :feature do
 
   def commit_agent_booking_request
     visit edit_public_agent_booking_path(@agent_booking.token, org:)
+
+    tenant_infos = [booking.tenant_organisation, booking.purpose_description]
+    fill_in 'agent_booking_tenant_infos', with: tenant_infos.join("\n")
     fill_in 'agent_booking_tenant_email', with: booking.email
-    fill_in 'agent_booking_booking_attributes_tenant_organisation', with: booking.tenant_organisation
-    fill_in 'agent_booking_booking_attributes_purpose_description', with: booking.purpose_description
     submit_form
     expect(page).to have_content(I18n.t('flash.actions.update.notice',
                                         resource_name: AgentBooking.model_name.human))

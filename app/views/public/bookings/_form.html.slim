@@ -84,7 +84,7 @@
         = f.fields_for :booking_question_responses, @booking.booking_question_responses do |bqrf|
           - response = bqrf.object
           - question = response.booking_question
-          - next if question.mode_not_visible?
+          - next if question.tenant_not_visible?
           = bqrf.hidden_field :booking_question_id
           = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: !response.editable }
 

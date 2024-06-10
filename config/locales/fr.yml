@@ -153,9 +153,9 @@ fr:
         description: Description
         key: Clé
         label: Désignation
-        mode: Mode de saisie
         ordinal_position: Ordnungsnummer
         required: Saisie obligatoire
+        tenant_mode: Mode de saisie
         type: type
       contract:
         issuer: Bailleur
@@ -399,8 +399,8 @@ fr:
         modes:
           always_editable: Visible par les locataires, modifiable à tout moment
           blank_editable: Visible par les locataires, modifiable si vide
-          booking_editable: Visible pour les locataires, modifiable jusqu'à définitif
           not_visible: Invisible pour les locataires
+          provisional_editable: Visible pour les locataires, modifiable jusqu'à définitif
       data_digest:
         periods:
           ever: Aller Zeiten
