@@ -4,19 +4,20 @@
 #
 # Table name: booking_questions
 #
-#  id               :bigint           not null, primary key
-#  description_i18n :jsonb
-#  discarded_at     :datetime
-#  key              :string
-#  label_i18n       :jsonb
-#  mode             :integer          default("booking_editable"), not null
-#  options          :jsonb
-#  ordinal          :integer
-#  required         :boolean          default(FALSE)
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint           not null
+#  id                 :bigint           not null, primary key
+#  booking_agent_mode :integer
+#  description_i18n   :jsonb
+#  discarded_at       :datetime
+#  key                :string
+#  label_i18n         :jsonb
+#  options            :jsonb
+#  ordinal            :integer
+#  required           :boolean          default(FALSE)
+#  tenant_mode        :integer          default("not_visible"), not null
+#  type               :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  organisation_id    :bigint           not null
 #
 # Indexes
 #
@@ -29,6 +30,7 @@
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 class BookingQuestion < ApplicationRecord
+  MODES = { not_visible: 0, provisional_editable: 1, always_editable: 2, blank_editable: 3 }.freeze
   extend TemplateRenderable
   include TemplateRenderable
   extend Mobility
@@ -43,18 +45,18 @@ class BookingQuestion < ApplicationRecord
   has_many :applying_conditions, -> { qualifiable_group(:applying) }, as: :qualifiable, dependent: :destroy,
                                                                       class_name: :BookingCondition, inverse_of: false
 
-  enum mode: { booking_editable: 0, not_visible: 1, always_editable: 2, blank_editable: 3 }, _prefix: :mode
+  enum tenant_mode: MODES, _prefix: :tenant, _default: :not_visible
+  enum booking_agent_mode: MODES, _prefix: :booking_agent, _default: :not_visible
 
   scope :ordered, -> { rank(:ordinal) }
   scope :include_conditions, -> { includes(:applying_conditions) }
-  scope :tenant_visible, -> { where(mode: %i[booking_editable always_editable]) }
   ranks :ordinal, with_same: :organisation_id, class_name: 'BookingQuestion'
 
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :description, column_suffix: '_i18n', locale_accessors: true
 
   validates :type, presence: true, inclusion: { in: ->(_) { BookingQuestion.subtypes.keys.map(&:to_s) } }
-  validates :mode, presence: true
+  validates :tenant_mode, :booking_agent_mode, presence: true
   before_validation :update_booking_conditions
 
   accepts_nested_attributes_for :applying_conditions, allow_destroy: true,

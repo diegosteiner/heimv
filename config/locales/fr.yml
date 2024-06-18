@@ -96,6 +96,7 @@ fr:
         booking_agent_ref: Votre référence
         home: Chalet
         tenant_email: Email du locataire
+        tenant_infos:
       booking:
         approximate_headcount: Nombre de personnes attendues
         begins_at: Début de la location
@@ -150,12 +151,13 @@ fr:
         type: Type
       booking_question:
         applying_conditions: Conditions
+        booking_agent_mode:
         description: Description
         key: Clé
         label: Désignation
-        mode: Mode de saisie
         ordinal_position: Ordnungsnummer
         required: Saisie obligatoire
+        tenant_mode:
         type: type
       contract:
         issuer: Bailleur
@@ -296,7 +298,7 @@ fr:
       organisation_user:
         email: Email
         role: Rôle
-        token:
+        token: Jeton
       payment:
         amount: Montant
         confirm: Envoyer automatiquement une confirmation de paiement
@@ -396,11 +398,16 @@ fr:
           manager: Administration
           tenant: Locataire
       booking_question:
-        modes:
+        booking_agent_modes:
+          always_editable:
+          blank_editable:
+          not_visible:
+          provisional_editable:
+        tenant_modes:
           always_editable: Visible par les locataires, modifiable à tout moment
           blank_editable: Visible par les locataires, modifiable si vide
-          booking_editable: Visible pour les locataires, modifiable jusqu'à définitif
           not_visible: Invisible pour les locataires
+          provisional_editable: Visible pour les locataires, modifiable jusqu'à définitif
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -702,11 +709,11 @@ fr:
       mark_invoices_paid:
         label: Confirmer la réception du paiement
       mark_invoices_refunded:
-        label:
+        label: Marquer les notes de crédit comme étant remboursées
       postpone_deadline:
         label: Prolonger le délai
       revert_cancel:
-        label:
+        label: Annuler l'annulation
       skip_invoice:
         label: Sauter le décompte final
     public:
@@ -728,10 +735,14 @@ fr:
         tenant_organisation: Organisation des locataires
     date_span:
       attributes:
-        begins_at: Beginn der Belegung
-        ends_at: Ende der Belegung
+        begins_at: Début de la location
+        ends_at: Fin de la location
         now: Heute
         span: Période d'occupation
+    occupiable:
+      attributes:
+        home: Principal objet de location
+        occupiable: Objet de location
   booking_state_checklist_item:
     contract_created: Créer un contrat
     contract_signed: Contrat signé
@@ -1240,6 +1251,12 @@ fr:
       form:
         deliver: Enregistrer et envoyer
         not_sent: Ce message n'a pas encore été envoyé
+    occupancies:
+      span:
+        nights:
+          one:
+          other:
+          zero:
     organisation_users:
       form:
         regenerate_token:
@@ -1253,7 +1270,7 @@ fr:
         title: Processus de réservation
     payments:
       form:
-        save_and_confirm:
+        save_and_confirm: Sauvegarder et envoyr une confirmation de paiement
       index:
         new_import: Importer des paiements à partir du fichier CAMT.054
       new_import:
@@ -1263,10 +1280,13 @@ fr:
       form:
         help_html:
         help_title: Aide sur les variables
+        load_locale_defaults:
       index:
         booking_action: Action
         booking_state: Statut comptable
+        create_missing:
         document: Document
+        missing_templates:
         rich_text_templates_by_booking_action: Actions
         rich_text_templates_by_booking_state: Statut comptable
         rich_text_templates_by_document: Documents
@@ -1331,7 +1351,7 @@ fr:
           tb: To
     nth:
       ordinalized:
-      ordinals:
+      ordinals: "."
     percentage:
       format:
         delimiter: ''
@@ -1374,6 +1394,7 @@ fr:
         title: Traiter une réservation
       form:
         tenant_email_help: Veuillez NE PAS utiliser l'adresse e-mail de l'intermédiaire. Nous n'avons besoin de l'adresse e-mail du locataire que lorsque la demande devient définitive, afin de pouvoir établir le contact.
+        tenant_infos_help:
       new:
         title: Réservation
     bookings:
@@ -1504,7 +1525,7 @@ fr:
       description: Notification pour location annulée (propriétaire)
     operator_upcoming_notification:
       default_body:
-      default_title: Belegung
+      default_title: Location
       description: Notification pour location annulée (propriétaire)
     operator_upcoming_soon_notification:
       default_body:
@@ -1538,8 +1559,14 @@ fr:
       default_title: Informations sur le paiement
       description: Texte pour les informations de paiement
     unconfirmed_request_notification:
-      default_body:
-      default_title: Confirme ton adresse e-mail !
+      default_body: |
+        <p>Bonjour</p>
+
+        <p>Vous venez d'initier une demande de location pour {{ booking.home.name }}.
+        Veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse e-mail et finaliser votre demande de location.</p>
+
+        <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
+      default_title: Confirmer votre adresse e-mail !
       description: Notification de demande de location non-confirmée (locataire)
     upcoming_notification:
       default_body:

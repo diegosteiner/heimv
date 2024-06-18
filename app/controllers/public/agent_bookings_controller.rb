@@ -13,10 +13,13 @@ module Public
       @agent_booking = AgentBooking.new(organisation: current_organisation)
       @agent_booking.assign_attributes(agent_booking_params)
       @agent_booking.booking.assign_attributes(booking_params) if booking_params.present?
+      process_booking_question_responses
       respond_with :public, @agent_booking
     end
 
     def edit
+      process_booking_question_responses
+
       respond_with :public, @agent_booking
     end
 
@@ -32,6 +35,7 @@ module Public
     end
 
     def update
+      process_booking_question_responses
       begin
         @agent_booking.assign_attributes(agent_booking_params)
       rescue ActiveRecord::RecordInvalid
@@ -44,6 +48,15 @@ module Public
     end
 
     private
+
+    def process_booking_question_responses
+      responses_params = params.dig(:agent_booking, :booking_attributes)
+                               &.permit(booking_question_responses_attributes: %i[booking_question_id value])
+                               &.fetch(:booking_question_responses_attributes, nil)
+      @agent_booking.booking.booking_question_responses = BookingQuestionResponse.process(@agent_booking.booking,
+                                                                                          responses_params,
+                                                                                          role: :agent_booking)
+    end
 
     def write_booking_log
       Booking::Log.log(@agent_booking.booking, trigger: :booking_agent, action: booking_action, user: current_user)

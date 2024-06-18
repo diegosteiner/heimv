@@ -28,7 +28,7 @@ jobs:
           else
             ref=$(echo ${GITHUB_REF#refs/heads/})
             sha=$(echo ${GITHUB_SHA} | cut -c1-7)
-            echo "${ref} @${sha}" > VERSION
+            echo "${ref} @${sha}" >> VERSION
           fi
 
       - name: docker login

@@ -96,6 +96,7 @@ de:
         booking_agent_ref: Ihre Referenz
         home: Heim
         tenant_email: Email des Mieters
+        tenant_infos: Zusätzliche Informationen zum Mieter
       booking:
         approximate_headcount: Erwartete Anzahl Personen
         begins_at: Beginn der Belegung
@@ -150,12 +151,13 @@ de:
         type: Typ
       booking_question:
         applying_conditions: Bedingungen
+        booking_agent_mode: Eingabemodus für Vermittler
         description: Beschreibung
         key: Schlüssel
         label: Bezeichnung
-        mode: Eingabemodus
         ordinal_position: Ordnungsnummer
         required: Pflichteingabe
+        tenant_mode: Eingabemodus für Mieter
         type: Typ
       contract:
         issuer: Vermieter
@@ -397,11 +399,16 @@ de:
           manager: Verwaltung
           tenant: Mieter
       booking_question:
-        modes:
+        booking_agent_modes:
+          always_editable: Für Vermittler sichtbar, jederzeit bearbeitbar
+          blank_editable: Für Vermittler sichtbar, bearbeitbar wenn leer
+          not_visible: Für Vermittler unsichtbar
+          provisional_editable: Für Vermittler sichtbar, bearbeitbar bis definitiv
+        tenant_modes:
           always_editable: Für Mieter sichtbar, jederzeit bearbeitbar
           blank_editable: Für Mieter sichtbar, bearbeitbar wenn leer
-          booking_editable: Für Mieter sichtbar, bearbeitbar bis definitiv
           not_visible: Für Mieter unsichtbar
+          provisional_editable: Für Mieter sichtbar, bearbeitbar bis definitiv
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -1333,6 +1340,12 @@ de:
       form:
         deliver: Speichern und versenden
         not_sent: Diese Nachricht wurde noch nicht versendet
+    occupancies:
+      span:
+        nights:
+          one: 1 Nacht
+          other: "%{count} Nächte"
+          zero: ohne Übernachtung
     organisation_users:
       form:
         regenerate_token: Token neu generieren
@@ -1467,6 +1480,7 @@ de:
         title: Reservation bearbeiten
       form:
         tenant_email_help: Bitte NICHT die E-Mail Adresse des Vermittlers verwenden. Wir benötigen die E-Mail Adresse des Mieters erst wenn die Anfrage definitiv wird, damit wir den Kontakt aufnehmen können.
+        tenant_infos_help: Name der verantwortlichen Person, weitere Informationen zur Vermittlung
       new:
         title: Reservation
     bookings:

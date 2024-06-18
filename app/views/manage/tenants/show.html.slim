@@ -42,7 +42,7 @@
           td
             = link_to booking.ref, manage_booking_path(booking)
           td
-            = render partial: 'manage/occupancies/occupancy_range', locals: { booking: booking }
+            = render partial: 'manage/occupancies/span', locals: { booking: booking }
           td 
             = booking.booking_state.t(:label)
           

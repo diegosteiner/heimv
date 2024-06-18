@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_27_092928) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_10_143106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_092928) do
     t.string "tenant_email"
     t.bigint "booking_agent_id", null: false
     t.string "token"
+    t.text "tenant_infos"
     t.index ["booking_agent_id"], name: "index_agent_bookings_on_booking_agent_id"
     t.index ["booking_id"], name: "index_agent_bookings_on_booking_id"
     t.index ["organisation_id"], name: "index_agent_bookings_on_organisation_id"
@@ -157,7 +158,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_092928) do
     t.jsonb "options"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "mode", default: 0, null: false
+    t.integer "tenant_mode", default: 0, null: false
+    t.integer "booking_agent_mode"
     t.index ["discarded_at"], name: "index_booking_questions_on_discarded_at"
     t.index ["organisation_id"], name: "index_booking_questions_on_organisation_id"
     t.index ["type"], name: "index_booking_questions_on_type"
@@ -323,11 +325,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_092928) do
     t.index ["ref"], name: "index_invoices_on_ref"
     t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
     t.index ["type"], name: "index_invoices_on_type"
-  end
-
-  create_table "mail_template_designated_document2s", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "mail_template_designated_documents", id: false, force: :cascade do |t|
