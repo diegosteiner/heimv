@@ -108,6 +108,7 @@ describe 'Booking by agent', :devise, type: :feature do
     visit edit_public_booking_path(id: @agent_booking.booking)
     fill_in 'booking_approximate_headcount', with: booking.approximate_headcount
     fill_in 'booking_tenant_organisation', with: booking.tenant_organisation
+    fill_in 'booking_purpose_description', with: booking.purpose_description
     fill_tenant_form(tenant)
     submit_form
     expect(page).to have_content(I18n.t('flash.public.bookings.update.notice'))

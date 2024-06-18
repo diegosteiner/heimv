@@ -64,7 +64,13 @@
             = cf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable
           = cf.text_area :phone, rows: 1, disabled: !@booking.editable
           = cf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
-          = cf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }, {}, disabled: !@booking.editable
+          
+
+          - booking_categories = [current_organisation.booking_categories.kept, @booking.category].flatten.compact_blank.uniq
+          - if current_organisation.locales.many?
+            = cf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }, {}, disabled: !@booking.editable
+          - else 
+            = cf.hidden_field :locale, value: current_organisation.locales.first
 
       fieldset
         h5= t('.booking_details')
@@ -86,7 +92,7 @@
           - question = response.booking_question
           - next if question.tenant_not_visible?
           = bqrf.hidden_field :booking_question_id
-          = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: !response.editable }
+          = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: !response.editable?(:tenant) }
 
       .form-actions.pt-4.mt-3.d-flex.gap-1
         =<> f.submit class: 'btn btn-primary'

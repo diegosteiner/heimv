@@ -2,11 +2,15 @@
 
 ## Unreleased
 
+- Feature: Extend booking_questions to booking agents
+- Feature: Allow booking agents to add more info for an agent booking
+- Fix: Show internal remarks for the tenant on the booking
+
 ## Version 24.6.1
 
 Released on 06.06.2024
 
-- Feature: Soad locale defaults for rich text templates
+- Feature: Load locale defaults for rich text templates
 - Feature: Show message when not all rich text templates are created
 - Feature: Allow booking agent to fill in approximate headcount
 

@@ -39,20 +39,21 @@
 
         fieldset 
           h4= Tenant.model_name.human
-          = f.text_area :tenant_infos, required: false, rows: 3, help: t('.tenant_infos_help')
-          = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
           = render partial: 'public/bookings/booking_category_fields', locals: { booking: @agent_booking.booking, f: bf }
+          = bf.text_field :purpose_description, required: false 
           = bf.number_field :approximate_headcount, required: false 
+          = f.text_area :tenant_infos, required: false, rows: 3, help: t('.tenant_infos_help')
           = bf.text_area :remarks, required: false
+          = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
   
         fieldset.mt-4
           h5.mt-0= BookingQuestion.model_name.human(count: 2)
-          = f.fields_for :booking_question_responses, @agent_booking.booking.booking_question_responses do |bqrf|
+          = bf.fields_for :booking_question_responses, @agent_booking.booking.booking_question_responses do |bqrf|
             - response = bqrf.object
             - question = response.booking_question
             - next if question.booking_agent_not_visible?
             = bqrf.hidden_field :booking_question_id
-            = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @agent_booking.booking, response: response, question: question, form: bqrf, disabled: false }
+            = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @agent_booking.booking, response: response, question: question, form: bqrf, disabled: !response.editable?(:booking_agent) }
           
       
       fieldset 

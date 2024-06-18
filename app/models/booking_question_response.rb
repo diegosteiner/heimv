@@ -30,10 +30,21 @@ class BookingQuestionResponse < ApplicationRecord
     errors.add(:value, :blank) if booking_question&.required && value.blank?
   end
 
-  def editable
+  def editable?(role) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
     return false unless booking_question
-    return true if booking_question.mode_always_editable?
-    return value.blank? if booking_question.mode_blank_editable?
+
+    case role.to_sym
+    when :manager
+      return true
+    when :tenant
+      return false if booking_question.tenant_not_visible?
+      return true if booking_question.tenant_always_editable?
+      return value.blank? if booking_question.tenant_blank_editable?
+    when :booking_agent
+      return false if booking_question.booking_agent_not_visible?
+      return true if booking_question.booking_agent_always_editable?
+      return value.blank? if booking_question.booking_agent_blank_editable?
+    end
 
     booking.editable
   end
@@ -43,22 +54,20 @@ class BookingQuestionResponse < ApplicationRecord
   end
 
   class << self
-    def process_nested_attributes(booking, attributes, manage: false)
+    def process(booking, params = {}, role:)
       existing_responses = indexed_by_booking_question_id(booking)
-      attributes_by_question_id = attributes&.values&.index_by { _1[:booking_question_id]&.to_i } || {}
-      questions = BookingQuestion.applying_to_booking(booking).index_by(&:id)
-      questions.values.map do |question|
-        attributes_of_response = attributes_by_question_id[question.id]
-        build_response(booking, question, existing_responses, attributes_of_response, manage:)
+      params_by_question_id = params&.to_h&.values&.index_by { _1[:booking_question_id]&.to_i } || {}
+      BookingQuestion.applying_to_booking(booking).map do |question|
+        build_response(booking, question, existing_responses, params_by_question_id[question.id], role:)
       end
     end
 
-    def build_response(booking, question, existing_responses, attributes, manage: false)
+    def build_response(booking, question, existing_responses, params = {}, role: nil)
       existing_responses.fetch(question.id, booking.booking_question_responses.build).tap do |response|
         response.booking_question = question
-        next if attributes.blank? || (!manage && question.mode_not_visible?) || (!manage && !response.editable)
+        next if params.blank? || !response.editable?(role)
 
-        response.value = question.cast(attributes[:value])
+        response.value = question.cast(params[:value])
       end
     end
 

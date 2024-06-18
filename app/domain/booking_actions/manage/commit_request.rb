@@ -8,7 +8,7 @@ module BookingActions
       end
 
       def allowed?
-        booking.valid? && !booking.committed_request
+        booking.valid? && !booking.committed_request && (!booking.agent_booking || booking.email.present?)
       end
 
       def confirm

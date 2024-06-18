@@ -27,13 +27,13 @@ module Manage
       @booking = preparation_service.prepare_new(booking_params)
       @booking.assign_attributes(organisation: current_organisation,
                                  transition_to: current_organisation.settings.default_manage_transition_to_state)
-      @booking.booking_questions = BookingQuestion.applying_to_booking(@booking)
+      process_booking_question_responses
 
       respond_with :manage, @booking
     end
 
     def edit
-      @booking.booking_questions = BookingQuestion.applying_to_booking(@booking)
+      process_booking_question_responses
     end
 
     def new_import
@@ -55,9 +55,7 @@ module Manage
 
     def create
       @booking.organisation = current_organisation
-      responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params,
-                                                                    manage: true)
-      @booking.booking_question_responses = responses unless responses.nil?
+      process_booking_question_responses
       @booking.save(context: :manage_create)
       write_booking_log
       respond_with :manage, @booking
@@ -92,9 +90,11 @@ module Manage
     end
 
     def process_booking_question_responses
-      responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params,
-                                                                    manage: true)
-      @booking.booking_question_responses = responses unless responses.nil?
+      responses_params = params[:booking]&.permit(booking_question_responses_attributes: %i[booking_question_id value])
+                                         &.fetch(:booking_question_responses_attributes, nil)
+      @booking.booking_question_responses = BookingQuestionResponse.process(@booking,
+                                                                            responses_params,
+                                                                            role: :manager)
     end
 
     def booking_params

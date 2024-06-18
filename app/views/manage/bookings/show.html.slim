@@ -13,7 +13,7 @@
             .col-md-6
               dl
                 dt= Occupancy.model_name.human
-                dd= render partial: 'manage/occupancies/occupancy_range', locals: { booking: @booking }
+                dd= render partial: 'manage/occupancies/span', locals: { booking: @booking }
 
             .col-md-6
               - if @booking.agent_booking.present?
@@ -36,9 +36,6 @@
                     = link_to edit_manage_tenant_path(@booking.tenant) 
                       i.fa.fa-edit<>
                       
-                - if @booking.tenant_organisation.present?
-                  dd= @booking.tenant_organisation
-
                 - if @booking.tenant&.persisted?
                   dd
                     = link_to @booking.tenant.full_name, manage_tenant_path(@booking.tenant)
@@ -54,7 +51,14 @@
                   - if @booking.tenant.birth_date.present?
                     dd= l(@booking.tenant.birth_date)
 
-                  - if @booking.agent_booking.present?
+                - if @booking.tenant.remarks.present?
+                  dl
+                    dt= Tenant.human_attribute_name(:remarks)
+                    dd.text-italic= @booking.tenant.remarks
+
+                - if @booking.agent_booking.present?
+                  dl
+                    dt= AgentBooking.human_attribute_name(:tenant_infos)
                     dd
                       - @booking.agent_booking.tenant_infos&.lines&.each do |line|
                         = line 
@@ -62,13 +66,19 @@
 
 
             .col-md-6
-              - if @booking.category.present? || @booking.purpose_description.present?
-                dl
-                  dt= Booking.human_attribute_name(:purpose_description)
-                  dd
-                    = @booking.purpose_description
-                    - if @booking.category
-                      = " (#{@booking.category})"
+              dl
+                dt
+                  =<> Booking.human_attribute_name(:tenant_organisation)
+                  | /
+                  =<> Booking.human_attribute_name(:purpose_description)
+                  - if @booking.tenant_organisation.present?
+                    dd= @booking.tenant_organisation
+
+                  - if @booking.category.present? || @booking.purpose_description.present?
+                    dd
+                      = @booking.purpose_description
+                      - if @booking.category
+                        = " (#{@booking.category})"
             
               dl
                 dt= Booking.human_attribute_name(:approximate_headcount)
@@ -91,9 +101,9 @@
               dl
                 dt= BookingQuestion.model_name.human(count: 2)
                 - @booking.booking_question_responses.each do |response|
-                  dd.row.mb-0
-                    .col-sm-6= response.booking_question.label
-                    .col-sm-6
+                  dd.mb-2
+                    div= response.booking_question.label
+                    div
                       - if lookup_context.template_exists? response.booking_question.to_partial_path('value'), [], true
                         em= render partial: response.booking_question.to_partial_path('value'), locals: { value: response.value }
                       - else 

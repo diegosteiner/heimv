@@ -327,11 +327,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_10_143106) do
     t.index ["type"], name: "index_invoices_on_type"
   end
 
-  create_table "mail_template_designated_document2s", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "mail_template_designated_documents", id: false, force: :cascade do |t|
     t.bigint "mail_template_id"
     t.bigint "designated_document_id"
