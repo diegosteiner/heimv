@@ -28,9 +28,11 @@ module Manage
     end
 
     def create_missing
-      RichTextTemplateService.new(current_organisation).create_missing!(enable_optional: false)
+      created = RichTextTemplateService.new(current_organisation).create_missing!(enable_optional: false)
       redirect_to manage_rich_text_templates_path,
-                  notice: t('flash.actions.create.notice', resource_name: RichTextTemplate.model_name.human(count: 2))
+                  notice: t('manage.rich_text_templates.index.created_missing',
+                            count: created.count,
+                            list: created.map { _1.title }.to_sentence)
     end
 
     def create

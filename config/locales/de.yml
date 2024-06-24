@@ -1374,6 +1374,7 @@ de:
         booking_action: Aktion
         booking_state: Buchungsstatus
         create_missing: Fehlende Textvorlagen automatisch hinzufügen
+        created_missing: "%{count} fehlende Textvorlagen wurden hinuzgefügt: %{list}"
         document: Dokument
         missing_templates: "%{count} Textvorlagen fehlen."
         rich_text_templates_by_booking_action: Aktionen
@@ -1670,9 +1671,9 @@ de:
       default_body: |
         <h2>Vertrag</h2>
 
-        <p>(bitte Vertragsvorlage anpassen)</p>
+        <p>(bitte Vertragsvorlage in den Textvorlagen anpassen)</p>
 
-        {{ tarifs_table_placeholder }}
+        {{ TARIFS }}
       default_title: Vertrag
       description: Text für Vertrag
     declined_request_notification:
@@ -1723,6 +1724,8 @@ de:
         {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
         <h1>Anzahlung {{booking.home.name}}</h1>
+
+        {{ TARIFS }}
       default_title: Anzahlung
       description: Text für Rechnung (Anzahlung)
     invoices_invoice_text:
@@ -1731,6 +1734,8 @@ de:
         {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
         <h1>Rechnung {{booking.home.name}}</h1>
+
+        {{ TARIFS }}
       default_title: Rechnung
       description: Text für Rechnung
     invoices_late_notice_text:
@@ -1739,12 +1744,18 @@ de:
         {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
         <h1>Mahnung {{booking.home.name}}</h1>
+
+        {{ TARIFS }}
       default_title: Mahnung
       description: Text für Rechnung (Mahnung)
     invoices_offer_text:
-      default_body: '<h1 id="offerte">Offerte</h1>
+      default_body: |
+        <p>{{ booking.ref }}
+        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
 
-        '
+        <h1>Offerte {{booking.home.name}}</h1>
+
+        {{ TARIFS }}
       default_title: Offerte
       description: Text für Offerte
     manage_cancelation_pending_notification:

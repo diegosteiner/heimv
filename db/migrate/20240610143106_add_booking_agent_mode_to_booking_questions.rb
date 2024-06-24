@@ -1,6 +1,6 @@
 class AddBookingAgentModeToBookingQuestions < ActiveRecord::Migration[7.1]
   def change
-    add_column :booking_questions, :booking_agent_mode, :integer
+    add_column :booking_questions, :booking_agent_mode, :integer, default: 0
     rename_column :booking_questions, :mode, :tenant_mode
 
     reversible do |direction|
