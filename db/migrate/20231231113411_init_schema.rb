@@ -1,4 +1,4 @@
-class InitSchema < ActiveRecord::Migration[6.0]
+class InitSchema < ActiveRecord::Migration[7.1]
   def up
     # These are extensions that must be enabled in order to support this database
     enable_extension "pgcrypto"
@@ -19,7 +19,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "content_type"
       t.text "metadata"
       t.bigint "byte_size", null: false
-      t.string "checksum", null: false
+      t.string "checksum"
       t.datetime "created_at", precision: nil, null: false
       t.string "service_name", null: false
       t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
@@ -38,16 +38,29 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.text "remarks"
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
-      t.bigint "home_id"
       t.bigint "organisation_id"
       t.string "tenant_email"
       t.bigint "booking_agent_id", null: false
       t.string "token"
       t.index ["booking_agent_id"], name: "index_agent_bookings_on_booking_agent_id"
       t.index ["booking_id"], name: "index_agent_bookings_on_booking_id"
-      t.index ["home_id"], name: "index_agent_bookings_on_home_id"
       t.index ["organisation_id"], name: "index_agent_bookings_on_organisation_id"
       t.index ["token"], name: "index_agent_bookings_on_token", unique: true
+    end
+    create_table "bookable_extras" do |t|
+      t.jsonb "title_i18n"
+      t.jsonb "description_i18n"
+      t.bigint "organisation_id", null: false
+      t.datetime "created_at", null: false
+      t.datetime "updated_at", null: false
+      t.index ["organisation_id"], name: "index_bookable_extras_on_organisation_id"
+    end
+    create_table "booked_extras" do |t|
+      t.uuid "booking_id", null: false
+      t.bigint "bookable_extra_id", null: false
+      t.datetime "created_at", null: false
+      t.datetime "updated_at", null: false
+      t.index ["bookable_extra_id"], name: "index_booked_extras_on_bookable_extra_id"
     end
     create_table "booking_agents" do |t|
       t.string "name"
@@ -62,18 +75,69 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.index ["code", "organisation_id"], name: "index_booking_agents_on_code_and_organisation_id", unique: true
       t.index ["organisation_id"], name: "index_booking_agents_on_organisation_id"
     end
-    create_table "booking_purposes" do |t|
+    create_table "booking_categories" do |t|
       t.bigint "organisation_id", null: false
       t.string "key"
       t.jsonb "title_i18n"
+      t.datetime "created_at", precision: nil, null: false
+      t.datetime "updated_at", precision: nil, null: false
+      t.integer "ordinal"
+      t.jsonb "description_i18n"
+      t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
+      t.index ["ordinal"], name: "index_booking_categories_on_ordinal"
+      t.index ["organisation_id"], name: "index_booking_categories_on_organisation_id"
+    end
+    create_table "booking_conditions" do |t|
+      t.bigint "qualifiable_id"
+      t.boolean "must_condition", default: true
+      t.string "compare_value"
+      t.datetime "created_at", precision: nil, null: false
+      t.datetime "updated_at", precision: nil, null: false
+      t.string "type"
+      t.string "qualifiable_type"
+      t.bigint "organisation_id"
+      t.string "group"
+      t.string "compare_attribute"
+      t.string "compare_operator"
+      t.index ["organisation_id"], name: "index_booking_conditions_on_organisation_id"
+      t.index ["qualifiable_id", "qualifiable_type", "group"], name: "index_booking_conditions_on_qualifiable"
+      t.index ["qualifiable_id", "qualifiable_type"], name: "index_booking_conditions_on_qualifiable_id_and_qualifiable_type"
+    end
+    create_table "booking_logs" do |t|
+      t.uuid "booking_id", null: false
+      t.bigint "user_id"
+      t.integer "trigger", null: false
+      t.jsonb "data"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
-      t.integer "ordinal"
-      t.index ["key", "organisation_id"], name: "index_booking_purposes_on_key_and_organisation_id", unique: true
-      t.index ["ordinal"], name: "index_booking_purposes_on_ordinal"
-      t.index ["organisation_id"], name: "index_booking_purposes_on_organisation_id"
+      t.index ["user_id"], name: "index_booking_logs_on_user_id"
     end
-    create_table "booking_transitions" do |t|
+    create_table "booking_question_responses" do |t|
+      t.uuid "booking_id", null: false
+      t.bigint "booking_question_id", null: false
+      t.jsonb "value"
+      t.datetime "created_at", null: false
+      t.datetime "updated_at", null: false
+      t.index ["booking_question_id"], name: "index_booking_question_responses_on_booking_question_id"
+    end
+    create_table "booking_questions" do |t|
+      t.bigint "organisation_id", null: false
+      t.datetime "discarded_at"
+      t.jsonb "label_i18n"
+      t.jsonb "description_i18n"
+      t.string "type"
+      t.integer "ordinal"
+      t.string "key"
+      t.boolean "required", default: false
+      t.jsonb "options"
+      t.datetime "created_at", null: false
+      t.datetime "updated_at", null: false
+      t.integer "mode", default: 0, null: false
+      t.index ["discarded_at"], name: "index_booking_questions_on_discarded_at"
+      t.index ["organisation_id"], name: "index_booking_questions_on_organisation_id"
+      t.index ["type"], name: "index_booking_questions_on_type"
+    end
+    create_table "booking_state_transitions" do |t|
       t.string "to_state", null: false
       t.integer "sort_key", null: false
       t.uuid "booking_id", null: false
@@ -84,10 +148,9 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.json "booking_data", default: {}
       t.index ["booking_id", "most_recent"], name: "index_booking_transitions_parent_most_recent", unique: true, where: "most_recent"
       t.index ["booking_id", "sort_key"], name: "index_booking_transitions_parent_sort", unique: true
-      t.index ["booking_id"], name: "index_booking_transitions_on_booking_id"
+      t.index ["booking_id"], name: "index_booking_state_transitions_on_booking_id"
     end
     create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" } do |t|
-      t.bigint "home_id", null: false
       t.bigint "organisation_id", null: false
       t.string "booking_state_cache", default: "initial", null: false
       t.string "tenant_organisation"
@@ -99,25 +162,31 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "approximate_headcount"
       t.text "remarks"
       t.text "invoice_address"
-      t.string "purpose_key"
       t.string "ref"
       t.boolean "editable", default: true
-      t.boolean "usages_entered", default: false
       t.boolean "notifications_enabled", default: false
       t.jsonb "import_data"
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
       t.text "internal_remarks"
       t.boolean "concluded", default: false
-      t.boolean "usages_presumed", default: false
       t.bigint "deadline_id"
       t.string "locale"
-      t.integer "purpose_id"
+      t.integer "booking_category_id"
       t.string "booking_flow_type"
       t.string "token"
+      t.datetime "conditions_accepted_at", precision: nil
+      t.string "occupancy_color"
+      t.string "purpose_description"
+      t.boolean "accept_conditions", default: false
+      t.datetime "begins_at"
+      t.datetime "ends_at"
+      t.integer "occupancy_type", default: 0, null: false
+      t.integer "home_id", null: false
+      t.boolean "ignore_conflicting", default: false, null: false
+      t.jsonb "booking_questions"
       t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
       t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
-      t.index ["home_id"], name: "index_bookings_on_home_id"
       t.index ["locale"], name: "index_bookings_on_locale"
       t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
       t.index ["ref"], name: "index_bookings_on_ref"
@@ -132,16 +201,31 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.datetime "valid_until", precision: nil
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
+      t.string "locale"
       t.index ["booking_id"], name: "index_contracts_on_booking_id"
     end
-    create_table "data_digests" do |t|
+    create_table "data_digest_templates" do |t|
       t.string "type"
       t.string "label"
       t.jsonb "prefilter_params", default: {}
-      t.jsonb "data_digest_params", default: {}
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
       t.bigint "organisation_id", null: false
+      t.jsonb "columns_config"
+      t.string "group"
+      t.index ["organisation_id"], name: "index_data_digest_templates_on_organisation_id"
+    end
+    create_table "data_digests" do |t|
+      t.bigint "data_digest_template_id", null: false
+      t.bigint "organisation_id", null: false
+      t.datetime "period_from", precision: nil
+      t.datetime "period_to", precision: nil
+      t.jsonb "data"
+      t.datetime "created_at", null: false
+      t.datetime "updated_at", null: false
+      t.datetime "crunching_started_at"
+      t.datetime "crunching_finished_at"
+      t.index ["data_digest_template_id"], name: "index_data_digests_on_data_digest_template_id"
       t.index ["organisation_id"], name: "index_data_digests_on_organisation_id"
     end
     create_table "deadlines" do |t|
@@ -157,19 +241,17 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.index ["booking_id"], name: "index_deadlines_on_booking_id"
       t.index ["responsible_type", "responsible_id"], name: "index_deadlines_on_responsible"
     end
-    create_table "homes" do |t|
+    create_table "designated_documents" do |t|
+      t.integer "designation"
+      t.string "locale"
+      t.text "remarks"
       t.bigint "organisation_id", null: false
+      t.datetime "created_at", null: false
+      t.datetime "updated_at", null: false
       t.string "name"
-      t.string "ref"
-      t.text "address"
-      t.text "janitor"
-      t.boolean "requests_allowed", default: false
-      t.datetime "created_at", precision: nil, null: false
-      t.datetime "updated_at", precision: nil, null: false
-      t.integer "min_occupation"
-      t.integer "booking_margin", default: 0
-      t.index ["organisation_id"], name: "index_homes_on_organisation_id"
-      t.index ["ref", "organisation_id"], name: "index_homes_on_ref_and_organisation_id", unique: true
+      t.boolean "send_with_contract", default: false, null: false
+      t.boolean "send_with_last_infos", default: false
+      t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
     end
     create_table "invoice_parts" do |t|
       t.bigint "invoice_id"
@@ -181,6 +263,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "ordinal"
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
+      t.decimal "vat"
       t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
       t.index ["usage_id"], name: "index_invoice_parts_on_usage_id"
     end
@@ -193,15 +276,17 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.text "text"
       t.string "ref"
       t.decimal "amount", default: "0.0"
-      t.boolean "print_payment_slip", default: false
       t.datetime "discarded_at", precision: nil
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
       t.string "payment_info_type"
       t.decimal "amount_open"
+      t.bigint "supersede_invoice_id"
+      t.string "locale"
       t.index ["booking_id"], name: "index_invoices_on_booking_id"
       t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
       t.index ["ref"], name: "index_invoices_on_ref"
+      t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
       t.index ["type"], name: "index_invoices_on_type"
     end
     create_table "meter_reading_periods" do |t|
@@ -218,41 +303,52 @@ class InitSchema < ActiveRecord::Migration[6.0]
     end
     create_table "notifications" do |t|
       t.uuid "booking_id"
-      t.bigint "rich_text_template_id"
+      t.bigint "mail_template_id"
       t.datetime "sent_at", precision: nil
       t.string "subject"
       t.text "body"
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
-      t.integer "addressed_to", default: 0, null: false
-      t.string "to", default: [], array: true
-      t.string "cc", default: [], array: true
-      t.boolean "queued_for_delivery", default: false
+      t.string "deliver_to", default: [], array: true
+      t.string "to"
+      t.datetime "delivered_at"
       t.index ["booking_id"], name: "index_notifications_on_booking_id"
-      t.index ["rich_text_template_id"], name: "index_notifications_on_rich_text_template_id"
+      t.index ["mail_template_id"], name: "index_notifications_on_mail_template_id"
     end
     create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" } do |t|
       t.datetime "begins_at", precision: nil, null: false
       t.datetime "ends_at", precision: nil, null: false
-      t.bigint "home_id", null: false
+      t.bigint "occupiable_id", null: false
       t.integer "occupancy_type", default: 0, null: false
       t.text "remarks"
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
       t.uuid "booking_id"
+      t.string "color"
+      t.boolean "linked", default: true
+      t.boolean "ignore_conflicting", default: false, null: false
       t.index ["begins_at"], name: "index_occupancies_on_begins_at"
       t.index ["ends_at"], name: "index_occupancies_on_ends_at"
-      t.index ["home_id"], name: "index_occupancies_on_home_id"
       t.index ["occupancy_type"], name: "index_occupancies_on_occupancy_type"
+      t.index ["occupiable_id"], name: "index_occupancies_on_occupiable_id"
     end
-    create_table "offers" do |t|
-      t.uuid "booking_id"
-      t.text "text"
-      t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime "valid_until", precision: nil
-      t.datetime "created_at", null: false
-      t.datetime "updated_at", null: false
-      t.index ["booking_id"], name: "index_offers_on_booking_id"
+    create_table "occupiables" do |t|
+      t.bigint "organisation_id", null: false
+      t.string "ref"
+      t.text "janitor"
+      t.boolean "active", default: false
+      t.datetime "created_at", precision: nil, null: false
+      t.datetime "updated_at", precision: nil, null: false
+      t.string "type"
+      t.boolean "occupiable", default: false
+      t.bigint "home_id"
+      t.jsonb "settings"
+      t.integer "ordinal"
+      t.jsonb "name_i18n"
+      t.jsonb "description_i18n"
+      t.index ["home_id"], name: "index_occupiables_on_home_id"
+      t.index ["organisation_id"], name: "index_occupiables_on_organisation_id"
+      t.index ["ref", "organisation_id"], name: "index_occupiables_on_ref_and_organisation_id", unique: true
     end
     create_table "operator_responsibilities" do |t|
       t.uuid "booking_id"
@@ -260,12 +356,10 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "ordinal"
       t.integer "responsibility"
       t.text "remarks"
-      t.datetime "created_at", null: false
-      t.datetime "updated_at", null: false
-      t.bigint "home_id"
+      t.datetime "created_at", precision: nil, null: false
+      t.datetime "updated_at", precision: nil, null: false
       t.bigint "organisation_id", null: false
       t.index ["booking_id"], name: "index_operator_responsibilities_on_booking_id"
-      t.index ["home_id"], name: "index_operator_responsibilities_on_home_id"
       t.index ["operator_id"], name: "index_operator_responsibilities_on_operator_id"
       t.index ["ordinal"], name: "index_operator_responsibilities_on_ordinal"
       t.index ["organisation_id"], name: "index_operator_responsibilities_on_organisation_id"
@@ -276,9 +370,20 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "email"
       t.text "contact_info"
       t.bigint "organisation_id", null: false
+      t.datetime "created_at", precision: nil, null: false
+      t.datetime "updated_at", precision: nil, null: false
+      t.string "locale", default: "de", null: false
+      t.index ["organisation_id"], name: "index_operators_on_organisation_id"
+    end
+    create_table "organisation_users" do |t|
+      t.bigint "organisation_id", null: false
+      t.bigint "user_id", null: false
+      t.integer "role", null: false
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
-      t.index ["organisation_id"], name: "index_operators_on_organisation_id"
+      t.index ["organisation_id", "user_id"], name: "index_organisation_users_on_organisation_id_and_user_id", unique: true
+      t.index ["organisation_id"], name: "index_organisation_users_on_organisation_id"
+      t.index ["user_id"], name: "index_organisation_users_on_user_id"
     end
     create_table "organisations" do |t|
       t.string "name"
@@ -286,14 +391,12 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "booking_flow_type"
       t.string "invoice_ref_strategy_type"
       t.string "esr_beneficiary_account"
-      t.text "notification_footer"
       t.string "currency", default: "CHF"
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
       t.string "iban"
       t.string "representative_address"
       t.string "email"
-      t.integer "payment_deadline", default: 30, null: false
       t.string "location"
       t.boolean "notifications_enabled", default: true
       t.string "bcc"
@@ -308,6 +411,8 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "invoice_ref_template", default: "%<prefix>s%<home_id>03d%<tenant_id>06d%<invoice_id>07d"
       t.string "ref_template", default: "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s"
       t.jsonb "settings", default: {}
+      t.string "qr_iban"
+      t.text "creditor_address"
       t.index ["slug"], name: "index_organisations_on_slug", unique: true
     end
     create_table "payments" do |t|
@@ -321,52 +426,54 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
       t.boolean "write_off", default: false, null: false
+      t.string "camt_instr_id"
       t.index ["booking_id"], name: "index_payments_on_booking_id"
       t.index ["invoice_id"], name: "index_payments_on_invoice_id"
+    end
+    create_table "plan_b_backups" do |t|
+      t.bigint "organisation_id", null: false
+      t.datetime "created_at", null: false
+      t.datetime "updated_at", null: false
+      t.index ["organisation_id"], name: "index_plan_b_backups_on_organisation_id"
     end
     create_table "rich_text_templates" do |t|
       t.string "key"
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
       t.bigint "organisation_id", null: false
-      t.bigint "home_id"
       t.jsonb "title_i18n", default: {}
       t.jsonb "body_i18n", default: {}
-      t.jsonb "body_i18n_markdown", default: {}
-      t.index ["home_id"], name: "index_rich_text_templates_on_home_id"
-      t.index ["key", "home_id", "organisation_id"], name: "index_rich_text_templates_on_key_and_home_and_organisation", unique: true
-      t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"
-    end
-    create_table "tarif_selectors" do |t|
-      t.bigint "tarif_id"
-      t.boolean "veto", default: true
-      t.string "distinction"
-      t.datetime "created_at", precision: nil, null: false
-      t.datetime "updated_at", precision: nil, null: false
+      t.boolean "enabled", default: true
       t.string "type"
-      t.index ["tarif_id"], name: "index_tarif_selectors_on_tarif_id"
+      t.boolean "autodeliver", default: true
+      t.index ["key", "organisation_id"], name: "index_rich_text_templates_on_key_and_organisation_id", unique: true
+      t.index ["organisation_id"], name: "index_rich_text_templates_on_organisation_id"
+      t.index ["type"], name: "index_rich_text_templates_on_type"
     end
     create_table "tarifs" do |t|
       t.string "type"
-      t.boolean "transient", default: false
-      t.uuid "booking_id"
-      t.bigint "home_id"
-      t.bigint "booking_copy_template_id"
+      t.boolean "pin", default: true
       t.decimal "price_per_unit"
       t.datetime "valid_from", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime "valid_until", precision: nil
       t.integer "ordinal"
       t.string "tarif_group"
-      t.string "invoice_type"
       t.string "prefill_usage_method"
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
-      t.boolean "tenant_visible", default: true
       t.jsonb "label_i18n", default: {}
       t.jsonb "unit_i18n", default: {}
-      t.index ["booking_copy_template_id"], name: "index_tarifs_on_booking_copy_template_id"
-      t.index ["booking_id"], name: "index_tarifs_on_booking_id"
-      t.index ["home_id"], name: "index_tarifs_on_home_id"
+      t.string "accountancy_account"
+      t.integer "associated_types", default: 0, null: false
+      t.decimal "minimum_usage_per_night"
+      t.decimal "minimum_usage_total"
+      t.bigint "organisation_id", null: false
+      t.datetime "discarded_at"
+      t.decimal "vat"
+      t.bigint "prefill_usage_booking_question_id"
+      t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
+      t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
+      t.index ["prefill_usage_booking_question_id"], name: "index_tarifs_on_prefill_usage_booking_question_id"
       t.index ["type"], name: "index_tarifs_on_type"
     end
     create_table "tenants" do |t|
@@ -388,8 +495,10 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.bigint "organisation_id", null: false
       t.string "country_code", default: "CH"
       t.string "nickname"
-      t.string "additional_address"
-      t.boolean "allow_bookings_without_contract", default: false
+      t.string "address_addon"
+      t.boolean "bookings_without_contract", default: false
+      t.string "locale", default: "de", null: false
+      t.boolean "bookings_without_invoice", default: false
       t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
       t.index ["email"], name: "index_tenants_on_email"
       t.index ["organisation_id"], name: "index_tenants_on_organisation_id"
@@ -403,6 +512,8 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.datetime "created_at", precision: nil, null: false
       t.datetime "updated_at", precision: nil, null: false
       t.decimal "presumed_used_units"
+      t.boolean "committed", default: false
+      t.decimal "price_per_unit"
       t.index ["booking_id"], name: "index_usages_on_booking_id"
       t.index ["tarif_id", "booking_id"], name: "index_usages_on_tarif_id_and_booking_id", unique: true
     end
@@ -418,50 +529,71 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.datetime "confirmed_at", precision: nil
       t.datetime "confirmation_sent_at", precision: nil
       t.string "unconfirmed_email"
-      t.integer "role"
-      t.bigint "organisation_id"
+      t.bigint "default_organisation_id"
+      t.boolean "role_admin", default: false
+      t.string "invitation_token"
+      t.datetime "invitation_created_at"
+      t.datetime "invitation_sent_at"
+      t.datetime "invitation_accepted_at"
+      t.integer "invitation_limit"
+      t.string "invited_by_type"
+      t.bigint "invited_by_id"
+      t.integer "invitations_count", default: 0
+      t.string "token"
+      t.integer "default_calendar_view"
+      t.index ["default_organisation_id"], name: "index_users_on_default_organisation_id"
       t.index ["email"], name: "index_users_on_email", unique: true
-      t.index ["organisation_id"], name: "index_users_on_organisation_id"
+      t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
+      t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+      t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
       t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     end
     add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
     add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
     add_foreign_key "agent_bookings", "booking_agents"
     add_foreign_key "agent_bookings", "bookings"
-    add_foreign_key "agent_bookings", "homes"
     add_foreign_key "agent_bookings", "organisations"
+    add_foreign_key "bookable_extras", "organisations"
+    add_foreign_key "booked_extras", "bookable_extras"
     add_foreign_key "booking_agents", "organisations"
-    add_foreign_key "booking_purposes", "organisations"
-    add_foreign_key "booking_transitions", "bookings"
-    add_foreign_key "bookings", "homes"
+    add_foreign_key "booking_categories", "organisations"
+    add_foreign_key "booking_conditions", "organisations"
+    add_foreign_key "booking_logs", "users"
+    add_foreign_key "booking_question_responses", "booking_questions"
+    add_foreign_key "booking_questions", "organisations"
+    add_foreign_key "booking_state_transitions", "bookings"
     add_foreign_key "bookings", "organisations"
     add_foreign_key "contracts", "bookings"
+    add_foreign_key "data_digest_templates", "organisations"
+    add_foreign_key "data_digests", "data_digest_templates"
     add_foreign_key "data_digests", "organisations"
     add_foreign_key "deadlines", "bookings"
-    add_foreign_key "homes", "organisations"
     add_foreign_key "invoice_parts", "invoices"
     add_foreign_key "invoice_parts", "usages"
     add_foreign_key "invoices", "bookings"
+    add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
     add_foreign_key "meter_reading_periods", "tarifs"
     add_foreign_key "meter_reading_periods", "usages"
     add_foreign_key "notifications", "bookings"
-    add_foreign_key "notifications", "rich_text_templates"
-    add_foreign_key "occupancies", "homes"
-    add_foreign_key "offers", "bookings"
+    add_foreign_key "notifications", "rich_text_templates", column: "mail_template_id"
+    add_foreign_key "occupancies", "occupiables"
+    add_foreign_key "occupiables", "organisations"
     add_foreign_key "operator_responsibilities", "bookings"
-    add_foreign_key "operator_responsibilities", "homes"
     add_foreign_key "operator_responsibilities", "operators"
     add_foreign_key "operator_responsibilities", "organisations"
     add_foreign_key "operators", "organisations"
+    add_foreign_key "organisation_users", "organisations"
+    add_foreign_key "organisation_users", "users"
     add_foreign_key "payments", "bookings"
     add_foreign_key "payments", "invoices"
-    add_foreign_key "rich_text_templates", "homes"
+    add_foreign_key "plan_b_backups", "organisations"
     add_foreign_key "rich_text_templates", "organisations"
-    add_foreign_key "tarif_selectors", "tarifs"
+    add_foreign_key "tarifs", "booking_questions", column: "prefill_usage_booking_question_id"
+    add_foreign_key "tarifs", "organisations"
     add_foreign_key "tenants", "organisations"
     add_foreign_key "usages", "bookings"
     add_foreign_key "usages", "tarifs"
-    add_foreign_key "users", "organisations"
+    add_foreign_key "users", "organisations", column: "default_organisation_id"
   end
 
   def down

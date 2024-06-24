@@ -4,19 +4,20 @@
 #
 # Table name: booking_questions
 #
-#  id               :bigint           not null, primary key
-#  description_i18n :jsonb
-#  discarded_at     :datetime
-#  key              :string
-#  label_i18n       :jsonb
-#  mode             :integer          default("booking_editable"), not null
-#  options          :jsonb
-#  ordinal          :integer
-#  required         :boolean          default(FALSE)
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint           not null
+#  id                 :bigint           not null, primary key
+#  booking_agent_mode :integer
+#  description_i18n   :jsonb
+#  discarded_at       :datetime
+#  key                :string
+#  label_i18n         :jsonb
+#  options            :jsonb
+#  ordinal            :integer
+#  required           :boolean          default(FALSE)
+#  tenant_mode        :integer          default("not_visible"), not null
+#  type               :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  organisation_id    :bigint           not null
 #
 # Indexes
 #

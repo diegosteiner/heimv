@@ -10,6 +10,7 @@ module Manage
     def index
       @rich_text_templates = @rich_text_templates.ordered.where(organisation: current_organisation)
       @rich_text_templates = @rich_text_templates.where(key: params[:key]) if params[:key]
+      @missing_templates = RichTextTemplateService.new(current_organisation).missing_templates
     end
 
     def show
@@ -26,6 +27,14 @@ module Manage
       respond_with :manage, @rich_text_template
     end
 
+    def create_missing
+      created = RichTextTemplateService.new(current_organisation).create_missing!(enable_optional: false)
+      redirect_to manage_rich_text_templates_path,
+                  notice: t('manage.rich_text_templates.index.created_missing',
+                            count: created.count,
+                            list: created.map { _1.title }.to_sentence)
+    end
+
     def create
       @rich_text_template.organisation = current_organisation
       @rich_text_template.save
@@ -33,7 +42,10 @@ module Manage
     end
 
     def update
-      @rich_text_template.update(rich_text_template_params)
+      load_locale_defaults = params.dig(:rich_text_template, :load_locale_defaults)
+      @rich_text_template.assign_attributes(rich_text_template_params)
+      @rich_text_template.load_locale_defaults(locales: load_locale_defaults) if load_locale_defaults.present?
+      @rich_text_template.save
       respond_with :manage, @rich_text_template.becomes(RichTextTemplate)
     end
 

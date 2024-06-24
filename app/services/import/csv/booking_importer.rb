@@ -75,9 +75,9 @@ module Import
         booking.occupancy_type = case row['booking.occupancy_type']&.downcase
                                  when 'closed', 'closedown', 'geschlossen'
                                    :closed
-                                 when 'provisionally_reserved', 'request'
+                                 when 'provisionally_reserved', 'request', 'tentative'
                                    :tentative
-                                 when 'declined_request'
+                                 when 'declined_request', 'free'
                                    :free
                                  else
                                    :occupied

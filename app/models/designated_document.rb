@@ -23,7 +23,7 @@
 class DesignatedDocument < ApplicationRecord
   belongs_to :organisation, inverse_of: :designated_documents
 
-  has_many :mail_template_designated_documents, dependent: :destroy
+  has_many :mail_template_designated_documents, dependent: :delete_all
   has_many :mail_templates, through: :mail_template_designated_documents
   has_many :attaching_conditions, -> { qualifiable_group(:attaching) }, as: :qualifiable, dependent: :destroy,
                                                                         class_name: :BookingCondition, inverse_of: false

@@ -11,14 +11,14 @@ module Public
 
     def new
       @booking = preparation_service.prepare_new(create_params)
-      @booking.booking_questions = BookingQuestion.applying_to_booking(@booking)
+      process_booking_question_responses
 
       respond_with :public, @booking
     end
 
     def edit
       @booking.committed_request ||= @booking.agent_booking&.committed_request if @booking.agent_booking.present?
-      @booking.booking_questions = BookingQuestion.applying_to_booking(@booking)
+      process_booking_question_responses
 
       respond_with :public, @booking
     end
@@ -61,8 +61,11 @@ module Public
     end
 
     def process_booking_question_responses
-      responses = BookingQuestionResponse.process_nested_attributes(@booking, booking_question_responses_params)
-      @booking.booking_question_responses = responses unless responses.nil?
+      responses_params = params[:booking]&.permit(booking_question_responses_attributes: %i[booking_question_id value])
+                                         &.fetch(:booking_question_responses_attributes, nil)
+      @booking.booking_question_responses = BookingQuestionResponse.process(@booking,
+                                                                            responses_params,
+                                                                            role: :tenant)
     end
 
     def preparation_service
@@ -84,11 +87,6 @@ module Public
 
     def update_params
       BookingParams::Update.new(params[:booking])
-    end
-
-    def booking_question_responses_params
-      params[:booking]&.permit(booking_question_responses_attributes: %i[booking_question_id value])
-                      &.fetch(:booking_question_responses_attributes, nil)
     end
   end
 end

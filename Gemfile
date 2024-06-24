@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.3.0'
+ruby '3.3.3'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
@@ -15,6 +15,7 @@ gem 'cancancan'
 gem 'connection_pool'
 gem 'countries'
 gem 'country_select'
+gem 'csv'
 gem 'devise'
 gem 'devise_invitable'
 gem 'discard'

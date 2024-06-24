@@ -32,20 +32,22 @@ module BookingConditions
   class BookingQuestion < BookingCondition
     BookingCondition.register_subtype self
 
+    attribute :compare_operator, default: -> { :'=' }
+
     def compare_attributes
-      organisation.booking_questions
+      organisation.booking_questions.index_by { _1.id.to_s.to_sym }
     end
 
-    def compare_operators
-      DEFAULT_OPERATORS
-    end
+    compare_operator(**NUMERIC_OPERATORS)
+
+    validates :compare_operator, :compare_attribute, presence: true
 
     def evaluate!(booking)
-      value = booking.booking_question_responses.find_by(booking_question:)&.value
+      actual_value = booking.booking_question_responses.find_by(booking_question:)&.value
       cast_compare_value = booking_question.cast(compare_value)
-      return if value.blank? || cast_compare_value.blank?
+      return if actual_value.blank? || cast_compare_value.blank?
 
-      evaluate_operator(compare_operator.presence || :'=', with: [value, cast_compare_value])
+      evaluate_operator(compare_operator || :'=', with: { actual_value:, compare_value: cast_compare_value })
     end
 
     def booking_question
@@ -53,7 +55,7 @@ module BookingConditions
     end
 
     def compare_attributes_for_select
-      compare_attributes&.map { |booking_question| [booking_question.label, booking_question.id] }
+      compare_attributes&.values&.map { |booking_question| [booking_question.label, booking_question.id] }
     end
   end
 end

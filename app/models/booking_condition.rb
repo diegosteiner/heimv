@@ -33,14 +33,17 @@ class BookingCondition < ApplicationRecord
   extend Translatable
   include Translatable
 
-  DEFAULT_OPERATORS = {
-    '=': ->(value, other_value) { value == other_value },
-    '!=': ->(value, other_value) { value != other_value },
-    '>': ->(value, other_value) { value > other_value },
-    '>=': ->(value, other_value) { value >= other_value },
-    '<': ->(value, other_value) { value < other_value },
-    '<=': ->(value, other_value) { value <= other_value }
+  EQUALITY_OPERATORS = {
+    '=': ->(actual_value:, compare_value:) { actual_value == compare_value },
+    '!=': ->(actual_value:, compare_value:) { actual_value != compare_value }
   }.freeze
+
+  NUMERIC_OPERATORS = {
+    '>': ->(actual_value:, compare_value:) { actual_value > compare_value },
+    '>=': ->(actual_value:, compare_value:) { actual_value >= compare_value },
+    '<': ->(actual_value:, compare_value:) { actual_value < compare_value },
+    '<=': ->(actual_value:, compare_value:) { actual_value <= compare_value }
+  }.reverse_merge(EQUALITY_OPERATORS).freeze
 
   belongs_to :qualifiable, polymorphic: true, optional: true
   belongs_to :organisation
@@ -51,16 +54,14 @@ class BookingCondition < ApplicationRecord
   validates :type, presence: true, inclusion: { in: ->(_) { BookingCondition.subtypes.keys.map(&:to_s) } }
   validates :compare_value, format: { with: ->(condition) { condition.compare_value_regex } }, allow_blank: true
   validate do
-    errors.add(:compare_operator, :inclusion) unless compare_operator.blank? ||
-                                                     compare_operators&.keys&.include?(compare_operator.to_sym)
+    errors.add(:compare_operator, :inclusion) if compare_operator.present? &&
+                                                 !self.class.compare_operators&.key?(compare_operator.to_sym)
+    errors.add(:compare_attribute, :inclusion) if compare_attribute.present? &&
+                                                  !compare_attributes&.key?(compare_attribute.to_sym)
   end
 
   def compare_attributes
-    nil
-  end
-
-  def compare_operators
-    nil
+    self.class.compare_attributes
   end
 
   def compare_values
@@ -72,7 +73,7 @@ class BookingCondition < ApplicationRecord
   end
 
   def compare_operators_for_select
-    compare_operators&.keys&.map do |operator|
+    self.class.compare_operators&.keys&.map do |operator|
       [operator.to_s, operator.to_sym]
       # [translate(operator, scope: :operators, default: operator), operator.to_sym]
     end
@@ -95,10 +96,6 @@ class BookingCondition < ApplicationRecord
     end
   end
 
-  def self.fullfills_all?(booking, booking_conditions)
-    booking_conditions.map { _1.fullfills?(booking) }.compact.all?
-  end
-
   def fullfills?(booking)
     evaluate(booking) || (must_condition ? false : nil)
   end
@@ -109,12 +106,12 @@ class BookingCondition < ApplicationRecord
     nil
   end
 
-  def evaluate_operator(operator, with: nil)
-    compare_operators[operator&.to_sym].call(*Array.wrap(with))
+  def evaluate_operator(operator, with: {})
+    instance_exec(**with, &self.class.compare_operators.fetch(operator&.to_sym))
   end
 
-  def evaluate_attribute(attribute, with: nil)
-    compare_attributes[attribute&.to_sym]&.call(*Array.wrap(with))
+  def evaluate_attribute(attribute, with: {})
+    instance_exec(**with, &compare_attributes.fetch(attribute&.to_sym))
   end
 
   def to_s
@@ -124,5 +121,27 @@ class BookingCondition < ApplicationRecord
   def qualifiable=(value)
     self.organisation ||= value.try(:organisation)
     super
+  end
+
+  class << self
+    def fullfills_all?(booking, booking_conditions)
+      booking_conditions.map { _1.fullfills?(booking) }.compact.all?
+    end
+
+    def compare_operators
+      @compare_operators ||= {}
+    end
+
+    def compare_operator(**args)
+      compare_operators.merge!(args.symbolize_keys)
+    end
+
+    def compare_attributes
+      @compare_attributes ||= {}
+    end
+
+    def compare_attribute(**args)
+      compare_attributes.merge!(args.symbolize_keys)
+    end
   end
 end

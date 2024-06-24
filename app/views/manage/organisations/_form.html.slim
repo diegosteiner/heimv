@@ -11,10 +11,8 @@
           div[v-pre]= f.text_area :address, rows: 4
           = f.file_field :logo, help: organisation.logo.present? && organisation.logo.persisted? && image_tag(organisation.logo, width: 120)
           = f.select :locale, organisation.locales.map { [_1.upcase, _1.downcase] }
-
-          - if current_user.role_admin?
-            = sf.label :locales
-            = sf.collection_check_boxes :locales, Organisation.locales.keys.map(&:to_s), :downcase, :upcase, inline: true, skip_label: true
+          = sf.label :locales
+          = sf.collection_check_boxes :locales, Organisation.locales.keys.map(&:to_s), :downcase, :upcase, inline: true, skip_label: true
     
     fieldset
       h3.mt-5= Notification.model_name.human(count: 2)

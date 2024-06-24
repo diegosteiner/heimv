@@ -18,10 +18,14 @@
   strong
     = t(:from)
     =<> time_tag booking.begins_at, format: :short_with_weekday
+    
+
   .text-center
     span[style="color: #{booking.occupancy_color}"]
       | ⬤
   div
     = t(:until)
     =<> time_tag booking.ends_at, format: :short_with_weekday
-
+    span[title=t(".nights", count: booking.nights)]
+      i.fa.fa-moon-o.ms-2
+      = booking.nights

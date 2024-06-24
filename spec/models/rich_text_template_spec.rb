@@ -92,4 +92,28 @@ RSpec.describe RichTextTemplate, type: :model do
       it { expect(interpolate.body.strip).to eq('Nice!') }
     end
   end
+
+  describe '#load_locale_defaults' do
+    let(:key) { :awaiting_contract_notification }
+    let(:not_default_text) { 'Not the default' }
+    subject(:rich_text_template) { build(:rich_text_template, key:, title: not_default_text, body: not_default_text) }
+    subject(:load_locale_defaults) { rich_text_template.load_locale_defaults }
+    it do
+      expect(rich_text_template.body).to eq not_default_text
+      expect(rich_text_template.title).to eq not_default_text
+      load_locale_defaults
+      expect(rich_text_template.save).to be_truthy
+      expect(rich_text_template.title).not_to eq not_default_text
+    end
+  end
+
+  describe '::defautls_for_key' do
+    let(:key) { :awaiting_contract_notification }
+    subject(:defaults) { described_class.defaults_for_key(key:) }
+
+    it do
+      expect(defaults[:body_i18n][:de]).not_to be_blank
+      expect(defaults[:title_i18n][:de]).not_to be_blank
+    end
+  end
 end

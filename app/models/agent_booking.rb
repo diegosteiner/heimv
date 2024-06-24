@@ -11,6 +11,7 @@
 #  committed_request  :boolean
 #  remarks            :text
 #  tenant_email       :string
+#  tenant_infos       :text
 #  token              :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null

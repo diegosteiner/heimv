@@ -1,11 +1,11 @@
 class AddTarifsToInvoiceRichTextTemplates < ActiveRecord::Migration[7.1]
-  Rails.application.eager_load!
+  # Rails.application.eager_load!
 
   def up
-    replace_in_contract_templates
-    replace_in_contracts
-    replace_in_invoice_templates
-    replace_in_invoices
+    # replace_in_contract_templates
+    # replace_in_contracts
+    # replace_in_invoice_templates
+    # replace_in_invoices
   end
 
   def replace_in_invoice_templates
