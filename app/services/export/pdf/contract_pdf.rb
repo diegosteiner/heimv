@@ -15,7 +15,32 @@ module Export
       to_render do
         header_text = "#{Booking.human_model_name} #{@booking.ref}"
         render Renderables::PageHeader.new(text: header_text, logo: @organisation.logo)
-        render Renderables::AddressedHeader.new(@booking, recipient_address: @booking.tenant&.contact_lines)
+      end
+
+      to_render do
+        represented_by = @organisation.representative_address.presence
+        address = if represented_by
+                    [@organisation.name]
+                  else
+                    [@organisation.address]
+                  end
+
+        render Renderables::Address.new(address, represented_by:, label: Contract.human_attribute_name('issuer'))
+      end
+
+      to_render do
+        tenant_organisation = @booking.tenant_organisation
+        tenant_address_lines = @booking.tenant&.full_address_lines
+
+        if tenant_organisation
+          address = tenant_organisation
+          represented_by = tenant_address_lines
+        else
+          address = tenant_address_lines
+          represented_by = nil
+        end
+
+        render Renderables::Address.new(address, represented_by:, column: :right, label: Tenant.model_name.human)
       end
 
       to_render do
