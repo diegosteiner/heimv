@@ -26,8 +26,8 @@ module Export
       end
 
       to_render do
-        render Renderables::Address.new(organisation.creditor_address_lines,
-                                        label: Contract.human_attribute_name('issuer'))
+        address = (organisation.creditor_address || organisation.address)&.lines&.map(&:strip)&.compact_blank
+        render Renderables::Address.new(address, label: Contract.human_attribute_name('issuer'))
       end
 
       to_render do
