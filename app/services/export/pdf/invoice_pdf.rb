@@ -76,7 +76,8 @@ module Export
       end
 
       to_render do
-        render PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info) if payment_info&.show?
+        payment_info_renerable = payment_info&.show? && PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info)
+        render payment_info_renerable if payment_info_renerable
       end
 
       def vat_table_data
