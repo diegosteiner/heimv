@@ -23,8 +23,26 @@ module Export
       to_render do
         header_text = "#{Booking.human_model_name} #{booking.ref}"
         render Renderables::PageHeader.new(text: header_text, logo: organisation.logo)
-        render Renderables::AddressedHeader.new(booking, issuer_address: booking.organisation.creditor_address,
-                                                         recipient_address: booking.invoice_address.presence)
+      end
+
+      to_render do
+        address = (organisation.creditor_address || organisation.address)&.lines&.map(&:strip)&.compact_blank
+        render Renderables::Address.new(address, label: Contract.human_attribute_name('issuer'))
+      end
+
+      to_render do
+        tenant_address_lines = booking.tenant&.full_address_lines&.compact_blank
+        invoice_address_lines = booking.invoice_address&.lines&.compact_blank
+
+        if booking.tenant_organisation.present? || invoice_address_lines.present?
+          address = [booking.tenant_organisation, invoice_address_lines].flatten
+          represented_by = invoice_address_lines.present? ? booking.tenant&.name : tenant_address_lines
+        else
+          address = tenant_address_lines
+          represented_by = nil
+        end
+
+        render Renderables::Address.new(address, represented_by:, column: :right, label: Tenant.model_name.human)
       end
 
       to_render do
@@ -58,7 +76,8 @@ module Export
       end
 
       to_render do
-        render PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info) if payment_info&.show?
+        payment_info_renerable = payment_info&.show? && PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info)
+        render payment_info_renerable if payment_info_renerable
       end
 
       def vat_table_data

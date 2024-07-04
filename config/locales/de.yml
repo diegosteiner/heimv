@@ -273,6 +273,7 @@ de:
         remarks: Bemerkungen
         responsibility: Verantwortlichkeit
       organisation:
+        account_address: Adresse des Kontos für QR-Rechnungen (falls abweichend)
         address: Anschrift
         bcc: BCC
         contract_signature: Vertragsunterschrift Bild

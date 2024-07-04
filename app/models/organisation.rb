@@ -5,6 +5,7 @@
 # Table name: organisations
 #
 #  id                        :bigint           not null, primary key
+#  account_address           :string
 #  address                   :text
 #  bcc                       :string
 #  booking_flow_type         :string
@@ -75,7 +76,8 @@ class Organisation < ApplicationRecord
   validate do
     errors.add(:settings, :invalid) unless settings.valid?
     errors.add(:smtp_settings, :invalid) unless smtp_settings.nil? || smtp_settings.valid?
-    errors.add(:creditor_address, :invalid) if creditor_address_lines.count > 3
+    errors.add(:creditor_address, :invalid) if creditor_address&.lines&.count&.> 3
+    errors.add(:account_address, :invalid) if account_address&.lines&.count&.> 3
     errors.add(:iban, :invalid) if iban.present? && !iban.valid?
   end
 
@@ -94,12 +96,6 @@ class Organisation < ApplicationRecord
 
   def address_lines
     @address_lines ||= address&.lines&.map(&:strip)&.compact_blank || []
-  end
-
-  def creditor_address_lines
-    return address_lines if creditor_address.blank?
-
-    @creditor_address_lines ||= creditor_address.lines.map(&:strip).compact_blank.presence
   end
 
   def to_s

@@ -5,6 +5,7 @@
 # Table name: organisations
 #
 #  id                        :bigint           not null, primary key
+#  account_address           :string
 #  address                   :text
 #  bcc                       :string
 #  booking_flow_type         :string

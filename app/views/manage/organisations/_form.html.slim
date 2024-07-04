@@ -20,9 +20,9 @@
         .card-body
           = f.check_box :notifications_enabled
           = f.email_field :email
-          = f.text_field :mail_from
           = f.email_field :bcc
           - if current_user.role_admin?
+            = f.text_field :mail_from
             div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
 
     fieldset
@@ -38,8 +38,9 @@
       .card.shadow-sm 
         .card-body
           = f.select :default_payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
-          div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
           = f.text_field :iban
+          div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
+          div[v-pre]= f.text_area :account_address, rows: 4, help: t('optional')
     
           - if current_user.role_admin?
           	= f.text_field :invoice_ref_template

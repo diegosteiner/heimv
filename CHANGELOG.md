@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## Version 24.7.1
+
+Released 04.07.2024
+
+- Fix: Improve handling of invoice adresses
+- Fix: Fix PaymentOnArrival invoice issue
+- Feature: Add additional address for qr bill account
+
+
+## Version 24.6.2
+
+Released 18.06.2024
+
 - Feature: Extend booking_questions to booking agents
 - Feature: Allow booking agents to add more info for an agent booking
 - Fix: Show internal remarks for the tenant on the booking
