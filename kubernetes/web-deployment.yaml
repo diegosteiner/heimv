@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heimv-web
+  annotations:
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heimv-web
+  template:
+    metadata:
+      labels:
+        app: heimv-web
+    spec:
+      containers:
+        - name: heimv
+          image: ghcr.io/diegosteiner/heimv:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: app-secret
+            - configMapRef:
+                name: app-config
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: url
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: 512M
+            limits:
+              memory: 1024M
+      restartPolicy: Always

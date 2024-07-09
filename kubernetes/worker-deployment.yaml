@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heimv-worker
+  annotations:
+    keel.sh/match-tag: "true"
+    keel.sh/policy: force
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heimv-worker
+  template:
+    metadata:
+      labels:
+        app: heimv-worker
+    spec:
+      containers:
+        - name: heimv
+          image: ghcr.io/diegosteiner/heimv:main
+          imagePullPolicy: Always
+          command:
+            - bin/sidekiq-job-worker
+          envFrom:
+            - secretRef:
+                name: app-secret
+            - configMapRef:
+                name: app-config
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: url
+          resources:
+            requests:
+              memory: 1024M
+            limits:
+              memory: 2048M
+      initContainers:
+        - name: heimv-migrate
+          image: ghcr.io/diegosteiner/heimv:main
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secret
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: url
+          resources:
+            requests:
+              memory: 512M
+            limits:
+              memory: 1024M
+          imagePullPolicy: Always
+          command:
+            - "bin/rails"
+            - "db:migrate"
+      restartPolicy: Always
