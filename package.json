@@ -35,7 +35,7 @@
         "react_ujs": "^3.1.1",
         "sass": "^1.75.0",
         "sortablejs": "^1.15.1",
-        "tinymce": "^6.6.2",
+        "tinymce": "^7.2.1",
         "typescript": "5.5.3",
         "vite": "^5.0.0",
         "vite-plugin-rails": "^0.5.0",

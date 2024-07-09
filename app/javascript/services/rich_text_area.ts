@@ -9,7 +9,6 @@ import "tinymce/plugins/autolink";
 import "tinymce/plugins/lists";
 import "tinymce/plugins/image";
 import "tinymce/plugins/searchreplace";
-import "tinymce/plugins/template";
 import "tinymce/plugins/table";
 import "tinymce/plugins/pagebreak";
 
@@ -24,9 +23,8 @@ tinymce.init({
   fix_list_elements: false,
   forced_root_block: "div",
   extended_valid_elements: "liquid",
-  plugins: "autolink link anchor lists image table template searchreplace code pagebreak",
+  plugins: "autolink link anchor lists image table searchreplace code pagebreak",
   toolbar: "undo redo | blocks | bold italic removeformat | bullist numlist link image table pagebreak | code",
-  // templates: [{ title: "Test", description: "Desc", content: "{{ booking.ref }}" }],
   content_style:
     'body { font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, ' +
     '"Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", ' +
