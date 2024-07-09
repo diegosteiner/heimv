@@ -1,0 +1,34 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "rdbg",
+      "name": "Debug all specs",
+      "request": "launch",
+      "script": "bin/rspec"
+    },
+    {
+      "type": "rdbg",
+      "name": "Debug spec example",
+      "request": "launch",
+      "script": "bin/rspec",
+      "args": ["${relativeFile}:${lineNumber}"]
+    },
+    {
+      "type": "rdbg",
+      "name": "Rails Dev Server",
+      "request": "launch",
+      "script": "bin/rails",
+      "args": ["server", "-b", "0.0.0.0"],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "rdbg",
+      "name": "Attach debugger",
+      "request": "attach"
+    }
+  ]
+}

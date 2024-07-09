@@ -69,8 +69,8 @@ end
 group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
-  gem 'byebug', platform: :mri
   gem 'database_cleaner'
+  gem 'debug'
   gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-rescue'
@@ -79,6 +79,7 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'ruby-lsp-rails'
   gem 'simplecov', require: false
 end
 

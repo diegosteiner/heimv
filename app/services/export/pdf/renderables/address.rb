@@ -8,8 +8,8 @@ module Export
 
         def initialize(address, represented_by: nil, column: :left, height: 120, label: nil)
           super()
-          @address = Array.wrap(address).flatten.compact.map(&:strip).compact_blank
-          @represented_by = Array.wrap(represented_by).flatten.compact.map(&:strip).compact_blank
+          @address = clean_address(address)
+          @represented_by = clean_address(represented_by)
           @column = column
           @height = height || 120
           @label = label
@@ -28,6 +28,11 @@ module Export
         end
 
         private
+
+        def clean_address(address)
+          address = address.lines if address.is_a?(String)
+          Array.wrap(address).flatten.compact.map(&:strip).compact_blank
+        end
 
         def render_represented_by
           text I18n.t('contracts.represented_by'), size: 7
