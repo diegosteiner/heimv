@@ -20,7 +20,7 @@ module Public
       organisation_user = current_organisation_user.present? ||
                           current_organisation.organisation_users.find_by(token: params[:token])
 
-      raise CanCan::AccessDenied if organisation_user.blank?
+      return head(:unauthorized) if organisation_user.blank?
 
       respond_to do |format|
         format.ics do
