@@ -47,7 +47,7 @@ module Manage
 
       if @import.valid?
         result = @import.result
-        return redirect_to manage_bookings_path, notice: t('.import_success') if result.success?
+        return redirect_to manage_bookings_path, notice: t('.import_success') if result.ok?
       end
 
       flash.now[:alert] = t('.import_error')

@@ -47,6 +47,7 @@ class Occupancy < ApplicationRecord
   scope :ordered, -> { order(begins_at: :ASC) }
 
   before_validation :update_from_booking
+  validates :occupancy_type, presence: true
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate on: %i[public_create public_update agent_booking manage_create manage_update] do
     errors.add(:base, :occupancy_conflict) if !ignore_conflicting && conflicting?

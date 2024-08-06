@@ -18,7 +18,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.agent_booking.present? && booking.email.present?
+      booking.email.present?
     end
 
     after_transition do |booking|
@@ -35,6 +35,8 @@ module BookingStates
                                postponable_for: booking.organisation.settings.deadline_postponable_for,
                                remarks: booking.booking_state.t(:label))
       MailTemplate.use!(:awaiting_tenant_notification, booking, to: :tenant, &:autodeliver!)
+      next if booking.agent_booking.blank?
+
       MailTemplate.use(:booking_agent_request_accepted_notification, booking, to: :booking_agent, &:autodeliver!)
     end
 

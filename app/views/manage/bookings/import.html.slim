@@ -4,13 +4,9 @@
   - errors = @import.result&.errors
   - if errors&.any? 
     .alert.alert-danger
-      ul
-        - errors.each do |error|
-          li
-            strong= error.attribute
-            ' :
-            
-            = error.message.full_messages.to_sentence
+      ul.mb-0
+        - errors.full_messages.each do |message|
+          li= message
 
   = form_with(url: import_manage_bookings_path, model: @import, method: :POST, local: true) do |f|
     = f.file_field :file, accept: :csv, label: t('.import_file')

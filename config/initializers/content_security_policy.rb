@@ -29,7 +29,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.script_src :self, :unsafe_inline, :unsafe_eval
 
   case Rails.env
-  when :development
+  when 'development'
     policy.default_src :self, :unsafe_inline
     policy.style_src(*policy.style_src, :unsafe_inline)
     policy.script_src(*policy.script_src, :unsafe_eval, "http://#{ViteRuby.config.host_with_port}")
@@ -40,7 +40,7 @@ Rails.application.config.content_security_policy do |policy|
                        "http://*.#{ViteRuby.config.host_with_port}",
                        "ws://#{ViteRuby.config.host_with_port}",
                        "ws://*.#{ViteRuby.config.host_with_port}")
-  when :test
+  when 'test'
     policy.script_src(*policy.script_src, :blob, :unsafe_eval)
   end
 end

@@ -2,7 +2,7 @@
 
 module BookingFlows
   class Default < Base
-    state BookingStates::Initial, to: %i[unconfirmed_request provisional_request
+    state BookingStates::Initial, to: %i[unconfirmed_request provisional_request awaiting_tenant
                                          definitive_request open_request upcoming], initial: true
     state BookingStates::UnconfirmedRequest, to: %i[cancelled_request declined_request open_request]
     state BookingStates::OpenRequest, to: %i[cancelled_request declined_request provisional_request

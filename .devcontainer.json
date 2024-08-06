@@ -2,7 +2,7 @@
   "name": "HeimV",
   // Update the 'dockerComposeFile' list if you have more compose files or use different names.
   // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
-  "dockerComposeFile": ["../docker-compose.yml"],
+  "dockerComposeFile": ["./docker-compose.yml"],
   // The 'service' property is the name of the service for the container that VS Code should
   // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
   "service": "app",
@@ -26,6 +26,11 @@
         "dbaeumer.vscode-eslint",
         "Shopify.ruby-extensions-pack"
       ]
+    },
+    "settings": {
+      "editor.insertSpaces": true,
+      "editor.tabSize": 2,
+      "terminal.integrated.defaultProfile.linux": "ash"
     }
   },
   // Use 'forwardPorts' to make a list of ports inside the container available locally.

@@ -8,10 +8,48 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
   let!(:booking_category) { create(:booking_category, organisation:, key: 'youth_camp') }
   let(:home) { create(:home, organisation:) }
   let(:importer) { described_class.new(home, csv: { headers: header_mapping }, initial_state:) }
+  let(:header_mapping) { [] }
 
   describe '#parse' do
     let(:result) { importer.parse(csv, **options) }
     let(:bookings) { result.records }
+
+    context 'with broken csv' do
+      let(:initial_state) { :open_request }
+      let(:csv) do
+        <<~ENDCSV
+          Name, Age, City
+          John Doe, 29, New York
+          Jane Smith, 34, Los Angeles
+          , 27, Chicago
+          "Mike O'Neil, 40, Houston
+          Anna,,Boston
+          Bob, 25, "San Francisco
+          , ,
+          Emily, 42, Washington
+          Oliver, , Phoenix
+        ENDCSV
+      end
+
+      it { expect(result).not_to be_ok }
+      it { expect(result.errors[:base]).to eq(["Any value after quoted field isn't allowed in line 5."]) }
+    end
+
+    context 'with invalid booking' do
+      let(:initial_state) { :open_request }
+      let(:header_mapping) { %w[booking.begins_at booking.ends_at tenant.email] }
+      let(:csv) do
+        <<~ENDCSV
+          "begins_at","ends_at","email"
+          2021-05-01T10:00:00,2021-05-09T18:15:00,💩
+        ENDCSV
+      end
+
+      it { expect(result).not_to be_ok }
+      it {
+        expect(result.errors.full_messages).to eq(['#1 email ist nicht gültig', '#1 tenant email ist nicht gültig'])
+      }
+    end
 
     context 'with custom csv' do
       let(:initial_state) { :open_request }

@@ -40,7 +40,7 @@ module Import
       def persist_record(booking)
         booking.transition_to ||= initial_state
         booking.assert_tenant!
-        booking.ref ||= @booking_ref_service.generate(booking)
+        booking.ref ||= @booking_ref_service.generate(booking) if booking.valid?
         return false unless booking.save
 
         booking.deadline&.clear

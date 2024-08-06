@@ -1,6 +1,6 @@
 import "~/services/i18n";
 import "bootstrap/dist/js/bootstrap.bundle";
-import Rails from "rails-ujs";
+import Rails from "@rails/ujs";
 import ReactRailsUJS from "react_ujs";
 
 function csrfForm() {

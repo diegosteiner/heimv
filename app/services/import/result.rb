@@ -3,6 +3,7 @@
 module Import
   class Result
     extend ActiveModel::Translation
+    extend ActiveModel::Naming
     attr_reader :records, :errors
 
     def initialize
@@ -12,6 +13,9 @@ module Import
 
     def add(record)
       records << record
+      record.errors.each do |record_error|
+        errors.import(record_error, attribute: "##{records.count}.#{record_error.attribute}")
+      end
     end
 
     def ok?

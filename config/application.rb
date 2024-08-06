@@ -48,9 +48,10 @@ module Heimverwaltung
     config.redis_config = { url: ENV.fetch('REDIS_URL', nil), ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE } }
 
     # Log to STDOUT by default
-    config.logger = ActiveSupport::Logger.new($stdout)
-                                         .tap  { |logger| logger.formatter = Logger::Formatter.new }
-                                         .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
+    config.logger = ActiveSupport::Logger.new($stdout).then do |logger|
+      logger.formatter = Logger::Formatter.new
+      ActiveSupport::TaggedLogging.new(logger)
+    end
 
     config.log_level = ENV.fetch('LOG_LEVEL', Rails.env.development? ? :debug : :warn).to_sym
   end
