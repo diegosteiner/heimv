@@ -66,6 +66,10 @@ class OperatorResponsibility < ApplicationRecord
     assigning_conditions.none? || BookingCondition.fullfills_all?(booking, assigning_conditions)
   end
 
+  def to_s
+    "#{OperatorResponsibility.human_enum(:responsibility, responsibility)}: #{operator}"
+  end
+
   def self.assign(booking, *responsibilities)
     responsibilities.map do |responsibility|
       existing_operator = where(booking:, responsibility:).first

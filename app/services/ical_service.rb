@@ -65,7 +65,8 @@ class IcalService
       {
         summary: "#{ref}: #{tenant_organisation || tenant&.name}".strip,
         purpose: "#{purpose_description} (#{category})",
-        contact: [tenant_organisation, tenant&.contact_lines]
+        contact: [tenant_organisation, tenant&.contact_lines],
+        operator_responsibilities: booking.operator_responsibilities.map(&:to_s)
       }
     end
   end
