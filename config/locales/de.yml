@@ -769,7 +769,7 @@ de:
       label: Reservation (Vertrag offen)
       relevant_time: Frist %{time}
     awaiting_tenant:
-      label: vermittelte Mietanfrage (fehlende Mieterangaben)
+      label: Anfrage mit fehlenden Mieterangaben
       relevant_time: Frist %{time}
     booking_agent_request:
       label: vermittelte Mietanfrage (provisorisch)
