@@ -36,9 +36,10 @@ module Import
 
           record = import_row(row)
           result.add(record)
-          result.errors.add("##{index + 1}", record.errors) if record.errors.present?
         end
         result
+      rescue CSV::MalformedCSVError => e
+        result.errors.add(:base, :invalid, message: e.message)
       end
 
       def parse_file(file)

@@ -51,10 +51,10 @@
                   - if @booking.tenant.birth_date.present?
                     dd= l(@booking.tenant.birth_date)
 
-                - if @booking.tenant.remarks.present?
-                  dl
-                    dt= Tenant.human_attribute_name(:remarks)
-                    dd.text-italic= @booking.tenant.remarks
+                  - if @booking.tenant.remarks.present?
+                    dl
+                      dt= Tenant.human_attribute_name(:remarks)
+                      dd.text-italic= @booking.tenant.remarks
 
                 - if @booking.agent_booking.present?
                   dl
