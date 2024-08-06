@@ -40,22 +40,22 @@ h1.my-0= Booking.model_name.human(count: 2)
           =<> link_to manage_bookings_path, class: 'btn btn-outline-secondary bg-white'
             = t(:reset)
 
-- if @bookings.count <= 0
+- if @bookings.empty?
   p.text-center.my-5
     = t('.no_records_yet', options: [ \
        link_to(t('.new_request'), new_public_booking_path(booking: @filter&.derive_booking_attributes)), \
        link_to(Booking.model_name.human, new_manage_booking_path(booking: @filter&.derive_booking_attributes)) \
       ].join(" #{t(:or)} ")).html_safe
        
-- elsif @bookings.count > 250
+- elsif @bookings.size > 250
   .alert.alert-danger.d-flex
     .me-3
       i.fa.fa-exclamation-circle
     = t('.too_many_records')
 - else
-  - grouped_bookings = @bookings.group_by { |booking| booking.booking_state.to_sym }
+  - grouped_bookings = @bookings.group_by { |booking| booking.booking_state_cache }
   - BookingStates.all.values.each do |state|
-    - bookings = grouped_bookings[state.to_sym]
+    - bookings = grouped_bookings[state.to_s]
     - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
     - next if bookings.blank?
 
@@ -67,5 +67,4 @@ h1.my-0= Booking.model_name.human(count: 2)
       p.text-muted = state.t(:help)
 
       .collapse.show[id=collapse_id]
-        / cache
         == render partial: 'table', locals: { bookings: bookings }

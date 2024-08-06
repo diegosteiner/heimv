@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## Version 24.8.1
+
+Released 06.08.2024
+
+- Fix: Fix Booking import
+- Fix: Improve caching
+- Feature: Extend private ical export with responsibilities
+- Feature: Extend possibilities of awaiting tenant state
+
 ## Version 24.7.1
 
 Released 04.07.2024
@@ -9,7 +18,6 @@ Released 04.07.2024
 - Fix: Improve handling of invoice adresses
 - Fix: Fix PaymentOnArrival invoice issue
 - Feature: Add additional address for qr bill account
-
 
 ## Version 24.6.2
 
