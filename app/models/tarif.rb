@@ -128,6 +128,7 @@ class Tarif < ApplicationRecord
 
   def breakdown(usage)
     key ||= :flat if is_a?(Tarifs::Flat)
+    key ||= :minimum if usage.minimum_price?
     key ||= :default
     I18n.t(key, scope: 'invoice_parts.breakdown', **breakdown_options(usage))
   end
@@ -154,6 +155,7 @@ class Tarif < ApplicationRecord
   def breakdown_options(usage)
     {
       unit:,
+      minimum: '',
       used_units: number_to_rounded(usage.used_units || 0, precision: 2, strip_insignificant_zeros: true),
       price_per_unit: number_to_currency(usage.price_per_unit.presence || 0, unit: organisation.currency)
     }

@@ -666,8 +666,6 @@ fr:
         one: Forfait
       tarifs/metered:
         one: Par relevé de compteur
-      tarifs/min_occupation:
-        one: Location minimale
       tarifs/overnight_stay:
         one: Nuitées
       tarifs/price:
@@ -1169,7 +1167,7 @@ fr:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
-      minimum: Montant minimum %{minimum_price}
+      minimum: Montant minimum %{minimum}
     deposited_amount: Avoir à partir d'un acompte
   invoices:
     total: Total

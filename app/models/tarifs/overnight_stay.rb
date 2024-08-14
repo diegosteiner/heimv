@@ -42,13 +42,5 @@
 module Tarifs
   class OvernightStay < ::Tarif
     Tarif.register_subtype self
-
-    def before_usage_validation(usage)
-      min_occupation_usages = usage.booking.usages.joins(:tarif).where(tarifs: { type: Tarifs::MinOccupation.to_s })
-      min_occupation_usages.find_each do |min_occupation_usage|
-        min_occupation_usage.tarif.before_usage_validation(min_occupation_usage)
-        min_occupation_usage.save
-      end
-    end
   end
 end

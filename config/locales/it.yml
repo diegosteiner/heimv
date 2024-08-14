@@ -666,8 +666,6 @@ it:
         one: Forfettario
       tarifs/metered:
         one: secondo la lettura del contatore
-      tarifs/min_occupation:
-        one: Occupazione minima
       tarifs/overnight_stay:
         one: Pernottamenti
       tarifs/price:
@@ -1134,7 +1132,7 @@ it:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
-      minimum: Importo minimo %{minimum_price}
+      minimum: Importo minimo %{minimum}
     deposited_amount:
   invoices:
     total: Totale

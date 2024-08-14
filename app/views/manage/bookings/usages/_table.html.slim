@@ -44,7 +44,10 @@
                   = render partial: usage.tarif.to_partial_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
                 td
                   = number_to_currency(usage.price, unit: '')
-                  small.d-block.text-secondary= @booking.organisation.currency
+                  small.d-block.text-secondary
+                    = @booking.organisation.currency
+                    - if usage.minimum_price?
+                      span.fa.fa-thermometer-full.ms-2.text-danger
                 td.text-end
                   .btn-group
                     - if !usage.new_record?

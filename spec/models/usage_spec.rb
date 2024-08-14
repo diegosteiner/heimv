@@ -6,6 +6,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  committed           :boolean          default(FALSE)
+#  data                :jsonb
 #  presumed_used_units :decimal(, )
 #  price_per_unit      :decimal(, )
 #  remarks             :text
