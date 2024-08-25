@@ -1,10 +1,10 @@
 .row.bg-white.border-bottom
-	.col-1.px-2.py-3
-		small.text-secondary= usage.tarif.ordinal
-	.col-11.col-md-3.px-2.py-3
+	.col-1.px-2.py-3.text-secondary.text-sm
 		= f.hidden_field :id
 		= f.hidden_field :tarif_id
-		= f.check_box :_destroy, { checked: f.object.apply, label: usage.tarif.label, wrapper: { style: 'margin-bottom: 0 !important' } }, '0', '1'
+		= f.check_box :_destroy, { checked: f.object.apply, label: usage.tarif.ordinal , wrapper: { style: 'margin-bottom: 0 !important' } }, '0', '1'
+	.col-11.col-md-3.px-2.py-3
+		= usage.tarif.label
 	.col-6.col-md-1.p-2
 		= number_to_currency(usage.price_per_unit, unit: '')
 		small.d-block.text-secondary= @booking.organisation.currency

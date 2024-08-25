@@ -5,7 +5,7 @@
       .col-11.col-md-3.border-bottom.px-2.py-1= Tarif.model_name.human
       .col-6.col-md-1.border-bottom.px-2.py-1= Tarif.human_attribute_name(:price_per_unit)
       .col-6.col-md-2.border-bottom.px-2.py-1= Tarif.human_attribute_name(:unit)
-      .col-12.col-md-3.border-bottom.px-2.py-1= Usage.model_name.human
+      .col-6.col-md-3.border-bottom.px-2.py-1= Usage.model_name.human
       .col-6.col-md-1.border-bottom.px-2.py-1= Usage.human_attribute_name(:price)
       .col-6.col-md-1.border-bottom.px-2.py-1
 
@@ -25,9 +25,9 @@
           - group_usages.each do |usage|
             = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
               = render partial: usage.tarif.to_partial_path('usage_form'), locals: { f: uf, usage: }
-  / .mt-4
-  /   - if can?(:manage, @booking)
-  /     button.btn.btn-primary[type=:submit name=:commit]
-  /       = t('.save', model_name: [Tarif.model_name.human(count: 2), Usage.model_name.human].to_sentence)
+  .mt-4
+    - if can?(:manage, @booking)
+      button.btn.btn-primary[type=:submit name=:commit]
+        = t('.save', model_name: [Tarif.model_name.human(count: 2), Usage.model_name.human].to_sentence)
 
-  /   = yield
+    = yield
