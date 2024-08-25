@@ -33,9 +33,10 @@
     = f.check_box :pin
 
   fieldset 
-    button.btn type="button" data-bs-toggle="collapse" data-bs-target="#minimum-fields" aria-expanded="false" aria-controls="minimum-fields" 
-      | x
-    #minimum-fields.accordion-collapse.collapse    
+    details
+      summary.mb-3
+        =t('.minimum')
+        span.fa.fa-thermometer.text-danger.ms-2
       = f.number_field :minimum_usage_per_night, step: 0.01
       = f.number_field :minimum_usage_total, step: 0.01
 

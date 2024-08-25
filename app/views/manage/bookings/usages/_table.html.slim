@@ -1,61 +1,33 @@
 = form_with(url: manage_booking_usages_path(@booking), scope: :usages, method: :PUT, local: true, html: { novalidate: true }) do |f|
-  .table-responsive
-    table.table.align-middle
-      thead
-        tr
-          th
-          th= Tarif.model_name.human
-          th= Tarif.human_attribute_name(:price_per_unit)
-          th= Tarif.human_attribute_name(:unit)
-          th[style="width: 30%;"]= Usage.model_name.human
-          th= Usage.human_attribute_name(:price)
-          th
+  .container
+    .row.fw-bold
+      .col-1.border-bottom.px-2.py-1
+      .col-11.col-md-3.border-bottom.px-2.py-1= Tarif.model_name.human
+      .col-6.col-md-1.border-bottom.px-2.py-1= Tarif.human_attribute_name(:price_per_unit)
+      .col-6.col-md-2.border-bottom.px-2.py-1= Tarif.human_attribute_name(:unit)
+      .col-12.col-md-3.border-bottom.px-2.py-1= Usage.model_name.human
+      .col-6.col-md-1.border-bottom.px-2.py-1= Usage.human_attribute_name(:price)
+      .col-6.col-md-1.border-bottom.px-2.py-1
 
-      - grouped_usages = usages.group_by { |usage| usage.tarif.tarif_group }
-      - grouped_usages.each do |tarif_group, group_usages|
-        - collapse_id = "collapse-#{tarif_group&.gsub(/[^[:ascii:]]/, '')&.gsub(%r{[\/\s]}, '_')}"
-        - next if group_usages.empty?
+    - grouped_usages = usages.group_by { |usage| usage.tarif.tarif_group }
+    - grouped_usages.each do |tarif_group, group_usages|
+      - collapse_id = "collapse-#{tarif_group&.gsub(/[^[:ascii:]]/, '')&.gsub(%r{[\/\s]}, '_')}"
+      - next if group_usages.empty?
 
-        thead
-          tr
-            th[colspan='9']
-              h5
-                = tarif_group
-                a.badge.rounded-pill.bg-secondary.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
-                  = group_usages.count
+      section.row
+        header
+          h5
+            = tarif_group
+            a.badge.rounded-pill.bg-secondary.ms-3[href="##{collapse_id}" data-bs-toggle="collapse"]
+              = group_usages.count
 
-        tbody.shadow-sm.collapse.show[id=collapse_id]
+        .border.shadow-sm.collapse.show[id=collapse_id]
           - group_usages.each do |usage|
             = f.fields_for (usage.id || usage.object_id).to_s, usage do |uf|
-              tr.bg-white
-                td[style="width: 50px;"]
-                  small.text-secondary= usage.tarif.ordinal
-                td[style="min-width: 30%;"]
-                  = uf.hidden_field :id
-                  = uf.hidden_field :tarif_id
-                  = uf.check_box :_destroy, { checked: uf.object.apply, label: usage.tarif.label, wrapper: { style: 'margin-bottom: 0 !important' } }, '0', '1'
-                td
-                  = number_to_currency(usage.price_per_unit, unit: '')
-                  small.d-block.text-secondary= @booking.organisation.currency
-                td
-                  = usage.tarif.unit
-                  small.d-block.text-secondary= usage.tarif.class.model_name.human
-                td
-                  = render partial: usage.tarif.to_partial_path('usage_form'), locals: { f: uf, tarif: usage.tarif }
-                td
-                  = number_to_currency(usage.price, unit: '')
-                  small.d-block.text-secondary
-                    = @booking.organisation.currency
-                    - if usage.minimum_price?
-                      span.fa.fa-thermometer-full.ms-2.text-danger
-                td.text-end
-                  .btn-group
-                    - if !usage.new_record?
-                      = link_to edit_manage_booking_usage_path(@booking, usage), class: 'btn btn-default' do
-                        span.fa.fa-edit
-  .mt-4
-    - if can?(:manage, @booking)
-      button.btn.btn-primary[type=:submit name=:commit]
-        = t('.save', model_name: [Tarif.model_name.human(count: 2), Usage.model_name.human].to_sentence)
+              = render partial: usage.tarif.to_partial_path('usage_form'), locals: { f: uf, usage: }
+  / .mt-4
+  /   - if can?(:manage, @booking)
+  /     button.btn.btn-primary[type=:submit name=:commit]
+  /       = t('.save', model_name: [Tarif.model_name.human(count: 2), Usage.model_name.human].to_sentence)
 
-    = yield
+  /   = yield

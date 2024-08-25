@@ -1,1 +1,2 @@
-= f.text_field :used_units, skip_label: true, wrapper: false, class: 'text-end w-100', tabindex: 1, inputmode: "numeric"
+= render layout: 'manage/tarifs/usage_form', locals: { usage:, f: }
+  = f.text_field :used_units, skip_label: true, wrapper: false, class: 'text-end w-100', tabindex: 1, inputmode: "numeric"
