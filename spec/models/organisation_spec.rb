@@ -20,7 +20,7 @@
 #  homes_limit               :integer
 #  iban                      :string
 #  invoice_ref_template      :string           default("")
-#  locale                    :string           default("de")
+#  locale                    :string
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string

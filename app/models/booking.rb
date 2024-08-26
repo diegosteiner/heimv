@@ -139,7 +139,7 @@ class Booking < ApplicationRecord
   end
 
   def locale
-    tenant&.locale.presence || organisation.locale
+    super.presence || tenant&.locale.presence
   end
 
   def contract
@@ -172,7 +172,7 @@ class Booking < ApplicationRecord
 
   def assert_tenant!
     self.tenant = find_existing_tenant&.merge_with_new(tenant) ||
-                  tenant || build_tenant(email: self[:email], organisation:)
+                  tenant || build_tenant(email: self[:email], organisation:, locale:)
 
     tenant.organisation = organisation
     tenant.email ||= self[:email]

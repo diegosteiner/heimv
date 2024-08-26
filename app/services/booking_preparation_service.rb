@@ -8,7 +8,7 @@ class BookingPreparationService
   def prepare_create(params)
     @organisation.bookings.new(params.reverse_merge({ notifications_enabled: true })).tap do |booking|
       booking.home ||= booking.occupiables.first&.home
-      booking.tenant&.locale ||= I18n.locale
+      booking.locale = derive_locale(booking)
     end
   end
 
@@ -19,6 +19,10 @@ class BookingPreparationService
       booking.begins_at = adjust_time(booking.begins_at, settings&.default_begins_at_time)
       booking.ends_at = adjust_time(booking.ends_at, settings&.default_ends_at_time)
     end
+  end
+
+  def derive_locale(booking)
+    booking.locale.presence || (@organisation.locales & [I18n.locale]).first || @organisation.locale
   end
 
   def adjust_time(value, default_time)

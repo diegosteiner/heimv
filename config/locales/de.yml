@@ -1380,6 +1380,9 @@ de:
         rich_text_templates_by_booking_state: Buchungsstatus
         rich_text_templates_by_document: Dokumente
         rich_text_templates_by_rest: Sonstige
+    tarifs:
+      form:
+        minimum: Minimum
   nav:
     edit_account: Account verwalten
     manage: Verwaltung

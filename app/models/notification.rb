@@ -118,15 +118,15 @@ class Notification < ApplicationRecord
   end
 
   def deliver_to
-    [resolve_to.try(:email).presence].flatten.compact
+    [resolve_to.try(:email).presence || resolve_to].flatten.compact
   end
 
   def locale
-    @locale = resolve_to.try(:locale) || @locale.presence || booking&.locale
+    @locale = resolve_to.try(:locale) || @locale.presence || booking&.locale || organisation&.locale
   end
 
   def resolve_to
-    to.presence && booking&.roles&.[](to.to_sym)
+    to.presence && (booking&.roles&.[](to.to_sym) || to)
   end
 
   def to=(value)

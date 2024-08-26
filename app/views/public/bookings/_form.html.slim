@@ -43,34 +43,34 @@
           }) 
 
         = f.email_field :email, disabled: true
-        = f.fields_for :tenant, @booking.tenant do |cf|
+        = f.fields_for :tenant, @booking.tenant do |tf|
 
           .row
             .col
-              = cf.text_field :first_name, disabled: !@booking.editable
+              = tf.text_field :first_name, disabled: !@booking.editable
             .col
-              = cf.text_field :last_name, disabled: !@booking.editable
+              = tf.text_field :last_name, disabled: !@booking.editable
 
-          = cf.text_field :street_address, disabled: !@booking.editable
-          = cf.text_field :address_addon, disabled: !@booking.editable, help: t('optional')
+          = tf.text_field :street_address, disabled: !@booking.editable
+          = tf.text_field :address_addon, disabled: !@booking.editable, help: t('optional')
 
           .row
             .col-md-4
-              = cf.text_field :zipcode, disabled: !@booking.editable
+              = tf.text_field :zipcode, disabled: !@booking.editable
             .col-md-8
-              = cf.text_field :city, disabled: !@booking.editable
+              = tf.text_field :city, disabled: !@booking.editable
 
-          = cf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code), required: true } do
-            = cf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable
-          = cf.text_area :phone, rows: 1, disabled: !@booking.editable
-          = cf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
+          = tf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code), required: true } do
+            = tf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable
+          = tf.text_area :phone, rows: 1, disabled: !@booking.editable
+          = tf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
           
 
           - booking_categories = [current_organisation.booking_categories.kept, @booking.category].flatten.compact_blank.uniq
           - if current_organisation.locales.many?
-            = cf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }, {}, disabled: !@booking.editable
+            = tf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }, {}, disabled: !@booking.editable
           - else 
-            = cf.hidden_field :locale, value: current_organisation.locales.first
+            = tf.hidden_field :locale, value: current_organisation.locales.first
 
       fieldset
         h5= t('.booking_details')

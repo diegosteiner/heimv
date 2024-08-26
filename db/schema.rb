@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_07_075211) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_26_092030) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -423,7 +423,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_07_075211) do
     t.bigint "organisation_id", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.string "locale", default: "de", null: false
+    t.string "locale", null: false
     t.index ["organisation_id"], name: "index_operators_on_organisation_id"
   end
 
@@ -455,7 +455,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_07_075211) do
     t.string "bcc"
     t.string "mail_from"
     t.string "slug"
-    t.string "locale", default: "de"
+    t.string "locale"
     t.integer "homes_limit"
     t.integer "users_limit"
     t.jsonb "smtp_settings"
@@ -556,7 +556,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_07_075211) do
     t.string "nickname"
     t.string "address_addon"
     t.boolean "bookings_without_contract", default: false
-    t.string "locale", default: "de", null: false
+    t.string "locale", null: false
     t.boolean "bookings_without_invoice", default: false
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
