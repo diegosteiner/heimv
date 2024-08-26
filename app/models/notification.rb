@@ -135,6 +135,8 @@ class Notification < ApplicationRecord
             { Tenant => :tenant, Organisation => :administration, BookingAgent => :booking_agent }[value.class]
           when OperatorResponsibility
             value.responsibility
+          when Operator
+            value
           else
             value.to_sym
           end)
