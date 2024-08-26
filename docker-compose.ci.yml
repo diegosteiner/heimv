@@ -16,6 +16,7 @@ services:
       SMTP_SETTINGS: '{ "address":"mail" }'
       MAIL_FROM: "no-reply@heimv.local"
       REDIS_URL: "redis://redis/1"
+      CI: "1"
     command: bin/check
     depends_on:
       - db
@@ -42,6 +43,7 @@ services:
       LOG_LEVEL: "debug"
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
       REDIS_URL: "redis://redis/0"
+      CI: "1"
     depends_on:
       - db
       - mail
