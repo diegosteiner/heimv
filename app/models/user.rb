@@ -49,7 +49,7 @@ class User < ApplicationRecord
   has_many :organisations, through: :organisation_users
   has_many :booking_logs, inverse_of: :user, dependent: :destroy, class_name: 'Booking::Log'
 
-  enum default_calendar_view: { months: 0, year: 1 }
+  enum :default_calendar_view, { months: 0, year: 1 }
   has_secure_token :token, length: 48
 
   normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }

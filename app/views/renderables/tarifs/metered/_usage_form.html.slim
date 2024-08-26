@@ -1,11 +1,12 @@
-.d-flex.justify-content-between
-  = f.fields_for(:meter_reading_period, f.object.meter_reading_period || f.object.build_meter_reading_period) do |fm|
+= render layout: 'manage/tarifs/usage_form', locals: { usage:, f: }
+  .d-flex.justify-content-between
+    = f.fields_for(:meter_reading_period, f.object.meter_reading_period || f.object.build_meter_reading_period) do |fm|
+      div
+        = fm.text_field :start_value, skip_label: true, wrapper: false, class: 'text-end w-100 me-1', tabindex: 1, inputmode: "numeric"
+        small.form-text.text-muted= MeterReadingPeriod.human_attribute_name(:start_value)
+      div
+        = fm.text_field :end_value, skip_label: true, wrapper: false, class: 'text-end w-100 me-1', tabindex: 1, inputmode: "numeric"
+        small.form-text.text-muted= MeterReadingPeriod.human_attribute_name(:end_value)
     div
-      = fm.text_field :start_value, skip_label: true, wrapper: false, class: 'text-end w-100 me-1', tabindex: 1, inputmode: "numeric"
-      small.form-text.text-muted= MeterReadingPeriod.human_attribute_name(:start_value)
-    div
-      = fm.text_field :end_value, skip_label: true, wrapper: false, class: 'text-end w-100 me-1', tabindex: 1, inputmode: "numeric"
-      small.form-text.text-muted= MeterReadingPeriod.human_attribute_name(:end_value)
-  div
-    = f.text_field :used_units, skip_label: true, wrapper: false, class: 'text-end w-100', tabindex: 1, inputmode: "numeric"
-    small.form-text.text-muted= Usage.human_attribute_name(:used_units)
+      = f.text_field :used_units, skip_label: true, wrapper: false, class: 'text-end w-100', tabindex: 1, inputmode: "numeric"
+      small.form-text.text-muted= Usage.human_attribute_name(:used_units)

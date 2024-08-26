@@ -42,7 +42,7 @@ class Occupancy < ApplicationRecord
 
   has_one :organisation, through: :occupiable
 
-  enum occupancy_type: OCCUPANCY_TYPES
+  enum :occupancy_type, OCCUPANCY_TYPES
 
   scope :ordered, -> { order(begins_at: :ASC) }
 

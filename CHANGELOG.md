@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## Version 24.8.2
+
+Released 26.08.2024
+
+- Feature: Add better support for minimums on tarifs
+- Fix: Detect booking language with more accuracy
+- Fix: Dedup OperatorResponsibility notifications for same operator
+
 ## Version 24.8.1
 
 Released 06.08.2024

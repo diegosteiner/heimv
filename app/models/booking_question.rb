@@ -45,8 +45,8 @@ class BookingQuestion < ApplicationRecord
   has_many :applying_conditions, -> { qualifiable_group(:applying) }, as: :qualifiable, dependent: :destroy,
                                                                       class_name: :BookingCondition, inverse_of: false
 
-  enum tenant_mode: MODES, _prefix: :tenant, _default: :not_visible
-  enum booking_agent_mode: MODES, _prefix: :booking_agent, _default: :not_visible
+  enum :tenant_mode, MODES, prefix: :tenant, default: :not_visible
+  enum :booking_agent_mode, MODES, prefix: :booking_agent, default: :not_visible
 
   scope :ordered, -> { rank(:ordinal) }
   scope :include_conditions, -> { includes(:applying_conditions) }

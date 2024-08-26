@@ -93,7 +93,7 @@ class Booking < ApplicationRecord
   has_secure_token :token, length: 48
 
   timespan :begins_at, :ends_at
-  enum occupancy_type: Occupancy::OCCUPANCY_TYPES
+  enum :occupancy_type, Occupancy::OCCUPANCY_TYPES
   normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
 
   validates :invoice_address, length: { maximum: 255 }
@@ -139,7 +139,7 @@ class Booking < ApplicationRecord
   end
 
   def locale
-    tenant&.locale.presence || organisation.locale
+    super.presence || tenant&.locale.presence
   end
 
   def contract
@@ -172,7 +172,7 @@ class Booking < ApplicationRecord
 
   def assert_tenant!
     self.tenant = find_existing_tenant&.merge_with_new(tenant) ||
-                  tenant || build_tenant(email: self[:email], organisation:)
+                  tenant || build_tenant(email: self[:email], organisation:, locale:)
 
     tenant.organisation = organisation
     tenant.email ||= self[:email]

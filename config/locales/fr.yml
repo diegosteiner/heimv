@@ -5,7 +5,7 @@ fr:
       booking/filter:
         begins_at: à partir du / de
         begins_at_after: Début de la location
-        begins_at_before: 'Location jusqu''au '
+        begins_at_before: Location jusqu'au
         concluded: Clôture des écritures
         current_booking_states: Statuts
         ends_at: Jusqu'au / jusqu'à
@@ -272,6 +272,7 @@ fr:
         remarks: Remarques
         responsibility: Responsabilité
       organisation:
+        account_address:
         address: Adresse
         bcc: BCC
         contract_signature: Image de signature de contrat
@@ -666,8 +667,6 @@ fr:
         one: Forfait
       tarifs/metered:
         one: Par relevé de compteur
-      tarifs/min_occupation:
-        one: Location minimale
       tarifs/overnight_stay:
         one: Nuitées
       tarifs/price:
@@ -1285,12 +1284,16 @@ fr:
         booking_action: Action
         booking_state: Statut comptable
         create_missing:
+        created_missing:
         document: Document
         missing_templates:
         rich_text_templates_by_booking_action: Actions
         rich_text_templates_by_booking_state: Statut comptable
         rich_text_templates_by_document: Documents
         rich_text_templates_by_rest: Autres
+    tarifs:
+      form:
+        minimum:
   nav:
     edit_account: Gérer le compte
     manage: Administration

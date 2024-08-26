@@ -272,6 +272,7 @@ it:
         remarks: Osservazioni
         responsibility: Responsabilità
       organisation:
+        account_address:
         address: Indirizzo
         bcc: BCC
         contract_signature: Immagine della firma del contratto
@@ -666,8 +667,6 @@ it:
         one: Forfettario
       tarifs/metered:
         one: secondo la lettura del contatore
-      tarifs/min_occupation:
-        one: Occupazione minima
       tarifs/overnight_stay:
         one: Pernottamenti
       tarifs/price:
@@ -1250,12 +1249,16 @@ it:
         booking_action:
         booking_state:
         create_missing:
+        created_missing:
         document: Documento
         missing_templates:
         rich_text_templates_by_booking_action:
         rich_text_templates_by_booking_state:
         rich_text_templates_by_document:
         rich_text_templates_by_rest:
+    tarifs:
+      form:
+        minimum:
   nav:
     edit_account: Gestione dell'account
     manage: Amministrazione

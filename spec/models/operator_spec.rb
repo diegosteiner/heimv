@@ -7,7 +7,7 @@
 #  id              :bigint           not null, primary key
 #  contact_info    :text
 #  email           :string
-#  locale          :string           default("de"), not null
+#  locale          :string           not null
 #  name            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

@@ -24,7 +24,8 @@
         "testdouble.vscode-standard-ruby",
         "DavidAnson.vscode-markdownlint",
         "dbaeumer.vscode-eslint",
-        "Shopify.ruby-extensions-pack"
+        "Shopify.ruby-extensions-pack",
+        "KoichiSasada.vscode-rdbg"
       ]
     },
     "settings": {

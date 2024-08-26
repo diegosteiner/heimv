@@ -9,18 +9,19 @@ module Timespanable
     end
 
     def today?(date = Time.zone.today)
-      begins_at = span.begin&.to_date
-      ends_at = span.end&.to_date
-
-      (begins_at..ends_at).cover?(date) if begins_at && ends_at
+      dates.cover?(date)
     end
 
     def span
       begins_at = send(self.class.timespan_begins_at_attribute)
       ends_at = send(self.class.timespan_ends_at_attribute)
-      return if begins_at.blank? || ends_at.blank?
+      begins_at..ends_at if begins_at.present? && ends_at.present?
+    end
 
-      begins_at..ends_at
+    def dates
+      begins_at = span.begin&.to_date
+      ends_at = span.end&.to_date
+      begins_at..ends_at if begins_at.present? && ends_at.present?
     end
 
     def duration

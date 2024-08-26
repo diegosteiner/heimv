@@ -39,9 +39,10 @@ class OperatorResponsibility < ApplicationRecord
   has_many :assigning_conditions, -> { qualifiable_group(:assigning) }, as: :qualifiable, dependent: :destroy,
                                                                         class_name: :BookingCondition, inverse_of: false
 
-  enum responsibility: RESPONSIBILITIES
+  enum :responsibility, RESPONSIBILITIES
 
   scope :ordered, -> { rank(:ordinal) }
+  scope :by_operator, ->(*responsibilities) { where(responsibility: responsibilities).group_by(&:operator) }
 
   delegate :email, :locale, :contact_info, to: :operator
 

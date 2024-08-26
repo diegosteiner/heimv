@@ -6,6 +6,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  committed           :boolean          default(FALSE)
+#  data                :jsonb
 #  presumed_used_units :decimal(, )
 #  price_per_unit      :decimal(, )
 #  remarks             :text
@@ -47,9 +48,27 @@ class Usage < ApplicationRecord
   validates :used_units, numericality: true, allow_nil: true
 
   def price
-    price_per_unit = self.price_per_unit.presence || tarif.price_per_unit.presence || 1.0
-    price = (used_units || 0.0) * price_per_unit
-    (price * 20.0).floor / 20.0
+    @price ||= ([usage_price, minimum_prices.values].flatten.compact.max * 20.0).floor / 20.0
+  end
+
+  def usage_price
+    (used_units || 0.0) * (price_per_unit || 1.0)
+  end
+
+  def minimum_prices # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    nights = booking&.nights || 0
+    price_per_unit = self.price_per_unit || 0
+
+    @minimum_prices ||= {
+      minimum_usage_per_night: (tarif&.minimum_usage_per_night || 0) * nights * price_per_unit,
+      minimum_usage_total: (tarif&.minimum_usage_total || 0) * price_per_unit
+      # minimum_price_per_night: (tarif&.minimum_price_per_night || 0) * nights,
+      # minimum_price_total: tarif&.minimum_price_total || 0
+    }
+  end
+
+  def minimum_price?
+    price.positive? && price == minimum_prices.values.compact.max
   end
 
   def presumed_units

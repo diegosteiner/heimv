@@ -23,6 +23,7 @@ module Manage
 
     def create
       @operator.organisation = current_organisation
+      @operator.locale = current_organisation.locale
       @operator.update(operator_params)
       respond_with :manage, @operator, location: manage_operators_path
     end

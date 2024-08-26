@@ -26,7 +26,7 @@ class Booking
     belongs_to :booking, inverse_of: :logs
     belongs_to :user, inverse_of: :booking_logs, optional: true
 
-    enum trigger: { manager: 0, tenant: 1, auto: 2, booking_agent: 3 }, _prefix: true
+    enum :trigger, { manager: 0, tenant: 1, auto: 2, booking_agent: 3 }, prefix: true
 
     def self.log(booking, trigger:, action: nil, user: nil, data: {})
       data = data.reverse_merge(

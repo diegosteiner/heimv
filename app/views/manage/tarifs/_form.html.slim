@@ -32,9 +32,13 @@
     = f.number_field :price_per_unit, step: 0.01
     = f.check_box :pin
 
-    - if @tarif.is_a?(Tarifs::MinOccupation)
+  fieldset 
+    details
+      summary.mb-3
+        =t('.minimum')
+        span.fa.fa-thermometer.text-danger.ms-2
       = f.number_field :minimum_usage_per_night, step: 0.01
-      / = f.number_field :minimum_usage_total, step: 0.01
+      = f.number_field :minimum_usage_total, step: 0.01
 
   fieldset
     = f.collection_check_boxes :associated_types, Tarif.associated_types.keys, :itself, ->(key) { Tarif::ASSOCIATED_TYPES[key]&.model_name&.human }

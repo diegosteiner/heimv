@@ -1,1 +1,2 @@
-= f.hidden_field :used_units, value: 1
+= render layout: 'manage/tarifs/usage_form', locals: { usage:, f: }
+  = f.hidden_field :used_units, value: 1
