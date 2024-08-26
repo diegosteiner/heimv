@@ -16,7 +16,7 @@ class RichTextTemplateService
   end
 
   def load_defaults_from_organisation
-    Dir[Rails.root.join('config/locales/*.yml')].to_h do |locale_file|
+    Rails.root.glob('config/locales/*.yml').to_h do |locale_file|
       yaml = YAML.load_file(locale_file)
       locale = yaml.keys.first
       set_rich_text_template_defaults(yaml, locale)

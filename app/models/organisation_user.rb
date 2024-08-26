@@ -27,7 +27,7 @@ class OrganisationUser < ApplicationRecord
   belongs_to :organisation, inverse_of: :organisation_users
   belongs_to :user, inverse_of: :organisation_users, autosave: true
 
-  enum role: { none: 0, readonly: 1, admin: 2, manager: 3 }, _prefix: :role
+  enum :role, { none: 0, readonly: 1, admin: 2, manager: 3 }, prefix: :role
 
   has_secure_token :token, length: 48
 

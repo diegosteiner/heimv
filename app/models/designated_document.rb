@@ -29,7 +29,7 @@ class DesignatedDocument < ApplicationRecord
                                                                         class_name: :BookingCondition, inverse_of: false
 
   locale_enum
-  enum designation: { other: 0, privacy_statement: 1, terms: 2, house_rules: 3, price_list: 4 }
+  enum :designation, { other: 0, privacy_statement: 1, terms: 2, house_rules: 3, price_list: 4 }
 
   scope :with_locale, ->(locale) { where(locale: [locale, nil]).order(locale: :ASC) }
   scope :for_booking, (lambda do |booking|
