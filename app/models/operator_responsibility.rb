@@ -42,6 +42,7 @@ class OperatorResponsibility < ApplicationRecord
   enum responsibility: RESPONSIBILITIES
 
   scope :ordered, -> { rank(:ordinal) }
+  scope :by_operator, ->(*responsibilities) { where(responsibility: responsibilities).group_by(&:operator) }
 
   delegate :email, :locale, :contact_info, to: :operator
 

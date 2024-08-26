@@ -23,8 +23,9 @@ module BookingStates
 
     after_transition do |booking|
       booking.occupied! if occupied_occupancy_state?(booking)
-      MailTemplate.use(:operator_upcoming_soon_notification, booking, to: :home_handover, &:autodeliver!)
-      MailTemplate.use(:operator_upcoming_soon_notification, booking, to: :home_return, &:autodeliver!)
+      booking.operator_responsibilities.by_operator(:home_handover, :home_return).keys.map do |operator|
+        MailTemplate.use(:operator_upcoming_soon_notification, booking, to: operator, &:autodeliver!)
+      end
       MailTemplate.use(:upcoming_soon_notification, booking, to: :tenant, &:autodeliver!)
     end
 
