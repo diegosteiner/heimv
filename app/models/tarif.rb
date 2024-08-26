@@ -69,7 +69,7 @@ class Tarif < ApplicationRecord
   has_many :enabling_conditions, -> { qualifiable_group(:enabling) }, as: :qualifiable, dependent: :destroy,
                                                                       class_name: :BookingCondition, inverse_of: false
 
-  enum prefill_usage_method: Tarif::PREFILL_METHODS.keys.index_with(&:to_s)
+  enum :prefill_usage_method, Tarif::PREFILL_METHODS.keys.index_with(&:to_s)
 
   scope :ordered, -> { order(:ordinal) }
   scope :pinned, -> { where(pin: true) }
