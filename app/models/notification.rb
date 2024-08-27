@@ -136,7 +136,7 @@ class Notification < ApplicationRecord
           when OperatorResponsibility
             value.responsibility
           when Operator
-            value
+            value.email.presence
           else
             value.to_sym
           end)
