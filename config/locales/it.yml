@@ -61,7 +61,7 @@ it:
         payment_overdue_deadline:
         provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
         show_outbox:
-        tenant_birth_date_required: 'Data di nascita: inserimento obbligatorio'
+        tenant_birth_date_required: "Data di nascita: inserimento obbligatorio"
         tentative_occupancy_color: Colore per le occupazioni provvisorie
         unconfirmed_request_deadline: Termine ultimo per la conferma dell'indirizzo e-mail
         upcoming_soon_window: Periodo per l'occupazione anticipata
@@ -104,7 +104,7 @@ it:
         booking_agent_ref: Riferimento del mediatore
         booking_category_id: Categoria di affitto
         cancellation_reason: Motivo della cancellazione
-        category: 'Categoria di affitto '
+        category: "Categoria di affitto "
         committed_request: Natura vincolante della richiesta di affitto
         created_at: Creato il
         deadline: Scadenza fino a
@@ -291,7 +291,7 @@ it:
         notifications_enabled: Messaggi abilitati
         privacy_statement_pdf: Informativa sulla privacy
         representative_address: Indirizzo della rappresentanza per i contratti
-        settings: 'Impostazioni '
+        settings: "Impostazioni "
         slug: Namespace
         smtp_settings: Impostazioni del mailserver
         smtp_settings_json: Impostazioni del mailserver
@@ -418,7 +418,7 @@ it:
           last_3_months: Ultimi 3 mesi
           last_6_months: Ultimi 6 mesi
           last_and_next_12_months:
-          last_month: 'Mese scorso '
+          last_month: "Mese scorso "
           last_year: Anno scorso
           next_12_months: Prossimi 12 mesi
           next_30_days: Prossimi 30 giorni
@@ -490,7 +490,7 @@ it:
       messages:
         content_type: formato non valido
         occupancy_conflict: La proprietà in affitto è già occupato nel periodo richiesto
-        record_invalid: 'Validazione fallita: %{errors}'
+        record_invalid: "Validazione fallita: %{errors}"
         restrict_dependent_destroy:
           has_many: Il record non può essere cancellato perchè esistono %{record} dipendenti
           has_one: Il record non può essere cancellato perchè esiste un %{record} dipendente
@@ -501,7 +501,7 @@ it:
             deadline:
               not_postponable: non può essere prolongato
             transition_to:
-              invalid_transition: 'Transizione di stato non valida: %{transition}'
+              invalid_transition: "Transizione di stato non valida: %{transition}"
           too_far_in_future: è troppo lontano nel futuro
           too_far_in_past: è troppo lontano nel passato
         tenant:
@@ -840,57 +840,57 @@ it:
     period_short: "%{period_from} - %{period_to}"
   date:
     abbr_day_names:
-    - Dom
-    - Lun
-    - Mar
-    - Mer
-    - Gio
-    - Ven
-    - Sab
+      - Dom
+      - Lun
+      - Mar
+      - Mer
+      - Gio
+      - Ven
+      - Sab
     abbr_month_names:
-    -
-    - Gen
-    - Feb
-    - Mar
-    - Apr
-    - Mag
-    - Giu
-    - Lug
-    - Ago
-    - Set
-    - Ott
-    - Nov
-    - Dic
+      -
+      - Gen
+      - Feb
+      - Mar
+      - Apr
+      - Mag
+      - Giu
+      - Lug
+      - Ago
+      - Set
+      - Ott
+      - Nov
+      - Dic
     day_names:
-    - Domenica
-    - Lunedì
-    - Martedì
-    - Mercoledì
-    - Giovedì
-    - Venerdì
-    - Sabato
+      - Domenica
+      - Lunedì
+      - Martedì
+      - Mercoledì
+      - Giovedì
+      - Venerdì
+      - Sabato
     formats:
       default: "%d-%m-%Y"
       long: "%d %B %Y"
       short: "%d %b"
     month_names:
-    -
-    - Gennaio
-    - Febbraio
-    - Marzo
-    - Aprile
-    - Maggio
-    - Giugno
-    - Luglio
-    - Agosto
-    - Settembre
-    - Ottobre
-    - Novembre
-    - Dicembre
+      -
+      - Gennaio
+      - Febbraio
+      - Marzo
+      - Aprile
+      - Maggio
+      - Giugno
+      - Luglio
+      - Agosto
+      - Settembre
+      - Ottobre
+      - Novembre
+      - Dicembre
     order:
-    - :day
-    - :month
-    - :year
+      - :day
+      - :month
+      - :year
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1057,14 +1057,14 @@ it:
       invalid: non è valido
       less_than: deve essere minore di %{count}
       less_than_or_equal_to: deve essere minore o uguale a %{count}
-      model_invalid: 'Validazione fallita: %{errors}'
+      model_invalid: "Validazione fallita: %{errors}"
       not_a_number: non è un numero
       not_an_integer: non è un numero intero
       not_found: non trovato
       not_locked: non era bloccato
       not_saved:
-        one: 'Non posso salvare questo %{resource}: 1 errore'
-        other: 'Non posso salvare questo %{resource}: %{count} errori.'
+        one: "Non posso salvare questo %{resource}: 1 errore"
+        other: "Non posso salvare questo %{resource}: %{count} errori."
       odd: deve essere dispari
       other_than: devono essere di numero diverso da %{count}
       present: non deve essere compilato
@@ -1080,10 +1080,10 @@ it:
         one: è della lunghezza sbagliata (deve essere di 1 carattere)
         other: è della lunghezza sbagliata (deve essere di %{count} caratteri)
     template:
-      body: 'Si prega di controllare i seguenti campi:'
+      body: "Si prega di controllare i seguenti campi:"
       header:
-        one: 'Non posso salvare questo %{model}: 1 errore'
-        other: 'Non posso salvare questo %{model}: %{count} errori.'
+        one: "Non posso salvare questo %{model}: 1 errore"
+        other: "Non posso salvare questo %{model}: %{count} errori."
   export:
     pdf:
       renderables:
@@ -1115,7 +1115,7 @@ it:
     public:
       bookings:
         create:
-          notice: 'La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un''e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l''e-mail, controllate lo spam o contattate l''amministrazione:  %{mailto_organisation}. '
+          notice: "La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un'e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l'e-mail, controllate lo spam o contattate l'amministrazione:  %{mailto_organisation}. "
         update:
           notice: La richiesta di prenotazione è stata aggiornata. Potete chiudere la finestra del browser.
   from: da
@@ -1133,7 +1133,7 @@ it:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfettario di %{price_per_unit}
-      minimum: Importo minimo %{minimum_price}
+      minimum: Importo minimo %{minimum}
     deposited_amount:
   invoices:
     total: Totale
@@ -1171,7 +1171,7 @@ it:
         private_ics_link:
       import:
         headers: Intestazioni
-        import_error: 'Importazione non riuscita:'
+        import_error: "Importazione non riuscita:"
         import_file: File di importazione (CSV)
         import_success: Importazione riuscita
       index:
@@ -1239,7 +1239,7 @@ it:
         new_import: Importa i pagamenti dal file CAMT.054
       new_import:
         camt_file: File CAMT.054 (.xml)
-        exception: 'Impossibile elaborare il file di pagamento: %{errors}'
+        exception: "Impossibile elaborare il file di pagamento: %{errors}"
     rich_text_templates:
       form:
         help_html: "<p>Utilizzare le variabili nel testo:</p>\n\n<pre>\n  Buongiorno {{ booking.tenant.first_name }}!\n</pre>\n\n<p>Sono disponibili le seguenti variabili:</p>\n<h5>Prenotazione</h5>\n<dl>\n    <dt>Inizio dell'occupazione</dt><dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd><dd><pre>{{ booking.begins_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    <dt>Fine dell'occupazione</dt><dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd><dd><pre>{{ booking.ends_at | datetime_format: \"%A, %d.%m.%Y %H:%M\" }}</pre></dd>\n    \n    <dt>Numero previsto di persone</dt><dd><pre>{{ booking.approximate_headcount }}</pre></dd>\n    <dt>Motivo della cancellazione</dt><dd><pre>{{ booking.cancellation_reason }}</pre></dd>\n    <dt>Natura vincolante della richiesta d'occupazione</dt><dd><pre>{{ booking.committed_request }}</pre></dd>\n\n    <dt>ID del oggetto principale di affitto/dt><dd><pre>{{ booking.home.id }}</pre></dd>\n    <dt>ID di tutte i oggetti di affitto occupati</dt><dd><pre>{{ booking.home_ids }}</pre></dd>\n    <dt>Nome del del oggetto principale di affitto</dt><dd><pre>{{ booking.home.name }}</pre></dd>\n    <dt>Indirizzo del del oggetto principale di affitto</dt><dd><pre>{{ booking.home.address }}</pre></dd>\n\n    <dt>Nome di tutti oggetti principali di affitto occupati</dt><dd><pre>{{ booking.homes | map: \"name\" | join: \", \" }}</pre></dd>\n    <dt>Elenco dei oggetti principali di affitto occupati</dt><dd><pre><ul>{% for home in booking.homes %}<li>{{ home.name }}</li>{% endfor %}</ul></pre></dd>\n\n    <dt>Indirizzo per la fattura</dt><dd><pre>{{ booking.invoice_address }}</pre></dd>\n    <dt>Scadenza fino alla data / ora</dt><dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>\n    <dt>Periodo prolungabile per n secondi</dt><dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>\n    <dt>Link per l'inquilino</dt><dd><pre>{{ booking.links.edit }}</pre></dd>\n    <dt>Link per il propietario</dt><dd><pre>{{ booking.links.manage }}</pre></dd>\n    <dt>Tipo di occupazione</dt><dd><pre>{{ booking.occupancy_type }}</pre></dd>\n    <dt>Chiave della categoria di affitto</dt><dd><pre>{{ booking.category.key }}</pre></dd>\n    <dt>Designazione della categoria di affitto</dt><dd><pre>{{ booking.category.title }}</pre></dd>\n    <dt>Descrizione della categoria di affitto</dt><dd><pre>{{ booking.category.description }}</pre></dd>\n    <dt>Descrizione dello scopo della affitto</dt><dd><pre>{{ booking.purpose_description }}</pre></dd>\n    <dt>Numero di riferimento della prenotazione</dt><dd><pre>{{ booking.ref }}</pre></dd>\n    <dt>Osservazioni dell'inquilino</dt><dd><pre>{{ booking.remarks }}</pre></dd>\n    <dt>Adresszusatz des Mieters</dt><dd><pre>{{ booking.tenant.address_addon }}</pre></dd>\n    <dt>Località del inquilino</dt><dd><pre>{{ booking.tenant.city }}</pre></dd>\n    <dt>E-Mail del inquilino</dt><dd><pre>{{ booking.tenant.email }}</pre></dd>\n    <dt>Nome del inquilino</dt><dd><pre>{{ booking.tenant.first_name }}</pre></dd>\n    <dt>Cognome del inquilino</dt><dd><pre>{{ booking.tenant.last_name }}</pre></dd>\n    <dt>Totem scout del inquilino</dt><dd><pre>{{ booking.tenant.nickname }}</pre></dd>\n    <dt>Saluto con nome dell'inquilino</dt><dd><pre>{{ booking.tenant.salutation_name }}</pre></dd>\n    <dt>Indirizzo dell'inquilino</dt><dd><pre>{{ booking.tenant.street_address }}</pre></dd>\n    <dt>NPA dell'inquilino</dt><dd><pre>{{ booking.tenant.zipcode }}</pre></dd>\n    <dt>Organizzazione dell'inquilino</dt><dd><pre>{{ booking.tenant.tenant_organisation }}</pre></dd>\n    <dt>Nome della persona responsabile della consegna della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>\n    <dt>E-Mail della persona responsabile della consegna della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>\n    <dt>Informazioni di contatto della persona responsabile della consegna della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>\n    <dt>Nome della persona responsabile della ripresa della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>\n    <dt>E-Mail della persona responsabile della ripresa della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>\n    <dt>Informazioni di contatto della persona responsabile della ripresa della casa</dt><dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>\n    <dt>Nome della persona responsabile dell'amministrazione / delle questioni generali</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>\n    <dt>E-Mail della persona responsabile dell'amministrazione / delle questioni generali</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>\n    <dt>Informazioni di contatto della persona responsabile dell'amministrazione / delle questioni generali</dt><dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>\n    <dt>Nome della persona responsabile della fatturazione</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>\n    <dt>E-Mail della persona responsabile della fatturazione</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>\n    <dt>Informazioni di contattodella persona responsabile della fatturazione</dt><dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>\n  </dl>\n  <h5>Organizzazione</h5>\n  <dl>\n    <dt>Indirizzo dell'organizzazione, sede legale</dt><dd><pre>{{ organisation.address }}</pre></dd>\n    <dt>Elenco di tutte le categorie di affitto dell'organizzazione</dt><dd><pre>{{ organisation.booking_categories }}</pre></dd>\n    <dt>E-Mail dell'organizzazione</dt><dd><pre>{{ organisation.email }}</pre></dd>\n    <dt>Numero di conto postale</dt><dd><pre>{{ organisation.esr_beneficiary_account }}</pre></dd>\n    <dt>IBAN</dt><dd><pre>{{ organisation.iban }}</pre></dd>\n    <dt>QR-IBAN</dt><dd><pre>{{ organisation.qr_iban }}</pre></dd>\n    <dt>Link al documento sulla privacy</dt><dd><pre>{{ organisation.links.privacy_statement_pdf }}</pre></dd>\n    <dt>Link al GTC</dt><dd><pre>{{ organisation.links.terms_pdf }}</pre></dd>\n    <dt>Nome dell'organizzazione</dt><dd><pre>{{ organisation.name }}</pre></dd>\n  </dl>\n  <h5>Costi</h5>\n  <dl>\n    <dt>Consumo</dt><dd><pre>{{ cost_estimation.used | currency }}</pre></dd>\n    <dt>Fatturato</dt><dd><pre>{{ cost_estimation.total | currency }}</pre></dd>\n    <dt>Acconto</dt><dd><pre>{{ cost_estimation.deposit | currency }}</pre></dd>\n  </dl>\n\n  Usare la logica nel testo:\n\n  <pre>{% if booking.home_ids contains 1 %}Passaggio visibile solo se l'ID della casa di prenotazione è uguale a 1{% endif %}</pre>\n  <pre>\n  {% if booking.category.key == 'camp' %}\n    Vi auguriamo di divertirvi molto nel vostro campo nella nostra casa!\n  {% else %}\n    Vi auguriamo un piacevole soggiorno nella nostra casa!\n  {% endif %}\n  </pre>\n\n28\n47\n"
@@ -1299,9 +1299,9 @@ it:
           trillion:
             one: Bilione
             other: Bilioni
-          unit: ''
+          unit: ""
       format:
-        delimiter: ''
+        delimiter: ""
         precision: 1
         significant: true
         strip_insignificant_zeros: true
@@ -1322,36 +1322,36 @@ it:
       ordinals:
     percentage:
       format:
-        delimiter: ''
+        delimiter: ""
         format: "%n%"
-        precision: '1'
+        precision: "1"
     precision:
       format:
-        delimiter: ''
+        delimiter: ""
   occupancy_calendar:
     months:
-    - Januar
-    - Febbraio
-    - Marzo
-    - Aprile
-    - Maggio
-    - Giugno
-    - Luglio
-    - Agosto
-    - Settembre
-    - Ottobre
-    - Novembre
-    - Dicembre
+      - Januar
+      - Febbraio
+      - Marzo
+      - Aprile
+      - Maggio
+      - Giugno
+      - Luglio
+      - Agosto
+      - Settembre
+      - Ottobre
+      - Novembre
+      - Dicembre
     next: "→"
     prev: "←"
     weekdays:
-    - Dom.
-    - Lun.
-    - Mar.
-    - Mer.
-    - Gio.
-    - Ven.
-    - Sab.
+      - Dom.
+      - Lun.
+      - Mar.
+      - Mer.
+      - Gio.
+      - Ven.
+      - Sab.
   optional: opzionale
   or: O
   payable_by: Pagabile da
@@ -1374,7 +1374,7 @@ it:
         booking_details: Dettagli della prenotazione
         last_minute_warning: Attenzione! La data di prenotazione è a breve termine. Si prega di contattare l'amministrazione anche per telefono o per e-mail.
       new:
-        accept_conditions_html: 'Accetto %{conditions_html} '
+        accept_conditions_html: "Accetto %{conditions_html} "
         privacy_policy_condition_html: le <a href="%{url}" target="_blank">norme sulla protezione dei dati</a>
         problems_html: Problemi con la prenotazione? Contattare <a href="mailto:%{email}">%{email}</a>.
         submit: Invia la richiesta di prenotazione
@@ -1386,8 +1386,8 @@ it:
     booking_questions:
       check_box:
         value:
-          'false':
-          'true':
+          "false":
+          "true":
   reset: Reset
   rich_text_templates:
     awaiting_contract_notification:
@@ -1826,7 +1826,7 @@ it:
 
         <p><strong>Dettagli del pagamento</strong>
         {{ booking.organization.payment_information }}</p>
-      default_title: 'Promemoria: fattura per il soggiorno nella casa scout'
+      default_title: "Promemoria: fattura per il soggiorno nella casa scout"
       description: Notifica di fattura scaduta (inquilino)
     provisional_request_notification:
       default_body: |

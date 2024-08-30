@@ -5,7 +5,7 @@ fr:
       booking/filter:
         begins_at: à partir du / de
         begins_at_after: Début de la location
-        begins_at_before: Location jusqu'au
+        begins_at_before: "Location jusqu'au "
         concluded: Clôture des écritures
         current_booking_states: Statuts
         ends_at: Jusqu'au / jusqu'à
@@ -327,7 +327,7 @@ fr:
         minimum_usage_per_night: Consommation minimale (par nuit)
         minimum_usage_total: Consommation minimale (total)
         ordinal_position: Ordnungsnummer
-        pin: 'Prix figer à la réservation  '
+        pin: "Prix figer à la réservation  "
         prefill_usage_booking_question_id: Consommation proposée à partir de l'indication
         prefill_usage_method: méthode de pré-remplissage
         price_per_unit: prix (par unité)
@@ -490,7 +490,7 @@ fr:
       messages:
         content_type: Format non valide
         occupancy_conflict: est déjà occupé au moment souhaité
-        record_invalid: 'La validation a échoué : %{errors}'
+        record_invalid: "La validation a échoué : %{errors}"
         restrict_dependent_destroy:
           has_many: Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent
           has_one: Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record} dépendant(e) existe
@@ -501,7 +501,7 @@ fr:
             deadline:
               not_postponable: ne peut pas être prolongé
             transition_to:
-              invalid_transition: 'Changement de statut non valide : %{transition}'
+              invalid_transition: "Changement de statut non valide : %{transition}"
           too_far_in_future: est trop loin dans le futur
           too_far_in_past: est trop loin dans le passé
         tenant:
@@ -542,7 +542,7 @@ fr:
       booking_conditions/occupiable:
         one: Condition de l'objet de location
       booking_conditions/tarif:
-        one: 'Condition du tarif sélectionné '
+        one: "Condition du tarif sélectionné "
       booking_question:
         one: Infos supplémentaires
         other: Informations supplémentaires
@@ -840,57 +840,57 @@ fr:
     period_short: "%{period_from} - %{period_to}"
   date:
     abbr_day_names:
-    - dim
-    - lun
-    - mar
-    - mer
-    - jeu
-    - ven
-    - sam
+      - dim
+      - lun
+      - mar
+      - mer
+      - jeu
+      - ven
+      - sam
     abbr_month_names:
-    -
-    - jan.
-    - fév.
-    - mars
-    - avr.
-    - mai
-    - juin
-    - juil.
-    - août
-    - sept.
-    - oct.
-    - nov.
-    - déc.
+      -
+      - jan.
+      - fév.
+      - mars
+      - avr.
+      - mai
+      - juin
+      - juil.
+      - août
+      - sept.
+      - oct.
+      - nov.
+      - déc.
     day_names:
-    - dimanche
-    - lundi
-    - mardi
-    - mercredi
-    - jeudi
-    - vendredi
-    - samedi
+      - dimanche
+      - lundi
+      - mardi
+      - mercredi
+      - jeudi
+      - vendredi
+      - samedi
     formats:
       default: "%d.%m.%Y"
       long: "%-d %B %Y"
       short: "%-d %b"
     month_names:
-    -
-    - janvier
-    - février
-    - mars
-    - avril
-    - mai
-    - juin
-    - juillet
-    - août
-    - septembre
-    - octobre
-    - novembre
-    - décembre
+      -
+      - janvier
+      - février
+      - mars
+      - avril
+      - mai
+      - juin
+      - juillet
+      - août
+      - septembre
+      - octobre
+      - novembre
+      - décembre
     order:
-    - :day
-    - :month
-    - :year
+      - :day
+      - :month
+      - :year
   datetime:
     distance_in_words:
       about_x_hours:
@@ -981,12 +981,12 @@ fr:
       reset_password_instructions:
         action: Changer mon mot de passe
         greeting: Bonjour %{recipient} !
-        instruction: 'Quelqu''un a demandé un lien pour changer votre mot de passe, le voici :'
+        instruction: "Quelqu'un a demandé un lien pour changer votre mot de passe, le voici :"
         instruction_2: Si vous n'avez pas émis cette demande, merci d'ignorer cet email.
         instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
         subject: Instructions pour changer le mot de passe
     omniauth_callbacks:
-      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : ''%{reason}''.'
+      failure: "Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : '%{reason}'."
       success: Autorisé par votre compte %{kind}.
     passwords:
       edit:
@@ -1057,7 +1057,7 @@ fr:
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}
       less_than_or_equal_to: doit être inférieur ou égal à %{count}
-      model_invalid: 'Validation échouée : %{errors}'
+      model_invalid: "Validation échouée : %{errors}"
       not_a_number: n'est pas un nombre
       not_an_integer: doit être un nombre entier
       not_found: nicht gefunden
@@ -1080,10 +1080,10 @@ fr:
         one: ne fait pas la bonne longueur (doit comporter un seul caractère)
         other: ne fait pas la bonne longueur (doit comporter %{count} caractères)
     template:
-      body: 'Veuillez vérifier les champs suivants : '
+      body: "Veuillez vérifier les champs suivants : "
       header:
-        one: 'Impossible d''enregistrer ce(tte) %{model} : 1 erreur'
-        other: 'Impossible d''enregistrer ce(tte) %{model} : %{count} erreurs'
+        one: "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
+        other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
   export:
     pdf:
       renderables:
@@ -1115,7 +1115,7 @@ fr:
     public:
       bookings:
         create:
-          notice: 'Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n''avez pas reçu le mail, vérifiez dans les spams ou contactez l''administration: %{mailto_organisation}'
+          notice: "Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n'avez pas reçu le mail, vérifiez dans les spams ou contactez l'administration: %{mailto_organisation}"
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
   from: de
@@ -1168,7 +1168,7 @@ fr:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Forfait à %{price_per_unit}
-      minimum: Montant minimum %{minimum_price}
+      minimum: Montant minimum %{minimum}
     deposited_amount: Avoir à partir d'un acompte
   invoices:
     total: Total
@@ -1206,7 +1206,7 @@ fr:
         private_ics_link:
       import:
         headers: En-têtes
-        import_error: 'Échec de l''importation : '
+        import_error: "Échec de l'importation : "
         import_file: Fichier d'importation (CSV)
         import_success: Importation réussie
       index:
@@ -1274,7 +1274,7 @@ fr:
         new_import: Importer des paiements à partir du fichier CAMT.054
       new_import:
         camt_file: Fichier CAMT.054 (.xml)
-        exception: 'Le fichier de paiement n''a pas pu être traité : %{errors}'
+        exception: "Le fichier de paiement n'a pas pu être traité : %{errors}"
     rich_text_templates:
       form:
         help_html:
@@ -1334,9 +1334,9 @@ fr:
           trillion:
             one: Billion
             other: Billions
-          unit: ''
+          unit: ""
       format:
-        delimiter: ''
+        delimiter: ""
         precision: 3
         significant: true
         strip_insignificant_zeros: true
@@ -1357,36 +1357,36 @@ fr:
       ordinals: "."
     percentage:
       format:
-        delimiter: ''
+        delimiter: ""
         format: "%n%"
         precision: 1
     precision:
       format:
-        delimiter: ''
+        delimiter: ""
   occupancy_calendar:
     months:
-    - janvier
-    - février
-    - mars
-    - avril
-    - mai
-    - juin
-    - juillet
-    - août
-    - septembre
-    - octobre
-    - novembre
-    - décembre
+      - janvier
+      - février
+      - mars
+      - avril
+      - mai
+      - juin
+      - juillet
+      - août
+      - septembre
+      - octobre
+      - novembre
+      - décembre
     next: "→"
     prev: "←"
     weekdays:
-    - dim
-    - lun
-    - mar
-    - mer
-    - jeu
-    - ven
-    - sam
+      - dim
+      - lun
+      - mar
+      - mer
+      - jeu
+      - ven
+      - sam
   optional: facultatif
   or: Or
   payable_by: Payable par
@@ -1421,8 +1421,8 @@ fr:
     booking_questions:
       check_box:
         value:
-          'false': Non
-          'true': Oui
+          "false": Non
+          "true": Oui
   reset: Réinitialiser
   rich_text_templates:
     awaiting_contract_notification:
