@@ -139,7 +139,7 @@ class Booking < ApplicationRecord
   end
 
   def locale
-    super.presence || tenant&.locale.presence
+    tenant&.locale.presence || super.presence
   end
 
   def contract
@@ -170,19 +170,19 @@ class Booking < ApplicationRecord
     super || @tenant ||= find_existing_tenant(current_tenant: nil)
   end
 
+  def find_existing_tenant(current_tenant: tenant)
+    return current_tenant if current_tenant&.persisted? && current_tenant&.valid? &&
+                             current_tenant.email == self[:email]
+
+    Tenant.find_by(email: self[:email], organisation:) unless organisation.blank? || self[:email].blank?
+  end
+
   def assert_tenant!
     self.tenant = find_existing_tenant&.merge_with_new(tenant) ||
                   tenant || build_tenant(email: self[:email], organisation:, locale:)
 
     tenant.organisation = organisation
     tenant.email ||= self[:email]
-  end
-
-  def find_existing_tenant(current_tenant: tenant)
-    return current_tenant if current_tenant&.persisted? && current_tenant&.valid? &&
-                             current_tenant.email == self[:email]
-
-    Tenant.find_by(email: self[:email], organisation:) unless organisation.blank? || self[:email].blank?
   end
 
   def occupancy_color
