@@ -159,6 +159,11 @@ de:
         required: Pflichteingabe
         tenant_mode: Eingabemodus für Mieter
         type: Typ
+      booking_validation:
+        enabling_conditions: Bedingungen zur Ausführung der Gültigkeitsprüfung
+        error_message: Anzuzeigende Fehlermeldung
+        ordinal_position: Ordnungsnummer
+        validating_conditions: Kriterien der Gültigkeitsprüfung
       contract:
         issuer: Vermieter
         locale: Sprache
@@ -560,6 +565,9 @@ de:
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
+      booking_validation:
+        one: Buchung Gültigkeitsprüfung
+        other: Buchung Gültigkeitsprüfungen
       contract:
         one: Vertrag
         other: Verträge

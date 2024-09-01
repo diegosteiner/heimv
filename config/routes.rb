@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resource :organisation, only: %i[edit update show]
       resources :organisation_users, except: %i[show]
       resources :booking_questions
+      resources :booking_validations
       resources :data_digests, except: %i[update edit]
       resources :data_digest_templates
       resources :plan_b_backups, only: %i[index]

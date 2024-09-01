@@ -35,6 +35,7 @@ module Ability
       can(:manage, BookingCategory, organisation:)
       can :manage, BookingCondition, tarif: { organisation: }
       can(:manage, BookingQuestion, organisation:)
+      can(:manage, BookingValidation, organisation:)
       can(:manage, DesignatedDocument, organisation:)
       can(:manage, Occupiable, organisation:)
       can(:manage, Operator, organisation:)
@@ -74,6 +75,7 @@ module Ability
       can(:read, BookingCategory, organisation:)
       can :read, BookingCondition, tarif: { organisation: }
       can(:read, BookingQuestion, organisation:)
+      can(:read, BookingValidation, organisation:)
       can :read, Contract, booking: { organisation: }
       can(%i[read new create], DataDigest, organisation:)
       can(:read, DataDigestTemplate, organisation:)
