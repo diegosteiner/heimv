@@ -15,7 +15,7 @@
       "name": "Debug spec example",
       "request": "launch",
       "script": "bin/rspec",
-      "args": ["${relativeFile}:${lineNumber}"]
+      "args": ["${relativeFile}"]
     },
     {
       "type": "rdbg",

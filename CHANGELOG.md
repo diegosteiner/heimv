@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Feature: Introduce BookingValidations to conditionally validate bookings
+- Fix: Fix broken «now» compare_attribute of BookingDateTime condition
+
 ## Version 24.8.2
 
 Released 26.08.2024

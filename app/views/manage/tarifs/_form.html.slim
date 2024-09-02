@@ -49,11 +49,11 @@
     = f.number_field :vat, step: 0.1
 
   fieldset.mt-4
-    label= Tarif.human_attribute_name(:selecting_conditions)
+    label.mb-2= Tarif.human_attribute_name(:selecting_conditions)
     = f.fields_for :selecting_conditions, @tarif.selecting_conditions do |bcf|
       = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 
-    label= Tarif.human_attribute_name(:enabling_conditions)
+    label.mb-2= Tarif.human_attribute_name(:enabling_conditions)
     = f.fields_for :enabling_conditions, @tarif.enabling_conditions do |bcf|
       = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 

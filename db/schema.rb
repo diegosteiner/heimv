@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_26_120211) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_01_161137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -177,6 +177,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_26_120211) do
     t.index ["booking_id", "most_recent"], name: "index_booking_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["booking_id", "sort_key"], name: "index_booking_transitions_parent_sort", unique: true
     t.index ["booking_id"], name: "index_booking_state_transitions_on_booking_id"
+  end
+
+  create_table "booking_validations", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.jsonb "error_message_i18n"
+    t.integer "ordinal"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_booking_validations_on_organisation_id"
   end
 
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -625,6 +634,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_26_120211) do
   add_foreign_key "booking_question_responses", "booking_questions"
   add_foreign_key "booking_questions", "organisations"
   add_foreign_key "booking_state_transitions", "bookings"
+  add_foreign_key "booking_validations", "organisations"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
   add_foreign_key "data_digest_templates", "organisations"
