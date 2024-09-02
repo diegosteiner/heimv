@@ -159,6 +159,11 @@ fr:
         required: Saisie obligatoire
         tenant_mode:
         type: type
+      booking_validation:
+        enabling_conditions:
+        error_message:
+        ordinal_position: Position de l'affichage
+        validating_conditions:
       contract:
         issuer: Bailleur
         locale: Langue
@@ -532,7 +537,7 @@ fr:
       booking_conditions/booking_category:
         one: Objet de la location Sélecteur de tarif
       booking_conditions/booking_date_time:
-        one: Date Condition
+        one:
       booking_conditions/booking_question:
         one: Informations supplémentaires (condition)
       booking_conditions/booking_state:
@@ -559,6 +564,9 @@ fr:
       booking_transition:
         one: Changement de statut
         other: Changements de statut
+      booking_validation:
+        one:
+        other:
       contract:
         one: Contrat
         other: Contrats
@@ -735,8 +743,11 @@ fr:
     booking_date_time:
       attributes:
         begins_at: Début de la location
+        created_at:
+        deadline:
         ends_at: Fin de la location
-        now: Heute
+        now: Aujourd'hui
+        updated_at:
     occupiable:
       attributes:
         home: Principal objet de location

@@ -159,6 +159,11 @@ it:
         required:
         tenant_mode:
         type: Tipo
+      booking_validation:
+        enabling_conditions:
+        error_message:
+        ordinal_position: Numero di serie
+        validating_conditions:
       contract:
         issuer: Proprietario
         locale: Lingua
@@ -559,6 +564,9 @@ it:
       booking_transition:
         one: Transizione di stato
         other: Transizioni di stato
+      booking_validation:
+        one:
+        other:
       contract:
         one: Contratto
         other: Contratti
@@ -735,8 +743,11 @@ it:
     booking_date_time:
       attributes:
         begins_at: Inizio dell'occupazione
+        created_at:
+        deadline:
         ends_at: Fine dell'occupazione
         now: Oggi
+        updated_at:
     occupiable:
       attributes:
         home: Oggetto principale di affitto
