@@ -531,12 +531,12 @@ fr:
         one: Conditions de réservation
       booking_conditions/booking_category:
         one: Objet de la location Sélecteur de tarif
+      booking_conditions/booking_date_time:
+        one: Date Condition
       booking_conditions/booking_question:
         one: Informations supplémentaires (condition)
       booking_conditions/booking_state:
         one: Status Bedingung
-      booking_conditions/date_span:
-        one: Date Condition
       booking_conditions/occupancy_duration:
         one: Condition de la durée de location
       booking_conditions/occupiable:
@@ -732,12 +732,11 @@ fr:
         nights: Nächte
         overnight_stays: Nombre de nuitées attendues
         tenant_organisation: Organisation des locataires
-    date_span:
+    booking_date_time:
       attributes:
         begins_at: Début de la location
         ends_at: Fin de la location
         now: Heute
-        span: Période d'occupation
     occupiable:
       attributes:
         home: Principal objet de location

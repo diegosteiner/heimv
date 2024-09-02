@@ -537,12 +537,12 @@ de:
         one: Buchungsattribut Bedingung
       booking_conditions/booking_category:
         one: Mietkategorie Bedingung
+      booking_conditions/booking_date_time:
+        one: Belegungsdatum Bedingung
       booking_conditions/booking_question:
         one: Zusätzliche Angabe Bedingung
       booking_conditions/booking_state:
         one: Status Bedingung
-      booking_conditions/date_span:
-        one: Datum Bedingung
       booking_conditions/occupancy_duration:
         one: Belegungsdauer Bedingung
       booking_conditions/occupiable:
@@ -741,12 +741,14 @@ de:
         nights: Nächte
         overnight_stays: Erwartete Anzahl Übernachtungen
         tenant_organisation: Organisation des Mieters
-    date_span:
+    booking_date_time:
       attributes:
         begins_at: Beginn der Belegung
+        created_at: Erstellung der Belegung
+        deadline: Frist der Belegung
         ends_at: Ende der Belegung
         now: Heute
-        span: Belegungszeitraum
+        updated_at: Aktualisierung der Belegung
     occupiable:
       attributes:
         home: Hauptmietobjekt

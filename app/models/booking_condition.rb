@@ -102,8 +102,8 @@ class BookingCondition < ApplicationRecord
 
   def evaluate(booking)
     evaluate!(booking)
-  rescue StandardError
-    nil
+    # rescue StandardError
+    #   nil
   end
 
   def evaluate_operator(operator, with: {})

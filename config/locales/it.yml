@@ -531,12 +531,12 @@ it:
         one:
       booking_conditions/booking_category:
         one: Categoria di affitto (condizione)
+      booking_conditions/booking_date_time:
+        one:
       booking_conditions/booking_question:
         one:
       booking_conditions/booking_state:
         one: Stato (condizione)
-      booking_conditions/date_span:
-        one:
       booking_conditions/occupancy_duration:
         one: Durata dell'occupazione (condizione)
       booking_conditions/occupiable:
@@ -732,12 +732,11 @@ it:
         nights: Notti
         overnight_stays:
         tenant_organisation:
-    date_span:
+    booking_date_time:
       attributes:
         begins_at: Inizio dell'occupazione
         ends_at: Fine dell'occupazione
         now: Oggi
-        span:
     occupiable:
       attributes:
         home: Oggetto principale di affitto

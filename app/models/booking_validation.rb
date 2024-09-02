@@ -55,7 +55,7 @@ class BookingValidation < ApplicationRecord
   end
 
   def validate_booking(booking)
-    return true unless enabled_by_condition?(booking) && !valid_by_condition?(booking)
+    return true if !enabled_by_condition?(booking) || valid_by_condition?(booking)
 
     booking.errors.add(:base, error_message)
     false

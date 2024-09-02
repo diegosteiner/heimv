@@ -435,10 +435,10 @@ en:
         one: Immer-Ein Tarifwähler
       booking_conditions/booking_category:
         one: Mietzweck Tarifwähler
+      booking_conditions/booking_date_time:
+        one: Belegungsdatum Bedingung
       booking_conditions/booking_state:
         one: Status Bedingung
-      booking_conditions/date_span:
-        one: Belegungsdatum Bedingung
       booking_conditions/occupancy_duration:
         one: nächte tarifwähler
       booking_conditions/occupiable:
