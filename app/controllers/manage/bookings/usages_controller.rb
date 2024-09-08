@@ -27,7 +27,9 @@ module Manage
       end
 
       def update_many
-        @booking.update(booking_usages_params)
+        @booking.assign_attributes(booking_usages_params)
+        @booking.usages.each(&:valid?)
+        @booking.save
         respond_with :manage, @booking, @usages,
                      responder_flash_messages(Usage.model_name.human(count: 2))
                        .merge(location: return_to_path(manage_booking_usages_path(@booking)))

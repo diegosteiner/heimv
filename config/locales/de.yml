@@ -674,6 +674,8 @@ de:
         one: nach Verbrauch
       tarifs/flat:
         one: Pauschale
+      tarifs/group_minimum:
+        one: Tarifgruppe Minimum
       tarifs/metered:
         one: nach Zählerstand
       tarifs/overnight_stay:
