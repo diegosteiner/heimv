@@ -128,7 +128,7 @@ class Tarif < ApplicationRecord
 
   def breakdown(usage)
     key ||= :flat if is_a?(Tarifs::Flat)
-    key ||= :minimum if usage.minimum_price?
+    key ||= :minimum if usage.minimum_price? || is_a?(Tarifs::GroupMinimum)
     key ||= :default
     I18n.t(key, scope: 'invoice_parts.breakdown', **breakdown_options(usage))
   end
@@ -148,6 +148,26 @@ class Tarif < ApplicationRecord
   def update_booking_conditions
     enabling_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :enabling) }
     selecting_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :selecting) }
+  end
+
+  def minimum_prices(usage)
+    nights = usage&.booking&.nights || 0
+    price_per_unit = usage&.price_per_unit || 0
+
+    {
+      minimum_usage_per_night: (minimum_usage_per_night || 0) * nights * price_per_unit,
+      minimum_usage_total: (minimum_usage_total || 0) * price_per_unit
+      # minimum_price_per_night: (minimum_price_per_night || 0) * nights,
+      # minimum_price_total: minimum_price_total || 0
+    }
+  end
+
+  def minimum_price(usage)
+    minimum_prices(usage).values.compact.max
+  end
+
+  def apply_usage_to_invoice?(_usage, _invoice)
+    true
   end
 
   private
