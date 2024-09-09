@@ -61,7 +61,6 @@ RSpec.describe Notification, type: :model do
         expect(notification.to.to_sym).to eq(:booking_agent)
         expect(notification.resolve_to).to eq(booking_agent)
         expect(notification.deliver_to).to eq([booking_agent.email])
-        # expect(notification.locale).to eq(booking_agent.locale)
       end
     end
 
@@ -136,6 +135,51 @@ RSpec.describe Notification, type: :model do
       expect(message.text_part.decoded).to eq(notification.body)
       notification.reload
       expect(notification.sent_at).not_to be_nil
+    end
+  end
+
+  describe '#deliver_to' do
+    subject(:deliver_to) { notification.deliver_to }
+
+    let(:tenant) { booking.tenant }
+    let(:operator) { create(:operator, organisation:) }
+    let(:notification) { create(:notification, to:, booking:, subject: 'Test', body: 'Test Body') }
+
+    context 'with :tenant' do
+      let(:to) { :tenant }
+
+      it { is_expected.to eq([tenant.email]) }
+    end
+
+    context 'with tenant' do
+      let(:to) { tenant }
+
+      it { is_expected.to eq([tenant.email]) }
+    end
+
+    context 'with :home_handover' do
+      let(:to) { :home_handover }
+      before { booking.operator_responsibilities.create(operator:, responsibility: :home_handover) }
+
+      it { is_expected.to eq([operator.email]) }
+    end
+
+    context 'with home_handover' do
+      let(:to) { booking.operator_responsibilities.create(operator:, responsibility: :home_handover) }
+
+      it { is_expected.to eq([operator.email]) }
+    end
+
+    context 'with operator' do
+      let(:to) { operator }
+
+      it { is_expected.to eq([operator.email]) }
+    end
+
+    context 'with email' do
+      let(:to) { 'test@example.com' }
+
+      it { is_expected.to eq([to]) }
     end
   end
 end

@@ -23,14 +23,16 @@ module BookingActions
       protected
 
       def send_tenant_notification(invoices)
-        MailTemplate.use!(:payment_due_notification, booking, to: :tenant, invoices:).tap do |mail|
+        context = { invoices: }
+        MailTemplate.use!(:payment_due_notification, booking, to: :tenant, context:).tap do |mail|
           mail.attach(invoices)
           mail.save! && invoices.each(&:sent!)
         end
       end
 
       def send_operator_notification(invoices)
-        MailTemplate.use(:operator_invoice_sent_notification, booking, to: :billing, invoices:).tap do |mail|
+        context = { invoices: }
+        MailTemplate.use(:operator_invoice_sent_notification, booking, to: :billing, context:)&.tap do |mail|
           mail.attach(invoices)
           mail.autodeliver!
         end

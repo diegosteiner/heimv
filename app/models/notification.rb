@@ -43,7 +43,7 @@ class Notification < ApplicationRecord
   validate do
     next if booking.nil? || to.blank?
     next if booking.roles.keys.include?(to.to_sym)
-    next if Array.wrap(deliver_to).all? { _1.is_a?(String) }
+    next if deliver_to.present? && deliver_to.all? { _1.is_a?(String) }
 
     errors.add(:to, :invalid)
   end
@@ -115,8 +115,12 @@ class Notification < ApplicationRecord
     [organisation&.bcc].compact
   end
 
+  def deliver_to=(value)
+    super(Array.wrap(value))
+  end
+
   def deliver_to
-    [resolve_to.try(:email).presence || resolve_to].flatten.compact
+    Array.wrap(super).compact_blank.presence || Array.wrap(resolve_to.try(:email) || to).compact_blank
   end
 
   def locale
@@ -124,7 +128,7 @@ class Notification < ApplicationRecord
   end
 
   def resolve_to
-    to.presence && (booking&.roles&.[](to.to_sym) || to)
+    to.presence && booking&.roles&.[](to.to_sym)
   end
 
   def to=(value)
@@ -136,7 +140,7 @@ class Notification < ApplicationRecord
           when Operator
             value.email.presence
           else
-            value.to_sym
+            value&.to_s
           end)
   end
 

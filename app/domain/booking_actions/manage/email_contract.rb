@@ -36,16 +36,16 @@ module BookingActions
       end
 
       def send_tenant_notification(deposits)
-        MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, booking:, contract:,
-                                                                    invoices: deposits) do |mail|
+        context = { contract:, invoices: deposits }
+        MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, context:) do |mail|
           mail.attach :contract, deposits
           mail.save! && contract.sent! && deposits.each(&:sent!)
         end
       end
 
       def send_operator_notification(deposits)
-        MailTemplate.use(:operator_contract_sent_notification, booking, to: :billing, contract:,
-                                                                        invoices: deposits).tap do |mail|
+        context = { contract:, invoices: deposits }
+        MailTemplate.use(:operator_contract_sent_notification, booking, to: :billing, context:)&.tap do |mail|
           mail.attach contract, deposits
           mail.autodeliver!
         end

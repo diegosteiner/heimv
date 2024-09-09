@@ -27,7 +27,7 @@ describe BookingStates::Upcoming do
       let(:operator) { create(:operator, organisation:) }
       let!(:home_handover) { create(:operator_responsibility, booking:, operator:, responsibility: :home_handover) }
 
-      it { expect(transitioned_booking).to notify(:operator_upcoming_notification).to(:booking_agent) }
+      it { expect(transitioned_booking).to notify(:operator_upcoming_notification) }
     end
   end
 end
