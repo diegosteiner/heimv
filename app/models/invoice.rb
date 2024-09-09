@@ -77,7 +77,7 @@ class Invoice < ApplicationRecord
   end
 
   def generate_pdf?
-    ref.present? && (pdf.blank? || changed?)
+    kept? && ref.present? && (pdf.blank? || changed?)
   end
 
   def generate_ref?
