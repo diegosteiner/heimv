@@ -1793,6 +1793,26 @@ de:
         <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Stornierung Reservation {{ booking.ref }}
       description: Benachrichtigung für stornierte Reservation (Verwaltung)
+    manage_cancelled_request_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Die Reservationsanfrage {{ booking.ref }} wurde storniert</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+        </ul>
+
+        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
+      default_title: Stornierung Reservationsanfrage {{ booking.ref }}
+      description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
     manage_definitive_request_notification:
       default_body: |
         <p>Hallo</p>
@@ -1898,6 +1918,62 @@ de:
         <p><a href="{{ booking.links.manage }}">Buchung verwalten</a></p>
       default_title: Abgesagte Belegung
       description: Benachrichtigung für abgesagte Belegung (Funktionär)
+    operator_contract_sent_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Der Vertrag für die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> wurde verschickt.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+          <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
+          <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
+        </ul>
+
+        <p><strong>Kontaktperson</strong></p>
+
+        <p>
+          {{ booking.tenant.full_name }}<br />
+          <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
+          <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
+        </p>
+      default_title: Vertrag/Anzahlung verschickt
+      description: Benachrichtigung für verschickter Vertrag/Anzahlung (Funktionär)
+    operator_invoice_sent_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Eine Rechnung für die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> wurde verschickt.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+          <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
+          <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
+        </ul>
+
+        <p><strong>Kontaktperson</strong></p>
+
+        <p>
+          {{ booking.tenant.full_name }}<br />
+          <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
+          <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
+        </p>
+      default_title: Rechnung verschickt
+      description: Benachrichtigung für verschickte Rechnung (Funktionär)
     operator_upcoming_notification:
       default_body: |
         <p>Hallo</p>
