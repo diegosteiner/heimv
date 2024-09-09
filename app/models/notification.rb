@@ -43,9 +43,7 @@ class Notification < ApplicationRecord
   validate do
     next if booking.nil? || to.blank?
     next if booking.roles.keys.include?(to.to_sym)
-    next if deliver_to.present?
-
-    # next if Array.wrap(deliver_to).all? { Devise.email_regexp.match(_1) }
+    next if Array.wrap(deliver_to).all? { _1.is_a?(String) }
 
     errors.add(:to, :invalid)
   end
