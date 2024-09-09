@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_01_161137) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_09_094202) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -329,6 +329,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_01_161137) do
     t.decimal "amount_open"
     t.bigint "supersede_invoice_id"
     t.string "locale"
+    t.boolean "payment_required", default: true
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
     t.index ["ref"], name: "index_invoices_on_ref"

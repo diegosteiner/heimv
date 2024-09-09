@@ -8,7 +8,7 @@ module BookingActions
       end
 
       def allowed?
-        booking.can_transition_to?(:completed) && booking.booking_flow.in_state?(:past) && booking.invoices.unsent.none?
+        booking.can_transition_to?(:completed) && booking.in_state?(:past) && booking.invoices.unsent.none?
       end
     end
   end

@@ -4,7 +4,8 @@
 		= f.hidden_field :tarif_id
 		= f.check_box :_destroy, { checked: f.object.apply, label: usage.tarif.ordinal , wrapper: { style: 'margin-bottom: 0 !important' } }, '0', '1'
 	.col-11.col-md-3.px-2.py-3
-		= usage.tarif.label
+		label[for=f.field_id(:_destroy)]
+			= usage.tarif.label
 	.col-6.col-md-1.p-2
 		= number_to_currency(usage.price_per_unit, unit: '')
 		small.d-block.text-secondary= @booking.organisation.currency

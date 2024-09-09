@@ -12,6 +12,7 @@
 #  locale               :string
 #  payable_until        :datetime
 #  payment_info_type    :string
+#  payment_required     :boolean          default(TRUE)
 #  ref                  :string
 #  sent_at              :datetime
 #  text                 :text

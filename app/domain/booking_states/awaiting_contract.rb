@@ -43,7 +43,7 @@ module BookingStates
     infer_transition(to: :upcoming) do |booking|
       booking.contracts.signed.any? &&
         Invoices::Deposit.of(booking).kept.all? do |deposit|
-          deposit.paid? || deposit.payment_info.is_a?(PaymentInfos::OnArrival)
+          deposit.paid? || !deposit.payment_required
         end
     end
 

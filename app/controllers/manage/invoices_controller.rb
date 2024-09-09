@@ -47,7 +47,7 @@ module Manage
 
     def destroy
       @invoice.discarded? ? @invoice.destroy : @invoice.discard!
-      respond_with :manage, @invoice, location: manage_booking_path(@invoice.booking)
+      respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
     end
 
     private

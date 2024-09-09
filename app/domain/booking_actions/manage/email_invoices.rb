@@ -16,7 +16,7 @@ module BookingActions
 
       def allowed?
         unsent_invoices.any? && booking.notifications_enabled &&
-          !booking.booking_flow.in_state?(:definitive_request) && booking.tenant.email.present?
+          !booking.in_state?(:definitive_request) && booking.tenant.email.present?
       end
 
       protected

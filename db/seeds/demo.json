@@ -149,7 +149,7 @@
       "prefill_usage_method": null,
       "price_per_unit": "15.0",
       "tarif_group": "Lager/Kurs",
-      "type": "Tarifs::Amount",
+      "type": "Tarifs::OvernightStay",
       "unit": "Übernachtung",
       "unit_i18n": {
         "de": "Übernachtung"
@@ -172,7 +172,7 @@
       "prefill_usage_method": null,
       "price_per_unit": "20.0",
       "tarif_group": "Lager/Kurs",
-      "type": "Tarifs::Amount",
+      "type": "Tarifs::OvernightStay",
       "unit": "Übernachtung",
       "unit_i18n": {
         "de": "Übernachtung"
@@ -195,13 +195,14 @@
       "prefill_usage_method": "nights",
       "price_per_unit": "10.0",
       "tarif_group": "Lager/Kurs",
-      "type": "Tarifs::OvernightStay",
+      "type": "Tarifs::GroupMinimum",
       "unit": "pro Nacht",
       "unit_i18n": {
         "de": "pro Nacht"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "minimum_usage_per_night": 12
     },
     {
       "associated_types": [

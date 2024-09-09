@@ -7,11 +7,12 @@ class Invoice
     RichTextTemplate.define(:invoices_offer_text, context: %i[booking invoice])
     RichTextTemplate.define(:invoices_late_notice_text, context: %i[booking invoice])
 
-    def call(booking, params = {})
+    def call(booking, params = {}) # rubocop:disable Metrics/AbcSize
       ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
         I18n.with_locale(invoice.locale) do
           invoice.payment_info_type = payment_info_type(invoice)
           invoice.payable_until ||= payable_until(invoice)
+          invoice.payment_required = payment_required(invoice)
           invoice.text ||= text_from_template(invoice)
           prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
         end
@@ -70,6 +71,14 @@ class Invoice
       end
 
       settings.invoice_payment_deadline.from_now
+    end
+
+    def payment_required(invoice)
+      return false if invoice.payment_info.is_a?(PaymentInfos::OnArrival)
+      return true if invoice.booking.past?
+
+      deadline = invoice.booking.begins_at - (invoice.booking.organisation.settings.upcoming_soon_window || 0)
+      deadline > (payable_until(invoice) || Time.zone.now)
     end
   end
 end

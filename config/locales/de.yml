@@ -214,6 +214,7 @@ de:
         locale: Sprache
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
+        payment_required: Zahlung für Statusübergang zwingend
         percentage_paid: "% bezahlt"
         ref: Referenznummer
         sent_at: Rechnungsdatum
@@ -809,7 +810,7 @@ de:
       public_info: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
       relevant_time: Eingereicht %{time}
     overdue:
-      label: Reservation (Vertrag überfällig)
+      label: Reservation (Vertrag/Anzahlung überfällig)
       relevant_time: Frist %{time}
     overdue_request:
       label: Mietanfrage (Antwort überfällig)
@@ -1953,7 +1954,7 @@ de:
       description: Benachrichtigung für baldige Belegung (Funktionär)
     overdue_notification:
       default_body:
-      default_title: Vertrag überfällig
+      default_title: Vertrag/Anzahlung überfällig
       description: Benachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
     overdue_request_notification:
       default_body: |
