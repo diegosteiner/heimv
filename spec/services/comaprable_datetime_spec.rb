@@ -26,7 +26,7 @@ RSpec.describe ComparableDatetime, type: :model do
         expect(compare_value.year).to eq(2024)
         expect(compare_value.month).to eq(9)
         expect(compare_value.day).to eq(2)
-        expect(compare_value.hour).to eq(10)
+        expect(compare_value.hour).to eq(12)
         expect(compare_value.minute).to eq(55)
         expect(compare_value.weekday).to eq(1)
       end

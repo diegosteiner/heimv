@@ -12,7 +12,7 @@ class ComparableDatetime < Data.define(:year, :month, :day, :weekday, :hour, :mi
   # rubocop:enable Lint/MixedRegexpCaptureTypes:
 
   def self.from_date(value)
-    value = value.utc if value.respond_to?(:utc)
+    # value = value.utc if value.respond_to?(:utc)
     new(year: value.year, month: value.month, day: value.mday, weekday: value.wday,
         hour: value.try(:hour), minute: value.try(:min))
   end
