@@ -214,6 +214,7 @@ fr:
         locale: Langue
         payable_until: Payable jusqu'au
         payment_info_type: Section paiement
+        payment_required:
         percentage_paid: "% payé"
         ref: Numéro de référence
         sent_at: Date de facturation
@@ -1174,6 +1175,115 @@ fr:
         Œ: Oe
         œ: oe
         Ÿ: Y
+  ice_cube:
+    array:
+      last_word_connector:
+      two_words_connector:
+      words_connector:
+    at_hours_of_the_day:
+      one:
+      other:
+    at_seconds_of_minute:
+      one:
+      other:
+    date:
+      day_names:
+      - Dimanche
+      - lundi
+      - Mardi
+      - Mercredi
+      - Jeudi
+      - vendredi
+      - Samedi
+      formats:
+        default:
+      month_names:
+      -
+      - janvier
+      - février
+      - mars
+      - avril
+      - mai
+      - juin
+      - juillet
+      - août
+      - septembre
+      - octobre
+      - novembre
+      - décembre
+    days_of_month:
+      one:
+      other:
+    days_of_week:
+    days_of_year:
+      one:
+      other:
+    days_on:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    each_day:
+      one:
+      other:
+    each_hour:
+      one:
+      other:
+    each_minute:
+      one:
+      other:
+    each_month:
+      one:
+      other:
+    each_second:
+      one:
+      other:
+    each_week:
+      one:
+      other:
+    each_year:
+      one:
+      other:
+    in:
+    integer:
+      literal_ordinals:
+        "-1":
+        "-2":
+      negative:
+      ordinal:
+      ordinals:
+        default: "."
+    not:
+    not_on:
+    'on':
+    on_days:
+    on_minutes_of_hour:
+      one:
+      other:
+    on_seconds_of_minute:
+      one:
+      other:
+    on_weekdays:
+    on_weekends:
+    pieces_connector:
+    string:
+      format:
+        count:
+        day:
+        day_of_month:
+        day_of_week:
+        day_of_year:
+        default:
+        hour_of_day:
+        minute_of_hour:
+        until:
+    times:
+      one:
+      other:
+    until:
   import: Importer
   import_records: Importer %{model_name}
   invoice_parts:
@@ -1514,6 +1624,10 @@ fr:
       default_body:
       default_title:
       description:
+    manage_cancelled_request_notification:
+      default_body:
+      default_title:
+      description:
     manage_definitive_request_notification:
       default_body:
       default_title: Demande de location {{ booking.ref }} définitive
@@ -1538,6 +1652,14 @@ fr:
       default_body:
       default_title: Location annulée
       description: Notification pour location annulée (propriétaire)
+    operator_contract_sent_notification:
+      default_body:
+      default_title:
+      description:
+    operator_invoice_sent_notification:
+      default_body:
+      default_title:
+      description:
     operator_upcoming_notification:
       default_body:
       default_title: Location

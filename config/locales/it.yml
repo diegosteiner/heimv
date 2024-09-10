@@ -214,6 +214,7 @@ it:
         locale: Lingua
         payable_until: Pagabile fino a
         payment_info_type: Sezione di pagamento
+        payment_required:
         percentage_paid: "% pagati"
         ref: Numero di riferimento
         sent_at: Data della fattura
@@ -1139,6 +1140,115 @@ it:
       create: Crea %{model}
       submit: Invia %{model}
       update: Aggiorna %{model}
+  ice_cube:
+    array:
+      last_word_connector:
+      two_words_connector:
+      words_connector:
+    at_hours_of_the_day:
+      one:
+      other:
+    at_seconds_of_minute:
+      one:
+      other:
+    date:
+      day_names:
+      - domenica
+      - lunedì
+      - martedì
+      - mercoledì
+      - giovedì
+      - venerdì
+      - sabato
+      formats:
+        default:
+      month_names:
+      -
+      - gennaio
+      - febbraio
+      - marzo
+      - aprile
+      - mag
+      - giugno
+      - luglio
+      - agosto
+      - settembre
+      - ottobre
+      - novembre
+      - dicembre
+    days_of_month:
+      one:
+      other:
+    days_of_week:
+    days_of_year:
+      one:
+      other:
+    days_on:
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    each_day:
+      one:
+      other:
+    each_hour:
+      one:
+      other:
+    each_minute:
+      one:
+      other:
+    each_month:
+      one:
+      other:
+    each_second:
+      one:
+      other:
+    each_week:
+      one:
+      other:
+    each_year:
+      one:
+      other:
+    in:
+    integer:
+      literal_ordinals:
+        "-1":
+        "-2":
+      negative:
+      ordinal:
+      ordinals:
+        default:
+    not:
+    not_on:
+    'on':
+    on_days:
+    on_minutes_of_hour:
+      one:
+      other:
+    on_seconds_of_minute:
+      one:
+      other:
+    on_weekdays:
+    on_weekends:
+    pieces_connector:
+    string:
+      format:
+        count:
+        day:
+        day_of_month:
+        day_of_week:
+        day_of_year:
+        default:
+        hour_of_day:
+        minute_of_hour:
+        until:
+    times:
+      one:
+      other:
+    until:
   import: Importazione
   import_records: importa %{model_name}.
   invoice_parts:
@@ -1635,6 +1745,10 @@ it:
       default_body:
       default_title:
       description:
+    manage_cancelled_request_notification:
+      default_body:
+      default_title:
+      description:
     manage_definitive_request_notification:
       default_body: |
         <p>Salve</p>
@@ -1725,6 +1839,14 @@ it:
         <p><a href="{{ booking.links.manage }}">Gestisci la prenotazione</a></p>
       default_title: Occupazione annullata
       description: Notifica di occupazione annullata (funzionario)
+    operator_contract_sent_notification:
+      default_body:
+      default_title:
+      description:
+    operator_invoice_sent_notification:
+      default_body:
+      default_title:
+      description:
     operator_upcoming_notification:
       default_body:
       default_title: Occupazione
