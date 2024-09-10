@@ -3,7 +3,11 @@
 ## Unreleased
 
 - Feature: Introduce BookingValidations to conditionally validate bookings
+- Feature: Send invoice notifications to billing operators
+- Feature: Add new tarif for GroupMinimum
+- Feature: Add CorsOrigin configuration on organisation
 - Fix: Fix broken «now» compare_attribute of BookingDateTime condition
+- Fix: Fix broken to validation on notifications
 
 ## Version 24.8.2
 
