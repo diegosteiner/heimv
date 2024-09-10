@@ -13,5 +13,10 @@ module Public
     def allow_embed
       response.set_header('X-Frame-Options', 'ALLOWALL')
     end
+
+    def allow_cors
+      allowed_origins = current_organisation.cors_origins&.lines || []
+      response.set_header('Access-Control-Allow-Origin', request.origin) if allowed_origins.include?(request.origin)
+    end
   end
 end

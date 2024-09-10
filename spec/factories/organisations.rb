@@ -10,6 +10,7 @@
 #  bcc                       :string
 #  booking_flow_type         :string
 #  booking_ref_template      :string           default("")
+#  cors_origins              :text
 #  country_code              :string           default("CH"), not null
 #  creditor_address          :text
 #  currency                  :string           default("CHF")

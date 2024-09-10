@@ -6,6 +6,7 @@ module Public
     load_and_authorize_resource :occupancy, through: :occupiable
     layout false
     after_action :allow_embed, only: %i[embed]
+    after_action :allow_cors, only: %i[index]
     before_action :set_calendar, only: %i[index private_ical_feed]
     respond_to :json, :ics
 

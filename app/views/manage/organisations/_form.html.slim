@@ -57,7 +57,6 @@
         h3.mt-5= Booking.model_name.human(count: 2)
         .card.shadow-sm 
           .card-body
-
             = f.text_field :booking_ref_template
             = f.select :booking_flow_type, [BookingFlows::Default].map { [_1.to_s, _1.to_s] }
 
@@ -92,6 +91,12 @@
           = sf.text_field :invoice_payment_deadline, value: settings.invoice_payment_deadline&.iso8601
           = sf.text_field :payment_overdue_deadline, value: settings.payment_overdue_deadline&.iso8601
           = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
+
+    - if current_user.role_admin? || true
+      fieldset
+        .card.shadow-sm.mt-5
+          .card-body
+            = f.text_area :cors_origins, rows: 3
 
   .form-actions.pt-4.mt-3
     = f.submit
