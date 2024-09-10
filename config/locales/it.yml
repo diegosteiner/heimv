@@ -155,7 +155,6 @@ it:
         description: Descrizione
         key: Chiava
         label: Nome
-        mode:
         ordinal_position: Numero di serie
         required:
         tenant_mode:
@@ -298,7 +297,7 @@ it:
         notifications_enabled: Messaggi abilitati
         privacy_statement_pdf: Informativa sulla privacy
         representative_address: Indirizzo della rappresentanza per i contratti
-        settings: "Impostazioni "
+        settings: Impostazioni
         slug: Namespace
         smtp_settings: Impostazioni del mailserver
         smtp_settings_json: Impostazioni del mailserver
@@ -411,11 +410,6 @@ it:
           blank_editable:
           not_visible:
           provisional_editable:
-        modes:
-          always_editable:
-          blank_editable:
-          booking_editable:
-          not_visible:
         tenant_modes:
           always_editable:
           blank_editable:
@@ -549,10 +543,6 @@ it:
         one:
       booking_conditions/booking_state:
         one: Stato (condizione)
-      booking_conditions/date_span:
-        one:
-      booking_conditions/home:
-        one: Oggetto principale di affitto (condizione)
       booking_conditions/occupancy_duration:
         one: Durata dell'occupazione (condizione)
       booking_conditions/occupiable:
@@ -688,8 +678,6 @@ it:
         one:
       tarifs/metered:
         one: secondo la lettura del contatore
-      tarifs/min_occupation:
-        one: Occupazione minima
       tarifs/overnight_stay:
         one: Pernottamenti
       tarifs/price:
@@ -763,12 +751,6 @@ it:
         ends_at: Fine dell'occupazione
         now: Oggi
         updated_at:
-    date_span:
-      attributes:
-        begins_at: Inizio dell'occupazione
-        ends_at: Fine dell'occupazione
-        now: Oggi
-        span:
     occupiable:
       attributes:
         home: Oggetto principale di affitto

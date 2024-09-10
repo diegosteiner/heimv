@@ -437,8 +437,6 @@ en:
         one: Mietzweck Tarifwähler
       booking_conditions/booking_state:
         one: Status Bedingung
-      booking_conditions/date_span:
-        one: Belegungsdatum Bedingung
       booking_conditions/occupancy_duration:
         one: nächte tarifwähler
       booking_conditions/occupiable:
@@ -542,8 +540,6 @@ en:
         one: Pauschale
       tarifs/metered:
         one: nach Zählerstand
-      tarifs/min_occupation:
-        one: Mindestbetrag
       tarifs/overnight_stay:
         one: Übernachtungen
       tarifs/price:

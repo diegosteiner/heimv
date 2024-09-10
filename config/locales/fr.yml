@@ -155,7 +155,6 @@ fr:
         description: Description
         key: Clé
         label: Désignation
-        mode: Mode de saisie
         ordinal_position: Ordnungsnummer
         required: Saisie obligatoire
         tenant_mode:
@@ -334,7 +333,7 @@ fr:
         minimum_usage_per_night: Consommation minimale (par nuit)
         minimum_usage_total: Consommation minimale (total)
         ordinal_position: Ordnungsnummer
-        pin: "Prix figer à la réservation  "
+        pin: Prix figer à la réservation
         prefill_usage_booking_question_id: Consommation proposée à partir de l'indication
         prefill_usage_method: méthode de pré-remplissage
         price_per_unit: prix (par unité)
@@ -411,11 +410,6 @@ fr:
           blank_editable:
           not_visible:
           provisional_editable:
-        modes:
-          always_editable: Visible par les locataires, modifiable à tout moment
-          blank_editable: Visible par les locataires, modifiable si vide
-          booking_editable: Visible pour les locataires, modifiable jusqu'à définitif
-          not_visible: Invisible pour les locataires
         tenant_modes:
           always_editable: Visible par les locataires, modifiable à tout moment
           blank_editable: Visible par les locataires, modifiable si vide
@@ -549,10 +543,6 @@ fr:
         one: Informations supplémentaires (condition)
       booking_conditions/booking_state:
         one: Status Bedingung
-      booking_conditions/date_span:
-        one: Date Condition
-      booking_conditions/home:
-        one: Condition du principal objet de location
       booking_conditions/occupancy_duration:
         one: Condition de la durée de location
       booking_conditions/occupiable:
@@ -688,8 +678,6 @@ fr:
         one:
       tarifs/metered:
         one: Par relevé de compteur
-      tarifs/min_occupation:
-        one: Location minimale
       tarifs/overnight_stay:
         one: Nuitées
       tarifs/price:
@@ -763,12 +751,6 @@ fr:
         ends_at: Fin de la location
         now: Aujourd'hui
         updated_at:
-    date_span:
-      attributes:
-        begins_at: Beginn der Belegung
-        ends_at: Ende der Belegung
-        now: Heute
-        span: Période d'occupation
     occupiable:
       attributes:
         home: Principal objet de location
