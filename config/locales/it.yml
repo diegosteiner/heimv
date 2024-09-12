@@ -104,7 +104,7 @@ it:
         booking_agent_ref: Riferimento del mediatore
         booking_category_id: Categoria di affitto
         cancellation_reason: Motivo della cancellazione
-        category: "Categoria di affitto "
+        category: Categoria di affitto
         committed_request: Natura vincolante della richiesta di affitto
         created_at: Creato il
         deadline: Scadenza fino a

@@ -43,7 +43,10 @@
             td
               - if contract.signed? || contract.superseded?
                 - if contract.signed_pdf.attached?
-                  = link_to l(contract.signed_at), url_for(contract.signed_pdf), target: '_blank'
+                  = link_to url_for(contract.signed_pdf), target: '_blank' do 
+                  	= Contract.human_attribute_name(:signed_at)
+                    =<> l(contract.signed_at)
+                    span.ms-2.fa.fa-print
                 - elsif contract.signed?
                   = l(contract.signed_at)
               - else
