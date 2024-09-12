@@ -7,20 +7,18 @@ class RenameDateSpanBookingCondition  < ActiveRecord::Migration[7.2]
   protected
 
   def update_condition(condition)
-    condition.instance_exec do
-      (begin_compare_value, end_compare_value) = compare_value&.split('-')
-      compare_attribute = :begins_at unless %w[begins_at ends_at now].include?(compare_attribute)
+    (begin_compare_value, end_compare_value) = condition.compare_value&.split('-')
+    compare_attribute = :begins_at unless %w[begins_at ends_at now].include?(condition.compare_attribute)
 
-      dup.update!(compare_value: rewrite_compare_value.call(begin_compare_value),
-                  compare_operator: :'>=',
-                  compare_attribute: ) if begin_compare_value.present?
+    condition.dup.update!(compare_value: rewrite_compare_value(begin_compare_value),
+                          compare_operator: :'>=',
+                          compare_attribute: ) if begin_compare_value.present?
 
-      dup.update!(compare_value: rewrite_compare_value.call(end_compare_value),
-                  compare_operator: :'<=',
-                  compare_attribute: ) if end_compare_value.present?
+    condition.dup.update!(compare_value: rewrite_compare_value(end_compare_value),
+                          compare_operator: :'<=',
+                          compare_attribute: ) if end_compare_value.present?
 
-      destroy!
-    end
+    condition.destroy!
   end
 
   def rewrite_compare_value(compare_value)
