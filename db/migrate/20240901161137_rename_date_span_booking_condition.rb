@@ -9,7 +9,6 @@ class RenameDateSpanBookingCondition  < ActiveRecord::Migration[7.2]
   def update_condition(condition)
     condition.instance_exec do
       (begin_compare_value, end_compare_value) = compare_value&.split('-')
-      rewrite_compare_value = ->(compare_value) { compare_value.split('.').map(&:to_i).reverse.join('-') }
       compare_attribute = :begins_at unless %w[begins_at ends_at now].include?(compare_attribute)
 
       dup.update!(compare_value: rewrite_compare_value.call(begin_compare_value),
@@ -22,6 +21,12 @@ class RenameDateSpanBookingCondition  < ActiveRecord::Migration[7.2]
 
       destroy!
     end
+  end
+
+  def rewrite_compare_value(compare_value)
+    date_parts = compare_value.split('.').map { '%02d' % _1.to_i }
+    date_parts += ['*' * (3 - date_parts.count)]
+    date_parts.compact_blank.reverse.join('-')
   end
 
 end
