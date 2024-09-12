@@ -437,8 +437,6 @@ en:
         one: Mietzweck Tarifwähler
       booking_conditions/booking_state:
         one: Status Bedingung
-      booking_conditions/date_span:
-        one: Belegungsdatum Bedingung
       booking_conditions/occupancy_duration:
         one: nächte tarifwähler
       booking_conditions/occupiable:
@@ -1080,7 +1078,7 @@ en:
     breakdown:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
-      minimum: Mindestbetrag %{minimum}
+      minimum: Mindestbetrag %{minimum_price}
   layouts:
     manage_navigation:
       help: Hilfe

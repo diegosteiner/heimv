@@ -159,6 +159,11 @@ de:
         required: Pflichteingabe
         tenant_mode: Eingabemodus für Mieter
         type: Typ
+      booking_validation:
+        enabling_conditions: Bedingungen zur Ausführung der Gültigkeitsprüfung
+        error_message: Anzuzeigende Fehlermeldung
+        ordinal_position: Ordnungsnummer
+        validating_conditions: Kriterien der Gültigkeitsprüfung
       contract:
         issuer: Vermieter
         locale: Sprache
@@ -209,6 +214,7 @@ de:
         locale: Sprache
         payable_until: Zahlbar bis
         payment_info_type: Zahlungsteil
+        payment_required: Zahlung für Statusübergang zwingend
         percentage_paid: "% bezahlt"
         ref: Referenznummer
         sent_at: Rechnungsdatum
@@ -532,12 +538,12 @@ de:
         one: Buchungsattribut Bedingung
       booking_conditions/booking_category:
         one: Mietkategorie Bedingung
+      booking_conditions/booking_date_time:
+        one: Belegungsdatum Bedingung
       booking_conditions/booking_question:
         one: Zusätzliche Angabe Bedingung
       booking_conditions/booking_state:
         one: Status Bedingung
-      booking_conditions/date_span:
-        one: Datum Bedingung
       booking_conditions/occupancy_duration:
         one: Belegungsdauer Bedingung
       booking_conditions/occupiable:
@@ -560,6 +566,9 @@ de:
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
+      booking_validation:
+        one: Buchung Gültigkeitsprüfung
+        other: Buchung Gültigkeitsprüfungen
       contract:
         one: Vertrag
         other: Verträge
@@ -666,6 +675,8 @@ de:
         one: nach Verbrauch
       tarifs/flat:
         one: Pauschale
+      tarifs/group_minimum:
+        one: Tarifgruppe Minimum
       tarifs/metered:
         one: nach Zählerstand
       tarifs/overnight_stay:
@@ -733,12 +744,14 @@ de:
         nights: Nächte
         overnight_stays: Erwartete Anzahl Übernachtungen
         tenant_organisation: Organisation des Mieters
-    date_span:
+    booking_date_time:
       attributes:
         begins_at: Beginn der Belegung
+        created_at: Erstellung der Belegung
+        deadline: Frist der Belegung
         ends_at: Ende der Belegung
         now: Heute
-        span: Belegungszeitraum
+        updated_at: Aktualisierung der Belegung
     occupiable:
       attributes:
         home: Hauptmietobjekt
@@ -747,8 +760,8 @@ de:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterschrieben
     credit_issued: Gutschrift ausbezahlt
-    deposit_created: Anzahlung erstellen (optional)
-    deposit_paid: Anzahlung beglichen
+    deposit_created: An-/Vorauszahlung erstellen (optional)
+    deposit_paid: An-/Vorauszahlung beglichen
     invoice_created: Endabrechnung erstellen
     invoice_paid: "%{invoice} bezahlt"
     invoice_refunded: "%{invoice} erstattet"
@@ -797,7 +810,7 @@ de:
       public_info: Deine Mietanfrage ist abgeschickt und wird demnächst durch die Verwaltung bearbeitet.
       relevant_time: Eingereicht %{time}
     overdue:
-      label: Reservation (Vertrag überfällig)
+      label: Reservation (Vertrag/Anzahlung überfällig)
       relevant_time: Frist %{time}
     overdue_request:
       label: Mietanfrage (Antwort überfällig)
@@ -1780,6 +1793,26 @@ de:
         <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Stornierung Reservation {{ booking.ref }}
       description: Benachrichtigung für stornierte Reservation (Verwaltung)
+    manage_cancelled_request_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Die Reservationsanfrage {{ booking.ref }} wurde storniert</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+        </ul>
+
+        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
+      default_title: Stornierung Reservationsanfrage {{ booking.ref }}
+      description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
     manage_definitive_request_notification:
       default_body: |
         <p>Hallo</p>
@@ -1885,6 +1918,62 @@ de:
         <p><a href="{{ booking.links.manage }}">Buchung verwalten</a></p>
       default_title: Abgesagte Belegung
       description: Benachrichtigung für abgesagte Belegung (Funktionär)
+    operator_contract_sent_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Der Vertrag für die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> wurde verschickt.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+          <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
+          <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
+        </ul>
+
+        <p><strong>Kontaktperson</strong></p>
+
+        <p>
+          {{ booking.tenant.full_name }}<br />
+          <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
+          <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
+        </p>
+      default_title: Vertrag/Anzahlung verschickt
+      description: Benachrichtigung für verschickter Vertrag/Anzahlung (Funktionär)
+    operator_invoice_sent_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Eine Rechnung für die Buchung {{ booking.ref }} f&uuml;r das Lagerhaus <strong>{{ booking.home.name }}</strong> wurde verschickt.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietkategorie: <strong>{{ booking.category.title }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+          <li>Hausübergabe: <strong>{{ booking.operator_responsibilities.home_handover.operator.name }}</strong>, {{ booking.operator_responsibilities.home_handover.operator.contact_info }}</li>
+          <li>Hausrückgabe: <strong>{{ booking.operator_responsibilities.home_return.operator.name }}</strong>, {{ booking.operator_responsibilities.home_return.operator.contact_info }}</li>
+        </ul>
+
+        <p><strong>Kontaktperson</strong></p>
+
+        <p>
+          {{ booking.tenant.full_name }}<br />
+          <a href="mailto:{{booking.tenant.email}}">{{ booking.tenant.email }}</a><br />
+          <a href="tel:{{booking.tenant.phone}}">{{ booking.tenant.phone }}</a><br />
+        </p>
+      default_title: Rechnung verschickt
+      description: Benachrichtigung für verschickte Rechnung (Funktionär)
     operator_upcoming_notification:
       default_body: |
         <p>Hallo</p>
@@ -1941,7 +2030,7 @@ de:
       description: Benachrichtigung für baldige Belegung (Funktionär)
     overdue_notification:
       default_body:
-      default_title: Vertrag überfällig
+      default_title: Vertrag/Anzahlung überfällig
       description: Benachrichtigung für überfällige Reservation, fehlender Vertrag (Mieter)
     overdue_request_notification:
       default_body: |

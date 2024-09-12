@@ -12,6 +12,7 @@
 #  locale               :string
 #  payable_until        :datetime
 #  payment_info_type    :string
+#  payment_required     :boolean          default(TRUE)
 #  ref                  :string
 #  sent_at              :datetime
 #  text                 :text
@@ -45,6 +46,10 @@ module Invoices
 
     def payment_info
       nil
+    end
+
+    def payment_required
+      false
     end
   end
 end

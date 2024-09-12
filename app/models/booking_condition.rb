@@ -102,7 +102,8 @@ class BookingCondition < ApplicationRecord
 
   def evaluate(booking)
     evaluate!(booking)
-  rescue StandardError
+  rescue StandardError => e
+    ExceptionNotifier.notify_exception(e) if defined?(ExceptionNotifier)
     nil
   end
 

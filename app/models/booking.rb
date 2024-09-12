@@ -111,6 +111,7 @@ class Booking < ApplicationRecord
   end
   validate on: %i[public_create public_update agent_booking] do
     errors.add(:occupiable_ids, :occupancy_conflict) if occupancies.any?(&:conflicting?)
+    organisation&.booking_validations&.each { _1.validate_booking(self) }
   end
 
   scope :ordered, -> { order(begins_at: :ASC) }

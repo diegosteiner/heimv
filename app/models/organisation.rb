@@ -10,6 +10,7 @@
 #  bcc                       :string
 #  booking_flow_type         :string
 #  booking_ref_template      :string           default("")
+#  cors_origins              :text
 #  country_code              :string           default("CH"), not null
 #  creditor_address          :text
 #  currency                  :string           default("CHF")
@@ -47,6 +48,7 @@ class Organisation < ApplicationRecord
   has_many :operator_responsibilities, inverse_of: :organisation, dependent: :destroy
   has_many :booking_agents, inverse_of: :organisation, dependent: :destroy
   has_many :booking_categories, -> { ordered }, inverse_of: :organisation, dependent: :destroy
+  has_many :booking_validations, inverse_of: :organisation, dependent: :destroy
   has_many :designated_documents, dependent: :destroy, inverse_of: :organisation
   has_many :data_digest_templates, dependent: :destroy, inverse_of: :organisation
   has_many :booking_questions, dependent: :destroy, inverse_of: :organisation

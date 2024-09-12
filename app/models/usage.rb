@@ -48,27 +48,23 @@ class Usage < ApplicationRecord
   validates :used_units, numericality: true, allow_nil: true
 
   def price
-    @price ||= ([usage_price, minimum_prices.values].flatten.compact.max * 20.0).floor / 20.0
+    @price ||= ([usage_price, minimum_price].flatten.compact.max * 20.0).floor / 20.0
   end
 
   def usage_price
     (used_units || 0.0) * (price_per_unit || 1.0)
   end
 
-  def minimum_prices # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-    nights = booking&.nights || 0
-    price_per_unit = self.price_per_unit || 0
+  def minimum_prices
+    tarif&.minimum_prices(self)
+  end
 
-    @minimum_prices ||= {
-      minimum_usage_per_night: (tarif&.minimum_usage_per_night || 0) * nights * price_per_unit,
-      minimum_usage_total: (tarif&.minimum_usage_total || 0) * price_per_unit
-      # minimum_price_per_night: (tarif&.minimum_price_per_night || 0) * nights,
-      # minimum_price_total: tarif&.minimum_price_total || 0
-    }
+  def minimum_price
+    tarif&.minimum_price(self)
   end
 
   def minimum_price?
-    price.positive? && price == minimum_prices.values.compact.max
+    price.positive? && price == minimum_price
   end
 
   def presumed_units

@@ -1,0 +1,32 @@
+= form_with(model: [:manage, @booking_validation], local: true) do |f|
+  fieldset
+    = f.text_field :ordinal_position
+
+  fieldset
+    ul.nav.nav-tabs.mt-4 role="tablist"
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        li.nav-item
+          = link_to locale.upcase, "#booking_validation-#{locale}-tab",
+            class: "nav-link #{'active' if current_locale}",
+            aria: { controls: "booking_validation-#{locale}-tab", selected: current_locale },
+            data: { "bs-toggle": 'tab' }, role: 'tab'
+    .tab-content
+      - I18n.available_locales.each do |locale|
+        - current_locale = locale == I18n.locale
+        .tab-pane.pt-3[id="booking_validation-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="booking_validation-#{locale}-tab" role='tabpanel']
+          = f.text_field "error_message_#{locale.to_s}", label: BookingValidation.human_attribute_name(:error_message)
+
+  fieldset.mt-4
+    label.mb-2= BookingValidation.human_attribute_name(:enabling_conditions)
+    = f.fields_for :enabling_conditions, @booking_validation.enabling_conditions do |bcf|
+      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+
+  fieldset.mt-4
+    label.mb-2= BookingValidation.human_attribute_name(:validating_conditions)
+    = f.fields_for :validating_conditions, @booking_validation.validating_conditions do |bcf|
+      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+
+  .form-actions.pt-4.mt-3
+    = f.submit
+    =< link_to t(:back), manage_booking_validations_path, class: 'btn btn-default'

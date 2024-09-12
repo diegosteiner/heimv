@@ -104,7 +104,7 @@ it:
         booking_agent_ref: Riferimento del mediatore
         booking_category_id: Categoria di affitto
         cancellation_reason: Motivo della cancellazione
-        category: "Categoria di affitto "
+        category: Categoria di affitto
         committed_request: Natura vincolante della richiesta di affitto
         created_at: Creato il
         deadline: Scadenza fino a
@@ -159,6 +159,11 @@ it:
         required:
         tenant_mode:
         type: Tipo
+      booking_validation:
+        enabling_conditions:
+        error_message:
+        ordinal_position: Numero di serie
+        validating_conditions:
       contract:
         issuer: Proprietario
         locale: Lingua
@@ -209,6 +214,7 @@ it:
         locale: Lingua
         payable_until: Pagabile fino a
         payment_info_type: Sezione di pagamento
+        payment_required:
         percentage_paid: "% pagati"
         ref: Numero di riferimento
         sent_at: Data della fattura
@@ -291,7 +297,7 @@ it:
         notifications_enabled: Messaggi abilitati
         privacy_statement_pdf: Informativa sulla privacy
         representative_address: Indirizzo della rappresentanza per i contratti
-        settings: "Impostazioni "
+        settings: Impostazioni
         slug: Namespace
         smtp_settings: Impostazioni del mailserver
         smtp_settings_json: Impostazioni del mailserver
@@ -531,12 +537,12 @@ it:
         one:
       booking_conditions/booking_category:
         one: Categoria di affitto (condizione)
+      booking_conditions/booking_date_time:
+        one:
       booking_conditions/booking_question:
         one:
       booking_conditions/booking_state:
         one: Stato (condizione)
-      booking_conditions/date_span:
-        one:
       booking_conditions/occupancy_duration:
         one: Durata dell'occupazione (condizione)
       booking_conditions/occupiable:
@@ -559,6 +565,9 @@ it:
       booking_transition:
         one: Transizione di stato
         other: Transizioni di stato
+      booking_validation:
+        one:
+        other:
       contract:
         one: Contratto
         other: Contratti
@@ -665,6 +674,8 @@ it:
         one: in base al consumo
       tarifs/flat:
         one: Forfettario
+      tarifs/group_minimum:
+        one:
       tarifs/metered:
         one: secondo la lettura del contatore
       tarifs/overnight_stay:
@@ -732,12 +743,14 @@ it:
         nights: Notti
         overnight_stays:
         tenant_organisation:
-    date_span:
+    booking_date_time:
       attributes:
         begins_at: Inizio dell'occupazione
+        created_at:
+        deadline:
         ends_at: Fine dell'occupazione
         now: Oggi
-        span:
+        updated_at:
     occupiable:
       attributes:
         home: Oggetto principale di affitto
@@ -1623,6 +1636,10 @@ it:
       default_body:
       default_title:
       description:
+    manage_cancelled_request_notification:
+      default_body:
+      default_title:
+      description:
     manage_definitive_request_notification:
       default_body: |
         <p>Salve</p>
@@ -1713,6 +1730,14 @@ it:
         <p><a href="{{ booking.links.manage }}">Gestisci la prenotazione</a></p>
       default_title: Occupazione annullata
       description: Notifica di occupazione annullata (funzionario)
+    operator_contract_sent_notification:
+      default_body:
+      default_title:
+      description:
+    operator_invoice_sent_notification:
+      default_body:
+      default_title:
+      description:
     operator_upcoming_notification:
       default_body:
       default_title: Occupazione

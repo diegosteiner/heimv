@@ -1,0 +1,19 @@
+h1.mt-0.mb-5= BookingValidation.model_name.human(count: 2)
+.table-responsive
+  table.table.table-hover.align-middle
+
+    tbody.shadow-sm
+      - @booking_validations.each do |booking_validation|
+        tr[data-href=manage_booking_validation_path(booking_validation) data-id=booking_validation.to_param]
+          td
+            => link_to booking_validation.error_message, edit_manage_booking_validation_path(booking_validation)
+          td.p-1.text-end 
+            .btn-group
+              = link_to edit_manage_booking_validation_path(booking_validation), class: 'btn btn-default' do
+                span.fa.fa-edit
+              = link_to manage_booking_validation_path(booking_validation), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
+
+section.mt-4
+  =<> link_to new_manage_booking_validation_path, class: 'btn btn-primary'
+    = t(:add_record, model_name: BookingValidation.model_name.human)

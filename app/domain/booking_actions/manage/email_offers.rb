@@ -8,9 +8,7 @@ module BookingActions
 
       def invoke!(offer_ids: nil)
         offers = offer_ids.present? ? booking.organisation.invoices.where(id: offer_ids) : unsent_offers
-        mail = MailTemplate.use!(:offer_notification, booking, to: booking.tenant, invoices: offers)
-        mail.attach offers
-        mail.save! && offers.each(&:sent!)
+        mail = send_tenant_notification(offers)
 
         Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
       end
@@ -21,6 +19,14 @@ module BookingActions
       end
 
       protected
+
+      def send_tenant_notification(offers)
+        context = { invoices: offers }
+        MailTemplate.use!(:offer_notification, booking, to: :tenant, context:).tap do |mail|
+          mail.attach(offers)
+          mail.save! && offers.each(&:sent!)
+        end
+      end
 
       def unsent_offers
         booking.invoices.where(type: Invoices::Offer.to_s).unsent

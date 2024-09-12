@@ -159,6 +159,11 @@ fr:
         required: Saisie obligatoire
         tenant_mode:
         type: type
+      booking_validation:
+        enabling_conditions:
+        error_message:
+        ordinal_position: Position de l'affichage
+        validating_conditions:
       contract:
         issuer: Bailleur
         locale: Langue
@@ -209,6 +214,7 @@ fr:
         locale: Langue
         payable_until: Payable jusqu'au
         payment_info_type: Section paiement
+        payment_required:
         percentage_paid: "% payé"
         ref: Numéro de référence
         sent_at: Date de facturation
@@ -327,7 +333,7 @@ fr:
         minimum_usage_per_night: Consommation minimale (par nuit)
         minimum_usage_total: Consommation minimale (total)
         ordinal_position: Ordnungsnummer
-        pin: "Prix figer à la réservation  "
+        pin: Prix figer à la réservation
         prefill_usage_booking_question_id: Consommation proposée à partir de l'indication
         prefill_usage_method: méthode de pré-remplissage
         price_per_unit: prix (par unité)
@@ -531,12 +537,12 @@ fr:
         one: Conditions de réservation
       booking_conditions/booking_category:
         one: Objet de la location Sélecteur de tarif
+      booking_conditions/booking_date_time:
+        one:
       booking_conditions/booking_question:
         one: Informations supplémentaires (condition)
       booking_conditions/booking_state:
         one: Status Bedingung
-      booking_conditions/date_span:
-        one: Date Condition
       booking_conditions/occupancy_duration:
         one: Condition de la durée de location
       booking_conditions/occupiable:
@@ -559,6 +565,9 @@ fr:
       booking_transition:
         one: Changement de statut
         other: Changements de statut
+      booking_validation:
+        one:
+        other:
       contract:
         one: Contrat
         other: Contrats
@@ -665,6 +674,8 @@ fr:
         one: selon la consommation
       tarifs/flat:
         one: Forfait
+      tarifs/group_minimum:
+        one:
       tarifs/metered:
         one: Par relevé de compteur
       tarifs/overnight_stay:
@@ -732,12 +743,14 @@ fr:
         nights: Nächte
         overnight_stays: Nombre de nuitées attendues
         tenant_organisation: Organisation des locataires
-    date_span:
+    booking_date_time:
       attributes:
         begins_at: Début de la location
+        created_at:
+        deadline:
         ends_at: Fin de la location
-        now: Heute
-        span: Période d'occupation
+        now: Aujourd'hui
+        updated_at:
     occupiable:
       attributes:
         home: Principal objet de location
@@ -1502,6 +1515,10 @@ fr:
       default_body:
       default_title:
       description:
+    manage_cancelled_request_notification:
+      default_body:
+      default_title:
+      description:
     manage_definitive_request_notification:
       default_body:
       default_title: Demande de location {{ booking.ref }} définitive
@@ -1526,6 +1543,14 @@ fr:
       default_body:
       default_title: Location annulée
       description: Notification pour location annulée (propriétaire)
+    operator_contract_sent_notification:
+      default_body:
+      default_title:
+      description:
+    operator_invoice_sent_notification:
+      default_body:
+      default_title:
+      description:
     operator_upcoming_notification:
       default_body:
       default_title: Location

@@ -47,12 +47,13 @@ class InvoicePart
     def from_deposits
       deposits = Invoices::Deposit.of(@invoice.booking).kept
       deposited_amount = deposits.sum(&:amount_paid)
+      apply = invoice.invoice_parts.none?
       return [] unless deposited_amount.positive? && @invoice.new_record? &&
                        @invoice.is_a?(Invoices::Invoice)
 
       [
-        InvoiceParts::Text.new(apply: suggest?, label: Invoices::Deposit.model_name.human),
-        InvoiceParts::Add.new(apply: suggest?, label: I18n.t('invoice_parts.deposited_amount'),
+        InvoiceParts::Text.new(apply:, label: Invoices::Deposit.model_name.human),
+        InvoiceParts::Add.new(apply:, label: I18n.t('invoice_parts.deposited_amount'),
                               amount: - deposited_amount)
       ]
     end
@@ -65,16 +66,13 @@ class InvoicePart
       usages.filter_map do |usage|
         next unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
 
-        InvoiceParts::Add.from_usage(usage, apply: suggest?)
+        apply = invoice.invoice_parts.none? && usage.tarif.apply_usage_to_invoice?(usage, invoice)
+        InvoiceParts::Add.from_usage(usage, apply:)
       end
     end
 
     def usage_group_to_invoice_part(group, group_usages)
       InvoiceParts::Text.new(label: group, apply: group.present? && group_usages.any?(&:apply))
-    end
-
-    def suggest?
-      invoice.invoice_parts.none?
     end
   end
 end

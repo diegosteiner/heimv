@@ -31,10 +31,10 @@ class MailTemplate < RichTextTemplate
   has_many :designated_documents, through: :mail_template_designated_documents
   has_many :notifications, dependent: :nullify
 
-  def use(booking, to: nil, attach: nil, **context, &callback)
+  def use(booking, to: nil, attach: nil, context: {}, **args, &callback)
     return nil unless enabled
 
-    booking&.notifications&.build(to:) do |notification|
+    booking&.notifications&.build(to:, **args) do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
       notification.destroy && return unless notification.deliverable?
 

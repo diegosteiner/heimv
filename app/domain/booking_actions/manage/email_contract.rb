@@ -5,12 +5,12 @@ module BookingActions
     class EmailContract < BookingActions::Base
       templates << MailTemplate.define(:awaiting_contract_notification, context: %i[booking contract],
                                                                         autodeliver: false)
+      templates << MailTemplate.define(:operator_contract_sent_notification, context: %i[booking contract],
+                                                                             optional: true)
 
       def invoke!
-        mail = MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, booking:, contract:,
-                                                                           invoices: deposits)
-        mail.attach :contract, deposits
-        mail.save! && contract.sent! && deposits.each(&:sent!)
+        mail = send_tenant_notification(deposits)
+        send_operator_notification(deposits) if mail.persisted? && deposits.present?
 
         Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
       end
@@ -35,9 +35,21 @@ module BookingActions
         @deposits ||= booking.invoices.kept.unsent.where(type: [Invoices::Deposit.to_s])
       end
 
-      # def offers
-      #   @offers ||= booking.invoices.kept.unsent.where(type: [Invoices::Offer.to_s])
-      # end
+      def send_tenant_notification(deposits)
+        context = { contract:, invoices: deposits }
+        MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, context:) do |mail|
+          mail.attach :contract, deposits
+          mail.save! && contract.sent! && deposits.each(&:sent!)
+        end
+      end
+
+      def send_operator_notification(deposits)
+        context = { contract:, invoices: deposits }
+        MailTemplate.use(:operator_contract_sent_notification, booking, to: :billing, context:)&.tap do |mail|
+          mail.attach contract, deposits
+          mail.autodeliver!
+        end
+      end
 
       def contract
         booking.contract

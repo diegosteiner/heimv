@@ -15,17 +15,17 @@ module Manage
     end
 
     def create
-      @invoice_part.save
+      @invoice_part.save && @invoice_part.invoice.recalculate!
       respond_with :manage, @invoice, @invoice_part, location: manage_invoice_path(@invoice)
     end
 
     def update
-      @invoice_part.update(invoice_part_params)
+      @invoice_part.update(invoice_part_params) && @invoice_part.invoice.recalculate!
       respond_with :manage, @invoice, @invoice_part, location: manage_invoice_path(@invoice)
     end
 
     def destroy
-      @invoice_part.destroy
+      @invoice_part.destroy && @invoice_part.invoice.recalculate!
       respond_with :manage, @invoice, location: manage_invoice_path(@invoice)
     end
 
