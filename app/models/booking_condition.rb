@@ -116,7 +116,7 @@ class BookingCondition < ApplicationRecord
   end
 
   def to_s
-    "#{model_name.human}: #{compare_value}"
+    "#{model_name.human}: #{compare_attribute} #{compare_operator} #{compare_value}"
   end
 
   def qualifiable=(value)

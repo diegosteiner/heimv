@@ -62,9 +62,8 @@ class ComparableDatetime < Data.define(:year, :month, :day, :weekday, :hour, :mi
   end
 
   def initialize_datetime_part(value, first = 0, last = nil)
-    return if value.blank?
+    return if value.blank? || value == '*'
 
-    value = value.gsub('*', '') if value.is_a?(String)
     value = value.to_i.abs - first
     value %= last if last.present?
     value + first
