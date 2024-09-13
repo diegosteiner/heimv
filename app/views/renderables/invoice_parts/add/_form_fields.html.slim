@@ -12,7 +12,7 @@ div
     .col-4
       = f.text_field :breakdown, hide_label: true
     .col-2
-      = f.number_field :amount, hide_label: true, class: 'text-end', step: 0.01
+      = f.text_field :amount, hide_label: true, class: 'text-end', inputmode: "numeric" 
     .col-1.p-2
       - unless invoice_part.new_record? || invoice_part.invoice.blank?
         = link_to edit_manage_invoice_invoice_part_path(invoice_part.invoice, invoice_part)

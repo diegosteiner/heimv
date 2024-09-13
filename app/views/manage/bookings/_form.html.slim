@@ -78,7 +78,7 @@
       = f.hidden_field :booking_category_id, value: booking_categories.first&.id
       
     = f.text_field :purpose_description
-    = f.number_field :approximate_headcount
+    = f.text_field :approximate_headcount, inputmode: "numeric" 
     = f.text_area :remarks
     = f.text_area :internal_remarks
     = f.text_area :cancellation_reason

@@ -33,7 +33,7 @@
               td.py-2
                 = pf.collection_select :booking_id, @bookings, :id, :to_s, skip_label: true, include_blank: true, required: false
               td.py-2
-                = pf.number_field :amount, skip_label: true, step: 0.05
+                = pf.text_field :amount, skip_label: true, inputmode: "numeric" 
               td.py-2
                 = pf.date_field :paid_at, skip_label: true, lang: I18n.locale
               td.py-2

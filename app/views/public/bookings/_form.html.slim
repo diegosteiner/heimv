@@ -85,7 +85,7 @@
 
         = render partial: 'booking_category_fields', locals: { booking: @booking, f: f }
         = f.text_field :purpose_description, disabled: !@booking.editable
-        = f.number_field :approximate_headcount, disabled: !@booking.editable, required: true
+        = f.text_field :approximate_headcount, disabled: !@booking.editable, required: true, inputmode: "numeric" 
         = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable
         = f.fields_for :booking_question_responses, @booking.booking_question_responses do |bqrf|
           - response = bqrf.object

@@ -3,7 +3,7 @@
     = f.hidden_field :id
     = f.select :type, subtype_options_for_select(Tarif.subtypes), include_blank: true
     .row
-      .col-sm-3 = f.number_field :ordinal, step: 1.0
+      .col-sm-3 = f.text_field :ordinal, inputmode: "numeric" 
       .col-sm 
         = f.text_field :tarif_group, list: 'tarif-group-datalist'
         datalist id='tarif-group-datalist'
@@ -29,7 +29,7 @@
           = f.text_field "unit_#{locale.to_s}", label: Tarif.human_attribute_name(:unit)
 
   fieldset
-    = f.number_field :price_per_unit, step: 0.01
+    = f.text_field :price_per_unit, step: 0.01, inputmode: "numeric" 
     = f.check_box :pin
 
   fieldset 
@@ -37,8 +37,8 @@
       summary.mb-3
         =t('.minimum')
         span.fa.fa-thermometer.text-danger.ms-2
-      = f.number_field :minimum_usage_per_night, step: 0.01
-      = f.number_field :minimum_usage_total, step: 0.01
+      = f.text_field :minimum_usage_per_night, step: 0.01, inputmode: "numeric" 
+      = f.text_field :minimum_usage_total, step: 0.01, inputmode: "numeric" 
 
   fieldset
     = f.collection_check_boxes :associated_types, Tarif.associated_types.keys, :itself, ->(key) { Tarif::ASSOCIATED_TYPES[key]&.model_name&.human }
@@ -46,7 +46,7 @@
       .col-md-6= f.collection_select :prefill_usage_booking_question_id, @tarif.prefill_usage_booking_questions, :id, :label, include_blank: true
       .col-md-6= f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     = f.text_field :accountancy_account
-    = f.number_field :vat, step: 0.1
+    = f.text_field :vat, step: 0.1, inputmode: "numeric" 
 
   fieldset.mt-4
     label.mb-2= Tarif.human_attribute_name(:selecting_conditions)
