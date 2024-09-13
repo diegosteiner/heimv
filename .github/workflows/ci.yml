@@ -78,12 +78,6 @@ jobs:
       - if: github.event_name != 'pull_request'
         name: docker push
         run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-        # uses: docker/build-push-action@v3
-        # with:
-        #   push: true
-        #   tags: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
-        #   cache-from: type=gha
-        #   cache-to: type=gha,mode=max
 
       - if: failure()
         name: dump log
