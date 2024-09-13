@@ -4,8 +4,8 @@
     = f.text_field :name
     = f.text_field :code
     = f.email_field :email
-    = f.number_field :provision
-    = f.number_field :request_deadline_minutes, append: t('datetime.distance_in_words.x_minutes.other', count: '')
+    = f.text_field :provision, inputmode: "numeric" 
+    = f.text_field :request_deadline_minutes, append: t('datetime.distance_in_words.x_minutes.other', count: ''), inputmode: "numeric" 
     = f.text_area :address
 
   .form-actions.pt-4.mt-3

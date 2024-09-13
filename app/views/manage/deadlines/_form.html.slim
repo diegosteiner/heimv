@@ -3,7 +3,7 @@
   fieldset
     = f.datetime_local_field :at, step: 1
     = f.check_box :armed
-    .mt-3= f.number_field :postponable_for, step: 1
+    .mt-3= f.text_field :postponable_for, inputmode: "numeric" 
     = f.text_area :remarks
 
   .form-actions.pt-4.mt-3

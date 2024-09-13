@@ -5,8 +5,8 @@
     = f.hidden_field :tarif_id
 
     = f.collection_select :tarif_id, @booking.organisation.tarifs, :id, :label
-    = f.number_field :price_per_unit, step: 0.01
-    = f.number_field :used_units, step: 0.01
+    = f.text_field :price_per_unit, inputmode: "numeric" 
+    = f.text_field :used_units, inputmode: "numeric" 
     = f.check_box :committed
     = f.text_area :remarks
 

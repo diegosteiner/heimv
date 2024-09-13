@@ -38,7 +38,7 @@
               td
                 = tf.select :type, subtype_options_for_select(Tarif.subtypes), { skip_label: true, wrapper: false }, { disabled: true }
               td
-                = tf.number_field :price_per_unit, skip_label: true, wrapper: false, disabled: tarif.discarded?
+                = tf.text_field :price_per_unit, skip_label: true, wrapper: false, disabled: tarif.discarded?, inputmode: "numeric" 
               td
                 = tf.static_control :unit, skip_label: true, wrapper: false
               td.text-end
