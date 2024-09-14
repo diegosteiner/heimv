@@ -15,7 +15,7 @@ module Public
     end
 
     def allow_cors
-      allowed_origins = current_organisation.cors_origins&.lines || []
+      allowed_origins = current_organisation.cors_origins&.lines&.map(&:chomp) || []
       response.set_header('Access-Control-Allow-Origin', request.origin) if allowed_origins.include?(request.origin)
     end
   end
