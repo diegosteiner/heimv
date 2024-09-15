@@ -37,10 +37,11 @@ class InvoicePart
       payed_amount = @invoice.booking.payments.where(invoice: nil, write_off: false).sum(:amount)
       return [] unless payed_amount.positive? && @invoice.new_record?
 
+      apply = invoice.invoice_parts.none?
+
       [
-        InvoiceParts::Text.new(apply: suggest?, label: Invoices::Deposit.model_name.human),
-        InvoiceParts::Add.new(apply: suggest?, label: I18n.t('invoice_parts.deposited_amount'),
-                              amount: - payed_amount)
+        InvoiceParts::Text.new(apply:, label: Invoices::Deposit.model_name.human),
+        InvoiceParts::Add.new(apply:, label: I18n.t('invoice_parts.deposited_amount'), amount: - payed_amount)
       ]
     end
 
@@ -72,7 +73,8 @@ class InvoicePart
     end
 
     def usage_group_to_invoice_part(group, group_usages)
-      InvoiceParts::Text.new(label: group, apply: group.present? && group_usages.any?(&:apply))
+      apply = group.present? && group_usages.any?(&:apply)
+      InvoiceParts::Text.new(label: group, apply:)
     end
   end
 end
