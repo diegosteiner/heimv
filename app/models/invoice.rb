@@ -70,7 +70,6 @@ class Invoice < ApplicationRecord
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
   after_create { generate_ref? && generate_ref && save }
-  delegate :invoice_address_lines, to: :booking
 
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
   validate do
@@ -172,6 +171,10 @@ class Invoice < ApplicationRecord
 
   def suggested_invoice_parts
     ::InvoicePart::Factory.new(self).call
+  end
+
+  def invoice_address_lines
+    @invoice_address_lines ||= InvoiceAddressService.new(booking).lines
   end
 
   def to_attachable

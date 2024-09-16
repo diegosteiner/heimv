@@ -44,7 +44,7 @@ module BookingConditions
 
     def evaluate!(booking)
       actual_value = booking.booking_question_responses.find_by(booking_question:)&.value
-      cast_compare_value = booking_question.cast(compare_value)
+      cast_compare_value = booking_question&.cast(compare_value)
       return if actual_value.blank? || cast_compare_value.blank?
 
       evaluate_operator(compare_operator || :'=', with: { actual_value:, compare_value: cast_compare_value })

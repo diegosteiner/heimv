@@ -65,11 +65,11 @@ module PaymentInfos
     def creditor_address_lines
       @creditor_address_lines ||= (organisation.account_address.presence ||
                                     organisation.creditor_address.presence ||
-                                    organisation.address.presence || '').lines.map(&:strip).compact_blank
+                                    organisation.address.presence || '').lines.map(&:chomp).compact_blank
     end
 
     def debitor_address_lines
-      @debitor_address_lines ||= invoice.invoice_address_lines || []
+      @debitor_address_lines ||= invoice.invoice_address_lines.filter { _1.is_a?(String) }.map(&:chomp) || []
     end
 
     def creditor_account

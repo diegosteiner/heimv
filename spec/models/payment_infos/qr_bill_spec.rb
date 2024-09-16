@@ -14,7 +14,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
     create(:tenant, organisation:, first_name: 'Peter', last_name: 'Muster',
                     street_address: 'Teststrasse 2', zipcode: 8049, city: 'Zürich')
   end
-  let(:booking) { create(:booking, organisation:, tenant:) }
+  let(:booking) { create(:booking, organisation:, tenant:, tenant_organisation: nil) }
   let(:invoice) { create(:invoice, booking:) }
 
   describe '#qr_data' do
