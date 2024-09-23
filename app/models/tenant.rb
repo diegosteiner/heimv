@@ -16,7 +16,7 @@
 #  first_name                :string
 #  import_data               :jsonb
 #  last_name                 :string
-#  locale                    :string           not null
+#  locale                    :string
 #  nickname                  :string
 #  phone                     :text
 #  remarks                   :text
@@ -52,7 +52,7 @@ class Tenant < ApplicationRecord
   validates :first_name, :last_name, :street_address, :zipcode, :city, presence: true, on: :public_update
   validates :street_address, length: { maximum: 255 }
   validates :phone, presence: true, length: { minimum: 10, maximum: 255 }, on: :public_update
-  validates :locale, presence: true
+  validates :locale, presence: true, on: :public_update
   validates :birth_date, presence: true, on: :public_update, if: :birth_date_required?
   validate do
     errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email)

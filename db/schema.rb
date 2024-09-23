@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_09_144701) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_23_110730) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -567,7 +567,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_09_144701) do
     t.string "nickname"
     t.string "address_addon"
     t.boolean "bookings_without_contract", default: false
-    t.string "locale", null: false
+    t.string "locale"
     t.boolean "bookings_without_invoice", default: false
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"

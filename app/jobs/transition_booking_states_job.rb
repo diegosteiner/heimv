@@ -13,6 +13,6 @@ class TransitionBookingStatesJob < ApplicationJob
       job_transitions[booking.id] = transitions
     end
 
-    job_transitions.filter { |_booking_id, transitions| transitions.present? }
+    job_transitions.compact_blank
   end
 end
