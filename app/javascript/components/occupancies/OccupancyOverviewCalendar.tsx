@@ -1,11 +1,11 @@
-import { useCallback, useContext } from "react";
-import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
 import { isAfter, isBefore } from "date-fns";
-import * as React from "react";
 import { parseISO } from "date-fns";
+import { useCallback, useContext } from "react";
+import * as React from "react";
 import Calendar, { ViewType } from "../calendar/Calendar";
-import { OccupiedCalendarDate } from "./OccupiedCalendarDate";
+import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
 import { OccupancyWindowContext } from "./OccupancyWindowContext";
+import { OccupiedCalendarDate } from "./OccupiedCalendarDate";
 
 interface OccupancyOverviewCalendarProps {
   occupancyAtUrl?: string;

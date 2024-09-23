@@ -1,9 +1,9 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
-import { calculateOccupiedDates, OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
+import { max } from "date-fns";
+import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
+import { OccupancyWindowWithOccupiedDates, calculateOccupiedDates } from "../../models/OccupancyWindow";
+import { ApiClient } from "../../services/api_client";
 import { Occupiable } from "../../types";
 import { OrganisationContext } from "../organisation/OrganisationProvider";
-import { ApiClient } from "../../services/api_client";
-import { max } from "date-fns";
 
 export const OccupancyWindowContext = createContext<OccupancyWindowWithOccupiedDates | undefined>(undefined);
 

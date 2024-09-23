@@ -1,5 +1,5 @@
-import { Occupiable } from "../types";
 import { parseISOorUndefined } from "../services/date";
+import { Occupiable } from "../types";
 
 export type Occupancy = {
   id: string;

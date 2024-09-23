@@ -1,13 +1,13 @@
+import { cx } from "@emotion/css";
 import { useContext, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import { OrganisationContext } from "../organisation/OrganisationProvider";
-import { Organisation } from "../../types";
 import { useTranslation } from "react-i18next";
-import OccupiableSelect, { OccupiableSelectState } from "../occupiables/OccupiableSelect";
-import { OccupancyWindowProvider } from "./OccupancyWindowContext";
-import { OccupancyIntervalFormControl } from "./OccupancyIntervalFormControl";
+import { Organisation } from "../../types";
 import { ViewType } from "../calendar/Calendar";
-import { cx } from "@emotion/css";
+import OccupiableSelect, { OccupiableSelectState } from "../occupiables/OccupiableSelect";
+import { OrganisationContext } from "../organisation/OrganisationProvider";
+import { OccupancyIntervalFormControl } from "./OccupancyIntervalFormControl";
+import { OccupancyWindowProvider } from "./OccupancyWindowContext";
 
 export type OccupancySelectProps = {
   initial: Partial<{ beginsAt: Date; endsAt: Date; occupiableIds: number[]; homeId: number }>;

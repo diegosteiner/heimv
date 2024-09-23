@@ -1,16 +1,16 @@
 import {
   addMonths,
-  getDate,
-  startOfMonth,
-  getDay,
   eachDayOfInterval,
+  eachMonthOfInterval,
   endOfMonth,
   formatISO,
-  eachMonthOfInterval,
+  getDate,
+  getDay,
+  startOfMonth,
 } from "date-fns";
 import { memo } from "react";
-import { DateElementFactory } from "./CalendarDate";
 import { materializedWeekdays, monthNameFormatter, parseDate } from "../../services/date";
+import { DateElementFactory } from "./CalendarDate";
 
 interface CalendarMonthProps {
   dateString: string;
@@ -31,7 +31,7 @@ const CalendarMonth = memo(function CalendarMonth({ dateString, dateElementFacto
         </div>
       </header>
       <div className="dates">
-        {Array.from(Array(monthStartsAfter)).map((e, i) => (
+        {Array.from(Array(monthStartsAfter)).map((_e, i) => (
           <div key={i} className="date spacer"></div>
         ))}
         {eachDayOfInterval({ start: date, end: endOfMonth(date) }).map((date) => {

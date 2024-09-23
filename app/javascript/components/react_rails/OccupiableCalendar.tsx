@@ -1,8 +1,8 @@
-import OccupancyOverviewCalendar from "../occupancies/OccupancyOverviewCalendar";
-import OrganisationProvider from "../organisation/OrganisationProvider";
 import * as React from "react";
 import { ViewType } from "../calendar/Calendar";
+import OccupancyOverviewCalendar from "../occupancies/OccupancyOverviewCalendar";
 import { OccupancyWindowProvider } from "../occupancies/OccupancyWindowContext";
+import OrganisationProvider from "../organisation/OrganisationProvider";
 
 type OccupiableCalendarProps = {
   org: string;

@@ -1,9 +1,9 @@
+import { cx } from "@emotion/css";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { Form } from "react-bootstrap";
-import { OrganisationContext } from "../organisation/OrganisationProvider";
 import { useTranslation } from "react-i18next";
-import { cx } from "@emotion/css";
 import { translatedString } from "../../services/i18n";
+import { OrganisationContext } from "../organisation/OrganisationProvider";
 
 type OccupiableSelectProps = OccupiableSelectState & {
   onChange: Dispatch<SetStateAction<OccupiableSelectState>>;

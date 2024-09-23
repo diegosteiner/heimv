@@ -2,10 +2,10 @@ import { isFirstDayOfMonth, isWithinInterval } from "date-fns";
 import { addHours, endOfDay, isBefore, startOfDay } from "date-fns";
 import { isAfter } from "date-fns";
 import { MouseEventHandler, useMemo } from "react";
-import { findMostRelevantOccupancy, Occupancy } from "../../models/Occupancy";
+import { Occupancy, findMostRelevantOccupancy } from "../../models/Occupancy";
 import { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
-import { OccupancyPopover } from "./OccupancyPopover";
 import { parseDate } from "../../services/date";
+import { OccupancyPopover } from "./OccupancyPopover";
 
 interface OccupiedCalendarDateProps {
   dateString: string;
@@ -59,7 +59,7 @@ export function OccupiedCalendarDate({ dateString, occupancyWindow, label }: Occ
 function splitSlots(date: Date, occupancies: Set<Occupancy>) {
   const dayStart = startOfDay(date);
   const dayMid = addHours(dayStart, 12);
-  const dayEnd = endOfDay(date);
+  // const dayEnd = endOfDay(date);
   const slots = { allday: new Set<Occupancy>(), forenoon: new Set<Occupancy>(), afternoon: new Set<Occupancy>() };
 
   occupancies.forEach((occupancy) => {
