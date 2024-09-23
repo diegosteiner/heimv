@@ -9,9 +9,9 @@ tr
   td.p-1.text-end
     - if can?(:manage, rich_text_template)
       .btn-group
-        = link_to new_manage_rich_text_template_path(dup: rich_text_template.to_param), class: 'btn btn-default'
-          span.fa.fa-clone
         = link_to edit_manage_rich_text_template_path(rich_text_template), class: 'btn btn-default'
           span.fa.fa-edit
+        = link_to new_manage_rich_text_template_path(dup: rich_text_template.to_param), class: 'btn btn-default'
+          span.fa.fa-clone
         = link_to manage_rich_text_template_path(rich_text_template), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default'
           span.fa.fa-trash
