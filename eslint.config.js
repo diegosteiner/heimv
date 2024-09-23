@@ -8,6 +8,7 @@ export default [
       "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended",
     ],
+    files: ["app/javascript/**/*.js", "app/javascript/**/*.jsx", "app/javascript/**/*.ts", "app/javascript/**/*.tsx"],
     settings: {
       react: {
         version: "detect",
