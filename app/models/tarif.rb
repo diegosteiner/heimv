@@ -64,6 +64,7 @@ class Tarif < ApplicationRecord
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
+  has_many :booking_conditions, as: :qualifiable, dependent: :destroy, inverse_of: false
   has_many :selecting_conditions, -> { qualifiable_group(:selecting) }, as: :qualifiable, dependent: :destroy,
                                                                         class_name: :BookingCondition, inverse_of: false
   has_many :enabling_conditions, -> { qualifiable_group(:enabling) }, as: :qualifiable, dependent: :destroy,

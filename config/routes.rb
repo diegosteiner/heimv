@@ -68,9 +68,7 @@ Rails.application.routes.draw do
       resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
       resources :bookings, only: %i[new create edit update], as: :public_bookings
       get 'b/:id(/edit)', to: 'bookings#edit'
-      get 'changelog', to: 'pages#changelog'
       get 'privacy', to: 'pages#privacy'
-      get 'health', to: 'pages#health'
       resources :homes, only: %i[show index] do
         resources :occupancies, only: %i[index show] do
           collection do
@@ -93,4 +91,6 @@ Rails.application.routes.draw do
       root to: 'pages#home'
     end
   end
+  get 'health', to: 'pages#health'
+  get 'changelog', to: 'pages#changelog'
 end

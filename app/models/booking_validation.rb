@@ -26,6 +26,7 @@ class BookingValidation < ApplicationRecord
 
   belongs_to :organisation, inverse_of: :booking_validations
 
+  has_many :booking_conditions, as: :qualifiable, dependent: :destroy, inverse_of: false
   has_many :validating_conditions, -> { qualifiable_group(:validating) }, as: :qualifiable, dependent: :destroy,
                                                                           class_name: :BookingCondition,
                                                                           inverse_of: false

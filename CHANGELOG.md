@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## Version 24.9.1
+
+Released 12.09.2024
 
 - Feature: Introduce BookingValidations to conditionally validate bookings
 - Feature: Send invoice notifications to billing operators

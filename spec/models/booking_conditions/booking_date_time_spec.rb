@@ -31,13 +31,14 @@
 require 'rails_helper'
 
 RSpec.describe BookingConditions::BookingDateTime, type: :model do
+  let(:organisation) { create(:organisation) }
+
   describe '#evaluate' do
     subject { booking_condition.evaluate!(booking) }
 
     let(:compare_value) { nil }
     let(:compare_operator) { :'=' }
     let(:compare_attribute) { nil }
-    let(:organisation) { create(:organisation) }
     let(:booking_condition) do
       described_class.new(compare_value:, organisation:, compare_operator:, compare_attribute:)
     end
@@ -64,6 +65,44 @@ RSpec.describe BookingConditions::BookingDateTime, type: :model do
 
         it { expect(booking_condition).to be_valid }
         it { is_expected.to be_truthy }
+      end
+    end
+  end
+
+  describe '#paradox_conditions' do
+    context 'with paradox conditions in same context' do
+      let(:qualifiable) { BookingValidation.create(organisation:, error_message: 'Matched conditions of winter') }
+      let(:group) { :validating_conditions }
+      let(:paradox_conditions) do
+        [
+          described_class.create(qualifiable:, group:, organisation:, compare_attribute: :begins_at,
+                                 compare_operator: :<=, compare_value: '*-03-01'),
+          described_class.create(qualifiable:, group:, organisation:, compare_attribute: :begins_at,
+                                 compare_operator: :>=, compare_value: '*-09-31')
+        ]
+      end
+
+      it 'lists both conditions as paradox' do
+        expect(paradox_conditions.first.paradox_conditions).to contain_exactly(*paradox_conditions)
+        expect(paradox_conditions.last.paradox_conditions).to contain_exactly(*paradox_conditions)
+      end
+    end
+
+    context 'without paradox conditions in same context' do
+      let(:qualifiable) { BookingValidation.create(organisation:, error_message: 'Matched conditions of winter') }
+      let(:group) { :validating_conditions }
+      let(:paradox_conditions) do
+        [
+          described_class.create(qualifiable:, group:, organisation:, compare_attribute: :begins_at,
+                                 compare_operator: :>=, compare_value: '*-03-01'),
+          described_class.create(qualifiable:, group:, organisation:, compare_attribute: :begins_at,
+                                 compare_operator: :<=, compare_value: '*-09-31')
+        ]
+      end
+
+      it 'lists no conditions as paradox' do
+        expect(paradox_conditions.first.paradox_conditions).to be_blank
+        expect(paradox_conditions.last.paradox_conditions).to be_blank
       end
     end
   end
