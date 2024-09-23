@@ -79,6 +79,6 @@
     "private": true,
     "scripts": {
         "check:types": "tsc --project tsconfig.json",
-        "check:style": "eslint"
+        "check:style": "biome check --fix app/javascript"
     }
 }
