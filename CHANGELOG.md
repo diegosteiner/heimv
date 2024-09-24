@@ -1,6 +1,16 @@
 # Changelog
 
-## Unreleased
+## Version 24.9.2
+
+Release 23.09.2024
+
+- Fix: Fix broken locale for empty tenants
+- Fix: Fix paradox BookingDateTimeCondtions
+- Fix: Show clone always as second
+
+## Version 24.9.1
+
+Released 12.09.2024
 
 - Feature: Introduce BookingValidations to conditionally validate bookings
 - Feature: Send invoice notifications to billing operators

@@ -25,6 +25,7 @@ class DesignatedDocument < ApplicationRecord
 
   has_many :mail_template_designated_documents, dependent: :delete_all
   has_many :mail_templates, through: :mail_template_designated_documents
+  has_many :booking_conditions, as: :qualifiable, dependent: :destroy, inverse_of: false
   has_many :attaching_conditions, -> { qualifiable_group(:attaching) }, as: :qualifiable, dependent: :destroy,
                                                                         class_name: :BookingCondition, inverse_of: false
 

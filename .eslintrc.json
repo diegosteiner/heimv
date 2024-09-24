@@ -12,11 +12,7 @@
       "version": "detect"
     }
   },
-  "plugins": [
-    "prettier",
-    "react",
-    "@typescript-eslint"
-  ],
+  "plugins": ["prettier", "react", "@typescript-eslint"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
@@ -39,9 +35,7 @@
     "react/no-unknown-property": [
       "error",
       {
-        "ignore": [
-          "css"
-        ]
+        "ignore": ["css"]
       }
     ]
   },

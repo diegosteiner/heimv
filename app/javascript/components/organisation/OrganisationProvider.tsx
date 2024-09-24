@@ -1,6 +1,6 @@
-import { createContext, PropsWithChildren, useEffect, useState } from "react";
-import { Organisation } from "../../types";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { ApiClient } from "../../services/api_client";
+import { Organisation } from "../../types";
 
 export const OrganisationContext = createContext<Organisation | undefined>(undefined);
 

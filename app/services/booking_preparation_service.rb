@@ -22,7 +22,7 @@ class BookingPreparationService
   end
 
   def derive_locale(booking)
-    booking.locale.presence || (@organisation.locales & [I18n.locale]).first || @organisation.locale
+    booking.locale.presence || (@organisation.locales & [I18n.locale]).first || @organisation.locale || I18n.locale
   end
 
   def adjust_time(value, default_time)

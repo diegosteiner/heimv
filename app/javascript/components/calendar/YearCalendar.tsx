@@ -7,8 +7,8 @@ import {
   getDay,
   startOfMonth,
 } from "date-fns";
-import { DateElementFactory } from "./CalendarDate";
 import { materializedWeekdays, monthNameFormatter, parseDate } from "../../services/date";
+import { DateElementFactory } from "./CalendarDate";
 
 interface YearCalendarProps {
   firstDate: Date;

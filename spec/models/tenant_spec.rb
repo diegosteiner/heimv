@@ -16,7 +16,7 @@
 #  first_name                :string
 #  import_data               :jsonb
 #  last_name                 :string
-#  locale                    :string           not null
+#  locale                    :string
 #  nickname                  :string
 #  phone                     :text
 #  remarks                   :text

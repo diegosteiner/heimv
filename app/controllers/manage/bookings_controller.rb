@@ -54,6 +54,7 @@ module Manage
     end
 
     def create
+      @booking.assign_attributes(booking_params)
       @booking.organisation = current_organisation
       process_booking_question_responses
       @booking.save(context: :manage_create)

@@ -193,7 +193,7 @@ class Booking < ApplicationRecord
   def roles
     @roles ||= { administration: organisation, tenant:, booking_agent: agent_booking&.booking_agent }.merge(
       operator_responsibilities.group_by(&:responsibility).transform_values(&:first)
-    ).symbolize_keys.filter { |_role, value| value.present? }
+    ).symbolize_keys.compact_blank
   end
 
   private

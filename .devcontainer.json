@@ -19,13 +19,13 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "esbenp.prettier-vscode",
         "sianglim.slim",
         "testdouble.vscode-standard-ruby",
         "DavidAnson.vscode-markdownlint",
         "dbaeumer.vscode-eslint",
         "Shopify.ruby-extensions-pack",
-        "KoichiSasada.vscode-rdbg"
+        "KoichiSasada.vscode-rdbg",
+        "biomejs.biome"
       ]
     },
     "settings": {

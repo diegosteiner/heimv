@@ -1,14 +1,14 @@
-import { useCallback, useContext, useRef, useState } from "react";
-import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
-import { isAfter, isBefore } from "date-fns";
-import * as React from "react";
-import { formatISO, isSameDay, parseISO } from "date-fns";
-import Calendar, { ViewType } from "../calendar/Calendar";
-import { OccupiedCalendarDate } from "./OccupiedCalendarDate";
-import { OccupancyWindowContext } from "./OccupancyWindowContext";
-import { isBetweenDates, parseISOorUndefined, toInterval } from "../../services/date";
 import { cx } from "@emotion/css";
+import { isAfter, isBefore } from "date-fns";
+import { formatISO, isSameDay, parseISO } from "date-fns";
+import { useCallback, useContext, useRef, useState } from "react";
+import * as React from "react";
 import { OccupancyWindow } from "../../models/OccupancyWindow";
+import { isBetweenDates, parseISOorUndefined, toInterval } from "../../services/date";
+import Calendar, { ViewType } from "../calendar/Calendar";
+import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
+import { OccupancyWindowContext } from "./OccupancyWindowContext";
+import { OccupiedCalendarDate } from "./OccupiedCalendarDate";
 
 function highlight(
   date: Date,

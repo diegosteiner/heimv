@@ -12,5 +12,5 @@ ISO3166.configure do |config|
 end
 
 CountrySelect::FORMATS[:default] = lambda do |country|
-  country.translations[I18n.locale.to_s.split('-')[0]] || country.name
+  country.translations[I18n.locale.to_s.split('-').first] || country.common_name
 end
