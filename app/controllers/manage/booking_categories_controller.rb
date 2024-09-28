@@ -5,7 +5,7 @@ module Manage
     load_and_authorize_resource :booking_category
 
     def index
-      @booking_categories = @booking_categories.where(organisation: current_organisation)
+      @booking_categories = @booking_categories.where(organisation: current_organisation).ordered
       respond_with :manage, @booking_categories
     end
 

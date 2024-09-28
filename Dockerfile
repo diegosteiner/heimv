@@ -25,7 +25,7 @@ RUN apk add --update build-base \
 
 USER rails:rails
 
-RUN gem install standardrb ruby-lsp
+RUN gem install standardrb ruby-lsp debug
 
 ### === test === ###                 
 FROM development AS test
