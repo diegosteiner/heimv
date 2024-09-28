@@ -2,8 +2,9 @@
 
 ## Version 24.9.2
 
-Release 23.09.2024
+Release 28.09.2024
 
+- Fix: Fix broken qr debitor addresses
 - Fix: Fix broken locale for empty tenants
 - Fix: Fix paradox BookingDateTimeCondtions
 - Fix: Show clone always as second

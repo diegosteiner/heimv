@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class InvoiceAddressService
+class InvoiceAddress
   def initialize(booking)
     @booking = booking
   end
@@ -11,17 +11,19 @@ class InvoiceAddressService
     @lines ||= if tenant_organisation.blank? && booking_invoice_address_lines.blank?
                  tenant_address_lines
                else
-                 represented_by = booking_invoice_address_lines.present? ? @booking.tenant&.name : tenant_address_lines
                  [
-                   [tenant_organisation, booking_invoice_address_lines&.shift].uniq,
-                   booking_invoice_address_lines,
-                   { represented_by: }
-                 ].flatten
+                   [tenant_organisation, booking_invoice_address_lines[0]].uniq,
+                   booking_invoice_address_lines[1..]
+                 ].flatten.compact_blank
                end
   end
 
+  def represented_by
+    @represented_by ||= booking_invoice_address_lines.present? ? [@booking.tenant&.name] : tenant_address_lines
+  end
+
   def booking_invoice_address_lines
-    @booking_invoice_address_lines ||= @booking.invoice_address&.lines&.map(&:chomp)&.compact_blank
+    @booking_invoice_address_lines ||= @booking.invoice_address&.lines&.map(&:chomp)&.compact_blank || []
   end
 
   def tenant_address_lines

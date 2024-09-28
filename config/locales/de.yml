@@ -282,13 +282,15 @@ de:
         account_address: Adresse des Kontos für QR-Rechnungen (falls abweichend)
         address: Anschrift
         bcc: BCC
+        booking_ref_tempate: Buchung Referenznummer Format
         contract_signature: Vertragsunterschrift Bild
         creditor_address: Anschrift auf Rechnungen
         currency: Währung
         default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
-        esr_ref_prefix: ESR Identifikationsnummer / Präfix
+        esr_ref_prefix: Referenznummer Präfix
         iban: IBAN
+        invoice_ref_tempate: Rechnung Referenznummer Format
         locale: Hauptsprache
         locales: Sprachen
         location: Vertragsunterschrift Ort
