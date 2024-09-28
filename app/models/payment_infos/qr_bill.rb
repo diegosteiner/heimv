@@ -20,7 +20,7 @@ module PaymentInfos
     ].freeze
     RF00 = [2, 7, 1, 5, 0, 0].freeze
 
-    delegate :amount, to: :invoice
+    delegate :amount, :invoice_address, to: :invoice
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
@@ -69,7 +69,7 @@ module PaymentInfos
     end
 
     def debitor_address_lines
-      @debitor_address_lines ||= invoice.invoice_address_lines.filter { _1.is_a?(String) }.map(&:chomp) || []
+      @debitor_address_lines ||= [invoice_address.lines, invoice_address.represented_by].max_by(&:size)
     end
 
     def creditor_account

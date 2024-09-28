@@ -173,8 +173,8 @@ class Invoice < ApplicationRecord
     ::InvoicePart::Factory.new(self).call
   end
 
-  def invoice_address_lines
-    @invoice_address_lines ||= InvoiceAddressService.new(booking).lines
+  def invoice_address
+    @invoice_address ||= InvoiceAddress.new(booking)
   end
 
   def to_attachable

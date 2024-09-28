@@ -159,10 +159,6 @@ class Booking < ApplicationRecord
     occupancies.each(&:update_from_booking)
   end
 
-  def invoice_address_lines
-    @invoice_address_lines ||= invoice_address&.lines&.reject(&:blank?).presence || tenant&.full_address_lines
-  end
-
   def email
     super || tenant&.email
   end
