@@ -53,9 +53,11 @@ RSpec.describe Tarifs::GroupMinimum, type: :model do
   let(:tarif) { create(:tarif, type: described_class.sti_name, price_per_unit:, organisation:, tarif_group:) }
   let(:other_tarif1) { create(:tarif, price_per_unit:, organisation:, tarif_group:) }
   let(:other_tarif2) { create(:tarif, price_per_unit: 12, organisation:, tarif_group:) }
+  let(:other_tarif3) { create(:tarif, price_per_unit: 0, organisation:, tarif_group:) }
   let!(:usage) { create(:usage, booking:, tarif:) }
   let!(:other_usage1) { create(:usage, booking:, tarif: other_tarif1, used_units: 7) }
   let!(:other_usage2) { create(:usage, booking:, tarif: other_tarif2, used_units: 8) }
+  let!(:other_usage3) { create(:usage, booking:, tarif: other_tarif3, used_units: nil) }
 
   describe '#minimum_prices' do
     subject(:minimum_prices) { tarif.minimum_prices_with_difference(usage) }
