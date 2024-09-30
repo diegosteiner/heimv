@@ -48,15 +48,11 @@ class Usage < ApplicationRecord
   validates :used_units, numericality: true, allow_nil: true
 
   def price
-    @price ||= ([usage_price, minimum_price].flatten.compact.max * 20.0).floor / 20.0
+    @price ||= ([usage_price, minimum_price&.last].flatten.compact.max * 20.0).floor / 20.0
   end
 
   def usage_price
     (used_units || 0.0) * (price_per_unit || 1.0)
-  end
-
-  def minimum_prices
-    tarif&.minimum_prices(self)
   end
 
   def minimum_price
@@ -64,7 +60,7 @@ class Usage < ApplicationRecord
   end
 
   def minimum_price?
-    price.positive? && price == minimum_price
+    price.positive? && price == minimum_price&.last
   end
 
   def presumed_units

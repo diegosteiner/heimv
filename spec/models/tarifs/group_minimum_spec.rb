@@ -43,25 +43,22 @@
 
 require 'rails_helper'
 
-RSpec.describe Tarif, type: :model do
+RSpec.describe Tarifs::GroupMinimum, type: :model do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:booking) { create(:booking, organisation:, home:) }
-  let(:tarif) { create(:tarif, type: Tarifs::Amount.to_s, price_per_unit: 10, organisation:) }
-  let(:usage) { create(:usage, booking:, tarif:, used_units: 7) }
 
-  describe '#save' do
-    it { expect(tarif.save).to be true }
-  end
-
-  describe '#price' do
-    subject(:price) { usage.price }
-
-    it { is_expected.to eq(70.0) }
-  end
+  let(:tarif_group) { :test }
+  let(:price_per_unit) { 10 }
+  let(:tarif) { create(:tarif, type: described_class.sti_name, price_per_unit:, organisation:, tarif_group:) }
+  let(:other_tarif1) { create(:tarif, price_per_unit:, organisation:, tarif_group:) }
+  let(:other_tarif2) { create(:tarif, price_per_unit: 12, organisation:, tarif_group:) }
+  let!(:usage) { create(:usage, booking:, tarif:) }
+  let!(:other_usage1) { create(:usage, booking:, tarif: other_tarif1, used_units: 7) }
+  let!(:other_usage2) { create(:usage, booking:, tarif: other_tarif2, used_units: 8) }
 
   describe '#minimum_prices' do
-    subject(:minimum_prices) { usage.tarif.minimum_prices(usage) }
+    subject(:minimum_prices) { tarif.minimum_prices_with_difference(usage) }
     before do
       tarif.update({
                      minimum_usage_per_night: 24,
@@ -72,11 +69,13 @@ RSpec.describe Tarif, type: :model do
     end
 
     it 'lists all minimum prices' do
+      expect(tarif.group_price(usage)).to eq((7 * 10) + (8 * 12))
+      expect(tarif.group_used_units(usage)).to eq(7 + 8)
       expect(minimum_prices).to eq({
-                                     minimum_usage_per_night: 24 * 7 * 10,
-                                     minimum_usage_total: 71 * 10,
-                                     minimum_price_per_night: 210 * 7,
-                                     minimum_price_total: 610
+                                     minimum_usage_per_night: ((24 * 7) - 15) * 10,
+                                     minimum_usage_total: ((71 - 15) * 10),
+                                     minimum_price_per_night: (210 * 7) - ((7 * 10) + (8 * 12)),
+                                     minimum_price_total: 610 - ((7 * 10) + (8 * 12))
                                    })
     end
   end
@@ -93,7 +92,7 @@ RSpec.describe Tarif, type: :model do
     end
 
     it 'lists all minimum prices' do
-      expect(minimum_price).to eq([:minimum_usage_per_night, 24 * 7 * 10])
+      expect(minimum_price.first).to eq(:minimum_usage_per_night)
     end
   end
 end

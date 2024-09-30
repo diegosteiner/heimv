@@ -7,7 +7,6 @@
         th
         th
         th= Tarif.human_attribute_name(:label)
-        th= Tarif.human_attribute_name(:type)
         th= Tarif.human_attribute_name(:price_per_unit)
         th= Tarif.human_attribute_name(:unit)
         th
@@ -36,11 +35,10 @@
               td
                 p.mb-0 = tarif.label
               td
-                = tf.select :type, subtype_options_for_select(Tarif.subtypes), { skip_label: true, wrapper: false }, { disabled: true }
-              td
                 = tf.text_field :price_per_unit, skip_label: true, wrapper: false, disabled: tarif.discarded?, inputmode: "numeric" 
               td
-                = tf.static_control :unit, skip_label: true, wrapper: false
+                = tarif.unit
+                small.d-block.text-secondary= tarif.class.model_name.human
               td.text-end
                 .btn-group
                   - unless tarif.discarded?

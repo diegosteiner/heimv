@@ -9,6 +9,8 @@
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  label_i18n                        :jsonb
+#  minimum_price_per_night           :decimal(, )
+#  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
 #  ordinal                           :integer
@@ -52,8 +54,24 @@ module Tarifs
       usages_in_group(usage).sum(&:price)
     end
 
+    def group_used_units(usage)
+      usages_in_group(usage).sum(&:used_units)
+    end
+
+    def minimum_prices_with_difference(usage) # rubocop:disable Metrics/AbcSize
+      nights = usage&.booking&.nights || 0
+      price_per_unit = usage&.price_per_unit || 0
+      minimum_prices = minimum_prices(usage)
+      {
+        minimum_usage_per_night: (((minimum_usage_per_night || 0) * nights) - group_used_units(usage)) * price_per_unit,
+        minimum_usage_total: ((minimum_usage_total || 0) - group_used_units(usage)) * price_per_unit,
+        minimum_price_per_night: minimum_prices[:minimum_price_per_night] - group_price(usage),
+        minimum_price_total: minimum_prices[:minimum_price_total] - group_price(usage)
+      }
+    end
+
     def minimum_price(usage)
-      [minimum_prices(usage).values.max - group_price(usage), 0].max
+      minimum_prices_with_difference(usage).filter { _2.positive? }.max_by { _2 }
     end
 
     def apply_usage_to_invoice?(usage, _invoice)

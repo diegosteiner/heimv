@@ -333,6 +333,8 @@ de:
         enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
+        minimum_price_per_night: Minimaler Preis (pro Nacht)
+        minimum_price_total: Minimaler Preis (Total)
         minimum_usage_per_night: Minimaler Verbrauch (pro Nacht)
         minimum_usage_total: Minimaler Verbrauch (Total)
         ordinal_position: Ordnungsnummer

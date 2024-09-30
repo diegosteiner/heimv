@@ -1,13 +1,82 @@
 = render layout: 'manage/tarifs/usage_form', locals: { usage:, f: }
-  - f.object.valid?
+  - usage.valid? # trigger #before_validate
   .d-flex.gap-3.justify-content-end
-    div
-      = number_to_currency(f.object.tarif.minimum_prices(f.object).values.max, unit: '')
-      small.d-block.text-secondary= @booking.organisation.currency
+    - case usage.minimum_price&.first
+    - when :minimum_usage_per_night
+      div
+        | (
 
-    div
-      | -
+      div
+        = number_with_delimiter(usage.tarif.minimum_usage_per_night * usage.booking.nights)
 
-    div
-      = number_to_currency(f.object.tarif.group_price(f.object), unit: '')
-      small.d-block.text-secondary= @booking.organisation.currency
+      div
+        | -
+
+      div
+        = number_with_delimiter(usage.tarif.group_used_units(usage))
+
+      div
+        | )
+
+      div
+        | ×
+        
+      div
+        = number_to_currency(usage.price_per_unit, unit: '')
+        small.d-block.text-secondary= @booking.organisation.currency
+
+      div
+        | =
+
+    - when :minimum_usage_total
+      div
+        | (
+
+      div
+        = number_with_delimiter(usage.tarif.minimum_usage_total)
+
+      div
+        | -
+
+      div
+        = number_with_delimiter(usage.tarif.group_used_units(usage))
+
+      div
+        | )
+
+      div
+        | ×
+        
+      div
+        = number_to_currency(usage.price_per_unit, unit: '')
+        small.d-block.text-secondary= @booking.organisation.currency
+
+      div
+        | =
+
+    - when :minimum_price_per_night
+      div
+        = number_to_currency(usage.tarif.minimum_price_per_night * usage.booking.nights)
+
+      div
+        | -
+
+      div
+        = number_to_currency(usage.tarif.group_price(usage))
+
+      div
+        | =
+
+    - when :minimum_price_total
+      div
+        = number_to_currency(usage.tarif.minimum_price_total)
+
+      div
+        | -
+
+      div
+        = number_to_currency(usage.tarif.group_price(usage))
+
+      div
+        | =
+

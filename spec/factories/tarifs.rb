@@ -9,6 +9,8 @@
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  label_i18n                        :jsonb
+#  minimum_price_per_night           :decimal(, )
+#  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
 #  ordinal                           :integer
@@ -40,8 +42,9 @@
 #
 
 FactoryBot.define do
-  factory :tarif, class: Tarifs::Amount.to_s do
-    # type Tarifs::Amount
+  factory :tarif do
+    type { Tarifs::Amount.sti_name }
+    initialize_with { type.constantize.new }
     label { 'Preis pro Übernachtung' }
     unit { 'Übernachtung (unter 16 Jahren)' }
     price_per_unit { 15.0 }

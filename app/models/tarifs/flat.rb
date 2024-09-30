@@ -9,6 +9,8 @@
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  label_i18n                        :jsonb
+#  minimum_price_per_night           :decimal(, )
+#  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
 #  ordinal                           :integer

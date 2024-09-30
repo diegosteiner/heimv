@@ -39,6 +39,8 @@
         span.fa.fa-thermometer.text-danger.ms-2
       = f.text_field :minimum_usage_per_night, step: 0.01, inputmode: "numeric" 
       = f.text_field :minimum_usage_total, step: 0.01, inputmode: "numeric" 
+      = f.text_field :minimum_price_per_night, step: 0.01, inputmode: "numeric" 
+      = f.text_field :minimum_price_total, step: 0.01, inputmode: "numeric" 
 
   fieldset
     = f.collection_check_boxes :associated_types, Tarif.associated_types.keys, :itself, ->(key) { Tarif::ASSOCIATED_TYPES[key]&.model_name&.human }
