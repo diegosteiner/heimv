@@ -66,7 +66,7 @@ class Tenant < ApplicationRecord
   end
 
   def full_name
-    [first_name, last_name].compact_blank.join(' ')
+    [[first_name, last_name].compact_blank.join(' '), nickname].compact_blank.join(' / ')
   end
 
   def name
