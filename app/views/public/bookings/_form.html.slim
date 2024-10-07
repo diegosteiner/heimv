@@ -44,23 +44,26 @@
 
         = f.email_field :email, disabled: true
         = f.fields_for :tenant, @booking.tenant do |tf|
+          .row
+            .col-md-4
+              = f.select :salutation_form, salutation_form_options_for_select(@booking.tenant), include_blank: true, disabled: !@booking.editable
 
           .row
-            .col
+            .col-sm-6.col-md-4
               = tf.text_field :first_name, disabled: !@booking.editable
-            .col
+            .col-sm-6.col-md-4
               = tf.text_field :last_name, disabled: !@booking.editable
-            - if current_organisation.show_nickname?
-              .col
+            .col-md-4
+              - if current_organisation.show_nickname?
                 = f.text_field :nickname, label: current_organisation.nickname_label, disabled: !@booking.editable
 
           = tf.text_field :street_address, disabled: !@booking.editable
           = tf.text_field :address_addon, disabled: !@booking.editable, help: t('optional')
 
           .row
-            .col-md-4
+            .col-sm-4
               = tf.text_field :zipcode, disabled: !@booking.editable
-            .col-md-8
+            .col-sm-8
               = tf.text_field :city, disabled: !@booking.editable
 
           = tf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code), required: true } do

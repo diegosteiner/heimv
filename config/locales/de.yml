@@ -365,6 +365,8 @@ de:
         phone: Telefon
         remarks: Interne Bemerkungen
         reservations_allowed: Darf Reservationsanfragen schicken
+        salutation_form: Anredeform
+        salutation_name: Anrede
         street_address: Strasse / Nr.
         zipcode: PLZ
       usage:
@@ -494,6 +496,14 @@ de:
           headcount: "× Anzahl Personen"
           headcount_nights: "× Übernachtungen"
           nights: "× Nächte"
+      tenant:
+        salutation_forms:
+          formal_female: Sehr geehrte Frau %{last_name}
+          formal_male: Sehr geehrter Herr %{last_name}
+          formal_neutral: Guten Tag %{full_name}
+          informal_female: Liebe %{informal_name}
+          informal_male: Lieber %{informal_name}
+          informal_neutral: Hallo %{informal_name}
       user:
         default_calendar_views:
           months: Monatsansicht
@@ -2214,8 +2224,6 @@ de:
       last_word_connector: " und "
       two_words_connector: " und "
       words_connector: ", "
-  tenant:
-    salutation: Hallo %{friendly_name}
   time:
     am: am
     formats:

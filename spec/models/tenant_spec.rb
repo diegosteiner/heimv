@@ -21,6 +21,7 @@
 #  phone                     :text
 #  remarks                   :text
 #  reservations_allowed      :boolean          default(TRUE)
+#  salutation_form           :integer
 #  search_cache              :text             not null
 #  street_address            :string
 #  zipcode                   :string

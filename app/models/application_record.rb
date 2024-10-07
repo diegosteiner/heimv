@@ -3,10 +3,10 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
-  def self.human_enum(enum, value)
-    return '-' if value.blank?
+  def self.human_enum(enum, value, default: '-', **)
+    return default if value.blank?
 
-    I18n.t(value.to_s.demodulize.underscore, scope: [:activerecord, :enums, model_name.singular, enum])
+    I18n.t(value.to_s.demodulize.underscore, scope: [:activerecord, :enums, model_name.singular, enum], **)
   end
 
   def self.human_model_name(...)

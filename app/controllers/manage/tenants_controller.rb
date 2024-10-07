@@ -10,7 +10,10 @@ module Manage
     end
 
     def show
-      respond_with :manage, @tenant
+      respond_to do |format|
+        format.html
+        format.json { render json: TenantSerializer.render(@tenant) }
+      end
     end
 
     def edit

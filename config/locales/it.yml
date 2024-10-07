@@ -1128,7 +1128,7 @@ it:
     public:
       bookings:
         create:
-          notice: "La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un'e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l'e-mail, controllate lo spam o contattate l'amministrazione:  %{mailto_organisation}. "
+          notice: 'La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un''e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l''e-mail, controllate lo spam o contattate l''amministrazione:  %{mailto_organisation}. '
         update:
           notice: La richiesta di prenotazione è stata aggiornata. Potete chiudere la finestra del browser.
   from: da
@@ -1952,8 +1952,6 @@ it:
       last_word_connector: " e "
       two_words_connector: " e "
       words_connector: ", "
-  tenant:
-    salutation: Buongiorno %{friendly_name}
   time:
     am: am
     formats:
