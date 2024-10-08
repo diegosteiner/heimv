@@ -87,7 +87,7 @@ class Tenant < ApplicationRecord
     }
   end
 
-  def salutation_name
+  def salutation
     self.class.human_enum(:salutation_forms, salutation_form, **names, default: '')
   end
 

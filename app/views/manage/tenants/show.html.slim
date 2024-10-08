@@ -14,8 +14,8 @@
       dt= Tenant.human_attribute_name(:phone)
       dd= link_to(@tenant.phone, "tel:#{@tenant.phone}")
 
-      dt= Tenant.human_attribute_name(:salutation_name)
-      dd= @tenant.salutation_name
+      dt= Tenant.human_attribute_name(:salutation)
+      dd= @tenant.salutation
 
     = link_to edit_manage_tenant_path(@tenant), class: 'btn btn-primary' do
       span.fa.fa-edit

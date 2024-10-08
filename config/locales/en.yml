@@ -1189,7 +1189,7 @@ en:
                 first_name: Vorname
                 last_name: Nachname
                 nickname: Pfadiname
-                salutation_name: Anrede mit Name
+                salutation: Anrede mit Name
                 street_address: Addresse
                 zipcode: PLZ
               tenant_organisation: Organisation des Mieters
