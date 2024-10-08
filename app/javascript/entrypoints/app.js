@@ -77,6 +77,12 @@ function setupRichTextArea() {
   import("~/services/rich_text_area");
 }
 
+function setupSubmit() {
+  document.querySelectorAll("[data-submit='change']").forEach((element) => {
+    element.addEventListener("change", () => element.form.submit());
+  });
+}
+
 // Rails.start();
 document.addEventListener("DOMContentLoaded", () => {
   csrfForm();
@@ -85,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupBookingAgentBookingButton();
   setupOccupiableSelect();
   setupOrgChangeSelect();
+  setupSubmit();
   Rails.start();
 });
 

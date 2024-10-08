@@ -12,7 +12,7 @@ h1.mt-0.mb-5= DesignatedDocument.model_name.human(count: 2)
 
     tbody.shadow-sm
       - @designated_documents.each do |designated_document|
-        tr[data-href=manage_designated_document_path(designated_document) data-bs-id=designated_document.to_param]
+        tr[data-href=manage_designated_document_path(designated_document) data-id=designated_document.to_param]
           td 
             = link_to url_for(designated_document.file), target: '_blank' do
               = designated_document.name
