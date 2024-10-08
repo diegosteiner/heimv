@@ -2,15 +2,27 @@
 
   fieldset
     = f.email_field :email
-    = f.text_field :first_name
-    = f.text_field :last_name
-    / = f.text_field :nickname
+
+    .row
+      .col-md-4
+        = f.select :salutation_form, salutation_form_options_for_select(@tenant), include_blank: true
+    
+    .row 
+      .col-sm-6.col-md-4
+        = f.text_field :first_name
+
+      .col-sm-6.col-md-4
+        = f.text_field :last_name
+        
+      .col-md-4
+        - if current_organisation.show_nickname?
+          = f.text_field :nickname, label: current_organisation.nickname_label
     = f.text_field :street_address
     = f.text_field :address_addon
     .row
-      .col-md-4
+      .col-sm-4
         = f.text_field :zipcode
-      .col-md-8
+      .col-sm-8
         = f.text_field :city
 
     = f.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code) } do

@@ -21,6 +21,7 @@
 #  phone                     :text
 #  remarks                   :text
 #  reservations_allowed      :boolean          default(TRUE)
+#  salutation_form           :integer
 #  search_cache              :text             not null
 #  street_address            :string
 #  zipcode                   :string
@@ -45,6 +46,9 @@ class Tenant < ApplicationRecord
   belongs_to :organisation
 
   locale_enum default: I18n.locale
+  enum :salutation_form, { informal_neutral: 1, informal_female: 2, informal_male: 3, formal_neutral: 4,
+                           formal_female: 5, formal_male: 6 }, prefix: :salutation_form
+
   normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
 
   validates :email, allow_blank: true, uniqueness: { scope: :organisation_id }
@@ -66,7 +70,7 @@ class Tenant < ApplicationRecord
   end
 
   def full_name
-    [first_name, last_name].compact_blank.join(' ')
+    [[first_name, last_name].compact_blank.join(' '), nickname].compact_blank.join(' / ')
   end
 
   def name
@@ -79,12 +83,12 @@ class Tenant < ApplicationRecord
       last_name: last_name.presence,
       full_name:,
       nickname: nickname.presence,
-      friendly_name: [nickname, first_name].compact_blank.first
+      informal_name: [nickname, first_name].compact_blank.first
     }
   end
 
-  def salutation_name
-    I18n.t('tenant.salutation', **names)
+  def salutation
+    self.class.human_enum(:salutation_forms, salutation_form, **names, default: nil)
   end
 
   def address_lines

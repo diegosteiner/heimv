@@ -51,7 +51,21 @@
       h3.mt-5= Tenant.model_name.human(count: 2)
       .card.shadow-sm 
         .card-body
-           = sf.check_box :tenant_birth_date_required
+          = sf.check_box :tenant_birth_date_required
+
+          ul.nav.nav-tabs.mt-4 role="tablist"
+            - I18n.available_locales.each do |locale|
+              - current_locale = locale == I18n.locale
+              li.nav-item
+                = link_to locale.upcase, "#nickname_label-#{locale}-tab",
+                  class: "nav-link #{'active' if current_locale}",
+                  aria: { controls: "nickname_label-#{locale}-tab", selected: current_locale },
+                  data: { "bs-toggle": 'tab' }, role: 'tab'
+          .tab-content
+            - I18n.available_locales.each do |locale|
+              - current_locale = locale == I18n.locale
+              .tab-pane.pt-3[id="nickname_label-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="nickname_label-#{locale}-tab" role='tabpanel']
+                = f.text_field "nickname_label_#{locale}", label: Organisation.human_attribute_name(:nickname_label)
 
     - if current_user.role_admin?
       fieldset

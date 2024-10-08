@@ -1189,7 +1189,7 @@ en:
                 first_name: Vorname
                 last_name: Nachname
                 nickname: Pfadiname
-                salutation_name: Anrede mit Name
+                salutation: Anrede mit Name
                 street_address: Addresse
                 zipcode: PLZ
               tenant_organisation: Organisation des Mieters
@@ -1387,8 +1387,6 @@ en:
       last_word_connector: ", and "
       two_words_connector: " and "
       words_connector: ", "
-  tenant:
-    salutation: Hallo %{friendly_name}
   time:
     am: am
     formats:

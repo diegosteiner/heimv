@@ -25,6 +25,7 @@
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
+#  nickname_label_i18n       :jsonb
 #  notifications_enabled     :boolean          default(TRUE)
 #  representative_address    :string
 #  settings                  :jsonb
