@@ -37,9 +37,11 @@
       = f.email_field :email
       = f.check_box :notifications_enabled
       = f.check_box :editable
-      .row
-        .col-md-4
-          = cf.select :salutation_form, salutation_form_options_for_select(@booking.tenant), include_blank: true
+
+      - unless current_organisation.settings.predefined_salutation_form.present?
+        .row
+          .col-md-4
+            = cf.select :salutation_form, salutation_form_options_for_select(@booking.tenant.salutation_form), include_blank: true
 
       .row 
         .col-sm-6.col-md-4

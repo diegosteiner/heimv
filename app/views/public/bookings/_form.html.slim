@@ -44,9 +44,11 @@
 
         = f.email_field :email, disabled: true
         = f.fields_for :tenant, @booking.tenant do |tf|
-          .row
-            .col-md-4
-              = f.select :salutation_form, salutation_form_options_for_select(@booking.tenant), include_blank: true, disabled: !@booking.editable
+  
+          - unless current_organisation.settings.predefined_salutation_form.present?
+            .row
+              .col-md-4
+                = f.select :salutation_form, salutation_form_options_for_select(@booking.tenant.salutation_form), { include_blank: true }, disabled: !@booking.editable
 
           .row
             .col-sm-6.col-md-4

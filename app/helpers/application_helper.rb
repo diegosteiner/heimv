@@ -18,7 +18,7 @@ module ApplicationHelper
     options_for_select(values.map { |key, _value| [klass.human_enum(enum, key), key] }, selected)
   end
 
-  def salutation_form_options_for_select(tenant)
+  def salutation_form_options_for_select(selected)
     # placeholders = {
     #   informal_name: [Tenant.human_attribute_name(:first_name), tenant.organisation.nickname_label]
     #     .compact_blank.join(' / '),
@@ -30,6 +30,6 @@ module ApplicationHelper
     values = Tenant.salutation_forms.map do |key, _value|
       [Tenant.human_enum(:salutation_forms, key, **placeholders), key]
     end
-    options_for_select(values, tenant&.salutation_form)
+    options_for_select(values, selected)
   end
 end

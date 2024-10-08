@@ -3,9 +3,10 @@
   fieldset
     = f.email_field :email
 
-    .row
-      .col-md-4
-        = f.select :salutation_form, salutation_form_options_for_select(@tenant), include_blank: true
+    - unless current_organisation.settings.predefined_salutation_form.present?
+      .row
+        .col-md-4
+          = f.select :salutation_form, salutation_form_options_for_select(@tenant.salutation_form), include_blank: true
     
     .row 
       .col-sm-6.col-md-4

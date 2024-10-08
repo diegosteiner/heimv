@@ -117,12 +117,11 @@ describe Booking, type: :model do
   end
 
   describe '#email' do
+    let(:booking) { build(:booking, home:, organisation:, email: nil) }
+
     it 'allows blank email unless notifications are enabled' do
-      booking.email = nil
-      booking.agent_booking = nil
       booking.notifications_enabled = false
       expect(booking).to be_valid
-
       booking.notifications_enabled = true
       expect(booking).not_to be_valid
     end

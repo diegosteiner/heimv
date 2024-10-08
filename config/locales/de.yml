@@ -59,6 +59,7 @@ de:
         occupied_occupancy_states: Status, bei welchen die Buchung als «definitiv» gilt
         overdue_request_deadline: Frist für überfällige Reservationsanfragen
         payment_overdue_deadline: Frist für Zahlung überfällig
+        predefined_salutation_form: Vordefinierte Anredeform
         provisional_request_deadline: Frist für provisorische Reservationsanfragen
         show_outbox: Postausgang anzeigen
         tenant_birth_date_required: Geburtsdatum Pflichteingabe

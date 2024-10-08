@@ -88,7 +88,9 @@ class Tenant < ApplicationRecord
   end
 
   def salutation
-    self.class.human_enum(:salutation_forms, salutation_form, **names, default: nil)
+    self.class.human_enum(:salutation_forms,
+                          salutation_form || organisation&.settings&.predefined_salutation_form,
+                          **names, default: nil)
   end
 
   def address_lines

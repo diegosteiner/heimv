@@ -23,6 +23,7 @@ class OrganisationSettings < Settings
   attribute :default_ends_at_time, :string, default: -> { '16:00' }
   attribute :locales, array: true, default: -> { I18n.available_locales.map(&:to_s) }
   attribute :occupied_occupancy_states, array: true, default: -> { occupied_occupancy_able_booking_states }
+  attribute :predefined_salutation_form, :string
 
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
@@ -34,6 +35,8 @@ class OrganisationSettings < Settings
             :invoice_payment_deadline, :deposit_payment_deadline, :deadline_postponable_for, :upcoming_soon_window,
             :payment_overdue_deadline,
             numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
+
+  validates :predefined_salutation_form, inclusion: { in: Tenant.salutation_forms.keys.map(&:to_s) }, allow_blank: true
 
   def occupancy_colors
     {

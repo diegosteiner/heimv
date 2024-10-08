@@ -52,20 +52,36 @@ RSpec.describe Tenant, type: :model do
   end
 
   describe '#salutation' do
-    let(:tenant) { build(:tenant, first_name: 'Peter', last_name: 'Muster') }
-    it 'defaults to nil' do
-      expect(tenant.salutation).to eq(nil)
+    let(:tenant) { build(:tenant, first_name: 'Peter', last_name: 'Muster', organisation:) }
+
+    context 'with predefined_salutation_form' do
+      before do
+        organisation.settings.predefined_salutation_form = :informal_neutral
+        organisation.save!
+      end
+
+      it 'uses the predefined form' do
+        expect(tenant.salutation).to eq('Hallo Peter')
+      end
     end
 
-    it 'uses the correct salutation form' do
-      expected_salutations = {
-        informal_neutral: 'Hallo Peter', informal_female: 'Liebe Peter', informal_male: 'Lieber Peter',
-        formal_neutral: 'Guten Tag Peter Muster', formal_female: 'Sehr geehrte Frau Muster',
-        formal_male: 'Sehr geehrter Herr Muster'
-      }
-      expected_salutations.each do |salutation_form, expected_salutation|
-        tenant.update(salutation_form:)
-        expect(tenant.salutation).to eq(expected_salutation)
+    context 'with predefined_salutation_form' do
+      it 'does not use any salutation' do
+        expect(tenant.salutation).to eq(nil)
+      end
+    end
+
+    context 'with salutation_form set' do
+      it 'uses the correct salutation form' do
+        expected_salutations = {
+          informal_neutral: 'Hallo Peter', informal_female: 'Liebe Peter', informal_male: 'Lieber Peter',
+          formal_neutral: 'Guten Tag Peter Muster', formal_female: 'Sehr geehrte Frau Muster',
+          formal_male: 'Sehr geehrter Herr Muster'
+        }
+        expected_salutations.each do |salutation_form, expected_salutation|
+          tenant.update(salutation_form:)
+          expect(tenant.salutation).to eq(expected_salutation)
+        end
       end
     end
   end

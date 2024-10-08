@@ -101,13 +101,13 @@ class Booking < ApplicationRecord
   validates :approximate_headcount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
   validates :email, presence: true, on: %i[public_update public_create]
-  validates :email, presence: true, if: ->(booking) { booking.notifications_enabled && booking.agent_booking.blank? }
   validates :approximate_headcount, :purpose_description, presence: true, on: :public_update
   validates :category, presence: true, on: %i[public_update agent_booking]
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
   validate do
     errors.add(:occupiable_ids, :blank) if occupancies.none?
+    errors.add(:email, :blank) if email.blank? && notifications_enabled && agent_booking.blank?
     errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email)
   end
   validate on: %i[public_create public_update agent_booking] do
