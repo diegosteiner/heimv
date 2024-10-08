@@ -116,7 +116,18 @@ describe Booking, type: :model do
     end
   end
 
-  describe 'Tenant' do
+  describe '#email' do
+    it 'allows blank email unless notifications are enabled' do
+      booking.email = nil
+      booking.notifications_enabled = false
+      expect(booking).to be_valid
+
+      booking.notifications_enabled = true
+      expect(booking).not_to be_valid
+    end
+  end
+
+  describe '#tenant' do
     context 'with new tenant' do
       it 'uses existing tenant when email is correct' do
         booking.email = build(:tenant).email
