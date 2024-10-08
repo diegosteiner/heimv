@@ -45,10 +45,28 @@ require 'rails_helper'
 RSpec.describe Tenant, type: :model do
   let(:organisation) { create(:organisation) }
   let(:home) { create(:home, organisation:) }
+  let(:tenant) { build(:tenant, organisation:) }
 
   describe '#save' do
-    let(:tenant) { build(:tenant, organisation:) }
-
     it { expect(tenant.save).to be true }
+  end
+
+  describe '#salutation' do
+    let(:tenant) { build(:tenant, first_name: 'Peter', last_name: 'Muster') }
+    it 'defaults to nil' do
+      expect(tenant.salutation).to eq(nil)
+    end
+
+    it 'uses the correct salutation form' do
+      expected_salutations = {
+        informal_neutral: 'Hallo Peter', informal_female: 'Liebe Peter', informal_male: 'Lieber Peter',
+        formal_neutral: 'Guten Tag Peter Muster', formal_female: 'Sehr geehrte Frau Muster',
+        formal_male: 'Sehr geehrter Herr Muster'
+      }
+      expected_salutations.each do |salutation_form, expected_salutation|
+        tenant.update(salutation_form:)
+        expect(tenant.salutation).to eq(expected_salutation)
+      end
+    end
   end
 end

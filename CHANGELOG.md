@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Feature: Customize nickname field per organisation
+- Feature: Allow specifing salutation
+
 ## Version 24.9.2
 
 Release 28.09.2024
