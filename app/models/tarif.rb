@@ -166,7 +166,11 @@ class Tarif < ApplicationRecord
   end
 
   def minimum_price(usage)
-    minimum_prices(usage).filter { _2.positive? }.max_by { _2 }
+    if usage.price_per_unit&.negative?
+      minimum_prices(usage).filter { _2.negative? }.min_by { _2 }
+    else
+      minimum_prices(usage).filter { _2.positive? }.max_by { _2 }
+    end
   end
 
   def apply_usage_to_invoice?(_usage, _invoice)

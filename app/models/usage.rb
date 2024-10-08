@@ -48,7 +48,11 @@ class Usage < ApplicationRecord
   validates :used_units, numericality: true, allow_nil: true
 
   def price
-    @price ||= ([usage_price, minimum_price&.last].flatten.compact.max * 20.0).floor / 20.0
+    @price ||= if price_per_unit&.negative?
+                 round_cents [usage_price, minimum_price&.last].compact.min
+               else
+                 round_cents [usage_price, minimum_price&.last].compact.max
+               end
   end
 
   def usage_price
@@ -60,7 +64,9 @@ class Usage < ApplicationRecord
   end
 
   def minimum_price?
-    price.positive? && price == minimum_price&.last
+    return false if price.zero?
+
+    price == minimum_price&.last
   end
 
   def presumed_units
@@ -94,6 +100,11 @@ class Usage < ApplicationRecord
   def selected_by_condition?
     enabled_by_condition? &&
       tarif.selecting_conditions.any? && BookingCondition.fullfills_all?(booking, tarif.selecting_conditions)
+  end
+
+  def round_cents(amount, round_to: 5)
+    multiplier = 100.0 / round_to
+    (amount * multiplier).floor / multiplier
   end
 
   # TODO: decouple
