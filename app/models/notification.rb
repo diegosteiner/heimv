@@ -42,7 +42,9 @@ class Notification < ApplicationRecord
   attribute :template_context
   validates :to, :locale, presence: true
   validate do
-    errors.add(:to, :invalid) unless deliver_to.present? && deliver_to.all? { EmailAddress.valid?(_1) }
+    next if deliver_to.present? && deliver_to.all? { EmailAddress.valid?(_1, host_validation: :syntax) }
+
+    errors.add(:to, :invalid)
   end
 
   def deliverable?
