@@ -85,6 +85,10 @@ describe Booking, type: :model do
     end
 
     it { expect(roles).to eq({ administration: organisation, tenant: booking.tenant }) }
+    it do
+      expect(Booking::ROLES).to contain_exactly(*%i[organisation tenant booking_agent administration
+                                                    home_handover home_return billing])
+    end
 
     context 'with agent_booking' do
       let(:booking_agent) { create(:booking_agent, organisation:) }
@@ -113,17 +117,6 @@ describe Booking, type: :model do
           expect(roles[responsibility].operator).to eq(operator)
         end
       end
-    end
-  end
-
-  describe '#email' do
-    let(:booking) { build(:booking, home:, organisation:, email: nil) }
-
-    it 'allows blank email unless notifications are enabled' do
-      booking.notifications_enabled = false
-      expect(booking).to be_valid
-      booking.notifications_enabled = true
-      expect(booking).not_to be_valid
     end
   end
 

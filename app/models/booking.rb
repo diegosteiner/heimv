@@ -58,6 +58,7 @@ class Booking < ApplicationRecord
   include BookingStateConcern
   include Timespanable
 
+  ROLES = (%i[organisation tenant booking_agent] + OperatorResponsibility::RESPONSIBILITIES.keys).freeze
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :category, :logs, :home,
                       { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
@@ -107,7 +108,6 @@ class Booking < ApplicationRecord
   validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
   validate do
     errors.add(:occupiable_ids, :blank) if occupancies.none?
-    errors.add(:email, :blank) if email.blank? && notifications_enabled && agent_booking.blank?
     errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email)
   end
   validate on: %i[public_create public_update agent_booking] do

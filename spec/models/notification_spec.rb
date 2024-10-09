@@ -143,43 +143,71 @@ RSpec.describe Notification, type: :model do
 
     let(:tenant) { booking.tenant }
     let(:operator) { create(:operator, organisation:) }
-    let(:notification) { create(:notification, to:, booking:, subject: 'Test', body: 'Test Body') }
+    let(:notification) { build(:notification, to:, booking:, subject: 'Test', body: 'Test Body') }
 
     context 'with :tenant' do
       let(:to) { :tenant }
 
-      it { is_expected.to eq([tenant.email]) }
+      it do
+        expect(notification).to be_valid
+        is_expected.to eq([tenant.email])
+      end
     end
 
     context 'with tenant' do
       let(:to) { tenant }
 
-      it { is_expected.to eq([tenant.email]) }
+      it do
+        expect(notification).to be_valid
+        is_expected.to eq([tenant.email])
+      end
+    end
+
+    context 'with tenant but without email' do
+      let(:to) { tenant }
+      before { booking.email = booking.tenant.email = nil }
+
+      it do
+        expect(notification).not_to be_valid
+        is_expected.to eq([])
+      end
     end
 
     context 'with :home_handover' do
       let(:to) { :home_handover }
       before { booking.operator_responsibilities.create(operator:, responsibility: :home_handover) }
 
-      it { is_expected.to eq([operator.email]) }
+      it do
+        expect(notification).to be_valid
+        is_expected.to eq([operator.email])
+      end
     end
 
     context 'with home_handover' do
       let(:to) { booking.operator_responsibilities.create(operator:, responsibility: :home_handover) }
 
-      it { is_expected.to eq([operator.email]) }
+      it do
+        expect(notification).to be_valid
+        is_expected.to eq([operator.email])
+      end
     end
 
     context 'with operator' do
       let(:to) { operator }
 
-      it { is_expected.to eq([operator.email]) }
+      it do
+        expect(notification).to be_valid
+        is_expected.to eq([operator.email])
+      end
     end
 
     context 'with email' do
       let(:to) { 'test@example.com' }
 
-      it { is_expected.to eq([to]) }
+      it do
+        expect(notification).to be_valid
+        is_expected.to eq([to])
+      end
     end
   end
 end
