@@ -9,6 +9,8 @@
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  label_i18n                        :jsonb
+#  minimum_price_per_night           :decimal(, )
+#  minimum_price_total               :decimal(, )
 #  minimum_usage_per_night           :decimal(, )
 #  minimum_usage_total               :decimal(, )
 #  ordinal                           :integer
@@ -151,20 +153,24 @@ class Tarif < ApplicationRecord
     selecting_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :selecting) }
   end
 
-  def minimum_prices(usage)
+  def minimum_prices(usage) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     nights = usage&.booking&.nights || 0
     price_per_unit = usage&.price_per_unit || 0
 
     {
-      minimum_usage_per_night: (minimum_usage_per_night || 0) * nights * price_per_unit,
-      minimum_usage_total: (minimum_usage_total || 0) * price_per_unit
-      # minimum_price_per_night: (minimum_price_per_night || 0) * nights,
-      # minimum_price_total: minimum_price_total || 0
+      minimum_usage_per_night: (minimum_usage_per_night || 0) * price_per_unit * nights,
+      minimum_usage_total: (minimum_usage_total || 0) * price_per_unit,
+      minimum_price_per_night: (minimum_price_per_night || 0) * nights,
+      minimum_price_total: minimum_price_total || 0
     }
   end
 
   def minimum_price(usage)
-    minimum_prices(usage).values.compact.max
+    if usage.price_per_unit&.negative?
+      minimum_prices(usage).filter { _2.negative? }.min_by { _2 }
+    else
+      minimum_prices(usage).filter { _2.positive? }.max_by { _2 }
+    end
   end
 
   def apply_usage_to_invoice?(_usage, _invoice)

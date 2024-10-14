@@ -46,8 +46,11 @@ module BookingConditions
       compare_value_match = compare_value_regex.match(compare_value)
       return false unless compare_value_match
 
+      actual_value = booking.duration
+      return nil if actual_value.blank?
+
       compare_value = threshold_unit(compare_value_match[:threshold], compare_value_match[:threshold_unit])
-      evaluate_operator(compare_operator.presence || :'=', with: { actual_value: booking.duration, compare_value: })
+      evaluate_operator(compare_operator.presence || :'=', with: { actual_value:, compare_value: })
     end
 
     protected

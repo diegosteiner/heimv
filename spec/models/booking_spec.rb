@@ -85,6 +85,10 @@ describe Booking, type: :model do
     end
 
     it { expect(roles).to eq({ administration: organisation, tenant: booking.tenant }) }
+    it do
+      expect(Booking::ROLES).to contain_exactly(*%i[organisation tenant booking_agent administration
+                                                    home_handover home_return billing])
+    end
 
     context 'with agent_booking' do
       let(:booking_agent) { create(:booking_agent, organisation:) }
@@ -116,7 +120,7 @@ describe Booking, type: :model do
     end
   end
 
-  describe 'Tenant' do
+  describe '#tenant' do
     context 'with new tenant' do
       it 'uses existing tenant when email is correct' do
         booking.email = build(:tenant).email

@@ -1,8 +1,18 @@
 # Changelog
 
+## 24.10.1
+
+Released 13.10.2024
+
+- Feature: Customize nickname field per organisation
+- Feature: Allow specifing and predefining salutation form
+- Feature: Improve assigning operators
+- Fix: Allow negative minimums for tarifs
+- Fix: Require email on booking when notifications are enabled
+
 ## Version 24.9.2
 
-Release 28.09.2024
+Released 28.09.2024
 
 - Fix: Fix broken qr debitor addresses
 - Fix: Fix broken locale for empty tenants

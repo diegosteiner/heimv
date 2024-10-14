@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_23_110730) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_09_093906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -478,6 +478,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_110730) do
     t.string "country_code", default: "CH", null: false
     t.string "account_address"
     t.text "cors_origins"
+    t.jsonb "nickname_label_i18n", default: {}
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
@@ -540,6 +541,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_110730) do
     t.datetime "discarded_at"
     t.decimal "vat"
     t.bigint "prefill_usage_booking_question_id"
+    t.decimal "minimum_price_per_night"
+    t.decimal "minimum_price_total"
     t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
     t.index ["prefill_usage_booking_question_id"], name: "index_tarifs_on_prefill_usage_booking_question_id"
@@ -569,6 +572,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_110730) do
     t.boolean "bookings_without_contract", default: false
     t.string "locale"
     t.boolean "bookings_without_invoice", default: false
+    t.integer "salutation_form"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"

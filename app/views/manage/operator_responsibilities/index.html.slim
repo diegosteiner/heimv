@@ -1,48 +1,55 @@
 - if @booking.present?
   - title "#{Booking.model_name.human} #{@booking.to_s} - #{OperatorResponsibility.model_name.human(count: 2)}"
   = render partial: 'manage/bookings/navigation', locals: { booking: @booking }
+
+  .row.justify-content-center
+    .col-md-6
+      .card.shadow-sm
+        .card-body
+          - OperatorResponsibility.responsibilities.keys.each do |responsibility|
+            - responsibility = @booking.operator_responsibilities.find_or_initialize_by(responsibility: responsibility)
+            = form_with(model: responsibility, method: :POST, url: assign_manage_booking_operator_responsibilities_path(@booking), remote: true) do |f|
+              = f.hidden_field :responsibility
+              = f.collection_select :operator_id, @operators, :id, :name, \
+                { label: OperatorResponsibility.human_enum(:responsibility, responsibility.responsibility), include_blank: true }, \
+                { data: { submit: 'change' } }
+
 - else
   h1.mt-0= OperatorResponsibility.model_name.human(count: 2)
   = link_to Operator.model_name.human(count: 2), manage_operators_path
 
-.table-responsive.mt-5
-  table.table.table-hover.align-middle
-    thead
-      tr
-        - unless @booking.present?
-          th
-        th= OperatorResponsibility.human_attribute_name(:responsibility)
-        th= Operator.model_name.human
-        th
-        th
-
-    tbody.shadow-sm
-      - @operator_responsibilities.each do |operator_responsibility|
-        tr[data-href=manage_operator_responsibility_path(operator_responsibility) data-bs-id=operator_responsibility.to_param]
+  .table-responsive.mt-5
+    table.table.table-hover.align-middle
+      thead
+        tr
           - unless @booking.present?
-            td
-              small.text-secondary= operator_responsibility.ordinal_rank
-          td
-            = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
-          td
-            = link_to operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator)
-          td
-            = operator_responsibility.remarks
-          td.p-1.text-end 
-            .btn-group
-              = link_to edit_manage_operator_responsibility_path(operator_responsibility), class: 'btn btn-default' do
-                span.fa.fa-edit
-              = link_to manage_operator_responsibility_path(operator_responsibility), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
-                span.fa.fa-trash
+            th
+          th= OperatorResponsibility.human_attribute_name(:responsibility)
+          th= Operator.model_name.human
+          th
+          th
 
-br
-- if @booking.present?
-  = link_to new_manage_booking_operator_responsibility_path(@booking), class: 'btn btn-primary' do
-    span.fa.fa-file-o
-    '
-    = t(:add_record, model_name: OperatorResponsibility.model_name.human)
-- else 
-  = link_to new_manage_operator_responsibility_path, class: 'btn btn-primary' do
-    span.fa.fa-file-o
-    '
-    = t(:add_record, model_name: OperatorResponsibility.model_name.human)
+      tbody.shadow-sm
+        - @operator_responsibilities.each do |operator_responsibility|
+          tr[data-href=manage_operator_responsibility_path(operator_responsibility) data-id=operator_responsibility.to_param]
+            - unless @booking.present?
+              td
+                small.text-secondary= operator_responsibility.ordinal_rank
+            td
+              = OperatorResponsibility.human_enum(:responsibility, operator_responsibility.responsibility)
+            td
+              = link_to operator_responsibility.operator.name, manage_operator_path(operator_responsibility.operator)
+            td
+              = operator_responsibility.remarks
+            td.p-1.text-end 
+              .btn-group
+                = link_to edit_manage_operator_responsibility_path(operator_responsibility), class: 'btn btn-default' do
+                  span.fa.fa-edit
+                = link_to manage_operator_responsibility_path(operator_responsibility), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                  span.fa.fa-trash
+
+  br
+    = link_to new_manage_operator_responsibility_path, class: 'btn btn-primary' do
+      span.fa.fa-file-o
+      '
+      = t(:add_record, model_name: OperatorResponsibility.model_name.human)

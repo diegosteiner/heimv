@@ -29,6 +29,7 @@
 
 class Notification < ApplicationRecord
   RichTextTemplate.define(:notification_footer, context: %i[booking])
+  ArbitraryTo = Struct.new(:email, :locale)
 
   belongs_to :booking, inverse_of: :notifications
   belongs_to :mail_template, optional: true
@@ -41,9 +42,7 @@ class Notification < ApplicationRecord
   attribute :template_context
   validates :to, :locale, presence: true
   validate do
-    next if booking.nil? || to.blank?
-    next if booking.roles.keys.include?(to.to_sym)
-    next if deliver_to.present? && deliver_to.all? { _1.is_a?(String) }
+    next if deliver_to.present? && deliver_to.all? { EmailAddress.valid?(_1, host_validation: :syntax) }
 
     errors.add(:to, :invalid)
   end
@@ -111,6 +110,10 @@ class Notification < ApplicationRecord
     # rubocop:enable Rails/OutputSafety
   end
 
+  def locale
+    @locale = resolve_to.try(:locale) || @locale.presence || booking&.locale || organisation&.locale
+  end
+
   def deliver_bcc
     [organisation&.bcc].compact
   end
@@ -120,15 +123,14 @@ class Notification < ApplicationRecord
   end
 
   def deliver_to
-    Array.wrap(super).compact_blank.presence || Array.wrap(resolve_to.try(:email) || to).compact_blank
-  end
-
-  def locale
-    @locale = resolve_to.try(:locale) || @locale.presence || booking&.locale || organisation&.locale
+    Array.wrap(super).compact_blank.presence || Array.wrap(resolve_to.try(:email)).compact_blank
   end
 
   def resolve_to
-    to.presence && booking&.roles&.[](to.to_sym)
+    return if to.blank?
+    return booking&.roles&.[](to.to_sym) if Booking::ROLES.include?(to.to_sym)
+
+    ArbitraryTo.new(to, booking&.locale)
   end
 
   def to=(value)

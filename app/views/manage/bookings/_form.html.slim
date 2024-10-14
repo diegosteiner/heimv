@@ -30,29 +30,39 @@
   fieldset.mt-3
     h5.mt-0= Booking.human_attribute_name(:tenant)
 
-    .row
-      .col
-        = f.hidden_field :tenant_id, id: ''
-        = f.collection_select :tenant_id, current_organisation.tenants.ordered, :id, :to_s, { include_blank: true, hide_label: true }, { disabled: true }
-      .col-1.d-grid
-        input.btn-check[type="checkbox" id="toggle_booking_tenant_id" data-bs-toggle="disable" data-bs-target="#booking_tenant_id"]
-        label.btn.btn-default.mb-3 for="toggle_booking_tenant_id" 
-          i.fa.fa-unlock
+    = f.collection_select :tenant_id, current_organisation.tenants.ordered, :id, :to_s, { include_blank: true, hide_label: true }, { disabled: true }
 
     = f.fields_for :tenant, (@booking.tenant || @booking.build_tenant) do |cf|
       = cf.hidden_field :id
       = f.email_field :email
       = f.check_box :notifications_enabled
       = f.check_box :editable
-      = cf.text_field :first_name
-      = cf.text_field :last_name
+
+      - unless current_organisation.settings.predefined_salutation_form.present?
+        .row
+          .col-md-4
+            = cf.select :salutation_form, salutation_form_options_for_select(@booking.tenant.salutation_form), include_blank: true
+
+      .row 
+        .col-sm-6.col-md-4
+          = cf.text_field :first_name
+
+        .col-sm-6.col-md-4
+          = cf.text_field :last_name
+          
+        .col-md-4
+          - if current_organisation.show_nickname?
+            = cf.text_field :nickname, label: current_organisation.nickname_label
+
       = cf.text_field :street_address
       = cf.text_field :address_addon
+
       .row
-        .col-md-4
+        .col-sm-4
           = cf.text_field :zipcode
-        .col-md-8
+        .col-sm-8
           = cf.text_field :city
+
       = cf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code) } do
         = cf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control'
 

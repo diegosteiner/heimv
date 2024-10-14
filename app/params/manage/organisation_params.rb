@@ -6,6 +6,7 @@ module Manage
       %i[name address logo location bcc cors_origins iban esr_ref_prefix
          mail_from locale default_payment_info_type creditor_address account_address
          representative_address contract_signature email notifications_enabled] +
+        I18n.available_locales.map { |locale| ["nickname_label_#{locale}"] }.flatten +
         [{ settings: settings_permitted_keys }]
     end
 
@@ -15,7 +16,7 @@ module Manage
          last_minute_warning upcoming_soon_window invoice_payment_deadline
          deposit_payment_deadline deadline_postponable_for payment_overdue_deadline
          occupied_occupancy_color tentative_occupancy_color closed_occupancy_color
-         default_calendar_view default_manage_transition_to_state
+         default_calendar_view default_manage_transition_to_state predefined_salutation_form
          default_begins_at_time default_ends_at_time show_outbox] +
         [{ locales: [], occupied_occupancy_states: [] }]
     end

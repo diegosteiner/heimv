@@ -25,6 +25,7 @@
 #  location                  :string
 #  mail_from                 :string
 #  name                      :string
+#  nickname_label_i18n       :jsonb
 #  notifications_enabled     :boolean          default(TRUE)
 #  representative_address    :string
 #  settings                  :jsonb
@@ -40,6 +41,8 @@
 #
 
 class Organisation < ApplicationRecord
+  extend Mobility
+
   has_many :bookings, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :homes, dependent: :restrict_with_error, inverse_of: :organisation
   has_many :tenants, -> { ordered }, dependent: :restrict_with_error, inverse_of: :organisation
@@ -66,6 +69,8 @@ class Organisation < ApplicationRecord
 
   locale_enum default: I18n.locale
   attr_writer :booking_flow_class
+
+  translates :nickname_label, column_suffix: '_i18n', locale_accessors: true
 
   scope :ordered, -> { order(name: :ASC) }
 
@@ -116,6 +121,10 @@ class Organisation < ApplicationRecord
     locales = Organisation.locales.keys.map(&:to_s)
     locales &= settings.locales if settings.locales.present?
     locales
+  end
+
+  def show_nickname?
+    nickname_label_i18n.present?
   end
 
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity

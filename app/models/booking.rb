@@ -58,6 +58,7 @@ class Booking < ApplicationRecord
   include BookingStateConcern
   include Timespanable
 
+  ROLES = (%i[organisation tenant booking_agent] + OperatorResponsibility::RESPONSIBILITIES.keys).freeze
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :category, :logs, :home,
                       { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
