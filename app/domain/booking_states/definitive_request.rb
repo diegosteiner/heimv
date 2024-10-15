@@ -8,7 +8,7 @@ module BookingStates
 
     def checklist
       BookingStateChecklistItem.prepare(:responsibilities_assigned, :tarifs_chosen, :deposit_created,
-                                        :offer_created, :contract_created, booking:)
+                                        :contract_created, booking:)
     end
 
     def invoice_type

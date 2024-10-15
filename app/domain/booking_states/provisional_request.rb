@@ -18,6 +18,10 @@ module BookingStates
       :provisional_request
     end
 
+    after_transition from: :definitive_request do |booking|
+      booking.update(committed_request: false)
+    end
+
     after_transition do |booking|
       booking.deadline&.clear
       booking.deadlines.create(length: booking.organisation.settings.provisional_request_deadline,
