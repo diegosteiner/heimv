@@ -19,8 +19,8 @@ module Timespanable
     end
 
     def dates
-      begins_at = span.begin&.to_date
-      ends_at = span.end&.to_date
+      begins_at = span&.begin&.to_date
+      ends_at = span&.end&.to_date
       begins_at..ends_at if begins_at.present? && ends_at.present?
     end
 
@@ -29,7 +29,7 @@ module Timespanable
     end
 
     def nights
-      (span.end.to_date - span.begin.to_date).to_i if span
+      dates.count - 1 if dates.present?
     end
   end
 
