@@ -45,6 +45,7 @@ de:
       organisation_settings:
         awaiting_contract_deadline: Frist für Vertragseingänge
         awaiting_tenant_deadline: Frist für fehlende Mieterangaben
+        booking_window: Reservationsfenster
         closed_occupancy_color: Farbe für Schliessungen
         deadline_postponable_for: Fristverlängerung
         default_begins_at_time: Standardzeit für den Beginn der Belegung
