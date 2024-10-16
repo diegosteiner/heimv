@@ -54,7 +54,7 @@
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
-class Booking < ApplicationRecord
+class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   include BookingStateConcern
   include Timespanable
 
@@ -137,7 +137,7 @@ class Booking < ApplicationRecord
   end
 
   def conclude
-    update!(concluded: true, editable: false)
+    update!(concluded: true)
   end
 
   def locale
@@ -191,6 +191,12 @@ class Booking < ApplicationRecord
     @roles ||= { administration: organisation, tenant:, booking_agent: agent_booking&.booking_agent }.merge(
       operator_responsibilities.group_by(&:responsibility).transform_values(&:first)
     ).symbolize_keys.compact_blank
+  end
+
+  def editable?
+    return editable unless editable.nil?
+
+    booking_state&.editable || false
   end
 
   private

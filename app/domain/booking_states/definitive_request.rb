@@ -40,7 +40,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.update!(editable: false, committed_request: true)
+      booking.update!(committed_request: true)
       booking.deadline&.clear
       OperatorResponsibility.assign(booking, :home_handover, :home_return)
       MailTemplate.use(:manage_definitive_request_notification, booking, to: :administration, &:autodeliver!)

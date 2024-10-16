@@ -121,5 +121,9 @@ module BookingStates
     end
 
     def relevant_time; end
+
+    def editable
+      false
+    end
   end
 end
