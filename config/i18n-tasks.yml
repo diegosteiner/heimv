@@ -101,6 +101,7 @@ ignore_missing:
   - "faker.*"
   - "{receipt_office}"
   - "label"
+  - "receipt_title"
 
 ## Consider these keys used:
 ignore_unused:
@@ -118,6 +119,8 @@ ignore_unused:
   - "booking_states.*"
   - "manage.rich_text_templates.index.group_*"
   - "public.bookings.new.*"
+  - "public.bookings.form.committed_request_definitive_request_help"
+  - "public.bookings.form.committed_request_provisional_request_help"
   - "invoice_parts.breakdown.*"
   - "booking_state_checklist_item.*"
 

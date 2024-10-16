@@ -1311,7 +1311,6 @@ en:
         problems_html: Probleme mit der Buchung? Wende dich an <a href="mailto:%{email}">%{email}</a>.
         submit: Reservationsanfrage abschicken
         title: Reservation
-  receipt_title: Receipt title
   ref: Ref
   reset: Zurücksetzen
   rich_text_templates:

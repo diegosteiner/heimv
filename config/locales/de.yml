@@ -45,6 +45,7 @@ de:
       organisation_settings:
         awaiting_contract_deadline: Frist für Vertragseingänge
         awaiting_tenant_deadline: Frist für fehlende Mieterangaben
+        booking_window: Reservationsfenster
         closed_occupancy_color: Farbe für Schliessungen
         deadline_postponable_for: Fristverlängerung
         default_begins_at_time: Standardzeit für den Beginn der Belegung
@@ -1522,6 +1523,8 @@ de:
         title: Reservation bearbeiten
       form:
         booking_details: Angaben zur Reservation
+        committed_request_definitive_request_help: Verbindliche Zusage. Vertrag wird vorbereitet und zugestellt, sofern die Verwaltung die Anfrage akzeptiert
+        committed_request_provisional_request_help: Unverbindliche Anfrage. Zu- oder Absage innert der angegebenen Frist
         last_minute_warning: Achtung! Das Buchungsdatum ist kurzfristig. Bitte melde dich zusätzlich per Telefon oder Email bei der Verwaltung
       new:
         accept_conditions_html: Ich bin mit %{conditions_html} einverstanden
@@ -1530,7 +1533,6 @@ de:
         submit: Reservationsanfrage abschicken
         terms_condition_html: den <a href="%{url}" target="_blank">AGB</a>
         title: Reservation
-  receipt_title: Receipt title
   ref: Ref
   renderables:
     booking_questions:

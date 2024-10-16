@@ -53,7 +53,8 @@
         .card-body
           = sf.check_box :tenant_birth_date_required
 
-          = sf.select :predefined_salutation_form, salutation_form_options_for_select(settings.predefined_salutation_form), include_blank: true
+          - if current_user.role_admin?
+            = sf.select :predefined_salutation_form, salutation_form_options_for_select(settings.predefined_salutation_form), include_blank: true
 
           ul.nav.nav-tabs.mt-4 role="tablist"
             - I18n.available_locales.each do |locale|
@@ -92,6 +93,8 @@
 
           = sf.select :default_calendar_view, %i[months year].map { |view| [view, view] }
           = sf.collection_check_boxes :occupied_occupancy_states, BookingStates.occupied_occupancy_able.values, :to_s, ->(state) { state&.t(:label) }
+
+          = sf.text_field :booking_window, value: settings.booking_window&.iso8601
 
     fieldset
       h3.mt-5= Deadline.model_name.human(count: 2)

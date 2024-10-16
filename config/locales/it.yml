@@ -45,6 +45,7 @@ it:
       organisation_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
         awaiting_tenant_deadline:
+        booking_window:
         closed_occupancy_color: Colore per le chiusure
         deadline_postponable_for: Proroga del periodo
         default_begins_at_time:
@@ -59,6 +60,7 @@ it:
         occupied_occupancy_states:
         overdue_request_deadline: Periodo per le richieste di prenotazione in ritardo
         payment_overdue_deadline:
+        predefined_salutation_form:
         provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
         show_outbox:
         tenant_birth_date_required: 'Data di nascita: inserimento obbligatorio'
@@ -281,6 +283,7 @@ it:
         account_address:
         address: Indirizzo
         bcc: BCC
+        booking_ref_tempate:
         contract_signature: Immagine della firma del contratto
         creditor_address: Indirizzo sulle fatture
         currency: Valuta
@@ -288,12 +291,14 @@ it:
         esr_beneficiary_account:
         esr_ref_prefix: Numero di identificazione del PVR / prefisso
         iban: IBAN
+        invoice_ref_tempate:
         locale: Lingua
         locales:
         location: Luogo della firma del contratto
         logo: Logo
         mail_from: Mittente di e-mail
         name: Nome
+        nickname_label:
         notifications_enabled: Messaggi abilitati
         privacy_statement_pdf: Informativa sulla privacy
         representative_address: Indirizzo della rappresentanza per i contratti
@@ -330,6 +335,8 @@ it:
         enabling_conditions: Condizioni per la selezione consentita
         label: Designazione tariffa
         meter: Nome del contatore (per le tariffe in base alla lettura del contatore)
+        minimum_price_per_night:
+        minimum_price_total:
         minimum_usage_per_night: Consumo minimo (per notte)
         minimum_usage_total: Consumo minimo (totale)
         ordinal_position: Numero di serie
@@ -359,6 +366,8 @@ it:
         phone: Telefono
         remarks: Osservazioni interne
         reservations_allowed: Può inviare richieste di prenotazione
+        salutation:
+        salutation_form:
         street_address: Via / numero
         zipcode: CAP
       usage:
@@ -488,6 +497,14 @@ it:
           headcount: Numero di persone
           headcount_nights: Pernottamenti
           nights: Notti
+      tenant:
+        salutation_forms:
+          formal_female:
+          formal_male:
+          formal_neutral:
+          informal_female:
+          informal_male:
+          informal_neutral:
       user:
         default_calendar_views:
           months:
@@ -1385,6 +1402,8 @@ it:
         title: Modifica della prenotazione
       form:
         booking_details: Dettagli della prenotazione
+        committed_request_definitive_request_help:
+        committed_request_provisional_request_help:
         last_minute_warning: Attenzione! La data di prenotazione è a breve termine. Si prega di contattare l'amministrazione anche per telefono o per e-mail.
       new:
         accept_conditions_html: Accetto %{conditions_html}
@@ -1393,7 +1412,6 @@ it:
         submit: Invia la richiesta di prenotazione
         terms_condition_html: il <a href="%{url}" target="_blank">condizioni generali di contratto</a>
         title: Prenotazione
-  receipt_title:
   ref: Ref
   renderables:
     booking_questions:

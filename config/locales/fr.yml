@@ -45,6 +45,7 @@ fr:
       organisation_settings:
         awaiting_contract_deadline: Délai de réception du contrat
         awaiting_tenant_deadline:
+        booking_window:
         closed_occupancy_color: Couleur pour les clôtures
         deadline_postponable_for: Prolongation du délai
         default_begins_at_time: Heure de début de l'occupation par défaut
@@ -59,6 +60,7 @@ fr:
         occupied_occupancy_states: Statuts pour lesquels la réservation est considérée comme "définitive
         overdue_request_deadline: Délai pour les demandes de réservation en retard
         payment_overdue_deadline: Date limite de paiement dépassée
+        predefined_salutation_form:
         provisional_request_deadline: Délai pour les demandes de réservation provisoires
         show_outbox: Afficher le courrier sortant
         tenant_birth_date_required: Date de naissance, Indication obligatoire
@@ -281,6 +283,7 @@ fr:
         account_address:
         address: Adresse
         bcc: BCC
+        booking_ref_tempate:
         contract_signature: Image de signature de contrat
         creditor_address: Adresse sur les factures
         currency: Währung
@@ -288,12 +291,14 @@ fr:
         esr_beneficiary_account: Numéro de participant BVR / compte postal
         esr_ref_prefix: Numéro d'identification BVR / Préfixe
         iban: IBAN
+        invoice_ref_tempate:
         locale: Langue
         locales: Langues
         location: Lieu de signature du contrat
         logo: Logo
         mail_from: Expéditeur des e-mails
         name: Nom
+        nickname_label:
         notifications_enabled: Messages activés
         privacy_statement_pdf: Déclaration de confidentialité
         representative_address: Adresse de la suppléance pour les contrats
@@ -330,6 +335,8 @@ fr:
         enabling_conditions: Conditions de sélection autorisée
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
+        minimum_price_per_night:
+        minimum_price_total:
         minimum_usage_per_night: Consommation minimale (par nuit)
         minimum_usage_total: Consommation minimale (total)
         ordinal_position: Ordnungsnummer
@@ -359,6 +366,8 @@ fr:
         phone: Téléphone
         remarks: Remarques internes
         reservations_allowed: Peut envoyer des demandes de réservation
+        salutation:
+        salutation_form:
         street_address: Rue / N
         zipcode: Code postal
       usage:
@@ -488,6 +497,14 @@ fr:
           headcount: Nombre de personnes
           headcount_nights: Nuitées
           nights: Nuits
+      tenant:
+        salutation_forms:
+          formal_female:
+          formal_male:
+          formal_neutral:
+          informal_female:
+          informal_male:
+          informal_neutral:
       user:
         default_calendar_views:
           months: Vue mensuelle
@@ -1420,6 +1437,8 @@ fr:
         title: Traiter une réservation
       form:
         booking_details: Informations sur la réservation
+        committed_request_definitive_request_help:
+        committed_request_provisional_request_help:
         last_minute_warning: Attention ! La date de réservation est proche. Merci de t'annoncer en plus par téléphone ou par e-mail auprès de l'administration
       new:
         accept_conditions_html: J'accepte %{conditions_html}
@@ -1428,7 +1447,6 @@ fr:
         submit: Envoyer une demande de réservation
         terms_condition_html: les <a href="%{url}" target="_blank">CGV</a>
         title: Réservation
-  receipt_title: Titre de la réception
   ref: Ref
   renderables:
     booking_questions:
