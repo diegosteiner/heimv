@@ -42,12 +42,12 @@
 #
 
 class Tenant < ApplicationRecord
-  has_many :bookings, dependent: :restrict_with_error
+  has_many :bookings, dependent: :restrict_with_error, validate: false
   belongs_to :organisation
 
   locale_enum default: I18n.locale
   enum :salutation_form, { informal_neutral: 1, informal_female: 2, informal_male: 3, formal_neutral: 4,
-                           formal_female: 5, formal_male: 6 }, prefix: :salutation_form
+                           formal_female: 5, formal_male: 6 }, prefix: :salutation_form, default: :informal_neutral
 
   normalizes :email, with: ->(email) { email.present? ? EmailAddress.normal(email) : nil }
 
@@ -88,9 +88,13 @@ class Tenant < ApplicationRecord
   end
 
   def salutation
-    self.class.human_enum(:salutation_forms,
-                          salutation_form || organisation&.settings&.predefined_salutation_form,
-                          **names, default: nil)
+    salutations[salutation_form&.to_sym]
+  end
+
+  def salutations
+    self.class.salutation_forms.keys.index_with do |salutation_form|
+      self.class.human_enum(:salutation_forms, salutation_form, **names, default: nil)
+    end.symbolize_keys
   end
 
   def address_lines

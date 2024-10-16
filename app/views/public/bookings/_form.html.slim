@@ -45,10 +45,10 @@
         = f.email_field :email, disabled: true
         = f.fields_for :tenant, @booking.tenant do |tf|
   
-          - unless current_organisation.settings.predefined_salutation_form.present?
-            .row
-              .col-md-4
-                = f.select :salutation_form, salutation_form_options_for_select(@booking.tenant.salutation_form), { include_blank: true }, disabled: !@booking.editable
+          / - unless current_organisation.settings.predefined_salutation_form.present?
+          /   .row
+          /     .col-md-4
+          /       = f.select :salutation_form, salutation_form_options_for_select(@booking.tenant.salutation_form), { include_blank: true }, disabled: !@booking.editable
 
           .row
             .col-sm-6.col-md-4
@@ -73,7 +73,6 @@
           = tf.text_area :phone, rows: 1, disabled: !@booking.editable
           = tf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
           
-
           - booking_categories = [current_organisation.booking_categories.kept, @booking.category].flatten.compact_blank.uniq
           - if current_organisation.locales.many?
             = tf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }, {}, disabled: !@booking.editable, default: I18n.locale
