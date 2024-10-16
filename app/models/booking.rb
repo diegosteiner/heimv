@@ -169,7 +169,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def find_existing_tenant(current_tenant: tenant)
-    return current_tenant if current_tenant&.persisted? && current_tenant&.valid? &&
+    return current_tenant if current_tenant&.persisted? && current_tenant.valid? &&
                              current_tenant.email == self[:email]
 
     Tenant.find_by(email: self[:email], organisation:) unless organisation.blank? || self[:email].blank?
