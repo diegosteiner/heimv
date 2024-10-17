@@ -16,6 +16,10 @@ module BookingStates
       :overdue_request
     end
 
+    def editable
+      true
+    end
+
     after_transition do |booking|
       booking.deadline&.clear
       length = booking.organisation.settings.overdue_request_deadline

@@ -404,6 +404,10 @@ de:
         committed_request:
           definitive_request: Definitive Mietanfrage
           provisional_request: Provisorische Mietanfrage
+        editable:
+          auto: Auto
+          'false': Nicht durch Mieter bearbeitbar
+          'true': Durch Mieter bearbeitbar
       booking/filter:
         concluded:
           all: offen und abgeschlossen

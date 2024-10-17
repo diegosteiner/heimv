@@ -16,6 +16,10 @@ module BookingStates
       :unconfirmed_request
     end
 
+    def editable
+      true
+    end
+
     infer_transition(to: :declined_request) do |booking|
       booking.deadline_exceeded?
     end

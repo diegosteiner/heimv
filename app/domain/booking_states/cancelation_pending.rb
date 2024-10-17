@@ -24,7 +24,6 @@ module BookingStates
     after_transition do |booking|
       booking.free!
       booking.deadline&.clear
-      booking.update!(editable: false)
 
       booking.operator_responsibilities.by_operator(:home_handover, :home_return).keys.map do |operator|
         MailTemplate.use(:operator_cancelation_pending_notification, booking, to: operator, &:autodeliver!)

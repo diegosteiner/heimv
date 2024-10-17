@@ -46,7 +46,7 @@ class BookingQuestionResponse < ApplicationRecord
       return value.blank? if booking_question.booking_agent_blank_editable?
     end
 
-    booking.editable
+    booking.editable?
   end
 
   def value

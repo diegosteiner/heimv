@@ -19,7 +19,7 @@ describe BookingStates::ProvisionalRequest do
     it { expect(transitioned_booking.booking_state).to(be_a(described_class)) }
     it { expect(transitioned_booking.deadline).not_to be(nil) }
     it { expect(transitioned_booking).to be_tentative }
-    it { expect(transitioned_booking.editable).to be_truthy }
+    it { expect(transitioned_booking.editable?).to be_truthy }
     it { expect(transitioned_booking.committed_request).to be_falsy }
     it { expect(transitioned_booking).to notify(:provisional_request_notification).to(:tenant) }
   end

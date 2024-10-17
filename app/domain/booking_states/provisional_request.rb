@@ -18,6 +18,10 @@ module BookingStates
       :provisional_request
     end
 
+    def editable
+      true
+    end
+
     after_transition from: :definitive_request do |booking|
       booking.update(committed_request: false)
     end

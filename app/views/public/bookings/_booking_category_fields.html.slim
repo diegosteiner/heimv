@@ -4,7 +4,7 @@
     = f.label :booking_category_id, Booking.human_attribute_name(:booking_category_id), class: 'required mb-1'
     = f.collection_radio_buttons_without_bootstrap :booking_category_id, booking_categories, :id, :title do |builder|
       .form-check
-        = builder.radio_button class: 'form-check-input', disabled: !booking.editable
+        = builder.radio_button class: 'form-check-input', disabled: !booking.editable?
         = builder.label class: 'form-check-label' do
           = builder.object.title
           

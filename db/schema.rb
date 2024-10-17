@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_09_093906) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_16_185631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -201,7 +201,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_093906) do
     t.text "remarks"
     t.text "invoice_address"
     t.string "ref"
-    t.boolean "editable", default: true
+    t.boolean "editable"
     t.boolean "notifications_enabled", default: false
     t.jsonb "import_data"
     t.datetime "created_at", precision: nil, null: false

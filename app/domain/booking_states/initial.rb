@@ -17,5 +17,9 @@ module BookingStates
     def self.hidden
       true
     end
+
+    def editable
+      true
+    end
   end
 end

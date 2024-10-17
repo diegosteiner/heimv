@@ -18,7 +18,7 @@ describe BookingStates::DefinitiveRequest do
   describe 'transition' do
     it { expect(transitioned_booking.booking_state).to(be_a(described_class)) }
     it { expect(transitioned_booking.deadline).to be(nil) }
-    it { expect(transitioned_booking.editable).to be_falsy }
+    it { expect(transitioned_booking.editable?).to be_falsy }
     it { expect(transitioned_booking.committed_request).to be_truthy }
     it { expect(transitioned_booking).to be_occupied }
     it { expect(transitioned_booking).to notify(:manage_definitive_request_notification).to(:administration) }

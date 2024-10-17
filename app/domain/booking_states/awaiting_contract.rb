@@ -21,7 +21,6 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.update(editable: false)
       if occupied_occupancy_state?(booking)
         booking.occupied!
       elsif !booking.occupied?
