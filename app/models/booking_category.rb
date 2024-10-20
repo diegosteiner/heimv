@@ -40,7 +40,7 @@ class BookingCategory < ApplicationRecord
 
   delegate :to_s, to: :title
 
-  validates :key, length: { minimum: 3, maximum: 50 }, allow_blank: true
+  validates :key, length: { minimum: 3, maximum: 50 }, uniqueness: { scope: :organisation_id }, allow_blank: true
 
   def self.available_for_booking(booking)
     where(id: [booking&.organisation&.booking_categories&.kept&.pluck(:id), booking&.category_id].compact_blank)
