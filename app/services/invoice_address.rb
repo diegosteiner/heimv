@@ -19,6 +19,8 @@ class InvoiceAddress
   end
 
   def represented_by
+    return if tenant_organisation.blank?
+
     @represented_by ||= booking_invoice_address_lines.present? ? [@booking.tenant&.name] : tenant_address_lines
   end
 
