@@ -3,7 +3,7 @@
 .row.justify-content-center
   .col-lg-8
 
-    - unless @notification.delivered?
+    - unless @notification.sent_at.present?
       .alert.alert-warning.mb-3[role="alert"]
         p.m-0= t('manage.notifications.form.not_sent')
 

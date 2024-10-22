@@ -47,7 +47,7 @@ Rails.application.routes.draw do
           post 'actions(/:id)', to: 'booking_actions#invoke', as: :invoke_action
           get 'actions(/:id)', to: 'booking_actions#prepare', as: :prepare_action
           resources :contracts
-          resources :usages do
+          resources :usages, only: %w[index edit update destroy] do
             put :/, action: :update_many, on: :collection
           end
         end

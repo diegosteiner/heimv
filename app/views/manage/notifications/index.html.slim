@@ -45,6 +45,9 @@ table.table.table-hover.align-middle
           = link_to notification.subject, manage_notification_path(notification)
         td.py-1.text-end
           .btn-group
+            - if notification.deliverable? && notification.sent_at.blank?
+              = button_to manage_notification_path(notification), data: { confirm: t(:confirm) }, params: { deliver: true }, method: :patch, class: 'btn btn-default' do
+                span.fa.fa-paper-plane-o
             = link_to manage_notification_path(notification), class: 'btn btn-default' do
               span.fa.fa-eye
             = link_to edit_manage_notification_path(notification), class: 'btn btn-default' do

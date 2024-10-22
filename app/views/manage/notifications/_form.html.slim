@@ -16,6 +16,7 @@
   .form-actions.pt-4.mt-3
     - if @notification.deliverable?
       = f.button name: :'deliver', value: true, class: 'btn btn-primary'
+        span.fa.fa-paper-plane.me-2
         = t('.deliver')
 
     =<> f.submit

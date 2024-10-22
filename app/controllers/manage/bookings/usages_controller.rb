@@ -13,10 +13,6 @@ module Manage
         respond_with :manage, @booking, @usages
       end
 
-      def show
-        respond_with :manage, @booking, @usage
-      end
-
       def edit
         respond_with :manage, @booking, @usage
       end
