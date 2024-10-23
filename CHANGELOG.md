@@ -1,5 +1,13 @@
 # Changelog
 
+## 24.10.2
+
+Released 23.10.2024
+
+- Fix: Use correct status for cancelled requests
+- Fix: Fix regression error on incoices
+- Fix: Add validation for booking categories
+
 ## 24.10.1
 
 Released 13.10.2024
