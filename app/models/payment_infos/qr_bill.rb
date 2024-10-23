@@ -69,7 +69,7 @@ module PaymentInfos
     end
 
     def debitor_address_lines
-      @debitor_address_lines ||= [invoice_address.lines, invoice_address.represented_by].max_by(&:size)
+      @debitor_address_lines ||= [invoice_address.lines, invoice_address.represented_by].compact.max_by(&:size)
     end
 
     def creditor_account
