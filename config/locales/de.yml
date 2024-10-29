@@ -115,7 +115,7 @@ de:
         home_id: Hauptmietobjekt
         ignore_conflicting: Terminkonflikte ignorieren
         internal_remarks: Interne Bemerkungen
-        invoice_address: Rechnungsadresse (falls abweichend)
+        invoice_address: vollständige Rechnungsadresse (falls abweichend)
         locale: Sprache
         nights: Nächte
         notifications_enabled: Aus der Applikation generierte Emails versenden
