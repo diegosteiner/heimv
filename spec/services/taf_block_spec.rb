@@ -38,20 +38,47 @@ describe TafBlock, type: :model do
   end
 
   context '::convert' do
-    describe 'Accounting::JournalEntry' do
+    describe 'Accounting::JournalEntryItem' do
       subject(:converted) { described_class.convert(conversion_subject) }
       let(:conversion_subject) do
-        Accounting::JournalEntry.new(cost_account_id: 1050, amount_netto: 2091.75, date: Date.new(2024, 10, 5),
-                                     text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", so nope!")
+        Accounting::JournalEntryItem.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5),
+                                         amount_type: :netto, side: 1, tax_code: 'MwSt38',
+                                         text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
       it 'converts correctly' do
         is_expected.to be_a described_class
         expect(converted.to_s).to eq(<<~TAF.chomp)
           {Bk
+            AccId=1050
             BType=1
-            CAcc=1050
             Date=05.10.2024
+            TaxId="MwSt38"
+            Text="Lorem ipsum"
+            Text2="Second Line, but its longer than sixty ""chars"", "
+            Type=0
+            ValNt=2091.75
+          }
+        TAF
+      end
+    end
+
+    describe 'Accounting::JournalEntryItem' do
+      subject(:converted) { described_class.convert(conversion_subject) }
+      let(:conversion_subject) do
+        Accounting::JournalEntryItem.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5),
+                                         amount_type: :netto, side: 1, tax_code: 'USt38',
+                                         text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
+      end
+
+      it 'converts correctly' do
+        is_expected.to be_a described_class
+        expect(converted.to_s).to eq(<<~TAF.chomp)
+          {Bk
+            AccId=1050
+            BType=1
+            Date=05.10.2024
+            TaxId="MwSt38"
             Text="Lorem ipsum"
             Text2="Second Line, but its longer than sixty ""chars"", "
             Type=0

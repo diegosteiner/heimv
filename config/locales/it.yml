@@ -330,7 +330,7 @@ it:
         namespace:
         title: Titolo
       tarif:
-        accountancy_account: Conto contabile
+        accounting_account_nr: Conto contabile
         associated_types: Indicato nei documenti
         enabling_conditions: Condizioni per la selezione consentita
         label: Designazione tariffa

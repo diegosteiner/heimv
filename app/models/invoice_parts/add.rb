@@ -29,5 +29,13 @@ module InvoiceParts
     def calculated_amount
       amount
     end
+
+    def journal_entry_items
+      [
+        Accounting::JournalEntryItem.new(account: usage&.tarif&.accounting_account_nr, date: invoice.sent_at,
+                                         amount: (amount / ((100 + (vat || 0))) * 100), amount_type: :netto,
+                                         side: -1, tax_code: vat.to_s, text: invoice.ref, source: self)
+      ]
+    end
   end
 end

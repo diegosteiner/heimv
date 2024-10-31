@@ -332,7 +332,7 @@ de:
         namespace: Bereich
         title: Titel
       tarif:
-        accountancy_account: Buchhaltungskonto
+        accounting_account_nr: Buchhaltungskonto
         associated_types: Ausgewiesen in Dokumenten
         enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung

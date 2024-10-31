@@ -532,7 +532,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_161448) do
     t.datetime "updated_at", precision: nil, null: false
     t.jsonb "label_i18n", default: {}
     t.jsonb "unit_i18n", default: {}
-    t.string "accountancy_account"
+    t.string "accounting_account_nr"
     t.integer "associated_types", default: 0, null: false
     t.decimal "minimum_usage_per_night"
     t.decimal "minimum_usage_total"
@@ -572,6 +572,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_161448) do
     t.string "locale"
     t.boolean "bookings_without_invoice", default: false
     t.integer "salutation_form"
+    t.string "accounting_account_nr"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"

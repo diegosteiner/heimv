@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 module Accounting
-  class Factory
-    def initialize(invoice)
-      @invoice = invoice
+  JournalEntry = Data.define(:date, :items) do
+    def initialize(**args)
+      defaults = { items: [] }
+      super(defaults.merge(args))
     end
-
-    def call; end
   end
 
-  JournalEntry = Data.define(:account_id, :b_type, :cost_account_id, :cost_index, :code, :date,
-                             :flags, :tax_id, :text, :tax_index, :type, :amount_netto, :amount_brutto, :amount_tax,
-                             :op_id, :pk_id) do
+  JournalEntryItem = Data.define(:account, :date, :tax_code, :text, :amount, :side, :cost_center,
+                                 :index, :amount_type, :source) do
+    delegate :invoice, to: :invoice_part
+
     def initialize(**args)
-      defaults = members.index_with(nil).merge({})
+      defaults = { index: nil, tax_code: nil, text: '', cost_center:, source: nil }
       super(defaults.merge(args))
     end
   end

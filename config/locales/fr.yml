@@ -330,7 +330,7 @@ fr:
         namespace: Domaine
         title: Titre
       tarif:
-        accountancy_account: Compte comptable
+        accounting_account_nr: Compte comptable
         associated_types: Affiché dans les documents
         enabling_conditions: Conditions de sélection autorisée
         label: Désignation du tarif

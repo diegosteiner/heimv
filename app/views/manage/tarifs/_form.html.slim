@@ -47,7 +47,7 @@
     .row
       .col-md-6= f.collection_select :prefill_usage_booking_question_id, @tarif.prefill_usage_booking_questions, :id, :label, include_blank: true
       .col-md-6= f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
-    = f.text_field :accountancy_account
+    = f.text_field :accounting_account_nr
     = f.text_field :vat, step: 0.1, inputmode: "numeric" 
 
   fieldset.mt-4
