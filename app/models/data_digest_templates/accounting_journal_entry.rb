@@ -24,48 +24,8 @@
 #
 
 module DataDigestTemplates
-  class AccountingJournalEntry < DataDigestTemplate
+  class AccountingJournalEntry < ::DataDigestTemplate
     ::DataDigestTemplate.register_subtype self
-
-    DEFAULT_COLUMN_CONFIG = [
-      {
-        header: ::Invoice.human_attribute_name(:ref),
-        body: '{{ invoice.ref }}'
-      },
-      {
-        header: ::Booking.human_attribute_name(:ref),
-        body: '{{ booking.ref }}'
-      },
-      {
-        header: ::Invoice.human_attribute_name(:issued_at),
-        body: '{{ invoice.issued_at | datetime_format }}'
-      },
-      {
-        header: ::Invoice.human_attribute_name(:payable_until),
-        body: '{{ invoice.payable_until | datetime_format }}'
-      },
-      {
-        header: ::Invoice.human_attribute_name(:amount),
-        body: '{{ invoice.amount }}'
-      },
-      {
-        header: ::Invoice.human_attribute_name(:amount_paid),
-        body: '{{ invoice.amount_paid }}'
-      }
-      # {
-      #   header: ::Invoice.human_attribute_name(:amount_paid),
-      #   body: '{{ invoice.percentage_paid | times: 100 }}%'
-      # },
-    ].freeze
-
-    column_type :default do
-      body do |invoice, template_context_cache|
-        booking = invoice.booking
-        context = template_context_cache[cache_key(invoice)] ||=
-          TemplateContext.new(booking:, invoice:, organisation: booking.organisation).to_h
-        @templates[:body]&.render!(context)
-      end
-    end
 
     def periodfilter(period = nil)
       filter_class.new(issued_at_after: period&.begin, issued_at_before: period&.end)
@@ -77,6 +37,22 @@ module DataDigestTemplates
 
     def base_scope
       @base_scope ||= ::Invoice.joins(:booking).where(bookings: { organisation_id: organisation }).kept
+    end
+
+    def crunch(records)
+      invoice_ids = records.pluck(:id).uniq
+      base_scope.where(id: invoice_ids).find_each.flat_map do |invoice|
+        invoice.journal_entry
+      end
+    end
+
+    formatter(:taf) do |_options = {}|
+      data.flat_map do |record|
+        journal_entry = ::Accounting::JournalEntry.new(**record)
+        [
+          TafBlock.build_from(journal_entry)
+        ]
+      end.join("\n")
     end
   end
 end

@@ -24,7 +24,7 @@
 #
 
 module DataDigestTemplates
-  class MeterReadingPeriod < ::DataDigestTemplate
+  class MeterReadingPeriod < Tabular
     ::DataDigestTemplate.register_subtype self
     DEFAULT_COLUMN_CONFIG = [
       {

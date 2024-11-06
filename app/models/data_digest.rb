@@ -21,10 +21,7 @@
 #  index_data_digests_on_organisation_id          (organisation_id)
 #
 
-require 'csv'
-
 class DataDigest < ApplicationRecord
-  Formatter = Struct.new(:default_options, :block)
   PERIODS = {
     ever: ->(_at) { Range.new(nil, nil) },
     last_year: ->(at) { ((at - 1.year).beginning_of_year)..((at - 1.year).end_of_year) },
@@ -53,14 +50,6 @@ class DataDigest < ApplicationRecord
   delegate :label, to: :data_digest_template
   attr_reader :period
 
-  def self.formatters
-    @formatters ||= (superclass.respond_to?(:formatters) && superclass.formatters&.dup) || {}
-  end
-
-  def self.formatter(format, default_options: {}, &block)
-    formatters[format.to_sym] = Formatter.new(default_options, block)
-  end
-
   def period=(period_key)
     @period = period_key&.to_sym
     period_range = PERIODS[@period]&.call(Time.zone.now)
@@ -78,15 +67,7 @@ class DataDigest < ApplicationRecord
   end
 
   def crunch
-    self.data = []
-    records.pluck(:id).uniq.each do |record_id|
-      record = data_digest_template.base_scope.find(record_id)
-      template_context_cache = {}
-      data << data_digest_template.columns.map do |column|
-        column.body(record, template_context_cache)
-      end
-    end
-    data
+    self.data = data_digest_template.crunch(records)
   end
 
   def crunch!
@@ -99,14 +80,6 @@ class DataDigest < ApplicationRecord
     crunching_finished_at.present?
   end
 
-  def header
-    data_digest_template.columns.map(&:header)
-  end
-
-  def footer
-    data_digest_template.columns.map(&:footer)
-  end
-
   def format(format, **options)
     data || crunch
     formatter = formatters[format&.to_sym]
@@ -115,29 +88,12 @@ class DataDigest < ApplicationRecord
   end
 
   def formatters
-    self.class.formatters
+    data_digest_template.class.formatters
   end
 
   def localized_period
     I18n.t('data_digests.period_short',
            period_from: (period_from && I18n.l(period_from)) || '',
            period_to: (period_to && I18n.l(period_to)) || '')
-  end
-
-  formatter(:csv) do |options = {}|
-    options.reverse_merge!({ col_sep: ';', write_headers: true, skip_blanks: true,
-                             force_quotes: true, encoding: 'utf-8' })
-
-    bom = "\uFEFF"
-    bom + CSV.generate(**options) do |csv|
-      csv << header
-      data&.each { |row| csv << row }
-      csv << footer if footer.any?(&:present?)
-    end
-  end
-
-  formatter(:pdf) do |options = {}|
-    options.reverse_merge!({ document_options: { page_layout: :landscape } })
-    Export::Pdf::DataDigestPdf.new(self, **options).render_document
   end
 end

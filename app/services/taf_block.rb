@@ -49,7 +49,7 @@ class TafBlock
       format('%.2f', value)
     when ::Numeric
       value.to_s
-    when ::Date, ::DateTime
+    when ::Date, ::DateTime, ::ActiveSupport::TimeWithZone
       value.strftime('%d.%m.%Y')
     else
       "\"#{value.to_s.gsub('"', '""')}\"".presence
@@ -68,21 +68,21 @@ class TafBlock
     properties.compact.flat_map { |key, value| "#{key}=#{serialize_value(value)}" }.join(join_with)
   end
 
-  def self.derivers
-    @derivers ||= {}
+  def self.builders
+    @builders ||= {}
   end
 
-  def self.register_deriver(klass, &derive_block)
-    derivers[klass] = derive_block
+  def self.register_builder(klass, &build_block)
+    builders[klass] = build_block
   end
 
-  def self.derive(value, **options)
-    derive_block = derivers[derivers.keys.find { |klass| value.is_a?(klass) }]
-    instance_exec(value, options, &derive_block) if derive_block.present?
+  def self.build_from(value, **options)
+    build_block = builders[builders.keys.find { |klass| value.is_a?(klass) }]
+    instance_exec(value, options, &build_block) if build_block.present?
   end
 
-  register_deriver Accounting::JournalEntry do |value, **options|
-    new(:Blg, *value.items.map { TafBlock.serialize(_1) }, **{
+  register_builder Accounting::JournalEntry do |value, **options|
+    new(:Blg, *value.items.map { TafBlock.build_from(_1) }, **{
           # Date; The date of the booking.
           Date: options.fetch(:Date, value.date),
 
@@ -90,13 +90,13 @@ class TafBlock
         })
   end
 
-  register_deriver Accounting::JournalEntryItem do |value, **options|
+  register_builder Accounting::JournalEntryItem do |value, **options|
     new(:Bk, **{
           # The Id of a book keeping account. [Fibu-Konto]
           AccId: options.fetch(:AccId, value.account),
 
           # Integer; Booking type: 1=cost booking, 2=tax booking
-          BType: options.fetch(:BType, value.amount_type == :tax || 1),
+          BType: options.fetch(:BType, value.amount_type&.to_sym == :tax || 1),
 
           # String[13], This is the cost type account
           CAcc: options.fetch(:CAcc, value.cost_center),
@@ -131,11 +131,11 @@ class TafBlock
           # Be careful not to put too many characters onto one single line, because
           # most Reports are not designed to display a full string containing 60
           # characters.
-          Text2: options.fetch(:Text2, value.text&.slice(0..59)&.lines&.[](1..-1)&.join("\n")),
+          Text2: options.fetch(:Text2, value.text&.slice(0..59)&.lines&.[](1..-1)&.join("\n")).presence,
 
           # Integer; This is the index of the booking that represents the tax booking
           # which is attached to this booking.
-          TIdx: options.fetch(:TIdx, (value.amount_type == :tax && value.index) || nil),
+          TIdx: options.fetch(:TIdx, (value.amount_type&.to_sym == :tax && value.index) || nil),
 
           # Boolean; Booking type.
           # 0 a debit booking [Soll]
@@ -143,13 +143,13 @@ class TafBlock
           Type: options.fetch(:Type, { 1 => 0, -1 => 1 }[value.side]),
 
           # Currency; The net amount for this booking. [Netto-Betrag]
-          ValNt: options.fetch(:ValNt, value.amount_type == :netto ? value.amount : nil),
+          ValNt: options.fetch(:ValNt, value.amount_type&.to_sym == :netto ? value.amount : nil),
 
           # Currency; The tax amount for this booking. [Brutto-Betrag]
-          ValBt: options.fetch(:ValBt, value.amount_type == :brutto ? value.amount : nil),
+          ValBt: options.fetch(:ValBt, value.amount_type&.to_sym == :brutto ? value.amount : nil),
 
           # Currency; The tax amount for this booking. [Steuer-Betrag]
-          ValTx: options.fetch(:ValTx, value.amount_type == :tax ? value.amount : nil),
+          ValTx: options.fetch(:ValTx, value.amount_type&.to_sym == :tax ? value.amount : nil),
 
           # Currency; The gross amount for this booking in the foreign currency specified
           # by currency of the account AccId. [FW-Betrag]

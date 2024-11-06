@@ -191,14 +191,9 @@ class Invoice < ApplicationRecord
                  end
   end
 
-  def journal_entry_item
-    Accounting::JournalEntryItem.new(account: booking.tenant.accounting_account_nr, date: sent_at,
-                                     amount: amount, amount_type: :brutto, side: 1,
-                                     text: ref, source: self)
-  end
-
   def journal_entry
-    Accounting::JournalEntry.new(date: sent_at,
-                                 items: [journal_entry_item] + invoice_parts.flat_map(&:journal_entry_items))
+    items = [{ account: booking.tenant.accounting_account_nr, date: sent_at, amount: amount, amount_type: :brutto,
+               side: 1, text: ref, source: :invoice, invoice_id: id }] + invoice_parts.map(&:journal_entry_items)
+    Accounting::JournalEntry.new(date: sent_at, invoice_id: id, items:)
   end
 end

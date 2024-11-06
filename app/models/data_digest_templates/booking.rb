@@ -24,7 +24,7 @@
 #
 
 module DataDigestTemplates
-  class Booking < ::DataDigestTemplate
+  class Booking < Tabular
     ::DataDigestTemplate.register_subtype self
 
     DEFAULT_COLUMN_CONFIG = [

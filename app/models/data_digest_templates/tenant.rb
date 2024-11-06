@@ -24,7 +24,7 @@
 #
 
 module DataDigestTemplates
-  class Tenant < ::DataDigestTemplate
+  class Tenant < Tabular
     ::DataDigestTemplate.register_subtype self
     DEFAULT_COLUMN_CONFIG = [
       {
