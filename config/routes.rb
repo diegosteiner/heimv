@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'dashboard', to: 'dashboard#index'
       get 'flow', to: 'pages#flow'
       resources :occupiables do
+        get 'calendar', on: :member
         resources :occupancies, only: %i[index new create]
       end
       resources :occupancies, only: %w[new create edit update destroy]

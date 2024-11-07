@@ -10,6 +10,7 @@ type OccupiableCalendarProps = {
   occupiableIds: number[];
   defaultView: ViewType;
   occupancyAtUrl: string;
+  manage?: boolean;
 };
 
 export default function OccupiableCalendar({
@@ -18,11 +19,12 @@ export default function OccupiableCalendar({
   months,
   defaultView,
   occupancyAtUrl,
+  manage,
 }: OccupiableCalendarProps) {
   return (
     <React.StrictMode>
       <OrganisationProvider org={org}>
-        <OccupancyWindowProvider occupiableIds={occupiableIds}>
+        <OccupancyWindowProvider occupiableIds={occupiableIds} manage={manage}>
           <OccupancyOverviewCalendar
             defaultView={defaultView}
             months={months}

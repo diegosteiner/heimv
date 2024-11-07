@@ -30,10 +30,8 @@ module Public
     private
 
     def set_calendar
-      window_from = current_organisation_user.present? ? 2.months.ago : Time.zone.now.beginning_of_day
-
       @calendar = OccupancyCalendar.new(organisation: current_organisation, occupiables: @home.occupiables,
-                                        window_from:)
+                                        window_from: Time.zone.beginning_of_month)
     end
   end
 end

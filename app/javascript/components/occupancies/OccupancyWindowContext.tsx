@@ -9,9 +9,10 @@ export const OccupancyWindowContext = createContext<OccupancyWindowWithOccupiedD
 
 type OccupancyWindowProviderProps = PropsWithChildren<{
   occupiableIds?: Occupiable["id"][];
+  manage?: boolean;
 }>;
 
-export function OccupancyWindowProvider({ occupiableIds, children }: OccupancyWindowProviderProps) {
+export function OccupancyWindowProvider({ occupiableIds, manage = false, children }: OccupancyWindowProviderProps) {
   const organisation = useContext(OrganisationContext);
   const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindowWithOccupiedDates | undefined>();
 
@@ -23,9 +24,12 @@ export function OccupancyWindowProvider({ occupiableIds, children }: OccupancyWi
         return;
       }
       const api = new ApiClient(organisation.slug);
-
       const occupancyWindows = await Promise.all(
-        occupiableIds.map((occupiableId) => api.getOccupiableOccupancyWindow(occupiableId)),
+        occupiableIds.map((occupiableId) => {
+          return manage
+            ? api.getManageOccupiableOccupancyWindow(occupiableId)
+            : api.getOccupiableOccupancyWindow(occupiableId);
+        }),
       );
       const mergedOccupancyWindow = occupancyWindows.reduce((memo, occupancyWindow) => ({
         start: max([memo?.start, occupancyWindow.start]),
