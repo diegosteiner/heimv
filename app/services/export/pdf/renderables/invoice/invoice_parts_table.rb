@@ -16,15 +16,13 @@ module Export
           end
 
           def render
-            move_down 20
-
             split_invoice_part_groups.each do |group_data|
               move_down 5
               render_invoice_parts_table(group_data)
             end
 
-            move_down 10
             render_invoice_total_table
+            render_invoice_vat_table
           end
 
           def render_invoice_parts_table(invoice_parts_table_data)
@@ -35,12 +33,26 @@ module Export
           end
 
           def render_invoice_total_table
+            move_down 10
             total_data = [[I18n.t('invoices.total'), '', organisation.currency,
                            helpers.number_to_currency(invoice.amount, unit: '')]]
 
             table total_data, **table_options(borders: [:top], font_style: :bold, padding: [4, 4, 4, 0]) do
               column(2).style(align: :right)
               column(3).style(align: :right)
+            end
+          end
+
+          def render_invoice_vat_table
+            return if invoice.vat.none?
+
+            move_down 10
+            start_new_page if cursor < (vat_table_data.count + 1) * 9
+            font_size(7) do
+              text I18n.t('invoices.vat_title')
+              table(vat_table_data, { cell_style: { borders: [], padding: [0, 4, 4, 0] } }) do
+                column([2, 3]).style(align: :right)
+              end
             end
           end
 
@@ -74,6 +86,16 @@ module Export
             else
               [invoice_part.label, invoice_part.breakdown, organisation.currency,
                helpers.number_to_currency(invoice_part.calculated_amount, unit: '')]
+            end
+          end
+
+          def vat_table_data
+            invoice.vat.map do |vat_percentage, vat_amounts|
+              [
+                I18n.t('invoices.vat_label', vat: vat_percentage), organisation.currency,
+                ActionController::Base.helpers.number_to_currency(vat_amounts[:total], unit: ''),
+                ActionController::Base.helpers.number_to_currency(vat_amounts[:tax], unit: '')
+              ]
             end
           end
         end
