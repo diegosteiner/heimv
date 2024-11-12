@@ -56,7 +56,7 @@ class Contract < ApplicationRecord
     return unless was_sent? && changed.intersect?(%w[text])
 
     successor = dup
-    successor.update!(**attributes.merge(valid_from: Time.zone.now, sent_at: nil, signed_at: nil))
+    successor.update!(**attributes, valid_from: Time.zone.now, sent_at: nil, signed_at: nil)
     restore_attributes
     assign_attributes(valid_until: successor.valid_from)
   end

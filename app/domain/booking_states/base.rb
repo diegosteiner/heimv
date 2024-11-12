@@ -70,7 +70,7 @@ module BookingStates
       end
 
       def occupied_occupancy_state?(booking)
-        booking&.organisation&.settings&.occupied_occupancy_states&.include?(to_s)
+        booking&.organisation&.settings&.occupied_occupancy_states&.include?(to_s) # rubocop:disable Style/SafeNavigationChainLength
       end
 
       def available_public_actions

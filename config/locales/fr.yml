@@ -1191,7 +1191,7 @@ fr:
         ÿ: "y"
         Œ: Oe
         œ: oe
-        Ÿ: Y
+        Ÿ: "Y"
   import: Importer
   import_records: Importer %{model_name}
   invoice_parts:
