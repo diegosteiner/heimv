@@ -1,14 +1,12 @@
 .container 
   .row
-    - @organisations.each do |organisation|
-      .col-lg-4.col-md-4
-        .card.shadow-sm.mb-3
-          .card-body.row 
-            .col-4
-                .ratio.ratio-16x9
-                  = image_tag organisation.logo, style: 'object-fit: contain; object-position: center center;' if organisation.logo.present?
-            .col-8.justify-content-center.d-flex.flex-column
-              div
-                h6.m-0= organisation.name
-                = link_to manage_root_path(org: organisation), class: 'stretched-link' do 
-                  = t("nav.manage")
+    .table-responsive
+      table.table.table-hover.align-middle
+        thead 
+          tr 
+            th= Organisation.model_name.human
+
+        tbody.shadow-sm
+          - @organisations.each do |organisation|
+            tr 
+              td= link_to organisation.name, manage_root_path(org: organisation)
