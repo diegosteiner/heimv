@@ -1,5 +1,11 @@
 # Changelog
 
+## 24.11.1
+
+Released 25.11.2024
+
+- Fix: Refactor deadlines to fix out-of-order issues
+
 ## 24.10.2
 
 Released 23.10.2024
