@@ -115,7 +115,7 @@ de:
         home_id: Hauptmietobjekt
         ignore_conflicting: Terminkonflikte ignorieren
         internal_remarks: Interne Bemerkungen
-        invoice_address: Rechnungsadresse (falls abweichend)
+        invoice_address: vollständige Rechnungsadresse (falls abweichend)
         locale: Sprache
         nights: Nächte
         notifications_enabled: Aus der Applikation generierte Emails versenden
@@ -571,6 +571,8 @@ de:
         one: Mietobjekt Bedingung
       booking_conditions/tarif:
         one: Ausgewählter Tarif Bedingung
+      booking_conditions/tenant_attribute:
+        one: Mieterattribut Bedingung
       booking_question:
         one: Zusätzliche Angabe
         other: Zusätzliche Angaben
@@ -777,6 +779,9 @@ de:
       attributes:
         home: Hauptmietobjekt
         occupiable: Mietobjekt
+    tenant_attribute:
+      attributes:
+        country_code: Ländercode
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterschrieben

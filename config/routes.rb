@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'dashboard', to: 'dashboard#index'
       get 'flow', to: 'pages#flow'
       resources :occupiables do
+        get 'calendar', on: :member
         resources :occupancies, only: %i[index new create]
       end
       resources :occupancies, only: %w[new create edit update destroy]
@@ -41,7 +42,7 @@ Rails.application.routes.draw do
         resources :operator_responsibilities, except: %i[show] do
           post :assign, on: :collection
         end
-        resources :deadlines, shallow: true, only: %i[edit update]
+        resource :deadline, shallow: true, only: %i[edit update]
         resources :notifications, shallow: true
         scope module: :bookings do
           post 'actions(/:id)', to: 'booking_actions#invoke', as: :invoke_action

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_16_185631) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_25_082419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -208,7 +208,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_16_185631) do
     t.datetime "updated_at", precision: nil, null: false
     t.text "internal_remarks"
     t.boolean "concluded", default: false
-    t.bigint "deadline_id"
     t.string "locale"
     t.integer "booking_category_id"
     t.string "booking_flow_type"
@@ -224,7 +223,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_16_185631) do
     t.boolean "ignore_conflicting", default: false, null: false
     t.jsonb "booking_questions"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
-    t.index ["deadline_id"], name: "index_bookings_on_deadline_id"
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
     t.index ["ref"], name: "index_bookings_on_ref"

@@ -54,31 +54,8 @@ module Export
       end
 
       to_render do
-        next if invoice.vat.none?
-
-        move_down 20
-        start_new_page if cursor < (vat_table_data.count + 1) * 9
-        font_size(7) do
-          text I18n.t('invoices.vat_title')
-          table(vat_table_data, { cell_style: { borders: [], padding: [0, 4, 4, 0] } }) do
-            column([2, 3]).style(align: :right)
-          end
-        end
-      end
-
-      to_render do
         payment_info_renerable = payment_info&.show? && PAYMENT_INFOS.fetch(payment_info.class)&.new(payment_info)
         render payment_info_renerable if payment_info_renerable
-      end
-
-      def vat_table_data
-        invoice.vat.map do |vat_percentage, vat_amounts|
-          [
-            I18n.t('invoices.vat_label', vat: vat_percentage), organisation.currency,
-            ActionController::Base.helpers.number_to_currency(vat_amounts[:total], unit: ''),
-            ActionController::Base.helpers.number_to_currency(vat_amounts[:tax], unit: '')
-          ]
-        end
       end
     end
   end

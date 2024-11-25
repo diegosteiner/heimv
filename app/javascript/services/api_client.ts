@@ -25,4 +25,12 @@ export class ApiClient {
 
     return parseOcupancyWindow(json as unknown as OccupancyWindowJson);
   }
+
+  public async getManageOccupiableOccupancyWindow(occupiableId: Occupiable["id"]): Promise<OccupancyWindow> {
+    const response = await fetch(`${this.basePath}/manage/occupiables/${occupiableId}/calendar.json`);
+    const json = await response.json();
+    if (response.status !== 200) throw new Error(json.error);
+
+    return parseOcupancyWindow(json as unknown as OccupancyWindowJson);
+  }
 }

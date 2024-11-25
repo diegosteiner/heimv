@@ -119,7 +119,7 @@
 
                 - if @booking.deadline.present?
                   dt= Deadline.model_name.human
-                  dd= link_to l(@booking.deadline.at, format: :short), edit_manage_deadline_path(@booking.deadline)
+                  dd= link_to l(@booking.deadline.at, format: :short), edit_manage_booking_deadline_path(@booking)
 
             .col-md-6 
               dl 

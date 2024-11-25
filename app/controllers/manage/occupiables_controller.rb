@@ -37,6 +37,12 @@ module Manage
       respond_with :manage, @occupiable, location: manage_occupiables_path
     end
 
+    def calendar
+      calendar = OccupancyCalendar.new(organisation: current_organisation, occupiables: @occupiable,
+                                       window_from: 1.year.ago, window_to: nil)
+      render json: Public::OccupancyCalendarSerializer.render(calendar)
+    end
+
     private
 
     def enforce_limit

@@ -2,6 +2,7 @@
 
 module BookingActions
   class Base
+    class NotAllowed < StandardError; end
     Result = Struct.new(:success, :redirect_proc, :error, keyword_init: true) do
       def self.success(**)
         new(success: true, **)
@@ -35,10 +36,14 @@ module BookingActions
     end
 
     def invoke(...)
-      # i18n-tasks-ignore
-      return Result.failure error: translate(:not_allowed) unless allowed?
+      raise NotAllowed unless allowed?
 
       invoke!(...)
+    rescue Statesman::TransitionConflictError, NotAllowed
+      # i18n-tasks-ignore
+      Result.failure error: translate(:not_allowed)
+    rescue StandardError => e
+      Result.failure error: e.message
     end
 
     def self.to_sym

@@ -28,9 +28,8 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.deadline&.clear
-      booking.deadlines.create(length: booking.organisation.settings.unconfirmed_request_deadline,
-                               remarks: booking.booking_state.t(:label))
+      booking.set_deadline(length: booking.organisation.settings.unconfirmed_request_deadline,
+                           remarks: booking.booking_state.t(:label))
       booking.tentative!
       MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:autodeliver!)
     end

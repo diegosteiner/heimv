@@ -15,7 +15,7 @@
 #  committed_request      :boolean
 #  concluded              :boolean          default(FALSE)
 #  conditions_accepted_at :datetime
-#  editable               :boolean          default(TRUE)
+#  editable               :boolean
 #  email                  :string
 #  ends_at                :datetime
 #  ignore_conflicting     :boolean          default(FALSE), not null
@@ -35,7 +35,6 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  booking_category_id    :integer
-#  deadline_id            :bigint
 #  home_id                :integer          not null
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
@@ -43,7 +42,6 @@
 # Indexes
 #
 #  index_bookings_on_booking_state_cache  (booking_state_cache)
-#  index_bookings_on_deadline_id          (deadline_id)
 #  index_bookings_on_locale               (locale)
 #  index_bookings_on_organisation_id      (organisation_id)
 #  index_bookings_on_ref                  (ref)

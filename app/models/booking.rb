@@ -15,7 +15,7 @@
 #  committed_request      :boolean
 #  concluded              :boolean          default(FALSE)
 #  conditions_accepted_at :datetime
-#  editable               :boolean          default(TRUE)
+#  editable               :boolean
 #  email                  :string
 #  ends_at                :datetime
 #  ignore_conflicting     :boolean          default(FALSE), not null
@@ -35,7 +35,6 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  booking_category_id    :integer
-#  deadline_id            :bigint
 #  home_id                :integer          not null
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
@@ -43,7 +42,6 @@
 # Indexes
 #
 #  index_bookings_on_booking_state_cache  (booking_state_cache)
-#  index_bookings_on_deadline_id          (deadline_id)
 #  index_bookings_on_locale               (locale)
 #  index_bookings_on_organisation_id      (organisation_id)
 #  index_bookings_on_ref                  (ref)
@@ -68,7 +66,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   belongs_to :home
   belongs_to :organisation, inverse_of: :bookings
   belongs_to :tenant, inverse_of: :bookings, autosave: true
-  belongs_to :deadline, inverse_of: :booking, optional: true
   belongs_to :category, inverse_of: :bookings, class_name: 'BookingCategory', optional: true,
                         foreign_key: :booking_category_id
 
@@ -78,7 +75,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :usages, -> { ordered }, dependent: :destroy, inverse_of: :booking
   has_many :tarifs, through: :usages, inverse_of: :bookings
   has_many :contracts, -> { ordered }, dependent: :destroy, inverse_of: :booking
-  has_many :deadlines, dependent: :delete_all, inverse_of: :booking
   has_many :state_transitions, dependent: :delete_all
   has_many :operator_responsibilities, inverse_of: :booking, dependent: :destroy
   has_many :logs, inverse_of: :booking, dependent: :destroy
@@ -87,6 +83,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :booking_question_responses, -> { ordered }, dependent: :destroy, autosave: true, inverse_of: :booking
   has_many :booking_questions, through: :booking_question_responses
 
+  has_one  :deadline, inverse_of: :booking, dependent: :destroy
   has_one  :agent_booking, dependent: :destroy, inverse_of: :booking
   has_one  :booking_agent, through: :agent_booking
 
@@ -152,10 +149,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     "#{super}@#{updated_at.iso8601(3)}"
   end
 
-  def update_deadline!
-    deadlines.reload && update(deadline: deadlines.next.take)
-  end
-
   def update_occupancies
     occupancies.each(&:update_from_booking)
   end
@@ -197,6 +190,12 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     return editable unless editable.nil?
 
     booking_state&.editable || false
+  end
+
+  def set_deadline(params = {})
+    build_deadline if deadline.blank?
+    deadline.update(armed: true, postponable_for: nil, **params, booking: self)
+    deadline
   end
 
   private
