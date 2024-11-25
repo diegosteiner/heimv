@@ -5,6 +5,8 @@
 Released 25.11.2024
 
 - Fix: Refactor deadlines to fix out-of-order issues
+- Fix: Order Booking Question Responses correctly
+- Feature: Add Tenant Attributes as BookingCondition
 
 ## 24.10.2
 
