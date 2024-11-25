@@ -23,7 +23,7 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear
       length = booking.organisation.settings.overdue_request_deadline
-      booking.deadlines.create(length:, remarks: booking.booking_state.t(:label)) unless length.negative?
+      booking.set_deadline(length:, remarks: booking.booking_state.t(:label)) unless length.negative?
       MailTemplate.use(:overdue_request_notification, booking, to: :tenant, &:autodeliver!)
     end
 

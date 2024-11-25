@@ -42,7 +42,7 @@ Rails.application.routes.draw do
         resources :operator_responsibilities, except: %i[show] do
           post :assign, on: :collection
         end
-        resources :deadlines, shallow: true, only: %i[edit update]
+        resource :deadline, shallow: true, only: %i[edit update]
         resources :notifications, shallow: true
         scope module: :bookings do
           post 'actions(/:id)', to: 'booking_actions#invoke', as: :invoke_action

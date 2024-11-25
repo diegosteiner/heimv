@@ -3,15 +3,15 @@
 module Manage
   class DeadlinesController < BaseController
     load_and_authorize_resource :booking
-    load_and_authorize_resource :deadline, through: :booking, shallow: true
+    load_and_authorize_resource :deadline, through: :booking, singleton: true
 
     def edit
       respond_with :manage, @deadline
     end
 
     def update
-      @deadline.update(deadline_params)
-      respond_with :manage, @deadline.booking, location: manage_booking_path(@deadline.booking)
+      @booking.set_deadline(deadline_params)
+      respond_with :manage, @booking, location: manage_booking_path(@booking)
     end
 
     private

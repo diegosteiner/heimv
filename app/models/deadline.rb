@@ -26,7 +26,7 @@
 #
 
 class Deadline < ApplicationRecord
-  belongs_to :booking, inverse_of: :deadlines, touch: true
+  belongs_to :booking, inverse_of: :deadline, touch: true
 
   scope :ordered, -> { order(at: :desc) }
   scope :armed, -> { where(armed: true) }
@@ -35,7 +35,6 @@ class Deadline < ApplicationRecord
 
   # validates :at, presence: true
   attribute :length
-  after_save :update_booking_deadline
 
   def length=(duration)
     self.armed = duration.present? && !duration.zero?
@@ -62,9 +61,5 @@ class Deadline < ApplicationRecord
 
   def clear
     update!(armed: false)
-  end
-
-  def update_booking_deadline
-    booking.update_deadline!
   end
 end

@@ -1,4 +1,4 @@
-= form_with(model: [:manage, @deadline], local: true) do |f|
+= form_with(model: @deadline, url: manage_booking_deadline_path(@booking), method: :patch, local: true) do |f|
 
   fieldset
     = f.datetime_local_field :at, step: 1
