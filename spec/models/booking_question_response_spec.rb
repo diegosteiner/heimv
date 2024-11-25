@@ -22,5 +22,22 @@
 require 'rails_helper'
 
 RSpec.describe BookingQuestionResponse, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:organisation) { create(:organisation) }
+  let(:booking) { create(:booking, organisation:) }
+
+  describe '#process' do
+    def process = BookingQuestionResponse.process(booking, responses_params, role:)
+    let(:responses_params) { {} }
+    let(:role) { :tenant }
+
+    it 'keeps the order of questions and responses' do
+      3.times { |i| create(:booking_question, ordinal: (3 - i), organisation:, label: "Q#{i + 1}") }
+      process
+      expect(booking.booking_question_responses.map { _1.booking_question.label }).to eq(%w[Q3 Q2 Q1])
+      create(:booking_question, ordinal: 2, organisation:, label: 'Q4')
+      booking.booking_question_responses.reload
+      process
+      expect(booking.booking_question_responses.map { _1.booking_question.label }).to eq(%w[Q3 Q4 Q2 Q1])
+    end
+  end
 end

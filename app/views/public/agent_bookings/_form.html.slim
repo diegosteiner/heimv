@@ -48,7 +48,7 @@
   
         fieldset.mt-4
           h5.mt-0= BookingQuestion.model_name.human(count: 2)
-          = bf.fields_for :booking_question_responses, @agent_booking.booking.booking_question_responses do |bqrf|
+          = bf.fields_for :booking_question_responses, @agent_booking.booking.booking_question_responses.sort_by(&:ordinal) do |bqrf|
             - response = bqrf.object
             - question = response.booking_question
             - next if question.booking_agent_not_visible?

@@ -95,7 +95,7 @@
 
   fieldset.mt-4
     h5.mt-0= BookingQuestion.model_name.human(count: 2)
-    = f.fields_for :booking_question_responses, @booking.booking_question_responses do |bqrf|
+    = f.fields_for :booking_question_responses, @booking.booking_question_responses.sort_by(&:ordinal) do |bqrf|
       - response = bqrf.object
       - question = response.booking_question
       = bqrf.hidden_field :booking_question_id
