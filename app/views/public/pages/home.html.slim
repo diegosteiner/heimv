@@ -2,11 +2,32 @@
   .row
     .table-responsive
       table.table.table-hover.align-middle
-        thead 
-          tr 
+        thead
+          tr
             th= Organisation.model_name.human
+            th= Organisation.human_attribute_name(:email)
+            th= Booking.model_name.human(count: 2)
+            th
+
 
         tbody.shadow-sm
           - @organisations.each do |organisation|
             tr 
               td= link_to organisation.name, manage_root_path(org: organisation)
+              td= mail_to organisation.email, organisation.email
+              td
+                = organisation.bookings.where(concluded: false).count
+                span.my-1 
+                  | /
+                = organisation.bookings.count
+              td.py-1.text-end
+                .btn-group
+                = link_to edit_manage_organisation_path, class: 'btn btn-default'
+                  span.fa.fa-cog.pe-2
+                  = Organisation.model_name.human
+                = link_to manage_occupiables_path, class: 'btn btn-default'
+                  span.fa.fa-home.pe-2
+                  = Occupiable.model_name.human(count: 2) 
+                = link_to manage_tarifs_path, class: 'btn btn-default'
+                  span.fa.fa-usd.pe-2
+                  = Tarif.model_name.human(count: 2) 

@@ -571,6 +571,8 @@ de:
         one: Mietobjekt Bedingung
       booking_conditions/tarif:
         one: Ausgewählter Tarif Bedingung
+      booking_conditions/tenant_attribute:
+        one: Mieterattribut Bedingung
       booking_question:
         one: Zusätzliche Angabe
         other: Zusätzliche Angaben
@@ -777,6 +779,9 @@ de:
       attributes:
         home: Hauptmietobjekt
         occupiable: Mietobjekt
+    tenant_attribute:
+      attributes:
+        country_code: Ländercode
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterschrieben
