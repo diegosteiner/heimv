@@ -26,7 +26,7 @@ module Public
     def create
       @agent_booking.assign_attributes(agent_booking_params.merge(organisation: current_organisation))
 
-      if @agent_booking.save(context: :agent_booking)
+      if @agent_booking.save(context: :agent_create)
         write_booking_log
         respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
       else
@@ -43,7 +43,7 @@ module Public
       end
       invoke_booking_action
       write_booking_log
-      @agent_booking.save(context: :agent_booking)
+      @agent_booking.save(context: :agent_update)
       respond_with :public, @agent_booking, location: edit_public_agent_booking_path(@agent_booking.token)
     end
 

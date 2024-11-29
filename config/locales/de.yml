@@ -162,10 +162,11 @@ de:
         tenant_mode: Eingabemodus für Mieter
         type: Typ
       booking_validation:
+        check_on: Prüfen bei
         enabling_conditions: Bedingungen zur Ausführung der Gültigkeitsprüfung
         error_message: Anzuzeigende Fehlermeldung
         ordinal_position: Ordnungsnummer
-        validating_conditions: Kriterien der Gültigkeitsprüfung
+        validating_conditions: Kriterien der Gültigkeit
       contract:
         issuer: Vermieter
         locale: Sprache
@@ -429,6 +430,14 @@ de:
           blank_editable: Für Mieter sichtbar, bearbeitbar wenn leer
           not_visible: Für Mieter unsichtbar
           provisional_editable: Für Mieter sichtbar, bearbeitbar bis definitiv
+      booking_validation:
+        check_on:
+          agent_create: Erstellung durch Vermittler
+          agent_update: Bearbeitung durch Vermittler
+          manage_create: Erstellung durch Verwaltung
+          manage_update: Bearbeitung durch Verwaltung
+          public_create: Erstellung durch Mieter
+          public_update: Bearbeitung durch Mieter
       data_digest:
         periods:
           ever: Aller Zeiten

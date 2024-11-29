@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_25_082419) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_29_161448) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -185,6 +185,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_25_082419) do
     t.integer "ordinal"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "check_on", default: 0, null: false
     t.index ["organisation_id"], name: "index_booking_validations_on_organisation_id"
   end
 

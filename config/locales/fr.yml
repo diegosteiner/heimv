@@ -216,7 +216,7 @@ fr:
         locale: Langue
         payable_until: Payable jusqu'au
         payment_info_type: Section paiement
-        payment_required:
+        payment_required: Paiement obligatoire pour le transfert de statut
         percentage_paid: "% payé"
         ref: Numéro de référence
         sent_at: Date de facturation
@@ -367,7 +367,7 @@ fr:
         remarks: Remarques internes
         reservations_allowed: Peut envoyer des demandes de réservation
         salutation:
-        salutation_form:
+        salutation_form: Forme de salutation préférée
         street_address: Rue / N
         zipcode: Code postal
       usage:
@@ -403,6 +403,10 @@ fr:
         committed_request:
           definitive_request: Demande de location définitive
           provisional_request: Demande de location provisoire
+        editable:
+          auto:
+          'false':
+          'true': Possibilité de traitement par le locataire
       booking/filter:
         concluded:
           all: ouvert et fermé
@@ -499,12 +503,12 @@ fr:
           nights: Nuits
       tenant:
         salutation_forms:
-          formal_female:
-          formal_male:
-          formal_neutral:
-          informal_female:
-          informal_male:
-          informal_neutral:
+          formal_female: Chère Madame %{last_name}
+          formal_male: Cher Monsieur %{last_name}
+          formal_neutral: Bonjour %{full_name}
+          informal_female: Chère %{informal_name}
+          informal_male: Cher %{informal_name}
+          informal_neutral: Bonjour %{informal_name}
       user:
         default_calendar_views:
           months: Vue mensuelle
@@ -565,7 +569,7 @@ fr:
       booking_conditions/occupiable:
         one: Condition de l'objet de location
       booking_conditions/tarif:
-        one: Condition du tarif sélectionné
+        one: 'Condition du tarif sélectionné '
       booking_question:
         one: Infos supplémentaires
         other: Informations supplémentaires
@@ -772,6 +776,9 @@ fr:
       attributes:
         home: Principal objet de location
         occupiable: Objet de location
+    tenant_attribute:
+      attributes:
+        country_code: Code du pays
   booking_state_checklist_item:
     contract_created: Créer un contrat
     contract_signed: Contrat signé
@@ -1016,7 +1023,7 @@ fr:
         instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
         subject: Instructions pour changer le mot de passe
     omniauth_callbacks:
-      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : %{reason}.'
+      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : ''%{reason}''.'
       success: Autorisé par votre compte %{kind}.
     passwords:
       edit:

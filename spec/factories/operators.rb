@@ -4,23 +4,20 @@
 #
 # Table name: operators
 #
-#  id              :bigint           not null, primary key
-#  contact_info    :text
-#  email           :string
-#  locale          :string           not null
+#  id              :integer          not null, primary key
 #  name            :string
+#  email           :string
+#  contact_info    :text
+#  organisation_id :integer          not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  organisation_id :bigint           not null
+#  locale          :string           not null
 #
 # Indexes
 #
 #  index_operators_on_organisation_id  (organisation_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#
+
 FactoryBot.define do
   factory :operator do
     name { 'Operator Fourmi' }

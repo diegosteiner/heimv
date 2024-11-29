@@ -7,15 +7,13 @@ class Invoice
     RichTextTemplate.define(:invoices_offer_text, context: %i[booking invoice])
     RichTextTemplate.define(:invoices_late_notice_text, context: %i[booking invoice])
 
-    def call(booking, params = {}) # rubocop:disable Metrics/AbcSize
+    def call(booking, params = {})
       ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
-        I18n.with_locale(invoice.locale) do
-          invoice.payment_info_type = payment_info_type(invoice)
-          invoice.payable_until ||= payable_until(invoice)
-          invoice.payment_required = payment_required(invoice)
-          invoice.text ||= text_from_template(invoice)
-          prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
-        end
+        invoice.payment_info_type = payment_info_type(invoice)
+        invoice.payable_until ||= payable_until(invoice)
+        invoice.payment_required = payment_required(invoice)
+        invoice.text ||= text_from_template(invoice)
+        prepare_to_supersede(invoice) if invoice.supersede_invoice.present?
       end
     end
 
@@ -47,10 +45,9 @@ class Invoice
 
     def text_from_template(invoice)
       key = "#{invoice.model_name.param_key}_text"
-      rich_text_template = invoice.organisation.rich_text_templates.enabled.by_key(key)
-      return if rich_text_template.blank?
-
-      rich_text_template.interpolate(template_context(invoice)).body
+      invoice.organisation.rich_text_templates.enabled.by_key(key)
+             &.interpolate(template_context(invoice), locale: invoice.locale)
+             &.body
     end
 
     def template_context(invoice)

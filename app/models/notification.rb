@@ -38,6 +38,7 @@ class Notification < ApplicationRecord
   has_one :organisation, through: :booking
 
   scope :unsent, -> { where(sent_at: nil) }
+  before_save :deliver_to
 
   attribute :template_context
   validates :to, :locale, presence: true
@@ -95,9 +96,8 @@ class Notification < ApplicationRecord
   end
 
   def footer
-    I18n.with_locale(locale) do
-      organisation.rich_text_templates.enabled.by_key(:notification_footer)&.interpolate(organisation:)&.body
-    end
+    organisation.rich_text_templates.enabled.by_key(:notification_footer)
+                &.interpolate({ organisation: }, locale:)&.body
   end
 
   def text
@@ -123,7 +123,7 @@ class Notification < ApplicationRecord
   end
 
   def deliver_to
-    Array.wrap(super).compact_blank.presence || Array.wrap(resolve_to.try(:email)).compact_blank
+    self[:deliver_to] = Array.wrap(super).compact_blank.presence || Array.wrap(resolve_to.try(:email)).compact_blank
   end
 
   def resolve_to

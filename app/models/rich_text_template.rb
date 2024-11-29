@@ -27,7 +27,7 @@
 #
 
 class RichTextTemplate < ApplicationRecord
-  InterpolationResult = Struct.new(:title, :body)
+  InterpolationResult = Struct.new(:title, :body, :locale)
   InvalidDefinition = Class.new(StandardError)
   InvalidContext = Class.new(StandardError)
   NoTemplate = Class.new(StandardError)
@@ -97,13 +97,15 @@ class RichTextTemplate < ApplicationRecord
     end
   end
 
-  def interpolate(context)
-    context = TemplateContext.new(context) unless context.is_a?(TemplateContext)
-    parts = [title, body].map do |part|
-      template = Liquid::Template.parse(part)
-      RichTextSanitizer.sanitize(template.render!(context.to_h))
+  def interpolate(context, locale: I18n.locale)
+    I18n.with_locale(locale) do
+      context = TemplateContext.new(context) unless context.is_a?(TemplateContext)
+      parts = [title, body].map do |part|
+        template = Liquid::Template.parse(part)
+        RichTextSanitizer.sanitize(template.render!(context.to_h))
+      end
+      InterpolationResult.new(*parts)
     end
-    InterpolationResult.new(*parts)
   end
 
   def definition

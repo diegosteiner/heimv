@@ -79,7 +79,7 @@ RSpec.describe RichTextTemplate, type: :model do
     let(:body) { '' }
     let(:rich_text_template) { build(:rich_text_template, body:, title:) }
     let(:context) { { booking: create(:booking, initial_state: :open_request) } }
-    subject(:interpolate) { rich_text_template.interpolate(context) }
+    subject(:interpolated) { rich_text_template.interpolate(context) }
 
     context 'with booking_condition filter', pending: true do
       let(:body) do
@@ -89,7 +89,15 @@ RSpec.describe RichTextTemplate, type: :model do
         BODY
       end
 
-      it { expect(interpolate.body.strip).to eq('Nice!') }
+      it { expect(interpolated.body.strip).to eq('Nice!') }
+    end
+
+    describe 'with specific locale' do
+      let(:rich_text_template) { build(:rich_text_template, body_i18n: { de: 'auf Deutsch', fr: 'en francais' }) }
+      let(:locale) { :fr }
+      subject(:interpolated) { rich_text_template.interpolate(context, locale: locale) }
+
+      it { expect(interpolated.body.strip).to eq('en francais') }
     end
   end
 
