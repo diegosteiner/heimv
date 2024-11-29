@@ -34,7 +34,7 @@ module BookingConditions
 
     attribute :compare_operator, default: -> { :'=' }
 
-    compare_attribute country_code: ->(tenant:) { tenant.country_code&.upcase }
+    compare_attribute country_code: ->(tenant:) { tenant&.country_code&.upcase }
 
     compare_operator(**NUMERIC_OPERATORS)
 

@@ -20,7 +20,7 @@ class OccupancyCalendar
       occupiable.occupancies
                 .at(from: window_from, to: window_to).includes(booking: [:deadline])
                 .where(occupancy_type: Occupancy::CONFLICTING_OCCUPANCY_TYPES)
-                .joins(:booking).where.not(booking: { concluded: true })
+                .left_outer_joins(:booking).where(booking: { concluded: [false, nil] })
     end
   end
 end
