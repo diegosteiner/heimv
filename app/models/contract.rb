@@ -27,7 +27,7 @@
 class Contract < ApplicationRecord
   RichTextTemplate.define(:contract_text, context: %i[booking])
 
-  locale_enum default: I18n.locale
+  locale_enum
 
   belongs_to :booking, inverse_of: :contracts, touch: true
   has_one :organisation, through: :booking

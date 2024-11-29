@@ -403,6 +403,10 @@ it:
         committed_request:
           definitive_request: Richiesta di affitto definitivo
           provisional_request: Richiesta di affitto provvisoria
+        editable:
+          auto:
+          'false':
+          'true': Modificabile dagli inquilini
       booking/filter:
         concluded:
           all:
@@ -433,7 +437,7 @@ it:
           last_3_months: Ultimi 3 mesi
           last_6_months: Ultimi 6 mesi
           last_and_next_12_months:
-          last_month: Mese scorso
+          last_month: 'Mese scorso '
           last_year: Anno scorso
           next_12_months: Prossimi 12 mesi
           next_30_days: Prossimi 30 giorni
@@ -772,6 +776,9 @@ it:
       attributes:
         home: Oggetto principale di affitto
         occupiable: Proprietà in affitto
+    tenant_attribute:
+      attributes:
+        country_code:
   booking_state_checklist_item:
     contract_created: Creare contratto
     contract_signed: Contratto firmato
