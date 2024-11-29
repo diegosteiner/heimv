@@ -35,6 +35,7 @@ class BookingValidation < ApplicationRecord
                                                                       inverse_of: false
 
   translates :error_message, column_suffix: '_i18n', locale_accessors: true
+  flag :check_on, Booking::VALIDATION_CONTEXTS
 
   scope :ordered, -> { order(:ordinal) }
   ranks :ordinal, with_same: :organisation_id, class_name: 'BookingValidation'
@@ -55,11 +56,10 @@ class BookingValidation < ApplicationRecord
     validating_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :validating) }
   end
 
-  def validate_booking(booking)
-    return true if !enabled_by_condition?(booking) || valid_by_condition?(booking)
+  def booking_valid?(booking, validation_context:)
+    return true unless check_on.include?(validation_context) && enabled_by_condition?(booking)
 
-    booking.errors.add(:base, error_message)
-    false
+    valid_by_condition?(booking)
   end
 
   def enabled_by_condition?(booking)

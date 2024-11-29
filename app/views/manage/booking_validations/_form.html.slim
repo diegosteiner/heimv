@@ -1,6 +1,7 @@
 = form_with(model: [:manage, @booking_validation], local: true) do |f|
   fieldset
     = f.text_field :ordinal_position
+    = f.collection_check_boxes :check_on, BookingValidation.check_ons.keys, :itself, ->(key) { BookingValidation.human_enum(:check_on, key) }
 
   fieldset
     ul.nav.nav-tabs.mt-4 role="tablist"

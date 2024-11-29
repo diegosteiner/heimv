@@ -5,19 +5,19 @@
 # Table name: agent_bookings
 #
 #  id                 :uuid             not null, primary key
-#  accepted_request   :boolean
+#  booking_id         :uuid
 #  booking_agent_code :string
 #  booking_agent_ref  :string
 #  committed_request  :boolean
+#  accepted_request   :boolean
 #  remarks            :text
-#  tenant_email       :string
-#  tenant_infos       :text
-#  token              :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  booking_agent_id   :bigint           not null
-#  booking_id         :uuid
-#  organisation_id    :bigint
+#  organisation_id    :integer
+#  tenant_email       :string
+#  booking_agent_id   :integer          not null
+#  token              :string
+#  tenant_infos       :text
 #
 # Indexes
 #
@@ -25,12 +25,6 @@
 #  index_agent_bookings_on_booking_id        (booking_id)
 #  index_agent_bookings_on_organisation_id   (organisation_id)
 #  index_agent_bookings_on_token             (token) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_agent_id => booking_agents.id)
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 require 'rails_helper'

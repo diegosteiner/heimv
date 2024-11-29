@@ -52,7 +52,7 @@ module BookingConditions
     protected
 
     def booking_state_transitions_include?(booking, state)
-      booking.state_transitions.pluck(:to_state).map(&:to_sym).include?(state&.to_sym)
+      booking.state_transitions.pluck(:to_state).include?(state&.to_s)
     end
   end
 end

@@ -4,15 +4,15 @@
 #
 # Table name: operator_responsibilities
 #
-#  id              :bigint           not null, primary key
+#  id              :integer          not null, primary key
+#  booking_id      :uuid
+#  operator_id     :integer          not null
 #  ordinal         :integer
-#  remarks         :text
 #  responsibility  :integer
+#  remarks         :text
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  booking_id      :uuid
-#  operator_id     :bigint           not null
-#  organisation_id :bigint           not null
+#  organisation_id :integer          not null
 #
 # Indexes
 #
@@ -22,12 +22,7 @@
 #  index_operator_responsibilities_on_organisation_id  (organisation_id)
 #  index_operator_responsibilities_on_responsibility   (responsibility)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (operator_id => operators.id)
-#  fk_rails_...  (organisation_id => organisations.id)
-#
+
 FactoryBot.define do
   factory :operator_responsibility do
     organisation

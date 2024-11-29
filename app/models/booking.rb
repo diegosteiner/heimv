@@ -56,6 +56,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   include BookingStateConcern
   include Timespanable
 
+  VALIDATION_CONTEXTS = %i[public_create public_update agent_create agent_update manage_create manage_update].freeze
   ROLES = (%i[organisation tenant booking_agent] + OperatorResponsibility::RESPONSIBILITIES.keys).freeze
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :category, :logs, :home,
@@ -100,16 +101,18 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_nil: true
   validates :email, presence: true, on: %i[public_update public_create]
   validates :approximate_headcount, :purpose_description, presence: true, on: :public_update
-  validates :category, presence: true, on: %i[public_update agent_booking]
+  validates :category, presence: true, on: %i[public_update agent_update]
   validates :committed_request, inclusion: { in: [true, false] }, on: :public_update
   validates :locale, inclusion: { in: ->(booking) { booking.organisation.locales } }, on: :public_update
   validate do
     errors.add(:occupiable_ids, :blank) if occupancies.none?
     errors.add(:email, :invalid) unless email.nil? || EmailAddress.valid?(email)
+    organisation&.booking_validations&.each do |validation|
+      validation.booking_valid?(self, validation_context:) || errors.add(:base, validation.error_message)
+    end
   end
-  validate on: %i[public_create public_update agent_booking] do
+  validate on: %i[public_create public_update agent_update] do
     errors.add(:occupiable_ids, :occupancy_conflict) if occupancies.any?(&:conflicting?)
-    organisation&.booking_validations&.each { _1.validate_booking(self) }
   end
 
   scope :ordered, -> { order(begins_at: :ASC) }
