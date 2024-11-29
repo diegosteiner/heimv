@@ -49,7 +49,7 @@ RSpec.describe BookingValidation, type: :model do
         expect(booking_validation).not_to receive(:enabled_by_condition?)
       end
 
-      it { is_expected.to be(nil) }
+      it { is_expected.to be(true) }
     end
 
     context 'without enabling_condition' do
@@ -58,7 +58,7 @@ RSpec.describe BookingValidation, type: :model do
         expect(booking_validation).not_to receive(:valid_by_condition?)
       end
 
-      it { is_expected.to be(nil) }
+      it { is_expected.to be(true) }
     end
   end
 
