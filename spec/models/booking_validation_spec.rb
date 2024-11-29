@@ -4,21 +4,18 @@
 #
 # Table name: booking_validations
 #
-#  id                 :bigint           not null, primary key
+#  id                 :integer          not null, primary key
+#  organisation_id    :integer          not null
 #  error_message_i18n :jsonb
 #  ordinal            :integer
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  organisation_id    :bigint           not null
 #
 # Indexes
 #
 #  index_booking_validations_on_organisation_id  (organisation_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#
+
 require 'rails_helper'
 
 RSpec.describe BookingValidation, type: :model do
