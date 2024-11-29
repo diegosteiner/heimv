@@ -1,12 +1,21 @@
 # Changelog
 
+## 24.11.2
+
+Released 29.11.2024
+
 ## 24.11.1
+
+- Fix: Fix manage occupancy calendar to include closedowns again
+- Feature: Allow setting check_on on BookingValidation
+- Chore: Update to Rails 8
 
 Released 25.11.2024
 
 - Fix: Refactor deadlines to fix out-of-order issues
 - Fix: Order Booking Question Responses correctly
 - Feature: Add Tenant Attributes as BookingCondition
+- Feature: Show more occupancies on manage calendar
 
 ## 24.10.2
 
