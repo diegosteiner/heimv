@@ -30,15 +30,18 @@ class Contract < ApplicationRecord
   has_one_attached :pdf
   has_one_attached :signed_pdf
 
+  attr_accessor :skip_generate_pdf
+
   scope :valid, -> { where(valid_until: nil) }
   scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent, -> { where(sent_at: nil) }
   scope :ordered, -> { order(valid_from: :asc) }
   scope :signed, -> { where.not(signed_at: nil) }
 
-  before_save :supersede, :generatate_pdf, :set_signed_at
+  before_save :supersede, :set_signed_at
+  before_save :generate_pdf, if: :generate_pdf?
 
-  def generatate_pdf
+  def generate_pdf
     I18n.with_locale(locale || I18n.locale) do
       self.pdf = {
         io: StringIO.new(Export::Pdf::ContractPdf.new(self).render_document),
@@ -46,6 +49,10 @@ class Contract < ApplicationRecord
         content_type: 'application/pdf'
       }
     end
+  end
+
+  def generate_pdf?
+    !skip_generate_pdf && (pdf.blank? || changed?)
   end
 
   def supersede(**attributes)

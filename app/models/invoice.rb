@@ -53,6 +53,8 @@ class Invoice < ApplicationRecord
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
+  attr_accessor :skip_generate_pdf
+
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
   scope :unsettled, -> { kept.where.not(type: 'Invoices::Offer').where.not(arel_table[:amount_open].eq(0)) }
@@ -77,7 +79,7 @@ class Invoice < ApplicationRecord
   end
 
   def generate_pdf?
-    kept? && ref.present? && (pdf.blank? || changed?)
+    kept? && ref.present? && !skip_generate_pdf && (pdf.blank? || changed?)
   end
 
   def generate_ref?
@@ -93,10 +95,8 @@ class Invoice < ApplicationRecord
 
   def generate_pdf
     I18n.with_locale(locale || I18n.locale) do
-      self.pdf = {
-        io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
-        filename:, content_type: 'application/pdf'
-      }
+      self.pdf = { io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
+                   filename:, content_type: 'application/pdf' }
     end
   end
 
