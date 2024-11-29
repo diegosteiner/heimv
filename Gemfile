@@ -21,7 +21,7 @@ gem 'devise_invitable'
 gem 'discard'
 gem 'dry-schema'
 gem 'email_address'
-gem 'factory_bot_rails', '~> 6.2.0', require: false
+gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'faraday', require: false
 gem 'iban-tools'
@@ -41,7 +41,7 @@ gem 'prawn-markup'
 gem 'prawn-table'
 gem 'puma'
 gem 'rack-mini-profiler'
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.0.0'
 gem 'rails-i18n'
 gem 'ranked-model'
 gem 'react-rails'
@@ -53,6 +53,7 @@ gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'slim-rails'
 gem 'statesman'
+gem 'thruster'
 gem 'translation'
 gem 'ttfunk', '~> 1.7.0' # https://github.com/prawnpdf/prawn/issues/1346
 gem 'vite_rails'
