@@ -117,7 +117,7 @@
                 dt= Booking.human_attribute_name(:state)
                 dd= @booking.booking_state.translate
 
-                - if @booking.deadline.present?
+                - if @booking.deadline&.at.present?
                   dt= Deadline.model_name.human
                   dd= link_to l(@booking.deadline.at, format: :short), edit_manage_booking_deadline_path(@booking)
 
