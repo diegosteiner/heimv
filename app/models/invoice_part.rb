@@ -4,22 +4,23 @@
 #
 # Table name: invoice_parts
 #
-#  id         :integer          not null, primary key
-#  invoice_id :integer
-#  usage_id   :integer
-#  type       :string
-#  amount     :decimal(, )
-#  label      :string
-#  breakdown  :string
-#  ordinal    :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  vat        :decimal(, )
+#  id              :integer          not null, primary key
+#  invoice_id      :integer
+#  usage_id        :integer
+#  type            :string
+#  amount          :decimal(, )
+#  label           :string
+#  breakdown       :string
+#  ordinal         :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  vat_category_id :integer
 #
 # Indexes
 #
-#  index_invoice_parts_on_invoice_id  (invoice_id)
-#  index_invoice_parts_on_usage_id    (usage_id)
+#  index_invoice_parts_on_invoice_id       (invoice_id)
+#  index_invoice_parts_on_usage_id         (usage_id)
+#  index_invoice_parts_on_vat_category_id  (vat_category_id)
 #
 
 class InvoicePart < ApplicationRecord
@@ -30,6 +31,7 @@ class InvoicePart < ApplicationRecord
 
   belongs_to :invoice, inverse_of: :invoice_parts, touch: true
   belongs_to :usage, inverse_of: :invoice_parts, optional: true
+  belongs_to :vat_category, optional: true
 
   has_one :tarif, through: :usage
   has_one :booking, through: :usage
@@ -70,7 +72,7 @@ class InvoicePart < ApplicationRecord
     return unless usage
 
     new(attributes.reverse_merge(
-          usage:, label: usage.tarif.label, ordinal: usage.tarif.ordinal, vat: usage.tarif.vat,
+          usage:, label: usage.tarif.label, ordinal: usage.tarif.ordinal, vat_category: usage.tarif.vat_category,
           breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price
         ))
   end

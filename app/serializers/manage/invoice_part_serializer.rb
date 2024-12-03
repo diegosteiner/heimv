@@ -4,6 +4,7 @@ module Manage
   class InvoicePartSerializer < ApplicationSerializer
     association :tarif, blueprint: Manage::TarifSerializer
     association :usage, blueprint: Manage::UsageSerializer
+    association :vat_category, blueprint: Public::VatCategorySerializer
 
     fields :amount, :label, :breakdown, :usage_id
 

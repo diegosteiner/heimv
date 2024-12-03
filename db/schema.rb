@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_29_161448) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_03_101328) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -307,9 +307,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_161448) do
     t.integer "ordinal"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.decimal "vat"
+    t.bigint "vat_category_id"
     t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
     t.index ["usage_id"], name: "index_invoice_parts_on_usage_id"
+    t.index ["vat_category_id"], name: "index_invoice_parts_on_vat_category_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -538,14 +539,16 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_161448) do
     t.decimal "minimum_usage_total"
     t.bigint "organisation_id", null: false
     t.datetime "discarded_at"
-    t.decimal "vat"
     t.bigint "prefill_usage_booking_question_id"
     t.decimal "minimum_price_per_night"
     t.decimal "minimum_price_total"
+    t.string "accounting_profit_center_nr"
+    t.bigint "vat_category_id"
     t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
     t.index ["prefill_usage_booking_question_id"], name: "index_tarifs_on_prefill_usage_booking_question_id"
     t.index ["type"], name: "index_tarifs_on_type"
+    t.index ["vat_category_id"], name: "index_tarifs_on_vat_category_id"
   end
 
   create_table "tenants", force: :cascade do |t|
@@ -626,6 +629,18 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_161448) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "vat_categories", force: :cascade do |t|
+    t.decimal "percentage", default: "0.0", null: false
+    t.jsonb "label_i18n"
+    t.bigint "organisation_id", null: false
+    t.string "accounting_vat_code"
+    t.datetime "discarded_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discarded_at"], name: "index_vat_categories_on_discarded_at"
+    t.index ["organisation_id"], name: "index_vat_categories_on_organisation_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bookings", "booking_agents"
@@ -649,6 +664,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_161448) do
   add_foreign_key "deadlines", "bookings"
   add_foreign_key "invoice_parts", "invoices"
   add_foreign_key "invoice_parts", "usages"
+  add_foreign_key "invoice_parts", "vat_categories"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
@@ -671,8 +687,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_161448) do
   add_foreign_key "rich_text_templates", "organisations"
   add_foreign_key "tarifs", "booking_questions", column: "prefill_usage_booking_question_id"
   add_foreign_key "tarifs", "organisations"
+  add_foreign_key "tarifs", "vat_categories"
   add_foreign_key "tenants", "organisations"
   add_foreign_key "usages", "bookings"
   add_foreign_key "usages", "tarifs"
   add_foreign_key "users", "organisations", column: "default_organisation_id"
+  add_foreign_key "vat_categories", "organisations"
 end

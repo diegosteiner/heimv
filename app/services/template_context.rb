@@ -15,7 +15,8 @@ class TemplateContext
     CostEstimation => Manage::CostEstimationSerializer,
     BookingQuestion => Public::BookingQuestionSerializer,
     BookingQuestionResponse => Public::BookingQuestionResponseSerializer,
-    MeterReadingPeriod => Manage::MeterReadingPeriodSerializer
+    MeterReadingPeriod => Manage::MeterReadingPeriodSerializer,
+    VatCategory => Public::VatCategorySerializer
   }.freeze
 
   def initialize(context)

@@ -44,7 +44,7 @@ module Export
           end
 
           def render_invoice_vat_table
-            return if invoice.vat.none?
+            return if invoice.vat_amounts.none?
 
             move_down 10
             start_new_page if cursor < (vat_table_data.count + 1) * 9
@@ -90,11 +90,13 @@ module Export
           end
 
           def vat_table_data
-            invoice.vat.map do |vat_percentage, vat_amounts|
+            invoice.vat_amounts.map do |vat_category, amount|
               [
-                I18n.t('invoices.vat_label', vat: vat_percentage), organisation.currency,
-                ActionController::Base.helpers.number_to_currency(vat_amounts[:total], unit: ''),
-                ActionController::Base.helpers.number_to_currency(vat_amounts[:tax], unit: '')
+                vat_category.label,
+                helpers.number_to_percentage(vat_category.percentage, precision: 2),
+                organisation.currency,
+                helpers.number_to_currency(amount, unit: ''),
+                helpers.number_to_currency(vat_category.tax_of(amount), unit: '')
               ]
             end
           end

@@ -2,6 +2,8 @@
 
 module Manage
   class TarifSerializer < ApplicationSerializer
+    association :vat_category, blueprint: Public::VatCategorySerializer
+
     fields :label, :pin, :prefill_usage_method, :price_per_unit, :tarif_group, :type, :unit, :ordinal,
            :label_i18n, :unit_i18n, :valid_from, :valid_until, :accounting_account_nr,
            :minimum_usage_per_night, :minimum_usage_total

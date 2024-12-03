@@ -1280,7 +1280,7 @@ en:
       format:
         delimiter: ''
         format: "%n%"
-        precision: '1'
+        precision: 1
     precision:
       format:
         delimiter: ''

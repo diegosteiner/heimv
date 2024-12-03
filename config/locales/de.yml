@@ -333,6 +333,7 @@ de:
         title: Titel
       tarif:
         accounting_account_nr: Buchhaltungskonto
+        accounting_profit_center_nr: Profit-Center
         associated_types: Ausgewiesen in Dokumenten
         enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung
@@ -350,7 +351,7 @@ de:
         tarif_group: Tarifgruppe
         type: Typ
         unit: Einheit
-        vat: inkl. MwSt. in Prozent
+        vat_category_id: MwSt. Kategorie
       tenant:
         address: Adresse
         address_addon: Adresszusatz / Schule / Firma
@@ -400,6 +401,10 @@ de:
         reset_password_token: Passwort-Zurücksetzen-Token
         sign_in_count: Anzahl Anmeldungen
         updated_at: Aktualisiert am
+      vat_category:
+        accounting_vat_code: Buchhaltungscode
+        label: Bezeichnung
+        percentage: Satz
     enums:
       booking:
         committed_request:
@@ -724,6 +729,9 @@ de:
       user:
         one: Account
         other: Account
+      vat_category:
+        one: MwSt. Kategorie
+        other: MwSt. Kategorien
   add_record: "%{model_name} hinzufügen"
   back: Zurück
   booking_actions:
@@ -1309,7 +1317,6 @@ de:
     deposited_amount: Gutschrift aus Anzahlung
   invoices:
     total: Total
-    vat_label: zu MwSt. Satz von %{vat}%
     vat_title: in den Preisen enhaltene MwSt.
   layouts:
     footer:
@@ -1493,7 +1500,7 @@ de:
       format:
         delimiter: ''
         format: "%n%"
-        precision: '1'
+        precision: 1
     precision:
       format:
         delimiter: ''

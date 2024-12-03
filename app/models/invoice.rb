@@ -181,19 +181,13 @@ class Invoice < ApplicationRecord
     { io: StringIO.new(pdf.blob.download), filename:, content_type: pdf.content_type } if pdf&.blob.present?
   end
 
-  def vat
-    invoice_parts.filter { |invoice_part| invoice_part.vat.present? && invoice_part.vat.positive? }
-                 .group_by(&:vat)
-                 .to_h do |vat, vat_invoice_parts|
-                   total = vat_invoice_parts.sum(&:calculated_amount)
-                   tax = total / (100 + vat) * vat
-                   [vat, { tax:, total: }]
-                 end
+  def vat_amounts
+    invoice_parts.group_by(&:vat_category).except(nil).transform_values { _1.sum(&:calculated_amount) }
   end
 
   def journal_entry
     items = [{ account: booking.tenant.accounting_account_nr, date: sent_at, amount: amount, amount_type: :brutto,
                side: 1, text: ref, source: :invoice, invoice_id: id }] + invoice_parts.map(&:journal_entry_items)
-    Accounting::JournalEntry.new(date: sent_at, invoice_id: id, items:)
+    Accounting::JournalEntryGroup.new(date: sent_at, invoice_id: id, items:)
   end
 end
