@@ -195,7 +195,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     booking_state&.editable || false
   end
 
-  def set_deadline(params = {})
+  def set_deadline(**params)
     build_deadline if deadline.blank?
     deadline.update(armed: true, postponable_for: nil, **params, booking: self)
     deadline

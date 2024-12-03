@@ -10,7 +10,7 @@ module Manage
     end
 
     def update
-      @booking.set_deadline(deadline_params)
+      @booking.set_deadline(**deadline_params)
       respond_with :manage, @booking, location: manage_booking_path(@booking)
     end
 
