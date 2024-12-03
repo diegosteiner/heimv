@@ -651,6 +651,9 @@ de:
       invoice_parts/add:
         one: Normale Rechungsposition
         other: Normale Rechnungspositionen
+      invoice_parts/deposit:
+        one: Anzahlung Rechungsposition
+        other: Anzahlung Rechnungspositionen
       invoice_parts/percentage:
         one: Rabatt
         other: Rabatt

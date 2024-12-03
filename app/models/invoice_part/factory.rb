@@ -54,8 +54,8 @@ class InvoicePart
 
       [
         InvoiceParts::Text.new(apply:, label: Invoices::Deposit.model_name.human),
-        InvoiceParts::Add.new(apply:, label: I18n.t('invoice_parts.deposited_amount'),
-                              amount: - deposited_amount)
+        InvoiceParts::Deposit.new(apply:, label: I18n.t('invoice_parts.deposited_amount'),
+                                  amount: - deposited_amount)
       ]
     end
 
