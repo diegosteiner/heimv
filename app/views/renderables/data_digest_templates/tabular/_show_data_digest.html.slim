@@ -1,11 +1,11 @@
 .table-responsive
   table.table-striped.table.table-responsive
-    - headers = data_digest.data_digest_template.headers 
-    - footers = data_digest.data_digest_template.footers
-    - if headers
+    - header = data_digest.data_digest_template.header 
+    - footer = data_digest.data_digest_template.footer
+    - if header
       thead
-        - headers.each do |header|
-          th= header
+        - header.each do |header_column|
+          th= header_column
     
     tbody.shadow-sm
       - data_digest.data&.each do |row|
@@ -13,7 +13,7 @@
           - row.each do |cell|
             td= cell
 
-    - if footers&.any?(&:present?) 
+    - if footer&.any?(&:present?) 
       tfooter
-        - footers.each do |footer|
-          td= footer
+        - footer.each do |footer_column|
+          td= footer_column

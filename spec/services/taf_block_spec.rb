@@ -37,18 +37,18 @@ describe TafBlock, type: :model do
     end
   end
 
-  context '::convert' do
-    describe 'Accounting::JournalEntryItem' do
-      subject(:converted) { described_class.convert(conversion_subject) }
-      let(:conversion_subject) do
-        Accounting::JournalEntryItem.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5),
-                                         amount_type: :netto, side: 1, tax_code: 'MwSt38',
-                                         text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
+  context '::build_from' do
+    describe 'Accounting::JournalEntry' do
+      subject(:taf_block) { described_class.build_from(journal_entry) }
+      let(:journal_entry) do
+        Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5),
+                                     amount_type: :netto, side: 1, tax_code: 'MwSt38',
+                                     text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
-      it 'converts correctly' do
+      it 'builds correctly' do
         is_expected.to be_a described_class
-        expect(converted.to_s).to eq(<<~TAF.chomp)
+        expect(taf_block.to_s).to eq(<<~TAF.chomp)
           {Bk
             AccId=1050
             BType=1
@@ -63,17 +63,17 @@ describe TafBlock, type: :model do
       end
     end
 
-    describe 'Accounting::JournalEntryItem' do
-      subject(:converted) { described_class.convert(conversion_subject) }
-      let(:conversion_subject) do
-        Accounting::JournalEntryItem.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5),
-                                         amount_type: :netto, side: 1, tax_code: 'USt38',
-                                         text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
+    describe 'Accounting::JournalEntry' do
+      subject(:taf_block) { described_class.build_from(journal_entry) }
+      let(:journal_entry) do
+        Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5),
+                                     amount_type: :netto, side: 1, tax_code: 'MwSt38',
+                                     text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
-      it 'converts correctly' do
+      it 'builds correctly' do
         is_expected.to be_a described_class
-        expect(converted.to_s).to eq(<<~TAF.chomp)
+        expect(taf_block.to_s).to eq(<<~TAF.chomp)
           {Bk
             AccId=1050
             BType=1

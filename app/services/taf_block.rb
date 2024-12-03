@@ -68,20 +68,20 @@ class TafBlock
     properties.compact.flat_map { |key, value| "#{key}=#{serialize_value(value)}" }.join(join_with)
   end
 
-  def self.builders
-    @builders ||= {}
+  def self.factories
+    @factories ||= {}
   end
 
-  def self.register_builder(klass, &build_block)
-    builders[klass] = build_block
+  def self.register_factory(klass, &build_block)
+    factories[klass] = build_block
   end
 
   def self.build_from(value, **options)
-    build_block = builders[builders.keys.find { |klass| value.is_a?(klass) }]
+    build_block = factories[factories.keys.find { |klass| value.is_a?(klass) }]
     instance_exec(value, options, &build_block) if build_block.present?
   end
 
-  register_builder Accounting::JournalEntry do |value, **options|
+  register_factory Accounting::JournalEntryGroup do |value, **options|
     new(:Blg, *value.items.map { TafBlock.build_from(_1) }, **{
           # Date; The date of the booking.
           Date: options.fetch(:Date, value.date),
@@ -90,7 +90,7 @@ class TafBlock
         })
   end
 
-  register_builder Accounting::JournalEntryItem do |value, **options|
+  register_factory Accounting::JournalEntry do |value, **options|
     new(:Bk, **{
           # The Id of a book keeping account. [Fibu-Konto]
           AccId: options.fetch(:AccId, value.account),
@@ -122,7 +122,7 @@ class TafBlock
           TaxId: options.fetch(:TaxId, value.tax_code),
 
           # String[61*]; This string specifies the first line of the booking text.
-          Text: options.fetch(:Text, value.text&.slice(0..59)&.lines&.first&.strip || '-'),
+          Text: options.fetch(:Text, value.text&.slice(0..59)&.lines&.first&.strip || '-'), # rubocop:disable Style/SafeNavigationChainLength
 
           #  String[*]; This string specifies the second line of the booking text.
           # (*)Both fields Text and Text2 are stored in the same memory location,
@@ -131,7 +131,7 @@ class TafBlock
           # Be careful not to put too many characters onto one single line, because
           # most Reports are not designed to display a full string containing 60
           # characters.
-          Text2: options.fetch(:Text2, value.text&.slice(0..59)&.lines&.[](1..-1)&.join("\n")).presence,
+          Text2: options.fetch(:Text2, value.text&.slice(0..59)&.lines&.[](1..-1)&.join("\n")).presence, # rubocop:disable Style/SafeNavigationChainLength
 
           # Integer; This is the index of the booking that represents the tax booking
           # which is attached to this booking.

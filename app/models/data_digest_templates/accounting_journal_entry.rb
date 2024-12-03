@@ -41,14 +41,14 @@ module DataDigestTemplates
 
     def crunch(records)
       invoice_ids = records.pluck(:id).uniq
-      base_scope.where(id: invoice_ids).find_each.flat_map do |invoice|
+      base_scope.where(id: invoice_ids).find_each(cursor: []).flat_map do |invoice|
         invoice.journal_entry
       end
     end
 
     formatter(:taf) do |_options = {}|
       data.flat_map do |record|
-        journal_entry = ::Accounting::JournalEntry.new(**record)
+        journal_entry = ::Accounting::JournalEntryGroup.new(**record)
         [
           TafBlock.build_from(journal_entry)
         ]

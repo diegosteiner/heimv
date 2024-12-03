@@ -71,8 +71,12 @@ module DataDigestTemplates
       ::Payment::Filter
     end
 
+    def record_order
+      { created_at: :asc, id: :asc }
+    end
+
     def base_scope
-      @base_scope ||= organisation.payments.ordered
+      @base_scope ||= organisation.payments
     end
   end
 end

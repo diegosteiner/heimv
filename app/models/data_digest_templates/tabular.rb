@@ -62,17 +62,21 @@ module DataDigestTemplates
 
     def crunch(records)
       record_ids = records.pluck(:id).uniq
-      base_scope.where(id: record_ids).find_each.map do |record|
+      base_scope.where(id: record_ids).find_each(cursor: record_order.keys, order: record_order.values).map do |record|
         template_context_cache = {}
         columns.map { |column| column.body(record, template_context_cache) }
       end
     end
 
-    def headers
+    def record_order
+      { id: :asc }
+    end
+
+    def header
       columns.map(&:header)
     end
 
-    def footers
+    def footer
       columns.map(&:footer)
     end
 
@@ -140,9 +144,9 @@ module DataDigestTemplates
 
       bom = "\uFEFF"
       bom + CSV.generate(**options) do |csv|
-        csv << header
+        csv << data_digest_template.header
         data&.each { |row| csv << row }
-        csv << footer if footer.any?(&:present?)
+        csv << data_digest_template.footer if data_digest_template.footer.any?(&:present?)
       end
     end
 
