@@ -38,11 +38,13 @@ describe TafBlock, type: :model do
   end
 
   context '::build_from' do
+    let(:booking) { create(:booking) }
+    let(:currency) { booking.organisation.currency }
     describe 'Accounting::JournalEntry' do
       subject(:taf_block) { described_class.build_from(journal_entry) }
       let(:journal_entry) do
-        Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5),
-                                     amount_type: :netto, side: 1, tax_code: 'MwSt38',
+        Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), reference: '1234',
+                                     amount_type: :netto, side: :soll, tax_code: 'MwSt38', booking:, currency:,
                                      text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
@@ -66,8 +68,8 @@ describe TafBlock, type: :model do
     describe 'Accounting::JournalEntry' do
       subject(:taf_block) { described_class.build_from(journal_entry) }
       let(:journal_entry) do
-        Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5),
-                                     amount_type: :netto, side: 1, tax_code: 'MwSt38',
+        Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), reference: '1234',
+                                     amount_type: :netto, side: :soll, tax_code: 'MwSt38', booking:, currency:,
                                      text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 

@@ -73,6 +73,8 @@ class Invoice < ApplicationRecord
   after_save :recalculate!
   after_create { generate_ref? && generate_ref && save }
 
+  delegate :currency, to: :organisation
+
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
   validate do
     errors.add(:supersede_invoice_id, :invalid) if supersede_invoice && supersede_invoice.organisation != organisation
@@ -185,9 +187,13 @@ class Invoice < ApplicationRecord
     invoice_parts.group_by(&:vat_category).except(nil).transform_values { _1.sum(&:calculated_amount) }
   end
 
-  def journal_entry
-    items = [{ account: booking.tenant.accounting_account_nr, date: sent_at, amount: amount, amount_type: :brutto,
-               side: 1, text: ref, source: :invoice, invoice_id: id }] + invoice_parts.map(&:journal_entry_items)
-    Accounting::JournalEntryGroup.new(date: sent_at, invoice_id: id, items:)
+  def journal_entries
+    [
+      Accounting::JournalEntry.new(
+        account: booking.tenant.accounting_account_nr, date: issued_at, amount:, amount_type: :brutto, side: :soll,
+        reference: ref, source: self, currency:, booking:,
+        text: [self.class.model_name.human, ref].join(' ')
+      )
+    ] + invoice_parts.map(&:journal_entries)
   end
 end

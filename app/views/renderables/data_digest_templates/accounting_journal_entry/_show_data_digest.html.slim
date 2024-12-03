@@ -1,18 +1,1 @@
-ol
-  - @data_digest.data.each do |data_item|
-    - journal_entry = Accounting::JournalEntryGroup.new(**data_item)
-    li
-      = Accounting::JournalEntryGroup.model_name.human
-      dl 
-        dt= Accounting::JournalEntryGroup.human_attribute_name(:date)
-        dd= I18n.l(journal_entry.date) if journal_entry.date.present?
-      ol
-        - journal_entry.items.each do |item|
-          li
-            dl
-              dt= Accounting::JournalEntry.human_attribute_name(:account)
-              dd= item.account
-              dt= Accounting::JournalEntry.human_attribute_name(:amount)
-              dd= number_to_currency(item.amount) 
-              dt= Accounting::JournalEntry.human_attribute_name(:side)
-              dd= item.side.positive? ? "Haben" : "Soll"
+= render partial: 'renderables/data_digest_templates/tabular/show_data_digest', locals: { data_digest: }

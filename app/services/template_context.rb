@@ -8,6 +8,7 @@ class TemplateContext
     Payment => Manage::PaymentSerializer,
     Invoice => Manage::InvoiceSerializer,
     InvoicePart => Manage::InvoicePartSerializer,
+    Accounting::JournalEntry => Manage::JournalEntrySerializer,
     Tenant => Manage::TenantSerializer,
     Usage => Manage::UsageSerializer,
     PaymentInfo => Manage::PaymentInfoSerializer,

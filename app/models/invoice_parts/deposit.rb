@@ -24,11 +24,7 @@
 #
 
 module InvoiceParts
-  class Deposit < InvoicePart
+  class Deposit < Add
     InvoicePart.register_subtype self
-
-    def calculated_amount
-      amount
-    end
   end
 end

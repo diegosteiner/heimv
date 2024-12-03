@@ -1,6 +1,52 @@
 # frozen_string_literal: true
 
 module Accounting
+  JournalEntry = Data.define(:id, :account, :date, :tax_code, :text, :amount, :side, :cost_center,
+                             :index, :amount_type, :source, :reference, :currency, :booking) do
+    extend ActiveModel::Translation
+    extend ActiveModel::Naming
+
+    def initialize(**args)
+      args.symbolize_keys!
+      defaults = { id: nil, index: nil, tax_code: nil, text: nil, cost_center: nil, source: nil }
+      side = args.delete(:side) if %i[soll haben].include?(args[:side])
+      date = args.delete(:date)&.then { _1.try(:to_date) || Date.parse(_1).to_date }
+      super(**defaults, **args, side:, date:)
+    end
+
+    def soll?
+      side == :soll
+    end
+
+    def haben?
+      side == :haben
+    end
+
+    def soll_account
+      account if soll?
+    end
+
+    def haben_account
+      account if haben?
+    end
+
+    def valid?
+      (soll_account.present? || haben_account.present?) && amount.present?
+    end
+
+    def to_s
+      [
+        (id || index).presence&.then { "[#{_1}]" },
+        soll_account,
+        '->',
+        haben_account,
+        ActiveSupport::NumberHelper.number_to_currency(amount, unit: currency),
+        ':',
+        text
+      ].compact.join(' ')
+    end
+  end
+
   JournalEntryGroup = Data.define(:id, :date, :items) do
     extend ActiveModel::Translation
     extend ActiveModel::Naming
@@ -11,7 +57,7 @@ module Accounting
       items = Array.wrap(args.delete(:items)).map do |item|
         case item
         when Hash, JournalEntry
-          JournalEntry.new(**item.to_h, journal_entry: self)
+          JournalEntry.new(**item.to_h)
         end
       end.compact
       super(id: nil, **args, items:, date:)
@@ -19,20 +65,6 @@ module Accounting
 
     def to_h
       super.merge(items: items.map(&:to_h))
-    end
-  end
-
-  JournalEntry = Data.define(:id, :account, :date, :tax_code, :text, :amount, :side, :cost_center,
-                             :index, :amount_type, :source) do
-    extend ActiveModel::Translation
-    extend ActiveModel::Naming
-
-    def initialize(**args)
-      args.symbolize_keys!
-      @journal_entry = args.delete(:journal_entry)
-      defaults = { id: nil, index: nil, tax_code: nil, text: nil, cost_center: nil, source: nil }
-      date = args.delete(:date)&.then { _1.try(:to_date) || Date.parse(_1).to_date }
-      super(**defaults, **args, date:)
     end
   end
 end

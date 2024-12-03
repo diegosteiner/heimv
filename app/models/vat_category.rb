@@ -20,9 +20,9 @@ class VatCategory < ApplicationRecord
     "#{label} (#{formatted_percentage})"
   end
 
-  def tax_of(amount)
+  def amount_tax(amount)
     return 0 if percentage.blank? || percentage.zero?
 
-    amount / (100 + percentage) * percentage
+    (amount / (100 + percentage)) * percentage
   end
 end

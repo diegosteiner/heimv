@@ -140,7 +140,7 @@ class TafBlock
           # Boolean; Booking type.
           # 0 a debit booking [Soll]
           # 1 a credit booking [Haben]
-          Type: options.fetch(:Type, { 1 => 0, -1 => 1 }[value.side]),
+          Type: options.fetch(:Type, { soll: 0, haben: 1 }[value.side]),
 
           # Currency; The net amount for this booking. [Netto-Betrag]
           ValNt: options.fetch(:ValNt, value.amount_type&.to_sym == :netto ? value.amount : nil),

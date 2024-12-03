@@ -39,24 +39,19 @@ class DataDigestTemplate < ApplicationRecord
     def period(period_sym, at: Time.zone.now)
       PERIODS[period_sym&.to_sym]&.call(at)
     end
+
+    def formatters
+      @formatters ||= (superclass.respond_to?(:formatters) && superclass.formatters&.dup) || {}
+    end
+
+    def formatter(format, default_options: {}, &block)
+      formatters[format.to_sym] = Formatter.new(default_options, block)
+    end
   end
 
   def group
     super.presence
   end
-
-  def base_scope
-    raise NotImplementedError
-  end
-
-  def periodfilter(period); end
-
-  def prefilter
-    @prefilter ||= filter_class&.new(prefilter_params.presence || {})
-  end
-
-  def filter_class; end
-  def crunch(_records); end
 
   def records(period)
     prefiltered = prefilter&.apply(base_scope) || base_scope
@@ -67,11 +62,12 @@ class DataDigestTemplate < ApplicationRecord
     DataDigest.new(data_digest_template: self, period:)
   end
 
-  def self.formatters
-    @formatters ||= (superclass.respond_to?(:formatters) && superclass.formatters&.dup) || {}
-  end
+  def filter_class; end
+  def base_scope; end
+  def periodfilter(_period); end
+  def crunch(_records); end
 
-  def self.formatter(format, default_options: {}, &block)
-    formatters[format.to_sym] = Formatter.new(default_options, block)
+  def prefilter
+    @prefilter ||= filter_class&.new(prefilter_params.presence || {})
   end
 end

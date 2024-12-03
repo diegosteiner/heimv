@@ -38,6 +38,8 @@ class InvoicePart < ApplicationRecord
 
   attribute :apply, :boolean, default: true
 
+  delegate :booking, :organisation, to: :invoice
+
   ranks :ordinal, with_same: :invoice_id, class_name: 'InvoicePart'
 
   scope :ordered, -> { rank(:ordinal) }
@@ -64,8 +66,12 @@ class InvoicePart < ApplicationRecord
     sum + calculated_amount
   end
 
-  def journal_entry_items
+  def journal_entries
     nil
+  end
+
+  def amount_netto
+    amount - (vat_category&.amount_tax(amount) || 0)
   end
 
   def self.from_usage(usage, **attributes)

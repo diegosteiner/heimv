@@ -75,7 +75,6 @@ class RichTextTemplate < ApplicationRecord
   translates :title, :body, column_suffix: '_i18n', locale_accessors: true
 
   belongs_to :organisation, inverse_of: :rich_text_templates
-  has_many :notifications, inverse_of: :rich_text_template, dependent: :nullify
 
   scope :ordered, -> { order(key: :ASC) }
   scope :enabled, -> { where(enabled: true) }
