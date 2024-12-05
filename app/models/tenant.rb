@@ -148,7 +148,6 @@ class Tenant < ApplicationRecord
   end
 
   def accounting_debitor_account_nr
-    @accounting_debitor_account_nr ||= organisation.accounting_settings&.debitor_account_nr.presence ||
-                                       (id + (organisation.accounting_settings&.tenant_debitor_account_nr_base || 0))
+    @accounting_debitor_account_nr ||= (organisation.accounting_settings&.tenant_debitor_account_nr_base || 0) + id
   end
 end

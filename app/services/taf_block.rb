@@ -7,7 +7,7 @@ class TafBlock
 
   def initialize(type, **properties, &)
     @type = type
-    @properties = properties.to_h
+    @properties = properties.transform_values { Value.cast(_1) }
     @children = Collection.new(&)
   end
 
@@ -15,32 +15,38 @@ class TafBlock
     new(...)
   end
 
-  Value = Data.define(:value) do
-    delegate :to_s, to: :value
+  Value = Data.define(:value, :as) do
+    CAST_BLOCKS = { # rubocop:disable Lint/ConstantDefinitionInBlock
+      boolean: ->(value) { value ? '1' : '0' },
+      decimal: ->(value) { format('%.2f', value) },
+      number: ->(value) { value.to_i.to_s },
+      date: ->(value) { value.strftime('%d.%m.%Y') },
+      string: ->(value) { "\"#{value.gsub(/["']/, '""')}\"" },
+      symbol: ->(value) { value.to_s },
+      vector: ->(value) { "[#{value.to_a.map(&:to_s).join(',')}]" },
+      value: ->(value) { value }
+    }.freeze
 
-    def self.derive(value)
-      new derive_value(value)
+    CAST_CLASSES = { # rubocop:disable Lint/ConstantDefinitionInBlock
+      boolean: [::FalseClass, ::TrueClass],
+      decimal: [::BigDecimal, ::Float],
+      number: [::Numeric],
+      date: [::Date, ::DateTime, ::ActiveSupport::TimeWithZone],
+      string: [::String]
+    }.freeze
+
+    def self.cast(value, as: nil)
+      return value if value.is_a?(Value)
+      return nil if value.blank?
+
+      as = CAST_CLASSES.find { |_key, klasses| klasses.any? { |klass| value.is_a?(klass) } }&.first if as.nil?
+      value = CAST_BLOCKS.fetch(as).call(value)
+
+      new(value, as)
     end
 
-    def self.derive_value(value) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength
-      case value
-      when ::FalseClass, ::TrueClass
-        value ? '1' : '0'
-      when ::BigDecimal, ::Float
-        format('%.2f', value)
-      when ::Numeric
-        value.to_s
-      when ::Date, ::DateTime, ::ActiveSupport::TimeWithZone
-        value.strftime('%d.%m.%Y')
-      when ::String
-        "\"#{value.gsub(/["']/, '""')}\""
-      when ::Enumerable
-        "[#{value.to_a.each { derive_value(_1) }.join(',')}]"
-      when Value
-        value
-      else
-        derive_value value.to_s
-      end
+    def serialize
+      value.to_s
     end
   end
 
@@ -75,14 +81,14 @@ class TafBlock
     indent = [indent_with * indent_level].join
     separate_and_indent = [separate_with, indent, indent_with].join
     serialized_children = children.serialize(indent_level:, indent_with:, separate_with:)
-    serialized_properties = properties.compact.map { |key, value| "#{key}=#{Value.derive(value)}" }
+    serialized_properties = properties.compact.map { |key, value| "#{key}=#{value.serialize}" }
 
     [ # tag_start
       indent, "{#{type}",
       # properties
-      separate_and_indent, serialized_properties.join(separate_and_indent),
+      separate_and_indent, serialized_properties.join(separate_and_indent), separate_with,
       # children
-      (serialized_children.present? && separate_with) || nil, serialized_children,
+      (separate_with if children.present?), serialized_children,
       # tag end
       separate_with, indent, '}'
     ].compact.join
@@ -100,18 +106,9 @@ class TafBlock
     factories[klass] = derive_block
   end
 
-  def self.derive(value, **override, &block)
+  def self.derive(value, **override)
     derive_block = factories[factories.keys.find { |klass| value.is_a?(klass) }]
-    instance_exec(value, override, block, &derive_block) if derive_block.present?
-  end
-
-  derive_from Accounting::JournalEntryGroup do |value, **override|
-    new(:Blg, **{
-          # Date; The date of the booking.
-          Date: override.fetch(:Date, value.date),
-
-          Orig: true
-        })
+    instance_exec(value, **override, &derive_block) if derive_block.present?
   end
 
   derive_from Accounting::JournalEntry do |journal_entry, **override|
@@ -187,20 +184,40 @@ class TafBlock
         }, **override)
   end
 
-  derive_from Invoice do |invoice, **override|
+  derive_from Invoice do |invoice, **_override|
     next unless invoice.is_a?(Invoices::Invoice) || invoice.is_a?(Invoices::Deposit)
 
-    op_id = invoice.human_ref
-    pk_key = [Value.new(invoice.booking.tenant.accounting_debitor_account_nr),
-              Value.new(invoice.organisation.accounting_settings.currency_account_nr)]
-    journal_entries = invoice.journal_entries.to_a
+    op_id = Value.cast(invoice.human_ref, as: :symbol)
+    pk_key = [invoice.booking.tenant.accounting_debitor_account_nr,
+              invoice.organisation.accounting_settings.currency_account_nr].then { "[#{_1.join(',')}]" }
+
+    journal_entries = invoice.journal_entries.flatten.compact
 
     [
-      new(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }, **override),
-      new(:Blg, **{ OpId: op_id, Date: invoice.issued_at, Orig: true }, **override) do
+      new(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }),
+      new(:Blg, **{ OpId: op_id, Date: invoice.issued_at, Orig: true }) do
         derive(journal_entries.shift, Flags: 1, OpId: op_id)
         journal_entries.each { derive(_1, OpId: op_id) }
       end
+    ]
+  end
+
+  derive_from Tenant do |tenant, **_override|
+    [
+      new(:Adr, **{
+            AdrId: tenant.accounting_debitor_account_nr,
+            Line1: tenant.full_name,
+            Road: tenant.street_address,
+            CCode: tenant.country_code,
+            ACode: tenant.zipcode,
+            City: tenant.city
+          }),
+      new(:PKd, **{
+            PkKey: Value.cast(tenant.accounting_debitor_account_nr, as: :symbol),
+            AdrId: Value.cast(tenant.accounting_debitor_account_nr, as: :symbol),
+            AccId: Value.cast(tenant.organisation.accounting_settings.currency_account_nr, as: :symbol)
+          })
+
     ]
   end
 end

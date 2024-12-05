@@ -192,15 +192,15 @@ class Invoice < ApplicationRecord
   end
 
   def human_ref
-    ref
+    format('HV%05d', id)
   end
 
   def debitor_journal_entry
     Accounting::JournalEntry.new(
       account: booking.tenant.accounting_debitor_account_nr,
       date: issued_at, amount:, amount_type: :brutto, side: :soll,
-      reference: ref, source: self, currency:, booking:,
-      text: [self.class.model_name.human, ref].join(' ')
+      reference: human_ref, source: self, currency:, booking:,
+      text: [self.class.model_name.human, human_ref].join(' ')
     )
   end
 end

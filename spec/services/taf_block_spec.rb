@@ -12,10 +12,10 @@ describe TafBlock, type: :model do
   describe '#initialize' do
     it 'works as DSL' do
       expect(taf_block.type).to eq(:Blg)
-      expect(taf_block.properties).to eq({ test: 1, text: 'TAF is "great"' })
+      expect(taf_block.properties.transform_values(&:value)).to eq({ test: '1', text: '"TAF is ""great"""' })
       expect(taf_block.children.count).to eq(1)
       expect(taf_block.children.first.type).to eq(:Bk)
-      expect(taf_block.children.first.properties).to eq({ test: 2 })
+      expect(taf_block.children.first.properties.transform_values(&:value)).to eq({ test: '2' })
       expect(taf_block.children.first.children.count).to eq(0)
     end
   end
@@ -28,8 +28,10 @@ describe TafBlock, type: :model do
         {Blg
           text="TAF is ""great"""
           test=1
+
           {Bk
             test=2
+
           }
         }
       TAF
@@ -60,6 +62,7 @@ describe TafBlock, type: :model do
             Type=0
             ValNt=2091.75
             OpId="1234"
+
           }
         TAF
       end
@@ -86,6 +89,7 @@ describe TafBlock, type: :model do
             Type=0
             ValNt=2091.75
             OpId="1234"
+
           }
         TAF
       end
