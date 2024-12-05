@@ -191,6 +191,10 @@ class Invoice < ApplicationRecord
     [debitor_journal_entry] + invoice_parts.map(&:journal_entries)
   end
 
+  def human_ref
+    ref
+  end
+
   def debitor_journal_entry
     Accounting::JournalEntry.new(
       account: booking.tenant.accounting_debitor_account_nr,

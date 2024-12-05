@@ -4,9 +4,8 @@ require 'rails_helper'
 
 describe TafBlock, type: :model do
   subject(:taf_block) do
-    described_class.new(:Blg, text: 'TAF is "great"') do |taf|
-      taf.property test: 1
-      taf.child described_class.new(:Bk, test: 2)
+    described_class.new(:Blg, text: 'TAF is "great"', test: 1) do
+      block(:Bk, test: 2)
     end
   end
 
@@ -37,11 +36,11 @@ describe TafBlock, type: :model do
     end
   end
 
-  context '::build_from' do
+  context '::derive' do
     let(:booking) { create(:booking) }
     let(:currency) { booking.organisation.currency }
     describe 'Accounting::JournalEntry' do
-      subject(:taf_block) { described_class.build_from(journal_entry) }
+      subject(:taf_block) { described_class.derive(journal_entry) }
       let(:journal_entry) do
         Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), reference: '1234',
                                      amount_type: :netto, side: :soll, tax_code: 'MwSt38', booking:, currency:,
@@ -60,13 +59,14 @@ describe TafBlock, type: :model do
             Text2="Second Line, but its longer than sixty ""chars"", "
             Type=0
             ValNt=2091.75
+            OpId="1234"
           }
         TAF
       end
     end
 
     describe 'Accounting::JournalEntry' do
-      subject(:taf_block) { described_class.build_from(journal_entry) }
+      subject(:taf_block) { described_class.derive(journal_entry) }
       let(:journal_entry) do
         Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), reference: '1234',
                                      amount_type: :netto, side: :soll, tax_code: 'MwSt38', booking:, currency:,
@@ -85,6 +85,7 @@ describe TafBlock, type: :model do
             Text2="Second Line, but its longer than sixty ""chars"", "
             Type=0
             ValNt=2091.75
+            OpId="1234"
           }
         TAF
       end

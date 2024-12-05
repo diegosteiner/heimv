@@ -82,23 +82,22 @@ module DataDigestTemplates
     def records(period)
       invoice_filter = ::Invoice::Filter.new(issued_at_after: period&.begin, issued_at_before: period&.end)
       invoices = invoice_filter.apply(::Invoice.joins(:booking).where(bookings: { organisation: organisation }).kept)
-      invoices.map(&:journal_entries)
+      invoices.index_with(&:journal_entries)
     end
 
     def crunch(records)
-      records.flatten.compact.map do |record|
+      records.values.flatten.compact.map do |record|
         template_context_cache = {}
         columns.map { |column| column.body(record, template_context_cache) }
       end
     end
 
     formatter(:taf) do |_options = {}|
-      data.flat_map do |record|
-        journal_entry = ::Accounting::JournalEntryGroup.new(**record)
-        [
-          TafBlock.build_from(journal_entry)
-        ]
-      end.join("\n")
+      records.keys.map do |source|
+        TafBlock::Collection.new do
+          derive(source)
+        end
+      end.join("\n\n")
     end
 
     protected
