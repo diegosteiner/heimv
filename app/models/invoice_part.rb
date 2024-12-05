@@ -70,9 +70,9 @@ class InvoicePart < ApplicationRecord
     nil
   end
 
-  def amount_netto
-    amount - (vat_category&.amount_tax(amount) || 0)
-  end
+  # def amount_netto
+  #   amount - (vat_category&.amount_tax(amount) || 0)
+  # end
 
   def self.from_usage(usage, **attributes)
     return unless usage

@@ -188,12 +188,15 @@ class Invoice < ApplicationRecord
   end
 
   def journal_entries
-    [
-      Accounting::JournalEntry.new(
-        account: booking.tenant.accounting_account_nr, date: issued_at, amount:, amount_type: :brutto, side: :soll,
-        reference: ref, source: self, currency:, booking:,
-        text: [self.class.model_name.human, ref].join(' ')
-      )
-    ] + invoice_parts.map(&:journal_entries)
+    [debitor_journal_entry] + invoice_parts.map(&:journal_entries)
+  end
+
+  def debitor_journal_entry
+    Accounting::JournalEntry.new(
+      account: booking.tenant.accounting_debitor_account_nr,
+      date: issued_at, amount:, amount_type: :brutto, side: :soll,
+      reference: ref, source: self, currency:, booking:,
+      text: [self.class.model_name.human, ref].join(' ')
+    )
   end
 end

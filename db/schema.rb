@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_05_130304) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -479,6 +479,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_130304) do
     t.string "account_address"
     t.text "cors_origins"
     t.jsonb "nickname_label_i18n", default: {}
+    t.jsonb "accounting_settings", default: {}
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 

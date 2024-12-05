@@ -34,7 +34,7 @@ module InvoiceParts
     def journal_entries # rubocop:disable Metrics/AbcSize
       [
         Accounting::JournalEntry.new(
-          account: tarif&.accounting_account_nr, date: invoice.issued_at, amount: brutto.abs, amount_type: :brutto,
+          account: tarif&.accounting_account_nr, date: invoice.issued_at, amount: amount.abs, amount_type: :brutto,
           side: :haben, tax_code: vat_category&.accounting_vat_code, reference: invoice.ref, source: self,
           currency: organisation.currency, booking:, cost_center: tarif&.accounting_profit_center_nr,
           text: [invoice.class.model_name.human, invoice.ref, self.class.model_name.human, label].join(' ')
