@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_03_101328) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_05_130304) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -98,11 +98,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_101328) do
   create_table "booking_categories", force: :cascade do |t|
     t.bigint "organisation_id", null: false
     t.string "key"
-    t.jsonb "title_i18n"
+    t.jsonb "title_i18n", default: {}, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "ordinal"
-    t.jsonb "description_i18n"
+    t.jsonb "description_i18n", default: {}, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_booking_categories_on_discarded_at"
     t.index ["key", "organisation_id"], name: "index_booking_categories_on_key_and_organisation_id", unique: true
@@ -149,8 +149,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_101328) do
   create_table "booking_questions", force: :cascade do |t|
     t.bigint "organisation_id", null: false
     t.datetime "discarded_at"
-    t.jsonb "label_i18n"
-    t.jsonb "description_i18n"
+    t.jsonb "label_i18n", default: {}, null: false
+    t.jsonb "description_i18n", default: {}, null: false
     t.string "type"
     t.integer "ordinal"
     t.string "key"
@@ -181,7 +181,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_101328) do
 
   create_table "booking_validations", force: :cascade do |t|
     t.bigint "organisation_id", null: false
-    t.jsonb "error_message_i18n"
+    t.jsonb "error_message_i18n", default: {}, null: false
     t.integer "ordinal"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -401,8 +401,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_101328) do
     t.bigint "home_id"
     t.jsonb "settings"
     t.integer "ordinal"
-    t.jsonb "name_i18n"
-    t.jsonb "description_i18n"
+    t.jsonb "name_i18n", default: {}, null: false
+    t.jsonb "description_i18n", default: {}, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_occupiables_on_discarded_at"
     t.index ["home_id"], name: "index_occupiables_on_home_id"
@@ -631,7 +631,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_101328) do
 
   create_table "vat_categories", force: :cascade do |t|
     t.decimal "percentage", default: "0.0", null: false
-    t.jsonb "label_i18n"
+    t.jsonb "label_i18n", default: {}, null: false
     t.bigint "organisation_id", null: false
     t.string "accounting_vat_code"
     t.datetime "discarded_at"
