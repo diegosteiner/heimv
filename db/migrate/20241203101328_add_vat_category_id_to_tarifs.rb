@@ -22,6 +22,7 @@ class AddVatCategoryIdToTarifs < ActiveRecord::Migration[8.0]
 
     vat_category = tarif.organisation.vat_categories.find_or_create_by!(percentage: tarif.vat)
     tarif.update(vat_category:)
-    tarif.invoice_parts.find_each { |invoice_part| invoice_part.update(vat_category:)  }
+    InvoicePart.where(id: tarif.usages.map(&:invoice_part_ids))
+      .find_each { |invoice_part| invoice_part.update(vat_category:)  }
   end
 end
