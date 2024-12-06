@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Mobility.configure do
+  # PLUGINS
   plugins do
     # Backend
     #
@@ -60,6 +61,19 @@ Mobility.configure do
     # per model by passing +dirty: true+ to +translates+.
     # dirty false
 
+    # Column Fallback
+    #
+    # Uncomment line below to fallback to original column. You can pass
+    # +column_fallback: true+ to +translates+ to return original column on
+    # default locale, or pass +column_fallback: [:en, :de]+ to +translates+
+    # to return original column for those locales or pass
+    # +column_fallback: ->(locale) { ... }+ to +translates to evaluate which
+    # locales to return original column for.
+    # column_fallback
+    #
+    # Or uncomment this line to enable column fallback with a global default.
+    # column_fallback true
+
     # Fallbacks
     #
     # Uncomment line below to enable fallbacks, using +I18n.fallbacks+.
@@ -110,7 +124,7 @@ Mobility.configure do
     #
     # Adds translated attributes to +attributes+ hash, and defines methods
     # +translated_attributes+ and +untranslated_attributes+ which return hashes
-    # with translatd and untranslated attributes, respectively. Be aware that
+    # with translated and untranslated attributes, respectively. Be aware that
     # this plugin can create conflicts with other gems.
     #
     # attribute_methods

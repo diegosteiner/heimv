@@ -5,6 +5,7 @@
 # Table name: tenants
 #
 #  id                        :bigint           not null, primary key
+#  accounting_account_nr     :string
 #  address_addon             :string
 #  birth_date                :date
 #  bookings_without_contract :boolean          default(FALSE)

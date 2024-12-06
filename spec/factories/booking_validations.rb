@@ -20,6 +20,6 @@ FactoryBot.define do
   factory :booking_validation do
     organisation { nil }
     check_on { Booking::VALIDATION_CONTEXTS }
-    error_message_i18n { 'Validation failed' }
+    error_message { 'Validation failed' }
   end
 end

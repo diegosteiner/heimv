@@ -5,6 +5,7 @@
 # Table name: tenants
 #
 #  id                        :bigint           not null, primary key
+#  accounting_account_nr     :string
 #  address_addon             :string
 #  birth_date                :date
 #  bookings_without_contract :boolean          default(FALSE)
@@ -144,5 +145,9 @@ class Tenant < ApplicationRecord
 
     assign_attributes(tenant&.changed_values&.except(:email, :organisation_id) || {})
     self
+  end
+
+  def accounting_debitor_account_nr
+    @accounting_debitor_account_nr ||= (organisation.accounting_settings&.tenant_debitor_account_nr_base || 0) + id
   end
 end

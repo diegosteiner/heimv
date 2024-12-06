@@ -27,7 +27,7 @@ Layout/LineLength:
   Max: 120
 
 Metrics/ClassLength:
-  Max: 120
+  Max: 150
 
 Metrics/MethodLength:
   Exclude:
@@ -62,6 +62,7 @@ Naming/MethodParameterName:
   AllowedNames:
     - "to"
     - "at"
+    - "as"
 
 Rails/EnvironmentVariableAccess:
   AllowReads: true

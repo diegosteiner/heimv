@@ -33,15 +33,16 @@ module Ability
 
       can(:manage, BookingAgent, organisation:)
       can(:manage, BookingCategory, organisation:)
-      can :manage, BookingCondition, tarif: { organisation: }
+      can(:manage, BookingCondition, tarif: { organisation: })
       can(:manage, BookingQuestion, organisation:)
       can(:manage, BookingValidation, organisation:)
       can(:manage, DesignatedDocument, organisation:)
       can(:manage, Occupiable, organisation:)
       can(:manage, Operator, organisation:)
-      can %i[read edit update], Organisation, id: organisation.id
+      can(%i[read edit update], Organisation, id: organisation.id)
       can(:manage, OrganisationUser, organisation:)
-      can :manage, Tarif, organisation:
+      can(:manage, Tarif, organisation:)
+      can(:manage, VatCategory, organisation:)
     end
 
     role :manager do |user, organisation|
@@ -50,21 +51,21 @@ module Ability
       abilities_for_role(:readonly, user, organisation)
 
       can(:manage, Booking, organisation:)
-      can :manage, Contract, booking: { organisation: }
+      can(:manage, Contract, booking: { organisation: })
       can(:manage, DataDigest, organisation:)
       can(:manage, DataDigestTemplate, organisation:)
-      can :manage, Deadline, booking: { organisation: }
-      can :manage, Invoice, booking: { organisation: }
-      can :manage, InvoicePart, invoice: { booking: { organisation: } }
-      can :manage, Notification, booking: { organisation: }
-      can :new, Occupancy
-      can :manage, Occupancy, occupiable: { organisation: }
+      can(:manage, Deadline, booking: { organisation: })
+      can(:manage, Invoice, booking: { organisation: })
+      can(:manage, InvoicePart, invoice: { booking: { organisation: } })
+      can(:manage, Notification, booking: { organisation: })
+      can(:new, Occupancy)
+      can(:manage, Occupancy, occupiable: { organisation: })
       can(:manage, OperatorResponsibility, organisation:)
-      can :manage, Payment, booking: { organisation: }
+      can(:manage, Payment, booking: { organisation: })
       can(:manage, Tenant, organisation:)
-      can :manage, Usage, booking: { organisation: }
+      can(:manage, Usage, booking: { organisation: })
       can(:manage, RichTextTemplate, organisation:)
-      can :read, PlanBBackup, organisation:
+      can(:read, PlanBBackup, organisation:)
     end
 
     role :readonly do |user, organisation|
@@ -73,28 +74,29 @@ module Ability
       can(%i[read calendar], Booking, organisation:)
       can(:read, BookingAgent, organisation:)
       can(:read, BookingCategory, organisation:)
-      can :read, BookingCondition, tarif: { organisation: }
+      can(:read, BookingCondition, tarif: { organisation: })
       can(:read, BookingQuestion, organisation:)
       can(:read, BookingValidation, organisation:)
-      can :read, Contract, booking: { organisation: }
+      can(:read, Contract, booking: { organisation: })
       can(%i[read new create], DataDigest, organisation:)
       can(:read, DataDigestTemplate, organisation:)
-      can :read, Deadline, booking: { organisation: }
+      can(:read, Deadline, booking: { organisation: })
       can(%i[read calendar at embed], Home, organisation:)
-      can :read, Invoice, booking: { organisation: }
-      can :read, InvoicePart, invoice: { booking: { organisation: } }
-      can :read, Notification, booking: { organisation: }
-      can %i[read calendar at embed], Occupancy, occupiable: { organisation: }
+      can(:read, Invoice, booking: { organisation: })
+      can(:read, InvoicePart, invoice: { booking: { organisation: } })
+      can(:read, Notification, booking: { organisation: })
+      can(%i[read calendar at embed], Occupancy, occupiable: { organisation: })
       can(%i[read calendar], Occupiable, organisation:)
       can(:read, Operator, organisation:)
       can(:read, OperatorResponsibility, organisation:)
-      can %i[read edit], Organisation, id: organisation.id
-      can :read, Payment, booking: { organisation: }
+      can(%i[read edit], Organisation, id: organisation.id)
+      can(:read, Payment, booking: { organisation: })
       can(:read, RichTextTemplate, organisation:)
       can(:read, Tarif, organisation:)
       can(:read, Tenant, organisation:)
-      can :read, Usage, booking: { organisation: }
-      can :read, User, organisation:
+      can(:read, Usage, booking: { organisation: })
+      can(:read, User, organisation:)
+      can(:read, VatCategory, organisation:)
     end
   end
 

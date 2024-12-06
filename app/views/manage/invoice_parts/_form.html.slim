@@ -6,8 +6,10 @@
     = f.text_field :ordinal_position
     = f.text_field :label
     = f.text_field :breakdown
-    = f.text_field :vat, inputmode: 'numeric'
     = f.text_field :amount, inputmode: 'numeric'
+
+    - if current_organisation.vat_categories.any?
+      = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true
 
   .form-actions.pt-4.mt-3
     = f.submit

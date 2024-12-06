@@ -26,25 +26,5 @@
 require 'rails_helper'
 
 RSpec.describe DataDigestTemplate, type: :model do
-  describe '#columns' do
-    subject(:columns) { data_digest_template.columns }
-
-    let(:columns_config) do
-      [
-        {
-          header: 'Test Header 1',
-          body: '{{ booking.ref }}'
-        },
-        {
-          header: 'Test Header 2',
-          body: '{{ booking.name }}'
-        }
-      ]
-    end
-
-    let(:data_digest_template) { create(:data_digest_template, columns_config:) }
-
-    it { expect(columns.count).to eq(2) }
-    it { is_expected.to all(be_a DataDigestTemplate::Column) }
-  end
+  subject(:data_digest_template) { described_class.new }
 end

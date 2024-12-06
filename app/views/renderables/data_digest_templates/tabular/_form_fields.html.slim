@@ -1,0 +1,4 @@
+= react_component('data_digest_templates/ColumnsConfigForm', { \ 
+    name: "data_digest_template[columns_config]", \
+    json: JSON.generate(data_digest_template.columns_config.presence || data_digest_template.class::DEFAULT_COLUMN_CONFIG) \
+  }) 

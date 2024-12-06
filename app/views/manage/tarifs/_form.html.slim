@@ -30,9 +30,7 @@
 
   fieldset
     = f.text_field :price_per_unit, step: 0.01, inputmode: "numeric" 
-    = f.check_box :pin
 
-  fieldset 
     details
       summary.mb-3
         =t('.minimum')
@@ -41,14 +39,22 @@
       = f.text_field :minimum_usage_total, step: 0.01, inputmode: "numeric" 
       = f.text_field :minimum_price_per_night, step: 0.01, inputmode: "numeric" 
       = f.text_field :minimum_price_total, step: 0.01, inputmode: "numeric" 
+    
+    = f.check_box :pin
 
   fieldset
     = f.collection_check_boxes :associated_types, Tarif.associated_types.keys, :itself, ->(key) { Tarif::ASSOCIATED_TYPES[key]&.model_name&.human }
     .row
       .col-md-6= f.collection_select :prefill_usage_booking_question_id, @tarif.prefill_usage_booking_questions, :id, :label, include_blank: true
       .col-md-6= f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
-    = f.text_field :accountancy_account
-    = f.text_field :vat, step: 0.1, inputmode: "numeric" 
+    
+  fieldset 
+    .row
+      .col-md-6= f.text_field :accounting_account_nr
+      .col-md-6= f.text_field :accounting_profit_center_nr
+
+    - if current_organisation.vat_categories.any?
+      = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true
 
   fieldset.mt-4
     label.mb-2= Tarif.human_attribute_name(:selecting_conditions)

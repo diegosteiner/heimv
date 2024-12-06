@@ -24,6 +24,9 @@
 require 'rails_helper'
 
 RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
+  subject(:data_digest_template) do
+    build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
+  end
   subject(:data_digest) { data_digest_template.data_digests.create }
 
   let(:columns_config) { nil }
@@ -35,9 +38,6 @@ RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
         create(:invoice_part, invoice:, usage:)
       end
     end.flatten
-  end
-  let(:data_digest_template) do
-    create(:invoice_part_data_digest_template, columns_config:, organisation:)
   end
   let(:home) { create(:home, organisation:) }
   let(:organisation) { create(:organisation) }

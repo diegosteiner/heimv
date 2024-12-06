@@ -24,7 +24,7 @@
 #
 
 module DataDigestTemplates
-  class Booking < ::DataDigestTemplate
+  class Booking < Tabular
     ::DataDigestTemplate.register_subtype self
 
     DEFAULT_COLUMN_CONFIG = [
@@ -113,8 +113,12 @@ module DataDigestTemplates
       ::Booking::Filter
     end
 
+    def record_order
+      { begins_at: :asc, id: :asc }
+    end
+
     def base_scope
-      @base_scope ||= organisation.bookings.ordered.with_default_includes
+      @base_scope ||= organisation.bookings.with_default_includes
     end
   end
 end

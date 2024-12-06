@@ -1,23 +1,7 @@
 h1.mt-0= @data_digest.label
 p=  @data_digest.localized_period
 
-.table-responsive
-  table.table-striped.table.table-responsive
-    - if @data_digest.header
-      thead
-        - @data_digest.header.each do |header|
-          th= header
-    
-    tbody.shadow-sm
-      - @data_digest.data&.each do |row|
-        tr
-          - row.each do |cell|
-            td= cell
-
-    - if @data_digest.footer&.any?(&:present?) 
-      tfooter
-        - @data_digest.footer.each do |footer|
-          td= footer
+= render partial: @data_digest.data_digest_template.to_partial_path('show_data_digest'), locals: { data_digest: @data_digest }
 
 br
 .btn-group
