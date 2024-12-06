@@ -52,7 +52,7 @@
 #  fk_rails_...  (organisation_id => organisations.id)
 #
 
-class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
+class Booking < ApplicationRecord
   include BookingStateConcern
   include Timespanable
 

@@ -24,12 +24,14 @@
 require 'rails_helper'
 
 RSpec.describe DataDigestTemplates::Booking, type: :model do
+  subject(:data_digest_template) do
+    build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
+  end
   subject(:data_digest) { data_digest_template.data_digests.create }
 
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:columns_config) { nil }
-  let(:data_digest_template) { create(:booking_data_digest_template, columns_config:, organisation:) }
   let!(:bookings) { create_list(:booking, 3, organisation:, home:) }
 
   describe '#records' do
@@ -69,10 +71,10 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
       it { expect(data_digest.data.count).to be(3) }
 
       it do
-        expect(data_digest.header).to eq ['Buchungsreferenz', 'Hauptmietobjekt',
-                                          'Beginn der Belegung', 'Ende der Belegung',
-                                          'Beschreibung des Mietzwecks', 'Nächte', 'Mieter', 'Adresse', 'Email',
-                                          'Telefon']
+        expect(data_digest_template.header).to eq ['Buchungsreferenz', 'Hauptmietobjekt',
+                                                   'Beginn der Belegung', 'Ende der Belegung',
+                                                   'Beschreibung des Mietzwecks', 'Nächte', 'Mieter',
+                                                   'Adresse', 'Email', 'Telefon']
       end
     end
 
@@ -103,7 +105,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
       it { expect(data_digest.data.count).to be(3) }
 
       it do
-        expect(data_digest.header).to eq(['Ref', 'Usage Price'])
+        expect(data_digest_template.header).to eq(['Ref', 'Usage Price'])
         expect(data_digest.data).to include(*bookings.map { |booking| [booking.ref, 'CHF 15.00'] })
       end
     end

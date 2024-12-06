@@ -5,7 +5,7 @@
 # Table name: tarifs
 #
 #  id                                :bigint           not null, primary key
-#  accountancy_account               :string
+#  accounting_account_nr             :string
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  label_i18n                        :jsonb

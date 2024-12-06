@@ -2,6 +2,7 @@
 
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
+  self.attributes_for_inspect = :all
 
   def self.human_enum(enum, value, default: '-', **)
     return default if value.blank?

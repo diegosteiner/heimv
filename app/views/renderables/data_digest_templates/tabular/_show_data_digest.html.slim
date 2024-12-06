@@ -1,0 +1,19 @@
+.table-responsive
+  table.table-striped.table.table-responsive
+    - header = data_digest.data_digest_template.header 
+    - footer = data_digest.data_digest_template.footer
+    - if header
+      thead
+        - header.each do |header_column|
+          th= header_column
+    
+    tbody.shadow-sm
+      - data_digest.data&.each do |row|
+        tr
+          - row.each do |cell|
+            td= cell
+
+    - if footer&.any?(&:present?) 
+      tfooter
+        - footer.each do |footer_column|
+          td= footer_column

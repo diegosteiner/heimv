@@ -73,6 +73,8 @@ class Invoice < ApplicationRecord
   after_save :recalculate!
   after_create { generate_ref? && generate_ref && save }
 
+  delegate :currency, to: :organisation
+
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
   validate do
     errors.add(:supersede_invoice_id, :invalid) if supersede_invoice && supersede_invoice.organisation != organisation
@@ -181,13 +183,24 @@ class Invoice < ApplicationRecord
     { io: StringIO.new(pdf.blob.download), filename:, content_type: pdf.content_type } if pdf&.blob.present?
   end
 
-  def vat
-    invoice_parts.filter { |invoice_part| invoice_part.vat.present? && invoice_part.vat.positive? }
-                 .group_by(&:vat)
-                 .to_h do |vat, vat_invoice_parts|
-                   total = vat_invoice_parts.sum(&:calculated_amount)
-                   tax = total / (100 + vat) * vat
-                   [vat, { tax:, total: }]
-                 end
+  def vat_amounts
+    invoice_parts.group_by(&:vat_category).except(nil).transform_values { _1.sum(&:calculated_amount) }
+  end
+
+  def journal_entries
+    [debitor_journal_entry] + invoice_parts.map(&:journal_entries)
+  end
+
+  def human_ref
+    format('HV%05d', id)
+  end
+
+  def debitor_journal_entry
+    Accounting::JournalEntry.new(
+      account: booking.tenant.accounting_debitor_account_nr,
+      date: issued_at, amount:, amount_type: :brutto, side: :soll,
+      reference: human_ref, source: self, currency:, booking:,
+      text: [self.class.model_name.human, human_ref].join(' ')
+    )
   end
 end

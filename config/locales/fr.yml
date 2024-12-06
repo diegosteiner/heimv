@@ -330,7 +330,7 @@ fr:
         namespace: Domaine
         title: Titre
       tarif:
-        accountancy_account: Compte comptable
+        accounting_account_nr: Compte comptable
         associated_types: Affiché dans les documents
         enabling_conditions: Conditions de sélection autorisée
         label: Désignation du tarif
@@ -348,7 +348,6 @@ fr:
         tarif_group: groupe tarifaire
         type: type
         unit: unité
-        vat: TVA incluse en pourcentage
       tenant:
         address: Adresse
         address_addon: Complément d'adresse / école / entreprise
@@ -1209,7 +1208,6 @@ fr:
     deposited_amount: Avoir à partir d'un acompte
   invoices:
     total: Total
-    vat_label: au taux de TVA. Taux de %{vat}%
     vat_title: TVA incluse dans les prix
   layouts:
     footer:

@@ -29,7 +29,7 @@ module Export
       end
 
       to_render do
-        table_data = [data_digest.header] + data_digest.data
+        table_data = [data_digest.data_digest_template.header] + data_digest.data
         table(table_data, width: bounds.width) do
           cells.style(size: 6, borders: [])
           row(0).font_style = :bold

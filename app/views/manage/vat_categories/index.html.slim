@@ -1,0 +1,27 @@
+
+h1.mt-0.mb-5= VatCategory.model_name.human(count: 2)
+
+.table-responsive
+  table.table.table-hover.align-middle
+    tbody.shadow-sm
+      - @vat_categories.each do |vat_category|
+        tr.bg-white[class=('disabled' if vat_category.discarded?)]
+          td
+            = link_to vat_category.to_s, edit_manage_vat_category_path(vat_category)
+          td
+            = number_to_percentage(vat_category.percentage, precision: 2)
+          td
+            = vat_category.accounting_vat_code 
+          td.p-1.text-end 
+            .btn-group
+              - unless vat_category.discarded?
+                = link_to edit_manage_vat_category_path(vat_category), class: 'btn btn-default' do
+                  span.fa.fa-edit
+              = link_to manage_vat_category_path(vat_category), data: { confirm: t(:confirm) }, method: :delete, title: t(:destroy), class: 'btn btn-default' do
+                span.fa.fa-trash
+
+br
+= link_to new_manage_vat_category_path, class: 'btn btn-primary' do
+  span.fa.fa-file-o
+  '
+  = t(:add_record, model_name: VatCategory.model_name.human)

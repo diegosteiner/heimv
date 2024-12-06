@@ -330,7 +330,7 @@ it:
         namespace:
         title: Titolo
       tarif:
-        accountancy_account: Conto contabile
+        accounting_account_nr: Conto contabile
         associated_types: Indicato nei documenti
         enabling_conditions: Condizioni per la selezione consentita
         label: Designazione tariffa
@@ -348,7 +348,6 @@ it:
         tarif_group: Gruppo tariffario
         type: Tipo
         unit: Unità
-        vat:
       tenant:
         address: Indirizzo
         address_addon: Suffisso indirizzo / scuola / azienda
@@ -1174,7 +1173,6 @@ it:
     deposited_amount:
   invoices:
     total: Totale
-    vat_label:
     vat_title:
   layouts:
     footer:
@@ -1361,7 +1359,7 @@ it:
       format:
         delimiter: ''
         format: "%n%"
-        precision: '1'
+        precision: 1
     precision:
       format:
         delimiter: ''

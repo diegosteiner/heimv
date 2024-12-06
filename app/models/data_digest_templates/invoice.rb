@@ -24,7 +24,7 @@
 #
 
 module DataDigestTemplates
-  class Invoice < DataDigestTemplate
+  class Invoice < Tabular
     ::DataDigestTemplate.register_subtype self
 
     DEFAULT_COLUMN_CONFIG = [

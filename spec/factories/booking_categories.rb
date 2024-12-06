@@ -26,6 +26,6 @@ FactoryBot.define do
   factory :booking_category do
     organisation { nil }
     sequence(:key) { |i| "category_#{i}" }
-    title_i18n { Faker::Commerce.department }
+    title { Faker::Commerce.department }
   end
 end

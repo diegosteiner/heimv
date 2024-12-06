@@ -8,7 +8,7 @@ module Export
           attr_reader :invoice
 
           delegate :organisation, :invoice_parts, to: :invoice
-          delegate :helpers, to: ActionController::Base
+          delegate :number_to_currency, :number_to_percentage, to: ActiveSupport::NumberHelper
 
           def initialize(invoice)
             @invoice = invoice
@@ -35,7 +35,7 @@ module Export
           def render_invoice_total_table
             move_down 10
             total_data = [[I18n.t('invoices.total'), '', organisation.currency,
-                           helpers.number_to_currency(invoice.amount, unit: '')]]
+                           number_to_currency(invoice.amount, unit: '')]]
 
             table total_data, **table_options(borders: [:top], font_style: :bold, padding: [4, 4, 4, 0]) do
               column(2).style(align: :right)
@@ -44,7 +44,7 @@ module Export
           end
 
           def render_invoice_vat_table
-            return if invoice.vat.none?
+            return if invoice.vat_amounts.none?
 
             move_down 10
             start_new_page if cursor < (vat_table_data.count + 1) * 9
@@ -85,16 +85,18 @@ module Export
               [{ content: invoice_part.label, font_style: :bold }, '', '', '']
             else
               [invoice_part.label, invoice_part.breakdown, organisation.currency,
-               helpers.number_to_currency(invoice_part.calculated_amount, unit: '')]
+               number_to_currency(invoice_part.calculated_amount, unit: '')]
             end
           end
 
           def vat_table_data
-            invoice.vat.map do |vat_percentage, vat_amounts|
+            invoice.vat_amounts.map do |vat_category, amount|
               [
-                I18n.t('invoices.vat_label', vat: vat_percentage), organisation.currency,
-                ActionController::Base.helpers.number_to_currency(vat_amounts[:total], unit: ''),
-                ActionController::Base.helpers.number_to_currency(vat_amounts[:tax], unit: '')
+                vat_category.label,
+                number_to_percentage(vat_category.percentage, precision: 2),
+                organisation.currency,
+                number_to_currency(amount, unit: ''),
+                number_to_currency(vat_category.amount_tax(amount), unit: '')
               ]
             end
           end

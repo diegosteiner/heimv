@@ -268,7 +268,7 @@ en:
         namespace: Bereich
         title: Titel
       tarif:
-        accountancy_account: zugewiesenes Buchhaltungskonto
+        accounting_account_nr: zugewiesenes Buchhaltungskonto
         associated_types: Ausgewiesen in Rechnungsarten
         enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung
@@ -1280,7 +1280,7 @@ en:
       format:
         delimiter: ''
         format: "%n%"
-        precision: '1'
+        precision: 1
     precision:
       format:
         delimiter: ''

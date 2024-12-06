@@ -5,7 +5,7 @@
 # Table name: tarifs
 #
 #  id                                :bigint           not null, primary key
-#  accountancy_account               :string
+#  accounting_account_nr             :string
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  label_i18n                        :jsonb
@@ -62,6 +62,7 @@ class Tarif < ApplicationRecord
   flag :associated_types, ASSOCIATED_TYPES.keys
 
   belongs_to :organisation, inverse_of: :tarifs
+  belongs_to :vat_category, inverse_of: :tarifs, optional: true
   belongs_to :prefill_usage_booking_question, class_name: 'BookingQuestion', inverse_of: :tarifs, optional: true
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
