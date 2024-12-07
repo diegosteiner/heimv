@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_07_212400) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -335,6 +335,17 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.index ["ref"], name: "index_invoices_on_ref"
     t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
     t.index ["type"], name: "index_invoices_on_type"
+  end
+
+  create_table "key_sequences", force: :cascade do |t|
+    t.string "key", null: false
+    t.bigint "organisation_id", null: false
+    t.integer "year"
+    t.integer "value", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key", "year", "organisation_id"], name: "index_key_sequences_on_key_and_year_and_organisation_id", unique: true
+    t.index ["organisation_id"], name: "index_key_sequences_on_organisation_id"
   end
 
   create_table "mail_template_designated_documents", id: false, force: :cascade do |t|
@@ -668,6 +679,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
   add_foreign_key "invoice_parts", "vat_categories"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
+  add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
   add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"
   add_foreign_key "meter_reading_periods", "tarifs"
