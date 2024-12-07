@@ -94,10 +94,7 @@ module DataDigestTemplates
 
     formatter(:taf) do |_options = {}|
       records.keys.map do |source|
-        TafBlock::Collection.new do
-          derive(source.booking.tenant)
-          derive(source)
-        end
+        TafBlock::Collection.new { derive(source) }
       end.join("\n\n")
     end
 

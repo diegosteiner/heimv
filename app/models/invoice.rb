@@ -191,16 +191,16 @@ class Invoice < ApplicationRecord
     [debitor_journal_entry] + invoice_parts.map(&:journal_entries)
   end
 
-  def human_ref
-    format('HV%05d', id)
+  def accounting_ref
+    format('HV%05d', id + 1)
   end
 
   def debitor_journal_entry
     Accounting::JournalEntry.new(
-      account: booking.tenant.accounting_debitor_account_nr,
+      account: organisation.accounting_settings.debitor_account_nr,
       date: issued_at, amount:, amount_type: :brutto, side: :soll,
-      reference: human_ref, source: self, currency:, booking:,
-      text: [self.class.model_name.human, human_ref].join(' ')
+      reference: accounting_ref, source: self, currency:, booking:,
+      text: "#{self.class.model_name.human} #{accounting_ref} - #{booking.tenant.last_name}"
     )
   end
 end
