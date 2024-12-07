@@ -57,6 +57,7 @@ describe TafBlock, type: :model do
             BType=1
             Date=05.10.2024
             TaxId="MwSt38"
+            MkTxB=1
             Text="Lorem ipsum"
             Text2="Second Line, but its longer than sixty ""chars"", "
             Type=0
@@ -84,6 +85,7 @@ describe TafBlock, type: :model do
             BType=1
             Date=05.10.2024
             TaxId="MwSt38"
+            MkTxB=1
             Text="Lorem ipsum"
             Text2="Second Line, but its longer than sixty ""chars"", "
             Type=0
