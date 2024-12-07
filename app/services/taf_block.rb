@@ -28,11 +28,9 @@ class TafBlock
     }.freeze
 
     CAST_CLASSES = { # rubocop:disable Lint/ConstantDefinitionInBlock
-      boolean: [::FalseClass, ::TrueClass],
-      decimal: [::BigDecimal, ::Float],
-      number: [::Numeric],
-      date: [::Date, ::DateTime, ::ActiveSupport::TimeWithZone],
-      string: [::String]
+      boolean: [::FalseClass, ::TrueClass], decimal: [::BigDecimal, ::Float],
+      number: [::Numeric], date: [::Date, ::DateTime, ::ActiveSupport::TimeWithZone],
+      string: [::String], symbol: [::Symbol]
     }.freeze
 
     def self.cast(value, as: nil)
@@ -142,6 +140,8 @@ class TafBlock
           # String[5]; The Id of the tax. [MWSt-Kürzel]
           TaxId: journal_entry.tax_code,
 
+          MkTxB: journal_entry.tax_code.present?,
+
           # String[61*]; This string specifies the first line of the booking text.
           Text: journal_entry.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
 
@@ -187,16 +187,17 @@ class TafBlock
   derive_from Invoice do |invoice, **_override|
     next unless invoice.is_a?(Invoices::Invoice) || invoice.is_a?(Invoices::Deposit)
 
-    op_id = Value.cast(invoice.human_ref, as: :symbol)
+    op_id = Value.cast(invoice.accounting_ref, as: :symbol)
     pk_key = [invoice.booking.tenant.accounting_debitor_account_nr,
               invoice.organisation.accounting_settings.currency_account_nr].then { "[#{_1.join(',')}]" }
 
     journal_entries = invoice.journal_entries.flatten.compact
 
     [
+      derive(invoice.booking.tenant),
       new(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }),
-      new(:Blg, **{ OpId: op_id, Date: invoice.issued_at, Orig: true }) do
-        derive(journal_entries.shift, Flags: 1, OpId: op_id)
+      new(:Blg, **{ Date: invoice.issued_at, Orig: true }) do
+        derive(journal_entries.shift, Flags: 1, OpId: op_id, PkKey: pk_key, CAcc: :div)
         journal_entries.each { derive(_1, OpId: op_id) }
       end
     ]

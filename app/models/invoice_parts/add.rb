@@ -35,9 +35,9 @@ module InvoiceParts
       [
         Accounting::JournalEntry.new(
           account: tarif&.accounting_account_nr, date: invoice.issued_at, amount: amount.abs, amount_type: :brutto,
-          side: :haben, tax_code: vat_category&.accounting_vat_code, reference: invoice.human_ref, source: self,
+          side: :haben, tax_code: vat_category&.accounting_vat_code, reference: invoice.accounting_ref, source: self,
           currency: organisation.currency, booking:, cost_center: tarif&.accounting_profit_center_nr,
-          text: [invoice.class.model_name.human, invoice.human_ref, label].join(' ')
+          text: "#{invoice.class.model_name.human} #{invoice.accounting_ref} #{label}"
         )
       ]
     end
