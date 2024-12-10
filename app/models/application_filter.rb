@@ -14,7 +14,6 @@ class ApplicationFilter
 
   def apply(base_relation, cached: false)
     return base_relation.none unless valid?
-
     return base_relation.where(id: cached_ids(base_relation)) if cached
 
     self.class.filters.values.inject(base_relation) do |relation, filter_block|
@@ -36,13 +35,13 @@ class ApplicationFilter
 
   def cached_ids(base_relation)
     Rails.cache.fetch(cache_key(base_relation), expires_in: 15.minutes) do
-      apply(base_relation).map(&:id)
+      apply(base_relation, cached: false).map(&:id)
     end
   end
 
-  def cache_key(relation)
+  def cache_key(base_relation)
     digest = Digest::SHA1
-    [self.class, digest.hexdigest(relation.pluck(:id).to_s), digest.hexdigest(attributes.values.to_s)].join('-')
+    [self.class, digest.hexdigest(attributes.values.to_s), base_relation.maximum(:updated_at)].join('-')
   end
 
   def reflections

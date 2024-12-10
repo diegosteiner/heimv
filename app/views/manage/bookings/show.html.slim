@@ -4,7 +4,7 @@
 - unless @booking.notifications_enabled?
   .alert.alert-warning.my-4[role=alert]= t('manage.bookings.notifications_not_enabled')
 
-- cache(@booking.cache_key) do
+- cache([@booking, I18n.locale, current_organisation_user&.role]) do
   section.row.mt-4
     .col-md-9.mb-4
       .card.shadow-sm
