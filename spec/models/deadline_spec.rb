@@ -42,7 +42,7 @@ RSpec.describe Deadline, type: :model do
   end
 
   describe '#create' do
-    subject(:deadline) { booking.set_deadline(length:) }
+    subject(:deadline) { booking.create_deadline(length:) }
 
     context 'with length set' do
       let(:length) { 1.week }

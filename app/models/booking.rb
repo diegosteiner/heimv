@@ -195,12 +195,6 @@ class Booking < ApplicationRecord
     booking_state&.editable || false
   end
 
-  def set_deadline(**params)
-    build_deadline if deadline.blank?
-    deadline.update(armed: true, postponable_for: nil, **params, booking: self)
-    deadline
-  end
-
   private
 
   def reject_tenant_attributes?(tenant_attributes)
