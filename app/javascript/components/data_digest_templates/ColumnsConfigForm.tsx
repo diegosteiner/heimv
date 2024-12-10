@@ -17,6 +17,7 @@ type ColumnsConfigFormProps = {
 };
 
 type DefaultColumnConfig = {
+  id: string;
   index: number;
   type: ColumnConfigType;
   header: string;
@@ -25,7 +26,7 @@ type DefaultColumnConfig = {
 
 type UsageColumnConfig = DefaultColumnConfig & {
   type: ColumnConfigType.Usage;
-  tarif_index: number;
+  tarif_id: number;
 };
 
 type CostColumnConfig = DefaultColumnConfig & {
@@ -36,10 +37,8 @@ function isColumnConfigType(type: string): type is ColumnConfigType {
   return Object.values<string>(ColumnConfigType).includes(type);
 }
 
-function toJson(columnsConfig: ColumnConfig[]): string {
-  return JSON.stringify(
-    columnsConfig.map(({ header, body, type, tarif_id, id }) => ({ header, body, type, tarif_id, id })),
-  );
+function toJson(columnsConfigs: ColumnConfig[]): string {
+  return JSON.stringify(columnsConfigs)
 }
 
 type ColumnConfig = DefaultColumnConfig | UsageColumnConfig | CostColumnConfig;
@@ -47,7 +46,7 @@ type ColumnConfig = DefaultColumnConfig | UsageColumnConfig | CostColumnConfig;
 export default function ColumnsConfigFrom({ json, name }: ColumnsConfigFormProps) {
   const { t } = useTranslation();
   const [columnsConfig, setColumnsConfig] = useState<ColumnConfig[]>(() =>
-    (JSON.parse(json) as unknown as ColumnConfig[]).map((data, index) => ({ ...data, index })),
+    (JSON.parse(json) as unknown as ColumnConfig[]).map((data, index) => ({ ...data, index, id: crypto.randomUUID() })),
   );
 
   const handleUpdate = (updatedConfig: ColumnConfig) =>
@@ -58,20 +57,18 @@ export default function ColumnsConfigFrom({ json, name }: ColumnsConfigFormProps
     setColumnsConfig((prev) => prev.filter((prevConfig) => prevConfig.index != removedConfig.index));
   const handleAdd = (type: string) =>
     isColumnConfigType(type) &&
-    setColumnsConfig((prev) => [...prev, { index: prev.length, type, body: "", header: "" }]);
+    setColumnsConfig((prev) => [...prev, { index: prev.length, type, body: "", header: "", id: crypto.randomUUID() }]);
 
   return (
     <Form.Group className="mb-3">
       <Form.Label>{t("activerecord.attributes.data_digest_template.columns_config")}</Form.Label>
-      <ol className="list-group mb-3">
-        <ReactSortable list={columnsConfig} setList={setColumnsConfig}>
-          {columnsConfig.map((config) => (
-            <li key={config.index} className="list-group-item">
-              <ColumnConfigForm config={config} onRemove={handleRemove} onUpdate={handleUpdate}></ColumnConfigForm>
-            </li>
-          ))}
-        </ReactSortable>
-      </ol>
+      <ReactSortable tag="ol" className="list-group mb-3" list={columnsConfig} setList={setColumnsConfig} handle=".sortable-handle">
+        {columnsConfig.map((config) => (
+          <li key={config.id} className="list-group-item">
+            <ColumnConfigForm config={config} onRemove={handleRemove} onUpdate={handleUpdate}></ColumnConfigForm>
+          </li>
+        ))}
+      </ReactSortable>
       <Form.Group className="row">
         <Col md={4}>
           <Form.Select value="" onChange={(event) => handleAdd(event.target.value)}>
@@ -121,33 +118,40 @@ function ColumnConfigForm({ config, onUpdate, onRemove }: ColumnConfigFormProps)
   };
 
   return (
-    <Row className="row-gap-2">
-      <Col md={3}>
-        <FloatingLabel label="Header">
-          <Form.Control
-            type="text"
-            defaultValue={config.header}
-            onChange={(event) => onUpdate({ ...config, header: event.target.value })}
-          ></Form.Control>
-        </FloatingLabel>
-      </Col>
-      <Col md={5}>
-        <FloatingLabel label="Body">
-          <Form.Control
-            type="text"
-            defaultValue={config.body}
-            onChange={(event) => onUpdate({ ...config, body: event.target.value })}
-          ></Form.Control>
-        </FloatingLabel>
-      </Col>
-      <Col md={3}>{typeSpecificComponents[config.type]?.()}</Col>
-      <Col md={1} className="align-self-center justify-content-end d-flex">
-        <div className="btn-group">
-          <button type="button" className="btn btn-default" onClick={() => onRemove(config)}>
-            <span className="fa fa-trash"></span>
-          </button>
-        </div>
-      </Col>
-    </Row>
+      <Row className="row-gap-2">
+        <Col md={1} className="align-self-center">
+          <span className="sortable-handle fa fa-bars"></span>
+        </Col>
+        <Col>
+          <Row className="row-gap-2">
+            <Col md={6}>
+              <FloatingLabel label="Header">
+                <Form.Control
+                  type="text"
+                  defaultValue={config.header}
+                  onChange={(event) => onUpdate({ ...config, header: event.target.value })}
+                ></Form.Control>
+              </FloatingLabel>
+            </Col>
+            <Col md={6}>
+              <FloatingLabel label="Body">
+                <Form.Control
+                  type="text"
+                  defaultValue={config.body}
+                  onChange={(event) => onUpdate({ ...config, body: event.target.value })}
+                ></Form.Control>
+              </FloatingLabel>
+            </Col>
+            <Col md={12}>{typeSpecificComponents[config.type]?.()}</Col>
+          </Row>
+        </Col>
+        <Col md={1} className="align-self-center">
+          <div className="btn-group">
+            <button type="button" className="btn btn-default" onClick={() => onRemove(config)}>
+              <span className="fa fa-trash"></span>
+            </button>
+          </div>
+        </Col>
+      </Row>
   );
 }
