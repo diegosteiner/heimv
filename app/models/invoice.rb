@@ -68,10 +68,11 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :recalculate
+  # after_create { generate_ref? && generate_ref && save }
+  before_create :sequence_number, :build_refs
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
-  after_create { generate_ref? && generate_ref && save }
 
   delegate :currency, to: :organisation
 
@@ -84,15 +85,15 @@ class Invoice < ApplicationRecord
     kept? && ref.present? && !skip_generate_pdf && (pdf.blank? || changed?)
   end
 
-  def generate_ref?
-    ref.blank?
-  end
-
   def supersede!
     return if supersede_invoice.blank? || supersede_invoice.discarded?
 
     self.payments = supersede_invoice.payments
     supersede_invoice.discard!
+  end
+
+  def sequence_number
+    @sequence_number ||= organisation.key_sequences.key(Invoice.sti_name, year: :current).lease!
   end
 
   def generate_pdf
@@ -102,8 +103,12 @@ class Invoice < ApplicationRecord
     end
   end
 
-  def generate_ref
-    self.ref = invoice_ref_service.generate(self)
+  # def generate_ref
+  #   self.ref = invoice_ref_service.generate(self)
+  # end
+
+  def build_refs
+    # self.sequence_number ||= organisation.key_sequences.key
   end
 
   def paid?
