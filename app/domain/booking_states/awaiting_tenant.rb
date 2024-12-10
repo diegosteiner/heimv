@@ -34,9 +34,9 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.set_deadline(length: booking.organisation.settings.awaiting_tenant_deadline,
-                           postponable_for: booking.organisation.settings.deadline_postponable_for,
-                           remarks: booking.booking_state.t(:label))
+      booking.create_deadline(length: booking.organisation.settings.awaiting_tenant_deadline,
+                              postponable_for: booking.organisation.settings.deadline_postponable_for,
+                              remarks: booking.booking_state.t(:label))
       MailTemplate.use!(:awaiting_tenant_notification, booking, to: :tenant, &:autodeliver!)
       next if booking.agent_booking.blank?
 

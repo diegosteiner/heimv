@@ -1,5 +1,11 @@
 # Changelog
 
+## 25.12.1
+
+Released 10.12.2024
+
+- Fix: Set deadlines more cleanly and correctly
+
 ## 24.11.2
 
 Released 29.11.2024

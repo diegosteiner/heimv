@@ -26,7 +26,7 @@
 #
 
 class Deadline < ApplicationRecord
-  belongs_to :booking, inverse_of: :deadline, touch: true
+  belongs_to :booking, inverse_of: :deadline, touch: false # don't touch booking, as it will trigger state updates
 
   scope :ordered, -> { order(at: :desc) }
   scope :armed, -> { where(armed: true) }
@@ -38,7 +38,7 @@ class Deadline < ApplicationRecord
 
   def length=(duration)
     self.armed = duration.present? && !duration.zero?
-    self.at ||= duration&.from_now unless duration&.zero?
+    self.at = duration&.from_now unless duration&.zero?
   end
 
   def exceeded?(other = Time.zone.now)
@@ -60,6 +60,6 @@ class Deadline < ApplicationRecord
   end
 
   def clear
-    update!(armed: false)
+    update_columns(armed: false) # rubocop:disable Rails/SkipsModelValidations
   end
 end

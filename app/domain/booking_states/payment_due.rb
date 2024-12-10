@@ -22,8 +22,8 @@ module BookingStates
       payable_until = unpaid_invoices.map(&:payable_until).compact.max
       next if payable_until.blank?
 
-      booking.set_deadline(at: payable_until + booking.organisation.settings.payment_overdue_deadline,
-                           postponable_for: booking.organisation.settings.deadline_postponable_for)
+      booking.create_deadline(at: payable_until + booking.organisation.settings.payment_overdue_deadline,
+                              postponable_for: booking.organisation.settings.deadline_postponable_for)
     end
 
     infer_transition(to: :completed) do |booking|
