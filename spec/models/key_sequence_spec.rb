@@ -25,8 +25,8 @@ RSpec.describe KeySequence, type: :model do
       it { is_expected.to have_attributes(year:, key:) }
     end
 
-    context 'with not existing key_sequence' do
-      let(:year) { true }
+    context 'with :current as year' do
+      let(:year) { :current }
       it { is_expected.to have_attributes(year: Time.zone.today.year, key:) }
     end
   end

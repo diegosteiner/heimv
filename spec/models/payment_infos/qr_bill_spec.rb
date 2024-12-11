@@ -22,7 +22,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
 
     before do
       allow(invoice).to receive(:amount).and_return(1255.35)
-      allow(invoice).to receive(:ref).and_return('00000123456789')
+      allow(invoice).to receive(:payment_ref).and_return('00000123456789')
     end
 
     let(:expected_payload) do
@@ -42,7 +42,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
     subject { qr_bill.formatted_ref }
 
     before do
-      allow(invoice).to receive(:ref).and_return('12345678910111213')
+      allow(invoice).to receive(:payment_ref).and_return('12345678910111213')
     end
 
     context 'with QRR Ref' do

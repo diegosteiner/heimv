@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_09_160641) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_11_091234) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -223,7 +223,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_09_160641) do
     t.integer "home_id", null: false
     t.boolean "ignore_conflicting", default: false, null: false
     t.jsonb "booking_questions"
-    t.integer "sequence_number"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
@@ -321,7 +320,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_09_160641) do
     t.datetime "payable_until", precision: nil
     t.datetime "sent_at", precision: nil
     t.text "text"
-    t.string "ref"
+    t.string "payment_ref"
     t.decimal "amount", default: "0.0"
     t.datetime "discarded_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
@@ -332,9 +331,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_09_160641) do
     t.string "locale"
     t.boolean "payment_required", default: true
     t.integer "sequence_number"
+    t.integer "sequence_year"
+    t.string "accounting_ref"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
-    t.index ["ref"], name: "index_invoices_on_ref"
+    t.index ["payment_ref"], name: "index_invoices_on_payment_ref"
     t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
     t.index ["type"], name: "index_invoices_on_type"
   end
@@ -484,7 +485,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_09_160641) do
     t.jsonb "smtp_settings"
     t.string "esr_ref_prefix"
     t.string "default_payment_info_type"
-    t.string "invoice_ref_template", default: ""
+    t.string "invoice_payment_ref_template", default: ""
     t.string "booking_ref_template", default: ""
     t.jsonb "settings", default: {}
     t.text "creditor_address"
@@ -493,6 +494,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_09_160641) do
     t.text "cors_origins"
     t.jsonb "nickname_label_i18n", default: {}
     t.jsonb "accounting_settings", default: {}
+    t.string "invoice_accounting_ref_template"
+    t.string "tenant_accounting_ref_template"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
@@ -590,7 +593,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_09_160641) do
     t.boolean "bookings_without_invoice", default: false
     t.integer "salutation_form"
     t.string "accounting_account_nr"
-    t.integer "sequence_number"
+    t.string "accounting_ref"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"

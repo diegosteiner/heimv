@@ -1155,7 +1155,6 @@ it:
         update:
           notice: La richiesta di prenotazione è stata aggiornata. Potete chiudere la finestra del browser.
   from: da
-  generated: viene generato automaticamente
   helpers:
     select:
       prompt: Selezionare

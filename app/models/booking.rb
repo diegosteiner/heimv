@@ -119,7 +119,7 @@ class Booking < ApplicationRecord
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
   before_validation :update_occupancies, :assert_tenant!
-  before_create :set_ref
+  before_create :generate_ref
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
@@ -195,14 +195,14 @@ class Booking < ApplicationRecord
     booking_state&.editable || false
   end
 
+  def generate_ref(force: false)
+    self.ref = RefBuilders::Booking.new(self).generate if ref.blank? || force
+  end
+
   private
 
   def reject_tenant_attributes?(tenant_attributes)
     (tenant_id_changed? && tenant_id_was.present?) ||
       tenant_attributes.slice(:email, :first_name, :last_name, :street_address, :zipcode, :city).values.all?(&:blank?)
-  end
-
-  def set_ref
-    self.ref ||= BookingRefService.new(organisation).generate(self)
   end
 end

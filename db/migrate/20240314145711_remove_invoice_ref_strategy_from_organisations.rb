@@ -10,8 +10,6 @@ class RemoveInvoiceRefStrategyFromOrganisations < ActiveRecord::Migration[7.1]
       direction.up do
         Organisation.find_each do |organisation|
           organisation.instance_exec do
-            self.booking_ref_template = nil if booking_ref_template == BookingRefService::DEFAULT_TEMPLATE
-            self.invoice_ref_template = nil if invoice_ref_template == InvoiceRefService::DEFAULT_TEMPLATE
             self.update!(currency: 'CHF', country_code: 'CH')
           end
         end

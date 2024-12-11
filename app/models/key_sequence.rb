@@ -10,18 +10,4 @@ class KeySequence < ApplicationRecord
   def lease!
     increment!(:value).value # rubocop:disable Rails/SkipsModelValidations
   end
-
-  # module ActiveRecord
-  #   extend ActiveSupport::Concern
-
-  #   class_methods do
-  #     def sequence_number(key, column = :sequence_number, year: nil)
-  #       before_save do
-  #         # year = year.call if year.respond_to?(:call)
-  #         leased_sequence_number = organisation&.key_sequences&.key(key, year: year)&.lease!
-  #         try("#{column}||=", leased_sequence_number) if leased_sequence_number.present?
-  #       end
-  #     end
-  #   end
-  # end
 end

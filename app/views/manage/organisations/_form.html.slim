@@ -44,7 +44,7 @@
           div[v-pre]= f.text_area :account_address, rows: 4, help: t('optional')
     
           - if current_user.role_admin?
-          	= f.text_field :invoice_ref_template
+          	= f.text_field :payment_ref_template
             = f.text_field :currency
 
     fieldset

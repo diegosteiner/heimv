@@ -1155,7 +1155,6 @@ fr:
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
   from: de
-  generated: est généré automatiquement
   helpers:
     select:
       prompt: Veuillez sélectionner

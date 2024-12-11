@@ -102,12 +102,12 @@ module PaymentInfos
     end
 
     def scor_ref
-      @scor_ref ||= format('RF%<checksum>02d%<unchecked_ref>s', checksum: checksum(invoice.ref),
-                                                                unchecked_ref: invoice.ref)
+      @scor_ref ||= format('RF%<checksum>02d%<unchecked_ref>s', checksum: checksum(invoice.payment_ref),
+                                                                unchecked_ref: invoice.payment_ref)
     end
 
     def qrr_ref
-      invoice.ref.rjust(27, '0')
+      invoice.payment_ref.rjust(27, '0')
     end
 
     def ref

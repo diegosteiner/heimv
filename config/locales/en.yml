@@ -1064,7 +1064,6 @@ en:
         update:
           notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
   from: von
-  generated: wird automatisch generiert
   helpers:
     select:
       prompt: Bitte wählen

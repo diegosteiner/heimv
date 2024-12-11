@@ -39,8 +39,16 @@ class CamtService
   end
 
   def find_invoice_by_ref(ref)
-    invoice_ref_service = InvoiceRefService.new(@organisation)
-    invoice_ref_service.find_invoice_by_ref(ref, scope: @organisation.invoices.kept)
+    @organisation.invoices.kept.where(normalized_ref_condition(ref)).first
+  end
+
+  def self.normalized_ref_condition(ref)
+    Arel::Nodes::NamedFunction.new('LPAD', [Invoice.arel_table[:ref], 27, Arel::Nodes.build_quoted('0')])
+                              .eq(normalize_ref(ref))
+  end
+
+  def self.normalize_ref(ref)
+    ref.delete(' ').gsub(/\ARF\d\d/, '').rjust(27, '0')
   end
 
   def transaction_to_h(transaction)

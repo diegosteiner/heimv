@@ -21,7 +21,7 @@ module Export
       end
 
       to_render do
-        header_text = "#{Booking.human_model_name} #{booking.ref}"
+        header_text = invoice.accounting_ref || booking.ref
         render Renderables::PageHeader.new(text: header_text, logo: organisation.logo)
       end
 
