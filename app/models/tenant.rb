@@ -100,7 +100,7 @@ class Tenant < ApplicationRecord
   end
 
   def sequence_number
-    @sequence_number ||= organisation.key_sequences.key(Tenant.sti_name).lease!
+    self[:sequence_number] ||= organisation.key_sequences.key(Tenant.sti_name).lease!
   end
 
   def generate_ref(force: false)

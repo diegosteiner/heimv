@@ -2,7 +2,7 @@
 
 module RefBuilders
   class InvoicePayment < RefBuilder
-    DEFAULT_TEMPLATE = '%<prefix>s%<tenant_id>06d%<sequence_year>04d%<sequence_number>05d'
+    DEFAULT_TEMPLATE = '%<prefix>s%<tenant_sequence_number>06d%<sequence_year>04d%<sequence_number>05d'
 
     def initialize(invoice)
       super(invoice.organisation)
@@ -14,10 +14,11 @@ module RefBuilders
     end
 
     ref_part home_id: proc { @invoice.booking.home_id },
-             tenant_id: proc { @invoice.booking.tenant_id },
+             tenant_id: proc { @invoice.booking.tenant.id },
              tenant_sequence_number: proc { @invoice.booking.tenant.sequence_number },
              sequence_number: proc { @invoice.sequence_number },
              sequence_year: proc { @invoice.sequence_year },
+             short_sequence_year: proc { @invoice.sequence_year - 2000 },
              prefix: proc { self.class.digits(@invoice.organisation.esr_ref_prefix.to_s).join }
 
     def self.digits(ref)

@@ -11,8 +11,12 @@ module RefBuilders
 
     ref_part home_ref: proc { @booking.home.ref },
              year: proc { @booking.begins_at.year },
+             short_year: proc { @booking.begins_at.year - 2000 },
              month: proc { @booking.begins_at.month },
-             day: proc { @booking.begins_at.day }
+             day: proc { @booking.begins_at.day },
+             sequence_number: proc { @booking.sequence_number },
+             sequence_year: proc { @booking.sequence_year },
+             short_sequence_year: proc { @booking.sequence_year - 2000 }
 
     ref_part occupiable_refs: (proc do
       @booking.occupancies.map(&:occupiable).sort_by(&:ordinal).map(&:ref).join

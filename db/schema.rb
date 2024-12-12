@@ -223,6 +223,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_150434) do
     t.integer "home_id", null: false
     t.boolean "ignore_conflicting", default: false, null: false
     t.jsonb "booking_questions"
+    t.integer "sequence_number"
+    t.integer "sequence_year"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
@@ -593,6 +595,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_150434) do
     t.boolean "bookings_without_invoice", default: false
     t.integer "salutation_form"
     t.string "accounting_account_nr"
+    t.integer "sequence_number"
     t.string "ref"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"

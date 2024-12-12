@@ -22,8 +22,8 @@ module Manage
     end
 
     def self.admin_permitted_keys
-      permitted_keys + %i[smtp_settings slug booking_ref_template invoice_payment_ref_template booking_flow_type
-                          currency]
+      permitted_keys + %i[smtp_settings slug booking_flow_type currency
+                          booking_ref_template tenant_ref_template invoice_ref_template invoice_payment_ref_template]
     end
   end
 end

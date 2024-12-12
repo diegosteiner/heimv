@@ -92,11 +92,11 @@ class Invoice < ApplicationRecord
   end
 
   def sequence_number
-    @sequence_number ||= organisation.key_sequences.key(::Invoice.sti_name, year: sequence_year).lease!
+    self[:sequence_number] ||= organisation.key_sequences.key(::Invoice.sti_name, year: sequence_year).lease!
   end
 
   def sequence_year
-    @sequence_year ||= created_at.year
+    self[:sequence_year] ||= created_at&.year || Time.zone.today.year
   end
 
   def generate_pdf

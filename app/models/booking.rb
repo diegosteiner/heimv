@@ -195,6 +195,14 @@ class Booking < ApplicationRecord
     booking_state&.editable || false
   end
 
+  def sequence_number
+    self[:sequence_number] ||= organisation.key_sequences.key(self.class.sti_name, year: sequence_year).lease!
+  end
+
+  def sequence_year
+    self[:sequence_year] ||= begins_at.year
+  end
+
   def generate_ref(force: false)
     self.ref = RefBuilders::Booking.new(self).generate if ref.blank? || force
   end

@@ -285,15 +285,17 @@ de:
         account_address: Adresse des Kontos für QR-Rechnungen (falls abweichend)
         address: Anschrift
         bcc: BCC
-        booking_ref_tempate: Buchung Referenznummer Format
+        booking_ref_template: Buchungreferenz Format
         contract_signature: Vertragsunterschrift Bild
+        cors_origins: CORS Origins
         creditor_address: Anschrift auf Rechnungen
         currency: Währung
         default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
         esr_ref_prefix: Referenznummer Präfix
         iban: IBAN
-        invoice_ref_tempate: Rechnung Referenznummer Format
+        invoice_payment_ref_template: Zahlungsreferenz Format
+        invoice_ref_template: Rechnungsnummer Format
         locale: Hauptsprache
         locales: Sprachen
         location: Vertragsunterschrift Ort
@@ -308,6 +310,7 @@ de:
         slug: Namespace
         smtp_settings: Mailserver Einstellungen
         smtp_settings_json: Mailserver Einstellungen
+        tenant_ref_template: Mieterreferenz Format
         terms_pdf: AGB
       organisation_user:
         email: Email

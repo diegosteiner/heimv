@@ -283,7 +283,7 @@ it:
         account_address:
         address: Indirizzo
         bcc: BCC
-        booking_ref_tempate:
+        booking_ref_template:
         contract_signature: Immagine della firma del contratto
         creditor_address: Indirizzo sulle fatture
         currency: Valuta
@@ -291,7 +291,7 @@ it:
         esr_beneficiary_account:
         esr_ref_prefix: Numero di identificazione del PVR / prefisso
         iban: IBAN
-        invoice_ref_tempate:
+        invoice_ref_template:
         locale: Lingua
         locales:
         location: Luogo della firma del contratto
