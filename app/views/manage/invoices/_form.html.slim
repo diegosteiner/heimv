@@ -15,7 +15,7 @@
 
     = f.text_area :text, class: 'rich-text-area'
     = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
-    / = f.date_field :payable_until, lang: I18n.locale
+    = f.date_field :payable_until, lang: I18n.locale
     / = f.text_field :respite_days, inputmode: "numeric"
 
     = f.select :payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true

@@ -2,7 +2,7 @@
 
 module RefBuilders
   class Invoice < RefBuilder
-    DEFAULT_TEMPLATE = '%<short_sequence_year>2d%<sequence_number>04d'
+    DEFAULT_TEMPLATE = '%<short_sequence_year>02d%<sequence_number>04d'
 
     def initialize(invoice)
       super(invoice.organisation)

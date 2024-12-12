@@ -13,6 +13,7 @@ module RefBuilders
       generate_lazy(template_string)
     end
 
+    # TODO: remove ids
     ref_part home_id: proc { @invoice.booking.home_id },
              tenant_id: proc { @invoice.booking.tenant.id },
              tenant_sequence_number: proc { @invoice.booking.tenant.sequence_number },
