@@ -76,7 +76,8 @@ module DataDigestTemplates
     end
 
     def base_scope
-      @base_scope ||= ::Invoice.joins(:booking).where(bookings: { organisation_id: organisation }).kept
+      @base_scope ||= ::Invoice.joins(:booking).where(bookings: { organisation_id: organisation })
+                               .includes(booking: :organisation).order(issued_at: :ASC).kept
     end
   end
 end

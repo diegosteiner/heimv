@@ -49,6 +49,7 @@ class Invoice < ApplicationRecord
   has_many :superseded_by_invoices, class_name: :Invoice, dependent: :nullify,
                                     foreign_key: :supersede_invoice_id, inverse_of: :supersede_invoice
   has_many :payments, dependent: :nullify
+  has_many :journal_entries, as: :source, dependent: :destroy
 
   has_one :organisation, through: :booking
   has_one_attached :pdf
@@ -72,6 +73,8 @@ class Invoice < ApplicationRecord
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
+  after_save :generate_journal_entries
+  after_discard :generate_journal_entries
 
   delegate :currency, to: :organisation
 
@@ -110,9 +113,14 @@ class Invoice < ApplicationRecord
     self.ref = RefBuilders::Invoice.new(self).generate if ref.blank? || force
   end
 
-  # this should never be forced
   def generate_payment_ref
+    # this should never be forced
     self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
+  end
+
+  def generate_journal_entries
+    # GenerateJournalEntriesJob.perform_later(self)
+    JournalEntry.generate(self)
   end
 
   def paid?
@@ -186,18 +194,5 @@ class Invoice < ApplicationRecord
 
   def vat_amounts
     invoice_parts.group_by(&:vat_category).except(nil).transform_values { _1.sum(&:calculated_amount) }
-  end
-
-  def journal_entries
-    [debitor_journal_entry] + invoice_parts.map(&:journal_entries)
-  end
-
-  def debitor_journal_entry
-    Accounting::JournalEntry.new(
-      account: organisation.accounting_settings.debitor_account_nr,
-      date: issued_at, amount:, amount_type: :brutto, side: :soll,
-      reference: ref, source: self, currency:, booking:,
-      text: "#{self.class.model_name.human} #{ref} - #{booking.tenant.last_name}"
-    )
   end
 end

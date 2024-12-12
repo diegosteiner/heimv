@@ -76,7 +76,7 @@ module DataDigestTemplates
     end
 
     def base_scope
-      @base_scope ||= organisation.payments
+      @base_scope ||= organisation.payments.includes(:invoice, booking: :organisation).order(paid_at: :ASC)
     end
   end
 end

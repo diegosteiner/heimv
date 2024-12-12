@@ -109,19 +109,19 @@ class TafBlock
     instance_exec(value, **override, &derive_block) if derive_block.present?
   end
 
-  derive_from Accounting::JournalEntry do |journal_entry, **override|
+  derive_from JournalEntry do |journal_entry, **override|
     new(:Bk, **{
           # The Id of a book keeping account. [Fibu-Konto]
-          AccId: journal_entry.account,
+          AccId: Value.cast(journal_entry.account_nr, as: :symbol),
 
           # Integer; Booking type: 1=cost booking, 2=tax booking
-          BType: journal_entry.amount_type&.to_sym == :tax || 1,
+          BType: 1,
 
           # String[13], This is the cost type account
           CAcc: journal_entry.cost_center,
 
           # Integer; This is the index of the booking that represents the cost booking which is attached to this booking
-          CIdx: journal_entry.index,
+          # CIdx: journal_entry.index,
 
           # String[9]; A user definable code.
           Code: nil,
@@ -138,9 +138,9 @@ class TafBlock
           Flags: nil,
 
           # String[5]; The Id of the tax. [MWSt-Kürzel]
-          TaxId: journal_entry.tax_code,
+          TaxId: journal_entry.vat_category&.accounting_vat_code,
 
-          MkTxB: journal_entry.tax_code.present?,
+          MkTxB: journal_entry.vat_category&.accounting_vat_code.present?,
 
           # String[61*]; This string specifies the first line of the booking text.
           Text: journal_entry.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
@@ -156,28 +156,28 @@ class TafBlock
 
           # Integer; This is the index of the booking that represents the tax booking
           # which is attached to this booking.
-          TIdx: (journal_entry.amount_type&.to_sym == :tax && journal_entry.index) || nil,
+          # TIdx: (journal_entry.amount_type&.to_sym == :tax && journal_entry.index) || nil,
 
           # Boolean; Booking type.
           # 0 a debit booking [Soll]
           # 1 a credit booking [Haben]
-          Type: { soll: 0, haben: 1 }[journal_entry.side],
+          Type: { soll: 0, haben: 1 }[journal_entry.side&.to_sym],
 
           # Currency; The net amount for this booking. [Netto-Betrag]
-          ValNt: journal_entry.amount_type&.to_sym == :netto ? journal_entry.amount : nil,
+          # ValNt: journal_entry.amount_type&.to_sym == :netto ? journal_entry.amount : nil,
 
           # Currency; The tax amount for this booking. [Brutto-Betrag]
-          ValBt: journal_entry.amount_type&.to_sym == :brutto ? journal_entry.amount : nil,
+          ValBt: journal_entry.amount,
 
           # Currency; The tax amount for this booking. [Steuer-Betrag]
-          ValTx: journal_entry.amount_type&.to_sym == :tax ? journal_entry.amount : nil,
+          # ValTx: journal_entry.amount_type&.to_sym == :tax ? journal_entry.amount : nil,
 
           # Currency; The gross amount for this booking in the foreign currency specified
           # by currency of the account AccId. [FW-Betrag]
           # ValFW : not implemented
 
           # String[13]The OP id of this booking.
-          OpId: journal_entry.reference,
+          OpId: journal_entry.source_document_ref,
 
           # The PK number of this booking.
           PkKey: nil
@@ -191,7 +191,7 @@ class TafBlock
     pk_key = [invoice.booking.tenant.accounting_debitor_account_nr,
               invoice.organisation.accounting_settings.currency_account_nr].then { "[#{_1.join(',')}]" }
 
-    journal_entries = invoice.journal_entries.flatten.compact
+    journal_entries = invoice.journal_entries.to_a
 
     [
       derive(invoice.booking.tenant),

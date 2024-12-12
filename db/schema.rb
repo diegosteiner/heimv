@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_12_150434) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_12_191319) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -340,6 +340,26 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_150434) do
     t.index ["payment_ref"], name: "index_invoices_on_payment_ref"
     t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
     t.index ["type"], name: "index_invoices_on_type"
+  end
+
+  create_table "journal_entries", force: :cascade do |t|
+    t.uuid "booking_id", null: false
+    t.string "source_type", null: false
+    t.bigint "source_id", null: false
+    t.string "account_nr", null: false
+    t.bigint "vat_category_id"
+    t.date "date", null: false
+    t.decimal "amount", null: false
+    t.integer "side", null: false
+    t.string "currency", null: false
+    t.string "text"
+    t.integer "ordinal"
+    t.string "source_document_ref"
+    t.string "cost_center"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source_type", "source_id"], name: "index_journal_entries_on_source"
+    t.index ["vat_category_id"], name: "index_journal_entries_on_vat_category_id"
   end
 
   create_table "key_sequences", force: :cascade do |t|
@@ -688,6 +708,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_150434) do
   add_foreign_key "invoice_parts", "vat_categories"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
+  add_foreign_key "journal_entries", "vat_categories"
   add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
   add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"

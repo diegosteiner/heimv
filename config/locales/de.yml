@@ -231,6 +231,18 @@ de:
         ordinal_position: Ordnungsnummer
         type: Art der Rechnungsposition
         vat: inkl. MwSt. in Prozent
+      journal_entry:
+        amount: Betrag
+        booking_id: Buchung
+        cost_center: Kostenstelle
+        date: Datum
+        haben_account: Haben Konto
+        haben_amount: Haben Betrag
+        side: Seite
+        soll_account: Soll Konto
+        soll_amount: Soll Betrag
+        source_document_ref: Beleg
+        text: Text
       mail_template:
       meter_reading_period:
         begins_at: Beginn
@@ -479,6 +491,10 @@ de:
         paid:
           only_paid: Nur beglichene
           only_unpaid: Nur offene
+      journal_entry:
+        side:
+          haben: Haben
+          soll: Soll
       mail_template:
         attachable_booking_documents:
           contract: Vertrag
@@ -627,6 +643,9 @@ de:
       data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
+      data_digest_templates/journal_entry:
+        one: Buchungssätze Auszug
+        other: Buchungssätze Auszüge
       data_digest_templates/meter_reading_period:
         one: Zählerstand Auszug
         other: Zählerstände Auszüge

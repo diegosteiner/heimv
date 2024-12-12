@@ -66,10 +66,6 @@ class InvoicePart < ApplicationRecord
     sum + calculated_amount
   end
 
-  def journal_entries
-    nil
-  end
-
   def self.from_usage(usage, **attributes)
     return unless usage
 

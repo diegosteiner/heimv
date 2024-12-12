@@ -24,44 +24,44 @@
 #
 
 module DataDigestTemplates
-  class AccountingJournalEntry < Tabular
+  class JournalEntry < Tabular
     ::DataDigestTemplate.register_subtype self
 
     DEFAULT_COLUMN_CONFIG = [
       {
-        header: ::Accounting::JournalEntry.human_attribute_name(:date),
+        header: ::JournalEntry.human_attribute_name(:date),
         body: '{{ journal_entry.date | date_format }}'
       },
       {
-        header: ::Accounting::JournalEntry.human_attribute_name(:reference),
-        body: '{{ journal_entry.reference }}'
+        header: ::JournalEntry.human_attribute_name(:source_document_ref),
+        body: '{{ journal_entry.source_document_ref }}'
       },
       {
-        header: ::Accounting::JournalEntry.human_attribute_name(:text),
+        header: ::JournalEntry.human_attribute_name(:text),
         body: '{{ journal_entry.text }}'
       },
       {
-        header: ::Accounting::JournalEntry.human_attribute_name(:soll_account),
+        header: ::JournalEntry.human_attribute_name(:soll_account),
         body: '{{ journal_entry.soll_account }}'
       },
       {
-        header: ::Accounting::JournalEntry.human_attribute_name(:haben_account),
+        header: ::JournalEntry.human_attribute_name(:haben_account),
         body: '{{ journal_entry.haben_account }}'
       },
       {
-        header: ::Accounting::JournalEntry.human_attribute_name(:amount),
+        header: ::JournalEntry.human_attribute_name(:amount),
         body: '{{ journal_entry.amount | round: 2 }}'
       },
       {
-        header: ::Accounting::JournalEntry.human_attribute_name(:tax_code),
+        header: ::JournalEntry.human_attribute_name(:tax_code),
         body: '{{ journal_entry.tax_code }}'
       },
       {
-        header: ::Accounting::JournalEntry.human_attribute_name(:cost_center),
+        header: ::JournalEntry.human_attribute_name(:cost_center),
         body: '{{ journal_entry.cost_center }}'
       },
       {
-        header: ::Accounting::JournalEntry.model_name.human,
+        header: ::JournalEntry.model_name.human,
         body: '{{ journal_entry.to_s }}'
       },
       {
@@ -79,39 +79,25 @@ module DataDigestTemplates
       end
     end
 
-    def records(period)
-      invoice_filter = ::Invoice::Filter.new(issued_at_after: period&.begin, issued_at_before: period&.end)
-      invoices = invoice_filter.apply(::Invoice.joins(:booking).where(bookings: { organisation: organisation }).kept)
-      invoices.index_with(&:journal_entries)
-    end
-
-    def crunch(records)
-      records.values.flatten.compact.map do |record|
-        template_context_cache = {}
-        columns.map { |column| column.body(record, template_context_cache) }
-      end
-    end
-
     formatter(:taf) do |_options = {}|
-      records.keys.map do |source|
+      records.map do |source|
         TafBlock::Collection.new { derive(source) }
       end.join("\n\n")
     end
 
+    def periodfilter(period = nil)
+      filter_class.new(date_after: period&.begin, date_before: period&.end)
+    end
+
+    def filter_class
+      ::JournalEntry::Filter
+    end
+
     protected
 
-    def periodfilter(period = nil)
-      raise NotImplementedError
-      # filter_class.new(issued_at_after: period&.begin, issued_at_before: period&.end)
-    end
-
     def base_scope
-      raise NotImplementedError
-      # @base_scope ||= ::Invoice.joins(:booking).where(bookings: { organisation_id: organisation }).kept
-    end
-
-    def prefilter
-      raise NotImplementedError
+      @base_scope ||= ::JournalEntry.joins(:booking).where(bookings: { organisation_id: organisation })
+                                    .includes(booking: :organisation).order(date: :ASC)
     end
   end
 end

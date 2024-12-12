@@ -18,7 +18,6 @@ type ColumnsConfigFormProps = {
 
 type BaseColumnConfig = {
   id: string;
-  index: number;
   header: string;
   body: string;
   type: ColumnConfigType;
@@ -44,7 +43,7 @@ function toJson(columnsConfigs: ColumnConfig[]): string {
 
 type ColumnConfig = BaseColumnConfig | UsageColumnConfig | BookingQuestionResponseColumnConfig;
 
-export default function ColumnsConfigFrom({ json, name }: ColumnsConfigFormProps) {
+export default function ColumnsConfigForm({ json, name }: ColumnsConfigFormProps) {
   const { t } = useTranslation();
   const [columnsConfig, setColumnsConfig] = useState<ColumnConfig[]>(() =>
     (JSON.parse(json) as unknown as ColumnConfig[]).map((data) => ({
@@ -55,13 +54,13 @@ export default function ColumnsConfigFrom({ json, name }: ColumnsConfigFormProps
 
   const handleUpdate = (updatedConfig: ColumnConfig) =>
     setColumnsConfig((prev) =>
-      prev.map((prevConfig: ColumnConfig) => (prevConfig.index == updatedConfig.index ? updatedConfig : prevConfig)),
+      prev.map((prevConfig: ColumnConfig) => (prevConfig.id == updatedConfig.id ? updatedConfig : prevConfig)),
     );
   const handleRemove = (removedConfig: ColumnConfig) =>
-    setColumnsConfig((prev) => prev.filter((prevConfig) => prevConfig.index != removedConfig.index));
+    setColumnsConfig((prev) => prev.filter((prevConfig) => prevConfig.id != removedConfig.id));
   const handleAdd = (type: string) =>
     isColumnConfigType(type) &&
-    setColumnsConfig((prev) => [...prev, { index: prev.length, type, body: "", header: "", id: crypto.randomUUID() }]);
+    setColumnsConfig((prev) => [...prev, { type, body: "", header: "", id: crypto.randomUUID() }]);
 
   return (
     <Form.Group className="mb-3">

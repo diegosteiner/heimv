@@ -39,14 +39,17 @@ describe TafBlock, type: :model do
   end
 
   context '::derive' do
-    let(:booking) { create(:booking) }
-    let(:currency) { booking.organisation.currency }
-    describe 'Accounting::JournalEntry' do
+    let(:organisation) { create(:organisation) }
+    let(:booking) { create(:booking, organisation:) }
+    let(:vat_category) { create(:vat_category, percentage: 3.8, accounting_vat_code: 'MwSt38', organisation:) }
+    let(:currency) { organisation.currency }
+
+    describe 'JournalEntry' do
       subject(:taf_block) { described_class.derive(journal_entry) }
       let(:journal_entry) do
-        Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), reference: '1234',
-                                     amount_type: :netto, side: :soll, tax_code: 'MwSt38', booking:, currency:,
-                                     text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
+        JournalEntry.new(account_nr: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), source_document_ref: '1234',
+                         side: :soll, vat_category:, booking:, currency:,
+                         text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
       it 'builds correctly' do
@@ -61,7 +64,7 @@ describe TafBlock, type: :model do
             Text="Lorem ipsum"
             Text2="Second Line, but its longer than sixty ""chars"", "
             Type=0
-            ValNt=2091.75
+            ValBt=2091.75
             OpId="1234"
 
           }
@@ -69,12 +72,12 @@ describe TafBlock, type: :model do
       end
     end
 
-    describe 'Accounting::JournalEntry' do
+    describe 'JournalEntry' do
       subject(:taf_block) { described_class.derive(journal_entry) }
       let(:journal_entry) do
-        Accounting::JournalEntry.new(account: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), reference: '1234',
-                                     amount_type: :netto, side: :soll, tax_code: 'MwSt38', booking:, currency:,
-                                     text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
+        JournalEntry.new(account_nr: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), source_document_ref: '1234',
+                         side: :soll, vat_category:, booking:, currency:,
+                         text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
       it 'builds correctly' do
@@ -89,7 +92,7 @@ describe TafBlock, type: :model do
             Text="Lorem ipsum"
             Text2="Second Line, but its longer than sixty ""chars"", "
             Type=0
-            ValNt=2091.75
+            ValBt=2091.75
             OpId="1234"
 
           }
