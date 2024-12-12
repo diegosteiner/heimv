@@ -6,7 +6,6 @@
       h3.mt-5= t('.general')
       .card.shadow-sm 
         .card-body
-          = f.text_field :slug if current_user.role_admin?
           = f.text_field :name
           div[v-pre]= f.text_area :address, rows: 4
           = f.file_field :logo, help: organisation.logo.present? && organisation.logo.persisted? && image_tag(organisation.logo, width: 120)
@@ -21,9 +20,6 @@
           = f.check_box :notifications_enabled
           = f.email_field :email
           = f.email_field :bcc
-          - if current_user.role_admin?
-            = f.text_field :mail_from
-            div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
 
     fieldset
       h3.mt-5= Contract.model_name.human(count: 2)
@@ -42,19 +38,12 @@
           = f.text_field :esr_ref_prefix
           div[v-pre]= f.text_area :creditor_address, rows: 4, help: t('optional')
           div[v-pre]= f.text_area :account_address, rows: 4, help: t('optional')
-    
-          - if current_user.role_admin?
-          	= f.text_field :invoice_ref_template
-            = f.text_field :currency
 
     fieldset
       h3.mt-5= Tenant.model_name.human(count: 2)
       .card.shadow-sm 
         .card-body
           = sf.check_box :tenant_birth_date_required
-
-          - if current_user.role_admin?
-            = sf.select :predefined_salutation_form, salutation_form_options_for_select(settings.predefined_salutation_form), include_blank: true
 
           ul.nav.nav-tabs.mt-4 role="tablist"
             - I18n.available_locales.each do |locale|
@@ -69,14 +58,6 @@
               - current_locale = locale == I18n.locale
               .tab-pane.pt-3[id="nickname_label-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="nickname_label-#{locale}-tab" role='tabpanel']
                 = f.text_field "nickname_label_#{locale}", label: Organisation.human_attribute_name(:nickname_label)
-
-    - if current_user.role_admin?
-      fieldset
-        h3.mt-5= Booking.model_name.human(count: 2)
-        .card.shadow-sm 
-          .card-body
-            = f.text_field :booking_ref_template
-            = f.select :booking_flow_type, [BookingFlows::Default].map { [_1.to_s, _1.to_s] }
 
     fieldset
       h3.mt-5= Occupancy.model_name.human(count: 2)
@@ -112,11 +93,24 @@
           = sf.text_field :payment_overdue_deadline, value: settings.payment_overdue_deadline&.iso8601
           = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
 
-    - if current_user.role_admin? || true
+    - if current_user.role_admin?
       fieldset
-        .card.shadow-sm.mt-5
+        h3.mt-5.text-danger 
+          | Admin
+        .card.shadow-sm.border-danger
           .card-body
+            = f.text_field :slug 
+            = f.text_field :mail_from
+            div[v-pre]= f.text_area :smtp_settings, rows: 4, value: @organisation.smtp_settings.to_json
+            = f.text_field :currency
+            = sf.select :predefined_salutation_form, salutation_form_options_for_select(settings.predefined_salutation_form), include_blank: true
+            = f.select :booking_flow_type, [BookingFlows::Default].map { [_1.to_s, _1.to_s] }
+            = f.text_field :booking_ref_template
+            = f.text_field :tenant_ref_template
+            = f.text_field :invoice_ref_template
+            = f.text_field :invoice_payment_ref_template
             = f.text_area :cors_origins, rows: 3
+
 
   .form-actions.pt-4.mt-3
     = f.submit

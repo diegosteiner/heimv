@@ -40,11 +40,7 @@ require 'rails_helper'
 
 RSpec.describe Invoice, type: :model do
   let(:organisation) { create(:organisation, :with_templates) }
-  let(:invoice) { create(:invoice) }
-
-  describe '#ref' do
-    it { is_expected.not_to be_blank }
-  end
+  let(:invoice) { create(:invoice, organisation:) }
 
   describe '::unsettled' do
     let!(:offer) { create(:invoice, type: Invoices::Offer) }
@@ -82,13 +78,25 @@ RSpec.describe Invoice, type: :model do
       successor.save
       expect(predecessor).to be_discarded
       expect(successor.type).to eq(Invoices::LateNotice.to_s)
-      expect(successor.ref).to eq(predecessor.ref)
+      expect(successor.payment_ref).to eq(predecessor.payment_ref)
     end
 
     it 'migrates payments and invoice_parts' do
       successor.save
       expect(predecessor.payments.reload).to be_blank
       expect(successor.payments.count).to eq(1)
+    end
+
+    describe '#ref' do
+      let(:current_year) { Time.zone.today.year }
+      let(:year) { current_year - 2000 }
+      it 'tracks sequence' do
+        expect(create(:invoice, organisation:)).to have_attributes(sequence_year: current_year,
+                                                                   sequence_number: 1,
+                                                                   ref: "#{year}0001")
+        expect(create(:invoice, organisation:)).to have_attributes(sequence_number: 2,
+                                                                   ref: "#{year}0002")
+      end
     end
   end
 end

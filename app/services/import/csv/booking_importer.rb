@@ -23,7 +23,6 @@ module Import
         super(**)
         @home = home.is_a?(Home) ? home : Home.find(home)
         @tenant_importer = TenantImporter.new(organisation)
-        @booking_ref_service = BookingRefService.new(organisation)
       end
 
       def initialize_record(_row)
@@ -40,7 +39,7 @@ module Import
       def persist_record(booking)
         booking.transition_to ||= initial_state
         booking.assert_tenant!
-        booking.ref ||= @booking_ref_service.generate(booking) if booking.valid?
+        booking.generate_ref if booking.valid?
         return false unless booking.save
 
         booking.deadline&.clear

@@ -49,10 +49,10 @@
                 div= link_to invoice.booking, manage_booking_path(invoice.booking)
               - if invoice.pdf.attached?
                 = link_to manage_invoice_path(invoice, format: :pdf), target: :_blank do
-                  small= invoice.ref
+                  = invoice.ref || invoice.payment_ref
                   span.ms-2.fa.fa-print
               - else
-                = link_to invoice.ref, manage_invoice_path(invoice)
+                = link_to (invoice.ref || invoice.payment_ref), manage_invoice_path(invoice)
             td.align-middle
               = invoice.model_name.human
 

@@ -23,7 +23,7 @@ class PaymentInfo
   end
 
   def formatted_ref
-    invoice_ref_service.format_ref(ref)
+    invoice.payment_ref
   end
 
   def formatted_amount

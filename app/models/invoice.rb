@@ -68,10 +68,10 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :recalculate
+  before_create :sequence_number, :generate_ref, :generate_payment_ref
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
-  after_create { generate_ref? && generate_ref && save }
 
   delegate :currency, to: :organisation
 
@@ -81,11 +81,7 @@ class Invoice < ApplicationRecord
   end
 
   def generate_pdf?
-    kept? && ref.present? && !skip_generate_pdf && (pdf.blank? || changed?)
-  end
-
-  def generate_ref?
-    ref.blank?
+    kept? && payment_ref.present? && !skip_generate_pdf && (pdf.blank? || changed?)
   end
 
   def supersede!
@@ -95,6 +91,14 @@ class Invoice < ApplicationRecord
     supersede_invoice.discard!
   end
 
+  def sequence_number
+    self[:sequence_number] ||= organisation.key_sequences.key(::Invoice.sti_name, year: sequence_year).lease!
+  end
+
+  def sequence_year
+    self[:sequence_year] ||= created_at&.year || Time.zone.today.year
+  end
+
   def generate_pdf
     I18n.with_locale(locale || I18n.locale) do
       self.pdf = { io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
@@ -102,8 +106,13 @@ class Invoice < ApplicationRecord
     end
   end
 
-  def generate_ref
-    self.ref = invoice_ref_service.generate(self)
+  def generate_ref(force: false)
+    self.ref = RefBuilders::Invoice.new(self).generate if ref.blank? || force
+  end
+
+  # this should never be forced
+  def generate_payment_ref
+    self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
   end
 
   def paid?
@@ -155,16 +164,8 @@ class Invoice < ApplicationRecord
     update(sent_at: Time.zone.now)
   end
 
-  def formatted_ref
-    invoice_ref_service.format_ref(ref)
-  end
-
   def to_s
-    "#{booking.ref} - #{formatted_ref}"
-  end
-
-  def invoice_ref_service
-    @invoice_ref_service ||= InvoiceRefService.new(organisation)
+    ref
   end
 
   def payment_info
@@ -191,16 +192,12 @@ class Invoice < ApplicationRecord
     [debitor_journal_entry] + invoice_parts.map(&:journal_entries)
   end
 
-  def accounting_ref
-    format('HV%05d', id + 1)
-  end
-
   def debitor_journal_entry
     Accounting::JournalEntry.new(
       account: organisation.accounting_settings.debitor_account_nr,
       date: issued_at, amount:, amount_type: :brutto, side: :soll,
-      reference: accounting_ref, source: self, currency:, booking:,
-      text: "#{self.class.model_name.human} #{accounting_ref} - #{booking.tenant.last_name}"
+      reference: ref, source: self, currency:, booking:,
+      text: "#{self.class.model_name.human} #{ref} - #{booking.tenant.last_name}"
     )
   end
 end

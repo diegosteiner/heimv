@@ -51,5 +51,9 @@ module Invoices
     def payment_required
       false
     end
+
+    def sequence_number
+      @sequence_number ||= organisation.key_sequences.key(self.class.sti_name, year: sequence_year).lease!
+    end
   end
 end
