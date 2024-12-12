@@ -68,7 +68,7 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :recalculate
-  before_create :sequence_number, :generate_accounting_ref, :generate_payment_ref
+  before_create :sequence_number, :generate_ref, :generate_payment_ref
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
@@ -106,8 +106,8 @@ class Invoice < ApplicationRecord
     end
   end
 
-  def generate_accounting_ref(force: false)
-    self.accounting_ref = RefBuilders::InvoiceAccounting.new(self).generate if accounting_ref.blank? || force
+  def generate_ref(force: false)
+    self.ref = RefBuilders::Invoice.new(self).generate if ref.blank? || force
   end
 
   # this should never be forced
@@ -165,7 +165,7 @@ class Invoice < ApplicationRecord
   end
 
   def to_s
-    accounting_ref
+    ref
   end
 
   def payment_info
@@ -196,8 +196,8 @@ class Invoice < ApplicationRecord
     Accounting::JournalEntry.new(
       account: organisation.accounting_settings.debitor_account_nr,
       date: issued_at, amount:, amount_type: :brutto, side: :soll,
-      reference: accounting_ref, source: self, currency:, booking:,
-      text: "#{self.class.model_name.human} #{accounting_ref} - #{booking.tenant.last_name}"
+      reference: ref, source: self, currency:, booking:,
+      text: "#{self.class.model_name.human} #{ref} - #{booking.tenant.last_name}"
     )
   end
 end

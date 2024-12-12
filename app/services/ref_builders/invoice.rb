@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module RefBuilders
-  class InvoiceAccounting < RefBuilder
+  class Invoice < RefBuilder
     DEFAULT_TEMPLATE = '%<short_year>2d%<sequence_number>04d'
 
     def initialize(invoice)
@@ -9,7 +9,7 @@ module RefBuilders
       @invoice = invoice
     end
 
-    def generate(template_string = @organisation.invoice_accounting_ref_template)
+    def generate(template_string = @organisation.invoice_ref_template)
       generate_lazy(template_string)
     end
 

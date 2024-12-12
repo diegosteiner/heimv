@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_11_091234) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_12_150434) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -332,7 +332,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_091234) do
     t.boolean "payment_required", default: true
     t.integer "sequence_number"
     t.integer "sequence_year"
-    t.string "accounting_ref"
+    t.string "ref"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
     t.index ["payment_ref"], name: "index_invoices_on_payment_ref"
@@ -494,8 +494,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_091234) do
     t.text "cors_origins"
     t.jsonb "nickname_label_i18n", default: {}
     t.jsonb "accounting_settings", default: {}
-    t.string "invoice_accounting_ref_template"
-    t.string "tenant_accounting_ref_template"
+    t.string "invoice_ref_template"
+    t.string "tenant_ref_template"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
@@ -593,7 +593,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_091234) do
     t.boolean "bookings_without_invoice", default: false
     t.integer "salutation_form"
     t.string "accounting_account_nr"
-    t.string "accounting_ref"
+    t.string "ref"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"

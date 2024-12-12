@@ -5,7 +5,11 @@ class OnboardingService
 
   def self.create(**attributes)
     defaults = {
-      booking_flow_type: BookingFlows::Default
+      booking_flow_type: BookingFlows::Default,
+      booking_ref_template: RefBuilders::Booking::DEFAULT_TEMPLATE,
+      tenant_ref_template: RefBuilders::Tenant::DEFAULT_TEMPLATE,
+      invoice_ref_template: RefBuilders::Invoice::DEFAULT_TEMPLATE,
+      invoice_payment_ref_template: RefBuilders::InvoicePayment::DEFAULT_TEMPLATE
     }
     organisation = Organisation.create!(defaults.merge(attributes))
     new(organisation)

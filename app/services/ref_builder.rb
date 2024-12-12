@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RefBuilder
-  DEFAULT_TEMPLATE = ''
+  DEFAULT_TEMPLATE = nil
 
   def initialize(organisation)
     @organisation = organisation
@@ -16,7 +16,8 @@ class RefBuilder
   end
 
   def generate_lazy(template_string)
-    template_string = template_string.presence || self.class::DEFAULT_TEMPLATE
+    return if template_string.nil?
+
     ref_parts = self.class.ref_parts.select { |key| template_string.include?(key.to_s) }
                     .transform_values { |callable| instance_eval(&callable) }
     format(template_string, ref_parts)

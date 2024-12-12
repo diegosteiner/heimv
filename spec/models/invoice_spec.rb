@@ -87,15 +87,15 @@ RSpec.describe Invoice, type: :model do
       expect(successor.payments.count).to eq(1)
     end
 
-    describe '#accounting_ref' do
+    describe '#ref' do
       let(:current_year) { Time.zone.today.year }
       let(:year) { current_year - 2000 }
       it 'tracks sequence' do
         expect(create(:invoice, organisation:)).to have_attributes(sequence_year: current_year,
                                                                    sequence_number: 1,
-                                                                   accounting_ref: "#{year}0001")
+                                                                   ref: "#{year}0001")
         expect(create(:invoice, organisation:)).to have_attributes(sequence_number: 2,
-                                                                   accounting_ref: "#{year}0002")
+                                                                   ref: "#{year}0002")
       end
     end
   end

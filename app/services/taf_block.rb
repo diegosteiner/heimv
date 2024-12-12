@@ -187,7 +187,7 @@ class TafBlock
   derive_from Invoice do |invoice, **_override|
     next unless invoice.is_a?(Invoices::Invoice) || invoice.is_a?(Invoices::Deposit)
 
-    op_id = Value.cast(invoice.accounting_ref, as: :symbol)
+    op_id = Value.cast(invoice.ref, as: :symbol)
     pk_key = [invoice.booking.tenant.accounting_debitor_account_nr,
               invoice.organisation.accounting_settings.currency_account_nr].then { "[#{_1.join(',')}]" }
 
