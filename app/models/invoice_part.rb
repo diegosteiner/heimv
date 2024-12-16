@@ -4,17 +4,19 @@
 #
 # Table name: invoice_parts
 #
-#  id              :integer          not null, primary key
-#  invoice_id      :integer
-#  usage_id        :integer
-#  type            :string
-#  amount          :decimal(, )
-#  label           :string
-#  breakdown       :string
-#  ordinal         :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  vat_category_id :integer
+#  id                        :integer          not null, primary key
+#  invoice_id                :integer
+#  usage_id                  :integer
+#  type                      :string
+#  amount                    :decimal(, )
+#  label                     :string
+#  breakdown                 :string
+#  ordinal                   :integer
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  vat_category_id           :integer
+#  accounting_account_nr     :string
+#  accounting_cost_center_nr :string
 #
 # Indexes
 #
@@ -54,6 +56,10 @@ class InvoicePart < ApplicationRecord
     amount
   end
 
+  def vat_breakdown
+    @vat_breakdown ||= vat_category&.breakdown(amount) || { brutto: amount, netto: amount, vat: 0 }
+  end
+
   def sum_of_predecessors
     invoice.invoice_parts.ordered.inject(0) do |sum, invoice_part|
       break sum if invoice_part == self
@@ -64,15 +70,6 @@ class InvoicePart < ApplicationRecord
 
   def to_sum(sum)
     sum + calculated_amount
-  end
-
-  def self.from_usage(usage, **attributes)
-    return unless usage
-
-    new(attributes.reverse_merge(
-          usage:, label: usage.tarif.label, ordinal: usage.tarif.ordinal, vat_category: usage.tarif.vat_category,
-          breakdown: usage.remarks.presence || usage.breakdown, amount: usage.price
-        ))
   end
 
   class Filter < ApplicationFilter

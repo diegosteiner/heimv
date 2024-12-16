@@ -38,6 +38,8 @@
 
 module Invoices
   class Deposit < ::Invoice
-    ::Invoice.register_subtype self
+    ::Invoice.register_subtype(self) do
+      scope :deposits, -> { where(type: Invoices::Deposit) }
+    end
   end
 end

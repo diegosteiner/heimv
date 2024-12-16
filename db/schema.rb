@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_12_191319) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_15_174132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -310,6 +310,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_191319) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "vat_category_id"
+    t.string "accounting_account_nr"
+    t.string "accounting_cost_center_nr"
     t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
     t.index ["usage_id"], name: "index_invoice_parts_on_usage_id"
     t.index ["vat_category_id"], name: "index_invoice_parts_on_vat_category_id"
@@ -343,23 +345,22 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_191319) do
   end
 
   create_table "journal_entries", force: :cascade do |t|
-    t.uuid "booking_id", null: false
-    t.string "source_type", null: false
-    t.bigint "source_id", null: false
+    t.bigint "invoice_id", null: false
+    t.string "source_type"
+    t.bigint "source_id"
     t.string "account_nr", null: false
-    t.bigint "vat_category_id"
-    t.date "date", null: false
-    t.decimal "amount", null: false
     t.integer "side", null: false
-    t.string "currency", null: false
+    t.decimal "amount", null: false
+    t.date "date", null: false
     t.string "text"
+    t.string "currency", null: false
     t.integer "ordinal"
     t.string "source_document_ref"
-    t.string "cost_center"
+    t.integer "book_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
     t.index ["source_type", "source_id"], name: "index_journal_entries_on_source"
-    t.index ["vat_category_id"], name: "index_journal_entries_on_vat_category_id"
   end
 
   create_table "key_sequences", force: :cascade do |t|
@@ -533,6 +534,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_191319) do
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "write_off", default: false, null: false
     t.string "camt_instr_id"
+    t.string "accounting_account_nr"
+    t.string "accounting_cost_center_nr"
     t.index ["booking_id"], name: "index_payments_on_booking_id"
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
   end
@@ -581,7 +584,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_191319) do
     t.bigint "prefill_usage_booking_question_id"
     t.decimal "minimum_price_per_night"
     t.decimal "minimum_price_total"
-    t.string "accounting_profit_center_nr"
+    t.string "accounting_cost_center_nr"
     t.bigint "vat_category_id"
     t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
@@ -708,7 +711,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_191319) do
   add_foreign_key "invoice_parts", "vat_categories"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
-  add_foreign_key "journal_entries", "vat_categories"
+  add_foreign_key "journal_entries", "invoices"
   add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
   add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"

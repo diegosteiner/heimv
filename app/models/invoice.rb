@@ -49,7 +49,7 @@ class Invoice < ApplicationRecord
   has_many :superseded_by_invoices, class_name: :Invoice, dependent: :nullify,
                                     foreign_key: :supersede_invoice_id, inverse_of: :supersede_invoice
   has_many :payments, dependent: :nullify
-  has_many :journal_entries, as: :source, dependent: :destroy
+  has_many :journal_entries, dependent: :destroy
 
   has_one :organisation, through: :booking
   has_one_attached :pdf
@@ -73,8 +73,8 @@ class Invoice < ApplicationRecord
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
-  after_save :generate_journal_entries
-  after_discard :generate_journal_entries
+  # after_save :process_journal_entries
+  # after_discard :process_journal_entries
 
   delegate :currency, to: :organisation
 
@@ -84,7 +84,7 @@ class Invoice < ApplicationRecord
   end
 
   def generate_pdf?
-    kept? && payment_ref.present? && !skip_generate_pdf && (pdf.blank? || changed?)
+    kept? && !skip_generate_pdf && (pdf.blank? || changed?)
   end
 
   def supersede!
@@ -118,9 +118,9 @@ class Invoice < ApplicationRecord
     self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
   end
 
-  def generate_journal_entries
+  def process_journal_entries
     # GenerateJournalEntriesJob.perform_later(self)
-    JournalEntry.generate(self)
+    JournalEntry.process_invoice(self)
   end
 
   def paid?
@@ -154,7 +154,7 @@ class Invoice < ApplicationRecord
   end
 
   def filename
-    "#{self.class.model_name.human} #{booking.ref}_#{id}.pdf"
+    "#{self.class.model_name.human} #{ref}.pdf"
   end
 
   def amount_paid

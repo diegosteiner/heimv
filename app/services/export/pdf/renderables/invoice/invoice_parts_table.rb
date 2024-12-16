@@ -96,7 +96,7 @@ module Export
                 number_to_percentage(vat_category.percentage, precision: 2),
                 organisation.currency,
                 number_to_currency(amount, unit: ''),
-                number_to_currency(vat_category.breakdown(amount)[:tax], unit: '')
+                number_to_currency(vat_category.breakdown(amount)[:vat], unit: '')
               ]
             end
           end

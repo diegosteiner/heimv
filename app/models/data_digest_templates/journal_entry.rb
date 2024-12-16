@@ -53,16 +53,12 @@ module DataDigestTemplates
         body: '{{ journal_entry.amount | round: 2 }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:tax_code),
-        body: '{{ journal_entry.tax_code }}'
+        header: ::JournalEntry.human_attribute_name(:vat_code),
+        body: '{{ journal_entry.vat_code }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:cost_center),
-        body: '{{ journal_entry.cost_center }}'
-      },
-      {
-        header: ::JournalEntry.model_name.human,
-        body: '{{ journal_entry.to_s }}'
+        header: ::JournalEntry.human_attribute_name(:book_type),
+        body: '{{ journal_entry.book_type }}'
       },
       {
         header: ::Booking.human_attribute_name(:ref),
@@ -80,8 +76,8 @@ module DataDigestTemplates
     end
 
     formatter(:taf) do |_options = {}|
-      records.map do |source|
-        TafBlock::Collection.new { derive(source) }
+      records.to_a.group_by(&:invoice).map do |invoice, _journal_entries|
+        TafBlock::Collection.new { derive(invoice) }
       end.join("\n\n")
     end
 

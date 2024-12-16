@@ -9,7 +9,7 @@ h1.mt-0.mb-5= VatCategory.model_name.human(count: 2)
           td
             = link_to vat_category.to_s, edit_manage_vat_category_path(vat_category)
           td
-            = number_to_percentage(vat_category.percentage, precision: 2)
+            = number_to_percentage(vat_category.percentage)
           td
             = vat_category.accounting_vat_code 
           td.p-1.text-end 

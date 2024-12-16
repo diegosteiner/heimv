@@ -219,7 +219,7 @@ de:
         payment_info_type: Zahlungsteil
         payment_required: Zahlung für Statusübergang zwingend
         percentage_paid: "% bezahlt"
-        ref: Referenznummer
+        ref: Rechnungsnummer
         sent_at: Rechnungsdatum
         text: Text
         type: Rechnungsart
@@ -233,8 +233,8 @@ de:
         vat: inkl. MwSt. in Prozent
       journal_entry:
         amount: Betrag
+        book_type: Buch
         booking_id: Buchung
-        cost_center: Kostenstelle
         date: Datum
         haben_account: Haben Konto
         haben_amount: Haben Betrag
@@ -348,7 +348,7 @@ de:
         title: Titel
       tarif:
         accounting_account_nr: Buchhaltungskonto
-        accounting_profit_center_nr: Profit-Center
+        accounting_cost_center_nr: Profit-Center
         associated_types: Ausgewiesen in Dokumenten
         enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung
@@ -1338,7 +1338,8 @@ de:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
-    deposited_amount: Gutschrift aus Anzahlung
+    deposited_amount: Gutschrift aus An-/Akontozahlung
+    unassigned_payments_amount: Saldo
   invoices:
     total: Total
     vat_title: in den Preisen enhaltene MwSt.

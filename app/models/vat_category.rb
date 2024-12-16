@@ -14,15 +14,15 @@ class VatCategory < ApplicationRecord
   scope :ordered, -> { order(percentage: :ASC) }
 
   def to_s
-    formatted_percentage = ActiveSupport::NumberHelper.number_to_percentage(percentage, precision: 2)
+    formatted_percentage = ActiveSupport::NumberHelper.number_to_percentage(percentage)
     return formatted_percentage if label.blank?
 
     "#{label} (#{formatted_percentage})"
   end
 
   def breakdown(amount)
-    tax = 0
-    tax = (amount / (100 + percentage)) * percentage if percentage.present?
-    { tax:, brutto: amount, netto: (amount - tax) }
+    vat = 0
+    vat = (amount / (100 + percentage)) * percentage if percentage.present?
+    { vat:, brutto: amount, netto: (amount - vat) }
   end
 end

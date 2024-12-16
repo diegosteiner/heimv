@@ -115,10 +115,10 @@ class TafBlock
           AccId: Value.cast(journal_entry.account_nr, as: :symbol),
 
           # Integer; Booking type: 1=cost booking, 2=tax booking
-          BType: 1,
+          # BType: 1, # default
 
           # String[13], This is the cost type account
-          CAcc: journal_entry.cost_center,
+          CAcc: (Value.cast(journal_entry.cost_account_nr, as: :symbol) if journal_entry.cost_account_nr),
 
           # Integer; This is the index of the booking that represents the cost booking which is attached to this booking
           # CIdx: journal_entry.index,
@@ -188,35 +188,38 @@ class TafBlock
     next unless invoice.is_a?(Invoices::Invoice) || invoice.is_a?(Invoices::Deposit)
 
     op_id = Value.cast(invoice.ref, as: :symbol)
-    pk_key = [invoice.booking.tenant.accounting_debitor_account_nr,
-              invoice.organisation.accounting_settings.currency_account_nr].then { "[#{_1.join(',')}]" }
-
+    pk_key = Value.cast(invoice.booking.tenant.accounting_debitor_account_nr, as: :symbol)
     journal_entries = invoice.journal_entries.to_a
 
     [
       derive(invoice.booking.tenant),
       new(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }),
       new(:Blg, **{ Date: invoice.issued_at, Orig: true }) do
-        derive(journal_entries.shift, Flags: 1, OpId: op_id, PkKey: pk_key, CAcc: :div)
+        # TODO: check if invoice == source
+        derive(journal_entries.shift, Flags: 1, OpId: op_id, PkKey: pk_key)
         journal_entries.each { derive(_1, OpId: op_id) }
       end
     ]
   end
 
   derive_from Tenant do |tenant, **_override|
+    account_nr = Value.cast(tenant.accounting_debitor_account_nr, as: :symbol)
     [
       new(:Adr, **{
-            AdrId: tenant.accounting_debitor_account_nr,
-            Line1: tenant.full_name,
+            AdrId: account_nr,
+            Sort: I18n.transliterate(tenant.full_name).gsub(/\s/, '').upcase,
+            Corp: tenant.full_name,
+            Lang: 'D',
             Road: tenant.street_address,
             CCode: tenant.country_code,
             ACode: tenant.zipcode,
             City: tenant.city
           }),
       new(:PKd, **{
-            PkKey: Value.cast(tenant.accounting_debitor_account_nr, as: :symbol),
-            AdrId: Value.cast(tenant.accounting_debitor_account_nr, as: :symbol),
-            AccId: Value.cast(tenant.organisation.accounting_settings.currency_account_nr, as: :symbol)
+            PkKey: account_nr,
+            AdrId: account_nr,
+            AccId: Value.cast(tenant.organisation.accounting_settings.debitor_account_nr, as: :symbol),
+            ZabId: '15T'
           })
 
     ]
