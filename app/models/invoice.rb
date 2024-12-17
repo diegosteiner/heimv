@@ -84,7 +84,7 @@ class Invoice < ApplicationRecord
   end
 
   def generate_pdf?
-    kept? && !skip_generate_pdf && (pdf.blank? || changed?)
+    kept? && !skip_generate_pdf && (changed? || pdf.blank?)
   end
 
   def supersede!

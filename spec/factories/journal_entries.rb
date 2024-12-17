@@ -8,6 +8,7 @@
 #  invoice_id          :integer          not null
 #  source_type         :string
 #  source_id           :integer
+#  vat_category_id     :integer
 #  account_nr          :string           not null
 #  side                :integer          not null
 #  amount              :decimal(, )      not null
@@ -22,8 +23,9 @@
 #
 # Indexes
 #
-#  index_journal_entries_on_invoice_id  (invoice_id)
-#  index_journal_entries_on_source      (source_type,source_id)
+#  index_journal_entries_on_invoice_id       (invoice_id)
+#  index_journal_entries_on_source           (source_type,source_id)
+#  index_journal_entries_on_vat_category_id  (vat_category_id)
 #
 
 FactoryBot.define do

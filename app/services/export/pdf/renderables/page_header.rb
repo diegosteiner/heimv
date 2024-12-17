@@ -30,6 +30,8 @@ module Export
           image_source ||= Rails.root.join('app/javascript/images/logo.png')
 
           image image_source, at: [bounds.left, bounds.top + 80], width: 200, height: 45, fit: [200, 45]
+        rescue Aws::Errors::MissingRegionError
+          nil
         end
       end
     end

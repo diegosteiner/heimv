@@ -109,16 +109,16 @@ class TafBlock
     instance_exec(value, **override, &derive_block) if derive_block.present?
   end
 
-  derive_from JournalEntry do |journal_entry, **override|
+  derive_from JournalEntry do |journal_entry, _index: nil, **override|
     new(:Bk, **{
           # The Id of a book keeping account. [Fibu-Konto]
           AccId: Value.cast(journal_entry.account_nr, as: :symbol),
 
           # Integer; Booking type: 1=cost booking, 2=tax booking
-          # BType: 1, # default
+          BType: { main: nil, cost: 1, vat: 2 }[journal_entry.book_type&.to_sym],
 
           # String[13], This is the cost type account
-          CAcc: (Value.cast(journal_entry.cost_account_nr, as: :symbol) if journal_entry.cost_account_nr),
+          # CAcc: (Value.cast(journal_entry.cost_account_nr, as: :symbol) if journal_entry.cost_account_nr),
 
           # Integer; This is the index of the booking that represents the cost booking which is attached to this booking
           # CIdx: journal_entry.index,
@@ -140,7 +140,7 @@ class TafBlock
           # String[5]; The Id of the tax. [MWSt-Kürzel]
           TaxId: journal_entry.vat_category&.accounting_vat_code,
 
-          MkTxB: journal_entry.vat_category&.accounting_vat_code.present?,
+          # MkTxB: journal_entry.vat_category&.accounting_vat_code.present?,
 
           # String[61*]; This string specifies the first line of the booking text.
           Text: journal_entry.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
@@ -164,10 +164,10 @@ class TafBlock
           Type: { soll: 0, haben: 1 }[journal_entry.side&.to_sym],
 
           # Currency; The net amount for this booking. [Netto-Betrag]
-          # ValNt: journal_entry.amount_type&.to_sym == :netto ? journal_entry.amount : nil,
+          ValNt: journal_entry.amount,
 
           # Currency; The tax amount for this booking. [Brutto-Betrag]
-          ValBt: journal_entry.amount,
+          # ValBt: journal_entry.amount,
 
           # Currency; The tax amount for this booking. [Steuer-Betrag]
           # ValTx: journal_entry.amount_type&.to_sym == :tax ? journal_entry.amount : nil,
@@ -177,7 +177,7 @@ class TafBlock
           # ValFW : not implemented
 
           # String[13]The OP id of this booking.
-          OpId: journal_entry.source_document_ref,
+          # OpId: journal_entry.source_document_ref,
 
           # The PK number of this booking.
           PkKey: nil
@@ -188,7 +188,7 @@ class TafBlock
     next unless invoice.is_a?(Invoices::Invoice) || invoice.is_a?(Invoices::Deposit)
 
     op_id = Value.cast(invoice.ref, as: :symbol)
-    pk_key = Value.cast(invoice.booking.tenant.accounting_debitor_account_nr, as: :symbol)
+    pk_key = Value.cast(invoice.booking.tenant.ref, as: :symbol)
     journal_entries = invoice.journal_entries.to_a
 
     [
@@ -196,14 +196,14 @@ class TafBlock
       new(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }),
       new(:Blg, **{ Date: invoice.issued_at, Orig: true }) do
         # TODO: check if invoice == source
-        derive(journal_entries.shift, Flags: 1, OpId: op_id, PkKey: pk_key)
-        journal_entries.each { derive(_1, OpId: op_id) }
+        derive(journal_entries.shift, index: 1, Flags: 1, OpId: op_id, PkKey: pk_key)
+        journal_entries.each_with_index { |journal_entry, index| derive(journal_entry, index: index + 1) }
       end
     ]
   end
 
   derive_from Tenant do |tenant, **_override|
-    account_nr = Value.cast(tenant.accounting_debitor_account_nr, as: :symbol)
+    account_nr = Value.cast(tenant.ref, as: :symbol)
     [
       new(:Adr, **{
             AdrId: account_nr,

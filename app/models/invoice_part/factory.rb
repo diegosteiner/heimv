@@ -50,20 +50,19 @@ class InvoicePart
       ]
     end
 
-    def from_deposits # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-      deposits = booking.invoices.deposits.kept
-      deposited_amount = deposits.sum(&:amount_paid)
-      return [] unless deposited_amount.positive? && invoice.new_record? && invoice.is_a?(Invoices::Invoice)
+    def from_deposits # rubocop:disable Metrics/AbcSize
+      deposits = booking.invoices.deposits.kept.where(Invoice.arel_table[:amount].gt(0))
+      return [] unless deposits.any? && invoice.new_record? && invoice.is_a?(Invoices::Invoice)
 
       apply = invoice.invoice_parts.none?
 
-      [
-        InvoiceParts::Text.new(apply:, label: Invoices::Deposit.model_name.human),
-        InvoiceParts::Deposit.new(apply:, label: I18n.t('invoice_parts.deposited_amount'), amount: - deposited_amount,
-                                  vat_category_id: accounting_settings.rental_yield_vat_category_id,
-                                  accounting_account_nr: accounting_settings.rental_yield_account_nr,
-                                  accounting_cost_center_nr: 9009)
-      ]
+      [InvoiceParts::Text.new(apply:, label: Invoices::Deposit.model_name.human)] +
+        [
+          InvoiceParts::Deposit.new(apply:, label: I18n.t('invoice_parts.deposited_amount'), amount: - deposited_amount,
+                                    vat_category_id: accounting_settings.rental_yield_vat_category_id,
+                                    accounting_account_nr: accounting_settings.rental_yield_account_nr,
+                                    accounting_cost_center_nr: nil)
+        ]
     end
 
     def from_supersede_invoice

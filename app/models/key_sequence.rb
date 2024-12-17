@@ -11,24 +11,27 @@ class KeySequence < ApplicationRecord
     increment!(:value).value # rubocop:disable Rails/SkipsModelValidations
   end
 
-  def self.backfill_invoices(organisation)
+  def self.backfill_invoices(organisation, generate_ref: false)
     organisation.invoices.order(created_at: :ASC).each do |invoice|
-      invoice.sequence_number
       invoice.skip_generate_pdf = true
+      invoice.sequence_number
+      invoice.generate_ref if generate_ref
       invoice.save
     end
   end
 
-  def self.backfill_tenants(organisation)
+  def self.backfill_tenants(organisation, generate_ref: false)
     organisation.tenants.order(created_at: :ASC).each do |tenant|
       tenant.sequence_number
+      tenant.generate_ref if generate_ref
       tenant.save
     end
   end
 
-  def self.backfill_bookings(organisation)
-    organisation.bookings.order(created_at: :ASC).each do |tenant|
+  def self.backfill_bookings(organisation, generate_ref: false)
+    organisation.bookings.order(begins_at: :ASC).each do |tenant|
       tenant.sequence_number
+      tenant.generate_ref if generate_ref
       tenant.save
     end
   end

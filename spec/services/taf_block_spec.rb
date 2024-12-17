@@ -57,15 +57,12 @@ describe TafBlock, type: :model do
         expect(taf_block.to_s).to eq(<<~TAF.chomp)
           {Bk
             AccId=1050
-            BType=1
             Date=05.10.2024
             TaxId="MwSt38"
-            MkTxB=1
             Text="Lorem ipsum"
             Text2="Second Line, but its longer than sixty ""chars"", "
             Type=0
-            ValBt=2091.75
-            OpId="1234"
+            ValNt=2091.75
 
           }
         TAF
@@ -85,15 +82,12 @@ describe TafBlock, type: :model do
         expect(taf_block.to_s).to eq(<<~TAF.chomp)
           {Bk
             AccId=1050
-            BType=1
             Date=05.10.2024
             TaxId="MwSt38"
-            MkTxB=1
             Text="Lorem ipsum"
             Text2="Second Line, but its longer than sixty ""chars"", "
             Type=0
-            ValBt=2091.75
-            OpId="1234"
+            ValNt=2091.75
 
           }
         TAF

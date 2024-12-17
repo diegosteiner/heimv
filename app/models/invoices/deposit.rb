@@ -39,7 +39,7 @@
 module Invoices
   class Deposit < ::Invoice
     ::Invoice.register_subtype(self) do
-      scope :deposits, -> { where(type: Invoices::Deposit) }
+      scope :deposits, -> { where(type: Invoices::Deposit.sti_name) }
     end
   end
 end

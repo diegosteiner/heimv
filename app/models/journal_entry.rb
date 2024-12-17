@@ -8,14 +8,14 @@
 #  source_id           :integer
 #  vat_category_id     :integer
 #  account_nr          :string           not null
-#  amount              :decimal(, )      not null
 #  side                :integer          not null
+#  amount              :decimal(, )      not null
 #  date                :date             not null
-#  currency            :string           not null
 #  text                :string
+#  currency            :string           not null
 #  ordinal             :integer
 #  source_document_ref :string
-#  cost_center         :string
+#  book_type           :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -30,7 +30,7 @@
 
 class JournalEntry < ApplicationRecord
   belongs_to :invoice
-  # belongs_to :vat_category, optional: true
+  belongs_to :vat_category, optional: true
 
   has_one :booking, through: :invoice
   has_one :organisation, through: :booking
