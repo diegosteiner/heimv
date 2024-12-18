@@ -96,6 +96,10 @@ class Organisation < ApplicationRecord
   attribute :accounting_settings, Settings::Type.new(AccountingSettings), default: -> { AccountingSettings.new }
   attribute :smtp_settings, Settings::Type.new(SmtpSettings)
   attribute :iban, IBAN::Type.new
+  attribute :tenant_ref_template, default: -> { RefBuilders::Tenant::DEFAULT_TEMPLATE }
+  attribute :booking_ref_template, default: -> { RefBuilders::Booking::DEFAULT_TEMPLATE }
+  attribute :invoice_ref_template, default: -> { RefBuilders::Invoice::DEFAULT_TEMPLATE }
+  attribute :invoice_payment_ref_template, default: -> { RefBuilders::InvoicePayment::DEFAULT_TEMPLATE }
 
   def booking_flow_class
     @booking_flow_class ||= BookingFlows.const_get(booking_flow_type)

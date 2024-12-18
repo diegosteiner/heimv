@@ -44,7 +44,7 @@ module Export
           end
 
           def render_invoice_vat_table
-            return if invoice.vat_amounts.none?
+            return if invoice.vat_breakdown.none?
 
             move_down 10
             start_new_page if cursor < (vat_table_data.count + 1) * 9
@@ -90,7 +90,7 @@ module Export
           end
 
           def vat_table_data
-            invoice.vat_amounts.map do |vat_category, amount|
+            invoice.vat_breakdown.map do |vat_category, amount|
               [
                 vat_category.label,
                 number_to_percentage(vat_category.percentage, precision: 2),

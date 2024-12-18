@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_15_174132) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_17_125938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
 
@@ -159,7 +160,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_15_174132) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tenant_mode", default: 0, null: false
-    t.integer "booking_agent_mode"
+    t.integer "booking_agent_mode", default: 0
     t.index ["discarded_at"], name: "index_booking_questions_on_discarded_at"
     t.index ["organisation_id"], name: "index_booking_questions_on_organisation_id"
     t.index ["type"], name: "index_booking_questions_on_type"
@@ -348,6 +349,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_15_174132) do
     t.bigint "invoice_id", null: false
     t.string "source_type"
     t.bigint "source_id"
+    t.bigint "vat_category_id"
     t.string "account_nr", null: false
     t.integer "side", null: false
     t.decimal "amount", null: false
@@ -361,6 +363,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_15_174132) do
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
     t.index ["source_type", "source_id"], name: "index_journal_entries_on_source"
+    t.index ["vat_category_id"], name: "index_journal_entries_on_vat_category_id"
   end
 
   create_table "key_sequences", force: :cascade do |t|
@@ -712,6 +715,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_15_174132) do
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
   add_foreign_key "journal_entries", "invoices"
+  add_foreign_key "journal_entries", "vat_categories"
   add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
   add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"

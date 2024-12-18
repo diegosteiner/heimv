@@ -192,7 +192,7 @@ class Invoice < ApplicationRecord
     { io: StringIO.new(pdf.blob.download), filename:, content_type: pdf.content_type } if pdf&.blob.present?
   end
 
-  def vat_amounts
+  def vat_breakdown
     invoice_parts.group_by(&:vat_category).except(nil).transform_values { _1.sum(&:calculated_amount) }
   end
 end
