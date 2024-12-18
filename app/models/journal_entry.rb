@@ -29,7 +29,7 @@
 # frozen_string_literal: true
 
 class JournalEntry < ApplicationRecord
-  belongs_to :invoice
+  belongs_to :invoice, inverse_of: :journal_entries
   belongs_to :vat_category, optional: true
 
   has_one :booking, through: :invoice
@@ -38,7 +38,9 @@ class JournalEntry < ApplicationRecord
   enum :side, { soll: 1, haben: -1 }
   enum :book_type, { main: 0, cost: 1, vat: 2 }, prefix: true, default: :main
 
-  validates :account_nr, :side, :amount, :source_document_ref, presence: true
+  validates :account_nr, :side, :amount, :source_document_ref, :currency, presence: true
+
+  scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
 
   def invert
     return self.side = :soll if haben?
@@ -63,16 +65,12 @@ class JournalEntry < ApplicationRecord
     amount if haben?
   end
 
-  def self.collect(**defaults, &)
-    Collection.new(**defaults).tap(&)
+  def parallels
+    JournalEntry.where(invoice:, source_type:, source_id:).index_by(&:book_type).symbolize_keys
   end
 
-  def self.process_invoice(invoice)
-    existing_journal_entry_ids = invoice.reload.journal_entry_ids
-    new_journal_entries = JournalEntry::Factory.new.invoice(invoice)
-
-    # raise ActiveRecord::Rollback unless
-    new_journal_entries.save && where(id: existing_journal_entry_ids, invoice:).destroy_all
+  def self.collect(**defaults, &)
+    Collection.new(**defaults).tap(&)
   end
 
   class Collection
@@ -100,12 +98,12 @@ class JournalEntry < ApplicationRecord
       collect(side: :soll, **args)
     end
 
-    def soll_amount
-      journal_entries.map { _1.soll_amount || 0 }.sum
+    def soll_amount(book_type: %i[main vat])
+      journal_entries.filter_map { _1.soll_amount || 0 if Array.wrap(book_type).include?(_1.book_type) }.sum
     end
 
-    def haben_amount
-      amount if haben?
+    def haben_amount(book_type: %i[main vat])
+      journal_entries.filter_map { _1.haben_amount || 0 if Array.wrap(book_type).include?(_1.book_type) }.sum
     end
 
     def balanced?
@@ -172,40 +170,15 @@ class JournalEntry < ApplicationRecord
 
     def invoice_part_add(invoice_part, collection) # rubocop:disable Metrics/AbcSize
       invoice_part.instance_eval do
-        defaults = { source_type: self.class.sti_name, source_id: id, text: "#{invoice.ref} #{label}" }
+        defaults = { source_type: self.class.sti_name, source_id: id, vat_category:, text: "#{invoice.ref} #{label}" }
 
         collection.haben(**defaults, account_nr: accounting_account_nr, amount: vat_breakdown[:netto])
-        collection.haben(**defaults, account_nr: accounting_cost_center_nr, book_type: :cost,
-                                     amount: vat_breakdown[:netto])
+        collection.haben(**defaults, account_nr: accounting_cost_center_nr,
+                                     book_type: :cost, amount: vat_breakdown[:netto])
         collection.haben(**defaults, account_nr: vat_category&.organisation&.accounting_settings&.vat_account_nr,
                                      book_type: :vat, amount: vat_breakdown[:vat])
       end
     end
-
-    # def invoice_part_deposit(invoice_part)
-    #   invoice = invoice_part.invoice
-    #   cost_center_nr = invoice_part.accounting_cost_center_nr.presence
-    #   vat_account_nr = invoice.organisation.accounting_settings.vat_account_nr.presence
-
-    #   JournalEntry.collect(date: invoice.issued_at, invoice: invoice_part.invoice, source_document_ref: invoice.ref,
-    #                        source_type: invoice_part.class.sti_name, source_id: id,
-    #                        text: "#{invoice.ref} #{invoice_part.label}") do
-    #     haben(account_nr:, amount: breakdown[:netto]) if accounting_account_nr.present?
-    #     haben(account_nr: cost_center_nr, book_type: :cost, amount: breakdown[:netto]) if cost_center_nr
-    #     haben(account_nr:, book_type: :vat, amount: breakdown[:vat]) if vat_category.present? && vat_account_nr
-    #   end
-    # end
-
-    # def invoice_part_deposit(invoice_part)
-    #   invoice_part.instance_eval do
-    #     account_nr = tarif&.accounting_account_nr
-    #     return if account_nr.blank?
-
-    #     invoice_part_add(invoice_part).tap do |journal_entry|
-    #       journal_entry.assign_attributes(account_nr:, side: :haben, amount: -amount)
-    #     end
-    #   end
-    # end
 
     # def kept_payment(payment)
     #   payment.instance_eval do

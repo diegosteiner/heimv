@@ -29,21 +29,19 @@ module InvoiceParts
   class Deposit < Add
     InvoicePart.register_subtype self
 
-    attr_accessor :unassigned_payments
+    attr_accessor :reassign_payments
 
-    after_save :assign_payments
+    after_save :reassign_payments!
 
-    attribute :vat_category_id, default: lambda { |invoice_part|
-      invoice_part.organisation&.accounting_settings&.rental_yield_vat_category_id
-    }
     attribute :accounting_account_nr, default: -> { organisation&.accounting_settings&.rental_yield_account_nr }
+    attribute :vat_category_id, default: (lambda do |invoice_part|
+      invoice_part.organisation&.accounting_settings&.rental_yield_vat_category_id
+    end)
 
-    def assign_payments
+    def reassign_payments!(payments = reassign_payments)
       return unless valid? && apply
 
-      unassigned_payments&.each do |payment|
-        payment&.update(invoice:)
-      end
+      payments&.each { |payment| payment&.update!(invoice:) }
     end
   end
 end

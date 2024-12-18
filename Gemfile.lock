@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/puzzle/prawn-markup
-  revision: 1279dd4a636e534a1752ca0b60de89b1c6f31ae9
+  revision: 76d90979b9880e10716b76ec9c929f56cbc529d0
   specs:
-    prawn-markup (1.0.0)
+    prawn-markup (1.0.1)
       nokogiri
       prawn
       prawn-table
@@ -93,7 +93,7 @@ GEM
       rake (>= 0.8.7)
     ast (2.4.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.1023.0)
+    aws-partitions (1.1024.0)
     aws-sdk-core (3.214.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -184,9 +184,9 @@ GEM
     discard (1.4.0)
       activerecord (>= 4.2, < 9.0)
     docile (1.4.1)
-    dotenv (3.1.6)
-    dotenv-rails (3.1.6)
-      dotenv (= 3.1.6)
+    dotenv (3.1.7)
+    dotenv-rails (3.1.7)
+      dotenv (= 3.1.7)
       railties (>= 6.1)
     drb (2.2.1)
     dry-cli (1.2.0)
@@ -276,7 +276,7 @@ GEM
     ice_cube (0.17.0)
     interception (0.5)
     io-console (0.8.0)
-    irb (1.14.2)
+    irb (1.14.3)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
@@ -317,7 +317,7 @@ GEM
     mutex_m (0.3.0)
     net-http (0.6.0)
       uri
-    net-imap (0.5.1)
+    net-imap (0.5.2)
       date
       net-protocol
     net-pop (0.1.2)
@@ -354,7 +354,7 @@ GEM
     pry-rescue (1.6.0)
       interception (>= 0.5)
       pry (>= 0.12.0)
-    psych (5.2.1)
+    psych (5.2.2)
       date
       stringio
     public_suffix (6.0.1)
@@ -414,7 +414,7 @@ GEM
       ffi (~> 1.0)
     rbs (3.7.0)
       logger
-    rdoc (6.9.0)
+    rdoc (6.10.0)
       psych (>= 4.0.0)
     react-rails (3.2.1)
       babel-transpiler (>= 0.7.0)
@@ -427,7 +427,7 @@ GEM
     redis-client (0.23.0)
       connection_pool
     regexp_parser (2.9.3)
-    reline (0.5.12)
+    reline (0.6.0)
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
@@ -494,7 +494,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sidekiq (7.3.6)
+    sidekiq (7.3.7)
       connection_pool (>= 2.3.0)
       logger
       rack (>= 2.2.4)
@@ -519,7 +519,7 @@ GEM
       actionpack (>= 3.1)
       railties (>= 3.1)
       slim (>= 3.0, < 6.0, != 5.0.0)
-    sorbet-runtime (0.5.11694)
+    sorbet-runtime (0.5.11704)
     squasher (0.8.0)
     statesman (12.1.0)
     statsd-ruby (1.5.0)

@@ -60,6 +60,14 @@ class InvoicePart < ApplicationRecord
     @vat_breakdown ||= vat_category&.breakdown(amount) || { brutto: amount, netto: amount, vat: 0 }
   end
 
+  def accounting_cost_center_nr
+    @accounting_cost_center_nr ||= if super.to_s == 'home'
+                                     invoice.booking.home&.settings&.accounting_cost_center_nr.presence
+                                   else
+                                     super.presence
+                                   end
+  end
+
   def sum_of_predecessors
     invoice.invoice_parts.ordered.inject(0) do |sum, invoice_part|
       break sum if invoice_part == self

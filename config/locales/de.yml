@@ -224,6 +224,8 @@ de:
         text: Text
         type: Rechnungsart
       invoice_part:
+        accounting_account_nr: Buchhaltungskonto
+        accounting_cost_center_nr: Kostenstelle
         amount: Betrag
         apply: Anwenden
         breakdown: Aufschlüsselung
@@ -231,18 +233,22 @@ de:
         ordinal_position: Ordnungsnummer
         type: Art der Rechnungsposition
         vat: inkl. MwSt. in Prozent
+        vat_category_id: MwSt. Kategorie
       journal_entry:
+        account_nr: Konto
         amount: Betrag
         book_type: Buch
         booking_id: Buchung
         date: Datum
         haben_account: Haben Konto
         haben_amount: Haben Betrag
+        invoice_id: Rechnung
         side: Seite
         soll_account: Soll Konto
         soll_amount: Soll Betrag
         source_document_ref: Beleg
         text: Text
+        vat_category_id: MwSt. Kategorie
       mail_template:
       meter_reading_period:
         begins_at: Beginn
@@ -348,7 +354,7 @@ de:
         title: Titel
       tarif:
         accounting_account_nr: Buchhaltungskonto
-        accounting_cost_center_nr: Profit-Center
+        accounting_cost_center_nr: Kostenstelle
         associated_types: Ausgewiesen in Dokumenten
         enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung
@@ -492,6 +498,10 @@ de:
           only_paid: Nur beglichene
           only_unpaid: Nur offene
       journal_entry:
+        book_types:
+          cost: Kostenstellen
+          main: Hauptbuch
+          vat: Steuern
         side:
           haben: Haben
           soll: Soll
@@ -528,6 +538,7 @@ de:
           manager: Verwaltung
           none: "-"
           readonly: Lesend
+          treasurer: Kassier
       tarif:
         prefill_usage_methods:
           days: "× Tage"
@@ -691,6 +702,9 @@ de:
       invoices/offer:
         one: Offerte
         other: Offerten
+      journal_entry:
+        one: Buchungssatz
+        other: Buchungssätze
       mail_template:
         one: Mailvorlage
         other: Mailvorlagen

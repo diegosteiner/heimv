@@ -60,6 +60,7 @@ Rails.application.routes.draw do
       resources :booking_agents
       resources :booking_categories, except: :show
       resources :vat_categories, except: :show
+      resources :journal_entries, except: %i[show]
       resources :notifications, only: %i[index]
       resources :rich_text_templates do
         post :create_missing, on: :collection

@@ -109,7 +109,7 @@ class TafBlock
     instance_exec(value, **override, &derive_block) if derive_block.present?
   end
 
-  derive_from JournalEntry do |journal_entry, _index: nil, **override|
+  derive_from JournalEntry do |journal_entry, **override|
     new(:Bk, **{
           # The Id of a book keeping account. [Fibu-Konto]
           AccId: Value.cast(journal_entry.account_nr, as: :symbol),
@@ -138,7 +138,7 @@ class TafBlock
           Flags: nil,
 
           # String[5]; The Id of the tax. [MWSt-Kürzel]
-          TaxId: journal_entry.vat_category&.accounting_vat_code,
+          TaxId: (journal_entry.book_type_main? && journal_entry.vat_category&.accounting_vat_code) || nil,
 
           # MkTxB: journal_entry.vat_category&.accounting_vat_code.present?,
 
@@ -170,7 +170,8 @@ class TafBlock
           # ValBt: journal_entry.amount,
 
           # Currency; The tax amount for this booking. [Steuer-Betrag]
-          # ValTx: journal_entry.amount_type&.to_sym == :tax ? journal_entry.amount : nil,
+          ValTx: journal_entry.book_type_vat? &&
+                  journal_entry.vat_category&.breakup(vat: journal_entry.amount)&.[](:netto),
 
           # Currency; The gross amount for this booking in the foreign currency specified
           # by currency of the account AccId. [FW-Betrag]
@@ -196,8 +197,12 @@ class TafBlock
       new(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }),
       new(:Blg, **{ Date: invoice.issued_at, Orig: true }) do
         # TODO: check if invoice == source
-        derive(journal_entries.shift, index: 1, Flags: 1, OpId: op_id, PkKey: pk_key)
-        journal_entries.each_with_index { |journal_entry, index| derive(journal_entry, index: index + 1) }
+        derive(journal_entries.shift, Idx: 1, Flags: 1, OpId: op_id, PkKey: pk_key)
+        journal_entries.each_with_index do |journal_entry, index|
+          cost_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.parallels[:cost])) || nil
+          vat_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.parallels[:vat])) || nil
+          derive(journal_entry, Idx: index + 2, CIdx: cost_index&.+(index + 2), TIdx: vat_index&.+(index + 2))
+        end
       end
     ]
   end

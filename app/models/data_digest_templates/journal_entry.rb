@@ -93,7 +93,7 @@ module DataDigestTemplates
 
     def base_scope
       @base_scope ||= ::JournalEntry.joins(:booking).where(bookings: { organisation_id: organisation })
-                                    .includes(booking: :organisation).order(date: :ASC)
+                                    .includes(booking: :organisation).ordered
     end
   end
 end
