@@ -73,8 +73,8 @@ class Invoice < ApplicationRecord
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
-  after_save :generate_journal_entries, if: :generate_journal_entries?
-  after_discard :generate_journal_entries, if: :generate_journal_entries?
+  after_save :generate_journal_entries!, if: :generate_journal_entries?
+  after_discard :generate_journal_entries!, if: :generate_journal_entries?
 
   delegate :currency, to: :organisation
 
@@ -119,15 +119,17 @@ class Invoice < ApplicationRecord
   end
 
   def generate_journal_entries?
-    !skip_generate_journal_entries && (changed? || journal_entries.none?)
+    organisation.accounting_settings.enabled && !skip_generate_journal_entries && (changed? || journal_entries.none?)
   end
 
-  def generate_journal_entries
+  def generate_journal_entries!
+    return unless organisation.accounting_settings.enabled
+
     existing_journal_entry_ids = reload.journal_entry_ids
     new_journal_entries = JournalEntry::Factory.new.invoice(self)
 
     # raise ActiveRecord::Rollback unless
-    new_journal_entries.save && JournalEntry.where(id: existing_journal_entry_ids, invoice: self).destroy_all
+    new_journal_entries.save! && JournalEntry.where(id: existing_journal_entry_ids, invoice: self).destroy_all!
   end
 
   def paid?
@@ -155,6 +157,7 @@ class Invoice < ApplicationRecord
     self.amount_open = amount - amount_paid
   end
 
+  # TODO: describe why this is needed
   def recalculate!
     recalculate
     save! if amount_changed? || amount_open_changed?

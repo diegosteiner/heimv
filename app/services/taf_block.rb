@@ -124,7 +124,7 @@ class TafBlock
           # CIdx: journal_entry.index,
 
           # String[9]; A user definable code.
-          Code: nil,
+          Code: journal_entry.id,
 
           # Date; The date of the booking.
           Date: journal_entry.date,
@@ -197,11 +197,12 @@ class TafBlock
       new(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }),
       new(:Blg, **{ Date: invoice.issued_at, Orig: true }) do
         # TODO: check if invoice == source
-        derive(journal_entries.shift, Idx: 1, Flags: 1, OpId: op_id, PkKey: pk_key)
+        derive(journal_entries.shift, Flags: 1, OpId: op_id, PkKey: pk_key)
+
         journal_entries.each_with_index do |journal_entry, index|
           cost_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.parallels[:cost])) || nil
           vat_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.parallels[:vat])) || nil
-          derive(journal_entry, Idx: index + 2, CIdx: cost_index&.+(index + 2), TIdx: vat_index&.+(index + 2))
+          derive(journal_entry, CIdx: cost_index&.+(index + 2), TIdx: vat_index&.+(index + 2))
         end
       end
     ]
