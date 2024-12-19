@@ -180,6 +180,17 @@ class JournalEntry < ApplicationRecord
       end
     end
 
+    def payment(payment) # rubocop:disable Metrics/AbcSize
+      payment.instance_eval do
+        JournalEntry.collect(currency: organisation.currency, source_document_ref: invoice.ref,
+                             date: paid_at, invoice:, source_type: Payment.st_name, source_id: id,
+                             text: "#{Payment.model_name.human} #{invoice.ref}") do |collection|
+          collection.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:)
+          collection.soll(account_nr: organisation&.accounting_settings&.rental_yield_account_nr, amount: amount)
+        end
+      end
+    end
+
     # def kept_payment(payment)
     #   payment.instance_eval do
     #     account_nr = organisation.accounting_settings.payment_account_nr

@@ -3,6 +3,6 @@
 module Public
   class VatCategorySerializer < ApplicationSerializer
     identifier :id
-    fields :label, :label_i18n, :percentage, :accounting_vat_code, :to_s
+    fields :label, :label_i18n, :percentage, :accounting_vat_code
   end
 end

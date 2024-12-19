@@ -107,7 +107,7 @@ module PaymentInfos
     end
 
     def qrr_ref
-      invoice.payment_ref.rjust(27, '0')
+      RefBuilders::InvoicePayment.with_checksum(invoice.payment_ref).rjust(27, '0')
     end
 
     def ref
