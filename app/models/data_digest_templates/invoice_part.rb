@@ -25,12 +25,12 @@
 
 module DataDigestTemplates
   class InvoicePart < Tabular
-    ::DataDigestTemplate.register_subtype self
+    # ::DataDigestTemplate.register_subtype self
 
     DEFAULT_COLUMN_CONFIG = [
       {
         header: ::Invoice.human_attribute_name(:ref),
-        body: '{{ invoice.ref }}'
+        body: '{{ invoice.payment_ref }}'
       },
       {
         header: ::Booking.human_attribute_name(:ref),

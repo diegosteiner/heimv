@@ -46,6 +46,9 @@ class Payment < ApplicationRecord
   scope :ordered, -> { order(paid_at: :DESC) }
   scope :recent, -> { where(arel_table[:paid_at].gt(3.months.ago)) }
 
+  attr_accessor :skip_generate_journal_entries
+
+  before_save :generate_journal_entries!, if: :generate_journal_entries?
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
   after_save :recalculate_invoice
@@ -64,6 +67,20 @@ class Payment < ApplicationRecord
 
     context = { payment: self }
     MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
+  end
+
+  def generate_journal_entries?
+    organisation.accounting_settings.enabled && !skip_generate_journal_entries && (changed? || journal_entries.none?)
+  end
+
+  def generate_journal_entries!
+    return unless organisation.accounting_settings.enabled
+
+    existing_ids = organisation.journal_entries.where(source_type: self.class.sti_name, source_id: id).pluck(:id)
+    new_journal_entries = JournalEntry::Factory.new.payment(self)
+
+    # raise ActiveRecord::Rollback unless
+    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
   end
 
   def recalculate_invoice

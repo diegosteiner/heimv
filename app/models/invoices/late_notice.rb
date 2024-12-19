@@ -38,6 +38,8 @@
 
 module Invoices
   class LateNotice < ::Invoice
-    ::Invoice.register_subtype self
+    ::Invoice.register_subtype self do
+      scope :late_notices, -> { where(type: Invoices::LateNotice.sti_name) }
+    end
   end
 end

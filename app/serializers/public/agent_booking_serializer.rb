@@ -2,6 +2,7 @@
 
 module Public
   class AgentBookingSerializer < ApplicationSerializer
+    identifier :id
     fields :booking_agent_ref, :booking_agent_id
     # association :booking_agent, blueprint: Public::AgentBookingSerializer
 

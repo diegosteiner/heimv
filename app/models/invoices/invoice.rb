@@ -38,6 +38,8 @@
 
 module Invoices
   class Invoice < ::Invoice
-    ::Invoice.register_subtype self
+    ::Invoice.register_subtype self do
+      scope :invoices, -> { where(type: Invoices::Invoice.sti_name) }
+    end
   end
 end

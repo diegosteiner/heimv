@@ -9,8 +9,10 @@ module Subtypeable
   # end
 
   class_methods do
-    def register_subtype(klass, name: klass.to_s.to_sym)
+    def register_subtype(klass, name: klass.to_s.to_sym, &block)
       subtypes[name] = klass
+      instance_eval(&block) if block.present?
+      subtypes
     end
 
     def subtypes

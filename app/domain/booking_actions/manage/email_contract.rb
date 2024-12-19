@@ -32,7 +32,7 @@ module BookingActions
       protected
 
       def deposits
-        @deposits ||= booking.invoices.kept.unsent.where(type: [Invoices::Deposit.to_s])
+        @deposits ||= booking.invoices.kept.unsent.deposits
       end
 
       def send_tenant_notification(deposits)

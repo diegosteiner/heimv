@@ -8,7 +8,7 @@ class TemplateContext
     Payment => Manage::PaymentSerializer,
     Invoice => Manage::InvoiceSerializer,
     InvoicePart => Manage::InvoicePartSerializer,
-    Accounting::JournalEntry => Manage::JournalEntrySerializer,
+    JournalEntry => Manage::JournalEntrySerializer,
     Tenant => Manage::TenantSerializer,
     Usage => Manage::UsageSerializer,
     PaymentInfo => Manage::PaymentInfoSerializer,
@@ -33,6 +33,7 @@ class TemplateContext
   def self.serialize_value(value, serializer: serializer_for(value))
     return value.map { serialize_value(_1) } if value.is_a?(Array) || value.is_a?(ActiveRecord::Relation)
 
+    Rails.logger.debug(value.inspect)
     serializer.try(:render_as_hash, value) || value.try(:to_h) || value.try(:to_s) || value.presence
   end
 

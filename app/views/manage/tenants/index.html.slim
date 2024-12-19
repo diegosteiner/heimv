@@ -16,10 +16,8 @@ h1.mt-0.mb-5= Tenant.model_name.human(count: 2)
         tr[data-href=manage_tenant_path(tenant) data-id=tenant.to_param]
           td
             = link_to manage_tenant_path(tenant)
-              - if tenant.first_name.present? || tenant.last_name.present?
-                = "#{tenant.last_name}, #{tenant.first_name}"
-              - else 
-                = tenant.to_s
+              = tenant.full_name if tenant.full_name.present?
+              .text-muted= tenant.ref.presence
           td 
             == tenant.full_address_lines.join('<br>'.html_safe)
           td 

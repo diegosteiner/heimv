@@ -1,6 +1,6 @@
 ### === base === ###                 
 FROM ruby:3.3.6-alpine AS base
-RUN apk add --no-cache --update postgresql-dev tzdata nodejs npm
+RUN apk add --no-cache --update postgresql-dev tzdata nodejs npm git
 RUN gem install bundler
 
 WORKDIR /rails

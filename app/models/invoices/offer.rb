@@ -38,7 +38,9 @@
 
 module Invoices
   class Offer < ::Invoice
-    ::Invoice.register_subtype self
+    ::Invoice.register_subtype self do
+      scope :offers, -> { where(type: Invoices::Offer.sti_name) }
+    end
 
     def amount_open
       0
@@ -50,6 +52,10 @@ module Invoices
 
     def payment_required
       false
+    end
+
+    def sequence_number
+      self[:sequence_number] ||= organisation.key_sequences.key(Offer.sti_name, year: sequence_year).lease!
     end
   end
 end

@@ -39,7 +39,8 @@ module BookingActions
       end
 
       def unsent_invoices
-        booking.invoices.unsent.where(type: [Invoices::Deposit, Invoices::Invoice, Invoices::LateNotice].map(&:to_s))
+        booking.invoices.unsent.where(type: [Invoices::Deposit, Invoices::Invoice,
+                                             Invoices::LateNotice].map(&:sti_name))
       end
 
       def operator

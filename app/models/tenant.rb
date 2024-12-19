@@ -66,6 +66,7 @@ class Tenant < ApplicationRecord
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
 
   after_validation { errors.delete(:bookings) }
+  before_create :sequence_number, :generate_ref
   before_save do
     self.search_cache = contact_lines.flatten.join('\n')
   end
@@ -96,6 +97,14 @@ class Tenant < ApplicationRecord
     self.class.salutation_forms.keys.index_with do |salutation_form|
       self.class.human_enum(:salutation_forms, salutation_form, **names, default: nil)
     end.symbolize_keys
+  end
+
+  def sequence_number
+    self[:sequence_number] ||= organisation.key_sequences.key(Tenant.sti_name).lease!
+  end
+
+  def generate_ref(force: false)
+    self.ref = RefBuilders::Tenant.new(self).generate if ref.blank? || force
   end
 
   def address_lines
@@ -145,9 +154,5 @@ class Tenant < ApplicationRecord
 
     assign_attributes(tenant&.changed_values&.except(:email, :organisation_id) || {})
     self
-  end
-
-  def accounting_debitor_account_nr
-    @accounting_debitor_account_nr ||= (organisation.accounting_settings&.tenant_debitor_account_nr_base || 0) + id
   end
 end

@@ -49,11 +49,12 @@ class Invoice < ApplicationRecord
   has_many :superseded_by_invoices, class_name: :Invoice, dependent: :nullify,
                                     foreign_key: :supersede_invoice_id, inverse_of: :supersede_invoice
   has_many :payments, dependent: :nullify
+  has_many :journal_entries, dependent: :destroy, inverse_of: :invoice
 
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
-  attr_accessor :skip_generate_pdf
+  attr_accessor :skip_generate_pdf, :skip_generate_journal_entries
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
@@ -68,10 +69,12 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :recalculate
+  before_create :sequence_number, :generate_ref, :generate_payment_ref
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
-  after_create { generate_ref? && generate_ref && save }
+  after_save :generate_journal_entries!, if: :generate_journal_entries?
+  after_discard :generate_journal_entries!, if: :generate_journal_entries?
 
   delegate :currency, to: :organisation
 
@@ -81,11 +84,7 @@ class Invoice < ApplicationRecord
   end
 
   def generate_pdf?
-    kept? && ref.present? && !skip_generate_pdf && (pdf.blank? || changed?)
-  end
-
-  def generate_ref?
-    ref.blank?
+    kept? && !skip_generate_pdf && (changed? || pdf.blank?)
   end
 
   def supersede!
@@ -95,6 +94,14 @@ class Invoice < ApplicationRecord
     supersede_invoice.discard!
   end
 
+  def sequence_number
+    self[:sequence_number] ||= organisation.key_sequences.key(::Invoice.sti_name, year: sequence_year).lease!
+  end
+
+  def sequence_year
+    self[:sequence_year] ||= created_at&.year || Time.zone.today.year
+  end
+
   def generate_pdf
     I18n.with_locale(locale || I18n.locale) do
       self.pdf = { io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
@@ -102,8 +109,28 @@ class Invoice < ApplicationRecord
     end
   end
 
-  def generate_ref
-    self.ref = invoice_ref_service.generate(self)
+  def generate_ref(force: false)
+    self.ref = RefBuilders::Invoice.new(self).generate if ref.blank? || force
+  end
+
+  def generate_payment_ref
+    # this should never be forced
+    self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
+  end
+
+  def generate_journal_entries?
+    organisation.accounting_settings.enabled && !skip_generate_journal_entries && (changed? || journal_entries.none?)
+  end
+
+  def generate_journal_entries!
+    return unless organisation.accounting_settings.enabled
+
+    existing_ids = organisation.journal_entry_ids.where(invoice: self).pluck(:id)
+    new_journal_entries = JournalEntry::Factory.new.invoice(self)
+
+    # raise ActiveRecord::Rollback unless
+    new_journal_entries.save! && organisation.where(id: existing_ids, invoice: self).destroy_all
+    payments.each(&:generate_journal_entries!)
   end
 
   def paid?
@@ -131,13 +158,14 @@ class Invoice < ApplicationRecord
     self.amount_open = amount - amount_paid
   end
 
+  # TODO: describe why this is needed
   def recalculate!
     recalculate
     save! if amount_changed? || amount_open_changed?
   end
 
   def filename
-    "#{self.class.model_name.human} #{booking.ref}_#{id}.pdf"
+    "#{self.class.model_name.human} #{ref}.pdf"
   end
 
   def amount_paid
@@ -155,16 +183,8 @@ class Invoice < ApplicationRecord
     update(sent_at: Time.zone.now)
   end
 
-  def formatted_ref
-    invoice_ref_service.format_ref(ref)
-  end
-
   def to_s
-    "#{booking.ref} - #{formatted_ref}"
-  end
-
-  def invoice_ref_service
-    @invoice_ref_service ||= InvoiceRefService.new(organisation)
+    ref
   end
 
   def payment_info
@@ -183,24 +203,7 @@ class Invoice < ApplicationRecord
     { io: StringIO.new(pdf.blob.download), filename:, content_type: pdf.content_type } if pdf&.blob.present?
   end
 
-  def vat_amounts
+  def vat_breakdown
     invoice_parts.group_by(&:vat_category).except(nil).transform_values { _1.sum(&:calculated_amount) }
-  end
-
-  def journal_entries
-    [debitor_journal_entry] + invoice_parts.map(&:journal_entries)
-  end
-
-  def accounting_ref
-    format('HV%05d', id + 1)
-  end
-
-  def debitor_journal_entry
-    Accounting::JournalEntry.new(
-      account: organisation.accounting_settings.debitor_account_nr,
-      date: issued_at, amount:, amount_type: :brutto, side: :soll,
-      reference: accounting_ref, source: self, currency:, booking:,
-      text: "#{self.class.model_name.human} #{accounting_ref} - #{booking.tenant.last_name}"
-    )
   end
 end

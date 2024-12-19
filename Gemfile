@@ -37,7 +37,7 @@ gem 'net-pop', require: false
 gem 'net-smtp', require: false
 gem 'pg'
 gem 'prawn', '~> 2.4.0' # https://github.com/prawnpdf/prawn/issues/1346
-gem 'prawn-markup'
+gem 'prawn-markup', git: 'https://github.com/puzzle/prawn-markup'
 gem 'prawn-table'
 gem 'puma'
 gem 'rack-mini-profiler'

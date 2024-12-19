@@ -30,7 +30,7 @@ module DataDigestTemplates
     DEFAULT_COLUMN_CONFIG = [
       {
         header: ::Payment.human_attribute_name(:ref),
-        body: '{{ payment.invoice.ref }}'
+        body: '{{ payment.invoice.payment_ref }}'
       },
       {
         header: ::Booking.human_attribute_name(:ref),
@@ -76,7 +76,7 @@ module DataDigestTemplates
     end
 
     def base_scope
-      @base_scope ||= organisation.payments
+      @base_scope ||= organisation.payments.includes(:invoice, booking: :organisation).order(paid_at: :ASC)
     end
   end
 end
