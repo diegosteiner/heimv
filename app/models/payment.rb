@@ -48,7 +48,7 @@ class Payment < ApplicationRecord
 
   attr_accessor :skip_generate_journal_entries
 
-  before_save :generate_journal_entries, if: :generate_journal_entries?
+  before_save :generate_journal_entries!, if: :generate_journal_entries?
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
   after_save :recalculate_invoice
@@ -76,11 +76,11 @@ class Payment < ApplicationRecord
   def generate_journal_entries!
     return unless organisation.accounting_settings.enabled
 
-    existing_journal_entry_ids = reload.journal_entry_ids
+    existing_ids = organisation.journal_entries.where(source_type: self.class.sti_name, source_id: id).pluck(:id)
     new_journal_entries = JournalEntry::Factory.new.payment(self)
 
     # raise ActiveRecord::Rollback unless
-    new_journal_entries.save! && JournalEntry.where(id: existing_journal_entry_ids).destroy_all!
+    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
   end
 
   def recalculate_invoice

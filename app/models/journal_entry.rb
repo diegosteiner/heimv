@@ -114,8 +114,8 @@ class JournalEntry < ApplicationRecord
       journal_entries.all?(&:valid?) # && balanced?
     end
 
-    def save
-      valid? && journal_entries.all?(&:save)
+    def save!
+      valid? && journal_entries.all?(&:save!)
     end
   end
 
@@ -141,16 +141,6 @@ class JournalEntry < ApplicationRecord
         invoice.invoice_parts.map { invoice_part(_1, collection) }
       end
     end
-
-    # def discarded_invoice(invoice)
-    #   previous_journal_entries = kept_invoice(invoice)
-    #   return if previous_journal_entries.blank?
-
-    #   previous_journal_entries + kept_invoice(invoice).each do |journal_entry|
-    #     journal_entry.invert
-    #     journal_entry.date = invoice.discarded_at.to_date
-    #   end
-    # end
 
     def invoice_debitor(invoice, collection)
       invoice.instance_eval do
@@ -183,23 +173,12 @@ class JournalEntry < ApplicationRecord
     def payment(payment) # rubocop:disable Metrics/AbcSize
       payment.instance_eval do
         JournalEntry.collect(currency: organisation.currency, source_document_ref: invoice.ref,
-                             date: paid_at, invoice:, source_type: Payment.st_name, source_id: id,
+                             date: paid_at, invoice:, source_type: Payment.sti_name, source_id: id,
                              text: "#{Payment.model_name.human} #{invoice.ref}") do |collection|
+          collection.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:)
           collection.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:)
-          collection.soll(account_nr: organisation&.accounting_settings&.rental_yield_account_nr, amount: amount)
         end
       end
     end
-
-    # def kept_payment(payment)
-    #   payment.instance_eval do
-    #     account_nr = organisation.accounting_settings.payment_account_nr
-    #     return if account_nr.blank? || cost_account_nr.blank?
-
-    #     JournalEntry.new(account_nr:, date: paid_at, side: :soll, amount:, invoice:, currency: organisation.currency,
-    #                      source_document_ref: invoice.ref, text: "#{invoice.ref} #{self.class.model_name.human}",
-    #                      source_type: ::Payment.sti_name, source_id: id)
-    #   end
-    # end
   end
 end

@@ -2,10 +2,9 @@
 
 class AccountingSettings < Settings
   attribute :enabled, :boolean, default: -> { false }
-  attribute :debitor_account_nr, :string # , default: -> { 1050 }
-  attribute :rental_yield_account_nr, :string # , default: -> { 6000 }
-  attribute :rental_yield_vat_category_id # , :integer
-  attribute :currency_account_nr # , :string
-  attribute :vat_account_nr, :string # , default: -> { 2016 }
-  attribute :default_payment_account_nr # , :string, default: -> { 2512 }
+  attribute :debitor_account_nr, :string
+  attribute :rental_yield_account_nr, :string
+  attribute :rental_yield_vat_category_id
+  attribute :vat_account_nr, :string
+  attribute :payment_account_nr
 end

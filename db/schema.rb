@@ -13,7 +13,6 @@
 ActiveRecord::Schema[8.0].define(version: 2024_12_17_125938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
-  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
 
@@ -160,7 +159,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_17_125938) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tenant_mode", default: 0, null: false
-    t.integer "booking_agent_mode", default: 0
+    t.integer "booking_agent_mode"
     t.index ["discarded_at"], name: "index_booking_questions_on_discarded_at"
     t.index ["organisation_id"], name: "index_booking_questions_on_organisation_id"
     t.index ["type"], name: "index_booking_questions_on_type"
