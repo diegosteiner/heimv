@@ -40,7 +40,7 @@ class JournalEntry < ApplicationRecord
 
   validates :account_nr, :side, :amount, :source_document_ref, :currency, presence: true
 
-  scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
+  scope :ordered, -> { order(date: :ASC, ordinal: :ASC, created_at: :ASC) }
 
   def invert
     return self.side = :soll if haben?
@@ -65,8 +65,9 @@ class JournalEntry < ApplicationRecord
     amount if haben?
   end
 
-  def parallels
-    JournalEntry.where(invoice:, source_type:, source_id:).index_by(&:book_type).symbolize_keys
+  def related
+    @related ||= JournalEntry.where(invoice:, source_type:, source_id:, date:, source_document_ref:)
+                             .index_by(&:book_type).symbolize_keys
   end
 
   def self.collect(**defaults, &)
@@ -115,7 +116,7 @@ class JournalEntry < ApplicationRecord
     end
 
     def save!
-      valid? && journal_entries.all?(&:save!)
+      valid? && journal_entries.each_with_index { |journal_entry, ordinal| journal_entry.update!(ordinal:) }
     end
   end
 
@@ -170,11 +171,11 @@ class JournalEntry < ApplicationRecord
       end
     end
 
-    def payment(payment) # rubocop:disable Metrics/AbcSize
+    def payment(payment) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
       payment.instance_eval do
-        JournalEntry.collect(currency: organisation.currency, source_document_ref: invoice.ref,
+        JournalEntry.collect(currency: organisation.currency, source_document_ref: invoice&.ref,
                              date: paid_at, invoice:, source_type: Payment.sti_name, source_id: id,
-                             text: "#{Payment.model_name.human} #{invoice.ref}") do |collection|
+                             text: "#{Payment.model_name.human} #{invoice&.ref}") do |collection|
           collection.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:)
           collection.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:)
         end

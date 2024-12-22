@@ -119,18 +119,18 @@ class Invoice < ApplicationRecord
   end
 
   def generate_journal_entries?
-    organisation.accounting_settings.enabled && !skip_generate_journal_entries && (changed? || journal_entries.none?)
+    organisation.accounting_settings.enabled && !skip_generate_journal_entries
   end
 
   def generate_journal_entries!
     return unless organisation.accounting_settings.enabled
 
-    existing_ids = organisation.journal_entry_ids.where(invoice: self).pluck(:id)
+    existing_ids = organisation.journal_entries.where(invoice: self).pluck(:id)
     new_journal_entries = JournalEntry::Factory.new.invoice(self)
 
     # raise ActiveRecord::Rollback unless
-    new_journal_entries.save! && organisation.where(id: existing_ids, invoice: self).destroy_all
-    payments.each(&:generate_journal_entries!)
+    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids, invoice: self).destroy_all
+    # payments.each(&:generate_journal_entries!)
   end
 
   def paid?

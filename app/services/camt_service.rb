@@ -43,7 +43,7 @@ class CamtService
   end
 
   def self.normalized_ref_condition(ref)
-    Arel::Nodes::NamedFunction.new('LPAD', [Invoice.arel_table[:ref], 27, Arel::Nodes.build_quoted('0')])
+    Arel::Nodes::NamedFunction.new('LPAD', [Invoice.arel_table[:payment_ref], 27, Arel::Nodes.build_quoted('0')])
                               .eq(normalize_ref(ref))
   end
 

@@ -138,7 +138,8 @@ class TafBlock
           Flags: nil,
 
           # String[5]; The Id of the tax. [MWSt-Kürzel]
-          TaxId: (journal_entry.book_type_main? && journal_entry.vat_category&.accounting_vat_code) || nil,
+          TaxId: (journal_entry.book_type_main? && journal_entry.vat_category&.percentage&.positive? &&
+                  journal_entry.vat_category&.accounting_vat_code) || nil,
 
           # MkTxB: journal_entry.vat_category&.accounting_vat_code.present?,
 
@@ -197,12 +198,15 @@ class TafBlock
       new(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }),
       new(:Blg, **{ Date: invoice.issued_at, Orig: true }) do
         # TODO: check if invoice == source
-        derive(journal_entries.shift, Flags: 1, OpId: op_id, PkKey: pk_key)
+        creation_journal_entry = journal_entries.shift
+        derive(creation_journal_entry, Flags: 1, OpId: op_id, PkKey: pk_key, CAcc: :div)
 
         journal_entries.each_with_index do |journal_entry, index|
-          cost_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.parallels[:cost])) || nil
-          vat_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.parallels[:vat])) || nil
-          derive(journal_entry, CIdx: cost_index&.+(index + 2), TIdx: vat_index&.+(index + 2))
+          cost_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.related[:cost])) || nil
+          vat_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.related[:vat])) || nil
+          taf_index = index + 2
+          derive(journal_entry, CIdx: cost_index&.+(taf_index), TIdx: vat_index&.+(taf_index),
+                                CAcc: Value.cast(creation_journal_entry.account_nr, as: :symbol))
         end
       end
     ]
