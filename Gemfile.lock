@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/puzzle/prawn-markup
-  revision: 76d90979b9880e10716b76ec9c929f56cbc529d0
-  specs:
-    prawn-markup (1.0.1)
-      nokogiri
-      prawn
-      prawn-table
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -340,6 +331,10 @@ GEM
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
+    prawn-markup (1.0.1)
+      nokogiri
+      prawn
+      prawn-table
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
     prime (0.1.3)
@@ -611,7 +606,7 @@ DEPENDENCIES
   net-smtp
   pg
   prawn (~> 2.4.0)
-  prawn-markup!
+  prawn-markup
   prawn-table
   pry-rails
   pry-rescue

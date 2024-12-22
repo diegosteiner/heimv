@@ -21,7 +21,7 @@ module Export
             heading4: { style: :bold, size: 10, margin_top: 10, margin_bottom: 2 },
             heading5: { style: :bold, margin_top: 10, margin_bottom: 2 },
             heading6: { style: :bold, margin_top: 10, margin_bottom: 2 },
-            table: { cell: { border_width: 0 } }
+            table: { header: { style: :bold, align: :left }, cell: { border_width: 0, padding: [0, 4, 4, 0] } }
           }
         end
 

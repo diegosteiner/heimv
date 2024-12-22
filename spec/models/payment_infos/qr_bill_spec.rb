@@ -48,7 +48,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
     context 'with QRR Ref' do
       let(:iban) { qr_iban }
 
-      it { is_expected.to eq('00 00000 00012 34567 89101 11213') }
+      it { is_expected.to eq('00 00000 00123 45678 91011 12138') }
     end
 
     context 'with SCOR Ref' do
