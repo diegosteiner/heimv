@@ -21,7 +21,7 @@ class Invoice
       supersede_invoice = invoice.supersede_invoice
 
       invoice.booking ||= supersede_invoice.booking
-      invoice.ref ||= supersede_invoice.ref
+      invoice.payment_ref ||= supersede_invoice.payment_ref
     end
 
     def defaults(booking)

@@ -21,8 +21,7 @@ module Export
       end
 
       to_render do
-        header_text = "#{Booking.human_model_name} #{booking.ref}"
-        render Renderables::PageHeader.new(text: header_text, logo: organisation.logo)
+        render Renderables::PageHeader.new(text: invoice.ref || booking.ref, logo: organisation.logo)
       end
 
       to_render do
@@ -40,6 +39,7 @@ module Export
         next if invoice.is_a?(Invoices::Offer)
 
         font_size(9) do
+          text "#{::Invoice.human_attribute_name(:ref)}: #{invoice.ref}" if invoice.ref.present?
           text "#{::Invoice.human_attribute_name(:sent_at)}: #{I18n.l(invoice.sent_at&.to_date || Time.zone.today)}"
           if invoice.payable_until
             text "#{::Invoice.human_attribute_name(:payable_until)}: #{I18n.l(invoice.payable_until.to_date)}"
@@ -50,7 +50,8 @@ module Export
 
       to_render do
         special_tokens = { TARIFS: Renderables::Invoice::InvoicePartsTable.new(invoice) }
-        Renderables::RichText.split(invoice.text, special_tokens).each { render _1 }
+        slices = Renderables::RichText.split(invoice.text, special_tokens)
+        slices.each { render _1 }
       end
 
       to_render do

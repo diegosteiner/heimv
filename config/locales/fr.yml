@@ -283,7 +283,7 @@ fr:
         account_address:
         address: Adresse
         bcc: BCC
-        booking_ref_tempate:
+        booking_ref_template:
         contract_signature: Image de signature de contrat
         creditor_address: Adresse sur les factures
         currency: Währung
@@ -291,7 +291,7 @@ fr:
         esr_beneficiary_account: Numéro de participant BVR / compte postal
         esr_ref_prefix: Numéro d'identification BVR / Préfixe
         iban: IBAN
-        invoice_ref_tempate:
+        invoice_ref_template:
         locale: Langue
         locales: Langues
         location: Lieu de signature du contrat
@@ -1155,7 +1155,6 @@ fr:
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
   from: de
-  generated: est généré automatiquement
   helpers:
     select:
       prompt: Veuillez sélectionner

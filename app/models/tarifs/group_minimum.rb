@@ -48,6 +48,7 @@ module Tarifs
       usage.booking.usages.joins(:tarif)
            .where(tarifs: { tarif_group: usage.tarif.tarif_group })
            .where.not(id: usage.id)
+           .where.not(tarifs: { type: Tarifs::GroupMinimum.sti_name })
     end
 
     def group_price(usage)

@@ -29,9 +29,9 @@
                 = pf.hidden_field :camt_instr_id
                 = pf.hidden_field :data
               td.py-2
-                = pf.collection_select :invoice_id, @invoices, :id, :to_s, skip_label: true, include_blank: true, required: false
+                = pf.collection_select :invoice_id, @invoices, :id, :ref, skip_label: true, include_blank: true, required: false
               td.py-2
-                = pf.collection_select :booking_id, @bookings, :id, :to_s, skip_label: true, include_blank: true, required: false
+                = pf.collection_select :booking_id, @bookings, :id, :ref, skip_label: true, include_blank: true, required: false
               td.py-2
                 = pf.text_field :amount, skip_label: true, inputmode: "numeric" 
               td.py-2

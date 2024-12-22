@@ -2,6 +2,7 @@
 
 module Manage
   class DeadlineSerializer < ApplicationSerializer
-    fields :at, :postponable_for
+    identifier :id
+    fields :at, :postponable_for, :armed
   end
 end

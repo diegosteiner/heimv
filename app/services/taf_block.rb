@@ -109,22 +109,22 @@ class TafBlock
     instance_exec(value, **override, &derive_block) if derive_block.present?
   end
 
-  derive_from Accounting::JournalEntry do |journal_entry, **override|
+  derive_from JournalEntry do |journal_entry, **override|
     new(:Bk, **{
           # The Id of a book keeping account. [Fibu-Konto]
-          AccId: journal_entry.account,
+          AccId: Value.cast(journal_entry.account_nr, as: :symbol),
 
           # Integer; Booking type: 1=cost booking, 2=tax booking
-          BType: journal_entry.amount_type&.to_sym == :tax || 1,
+          BType: { main: nil, cost: 1, vat: 2 }[journal_entry.book_type&.to_sym],
 
           # String[13], This is the cost type account
-          CAcc: journal_entry.cost_center,
+          # CAcc: (Value.cast(journal_entry.cost_account_nr, as: :symbol) if journal_entry.cost_account_nr),
 
           # Integer; This is the index of the booking that represents the cost booking which is attached to this booking
-          CIdx: journal_entry.index,
+          # CIdx: journal_entry.index,
 
           # String[9]; A user definable code.
-          Code: nil,
+          Code: journal_entry.id,
 
           # Date; The date of the booking.
           Date: journal_entry.date,
@@ -138,9 +138,9 @@ class TafBlock
           Flags: nil,
 
           # String[5]; The Id of the tax. [MWSt-Kürzel]
-          TaxId: journal_entry.tax_code,
+          TaxId: (journal_entry.book_type_main? && journal_entry.vat_category&.accounting_vat_code) || nil,
 
-          MkTxB: journal_entry.tax_code.present?,
+          # MkTxB: journal_entry.vat_category&.accounting_vat_code.present?,
 
           # String[61*]; This string specifies the first line of the booking text.
           Text: journal_entry.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
@@ -156,28 +156,29 @@ class TafBlock
 
           # Integer; This is the index of the booking that represents the tax booking
           # which is attached to this booking.
-          TIdx: (journal_entry.amount_type&.to_sym == :tax && journal_entry.index) || nil,
+          # TIdx: (journal_entry.amount_type&.to_sym == :tax && journal_entry.index) || nil,
 
           # Boolean; Booking type.
           # 0 a debit booking [Soll]
           # 1 a credit booking [Haben]
-          Type: { soll: 0, haben: 1 }[journal_entry.side],
+          Type: { soll: 0, haben: 1 }[journal_entry.side&.to_sym],
 
           # Currency; The net amount for this booking. [Netto-Betrag]
-          ValNt: journal_entry.amount_type&.to_sym == :netto ? journal_entry.amount : nil,
+          ValNt: journal_entry.amount,
 
           # Currency; The tax amount for this booking. [Brutto-Betrag]
-          ValBt: journal_entry.amount_type&.to_sym == :brutto ? journal_entry.amount : nil,
+          # ValBt: journal_entry.amount,
 
           # Currency; The tax amount for this booking. [Steuer-Betrag]
-          ValTx: journal_entry.amount_type&.to_sym == :tax ? journal_entry.amount : nil,
+          ValTx: journal_entry.book_type_vat? &&
+                  journal_entry.vat_category&.breakup(vat: journal_entry.amount)&.[](:netto),
 
           # Currency; The gross amount for this booking in the foreign currency specified
           # by currency of the account AccId. [FW-Betrag]
           # ValFW : not implemented
 
           # String[13]The OP id of this booking.
-          OpId: journal_entry.reference,
+          # OpId: journal_entry.source_document_ref,
 
           # The PK number of this booking.
           PkKey: nil
@@ -187,36 +188,44 @@ class TafBlock
   derive_from Invoice do |invoice, **_override|
     next unless invoice.is_a?(Invoices::Invoice) || invoice.is_a?(Invoices::Deposit)
 
-    op_id = Value.cast(invoice.accounting_ref, as: :symbol)
-    pk_key = [invoice.booking.tenant.accounting_debitor_account_nr,
-              invoice.organisation.accounting_settings.currency_account_nr].then { "[#{_1.join(',')}]" }
-
-    journal_entries = invoice.journal_entries.flatten.compact
+    op_id = Value.cast(invoice.ref, as: :symbol)
+    pk_key = Value.cast(invoice.booking.tenant.ref, as: :symbol)
+    journal_entries = invoice.journal_entries.to_a
 
     [
       derive(invoice.booking.tenant),
       new(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }),
       new(:Blg, **{ Date: invoice.issued_at, Orig: true }) do
-        derive(journal_entries.shift, Flags: 1, OpId: op_id, PkKey: pk_key, CAcc: :div)
-        journal_entries.each { derive(_1, OpId: op_id) }
+        # TODO: check if invoice == source
+        derive(journal_entries.shift, Flags: 1, OpId: op_id, PkKey: pk_key)
+
+        journal_entries.each_with_index do |journal_entry, index|
+          cost_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.parallels[:cost])) || nil
+          vat_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.parallels[:vat])) || nil
+          derive(journal_entry, CIdx: cost_index&.+(index + 2), TIdx: vat_index&.+(index + 2))
+        end
       end
     ]
   end
 
   derive_from Tenant do |tenant, **_override|
+    account_nr = Value.cast(tenant.ref, as: :symbol)
     [
       new(:Adr, **{
-            AdrId: tenant.accounting_debitor_account_nr,
-            Line1: tenant.full_name,
+            AdrId: account_nr,
+            Sort: I18n.transliterate(tenant.full_name).gsub(/\s/, '').upcase,
+            Corp: tenant.full_name,
+            Lang: 'D',
             Road: tenant.street_address,
             CCode: tenant.country_code,
             ACode: tenant.zipcode,
             City: tenant.city
           }),
       new(:PKd, **{
-            PkKey: Value.cast(tenant.accounting_debitor_account_nr, as: :symbol),
-            AdrId: Value.cast(tenant.accounting_debitor_account_nr, as: :symbol),
-            AccId: Value.cast(tenant.organisation.accounting_settings.currency_account_nr, as: :symbol)
+            PkKey: account_nr,
+            AdrId: account_nr,
+            AccId: Value.cast(tenant.organisation.accounting_settings.debitor_account_nr, as: :symbol),
+            ZabId: '15T'
           })
 
     ]

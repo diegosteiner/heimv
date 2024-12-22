@@ -82,7 +82,7 @@ module DataDigestTemplates
     end
 
     def base_scope
-      @base_scope ||= organisation.tenants.ordered
+      @base_scope ||= organisation.tenants.ordered.includes(:organisation)
     end
   end
 end

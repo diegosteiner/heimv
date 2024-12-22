@@ -6,7 +6,9 @@ module Import
       attr_reader :organisation
 
       use_attributes(*%w[associated_types label_i18n ordinal prefill_usage_method price_per_unit tarif_group
-                         pin type unit_i18n valid_from valid_until minimum_usage_per_night minimum_usage_total])
+                         pin type unit_i18n vat_category_id valid_from valid_until
+                         accounting_account_nr accounting_cost_center_nr
+                         minimum_price_per_night minimum_price_total minimum_usage_per_night minimum_usage_total])
 
       def initialize(organisation, **)
         super(**)

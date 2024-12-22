@@ -8,6 +8,10 @@
     = f.text_field :breakdown
     = f.text_field :amount, inputmode: 'numeric'
 
+  fieldset 
+    .row
+      .col-md-6= f.text_field :accounting_account_nr
+      .col-md-6= f.text_field :accounting_cost_center_nr
     - if current_organisation.vat_categories.any?
       = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true
 

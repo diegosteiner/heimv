@@ -52,6 +52,10 @@ FactoryBot.define do
     location { nil }
     locale { I18n.locale }
     currency { 'CHF' }
+    booking_ref_template { RefBuilders::Booking::DEFAULT_TEMPLATE }
+    tenant_ref_template { RefBuilders::Tenant::DEFAULT_TEMPLATE }
+    invoice_ref_template { RefBuilders::Invoice::DEFAULT_TEMPLATE }
+    invoice_payment_ref_template { RefBuilders::InvoicePayment::DEFAULT_TEMPLATE }
 
     after(:build) do |organisation, _evaluator|
       build(:booking_category, key: :camp, title: 'Lager', organisation:)

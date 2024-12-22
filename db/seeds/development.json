@@ -22,27 +22,32 @@
     }
   ],
   "booking_flow_type": "BookingFlows::Default",
+  "booking_ref_template": "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s",
+  "country_code": "CH",
   "currency": "CHF",
-  "designated_documents": [],
   "email": "info@heimv.local",
   "homes": [
     {
-      "description": "9876 Einsiedeln",
       "id": 1,
+      "description": "9876 Einsiedeln",
+      "home_id": 1,
       "name": "Pfadiheim Stolz",
       "occupiable": true,
-      "home_id": 1
+      "ordinal": 0
     }
   ],
   "iban": "CH75 3000 0002 1571 4845 3",
+  "invoice_payment_ref_template": "%<prefix>s%<tenant_sequence_number>06d%<sequence_year>04d%<sequence_number>05d",
+  "invoice_ref_template": "%<short_sequence_year>02d%<sequence_number>04d",
   "location": "",
   "mail_from": "info@heimv.local",
   "name": "Heimverein Development",
+  "nickname_label_i18n": {},
   "notifications_enabled": true,
-  "settings": {},
-  "slug": null,
   "tarifs": [
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "deposit",
         "offer",
@@ -52,6 +57,10 @@
       "label_i18n": {
         "de": "Anzahlung (1 Nacht)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 25,
       "pin": true,
       "prefill_usage_method": "flat",
@@ -63,9 +72,13 @@
         "de": "Pauschale"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "id": 74,
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "deposit",
         "offer",
@@ -75,6 +88,10 @@
       "label_i18n": {
         "de": "Anzahlung (2 Nächte)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 38,
       "pin": true,
       "prefill_usage_method": "flat",
@@ -86,9 +103,12 @@
         "de": "Pauschale"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "deposit",
         "offer",
@@ -98,6 +118,10 @@
       "label_i18n": {
         "de": "Anzahlung (3 Nächte)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 44,
       "pin": true,
       "prefill_usage_method": "flat",
@@ -109,9 +133,12 @@
         "de": "Pauschale"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "deposit",
         "offer",
@@ -121,6 +148,10 @@
       "label_i18n": {
         "de": "Anzahlung (4 Nächte)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 61,
       "pin": true,
       "prefill_usage_method": "flat",
@@ -132,9 +163,12 @@
         "de": "Pauschale"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -144,6 +178,10 @@
       "label_i18n": {
         "de": "Lagertarif (unter 25 jährig)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 186,
       "pin": true,
       "prefill_usage_method": null,
@@ -155,9 +193,12 @@
         "de": "Übernachtung"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -167,6 +208,10 @@
       "label_i18n": {
         "de": "Lagertarif (über 25 jährig)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 187,
       "pin": true,
       "prefill_usage_method": null,
@@ -178,9 +223,12 @@
         "de": "Übernachtung"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -190,6 +238,10 @@
       "label_i18n": {
         "de": "Mindestbelegung Lagertarif"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": "12.0",
+      "minimum_usage_total": null,
       "ordinal": 188,
       "pin": true,
       "prefill_usage_method": "nights",
@@ -202,9 +254,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "minimum_usage_per_night": 12
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -214,6 +268,10 @@
       "label_i18n": {
         "de": "Kurtaxe (ab 12 -18jährig)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 196,
       "pin": false,
       "prefill_usage_method": null,
@@ -225,14 +283,21 @@
         "de": "Übernachtung"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [],
       "label": "Festtarif 1 Nacht",
       "label_i18n": {
         "de": "Festtarif 1 Nacht"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 197,
       "pin": true,
       "prefill_usage_method": "nights",
@@ -244,9 +309,12 @@
         "de": "pro Tag"
       },
       "valid_from": "2019-12-07T12:04:59+01:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -256,6 +324,10 @@
       "label_i18n": {
         "de": "Kurtaxe (ab 18 Jahren)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 198,
       "pin": false,
       "prefill_usage_method": null,
@@ -267,14 +339,21 @@
         "de": "Übernachtung"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [],
       "label": "Festtarrif 2 Nächte",
       "label_i18n": {
         "de": "Festtarrif 2 Nächte"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 199,
       "pin": true,
       "prefill_usage_method": "nights",
@@ -286,9 +365,12 @@
         "de": "pro Tag"
       },
       "valid_from": "2019-12-07T12:06:55+01:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -298,6 +380,10 @@
       "label_i18n": {
         "de": "Festtarrif 0 Nächte"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 228,
       "pin": true,
       "prefill_usage_method": "nights",
@@ -309,9 +395,12 @@
         "de": "pro Tag"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice"
       ],
@@ -319,20 +408,27 @@
       "label_i18n": {
         "de": "Schäden"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 277,
       "pin": true,
       "prefill_usage_method": null,
       "price_per_unit": null,
       "tarif_group": "Schaden",
       "type": "Tarifs::Price",
-      "unit": "CHF",
+      "unit": "nach Betrag",
       "unit_i18n": {
         "de": "nach Betrag"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -342,6 +438,10 @@
       "label_i18n": {
         "de": "Strom (Hochtarif)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 284,
       "pin": false,
       "prefill_usage_method": null,
@@ -353,9 +453,12 @@
         "de": "kWh"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -365,6 +468,10 @@
       "label_i18n": {
         "de": "Reservationsgebühr"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 285,
       "pin": true,
       "prefill_usage_method": "flat",
@@ -376,9 +483,12 @@
         "de": "Pauschale"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -388,6 +498,10 @@
       "label_i18n": {
         "de": "Strom (Niedertarif)"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 286,
       "pin": false,
       "prefill_usage_method": null,
@@ -399,9 +513,12 @@
         "de": "kWh"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -411,6 +528,10 @@
       "label_i18n": {
         "de": "Brennholz"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 287,
       "pin": false,
       "prefill_usage_method": null,
@@ -422,9 +543,12 @@
         "de": "Harass"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     },
     {
+      "accounting_account_nr": null,
+      "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
         "offer",
@@ -434,6 +558,10 @@
       "label_i18n": {
         "de": "Abfall"
       },
+      "minimum_price_per_night": null,
+      "minimum_price_total": null,
+      "minimum_usage_per_night": null,
+      "minimum_usage_total": null,
       "ordinal": 288,
       "pin": false,
       "prefill_usage_method": null,
@@ -445,7 +573,9 @@
         "de": "pro 60 L Sack"
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
-      "valid_until": null
+      "valid_until": null,
+      "vat_category": null
     }
-  ]
+  ],
+  "tenant_ref_template": "%<sequence_number>d"
 }
