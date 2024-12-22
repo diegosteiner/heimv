@@ -39,7 +39,7 @@ class CamtService
   end
 
   def find_invoice_by_ref(ref)
-    @organisation.invoices.kept.where(normalized_ref_condition(ref)).first
+    @organisation.invoices.kept.where(self.class.normalized_ref_condition(ref)).first
   end
 
   def self.normalized_ref_condition(ref)
