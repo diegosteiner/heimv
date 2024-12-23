@@ -100,7 +100,7 @@ class RichTextTemplate < ApplicationRecord
     I18n.with_locale(locale) do
       context = TemplateContext.new(context) unless context.is_a?(TemplateContext)
       parts = [title, body].map do |part|
-        template = Liquid::Template.parse(part)
+        template = Liquid::Template.parse(part, environment: self.class.template_environment)
         RichTextSanitizer.sanitize(template.render!(context.to_h))
       end
       InterpolationResult.new(*parts)
@@ -142,6 +142,13 @@ class RichTextTemplate < ApplicationRecord
         defaults[:title_i18n][locale] = key_in_locale&.fetch(:default_title, nil)
         defaults[:body_i18n][locale] = key_in_locale&.fetch(:default_body, nil)
       end
+    end
+  end
+
+  def self.template_environment
+    @template_environment ||= Liquid::Environment.build do |environment|
+      environment.error_mode = :strict unless Rails.env.production?
+      environment.register_filter(TemplateEnvironment::Default)
     end
   end
 end
