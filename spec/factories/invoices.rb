@@ -37,14 +37,15 @@
 #
 
 FactoryBot.define do
-  factory :invoice do
+  factory :invoice, class: Invoices::Invoice.sti_name do
     booking
     issued_at { 1.week.ago }
     payable_until { 3.months.from_now }
     text { Faker::Lorem.sentences }
-    type { Invoices::Invoice }
 
     after(:build) do |invoice, evaluator|
+      next unless evaluator.invoice_parts.nil?
+
       if evaluator.amount&.positive?
         build(:invoice_part, amount: evaluator.amount, invoice:)
       else
@@ -52,12 +53,7 @@ FactoryBot.define do
       end
     end
 
-    factory :deposit do
-      type { Invoices::Deposit }
-    end
-
-    factory :offer do
-      type { Invoices::Offer }
-    end
+    factory :deposit, class: Invoices::Deposit.sti_name
+    factory :offer, class: Invoices::Offer.sti_name
   end
 end

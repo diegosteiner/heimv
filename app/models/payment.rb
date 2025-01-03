@@ -51,10 +51,12 @@ class Payment < ApplicationRecord
 
   attr_accessor :skip_generate_journal_entries
 
-  before_save :generate_journal_entries!, if: :generate_journal_entries?
+  delegate :accounting_settings, to: :organisation
+
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
   after_save :recalculate_invoice
+  after_save :generate_journal_entries!, if: :generate_journal_entries?
 
   before_validation do
     self.booking = invoice&.booking || booking
@@ -73,17 +75,18 @@ class Payment < ApplicationRecord
   end
 
   def generate_journal_entries?
-    organisation.accounting_settings.enabled && !skip_generate_journal_entries && (changed? || journal_entries.none?)
+    organisation.accounting_settings.enabled && !skip_generate_journal_entries
   end
 
-  def generate_journal_entries!
-    return unless organisation.accounting_settings.enabled
+  def generate_journal_entries! # rubocop:disable Metrics/AbcSize
+    return unless accounting_settings.enabled && accounting_settings.payment_account_nr.present?
 
-    existing_ids = organisation.journal_entries.where(source_type: self.class.sti_name, source_id: id).pluck(:id)
+    existing_ids = organisation.journal_entries.where(payment: self).pluck(:id)
     new_journal_entries = JournalEntry::Factory.new.payment(self)
 
     # raise ActiveRecord::Rollback unless
     new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
+    journal_entries.reload
   end
 
   def recalculate_invoice

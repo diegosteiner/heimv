@@ -72,9 +72,10 @@ module DataDigestTemplates
     end
 
     formatter(:taf) do |_options = {}|
-      JournalEntry::Compound.group(records) do |compound|
-        # TafBlock::Collection.new { derive(compound) }
-      end.join("\n\n")
+      journal_entry_compounds = ::JournalEntry::Compound.group(records)
+      Export::Taf::Document.new do
+        journal_entry_compounds.each { build_with_journal_entry_compound(_1) }
+      end.serialize
     end
 
     def periodfilter(period = nil)

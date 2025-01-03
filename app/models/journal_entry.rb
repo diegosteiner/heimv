@@ -91,7 +91,7 @@ class JournalEntry < ApplicationRecord
   end
 
   class Compound
-    COMPOUND_ATTRIBUTES = %i[booking_id invoice_id payment_id date trigger].freeze
+    COMPOUND_ATTRIBUTES = %i[booking_id invoice_id payment_id date trigger ref].freeze
 
     delegate :[], :to_a, :<<, to: :journal_entries
 
@@ -222,9 +222,9 @@ class JournalEntry < ApplicationRecord
 
     def payment(payment) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
       payment.instance_eval do
-        text = "#{Payment.model_name.human} #{invoice&.ref}"
-        JournalEntry.collect(currency: organisation.currency, ref: invoice&.ref, date: paid_at, invoice:,
-                             payment:, text:, booking:, trigger: :payment_created) do |compound|
+        text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
+        JournalEntry.collect(ref: id, date: paid_at, invoice:,
+                             payment: self, text:, booking:, trigger: :payment_created) do |compound|
           compound.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:)
           compound.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:)
         end

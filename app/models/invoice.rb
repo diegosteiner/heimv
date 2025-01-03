@@ -49,7 +49,7 @@ class Invoice < ApplicationRecord
   has_many :superseded_by_invoices, class_name: :Invoice, dependent: :nullify,
                                     foreign_key: :supersede_invoice_id, inverse_of: :supersede_invoice
   has_many :payments, dependent: :nullify
-  has_many :journal_entries, dependent: :destroy, inverse_of: :invoice
+  has_many :journal_entries, -> { ordered }, dependent: :nullify, inverse_of: :invoice
 
   has_one :organisation, through: :booking
   has_one_attached :pdf
@@ -125,12 +125,12 @@ class Invoice < ApplicationRecord
   def generate_journal_entries!
     return unless organisation.accounting_settings.enabled
 
-    existing_ids = organisation.journal_entries.where(invoice: self).pluck(:id)
+    existing_ids = organisation.journal_entries.where(invoice: self, payment: nil).pluck(:id)
     new_journal_entries = JournalEntry::Factory.new.invoice(self)
 
     # raise ActiveRecord::Rollback unless
-    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids, invoice: self).destroy_all
-    # payments.each(&:generate_journal_entries!)
+    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
+    journal_entries.reload
   end
 
   def paid?
