@@ -55,9 +55,9 @@ module DataDigestTemplates
     ].freeze
 
     column_type :default do
-      body do |payment, tempalte_context_cache|
+      body do |payment, template_context_cache|
         booking = payment.booking
-        context = tempalte_context_cache[cache_key(payment)] ||=
+        context = template_context_cache[cache_key(payment)] ||=
           TemplateContext.new(booking:, organisation: booking.organisation, payment:).to_h
         @templates[:body]&.render!(context)
       end

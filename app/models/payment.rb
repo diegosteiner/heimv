@@ -32,7 +32,10 @@ class Payment < ApplicationRecord
   MailTemplate.define(:payment_confirmation_notification, context: %i[booking payment])
   belongs_to :invoice, optional: true
   belongs_to :booking, touch: true
+
   has_one :organisation, through: :booking
+
+  has_many :journal_entries, inverse_of: :payment, dependent: :destroy
 
   attribute :applies, :boolean, default: true
   attribute :confirm, :boolean, default: true

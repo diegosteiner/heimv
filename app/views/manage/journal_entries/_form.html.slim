@@ -8,7 +8,7 @@
     = f.select :side, JournalEntry.sides.keys.map { [JournalEntry.human_enum(:side, _1), _1] }, include_blank: true
     = f.text_field :amount, step: 0.1, inputmode: "numeric" 
     = f.date_field :date 
-    = f.text_field :source_document_ref 
+    = f.text_field :ref 
     = f.text_area :text, rows: 2
     = f.select :book_type, JournalEntry.book_types.keys.map { [JournalEntry.human_enum(:book_types, _1), _1] }, include_blank: true
     

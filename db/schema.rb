@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_17_125938) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_30_084234) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -345,9 +345,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_17_125938) do
   end
 
   create_table "journal_entries", force: :cascade do |t|
-    t.bigint "invoice_id", null: false
-    t.string "source_type"
-    t.bigint "source_id"
+    t.bigint "invoice_id"
     t.bigint "vat_category_id"
     t.string "account_nr", null: false
     t.integer "side", null: false
@@ -356,12 +354,19 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_17_125938) do
     t.string "text"
     t.string "currency", null: false
     t.integer "ordinal"
-    t.string "source_document_ref"
+    t.string "ref"
     t.integer "book_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "invoice_part_id"
+    t.bigint "payment_id"
+    t.integer "trigger", null: false
+    t.uuid "booking_id", null: false
+    t.datetime "processed_at"
+    t.index ["booking_id"], name: "index_journal_entries_on_booking_id"
     t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
-    t.index ["source_type", "source_id"], name: "index_journal_entries_on_source"
+    t.index ["invoice_part_id"], name: "index_journal_entries_on_invoice_part_id"
+    t.index ["payment_id"], name: "index_journal_entries_on_payment_id"
     t.index ["vat_category_id"], name: "index_journal_entries_on_vat_category_id"
   end
 

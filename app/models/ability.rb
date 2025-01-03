@@ -71,7 +71,7 @@ module Ability
       can(:read, JournalEntry, invoice: { booking: { organisation: } })
     end
 
-    role :treasurer do |user, organisation|
+    role :finance do |user, organisation|
       next unless user.in_organisation?(organisation)
 
       abilities_for_role(:readonly, user, organisation)

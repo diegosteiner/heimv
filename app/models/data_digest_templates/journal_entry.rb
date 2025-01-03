@@ -33,8 +33,8 @@ module DataDigestTemplates
         body: '{{ journal_entry.date | date_format }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:source_document_ref),
-        body: '{{ journal_entry.source_document_ref }}'
+        header: ::JournalEntry.human_attribute_name(:ref),
+        body: '{{ journal_entry.ref }}'
       },
       {
         header: ::JournalEntry.human_attribute_name(:text),
@@ -53,10 +53,6 @@ module DataDigestTemplates
         body: '{{ journal_entry.amount | round: 2 }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:vat_code),
-        body: '{{ journal_entry.vat_code }}'
-      },
-      {
         header: ::JournalEntry.human_attribute_name(:book_type),
         body: '{{ journal_entry.book_type }}'
       },
@@ -67,17 +63,17 @@ module DataDigestTemplates
     ].freeze
 
     column_type :default do
-      body do |journal_entry, tempalte_context_cache|
+      body do |journal_entry, template_context_cache|
         booking = journal_entry.booking
-        context = tempalte_context_cache[cache_key(journal_entry)] ||=
+        context = template_context_cache[cache_key(journal_entry)] ||=
           TemplateContext.new(booking:, organisation: booking.organisation, journal_entry:).to_h
         @templates[:body]&.render!(context)
       end
     end
 
     formatter(:taf) do |_options = {}|
-      records.to_a.group_by(&:invoice).map do |invoice, _journal_entries|
-        TafBlock::Collection.new { derive(invoice) }
+      JournalEntry::Compound.group(records) do |compound|
+        # TafBlock::Collection.new { derive(compound) }
       end.join("\n\n")
     end
 

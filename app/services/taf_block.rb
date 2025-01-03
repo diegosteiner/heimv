@@ -179,11 +179,21 @@ class TafBlock
           # ValFW : not implemented
 
           # String[13]The OP id of this booking.
-          # OpId: journal_entry.source_document_ref,
+          # OpId: journal_entry.ref,
 
           # The PK number of this booking.
           PkKey: nil
         }, **override)
+  end
+
+  derive_from Payment do |payment, **_override|
+    raise StandardError, 'Abschreibung is not yet supported' if payment.write_off
+
+    # op_id = Value.cast(payment.invoice.ref, as: :symbol)
+    # pk_key = Value.cast(payment.invoice.booking.tenant.ref, as: :symbol)
+    payment.journal_entries.to_a.map do |journal_entry|
+      derive(journal_entry)
+    end
   end
 
   derive_from Invoice do |invoice, **_override|

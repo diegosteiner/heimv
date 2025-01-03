@@ -26,6 +26,12 @@ de:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum nach
         issued_at_before: Rechnungsdatum vor
+      journal_entry/filter:
+        date_after: Buchungsdatum nach
+        date_before: Buchungsdatum vor
+        processed: Verbucht
+        processed_at_after: Verbucht nach
+        processed_at_before: Verbucht vor
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerstandperiode ab
         begins_at_before: Beginn des Zählerstandperiode bis
@@ -41,6 +47,7 @@ de:
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
       occupiable_settings:
+        accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
       organisation_settings:
         awaiting_contract_deadline: Frist für Vertragseingänge
@@ -237,16 +244,19 @@ de:
       journal_entry:
         account_nr: Konto
         amount: Betrag
-        book_type: Buch
+        book_type: Typ
         booking_id: Buchung
         date: Datum
         haben_account: Haben Konto
         haben_amount: Haben Betrag
         invoice_id: Rechnung
+        invoice_part_id: Rechnungsposition
+        payment_id: Zahlung
+        processed_at: Verbucht am
+        ref: Beleg
         side: Seite
         soll_account: Soll Konto
         soll_amount: Soll Betrag
-        source_document_ref: Beleg
         text: Text
         vat_category_id: MwSt. Kategorie
       mail_template:
@@ -505,6 +515,13 @@ de:
         side:
           haben: Haben
           soll: Soll
+        trigger:
+          invoice_created: Rechnung erstellt
+          payment_created: Zahlung erstellt
+      journal_entry/filter:
+        processed:
+          only_processed: Nur verbuchte
+          only_unprocessed: Nur unverbuchte
       mail_template:
         attachable_booking_documents:
           contract: Vertrag
@@ -535,10 +552,10 @@ de:
       organisation_user:
         role:
           admin: Admin
+          finance: Kassier
           manager: Verwaltung
           none: "-"
           readonly: Lesend
-          treasurer: Kassier
       tarif:
         prefill_usage_methods:
           days: "× Tage"
@@ -1375,6 +1392,7 @@ de:
         github: GitHub
         title: Software
     manage_navigation:
+      finances: Finanzen
       help: Hilfe
       outbox: Postausgang
       settings: Einstellungen

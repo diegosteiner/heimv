@@ -47,7 +47,7 @@ describe TafBlock, type: :model do
     describe 'JournalEntry' do
       subject(:taf_block) { described_class.derive(journal_entry) }
       let(:journal_entry) do
-        JournalEntry.new(account_nr: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), source_document_ref: '1234',
+        JournalEntry.new(account_nr: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), ref: '1234',
                          side: :soll, vat_category:, booking:, currency:,
                          text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
@@ -72,7 +72,7 @@ describe TafBlock, type: :model do
     describe 'JournalEntry' do
       subject(:taf_block) { described_class.derive(journal_entry) }
       let(:journal_entry) do
-        JournalEntry.new(account_nr: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), source_document_ref: '1234',
+        JournalEntry.new(account_nr: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), ref: '1234',
                          side: :soll, vat_category:, booking:, currency:,
                          text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
