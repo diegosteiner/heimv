@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
   resource :account, only: %i[edit update destroy]
 
+  get 'test', to: 'public/pages#test'
+  get 'health', to: 'public/pages#health'
+  get 'changelog', to: 'public/pages#changelog'
+
   scope '(:org)' do
     namespace :manage do
       root to: 'bookings#calendar'
@@ -96,6 +100,4 @@ Rails.application.routes.draw do
       root to: 'pages#home'
     end
   end
-  get 'health', to: 'pages#health'
-  get 'changelog', to: 'pages#changelog'
 end
