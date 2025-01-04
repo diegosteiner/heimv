@@ -1,0 +1,26 @@
+= form_with(model: [:manage, @journal_entry], local: true) do |f|
+
+  fieldset
+    = f.collection_select :invoice_id, @current_organisation.invoices, :id, :ref, include_blank: true, required: false
+
+  fieldset 
+    = f.text_field :account_nr 
+    = f.select :side, JournalEntry.sides.keys.map { [JournalEntry.human_enum(:side, _1), _1] }, include_blank: true
+    = f.text_field :amount, step: 0.1, inputmode: "numeric" 
+    = f.date_field :date 
+    = f.text_field :ref 
+    = f.text_area :text, rows: 2
+    = f.select :book_type, JournalEntry.book_types.keys.map { [JournalEntry.human_enum(:book_types, _1), _1] }, include_blank: true
+    
+    - if current_organisation.vat_categories.any?
+      = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true
+
+  fieldset.d-none
+    = f.text_field :source_type 
+    = f.text_field :source_id 
+    = f.text_field :ordinal 
+    = f.hidden_field :currency 
+
+  .form-actions.pt-4.mt-3
+    = f.submit
+    = link_to t(:back), manage_journal_entries_path, class: 'btn btn-default'

@@ -51,5 +51,11 @@ FactoryBot.define do
     organisation
     associated_types { Tarif.associated_types.keys }
     prefill_usage_method { nil }
+
+    trait :with_vat do
+      after(:build) do |tarif, _evaluator|
+        tarif.vat_category ||= build(:vat_category, organisation: tarif.organisation)
+      end
+    end
   end
 end

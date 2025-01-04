@@ -4,17 +4,19 @@
 #
 # Table name: invoice_parts
 #
-#  id              :integer          not null, primary key
-#  invoice_id      :integer
-#  usage_id        :integer
-#  type            :string
-#  amount          :decimal(, )
-#  label           :string
-#  breakdown       :string
-#  ordinal         :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  vat_category_id :integer
+#  id                        :integer          not null, primary key
+#  invoice_id                :integer
+#  usage_id                  :integer
+#  type                      :string
+#  amount                    :decimal(, )
+#  label                     :string
+#  breakdown                 :string
+#  ordinal                   :integer
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  vat_category_id           :integer
+#  accounting_account_nr     :string
+#  accounting_cost_center_nr :string
 #
 # Indexes
 #
@@ -29,17 +31,6 @@ module InvoiceParts
 
     def calculated_amount
       amount
-    end
-
-    def journal_entries # rubocop:disable Metrics/AbcSize
-      [
-        Accounting::JournalEntry.new(
-          account: tarif&.accounting_account_nr, date: invoice.issued_at, amount: amount.abs, amount_type: :brutto,
-          side: :haben, tax_code: vat_category&.accounting_vat_code, reference: invoice.accounting_ref, source: self,
-          currency: organisation.currency, booking:, cost_center: tarif&.accounting_profit_center_nr,
-          text: "#{invoice.class.model_name.human} #{invoice.accounting_ref} #{label}"
-        )
-      ]
     end
   end
 end

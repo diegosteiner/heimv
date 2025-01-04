@@ -32,7 +32,10 @@ class Payment < ApplicationRecord
   MailTemplate.define(:payment_confirmation_notification, context: %i[booking payment])
   belongs_to :invoice, optional: true
   belongs_to :booking, touch: true
+
   has_one :organisation, through: :booking
+
+  has_many :journal_entries, inverse_of: :payment, dependent: :destroy
 
   attribute :applies, :boolean, default: true
   attribute :confirm, :boolean, default: true
@@ -46,9 +49,14 @@ class Payment < ApplicationRecord
   scope :ordered, -> { order(paid_at: :DESC) }
   scope :recent, -> { where(arel_table[:paid_at].gt(3.months.ago)) }
 
+  attr_accessor :skip_generate_journal_entries
+
+  delegate :accounting_settings, to: :organisation
+
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
   after_save :recalculate_invoice
+  after_save :generate_journal_entries!, if: :generate_journal_entries?
 
   before_validation do
     self.booking = invoice&.booking || booking
@@ -64,6 +72,21 @@ class Payment < ApplicationRecord
 
     context = { payment: self }
     MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
+  end
+
+  def generate_journal_entries?
+    organisation.accounting_settings.enabled && !skip_generate_journal_entries
+  end
+
+  def generate_journal_entries! # rubocop:disable Metrics/AbcSize
+    return unless accounting_settings.enabled && accounting_settings.payment_account_nr.present?
+
+    existing_ids = organisation.journal_entries.where(payment: self).pluck(:id)
+    new_journal_entries = JournalEntry::Factory.new.payment(self)
+
+    # raise ActiveRecord::Rollback unless
+    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
+    journal_entries.reload
   end
 
   def recalculate_invoice

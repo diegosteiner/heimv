@@ -17,10 +17,6 @@ nav.px-3
         = link_to Booking.model_name.human(count: 2), manage_bookings_path, class: 'nav-link'
       li.nav-item
         = link_to Tenant.model_name.human(count: 2), manage_tenants_path, class: 'nav-link'
-      li.nav-item
-        = link_to Invoice.model_name.human(count: 2), manage_invoices_path, class: 'nav-link'
-      li.nav-item
-        = link_to Payment.model_name.human(count: 2), manage_payments_path, class: 'nav-link'
 
       - outbox_count = current_organisation.notifications.unsent.count        
       - if outbox_count.positive?
@@ -33,59 +29,74 @@ nav.px-3
 
       li.nav-item
         = link_to DataDigest.model_name.human(count: 2), manage_data_digest_templates_path, class: 'nav-link'
-        li.nav-item
-          a.nav-link.dropdown-toggle href="#settingsNav" role="button" data-bs-toggle="collapse" aria-expanded="false"
-            = t('.settings')
 
-          ul.list-unstyled.ps-3.collapse#settingsNav
-            li
-              = link_to edit_manage_organisation_path, class: 'nav-link'
-                span.fa.fa-cog.pe-2[style="width: 1.5rem;"]
-                = Organisation.model_name.human
-            li
-              = link_to manage_occupiables_path, class: 'nav-link' do 
-                span.fa.fa-home.pe-2[style="width: 1.5rem;"]
-                = Occupiable.model_name.human(count: 2) 
-            li
-              = link_to manage_tarifs_path, class: 'nav-link' do 
-                span.fa.fa-usd.pe-2[style="width: 1.5rem;"]
-                = Tarif.model_name.human(count: 2) 
-            li
-              = link_to manage_booking_categories_path, class: 'nav-link' do 
-                span.fa.fa-bed.pe-2[style="width: 1.5rem;"]
-                = BookingCategory.model_name.human(count: 2) 
-            li
-              = link_to manage_rich_text_templates_path, class: 'nav-link' do 
-                span.fa.fa-file-text-o.pe-2[style="width: 1.5rem;"]
-                = RichTextTemplate.model_name.human(count: 2) 
-            li
-              = link_to manage_designated_documents_path, class: 'nav-link' do 
-                span.fa.fa-file-text-o.pe-2[style="width: 1.5rem;"]
-                = DesignatedDocument.model_name.human(count: 2) 
-            li
-              = link_to manage_booking_agents_path, class: 'nav-link' do 
-                span.fa.fa-user-secret.pe-2[style="width: 1.5rem;"]
-                = BookingAgent.model_name.human(count: 2) 
-            li
-              = link_to manage_organisation_users_path, class: 'nav-link'
-                span.fa.fa-users.pe-2[style="width: 1.5rem;"]
-                = OrganisationUser.model_name.human(count: 2)
-            li
-              = link_to manage_operators_path, class: 'nav-link' do 
-                span.fa.fa-users.pe-2[style="width: 1.5rem;"] 
-                = Operator.model_name.human(count: 2) 
-            li
-              = link_to manage_booking_questions_path, class: 'nav-link' do 
-                span.fa.fa-question-circle.pe-2[style="width: 1.5rem;"]
-                = BookingQuestion.model_name.human(count: 2) 
-            li
-              = link_to manage_booking_validations_path, class: 'nav-link' do 
-                span.fa.fa-check-square-o.pe-2[style="width: 1.5rem;"]
-                = BookingValidation.model_name.human(count: 2) 
-            li
-              = link_to manage_plan_b_backups_path, class: 'nav-link' do 
-                span.fa.fa-download.pe-2[style="width: 1.5rem;"]
-                = PlanBBackup.model_name.human(count: 2) 
+      li.nav-item
+        a.nav-link.dropdown-toggle href="#financesNav" role="button" data-bs-toggle="collapse" aria-expanded="false"
+          = t('.finances')
+
+        ul.list-unstyled.ps-3.collapse#financesNav
+          li.nav-item
+            = link_to Invoice.model_name.human(count: 2), manage_invoices_path, class: 'nav-link'
+          li.nav-item
+            = link_to Payment.model_name.human(count: 2), manage_payments_path, class: 'nav-link'
+        
+          - if current_user.role_admin?
+            li.nav-item
+              = link_to JournalEntry.model_name.human(count: 2), manage_journal_entries_path, class: 'nav-link'
+
+      li.nav-item
+        a.nav-link.dropdown-toggle href="#settingsNav" role="button" data-bs-toggle="collapse" aria-expanded="false"
+          = t('.settings')
+
+        ul.list-unstyled.ps-3.collapse#settingsNav
+          li
+            = link_to edit_manage_organisation_path, class: 'nav-link'
+              span.fa.fa-cog.pe-2[style="width: 1.5rem;"]
+              = Organisation.model_name.human
+          li
+            = link_to manage_occupiables_path, class: 'nav-link' do 
+              span.fa.fa-home.pe-2[style="width: 1.5rem;"]
+              = Occupiable.model_name.human(count: 2) 
+          li
+            = link_to manage_tarifs_path, class: 'nav-link' do 
+              span.fa.fa-usd.pe-2[style="width: 1.5rem;"]
+              = Tarif.model_name.human(count: 2) 
+          li
+            = link_to manage_booking_categories_path, class: 'nav-link' do 
+              span.fa.fa-bed.pe-2[style="width: 1.5rem;"]
+              = BookingCategory.model_name.human(count: 2) 
+          li
+            = link_to manage_rich_text_templates_path, class: 'nav-link' do 
+              span.fa.fa-file-text-o.pe-2[style="width: 1.5rem;"]
+              = RichTextTemplate.model_name.human(count: 2) 
+          li
+            = link_to manage_designated_documents_path, class: 'nav-link' do 
+              span.fa.fa-file-text-o.pe-2[style="width: 1.5rem;"]
+              = DesignatedDocument.model_name.human(count: 2) 
+          li
+            = link_to manage_booking_agents_path, class: 'nav-link' do 
+              span.fa.fa-user-secret.pe-2[style="width: 1.5rem;"]
+              = BookingAgent.model_name.human(count: 2) 
+          li
+            = link_to manage_organisation_users_path, class: 'nav-link'
+              span.fa.fa-users.pe-2[style="width: 1.5rem;"]
+              = OrganisationUser.model_name.human(count: 2)
+          li
+            = link_to manage_operators_path, class: 'nav-link' do 
+              span.fa.fa-users.pe-2[style="width: 1.5rem;"] 
+              = Operator.model_name.human(count: 2) 
+          li
+            = link_to manage_booking_questions_path, class: 'nav-link' do 
+              span.fa.fa-question-circle.pe-2[style="width: 1.5rem;"]
+              = BookingQuestion.model_name.human(count: 2) 
+          li
+            = link_to manage_booking_validations_path, class: 'nav-link' do 
+              span.fa.fa-check-square-o.pe-2[style="width: 1.5rem;"]
+              = BookingValidation.model_name.human(count: 2) 
+          li
+            = link_to manage_plan_b_backups_path, class: 'nav-link' do 
+              span.fa.fa-download.pe-2[style="width: 1.5rem;"]
+              = PlanBBackup.model_name.human(count: 2) 
                 
       li.nav-item
         = link_to manage_flow_path(org: current_organisation, locale: I18n.locale), class: 'nav-link'

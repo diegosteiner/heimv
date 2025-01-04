@@ -70,4 +70,11 @@ class DataDigestTemplate < ApplicationRecord
   def prefilter
     @prefilter ||= filter_class&.new(prefilter_params.presence || {})
   end
+
+  def self.template_environment
+    @template_environment ||= Liquid::Environment.build do |environment|
+      environment.error_mode = :strict unless Rails.env.production?
+      environment.register_filter(TemplateEnvironment::Default)
+    end
+  end
 end

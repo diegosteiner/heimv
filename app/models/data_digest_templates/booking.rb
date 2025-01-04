@@ -98,7 +98,8 @@ module DataDigestTemplates
 
     column_type :booking_question_response do
       body do |booking, template_context_cache|
-        response = booking.booking_question_responses.find_by(booking_question_id: @config[:id])
+        booking_question_id = @config[:booking_question_id] || @config[:id] # TODO: remove legacy id
+        response = booking.booking_question_responses.find_by(booking_question_id:)
         context = template_context_cache[cache_key(booking, :booking_question_response, response&.id)] ||=
           TemplateContext.new(booking_question_response: response).to_h
         @templates[:body]&.render!(context)

@@ -13,20 +13,23 @@
         label.btn.btn-default.mb-3 for="toggle_invoice_booking_id" 
           i.fa.fa-unlock
 
-    = f.text_field :ref, help: t('generated')
     = f.text_area :text, class: 'rich-text-area'
     = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
     = f.date_field :payable_until, lang: I18n.locale
-    = f.check_box :payment_required
+    / = f.text_field :respite_days, inputmode: "numeric"
+
     = f.select :payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
+    = f.check_box :payment_required
 
-    h5.mt-4= InvoicePart.model_name.human(count: 2)
-    = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
-      = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
+    - if @invoice.invoice_parts.any?
+      h5.mt-4= InvoicePart.model_name.human(count: 2)
+      = f.fields_for :invoice_parts, @invoice.invoice_parts do |ipf|
+        = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
 
-    h5.mt-4= t('.suggested_invoice_parts')
-    = f.fields_for :invoice_parts, @invoice.suggested_invoice_parts do |ipf|
-      = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
+    - if @invoice.suggested_invoice_parts.any?
+      h5.mt-4= t('.suggested_invoice_parts')
+      = f.fields_for :invoice_parts, @invoice.suggested_invoice_parts do |ipf|
+        = render partial: ipf.object.to_partial_path('form_fields'), locals: { f: ipf, invoice_part: ipf.object }
 
     div
       - unless @invoice.new_record?

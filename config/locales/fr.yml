@@ -26,6 +26,12 @@ fr:
         homes: Chalets
         issued_at_after: Délai de paiement après le
         issued_at_before: Délai de paiement avant le
+      journal_entry/filter:
+        date_after:
+        date_before:
+        processed:
+        processed_at_after:
+        processed_at_before:
       meter_reading_period/filter:
         begins_at_after: Début de période du compteur à partir du
         begins_at_before: Début de période du compteur jusqu'au
@@ -41,11 +47,12 @@ fr:
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
       occupiable_settings:
+        accounting_cost_center_nr:
         booking_margin: Espacement/période entre les réservations
       organisation_settings:
         awaiting_contract_deadline: Délai de réception du contrat
-        awaiting_tenant_deadline:
-        booking_window:
+        awaiting_tenant_deadline: Demande de location transmise (données du locataire manquantes)
+        booking_window: Plage de réservation
         closed_occupancy_color: Couleur pour les clôtures
         deadline_postponable_for: Prolongation du délai
         default_begins_at_time: Heure de début de l'occupation par défaut
@@ -98,7 +105,7 @@ fr:
         booking_agent_ref: Votre référence
         home: Chalet
         tenant_email: Email du locataire
-        tenant_infos:
+        tenant_infos: Informations supplémentaires sur le locataire
       booking:
         approximate_headcount: Nombre de personnes attendues
         begins_at: Début de la location
@@ -162,8 +169,9 @@ fr:
         tenant_mode:
         type: type
       booking_validation:
+        check_on:
         enabling_conditions:
-        error_message:
+        error_message: Message d'erreur à afficher
         ordinal_position: Position de l'affichage
         validating_conditions:
       contract:
@@ -223,6 +231,8 @@ fr:
         text: Texte
         type: Type de facture
       invoice_part:
+        accounting_account_nr: zugewiesenes Buchhaltungskonto
+        accounting_cost_center_nr:
         amount: Montant
         apply: Employer
         breakdown: Ventilation
@@ -230,6 +240,25 @@ fr:
         ordinal_position: Numéro d'ordre
         type: Type de poste de facturation
         vat: TVA incluse en pourcentage
+        vat_category_id:
+      journal_entry:
+        account_nr:
+        amount: Montant
+        book_type: Type
+        booking_id: Réservation
+        date:
+        haben_account:
+        haben_amount:
+        invoice_id: Facture
+        invoice_part_id:
+        payment_id: Paiement
+        processed_at:
+        ref:
+        side:
+        soll_account:
+        soll_amount:
+        text: Texte
+        vat_category_id:
       meter_reading_period:
         begins_at: Début
         end_value: Nouvelle valeur du compteur
@@ -280,25 +309,27 @@ fr:
         remarks: Remarques
         responsibility: Responsabilité
       organisation:
-        account_address:
+        account_address: Adresse du compte pour les factures QR (si différente)
         address: Adresse
         bcc: BCC
-        booking_ref_tempate:
+        booking_ref_template:
         contract_signature: Image de signature de contrat
+        cors_origins:
         creditor_address: Adresse sur les factures
         currency: Währung
         default_payment_info_type: Partie paiement standard
         esr_beneficiary_account: Numéro de participant BVR / compte postal
         esr_ref_prefix: Numéro d'identification BVR / Préfixe
         iban: IBAN
-        invoice_ref_tempate:
+        invoice_payment_ref_template:
+        invoice_ref_template:
         locale: Langue
         locales: Langues
         location: Lieu de signature du contrat
         logo: Logo
         mail_from: Expéditeur des e-mails
         name: Nom
-        nickname_label:
+        nickname_label: Désignation du surnom
         notifications_enabled: Messages activés
         privacy_statement_pdf: Déclaration de confidentialité
         representative_address: Adresse de la suppléance pour les contrats
@@ -306,6 +337,7 @@ fr:
         slug: Espace de nommage
         smtp_settings: Paramètres du serveur de messagerie
         smtp_settings_json: Paramètres du serveur de messagerie
+        tenant_ref_template:
         terms_pdf: CGU
       organisation_user:
         email: Email
@@ -330,13 +362,14 @@ fr:
         namespace: Domaine
         title: Titre
       tarif:
-        accounting_account_nr: Compte comptable
+        accounting_account_nr: zugewiesenes Buchhaltungskonto
+        accounting_cost_center_nr:
         associated_types: Affiché dans les documents
         enabling_conditions: Conditions de sélection autorisée
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
-        minimum_price_per_night:
-        minimum_price_total:
+        minimum_price_per_night: Prix minimum (par nuit)
+        minimum_price_total: Prix minimum (total)
         minimum_usage_per_night: Consommation minimale (par nuit)
         minimum_usage_total: Consommation minimale (total)
         ordinal_position: Ordnungsnummer
@@ -348,12 +381,13 @@ fr:
         tarif_group: groupe tarifaire
         type: type
         unit: unité
+        vat_category_id:
       tenant:
         address: Adresse
         address_addon: Complément d'adresse / école / entreprise
         birth_date: Date de naissance
         bookings_without_contract:
-        bookings_without_invoice:
+        bookings_without_invoice: Réservations sans facture
         city: Lieu
         country_code: Pays
         email: Email
@@ -397,6 +431,10 @@ fr:
         reset_password_token: Clé de réinitialisation du mot de passe
         sign_in_count: Nombre des connexions
         updated_at: Date de mise à jour
+      vat_category:
+        accounting_vat_code:
+        label: Désignation
+        percentage:
     enums:
       booking:
         committed_request:
@@ -427,6 +465,14 @@ fr:
           blank_editable: Visible par les locataires, modifiable si vide
           not_visible: Invisible pour les locataires
           provisional_editable: Visible pour les locataires, modifiable jusqu'à définitif
+      booking_validation:
+        check_on:
+          agent_create:
+          agent_update:
+          manage_create:
+          manage_update:
+          public_create:
+          public_update:
       data_digest:
         periods:
           ever: Aller Zeiten
@@ -460,6 +506,21 @@ fr:
         paid:
           only_paid: Uniquement les factures réglées
           only_unpaid: Seulement ouvert
+      journal_entry:
+        book_types:
+          cost:
+          main:
+          vat:
+        side:
+          haben:
+          soll:
+        trigger:
+          invoice_created:
+          payment_created:
+      journal_entry/filter:
+        processed:
+          only_processed:
+          only_unprocessed:
       mail_template:
         attachable_booking_documents:
           contract: Contrat
@@ -490,6 +551,7 @@ fr:
       organisation_user:
         role:
           admin: Admin
+          finance: Caissier
           manager: Administration
           none: "-"
           readonly: Lecture
@@ -569,6 +631,8 @@ fr:
         one: Condition de l'objet de location
       booking_conditions/tarif:
         one: 'Condition du tarif sélectionné '
+      booking_conditions/tenant_attribute:
+        one:
       booking_question:
         one: Infos supplémentaires
         other: Informations supplémentaires
@@ -606,9 +670,12 @@ fr:
       data_digest_templates/invoice_part:
         one: Extrait des postes de la facture
         other: Extraits des postes de facturation
-      data_digest_templates/meter_reading_period:
+      data_digest_templates/journal_entry:
         one:
         other:
+      data_digest_templates/meter_reading_period:
+        one: Relevé du compteur (Début)
+        other: Relevés de compteurs (Fin)
       data_digest_templates/payment:
         one: Extrait de paiements
         other: Extrait de paiements
@@ -633,6 +700,9 @@ fr:
       invoice_parts/add:
         one: Poste de facturation normal
         other: Postes de facturation normaux
+      invoice_parts/deposit:
+        one:
+        other:
       invoice_parts/percentage:
         one: Réduction
         other: Réduction
@@ -648,6 +718,9 @@ fr:
       invoices/offer:
         one: Offre
         other: Offres
+      journal_entry:
+        one:
+        other:
       mail_template:
         one: Modèle de couriel
         other: Modèles de courriel
@@ -711,6 +784,9 @@ fr:
       user:
         one: Compte
         other: Compte
+      vat_category:
+        one:
+        other:
   add_record: Ajouter %{model_name}
   back: Retour
   booking_actions:
@@ -1155,7 +1231,6 @@ fr:
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
   from: de
-  generated: est généré automatiquement
   helpers:
     select:
       prompt: Veuillez sélectionner
@@ -1206,6 +1281,7 @@ fr:
       flat: Forfait à %{price_per_unit}
       minimum: Montant minimum %{minimum}
     deposited_amount: Avoir à partir d'un acompte
+    unassigned_payments_amount:
   invoices:
     total: Total
     vat_title: TVA incluse dans les prix
@@ -1227,6 +1303,7 @@ fr:
         github: GitHub
         title: Logiciel
     manage_navigation:
+      finances:
       help: Aide
       outbox: Courrier sortant
       settings: Réglages
@@ -1234,14 +1311,14 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure:
-          success:
+          failure: "Échec de l'importation :"
+          success: Importation réussie
       calendar:
         ics_link: comme ICAL
         private_ics_link:
       import:
         headers: En-têtes
-        import_error: 'Échec de l''importation : '
+        import_error: "Échec de l'importation : "
         import_file: Fichier d'importation (CSV)
         import_success: Importation réussie
       index:
@@ -1250,7 +1327,7 @@ fr:
         new: Nouveau
         new_closed_occupancy: Fermeture
         new_request: Demande de réservation
-        no_records_yet:
+        no_records_yet: "Aucune réservation n'a été trouvée. Ajouter une nouvelle réservation : %{options}."
         too_many_records: Trop de réservations ont été trouvées. Veuillez restreindre la recherche.
       navigation:
         costs: Tarifs & consommation
@@ -1288,12 +1365,12 @@ fr:
     occupancies:
       span:
         nights:
-          one:
-          other:
-          zero:
+          one: 1 nuit
+          other: "%{count} Nuits"
+          zero: sans nuitée
     organisation_users:
       form:
-        regenerate_token:
+        regenerate_token: Générer à nouveau un Token
       index:
         invite_user: Inviter un nouvel utilisateur
     organisations:
@@ -1314,21 +1391,21 @@ fr:
       form:
         help_html:
         help_title: Aide sur les variables
-        load_locale_defaults:
+        load_locale_defaults: Rétablir le texte par défaut pour cette langue
       index:
         booking_action: Action
         booking_state: Statut comptable
-        create_missing:
-        created_missing:
+        create_missing: Ajouter automatiquement les modèles de texte manquants
+        created_missing: "%{count} Les modèles de texte manquants ont été ajoutés : %{list}"
         document: Document
-        missing_templates:
+        missing_templates: "%{count} Les modèles de texte sont manquants."
         rich_text_templates_by_booking_action: Actions
         rich_text_templates_by_booking_state: Statut comptable
         rich_text_templates_by_document: Documents
         rich_text_templates_by_rest: Autres
     tarifs:
       form:
-        minimum:
+        minimum: Minimum
   nav:
     edit_account: Gérer le compte
     manage: Administration
@@ -1388,7 +1465,7 @@ fr:
           pb: Po
           tb: To
     nth:
-      ordinalized:
+      ordinalized: "%{number}."
       ordinals: "."
     percentage:
       format:
@@ -1432,7 +1509,7 @@ fr:
         title: Traiter une réservation
       form:
         tenant_email_help: Veuillez NE PAS utiliser l'adresse e-mail de l'intermédiaire. Nous n'avons besoin de l'adresse e-mail du locataire que lorsque la demande devient définitive, afin de pouvoir établir le contact.
-        tenant_infos_help:
+        tenant_infos_help: Nom de la personne responsable, autres informations sur la médiation
       new:
         title: Réservation
     bookings:
@@ -1442,8 +1519,8 @@ fr:
         title: Traiter une réservation
       form:
         booking_details: Informations sur la réservation
-        committed_request_definitive_request_help:
-        committed_request_provisional_request_help:
+        committed_request_definitive_request_help: "Engagement ferme et définitif. Le contrat est préparé et envoyé si l'administration accepte la demande"
+        committed_request_provisional_request_help: Demande sans engagement. Acceptation ou refus dans le délai indiqué
         last_minute_warning: Attention ! La date de réservation est proche. Merci de t'annoncer en plus par téléphone ou par e-mail auprès de l'administration
       new:
         accept_conditions_html: J'accepte %{conditions_html}
@@ -1540,8 +1617,8 @@ fr:
       description:
     manage_cancelled_request_notification:
       default_body:
-      default_title:
-      description:
+      default_title: Annulation Demande de réservation {{ booking.ref }}
+      description: Notification de demande de réservation annulée (administration)
     manage_definitive_request_notification:
       default_body:
       default_title: Demande de location {{ booking.ref }} définitive
@@ -1568,12 +1645,12 @@ fr:
       description: Notification pour location annulée (propriétaire)
     operator_contract_sent_notification:
       default_body:
-      default_title:
-      description:
+      default_title: Contrat/acompte envoyé
+      description: Notification de contrat/paiement envoyé (fonctionnaire)
     operator_invoice_sent_notification:
       default_body:
-      default_title:
-      description:
+      default_title: Facture envoyée
+      description: Notification de facture envoyée (fonctionnaire)
     operator_upcoming_notification:
       default_body:
       default_title: Location

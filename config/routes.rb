@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
   resource :account, only: %i[edit update destroy]
 
+  get 'test', to: 'public/pages#test'
+  get 'health', to: 'public/pages#health'
+  get 'changelog', to: 'public/pages#changelog'
+
   scope '(:org)' do
     namespace :manage do
       root to: 'bookings#calendar'
@@ -60,6 +64,7 @@ Rails.application.routes.draw do
       resources :booking_agents
       resources :booking_categories, except: :show
       resources :vat_categories, except: :show
+      resources :journal_entries, except: %i[show]
       resources :notifications, only: %i[index]
       resources :rich_text_templates do
         post :create_missing, on: :collection
@@ -95,6 +100,4 @@ Rails.application.routes.draw do
       root to: 'pages#home'
     end
   end
-  get 'health', to: 'pages#health'
-  get 'changelog', to: 'pages#changelog'
 end

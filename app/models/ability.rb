@@ -43,6 +43,8 @@ module Ability
       can(:manage, OrganisationUser, organisation:)
       can(:manage, Tarif, organisation:)
       can(:manage, VatCategory, organisation:)
+      can(:manage, JournalEntry, invoice: { booking: { organisation: } })
+      can(:new, JournalEntry)
     end
 
     role :manager do |user, organisation|
@@ -66,6 +68,20 @@ module Ability
       can(:manage, Usage, booking: { organisation: })
       can(:manage, RichTextTemplate, organisation:)
       can(:read, PlanBBackup, organisation:)
+      can(:read, JournalEntry, invoice: { booking: { organisation: } })
+    end
+
+    role :finance do |user, organisation|
+      next unless user.in_organisation?(organisation)
+
+      abilities_for_role(:readonly, user, organisation)
+      can(:manage, Payment, booking: { organisation: })
+      can(:manage, Invoice, booking: { organisation: })
+      can(:manage, InvoicePart, invoice: { booking: { organisation: } })
+      can(:manage, Tenant, organisation:)
+      can(:manage, VatCategory, organisation:)
+      can(:manage, JournalEntry, invoice: { booking: { organisation: } })
+      can(:new, JournalEntry)
     end
 
     role :readonly do |user, organisation|

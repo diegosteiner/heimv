@@ -1,6 +1,15 @@
 # Changelog
 
-## 25.12.1
+## 25.1.1
+
+Released 04.01.2025
+
+- Feature: Add key sequences for invoices, bookings and tenants
+- Feature: Generate journal entries for accounting purposes
+- Feature: Export journal entries to csv and taf formats
+- Fix: Imporve data digest form
+
+## 24.12.1
 
 Released 10.12.2024
 
@@ -10,11 +19,11 @@ Released 10.12.2024
 
 Released 29.11.2024
 
-## 24.11.1
-
 - Fix: Fix manage occupancy calendar to include closedowns again
 - Feature: Allow setting check_on on BookingValidation
 - Chore: Update to Rails 8
+
+## 24.11.1
 
 Released 25.11.2024
 

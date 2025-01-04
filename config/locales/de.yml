@@ -26,6 +26,12 @@ de:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum nach
         issued_at_before: Rechnungsdatum vor
+      journal_entry/filter:
+        date_after: Buchungsdatum nach
+        date_before: Buchungsdatum vor
+        processed: Verbucht
+        processed_at_after: Verbucht nach
+        processed_at_before: Verbucht vor
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerstandperiode ab
         begins_at_before: Beginn des Zählerstandperiode bis
@@ -41,6 +47,7 @@ de:
         ends_at_after: Ende der Belegung ab
         ends_at_before: Ende der Belegung bis
       occupiable_settings:
+        accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
       organisation_settings:
         awaiting_contract_deadline: Frist für Vertragseingänge
@@ -219,11 +226,13 @@ de:
         payment_info_type: Zahlungsteil
         payment_required: Zahlung für Statusübergang zwingend
         percentage_paid: "% bezahlt"
-        ref: Referenznummer
+        ref: Rechnungsnummer
         sent_at: Rechnungsdatum
         text: Text
         type: Rechnungsart
       invoice_part:
+        accounting_account_nr: Buchhaltungskonto
+        accounting_cost_center_nr: Kostenstelle
         amount: Betrag
         apply: Anwenden
         breakdown: Aufschlüsselung
@@ -231,6 +240,25 @@ de:
         ordinal_position: Ordnungsnummer
         type: Art der Rechnungsposition
         vat: inkl. MwSt. in Prozent
+        vat_category_id: MwSt. Kategorie
+      journal_entry:
+        account_nr: Konto
+        amount: Betrag
+        book_type: Typ
+        booking_id: Buchung
+        date: Datum
+        haben_account: Haben Konto
+        haben_amount: Haben Betrag
+        invoice_id: Rechnung
+        invoice_part_id: Rechnungsposition
+        payment_id: Zahlung
+        processed_at: Verbucht am
+        ref: Beleg
+        side: Seite
+        soll_account: Soll Konto
+        soll_amount: Soll Betrag
+        text: Text
+        vat_category_id: MwSt. Kategorie
       mail_template:
       meter_reading_period:
         begins_at: Beginn
@@ -285,15 +313,17 @@ de:
         account_address: Adresse des Kontos für QR-Rechnungen (falls abweichend)
         address: Anschrift
         bcc: BCC
-        booking_ref_tempate: Buchung Referenznummer Format
+        booking_ref_template: Buchungreferenz Format
         contract_signature: Vertragsunterschrift Bild
+        cors_origins: CORS Origins
         creditor_address: Anschrift auf Rechnungen
         currency: Währung
         default_payment_info_type: Standartzahlungsteil
         esr_beneficiary_account: ESR Teilnehmernummer / PC-Konto
         esr_ref_prefix: Referenznummer Präfix
         iban: IBAN
-        invoice_ref_tempate: Rechnung Referenznummer Format
+        invoice_payment_ref_template: Zahlungsreferenz Format
+        invoice_ref_template: Rechnungsnummer Format
         locale: Hauptsprache
         locales: Sprachen
         location: Vertragsunterschrift Ort
@@ -308,6 +338,7 @@ de:
         slug: Namespace
         smtp_settings: Mailserver Einstellungen
         smtp_settings_json: Mailserver Einstellungen
+        tenant_ref_template: Mieterreferenz Format
         terms_pdf: AGB
       organisation_user:
         email: Email
@@ -333,7 +364,7 @@ de:
         title: Titel
       tarif:
         accounting_account_nr: Buchhaltungskonto
-        accounting_profit_center_nr: Profit-Center
+        accounting_cost_center_nr: Kostenstelle
         associated_types: Ausgewiesen in Dokumenten
         enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung
@@ -476,6 +507,21 @@ de:
         paid:
           only_paid: Nur beglichene
           only_unpaid: Nur offene
+      journal_entry:
+        book_types:
+          cost: Kostenstellen
+          main: Hauptbuch
+          vat: Steuern
+        side:
+          haben: Haben
+          soll: Soll
+        trigger:
+          invoice_created: Rechnung erstellt
+          payment_created: Zahlung erstellt
+      journal_entry/filter:
+        processed:
+          only_processed: Nur verbuchte
+          only_unprocessed: Nur unverbuchte
       mail_template:
         attachable_booking_documents:
           contract: Vertrag
@@ -506,6 +552,7 @@ de:
       organisation_user:
         role:
           admin: Admin
+          finance: Kassier
           manager: Verwaltung
           none: "-"
           readonly: Lesend
@@ -624,6 +671,9 @@ de:
       data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
+      data_digest_templates/journal_entry:
+        one: Buchungssätze Auszug
+        other: Buchungssätze Auszüge
       data_digest_templates/meter_reading_period:
         one: Zählerstand Auszug
         other: Zählerstände Auszüge
@@ -669,6 +719,9 @@ de:
       invoices/offer:
         one: Offerte
         other: Offerten
+      journal_entry:
+        one: Buchungssatz
+        other: Buchungssätze
       mail_template:
         one: Mailvorlage
         other: Mailvorlagen
@@ -1302,7 +1355,6 @@ de:
         update:
           notice: Deine Reservationsanfrage wurde aktualisiert. Du kannst das Browserfenster schliessen.
   from: von
-  generated: wird automatisch generiert
   helpers:
     select:
       prompt: Bitte wählen
@@ -1317,7 +1369,8 @@ de:
       default: "%{used_units} × %{unit} à %{price_per_unit}"
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
-    deposited_amount: Gutschrift aus Anzahlung
+    deposited_amount: Gutschrift aus An-/Akontozahlung
+    unassigned_payments_amount: Saldo
   invoices:
     total: Total
     vat_title: in den Preisen enhaltene MwSt.
@@ -1339,6 +1392,7 @@ de:
         github: GitHub
         title: Software
     manage_navigation:
+      finances: Finanzen
       help: Hilfe
       outbox: Postausgang
       settings: Einstellungen

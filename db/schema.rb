@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_30_084234) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -223,6 +223,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.integer "home_id", null: false
     t.boolean "ignore_conflicting", default: false, null: false
     t.jsonb "booking_questions"
+    t.integer "sequence_number"
+    t.integer "sequence_year"
     t.index ["booking_state_cache"], name: "index_bookings_on_booking_state_cache"
     t.index ["locale"], name: "index_bookings_on_locale"
     t.index ["organisation_id"], name: "index_bookings_on_organisation_id"
@@ -308,6 +310,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "vat_category_id"
+    t.string "accounting_account_nr"
+    t.string "accounting_cost_center_nr"
     t.index ["invoice_id"], name: "index_invoice_parts_on_invoice_id"
     t.index ["usage_id"], name: "index_invoice_parts_on_usage_id"
     t.index ["vat_category_id"], name: "index_invoice_parts_on_vat_category_id"
@@ -320,7 +324,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.datetime "payable_until", precision: nil
     t.datetime "sent_at", precision: nil
     t.text "text"
-    t.string "ref"
+    t.string "payment_ref"
     t.decimal "amount", default: "0.0"
     t.datetime "discarded_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
@@ -330,11 +334,51 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.bigint "supersede_invoice_id"
     t.string "locale"
     t.boolean "payment_required", default: true
+    t.integer "sequence_number"
+    t.integer "sequence_year"
+    t.string "ref"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
-    t.index ["ref"], name: "index_invoices_on_ref"
+    t.index ["payment_ref"], name: "index_invoices_on_payment_ref"
     t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
     t.index ["type"], name: "index_invoices_on_type"
+  end
+
+  create_table "journal_entries", force: :cascade do |t|
+    t.bigint "invoice_id"
+    t.bigint "vat_category_id"
+    t.string "account_nr", null: false
+    t.integer "side", null: false
+    t.decimal "amount", null: false
+    t.date "date", null: false
+    t.string "text"
+    t.string "currency", null: false
+    t.integer "ordinal"
+    t.string "ref"
+    t.integer "book_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "invoice_part_id"
+    t.bigint "payment_id"
+    t.integer "trigger", null: false
+    t.uuid "booking_id", null: false
+    t.datetime "processed_at"
+    t.index ["booking_id"], name: "index_journal_entries_on_booking_id"
+    t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
+    t.index ["invoice_part_id"], name: "index_journal_entries_on_invoice_part_id"
+    t.index ["payment_id"], name: "index_journal_entries_on_payment_id"
+    t.index ["vat_category_id"], name: "index_journal_entries_on_vat_category_id"
+  end
+
+  create_table "key_sequences", force: :cascade do |t|
+    t.string "key", null: false
+    t.bigint "organisation_id", null: false
+    t.integer "year"
+    t.integer "value", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key", "year", "organisation_id"], name: "index_key_sequences_on_key_and_year_and_organisation_id", unique: true
+    t.index ["organisation_id"], name: "index_key_sequences_on_organisation_id"
   end
 
   create_table "mail_template_designated_documents", id: false, force: :cascade do |t|
@@ -471,7 +515,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.jsonb "smtp_settings"
     t.string "esr_ref_prefix"
     t.string "default_payment_info_type"
-    t.string "invoice_ref_template", default: ""
+    t.string "invoice_payment_ref_template", default: ""
     t.string "booking_ref_template", default: ""
     t.jsonb "settings", default: {}
     t.text "creditor_address"
@@ -480,6 +524,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.text "cors_origins"
     t.jsonb "nickname_label_i18n", default: {}
     t.jsonb "accounting_settings", default: {}
+    t.string "invoice_ref_template"
+    t.string "tenant_ref_template"
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
@@ -495,6 +541,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "write_off", default: false, null: false
     t.string "camt_instr_id"
+    t.string "accounting_account_nr"
+    t.string "accounting_cost_center_nr"
     t.index ["booking_id"], name: "index_payments_on_booking_id"
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
   end
@@ -543,7 +591,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.bigint "prefill_usage_booking_question_id"
     t.decimal "minimum_price_per_night"
     t.decimal "minimum_price_total"
-    t.string "accounting_profit_center_nr"
+    t.string "accounting_cost_center_nr"
     t.bigint "vat_category_id"
     t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
@@ -577,6 +625,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
     t.boolean "bookings_without_invoice", default: false
     t.integer "salutation_form"
     t.string "accounting_account_nr"
+    t.integer "sequence_number"
+    t.string "ref"
     t.index ["email", "organisation_id"], name: "index_tenants_on_email_and_organisation_id", unique: true
     t.index ["email"], name: "index_tenants_on_email"
     t.index ["organisation_id"], name: "index_tenants_on_organisation_id"
@@ -668,6 +718,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_133043) do
   add_foreign_key "invoice_parts", "vat_categories"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
+  add_foreign_key "journal_entries", "invoices"
+  add_foreign_key "journal_entries", "vat_categories"
+  add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
   add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"
   add_foreign_key "meter_reading_periods", "tarifs"

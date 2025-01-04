@@ -112,7 +112,9 @@ module DataDigestTemplates
       def initialize(config, header: nil, footer: nil, body: nil)
         @config = config.symbolize_keys
         @blocks = { header:, footer:, body: }
-        @templates = @config.slice(*@blocks.keys).transform_values { |template| Liquid::Template.parse(template) }
+        @templates = @config.slice(*@blocks.keys).transform_values do |template|
+          Liquid::Template.parse(template, environment: DataDigestTemplate.template_environment)
+        end
       end
 
       def column_type

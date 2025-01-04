@@ -1,5 +1,15 @@
 @import "./variables";
 
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .calendar {
   position: relative;
   container: calendar / inline-size;
@@ -266,8 +276,14 @@
     }
 
     svg {
+
       cursor: inherit;
       overflow: clip;
+
+      rect,
+      polygon {
+        animation: fadein 500ms;
+      }
 
       rect:not([fill]),
       polygon:not([fill]) {

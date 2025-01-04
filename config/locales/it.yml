@@ -26,6 +26,12 @@ it:
         homes: Oggetti principali di affitto
         issued_at_after: Data di fatturazione dopo
         issued_at_before: Data di fatturazione precedente
+      journal_entry/filter:
+        date_after:
+        date_before:
+        processed:
+        processed_at_after:
+        processed_at_before:
       meter_reading_period/filter:
         begins_at_after:
         begins_at_before:
@@ -41,6 +47,7 @@ it:
         ends_at_after: Fine occupazione da
         ends_at_before: Fine dell'occupazione fino a
       occupiable_settings:
+        accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
       organisation_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
@@ -162,6 +169,7 @@ it:
         tenant_mode:
         type: Tipo
       booking_validation:
+        check_on:
         enabling_conditions:
         error_message:
         ordinal_position: Numero di serie
@@ -223,6 +231,8 @@ it:
         text: Testo
         type: Tipo di fattura
       invoice_part:
+        accounting_account_nr: Conto contabile
+        accounting_cost_center_nr:
         amount: Importo
         apply: Applicare
         breakdown: Ripartizione
@@ -230,6 +240,25 @@ it:
         ordinal_position: Numero di serie
         type: Tipo di voce della fattura
         vat:
+        vat_category_id:
+      journal_entry:
+        account_nr:
+        amount: Importo
+        book_type: Tipo
+        booking_id: Prenotazione
+        date:
+        haben_account:
+        haben_amount:
+        invoice_id: Fattura
+        invoice_part_id:
+        payment_id: Pagamento
+        processed_at:
+        ref:
+        side:
+        soll_account:
+        soll_amount:
+        text: Testo
+        vat_category_id:
       meter_reading_period:
         begins_at: Inizio
         end_value: Lettura del contatore nuovo
@@ -283,15 +312,17 @@ it:
         account_address:
         address: Indirizzo
         bcc: BCC
-        booking_ref_tempate:
+        booking_ref_template:
         contract_signature: Immagine della firma del contratto
+        cors_origins:
         creditor_address: Indirizzo sulle fatture
         currency: Valuta
         default_payment_info_type: Parte di pagamento standard
         esr_beneficiary_account:
         esr_ref_prefix: Numero di identificazione del PVR / prefisso
         iban: IBAN
-        invoice_ref_tempate:
+        invoice_payment_ref_template:
+        invoice_ref_template:
         locale: Lingua
         locales:
         location: Luogo della firma del contratto
@@ -306,6 +337,7 @@ it:
         slug: Namespace
         smtp_settings: Impostazioni del mailserver
         smtp_settings_json: Impostazioni del mailserver
+        tenant_ref_template:
         terms_pdf: Condizioni generali di contratto
       organisation_user:
         email: E-mail
@@ -331,6 +363,7 @@ it:
         title: Titolo
       tarif:
         accounting_account_nr: Conto contabile
+        accounting_cost_center_nr:
         associated_types: Indicato nei documenti
         enabling_conditions: Condizioni per la selezione consentita
         label: Designazione tariffa
@@ -348,6 +381,7 @@ it:
         tarif_group: Gruppo tariffario
         type: Tipo
         unit: Unità
+        vat_category_id:
       tenant:
         address: Indirizzo
         address_addon: Suffisso indirizzo / scuola / azienda
@@ -397,6 +431,10 @@ it:
         reset_password_token: Token per la reimpostazione della password
         sign_in_count: Numero di accessi
         updated_at: Aggiornato il
+      vat_category:
+        accounting_vat_code:
+        label: Nome
+        percentage:
     enums:
       booking:
         committed_request:
@@ -427,6 +465,14 @@ it:
           blank_editable:
           not_visible:
           provisional_editable:
+      booking_validation:
+        check_on:
+          agent_create:
+          agent_update:
+          manage_create:
+          manage_update:
+          public_create:
+          public_update:
       data_digest:
         periods:
           ever: Tutti tempi
@@ -460,6 +506,21 @@ it:
         paid:
           only_paid: Solo pagate
           only_unpaid: Solo non pagate
+      journal_entry:
+        book_types:
+          cost:
+          main:
+          vat:
+        side:
+          haben:
+          soll:
+        trigger:
+          invoice_created:
+          payment_created:
+      journal_entry/filter:
+        processed:
+          only_processed:
+          only_unprocessed:
       mail_template:
         attachable_booking_documents:
           contract: Contratto
@@ -490,6 +551,7 @@ it:
       organisation_user:
         role:
           admin: Administration
+          finance:
           manager: Verwaltung
           none: "-"
           readonly: Lesend
@@ -569,6 +631,8 @@ it:
         one: Oggetto in affitto  (condizione)
       booking_conditions/tarif:
         one: Tariffa selezionata (condizione)
+      booking_conditions/tenant_attribute:
+        one:
       booking_question:
         one:
         other:
@@ -606,6 +670,9 @@ it:
       data_digest_templates/invoice_part:
         one: Voci di fattura (estratto)
         other: Estratti di voci di fattura
+      data_digest_templates/journal_entry:
+        one:
+        other:
       data_digest_templates/meter_reading_period:
         one:
         other:
@@ -633,6 +700,9 @@ it:
       invoice_parts/add:
         one: Voce di fattura normale
         other: Voci di fattura normali
+      invoice_parts/deposit:
+        one:
+        other:
       invoice_parts/percentage:
         one: Sconto
         other: Sconto
@@ -648,6 +718,9 @@ it:
       invoices/offer:
         one: Offerta
         other: Offerte
+      journal_entry:
+        one:
+        other:
       mail_template:
         one:
         other:
@@ -711,6 +784,9 @@ it:
       user:
         one: Utente
         other: Utenti
+      vat_category:
+        one:
+        other:
   add_record: aggiungere %{model_name}
   back: Indietro
   booking_actions:
@@ -1155,7 +1231,6 @@ it:
         update:
           notice: La richiesta di prenotazione è stata aggiornata. Potete chiudere la finestra del browser.
   from: da
-  generated: viene generato automaticamente
   helpers:
     select:
       prompt: Selezionare
@@ -1171,6 +1246,7 @@ it:
       flat: Forfettario di %{price_per_unit}
       minimum: Importo minimo %{minimum}
     deposited_amount:
+    unassigned_payments_amount:
   invoices:
     total: Totale
     vat_title:
@@ -1192,6 +1268,7 @@ it:
         github:
         title:
     manage_navigation:
+      finances:
       help: Aiuto
       outbox:
       settings: Impostazioni
