@@ -87,7 +87,7 @@ describe Export::Taf::Builder, type: :model do
       tarif
       usages
       payment
-      build(:invoice, booking:, invoice_parts: []).tap do |invoice|
+      build(:invoice, booking:, skip_invoice_parts: true, issued_at: Date.new(2024, 12, 27)).tap do |invoice|
         invoice.invoice_parts = InvoicePart::Factory.new(invoice).call
         invoice.save!
         invoice.recalculate!
@@ -121,7 +121,7 @@ describe Export::Taf::Builder, type: :model do
 
           {Bk
             AccId=4000
-            Code=27
+            Code=#{compounds[0].journal_entries[0]&.id}
             Date=11.10.2018
             Text="Zahlung 250001"
             Type=0
@@ -131,7 +131,7 @@ describe Export::Taf::Builder, type: :model do
 
           {Bk
             AccId=1050
-            Code=28
+            Code=#{compounds[0].journal_entries[1]&.id}
             Date=11.10.2018
             Text="Zahlung 250001"
             Type=1
@@ -173,7 +173,7 @@ describe Export::Taf::Builder, type: :model do
 
           {Bk
             AccId=1050
-            Code=34
+            Code=#{compounds[1].journal_entries[0]&.id}
             Date=27.12.2024
             Flags=1
             Text="250001 - Müller"
@@ -187,7 +187,7 @@ describe Export::Taf::Builder, type: :model do
 
           {Bk
             AccId=6000
-            Code=35
+            Code=#{compounds[1].journal_entries[1]&.id}
             Date=27.12.2024
             Text="250001 Saldo"
             Type=1
@@ -198,7 +198,7 @@ describe Export::Taf::Builder, type: :model do
 
           {Bk
             AccId=6000
-            Code=36
+            Code=#{compounds[1].journal_entries[2]&.id}
             Date=27.12.2024
             Text="250001 Preis pro Übernachtung"
             Type=1
@@ -212,7 +212,7 @@ describe Export::Taf::Builder, type: :model do
           {Bk
             AccId=9000
             BType=1
-            Code=37
+            Code=#{compounds[1].journal_entries[3]&.id}
             Date=27.12.2024
             Text="250001 Preis pro Übernachtung"
             Type=1
@@ -224,7 +224,7 @@ describe Export::Taf::Builder, type: :model do
           {Bk
             AccId=6020
             BType=2
-            Code=38
+            Code=#{compounds[1].journal_entries[4]&.id}
             Date=27.12.2024
             Text="250001 Preis pro Übernachtung"
             Type=1

@@ -42,9 +42,12 @@ FactoryBot.define do
     issued_at { 1.week.ago }
     payable_until { 3.months.from_now }
     text { Faker::Lorem.sentences }
+    transient do
+      skip_invoice_parts { false }
+    end
 
     after(:build) do |invoice, evaluator|
-      next unless evaluator.invoice_parts.nil?
+      next if evaluator.skip_invoice_parts
 
       if evaluator.amount&.positive?
         build(:invoice_part, amount: evaluator.amount, invoice:)

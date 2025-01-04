@@ -127,7 +127,7 @@ module Export
         booking = Booking.find compound.common[:booking_id]
         op_id = Value.cast(compound.common[:ref], as: :symbol)
         pk_key = Value.cast(booking.tenant.ref, as: :symbol)
-        journal_entries = compound.journal_entries
+        journal_entries = compound.journal_entries.dup
 
         [
           build_with_tenant(booking.tenant),
