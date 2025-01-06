@@ -41,7 +41,7 @@ module BookingFlows
     def booking_state
       return @booking_state if @booking_state&.to_s == current_state.to_s && @booking_state.booking == booking
 
-      @booking_state = BookingStates.all[current_state&.to_sym]&.new(booking)
+      @booking_state = BookingStates[current_state&.to_sym]&.new(booking)
     end
 
     def booking

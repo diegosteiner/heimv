@@ -15,6 +15,20 @@ fr:
         occupiables: Objet de location
         previous_booking_states: Anciens statuts
         q: Référence de réservation, locataire, organisation
+      booking_state_settings:
+        default_manage_transition_to_state:
+        editable_occupancy_states:
+        occupied_occupancy_states: Statuts pour lesquels la réservation est considérée comme "définitive
+      deadline_settings:
+        awaiting_contract_deadline: Délai de réception du contrat
+        awaiting_tenant_deadline: Demande de location transmise (données du locataire manquantes)
+        deadline_postponable_for: Prolongation du délai
+        deposit_payment_deadline: Délai de paiement standard (acompte)
+        invoice_payment_deadline: Délai de paiement standard
+        overdue_request_deadline: Délai pour les demandes de réservation en retard
+        payment_overdue_deadline: Date limite de paiement dépassée
+        provisional_request_deadline: Délai pour les demandes de réservation provisoires
+        unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
       invoice/filter:
         invoice_type: Type de facture/facturation
         issued_at_after: Délai de paiement après le
@@ -50,37 +64,28 @@ fr:
         accounting_cost_center_nr:
         booking_margin: Espacement/période entre les réservations
       organisation_settings:
-        awaiting_contract_deadline: Délai de réception du contrat
-        awaiting_tenant_deadline: Demande de location transmise (données du locataire manquantes)
         booking_window: Plage de réservation
         closed_occupancy_color: Couleur pour les clôtures
-        deadline_postponable_for: Prolongation du délai
         default_begins_at_time: Heure de début de l'occupation par défaut
         default_calendar_view: Affichage du calendrier par défaut
         default_ends_at_time: Heure de fin d'occupation par défaut
-        default_manage_transition_to_state:
-        deposit_payment_deadline: Délai de paiement standard (acompte)
-        invoice_payment_deadline: Délai de paiement standard
         last_minute_warning: Délai pour les demandes de réservation de dernière minute
         locales: Langues
         occupied_occupancy_color: Couleur pour les locations définitives
-        occupied_occupancy_states: Statuts pour lesquels la réservation est considérée comme "définitive
-        overdue_request_deadline: Délai pour les demandes de réservation en retard
-        payment_overdue_deadline: Date limite de paiement dépassée
         predefined_salutation_form:
-        provisional_request_deadline: Délai pour les demandes de réservation provisoires
-        show_outbox: Afficher le courrier sortant
         tenant_birth_date_required: Date de naissance, Indication obligatoire
         tentative_occupancy_color: Couleur pour les locations provisoires
-        unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
         upcoming_soon_window: Délai pour location prochaine
       payment/filter:
         paid_at_after: Paiement à partir du
         paid_at_before: Paiement jusqu'au
     models:
+      booking_state_settings:
+      deadline_settings:
       occupancy_calendar:
         one: Plan de locations
         other: Plans de locations
+      organisation_settings:
       payment_info:
         one: Partie/zone de paiement
         other: Parties/zones de paiement
@@ -333,7 +338,6 @@ fr:
         notifications_enabled: Messages activés
         privacy_statement_pdf: Déclaration de confidentialité
         representative_address: Adresse de la suppléance pour les contrats
-        settings: Réglages
         slug: Espace de nommage
         smtp_settings: Paramètres du serveur de messagerie
         smtp_settings_json: Paramètres du serveur de messagerie

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class OccupiableSettings < Settings
+class OccupiableSettings
+  include StoreModel::Model
+
   attribute :booking_margin, DurationType.new, default: 0
   attribute :accounting_cost_center_nr
 

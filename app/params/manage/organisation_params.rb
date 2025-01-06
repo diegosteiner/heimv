@@ -7,18 +7,27 @@ module Manage
          mail_from locale default_payment_info_type creditor_address account_address
          representative_address contract_signature email notifications_enabled] +
         I18n.available_locales.map { |locale| ["nickname_label_#{locale}"] }.flatten +
-        [{ settings: settings_permitted_keys }]
+        [{ settings: settings_permitted_keys, deadline_settings: deadline_settings_permitted_keys,
+           booking_state_settings: booking_state_settings_permitted_keys }]
     end
 
     def self.settings_permitted_keys
-      %i[tenant_birth_date_required booking_window awaiting_contract_deadline awaiting_tenant_deadline
-         overdue_request_deadline unconfirmed_request_deadline provisional_request_deadline
-         last_minute_warning upcoming_soon_window invoice_payment_deadline
-         deposit_payment_deadline deadline_postponable_for payment_overdue_deadline
+      %i[tenant_birth_date_required booking_window last_minute_warning upcoming_soon_window
          occupied_occupancy_color tentative_occupancy_color closed_occupancy_color
-         default_calendar_view default_manage_transition_to_state predefined_salutation_form
-         default_begins_at_time default_ends_at_time show_outbox] +
-        [{ locales: [], occupied_occupancy_states: [] }]
+         default_calendar_view predefined_salutation_form
+         default_begins_at_time default_ends_at_time] +
+        [{ locales: [] }]
+    end
+
+    def self.booking_state_settings_permitted_keys
+      %i[default_manage_transition_to_state] +
+        [{ occupied_occupancy_states: [], editable_occupancy_states: [] }]
+    end
+
+    def self.deadline_settings_permitted_keys
+      %i[awaiting_contract_deadline awaiting_tenant_deadline invoice_payment_deadline
+         overdue_request_deadline unconfirmed_request_deadline provisional_request_deadline
+         deposit_payment_deadline deadline_postponable_for payment_overdue_deadline]
     end
 
     def self.admin_permitted_keys

@@ -84,18 +84,17 @@ class Organisation < ApplicationRecord
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
   validates :locale, presence: true
   validate do
-    errors.add(:settings, :invalid) unless settings.valid?
-    errors.add(:smtp_settings, :invalid) unless smtp_settings.nil? || smtp_settings.valid?
-    errors.add(:accounting_settings, :invalid) unless accounting_settings.nil? || accounting_settings.valid?
     errors.add(:creditor_address, :invalid) if creditor_address&.lines&.count&.> 3
     errors.add(:account_address, :invalid) if account_address&.lines&.count&.> 3
     errors.add(:iban, :invalid) if iban.present? && !iban.valid?
   end
 
   attribute :booking_flow_type, default: -> { BookingFlows::Default.to_s }
-  attribute :settings, Settings::Type.new(OrganisationSettings), default: -> { OrganisationSettings.new }
-  attribute :accounting_settings, Settings::Type.new(AccountingSettings), default: -> { AccountingSettings.new }
-  attribute :smtp_settings, Settings::Type.new(SmtpSettings)
+  attribute :settings, OrganisationSettings.to_type, default: -> { OrganisationSettings.new }
+  attribute :accounting_settings, AccountingSettings.to_type, default: -> { AccountingSettings.new }
+  attribute :smtp_settings, SmtpSettings.to_type
+  attribute :booking_state_settings, BookingStateSettings.to_type, default: -> { BookingStateSettings.new }
+  attribute :deadline_settings, DeadlineSettings.to_type, default: -> { DeadlineSettings.new }
   attribute :iban, IBAN::Type.new
   attribute :tenant_ref_template, default: -> { RefBuilders::Tenant::DEFAULT_TEMPLATE }
   attribute :booking_ref_template, default: -> { RefBuilders::Booking::DEFAULT_TEMPLATE }

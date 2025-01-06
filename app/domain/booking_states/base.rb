@@ -70,7 +70,7 @@ module BookingStates
       end
 
       def occupied_occupancy_state?(booking)
-        booking&.organisation&.settings&.occupied_occupancy_states&.include?(to_s) # rubocop:disable Style/SafeNavigationChainLength
+        booking&.organisation&.booking_state_settings&.occupied_occupancy_states&.include?(to_sym.to_s) # rubocop:disable Style/SafeNavigationChainLength
       end
 
       def available_public_actions
@@ -123,7 +123,7 @@ module BookingStates
     def relevant_time; end
 
     def editable
-      false
+      @booking.organisation&.booking_state_settings&.editable_occupancy_states&.include?(to_sym.to_s)
     end
   end
 end

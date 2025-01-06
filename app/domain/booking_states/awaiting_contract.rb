@@ -29,8 +29,8 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.create_deadline(length: booking.organisation.settings.awaiting_contract_deadline,
-                              postponable_for: booking.organisation.settings.deadline_postponable_for,
+      booking.create_deadline(length: booking.organisation.deadline_settings.awaiting_contract_deadline,
+                              postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
                               remarks: booking.booking_state.t(:label))
     end
 

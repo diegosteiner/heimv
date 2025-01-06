@@ -36,18 +36,11 @@ en:
       occupiable_settings:
         booking_margin: Abstand zwischen Buchungen
       organisation_settings:
-        awaiting_contract_deadline: Frist für Vertragseingänge
         closed_occupancy_color: Farbe für Schliessungen
-        deadline_postponable_for: Fristverlängerung
-        deposit_payment_deadline: Standardmässige Zahlungsfrist (Akontorechnung)
-        invoice_payment_deadline: Standardmässige Zahlungsfrist
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         occupied_occupancy_color: Farbe für definitive Belegungen
-        overdue_request_deadline: Frist für Reservationsanfragen
-        provisional_request_deadline: Frist für provisorische Reservationsanfragen
         tenant_birth_date_required: Geburtsdatum Pflichteingabe
         tentative_occupancy_color: Farbe für provisorischen Belegungen
-        unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
         upcoming_soon_window: Frist für baldige Belegung
       payment/filter:
         paid_at_after: Zahlung ab
@@ -245,7 +238,6 @@ en:
         notifications_enabled: Nachrichten aktiviert
         privacy_statement_pdf: Datenschutzerklärung
         representative_address: Adresse der Vertretung für Verträge
-        settings: Einstellungen
         slug: Namespace
         smtp_settings: Mailserver Einstellungen
         smtp_settings_json: Mailserver Einstellungen

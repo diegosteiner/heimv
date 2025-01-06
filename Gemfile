@@ -54,6 +54,7 @@ gem 'sidekiq-cron'
 gem 'slim-rails'
 gem 'stackprof'
 gem 'statesman'
+gem 'store_model'
 gem 'thruster'
 gem 'translation'
 gem 'ttfunk', '~> 1.7.0' # https://github.com/prawnpdf/prawn/issues/1346

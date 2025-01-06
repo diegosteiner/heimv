@@ -59,15 +59,14 @@ class Invoice
     end
 
     def payable_until(invoice)
-      return invoice.booking.begins_at if invoice.payment_info.is_a?(PaymentInfos::OnArrival)
+      booking = invoice.booking
+      return booking.begins_at if invoice.payment_info.is_a?(PaymentInfos::OnArrival)
 
-      settings = invoice.booking.organisation.settings
       if invoice.is_a?(Invoices::Deposit)
-        return [settings.deposit_payment_deadline.from_now,
-                invoice.booking.begins_at].min
+        return [booking.organisation.deadline_settings.deposit_payment_deadline.from_now, booking.begins_at].min
       end
 
-      settings.invoice_payment_deadline.from_now
+      booking.organisation.deadline_settings.invoice_payment_deadline.from_now
     end
 
     def payment_required(invoice)
