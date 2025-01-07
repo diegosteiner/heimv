@@ -527,7 +527,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_05_134244) do
     t.string "invoice_ref_template"
     t.string "tenant_ref_template"
     t.jsonb "booking_state_settings", default: {}
-    t.jsonb "booking_settings", default: {}
     t.jsonb "deadline_settings", default: {}
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end

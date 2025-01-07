@@ -3,9 +3,9 @@
 module Import
   module Hash
     class OrganisationImporter < Base
-      use_attributes(*%w[slug address booking_flow_type settings accounting_settings
+      use_attributes(*%w[slug address booking_flow_type settings accounting_settings booking_state_settings
                          booking_ref_template country_code currency email esr_beneficiary_account iban
-                         invoice_payment_ref_template invoice_ref_template location
+                         invoice_payment_ref_template invoice_ref_template location deadline_settings
                          mail_from name nickname_label_i18n notifications_enabled tenant_ref_template])
 
       def initialize_record(_hash)
@@ -40,7 +40,7 @@ module Import
         hash['tarifs'].each { |tarif| organisation.tarifs << importer.import(tarif) }
       end
 
-      # TODO: booking_agents, vat_categories
+      # TODO: booking_agents, vat_categories, deadline_settings,
     end
   end
 end
