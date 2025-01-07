@@ -35,7 +35,7 @@ stateDiagram-v2
   overdue_request --> definitive_request
   cancelled_request --> [*]
   awaiting_contract --> overdue: Mieter reagiert nicht fristgerecht
-  overdue --> upcoming: Mieter unterschreibt Vertrag und begleicht Anzahlung
+  overdue --> upcoming: Mieter unterschreibt Vertrag und begleicht Akontorechnung
   overdue --> cancelation_pending: Mieter reagiert nicht fristgerecht
   awaiting_contract --> upcoming
   awaiting_contract --> cancelation_pending

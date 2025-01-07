@@ -39,7 +39,7 @@ en:
         awaiting_contract_deadline: Frist für Vertragseingänge
         closed_occupancy_color: Farbe für Schliessungen
         deadline_postponable_for: Fristverlängerung
-        deposit_payment_deadline: Standardmässige Zahlungsfrist (Anzahlung)
+        deposit_payment_deadline: Standardmässige Zahlungsfrist (Akontorechnung)
         invoice_payment_deadline: Standardmässige Zahlungsfrist
         last_minute_warning: Frist für Kurzfristige Reservationsanfragen
         occupied_occupancy_color: Farbe für definitive Belegungen
@@ -487,8 +487,8 @@ en:
         one: Rabatt
         other: Rabatt
       invoices/deposit:
-        one: Anzahlung
-        other: Anzahlungen
+        one: Akontorechnung
+        other: Akontorechnungen
       invoices/invoice:
         one: Rechnung
         other: Rechnungen
@@ -587,8 +587,8 @@ en:
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterschieben
-    deposit_created: Anzahlung erstellen
-    deposit_paid: Anzahlung beglichen
+    deposit_created: Akontorechnung erstellen
+    deposit_paid: Akontorechnung beglichen
     invoice_created: Rechnung stellen
     offer_created: Offerte erstellen (optional)
     responsibilities_assigned: Verantwortlichkeiten zuweisen
@@ -600,7 +600,7 @@ en:
       label: Belegung (anwesend)
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
-      description: Der Mieter hat den Vertrag und (falls vorhanden) die Anzahlungs-Rechnung erhalten, aber noch nicht unterschrieben retourniert bzw. bezahlt.
+      description: Der Mieter hat den Vertrag und (falls vorhanden) die Akontorechnungs-Rechnung erhalten, aber noch nicht unterschrieben retourniert bzw. bezahlt.
       label: Reservation (Vertrag offen)
       relevant_time: Frist %{time}
     awaiting_tenant:
@@ -660,7 +660,7 @@ en:
       public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
       relevant_time: Frist %{time}
     upcoming:
-      description: Der Mieter hat den Vertrag unterschrieben retourniert und die Anzahlung (falls vorhanden) beglichen.
+      description: Der Mieter hat den Vertrag unterschrieben retourniert und die Akontorechnung (falls vorhanden) beglichen.
       label: Belegung (zukünftig)
       relevant_time: Beginn der Belegung %{time}
     upcoming_soon:
@@ -1314,7 +1314,7 @@ en:
   reset: Zurücksetzen
   rich_text_templates:
     awaiting_contract_notification:
-      description: Benachrichtigung für Vertragsaustellung und Anzahlung (Mieter)
+      description: Benachrichtigung für Vertragsaustellung und Akontorechnung (Mieter)
     awaiting_tenant_notification:
       description: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
     booking_agent_cancelled_notification:
@@ -1338,7 +1338,7 @@ en:
     foreign_payment_info_text:
       description: Text für Zahlunginformationen für ausländische Mieter
     invoices_deposit_text:
-      description: Text für Rechnung (Anzahlung)
+      description: Text für Rechnung (Akontorechnung)
     invoices_invoice_text:
       description: Text für Rechnung
     invoices_late_notice_text:

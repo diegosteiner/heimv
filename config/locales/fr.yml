@@ -858,7 +858,7 @@ fr:
     contract_created: Créer un contrat
     contract_signed: Contrat signé
     credit_issued:
-    deposit_created: Anzahlung erstellen
+    deposit_created: Akontorechnung erstellen
     deposit_paid: Acompte réglé
     invoice_created: Établir le décompte final
     invoice_paid:
@@ -1311,14 +1311,14 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: "Échec de l'importation :"
+          failure: 'Échec de l''importation :'
           success: Importation réussie
       calendar:
         ics_link: comme ICAL
         private_ics_link:
       import:
         headers: En-têtes
-        import_error: "Échec de l'importation : "
+        import_error: 'Échec de l''importation : '
         import_file: Fichier d'importation (CSV)
         import_success: Importation réussie
       index:
@@ -1327,7 +1327,7 @@ fr:
         new: Nouveau
         new_closed_occupancy: Fermeture
         new_request: Demande de réservation
-        no_records_yet: "Aucune réservation n'a été trouvée. Ajouter une nouvelle réservation : %{options}."
+        no_records_yet: 'Aucune réservation n''a été trouvée. Ajouter une nouvelle réservation : %{options}.'
         too_many_records: Trop de réservations ont été trouvées. Veuillez restreindre la recherche.
       navigation:
         costs: Tarifs & consommation
@@ -1519,7 +1519,7 @@ fr:
         title: Traiter une réservation
       form:
         booking_details: Informations sur la réservation
-        committed_request_definitive_request_help: "Engagement ferme et définitif. Le contrat est préparé et envoyé si l'administration accepte la demande"
+        committed_request_definitive_request_help: Engagement ferme et définitif. Le contrat est préparé et envoyé si l'administration accepte la demande
         committed_request_provisional_request_help: Demande sans engagement. Acceptation ou refus dans le délai indiqué
         last_minute_warning: Attention ! La date de réservation est proche. Merci de t'annoncer en plus par téléphone ou par e-mail auprès de l'administration
       new:

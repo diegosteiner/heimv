@@ -57,11 +57,15 @@ class RichTextTemplateService
     template
   end
 
-  def replace_in_template!(search, replace, scope: @organisation.rich_text_templates)
-    scope.each do |rich_text_template|
-      rich_text_template.replace_in_body(search, replace)
-      rich_text_template.replace_in_title(search, replace)
+  def replace_in_templates!(search, replace, scope: @organisation.rich_text_templates)
+    scope.map do |rich_text_template|
+      rich_text_template.gsub(search, replace)
       rich_text_template.save
+      rich_text_template
     end
+  end
+
+  def find_in_templates(search, scope: @organisation.rich_text_templates)
+    scope.to_a.filter { |rich_text_template| rich_text_template.include?(search) }
   end
 end

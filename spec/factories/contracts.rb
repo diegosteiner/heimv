@@ -41,8 +41,8 @@ FactoryBot.define do
         ##### Mietpreis
       Die  Mindestbelegung  beträgt  durchschnittlich  12  Personen  pro  Nacht.
 
-        ##### Anzahlung
-      Die  Anzahlung  wird  bei  Abschluss  des  Vertrages  fällig
+        ##### Akontorechnung
+      Die  Akontorechnung  wird  bei  Abschluss  des  Vertrages  fällig
     EOTEXT
 
     trait :sent do
