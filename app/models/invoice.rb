@@ -74,6 +74,7 @@ class Invoice < ApplicationRecord
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
   after_save :generate_journal_entries!, if: :generate_journal_entries?
+  after_save :update_payments
   after_discard :generate_journal_entries!, if: :generate_journal_entries?
 
   delegate :currency, to: :organisation
@@ -92,6 +93,10 @@ class Invoice < ApplicationRecord
 
     self.payments = supersede_invoice.payments
     supersede_invoice.discard!
+  end
+
+  def update_payments
+    payments.each { _1.update!(booking_id:) }
   end
 
   def sequence_number

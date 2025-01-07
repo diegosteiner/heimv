@@ -1,7 +1,7 @@
 h1.mt-0= @data_digest.label
 p=  @data_digest.localized_period
 
-= render partial: @data_digest.data_digest_template.to_partial_path('show_data_digest'), locals: { data_digest: @data_digest }
+= render partial: 'renderables/data_digest_templates/tabular/show_data_digest', locals: { data_digest: @data_digest }
 
 br
 .btn-group
