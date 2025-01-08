@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_05_134244) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_08_161407) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -645,7 +645,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_05_134244) do
     t.decimal "presumed_used_units"
     t.boolean "committed", default: false
     t.decimal "price_per_unit"
-    t.jsonb "data"
+    t.jsonb "details"
     t.index ["booking_id"], name: "index_usages_on_booking_id"
     t.index ["tarif_id", "booking_id"], name: "index_usages_on_tarif_id_and_booking_id", unique: true
   end

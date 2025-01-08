@@ -16,19 +16,19 @@ module Export
           end
 
           def render
-            split_invoice_part_groups.each do |group_data|
-              move_down 5
-              render_invoice_parts_table(group_data)
-            end
-
+            render_invoice_parts_table
             render_invoice_total_table
             render_invoice_vat_table
           end
 
-          def render_invoice_parts_table(invoice_parts_table_data)
-            table invoice_parts_table_data, **table_options do
+          def render_invoice_parts_table
+            title_indexes = invoice_parts.map.with_index do |invoice_part, index|
+              index if invoice_part.is_a?(InvoiceParts::Title)
+            end.compact
+            table invoice_parts.map { invoice_part_table_row_data(_1) }, **table_options do
               column(2).style(align: :right)
               column(3).style(align: :right)
+              row(title_indexes).padding = [8, 4, 4, 0]
             end
           end
 
@@ -37,7 +37,7 @@ module Export
             total_data = [[I18n.t('invoices.total'), '', organisation.currency,
                            number_to_currency(invoice.amount, unit: '')]]
 
-            table total_data, **table_options(borders: [:top], font_style: :bold, padding: [4, 4, 4, 0]) do
+            table total_data, **table_options(borders: [:top], font_style: :bold) do
               column(2).style(align: :right)
               column(3).style(align: :right)
             end
@@ -66,23 +66,12 @@ module Export
             }
           end
 
-          def split_invoice_part_groups(invoice_parts = invoice.invoice_parts)
-            [].tap do |groups|
-              group ||= []
-              invoice_parts.each do |invoice_part|
-                next group << invoice_part_table_row_data(invoice_part) unless invoice_part.is_a? ::InvoiceParts::Text
-
-                groups << group if group.any?
-                group = [invoice_part_table_row_data(invoice_part)]
-              end
-              groups << group if group.present?
-            end
-          end
-
           def invoice_part_table_row_data(invoice_part)
             case invoice_part
+            when ::InvoiceParts::Title
+              [{ content: invoice_part.label, font_style: :bold, padding: [8, 4, 4, 0] }, '', '', '']
             when ::InvoiceParts::Text
-              [{ content: invoice_part.label, font_style: :bold }, '', '', '']
+              [{ content: invoice_part.label || '' }, { content: invoice_part.breakdown || '' }, 'x', 'x']
             else
               [invoice_part.label, invoice_part.breakdown, organisation.currency,
                number_to_currency(invoice_part.calculated_amount, unit: '')]

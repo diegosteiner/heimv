@@ -58,7 +58,7 @@ class InvoicePart
 
       apply = invoice.invoice_parts.none?
 
-      [InvoiceParts::Text.new(apply:, label: Invoices::Deposit.model_name.human),
+      [InvoiceParts::Title.new(apply:, label: Invoices::Deposit.model_name.human),
        InvoiceParts::Deposit.new(apply:, label: I18n.t('invoice_parts.deposited_amount'), amount: - deposited_amount,
                                  vat_category_id: accounting_settings.rental_yield_vat_category_id,
                                  accounting_account_nr: accounting_settings.rental_yield_account_nr,
@@ -69,23 +69,45 @@ class InvoicePart
       @invoice.supersede_invoice&.invoice_parts&.map(&:dup) if @invoice.new_record?
     end
 
-    def usages_to_invoice_parts(usages) # rubocop:disable Metrics/AbcSize
-      usages.filter_map do |usage|
+    def usages_to_invoice_parts(usages)
+      usages.flat_map do |usage|
         next unless usage.tarif&.associated_types&.include?(Tarif::ASSOCIATED_TYPES.key(invoice.class))
 
-        apply = invoice.invoice_parts.none? && usage.tarif.apply_usage_to_invoice?(usage, invoice)
-        usage.instance_eval do
-          InvoiceParts::Add.new(usage: self, apply:, label: tarif.label, ordinal: tarif.ordinal,
-                                vat_category: tarif.vat_category, breakdown: remarks.presence || breakdown,
-                                amount: price, accounting_account_nr: tarif.accounting_account_nr,
-                                accounting_cost_center_nr: tarif.accounting_cost_center_nr)
+        case usage.tarif
+        when Tarifs::OvernightStay
+          overnight_stay_usage_to_invoice_part(usage)
+        else
+          default_usage_to_invoice_part(usage)
         end
+      end.compact
+    end
+
+    def overnight_stay_usage_to_invoice_part(usage)
+      dates = usage.booking.dates
+      [default_usage_to_invoice_part(usage)] + dates.map do |date|
+        amount = usage.details[date.iso8601]
+        next if amount.blank?
+
+        breakdown = [I18n.l(date),
+                     ActiveSupport::NumberHelper.number_to_rounded(amount, precision: 2,
+                                                                           strip_insignificant_zeros: true)].join(': ')
+        InvoiceParts::Text.new(label: '', apply: true, breakdown:)
+      end
+    end
+
+    def default_usage_to_invoice_part(usage) # rubocop:disable Metrics/AbcSize
+      apply = invoice.invoice_parts.none? && usage.tarif.apply_usage_to_invoice?(usage, invoice)
+      usage.instance_eval do
+        InvoiceParts::Add.new(usage: self, apply:, label: tarif.label, ordinal: tarif.ordinal,
+                              vat_category: tarif.vat_category, breakdown: remarks.presence || breakdown,
+                              amount: price, accounting_account_nr: tarif.accounting_account_nr,
+                              accounting_cost_center_nr: tarif.accounting_cost_center_nr)
       end
     end
 
     def usage_group_to_invoice_part(group, group_usages)
       apply = group.present? && group_usages.any?(&:apply)
-      InvoiceParts::Text.new(label: group, apply:)
+      InvoiceParts::Title.new(label: group, apply:)
     end
   end
 end

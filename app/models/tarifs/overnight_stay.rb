@@ -44,5 +44,11 @@
 module Tarifs
   class OvernightStay < ::Tarif
     Tarif.register_subtype self
+
+    def before_usage_validation(usage)
+      dates = usage.booking.dates
+      usage.details = usage.details.slice(*dates.map(&:iso8601)).transform_values { _1.presence&.to_f }
+      usage.used_units = usage.details.values.compact.sum if usage.used_units.blank?
+    end
   end
 end
