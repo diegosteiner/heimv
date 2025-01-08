@@ -52,7 +52,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
     end
 
     context 'with SCOR Ref' do
-      it { is_expected.to eq('RF 37123 45678 91011 1213') }
+      it { is_expected.to eq('RF37 1234 5678 9101 1121 3') }
     end
   end
 end
