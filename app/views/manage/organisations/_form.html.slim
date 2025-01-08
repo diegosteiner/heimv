@@ -99,8 +99,8 @@
         .card.shadow-sm 
           .card-body
             = bsf.select :default_manage_transition_to_state, BookingStateSettings.manage_transition_to_states(@organisation).map { [_1.t(:label), _1.to_sym] }, value: booking_state_settings.default_manage_transition_to_state
-            = bsf.collection_check_boxes :occupied_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }
-            = bsf.collection_check_boxes :editable_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }
+            = bsf.collection_select :occupied_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
+            = bsf.collection_select :editable_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
 
     - if current_user.role_admin?
       fieldset
