@@ -1,5 +1,11 @@
 # Changelog
 
+## 25.1.2
+
+Unreleased
+
+- Feature: Configure editable booking states in organisation settings
+
 ## 25.1.1
 
 Released 04.01.2025

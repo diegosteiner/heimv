@@ -2007,7 +2007,7 @@ it:
       description: Notifica per richiesta di affitto non confermata (inquilino)
     upcoming_notification:
       default_body: |
-        <p>{{ booking.tenant.salutation_name }}</p>
+        <p>{{ booking.tenant.salutation }}</p>
 
         <p>Abbiamo ricevuto il contratto firmato e il pagamento in acconto. Ora nulla ostacola il vostro evento. Auguriamo a voi e al vostro gruppo un piacevole soggiorno nella nostra casa.</p>
 
