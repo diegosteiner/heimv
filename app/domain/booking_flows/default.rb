@@ -33,5 +33,22 @@ module BookingFlows
     state BookingStates::DeclinedRequest, to: %i[open_request]
     state BookingStates::CancelationPending, to: %i[cancelled]
     state BookingStates::Cancelled
+
+    def self.all
+      @all ||= states.to_h { |state| [state.to_sym, BookingStates[state.to_sym]] }
+    end
+
+    def self.displayed_by_default
+      @displayed_by_default ||= all.values.filter_map { |state| state.to_sym unless state.hidden }
+    end
+
+    def self.occupied_by_default
+      @occupied_by_default ||= %i[definitive_request awaiting_tenant awaiting_contract upcoming upcoming_soon]
+    end
+
+    def self.editable_by_default
+      @editable_by_default ||= %i[initial unconfirmed_request open_request provisional_request
+                                  booking_agent_request awaiting_tenant overdue_request]
+    end
   end
 end

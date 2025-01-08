@@ -7,7 +7,7 @@ h1.my-0= Booking.model_name.human(count: 2)
     button.btn.btn-primary[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
       span.fa.fa-filter<>
       = t(:filter)
-    = link_to manage_bookings_path(filter: { current_booking_states: BookingStates.displayed_by_default }), class: 'btn btn-outline-primary bg-body'
+    = link_to manage_bookings_path(filter: { current_booking_states: current_organisation.booking_flow_class.displayed_by_default }), class: 'btn btn-outline-primary bg-body'
       = t('.canned_filter_default')
     = link_to manage_bookings_path(filter: { current_booking_states: [:upcoming, :upcoming_soon] }), class: 'btn btn-outline-primary bg-body'
       = t('.canned_filter_upcoming')
@@ -54,7 +54,7 @@ h1.my-0= Booking.model_name.human(count: 2)
     = t('.too_many_records')
 - else
   - grouped_bookings = @bookings.group_by { |booking| booking.booking_state_cache }
-  - BookingStates.all.values.each do |state|
+  - current_organisation.booking_flow_class.all.values.each do |state|
     - bookings = grouped_bookings[state.to_s]
     - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
     - next if bookings.blank?

@@ -41,7 +41,7 @@ class Occupiable < ApplicationRecord
   belongs_to :organisation, inverse_of: :occupiables
   belongs_to :home, inverse_of: :occupiables, optional: true
 
-  attribute :settings, Settings::Type.new(OccupiableSettings), default: -> { OccupiableSettings.new }
+  attribute :settings, OccupiableSettings.to_type, default: -> { OccupiableSettings.new }
 
   translates :name, :description, column_suffix: '_i18n', locale_accessors: true
   ranks :ordinal, with_same: :organisation_id, class_name: 'Occupiable'

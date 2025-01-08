@@ -24,9 +24,9 @@ module Manage
     end
 
     def new
+      transition_to = current_organisation.booking_state_settings.default_manage_transition_to_state
       @booking = preparation_service.prepare_new(booking_params)
-      @booking.assign_attributes(organisation: current_organisation,
-                                 transition_to: current_organisation.settings.default_manage_transition_to_state)
+      @booking.assign_attributes(organisation: current_organisation, transition_to:)
       process_booking_question_responses
 
       respond_with :manage, @booking
@@ -116,7 +116,8 @@ module Manage
     end
 
     def default_booking_filter_params
-      { 'concluded' => 'inconcluded', 'current_booking_states' => BookingStates.displayed_by_default }
+      { 'concluded' => 'inconcluded',
+        'current_booking_states' => current_organisation.booking_flow_class.displayed_by_default }
     end
 
     class Import < Import::ApplicationImport

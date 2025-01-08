@@ -70,28 +70,37 @@
           = sf.text_field :default_begins_at_time, value: settings.default_begins_at_time
           = sf.text_field :default_ends_at_time, value: settings.default_ends_at_time
 
-          = sf.select :default_manage_transition_to_state, settings.manage_transition_to_states(@organisation).map { [_1.t(:label), _1.to_sym] }, value: settings.default_manage_transition_to_state
+          = sf.text_field :last_minute_warning, value: settings.last_minute_warning&.iso8601
+          = sf.text_field :booking_window, value: settings.booking_window&.iso8601
+          = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
 
           = sf.select :default_calendar_view, %i[months year].map { |view| [view, view] }
-          = sf.collection_check_boxes :occupied_occupancy_states, BookingStates.occupied_occupancy_able.values, :to_s, ->(state) { state&.t(:label) }
 
-          = sf.text_field :booking_window, value: settings.booking_window&.iso8601
+    = f.fields_for :deadline_settings, @organisation.deadline_settings || DeadlineSettings.new do |df|  
+      - deadline_settings = @organisation.deadline_settings
+      fieldset
+        h3.mt-5= DeadlineSettings.model_name.human
+        .card.shadow-sm 
+          .card-body
+            = df.text_field :unconfirmed_request_deadline, value: deadline_settings.unconfirmed_request_deadline&.iso8601
+            = df.text_field :provisional_request_deadline, value: deadline_settings.provisional_request_deadline&.iso8601
+            = df.text_field :awaiting_tenant_deadline, value: deadline_settings.awaiting_tenant_deadline&.iso8601
+            = df.text_field :overdue_request_deadline, value: deadline_settings.overdue_request_deadline&.iso8601
+            = df.text_field :awaiting_contract_deadline, value: deadline_settings.awaiting_contract_deadline&.iso8601
+            = df.text_field :deadline_postponable_for, value: deadline_settings.deadline_postponable_for&.iso8601
+            = df.text_field :deposit_payment_deadline, value: deadline_settings.deposit_payment_deadline&.iso8601
+            = df.text_field :invoice_payment_deadline, value: deadline_settings.invoice_payment_deadline&.iso8601
+            = df.text_field :payment_overdue_deadline, value: deadline_settings.payment_overdue_deadline&.iso8601
 
-    fieldset
-      h3.mt-5= Deadline.model_name.human(count: 2)
-      .card.shadow-sm 
-        .card-body
-          = sf.text_field :unconfirmed_request_deadline, value: settings.unconfirmed_request_deadline&.iso8601
-          = sf.text_field :provisional_request_deadline, value: settings.provisional_request_deadline&.iso8601
-          = sf.text_field :awaiting_tenant_deadline, value: settings.awaiting_tenant_deadline&.iso8601
-          = sf.text_field :overdue_request_deadline, value: settings.overdue_request_deadline&.iso8601
-          = sf.text_field :awaiting_contract_deadline, value: settings.awaiting_contract_deadline&.iso8601
-          = sf.text_field :deadline_postponable_for, value: settings.deadline_postponable_for&.iso8601
-          = sf.text_field :deposit_payment_deadline, value: settings.deposit_payment_deadline&.iso8601
-          = sf.text_field :last_minute_warning, value: settings.last_minute_warning&.iso8601
-          = sf.text_field :invoice_payment_deadline, value: settings.invoice_payment_deadline&.iso8601
-          = sf.text_field :payment_overdue_deadline, value: settings.payment_overdue_deadline&.iso8601
-          = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
+    = f.fields_for :booking_state_settings, @organisation.booking_state_settings || BookingStateSettings.new do |bsf|  
+      - booking_state_settings = @organisation.booking_state_settings
+      fieldset
+        h3.mt-5= BookingStateSettings.model_name.human
+        .card.shadow-sm 
+          .card-body
+            = bsf.select :default_manage_transition_to_state, BookingStateSettings.manage_transition_to_states(@organisation).map { [_1.t(:label), _1.to_sym] }, value: booking_state_settings.default_manage_transition_to_state
+            = bsf.collection_select :occupied_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
+            = bsf.collection_select :editable_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
 
     - if current_user.role_admin?
       fieldset
