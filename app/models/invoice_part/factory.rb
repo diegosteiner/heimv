@@ -83,16 +83,18 @@ class InvoicePart
     end
 
     def overnight_stay_usage_to_invoice_part(usage)
-      dates = usage.booking.dates
-      [default_usage_to_invoice_part(usage)] + dates.map do |date|
-        amount = usage.details[date.iso8601]
+      breakdown = usage.booking.dates.filter_map do |date|
+        amount = usage.details&.fetch(date.iso8601, nil)
         next if amount.blank?
 
-        breakdown = [I18n.l(date),
-                     ActiveSupport::NumberHelper.number_to_rounded(amount, precision: 2,
-                                                                           strip_insignificant_zeros: true)].join(': ')
-        InvoiceParts::Text.new(label: '', apply: true, breakdown:)
-      end
+        [
+          I18n.l(date),
+          ActiveSupport::NumberHelper.number_to_rounded(amount, precision: 2, strip_insignificant_zeros: true)
+        ].join(': ')
+      end.join("\n").presence
+
+      apply = usage.booking.organisation.settings.invoice_show_usage_details
+      [default_usage_to_invoice_part(usage), (InvoiceParts::Text.new(label: '', apply:, breakdown:) if breakdown)]
     end
 
     def default_usage_to_invoice_part(usage) # rubocop:disable Metrics/AbcSize

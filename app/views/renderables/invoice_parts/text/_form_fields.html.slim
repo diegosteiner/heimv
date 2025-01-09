@@ -8,9 +8,10 @@ div
     .col-4
       = f.text_field :label, hide_label: true
     .col-4
-      = f.text_field :breakdown, hide_label: true
+      = f.text_area :breakdown, hide_label: true
     .col-2
-    .col-1.p-2.text-end
+    .col-1.text-end.align-middle
       - unless invoice_part.new_record? || invoice_part.invoice.blank?
-        = link_to edit_manage_invoice_invoice_part_path(invoice_part.invoice, invoice_part)
-          i.fa.fa-pencil
+        .btn-group
+          = link_to edit_manage_invoice_invoice_part_path(invoice_part.invoice, invoice_part), class: "btn btn-default border-0 p-1"
+            i.fa.fa-pencil

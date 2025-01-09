@@ -47,7 +47,7 @@ Metrics/BlockLength:
     - "app/models/ability.rb"
 
 Metrics/AbcSize:
-  Max: 18
+  Max: 20
   Exclude:
     - "db/migrate/*"
     - "spec/**/*"

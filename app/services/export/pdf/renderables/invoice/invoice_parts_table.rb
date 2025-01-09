@@ -22,10 +22,13 @@ module Export
           end
 
           def render_invoice_parts_table
+            invoice_parts_data = invoice_parts.map { invoice_part_table_row_data(_1) }
+            return if invoice_parts_data.blank?
+
             title_indexes = invoice_parts.map.with_index do |invoice_part, index|
               index if invoice_part.is_a?(InvoiceParts::Title)
             end.compact
-            table invoice_parts.map { invoice_part_table_row_data(_1) }, **table_options do
+            table invoice_parts_data, **table_options do
               column(2).style(align: :right)
               column(3).style(align: :right)
               row(title_indexes).padding = [8, 4, 4, 0]
@@ -71,7 +74,7 @@ module Export
             when ::InvoiceParts::Title
               [{ content: invoice_part.label, font_style: :bold, padding: [8, 4, 4, 0] }, '', '', '']
             when ::InvoiceParts::Text
-              [{ content: invoice_part.label || '' }, { content: invoice_part.breakdown || '' }, 'x', 'x']
+              [{ content: invoice_part.label || '' }, { content: invoice_part.breakdown || '' }, '', '']
             else
               [invoice_part.label, invoice_part.breakdown, organisation.currency,
                number_to_currency(invoice_part.calculated_amount, unit: '')]

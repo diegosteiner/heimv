@@ -12,7 +12,7 @@ class BookingPreparationService
     end
   end
 
-  def prepare_new(params) # rubocop:disable Metrics/AbcSize
+  def prepare_new(params)
     prepare_create(params).tap do |booking|
       settings = @organisation.settings
       booking.occupiables = booking.home.occupiables if booking.home&.occupiables&.count == 1
