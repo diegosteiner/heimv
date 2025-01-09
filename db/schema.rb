@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_08_161407) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_09_153822) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -347,27 +347,36 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_08_161407) do
   create_table "journal_entries", force: :cascade do |t|
     t.bigint "invoice_id"
     t.bigint "vat_category_id"
-    t.string "account_nr", null: false
-    t.integer "side", null: false
-    t.decimal "amount", null: false
-    t.date "date", null: false
-    t.string "text"
     t.string "currency", null: false
-    t.integer "ordinal"
     t.string "ref"
     t.integer "book_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "invoice_part_id"
     t.bigint "payment_id"
     t.integer "trigger", null: false
     t.uuid "booking_id", null: false
     t.datetime "processed_at"
+    t.date "date", null: false
+    t.jsonb "fragments"
     t.index ["booking_id"], name: "index_journal_entries_on_booking_id"
     t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
-    t.index ["invoice_part_id"], name: "index_journal_entries_on_invoice_part_id"
     t.index ["payment_id"], name: "index_journal_entries_on_payment_id"
     t.index ["vat_category_id"], name: "index_journal_entries_on_vat_category_id"
+  end
+
+  create_table "journal_entry", force: :cascade do |t|
+    t.uuid "booking_id", null: false
+    t.bigint "invoice_id"
+    t.bigint "payment_id"
+    t.date "date", null: false
+    t.string "ref", null: false
+    t.string "currency", null: false
+    t.integer "trigger", null: false
+    t.integer "integer", null: false
+    t.jsonb "fragments"
+    t.index ["booking_id"], name: "index_journal_entry_on_booking_id"
+    t.index ["invoice_id"], name: "index_journal_entry_on_invoice_id"
+    t.index ["payment_id"], name: "index_journal_entry_on_payment_id"
   end
 
   create_table "key_sequences", force: :cascade do |t|
@@ -722,6 +731,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_08_161407) do
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
   add_foreign_key "journal_entries", "invoices"
   add_foreign_key "journal_entries", "vat_categories"
+  add_foreign_key "journal_entry", "invoices"
+  add_foreign_key "journal_entry", "payments"
   add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
   add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"

@@ -131,7 +131,7 @@ class Invoice < ApplicationRecord
     return unless organisation.accounting_settings.enabled
 
     existing_ids = organisation.journal_entries.where(invoice: self, payment: nil).pluck(:id)
-    new_journal_entries = JournalEntry::Factory.new.invoice(self)
+    new_journal_entries = JournalEntry::Factory.new.build_invoice_created(self)
 
     # raise ActiveRecord::Rollback unless
     new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
