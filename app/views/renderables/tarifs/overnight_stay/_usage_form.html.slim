@@ -1,15 +1,14 @@
-/ - detail_element_id = "overnight-stay-form_usage-#{usage.id}"
+- detail_element_id = "overnight-stay-form_usage-#{usage.tarif_id}-#{usage.id}"
 = render layout: 'manage/tarifs/usage_form', locals: { usage:, f: }
-  = f.text_field :used_units, skip_label: true, wrapper: false, class: 'text-end', tabindex: 1, inputmode: "numeric" 
-    / , prepend: tag.button(class: 'btn btn-outline-primary bg-body', 'type' => "button", 'data-bs-toggle' => "collapse", 'data-bs-target'=>"##{detail_element_id}", 'aria-expanded'=>"false", 'aria-controls'=>"##{detail_element_id}") { tag.span(class: 'fa fa-calendar') }
+  = f.text_field :used_units, skip_label: true, wrapper: false, class: 'text-end', tabindex: 1, inputmode: "numeric" \
+    , append: tag.button(class: 'btn btn-primary', 'type' => "button", 'data-bs-toggle' => "collapse", 'data-bs-target'=>"##{detail_element_id}", 'aria-expanded'=>"false", 'aria-controls'=>"##{detail_element_id}") { tag.span(class: 'fa fa-moon-o') }
       
-  / .collapse.mb-2[id=detail_element_id]
-  /   = f.fields_for :data do |df|
-  /     - usage.booking.dates.each do |date|
-  /       .d-flex.bg-danger
-  /         .col.p-2
-  /           = l(date)
-  /         .col.p-1
-  /           = df.text_field date.iso8601, value: usage.data&.fetch(date.iso8601), skip_label: true, wrapper: false, class: 'text-end w-100 form-control-sm', tabindex: 1, inputmode: "numeric"
+  .collapse.mt-2[id=detail_element_id]
+    - usage.booking.dates.each do |date|
+      .d-flex
+        .col.p-2
+          = l(date)
+        .col.p-1
+          = f.text_field :details, name: f.field_name(:details, date.iso8601), value: usage.details&.fetch(date.iso8601, nil), skip_label: true, wrapper: false, class: 'text-end w-100 form-control-sm', tabindex: 1, inputmode: "numeric"
           
           

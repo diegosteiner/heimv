@@ -37,6 +37,7 @@ class Usage < ApplicationRecord
   delegate :tarif_group, to: :tarif, allow_nil: true
 
   before_validation { tarif&.before_usage_validation(self) }
+  before_validation { tarif&.validate_usage(self) }
   before_save { tarif&.before_usage_save(self) }
   before_create :pin_price_per_unit
 

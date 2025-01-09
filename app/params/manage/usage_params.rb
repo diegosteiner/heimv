@@ -6,7 +6,7 @@ module Manage
       %i[tarif_id booking_id used_units remarks price_per_unit committed] +
         [{
           meter_reading_period_attributes: %i[start_value end_value id _destroy],
-          data: {}
+          details: {}
         }]
     end
   end

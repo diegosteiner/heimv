@@ -28,9 +28,10 @@ describe BookingActions::Manage::EmailContract do
     it { expect(booking_after_invoke.notifications.last.attachments).to be_present }
 
     context 'with deposit' do
-      let!(:deposit) { Invoice::Factory.new.call(booking, type: Invoices::Deposit.to_s).tap(&:save) }
+      let(:deposit) { create(:deposit, booking:) }
 
       it do
+        expect(deposit.invoice_parts).to be_present
         invoke
         expect(deposit.reload).to be_sent
       end
