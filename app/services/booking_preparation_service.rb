@@ -28,7 +28,7 @@ class BookingPreparationService
   def adjust_time(value, default_time)
     return value.presence if value.blank? || value != value.midnight # || (10 < params[:begins_at]&.size)
 
-    time_hash = OrganisationSettings.time_hash(default_time)
+    time_hash = self.class.time_hash(default_time)
     time_hash.present? ? value.change(time_hash) : value
   end
 
