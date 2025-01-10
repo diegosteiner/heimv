@@ -38,8 +38,6 @@ class InvoicePart < ApplicationRecord
   has_one :tarif, through: :usage
   has_one :booking, through: :usage
 
-  has_many :journal_entries, inverse_of: :invoice_part, dependent: :destroy
-
   attribute :apply, :boolean, default: true
 
   delegate :booking, :organisation, to: :invoice

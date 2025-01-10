@@ -50,16 +50,16 @@ module Manage
     private
 
     def set_filter
-      @filter = JournalEntry::Filter.new(processed: false, **(journal_entry_filter_params || {}))
+      @filter = JournalEntry::Filter.new(**(journal_entry_filter_params || {}))
     end
 
     def journal_entry_filter_params
-      params[:filter]&.permit(%w[processed_at_after processed_at_before date_after date_before processed])
+      params[:filter]&.permit(%w[date_after date_before])
     end
 
     # def journal_entry_params
-    #   params.require(:journal_entry).permit(*%i[invoice_id source_type source_id vat_category_id account_nr side amount
-    #                                             date text currency ordinal ref book_type])
+    #   params.require(:journal_entry).permit(*%i[invoice_id source_type source_id vat_category_id account_nr side
+    #                                             amount date text currency ordinal ref book_type])
     # end
   end
 end

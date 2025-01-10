@@ -50,15 +50,15 @@ class JournalEntry < ApplicationRecord
   end
 
   def related
-    @related ||= journal_entries.index_by(&:book_type).symbolize_keys
+    @related ||= fragments.index_by(&:book_type).symbolize_keys
   end
 
   def soll_amount(book_type: %i[main vat])
-    journal_entries.filter_map { _1.soll_amount || 0 if Array.wrap(book_type).include?(_1.book_type) }.sum
+    fragments.filter_map { _1.soll_amount || 0 if Array.wrap(book_type).include?(_1.book_type) }.sum
   end
 
   def haben_amount(book_type: %i[main vat])
-    journal_entries.filter_map { _1.haben_amount || 0 if Array.wrap(book_type).include?(_1.book_type) }.sum
+    fragments.filter_map { _1.haben_amount || 0 if Array.wrap(book_type).include?(_1.book_type) }.sum
   end
 
   def balanced?

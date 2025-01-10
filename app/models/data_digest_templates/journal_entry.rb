@@ -30,31 +30,31 @@ module DataDigestTemplates
     DEFAULT_COLUMN_CONFIG = [
       {
         header: ::JournalEntry.human_attribute_name(:date),
-        body: '{{ journal_entry.date | date_format }}'
+        body: '{{ journal_entry_fragment.journal_entry.date | date_format }}'
       },
       {
         header: ::JournalEntry.human_attribute_name(:ref),
-        body: '{{ journal_entry.ref }}'
+        body: '{{ journal_entry_fragment.journal_entry.ref }}'
       },
       {
         header: ::JournalEntry.human_attribute_name(:text),
-        body: '{{ journal_entry.text }}'
+        body: '{{ journal_entry_fragment.text }}'
       },
       {
         header: ::JournalEntry.human_attribute_name(:soll_account),
-        body: '{{ journal_entry.soll_account }}'
+        body: '{{ journal_entry_fragment.soll_account }}'
       },
       {
         header: ::JournalEntry.human_attribute_name(:haben_account),
-        body: '{{ journal_entry.haben_account }}'
+        body: '{{ journal_entry_fragment.haben_account }}'
       },
       {
         header: ::JournalEntry.human_attribute_name(:amount),
-        body: '{{ journal_entry.amount | round: 2 }}'
+        body: '{{ journal_entry_fragment.amount | round: 2 }}'
       },
       {
         header: ::JournalEntry.human_attribute_name(:book_type),
-        body: '{{ journal_entry.book_type }}'
+        body: '{{ journal_entry_fragment.book_type }}'
       },
       {
         header: ::Booking.human_attribute_name(:ref),
@@ -63,19 +63,29 @@ module DataDigestTemplates
     ].freeze
 
     column_type :default do
-      body do |journal_entry, template_context_cache|
-        booking = journal_entry.booking
-        context = template_context_cache[cache_key(journal_entry)] ||=
-          TemplateContext.new(booking:, organisation: booking.organisation, journal_entry:).to_h
+      body do |journal_entry_fragment, template_context_cache|
+        booking = journal_entry_fragment.parent.booking
+        context = template_context_cache[cache_key(journal_entry_fragment)] ||=
+          TemplateContext.new(booking:, organisation: booking.organisation, journal_entry_fragment:).to_h
         @templates[:body]&.render!(context)
       end
     end
 
+    def crunch(records)
+      record_ids = records.pluck(:id).uniq
+      base_scope.where(id: record_ids).find_each(cursor: record_order.keys,
+                                                 order: record_order.values).map do |record|
+        record.fragments.map do |fragment|
+          template_context_cache = {}
+          columns.map { |column| column.body(fragment, template_context_cache) }
+        end
+      end.flatten(1)
+    end
+
     formatter(:taf) do |_options = {}|
-      journal_entry_compounds = ::JournalEntry::Compound.group(records)
-      Export::Taf::Document.new do
-        journal_entry_compounds.each { build_with_journal_entry_compound(_1) }
-      end.serialize
+      Export::Taf::Builder.new do
+        records.each { build_with_journal_entry(_1) }
+      end.document.serialize
     end
 
     def periodfilter(period = nil)

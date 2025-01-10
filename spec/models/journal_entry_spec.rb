@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: journal_entries
@@ -33,53 +34,35 @@ RSpec.describe JournalEntry, type: :model do
   let(:invoice) { create(:invoice, booking:) }
 
   describe '::collect' do
-    let(:amount) { 500 }
-    let(:ref) { 'test' }
-    let(:date) { Time.zone.today }
-
-    subject(:compound) do
-      described_class.collect(booking:, ref:, date:, trigger: :manual) do |compound|
-        compound.soll(account_nr: 6000, amount:)
-        compound.haben(account_nr: 1000, amount:)
-      end
-    end
-
-    it 'collects the journal entries as compound' do
-      expect(compound).to be_a(JournalEntry::Compound)
-      expect(compound.journal_entries).to contain_exactly(
-        have_attributes(side: 'soll', account_nr: '6000', book_type: 'main', amount:, booking:, ref:, date:),
-        have_attributes(side: 'haben', account_nr: '1000', book_type: 'main', amount:, booking:, ref:, date:)
-      )
-      expect(compound).to be_valid
-      compound.save!
-      expect(compound.journal_entries).to all(be_persisted)
-    end
-  end
-
-  describe '::compounds' do
-    subject(:compounds) { JournalEntry::Compound.group(described_class.all) }
-    before do
-      described_class.collect(booking:, ref: 'test 1', date: 2.weeks.ago, trigger: :manual) do |compound|
-        compound.soll(account_nr: 6000, amount: 1000)
-        compound.haben(account_nr: 1000, amount: 500)
-        compound.haben(account_nr: 2000, amount: 500)
-      end.save!
-      described_class.collect(booking:, ref: 'test 2', date: 1.week.ago, trigger: :manual) do |compound|
-        compound.soll(account_nr: 6000, amount: 800)
-        compound.haben(account_nr: 1000, amount: 800)
-      end.save!
+    subject(:journal_entries) do
+      [
+        described_class.collect(booking:, ref: 'test 1', date: 2.weeks.ago, trigger: :manual) do |collector|
+          collector.soll(account_nr: 6000, amount: 1000)
+          collector.haben(account_nr: 1000, amount: 500)
+          collector.haben(account_nr: 2000, amount: 500)
+        end,
+        described_class.collect(booking:, ref: 'test 2', date: 1.week.ago, trigger: :manual) do |collector|
+          collector.soll(account_nr: 6000, amount: 800)
+          collector.haben(account_nr: 1000, amount: 800)
+        end
+      ]
     end
 
     it 'groups the compounds back together' do
-      expect(compounds.map(&:journal_entries)).to contain_exactly(
+      expect(journal_entries.map(&:save)).to all(be_truthy)
+      expect(journal_entries).to contain_exactly(
+        have_attributes(booking:, ref: 'test 1'),
+        have_attributes(booking:, ref: 'test 2')
+      )
+      expect(journal_entries.map { _1.fragments }).to contain_exactly(
         contain_exactly(
-          have_attributes(side: 'soll', account_nr: '6000', amount: 1000, booking:, ref: 'test 1'),
-          have_attributes(side: 'haben', account_nr: '1000', amount: 500, booking:, ref: 'test 1'),
-          have_attributes(side: 'haben', account_nr: '2000', amount: 500, booking:, ref: 'test 1')
+          have_attributes(side: 'soll', account_nr: '6000', amount: 1000),
+          have_attributes(side: 'haben', account_nr: '1000', amount: 500),
+          have_attributes(side: 'haben', account_nr: '2000', amount: 500)
         ),
         contain_exactly(
-          have_attributes(side: 'soll', account_nr: '6000', amount: 800, booking:, ref: 'test 2'),
-          have_attributes(side: 'haben', account_nr: '1000', amount: 800, booking:, ref: 'test 2')
+          have_attributes(side: 'soll', account_nr: '6000', amount: 800),
+          have_attributes(side: 'haben', account_nr: '1000', amount: 800)
         )
       )
     end

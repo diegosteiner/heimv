@@ -49,14 +49,14 @@ class Payment < ApplicationRecord
   scope :ordered, -> { order(paid_at: :DESC) }
   scope :recent, -> { where(arel_table[:paid_at].gt(3.months.ago)) }
 
-  attr_accessor :skip_generate_journal_entries
+  attr_accessor :skip_generate_journal_entry
 
   delegate :accounting_settings, to: :organisation
 
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
   after_save :recalculate_invoice
-  after_save :generate_journal_entries!, if: :generate_journal_entries?
+  after_save :generate_journal_entry!, if: :generate_journal_entry?
 
   before_validation do
     self.booking = invoice&.booking || booking
@@ -74,18 +74,18 @@ class Payment < ApplicationRecord
     MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
   end
 
-  def generate_journal_entries?
-    organisation.accounting_settings.enabled && !skip_generate_journal_entries
+  def generate_journal_entry?
+    organisation.accounting_settings.enabled && !skip_generate_journal_entry
   end
 
-  def generate_journal_entries!
+  def generate_journal_entry!
     return unless accounting_settings.enabled && accounting_settings.payment_account_nr.present?
 
     existing_ids = organisation.journal_entries.where(payment: self).pluck(:id)
-    new_journal_entries = JournalEntry::Factory.new.payment(self)
+    new_journal_entry = JournalEntry::Factory.new.payment(self)
 
     # raise ActiveRecord::Rollback unless
-    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
+    new_journal_entry.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
     journal_entries.reload
   end
 

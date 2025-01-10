@@ -54,7 +54,7 @@ class Invoice < ApplicationRecord
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
-  attr_accessor :skip_generate_pdf, :skip_generate_journal_entries
+  attr_accessor :skip_generate_pdf, :skip_generate_journal_entry
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
@@ -73,9 +73,9 @@ class Invoice < ApplicationRecord
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!
-  after_save :generate_journal_entries!, if: :generate_journal_entries?
+  after_save :generate_journal_entry!, if: :generate_journal_entry?
   after_save :update_payments
-  after_discard :generate_journal_entries!, if: :generate_journal_entries?
+  after_discard :generate_journal_entry!, if: :generate_journal_entry?
 
   delegate :currency, to: :organisation
 
@@ -123,18 +123,18 @@ class Invoice < ApplicationRecord
     self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
   end
 
-  def generate_journal_entries?
-    organisation.accounting_settings.enabled && !skip_generate_journal_entries
+  def generate_journal_entry?
+    organisation.accounting_settings.enabled && !skip_generate_journal_entry
   end
 
-  def generate_journal_entries!
+  def generate_journal_entry!
     return unless organisation.accounting_settings.enabled
 
     existing_ids = organisation.journal_entries.where(invoice: self, payment: nil).pluck(:id)
-    new_journal_entries = JournalEntry::Factory.new.build_invoice_created(self)
+    new_journal_entry = JournalEntry::Factory.new.build_invoice_created(self)
 
     # raise ActiveRecord::Rollback unless
-    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
+    new_journal_entry.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
     journal_entries.reload
   end
 
