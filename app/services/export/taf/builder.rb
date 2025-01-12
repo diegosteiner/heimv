@@ -7,35 +7,38 @@ module Export
     class Builder
       attr_reader :blocks
 
-      delegate :to_a, :[], :<<, to: :blocks
-
-      def initialize(&)
+      def initialize
         @blocks = []
-        instance_exec(&) if block_given?
       end
 
-      def build_with_journal_entry(journal_entry, **override)
-        build(:Bk, **{
+      def self.build(&)
+        builder = new
+        builder.instance_exec(&) if block_given?
+        builder.blocks
+      end
+
+      def journal_entry_fragment(fragment, override = {})
+        block(:Bk, **{
                 # The Id of a book keeping account. [Fibu-Konto]
-                AccId: Value.cast(journal_entry.account_nr, as: :symbol),
+                AccId: Value.cast(fragment.account_nr, as: :symbol),
 
                 # Integer; Booking type: 1=cost booking, 2=tax booking
-                BType: { main: nil, cost: 1, vat: 2 }[journal_entry.book_type&.to_sym],
+                BType: { main: nil, cost: 1, vat: 2 }[fragment.book_type&.to_sym],
 
                 # String[13], This is the cost type account
-                # CAcc: (Value.cast(journal_entry.cost_account_nr, as: :symbol) if journal_entry.cost_account_nr),
+                # CAcc: (Value.cast(fragment.cost_account_nr, as: :symbol) if fragment.cost_account_nr),
 
                 # Integer; This is the index of the booking that represents the cost booking which is attached to t
                 # his booking
-                # CIdx: journal_entry.index,
+                # CIdx: fragment.index,
 
                 # String[9]; A user definable code.
-                Code: journal_entry.id,
+                # Code: nil,
 
                 # Date; The date of the booking.
-                Date: journal_entry.date,
+                Date: fragment.journal_entry.date,
 
-                # IntegerAuxilliary flags. This journal_entry consists of the sum of one or more of
+                # IntegerAuxilliary flags. This fragment consists of the sum of one or more of
                 # the following biases:
                 # 1 - The booking is the first one into the specified OP.
                 # 16 - This is a hidden booking. [Transitorische]
@@ -44,13 +47,13 @@ module Export
                 Flags: nil,
 
                 # String[5]; The Id of the tax. [MWSt-Kürzel]
-                TaxId: (journal_entry.book_type_main? && journal_entry.vat_category&.percentage&.positive? &&
-                      journal_entry.vat_category&.accounting_vat_code) || nil,
+                TaxId: (fragment.book_type_main? && fragment.vat_category&.percentage&.positive? &&
+                      fragment.vat_category&.accounting_vat_code) || nil,
 
-                # MkTxB: journal_entry.vat_category&.accounting_vat_code.present?,
+                # MkTxB: fragment.vat_category&.accounting_vat_code.present?,
 
                 # String[61*]; This string specifies the first line of the booking text.
-                Text: journal_entry.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
+                Text: fragment.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
 
                 #  String[*]; This string specifies the second line of the booking text.
                 # (*)Both fields Text and Text2 are stored in the same memory location,
@@ -59,121 +62,95 @@ module Export
                 # Be careful not to put too many characters onto one single line, because
                 # most Reports are not designed to display a full string containing 60
                 # characters.
-                Text2: journal_entry.text&.slice(0..59)&.lines&.[](1..)&.join("\n").presence, # rubocop:disable Style/SafeNavigationChainLength
+                Text2: fragment.text&.slice(0..59)&.lines&.[](1..)&.join("\n").presence, # rubocop:disable Style/SafeNavigationChainLength
 
                 # Integer; This is the index of the booking that represents the tax booking
                 # which is attached to this booking.
-                # TIdx: (journal_entry.amount_type&.to_sym == :tax && journal_entry.index) || nil,
+                # TIdx: (fragment.amount_type&.to_sym == :tax && fragment.index) || nil,
 
                 # Boolean; Booking type.
                 # 0 a debit booking [Soll]
                 # 1 a credit booking [Haben]
-                Type: { soll: 0, haben: 1 }[journal_entry.side&.to_sym],
+                Type: { soll: 0, haben: 1 }[fragment.side&.to_sym],
 
                 # Currency; The net amount for this booking. [Netto-Betrag]
-                ValNt: journal_entry.amount,
+                ValNt: fragment.amount,
 
                 # Currency; The tax amount for this booking. [Brutto-Betrag]
-                # ValBt: journal_entry.amount,
+                # ValBt: fragment.amount,
 
                 # Currency; The tax amount for this booking. [Steuer-Betrag]
-                ValTx: journal_entry.book_type_vat? &&
-                      journal_entry.vat_category&.breakup(vat: journal_entry.amount)&.[](:netto),
+                ValTx: fragment.book_type_vat? &&
+                      fragment.vat_category&.breakup(vat: fragment.amount)&.[](:netto),
 
                 # Currency; The gross amount for this booking in the foreign currency specified
                 # by currency of the account AccId. [FW-Betrag]
                 # ValFW : not implemented
 
                 # String[13]The OP id of this booking.
-                # OpId: journal_entry.ref,
+                # OpId: fragment.ref,
 
                 # The PK number of this booking.
                 PkKey: nil
               }, **override)
       end
 
-      def build_with_payment(payment, **_override)
-        raise StandardError, 'Abschreibung is not yet supported' if payment.write_off
-
-        # op_id = Value.cast(payment.invoice.ref, as: :symbol)
-        # pk_key = Value.cast(payment.invoice.booking.tenant.ref, as: :symbol)
-        payment.journal_entries.to_a.map do |journal_entry|
-          build_with_journal_entry(journal_entry)
-        end
-      end
-
-      def build_with_journal_entry_compound(compound)
-        case compound.common[:trigger]&.to_sym
+      def journal_entry(journal_entry)
+        case journal_entry.trigger&.to_sym
         when :invoice_created
-          build_with_invoice_created_journal_entry_compound(compound)
+          invoice_created_journal_entry(journal_entry)
         when :payment_created
-          build_with_payment_created_journal_entry_compound(compound)
+          default_journal_entry(journal_entry)
         end
       end
 
-      def build_with_payment_created_journal_entry_compound(compound)
-        build(:Blg, **{ Date: compound.common[:date] }) do
-          journal_entries = compound.journal_entries
-          compound.journal_entries.each_with_index do |journal_entry, index|
-            cost_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.related[:cost])) || nil
-            vat_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.related[:vat])) || nil
-            taf_index = index + 1
-            build_with_journal_entry(journal_entry, CIdx: cost_index&.+(taf_index), TIdx: vat_index&.+(taf_index))
+      def default_journal_entry(journal_entry, overrides = {})
+        block(:Blg, **{ Date: journal_entry.date }) do
+          journal_entry.fragments.each_with_index do |fragment, index|
+            cost_index = (fragment.book_type_main? && journal_entry.fragments.index(fragment.related(:cost))) || nil
+            vat_index = (fragment.book_type_main? && journal_entry.fragments.index(fragment.related(:vat))) || nil
+
+            journal_entry_fragment(fragment, { CIdx: cost_index&.+(1), TIdx: vat_index&.+(1),
+                                               **overrides.fetch(:all, {}), **overrides.fetch(index, {}) })
           end
         end
       end
 
-      def build_with_invoice_created_journal_entry_compound(compound)
-        booking = Booking.find compound.common[:booking_id]
-        op_id = Value.cast(compound.common[:ref], as: :symbol)
-        pk_key = Value.cast(booking.tenant.ref, as: :symbol)
-        journal_entries = compound.journal_entries.dup
+      def invoice_created_journal_entry(journal_entry)
+        op_id = Value.cast(journal_entry.invoice&.ref, as: :symbol)
+        pk_key = Value.cast(journal_entry.booking.tenant.ref, as: :symbol)
 
-        [
-          build_with_tenant(booking.tenant),
-          build(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' }),
-          build(:Blg, **{ Date: compound.common[:date], Orig: true }) do
-            # TODO: check if this is really the debitor_journal_entry
-            creation_journal_entry = journal_entries.shift
-            build_with_journal_entry(creation_journal_entry, Flags: 1, OpId: op_id, PkKey: pk_key, CAcc: :div)
-
-            journal_entries.each_with_index do |journal_entry, index|
-              cost_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.related[:cost])) || nil
-              vat_index = (journal_entry.book_type_main? && journal_entries.index(journal_entry.related[:vat])) || nil
-              taf_index = index + 2
-              build_with_journal_entry(journal_entry, CIdx: cost_index&.+(taf_index), TIdx: vat_index&.+(taf_index),
-                                                      CAcc: Value.cast(creation_journal_entry.account_nr, as: :symbol))
-            end
-          end
-        ]
+        tenant(journal_entry.booking.tenant)
+        block(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' })
+        default_journal_entry(journal_entry, { 0 => { Flags: 1, OpId: op_id, PkKey: pk_key } })
+        # journal_entry.children[0].properties.merge!(Flags: 1, OpId: op_id, PkKey: pk_key, CAcc: :div)
+        # journal_entry.children.each { _1.properties.merge!(CAcc: Value.cast(creation_journal_entry.account_nr,
+        # as: :symbol))) }
       end
 
-      def build_with_tenant(tenant, **_override)
+      def tenant(tenant, _override = {})
         account_nr = Value.cast(tenant.ref, as: :symbol)
-        [
-          build(:Adr, **{
-                  AdrId: account_nr,
-                  Sort: I18n.transliterate(tenant.full_name).gsub(/\s/, '').upcase,
-                  Corp: tenant.full_name,
-                  Lang: 'D',
-                  Road: tenant.street_address,
-                  CCode: tenant.country_code,
-                  ACode: tenant.zipcode,
-                  City: tenant.city
-                }),
-          build(:PKd, **{
-                  PkKey: account_nr,
-                  AdrId: account_nr,
-                  AccId: Value.cast(tenant.organisation.accounting_settings.debitor_account_nr, as: :symbol),
-                  ZabId: '15T'
-                })
 
-        ]
+        block(:Adr, **{
+                AdrId: account_nr,
+                Sort: I18n.transliterate(tenant.full_name).gsub(/\s/, '').upcase,
+                Corp: tenant.full_name,
+                Lang: 'D',
+                Road: tenant.street_address,
+                CCode: tenant.country_code,
+                ACode: tenant.zipcode,
+                City: tenant.city
+              })
+        block(:PKd, **{
+                PkKey: account_nr,
+                AdrId: account_nr,
+                AccId: Value.cast(tenant.organisation.accounting_settings.debitor_account_nr, as: :symbol),
+                ZabId: '15T'
+              })
       end
 
-      def build(type, **properties, &)
-        children = (block_given? && Builder.new(&).blocks) || []
-        Block.new(type, children, **properties).tap { blocks << _1 }
+      def block(type, **properties, &)
+        blocks << Block.new(type, **properties, &)
       end
     end
   end

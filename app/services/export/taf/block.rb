@@ -8,10 +8,10 @@ module Export
 
       attr_reader :type, :properties, :children
 
-      def initialize(type, children = [], **properties)
+      def initialize(type, children = nil, **properties, &)
         @type = type
         @properties = properties.transform_values { Value.cast(_1) }
-        @children = children
+        @children = Array.wrap(children) + Builder.build(&)
       end
 
       def serialize(indent_level: 0, indent_with: '  ', separate_with: "\n")

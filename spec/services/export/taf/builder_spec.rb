@@ -12,13 +12,13 @@ describe Export::Taf::Builder, type: :model do
                     street_address: 'Bahnhofstr. 1', city: 'Bern', zipcode: 1234)
   end
 
-  subject(:builder) { described_class.new }
+  subject(:builder) { described_class.new([]) }
 
   describe 'build_with_journal_entry' do
-    subject(:taf_block) { builder.build_with_journal_entry(journal_entry) }
+    subject(:taf_block) { builder.journal_entry(journal_entry) }
     let(:journal_entry) do
-      JournalEntry.new(account_nr: 1050, amount: 2091.75, date: Date.new(2024, 10, 5), ref: '1234',
-                       side: :soll, vat_category:, booking:,
+      JournalEntry.new(booking:, date: Date.new(2024, 10, 5), ref: '1234') do |journal_entry|
+        journal_entry.soll(account_nr: 1050, amount: 2091.75, vat_category:,
                        text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
     end
 

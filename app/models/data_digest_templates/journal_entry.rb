@@ -83,9 +83,10 @@ module DataDigestTemplates
     end
 
     formatter(:taf) do |_options = {}|
-      Export::Taf::Builder.new do
-        records.each { build_with_journal_entry(_1) }
-      end.document.serialize
+      journal_entries = records
+      Export::Taf::Document.new do
+        journal_entries.each { journal_entry(_1) }
+      end.serialize
     end
 
     def periodfilter(period = nil)

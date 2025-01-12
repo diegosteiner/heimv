@@ -2,27 +2,24 @@
 #
 # Table name: journal_entries
 #
-#  id              :integer          not null, primary key
-#  invoice_id      :integer
-#  vat_category_id :integer
-#  currency        :string           not null
-#  ref             :string
-#  book_type       :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  payment_id      :integer
-#  trigger         :integer          not null
-#  booking_id      :uuid             not null
-#  processed_at    :datetime
-#  date            :date             not null
-#  fragments       :jsonb
+#  id           :integer          not null, primary key
+#  invoice_id   :integer
+#  currency     :string           not null
+#  ref          :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  payment_id   :integer
+#  trigger      :integer          not null
+#  booking_id   :uuid             not null
+#  processed_at :datetime
+#  date         :date             not null
+#  fragments    :jsonb
 #
 # Indexes
 #
-#  index_journal_entries_on_booking_id       (booking_id)
-#  index_journal_entries_on_invoice_id       (invoice_id)
-#  index_journal_entries_on_payment_id       (payment_id)
-#  index_journal_entries_on_vat_category_id  (vat_category_id)
+#  index_journal_entries_on_booking_id  (booking_id)
+#  index_journal_entries_on_invoice_id  (invoice_id)
+#  index_journal_entries_on_payment_id  (payment_id)
 #
 
 # frozen_string_literal: true
@@ -42,8 +39,14 @@ class JournalEntry < ApplicationRecord
 
   validates :ref, :currency, :date, :trigger, presence: true
   validates :fragments, store_model: true
+  validate { errors.add(:fragments, :invalid) unless balanced? }
 
   scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
+
+  def initialize(*, &)
+    super(*)
+    yield self if block_given?
+  end
 
   def set_currency
     self.currency ||= organisation&.currency
@@ -61,30 +64,23 @@ class JournalEntry < ApplicationRecord
     fragments.filter_map { _1.haben_amount || 0 if Array.wrap(book_type).include?(_1.book_type) }.sum
   end
 
+  def haben(**args)
+    fragment = Fragment.new(side: :haben, **args)
+    fragments << fragment if fragment&.valid?
+  end
+
+  def soll(**args)
+    fragment = Fragment.new(side: :soll, **args)
+    fragments << fragment if fragment&.valid?
+  end
+
   def balanced?
     soll_amount == haben_amount
   end
 
-  def self.collect(*, &)
-    Collector.new(new(*)).tap(&).journal_entry
-  end
-
-  class Collector
-    attr_reader :journal_entry
-
-    def initialize(journal_entry)
-      @journal_entry = journal_entry
-      journal_entry.fragments = []
-    end
-
-    def haben(**args)
-      fragment = Fragment.new(side: :haben, **args)
-      @journal_entry.fragments << fragment if fragment&.valid?
-    end
-
-    def soll(**args)
-      fragment = Fragment.new(side: :soll, **args)
-      @journal_entry.fragments << fragment if fragment&.valid?
+  def fragment_relations
+    fragments.group_by(&:invoice_part_id).transform_values do |related_fragments|
+      related_fragments.group_by(&:book_type).transform_values(&:first).symbolize_keys
     end
   end
 
@@ -117,39 +113,40 @@ class JournalEntry < ApplicationRecord
   class Factory
     def build_invoice_created(invoice)
       JournalEntry.collect(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking,
-                           trigger: :invoice_created) do |collector|
+                           trigger: :invoice_created) do |journal_entry|
         next unless invoice.is_a?(Invoices::Deposit) || invoice.is_a?(Invoices::Invoice)
         next unless invoice.kept?
 
-        build_invoice_debitor(invoice, collector)
-        invoice.invoice_parts.map { build_invoice_part(_1, collector) }
+        build_invoice_debitor(invoice, journal_entry)
+        invoice.invoice_parts.map { build_invoice_part(_1, journal_entry) }
       end
     end
 
-    def build_invoice_debitor(invoice, collector)
+    def build_invoice_debitor(invoice, journal_entry)
       invoice.instance_eval do
-        text = "#{ref} - #{booking.tenant.last_name}"
+        text = "R.#{ref} - #{booking.tenant.last_name}"
         # Der Betrag, welcher der Debitor noch schuldig ist. (inkl. MwSt.). Jak: «Erlösbuchung»
-        collector.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
+        journal_entry.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
       end
     end
 
-    def build_invoice_part(invoice_part, collector)
+    def build_invoice_part(invoice_part, journal_entry)
       case invoice_part
       when InvoiceParts::Add, InvoiceParts::Deposit
-        build_invoice_part_add(invoice_part, collector)
+        build_invoice_part_add(invoice_part, journal_entry)
       end
     end
 
-    def build_invoice_part_add(invoice_part, collector) # rubocop:disable Metrics/AbcSize
+    def build_invoice_part_add(invoice_part, journal_entry) # rubocop:disable Metrics/AbcSize
       invoice_part.instance_eval do
-        defaults = { invoice_part_id: id, vat_category_id:, text: "#{invoice.ref} #{label}" }
+        text = "R.#{invoice.ref} - #{invoice.booking.tenant.last_name}: #{label}"
 
-        collector.haben(**defaults, account_nr: accounting_account_nr, amount: vat_breakdown[:netto])
-        collector.haben(**defaults, account_nr: accounting_cost_center_nr,
-                                    book_type: :cost, amount: vat_breakdown[:netto])
-        collector.haben(**defaults, account_nr: vat_category&.organisation&.accounting_settings&.vat_account_nr,
-                                    book_type: :vat, amount: vat_breakdown[:vat])
+        journal_entry.haben(account_nr: accounting_account_nr, amount: vat_breakdown[:netto],
+                            invoice_part_id: id, vat_category_id:, text:)
+        journal_entry.haben(account_nr: accounting_cost_center_nr, amount: vat_breakdown[:netto],
+                            book_type: :cost, invoice_part_id: id, vat_category_id:, text:)
+        journal_entry.haben(account_nr: vat_category&.organisation&.accounting_settings&.vat_account_nr,
+                            amount: vat_breakdown[:vat], book_type: :vat, invoice_part_id: id, vat_category_id:, text:)
       end
     end
 
@@ -158,9 +155,9 @@ class JournalEntry < ApplicationRecord
         text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
 
         JournalEntry.collect(ref: id, date: paid_at, invoice:, payment: self, booking:,
-                             trigger: :payment_created) do |collector|
-          collector.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:, text:)
-          collector.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
+                             trigger: :payment_created) do |journal_entry|
+          journal_entry.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:, text:)
+          journal_entry.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
         end
       end
     end

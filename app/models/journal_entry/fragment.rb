@@ -11,7 +11,7 @@ class JournalEntry
     attribute :vat_category_id, :integer
 
     enum :side, { soll: 1, haben: -1 }
-    enum :book_type, { main: 0, cost: 1, vat: 2 }, prefix: true, default: :main
+    enum :book_type, { main: 0, cost: 1, vat: 2 }, _prefix: true, default: :main # rubocop:disable Style/EnumSyntax
 
     validates :account_nr, :side, :amount, :book_type, presence: true
     validates :amount, numericality: { other_than: 0 }
@@ -32,14 +32,12 @@ class JournalEntry
       amount if haben?
     end
 
-    def to_h
-      {
-        account_nr:, amount:, side:, book_type:, text:, vat_category_id:, invoice_part_id:
-      }
-    end
-
     def journal_entry
       parent
+    end
+
+    def related(book_type)
+      journal_entry.fragment_relations[invoice_part_id]&.fetch(book_type&.to_sym, nil)
     end
 
     def invoice_part
