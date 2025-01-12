@@ -33,10 +33,8 @@ module InvoiceParts
 
     after_save :reassign_payments!
 
-    attribute :accounting_account_nr, default: -> { organisation&.accounting_settings&.rental_yield_account_nr }
-    attribute :vat_category_id, default: (lambda do |invoice_part|
-      invoice_part.organisation&.accounting_settings&.rental_yield_vat_category_id
-    end)
+    attribute :accounting_account_nr
+    attribute :vat_category_id
 
     def reassign_payments!(payments = reassign_payments)
       return unless valid? && apply

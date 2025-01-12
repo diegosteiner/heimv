@@ -346,10 +346,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_153822) do
 
   create_table "journal_entries", force: :cascade do |t|
     t.bigint "invoice_id"
-    t.bigint "vat_category_id"
     t.string "currency", null: false
     t.string "ref"
-    t.integer "book_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "payment_id"
@@ -361,7 +359,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_153822) do
     t.index ["booking_id"], name: "index_journal_entries_on_booking_id"
     t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
     t.index ["payment_id"], name: "index_journal_entries_on_payment_id"
-    t.index ["vat_category_id"], name: "index_journal_entries_on_vat_category_id"
   end
 
   create_table "journal_entry", force: :cascade do |t|
@@ -730,7 +727,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_153822) do
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
   add_foreign_key "journal_entries", "invoices"
-  add_foreign_key "journal_entries", "vat_categories"
   add_foreign_key "journal_entry", "invoices"
   add_foreign_key "journal_entry", "payments"
   add_foreign_key "key_sequences", "organisations"
