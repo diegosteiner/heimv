@@ -4,16 +4,21 @@
 #
 # Table name: booking_validations
 #
-#  id                 :integer          not null, primary key
-#  organisation_id    :integer          not null
-#  error_message_i18n :jsonb
+#  id                 :bigint           not null, primary key
+#  check_on           :integer          default(0), not null
+#  error_message_i18n :jsonb            not null
 #  ordinal            :integer
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  organisation_id    :bigint           not null
 #
 # Indexes
 #
 #  index_booking_validations_on_organisation_id  (organisation_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class BookingValidation < ApplicationRecord

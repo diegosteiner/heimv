@@ -5,10 +5,10 @@
 # Table name: occupiables
 #
 #  id               :bigint           not null, primary key
-#  description_i18n :jsonb
+#  description_i18n :jsonb            not null
 #  discarded_at     :datetime
 #  janitor          :text
-#  name_i18n        :jsonb
+#  name_i18n        :jsonb            not null
 #  occupiable       :boolean          default(FALSE)
 #  ordinal          :integer
 #  ref              :string

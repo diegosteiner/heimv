@@ -12,9 +12,12 @@
 #  locale               :string
 #  payable_until        :datetime
 #  payment_info_type    :string
+#  payment_ref          :string
 #  payment_required     :boolean          default(TRUE)
 #  ref                  :string
 #  sent_at              :datetime
+#  sequence_number      :integer
+#  sequence_year        :integer
 #  text                 :text
 #  type                 :string
 #  created_at           :datetime         not null
@@ -26,7 +29,7 @@
 #
 #  index_invoices_on_booking_id            (booking_id)
 #  index_invoices_on_discarded_at          (discarded_at)
-#  index_invoices_on_ref                   (ref)
+#  index_invoices_on_payment_ref           (payment_ref)
 #  index_invoices_on_supersede_invoice_id  (supersede_invoice_id)
 #  index_invoices_on_type                  (type)
 #

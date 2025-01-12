@@ -4,21 +4,26 @@
 #
 # Table name: data_digests
 #
-#  id                      :integer          not null, primary key
-#  data_digest_template_id :integer          not null
-#  organisation_id         :integer          not null
+#  id                      :bigint           not null, primary key
+#  crunching_finished_at   :datetime
+#  crunching_started_at    :datetime
+#  data                    :jsonb
 #  period_from             :datetime
 #  period_to               :datetime
-#  data                    :jsonb
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  crunching_started_at    :datetime
-#  crunching_finished_at   :datetime
+#  data_digest_template_id :bigint           not null
+#  organisation_id         :bigint           not null
 #
 # Indexes
 #
 #  index_data_digests_on_data_digest_template_id  (data_digest_template_id)
 #  index_data_digests_on_organisation_id          (organisation_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (data_digest_template_id => data_digest_templates.id)
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class DataDigest < ApplicationRecord

@@ -29,6 +29,8 @@
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
+#  sequence_number        :integer
+#  sequence_year          :integer
 #  state_data             :json
 #  tenant_organisation    :string
 #  token                  :string

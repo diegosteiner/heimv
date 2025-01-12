@@ -4,15 +4,15 @@
 #
 # Table name: operator_responsibilities
 #
-#  id              :integer          not null, primary key
-#  booking_id      :uuid
-#  operator_id     :integer          not null
+#  id              :bigint           not null, primary key
 #  ordinal         :integer
-#  responsibility  :integer
 #  remarks         :text
+#  responsibility  :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  organisation_id :integer          not null
+#  booking_id      :uuid
+#  operator_id     :bigint           not null
+#  organisation_id :bigint           not null
 #
 # Indexes
 #
@@ -21,6 +21,12 @@
 #  index_operator_responsibilities_on_ordinal          (ordinal)
 #  index_operator_responsibilities_on_organisation_id  (organisation_id)
 #  index_operator_responsibilities_on_responsibility   (responsibility)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (booking_id => bookings.id)
+#  fk_rails_...  (operator_id => operators.id)
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 FactoryBot.define do

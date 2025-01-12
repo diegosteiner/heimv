@@ -6,10 +6,10 @@
 #
 #  id                 :bigint           not null, primary key
 #  booking_agent_mode :integer
-#  description_i18n   :jsonb
+#  description_i18n   :jsonb            not null
 #  discarded_at       :datetime
 #  key                :string
-#  label_i18n         :jsonb
+#  label_i18n         :jsonb            not null
 #  options            :jsonb
 #  ordinal            :integer
 #  required           :boolean          default(FALSE)

@@ -6,6 +6,7 @@
 #
 #  id                                :bigint           not null, primary key
 #  accounting_account_nr             :string
+#  accounting_cost_center_nr         :string
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
 #  label_i18n                        :jsonb
@@ -22,11 +23,11 @@
 #  unit_i18n                         :jsonb
 #  valid_from                        :datetime
 #  valid_until                       :datetime
-#  vat                               :decimal(, )
 #  created_at                        :datetime         not null
 #  updated_at                        :datetime         not null
 #  organisation_id                   :bigint           not null
 #  prefill_usage_booking_question_id :bigint
+#  vat_category_id                   :bigint
 #
 # Indexes
 #
@@ -34,11 +35,13 @@
 #  index_tarifs_on_organisation_id                    (organisation_id)
 #  index_tarifs_on_prefill_usage_booking_question_id  (prefill_usage_booking_question_id)
 #  index_tarifs_on_type                               (type)
+#  index_tarifs_on_vat_category_id                    (vat_category_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (organisation_id => organisations.id)
 #  fk_rails_...  (prefill_usage_booking_question_id => booking_questions.id)
+#  fk_rails_...  (vat_category_id => vat_categories.id)
 #
 
 class Tarif < ApplicationRecord

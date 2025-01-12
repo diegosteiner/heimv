@@ -1,5 +1,26 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: key_sequences
+#
+#  id              :bigint           not null, primary key
+#  key             :string           not null
+#  value           :integer          default(0), not null
+#  year            :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  organisation_id :bigint           not null
+#
+# Indexes
+#
+#  index_key_sequences_on_key_and_year_and_organisation_id  (key,year,organisation_id) UNIQUE
+#  index_key_sequences_on_organisation_id                   (organisation_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
+#
 require 'rails_helper'
 
 RSpec.describe KeySequence, type: :model do

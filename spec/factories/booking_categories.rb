@@ -4,15 +4,15 @@
 #
 # Table name: booking_categories
 #
-#  id               :integer          not null, primary key
-#  organisation_id  :integer          not null
+#  id               :bigint           not null, primary key
+#  description_i18n :jsonb            not null
+#  discarded_at     :datetime
 #  key              :string
-#  title_i18n       :jsonb
+#  ordinal          :integer
+#  title_i18n       :jsonb            not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  ordinal          :integer
-#  description_i18n :jsonb
-#  discarded_at     :datetime
+#  organisation_id  :bigint           not null
 #
 # Indexes
 #
@@ -20,6 +20,10 @@
 #  index_booking_categories_on_key_and_organisation_id  (key,organisation_id) UNIQUE
 #  index_booking_categories_on_ordinal                  (ordinal)
 #  index_booking_categories_on_organisation_id          (organisation_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 FactoryBot.define do

@@ -3,24 +3,28 @@
 #
 # Table name: journal_entries
 #
-#  id           :integer          not null, primary key
-#  invoice_id   :integer
+#  id           :bigint           not null, primary key
 #  currency     :string           not null
-#  ref          :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  payment_id   :integer
-#  trigger      :integer          not null
-#  booking_id   :uuid             not null
-#  processed_at :datetime
 #  date         :date             not null
 #  fragments    :jsonb
+#  processed_at :datetime
+#  ref          :string
+#  trigger      :integer          not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  booking_id   :uuid             not null
+#  invoice_id   :bigint
+#  payment_id   :bigint
 #
 # Indexes
 #
 #  index_journal_entries_on_booking_id  (booking_id)
 #  index_journal_entries_on_invoice_id  (invoice_id)
 #  index_journal_entries_on_payment_id  (payment_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (invoice_id => invoices.id)
 #
 
 require 'rails_helper'

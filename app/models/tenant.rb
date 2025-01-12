@@ -20,10 +20,12 @@
 #  locale                    :string
 #  nickname                  :string
 #  phone                     :text
+#  ref                       :string
 #  remarks                   :text
 #  reservations_allowed      :boolean          default(TRUE)
 #  salutation_form           :integer
 #  search_cache              :text             not null
+#  sequence_number           :integer
 #  street_address            :string
 #  zipcode                   :string
 #  created_at                :datetime         not null
