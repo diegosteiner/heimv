@@ -40,14 +40,10 @@
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #
-# Indexes
-#
-#  index_organisations_on_slug  (slug) UNIQUE
-#
 
 FactoryBot.define do
   factory :organisation do
-    name { 'Heimverein St. Georg' }
+    name { 'Heimverein Pfadi Stolz' }
     address { 'MyText' }
     booking_flow_type { BookingFlows::Default.to_s }
     email { 'test@test.test' }
@@ -71,6 +67,17 @@ FactoryBot.define do
       after(:create) do |organisation|
         onboarding = OnboardingService.new(organisation)
         onboarding.create_missing_rich_text_templates!
+      end
+    end
+
+    trait :with_accounting do
+      after(:build) do |organisation|
+        organisation.accounting_settings.enabled = true
+        organisation.accounting_settings.debitor_account_nr ||= '1050'
+        organisation.accounting_settings.rental_yield_account_nr ||= '6000'
+        organisation.accounting_settings.vat_account_nr ||= '2016'
+        organisation.accounting_settings.payment_account_nr ||= '4000'
+        organisation.accounting_settings.rental_yield_vat_category_id ||= build(:vat_category, organisation:).id
       end
     end
   end

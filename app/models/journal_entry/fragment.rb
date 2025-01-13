@@ -11,7 +11,7 @@ class JournalEntry
     attribute :vat_category_id, :integer
 
     enum :side, { soll: 1, haben: -1 }
-    enum :book_type, { main: 0, cost: 1, vat: 2 }, _prefix: true, default: :main # rubocop:disable Style/EnumSyntax
+    enum :book_type, { main: 0, cost: 1, vat: 2 }, _prefix: true, default: :main # rubocop:disable Rails/EnumSyntax
 
     validates :account_nr, :side, :amount, :book_type, presence: true
     validates :amount, numericality: { other_than: 0 }

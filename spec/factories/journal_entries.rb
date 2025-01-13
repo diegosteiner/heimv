@@ -17,16 +17,6 @@
 #  invoice_id   :bigint
 #  payment_id   :bigint
 #
-# Indexes
-#
-#  index_journal_entries_on_booking_id  (booking_id)
-#  index_journal_entries_on_invoice_id  (invoice_id)
-#  index_journal_entries_on_payment_id  (payment_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (invoice_id => invoices.id)
-#
 
 FactoryBot.define do
   factory :journal_entry do
@@ -34,24 +24,46 @@ FactoryBot.define do
     date { '2024-12-12' }
     ref { 'JournalEntryRef' }
     currency { booking.organisation.currency }
+    trigger { :manual }
     transient do
-      # skip_invoice_parts { false }
+      soll_account_nr { '1050' }
+      haben_account_nr { '6000' }
+      amount { 1000 }
+      vat_category_id { nil }
+      text { Faker::Commerce.department }
+    end
+
+    after(:build) do |journal_entry, evaluator|
+      next if journal_entry.fragments.present?
+
+      journal_entry.assign_attributes(fragments_attributes: [
+                                        {
+                                          account_nr: evaluator.soll_account_nr,
+                                          amount: evaluator.amount,
+                                          text: evaluator.text, side: :soll,
+                                          vat_category_id: evaluator.vat_category_id
+                                        },
+                                        {
+                                          account_nr: evaluator.haben_account_nr,
+                                          amount: evaluator.amount,
+                                          text: evaluator.text, side: :haben,
+                                          vat_category_id: evaluator.vat_category_id
+                                        }
+                                      ])
     end
 
     # account_nr { 'MyString' }
     # vat_category { nil }
     # text { 'MyString' }
-    # amount { '9.99' }
-    # ordinal { 1 }
-    # side { 1 }
 
-    after(:build) do |journal_entries, evaluator|
-      next if evaluator.skip_invoice_parts
-
-      if evaluator.amount&.positive?
-        build(:invoice_part, amount: evaluator.amount, invoice:)
-      else
-        build_list(:invoice_part, 3, invoice:)
+    trait :invoice_created do
+      invoice
+      trigger { :invoice_created }
+      after(:build) do |journal_entry|
+        journal_entry.fragments = []
+        factory = JournalEntry::Factory.new
+        factory.build_invoice_debitor(invoice, journal_entry)
+        invoice.invoice_parts.map { factory.build_invoice_part(_1, journal_entry) }
       end
     end
   end

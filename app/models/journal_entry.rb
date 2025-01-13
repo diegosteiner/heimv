@@ -15,20 +15,12 @@
 #  invoice_id   :bigint
 #  payment_id   :bigint
 #
-# Indexes
-#
-#  index_journal_entries_on_booking_id  (booking_id)
-#  index_journal_entries_on_invoice_id  (invoice_id)
-#  index_journal_entries_on_payment_id  (payment_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (invoice_id => invoices.id)
-#
 
 # frozen_string_literal: true
 
 class JournalEntry < ApplicationRecord
+  include StoreModel::NestedAttributes
+
   belongs_to :booking
   belongs_to :invoice, inverse_of: :journal_entries, optional: true
   belongs_to :payment, inverse_of: :journal_entries, optional: true
@@ -37,7 +29,9 @@ class JournalEntry < ApplicationRecord
 
   enum :trigger, { manual: 0, invoice_created: 1, payment_created: 2 }, prefix: true
 
-  attribute :fragments, Fragment.to_array_type
+  attribute :fragments, Fragment.to_array_type, default: -> { [] }
+
+  accepts_nested_attributes_for :fragments, allow_destroy: true
 
   before_validation :set_currency
 
@@ -46,11 +40,6 @@ class JournalEntry < ApplicationRecord
   validate { errors.add(:fragments, :invalid) unless balanced? }
 
   scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
-
-  def initialize(*, &)
-    super(*)
-    yield self if block_given?
-  end
 
   def set_currency
     self.currency ||= organisation&.currency
@@ -116,8 +105,8 @@ class JournalEntry < ApplicationRecord
 
   class Factory
     def build_invoice_created(invoice)
-      JournalEntry.collect(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking,
-                           trigger: :invoice_created) do |journal_entry|
+      JournalEntry.new(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking,
+                       trigger: :invoice_created).tap do |journal_entry|
         next unless invoice.is_a?(Invoices::Deposit) || invoice.is_a?(Invoices::Invoice)
         next unless invoice.kept?
 
@@ -154,12 +143,12 @@ class JournalEntry < ApplicationRecord
       end
     end
 
-    def payment(payment) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
+    def payment(payment) # rubocop:disable Metrics/AbcSize
       payment.instance_eval do
         text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
 
-        JournalEntry.collect(ref: id, date: paid_at, invoice:, payment: self, booking:,
-                             trigger: :payment_created) do |journal_entry|
+        JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
+                         trigger: :payment_created).tap do |journal_entry|
           journal_entry.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:, text:)
           journal_entry.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
         end

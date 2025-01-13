@@ -3,48 +3,63 @@
 require 'rails_helper'
 
 describe Export::Taf::Builder, type: :model do
-  let(:organisation) { create(:organisation, accounting_settings:) }
-  let(:accounting_settings) { { enabled: true } }
+  let(:organisation) { create(:organisation, :with_accounting) }
   let(:booking) { create(:booking, organisation:, tenant:) }
-  let(:vat_category) { create(:vat_category, percentage: 3.8, accounting_vat_code: 'MwSt38', organisation:) }
+  let(:vat_category) { create(:vat_category, organisation:, percentage: 50, accounting_vat_code: 'VAT50') }
   let(:tenant) do
     create(:tenant, sequence_number: 200_002, first_name: 'Max', last_name: 'Müller', organisation:,
                     street_address: 'Bahnhofstr. 1', city: 'Bern', zipcode: 1234)
   end
 
-  subject(:builder) { described_class.new([]) }
+  subject(:builder) { described_class.new }
+  subject(:blocks) { builder.blocks }
 
-  describe 'build_with_journal_entry' do
-    subject(:taf_block) { builder.journal_entry(journal_entry) }
+  describe '#journal_entry' do
+    before { builder.journal_entry(journal_entry) }
     let(:journal_entry) do
-      JournalEntry.new(booking:, date: Date.new(2024, 10, 5), ref: '1234') do |journal_entry|
-        journal_entry.soll(account_nr: 1050, amount: 2091.75, vat_category:,
-                       text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
+      create(:journal_entry, booking:, date: Date.new(2024, 10, 5), ref: '1234', amount: 2091.75,
+                             vat_category_id: vat_category.id,
+                             text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
     end
 
     it 'builds correctly' do
-      is_expected.to be_a(Export::Taf::Block)
-      expect(taf_block.to_s).to eq(<<~TAF.chomp)
-        {Bk
-          AccId=1050
+      is_expected.to all(be_a(Export::Taf::Block))
+      expect(blocks.first.to_s).to eq(<<~TAF.chomp)
+        {Blg
           Date=05.10.2024
-          TaxId="MwSt38"
-          Text="Lorem ipsum"
-          Text2="Second Line, but its longer than sixty ""chars"", "
-          Type=0
-          ValNt=2091.75
 
+          {Bk
+            AccId=1050
+            Date=05.10.2024
+            TaxId="VAT50"
+            Text="Lorem ipsum"
+            Text2="Second Line, but its longer than sixty ""chars"", "
+            Type=0
+            ValNt=2091.75
+
+          }
+
+          {Bk
+            AccId=6000
+            Date=05.10.2024
+            TaxId="VAT50"
+            Text="Lorem ipsum"
+            Text2="Second Line, but its longer than sixty ""chars"", "
+            Type=1
+            ValNt=2091.75
+
+          }
         }
       TAF
     end
   end
 
-  describe 'build_with_tenant' do
-    subject(:taf_blocks) { builder.build_with_tenant(tenant) }
+  describe '#tenant' do
+    before { builder.tenant(tenant) }
 
     it 'builds correctly' do
       is_expected.to contain_exactly(be_a(Export::Taf::Block), be_a(Export::Taf::Block))
-      expect(taf_blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
+      expect(blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
         {Adr
           AdrId=200002
           Sort="MAXMUELLER"
@@ -60,6 +75,7 @@ describe Export::Taf::Builder, type: :model do
         {PKd
           PkKey=200002
           AdrId=200002
+          AccId=1050
           ZabId="15T"
 
         }
@@ -67,79 +83,15 @@ describe Export::Taf::Builder, type: :model do
     end
   end
 
-  describe 'build_with_invoice_created_journal_entry_compounds' do
-    subject(:taf_document) do
-      journal_entry_compounds = compounds
-      Export::Taf::Document.new do
-        journal_entry_compounds.each { build_with_journal_entry_compound(_1) }
-      end
+  describe '#invoice_created_journal_entry' do
+    let(:booking) do
+      create(:booking, :invoiced, tenant:, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27',
+                                  prepaid_amount: 300, vat_category:)
     end
-    subject(:compounds) { JournalEntry::Compound.group(invoice.journal_entries) }
-
-    let(:accounting_settings) do
-      { enabled: true, debitor_account_nr: 1050, vat_account_nr: 6020,
-        payment_account_nr: 4000, rental_yield_account_nr: 6000 }
-    end
-    let(:vat_category) { create(:vat_category, percentage: 50, organisation:) }
-    let(:payment) { create(:payment, booking:, invoice: nil, amount: 300) }
-    let(:usages) { Usage::Factory.new(booking).build.each { _1.update(used_units: 48) } }
-    let(:invoice) do
-      tarif
-      usages
-      payment
-      build(:invoice, booking:, skip_invoice_parts: true, issued_at: Date.new(2024, 12, 27)).tap do |invoice|
-        invoice.invoice_parts = InvoicePart::Factory.new(invoice).call
-        invoice.save!
-        invoice.recalculate!
-      end
-    end
-    let(:tarif) do
-      create(:tarif, organisation:, vat_category:, price_per_unit: 15,
-                     accounting_account_nr: 6000, accounting_cost_center_nr: 9000)
-    end
-
-    it 'creates to correct journal_entries' do
-      expect(compounds).to contain_exactly(
-        contain_exactly(
-          have_attributes(account_nr: '4000', soll_amount: 300.0, trigger: 'payment_created'),
-          have_attributes(account_nr: '1050', haben_amount: 300.0, trigger: 'payment_created')
-        ),
-        contain_exactly(
-          have_attributes(account_nr: '1050', soll_amount: 420.0, trigger: 'invoice_created'),
-          have_attributes(account_nr: '6000', haben_amount: -300.0, trigger: 'invoice_created'),
-          have_attributes(account_nr: '6000', haben_amount: 480.0, trigger: 'invoice_created'),
-          have_attributes(account_nr: '9000', haben_amount: 480.0, trigger: 'invoice_created'),
-          have_attributes(account_nr: '6020', haben_amount: 240.0, trigger: 'invoice_created')
-        )
-      )
-    end
+    before { builder.invoice_created_journal_entry(booking.invoices.last.journal_entries.last) }
 
     it 'exports to taf' do
-      expect(taf_document.to_s).to eq(<<~TAF.chomp)
-        {Blg
-          Date=11.10.2018
-
-          {Bk
-            AccId=4000
-            Code=#{compounds[0].journal_entries[0]&.id}
-            Date=11.10.2018
-            Text="Zahlung 250001"
-            Type=0
-            ValNt=300.00
-
-          }
-
-          {Bk
-            AccId=1050
-            Code=#{compounds[0].journal_entries[1]&.id}
-            Date=11.10.2018
-            Text="Zahlung 250001"
-            Type=1
-            ValNt=300.00
-
-          }
-        }
-
+      expect(blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
         {Adr
           AdrId=200002
           Sort="MAXMUELLER"
@@ -173,64 +125,66 @@ describe Export::Taf::Builder, type: :model do
 
           {Bk
             AccId=1050
-            Code=#{compounds[1].journal_entries[0]&.id}
             Date=27.12.2024
             Flags=1
-            Text="250001 - Müller"
+            Text="R.250001 - Müller"
             Type=0
             ValNt=420.00
             PkKey=200002
             OpId=250001
-            CAcc=div
 
           }
 
           {Bk
             AccId=6000
-            Code=#{compounds[1].journal_entries[1]&.id}
             Date=27.12.2024
-            Text="250001 Saldo"
+            Text="R.250001 - Müller: Saldo"
             Type=1
             ValNt=-300.00
-            CAcc=1050
+            CIdx=3
+
+          }
+
+          {Bk
+            AccId=9001
+            BType=1
+            Date=27.12.2024
+            Text="R.250001 - Müller: Saldo"
+            Type=1
+            ValNt=-300.00
 
           }
 
           {Bk
             AccId=6000
-            Code=#{compounds[1].journal_entries[2]&.id}
             Date=27.12.2024
-            Text="250001 Preis pro Übernachtung"
+            TaxId="VAT50"
+            Text="R.250001 - Müller: Preis pro Übernachtung"
             Type=1
             ValNt=480.00
             CIdx=5
             TIdx=6
-            CAcc=1050
 
           }
 
           {Bk
-            AccId=9000
+            AccId=9001
             BType=1
-            Code=#{compounds[1].journal_entries[3]&.id}
             Date=27.12.2024
-            Text="250001 Preis pro Übernachtung"
+            Text="R.250001 - Müller: Preis pro Übernachtung"
             Type=1
             ValNt=480.00
-            CAcc=1050
 
           }
 
           {Bk
-            AccId=6020
+            AccId=2016
             BType=2
-            Code=#{compounds[1].journal_entries[4]&.id}
             Date=27.12.2024
-            Text="250001 Preis pro Übernachtung"
+            Text="R.250001 - Müller: Preis pro Übernachtung"
             Type=1
             ValNt=240.00
             ValTx=480.00
-            CAcc=1050
 
           }
         }

@@ -29,20 +29,6 @@
 #  prefill_usage_booking_question_id :bigint
 #  vat_category_id                   :bigint
 #
-# Indexes
-#
-#  index_tarifs_on_discarded_at                       (discarded_at)
-#  index_tarifs_on_organisation_id                    (organisation_id)
-#  index_tarifs_on_prefill_usage_booking_question_id  (prefill_usage_booking_question_id)
-#  index_tarifs_on_type                               (type)
-#  index_tarifs_on_vat_category_id                    (vat_category_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#  fk_rails_...  (prefill_usage_booking_question_id => booking_questions.id)
-#  fk_rails_...  (vat_category_id => vat_categories.id)
-#
 
 FactoryBot.define do
   factory :tarif do
@@ -55,9 +41,10 @@ FactoryBot.define do
     associated_types { Tarif.associated_types.keys }
     prefill_usage_method { nil }
 
-    trait :with_vat do
+    trait :with_accounting do
       after(:build) do |tarif, _evaluator|
-        tarif.vat_category ||= build(:vat_category, organisation: tarif.organisation)
+        tarif.accounting_account_nr ||= tarif.organisation.accounting_settings.rental_yield_account_nr || '6000'
+        tarif.accounting_cost_center_nr ||= 'home'
       end
     end
   end

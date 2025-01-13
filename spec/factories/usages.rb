@@ -16,22 +16,12 @@
 #  booking_id          :uuid
 #  tarif_id            :bigint
 #
-# Indexes
-#
-#  index_usages_on_booking_id               (booking_id)
-#  index_usages_on_tarif_id_and_booking_id  (tarif_id,booking_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (tarif_id => tarifs.id)
-#
 
 FactoryBot.define do
   factory :usage do
     tarif { association :tarif, organisation: booking.organisation }
     used_units { 9.99 }
-    remarks { 'Test' }
+    remarks { 'Remarks' }
     booking
   end
 end
