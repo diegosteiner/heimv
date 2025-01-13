@@ -14,16 +14,6 @@
 #  tarif_id    :bigint
 #  usage_id    :bigint
 #
-# Indexes
-#
-#  index_meter_reading_periods_on_tarif_id  (tarif_id)
-#  index_meter_reading_periods_on_usage_id  (usage_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (tarif_id => tarifs.id)
-#  fk_rails_...  (usage_id => usages.id)
-#
 
 class MeterReadingPeriod < ApplicationRecord
   belongs_to :usage, optional: true

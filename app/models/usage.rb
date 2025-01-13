@@ -16,16 +16,6 @@
 #  booking_id          :uuid
 #  tarif_id            :bigint
 #
-# Indexes
-#
-#  index_usages_on_booking_id               (booking_id)
-#  index_usages_on_tarif_id_and_booking_id  (tarif_id,booking_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (tarif_id => tarifs.id)
-#
 
 class Usage < ApplicationRecord
   belongs_to :tarif, -> { include_conditions }, inverse_of: :usages

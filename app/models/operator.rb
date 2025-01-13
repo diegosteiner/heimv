@@ -13,14 +13,6 @@
 #  updated_at      :datetime         not null
 #  organisation_id :bigint           not null
 #
-# Indexes
-#
-#  index_operators_on_organisation_id  (organisation_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#
 
 class Operator < ApplicationRecord
   locale_enum default: I18n.locale

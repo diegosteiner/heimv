@@ -15,16 +15,6 @@
 #  data_digest_template_id :bigint           not null
 #  organisation_id         :bigint           not null
 #
-# Indexes
-#
-#  index_data_digests_on_data_digest_template_id  (data_digest_template_id)
-#  index_data_digests_on_organisation_id          (organisation_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (data_digest_template_id => data_digest_templates.id)
-#  fk_rails_...  (organisation_id => organisations.id)
-#
 
 require 'rails_helper'
 

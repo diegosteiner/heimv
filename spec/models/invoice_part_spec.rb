@@ -18,18 +18,6 @@
 #  usage_id                  :bigint
 #  vat_category_id           :bigint
 #
-# Indexes
-#
-#  index_invoice_parts_on_invoice_id       (invoice_id)
-#  index_invoice_parts_on_usage_id         (usage_id)
-#  index_invoice_parts_on_vat_category_id  (vat_category_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (invoice_id => invoices.id)
-#  fk_rails_...  (usage_id => usages.id)
-#  fk_rails_...  (vat_category_id => vat_categories.id)
-#
 
 require 'rails_helper'
 

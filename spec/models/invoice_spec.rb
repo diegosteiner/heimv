@@ -25,19 +25,6 @@
 #  booking_id           :uuid
 #  supersede_invoice_id :bigint
 #
-# Indexes
-#
-#  index_invoices_on_booking_id            (booking_id)
-#  index_invoices_on_discarded_at          (discarded_at)
-#  index_invoices_on_payment_ref           (payment_ref)
-#  index_invoices_on_supersede_invoice_id  (supersede_invoice_id)
-#  index_invoices_on_type                  (type)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (supersede_invoice_id => invoices.id)
-#
 
 require 'rails_helper'
 

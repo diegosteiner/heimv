@@ -41,18 +41,6 @@
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
 #
-# Indexes
-#
-#  index_bookings_on_booking_state_cache  (booking_state_cache)
-#  index_bookings_on_locale               (locale)
-#  index_bookings_on_organisation_id      (organisation_id)
-#  index_bookings_on_ref                  (ref)
-#  index_bookings_on_token                (token) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#
 
 require 'rails_helper'
 

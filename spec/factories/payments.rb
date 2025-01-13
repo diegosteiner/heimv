@@ -19,16 +19,6 @@
 #  camt_instr_id             :string
 #  invoice_id                :bigint
 #
-# Indexes
-#
-#  index_payments_on_booking_id  (booking_id)
-#  index_payments_on_invoice_id  (invoice_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (invoice_id => invoices.id)
-#
 
 FactoryBot.define do
   factory :payment do

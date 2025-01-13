@@ -16,10 +16,6 @@
 #  updated_at           :datetime         not null
 #  organisation_id      :bigint           not null
 #
-# Indexes
-#
-#  index_designated_documents_on_organisation_id  (organisation_id)
-#
 require 'rails_helper'
 
 RSpec.describe DesignatedDocument, type: :model do

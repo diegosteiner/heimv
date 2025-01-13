@@ -12,15 +12,6 @@
 #  updated_at      :datetime         not null
 #  organisation_id :bigint           not null
 #
-# Indexes
-#
-#  index_key_sequences_on_key_and_year_and_organisation_id  (key,year,organisation_id) UNIQUE
-#  index_key_sequences_on_organisation_id                   (organisation_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#
 require 'rails_helper'
 
 RSpec.describe KeySequence, type: :model do

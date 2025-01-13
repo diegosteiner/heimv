@@ -11,14 +11,6 @@
 #  booking_id          :uuid             not null
 #  booking_question_id :bigint           not null
 #
-# Indexes
-#
-#  index_booking_question_responses_on_booking_question_id  (booking_question_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_question_id => booking_questions.id)
-#
 
 class BookingQuestionResponse < ApplicationRecord
   belongs_to :booking, inverse_of: :booking_question_responses, touch: true

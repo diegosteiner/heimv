@@ -19,16 +19,6 @@
 #  updated_at         :datetime         not null
 #  organisation_id    :bigint           not null
 #
-# Indexes
-#
-#  index_booking_questions_on_discarded_at     (discarded_at)
-#  index_booking_questions_on_organisation_id  (organisation_id)
-#  index_booking_questions_on_type             (type)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#
 require 'rails_helper'
 
 RSpec.describe BookingQuestion, type: :model do

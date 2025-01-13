@@ -16,10 +16,6 @@
 #  updated_at           :datetime         not null
 #  organisation_id      :bigint           not null
 #
-# Indexes
-#
-#  index_designated_documents_on_organisation_id  (organisation_id)
-#
 FactoryBot.define do
   factory :designated_document, aliases: [:document] do
     designation { nil }

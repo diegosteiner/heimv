@@ -40,10 +40,6 @@
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #
-# Indexes
-#
-#  index_organisations_on_slug  (slug) UNIQUE
-#
 
 require 'rails_helper'
 

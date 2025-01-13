@@ -19,19 +19,6 @@
 #  booking_id         :uuid
 #  organisation_id    :bigint
 #
-# Indexes
-#
-#  index_agent_bookings_on_booking_agent_id  (booking_agent_id)
-#  index_agent_bookings_on_booking_id        (booking_id)
-#  index_agent_bookings_on_organisation_id   (organisation_id)
-#  index_agent_bookings_on_token             (token) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_agent_id => booking_agents.id)
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (organisation_id => organisations.id)
-#
 
 class AgentBooking < ApplicationRecord
   belongs_to :booking_agent, inverse_of: :agent_bookings

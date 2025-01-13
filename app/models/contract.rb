@@ -15,14 +15,6 @@
 #  updated_at  :datetime         not null
 #  booking_id  :uuid
 #
-# Indexes
-#
-#  index_contracts_on_booking_id  (booking_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#
 
 class Contract < ApplicationRecord
   RichTextTemplate.define(:contract_text, context: %i[booking])
