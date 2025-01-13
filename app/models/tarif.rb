@@ -104,6 +104,8 @@ class Tarif < ApplicationRecord
 
   def before_usage_save(_usage); end
 
+  def validate_usage(_usage); end
+
   def prefill_usage_booking_questions
     booking_question_types = %w[BookingQuestions::Integer]
     organisation.booking_questions.ordered.where(type: booking_question_types)

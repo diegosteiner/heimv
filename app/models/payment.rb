@@ -78,7 +78,7 @@ class Payment < ApplicationRecord
     organisation.accounting_settings.enabled && !skip_generate_journal_entries
   end
 
-  def generate_journal_entries! # rubocop:disable Metrics/AbcSize
+  def generate_journal_entries!
     return unless accounting_settings.enabled && accounting_settings.payment_account_nr.present?
 
     existing_ids = organisation.journal_entries.where(payment: self).pluck(:id)

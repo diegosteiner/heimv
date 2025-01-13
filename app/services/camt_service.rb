@@ -48,7 +48,11 @@ class CamtService
   end
 
   def self.normalize_ref(ref)
-    ref.delete(' ').gsub(/\ARF\d\d/, '').rjust(27, '0')
+    if ref.start_with?('RF')
+      ref.delete(' ').gsub(/\ARF\d\d/, '').rjust(27, '0')
+    else
+      ref.delete(' ')[0..-2].rjust(27, '0')
+    end
   end
 
   def transaction_to_h(transaction)
