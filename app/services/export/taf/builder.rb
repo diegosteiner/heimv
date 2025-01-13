@@ -107,6 +107,8 @@ module Export
       end
 
       def default_journal_entry(journal_entry, override = {}, overrides = {})
+        return if journal_entry.fragments.blank?
+
         block(:Blg, **{ Date: journal_entry.date }, **override) do
           journal_entry.fragments.each_with_index do |fragment, index|
             cost_index = (fragment.book_type_main? && journal_entry.fragments.index(fragment.related(:cost))) || nil
