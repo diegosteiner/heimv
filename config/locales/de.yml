@@ -949,7 +949,9 @@ de:
       relevant_time: Beginn der Belegung %{time}
   confirm: Sind Sie sicher?
   contracts:
+    header_reference: Buchung %{ref}
     issuer_signature_label: Datum, Ort, Unterschrift Vermieter
+    page_numbering: "%{page}/%{total}"
     represented_by: vertreten durch
     tenant_signature_label: Datum, Ort, Unterschrift Mieter
   currency: Currency
