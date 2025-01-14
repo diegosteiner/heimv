@@ -153,7 +153,7 @@ class TafBlock
           # Be careful not to put too many characters onto one single line, because
           # most Reports are not designed to display a full string containing 60
           # characters.
-          Text2: journal_entry.text&.slice(0..59)&.lines&.[](1..-1)&.join("\n").presence, # rubocop:disable Style/SafeNavigationChainLength
+          Text2: journal_entry.text&.slice(0..59)&.lines&.[](1..)&.join("\n").presence, # rubocop:disable Style/SafeNavigationChainLength
 
           # Integer; This is the index of the booking that represents the tax booking
           # which is attached to this booking.
