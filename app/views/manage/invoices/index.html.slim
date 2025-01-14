@@ -53,15 +53,19 @@
                   span.ms-2.fa.fa-print
               - else
                 = link_to (invoice.ref || invoice.payment_ref), manage_invoice_path(invoice)
+              .small.text-muted 
+                = invoice.payment_ref
             td.align-middle
               = invoice.model_name.human
 
             td.align-middle
               - if invoice.payable_until.present?
-                - if invoice.payable_until.past?
+                - if invoice.payable_until.past? && !invoice.paid?
                   .text-danger= l(invoice.payable_until, format: :date)
+                  .text-danger= distance_of_time_in_words_to_now(invoice.payable_until)
                 - else
-                  =l(invoice.payable_until, format: :date)
+                  div=l(invoice.payable_until, format: :date)
+                  div= distance_of_time_in_words_to_now(invoice.payable_until)
               - if invoice.sent?
                 span.badge.badge-pill.bg-success.ms-1
                   span.fa.fa-envelope-open.text-white[title="#{Invoice.human_attribute_name(:sent_at)}: #{l(invoice.sent_at)}"]
