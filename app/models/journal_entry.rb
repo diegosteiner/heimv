@@ -27,7 +27,8 @@ class JournalEntry < ApplicationRecord
 
   has_one :organisation, through: :booking
 
-  enum :trigger, { manual: 0, invoice_created: 1, payment_created: 2 }, prefix: true
+  enum :trigger, { invoice_created: 11, invoice_updated: 12, invoice_discarded: 13,
+                   payment_created: 21, payment_updated: 22, payment_discarded: 23 }, prefix: true
 
   attribute :fragments, Fragment.to_array_type, default: -> { [] }
 
@@ -35,9 +36,9 @@ class JournalEntry < ApplicationRecord
 
   before_validation :set_currency
 
-  validates :ref, :currency, :date, :trigger, presence: true
+  validates :ref, :currency, :date, presence: true
   validates :fragments, store_model: true
-  validate { errors.add(:fragments, :invalid) unless balanced? }
+  validate { errors.add(:base, :invalid) unless balanced? }
 
   scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
 
@@ -50,11 +51,11 @@ class JournalEntry < ApplicationRecord
   end
 
   def soll_amount(book_type: %i[main vat])
-    fragments.filter_map { _1.soll_amount || 0 if Array.wrap(book_type).include?(_1.book_type) }.sum
+    fragments.filter_map { _1.soll_amount || 0 if Array.wrap(book_type).include?(_1.book_type&.to_sym) }.sum
   end
 
   def haben_amount(book_type: %i[main vat])
-    fragments.filter_map { _1.haben_amount || 0 if Array.wrap(book_type).include?(_1.book_type) }.sum
+    fragments.filter_map { _1.haben_amount || 0 if Array.wrap(book_type).include?(_1.book_type&.to_sym) }.sum
   end
 
   def haben(**args)
@@ -71,6 +72,33 @@ class JournalEntry < ApplicationRecord
     soll_amount == haben_amount
   end
 
+  def equivalent?(other)
+    attributes.slice(*%w[booking_id invoice_id payment_id]) ==
+      other.attributes.slice(*%w[booking_id invoice_id payment_id]) &&
+      fragments.each_with_index.all? { |fragment, index| fragment.equivalent?(other.fragments[index]) }
+  end
+
+  def invert
+    fragments.each(&:invert)
+    self
+  end
+
+  # def inspect_balance
+  #   overview = StringIO.new
+  #   overview << "+-------+-----------+-----------+------+\n"
+  #   overview << "| Acc   |      Soll |     Haben | Type |\n"
+  #   overview << "+-------+-----------+-----------+------+\n"
+  #   fragments.filter { %i[main vat].include?(_1.book_type&.to_sym) }.each do |fragment|
+  #     overview << format("|% 6s | % 9.2f | % 9.2f | % 4s |\n", fragment.account_nr, fragment.soll_amount || 0,
+  #                        fragment.haben_amount || 0, fragment.book_type)
+  #   end
+  #   overview << "+-------+-----------+-----------+------+\n"
+  #   overview << format("|       | % 9.2f | % 9.2f |      |\n", soll_amount || 0, haben_amount || 0)
+  #   overview << "+-------+-----------+-----------+------+\n"
+  #   overview.string
+  # end
+
+  # TODO: check move
   def fragment_relations
     fragments.group_by(&:invoice_part_id).transform_values do |related_fragments|
       related_fragments.group_by(&:book_type).transform_values(&:first).symbolize_keys
@@ -82,7 +110,7 @@ class JournalEntry < ApplicationRecord
     attribute :date_before, :date
     # attribute :processed_at_after, :date
     # attribute :processed_at_before, :date
-    # attribute :processed, :boolean
+    attribute :processed, :boolean
 
     filter :date do |journal_entries|
       next unless date_before.present? || date_after.present?
@@ -90,11 +118,11 @@ class JournalEntry < ApplicationRecord
       journal_entries.where(JournalEntry.arel_table[:date].between(date_after..date_before))
     end
 
-    # filter :processed do |journal_entries|
-    #   next if processed.nil?
+    filter :processed do |journal_entries|
+      next if processed.nil?
 
-    #   processed ? journal_entries.processed : journal_entries.unprocessed
-    # end
+      processed ? journal_entries.processed : journal_entries.unprocessed
+    end
 
     # filter :processed_at do |journal_entries|
     #   next unless processed_at_before.present? || processed_at_after.present?
@@ -104,12 +132,9 @@ class JournalEntry < ApplicationRecord
   end
 
   class Factory
-    def build_invoice_created(invoice)
+    def build_with_invoice(invoice, attributes = {})
       JournalEntry.new(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking,
-                       trigger: :invoice_created).tap do |journal_entry|
-        next unless invoice.is_a?(Invoices::Deposit) || invoice.is_a?(Invoices::Invoice)
-        next unless invoice.kept?
-
+                       **attributes).tap do |journal_entry|
         build_invoice_debitor(invoice, journal_entry)
         invoice.invoice_parts.map { build_invoice_part(_1, journal_entry) }
       end
@@ -143,7 +168,7 @@ class JournalEntry < ApplicationRecord
       end
     end
 
-    def payment(payment) # rubocop:disable Metrics/AbcSize
+    def build_with_payment(payment) # rubocop:disable Metrics/AbcSize
       payment.instance_eval do
         text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
 

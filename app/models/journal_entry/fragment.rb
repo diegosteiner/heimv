@@ -47,5 +47,17 @@ class JournalEntry
     def vat_category
       @vat_category ||= parent&.booking&.organisation&.vat_categories&.find(vat_category_id) if vat_category_id.present? # rubocop:disable Style/SafeNavigationChainLength
     end
+
+    def equivalent?(other)
+      attributes.slice(*%w[account_nr side amount book_type]) ==
+        other.attributes.slice(*%w[account_nr side amount book_type])
+    end
+
+    def invert
+      return self.side = :haben if soll?
+      return self.side = :soll if haben?
+
+      nil
+    end
   end
 end

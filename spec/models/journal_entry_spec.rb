@@ -27,12 +27,12 @@ RSpec.describe JournalEntry, type: :model do
   describe '::new' do
     subject(:journal_entries) do
       [
-        described_class.new(booking:, ref: 'test 1', date: 2.weeks.ago, trigger: :manual).tap do |journal_entry|
+        described_class.new(booking:, ref: 'test1', date: 2.weeks.ago, trigger: :invoice_updated).tap do |journal_entry|
           journal_entry.soll(account_nr: 6000, amount: 1000)
           journal_entry.haben(account_nr: 1000, amount: 500)
           journal_entry.haben(account_nr: 2000, amount: 500)
         end,
-        described_class.new(booking:, ref: 'test 2', date: 1.week.ago, trigger: :manual).tap do |journal_entry|
+        described_class.new(booking:, ref: 'test2', date: 1.week.ago, trigger: :invoice_updated).tap do |journal_entry|
           journal_entry.soll(account_nr: 6000, amount: 800)
           journal_entry.haben(account_nr: 1000, amount: 800)
         end
@@ -42,8 +42,8 @@ RSpec.describe JournalEntry, type: :model do
     it 'builds the journal entry and fragments' do
       expect(journal_entries.map(&:save)).to all(be_truthy)
       expect(journal_entries).to contain_exactly(
-        have_attributes(booking:, ref: 'test 1'),
-        have_attributes(booking:, ref: 'test 2')
+        have_attributes(booking:, ref: 'test1'),
+        have_attributes(booking:, ref: 'test2')
       )
       expect(journal_entries.map { _1.fragments }).to contain_exactly(
         contain_exactly(

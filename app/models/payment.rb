@@ -47,8 +47,7 @@ class Payment < ApplicationRecord
 
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
-  after_save :recalculate_invoice
-  after_save :generate_journal_entry!, if: :generate_journal_entry?
+  after_save :recalculate_invoice, :update_journal_entries
 
   before_validation do
     self.booking = invoice&.booking || booking
@@ -66,19 +65,11 @@ class Payment < ApplicationRecord
     MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
   end
 
-  def generate_journal_entry?
-    organisation.accounting_settings.enabled && !skip_generate_journal_entry
-  end
+  def update_journal_entries
+    return unless organisation.accounting_settings.enabled
 
-  def generate_journal_entry!
-    return unless accounting_settings.enabled && accounting_settings.payment_account_nr.present?
-
-    existing_ids = organisation.journal_entries.where(payment: self).pluck(:id)
-    new_journal_entry = JournalEntry::Factory.new.payment(self)
-
-    # raise ActiveRecord::Rollback unless
-    new_journal_entry.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
-    journal_entries.reload
+    @journal_entry_manager ||= JournalEntry::Manager[Payment].new(self)
+    @journal_entry_manager.handle
   end
 
   def recalculate_invoice

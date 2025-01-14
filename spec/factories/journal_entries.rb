@@ -24,7 +24,7 @@ FactoryBot.define do
     date { '2024-12-12' }
     ref { 'JournalEntryRef' }
     currency { booking.organisation.currency }
-    trigger { :manual }
+    trigger { :invoice_updated }
     transient do
       soll_account_nr { '1050' }
       haben_account_nr { '6000' }
@@ -51,10 +51,6 @@ FactoryBot.define do
                                         }
                                       ])
     end
-
-    # account_nr { 'MyString' }
-    # vat_category { nil }
-    # text { 'MyString' }
 
     trait :invoice_created do
       invoice

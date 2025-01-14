@@ -41,6 +41,12 @@ class InvoicePart < ApplicationRecord
   scope :ordered, -> { rank(:ordinal) }
 
   validates :type, inclusion: { in: ->(_) { InvoicePart.subtypes.keys.map(&:to_s) } }
+  validate do
+    invoice_parts_with_accounting = invoice&.invoice_parts&.select(&:accounting_relevant?)
+    next if invoice_parts_with_accounting.none? || to_sum(0).zero? || accounting_account_nr.present?
+
+    errors.add(:accounting_account_nr, :blank)
+  end
 
   before_validation do
     self.amount = amount&.floor(2) || 0
@@ -52,6 +58,10 @@ class InvoicePart < ApplicationRecord
 
   def vat_breakdown
     @vat_breakdown ||= vat_category&.breakdown(amount) || { brutto: amount, netto: amount, vat: 0 }
+  end
+
+  def accounting_relevant?
+    accounting_account_nr.present? && !to_sum(0).zero?
   end
 
   def accounting_cost_center_nr

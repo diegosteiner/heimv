@@ -92,8 +92,8 @@ FactoryBot.define do
         create(:payment, booking:, invoice: nil, amount: evaluator.prepaid_amount) if evaluator.prepaid_amount.present?
         invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at)
         invoice.invoice_parts = InvoicePart::Factory.new(invoice).build
+        invoice.recalculate
         invoice.save!
-        invoice.recalculate!
         booking.reload
       end
     end
