@@ -33,6 +33,8 @@
     table.table.table-hover.align-middle
       thead
         tr
+          - unless @booking
+            th= Booking.model_name.human
           th= Invoice.model_name.human
           th= Invoice.human_attribute_name(:type)
           th= Invoice.human_attribute_name(:payable_until)
@@ -44,9 +46,9 @@
       tbody.shadow-sm
         - @invoices.each do |invoice|
           tr[data-href=manage_invoice_path(invoice) class=('disabled' if invoice.discarded?)]
+            - unless @booking
+              td= link_to invoice.booking, manage_booking_path(invoice.booking)
             td.align-middle
-              - unless @booking
-                div= link_to invoice.booking, manage_booking_path(invoice.booking)
               - if invoice.pdf.attached?
                 = link_to manage_invoice_path(invoice, format: :pdf), target: :_blank do
                   = invoice.ref || invoice.payment_ref
