@@ -187,7 +187,7 @@ class Invoice < ApplicationRecord
   end
 
   def suggested_invoice_parts
-    ::InvoicePart::Factory.new(self).call
+    ::InvoicePart::Factory.new(self).build
   end
 
   def invoice_address

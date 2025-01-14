@@ -10,7 +10,7 @@ class InvoicePart
       @invoice = invoice
     end
 
-    def call
+    def build
       I18n.with_locale(invoice.locale || I18n.locale) do
         [
           from_unassigned_payments.presence,
@@ -33,7 +33,7 @@ class InvoicePart
       end.flatten
     end
 
-    def from_unassigned_payments # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+    def from_unassigned_payments # rubocop:disable Metrics/MethodLength
       unassigned_payments = booking.payments.where(invoice: nil, write_off: false)
       payed_amount = unassigned_payments.sum(:amount)
       return [] unless payed_amount.positive? && invoice.new_record?

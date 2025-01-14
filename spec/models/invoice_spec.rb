@@ -53,7 +53,7 @@ RSpec.describe Invoice, type: :model do
 
   describe '#supersede' do
     subject(:successor) do
-      factory.call(predecessor.booking, type: Invoices::LateNotice, supersede_invoice: predecessor)
+      Invoice::Factory.new(predecessor.booking).build(type: Invoices::LateNotice, supersede_invoice: predecessor)
     end
 
     let(:predecessor) do
@@ -62,7 +62,6 @@ RSpec.describe Invoice, type: :model do
         invoice.invoice_parts = build_list(:invoice_part, 2, amount: 100.0)
       end
     end
-    let(:factory) { Invoice::Factory.new }
 
     it 'discards the old invoice' do
       successor.save

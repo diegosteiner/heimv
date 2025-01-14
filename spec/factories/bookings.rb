@@ -90,8 +90,8 @@ FactoryBot.define do
                                                  vat_category: evaluator.vat_category)
         Usage::Factory.new(booking).build.each { _1.update(used_units: 48) }
         create(:payment, booking:, invoice: nil, amount: evaluator.prepaid_amount) if evaluator.prepaid_amount.present?
-        invoice = Invoice::Factory.new.call(booking, issued_at: booking.ends_at)
-        invoice.invoice_parts = InvoicePart::Factory.new(invoice).call
+        invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at)
+        invoice.invoice_parts = InvoicePart::Factory.new(invoice).build
         invoice.save!
         invoice.recalculate!
         booking.reload
