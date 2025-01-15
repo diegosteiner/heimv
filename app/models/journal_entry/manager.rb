@@ -15,14 +15,14 @@ class JournalEntry
       def handle_create
         return unless invoice.is_a?(Invoices::Deposit) || invoice.is_a?(Invoices::Invoice)
         return unless invoice.kept?
-        raise AccoundingMadness, 'no journal_entries must exist before create' if existing_journal_entries.exists?
+        raise AccountingMadness, 'no journal_entries must exist before create' if existing_journal_entries.exists?
 
         factory.build_with_invoice(invoice).update(trigger: :invoice_created)
       end
 
       def handle_update
         previous_journal_entry = existing_journal_entries.last
-        raise AccoundingMadness if previous_journal_entry.trigger_invoice_discarded?
+        raise AccountingMadness if previous_journal_entry.trigger_invoice_discarded?
 
         new_journal_entry = factory.build_with_invoice(invoice)
         return if previous_journal_entry.nil? || previous_journal_entry.equivalent?(new_journal_entry)
