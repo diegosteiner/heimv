@@ -4,8 +4,8 @@
 #
 # Table name: contracts
 #
-#  id          :integer          not null, primary key
-#  booking_id  :uuid
+#  id          :bigint           not null, primary key
+#  locale      :string
 #  sent_at     :date
 #  signed_at   :date
 #  text        :text
@@ -13,11 +13,7 @@
 #  valid_until :datetime
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  locale      :string
-#
-# Indexes
-#
-#  index_contracts_on_booking_id  (booking_id)
+#  booking_id  :uuid
 #
 
 FactoryBot.define do

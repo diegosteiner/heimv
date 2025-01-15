@@ -4,13 +4,13 @@ module Manage
   class InvoicePartsController < BaseController
     load_and_authorize_resource :invoice
     load_and_authorize_resource :invoice_part, through: :invoice
+    before_action :set_booking, only: %i[edit update create]
 
     def new
       respond_with :manage, @invoice, @invoice_parts
     end
 
     def edit
-      @booking = @invoice.booking
       respond_with :manage, @invoice, @invoice_part
     end
 
@@ -30,6 +30,10 @@ module Manage
     end
 
     private
+
+    def set_booking
+      @booking = @invoice&.booking
+    end
 
     def invoice_part_params
       InvoicePartParams.new(params.require(:invoice_part)).permitted

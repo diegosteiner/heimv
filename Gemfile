@@ -61,7 +61,7 @@ gem 'ttfunk', '~> 1.7.0' # https://github.com/prawnpdf/prawn/issues/1346
 gem 'vite_rails'
 
 group :development do
-  gem 'annotate'
+  gem 'annotaterb'
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'
   gem 'listen'

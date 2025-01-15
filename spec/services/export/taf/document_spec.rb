@@ -5,14 +5,14 @@ require 'rails_helper'
 describe Export::Taf::Document, type: :model do
   subject(:taf_document) do
     described_class.new do
-      build(:Blg, text: 'TAF is "great"', test: 1) do
-        build(:Bk, test: 2)
+      block(:Blg, text: 'TAF is "great"', test: 1) do
+        block(:Bk, test: 2)
       end
     end
   end
 
   describe '#initialize' do
-    subject(:taf_block) { taf_document.blocks.first }
+    subject(:taf_block) { taf_document.children.first }
 
     it 'works as DSL' do
       expect(taf_block.type).to eq(:Blg)

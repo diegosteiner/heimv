@@ -25,6 +25,8 @@ Rails:
 
 Layout/LineLength:
   Max: 120
+  AllowedPatterns:
+    - !ruby/regexp /\A#/
 
 Metrics/ClassLength:
   Max: 150

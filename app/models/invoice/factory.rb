@@ -7,8 +7,12 @@ class Invoice
     RichTextTemplate.define(:invoices_offer_text, context: %i[booking invoice])
     RichTextTemplate.define(:invoices_late_notice_text, context: %i[booking invoice])
 
-    def call(booking, params = {})
-      ::Invoice.new(defaults(booking).merge(params)).tap do |invoice|
+    def initialize(booking)
+      @booking = booking
+    end
+
+    def build(attributes = {})
+      ::Invoice.new(defaults.merge(attributes)).tap do |invoice|
         invoice.payment_info_type = payment_info_type(invoice)
         invoice.payable_until ||= payable_until(invoice)
         invoice.payment_required = payment_required(invoice)
@@ -17,21 +21,21 @@ class Invoice
       end
     end
 
+    def defaults
+      {
+        type: Invoices::Invoice.to_s, issued_at: Time.zone.today,
+        booking: @booking, locale: @booking.locale || I18n.locale
+      }
+    end
+
+    protected
+
     def prepare_to_supersede(invoice)
       supersede_invoice = invoice.supersede_invoice
 
       invoice.booking ||= supersede_invoice.booking
       invoice.payment_ref ||= supersede_invoice.payment_ref
     end
-
-    def defaults(booking)
-      {
-        type: Invoices::Invoice.to_s, issued_at: Time.zone.today,
-        booking:, locale: booking.locale || I18n.locale
-      }
-    end
-
-    protected
 
     def payment_info_type(invoice)
       return if invoice.type.to_s == Invoices::Offer.to_s

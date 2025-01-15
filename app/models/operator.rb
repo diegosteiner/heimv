@@ -4,18 +4,14 @@
 #
 # Table name: operators
 #
-#  id              :integer          not null, primary key
-#  name            :string
-#  email           :string
+#  id              :bigint           not null, primary key
 #  contact_info    :text
-#  organisation_id :integer          not null
+#  email           :string
+#  locale          :string           not null
+#  name            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  locale          :string           not null
-#
-# Indexes
-#
-#  index_operators_on_organisation_id  (organisation_id)
+#  organisation_id :bigint           not null
 #
 
 class Operator < ApplicationRecord

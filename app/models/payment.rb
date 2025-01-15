@@ -4,28 +4,20 @@
 #
 # Table name: payments
 #
-#  id            :bigint           not null, primary key
-#  amount        :decimal(, )
-#  data          :jsonb
-#  paid_at       :date
-#  ref           :string
-#  remarks       :text
-#  write_off     :boolean          default(FALSE), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  booking_id    :uuid
-#  camt_instr_id :string
-#  invoice_id    :bigint
-#
-# Indexes
-#
-#  index_payments_on_booking_id  (booking_id)
-#  index_payments_on_invoice_id  (invoice_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (invoice_id => invoices.id)
+#  id                        :bigint           not null, primary key
+#  accounting_account_nr     :string
+#  accounting_cost_center_nr :string
+#  amount                    :decimal(, )
+#  data                      :jsonb
+#  paid_at                   :date
+#  ref                       :string
+#  remarks                   :text
+#  write_off                 :boolean          default(FALSE), not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  booking_id                :uuid
+#  camt_instr_id             :string
+#  invoice_id                :bigint
 #
 
 class Payment < ApplicationRecord
@@ -49,14 +41,14 @@ class Payment < ApplicationRecord
   scope :ordered, -> { order(paid_at: :DESC) }
   scope :recent, -> { where(arel_table[:paid_at].gt(3.months.ago)) }
 
-  attr_accessor :skip_generate_journal_entries
+  attr_accessor :skip_journal_entries
 
   delegate :accounting_settings, to: :organisation
 
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
   after_save :recalculate_invoice
-  after_save :generate_journal_entries!, if: :generate_journal_entries?
+  after_save :update_journal_entries, unless: :skip_journal_entries
 
   before_validation do
     self.booking = invoice&.booking || booking
@@ -74,19 +66,11 @@ class Payment < ApplicationRecord
     MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
   end
 
-  def generate_journal_entries?
-    organisation.accounting_settings.enabled && !skip_generate_journal_entries
-  end
+  def update_journal_entries
+    return unless organisation.accounting_settings.enabled
 
-  def generate_journal_entries!
-    return unless accounting_settings.enabled && accounting_settings.payment_account_nr.present?
-
-    existing_ids = organisation.journal_entries.where(payment: self).pluck(:id)
-    new_journal_entries = JournalEntry::Factory.new.payment(self)
-
-    # raise ActiveRecord::Rollback unless
-    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
-    journal_entries.reload
+    @journal_entry_manager ||= JournalEntry::Manager[Payment].new(self)
+    @journal_entry_manager.handle
   end
 
   def recalculate_invoice

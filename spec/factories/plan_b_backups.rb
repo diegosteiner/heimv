@@ -4,14 +4,10 @@
 #
 # Table name: plan_b_backups
 #
-#  id              :integer          not null, primary key
-#  organisation_id :integer          not null
+#  id              :bigint           not null, primary key
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#
-# Indexes
-#
-#  index_plan_b_backups_on_organisation_id  (organisation_id)
+#  organisation_id :bigint           not null
 #
 
 FactoryBot.define do

@@ -79,9 +79,7 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    annotate (2.6.5)
-      activerecord (>= 2.3.0)
-      rake (>= 0.8.7)
+    annotaterb (4.13.0)
     ast (2.4.2)
     aws-eventstream (1.3.0)
     aws-partitions (1.1036.0)
@@ -573,7 +571,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_flag
-  annotate
+  annotaterb
   aws-sdk-s3
   barnes
   blueprinter

@@ -4,25 +4,19 @@
 #
 # Table name: invoice_parts
 #
-#  id                        :integer          not null, primary key
-#  invoice_id                :integer
-#  usage_id                  :integer
-#  type                      :string
-#  amount                    :decimal(, )
-#  label                     :string
-#  breakdown                 :string
-#  ordinal                   :integer
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  vat_category_id           :integer
+#  id                        :bigint           not null, primary key
 #  accounting_account_nr     :string
 #  accounting_cost_center_nr :string
-#
-# Indexes
-#
-#  index_invoice_parts_on_invoice_id       (invoice_id)
-#  index_invoice_parts_on_usage_id         (usage_id)
-#  index_invoice_parts_on_vat_category_id  (vat_category_id)
+#  amount                    :decimal(, )
+#  breakdown                 :string
+#  label                     :string
+#  ordinal                   :integer
+#  type                      :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  invoice_id                :bigint
+#  usage_id                  :bigint
+#  vat_category_id           :bigint
 #
 
 class InvoicePart < ApplicationRecord
@@ -38,8 +32,6 @@ class InvoicePart < ApplicationRecord
   has_one :tarif, through: :usage
   has_one :booking, through: :usage
 
-  has_many :journal_entries, inverse_of: :invoice_part, dependent: :destroy
-
   attribute :apply, :boolean, default: true
 
   delegate :booking, :organisation, to: :invoice
@@ -49,6 +41,12 @@ class InvoicePart < ApplicationRecord
   scope :ordered, -> { rank(:ordinal) }
 
   validates :type, inclusion: { in: ->(_) { InvoicePart.subtypes.keys.map(&:to_s) } }
+  validate do
+    invoice_parts_with_accounting = invoice&.invoice_parts&.select(&:accounting_relevant?)
+    next if invoice_parts_with_accounting.none? || to_sum(0).zero? || accounting_account_nr.present?
+
+    errors.add(:accounting_account_nr, :blank)
+  end
 
   before_validation do
     self.amount = amount&.floor(2) || 0
@@ -60,6 +58,10 @@ class InvoicePart < ApplicationRecord
 
   def vat_breakdown
     @vat_breakdown ||= vat_category&.breakdown(amount) || { brutto: amount, netto: amount, vat: 0 }
+  end
+
+  def accounting_relevant?
+    accounting_account_nr.present? && !to_sum(0).zero?
   end
 
   def accounting_cost_center_nr

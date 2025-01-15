@@ -44,7 +44,7 @@ describe BookingActions::Manage::EmailContract do
     it { expect(label).to eq(I18n.t('booking_actions.manage.email_contract.label_without_deposit')) }
 
     context 'with deposit' do
-      let!(:deposit) { Invoice::Factory.new.call(booking, type: Invoices::Deposit.to_s).tap(&:save) }
+      let!(:deposit) { Invoice::Factory.new(booking).build(type: Invoices::Deposit.to_s).tap(&:save) }
       it { expect(label).to eq(I18n.t('booking_actions.manage.email_contract.label_with_deposit')) }
     end
   end

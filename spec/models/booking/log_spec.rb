@@ -4,17 +4,13 @@
 #
 # Table name: booking_logs
 #
-#  id         :integer          not null, primary key
-#  booking_id :uuid             not null
-#  user_id    :integer
-#  trigger    :integer          not null
+#  id         :bigint           not null, primary key
 #  data       :jsonb
+#  trigger    :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#
-# Indexes
-#
-#  index_booking_logs_on_user_id  (user_id)
+#  booking_id :uuid             not null
+#  user_id    :bigint
 #
 
 require 'rails_helper'

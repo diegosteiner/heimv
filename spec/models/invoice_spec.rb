@@ -12,28 +12,18 @@
 #  locale               :string
 #  payable_until        :datetime
 #  payment_info_type    :string
+#  payment_ref          :string
 #  payment_required     :boolean          default(TRUE)
 #  ref                  :string
 #  sent_at              :datetime
+#  sequence_number      :integer
+#  sequence_year        :integer
 #  text                 :text
 #  type                 :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  booking_id           :uuid
 #  supersede_invoice_id :bigint
-#
-# Indexes
-#
-#  index_invoices_on_booking_id            (booking_id)
-#  index_invoices_on_discarded_at          (discarded_at)
-#  index_invoices_on_ref                   (ref)
-#  index_invoices_on_supersede_invoice_id  (supersede_invoice_id)
-#  index_invoices_on_type                  (type)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (supersede_invoice_id => invoices.id)
 #
 
 require 'rails_helper'
@@ -63,7 +53,7 @@ RSpec.describe Invoice, type: :model do
 
   describe '#supersede' do
     subject(:successor) do
-      factory.call(predecessor.booking, type: Invoices::LateNotice, supersede_invoice: predecessor)
+      Invoice::Factory.new(predecessor.booking).build(type: Invoices::LateNotice, supersede_invoice: predecessor)
     end
 
     let(:predecessor) do
@@ -72,7 +62,6 @@ RSpec.describe Invoice, type: :model do
         invoice.invoice_parts = build_list(:invoice_part, 2, amount: 100.0)
       end
     end
-    let(:factory) { Invoice::Factory.new }
 
     it 'discards the old invoice' do
       successor.save

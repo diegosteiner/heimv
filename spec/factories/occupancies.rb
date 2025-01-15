@@ -17,17 +17,6 @@
 #  booking_id         :uuid
 #  occupiable_id      :bigint           not null
 #
-# Indexes
-#
-#  index_occupancies_on_begins_at       (begins_at)
-#  index_occupancies_on_ends_at         (ends_at)
-#  index_occupancies_on_occupancy_type  (occupancy_type)
-#  index_occupancies_on_occupiable_id   (occupiable_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (occupiable_id => occupiables.id)
-#
 
 FactoryBot.define do
   factory :occupancy do

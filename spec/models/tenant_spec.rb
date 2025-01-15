@@ -20,26 +20,17 @@
 #  locale                    :string
 #  nickname                  :string
 #  phone                     :text
+#  ref                       :string
 #  remarks                   :text
 #  reservations_allowed      :boolean          default(TRUE)
 #  salutation_form           :integer
 #  search_cache              :text             not null
+#  sequence_number           :integer
 #  street_address            :string
 #  zipcode                   :string
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #  organisation_id           :bigint           not null
-#
-# Indexes
-#
-#  index_tenants_on_email                      (email)
-#  index_tenants_on_email_and_organisation_id  (email,organisation_id) UNIQUE
-#  index_tenants_on_organisation_id            (organisation_id)
-#  index_tenants_on_search_cache               (search_cache)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
 #
 require 'rails_helper'
 

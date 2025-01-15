@@ -4,25 +4,19 @@
 #
 # Table name: invoice_parts
 #
-#  id                        :integer          not null, primary key
-#  invoice_id                :integer
-#  usage_id                  :integer
-#  type                      :string
-#  amount                    :decimal(, )
-#  label                     :string
-#  breakdown                 :string
-#  ordinal                   :integer
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  vat_category_id           :integer
+#  id                        :bigint           not null, primary key
 #  accounting_account_nr     :string
 #  accounting_cost_center_nr :string
-#
-# Indexes
-#
-#  index_invoice_parts_on_invoice_id       (invoice_id)
-#  index_invoice_parts_on_usage_id         (usage_id)
-#  index_invoice_parts_on_vat_category_id  (vat_category_id)
+#  amount                    :decimal(, )
+#  breakdown                 :string
+#  label                     :string
+#  ordinal                   :integer
+#  type                      :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  invoice_id                :bigint
+#  usage_id                  :bigint
+#  vat_category_id           :bigint
 #
 
 module InvoiceParts
@@ -33,10 +27,8 @@ module InvoiceParts
 
     after_save :reassign_payments!
 
-    attribute :accounting_account_nr, default: -> { organisation&.accounting_settings&.rental_yield_account_nr }
-    attribute :vat_category_id, default: (lambda do |invoice_part|
-      invoice_part.organisation&.accounting_settings&.rental_yield_vat_category_id
-    end)
+    attribute :accounting_account_nr
+    attribute :vat_category_id
 
     def reassign_payments!(payments = reassign_payments)
       return unless valid? && apply

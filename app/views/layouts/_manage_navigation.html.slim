@@ -97,6 +97,10 @@ nav.px-3
             = link_to manage_plan_b_backups_path, class: 'nav-link' do 
               span.fa.fa-download.pe-2[style="width: 1.5rem;"]
               = PlanBBackup.model_name.human(count: 2) 
+          li
+            = link_to manage_vat_categories_path, class: 'nav-link' do 
+              span.fa.fa-usd.pe-2[style="width: 1.5rem;"]
+              = VatCategory.model_name.human(count: 2) 
                 
       li.nav-item
         = link_to manage_flow_path(org: current_organisation, locale: I18n.locale), class: 'nav-link'

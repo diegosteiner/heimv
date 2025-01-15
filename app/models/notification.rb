@@ -16,16 +16,6 @@
 #  booking_id       :uuid
 #  mail_template_id :bigint
 #
-# Indexes
-#
-#  index_notifications_on_booking_id        (booking_id)
-#  index_notifications_on_mail_template_id  (mail_template_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (mail_template_id => rich_text_templates.id)
-#
 
 class Notification < ApplicationRecord
   RichTextTemplate.define(:notification_footer, context: %i[booking])

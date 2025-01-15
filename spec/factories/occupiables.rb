@@ -5,10 +5,10 @@
 # Table name: occupiables
 #
 #  id               :bigint           not null, primary key
-#  description_i18n :jsonb
+#  description_i18n :jsonb            not null
 #  discarded_at     :datetime
 #  janitor          :text
-#  name_i18n        :jsonb
+#  name_i18n        :jsonb            not null
 #  occupiable       :boolean          default(FALSE)
 #  ordinal          :integer
 #  ref              :string
@@ -19,17 +19,6 @@
 #  home_id          :bigint
 #  organisation_id  :bigint           not null
 #
-# Indexes
-#
-#  index_occupiables_on_discarded_at             (discarded_at)
-#  index_occupiables_on_home_id                  (home_id)
-#  index_occupiables_on_organisation_id          (organisation_id)
-#  index_occupiables_on_ref_and_organisation_id  (ref,organisation_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#
 
 FactoryBot.define do
   factory :occupiable do
@@ -38,6 +27,7 @@ FactoryBot.define do
     description { "#{Faker::Address.zip_code} #{Faker::Address.city}" }
     sequence(:ref) { |i| "H#{i}" }
     occupiable { true }
+    settings { { accounting_cost_center_nr: '9001' } }
 
     factory :home, class: 'Home'
   end

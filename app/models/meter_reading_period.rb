@@ -4,20 +4,15 @@
 #
 # Table name: meter_reading_periods
 #
-#  id          :integer          not null, primary key
-#  tarif_id    :integer
-#  usage_id    :integer
-#  start_value :decimal(, )
-#  end_value   :decimal(, )
+#  id          :bigint           not null, primary key
 #  begins_at   :datetime
+#  end_value   :decimal(, )
 #  ends_at     :datetime
+#  start_value :decimal(, )
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#
-# Indexes
-#
-#  index_meter_reading_periods_on_tarif_id  (tarif_id)
-#  index_meter_reading_periods_on_usage_id  (usage_id)
+#  tarif_id    :bigint
+#  usage_id    :bigint
 #
 
 class MeterReadingPeriod < ApplicationRecord

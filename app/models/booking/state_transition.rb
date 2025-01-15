@@ -14,16 +14,6 @@
 #  updated_at   :datetime         not null
 #  booking_id   :uuid             not null
 #
-# Indexes
-#
-#  index_booking_state_transitions_on_booking_id  (booking_id)
-#  index_booking_transitions_parent_most_recent   (booking_id,most_recent) UNIQUE WHERE most_recent
-#  index_booking_transitions_parent_sort          (booking_id,sort_key) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#
 
 class Booking
   class StateTransition < ApplicationRecord
