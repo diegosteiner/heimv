@@ -11,7 +11,6 @@ module Manage
     end
 
     def edit
-      @booking = @invoice.booking
       respond_with :manage, @invoice, @invoice_part
     end
 
@@ -21,7 +20,6 @@ module Manage
     end
 
     def update
-      @booking = @invoice.booking
       @invoice_part.update(invoice_part_params) && @invoice_part.invoice.recalculate!
       respond_with :manage, @invoice, @invoice_part, location: manage_invoice_path(@invoice)
     end

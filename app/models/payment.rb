@@ -41,13 +41,14 @@ class Payment < ApplicationRecord
   scope :ordered, -> { order(paid_at: :DESC) }
   scope :recent, -> { where(arel_table[:paid_at].gt(3.months.ago)) }
 
-  attr_accessor :skip_generate_journal_entry
+  attr_accessor :skip_journal_entries
 
   delegate :accounting_settings, to: :organisation
 
   after_create :confirm!, if: :confirm?
   after_destroy :recalculate_invoice
-  after_save :recalculate_invoice, :update_journal_entries
+  after_save :recalculate_invoice
+  after_save :update_journal_entries, unless: :skip_journal_entries
 
   before_validation do
     self.booking = invoice&.booking || booking

@@ -44,7 +44,7 @@ class Invoice < ApplicationRecord
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
-  attr_accessor :skip_generate_pdf, :skip_handle_journal_entries
+  attr_accessor :skip_generate_pdf, :skip_journal_entries
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
@@ -62,8 +62,8 @@ class Invoice < ApplicationRecord
   before_create :sequence_number, :generate_ref, :generate_payment_ref
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
-  after_save :recalculate!, :update_journal_entries, :update_payments
-
+  after_save :recalculate!, :update_payments
+  after_save :update_journal_entries, unless: :skip_journal_entries
   delegate :currency, to: :organisation
 
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }

@@ -159,7 +159,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_153822) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tenant_mode", default: 0, null: false
-    t.integer "booking_agent_mode"
+    t.integer "booking_agent_mode", default: 0
     t.index ["discarded_at"], name: "index_booking_questions_on_discarded_at"
     t.index ["organisation_id"], name: "index_booking_questions_on_organisation_id"
     t.index ["type"], name: "index_booking_questions_on_type"
@@ -346,6 +346,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_153822) do
 
   create_table "journal_entries", force: :cascade do |t|
     t.bigint "invoice_id"
+    t.date "date", null: false
     t.string "currency", null: false
     t.string "ref"
     t.datetime "created_at", null: false
@@ -354,26 +355,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_153822) do
     t.integer "trigger", null: false
     t.uuid "booking_id", null: false
     t.datetime "processed_at"
-    t.date "date", null: false
     t.jsonb "fragments"
     t.index ["booking_id"], name: "index_journal_entries_on_booking_id"
     t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
     t.index ["payment_id"], name: "index_journal_entries_on_payment_id"
-  end
-
-  create_table "journal_entry", force: :cascade do |t|
-    t.uuid "booking_id", null: false
-    t.bigint "invoice_id"
-    t.bigint "payment_id"
-    t.date "date", null: false
-    t.string "ref", null: false
-    t.string "currency", null: false
-    t.integer "trigger", null: false
-    t.integer "integer", null: false
-    t.jsonb "fragments"
-    t.index ["booking_id"], name: "index_journal_entry_on_booking_id"
-    t.index ["invoice_id"], name: "index_journal_entry_on_invoice_id"
-    t.index ["payment_id"], name: "index_journal_entry_on_payment_id"
   end
 
   create_table "key_sequences", force: :cascade do |t|
@@ -727,8 +712,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_153822) do
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
   add_foreign_key "journal_entries", "invoices"
-  add_foreign_key "journal_entry", "invoices"
-  add_foreign_key "journal_entry", "payments"
   add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
   add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"

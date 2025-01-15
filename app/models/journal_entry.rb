@@ -36,7 +36,7 @@ class JournalEntry < ApplicationRecord
 
   before_validation :set_currency
 
-  validates :ref, :currency, :date, presence: true
+  validates :ref, :currency, :date, :trigger, presence: true
   validates :fragments, store_model: true
   validate { errors.add(:base, :invalid) unless balanced? }
 

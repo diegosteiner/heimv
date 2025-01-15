@@ -5,7 +5,7 @@
 # Table name: booking_questions
 #
 #  id                 :bigint           not null, primary key
-#  booking_agent_mode :integer
+#  booking_agent_mode :integer          default("not_visible")
 #  description_i18n   :jsonb            not null
 #  discarded_at       :datetime
 #  key                :string
