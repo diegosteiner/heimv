@@ -134,12 +134,13 @@ class JournalEntry < ApplicationRecord
       end
     end
 
-    def build_invoice_part_add(invoice_part, journal_entry) # rubocop:disable Metrics/AbcSize
+    def build_invoice_part_add(invoice_part, journal_entry) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       invoice_part.instance_eval do
         text = "R.#{invoice.ref} - #{invoice.booking.tenant.last_name}: #{label}"
         accounting_settings = organisation.accounting_settings
 
-        journal_entry.haben(account_nr: accounting_account_nr || accounting_settings&.rental_yield_account_nr || 0,
+        journal_entry.haben(account_nr: accounting_account_nr.presence ||
+                              accounting_settings&.rental_yield_account_nr.presence || 0,
                             amount: vat_breakdown[:netto], invoice_part_id: id, vat_category_id:, text:)
         journal_entry.haben(account_nr: accounting_cost_center_nr, book_type: :cost,
                             amount: vat_breakdown[:netto], invoice_part_id: id, vat_category_id:, text:)
