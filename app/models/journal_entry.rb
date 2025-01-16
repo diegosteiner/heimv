@@ -83,21 +83,6 @@ class JournalEntry < ApplicationRecord
     self
   end
 
-  # def inspect_balance
-  #   overview = StringIO.new
-  #   overview << "+-------+-----------+-----------+------+\n"
-  #   overview << "| Acc   |      Soll |     Haben | Type |\n"
-  #   overview << "+-------+-----------+-----------+------+\n"
-  #   fragments.filter { %i[main vat].include?(_1.book_type&.to_sym) }.each do |fragment|
-  #     overview << format("|% 6s | % 9.2f | % 9.2f | % 4s |\n", fragment.account_nr, fragment.soll_amount || 0,
-  #                        fragment.haben_amount || 0, fragment.book_type)
-  #   end
-  #   overview << "+-------+-----------+-----------+------+\n"
-  #   overview << format("|       | % 9.2f | % 9.2f |      |\n", soll_amount || 0, haben_amount || 0)
-  #   overview << "+-------+-----------+-----------+------+\n"
-  #   overview.string
-  # end
-
   # TODO: check move
   def fragment_relations
     fragments.group_by(&:invoice_part_id).transform_values do |related_fragments|
@@ -123,12 +108,6 @@ class JournalEntry < ApplicationRecord
 
       processed ? journal_entries.processed : journal_entries.unprocessed
     end
-
-    # filter :processed_at do |journal_entries|
-    #   next unless processed_at_before.present? || processed_at_after.present?
-
-    #   journal_entries.where(JournalEntry.arel_table[:processed_at].between(processed_at_after..processed_at_before))
-    # end
   end
 
   class Factory
@@ -144,7 +123,7 @@ class JournalEntry < ApplicationRecord
       invoice.instance_eval do
         text = "R.#{ref} - #{booking.tenant.last_name}"
         # Der Betrag, welcher der Debitor noch schuldig ist. (inkl. MwSt.). Jak: «Erlösbuchung»
-        journal_entry.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
+        journal_entry.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr || 0, amount:, text:)
       end
     end
 
@@ -158,13 +137,14 @@ class JournalEntry < ApplicationRecord
     def build_invoice_part_add(invoice_part, journal_entry) # rubocop:disable Metrics/AbcSize
       invoice_part.instance_eval do
         text = "R.#{invoice.ref} - #{invoice.booking.tenant.last_name}: #{label}"
+        accounting_settings = organisation.accounting_settings
 
-        journal_entry.haben(account_nr: accounting_account_nr, amount: vat_breakdown[:netto],
-                            invoice_part_id: id, vat_category_id:, text:)
-        journal_entry.haben(account_nr: accounting_cost_center_nr, amount: vat_breakdown[:netto],
-                            book_type: :cost, invoice_part_id: id, vat_category_id:, text:)
-        journal_entry.haben(account_nr: vat_category&.organisation&.accounting_settings&.vat_account_nr,
-                            amount: vat_breakdown[:vat], book_type: :vat, invoice_part_id: id, vat_category_id:, text:)
+        journal_entry.haben(account_nr: accounting_account_nr || accounting_settings&.rental_yield_account_nr || 0,
+                            amount: vat_breakdown[:netto], invoice_part_id: id, vat_category_id:, text:)
+        journal_entry.haben(account_nr: accounting_cost_center_nr, book_type: :cost,
+                            amount: vat_breakdown[:netto], invoice_part_id: id, vat_category_id:, text:)
+        journal_entry.haben(account_nr: accounting_settings&.vat_account_nr, book_type: :vat,
+                            amount: vat_breakdown[:vat], invoice_part_id: id, vat_category_id:, text:)
       end
     end
 

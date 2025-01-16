@@ -20,7 +20,10 @@ class JournalEntry
         factory.build_with_invoice(invoice).update(trigger: :invoice_created)
       end
 
-      def handle_update
+      def handle_update # rubocop:disable Metrics/AbcSize
+        return unless invoice.is_a?(Invoices::Deposit) || invoice.is_a?(Invoices::Invoice)
+        return unless invoice.kept?
+
         previous_journal_entry = existing_journal_entries.last
         raise AccountingMadness if previous_journal_entry.trigger_invoice_discarded?
 

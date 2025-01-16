@@ -47,7 +47,7 @@ class Deadline < ApplicationRecord
   end
 
   def postponable?
-    postponable_for.present? && postponable_for.positive?
+    postponable_for.present? && postponable_for.positive? && armed?
   end
 
   def clear

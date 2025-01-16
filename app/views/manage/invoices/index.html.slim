@@ -37,6 +37,7 @@
             th= Booking.model_name.human
           th= Invoice.model_name.human
           th= Invoice.human_attribute_name(:type)
+          th= Invoice.human_attribute_name(:issued_at)
           th= Invoice.human_attribute_name(:payable_until)
           th= Invoice.human_attribute_name(:amount)
           th= Invoice.human_attribute_name(:amount_paid)
@@ -61,6 +62,11 @@
               = invoice.model_name.human
 
             td.align-middle
+              =l(invoice.issued_at, format: :date)
+              - if invoice.sent?
+                span.badge.badge-pill.bg-success.ms-1
+                  span.fa.fa-envelope-open.text-white[title="#{Invoice.human_attribute_name(:sent_at)}: #{l(invoice.sent_at)}"]
+            td.align-middle
               - if invoice.payable_until.present?
                 - if invoice.payable_until.past? && !invoice.paid?
                   .text-danger= l(invoice.payable_until, format: :date)
@@ -68,9 +74,6 @@
                 - else
                   div=l(invoice.payable_until, format: :date)
                   div= distance_of_time_in_words_to_now(invoice.payable_until)
-              - if invoice.sent?
-                span.badge.badge-pill.bg-success.ms-1
-                  span.fa.fa-envelope-open.text-white[title="#{Invoice.human_attribute_name(:sent_at)}: #{l(invoice.sent_at)}"]
 
             td.align-middle
               = number_to_currency(invoice.amount)
