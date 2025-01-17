@@ -29,6 +29,8 @@
 #  purpose_description    :string
 #  ref                    :string
 #  remarks                :text
+#  sequence_number        :integer
+#  sequence_year          :integer
 #  state_data             :json
 #  tenant_organisation    :string
 #  token                  :string
@@ -38,18 +40,6 @@
 #  home_id                :integer          not null
 #  organisation_id        :bigint           not null
 #  tenant_id              :integer
-#
-# Indexes
-#
-#  index_bookings_on_booking_state_cache  (booking_state_cache)
-#  index_bookings_on_locale               (locale)
-#  index_bookings_on_organisation_id      (organisation_id)
-#  index_bookings_on_ref                  (ref)
-#  index_bookings_on_token                (token) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 FactoryBot.define do
@@ -87,6 +77,25 @@ FactoryBot.define do
       Booking::StateTransition.initial_for(booking, evaluator.initial_state)
       booking.booking_flow.current_state(force_reload: true)
       booking.apply_transitions
+    end
+
+    trait :invoiced do
+      transient do
+        initial_state { :past }
+        prepaid_amount { 0 }
+        vat_category { nil }
+      end
+      after(:create) do |booking, evaluator|
+        create_list(:tarif, 1, :with_accounting, organisation: booking.organisation,
+                                                 vat_category: evaluator.vat_category)
+        Usage::Factory.new(booking).build.each { _1.update(used_units: 48) }
+        create(:payment, booking:, invoice: nil, amount: evaluator.prepaid_amount) if evaluator.prepaid_amount.present?
+        invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at)
+        invoice.invoice_parts = InvoicePart::Factory.new(invoice).build
+        invoice.recalculate
+        invoice.save!
+        booking.reload
+      end
     end
   end
 end

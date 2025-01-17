@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class SmtpSettings < Settings
+class SmtpSettings
+  include StoreModel::Model
+
   attribute :address, :string
   attribute :user_name, :string
   attribute :password, :string
@@ -13,14 +15,10 @@ class SmtpSettings < Settings
   attribute :read_timeout, :integer, default: 5
 
   def self.from_env
-    from_json(ENV.fetch('SMTP_SETTINGS'))
-  end
-
-  def self.from_json(value)
-    Settings::Type.new(SmtpSettings).cast_value(value)
+    from_value(ENV.fetch('SMTP_SETTINGS'))
   end
 
   def to_h
-    super.symbolize_keys
+    attributes.symbolize_keys
   end
 end

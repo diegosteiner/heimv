@@ -3,7 +3,6 @@
 module Manage
   class JournalEntrySerializer < ApplicationSerializer
     identifier :id
-    fields :account_nr, :date, :text, :amount, :side, :ordinal, :ref, :currency,
-           :soll_amount, :haben_amount, :soll_account, :haben_account, :book_type
+    fields :date, :ref, :currency, :soll_amount, :haben_amount, :booking_id, :invoice_id, :payment_id
   end
 end

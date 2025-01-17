@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: key_sequences
+#
+#  id              :bigint           not null, primary key
+#  key             :string           not null
+#  value           :integer          default(0), not null
+#  year            :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  organisation_id :bigint           not null
+#
 class KeySequence < ApplicationRecord
   belongs_to :organisation, inverse_of: :key_sequences
 

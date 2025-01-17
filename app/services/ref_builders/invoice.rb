@@ -14,7 +14,7 @@ module RefBuilders
     end
 
     ref_part home_id: proc { @invoice.booking.home_id },
-             tenant_id: proc { @invoice.booking.tenant.id },
+             tenant_ref: proc { @invoice.booking.tenant.id },
              tenant_sequence_number: proc { @invoice.booking.tenant.sequence_number },
              booking_sequence_number: proc { @invoice.booking.sequence_number },
              booking_sequence_year: proc { @invoice.booking.sequence_year },

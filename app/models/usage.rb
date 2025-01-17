@@ -6,7 +6,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  committed           :boolean          default(FALSE)
-#  data                :jsonb
+#  details             :jsonb
 #  presumed_used_units :decimal(, )
 #  price_per_unit      :decimal(, )
 #  remarks             :text
@@ -15,16 +15,6 @@
 #  updated_at          :datetime         not null
 #  booking_id          :uuid
 #  tarif_id            :bigint
-#
-# Indexes
-#
-#  index_usages_on_booking_id               (booking_id)
-#  index_usages_on_tarif_id_and_booking_id  (tarif_id,booking_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (tarif_id => tarifs.id)
 #
 
 class Usage < ApplicationRecord
@@ -37,6 +27,7 @@ class Usage < ApplicationRecord
   delegate :tarif_group, to: :tarif, allow_nil: true
 
   before_validation { tarif&.before_usage_validation(self) }
+  before_validation { tarif&.validate_usage(self) }
   before_save { tarif&.before_usage_save(self) }
   before_create :pin_price_per_unit
 

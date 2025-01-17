@@ -16,10 +16,6 @@ module BookingStates
       :unconfirmed_request
     end
 
-    def editable
-      true
-    end
-
     infer_transition(to: :declined_request) do |booking|
       booking.deadline_exceeded?
     end
@@ -28,7 +24,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.create_deadline(length: booking.organisation.settings.unconfirmed_request_deadline,
+      booking.create_deadline(length: booking.organisation.deadline_settings.unconfirmed_request_deadline,
                               remarks: booking.booking_state.t(:label))
       booking.tentative!
       MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:autodeliver!)

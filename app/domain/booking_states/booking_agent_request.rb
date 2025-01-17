@@ -12,10 +12,6 @@ module BookingStates
       Invoices::Deposit
     end
 
-    def editable
-      true
-    end
-
     def self.to_sym
       :booking_agent_request
     end
@@ -26,7 +22,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.create_deadline(at: booking.booking_agent.request_deadline_minutes.minutes.from_now,
-                              postponable_for: booking.organisation.settings.deadline_postponable_for,
+                              postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
                               remarks: booking.booking_state.t(:label))
     end
 

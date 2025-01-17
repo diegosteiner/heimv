@@ -25,11 +25,19 @@ module Manage
     end
 
     field :settings do |organisation|
-      organisation.settings.to_h
+      organisation.settings.attributes
+    end
+
+    field :booking_state_settings do |organisation|
+      organisation.booking_state_settings.attributes
+    end
+
+    field :deadline_settings do |organisation|
+      organisation.deadline_settings.attributes
     end
 
     field :accounting_settings do |organisation|
-      organisation.accounting_settings.to_h
+      organisation.accounting_settings.attributes
     end
 
     view :export do

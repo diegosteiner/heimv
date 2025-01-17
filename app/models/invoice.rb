@@ -12,28 +12,18 @@
 #  locale               :string
 #  payable_until        :datetime
 #  payment_info_type    :string
+#  payment_ref          :string
 #  payment_required     :boolean          default(TRUE)
 #  ref                  :string
 #  sent_at              :datetime
+#  sequence_number      :integer
+#  sequence_year        :integer
 #  text                 :text
 #  type                 :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  booking_id           :uuid
 #  supersede_invoice_id :bigint
-#
-# Indexes
-#
-#  index_invoices_on_booking_id            (booking_id)
-#  index_invoices_on_discarded_at          (discarded_at)
-#  index_invoices_on_ref                   (ref)
-#  index_invoices_on_supersede_invoice_id  (supersede_invoice_id)
-#  index_invoices_on_type                  (type)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#  fk_rails_...  (supersede_invoice_id => invoices.id)
 #
 
 class Invoice < ApplicationRecord
@@ -54,7 +44,7 @@ class Invoice < ApplicationRecord
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
-  attr_accessor :skip_generate_pdf, :skip_generate_journal_entries
+  attr_accessor :skip_generate_pdf, :skip_journal_entries
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
@@ -72,10 +62,8 @@ class Invoice < ApplicationRecord
   before_create :sequence_number, :generate_ref, :generate_payment_ref
   after_create :supersede!
   before_update :generate_pdf, if: :generate_pdf?
-  after_save :recalculate!
-  after_save :generate_journal_entries!, if: :generate_journal_entries?
-  after_discard :generate_journal_entries!, if: :generate_journal_entries?
-
+  after_save :recalculate!, :update_payments
+  after_save :update_journal_entries, unless: :skip_journal_entries
   delegate :currency, to: :organisation
 
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
@@ -92,6 +80,10 @@ class Invoice < ApplicationRecord
 
     self.payments = supersede_invoice.payments
     supersede_invoice.discard!
+  end
+
+  def update_payments
+    payments.each { _1.update!(booking_id:) }
   end
 
   def sequence_number
@@ -118,19 +110,11 @@ class Invoice < ApplicationRecord
     self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
   end
 
-  def generate_journal_entries?
-    organisation.accounting_settings.enabled && !skip_generate_journal_entries
-  end
-
-  def generate_journal_entries!
+  def update_journal_entries
     return unless organisation.accounting_settings.enabled
 
-    existing_ids = organisation.journal_entries.where(invoice: self, payment: nil).pluck(:id)
-    new_journal_entries = JournalEntry::Factory.new.invoice(self)
-
-    # raise ActiveRecord::Rollback unless
-    new_journal_entries.save! && organisation.journal_entries.where(id: existing_ids).destroy_all
-    journal_entries.reload
+    @journal_entry_manager ||= JournalEntry::Manager[Invoice].new(self)
+    @journal_entry_manager.handle
   end
 
   def paid?
@@ -154,7 +138,7 @@ class Invoice < ApplicationRecord
   end
 
   def recalculate
-    self.amount = invoice_parts.ordered.inject(0) { |sum, invoice_part| invoice_part.to_sum(sum) }
+    self.amount = invoice_parts.inject(0) { |sum, invoice_part| invoice_part.to_sum(sum) }
     self.amount_open = amount - amount_paid
   end
 
@@ -192,7 +176,7 @@ class Invoice < ApplicationRecord
   end
 
   def suggested_invoice_parts
-    ::InvoicePart::Factory.new(self).call
+    ::InvoicePart::Factory.new(self).build
   end
 
   def invoice_address

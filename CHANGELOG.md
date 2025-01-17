@@ -1,5 +1,13 @@
 # Changelog
 
+## 25.1.2
+
+Released 15.01.2025
+
+- Feature: Configure editable booking states in organisation settings
+- Feature: Add page numbers to contracts
+- Fix: Refactor accounting and journal entries
+
 ## 25.1.1
 
 Released 04.01.2025

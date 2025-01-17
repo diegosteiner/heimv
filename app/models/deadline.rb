@@ -15,15 +15,6 @@
 #  booking_id       :uuid
 #  responsible_id   :bigint
 #
-# Indexes
-#
-#  index_deadlines_on_booking_id   (booking_id)
-#  index_deadlines_on_responsible  (responsible_type,responsible_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (booking_id => bookings.id)
-#
 
 class Deadline < ApplicationRecord
   belongs_to :booking, inverse_of: :deadline, touch: false # don't touch booking, as it will trigger state updates
@@ -56,7 +47,7 @@ class Deadline < ApplicationRecord
   end
 
   def postponable?
-    postponable_for.present? && postponable_for.positive?
+    postponable_for.present? && postponable_for.positive? && armed?
   end
 
   def clear

@@ -4,33 +4,18 @@
 #
 # Table name: journal_entries
 #
-#  id              :integer          not null, primary key
-#  invoice_id      :integer
-#  vat_category_id :integer
-#  account_nr      :string           not null
-#  side            :integer          not null
-#  amount          :decimal(, )      not null
-#  date            :date             not null
-#  text            :string
-#  currency        :string           not null
-#  ordinal         :integer
-#  ref             :string
-#  book_type       :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  invoice_part_id :integer
-#  payment_id      :integer
-#  trigger         :integer          not null
-#  booking_id      :uuid             not null
-#  processed_at    :datetime
-#
-# Indexes
-#
-#  index_journal_entries_on_booking_id       (booking_id)
-#  index_journal_entries_on_invoice_id       (invoice_id)
-#  index_journal_entries_on_invoice_part_id  (invoice_part_id)
-#  index_journal_entries_on_payment_id       (payment_id)
-#  index_journal_entries_on_vat_category_id  (vat_category_id)
+#  id           :bigint           not null, primary key
+#  currency     :string           not null
+#  date         :date             not null
+#  fragments    :jsonb
+#  processed_at :datetime
+#  ref          :string
+#  trigger      :integer          not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  booking_id   :uuid             not null
+#  invoice_id   :bigint
+#  payment_id   :bigint
 #
 
 require 'rails_helper'
@@ -39,54 +24,61 @@ RSpec.describe JournalEntry, type: :model do
   let(:booking) { create(:booking) }
   let(:invoice) { create(:invoice, booking:) }
 
-  describe '::collect' do
-    let(:amount) { 500 }
-    let(:ref) { 'test' }
-    let(:date) { Time.zone.today }
-
-    subject(:compound) do
-      described_class.collect(booking:, ref:, date:, trigger: :manual) do |compound|
-        compound.soll(account_nr: 6000, amount:)
-        compound.haben(account_nr: 1000, amount:)
-      end
+  describe '::new' do
+    subject(:journal_entries) do
+      [
+        described_class.new(booking:, ref: 'test1', date: 2.weeks.ago, trigger: :invoice_updated).tap do |journal_entry|
+          journal_entry.soll(account_nr: 6000, amount: 1000)
+          journal_entry.haben(account_nr: 1000, amount: 500)
+          journal_entry.haben(account_nr: 2000, amount: 500)
+        end,
+        described_class.new(booking:, ref: 'test2', date: 1.week.ago, trigger: :invoice_updated).tap do |journal_entry|
+          journal_entry.soll(account_nr: 6000, amount: 800)
+          journal_entry.haben(account_nr: 1000, amount: 800)
+        end
+      ]
     end
 
-    it 'collects the journal entries as compound' do
-      expect(compound).to be_a(JournalEntry::Compound)
-      expect(compound.journal_entries).to contain_exactly(
-        have_attributes(side: 'soll', account_nr: '6000', book_type: 'main', amount:, booking:, ref:, date:),
-        have_attributes(side: 'haben', account_nr: '1000', book_type: 'main', amount:, booking:, ref:, date:)
+    it 'builds the journal entry and fragments' do
+      expect(journal_entries.map(&:save)).to all(be_truthy)
+      expect(journal_entries).to contain_exactly(
+        have_attributes(booking:, ref: 'test1'),
+        have_attributes(booking:, ref: 'test2')
       )
-      expect(compound).to be_valid
-      compound.save!
-      expect(compound.journal_entries).to all(be_persisted)
+      expect(journal_entries.map { _1.fragments }).to contain_exactly(
+        contain_exactly(
+          have_attributes(side: 'soll', account_nr: '6000', amount: 1000),
+          have_attributes(side: 'haben', account_nr: '1000', amount: 500),
+          have_attributes(side: 'haben', account_nr: '2000', amount: 500)
+        ),
+        contain_exactly(
+          have_attributes(side: 'soll', account_nr: '6000', amount: 800),
+          have_attributes(side: 'haben', account_nr: '1000', amount: 800)
+        )
+      )
     end
   end
 
-  describe '::compounds' do
-    subject(:compounds) { JournalEntry::Compound.group(described_class.all) }
-    before do
-      described_class.collect(booking:, ref: 'test 1', date: 2.weeks.ago, trigger: :manual) do |compound|
-        compound.soll(account_nr: 6000, amount: 1000)
-        compound.haben(account_nr: 1000, amount: 500)
-        compound.haben(account_nr: 2000, amount: 500)
-      end.save!
-      described_class.collect(booking:, ref: 'test 2', date: 1.week.ago, trigger: :manual) do |compound|
-        compound.soll(account_nr: 6000, amount: 800)
-        compound.haben(account_nr: 1000, amount: 800)
-      end.save!
+  describe '::Factory.invoice_created_journal_entry' do
+    let(:organisation) { create(:organisation, :with_accounting) }
+    let(:vat_category) { create(:vat_category, organisation:, percentage: 50, accounting_vat_code: 'VAT50') }
+    let(:booking) do
+      create(:booking, :invoiced, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27', prepaid_amount: 300,
+                                  vat_category:)
     end
+    subject(:journal_entry) { booking.invoices.last.journal_entries.last }
 
-    it 'groups the compounds back together' do
-      expect(compounds.map(&:journal_entries)).to contain_exactly(
-        contain_exactly(
-          have_attributes(side: 'soll', account_nr: '6000', amount: 1000, booking:, ref: 'test 1'),
-          have_attributes(side: 'haben', account_nr: '1000', amount: 500, booking:, ref: 'test 1'),
-          have_attributes(side: 'haben', account_nr: '2000', amount: 500, booking:, ref: 'test 1')
-        ),
-        contain_exactly(
-          have_attributes(side: 'soll', account_nr: '6000', amount: 800, booking:, ref: 'test 2'),
-          have_attributes(side: 'haben', account_nr: '1000', amount: 800, booking:, ref: 'test 2')
+    it 'creates to correct journal_entries' do
+      is_expected.to be_balanced
+      is_expected.to have_attributes(
+        date: Date.new(2024, 12, 27), trigger: 'invoice_created', ref: '250001',
+        fragments: contain_exactly(
+          have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main'),
+          have_attributes(account_nr: '6000', haben_amount: -300.0, book_type: 'main'),
+          have_attributes(account_nr: '9001', haben_amount: -300.0, book_type: 'cost'),
+          have_attributes(account_nr: '6000', haben_amount: 480.0, book_type: 'main'),
+          have_attributes(account_nr: '9001', haben_amount: 480.0, book_type: 'cost'),
+          have_attributes(account_nr: '2016', haben_amount: 240.0, book_type: 'vat')
         )
       )
     end

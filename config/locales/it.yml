@@ -15,6 +15,20 @@ it:
         occupiables: Proprietà in affitto
         previous_booking_states: Stato passato
         q:
+      booking_state_settings:
+        default_manage_transition_to_state:
+        editable_occupancy_states:
+        occupied_occupancy_states:
+      deadline_settings:
+        awaiting_contract_deadline: Periodo per i contratti in entrata
+        awaiting_tenant_deadline:
+        deadline_postponable_for: Proroga del periodo
+        deposit_payment_deadline: Periodo di pagamento standard (acconto)
+        invoice_payment_deadline: Periodo di pagamento standard
+        overdue_request_deadline: Periodo per le richieste di prenotazione in ritardo
+        payment_overdue_deadline:
+        provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
+        unconfirmed_request_deadline: Termine ultimo per la conferma dell'indirizzo e-mail
       invoice/filter:
         invoice_type: Tipo di fattura
         issued_at_after: Data di fatturazione dopo
@@ -50,37 +64,28 @@ it:
         accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
       organisation_settings:
-        awaiting_contract_deadline: Periodo per i contratti in entrata
-        awaiting_tenant_deadline:
         booking_window:
         closed_occupancy_color: Colore per le chiusure
-        deadline_postponable_for: Proroga del periodo
         default_begins_at_time:
         default_calendar_view:
         default_ends_at_time:
-        default_manage_transition_to_state:
-        deposit_payment_deadline: Periodo di pagamento standard (acconto)
-        invoice_payment_deadline: Periodo di pagamento standard
         last_minute_warning: Periodo per le richieste di prenotazione a breve termine
         locales:
         occupied_occupancy_color: Colore per le occupazioni definitive
-        occupied_occupancy_states:
-        overdue_request_deadline: Periodo per le richieste di prenotazione in ritardo
-        payment_overdue_deadline:
         predefined_salutation_form:
-        provisional_request_deadline: Periodo per le richieste di prenotazione provvisorie
-        show_outbox:
         tenant_birth_date_required: 'Data di nascita: inserimento obbligatorio'
         tentative_occupancy_color: Colore per le occupazioni provvisorie
-        unconfirmed_request_deadline: Termine ultimo per la conferma dell'indirizzo e-mail
         upcoming_soon_window: Periodo per l'occupazione anticipata
       payment/filter:
         paid_at_after: Pagamento a partire da
         paid_at_before: Pagamento fino a
     models:
+      booking_state_settings:
+      deadline_settings:
       occupancy_calendar:
         one: Piano di occupazione
         other: Piani di occupazione
+      organisation_settings:
       payment_info:
         one: Sezione di pagamento
         other: Sezioni di pagamento
@@ -333,7 +338,6 @@ it:
         notifications_enabled: Messaggi abilitati
         privacy_statement_pdf: Informativa sulla privacy
         representative_address: Indirizzo della rappresentanza per i contratti
-        settings: Impostazioni
         slug: Namespace
         smtp_settings: Impostazioni del mailserver
         smtp_settings_json: Impostazioni del mailserver

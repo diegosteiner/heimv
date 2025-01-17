@@ -107,15 +107,27 @@ module PaymentInfos
     end
 
     def qrr_ref
-      RefBuilders::InvoicePayment.with_checksum(invoice.payment_ref).rjust(27, '0')
+      @qrr_ref ||= RefBuilders::InvoicePayment.with_checksum(invoice.payment_ref).rjust(27, '0')
+    end
+
+    def scor_ref?
+      ref_type == :SCOR
+    end
+
+    def qrr_ref?
+      ref_type == :QRR
     end
 
     def ref
-      ref_type == :SCOR ? scor_ref : qrr_ref
+      scor_ref? ? scor_ref : qrr_ref
     end
 
     def formatted_ref
-      [ref[..1], ref[2..].chars.in_groups_of(5).map(&:join)].join(' ')
+      if scor_ref?
+        ref.chars.in_groups_of(4).map(&:join).join(' ')
+      else
+        [ref[..1], ref[2..].chars.in_groups_of(5).map(&:join)].join(' ')
+      end
     end
 
     def qrcode

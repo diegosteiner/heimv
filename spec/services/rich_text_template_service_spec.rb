@@ -18,7 +18,7 @@ RSpec.describe RichTextTemplateService, type: :model do
     end
 
     it 'replaces all occurences' do
-      service.replace_in_template!('test', 'success')
+      service.replace_in_templates!('test', 'success')
       templates.each do |rich_text_template|
         rich_text_template.reload
         expect(rich_text_template.body_en).to eq('# This is a template {{ success }} Footer')

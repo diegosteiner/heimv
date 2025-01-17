@@ -14,10 +14,6 @@ module BookingStates
       Invoices::Deposit
     end
 
-    def editable
-      true
-    end
-
     def self.to_sym
       :open_request
     end

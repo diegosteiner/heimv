@@ -5,10 +5,10 @@
 # Table name: occupiables
 #
 #  id               :bigint           not null, primary key
-#  description_i18n :jsonb
+#  description_i18n :jsonb            not null
 #  discarded_at     :datetime
 #  janitor          :text
-#  name_i18n        :jsonb
+#  name_i18n        :jsonb            not null
 #  occupiable       :boolean          default(FALSE)
 #  ordinal          :integer
 #  ref              :string
@@ -18,17 +18,6 @@
 #  updated_at       :datetime         not null
 #  home_id          :bigint
 #  organisation_id  :bigint           not null
-#
-# Indexes
-#
-#  index_occupiables_on_discarded_at             (discarded_at)
-#  index_occupiables_on_home_id                  (home_id)
-#  index_occupiables_on_organisation_id          (organisation_id)
-#  index_occupiables_on_ref_and_organisation_id  (ref,organisation_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
 #
 
 class Occupiable < ApplicationRecord
@@ -41,7 +30,7 @@ class Occupiable < ApplicationRecord
   belongs_to :organisation, inverse_of: :occupiables
   belongs_to :home, inverse_of: :occupiables, optional: true
 
-  attribute :settings, Settings::Type.new(OccupiableSettings), default: -> { OccupiableSettings.new }
+  attribute :settings, OccupiableSettings.to_type, default: -> { OccupiableSettings.new }
 
   translates :name, :description, column_suffix: '_i18n', locale_accessors: true
   ranks :ordinal, with_same: :organisation_id, class_name: 'Occupiable'

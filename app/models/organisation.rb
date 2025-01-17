@@ -4,40 +4,41 @@
 #
 # Table name: organisations
 #
-#  id                        :bigint           not null, primary key
-#  account_address           :string
-#  address                   :text
-#  bcc                       :string
-#  booking_flow_type         :string
-#  booking_ref_template      :string           default("")
-#  cors_origins              :text
-#  country_code              :string           default("CH"), not null
-#  creditor_address          :text
-#  currency                  :string           default("CHF")
-#  default_payment_info_type :string
-#  email                     :string
-#  esr_beneficiary_account   :string
-#  esr_ref_prefix            :string
-#  homes_limit               :integer
-#  iban                      :string
-#  invoice_ref_template      :string           default("")
-#  locale                    :string
-#  location                  :string
-#  mail_from                 :string
-#  name                      :string
-#  nickname_label_i18n       :jsonb
-#  notifications_enabled     :boolean          default(TRUE)
-#  representative_address    :string
-#  settings                  :jsonb
-#  slug                      :string
-#  smtp_settings             :jsonb
-#  users_limit               :integer
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#
-# Indexes
-#
-#  index_organisations_on_slug  (slug) UNIQUE
+#  id                           :bigint           not null, primary key
+#  account_address              :string
+#  accounting_settings          :jsonb
+#  address                      :text
+#  bcc                          :string
+#  booking_flow_type            :string
+#  booking_ref_template         :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
+#  booking_state_settings       :jsonb
+#  cors_origins                 :text
+#  country_code                 :string           default("CH"), not null
+#  creditor_address             :text
+#  currency                     :string           default("CHF")
+#  deadline_settings            :jsonb
+#  default_payment_info_type    :string
+#  email                        :string
+#  esr_beneficiary_account      :string
+#  esr_ref_prefix               :string
+#  homes_limit                  :integer
+#  iban                         :string
+#  invoice_payment_ref_template :string           default("%<prefix>s%<tenant_sequence_number>06d%<sequence_year>04d%<sequence_number>05d")
+#  invoice_ref_template         :string
+#  locale                       :string
+#  location                     :string
+#  mail_from                    :string
+#  name                         :string
+#  nickname_label_i18n          :jsonb
+#  notifications_enabled        :boolean          default(TRUE)
+#  representative_address       :string
+#  settings                     :jsonb
+#  slug                         :string
+#  smtp_settings                :jsonb
+#  tenant_ref_template          :string
+#  users_limit                  :integer
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
 #
 
 class Organisation < ApplicationRecord
@@ -84,18 +85,17 @@ class Organisation < ApplicationRecord
   validates :logo, :contract_signature, content_type: { in: ['image/png', 'image/jpeg'] }
   validates :locale, presence: true
   validate do
-    errors.add(:settings, :invalid) unless settings.valid?
-    errors.add(:smtp_settings, :invalid) unless smtp_settings.nil? || smtp_settings.valid?
-    errors.add(:accounting_settings, :invalid) unless accounting_settings.nil? || accounting_settings.valid?
     errors.add(:creditor_address, :invalid) if creditor_address&.lines&.count&.> 3
     errors.add(:account_address, :invalid) if account_address&.lines&.count&.> 3
     errors.add(:iban, :invalid) if iban.present? && !iban.valid?
   end
 
   attribute :booking_flow_type, default: -> { BookingFlows::Default.to_s }
-  attribute :settings, Settings::Type.new(OrganisationSettings), default: -> { OrganisationSettings.new }
-  attribute :accounting_settings, Settings::Type.new(AccountingSettings), default: -> { AccountingSettings.new }
-  attribute :smtp_settings, Settings::Type.new(SmtpSettings)
+  attribute :settings, OrganisationSettings.to_type, default: -> { OrganisationSettings.new }
+  attribute :accounting_settings, AccountingSettings.to_type, default: -> { AccountingSettings.new }
+  attribute :smtp_settings, SmtpSettings.to_type
+  attribute :booking_state_settings, BookingStateSettings.to_type, default: -> { BookingStateSettings.new }
+  attribute :deadline_settings, DeadlineSettings.to_type, default: -> { DeadlineSettings.new }
   attribute :iban, IBAN::Type.new
   attribute :tenant_ref_template, default: -> { RefBuilders::Tenant::DEFAULT_TEMPLATE }
   attribute :booking_ref_template, default: -> { RefBuilders::Booking::DEFAULT_TEMPLATE }

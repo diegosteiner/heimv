@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.3.6'
+ruby '3.4.1'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
@@ -54,13 +54,14 @@ gem 'sidekiq-cron'
 gem 'slim-rails'
 gem 'stackprof'
 gem 'statesman'
+gem 'store_model'
 gem 'thruster'
 gem 'translation'
 gem 'ttfunk', '~> 1.7.0' # https://github.com/prawnpdf/prawn/issues/1346
 gem 'vite_rails'
 
 group :development do
-  gem 'annotate'
+  gem 'annotaterb'
   gem 'i18n-tasks'
   gem 'i18n-tasks-csv'
   gem 'listen'

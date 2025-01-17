@@ -15,16 +15,6 @@
 #  updated_at      :datetime         not null
 #  organisation_id :bigint           not null
 #
-# Indexes
-#
-#  index_rich_text_templates_on_key_and_organisation_id  (key,organisation_id) UNIQUE
-#  index_rich_text_templates_on_organisation_id          (organisation_id)
-#  index_rich_text_templates_on_type                     (type)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#
 
 class RichTextTemplate < ApplicationRecord
   InterpolationResult = Struct.new(:title, :body, :locale)
@@ -120,12 +110,16 @@ class RichTextTemplate < ApplicationRecord
     interpolate(context)
   end
 
-  def replace_in_body(search, replace = '')
-    body_i18n.transform_values! { _1.gsub(search, replace) }
+  def gsub(search, replace = '', within: %i[title body])
+    title_i18n.transform_values! { _1.gsub(search, replace) }
+    body_i18n.transform_values! { _1.gsub(search, replace) } if within.include?(:body)
   end
 
-  def replace_in_title(search, replace = '')
-    title_i18n.transform_values! { _1.gsub(search, replace) }
+  def include?(search, within: %i[title body])
+    return true if within.include?(:title) && title_i18n.any? { _1.include?(search) }
+    return true if within.include?(:body) && body_i18n.any? { _1.include?(search) }
+
+    false
   end
 
   def load_locale_defaults(key: self.key, locales: I18n.available_locales)

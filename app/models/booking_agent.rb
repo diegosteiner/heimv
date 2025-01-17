@@ -15,15 +15,6 @@
 #  updated_at               :datetime         not null
 #  organisation_id          :bigint           not null
 #
-# Indexes
-#
-#  index_booking_agents_on_code_and_organisation_id  (code,organisation_id) UNIQUE
-#  index_booking_agents_on_organisation_id           (organisation_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (organisation_id => organisations.id)
-#
 
 class BookingAgent < ApplicationRecord
   has_many :bookings, through: :agent_bookings

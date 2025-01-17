@@ -29,19 +29,6 @@
 #  default_organisation_id :bigint
 #  invited_by_id           :bigint
 #
-# Indexes
-#
-#  index_users_on_default_organisation_id  (default_organisation_id)
-#  index_users_on_email                    (email) UNIQUE
-#  index_users_on_invitation_token         (invitation_token) UNIQUE
-#  index_users_on_invited_by               (invited_by_type,invited_by_id)
-#  index_users_on_invited_by_id            (invited_by_id)
-#  index_users_on_reset_password_token     (reset_password_token) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (default_organisation_id => organisations.id)
-#
 
 class User < ApplicationRecord
   belongs_to :default_organisation, optional: true, class_name: 'Organisation'

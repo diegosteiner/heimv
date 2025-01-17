@@ -14,7 +14,7 @@ describe 'Booking by tenant', :devise, type: :feature do
     end
   end
   let(:deposit_tarifs) do
-    create(:tarif, organisation:, tarif_group: 'Anzahlung',
+    create(:tarif, organisation:, tarif_group: 'Akontorechnung',
                    associated_types: %i[deposit offer contract])
   end
 
