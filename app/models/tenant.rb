@@ -57,7 +57,7 @@ class Tenant < ApplicationRecord
   scope :ordered, -> { order(last_name: :ASC, first_name: :ASC, id: :ASC) }
 
   after_validation { errors.delete(:bookings) }
-  before_create :sequence_number, :generate_ref
+  before_save :sequence_number, :generate_ref
   before_save { self.search_cache = contact_lines.flatten.join('\n') }
 
   def full_name

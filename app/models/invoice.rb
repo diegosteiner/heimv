@@ -31,6 +31,7 @@ class Invoice < ApplicationRecord
   include Discard::Model
 
   locale_enum default: I18n.locale
+  delegate :currency, to: :organisation
 
   belongs_to :booking, inverse_of: :invoices, touch: true
   belongs_to :supersede_invoice, class_name: :Invoice, optional: true, inverse_of: :superseded_by_invoices
@@ -58,13 +59,12 @@ class Invoice < ApplicationRecord
   scope :with_default_includes, -> { includes(%i[invoice_parts payments organisation]) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
-  before_save :recalculate
+
+  before_save :sequence_number, :generate_ref, :generate_payment_ref, :recalculate
   before_save :generate_pdf, if: :generate_pdf?
-  before_create :sequence_number, :generate_ref, :generate_payment_ref
   after_create :supersede!
   after_save :recalculate!, :update_payments
   after_save :update_journal_entries, unless: :skip_journal_entries
-  delegate :currency, to: :organisation
 
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
   validate do
