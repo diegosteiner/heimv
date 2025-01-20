@@ -63,6 +63,11 @@ module Export
         end
       end
 
+      to_render do
+        number_pages I18n.t('contracts.page_numbering', page: '<page>', total: '<total>'),
+                     at: [bounds.right - 50, -20], align: :right, size: font_size
+      end
+
       def render_tarifs_table
         return if @contract.usages.none?
 

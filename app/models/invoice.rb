@@ -59,9 +59,9 @@ class Invoice < ApplicationRecord
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
   before_save :recalculate
+  before_save :generate_pdf, if: :generate_pdf?
   before_create :sequence_number, :generate_ref, :generate_payment_ref
   after_create :supersede!
-  before_update :generate_pdf, if: :generate_pdf?
   after_save :recalculate!, :update_payments
   after_save :update_journal_entries, unless: :skip_journal_entries
   delegate :currency, to: :organisation
