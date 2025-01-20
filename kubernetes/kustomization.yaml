@@ -44,6 +44,5 @@ configMapGenerator:
       - RAILS_LOG_TO_STDOUT=true
       - RAILS_SERVE_STATIC_FILES=true
       - REDIS_URL=redis://redis-service/0
-      - ACTIVE_JOB_QUEUE_ADAPTER=sidekiq
       - MAIL_FROM=
       - PRIVACY_STATEMENT_URL=https://www.heimv.ch/privacy/
