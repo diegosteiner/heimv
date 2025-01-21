@@ -57,7 +57,7 @@
               - else
                 = link_to (invoice.ref || invoice.payment_ref), manage_invoice_path(invoice)
               .small.text-muted 
-                = invoice.payment_info.formatted_ref
+                = invoice.payment_info&.formatted_ref.presence || invoice.payment_ref
             td.align-middle
               = invoice.model_name.human
 
