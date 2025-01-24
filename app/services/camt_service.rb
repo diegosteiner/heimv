@@ -39,20 +39,17 @@ class CamtService
   end
 
   def find_invoice_by_ref(ref)
-    @organisation.invoices.kept.where(self.class.normalized_ref_condition(ref)).first
-  end
-
-  def self.normalized_ref_condition(ref)
-    Arel::Nodes::NamedFunction.new('LPAD', [Invoice.arel_table[:payment_ref], 27, Arel::Nodes.build_quoted('0')])
-                              .eq(normalize_ref(ref))
+    # ensures backwards compatibility: the checksum used to be stored in db, but is not anymore.
+    normalized_ref_regex = "^0{0,25}#{self.class.normalize_ref(ref)}\\d?$"
+    @organisation.invoices.kept.where(Invoice.arel_table[:payment_ref].matches_regexp(normalized_ref_regex)).first
   end
 
   def self.normalize_ref(ref)
     if ref.start_with?('RF')
-      ref.delete(' ').gsub(/\ARF\d\d/, '')
+      ref.delete(' ').gsub(/\ARF\d\d0*/, '')
     else
-      ref.delete(' ')
-    end.rjust(27, '0')
+      ref.delete(' ').gsub(/\d\z/, '').gsub(/\A0*/, '')
+    end
   end
 
   def transaction_to_h(transaction)

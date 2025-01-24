@@ -15,7 +15,7 @@ RSpec.describe RefBuilders::InvoicePayment, type: :model do
     end
   end
 
-  describe '::DEFAULT_TEPMPLATE' do
+  describe '::DEFAULT_TEMPLATE' do
     it do
       expect(described_class::DEFAULT_TEMPLATE)
         .to eq('%<prefix>s%<tenant_sequence_number>06d%<sequence_year>04d%<sequence_number>05d')
