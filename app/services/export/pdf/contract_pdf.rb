@@ -15,8 +15,6 @@ module Export
       to_render do
         header_text = I18n.t('contracts.header_reference', ref: @booking.ref)
         render Renderables::PageHeader.new(text: header_text, logo: @organisation.logo)
-        number_pages I18n.t('contracts.page_numbering', page: '<page>', total: '<total>'),
-                     at: [bounds.right - 50, -30], align: :right, size: font_size
       end
 
       to_render do

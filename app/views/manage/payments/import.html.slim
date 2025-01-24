@@ -17,34 +17,44 @@
           th= Payment.human_attribute_name(:amount)
           th= Payment.human_attribute_name(:paid_at)
           th= Payment.human_attribute_name(:remarks)
-          th= Payment.human_attribute_name(:confirm)
+          th
+            span.fa.fa-envelope-o[title= Payment.human_attribute_name(:confirm)]
       tbody.shadow-sm
         - @payments.each_with_index do |payment, i|
           = f.fields_for "#{i}", payment do |pf|
-            tr.bg-white[class=(payment.invoice.blank? && 'alert-warning' || payment.errors.any? && 'alert-danger')]
-              td.py-3
+            - background_class = (payment.invoice.blank? && 'bg-warning-subtle' || payment.errors.any? && 'bg-danger-subtle')
+            tr[class=background_class]
+              td.bg-transparent.border-bottom-0.text-sm.text-muted.pb-0
+              td.bg-transparent.border-bottom-0.text-sm.text-muted.pb-0[colspan=2]= payment.ref
+              td.bg-transparent.border-bottom-0.text-sm.text-muted.pb-0.text-end.pe-3= number_to_currency(payment.amount, unit: '')
+              td.bg-transparent.border-bottom-0.text-sm.text-muted.pb-0.ps-3= l(payment.paid_at, format: :default)
+              td.bg-transparent.border-bottom-0.text-sm.text-muted.pb-0= payment.paid_by
+              td.bg-transparent.border-bottom-0.text-sm.text-muted.pb-0=
+
+            tr.bg-white[class=background_class]
+              td.bg-transparent.py-3
                 = pf.hidden_field :id
                 = pf.check_box :applies, skip_label: true
                 = pf.hidden_field :ref
                 = pf.hidden_field :camt_instr_id
                 = pf.hidden_field :data
-              td.py-2
-                = pf.collection_select :invoice_id, @invoices, :id, :ref, skip_label: true, include_blank: true, required: false
-              td.py-2
+              td.bg-transparent.py-2
+                = pf.collection_select :invoice_id, @invoices, :id, ->{ "#{_1.ref} – #{_1.payment_info&.formatted_ref}" }, skip_label: true, include_blank: true, required: false
+              td.bg-transparent.py-2
                 = pf.collection_select :booking_id, @bookings, :id, :ref, skip_label: true, include_blank: true, required: false
-              td.py-2
-                = pf.text_field :amount, skip_label: true, inputmode: "numeric" 
-              td.py-2
+              td.bg-transparent.py-2
+                = pf.text_field :amount, skip_label: true, inputmode: "numeric", class: 'text-end'
+              td.bg-transparent.py-2
                 = pf.date_field :paid_at, skip_label: true, lang: I18n.locale
-              td.py-2
+              td.bg-transparent.py-2
                 - if payment.applies && payment.errors.any?
                   = pf.hidden_field :remarks
                   ul.mb-0
                     - payment.errors.full_messages.each do |error|
                       li= error
                 - else
-                  = pf.text_area :remarks, skip_label: true, rows: 6
-              td.py-2
-                = pf.check_box :confirm
+                  = pf.text_area :remarks, skip_label: true, rows: 5
+              td.bg-transparent.py-2
+                = pf.check_box :confirm, label: tag.span(class: 'fa fa-envelope-o', title: Payment.human_attribute_name(:confirm))
     = f.submit t('helpers.submit.create', model: Payment.model_name.human(count: 2))
 

@@ -31,6 +31,7 @@ class Payment < ApplicationRecord
 
   attribute :applies, :boolean, default: true
   attribute :confirm, :boolean, default: true
+  attribute :paid_by, :string
 
   validates :amount, numericality: true
   validates :paid_at, :amount, presence: true

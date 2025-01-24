@@ -34,7 +34,7 @@ class CamtService
     Payment.new(
       invoice:, booking: invoice&.booking, applies:, ref:, confirm: applies,
       paid_at: entry.value_date, amount: transaction.amount, data: transaction_to_h(transaction),
-      camt_instr_id: transaction.reference, remarks:
+      camt_instr_id: transaction.reference, remarks:, paid_by: transaction.name
     )
   end
 
@@ -49,10 +49,10 @@ class CamtService
 
   def self.normalize_ref(ref)
     if ref.start_with?('RF')
-      ref.delete(' ').gsub(/\ARF\d\d/, '').rjust(27, '0')
+      ref.delete(' ').gsub(/\ARF\d\d/, '')
     else
-      ref.delete(' ')[0..-2].rjust(27, '0')
-    end
+      ref.delete(' ')
+    end.rjust(27, '0')
   end
 
   def transaction_to_h(transaction)
