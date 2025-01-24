@@ -18,7 +18,7 @@ RSpec.describe CamtService, type: :model do
     context 'with normal Reference' do
       let(:ref) { '0100 0250 9000 0789 0' }
 
-      it { is_expected.to eq('000000000000100025090000789') }
+      it { is_expected.to eq('000000000001000250900007890') }
     end
   end
 end
