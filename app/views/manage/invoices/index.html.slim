@@ -62,7 +62,8 @@
               = invoice.model_name.human
 
             td.align-middle
-              =l(invoice.issued_at, format: :date)
+              - if invoice.issued_at.present?
+                = l(invoice.issued_at, format: :date)
               - if invoice.sent?
                 span.badge.badge-pill.bg-success.ms-1
                   span.fa.fa-envelope-open.text-white[title="#{Invoice.human_attribute_name(:sent_at)}: #{l(invoice.sent_at)}"]
