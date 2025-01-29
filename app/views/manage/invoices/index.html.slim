@@ -4,7 +4,7 @@
 - else 
   h1.my-0= Invoice.model_name.human(count: 2)
 
-  .my-3
+  .my-3.d-flex.gap-3
     button.btn.btn-outline-primary.bg-body[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
       i.fa.fa-filter<>
       = t(:filter)

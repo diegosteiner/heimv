@@ -1,10 +1,13 @@
 
 h1.mt-0.mb-5= JournalEntry.model_name.human(count: 2)
 
-.my-3
+.my-3.d-flex.gap-3
   button.btn.btn-outline-primary.bg-body[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
     i.fa.fa-filter<>
     = t(:filter)
+  
+  = button_to process_all_manage_journal_entries_path, method: :post, class: 'btn btn-primary'
+    = t('.process_all')
 
 #filter.modal.fade
   .modal-dialog.modal-lg
@@ -21,6 +24,7 @@ h1.mt-0.mb-5= JournalEntry.model_name.human(count: 2)
     thead 
       tr 
         th=JournalEntry.human_attribute_name(:id)
+        th=
         th=JournalEntry.human_attribute_name(:date)
         th=JournalEntry.human_attribute_name(:ref)
         th=JournalEntry.human_attribute_name(:soll_account)
@@ -34,6 +38,13 @@ h1.mt-0.mb-5= JournalEntry.model_name.human(count: 2)
         - journal_entry.fragments.each do |fragment|
           tr
             td= journal_entry.id
+            td.p-1
+              - if journal_entry.processed? 
+                = button_to manage_journal_entry_path(journal_entry), method: :patch, params: { journal_entry: { processed: false } }, class: 'btn btn-default'
+                  span.fa.fa-check-circle.text-success[title=t('.processed_at', at: l(journal_entry.processed_at))]
+              - else
+                = button_to manage_journal_entry_path(journal_entry), method: :patch, params: { journal_entry: { processed: true } }, class: 'btn btn-default'
+                  span.fa.fa-circle.text-muted[title=t('.unprocessed')]
             td= l(journal_entry.date, format: :default)
             td= journal_entry.ref
             td= fragment.soll_account

@@ -10,13 +10,12 @@ module Manage
       respond_with :manage, @data_digests.order(created_at: :ASC)
     end
 
-    def show # rubocop:disable Metrics/AbcSize
+    def show
       respond_to do |format|
         format.html
-        format.csv { send_data @data_digest.format(:csv), filename: "#{@data_digest.label}.csv" }
-        format.pdf { send_data @data_digest.format(:pdf), filename: "#{@data_digest.label}.pdf" }
-        format.taf { send_data @data_digest.format(:taf), filename: "#{@data_digest.label}.taf" }
-        format.text { render plain: @data_digest.format(:taf) }
+        format.csv { send_format_data(:csv) }
+        format.pdf { send_format_data(:pdf) }
+        format.taf { send_format_data(:taf, type: 'text/plain; charset=iso-8859-1; header=present') }
       end
     rescue Prawn::Errors::CannotFit
       redirect_to manage_data_digests_path, alert: t('.pdf_error')
@@ -39,6 +38,10 @@ module Manage
     end
 
     private
+
+    def send_format_data(format, **)
+      send_data @data_digest.format(format), filename: "#{@data_digest.label}.#{format}", **
+    end
 
     def data_digest_templates
       @data_digest_templates ||= DataDigestTemplate.accessible_by(current_ability)

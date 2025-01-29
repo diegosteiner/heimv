@@ -16,7 +16,7 @@ module Export
       end
 
       def to_s
-        serialize
+        serialize.encode(Encoding::ISO_8859_1)
       end
     end
   end

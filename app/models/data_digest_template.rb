@@ -17,7 +17,7 @@
 require 'json'
 
 class DataDigestTemplate < ApplicationRecord
-  Formatter = Struct.new(:default_options, :block)
+  Formatter = Struct.new(:format, :default_options, :block)
 
   include Subtypeable
   include TemplateRenderable
@@ -37,7 +37,7 @@ class DataDigestTemplate < ApplicationRecord
     end
 
     def formatter(format, default_options: {}, &block)
-      formatters[format.to_sym] = Formatter.new(default_options, block)
+      formatters[format.to_sym] = Formatter.new(format, default_options, block)
     end
   end
 

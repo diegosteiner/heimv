@@ -31,16 +31,19 @@ class JournalEntry < ApplicationRecord
                    payment_created: 21, payment_updated: 22, payment_discarded: 23 }, prefix: true
 
   attribute :fragments, Fragment.to_array_type, default: -> { [] }
+  attribute :processed, :boolean
 
   accepts_nested_attributes_for :fragments, allow_destroy: true
 
-  before_validation :set_currency
+  before_validation :set_currency, :set_processed_at
 
   validates :ref, :currency, :date, :trigger, presence: true
   validates :fragments, store_model: true
   validate { errors.add(:base, :invalid) unless balanced? }
 
   scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
+  scope :processed, -> { where.not(processed_at: nil) }
+  scope :unprocessed, -> { where(processed_at: nil) }
 
   def set_currency
     self.currency ||= organisation&.currency
@@ -70,6 +73,20 @@ class JournalEntry < ApplicationRecord
 
   def balanced?
     soll_amount == haben_amount
+  end
+
+  def processed?
+    processed_at.present?
+  end
+
+  def set_processed_at
+    return if processed.nil?
+
+    if processed.present?
+      self.processed_at ||= Time.zone.now
+    else
+      self.processed_at = nil
+    end
   end
 
   def equivalent?(other)

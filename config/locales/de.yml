@@ -1453,6 +1453,11 @@ de:
     invoices:
       form:
         suggested_invoice_parts: Vorgeschlagene Positionen
+    journal_entries:
+      index:
+        process_all: Alle unverbuchten verbuchen
+        processed_at: verbucht %{at}
+        unprocessed: unverbucht
     notifications:
       form:
         deliver: Speichern und versenden

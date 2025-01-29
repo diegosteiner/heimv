@@ -2,8 +2,8 @@
 
 h1.my-0= Booking.model_name.human(count: 2)
 
-.my-3
-  .btn-group.me-3[role="group"]
+.my-3.d-flex.gap-3
+  .btn-group[role="group"]
     button.btn.btn-primary[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
       span.fa.fa-filter<>
       = t(:filter)
