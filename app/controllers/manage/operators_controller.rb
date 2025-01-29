@@ -41,7 +41,7 @@ module Manage
     private
 
     def operator_params
-      params.require(:operator).permit(:name, :email, :contact_info, :locale)
+      params.expect(operator: %i[name email contact_info locale])
     end
   end
 end

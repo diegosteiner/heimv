@@ -33,7 +33,7 @@ module Manage
 
     def vat_category_params
       locale_params = I18n.available_locales.map { |locale| ["label_#{locale}"] }
-      params.require(:vat_category).permit(:percentage, :accounting_vat_code, locale_params.flatten)
+      params.expect(vat_category: [:percentage, :accounting_vat_code, locale_params.flatten])
     end
   end
 end

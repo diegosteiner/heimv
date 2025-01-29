@@ -33,7 +33,7 @@ module Manage
 
     def booking_category_params
       locale_params = I18n.available_locales.map { |locale| ["title_#{locale}", "description_#{locale}"] }
-      params.require(:booking_category).permit(:key, :ordinal_position, locale_params.flatten)
+      params.expect(booking_category: [:key, :ordinal_position, locale_params.flatten])
     end
   end
 end

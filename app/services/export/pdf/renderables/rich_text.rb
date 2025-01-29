@@ -5,7 +5,7 @@ module Export
     module Renderables
       class RichText < Renderable
         SUPPORTED_SPECIAL_TOKENS = { PAGE_BREAK: -> { start_new_page }, TARIFS: nil }.freeze
-        SUPPORTED_SPECIAL_TOKEN_TAGS = SUPPORTED_SPECIAL_TOKENS.keys.to_h { ["{{ #{_1.to_s.upcase} }}", _1] }.freeze
+        SUPPORTED_SPECIAL_TOKEN_TAGS = SUPPORTED_SPECIAL_TOKENS.keys.index_by { "{{ #{_1.to_s.upcase} }}" }.freeze
 
         def initialize(body)
           super()

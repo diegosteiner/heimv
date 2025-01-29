@@ -28,7 +28,7 @@ module Manage
     # end
 
     def update
-      @journal_entry.update(params.require(:journal_entry).permit(:processed))
+      @journal_entry.update(params.expect(journal_entry: [:processed]))
       respond_with :manage, location: manage_journal_entries_path
     end
 
