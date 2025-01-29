@@ -5,7 +5,7 @@ RUN gem install bundler
 
 WORKDIR /rails
 
-ENV BUNDLE_PATH="/usr/local/bundle"
+# ENV BUNDLE_PATH="/usr/local/bundle"
 
 RUN adduser -D rails && \
     chown -R rails:rails /rails /usr/local/bundle
@@ -24,8 +24,6 @@ RUN apk add --update build-base \
     musl musl-utils musl-locales
 
 USER rails:rails
-
-RUN gem install standardrb ruby-lsp debug
 
 ### === test === ###                 
 FROM development AS test

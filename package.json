@@ -45,14 +45,7 @@
     "devDependencies": {
         "@biomejs/biome": "^1.9.2",
         "@types/sortablejs": "^1.15.7",
-        "@types/tinymce": "^4.6.6",
-        "@typescript-eslint/eslint-plugin": "^8.0.1",
-        "@typescript-eslint/parser": "^8.0.1",
-        "eslint": "^9.1.1",
-        "eslint-config-prettier": "^9.0.0",
-        "eslint-plugin-prettier": "^5.0.0",
-        "eslint-plugin-react": "^7.30.0",
-        "prettier": "^3.0.1"
+        "@types/tinymce": "^4.6.6"
     },
     "babel": {
         "presets": [

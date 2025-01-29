@@ -66,6 +66,7 @@ group :development do
   gem 'i18n-tasks-csv'
   gem 'listen'
   gem 'ruby-lsp'
+  gem 'ruby-lsp-rails'
   gem 'squasher'
 end
 
@@ -74,7 +75,6 @@ group :development, :test do
   gem 'bundler-audit'
   gem 'database_cleaner'
   gem 'debug'
-  gem 'dotenv-rails'
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'
@@ -82,7 +82,6 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'ruby-lsp-rails'
   gem 'simplecov', require: false
 end
 

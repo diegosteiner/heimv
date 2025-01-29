@@ -20,12 +20,11 @@
     "vscode": {
       "extensions": [
         "sianglim.slim",
-        "testdouble.vscode-standard-ruby",
         "DavidAnson.vscode-markdownlint",
-        "dbaeumer.vscode-eslint",
         "Shopify.ruby-extensions-pack",
         "KoichiSasada.vscode-rdbg",
-        "biomejs.biome"
+        "biomejs.biome",
+        "Shopify.ruby-lsp"
       ]
     },
     "settings": {

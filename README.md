@@ -16,7 +16,7 @@ or with VS Code: [Reopen in Container] with Remote Containers Extension
 
 Then inside the container you may run:
 
-- `bin/rails-dev-server` to start rails server
+- `bin/dev` to start rails server
 - `bin/vite dev` to start vite dev server
 - `bin/sidekiq-job-worker` to start the sidekiq worker process
 
