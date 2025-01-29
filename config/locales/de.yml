@@ -655,8 +655,8 @@ de:
         one: Statusübergang
         other: Statusübergänge
       booking_validation:
-        one: Buchung Gültigkeitsprüfung
-        other: Buchung Gültigkeitsprüfungen
+        one: Gültigkeitsprüfung
+        other: Gültigkeitsprüfungen
       contract:
         one: Vertrag
         other: Verträge

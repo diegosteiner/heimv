@@ -5,7 +5,7 @@ module Import
     class HomeImporter < Base
       attr_reader :organisation
 
-      use_attributes(*%w[name description discarded_at ref occupiable home_id])
+      use_attributes(*%w[name description discarded_at ref occupiable home_id occupiable_settings])
 
       def initialize(organisation, **)
         super(**)
