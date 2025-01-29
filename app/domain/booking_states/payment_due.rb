@@ -19,7 +19,7 @@ module BookingStates
     after_transition do |booking|
       booking.deadline&.clear
       unpaid_invoices = booking.invoices.kept.sent.unpaid.ordered
-      payable_until = unpaid_invoices.map(&:payable_until).compact.max
+      payable_until = unpaid_invoices.filter_map(&:payable_until).max
       next if payable_until.blank?
 
       booking.create_deadline(at: payable_until + booking.organisation.deadline_settings.payment_overdue_deadline,
