@@ -1,118 +1,113 @@
 = form_with(model: [:public, @booking], local: true, url: public_booking_path(@booking.token), disabled: !@booking.editable?, html: { novalidate: true }) do |f|
-  .card.shadow-sm.[class=({'bg-light' => !@booking.editable?, 'border-danger' => @booking.errors.any? }.select { _2 }.keys )]
-    .card-body
-      - if @booking.booking_state.t(:public_info).present?
-        .alert.alert-info.d-flex
-          .me-3
-            i.fa.fa-info-circle
-          p.m-0= @booking.booking_state.t(:public_info)
-      - if @booking.organisation.settings.last_minute_warning&.>(0) && @booking.begins_at - @booking.created_at < @booking.organisation.settings.last_minute_warning
-        .alert.alert-warning.d-flex
-          .me-3
-            i.fa.fa-exclamation-triangle
-          p.m-0= t('.last_minute_warning')
-          
-      - @booking.errors.delete("tenant.bookings")
-      - @booking.errors.delete("occupancies.base")
-      - @booking.errors.delete("booking_question_responses.value")
-      - if @booking.errors.any?
-        .alert.alert-danger.d-flex
-          .me-3
-            i.fa.fa-exclamation-circle               
-          = @booking.errors.full_messages.to_sentence
-      = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
-      fieldset
-        - if @booking.deadline&.at
-          .mb-3
-            label=Booking.human_attribute_name(:deadline)
-            div
-              =<> l(@booking.deadline.at, format: :short)
+  - if @booking.booking_state.t(:public_info).present?
+    .alert.alert-info.d-flex
+      .me-3
+        i.fa.fa-info-circle
+      p.m-0= @booking.booking_state.t(:public_info)
+  - if @booking.organisation.settings.last_minute_warning&.>(0) && @booking.begins_at - @booking.created_at < @booking.organisation.settings.last_minute_warning
+    .alert.alert-warning.d-flex
+      .me-3
+        i.fa.fa-exclamation-triangle
+      p.m-0= t('.last_minute_warning')
+      
+  - @booking.errors.delete("tenant.bookings")
+  - @booking.errors.delete("occupancies.base")
+  - @booking.errors.delete("booking_question_responses.value")
+  - if @booking.errors.any?
+    .alert.alert-danger.d-flex
+      .me-3
+        i.fa.fa-exclamation-circle               
+      = @booking.errors.full_messages.to_sentence
+  = image_tag current_organisation.logo, class: 'mx-auto d-block m-4', style: 'max-width: 180px; max-height: 180px;' if current_organisation&.logo.present?
+  fieldset
+    - if @booking.deadline&.at
+      .mb-3
+        label=Booking.human_attribute_name(:deadline)
+        div
+          =<> l(@booking.deadline.at, format: :short)
 
-      fieldset 
-        = react_component('BookingOccupancyForm', { \ 
-            org: current_organisation.slug, \
-            booking: Public::BookingSerializer.render_as_hash(@booking), \
-            namePrefix: 'booking', \ 
-            required: true, \
-            disabled: !@booking.editable?, \
-            defaultBeginsAtTime: current_organisation&.settings&.default_begins_at_time, \
-            defaultEndsAtTime: current_organisation&.settings&.default_ends_at_time, \
-            occupiableInvalidFeedback: @booking.errors.to_hash(true).slice(:occupiable_ids, :home_id).values.flatten.to_sentence, \
-            occupancyInvalidFeedback: @booking.errors.to_hash(true).slice(:begins_at, :begins_at_time, :ends_at, :ends_at_time).values.flatten.to_sentence, \
-            defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
-          }) 
+  fieldset 
+    = react_component('BookingOccupancyForm', { \ 
+        org: current_organisation.slug, \
+        booking: Public::BookingSerializer.render_as_hash(@booking), \
+        namePrefix: 'booking', \ 
+        required: true, \
+        disabled: !@booking.editable?, \
+        defaultBeginsAtTime: current_organisation&.settings&.default_begins_at_time, \
+        defaultEndsAtTime: current_organisation&.settings&.default_ends_at_time, \
+        occupiableInvalidFeedback: @booking.errors.to_hash(true).slice(:occupiable_ids, :home_id).values.flatten.to_sentence, \
+        occupancyInvalidFeedback: @booking.errors.to_hash(true).slice(:begins_at, :begins_at_time, :ends_at, :ends_at_time).values.flatten.to_sentence, \
+        defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
+      }) 
 
-        = f.email_field :email, disabled: true
-        = f.fields_for :tenant, @booking.tenant do |tf|
-  
-          / - unless current_organisation.settings.predefined_salutation_form.present?
-          /   .row
-          /     .col-md-4
-          /       = f.select :salutation_form, salutation_form_options_for_select(@booking.tenant.salutation_form), { include_blank: true }, disabled: !@booking.editable?
+    = f.email_field :email, disabled: true
+    = f.fields_for :tenant, @booking.tenant do |tf|
 
-          .row
-            .col-sm-6.col-md-4
-              = tf.text_field :first_name, disabled: !@booking.editable?
-            .col-sm-6.col-md-4
-              = tf.text_field :last_name, disabled: !@booking.editable?
-            .col-md-4
-              - if current_organisation.show_nickname?
-                = f.text_field :nickname, label: current_organisation.nickname_label, disabled: !@booking.editable?
+      / - unless current_organisation.settings.predefined_salutation_form.present?
+      /   .row
+      /     .col-md-4
+      /       = f.select :salutation_form, salutation_form_options_for_select(@booking.tenant.salutation_form), { include_blank: true }, disabled: !@booking.editable?
 
-          = tf.text_field :street_address, disabled: !@booking.editable?
-          = tf.text_field :address_addon, disabled: !@booking.editable?, help: t('optional')
+      .row
+        .col-sm-6.col-md-4
+          = tf.text_field :first_name, disabled: !@booking.editable?
+        .col-sm-6.col-md-4
+          = tf.text_field :last_name, disabled: !@booking.editable?
+        .col-md-4
+          - if current_organisation.show_nickname?
+            = f.text_field :nickname, label: current_organisation.nickname_label, disabled: !@booking.editable?
 
-          .row
-            .col-sm-4
-              = tf.text_field :zipcode, disabled: !@booking.editable?
-            .col-sm-8
-              = tf.text_field :city, disabled: !@booking.editable?
+      = tf.text_field :street_address, disabled: !@booking.editable?
+      = tf.text_field :address_addon, disabled: !@booking.editable?, help: t('optional')
 
-          = tf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code), required: true } do
-            = tf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable?
-          = tf.text_area :phone, rows: 1, disabled: !@booking.editable?
-          = tf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable?, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
-          
-          - booking_categories = [current_organisation.booking_categories.kept, @booking.category].flatten.compact_blank.uniq
-          - if current_organisation.locales.many?
-            = tf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }, {}, disabled: !@booking.editable?, default: I18n.locale
-          - else 
-            = tf.hidden_field :locale, value: current_organisation.locales.first
+      .row
+        .col-sm-4
+          = tf.text_field :zipcode, disabled: !@booking.editable?
+        .col-sm-8
+          = tf.text_field :city, disabled: !@booking.editable?
 
-      fieldset
-        h5= t('.booking_details')
-        = f.text_field :tenant_organisation, help: t('optional'), disabled: !@booking.editable?
-        = f.text_area :invoice_address, help: t('optional'), disabled: !@booking.editable?
+      = tf.form_group :country_code, label: { text: Tenant.human_attribute_name(:country_code), required: true } do
+        = tf.country_select :country_code, { default: "CH", priority_countries: %w[CH DE FR IT] }, class: 'form-control', disabled: !@booking.editable?
+      = tf.text_area :phone, rows: 1, disabled: !@booking.editable?
+      = tf.date_select :birth_date, use_two_digit_numbers: true, end_year: Time.zone.today.year - 100, start_year: Time.zone.today.year - 17, disabled: !@booking.editable?, include_blank: true, required: @booking.tenant.birth_date_required?, help: !@booking.tenant.birth_date_required? && t('optional')
+      
+      - booking_categories = [current_organisation.booking_categories.kept, @booking.category].flatten.compact_blank.uniq
+      - if current_organisation.locales.many?
+        = tf.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }, {}, disabled: !@booking.editable?, default: I18n.locale
+      - else 
+        = tf.hidden_field :locale, value: current_organisation.locales.first
 
-        = f.form_group :committed_request, class: 'mb-3'
-          = f.label :committed_request, Booking.human_attribute_name(:committed_request), class: 'required mb-1'
-          = f.collection_radio_buttons_without_bootstrap :committed_request, [[false, :provisional_request], [true, :definitive_request]], :first, :last, include_hidden: false do |builder|
-            .form-check
-              = builder.radio_button class: 'form-check-input', disabled: (!@booking.editable? || @booking.committed_request?)
-              = builder.label class: 'form-check-label' do
-                = t(builder.object.last, scope: :'activerecord.enums.booking.committed_request')
-                p.small.my-1.text-muted= t(".committed_request_#{builder.object.last}_help")
+  fieldset
+    h5= t('.booking_details')
+    = f.text_field :tenant_organisation, help: t('optional'), disabled: !@booking.editable?
+    = f.text_area :invoice_address, help: t('optional'), disabled: !@booking.editable?
 
-          - @booking.errors[:committed_request].each do |error|
-            .invalid-feedback.d-block = error
+    = f.form_group :committed_request, class: 'mb-3'
+      = f.label :committed_request, Booking.human_attribute_name(:committed_request), class: 'required mb-1'
+      = f.collection_radio_buttons_without_bootstrap :committed_request, [[false, :provisional_request], [true, :definitive_request]], :first, :last, include_hidden: false do |builder|
+        .form-check
+          = builder.radio_button class: 'form-check-input', disabled: (!@booking.editable? || @booking.committed_request?)
+          = builder.label class: 'form-check-label' do
+            = t(builder.object.last, scope: :'activerecord.enums.booking.committed_request')
+            p.small.my-1.text-muted= t(".committed_request_#{builder.object.last}_help")
 
-        = render partial: 'booking_category_fields', locals: { booking: @booking, f: f }
-        = f.text_field :purpose_description, disabled: !@booking.editable?
-        = f.text_field :approximate_headcount, disabled: !@booking.editable?, required: true, inputmode: "numeric" 
-        = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable?
-        
-        = f.fields_for :booking_question_responses, @booking.booking_question_responses.sort_by(&:ordinal) do |bqrf|
-          - response = bqrf.object
-          - question = response.booking_question
-          - next if question.tenant_not_visible?
-          = bqrf.hidden_field :booking_question_id
-          = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: !response.editable?(:tenant) }
+      - @booking.errors[:committed_request].each do |error|
+        .invalid-feedback.d-block = error
 
-      .form-actions.pt-4.mt-3.d-flex.gap-1
-        =<> f.submit class: 'btn btn-primary'
-        - @booking.booking_state.public_actions.filter(&:allowed?).each do |action|
-          - button_options = { name: :booking_action, value: action.to_sym}
-          - button_options[:class] = "me-1 btn btn-outline-#{action.variant}"
-          - button_options[:data] = { confirm: action.confirm } if action.confirm.present?
-          = f.button(**button_options)
-            = action.label 
+    = render partial: 'booking_category_fields', locals: { booking: @booking, f: f }
+    = f.text_field :purpose_description, disabled: !@booking.editable?
+    = f.text_field :approximate_headcount, disabled: !@booking.editable?, required: true, inputmode: "numeric" 
+    = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable?
+    
+    = f.fields_for :booking_question_responses, @booking.booking_question_responses.tenant_visible.sort_by(&:ordinal) do |bqrf|
+      - response = bqrf.object
+      - question = response.booking_question
+      - next if question.tenant_not_visible? # TODO remove
+      = bqrf.hidden_field :booking_question_id
+      = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: !response.editable?(:tenant) }
+
+  .form-actions.pt-4.mt-3.d-flex.gap-1
+    =<> f.submit class: 'btn btn-primary'
+    =<> link_to t(:back), public_booking_path(@booking.token), class: 'btn btn-default'
+
+

@@ -29,7 +29,7 @@ module Manage
 
     def update
       @journal_entry.update(params.expect(journal_entry: [:processed]))
-      respond_with :manage, location: manage_journal_entries_path
+      respond_with :manage, @journal_entry, location: manage_journal_entries_path
     end
 
     # def update_many

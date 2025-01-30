@@ -40,6 +40,7 @@ module Manage
 
     field :links do |booking|
       {
+        show: url.public_booking_url(booking.token, org: booking.organisation, locale: I18n.locale),
         edit: url.edit_public_booking_url(booking.token, org: booking.organisation, locale: I18n.locale),
         manage: url.manage_booking_url(booking.to_param, org: booking.organisation, locale: I18n.locale)
       }

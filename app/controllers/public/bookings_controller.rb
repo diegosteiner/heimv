@@ -6,7 +6,7 @@ module Public
     respond_to :html
 
     def show
-      redirect_to edit_public_booking_path(@booking)
+      respond_with :public, @booking
     end
 
     def new
@@ -40,24 +40,18 @@ module Public
       process_booking_question_responses
       @booking.assign_attributes(update_params) if @booking.editable?
       @booking.save(context: :public_update)
-      invoke_booking_action
       write_booking_log
-      respond_with :public, @booking, location: edit_public_booking_path(@booking.token)
+      respond_with :public, @booking, location: public_booking_path(@booking.token)
     end
 
     private
 
     def set_booking
-      @booking = current_organisation.bookings.find_by(token: params[:id]) ||
-                 current_organisation.bookings.find(params[:id])
+      @booking = current_organisation.bookings.find_by!(token: params[:id])
     end
 
     def write_booking_log
-      Booking::Log.log(@booking, trigger: :tenant, action: booking_action, user: current_user)
-    end
-
-    def booking_from_params
-      current_organisation.bookings.new(create_params)
+      Booking::Log.log(@booking, trigger: :tenant, user: current_user)
     end
 
     def process_booking_question_responses
@@ -70,15 +64,6 @@ module Public
 
     def preparation_service
       @preparation_service ||= BookingPreparationService.new(current_organisation)
-    end
-
-    def invoke_booking_action
-      result = booking_action&.invoke
-      @booking.errors.add(:base, :action_not_allowed) if booking_action && !result&.success
-    end
-
-    def booking_action
-      BookingActions::Public.all[params[:booking_action]&.to_sym]&.new(@booking)
     end
 
     def create_params

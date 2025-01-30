@@ -1,7 +1,9 @@
 .mx-auto.w-md
   h3 = t(:'.title')
-  = render 'form'
-
+  .card.shadow-sm.[class=({'bg-light' => !@booking.editable?, 'border-danger' => @booking.errors.any? }.select { _2 }.keys )]
+    .card-body
+      = render 'form'
+  
   - if current_organisation.email.present?
     p.mt-3.text-center.small== t('public.bookings.new.problems_html', email: current_organisation.email)
 
