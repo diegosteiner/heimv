@@ -92,7 +92,7 @@
               dd –
 
         .row.mt-4
-          = render partial: 'public/bookings/action_buttons', locals: { booking: @booking, form_class: 'col-md-8 d-flex gap-1 mt-2 align-items-start flex-wrap', button_class: proc { |action| "btn btn-outline-#{action.variant}" } }
+          = render partial: 'public/bookings/booking_actions/action_buttons', locals: { booking: @booking, form_class: 'col-md-8 d-flex gap-1 mt-2 align-items-start flex-wrap', button_class: proc { |action| "btn btn-outline-#{action.variant}" } }
                   
           .col-md-4.d-flex.gap-1.justify-content-end.align-items-start.mt-2.flex-wrap
             = link_to edit_public_booking_path(@booking.token), class: 'btn btn-primary'

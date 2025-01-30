@@ -66,6 +66,7 @@ de:
       organisation_settings:
         booking_window: Reservationsfenster
         closed_occupancy_color: Farbe für Schliessungen
+        contract_sign_by_click_enabled: Vertrag «per Klick» durch Mieter unterschreiben
         default_begins_at_time: Standardzeit für den Beginn der Belegung
         default_calendar_view: Standard Kalenderansicht
         default_ends_at_time: Standardzeit für das Ende der Belegung
@@ -184,8 +185,8 @@ de:
         locale: Sprache
         pdf: PDF
         sent_at: Vertragsdatum
-        signed_at: Von Mieter Unterschrieben am
-        signed_pdf: Von Mieter Unterschriebenes PDF
+        signed_at: Von Mieter unterzeichnet am
+        signed_pdf: Von Mieter unterzeichnetes PDF
         text: Vertragstext
         title: Titel
       data_digest:
@@ -836,6 +837,13 @@ de:
         label: Anfrage definitv setzen
       postpone_deadline:
         label: Frist verlängern
+      sign_contract:
+        confirm_authorization_label: Ich bestätige dass erforderlichen Befugnisse vorhanden sind diesen Vertrag rechtsverbindlich zu unterzeichnen
+        description: |
+          Mit dem Klick auf den Knopf «Vertrag rechtskräftig unterzeichnen» wird der Vertrag rechtsverbindlich abgeschlossen und bestätigt, dass die Berechtigung zur Unterzeichnung vorliegt. Damit werden die geltenden Vertragsbedingungen sowie die allgemeinen Geschäftsbedingungen in ihrer jeweils aktuellen Fassung anerkannt.
+          Zudem wird erklärt, dass alle erforderlichen Befugnisse vorhanden sind, um den Vertrag im eigenen Namen oder – sofern zutreffend – im Namen einer juristischen Person abzuschliessen.
+          Durch die Bestätigung entsteht die Verpflichtung zur Einhaltung aller vereinbarten Pflichten und Rechte, einschliesslich möglicher Zahlungsverpflichtungen, sowie zur Beachtung aller anwendbaren gesetzlichen Bestimmungen. Falls keine Berechtigung zur Vertragsunterzeichnung besteht, kann dies rechtliche Konsequenzen nach sich ziehen.
+        label: Vertrag rechtskräftig unterzeichnen
   booking_conditions:
     booking_attribute:
       attributes:
@@ -861,7 +869,7 @@ de:
         country_code: Ländercode
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
-    contract_signed: Vertrag unterschrieben
+    contract_signed: Vertrag unterzeichnet
     credit_issued: Gutschrift ausbezahlt
     deposit_created: Akontorechnung erstellen (optional)
     deposit_paid: Akontorechnung beglichen
@@ -879,8 +887,8 @@ de:
       label: Belegung (anwesend)
       relevant_time: Ende der Belegung %{time}
     awaiting_contract:
-      description: Der Mieter hat den Vertrag und (falls vorhanden) die Akontorechnung erhalten, aber noch nicht unterschrieben retourniert bzw. bezahlt.
-      label: Reservation (Vertrag offen)
+      description: Der Mieter hat den Vertrag und (falls vorhanden) die Akontorechnung erhalten, aber noch nicht unterzeichnet retourniert bzw. bezahlt.
+      label: Reservation (Vertrag und/oder Akontorechnung offen)
       relevant_time: Frist %{time}
     awaiting_tenant:
       label: Anfrage mit fehlenden Mieterangaben
@@ -940,7 +948,7 @@ de:
       public_info: Willkommen zurück. Um deine Mietanfrage zu bestätigen, fülle bitte auch noch die restlichen Felder aus.
       relevant_time: Frist %{time}
     upcoming:
-      description: Der Mieter hat den Vertrag unterschrieben retourniert und die Akontorechnung (falls vorhanden) beglichen.
+      description: Der Mieter hat den Vertrag unterzeichnet retourniert und die Akontorechnung (falls vorhanden) beglichen.
       label: Belegung (zukünftig)
       relevant_time: Beginn der Belegung %{time}
     upcoming_soon:
@@ -2288,7 +2296,7 @@ de:
           <li>Organisation: {{ booking.tenant_organisation }}</li>
           <li>Mietkategorie: {{ booking.category.title }}</li>
         </ul>
-      default_title: Akontorechnung und unterschriebenen Vertrag eingegangen
+      default_title: Akontorechnung und unterzeichneten Vertrag eingegangen
       description: Benachrichtigung für zukünftige Belegung (Mieter)
     upcoming_soon_notification:
       default_body: |
