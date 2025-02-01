@@ -7,6 +7,7 @@ module BookingActions
         CommitRequest,
         CommitBookingAgentRequest,
         PostponeDeadline,
+        SignContract,
         Cancel
       ].index_by(&:to_sym)
     end

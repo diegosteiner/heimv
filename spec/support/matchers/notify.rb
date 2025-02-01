@@ -13,7 +13,7 @@ RSpec::Matchers.define :notify do |mail_template|
     notification = matching_notification(booking, mail_template, @to).take
     next false if notification.blank? || !notification.valid?
     next false if (@save || @deliver) && !notification.persisted?
-    next false if @deliver && notification.instance_variable_get('@message_delivery').blank?
+    next false if @deliver && notification.instance_variable_get(:@message_delivery).blank?
 
     true
   end

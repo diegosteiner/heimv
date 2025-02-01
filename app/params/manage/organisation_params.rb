@@ -14,7 +14,7 @@ module Manage
     def self.settings_permitted_keys
       %i[tenant_birth_date_required booking_window last_minute_warning upcoming_soon_window
          occupied_occupancy_color tentative_occupancy_color closed_occupancy_color
-         default_calendar_view predefined_salutation_form
+         default_calendar_view predefined_salutation_form contract_sign_by_click_enabled
          default_begins_at_time default_ends_at_time] +
         [{ locales: [] }]
     end

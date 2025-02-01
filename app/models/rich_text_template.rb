@@ -41,7 +41,7 @@ class RichTextTemplate < ApplicationRecord
     end
 
     def template_key_valid?(key)
-      key && definitions.keys.include?(key.to_sym)
+      key && definitions.key?(key.to_sym)
     end
 
     def definitions

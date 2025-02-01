@@ -17,6 +17,7 @@ class BookingQuestionResponse < ApplicationRecord
   belongs_to :booking_question, inverse_of: :booking_question_responses
 
   scope :ordered, -> { joins(:booking_question).order(BookingQuestion.arel_table[:ordinal].asc) }
+  scope :tenant_visible, -> { joins(:booking_question).where.not(booking_questions: { tenant_mode: :not_visible }) }
 
   validates :value, length: { maximum: 1000 }
   validate on: %i[public_create public_update] do

@@ -21,7 +21,7 @@ class AttachmentManager
   def attach_one(attachable)
     return if attachable.blank?
     return attach_one attachable.to_attachable if attachable.respond_to?(:to_attachable)
-    return attach_booking_document attachable if ATTACHABLE_BOOKING_DOCUMENTS.keys.include?(attachable)
+    return attach_booking_document attachable if ATTACHABLE_BOOKING_DOCUMENTS.key?(attachable)
 
     @target.attach attachable
   end

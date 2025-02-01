@@ -13,7 +13,7 @@
             .col-md-6
               dl
                 dt= Occupancy.model_name.human
-                dd= render partial: 'manage/occupancies/span', locals: { booking: @booking }
+                dd= render partial: 'public/occupancies/span', locals: { booking: @booking }
 
             .col-md-6
               - if @booking.agent_booking.present?
@@ -126,7 +126,7 @@
             .col-md-6 
               dl 
                 dt= t('.public_booking_url')
-                dd= link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), edit_public_booking_url(@booking.token)
+                dd= link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), public_booking_url(@booking.token)
 
           .row
             .col-md-6

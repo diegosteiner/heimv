@@ -66,12 +66,12 @@ module DataDigestTemplates
     def crunch(records)
       record_ids = records.pluck(:id).uniq
       base_scope.where(id: record_ids).find_each(cursor: record_order.keys,
-                                                 order: record_order.values).map do |record|
+                                                 order: record_order.values).flat_map do |record|
         record.fragments.map do |fragment|
           template_context_cache = {}
           columns.map { |column| column.body(fragment, template_context_cache) }
         end
-      end.flatten(1)
+      end
     end
 
     formatter(:taf) do |_options = {}|

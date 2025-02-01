@@ -32,9 +32,9 @@ module Export
       end
 
       def serialize_children(indent_level: 0, indent_with: '  ', separate_with: "\n")
-        children.map do |child|
+        children.filter_map do |child|
           child.serialize(indent_level: indent_level + 1, indent_with:, separate_with:) if child.is_a?(Block)
-        end.compact.join(separate_with + separate_with)
+        end.join(separate_with + separate_with)
       end
 
       def to_s

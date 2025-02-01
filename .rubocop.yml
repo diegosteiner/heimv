@@ -1,11 +1,10 @@
 require:
   # - rubocop-rspec
   - rubocop-rails
-  # - rubocop-performance
+  - rubocop-performance
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.2
   Exclude:
     - "bin/*"
     - "script/**/*"

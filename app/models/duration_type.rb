@@ -12,7 +12,7 @@ class DurationType < ActiveModel::Type::Value
     when Integer
       ActiveSupport::Duration.build(value)
     when String
-      return ActiveSupport::Duration.parse(value) if value =~ REGEX
+      return ActiveSupport::Duration.parse(value) if REGEX.match?(value)
 
       cast_value(value.to_i)
     when ActiveSupport::Duration

@@ -8,6 +8,7 @@ class OrganisationSettings
   attribute :default_calendar_view, :string, default: 'months' # store as user preference only
 
   attribute :tenant_birth_date_required, :boolean, default: true
+  attribute :contract_sign_by_click_enabled, :boolean, default: false
   attribute :invoice_show_usage_details, :boolean, default: true
   attribute :booking_window, DurationType.new, default: -> { 30.months }
   attribute :last_minute_warning, DurationType.new, default: -> { 10.days }
