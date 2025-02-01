@@ -42,6 +42,7 @@ services:
       LOG_LEVEL: "debug"
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
       REDIS_URL: "redis://redis/0"
+      CI: "true"
     depends_on:
       - db
       - mail
