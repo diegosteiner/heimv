@@ -1,5 +1,7 @@
 # Changelog
 
+## 25.2.1
+
 - Feature: Add a seperate view for bookings for the tenant
 - Feature: Allow the tenant to sign the contract directly in the application
 
