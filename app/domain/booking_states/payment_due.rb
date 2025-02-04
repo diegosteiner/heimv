@@ -23,7 +23,8 @@ module BookingStates
       next if payable_until.blank?
 
       booking.create_deadline(at: payable_until + booking.organisation.deadline_settings.payment_overdue_deadline,
-                              postponable_for: booking.organisation.deadline_settings.deadline_postponable_for)
+                              postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
+                              armed: true)
     end
 
     infer_transition(to: :completed) do |booking|

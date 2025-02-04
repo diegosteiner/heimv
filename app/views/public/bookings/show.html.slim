@@ -1,5 +1,6 @@
 .mx-auto.w-md
-  h3 = Booking.model_name.human
+  h3 
+    = "#{Booking.model_name.human} #{@booking.ref}"
   - cache([@booking, I18n.locale, current_organisation_user&.role]) do
     .card.shadow-sm
       .card-body

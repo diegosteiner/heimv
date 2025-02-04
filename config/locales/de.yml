@@ -1673,7 +1673,7 @@ de:
         definitiv abzuschliessen.
         Über den folgenden Link kannst Du Deine Reservation verlängern, aufheben oder für definitiv erklären.</p>
 
-        <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
+        <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
 
         <p><strong>Reservationsdetails</strong></p>
 
@@ -1681,9 +1681,6 @@ de:
           <li>Buchungsreferenz: {{ booking.ref }}</li>
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
           <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
-          <li>Organisation: {{ booking.tenant_organisation }}</li>
-          <li>Mietkategorie: {{ booking.category.title }}</li>
-          <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
       default_title: Infos bitte
       description: Benachrichtigung für fehlende Mieterinformationen einer Vermittlungsanfrage (Mieter)
