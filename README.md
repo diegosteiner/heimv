@@ -18,7 +18,7 @@ Then inside the container you may run:
 
 - `bin/dev` to start rails server
 - `bin/vite dev` to start vite dev server
-- `bin/sidekiq-job-worker` to start the sidekiq worker process
+- `bin/jobs` to start the active job worker process
 
 To visit the automatically created default organization, visit <http://heimv.localhost:3000/>.
 

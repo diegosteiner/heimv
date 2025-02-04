@@ -42,7 +42,7 @@ module Heimv
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    config.active_job.queue_adapter = ENV.fetch('ACTIVE_JOB_QUEUE_ADAPTER', :inline)
+    config.active_job.queue_adapter = :solid_queue
 
     config.redis_config = { url: ENV.fetch('REDIS_URL', nil), ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE } }
 

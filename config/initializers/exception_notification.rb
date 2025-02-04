@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 if defined?(ExceptionNotification)
-  require 'exception_notification/sidekiq'
-
   Rails.application.config.middleware.use ExceptionNotification::Rack,
                                           email: {
                                             sender_address: ENV.fetch('MAIL_FROM', nil),

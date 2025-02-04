@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class PlanBBackupJob < ApplicationJob
-  sidekiq_options retry: 0
   queue_as :default
 
   def perform(*args)
