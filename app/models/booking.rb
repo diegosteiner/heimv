@@ -109,6 +109,7 @@ class Booking < ApplicationRecord
   scope :with_default_includes, -> { includes(DEFAULT_INCLUDES) }
 
   before_validation :update_occupancies, :assert_tenant!
+  before_save :sequence_number
   before_create :generate_ref
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?

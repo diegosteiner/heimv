@@ -17,7 +17,7 @@ module Manage
     private
 
     def deadline_params
-      params.require(:deadline).permit(:at, :armed, :postponable_for, :remarks)
+      params.expect(deadline: %i[at armed postponable_for remarks])
     end
   end
 end

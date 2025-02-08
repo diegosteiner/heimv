@@ -1366,12 +1366,6 @@ fr:
       form:
         deliver: Enregistrer et envoyer
         not_sent: Ce message n'a pas encore été envoyé
-    occupancies:
-      span:
-        nights:
-          one: 1 nuit
-          other: "%{count} Nuits"
-          zero: sans nuitée
     organisation_users:
       form:
         regenerate_token: Générer à nouveau un Token
@@ -1697,7 +1691,7 @@ fr:
         <p>Vous venez d'initier une demande de location pour {{ booking.home.name }}.
         Veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse e-mail et finaliser votre demande de location.</p>
 
-        <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
+        <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
       default_title: Confirmer votre adresse e-mail !
       description: Notification de demande de location non-confirmée (locataire)
     upcoming_notification:

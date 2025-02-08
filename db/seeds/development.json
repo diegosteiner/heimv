@@ -1,8 +1,17 @@
 {
+  "accounting_settings": {
+    "enabled": true,
+    "debitor_account_nr": "1050",
+    "rental_yield_account_nr": "6000",
+    "rental_yield_vat_category_id": 1,
+    "vat_account_nr": "2016",
+    "payment_account_nr": 1025
+  },
   "address": "Verein Pfadiheime\r\nHeimverwaltung\r\n\r\n8000 Zürich",
   "booking_agents": false,
   "booking_categories": [
     {
+      "id": 1,
       "description_i18n": {},
       "key": "camp",
       "ordinal": 0,
@@ -12,6 +21,7 @@
       }
     },
     {
+      "id": 2,
       "description_i18n": {},
       "key": "event",
       "ordinal": 1073741824,
@@ -22,10 +32,43 @@
     }
   ],
   "booking_flow_type": "BookingFlows::Default",
+  "booking_questions": [],
   "booking_ref_template": "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s",
+  "booking_state_settings": {
+    "default_manage_transition_to_state": "provisional_request",
+    "occupied_occupancy_states": [
+      "definitive_request",
+      "awaiting_tenant",
+      "awaiting_contract",
+      "upcoming",
+      "upcoming_soon"
+    ],
+    "editable_occupancy_states": [
+      "initial",
+      "unconfirmed_request",
+      "open_request",
+      "provisional_request",
+      "booking_agent_request",
+      "awaiting_tenant",
+      "overdue_request"
+    ]
+  },
   "country_code": "CH",
   "currency": "CHF",
+  "deadline_settings": {
+    "awaiting_contract_deadline": "864000",
+    "awaiting_tenant_deadline": "864000",
+    "overdue_request_deadline": "259200",
+    "payment_overdue_deadline": "259200",
+    "unconfirmed_request_deadline": "259200",
+    "provisional_request_deadline": "864000",
+    "invoice_payment_deadline": "2592000",
+    "deposit_payment_deadline": "864000",
+    "deadline_postponable_for": "259200"
+  },
+  "designated_documents": {},
   "email": "info@heimv.local",
+  "esr_beneficiary_account": null,
   "homes": [
     {
       "id": 1,
@@ -44,8 +87,29 @@
   "name": "Heimverein Development",
   "nickname_label_i18n": {},
   "notifications_enabled": true,
+  "settings": {
+    "default_calendar_view": "months",
+    "tenant_birth_date_required": true,
+    "invoice_show_usage_details": true,
+    "booking_window": "78892380",
+    "last_minute_warning": "864000",
+    "upcoming_soon_window": "1209600",
+    "tentative_occupancy_color": "#e8bc56",
+    "occupied_occupancy_color": "#e85f5f",
+    "closed_occupancy_color": "#929292",
+    "default_begins_at_time": "08:00",
+    "default_ends_at_time": "16:00",
+    "locales": [
+      "de",
+      "fr",
+      "it",
+      "en"
+    ],
+    "predefined_salutation_form": null
+  },
   "tarifs": [
     {
+      "id": 1,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -73,10 +137,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
-      "id": 74,
+      "id": 2,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -104,9 +169,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 3,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -134,9 +201,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 4,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -164,9 +233,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 5,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -194,9 +265,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 6,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -224,9 +297,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 7,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -254,9 +329,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 8,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -284,9 +361,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 9,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [],
@@ -310,9 +389,11 @@
       },
       "valid_from": "2019-12-07T12:04:59+01:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 10,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -340,9 +421,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 11,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [],
@@ -366,9 +449,11 @@
       },
       "valid_from": "2019-12-07T12:06:55+01:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 12,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -396,9 +481,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 13,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -424,9 +511,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 14,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -454,9 +543,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 15,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -484,9 +575,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 16,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -514,9 +607,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 17,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -544,9 +639,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     },
     {
+      "id": 18,
       "accounting_account_nr": null,
       "accounting_cost_center_nr": null,
       "associated_types": [
@@ -574,8 +671,20 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null
+      "vat_category": null,
+      "vat_category_id": null
     }
   ],
-  "tenant_ref_template": "%<sequence_number>d"
+  "tenant_ref_template": "%<sequence_number>d",
+  "vat_categories": [
+    {
+      "id": 1,
+      "accounting_vat_code": "USt38",
+      "label": "Normal",
+      "label_i18n": {
+        "de": "Normal"
+      },
+      "percentage": "3.8"
+    }
+  ]
 }

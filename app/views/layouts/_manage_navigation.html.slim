@@ -40,7 +40,7 @@ nav.px-3
           li.nav-item
             = link_to Payment.model_name.human(count: 2), manage_payments_path, class: 'nav-link'
         
-          - if current_user.role_admin?
+          - if current_organisation.accounting_settings.enabled
             li.nav-item
               = link_to JournalEntry.model_name.human(count: 2), manage_journal_entries_path, class: 'nav-link'
 

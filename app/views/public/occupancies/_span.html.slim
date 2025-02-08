@@ -1,24 +1,22 @@
 .occupancy-info
   .text-center
     i.fa.fa-home
-  ul.list-unstyled.p-0.m-0.d-flex.flex-wrap
+  ul.list-unstyled.p-0.m-0.d-flex.flex-wrap.gap-2
     - booking.occupancies.each do |occupancy|
-      li.me-2
-        - if occupancy.conflicting?
+      li
+        - if can?(:manage, occupancy) && occupancy.conflicting?
           - tooltip = occupancy.conflicting.map(&:to_s).join(', ')
           = link_to manage_bookings_path(filter: { begins_at_before: occupancy.ends_at, ends_at_after: occupancy.begins_at, occupiable_ids: occupancy.occupiable_id }), { "data-bs-toggle": "tooltip", title: tooltip, class: "text-danger" } do
             i.fa.fa-exclamation-triangle<>
             = occupancy.occupiable
         - else 
-          = link_to edit_manage_occupancy_path(occupancy) do
-            = occupancy.occupiable
+          = occupancy.occupiable
 
   .text-center
     i.fa.fa-calendar
   strong
     = t(:from)
     =<> time_tag booking.begins_at, format: :short_with_weekday
-    
 
   .text-center
     span[style="color: #{booking.occupancy_color}"]
@@ -26,6 +24,6 @@
   div
     = t(:until)
     =<> time_tag booking.ends_at, format: :short_with_weekday
-    span[title=t(".nights", count: booking.nights)]
+    span[title=t('.nights', count: booking.nights)]
       i.fa.fa-moon-o.ms-2
       = booking.nights

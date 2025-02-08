@@ -12,7 +12,7 @@ class IBAN < IBANTools::IBAN
   end
 
   def qrr?
-    valid? && country_code.upcase == 'CH' && (30_000..31_999).include?(numerify[0..4].to_i)
+    valid? && country_code.upcase == 'CH' && (30_000..31_999).cover?(numerify[0..4].to_i)
   end
 
   class Type < ActiveModel::Type::String

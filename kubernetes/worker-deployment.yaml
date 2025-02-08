@@ -21,7 +21,7 @@ spec:
           image: ghcr.io/diegosteiner/heimv:main
           imagePullPolicy: Always
           command:
-            - bin/sidekiq-job-worker
+            - bin/jobs
           envFrom:
             - secretRef:
                 name: app-secret

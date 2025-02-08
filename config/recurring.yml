@@ -1,0 +1,31 @@
+# production:
+#   periodic_cleanup:
+#     class: CleanSoftDeletedRecordsJob
+#     queue: background
+#     args: [ 1000, { batch_size: 500 } ]
+#     schedule: every hour
+#   periodic_command:
+#     command: "SoftDeletedRecord.due.delete_all"
+#     priority: 2
+#     schedule: at 5am every day
+
+development:
+  transition_booking_states:
+    schedule: "0 * * * *"
+    class: TransitionBookingStatesJob
+
+# test:
+#   <<: *default
+
+production:
+  transition_booking_states:
+    schedule: "*/5 * * * *"
+    class: TransitionBookingStatesJob
+
+  clean_data_digests:
+    schedule: "0 3 * * *"
+    class: CleanDataDigestsJob
+
+  schedule_plan_b_backups:
+    schedule: "0 2 * * *"
+    class: SchedulePlanBBackupsJob

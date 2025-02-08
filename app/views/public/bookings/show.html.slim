@@ -1,0 +1,101 @@
+.mx-auto.w-md
+  h3 
+    = "#{Booking.model_name.human} #{@booking.ref}"
+  - cache([@booking, I18n.locale, current_organisation_user&.role]) do
+    .card.shadow-sm
+      .card-body
+        .row
+          .col-md-6
+            dl
+              dt= Occupancy.model_name.human
+              dd= render partial: 'public/occupancies/span', locals: { booking: @booking }
+
+          .col-md-6
+            - if @booking.agent_booking.present?
+              dl
+                dt= BookingAgent.model_name.human
+                dd= @booking.booking_agent.name
+
+        .row
+          .col-md-6
+            dl
+              dt
+                = Booking.human_attribute_name(:tenant)
+
+                - unless @booking.tenant&.complete?
+                  i.fa.fa-exclamation-triangle.text-warning<>[data-bs-toggle="tooltip" title=t('activerecord.errors.models.tenant.incomplete')]
+                    
+                dd
+                  = @booking.tenant.full_name
+                dd
+                  - @booking.tenant.address_lines.each do |line|
+                    = line 
+                    br
+                dd= mail_to @booking.tenant.email
+                dd
+                  - @booking.tenant.phone&.lines&.each do |phone|
+                    = link_to phone, "tel:#{phone}", class: 'd-block'
+
+                - if @booking.tenant.birth_date.present?
+                  dd= l(@booking.tenant.birth_date)
+
+          .col-md-6
+            dl
+              dt
+                =<> Booking.human_attribute_name(:tenant_organisation)
+                | /
+                =<> Booking.human_attribute_name(:purpose_description)
+                - if @booking.tenant_organisation.present?
+                  dd= @booking.tenant_organisation
+
+                - if @booking.category.present? || @booking.purpose_description.present?
+                  dd
+                    = @booking.purpose_description
+                    - if @booking.category
+                      = " (#{@booking.category})"
+          
+            dl
+              dt= Booking.human_attribute_name(:approximate_headcount)
+              dd= @booking.approximate_headcount
+
+            - if @booking.remarks.present?
+              dl
+                dt= Booking.human_attribute_name(:remarks)
+                dd= @booking.remarks
+
+            dl
+              dt= BookingQuestion.model_name.human(count: 2)
+              - if @booking.booking_question_responses.tenant_visible.none?
+                dd –
+              - else 
+                - @booking.booking_question_responses.tenant_visible.each do |response|
+                  dd.mb-2
+                    div= response.booking_question.label
+                    div
+                      - if lookup_context.template_exists? response.booking_question.to_partial_path('value'), [], true
+                        em= render partial: response.booking_question.to_partial_path('value'), locals: { value: response.value }
+                      - else 
+                        em= response.value
+
+    .card.shadow-sm.mt-4
+      .card-body
+        .row
+          .col-md-6
+            dl
+              dt= Booking.human_attribute_name(:state)
+              dd= @booking.booking_state.translate
+
+          .col-md-6 
+            dt= Deadline.model_name.human
+            - if @booking.deadline&.armed
+              dd= l(@booking.deadline.at, format: :short)
+            - else 
+              dd –
+
+        .row.mt-4
+          = render partial: 'public/bookings/booking_actions/action_buttons', locals: { booking: @booking, form_class: 'col-md-8 d-flex gap-1 mt-2 align-items-start flex-wrap', button_class: proc { |action| "btn btn-outline-#{action.variant}" } }
+                  
+          .col-md-4.d-flex.gap-1.justify-content-end.align-items-start.mt-2.flex-wrap
+            = link_to edit_public_booking_path(@booking.token), class: 'btn btn-primary'
+              span.fa.fa-edit
+              =< t(:edit)

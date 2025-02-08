@@ -64,7 +64,9 @@ Rails.application.routes.draw do
       resources :booking_agents
       resources :booking_categories, except: :show
       resources :vat_categories, except: :show
-      resources :journal_entries, only: %i[index destroy]
+      resources :journal_entries, only: %i[index update destroy] do
+        post :process_all, on: :collection
+      end
       resources :notifications, only: %i[index]
       resources :rich_text_templates do
         post :create_missing, on: :collection
@@ -75,8 +77,12 @@ Rails.application.routes.draw do
       resource :organisation, only: :show
       get 'designated_documents/:designation', to: 'designated_documents#show', as: :public_designated_document
       resources :agent_bookings, except: %i[destroy], as: :public_agent_bookings
-      resources :bookings, only: %i[new create edit update], as: :public_bookings
-      get 'b/:id(/edit)', to: 'bookings#edit'
+      resources :bookings, except: :destroy, as: :public_bookings do
+        scope module: :bookings do
+          post 'actions(/:id)', to: 'booking_actions#invoke', as: :invoke_action
+          get 'actions(/:id)', to: 'booking_actions#prepare', as: :prepare_action
+        end
+      end
       get 'privacy', to: 'pages#privacy'
       resources :homes, only: %i[show index] do
         resources :occupancies, only: %i[index show] do

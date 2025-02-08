@@ -27,10 +27,10 @@ module Manage
     #   respond_with :manage, location: manage_journal_entries_path
     # end
 
-    # def update
-    #   @journal_entry.update(journal_entry_params)
-    #   respond_with :manage, location: manage_journal_entries_path
-    # end
+    def update
+      @journal_entry.update(params.expect(journal_entry: [:processed]))
+      respond_with :manage, @journal_entry, location: manage_journal_entries_path
+    end
 
     # def update_many
     #   @tarifs = Tarif.where(organisation: current_organisation)
@@ -47,6 +47,11 @@ module Manage
       respond_with :manage, @journal_entry, location: manage_journal_entries_path
     end
 
+    def process_all
+      @journal_entries.unprocessed.update_all(processed_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+      redirect_to manage_journal_entries_path
+    end
+
     private
 
     def set_filter
@@ -54,7 +59,7 @@ module Manage
     end
 
     def journal_entry_filter_params
-      params[:filter]&.permit(%w[date_after date_before])
+      params[:filter]&.permit(%w[date_after date_before processed])
     end
 
     # def journal_entry_params

@@ -16,12 +16,12 @@ module Manage
     def create
       @booking_category.organisation = current_organisation
       @booking_category.save
-      respond_with :manage, location: manage_booking_categories_path
+      respond_with :manage, @booking_category, location: manage_booking_categories_path
     end
 
     def update
       @booking_category.update(booking_category_params)
-      respond_with :manage, location: manage_booking_categories_path
+      respond_with :manage, @booking_category, location: manage_booking_categories_path
     end
 
     def destroy
@@ -33,7 +33,7 @@ module Manage
 
     def booking_category_params
       locale_params = I18n.available_locales.map { |locale| ["title_#{locale}", "description_#{locale}"] }
-      params.require(:booking_category).permit(:key, :ordinal_position, locale_params.flatten)
+      params.expect(booking_category: [:key, :ordinal_position, locale_params.flatten])
     end
   end
 end

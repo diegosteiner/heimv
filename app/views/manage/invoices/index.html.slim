@@ -4,7 +4,7 @@
 - else 
   h1.my-0= Invoice.model_name.human(count: 2)
 
-  .my-3
+  .my-3.d-flex.gap-3
     button.btn.btn-outline-primary.bg-body[type="button" data-bs-toggle="modal" data-bs-target="#filter"]
       i.fa.fa-filter<>
       = t(:filter)
@@ -62,7 +62,8 @@
               = invoice.model_name.human
 
             td.align-middle
-              =l(invoice.issued_at, format: :date)
+              - if invoice.issued_at.present?
+                = l(invoice.issued_at, format: :date)
               - if invoice.sent?
                 span.badge.badge-pill.bg-success.ms-1
                   span.fa.fa-envelope-open.text-white[title="#{Invoice.human_attribute_name(:sent_at)}: #{l(invoice.sent_at)}"]

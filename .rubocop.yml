@@ -1,11 +1,10 @@
 require:
   # - rubocop-rspec
   - rubocop-rails
-  # - rubocop-performance
+  - rubocop-performance
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.2
   Exclude:
     - "bin/*"
     - "script/**/*"
@@ -73,7 +72,6 @@ Style/GlobalVars:
   Exclude:
     - "app/services/cache_store_config_service.rb"
     - "config/initializers/redis.rb"
-    - "config/initializers/sidekiq.rb"
 
 Style/SymbolProc:
   Enabled: false

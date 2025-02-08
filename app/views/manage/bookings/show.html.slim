@@ -13,7 +13,7 @@
             .col-md-6
               dl
                 dt= Occupancy.model_name.human
-                dd= render partial: 'manage/occupancies/span', locals: { booking: @booking }
+                dd= render partial: 'public/occupancies/span', locals: { booking: @booking }
 
             .col-md-6
               - if @booking.agent_booking.present?
@@ -117,14 +117,16 @@
                 dt= Booking.human_attribute_name(:state)
                 dd= @booking.booking_state.translate
 
+                dt= Deadline.model_name.human
                 - if @booking.deadline&.armed
-                  dt= Deadline.model_name.human
                   dd= link_to l(@booking.deadline.at, format: :short), edit_manage_booking_deadline_path(@booking)
+                - else
+                  dd= link_to t(:add_record, model_name: Deadline.model_name.human), edit_manage_booking_deadline_path(@booking)
 
             .col-md-6 
               dl 
                 dt= t('.public_booking_url')
-                dd= link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), edit_public_booking_url(@booking.token)
+                dd= link_to truncate(edit_public_booking_url(@booking.token), length: 48, omission: '...'), public_booking_url(@booking.token)
 
           .row
             .col-md-6

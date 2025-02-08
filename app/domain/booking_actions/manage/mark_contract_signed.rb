@@ -2,10 +2,10 @@
 
 module BookingActions
   module Manage
-    class MarkContractSigned < BookingActions::Base
-      templates << MailTemplate.define(:contract_signed_notification, context: %i[booking], autodeliver: false)
+    class MarkContractSigned < BookingActions::Public::SignContract
+      # templates << MailTemplate.define(:contract_signed_notification, context: %i[booking], autodeliver: false)
 
-      def invoke!(signed_pdf: nil)
+      def invoke!(signed_pdf: nil, **)
         booking.contract.update(signed_pdf:) if signed_pdf.present?
         booking.contract.signed!
         booking.update(committed_request: true)
@@ -18,24 +18,6 @@ module BookingActions
 
       def allowed?
         booking.contract&.sent? && !booking.contract&.signed?
-      end
-
-      def prepare?
-        true
-      end
-
-      def self.params_schema
-        Dry::Schema.Params do
-          optional(:signed_pdf).value(type?: ActionDispatch::Http::UploadedFile)
-        end
-      end
-
-      protected
-
-      def draft_mail; end
-
-      def deposits
-        Invoices::Deposit.of(booking).kept.unpaid
       end
     end
   end

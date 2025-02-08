@@ -40,7 +40,14 @@ module Import
         hash['tarifs'].each { |tarif| organisation.tarifs << importer.import(tarif) }
       end
 
-      # TODO: booking_agents, vat_categories, deadline_settings,
+      actor do |organisation, hash|
+        vat_categories = hash['vat_categories']
+        next unless vat_categories.is_a?(Array)
+
+        vat_categories.map { |vat_category| organisation.vat_categories.build(vat_category) }
+      end
+
+      # TODO: booking_agents
     end
   end
 end

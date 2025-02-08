@@ -210,8 +210,9 @@ tr.disabled {
 
 .occupancy-info {
   display: grid;
-  grid-template-columns: 2em auto;
+  grid-template-columns: 1.2em auto;
   grid-template-rows: auto auto auto;
+  gap: 0 0.5em;
 }
 
 .booking-nav {

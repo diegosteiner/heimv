@@ -30,10 +30,10 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  config.assume_ssl = ENV['FORCE_SSL'].present?
+  config.assume_ssl = ENV['CI'].blank?
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = ENV['FORCE_SSL'].present?
+  config.force_ssl = ENV['CI'].blank?
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/health" } } }
@@ -53,10 +53,14 @@ Rails.application.configure do
 
   # Replace the default in-process memory cache store with a durable alternative.
   # config.cache_store = :mem_cache_store
-
-  # Replace the default in-process and non-durable queuing backend for Active Job.
-  # config.active_job.queue_adapter = :resque
   config.cache_store = CacheStoreFactory.redis(config.redis_config)
+
+  # Use a real queuing backend for Active Job (and separate queues per environment).
+  # config.active_job.queue_name_prefix = "heimverwaltung_production"
+  config.active_job.queue_adapter = :solid_queue
+  # config.solid_queue.connects_to = { database: { writing: :queue } }
+
+  config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

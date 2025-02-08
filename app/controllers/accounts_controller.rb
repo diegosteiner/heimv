@@ -29,6 +29,6 @@ class AccountsController < ApplicationController
   def user_params
     permitted_params = %i[default_organisation_id default_calendar_view]
     permitted_params += %i[password password_confirmation] if params[:user][:password].present?
-    params.require(:user).permit(permitted_params)
+    params.expect(user: [permitted_params])
   end
 end

@@ -1,20 +1,18 @@
 # frozen_string_literal: true
 
-require 'sidekiq/api'
-
 class HealthService
   def cache_ok?
-    Rails.cache.stats.present?
-  rescue StandardError => e
-    Rails.logger.error(e)
-    false
+    #   Rails.cache.stats.present?
+    # rescue StandardError => e
+    #   Rails.logger.error(e)
+    #   false
   end
 
   def jobs_ok?
-    !Sidekiq::Stats.new.queues.nil?
-  rescue StandardError => e
-    Rails.logger.error(e)
-    false
+    #   !Sidekiq::Stats.new.queues.nil?
+    # rescue StandardError => e
+    #   Rails.logger.error(e)
+    #   false
   end
 
   def db_ok?
@@ -27,8 +25,8 @@ class HealthService
 
   def to_h
     {
-      cache: cache_ok?,
-      jobs: jobs_ok?,
+      # cache: cache_ok?,
+      # jobs: jobs_ok?,
       db: db_ok?
     }
   end

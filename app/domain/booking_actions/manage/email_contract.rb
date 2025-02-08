@@ -39,7 +39,7 @@ module BookingActions
         context = { contract:, invoices: deposits }
         MailTemplate.use!(:awaiting_contract_notification, booking, to: :tenant, context:) do |mail|
           mail.attach :contract, deposits
-          mail.save! && contract.sent! && deposits.each(&:sent!)
+          mail.save! && deposits.each(&:sent!) && contract.sent!
         end
       end
 
