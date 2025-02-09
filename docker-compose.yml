@@ -54,7 +54,7 @@ services:
       main:
 
   redis:
-    image: redis:6
+    image: redis:7
     networks:
       main:
 
