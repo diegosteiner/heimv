@@ -6,6 +6,7 @@ de:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
+        categories: Mietkategorien
         concluded: Buchungsabschluss
         current_booking_states: Status
         ends_at: Bis
