@@ -80,6 +80,8 @@ de:
       payment/filter:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis
+        ref: Zahlungsreferenz
+        sort: Sortierung
     models:
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
@@ -561,6 +563,10 @@ de:
           manager: Verwaltung
           none: "-"
           readonly: Lesend
+      payment/filter:
+        sort:
+          "-paid_at": Bezahlt am (neuste zuerst)
+          paid_at: Bezahlt am (älteste zuerst)
       tarif:
         prefill_usage_methods:
           days: "× Tage"
@@ -851,7 +857,7 @@ de:
         days: Tage
         nights: Nächte
         overnight_stays: Erwartete Anzahl Übernachtungen
-        tenant_organisation: Organisation des Mieters
+        tenant_organisation: Gruppenname / Organisation
     booking_date_time:
       attributes:
         begins_at: Beginn der Belegung
@@ -1395,9 +1401,6 @@ de:
         organisation_privacy: Datenschutzerklärung der Organisation
         title: Rechtliches
       locales:
-        de: auf Deutsch
-        fr: en français
-        it: in italiano
         title: Sprachen
       manage:
         title: Organisation
@@ -1410,6 +1413,11 @@ de:
       help: Hilfe
       outbox: Postausgang
       settings: Einstellungen
+  locales:
+    de: Deutsch
+    en: English
+    fr: Français
+    it: Italiano
   manage:
     bookings:
       booking_actions:

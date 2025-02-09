@@ -1,6 +1,6 @@
 .row
-    .col
-        = f.text_field :ref
-    .col
-        = f.date_field :paid_at_after, include_blank: true
-        = f.date_field :paid_at_before, include_blank: true
+  .col= f.text_field :ref
+  .col= f.select :sort, Payment::Filter::SORTERS.keys.map { [t(_1, scope: %i[activerecord enums payment/filter sort]), _1] }, include_blank: true
+.row
+  .col= f.date_field :paid_at_after, include_blank: true
+  .col= f.date_field :paid_at_before, include_blank: true

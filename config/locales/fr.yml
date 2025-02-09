@@ -1296,9 +1296,6 @@ fr:
         organisation_privacy: Déclaration de confidentialité de l'organisation
         title: Mentions légales
       locales:
-        de: en allemand
-        fr: en français
-        it: en italien
         title: Langues
       manage:
         title: Organisation

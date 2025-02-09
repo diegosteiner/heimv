@@ -4,14 +4,15 @@ module Manage
   class PaymentsController < BaseController
     load_and_authorize_resource :booking
     load_and_authorize_resource :payment, through: :booking, shallow: true
+    before_action :set_filter, only: :index
 
     def index
-      if @booking.present?
-        @payments = @booking.payments.ordered
-      else
-        @payments = @payments.joins(:booking).where(booking: { organisation: current_organisation }).ordered
-        @payments = @payments.recent if params[:all].blank?
-      end
+      @payments = if @booking.present?
+                    @booking.payments.ordered
+                  else
+                    @payments.joins(:booking).where(booking: { organisation: current_organisation }).ordered
+                  end
+      @payments = @filter.apply(@payments)
       respond_with :manage, @payments
     end
 
@@ -62,6 +63,15 @@ module Manage
     end
 
     private
+
+    def set_filter
+      default_filter_params = { paid_at_after: (@booking.blank? ? 3.months.ago : nil) }
+      @filter = Payment::Filter.new(default_filter_params.merge(payment_filter_params || {}))
+    end
+
+    def payment_filter_params
+      params[:filter]&.permit(%w[ref paid_at_before paid_at_after sort])
+    end
 
     def bookings_for_import
       current_organisation.bookings.accessible_by(current_ability).where(concluded: false).order(ref: :ASC)
