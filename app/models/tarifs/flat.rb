@@ -35,11 +35,7 @@ module Tarifs
     Tarif.register_subtype self
 
     def unit
-      model_name.human
-    end
-
-    def prefill_usage_method
-      'flat'
+      super.presence || model_name.human
     end
   end
 end
