@@ -2,9 +2,15 @@
 
 class Payment
   class Filter < ApplicationFilter
+    SORTERS = {
+      '-paid_at' => { paid_at: :DESC },
+      'paid_at' => { paid_at: :ASC }
+    }.freeze
+
     attribute :ref
     attribute :paid_at_after, :datetime
     attribute :paid_at_before, :datetime
+    attribute :sort
 
     filter :paid do |payments|
       next payments unless paid_at_after || paid_at_before
@@ -18,6 +24,11 @@ class Payment
 
     filter :ref do |payments|
       payments.where(Payment.arel_table[:ref].matches("%#{ref}%")) if ref.present?
+    end
+
+    filter :sort do |payments|
+      sort_by = SORTERS[sort]
+      payments.reorder(sort_by) if sort_by.present?
     end
   end
 end

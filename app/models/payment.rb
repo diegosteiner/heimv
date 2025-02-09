@@ -40,7 +40,6 @@ class Payment < ApplicationRecord
   end
 
   scope :ordered, -> { order(paid_at: :DESC) }
-  scope :recent, -> { where(arel_table[:paid_at].gt(3.months.ago)) }
 
   attr_accessor :skip_journal_entries
 
