@@ -3,16 +3,28 @@
   "extends": [
     "config:recommended"
   ],
+  "schedule": [
+    "weekly"
+  ],
   "packageRules": [
     {
       "matchUpdateTypes": [
         "minor",
         "patch"
       ],
-      "groupName": "All minor and patch updates",
+      "groupName": "Minor",
       "automergeType": "branch-push",
       "prCreation": "not-pending",
       "automerge": false
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": "Major",
+      "prCreation": "immediate",
+      "automerge": false,
+      "stabilityDays": 3
     }
   ]
 }
