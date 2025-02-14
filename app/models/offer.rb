@@ -1,36 +1,4 @@
-# frozen_string_literal: true
-
-# == Schema Information
-#
-# Table name: invoices
-#
-#  id                   :bigint           not null, primary key
-#  amount               :decimal(, )      default(0.0)
-#  amount_open          :decimal(, )
-#  discarded_at         :datetime
-#  issued_at            :datetime
-#  locale               :string
-#  payable_until        :datetime
-#  payment_info_type    :string
-#  payment_ref          :string
-#  payment_required     :boolean          default(TRUE)
-#  ref                  :string
-#  sent_at              :datetime
-#  sequence_number      :integer
-#  sequence_year        :integer
-#  status               :integer          default("draft"), not null
-#  text                 :text
-#  type                 :string
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  booking_id           :uuid
-#  supersede_invoice_id :bigint
-#
-
-class Invoice < ApplicationRecord
-  include Subtypeable
-  include Discard::Model
-
+class Offer < ApplicationRecord
   locale_enum default: I18n.locale
   delegate :currency, to: :organisation
 
@@ -75,28 +43,8 @@ class Invoice < ApplicationRecord
     kept? && !skip_generate_pdf && (changed? || pdf.blank?)
   end
 
-  def set_status # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-    return if status_changed?
-    return self.status = :archived if !archived? && superseded_by_invoices.present?
-    return self.status = :sent if draft? && sent_at.present?
-    return self.status = :paid if sent? && (amount_open.negative? || amount_open.zero?)
-
-    nil
-  end
-
-  def supersede!
-    return if supersede_invoice.blank? || supersede_invoice.discarded? || archived?
-
-    self.payments = supersede_invoice.payments
-    supersede_invoice.archived!
-  end
-
-  def update_payments
-    payments.each { it.update!(booking_id:) }
-  end
-
   def sequence_number
-    self[:sequence_number] ||= organisation.key_sequences.key(::Invoice.sti_name, year: sequence_year).lease!
+    self[:sequence_number] ||= organisation.key_sequences.key(Offer.sti_name, year: sequence_year).lease!
   end
 
   def sequence_year
@@ -105,68 +53,29 @@ class Invoice < ApplicationRecord
 
   def generate_pdf
     I18n.with_locale(locale || I18n.locale) do
-      self.pdf = { io: StringIO.new(Export::Pdf::InvoicePdf.new(self).render_document),
+      self.pdf = { io: StringIO.new(Export::Pdf::OfferPdf.new(self).render_document),
                    filename:, content_type: 'application/pdf' }
     end
   end
 
   def generate_ref(force: false)
-    self.ref = RefBuilders::Invoice.new(self).generate if ref.blank? || force
+    self.ref = RefBuilders::Offer.new(self).generate if ref.blank? || force
   end
 
-  def generate_payment_ref
-    # this should never be forced
-    self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
-  end
-
-  def update_journal_entries
-    return unless organisation.accounting_settings.enabled
-
-    @journal_entry_manager ||= JournalEntry::Manager[Invoice].new(self)
-    @journal_entry_manager.handle
-  end
-
-  def paid?
-    amount_open.zero?
-  end
-
-  def recalculate
-    self.amount = invoice_parts.inject(0) { |sum, invoice_part| invoice_part.to_sum(sum) }
-    self.amount_open = amount - amount_paid
-  end
-
-  # TODO: describe why this is needed
-  def recalculate!
-    recalculate
-    save! if amount_changed? || amount_open_changed?
+  def amount
+    invoice_parts.inject(0) { |sum, invoice_part| invoice_part.to_sum(sum) }
   end
 
   def filename
     "#{self.class.model_name.human} #{ref}.pdf"
   end
 
-  def amount_paid
-    payments.sum(&:amount) || 0
-  end
-
-  def percentage_paid
-    return 1 if amount.nil? || amount.zero?
-    return 0 if amount_paid.zero?
-
-    amount / amount_paid
-  end
-
   def sent!
-    self.sent_at ||= Time.zone.now
-    super
+    update(sent_at: Time.zone.now)
   end
 
   def to_s
     ref
-  end
-
-  def payment_info
-    @payment_info ||= PaymentInfos.const_get(payment_info_type).new(self) if payment_info_type.present?
   end
 
   def suggested_invoice_parts
