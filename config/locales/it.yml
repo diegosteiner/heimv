@@ -619,37 +619,52 @@ it:
         other: Condizioni
       booking_conditions/always_apply:
         one: Sempre
+        other:
       booking_conditions/booking_attribute:
         one:
+        other:
       booking_conditions/booking_category:
         one: Categoria di affitto (condizione)
+        other:
       booking_conditions/booking_date_time:
         one:
+        other:
       booking_conditions/booking_question:
         one:
+        other:
       booking_conditions/booking_state:
         one: Stato (condizione)
+        other:
       booking_conditions/occupancy_duration:
         one: Durata dell'occupazione (condizione)
+        other:
       booking_conditions/occupiable:
         one: Oggetto in affitto  (condizione)
+        other:
       booking_conditions/tarif:
         one: Tariffa selezionata (condizione)
+        other:
       booking_conditions/tenant_attribute:
         one:
+        other:
       booking_question:
         one:
         other:
       booking_questions/check_box:
         one:
+        other:
       booking_questions/date:
         one:
+        other:
       booking_questions/integer:
         one:
+        other:
       booking_questions/string:
         one:
+        other:
       booking_questions/text:
         one:
+        other:
       booking_transition:
         one: Transizione di stato
         other: Transizioni di stato

@@ -619,37 +619,52 @@ fr:
         other: Sélecteur de tarif
       booking_conditions/always_apply:
         one: Sélecteur de tarif toujours-un
+        other:
       booking_conditions/booking_attribute:
         one: Conditions de réservation
+        other:
       booking_conditions/booking_category:
         one: Objet de la location Sélecteur de tarif
+        other:
       booking_conditions/booking_date_time:
         one:
+        other:
       booking_conditions/booking_question:
         one: Informations supplémentaires (condition)
+        other:
       booking_conditions/booking_state:
         one: Status Bedingung
+        other:
       booking_conditions/occupancy_duration:
         one: Condition de la durée de location
+        other:
       booking_conditions/occupiable:
         one: Condition de l'objet de location
+        other:
       booking_conditions/tarif:
         one: 'Condition du tarif sélectionné '
+        other:
       booking_conditions/tenant_attribute:
         one:
+        other:
       booking_question:
         one: Infos supplémentaires
         other: Informations supplémentaires
       booking_questions/check_box:
         one: Informations supplémentaires sous forme de case à cocher
+        other:
       booking_questions/date:
         one: Indication supplémentaire sous forme de date
+        other:
       booking_questions/integer:
         one: Information supplémentaire sous forme de nombre entier
+        other:
       booking_questions/string:
         one: Informations complémentaires sous forme de texte court
+        other:
       booking_questions/text:
         one: Informations complémentaires sous forme de texte
+        other:
       booking_transition:
         one: Changement de statut
         other: Changements de statut
