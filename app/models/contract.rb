@@ -98,6 +98,10 @@ class Contract < ApplicationRecord
     { io: StringIO.new(pdf.blob.download), filename:, content_type: pdf.content_type } if pdf&.blob.present?
   end
 
+  def template_context
+    TemplateContext.new(booking:, organisation:, contract: self, costs: CostEstimation.new(booking))
+  end
+
   private
 
   def set_signed_at

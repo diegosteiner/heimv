@@ -190,4 +190,8 @@ class Invoice < ApplicationRecord
   def vat_breakdown
     invoice_parts.group_by(&:vat_category).except(nil).transform_values { _1.sum(&:calculated_amount) }
   end
+
+  def template_context
+    TemplateContext.new(invoice: self, booking:, costs: CostEstimation.new(booking), organisation:)
+  end
 end

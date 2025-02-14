@@ -14,6 +14,11 @@
           i.fa.fa-unlock
 
     = f.text_area :text, class: 'rich-text-area'
+    details.mb-3
+      summary 
+        = t('manage.rich_text_templates.form.help_title')
+      = t('manage.rich_text_templates.form.help_html')
+
     = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
     = f.date_field :payable_until, lang: I18n.locale
     / = f.text_field :respite_days, inputmode: "numeric"

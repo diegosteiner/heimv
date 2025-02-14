@@ -89,12 +89,15 @@ class RichTextTemplate < ApplicationRecord
   def interpolate(context, locale: I18n.locale)
     I18n.with_locale(locale) do
       context = TemplateContext.new(context) unless context.is_a?(TemplateContext)
-      parts = [title, body].map do |part|
-        template = Liquid::Template.parse(part, environment: self.class.template_environment)
-        RichTextSanitizer.sanitize(template.render!(context.to_h))
-      end
+      parts = [title, body].map { self.class.interpolate(it, context) }
       InterpolationResult.new(*parts)
     end
+  end
+
+  def self.interpolate(text, context)
+    context = TemplateContext.new(context) unless context.is_a?(TemplateContext)
+    template = Liquid::Template.parse(text, environment: template_environment)
+    RichTextSanitizer.sanitize(template.render!(context.to_h))
   end
 
   def definition
