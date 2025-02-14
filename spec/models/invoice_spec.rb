@@ -34,8 +34,8 @@ RSpec.describe Invoice, type: :model do
   let(:invoice) { create(:invoice, organisation:) }
 
   describe '::unpaid' do
-    let!(:offer) { create(:invoice, type: Invoices::Offer) }
-    let!(:invoice) { create(:invoice) }
+    let!(:offer) { create(:invoice, :sent, type: Invoices::Offer) }
+    let!(:invoice) { create(:invoice, :sent) }
     subject(:unpaid) { described_class.unpaid }
 
     it 'does not list the offer as unpaid' do
@@ -64,9 +64,9 @@ RSpec.describe Invoice, type: :model do
       end
     end
 
-    it 'discards the old invoice' do
+    it 'archives the old invoice' do
       successor.save
-      expect(predecessor).to be_discarded
+      expect(predecessor).to be_archived
       expect(successor.type).to eq(Invoices::LateNotice.to_s)
       expect(successor.payment_ref).to eq(predecessor.payment_ref)
     end

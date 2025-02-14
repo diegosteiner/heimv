@@ -51,7 +51,9 @@ class Invoice < ApplicationRecord
   attr_accessor :skip_generate_pdf, :skip_journal_entries
 
   scope :ordered, -> { order(payable_until: :ASC, created_at: :ASC) }
-  scope :unpaid, -> { kept.where(status: :sent).where.not(arel_table[:amount_open].eq(0)) }
+  scope :unpaid, lambda {
+    kept.where(status: :sent).where.not(type: 'Invoices::Offer').where.not(arel_table[:amount_open].eq(0))
+  }
   scope :paid, -> { kept.where(arel_table[:amount_open].eq(0)) }
   scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent, -> { kept.where(sent_at: nil) }

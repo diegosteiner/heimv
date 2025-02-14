@@ -3,7 +3,7 @@
 
   fieldset[v-pre]
     = f.select :type, subtype_options_for_select(Invoice.subtypes), { include_blank: true }, readonly: true
-    = f.select :status, enum_options_for_select(Invoice, :statuses, @invoice.status), include_blank: true
+    / = f.select :status, enum_options_for_select(Invoice, :statuses, @invoice.status), include_blank: true
     = f.label :booking_id
     .row
       .col

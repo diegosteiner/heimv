@@ -37,6 +37,10 @@ FactoryBot.define do
       skip_invoice_parts { false }
     end
 
+    trait :sent do
+      sent_at { 1.day.ago }
+    end
+
     after(:build) do |invoice, evaluator|
       next if evaluator.skip_invoice_parts
 
