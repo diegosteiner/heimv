@@ -289,7 +289,7 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     locale (2.1.4)
-    logger (1.6.5)
+    logger (1.6.6)
     loofah (2.24.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -346,13 +346,14 @@ GEM
     parser (3.3.7.1)
       ast (~> 2.4.1)
       racc
-    pdf-core (0.9.0)
+    pdf-core (0.10.0)
     pg (1.5.9)
     pp (0.6.2)
       prettyprint
-    prawn (2.4.0)
-      pdf-core (~> 0.9.0)
-      ttfunk (~> 1.7)
+    prawn (2.5.0)
+      matrix (~> 0.4)
+      pdf-core (~> 0.10.0)
+      ttfunk (~> 1.8)
     prawn-markup (1.0.1)
       nokogiri
       prawn
@@ -380,7 +381,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.9)
+    rack (3.1.10)
     rack-mini-profiler (3.3.1)
       rack (>= 1.2.0)
     rack-proxy (0.7.7)
@@ -535,7 +536,7 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sorbet-runtime (0.5.11812)
+    sorbet-runtime (0.5.11826)
     squasher (0.8.0)
     stackprof (0.2.27)
     statesman (12.1.0)
@@ -558,7 +559,8 @@ GEM
     timeout (0.4.3)
     translation (1.41)
       gettext (~> 3.2, >= 3.2.5, <= 3.4.9)
-    ttfunk (1.7.0)
+    ttfunk (1.8.0)
+      bigdecimal (~> 3.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unaccent (0.4.0)
@@ -643,7 +645,7 @@ DEPENDENCIES
   net-pop
   net-smtp
   pg
-  prawn (~> 2.4.0)
+  prawn (~> 2.5.0)
   prawn-markup
   prawn-table
   pry-rails
@@ -675,7 +677,7 @@ DEPENDENCIES
   store_model
   thruster
   translation
-  ttfunk (~> 1.7.0)
+  ttfunk (~> 1.8.0)
   vite_rails
 
 RUBY VERSION
