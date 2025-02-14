@@ -1,5 +1,9 @@
-import { OccupancyWindow, OccupancyWindowJson, parse as parseOcupancyWindow } from "../models/OccupancyWindow";
-import { Occupiable, Organisation } from "../types";
+import {
+  type OccupancyWindow,
+  type OccupancyWindowJson,
+  parse as parseOcupancyWindow,
+} from "../models/OccupancyWindow";
+import type { Occupiable, Organisation } from "../types";
 
 export class ApiClient {
   public organisationId: Organisation["slug"];
@@ -7,7 +11,7 @@ export class ApiClient {
 
   constructor(organisationId: Organisation["slug"]) {
     this.organisationId = organisationId;
-    this.basePath = (organisationId && "/" + organisationId) || "";
+    this.basePath = (organisationId && `/${organisationId}`) || "";
   }
 
   public async getOrganisation(): Promise<Organisation> {

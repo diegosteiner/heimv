@@ -1,4 +1,4 @@
-import { PropsWithChildren, useContext } from "react";
+import { type PropsWithChildren, useContext } from "react";
 import { CalendarViewContext } from "./Calendar";
 
 interface CalendarNavProps {
@@ -14,15 +14,15 @@ export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChil
     <nav className="calendar-nav">
       <div className="actions">
         {(onToday && (
-          <button className="today active" onClick={() => onToday()}>
+          <button type="button" className="today active" onClick={() => onToday()}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
               <rect width="75" height="26" x="13" y="13" ry="3" />
               <rect width="75" height="75" x="13" y="13" ry="3" fill="none" stroke="black" strokeWidth="10" />
             </svg>
           </button>
-        )) || <div></div>}
-        <button>
-          <span className="fa fa-question-circle"></span>
+        )) || <div />}
+        <button type="button">
+          <span className="fa fa-question-circle" />
         </button>
       </div>
       <div className="pages">
@@ -39,7 +39,7 @@ export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChil
         </button>
       </div>
       <div className="views">
-        <button className={view == "months" ? "active" : ""} onClick={() => setView && setView("months")}>
+        <button type="button" className={view === "months" ? "active" : ""} onClick={() => setView?.("months")}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <rect width="33" height="33" x="13" y="13" ry="3" />
             <rect width="33" height="33" x="56" y="13" ry="3" />
@@ -47,7 +47,7 @@ export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChil
             <rect width="33" height="33" x="56" y="56" ry="3" />
           </svg>
         </button>
-        <button className={view == "year" ? "active" : ""} onClick={() => setView && setView("year")}>
+        <button type="button" className={view === "year" ? "active" : ""} onClick={() => setView?.("year")}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <rect width="75" height="15" x="13" y="13" ry="2" />
             <rect width="75" height="15" x="13" y="40" ry="2" />

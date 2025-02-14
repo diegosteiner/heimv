@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BookingJson, parse } from "../../models/Booking";
+import { type BookingJson, parse } from "../../models/Booking";
 import OccupancySelect from "../occupancies/OccupancySelect";
 import OrganisationProvider from "../organisation/OrganisationProvider";
 
@@ -30,7 +30,7 @@ export default function BookingOccupancyForm(props: BookingOccupancyFormProps) {
           defaultEndsAtTime={props.defaultEndsAtTime}
           occupiableInvalidFeedback={props.occupiableInvalidFeedback}
           occupancyInvalidFeedback={props.occupancyInvalidFeedback}
-        ></OccupancySelect>
+        />
       </OrganisationProvider>
     </React.StrictMode>
   );

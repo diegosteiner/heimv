@@ -5,7 +5,7 @@ import { initReactI18next } from "react-i18next";
 import de_translations from "../../../config/locales/de.yml";
 import fr_translations from "../../../config/locales/fr.yml";
 import it_translations from "../../../config/locales/it.yml";
-import { TranslatedString } from "../types";
+import type { TranslatedString } from "../types";
 
 const resources = {
   de: { translation: de_translations.de },
@@ -31,5 +31,5 @@ export default i18n;
 
 export function translatedString(translations: TranslatedString, i18n: I18nType) {
   const translation = translations[i18n.language as keyof TranslatedString];
-  return translation && translation.length >= 0 ? translation : translations["de"];
+  return translation && translation.length >= 0 ? translation : translations.de;
 }

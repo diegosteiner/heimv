@@ -1,11 +1,11 @@
 import { isSameDay, parseISO } from "date-fns";
-import { memo } from "react";
+import { type ReactElement, memo } from "react";
 
-export type DateElementFactory = (dateString: string, label: (date: Date) => string) => React.ReactElement;
+export type DateElementFactory = (dateString: string, label: (date: Date) => string) => ReactElement;
 
 interface CalendarDateProps {
   dateString: string;
-  children?: React.ReactElement;
+  children?: ReactElement;
 }
 export const CalendarDate = memo(function CalendarDate({ dateString, children }: CalendarDateProps) {
   const isToday = isSameDay(parseISO(dateString), new Date());

@@ -10,7 +10,7 @@ import {
 } from "date-fns";
 import { memo } from "react";
 import { materializedWeekdays, monthNameFormatter, parseDate } from "../../services/date";
-import { DateElementFactory } from "./CalendarDate";
+import type { DateElementFactory } from "./CalendarDate";
 
 interface CalendarMonthProps {
   dateString: string;
@@ -32,7 +32,8 @@ const CalendarMonth = memo(function CalendarMonth({ dateString, dateElementFacto
       </header>
       <div className="dates">
         {Array.from(Array(monthStartsAfter)).map((_e, i) => (
-          <div key={i} className="date spacer"></div>
+          // biome-ignore lint/correctness/useJsxKeyInIterable: placeholders
+          <div className="date spacer" />
         ))}
         {eachDayOfInterval({ start: date, end: endOfMonth(date) }).map((date) => {
           const dateString = formatISO(date, { representation: "date" });
@@ -56,13 +57,7 @@ function MonthsCalendar({ firstDate, months, dateElementFactory }: MonthsCalenda
       <div className="months">
         {eachMonthOfInterval({ start: firstDate, end: addMonths(firstDate, (months || 8) - 1) }).map((date) => {
           const dateString = formatISO(date, { representation: "date" });
-          return (
-            <CalendarMonth
-              dateString={dateString}
-              key={dateString}
-              dateElementFactory={dateElementFactory}
-            ></CalendarMonth>
-          );
+          return <CalendarMonth dateString={dateString} key={dateString} dateElementFactory={dateElementFactory} />;
         })}
       </div>
     </div>

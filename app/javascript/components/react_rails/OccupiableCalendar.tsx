@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ViewType } from "../calendar/Calendar";
+import type { ViewType } from "../calendar/Calendar";
 import OccupancyOverviewCalendar from "../occupancies/OccupancyOverviewCalendar";
 import { OccupancyWindowProvider } from "../occupancies/OccupancyWindowContext";
 import OrganisationProvider from "../organisation/OrganisationProvider";
@@ -25,11 +25,7 @@ export default function OccupiableCalendar({
     <React.StrictMode>
       <OrganisationProvider org={org}>
         <OccupancyWindowProvider occupiableIds={occupiableIds} manage={manage}>
-          <OccupancyOverviewCalendar
-            defaultView={defaultView}
-            months={months}
-            occupancyAtUrl={occupancyAtUrl}
-          ></OccupancyOverviewCalendar>
+          <OccupancyOverviewCalendar defaultView={defaultView} months={months} occupancyAtUrl={occupancyAtUrl} />
         </OccupancyWindowProvider>
       </OrganisationProvider>
     </React.StrictMode>

@@ -1,9 +1,9 @@
 import { isFirstDayOfMonth, isWithinInterval } from "date-fns";
 import { addHours, endOfDay, isBefore, startOfDay } from "date-fns";
 import { isAfter } from "date-fns";
-import { MouseEventHandler, useMemo } from "react";
-import { Occupancy, findMostRelevantOccupancy } from "../../models/Occupancy";
-import { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
+import { type MouseEventHandler, useMemo } from "react";
+import { type Occupancy, findMostRelevantOccupancy } from "../../models/Occupancy";
+import type { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
 import { parseDate } from "../../services/date";
 import { OccupancyPopover } from "./OccupancyPopover";
 
@@ -22,7 +22,7 @@ export function OccupiedCalendarDate({ dateString, occupancyWindow, label }: Occ
   return useMemo(
     () => (
       <div className={classNames.filter((className) => className).join(" ")} aria-haspopup="true">
-        <OccupancyPopover dateString={dateString} occupancyWindow={occupancyWindow}></OccupancyPopover>
+        <OccupancyPopover dateString={dateString} occupancyWindow={occupancyWindow} />
         <svg viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
           {Array.from(slots.allday).some(Boolean) && (
             <rect
@@ -32,7 +32,7 @@ export function OccupiedCalendarDate({ dateString, occupancyWindow, label }: Occ
               width="48"
               height="48"
               fill={findMostRelevantOccupancy(slots.allday)?.color}
-            ></rect>
+            />
           )}
           {Array.from(slots.forenoon).some(Boolean) && (
             <polygon
@@ -52,7 +52,7 @@ export function OccupiedCalendarDate({ dateString, occupancyWindow, label }: Occ
         <div className="label">{label}</div>
       </div>
     ),
-    [date, occupancies],
+    [slots, label, occupancyWindow, dateString],
   );
 }
 
@@ -62,7 +62,7 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
   // const dayEnd = endOfDay(date);
   const slots = { allday: new Set<Occupancy>(), forenoon: new Set<Occupancy>(), afternoon: new Set<Occupancy>() };
 
-  occupancies.forEach((occupancy) => {
+  for (const occupancy of Array.from(occupancies)) {
     const { beginsAt, endsAt } = occupancy;
 
     // const beginsBeforeDayStart = isBefore(beginsAt, dayStart);
@@ -77,16 +77,25 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
 
     // Single day booking
     // if (beginsAfterDayStart && beginsBeforeDayMid && endsAfterDayMid && endsBeforeDayEnd)
-    //   return slots.allday.add(occupancy);
+    //   slots.allday.add(occupancy); break;
 
     // Indicate change of tenant
-    // if (beginsBeforeDayStart && endsAfterDayMid && endsBeforeDayEnd) return slots.forenoon.add(occupancy);
-    // if (beginsAfterDayStart && beginsBeforeDayMid && endsAfterDayEnd) return slots.afternoon.add(occupancy);
+    // if (beginsBeforeDayStart && endsAfterDayMid && endsBeforeDayEnd) break slots.forenoon.add(occupancy);
+    // if (beginsAfterDayStart && beginsBeforeDayMid && endsAfterDayEnd) { slots.afternoon.add(occupancy); break; }
 
-    if (beginsBeforeDayMid && endsAfterDayMid) return slots.allday.add(occupancy);
-    if (beginsBeforeDayMid && endsAfterDayStart) return slots.forenoon.add(occupancy);
-    if (!beginsBeforeDayMid && endsAfterDayMid) return slots.afternoon.add(occupancy);
-  });
+    if (beginsBeforeDayMid && endsAfterDayMid) {
+      slots.allday.add(occupancy);
+      break;
+    }
+    if (beginsBeforeDayMid && endsAfterDayStart) {
+      slots.forenoon.add(occupancy);
+      break;
+    }
+    if (!beginsBeforeDayMid && endsAfterDayMid) {
+      slots.afternoon.add(occupancy);
+      break;
+    }
+  }
 
   return slots;
 }
