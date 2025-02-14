@@ -18,6 +18,7 @@
 #  sent_at              :datetime
 #  sequence_number      :integer
 #  sequence_year        :integer
+#  status               :integer          default("draft"), not null
 #  text                 :text
 #  type                 :string
 #  created_at           :datetime         not null
@@ -32,12 +33,12 @@ RSpec.describe Invoice, type: :model do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:invoice) { create(:invoice, organisation:) }
 
-  describe '::unsettled' do
+  describe '::unpaid' do
     let!(:offer) { create(:invoice, type: Invoices::Offer) }
     let!(:invoice) { create(:invoice) }
-    subject(:unsettled) { described_class.unsettled }
+    subject(:unpaid) { described_class.unpaid }
 
-    it 'does not list the offer as unsettled' do
+    it 'does not list the offer as unpaid' do
       is_expected.to include(invoice)
       is_expected.not_to include(offer)
     end

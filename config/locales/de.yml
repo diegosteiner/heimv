@@ -511,6 +511,12 @@ de:
           price_list: Preisliste
           privacy_statement: Datenschutzerklärung
           terms: Geschäftsbedingungen / AGB
+      invoice:
+        statuses:
+          archived: Archiviert
+          draft: Entwurf
+          paid: Bezahlt
+          sent: Gestellt
       invoice/filter:
         paid:
           only_paid: Nur beglichene

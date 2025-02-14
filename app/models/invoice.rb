@@ -18,6 +18,7 @@
 #  sent_at              :datetime
 #  sequence_number      :integer
 #  sequence_year        :integer
+#  status               :integer          default("draft"), not null
 #  text                 :text
 #  type                 :string
 #  created_at           :datetime         not null
@@ -45,45 +46,51 @@ class Invoice < ApplicationRecord
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
+  enum :status, { draft: 0, sent: 1, paid: 2, archived: 3 }
+
   attr_accessor :skip_generate_pdf, :skip_journal_entries
 
-  scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
-  scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
-  scope :unsettled, -> { kept.where.not(type: 'Invoices::Offer').where.not(arel_table[:amount_open].eq(0)) }
-  scope :refund,    -> { kept.where(arel_table[:amount_open].lt(0)) }
-  scope :paid,      -> { kept.where(arel_table[:amount_open].lteq(0)) }
-  scope :sent,      -> { where.not(sent_at: nil) }
-  scope :unsent,    -> { kept.where(sent_at: nil) }
-  scope :overdue,   ->(at = Time.zone.today) { kept.where(arel_table[:payable_until].lteq(at)) }
-  scope :of,        ->(booking) { where(booking:) }
+  scope :ordered, -> { order(payable_until: :ASC, created_at: :ASC) }
+  scope :unpaid, -> { kept.where(status: :sent).where.not(arel_table[:amount_open].eq(0)) }
+  scope :paid, -> { kept.where(arel_table[:amount_open].eq(0)) }
+  scope :sent, -> { where.not(sent_at: nil) }
+  scope :unsent, -> { kept.where(sent_at: nil) }
+  scope :overdue, ->(at = Time.zone.today) { kept.where(status: :sent).where(arel_table[:payable_until].lteq(at)) }
+  scope :of, ->(booking) { where(booking:) }
   scope :with_default_includes, -> { includes(%i[invoice_parts payments organisation]) }
 
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
 
-  before_save :sequence_number, :generate_ref, :generate_payment_ref, :recalculate
+  before_save :sequence_number, :generate_ref, :generate_payment_ref, :recalculate, :set_status
   before_save :generate_pdf, if: :generate_pdf?
   after_create :supersede!
   after_save :recalculate!, :update_payments
   after_save :update_journal_entries, unless: :skip_journal_entries
 
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
-  validate do
-    errors.add(:supersede_invoice_id, :invalid) if supersede_invoice && supersede_invoice.organisation != organisation
-  end
 
   def generate_pdf?
     kept? && !skip_generate_pdf && (changed? || pdf.blank?)
   end
 
+  def set_status # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    return if status_changed?
+    return self.status = :archived if !archived? && superseded_by_invoices.present?
+    return self.status = :sent if draft? && sent_at.present?
+    return self.status = :paid if sent? && (amount_open.negative? || amount_open.zero?)
+
+    nil
+  end
+
   def supersede!
-    return if supersede_invoice.blank? || supersede_invoice.discarded?
+    return if supersede_invoice.blank? || supersede_invoice.discarded? || archived?
 
     self.payments = supersede_invoice.payments
-    supersede_invoice.discard!
+    supersede_invoice.archived!
   end
 
   def update_payments
-    payments.each { _1.update!(booking_id:) }
+    payments.each { it.update!(booking_id:) }
   end
 
   def sequence_number
@@ -118,23 +125,7 @@ class Invoice < ApplicationRecord
   end
 
   def paid?
-    refund? || amount_open.zero?
-  end
-
-  def sent?
-    sent_at.present?
-  end
-
-  def unsettled?
-    !settled?
-  end
-
-  def settled?
     amount_open.zero?
-  end
-
-  def refund?
-    amount_open.negative?
   end
 
   def recalculate

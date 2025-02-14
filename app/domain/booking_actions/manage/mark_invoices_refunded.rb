@@ -16,7 +16,7 @@ module BookingActions
       end
 
       def refundable_invoices
-        booking.invoices.kept.refund.unsettled
+        booking.invoices.kept.where(Invoice.arel_table[:amount_open].lt(0))
       end
     end
   end

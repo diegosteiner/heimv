@@ -3,6 +3,7 @@
 
   fieldset[v-pre]
     = f.select :type, subtype_options_for_select(Invoice.subtypes), { include_blank: true }, readonly: true
+    = f.select :status, enum_options_for_select(Invoice, :statuses, @invoice.status), include_blank: true
     = f.label :booking_id
     .row
       .col
@@ -13,13 +14,14 @@
         label.btn.btn-default.mb-3 for="toggle_invoice_booking_id" 
           i.fa.fa-unlock
 
+    = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
+
     = f.text_area :text, class: 'rich-text-area'
     details.mb-3
       summary 
         = t('manage.rich_text_templates.form.help_title')
       = t('manage.rich_text_templates.form.help_html')
 
-    = f.date_field :issued_at, lang: I18n.locale, help: t('optional')
     = f.date_field :payable_until, lang: I18n.locale
     / = f.text_field :respite_days, inputmode: "numeric"
 
