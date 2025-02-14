@@ -1,5 +1,9 @@
 # Changelog
 
+- Fix: Interpolate rich text template variables not before creation but before generating the pdf
+
+## 25.2.2
+
 ## 25.2.1
 
 - Feature: Add a seperate view for bookings for the tenant

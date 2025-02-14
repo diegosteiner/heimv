@@ -24,7 +24,7 @@ module BookingStates
     end
 
     infer_transition(to: :completed) do |booking|
-      !booking.invoices.kept.unsettled.exists?
+      !booking.invoices.unpaid.exists?
     end
 
     def relevant_time

@@ -28,7 +28,7 @@ module BookingStates
     end
 
     infer_transition(to: :completed) do |booking|
-      !booking.invoices.kept.sent.unsettled.exists?
+      !booking.invoices.unpaid.exists?
     end
 
     infer_transition(to: :payment_overdue) do |booking|

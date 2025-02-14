@@ -35,7 +35,7 @@ module BookingActions
       protected
 
       def deposits
-        Invoices::Deposit.of(booking).kept.unpaid
+        Invoices::Deposit.of(booking).unpaid
       end
     end
   end

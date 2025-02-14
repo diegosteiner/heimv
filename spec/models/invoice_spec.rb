@@ -18,6 +18,7 @@
 #  sent_at              :datetime
 #  sequence_number      :integer
 #  sequence_year        :integer
+#  status               :integer          default("draft"), not null
 #  text                 :text
 #  type                 :string
 #  created_at           :datetime         not null
@@ -32,12 +33,12 @@ RSpec.describe Invoice, type: :model do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:invoice) { create(:invoice, organisation:) }
 
-  describe '::unsettled' do
-    let!(:offer) { create(:invoice, type: Invoices::Offer) }
-    let!(:invoice) { create(:invoice) }
-    subject(:unsettled) { described_class.unsettled }
+  describe '::unpaid' do
+    let!(:offer) { create(:invoice, :sent, type: Invoices::Offer) }
+    let!(:invoice) { create(:invoice, :sent) }
+    subject(:unpaid) { described_class.unpaid }
 
-    it 'does not list the offer as unsettled' do
+    it 'does not list the offer as unpaid' do
       is_expected.to include(invoice)
       is_expected.not_to include(offer)
     end
@@ -63,9 +64,9 @@ RSpec.describe Invoice, type: :model do
       end
     end
 
-    it 'discards the old invoice' do
+    it 'archives the old invoice' do
       successor.save
-      expect(predecessor).to be_discarded
+      expect(predecessor).to be_archived
       expect(successor.type).to eq(Invoices::LateNotice.to_s)
       expect(successor.payment_ref).to eq(predecessor.payment_ref)
     end

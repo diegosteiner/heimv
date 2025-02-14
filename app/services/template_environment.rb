@@ -24,10 +24,6 @@ class TemplateEnvironment
       ActiveSupport::NumberHelper.number_to_currency(value, **({ unit: } if unit.present?))
     end
 
-    def as_liquid(value)
-      "{{ #{value} }}"
-    end
-
     def booking_condition(value, type, *args)
       # compare_value = args.pop
       # compare_operator = args.pop

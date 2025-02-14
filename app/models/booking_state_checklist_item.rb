@@ -22,11 +22,11 @@ class BookingStateChecklistItem
 
     invoices_settled: lambda do |booking|
       booking.invoices.kept.ordered.map do |invoice|
-        label_key = invoice.refund? ? :invoice_refunded : :invoice_paid
+        label_key = invoice.amount_open.negative? ? :invoice_refunded : :invoice_paid
         label_invoice = "#{invoice.class.model_name.human} #{invoice.ref}"
         BookingStateChecklistItem.new(key: :invoice_settled, context: { booking: },
                                       label: BookingStateChecklistItem.translate(label_key, invoice: label_invoice),
-                                      checked: invoice.settled?,
+                                      checked: invoice.paid?,
                                       url: proc { manage_booking_invoices_path(_1.booking) })
       end
     end,

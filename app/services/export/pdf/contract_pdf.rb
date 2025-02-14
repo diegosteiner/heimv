@@ -45,7 +45,8 @@ module Export
 
       to_render do
         special_tokens = { TARIFS: -> { render_tarifs_table } }
-        Renderables::RichText.split(@contract.text, special_tokens).each { render _1 }
+        text = RichTextTemplate.interpolate(@contract.text, @contract.template_context)
+        Renderables::RichText.split(text, special_tokens).each { render it }
       end
 
       to_render do

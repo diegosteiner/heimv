@@ -18,6 +18,7 @@
 #  sent_at              :datetime
 #  sequence_number      :integer
 #  sequence_year        :integer
+#  status               :integer          default("draft"), not null
 #  text                 :text
 #  type                 :string
 #  created_at           :datetime         not null

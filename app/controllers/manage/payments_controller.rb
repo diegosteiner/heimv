@@ -82,7 +82,7 @@ module Manage
     end
 
     def invoices_for_import
-      current_organisation.invoices.accessible_by(current_ability).kept.unsettled.order(ref: :ASC)
+      current_organisation.invoices.accessible_by(current_ability).unpaid.order(ref: :ASC)
     end
 
     def payment_params

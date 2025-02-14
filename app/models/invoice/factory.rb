@@ -49,17 +49,7 @@ class Invoice
 
     def text_from_template(invoice)
       key = "#{invoice.model_name.param_key}_text"
-      invoice.organisation.rich_text_templates.enabled.by_key(key)
-             &.interpolate(template_context(invoice), locale: invoice.locale)
-             &.body
-    end
-
-    def template_context(invoice)
-      TemplateContext.new(
-        invoice:, booking: invoice.booking,
-        costs: CostEstimation.new(invoice.booking),
-        organisation: invoice.booking.organisation
-      )
+      invoice.organisation.rich_text_templates.enabled.by_key(key)&.body
     end
 
     def payable_until(invoice)

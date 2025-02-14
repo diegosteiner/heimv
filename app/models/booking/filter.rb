@@ -3,7 +3,7 @@
 class Booking
   class Filter < ApplicationFilter
     attribute :q
-    attribute :categories
+    attribute :categories, default: -> { [] }
     attribute :homes, default: -> { [] }
     attribute :occupiables, default: -> { [] }
     attribute :current_booking_states, default: -> { [] }
@@ -45,10 +45,10 @@ class Booking
     end
 
     filter :categories do |bookings|
-      categories = Array.wrap(categories).compact_blank
-      next if categories.blank?
+      relevant_categories = Array.wrap(categories).compact_blank
+      next if relevant_categories.blank?
 
-      category_ids = BookingCategory.where(key: categories).pluck(:id) + categories
+      category_ids = BookingCategory.where(key: relevant_categories).pluck(:id) + relevant_categories
       bookings.where(booking_category_id: category_ids)
     end
 

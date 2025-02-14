@@ -6,6 +6,7 @@ de:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
+        categories: Mietkategorien
         concluded: Buchungsabschluss
         current_booking_states: Status
         ends_at: Bis
@@ -510,6 +511,12 @@ de:
           price_list: Preisliste
           privacy_statement: Datenschutzerklärung
           terms: Geschäftsbedingungen / AGB
+      invoice:
+        statuses:
+          archived: Archiviert
+          draft: Entwurf
+          paid: Bezahlt
+          sent: Gestellt
       invoice/filter:
         paid:
           only_paid: Nur beglichene
