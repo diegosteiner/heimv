@@ -53,13 +53,14 @@ services:
 
   selenium:
     image: selenium/standalone-chrome:119.0
+    shm_size: 1gb
     logging:
       driver: none
     networks:
       selenium:
 
   db:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -67,12 +68,12 @@ services:
       POSTGRES_PASSWORD: postgres
 
   mail:
-    image: tophfr/mailcatcher
+    image: sj26/mailcatcher
     ports:
       - "1080:80"
 
   redis:
-    image: redis:6
+    image: valkey/valkey
 
 volumes:
   bundle:

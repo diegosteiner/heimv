@@ -24,6 +24,7 @@ RUN apk add --update build-base \
     musl musl-utils musl-locales
 
 USER rails:rails
+ENV BINDING=0.0.0.0
 
 ### === test === ###                 
 FROM development AS test
