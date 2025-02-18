@@ -103,6 +103,8 @@ class Booking < ApplicationRecord
   end
   validate on: %i[public_create public_update agent_update] do
     errors.add(:occupiable_ids, :occupancy_conflict) if occupancies.any?(&:conflicting?)
+    window = organisation.settings.booking_window
+    errors.add(:begins_at, :too_far_in_future) if begins_at_changed? && window && begins_at&.>(window.from_now)
   end
 
   scope :ordered, -> { order(begins_at: :ASC) }
