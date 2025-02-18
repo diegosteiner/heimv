@@ -34,8 +34,8 @@ jobs:
           load: true
           push: false
           target: test
-          tags: 
-            - ghcr.io/${{ github.repository }}:${{ github.ref_name }}-test
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.ref_name }}-test
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -46,8 +46,8 @@ jobs:
           load: true
           push: false
           target: production
-          tags: 
-            - ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
     
@@ -68,8 +68,8 @@ jobs:
           load: true
           push: false
           target: test
-          tags: 
-            - ghcr.io/${{ github.repository }}:${{ github.ref_name }}-test
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.ref_name }}-test
           cache-from: type=gha
 
       - name: docker build target
@@ -79,8 +79,8 @@ jobs:
           load: true
           push: false
           target: production
-          tags: 
-            - ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           cache-from: type=gha
       
       - name: migrate
@@ -130,8 +130,8 @@ jobs:
           load: true
           push: true
           target: production
-          tags: 
-            - ghcr.io/${{ github.repository }}:${{ github.ref_name }}-test
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
