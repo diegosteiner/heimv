@@ -1,0 +1,7 @@
+#!/bin/sh
+
+bundle exec rubocop -D -a -c .rubocop.yml || exit 1
+bundle exec i18n-tasks health de || exit 1
+bin/rspec ./spec --tag ~@type:feature || exit 1
+yarn run check:lint
+bundle exec bundle-audit --update || exit 1

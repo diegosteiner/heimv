@@ -10,7 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -18,8 +17,115 @@ jobs:
       - name: buildx
         uses: docker/setup-buildx-action@master
 
-      - name: prepare artifacts
-        run: mkdir -p artifacts
+      - name: docker build target
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          target: production
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: local/heimv-production
+    
+  check-specs:
+    runs-on: ubuntu-latest
+    needs: 
+      - build
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: buildx
+        uses: docker/setup-buildx-action@master
+
+      - name: docker build test
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          push: false
+          target: test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: local/heimv-test
+
+      - name: run specs
+        run: docker compose --file docker-compose.ci.yml run e2e_test bin/ci
+
+  check-e2e:
+    runs-on: ubuntu-latest
+    needs: 
+      - build
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: buildx
+        uses: docker/setup-buildx-action@master
+
+      - name: docker build test
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          push: false
+          target: test
+          cache-from: type=gha
+          tags: local/heimv-test
+
+      - name: docker build target
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          push: false
+          target: production
+          cache-from: type=gha
+          tags: local/heimv-production
+
+      - name: start target
+        run: docker compose --file docker-compose.ci.yml up -d e2e_target
+      
+      - name: migrate
+        run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
+
+      - name: run specs
+        run: docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature || exit 1
+
+      - name: stop target
+        run: docker compose --file docker-compose.ci.yml down --remove-orphans
+
+      - if: failure()
+        name: prepare artifacts
+        run: | 
+          mkdir -p artifacts
+          docker compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
+          docker cp $(docker compose --file docker-compose.ci.yml ps -qa e2e_test | head -n1):/rails/tmp ./artifacts/tmp
+
+      - if: failure()
+        name: upload artifacts
+        uses: actions/upload-artifact@master
+        with:
+          name: artifacts
+          path: artifacts
+
+  push:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    needs: 
+      - build
+      - check-specs
+      - check-e2e
+    steps:
+      - name: buildx
+        uses: docker/setup-buildx-action@master
+
+      - name: docker login
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: update version
         run: |
@@ -31,65 +137,12 @@ jobs:
             echo "${ref} @${sha}" >> VERSION
           fi
 
-      - name: docker login
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: docker build test
+      - name: push image
         uses: docker/build-push-action@v6
         with:
           context: .
-          load: true
-          push: false
-          target: test
-          tags: ghcr.io/${{ github.repository }}-test:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: docker build target
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          load: true
-          push: false
+          load: false
+          push: true
           target: production
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
-          # build-args:
-          #   FOOTER_VERSION: "${{ github.ref_name }}"
-
-      - name: migrate
-        run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
-
-      - name: migrate
-        run: docker compose --file docker-compose.ci.yml up -d e2e_target
-
-      - name: bin/check
-        run: docker compose --file docker-compose.ci.yml run e2e_test bin/check
-
-      - if: github.event_name != 'pull_request'
-        name: docker tag
-        run: docker tag ghcr.io/${{ github.repository }}:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-
-      - if: github.event_name != 'pull_request'
-        name: docker push
-        run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-
-      - if: failure()
-        name: dump log
-        run: docker compose --file docker-compose.ci.yml logs > ./artifacts/docker-compose.ci.log
-
-      - if: failure()
-        name: dump tmp
-        run: docker cp $(docker compose --file docker-compose.ci.yml ps -qa e2e_test | head -n1):/rails/tmp ./artifacts/tmp
-
-      - if: failure()
-        name: upload artifacts
-        uses: actions/upload-artifact@master
-        with:
-          name: artifacts
-          path: artifacts
