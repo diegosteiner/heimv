@@ -55,6 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: 
       - build
+      - check-specs
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -89,7 +90,7 @@ jobs:
       - name: migrate
         run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
 
-      - name: run specs
+      - name: run e2e specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature || exit 1
 
       - name: stop target

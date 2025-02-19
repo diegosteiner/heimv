@@ -87,7 +87,12 @@ module Manage
     end
 
     def set_filter
-      @filter = Booking::Filter.new(default_booking_filter_params.merge(booking_filter_params))
+      default_filter_params = {
+        concluded: :inconcluded,
+        current_booking_states: current_organisation.booking_flow_class.displayed_by_default
+      }.with_indifferent_access
+
+      @filter = Booking::Filter.new(default_filter_params.merge(booking_filter_params || {}))
     end
 
     def process_booking_question_responses
@@ -113,11 +118,6 @@ module Manage
     def booking_question_responses_params
       params[:booking]&.permit(booking_question_responses_attributes: %i[booking_question_id value])
                       &.fetch(:booking_question_responses_attributes, nil)
-    end
-
-    def default_booking_filter_params
-      { 'concluded' => 'inconcluded',
-        'current_booking_states' => current_organisation.booking_flow_class.displayed_by_default }
     end
 
     class Import < Import::ApplicationImport

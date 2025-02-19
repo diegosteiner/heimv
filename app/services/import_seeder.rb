@@ -41,7 +41,7 @@ class ImportSeeder
     organisation.tap(&:save!)
   end
 
-  def users(organisation, users: nil)
+  def users(organisation, users: nil) # rubocop:disable Metrics/MethodLength
     onboarding = OnboardingService.new(organisation)
     users ||= [
       { email: 'admin@heimv.local', role: :admin, password: 'heimverwaltung' },
@@ -51,8 +51,9 @@ class ImportSeeder
 
     users.map do |user|
       Rails.logger.info "Adding user #{user[:email]} as #{user[:role]}"
-      onboarding.add_or_invite_user!(role: user[:role], email: user[:email], password: user[:password])
+      onboarding.add_or_invite_user!(**user)
     end
+    User.find_by(email: 'admin@heimv.local').update(role_admin: true)
   end
 
   def bookings(home)

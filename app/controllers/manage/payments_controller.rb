@@ -65,7 +65,7 @@ module Manage
     private
 
     def set_filter
-      default_filter_params = { paid_at_after: (@booking.blank? ? 3.months.ago : nil) }
+      default_filter_params = { paid_at_after: (@booking.blank? ? 3.months.ago : nil) }.with_indifferent_access
       @filter = Payment::Filter.new(default_filter_params.merge(payment_filter_params || {}))
     end
 

@@ -28,7 +28,7 @@ module Manage
     # end
 
     def update
-      @journal_entry.update(params.expect(journal_entry: [:processed]))
+      @journal_entry.update(journal_entry_params)
       respond_with :manage, @journal_entry, location: manage_journal_entries_path
     end
 
@@ -55,7 +55,12 @@ module Manage
     private
 
     def set_filter
-      @filter = JournalEntry::Filter.new(**(journal_entry_filter_params || {}))
+      default_filter_params = { processed: false }.with_indifferent_access
+      @filter = JournalEntry::Filter.new(default_filter_params.merge(journal_entry_filter_params || {}))
+    end
+
+    def journal_entry_params
+      params.expect(journal_entry: [:processed])
     end
 
     def journal_entry_filter_params
