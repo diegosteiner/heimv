@@ -50,7 +50,7 @@ USER rails:rails
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_WITHOUT="development" \
-    NODE_ENV="production"  
+    NODE_ENV="production" \
     APP_HOST="localhost"
 
 COPY --chown=rails:rails Gemfile Gemfile.lock ./
