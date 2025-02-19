@@ -43,7 +43,7 @@ services:
       selenium:
 
   db:
-    image: postgres:16-alpine
+    image: postgres:17
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:

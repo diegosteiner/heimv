@@ -17,16 +17,6 @@ jobs:
       - name: buildx
         uses: docker/setup-buildx-action@master
 
-      - name: update version
-        run: |
-          if [ "${GITHUB_REF_TYPE}" == "tag" ]; then
-            echo "${GITHUB_REF_NAME}" > VERSION
-          else
-            ref=$(echo ${GITHUB_REF#refs/heads/})
-            sha=$(echo ${GITHUB_SHA} | cut -c1-7)
-            echo "${ref} @${sha}" >> VERSION
-          fi
-
       - name: docker build test
         uses: docker/build-push-action@v6
         with:
@@ -34,8 +24,8 @@ jobs:
           load: true
           push: false
           target: test
-          cache-to: type=gha,mode=max
           cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: local/heimv-test
 
       - name: docker build target
@@ -84,9 +74,6 @@ jobs:
       - name: buildx
         uses: docker/setup-buildx-action@master
 
-      - name: prepare artifacts
-        run: mkdir -p artifacts
-
       - name: docker build test
         uses: docker/build-push-action@v6
         with:
@@ -115,6 +102,10 @@ jobs:
 
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature --fail-fast || exit 1
+
+      - if: failure()
+        name: prepare artifacts
+        run: mkdir -p artifacts
 
       - if: failure()
         name: dump log
@@ -148,6 +139,16 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: update version
+      #   run: |
+      #     if [ "${GITHUB_REF_TYPE}" == "tag" ]; then
+      #       echo "${GITHUB_REF_NAME}" > VERSION
+      #     else
+      #       ref=$(echo ${GITHUB_REF#refs/heads/})
+      #       sha=$(echo ${GITHUB_SHA} | cut -c1-7)
+      #       echo "${ref} @${sha}" >> VERSION
+      #     fi
 
       - name: docker build target
         uses: docker/build-push-action@v6
