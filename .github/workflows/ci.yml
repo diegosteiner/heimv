@@ -24,7 +24,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          load: true
           push: false
           target: test
           cache-from: type=gha
@@ -35,7 +34,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          load: true
           push: false
           target: production
           cache-from: type=gha
@@ -110,7 +108,7 @@ jobs:
         run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
 
       - name: run specs
-        run: docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature --fail-fast || exit 1
+        run: docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature || exit 1
 
       - name: stop target
         run: docker compose --file docker-compose.ci.yml down --remove-orphans
@@ -166,7 +164,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          load: true
+          load: false
           push: true
           target: production
           tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
