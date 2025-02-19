@@ -1,6 +1,7 @@
 # Docker
 Dockerfile
 docker-compose.yml
+docker-compose.ci.yml
 .dockerignore
 
 # bundler state
@@ -67,6 +68,7 @@ pickle-email-*.html
 
 # RubyMine project files
 .idea
+.vscode
 
 # Textmate project files
 /*.tmproj
@@ -82,3 +84,4 @@ pickle-email-*.html
 *~
 /storage/*
 /.git
+.github

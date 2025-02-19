@@ -17,15 +17,15 @@ jobs:
       - name: buildx
         uses: docker/setup-buildx-action@master
 
-      - name: docker build target
+      - name: docker build test
         uses: docker/build-push-action@v6
         with:
           context: .
           push: false
-          target: production
+          target: test
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: local/heimv-production
+          tags: local/heimv-test
     
   check-specs:
     runs-on: ubuntu-latest
@@ -46,7 +46,6 @@ jobs:
           push: false
           target: test
           cache-from: type=gha
-          cache-to: type=gha,mode=max
           tags: local/heimv-test
 
       - name: run specs
@@ -81,6 +80,7 @@ jobs:
           push: false
           target: production
           cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: local/heimv-production
 
       - name: start target
@@ -117,6 +117,9 @@ jobs:
       - check-specs
       - check-e2e
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
       - name: buildx
         uses: docker/setup-buildx-action@master
 
