@@ -113,6 +113,9 @@ jobs:
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature --fail-fast || exit 1
 
+      - name: stop target
+        run: docker compose --file docker-compose.ci.yml down --remove-orphans
+
       - if: failure()
         name: prepare artifacts
         run: mkdir -p artifacts
