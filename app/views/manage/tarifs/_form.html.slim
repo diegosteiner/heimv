@@ -57,13 +57,13 @@
       = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true
 
   fieldset.mt-4
-    label.mb-2= Tarif.human_attribute_name(:selecting_conditions)
-    = f.fields_for :selecting_conditions, @tarif.selecting_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    label.mb-2= Tarif.human_attribute_name(:selecting_condition)
+    / = f.fields_for :assigning_condition, @operator_responsibility.assigning_condition do |bcf|
+    /     = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 
-    label.mb-2= Tarif.human_attribute_name(:enabling_conditions)
-    = f.fields_for :enabling_conditions, @tarif.enabling_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    label.mb-2= Tarif.human_attribute_name(:enabling_condition)
+    / = f.fields_for :assigning_condition, @operator_responsibility.assigning_condition do |bcf|
+    /     = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 
   .form-actions.pt-4.mt-3
     = f.submit
