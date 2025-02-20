@@ -5,6 +5,7 @@
 # Table name: designated_documents
 #
 #  id                   :bigint           not null, primary key
+#  attaching_condition  :jsonb
 #  designation          :integer
 #  locale               :string
 #  name                 :string
@@ -17,16 +18,17 @@
 #  organisation_id      :bigint           not null
 #
 class DesignatedDocument < ApplicationRecord
+  include StoreModel::NestedAttributes
+
   belongs_to :organisation, inverse_of: :designated_documents
 
   has_many :mail_template_designated_documents, dependent: :delete_all
   has_many :mail_templates, through: :mail_template_designated_documents
-  has_many :booking_conditions, as: :qualifiable, dependent: :destroy, inverse_of: false
-  has_many :attaching_conditions, -> { qualifiable_group(:attaching) }, as: :qualifiable, dependent: :destroy,
-                                                                        class_name: :BookingCondition, inverse_of: false
 
   locale_enum
   enum :designation, { other: 0, privacy_statement: 1, terms: 2, house_rules: 3, price_list: 4 }
+
+  attribute :attaching_condition, BookingCondition.one_of.to_type, nil: true
 
   scope :with_locale, ->(locale) { where(locale: [locale, nil]).order(locale: :ASC) }
   scope :for_booking, (lambda do |booking|
@@ -36,22 +38,12 @@ class DesignatedDocument < ApplicationRecord
 
   has_one_attached :file
 
-  before_validation :update_booking_conditions
-
   delegate :blob, :content_type, :filename, to: :file, allow_nil: true
 
   validates :file, presence: true
+  validates :attaching_condition, store_model: true, allow_nil: true
 
-  accepts_nested_attributes_for :attaching_conditions, allow_destroy: true,
-                                                       reject_if: :reject_booking_conditition_attributes?
-
-  def reject_booking_conditition_attributes?(attributes)
-    attributes[:type].blank?
-  end
-
-  def update_booking_conditions
-    attaching_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :attaching) }
-  end
+  accepts_nested_attributes_for :attaching_condition, allow_destroy: true
 
   def locale=(value)
     super(value.presence)
@@ -62,12 +54,12 @@ class DesignatedDocument < ApplicationRecord
   end
 
   def attach_to?(booking)
-    attaching_conditions.none? || BookingCondition.fullfills_all?(booking, attaching_conditions)
+    attaching_condition.blank? || attaching_condition.fullfills?(booking)
   end
 
   def initialize_copy(origin)
     super
-    self.attaching_conditions = origin.attaching_conditions.map(&:dup)
+    self.attaching_condition = origin.attaching_condition.dup
     return if origin.file.blank?
 
     file.attach(io: StringIO.new(origin.file.download),

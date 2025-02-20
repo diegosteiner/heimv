@@ -25,9 +25,9 @@
           = f.text_area "description_#{locale.to_s}", label: BookingQuestion.human_attribute_name(:description)
 
   fieldset.mt-4
-    label= BookingQuestion.human_attribute_name(:applying_conditions)
-    = f.fields_for :applying_conditions, @booking_question.applying_conditions do |bqf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bqf }
+    label= BookingQuestion.human_attribute_name(:applying_condition)
+    / = f.fields_for :applying_condition, @booking_question.applying_condition do |bqf|
+    /   = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bqf }
 
 
   .form-actions.pt-4.mt-3

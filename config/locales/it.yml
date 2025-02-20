@@ -164,7 +164,7 @@ it:
         must_condition: Criterio obbligatorio
         type: Tipo
       booking_question:
-        applying_conditions: Condizioni
+        applying_condition: Condizioni
         booking_agent_mode:
         description: Descrizione
         key: Chiava
@@ -175,10 +175,10 @@ it:
         type: Tipo
       booking_validation:
         check_on:
-        enabling_conditions:
+        enabling_condition:
         error_message:
         ordinal_position: Numero di serie
-        validating_conditions:
+        validating_condition:
       contract:
         issuer: Proprietario
         locale: Lingua
@@ -208,7 +208,7 @@ it:
         remarks: Osservazioni
         responsible: Responsabile
       designated_document:
-        attaching_conditions: Condizioni
+        attaching_condition: Condizioni
         designation: Tipo di documento
         file: File
         locale: Lingua
@@ -306,7 +306,7 @@ it:
       operator_booking:
         responsibility: Responsabilità
       operator_responsibility:
-        assigning_conditions: Condizioni
+        assigning_condition: Condizioni
         booking_id: Prenotazione
         home_id: Oggetto principale di affitto
         operator_id: Funzionario
@@ -369,7 +369,7 @@ it:
         accounting_account_nr: Conto contabile
         accounting_cost_center_nr:
         associated_types: Indicato nei documenti
-        enabling_conditions: Condizioni per la selezione consentita
+        enabling_condition: Condizioni per la selezione consentita
         label: Designazione tariffa
         meter: Nome del contatore (per le tariffe in base alla lettura del contatore)
         minimum_price_per_night:
@@ -381,7 +381,7 @@ it:
         prefill_usage_booking_question_id:
         prefill_usage_method: Metodo di riempimento anticipato
         price_per_unit: Prezzo (per unità)
-        selecting_conditions: Condizioni per la selezione automatica
+        selecting_condition: Condizioni per la selezione automatica
         tarif_group: Gruppo tariffario
         type: Tipo
         unit: Unità

@@ -1,23 +1,5 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: booking_conditions
-#
-#  id                :bigint           not null, primary key
-#  compare_attribute :string
-#  compare_operator  :string
-#  compare_value     :string
-#  group             :string
-#  must_condition    :boolean          default(TRUE)
-#  qualifiable_type  :string
-#  type              :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  organisation_id   :bigint
-#  qualifiable_id    :bigint
-#
-
 require 'rails_helper'
 
 RSpec.describe BookingConditions::BookingQuestion, type: :model do
@@ -30,8 +12,8 @@ RSpec.describe BookingConditions::BookingQuestion, type: :model do
     let(:compare_attribute) { question.id }
     let(:organisation) { create(:organisation) }
     let(:booking_condition) do
-      described_class.create(compare_value:, organisation:,
-                             compare_operator:, compare_attribute:)
+      described_class.new(compare_value:, organisation:,
+                          compare_operator:, compare_attribute:)
     end
 
     context 'with a string question' do

@@ -5,6 +5,7 @@
 # Table name: designated_documents
 #
 #  id                   :bigint           not null, primary key
+#  attaching_condition  :jsonb
 #  designation          :integer
 #  locale               :string
 #  name                 :string
