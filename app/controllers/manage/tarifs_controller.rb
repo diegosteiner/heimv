@@ -18,8 +18,6 @@ module Manage
     end
 
     def edit
-      @tarif.selecting_conditions.build
-      @tarif.enabling_conditions.build
       respond_with :manage, @tarif
     end
 

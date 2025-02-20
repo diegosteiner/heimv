@@ -10,7 +10,7 @@ describe 'Booking by tenant', :devise, type: :feature do
   let!(:responsibilities) do
     OperatorResponsibility.responsibilities.keys.map do |responsibility|
       create(:operator_responsibility, organisation:, responsibility:,
-                                       assigning_conditions: [BookingConditions::AlwaysApply.new])
+                                       assigning_condition: BookingConditions::AlwaysApply.new)
     end
   end
   let(:deposit_tarifs) do
