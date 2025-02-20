@@ -1,17 +1,5 @@
 .row.bg-white.border-bottom
   .col-2.col-md-1.px-2.py-3.text-secondary.text-sm
-    / - popover_content = capture do 
-    / 	ul
-    / 		- usage.tarif.selecting_conditions.each do |condition| 
-    / 			li
-    / 				= condition.to_s 
-    / 				- if condition.fullfills?(@booking) 
-    / 					span.fa.fa-check.text-success
-    / 				- else 
-    / 					span.fa.fa-times.text-danger
-
-    / - popover_data = { toggle: 'popover', placement: 'right', content: h(popover_content), html: true, trigger: 'hover', container: 'body' }
-
     = f.hidden_field :id
     = f.hidden_field :tarif_id
     = f.check_box :_destroy, { checked: f.object.apply, label: usage.tarif.ordinal, skip_label: usage.tarif.ordinal.blank?, wrapper: { style: 'margin-bottom: 0 !important' } }, '0', '1'

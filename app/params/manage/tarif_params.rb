@@ -8,8 +8,8 @@ module Manage
          minimum_usage_per_night minimum_usage_total minimum_price_per_night minimum_price_total] +
         I18n.available_locales.map { |locale| ["label_#{locale}", "unit_#{locale}"] }.flatten +
         [{ associated_types: [],
-           selecting_conditions_attributes: BookingConditionParams.permitted_keys + %i[id _destroy],
-           enabling_conditions_attributes: BookingConditionParams.permitted_keys + %i[id _destroy] }]
+           selecting_condition_attributes: BookingConditionParams.permitted_keys + %i[id _destroy],
+           enabling_condition_attributes: BookingConditionParams.permitted_keys + %i[id _destroy] }]
     end
   end
 end

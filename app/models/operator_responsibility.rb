@@ -4,29 +4,31 @@
 #
 # Table name: operator_responsibilities
 #
-#  id              :bigint           not null, primary key
-#  ordinal         :integer
-#  remarks         :text
-#  responsibility  :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  booking_id      :uuid
-#  operator_id     :bigint           not null
-#  organisation_id :bigint           not null
+#  id                 :bigint           not null, primary key
+#  applying_condition :jsonb
+#  ordinal            :integer
+#  remarks            :text
+#  responsibility     :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  booking_id         :uuid
+#  operator_id        :bigint           not null
+#  organisation_id    :bigint           not null
 #
 
 class OperatorResponsibility < ApplicationRecord
   RESPONSIBILITIES = { administration: 0, home_handover: 1, home_return: 2, billing: 3 }.freeze
+
   include RankedModel
+  include StoreModel::NestedAttributes
 
   belongs_to :organisation, inverse_of: :operator_responsibilities
   belongs_to :operator, inverse_of: :operator_responsibilities
   belongs_to :booking, inverse_of: :operator_responsibilities, optional: true, touch: true
 
-  has_many :assigning_conditions, -> { qualifiable_group(:assigning) }, as: :qualifiable, dependent: :destroy,
-                                                                        class_name: :BookingCondition, inverse_of: false
-
   enum :responsibility, RESPONSIBILITIES
+
+  attribute :assigning_condition, BookingCondition.one_of.to_type, nil: true
 
   scope :ordered, -> { rank(:ordinal) }
   scope :by_operator, ->(*responsibilities) { where(responsibility: responsibilities).group_by(&:operator) }
@@ -35,23 +37,14 @@ class OperatorResponsibility < ApplicationRecord
 
   validates :responsibility, presence: true
   validates :responsibility, uniqueness: { scope: :booking_id }, if: :booking_id
+  validates :assigning_condition, store_model: true, allow_nil: true
+
   ranks :ordinal, with_same: :organisation_id
 
-  before_validation :update_booking_conditions
-
-  accepts_nested_attributes_for :assigning_conditions, allow_destroy: true,
-                                                       reject_if: :reject_booking_conditition_attributes?
-
-  def reject_booking_conditition_attributes?(attributes)
-    attributes[:type].blank?
-  end
-
-  def update_booking_conditions
-    assigning_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :assigning) }
-  end
+  accepts_nested_attributes_for :assigning_condition, allow_destroy: true
 
   def assign_to_booking?(booking)
-    assigning_conditions.none? || BookingCondition.fullfills_all?(booking, assigning_conditions)
+    assigning_condition.blank? || assigning_condition.fullfills?(booking)
   end
 
   def to_s

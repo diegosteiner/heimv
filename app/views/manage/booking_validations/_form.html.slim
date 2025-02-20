@@ -19,14 +19,14 @@
           = f.text_field "error_message_#{locale.to_s}", label: BookingValidation.human_attribute_name(:error_message)
 
   fieldset.mt-4
-    label.mb-2= BookingValidation.human_attribute_name(:enabling_conditions)
-    = f.fields_for :enabling_conditions, @booking_validation.enabling_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    label.mb-2= BookingValidation.human_attribute_name(:enabling_condition)
+    / = f.fields_for :assigning_condition, @operator_responsibility.assigning_condition do |bcf|
+    /     = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 
   fieldset.mt-4
-    label.mb-2= BookingValidation.human_attribute_name(:validating_conditions)
-    = f.fields_for :validating_conditions, @booking_validation.validating_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    label.mb-2= BookingValidation.human_attribute_name(:validating_condition)
+    / = f.fields_for :assigning_condition, @operator_responsibility.assigning_condition do |bcf|
+    /     = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 
   .form-actions.pt-4.mt-3
     = f.submit

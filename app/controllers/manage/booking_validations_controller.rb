@@ -16,8 +16,6 @@ module Manage
     end
 
     def edit
-      @booking_validation.enabling_conditions.build
-      @booking_validation.validating_conditions.build
       respond_with :manage, @booking_validation
     end
 

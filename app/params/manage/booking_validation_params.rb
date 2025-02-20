@@ -7,8 +7,8 @@ module Manage
         I18n.available_locales.map { |locale| ["error_message_#{locale}"] }.flatten +
         [{
           check_on: [],
-          enabling_conditions_attributes: BookingConditionParams.permitted_keys + %i[id _destroy],
-          validating_conditions_attributes: BookingConditionParams.permitted_keys + %i[id _destroy]
+          enabling_condition_attributes: BookingConditionParams.permitted_keys + %i[id _destroy],
+          validating_condition_attributes: BookingConditionParams.permitted_keys + %i[id _destroy]
         }]
     end
   end

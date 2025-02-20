@@ -1,25 +1,7 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: booking_conditions
-#
-#  id                :bigint           not null, primary key
-#  compare_attribute :string
-#  compare_operator  :string
-#  compare_value     :string
-#  group             :string
-#  must_condition    :boolean          default(TRUE)
-#  qualifiable_type  :string
-#  type              :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  organisation_id   :bigint
-#  qualifiable_id    :bigint
-#
-
 module BookingConditions
-  class BookingDateTime < ::BookingCondition
+  class BookingDateTime < Comparable
     BookingCondition.register_subtype self
 
     attribute :compare_operator, default: -> { :'=' }
@@ -55,30 +37,5 @@ module BookingConditions
     # can be detected, and mitigated by rewiring the #fullfills? logic to allow either condition to
     # be true.
     # TODO: Add OR construct to conditions and migrate these paradox conditions
-    def paradox_conditions
-      return @paradox_conditions if @paradox_conditions
-
-      conditions_in_same_context = qualifiable.booking_conditions.where(group:, type: self.class.sti_name)
-      lt_condition = conditions_in_same_context.find { %i[< <=].include?(_1.compare_operator&.to_sym) }
-      gt_condition = conditions_in_same_context.find { %i[> >=].include?(_1.compare_operator&.to_sym) }
-
-      return unless  lt_condition && gt_condition
-      return unless lt_condition.comparable_compare_value < gt_condition.comparable_compare_value
-
-      @paradox_conditions = [lt_condition, gt_condition]
-    end
-
-    def evaluate_other_paradox_condition(booking)
-      return nil if paradox_conditions.blank?
-
-      other_paradox_condition = paradox_conditions.first { _1 != self }
-      other_paradox_condition&.evaluate!(booking)
-    end
-
-    def fullfills?(booking)
-      evaluate(booking) ||
-        evaluate_other_paradox_condition(booking) ||
-        (must_condition ? false : nil)
-    end
   end
 end

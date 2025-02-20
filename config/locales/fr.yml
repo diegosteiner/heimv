@@ -164,7 +164,7 @@ fr:
         must_condition: Critère obligatoire
         type: Type
       booking_question:
-        applying_conditions: Conditions
+        applying_condition: Conditions
         booking_agent_mode:
         description: Description
         key: Clé
@@ -175,10 +175,10 @@ fr:
         type: type
       booking_validation:
         check_on:
-        enabling_conditions:
+        enabling_condition:
         error_message: Message d'erreur à afficher
         ordinal_position: Position de l'affichage
-        validating_conditions:
+        validating_condition:
       contract:
         issuer: Bailleur
         locale: Langue
@@ -208,7 +208,7 @@ fr:
         remarks: Remarques
         responsible: Responsable
       designated_document:
-        attaching_conditions: Conditions
+        attaching_condition: Conditions
         designation: Type de document
         file: Fichier
         locale: Langue
@@ -306,7 +306,7 @@ fr:
       operator_booking:
         responsibility: Responsabilité
       operator_responsibility:
-        assigning_conditions: Conditions
+        assigning_condition: Conditions
         booking_id: Réservation
         home_id: Principal objet de location
         operator_id: Gardiens
@@ -369,7 +369,7 @@ fr:
         accounting_account_nr: zugewiesenes Buchhaltungskonto
         accounting_cost_center_nr:
         associated_types: Affiché dans les documents
-        enabling_conditions: Conditions de sélection autorisée
+        enabling_condition: Conditions de sélection autorisée
         label: Désignation du tarif
         meter: Nom du compteur (pour les tarifs par relevé de compteur)
         minimum_price_per_night: Prix minimum (par nuit)
@@ -381,7 +381,7 @@ fr:
         prefill_usage_booking_question_id: Consommation proposée à partir de l'indication
         prefill_usage_method: méthode de pré-remplissage
         price_per_unit: prix (par unité)
-        selecting_conditions: Conditions de sélection automatique
+        selecting_condition: Conditions de sélection automatique
         tarif_group: groupe tarifaire
         type: type
         unit: unité
