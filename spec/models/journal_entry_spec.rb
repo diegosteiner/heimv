@@ -62,25 +62,46 @@ RSpec.describe JournalEntry, type: :model do
   describe '::Factory.invoice_created_journal_entry' do
     let(:organisation) { create(:organisation, :with_accounting) }
     let(:vat_category) { create(:vat_category, organisation:, percentage: 50, accounting_vat_code: 'VAT50') }
+    let(:invoice) { booking.invoices.last }
     let(:booking) do
       create(:booking, :invoiced, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27', prepaid_amount: 300,
                                   vat_category:)
     end
-    subject(:journal_entry) { booking.invoices.last.journal_entries.last }
+    subject(:journal_entries) { invoice.journal_entries.invoice }
 
     it 'creates to correct journal_entries' do
-      is_expected.to be_balanced
-      is_expected.to have_attributes(
-        date: Date.new(2024, 12, 27), trigger: 'invoice_created', ref: '250001',
-        fragments: contain_exactly(
-          have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main'),
-          have_attributes(account_nr: '6000', haben_amount: -300.0, book_type: 'main'),
-          have_attributes(account_nr: '9001', haben_amount: -300.0, book_type: 'cost'),
-          have_attributes(account_nr: '6000', haben_amount: 480.0, book_type: 'main'),
-          have_attributes(account_nr: '9001', haben_amount: 480.0, book_type: 'cost'),
-          have_attributes(account_nr: '2016', haben_amount: 240.0, book_type: 'vat')
+      is_expected.to all(be_balanced)
+      # is_expected.to all(be_trigger_invoice_created)
+      is_expected.to match_array(
+        have_attributes(
+          date: Date.new(2024, 12, 27), trigger: 'invoice_created', ref: '250001', amount: 420.0,
+          fragments: contain_exactly(
+            have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main'),
+            have_attributes(account_nr: '6000', haben_amount: -300.0, book_type: 'main'),
+            have_attributes(account_nr: '9001', haben_amount: -300.0, book_type: 'cost'),
+            have_attributes(account_nr: '6000', haben_amount: 480.0, book_type: 'main'),
+            have_attributes(account_nr: '9001', haben_amount: 480.0, book_type: 'cost'),
+            have_attributes(account_nr: '2016', haben_amount: 240.0, book_type: 'vat')
+          )
         )
       )
+    end
+
+    context 'with update after processed' do
+      before do
+        # create invoice, process journal entries and update invoice
+        invoice.journal_entries.update_all(processed_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+        invoice.invoice_parts.last.update!(amount: 1000)
+        invoice.save!
+      end
+
+      it 'creates new journal entries when the invoice is updated' do
+        is_expected.to match_array([
+                                     have_attributes(trigger: 'invoice_created', amount: 420.0, processed?: be_truthy),
+                                     have_attributes(trigger: 'invoice_updated', amount: 420.0, processed?: be_falsy),
+                                     have_attributes(trigger: 'invoice_updated', amount: 700.0, processed?: be_falsy)
+                                   ])
+      end
     end
   end
 end

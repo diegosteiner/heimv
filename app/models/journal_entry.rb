@@ -44,6 +44,8 @@ class JournalEntry < ApplicationRecord
   scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
   scope :processed, -> { where.not(processed_at: nil) }
   scope :unprocessed, -> { where(processed_at: nil) }
+  scope :invoice, -> { where(trigger: %i[invoice_created invoice_updated invoice_discarded]) }
+  scope :payment, -> { where(trigger: %i[payment_created payment_updated payment_discarded]) }
 
   def set_currency
     self.currency ||= organisation&.currency
@@ -71,8 +73,19 @@ class JournalEntry < ApplicationRecord
     fragments << fragment if fragment&.valid?
   end
 
+  def to_s
+    soll_accounts = fragments.filter(&:soll?).uniq.map(&:account_nr).join(',')
+    haben_accounts = fragments.filter(&:haben?).uniq.map(&:account_nr).join(',')
+    "##{id}: (#{soll_accounts}) => (#{haben_accounts}) " +
+      ActiveSupport::NumberHelper.number_to_currency(soll_amount)
+  end
+
   def balanced?
     soll_amount == haben_amount
+  end
+
+  def amount
+    balanced? && soll_amount
   end
 
   def processed?
@@ -90,6 +103,8 @@ class JournalEntry < ApplicationRecord
   end
 
   def equivalent?(other)
+    return false if other.blank?
+
     attributes.slice(*%w[booking_id invoice_id payment_id]) ==
       other.attributes.slice(*%w[booking_id invoice_id payment_id]) &&
       fragments.each_with_index.all? { |fragment, index| fragment.equivalent?(other.fragments[index]) }
@@ -110,14 +125,20 @@ class JournalEntry < ApplicationRecord
   class Filter < ApplicationFilter
     attribute :date_after, :date
     attribute :date_before, :date
-    # attribute :processed_at_after, :date
-    # attribute :processed_at_before, :date
+    attribute :processed_at_after, :date
+    attribute :processed_at_before, :date
     attribute :processed, :boolean
 
     filter :date do |journal_entries|
       next unless date_before.present? || date_after.present?
 
       journal_entries.where(JournalEntry.arel_table[:date].between(date_after..date_before))
+    end
+
+    filter :processed_at do |journal_entries|
+      next unless processed_at_before.present? || processed_at_after.present?
+
+      journal_entries.where(JournalEntry.arel_table[:date].between(processed_at_after..processed_at_before))
     end
 
     filter :processed do |journal_entries|
