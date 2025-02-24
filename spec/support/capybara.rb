@@ -8,6 +8,7 @@ Capybara.register_driver :selenium_chrome do |app|
   options.add_argument('--headless')
   options.add_argument('--window-size=1280,1024')
   options.add_argument('--no-default-browser-check')
+  options.add_argument('--disable-search-engine-choice-screen')
   options.add_argument('--start-maximized')
 
   Capybara::Selenium::Driver.new(app, browser: :remote, capabilities: [options],
