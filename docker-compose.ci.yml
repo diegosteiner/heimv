@@ -51,7 +51,7 @@ services:
       selenium:
 
   selenium:
-    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:132}
+    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:132.0}
     shm_size: 1gb
     logging:
       driver: none
