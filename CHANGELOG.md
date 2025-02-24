@@ -1,6 +1,16 @@
 # Changelog
 
+## 25.2.2
+
+unreleased
+
+- Feature: Improve filters
+- Feature: Send single invoice
+- Fix: Update journal entries correctly
+
 ## 25.2.1
+
+Released 02.02.2025
 
 - Feature: Add a seperate view for bookings for the tenant
 - Feature: Allow the tenant to sign the contract directly in the application
