@@ -50,9 +50,7 @@ class BookingCondition < ApplicationRecord
                                                   !compare_attributes&.key?(compare_attribute.to_sym)
   end
 
-  def compare_attributes
-    self.class.compare_attributes
-  end
+  delegate :compare_attributes, to: :class
 
   def compare_values
     nil

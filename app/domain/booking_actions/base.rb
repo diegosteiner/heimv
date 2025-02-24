@@ -26,9 +26,7 @@ module BookingActions
       @templates ||= []
     end
 
-    def label
-      self.class.label
-    end
+    delegate :label, to: :class
 
     def self.label
       # i18n-tasks-ignore
@@ -50,9 +48,7 @@ module BookingActions
       name.demodulize.underscore.to_sym
     end
 
-    def to_sym
-      self.class.to_sym
-    end
+    delegate :to_sym, to: :class
 
     def variant
       :primary
