@@ -19,26 +19,36 @@
 #  vat_category_id           :bigint
 #
 
-class InvoicePart < ApplicationRecord
+class InvoicePart
   include Subtypeable
-  include RankedModel
   extend TemplateRenderable
   include TemplateRenderable
+  include StoreModel::Model
 
-  belongs_to :invoice, inverse_of: :invoice_parts, touch: true
+  Subtypes = StoreModel.one_of { it[:type]&.constantize }
+
+  attribute :apply, :boolean, default: true
+  attribute :id, :string
+  attribute :accounting_account_nr, :string
+  attribute :accounting_cost_center_nr, :string
+  attribute :amount, :decimal
+  attribute :breakdown, :string
+  attribute :label, :string
+  attribute :ordinal, :integer
+  attribute :type, :string
+  attribute :created_at, :datetime
+  attribute :updated_at, :datetime
+  attribute :usage_id, :integer
+  attribute :vat_category_id, :integer
+
+  # belongs_to :invoice, inverse_of: :invoice_parts, touch: true
   belongs_to :usage, inverse_of: :invoice_parts, optional: true
   belongs_to :vat_category, optional: true
 
   has_one :tarif, through: :usage
   has_one :booking, through: :usage
 
-  attribute :apply, :boolean, default: true
-
-  delegate :booking, :organisation, to: :invoice
-
-  ranks :ordinal, with_same: :invoice_id, class_name: 'InvoicePart'
-
-  scope :ordered, -> { rank(:ordinal) }
+  delegate :booking, :organisation, to: :parent
 
   validates :type, inclusion: { in: ->(_) { InvoicePart.subtypes.keys.map(&:to_s) } }
 
@@ -48,6 +58,10 @@ class InvoicePart < ApplicationRecord
 
   def calculated_amount
     amount
+  end
+
+  def type
+    self.class.sti_name
   end
 
   def vat_breakdown
@@ -76,24 +90,5 @@ class InvoicePart < ApplicationRecord
 
   def to_sum(sum)
     sum + calculated_amount
-  end
-
-  class Filter < ApplicationFilter
-    attribute :homes, default: -> { [] }
-    attribute :issued_at_after, :datetime
-    attribute :issued_at_before, :datetime
-
-    filter :homes do |invoice_parts|
-      relevant_homes = Array.wrap(homes).compact_blank
-      if relevant_homes.present?
-        invoice_parts.joins(invoice: :booking).where(invoices: { bookings: { home_id: relevant_homes } })
-      end
-    end
-
-    filter :issued_at do |invoice_parts|
-      next unless issued_at_before.present? || issued_at_after.present?
-
-      invoice_parts.joins(:invoice).where(Invoice.arel_table[:issued_at].between(issued_at_after..issued_at_before))
-    end
   end
 end
