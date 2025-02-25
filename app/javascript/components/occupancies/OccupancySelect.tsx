@@ -1,5 +1,5 @@
 import { cx } from "@emotion/css";
-import { useContext, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import type { Organisation } from "../../types";
@@ -51,7 +51,7 @@ export default function OccupancySelect({
   defaultBeginsAtTime,
   defaultEndsAtTime,
 }: OccupancySelectProps) {
-  const organisation = useContext(OrganisationContext);
+  const organisation = use(OrganisationContext);
   const { t } = useTranslation();
   const [occupiableState, setOccupiableState] = useState<OccupiableSelectState>(() => ({
     homeId: initial.homeId,

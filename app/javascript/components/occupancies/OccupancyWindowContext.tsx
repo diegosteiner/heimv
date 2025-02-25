@@ -1,5 +1,5 @@
 import { max } from "date-fns";
-import { type PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
+import { type PropsWithChildren, createContext, use, useEffect, useState } from "react";
 import { type OccupancyWindowWithOccupiedDates, calculateOccupiedDates } from "../../models/OccupancyWindow";
 import { ApiClient } from "../../services/api_client";
 import type { Occupiable } from "../../types";
@@ -13,7 +13,7 @@ type OccupancyWindowProviderProps = PropsWithChildren<{
 }>;
 
 export function OccupancyWindowProvider({ occupiableIds, manage = false, children }: OccupancyWindowProviderProps) {
-  const organisation = useContext(OrganisationContext);
+  const organisation = use(OrganisationContext);
   const [occupancyWindow, setOccupancyWindow] = useState<OccupancyWindowWithOccupiedDates | undefined>();
 
   useEffect(() => {

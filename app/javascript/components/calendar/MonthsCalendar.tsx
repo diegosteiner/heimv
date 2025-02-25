@@ -32,8 +32,8 @@ const CalendarMonth = memo(function CalendarMonth({ dateString, dateElementFacto
       </header>
       <div className="dates">
         {Array.from(Array(monthStartsAfter)).map((_e, i) => (
-          // biome-ignore lint/correctness/useJsxKeyInIterable: placeholders
-          <div className="date spacer" />
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          <div key={i} className="date spacer" />
         ))}
         {eachDayOfInterval({ start: date, end: endOfMonth(date) }).map((date) => {
           const dateString = formatISO(date, { representation: "date" });

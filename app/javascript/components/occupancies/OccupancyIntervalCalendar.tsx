@@ -1,7 +1,7 @@
 import { cx } from "@emotion/css";
 import { isAfter, isBefore } from "date-fns";
 import { formatISO, isSameDay, parseISO } from "date-fns";
-import { useCallback, useContext, useRef, useState } from "react";
+import { use, useCallback, useRef, useState } from "react";
 import * as React from "react";
 import type { OccupancyWindow } from "../../models/OccupancyWindow";
 import { isBetweenDates, parseISOorUndefined, toInterval } from "../../services/date";
@@ -37,18 +37,18 @@ interface OccupancyIntervalCalendarProps {
   onChange?: (value: { endsAt?: Date | undefined; beginsAt?: Date | undefined }) => void;
 }
 
-function OccupancyIntervalCalendar({
+export default function OccupancyIntervalCalendar({
   beginsAtString,
   endsAtString,
   defaultView,
   months,
   onChange,
 }: OccupancyIntervalCalendarProps) {
-  const occupancyWindow = useContext(OccupancyWindowContext);
+  const occupancyWindow = use(OccupancyWindowContext);
   const beginsAt = parseISOorUndefined(beginsAtString);
   const endsAt = parseISOorUndefined(endsAtString);
   const [hovering, setHovering] = useState<Date | undefined>();
-  const setHoveringTimeout = useRef<ReturnType<typeof setTimeout> | undefined>();
+  const setHoveringTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const handleClick = useCallback(
     (date: Date) => {
@@ -110,5 +110,3 @@ function OccupancyIntervalCalendar({
     />
   );
 }
-
-export default OccupancyIntervalCalendar;
