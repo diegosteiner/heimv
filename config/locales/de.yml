@@ -46,6 +46,7 @@ de:
         processed: Verbucht
         processed_at_after: Verbucht nach
         processed_at_before: Verbucht vor
+        triggers: Auslöser
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerstandperiode ab
         begins_at_before: Beginn des Zählerstandperiode bis
@@ -266,6 +267,7 @@ de:
         soll_account: Soll Konto
         soll_amount: Soll Betrag
         text: Text
+        trigger: Auslöser
         vat_category_id: MwSt. Kategorie
       mail_template:
       meter_reading_period:
