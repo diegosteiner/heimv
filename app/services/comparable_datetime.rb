@@ -3,13 +3,13 @@
 class ComparableDatetime < Data.define(:year, :month, :day, :weekday, :hour, :minute) # rubocop:disable Style/DataInheritance
   include Comparable
 
-  # rubocop:disable Lint/MixedRegexpCaptureTypes:
+  # rubocop:disable Lint/MixedRegexpCaptureTypes
   REGEX = /\A
             (?:(?<year>(\d{4}|\*))-(?<month>(\d{1,2}|\*))-(?<day>(\d{1,2}|\*)))?\s*
             (?:(W(?<weekday>(\d{1}|\*))))?\s*
             (?:(T(?<hour>(\d{1,2}|\*)):(?<minute>(\d{1,2}|\*))))?
           \z/ix
-  # rubocop:enable Lint/MixedRegexpCaptureTypes:
+  # rubocop:enable Lint/MixedRegexpCaptureTypes
 
   def self.from_date(value)
     # value = value.utc if value.respond_to?(:utc)

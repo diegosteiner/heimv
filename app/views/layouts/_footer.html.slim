@@ -32,7 +32,7 @@
           = t('.locales.title')
         ul.list-unstyled 
           - %i[de fr it].each do |locale|
-            li=<> link_to t(locale, scope: 'layouts.footer.locales'), url_for(params.clone.permit!.merge({ locale: locale, only_path: true })), class: (locale.to_sym == I18n.locale.to_sym && 'fw-bold' || nil)
+            li=<> link_to t(locale, scope: 'locales'), url_for(params.clone.permit!.merge({ locale: locale, only_path: true })), class: (locale.to_sym == I18n.locale.to_sym && 'fw-bold' || nil)
 
     .col-md-3.position-relative.pt-3 
       span.fa.fa-github.position-absolute.end-0.me-3.bottom-0.display-5.opacity-25

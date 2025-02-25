@@ -53,7 +53,7 @@ module Manage
     private
 
     def set_filter
-      default_filter_params = { paid: false }
+      default_filter_params = { paid: false }.with_indifferent_access
       @filter = Invoice::Filter.new(default_filter_params.merge(invoice_filter_params || {}))
     end
 

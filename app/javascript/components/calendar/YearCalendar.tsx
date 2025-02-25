@@ -8,7 +8,7 @@ import {
   startOfMonth,
 } from "date-fns";
 import { materializedWeekdays, monthNameFormatter, parseDate } from "../../services/date";
-import { DateElementFactory } from "./CalendarDate";
+import type { DateElementFactory } from "./CalendarDate";
 
 interface YearCalendarProps {
   firstDate: Date;
@@ -21,7 +21,7 @@ export default function YearCalendar({ firstDate, dateElementFactory }: YearCale
     <div className="year-calendar">
       <div className="months">
         <header className="month">
-          <div></div>
+          <div />
           {Array.from({ length: 31 }, (_, i) => i + 1).map((n) => (
             <div className="day-of-month" key={n}>
               {n}.
@@ -30,13 +30,7 @@ export default function YearCalendar({ firstDate, dateElementFactory }: YearCale
         </header>
         {eachMonthOfInterval({ start: firstDate, end: addMonths(firstDate, 11) }).map((date) => {
           const dateString = formatISO(date, { representation: "date" });
-          return (
-            <YearCalendarMonth
-              dateString={dateString}
-              key={dateString}
-              dateElementFactory={dateElementFactory}
-            ></YearCalendarMonth>
-          );
+          return <YearCalendarMonth dateString={dateString} key={dateString} dateElementFactory={dateElementFactory} />;
         })}
       </div>
     </div>

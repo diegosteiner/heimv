@@ -5,8 +5,9 @@ module Export
     class Document
       attr_reader :children
 
-      def initialize(&)
-        @children = [] + Builder.build(&)
+      def initialize(children = [], &)
+        @children = children
+        @children += Builder.build(&) if block_given?
       end
 
       def serialize(indent_with: '  ', separate_with: "\n")

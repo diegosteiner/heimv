@@ -2,9 +2,9 @@ import { cx } from "@emotion/css";
 import { useContext, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { Organisation } from "../../types";
-import { ViewType } from "../calendar/Calendar";
-import OccupiableSelect, { OccupiableSelectState } from "../occupiables/OccupiableSelect";
+import type { Organisation } from "../../types";
+import type { ViewType } from "../calendar/Calendar";
+import OccupiableSelect, { type OccupiableSelectState } from "../occupiables/OccupiableSelect";
 import { OrganisationContext } from "../organisation/OrganisationProvider";
 import { OccupancyIntervalFormControl } from "./OccupancyIntervalFormControl";
 import { OccupancyWindowProvider } from "./OccupancyWindowContext";
@@ -36,7 +36,7 @@ function inferHomeId(organisation?: Organisation, occupiableIds?: number[]): num
   return (
     occupiableIds?.find(
       (occupiableId) =>
-        organisation.homes.find((home) => home.occupiables.find((occupiable) => occupiable.id == occupiableId))?.id,
+        organisation.homes.find((home) => home.occupiables.find((occupiable) => occupiable.id === occupiableId))?.id,
     ) || undefined
   );
 }
@@ -61,7 +61,7 @@ export default function OccupancySelect({
   useEffect(() => {
     setOccupiableState((prev) => ({
       homeId: prev.homeId || inferHomeId(organisation, prev.occupiableIds),
-      occupiableIds: prev.occupiableIds?.length == 0 ? inferOccupiableIds(organisation) : prev.occupiableIds,
+      occupiableIds: prev.occupiableIds?.length === 0 ? inferOccupiableIds(organisation) : prev.occupiableIds,
     }));
   }, [organisation]);
 
@@ -77,7 +77,7 @@ export default function OccupancySelect({
         invalidFeedback={occupiableInvalidFeedback}
         required={required}
         disabled={disabled}
-      ></OccupiableSelect>
+      />
       <OccupancyWindowProvider occupiableIds={occupiableState.occupiableIds}>
         <OccupancyIntervalFormControl
           months={9}
@@ -89,7 +89,7 @@ export default function OccupancySelect({
           defaultEndsAtTime={defaultEndsAtTime}
           required={required}
           disabled={disabled}
-        ></OccupancyIntervalFormControl>
+        />
       </OccupancyWindowProvider>
     </Form.Group>
   );

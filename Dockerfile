@@ -24,6 +24,7 @@ RUN apk add --update build-base \
     musl musl-utils musl-locales
 
 USER rails:rails
+ENV BINDING=0.0.0.0
 
 ### === test === ###                 
 FROM development AS test
@@ -49,7 +50,8 @@ USER rails:rails
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_WITHOUT="development" \
-    NODE_ENV="production"  
+    NODE_ENV="production" \
+    APP_HOST="localhost"
 
 COPY --chown=rails:rails Gemfile Gemfile.lock ./
 RUN bundle install && \

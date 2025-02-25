@@ -1,10 +1,10 @@
 import addMonths from "date-fns/addMonths";
 import getYear from "date-fns/getYear";
 import subMonths from "date-fns/subMonths";
-import { Dispatch, SetStateAction, createContext, useState } from "react";
+import { type Dispatch, type SetStateAction, createContext, useState } from "react";
 import * as React from "react";
 import { parseDate } from "../../services/date";
-import { DateElementFactory } from "./CalendarDate";
+import type { DateElementFactory } from "./CalendarDate";
 import { CalendarNav } from "./CalendarNav";
 import MonthsCalendar from "./MonthsCalendar";
 import YearCalendar from "./YearCalendar";

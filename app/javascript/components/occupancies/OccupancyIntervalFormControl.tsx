@@ -29,7 +29,7 @@ function parseLocaleDate(value: string, format?: string): Date | undefined {
 }
 
 function buildControlDateValue({ date, time, text }: Partial<ControlDateValue>): ControlDateValue {
-  let [hours, minutes] = time?.split(":").map((value) => parseInt(value)) || [];
+  let [hours, minutes] = time?.split(":").map((value) => Number.parseInt(value)) || [];
   hours = closestNumber(hours ?? (date && getHours(date)) ?? 0, availableHours);
   minutes = closestNumber(minutes ?? (date && getMinutes(date)) ?? 0, availableMinutes);
   time = formatTime(hours, minutes);
@@ -98,7 +98,7 @@ export function OccupancyIntervalFormControl({
             <InputGroup hasValidation>
               <Form.Control
                 value={beginsAt.text}
-                id={`booking_begins_at_date`}
+                id={"booking_begins_at_date"}
                 required={required}
                 disabled={disabled}
                 isInvalid={!!invalidFeedback || (beginsAt.text.length > 0 && !beginsAt.date)}
@@ -113,14 +113,14 @@ export function OccupancyIntervalFormControl({
                 }
               />
               <Button onClick={() => setShowModal((prev) => !prev)}>
-                <i className="fa fa-calendar"></i>
+                <i className="fa fa-calendar" />
               </Button>
             </InputGroup>
           </Col>
           <Col sm={3}>
             <Form.Select
               value={beginsAt.time}
-              id={`booking_begins_at_time`}
+              id={"booking_begins_at_time"}
               required={required}
               disabled={disabled}
               isInvalid={!!invalidFeedback}
@@ -133,7 +133,7 @@ export function OccupancyIntervalFormControl({
                 )
               }
             >
-              <option></option>
+              <option />
               {timeOptions.map((timeOption) => (
                 <option key={timeOption} value={timeOption}>
                   {timeOption}
@@ -156,7 +156,7 @@ export function OccupancyIntervalFormControl({
             <InputGroup>
               <Form.Control
                 value={endsAt.text}
-                id={`booking_ends_at_date`}
+                id={"booking_ends_at_date"}
                 required={required}
                 disabled={disabled}
                 isInvalid={!!invalidFeedback || (endsAt.text.length > 0 && !endsAt.date)}
@@ -171,14 +171,14 @@ export function OccupancyIntervalFormControl({
                 }
               />
               <Button onClick={() => setShowModal((prev) => !prev)}>
-                <i className="fa fa-calendar"></i>
+                <i className="fa fa-calendar" />
               </Button>
             </InputGroup>
           </Col>
           <Col sm={3}>
             <Form.Select
               value={endsAt.time}
-              id={`booking_ends_at_time`}
+              id={"booking_ends_at_time"}
               required={required}
               disabled={disabled}
               isInvalid={!!invalidFeedback}
@@ -191,7 +191,7 @@ export function OccupancyIntervalFormControl({
                 )
               }
             >
-              <option></option>
+              <option />
               {timeOptions.map((timeOption) => (
                 <option key={timeOption} value={timeOption}>
                   {timeOption}
@@ -217,7 +217,7 @@ export function OccupancyIntervalFormControl({
             months={months}
             defaultView="months"
             onChange={(value) => {
-              if ("beginsAt" in value && value.beginsAt != beginsAt.date)
+              if ("beginsAt" in value && value.beginsAt !== beginsAt.date)
                 setBeginsAt((prev) =>
                   buildControlDateValue({
                     date: value.beginsAt,
@@ -225,7 +225,7 @@ export function OccupancyIntervalFormControl({
                   }),
                 );
 
-              if ("endsAt" in value && value.endsAt != endsAt.date)
+              if ("endsAt" in value && value.endsAt !== endsAt.date)
                 setEndsAt((prev) =>
                   buildControlDateValue({
                     date: value.endsAt,
@@ -235,7 +235,7 @@ export function OccupancyIntervalFormControl({
 
               if (value.beginsAt && value.endsAt) setShowModal(false);
             }}
-          ></OccupancyIntervalCalendar>
+          />
         </Modal.Body>
       </Modal>
     </>

@@ -12,18 +12,18 @@ function csrfForm() {
 }
 
 function toggleDisable() {
-  document.querySelectorAll('[data-bs-toggle="disable"]').forEach((element) => {
+  for (const element of document.querySelectorAll('[data-bs-toggle="disable"]')) {
     const handler = () => {
-      document.querySelectorAll(element.dataset.bsTarget).forEach((target) => {
+      for (const target of document.querySelectorAll(element.dataset.bsTarget)) {
         target.disabled = !element.checked;
-      });
+      }
     };
     element.addEventListener("change", (event) => {
       event.preventDefault;
       handler();
     });
     handler();
-  });
+  }
 }
 
 function setupBookingAgentBookingButton() {
@@ -36,7 +36,7 @@ function setupBookingAgentBookingButton() {
 }
 
 function setupOccupiableSelect() {
-  Array.from(document.getElementsByClassName("occupiables-select")).forEach((baseElement) => {
+  for (const baseElement of Array.from(document.getElementsByClassName("occupiables-select"))) {
     const selectElement = baseElement.querySelector("select");
     const handler = () => {
       const homeId = selectElement.value;
@@ -46,23 +46,23 @@ function setupOccupiableSelect() {
         `.form-check[data-home-id="${homeId}"] input[type="checkbox"]`,
       );
 
-      allCheckboxElements.forEach((checkboxWrapperElement) => {
+      for (const checkboxWrapperElement of allCheckboxElements) {
         const checkboxElement = checkboxWrapperElement.querySelector('input[type="checkbox"]');
 
-        if (checkboxWrapperElement.dataset.homeId == homeId) {
+        if (checkboxWrapperElement.dataset.homeId === homeId) {
           checkboxElement.removeAttribute("disabled");
           checkboxWrapperElement.classList.remove("d-none");
-          if (currentOccupiableCheckboxes.length == 1 || checkboxElement.value == homeId)
+          if (currentOccupiableCheckboxes.length === 1 || checkboxElement.value === homeId)
             checkboxElement.checked = true;
         } else {
           checkboxElement.setAttribute("disabled", true);
           checkboxWrapperElement.classList.add("d-none");
         }
-      });
+      }
     };
     selectElement.addEventListener("change", () => handler());
     handler();
-  });
+  }
 }
 
 function setupOrgChangeSelect() {
@@ -78,9 +78,9 @@ function setupRichTextArea() {
 }
 
 function setupSubmit() {
-  document.querySelectorAll("[data-submit='change']").forEach((element) => {
+  for (const element of document.querySelectorAll("[data-submit='change']")) {
     element.addEventListener("change", () => element.form.submit());
-  });
+  }
 }
 
 // Rails.start();
@@ -105,16 +105,14 @@ function viteConstructorRequireContext(reqCtx) {
       path.includes(`/${className}.tsx`);
   };
 
-  const fromRequireContext = function (reqCtx) {
-    return function (className) {
-      const componentPath = Object.keys(reqCtx).find(componentNameMatcher(className));
-      const component = reqCtx[componentPath];
-      return component.default;
-    };
+  const fromRequireContext = (reqCtx) => (className) => {
+    const componentPath = Object.keys(reqCtx).find(componentNameMatcher(className));
+    const component = reqCtx[componentPath];
+    return component.default;
   };
 
   const fromCtx = fromRequireContext(reqCtx);
-  return function (className) {
+  return (className) => {
     let component;
     try {
       // `require` will raise an error if this className isn't found:

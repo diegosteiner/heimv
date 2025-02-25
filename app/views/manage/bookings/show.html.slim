@@ -51,6 +51,8 @@
                   - if @booking.tenant.birth_date.present?
                     dd= l(@booking.tenant.birth_date)
 
+                  dd= t(@booking.tenant.locale, scope: 'locales') 
+
                   - if @booking.tenant.remarks.present?
                     dl
                       dt= Tenant.human_attribute_name(:remarks)
@@ -83,10 +85,6 @@
               dl
                 dt= Booking.human_attribute_name(:approximate_headcount)
                 dd= @booking.approximate_headcount
-
-              dl
-                dt= Booking.human_attribute_name(:locale)
-                dd= @booking.locale
 
               - if @booking.internal_remarks.present?
                 dl 

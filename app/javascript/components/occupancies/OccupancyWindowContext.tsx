@@ -1,8 +1,8 @@
 import { max } from "date-fns";
-import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
-import { OccupancyWindowWithOccupiedDates, calculateOccupiedDates } from "../../models/OccupancyWindow";
+import { type PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
+import { type OccupancyWindowWithOccupiedDates, calculateOccupiedDates } from "../../models/OccupancyWindow";
 import { ApiClient } from "../../services/api_client";
-import { Occupiable } from "../../types";
+import type { Occupiable } from "../../types";
 import { OrganisationContext } from "../organisation/OrganisationProvider";
 
 export const OccupancyWindowContext = createContext<OccupancyWindowWithOccupiedDates | undefined>(undefined);
@@ -38,7 +38,7 @@ export function OccupancyWindowProvider({ occupiableIds, manage = false, childre
       }));
       setOccupancyWindow(calculateOccupiedDates(mergedOccupancyWindow));
     })();
-  }, [organisation, occupiableIds]);
+  }, [organisation, occupiableIds, manage]);
 
   return <OccupancyWindowContext.Provider value={occupancyWindow}>{children}</OccupancyWindowContext.Provider>;
 }

@@ -62,7 +62,6 @@ gem 'vite_rails'
 group :development do
   gem 'annotaterb'
   gem 'i18n-tasks'
-  gem 'i18n-tasks-csv'
   gem 'listen'
   gem 'ruby-lsp'
   gem 'ruby-lsp-rails'

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { Occupancy } from "../../models/Occupancy";
-import { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
+import type { Occupancy } from "../../models/Occupancy";
+import type { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
 import { formatDate } from "../../services/date";
 import { translatedString } from "../../services/i18n";
 
@@ -23,7 +23,7 @@ export const OccupancyPopover = React.memo(function OccupancyPopover({
       <Card.Body>
         <ul className="list-unstyled p-0 m-0 occupancies">
           {Array.from(occupancies).map((occupancy) => (
-            <OccupancyLi key={occupancy.id} occupancy={occupancy}></OccupancyLi>
+            <OccupancyLi key={occupancy.id} occupancy={occupancy} />
           ))}
         </ul>
       </Card.Body>

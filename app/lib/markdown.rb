@@ -16,9 +16,7 @@ class Markdown
     false
   end
 
-  def to_html
-    @engine.to_html
-  end
+  delegate :to_html, to: :@engine
 
   def to_text
     ActionView::Base.full_sanitizer.sanitize(to_html)

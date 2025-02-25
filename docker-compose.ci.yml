@@ -3,7 +3,6 @@ services:
     build:
       context: .
       target: test
-    image: ghcr.io/diegosteiner/heimv-test
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
@@ -15,20 +14,19 @@ services:
       SELENIUM_HOST: "selenium:4444"
       SMTP_SETTINGS: '{ "address":"mail" }'
       MAIL_FROM: "no-reply@heimv.local"
-      REDIS_URL: "redis://redis/1"
+      valkey_URL: "valkey://valkey/1"
     command: bin/check
     depends_on:
       - db
-      - selenium
-      - e2e_target
-      - redis
+      - valkey
     networks:
       default:
       selenium:
 
   e2e_target:
-    build: .
-    image: ghcr.io/diegosteiner/heimv
+    build: 
+      context: .
+      target: production
     ports:
       - "3002:3002"
     environment:
@@ -41,25 +39,27 @@ services:
       PORT: 3002
       LOG_LEVEL: "debug"
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
-      REDIS_URL: "redis://redis/0"
+      valkey_URL: "valkey://valkey/0"
       CI: "true"
     depends_on:
       - db
       - mail
-      - redis
+      - valkey
+      - selenium
     networks:
       default:
       selenium:
 
   selenium:
-    image: selenium/standalone-chrome:119.0
+    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:132.0}
+    shm_size: 1gb
     logging:
       driver: none
     networks:
       selenium:
 
   db:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -67,12 +67,12 @@ services:
       POSTGRES_PASSWORD: postgres
 
   mail:
-    image: tophfr/mailcatcher
+    image: sj26/mailcatcher
     ports:
       - "1080:80"
 
-  redis:
-    image: redis:6
+  valkey:
+    image: valkey/valkey
 
 volumes:
   bundle:

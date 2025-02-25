@@ -1,5 +1,5 @@
 import { parseISOorUndefined } from "../services/date";
-import { Occupiable } from "../types";
+import type { Occupiable } from "../types";
 
 export type Occupancy = {
   id: string;
@@ -42,13 +42,13 @@ export function findMostRelevantOccupancy(occupancies: Set<Occupancy>): Occupanc
   let topCandidate: Occupancy | undefined;
   let topScore: number | undefined;
 
-  occupancies.forEach((currentCandidate) => {
+  for (const currentCandidate of Array.from(occupancies)) {
     const currentScore = occupancyTypeMapping.indexOf(currentCandidate.occupancyType);
-    if (topScore && topScore > currentScore) return;
+    if (topScore && topScore > currentScore) break;
 
     topScore = currentScore;
     topCandidate = currentCandidate;
-  });
+  }
 
   return topCandidate;
 }

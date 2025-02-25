@@ -69,7 +69,7 @@ class Booking
       bookings.joins(:tenant)
               .where(Tenant.arel_table[:search_cache].matches(match)
               .or(Booking.arel_table[:tenant_organisation].matches(match))
-              .or(Booking.arel_table[:ref].matches("#{q.strip}%")))
+              .or(Booking.arel_table[:ref].matches(match)))
     end
 
     filter :has_booking_state do |bookings|

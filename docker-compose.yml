@@ -23,7 +23,6 @@ services:
       PRIVACY_STATEMENT_URL: ${PRIVACY_STATEMENT_URL}
       GITHUB_URL: ${GITHUB_URL}
       RAILS_PERFORM_CACHING: ${RAILS_PERFORM_CACHING}
-      BINDING: 0.0.0.0
     depends_on:
       - db
       - mail
@@ -44,7 +43,7 @@ services:
       selenium:
 
   db:
-    image: postgres:16-alpine
+    image: postgres:17
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -54,12 +53,12 @@ services:
       main:
 
   redis:
-    image: redis:6
+    image: valkey/valkey
     networks:
       main:
 
   mail:
-    image: tophfr/mailcatcher
+    image: sj26/mailcatcher
     ports:
       - "1080:80"
     networks:

@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 describe Export::Taf::Builder, type: :model do
+  subject(:builder) { described_class.new }
   let(:organisation) { create(:organisation, :with_accounting) }
   let(:booking) { create(:booking, organisation:, tenant:) }
   let(:vat_category) { create(:vat_category, organisation:, percentage: 50, accounting_vat_code: 'VAT50') }
@@ -11,20 +12,18 @@ describe Export::Taf::Builder, type: :model do
                     street_address: 'Bahnhofstr. 1', city: 'Bern', zipcode: 1234)
   end
 
-  subject(:builder) { described_class.new }
-  subject(:blocks) { builder.blocks }
-
   describe '#journal_entry' do
-    before { builder.journal_entry(journal_entry) }
     let(:journal_entry) do
-      create(:journal_entry, booking:, date: Date.new(2024, 10, 5), ref: '1234', amount: 2091.75,
+      create(:journal_entry, booking:, date: Date.new(2024, 10, 5),
+                             ref: '1234', amount: 2091.75,
                              vat_category_id: vat_category.id,
                              text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
     end
 
     it 'builds correctly' do
-      is_expected.to all(be_a(Export::Taf::Block))
-      expect(blocks.first.to_s).to eq(<<~TAF.chomp)
+      builder.journal_entry(journal_entry)
+      expect(builder.blocks).to all(be_a(Export::Taf::Block))
+      expect(builder.blocks.first.to_s).to eq(<<~TAF.chomp)
         {Blg
           Date=05.10.2024
 
@@ -55,11 +54,10 @@ describe Export::Taf::Builder, type: :model do
   end
 
   describe '#tenant' do
-    before { builder.tenant(tenant) }
-
     it 'builds correctly' do
-      is_expected.to contain_exactly(be_a(Export::Taf::Block), be_a(Export::Taf::Block))
-      expect(blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
+      builder.tenant(tenant)
+      expect(builder.blocks).to contain_exactly(be_a(Export::Taf::Block), be_a(Export::Taf::Block))
+      expect(builder.blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
         {Adr
           AdrId=200002
           Sort="MAXMUELLER"
@@ -83,15 +81,16 @@ describe Export::Taf::Builder, type: :model do
     end
   end
 
-  describe '#invoice_created_journal_entry' do
+  describe '#journal_entry' do
     let(:booking) do
       create(:booking, :invoiced, tenant:, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27',
                                   prepaid_amount: 300, vat_category:)
     end
-    before { builder.invoice_created_journal_entry(booking.invoices.last.journal_entries.last) }
+    let(:journal_entry) { JournalEntry.where(booking:, invoice: booking.invoices.last, payment: nil).last }
 
     it 'exports to taf' do
-      expect(blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
+      builder.journal_entry(journal_entry)
+      expect(builder.blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
         {Adr
           AdrId=200002
           Sort="MAXMUELLER"
@@ -189,6 +188,12 @@ describe Export::Taf::Builder, type: :model do
           }
         }
       TAF
+    end
+
+    it 'does not include Orig=1 when update' do
+      journal_entry.trigger_invoice_updated!
+      builder.journal_entry(journal_entry)
+      expect(builder.blocks.map(&:to_s).join("\n\n")).not_to include('Orig=1')
     end
   end
 end

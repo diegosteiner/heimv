@@ -1,5 +1,5 @@
 import { cx } from "@emotion/css";
-import { Dispatch, SetStateAction, useContext } from "react";
+import { type Dispatch, type SetStateAction, useContext } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { translatedString } from "../../services/i18n";
@@ -14,9 +14,9 @@ type OccupiableSelectProps = OccupiableSelectState & {
 };
 
 function ordinalOrder(a: { ordinal?: number | undefined }, b: { ordinal?: number | undefined }): number {
-  if (a.ordinal == undefined && b.ordinal == undefined) return 0;
-  if (a.ordinal == undefined) return 1;
-  if (b.ordinal == undefined) return -1;
+  if (a.ordinal === undefined && b.ordinal === undefined) return 0;
+  if (a.ordinal === undefined) return 1;
+  if (b.ordinal === undefined) return -1;
   return a.ordinal - b.ordinal;
 }
 
@@ -68,9 +68,9 @@ export default function OccupiableSelect({
           disabled={disabled}
           required={required}
           value={homeId}
-          onChange={(event) => setHomeId(parseInt(event.target.value))}
+          onChange={(event) => setHomeId(Number.parseInt(event.target.value))}
         >
-          <option></option>
+          <option />
           {organisation?.homes.map((home) => (
             <option key={home.id} value={home.id}>
               {home.name}

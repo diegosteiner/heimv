@@ -3,10 +3,10 @@ import { isAfter, isBefore } from "date-fns";
 import { formatISO, isSameDay, parseISO } from "date-fns";
 import { useCallback, useContext, useRef, useState } from "react";
 import * as React from "react";
-import { OccupancyWindow } from "../../models/OccupancyWindow";
+import type { OccupancyWindow } from "../../models/OccupancyWindow";
 import { isBetweenDates, parseISOorUndefined, toInterval } from "../../services/date";
-import Calendar, { ViewType } from "../calendar/Calendar";
-import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
+import Calendar, { type ViewType } from "../calendar/Calendar";
+import { CalendarDate, type DateElementFactory } from "../calendar/CalendarDate";
 import { OccupancyWindowContext } from "./OccupancyWindowContext";
 import { OccupiedCalendarDate } from "./OccupiedCalendarDate";
 
@@ -45,8 +45,8 @@ function OccupancyIntervalCalendar({
   onChange,
 }: OccupancyIntervalCalendarProps) {
   const occupancyWindow = useContext(OccupancyWindowContext);
-  const beginsAt = parseISOorUndefined(beginsAtString),
-    endsAt = parseISOorUndefined(endsAtString);
+  const beginsAt = parseISOorUndefined(beginsAtString);
+  const endsAt = parseISOorUndefined(endsAtString);
   const [hovering, setHovering] = useState<Date | undefined>();
   const setHoveringTimeout = useRef<ReturnType<typeof setTimeout> | undefined>();
 
@@ -68,7 +68,9 @@ function OccupancyIntervalCalendar({
       setHoveringTimeout.current = undefined;
     }
 
-    date ? setHovering(date) : (setHoveringTimeout.current = setTimeout(() => setHovering(undefined), 100));
+    if (date) return setHovering(date);
+
+    setHoveringTimeout.current = setTimeout(() => setHovering(undefined), 100);
   };
 
   const dateElementFactory: DateElementFactory = useCallback(
@@ -80,6 +82,7 @@ function OccupancyIntervalCalendar({
       return (
         <CalendarDate dateString={dateString} key={dateString}>
           <button
+            type="button"
             disabled={disabled}
             className={cx({ "date-action": true, highlighted })}
             onClick={() => handleClick(date)}
@@ -90,7 +93,7 @@ function OccupancyIntervalCalendar({
               dateString={dateString}
               label={labelCallback(date)}
               occupancyWindow={occupancyWindow}
-            ></OccupiedCalendarDate>
+            />
           </button>
         </CalendarDate>
       );
@@ -104,7 +107,7 @@ function OccupancyIntervalCalendar({
       months={months}
       defaultView={defaultView}
       dateElementFactory={dateElementFactory}
-    ></Calendar>
+    />
   );
 }
 

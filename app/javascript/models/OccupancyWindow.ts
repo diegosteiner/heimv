@@ -1,5 +1,5 @@
 import { eachDayOfInterval, formatISO, parseISO } from "date-fns";
-import { Occupancy, OccupancyJson, parse as parseOccupancy } from "./Occupancy";
+import { type Occupancy, type OccupancyJson, parse as parseOccupancy } from "./Occupancy";
 
 export type OccupancyWindow = {
   start: Date;
@@ -40,13 +40,13 @@ export function getOccupiedDates(occupancies: Occupancy[]) {
   const occupiedDates = new Map<string, Set<Occupancy>>();
 
   for (const occupancy of occupancies) {
-    eachDayOfInterval({
+    for (const occupiedDate of eachDayOfInterval({
       start: occupancy.beginsAt,
       end: occupancy.endsAt,
-    }).forEach((occupiedDate) => {
+    })) {
       const key = dateFormat(occupiedDate);
       occupiedDates.set(key, occupiedDates.get(key)?.add(occupancy) || new Set([occupancy]));
-    });
+    }
   }
 
   return occupiedDates;

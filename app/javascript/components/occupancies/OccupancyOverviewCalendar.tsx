@@ -2,8 +2,8 @@ import { isAfter, isBefore } from "date-fns";
 import { parseISO } from "date-fns";
 import { useCallback, useContext } from "react";
 import * as React from "react";
-import Calendar, { ViewType } from "../calendar/Calendar";
-import { CalendarDate, DateElementFactory } from "../calendar/CalendarDate";
+import Calendar, { type ViewType } from "../calendar/Calendar";
+import { CalendarDate, type DateElementFactory } from "../calendar/CalendarDate";
 import { OccupancyWindowContext } from "./OccupancyWindowContext";
 import { OccupiedCalendarDate } from "./OccupiedCalendarDate";
 
@@ -34,15 +34,15 @@ function OccupancyOverviewCalendar({ occupancyAtUrl, months, defaultView }: Occu
               dateString={dateString}
               label={labelCallback(date)}
               occupancyWindow={occupancyWindow}
-            ></OccupiedCalendarDate>
+            />
           </a>
         </CalendarDate>
       );
     },
-    [occupancyWindow],
+    [occupancyWindow, occupancyAtUrl],
   );
 
-  return <Calendar defaultView={defaultView} months={months} dateElementFactory={dateElementFactory}></Calendar>;
+  return <Calendar defaultView={defaultView} months={months} dateElementFactory={dateElementFactory} />;
 }
 
 export default OccupancyOverviewCalendar;

@@ -6,6 +6,7 @@ module Manage
     load_and_authorize_resource :deadline, through: :booking, singleton: true
 
     def edit
+      @deadline ||= @booking.build_deadline
       respond_with :manage, @deadline
     end
 

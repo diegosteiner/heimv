@@ -80,6 +80,8 @@ de:
       payment/filter:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis
+        ref: Zahlungsreferenz
+        sort: Sortierung
     models:
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
@@ -561,6 +563,10 @@ de:
           manager: Verwaltung
           none: "-"
           readonly: Lesend
+      payment/filter:
+        sort:
+          "-paid_at": Bezahlt am (neuste zuerst)
+          paid_at: Bezahlt am (älteste zuerst)
       tarif:
         prefill_usage_methods:
           days: "× Tage"
@@ -621,37 +627,52 @@ de:
         other: Bedingungen
       booking_conditions/always_apply:
         one: Immer
+        other:
       booking_conditions/booking_attribute:
         one: Buchungsattribut Bedingung
+        other:
       booking_conditions/booking_category:
         one: Mietkategorie Bedingung
+        other:
       booking_conditions/booking_date_time:
         one: Belegungsdatum Bedingung
+        other:
       booking_conditions/booking_question:
         one: Zusätzliche Angabe Bedingung
+        other:
       booking_conditions/booking_state:
         one: Status Bedingung
+        other:
       booking_conditions/occupancy_duration:
         one: Belegungsdauer Bedingung
+        other:
       booking_conditions/occupiable:
         one: Mietobjekt Bedingung
+        other:
       booking_conditions/tarif:
         one: Ausgewählter Tarif Bedingung
+        other:
       booking_conditions/tenant_attribute:
         one: Mieterattribut Bedingung
+        other:
       booking_question:
         one: Zusätzliche Angabe
         other: Zusätzliche Angaben
       booking_questions/check_box:
         one: Zusätzliche Angabe als Checkbox
+        other:
       booking_questions/date:
         one: Zusätzliche Angabe als Datum
+        other:
       booking_questions/integer:
         one: Zusätzliche Angabe als Ganzzahl
+        other:
       booking_questions/string:
         one: Zusätzliche Angabe als Kurztext
+        other:
       booking_questions/text:
         one: Zusätzliche Angabe als Langtext
+        other:
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -771,16 +792,22 @@ de:
         other: Tarifwähler-Tarife
       tarifs/amount:
         one: nach Verbrauch
+        other:
       tarifs/flat:
         one: Pauschale
+        other:
       tarifs/group_minimum:
         one: Tarifgruppe Minimum
+        other:
       tarifs/metered:
         one: nach Zählerstand
+        other:
       tarifs/overnight_stay:
         one: Übernachtungen
+        other:
       tarifs/price:
         one: Betrag
+        other:
       tenant:
         one: Mieter
         other: Mieter
@@ -851,7 +878,7 @@ de:
         days: Tage
         nights: Nächte
         overnight_stays: Erwartete Anzahl Übernachtungen
-        tenant_organisation: Organisation des Mieters
+        tenant_organisation: Gruppenname / Organisation
     booking_date_time:
       attributes:
         begins_at: Beginn der Belegung
@@ -1395,9 +1422,6 @@ de:
         organisation_privacy: Datenschutzerklärung der Organisation
         title: Rechtliches
       locales:
-        de: auf Deutsch
-        fr: en français
-        it: in italiano
         title: Sprachen
       manage:
         title: Organisation
@@ -1410,6 +1434,11 @@ de:
       help: Hilfe
       outbox: Postausgang
       settings: Einstellungen
+  locales:
+    de: Deutsch
+    en: English
+    fr: Français
+    it: Italiano
   manage:
     bookings:
       booking_actions:

@@ -98,9 +98,7 @@ module BookingStates
       super
     end
 
-    def to_sym
-      self.class.to_sym
-    end
+    delegate :to_sym, to: :class
 
     def checklist
       []

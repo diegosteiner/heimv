@@ -44,7 +44,7 @@ module BookingStates
     end
 
     infer_transition(to: :definitive_request) do |booking|
-      booking.committed_request && booking.tenant&.valid?(:public_update)
+      booking.committed_request && booking.valid?(:public_update)
     end
 
     def relevant_time
