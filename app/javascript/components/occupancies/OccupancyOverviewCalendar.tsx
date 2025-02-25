@@ -39,7 +39,7 @@ function OccupancyOverviewCalendar({ occupancyAtUrl, months, defaultView }: Occu
         </CalendarDate>
       );
     },
-    [occupancyWindow, occupancyAtUrl],
+    [occupancyWindow, occupancyAtUrl, disabledCallback],
   );
 
   return <Calendar defaultView={defaultView} months={months} dateElementFactory={dateElementFactory} />;
