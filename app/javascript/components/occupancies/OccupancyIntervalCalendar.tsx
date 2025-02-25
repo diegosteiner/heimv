@@ -60,9 +60,9 @@ function OccupancyIntervalCalendar({
       const interval = toInterval([beginsAt, endsAt, date]);
       onChange({ beginsAt: interval.start, endsAt: interval.end });
     },
-    [beginsAt, endsAt],
+    [beginsAt, endsAt, onChange],
   );
-  const handleHover = (date: Date | undefined) => {
+  const handleHover = useCallback((date: Date | undefined) => {
     if (setHoveringTimeout.current) {
       clearTimeout(setHoveringTimeout.current);
       setHoveringTimeout.current = undefined;
@@ -71,7 +71,7 @@ function OccupancyIntervalCalendar({
     if (date) return setHovering(date);
 
     setHoveringTimeout.current = setTimeout(() => setHovering(undefined), 100);
-  };
+  }, []);
 
   const dateElementFactory: DateElementFactory = useCallback(
     (dateString: string, labelCallback: (date: Date) => string) => {
@@ -98,7 +98,7 @@ function OccupancyIntervalCalendar({
         </CalendarDate>
       );
     },
-    [occupancyWindow, beginsAt, endsAt, hovering],
+    [occupancyWindow, beginsAt, endsAt, hovering, handleClick, handleHover],
   );
 
   return (
