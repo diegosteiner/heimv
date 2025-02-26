@@ -18,10 +18,12 @@ export function OccupiedCalendarDate({ dateString, occupancyWindow, label }: Occ
   const date = startOfDay(parseDate(dateString));
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
   const slots = useMemo(() => splitSlots(date, occupancies), [date, occupancies]);
-  const classNames = ["occupancy-calendar-date", occupancies.size > 0 && "has-occupancies"];
+  const classNames = ["occupancy-calendar-date", occupancies.size > 0 && "has-occupancies"]
+    .filter((className) => className)
+    .join(" ");
   return useMemo(
     () => (
-      <div className={classNames.filter((className) => className).join(" ")} aria-haspopup="true">
+      <div className={classNames} aria-haspopup="true">
         <OccupancyPopover dateString={dateString} occupancyWindow={occupancyWindow} />
         <svg viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
           {Array.from(slots.allday).some(Boolean) && (
@@ -52,7 +54,7 @@ export function OccupiedCalendarDate({ dateString, occupancyWindow, label }: Occ
         <div className="label">{label}</div>
       </div>
     ),
-    [slots, label, occupancyWindow, dateString],
+    [slots, label, occupancyWindow, dateString, classNames],
   );
 }
 

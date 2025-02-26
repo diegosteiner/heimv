@@ -2,7 +2,7 @@ import * as React from "react";
 import { OrganisationContext } from "./OrganisationProvider";
 
 export default function Test() {
-  const organisation = React.useContext(OrganisationContext);
+  const organisation = React.use(OrganisationContext);
 
   return (
     <dl>
