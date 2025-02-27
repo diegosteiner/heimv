@@ -27,7 +27,6 @@ de:
         compare_attribute: Attribut
         compare_operator: Operator
         compare_value: Bedingung
-        must_condition: Muss-Kriterium
         type: Typ
       booking_state_settings:
         default_manage_transition_to_state: Standard Status für Buchungen durch Verwaltung
@@ -354,7 +353,7 @@ de:
       operator_booking:
         responsibility: Verantwortlichkeit
       operator_responsibility:
-        assigning_condition: Bedingungen
+        assigning_conditions: Bedingungen
         booking_id: Buchung
         home_id: Hauptmietobjekt
         operator_id: Funktionär

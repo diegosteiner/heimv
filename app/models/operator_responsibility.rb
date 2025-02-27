@@ -28,7 +28,7 @@ class OperatorResponsibility < ApplicationRecord
 
   enum :responsibility, RESPONSIBILITIES
 
-  attribute :assigning_condition, BookingCondition.one_of.to_array_type, nil: true
+  attribute :assigning_conditions, BookingCondition.one_of.to_array_type, nil: true
 
   scope :ordered, -> { rank(:ordinal) }
   scope :by_operator, ->(*responsibilities) { where(responsibility: responsibilities).group_by(&:operator) }
@@ -37,14 +37,14 @@ class OperatorResponsibility < ApplicationRecord
 
   validates :responsibility, presence: true
   validates :responsibility, uniqueness: { scope: :booking_id }, if: :booking_id
-  validates :assigning_condition, store_model: true, allow_nil: true
+  validates :assigning_conditions, store_model: true, allow_nil: true
 
   ranks :ordinal, with_same: :organisation_id
 
-  accepts_nested_attributes_for :assigning_condition, allow_destroy: true
+  accepts_nested_attributes_for :assigning_conditions, allow_destroy: true
 
   def assign_to_booking?(booking)
-    assigning_condition.blank? || assigning_condition.fullfills?(booking)
+    assigning_conditions.blank? || assigning_conditions.all? { it.fullfills?(booking) }
   end
 
   def to_s

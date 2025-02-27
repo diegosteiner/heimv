@@ -42,7 +42,7 @@ RSpec.describe OperatorResponsibility, type: :model do
       before do
         create_list(:operator_responsibility, 4, organisation:, operator:,
                                                  responsibility: :administration, booking: nil,
-                                                 assigning_condition: BookingConditions::AlwaysApply.new)
+                                                 assigning_conditions: BookingConditions::AlwaysApply.new)
       end
 
       it { is_expected.to be_valid }

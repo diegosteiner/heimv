@@ -20,12 +20,12 @@
 
   fieldset.mt-4
     label.mb-2= BookingValidation.human_attribute_name(:enabling_conditions)
-    / = f.fields_for :assigning_condition, @operator_responsibility.assigning_condition do |bcf|
+    / = f.fields_for :assigning_conditions, @operator_responsibility.assigning_conditions do |bcf|
     /     = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 
   fieldset.mt-4
     label.mb-2= BookingValidation.human_attribute_name(:validating_conditions)
-    / = f.fields_for :assigning_condition, @operator_responsibility.assigning_condition do |bcf|
+    / = f.fields_for :assigning_conditions, @operator_responsibility.assigning_conditions do |bcf|
     /     = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 
   .form-actions.pt-4.mt-3

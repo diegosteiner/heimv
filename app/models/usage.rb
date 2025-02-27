@@ -84,12 +84,12 @@ class Usage < ApplicationRecord
     updated_at > booking.ends_at
   end
 
-  def enabled_by_condition?
-    tarif.enabling_conditions.blank? || tarif.enabling_conditions.fullfills?(booking)
+  def enabled_by_conditions?
+    tarif.enabling_conditions.blank? || tarif.enabling_conditions.all? { it.fullfills?(booking) }
   end
 
-  def selected_by_condition?
-    tarif.selecting_conditions.blank? || tarif.selecting_conditions.fullfills?(booking)
+  def selected_by_conditions?
+    tarif.selecting_conditions.blank? || tarif.selecting_conditions.all? { it.fullfills?(booking) }
   end
 
   def round_cents(amount, round_to: 5)
