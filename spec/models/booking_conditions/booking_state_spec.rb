@@ -12,6 +12,12 @@ RSpec.describe BookingConditions::BookingState, type: :model do
     let(:compare_value) { 'open_request' }
     let(:compare_operator) { '=' }
 
+    before do
+      qualifiable = double('Qualifiable')
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
+    end
+
     context 'with non matching state' do
       let(:booking) { create(:booking, organisation:) }
 

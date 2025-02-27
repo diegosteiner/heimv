@@ -12,6 +12,12 @@ RSpec.describe BookingConditions::BookingCategory, type: :model do
     let(:organisation) { create(:organisation) }
     let(:booking_category) { create(:booking_category, organisation:, key: 'test') }
 
+    before do
+      qualifiable = double('Qualifiable')
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
+    end
+
     context 'without category' do
       it { is_expected.to be_falsy }
       it { expect(booking_condition).not_to be_valid }

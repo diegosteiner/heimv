@@ -79,7 +79,7 @@ RSpec.describe DesignatedDocument, type: :model do
 
     let(:documents) do
       conditions.transform_values do |condition|
-        create!(:designated_document, organisation:, attaching_conditions: condition)
+        create(:designated_document, organisation:, attaching_conditions: [condition])
       end
     end
 
