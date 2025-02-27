@@ -1,10 +1,10 @@
-import Row from "react-bootstrap/esm/Row";
 import Form from "react-bootstrap/esm/Form";
+import Row from "react-bootstrap/esm/Row";
 import {
-  BookingConditionType,
   type BookingCondition,
   type BookingConditionComparableType,
   type BookingConditionOptionsForSelect,
+  BookingConditionType,
 } from "./BookingCondition";
 
 type Props = {

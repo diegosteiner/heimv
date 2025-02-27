@@ -3,12 +3,12 @@ import { Dropdown } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import {
   AddBookingConditionDropdown,
-  BookingConditionElement,
-  initializeBookingCondition,
-  type BookingConditionType,
   type BookingCondition,
   type BookingConditionCollectionType,
+  BookingConditionElement,
   type BookingConditionOptionsForSelect,
+  type BookingConditionType,
+  initializeBookingCondition,
 } from "./BookingCondition";
 
 type Props = {
