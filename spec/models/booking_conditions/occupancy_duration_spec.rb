@@ -18,6 +18,12 @@ RSpec.describe BookingConditions::OccupancyDuration, type: :model do
       create(:booking, begins_at: 4.weeks.from_now, ends_at: 5.weeks.from_now, organisation:)
     end
 
+    before do
+      qualifiable = double('Qualifiable')
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
+    end
+
     it { is_expected.to be_falsy }
 
     context 'with non-matching condition' do

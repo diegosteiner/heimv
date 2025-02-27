@@ -16,6 +16,12 @@ RSpec.describe BookingConditions::Occupiable, type: :model do
     let(:organisation) { create(:organisation) }
     let(:occupiable) { create(:home, organisation:) }
 
+    before do
+      qualifiable = double('Qualifiable')
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
+    end
+
     it { expect(booking_condition).to be_valid }
 
     context 'without occupiable' do

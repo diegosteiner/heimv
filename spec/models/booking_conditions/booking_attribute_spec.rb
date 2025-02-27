@@ -15,6 +15,12 @@ RSpec.describe BookingConditions::BookingAttribute, type: :model do
                           compare_operator:, compare_attribute:)
     end
 
+    before do
+      qualifiable = double('Qualifiable')
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
+    end
+
     context 'with "nights" as attribute' do
       let(:compare_attribute) { :nights }
       let(:booking) do

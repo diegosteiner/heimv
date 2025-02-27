@@ -15,6 +15,12 @@ RSpec.describe BookingConditions::TenantAttribute, type: :model do
                           compare_operator:, compare_attribute:)
     end
 
+    before do
+      qualifiable = double('Qualifiable')
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
+    end
+
     context 'with "country_code" as attribute' do
       let(:compare_attribute) { :country_code }
       let(:booking) { create(:booking) }

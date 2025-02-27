@@ -15,6 +15,12 @@ RSpec.describe BookingConditions::BookingDateTime, type: :model do
       described_class.new(compare_value:, organisation:, compare_operator:, compare_attribute:)
     end
 
+    before do
+      qualifiable = double('Qualifiable')
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
+    end
+
     context 'with "now" as attribute' do
       let(:compare_attribute) { :now }
       let(:booking) do

@@ -16,6 +16,12 @@ RSpec.describe BookingConditions::BookingQuestion, type: :model do
                           compare_operator:, compare_attribute:)
     end
 
+    before do
+      qualifiable = double('Qualifiable')
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
+    end
+
     context 'with a string question' do
       let(:question) do
         create(:booking_question, type: BookingQuestions::String.to_s, label: 'Test',
