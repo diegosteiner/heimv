@@ -14,26 +14,34 @@ import {
 type Props = {
   condition: BookingCondition & { type: BookingConditionCollectionType };
   optionsForSelect: BookingConditionOptionsForSelect;
+  disabled?: boolean;
   onRemove?: (condition: BookingCondition) => void;
   onChange?: (condition: BookingCondition) => void;
 };
 
-export default function BookingConditionCollection({ optionsForSelect, condition, onRemove, onChange }: Props) {
-  const { t, i18n } = useTranslation();
+export default function BookingConditionCollection({
+  optionsForSelect,
+  condition,
+  onRemove,
+  onChange,
+  disabled,
+}: Props) {
   const conditions = condition.conditions || [];
 
   const handleAddChild = (type: BookingConditionType) => {
-    onChange?.({ ...condition, conditions: [...conditions, initializeBookingCondition({ type })] });
+    !disabled && onChange?.({ ...condition, conditions: [...conditions, initializeBookingCondition({ type })] });
   };
   const handleChangeChild = (changedCondition: BookingCondition) => {
-    onChange?.({
-      ...condition,
-      conditions: conditions.map((prevCondition) =>
-        prevCondition.id !== changedCondition.id ? prevCondition : changedCondition,
-      ),
-    });
+    !disabled &&
+      onChange?.({
+        ...condition,
+        conditions: conditions.map((prevCondition) =>
+          prevCondition.id !== changedCondition.id ? prevCondition : changedCondition,
+        ),
+      });
   };
   const handleRemoveChild = (removedCondition: BookingCondition) =>
+    !disabled &&
     onChange?.({
       ...condition,
       conditions: conditions.filter((prevCondition) => prevCondition.id !== removedCondition.id),
@@ -56,7 +64,7 @@ export default function BookingConditionCollection({ optionsForSelect, condition
       </ol>
       <div className="d-flex justify-content-between">
         <AddBookingConditionDropdown onAction={handleAddChild} optionsForSelect={optionsForSelect} />
-        <button type="button" className="btn btn-default" onClick={() => onRemove?.(condition)}>
+        <button disabled={disabled} type="button" className="btn btn-default" onClick={() => onRemove?.(condition)}>
           <span className="fa fa-trash" />
         </button>
       </div>

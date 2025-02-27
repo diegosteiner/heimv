@@ -21,7 +21,7 @@ module BookingConditions
 
     delegate :compare_attributes, :compare_operators_for_select, to: :class
 
-    validates :compare_value, format: { with: ->(condition) { condition.compare_value_regex } }, allow_blank: true
+    validates :compare_value, format: { with: ->(condition) { condition.class.compare_value_regex } }, allow_blank: true
     validate do
       errors.add(:compare_operator, :inclusion) if compare_operator.present? &&
                                                    !self.class.compare_operators&.key?(compare_operator.to_s.to_sym)
@@ -29,11 +29,7 @@ module BookingConditions
                                                     !compare_attributes&.key?(compare_attribute.to_s.to_sym)
     end
 
-    def compare_values
-      self.class.compare_values(organisation)
-    end
-
-    def compare_value_regex
+    def self.compare_value_regex
       //
     end
 

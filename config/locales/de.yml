@@ -210,7 +210,7 @@ de:
         ordinal_position: Ordnungsnummer
         title: Titel
       booking_question:
-        applying_condition: Bedingungen
+        applying_conditions: Bedingungen
         booking_agent_mode: Eingabemodus für Vermittler
         description: Beschreibung
         key: Schlüssel
@@ -221,10 +221,10 @@ de:
         type: Typ
       booking_validation:
         check_on: Prüfen bei
-        enabling_condition: Bedingungen zur Ausführung der Gültigkeitsprüfung
+        enabling_conditions: Bedingungen zur Ausführung der Gültigkeitsprüfung
         error_message: Anzuzeigende Fehlermeldung
         ordinal_position: Ordnungsnummer
-        validating_condition: Gültigkeitskriterium
+        validating_conditions: Gültigkeitskriterium
       contract:
         issuer: Vermieter
         locale: Sprache
@@ -254,7 +254,7 @@ de:
         remarks: Bemerkungen
         responsible: Verantwortlich
       designated_document:
-        attaching_condition: Bedingungen
+        attaching_conditions: Bedingungen
         designation: Art des Dokuments
         file: Datei
         locale: Sprache
@@ -417,7 +417,7 @@ de:
         accounting_account_nr: Buchhaltungskonto
         accounting_cost_center_nr: Kostenstelle
         associated_types: Ausgewiesen in Dokumenten
-        enabling_condition: Bedingungen für erlaubte Auswahl
+        enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum_price_per_night: Minimaler Preis (pro Nacht)
@@ -429,7 +429,7 @@ de:
         prefill_usage_booking_question_id: Verbrauchsvorschlag aus Angabe
         prefill_usage_method: Verbrauchsvorschlag Faktor
         price_per_unit: Preis (pro Einheit)
-        selecting_condition: Bedingungen für automatische Auswahl
+        selecting_conditions: Bedingungen für automatische Auswahl
         tarif_group: Tarifgruppe
         type: Typ
         unit: Einheit

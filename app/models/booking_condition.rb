@@ -45,7 +45,7 @@ class BookingCondition
   end
 
   def self.one_of
-    StoreModel.one_of { subtypes[it[:type]&.to_sym] || BookingCondition }
+    StoreModel.one_of { subtypes[(it[:type].presence || it['type'].presence)&.to_sym] || BookingCondition }
   end
 
   def self.options_for_select(organisation)
@@ -55,6 +55,7 @@ class BookingCondition
         name: subtype.model_name.human,
         compare_attributes: subtype.try(:compare_attributes_for_select),
         compare_operators: subtype.try(:compare_operators_for_select),
+        compare_value_regex: subtype.try(:compare_value_regex).present?,
         compare_values: subtype.try(:compare_values_for_select, organisation)
       }
     end

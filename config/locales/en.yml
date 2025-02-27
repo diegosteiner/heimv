@@ -164,7 +164,7 @@ en:
         remarks: Bemerkungen
         responsible: Verantwortlich
       designated_document:
-        attaching_condition: Bedingungen
+        attaching_conditions: Bedingungen
         designation: Art des Dokuments
         file: Datei
         locale: Sprache
@@ -280,7 +280,7 @@ en:
       tarif:
         accounting_account_nr: zugewiesenes Buchhaltungskonto
         associated_types: Ausgewiesen in Rechnungsarten
-        enabling_condition: Bedingungen für erlaubte Auswahl
+        enabling_conditions: Bedingungen für erlaubte Auswahl
         label: Tarifbezeichnung
         meter: Name des Zählers (bei Tarifen nach Zählerstand)
         minimum_usage_per_night: Minimaler Preis (pro Nacht)
@@ -288,7 +288,7 @@ en:
         pin: Tarif NICHT auf Buchung fixieren
         prefill_usage_method: Vorausfüllmethode
         price_per_unit: Preis (pro Einheit)
-        selecting_condition: Bedingungen für automatische Auswahl
+        selecting_conditions: Bedingungen für automatische Auswahl
         tarif_group: Tarifgruppe
         type: Typ
         unit: Einheit

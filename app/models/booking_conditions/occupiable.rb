@@ -14,7 +14,7 @@ module BookingConditions
 
     validates :compare_attribute, :compare_operator, presence: true
     validate do
-      errors.add(:compare_value, :invalid) unless compare_values.exists?(id: compare_value)
+      errors.add(:compare_value, :invalid) unless self.class.compare_values(organisation).exists?(id: compare_value)
     end
 
     def evaluate!(booking)
@@ -23,7 +23,7 @@ module BookingConditions
       evaluate_operator(compare_operator.presence || :'=', with: { actual_value:, compare_value: })
     end
 
-    def compare_values
+    def self.compare_values(organisation)
       organisation.occupiables.ordered
     end
   end

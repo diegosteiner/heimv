@@ -4,15 +4,15 @@
 #
 # Table name: booking_validations
 #
-#  id                   :bigint           not null, primary key
-#  check_on             :integer          default(0), not null
-#  enabling_condition   :jsonb
-#  error_message_i18n   :jsonb            not null
-#  ordinal              :integer
-#  validating_condition :jsonb
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  organisation_id      :bigint           not null
+#  id                    :bigint           not null, primary key
+#  check_on              :integer          default(0), not null
+#  enabling_conditions   :jsonb
+#  error_message_i18n    :jsonb            not null
+#  ordinal               :integer
+#  validating_conditions :jsonb
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  organisation_id       :bigint           not null
 #
 
 FactoryBot.define do

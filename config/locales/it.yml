@@ -197,7 +197,7 @@ it:
         ordinal_position: Posizione di visualizzazione
         title: Titolo
       booking_question:
-        applying_condition: Condizioni
+        applying_conditions: Condizioni
         booking_agent_mode:
         description: Descrizione
         key: Chiava
@@ -208,10 +208,10 @@ it:
         type: Tipo
       booking_validation:
         check_on:
-        enabling_condition:
+        enabling_conditions:
         error_message:
         ordinal_position: Numero di serie
-        validating_condition:
+        validating_conditions:
       contract:
         issuer: Proprietario
         locale: Lingua
@@ -241,7 +241,7 @@ it:
         remarks: Osservazioni
         responsible: Responsabile
       designated_document:
-        attaching_condition: Condizioni
+        attaching_conditions: Condizioni
         designation: Tipo di documento
         file: File
         locale: Lingua
@@ -402,7 +402,7 @@ it:
         accounting_account_nr: Conto contabile
         accounting_cost_center_nr:
         associated_types: Indicato nei documenti
-        enabling_condition: Condizioni per la selezione consentita
+        enabling_conditions: Condizioni per la selezione consentita
         label: Designazione tariffa
         meter: Nome del contatore (per le tariffe in base alla lettura del contatore)
         minimum_price_per_night:
@@ -414,7 +414,7 @@ it:
         prefill_usage_booking_question_id:
         prefill_usage_method: Metodo di riempimento anticipato
         price_per_unit: Prezzo (per unità)
-        selecting_condition: Condizioni per la selezione automatica
+        selecting_conditions: Condizioni per la selezione automatica
         tarif_group: Gruppo tariffario
         type: Tipo
         unit: Unità

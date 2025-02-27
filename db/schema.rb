@@ -160,7 +160,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_151249) do
     t.datetime "updated_at", null: false
     t.integer "tenant_mode", default: 0, null: false
     t.integer "booking_agent_mode", default: 0
-    t.jsonb "validating_condition"
+    t.jsonb "validating_conditions"
     t.index ["discarded_at"], name: "index_booking_questions_on_discarded_at"
     t.index ["organisation_id"], name: "index_booking_questions_on_organisation_id"
     t.index ["type"], name: "index_booking_questions_on_type"
@@ -187,8 +187,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_151249) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "check_on", default: 0, null: false
-    t.jsonb "enabling_condition"
-    t.jsonb "validating_condition"
+    t.jsonb "enabling_conditions"
+    t.jsonb "validating_conditions"
     t.index ["organisation_id"], name: "index_booking_validations_on_organisation_id"
   end
 
@@ -299,7 +299,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_151249) do
     t.boolean "send_with_contract", default: false, null: false
     t.boolean "send_with_last_infos", default: false
     t.boolean "send_with_accepted", default: false, null: false
-    t.jsonb "attaching_condition"
+    t.jsonb "attaching_conditions"
     t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
   end
 
@@ -458,7 +458,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_151249) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
-    t.jsonb "applying_condition"
+    t.jsonb "applying_conditions"
     t.index ["booking_id"], name: "index_operator_responsibilities_on_booking_id"
     t.index ["operator_id"], name: "index_operator_responsibilities_on_operator_id"
     t.index ["ordinal"], name: "index_operator_responsibilities_on_ordinal"
@@ -712,8 +712,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_151249) do
     t.decimal "minimum_price_total"
     t.string "accounting_cost_center_nr"
     t.bigint "vat_category_id"
-    t.jsonb "selecting_condition"
-    t.jsonb "enabling_condition"
+    t.jsonb "selecting_conditions"
+    t.jsonb "enabling_conditions"
     t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
     t.index ["prefill_usage_booking_question_id"], name: "index_tarifs_on_prefill_usage_booking_question_id"
