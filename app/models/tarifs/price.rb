@@ -34,10 +34,6 @@ module Tarifs
   class Price < Tarif
     Tarif.register_subtype self
 
-    def unit
-      super || organisation.currency
-    end
-
     def breakdown(usage)
       return if usage.used_units.nil? || usage.used_units.zero?
 

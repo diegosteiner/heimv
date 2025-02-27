@@ -33,9 +33,5 @@
 module Tarifs
   class Flat < Tarif
     Tarif.register_subtype self
-
-    def unit
-      super.presence || model_name.human
-    end
   end
 end

@@ -81,14 +81,6 @@ class Tarif < ApplicationRecord
 
   before_validation :update_booking_conditions
 
-  def unit_prefix
-    self.class.human_attribute_name(:unit_prefix, default: '')
-  end
-
-  def unit_with_prefix
-    [unit_prefix, unit].compact_blank.join(' ')
-  end
-
   def before_usage_validation(_usage); end
 
   def before_usage_save(_usage); end
