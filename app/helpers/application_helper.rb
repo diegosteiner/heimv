@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def react_component(path, props, **)
+    full_path = Rails.root.join('app/javascript/components/rails', "#{path}.tsx")
+    raise ArgumentError, 'Component does not exist' unless full_path.exist?
+
+    tag.div(data: { component: path, props: }, **) do
+      tag.div(class: 'd-flex justify-content-center align-items-center p-4 my-auto') do
+        tag.span(class: 'spinner-border text-secondary', role: 'status')
+      end
+    end
+  end
+
   def render_hash_as_dl(hash, model_class = nil)
     tag.dl do
       safe_join(hash.map do |key, value|

@@ -3,7 +3,7 @@ import { type Dispatch, type SetStateAction, use } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { translatedString } from "../../services/i18n";
-import { OrganisationContext } from "../organisation/OrganisationProvider";
+import { OrganisationContext } from "../rails/OrganisationProvider";
 
 type OccupiableSelectProps = OccupiableSelectState & {
   onChange: Dispatch<SetStateAction<OccupiableSelectState>>;

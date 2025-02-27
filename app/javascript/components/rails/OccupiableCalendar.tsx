@@ -1,8 +1,9 @@
 import * as React from "react";
+import type { Organisation } from "../../types";
 import type { ViewType } from "../calendar/Calendar";
 import OccupancyOverviewCalendar from "../occupancies/OccupancyOverviewCalendar";
 import { OccupancyWindowProvider } from "../occupancies/OccupancyWindowContext";
-import OrganisationProvider from "../organisation/OrganisationProvider";
+import OrganisationProvider from "./OrganisationProvider";
 
 type OccupiableCalendarProps = {
   org: string;
@@ -11,10 +12,11 @@ type OccupiableCalendarProps = {
   defaultView: ViewType;
   occupancyAtUrl: string;
   manage?: boolean;
+  organisation: Organisation;
 };
 
 export default function OccupiableCalendar({
-  org,
+  organisation,
   occupiableIds,
   months,
   defaultView,
@@ -23,7 +25,7 @@ export default function OccupiableCalendar({
 }: OccupiableCalendarProps) {
   return (
     <React.StrictMode>
-      <OrganisationProvider org={org}>
+      <OrganisationProvider organisation={organisation}>
         <OccupancyWindowProvider occupiableIds={occupiableIds} manage={manage}>
           <OccupancyOverviewCalendar defaultView={defaultView} months={months} occupancyAtUrl={occupancyAtUrl} />
         </OccupancyWindowProvider>

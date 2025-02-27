@@ -98,10 +98,6 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.11.0)
       aws-eventstream (~> 1, >= 1.0.2)
-    babel-source (5.8.35)
-    babel-transpiler (0.7.0)
-      babel-source (>= 4.0, < 6)
-      execjs (~> 2.0)
     barnes (0.0.9)
       multi_json (~> 1)
       statsd-ruby (~> 1.1)
@@ -212,7 +208,6 @@ GEM
     exception_notification (4.1.1)
       actionmailer (>= 3.0.4)
       activesupport (>= 3.0.4)
-    execjs (2.10.0)
     factory_bot (6.5.1)
       activesupport (>= 6.1.0)
     factory_bot_rails (6.4.4)
@@ -434,12 +429,6 @@ GEM
       logger
     rdoc (6.12.0)
       psych (>= 4.0.0)
-    react-rails (3.2.1)
-      babel-transpiler (>= 0.7.0)
-      connection_pool
-      execjs
-      railties (>= 3.2)
-      tilt
     redis (5.4.0)
       redis-client (>= 0.22.0)
     redis-client (0.23.2)
@@ -655,7 +644,6 @@ DEPENDENCIES
   rails (~> 8.0.0)
   rails-i18n
   ranked-model
-  react-rails
   redis
   responders
   rqrcode
