@@ -1,7 +1,7 @@
+import { Dropdown } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import BookingConditionCollection from "./BookingConditionCollection";
 import BookingConditionComparable from "./BookingConditionComparable";
-import { Dropdown } from "react-bootstrap";
 
 export enum BookingConditionType {
   AlwaysApply = "BookingConditions::AlwaysApply",
