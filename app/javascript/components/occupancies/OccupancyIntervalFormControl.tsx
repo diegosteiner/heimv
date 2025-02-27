@@ -97,7 +97,7 @@ export function OccupancyIntervalFormControl({
           <Col sm={6}>
             <InputGroup hasValidation>
               <Form.Control
-                value={beginsAt.text}
+                value={beginsAt.text || ""}
                 id={"booking_begins_at_date"}
                 required={required}
                 disabled={disabled}
@@ -155,7 +155,7 @@ export function OccupancyIntervalFormControl({
           <Col sm={6}>
             <InputGroup>
               <Form.Control
-                value={endsAt.text}
+                value={endsAt.text || ""}
                 id={"booking_ends_at_date"}
                 required={required}
                 disabled={disabled}

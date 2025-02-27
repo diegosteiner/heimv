@@ -1,10 +1,11 @@
 import * as React from "react";
 import { type BookingJson, parse } from "../../models/Booking";
+import type { Organisation } from "../../types";
 import OccupancySelect from "../occupancies/OccupancySelect";
-import OrganisationProvider from "../organisation/OrganisationProvider";
+import OrganisationProvider from "./OrganisationProvider";
 
 type BookingOccupancyFormProps = {
-  org: string;
+  organisation: Organisation;
   booking: BookingJson;
   namePrefix?: string;
   required?: boolean;
@@ -20,7 +21,7 @@ export default function BookingOccupancyForm(props: BookingOccupancyFormProps) {
 
   return (
     <React.StrictMode>
-      <OrganisationProvider org={props.org}>
+      <OrganisationProvider organisation={props.organisation}>
         <OccupancySelect
           initial={{ ...booking }}
           namePrefix={props.namePrefix}

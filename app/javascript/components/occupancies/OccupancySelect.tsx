@@ -1,11 +1,11 @@
 import { cx } from "@emotion/css";
-import { useContext, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import type { Organisation } from "../../types";
 import type { ViewType } from "../calendar/Calendar";
 import OccupiableSelect, { type OccupiableSelectState } from "../occupiables/OccupiableSelect";
-import { OrganisationContext } from "../organisation/OrganisationProvider";
+import { OrganisationContext } from "../rails/OrganisationProvider";
 import { OccupancyIntervalFormControl } from "./OccupancyIntervalFormControl";
 import { OccupancyWindowProvider } from "./OccupancyWindowContext";
 
@@ -21,15 +21,13 @@ export type OccupancySelectProps = {
   occupancyInvalidFeedback?: string;
 };
 
-function inferOccupiableIds(organisation?: Organisation): number[] {
-  if (!organisation) return [];
-
+function inferOccupiableIds(organisation: Organisation): number[] {
   const occupiables = organisation.homes.flatMap((home) => home.occupiables.map((occupiable) => occupiable.id));
   if (occupiables.length === 1) return occupiables;
   return [];
 }
 
-function inferHomeId(organisation?: Organisation, occupiableIds?: number[]): number | undefined {
+function inferHomeId(organisation: Organisation, occupiableIds?: number[]): number | undefined {
   if (!organisation) return undefined;
   if (organisation.homes.length === 1) return organisation.homes[0].id;
 
@@ -51,7 +49,7 @@ export default function OccupancySelect({
   defaultBeginsAtTime,
   defaultEndsAtTime,
 }: OccupancySelectProps) {
-  const organisation = useContext(OrganisationContext);
+  const organisation = use(OrganisationContext) as Organisation;
   const { t } = useTranslation();
   const [occupiableState, setOccupiableState] = useState<OccupiableSelectState>(() => ({
     homeId: initial.homeId,
@@ -65,7 +63,7 @@ export default function OccupancySelect({
     }));
   }, [organisation]);
 
-  if (!organisation) return <></>;
+  if (!organisation) return <>...</>;
   return (
     <Form.Group>
       <Form.Label className={cx({ required })}>{t("activerecord.attributes.booking.occupiable_ids")}</Form.Label>

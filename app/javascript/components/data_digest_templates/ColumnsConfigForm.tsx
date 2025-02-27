@@ -11,11 +11,6 @@ enum ColumnConfigType {
   BookingQuestionResponse = "booking_question_response",
 }
 
-type ColumnsConfigFormProps = {
-  json: string;
-  name: string;
-};
-
 type BaseColumnConfig = {
   id: string;
   header: string;
@@ -33,6 +28,8 @@ type BookingQuestionResponseColumnConfig = BaseColumnConfig & {
   booking_question_id: string | number;
 };
 
+export type ColumnConfig = BaseColumnConfig | UsageColumnConfig | BookingQuestionResponseColumnConfig;
+
 function isColumnConfigType(type: string): type is ColumnConfigType {
   return Object.values<string>(ColumnConfigType).includes(type);
 }
@@ -41,14 +38,17 @@ function toJson(columnsConfigs: ColumnConfig[]): string {
   return JSON.stringify(columnsConfigs);
 }
 
-type ColumnConfig = BaseColumnConfig | UsageColumnConfig | BookingQuestionResponseColumnConfig;
+type Props = {
+  columnsConfig: (ColumnConfig & { id: string | undefined })[];
+  name: string;
+};
 
-export default function ColumnsConfigForm({ json, name }: ColumnsConfigFormProps) {
+export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig, name }: Props) {
   const { t } = useTranslation();
-  const [columnsConfig, setColumnsConfig] = useState<ColumnConfig[]>(() =>
-    (JSON.parse(json) as unknown as ColumnConfig[]).map((data) => ({
-      ...data,
-      id: data.id ? data.id : crypto.randomUUID(),
+  const [columnsConfig, setColumnsConfig] = useState<ColumnConfig[]>(
+    initialColumnsConfig.map((columnConfig) => ({
+      ...columnConfig,
+      id: columnConfig.id ? columnConfig.id : crypto.randomUUID(),
     })),
   );
 
@@ -90,7 +90,7 @@ export default function ColumnsConfigForm({ json, name }: ColumnsConfigFormProps
           </Form.Select>
         </Col>
       </Form.Group>
-      <Form.Control className="d-none" name={name} as="textarea" value={toJson(columnsConfig)} />
+      <Form.Control className="d-none" name={name} as="textarea" readOnly value={toJson(columnsConfig)} />
     </Form.Group>
   );
 }

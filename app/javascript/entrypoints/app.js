@@ -1,7 +1,8 @@
 import "~/services/i18n";
 import "bootstrap/dist/js/bootstrap.bundle";
 import Rails from "@rails/ujs";
-import ReactRailsUJS from "react_ujs";
+import React from "react";
+import { createRoot } from "react-dom/client";
 
 function csrfForm() {
   const csrfToken = document.querySelector("meta[name=csrf-token]")?.content;
@@ -86,6 +87,7 @@ function setupSubmit() {
 // Rails.start();
 document.addEventListener("DOMContentLoaded", () => {
   csrfForm();
+  setupReact();
   toggleDisable();
   setupRichTextArea();
   setupBookingAgentBookingButton();
@@ -95,33 +97,13 @@ document.addEventListener("DOMContentLoaded", () => {
   Rails.start();
 });
 
-// https://github.com/reactjs/react-rails/issues/1134#issuecomment-1415112288
-function viteConstructorRequireContext(reqCtx) {
-  const componentNameMatcher = (className) => {
-    return (path) =>
-      path.includes(`/${className}.js`) ||
-      path.includes(`/${className}/index.js`) ||
-      path.includes(`/${className}.ts`) ||
-      path.includes(`/${className}.tsx`);
-  };
+function setupReact() {
+  const componentsRequireContext = import.meta.glob("~/components/rails/*.{ts,tsx}", { eager: true });
+  for (const element of document.querySelectorAll("[data-component]")) {
+    const component = componentsRequireContext[`/components/rails/${element.dataset.component}.tsx`];
+    if (!component) continue;
 
-  const fromRequireContext = (reqCtx) => (className) => {
-    const componentPath = Object.keys(reqCtx).find(componentNameMatcher(className));
-    const component = reqCtx[componentPath];
-    return component.default;
-  };
-
-  const fromCtx = fromRequireContext(reqCtx);
-  return (className) => {
-    let component;
-    try {
-      // `require` will raise an error if this className isn't found:
-      component = fromCtx(className);
-    } catch (firstErr) {
-      console.error(firstErr);
-    }
-    return component;
-  };
+    const props = JSON.parse(element.dataset.props || "{}");
+    createRoot(element).render(component.default({ ...props }));
+  }
 }
-const componentsRequireContext = import.meta.glob("~/components/**/*.{ts,tsx}", { eager: true });
-ReactRailsUJS.getConstructor = viteConstructorRequireContext(componentsRequireContext);

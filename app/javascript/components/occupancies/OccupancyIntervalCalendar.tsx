@@ -1,7 +1,7 @@
 import { cx } from "@emotion/css";
 import { isAfter, isBefore } from "date-fns";
 import { formatISO, isSameDay, parseISO } from "date-fns";
-import { useCallback, useContext, useRef, useState } from "react";
+import { use, useCallback, useRef, useState } from "react";
 import * as React from "react";
 import type { OccupancyWindow } from "../../models/OccupancyWindow";
 import { isBetweenDates, parseISOorUndefined, toInterval } from "../../services/date";
@@ -37,18 +37,18 @@ interface OccupancyIntervalCalendarProps {
   onChange?: (value: { endsAt?: Date | undefined; beginsAt?: Date | undefined }) => void;
 }
 
-function OccupancyIntervalCalendar({
+export default function OccupancyIntervalCalendar({
   beginsAtString,
   endsAtString,
   defaultView,
   months,
   onChange,
 }: OccupancyIntervalCalendarProps) {
-  const occupancyWindow = useContext(OccupancyWindowContext);
+  const occupancyWindow = use(OccupancyWindowContext);
   const beginsAt = parseISOorUndefined(beginsAtString);
   const endsAt = parseISOorUndefined(endsAtString);
   const [hovering, setHovering] = useState<Date | undefined>();
-  const setHoveringTimeout = useRef<ReturnType<typeof setTimeout> | undefined>();
+  const setHoveringTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const handleClick = useCallback(
     (date: Date) => {
@@ -60,9 +60,9 @@ function OccupancyIntervalCalendar({
       const interval = toInterval([beginsAt, endsAt, date]);
       onChange({ beginsAt: interval.start, endsAt: interval.end });
     },
-    [beginsAt, endsAt],
+    [beginsAt, endsAt, onChange],
   );
-  const handleHover = (date: Date | undefined) => {
+  const handleHover = useCallback((date: Date | undefined) => {
     if (setHoveringTimeout.current) {
       clearTimeout(setHoveringTimeout.current);
       setHoveringTimeout.current = undefined;
@@ -71,7 +71,7 @@ function OccupancyIntervalCalendar({
     if (date) return setHovering(date);
 
     setHoveringTimeout.current = setTimeout(() => setHovering(undefined), 100);
-  };
+  }, []);
 
   const dateElementFactory: DateElementFactory = useCallback(
     (dateString: string, labelCallback: (date: Date) => string) => {
@@ -98,7 +98,7 @@ function OccupancyIntervalCalendar({
         </CalendarDate>
       );
     },
-    [occupancyWindow, beginsAt, endsAt, hovering],
+    [occupancyWindow, beginsAt, endsAt, hovering, handleClick, handleHover],
   );
 
   return (
@@ -110,5 +110,3 @@ function OccupancyIntervalCalendar({
     />
   );
 }
-
-export default OccupancyIntervalCalendar;

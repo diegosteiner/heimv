@@ -9,7 +9,7 @@
 
   fieldset 
     = react_component('BookingOccupancyForm', { \ 
-        org: current_organisation.slug, \
+        organisation: Public::OrganisationSerializer.render_as_hash(current_organisation), \
         booking: Public::BookingSerializer.render_as_hash(@booking), \
         namePrefix: 'booking', \ 
         required: true, \

@@ -4,7 +4,7 @@ h1.m-0= Occupancy.model_name.human(count: 2)
 .card.shadow-sm.mb-5
   .card-body
     = react_component('OccupiableCalendar', { \ 
-        org: current_organisation.slug, \
+        organisation: Public::OrganisationSerializer.render_as_hash(current_organisation), \
         manage: true, \
         occupiableIds: [@occupiable.id], \
         occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: @occupiable.to_param, date: '__DATE__'), \
