@@ -15,7 +15,6 @@ en:
         previous_booking_states: Vergangene Status
       booking_condition:
         compare_value: Bedingung
-        must_condition: Muss-Kriterium
         type: Typ
       invoice/filter:
         invoice_type: Rechungsart
@@ -232,7 +231,7 @@ en:
       operator_booking:
         responsibility: Verantwortlichkeit
       operator_responsibility:
-        assigning_condition: Bedingungen
+        assigning_conditions: Bedingungen
         booking_id: Buchung
         home_id: Heim
         operator_id: Funktionär

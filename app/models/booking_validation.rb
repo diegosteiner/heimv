@@ -38,16 +38,16 @@ class BookingValidation < ApplicationRecord
   accepts_nested_attributes_for :enabling_conditions, :validating_conditions, allow_destroy: true
 
   def booking_valid?(booking, validation_context:)
-    return true unless check_on.include?(validation_context) && enabled_by_condition?(booking)
+    return true unless check_on.include?(validation_context) && enabled_by_conditions?(booking)
 
-    valid_by_condition?(booking)
+    valid_by_conditions?(booking)
   end
 
-  def enabled_by_condition?(booking)
-    enabling_conditions.blank? || enabling_conditions.fullfills?(booking)
+  def enabled_by_conditions?(booking)
+    enabling_conditions.blank? || enabling_conditions.all? { it.fullfills?(booking) }
   end
 
-  def valid_by_condition?(booking)
-    validating_conditions&.fullfills?(booking)
+  def valid_by_conditions?(booking)
+    validating_conditions&.all? { it.fullfills?(booking) }
   end
 end

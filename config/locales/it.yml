@@ -19,7 +19,6 @@ it:
         compare_attribute:
         compare_operator:
         compare_value: Condizione
-        must_condition: Criterio obbligatorio
         type: Tipo
       booking_state_settings:
         default_manage_transition_to_state:
@@ -339,7 +338,7 @@ it:
       operator_booking:
         responsibility: Responsabilità
       operator_responsibility:
-        assigning_condition: Condizioni
+        assigning_conditions: Condizioni
         booking_id: Prenotazione
         home_id: Oggetto principale di affitto
         operator_id: Funzionario

@@ -54,7 +54,7 @@ class DesignatedDocument < ApplicationRecord
   end
 
   def attach_to?(booking)
-    attaching_conditions.blank? || attaching_conditions.fullfills?(booking)
+    attaching_conditions.blank? || attaching_conditions.all? { it.fullfills?(booking) }
   end
 
   def initialize_copy(origin)

@@ -13,10 +13,10 @@ class Usage
         Usage.new(tarif:, apply: nil, booking:).tap do |usage|
           next unless preselect
 
-          usage.apply ||= usage.selected_by_condition?
+          usage.apply ||= usage.selected_by_conditions?
           usage.used_units ||= usage.presumed_units
         end
-      end.filter(&:enabled_by_condition?)
+      end.filter(&:enabled_by_conditions?)
     end
   end
 end

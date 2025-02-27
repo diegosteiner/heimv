@@ -57,7 +57,7 @@ class BookingQuestion < ApplicationRecord
   end
 
   def applies_to_booking?(booking)
-    applying_conditions.blank? || applying_conditions.fullfills?(booking)
+    applying_conditions.blank? || applying_conditions.all? { it.fullfills?(booking) }
   end
 
   def self.applying_to_booking(booking)
