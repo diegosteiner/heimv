@@ -40,7 +40,7 @@ RSpec.describe Usage, type: :model do
       let(:usages) { factory.build(preselect: true) }
 
       let(:tarif) do
-        selecting_condition = BookingConditions::AndGroup.new(
+        selecting_conditions = BookingConditions::AndGroup.new(
           conditions: [
             BookingConditions::OccupancyDuration.new(compare_value: '1d', compare_operator: :>),
             BookingConditions::BookingAttribute.new(compare_value: '10', compare_attribute: :approximate_headcount,
@@ -49,7 +49,7 @@ RSpec.describe Usage, type: :model do
                                                     must_condition: false)
           ]
         )
-        create(:tarif, organisation:, price_per_unit: 3.33, selecting_condition:)
+        create(:tarif, organisation:, price_per_unit: 3.33, selecting_conditions:)
       end
 
       it do

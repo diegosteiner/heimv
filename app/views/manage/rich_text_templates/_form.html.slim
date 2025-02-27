@@ -43,7 +43,7 @@
           label.form-check-label[for=html_id]
             = link_to edit_manage_designated_document_path(designated_document)
               = designated_document.name
-            - if designated_document.attaching_condition.present?
+            - if designated_document.attaching_conditions.present?
               span.ms-1.text-muted.text-sm
                 = BookingCondition.model_name.human
 

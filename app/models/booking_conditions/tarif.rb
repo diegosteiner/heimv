@@ -11,7 +11,7 @@ module BookingConditions
 
     validates :compare_operator, :compare_value, presence: true
     validate do
-      errors.add(:compare_value, :invalid) unless compare_values.exists?(id: compare_value)
+      errors.add(:compare_value, :invalid) unless self.class.compare_values(organisation).exists?(id: compare_value)
     end
 
     def evaluate!(booking)

@@ -4,15 +4,15 @@
 #
 # Table name: booking_validations
 #
-#  id                   :bigint           not null, primary key
-#  check_on             :integer          default(0), not null
-#  enabling_condition   :jsonb
-#  error_message_i18n   :jsonb            not null
-#  ordinal              :integer
-#  validating_condition :jsonb
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  organisation_id      :bigint           not null
+#  id                    :bigint           not null, primary key
+#  check_on              :integer          default(0), not null
+#  enabling_conditions   :jsonb
+#  error_message_i18n    :jsonb            not null
+#  ordinal               :integer
+#  validating_conditions :jsonb
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  organisation_id       :bigint           not null
 #
 
 class BookingValidation < ApplicationRecord
@@ -27,15 +27,15 @@ class BookingValidation < ApplicationRecord
 
   flag :check_on, Booking::VALIDATION_CONTEXTS
 
-  attribute :validating_condition, BookingCondition.one_of.to_type
-  attribute :enabling_condition, BookingCondition.one_of.to_type
+  attribute :validating_conditions, BookingCondition.one_of.to_array_type
+  attribute :enabling_conditions, BookingCondition.one_of.to_array_type
 
   scope :ordered, -> { order(:ordinal) }
   ranks :ordinal, with_same: :organisation_id, class_name: 'BookingValidation'
 
-  validates :validating_condition, :enabling_condition, store_model: true, allow_nil: true
+  validates :validating_conditions, :enabling_conditions, store_model: true, allow_nil: true
 
-  accepts_nested_attributes_for :enabling_condition, :validating_condition, allow_destroy: true
+  accepts_nested_attributes_for :enabling_conditions, :validating_conditions, allow_destroy: true
 
   def booking_valid?(booking, validation_context:)
     return true unless check_on.include?(validation_context) && enabled_by_condition?(booking)
@@ -44,10 +44,10 @@ class BookingValidation < ApplicationRecord
   end
 
   def enabled_by_condition?(booking)
-    enabling_condition.blank? || enabling_condition.fullfills?(booking)
+    enabling_conditions.blank? || enabling_conditions.fullfills?(booking)
   end
 
   def valid_by_condition?(booking)
-    validating_condition&.fullfills?(booking)
+    validating_conditions&.fullfills?(booking)
   end
 end

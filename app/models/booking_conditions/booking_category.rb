@@ -13,8 +13,8 @@ module BookingConditions
 
     validates :compare_operator, presence: true
     validate do
-      next if compare_values.exists?(key: compare_value) ||
-              compare_values.exists?(id: compare_value)
+      next if self.class.compare_values(organisation).exists?(key: compare_value) ||
+              self.class.compare_values(organisation).exists?(id: compare_value)
 
       errors.add(:compare_value, :invalid)
     end

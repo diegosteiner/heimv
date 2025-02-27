@@ -10,12 +10,12 @@ module BookingConditions
 
     compare_operator(**NUMERIC_OPERATORS)
 
-    def compare_value_regex
+    def self.compare_value_regex
       /\A(?<threshold>\d+)\s*(?<threshold_unit>[smhd])\z/
     end
 
     def evaluate!(booking)
-      compare_value_match = compare_value_regex.match(compare_value)
+      compare_value_match = self.class.compare_value_regex.match(compare_value)
       return false unless compare_value_match
 
       actual_value = booking.duration

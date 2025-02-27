@@ -5,7 +5,7 @@
 # Table name: designated_documents
 #
 #  id                   :bigint           not null, primary key
-#  attaching_condition  :jsonb
+#  attaching_conditions :jsonb
 #  designation          :integer
 #  locale               :string
 #  name                 :string
@@ -28,7 +28,7 @@ class DesignatedDocument < ApplicationRecord
   locale_enum
   enum :designation, { other: 0, privacy_statement: 1, terms: 2, house_rules: 3, price_list: 4 }
 
-  attribute :attaching_condition, BookingCondition.one_of.to_type, nil: true
+  attribute :attaching_conditions, BookingCondition.one_of.to_array_type, nil: true
 
   scope :with_locale, ->(locale) { where(locale: [locale, nil]).order(locale: :ASC) }
   scope :for_booking, (lambda do |booking|
@@ -41,9 +41,9 @@ class DesignatedDocument < ApplicationRecord
   delegate :blob, :content_type, :filename, to: :file, allow_nil: true
 
   validates :file, presence: true
-  validates :attaching_condition, store_model: true, allow_nil: true
+  validates :attaching_conditions, store_model: true, allow_nil: true
 
-  accepts_nested_attributes_for :attaching_condition, allow_destroy: true
+  accepts_nested_attributes_for :attaching_conditions, allow_destroy: true
 
   def locale=(value)
     super(value.presence)
@@ -54,12 +54,12 @@ class DesignatedDocument < ApplicationRecord
   end
 
   def attach_to?(booking)
-    attaching_condition.blank? || attaching_condition.fullfills?(booking)
+    attaching_conditions.blank? || attaching_conditions.fullfills?(booking)
   end
 
   def initialize_copy(origin)
     super
-    self.attaching_condition = origin.attaching_condition.dup
+    self.attaching_conditions = origin.attaching_conditions.dup
     return if origin.file.blank?
 
     file.attach(io: StringIO.new(origin.file.download),

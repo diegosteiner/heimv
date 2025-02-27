@@ -17,7 +17,7 @@ module BookingConditions
 
     validates :compare_attribute, :compare_operator, presence: true
 
-    def compare_value_regex
+    def self.compare_value_regex
       ComparableDatetime::REGEX
     end
 

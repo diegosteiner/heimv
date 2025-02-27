@@ -85,11 +85,11 @@ class Usage < ApplicationRecord
   end
 
   def enabled_by_condition?
-    tarif.enabling_condition.blank? || tarif.enabling_condition.fullfills?(booking)
+    tarif.enabling_conditions.blank? || tarif.enabling_conditions.fullfills?(booking)
   end
 
   def selected_by_condition?
-    tarif.selecting_condition.blank? || tarif.selecting_condition.fullfills?(booking)
+    tarif.selecting_conditions.blank? || tarif.selecting_conditions.fullfills?(booking)
   end
 
   def round_cents(amount, round_to: 5)

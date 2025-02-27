@@ -5,7 +5,7 @@
 # Table name: designated_documents
 #
 #  id                   :bigint           not null, primary key
-#  attaching_condition  :jsonb
+#  attaching_conditions :jsonb
 #  designation          :integer
 #  locale               :string
 #  name                 :string
@@ -79,7 +79,7 @@ RSpec.describe DesignatedDocument, type: :model do
 
     let(:documents) do
       conditions.transform_values do |condition|
-        create!(:designated_document, organisation:, attaching_condition: condition)
+        create!(:designated_document, organisation:, attaching_conditions: condition)
       end
     end
 

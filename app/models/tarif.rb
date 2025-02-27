@@ -9,7 +9,7 @@
 #  accounting_cost_center_nr         :string
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
-#  enabling_condition                :jsonb
+#  enabling_conditions               :jsonb
 #  label_i18n                        :jsonb
 #  minimum_price_per_night           :decimal(, )
 #  minimum_price_total               :decimal(, )
@@ -19,7 +19,7 @@
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
 #  price_per_unit                    :decimal(, )
-#  selecting_condition               :jsonb
+#  selecting_conditions              :jsonb
 #  tarif_group                       :string
 #  type                              :string
 #  unit_i18n                         :jsonb
@@ -61,8 +61,8 @@ class Tarif < ApplicationRecord
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
 
   attribute :price_per_unit, default: 0
-  attribute :selecting_condition, BookingCondition.one_of.to_type, nil: true
-  attribute :enabling_condition, BookingCondition.one_of.to_type, nil: true
+  attribute :selecting_conditions, BookingCondition.one_of.to_array_type, nil: true
+  attribute :enabling_conditions, BookingCondition.one_of.to_array_type, nil: true
 
   enum :prefill_usage_method, Tarif::PREFILL_METHODS.keys.index_with(&:to_s)
 
@@ -70,12 +70,12 @@ class Tarif < ApplicationRecord
   scope :pinned, -> { where(pin: true) }
 
   validates :type, presence: true, inclusion: { in: ->(_) { Tarif.subtypes.keys.map(&:to_s) } }
-  validates :selecting_condition, :enabling_condition, store_model: true, allow_nil: true
+  validates :selecting_conditions, :enabling_conditions, store_model: true, allow_nil: true
 
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :unit, column_suffix: '_i18n', locale_accessors: true
 
-  accepts_nested_attributes_for :selecting_condition, :enabling_condition, allow_destroy: true
+  accepts_nested_attributes_for :selecting_conditions, :enabling_conditions, allow_destroy: true
 
   def before_usage_validation(_usage); end
   def before_usage_save(_usage); end
@@ -159,7 +159,7 @@ class Tarif < ApplicationRecord
 
   def initialize_copy(origin)
     super
-    self.selecting_condition = origin.selecting_condition.dup
-    self.enabling_condition = origin.enabling_condition.dup
+    self.selecting_conditions = origin.selecting_conditions.dup
+    self.enabling_conditions = origin.enabling_conditions.dup
   end
 end

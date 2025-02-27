@@ -4,16 +4,16 @@
 #
 # Table name: operator_responsibilities
 #
-#  id                 :bigint           not null, primary key
-#  applying_condition :jsonb
-#  ordinal            :integer
-#  remarks            :text
-#  responsibility     :integer
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  booking_id         :uuid
-#  operator_id        :bigint           not null
-#  organisation_id    :bigint           not null
+#  id                  :bigint           not null, primary key
+#  applying_conditions :jsonb
+#  ordinal             :integer
+#  remarks             :text
+#  responsibility      :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  booking_id          :uuid
+#  operator_id         :bigint           not null
+#  organisation_id     :bigint           not null
 #
 
 class OperatorResponsibility < ApplicationRecord
@@ -28,7 +28,7 @@ class OperatorResponsibility < ApplicationRecord
 
   enum :responsibility, RESPONSIBILITIES
 
-  attribute :assigning_condition, BookingCondition.one_of.to_type, nil: true
+  attribute :assigning_condition, BookingCondition.one_of.to_array_type, nil: true
 
   scope :ordered, -> { rank(:ordinal) }
   scope :by_operator, ->(*responsibilities) { where(responsibility: responsibilities).group_by(&:operator) }

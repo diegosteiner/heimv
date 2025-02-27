@@ -35,6 +35,11 @@ export type BookingCondition =
   | {
       type: BookingConditionComparableType;
       id: string;
+      errors?: {
+        compare_attribute?: string[];
+        compare_operator?: string[];
+        compare_value?: string[];
+      };
       compare_attribute?: string;
       compare_operator?: string;
       compare_value?: string;
@@ -52,6 +57,7 @@ export type BookingConditionOptionsForSelect = {
     compare_attributes?: [string, string][] | null;
     compare_operators?: [string, string][] | null;
     compare_values?: [string, string][] | null;
+    compare_value_regex?: string | null;
   };
 };
 
