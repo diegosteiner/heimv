@@ -13,6 +13,7 @@ class BookingCondition
   attribute :organisation_id, :string
 
   validates :type, presence: true, inclusion: { in: ->(_) { BookingCondition.subtypes.keys.map(&:to_s) } }
+  validates :organisation, presence: true
 
   delegate :compare_attributes, to: :class
   delegate :stringify_keys, to: :attributes
@@ -45,5 +46,17 @@ class BookingCondition
 
   def self.one_of
     StoreModel.one_of { subtypes[it[:type]&.to_sym] || BookingCondition }
+  end
+
+  def self.options_for_select(organisation)
+    subtypes.transform_values do |subtype|
+      {
+        type: subtype.name,
+        name: subtype.model_name.human,
+        compare_attributes: subtype.try(:compare_attributes_for_select),
+        compare_operators: subtype.try(:compare_operators_for_select),
+        compare_values: subtype.try(:compare_values_for_select, organisation)
+      }
+    end
   end
 end

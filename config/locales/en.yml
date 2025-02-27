@@ -13,6 +13,10 @@ en:
         homes: Heime
         occupiables: Mietobjekte
         previous_booking_states: Vergangene Status
+      booking_condition:
+        compare_value: Bedingung
+        must_condition: Muss-Kriterium
+        type: Typ
       invoice/filter:
         invoice_type: Rechungsart
         issued_at_after: Rechnungsdatum nach
@@ -46,6 +50,24 @@ en:
         paid_at_after: Zahlung ab
         paid_at_before: Zahlung bis
     models:
+      booking_condition:
+        one: Tarifwähler
+        other: Tarifwähler
+      booking_conditions/always_apply:
+        one: Immer-Ein Tarifwähler
+        other:
+      booking_conditions/booking_category:
+        one: Mietzweck Tarifwähler
+        other:
+      booking_conditions/booking_state:
+        one: Status Bedingung
+        other:
+      booking_conditions/occupancy_duration:
+        one: nächte tarifwähler
+        other:
+      booking_conditions/occupiable:
+        one: Heim Bedingung
+        other:
       occupancy_calendar:
         one: Belegungsplan
         other: Belegungspläne
@@ -114,10 +136,6 @@ en:
         key: Schlüssel
         ordinal_position: Anzeigeposition
         title: Titel
-      booking_condition:
-        compare_value: Bedingung
-        must_condition: Muss-Kriterium
-        type: Typ
       contract:
         issuer: Vermieter
         pdf: PDF
@@ -420,24 +438,6 @@ en:
       booking_category:
         one: Mietzweck
         other: Mietzwecke
-      booking_condition:
-        one: Tarifwähler
-        other: Tarifwähler
-      booking_conditions/always_apply:
-        one: Immer-Ein Tarifwähler
-        other:
-      booking_conditions/booking_category:
-        one: Mietzweck Tarifwähler
-        other:
-      booking_conditions/booking_state:
-        one: Status Bedingung
-        other:
-      booking_conditions/occupancy_duration:
-        one: nächte tarifwähler
-        other:
-      booking_conditions/occupiable:
-        one: Heim Bedingung
-        other:
       booking_transition:
         one: Statusübergang
         other: Statusübergänge

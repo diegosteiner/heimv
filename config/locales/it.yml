@@ -15,6 +15,12 @@ it:
         occupiables: Proprietà in affitto
         previous_booking_states: Stato passato
         q:
+      booking_condition:
+        compare_attribute:
+        compare_operator:
+        compare_value: Condizione
+        must_condition: Criterio obbligatorio
+        type: Tipo
       booking_state_settings:
         default_manage_transition_to_state:
         editable_occupancy_states:
@@ -80,6 +86,39 @@ it:
         paid_at_after: Pagamento a partire da
         paid_at_before: Pagamento fino a
     models:
+      booking_condition:
+        one: Condizione
+        other: Condizioni
+      booking_conditions/always_apply:
+        one: Sempre
+        other:
+      booking_conditions/booking_attribute:
+        one:
+        other:
+      booking_conditions/booking_category:
+        one: Categoria di affitto (condizione)
+        other:
+      booking_conditions/booking_date_time:
+        one:
+        other:
+      booking_conditions/booking_question:
+        one:
+        other:
+      booking_conditions/booking_state:
+        one: Stato (condizione)
+        other:
+      booking_conditions/occupancy_duration:
+        one: Durata dell'occupazione (condizione)
+        other:
+      booking_conditions/occupiable:
+        one: Oggetto in affitto  (condizione)
+        other:
+      booking_conditions/tarif:
+        one: Tariffa selezionata (condizione)
+        other:
+      booking_conditions/tenant_attribute:
+        one:
+        other:
       booking_state_settings:
       deadline_settings:
       occupancy_calendar:
@@ -157,12 +196,6 @@ it:
         key: Chiava
         ordinal_position: Posizione di visualizzazione
         title: Titolo
-      booking_condition:
-        compare_attribute:
-        compare_operator:
-        compare_value: Condizione
-        must_condition: Criterio obbligatorio
-        type: Tipo
       booking_question:
         applying_condition: Condizioni
         booking_agent_mode:
@@ -611,39 +644,6 @@ it:
       booking_category:
         one: Categoria di affitto
         other: Categorie di affitto
-      booking_condition:
-        one: Condizione
-        other: Condizioni
-      booking_conditions/always_apply:
-        one: Sempre
-        other:
-      booking_conditions/booking_attribute:
-        one:
-        other:
-      booking_conditions/booking_category:
-        one: Categoria di affitto (condizione)
-        other:
-      booking_conditions/booking_date_time:
-        one:
-        other:
-      booking_conditions/booking_question:
-        one:
-        other:
-      booking_conditions/booking_state:
-        one: Stato (condizione)
-        other:
-      booking_conditions/occupancy_duration:
-        one: Durata dell'occupazione (condizione)
-        other:
-      booking_conditions/occupiable:
-        one: Oggetto in affitto  (condizione)
-        other:
-      booking_conditions/tarif:
-        one: Tariffa selezionata (condizione)
-        other:
-      booking_conditions/tenant_attribute:
-        one:
-        other:
       booking_question:
         one:
         other:

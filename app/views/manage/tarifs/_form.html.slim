@@ -58,6 +58,7 @@
 
   fieldset.mt-4
     label.mb-2= Tarif.human_attribute_name(:selecting_condition)
+    = render partial: 'manage/booking_conditions/form_field', locals: { form: f }
     / = f.fields_for :assigning_condition, @operator_responsibility.assigning_condition do |bcf|
     /     = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
 
