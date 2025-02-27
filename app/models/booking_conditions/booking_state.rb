@@ -13,7 +13,7 @@ module BookingConditions
 
     validates :compare_value, :compare_operator, presence: true
 
-    def compare_values
+    def self.compare_values(organisation)
       organisation.booking_flow_class.state_classes.transform_values(&:translate).to_a
     end
 

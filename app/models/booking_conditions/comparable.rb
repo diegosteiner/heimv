@@ -30,35 +30,11 @@ module BookingConditions
     end
 
     def compare_values
-      nil
+      self.class.compare_values(organisation)
     end
 
     def compare_value_regex
       //
-    end
-
-    def compare_operators_for_select
-      self.class.compare_operators&.keys&.map do |operator|
-        [operator.to_s, operator.to_sym]
-        # [translate(operator, scope: :operators, default: operator), operator.to_sym]
-      end
-    end
-
-    def compare_values_for_select
-      compare_values&.map do |value|
-        next if value.blank?
-
-        next [value.to_s, value.id] if value.is_a?(ApplicationRecord)
-        next [value.last, value.first] if value.is_a?(Array)
-
-        [value.to_s, value.to_sym || value.to_s]
-      end
-    end
-
-    def compare_attributes_for_select
-      compare_attributes&.keys&.map do |attribute|
-        [translate(attribute, scope: :attributes, default: attribute), attribute.to_sym]
-      end
     end
 
     def evaluate_operator(operator, with: {})
@@ -86,12 +62,38 @@ module BookingConditions
         compare_operators.merge!(args.symbolize_keys)
       end
 
+      def compare_operators_for_select
+        compare_operators&.keys&.map { |operator| [operator.to_s, operator.to_sym] }
+        # [translate(operator, scope: :operators, default: operator), operator.to_sym]
+      end
+
       def compare_attributes
         @compare_attributes ||= {}
       end
 
       def compare_attribute(**args)
         compare_attributes.merge!(args.symbolize_keys)
+      end
+
+      def compare_attributes_for_select
+        compare_attributes&.keys&.map do |attribute|
+          [translate(attribute, scope: :attributes, default: attribute), attribute.to_sym]
+        end
+      end
+
+      def compare_values(_organisation)
+        nil
+      end
+
+      def compare_values_for_select(organisation)
+        compare_values(organisation)&.map do |value|
+          next if value.blank?
+
+          next [value.to_s, value.id] if value.is_a?(ApplicationRecord)
+          next [value.last, value.first] if value.is_a?(Array)
+
+          [value.to_s, value.to_sym || value.to_s]
+        end
       end
     end
   end

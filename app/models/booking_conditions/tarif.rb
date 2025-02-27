@@ -19,7 +19,7 @@ module BookingConditions
       evaluate_operator(compare_operator || :'=', with: { actual_value:, compare_value: })
     end
 
-    def compare_values
+    def self.compare_values(organisation)
       organisation.tarifs.ordered
     end
   end
