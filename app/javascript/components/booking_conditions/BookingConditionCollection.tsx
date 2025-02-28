@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { Dropdown } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
+import * as React from "react";
 import {
   AddBookingConditionDropdown,
   type BookingCondition,
