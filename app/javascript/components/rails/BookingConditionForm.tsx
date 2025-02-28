@@ -1,4 +1,4 @@
-import { useState } from "react";
+import * as React from "react";
 import {
   AddBookingConditionDropdown,
   type BookingCondition,
@@ -6,7 +6,7 @@ import {
   type BookingConditionOptionsForSelect,
   type BookingConditionType,
   initializeBookingCondition,
-} from "./BookingCondition";
+} from "../booking_conditions/BookingCondition";
 
 type Props = {
   value?: BookingCondition[];
@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function BookingConditionForm({ optionsForSelect, value, name, disabled }: Props) {
-  const [conditions, setConditions] = useState<BookingCondition[]>(value || []);
+  const [conditions, setConditions] = React.useState<BookingCondition[]>(value || []);
 
   const handleAdd = (type: BookingConditionType) =>
     !disabled &&

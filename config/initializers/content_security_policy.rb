@@ -37,14 +37,10 @@ Rails.application.config.content_security_policy do |policy|
     policy.style_src(*policy.style_src, :unsafe_inline)
     policy.script_src(*policy.script_src, :unsafe_eval, "http://#{ViteRuby.config.host_with_port}")
     policy.connect_src(*policy.connect_src,
-                       'http://localhost:3000',
-                       'http://*.localhost:3000',
-                       "http://#{ViteRuby.config.host_with_port}",
-                       "http://*.#{ViteRuby.config.host_with_port}",
-                       'ws://localhost:3036',
-                       'ws://*.localhost:3036',
-                       "ws://#{ViteRuby.config.host_with_port}",
-                       "ws://*.#{ViteRuby.config.host_with_port}")
+                       *%w[http ws].product(
+                         ['://', '://*.'],
+                         ['localhost:3000', 'localhost:3036', ViteRuby.config.host_with_port]
+                       ).map(&:join))
   when 'test'
     policy.script_src(*policy.script_src, :blob, :unsafe_eval)
   end
