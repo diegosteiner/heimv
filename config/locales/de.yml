@@ -2,6 +2,13 @@
 de:
   activemodel:
     attributes:
+      accounting_settings:
+        debitor_account_nr: Konto Debitor
+        enabled: Aktiviert
+        payment_account_nr: Konto Zahlungen
+        rental_yield_account_nr: Konto Mietertrag
+        rental_yield_vat_category_id: Mietertrag MwSt. Kategorie
+        vat_account_nr: Konto MwSt.
       booking/filter:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
@@ -85,6 +92,7 @@ de:
         ref: Zahlungsreferenz
         sort: Sortierung
     models:
+      accounting_settings: Buchhaltungseinstellungen
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
       occupancy_calendar:

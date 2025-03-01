@@ -7,8 +7,8 @@ module Manage
          mail_from locale default_payment_info_type creditor_address account_address
          representative_address contract_signature email notifications_enabled] +
         I18n.available_locales.map { |locale| ["nickname_label_#{locale}"] }.flatten +
-        [{ settings: settings_permitted_keys, deadline_settings: deadline_settings_permitted_keys,
-           booking_state_settings: booking_state_settings_permitted_keys }]
+        [{ deadline_settings: deadline_settings_permitted_keys, accounting_settings: accounting_settings_permitted_keys,
+           booking_state_settings: booking_state_settings_permitted_keys, settings: settings_permitted_keys }]
     end
 
     def self.settings_permitted_keys
@@ -17,6 +17,11 @@ module Manage
          default_calendar_view predefined_salutation_form contract_sign_by_click_enabled
          default_begins_at_time default_ends_at_time] +
         [{ locales: [] }]
+    end
+
+    def self.accounting_settings_permitted_keys
+      %i[enabled debitor_account_nr rental_yield_account_nr rental_yield_vat_category_id vat_account_nr
+         payment_account_nr]
     end
 
     def self.booking_state_settings_permitted_keys

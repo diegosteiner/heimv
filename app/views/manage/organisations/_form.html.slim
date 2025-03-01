@@ -104,6 +104,19 @@
             = bsf.collection_select :occupied_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
             = bsf.collection_select :editable_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
 
+    = f.fields_for :accounting_settings, @organisation.accounting_settings || AccountingSettings.new do |af|  
+      - accounting_settings = @organisation.accounting_settings
+      fieldset
+        h3.mt-5= AccountingSettings.model_name.human
+        .card.shadow-sm 
+          .card-body
+            = af.check_box :enabled
+            = af.text_field :debitor_account_nr
+            = af.text_field :rental_yield_account_nr
+            = af.text_field :payment_account_nr
+            = af.text_field :vat_account_nr
+            = af.collection_select :rental_yield_vat_category_id, @organisation.vat_categories, :id, :label, include_blank: true
+
     - if current_user.role_admin?
       fieldset
         h3.mt-5.text-danger 
