@@ -148,7 +148,7 @@ class JournalEntry < ApplicationRecord
       processed ? journal_entries.processed : journal_entries.unprocessed
     end
 
-    filter :trigger do |journal_entries|
+    filter :triggers do |journal_entries|
       triggers = Array.wrap(triggers) & JournalEntry.triggers.keys
       next if triggers.blank?
 

@@ -40,8 +40,7 @@ class ApplicationFilter
   end
 
   def cache_key(base_relation)
-    digest = Digest::SHA1
-    [self.class, digest.hexdigest(attributes.values.to_s), base_relation.maximum(:updated_at)].join('-')
+    [self.class, Digest::SHA1.hexdigest(attributes.values.to_s), base_relation.maximum(:updated_at)].join('-')
   end
 
   def reflections

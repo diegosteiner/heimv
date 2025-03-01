@@ -5,8 +5,8 @@
     = f.select :paid, { only_paid: true, only_unpaid: false }.map { [t(_1, scope: 'activerecord.enums.invoice/filter.paid'), _2] }, include_blank: true
 .row
   .col
-    = f.date_field :issued_at_before, include_blank: true
     = f.date_field :issued_at_after, include_blank: true
+    = f.date_field :issued_at_before, include_blank: true
   .col
-    = f.date_field :payable_until_before, include_blank: true
     = f.date_field :payable_until_after, include_blank: true
+    = f.date_field :payable_until_before, include_blank: true

@@ -518,9 +518,6 @@ it:
         side:
           haben:
           soll:
-        trigger:
-          invoice_created:
-          payment_created:
       journal_entry/filter:
         processed:
           only_processed:

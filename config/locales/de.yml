@@ -6,6 +6,7 @@ de:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
+        categories: Mietkategorien
         concluded: Buchungsabschluss
         current_booking_states: Status
         ends_at: Bis
@@ -524,9 +525,13 @@ de:
         side:
           haben: Haben
           soll: Soll
-        trigger:
+        triggers:
           invoice_created: Rechnung erstellt
+          invoice_discarded: Rechnung gelöscht
+          invoice_updated: Rechnung geändert
           payment_created: Zahlung erstellt
+          payment_discarded: Zahlung gelöscht
+          payment_updated: Zahlung geändert
       journal_entry/filter:
         processed:
           only_processed: Nur verbuchte

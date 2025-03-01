@@ -19,6 +19,12 @@
 .row
   - states = current_organisation.booking_flow_class.all.map { |key, state| [state.t, key] }
   .col
-    = f.select :current_booking_states, states, { include_blank: true }, multiple: true, size: 10
+    = f.select :current_booking_states, states, { include_blank: true }, multiple: true, size: 6
   .col
-    = f.select :previous_booking_states, states, { include_blank: true }, multiple: true, size: 10
+    = f.select :previous_booking_states, states, { include_blank: true }, multiple: true, size: 6
+
+.row
+  - categories = current_organisation.booking_categories.all.map { |category| [category.title, category.id] }
+  .col
+    = f.select :categories, categories, { include_blank: true }, multiple: true, size: 4
+  .col
