@@ -127,9 +127,6 @@ module Export
         tenant(journal_entry.booking.tenant)
         block(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' })
         default_journal_entry(journal_entry, { Orig: true }, { 0 => { Flags: 1, OpId: op_id, PkKey: pk_key } })
-        # journal_entry.children[0].properties.merge!(Flags: 1, OpId: op_id, PkKey: pk_key, CAcc: :div)
-        # journal_entry.children.each { _1.properties.merge!(CAcc: Value.cast(creation_journal_entry.account_nr,
-        # as: :symbol))) }
       end
 
       def tenant(tenant, _override = {})

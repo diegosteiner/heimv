@@ -82,9 +82,7 @@ class Tarif < ApplicationRecord
   before_validation :update_booking_conditions
 
   def before_usage_validation(_usage); end
-
   def before_usage_save(_usage); end
-
   def validate_usage(_usage); end
 
   def prefill_usage_booking_questions
