@@ -66,11 +66,11 @@ class Booking
       next bookings if q.blank?
 
       match_part = "%#{q.strip}%"
-      bookings.joins(:tenant)
+      bookings.joins(:tenant).left_joins(:agent_booking)
               .where(Tenant.arel_table[:search_cache].matches(match_part)
               .or(Booking.arel_table[:tenant_organisation].matches(match_part))
               .or(Booking.arel_table[:ref].matches(match_part)))
-              .or(AgentBooking.arel_table[:ref].matches(q))
+              .or(Booking.where(AgentBooking.arel_table[:booking_agent_ref].matches(q)))
     end
 
     filter :has_booking_state do |bookings|
