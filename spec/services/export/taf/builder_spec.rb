@@ -40,6 +40,7 @@ describe Export::Taf::Builder, type: :model do
               Text2="Second Line, but its longer than sixty ""chars"", "
               Type=0
               ValNt=2091.75
+              ValTx=1045.88
 
             }
 
@@ -51,6 +52,7 @@ describe Export::Taf::Builder, type: :model do
               Text2="Second Line, but its longer than sixty ""chars"", "
               Type=1
               ValNt=2091.75
+              ValTx=1045.88
 
             }
           }
@@ -124,6 +126,7 @@ describe Export::Taf::Builder, type: :model do
               Text="R.250001 - Müller: Saldo"
               Type=1
               ValNt=-200.00
+              ValTx=-100.00
               CIdx=3
               TIdx=4
 
@@ -136,6 +139,7 @@ describe Export::Taf::Builder, type: :model do
               Text="R.250001 - Müller: Saldo"
               Type=1
               ValNt=-200.00
+              CAcc=6000
 
             }
 
@@ -157,6 +161,7 @@ describe Export::Taf::Builder, type: :model do
               Text="R.250001 - Müller: Preis pro Übernachtung"
               Type=1
               ValNt=480.00
+              ValTx=240.00
               CIdx=6
               TIdx=7
 
@@ -169,6 +174,7 @@ describe Export::Taf::Builder, type: :model do
               Text="R.250001 - Müller: Preis pro Übernachtung"
               Type=1
               ValNt=480.00
+              CAcc=6000
 
             }
 

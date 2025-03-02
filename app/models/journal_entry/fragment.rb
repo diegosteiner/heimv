@@ -48,6 +48,13 @@ class JournalEntry
       @vat_category ||= parent&.booking&.organisation&.vat_categories&.find(vat_category_id) if vat_category_id.present? # rubocop:disable Style/SafeNavigationChainLength
     end
 
+    def vat_breakup
+      return vat_category&.breakup(vat: amount) if book_type_vat?
+      return vat_category&.breakup(netto: amount) if book_type_main?
+
+      nil
+    end
+
     def equivalent?(other)
       attributes.slice(*%w[account_nr side amount book_type]) ==
         other.attributes.slice(*%w[account_nr side amount book_type])
