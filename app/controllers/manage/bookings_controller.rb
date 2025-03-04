@@ -99,9 +99,7 @@ module Manage
     def process_booking_question_responses
       responses_params = params[:booking]&.permit(booking_question_responses_attributes: %i[booking_question_id value])
                                          &.fetch(:booking_question_responses_attributes, nil)
-      @booking.booking_question_responses = BookingQuestionResponse.process(@booking,
-                                                                            responses_params,
-                                                                            role: :manager)
+      @booking.booking_question_responses = BookingQuestionResponse.process(@booking, responses_params, role: :manager)
     end
 
     def booking_params
