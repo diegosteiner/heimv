@@ -1,12 +1,13 @@
 # Changelog
 
-## 25.2.2
+## 25.3.1
 
-unreleased
+Released 03.03.2025
 
 - Feature: Improve filters
 - Feature: Send single invoice
 - Fix: Update journal entries correctly
+- Fix: Export journal_entries to TAF
 
 ## 25.2.1
 
