@@ -28,12 +28,8 @@ class BookingPreparationService
   def adjust_time(value, default_time)
     return value.presence if value.blank? || value != value.midnight # || (10 < params[:begins_at]&.size)
 
-    time_hash = self.class.time_hash(default_time)
+    time_array = default_time&.split(':')
+    time_hash = { hour: time_array&.first, minutes: time_array&.second }
     time_hash.present? ? value.change(time_hash) : value
-  end
-
-  def self.time_hash(value)
-    time_array = value&.split(':')
-    { hour: time_array&.first, minutes: time_array&.second }
   end
 end

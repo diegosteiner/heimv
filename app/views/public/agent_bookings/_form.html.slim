@@ -48,6 +48,7 @@
   
         fieldset.mt-4
           h5.mt-0= BookingQuestion.model_name.human(count: 2)
+          - # Don't use the `tenant_visible` scope here, because there are new booking_question responses in this array
           = bf.fields_for :booking_question_responses, @agent_booking.booking.booking_question_responses.sort_by(&:ordinal) do |bqrf|
             - response = bqrf.object
             - question = response.booking_question
