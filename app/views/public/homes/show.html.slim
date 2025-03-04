@@ -8,7 +8,7 @@ h1.mt-2.text-center
         = occupiable
 
       = react_component('OccupiableCalendar', { \ 
-          org: current_organisation.slug, \
+          organisation: Public::OrganisationSerializer.render_as_hash(current_organisation), \
           occupiableIds: occupiable.try(:self_and_occupiable_ids) || [occupiable.id], \
           occupancyAtUrl: at_occupiable_calendar_url(org: current_organisation&.slug, locale: I18n.locale, occupiable_id: occupiable.to_param, date: '__DATE__'), \
           defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \

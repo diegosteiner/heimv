@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useContext } from "react";
+import { type PropsWithChildren, use } from "react";
 import { CalendarViewContext } from "./Calendar";
 
 interface CalendarNavProps {
@@ -8,7 +8,7 @@ interface CalendarNavProps {
 }
 
 export function CalendarNav({ onPrev, onNext, onToday, children }: PropsWithChildren<CalendarNavProps>) {
-  const { view, setView } = useContext(CalendarViewContext);
+  const { view, setView } = use(CalendarViewContext);
 
   return (
     <nav className="calendar-nav">

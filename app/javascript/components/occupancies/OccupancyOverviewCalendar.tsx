@@ -1,6 +1,6 @@
 import { isAfter, isBefore } from "date-fns";
 import { parseISO } from "date-fns";
-import { useCallback, useContext } from "react";
+import { use, useCallback } from "react";
 import * as React from "react";
 import Calendar, { type ViewType } from "../calendar/Calendar";
 import { CalendarDate, type DateElementFactory } from "../calendar/CalendarDate";
@@ -14,7 +14,7 @@ interface OccupancyOverviewCalendarProps {
 }
 
 function OccupancyOverviewCalendar({ occupancyAtUrl, months, defaultView }: OccupancyOverviewCalendarProps) {
-  const occupancyWindow = useContext(OccupancyWindowContext);
+  const occupancyWindow = use(OccupancyWindowContext);
 
   const disabledCallback = useCallback(
     (date: Date) => !occupancyWindow || isBefore(date, occupancyWindow.start) || isAfter(date, occupancyWindow.end),
@@ -39,7 +39,7 @@ function OccupancyOverviewCalendar({ occupancyAtUrl, months, defaultView }: Occu
         </CalendarDate>
       );
     },
-    [occupancyWindow, occupancyAtUrl],
+    [occupancyWindow, occupancyAtUrl, disabledCallback],
   );
 
   return <Calendar defaultView={defaultView} months={months} dateElementFactory={dateElementFactory} />;

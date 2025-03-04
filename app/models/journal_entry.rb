@@ -128,6 +128,7 @@ class JournalEntry < ApplicationRecord
     attribute :processed_at_after, :date
     attribute :processed_at_before, :date
     attribute :processed, :boolean
+    attribute :triggers, array: true
 
     filter :date do |journal_entries|
       next unless date_before.present? || date_after.present?
@@ -145,6 +146,13 @@ class JournalEntry < ApplicationRecord
       next if processed.nil?
 
       processed ? journal_entries.processed : journal_entries.unprocessed
+    end
+
+    filter :triggers do |journal_entries|
+      triggers = Array.wrap(triggers) & JournalEntry.triggers.keys
+      next if triggers.blank?
+
+      journal_entries.where(trigger: triggers)
     end
   end
 

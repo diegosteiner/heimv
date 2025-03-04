@@ -45,7 +45,7 @@ class Booking
     end
 
     filter :categories do |bookings|
-      categories = Array.wrap(categories).compact_blank
+      categories = Array.wrap(self.categories).compact_blank
       next if categories.blank?
 
       category_ids = BookingCategory.where(key: categories).pluck(:id) + categories
@@ -65,11 +65,12 @@ class Booking
     filter :q do |bookings|
       next bookings if q.blank?
 
-      match = "%#{q.strip}%"
-      bookings.joins(:tenant)
-              .where(Tenant.arel_table[:search_cache].matches(match)
-              .or(Booking.arel_table[:tenant_organisation].matches(match))
-              .or(Booking.arel_table[:ref].matches(match)))
+      match_part = "%#{q.strip}%"
+      bookings.joins(:tenant).left_joins(:agent_booking)
+              .where(Tenant.arel_table[:search_cache].matches(match_part)
+              .or(Booking.arel_table[:tenant_organisation].matches(match_part))
+              .or(Booking.arel_table[:ref].matches(match_part)))
+              .or(Booking.where(AgentBooking.arel_table[:booking_agent_ref].matches(q)))
     end
 
     filter :has_booking_state do |bookings|

@@ -25,9 +25,6 @@ module Export
                 # Integer; Booking type: 1=cost booking, 2=tax booking
                 BType: { main: nil, cost: 1, vat: 2 }[fragment.book_type&.to_sym],
 
-                # String[13], This is the cost type account
-                # CAcc: (Value.cast(fragment.cost_account_nr, as: :symbol) if fragment.cost_account_nr),
-
                 # Integer; This is the index of the booking that represents the cost booking which is attached to t
                 # his booking
                 # CIdx: fragment.index,
@@ -80,12 +77,18 @@ module Export
                 # ValBt: fragment.amount,
 
                 # Currency; The tax amount for this booking. [Steuer-Betrag]
-                ValTx: fragment.book_type_vat? &&
-                      fragment.vat_category&.breakup(vat: fragment.amount)&.[](:netto),
+                ValTx: {
+                  vat: fragment.vat_breakup&.[](:netto),
+                  main: fragment.vat_breakup&.[](:vat)
+                }[fragment.book_type&.to_sym],
 
                 # Currency; The gross amount for this booking in the foreign currency specified
                 # by currency of the account AccId. [FW-Betrag]
                 # ValFW : not implemented
+
+                # String[13], This is the cost type account
+                # CAcc: (Value.cast(fragment.cost_account_nr, as: :symbol) if fragment.cost_account_nr),
+                CAcc: fragment.book_type_cost? && Value.cast(fragment.related(:main)&.account_nr, as: :symbol),
 
                 # String[13]The OP id of this booking.
                 # OpId: fragment.ref,
@@ -127,9 +130,6 @@ module Export
         tenant(journal_entry.booking.tenant)
         block(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' })
         default_journal_entry(journal_entry, { Orig: true }, { 0 => { Flags: 1, OpId: op_id, PkKey: pk_key } })
-        # journal_entry.children[0].properties.merge!(Flags: 1, OpId: op_id, PkKey: pk_key, CAcc: :div)
-        # journal_entry.children.each { _1.properties.merge!(CAcc: Value.cast(creation_journal_entry.account_nr,
-        # as: :symbol))) }
       end
 
       def tenant(tenant, _override = {})

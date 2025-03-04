@@ -2,10 +2,18 @@
 de:
   activemodel:
     attributes:
+      accounting_settings:
+        debitor_account_nr: Konto Debitor
+        enabled: Aktiviert
+        payment_account_nr: Konto Zahlungen
+        rental_yield_account_nr: Konto Mietertrag
+        rental_yield_vat_category_id: Mietertrag MwSt. Kategorie
+        vat_account_nr: Konto MwSt.
       booking/filter:
         begins_at: Von
         begins_at_after: Beginn der Belegung ab
         begins_at_before: Beginn der Belegung bis
+        categories: Mietkategorien
         concluded: Buchungsabschluss
         current_booking_states: Status
         ends_at: Bis
@@ -46,6 +54,7 @@ de:
         processed: Verbucht
         processed_at_after: Verbucht nach
         processed_at_before: Verbucht vor
+        triggers: Auslöser
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerstandperiode ab
         begins_at_before: Beginn des Zählerstandperiode bis
@@ -83,6 +92,7 @@ de:
         ref: Zahlungsreferenz
         sort: Sortierung
     models:
+      accounting_settings: Buchhaltungseinstellungen
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
       occupancy_calendar:
@@ -266,6 +276,7 @@ de:
         soll_account: Soll Konto
         soll_amount: Soll Betrag
         text: Text
+        trigger: Auslöser
         vat_category_id: MwSt. Kategorie
       mail_template:
       meter_reading_period:
@@ -522,9 +533,13 @@ de:
         side:
           haben: Haben
           soll: Soll
-        trigger:
+        triggers:
           invoice_created: Rechnung erstellt
+          invoice_discarded: Rechnung gelöscht
+          invoice_updated: Rechnung geändert
           payment_created: Zahlung erstellt
+          payment_discarded: Zahlung gelöscht
+          payment_updated: Zahlung geändert
       journal_entry/filter:
         processed:
           only_processed: Nur verbuchte

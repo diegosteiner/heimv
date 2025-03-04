@@ -1,9 +1,9 @@
 import { cx } from "@emotion/css";
-import { type Dispatch, type SetStateAction, useContext } from "react";
+import { type Dispatch, type SetStateAction, use } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { translatedString } from "../../services/i18n";
-import { OrganisationContext } from "../organisation/OrganisationProvider";
+import { OrganisationContext } from "../rails/OrganisationProvider";
 
 type OccupiableSelectProps = OccupiableSelectState & {
   onChange: Dispatch<SetStateAction<OccupiableSelectState>>;
@@ -35,7 +35,7 @@ export default function OccupiableSelect({
   onChange,
 }: OccupiableSelectProps) {
   const { i18n } = useTranslation();
-  const organisation = useContext(OrganisationContext);
+  const organisation = use(OrganisationContext);
   const home = organisation?.homes?.find((home) => home.id === homeId);
   const occupiables = home?.occupiables
     ?.filter((occupiable) => occupiable.occupiable && !occupiable.discarded_at)
