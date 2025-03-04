@@ -1,25 +1,7 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: booking_conditions
-#
-#  id                :bigint           not null, primary key
-#  compare_attribute :string
-#  compare_operator  :string
-#  compare_value     :string
-#  group             :string
-#  must_condition    :boolean          default(TRUE)
-#  qualifiable_type  :string
-#  type              :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  organisation_id   :bigint
-#  qualifiable_id    :bigint
-#
-
 module BookingConditions
-  class OccupancyDuration < ::BookingCondition
+  class OccupancyDuration < Comparable
     BookingCondition.register_subtype self
 
     attribute :compare_operator, default: -> { :'=' }
@@ -28,12 +10,12 @@ module BookingConditions
 
     compare_operator(**NUMERIC_OPERATORS)
 
-    def compare_value_regex
+    def self.compare_value_regex
       /\A(?<threshold>\d+)\s*(?<threshold_unit>[smhd])\z/
     end
 
     def evaluate!(booking)
-      compare_value_match = compare_value_regex.match(compare_value)
+      compare_value_match = self.class.compare_value_regex.match(compare_value)
       return false unless compare_value_match
 
       actual_value = booking.duration

@@ -15,7 +15,6 @@ module Manage
     end
 
     def edit
-      @designated_document.attaching_conditions.build
       respond_with :manage, @designated_document
     end
 

@@ -26,8 +26,8 @@
 
   fieldset.mt-4
     label= BookingQuestion.human_attribute_name(:applying_conditions)
-    = f.fields_for :applying_conditions, @booking_question.applying_conditions do |bqf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bqf }
+    / = f.fields_for :applying_conditions, @booking_question.applying_conditions do |bqf|
+    /   = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bqf }
 
 
   .form-actions.pt-4.mt-3

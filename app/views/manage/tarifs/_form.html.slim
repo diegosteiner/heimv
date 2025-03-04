@@ -58,12 +58,10 @@
 
   fieldset.mt-4
     label.mb-2= Tarif.human_attribute_name(:selecting_conditions)
-    = f.fields_for :selecting_conditions, @tarif.selecting_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:selecting_conditions), value: @tarif.selecting_conditions }
 
     label.mb-2= Tarif.human_attribute_name(:enabling_conditions)
-    = f.fields_for :enabling_conditions, @tarif.enabling_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:enabling_conditions), value: @tarif.enabling_conditions }
 
   .form-actions.pt-4.mt-3
     = f.submit
