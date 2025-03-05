@@ -26,10 +26,32 @@ jobs:
             echo "${ref} @${sha}" > VERSION
           fi
 
+      - name: docker build test
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          target: test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: local/heimv-test
+
+      - name: docker build target
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          target: production
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: local/heimv-target
+
+
       - name: build images
         run: |
-          docker compose --file docker-compose.ci.yml build
-          docker save -o docker-images.tar e2e_test e2e_target
+          docker save -o docker-images.tar local/heimv-target local/heimv-test
     
       - name: cache images
         uses: actions/upload-artifact@v4
