@@ -16,18 +16,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: buildx
-        uses: docker/setup-buildx-action@master
+      - name: update version
+        run: |
+          if [ "${GITHUB_REF_TYPE}" == "tag" ]; then
+            echo "${GITHUB_REF_NAME}" > VERSION
+          else
+            ref=$(echo ${GITHUB_REF#refs/heads/})
+            sha=$(echo ${GITHUB_SHA} | cut -c1-7)
+            echo "${ref} @${sha}" > VERSION
+          fi
 
-      - name: docker build test
-        uses: docker/build-push-action@v6
+      - name: build images
+        run: |
+          docker compose --file docker-compose.ci.yml build
+          docker save -o docker-images.tar e2e_test e2e_target
+    
+      - name: cache images
+        uses: actions/upload-artifact@v4
         with:
-          context: .
-          push: false
-          target: test
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: local/heimv-test
+          name: docker-images
+          path: docker-images.tar
     
   check-specs:
     runs-on: ubuntu-latest
@@ -39,18 +47,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: buildx
-        uses: docker/setup-buildx-action@master
-
-      - name: docker build test
-        uses: docker/build-push-action@v6
+      - name: fetch images
+        uses: actions/download-artifact@v4
         with:
-          context: .
-          load: true
-          push: false
-          target: test
-          cache-from: type=gha
-          tags: local/heimv-test
+          name: docker-image
+
+      - name: load images
+        run: |
+          docker load -i docker-images.tar
 
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/ci
@@ -66,29 +70,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: buildx
-        uses: docker/setup-buildx-action@master
-
-      - name: docker build test
-        uses: docker/build-push-action@v6
+      - name: fetch images
+        uses: actions/download-artifact@v4
         with:
-          context: .
-          load: true
-          push: false
-          target: test
-          cache-from: type=gha
-          tags: local/heimv-test
+          name: docker-image
 
-      - name: docker build target
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          load: true
-          push: false
-          target: production
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: local/heimv-production
+      - name: load images
+        run: |
+          docker load -i docker-images.tar
 
       - name: start target
         run: docker compose --file docker-compose.ci.yml up -d e2e_target
@@ -139,22 +128,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: update version
+      - name: fetch images
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+
+      - name: load images
         run: |
-          if [ "${GITHUB_REF_TYPE}" == "tag" ]; then
-            echo "${GITHUB_REF_NAME}" > VERSION
-          else
-            ref=$(echo ${GITHUB_REF#refs/heads/})
-            sha=$(echo ${GITHUB_SHA} | cut -c1-7)
-            echo "${ref} @${sha}" >> VERSION
-          fi
+          docker load -i docker-images.tar
 
       - name: push image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          load: false
-          push: true
-          target: production
-          tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-          cache-from: type=gha
+        run: |
+          IMAGE_TAG="ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+          docker tag e2e_target $IMAGE_TAG
+          docker push $IMAGE_TAG
