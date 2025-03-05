@@ -30,6 +30,9 @@ jobs:
       #   run: |
       #     mkdir -p ${{ runner.temp }}/docker-images/
 
+      - name: buildx
+        uses: docker/setup-buildx-action@master
+
       - name: docker build test
         uses: docker/build-push-action@v6
         with:
@@ -37,7 +40,7 @@ jobs:
           push: false
           target: test
           cache-from: type=gha
-          cache-to: type=local
+          cache-to: type=gha,mode=max
           tags: heimv-e2e_test
           outputs: type=docker,dest=${{ runner.temp }}/heimv-e2e_test.tar
 
@@ -48,7 +51,7 @@ jobs:
           push: false
           target: production
           cache-from: type=gha
-          cache-to: type=local
+          cache-to: type=gha,mode=max
           tags: heimv-e2e_target
           outputs: type=docker,dest=${{ runner.temp }}/heimv-e2e_target.tar
     
