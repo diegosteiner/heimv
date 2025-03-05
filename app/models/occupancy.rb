@@ -34,6 +34,11 @@ class Occupancy < ApplicationRecord
   enum :occupancy_type, OCCUPANCY_TYPES
 
   scope :ordered, -> { order(begins_at: :ASC) }
+  scope :occupancy_calendar, lambda {
+    where(occupancy_type: Occupancy::CONFLICTING_OCCUPANCY_TYPES)
+      .or(where(occupancy_type: :free, booking: nil))
+      .left_outer_joins(:booking).where(booking: { concluded: [false, nil] })
+  }
 
   before_validation :update_from_booking
   validates :occupancy_type, presence: true

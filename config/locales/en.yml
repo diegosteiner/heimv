@@ -99,7 +99,7 @@ en:
         state: Status
         tenant: Mieter
         tenant_id: Mieter
-        tenant_organisation: Mieter Organisation
+        tenant_organisation: Mieter Organisation / Gruppenname
         transition_to: Neuer Status
         usage_report: Verbrauchsformular
       booking_agent:
@@ -1193,7 +1193,7 @@ en:
                 salutation: Anrede mit Name
                 street_address: Addresse
                 zipcode: PLZ
-              tenant_organisation: Organisation des Mieters
+              tenant_organisation: Mieter Organisation / Gruppenname
               operator_responsibilities: Verantwortlichkeiten für diese Buchung
                 home_handover: Hausübergabe
                   operator: Verantwortliche Person
