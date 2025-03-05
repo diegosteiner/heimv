@@ -98,6 +98,13 @@ jobs:
 
       - name: download images
         uses: actions/download-artifact@v4
+        with:
+          name: heimv-e2e_target
+
+      - name: download images
+        uses: actions/download-artifact@v4
+        with:
+          name: heimv-e2e_test
 
       - name: load images
         run: |
