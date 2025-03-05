@@ -37,7 +37,7 @@ jobs:
           push: false
           target: test
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=local
           tags: heimv-e2e_test
           outputs: type=docker,dest=${{ runner.temp }}/heimv-e2e_test.tar
 
@@ -48,7 +48,7 @@ jobs:
           push: false
           target: production
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=local
           tags: heimv-e2e_target
           outputs: type=docker,dest=${{ runner.temp }}/heimv-e2e_target.tar
     
