@@ -26,38 +26,43 @@ jobs:
             echo "${ref} @${sha}" > VERSION
           fi
 
+      # - name: prepare artifacts
+      #   run: |
+      #     mkdir -p ${{ runner.temp }}/docker-images/
+
       - name: docker build test
         uses: docker/build-push-action@v6
         with:
           context: .
           push: false
-          load: true
           target: test
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: local/heimv-test
+          tags: heimv-e2e_test
+          outputs: type=docker,dest=${{ runner.temp }}/heimv-e2e_test.tar
 
       - name: docker build target
         uses: docker/build-push-action@v6
         with:
           context: .
           push: false
-          load: true
           target: production
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: local/heimv-target
-
-
-      - name: build images
-        run: |
-          docker save -o docker-images.tar local/heimv-target local/heimv-test
+          tags: heimv-e2e_target
+          outputs: type=docker,dest=${{ runner.temp }}/heimv-e2e_target.tar
     
-      - name: cache images
+      - name: cache test image
         uses: actions/upload-artifact@v4
         with:
-          name: docker-images
-          path: docker-images.tar
+          name: heimv-e2e_test
+          path: ${{ runner.temp }}/heimv-e2e_test.tar
+
+      - name: cache target image
+        uses: actions/upload-artifact@v4
+        with:
+          name: heimv-e2e_target
+          path: ${{ runner.temp }}/heimv-e2e_target.tar
     
   check-specs:
     runs-on: ubuntu-latest
@@ -72,11 +77,11 @@ jobs:
       - name: fetch images
         uses: actions/download-artifact@v4
         with:
-          name: docker-image
+          name: heimv-e2e_test
 
       - name: load images
         run: |
-          docker load -i docker-images.tar
+          docker load -i heimv-e2e_test.tar
 
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/ci
@@ -92,14 +97,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: fetch images
+      - name: fetch cached images
         uses: actions/download-artifact@v4
-        with:
-          name: docker-image
 
       - name: load images
         run: |
-          docker load -i docker-images.tar
+          docker load -i heimv-e2e_test.tar
+          docker load -i heimv-e2e_target.tar
 
       - name: start target
         run: docker compose --file docker-compose.ci.yml up -d e2e_target
@@ -153,11 +157,11 @@ jobs:
       - name: fetch images
         uses: actions/download-artifact@v4
         with:
-          name: docker-image
+          name: heimv-e2e_target
 
       - name: load images
         run: |
-          docker load -i docker-images.tar
+          docker load -i docker-images/heimv-e2e_target.tar
 
       - name: push image
         run: |
