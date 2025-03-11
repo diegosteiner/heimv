@@ -69,7 +69,7 @@ services:
   mail:
     image: sj26/mailcatcher
     ports:
-      - "1080:80"
+      - "1080:1080"
 
   valkey:
     image: valkey/valkey
