@@ -28,6 +28,7 @@ jobs:
 
       - name: docker build
         run: | 
+          docker pull ghcr.io/diegosteiner/heimv:develop
           docker compose --file docker-compose.ci.yml build
           docker save -o heimv-e2e_test.tar heimv-e2e_test
           docker save -o heimv-e2e_target.tar heimv-e2e_target
@@ -104,6 +105,8 @@ jobs:
     needs: 
       - build
       - check
+    env:
+      IMAGE_TAG: "ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -131,6 +134,5 @@ jobs:
 
       - name: push image
         run: |
-          IMAGE_TAG="ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
           docker tag heimv-e2e_target $IMAGE_TAG
           docker push $IMAGE_TAG
