@@ -1112,11 +1112,11 @@ de:
   devise:
     failure:
       already_authenticated: Du bist bereits angemeldet.
-      inactive: Ihr Account ist nicht aktiv.
+      inactive: Dein Account ist nicht aktiv.
       invalid: "%{authentication_keys} oder Passwort ungültig."
       invited: Du hast bereits eine Einladung erhalten. Nimm die Einladung an um dein Nutzerkonto zu erstellen.
       not_found_in_database: "%{authentication_keys} oder Passwort ungültig."
-      timeout: Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an.
+      timeout: Deine Sitzung ist abgelaufen, bitte melden Sie sich erneut an.
       unauthenticated: Du musst dich anmelden oder registrieren, bevor du fortfahren kannst.
     invitations:
       edit:
@@ -1134,7 +1134,7 @@ de:
     mailer:
       email_changed:
         greeting: Hallo %{recipient}!
-        message: Wir schreiben Ihnen, um Sie darüber zu informieren, dass Ihre E-Mail-Adresse zu %{email} geändert wurde.
+        message: Wir schreiben Ihnen, um Sie darüber zu informieren, dass Deine E-Mail-Adresse zu %{email} geändert wurde.
         message_unconfirmed:
         subject: E-Mail-Adresse geändert
       invitation_instructions:
@@ -1146,18 +1146,18 @@ de:
         subject: Einladung zu HeimV
       password_change:
         greeting: Hallo %{recipient}!
-        message: Wir kontaktieren Sie, um Ihnen mitzuteilen, dass Ihr Passwort geändert wurde.
+        message: Wir kontaktieren Sie, um Ihnen mitzuteilen, dass Dein Passwort geändert wurde.
         subject: Passwort geändert
       reset_password_instructions:
         action: Passwort ändern
         greeting: Hallo %{recipient}!
-        instruction: Jemand hat einen Link angefordert, um Ihr Passwort zu ändern. Klicken Sie auf den unten aufgeführten Link um das Passwort zu ändern.
+        instruction: Jemand hat einen Link angefordert, um Dein Passwort zu ändern. Klicken Sie auf den unten aufgeführten Link um das Passwort zu ändern.
         instruction_2: Bitte ignorieren Sie diese E-Mail, wenn Sie kein neues Passwort angefordert haben.
         instruction_3: Das Passwort wird nicht geändert bis Sie den obenstehenden Link abrufen und ein neues Passwort bestimmen.
-        subject: Anleitung für das Zurücksetzen Ihres Passworts
+        subject: Anleitung für das Zurücksetzen Deines Passworts
     omniauth_callbacks:
-      failure: Sie konnten nicht mit Ihrem %{kind}-Account angemeldet werden, weil "%{reason}".
-      success: Sie haben sich erfolgreich mit Ihrem %{kind}-Account angemeldet.
+      failure: Sie konnten nicht mit Deinem %{kind}-Account angemeldet werden, weil "%{reason}".
+      success: Sie haben sich erfolgreich mit Deinem %{kind}-Account angemeldet.
     passwords:
       edit:
         change_my_password: Ändere mein Passwort
@@ -1169,11 +1169,11 @@ de:
         send_me_reset_password_instructions: Anleitung schicken, um mein Passwort zurückzusetzen
       no_token: Sie können sich nicht auf dieser Seite anmelden, wenn Sie nicht von einer Passwort-Zurücksetzen-E-Mail kommen. Wenn Sie von solch einer E-Mail kommen, überprüfen Sie bitte, ob Sie die gesamte URL verwendeten.
       send_instructions: In wenigen Minuten erhälst du eine E-Mail mit der Anleitung, wie du dein Passwort zurücksetzen kannst.
-      send_paranoid_instructions: Falls Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten eine E-Mail, mit der Anleitung, wie Sie Ihr Passwort zurücksetzen können.
-      updated: "\t\nIhr Passwort wurde geändert. Sie sind jetzt angemeldet."
-      updated_not_active: Ihr Passwort wurde geändert.
+      send_paranoid_instructions: Falls Deine E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten eine E-Mail, mit der Anleitung, wie Sie Dein Passwort zurücksetzen können.
+      updated: "\t\nDein Passwort wurde geändert. Sie sind jetzt angemeldet."
+      updated_not_active: Dein Passwort wurde geändert.
     registrations:
-      destroyed: Ihr Account wurde gelöscht.
+      destroyed: Dein Account wurde gelöscht.
       edit:
         are_you_sure: Sind Sie sicher?
         cancel_my_account: Konto löschen
@@ -1181,14 +1181,14 @@ de:
         title: "%{resource} bearbeiten"
         unhappy: Unglücklich
         update: Aktualisieren
-        we_need_your_current_password_to_confirm_your_changes: wir benötigen Ihr aktuelles Passwort, um die Änderung zu bestätigen
+        we_need_your_current_password_to_confirm_your_changes: wir benötigen Dein aktuelles Passwort, um die Änderung zu bestätigen
       new:
         sign_up: Registrieren
       signed_up: Sie haben sich erfolgreich registriert.
-      signed_up_but_inactive: Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, weil Ihr Account noch nicht aktiviert ist.
-      update_needs_confirmation: Ihre Daten wurden aktualisiert, aber Sie müssen Ihre neue E-Mail-Adresse bestätigen. Sie erhalten in wenigen Minuten eine E-Mail, mit der Sie die Änderung Ihrer E-Mail-Adresse abschliessen können.
-      updated: Ihre Daten wurden aktualisiert.
-      updated_but_not_signed_in: Ihre Daten wurden aktualisiert, aber da sich Ihr Passwort geändert hat, müssen Sie sich erneut anmelden
+      signed_up_but_inactive: Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, weil Dein Account noch nicht aktiviert ist.
+      update_needs_confirmation: Deine Daten wurden aktualisiert, aber Sie müssen Deine neue E-Mail-Adresse bestätigen. Sie erhalten in wenigen Minuten eine E-Mail, mit der Sie die Änderung Deiner E-Mail-Adresse abschliessen können.
+      updated: Deine Daten wurden aktualisiert.
+      updated_but_not_signed_in: Deine Daten wurden aktualisiert, aber da sich Dein Passwort geändert hat, müssen Sie sich erneut anmelden
     sessions:
       already_signed_out: Erfolgreich abgemeldet.
       new:
@@ -2319,7 +2319,7 @@ de:
         <p>Du hast soeben eine Mietanfrage für {{ booking.home.name }} gestartet.
         Bitte klicke auf den untenstehenden Link um Deine E-Mail-Adresse zu bestätigen und um die Mietanfrage abzuschliessen.</p>
 
-        <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
+        <p><a href="{{booking.links.edit}}">{{booking.links.edit}}</a></p>
       default_title: Bestätige Deine E-Mail-Adresse!
       description: Benachrichtigung für unbestätigte Mietanfrage (Mieter)
     upcoming_notification:

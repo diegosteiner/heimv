@@ -1589,7 +1589,7 @@ fr:
 
         <p>(veuillez adapter le modèle de contrat)</p>
 
-        {{ tarifs_table_placeholder }}
+        {{ TARIFS }}
       default_title: Contrat
       description: Texte pour le contrat
     declined_request_notification:

@@ -110,14 +110,14 @@ class RichTextTemplate < ApplicationRecord
     interpolate(context)
   end
 
-  def gsub(search, replace = '', within: %i[title body])
-    title_i18n.transform_values! { _1&.gsub(search, replace) } if within.include?(:title)
-    body_i18n.transform_values! { _1&.gsub(search, replace) } if within.include?(:body)
+  def gsub!(search, replace = '', within_title: true, within_body: true)
+    self.title_i18n = title_i18n.transform_values { it&.gsub(search, replace) } if within_title
+    self.body_i18n = body_i18n.transform_values { it&.gsub(search, replace) } if within_body
   end
 
-  def include?(search, within: %i[title body])
-    return true if within.include?(:title) && title_i18n.any? { _1.include?(search) }
-    return true if within.include?(:body) && body_i18n.any? { _1.include?(search) }
+  def include?(search, within_title: true, within_body: true) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    return true if within_title && title_i18n.values.any? { it&.include?(search) }
+    return true if within_body && body_i18n.values.any? { it&.include?(search) }
 
     false
   end

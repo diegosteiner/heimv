@@ -18,7 +18,7 @@ services:
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
-      REDIS_URL: "valkey://valkey/0"
+      REDIS_URL: "redis://valkey/0"
       TRANSLATION_IO_API_KEY: ${TRANSLATION_IO_API_KEY}
       PRIVACY_STATEMENT_URL: ${PRIVACY_STATEMENT_URL}
       GITHUB_URL: ${GITHUB_URL}

@@ -1672,7 +1672,7 @@ it:
 
         <p>(adattare il modello di contratto)</p>
 
-        {{ tabella_tariffe_placeholder }}
+        {{ TARIFS }}
       default_title: Contratto
       description: Testo per il contratto
     declined_request_notification:

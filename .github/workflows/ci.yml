@@ -71,7 +71,7 @@ jobs:
           docker load -i heimv-e2e_target.tar
 
       - name: run specs
-        run: docker compose --file docker-compose.ci.yml run e2e_test bin/ci
+        run: docker compose --file docker-compose.ci.yml run e2e_test bin/check_ci
 
       - name: start target
         run: docker compose --file docker-compose.ci.yml up -d e2e_target
