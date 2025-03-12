@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:base"
   ],
   "schedule": [
     "every weekend"
@@ -24,7 +24,30 @@
       "groupName": "Major",
       "prCreation": "immediate",
       "automerge": false,
-      "stabilityDays": 3
+      "stabilityDays": 7
+    },
+    {
+      "matchPackageNames": [
+        "ruby"
+      ],
+      "matchFiles": [
+        "Gemfile",
+        "Dockerfile"
+      ],
+      "separateMajorMinor": true,
+      "separateMinorPatch": true,
+      "prCreation": "immediate",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": [
+        "ttfunk",
+        "prawn"
+      ],
+      "groupName": "ttfunk-and-prawn",
+      "separateMajorMinor": true,
+      "separateMinorPatch": true,
+      "automerge": false
     }
   ]
 }

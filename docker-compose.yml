@@ -16,7 +16,7 @@ services:
       E2E_TARGET_HOST: "app:3001"
       SELENIUM_HOST: "selenium:4444"
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
-      SMTP_SETTINGS: '{ "address":"mail" }'
+      SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
       REDIS_URL: "valkey://valkey/0"
       TRANSLATION_IO_API_KEY: ${TRANSLATION_IO_API_KEY}

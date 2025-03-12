@@ -12,13 +12,11 @@ services:
       RAILS_ENV: test
       NODE_ENV: test
       SELENIUM_HOST: "selenium:4444"
-      SMTP_SETTINGS: '{ "address":"mail" }'
+      SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimv.local"
-      valkey_URL: "valkey://valkey/1"
     command: bin/check
     depends_on:
       - db
-      - valkey
     networks:
       default:
       selenium:
@@ -39,7 +37,7 @@ services:
       PORT: 3002
       LOG_LEVEL: "debug"
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
-      valkey_URL: "valkey://valkey/0"
+      REDIS_URL: "redis://valkey/0"
       CI: "true"
     depends_on:
       - db
