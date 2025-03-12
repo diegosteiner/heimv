@@ -15,6 +15,11 @@ describe 'Booking by agent', :devise, type: :feature do
                                        ends_at: booking.ends_at.iso8601 })
   end
 
+  # let!(:booking_question) do
+  #   create(:booking_question, organisation:, required: true, type: BookingQuestions::Integer.to_s,
+  #                             tenant_mode: :provisional_editable, booking_agent_mode: :provisional_editable)
+  # end
+
   let(:booking) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
     build(:booking,
@@ -77,6 +82,10 @@ describe 'Booking by agent', :devise, type: :feature do
     click_on 'agent-booking-button'
 
     choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
+    # expect(page).to have_content(booking_question.label)
+    # booking_question_element = find('#agent_booking_booking_attributes_booking_question_responses_attributes_0_value')
+    # booking_question_element.click
+    # booking_question_element.send_keys('10')
     fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
     fill_in 'agent_booking_booking_agent_ref', with: agent_ref
     submit_form

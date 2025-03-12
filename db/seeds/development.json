@@ -32,7 +32,20 @@
     }
   ],
   "booking_flow_type": "BookingFlows::Default",
-  "booking_questions": [],
+  "booking_questions": [
+    {
+      "description_i18n": {
+        "de": "Anzahl Kinder"
+      },
+      "key": "children_count",
+      "label_i18n": {
+        "de": "Anzahl Kinder"
+      },
+      "ordinal": 0,
+      "required": true,
+      "type": "BookingQuestions::Integer"
+    }
+  ],
   "booking_ref_template": "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s",
   "booking_state_settings": {
     "default_manage_transition_to_state": "provisional_request",

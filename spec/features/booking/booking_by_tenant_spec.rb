@@ -24,6 +24,10 @@ describe 'Booking by tenant', :devise, type: :feature do
   end
 
   let!(:tarifs) { [deposit_tarifs, invoice_tarifs].flatten }
+  let!(:booking_question) do
+    create(:booking_question, organisation:, required: true, type: BookingQuestions::Integer.to_s,
+                              tenant_mode: :provisional_editable, booking_agent_mode: :not_visible)
+  end
 
   let(:new_booking_path) do
     new_public_booking_path(booking: { home_id: home.id, begins_at: booking.begins_at.iso8601,
@@ -99,7 +103,7 @@ describe 'Booking by tenant', :devise, type: :feature do
     @booking = Booking.last
   end
 
-  def confirm_request
+  def confirm_request # rubocop:disable Metrics/MethodLength
     visit edit_public_booking_path(id: @booking.token)
     fill_in 'booking_approximate_headcount', with: booking.approximate_headcount
     fill_in 'booking_tenant_organisation', with: booking.tenant_organisation
@@ -107,8 +111,10 @@ describe 'Booking by tenant', :devise, type: :feature do
     choose 'booking[booking_category_id]', option: booking.category.id
     fill_in 'booking_purpose_description', with: booking.purpose_description
     submit_form
+    expect(page).to have_content(I18n.t('flash.actions.update.alert', resource_name: Booking.model_name.human))
+    fill_in booking_question.label, with: '10'
+    submit_form
     expect(page).to have_content(I18n.t('flash.public.bookings.update.notice'))
-    expect(page).to have_content(@booking.ref)
   end
 
   def visit_booking

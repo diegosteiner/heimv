@@ -99,10 +99,11 @@
     = f.text_field :approximate_headcount, disabled: !@booking.editable?, required: true, inputmode: "numeric" 
     = f.text_area :remarks, help: t('optional'), disabled: !@booking.editable?
     
-    = f.fields_for :booking_question_responses, @booking.booking_question_responses.tenant_visible.sort_by(&:ordinal) do |bqrf|
+    - # Don't use the `tenant_visible` scope here, because there are new booking_question responses in this array
+    = f.fields_for :booking_question_responses, @booking.booking_question_responses.sort_by(&:ordinal) do |bqrf|
       - response = bqrf.object
       - question = response.booking_question
-      - next if question.tenant_not_visible? # TODO remove
+      - next if question.tenant_not_visible? 
       = bqrf.hidden_field :booking_question_id
       = render partial: response.booking_question.to_partial_path('booking_form_field'), locals: { booking: @booking, response: response, question: question, form: bqrf, disabled: !response.editable?(:tenant) }
 

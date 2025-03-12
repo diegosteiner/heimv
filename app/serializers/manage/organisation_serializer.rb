@@ -20,7 +20,7 @@ module Manage
         next if designation.blank?
 
         [designation,
-         url.public_designated_document_url(org: organisation, designation:, locale: I18n.locale)]
+         public_designated_document_url(org: organisation, designation:, locale: I18n.locale)]
       end.compact_blank.to_h
     end
 

@@ -9,7 +9,8 @@ class OnboardingService
       booking_ref_template: RefBuilders::Booking::DEFAULT_TEMPLATE,
       tenant_ref_template: RefBuilders::Tenant::DEFAULT_TEMPLATE,
       invoice_ref_template: RefBuilders::Invoice::DEFAULT_TEMPLATE,
-      invoice_payment_ref_template: RefBuilders::InvoicePayment::DEFAULT_TEMPLATE
+      invoice_payment_ref_template: RefBuilders::InvoicePayment::DEFAULT_TEMPLATE,
+      mail_from: ENV.fetch('MAIL_FROM', nil)
     }
     organisation = Organisation.create!(defaults.merge(attributes))
     new(organisation)
@@ -40,11 +41,23 @@ class OnboardingService
     @organisation = organisation
   end
 
-  def create_home!(**attributes)
-    organisation.homes.create!(attributes)
+  def setup_all
+    setup_missing_rich_text_templates
+    setup_booking_category
+    setup_home
   end
 
-  def create_missing_rich_text_templates!
+  def setup_home(**attributes)
+    defaults = { occupiable: true }
+    organisation.homes.create!(defaults.merge(attributes))
+  end
+
+  def setup_booking_category(**attributes)
+    defaults = { title: 'Standard' }
+    organisation.booking_categories.create!(defaults.merge(attributes))
+  end
+
+  def setup_missing_rich_text_templates
     RichTextTemplateService.new(organisation).create_missing!
   end
 end

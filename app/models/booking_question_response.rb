@@ -60,6 +60,7 @@ class BookingQuestionResponse < ApplicationRecord
 
     def build_response(booking, question, existing_responses, params = {}, role: nil)
       existing_responses.fetch(question.id, booking.booking_question_responses.build).tap do |response|
+        response.booking = booking
         response.booking_question = question
         next if params.blank? || !response.editable?(role)
 

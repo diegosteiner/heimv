@@ -16,7 +16,7 @@ module Public
     end
 
     field :logo_url do |organisation|
-      organisation.logo.present? && url.url_for(organisation.logo)
+      organisation.logo.present? && url_for(organisation.logo)
     end
   end
 end

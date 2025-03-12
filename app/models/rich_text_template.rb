@@ -111,8 +111,8 @@ class RichTextTemplate < ApplicationRecord
   end
 
   def gsub(search, replace = '', within: %i[title body])
-    title_i18n.transform_values! { _1.gsub(search, replace) }
-    body_i18n.transform_values! { _1.gsub(search, replace) } if within.include?(:body)
+    title_i18n.transform_values! { _1&.gsub(search, replace) } if within.include?(:title)
+    body_i18n.transform_values! { _1&.gsub(search, replace) } if within.include?(:body)
   end
 
   def include?(search, within: %i[title body])

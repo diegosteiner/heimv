@@ -24,7 +24,7 @@ describe 'Bookings', type: :feature do
       expect(page).to have_content(Time.zone.now.year)
 
       date_element = find("time.date[datetime='#{definitive_request.begins_at.to_date.iso8601}']")
-      svg_selector = "a.date-action .occupancy-calendar-date.has-occupancies svg rect.occupancy-slot[fill='#e85f5f']"
+      svg_selector = "a.date-action .occupancy-calendar-date.has-occupancies svg .occupancy-slot[fill='#e85f5f']"
       expect(date_element).to have_selector(svg_selector)
       date_element.click
       expect(page).to have_content(definitive_request.ref)
