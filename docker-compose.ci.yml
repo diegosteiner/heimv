@@ -49,7 +49,7 @@ services:
       selenium:
 
   selenium:
-    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:132.0}
+    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:134.0}
     shm_size: 1gb
     logging:
       driver: none
@@ -58,8 +58,6 @@ services:
 
   db:
     image: postgres:17-alpine
-    volumes:
-      - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
@@ -74,7 +72,6 @@ services:
 
 volumes:
   bundle:
-  db_data:
 
 networks:
   selenium:

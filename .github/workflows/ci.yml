@@ -73,13 +73,15 @@ jobs:
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/check_ci
       
-      - name: migrate database
+      - name: prepare e2e specs
         run: |
           docker compose --file docker-compose.ci.yml run e2e_test bin/rails db:drop
           docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:create db:migrate
 
       - name: run e2e specs
-        run: docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature || exit 1
+        run: |
+          docker compose --file docker-compose.ci.yml up -d e2e_target
+          docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature
 
       - name: stop target
         run: docker compose --file docker-compose.ci.yml down --remove-orphans
