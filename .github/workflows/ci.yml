@@ -74,7 +74,9 @@ jobs:
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/check_ci
 
       - name: start target
-        run: docker compose --file docker-compose.ci.yml up -d e2e_target
+        run: |
+          docker compose --file docker-compose.ci.yml restart db
+          docker compose --file docker-compose.ci.yml up -d e2e_target
       
       - name: migrate
         run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate

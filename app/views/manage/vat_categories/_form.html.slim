@@ -16,7 +16,9 @@
           = f.text_field "label_#{locale.to_s}", label: VatCategory.human_attribute_name(:label)
 
     = f.text_field :percentage, step: 0.1, inputmode: "numeric" 
-    = f.text_field :accounting_vat_code
+
+    - if current_organisation.accounting_settings.enabled
+      = f.text_field :accounting_vat_code
 
   .form-actions.pt-4.mt-3
     = f.submit

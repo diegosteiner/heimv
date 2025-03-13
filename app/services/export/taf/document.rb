@@ -13,11 +13,11 @@ module Export
       def serialize(indent_with: '  ', separate_with: "\n")
         children.filter_map do |block|
           block.serialize(indent_level: 0, indent_with:, separate_with:) if block.is_a?(Block)
-        end.join(separate_with + separate_with)
+        end.join(separate_with + separate_with).encode(Encoding::ISO_8859_1)
       end
 
       def to_s
-        serialize.encode(Encoding::ISO_8859_1)
+        serialize
       end
     end
   end
