@@ -75,8 +75,8 @@ jobs:
       
       - name: migrate database
         run: |
-          docker compose --file docker-compose.ci.yml run e2e_target DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rails db:environment:set RAILS_ENV=production
-          docker compose --file docker-compose.ci.yml run e2e_target DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rails db:drop db:create db:migrate
+          docker compose --file docker-compose.ci.yml run e2e_test bin/rails db:drop
+          docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:create db:migrate
 
       - name: run e2e specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature || exit 1

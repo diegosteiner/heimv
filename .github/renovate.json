@@ -6,22 +6,23 @@
   "schedule": [
     "every weekend"
   ],
+  "rebaseWhen": "automerging",
   "packageRules": [
     {
       "matchUpdateTypes": [
         "minor",
         "patch"
       ],
-      "groupName": "Minor",
+      "groupName": "Minor Updates",
       "automergeType": "branch-push",
       "prCreation": "not-pending",
-      "automerge": false
+      "automerge": true
     },
     {
       "matchUpdateTypes": [
         "major"
       ],
-      "groupName": "Major",
+      "groupName": "Major Updates",
       "prCreation": "immediate",
       "automerge": false,
       "stabilityDays": 7
