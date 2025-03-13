@@ -6,7 +6,7 @@ services:
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
-      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e?encoding=unicode&pool=5
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       DISABLE_DATABASE_ENVIRONMENT_CHECK: "1"
       RAILS_ENV: test
@@ -14,7 +14,7 @@ services:
       SELENIUM_HOST: "selenium:4444"
       SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimv.local"
-    command: bin/check
+    command: bin/check_ci
     depends_on:
       - db
     networks:
@@ -29,7 +29,7 @@ services:
       - "3002:3002"
     environment:
       APP_HOST: "e2e_target:3002"
-      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e?encoding=unicode&pool=5
       SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
       SECRET_KEY_BASE: "test"
@@ -49,15 +49,15 @@ services:
       selenium:
 
   selenium:
-    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:134.0}
-    shm_size: 1gb
+    image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:132.0}
+    shm_size: 2gb
     logging:
       driver: none
     networks:
       selenium:
 
   db:
-    image: postgres:17-alpine
+    image: postgres:17
     environment:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
@@ -69,9 +69,6 @@ services:
 
   valkey:
     image: valkey/valkey
-
-volumes:
-  bundle:
 
 networks:
   selenium:
