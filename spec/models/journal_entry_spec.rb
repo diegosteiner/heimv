@@ -69,21 +69,26 @@ RSpec.describe JournalEntry, type: :model do
     end
     subject(:journal_entries) { invoice.journal_entries.invoice }
 
+    before do
+      organisation.accounting_settings.rental_yield_vat_category_id = vat_category.id
+      organisation.save
+    end
+
     it 'creates to correct journal_entries' do
       is_expected.to all(be_balanced)
-      # is_expected.to all(be_trigger_invoice_created)
       is_expected.to match_array(
-        have_attributes(
-          date: Date.new(2024, 12, 27), trigger: 'invoice_created', ref: '250001', amount: 420.0,
-          fragments: contain_exactly(
-            have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main'),
-            have_attributes(account_nr: '6000', haben_amount: -300.0, book_type: 'main'),
-            have_attributes(account_nr: '9001', haben_amount: -300.0, book_type: 'cost'),
-            have_attributes(account_nr: '6000', haben_amount: 480.0, book_type: 'main'),
-            have_attributes(account_nr: '9001', haben_amount: 480.0, book_type: 'cost'),
-            have_attributes(account_nr: '2016', haben_amount: 240.0, book_type: 'vat')
-          )
-        )
+        have_attributes(date: Date.new(2024, 12, 27), trigger: 'invoice_created', ref: '250001', amount: 420.0)
+      )
+      fragments = journal_entries.first.fragments
+
+      expect(fragments).to contain_exactly(
+        have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main'),
+        have_attributes(account_nr: '6000', haben_amount: -200.0, book_type: 'main'),
+        have_attributes(account_nr: '9001', haben_amount: -200.0, book_type: 'cost'),
+        have_attributes(account_nr: '2016', haben_amount: -100.0, book_type: 'vat'),
+        have_attributes(account_nr: '6000', haben_amount: 480.0, book_type: 'main'),
+        have_attributes(account_nr: '9001', haben_amount: 480.0, book_type: 'cost'),
+        have_attributes(account_nr: '2016', haben_amount: 240.0, book_type: 'vat')
       )
     end
 

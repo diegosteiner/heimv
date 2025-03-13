@@ -36,6 +36,10 @@ class JournalEntry
       parent
     end
 
+    def to_h
+      attributes
+    end
+
     def related(book_type)
       journal_entry.fragment_relations[invoice_part_id]&.fetch(book_type&.to_sym, nil)
     end
