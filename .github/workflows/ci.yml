@@ -72,14 +72,11 @@ jobs:
 
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/check_ci
-
-      - name: start target
-        run: |
-          docker compose --file docker-compose.ci.yml restart db
-          docker compose --file docker-compose.ci.yml up -d e2e_target
       
-      - name: migrate
-        run: docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
+      - name: migrate database
+        run: |
+          docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:environment:set RAILS_ENV=production
+          docker compose --file docker-compose.ci.yml run e2e_target bin/rails db:drop db:create db:migrate
 
       - name: run e2e specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/rspec ./spec --tag @type:feature || exit 1
