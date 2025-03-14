@@ -15,7 +15,7 @@ module Manage
         format.html
         format.csv { send_format_data(:csv) }
         format.pdf { send_format_data(:pdf) }
-        format.taf { send_format_data(:taf, type: 'text/plain; charset=iso-8859-1; header=present') }
+        format.taf { send_format_data(:taf, type: 'text/plain; charset=iso-8859-1') }
       end
     rescue Prawn::Errors::CannotFit
       redirect_to manage_data_digests_path, alert: t('.pdf_error')

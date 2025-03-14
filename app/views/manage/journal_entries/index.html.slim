@@ -6,7 +6,7 @@ h1.mt-0.mb-5= JournalEntry.model_name.human(count: 2)
     i.fa.fa-filter<>
     = t(:filter)
   
-  = button_to process_all_manage_journal_entries_path, method: :post, class: 'btn btn-primary'
+  = button_to process_all_manage_journal_entries_path, method: :post, class: 'btn btn-primary', data: { confirm: t(:confirm) }
     = t('.process_all')
 
 #filter.modal.fade

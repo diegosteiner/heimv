@@ -6,19 +6,17 @@ services:
     environment:
       APP_HOST: "e2e_test"
       E2E_TARGET_HOST: "e2e_target:3002"
-      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e?encoding=unicode&pool=5
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       DISABLE_DATABASE_ENVIRONMENT_CHECK: "1"
       RAILS_ENV: test
       NODE_ENV: test
       SELENIUM_HOST: "selenium:4444"
-      SMTP_SETTINGS: '{ "address":"mail" }'
+      SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimv.local"
-      valkey_URL: "valkey://valkey/1"
-    command: bin/check
+    command: bin/check_ci
     depends_on:
       - db
-      - valkey
     networks:
       default:
       selenium:
@@ -31,15 +29,15 @@ services:
       - "3002:3002"
     environment:
       APP_HOST: "e2e_target:3002"
-      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e
-      SMTP_SETTINGS: '{ "address":"mail" }'
+      DATABASE_URL: postgresql://postgres:postgres@db/heimverwaltung_e2e?encoding=unicode&pool=5
+      SMTP_SETTINGS: '{ "address":"mail", "port": 1025 }'
       MAIL_FROM: "no-reply@heimverwaltung.localhost"
       SECRET_KEY_BASE: "test"
       RAILS_SERVE_STATIC_FILES: "true"
       PORT: 3002
       LOG_LEVEL: "debug"
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
-      valkey_URL: "valkey://valkey/0"
+      REDIS_URL: "redis://valkey/0"
       CI: "true"
     depends_on:
       - db
@@ -52,16 +50,14 @@ services:
 
   selenium:
     image: ${SELENIUM_IMAGE:-selenium/standalone-chrome:132.0}
-    shm_size: 1gb
+    shm_size: 2gb
     logging:
       driver: none
     networks:
       selenium:
 
   db:
-    image: postgres:17-alpine
-    volumes:
-      - db_data:/var/lib/postgresql/data
+    image: postgres:17
     environment:
       POSTGRES_DB: heimverwaltung_e2e
       POSTGRES_PASSWORD: postgres
@@ -69,14 +65,10 @@ services:
   mail:
     image: sj26/mailcatcher
     ports:
-      - "1080:80"
+      - "1080:1080"
 
   valkey:
     image: valkey/valkey
-
-volumes:
-  bundle:
-  db_data:
 
 networks:
   selenium:

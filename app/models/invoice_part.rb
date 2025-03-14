@@ -55,7 +55,7 @@ class InvoicePart < ApplicationRecord
   end
 
   def accounting_relevant?
-    accounting_account_nr.present? && !to_sum(0).zero?
+    organisation.accounting_settings.enabled && accounting_account_nr.present? && !to_sum(0).zero?
   end
 
   def accounting_cost_center_nr
