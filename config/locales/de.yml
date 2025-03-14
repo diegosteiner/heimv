@@ -1426,7 +1426,7 @@ de:
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
     deposited_amount: Gutschrift aus Akontorechnung
-    unassigned_payments_amount: Saldo
+    unassigned_payments_amount: Saldo aus bereits geleisteten Zahlungen
   invoices:
     total: Total
     vat_title: in den Preisen enhaltene MwSt.
@@ -1899,40 +1899,28 @@ de:
       description: Text für Zahlunginformationen für ausländische Mieter
     invoices_deposit_text:
       default_body: |
-        <p>{{ booking.ref }}
-        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
-
-        <h1>Akontorechnung {{booking.home.name}}</h1>
+        <h1>Akontorechnung</h1>
 
         {{ TARIFS }}
       default_title: Akontorechnung
       description: Text für Rechnung (Akontorechnung)
     invoices_invoice_text:
       default_body: |
-        <p>{{ booking.ref }}
-        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
-
-        <h1>Rechnung {{booking.home.name}}</h1>
+        <h1>Rechnung</h1>
 
         {{ TARIFS }}
       default_title: Rechnung
       description: Text für Rechnung
     invoices_late_notice_text:
       default_body: |
-        <p>{{ booking.ref }}
-        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
-
-        <h1>Mahnung {{booking.home.name}}</h1>
+        <h1>Mahnung</h1>
 
         {{ TARIFS }}
       default_title: Mahnung
       description: Text für Rechnung (Mahnung)
     invoices_offer_text:
       default_body: |
-        <p>{{ booking.ref }}
-        {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</p>
-
-        <h1>Offerte {{booking.home.name}}</h1>
+        <h1>Offerte</h1>
 
         {{ TARIFS }}
       default_title: Offerte

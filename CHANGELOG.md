@@ -1,5 +1,15 @@
 # Changelog
 
+## 25.3.2
+
+Released 14.03.2025
+
+- Chore: Update translations
+- Fix: Change TAF encoding to ANSI
+- Feature: Hide accounting fields when accounting is disabled
+- Feature: Show free occupancies in calendar when no booking is attached
+- Feature: Improve development seeds
+
 ## 25.3.1
 
 Released 03.03.2025
