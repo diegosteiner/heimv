@@ -123,7 +123,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=6000
               Date=27.12.2024
               TaxId="VAT50"
-              Text="R.250001 - Müller: Saldo"
+              Text="R.250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
               Type=1
               ValNt=-200.00
               ValTx=-100.00
@@ -136,7 +136,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=9001
               BType=1
               Date=27.12.2024
-              Text="R.250001 - Müller: Saldo"
+              Text="R.250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
               Type=1
               ValNt=-200.00
               CAcc=6000
@@ -147,7 +147,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=2016
               BType=2
               Date=27.12.2024
-              Text="R.250001 - Müller: Saldo"
+              Text="R.250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
               Type=1
               ValNt=-100.00
               ValTx=-200.00
