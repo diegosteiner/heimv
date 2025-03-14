@@ -1426,7 +1426,7 @@ de:
       flat: Pauschale à %{price_per_unit}
       minimum: Mindestbetrag %{minimum}
     deposited_amount: Gutschrift aus Akontorechnung
-    unassigned_payments_amount: Saldo
+    unassigned_payments_amount: Saldo aus bereits geleisteten Zahlungen
   invoices:
     total: Total
     vat_title: in den Preisen enhaltene MwSt.
