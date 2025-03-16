@@ -77,7 +77,10 @@ FactoryBot.define do
         organisation.accounting_settings.rental_yield_account_nr ||= '6000'
         organisation.accounting_settings.vat_account_nr ||= '2016'
         organisation.accounting_settings.payment_account_nr ||= '4000'
-        organisation.accounting_settings.rental_yield_vat_category_id ||= build(:vat_category, organisation:).id
+      end
+      after(:create) do |organisation|
+        organisation.accounting_settings.rental_yield_vat_category_id ||= create(:vat_category, organisation:).id
+        organisation.save
       end
     end
   end

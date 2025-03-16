@@ -36,6 +36,7 @@ module Manage
     end
 
     def create
+      @booking = @invoice.booking
       @invoice.save
       respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
     end
