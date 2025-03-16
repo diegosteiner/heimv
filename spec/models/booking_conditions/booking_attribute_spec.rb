@@ -1,23 +1,5 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: booking_conditions
-#
-#  id                :bigint           not null, primary key
-#  compare_attribute :string
-#  compare_operator  :string
-#  compare_value     :string
-#  group             :string
-#  must_condition    :boolean          default(TRUE)
-#  qualifiable_type  :string
-#  type              :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  organisation_id   :bigint
-#  qualifiable_id    :bigint
-#
-
 require 'rails_helper'
 
 RSpec.describe BookingConditions::BookingAttribute, type: :model do
@@ -31,6 +13,12 @@ RSpec.describe BookingConditions::BookingAttribute, type: :model do
     let(:booking_condition) do
       described_class.new(compare_value:, organisation:,
                           compare_operator:, compare_attribute:)
+    end
+
+    before do
+      qualifiable = double('Qualifiable')
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
     end
 
     context 'with "nights" as attribute' do

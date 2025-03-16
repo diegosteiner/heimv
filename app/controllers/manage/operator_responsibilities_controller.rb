@@ -20,7 +20,6 @@ module Manage
 
     def edit
       @booking ||= @operator_responsibility.booking
-      @operator_responsibility.assigning_conditions.build if @booking.nil?
       respond_with :manage, @operator_responsibility
     end
 
