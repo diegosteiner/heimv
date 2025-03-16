@@ -36,7 +36,7 @@ gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
 gem 'pg'
-gem 'prawn', '~> 2.4.0' # https://github.com/prawnpdf/prawn/issues/1346
+gem 'prawn', '~> 2.5.0' # https://github.com/prawnpdf/prawn/issues/1346
 gem 'prawn-markup'
 gem 'prawn-table'
 gem 'puma'
@@ -55,7 +55,7 @@ gem 'statesman'
 gem 'store_model'
 gem 'thruster'
 gem 'translation'
-gem 'ttfunk', '~> 1.7.0' # https://github.com/prawnpdf/prawn/issues/1346
+gem 'ttfunk', '~> 1.8.0' # https://github.com/prawnpdf/prawn/issues/1346
 gem 'vite_rails'
 
 group :development do
