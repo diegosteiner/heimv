@@ -48,6 +48,7 @@
       "groupName": "ttfunk-and-prawn",
       "separateMajorMinor": true,
       "separateMinorPatch": true,
+      "rebaseWhen": "explicit",
       "automerge": false
     }
   ]
