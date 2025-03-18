@@ -99,13 +99,17 @@ module Export
       end
 
       def journal_entry(journal_entry)
+        op_id = Value.cast(journal_entry.invoice&.ref, as: :symbol)
+        pk_key = Value.cast(journal_entry.booking.tenant.ref, as: :symbol)
+
         case journal_entry.trigger&.to_sym
         when :invoice_created
-          invoice_created_journal_entry(journal_entry)
-        # when :payment_created
-        #   default_journal_entry(journal_entry)
+          tenant(journal_entry.booking.tenant)
+          open_position(journal_entry, op_id, pk_key)
+          default_journal_entry(journal_entry, { Orig: true }, { 0 => { Flags: 1, OpId: op_id, PkKey: pk_key } })
         else
-          default_journal_entry(journal_entry)
+          create = journal_entry.trigger_invoice_created? || journal_entry.trigger_payment_created?
+          default_journal_entry(journal_entry, { Orig: create }, { 0 => { OpId: op_id, PkKey: pk_key } })
         end
       end
 
@@ -123,13 +127,8 @@ module Export
         end
       end
 
-      def invoice_created_journal_entry(journal_entry)
-        op_id = Value.cast(journal_entry.invoice&.ref, as: :symbol)
-        pk_key = Value.cast(journal_entry.booking.tenant.ref, as: :symbol)
-
-        tenant(journal_entry.booking.tenant)
+      def open_position(journal_entry, op_id, pk_key)
         block(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' })
-        default_journal_entry(journal_entry, { Orig: true }, { 0 => { Flags: 1, OpId: op_id, PkKey: pk_key } })
       end
 
       def tenant(tenant, _override = {})

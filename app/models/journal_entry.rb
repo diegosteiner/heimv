@@ -201,8 +201,8 @@ class JournalEntry < ApplicationRecord
 
         JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
                          trigger: :payment_created).tap do |journal_entry|
-          journal_entry.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:, text:)
           journal_entry.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
+          journal_entry.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:, text:)
         end
       end
     end

@@ -17,7 +17,7 @@ describe Export::Taf::Builder, type: :model do
   end
 
   describe '#journal_entry' do
-    context 'with simple journal_entry' do
+    context 'with journal_entry' do
       let(:journal_entry) do
         create(:journal_entry, booking:, date: Date.new(2024, 10, 5),
                                ref: '1234', amount: 2091.75,
@@ -25,7 +25,7 @@ describe Export::Taf::Builder, type: :model do
                                text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
-      it 'builds correctly' do
+      it do
         builder.journal_entry(journal_entry)
         expect(builder.blocks).to all(be_a(Export::Taf::Block))
         expect(builder.blocks.first.to_s).to eq(<<~TAF.chomp)
@@ -41,6 +41,7 @@ describe Export::Taf::Builder, type: :model do
               Type=0
               ValNt=2091.75
               ValTx=1045.88
+              PkKey=#{booking.tenant.ref}
 
             }
 
@@ -60,7 +61,7 @@ describe Export::Taf::Builder, type: :model do
       end
     end
 
-    context 'with complex journal_entry' do
+    context 'with invoice' do
       let(:booking) do
         create(:booking, :invoiced, tenant:, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27',
                                     prepaid_amount: 300, vat_category:)
@@ -68,12 +69,7 @@ describe Export::Taf::Builder, type: :model do
       let(:invoice) { booking.invoices.last }
       let(:journal_entry) { JournalEntry.where(booking:, invoice:, payment: nil).last }
 
-      # before do
-
-      # binding.pry
-      # end
-
-      it 'exports to taf' do
+      it do
         builder.journal_entry(journal_entry)
         expect(builder.blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
           {Adr
@@ -198,10 +194,55 @@ describe Export::Taf::Builder, type: :model do
         expect(builder.blocks.map(&:to_s).join("\n\n")).not_to include('Orig=1')
       end
     end
+
+    context 'with payment' do
+      let(:booking) do
+        create(:booking, :invoiced, tenant:, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27')
+      end
+      let(:invoice) { booking.invoices.last }
+      let(:payment) { Payment.create!(booking:, invoice:, amount: 999.99, paid_at: '2024-12-24') }
+      let(:journal_entry) { JournalEntry.where(booking:, invoice:, payment:).last }
+
+      before do
+        invoice.update!(sequence_year: 2024, ref: nil)
+        JournalEntry.where(booking:, invoice:, payment: nil).update_all(processed_at: 1.month.ago) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it do
+        builder.journal_entry(journal_entry)
+        expect(builder.blocks).to all(be_a(Export::Taf::Block))
+        expect(builder.blocks.first.to_s).to eq(<<~TAF.chomp)
+          {Blg
+            Date=24.12.2024
+            Orig=1
+
+            {Bk
+              AccId=1050
+              Date=24.12.2024
+              Text="Zahlung 240001"
+              Type=1
+              ValNt=999.99
+              PkKey=#{booking.tenant.ref}
+              OpId=240001
+
+            }
+
+            {Bk
+              AccId=1025
+              Date=24.12.2024
+              Text="Zahlung 240001"
+              Type=0
+              ValNt=999.99
+
+            }
+          }
+        TAF
+      end
+    end
   end
 
   describe '#tenant' do
-    it 'builds correctly' do
+    it do
       builder.tenant(tenant)
       expect(builder.blocks).to contain_exactly(be_a(Export::Taf::Block), be_a(Export::Taf::Block))
       expect(builder.blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
