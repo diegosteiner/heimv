@@ -48,6 +48,7 @@ class JournalEntry
 
         existing_journal_entries.unprocessed.destroy_all
         return handle_destroy if invoice.destroyed?
+        return handle_discard if invoice.discarded?
 
         handle_save
       end
@@ -66,7 +67,7 @@ class JournalEntry
         return true if new_journal_entry.equivalent?(previous_journal_entry)
 
         date = payment.updated_at.to_date
-        return new_journal_entry.update!(trigger: :payment_created, date:) if previous_journal_entry.blank?
+        return new_journal_entry.update!(trigger: :payment_created) if previous_journal_entry.blank?
 
         previous_journal_entry.dup.invert.update!(trigger: :payment_updated, date:, processed_at: nil)
         new_journal_entry.update!(trigger: :payment_updated, date:)
