@@ -2,8 +2,8 @@
 
 module BookingStates
   class CancelledRequest < Base
-    templates << MailTemplate.define(:cancelled_request_notification, context: %i[booking])
-    templates << MailTemplate.define(:manage_cancelled_request_notification, context: %i[booking])
+    use_mail_template(:cancelled_request_notification, context: %i[booking])
+    use_mail_template(:manage_cancelled_request_notification, context: %i[booking])
 
     def checklist
       []

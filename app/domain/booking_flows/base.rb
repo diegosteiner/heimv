@@ -75,6 +75,36 @@ module BookingFlows
       # rubocop:enable Rails/SkipsModelValidations
     end
 
+    def manage_actions
+      @manage_actions ||= booking.booking_flow_class.manage_actions.to_h do |key, action_klass|
+        [key, manage_action(key, action_klass)]
+      end
+    end
+
+    def manage_action(key, booking_action_klass = nil)
+      (booking_action_klass || booking.booking_flow_class.manage_actions[key])&.new(booking, key)
+    end
+
+    def tenant_actions
+      @tenant_actions ||= booking.booking_flow_class.tenant_actions.to_h do |key, action_klass|
+        [key, tenant_action(key, action_klass)]
+      end
+    end
+
+    def tenant_action(key, booking_action_klass = nil)
+      (booking_action_klass || booking.booking_flow_class.tenant_actions[key])&.new(booking, key)
+    end
+
+    def booking_agent_actions
+      @booking_agent_actions ||= booking.booking_flow_class.booking_agent_actions.to_h do |key, action_klass|
+        [key, booking_agent_action(key, action_klass)]
+      end
+    end
+
+    def booking_agent_action(key, booking_action_klass = nil)
+      (booking_action_klass || booking.booking_flow_class.booking_agent_actions[key])&.new(booking, key)
+    end
+
     def infer_next_state
       self.class.callbacks[:infer].each do |callback|
         from = callback.from.to_s

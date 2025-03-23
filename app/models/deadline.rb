@@ -43,7 +43,7 @@ class Deadline < ApplicationRecord
   def postpone
     return unless postponable?
 
-    update(at: postponable_until, postponable_for: nil)
+    update(at: postponable_until, postponable_for: nil) && booking.touch # rubocop:disable Rails/SkipsModelValidations
   end
 
   def postponable?

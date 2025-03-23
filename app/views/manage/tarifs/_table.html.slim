@@ -27,13 +27,18 @@
       tbody.shadow-sm.collapse.show[id=collapse_id]
         - group_tarifs.each do |tarif|
           = f.fields_for tarif.id.to_s, tarif do |tf|
-            tr.bg-white[class=('disabled' if tarif.discarded?)]
+            tr.bg-white[class=('disabled' if tarif.discarded?) data-id=tarif.to_param]
               td
                 small.text-secondary= tarif.ordinal
               td
                 = tf.hidden_field :id
               td
-                p.mb-0 = tarif.label
+                p.mb-0 
+                  = tarif.label
+                  - if tarif.vat_category.present?
+                    small.text-muted.ms-2[title=tarif.vat_category.label]
+                      = tarif.vat_category.percentage
+                      | %
               td
                 = tf.text_field :price_per_unit, skip_label: true, wrapper: false, disabled: tarif.discarded?, inputmode: "numeric" 
               td
@@ -42,11 +47,11 @@
               td.text-end
                 .btn-group
                   - unless tarif.discarded?
-                    = link_to edit_manage_tarif_path(tarif), class: 'btn btn-default' do
+                    = link_to edit_manage_tarif_path(tarif), class: 'btn btn-default', title: t(:edit)  do
                       span.fa.fa-edit
-                    = link_to new_manage_tarif_path(clone: tarif.to_param), class: 'btn btn-default' do
+                    = link_to new_manage_tarif_path(clone: tarif.to_param), class: 'btn btn-default', title: t(:clone) do
                       span.fa.fa-clone
-                  = link_to manage_tarif_path(tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default' do
+                  = link_to manage_tarif_path(tarif), data: { confirm: t(:confirm) }, method: :delete, class: 'btn btn-default', title: t(:destroy) do
                     span.fa.fa-trash
                     
   = f.submit t("helpers.submit.update", model: Tarif.model_name.human(count: 2))

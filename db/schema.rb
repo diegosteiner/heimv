@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_103012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -242,7 +242,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "locale"
+    t.bigint "sent_with_notification_id"
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
+    t.index ["sent_with_notification_id"], name: "index_contracts_on_sent_with_notification_id"
   end
 
   create_table "data_digest_templates", force: :cascade do |t|
@@ -337,9 +339,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.integer "sequence_number"
     t.integer "sequence_year"
     t.string "ref"
+    t.bigint "sent_with_notification_id"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
     t.index ["payment_ref"], name: "index_invoices_on_payment_ref"
+    t.index ["sent_with_notification_id"], name: "index_invoices_on_sent_with_notification_id"
     t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
     t.index ["type"], name: "index_invoices_on_type"
   end
@@ -823,6 +827,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
   add_foreign_key "booking_validations", "organisations"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
+  add_foreign_key "contracts", "notifications", column: "sent_with_notification_id"
   add_foreign_key "data_digest_templates", "organisations"
   add_foreign_key "data_digests", "data_digest_templates"
   add_foreign_key "data_digests", "organisations"
@@ -832,6 +837,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
   add_foreign_key "invoice_parts", "vat_categories"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
+  add_foreign_key "invoices", "notifications", column: "sent_with_notification_id"
   add_foreign_key "journal_entries", "invoices"
   add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"

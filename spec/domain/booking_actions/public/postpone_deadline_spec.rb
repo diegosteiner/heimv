@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe BookingActions::Public::PostponeDeadline do
-  subject(:action) { described_class.new(booking) }
+describe BookingActions::PostponeDeadline do
+  subject(:action) { described_class.new(booking, :postpone_deadline) }
   subject(:invoke) { action.invoke }
 
   let(:booking) { create(:booking, initial_state:) }

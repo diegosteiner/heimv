@@ -65,5 +65,9 @@ module Manage
     def tarifs_params
       params.permit(tarifs: [TarifParams.permitted_keys + [:id]])
     end
+
+    def flash_interpolation_options
+      { resource_name: Tarif.model_name.human }
+    end
   end
 end

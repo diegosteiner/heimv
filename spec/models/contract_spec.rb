@@ -4,16 +4,17 @@
 #
 # Table name: contracts
 #
-#  id          :bigint           not null, primary key
-#  locale      :string
-#  sent_at     :date
-#  signed_at   :date
-#  text        :text
-#  valid_from  :datetime
-#  valid_until :datetime
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  booking_id  :uuid
+#  id                        :bigint           not null, primary key
+#  locale                    :string
+#  sent_at                   :date
+#  signed_at                 :date
+#  text                      :text
+#  valid_from                :datetime
+#  valid_until               :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  booking_id                :uuid
+#  sent_with_notification_id :bigint
 #
 
 require 'rails_helper'

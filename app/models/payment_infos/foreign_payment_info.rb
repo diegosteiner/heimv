@@ -3,7 +3,7 @@
 module PaymentInfos
   class ForeignPaymentInfo < TextPaymentInfo
     ::PaymentInfo.register_subtype self
-    RichTextTemplate.define(:foreign_payment_info_text, context: %i[payment_info])
+    use_template(:foreign_payment_info_text, context: %i[payment_info])
 
     protected
 

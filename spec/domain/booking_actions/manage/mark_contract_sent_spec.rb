@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe BookingActions::Manage::MarkContractSent do
-  subject(:action) { described_class.new(booking) }
+describe BookingActions::MarkContractSent do
+  subject(:action) { described_class.new(booking, :mark_contract_sent) }
   subject(:invoke) { action.invoke }
   subject(:booking_after_invoke) do
     invoke
@@ -15,8 +15,8 @@ describe BookingActions::Manage::MarkContractSent do
   let(:initial_state) { :definitive_request }
   let!(:contract) { create(:contract, booking:) }
 
-  describe '#allowed?' do
-    subject(:allowed) { action.allowed? }
+  describe '#invokable?' do
+    subject(:allowed) { action.invokable? }
 
     it { expect(allowed).to be_truthy }
   end

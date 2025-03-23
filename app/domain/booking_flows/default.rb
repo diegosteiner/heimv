@@ -50,5 +50,38 @@ module BookingFlows
       @editable_by_default ||= %i[initial unconfirmed_request open_request provisional_request
                                   booking_agent_request awaiting_tenant overdue_request]
     end
+
+    def self.manage_actions # rubocop:disable Metrics/MethodLength
+      {
+        accept: BookingActions::Accept,
+        email_contract: BookingActions::EmailContract,
+        mark_contract_sent: BookingActions::MarkContractSent,
+        mark_invoices_refunded: BookingActions::MarkInvoicesRefunded,
+        email_invoice: BookingActions::EmailInvoice,
+        email_offer: BookingActions::EmailOffer,
+        postpone_deadline: BookingActions::PostponeDeadline,
+        mark_contract_signed: BookingActions::MarkContractSigned,
+        commit_request: BookingActions::CommitRequest,
+        decline: BookingActions::Decline,
+        revert_cancel: BookingActions::RevertCancel
+      }
+    end
+
+    def self.tenant_actions
+      {
+        commit_request: BookingActions::CommitRequest,
+        postpone_deadline: BookingActions::PostponeDeadline,
+        sign_contract: BookingActions::SignContract,
+        cancel: BookingActions::Cancel
+      }
+    end
+
+    def self.booking_agent_actions
+      {
+        commit_booking_agent_request: BookingActions::CommitBookingAgentRequest,
+        postpone_deadline: BookingActions::PostponeDeadline,
+        cancel: BookingActions::Cancel
+      }
+    end
   end
 end

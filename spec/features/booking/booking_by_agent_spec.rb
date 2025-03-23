@@ -105,12 +105,13 @@ describe 'Booking by agent', :devise, type: :feature do
     expect(page).to have_content(I18n.t('flash.actions.update.notice',
                                         resource_name: AgentBooking.model_name.human))
 
-    click_button BookingActions::Public::CommitBookingAgentRequest.t(:label)
+    click_button BookingActions::CommitBookingAgentRequest.t(:label)
+    page.driver.browser.switch_to.alert.accept
   end
 
   def accept_booking
     visit manage_booking_path(@agent_booking.booking, org:)
-    click_on :accept
+    click_button BookingActions::Accept.t(:label)
   end
 
   def enter_tenant_details

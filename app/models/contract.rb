@@ -4,24 +4,27 @@
 #
 # Table name: contracts
 #
-#  id          :bigint           not null, primary key
-#  locale      :string
-#  sent_at     :date
-#  signed_at   :date
-#  text        :text
-#  valid_from  :datetime
-#  valid_until :datetime
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  booking_id  :uuid
+#  id                        :bigint           not null, primary key
+#  locale                    :string
+#  sent_at                   :date
+#  signed_at                 :date
+#  text                      :text
+#  valid_from                :datetime
+#  valid_until               :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  booking_id                :uuid
+#  sent_with_notification_id :bigint
 #
 
 class Contract < ApplicationRecord
-  RichTextTemplate.define(:contract_text, context: %i[booking])
+  extend RichTextTemplate::Definition
+  use_template(:contract_text, context: %i[booking])
 
   locale_enum
 
   belongs_to :booking, inverse_of: :contracts, touch: true
+  belongs_to :sent_with_notification, class_name: 'Notification', optional: true
   has_one :organisation, through: :booking
   has_one_attached :pdf
   has_one_attached :signed_pdf
@@ -72,12 +75,16 @@ class Contract < ApplicationRecord
     update(signed_at: Time.zone.now)
   end
 
+  def sent_at
+    self[:sent_at].presence || sent_with_notification&.sent_at.presence
+  end
+
   def sent?
     sent_at.present?
   end
 
   def was_sent?
-    sent_at_was.present?
+    sent_at_was.present? || sent_with_notification&.sent_at.present?
   end
 
   def signed?

@@ -37,7 +37,7 @@ class RichTextTemplateService
 
   def missing_templates(include_optional: true)
     existing_keys = organisation.rich_text_templates.pluck(:key)
-    RichTextTemplate.definitions.values.flatten.uniq.filter do |definition|
+    RichTextTemplate.definitions.values.flatten.filter do |definition|
       existing_keys.exclude?(definition[:key].to_s) && (!definition.fetch(:optional, false) || include_optional)
     end
   end

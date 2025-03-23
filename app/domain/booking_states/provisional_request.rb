@@ -2,7 +2,7 @@
 
 module BookingStates
   class ProvisionalRequest < Base
-    templates << MailTemplate.define(:provisional_request_notification, context: %i[booking])
+    use_mail_template(:provisional_request_notification, context: %i[booking])
 
     include Rails.application.routes.url_helpers
 

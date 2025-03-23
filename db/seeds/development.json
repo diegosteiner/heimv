@@ -123,7 +123,7 @@
   "tarifs": [
     {
       "id": 1,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "deposit",
@@ -151,11 +151,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 2,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "deposit",
@@ -183,11 +183,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 3,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "deposit",
@@ -215,11 +215,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 4,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "deposit",
@@ -247,11 +247,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 5,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -279,11 +279,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 6,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -311,11 +311,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 7,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -343,11 +343,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 8,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -375,11 +375,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 9,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [],
       "label": "Festtarif 1 Nacht",
@@ -403,11 +403,11 @@
       "valid_from": "2019-12-07T12:04:59+01:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 10,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -435,11 +435,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 11,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [],
       "label": "Festtarrif 2 Nächte",
@@ -463,11 +463,11 @@
       "valid_from": "2019-12-07T12:06:55+01:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 12,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -495,11 +495,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 13,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice"
@@ -525,11 +525,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 14,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -557,11 +557,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 15,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -589,11 +589,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 16,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -621,11 +621,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 17,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -653,11 +653,11 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 18,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [
         "invoice",
@@ -685,7 +685,7 @@
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
       "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     }
   ],
   "tenant_ref_template": "%<sequence_number>d",
