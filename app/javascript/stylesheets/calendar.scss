@@ -191,7 +191,7 @@
 
     .date:nth-child(-n + 14) {
       .occupancy-popover {
-        transform: translate(-43%, 3.25em);
+        transform: translate(-43%, 3em);
       }
     }
   }
@@ -304,6 +304,7 @@
     width: max-content;
     text-align: start;
     max-width: min(90vw, 20rem);
+    padding: 0.5em;
 
     ul.occupancies {
       &>li+li {
