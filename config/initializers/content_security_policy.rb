@@ -43,6 +43,8 @@ Rails.application.config.content_security_policy do |policy|
                        "http://*.#{ViteRuby.config.host_with_port}",
                        'ws://localhost:3000',
                        'ws://*.localhost:3000',
+                       'ws://localhost:3036',
+                       'ws://*.localhost:3036',
                        "ws://#{ViteRuby.config.host_with_port}",
                        "ws://*.#{ViteRuby.config.host_with_port}")
   when 'test'
