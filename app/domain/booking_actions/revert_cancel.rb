@@ -6,11 +6,11 @@ module BookingActions
                                  BookingStates::CancelationPending, BookingStates::Cancelled].map(&:to_sym).freeze
 
     def invoke!
-      reversed = booking.state_transitions.last(2).map do |state_transition|
+      reverted = booking.state_transitions.last(2).map do |state_transition|
         state_transition.destroy! if REVERSIBLE_BOOKING_STATES.include?(state_transition.to_state&.to_sym)
       end
 
-      Result.new success: reversed.compact.any? && booking.update(concluded: false)
+      Result.new success: reverted.compact.any? && booking.update(concluded: false)
     end
 
     def invokable?

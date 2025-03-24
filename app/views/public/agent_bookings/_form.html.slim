@@ -66,6 +66,8 @@
         - if @agent_booking.booking_agent_responsible?
           =<> f.submit
           - @agent_booking.booking.booking_flow.booking_agent_actions.values.each do |booking_action|
-            - next unless booking_action.invokable?
-            = f.button(name: :booking_action, value: booking_action.key, method: :patch, class: 'me-1 btn btn-outline-primary', data: { confirm: t(:confirm) })
-              = booking_action.label
+            - Array.wrap(booking_action.invokable_with).compact.each do |invokable_with|
+              = f.button name: :booking_action, value: booking_action.key, method: :patch, \
+                data: invokable_with[:confirm].present? ? { confirm: invokable_with[:confirm] } : nil, \
+                class: "me-2 btn btn-outline-#{invokable_with[:variant] || :primary}"
+                = invokable_with[:label] || booking_action.label

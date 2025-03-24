@@ -55,13 +55,12 @@ class Invoice < ApplicationRecord
   scope :unsettled, -> { kept.where.not(type: 'Invoices::Offer').where.not(arel_table[:amount_open].eq(0)) }
   scope :refund,    -> { kept.where(arel_table[:amount_open].lt(0)) }
   scope :paid,      -> { kept.where(arel_table[:amount_open].lteq(0)) }
+  scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent,    -> { kept.where(sent_at: nil) }
   scope :overdue,   ->(at = Time.zone.today) { kept.where(arel_table[:payable_until].lteq(at)) }
   scope :of,        ->(booking) { where(booking:) }
   scope :with_default_includes, -> { includes(%i[invoice_parts payments organisation]) }
-  scope :sent, lambda {
-    where.not(sent_at: nil).joins(:sent_with_notification).where.not(sent_with_notification: { sent_at: nil })
-  }
+
   accepts_nested_attributes_for :invoice_parts, reject_if: :all_blank, allow_destroy: true
 
   before_save :sequence_number, :generate_ref, :generate_payment_ref, :recalculate
@@ -123,10 +122,6 @@ class Invoice < ApplicationRecord
 
   def paid?
     refund? || amount_open.zero?
-  end
-
-  def sent_at
-    self[:sent_at].presence || sent_with_notification&.sent_at.presence
   end
 
   def sent?

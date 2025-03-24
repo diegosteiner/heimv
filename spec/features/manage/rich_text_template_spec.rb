@@ -4,7 +4,7 @@ describe 'RichTextTemplate', :devise, type: :feature do
   let(:organisation) { create(:organisation) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :admin, organisation:) }
-  let(:rich_text_template) { organisation.rich_text_templates.sample }
+  let(:rich_text_template) { organisation.rich_text_templates.find_by(key: :email_contract_notification) }
 
   before do
     RichTextTemplateService.new(organisation).create_missing!

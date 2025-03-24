@@ -75,16 +75,12 @@ class Contract < ApplicationRecord
     update(signed_at: Time.zone.now)
   end
 
-  def sent_at
-    self[:sent_at].presence || sent_with_notification&.sent_at.presence
-  end
-
   def sent?
     sent_at.present?
   end
 
   def was_sent?
-    sent_at_was.present? || sent_with_notification&.sent_at.present?
+    sent_at_was.present?
   end
 
   def signed?

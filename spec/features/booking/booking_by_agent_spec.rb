@@ -106,7 +106,6 @@ describe 'Booking by agent', :devise, type: :feature do
                                         resource_name: AgentBooking.model_name.human))
 
     click_button BookingActions::CommitBookingAgentRequest.t(:label)
-    page.driver.browser.switch_to.alert.accept
   end
 
   def accept_booking

@@ -69,7 +69,7 @@ class Notification < ApplicationRecord
   def autodeliver_with_redirect_proc
     return if autodeliver!
 
-    closure_notification_id = to_param
+    closure_notification_id = to_param # required assignment for closure to work
     proc { edit_manage_notification_path(id: closure_notification_id) }
   end
 

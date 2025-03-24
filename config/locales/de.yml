@@ -1552,8 +1552,111 @@ de:
         help_title: Hilfe zu Variabeln
         load_locale_defaults: Standard-Text für diese Sprache wiederherstellen
         template_context:
-          booking: "<h5>Buchung</h5>\n<dl>\n  <dt>Beginn der Belegung</dt>\n  <dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd>\n  <dd><pre>{{ booking.begins_at | datetime_format: \\\"%A, %d.%m.%Y %H:%M\\\" }}</pre></dd>\n  <dt>Ende der Belegung</dt>\n  <dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd>\n  <dd><pre>{{ booking.ends_at | datetime_format: \\\"%A, %d.%m.%Y %H:%M\\\" }}</pre></dd>\n                  \n  <dt>Erwartete Anzahl Personen</dt>\n  <dd><pre>{{ booking.approximate_headcount }}</pre></dd>\n  <dt>Annulierungsgrund</dt>\n  <dd><pre>{{ booking.cancellation_reason }}</pre></dd>\n  <dt>Verbindlichkeit der Mietanfrage</dt>\n  <dd><pre>{{ booking.committed_request }}</pre></dd>\n\n  <dt>ID des Hauptmietobjekts</dt>\n  <dd><pre>{{ booking.home.id }}</pre></dd>\n  <dt>IDs aller belegten Mietobjekte</dt>\n  <dd><pre>{{ booking.occupiable_ids }}</pre></dd>\n  <dt>Name des Hauptmietobjekts</dt>\n  <dd><pre>{{ booking.home.name }}</pre></dd>\n  <dt>Adresse des Hauptmietobjekts</dt>\n  <dd><pre>{{ booking.home.description }}</pre></dd>\n\n  <dt>Name aller belegten Mietobjekte</dt>\n  <dd><pre>{{ booking.occupiables | map: \\\"name\\\" | join: \\\", \\\" }}</pre></dd>\n  <dt>Liste belegten Hauptmietobjekte</dt>\n  <dd><pre><ul>{% for home in booking.occupiables %}<li>{{ home.name }}</li>{% endfor %}</ul></pre></dd>\n\n  <dt>Rechnungsadresse</dt>\n  <dd><pre>{{ booking.invoice_address }}</pre></dd>\n  <dt>Frist bis Datum / Uhrzeit</dt>\n  <dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>\n  <dt>Frist Verlängerbar für n Sekunden</dt>\n  <dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>\n  <dt>Link für den Mieter</dt>\n  <dd><pre>{{ booking.links.show }}</pre></dd>\n  <dt>Link für den Vermieter</dt>\n  <dd><pre>{{ booking.links.manage }}</pre></dd>\n  <dt>Belegungstyp</dt>\n  <dd><pre>{{ booking.occupancy_type }}</pre></dd>\n  <dt>Schlüssel der Mietkategorie</dt>\n  <dd><pre>{{ booking.category.key }}</pre></dd>\n  <dt>Bezeichnung der Mietkategorie</dt>\n  <dd><pre>{{ booking.category.title }}</pre></dd>\n  <dt>Beschreibung der Mietkategorie</dt>\n  <dd><pre>{{ booking.category.description }}</pre></dd>\n  <dt>Beschreibung der Mietzwecks</dt>\n  <dd><pre>{{ booking.purpose_description }}</pre></dd>\n  <dt>Referenznummer der Buchung</dt>\n  <dd><pre>{{ booking.ref }}</pre></dd>\n  <dt>Bemerkungen des Mieters</dt>\n  <dd><pre>{{ booking.remarks }}</pre></dd>\n  <dt>Adresszusatz des Mieters</dt>\n  <dd><pre>{{ booking.tenant.address_addon }}</pre></dd>\n  <dt>Ort des Mieters</dt>\n  <dd><pre>{{ booking.tenant.city }}</pre></dd>\n  <dt>E-Mail des Mieters</dt>\n  <dd><pre>{{ booking.tenant.email }}</pre></dd>\n  <dt>Vorname des Mieters</dt>\n  <dd><pre>{{ booking.tenant.first_name }}</pre></dd>\n  <dt>Nachname des Mieters</dt>\n  <dd><pre>{{ booking.tenant.last_name }}</pre></dd>\n  <dt>Übername des Mieters</dt>\n  <dd><pre>{{ booking.tenant.nickname }}</pre></dd>\n  <dt>Anrede mit Name des Mieters</dt>\n  <dd><pre>{{ booking.tenant.salutation }}</pre></dd>\n  <dt>Anredeform des Mieters</dt>\n  <dd><pre>{{ booking.tenant.salutation_form }}</pre></dd>\n  <dt>Adresse des Mieters</dt>\n  <dd><pre>{{ booking.tenant.street_address }}</pre></dd>\n  <dt>PLZ des Mieters</dt>\n  <dd><pre>{{ booking.tenant.zipcode }}</pre></dd>\n  <dt>Mieter Organisation / Gruppenname</dt>\n  <dd><pre>{{ booking.tenant_organisation }}</pre></dd>\n  <dt>Name der verantwortlichen Person für die Hausübergabe</dt>\n  <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>\n  <dt>E-Mail der verantwortlichen Person für die Hausübergabe</dt>\n  <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>\n  <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt>\n  <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>\n  <dt>Name der verantwortlichen Person für die Hausrücknahme</dt>\n  <dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>\n  <dt>E-Mail der verantwortlichen Person für die Hausrücknahme</dt>\n  <dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>\n  <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt>\n  <dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>\n  <dt>Name der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>\n  <dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>\n  <dt>E-Mail der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>\n  <dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>\n  <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>\n  <dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>\n  <dt>Name der verantwortlichen Person für die Verrechnung</dt>\n  <dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>\n  <dt>E-Mail der verantwortlichen Person für die Verrechnung</dt>\n  <dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>\n  <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt>\n  <dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>\n</dl>\n"
-          invoice: |
+          booking: |-
+            <h5>Buchung</h5>
+            <dl>
+              <dt>Beginn der Belegung</dt>
+              <dd><pre>{{ booking.begins_at | datetime_format }}</pre></dd>
+              <dd><pre>{{ booking.begins_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
+              <dt>Ende der Belegung</dt>
+              <dd><pre>{{ booking.ends_at | datetime_format }}</pre></dd>
+              <dd><pre>{{ booking.ends_at | datetime_format: "%A, %d.%m.%Y %H:%M" }}</pre></dd>
+              <dt>Erwartete Anzahl Personen</dt>
+              <dd><pre>{{ booking.approximate_headcount }}</pre></dd>
+              <dt>Annulierungsgrund</dt>
+              <dd><pre>{{ booking.cancellation_reason }}</pre></dd>
+              <dt>Verbindlichkeit der Mietanfrage</dt>
+              <dd><pre>{{ booking.committed_request }}</pre></dd>
+              <dt>ID des Hauptmietobjekts</dt>
+              <dd><pre>{{ booking.home.id }}</pre></dd>
+              <dt>IDs aller belegten Mietobjekte</dt>
+              <dd><pre>{{ booking.occupiable_ids }}</pre></dd>
+              <dt>Name des Hauptmietobjekts</dt>
+              <dd><pre>{{ booking.home.name }}</pre></dd>
+              <dt>Adresse des Hauptmietobjekts</dt>
+              <dd><pre>{{ booking.home.description }}</pre></dd>
+              <dt>Name aller belegten Mietobjekte</dt>
+              <dd><pre>{{ booking.occupiables | map: "name" | join: ", " }}</pre></dd>
+              <dt>Liste belegten Hauptmietobjekte</dt>
+              <dd><pre><ul>{% for home in booking.occupiables %}<li>{{ home.name }}</li>{% endfor %}</ul></pre></dd>
+              <dt>Rechnungsadresse</dt>
+              <dd><pre>{{ booking.invoice_address }}</pre></dd>
+              <dt>Frist bis Datum / Uhrzeit</dt>
+              <dd><pre>{{ booking.deadline.at | datetime_format }}</pre></dd>
+              <dt>Frist Verlängerbar für n Sekunden</dt>
+              <dd><pre>{{ booking.deadline.postponable_for }}</pre></dd>
+              <dt>Link für den Mieter</dt>
+              <dd><pre>{{ booking.links.show }}</pre></dd>
+              <dt>Link für den Vermieter</dt>
+              <dd><pre>{{ booking.links.manage }}</pre></dd>
+              <dt>Belegungstyp</dt>
+              <dd><pre>{{ booking.occupancy_type }}</pre></dd>
+              <dt>Schlüssel der Mietkategorie</dt>
+              <dd><pre>{{ booking.category.key }}</pre></dd>
+              <dt>Bezeichnung der Mietkategorie</dt>
+              <dd><pre>{{ booking.category.title }}</pre></dd>
+              <dt>Beschreibung der Mietkategorie</dt>
+              <dd><pre>{{ booking.category.description }}</pre></dd>
+              <dt>Beschreibung der Mietzwecks</dt>
+              <dd><pre>{{ booking.purpose_description }}</pre></dd>
+              <dt>Referenznummer der Buchung</dt>
+              <dd><pre>{{ booking.ref }}</pre></dd>
+              <dt>Bemerkungen des Mieters</dt>
+              <dd><pre>{{ booking.remarks }}</pre></dd>
+              <dt>Adresszusatz des Mieters</dt>
+              <dd><pre>{{ booking.tenant.address_addon }}</pre></dd>
+              <dt>Ort des Mieters</dt>
+              <dd><pre>{{ booking.tenant.city }}</pre></dd>
+              <dt>E-Mail des Mieters</dt>
+              <dd><pre>{{ booking.tenant.email }}</pre></dd>
+              <dt>Vorname des Mieters</dt>
+              <dd><pre>{{ booking.tenant.first_name }}</pre></dd>
+              <dt>Nachname des Mieters</dt>
+              <dd><pre>{{ booking.tenant.last_name }}</pre></dd>
+              <dt>Übername des Mieters</dt>
+              <dd><pre>{{ booking.tenant.nickname }}</pre></dd>
+              <dt>Anrede mit Name des Mieters</dt>
+              <dd><pre>{{ booking.tenant.salutation }}</pre></dd>
+              <dt>Anredeform des Mieters</dt>
+              <dd><pre>{{ booking.tenant.salutation_form }}</pre></dd>
+              <dt>Adresse des Mieters</dt>
+              <dd><pre>{{ booking.tenant.street_address }}</pre></dd>
+              <dt>PLZ des Mieters</dt>
+              <dd><pre>{{ booking.tenant.zipcode }}</pre></dd>
+              <dt>Mieter Organisation / Gruppenname</dt>
+              <dd><pre>{{ booking.tenant_organisation }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Hausübergabe</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Hausübergabe</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Hausübergabe</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_handover.operator.contact_info }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Hausrücknahme</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_return.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Hausrücknahme</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_return.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Hausrücknahme</dt>
+              <dd><pre>{{ booking.operator_responsibilities.home_return.operator.contact_info }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>
+              <dd><pre>{{ booking.operator_responsibilities.administration.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>
+              <dd><pre>{{ booking.operator_responsibilities.administration.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Verwaltung / Allgmeine Anliegen</dt>
+              <dd><pre>{{ booking.operator_responsibilities.administration.operator.contact_info }}</pre></dd>
+              <dt>Name der verantwortlichen Person für die Verrechnung</dt>
+              <dd><pre>{{ booking.operator_responsibilities.billing.operator.name }}</pre></dd>
+              <dt>E-Mail der verantwortlichen Person für die Verrechnung</dt>
+              <dd><pre>{{ booking.operator_responsibilities.billing.operator.email }}</pre></dd>
+              <dt>Kontaktinformationen der verantwortlichen Person für die Verrechnung</dt>
+              <dd><pre>{{ booking.operator_responsibilities.billing.operator.contact_info }}</pre></dd>
+            </dl>
+          contract: |-
+            <h5>Vertrag</h5>
+            <dl>
+              <dt>Vertragsdatum</dt>
+              <dd><pre>{{ contract.issued_at | date_format }}</pre></dd>
+            </dl>
+          invoice: |-
             <h5>Rechnung</h5>
             <dl>
               <dt>Rechnungsnummer</dt>
@@ -1563,7 +1666,7 @@ de:
               <dt>Rechnungsdatum</dt>
               <dd><pre>{{ invoice.issued_at | date_format }}</pre></dd>
             </dl>
-          invoices: |
+          invoices: |-
             <h5>Rechnungen</h5>
             <dl>
               <dt>Rechnungsnummer</dt>
@@ -1573,7 +1676,7 @@ de:
               <dt>Rechnungsdatum</dt>
               <dd><pre>{{ invoices[0].issued_at | date_format }}</pre></dd>
             </dl>
-          organisation: |
+          organisation: |-
             <h5>Organisation</h5>
             <dl>
               <dt>Adresse der Organisation, Sitz</dt>
@@ -1593,7 +1696,7 @@ de:
               <dt>Name der Organisation</dt>
               <dd><pre>{{ organisation.name }}</pre></dd>
             </dl>
-          other: |
+          other: |-
             <h5>Tarife</h5>
             <dl>
               <dt>Tarife (nur für Vertrag und Rechnung)</dt> <dd><pre>{{ TARIFS }}</pre></dd></dt>
@@ -1785,9 +1888,12 @@ de:
         <ul>
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
+          <li>Frist: {{ booking.deadline | datetime_format }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
         </ul>
+
+        <p><a href="{{booking.agent_booking.links.show}}">{{booking.agent_booking.links.show}}</a></p>
       default_title: Vermittlung storniert
       description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
     booking_agent_request_accepted_notification:
@@ -1799,11 +1905,12 @@ de:
         <ul>
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}</li>
+          <li>Frist: {{ booking.deadline | datetime_format }}</li>
           <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
           <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
         </ul>
 
-        <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
+        <p><a href="{{booking.agent_booking.links.show}}">{{booking.agent_booking.links.show}}</a></p>
       default_title: Vermittlungsanfrage akzeptiert
       description: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
     booking_agent_request_notification:
@@ -1815,12 +1922,13 @@ de:
         <ul>
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
+          <li>Frist: {{ booking.deadline | datetime_format }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
           <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
-          <li>Bearbeitungslink: <a href="{{booking.links.show}}">{{booking.links.show}}</a></li>
         </ul>
 
         <p>Deine Anfrage wurde angenommen. Über den folgenden Link kann die Reservation verlängert, aufgehoben oder für definitiv erklärt werden. Die provisorische Reservation gilt f&uuml;r 10 Tage und kann weitere 3 Tage verl&auml;ngert werden. Wenn die Reservation l&auml;nger reserviert werden soll, bitten wir Dich dies per Email mit dem Datum anzufragen.</p>
+
         <p><a href="{{booking.agent_booking.links.show}}">{{booking.agent_booking.links.show}}</a></p>
       default_title: Bestätigung Deiner Vermittlungsanfrage
       description: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
@@ -1942,7 +2050,7 @@ de:
       default_title: Definitive Reservation bestätigt
       description: Benachrichtigung für definitive Mietanfrage (Mieter)
     email_contract_notification:
-      default_body: "<p>{{ booking.tenant.salutation }}</p>\n\n<div>{% if invoices[0] %}</div>\n<p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. \nBitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag \nund sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].amount_open | currency }}.</p>\n<p>Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Akontorechnung und der unterzeichnete Vertrag bei uns eingetroffen sind.</p>\n<div>{% else %}</div>\n<p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. \nBitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag \nund sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>\n<div>{% endif %}</div>\n\n<p><strong>Reservationsdetails</strong></p>\n\n<ul>\n  <li>Buchungsreferenz: {{ booking.ref }}</li>\n  <li>Lagerhaus: {{booking.home.name}}</li>\n  <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>\n  <li>Organisation: {{ booking.tenant_organisation }}</li>\n  <li>Mietzweck: {{ booking.category.title }}: {{ booking.purpose_description }}</li>\n  <li>Bemerkungen: {{ booking.remarks }}</li>\n</ul>\n"
+      default_body: "<p>{{ booking.tenant.salutation }}</p>\n<div>{% if invoices[0] %}</div>\n<p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. \nBitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag \nund sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].amount_open | currency }}.</p>\n<p>Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Akontorechnung und der unterzeichnete Vertrag bei uns eingetroffen sind.</p>\n<div>{% else %}</div>\n<p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. \nBitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag \nund sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>\n<div>{% endif %}</div>\n\n<p><strong>Reservationsdetails</strong></p>\n\n<ul>\n  <li>Buchungsreferenz: {{ booking.ref }}</li>\n  <li>Lagerhaus: {{booking.home.name}}</li>\n  <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>\n  <li>Organisation: {{ booking.tenant_organisation }}</li>\n  <li>Mietzweck: {{ booking.category.title }}: {{ booking.purpose_description }}</li>\n  <li>Bemerkungen: {{ booking.remarks }}</li>\n</ul>"
       default_title: Vertrag für deine Reservation
       description: Benachrichtigung für Versand Vertrag/Akontorechnung (Mieter)
     email_invoice_notification:
@@ -2053,6 +2161,26 @@ de:
         <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Stornierung Reservationsanfrage {{ booking.ref }}
       description: Benachrichtigung für stornierte Reservationsanfrage (Verwaltung)
+    manage_contract_signed_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Der Mieter der Buchung {{booking.ref}} hat einen unterzeichneten Vertrag hochgeladen. Bitte prüfe dessen Korrektheit.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietzweck: <strong>{{ booking.category.title }}: {{ booking.purpose_description }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+        </ul>
+
+        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
+      default_title: Unterzeichneten Vertrag erhalten
+      description: Benachrichtigung für Vertragseingang (Verwaltung)
     manage_definitive_request_notification:
       default_body: |
         <p>Hallo</p>
@@ -2098,7 +2226,22 @@ de:
       default_title: ''
       description: Fusszeile für Benachrichtigungen
     open_booking_agent_request_notification:
-      description: Benachrichtigung für offene Mietanfrage (Vermittler)
+      default_body: |
+        <p>Lieber Vermittler</p>
+
+        <p>Hiermit bestätigen wir den Eingang deiner Mietanfrage für {{ booking.home.name }}.</p>
+
+        <ul>
+          <li>Unsere Referenz: {{ booking.ref }}</li>
+          <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
+          <li>Frist: {{ booking.deadline | datetime_format }}</li>
+          <li>Lagerhaus: {{booking.home.name}}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+        </ul>
+
+        <p><a href="{{booking.agent_booking.links.show}}">{{booking.agent_booking.links.show}}</a></p>
+      default_title: Bestätigung Deiner Mietanfrage
+      description: Benachrichtigung für offene Mietanfrage (Mieter)
     open_request_notification:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>
@@ -2332,26 +2475,6 @@ de:
         </ul>
       default_title: Provisorische Reservation bestätigt
       description: Benachrichtigung für provisorische Mietanfrage (Mieter)
-    tenant_contract_signed_notification:
-      default_body: |
-        <p>Hallo</p>
-
-        <p>Der Mieter der Buchung {{booking.ref}} hat einen unterzeichneten Vertrag hochgeladen. Bitte prüfe dessen Korrektheit.</p>
-
-        <p><strong>Reservationsdetails</strong></p>
-
-        <ul>
-          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
-          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
-          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
-          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
-          <li>Mietzweck: <strong>{{ booking.category.title }}: {{ booking.purpose_description }}</strong></li>
-          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
-        </ul>
-
-        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
-      default_title: Unterzeichneten Vertrag erhalten
-      description: Benachrichtigung für Vertragseingang (Mieter)
     text_payment_info_text:
       default_body: |
         <p><strong>Kontonummer</strong>:

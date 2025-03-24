@@ -99,12 +99,12 @@
 
         .row.mt-4
           .col-md-8.d-flex.gap-1.mt-2.align-items-start.flex-wrap
-            - @booking.booking_flow.tenant_actions.values.each do |action| 
-              - Array.wrap(action.invokable_with).compact.each do |invokable_with|
-                = button_to public_booking_invoke_action_path(@booking.token, id: action.key), \
+            - @booking.booking_flow.tenant_actions.values.each do |booking_action| 
+              - Array.wrap(booking_action.invokable_with).compact.each do |invokable_with|
+                = button_to public_booking_invoke_action_path(@booking.token, id: booking_action.key), \
                   method: invokable_with[:prepare] ? :get : :post, \
                   params: invokable_with[:params], \
                   data: invokable_with[:confirm].present? ? { confirm: invokable_with[:confirm] } : nil, \
                   class: "btn btn-outline-#{invokable_with[:variant] || :primary}"
-                  = invokable_with[:label] || action.label
+                  = invokable_with[:label] || booking_action.label
                   

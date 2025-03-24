@@ -2,8 +2,8 @@
 
 module BookingActions
   class MarkInvoicesRefunded < Base
-    def invoke!(invoices = refundable_invoices)
-      invoices.map do |invoice|
+    def invoke!
+      refundable_invoices.map do |invoice|
         invoice.payments.create!(amount: invoice.amount_open, confirm: false, paid_at: Time.zone.now)
       end
 

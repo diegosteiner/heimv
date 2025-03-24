@@ -2,22 +2,23 @@
 
 module BookingActions
   class SignContract < Base
-    use_mail_template(:tenant_contract_signed_notification, context: %i[booking], autodeliver: false)
+    use_mail_template(:manage_contract_signed_notification, context: %i[booking], autodeliver: true)
 
     def invoke!(signed_pdf: nil, confirm_authorization: nil)
       return Result.failure unless confirm_authorization
 
-      booking.contract.update(signed_pdf:) if signed_pdf.present?
-      booking.contract.signed!
+      contract.update(signed_pdf:) if signed_pdf.present?
+      contract.signed!
       booking.update(committed_request: true)
 
-      mail = MailTemplate.use(:tenant_contract_signed_notification, booking, to: :manage)
-      Result.success redirect_proc: mail&.autodeliver
+      mail = MailTemplate.use(:manage_contract_signed_notification, booking, to: :administration)
+      mail.attach(signed_pdf) if mail.present? && signed_pdf.present?
+      Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
     def invokable?(**)
       booking.organisation.settings.contract_sign_by_click_enabled &&
-        booking.contract&.sent? && !booking.contract&.signed?
+        contract&.sent? && !contract&.signed?
     end
 
     def invokable_with
@@ -33,8 +34,8 @@ module BookingActions
 
     protected
 
-    def deposits
-      Invoices::Deposit.of(booking).kept.unpaid
+    def contract
+      booking.contract
     end
   end
 end

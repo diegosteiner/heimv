@@ -5,16 +5,21 @@ module BookingActions
     def invoke!
       booking.errors.clear
       booking.cancellation_reason ||= I18n.t('.cancellation_reason')
-      booking.transition_to = if booking.can_transition_to?(:cancelled_request)
-                                :cancelled_request
-                              elsif booking.can_transition_to?(:cancelation_pending)
-                                :cancelation_pending
-                              end
+      booking.transition_to = transition_to
+
       Result.new success: booking.save
     end
 
+    def transition_to
+      if booking.can_transition_to?(:declined_request)
+        :declined_request
+      elsif booking.can_transition_to?(:cancelation_pending)
+        :cancelation_pending
+      end
+    end
+
     def invokable?
-      booking.can_transition_to?(:cancelled_request) || booking.can_transition_to?(:cancelation_pending)
+      transition_to.present?
     end
 
     def invokable_with
