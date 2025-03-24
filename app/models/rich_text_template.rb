@@ -25,6 +25,20 @@ class RichTextTemplate < ApplicationRecord
   extend Mobility
   extend Translatable
 
+  module Definition
+    def rich_text_templates
+      @rich_text_templates ||= {}
+    end
+
+    def use_template(key, *, **)
+      rich_text_templates[key] = RichTextTemplate.define(key, *, **)
+    end
+
+    def use_mail_template(key, *, **)
+      rich_text_templates[key] = MailTemplate.define(key, *, **)
+    end
+  end
+
   class << self
     def by_key!(key)
       where(key:).take!

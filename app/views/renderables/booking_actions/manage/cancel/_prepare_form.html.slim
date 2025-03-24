@@ -1,5 +1,0 @@
-= f.text_area :cancellation_reason, label: Booking.human_attribute_name(:cancellation_reason), value: @booking_action.booking.cancellation_reason, help: t(:optional)
-
-= f.button name: :commit, class: 'btn btn-danger', data: { confirm: t(:confirm) }
-	= @booking_action.label
-= link_to t(:back), manage_booking_path(@booking_action.booking), class: 'btn btn-outline-primary ms-2'

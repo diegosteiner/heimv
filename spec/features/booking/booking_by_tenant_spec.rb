@@ -46,14 +46,15 @@ describe 'Booking by tenant', :devise, type: :feature do
   end
 
   let(:expected_notifications) do
-    %w[payment_due_notification payment_confirmation_notification
+    %w[email_invoice_notification payment_confirmation_notification
        upcoming_notification operator_upcoming_notification operator_upcoming_notification
        operator_upcoming_soon_notification operator_upcoming_soon_notification
-       upcoming_soon_notification awaiting_contract_notification
+       upcoming_soon_notification email_contract_notification
        definitive_request_notification manage_definitive_request_notification
-       provisional_request_notification open_request_notification
+       provisional_request_notification open_request_notification contract_signed_notification
        manage_new_booking_notification unconfirmed_request_notification completed_notification
-       operator_contract_sent_notification operator_invoice_sent_notification]
+       operator_email_contract_notification operator_email_contract_notification operator_email_contract_notification
+       operator_email_invoice_notification]
   end
 
   let(:expected_transitions) do
@@ -125,13 +126,14 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def accept_booking
     visit manage_booking_path(@booking, org:)
-    click_on :accept
-    click_on :postpone_deadline
+    click_button BookingActions::Accept.t(:label)
+    click_button BookingActions::PostponeDeadline.t(:label)
   end
 
   def commit_request
     visit public_booking_path(id: @booking.token)
-    click_on :commit_request
+    click_button BookingActions::CommitRequest.t(:label)
+    page.driver.browser.switch_to.alert.accept
   end
 
   def choose_tarifs
@@ -160,11 +162,11 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def confirm_booking
     visit manage_booking_path(@booking, org:)
-    click_on :email_contract
-    submit_form
+    click_on BookingActions::EmailContract.translate(:label_with_deposit)
+    click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
-    click_on BookingActions::Manage::MarkContractSigned.label
-    submit_form
+    click_on BookingActions::MarkContractSigned.label
+    click_on BookingActions::MarkContractSigned.label # confirm
   end
 
   def perform_booking
@@ -195,13 +197,13 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def send_invoice
     visit manage_booking_path(@booking, org:)
-    click_on :email_invoices
-    submit_form
+    find_all('[name="action"][value="email_invoice"]').first.click
+    click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
   end
 
   def finalize_booking
-    click_on :postpone_deadline
+    find_all('[name="action"][value="postpone_deadline"]').first.click
     visit manage_booking_invoices_path(@booking, org:)
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
     find_all('[type="submit"]').last.click

@@ -2,7 +2,7 @@
 
 module BookingStates
   class UnconfirmedRequest < Base
-    templates << MailTemplate.define(:unconfirmed_request_notification, context: %i[booking])
+    use_mail_template(:unconfirmed_request_notification, context: %i[booking])
 
     def checklist
       []

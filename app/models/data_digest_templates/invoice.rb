@@ -21,8 +21,12 @@ module DataDigestTemplates
 
     DEFAULT_COLUMN_CONFIG = [
       {
-        header: ::Invoice.human_attribute_name(:ref),
+        header: ::Invoice.human_attribute_name(:payment_ref),
         body: '{{ invoice.payment_ref }}'
+      },
+      {
+        header: ::Invoice.human_attribute_name(:ref),
+        body: '{{ invoice.ref }}'
       },
       {
         header: ::Booking.human_attribute_name(:ref),

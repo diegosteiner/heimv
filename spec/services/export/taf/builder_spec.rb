@@ -12,8 +12,8 @@ describe Export::Taf::Builder, type: :model do
                     street_address: 'Bahnhofstr. 1', city: 'Bern', zipcode: 1234)
   end
   before do
-    organisation.accounting_settings.rental_yield_vat_category_id ||= vat_category.id
-    organisation.save
+    organisation.accounting_settings.rental_yield_vat_category_id = vat_category.id
+    organisation.save!
   end
 
   describe '#journal_entry' do

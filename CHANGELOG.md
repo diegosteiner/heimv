@@ -1,5 +1,13 @@
 # Changelog
 
+## 25.3.3 
+
+- Chore: Update translations
+- Refactor: Refactor booking actions to be more flexible in the future
+- Feature: Show VAT in tarif table
+- Feature: Add new notification when tenant signed contract
+
+
 ## 25.3.2
 
 Released 14.03.2025

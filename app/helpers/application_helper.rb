@@ -12,12 +12,24 @@ module ApplicationHelper
     end
   end
 
+  def lines_as_paragraphs(lines)
+    safe_join(lines.presence&.lines&.map { |line| tag.p(line) })
+  end
+
   def render_hash_as_dl(hash, model_class = nil)
     tag.dl do
       safe_join(hash.map do |key, value|
         tag.dt(model_class&.human_attribute_name(key) || key.to_s) +
           tag.dd(value&.to_s)
       end)
+    end
+  end
+
+  def render_partial_or_default(partial, locals: {}, &)
+    if lookup_context.template_exists?(partial, [], true)
+      render partial:, locals:
+    else
+      capture(&)
     end
   end
 
