@@ -5,30 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "rdbg",
-      "name": "Debug all specs",
-      "request": "launch",
-      "script": "bin/rspec"
-    },
-    {
-      "type": "rdbg",
+      "type": "ruby_lsp",
       "name": "Debug spec example",
       "request": "launch",
-      "script": "bin/rspec",
-      "args": ["${relativeFile}"]
+      "program": "bin/rspec ${relativeFile}",
     },
     {
-      "type": "rdbg",
-      "name": "Rails Dev Server",
+      "type": "ruby_lsp",
+      "name": "Rails dev server",
       "request": "launch",
-      "script": "bin/rails",
-      "args": ["server", "-b", "0.0.0.0"],
-      "cwd": "${workspaceFolder}"
-    },
-    {
-      "type": "rdbg",
-      "name": "Attach debugger",
-      "request": "attach"
+      "program": "bin/rails s",
     }
   ]
 }

@@ -6,7 +6,7 @@ class Invoice
     attribute :issued_at_before, :datetime
     attribute :payable_until_after, :datetime
     attribute :payable_until_before, :datetime
-    attribute :invoice_type, default: -> { [] }
+    attribute :invoice_types, default: -> { [] }
     attribute :paid, :boolean
 
     filter :issued_at do |invoices|
@@ -27,8 +27,8 @@ class Invoice
       paid ? invoices.paid : invoices.kept.unsettled
     end
 
-    filter :invoice_type do |invoices|
-      invoice_types = Array.wrap(invoice_type).compact_blank
+    filter :invoice_types do |invoices|
+      invoice_types = Array.wrap(self.invoice_types).compact_blank
       invoices.where(type: invoice_types) if invoice_types.present?
     end
   end

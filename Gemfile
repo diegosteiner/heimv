@@ -71,7 +71,7 @@ group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'database_cleaner'
-  gem 'debug'
+  gem 'debug', require: 'debug/prelude'
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'

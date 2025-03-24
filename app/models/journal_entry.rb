@@ -149,10 +149,10 @@ class JournalEntry < ApplicationRecord
     end
 
     filter :triggers do |journal_entries|
-      triggers = Array.wrap(triggers) & JournalEntry.triggers.keys
+      trigger = Array.wrap(triggers) & JournalEntry.triggers.keys
       next if triggers.blank?
 
-      journal_entries.where(trigger: triggers)
+      journal_entries.where(trigger:)
     end
   end
 
