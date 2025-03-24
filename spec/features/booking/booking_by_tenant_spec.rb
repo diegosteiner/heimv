@@ -49,7 +49,7 @@ describe 'Booking by tenant', :devise, type: :feature do
     %w[email_invoice_notification payment_confirmation_notification
        upcoming_notification operator_upcoming_notification operator_upcoming_notification
        operator_upcoming_soon_notification operator_upcoming_soon_notification
-       upcoming_soon_notification email_contract_notification
+       upcoming_soon_notification email_contract_notification past_notification
        definitive_request_notification manage_definitive_request_notification
        provisional_request_notification open_request_notification contract_signed_notification
        manage_new_booking_notification unconfirmed_request_notification completed_notification
