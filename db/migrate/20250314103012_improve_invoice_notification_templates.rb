@@ -3,7 +3,6 @@ class ImproveInvoiceNotificationTemplates < ActiveRecord::Migration[8.0]
     reversible do |direction|
       direction.up do
         rename_templates
-        remove_unused_templates
       end
 
       add_reference :contracts, :sent_with_notification, null: true, foreign_key: { to_table: :notifications }
