@@ -16,7 +16,7 @@ module BookingActions
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
-    def invokable?(**)
+    def invokable?(signed_pdf: nil, confirm_authorization: nil)
       booking.organisation.settings.contract_sign_by_click_enabled &&
         contract&.sent? && !contract&.signed?
     end

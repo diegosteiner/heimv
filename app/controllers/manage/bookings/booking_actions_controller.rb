@@ -19,7 +19,7 @@ module Manage
           write_booking_log
           redirect_to @result.redirect_proc || manage_booking_path(@booking), notice: t('.success')
         else
-          ExceptionNotifier.notify_exception(@result&.error) if defined?(ExceptionNotifier)
+          ExceptionNotifier.notify_exception(StandardError.new(@result&.error)) if defined?(ExceptionNotifier)
           redirect_to manage_booking_path(@booking), alert: @result&.error.presence || t('.failure')
         end
       end

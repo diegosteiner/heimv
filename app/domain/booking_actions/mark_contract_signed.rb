@@ -18,7 +18,7 @@ module BookingActions
       end
     end
 
-    def invokable?
+    def invokable?(signed_pdf: nil)
       booking.contract&.sent? && !booking.contract&.signed?
     end
 

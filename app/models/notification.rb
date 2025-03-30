@@ -27,8 +27,8 @@ class Notification < ApplicationRecord
   has_many_attached :attachments
   has_one :tenant, through: :booking
   has_one :organisation, through: :booking
-  has_many :contracts, foreign_key: :sent_with_notification, inverse_of: :sent_with_notification, dependent: :nullify
-  has_many :invoices, foreign_key: :sent_with_notification, inverse_of: :sent_with_notification, dependent: :nullify
+  has_many :contracts, foreign_key: :sent_with_notification_id, inverse_of: :sent_with_notification, dependent: :nullify
+  has_many :invoices, foreign_key: :sent_with_notification_id, inverse_of: :sent_with_notification, dependent: :nullify
 
   scope :unsent, -> { where(sent_at: nil) }
   before_save :deliver_to
