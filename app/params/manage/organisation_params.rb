@@ -21,7 +21,7 @@ module Manage
 
     def self.accounting_settings_permitted_keys
       %i[enabled debitor_account_nr rental_yield_account_nr rental_yield_vat_category_id vat_account_nr
-         payment_account_nr]
+         payment_account_nr liable_for_vat]
     end
 
     def self.booking_state_settings_permitted_keys

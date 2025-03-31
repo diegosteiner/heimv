@@ -68,8 +68,10 @@ class Tarif < ApplicationRecord
   scope :pinned, -> { where(pin: true) }
   scope :include_conditions, -> { includes(:selecting_conditions, :enabling_conditions) }
 
-  validates :type, presence: true, inclusion: { in: ->(_) { Tarif.subtypes.keys.map(&:to_s) } }
   attribute :price_per_unit, default: 0
+  validates :type, presence: true, inclusion: { in: ->(_) { Tarif.subtypes.keys.map(&:to_s) } }
+  validates :vat_category_id, presence: true, if: -> { organisation&.accounting_settings&.liable_for_vat }
+  validates :accounting_account_nr, presence: true, if: -> { organisation&.accounting_settings&.enabled }
 
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :unit, column_suffix: '_i18n', locale_accessors: true
