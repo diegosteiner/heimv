@@ -77,7 +77,7 @@ module Public
       result = booking_action&.invoke
       return @agent_booking.booking.errors.add(:base, :action_not_allowed) if booking_action && !result&.success
 
-      @agent_booking.booking.errors.clear
+      @agent_booking.valid?
     end
 
     def agent_booking_params

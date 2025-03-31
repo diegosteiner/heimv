@@ -1890,12 +1890,12 @@ de:
         <ul>
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
-          <li>Frist: {{ booking.deadline | datetime_format }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+          <li>Belegung: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+          <li>Frist: {{ booking.deadline | datetime_format }}</li>
         </ul>
 
-        <p><a href="{{booking.agent_booking.links.show}}">{{booking.agent_booking.links.show}}</a></p>
+        <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
       default_title: Vermittlung storniert
       description: Benachrichtigung für annullierte Vermittlungsanfrage (Vermittler)
     booking_agent_request_accepted_notification:
@@ -1906,13 +1906,13 @@ de:
 
         <ul>
           <li>Unsere Referenz: {{ booking.ref }}</li>
-          <li>Ihre Referenz: {{ booking.agent_booking.booking_agent_ref }}</li>
+          <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
+          <li>Lagerhaus: {{booking.home.name}}</li>
+          <li>Belegung: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
           <li>Frist: {{ booking.deadline | datetime_format }}</li>
-          <li>Lagerhaus: {{booking.home.name}} {{ booking.home.place }}</li>
-          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
         </ul>
 
-        <p><a href="{{booking.agent_booking.links.show}}">{{booking.agent_booking.links.show}}</a></p>
+        <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
       default_title: Vermittlungsanfrage akzeptiert
       description: Benachrichtigung für bestätigte Vermittlungsanfrage (Vermittler)
     booking_agent_request_notification:
@@ -1924,14 +1924,14 @@ de:
         <ul>
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
-          <li>Frist: {{ booking.deadline | datetime_format }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+          <li>Belegung: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+          <li>Frist: {{ booking.deadline | datetime_format }}</li>
         </ul>
 
         <p>Deine Anfrage wurde angenommen. Über den folgenden Link kann die Reservation verlängert, aufgehoben oder für definitiv erklärt werden. Die provisorische Reservation gilt f&uuml;r 10 Tage und kann weitere 3 Tage verl&auml;ngert werden. Wenn die Reservation l&auml;nger reserviert werden soll, bitten wir Dich dies per Email mit dem Datum anzufragen.</p>
 
-        <p><a href="{{booking.agent_booking.links.show}}">{{booking.agent_booking.links.show}}</a></p>
+        <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
       default_title: Bestätigung Deiner Vermittlungsanfrage
       description: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
     cancelled_notification:
@@ -2236,14 +2236,14 @@ de:
         <ul>
           <li>Unsere Referenz: {{ booking.ref }}</li>
           <li>Deine Referenz: {{ booking.booking_agent_ref }}</li>
-          <li>Frist: {{ booking.deadline | datetime_format }}</li>
           <li>Lagerhaus: {{booking.home.name}}</li>
-          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+          <li>Belegung: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+          <li>Frist: {{ booking.deadline | datetime_format }}</li>
         </ul>
 
-        <p><a href="{{booking.agent_booking.links.show}}">{{booking.agent_booking.links.show}}</a></p>
+        <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
       default_title: Bestätigung Deiner Mietanfrage
-      description: Benachrichtigung für offene Mietanfrage (Mieter)
+      description: Benachrichtigung für offene Mietanfrage (Vermittler)
     open_request_notification:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>

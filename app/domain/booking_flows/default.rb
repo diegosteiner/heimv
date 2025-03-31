@@ -62,6 +62,7 @@ module BookingFlows
         postpone_deadline: BookingActions::PostponeDeadline,
         mark_contract_signed: BookingActions::MarkContractSigned,
         commit_request: BookingActions::CommitRequest,
+        commit_booking_agent_request: BookingActions::CommitBookingAgentRequest,
         decline: BookingActions::Decline,
         revert_cancel: BookingActions::RevertCancel
       }
