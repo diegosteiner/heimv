@@ -19,7 +19,10 @@
     / = f.text_field :respite_days, inputmode: "numeric"
 
     = f.select :payment_info_type, subtype_options_for_select(PaymentInfo.subtypes), include_blank: true
-    = f.check_box :payment_required
+    = f.check_box :payment_required do 
+      p.mb-1= Invoice.human_attribute_name(:payment_required)
+      p.payment_not_required_warning.mb-0.text-warning.small= t(".payment_not_required_warning")
+
 
     - if @invoice.invoice_parts.any?
       h5.mt-4= InvoicePart.model_name.human(count: 2)
