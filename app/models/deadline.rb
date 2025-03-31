@@ -33,6 +33,7 @@ class Deadline < ApplicationRecord
   end
 
   def exceeded?(other = Time.zone.now)
+    reload
     armed? && other > at
   end
 
@@ -51,6 +52,7 @@ class Deadline < ApplicationRecord
   end
 
   def clear
+    reload
     update_columns(armed: false) # rubocop:disable Rails/SkipsModelValidations
   end
 end

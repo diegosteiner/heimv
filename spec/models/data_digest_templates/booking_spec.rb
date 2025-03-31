@@ -40,7 +40,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
         (period_from + 1.week)..(period_to - 1.week),    # is completely contained
         (period_to - 1.week)..(period_to + 1.week),      # overlaps, and begins after
         (period_to + 1.week)..(period_to + 2.weeks)      # no overlap
-      ].map { create(:booking, home:, organisation:, begins_at: _1.begin, ends_at: _1.end) }
+      ].map { create(:booking, home:, organisation:, begins_at: it.begin, ends_at: it.end) }
     end
 
     it do

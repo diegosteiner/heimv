@@ -86,7 +86,7 @@ class Invoice < ApplicationRecord
   end
 
   def update_payments
-    payments.each { _1.update!(booking_id:) }
+    payments.each { it.update!(booking_id:) }
   end
 
   def sequence_number
@@ -191,6 +191,6 @@ class Invoice < ApplicationRecord
   end
 
   def vat_breakdown
-    invoice_parts.group_by(&:vat_category).except(nil).transform_values { _1.sum(&:calculated_amount) }
+    invoice_parts.group_by(&:vat_category).except(nil).transform_values { it.sum(&:calculated_amount) }
   end
 end

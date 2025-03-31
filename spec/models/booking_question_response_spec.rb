@@ -26,11 +26,11 @@ RSpec.describe BookingQuestionResponse, type: :model do
     it 'keeps the order of questions and responses' do
       3.times { |i| create(:booking_question, ordinal: (3 - i), organisation:, label: "Q#{i + 1}") }
       process
-      expect(booking.booking_question_responses.map { _1.booking_question.label }).to eq(%w[Q3 Q2 Q1])
+      expect(booking.booking_question_responses.map { it.booking_question.label }).to eq(%w[Q3 Q2 Q1])
       create(:booking_question, ordinal: 2, organisation:, label: 'Q4')
       booking.booking_question_responses.reload
       process
-      expect(booking.booking_question_responses.map { _1.booking_question.label }).to eq(%w[Q3 Q4 Q2 Q1])
+      expect(booking.booking_question_responses.map { it.booking_question.label }).to eq(%w[Q3 Q4 Q2 Q1])
     end
   end
 end

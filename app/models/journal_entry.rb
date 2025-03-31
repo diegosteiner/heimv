@@ -56,11 +56,11 @@ class JournalEntry < ApplicationRecord
   end
 
   def soll_amount(book_type: %i[main vat])
-    fragments.filter_map { _1.soll_amount || 0 if Array.wrap(book_type).include?(_1.book_type&.to_sym) }.sum
+    fragments.filter_map { it.soll_amount || 0 if Array.wrap(book_type).include?(it.book_type&.to_sym) }.sum
   end
 
   def haben_amount(book_type: %i[main vat])
-    fragments.filter_map { _1.haben_amount || 0 if Array.wrap(book_type).include?(_1.book_type&.to_sym) }.sum
+    fragments.filter_map { it.haben_amount || 0 if Array.wrap(book_type).include?(it.book_type&.to_sym) }.sum
   end
 
   def haben(**args)
@@ -161,7 +161,7 @@ class JournalEntry < ApplicationRecord
       JournalEntry.new(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking,
                        **attributes).tap do |journal_entry|
         build_invoice_debitor(invoice, journal_entry)
-        invoice.invoice_parts.map { build_invoice_part(_1, journal_entry) }
+        invoice.invoice_parts.map { build_invoice_part(it, journal_entry) }
       end
     end
 

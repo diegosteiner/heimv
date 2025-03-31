@@ -33,6 +33,6 @@ class OrganisationUser < ApplicationRecord
   end
 
   def role?(*roles)
-    roles.compact_blank.any? { role&.to_sym == _1.to_sym }
+    roles.compact_blank.any? { role&.to_sym == it.to_sym }
   end
 end

@@ -40,7 +40,7 @@ module BookingStates
     end
 
     infer_transition(to: :overdue_request) do |booking|
-      booking.deadline_exceeded?
+      booking.deadline&.exceeded?
     end
 
     infer_transition(to: :definitive_request) do |booking|

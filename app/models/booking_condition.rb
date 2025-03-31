@@ -114,7 +114,7 @@ class BookingCondition < ApplicationRecord
 
   class << self
     def fullfills_all?(booking, booking_conditions)
-      booking_conditions.map { _1.fullfills?(booking) }.compact.all?
+      booking_conditions.map { it.fullfills?(booking) }.compact.all?
     end
 
     def compare_operators

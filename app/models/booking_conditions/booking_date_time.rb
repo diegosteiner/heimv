@@ -59,8 +59,8 @@ module BookingConditions
       return @paradox_conditions if @paradox_conditions
 
       conditions_in_same_context = qualifiable.booking_conditions.where(group:, type: self.class.sti_name)
-      lt_condition = conditions_in_same_context.find { %i[< <=].include?(_1.compare_operator&.to_sym) }
-      gt_condition = conditions_in_same_context.find { %i[> >=].include?(_1.compare_operator&.to_sym) }
+      lt_condition = conditions_in_same_context.find { %i[< <=].include?(it.compare_operator&.to_sym) }
+      gt_condition = conditions_in_same_context.find { %i[> >=].include?(it.compare_operator&.to_sym) }
 
       return unless  lt_condition && gt_condition
       return unless lt_condition.comparable_compare_value < gt_condition.comparable_compare_value
@@ -71,7 +71,7 @@ module BookingConditions
     def evaluate_other_paradox_condition(booking)
       return nil if paradox_conditions.blank?
 
-      other_paradox_condition = paradox_conditions.first { _1 != self }
+      other_paradox_condition = paradox_conditions.first { it != self }
       other_paradox_condition&.evaluate!(booking)
     end
 

@@ -45,7 +45,7 @@ RSpec.describe JournalEntry, type: :model do
         have_attributes(booking:, ref: 'test1'),
         have_attributes(booking:, ref: 'test2')
       )
-      expect(journal_entries.map { _1.fragments }).to contain_exactly(
+      expect(journal_entries.map { it.fragments }).to contain_exactly(
         contain_exactly(
           have_attributes(side: 'soll', account_nr: '6000', amount: 1000),
           have_attributes(side: 'haben', account_nr: '1000', amount: 500),

@@ -14,6 +14,6 @@ class BookingStateSettings
   }
 
   def self.manage_transition_to_states(organisation)
-    organisation.booking_flow_class.successors['initial'].map { BookingStates[_1.to_sym] }.compact_blank
+    organisation.booking_flow_class.successors['initial'].map { BookingStates[it.to_sym] }.compact_blank
   end
 end

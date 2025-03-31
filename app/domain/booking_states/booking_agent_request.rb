@@ -32,7 +32,7 @@ module BookingStates
     end
 
     infer_transition(to: :cancelled_request) do |booking|
-      booking.deadline_exceeded?
+      booking.deadline&.exceeded?
     end
 
     infer_transition(to: :awaiting_tenant) do |booking|

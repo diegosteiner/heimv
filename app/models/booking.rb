@@ -125,7 +125,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   accepts_nested_attributes_for :booking_question_responses, reject_if: :all_blank, update_only: true
 
   delegate :to_s, to: :ref
-  delegate :exceeded?, to: :deadline, prefix: true, allow_nil: true
   delegate :can_transition_to?, :in_state?, :booking_state, to: :booking_flow, allow_nil: true
 
   def overnight_stays

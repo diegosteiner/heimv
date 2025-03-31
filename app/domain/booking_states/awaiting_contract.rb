@@ -35,7 +35,7 @@ module BookingStates
     end
 
     infer_transition(to: :overdue) do |booking|
-      booking.deadline_exceeded?
+      booking.deadline&.exceeded?
     end
 
     infer_transition(to: :upcoming) do |booking|

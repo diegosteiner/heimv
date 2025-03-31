@@ -129,7 +129,7 @@ class RichTextTemplate < ApplicationRecord
     self.body_i18n = body_i18n.transform_values { it&.gsub(search, replace) } if within_body
   end
 
-  def include?(search, within_title: true, within_body: true) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+  def include?(search, within_title: true, within_body: true)
     return true if within_title && title_i18n.values.any? { it&.include?(search) }
     return true if within_body && body_i18n.values.any? { it&.include?(search) }
 
