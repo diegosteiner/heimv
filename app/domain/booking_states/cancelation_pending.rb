@@ -2,8 +2,8 @@
 
 module BookingStates
   class CancelationPending < Base
-    templates << MailTemplate.define(:operator_cancelation_pending_notification, context: %i[booking], optional: true)
-    templates << MailTemplate.define(:manage_cancelation_pending_notification, context: %i[booking], optional: true)
+    use_mail_template(:operator_cancelation_pending_notification, context: %i[booking], optional: true)
+    use_mail_template(:manage_cancelation_pending_notification, context: %i[booking], optional: true)
 
     def checklist
       BookingStateChecklistItem.prepare(:invoices_settled, booking:)

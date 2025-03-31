@@ -25,6 +25,20 @@ class RichTextTemplate < ApplicationRecord
   extend Mobility
   extend Translatable
 
+  module Definition
+    def rich_text_templates
+      @rich_text_templates ||= {}
+    end
+
+    def use_template(key, *, **)
+      rich_text_templates[key] = RichTextTemplate.define(key, *, **)
+    end
+
+    def use_mail_template(key, *, **)
+      rich_text_templates[key] = MailTemplate.define(key, *, **)
+    end
+  end
+
   class << self
     def by_key!(key)
       where(key:).take!
@@ -115,7 +129,7 @@ class RichTextTemplate < ApplicationRecord
     self.body_i18n = body_i18n.transform_values { it&.gsub(search, replace) } if within_body
   end
 
-  def include?(search, within_title: true, within_body: true) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+  def include?(search, within_title: true, within_body: true)
     return true if within_title && title_i18n.values.any? { it&.include?(search) }
     return true if within_body && body_i18n.values.any? { it&.include?(search) }
 

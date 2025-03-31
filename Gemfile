@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.4.1'
+ruby '3.4.2'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
@@ -71,7 +71,7 @@ group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'database_cleaner'
-  gem 'debug'
+  gem 'debug', require: 'debug/prelude'
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'

@@ -30,20 +30,20 @@ jobs:
         run: | 
           docker pull ghcr.io/diegosteiner/heimv:develop
           docker compose --file docker-compose.ci.yml build
-          docker save -o heimv-e2e_test.tar heimv-e2e_test
-          docker save -o heimv-e2e_target.tar heimv-e2e_target
+          docker save -o e2e_test.tar heimv-e2e_test
+          docker save -o e2e_target.tar heimv-e2e_target
 
       - name: upload image test 
         uses: actions/upload-artifact@v4
         with:
-          name: heimv-e2e_test
-          path: heimv-e2e_test.tar
+          name: e2e_test
+          path: e2e_test.tar
 
       - name: upload image target 
         uses: actions/upload-artifact@v4
         with:
-          name: heimv-e2e_target
-          path: heimv-e2e_target.tar
+          name: e2e_target
+          path: e2e_target.tar
     
   check:
     runs-on: ubuntu-latest
@@ -58,17 +58,17 @@ jobs:
       - name: download images
         uses: actions/download-artifact@v4
         with:
-          name: heimv-e2e_target
+          name: e2e_target
 
       - name: download images
         uses: actions/download-artifact@v4
         with:
-          name: heimv-e2e_test
+          name: e2e_test
 
       - name: load images
         run: |
-          docker load -i heimv-e2e_test.tar
-          docker load -i heimv-e2e_target.tar
+          docker load -i e2e_test.tar
+          docker load -i e2e_target.tar
 
       - name: run specs
         run: docker compose --file docker-compose.ci.yml run e2e_test bin/check_ci
@@ -127,11 +127,11 @@ jobs:
       - name: download images
         uses: actions/download-artifact@v4
         with:
-          name: heimv-e2e_target
+          name: e2e_target
 
       - name: load images
         run: |
-          docker load -i heimv-e2e_target.tar
+          docker load -i e2e_target.tar
 
       - name: push image
         run: |

@@ -805,48 +805,6 @@ fr:
         other:
   add_record: Ajouter %{model_name}
   back: Retour
-  booking_actions:
-    manage:
-      accept:
-        label: Accepter la demande
-      cancel:
-        label: Refuser
-      commit_request:
-        label: Confirmer la demande
-      email_contract:
-        confirm: Vraiment envoyer le contrat sans acompte ?
-        label: Envoyer le contrat
-        label_with_deposit: Envoyer le contrat et l'acompte
-        label_without_deposit: Envoyer un contrat sans acompte
-      email_invoices:
-        label: Envoyer une facture
-      email_offers:
-        label: Envoyer une offre
-      mark_contract_sent:
-        label: Marquer le contrat comme envoyé
-      mark_contract_signed:
-        label: Confirmer la réception du contrat
-      mark_deposits_paid:
-        label: Confirmer la réception du paiement
-      mark_invoices_paid:
-        label: Confirmer la réception du paiement
-      mark_invoices_refunded:
-        label: Marquer les notes de crédit comme étant remboursées
-      postpone_deadline:
-        label: Prolonger le délai
-      revert_cancel:
-        label: Annuler l'annulation
-      skip_invoice:
-        label: Sauter le décompte final
-    public:
-      cancel:
-        label: Annuler
-      commit_booking_agent_request:
-        label: Confirmer la demande
-      commit_request:
-        label: Confirmer la demande
-      postpone_deadline:
-        label: Prolonger le délai
   booking_conditions:
     booking_attribute:
       attributes:
@@ -1396,7 +1354,6 @@ fr:
         exception: 'Le fichier de paiement n''a pas pu être traité : %{errors}'
     rich_text_templates:
       form:
-        help_html:
         help_title: Aide sur les variables
         load_locale_defaults: Rétablir le texte par défaut pour cette langue
       index:
@@ -1545,10 +1502,6 @@ fr:
           'true': Oui
   reset: Réinitialiser
   rich_text_templates:
-    awaiting_contract_notification:
-      default_body:
-      default_title: Contrat pour ta réservation
-      description: Notification pour l'établissement du contrat et le paiement de l'acompte (locataire)
     awaiting_tenant_notification:
       default_body:
       default_title: Informations s'il vous plaît
@@ -1600,6 +1553,14 @@ fr:
       default_body:
       default_title: Réservation définitive confirmée
       description: Notification de demande de location définitive (locataire)
+    email_contract_notification:
+      default_body:
+      default_title: Contrat pour ta réservation
+      description: Notification pour l'établissement du contrat et le paiement de l'acompte (locataire)
+    email_invoice_notification:
+      default_body:
+      default_title: Ta facture Pfadihaus
+      description: Notification de paiement dû (locataire)
     foreign_payment_info_text:
       description: Texte pour les informations de paiement pour les locataires étrangers
     invoices_deposit_text:
@@ -1639,7 +1600,6 @@ fr:
     offer_notification:
       default_body:
       default_title: Ton offre
-      description: Notification d'offre
     open_booking_agent_request_notification:
       description: Notification de demande de location ouverte (locataire)
     open_request_notification:
@@ -1650,11 +1610,11 @@ fr:
       default_body:
       default_title: Location annulée
       description: Notification pour location annulée (propriétaire)
-    operator_contract_sent_notification:
+    operator_email_contract_notification:
       default_body:
       default_title: Contrat/acompte envoyé
       description: Notification de contrat/paiement envoyé (fonctionnaire)
-    operator_invoice_sent_notification:
+    operator_email_invoice_notification:
       default_body:
       default_title: Facture envoyée
       description: Notification de facture envoyée (fonctionnaire)
@@ -1677,10 +1637,6 @@ fr:
       default_body:
       default_title: Réception du paiement
       description: Notification de confirmation de paiement
-    payment_due_notification:
-      default_body:
-      default_title: Ta facture Pfadihaus
-      description: Notification de paiement dû (locataire)
     payment_overdue_notification:
       default_body:
       default_title: Rappel de paiement pour ta facture Pfadihaus

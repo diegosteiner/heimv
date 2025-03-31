@@ -281,3 +281,9 @@ ul.timeline {
 body.react-loading .react-loading-hidden {
   display: none;
 }
+
+input#invoice_payment_required:checked+label.form-check-label {
+  &>.payment_not_required_warning {
+    display: none;
+  }
+}

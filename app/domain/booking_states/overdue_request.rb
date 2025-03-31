@@ -2,7 +2,7 @@
 
 module BookingStates
   class OverdueRequest < Base
-    templates << MailTemplate.define(:overdue_request_notification, context: %i[booking], optional: true)
+    use_mail_template(:overdue_request_notification, context: %i[booking], optional: true)
 
     def checklist
       []
@@ -28,7 +28,7 @@ module BookingStates
     end
 
     infer_transition(to: :declined_request) do |booking|
-      booking.deadline_exceeded? && !booking.agent_booking
+      booking.deadline&.exceeded? && !booking.agent_booking
     end
 
     def relevant_time

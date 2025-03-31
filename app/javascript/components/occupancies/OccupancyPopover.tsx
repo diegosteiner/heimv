@@ -19,15 +19,17 @@ export const OccupancyPopover = React.memo(function OccupancyPopover({
   if (!occupancies || occupancies.size <= 0) return <></>;
 
   return (
-    <Card className="occupancy-popover shadow">
-      <Card.Body>
-        <ul className="list-unstyled p-0 m-0 occupancies">
-          {Array.from(occupancies).map((occupancy) => (
-            <OccupancyLi key={occupancy.id} occupancy={occupancy} />
-          ))}
-        </ul>
-      </Card.Body>
-    </Card>
+    <div className="occupancy-popover">
+      <Card className=" shadow">
+        <Card.Body>
+          <ul className="list-unstyled p-0 m-0 occupancies">
+            {Array.from(occupancies).map((occupancy) => (
+              <OccupancyLi key={occupancy.id} occupancy={occupancy} />
+            ))}
+          </ul>
+        </Card.Body>
+      </Card>
+    </div>
   );
 });
 

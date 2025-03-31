@@ -2,7 +2,7 @@
 
 module BookingStates
   class ProvisionalRequest < Base
-    templates << MailTemplate.define(:provisional_request_notification, context: %i[booking])
+    use_mail_template(:provisional_request_notification, context: %i[booking])
 
     include Rails.application.routes.url_helpers
 
@@ -38,7 +38,7 @@ module BookingStates
     end
 
     infer_transition(to: :overdue_request) do |booking|
-      booking.deadline_exceeded?
+      booking.deadline&.exceeded?
     end
 
     def relevant_time

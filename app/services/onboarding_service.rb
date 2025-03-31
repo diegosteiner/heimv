@@ -44,7 +44,6 @@ class OnboardingService
   def setup_all
     setup_missing_rich_text_templates
     setup_booking_category
-    setup_home
   end
 
   def setup_home(**attributes)
@@ -53,7 +52,7 @@ class OnboardingService
   end
 
   def setup_booking_category(**attributes)
-    defaults = { title: 'Standard' }
+    defaults = { title: 'Standard', key: :default }
     organisation.booking_categories.create!(defaults.merge(attributes))
   end
 

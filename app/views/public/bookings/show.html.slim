@@ -72,10 +72,15 @@
                   dd.mb-2
                     div= response.booking_question.label
                     div
-                      - if lookup_context.template_exists? response.booking_question.to_partial_path('value'), [], true
-                        em= render partial: response.booking_question.to_partial_path('value'), locals: { value: response.value }
-                      - else 
-                        em= response.value
+                      = render_partial_or_default response.booking_question.to_partial_path('value'), locals: { value: response.value }
+                        = response.value
+        
+        - unless @booking.concluded
+          .row
+            .d-flex.col.justify-content-end.align-items-start
+              = link_to edit_public_booking_path(@booking.token), class: 'btn btn-primary'
+                span.fa.fa-edit
+                =< t(:edit)
 
     .card.shadow-sm.mt-4
       .card-body
@@ -93,9 +98,13 @@
               dd –
 
         .row.mt-4
-          = render partial: 'public/bookings/booking_actions/action_buttons', locals: { booking: @booking, form_class: 'col-md-8 d-flex gap-1 mt-2 align-items-start flex-wrap', button_class: proc { |action| "btn btn-outline-#{action.variant}" } }
+          .col-md-8.d-flex.gap-1.mt-2.align-items-start.flex-wrap
+            - @booking.booking_flow.tenant_actions.values.each do |booking_action| 
+              - Array.wrap(booking_action.invokable_with).compact.each do |invokable_with|
+                = button_to public_booking_invoke_action_path(@booking.token, id: booking_action.key), \
+                  method: invokable_with[:prepare] ? :get : :post, \
+                  params: invokable_with[:params], \
+                  data: invokable_with[:confirm].present? ? { confirm: invokable_with[:confirm] } : nil, \
+                  class: "btn btn-outline-#{invokable_with[:variant] || :primary}"
+                  = invokable_with[:label] || booking_action.label
                   
-          .col-md-4.d-flex.gap-1.justify-content-end.align-items-start.mt-2.flex-wrap
-            = link_to edit_public_booking_path(@booking.token), class: 'btn btn-primary'
-              span.fa.fa-edit
-              =< t(:edit)

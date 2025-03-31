@@ -2,7 +2,7 @@
 
 module BookingStates
   class DeclinedRequest < Base
-    templates << MailTemplate.define(:declined_request_notification, context: %i[booking])
+    use_mail_template(:declined_request_notification, context: %i[booking])
 
     def checklist
       []
@@ -22,7 +22,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.free!
-      booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline_exceeded?
+      booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline&.exceeded?
       booking.conclude
       booking.deadline&.clear
       MailTemplate.use(:declined_request_notification, booking,

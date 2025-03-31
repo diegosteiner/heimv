@@ -19,7 +19,7 @@ module Manage
           write_booking_log
           redirect_to @result.redirect_proc || manage_booking_path(@booking), notice: t('.success')
         else
-          ExceptionNotifier.notify_exception(@result&.error) if defined?(ExceptionNotifier)
+          ExceptionNotifier.notify_exception(StandardError.new(@result&.error)) if defined?(ExceptionNotifier)
           redirect_to manage_booking_path(@booking), alert: @result&.error.presence || t('.failure')
         end
       end
@@ -31,13 +31,14 @@ module Manage
       end
 
       def booking_action
-        @booking_action ||= BookingActions::Manage.all[params[:id]&.to_sym]&.new(@booking).tap do |action|
-          raise ActiveRecord::RecordNotFound if action.blank?
-        end
+        @booking_action ||= @booking.booking_flow.manage_action(params[:id]&.to_sym)
+        raise ActiveRecord::RecordNotFound if @booking_action.blank?
+
+        @booking_action
       end
 
       def booking_action_params
-        booking_action.class.params_schema&.call(params.to_unsafe_h).to_h
+        booking_action.invoke_schema&.call(params.to_unsafe_h).to_h
       end
     end
   end

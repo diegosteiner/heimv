@@ -30,7 +30,10 @@
     details
       summary 
         = t('.help_title')
-      = t('.help_html')
+      == t('.help_lead')
+      - @rich_text_template.definition[:context].each do |context_key|
+        == t(context_key, scope: 'manage.rich_text_templates.form.template_context')
+      == t(:other, scope: 'manage.rich_text_templates.form.template_context')
 
   - if @rich_text_template.is_a?(MailTemplate)
     fieldset.mb-3

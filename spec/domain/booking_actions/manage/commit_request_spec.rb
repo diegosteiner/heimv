@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe BookingActions::Manage::CommitRequest do
-  subject(:action) { described_class.new(booking) }
+describe BookingActions::CommitRequest do
+  subject(:action) { described_class.new(booking, :commit_request) }
 
   let(:booking) { create(:booking, initial_state:, committed_request: false) }
   let(:initial_state) { :provisional_request }

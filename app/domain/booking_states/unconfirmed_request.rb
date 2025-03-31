@@ -2,7 +2,7 @@
 
 module BookingStates
   class UnconfirmedRequest < Base
-    templates << MailTemplate.define(:unconfirmed_request_notification, context: %i[booking])
+    use_mail_template(:unconfirmed_request_notification, context: %i[booking])
 
     def checklist
       []
@@ -17,7 +17,7 @@ module BookingStates
     end
 
     infer_transition(to: :declined_request) do |booking|
-      booking.deadline_exceeded?
+      booking.deadline&.exceeded?
     end
     infer_transition(to: :open_request) do |booking|
       booking.valid?(:public_update) || booking.agent_booking.present?

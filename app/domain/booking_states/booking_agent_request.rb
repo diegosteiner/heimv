@@ -2,7 +2,7 @@
 
 module BookingStates
   class BookingAgentRequest < Base
-    templates << MailTemplate.define(:booking_agent_request_notification, context: %i[booking])
+    use_mail_template(:booking_agent_request_notification, context: %i[booking])
 
     def checklist
       []
@@ -32,7 +32,7 @@ module BookingStates
     end
 
     infer_transition(to: :cancelled_request) do |booking|
-      booking.deadline_exceeded?
+      booking.deadline&.exceeded?
     end
 
     infer_transition(to: :awaiting_tenant) do |booking|

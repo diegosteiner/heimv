@@ -2,7 +2,7 @@
 
 module BookingStates
   class PaymentOverdue < Base
-    templates << MailTemplate.define(:payment_overdue_notification, context: %i[booking])
+    use_mail_template(:payment_overdue_notification, context: %i[booking])
 
     include Rails.application.routes.url_helpers
 

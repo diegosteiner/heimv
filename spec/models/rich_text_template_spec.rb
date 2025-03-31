@@ -92,7 +92,7 @@ RSpec.describe RichTextTemplate, type: :model do
   end
 
   describe '#load_locale_defaults' do
-    let(:key) { :awaiting_contract_notification }
+    let(:key) { :email_contract_notification }
     let(:not_default_text) { 'Not the default' }
     subject(:rich_text_template) { build(:rich_text_template, key:, title: not_default_text, body: not_default_text) }
     subject(:load_locale_defaults) { rich_text_template.load_locale_defaults }
@@ -106,7 +106,7 @@ RSpec.describe RichTextTemplate, type: :model do
   end
 
   describe '::defautls_for_key' do
-    let(:key) { :awaiting_contract_notification }
+    let(:key) { :email_contract_notification }
     subject(:defaults) { described_class.defaults_for_key(key:) }
 
     it do

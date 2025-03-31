@@ -21,7 +21,7 @@ class ComparableDatetime < Data.define(:year, :month, :day, :weekday, :hour, :mi
     match_data = REGEX.match(value)
     return unless match_data
 
-    new(**match_data.named_captures.symbolize_keys.transform_values { _1.presence })
+    new(**match_data.named_captures.symbolize_keys.transform_values { it.presence })
   end
 
   def self.from_value(value)

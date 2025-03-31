@@ -18,7 +18,8 @@
 #
 
 class Notification < ApplicationRecord
-  RichTextTemplate.define(:notification_footer, context: %i[booking])
+  extend RichTextTemplate::Definition
+  use_template(:notification_footer, context: %i[booking])
   ArbitraryTo = Struct.new(:email, :locale)
 
   belongs_to :booking, inverse_of: :notifications
@@ -26,6 +27,8 @@ class Notification < ApplicationRecord
   has_many_attached :attachments
   has_one :tenant, through: :booking
   has_one :organisation, through: :booking
+  has_many :contracts, foreign_key: :sent_with_notification_id, inverse_of: :sent_with_notification, dependent: :nullify
+  has_many :invoices, foreign_key: :sent_with_notification_id, inverse_of: :sent_with_notification, dependent: :nullify
 
   scope :unsent, -> { where(sent_at: nil) }
   before_save :deliver_to
@@ -33,7 +36,7 @@ class Notification < ApplicationRecord
   attribute :template_context
   validates :to, :locale, presence: true
   validate do
-    next if deliver_to.present? && deliver_to.all? { EmailAddress.valid?(_1, host_validation: :syntax) }
+    next if deliver_to.present? && deliver_to.all? { EmailAddress.valid?(it, host_validation: :syntax) }
 
     errors.add(:to, :invalid)
   end
@@ -43,7 +46,11 @@ class Notification < ApplicationRecord
   end
 
   def deliver
-    deliverable? && update(sent_at: Time.zone.now, delivered_at: nil) && message_delivery.tap(&:deliver_later)
+    return unless deliverable? && update(sent_at: Time.zone.now, delivered_at: nil)
+
+    contracts.each { it.update(sent_at:) }
+    invoices.each { it.update(sent_at:) }
+    message_delivery.tap(&:deliver_later)
   end
 
   def autodeliver?
@@ -62,7 +69,7 @@ class Notification < ApplicationRecord
   def autodeliver_with_redirect_proc
     return if autodeliver!
 
-    closure_notification_id = to_param
+    closure_notification_id = to_param # required assignment for closure to work
     proc { edit_manage_notification_path(id: closure_notification_id) }
   end
 

@@ -2,8 +2,8 @@
 
 module BookingStates
   class AwaitingTenant < Base
-    templates << MailTemplate.define(:awaiting_tenant_notification, context: %i[booking])
-    templates << MailTemplate.define(:booking_agent_request_accepted_notification, context: %i[booking])
+    use_mail_template(:awaiting_tenant_notification, context: %i[booking])
+    use_mail_template(:booking_agent_request_accepted_notification, context: %i[booking])
 
     def checklist
       []
@@ -40,7 +40,7 @@ module BookingStates
     end
 
     infer_transition(to: :overdue_request) do |booking|
-      booking.deadline_exceeded?
+      booking.deadline&.exceeded?
     end
 
     infer_transition(to: :definitive_request) do |booking|

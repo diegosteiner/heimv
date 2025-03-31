@@ -31,7 +31,7 @@ h1.my-0= Booking.model_name.human(count: 2)
 #filter.modal.fade
   .modal-dialog.modal-lg
     .modal-content 
-      = form_with(model: @filter, url: manage_bookings_path, scope: 'filter', method: :GET, local: true) do |f|
+      = form_with(model: @filter, url: manage_bookings_path, scope: 'filter', method: :get, local: true) do |f|
         = hidden_field_tag :locale, I18n.locale
         .modal-body
           = render partial: @filter.to_partial_path('filter_fields'), locals: { f: f }

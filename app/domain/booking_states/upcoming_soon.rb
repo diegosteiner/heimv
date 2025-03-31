@@ -2,8 +2,8 @@
 
 module BookingStates
   class UpcomingSoon < Base
-    templates << MailTemplate.define(:upcoming_soon_notification, context: %i[booking], optional: true)
-    templates << MailTemplate.define(:operator_upcoming_soon_notification, context: %i[booking], optional: true)
+    use_mail_template(:upcoming_soon_notification, context: %i[booking], optional: true)
+    use_mail_template(:operator_upcoming_soon_notification, context: %i[booking], optional: true)
 
     def checklist
       []

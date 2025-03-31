@@ -10,7 +10,7 @@ module Export
 
       def initialize(type, children = nil, **properties, &)
         @type = type
-        @properties = properties.transform_values { Value.cast(_1) }
+        @properties = properties.transform_values { Value.cast(it) }
         @children = Array.wrap(children) + Builder.build(&)
       end
 

@@ -42,9 +42,11 @@
 #  tenant_id              :integer
 #
 
-class Booking < ApplicationRecord
-  include BookingStateConcern
+class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   include Timespanable
+  include Statesman::Adapters::ActiveRecordQueries[transition_class: Booking::StateTransition,
+                                                   initial_state: :initial,
+                                                   transition_name: :state_transition]
 
   VALIDATION_CONTEXTS = %i[public_create public_update agent_create agent_update manage_create manage_update].freeze
   ROLES = (%i[organisation tenant booking_agent] + OperatorResponsibility::RESPONSIBILITIES.keys).freeze
@@ -80,6 +82,7 @@ class Booking < ApplicationRecord
 
   has_one_attached :usage_report
   has_secure_token :token, length: 48
+  attr_accessor :transition_to, :skip_infer_transitions, :applied_transitions
 
   timespan :begins_at, :ends_at
   enum :occupancy_type, Occupancy::OCCUPANCY_TYPES
@@ -113,6 +116,8 @@ class Booking < ApplicationRecord
   before_validation :update_occupancies, :assert_tenant!
   before_save :sequence_number
   before_create :generate_ref
+  after_save :apply_transitions
+  after_touch :apply_transitions
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
   accepts_nested_attributes_for :usages, reject_if: :all_blank, allow_destroy: true
@@ -120,7 +125,7 @@ class Booking < ApplicationRecord
   accepts_nested_attributes_for :booking_question_responses, reject_if: :all_blank, update_only: true
 
   delegate :to_s, to: :ref
-  delegate :exceeded?, to: :deadline, prefix: true, allow_nil: true
+  delegate :can_transition_to?, :in_state?, :booking_state, to: :booking_flow, allow_nil: true
 
   def overnight_stays
     return unless begins_at.present? && ends_at.present?
@@ -198,6 +203,34 @@ class Booking < ApplicationRecord
 
   def generate_ref(force: false)
     self.ref = RefBuilders::Booking.new(self).generate if ref.blank? || force
+  end
+
+  def apply_transitions(transitions = transition_to, metadata: nil, infer_transitions: !skip_infer_transitions)
+    self.applied_transitions = Array.wrap(transitions).compact_blank.map do |transition|
+      next transition if can_transition_to?(transition) && booking_flow.transition_to(transition, metadata:)
+
+      errors.add(:transition_to, :invalid_transition, transition:)
+      return false
+    end
+    self.transition_to = nil
+    self.applied_transitions += booking_flow.infer if infer_transitions
+    update_booking_state_cache!
+    applied_transitions
+  end
+
+  def update_booking_state_cache!
+    return unless booking_state_cache != booking_state&.to_s
+
+    update_columns(booking_state_cache: booking_state.to_s, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def booking_flow_class
+    @booking_flow_class ||= (booking_flow_type && BookingFlows.const_get(booking_flow_type).new) ||
+                            organisation&.booking_flow_class
+  end
+
+  def booking_flow
+    @booking_flow ||= booking_flow_class&.new(self)
   end
 
   private

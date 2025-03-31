@@ -2,6 +2,7 @@
 
 module BookingStates
   class Base
+    extend RichTextTemplate::Definition
     extend Translatable
     include Translatable
     attr_reader :booking
@@ -72,14 +73,6 @@ module BookingStates
       def occupied_occupancy_state?(booking)
         booking&.organisation&.booking_state_settings&.occupied_occupancy_states&.include?(to_sym.to_s) # rubocop:disable Style/SafeNavigationChainLength
       end
-
-      def available_public_actions
-        BookingActions::Public.all.values
-      end
-
-      def available_manage_actions
-        BookingActions::Manage.all.values
-      end
     end
 
     def initialize(booking)
@@ -109,14 +102,6 @@ module BookingStates
     end
 
     def invoice_type; end
-
-    def public_actions
-      self.class.available_public_actions.filter_map { |action_klass| action_klass.new(@booking) }
-    end
-
-    def manage_actions
-      self.class.available_manage_actions.filter_map { |action_klass| action_klass.new(@booking) }
-    end
 
     def relevant_time; end
 

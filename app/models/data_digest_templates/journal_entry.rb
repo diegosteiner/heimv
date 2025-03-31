@@ -77,7 +77,7 @@ module DataDigestTemplates
     formatter(:taf) do |_options = {}|
       journal_entries = records
       Export::Taf::Document.new do
-        journal_entries.each { journal_entry(_1) }
+        journal_entries.each { journal_entry(it) }
       end.serialize
     end
 

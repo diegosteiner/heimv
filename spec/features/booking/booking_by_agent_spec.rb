@@ -6,7 +6,7 @@ describe 'Booking by agent', :devise, type: :feature do
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
-  let(:tenant) { create(:tenant, organisation:, birth_date: Date.new(1987, 10, 25)) }
+  let(:tenant) { build(:tenant, organisation:, birth_date: Date.new(1987, 10, 25)) }
   let!(:booking_agent) { create(:booking_agent, code: 'TEST1234', organisation:) }
   let(:agent_ref) { 'test-ref-1234' }
 
@@ -22,10 +22,8 @@ describe 'Booking by agent', :devise, type: :feature do
 
   let(:booking) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
-    build(:booking,
-          begins_at:, ends_at: begins_at + 1.week + 4.hours + 15.minutes,
-          organisation:, home:, tenant: nil, committed_request: false,
-          notifications_enabled: true)
+    build(:booking, begins_at:, ends_at: begins_at + 1.week + 4.hours + 15.minutes, organisation:,
+                    home:, tenant: nil, committed_request: false, notifications_enabled: true)
   end
 
   let(:expected_notifications) do
@@ -100,17 +98,17 @@ describe 'Booking by agent', :devise, type: :feature do
 
     tenant_infos = [booking.tenant_organisation, booking.purpose_description]
     fill_in 'agent_booking_tenant_infos', with: tenant_infos.join("\n")
-    fill_in 'agent_booking_tenant_email', with: booking.email
+    fill_in 'agent_booking_tenant_email', with: tenant.email
     submit_form
-    expect(page).to have_content(I18n.t('flash.actions.update.notice',
-                                        resource_name: AgentBooking.model_name.human))
+    expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: AgentBooking.model_name.human))
 
-    click_button BookingActions::Public::CommitBookingAgentRequest.t(:label)
+    click_button BookingActions::CommitBookingAgentRequest.t(:label)
+    expect(page).not_to have_content(I18n.t('flash.actions.update.alert', resource_name: AgentBooking.model_name.human))
   end
 
   def accept_booking
     visit manage_booking_path(@agent_booking.booking, org:)
-    click_on :accept
+    click_button BookingActions::Accept.t(:label)
   end
 
   def enter_tenant_details
