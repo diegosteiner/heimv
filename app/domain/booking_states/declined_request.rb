@@ -24,7 +24,7 @@ module BookingStates
       booking.free!
       booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline&.exceeded?
       booking.conclude
-      booking.deadline&.clear
+      booking.deadline&.clear!
       MailTemplate.use(:declined_request_notification, booking,
                        to: booking.agent_booking ? :booking_agent : :tenant, &:autodeliver!)
     end

@@ -51,8 +51,7 @@ class Deadline < ApplicationRecord
     postponable_for.present? && postponable_for.positive? && armed?
   end
 
-  def clear
-    reload
+  def clear!
     update_columns(armed: false) # rubocop:disable Rails/SkipsModelValidations
   end
 end

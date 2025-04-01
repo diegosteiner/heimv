@@ -31,7 +31,7 @@ module BookingActions
     protected
 
     def send_operator_notification
-      Notification.dedup(booking, to: %i[administration billing home_handover home_return]) do |to|
+      Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|
         MailTemplate.use(:operator_contract_signed_notification, booking, to:)&.autodeliver!
       end
     end

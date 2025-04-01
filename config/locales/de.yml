@@ -1172,7 +1172,7 @@ de:
       no_token: Sie können sich nicht auf dieser Seite anmelden, wenn Sie nicht von einer Passwort-Zurücksetzen-E-Mail kommen. Wenn Sie von solch einer E-Mail kommen, überprüfen Sie bitte, ob Sie die gesamte URL verwendeten.
       send_instructions: In wenigen Minuten erhälst du eine E-Mail mit der Anleitung, wie du dein Passwort zurücksetzen kannst.
       send_paranoid_instructions: Falls Deine E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten eine E-Mail, mit der Anleitung, wie Sie Dein Passwort zurücksetzen können.
-      updated: "\t\nDein Passwort wurde geändert. Sie sind jetzt angemeldet."
+      updated: Dein Passwort wurde geändert. Sie sind jetzt angemeldet.
       updated_not_active: Dein Passwort wurde geändert.
     registrations:
       destroyed: Dein Account wurde gelöscht.
@@ -2052,7 +2052,30 @@ de:
       default_title: Definitive Reservation bestätigt
       description: Benachrichtigung für definitive Mietanfrage (Mieter)
     email_contract_notification:
-      default_body: "<p>{{ booking.tenant.salutation }}</p>\n<div>{% if invoices[0] %}</div>\n<p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. \nBitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag \nund sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].amount_open | currency }}.</p>\n<p>Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Akontorechnung und der unterzeichnete Vertrag bei uns eingetroffen sind.</p>\n<div>{% else %}</div>\n<p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. \nBitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag \nund sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>\n<div>{% endif %}</div>\n\n<p><strong>Reservationsdetails</strong></p>\n\n<ul>\n  <li>Buchungsreferenz: {{ booking.ref }}</li>\n  <li>Lagerhaus: {{booking.home.name}}</li>\n  <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>\n  <li>Organisation: {{ booking.tenant_organisation }}</li>\n  <li>Mietzweck: {{ booking.category.title }}: {{ booking.purpose_description }}</li>\n  <li>Bemerkungen: {{ booking.remarks }}</li>\n</ul>"
+      default_body: |
+        <p>{{ booking.tenant.salutation }}</p>
+
+        <div>{% if invoices[0] %}</div>
+        <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. 
+        Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag 
+        und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].amount_open | currency }}.</p>
+        <p>Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Akontorechnung und der unterzeichnete Vertrag bei uns eingetroffen sind.</p>
+        <div>{% else %}</div>
+        <p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. 
+        Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag 
+        und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>
+        <div>{% endif %}</div>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: {{ booking.ref }}</li>
+          <li>Lagerhaus: {{booking.home.name}}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+          <li>Organisation: {{ booking.tenant_organisation }}</li>
+          <li>Mietzweck: {{ booking.category.title }}: {{ booking.purpose_description }}</li>
+          <li>Bemerkungen: {{ booking.remarks }}</li>
+        </ul>
       default_title: Vertrag für deine Reservation
       description: Benachrichtigung für Versand Vertrag/Akontorechnung (Mieter)
     email_invoice_notification:
@@ -2286,6 +2309,26 @@ de:
         <p><a href="{{ booking.links.manage }}">Buchung verwalten</a></p>
       default_title: Abgesagte Belegung
       description: Benachrichtigung für abgesagte Belegung (Funktionär)
+    operator_contract_signed_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Der Vertrag für die Buchung {{ booking.ref }} im Heim <strong>{{ booking.home.name }}</strong> ist eingegangen.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietzweck: <strong>{{ booking.category.title }}: {{ booking.purpose_description }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+        </ul>
+
+        <p><a href="{{ booking.links.manage }}">Buchung verwalten</a></p>
+      default_title: Unterzeichneten Vertrag erhalten
+      description: Benachrichtigung für Vertragseingang (Funktionär)
     operator_email_contract_notification:
       default_body: |
         <p>Hallo</p>
@@ -2342,6 +2385,26 @@ de:
         </p>
       default_title: Rechnung verschickt
       description: Benachrichtigung für Versand Rechnung (Funktionär)
+    operator_payment_confirmation_notification:
+      default_body: |
+        <p>Hallo</p>
+
+        <p>Eine Zahlung über {{ payment.amount | currency }} für die Rechnung {{ payment.invoice.ref }} ist eingegangen.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: <strong>{{ booking.ref }}</strong></li>
+          <li>Lagerhaus: <strong>{{ booking.home.name }}</strong></li>
+          <li>Reservation: <strong>{{ booking.begins_at | datetime_format }}</strong> bis <strong>{{ booking.ends_at | datetime_format }}</strong></li>
+          <li>Organisation: <strong>{{ booking.tenant_organisation }}</strong></li>
+          <li>Mietzweck: <strong>{{ booking.category.title }}: {{ booking.purpose_description }}</strong></li>
+          <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
+        </ul>
+
+        <p><a href="{{ booking.links.manage }}">Buchung verwalten</a></p>
+      default_title: Unterzeichneten Vertrag erhalten
+      description: Benachrichtigung für Vertragseingang (Funktionär)
     operator_upcoming_notification:
       default_body: |
         <p>Hallo</p>

@@ -23,7 +23,7 @@ module BookingStates
 
     after_transition do |booking|
       booking.free!
-      booking.deadline&.clear
+      booking.deadline&.clear!
 
       Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|
         MailTemplate.use(:operator_cancelation_pending_notification, booking, to:, &:autodeliver!)
