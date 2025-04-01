@@ -22,6 +22,8 @@
 
 class Payment < ApplicationRecord
   MailTemplate.define(:payment_confirmation_notification, context: %i[booking payment])
+  MailTemplate.define(:operator_payment_confirmation_notification, context: %i[booking payment])
+
   belongs_to :invoice, optional: true
   belongs_to :booking, touch: true
 
@@ -45,7 +47,7 @@ class Payment < ApplicationRecord
 
   delegate :accounting_settings, to: :organisation
 
-  after_create :confirm!, if: :confirm?
+  after_create :email_payment_confirmation, if: :confirm?
   after_destroy :recalculate_invoice
   after_save :recalculate_invoice
   after_save :update_journal_entries, unless: :skip_journal_entries
@@ -59,10 +61,11 @@ class Payment < ApplicationRecord
            .where.not(id: [id])
   end
 
-  def confirm!
+  def email_payment_confirmation
     return if write_off || !confirm?
 
     context = { payment: self }
+    MailTemplate.use(:operator_payment_confirmation_notification, booking, to: :billing, context:, &:autodeliver!)
     MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
   end
 

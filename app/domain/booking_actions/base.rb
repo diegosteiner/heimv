@@ -29,9 +29,13 @@ module BookingActions
       raise ArgumentError unless invokable?(**)
 
       invoke!(**)
-    rescue Statesman::TransitionConflictError, ArgumentError
+    rescue Statesman::TransitionConflictError, ArgumentError => e
+      raise e unless Rails.env.production?
+
       Result.failure error: translate(:not_allowed)
     rescue StandardError => e
+      raise e unless Rails.env.production?
+
       Result.failure error: e.message
     end
 

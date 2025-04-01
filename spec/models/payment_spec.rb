@@ -31,8 +31,8 @@ RSpec.describe Payment, type: :model do
   end
   let(:payment) { create(:payment, booking:, invoice: nil, confirm: true) }
 
-  describe '#confirm!' do
-    subject(:mail) { payment.confirm! }
+  describe '#email_payment_confirmation' do
+    subject(:mail) { payment.email_payment_confirmation }
 
     it do
       expect(mail.template_context.keys).to include(*%i[booking payment])

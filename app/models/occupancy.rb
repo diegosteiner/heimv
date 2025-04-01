@@ -46,6 +46,10 @@ class Occupancy < ApplicationRecord
   validate on: %i[public_create public_update agent_booking manage_create manage_update] do
     errors.add(:base, :occupancy_conflict) if !ignore_conflicting && conflicting?
   end
+  validate on: %i[manage_create manage_update] do
+    errors.add(:begins_at, :invalid) if linked && begins_at != booking&.begins_at
+    errors.add(:ends_at, :invalid) if linked && ends_at != booking&.ends_at
+  end
 
   validate do
     errors.add(:occupiable_id, :invalid) if booking && organisation && !organisation == booking.organisation
@@ -71,8 +75,7 @@ class Occupancy < ApplicationRecord
                   conflicting_occupancy_types: Occupancy::CONFLICTING_OCCUPANCY_TYPES)
     return unless valid?
 
-    occupiable.occupancies
-              .at(from: begins_at - margin - 1, to: ends_at + margin + 1)
+    occupiable.occupancies.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
               .where(occupancy_type: conflicting_occupancy_types)
               .where.not(id:)
   end

@@ -27,12 +27,13 @@ module Manage
 
     def create
       @occupancy.occupiable = @occupiable if @occupiable.present?
-      @occupancy.save
+      @occupancy.save(context: :manage_create)
       respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupancy&.occupiable)
     end
 
     def update
-      @occupancy.update(occupancy_params)
+      @occupancy.assign_attributes(occupancy_params)
+      @occupancy.save(context: :manage_update)
       respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupancy.occupiable)
     end
 
