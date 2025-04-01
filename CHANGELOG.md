@@ -1,10 +1,18 @@
 # Changelog
 
+## 25.4.1
+
+Released 01.04.2025
+
+- Chore: Update translations
+- Fix: Prevent bookings from becoming overdue when sending an invoice
+- Fix: Redirect correctly after resetting the password
+- Feature: Add more operator notifications
+
 ## 25.3.3
 
 Released 31.03.2025
 
-- Chore: Update translations
 - Refactor: Refactor booking actions to be more flexible in the future
 - Feature: Show VAT in tarif table
 - Feature: Add new notification when tenant signed contract
