@@ -51,13 +51,14 @@ class Invoice < ApplicationRecord
   attr_accessor :skip_generate_pdf, :skip_journal_entries
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
-  scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
-  scope :unsettled, -> { kept.where.not(type: 'Invoices::Offer').where.not(arel_table[:amount_open].eq(0)) }
-  scope :refund,    -> { kept.where(arel_table[:amount_open].lt(0)) }
-  scope :paid,      -> { kept.where(arel_table[:amount_open].lteq(0)) }
+  scope :not_offer, -> { where.not(type: 'Invoices::Offer') }
+  scope :unpaid,    -> { kept.not_offer.where(arel_table[:amount_open].gt(0)) }
+  scope :unsettled, -> { kept.not_offer.where.not(arel_table[:amount_open].eq(0)) }
+  scope :refund,    -> { kept.not_offer.where(arel_table[:amount_open].lt(0)) }
+  scope :paid,      -> { kept.not_offer.where(arel_table[:amount_open].lteq(0)) }
   scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent,    -> { kept.where(sent_at: nil) }
-  scope :overdue,   ->(at = Time.zone.today) { kept.where(arel_table[:payable_until].lteq(at)) }
+  scope :overdue,   ->(at = Time.zone.today) { kept.not_offer.where(arel_table[:payable_until].lteq(at)) }
   scope :of,        ->(booking) { where(booking:) }
   scope :with_default_includes, -> { includes(%i[invoice_parts payments organisation]) }
 
