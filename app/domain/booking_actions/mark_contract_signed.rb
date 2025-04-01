@@ -3,7 +3,7 @@
 module BookingActions
   class MarkContractSigned < Base
     use_mail_template(:contract_signed_notification, context: %i[booking], autodeliver: false)
-    use_mail_template(:operator_contract_signed_notification, context: %i[booking], autodeliver: false)
+    use_mail_template(:operator_contract_signed_notification, context: %i[booking])
 
     def invoke!(signed_pdf: nil)
       booking.contract.update(signed_pdf:) if signed_pdf.present?
@@ -32,7 +32,7 @@ module BookingActions
 
     def send_operator_notification
       Notification.dedup(booking, to: %i[administration billing home_handover home_return]) do |to|
-        MailTemplate.use(:operator_contract_signed_notification, booking, to:, context:)&.autodeliver!
+        MailTemplate.use(:operator_contract_signed_notification, booking, to:)&.autodeliver!
       end
     end
   end
