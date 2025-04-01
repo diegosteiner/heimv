@@ -19,7 +19,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.deadline&.clear
+      booking.deadline&.clear!
       MailTemplate.use(:overdue_notification, booking, to: :tenant, &:autodeliver!)
     end
 

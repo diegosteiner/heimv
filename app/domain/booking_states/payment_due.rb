@@ -17,7 +17,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.deadline&.clear
+      booking.deadline&.clear!
       unpaid_invoices = booking.invoices.kept.sent.unpaid.ordered
       payable_until = unpaid_invoices.filter_map(&:payable_until).max
       next if payable_until.blank?
@@ -32,7 +32,7 @@ module BookingStates
     end
 
     infer_transition(to: :payment_overdue) do |booking|
-      booking.deadline&.exceeded? && booking.invoices.kept.sent.unpaid.exists?
+      booking.invoices.kept.sent.unpaid.overdue.exists?
     end
 
     def relevant_time

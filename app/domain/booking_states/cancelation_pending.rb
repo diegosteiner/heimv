@@ -23,10 +23,10 @@ module BookingStates
 
     after_transition do |booking|
       booking.free!
-      booking.deadline&.clear
+      booking.deadline&.clear!
 
-      booking.operator_responsibilities.by_operator(:home_handover, :home_return).keys.map do |operator|
-        MailTemplate.use(:operator_cancelation_pending_notification, booking, to: operator, &:autodeliver!)
+      Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|
+        MailTemplate.use(:operator_cancelation_pending_notification, booking, to:, &:autodeliver!)
       end
       MailTemplate.use(:manage_cancelation_pending_notification, booking, to: :administration, &:autodeliver!)
     end

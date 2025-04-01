@@ -20,7 +20,7 @@ module BookingStates
     after_transition do |booking|
       booking.free!
       booking.conclude
-      booking.deadline&.clear
+      booking.deadline&.clear!
       MailTemplate.use(:manage_cancelled_request_notification, booking, to: :administration, &:autodeliver!)
       MailTemplate.use(:cancelled_request_notification, booking,
                        to: booking.agent_booking ? :booking_agent : :tenant, &:autodeliver!)
