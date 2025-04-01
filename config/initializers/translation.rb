@@ -7,6 +7,6 @@ if ENV['TRANSLATION_IO_API_KEY'].present?
     config.target_locales = %i[fr it]
     config.disable_gettext = true
     config.charset = 'UTF-8'
-    config.ignored_key_prefixes = %w[]
+    config.ignored_key_prefixes = %w[ice_cube]
   end
 end
