@@ -54,7 +54,8 @@ describe 'Booking by tenant', :devise, type: :feature do
        provisional_request_notification open_request_notification contract_signed_notification
        manage_new_booking_notification unconfirmed_request_notification completed_notification
        operator_email_contract_notification operator_email_contract_notification operator_email_contract_notification
-       operator_email_invoice_notification]
+       operator_email_invoice_notification operator_payment_confirmation_notification
+       operator_upcoming_soon_notification]
   end
 
   let(:expected_transitions) do

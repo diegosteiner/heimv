@@ -75,8 +75,7 @@ class Occupancy < ApplicationRecord
                   conflicting_occupancy_types: Occupancy::CONFLICTING_OCCUPANCY_TYPES)
     return unless valid?
 
-    occupiable.occupancies
-              .at(from: begins_at - margin - 1, to: ends_at + margin + 1)
+    occupiable.occupancies.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
               .where(occupancy_type: conflicting_occupancy_types)
               .where.not(id:)
   end
