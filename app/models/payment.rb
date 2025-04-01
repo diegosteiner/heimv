@@ -65,8 +65,8 @@ class Payment < ApplicationRecord
     return if write_off || !confirm?
 
     context = { payment: self }
-    MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
     MailTemplate.use(:operator_payment_confirmation_notification, booking, to: :billing, context:, &:autodeliver!)
+    MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
   end
 
   def update_journal_entries

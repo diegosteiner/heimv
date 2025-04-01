@@ -40,12 +40,6 @@ class MailTemplate < RichTextTemplate
       nil
     end
 
-    def use_deduped(key, booking, **, &)
-      use!(key, booking, **, &)
-    rescue RichTextTemplate::NoTemplate
-      nil
-    end
-
     def use!(key, booking, **, &)
       raise RichTextTemplate::InvalidDefinition unless definitions.key?(key)
 
