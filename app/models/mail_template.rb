@@ -21,10 +21,10 @@ class MailTemplate < RichTextTemplate
   has_many :designated_documents, through: :mail_template_designated_documents
   has_many :notifications, inverse_of: :mail_template, dependent: :nullify
 
-  def use(booking, to: nil, attach: nil, context: {}, **args, &callback)
+  def use(booking, to: nil, attach: nil, context: {}, **, &callback)
     return nil unless enabled
 
-    booking&.notifications&.build(to:, **args) do |notification|
+    booking&.notifications&.build(to:, **) do |notification|
       notification.apply_template(self, context: context.merge(booking:, organisation: booking.organisation))
       notification.destroy && return unless notification.deliverable?
 
@@ -35,6 +35,12 @@ class MailTemplate < RichTextTemplate
 
   class << self
     def use(key, booking, **, &)
+      use!(key, booking, **, &)
+    rescue RichTextTemplate::NoTemplate
+      nil
+    end
+
+    def use_deduped(key, booking, **, &)
       use!(key, booking, **, &)
     rescue RichTextTemplate::NoTemplate
       nil

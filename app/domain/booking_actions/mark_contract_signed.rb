@@ -3,12 +3,14 @@
 module BookingActions
   class MarkContractSigned < Base
     use_mail_template(:contract_signed_notification, context: %i[booking], autodeliver: false)
+    use_mail_template(:operator_contract_signed_notification, context: %i[booking], autodeliver: false)
 
     def invoke!(signed_pdf: nil)
       booking.contract.update(signed_pdf:) if signed_pdf.present?
       booking.contract.signed!
       booking.update(committed_request: true)
       mail = MailTemplate.use(:contract_signed_notification, booking, to: :tenant)
+      send_operator_notification
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
@@ -24,6 +26,14 @@ module BookingActions
 
     def invokable_with
       { prepare: true } if invokable?
+    end
+
+    protected
+
+    def send_operator_notification
+      Notification.dedup(booking, to: %i[administration billing home_handover home_return]) do |to|
+        MailTemplate.use(:operator_contract_signed_notification, booking, to:, context:)&.autodeliver!
+      end
     end
   end
 end

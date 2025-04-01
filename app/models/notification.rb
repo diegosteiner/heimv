@@ -143,6 +143,17 @@ class Notification < ApplicationRecord
           end)
   end
 
+  def self.dedup(booking, to:, &)
+    will_be_delivered_to = []
+    Array.wrap(to).filter_map do |single_to|
+      email = (booking.roles.key?(single_to) ? booking.roles[single_to] : single_to).try(:email)
+      next if email.present? && will_be_delivered_to.include?(email)
+
+      will_be_delivered_to << email
+      yield single_to
+    end
+  end
+
   protected
 
   def message_delivery

@@ -32,4 +32,18 @@ RSpec.describe MailTemplate, type: :model do
     it { expect(mail_template.use(booking, to: :tenant)).to be_valid }
     it { expect(mail_template.use(booking, to: :tenant, &:save)).to be_persisted }
   end
+
+  describe '#use deduped' do
+    let(:operator) { create(:operator, organisation:) }
+    before do
+      booking.operator_responsibilities.create!(responsibility: :home_handover, operator:)
+      booking.operator_responsibilities.create!(responsibility: :home_return, operator:)
+    end
+    subject(:deduped) do
+      Notification.dedup(booking, to: %i[home_handover home_return]) do |to|
+        mail_template.use(booking, to:)
+      end
+    end
+    it { is_expected.to match_array(have_attributes(deliver_to: [operator.email])) }
+  end
 end

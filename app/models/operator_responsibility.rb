@@ -29,7 +29,6 @@ class OperatorResponsibility < ApplicationRecord
   enum :responsibility, RESPONSIBILITIES
 
   scope :ordered, -> { rank(:ordinal) }
-  scope :by_operator, ->(*responsibilities) { where(responsibility: responsibilities).group_by(&:operator) }
 
   delegate :email, :locale, :contact_info, to: :operator
 
@@ -37,13 +36,17 @@ class OperatorResponsibility < ApplicationRecord
   validates :responsibility, uniqueness: { scope: :booking_id }, if: :booking_id
   ranks :ordinal, with_same: :organisation_id
 
-  before_validation :update_booking_conditions
+  before_validation :set_organisation, :update_booking_conditions
 
   accepts_nested_attributes_for :assigning_conditions, allow_destroy: true,
                                                        reject_if: :reject_booking_conditition_attributes?
 
   def reject_booking_conditition_attributes?(attributes)
     attributes[:type].blank?
+  end
+
+  def set_organisation
+    self.organisation ||= booking&.organisation
   end
 
   def update_booking_conditions
