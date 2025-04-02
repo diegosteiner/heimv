@@ -2302,7 +2302,7 @@ de:
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
         </ul>
 
-        <p><a href="{{ booking.links.manage }}">Buchung verwalten</a></p>
+        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Abgesagte Belegung
       description: Benachrichtigung für abgesagte Belegung (Funktionär)
     operator_contract_signed_notification:
@@ -2322,7 +2322,7 @@ de:
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
         </ul>
 
-        <p><a href="{{ booking.links.manage }}">Buchung verwalten</a></p>
+        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Unterzeichneten Vertrag erhalten
       description: Benachrichtigung für Vertragseingang (Funktionär)
     operator_email_contract_notification:
@@ -2398,7 +2398,7 @@ de:
           <li>Bemerkungen: <strong>{{ booking.remarks }}</strong></li>
         </ul>
 
-        <p><a href="{{ booking.links.manage }}">Buchung verwalten</a></p>
+        <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Unterzeichneten Vertrag erhalten
       description: Benachrichtigung für Vertragseingang (Funktionär)
     operator_upcoming_notification:
