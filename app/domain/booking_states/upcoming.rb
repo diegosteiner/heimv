@@ -3,7 +3,7 @@
 module BookingStates
   class Upcoming < Base
     use_mail_template(:upcoming_notification, context: %i[booking])
-    use_mail_template(:operator_upcoming_notification, context: %i[booking])
+    use_mail_template(:operator_upcoming_notification, context: %i[booking], optiona: true)
 
     def checklist
       []
