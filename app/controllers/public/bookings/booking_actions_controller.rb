@@ -9,8 +9,8 @@ module Public
         nil unless booking_action
       end
 
-      def invoke # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-        @result = booking_action.invoke(**booking_action_params)
+      def invoke # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
+        @result = booking_action.invoke(**booking_action_params, current_user:)
 
         if @result&.success
           write_booking_log

@@ -5,7 +5,7 @@ module BookingActions
     use_mail_template(:email_invoice_notification, context: %i[booking invoice], autodeliver: false)
     use_mail_template(:operator_email_invoice_notification, context: %i[booking invoice], optional: true)
 
-    def invoke!(invoice_id:)
+    def invoke!(invoice_id:, current_user: nil)
       invoice = booking.organisation.invoices.where(id: invoice_id)
       mail = send_tenant_notification(invoice)
       send_operator_notification(invoice)
@@ -13,7 +13,7 @@ module BookingActions
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
-    def invokable?(invoice_id:)
+    def invokable?(invoice_id:, current_user: nil)
       booking.notifications_enabled && booking.tenant.email.present? &&
         unsent_invoices.exists?(id: invoice_id)
     end

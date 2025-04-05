@@ -39,7 +39,7 @@ module BookingActions
       Result.failure error: e.message
     end
 
-    def invokable?
+    def invokable?(current_user: nil)
       false
     end
 

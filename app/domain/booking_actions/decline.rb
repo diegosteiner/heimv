@@ -8,7 +8,7 @@ module BookingActions
       Result.new success: booking.update(transition_to:, cancellation_reason: cancellation_reason.presence)
     end
 
-    def invokable?
+    def invokable?(current_user: nil)
       transition_to.present?
     end
 

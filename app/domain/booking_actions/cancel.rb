@@ -2,7 +2,7 @@
 
 module BookingActions
   class Cancel < Base
-    def invoke!
+    def invoke!(current_user: nil)
       booking.errors.clear
       booking.cancellation_reason ||= I18n.t('.cancellation_reason')
       booking.transition_to = transition_to
@@ -18,7 +18,7 @@ module BookingActions
       end
     end
 
-    def invokable?
+    def invokable?(current_user: nil)
       transition_to.present?
     end
 

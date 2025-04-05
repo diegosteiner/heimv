@@ -13,7 +13,7 @@ module Manage
       end
 
       def invoke # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-        @result = booking_action.invoke(**booking_action_params)
+        @result = booking_action.invoke(**booking_action_params, current_user:)
 
         if @result&.success
           write_booking_log
