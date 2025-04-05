@@ -96,8 +96,7 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def create_request
     visit new_booking_path
-    fill_request_form(email: tenant.email, begins_at: booking.begins_at,
-                      ends_at: booking.ends_at, home: booking.home)
+    fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at, home: booking.home)
     submit_form
     flash = Rails::Html::FullSanitizer.new.sanitize(I18n.t('flash.public.bookings.create.notice',
                                                            email: tenant.email,
@@ -118,6 +117,7 @@ describe 'Booking by tenant', :devise, type: :feature do
     fill_in booking_question.label, with: '10'
     submit_form
     expect(page).to have_content(I18n.t('flash.public.bookings.update.notice'))
+    expect(page).not_to have_content(BookingActions::CommitRequest.t(:label))
   end
 
   def visit_booking
