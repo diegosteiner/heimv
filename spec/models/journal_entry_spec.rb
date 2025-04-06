@@ -21,8 +21,10 @@
 require 'rails_helper'
 
 RSpec.describe JournalEntry, type: :model do
-  let(:booking) { create(:booking) }
+  let(:booking) { create(:booking, organisation:) }
   let(:invoice) { create(:invoice, booking:) }
+  let(:organisation) { create(:organisation, :with_accounting) }
+  subject(:builder) { JournalEntry::Factory.new }
 
   describe '::new' do
     subject(:journal_entries) do
@@ -106,6 +108,31 @@ RSpec.describe JournalEntry, type: :model do
                                      have_attributes(trigger: 'invoice_updated', amount: 420.0, processed?: be_falsy),
                                      have_attributes(trigger: 'invoice_updated', amount: 700.0, processed?: be_falsy)
                                    ])
+      end
+    end
+  end
+
+  describe '::Factory.build_with_payment_write_off' do
+    subject(:journal_entry) { builder.build_with_payment(payment) }
+
+    context 'with normal payment' do
+      let(:payment) { create(:payment, booking:, amount: 420.0, write_off: false, invoice: nil) }
+      it 'creates new journal entry' do
+        is_expected.to have_attributes(trigger: 'payment_created', amount: 420.0, processed?: false, payment:)
+        expect(journal_entry.fragments).to contain_exactly(
+          have_attributes(account_nr: '1025', soll_amount: 420.0, book_type: 'main'),
+          have_attributes(account_nr: '1050', haben_amount: 420.0, book_type: 'main')
+        )
+      end
+    end
+    context 'with write off payment' do
+      let(:payment) { create(:payment, booking:, amount: 420.0, write_off: true, invoice: nil) }
+      it 'creates new journal entry' do
+        is_expected.to have_attributes(trigger: 'payment_created', amount: 420.0, processed?: false, payment:)
+        expect(journal_entry.fragments).to contain_exactly(
+          have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main'),
+          have_attributes(account_nr: '6000', haben_amount: 420.0, book_type: 'main')
+        )
       end
     end
   end
