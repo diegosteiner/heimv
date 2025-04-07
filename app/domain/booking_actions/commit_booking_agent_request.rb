@@ -2,11 +2,11 @@
 
 module BookingActions
   class CommitBookingAgentRequest < Base
-    def invoke!
+    def invoke!(current_user: nil)
       Result.new success: booking.update(committed_request: true)
     end
 
-    def invokable?
+    def invokable?(current_user: nil)
       agent_booking&.booking_agent_responsible? &&
         agent_booking.booking&.booking_flow&.in_state?(:booking_agent_request)
     end

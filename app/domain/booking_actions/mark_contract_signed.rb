@@ -5,7 +5,7 @@ module BookingActions
     use_mail_template(:contract_signed_notification, context: %i[booking], autodeliver: false)
     use_mail_template(:operator_contract_signed_notification, context: %i[booking], optional: true)
 
-    def invoke!(signed_pdf: nil)
+    def invoke!(signed_pdf: nil, current_user: nil)
       booking.contract.update(signed_pdf:) if signed_pdf.present?
       booking.contract.signed!
       booking.update(committed_request: true)
@@ -20,7 +20,7 @@ module BookingActions
       end
     end
 
-    def invokable?(signed_pdf: nil)
+    def invokable?(signed_pdf: nil, current_user: nil)
       booking.contract&.sent? && !booking.contract&.signed?
     end
 

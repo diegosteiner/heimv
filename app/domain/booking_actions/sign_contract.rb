@@ -4,7 +4,7 @@ module BookingActions
   class SignContract < Base
     use_mail_template(:manage_contract_signed_notification, context: %i[booking], autodeliver: true)
 
-    def invoke!(signed_pdf: nil, confirm_authorization: nil)
+    def invoke!(signed_pdf: nil, confirm_authorization: nil, current_user: nil)
       return Result.failure unless confirm_authorization
 
       contract.update(signed_pdf:) if signed_pdf.present?
@@ -16,7 +16,7 @@ module BookingActions
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
-    def invokable?(signed_pdf: nil, confirm_authorization: nil)
+    def invokable?(signed_pdf: nil, confirm_authorization: nil, current_user: nil)
       booking.organisation.settings.contract_sign_by_click_enabled &&
         contract&.sent? && !contract&.signed?
     end

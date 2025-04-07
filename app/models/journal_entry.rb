@@ -195,14 +195,32 @@ class JournalEntry < ApplicationRecord
       end
     end
 
-    def build_with_payment(payment) # rubocop:disable Metrics/AbcSize
+    def build_with_payment(payment)
+      return build_with_payment_write_off(payment) if payment.write_off
+
+      build_with_payment_normal(payment)
+    end
+
+    def build_with_payment_normal(payment) # rubocop:disable Metrics/AbcSize
       payment.instance_eval do
         text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
 
         JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
                          trigger: :payment_created).tap do |journal_entry|
-          journal_entry.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
           journal_entry.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:, text:)
+          journal_entry.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
+        end
+      end
+    end
+
+    def build_with_payment_write_off(payment) # rubocop:disable Metrics/AbcSize
+      payment.instance_eval do
+        text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
+
+        JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
+                         trigger: :payment_created).tap do |journal_entry|
+          journal_entry.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
+          journal_entry.haben(account_nr: organisation&.accounting_settings&.rental_yield_account_nr, amount:, text:)
         end
       end
     end

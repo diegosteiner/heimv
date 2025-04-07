@@ -3,13 +3,13 @@ fr:
   activemodel:
     attributes:
       accounting_settings:
-        debitor_account_nr:
+        debitor_account_nr: Compte client
         enabled: Activé
         liable_for_vat:
-        payment_account_nr:
+        payment_account_nr: Compte Paiements
         rental_yield_account_nr:
         rental_yield_vat_category_id:
-        vat_account_nr:
+        vat_account_nr: Compte TVA
       booking/filter:
         begins_at: à partir du / de
         begins_at_after: Début de la location
@@ -71,12 +71,12 @@ fr:
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
       occupiable_settings:
-        accounting_cost_center_nr:
+        accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
       organisation_settings:
         booking_window: Plage de réservation
         closed_occupancy_color: Couleur pour les clôtures
-        contract_sign_by_click_enabled:
+        contract_sign_by_click_enabled: Signature du contrat "en cochant" par le locataire
         default_begins_at_time: Heure de début de l'occupation par défaut
         default_calendar_view: Affichage du calendrier par défaut
         default_ends_at_time: Heure de fin d'occupation par défaut
@@ -93,13 +93,13 @@ fr:
         ref:
         sort:
     models:
-      accounting_settings:
-      booking_state_settings:
-      deadline_settings:
+      accounting_settings: Paramètres de comptabilité
+      booking_state_settings: Paramètres du processus de réservation
+      deadline_settings: Réglages des délais
       occupancy_calendar:
         one: Plan de locations
         other: Plans de locations
-      organisation_settings:
+      organisation_settings: Paramètres d'organisation
       payment_info:
         one: Partie/zone de paiement
         other: Parties/zones de paiement
@@ -261,11 +261,11 @@ fr:
         vat: TVA incluse en pourcentage
         vat_category_id:
       journal_entry:
-        account_nr:
+        account_nr: Compte
         amount: Montant
         book_type: Type
         booking_id: Réservation
-        date:
+        date: Date
         haben_account:
         haben_amount:
         invoice_id: Facture
@@ -342,7 +342,7 @@ fr:
         esr_ref_prefix: Numéro d'identification BVR / Préfixe
         iban: IBAN
         invoice_payment_ref_template:
-        invoice_ref_template:
+        invoice_ref_template: Numéro de facture Format
         locale: Langue
         locales: Langues
         location: Lieu de signature du contrat
@@ -872,7 +872,7 @@ fr:
     revert_cancel:
       label: Annuler l'annulation
     sign_contract:
-      confirm_authorization_label:
+      confirm_authorization_label: Je certifie que je dispose des pouvoirs nécessaires pour signer ce contrat de manière juridiquement contraignante
       description:
       label:
     skip_invoice:
@@ -988,7 +988,7 @@ fr:
       description: La location aura lieu prochainement. Le cas échéant, l'heure exacte de remise des clés doit encore être clarifiée avec le locataire.
       label: Location (prochainement)
       relevant_time: Début de la location %{time}
-  clone:
+  clone: Dupliquer
   confirm: Êtes-vous sûr ?
   contracts:
     header_reference:
@@ -1142,12 +1142,12 @@ fr:
       reset_password_instructions:
         action: Changer mon mot de passe
         greeting: Bonjour %{recipient} !
-        instruction: "Quelqu'un a demandé un lien pour changer votre mot de passe, le voici :"
+        instruction: 'Quelqu''un a demandé un lien pour changer votre mot de passe, le voici :'
         instruction_2: Si vous n'avez pas émis cette demande, merci d'ignorer cet email.
         instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
         subject: Instructions pour changer le mot de passe
     omniauth_callbacks:
-      failure: "Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : '%{reason}'."
+      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : ''%{reason}''.'
       success: Autorisé par votre compte %{kind}.
     passwords:
       edit:
@@ -1243,8 +1243,8 @@ fr:
     template:
       body: 'Veuillez vérifier les champs suivants : '
       header:
-        one: "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
-        other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
+        one: 'Impossible d''enregistrer ce(tte) %{model} : 1 erreur'
+        other: 'Impossible d''enregistrer ce(tte) %{model} : %{count} erreurs'
   export:
     pdf:
       renderables:
@@ -1276,7 +1276,7 @@ fr:
     public:
       bookings:
         create:
-          notice: "Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n'avez pas reçu le mail, vérifiez dans les spams ou contactez l'administration: %{mailto_organisation}"
+          notice: 'Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n''avez pas reçu le mail, vérifiez dans les spams ou contactez l''administration: %{mailto_organisation}'
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
   from: de
@@ -1349,27 +1349,27 @@ fr:
         github: GitHub
         title: Logiciel
     manage_navigation:
-      finances:
+      finances: Finances
       help: Aide
       outbox: Courrier sortant
       settings: Réglages
   locales:
-    de:
-    en:
-    fr:
-    it:
+    de: Allemand
+    en: Anglais
+    fr: Français
+    it: Italiano
   manage:
     bookings:
       booking_actions:
         invoke:
-          failure: "Échec de l'importation :"
+          failure: 'Échec de l''importation :'
           success: Importation réussie
       calendar:
         ics_link: comme ICAL
         private_ics_link:
       import:
         headers: En-têtes
-        import_error: "Échec de l'importation : "
+        import_error: 'Échec de l''importation : '
         import_file: Fichier d'importation (CSV)
         import_success: Importation réussie
       index:
@@ -1378,7 +1378,7 @@ fr:
         new: Nouveau
         new_closed_occupancy: Fermeture
         new_request: Demande de réservation
-        no_records_yet: "Aucune réservation n'a été trouvée. Ajouter une nouvelle réservation : %{options}."
+        no_records_yet: 'Aucune réservation n''a été trouvée. Ajouter une nouvelle réservation : %{options}.'
         too_many_records: Trop de réservations ont été trouvées. Veuillez restreindre la recherche.
       navigation:
         costs: Tarifs & consommation
@@ -1437,7 +1437,7 @@ fr:
         new_import: Importer des paiements à partir du fichier CAMT.054
       new_import:
         camt_file: Fichier CAMT.054 (.xml)
-        exception: "Le fichier de paiement n'a pas pu être traité : %{errors}"
+        exception: 'Le fichier de paiement n''a pas pu être traité : %{errors}'
     rich_text_templates:
       form:
         help_lead:
@@ -1573,7 +1573,7 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: "Échec de l'importation :"
+          failure: 'Échec de l''importation :'
           success: Importation réussie
       confirm:
         title: Veuillez confirmer votre adresse e-mail

@@ -7,7 +7,7 @@ module BookingActions
 
     delegate :contract, to: :booking
 
-    def invoke!(deposit_ids: deposits.map(&:id))
+    def invoke!(deposit_ids: deposits.map(&:id), current_user: nil)
       deposits = self.deposits.where(id: deposit_ids)
       mail = send_tenant_notification(deposits)
 
@@ -16,7 +16,7 @@ module BookingActions
       Result.success redirect_proc: mail&.autodeliver_with_redirect_proc
     end
 
-    def invokable?(deposit_ids: nil)
+    def invokable?(deposit_ids: nil, current_user: nil)
       booking.valid? && booking.notifications_enabled && contract.present? && !contract.sent? &&
         booking.email.present?
     end
