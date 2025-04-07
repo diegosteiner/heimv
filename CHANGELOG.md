@@ -1,5 +1,13 @@
 # Changelog
 
+## 25.4.2
+
+Released 07.04.2025
+
+- Fix: Fix email_invoice action
+- Fix: Use booking_date for camt imports
+- Chore: Sync translations
+
 ## 25.4.1
 
 Released 01.04.2025

@@ -200,7 +200,7 @@ describe Export::Taf::Builder, type: :model do
         create(:booking, :invoiced, tenant:, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27')
       end
       let(:invoice) { booking.invoices.last }
-      let(:payment) { Payment.create!(booking:, invoice:, amount: 999.99, paid_at: '2024-12-24') }
+      let(:payment) { Payment.create!(booking:, invoice:, amount: 999.99, paid_at: '2024-12-24', write_off: false) }
       let(:journal_entry) { JournalEntry.where(booking:, invoice:, payment:).last }
 
       before do
@@ -217,10 +217,10 @@ describe Export::Taf::Builder, type: :model do
             Orig=1
 
             {Bk
-              AccId=1050
+              AccId=1025
               Date=24.12.2024
               Text="Zahlung 240001"
-              Type=1
+              Type=0
               ValNt=999.99
               PkKey=#{booking.tenant.ref}
               OpId=240001
@@ -228,10 +228,10 @@ describe Export::Taf::Builder, type: :model do
             }
 
             {Bk
-              AccId=1025
+              AccId=1050
               Date=24.12.2024
               Text="Zahlung 240001"
-              Type=0
+              Type=1
               ValNt=999.99
 
             }
