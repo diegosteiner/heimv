@@ -3,13 +3,13 @@ fr:
   activemodel:
     attributes:
       accounting_settings:
-        debitor_account_nr:
+        debitor_account_nr: Compte client
         enabled: Activé
         liable_for_vat:
-        payment_account_nr:
+        payment_account_nr: Compte Paiements
         rental_yield_account_nr:
         rental_yield_vat_category_id:
-        vat_account_nr:
+        vat_account_nr: Compte TVA
       booking/filter:
         begins_at: à partir du / de
         begins_at_after: Début de la location
@@ -71,12 +71,12 @@ fr:
         ends_at_after: Fin de la location à partir du
         ends_at_before: Fin de la location jusqu'au
       occupiable_settings:
-        accounting_cost_center_nr:
+        accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
       organisation_settings:
         booking_window: Plage de réservation
         closed_occupancy_color: Couleur pour les clôtures
-        contract_sign_by_click_enabled:
+        contract_sign_by_click_enabled: Signature du contrat "en cochant" par le locataire
         default_begins_at_time: Heure de début de l'occupation par défaut
         default_calendar_view: Affichage du calendrier par défaut
         default_ends_at_time: Heure de fin d'occupation par défaut
@@ -93,13 +93,13 @@ fr:
         ref:
         sort:
     models:
-      accounting_settings:
-      booking_state_settings:
-      deadline_settings:
+      accounting_settings: Paramètres de comptabilité
+      booking_state_settings: Paramètres du processus de réservation
+      deadline_settings: Réglages des délais
       occupancy_calendar:
         one: Plan de locations
         other: Plans de locations
-      organisation_settings:
+      organisation_settings: Paramètres d'organisation
       payment_info:
         one: Partie/zone de paiement
         other: Parties/zones de paiement
@@ -261,11 +261,11 @@ fr:
         vat: TVA incluse en pourcentage
         vat_category_id:
       journal_entry:
-        account_nr:
+        account_nr: Compte
         amount: Montant
         book_type: Type
         booking_id: Réservation
-        date:
+        date: Date
         haben_account:
         haben_amount:
         invoice_id: Facture
@@ -342,7 +342,7 @@ fr:
         esr_ref_prefix: Numéro d'identification BVR / Préfixe
         iban: IBAN
         invoice_payment_ref_template:
-        invoice_ref_template:
+        invoice_ref_template: Numéro de facture Format
         locale: Langue
         locales: Langues
         location: Lieu de signature du contrat
@@ -872,7 +872,7 @@ fr:
     revert_cancel:
       label: Annuler l'annulation
     sign_contract:
-      confirm_authorization_label:
+      confirm_authorization_label: Je certifie que je dispose des pouvoirs nécessaires pour signer ce contrat de manière juridiquement contraignante
       description:
       label:
     skip_invoice:
@@ -988,7 +988,7 @@ fr:
       description: La location aura lieu prochainement. Le cas échéant, l'heure exacte de remise des clés doit encore être clarifiée avec le locataire.
       label: Location (prochainement)
       relevant_time: Début de la location %{time}
-  clone:
+  clone: Dupliquer
   confirm: Êtes-vous sûr ?
   contracts:
     header_reference:
@@ -1349,15 +1349,15 @@ fr:
         github: GitHub
         title: Logiciel
     manage_navigation:
-      finances:
+      finances: Finances
       help: Aide
       outbox: Courrier sortant
       settings: Réglages
   locales:
-    de:
-    en:
-    fr:
-    it:
+    de: Allemand
+    en: Anglais
+    fr: Français
+    it: Italiano
   manage:
     bookings:
       booking_actions:
