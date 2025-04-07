@@ -25,15 +25,17 @@ class CamtService
     end
   end
 
-  def payment_from_transaction(transaction, entry)
+  def payment_from_transaction(transaction, entry) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     ref = transaction.creditor_reference
     invoice = find_invoice_by_ref(ref)
     remarks = [transaction.name, entry.description].compact_blank.join("\n\n")
     applies = invoice.present?
+    paid_at = entry.booking_datetime.presence || entry.booking_date.presence ||
+              entry.value_datetime.presence || entry.value_date.presence
 
     Payment.new(
       invoice:, booking: invoice&.booking, applies:, ref:, confirm: applies,
-      paid_at: entry.value_date, amount: transaction.amount, data: transaction_to_h(transaction),
+      amount: transaction.amount, data: transaction_to_h(transaction), paid_at:,
       camt_instr_id: transaction.reference, remarks:, paid_by: transaction.name
     )
   end

@@ -19,8 +19,9 @@ module BookingActions
     end
 
     def invokable_with
-      unsent_invoices.where(type: Invoices::Invoice.sti_name).filter_map do |invoice|
+      unsent_invoices.where(type: %w[Invoices::Deposit Invoices::Invoice]).filter_map do |invoice|
         next unless invokable?(invoice_id: invoice.id)
+        next if invoice.is_a?(Invoices::Deposit) && booking.contract && !booking.contract.sent?
 
         { label: translate(:label_with_ref, type: invoice.model_name.human, ref: invoice.ref),
           params: { invoice_id: invoice.to_param } }
