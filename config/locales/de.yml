@@ -2494,8 +2494,8 @@ de:
           <li>Mietzweck: {{ booking.category.title }}: {{ booking.purpose_description }}</li>
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
-      default_title: Baldige Belegung
-      description: Benachrichtigung für baldige Belegung (Funktionär)
+      default_title: Vergangene Belegung
+      description: Benachrichtigung für vergangene Belegung (Mieter)
     payment_confirmation_notification:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>
