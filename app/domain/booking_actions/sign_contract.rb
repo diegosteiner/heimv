@@ -21,8 +21,8 @@ module BookingActions
         contract&.sent? && !contract&.signed?
     end
 
-    def invokable_with
-      { prepare: true } if invokable?
+    def invokable_with(current_user: nil)
+      { prepare: true } if invokable?(current_user:)
     end
 
     def invoke_schema

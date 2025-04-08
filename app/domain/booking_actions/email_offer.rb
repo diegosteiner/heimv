@@ -15,9 +15,9 @@ module BookingActions
       booking.notifications_enabled && booking.tenant.email.present? && unsent_offers.exists?(id: offer_id)
     end
 
-    def invokable_with
+    def invokable_with(current_user: nil)
       unsent_offers.filter_map do |offer|
-        next unless invokable?(offer_id: offer.id)
+        next unless invokable?(offer_id: offer.id, current_user:)
 
         { label:, params: { offer_id: offer.to_param } }
       end

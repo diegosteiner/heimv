@@ -10,8 +10,8 @@ module BookingActions
       booking.in_state?(:open_request) && booking.can_transition_to?(transition_to)
     end
 
-    def invokable_with
-      { variant: :success } if invokable?
+    def invokable_with(current_user: nil)
+      { variant: :success } if invokable?(current_user:)
     end
 
     def transition_to

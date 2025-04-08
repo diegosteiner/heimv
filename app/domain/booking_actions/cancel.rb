@@ -22,8 +22,8 @@ module BookingActions
       transition_to.present?
     end
 
-    def invokable_with
-      { variant: :danger, prepare: true, label: } if invokable?
+    def invokable_with(current_user: nil)
+      { variant: :danger, prepare: true, label: } if invokable?(current_user:)
     end
 
     def label

@@ -1,5 +1,5 @@
 - booking.booking_flow.manage_actions.values.each do |action| 
-  - Array.wrap(action.invokable_with).compact.each do |invokable_with|
+  - Array.wrap(action.invokable_with(current_user:)).compact.each do |invokable_with|
     = button_to manage_booking_invoke_action_path(booking, id: action.key), \
       name: :action, value: action.key, \
       method: invokable_with[:prepare] ? :get : :post, \

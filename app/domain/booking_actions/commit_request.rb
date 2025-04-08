@@ -7,13 +7,14 @@ module BookingActions
     end
 
     def invokable?(current_user: nil)
-      booking.valid?(:public_update) && !booking.committed_request &&
-        (!booking.agent_booking || booking.email.present?) &&
-        booking.in_state?(:provisional_request, :booking_agent_request, :overdue_request)
+      return false if booking.committed_request || booking.agent_booking || booking.email.blank? ||
+                      !booking.in_state?(:provisional_request, :booking_agent_request, :overdue_request)
+
+      booking.valid?(:public_update)
     end
 
-    def invokable_with
-      { confirm: I18n.t(:confirm) } if invokable?
+    def invokable_with(current_user: nil)
+      { confirm: I18n.t(:confirm) } if invokable?(current_user:)
     end
   end
 end

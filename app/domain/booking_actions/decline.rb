@@ -2,7 +2,7 @@
 
 module BookingActions
   class Decline < Base
-    def invoke(cancellation_reason: nil)
+    def invoke(cancellation_reason: nil, current_user: nil)
       cancellation_reason ||= booking.cancellation_reason
 
       Result.new success: booking.update(transition_to:, cancellation_reason: cancellation_reason.presence)
@@ -12,8 +12,8 @@ module BookingActions
       transition_to.present?
     end
 
-    def invokable_with
-      { variant: :danger, prepare: true, label: } if invokable?
+    def invokable_with(current_user: nil)
+      { variant: :danger, prepare: true, label: } if invokable?(current_user:)
     end
 
     def transition_to

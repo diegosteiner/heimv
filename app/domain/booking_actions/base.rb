@@ -43,8 +43,8 @@ module BookingActions
       false
     end
 
-    def invokable_with
-      {} if invokable?
+    def invokable_with(current_user: nil)
+      {} if invokable?(current_user:)
     end
 
     def prepare_with; end
