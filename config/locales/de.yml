@@ -25,9 +25,10 @@ de:
         previous_booking_states: Vergangene Status
         q: Buchungsreferenz, Mieter, Organisation
       booking_state_settings:
+        conflicting_occupancy_states: Belegungsarten, die als «blockierend» gelten
         default_manage_transition_to_state: Standard Status für Buchungen durch Verwaltung
-        editable_occupancy_states: Status, bei welchen die Buchung durch den Mieter bearbeitbar ist
-        occupied_occupancy_states: Status, bei welchen die Buchung als «definitiv» gilt
+        editable_booking_states: Status, bei welchen die Buchung durch den Mieter bearbeitbar ist
+        occupied_booking_states: Status, bei welchen die Buchung als «definitiv» gilt
       deadline_settings:
         awaiting_contract_deadline: Frist für Vertragseingänge
         awaiting_tenant_deadline: Frist für fehlende Mieterangaben

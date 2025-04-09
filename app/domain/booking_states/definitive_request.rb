@@ -32,7 +32,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      if occupied_occupancy_state?(booking)
+      if occupied_booking_state?(booking)
         booking.occupied!
       elsif !booking.occupied?
         booking.tentative!

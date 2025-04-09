@@ -21,7 +21,6 @@
 class Occupancy < ApplicationRecord
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
   OCCUPANCY_TYPES = { free: 0, tentative: 1, occupied: 2, closed: 3 }.freeze
-  CONFLICTING_OCCUPANCY_TYPES = (OCCUPANCY_TYPES.keys - %i[free]).freeze
 
   include Timespanable
 
@@ -35,9 +34,9 @@ class Occupancy < ApplicationRecord
 
   scope :ordered, -> { order(begins_at: :ASC) }
   scope :occupancy_calendar, lambda {
-    where(occupancy_type: Occupancy::CONFLICTING_OCCUPANCY_TYPES)
-      .or(where(occupancy_type: :free, booking: nil))
-      .left_outer_joins(:booking).where(booking: { concluded: [false, nil] })
+    where.not(occupancy_type: :free)
+         .or(where(occupancy_type: :free, booking: nil))
+         .left_outer_joins(:booking).where(booking: { concluded: [false, nil] })
   }
 
   before_validation :update_from_booking
@@ -72,7 +71,7 @@ class Occupancy < ApplicationRecord
   end
 
   def conflicting(margin: occupiable&.settings&.booking_margin || 0,
-                  conflicting_occupancy_types: Occupancy::CONFLICTING_OCCUPANCY_TYPES)
+                  conflicting_occupancy_types: organisation&.booking_state_settings&.conflicting_occupancy_types)
     return unless valid?
 
     occupiable.occupancies.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
