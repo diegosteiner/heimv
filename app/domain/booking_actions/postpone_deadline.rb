@@ -7,7 +7,7 @@ module BookingActions
     end
 
     def invokable?(current_user: nil)
-      booking.deadline&.postponable? && booking.deadline.postponable_until < booking.begins_at
+      booking.deadline&.postponable? && (booking.deadline.postponable_until < booking.begins_at)
     end
   end
 end

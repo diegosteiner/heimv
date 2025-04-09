@@ -37,7 +37,7 @@ describe BookingActions::EmailContract do
   end
 
   describe '#invokable_with' do
-    subject(:invokable_with) { action.invokable_with }
+    subject(:invokable_with) { action.invokable_with(current_user: nil) }
 
     it { expect(invokable_with[:label]).to eq(I18n.t('booking_actions.email_contract.label_without_deposit')) }
 

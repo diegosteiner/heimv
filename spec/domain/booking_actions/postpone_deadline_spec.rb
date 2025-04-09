@@ -22,7 +22,7 @@ describe BookingActions::PostponeDeadline do
   context 'when deadline is not postponable' do
     let!(:deadline) { create(:deadline, booking:, postponable_for: nil) }
 
-    it { expect { invoke }.to raise_error(ArgumentError) }
+    it { is_expected.to have_attributes(error: BookingActions::Base.translate(:not_allowed)) }
   end
 
   context 'with provisional_request' do
@@ -33,7 +33,7 @@ describe BookingActions::PostponeDeadline do
         create(:booking, initial_state:, begins_at: 2.days.from_now, ends_at: 4.days.from_now)
       end
 
-      it { expect { invoke }.to raise_error(ArgumentError) }
+      it { is_expected.to have_attributes(error: BookingActions::Base.translate(:not_allowed)) }
     end
   end
 

@@ -7,9 +7,10 @@ describe BookingActions::CommitRequest do
 
   let(:booking) { create(:booking, initial_state:, committed_request: false) }
   let(:initial_state) { :provisional_request }
+  let(:current_user) { create(:organisation_user, organisation: booking.organisation, role: :manager) }
 
   describe '#invoke' do
-    subject(:invoke) { action.invoke }
+    subject(:invoke) { action.invoke(current_user:) }
 
     it { expect(invoke.success).to be_truthy }
     it do

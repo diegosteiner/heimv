@@ -100,7 +100,7 @@
         .row.mt-4
           .col-md-8.d-flex.gap-1.mt-2.align-items-start.flex-wrap
             - @booking.booking_flow.tenant_actions.values.each do |booking_action| 
-              - Array.wrap(booking_action.invokable_with).compact.each do |invokable_with|
+              - Array.wrap(booking_action.invokable_with(current_user:)).compact.each do |invokable_with|
                 = button_to public_booking_invoke_action_path(@booking.token, id: booking_action.key), \
                   method: invokable_with[:prepare] ? :get : :post, \
                   params: invokable_with[:params], \

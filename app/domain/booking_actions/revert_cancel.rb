@@ -17,8 +17,8 @@ module BookingActions
       REVERSIBLE_BOOKING_STATES.include?(booking.booking_flow.current_state&.to_sym)
     end
 
-    def invokable_with
-      { variant: :danger, confirm: I18n.t(:confirm) } if invokable?
+    def invokable_with(current_user: nil)
+      { variant: :danger, confirm: I18n.t(:confirm) } if invokable?(current_user:)
     end
   end
 end

@@ -8,7 +8,8 @@ module BookingActions
 
     def invokable?(current_user: nil)
       agent_booking&.booking_agent_responsible? &&
-        agent_booking.booking&.booking_flow&.in_state?(:booking_agent_request)
+        booking&.can_transition_to?(:awaiting_tenant) &&
+        booking&.booking_flow&.in_state?(:booking_agent_request)
     end
 
     delegate :agent_booking, to: :booking

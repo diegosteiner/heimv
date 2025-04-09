@@ -21,8 +21,8 @@ module BookingActions
         booking.email.present?
     end
 
-    def invokable_with
-      return unless invokable?
+    def invokable_with(current_user: nil)
+      return unless invokable?(current_user:)
 
       deposit_ids = deposits.map(&:to_param)
       if deposits.any?

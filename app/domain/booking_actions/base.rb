@@ -2,6 +2,8 @@
 
 module BookingActions
   class Base
+    class NotInvokable < StandardError; end
+
     include Translatable
     include TemplateRenderable
     extend Translatable
@@ -26,12 +28,10 @@ module BookingActions
     end
 
     def invoke(**)
-      raise ArgumentError unless invokable?(**)
+      raise NotInvokable unless invokable?(**)
 
       invoke!(**)
-    rescue Statesman::TransitionConflictError, ArgumentError => e
-      raise e unless Rails.env.production?
-
+    rescue Statesman::TransitionConflictError, NotInvokable
       Result.failure error: translate(:not_allowed)
     rescue StandardError => e
       raise e unless Rails.env.production?
@@ -43,8 +43,8 @@ module BookingActions
       false
     end
 
-    def invokable_with
-      {} if invokable?
+    def invokable_with(current_user: nil)
+      {} if invokable?(current_user:)
     end
 
     def prepare_with; end
