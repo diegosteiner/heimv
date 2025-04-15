@@ -120,8 +120,8 @@ RSpec.describe JournalEntry, type: :model do
       it 'creates new journal entry' do
         is_expected.to have_attributes(trigger: 'payment_created', amount: 420.0, processed?: false, payment:)
         expect(journal_entry.fragments).to contain_exactly(
-          have_attributes(account_nr: '1025', soll_amount: 420.0, book_type: 'main'),
-          have_attributes(account_nr: '1050', haben_amount: 420.0, book_type: 'main')
+          have_attributes(account_nr: '1050', haben_amount: 420.0, book_type: 'main'),
+          have_attributes(account_nr: '1025', soll_amount: 420.0, book_type: 'main')
         )
       end
     end
@@ -130,8 +130,8 @@ RSpec.describe JournalEntry, type: :model do
       it 'creates new journal entry' do
         is_expected.to have_attributes(trigger: 'payment_created', amount: 420.0, processed?: false, payment:)
         expect(journal_entry.fragments).to contain_exactly(
-          have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main'),
-          have_attributes(account_nr: '6000', haben_amount: 420.0, book_type: 'main')
+          have_attributes(account_nr: '6000', haben_amount: 420.0, book_type: 'main'),
+          have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main')
         )
       end
     end
