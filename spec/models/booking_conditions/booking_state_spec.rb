@@ -45,6 +45,7 @@ RSpec.describe BookingConditions::BookingState, type: :model do
       let(:compare_operator) { '>' }
 
       before do
+        booking.update(committed_request: true)
         booking.apply_transitions(%i[provisional_request definitive_request])
       end
 

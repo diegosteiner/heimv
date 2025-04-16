@@ -101,9 +101,10 @@
         .card.shadow-sm 
           .card-body
             = bsf.select :default_manage_transition_to_state, BookingStateSettings.manage_transition_to_states(@organisation).map { [_1.t(:label), _1.to_sym] }, value: booking_state_settings.default_manage_transition_to_state
-            = bsf.collection_select :occupied_booking_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
-            = bsf.collection_select :editable_booking_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
-            = bsf.collection_select :conflicting_occupancy_types, Occupancy::OCCUPANCY_TYPES.keys, :to_s, ->(occupancy_type) { Occupancy.human_enum(:occupancy_type, occupancy_type) }, multiple: true
+            = bsf.collection_select :occupied_booking_states, @organisation.booking_flow_class.state_classes.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
+            = bsf.collection_select :editable_booking_states, @organisation.booking_flow_class.state_classes.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
+            = bsf.check_box :enable_waitlist 
+            = bsf.check_box :enable_provisional_request
 
     - if current_user.role_admin?
       = f.fields_for :accounting_settings, @organisation.accounting_settings || AccountingSettings.new do |af|  

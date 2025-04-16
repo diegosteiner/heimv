@@ -12,9 +12,8 @@ class BookingStateSettings
   attribute :editable_booking_states, array: true, default: lambda {
     BookingFlows::Default.editable_by_default.map(&:to_s)
   }
-  attribute :conflicting_occupancy_types, array: true, default: lambda {
-    (Occupancy::OCCUPANCY_TYPES.keys - %i[free]).map(&:to_s)
-  }
+  attribute :enable_waitlist, :boolean, default: false
+  attribute :enable_provisional_request, :boolean, default: true
 
   def self.manage_transition_to_states(organisation)
     organisation.booking_flow_class.successors['initial'].map { BookingStates[it.to_sym] }.compact_blank

@@ -17,18 +17,15 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.agent_booking.present?
+      booking.agent_booking.present? && !booking.conflicting?(%i[occupied tentative])
     end
 
     after_transition do |booking|
+      booking.tentative!
       booking.create_deadline(at: booking.booking_agent.request_deadline_minutes.minutes.from_now,
                               postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
                               remarks: booking.booking_state.t(:label))
-    end
-
-    after_transition do |booking|
       MailTemplate.use(:booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver!)
-      booking.tentative!
     end
 
     infer_transition(to: :cancelled_request) do |booking|

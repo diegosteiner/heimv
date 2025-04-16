@@ -9,7 +9,7 @@ module BookingStates
     @all ||= [
       UnconfirmedRequest, OpenRequest, ProvisionalRequest, DefinitiveRequest, BookingAgentRequest, AwaitingTenant,
       AwaitingContract, Overdue, UpcomingSoon, Upcoming, Active, Past, PaymentDue, CancelationPending, Completed,
-      CancelledRequest, DeclinedRequest, Cancelled, OverdueRequest, PaymentOverdue, Initial
+      CancelledRequest, DeclinedRequest, Cancelled, OverdueRequest, PaymentOverdue, Initial, WaitlistedRequest
     ].index_by(&:to_sym)
   end
 end

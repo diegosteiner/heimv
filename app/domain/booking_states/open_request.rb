@@ -31,6 +31,14 @@ module BookingStates
       end
     end
 
+    guard_transition do |booking|
+      if booking.organisation.booking_state_settings.enable_waitlist
+        !booking.conflicting?
+      else
+        !booking.conflicting?(%i[occupied tentative])
+      end
+    end
+
     def relevant_time
       booking.created_at
     end

@@ -56,7 +56,7 @@ class Occupancy < ApplicationRecord
   end
 
   def conflicting?(...)
-    conflicting(...)&.exist?
+    conflicting(...)&.exists?
   end
 
   def to_s
@@ -70,13 +70,11 @@ class Occupancy < ApplicationRecord
     super
   end
 
-  def conflicting(margin: occupiable&.settings&.booking_margin || 0,
-                  conflicting_occupancy_types: organisation&.booking_state_settings&.conflicting_occupancy_types)
+  def conflicting(conflicting_occupancy_types = %i[occupied], margin: occupiable&.settings&.booking_margin || 0)
     return unless valid?
 
     occupiable.occupancies.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
-              .where(occupancy_type: conflicting_occupancy_types)
-              .where.not(id:)
+              .where(occupancy_type: conflicting_occupancy_types).where.not(id:)
   end
 
   def color=(value)

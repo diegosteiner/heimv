@@ -8,7 +8,7 @@ describe 'Bookings', type: :feature do
   let(:bookings) { create_list(:booking, 3, organisation:, home:) }
   let(:definitive_request) do
     create(:booking, organisation:, home:, begins_at: 3.months.from_now).tap do |booking|
-      booking.update(transition_to: :definitive_request)
+      booking.update(committed_request: true, transition_to: :definitive_request)
     end
   end
 
