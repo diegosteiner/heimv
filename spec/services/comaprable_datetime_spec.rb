@@ -35,31 +35,31 @@ RSpec.describe ComparableDatetime, type: :model do
     context 'with string' do
       it 'parses the date string' do
         expect(described_class.from_string('')).to eq(nil)
-        expect(described_class.from_string('2024-*-*')).to eq(ComparableDatetime[year: 2024])
-        expect(described_class.from_string('*-09-*')).to eq(ComparableDatetime[month: 9])
-        expect(described_class.from_string('*-*-3')).to eq(ComparableDatetime[day: 3])
+        expect(described_class.from_string('2024-*-*')).to eq(ComparableDatetime.from_value(year: 2024))
+        expect(described_class.from_string('*-09-*')).to eq(ComparableDatetime.from_value(month: 9))
+        expect(described_class.from_string('*-*-3')).to eq(ComparableDatetime.from_value(day: 3))
       end
 
       it 'parses the weekday string' do
-        expect(described_class.from_string('W1')).to eq(ComparableDatetime[weekday: 1])
-        expect(described_class.from_string('W9')).to eq(ComparableDatetime[weekday: 2])
+        expect(described_class.from_string('W1')).to eq(ComparableDatetime.from_value(weekday: 1))
+        expect(described_class.from_string('W9')).to eq(ComparableDatetime.from_value(weekday: 2))
       end
 
       it 'parses the time string' do
-        expect(described_class.from_string('T10:*')).to eq(ComparableDatetime[hour: 10])
-        expect(described_class.from_string('T*:55')).to eq(ComparableDatetime[minute: 55])
+        expect(described_class.from_string('T10:*')).to eq(ComparableDatetime.from_value(hour: 10))
+        expect(described_class.from_string('T*:55')).to eq(ComparableDatetime.from_value(minute: 55))
       end
 
       it 'parses the all parts together' do
-        expect(described_class.from_string('2024-09-3W3T10:55')).to eq(ComparableDatetime[{
-          year: 2024, month: 9, day: 3, weekday: 3, hour: 10, minute: 55
-        }])
-        expect(described_class.from_string('2024-09-3T10:55')).to eq(ComparableDatetime[{
-          year: 2024, month: 9, day: 3, weekday: nil, hour: 10, minute: 55
-        }])
-        expect(described_class.from_string('*-*-*W*T*:*')).to eq(ComparableDatetime[{
-          year: nil, month: nil, day: nil, weekday: nil, hour: nil, minute: nil
-        }])
+        expect(described_class.from_string('2024-09-3W3T10:55')).to eq(
+          ComparableDatetime.from_value({ year: 2024, month: 9, day: 3, weekday: 3, hour: 10, minute: 55 })
+        )
+        expect(described_class.from_string('2024-09-3T10:55')).to eq(
+          ComparableDatetime.from_value({ year: 2024, month: 9, day: 3, weekday: nil, hour: 10, minute: 55 })
+        )
+        expect(described_class.from_string('*-*-*W*T*:*')).to eq(
+          ComparableDatetime.from_value({ year: nil, month: nil, day: nil, weekday: nil, hour: nil, minute: nil })
+        )
       end
     end
 
@@ -90,41 +90,41 @@ RSpec.describe ComparableDatetime, type: :model do
 
   describe '#<=>' do
     context 'with simple comparisons' do
-      let(:compare_value) { ComparableDatetime[Time.zone.local(2024, 9, 3, 12, 55)] }
+      let(:compare_value) { ComparableDatetime.from_value(Time.zone.local(2024, 9, 3, 12, 55)) }
 
       it 'compares the year' do
-        expect(compare_value).to be >= ComparableDatetime[year: 2023]
-        expect(compare_value).not_to be >= ComparableDatetime[year: 2025]
-        expect(compare_value).to be >= ComparableDatetime[year: 2023, month: 10]
+        expect(compare_value).to be >= ComparableDatetime.from_value(year: 2023)
+        expect(compare_value).not_to be >= ComparableDatetime.from_value(year: 2025)
+        expect(compare_value).to be >= ComparableDatetime.from_value(year: 2023, month: 10)
       end
 
       it 'compares the month' do
-        expect(compare_value).to be >= ComparableDatetime[month: 8]
-        expect(compare_value).not_to be >= ComparableDatetime[month: 10]
-        expect(compare_value).to be >= ComparableDatetime[month: 8, day: 4]
+        expect(compare_value).to be >= ComparableDatetime.from_value(month: 8)
+        expect(compare_value).not_to be >= ComparableDatetime.from_value(month: 10)
+        expect(compare_value).to be >= ComparableDatetime.from_value(month: 8, day: 4)
       end
 
       it 'compares the day' do
-        expect(compare_value).to be >= ComparableDatetime[day: 2]
-        expect(compare_value).not_to be >= ComparableDatetime[day: 4]
-        expect(compare_value).to be >= ComparableDatetime[day: 1, weekday: 4]
+        expect(compare_value).to be >= ComparableDatetime.from_value(day: 2)
+        expect(compare_value).not_to be >= ComparableDatetime.from_value(day: 4)
+        expect(compare_value).to be >= ComparableDatetime.from_value(day: 1, weekday: 4)
       end
 
       it 'compares the weekday' do
-        expect(compare_value).to be >= ComparableDatetime[weekday: 1]
-        expect(compare_value).not_to be >= ComparableDatetime[weekday: 3]
-        expect(compare_value).to be >= ComparableDatetime[weekday: 1, hour: 14]
+        expect(compare_value).to be >= ComparableDatetime.from_value(weekday: 1)
+        expect(compare_value).not_to be >= ComparableDatetime.from_value(weekday: 3)
+        expect(compare_value).to be >= ComparableDatetime.from_value(weekday: 1, hour: 14)
       end
 
       it 'compares the hour' do
-        expect(compare_value).to be >= ComparableDatetime[hour: 9]
-        expect(compare_value).not_to be >= ComparableDatetime[hour: 14]
-        expect(compare_value).to be >= ComparableDatetime[hour: 7, minute: 58]
+        expect(compare_value).to be >= ComparableDatetime.from_value(hour: 9)
+        expect(compare_value).not_to be >= ComparableDatetime.from_value(hour: 14)
+        expect(compare_value).to be >= ComparableDatetime.from_value(hour: 7, minute: 58)
       end
 
       it 'compares the minute' do
-        expect(compare_value).to be >= ComparableDatetime[minute: 50]
-        expect(compare_value).not_to be >= ComparableDatetime[minute: 58]
+        expect(compare_value).to be >= ComparableDatetime.from_value(minute: 50)
+        expect(compare_value).not_to be >= ComparableDatetime.from_value(minute: 58)
       end
     end
   end
