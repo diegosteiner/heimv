@@ -67,6 +67,7 @@ FactoryBot.define do
       after(:create) do |organisation|
         onboarding = OnboardingService.new(organisation)
         onboarding.setup_missing_rich_text_templates
+        organisation.rich_text_templates.update_all(enabled: true) # rubocop:disable Rails/SkipsModelValidations
       end
     end
 

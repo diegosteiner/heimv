@@ -16,7 +16,9 @@ module BookingStates
 
     after_transition do |booking|
       booking.deadline&.clear!
-      booking.update(concluded: false)
+      booking.tentative!
+      booking.update(concluded: false) # in case it's reinstated from declined or cancelled
+
       OperatorResponsibility.assign(booking, :administration, :billing)
       MailTemplate.use(:manage_new_booking_notification, booking, to: :administration, &:autodeliver!)
 

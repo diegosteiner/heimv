@@ -18,6 +18,7 @@ module BookingStates
     end
 
     after_transition do |booking|
+      booking.update(concluded: false) # in case it's reinstated from declined or cancelled
       if occupied_booking_state?(booking)
         booking.occupied!
       elsif !booking.occupied?
