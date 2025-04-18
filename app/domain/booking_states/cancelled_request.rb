@@ -25,11 +25,5 @@ module BookingStates
       MailTemplate.use(:cancelled_request_notification, booking,
                        to: booking.agent_booking ? :booking_agent : :tenant, &:autodeliver!)
     end
-
-    def relevant_time; end
-
-    def self.hidden
-      true
-    end
   end
 end

@@ -13,9 +13,5 @@ module BookingStates
     infer_transition(to: :unconfirmed_request) do |booking|
       booking.email.present? && booking.agent_booking.blank?
     end
-
-    def self.hidden
-      true
-    end
   end
 end

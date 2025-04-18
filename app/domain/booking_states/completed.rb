@@ -15,10 +15,6 @@ module BookingStates
       :completed
     end
 
-    def self.hidden
-      true
-    end
-
     guard_transition do |booking|
       !booking.invoices.kept.unsettled.exists?
     end

@@ -17,10 +17,6 @@ module BookingStates
       Invoices::Deposit
     end
 
-    def self.hidden
-      true
-    end
-
     def roles
       %i[home_handover home_return]
     end

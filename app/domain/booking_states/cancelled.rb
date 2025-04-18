@@ -17,10 +17,6 @@ module BookingStates
       :cancelled
     end
 
-    def self.hidden
-      true
-    end
-
     guard_transition do |booking|
       !booking.invoices.kept.unsettled.exists?
     end
@@ -33,7 +29,5 @@ module BookingStates
 
       MailTemplate.use(:booking_agent_cancelled_notification, booking, to: :booking_agent, &:autodeliver!)
     end
-
-    def relevant_time; end
   end
 end

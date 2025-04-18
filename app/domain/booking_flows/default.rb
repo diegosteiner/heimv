@@ -37,7 +37,10 @@ module BookingFlows
     state BookingStates::Cancelled
 
     def self.displayed_by_default
-      @displayed_by_default ||= state_classes.filter { |_key, state| !state.hidden }.keys
+      @displayed_by_default ||= %i[unconfirmed_request open_request waitlisted_request booking_agent_request
+                                   provisional_request overdue_request definitive_request awaiting_tenant
+                                   awaiting_contract overdue upcoming_soon active past payment_due payment_overdue
+                                   cancelation_pending]
     end
 
     def self.occupied_by_default

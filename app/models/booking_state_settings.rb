@@ -16,6 +16,8 @@ class BookingStateSettings
   attribute :enable_provisional_request, :boolean, default: true
 
   def self.manage_transition_to_states(organisation)
-    organisation.booking_flow_class.successors['initial'].map { BookingStates[it.to_sym] }.compact_blank
+    organisation.booking_flow_class.successors['initial'].map do
+      organisation.booking_flow_class.state_classes[it.to_sym]
+    end.compact_blank
   end
 end
