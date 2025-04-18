@@ -8,10 +8,6 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::Invoice
-    end
-
     def self.to_sym
       :declined_request
     end

@@ -10,10 +10,6 @@ module BookingStates
       BookingStateChecklistItem.prepare(:offer_created, booking:)
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def self.to_sym
       :provisional_request
     end
@@ -29,8 +25,7 @@ module BookingStates
                               remarks: booking.booking_state.t(:label))
       next if booking.committed_request
 
-      mail = MailTemplate.use(:provisional_request_notification, booking, to: :tenant)
-      mail&.autodeliver!
+      MailTemplate.use(:provisional_request_notification, booking, to: :tenant, &:autodeliver!)
     end
 
     guard_transition do |booking|

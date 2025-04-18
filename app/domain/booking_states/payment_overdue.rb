@@ -14,15 +14,12 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::LateNotice
-    end
-
     after_transition do |booking|
       booking.deadline&.clear!
-      MailTemplate.use(:payment_overdue_notification, booking, to: :tenant).tap do |mail|
-        mail.attach(booking.invoices.kept.unsettled)
-        mail&.autodeliver!
+      invoices = booking.invoices.kept.unsettled
+      MailTemplate.use(:payment_overdue_notification, booking, to: :tenant, context: { invoices: })&.tap do |mail|
+        mail.attach(invoices)
+        mail.autodeliver!
       end
     end
 

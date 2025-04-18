@@ -8,10 +8,6 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def self.to_sym
       :unconfirmed_request
     end

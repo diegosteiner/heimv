@@ -11,10 +11,6 @@ module BookingStates
                                         :contract_created, booking:)
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def self.to_sym
       :definitive_request
     end
@@ -46,10 +42,11 @@ module BookingStates
     after_transition do |booking|
       booking.update!(committed_request: true)
       booking.deadline&.clear!
+
       OperatorResponsibility.assign(booking, :home_handover, :home_return)
+
       MailTemplate.use(:manage_definitive_request_notification, booking, to: :administration, &:autodeliver!)
-      mail = MailTemplate.use(:definitive_request_notification, booking, to: :tenant)
-      mail&.autodeliver!
+      MailTemplate.use(:definitive_request_notification, booking, to: :tenant, &:autodeliver!)
     end
 
     def relevant_time

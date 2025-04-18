@@ -9,10 +9,6 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def roles
       %i[home_handover home_return]
     end
