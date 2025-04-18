@@ -161,6 +161,10 @@ de:
         tenant_organisation: Mieter Organisation / Gruppenname
         transition_to: Neuer Status
         usage_report: Verbrauchsformular
+      booking/booking_question_responses:
+        value: Zusätzliche Angabe
+      booking/occupancies:
+        base: Mietobjekt
       booking_agent:
         address: Adresse
         code: Vermittler-Code
@@ -189,6 +193,8 @@ de:
         required: Pflichteingabe
         tenant_mode: Eingabemodus für Mieter
         type: Typ
+      booking_question_response:
+        value: Anwort
       booking_validation:
         check_on: Prüfen bei
         enabling_conditions: Bedingungen zur Ausführung der Gültigkeitsprüfung
@@ -691,6 +697,9 @@ de:
       booking_questions/text:
         one: Zusätzliche Angabe als Langtext
         other:
+      booking_questions_response:
+        one: Zusätzliche Angabe
+        other: Zusätzliche Angaben
       booking_transition:
         one: Statusübergang
         other: Statusübergänge

@@ -45,7 +45,7 @@ module BookingFlows
     end
 
     def self.editable_by_default
-      @editable_by_default ||= %i[initial unconfirmed_request open_request provisional_request
+      @editable_by_default ||= %i[initial unconfirmed_request open_request waitlisted_request provisional_request
                                   booking_agent_request awaiting_tenant overdue_request]
     end
 

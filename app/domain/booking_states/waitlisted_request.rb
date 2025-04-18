@@ -2,7 +2,6 @@
 
 module BookingStates
   class WaitlistedRequest < Base
-    # use_mail_template(:waitlisted_booking_agent_request_notification, context: %i[booking])
     use_mail_template(:waitlisted_request_notification, context: %i[booking])
 
     def checklist
@@ -15,12 +14,15 @@ module BookingStates
 
     after_transition do |booking|
       booking.tentative!
-      # if booking.agent_booking.present?
-      #   MailTemplate.use(:waitlisted_booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver!)
-      # else
-      #   MailTemplate.use(:waitlisted_request_notification, booking, to: :tenant, &:autodeliver!)
-      # end
       MailTemplate.use(:waitlisted_request_notification, booking, to: :tenant, &:autodeliver!)
+    end
+
+    infer_transition(to: :provisional_request) do |booking|
+      booking.valid?(:public_update) && booking.can_transition_to?(:provisional_request)
+    end
+
+    infer_transition(to: :definitive_request) do |booking|
+      booking.valid?(:public_update) && booking.can_transition_to?(:definitive_request)
     end
 
     guard_transition do |booking|
