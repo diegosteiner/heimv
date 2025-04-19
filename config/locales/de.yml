@@ -858,6 +858,9 @@ de:
       label: Anfrage zurückziehen / stornieren
       label_committed: Stornieren
       label_request: Anfrage zurückziehen
+    clear_waitlist:
+      cancellation_reason: Warteliste aufgelöst; Mietobjekt ist definitiv belegt
+      label: Überschneidene Anfragen in der Warteliste ablehnen
     commit_booking_agent_request:
       label: Anfrage definitv setzen
     commit_request:

@@ -65,7 +65,8 @@ module BookingFlows
         commit_request: BookingActions::CommitRequest,
         commit_booking_agent_request: BookingActions::CommitBookingAgentRequest,
         decline: BookingActions::Decline,
-        revert_cancel: BookingActions::RevertCancel
+        revert_cancel: BookingActions::RevertCancel,
+        clear_waitlist: BookingActions::ClearWaitlist
       }
     end
 

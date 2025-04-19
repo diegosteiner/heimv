@@ -19,7 +19,11 @@ module BookingStates
       booking.committed_request && booking.tenant&.valid? && !booking.conflicting?
     end
 
-    guard_transition(from: :waitlist) do |booking|
+    guard_transition(from: :open_request) do |booking|
+      !booking.conflicting?(%i[occupied tentative])
+    end
+
+    guard_transition(from: :waitlisted_request) do |booking|
       !booking.conflicting?(%i[occupied tentative])
     end
 

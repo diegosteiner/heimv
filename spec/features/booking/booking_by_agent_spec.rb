@@ -127,4 +127,44 @@ describe 'Booking by agent', :devise, type: :feature do
       .to match_array(expected_notifications)
     expect(booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
   end
+
+  describe 'check conflicting bookings' do
+    let!(:conflicting) do
+      create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                       occupancy_type: :tentative, initial_state: :provisional_request)
+    end
+
+    context 'without waitlist_enabled' do
+      it 'returns error' do
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        click_on 'agent-booking-button'
+
+        choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
+        fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
+        fill_in 'agent_booking_booking_agent_ref', with: agent_ref
+        submit_form
+        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
+
+    context 'with waitlist_enabled' do
+      before do
+        organisation.booking_state_settings.enable_waitlist = true
+        organisation.save!
+      end
+      it 'returns no error' do
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        click_on 'agent-booking-button'
+
+        choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
+        fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
+        fill_in 'agent_booking_booking_agent_ref', with: agent_ref
+        expect(page).not_to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
+  end
 end
