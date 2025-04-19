@@ -8,10 +8,6 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def self.to_sym
       :unconfirmed_request
     end
@@ -24,10 +20,18 @@ module BookingStates
     end
 
     after_transition do |booking|
+      booking.tentative!
       booking.create_deadline(length: booking.organisation.deadline_settings.unconfirmed_request_deadline,
                               remarks: booking.booking_state.t(:label))
-      booking.tentative!
       MailTemplate.use(:unconfirmed_request_notification, booking, to: :tenant, &:autodeliver!)
+    end
+
+    guard_transition do |booking|
+      if booking.organisation.booking_state_settings.enable_waitlist
+        !booking.conflicting?
+      else
+        !booking.conflicting?(%i[occupied tentative])
+      end
     end
 
     def relevant_time

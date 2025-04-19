@@ -224,6 +224,10 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
     update_columns(booking_state_cache: booking_state.to_s, updated_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  def conflicting?(conflicting_occupancy_types = %i[occupied])
+    occupancies.any? { it.conflicting(conflicting_occupancy_types).exists? }
+  end
+
   def booking_flow_class
     @booking_flow_class ||= (booking_flow_type && BookingFlows.const_get(booking_flow_type).new) ||
                             organisation&.booking_flow_class

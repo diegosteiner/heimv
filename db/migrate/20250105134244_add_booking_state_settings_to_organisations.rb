@@ -8,7 +8,7 @@ class AddBookingStateSettingsToOrganisations < ActiveRecord::Migration[8.0]
         Organisation.find_each do |organisation|
           settings_hash = JSON.parse(organisation.attributes_before_type_cast["settings"])
           organisation.booking_state_settings = BookingStateSettings
-            .from_value(settings_hash.slice(:occupied_occupancy_states, :default_manage_transition_to_state))
+            .from_value(settings_hash.slice(:occupied_booking_states, :default_manage_transition_to_state))
 
           organisation.deadline_settings = DeadlineSettings
             .from_value(settings_hash.slice(:unconfirmed_request_deadline, :provisional_request_deadline,

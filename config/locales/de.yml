@@ -26,8 +26,10 @@ de:
         q: Buchungsreferenz, Mieter, Organisation
       booking_state_settings:
         default_manage_transition_to_state: Standard Status für Buchungen durch Verwaltung
-        editable_occupancy_states: Status, bei welchen die Buchung durch den Mieter bearbeitbar ist
-        occupied_occupancy_states: Status, bei welchen die Buchung als «definitiv» gilt
+        editable_booking_states: Status, bei welchen die Buchung durch den Mieter bearbeitbar ist
+        enable_provisional_request: Provisorische Reservationsanfragen erlauben
+        enable_waitlist: Warteliste aktiv
+        occupied_booking_states: Status, bei welchen die Buchung als «definitiv» gilt
       deadline_settings:
         awaiting_contract_deadline: Frist für Vertragseingänge
         awaiting_tenant_deadline: Frist für fehlende Mieterangaben
@@ -159,6 +161,10 @@ de:
         tenant_organisation: Mieter Organisation / Gruppenname
         transition_to: Neuer Status
         usage_report: Verbrauchsformular
+      booking/booking_question_responses:
+        value: Zusätzliche Angabe
+      booking/occupancies:
+        base: Mietobjekt
       booking_agent:
         address: Adresse
         code: Vermittler-Code
@@ -187,6 +193,8 @@ de:
         required: Pflichteingabe
         tenant_mode: Eingabemodus für Mieter
         type: Typ
+      booking_question_response:
+        value: Anwort
       booking_validation:
         check_on: Prüfen bei
         enabling_conditions: Bedingungen zur Ausführung der Gültigkeitsprüfung
@@ -689,6 +697,9 @@ de:
       booking_questions/text:
         one: Zusätzliche Angabe als Langtext
         other:
+      booking_questions_response:
+        one: Zusätzliche Angabe
+        other: Zusätzliche Angaben
       booking_transition:
         one: Statusübergang
         other: Statusübergänge
@@ -841,6 +852,7 @@ de:
   booking_actions:
     accept:
       label: Anfrage akzeptieren
+      label_waitlisted_request: Anfrage auf Warteliste setzen
     cancel:
       description: Bist du sicher?
       label: Anfrage zurückziehen / stornieren
@@ -998,6 +1010,11 @@ de:
       description: Die Belegung findet demnächst statt. Allenfalls muss noch die genaue Übergabezeit mit dem Mieter geklärt werden.
       label: Belegung (demnächst)
       relevant_time: Beginn der Belegung %{time}
+    waitlisted_request:
+      description: Die Anfrage ist auf der Warteliste
+      label: Mietanfrage (Warteliste)
+      public_info: Deine Mietanfrage ist auf der Warteliste.
+      relevant_time: Eingereicht %{time}
   clone: Duplizieren
   confirm: Sind Sie sicher?
   contracts:
@@ -2626,6 +2643,26 @@ de:
         <p>{{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.description }}</p>
       default_title: Verbrauchsformular
       description: Text für Verbrauchsformular
+    waitlisted_request_notification:
+      default_body: |
+        <p>{{ booking.tenant.salutation }}</p>
+
+        <p>Wir haben deine Mietanfrage für {{ booking.home.name }} in die Warteliste aufgenommen. Wir melden uns, wenn es etwas neues gibt.</p>
+
+        <p><strong>Reservationsdetails</strong></p>
+
+        <ul>
+          <li>Buchungsreferenz: {{ booking.ref }}</li>
+          <li>Lagerhaus: {{booking.home.name}}</li>
+          <li>Reservation: {{ booking.begins_at | datetime_format }} bis {{ booking.ends_at | datetime_format }}</li>
+          <li>Organisation: {{ booking.tenant_organisation }}</li>
+          <li>Mietzweck: {{ booking.category.title }}: {{ booking.purpose_description }}</li>
+          <li>Bemerkungen: {{ booking.remarks }}</li>
+        </ul>
+
+        <p><a href="{{booking.links.show}}">{{booking.links.show}}</a></p>
+      default_title: Mietanfrage auf der Warteliste
+      description: Benachrichtigung für Mietanfrage auf der Warteliste (Mieter)
   show: Anzeigen
   support:
     array:

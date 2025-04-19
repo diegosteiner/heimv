@@ -217,10 +217,10 @@ describe Export::Taf::Builder, type: :model do
             Orig=1
 
             {Bk
-              AccId=1025
+              AccId=1050
               Date=24.12.2024
               Text="Zahlung 240001"
-              Type=0
+              Type=1
               ValNt=999.99
               PkKey=#{booking.tenant.ref}
               OpId=240001
@@ -228,10 +228,10 @@ describe Export::Taf::Builder, type: :model do
             }
 
             {Bk
-              AccId=1050
+              AccId=1025
               Date=24.12.2024
               Text="Zahlung 240001"
-              Type=1
+              Type=0
               ValNt=999.99
 
             }

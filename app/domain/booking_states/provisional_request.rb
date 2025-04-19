@@ -10,10 +10,6 @@ module BookingStates
       BookingStateChecklistItem.prepare(:offer_created, booking:)
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def self.to_sym
       :provisional_request
     end
@@ -23,14 +19,18 @@ module BookingStates
     end
 
     after_transition do |booking|
+      booking.tentative!
       booking.create_deadline(length: booking.organisation.deadline_settings.provisional_request_deadline,
                               postponable_for: booking.organisation.deadline_settings.deadline_postponable_for,
                               remarks: booking.booking_state.t(:label))
-      booking.tentative!
       next if booking.committed_request
 
-      mail = MailTemplate.use(:provisional_request_notification, booking, to: :tenant)
-      mail&.autodeliver!
+      MailTemplate.use(:provisional_request_notification, booking, to: :tenant, &:autodeliver!)
+    end
+
+    guard_transition do |booking|
+      booking.organisation.booking_state_settings.enable_provisional_request &&
+        !booking.conflicting?(%i[occupied tentative])
     end
 
     infer_transition(to: :definitive_request) do |booking|

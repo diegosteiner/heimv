@@ -8,7 +8,7 @@ describe BookingStates::DefinitiveRequest do
     state BookingStates::DefinitiveRequest
   end
   let(:organisation) { create(:organisation, :with_templates, booking_flow_class:) }
-  subject(:booking) { create(:booking, organisation:, committed_request: false) }
+  subject(:booking) { create(:booking, organisation:, committed_request: true) }
   subject(:transition) { booking.booking_flow.transition_to(described_class.to_sym) }
   subject(:transitioned_booking) do
     booking.booking_flow.transition_to(described_class.to_sym)

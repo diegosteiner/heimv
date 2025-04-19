@@ -9,10 +9,6 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def self.to_sym
       :awaiting_tenant
     end
@@ -22,7 +18,8 @@ module BookingStates
     end
 
     after_transition do |booking|
-      if occupied_occupancy_state?(booking)
+      booking.update(concluded: false) # in case it's reinstated from declined or cancelled
+      if occupied_booking_state?(booking)
         booking.occupied!
       elsif !booking.occupied?
         booking.tentative!
