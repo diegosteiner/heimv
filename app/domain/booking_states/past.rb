@@ -14,6 +14,7 @@ module BookingStates
     end
 
     after_transition do |booking|
+      OperatorResponsibility.assign(booking, :administration, :billing)
       MailTemplate.use(:past_notification, booking, to: :tenant, &:autodeliver!)
     end
 

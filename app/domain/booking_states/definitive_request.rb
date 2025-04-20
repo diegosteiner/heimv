@@ -36,6 +36,7 @@ module BookingStates
     end
 
     after_transition do |booking|
+      OperatorResponsibility.assign(booking, :administration, :billing)
       if occupied_booking_state?(booking)
         booking.occupied!
       elsif !booking.occupied?

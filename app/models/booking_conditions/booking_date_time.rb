@@ -76,9 +76,7 @@ module BookingConditions
     end
 
     def fullfills?(booking)
-      evaluate(booking) ||
-        evaluate_other_paradox_condition(booking) ||
-        (must_condition ? false : nil)
+      evaluate(booking) || evaluate_other_paradox_condition(booking) || (must_condition ? false : nil)
     end
   end
 end
