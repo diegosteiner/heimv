@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MigrateBookingStateSettings < ActiveRecord::Migration[8.0]
   def up
     execute <<-SQL.squish
@@ -16,8 +18,8 @@ class MigrateBookingStateSettings < ActiveRecord::Migration[8.0]
     SQL
 
     Organisation.find_each do |organisation|
-     organisation.booking_state_settings.editable_booking_states&.<<(:waitlisted_request)
-     organisation.save
+      organisation.booking_state_settings.editable_booking_states&.<<(:waitlisted_request)
+      organisation.save
     end
   end
 

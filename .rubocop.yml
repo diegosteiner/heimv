@@ -1,7 +1,9 @@
 plugins:
   - rubocop-rails
-  - rubocop-performance
-  # - rubocop-rspec
+  # - rubocop-performance
+  # - rubocop-rspec_rails
+  # - rubocop-capybara
+  # - rubocop-factory_bot
 
 AllCops:
   NewCops: enable
@@ -12,10 +14,11 @@ AllCops:
     - "public/**/*"
     - "tmp/**/*"
     - "db/schema.rb"
+    - "db/migrate/*_init_schema.rb"
     - "vendor/**/*"
     - "lib/**/*"
     - "node_modules/**/*"
-    - "db/seeders/*"
+    - "local/**/*"
     - ".git/**/*"
 
 Rails:
