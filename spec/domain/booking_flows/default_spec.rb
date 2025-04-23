@@ -2,20 +2,22 @@
 
 require 'rails_helper'
 describe BookingFlows::Default do
-  let(:home) { create(:home) }
-  let(:organisation) { create(:organisation, :with_templates) }
-  let(:booking) { create(:booking, organisation:, home:, committed_request:) }
-  let(:committed_request) { true }
   subject(:booking_flow) { described_class.new(booking) }
+
+  let(:home) { create(:home) }
   let(:conflicting) do
     create(:booking, organisation:, home:,
                      begins_at: booking.begins_at, ends_at: booking.ends_at,
                      initial_state: :upcoming).tap(&:occupied!)
   end
+  let(:organisation) { create(:organisation, :with_templates) }
+  let(:booking) { create(:booking, organisation:, home:, committed_request:) }
+  let(:committed_request) { true }
 
   describe '#transition_to' do
     describe 'to unconfirmed_request' do
       let(:committed_request) { false }
+
       it do
         is_expected.to transition_to(:unconfirmed_request).from(:initial)
         expect(booking).to be_tentative
@@ -25,35 +27,27 @@ describe BookingFlows::Default do
 
     describe 'to open_request' do
       let(:committed_request) { false }
+
       it { is_expected.to transition_to(:open_request).from(:initial) }
+
       it do
         is_expected.to transition_to(:open_request).from(:unconfirmed_request)
         expect(booking).to notify(:manage_new_booking_notification).to(:administration)
         expect(booking).to notify(:open_request_notification).to(:tenant)
         expect(booking).to be_tentative
       end
-
-      context 'with agent_booking' do
-        before do
-          booking_agent = create(:booking_agent, organisation:)
-          booking.build_agent_booking.update(booking_agent_code: booking_agent.code, organisation:)
-
-          it do
-            is_expected.to transition_to(:open_request).from(:initial)
-            expect(booking).to notify(:open_booking_agent_request_notification).to(:booking_agent)
-            expect(booking).not_to notify(:open_request_notification).to(:tenant)
-          end
-        end
-      end
     end
 
     describe 'to waitlisted_request' do
       let(:committed_request) { false }
+
       before { allow(organisation.booking_state_settings).to receive(:enable_waitlist).and_return(enable_waitlist) }
 
       context 'with waitlist enabled' do
         let(:enable_waitlist) { true }
+
         it { is_expected.to transition_to(:waitlisted_request).from(:initial) }
+
         it do
           is_expected.to transition_to(:waitlisted_request).from(:open_request)
           expect(booking).to notify(:waitlisted_request_notification).to(:tenant)
@@ -64,6 +58,7 @@ describe BookingFlows::Default do
 
       context 'without waitlist enabled' do
         let(:enable_waitlist) { false }
+
         it { is_expected.not_to transition_to(:waitlisted_request).from(:initial) }
         it { is_expected.not_to transition_to(:waitlisted_request).from(:open_request) }
       end
@@ -71,13 +66,16 @@ describe BookingFlows::Default do
 
     describe 'to provisional_request' do
       let(:committed_request) { false }
+
       it { is_expected.to transition_to(:provisional_request).from(:initial) }
+
       it do
         is_expected.to transition_to(:provisional_request).from(:open_request)
         expect(booking).to be_tentative
         expect(booking.deadline).to be_armed
         expect(booking).to notify(:provisional_request_notification).to(:tenant)
       end
+
       it do
         is_expected.to transition_to(:provisional_request).from(:waitlisted_request)
         expect(booking).to be_tentative
@@ -87,6 +85,7 @@ describe BookingFlows::Default do
 
       context 'with existing booking at the same date' do
         before { conflicting }
+
         it { is_expected.not_to transition_to(:provisional_request).from(:initial) }
         it { is_expected.not_to transition_to(:provisional_request).from(:open_request) }
         it { is_expected.not_to transition_to(:provisional_request).from(:waitlisted_request) }
@@ -94,11 +93,13 @@ describe BookingFlows::Default do
 
       context 'with enable_waitlist' do
         before { conflicting.tentative! }
+
         it { is_expected.not_to transition_to(:provisional_request).from(:open_request) }
       end
 
       context 'without enable_provisional_request' do
         before { allow(organisation.booking_state_settings).to receive(:enable_provisional_request).and_return(false) }
+
         it { is_expected.not_to transition_to(:provisional_request).from(:initial) }
         it { is_expected.not_to transition_to(:provisional_request).from(:open_request) }
         it { is_expected.not_to transition_to(:provisional_request).from(:waitlisted_request) }
@@ -108,6 +109,7 @@ describe BookingFlows::Default do
 
     describe 'to booking_agent_request' do
       let(:committed_request) { false }
+
       before do
         booking_agent = create(:booking_agent, organisation:)
         booking.build_agent_booking.update(booking_agent_code: booking_agent.code, organisation:)
@@ -122,6 +124,7 @@ describe BookingFlows::Default do
 
       context 'with existing booking at the same date' do
         before { conflicting }
+
         it { is_expected.not_to transition_to(:booking_agent_request).from(:initial) }
         it { is_expected.not_to transition_to(:booking_agent_request).from(:open_request) }
       end
@@ -134,6 +137,7 @@ describe BookingFlows::Default do
       end
 
       it { is_expected.to transition_to(:awaiting_tenant).from(:initial) }
+
       it do
         is_expected.to transition_to(:awaiting_tenant).from(:booking_agent_request)
         expect(booking).to be_occupied
@@ -159,6 +163,7 @@ describe BookingFlows::Default do
 
         it { is_expected.to transition_to(:definitive_request).from(:initial) }
         it { is_expected.to transition_to(:definitive_request).from(:open_request) }
+
         it do
           is_expected.to transition_to(:definitive_request).from(:overdue_request)
           expect(booking).to be_occupied
@@ -184,6 +189,7 @@ describe BookingFlows::Default do
 
         context 'with existing booking at the same date' do
           before { conflicting }
+
           it { is_expected.not_to transition_to(:definitive_request).from(:provisional_request) }
           it { is_expected.not_to transition_to(:definitive_request).from(:waitlisted_request) }
         end
@@ -208,6 +214,7 @@ describe BookingFlows::Default do
       it { is_expected.to transition_to(:cancelled_request).from(:waitlisted_request) }
       it { is_expected.to transition_to(:cancelled_request).from(:overdue_request) }
       it { is_expected.not_to transition_to(:cancelled_request).from(:definitive_request) }
+
       it do
         is_expected.to transition_to(:cancelled_request).from(:provisional_request)
         expect(booking).to be_free
@@ -225,6 +232,7 @@ describe BookingFlows::Default do
       it { is_expected.to transition_to(:declined_request).from(:awaiting_tenant) }
       it { is_expected.to transition_to(:declined_request).from(:overdue_request) }
       it { is_expected.not_to transition_to(:declined_request).from(:definitive_request) }
+
       it do
         is_expected.to transition_to(:declined_request).from(:provisional_request)
         expect(booking).to be_free
@@ -267,6 +275,7 @@ describe BookingFlows::Default do
 
     describe 'to upcoming' do
       it { is_expected.to transition_to(:upcoming).from(:initial) }
+
       it do
         is_expected.to transition_to(:upcoming).from(:awaiting_contract)
         expect(booking).to be_occupied
@@ -300,6 +309,7 @@ describe BookingFlows::Default do
 
       context 'with invoice' do
         let!(:invoice) { create(:invoice, amount: 1000, booking:, payable_until: 2.weeks.from_now, sent_at: 1.day.ago) }
+
         it do
           is_expected.to transition_to(:payment_due).from(:past)
           expect(booking.deadline).to be_armed
@@ -333,19 +343,6 @@ describe BookingFlows::Default do
         expect(booking).to notify(:cancelled_notification).to(:tenant)
         expect(booking).to be_concluded
         expect(booking.deadline).to be_blank
-      end
-
-      context 'with agent_booking' do
-        before do
-          booking_agent = create(:booking_agent, organisation:)
-          booking.build_agent_booking.update(booking_agent_code: booking_agent.code, organisation:)
-
-          it do
-            is_expected.to transition_to(:cancelled).from(:cancelation_pending)
-            expect(booking).to notify(:booking_agent_cancelled_notification).to(:booking_agent)
-            expect(booking).to notify(:cancelled_notification).to(:tenant)
-          end
-        end
       end
     end
 

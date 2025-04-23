@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe Export::Taf::Builder, type: :model do
   subject(:builder) { described_class.new }
+
   let(:organisation) { create(:organisation, :with_accounting) }
   let(:booking) { create(:booking, organisation:, tenant:) }
   let(:vat_category) { create(:vat_category, organisation:, percentage: 50, accounting_vat_code: 'VAT50') }
@@ -11,6 +12,7 @@ describe Export::Taf::Builder, type: :model do
     create(:tenant, sequence_number: 200_002, first_name: 'Max', last_name: 'Müller', organisation:,
                     street_address: 'Bahnhofstr. 1', city: 'Bern', zipcode: 1234)
   end
+
   before do
     organisation.accounting_settings.rental_yield_vat_category_id = vat_category.id
     organisation.save!

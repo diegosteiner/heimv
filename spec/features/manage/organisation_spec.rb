@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Organisation', type: :feature do
+describe 'Organisation' do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:organisation_user) { create(:organisation_user, :admin, organisation:) }
   let(:user) { organisation_user.user }

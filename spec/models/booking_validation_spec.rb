@@ -15,7 +15,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingValidation, type: :model do
+RSpec.describe BookingValidation do
   let(:booking) { create(:booking, initial_state:, committed_request: false) }
   let(:organisation) { booking.organisation }
   let(:initial_state) { :provisional_request }
@@ -24,8 +24,9 @@ RSpec.describe BookingValidation, type: :model do
   let(:booking_validation) { create(:booking_validation, organisation:, enabling_conditions:, validating_conditions:) }
 
   describe '#booking_valid?' do
-    let(:validation_context) { :public_update }
     subject(:booking_valid) { booking_validation.booking_valid?(booking, validation_context:) }
+
+    let(:validation_context) { :public_update }
 
     context 'with matching check_on' do
       before do
@@ -38,6 +39,7 @@ RSpec.describe BookingValidation, type: :model do
 
     context 'without matching check_on' do
       let(:validation_context) { :manage_update }
+
       before do
         booking_validation.update(check_on: %i[public_create public_update])
         expect(booking_validation).not_to receive(:enabled_by_condition?)
@@ -58,6 +60,7 @@ RSpec.describe BookingValidation, type: :model do
 
   describe '#enabled_by_condition?' do
     subject(:enabled_by_condition) { booking_validation.enabled_by_condition?(booking) }
+
     let(:enabling_conditions) { [BookingConditions::AlwaysApply.new] }
 
     it { is_expected.to be(true) }
@@ -65,6 +68,7 @@ RSpec.describe BookingValidation, type: :model do
 
   describe '#valid_by_condition?' do
     subject(:valid_by_condition) { booking_validation.enabled_by_condition?(booking) }
+
     let(:validating_conditions) { [BookingConditions::AlwaysApply.new] }
 
     it { is_expected.to be(true) }

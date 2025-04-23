@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Session', :devise, type: :feature do
+describe 'Session', :devise do
   let(:organisation_user) { create(:organisation_user, :manager) }
   let(:user) { organisation_user.user }
 

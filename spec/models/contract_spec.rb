@@ -19,7 +19,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Contract, type: :model do
+RSpec.describe Contract do
   let(:organisation) { create(:organisation) }
   let(:booking) { create(:booking, organisation:) }
   let(:contract) { build(:contract, booking:) }

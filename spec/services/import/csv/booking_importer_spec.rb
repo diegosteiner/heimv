@@ -46,6 +46,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
       end
 
       it { expect(result).not_to be_ok }
+
       it do
         expect(result.errors.full_messages).to contain_exactly('#1 email ist nicht gültig',
                                                                '#1 tenant email ist nicht gültig')
@@ -65,7 +66,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
         ENDCSV
       end
 
-      it { bookings.each { |record| expect(record).to be_valid } }
+      it { expect(bookings).to all(be_valid) }
       it { expect(result).to be_ok }
 
       context 'with first booking' do

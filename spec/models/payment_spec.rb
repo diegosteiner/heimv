@@ -22,7 +22,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Payment, type: :model do
+RSpec.describe Payment do
   let(:booking) { create(:booking, notifications_enabled: true) }
   let!(:template) do
     create(:mail_template, key: :payment_confirmation_notification,

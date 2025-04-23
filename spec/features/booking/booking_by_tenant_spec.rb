@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Booking by tenant', :devise, type: :feature do
+describe 'Booking by tenant', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
@@ -59,7 +59,7 @@ describe 'Booking by tenant', :devise, type: :feature do
        awaiting_contract upcoming upcoming_soon active past payment_due completed]
   end
 
-  it 'flows through happy path' do
+  it 'flows through happy path' do # rubocop:disable RSpec/NoExpectationExample
     create_request
     confirm_request
     signin(user, user.password)
@@ -232,6 +232,7 @@ describe 'Booking by tenant', :devise, type: :feature do
         organisation.booking_state_settings.enable_waitlist = true
         organisation.save!
       end
+
       it 'returns no error' do
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
@@ -246,10 +247,12 @@ describe 'Booking by tenant', :devise, type: :feature do
         organisation.booking_state_settings.enable_waitlist = true
         organisation.save!
       end
+
       let!(:conflicting) do
         create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                          occupancy_type: :occupied, initial_state: :upcoming)
       end
+
       it 'returns error' do
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,

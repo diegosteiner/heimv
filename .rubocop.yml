@@ -1,7 +1,8 @@
 plugins:
   - rubocop-rails
   - rubocop-performance
-  # - rubocop-rspec_rails
+  - rubocop-rspec
+  - rubocop-rspec_rails
   - rubocop-capybara
   - rubocop-factory_bot
 
@@ -79,6 +80,52 @@ Style/SymbolProc:
 
 Style/SafeNavigationChainLength:
   Max: 3
+
+RSpec/MultipleExpectations:
+  Enabled: false
+  Max: 5
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+  Max: 10
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ExampleLength: 
+  Enabled: false
+
+RSpec/IndexedLet:
+  Enabled: false
+
+RSpec/ImplicitSubject:
+  Enabled: false 
+
+RSpec/SpecFilePathFormat:
+  Enabled: false
+RSpec/PendingWithoutReason:
+  Enabled: false
+RSpec/OverwritingSetup:
+  Enabled: false
+RSpec/StubbedMock:
+  Enabled: false
+RSpec/RepeatedExampleGroupDescription:
+  Enabled: false
+RSpec/ExpectInHook:
+  Enabled: false
+RSpec/MessageSpies:
+  Enabled: false
+RSpec/ContextWording:
+  Enabled: false
 
 # TODO: bug with false positives
 Lint/UnusedMethodArgument:

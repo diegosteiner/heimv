@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Booking by tenant', :devise, type: :feature do
+describe 'Booking by tenant', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:manager) { create(:organisation_user, :manager, organisation:) }
@@ -24,7 +24,7 @@ describe 'Booking by tenant', :devise, type: :feature do
     %w[provisional_request definitive_request]
   end
 
-  it 'flows through happy path' do
+  it 'flows through happy path' do # rubocop:disable RSpec/NoExpectationExample
     signin(user, user.password)
     create_booking
     update_booking

@@ -18,7 +18,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Deadline, type: :model do
+RSpec.describe Deadline do
   let(:booking) { create(:booking) }
   let(:deadline) { build(:deadline, booking:) }
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Booking by agent', :devise, type: :feature do
+describe 'Booking by agent', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
@@ -40,7 +40,7 @@ describe 'Booking by agent', :devise, type: :feature do
     %w[open_request booking_agent_request awaiting_tenant definitive_request]
   end
 
-  it 'flows through happy path' do
+  it 'flows through happy path' do # rubocop:disable RSpec/NoExpectationExample
     create_agent_booking_request
     signin(user, user.password)
     accept_booking
@@ -154,6 +154,7 @@ describe 'Booking by agent', :devise, type: :feature do
         organisation.booking_state_settings.enable_waitlist = true
         organisation.save!
       end
+
       it 'returns no error' do
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,

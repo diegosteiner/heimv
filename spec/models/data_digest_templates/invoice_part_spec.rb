@@ -17,12 +17,12 @@
 
 require 'rails_helper'
 
-RSpec.describe DataDigestTemplates::InvoicePart, type: :model do
-  subject(:data_digest_template) do
-    build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
-  end
+RSpec.describe DataDigestTemplates::InvoicePart do
   subject(:data_digest) { data_digest_template.data_digests.create }
 
+  let(:data_digest_template) do
+    build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
+  end
   let(:columns_config) { nil }
   let!(:invoice_parts) do
     create_list(:booking, 3, organisation:, home:).map do |booking|

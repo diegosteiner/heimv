@@ -20,7 +20,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingConditions::TenantAttribute, type: :model do
+RSpec.describe BookingConditions::TenantAttribute do
   describe '#evaluate' do
     subject { booking_condition.evaluate!(booking) }
 
@@ -39,6 +39,7 @@ RSpec.describe BookingConditions::TenantAttribute, type: :model do
 
       context 'with non-matching condition' do
         before { booking.tenant.update(country_code: :de) }
+
         let(:compare_operator) { :'=' }
         let(:compare_value) { 'FR' }
 
@@ -48,6 +49,7 @@ RSpec.describe BookingConditions::TenantAttribute, type: :model do
 
       context 'with matching condition' do
         before { booking.tenant.update(country_code: :ch) }
+
         let(:compare_operator) { :'=' }
         let(:compare_value) { 'CH' }
 

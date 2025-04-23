@@ -18,9 +18,9 @@
 
 require 'rails_helper'
 
-RSpec.describe RichTextTemplate, type: :model do
+RSpec.describe RichTextTemplate do
   before do
-    allow(RichTextTemplate).to receive(:template_key_valid?).and_return(true)
+    allow(described_class).to receive(:template_key_valid?).and_return(true)
   end
 
   describe 'by_key' do
@@ -34,25 +34,26 @@ RSpec.describe RichTextTemplate, type: :model do
   end
 
   describe '::define' do
+    after { described_class.definitions.delete(:test1) }
+
     it 'adds key to list' do
-      expect { RichTextTemplate.define(:test1) }.to change { RichTextTemplate.definitions.count }.by(1)
-      definition = RichTextTemplate.definitions[:test1]
-      expect(definition[:type]).to(eq(RichTextTemplate))
+      expect { described_class.define(:test1) }.to change { described_class.definitions.count }.by(1)
+      definition = described_class.definitions[:test1]
+      expect(definition[:type]).to(eq(described_class))
       expect(definition[:key]).to(eq(:test1))
     end
-
-    after { RichTextTemplate.definitions.delete(:test1) }
   end
 
   describe '#use' do
+    subject { rich_text_template.use(**context) }
+
     let(:key) { :test2 }
     let(:rich_text_template) { create(:rich_text_template, key:) }
     let(:booking) { create(:booking, organisation: rich_text_template.organisation) }
     let(:context) { { booking: } }
-    subject { rich_text_template.use(**context) }
 
-    before { RichTextTemplate.define(key, context: %i[booking]) }
-    after { RichTextTemplate.definitions.delete(key) }
+    before { described_class.define(key, context: %i[booking]) }
+    after { described_class.definitions.delete(key) }
 
     context 'with context' do
       it { is_expected.to be_a RichTextTemplate::InterpolationResult }
@@ -60,42 +61,37 @@ RSpec.describe RichTextTemplate, type: :model do
 
     context 'with missing context' do
       let(:context) { { nonexistant: booking } }
+
       it { expect { subject }.to raise_error(RichTextTemplate::InvalidContext) }
     end
   end
 
   describe '#interpolate' do
+    subject(:interpolated) { rich_text_template.interpolate(context) }
+
     let(:title) { '' }
     let(:body) { '' }
     let(:rich_text_template) { build(:rich_text_template, body:, title:) }
     let(:context) { { booking: create(:booking, initial_state: :open_request) } }
-    subject(:interpolated) { rich_text_template.interpolate(context) }
-
-    context 'with booking_condition filter', pending: true do
-      let(:body) do
-        <<~BODY
-          {% assign is_open_request = booking | booking_condition: "BookingState", "=", "open_request" %}
-          {% if is_open_request %}Nice!{% else %}Bummer{% endif %}
-        BODY
-      end
-
-      it { expect(interpolated.body.strip).to eq('Nice!') }
-    end
 
     describe 'with specific locale' do
+      subject(:interpolated) { rich_text_template.interpolate(context, locale: locale) }
+
       let(:rich_text_template) { build(:rich_text_template, body_i18n: { de: 'auf Deutsch', fr: 'en francais' }) }
       let(:locale) { :fr }
-      subject(:interpolated) { rich_text_template.interpolate(context, locale: locale) }
 
       it { expect(interpolated.body.strip).to eq('en francais') }
     end
   end
 
   describe '#load_locale_defaults' do
+    subject(:load_locale_defaults) { rich_text_template.load_locale_defaults }
+
     let(:key) { :email_contract_notification }
     let(:not_default_text) { 'Not the default' }
-    subject(:rich_text_template) { build(:rich_text_template, key:, title: not_default_text, body: not_default_text) }
-    subject(:load_locale_defaults) { rich_text_template.load_locale_defaults }
+
+    let(:rich_text_template) { build(:rich_text_template, key:, title: not_default_text, body: not_default_text) }
+
     it do
       expect(rich_text_template.body).to eq not_default_text
       expect(rich_text_template.title).to eq not_default_text
@@ -106,8 +102,9 @@ RSpec.describe RichTextTemplate, type: :model do
   end
 
   describe '::defautls_for_key' do
-    let(:key) { :email_contract_notification }
     subject(:defaults) { described_class.defaults_for_key(key:) }
+
+    let(:key) { :email_contract_notification }
 
     it do
       expect(defaults[:body_i18n][:de]).not_to be_blank

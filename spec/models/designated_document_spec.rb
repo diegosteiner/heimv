@@ -18,7 +18,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe DesignatedDocument, type: :model do
+RSpec.describe DesignatedDocument do
   let(:organisation) { create(:organisation) }
   let(:home) { create(:home, organisation:) }
   let(:document) { build(:designated_document, organisation:) }
@@ -86,9 +86,9 @@ RSpec.describe DesignatedDocument, type: :model do
       documents
 
       expect(for_booking.count).to eq(2)
-      expect(documents[:always].attach_to?(booking)).to be_truthy
-      expect(documents[:correct_home].attach_to?(booking)).to be_truthy
-      expect(documents[:wrong_home].attach_to?(booking)).to be_falsy
+      expect(documents[:always]).to be_attach_to(booking)
+      expect(documents[:correct_home]).to be_attach_to(booking)
+      expect(documents[:wrong_home]).not_to be_attach_to(booking)
     end
   end
 end

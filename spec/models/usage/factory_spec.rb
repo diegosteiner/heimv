@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Usage::Factory, type: :model do
+RSpec.describe Usage::Factory do
   let(:booking) { create(:booking, initial_state: :awaiting_contract) }
   let(:organisation) { booking.organisation }
   let(:builder) { described_class.new(booking) }
