@@ -52,7 +52,7 @@ describe 'User Management', :devise, :skip do
         click_link I18n.t('destroy')
       end
       expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: User.model_name.human)
-      expect(page).not_to have_content user.email
+      expect(page).to have_no_content user.email
     end
   end
 

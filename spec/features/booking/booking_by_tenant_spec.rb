@@ -237,7 +237,7 @@ describe 'Booking by tenant', :devise, type: :feature do
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
         submit_form
-        expect(page).not_to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_no_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
 

@@ -2,7 +2,7 @@ plugins:
   - rubocop-rails
   - rubocop-performance
   # - rubocop-rspec_rails
-  # - rubocop-capybara
+  - rubocop-capybara
   - rubocop-factory_bot
 
 AllCops:

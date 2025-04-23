@@ -34,11 +34,11 @@ describe 'Bookings', type: :feature do
   context Booking::Filter.to_s do
     it 'can search with the searchbar' do
       visit manage_root_path
-      find('#searchbar_query').fill_in with: definitive_request.ref
-      find('#searchbar button[type=submit]').click
+      find_by_id('searchbar_query').fill_in with: definitive_request.ref
+      within(id: 'searchbar') { click_button }
 
       expect(page).to have_content definitive_request.ref
-      bookings.each { expect(page).not_to have_content(it.ref) }
+      bookings.each { expect(page).to have_no_content(it.ref) }
     end
 
     it 'can search with the filter' do
@@ -51,7 +51,7 @@ describe 'Bookings', type: :feature do
       submit_form
 
       expect(page).to have_content definitive_request.ref
-      bookings.each { expect(page).not_to have_content(it.ref) }
+      bookings.each { expect(page).to have_no_content(it.ref) }
     end
   end
 end

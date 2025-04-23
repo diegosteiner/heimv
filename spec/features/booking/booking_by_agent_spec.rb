@@ -103,7 +103,7 @@ describe 'Booking by agent', :devise, type: :feature do
     expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: AgentBooking.model_name.human))
 
     click_button BookingActions::CommitBookingAgentRequest.t(:label)
-    expect(page).not_to have_content(I18n.t('flash.actions.update.alert', resource_name: AgentBooking.model_name.human))
+    expect(page).to have_no_content(I18n.t('flash.actions.update.alert', resource_name: AgentBooking.model_name.human))
   end
 
   def accept_booking
@@ -163,7 +163,7 @@ describe 'Booking by agent', :devise, type: :feature do
         choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
         fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
         fill_in 'agent_booking_booking_agent_ref', with: agent_ref
-        expect(page).not_to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+        expect(page).to have_no_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
       end
     end
   end
