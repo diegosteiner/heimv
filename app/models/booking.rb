@@ -235,7 +235,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def conflicting?(conflicting_occupancy_types = %i[occupied])
-    occupancies.any? { it.conflicting(conflicting_occupancy_types).exists? }
+    occupancies.any? { it.conflicting(conflicting_occupancy_types)&.exists? }
   end
 
   def booking_flow_class

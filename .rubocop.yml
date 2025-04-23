@@ -12,7 +12,6 @@ AllCops:
     - "public/**/*"
     - "tmp/**/*"
     - "db/schema.rb"
-    - "db/migrate/*"
     - "vendor/**/*"
     - "lib/**/*"
     - "node_modules/**/*"
@@ -24,8 +23,7 @@ Rails:
 
 Layout/LineLength:
   Max: 120
-  AllowedPatterns:
-    - !ruby/regexp /\A#/
+  AllowedPatterns: ['^(\s*#)']
 
 Metrics/ClassLength:
   Max: 150
