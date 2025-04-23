@@ -107,7 +107,8 @@ RSpec.describe JournalEntry do
       it 'creates new journal entries when the invoice is updated' do
         is_expected.to contain_exactly(
           have_attributes(trigger: 'invoice_created', amount: 420.0, processed?: be_truthy),
-          have_attributes(trigger: 'invoice_updated', amount: 420.0, processed?: be_falsy), have_attributes(trigger: 'invoice_updated', amount: 700.0, processed?: be_falsy)
+          have_attributes(trigger: 'invoice_updated', amount: 420.0, processed?: be_falsy),
+          have_attributes(trigger: 'invoice_updated', amount: 700.0, processed?: be_falsy)
         )
       end
     end

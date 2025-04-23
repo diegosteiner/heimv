@@ -28,13 +28,17 @@ RSpec.describe BookingValidation do
 
     let(:validation_context) { :public_update }
 
-    context 'with matching check_on' do
-      before do
-        expect(booking_validation).to receive(:enabled_by_condition?).with(booking).and_return(true)
-        expect(booking_validation).to receive(:valid_by_condition?).with(booking).and_return(true)
-      end
+    before do
+      allow(booking_validation).to receive(:enabled_by_condition?).with(booking).and_return(true)
+      allow(booking_validation).to receive(:valid_by_condition?).with(booking).and_return(true)
+    end
 
-      it { is_expected.to be(true) }
+    context 'with matching check_on' do
+      it 'checks the condition' do
+        is_expected.to be(true)
+        expect(booking_validation).to have_received(:enabled_by_condition?)
+        expect(booking_validation).to have_received(:valid_by_condition?)
+      end
     end
 
     context 'without matching check_on' do
@@ -42,19 +46,25 @@ RSpec.describe BookingValidation do
 
       before do
         booking_validation.update(check_on: %i[public_create public_update])
-        expect(booking_validation).not_to receive(:enabled_by_condition?)
       end
 
-      it { is_expected.to be(true) }
+      it 'checks the condition' do
+        is_expected.to be(true)
+        expect(booking_validation).not_to have_received(:enabled_by_condition?)
+        expect(booking_validation).to have_received(:valid_by_condition?)
+      end
     end
 
     context 'without enabling_condition' do
       before do
-        expect(booking_validation).to receive(:enabled_by_condition?).with(booking).and_return(false)
-        expect(booking_validation).not_to receive(:valid_by_condition?)
+        allow(booking_validation).to receive(:enabled_by_condition?).with(booking).and_return(false)
       end
 
-      it { is_expected.to be(true) }
+      it 'checks the condition' do
+        is_expected.to be(true)
+        expect(booking_validation).to have_received(:enabled_by_condition?)
+        expect(booking_validation).not_to have_received(:valid_by_condition?)
+      end
     end
   end
 

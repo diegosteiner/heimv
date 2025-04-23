@@ -91,6 +91,7 @@ RSpec.describe Notification do
     before do
       MailTemplate.define(key)
       notification.apply_template(mail_template)
+      allow(notification).to receive(:deliver).and_return(true)
     end
 
     after { MailTemplate.undefine(key) }
@@ -101,7 +102,7 @@ RSpec.describe Notification do
       it { expect(notification).to be_autodeliver }
 
       it do
-        expect(notification).to receive(:deliver).and_return(true)
+        expect(notification).to have_received(:deliver)
         expect(notification.autodeliver!).to be_truthy
       end
     end
@@ -112,7 +113,7 @@ RSpec.describe Notification do
       it { expect(notification).not_to be_autodeliver }
 
       it do
-        expect(notification).not_to receive(:deliver)
+        expect(notification).not_to have_received(:deliver)
         expect(notification.autodeliver!).to be_falsy
         expect(notification).to be_persisted
       end

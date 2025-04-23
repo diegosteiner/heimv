@@ -13,7 +13,7 @@ describe 'User Management', :devise, :skip do
   let(:user) { organisation_user.user }
   let!(:users) { create_list(:organisation_user, 4, organisation:) }
 
-  context 'as manager' do
+  context 'with a manager' do
     before { login_as(manager, scope: :user) }
 
     it 'see all email addresses on the index' do
@@ -56,7 +56,7 @@ describe 'User Management', :devise, :skip do
     end
   end
 
-  context 'as unprivileged user' do
+  context 'with an unprivileged user' do
     it 'get denied' do
       login_as(user, scope: :user)
       visit manage_organisation_users_path
