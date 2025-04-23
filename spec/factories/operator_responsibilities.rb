@@ -18,7 +18,7 @@
 FactoryBot.define do
   factory :operator_responsibility do
     organisation
-    operator { build(:operator, organisation:) }
+    operator { association(:operator, organisation:) }
     responsibility { :home_handover }
     remarks { 'Some remarks about the responsibility' }
   end
