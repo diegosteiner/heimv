@@ -6,7 +6,9 @@ describe 'Data Digests', :devise do
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
   let(:booking) { create(:booking, organisation:, home:, skip_infer_transitions: false) }
-  let!(:data_digest_template) { create(:data_digest_template, type: DataDigestTemplates::Booking, organisation:) }
+  let!(:data_digest_template) do
+    create(:data_digest_template, label: 'Testdigest', type: DataDigestTemplates::Booking, organisation:)
+  end
 
   before do
     signin(user, user.password)
