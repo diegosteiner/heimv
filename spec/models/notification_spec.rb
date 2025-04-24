@@ -131,8 +131,7 @@ RSpec.describe Notification do
     it do
       expect(notification.sent_at).to be_nil
       expect { message }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(message.to).to eq([tenant.email])
-      expect(message.subject).to eq(notification.subject)
+      expect(message).to have_attributes(to: eq([tenant.email]), subject: eq(notification.subject))
       expect(message.text_part.decoded).to eq(notification.body)
       notification.reload
       expect(notification.sent_at).not_to be_nil

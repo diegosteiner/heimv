@@ -42,7 +42,7 @@ RSpec.describe JournalEntry do
       ]
     end
 
-    it 'builds the journal entry and fragments' do
+    it 'builds the journal entry and fragments' do # rubocop:disable RSpec/ExampleLength
       expect(journal_entries.map(&:save)).to all(be_truthy)
       expect(journal_entries).to contain_exactly(
         have_attributes(booking:, ref: 'test1'),
@@ -78,7 +78,7 @@ RSpec.describe JournalEntry do
       organisation.save
     end
 
-    it 'creates to correct journal_entries' do
+    it 'creates to correct journal_entries' do # rubocop:disable RSpec/ExampleLength
       is_expected.to all(be_balanced)
       is_expected.to match_array(
         have_attributes(date: Date.new(2024, 12, 27), trigger: 'invoice_created', ref: '250001', amount: 420.0)

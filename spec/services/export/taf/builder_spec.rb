@@ -27,7 +27,7 @@ describe Export::Taf::Builder, type: :model do
                                text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
-      it do
+      it do # rubocop:disable RSpec/ExampleLength
         builder.journal_entry(journal_entry)
         expect(builder.blocks).to all(be_a(Export::Taf::Block))
         expect(builder.blocks.first.to_s).to eq(<<~TAF.chomp)
@@ -71,7 +71,7 @@ describe Export::Taf::Builder, type: :model do
       let(:invoice) { booking.invoices.last }
       let(:journal_entry) { JournalEntry.where(booking:, invoice:, payment: nil).last }
 
-      it do
+      it do # rubocop:disable RSpec/ExampleLength
         builder.journal_entry(journal_entry)
         expect(builder.blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
           {Adr
@@ -210,7 +210,7 @@ describe Export::Taf::Builder, type: :model do
         JournalEntry.where(booking:, invoice:, payment: nil).update_all(processed_at: 1.month.ago) # rubocop:disable Rails/SkipsModelValidations
       end
 
-      it do
+      it do # rubocop:disable RSpec/ExampleLength
         builder.journal_entry(journal_entry)
         expect(builder.blocks).to all(be_a(Export::Taf::Block))
         expect(builder.blocks.first.to_s).to eq(<<~TAF.chomp)
@@ -244,7 +244,7 @@ describe Export::Taf::Builder, type: :model do
   end
 
   describe '#tenant' do
-    it do
+    it do # rubocop:disable RSpec/ExampleLength
       builder.tenant(tenant)
       expect(builder.blocks).to contain_exactly(be_a(Export::Taf::Block), be_a(Export::Taf::Block))
       expect(builder.blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)

@@ -60,7 +60,7 @@ describe 'Booking by tenant', :devise do
     end
   end
 
-  it 'flows through happy path' do # rubocop:disable RSpec/NoExpectationExample
+  it 'flows through happy path' do # rubocop:disable RSpec/NoExpectationExample,RSpec/ExampleLength
     create_request
     confirm_request
     signin(user, user.password)

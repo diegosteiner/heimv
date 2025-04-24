@@ -112,9 +112,8 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
         end
 
         it do
-          expect(booking.tenant.first_name).to eq('Peter')
-          expect(booking.tenant.last_name).to eq('Muster')
-          expect(booking.tenant.email).to eq('tenant22@heimv.local')
+          expect(booking.tenant).to have_attributes(first_name: eq('Peter'), last_name: eq('Muster'),
+                                                    email: eq('tenant22@heimv.local'))
           expect(booking.booking_state).to be_a(BookingStates::DefinitiveRequest)
           expect(booking.committed_request).to be_truthy
           expect(booking).to be_occupied

@@ -10,12 +10,8 @@ RSpec.describe ComparableDatetime, type: :model do
       let(:value) { Date.new(2024, 9, 2) }
 
       it 'uses date' do
-        expect(compare_value.year).to eq(2024)
-        expect(compare_value.month).to eq(9)
-        expect(compare_value.day).to eq(2)
-        expect(compare_value.hour).to be_falsy
-        expect(compare_value.minute).to be_falsy
-        expect(compare_value.weekday).to eq(1)
+        is_expected.to have_attributes(year: eq(2024), month: eq(9), day: eq(2), hour: be_falsy,
+                                       minute: be_falsy, weekday: eq(1))
       end
     end
 
@@ -23,12 +19,8 @@ RSpec.describe ComparableDatetime, type: :model do
       let(:value) { Time.zone.local(2024, 9, 2, 12, 55) }
 
       it 'uses datetime in utc' do
-        expect(compare_value.year).to eq(2024)
-        expect(compare_value.month).to eq(9)
-        expect(compare_value.day).to eq(2)
-        expect(compare_value.hour).to eq(12)
-        expect(compare_value.minute).to eq(55)
-        expect(compare_value.weekday).to eq(1)
+        is_expected.to have_attributes(year: eq(2024), month: eq(9), day: eq(2), hour: eq(12),
+                                       minute: eq(55), weekday: eq(1))
       end
     end
 

@@ -95,6 +95,12 @@ RSpec/NestedGroups:
   Exclude:
     - "spec/domain/booking_flows/*_spec.rb"
 
+RSpec/MultipleExpectations:
+  Max: 5
+
+RSpec/ExampleLength: 
+  Max: 10
+
 # TODO: bug with false positives
 Style/SymbolProc:
   Enabled: false
@@ -111,14 +117,6 @@ Style/RedundantDoubleSplatHashBraces:
 Rails/UniqueValidationWithoutIndex:
   Enabled: false
 
-# TODO: enable
-
-RSpec/MultipleExpectations:
-  Enabled: false
-  Max: 5
-
-RSpec/ExampleLength: 
-  Enabled: false
 
 RSpec/PendingWithoutReason:
   Enabled: false
