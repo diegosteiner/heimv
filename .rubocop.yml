@@ -101,23 +101,12 @@ RSpec/MultipleExpectations:
 RSpec/ExampleLength: 
   Max: 10
 
-# TODO: bug with false positives
 Style/SymbolProc:
-  Enabled: false
+  # bug with false positives
+  Exclude:
+    - "app/domain/booking_states/**/*.rb"
+    - "app/serializers/**/*.rb"
 
 # TODO: bug with false positives
 Lint/UnusedMethodArgument:
   Enabled: false
-
-# TODO: bug with false positives
-Style/RedundantDoubleSplatHashBraces:
-  Enabled: false
-
-# TODO: bug
-Rails/UniqueValidationWithoutIndex:
-  Enabled: false
-
-
-RSpec/PendingWithoutReason:
-  Enabled: false
-
