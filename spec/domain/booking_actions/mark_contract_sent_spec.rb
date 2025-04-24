@@ -12,9 +12,9 @@ describe BookingActions::MarkContractSent do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:booking) { create(:booking, organisation:, initial_state:) }
   let(:initial_state) { :definitive_request }
-  let!(:contract) { create(:contract, booking:) }
-
   let(:invoke) { action.invoke }
+
+  before { create(:contract, booking:) }
 
   describe '#invokable?' do
     subject(:allowed) { action.invokable? }

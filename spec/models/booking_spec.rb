@@ -88,7 +88,8 @@ describe Booking do
 
     context 'with agent_booking' do
       let(:booking_agent) { create(:booking_agent, organisation:) }
-      let!(:agent_booking) { create(:agent_booking, organisation:, booking:, booking_agent_code: booking_agent.code) }
+
+      before { create(:agent_booking, organisation:, booking:, booking_agent_code: booking_agent.code) }
 
       it { expect(roles[:booking_agent]).to eq(booking_agent) }
     end

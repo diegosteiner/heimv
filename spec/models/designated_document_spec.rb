@@ -58,9 +58,9 @@ RSpec.describe DesignatedDocument do
 
     it do
       documents
-      expect(subject).to include(documents[:with_matching_locale])
-      expect(subject).to include(documents[:without_locale])
-      expect(subject).not_to include(documents[:without_matching_locale])
+      expect(with_locale).to include(documents[:with_matching_locale])
+      expect(with_locale).to include(documents[:without_locale])
+      expect(with_locale).not_to include(documents[:without_matching_locale])
     end
   end
 

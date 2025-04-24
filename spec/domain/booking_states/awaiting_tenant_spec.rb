@@ -14,11 +14,10 @@ describe BookingStates::AwaitingTenant do
 
   let(:organisation) { create(:organisation, :with_templates, booking_flow_class:) }
   let(:booking_agent) { create(:booking_agent, organisation:) }
-  let!(:agent_booking) { create(:agent_booking, booking:, booking_agent_code: booking_agent.code) }
-
   let(:booking) { create(:booking, organisation:, committed_request: false) }
-
   let(:transition) { booking.booking_flow.transition_to(described_class.to_sym) }
+
+  before { create(:agent_booking, booking:, booking_agent_code: booking_agent.code) }
 
   describe 'transition' do
     it { expect(transitioned_booking.booking_state).to(be_a(described_class)) }

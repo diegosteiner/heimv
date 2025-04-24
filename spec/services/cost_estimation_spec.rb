@@ -21,9 +21,11 @@ RSpec.describe CostEstimation, type: :model do
   end
 
   describe '#invoiced' do
-    let!(:invoices) { create_list(:invoice, 2, booking:, amount: 500) }
-    let!(:deposits) { create_list(:deposit, 2, booking:, amount: 250) }
-    let!(:payments) { invoices.map { |invoice| create(:payment, invoice:, amount: 100) } }
+    before do
+      invoices = create_list(:invoice, 2, booking:, amount: 500)
+      create_list(:deposit, 2, booking:, amount: 250)
+      invoices.map { |invoice| create(:payment, invoice:, amount: 100) }
+    end
 
     it 'returns sums for invoices' do
       expect(estimation.invoiced).to eq(1000)

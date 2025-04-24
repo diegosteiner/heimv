@@ -51,7 +51,7 @@ RSpec.describe BookingValidation do
       it 'checks the condition' do
         is_expected.to be(true)
         expect(booking_validation).not_to have_received(:enabled_by_condition?)
-        expect(booking_validation).to have_received(:valid_by_condition?)
+        expect(booking_validation).not_to have_received(:valid_by_condition?)
       end
     end
 

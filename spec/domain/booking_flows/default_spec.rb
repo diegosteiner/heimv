@@ -308,7 +308,7 @@ describe BookingFlows::Default do
       it { is_expected.to transition_to(:payment_due).from(:past) }
 
       context 'with invoice' do
-        let!(:invoice) { create(:invoice, amount: 1000, booking:, payable_until: 2.weeks.from_now, sent_at: 1.day.ago) }
+        before { create(:invoice, amount: 1000, booking:, payable_until: 2.weeks.from_now, sent_at: 1.day.ago) }
 
         it do
           is_expected.to transition_to(:payment_due).from(:past)

@@ -24,7 +24,11 @@ RSpec.describe DataDigestTemplates::InvoicePart do
     build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
   end
   let(:columns_config) { nil }
-  let!(:invoice_parts) do
+  let(:home) { create(:home, organisation:) }
+  let(:organisation) { create(:organisation) }
+  let(:tarifs) { create_list(:tarif, 4, organisation:) }
+
+  before do
     create_list(:booking, 3, organisation:, home:).map do |booking|
       invoice = create(:invoice, booking:)
       tarifs.map do |tarif|
@@ -32,12 +36,6 @@ RSpec.describe DataDigestTemplates::InvoicePart do
         create(:invoice_part, invoice:, usage:)
       end
     end.flatten
-  end
-  let(:home) { create(:home, organisation:) }
-  let(:organisation) { create(:organisation) }
-  let(:tarifs) { create_list(:tarif, 4, organisation:) }
-
-  before do
     data_digest.crunch!
   end
 

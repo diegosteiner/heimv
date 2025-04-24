@@ -54,7 +54,7 @@ RSpec.describe Deadline do
       end
     end
 
-    context 'with length not set' do
+    context 'with length set to 0' do
       let(:length) { 0 }
 
       it 'creates unarmed deadline' do

@@ -44,7 +44,8 @@ RSpec.describe Notification do
 
     context 'with booking_agent' do
       let(:booking_agent) { create(:booking_agent, organisation:) }
-      let!(:agent_booking) { booking.create_agent_booking(organisation:, booking_agent_code: booking_agent.code) }
+
+      before { booking.create_agent_booking(organisation:, booking_agent_code: booking_agent.code) }
 
       it do
         notification.to = booking_agent
@@ -82,7 +83,7 @@ RSpec.describe Notification do
   end
 
   describe '#autodeliver' do
-    subject(:autodeliver) { notification.autodeliver }
+    subject { notification.autodeliver }
 
     let(:autodeliver) { nil }
     let(:key) { :test_autodeliver }
@@ -102,6 +103,7 @@ RSpec.describe Notification do
       it { expect(notification).to be_autodeliver }
 
       it do
+        is_expected.to be_truthy
         expect(notification).to have_received(:deliver)
         expect(notification.autodeliver!).to be_truthy
       end

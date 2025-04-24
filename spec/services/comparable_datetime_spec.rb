@@ -34,7 +34,7 @@ RSpec.describe ComparableDatetime, type: :model do
 
     context 'with string' do
       it 'parses the date string' do
-        expect(described_class.from_string('')).to be_nil
+        expect(described_class.from_string('')).to eq(nil) # rubocop:disable RSpec/BeEq
         expect(described_class.from_string('2024-*-*')).to eq(described_class.from_value(year: 2024))
         expect(described_class.from_string('*-09-*')).to eq(described_class.from_value(month: 9))
         expect(described_class.from_string('*-*-3')).to eq(described_class.from_value(day: 3))

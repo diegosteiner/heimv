@@ -18,7 +18,7 @@ describe BookingActions::PostponeDeadline do
   end
 
   context 'when deadline is not postponable' do
-    let!(:deadline) { create(:deadline, booking:, postponable_for: nil) }
+    before { create(:deadline, booking:, postponable_for: nil) }
 
     it { is_expected.to have_attributes(error: BookingActions::Base.translate(:not_allowed)) }
   end

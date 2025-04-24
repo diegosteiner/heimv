@@ -7,12 +7,6 @@ describe 'Booking by tenant', :devise do
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
   let(:tenant) { create(:tenant, organisation:) }
-  let!(:responsibilities) do
-    OperatorResponsibility.responsibilities.keys.map do |responsibility|
-      create(:operator_responsibility, organisation:, responsibility:,
-                                       assigning_conditions: [BookingConditions::AlwaysApply.new])
-    end
-  end
   let(:deposit_tarifs) do
     create(:tarif, organisation:, tarif_group: 'Akontorechnung',
                    associated_types: %i[deposit offer contract])
@@ -57,6 +51,13 @@ describe 'Booking by tenant', :devise do
   let(:expected_transitions) do
     %w[unconfirmed_request open_request provisional_request definitive_request
        awaiting_contract upcoming upcoming_soon active past payment_due completed]
+  end
+
+  before do
+    OperatorResponsibility.responsibilities.keys.map do |responsibility|
+      create(:operator_responsibility, organisation:, responsibility:,
+                                       assigning_conditions: [BookingConditions::AlwaysApply.new])
+    end
   end
 
   it 'flows through happy path' do # rubocop:disable RSpec/NoExpectationExample
@@ -212,7 +213,7 @@ describe 'Booking by tenant', :devise do
   end
 
   describe 'check conflicting bookings' do
-    let!(:conflicting) do
+    before do
       create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                        occupancy_type: :tentative, initial_state: :provisional_request)
     end
@@ -246,9 +247,6 @@ describe 'Booking by tenant', :devise do
       before do
         organisation.booking_state_settings.enable_waitlist = true
         organisation.save!
-      end
-
-      let!(:conflicting) do
         create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                          occupancy_type: :occupied, initial_state: :upcoming)
       end

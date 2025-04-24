@@ -24,12 +24,12 @@ require 'rails_helper'
 
 RSpec.describe Payment do
   let(:booking) { create(:booking, notifications_enabled: true) }
-  let!(:template) do
-    create(:mail_template, key: :payment_confirmation_notification,
-                           organisation: booking.organisation,
+  let(:payment) { create(:payment, booking:, invoice: nil, confirm: true) }
+
+  before do
+    create(:mail_template, key: :payment_confirmation_notification, organisation: booking.organisation,
                            body: '{{ payment.amount }}')
   end
-  let(:payment) { create(:payment, booking:, invoice: nil, confirm: true) }
 
   describe '#email_payment_confirmation' do
     subject(:mail) { payment.email_payment_confirmation }

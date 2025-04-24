@@ -69,7 +69,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
       it { expect(bookings).to all(be_valid) }
       it { expect(result).to be_ok }
 
-      context 'with first booking' do
+      context 'with first booking' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:booking) { bookings.first }
 
         it do
@@ -103,7 +103,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
         expect(bookings).to all(be_valid)
       }
 
-      context 'with first booking' do
+      context 'with first booking' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:booking) { bookings.first }
 
         it do
@@ -121,7 +121,7 @@ RSpec.describe Import::Csv::BookingImporter, type: :model do
         end
       end
 
-      context 'with second booking' do
+      context 'with second booking' do # rubocop:disable RSpec/MultipleMemoizedHelpers
         let(:booking) { bookings.second }
 
         it do

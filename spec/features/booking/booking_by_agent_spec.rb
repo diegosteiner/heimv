@@ -129,7 +129,7 @@ describe 'Booking by agent', :devise do
   end
 
   describe 'check conflicting bookings' do
-    let!(:conflicting) do
+    before do
       create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                        occupancy_type: :tentative, initial_state: :provisional_request)
     end

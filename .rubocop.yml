@@ -78,6 +78,23 @@ Style/GlobalVars:
 Style/SafeNavigationChainLength:
   Max: 3
 
+RSpec/ImplicitSubject:
+  Enabled: false 
+
+RSpec/InstanceVariable:
+  Exclude:
+    - "spec/features/booking/**/*_spec.rb"
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+  Exclude:
+    - "spec/features/booking/**/*_spec.rb"
+
+RSpec/NestedGroups:
+  Max: 4
+  Exclude:
+    - "spec/domain/booking_flows/*_spec.rb"
+
 # TODO: bug with false positives
 Style/SymbolProc:
   Enabled: false
@@ -100,37 +117,9 @@ RSpec/MultipleExpectations:
   Enabled: false
   Max: 5
 
-RSpec/MultipleMemoizedHelpers:
-  Enabled: false
-  Max: 10
-
-RSpec/NamedSubject:
-  Enabled: false
-
-RSpec/InstanceVariable:
-  Enabled: false
-
-RSpec/LetSetup:
-  Enabled: false
-
-RSpec/NestedGroups:
-  Enabled: false
-
 RSpec/ExampleLength: 
   Enabled: false
 
-RSpec/IndexedLet:
-  Enabled: false
-
-RSpec/ImplicitSubject:
-  Enabled: false 
-
 RSpec/PendingWithoutReason:
-  Enabled: false
-RSpec/OverwritingSetup:
-  Enabled: false
-RSpec/StubbedMock:
-  Enabled: false
-RSpec/RepeatedExampleGroupDescription:
   Enabled: false
 

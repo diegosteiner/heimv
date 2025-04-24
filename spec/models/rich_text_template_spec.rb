@@ -45,7 +45,7 @@ RSpec.describe RichTextTemplate do
   end
 
   describe '#use' do
-    subject { rich_text_template.use(**context) }
+    subject(:use) { rich_text_template.use(**context) }
 
     let(:key) { :test2 }
     let(:rich_text_template) { create(:rich_text_template, key:) }
@@ -62,7 +62,7 @@ RSpec.describe RichTextTemplate do
     context 'with missing context' do
       let(:context) { { nonexistant: booking } }
 
-      it { expect { subject }.to raise_error(RichTextTemplate::InvalidContext) }
+      it { expect { use }.to raise_error(RichTextTemplate::InvalidContext) }
     end
   end
 

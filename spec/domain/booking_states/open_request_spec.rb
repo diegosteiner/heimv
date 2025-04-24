@@ -26,7 +26,8 @@ describe BookingStates::OpenRequest do
 
     context 'with booking_agent' do
       let(:booking_agent) { create(:booking_agent, organisation:) }
-      let!(:agent_booking) { create(:agent_booking, booking:, booking_agent_code: booking_agent.code) }
+
+      before { create(:agent_booking, booking:, booking_agent_code: booking_agent.code) }
 
       it { expect(transitioned_booking).to notify(:open_booking_agent_request_notification).to(:booking_agent) }
     end
