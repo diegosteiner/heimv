@@ -15,14 +15,14 @@ describe 'Data Digests', :devise do
   end
 
   it 'can create new data digest' do
-    name = 'Test Data Digest 123'
+    label = 'Test Data Digest 123'
     visit new_manage_data_digest_template_path(type: DataDigestTemplates::Booking, org: organisation)
-    fill_in :data_digest_template_label, with: name
+    fill_in :data_digest_template_label, with: label
     submit_form
 
     expect(page).to have_content I18n.t('flash.actions.create.notice',
                                         resource_name: DataDigestTemplates::Booking.model_name.human)
-    expect(page).to have_content name
+    expect(page).to have_content label
   end
 
   it 'can see a booking' do

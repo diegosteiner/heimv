@@ -40,7 +40,9 @@ class BookingStateChecklistItem
     contract_signed: lambda do |booking|
       BookingStateChecklistItem.new(key: :contract_signed, context: { booking: },
                                     checked: booking.contracts.signed.exists?,
-                                    url: proc { manage_booking_contracts_path(it.booking) })
+                                    url: proc {
+                                      manage_booking_prepare_action_path(it.booking, id: :mark_contract_signed)
+                                    })
     end,
 
     tarifs_chosen: lambda do |booking|
