@@ -19,7 +19,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Notification, type: :model do
+RSpec.describe Notification do
   let(:booking) { create(:booking, locale: :it, organisation:) }
   let(:organisation) { create(:organisation, locale: :fr) }
   let(:notification) { build(:notification, booking:, to: :tenant) }
@@ -44,7 +44,9 @@ RSpec.describe Notification, type: :model do
 
     context 'with booking_agent' do
       let(:booking_agent) { create(:booking_agent, organisation:) }
-      let!(:agent_booking) { booking.create_agent_booking(organisation:, booking_agent_code: booking_agent.code) }
+
+      before { booking.create_agent_booking(organisation:, booking_agent_code: booking_agent.code) }
+
       it do
         notification.to = booking_agent
         notification.save
@@ -81,20 +83,28 @@ RSpec.describe Notification, type: :model do
   end
 
   describe '#autodeliver' do
-    subject(:autodeliver) { notification.autodeliver }
+    subject { notification.autodeliver }
+
     let(:autodeliver) { nil }
     let(:key) { :test_autodeliver }
     let(:mail_template) { create(:mail_template, key:, organisation: notification.organisation, autodeliver:) }
-    before { MailTemplate.define(key) }
+
+    before do
+      MailTemplate.define(key)
+      notification.apply_template(mail_template)
+      allow(notification).to receive(:deliver).and_return(true)
+    end
+
     after { MailTemplate.undefine(key) }
-    before { notification.apply_template(mail_template) }
 
     context 'with autodeliver' do
       let(:autodeliver) { true }
 
-      it { expect(notification.autodeliver?).to be_truthy }
+      it { expect(notification).to be_autodeliver }
+
       it do
-        expect(notification).to receive(:deliver).and_return(true)
+        is_expected.to be_truthy
+        expect(notification).to have_received(:deliver)
         expect(notification.autodeliver!).to be_truthy
       end
     end
@@ -102,9 +112,10 @@ RSpec.describe Notification, type: :model do
     context 'without autodeliver' do
       let(:autodeliver) { nil }
 
-      it { expect(notification.autodeliver?).to be_falsy }
+      it { expect(notification).not_to be_autodeliver }
+
       it do
-        expect(notification).not_to receive(:deliver)
+        expect(notification).not_to have_received(:deliver)
         expect(notification.autodeliver!).to be_falsy
         expect(notification).to be_persisted
       end
@@ -120,8 +131,7 @@ RSpec.describe Notification, type: :model do
     it do
       expect(notification.sent_at).to be_nil
       expect { message }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(message.to).to eq([tenant.email])
-      expect(message.subject).to eq(notification.subject)
+      expect(message).to have_attributes(to: eq([tenant.email]), subject: eq(notification.subject))
       expect(message.text_part.decoded).to eq(notification.body)
       notification.reload
       expect(notification.sent_at).not_to be_nil
@@ -155,6 +165,7 @@ RSpec.describe Notification, type: :model do
 
     context 'with tenant but without email' do
       let(:to) { tenant }
+
       before { booking.email = booking.tenant.email = nil }
 
       it do
@@ -165,6 +176,7 @@ RSpec.describe Notification, type: :model do
 
     context 'with :home_handover' do
       let(:to) { :home_handover }
+
       before { booking.operator_responsibilities.create(operator:, responsibility: :home_handover) }
 
       it do

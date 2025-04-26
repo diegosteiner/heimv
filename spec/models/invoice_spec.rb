@@ -4,38 +4,40 @@
 #
 # Table name: invoices
 #
-#  id                   :bigint           not null, primary key
-#  amount               :decimal(, )      default(0.0)
-#  amount_open          :decimal(, )
-#  discarded_at         :datetime
-#  issued_at            :datetime
-#  locale               :string
-#  payable_until        :datetime
-#  payment_info_type    :string
-#  payment_ref          :string
-#  payment_required     :boolean          default(TRUE)
-#  ref                  :string
-#  sent_at              :datetime
-#  sequence_number      :integer
-#  sequence_year        :integer
-#  text                 :text
-#  type                 :string
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  booking_id           :uuid
-#  supersede_invoice_id :bigint
+#  id                        :bigint           not null, primary key
+#  amount                    :decimal(, )      default(0.0)
+#  amount_open               :decimal(, )
+#  discarded_at              :datetime
+#  issued_at                 :datetime
+#  locale                    :string
+#  payable_until             :datetime
+#  payment_info_type         :string
+#  payment_ref               :string
+#  payment_required          :boolean          default(TRUE)
+#  ref                       :string
+#  sent_at                   :datetime
+#  sequence_number           :integer
+#  sequence_year             :integer
+#  text                      :text
+#  type                      :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  booking_id                :uuid
+#  sent_with_notification_id :bigint
+#  supersede_invoice_id      :bigint
 #
 
 require 'rails_helper'
 
-RSpec.describe Invoice, type: :model do
+RSpec.describe Invoice do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:invoice) { create(:invoice, organisation:) }
 
   describe '::unsettled' do
+    subject(:unsettled) { described_class.unsettled }
+
     let!(:offer) { create(:invoice, type: Invoices::Offer) }
     let!(:invoice) { create(:invoice) }
-    subject(:unsettled) { described_class.unsettled }
 
     it 'does not list the offer as unsettled' do
       is_expected.to include(invoice)
@@ -79,6 +81,7 @@ RSpec.describe Invoice, type: :model do
     describe '#ref' do
       let(:current_year) { Time.zone.today.year }
       let(:year) { current_year - 2000 }
+
       it 'tracks sequence' do
         expect(create(:invoice, organisation:)).to have_attributes(sequence_year: current_year,
                                                                    sequence_number: 1,

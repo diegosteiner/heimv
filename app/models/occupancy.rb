@@ -21,7 +21,6 @@
 class Occupancy < ApplicationRecord
   COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3,4}){1,2}\z/
   OCCUPANCY_TYPES = { free: 0, tentative: 1, occupied: 2, closed: 3 }.freeze
-  CONFLICTING_OCCUPANCY_TYPES = (OCCUPANCY_TYPES.keys - %i[free]).freeze
 
   include Timespanable
 
@@ -34,12 +33,21 @@ class Occupancy < ApplicationRecord
   enum :occupancy_type, OCCUPANCY_TYPES
 
   scope :ordered, -> { order(begins_at: :ASC) }
+  scope :occupancy_calendar, lambda {
+    where.not(occupancy_type: :free)
+         .or(where(occupancy_type: :free, booking: nil))
+         .left_outer_joins(:booking).where(booking: { concluded: [false, nil] })
+  }
 
   before_validation :update_from_booking
   validates :occupancy_type, presence: true
   validates :color, format: { with: COLOR_REGEX }, allow_blank: true
   validate on: %i[public_create public_update agent_booking manage_create manage_update] do
     errors.add(:base, :occupancy_conflict) if !ignore_conflicting && conflicting?
+  end
+  validate on: %i[manage_create manage_update] do
+    errors.add(:begins_at, :invalid) if linked && begins_at != booking&.begins_at
+    errors.add(:ends_at, :invalid) if linked && ends_at != booking&.ends_at
   end
 
   validate do
@@ -48,7 +56,7 @@ class Occupancy < ApplicationRecord
   end
 
   def conflicting?(...)
-    conflicting(...)&.any?
+    conflicting(...)&.exists?
   end
 
   def to_s
@@ -62,14 +70,11 @@ class Occupancy < ApplicationRecord
     super
   end
 
-  def conflicting(margin: occupiable&.settings&.booking_margin || 0,
-                  conflicting_occupancy_types: Occupancy::CONFLICTING_OCCUPANCY_TYPES)
+  def conflicting(conflicting_occupancy_types = %i[occupied], margin: occupiable&.settings&.booking_margin || 0)
     return unless valid?
 
-    occupiable.occupancies
-              .at(from: begins_at - margin - 1, to: ends_at + margin + 1)
-              .where(occupancy_type: conflicting_occupancy_types)
-              .where.not(id:)
+    occupiable.occupancies.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
+              .where(occupancy_type: conflicting_occupancy_types).where.not(id:)
   end
 
   def color=(value)

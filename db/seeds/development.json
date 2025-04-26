@@ -49,14 +49,14 @@
   "booking_ref_template": "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s",
   "booking_state_settings": {
     "default_manage_transition_to_state": "provisional_request",
-    "occupied_occupancy_states": [
+    "occupied_booking_states": [
       "definitive_request",
       "awaiting_tenant",
       "awaiting_contract",
       "upcoming",
       "upcoming_soon"
     ],
-    "editable_occupancy_states": [
+    "editable_booking_states": [
       "initial",
       "unconfirmed_request",
       "open_request",
@@ -112,24 +112,15 @@
     "closed_occupancy_color": "#929292",
     "default_begins_at_time": "08:00",
     "default_ends_at_time": "16:00",
-    "locales": [
-      "de",
-      "fr",
-      "it",
-      "en"
-    ],
+    "locales": ["de", "fr", "it", "en"],
     "predefined_salutation_form": null
   },
   "tarifs": [
     {
       "id": 1,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "deposit",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["deposit", "offer", "contract"],
       "label": "Anzahlung (1 Nacht)",
       "label_i18n": {
         "de": "Anzahlung (1 Nacht)"
@@ -150,18 +141,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 2,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "deposit",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["deposit", "offer", "contract"],
       "label": "Anzahlung (2 Nächte)",
       "label_i18n": {
         "de": "Anzahlung (2 Nächte)"
@@ -182,18 +168,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 3,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "deposit",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["deposit", "offer", "contract"],
       "label": "Anzahlung (3 Nächte)",
       "label_i18n": {
         "de": "Anzahlung (3 Nächte)"
@@ -214,18 +195,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 4,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "deposit",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["deposit", "offer", "contract"],
       "label": "Anzahlung (4 Nächte)",
       "label_i18n": {
         "de": "Anzahlung (4 Nächte)"
@@ -246,18 +222,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 5,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Lagertarif (unter 25 jährig)",
       "label_i18n": {
         "de": "Lagertarif (unter 25 jährig)"
@@ -278,18 +249,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 6,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Lagertarif (über 25 jährig)",
       "label_i18n": {
         "de": "Lagertarif (über 25 jährig)"
@@ -310,18 +276,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 7,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Mindestbelegung Lagertarif",
       "label_i18n": {
         "de": "Mindestbelegung Lagertarif"
@@ -342,18 +303,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 8,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Kurtaxe (ab 12 -18jährig)",
       "label_i18n": {
         "de": "Kurtaxe (ab 12 -18jährig)"
@@ -374,12 +330,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 9,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [],
       "label": "Festtarif 1 Nacht",
@@ -402,18 +357,13 @@
       },
       "valid_from": "2019-12-07T12:04:59+01:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 10,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Kurtaxe (ab 18 Jahren)",
       "label_i18n": {
         "de": "Kurtaxe (ab 18 Jahren)"
@@ -434,12 +384,11 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 11,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
       "associated_types": [],
       "label": "Festtarrif 2 Nächte",
@@ -462,18 +411,13 @@
       },
       "valid_from": "2019-12-07T12:06:55+01:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 12,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Festtarrif 0 Nächte",
       "label_i18n": {
         "de": "Festtarrif 0 Nächte"
@@ -494,16 +438,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 13,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice"
-      ],
+      "associated_types": ["invoice"],
       "label": "Schäden",
       "label_i18n": {
         "de": "Schäden"
@@ -524,18 +465,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 14,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Strom (Hochtarif)",
       "label_i18n": {
         "de": "Strom (Hochtarif)"
@@ -556,18 +492,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 15,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Reservationsgebühr",
       "label_i18n": {
         "de": "Reservationsgebühr"
@@ -588,18 +519,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 16,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Strom (Niedertarif)",
       "label_i18n": {
         "de": "Strom (Niedertarif)"
@@ -620,18 +546,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 17,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Brennholz",
       "label_i18n": {
         "de": "Brennholz"
@@ -652,18 +573,13 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     },
     {
       "id": 18,
-      "accounting_account_nr": null,
+      "accounting_account_nr": "6000",
       "accounting_cost_center_nr": null,
-      "associated_types": [
-        "invoice",
-        "offer",
-        "contract"
-      ],
+      "associated_types": ["invoice", "offer", "contract"],
       "label": "Abfall",
       "label_i18n": {
         "de": "Abfall"
@@ -684,8 +600,7 @@
       },
       "valid_from": "2019-05-28T11:03:52+02:00",
       "valid_until": null,
-      "vat_category": null,
-      "vat_category_id": null
+      "vat_category_id": 1
     }
   ],
   "tenant_ref_template": "%<sequence_number>d",

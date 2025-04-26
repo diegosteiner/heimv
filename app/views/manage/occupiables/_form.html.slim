@@ -26,7 +26,9 @@
 
   = f.fields_for :settings, @occupiable.settings || OccupiableSettings.new do |sf|  
     = sf.text_field :booking_margin, value: sf.object.booking_margin&.iso8601
-    = sf.text_field :accounting_cost_center_nr, value: sf.object.accounting_cost_center_nr
+    
+    - if current_organisation.accounting_settings.enabled
+      = sf.text_field :accounting_cost_center_nr, value: sf.object.accounting_cost_center_nr
 
   .form-actions.pt-4.mt-3
     = f.submit

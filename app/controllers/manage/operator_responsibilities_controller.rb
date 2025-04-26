@@ -7,9 +7,8 @@ module Manage
     before_action :set_operators
 
     def index
-      @operator_responsibilities = @operator_responsibilities.ordered
-                                                             .where(organisation: current_organisation,
-                                                                    booking: @booking)
+      @operator_responsibilities = @operator_responsibilities.ordered.where(organisation: current_organisation,
+                                                                            booking: @booking)
       respond_with :manage, @operator_responsibilities
     end
 
@@ -72,9 +71,9 @@ module Manage
     end
 
     def operator_responsibility_params
-      assigning_conditions_attributes = BookingConditionParams.permitted_keys + %i[id _destroy]
-      params.expect(operator_responsibility: [:operator_id, :booking_id, :ordinal_position, :responsibility, :remarks,
-                                              { assigning_conditions_attributes: }])
+      assigning_conditions_attributes = [BookingConditionParams.permitted_keys + %i[id _destroy]]
+      params.expect(operator_responsibility: %i[operator_id booking_id ordinal_position responsibility remarks] +
+                                              [{ assigning_conditions_attributes: }])
     end
   end
 end

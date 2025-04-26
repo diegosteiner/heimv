@@ -9,8 +9,9 @@ describe Liquid do
   # let(:initial_state) { :provisional_request }
 
   describe '#render' do
-    let(:template_string) { '' }
     subject(:template) { Liquid::Template.parse(template_string) }
+
+    let(:template_string) { '' }
 
     describe 'empty' do
       let(:template_string) { '{{ }}' }

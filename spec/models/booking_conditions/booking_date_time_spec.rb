@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingConditions::BookingDateTime, type: :model do
+RSpec.describe BookingConditions::BookingDateTime do
   let(:organisation) { create(:organisation) }
 
   describe '#evaluate' do
@@ -16,8 +16,7 @@ RSpec.describe BookingConditions::BookingDateTime, type: :model do
     end
 
     before do
-      qualifiable = double('Qualifiable')
-      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      qualifiable = instance_double('Qualifiable', organisation:) # rubocop:disable RSpec/VerifiedDoubleReference
       allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
     end
 

@@ -22,17 +22,17 @@
 
 require 'rails_helper'
 
-RSpec.describe Payment, type: :model do
+RSpec.describe Payment do
   let(:booking) { create(:booking, notifications_enabled: true) }
-  let!(:template) do
-    create(:mail_template, key: :payment_confirmation_notification,
-                           organisation: booking.organisation,
-                           body: '{{ payment.amount }}')
-  end
   let(:payment) { create(:payment, booking:, invoice: nil, confirm: true) }
 
-  describe '#confirm!' do
-    subject(:mail) { payment.confirm! }
+  before do
+    create(:mail_template, key: :payment_confirmation_notification, organisation: booking.organisation,
+                           body: '{{ payment.amount }}')
+  end
+
+  describe '#email_payment_confirmation' do
+    subject(:mail) { payment.email_payment_confirmation }
 
     it do
       expect(mail.template_context.keys).to include(*%i[booking payment])

@@ -49,6 +49,7 @@ class BookingQuestion < ApplicationRecord
   validates :type, presence: true, inclusion: { in: ->(_) { BookingQuestion.subtypes.keys.map(&:to_s) } }
   validates :tenant_mode, :booking_agent_mode, presence: true
   validates :applying_conditions, store_model: true, allow_nil: true
+  validate { errors.add(:required, :invalid) if required && tenant_not_visible? }
 
   accepts_nested_attributes_for :applying_conditions, allow_destroy: true
 

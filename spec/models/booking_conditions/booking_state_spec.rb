@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingConditions::BookingState, type: :model do
+RSpec.describe BookingConditions::BookingState do
   describe '#evaluate' do
     subject { booking_condition.evaluate!(booking) }
 
@@ -13,7 +13,7 @@ RSpec.describe BookingConditions::BookingState, type: :model do
     let(:compare_operator) { '=' }
 
     before do
-      qualifiable = double('Qualifiable')
+      qualifiable = instance_double('Qualifiable') # rubocop:disable RSpec/VerifiedDoubleReference
       allow(qualifiable).to receive(:organisation).and_return(organisation)
       allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
     end
@@ -33,6 +33,7 @@ RSpec.describe BookingConditions::BookingState, type: :model do
       let(:compare_operator) { '>' }
 
       before do
+        booking.update(committed_request: true)
         booking.apply_transitions(%i[provisional_request definitive_request])
       end
 

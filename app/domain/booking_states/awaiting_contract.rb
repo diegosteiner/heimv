@@ -8,10 +8,6 @@ module BookingStates
       BookingStateChecklistItem.prepare(:deposit_paid, :contract_signed, booking:)
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def self.to_sym
       :awaiting_contract
     end
@@ -21,7 +17,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      if occupied_occupancy_state?(booking)
+      if occupied_booking_state?(booking)
         booking.occupied!
       elsif !booking.occupied?
         booking.tentative!
@@ -35,7 +31,7 @@ module BookingStates
     end
 
     infer_transition(to: :overdue) do |booking|
-      booking.deadline_exceeded?
+      booking.deadline&.exceeded?
     end
 
     infer_transition(to: :upcoming) do |booking|

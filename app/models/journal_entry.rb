@@ -56,11 +56,11 @@ class JournalEntry < ApplicationRecord
   end
 
   def soll_amount(book_type: %i[main vat])
-    fragments.filter_map { _1.soll_amount || 0 if Array.wrap(book_type).include?(_1.book_type&.to_sym) }.sum
+    fragments.filter_map { it.soll_amount || 0 if Array.wrap(book_type).include?(it.book_type&.to_sym) }.sum
   end
 
   def haben_amount(book_type: %i[main vat])
-    fragments.filter_map { _1.haben_amount || 0 if Array.wrap(book_type).include?(_1.book_type&.to_sym) }.sum
+    fragments.filter_map { it.haben_amount || 0 if Array.wrap(book_type).include?(it.book_type&.to_sym) }.sum
   end
 
   def haben(**args)
@@ -149,10 +149,10 @@ class JournalEntry < ApplicationRecord
     end
 
     filter :triggers do |journal_entries|
-      triggers = Array.wrap(triggers) & JournalEntry.triggers.keys
+      trigger = Array.wrap(triggers) & JournalEntry.triggers.keys
       next if triggers.blank?
 
-      journal_entries.where(trigger: triggers)
+      journal_entries.where(trigger:)
     end
   end
 
@@ -161,7 +161,7 @@ class JournalEntry < ApplicationRecord
       JournalEntry.new(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking,
                        **attributes).tap do |journal_entry|
         build_invoice_debitor(invoice, journal_entry)
-        invoice.invoice_parts.map { build_invoice_part(_1, journal_entry) }
+        invoice.invoice_parts.map { build_invoice_part(it, journal_entry) }
       end
     end
 
@@ -195,14 +195,32 @@ class JournalEntry < ApplicationRecord
       end
     end
 
-    def build_with_payment(payment) # rubocop:disable Metrics/AbcSize
+    def build_with_payment(payment)
+      return build_with_payment_write_off(payment) if payment.write_off
+
+      build_with_payment_normal(payment)
+    end
+
+    def build_with_payment_normal(payment) # rubocop:disable Metrics/AbcSize
       payment.instance_eval do
         text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
 
         JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
                          trigger: :payment_created).tap do |journal_entry|
-          journal_entry.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:, text:)
           journal_entry.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
+          journal_entry.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:, text:)
+        end
+      end
+    end
+
+    def build_with_payment_write_off(payment) # rubocop:disable Metrics/AbcSize
+      payment.instance_eval do
+        text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
+
+        JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
+                         trigger: :payment_created).tap do |journal_entry|
+          journal_entry.haben(account_nr: organisation&.accounting_settings&.rental_yield_account_nr, amount:, text:)
+          journal_entry.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
         end
       end
     end

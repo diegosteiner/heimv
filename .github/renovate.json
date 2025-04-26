@@ -6,25 +6,50 @@
   "schedule": [
     "every weekend"
   ],
+  "rebaseWhen": "automerging",
   "packageRules": [
     {
       "matchUpdateTypes": [
         "minor",
         "patch"
       ],
-      "groupName": "Minor",
-      "automergeType": "branch-push",
+      "groupName": "Minor Updates",
+      "automergeType": "branch",
       "prCreation": "not-pending",
-      "automerge": false
+      "automerge": true
     },
     {
       "matchUpdateTypes": [
         "major"
       ],
-      "groupName": "Major",
+      "groupName": "Major Updates",
       "prCreation": "immediate",
       "automerge": false,
-      "stabilityDays": 3
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "matchPackageNames": [
+        "ruby"
+      ],
+      "matchFileNames": [
+        "Gemfile",
+        "Dockerfile"
+      ],
+      "separateMajorMinor": true,
+      "separateMinorPatch": true,
+      "prCreation": "immediate",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": [
+        "ttfunk",
+        "prawn"
+      ],
+      "groupName": "ttfunk-and-prawn",
+      "separateMajorMinor": true,
+      "separateMinorPatch": true,
+      "rebaseWhen": "explicit",
+      "automerge": false
     }
   ]
 }

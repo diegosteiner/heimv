@@ -87,16 +87,18 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
 
     if (beginsBeforeDayMid && endsAfterDayMid) {
       slots.allday.add(occupancy);
-      break;
+      continue;
     }
     if (beginsBeforeDayMid && endsAfterDayStart) {
       slots.forenoon.add(occupancy);
-      break;
+      continue;
     }
     if (!beginsBeforeDayMid && endsAfterDayMid) {
       slots.afternoon.add(occupancy);
-      break;
+      continue;
     }
+
+    console.error("Occupancy has no slot", occupancy);
   }
 
   return slots;

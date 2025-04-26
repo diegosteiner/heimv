@@ -9,7 +9,7 @@ module Ability
     end
 
     def self.role(*role, &block)
-      role.flatten.each { roles[_1&.to_sym] = block }
+      role.flatten.each { roles[it&.to_sym] = block }
     end
 
     def initialize(user, organisation = nil)

@@ -2,8 +2,8 @@
 
 module BookingStates
   class Upcoming < Base
-    templates << MailTemplate.define(:upcoming_notification, context: %i[booking])
-    templates << MailTemplate.define(:operator_upcoming_notification, context: %i[booking])
+    use_mail_template(:upcoming_notification, context: %i[booking])
+    use_mail_template(:operator_upcoming_notification, context: %i[booking], optiona: true)
 
     def checklist
       []
@@ -13,27 +13,19 @@ module BookingStates
       :upcoming
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
-    def self.hidden
-      true
-    end
-
     def roles
       %i[home_handover home_return]
     end
 
     after_transition do |booking|
-      booking.occupied! if occupied_occupancy_state?(booking)
+      booking.occupied! if occupied_booking_state?(booking)
     end
 
     after_transition do |booking|
-      booking.deadline&.clear
+      booking.deadline&.clear!
       MailTemplate.use(:upcoming_notification, booking, to: :tenant, &:autodeliver!)
-      booking.operator_responsibilities.by_operator(:home_handover, :home_return).keys.map do |operator|
-        MailTemplate.use(:operator_upcoming_notification, booking, to: operator, &:autodeliver!)
+      Notification.dedup(booking, to: %i[home_handover home_return]) do |to|
+        MailTemplate.use(:operator_upcoming_notification, booking, to:, &:autodeliver!)
       end
     end
 

@@ -21,12 +21,12 @@ module Manage
 
     def self.accounting_settings_permitted_keys
       %i[enabled debitor_account_nr rental_yield_account_nr rental_yield_vat_category_id vat_account_nr
-         payment_account_nr]
+         payment_account_nr liable_for_vat]
     end
 
     def self.booking_state_settings_permitted_keys
-      %i[default_manage_transition_to_state] +
-        [{ occupied_occupancy_states: [], editable_occupancy_states: [] }]
+      %i[default_manage_transition_to_state enable_waitlist enable_provisional_request] +
+        [{ occupied_booking_states: [], editable_booking_states: [] }]
     end
 
     def self.deadline_settings_permitted_keys

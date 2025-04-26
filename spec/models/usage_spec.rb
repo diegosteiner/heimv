@@ -19,7 +19,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Usage, type: :model do
+RSpec.describe Usage do
   let(:organisation) { create(:organisation) }
   let(:tarif) { create(:tarif, organisation:, price_per_unit: 3.33) }
 
@@ -33,7 +33,7 @@ RSpec.describe Usage, type: :model do
 
   describe Usage::Factory do
     describe 'build' do
-      subject(:factory) { Usage::Factory.new(booking) }
+      subject(:factory) { described_class.new(booking) }
 
       let(:booking) { create(:booking, organisation:, approximate_headcount: 12) }
       let(:usages) { factory.build(preselect: true) }

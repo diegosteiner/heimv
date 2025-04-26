@@ -52,7 +52,7 @@ class BookingQuestionResponse < ApplicationRecord
   class << self
     def process(booking, params = {}, role:)
       existing_responses = indexed_by_booking_question_id(booking)
-      params_by_question_id = params&.to_h&.values&.index_by { _1[:booking_question_id]&.to_i } || {}
+      params_by_question_id = params&.to_h&.values&.index_by { it[:booking_question_id]&.to_i } || {}
       BookingQuestion.applying_to_booking(booking).map do |question|
         build_response(booking, question, existing_responses, params_by_question_id[question.id], role:)
       end

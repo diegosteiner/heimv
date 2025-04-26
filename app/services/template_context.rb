@@ -32,7 +32,7 @@ class TemplateContext
   end
 
   def self.serialize_value(value, serializer: serializer_for(value))
-    return value.map { serialize_value(_1) } if value.is_a?(Array) || value.is_a?(ActiveRecord::Relation)
+    return value.map { serialize_value(it) } if value.is_a?(Array) || value.is_a?(ActiveRecord::Relation)
 
     serializer.try(:render_as_hash, value) || value.try(:to_h) || value.try(:to_s) || value.presence
   end

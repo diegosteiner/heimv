@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingConditions::OccupancyDuration, type: :model do
+RSpec.describe BookingConditions::OccupancyDuration do
   describe '#evaluate' do
     subject { booking_condition.evaluate!(booking) }
 
@@ -19,7 +19,7 @@ RSpec.describe BookingConditions::OccupancyDuration, type: :model do
     end
 
     before do
-      qualifiable = double('Qualifiable')
+      qualifiable = instance_double('Qualifiable') # rubocop:disable RSpec/VerifiedDoubleReference
       allow(qualifiable).to receive(:organisation).and_return(organisation)
       allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
     end

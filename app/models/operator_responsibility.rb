@@ -31,7 +31,6 @@ class OperatorResponsibility < ApplicationRecord
   attribute :assigning_conditions, BookingCondition.one_of.to_array_type, nil: true
 
   scope :ordered, -> { rank(:ordinal) }
-  scope :by_operator, ->(*responsibilities) { where(responsibility: responsibilities).group_by(&:operator) }
 
   delegate :email, :locale, :contact_info, to: :operator
 
@@ -42,6 +41,11 @@ class OperatorResponsibility < ApplicationRecord
   ranks :ordinal, with_same: :organisation_id
 
   accepts_nested_attributes_for :assigning_conditions, allow_destroy: true
+  before_validation :set_organisation
+
+  def set_organisation
+    self.organisation ||= booking&.organisation
+  end
 
   def assign_to_booking?(booking)
     assigning_conditions.blank? || assigning_conditions.all? { it.fullfills?(booking) }

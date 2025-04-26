@@ -1,5 +1,40 @@
 # Changelog
 
+## 25.4.2
+
+Released 07.04.2025
+
+- Fix: Fix email_invoice action
+- Fix: Use booking_date for camt imports
+- Chore: Sync translations
+
+## 25.4.1
+
+Released 01.04.2025
+
+- Chore: Update translations
+- Fix: Prevent bookings from becoming overdue when sending an invoice
+- Fix: Redirect correctly after resetting the password
+- Feature: Add more operator notifications
+
+## 25.3.3
+
+Released 31.03.2025
+
+- Refactor: Refactor booking actions to be more flexible in the future
+- Feature: Show VAT in tarif table
+- Feature: Add new notification when tenant signed contract
+
+## 25.3.2
+
+Released 14.03.2025
+
+- Chore: Update translations
+- Fix: Change TAF encoding to ANSI
+- Feature: Hide accounting fields when accounting is disabled
+- Feature: Show free occupancies in calendar when no booking is attached
+- Feature: Improve development seeds
+
 ## 25.3.1
 
 Released 03.03.2025

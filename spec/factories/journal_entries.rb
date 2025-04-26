@@ -59,7 +59,7 @@ FactoryBot.define do
         journal_entry.fragments = []
         factory = JournalEntry::Factory.new
         factory.build_invoice_debitor(invoice, journal_entry)
-        invoice.invoice_parts.map { factory.build_invoice_part(_1, journal_entry) }
+        invoice.invoice_parts.map { factory.build_invoice_part(it, journal_entry) }
       end
     end
   end

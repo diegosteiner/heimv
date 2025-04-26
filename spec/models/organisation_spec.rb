@@ -43,7 +43,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Organisation, type: :model do
+RSpec.describe Organisation do
   let(:organisation) { build(:organisation) }
 
   describe '#save' do

@@ -42,7 +42,7 @@ module Import
         booking.generate_ref if booking.valid?
         return false unless booking.save
 
-        booking.deadline&.clear
+        booking.deadline&.clear!
         true
       end
 

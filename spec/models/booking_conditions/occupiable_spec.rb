@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingConditions::Occupiable, type: :model do
+RSpec.describe BookingConditions::Occupiable do
   describe '#evaluate' do
     subject { booking_condition.evaluate!(booking) }
 
@@ -17,7 +17,7 @@ RSpec.describe BookingConditions::Occupiable, type: :model do
     let(:occupiable) { create(:home, organisation:) }
 
     before do
-      qualifiable = double('Qualifiable')
+      qualifiable = instance_double('Qualifiable') # rubocop:disable RSpec/VerifiedDoubleReference
       allow(qualifiable).to receive(:organisation).and_return(organisation)
       allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
     end
@@ -26,17 +26,20 @@ RSpec.describe BookingConditions::Occupiable, type: :model do
 
     context 'without occupiable' do
       let(:compare_value) { nil }
+
       it { is_expected.to be_falsy }
       it { expect(booking_condition).not_to be_valid }
     end
 
     context 'without attribute' do
       let(:compare_attribute) { nil }
+
       it { expect(booking_condition).not_to be_valid }
     end
 
     context 'without operator' do
       let(:compare_operator) { nil }
+
       it { is_expected.to be_falsy }
       it { expect(booking_condition).not_to be_valid }
     end

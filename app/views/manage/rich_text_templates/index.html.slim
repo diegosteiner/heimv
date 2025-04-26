@@ -69,10 +69,3 @@ table.table.table-hover.align-middle
     - rich_text_templates_by_rest.each do |rich_text_template|
       = render layout: 'table_row', locals: { rich_text_template: }
         = ''
-
-
-br
-= link_to new_manage_rich_text_template_path, class: 'btn btn-primary' do
-  span.fa.fa-file-o
-  '
-  = t(:add_record, model_name: RichTextTemplate.model_name.human)

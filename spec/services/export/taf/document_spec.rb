@@ -14,7 +14,7 @@ describe Export::Taf::Document, type: :model do
   describe '#initialize' do
     subject(:taf_block) { taf_document.children.first }
 
-    it 'works as DSL' do
+    it 'works as DSL' do # rubocop:disable RSpec/MultipleExpectations
       expect(taf_block.type).to eq(:Blg)
       expect(taf_block.properties.transform_values(&:value)).to eq({ test: '1', text: '"TAF is ""great"""' })
       expect(taf_block.children.count).to eq(1)

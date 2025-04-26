@@ -6,13 +6,13 @@ h1.mt-0.mb-5= JournalEntry.model_name.human(count: 2)
     i.fa.fa-filter<>
     = t(:filter)
   
-  = button_to process_all_manage_journal_entries_path, method: :post, class: 'btn btn-primary'
+  = button_to process_all_manage_journal_entries_path, method: :post, class: 'btn btn-primary', data: { confirm: t(:confirm) }
     = t('.process_all')
 
 #filter.modal.fade
   .modal-dialog.modal-lg
     .modal-content 
-      = form_with(model: @filter, url: manage_journal_entries_path, scope: 'filter', method: :GET, local: true) do |f|
+      = form_with(model: @filter, url: manage_journal_entries_path, scope: 'filter', method: :get, local: true) do |f|
         = hidden_field_tag :locale, I18n.locale
         .modal-body
           = render partial: @filter.to_partial_path('filter_fields'), locals: { f: f }

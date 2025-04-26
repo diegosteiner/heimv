@@ -7,4 +7,4 @@
 
 # Mime::Type.register "application/pdf", :pdf
 # Mime::Type.register 'application/x.taf', :taf
-Mime::Type.register 'text/plain', :taf
+Mime::Type.register 'text/plain; charset=iso-8859-1', :taf

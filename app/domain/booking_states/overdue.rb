@@ -2,7 +2,7 @@
 
 module BookingStates
   class Overdue < Base
-    templates << MailTemplate.define(:overdue_notification, context: %i[booking], optional: true)
+    use_mail_template(:overdue_notification, context: %i[booking], optional: true)
 
     include Rails.application.routes.url_helpers
 
@@ -10,16 +10,12 @@ module BookingStates
       BookingStateChecklistItem.prepare(:deposit_paid, :contract_signed, booking:)
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def self.to_sym
       :overdue
     end
 
     after_transition do |booking|
-      booking.deadline&.clear
+      booking.deadline&.clear!
       MailTemplate.use(:overdue_notification, booking, to: :tenant, &:autodeliver!)
     end
 

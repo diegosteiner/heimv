@@ -55,10 +55,10 @@ FactoryBot.define do
     notifications_enabled { true }
     purpose_description { 'Pfadilager Test' }
     skip_infer_transitions { true }
-    home { build(:home, organisation:) }
+    home { association(:home, organisation:) }
     transient do
       initial_state { nil }
-      tenant { build(:tenant, organisation:, email:) }
+      tenant { association(:tenant, organisation:, email:) }
     end
 
     after(:build) do |booking, evaluator|
@@ -86,9 +86,9 @@ FactoryBot.define do
         vat_category { nil }
       end
       after(:create) do |booking, evaluator|
-        create_list(:tarif, 1, :with_accounting, organisation: booking.organisation,
-                                                 vat_category: evaluator.vat_category)
-        Usage::Factory.new(booking).build.each { _1.update(used_units: 48) }
+        vat_category =  evaluator.vat_category || booking.organisation.vat_categories.first
+        create_list(:tarif, 1, :with_accounting, organisation: booking.organisation, vat_category:)
+        Usage::Factory.new(booking).build.each { it.update(used_units: 48) }
         create(:payment, booking:, invoice: nil, amount: evaluator.prepaid_amount) if evaluator.prepaid_amount.present?
         invoice = Invoice::Factory.new(booking).build(issued_at: booking.ends_at)
         invoice.invoice_parts = InvoicePart::Factory.new(invoice).build

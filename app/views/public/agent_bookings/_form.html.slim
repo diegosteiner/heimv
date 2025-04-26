@@ -5,14 +5,14 @@
       .card-header.bg-warning-subtle.text-center
         = @agent_booking.booking.booking_state.translate(:label)
     .card-body
-      - if @agent_booking.errors.any?
+      - errors = @agent_booking.booking.errors.to_hash(true).except(%w[booking.tenant.bookings booking.agent_booking.tenant_email bookings.occupancies.base])
+      - if errors.any?
         .alert.alert-danger.d-flex
           .me-3
-            i.fa.fa-exclamation-circle               
-          - @agent_booking.errors.delete("booking.tenant.bookings")
-          - @agent_booking.errors.delete("booking.agent_booking.tenant_email")
-          - @agent_booking.errors.delete("booking.occupancies.base")
-          = @agent_booking.errors.full_messages.to_sentence
+            i.fa.fa-exclamation-circle
+          ul.mb-0.ps-3
+            - errors.values.flatten.each do |error|
+              li= error
 
       = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|
         h4.mt-0= Occupancy.model_name.human
@@ -65,9 +65,9 @@
       .form-actions.pt-4.mt-3
         - if @agent_booking.booking_agent_responsible?
           =<> f.submit
-          - @agent_booking.booking.booking_state&.public_actions&.filter(&:allowed?).each do |action|
-            - button_options = { name: :booking_action, value: action.to_sym}
-            - button_options[:class] = "me-1 btn btn-outline-#{action.variant}"
-            - button_options[:data] = { confirm: action.confirm } if action.confirm.present?
-            = f.button(**button_options)
-              = action.label 
+          - @agent_booking.booking.booking_flow.booking_agent_actions.values.each do |booking_action|
+            - Array.wrap(booking_action.invokable_with(current_user:)).compact.each do |invokable_with|
+              = f.button name: :booking_action, value: booking_action.key, method: :patch, \
+                data: invokable_with[:confirm].present? ? { confirm: invokable_with[:confirm] } : nil, \
+                class: "me-2 btn btn-outline-#{invokable_with[:variant] || :primary}"
+                = invokable_with[:label] || booking_action.label

@@ -7,7 +7,7 @@ module BookingConditions
     attribute :compare_operator, default: -> { :'=' }
 
     def compare_attributes
-      organisation.booking_questions.index_by { _1.id.to_s.to_sym }
+      organisation.booking_questions.index_by { it.id.to_s.to_sym }
     end
 
     compare_operator(**NUMERIC_OPERATORS)

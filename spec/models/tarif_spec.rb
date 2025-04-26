@@ -34,7 +34,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Tarif, type: :model do
+RSpec.describe Tarif do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:booking) { create(:booking, organisation:, home:) }
@@ -53,6 +53,7 @@ RSpec.describe Tarif, type: :model do
 
   describe '#minimum_prices' do
     subject(:minimum_prices) { usage.tarif.minimum_prices(usage) }
+
     before do
       tarif.update({
                      minimum_usage_per_night: 24,
@@ -74,6 +75,7 @@ RSpec.describe Tarif, type: :model do
 
   describe '#minimum_price' do
     subject(:minimum_price) { usage.tarif.minimum_price(usage) }
+
     before do
       tarif.update({
                      minimum_usage_per_night: 24,

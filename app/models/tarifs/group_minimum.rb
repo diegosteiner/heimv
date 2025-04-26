@@ -47,7 +47,7 @@ module Tarifs
     end
 
     def group_used_units(usage)
-      usages_in_group(usage).sum { _1.used_units || 0 }
+      usages_in_group(usage).sum { it.used_units || 0 }
     end
 
     def minimum_prices_with_difference(usage) # rubocop:disable Metrics/AbcSize

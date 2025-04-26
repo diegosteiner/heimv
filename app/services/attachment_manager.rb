@@ -15,7 +15,7 @@ class AttachmentManager
   end
 
   def attach_all(*attachables)
-    attachables.flatten.map { attach_one(_1) }
+    attachables.flatten.map { attach_one(it) }
   end
 
   def attach_one(attachable)

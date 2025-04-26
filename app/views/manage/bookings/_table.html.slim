@@ -61,7 +61,7 @@
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
               - if can?(:manage, booking)
-                = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking:, button_class: proc { |action| "dropdown-item text-#{action.variant}" } }
+                = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking:, button_class: proc { |variant| "dropdown-item text-#{variant}" } }
               .dropdown-divider
               = link_to t(:show), manage_booking_path(booking), class: 'dropdown-item' if can?(:show, booking)
               = link_to t(:edit), edit_manage_booking_path(booking), class: 'dropdown-item' if can?(:edit, booking)

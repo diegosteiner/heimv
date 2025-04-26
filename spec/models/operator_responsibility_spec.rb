@@ -18,7 +18,7 @@
 
 require 'rails_helper'
 
-RSpec.describe OperatorResponsibility, type: :model do
+RSpec.describe OperatorResponsibility do
   let(:organisation) { create(:organisation) }
   let(:operator) { create(:operator, organisation:) }
   let(:booking) { create(:booking, organisation:) }

@@ -14,10 +14,11 @@
 #
 require 'rails_helper'
 
-RSpec.describe KeySequence, type: :model do
+RSpec.describe KeySequence do
+  subject(:key_sequence) { create(:key_sequence, value: 10, key:) }
+
   let(:organisation) { key_sequence.organisation }
   let(:key) { 'test' }
-  subject(:key_sequence) { create(:key_sequence, value: 10, key:) }
 
   describe '#lease!' do
     subject(:lease!) { key_sequence.lease! }
@@ -28,17 +29,20 @@ RSpec.describe KeySequence, type: :model do
 
   describe '::key' do
     subject { organisation.key_sequences.key(key, year:) }
+
     let(:year) { nil }
 
     it { is_expected.to eq(key_sequence) }
 
     context 'with not existing key_sequence' do
       let(:year) { 2023 }
+
       it { is_expected.to have_attributes(year:, key:) }
     end
 
     context 'with :current as year' do
       let(:year) { :current }
+
       it { is_expected.to have_attributes(year: Time.zone.today.year, key:) }
     end
   end

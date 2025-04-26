@@ -125,7 +125,7 @@ Options:
 
 ```ruby
 headers = "
-ignore.id,ignore.cottage_id,ignore.user_id,booking.begins_at,booking.ends_at,booking.remarks,booking.occupancy_type,ignore.created_at,ignore.updated_at,tenant.email,ignore.occupancy_type,booking.remarks,ignore.slug,booking.headcount,tenant.birth_date,booking.tenant_organisation,tenant.name,tenant.street_address,tenant.street_address_2,tenant.zipcode,tenant.city,tenant.phone"
+ignore.id,ignore.cottage_id,ignore.user_id,booking.begins_at,booking.ends_at,booking.remarks,booking.occupancy_type,ignore.created_at,ignore.updated_at,tenant.email,ignore.occupancy_type,booking.remarks,ignore.slug,booking.headcount,tenant.birth_date,booking.tenant_organisation,tenant.name,tenant.street_address,tenant.street_address_2,tenant.zipcode,tenant.city,ignore,ignore,ignore,ignore,tenant.phone"
 ```
 
 Then import data with:

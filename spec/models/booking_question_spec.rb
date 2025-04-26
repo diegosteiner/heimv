@@ -21,12 +21,3 @@
 #  organisation_id       :bigint           not null
 #
 require 'rails_helper'
-
-RSpec.describe BookingQuestion, type: :model do
-  let(:organisation) { create(:organisation) }
-  let(:questions) do
-    BookingQuestion.subtypes.values.map do |type|
-      create(:booking_question, type:, organisation:)
-    end
-  end
-end

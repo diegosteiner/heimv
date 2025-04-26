@@ -48,13 +48,14 @@
       .col-md-6= f.collection_select :prefill_usage_booking_question_id, @tarif.prefill_usage_booking_questions, :id, :label, include_blank: true
       .col-md-6= f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     
-  fieldset 
-    .row
-      .col-md-6= f.text_field :accounting_account_nr
-      .col-md-6= f.text_field :accounting_cost_center_nr
+  - if current_organisation.accounting_settings&.enabled || @tarif.accounting_account_nr.present?
+    fieldset 
+      .row
+        .col-md-6= f.text_field :accounting_account_nr, required: false
+        .col-md-6= f.text_field :accounting_cost_center_nr
 
-    - if current_organisation.vat_categories.any?
-      = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true
+  - if current_organisation.accounting_settings&.liable_for_vat || @tarif.vat_category.present?
+    = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true, required: false
 
   fieldset.mt-4
     label.mb-2= Tarif.human_attribute_name(:selecting_conditions)
