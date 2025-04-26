@@ -98,6 +98,7 @@ fr:
         ref:
         sort:
     models:
+      accounting_settings: Paramètres de comptabilité
       booking_condition:
         one: Sélecteur de tarif
         other: Sélecteur de tarif
@@ -131,9 +132,6 @@ fr:
       booking_conditions/tenant_attribute:
         one:
         other:
-      booking_state_settings:
-      deadline_settings:
-      accounting_settings: Paramètres de comptabilité
       booking_state_settings: Paramètres du processus de réservation
       deadline_settings: Réglages des délais
       occupancy_calendar:

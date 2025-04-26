@@ -31,15 +31,15 @@ RSpec.describe BookingValidation do
     let(:validation_context) { :public_update }
 
     before do
-      allow(booking_validation).to receive(:enabled_by_condition?).with(booking).and_return(true)
-      allow(booking_validation).to receive(:valid_by_condition?).with(booking).and_return(true)
+      allow(booking_validation).to receive(:enabled_by_conditions?).with(booking).and_return(true)
+      allow(booking_validation).to receive(:valid_by_conditions?).with(booking).and_return(true)
     end
 
     context 'with matching check_on' do
       it 'checks the condition' do
         is_expected.to be(true)
-        expect(booking_validation).to have_received(:enabled_by_condition?)
-        expect(booking_validation).to have_received(:valid_by_condition?)
+        expect(booking_validation).to have_received(:enabled_by_conditions?)
+        expect(booking_validation).to have_received(:valid_by_conditions?)
       end
     end
 
@@ -52,34 +52,34 @@ RSpec.describe BookingValidation do
 
       it 'checks the condition' do
         is_expected.to be(true)
-        expect(booking_validation).not_to have_received(:enabled_by_condition?)
-        expect(booking_validation).not_to have_received(:valid_by_condition?)
+        expect(booking_validation).not_to have_received(:enabled_by_conditions?)
+        expect(booking_validation).not_to have_received(:valid_by_conditions?)
       end
     end
 
     context 'without enabling_conditions' do
       before do
-        allow(booking_validation).to receive(:enabled_by_condition?).with(booking).and_return(false)
+        allow(booking_validation).to receive(:enabled_by_conditions?).with(booking).and_return(false)
       end
 
       it 'checks the condition' do
         is_expected.to be(true)
-        expect(booking_validation).to have_received(:enabled_by_condition?)
-        expect(booking_validation).not_to have_received(:valid_by_condition?)
+        expect(booking_validation).to have_received(:enabled_by_conditions?)
+        expect(booking_validation).not_to have_received(:valid_by_conditions?)
       end
     end
   end
 
-  describe '#enabled_by_condition?' do
-    subject(:enabled_by_condition) { booking_validation.enabled_by_condition?(booking) }
+  describe '#enabled_by_conditions?' do
+    subject(:enabled_by_condition) { booking_validation.enabled_by_conditions?(booking) }
 
     let(:enabling_conditions) { [BookingConditions::AlwaysApply.new] }
 
     it { is_expected.to be(true) }
   end
 
-  describe '#valid_by_condition?' do
-    subject(:valid_by_condition) { booking_validation.enabled_by_condition?(booking) }
+  describe '#valid_by_conditions?' do
+    subject(:valid_by_condition) { booking_validation.enabled_by_conditions?(booking) }
 
     let(:validating_conditions) { [BookingConditions::AlwaysApply.new] }
 

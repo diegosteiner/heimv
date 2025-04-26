@@ -98,6 +98,7 @@ it:
         ref:
         sort:
     models:
+      accounting_settings:
       booking_condition:
         one: Condizione
         other: Condizioni
@@ -131,7 +132,6 @@ it:
       booking_conditions/tenant_attribute:
         one:
         other:
-      accounting_settings:
       booking_state_settings:
       deadline_settings:
       occupancy_calendar:
