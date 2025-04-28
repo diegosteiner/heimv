@@ -8,7 +8,7 @@ import {
   initializeBookingCondition,
 } from "../booking_conditions/BookingCondition";
 
-type Props = {
+export type Props = {
   value?: BookingCondition[];
   name: string;
   disabled: boolean;

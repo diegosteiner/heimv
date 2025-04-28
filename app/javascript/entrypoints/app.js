@@ -101,6 +101,7 @@ function setupReact() {
   const componentsRequireContext = import.meta.glob("~/components/rails/*.{ts,tsx}", { eager: true });
   for (const element of document.querySelectorAll("[data-component]")) {
     const component = componentsRequireContext[`/components/rails/${element.dataset.component}.tsx`];
+    console.debug(element, component)
     if (!component) continue;
 
     const props = JSON.parse(element.dataset.props || "{}");

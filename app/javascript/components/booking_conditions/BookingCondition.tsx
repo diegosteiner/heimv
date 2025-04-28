@@ -1,6 +1,6 @@
 import { Dropdown } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import BookingConditionCollection from "./BookingConditionCollection";
+import BookingConditionComposition from "./BookingConditionComposition";
 import BookingConditionComparable from "./BookingConditionComparable";
 
 export enum BookingConditionType {
@@ -29,7 +29,7 @@ export type BookingConditionComparableType =
   | BookingConditionType.Tarif
   | BookingConditionType.TenantAttribute;
 
-export type BookingConditionCollectionType = BookingConditionType.AndGroup;
+export type BookingConditionCompositionType = BookingConditionType.AndGroup;
 
 export type BookingCondition =
   | {
@@ -45,7 +45,7 @@ export type BookingCondition =
       compare_value?: string;
     }
   | {
-      type: BookingConditionCollectionType;
+      type: BookingConditionCompositionType;
       id: string;
       conditions?: BookingCondition[];
     };
@@ -82,7 +82,7 @@ export function BookingConditionElement({
 }: BookingConditionElementProps) {
   if (condition.type === BookingConditionType.AndGroup) {
     return (
-      <BookingConditionCollection
+      <BookingConditionComposition
         condition={condition}
         optionsForSelect={optionsForSelect}
         onRemove={onRemove}
@@ -120,7 +120,7 @@ export function AddBookingConditionDropdown({
       <Dropdown.Menu>
         {Object.values(BookingConditionType).map((type) => (
           <Dropdown.Item disabled={disabled} eventKey={type} key={type}>
-            {optionsForSelect[type].name}
+            {optionsForSelect[type]?.name}
           </Dropdown.Item>
         ))}
       </Dropdown.Menu>

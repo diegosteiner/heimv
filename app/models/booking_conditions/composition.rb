@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module BookingConditions
-  class AndGroup < BookingCondition
+  class Composition < BookingCondition
     include StoreModel::NestedAttributes
-    BookingCondition.register_subtype self
+    # BookingCondition.register_subtype self
 
     attribute :conditions, BookingCondition.one_of.to_array_type, default: -> { [] }
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   AddBookingConditionDropdown,
   type BookingCondition,
-  type BookingConditionCollectionType,
+  type BookingConditionCompositionType,
   BookingConditionElement,
   type BookingConditionOptionsForSelect,
   type BookingConditionType,
@@ -10,14 +10,14 @@ import {
 } from "./BookingCondition";
 
 type Props = {
-  condition: BookingCondition & { type: BookingConditionCollectionType };
+  condition: BookingCondition & { type: BookingConditionCompositionType };
   optionsForSelect: BookingConditionOptionsForSelect;
   disabled?: boolean;
   onRemove?: (condition: BookingCondition) => void;
   onChange?: (condition: BookingCondition) => void;
 };
 
-export default function BookingConditionCollection({
+export default function BookingConditionComposition({
   optionsForSelect,
   condition,
   onRemove,
