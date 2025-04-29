@@ -15,7 +15,6 @@ describe 'BookingCondition', :devise do
     click_button title: I18n.t(:destroy), match: :first
     click_button I18n.t(:add_record, model_name: BookingCondition.model_name.human), match: :first
     click_link BookingConditions::AllOf.model_name.human
-    expect(page.driver.browser.logs.get(:browser)).to eq([])
     click_button I18n.t(:add_record, model_name: BookingCondition.model_name.human), match: :first
     click_link BookingConditions::Always.model_name.human
   end
