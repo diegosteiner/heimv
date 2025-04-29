@@ -5,7 +5,7 @@ module BookingConditions
     BookingCondition.register_subtype self
 
     def evaluate!(booking)
-      conditions.any? { it.evaluate!(booking) }
+      conditions.none? || conditions.any? { it.evaluate!(booking) }
     end
   end
 end

@@ -14,9 +14,12 @@ class BookingCondition
 
   validates :type, presence: true, inclusion: { in: ->(_) { BookingCondition.subtypes.keys.map(&:to_s) } }
   validates :organisation, presence: true
+  validate do
+    errors.add(:base, :invalid) if depth > 2
+  end
 
-  delegate :compare_attributes, to: :class
   delegate :stringify_keys, to: :attributes
+  delegate :organisation, to: :qualifiable, allow_nil: true
 
   before_validation do
     self.id = id.presence || Digest::UUID.uuid_v4
@@ -38,14 +41,21 @@ class BookingCondition
     parent.is_a?(BookingCondition) ? parent.qualifiable : parent
   end
 
-  delegate :organisation, to: :qualifiable, allow_nil: true
+  def depth
+    parent.is_a?(BookingCondition) ? parent.depth + 1 : 0
+  end
 
   def organisation=(value)
     # self.organisation_id = value.is_a?(Organisation) ? value.id : value
   end
 
+  def initialize_copy(origin)
+    super
+    self.id = Digest::UUID.uuid_v4
+  end
+
   def self.one_of
-    StoreModel.one_of { subtypes[(it[:type].presence || it['type'].presence)&.to_sym] || BookingCondition }
+    StoreModel.one_of { |json| subtypes[(json[:type].presence || json['type'].presence)&.to_sym] || BookingCondition }
   end
 
   def self.options_for_select(organisation)

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module BookingConditions
-  class AlwaysApply < BookingCondition
+  class Never < BookingCondition
     BookingCondition.register_subtype self
 
     def evaluate!(_booking)
-      true
+      false
     end
   end
 end

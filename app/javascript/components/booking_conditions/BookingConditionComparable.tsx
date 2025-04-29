@@ -1,5 +1,6 @@
 import Form from "react-bootstrap/esm/Form";
 import Row from "react-bootstrap/esm/Row";
+import { useTranslation } from "react-i18next";
 import {
   type BookingCondition,
   type BookingConditionComparableType,
@@ -16,9 +17,12 @@ type Props = {
 };
 
 export default function BookingConditionForm({ optionsForSelect, condition, onRemove, onChange, disabled }: Props) {
+  const { t } = useTranslation();
   const optionsForSelectedType = optionsForSelect[condition.type];
   const handleChange = (changedCondition: Partial<BookingCondition>) =>
     !disabled && onChange?.({ ...condition, ...changedCondition });
+
+  if (!optionsForSelectedType) return <>{JSON.stringify(condition)}</>;
 
   return (
     <>
@@ -97,7 +101,13 @@ export default function BookingConditionForm({ optionsForSelect, condition, onRe
           </Form.Control.Feedback>
         </Form.Group>
         <div className="col-md-1 d-flex justify-content-end">
-          <button disabled={disabled} type="button" className="btn btn-default" onClick={() => onRemove?.(condition)}>
+          <button
+            disabled={disabled}
+            type="button"
+            className="btn btn-default"
+            title={t("destroy")}
+            onClick={() => onRemove?.(condition)}
+          >
             <span className="fa fa-trash" />
           </button>
         </div>

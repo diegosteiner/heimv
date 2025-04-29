@@ -102,7 +102,7 @@ fr:
       booking_condition:
         one: Sélecteur de tarif
         other: Sélecteur de tarif
-      booking_conditions/always_apply:
+      booking_conditions/always:
         one: Sélecteur de tarif toujours-un
         other:
       booking_conditions/booking_attribute:

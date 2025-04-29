@@ -73,7 +73,7 @@ RSpec.describe BookingValidation do
   describe '#enabled_by_conditions?' do
     subject(:enabled_by_condition) { booking_validation.enabled_by_conditions?(booking) }
 
-    let(:enabling_conditions) { [BookingConditions::AlwaysApply.new] }
+    let(:enabling_conditions) { [BookingConditions::Always.new] }
 
     it { is_expected.to be(true) }
   end
@@ -81,7 +81,7 @@ RSpec.describe BookingValidation do
   describe '#valid_by_conditions?' do
     subject(:valid_by_condition) { booking_validation.enabled_by_conditions?(booking) }
 
-    let(:validating_conditions) { [BookingConditions::AlwaysApply.new] }
+    let(:validating_conditions) { [BookingConditions::Always.new] }
 
     it { is_expected.to be(true) }
   end

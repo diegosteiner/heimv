@@ -1,10 +1,12 @@
 import { Dropdown } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import BookingConditionComposition from "./BookingConditionComposition";
+import { v4 as uuidv4 } from "uuid";
 import BookingConditionComparable from "./BookingConditionComparable";
+import BookingConditionComposition from "./BookingConditionComposition";
 
 export enum BookingConditionType {
-  AlwaysApply = "BookingConditions::AlwaysApply",
+  Always = "BookingConditions::Always",
+  Never = "BookingConditions::Never",
   BookingAttribute = "BookingConditions::BookingAttribute",
   BookingCategory = "BookingConditions::BookingCategory",
   BookingDateTime = "BookingConditions::BookingDateTime",
@@ -14,11 +16,13 @@ export enum BookingConditionType {
   Occupiable = "BookingConditions::Occupiable",
   Tarif = "BookingConditions::Tarif",
   TenantAttribute = "BookingConditions::TenantAttribute",
-  AndGroup = "BookingConditions::AndGroup",
+  AllOf = "BookingConditions::AllOf",
+  OneOf = "BookingConditions::OneOf",
 }
 
 export type BookingConditionComparableType =
-  | BookingConditionType.AlwaysApply
+  | BookingConditionType.Always
+  | BookingConditionType.Never
   | BookingConditionType.BookingAttribute
   | BookingConditionType.BookingCategory
   | BookingConditionType.BookingDateTime
@@ -29,7 +33,7 @@ export type BookingConditionComparableType =
   | BookingConditionType.Tarif
   | BookingConditionType.TenantAttribute;
 
-export type BookingConditionCompositionType = BookingConditionType.AndGroup;
+export type BookingConditionCompositionType = BookingConditionType.AllOf | BookingConditionType.OneOf;
 
 export type BookingCondition =
   | {
@@ -64,7 +68,7 @@ export type BookingConditionOptionsForSelect = {
 export function initializeBookingCondition(
   condition: Partial<BookingCondition> & Pick<BookingCondition, "type">,
 ): BookingCondition {
-  return { id: crypto.randomUUID(), ...condition };
+  return { id: uuidv4(), ...condition };
 }
 
 type BookingConditionElementProps = {
@@ -74,13 +78,21 @@ type BookingConditionElementProps = {
   onChange?: (condition: BookingCondition) => void;
 };
 
+function isCompositionCondition(
+  condition: BookingCondition,
+): condition is BookingCondition & { type: BookingConditionCompositionType } {
+  return [BookingConditionType.AllOf, BookingConditionType.OneOf].includes(condition.type);
+}
+
 export function BookingConditionElement({
   condition,
   optionsForSelect,
   onRemove,
   onChange,
 }: BookingConditionElementProps) {
-  if (condition.type === BookingConditionType.AndGroup) {
+  if (!Object.values(BookingConditionType).includes(condition.type)) return <></>;
+
+  if (isCompositionCondition(condition))
     return (
       <BookingConditionComposition
         condition={condition}
@@ -89,8 +101,6 @@ export function BookingConditionElement({
         onChange={onChange}
       />
     );
-  }
-
   return (
     <BookingConditionComparable
       condition={condition}
@@ -114,13 +124,13 @@ export function AddBookingConditionDropdown({
 
   return (
     <Dropdown onSelect={(eventKey) => !disabled && onAction(eventKey as BookingConditionType)}>
-      <Dropdown.Toggle variant="primary">
+      <Dropdown.Toggle variant="secondary">
         {t("add_record", { model_name: t("activemodel.models.booking_condition.one") })}
       </Dropdown.Toggle>
       <Dropdown.Menu>
         {Object.values(BookingConditionType).map((type) => (
           <Dropdown.Item disabled={disabled} eventKey={type} key={type}>
-            {optionsForSelect[type]?.name}
+            {optionsForSelect[type]?.name || type}
           </Dropdown.Item>
         ))}
       </Dropdown.Menu>

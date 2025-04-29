@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import {
   AddBookingConditionDropdown,
   type BookingCondition,
@@ -24,6 +25,7 @@ export default function BookingConditionComposition({
   onChange,
   disabled,
 }: Props) {
+  const { t } = useTranslation();
   const conditions = condition.conditions || [];
 
   const handleAddChild = (type: BookingConditionType) => {
@@ -62,7 +64,13 @@ export default function BookingConditionComposition({
       </ol>
       <div className="d-flex justify-content-between">
         <AddBookingConditionDropdown onAction={handleAddChild} optionsForSelect={optionsForSelect} />
-        <button disabled={disabled} type="button" className="btn btn-default" onClick={() => onRemove?.(condition)}>
+        <button
+          disabled={disabled}
+          type="button"
+          className="btn btn-default"
+          title={t("destroy")}
+          onClick={() => onRemove?.(condition)}
+        >
           <span className="fa fa-trash" />
         </button>
       </div>

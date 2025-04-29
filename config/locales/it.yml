@@ -102,7 +102,7 @@ it:
       booking_condition:
         one: Condizione
         other: Condizioni
-      booking_conditions/always_apply:
+      booking_conditions/always:
         one: Sempre
         other:
       booking_conditions/booking_attribute:

@@ -52,7 +52,7 @@ en:
       booking_condition:
         one: Tarifwähler
         other: Tarifwähler
-      booking_conditions/always_apply:
+      booking_conditions/always:
         one: Immer-Ein Tarifwähler
         other:
       booking_conditions/booking_category:

@@ -104,35 +104,44 @@ de:
       booking_condition:
         one: Bedingung
         other: Bedingungen
-      booking_conditions/always_apply:
+      booking_conditions/all_of:
+        one: Alle Bedingungen
+        other:
+      booking_conditions/always:
         one: Immer
         other:
       booking_conditions/booking_attribute:
-        one: Buchungsattribut Bedingung
+        one: Buchungsattribut
         other:
       booking_conditions/booking_category:
-        one: Mietkategorie Bedingung
+        one: Mietkategorie
         other:
       booking_conditions/booking_date_time:
-        one: Belegungsdatum Bedingung
+        one: Belegungsdatum
         other:
       booking_conditions/booking_question:
-        one: Zusätzliche Angabe Bedingung
+        one: Zusätzliche Angabe
         other:
       booking_conditions/booking_state:
-        one: Status Bedingung
+        one: Status
+        other:
+      booking_conditions/never:
+        one: Nie
         other:
       booking_conditions/occupancy_duration:
-        one: Belegungsdauer Bedingung
+        one: Belegungsdauer
         other:
       booking_conditions/occupiable:
-        one: Mietobjekt Bedingung
+        one: Mietobjekt
+        other:
+      booking_conditions/one_of:
+        one: Eine der Bedingungen
         other:
       booking_conditions/tarif:
-        one: Ausgewählter Tarif Bedingung
+        one: Ausgewählter Tarif
         other:
       booking_conditions/tenant_attribute:
-        one: Mieterattribut Bedingung
+        one: Mieterattribut
         other:
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen

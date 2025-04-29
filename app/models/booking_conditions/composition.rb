@@ -3,7 +3,6 @@
 module BookingConditions
   class Composition < BookingCondition
     include StoreModel::NestedAttributes
-    # BookingCondition.register_subtype self
 
     attribute :conditions, BookingCondition.one_of.to_array_type, default: -> { [] }
 
@@ -13,6 +12,11 @@ module BookingConditions
 
     def evaluate!(booking)
       conditions.all { it.evaluate!(booking) }
+    end
+
+    def initialize_copy(origin)
+      super
+      self.conditions = origin.conditions.map(&:dup)
     end
   end
 end
