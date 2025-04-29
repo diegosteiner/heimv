@@ -20,7 +20,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingConditions::BookingDateTime, type: :model do
+RSpec.describe BookingConditions::BookingDateTime do
   let(:organisation) { create(:organisation) }
 
   describe '#evaluate' do
@@ -73,8 +73,8 @@ RSpec.describe BookingConditions::BookingDateTime, type: :model do
       end
 
       it 'lists both conditions as paradox' do
-        expect(paradox_conditions.first.paradox_conditions).to contain_exactly(*paradox_conditions)
-        expect(paradox_conditions.last.paradox_conditions).to contain_exactly(*paradox_conditions)
+        expect(paradox_conditions.first.paradox_conditions).to match_array(paradox_conditions)
+        expect(paradox_conditions.last.paradox_conditions).to match_array(paradox_conditions)
       end
     end
 

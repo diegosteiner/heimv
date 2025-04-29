@@ -24,12 +24,9 @@ RSpec.describe Import::Csv::TenantImporter, type: :model do
     it { is_expected.to be_valid }
 
     it do
-      expect(record.first_name).to eq('Peter')
-      expect(record.last_name).to eq('Muster')
-      expect(record.street_address).to eq('Teststrasse 24')
-      expect(record.zipcode).to eq('8049')
-      expect(record.city).to eq('Zürich')
-      expect(record.email).to eq('test@heimv.test')
+      is_expected.to have_attributes(first_name: eq('Peter'), last_name: eq('Muster'),
+                                     street_address: eq('Teststrasse 24'),
+                                     zipcode: eq('8049'), city: eq('Zürich'), email: eq('test@heimv.test'))
     end
   end
 end

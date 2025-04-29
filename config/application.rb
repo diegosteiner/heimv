@@ -53,5 +53,7 @@ module Heimv
     end
 
     config.log_level = ENV.fetch('LOG_LEVEL', Rails.env.development? ? :debug : :warn).to_sym
+
+    # config.active_storage.draw_routes = false
   end
 end

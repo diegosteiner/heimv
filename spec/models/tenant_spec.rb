@@ -34,7 +34,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Tenant, type: :model do
+RSpec.describe Tenant do
   let(:organisation) { create(:organisation) }
   let(:home) { create(:home, organisation:) }
   let(:tenant) { build(:tenant, first_name: 'Peter', last_name: 'Muster', organisation:) }

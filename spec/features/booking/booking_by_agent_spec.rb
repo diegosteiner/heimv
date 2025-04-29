@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Booking by agent', :devise, type: :feature do
+describe 'Booking by agent', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
@@ -40,7 +40,7 @@ describe 'Booking by agent', :devise, type: :feature do
     %w[open_request booking_agent_request awaiting_tenant definitive_request]
   end
 
-  it 'flows through happy path' do
+  it 'flows through happy path' do # rubocop:disable RSpec/NoExpectationExample
     create_agent_booking_request
     signin(user, user.password)
     accept_booking
@@ -103,7 +103,7 @@ describe 'Booking by agent', :devise, type: :feature do
     expect(page).to have_content(I18n.t('flash.actions.update.notice', resource_name: AgentBooking.model_name.human))
 
     click_button BookingActions::CommitBookingAgentRequest.t(:label)
-    expect(page).not_to have_content(I18n.t('flash.actions.update.alert', resource_name: AgentBooking.model_name.human))
+    expect(page).to have_no_content(I18n.t('flash.actions.update.alert', resource_name: AgentBooking.model_name.human))
   end
 
   def accept_booking
@@ -126,5 +126,46 @@ describe 'Booking by agent', :devise, type: :feature do
     expect(booking.notifications.map { |notification| notification.mail_template.key })
       .to match_array(expected_notifications)
     expect(booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
+  end
+
+  describe 'check conflicting bookings' do
+    before do
+      create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                       occupancy_type: :tentative, initial_state: :provisional_request)
+    end
+
+    context 'without waitlist_enabled' do
+      it 'returns error' do
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        click_on 'agent-booking-button'
+
+        choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
+        fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
+        fill_in 'agent_booking_booking_agent_ref', with: agent_ref
+        submit_form
+        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
+
+    context 'with waitlist_enabled' do
+      before do
+        organisation.booking_state_settings.enable_waitlist = true
+        organisation.save!
+      end
+
+      it 'returns no error' do
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        click_on 'agent-booking-button'
+
+        choose 'agent_booking[booking_attributes][booking_category_id]', option: booking.category.id
+        fill_in 'agent_booking_booking_agent_code', with: booking_agent.code
+        fill_in 'agent_booking_booking_agent_ref', with: agent_ref
+        expect(page).to have_no_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
   end
 end

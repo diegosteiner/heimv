@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+# == Schema Information
+#
+# Table name: data_digest_templates
+#
+#  id               :bigint           not null, primary key
+#  columns_config   :jsonb
+#  group            :string
+#  label            :string
+#  prefilter_params :jsonb
+#  type             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  organisation_id  :bigint           not null
+#
+
+FactoryBot.define do
+  factory :data_digest do
+    organisation
+  end
+end

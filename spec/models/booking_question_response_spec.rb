@@ -14,7 +14,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingQuestionResponse, type: :model do
+RSpec.describe BookingQuestionResponse do
   let(:organisation) { create(:organisation) }
   let(:booking) { create(:booking, organisation:) }
 

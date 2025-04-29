@@ -6,6 +6,7 @@ module Public
 
     def show
       response.headers['Content-Type'] = document.file.content_type
+      response.headers['X-Robots-Tag'] = 'noindex, nofollow'
 
       document.file.download do |chunk|
         response.stream.write(chunk)

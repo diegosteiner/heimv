@@ -22,7 +22,7 @@
 
 FactoryBot.define do
   factory :agent_booking do
-    association :booking
+    booking
     committed_request { false }
     accepted_request { false }
 

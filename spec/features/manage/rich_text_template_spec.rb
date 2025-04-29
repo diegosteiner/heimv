@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'RichTextTemplate', :devise, type: :feature do
+describe 'RichTextTemplate', :devise do
   let(:organisation) { create(:organisation) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :admin, organisation:) }

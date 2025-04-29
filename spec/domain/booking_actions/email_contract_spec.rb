@@ -3,21 +3,22 @@
 require 'rails_helper'
 
 describe BookingActions::EmailContract do
-  subject(:action) { described_class.new(booking, :email_contract) }
-  subject(:invoke) { action.invoke }
   subject(:booking_after_invoke) do
     invoke
     booking.notifications.each(&:deliver)
     booking
   end
 
+  let(:action) { described_class.new(booking, :email_contract) }
   let(:organisation) { create(:organisation, :with_templates) }
   let(:booking) { create(:booking, organisation:, initial_state:) }
   let(:initial_state) { :definitive_request }
-  let!(:contract) { create(:contract, booking:) }
+  let(:invoke) { action.invoke }
+
+  before { create(:contract, booking:) }
 
   describe '#invokable?' do
-    it { expect(action.invokable?).to be_truthy }
+    it { expect(action).to be_invokable }
   end
 
   describe '#invoke' do
@@ -42,7 +43,8 @@ describe BookingActions::EmailContract do
     it { expect(invokable_with[:label]).to eq(I18n.t('booking_actions.email_contract.label_without_deposit')) }
 
     context 'with deposit' do
-      let!(:deposit) { Invoice::Factory.new(booking).build(type: Invoices::Deposit.to_s).tap(&:save) }
+      before { Invoice::Factory.new(booking).build(type: Invoices::Deposit.to_s).tap(&:save) }
+
       it { expect(invokable_with[:label]).to eq(I18n.t('booking_actions.email_contract.label_with_deposit')) }
     end
   end

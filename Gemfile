@@ -76,9 +76,11 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'rubocop-capybara'
+  gem 'rubocop-factory_bot'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
-  gem 'rubocop-rspec'
+  gem 'rubocop-rspec_rails'
   gem 'simplecov', require: false
 end
 

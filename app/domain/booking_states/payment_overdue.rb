@@ -2,7 +2,7 @@
 
 module BookingStates
   class PaymentOverdue < Base
-    use_mail_template(:payment_overdue_notification, context: %i[booking])
+    use_mail_template(:payment_overdue_notification, context: %i[booking invoices])
 
     include Rails.application.routes.url_helpers
 
@@ -14,13 +14,14 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::LateNotice
-    end
-
     after_transition do |booking|
       booking.deadline&.clear!
-      MailTemplate.use(:payment_overdue_notification, booking, to: :tenant, &:autodeliver!)
+
+      invoices = booking.invoices.kept.unsettled
+      MailTemplate.use(:payment_overdue_notification, booking, to: :tenant, context: { invoices: })&.tap do |mail|
+        mail.attach(invoices)
+        mail.autodeliver!
+      end
     end
 
     infer_transition(to: :completed) do |booking|

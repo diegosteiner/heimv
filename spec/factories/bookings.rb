@@ -55,10 +55,10 @@ FactoryBot.define do
     notifications_enabled { true }
     purpose_description { 'Pfadilager Test' }
     skip_infer_transitions { true }
-    home { build(:home, organisation:) }
+    home { association(:home, organisation:) }
     transient do
       initial_state { nil }
-      tenant { build(:tenant, organisation:, email:) }
+      tenant { association(:tenant, organisation:, email:) }
     end
 
     after(:build) do |booking, evaluator|

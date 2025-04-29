@@ -18,7 +18,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Deadline, type: :model do
+RSpec.describe Deadline do
   let(:booking) { create(:booking) }
   let(:deadline) { build(:deadline, booking:) }
 
@@ -54,7 +54,7 @@ RSpec.describe Deadline, type: :model do
       end
     end
 
-    context 'with length not set' do
+    context 'with length set to 0' do
       let(:length) { 0 }
 
       it 'creates unarmed deadline' do

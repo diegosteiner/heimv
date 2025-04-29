@@ -33,15 +33,17 @@ module BookingFlows
       end
     end
 
-    def initialize(object, options = {})
-      super(object, options.reverse_merge(transition_class: Booking::StateTransition,
-                                          association_name: :state_transitions))
+    delegate :organisation, to: :booking
+
+    def initialize(booking, options = {})
+      super(booking, options.reverse_merge(transition_class: Booking::StateTransition,
+                                           association_name: :state_transitions))
     end
 
     def booking_state
       return @booking_state if @booking_state&.to_s == current_state.to_s && @booking_state.booking == booking
 
-      @booking_state = BookingStates[current_state&.to_sym]&.new(booking)
+      @booking_state = self.class.state_classes[current_state&.to_sym]&.new(booking)
     end
 
     def booking

@@ -27,7 +27,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Booking::StateTransition, type: :model do
+RSpec.describe Booking::StateTransition do
   let(:organisation) { create(:organisation) }
   let(:booking) { create(:booking, organisation:) }
   let(:transition) { build(:booking_state_transition, booking:, to_state:) }

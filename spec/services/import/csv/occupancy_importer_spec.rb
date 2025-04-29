@@ -21,7 +21,7 @@ RSpec.describe Import::Csv::OccupancyImporter, type: :model do
       ENDCSV
     end
 
-    it { result.records.each { |record| expect(record).to be_valid } }
+    it { expect(result.records).to all(be_valid) }
     it { expect(result).to be_ok }
 
     it do

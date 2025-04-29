@@ -50,7 +50,7 @@ RSpec::Matchers.define :have_state do |expected|
   end
 end
 
-describe Booking, type: :model do
+describe Booking do
   let(:organisation) { home.organisation }
   let(:tenant) { create(:tenant, organisation:) }
   let(:home) { create(:home) }
@@ -73,20 +73,23 @@ describe Booking, type: :model do
 
   describe '#roles' do
     subject(:roles) { booking.roles }
+
     before do
       booking.save
       booking.reload
     end
 
     it { expect(roles).to eq({ administration: organisation, tenant: booking.tenant }) }
+
     it do
-      expect(Booking::ROLES).to contain_exactly(*%i[organisation tenant booking_agent administration
-                                                    home_handover home_return billing])
+      expect(Booking::ROLES).to match_array(%i[organisation tenant booking_agent administration
+                                               home_handover home_return billing])
     end
 
     context 'with agent_booking' do
       let(:booking_agent) { create(:booking_agent, organisation:) }
-      let!(:agent_booking) { create(:agent_booking, organisation:, booking:, booking_agent_code: booking_agent.code) }
+
+      before { create(:agent_booking, organisation:, booking:, booking_agent_code: booking_agent.code) }
 
       it { expect(roles[:booking_agent]).to eq(booking_agent) }
     end
@@ -100,6 +103,7 @@ describe Booking, type: :model do
           billing: create(:operator, organisation:)
         }
       end
+
       before do
         responsibilities.each do |responsibility, operator|
           booking.operator_responsibilities.create(responsibility:, operator:)
@@ -140,6 +144,7 @@ describe Booking, type: :model do
 
   describe '#apply_transitions' do
     let(:target_state) { :open_request }
+
     it 'add an error when trying to transition into invalid state' do
       # booking.skip_infer_transitions = true
       expect(booking.apply_transitions(:nonexistent)).to be_falsy

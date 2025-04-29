@@ -15,6 +15,6 @@
 
 require 'rails_helper'
 
-RSpec.describe Booking::Log, type: :model do
+RSpec.describe Booking::Log do
   pending "add some examples to (or delete) #{__FILE__}"
 end

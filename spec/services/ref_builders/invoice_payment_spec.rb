@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe RefBuilders::InvoicePayment, type: :model do
+  subject(:ref_builder) { described_class.new(invoice) }
+
   let(:organisation) { create(:organisation, esr_ref_prefix: 9999) }
   let(:invoice) { create(:invoice, organisation:, sequence_number: 386, sequence_year: 2023) }
-
-  subject(:ref_builder) { described_class.new(invoice) }
 
   describe '::checksum' do
     it 'calculates the checksum' do
@@ -27,16 +27,19 @@ RSpec.describe RefBuilders::InvoicePayment, type: :model do
 
     context 'with default template' do
       let(:template) { described_class::DEFAULT_TEMPLATE }
+
       it { is_expected.to eq('9999000001202300386') }
     end
 
     context 'with no template' do
       let(:template) { nil }
+
       it { is_expected.to be_nil }
     end
 
     context 'with sequence_numnber ref_parts' do
       let(:template) { '%<short_sequence_year>d-%<sequence_year>d-%05<sequence_number>d' }
+
       it { is_expected.to eq('23-2023-00386') }
     end
   end

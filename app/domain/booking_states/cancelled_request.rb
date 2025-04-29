@@ -9,10 +9,6 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::Invoice
-    end
-
     def self.to_sym
       :cancelled_request
     end
@@ -24,12 +20,6 @@ module BookingStates
       MailTemplate.use(:manage_cancelled_request_notification, booking, to: :administration, &:autodeliver!)
       MailTemplate.use(:cancelled_request_notification, booking,
                        to: booking.agent_booking ? :booking_agent : :tenant, &:autodeliver!)
-    end
-
-    def relevant_time; end
-
-    def self.hidden
-      true
     end
   end
 end

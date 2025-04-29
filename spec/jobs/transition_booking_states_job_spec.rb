@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe TransitionBookingStatesJob, type: :job do
+RSpec.describe TransitionBookingStatesJob do
   describe '#perform' do
     subject(:transitions) { described_class.perform_now }
 

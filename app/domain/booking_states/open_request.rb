@@ -10,17 +10,15 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def self.to_sym
       :open_request
     end
 
     after_transition do |booking|
       booking.deadline&.clear!
-      booking.update(concluded: false)
+      booking.tentative!
+      booking.update(concluded: false) # in case it's reinstated from declined or cancelled
+
       OperatorResponsibility.assign(booking, :administration, :billing)
       MailTemplate.use(:manage_new_booking_notification, booking, to: :administration, &:autodeliver!)
 
@@ -28,6 +26,14 @@ module BookingStates
         MailTemplate.use(:open_booking_agent_request_notification, booking, to: :booking_agent, &:autodeliver!)
       else
         MailTemplate.use(:open_request_notification, booking, to: :tenant, &:autodeliver!)
+      end
+    end
+
+    guard_transition do |booking|
+      if booking.organisation.booking_state_settings.enable_waitlist
+        !booking.conflicting?
+      else
+        !booking.conflicting?(%i[occupied tentative])
       end
     end
 

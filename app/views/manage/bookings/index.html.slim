@@ -54,7 +54,7 @@ h1.my-0= Booking.model_name.human(count: 2)
     = t('.too_many_records')
 - else
   - grouped_bookings = @bookings.group_by { |booking| booking.booking_state_cache }
-  - current_organisation.booking_flow_class.all.values.each do |state|
+  - current_organisation.booking_flow_class.state_classes.values.each do |state|
     - bookings = grouped_bookings[state.to_s]
     - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
     - next if bookings.blank?

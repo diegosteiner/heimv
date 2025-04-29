@@ -26,8 +26,8 @@ fr:
         q: Référence de réservation, locataire, organisation
       booking_state_settings:
         default_manage_transition_to_state:
-        editable_occupancy_states:
-        occupied_occupancy_states: Statuts pour lesquels la réservation est considérée comme "définitive
+        editable_booking_states:
+        occupied_booking_states: Statuts pour lesquels la réservation est considérée comme "définitive
       deadline_settings:
         awaiting_contract_deadline: Délai de réception du contrat
         awaiting_tenant_deadline: Demande de location transmise (données du locataire manquantes)

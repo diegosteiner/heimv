@@ -26,8 +26,8 @@ it:
         q:
       booking_state_settings:
         default_manage_transition_to_state:
-        editable_occupancy_states:
-        occupied_occupancy_states:
+        editable_booking_states:
+        occupied_booking_states:
       deadline_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
         awaiting_tenant_deadline:

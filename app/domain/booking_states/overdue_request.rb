@@ -2,14 +2,10 @@
 
 module BookingStates
   class OverdueRequest < Base
-    use_mail_template(:overdue_request_notification, context: %i[booking], optional: true)
+    use_mail_template(:overdue_request_notification, context: %i[booking invoices], optional: true)
 
     def checklist
       []
-    end
-
-    def invoice_type
-      Invoices::Deposit
     end
 
     def self.to_sym
@@ -20,7 +16,12 @@ module BookingStates
       booking.deadline&.clear!
       length = booking.organisation.deadline_settings.overdue_request_deadline
       booking.create_deadline(length:, remarks: booking.booking_state.t(:label)) unless length.negative?
-      MailTemplate.use(:overdue_request_notification, booking, to: :tenant, &:autodeliver!)
+
+      invoices = booking.invoices.kept.unsettled
+      MailTemplate.use(:overdue_request_notification, booking, to: :tenant, context: { invoices: })&.tap do |mail|
+        mail.attach(invoices)
+        mail.autodeliver!
+      end
     end
 
     infer_transition(to: :definitive_request) do |booking|

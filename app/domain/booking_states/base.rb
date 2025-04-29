@@ -70,8 +70,8 @@ module BookingStates
         add_callback(callback_type: :guards, callback_class: Statesman::Guard, from:, &)
       end
 
-      def occupied_occupancy_state?(booking)
-        booking&.organisation&.booking_state_settings&.occupied_occupancy_states&.include?(to_sym.to_s) # rubocop:disable Style/SafeNavigationChainLength
+      def occupied_booking_state?(booking)
+        booking&.organisation&.booking_state_settings&.occupied_booking_states&.include?(to_sym.to_s) # rubocop:disable Style/SafeNavigationChainLength
       end
     end
 
@@ -106,7 +106,7 @@ module BookingStates
     def relevant_time; end
 
     def editable
-      @booking.organisation&.booking_state_settings&.editable_occupancy_states&.include?(to_sym.to_s)
+      @booking.organisation&.booking_state_settings&.editable_booking_states&.include?(to_sym.to_s)
     end
   end
 end

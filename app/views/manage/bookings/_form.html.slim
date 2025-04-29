@@ -1,11 +1,12 @@
 = form_with(model: [:manage, @booking], html: { novalidate: true }) do |f|
-  - if @booking.errors.any?
+  - errors = @booking.errors.to_hash(true).except(%w[tenant.bookings])
+  - if errors.any?
     .alert.alert-danger.d-flex
       .me-3
-        i.fa.fa-exclamation-circle               
-      ul.m-0
-        - @booking.errors.full_messages.each do |message|
-          li= message
+        i.fa.fa-exclamation-circle
+      ul.mb-0.ps-3
+        - errors.values.flatten.each do |error|
+          li= error
 
   fieldset 
     = react_component('BookingOccupancyForm', { \ 

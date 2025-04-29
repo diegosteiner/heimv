@@ -17,11 +17,12 @@
 
 require 'rails_helper'
 
-RSpec.describe DataDigestTemplates::Tabular, type: :model do
-  subject(:data_digest_template) do
+RSpec.describe DataDigestTemplates::Tabular do
+  subject(:columns) { data_digest_template.columns }
+
+  let(:data_digest_template) do
     build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
   end
-  subject(:columns) { data_digest_template.columns }
   let(:organisation) { create(:organisation) }
 
   describe '#columns' do

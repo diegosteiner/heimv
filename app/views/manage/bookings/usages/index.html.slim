@@ -4,9 +4,9 @@
 - if @usages.any?
   section.mt-4
     = render layout: 'manage/bookings/usages/table', locals: { usages: @usages } do
-      - invoice_type = @booking.booking_state.invoice_type
-      - if can?(:manage, @booking) && invoice_type.present? && !@booking.invoices.where(type: invoice_type.to_s).exists?
-        button.ms-2.btn.btn-outline-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking, invoice:  { type: invoice_type })]
+      - invoice_type = @booking.past? ? Invoices::Invoice : Invoices::Deposit
+      - if can?(:manage, @booking) && invoice_type.present? && !@booking.invoices.where(type: invoice_type.sti_name).exists?
+        button.ms-2.btn.btn-outline-primary[type=:submit name=:return_to value=new_manage_booking_invoice_path(@booking, invoice:  { type: invoice_type.sti_name })]
           = t('manage.bookings.usages.index.save_and_continue', invoice_type: invoice_type.model_name.human)
 
   hr.mt-5

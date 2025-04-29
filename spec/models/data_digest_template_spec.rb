@@ -16,7 +16,3 @@
 #
 
 require 'rails_helper'
-
-RSpec.describe DataDigestTemplate, type: :model do
-  subject(:data_digest_template) { described_class.new }
-end

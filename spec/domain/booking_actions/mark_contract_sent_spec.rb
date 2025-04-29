@@ -3,17 +3,18 @@
 require 'rails_helper'
 
 describe BookingActions::MarkContractSent do
-  subject(:action) { described_class.new(booking, :mark_contract_sent) }
-  subject(:invoke) { action.invoke }
   subject(:booking_after_invoke) do
     invoke
     booking
   end
 
+  let(:action) { described_class.new(booking, :mark_contract_sent) }
   let(:organisation) { create(:organisation, :with_templates) }
   let(:booking) { create(:booking, organisation:, initial_state:) }
   let(:initial_state) { :definitive_request }
-  let!(:contract) { create(:contract, booking:) }
+  let(:invoke) { action.invoke }
+
+  before { create(:contract, booking:) }
 
   describe '#invokable?' do
     subject(:allowed) { action.invokable? }

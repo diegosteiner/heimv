@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Tarif', :devise, type: :feature do
+describe 'Tarif', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :admin, organisation:) }

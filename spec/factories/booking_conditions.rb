@@ -20,7 +20,7 @@
 
 FactoryBot.define do
   factory :booking_condition do
-    association :qualifiable, factory: :tarif
+    qualifiable factory: %i[tarif]
     compare_value { '' }
     must_condition { true }
     organisation

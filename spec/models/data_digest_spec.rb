@@ -18,18 +18,10 @@
 
 require 'rails_helper'
 
-RSpec.describe DataDigest, type: :model do
+RSpec.describe DataDigest do
   subject(:data_digest) { create(:data_digest) }
 
   describe '#period' do
     it { expect(DataDigest::PERIODS[:ever].call(nil)).to eq(Range.new(nil, nil)) }
-  end
-
-  describe '#crunch', :skip do
-    # subject(:data_digest) { create(:data_digest, columns_config: columns_config) }
-    # subject(:columns) { data_digest.columns }
-
-    # it { expect(columns.count).to eq(2) }
-    # it { is_expected.to all(be_a DataDigest::Column) }
   end
 end

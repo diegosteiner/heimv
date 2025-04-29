@@ -20,7 +20,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingConditions::BookingAttribute, type: :model do
+RSpec.describe BookingConditions::BookingAttribute do
   describe '#evaluate' do
     subject { booking_condition.evaluate!(booking) }
 
@@ -85,7 +85,7 @@ RSpec.describe BookingConditions::BookingAttribute, type: :model do
       end
     end
 
-    context 'with "tenant_organisation" as attribute' do
+    context 'with "approximate_headcount" as attribute' do
       let(:compare_attribute) { :approximate_headcount }
       let(:booking) { create(:booking, approximate_headcount: 10, organisation:) }
 

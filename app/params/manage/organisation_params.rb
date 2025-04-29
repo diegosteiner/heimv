@@ -25,8 +25,8 @@ module Manage
     end
 
     def self.booking_state_settings_permitted_keys
-      %i[default_manage_transition_to_state] +
-        [{ occupied_occupancy_states: [], editable_occupancy_states: [] }]
+      %i[default_manage_transition_to_state enable_waitlist enable_provisional_request] +
+        [{ occupied_booking_states: [], editable_booking_states: [] }]
     end
 
     def self.deadline_settings_permitted_keys

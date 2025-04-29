@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImproveInvoiceNotificationTemplates < ActiveRecord::Migration[8.0]
   def change
     reversible do |direction|
@@ -19,6 +21,6 @@ class ImproveInvoiceNotificationTemplates < ActiveRecord::Migration[8.0]
       operator_invoice_sent_notification: :operator_email_invoice_notification,
       operator_contract_sent_notification: :operator_email_contract_notification,
       offer_notification: :email_offer_notification
-    }.each { |old_key, new_key| RichTextTemplate.where(key: old_key).update_all(key: new_key) }
+    }.each { |old_key, new_key| RichTextTemplate.where(key: old_key).update_all(key: new_key) } # rubocop:disable Rails/SkipsModelValidations
   end
 end

@@ -1,7 +1,10 @@
 plugins:
   - rubocop-rails
   - rubocop-performance
-  # - rubocop-rspec
+  - rubocop-rspec
+  - rubocop-rspec_rails
+  - rubocop-capybara
+  - rubocop-factory_bot
 
 AllCops:
   NewCops: enable
@@ -12,11 +15,11 @@ AllCops:
     - "public/**/*"
     - "tmp/**/*"
     - "db/schema.rb"
-    - "db/migrate/*"
+    - "db/migrate/*_init_schema.rb"
     - "vendor/**/*"
     - "lib/**/*"
     - "node_modules/**/*"
-    - "db/seeders/*"
+    - "local/**/*"
     - ".git/**/*"
 
 Rails:
@@ -24,8 +27,7 @@ Rails:
 
 Layout/LineLength:
   Max: 120
-  AllowedPatterns:
-    - !ruby/regexp /\A#/
+  AllowedPatterns: ['^(\s*#)']
 
 Metrics/ClassLength:
   Max: 150
@@ -73,20 +75,38 @@ Style/GlobalVars:
     - "app/services/cache_store_config_service.rb"
     - "config/initializers/redis.rb"
 
-Style/SymbolProc:
-  Enabled: false
-
 Style/SafeNavigationChainLength:
   Max: 3
 
+RSpec/ImplicitSubject:
+  Enabled: false 
+
+RSpec/InstanceVariable:
+  Exclude:
+    - "spec/features/booking/**/*_spec.rb"
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+  Exclude:
+    - "spec/features/booking/**/*_spec.rb"
+
+RSpec/NestedGroups:
+  Max: 4
+  Exclude:
+    - "spec/domain/booking_flows/*_spec.rb"
+
+RSpec/MultipleExpectations:
+  Max: 5
+
+RSpec/ExampleLength: 
+  Max: 10
+
+Style/SymbolProc:
+  # bug with false positives
+  Exclude:
+    - "app/domain/booking_states/**/*.rb"
+    - "app/serializers/**/*.rb"
+
 # TODO: bug with false positives
 Lint/UnusedMethodArgument:
-  Enabled: false
-
-# TODO: bug with false positives
-Style/RedundantDoubleSplatHashBraces:
-  Enabled: false
-
-# TODO: bug
-Rails/UniqueValidationWithoutIndex:
   Enabled: false

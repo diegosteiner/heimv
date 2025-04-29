@@ -9,15 +9,12 @@ module BookingStates
       BookingStateChecklistItem.prepare(:usages_entered, :invoice_created, booking:)
     end
 
-    def invoice_type
-      Invoices::Invoice
-    end
-
     def self.to_sym
       :past
     end
 
     after_transition do |booking|
+      OperatorResponsibility.assign(booking, :administration, :billing)
       MailTemplate.use(:past_notification, booking, to: :tenant, &:autodeliver!)
     end
 

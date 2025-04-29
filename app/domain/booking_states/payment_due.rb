@@ -8,10 +8,6 @@ module BookingStates
       BookingStateChecklistItem.prepare(:invoices_settled, booking:)
     end
 
-    def invoice_type
-      Invoices::Invoice
-    end
-
     def self.to_sym
       :payment_due
     end

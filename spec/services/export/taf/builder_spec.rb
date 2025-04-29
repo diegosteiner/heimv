@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe Export::Taf::Builder, type: :model do
   subject(:builder) { described_class.new }
+
   let(:organisation) { create(:organisation, :with_accounting) }
   let(:booking) { create(:booking, organisation:, tenant:) }
   let(:vat_category) { create(:vat_category, organisation:, percentage: 50, accounting_vat_code: 'VAT50') }
@@ -11,6 +12,7 @@ describe Export::Taf::Builder, type: :model do
     create(:tenant, sequence_number: 200_002, first_name: 'Max', last_name: 'Müller', organisation:,
                     street_address: 'Bahnhofstr. 1', city: 'Bern', zipcode: 1234)
   end
+
   before do
     organisation.accounting_settings.rental_yield_vat_category_id = vat_category.id
     organisation.save!
@@ -25,7 +27,7 @@ describe Export::Taf::Builder, type: :model do
                                text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
-      it do
+      it do # rubocop:disable RSpec/ExampleLength
         builder.journal_entry(journal_entry)
         expect(builder.blocks).to all(be_a(Export::Taf::Block))
         expect(builder.blocks.first.to_s).to eq(<<~TAF.chomp)
@@ -69,7 +71,7 @@ describe Export::Taf::Builder, type: :model do
       let(:invoice) { booking.invoices.last }
       let(:journal_entry) { JournalEntry.where(booking:, invoice:, payment: nil).last }
 
-      it do
+      it do # rubocop:disable RSpec/ExampleLength
         builder.journal_entry(journal_entry)
         expect(builder.blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
           {Adr
@@ -208,7 +210,7 @@ describe Export::Taf::Builder, type: :model do
         JournalEntry.where(booking:, invoice:, payment: nil).update_all(processed_at: 1.month.ago) # rubocop:disable Rails/SkipsModelValidations
       end
 
-      it do
+      it do # rubocop:disable RSpec/ExampleLength
         builder.journal_entry(journal_entry)
         expect(builder.blocks).to all(be_a(Export::Taf::Block))
         expect(builder.blocks.first.to_s).to eq(<<~TAF.chomp)
@@ -217,10 +219,10 @@ describe Export::Taf::Builder, type: :model do
             Orig=1
 
             {Bk
-              AccId=1025
+              AccId=1050
               Date=24.12.2024
               Text="Zahlung 240001"
-              Type=0
+              Type=1
               ValNt=999.99
               PkKey=#{booking.tenant.ref}
               OpId=240001
@@ -228,10 +230,10 @@ describe Export::Taf::Builder, type: :model do
             }
 
             {Bk
-              AccId=1050
+              AccId=1025
               Date=24.12.2024
               Text="Zahlung 240001"
-              Type=1
+              Type=0
               ValNt=999.99
 
             }
@@ -242,7 +244,7 @@ describe Export::Taf::Builder, type: :model do
   end
 
   describe '#tenant' do
-    it do
+    it do # rubocop:disable RSpec/ExampleLength
       builder.tenant(tenant)
       expect(builder.blocks).to contain_exactly(be_a(Export::Taf::Block), be_a(Export::Taf::Block))
       expect(builder.blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)

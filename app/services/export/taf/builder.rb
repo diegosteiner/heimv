@@ -18,84 +18,83 @@ module Export
       end
 
       def journal_entry_fragment(fragment, override = {})
-        block(:Bk, **{
-                # The Id of a book keeping account. [Fibu-Konto]
-                AccId: Value.cast(fragment.account_nr, as: :symbol),
+        block(:Bk,
+              AccId: Value.cast(fragment.account_nr, as: :symbol),
 
-                # Integer; Booking type: 1=cost booking, 2=tax booking
-                BType: { main: nil, cost: 1, vat: 2 }[fragment.book_type&.to_sym],
+              # Integer; Booking type: 1=cost booking, 2=tax booking
+              BType: { main: nil, cost: 1, vat: 2 }[fragment.book_type&.to_sym],
 
-                # Integer; This is the index of the booking that represents the cost booking which is attached to t
-                # his booking
-                # CIdx: fragment.index,
+              # Integer; This is the index of the booking that represents the cost booking which is attached to t
+              # his booking
+              # CIdx: fragment.index,
 
-                # String[9]; A user definable code.
-                # Code: nil,
+              # String[9]; A user definable code.
+              # Code: nil,
 
-                # Date; The date of the booking.
-                Date: fragment.journal_entry.date,
+              # Date; The date of the booking.
+              Date: fragment.journal_entry.date,
 
-                # IntegerAuxilliary flags. This fragment consists of the sum of one or more of
-                # the following biases:
-                # 1 - The booking is the first one into the specified OP.
-                # 16 - This is a hidden booking. [Transitorische]
-                # 32 - This booking is the exit booking, as oposed to the return booking.
-                # Only valid if the hidden flag is set.
-                Flags: nil,
+              # IntegerAuxilliary flags. This fragment consists of the sum of one or more of
+              # the following biases:
+              # 1 - The booking is the first one into the specified OP.
+              # 16 - This is a hidden booking. [Transitorische]
+              # 32 - This booking is the exit booking, as oposed to the return booking.
+              # Only valid if the hidden flag is set.
+              Flags: nil,
 
-                # String[5]; The Id of the tax. [MWSt-Kürzel]
-                TaxId: (fragment.book_type_main? && fragment.vat_category&.percentage&.positive? &&
-                      fragment.vat_category&.accounting_vat_code) || nil,
+              # String[5]; The Id of the tax. [MWSt-Kürzel]
+              TaxId: (fragment.book_type_main? && fragment.vat_category&.percentage&.positive? &&
+                            fragment.vat_category&.accounting_vat_code) || nil,
 
-                # MkTxB: fragment.vat_category&.accounting_vat_code.present?,
+              # MkTxB: fragment.vat_category&.accounting_vat_code.present?,
 
-                # String[61*]; This string specifies the first line of the booking text.
-                Text: fragment.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
+              # String[61*]; This string specifies the first line of the booking text.
+              Text: fragment.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
 
-                #  String[*]; This string specifies the second line of the booking text.
-                # (*)Both fields Text and Text2 are stored in the same memory location,
-                # which means their total length may not exceed 60 characters (1 char is
-                # required internally).
-                # Be careful not to put too many characters onto one single line, because
-                # most Reports are not designed to display a full string containing 60
-                # characters.
-                Text2: fragment.text&.slice(0..59)&.lines&.[](1..)&.join("\n").presence, # rubocop:disable Style/SafeNavigationChainLength
+              #  String[*]; This string specifies the second line of the booking text.
+              # (*)Both fields Text and Text2 are stored in the same memory location,
+              # which means their total length may not exceed 60 characters (1 char is
+              # required internally).
+              # Be careful not to put too many characters onto one single line, because
+              # most Reports are not designed to display a full string containing 60
+              # characters.
+              Text2: fragment.text&.slice(0..59)&.lines&.[](1..)&.join("\n").presence, # rubocop:disable Style/SafeNavigationChainLength
 
-                # Integer; This is the index of the booking that represents the tax booking
-                # which is attached to this booking.
-                # TIdx: (fragment.amount_type&.to_sym == :tax && fragment.index) || nil,
+              # Integer; This is the index of the booking that represents the tax booking
+              # which is attached to this booking.
+              # TIdx: (fragment.amount_type&.to_sym == :tax && fragment.index) || nil,
 
-                # Boolean; Booking type.
-                # 0 a debit booking [Soll]
-                # 1 a credit booking [Haben]
-                Type: { soll: 0, haben: 1 }[fragment.side&.to_sym],
+              # Boolean; Booking type.
+              # 0 a debit booking [Soll]
+              # 1 a credit booking [Haben]
+              Type: { soll: 0, haben: 1 }[fragment.side&.to_sym],
 
-                # Currency; The net amount for this booking. [Netto-Betrag]
-                ValNt: fragment.amount,
+              # Currency; The net amount for this booking. [Netto-Betrag]
+              ValNt: fragment.amount,
 
-                # Currency; The tax amount for this booking. [Brutto-Betrag]
-                # ValBt: fragment.amount,
+              # Currency; The tax amount for this booking. [Brutto-Betrag]
+              # ValBt: fragment.amount,
 
-                # Currency; The tax amount for this booking. [Steuer-Betrag]
-                ValTx: {
-                  vat: fragment.vat_breakup&.[](:netto),
-                  main: fragment.vat_breakup&.[](:vat)
-                }[fragment.book_type&.to_sym],
+              # Currency; The tax amount for this booking. [Steuer-Betrag]
+              ValTx: {
+                vat: fragment.vat_breakup&.[](:netto),
+                main: fragment.vat_breakup&.[](:vat)
+              }[fragment.book_type&.to_sym],
 
-                # Currency; The gross amount for this booking in the foreign currency specified
-                # by currency of the account AccId. [FW-Betrag]
-                # ValFW : not implemented
+              # Currency; The gross amount for this booking in the foreign currency specified
+              # by currency of the account AccId. [FW-Betrag]
+              # ValFW : not implemented
 
-                # String[13], This is the cost type account
-                # CAcc: (Value.cast(fragment.cost_account_nr, as: :symbol) if fragment.cost_account_nr),
-                CAcc: fragment.book_type_cost? && Value.cast(fragment.related(:main)&.account_nr, as: :symbol),
+              # String[13], This is the cost type account
+              # CAcc: (Value.cast(fragment.cost_account_nr, as: :symbol) if fragment.cost_account_nr),
+              CAcc: fragment.book_type_cost? && Value.cast(fragment.related(:main)&.account_nr, as: :symbol),
 
-                # String[13]The OP id of this booking.
-                # OpId: fragment.ref,
+              # String[13]The OP id of this booking.
+              # OpId: fragment.ref,
 
-                # The PK number of this booking.
-                PkKey: nil
-              }, **override)
+              # The PK number of this booking.
+              PkKey: nil,
+              **override)
       end
 
       def journal_entry(journal_entry)
@@ -116,7 +115,7 @@ module Export
       def default_journal_entry(journal_entry, override = {}, overrides = {})
         return if journal_entry.fragments.blank?
 
-        block(:Blg, **{ Date: journal_entry.date }, **override) do
+        block(:Blg, Date: journal_entry.date, **override) do
           journal_entry.fragments.each_with_index do |fragment, index|
             cost_index = (fragment.book_type_main? && journal_entry.fragments.index(fragment.related(:cost))) || nil
             vat_index = (fragment.book_type_main? && journal_entry.fragments.index(fragment.related(:vat))) || nil
@@ -128,28 +127,24 @@ module Export
       end
 
       def open_position(journal_entry, op_id, pk_key)
-        block(:OPd, **{ PkKey: pk_key, OpId: op_id, ZabId: '15T' })
+        block(:OPd, PkKey: pk_key, OpId: op_id, ZabId: '15T')
       end
 
       def tenant(tenant, _override = {})
         account_nr = Value.cast(tenant.ref, as: :symbol)
 
-        block(:Adr, **{
-                AdrId: account_nr,
-                Sort: I18n.transliterate(tenant.full_name).gsub(/\s/, '').upcase,
-                Corp: tenant.full_name,
-                Lang: 'D',
-                Road: tenant.street_address,
-                CCode: tenant.country_code,
-                ACode: tenant.zipcode,
-                City: tenant.city
-              })
-        block(:PKd, **{
-                PkKey: account_nr,
-                AdrId: account_nr,
-                AccId: Value.cast(tenant.organisation.accounting_settings.debitor_account_nr, as: :symbol),
-                ZabId: '15T'
-              })
+        block(:Adr, AdrId: account_nr,
+                    Sort: I18n.transliterate(tenant.full_name).gsub(/\s/, '').upcase,
+                    Corp: tenant.full_name,
+                    Lang: 'D',
+                    Road: tenant.street_address,
+                    CCode: tenant.country_code,
+                    ACode: tenant.zipcode,
+                    City: tenant.city)
+        block(:PKd, PkKey: account_nr,
+                    AdrId: account_nr,
+                    AccId: Value.cast(tenant.organisation.accounting_settings.debitor_account_nr, as: :symbol),
+                    ZabId: '15T')
       end
 
       def block(type, **properties, &)
