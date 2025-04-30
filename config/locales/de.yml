@@ -2083,12 +2083,12 @@ de:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>
 
-        <div>{% if invoices[0] %}</div>
+        <span>{% if invoices[0] %}</span>
         <p>Mit dieser Nachricht erhältst Du den Vertrag und die Akontorechnung für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück. Überweise bitte auch die angegebene Akontorechnung über {{ invoices[0].amount_open | currency }}.</p>
         <p>Bitte beachte, dass der Vertrag erst zustande kommt, wenn die Akontorechnung und der unterzeichnete Vertrag bei uns eingetroffen sind.</p>
-        <div>{% else %}</div>
+        <span>{% else %}</span>
         <p>Mit dieser Nachricht erhältst Du den Vertrag für Deine Reservation. Bitte lies die Dokumente durch und prüfe, ob alle Daten korrekt sind. Unterschreibe dann den Mietvertrag und sende ihn per E-Mail <strong>innert 7 Tagen</strong> an uns zurück.</p>
-        <div>{% endif %}</div>
+        <span>{% endif %}</span>
 
         <p><strong>Reservationsdetails</strong></p>
 
@@ -2106,7 +2106,11 @@ de:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>
 
-        <p>Im Anhang findest Du die Rechnung {{ invoice.ref }} für Deine Buchung. Bitte bezahle diese bis {{ invoice.payable_until | date_format }}.</p>
+        <span>{% if invoice.type == "Invoices::Deposit" %}</span>
+        <p>Im Anhang findest Du die Akontorechnung {{ invoice.ref }} für Deine Buchung. Bitte bezahle diese bis {{ invoice.payable_until | date_format }}.</p>
+        <span>{% elsif invoice.type == "Invoices::Invoice" %}</span>
+        <p>Im Anhang findest Du die Akontorechnung {{ invoice.ref }} für Deine Buchung. Bitte bezahle diese bis {{ invoice.payable_until | date_format }}.</p>
+        <span>{% endif %}</span>
 
         <p><strong>Reservationsdetails</strong></p>
 
