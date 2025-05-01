@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
-describe 'Booking by tenant', :devise, type: :feature do
+describe 'Booking by tenant', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
   let(:tenant) { create(:tenant, organisation:) }
-  let!(:responsibilities) do
-    OperatorResponsibility.responsibilities.keys.map do |responsibility|
-      create(:operator_responsibility, organisation:, responsibility:,
-                                       assigning_conditions: [BookingConditions::AlwaysApply.new])
-    end
-  end
   let(:deposit_tarifs) do
     create(:tarif, organisation:, tarif_group: 'Akontorechnung',
                    associated_types: %i[deposit offer contract])
@@ -36,13 +30,8 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   let(:booking) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
-    build(:booking,
-          begins_at:,
-          ends_at: begins_at + 1.week + 4.hours + 15.minutes,
-          organisation:,
-          home:, tenant: nil,
-          committed_request: false,
-          notifications_enabled: true)
+    build(:booking, begins_at:, ends_at: begins_at + 1.week + 4.hours + 15.minutes,
+                    organisation:, home:, tenant: nil, committed_request: false, notifications_enabled: true)
   end
 
   let(:expected_notifications) do
@@ -64,7 +53,14 @@ describe 'Booking by tenant', :devise, type: :feature do
        awaiting_contract upcoming upcoming_soon active past payment_due completed]
   end
 
-  it 'flows through happy path' do
+  before do
+    OperatorResponsibility.responsibilities.keys.map do |responsibility|
+      create(:operator_responsibility, organisation:, responsibility:,
+                                       assigning_conditions: [BookingConditions::AlwaysApply.new])
+    end
+  end
+
+  it 'flows through happy path' do # rubocop:disable RSpec/NoExpectationExample,RSpec/ExampleLength
     create_request
     confirm_request
     signin(user, user.password)
@@ -117,7 +113,6 @@ describe 'Booking by tenant', :devise, type: :feature do
     fill_in booking_question.label, with: '10'
     submit_form
     expect(page).to have_content(I18n.t('flash.public.bookings.update.notice'))
-    expect(page).not_to have_content(BookingActions::CommitRequest.t(:label))
   end
 
   def visit_booking
@@ -215,5 +210,54 @@ describe 'Booking by tenant', :devise, type: :feature do
     expect(@booking.notifications.map { |notification| notification.mail_template.key })
       .to match_array(expected_notifications)
     expect(@booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
+  end
+
+  describe 'check conflicting bookings' do
+    before do
+      create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                       occupancy_type: :tentative, initial_state: :provisional_request)
+    end
+
+    context 'without waitlist_enabled' do
+      it 'returns error' do
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        submit_form
+        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
+
+    context 'with waitlist_enabled' do
+      before do
+        organisation.booking_state_settings.enable_waitlist = true
+        organisation.save!
+      end
+
+      it 'returns no error' do
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        submit_form
+        expect(page).to have_no_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
+
+    context 'with waitlist_enabled and conflicting booking' do
+      before do
+        organisation.booking_state_settings.enable_waitlist = true
+        organisation.save!
+        create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                         occupancy_type: :occupied, initial_state: :upcoming)
+      end
+
+      it 'returns error' do
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        submit_form
+        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
   end
 end

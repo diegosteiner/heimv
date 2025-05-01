@@ -5,14 +5,14 @@
       .card-header.bg-warning-subtle.text-center
         = @agent_booking.booking.booking_state.translate(:label)
     .card-body
-      - if @agent_booking.errors.any?
+      - errors = @agent_booking.booking.errors.to_hash(true).except(%w[booking.tenant.bookings booking.agent_booking.tenant_email bookings.occupancies.base])
+      - if errors.any?
         .alert.alert-danger.d-flex
           .me-3
-            i.fa.fa-exclamation-circle               
-          - @agent_booking.errors.delete("booking.tenant.bookings")
-          - @agent_booking.errors.delete("booking.agent_booking.tenant_email")
-          - @agent_booking.errors.delete("booking.occupancies.base")
-          = @agent_booking.errors.full_messages.to_sentence
+            i.fa.fa-exclamation-circle
+          ul.mb-0.ps-3
+            - errors.values.flatten.each do |error|
+              li= error
 
       = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|
         h4.mt-0= Occupancy.model_name.human

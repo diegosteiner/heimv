@@ -7,19 +7,21 @@ describe BookingStates::AwaitingTenant do
     state BookingStates::Initial, to: [:awaiting_tenant], initial: true
     state BookingStates::AwaitingTenant
   end
-  let(:organisation) { create(:organisation, :with_templates, booking_flow_class:) }
-  let(:booking_agent) { create(:booking_agent, organisation:) }
-  let!(:agent_booking) { create(:agent_booking, booking:, booking_agent_code: booking_agent.code) }
-  subject(:booking) { create(:booking, organisation:, committed_request: false) }
-  subject(:transition) { booking.booking_flow.transition_to(described_class.to_sym) }
   subject(:transitioned_booking) do
     booking.booking_flow.transition_to(described_class.to_sym)
     booking
   end
 
+  let(:organisation) { create(:organisation, :with_templates, booking_flow_class:) }
+  let(:booking_agent) { create(:booking_agent, organisation:) }
+  let(:booking) { create(:booking, organisation:, committed_request: false) }
+  let(:transition) { booking.booking_flow.transition_to(described_class.to_sym) }
+
+  before { create(:agent_booking, booking:, booking_agent_code: booking_agent.code) }
+
   describe 'transition' do
     it { expect(transitioned_booking.booking_state).to(be_a(described_class)) }
-    it { expect(transitioned_booking.deadline).not_to be(nil) }
+    it { expect(transitioned_booking.deadline).not_to be_nil }
     it { expect(transitioned_booking).to be_occupied }
 
     it { expect(transitioned_booking).to notify(:awaiting_tenant_notification).to(:tenant) }

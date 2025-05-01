@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Tenant', :devise, type: :feature do
+describe 'Tenant', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :admin, organisation:) }
@@ -52,6 +52,6 @@ describe 'Tenant', :devise, type: :feature do
 
     page.driver.browser.switch_to.alert.accept
     expect(page).to have_content I18n.t('flash.actions.destroy.notice', resource_name: Tenant.model_name.human)
-    expect(page).not_to have_content tenant.full_name
+    expect(page).to have_no_content tenant.full_name
   end
 end

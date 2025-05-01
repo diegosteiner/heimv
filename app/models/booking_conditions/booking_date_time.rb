@@ -44,7 +44,7 @@ module BookingConditions
     end
 
     def evaluate!(booking)
-      actual_value = ComparableDatetime[evaluate_attribute(compare_attribute, with: { booking: })]
+      actual_value = ComparableDatetime.from_value(evaluate_attribute(compare_attribute, with: { booking: }))
       return if actual_value.blank? || comparable_compare_value.blank?
 
       evaluate_operator(compare_operator, with: { actual_value:, compare_value: comparable_compare_value })
@@ -76,9 +76,7 @@ module BookingConditions
     end
 
     def fullfills?(booking)
-      evaluate(booking) ||
-        evaluate_other_paradox_condition(booking) ||
-        (must_condition ? false : nil)
+      evaluate(booking) || evaluate_other_paradox_condition(booking) || (must_condition ? false : nil)
     end
   end
 end

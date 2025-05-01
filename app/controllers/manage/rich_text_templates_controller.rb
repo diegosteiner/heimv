@@ -26,7 +26,7 @@ module Manage
       redirect_to manage_rich_text_templates_path,
                   notice: t('manage.rich_text_templates.index.created_missing',
                             count: created.count,
-                            list: created.map { it.title }.to_sentence)
+                            list: created.map(&:title).to_sentence)
     end
 
     def create

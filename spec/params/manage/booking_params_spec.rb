@@ -10,8 +10,8 @@ describe Manage::BookingParams do
     subject { described_class.new(params.require(:booking)) }
 
     it do
-      expect(subject).to be_permitted
-      expect(subject.keys).to include('home_id')
+      is_expected.to be_permitted
+      is_expected.to have_attributes(keys: include('home_id'))
     end
   end
 end

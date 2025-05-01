@@ -20,11 +20,12 @@
 
 require 'rails_helper'
 
-RSpec.describe JournalEntry, type: :model do
+RSpec.describe JournalEntry do
+  subject(:builder) { JournalEntry::Factory.new }
+
   let(:booking) { create(:booking, organisation:) }
   let(:invoice) { create(:invoice, booking:) }
   let(:organisation) { create(:organisation, :with_accounting) }
-  subject(:builder) { JournalEntry::Factory.new }
 
   describe '::new' do
     subject(:journal_entries) do
@@ -41,13 +42,13 @@ RSpec.describe JournalEntry, type: :model do
       ]
     end
 
-    it 'builds the journal entry and fragments' do
+    it 'builds the journal entry and fragments' do # rubocop:disable RSpec/ExampleLength
       expect(journal_entries.map(&:save)).to all(be_truthy)
       expect(journal_entries).to contain_exactly(
         have_attributes(booking:, ref: 'test1'),
         have_attributes(booking:, ref: 'test2')
       )
-      expect(journal_entries.map { it.fragments }).to contain_exactly(
+      expect(journal_entries.map(&:fragments)).to contain_exactly(
         contain_exactly(
           have_attributes(side: 'soll', account_nr: '6000', amount: 1000),
           have_attributes(side: 'haben', account_nr: '1000', amount: 500),
@@ -62,6 +63,8 @@ RSpec.describe JournalEntry, type: :model do
   end
 
   describe '::Factory.invoice_created_journal_entry' do
+    subject(:journal_entries) { invoice.journal_entries.invoice }
+
     let(:organisation) { create(:organisation, :with_accounting) }
     let(:vat_category) { create(:vat_category, organisation:, percentage: 50, accounting_vat_code: 'VAT50') }
     let(:invoice) { booking.invoices.last }
@@ -69,14 +72,13 @@ RSpec.describe JournalEntry, type: :model do
       create(:booking, :invoiced, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27', prepaid_amount: 300,
                                   vat_category:)
     end
-    subject(:journal_entries) { invoice.journal_entries.invoice }
 
     before do
       organisation.accounting_settings.rental_yield_vat_category_id = vat_category.id
       organisation.save
     end
 
-    it 'creates to correct journal_entries' do
+    it 'creates to correct journal_entries' do # rubocop:disable RSpec/ExampleLength
       is_expected.to all(be_balanced)
       is_expected.to match_array(
         have_attributes(date: Date.new(2024, 12, 27), trigger: 'invoice_created', ref: '250001', amount: 420.0)
@@ -103,11 +105,11 @@ RSpec.describe JournalEntry, type: :model do
       end
 
       it 'creates new journal entries when the invoice is updated' do
-        is_expected.to match_array([
-                                     have_attributes(trigger: 'invoice_created', amount: 420.0, processed?: be_truthy),
-                                     have_attributes(trigger: 'invoice_updated', amount: 420.0, processed?: be_falsy),
-                                     have_attributes(trigger: 'invoice_updated', amount: 700.0, processed?: be_falsy)
-                                   ])
+        is_expected.to contain_exactly(
+          have_attributes(trigger: 'invoice_created', amount: 420.0, processed?: be_truthy),
+          have_attributes(trigger: 'invoice_updated', amount: 420.0, processed?: be_falsy),
+          have_attributes(trigger: 'invoice_updated', amount: 700.0, processed?: be_falsy)
+        )
       end
     end
   end
@@ -117,21 +119,24 @@ RSpec.describe JournalEntry, type: :model do
 
     context 'with normal payment' do
       let(:payment) { create(:payment, booking:, amount: 420.0, write_off: false, invoice: nil) }
+
       it 'creates new journal entry' do
         is_expected.to have_attributes(trigger: 'payment_created', amount: 420.0, processed?: false, payment:)
         expect(journal_entry.fragments).to contain_exactly(
-          have_attributes(account_nr: '1025', soll_amount: 420.0, book_type: 'main'),
-          have_attributes(account_nr: '1050', haben_amount: 420.0, book_type: 'main')
+          have_attributes(account_nr: '1050', haben_amount: 420.0, book_type: 'main'),
+          have_attributes(account_nr: '1025', soll_amount: 420.0, book_type: 'main')
         )
       end
     end
+
     context 'with write off payment' do
       let(:payment) { create(:payment, booking:, amount: 420.0, write_off: true, invoice: nil) }
+
       it 'creates new journal entry' do
         is_expected.to have_attributes(trigger: 'payment_created', amount: 420.0, processed?: false, payment:)
         expect(journal_entry.fragments).to contain_exactly(
-          have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main'),
-          have_attributes(account_nr: '6000', haben_amount: 420.0, book_type: 'main')
+          have_attributes(account_nr: '6000', haben_amount: 420.0, book_type: 'main'),
+          have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main')
         )
       end
     end

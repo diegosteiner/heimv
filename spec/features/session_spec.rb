@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Session', :devise, type: :feature do
+describe 'Session', :devise do
   let(:organisation_user) { create(:organisation_user, :manager) }
   let(:user) { organisation_user.user }
 
@@ -37,7 +37,7 @@ describe 'Session', :devise, type: :feature do
       expect(page).to have_content I18n.t 'devise.sessions.signed_in'
       click_link user.email
       click_link I18n.t 'nav.sign_out'
-      expect(page).not_to have_content user.email
+      expect(page).to have_no_content user.email
     end
   end
 end

@@ -20,7 +20,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BookingConditions::BookingCategory, type: :model do
+RSpec.describe BookingConditions::BookingCategory do
   describe '#evaluate' do
     subject { booking_condition.evaluate!(booking) }
 

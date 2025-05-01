@@ -67,6 +67,7 @@ FactoryBot.define do
       after(:create) do |organisation|
         onboarding = OnboardingService.new(organisation)
         onboarding.setup_missing_rich_text_templates
+        organisation.rich_text_templates.update_all(enabled: true) # rubocop:disable Rails/SkipsModelValidations
       end
     end
 
@@ -79,6 +80,7 @@ FactoryBot.define do
         organisation.accounting_settings.payment_account_nr ||= '1025'
         organisation.accounting_settings.liable_for_vat ||= true
       end
+
       after(:create) do |organisation|
         organisation.accounting_settings.rental_yield_vat_category_id ||= create(:vat_category, organisation:).id
         organisation.save

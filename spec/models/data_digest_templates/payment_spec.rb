@@ -17,12 +17,12 @@
 
 require 'rails_helper'
 
-RSpec.describe DataDigestTemplates::Payment, type: :model do
-  subject(:data_digest_template) do
-    build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
-  end
+RSpec.describe DataDigestTemplates::Payment do
   subject(:data_digest) { data_digest_template.data_digests.create }
 
+  let(:data_digest_template) do
+    build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
+  end
   let(:organisation) { create(:organisation) }
   let(:columns_config) { nil }
 

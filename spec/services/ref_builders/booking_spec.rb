@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe RefBuilders::Booking, type: :model do
+  subject(:ref_builder) { described_class.new(booking) }
+
   let(:organisation) { create(:organisation) }
   let(:begins_at) { DateTime.new(2030, 10, 15, 14) }
   let(:ends_at) { begins_at + 2.hours }
@@ -10,10 +12,10 @@ RSpec.describe RefBuilders::Booking, type: :model do
   let(:booking) do
     create(:booking, organisation:, begins_at:, ends_at:, home:, sequence_number: 420, sequence_year: 2024)
   end
-  subject(:ref_builder) { described_class.new(booking) }
 
   describe '#generate' do
     subject(:generate) { ref_builder.generate(template) }
+
     let(:template) { described_class::DEFAULT_TEMPLATE }
 
     context 'with default template' do
@@ -22,11 +24,13 @@ RSpec.describe RefBuilders::Booking, type: :model do
 
     context 'with no template' do
       let(:template) { nil }
+
       it { is_expected.to be_nil }
     end
 
     context 'with date ref_parts' do
       before { create(:booking, organisation:, begins_at:, ends_at:) }
+
       let(:template) { 'X%<year>04d%<month>02d-%02<day>d%<same_day_alpha>s' }
 
       it { is_expected.to eq('X203010-15a') }
@@ -34,6 +38,7 @@ RSpec.describe RefBuilders::Booking, type: :model do
 
     context 'with other ref_parts' do
       before { create(:booking, organisation:, begins_at:, ends_at:) }
+
       let(:template) { '%<sequence_year>d-%04<sequence_number>d' }
 
       it { is_expected.to eq('2024-0420') }

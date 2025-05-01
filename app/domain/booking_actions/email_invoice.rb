@@ -2,11 +2,11 @@
 
 module BookingActions
   class EmailInvoice < Base
-    use_mail_template(:email_invoice_notification, context: %i[booking invoice], autodeliver: false)
-    use_mail_template(:operator_email_invoice_notification, context: %i[booking invoice], optional: true)
+    use_mail_template(:email_invoice_notification, context: %i[booking invoice invoices], autodeliver: false)
+    use_mail_template(:operator_email_invoice_notification, context: %i[booking invoice invoices], optional: true)
 
     def invoke!(invoice_id:, current_user: nil)
-      invoice = booking.organisation.invoices.where(id: invoice_id)
+      invoice = booking.organisation.invoices.find_by(id: invoice_id)
       mail = send_tenant_notification(invoice)
       send_operator_notification(invoice)
 
@@ -37,7 +37,7 @@ module BookingActions
     protected
 
     def send_tenant_notification(invoice)
-      context = { invoice: }
+      context = { invoice:, invoices: [invoice] }
       MailTemplate.use!(:email_invoice_notification, booking, to: :tenant, context:).tap do |mail|
         mail.attach(invoice)
         mail.save!
@@ -46,7 +46,7 @@ module BookingActions
     end
 
     def send_operator_notification(invoice)
-      context = { invoice: }
+      context = { invoice:, invoices: [invoice] }
       MailTemplate.use(:operator_email_invoice_notification, booking, to: :billing, context:)&.tap do |mail|
         mail.attach(invoice)
         mail.autodeliver!

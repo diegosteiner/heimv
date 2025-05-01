@@ -9,10 +9,6 @@ module BookingStates
       []
     end
 
-    def invoice_type
-      Invoices::Deposit
-    end
-
     def roles
       %i[home_handover home_return]
     end
@@ -22,7 +18,7 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupied! if occupied_occupancy_state?(booking)
+      booking.occupied! if occupied_booking_state?(booking)
       Notification.dedup(booking, to: %i[administration home_handover home_return]) do |to|
         MailTemplate.use(:operator_upcoming_soon_notification, booking, to:, &:autodeliver!)
       end

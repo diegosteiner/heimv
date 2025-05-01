@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe RefBuilders::Tenant, type: :model do
+  subject(:ref_builder) { described_class.new(invoice) }
+
   let(:organisation) { create(:organisation) }
   let(:invoice) { create(:tenant, organisation:, sequence_number: 386) }
-
-  subject(:ref_builder) { described_class.new(invoice) }
 
   describe '::DEFAULT_TEPMPLATE' do
     it do
@@ -20,11 +20,13 @@ RSpec.describe RefBuilders::Tenant, type: :model do
 
     context 'with default template' do
       let(:template) { described_class::DEFAULT_TEMPLATE }
+
       it { is_expected.to eq('386') }
     end
 
     context 'with no template' do
       let(:template) { nil }
+
       it { is_expected.to be_nil }
     end
   end
