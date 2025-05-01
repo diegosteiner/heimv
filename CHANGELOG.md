@@ -1,5 +1,13 @@
 # Changelog
 
+## 25.5.1
+
+Released 01.05.2025
+
+- Fix: Fix operator responsibilty conditions
+- Feature: Introduce waitlist status and allow to book over provisional bookings
+- Refactor: Refactor state machine
+
 ## 25.4.2
 
 Released 07.04.2025
