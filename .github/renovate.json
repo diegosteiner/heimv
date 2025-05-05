@@ -1,55 +1,42 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "schedule": [
-    "every weekend"
-  ],
+  "extends": ["config:recommended"],
+  "schedule": ["every weekend"],
   "rebaseWhen": "automerging",
   "packageRules": [
     {
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch"],
       "groupName": "Minor Updates",
       "automergeType": "branch",
       "prCreation": "not-pending",
       "automerge": true
     },
     {
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "matchUpdateTypes": ["major"],
       "groupName": "Major Updates",
       "prCreation": "immediate",
       "automerge": false,
       "minimumReleaseAge": "7 days"
     },
     {
-      "matchPackageNames": [
-        "ruby"
-      ],
-      "matchFileNames": [
-        "Gemfile",
-        "Dockerfile"
-      ],
+      "matchPackageNames": ["ruby"],
+      "matchFileNames": ["Gemfile", "Dockerfile"],
       "separateMajorMinor": true,
       "separateMinorPatch": true,
       "prCreation": "immediate",
       "automerge": false
     },
     {
-      "matchPackageNames": [
-        "ttfunk",
-        "prawn"
-      ],
+      "matchPackageNames": ["ttfunk", "prawn"],
       "groupName": "ttfunk-and-prawn",
       "separateMajorMinor": true,
       "separateMinorPatch": true,
       "rebaseWhen": "explicit",
       "automerge": false
+    },
+    {
+      "matchPackageNames": ["vite"],
+      "enabled": false
     }
   ]
 }
