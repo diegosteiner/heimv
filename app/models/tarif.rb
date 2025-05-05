@@ -137,23 +137,23 @@ class Tarif < ApplicationRecord
     selecting_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :selecting) }
   end
 
-  def minimum_prices(usage) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+  def minimum_prices(usage) # rubocop:disable Metrics/CyclomaticComplexity
     nights = usage&.booking&.nights || 0
     price_per_unit = usage&.price_per_unit || 0
 
     {
-      minimum_usage_per_night: (minimum_usage_per_night || 0) * price_per_unit * nights,
-      minimum_usage_total: (minimum_usage_total || 0) * price_per_unit,
-      minimum_price_per_night: (minimum_price_per_night || 0) * nights,
-      minimum_price_total: minimum_price_total || 0
+      minimum_usage_per_night: minimum_usage_per_night && (minimum_usage_per_night * price_per_unit * nights),
+      minimum_usage_total: minimum_usage_total && (minimum_usage_total * price_per_unit),
+      minimum_price_per_night: minimum_price_per_night && (minimum_price_per_night * nights),
+      minimum_price_total: minimum_price_total.presence
     }
   end
 
   def minimum_price(usage)
     if usage.price_per_unit&.negative?
-      minimum_prices(usage).filter { _2.negative? }.min_by { _2 }
+      minimum_prices(usage).filter { _2&.negative? }.min_by { _2 }
     else
-      minimum_prices(usage).filter { _2.positive? }.max_by { _2 }
+      minimum_prices(usage).filter { _2&.positive? }.max_by { _2 }
     end
   end
 

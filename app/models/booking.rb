@@ -107,7 +107,6 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validate on: %i[agent_create agent_update] do
     errors.add(:occupiable_ids, :occupancy_conflict) if conflicting?(%i[occupied tentative])
   end
-
   validate on: %i[public_create public_update] do
     next if organisation.booking_state_settings.enable_waitlist && !conflicting?
     next if !organisation.booking_state_settings.enable_waitlist && !conflicting?(%i[occupied tentative])
@@ -126,7 +125,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   before_validation :update_occupancies, :assert_tenant!
   before_save :sequence_number
   before_create :generate_ref
-  after_save :apply_transitions
+  after_save :apply_transitions, :touch_conflicting
   after_touch :apply_transitions
 
   accepts_nested_attributes_for :tenant, update_only: true, reject_if: :reject_tenant_attributes?
@@ -236,6 +235,10 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def conflicting?(conflicting_occupancy_types = %i[occupied])
     occupancies.any? { it.conflicting(conflicting_occupancy_types)&.exists? }
+  end
+
+  def touch_conflicting
+    occupancies.flat_map { it.conflicting&.map(&:booking) }.each(&:touch)
   end
 
   def booking_flow_class
