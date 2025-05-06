@@ -2,6 +2,7 @@
 
 require 'active_support/core_ext/integer/time'
 require Rails.root.join('app/services/cache_store_factory')
+require 'exception_notification/rails'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.

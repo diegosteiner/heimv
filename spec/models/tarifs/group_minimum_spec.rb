@@ -58,24 +58,48 @@ RSpec.describe Tarifs::GroupMinimum do
   describe '#minimum_prices' do
     subject(:minimum_prices) { tarif.minimum_prices_with_difference(usage) }
 
-    before do
-      tarif.update({
-                     minimum_usage_per_night: 24,
-                     minimum_usage_total: 71,
-                     minimum_price_per_night: 210,
-                     minimum_price_total: 610
-                   })
+    context 'with minimums defined' do
+      before do
+        tarif.update({
+                       minimum_usage_per_night: 24,
+                       minimum_usage_total: 71,
+                       minimum_price_per_night: 210,
+                       minimum_price_total: 610
+                     })
+      end
+
+      it 'lists all minimum prices' do
+        expect(tarif.group_price(usage)).to eq((7 * 10) + (8 * 12))
+        expect(tarif.group_used_units(usage)).to eq(7 + 8)
+        expect(minimum_prices).to eq({
+                                       minimum_usage_per_night: ((24 * 7) - 15) * 10,
+                                       minimum_usage_total: ((71 - 15) * 10),
+                                       minimum_price_per_night: (210 * 7) - ((7 * 10) + (8 * 12)),
+                                       minimum_price_total: 610 - ((7 * 10) + (8 * 12))
+                                     })
+      end
     end
 
-    it 'lists all minimum prices' do
-      expect(tarif.group_price(usage)).to eq((7 * 10) + (8 * 12))
-      expect(tarif.group_used_units(usage)).to eq(7 + 8)
-      expect(minimum_prices).to eq({
-                                     minimum_usage_per_night: ((24 * 7) - 15) * 10,
-                                     minimum_usage_total: ((71 - 15) * 10),
-                                     minimum_price_per_night: (210 * 7) - ((7 * 10) + (8 * 12)),
-                                     minimum_price_total: 610 - ((7 * 10) + (8 * 12))
-                                   })
+    context 'without minimums defined' do
+      before do
+        tarif.update({
+                       minimum_usage_per_night: nil,
+                       minimum_usage_total: 71,
+                       minimum_price_per_night: 210,
+                       minimum_price_total: nil
+                     })
+      end
+
+      it 'lists all minimum prices' do
+        expect(tarif.group_price(usage)).to eq((7 * 10) + (8 * 12))
+        expect(tarif.group_used_units(usage)).to eq(7 + 8)
+        expect(minimum_prices).to eq({
+                                       minimum_usage_per_night: nil,
+                                       minimum_usage_total: ((71 - 15) * 10),
+                                       minimum_price_per_night: (210 * 7) - ((7 * 10) + (8 * 12)),
+                                       minimum_price_total: nil
+                                     })
+      end
     end
   end
 

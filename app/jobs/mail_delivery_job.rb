@@ -5,8 +5,8 @@ class MailDeliveryJob < ActionMailer::MailDeliveryJob
            wait: 30.seconds, attempts: 5
 
   rescue_from(Exception) do |exception|
-    ExceptionNotifier.notify_exception(exception) if defined?(ExceptionNotifier)
     Rails.error.report(exception)
+    ExceptionNotifier.notify_exception(exception, data: serialize) if defined?(ExceptionNotifier)
     raise exception
   end
 end
