@@ -32,6 +32,10 @@ module BookingStates
       booking.deadline&.exceeded? && !booking.agent_booking
     end
 
+    infer_transition(to: :awaiting_tenant) do |booking|
+      booking.agent_booking&.valid? && booking.committed_request
+    end
+
     def relevant_time
       booking.deadline&.at
     end

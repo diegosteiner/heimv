@@ -3,13 +3,12 @@
 module BookingActions
   class CommitBookingAgentRequest < Base
     def invoke!(current_user: nil)
-      Result.new success: booking.update(committed_request: true)
+      booking.assign_attributes(committed_request: true)
+      Result.new success: booking.save(context: :agent_update)
     end
 
     def invokable?(current_user: nil)
-      agent_booking&.booking_agent_responsible? &&
-        booking&.can_transition_to?(:awaiting_tenant) &&
-        booking&.booking_flow&.in_state?(:booking_agent_request)
+      agent_booking&.booking_agent_responsible? && !booking&.committed_request_in_database
     end
 
     delegate :agent_booking, to: :booking

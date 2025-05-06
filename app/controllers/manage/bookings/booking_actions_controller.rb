@@ -12,19 +12,31 @@ module Manage
         nil unless booking_action
       end
 
-      def invoke # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+      def invoke
         @result = booking_action.invoke(**booking_action_params, current_user:)
 
         if @result&.success
           write_booking_log
           redirect_to @result.redirect_proc || manage_booking_path(@booking), notice: t('.success')
         else
-          ExceptionNotifier.notify_exception(StandardError.new(@result&.error)) if defined?(ExceptionNotifier)
+          report_error(@result)
           redirect_to manage_booking_path(@booking), alert: @result&.error.presence || t('.failure')
         end
       end
 
       private
+
+      def report_error(result)
+        return unless defined?(ExceptionNotifier)
+
+        error = BookingAction::NotInvokable.new(result&.error)
+        ExceptionNotifier.notify_exception(error, data: {
+                                             organisation: current_organisation.slug,
+                                             booking_id: @booking.id,
+                                             booking_action: booking_action,
+                                             booking_action_params: booking_action_params
+                                           })
+      end
 
       def write_booking_log
         Booking::Log.log(@booking, trigger: :manager, action: booking_action, user: current_user)
