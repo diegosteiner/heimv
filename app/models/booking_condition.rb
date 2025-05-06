@@ -14,9 +14,7 @@ class BookingCondition
 
   validates :type, presence: true, inclusion: { in: ->(_) { BookingCondition.subtypes.keys.map(&:to_s) } }
   validates :organisation, presence: true
-  validate do
-    errors.add(:base, :invalid) if depth > 2
-  end
+  validate { errors.add(:base, :invalid) if depth > 2 }
 
   delegate :stringify_keys, to: :attributes
   delegate :organisation, to: :qualifiable, allow_nil: true
@@ -59,15 +57,9 @@ class BookingCondition
   end
 
   def self.options_for_select(organisation)
-    subtypes.transform_values do |subtype|
-      {
-        type: subtype.name,
-        name: subtype.model_name.human,
-        compare_attributes: subtype.try(:compare_attributes_for_select),
-        compare_operators: subtype.try(:compare_operators_for_select),
-        compare_value_regex: subtype.try(:compare_value_regex).present?,
-        compare_values: subtype.try(:compare_values_for_select, organisation)
-      }
-    end
+    {
+      type: name,
+      name: model_name.human
+    }
   end
 end

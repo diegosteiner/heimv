@@ -27,5 +27,5 @@
     = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:validating_conditions), value: @booking_validation.validating_conditions }
 
   .form-actions.pt-4.mt-3
-    = f.submit
+    = f.submit class: 'btn btn-primary'
     =< link_to t(:back), manage_booking_validations_path, class: 'btn btn-default'

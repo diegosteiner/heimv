@@ -19,7 +19,7 @@ module BookingConditions
       '<=': ->(actual_value:, compare_value:) { actual_value <= compare_value }
     }.reverse_merge(EQUALITY_OPERATORS).freeze
 
-    delegate :compare_attributes, :compare_operators_for_select, to: :class
+    delegate :compare_operators_for_select, to: :class
 
     validates :compare_value, format: { with: ->(condition) { condition.class.compare_value_regex } }, allow_blank: true
     validate do
@@ -49,6 +49,10 @@ module BookingConditions
       parent
     end
 
+    def compare_attributes
+      self.class.compare_attributes(organisation)
+    end
+
     class << self
       def compare_operators
         @compare_operators ||= {}
@@ -58,27 +62,26 @@ module BookingConditions
         compare_operators.merge!(args.symbolize_keys)
       end
 
-      def compare_operators_for_select
-        compare_operators&.keys&.map { |operator| [operator.to_s, operator.to_sym] }
-        # [translate(operator, scope: :operators, default: operator), operator.to_sym]
-      end
-
-      def compare_attributes
+      def compare_attributes(_organisation)
         @compare_attributes ||= {}
       end
 
       def compare_attribute(**args)
-        compare_attributes.merge!(args.symbolize_keys)
-      end
-
-      def compare_attributes_for_select
-        compare_attributes&.keys&.map do |attribute|
-          [translate(attribute, scope: :attributes, default: attribute), attribute.to_sym]
-        end
+        compare_attributes(nil).merge!(args.symbolize_keys)
       end
 
       def compare_values(_organisation)
         nil
+      end
+
+      def compare_attributes_for_select(organisation)
+        compare_attributes(organisation)&.keys&.map do |attribute|
+          [translate(attribute, scope: :attributes, default: attribute), attribute.to_sym]
+        end
+      end
+
+      def compare_operators_for_select
+        compare_operators&.keys&.map { |operator| [operator.to_s, operator.to_sym] }
       end
 
       def compare_values_for_select(organisation)
@@ -90,6 +93,15 @@ module BookingConditions
 
           [value.to_s, value.to_sym || value.to_s]
         end
+      end
+
+      def options_for_select(organisation)
+        super.merge({
+                      compare_attributes: compare_attributes_for_select(organisation),
+                      compare_operators: compare_operators_for_select,
+                      compare_value_regex: compare_value_regex.present?,
+                      compare_values: compare_values_for_select(organisation)
+                    })
       end
     end
   end

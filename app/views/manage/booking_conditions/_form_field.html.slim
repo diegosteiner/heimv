@@ -2,5 +2,5 @@
   value: defined?(:value) && Manage::BookingConditionSerializer.render_as_hash(value || [], view: :with_errors), \
   name: defined?(:name) && name, \
   disabled: false, \
-  optionsForSelect: BookingCondition.options_for_select(current_organisation) \
+  optionsForSelect: BookingCondition.subtypes.transform_values { it.options_for_select(current_organisation) } \
 }) 
