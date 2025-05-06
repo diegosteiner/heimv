@@ -48,23 +48,29 @@ module Tarifs
       usages_in_group(usage).sum { it.used_units || 0 }
     end
 
-    def minimum_prices_with_difference(usage) # rubocop:disable Metrics/AbcSize
+    def minimum_prices_with_difference(usage) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
       nights = usage&.booking&.nights || 0
       price_per_unit = usage&.price_per_unit || 0
       minimum_prices = minimum_prices(usage)
+      used_units = group_used_units(usage)
+
       {
-        minimum_usage_per_night: (((minimum_usage_per_night || 0) * nights) - group_used_units(usage)) * price_per_unit,
-        minimum_usage_total: ((minimum_usage_total || 0) - group_used_units(usage)) * price_per_unit,
-        minimum_price_per_night: minimum_prices[:minimum_price_per_night] - group_price(usage),
-        minimum_price_total: minimum_prices[:minimum_price_total] - group_price(usage)
+        minimum_usage_per_night: minimum_usage_per_night &&
+          (((minimum_usage_per_night * nights) - used_units) * price_per_unit),
+        minimum_usage_total: minimum_usage_total &&
+          ((minimum_usage_total - used_units) * price_per_unit),
+        minimum_price_per_night: minimum_price_per_night &&
+          (minimum_prices[:minimum_price_per_night] - group_price(usage)),
+        minimum_price_total: minimum_price_total &&
+          (minimum_prices[:minimum_price_total] - group_price(usage))
       }
     end
 
     def minimum_price(usage)
       if usage.price_per_unit&.negative?
-        minimum_prices_with_difference(usage).filter { _2.negative? }.min_by { _2 }
+        minimum_prices_with_difference(usage).filter { _2&.negative? }.min_by { _2 }
       else
-        minimum_prices_with_difference(usage).filter { _2.positive? }.max_by { _2 }
+        minimum_prices_with_difference(usage).filter { _2&.positive? }.max_by { _2 }
       end
     end
 
