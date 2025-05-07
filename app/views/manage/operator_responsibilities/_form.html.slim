@@ -9,10 +9,9 @@
   = f.text_area :remarks
 
   - unless @booking
-    label= OperatorResponsibility.human_attribute_name(:assigning_conditions)
-    = f.fields_for :assigning_conditions, @operator_responsibility.assigning_conditions do |bcf|
-        = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
-
+    fieldset.mt-4#assigning_conditions
+      label= OperatorResponsibility.human_attribute_name(:assigning_conditions)
+      = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:assigning_conditions), value: @operator_responsibility.assigning_conditions }
 
   .form-actions.pt-4.mt-3
-    = f.submit
+    = f.submit class: 'btn btn-primary'

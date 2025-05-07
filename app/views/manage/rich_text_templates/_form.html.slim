@@ -47,11 +47,9 @@
           label.form-check-label[for=html_id]
             = link_to edit_manage_designated_document_path(designated_document)
               = designated_document.name
-            - conditions_count = designated_document.attaching_conditions.count
-            - if conditions_count > 0
+            - if designated_document.attaching_conditions.present?
               span.ms-1.text-muted.text-sm
-                =<> conditions_count
-                = BookingCondition.model_name.human(count: conditions_count)
+                = BookingCondition.model_name.human
 
   .form-actions.pt-4
     = f.submit

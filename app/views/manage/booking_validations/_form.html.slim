@@ -18,16 +18,14 @@
         .tab-pane.pt-3[id="booking_validation-#{locale}-tab" class="#{'show active' if current_locale}" aria-labelledby="booking_validation-#{locale}-tab" role='tabpanel']
           = f.text_field "error_message_#{locale.to_s}", label: BookingValidation.human_attribute_name(:error_message)
 
-  fieldset.mt-4
+  fieldset.mt-4#enabling_conditions
     label.mb-2= BookingValidation.human_attribute_name(:enabling_conditions)
-    = f.fields_for :enabling_conditions, @booking_validation.enabling_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:enabling_conditions), value: @booking_validation.enabling_conditions }
 
-  fieldset.mt-4
+  fieldset.mt-4#validating_conditions
     label.mb-2= BookingValidation.human_attribute_name(:validating_conditions)
-    = f.fields_for :validating_conditions, @booking_validation.validating_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:validating_conditions), value: @booking_validation.validating_conditions }
 
   .form-actions.pt-4.mt-3
-    = f.submit
+    = f.submit class: 'btn btn-primary'
     =< link_to t(:back), manage_booking_validations_path, class: 'btn btn-default'

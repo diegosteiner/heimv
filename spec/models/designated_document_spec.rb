@@ -5,6 +5,7 @@
 # Table name: designated_documents
 #
 #  id                   :bigint           not null, primary key
+#  attaching_conditions :jsonb
 #  designation          :integer
 #  locale               :string
 #  name                 :string
@@ -70,15 +71,15 @@ RSpec.describe DesignatedDocument do
     let(:booking) { create(:booking, organisation:) }
     let(:conditions) do
       {
-        always: [BookingConditions::AlwaysApply.new(organisation:)],
-        wrong_home: [BookingConditions::Occupiable.new(compare_value: home.id, compare_attribute: :home)],
-        correct_home: [BookingConditions::Occupiable.new(compare_value: booking.home_id, compare_attribute: :home)]
+        always: BookingConditions::Always.new(organisation:),
+        wrong_home: BookingConditions::Occupiable.new(compare_value: home.id, compare_attribute: :home),
+        correct_home: BookingConditions::Occupiable.new(compare_value: booking.home_id, compare_attribute: :home)
       }
     end
 
     let(:documents) do
       conditions.transform_values do |condition|
-        create(:designated_document, organisation:, attaching_conditions: condition)
+        create(:designated_document, organisation:, attaching_conditions: [condition])
       end
     end
 

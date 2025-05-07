@@ -2,17 +2,18 @@
 
 # == Schema Information
 #
-# Table name: data_digest_templates
+# Table name: data_digests
 #
-#  id               :bigint           not null, primary key
-#  columns_config   :jsonb
-#  group            :string
-#  label            :string
-#  prefilter_params :jsonb
-#  type             :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organisation_id  :bigint           not null
+#  id                      :bigint           not null, primary key
+#  crunching_finished_at   :datetime
+#  crunching_started_at    :datetime
+#  data                    :jsonb
+#  period_from             :datetime
+#  period_to               :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  data_digest_template_id :bigint           not null
+#  organisation_id         :bigint           not null
 #
 
 FactoryBot.define do

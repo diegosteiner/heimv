@@ -1,23 +1,5 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: booking_conditions
-#
-#  id                :bigint           not null, primary key
-#  compare_attribute :string
-#  compare_operator  :string
-#  compare_value     :string
-#  group             :string
-#  must_condition    :boolean          default(TRUE)
-#  qualifiable_type  :string
-#  type              :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  organisation_id   :bigint
-#  qualifiable_id    :bigint
-#
-
 require 'rails_helper'
 
 RSpec.describe BookingConditions::OccupancyDuration do
@@ -34,6 +16,12 @@ RSpec.describe BookingConditions::OccupancyDuration do
     end
     let(:booking) do
       create(:booking, begins_at: 4.weeks.from_now, ends_at: 5.weeks.from_now, organisation:)
+    end
+
+    before do
+      qualifiable = instance_double('Qualifiable') # rubocop:disable RSpec/VerifiedDoubleReference
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
     end
 
     it { is_expected.to be_falsy }
