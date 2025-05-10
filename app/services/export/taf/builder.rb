@@ -127,7 +127,8 @@ module Export
       end
 
       def open_position(journal_entry, op_id, pk_key)
-        block(:OPd, PkKey: pk_key, OpId: op_id, ZabId: '15T')
+        block(:OPd, PkKey: pk_key, OpId: op_id, ZabId: '15T', Ref: journal_entry.invoice&.payment_ref,
+                    Text: journal_entry.text)
       end
 
       def tenant(tenant, _override = {})

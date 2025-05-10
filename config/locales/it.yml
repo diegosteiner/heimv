@@ -1344,7 +1344,6 @@ it:
         new_closed_occupancy:
         new_request:
         no_records_yet:
-        too_many_records: Sono state trovate troppe prenotazioni. Si prega di restringere la ricerca.
       navigation:
         costs: Tariffe e consumi
       not_committed_yet: La prenotazione non è ancora definitiva.

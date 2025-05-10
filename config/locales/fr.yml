@@ -1379,7 +1379,6 @@ fr:
         new_closed_occupancy: Fermeture
         new_request: Demande de réservation
         no_records_yet: 'Aucune réservation n''a été trouvée. Ajouter une nouvelle réservation : %{options}.'
-        too_many_records: Trop de réservations ont été trouvées. Veuillez restreindre la recherche.
       navigation:
         costs: Tarifs & consommation
       not_committed_yet: La réservation n'est pas encore définitive.

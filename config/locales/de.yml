@@ -42,21 +42,21 @@ de:
         unconfirmed_request_deadline: Frist für die Bestätigung der Email-Adresse
       invoice/filter:
         invoice_type: Rechungsart
-        issued_at_after: Rechnungsdatum nach
-        issued_at_before: Rechnungsdatum vor
+        issued_at_after: Rechnungsdatum ab
+        issued_at_before: Rechnungsdatum bis
         paid: Zahlungstatus
-        payable_until_after: Zahlbar bis nach
-        payable_until_before: Zahlbar bis vor
+        payable_until_after: Zahlbar bis ab
+        payable_until_before: Zahlbar bis bis
       invoice_part/filter:
         homes: Hauptmietobjekte
-        issued_at_after: Rechnungsdatum nach
-        issued_at_before: Rechnungsdatum vor
+        issued_at_after: Rechnungsdatum ab
+        issued_at_before: Rechnungsdatum bis
       journal_entry/filter:
-        date_after: Buchungsdatum nach
-        date_before: Buchungsdatum vor
+        date_after: Buchungsdatum ab
+        date_before: Buchungsdatum bis
         processed: Verbucht
-        processed_at_after: Verbucht nach
-        processed_at_before: Verbucht vor
+        processed_at_after: Verbucht ab
+        processed_at_before: Verbucht bis
         triggers: Auslöser
       meter_reading_period/filter:
         begins_at_after: Beginn des Zählerstandperiode ab
@@ -1497,7 +1497,6 @@ de:
         new_closed_occupancy: Schliessung
         new_request: Reservationsanfrage
         no_records_yet: 'Es wurden keine Buchungen gefunden. Neue Buchung hinzufügen: %{options}.'
-        too_many_records: Es wurden zu viele Buchungen gefunden. Bitte schränke die Suche ein.
       navigation:
         costs: Tarife & Verbrauch
       not_committed_yet: Die Buchung ist noch nicht definitiv.
@@ -2692,5 +2691,6 @@ de:
     pm: pm
   titles:
     application: HeimV %{organisation}
+  too_many_records: Es wurden zu viele %{model_name} gefunden. Bitte schränke die Suche ein.
   unauthorized: Du hast keine Berechtigung für diese Seite.
   until: bis

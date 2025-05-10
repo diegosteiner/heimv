@@ -98,6 +98,8 @@ describe Export::Taf::Builder, type: :model do
             PkKey=200002
             OpId=250001
             ZabId="15T"
+            Ref="200002202500001"
+            Text="250001 - Müller"
 
           }
 
@@ -109,7 +111,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=1050
               Date=27.12.2024
               Flags=1
-              Text="R.250001 - Müller"
+              Text="250001 - Müller"
               Type=0
               ValNt=420.00
               PkKey=200002
@@ -121,7 +123,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=6000
               Date=27.12.2024
               TaxId="VAT50"
-              Text="R.250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
               Type=1
               ValNt=-200.00
               ValTx=-100.00
@@ -134,7 +136,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=9001
               BType=1
               Date=27.12.2024
-              Text="R.250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
               Type=1
               ValNt=-200.00
               CAcc=6000
@@ -145,7 +147,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=2016
               BType=2
               Date=27.12.2024
-              Text="R.250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
+              Text="250001 - Müller: Saldo aus bereits geleisteten Zahlungen"
               Type=1
               ValNt=-100.00
               ValTx=-200.00
@@ -156,7 +158,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=6000
               Date=27.12.2024
               TaxId="VAT50"
-              Text="R.250001 - Müller: Preis pro Übernachtung"
+              Text="250001 - Müller: Preis pro Übernachtung"
               Type=1
               ValNt=480.00
               ValTx=240.00
@@ -169,7 +171,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=9001
               BType=1
               Date=27.12.2024
-              Text="R.250001 - Müller: Preis pro Übernachtung"
+              Text="250001 - Müller: Preis pro Übernachtung"
               Type=1
               ValNt=480.00
               CAcc=6000
@@ -180,7 +182,7 @@ describe Export::Taf::Builder, type: :model do
               AccId=2016
               BType=2
               Date=27.12.2024
-              Text="R.250001 - Müller: Preis pro Übernachtung"
+              Text="250001 - Müller: Preis pro Übernachtung"
               Type=1
               ValNt=240.00
               ValTx=480.00
@@ -219,10 +221,10 @@ describe Export::Taf::Builder, type: :model do
             Orig=1
 
             {Bk
-              AccId=1050
+              AccId=1025
               Date=24.12.2024
               Text="Zahlung 240001"
-              Type=1
+              Type=0
               ValNt=999.99
               PkKey=#{booking.tenant.ref}
               OpId=240001
@@ -230,10 +232,10 @@ describe Export::Taf::Builder, type: :model do
             }
 
             {Bk
-              AccId=1025
+              AccId=1050
               Date=24.12.2024
               Text="Zahlung 240001"
-              Type=0
+              Type=1
               ValNt=999.99
 
             }

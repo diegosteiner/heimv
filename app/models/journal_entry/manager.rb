@@ -17,6 +17,7 @@ class JournalEntry
         raise AccountingMadness if previous_journal_entry&.trigger_invoice_discarded?
 
         new_journal_entry = factory.build_with_invoice(invoice)
+        return true if previous_journal_entry.blank? && invoice.amount.zero?
         return true if new_journal_entry.equivalent?(previous_journal_entry)
 
         date = invoice.issued_at.to_date
@@ -61,16 +62,17 @@ class JournalEntry
         @payment = payment
       end
 
-      def handle_save
+      def handle_save # rubocop:disable Metrics/AbcSize
         previous_journal_entry = existing_journal_entries.processed.last
         new_journal_entry = factory.build_with_payment(payment)
+        return true if previous_journal_entry.blank? && payment.amount.zero?
         return true if new_journal_entry.equivalent?(previous_journal_entry)
 
-        date = payment.updated_at.to_date
         return new_journal_entry.update!(trigger: :payment_created) if previous_journal_entry.blank?
 
+        date = payment.updated_at.to_date
         previous_journal_entry.dup.invert.update!(trigger: :payment_updated, date:, processed_at: nil)
-        new_journal_entry.update!(trigger: :payment_updated, date:)
+        new_journal_entry.update!(trigger: :payment_updated, date:) unless payment.amount.zero?
       end
 
       def handle_destroy
