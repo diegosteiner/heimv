@@ -1,6 +1,8 @@
 # Changelog
 
-## unreleased
+## 25.5.2
+
+Released 12.05.2025
 
 - Fix: Show only a maximum of 250 invoices
 - Fix: Allow to create manual occupancies again
