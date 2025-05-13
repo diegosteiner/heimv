@@ -91,7 +91,7 @@ RSpec/MultipleMemoizedHelpers:
     - "spec/features/booking/**/*_spec.rb"
 
 RSpec/NestedGroups:
-  Max: 4
+  Max: 5
   Exclude:
     - "spec/domain/booking_flows/*_spec.rb"
 

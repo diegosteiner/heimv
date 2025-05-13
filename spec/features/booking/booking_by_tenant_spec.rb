@@ -56,7 +56,7 @@ describe 'Booking by tenant', :devise do
   before do
     OperatorResponsibility.responsibilities.keys.map do |responsibility|
       create(:operator_responsibility, organisation:, responsibility:,
-                                       assigning_conditions: [BookingConditions::AlwaysApply.new])
+                                       assigning_conditions: [BookingConditions::Always.new])
     end
   end
 

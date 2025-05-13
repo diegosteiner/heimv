@@ -36,16 +36,16 @@ RSpec.describe Usage do
       subject(:factory) { described_class.new(booking) }
 
       let(:booking) { create(:booking, organisation:, approximate_headcount: 12) }
-
       let(:usages) { factory.build(preselect: true) }
-
-      before do
-        BookingConditions::OccupancyDuration.create(qualifiable: tarif, group: :selecting, compare_value: '1d',
-                                                    compare_operator: :>)
-        BookingConditions::BookingAttribute.create(qualifiable: tarif, group: :selecting, compare_value: '10',
-                                                   compare_attribute: :approximate_headcount, compare_operator: :>)
-        BookingConditions::BookingAttribute.create(qualifiable: tarif, group: :selecting, compare_value: 'test',
-                                                   compare_attribute: :tenant_organisation, must_condition: false)
+      let!(:tarif) do
+        selecting_conditions = [
+          BookingConditions::OccupancyDuration.new(compare_value: '1d',
+                                                   compare_operator: :>),
+          BookingConditions::BookingAttribute.new(compare_value: '10',
+                                                  compare_attribute: :approximate_headcount,
+                                                  compare_operator: :>)
+        ]
+        create(:tarif, organisation:, price_per_unit: 3.33, selecting_conditions:)
       end
 
       it do
