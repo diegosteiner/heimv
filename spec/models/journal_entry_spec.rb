@@ -10,6 +10,7 @@
 #  fragments    :jsonb
 #  processed_at :datetime
 #  ref          :string
+#  text         :string
 #  trigger      :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null

@@ -186,11 +186,14 @@ cat ./path/to/backup.dump | docker exec -i $(docker ps -q --filter name=heimv-db
 
 ## Copyright & License
 
-🎂 1000th commit 🎂
-
-Copyright 2017-2023 Diego P. Steiner & contributors
+Copyright 2017-2025 Diego P. Steiner & contributors
 
 If you want to use HeimV in a commercial setting, a commercial licence
 is required. For a commercial licence please get in touch: <license@heimv.ch>.
 Other than that, the project is licensed under the AGPLv3 License.
-See LICENCE for details.
+See LICENCE  for details.
+
+- 1st commit 15.06.2017
+- 1000th commit 🎂 26.12.2020
+- 2000th commit 🎂🎂 25.04.2023
+- 3000th commit 🎂🎂🎂 10.05.2025

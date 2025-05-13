@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_29_151249) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_10_173128) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -364,6 +364,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_151249) do
     t.uuid "booking_id", null: false
     t.datetime "processed_at"
     t.jsonb "fragments"
+    t.string "text"
     t.index ["booking_id"], name: "index_journal_entries_on_booking_id"
     t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
     t.index ["payment_id"], name: "index_journal_entries_on_payment_id"

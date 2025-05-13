@@ -85,7 +85,7 @@
     = f.text_field :tenant_organisation, help: t('optional'), disabled: !@booking.editable?
     = f.text_area :invoice_address, help: t('optional'), disabled: !@booking.editable?
 
-    = f.form_group :committed_request, class: 'mb-3'
+    = f.form_group :committed_request, class: ['mb-3', current_organisation.booking_state_settings.enable_provisional_request || !@booking.committed_request ? '' : 'd-none']
       = f.label :committed_request, Booking.human_attribute_name(:committed_request), class: 'required mb-1'
       = f.collection_radio_buttons_without_bootstrap :committed_request, [[false, :provisional_request], [true, :definitive_request]], :first, :last, include_hidden: false do |builder|
         .form-check

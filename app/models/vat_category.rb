@@ -33,13 +33,13 @@ class VatCategory < ApplicationRecord
     "#{label} (#{formatted_percentage})"
   end
 
-  def breakdown(brutto)
+  def breakdown(brutto, round: 4)
     vat = 0
     vat = (brutto / (100 + percentage)) * percentage if percentage.present?
-    { vat:, brutto: brutto, netto: (brutto - vat) }
+    { vat: vat.round(round), brutto: brutto.round(round), netto: (brutto - vat).round(round) }
   end
 
-  def breakup(brutto: nil, netto: nil, vat: nil)
+  def breakup(brutto: nil, netto: nil, vat: nil, round: 4)
     return breakdown(brutto) if brutto.present?
     return breakdown((netto / 100) * (100 + percentage)) if netto.present?
     return breakdown((vat / percentage) * (100 + percentage)) if vat.present? && percentage&.positive?

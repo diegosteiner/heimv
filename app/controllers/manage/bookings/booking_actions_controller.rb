@@ -9,7 +9,7 @@ module Manage
       end
 
       def prepare
-        nil unless booking_action
+        booking_action.prepare_with(**booking_action_params, current_user:)
       end
 
       def invoke
@@ -29,7 +29,7 @@ module Manage
       def report_error(result)
         return unless defined?(ExceptionNotifier)
 
-        error = BookingAction::NotInvokable.new(result&.error)
+        error = BookingActions::Base::NotInvokable.new(result&.error)
         ExceptionNotifier.notify_exception(error, data: {
                                              organisation: current_organisation.slug,
                                              booking_id: @booking.id,

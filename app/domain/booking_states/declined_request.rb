@@ -14,7 +14,6 @@ module BookingStates
 
     after_transition do |booking|
       booking.free!
-      booking.cancellation_reason ||= t('deadline_exceeded') if booking.deadline&.exceeded?
       booking.conclude
       booking.deadline&.clear!
       MailTemplate.use(:declined_request_notification, booking,

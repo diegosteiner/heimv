@@ -1,5 +1,14 @@
 # Changelog
 
+## 25.5.2
+
+Released 12.05.2025
+
+- Fix: Show only a maximum of 250 invoices
+- Fix: Allow to create manual occupancies again
+- Fix: Fix journal entry TAF export
+- Feature: Round VAT amounts
+
 ## 25.5.1
 
 Released 01.05.2025
