@@ -11,8 +11,7 @@ RSpec.describe BookingConditions::BookingAttribute do
     let(:compare_attribute) { nil }
     let(:organisation) { create(:organisation) }
     let(:booking_condition) do
-      described_class.new(compare_value:, organisation:,
-                          compare_operator:, compare_attribute:)
+      described_class.new(compare_value:, organisation:, compare_operator:, compare_attribute:)
     end
 
     before do
@@ -115,6 +114,66 @@ RSpec.describe BookingConditions::BookingAttribute do
 
         it { expect(booking_condition).to be_valid }
         it { is_expected.to be_truthy }
+      end
+    end
+
+    context 'with "booking_editable" as attribute' do
+      let(:compare_attribute) { :booking_editable }
+
+      context 'with editable booking' do
+        let(:booking) { create(:booking, organisation:, editable: true) }
+
+        context 'with true = "true"' do
+          let(:compare_operator) { :'=' }
+          let(:compare_value) { 'true' }
+
+          it { expect(booking_condition).to be_valid }
+          it { is_expected.to be_truthy }
+        end
+
+        context 'with true = "false"' do
+          let(:compare_operator) { :'=' }
+          let(:compare_value) { 'false' }
+
+          it { expect(booking_condition).to be_valid }
+          it { is_expected.to be_falsy }
+        end
+
+        context 'with true = "1"' do
+          let(:compare_operator) { :'=' }
+          let(:compare_value) { '1' }
+
+          it { expect(booking_condition).to be_valid }
+          it { is_expected.to be_truthy }
+        end
+      end
+
+      context 'with non-editable booking' do
+        let(:booking) { create(:booking, organisation:, editable: false) }
+
+        context 'with false = "false"' do
+          let(:compare_operator) { :'=' }
+          let(:compare_value) { 'false' }
+
+          it { expect(booking_condition).to be_valid }
+          it { is_expected.to be_truthy }
+        end
+
+        context 'with false = "1"' do
+          let(:compare_operator) { :'=' }
+          let(:compare_value) { '1' }
+
+          it { expect(booking_condition).to be_valid }
+          it { is_expected.to be_falsy }
+        end
+
+        context 'with false = "0"' do
+          let(:compare_operator) { :'=' }
+          let(:compare_value) { '0' }
+
+          it { expect(booking_condition).to be_valid }
+          it { is_expected.to be_truthy }
+        end
       end
     end
   end

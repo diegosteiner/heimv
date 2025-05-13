@@ -6,7 +6,8 @@ module BookingConditions
 
     attribute :compare_operator, default: -> { :'=' }
 
-    compare_attribute country_code: ->(tenant:) { tenant&.country_code&.upcase }
+    compare_attribute country_code: ->(tenant:) { tenant&.country_code&.upcase },
+                      locale: ->(tenant:) { tenant&.locale&.downcase }
 
     compare_operator(**NUMERIC_OPERATORS)
 
@@ -14,7 +15,7 @@ module BookingConditions
 
     def evaluate!(booking)
       actual_value = evaluate_attribute(compare_attribute, with: { tenant: booking.tenant })
-      return if actual_value.blank? || compare_value.blank?
+      return if actual_value.nil? || compare_value.nil?
 
       evaluate_operator(compare_operator, with: { actual_value:, compare_value: })
     end

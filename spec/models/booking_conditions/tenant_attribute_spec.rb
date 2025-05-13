@@ -45,5 +45,30 @@ RSpec.describe BookingConditions::TenantAttribute do
         it { is_expected.to be_truthy }
       end
     end
+
+    context 'with "locale" as attribute' do
+      let(:compare_attribute) { :locale }
+      let(:booking) { create(:booking) }
+
+      context 'with non-matching condition' do
+        before { booking.tenant.update(locale: :de) }
+
+        let(:compare_operator) { :'=' }
+        let(:compare_value) { 'fr' }
+
+        it { expect(booking_condition).to be_valid }
+        it { is_expected.to be_falsy }
+      end
+
+      context 'with matching condition' do
+        before { booking.tenant.update(locale: :fr) }
+
+        let(:compare_operator) { :'=' }
+        let(:compare_value) { 'fr' }
+
+        it { expect(booking_condition).to be_valid }
+        it { is_expected.to be_truthy }
+      end
+    end
   end
 end

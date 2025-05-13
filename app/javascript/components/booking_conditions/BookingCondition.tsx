@@ -13,6 +13,7 @@ export enum BookingConditionType {
   BookingQuestion = "BookingConditions::BookingQuestion",
   BookingState = "BookingConditions::BookingState",
   OccupancyDuration = "BookingConditions::OccupancyDuration",
+  Duration = "BookingConditions::Duration",
   Occupiable = "BookingConditions::Occupiable",
   Tarif = "BookingConditions::Tarif",
   TenantAttribute = "BookingConditions::TenantAttribute",
@@ -31,7 +32,8 @@ export type BookingConditionComparableType =
   | BookingConditionType.OccupancyDuration
   | BookingConditionType.Occupiable
   | BookingConditionType.Tarif
-  | BookingConditionType.TenantAttribute;
+  | BookingConditionType.TenantAttribute
+  | BookingConditionType.Duration;
 
 export type BookingConditionCompositionType = BookingConditionType.AllOf | BookingConditionType.OneOf;
 

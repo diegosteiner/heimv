@@ -27,7 +27,7 @@ module BookingConditions
 
     def evaluate!(booking)
       actual_value = ComparableDatetime.from_value(evaluate_attribute(compare_attribute, with: { booking: }))
-      return if actual_value.blank? || comparable_compare_value.blank?
+      return if actual_value.nil? || comparable_compare_value.nil?
 
       evaluate_operator(compare_operator, with: { actual_value:, compare_value: comparable_compare_value })
     end
