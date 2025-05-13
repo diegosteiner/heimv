@@ -8,6 +8,7 @@
 #  fragments    :jsonb
 #  processed_at :datetime
 #  ref          :string
+#  text         :string
 #  trigger      :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -40,6 +41,13 @@ class JournalEntry < ApplicationRecord
   validates :ref, :currency, :date, :trigger, presence: true
   validates :fragments, store_model: true
   validate { errors.add(:base, :invalid) unless balanced? }
+  validate do
+    accounts = {
+      soll: fragments.count { |fragment| fragment.soll_account.present? },
+      haben: fragments.count { |fragment| fragment.haben_account.present? }
+    }
+    errors.add(:base, :invalid) if accounts.values.min < 1
+  end
 
   scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
   scope :processed, -> { where.not(processed_at: nil) }
@@ -158,7 +166,8 @@ class JournalEntry < ApplicationRecord
 
   class Factory
     def build_with_invoice(invoice, attributes = {})
-      JournalEntry.new(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking,
+      text = "#{invoice.ref} - #{invoice.booking.tenant.last_name}"
+      JournalEntry.new(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking, text:,
                        **attributes).tap do |journal_entry|
         build_invoice_debitor(invoice, journal_entry)
         invoice.invoice_parts.map { build_invoice_part(it, journal_entry) }
@@ -167,7 +176,7 @@ class JournalEntry < ApplicationRecord
 
     def build_invoice_debitor(invoice, journal_entry)
       invoice.instance_eval do
-        text = "R.#{ref} - #{booking.tenant.last_name}"
+        text = "#{ref} - #{booking.tenant.last_name}"
         # Der Betrag, welcher der Debitor noch schuldig ist. (inkl. MwSt.). Jak: «Erlösbuchung»
         journal_entry.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr || 0, amount:, text:)
       end
@@ -182,7 +191,7 @@ class JournalEntry < ApplicationRecord
 
     def build_invoice_part_add(invoice_part, journal_entry) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       invoice_part.instance_eval do
-        text = "R.#{invoice.ref} - #{invoice.booking.tenant.last_name}: #{label}"
+        text = "#{invoice.ref} - #{invoice.booking.tenant.last_name}: #{label}"
         accounting_settings = organisation.accounting_settings
 
         journal_entry.haben(account_nr: accounting_account_nr.presence ||
@@ -196,29 +205,31 @@ class JournalEntry < ApplicationRecord
     end
 
     def build_with_payment(payment)
-      return build_with_payment_write_off(payment) if payment.write_off
+      text = "#{Payment.model_name.human} #{payment.invoice&.ref || payment&.paid_at}"
 
-      build_with_payment_normal(payment)
+      if payment.write_off
+        build_with_payment_write_off(payment, text:)
+      else
+        build_with_payment_normal(payment, text:)
+      end
     end
 
-    def build_with_payment_normal(payment) # rubocop:disable Metrics/AbcSize
+    def build_with_payment_normal(payment, **attributes)
       payment.instance_eval do
-        text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
-
+        text = attributes[:text]
         JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
                          trigger: :payment_created).tap do |journal_entry|
-          journal_entry.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
           journal_entry.soll(account_nr: organisation&.accounting_settings&.payment_account_nr, amount:, text:)
+          journal_entry.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
         end
       end
     end
 
-    def build_with_payment_write_off(payment) # rubocop:disable Metrics/AbcSize
+    def build_with_payment_write_off(payment, **attributes)
       payment.instance_eval do
-        text = "#{Payment.model_name.human} #{invoice&.ref || paid_at}"
-
+        text = attributes[:text]
         JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
-                         trigger: :payment_created).tap do |journal_entry|
+                         trigger: :payment_created, **attributes).tap do |journal_entry|
           journal_entry.haben(account_nr: organisation&.accounting_settings&.rental_yield_account_nr, amount:, text:)
           journal_entry.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
         end

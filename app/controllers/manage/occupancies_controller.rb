@@ -27,6 +27,7 @@ module Manage
 
     def create
       @occupancy.occupiable = @occupiable if @occupiable.present?
+      @occupancy.linked = false # Linked occupancies are never created manually
       @occupancy.save(context: :manage_create)
       respond_with :manage, @occupancy, location: manage_occupiable_occupancies_path(@occupancy&.occupiable)
     end

@@ -51,7 +51,7 @@ h1.my-0= Booking.model_name.human(count: 2)
   .alert.alert-danger.d-flex
     .me-3
       i.fa.fa-exclamation-circle
-    = t('.too_many_records')
+    = t('too_many_records', model_name: Booking.model_name.human(count: 2))
 - else
   - grouped_bookings = @bookings.group_by { |booking| booking.booking_state_cache }
   - current_organisation.booking_flow_class.state_classes.values.each do |state|

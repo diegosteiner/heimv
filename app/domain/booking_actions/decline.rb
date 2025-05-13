@@ -16,6 +16,12 @@ module BookingActions
       { variant: :danger, prepare: true, label: } if invokable?(current_user:)
     end
 
+    def prepare_with(cancellation_reason: nil, current_user: nil)
+      return unless booking.booking_flow.current_state.to_sym == :overdue_request
+
+      booking.cancellation_reason ||= t('deadline_exceeded')
+    end
+
     def transition_to
       if booking.can_transition_to?(:declined_request)
         :declined_request

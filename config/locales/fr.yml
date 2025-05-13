@@ -844,6 +844,7 @@ fr:
     commit_request:
       label: Confirmer la demande
     decline:
+      deadline_exceeded: Délai expiré
       label:
       label_committed: Annuler
       label_request:
@@ -941,7 +942,6 @@ fr:
     completed:
       label: Location (terminée)
     declined_request:
-      deadline_exceeded: Délai expiré
       label: Demande de location (refusée)
     definitive_request:
       description: Le locataire a marqué la demande comme définitive. Il faut fixer les tarifs et établir un contrat.
@@ -1098,7 +1098,6 @@ fr:
       month: Mois
       second: Seconde
       year: Année
-  deadline_exceeded: Date limite dépassée
   destroy: Supprimer
   destroy_record: Supprimer %{model_name}
   devise:
@@ -1379,7 +1378,6 @@ fr:
         new_closed_occupancy: Fermeture
         new_request: Demande de réservation
         no_records_yet: 'Aucune réservation n''a été trouvée. Ajouter une nouvelle réservation : %{options}.'
-        too_many_records: Trop de réservations ont été trouvées. Veuillez restreindre la recherche.
       navigation:
         costs: Tarifs & consommation
       not_committed_yet: La réservation n'est pas encore définitive.
