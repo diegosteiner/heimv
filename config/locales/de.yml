@@ -918,11 +918,11 @@ de:
     booking_attribute:
       attributes:
         approximate_headcount: Erwartete Anzahl Personen
+        booking_editable: Buchung bearbeitbar
         days: Tage
         nights: Nächte
         overnight_stays: Erwartete Anzahl Übernachtungen
         tenant_organisation: Gruppenname / Organisation
-        booking_editable: Buchung bearbeitbar
     booking_date_time:
       attributes:
         begins_at: Beginn der Belegung
@@ -933,10 +933,10 @@ de:
         updated_at: Aktualisierung der Belegung
     duration:
       attributes:
-        now_to_begins_at: Jetzt bis zum Beginn der Belegung
-        now_to_ends_at: Jetzt bis zum Ende der Belegung
         begins_at_to_ends_at: Beginn der Belegung bis zum Ende der Belegung
         created_at_to_now: Erstellung der Belegung bis jetzt
+        now_to_begins_at: Jetzt bis zum Beginn der Belegung
+        now_to_ends_at: Jetzt bis zum Ende der Belegung
     occupiable:
       attributes:
         home: Hauptmietobjekt
@@ -944,6 +944,7 @@ de:
     tenant_attribute:
       attributes:
         country_code: Ländercode
+        locale: Sprache
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterzeichnet
