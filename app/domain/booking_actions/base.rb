@@ -47,7 +47,7 @@ module BookingActions
       {} if invokable?(current_user:)
     end
 
-    def prepare_with; end
+    def prepare_with(**); end
     def invoke_schema; end
 
     class << self

@@ -844,6 +844,7 @@ it:
     commit_request:
       label: Impostare la richiesta come definitiva
     decline:
+      deadline_exceeded: Termine scaduto
       label:
       label_committed: Cancellare
       label_request:
@@ -941,7 +942,6 @@ it:
     completed:
       label: Occupazione (completata)
     declined_request:
-      deadline_exceeded: Termine scaduto
       label: Richiesta di affitto(respinta)
     definitive_request:
       description: L'inquilino ha contrassegnato la richiesta come definitiva. È necessario stabilire le tariffe e redigere un contratto.
@@ -1098,7 +1098,6 @@ it:
       month: Mese
       second: Secondi
       year: Anno
-  deadline_exceeded: Scadenza superata
   destroy: Cancellare
   destroy_record: Cancellare %{model_name}
   devise:

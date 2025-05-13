@@ -557,6 +557,9 @@ en:
         other: Benutzer
   add_record: "%{model_name} hinzufügen"
   back: Zurück
+  booking_actions:
+    decline:
+      deadline_exceeded: Frist abgelaufen
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterschieben
@@ -593,7 +596,6 @@ en:
     completed:
       label: Belegung (abgeschlossen)
     declined_request:
-      deadline_exceeded: Frist abgelaufen
       label: Mietanfrage (abgelehnt)
     definitive_request:
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
@@ -747,7 +749,6 @@ en:
       month: Month
       second: Second
       year: Year
-  deadline_exceeded: Deadline exceeded
   destroy: Löschen
   destroy_record: "%{model_name} löschen"
   devise:

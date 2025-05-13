@@ -866,6 +866,7 @@ de:
     commit_request:
       label: Anfrage definitv setzen
     decline:
+      deadline_exceeded: Frist abgelaufen
       label: Ablehnen / Stornieren
       label_committed: Stornieren
       label_request: Anfrage ablehnen
@@ -966,7 +967,6 @@ de:
     completed:
       label: Belegung (abgeschlossen)
     declined_request:
-      deadline_exceeded: Frist abgelaufen
       label: Mietanfrage (abgelehnt)
     definitive_request:
       description: Der Mieter hat die Anfrage als definitiv markiert. Es müssen die Tarife festgelegt und ein Vertrag erstellt werden.
@@ -1128,7 +1128,6 @@ de:
       month: Monat
       second: Sekunde
       year: Jahr
-  deadline_exceeded: Deadline exceeded
   destroy: Löschen
   destroy_record: "%{model_name} löschen"
   devise:

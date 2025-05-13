@@ -844,6 +844,7 @@ fr:
     commit_request:
       label: Confirmer la demande
     decline:
+      deadline_exceeded: Délai expiré
       label:
       label_committed: Annuler
       label_request:
@@ -941,7 +942,6 @@ fr:
     completed:
       label: Location (terminée)
     declined_request:
-      deadline_exceeded: Délai expiré
       label: Demande de location (refusée)
     definitive_request:
       description: Le locataire a marqué la demande comme définitive. Il faut fixer les tarifs et établir un contrat.
@@ -1098,7 +1098,6 @@ fr:
       month: Mois
       second: Seconde
       year: Année
-  deadline_exceeded: Date limite dépassée
   destroy: Supprimer
   destroy_record: Supprimer %{model_name}
   devise:
