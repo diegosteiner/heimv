@@ -5,7 +5,7 @@
       .card-header.bg-warning-subtle.text-center
         = @agent_booking.booking.booking_state.translate(:label)
     .card-body
-      - errors = @agent_booking.booking.errors.to_hash(true).except(%w[booking.tenant.bookings booking.agent_booking.tenant_email bookings.occupancies.base])
+      - errors = @agent_booking.errors.to_hash(true).except(%w[booking.tenant.bookings booking.agent_booking.tenant_email bookings.occupancies.base])
       - if errors.any?
         .alert.alert-danger.d-flex
           .me-3
@@ -45,6 +45,7 @@
           = f.text_area :tenant_infos, required: false, rows: 3, help: t('.tenant_infos_help')
           = bf.text_area :remarks, required: false
           = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
+          = bf.hidden_field :committed_request
   
         fieldset.mt-4
           h5.mt-0= BookingQuestion.model_name.human(count: 2)
