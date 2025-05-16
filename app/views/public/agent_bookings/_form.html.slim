@@ -68,7 +68,8 @@
           =<> f.submit
           - @agent_booking.booking.booking_flow.booking_agent_actions.values.each do |booking_action|
             - Array.wrap(booking_action.invokable_with(current_user:)).compact.each do |invokable_with|
+              - label = invokable_with[:label] || booking_action.label
               = f.button name: :booking_action, value: booking_action.key, method: :patch, \
-                data: invokable_with[:confirm].present? ? { confirm: invokable_with[:confirm] } : nil, \
+                data: { confirm: invokable_with[:confirm], disable_with: label }.compact, \
                 class: "me-2 btn btn-outline-#{invokable_with[:variant] || :primary}"
-                = invokable_with[:label] || booking_action.label
+                = label
