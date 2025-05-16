@@ -1,12 +1,18 @@
 .card.shadow-sm
   .card-body
+    h2.mt-2.mb-4 
+      = @tenant.name
+
     dl
-      dt= Tenant.model_name.human
-      dd 
-        address
-          - @tenant.full_address_lines.each do |line|
-            = line 
-            br
+      address
+        - @tenant.full_address_lines.each do |line|
+          = line 
+          br
+
+      - if @tenant.ref
+        dt= Tenant.human_attribute_name(:ref)
+        dd
+          span.badge.bg-secondary= @tenant.ref 
 
       dt= Tenant.human_attribute_name(:email)
       dd= mail_to(@tenant.email, @tenant.email)
@@ -27,11 +33,13 @@
       '
       = t(:destroy)
 
+h3.mt-5.mb-4= Booking.model_name.human(count: 2)
+
 - if @tenant.bookings.none?
-  p.text-center.my-5
+  p.text-center.mb-5
     = t(:no_records_yet, model_name: Booking.model_name.human(count: 2))
 - else
-  table.table.table-hover.align-middle.mt-5
+  table.table.table-hover.align-middle
     thead
       tr
         th= Booking.human_attribute_name(:ref)

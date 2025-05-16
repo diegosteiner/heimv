@@ -3,7 +3,7 @@
 module Manage
   class TenantParams < Public::TenantParams
     def self.permitted_keys
-      super + %i[reservations_allowed remarks bookings_without_contract bookings_without_invoice]
+      super + %i[reservations_allowed remarks bookings_without_contract bookings_without_invoice ref]
     end
   end
 end
