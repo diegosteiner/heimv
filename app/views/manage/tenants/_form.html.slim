@@ -31,6 +31,7 @@
 
     = f.text_field :phone
     = f.date_select :birth_date, use_two_digit_numbers: true, start_year: Time.zone.today.year - 75, end_year: Time.zone.today.year - 17, include_blank: true
+    = f.text_field :ref
     = f.text_area :remarks
     = f.select :locale, current_organisation.locales.map { [_1.upcase, _1.downcase] }
     = f.check_box :bookings_without_contract

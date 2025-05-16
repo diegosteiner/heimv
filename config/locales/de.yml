@@ -469,6 +469,7 @@ de:
         locale: Sprache
         nickname: Pfadiname
         phone: Telefon
+        ref: Kundennummer
         remarks: Interne Bemerkungen
         reservations_allowed: Darf Reservationsanfragen schicken
         salutation: Anrede
