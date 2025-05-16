@@ -24,6 +24,8 @@ class BookingDeletionService
   private
 
   def delete_dependent!(booking)
+    booking.deadline&.destroy
+    booking.agent_booking&.destroy
     dependent_associations = [booking.logs, booking.usages, booking.contracts, booking.invoices,
                               booking.payments, booking.notifications, booking.state_transitions]
 
