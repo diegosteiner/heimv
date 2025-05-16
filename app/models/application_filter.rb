@@ -14,7 +14,7 @@ class ApplicationFilter
 
   def apply(base_relation, cached: false)
     return base_relation.none unless valid?
-    return base_relation.where(id: cached_ids(base_relation)) if cached
+    return base_relation.where(id: cached_ids(base_relation, cached_for: cached)) if cached
 
     self.class.filters.values.inject(base_relation) do |relation, filter_block|
       instance_exec(relation, &filter_block) || relation
@@ -33,8 +33,8 @@ class ApplicationFilter
     !attributes.values.all?(&:nil?)
   end
 
-  def cached_ids(base_relation)
-    Rails.cache.fetch(cache_key(base_relation), expires_in: 15.minutes) do
+  def cached_ids(base_relation, cached_for: nil)
+    Rails.cache.fetch(cache_key(base_relation), expires_in: cached_for || 5.minutes) do
       apply(base_relation, cached: false).map(&:id)
     end
   end

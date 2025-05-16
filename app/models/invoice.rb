@@ -28,6 +28,8 @@
 #
 
 class Invoice < ApplicationRecord
+  LIMIT = ENV.fetch('RECORD_LIMIT', 250)
+
   extend RichTextTemplate::Definition
   include Subtypeable
   include Discard::Model

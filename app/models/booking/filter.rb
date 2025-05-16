@@ -67,7 +67,7 @@ class Booking
               .where(Tenant.arel_table[:search_cache].matches(match_part)
               .or(Booking.arel_table[:tenant_organisation].matches(match_part))
               .or(Booking.arel_table[:ref].matches(match_part)))
-              .or(Booking.where(AgentBooking.arel_table[:booking_agent_ref].matches(q)))
+              .or(bookings.where(AgentBooking.arel_table[:booking_agent_ref].matches(q)))
     end
 
     filter :has_booking_state do |bookings|
