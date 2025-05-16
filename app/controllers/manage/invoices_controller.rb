@@ -9,6 +9,7 @@ module Manage
     def index
       @invoices = @invoices.where(booking: { organisation: current_organisation })
                            .includes(:organisation, :payments).ordered.with_attached_pdf
+                           .limit(Invoice::LIMIT)
       @invoices = @invoices.where(booking: @booking) if @booking.present?
       @invoices = @filter.apply(@invoices, cached: false) if @filter.any? && @booking.blank?
 
