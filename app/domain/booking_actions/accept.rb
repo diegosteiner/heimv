@@ -11,18 +11,11 @@ module BookingActions
     end
 
     def invokable_with(current_user: nil)
-      return unless invokable?(current_user:)
-
-      case transition_to
-      when :waitlisted_request
-        { variant: :warning, label: translate(:label_waitlisted_request) }
-      else
-        { variant: :success }
-      end
+      { variant: :success } if invokable?(current_user:)
     end
 
     def transition_to
-      %i[booking_agent_request definitive_request provisional_request waitlisted_request].find do
+      %i[booking_agent_request definitive_request provisional_request].find do
         booking.can_transition_to?(it)
       end
     end
