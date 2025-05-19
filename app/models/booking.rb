@@ -239,7 +239,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def touch_conflicting
-    occupancies.flat_map { it.conflicting&.map(&:booking) }.each(&:touch)
+    occupancies.flat_map { it.conflicting&.map(&:booking) }.compact.each(&:touch)
   end
 
   def booking_flow_class

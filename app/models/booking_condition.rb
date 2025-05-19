@@ -39,7 +39,6 @@ class BookingCondition < ApplicationRecord
   belongs_to :organisation
 
   scope :qualifiable_group, ->(group) { where(group:) }
-  delegate :compare_operators_for_select, to: :class
 
   validates :type, presence: true, inclusion: { in: ->(_) { BookingCondition.subtypes.keys.map(&:to_s) } }
   validates :compare_value, format: { with: ->(condition) { condition.compare_value_regex } }, allow_blank: true
