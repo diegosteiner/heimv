@@ -5,7 +5,7 @@
       .card-header.bg-warning-subtle.text-center
         = @agent_booking.booking.booking_state.translate(:label)
     .card-body
-      - errors = @agent_booking.booking.errors.to_hash(true).except(%w[booking.tenant.bookings booking.agent_booking.tenant_email bookings.occupancies.base])
+      - errors = @agent_booking.errors.to_hash(true).except(%w[booking.tenant.bookings booking.agent_booking.tenant_email bookings.occupancies.base])
       - if errors.any?
         .alert.alert-danger.d-flex
           .me-3
@@ -45,6 +45,7 @@
           = f.text_area :tenant_infos, required: false, rows: 3, help: t('.tenant_infos_help')
           = bf.text_area :remarks, required: false
           = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
+          = bf.hidden_field :committed_request
   
         fieldset.mt-4
           h5.mt-0= BookingQuestion.model_name.human(count: 2)
@@ -67,7 +68,8 @@
           =<> f.submit
           - @agent_booking.booking.booking_flow.booking_agent_actions.values.each do |booking_action|
             - Array.wrap(booking_action.invokable_with(current_user:)).compact.each do |invokable_with|
+              - label = invokable_with[:label] || booking_action.label
               = f.button name: :booking_action, value: booking_action.key, method: :patch, \
-                data: invokable_with[:confirm].present? ? { confirm: invokable_with[:confirm] } : nil, \
+                data: { confirm: invokable_with[:confirm], disable_with: label }.compact, \
                 class: "me-2 btn btn-outline-#{invokable_with[:variant] || :primary}"
-                = invokable_with[:label] || booking_action.label
+                = label

@@ -1,5 +1,14 @@
 # Changelog
 
+## 25.5.3
+
+Released 19.05.2025
+
+- Fix: Retry on SMTP errors
+- Fix: Fix broken booking deletion
+- Feature: Limit amount of bookings that can be displayed at the same time
+- Fix: Allow bookings to be waitlisted instead of accepted
+
 ## 25.5.2
 
 Released 12.05.2025

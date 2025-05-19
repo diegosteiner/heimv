@@ -425,6 +425,7 @@ de:
         locale: Sprache
         nickname: Pfadiname
         phone: Telefon
+        ref: Kundennummer
         remarks: Interne Bemerkungen
         reservations_allowed: Darf Reservationsanfragen schicken
         salutation: Anrede
@@ -852,7 +853,6 @@ de:
   booking_actions:
     accept:
       label: Anfrage akzeptieren
-      label_waitlisted_request: Anfrage auf Warteliste setzen
     cancel:
       description: Bist du sicher?
       label: Anfrage zurückziehen / stornieren
@@ -892,6 +892,8 @@ de:
       label: Gutschriften als rückerstattet markieren
     postpone_deadline:
       label: Frist verlängern
+    put_on_waitlist:
+      label: Anfrage auf Warteliste setzen
     revert_cancel:
       label: Annulation rückgängig machen
     sign_contract:

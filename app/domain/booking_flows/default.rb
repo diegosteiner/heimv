@@ -55,6 +55,7 @@ module BookingFlows
     def self.manage_actions # rubocop:disable Metrics/MethodLength
       {
         accept: BookingActions::Accept,
+        put_on_waitlist: BookingActions::PutOnWaitlist,
         email_contract: BookingActions::EmailContract,
         mark_contract_sent: BookingActions::MarkContractSent,
         mark_invoices_refunded: BookingActions::MarkInvoicesRefunded,

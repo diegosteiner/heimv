@@ -50,6 +50,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   VALIDATION_CONTEXTS = %i[public_create public_update agent_create agent_update manage_create manage_update].freeze
   ROLES = (%i[organisation tenant booking_agent] + OperatorResponsibility::RESPONSIBILITIES.keys).freeze
+  LIMIT = ENV.fetch('RECORD_LIMIT', 250)
   DEFAULT_INCLUDES = [:organisation, :state_transitions, :invoices, :contracts, :payments, :booking_agent,
                       :category, :logs, :home,
                       { tenant: :organisation, deadline: :booking, occupancies: :occupiable,
@@ -238,7 +239,7 @@ class Booking < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def touch_conflicting
-    occupancies.flat_map { it.conflicting&.map(&:booking) }.each(&:touch)
+    occupancies.flat_map { it.conflicting&.map(&:booking) }.compact.each(&:touch)
   end
 
   def booking_flow_class

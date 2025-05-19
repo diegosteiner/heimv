@@ -30,7 +30,11 @@ module BookingStates
 
     guard_transition do |booking|
       booking.organisation.booking_state_settings.enable_provisional_request &&
-        !booking.conflicting?(%i[occupied tentative])
+        booking.occupancies.all? do |occupancy|
+          occupancy.conflicting(%i[occupied tentative]).all? do
+            it.booking&.in_state?(:open_request, :waitlisted_request)
+          end
+        end
     end
 
     infer_transition(to: :definitive_request) do |booking|

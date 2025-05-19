@@ -9,6 +9,6 @@
           = lines_as_paragraphs(@booking_action.translate(:description))
           = f.file_field :signed_pdf, label: Contract.human_attribute_name(:signed_pdf), help: t(:optional), accept: "image/*,.pdf"
           = f.check_box :confirm_authorization, label: @booking_action.translate(:confirm_authorization_label), required: true
-          = f.button name: :id, value: @booking_action.key, type: :submit, class: 'btn btn-primary'
+          = f.button name: :id, value: @booking_action.key, type: :submit, class: 'btn btn-primary', data: { disable_with: @booking_action.label }
             = @booking_action.label
           = link_to t(:back), back_path, class: 'btn btn-outline-primary ms-2'
