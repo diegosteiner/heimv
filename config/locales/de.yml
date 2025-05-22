@@ -331,7 +331,6 @@ de:
         text: Text
         trigger: Auslöser
         vat_category_id: MwSt. Kategorie
-      mail_template:
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -1502,6 +1501,8 @@ de:
         invoke:
           failure: Aktion fehlgeschlagen
           success: Aktion erfolgreich
+        prepare:
+          missing_template: Aktion so nicht ausführbar
       calendar:
         ics_link: als ICAL
         private_ics_link: als privater ICAL

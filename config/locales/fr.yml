@@ -32,6 +32,8 @@ fr:
       booking_state_settings:
         default_manage_transition_to_state:
         editable_booking_states:
+        enable_provisional_request:
+        enable_waitlist:
         occupied_booking_states: Statuts pour lesquels la réservation est considérée comme "définitive
       deadline_settings:
         awaiting_contract_deadline: Délai de réception du contrat
@@ -197,6 +199,10 @@ fr:
         tenant_organisation: Organisation/entité locataire
         transition_to: Nouveau statut
         usage_report: Formulaire de consommation
+      booking/booking_question_responses:
+        value: Infos supplémentaires
+      booking/occupancies:
+        base: Objet de location
       booking_agent:
         address: Adresse
         code: Code de l'intermédiaire
@@ -219,6 +225,8 @@ fr:
         required: Saisie obligatoire
         tenant_mode:
         type: type
+      booking_question_response:
+        value:
       booking_validation:
         check_on:
         enabling_conditions:
@@ -448,6 +456,7 @@ fr:
         locale: Langue
         nickname: Totem
         phone: Téléphone
+        ref:
         remarks: Remarques internes
         reservations_allowed: Peut envoyer des demandes de réservation
         salutation:
@@ -687,6 +696,9 @@ fr:
       booking_questions/text:
         one: Informations complémentaires sous forme de texte
         other:
+      booking_questions_response:
+        one: Infos supplémentaires
+        other: Informations supplémentaires
       booking_transition:
         one: Changement de statut
         other: Changements de statut
@@ -838,6 +850,9 @@ fr:
       label:
       label_committed: Annuler
       label_request:
+    clear_waitlist:
+      cancellation_reason:
+      label:
     commit_booking_agent_request:
       label: Confirmer la demande
     commit_request:
@@ -869,6 +884,8 @@ fr:
       label: Marquer les notes de crédit comme étant remboursées
     postpone_deadline:
       label: Prolonger le délai
+    put_on_waitlist:
+      label:
     revert_cancel:
       label: Annuler l'annulation
     sign_contract:
@@ -987,6 +1004,11 @@ fr:
       description: La location aura lieu prochainement. Le cas échéant, l'heure exacte de remise des clés doit encore être clarifiée avec le locataire.
       label: Location (prochainement)
       relevant_time: Début de la location %{time}
+    waitlisted_request:
+      description:
+      label:
+      public_info:
+      relevant_time: Déposé %{time}
   clone: Dupliquer
   confirm: Êtes-vous sûr ?
   contracts:
@@ -1140,12 +1162,13 @@ fr:
       reset_password_instructions:
         action: Changer mon mot de passe
         greeting: Bonjour %{recipient} !
-        instruction: 'Quelqu''un a demandé un lien pour changer votre mot de passe, le voici :'
+        instruction: |
+          Quelqu'un a demandé un lien pour changer votre mot de passe, le voici :
         instruction_2: Si vous n'avez pas émis cette demande, merci d'ignorer cet email.
         instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
         subject: Instructions pour changer le mot de passe
     omniauth_callbacks:
-      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : ''%{reason}''.'
+      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : %{reason}.'
       success: Autorisé par votre compte %{kind}.
     passwords:
       edit:
@@ -1241,8 +1264,10 @@ fr:
     template:
       body: 'Veuillez vérifier les champs suivants : '
       header:
-        one: 'Impossible d''enregistrer ce(tte) %{model} : 1 erreur'
-        other: 'Impossible d''enregistrer ce(tte) %{model} : %{count} erreurs'
+        one: |
+          Impossible d'enregistrer ce(tte) %{model} : 1 erreur
+        other: |
+          Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs
   export:
     pdf:
       renderables:
@@ -1274,7 +1299,8 @@ fr:
     public:
       bookings:
         create:
-          notice: 'Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n''avez pas reçu le mail, vérifiez dans les spams ou contactez l''administration: %{mailto_organisation}'
+          notice: |
+            Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n'avez pas reçu le mail, vérifiez dans les spams ou contactez l'administration: %{mailto_organisation}
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
   from: de
@@ -1360,14 +1386,18 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: 'Échec de l''importation :'
+          failure: |
+            Échec de l'importation :
           success: Importation réussie
+        prepare:
+          missing_template:
       calendar:
         ics_link: comme ICAL
         private_ics_link:
       import:
         headers: En-têtes
-        import_error: 'Échec de l''importation : '
+        import_error: |
+          Échec de l'importation :
         import_file: Fichier d'importation (CSV)
         import_success: Importation réussie
       index:
@@ -1376,7 +1406,8 @@ fr:
         new: Nouveau
         new_closed_occupancy: Fermeture
         new_request: Demande de réservation
-        no_records_yet: 'Aucune réservation n''a été trouvée. Ajouter une nouvelle réservation : %{options}.'
+        no_records_yet: |
+          Aucune réservation n'a été trouvée. Ajouter une nouvelle réservation : %{options}.
       navigation:
         costs: Tarifs & consommation
       not_committed_yet: La réservation n'est pas encore définitive.
@@ -1434,7 +1465,8 @@ fr:
         new_import: Importer des paiements à partir du fichier CAMT.054
       new_import:
         camt_file: Fichier CAMT.054 (.xml)
-        exception: 'Le fichier de paiement n''a pas pu être traité : %{errors}'
+        exception: |
+          Le fichier de paiement n'a pas pu être traité : %{errors}
     rich_text_templates:
       form:
         help_lead:
@@ -1570,7 +1602,7 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: 'Échec de l''importation :'
+          failure: Échec de l'importation :"
           success: Importation réussie
       confirm:
         title: Veuillez confirmer votre adresse e-mail
@@ -1794,6 +1826,10 @@ fr:
       default_body:
       default_title: Formulaire de consommation
       description: Texte pour le formulaire de consommation
+    waitlisted_request_notification:
+      default_body:
+      default_title:
+      description:
   show: Annonces
   support:
     array:
@@ -1816,5 +1852,6 @@ fr:
     pm: pm
   titles:
     application: HeimV %{organisation}
+  too_many_records:
   unauthorized: Tu n'as pas l'autorisation d'accéder à cette page.
   until: jusqu'à
