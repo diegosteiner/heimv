@@ -27,6 +27,8 @@ it:
       booking_state_settings:
         default_manage_transition_to_state:
         editable_booking_states:
+        enable_provisional_request:
+        enable_waitlist:
         occupied_booking_states:
       deadline_settings:
         awaiting_contract_deadline: Periodo per i contratti in entrata
@@ -159,6 +161,10 @@ it:
         tenant_organisation: Inquilino (organizzazione)
         transition_to: Nuovo stato
         usage_report: Forma di consumo
+      booking/booking_question_responses:
+        value:
+      booking/occupancies:
+        base: Proprietà in affitto
       booking_agent:
         address: Indirizzo
         code: Codice del mediatore
@@ -187,6 +193,8 @@ it:
         required:
         tenant_mode:
         type: Tipo
+      booking_question_response:
+        value:
       booking_validation:
         check_on:
         enabling_conditions:
@@ -416,6 +424,7 @@ it:
         locale: Lingua
         nickname: Totem scout
         phone: Telefono
+        ref:
         remarks: Osservazioni interne
         reservations_allowed: Può inviare richieste di prenotazione
         salutation:
@@ -688,6 +697,9 @@ it:
       booking_questions/text:
         one:
         other:
+      booking_questions_response:
+        one:
+        other:
       booking_transition:
         one: Transizione di stato
         other: Transizioni di stato
@@ -839,6 +851,9 @@ it:
       label:
       label_committed: Cancellare
       label_request:
+    clear_waitlist:
+      cancellation_reason:
+      label:
     commit_booking_agent_request:
       label: Impostare la richiesta come definitiva
     commit_request:
@@ -870,6 +885,8 @@ it:
       label:
     postpone_deadline:
       label: Prolungare il periodo
+    put_on_waitlist:
+      label:
     revert_cancel:
       label:
     sign_contract:
@@ -988,6 +1005,11 @@ it:
       description: L'occupazione avverrà a breve. Se necessario, l'ora esatta di consegna deve essere ancora chiarito con l'inquilino.
       label: Occupazione (in arrivo)
       relevant_time: Inizio dell'occupazione %{time}
+    waitlisted_request:
+      description:
+      label:
+      public_info:
+      relevant_time: Presentato %{time}
   clone:
   confirm: Sind sie sicher?
   contracts:
@@ -1275,7 +1297,8 @@ it:
     public:
       bookings:
         create:
-          notice: 'La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un''e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l''e-mail, controllate lo spam o contattate l''amministrazione:  %{mailto_organisation}. '
+          notice: |
+            La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un'e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l'e-mail, controllate lo spam o contattate l'amministrazione:  %{mailto_organisation}. 
         update:
           notice: La richiesta di prenotazione è stata aggiornata. Potete chiudere la finestra del browser.
   from: da
@@ -1328,6 +1351,8 @@ it:
         invoke:
           failure:
           success:
+        prepare:
+          missing_template:
       calendar:
         ics_link: come ICAL
         private_ics_link:
@@ -2103,6 +2128,10 @@ it:
         <p>{{ booking.begins_at | datetime_format }} a {{ booking.ends_at | datetime_format }}, {{ booking.home.name }}, {{ booking.home.address }}</p>
       default_title: Forma di consumo
       description: Testo per il modulo di consumo
+    waitlisted_request_notification:
+      default_body:
+      default_title:
+      description:
   show: Mostrare
   support:
     array:
@@ -2125,5 +2154,6 @@ it:
     pm: pm
   titles:
     application: HeimV %{organisation}
+  too_many_records:
   unauthorized: Non sei autorizzato a visualizzare questa pagina. Effettuare il login per favore.
   until: fino a
