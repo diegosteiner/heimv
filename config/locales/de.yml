@@ -81,6 +81,8 @@ de:
         accounting_cost_center_nr: Kostenstelle
         booking_margin: Abstand zwischen Buchungen
       organisation_settings:
+        available_begins_at_times: Beginn der Belegung auswählbare Zeiten
+        available_ends_at_times: Ende der Belegung auswählbare Zeiten
         booking_window: Reservationsfenster
         closed_occupancy_color: Farbe für Schliessungen
         contract_sign_by_click_enabled: Vertrag «per Klick» durch Mieter unterschreiben

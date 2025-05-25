@@ -1,21 +1,25 @@
 import * as React from "react";
 import { type BookingJson, parse } from "../../models/Booking";
 import type { Organisation } from "../../types";
-import OccupancySelect from "../occupancies/OccupancySelect";
+import OccupancySelect, { OccupancySelectProps } from "../occupancies/OccupancySelect";
 import OrganisationProvider from "./OrganisationProvider";
 
 type BookingOccupancyFormProps = {
   organisation: Organisation;
   booking: BookingJson;
-  namePrefix?: string;
-  required?: boolean;
-  disabled?: boolean;
-  defaultBeginsAtTime?: string;
-  defaultEndsAtTime?: string;
-  occupiableInvalidFeedback?: string;
-  occupancyInvalidFeedback?: string;
-};
-
+} & Pick<
+  React.ComponentProps<typeof OccupancySelect>,
+  | "initial"
+  | "namePrefix"
+  | "disabled"
+  | "required"
+  | "defaultBeginsAtTime"
+  | "defaultEndsAtTime"
+  | "beginsAtTimes"
+  | "endsAtTimes"
+  | "occupiableInvalidFeedback"
+  | "occupancyInvalidFeedback"
+>;
 export default function BookingOccupancyForm(props: BookingOccupancyFormProps) {
   const booking = parse(props.booking);
 
@@ -29,6 +33,8 @@ export default function BookingOccupancyForm(props: BookingOccupancyFormProps) {
           required={props.required}
           defaultBeginsAtTime={props.defaultBeginsAtTime}
           defaultEndsAtTime={props.defaultEndsAtTime}
+          beginsAtTimes={props.beginsAtTimes}
+          endsAtTimes={props.endsAtTimes}
           occupiableInvalidFeedback={props.occupiableInvalidFeedback}
           occupancyInvalidFeedback={props.occupancyInvalidFeedback}
         />

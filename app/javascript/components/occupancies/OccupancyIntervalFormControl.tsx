@@ -1,5 +1,5 @@
 import { cx } from "@emotion/css";
-import { addYears, getHours, getMinutes, getYear, isValid, parse, setHours, setMinutes } from "date-fns";
+import { addYears, format, getHours, getMinutes, getYear, isValid, parse, setHours, setMinutes } from "date-fns";
 import * as React from "react";
 import { useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
@@ -9,7 +9,9 @@ import OccupancyIntervalCalendar from "./OccupancyIntervalCalendar";
 
 export const availableMinutes = [0, 15, 30, 45];
 export const availableHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-const timeOptions = availableHours.flatMap((hour) => availableMinutes.flatMap((minutes) => formatTime(hour, minutes)));
+export const availableTimes = availableHours.flatMap((hour) =>
+  availableMinutes.flatMap((minutes) => formatTime(hour, minutes)),
+);
 
 function formatTime(hour: string | number | undefined, minutes: string | number | undefined): string {
   return `${String(hour || 0).padStart(2, "0")}:${String(minutes || 0).padStart(2, "0")}`;
@@ -66,6 +68,8 @@ type OccupancyIntervalFormControlProps = {
   initialEndsAt?: Date;
   defaultBeginsAtTime?: string;
   defaultEndsAtTime?: string;
+  beginsAtTimes?: (string | number)[];
+  endsAtTimes?: (string | number)[];
   invalidFeedback?: string | undefined;
 };
 
@@ -78,16 +82,26 @@ export function OccupancyIntervalFormControl({
   initialEndsAt,
   defaultBeginsAtTime,
   defaultEndsAtTime,
+  beginsAtTimes,
+  endsAtTimes,
   invalidFeedback,
 }: OccupancyIntervalFormControlProps) {
   const [showModal, setShowModal] = useState(false);
+  const initialBeginsAtTime = initialBeginsAt && format(initialBeginsAt, "HH:mm");
   const [beginsAt, setBeginsAt] = useState<ControlDateValue>(() =>
-    buildControlDateValue({ date: initialBeginsAt, time: !initialBeginsAt ? defaultBeginsAtTime : undefined }),
+    buildControlDateValue({ date: initialBeginsAt, time: initialBeginsAt ? initialBeginsAtTime : defaultBeginsAtTime }),
   );
+  const initialEndsAtTime = initialEndsAt && format(initialEndsAt, "HH:mm");
   const [endsAt, setEndsAt] = useState<ControlDateValue>(() =>
-    buildControlDateValue({ date: initialEndsAt, time: !initialEndsAt ? defaultEndsAtTime : undefined }),
+    buildControlDateValue({ date: initialEndsAt, time: initialEndsAt ? initialEndsAtTime : defaultEndsAtTime }),
   );
   const { t } = useTranslation();
+  const beginsAtTimeOptions = new Set(
+    [initialBeginsAtTime, ...(beginsAtTimes || availableTimes)].filter((time) => time).sort(),
+  );
+  const endsAtTimeOptions = new Set(
+    [initialEndsAtTime, ...(endsAtTimes || availableTimes)].filter((time) => time).sort(),
+  );
 
   return (
     <>
@@ -134,7 +148,7 @@ export function OccupancyIntervalFormControl({
               }
             >
               <option />
-              {timeOptions.map((timeOption) => (
+              {Array.from(beginsAtTimeOptions).map((timeOption) => (
                 <option key={timeOption} value={timeOption}>
                   {timeOption}
                 </option>
@@ -192,7 +206,7 @@ export function OccupancyIntervalFormControl({
               }
             >
               <option />
-              {timeOptions.map((timeOption) => (
+              {Array.from(endsAtTimeOptions).map((timeOption) => (
                 <option key={timeOption} value={timeOption}>
                   {timeOption}
                 </option>
