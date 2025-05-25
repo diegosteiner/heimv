@@ -21,6 +21,7 @@ tinymce.init({
   convert_urls: false,
   allow_unsafe_link_target: true,
   fix_list_elements: false,
+  license_key: "gpl",
   forced_root_block: "div",
   extended_valid_elements: "liquid",
   plugins: "autolink link anchor lists image table searchreplace code pagebreak",

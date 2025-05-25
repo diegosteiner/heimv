@@ -9,6 +9,7 @@
 #  accounting_cost_center_nr         :string
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
+#  enabling_conditions               :jsonb
 #  label_i18n                        :jsonb
 #  minimum_price_per_night           :decimal(, )
 #  minimum_price_total               :decimal(, )
@@ -18,6 +19,7 @@
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
 #  price_per_unit                    :decimal(, )
+#  selecting_conditions              :jsonb
 #  tarif_group                       :string
 #  type                              :string
 #  unit_i18n                         :jsonb

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Col, FloatingLabel, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { ReactSortable } from "react-sortablejs";
+import { v4 as uuidv4 } from "uuid";
 
 enum ColumnConfigType {
   Default = "default",
@@ -59,8 +60,7 @@ export default function ColumnsConfigForm({ columnsConfig: initialColumnsConfig,
   const handleRemove = (removedConfig: ColumnConfig) =>
     setColumnsConfig((prev) => prev.filter((prevConfig) => prevConfig.id !== removedConfig.id));
   const handleAdd = (type: string) =>
-    isColumnConfigType(type) &&
-    setColumnsConfig((prev) => [...prev, { type, body: "", header: "", id: crypto.randomUUID() }]);
+    isColumnConfigType(type) && setColumnsConfig((prev) => [...prev, { type, body: "", header: "", id: uuidv4() }]);
 
   return (
     <Form.Group className="mb-3">

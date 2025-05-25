@@ -19,7 +19,6 @@ module Manage
 
     def edit
       @booking ||= @operator_responsibility.booking
-      @operator_responsibility.assigning_conditions.build if @booking.nil?
       respond_with :manage, @operator_responsibility
     end
 
@@ -68,13 +67,12 @@ module Manage
         return manage_booking_operator_responsibilities_path(booking)
       end
 
-      manage_operator_responsibilities_path
+      edit_manage_operator_responsibility_path(@operator_responsibility)
     end
 
     def operator_responsibility_params
-      assigning_conditions_attributes = [BookingConditionParams.permitted_keys + %i[id _destroy]]
-      params.expect(operator_responsibility: %i[operator_id booking_id ordinal_position responsibility remarks] +
-                                              [{ assigning_conditions_attributes: }])
+      params.expect(operator_responsibility: %i[operator_id booking_id ordinal_position
+                                                responsibility remarks assigning_conditions])
     end
   end
 end

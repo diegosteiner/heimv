@@ -24,6 +24,11 @@ de:
         occupiables: Mietobjekte
         previous_booking_states: Vergangene Status
         q: Buchungsreferenz, Mieter, Organisation
+      booking_condition:
+        compare_attribute: Attribut
+        compare_operator: Operator
+        compare_value: Bedingung
+        type: Typ
       booking_state_settings:
         default_manage_transition_to_state: Standard Status für Buchungen durch Verwaltung
         editable_booking_states: Status, bei welchen die Buchung durch den Mieter bearbeitbar ist
@@ -96,6 +101,51 @@ de:
         sort: Sortierung
     models:
       accounting_settings: Buchhaltungseinstellungen
+      booking_condition:
+        one: Bedingung
+        other: Bedingungen
+      booking_conditions/all_of:
+        one: Alle Bedingungen
+        other:
+      booking_conditions/always:
+        one: Immer
+        other:
+      booking_conditions/booking_attribute:
+        one: Buchungsattribut
+        other:
+      booking_conditions/booking_category:
+        one: Mietkategorie
+        other:
+      booking_conditions/booking_date_time:
+        one: Belegungsdatum
+        other:
+      booking_conditions/booking_question:
+        one: Zusätzliche Angabe
+        other:
+      booking_conditions/booking_state:
+        one: Status
+        other:
+      booking_conditions/duration:
+        one: Zeitspanne
+        other:
+      booking_conditions/never:
+        one: Nie
+        other:
+      booking_conditions/occupancy_duration:
+        one: Belegungsdauer
+        other:
+      booking_conditions/occupiable:
+        one: Mietobjekt
+        other:
+      booking_conditions/one_of:
+        one: Eine der Bedingungen
+        other:
+      booking_conditions/tarif:
+        one: Ausgewählter Tarif
+        other:
+      booking_conditions/tenant_attribute:
+        one: Mieterattribut
+        other:
       booking_state_settings: Buchungsprozessseinstellungen
       deadline_settings: Fristeinstellungen
       occupancy_calendar:
@@ -177,12 +227,6 @@ de:
         key: Schlüssel
         ordinal_position: Ordnungsnummer
         title: Titel
-      booking_condition:
-        compare_attribute: Attribut
-        compare_operator: Operator
-        compare_value: Bedingung
-        must_condition: Muss-Kriterium
-        type: Typ
       booking_question:
         applying_conditions: Bedingungen
         booking_agent_mode: Eingabemodus für Vermittler
@@ -200,7 +244,7 @@ de:
         enabling_conditions: Bedingungen zur Ausführung der Gültigkeitsprüfung
         error_message: Anzuzeigende Fehlermeldung
         ordinal_position: Ordnungsnummer
-        validating_conditions: Kriterien der Gültigkeit
+        validating_conditions: Gültigkeitskriterium
       contract:
         issuer: Vermieter
         locale: Sprache
@@ -646,39 +690,6 @@ de:
       booking_category:
         one: Mietkategorie
         other: Mietkategorien
-      booking_condition:
-        one: Bedingung
-        other: Bedingungen
-      booking_conditions/always_apply:
-        one: Immer
-        other:
-      booking_conditions/booking_attribute:
-        one: Buchungsattribut Bedingung
-        other:
-      booking_conditions/booking_category:
-        one: Mietkategorie Bedingung
-        other:
-      booking_conditions/booking_date_time:
-        one: Belegungsdatum Bedingung
-        other:
-      booking_conditions/booking_question:
-        one: Zusätzliche Angabe Bedingung
-        other:
-      booking_conditions/booking_state:
-        one: Status Bedingung
-        other:
-      booking_conditions/occupancy_duration:
-        one: Belegungsdauer Bedingung
-        other:
-      booking_conditions/occupiable:
-        one: Mietobjekt Bedingung
-        other:
-      booking_conditions/tarif:
-        one: Ausgewählter Tarif Bedingung
-        other:
-      booking_conditions/tenant_attribute:
-        one: Mieterattribut Bedingung
-        other:
       booking_question:
         one: Zusätzliche Angabe
         other: Zusätzliche Angaben
@@ -908,6 +919,7 @@ de:
     booking_attribute:
       attributes:
         approximate_headcount: Erwartete Anzahl Personen
+        booking_editable: Buchung bearbeitbar
         days: Tage
         nights: Nächte
         overnight_stays: Erwartete Anzahl Übernachtungen
@@ -920,6 +932,12 @@ de:
         ends_at: Ende der Belegung
         now: Heute
         updated_at: Aktualisierung der Belegung
+    duration:
+      attributes:
+        begins_at_to_ends_at: Beginn der Belegung bis zum Ende der Belegung
+        created_at_to_now: Erstellung der Belegung bis jetzt
+        now_to_begins_at: Jetzt bis zum Beginn der Belegung
+        now_to_ends_at: Jetzt bis zum Ende der Belegung
     occupiable:
       attributes:
         home: Hauptmietobjekt
@@ -927,6 +945,7 @@ de:
     tenant_attribute:
       attributes:
         country_code: Ländercode
+        locale: Sprache
   booking_state_checklist_item:
     contract_created: Vertrag erstellen
     contract_signed: Vertrag unterzeichnet
