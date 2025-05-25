@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_10_173128) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_19_145028) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -414,6 +414,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_173128) do
     t.datetime "delivered_at"
     t.index ["booking_id"], name: "index_notifications_on_booking_id"
     t.index ["mail_template_id"], name: "index_notifications_on_mail_template_id"
+  end
+
+  create_table "oauth_tokens", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.integer "audience", null: false
+    t.string "access_token"
+    t.string "refresh_token"
+    t.string "token_type"
+    t.datetime "expires_at"
+    t.string "client_id"
+    t.string "client_secret"
+    t.string "authorize_url"
+    t.string "token_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_oauth_tokens_on_organisation_id"
   end
 
   create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -854,6 +870,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_173128) do
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "notifications", "bookings"
   add_foreign_key "notifications", "rich_text_templates", column: "mail_template_id"
+  add_foreign_key "oauth_tokens", "organisations"
   add_foreign_key "occupancies", "occupiables"
   add_foreign_key "occupiables", "organisations"
   add_foreign_key "operator_responsibilities", "bookings"
