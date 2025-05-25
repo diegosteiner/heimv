@@ -888,7 +888,7 @@
     "@babel/helper-string-parser" "^7.27.1"
     "@babel/helper-validator-identifier" "^7.27.1"
 
-"@biomejs/biome@^1.9.2":
+"@biomejs/biome@^1.9.4":
   version "1.9.4"
   resolved "https://registry.yarnpkg.com/@biomejs/biome/-/biome-1.9.4.tgz#89766281cbc3a0aae865a7ff13d6aaffea2842bf"
   integrity sha512-1rkd7G70+o9KkTn5KLmDYXihGoTaIGO9PIIN2ZB7UJxFrWw04CZHPYiMRjYsaDvVV7hP1dYNRLxSANLaBFGpog==
@@ -1865,13 +1865,6 @@
   version "1.15.8"
   resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.15.8.tgz#11ed555076046e00869a5ef85d1e7651e7a66ef6"
   integrity sha512-b79830lW+RZfwaztgs1aVPgbasJ8e7AXtZYHTELNXZPsERt4ymJdjV4OccDbHQAvHrCcFpbF78jkm0R6h/pZVg==
-
-"@types/tinymce@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@types/tinymce/-/tinymce-5.5.0.tgz#b92f376ff97a1a3fef474827e13874786a2fa838"
-  integrity sha512-fOma8SV34kaHoiigF/RJ7/wbgv2B2DXtP51qTWn5nt2D2ubHFDTl/HKy/QmSgBxkdvpMNW9bng58cMsqgfQrUA==
-  dependencies:
-    tinymce "*"
 
 "@types/warning@^3.0.3":
   version "3.0.3"
@@ -3164,7 +3157,7 @@ tiny-invariant@1.2.0:
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.2.0.tgz#a1141f86b672a9148c72e978a19a73b9b94a15a9"
   integrity sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==
 
-tinymce@*, tinymce@^7.2.1:
+tinymce@^7.2.1:
   version "7.9.0"
   resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-7.9.0.tgz#92e2260629de77e864e0a66e61c4a6193cf9cc32"
   integrity sha512-tTrUmUGWqy1BY1WwDYh4WiuHm23LiRTcE1Xq3WLO8HKFzde/d0bTF/hXWOa97zqGh0ndJHx/nysQaNC9Gcd16g==
