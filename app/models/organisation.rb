@@ -67,6 +67,7 @@ class Organisation < ApplicationRecord
   has_many :plan_b_backups, dependent: :destroy, inverse_of: :organisation
   has_many :vat_categories, dependent: :destroy, inverse_of: :organisation
   has_many :key_sequences, dependent: :destroy, inverse_of: :organisation
+  has_many :oauth_tokens, dependent: :destroy, inverse_of: :organisation
 
   has_one_attached :logo
   has_one_attached :contract_signature
