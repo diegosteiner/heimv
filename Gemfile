@@ -35,6 +35,7 @@ gem 'mobility'
 gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
+gem 'oauth2'
 gem 'pg'
 gem 'prawn', '~> 2.4.0' # https://github.com/prawnpdf/prawn/issues/1346
 gem 'prawn-markup'

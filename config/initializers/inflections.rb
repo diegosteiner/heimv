@@ -19,4 +19,5 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'ESR'
   inflect.acronym 'IBAN'
+  inflect.acronym 'OAuth'
 end
