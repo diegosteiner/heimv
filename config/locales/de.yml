@@ -417,11 +417,14 @@ de:
         role: Rolle
         token: Token
       payment:
+        accounting_account_nr: Buchhaltungskonto
+        accounting_cost_center_nr: Kostenstelle
         amount: Betrag
         confirm: Zahlungsbestätigung automatisch verschicken
         invoice_id: Rechnung
         paid_at: Bezahlt am
         remarks: Bemerkungen
+        vat_category_id: MwSt. Kategorie
         write_off: Abschreibung
       plan_b_backup:
         created_at: Erstellt am

@@ -30,7 +30,11 @@
 - if @payments.none?
   p.text-center.mt-5
     = t(:no_records_yet, model_name: Payment.model_name.human(count: 2))
-    =<> link_to t(:add_record, model_name: Payment.model_name.human), new_import_manage_payments_path
+    - if @booking.present?
+      =<> link_to t(:add_record, model_name: Payment.model_name.human), new_manage_booking_payment_path(@booking)
+    - else 
+      =<> link_to t(:import_records, model_name: Payment.model_name.human(count: 2)), new_import_manage_payments_path
+
 - else
   table.table.table-hover.align-middle.mt-3
     thead

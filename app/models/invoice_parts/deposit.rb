@@ -27,8 +27,9 @@ module InvoiceParts
 
     after_save :reassign_payments!
 
-    attribute :accounting_account_nr
-    attribute :vat_category_id
+    def vat_category_required?
+      false
+    end
 
     def reassign_payments!(payments = reassign_payments)
       return unless valid? && apply
