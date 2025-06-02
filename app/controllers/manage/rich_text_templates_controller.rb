@@ -75,7 +75,7 @@ module Manage
       end
     end
 
-    def rich_text_templates_by_document
+    def rich_text_templates_by_document # rubocop:disable Metrics/MethodLength
       {
         Invoices::Offer => @rich_text_templates.where(key: :invoices_offer_text),
         Invoices::Deposit => @rich_text_templates.where(key: :invoices_deposit_text),
@@ -83,7 +83,9 @@ module Manage
         Invoices::LateNotice => @rich_text_templates.where(key: :invoices_late_notice_text),
         Contract => @rich_text_templates.where(key: :contract_text),
         PaymentInfos::TextPaymentInfo => @rich_text_templates.where(key: :text_payment_info_text),
-        PaymentInfos::ForeignPaymentInfo => @rich_text_templates.where(key: :foreign_payment_info_text)
+        PaymentInfos::ForeignPaymentInfo => @rich_text_templates.where(key: :foreign_payment_info_text),
+        Payment => @rich_text_templates.where(key: %i[operator_payment_confirmation_notification
+                                                      payment_confirmation_notification])
       }.filter { _2.present? }
     end
 

@@ -2449,7 +2449,7 @@ de:
 
         <p><a href="{{booking.links.manage}}">Buchung verwalten</a></p>
       default_title: Unterzeichneten Vertrag erhalten
-      description: Benachrichtigung für Vertragseingang (Funktionär)
+      description: Benachrichtigung für Zahlungseingang (Funktionär)
     operator_upcoming_notification:
       default_body: |
         <p>Hallo</p>
@@ -2562,7 +2562,7 @@ de:
           <li>Bemerkungen: {{ booking.remarks }}</li>
         </ul>
       default_title: Zahlungseingang
-      description: Benachrichtigung für Zahlungsbestätigung
+      description: Benachrichtigung für Zahlungseingang (Mieter)
     payment_overdue_notification:
       default_body: |
         <p>{{ booking.tenant.salutation }}</p>
