@@ -18,5 +18,5 @@ class DeadlineSettings
   validates :awaiting_contract_deadline, :awaiting_tenant_deadline, :overdue_request_deadline,
             :payment_overdue_deadline, :unconfirmed_request_deadline, :provisional_request_deadline,
             :invoice_payment_deadline, :deposit_payment_deadline, :deadline_postponable_for,
-            numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
+            numericality: { less_than_or_equal: 5.years, greater_than_or_equal: -1 }
 end
