@@ -89,7 +89,7 @@ class Usage < ApplicationRecord
   end
 
   def selected_by_conditions?
-    tarif.selecting_conditions.blank? || tarif.selecting_conditions.all? { it.fullfills?(booking) }
+    tarif.selecting_conditions.presence&.all? { it.fullfills?(booking) }
   end
 
   def round_cents(amount, round_to: 5)

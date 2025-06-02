@@ -48,6 +48,6 @@ class BookingValidation < ApplicationRecord
   end
 
   def valid_by_conditions?(booking)
-    validating_conditions&.all? { it.fullfills?(booking) }
+    validating_conditions.presence&.all? { it.fullfills?(booking) }
   end
 end
