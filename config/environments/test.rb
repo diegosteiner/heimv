@@ -62,4 +62,12 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   config.active_job.queue_adapter = :inline
+
+  # Detect N+1 queries
+  config.after_initialize do
+    Bullet.enable        = true
+    Bullet.bullet_logger = true
+    Bullet.rails_logger  = true
+    Bullet.raise = true
+  end
 end
