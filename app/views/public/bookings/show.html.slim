@@ -8,7 +8,7 @@
           .col-md-6
             dl
               dt= Occupancy.model_name.human
-              dd= render partial: 'public/occupancies/span', locals: { booking: @booking }
+              dd= render partial: 'public/occupancies/span', locals: { booking: @booking, show_conflicts: false }
 
           .col-md-6
             - if @booking.agent_booking.present?
