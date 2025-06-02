@@ -1,25 +1,7 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: booking_conditions
-#
-#  id                :bigint           not null, primary key
-#  compare_attribute :string
-#  compare_operator  :string
-#  compare_value     :string
-#  group             :string
-#  must_condition    :boolean          default(TRUE)
-#  qualifiable_type  :string
-#  type              :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  organisation_id   :bigint
-#  qualifiable_id    :bigint
-#
-
 module BookingConditions
-  class BookingCategory < BookingCondition
+  class BookingCategory < Comparable
     BookingCondition.register_subtype self
 
     attribute :compare_operator, default: -> { :'=' }
@@ -31,8 +13,8 @@ module BookingConditions
 
     validates :compare_operator, presence: true
     validate do
-      next if compare_values.exists?(key: compare_value) ||
-              compare_values.exists?(id: compare_value)
+      next if self.class.compare_values(organisation).exists?(key: compare_value) ||
+              self.class.compare_values(organisation).exists?(id: compare_value)
 
       errors.add(:compare_value, :invalid)
     end
@@ -42,7 +24,7 @@ module BookingConditions
       evaluate_operator(compare_operator || :'=', with: { actual_value:, compare_value: })
     end
 
-    def compare_values
+    def self.compare_values(organisation)
       organisation.booking_categories.ordered
     end
   end

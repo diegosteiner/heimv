@@ -41,10 +41,8 @@ class InvoicePart < ApplicationRecord
   scope :ordered, -> { rank(:ordinal) }
 
   validates :type, inclusion: { in: ->(_) { InvoicePart.subtypes.keys.map(&:to_s) } }
-  validates :vat_category_id, presence: true, on: :create,
-                              if: -> { !to_sum(0).zero? && organisation&.accounting_settings&.liable_for_vat }
-  validates :accounting_account_nr, presence: true, on: :create,
-                                    if: -> { !to_sum(0).zero? && organisation&.accounting_settings&.enabled }
+  validates :vat_category_id, presence: true, on: :create, if: :vat_category_required?
+  validates :accounting_account_nr, presence: true, on: :create, if: :accounting_account_nr_required?
 
   before_validation do
     self.amount = amount&.floor(2) || 0
@@ -75,7 +73,15 @@ class InvoicePart < ApplicationRecord
   end
 
   def to_sum(sum)
-    sum + calculated_amount
+    sum + (calculated_amount || 0)
+  end
+
+  def accounting_account_nr_required?
+    !to_sum(0).zero? && organisation&.accounting_settings&.enabled
+  end
+
+  def vat_category_required?
+    !to_sum(0).zero? && organisation&.accounting_settings&.liable_for_vat
   end
 
   class Filter < ApplicationFilter

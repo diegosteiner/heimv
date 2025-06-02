@@ -24,6 +24,11 @@ it:
         occupiables: Proprietà in affitto
         previous_booking_states: Stato passato
         q:
+      booking_condition:
+        compare_attribute:
+        compare_operator:
+        compare_value: Condizione
+        type: Tipo
       booking_state_settings:
         default_manage_transition_to_state:
         editable_booking_states:
@@ -76,6 +81,8 @@ it:
         accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
       organisation_settings:
+        available_begins_at_times:
+        available_ends_at_times:
         booking_window:
         closed_occupancy_color: Colore per le chiusure
         contract_sign_by_click_enabled:
@@ -96,6 +103,47 @@ it:
         sort:
     models:
       accounting_settings:
+      booking_condition:
+        one: Condizione
+        other: Condizioni
+      booking_conditions/all_of:
+        one:
+      booking_conditions/always:
+        one: Sempre
+        other:
+      booking_conditions/booking_attribute:
+        one:
+        other:
+      booking_conditions/booking_category:
+        one: Categoria di affitto
+        other:
+      booking_conditions/booking_date_time:
+        one:
+        other:
+      booking_conditions/booking_question:
+        one:
+        other:
+      booking_conditions/booking_state:
+        one: stato
+        other:
+      booking_conditions/duration:
+        one:
+      booking_conditions/never:
+        one:
+      booking_conditions/occupancy_duration:
+        one:
+        other:
+      booking_conditions/occupiable:
+        one: Proprietà in affitto
+        other:
+      booking_conditions/one_of:
+        one:
+      booking_conditions/tarif:
+        one:
+        other:
+      booking_conditions/tenant_attribute:
+        one:
+        other:
       booking_state_settings:
       deadline_settings:
       occupancy_calendar:
@@ -177,12 +225,6 @@ it:
         key: Chiava
         ordinal_position: Posizione di visualizzazione
         title: Titolo
-      booking_condition:
-        compare_attribute:
-        compare_operator:
-        compare_value: Condizione
-        must_condition: Criterio obbligatorio
-        type: Tipo
       booking_question:
         applying_conditions: Condizioni
         booking_agent_mode:
@@ -371,11 +413,14 @@ it:
         role: Ruolo
         token:
       payment:
+        accounting_account_nr: Conto contabile
+        accounting_cost_center_nr:
         amount: Importo
         confirm: Inviare automaticamente la conferma di pagamento
         invoice_id: Fattura
         paid_at: Pagato il
         remarks: Osservazioni
+        vat_category_id:
         write_off: Ammortamento
       plan_b_backup:
         created_at: Creato il
@@ -646,39 +691,6 @@ it:
       booking_category:
         one: Categoria di affitto
         other: Categorie di affitto
-      booking_condition:
-        one: Condizione
-        other: Condizioni
-      booking_conditions/always_apply:
-        one: Sempre
-        other:
-      booking_conditions/booking_attribute:
-        one:
-        other:
-      booking_conditions/booking_category:
-        one: Categoria di affitto (condizione)
-        other:
-      booking_conditions/booking_date_time:
-        one:
-        other:
-      booking_conditions/booking_question:
-        one:
-        other:
-      booking_conditions/booking_state:
-        one: Stato (condizione)
-        other:
-      booking_conditions/occupancy_duration:
-        one: Durata dell'occupazione (condizione)
-        other:
-      booking_conditions/occupiable:
-        one: Oggetto in affitto  (condizione)
-        other:
-      booking_conditions/tarif:
-        one: Tariffa selezionata (condizione)
-        other:
-      booking_conditions/tenant_attribute:
-        one:
-        other:
       booking_question:
         one:
         other:
@@ -899,6 +911,7 @@ it:
     booking_attribute:
       attributes:
         approximate_headcount: Numero di persone previsto
+        booking_editable:
         days:
         nights: Notti
         overnight_stays:
@@ -911,6 +924,12 @@ it:
         ends_at: Fine dell'occupazione
         now: Oggi
         updated_at:
+    duration:
+      attributes:
+        begins_at_to_ends_at:
+        created_at_to_now:
+        now_to_begins_at:
+        now_to_ends_at:
     occupiable:
       attributes:
         home: Oggetto principale di affitto
@@ -918,6 +937,7 @@ it:
     tenant_attribute:
       attributes:
         country_code:
+        locale: Lingua
   booking_state_checklist_item:
     contract_created: Creare contratto
     contract_signed: Contratto firmato
@@ -1297,8 +1317,7 @@ it:
     public:
       bookings:
         create:
-          notice: |
-            La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un'e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l'e-mail, controllate lo spam o contattate l'amministrazione:  %{mailto_organisation}. 
+          notice: "La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un'e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l'e-mail, controllate lo spam o contattate l'amministrazione:  %{mailto_organisation}."
         update:
           notice: La richiesta di prenotazione è stata aggiornata. Potete chiudere la finestra del browser.
   from: da

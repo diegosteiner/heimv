@@ -1,12 +1,12 @@
 #!/bin/sh
 
 bundle exec rubocop -D -a -c .rubocop.yml || exit 1
-bundle exec brakeman -q -z --summary -c ./config/brakeman.yml > /dev/null
+yarn run check:lint || exit 1
+yarn run check:types || exit 1
+bin/rspec ./spec --tag ~@type:feature || exit 1
 bundle exec i18n-tasks normalize -p
 bundle exec i18n-tasks health de || exit 1
-bundle exec i18n-tasks health 
-bin/rspec ./spec --tag ~@type:feature || exit 1
-yarn run check:lint
-# yarn run check:types
+bundle exec i18n-tasks health > /dev/null
 bin/rspec ./spec --tag @type:feature --fail-fast || exit 1
+bundle exec brakeman -q -z --summary --no-pager -c ./config/brakeman.yml || exit 1
 bundle exec bundle-audit --update || exit 1

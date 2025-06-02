@@ -1,5 +1,13 @@
 # Changelog
 
+## 25.6.1
+
+Released 02.06.2025
+
+- Fix: Allow no deadlines for overdue requests (manual)
+- Feature: Choose times for bookings which can be selected
+- Feature: Introduce new interface for conditions
+
 ## 25.5.3
 
 Released 19.05.2025

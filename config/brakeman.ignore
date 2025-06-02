@@ -1,0 +1,82 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "72bf9645eeb3a404346b92a4a9aaf960379c1e6b154ab9deb4a56d53a74ad466",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/views/layouts/_footer.html.slim",
+      "line": 35,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.clone.permit!",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "AccountsController",
+          "method": "edit",
+          "line": 8,
+          "file": "app/controllers/accounts_controller.rb",
+          "rendered": {
+            "name": "layouts/application",
+            "file": "app/views/layouts/application.html.slim"
+          }
+        },
+        {
+          "type": "template",
+          "name": "layouts/application",
+          "line": 1,
+          "file": "app/views/layouts/application.html.slim",
+          "rendered": {
+            "name": "layouts/_base",
+            "file": "app/views/layouts/_base.html.slim"
+          }
+        },
+        {
+          "type": "template",
+          "name": "layouts/_base",
+          "line": 28,
+          "file": "app/views/layouts/_base.html.slim",
+          "rendered": {
+            "name": "layouts/_footer",
+            "file": "app/views/layouts/_footer.html.slim"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "layouts/_footer"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "8b888b4415646f473fb6df0fe81086a6ef62c3fd2e3121c6dab5b35ed8904461",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/manage/organisation_users_controller.rb",
+      "line": 54,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params[:organisation_user].permit(:role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Manage::OrganisationUsersController",
+        "method": "organisation_user_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": "Expected behavior"
+    }
+  ],
+  "brakeman_version": "7.0.0"
+}

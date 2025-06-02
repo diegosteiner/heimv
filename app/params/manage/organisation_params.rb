@@ -16,7 +16,7 @@ module Manage
          occupied_occupancy_color tentative_occupancy_color closed_occupancy_color
          default_calendar_view predefined_salutation_form contract_sign_by_click_enabled
          default_begins_at_time default_ends_at_time] +
-        [{ locales: [] }]
+        [{ locales: [], available_begins_at_times: [], available_ends_at_times: [] }]
     end
 
     def self.accounting_settings_permitted_keys

@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.4.2'
+ruby '3.4.4'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
@@ -35,6 +35,7 @@ gem 'mobility'
 gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
+gem 'oauth2'
 gem 'pg'
 gem 'prawn', '~> 2.4.0' # https://github.com/prawnpdf/prawn/issues/1346
 gem 'prawn-markup'

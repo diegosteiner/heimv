@@ -9,6 +9,7 @@
 #  accounting_cost_center_nr         :string
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
+#  enabling_conditions               :jsonb
 #  label_i18n                        :jsonb
 #  minimum_price_per_night           :decimal(, )
 #  minimum_price_total               :decimal(, )
@@ -18,6 +19,7 @@
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
 #  price_per_unit                    :decimal(, )
+#  selecting_conditions              :jsonb
 #  tarif_group                       :string
 #  type                              :string
 #  unit_i18n                         :jsonb
@@ -42,12 +44,13 @@ class Tarif < ApplicationRecord
   }.with_indifferent_access.freeze
 
   include ActiveSupport::NumberHelper
-
   extend TemplateRenderable
   include TemplateRenderable
   extend Mobility
   include Subtypeable
   include Discard::Model
+  include StoreModel::NestedAttributes
+
   flag :associated_types, ASSOCIATED_TYPES.keys
 
   belongs_to :organisation, inverse_of: :tarifs
@@ -56,32 +59,26 @@ class Tarif < ApplicationRecord
   has_many :meter_reading_periods, dependent: :destroy, inverse_of: :tarif
   has_many :bookings, through: :usages, inverse_of: :tarifs
   has_many :usages, dependent: :restrict_with_error, inverse_of: :tarif
-  has_many :booking_conditions, as: :qualifiable, dependent: :destroy, inverse_of: false
-  has_many :selecting_conditions, -> { qualifiable_group(:selecting) }, as: :qualifiable, dependent: :destroy,
-                                                                        class_name: :BookingCondition, inverse_of: false
-  has_many :enabling_conditions, -> { qualifiable_group(:enabling) }, as: :qualifiable, dependent: :destroy,
-                                                                      class_name: :BookingCondition, inverse_of: false
+
+  attribute :price_per_unit, default: 0
+  attribute :selecting_conditions, BookingCondition.one_of.to_array_type, nil: true
+  attribute :enabling_conditions, BookingCondition.one_of.to_array_type, nil: true
 
   enum :prefill_usage_method, Tarif::PREFILL_METHODS.keys.index_with(&:to_s)
 
   scope :ordered, -> { order(:ordinal) }
   scope :pinned, -> { where(pin: true) }
-  scope :include_conditions, -> { includes(:selecting_conditions, :enabling_conditions) }
 
-  attribute :price_per_unit, default: 0
+  validates :selecting_conditions, :enabling_conditions, store_model: true, allow_nil: true
   validates :type, presence: true, inclusion: { in: ->(_) { Tarif.subtypes.keys.map(&:to_s) } }
-  validates :vat_category_id, presence: true, if: -> { organisation&.accounting_settings&.liable_for_vat }
-  validates :accounting_account_nr, presence: true, if: -> { organisation&.accounting_settings&.enabled }
+  # there are cases where neither is needed
+  # validates :vat_category_id, presence: true, if: -> { organisation&.accounting_settings&.liable_for_vat }
+  # validates :accounting_account_nr, presence: true, if: -> { organisation&.accounting_settings&.enabled }
 
   translates :label, column_suffix: '_i18n', locale_accessors: true
   translates :unit, column_suffix: '_i18n', locale_accessors: true
 
-  accepts_nested_attributes_for :enabling_conditions, allow_destroy: true,
-                                                      reject_if: :reject_booking_conditition_attributes?
-  accepts_nested_attributes_for :selecting_conditions, allow_destroy: true,
-                                                       reject_if: :reject_booking_conditition_attributes?
-
-  before_validation :update_booking_conditions
+  accepts_nested_attributes_for :selecting_conditions, :enabling_conditions, allow_destroy: true
 
   def before_usage_validation(_usage); end
   def before_usage_save(_usage); end
@@ -128,15 +125,6 @@ class Tarif < ApplicationRecord
     "##{ordinal}: #{label} (#{self.class.model_name.human})"
   end
 
-  def reject_booking_conditition_attributes?(attributes)
-    attributes[:type].blank?
-  end
-
-  def update_booking_conditions
-    enabling_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :enabling) }
-    selecting_conditions.each { |condition| condition.assign_attributes(qualifiable: self, group: :selecting) }
-  end
-
   def minimum_prices(usage) # rubocop:disable Metrics/CyclomaticComplexity
     nights = usage&.booking&.nights || 0
     price_per_unit = usage&.price_per_unit || 0
@@ -174,7 +162,7 @@ class Tarif < ApplicationRecord
 
   def initialize_copy(origin)
     super
-    self.selecting_conditions = origin.selecting_conditions.map(&:dup)
-    self.enabling_conditions = origin.enabling_conditions.map(&:dup)
+    self.selecting_conditions = origin.selecting_conditions.dup
+    self.enabling_conditions = origin.enabling_conditions.dup
   end
 end

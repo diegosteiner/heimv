@@ -24,6 +24,11 @@ fr:
         occupiables: Objet de location
         previous_booking_states: Anciens statuts
         q: Référence de réservation, locataire, organisation
+      booking_condition:
+        compare_attribute: Attribut
+        compare_operator: Opérateur
+        compare_value: Sélecteur de tarif
+        type: Type
       booking_state_settings:
         default_manage_transition_to_state:
         editable_booking_states:
@@ -76,6 +81,8 @@ fr:
         accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
       organisation_settings:
+        available_begins_at_times:
+        available_ends_at_times:
         booking_window: Plage de réservation
         closed_occupancy_color: Couleur pour les clôtures
         contract_sign_by_click_enabled: Signature du contrat "en cochant" par le locataire
@@ -96,6 +103,47 @@ fr:
         sort:
     models:
       accounting_settings: Paramètres de comptabilité
+      booking_condition:
+        one: Sélecteur de tarif
+        other: Conditions
+      booking_conditions/all_of:
+        one:
+      booking_conditions/always:
+        one: Sélecteur de tarif toujours-un
+        other:
+      booking_conditions/booking_attribute:
+        one:
+        other:
+      booking_conditions/booking_category:
+        one: Catégorie de location
+        other:
+      booking_conditions/booking_date_time:
+        one:
+        other:
+      booking_conditions/booking_question:
+        one: Infos supplémentaires
+        other:
+      booking_conditions/booking_state:
+        one: Status
+        other:
+      booking_conditions/duration:
+        one:
+      booking_conditions/never:
+        one:
+      booking_conditions/occupancy_duration:
+        one:
+        other:
+      booking_conditions/occupiable:
+        one: Objet de location
+        other:
+      booking_conditions/one_of:
+        one:
+      booking_conditions/tarif:
+        one: 'Condition du tarif sélectionné '
+        other:
+      booking_conditions/tenant_attribute:
+        one:
+        other:
       booking_state_settings: Paramètres du processus de réservation
       deadline_settings: Réglages des délais
       occupancy_calendar:
@@ -177,12 +225,6 @@ fr:
         key: Clé
         ordinal_position: Position de l'affichage
         title: Titre
-      booking_condition:
-        compare_attribute: Attribut
-        compare_operator: Opérateur
-        compare_value: Sélecteur de tarif
-        must_condition: Critère obligatoire
-        type: Type
       booking_question:
         applying_conditions: Conditions
         booking_agent_mode:
@@ -371,11 +413,14 @@ fr:
         role: Rôle
         token: Jeton
       payment:
+        accounting_account_nr: zugewiesenes Buchhaltungskonto
+        accounting_cost_center_nr: Centre de coûts
         amount: Montant
         confirm: Envoyer automatiquement une confirmation de paiement
         invoice_id: Facture
         paid_at: Payé le
         remarks: Remarques
+        vat_category_id:
         write_off: Amortissement
       plan_b_backup:
         created_at: Erstellt am
@@ -646,39 +691,6 @@ fr:
       booking_category:
         one: Catégorie de location
         other: Catégories de location
-      booking_condition:
-        one: Sélecteur de tarif
-        other: Sélecteur de tarif
-      booking_conditions/always_apply:
-        one: Sélecteur de tarif toujours-un
-        other:
-      booking_conditions/booking_attribute:
-        one: Conditions de réservation
-        other:
-      booking_conditions/booking_category:
-        one: Objet de la location Sélecteur de tarif
-        other:
-      booking_conditions/booking_date_time:
-        one:
-        other:
-      booking_conditions/booking_question:
-        one: Informations supplémentaires (condition)
-        other:
-      booking_conditions/booking_state:
-        one: Status Bedingung
-        other:
-      booking_conditions/occupancy_duration:
-        one: Condition de la durée de location
-        other:
-      booking_conditions/occupiable:
-        one: Condition de l'objet de location
-        other:
-      booking_conditions/tarif:
-        one: 'Condition du tarif sélectionné '
-        other:
-      booking_conditions/tenant_attribute:
-        one:
-        other:
       booking_question:
         one: Infos supplémentaires
         other: Informations supplémentaires
@@ -899,6 +911,7 @@ fr:
     booking_attribute:
       attributes:
         approximate_headcount: Nombre de personnes attendues
+        booking_editable:
         days: Jour
         nights: Nächte
         overnight_stays: Nombre de nuitées attendues
@@ -911,6 +924,12 @@ fr:
         ends_at: Fin de la location
         now: Aujourd'hui
         updated_at:
+    duration:
+      attributes:
+        begins_at_to_ends_at:
+        created_at_to_now:
+        now_to_begins_at:
+        now_to_ends_at:
     occupiable:
       attributes:
         home: Principal objet de location
@@ -918,6 +937,7 @@ fr:
     tenant_attribute:
       attributes:
         country_code: Code du pays
+        locale: Langue
   booking_state_checklist_item:
     contract_created: Créer un contrat
     contract_signed: Contrat signé
@@ -1163,8 +1183,7 @@ fr:
       reset_password_instructions:
         action: Changer mon mot de passe
         greeting: Bonjour %{recipient} !
-        instruction: |
-          Quelqu'un a demandé un lien pour changer votre mot de passe, le voici :
+        instruction: "Quelqu'un a demandé un lien pour changer votre mot de passe, le voici :"
         instruction_2: Si vous n'avez pas émis cette demande, merci d'ignorer cet email.
         instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
         subject: Instructions pour changer le mot de passe
@@ -1265,10 +1284,8 @@ fr:
     template:
       body: 'Veuillez vérifier les champs suivants : '
       header:
-        one: |
-          Impossible d'enregistrer ce(tte) %{model} : 1 erreur
-        other: |
-          Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs
+        one: "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
+        other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
   export:
     pdf:
       renderables:
@@ -1300,8 +1317,7 @@ fr:
     public:
       bookings:
         create:
-          notice: |
-            Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n'avez pas reçu le mail, vérifiez dans les spams ou contactez l'administration: %{mailto_organisation}
+          notice: "Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n'avez pas reçu le mail, vérifiez dans les spams ou contactez l'administration: %{mailto_organisation}"
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
   from: de
@@ -1387,8 +1403,7 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: |
-            Échec de l'importation :
+          failure: "Échec de l''importation :"
           success: Importation réussie
         prepare:
           missing_template:
@@ -1397,8 +1412,9 @@ fr:
         private_ics_link:
       import:
         headers: En-têtes
-        import_error: |
-          Échec de l'importation :
+        import_error: 'Échec de l''importation :
+
+          '
         import_file: Fichier d'importation (CSV)
         import_success: Importation réussie
       index:
@@ -1407,8 +1423,7 @@ fr:
         new: Nouveau
         new_closed_occupancy: Fermeture
         new_request: Demande de réservation
-        no_records_yet: |
-          Aucune réservation n'a été trouvée. Ajouter une nouvelle réservation : %{options}.
+        no_records_yet: "Aucune réservation n'a été trouvée. Ajouter une nouvelle réservation : %{options}."
       navigation:
         costs: Tarifs & consommation
       not_committed_yet: La réservation n'est pas encore définitive.
@@ -1466,8 +1481,7 @@ fr:
         new_import: Importer des paiements à partir du fichier CAMT.054
       new_import:
         camt_file: Fichier CAMT.054 (.xml)
-        exception: |
-          Le fichier de paiement n'a pas pu être traité : %{errors}
+        exception: "Le fichier de paiement n'a pas pu être traité : %{errors}"
     rich_text_templates:
       form:
         help_lead:
@@ -1603,7 +1617,7 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: Échec de l'importation :"
+          failure: "Échec de l'importation :"
           success: Importation réussie
       confirm:
         title: Veuillez confirmer votre adresse e-mail
