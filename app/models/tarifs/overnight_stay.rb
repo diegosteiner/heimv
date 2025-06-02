@@ -37,17 +37,17 @@ module Tarifs
     Tarif.register_subtype self
 
     def before_usage_validation(usage)
-      set_usage_details
-      set_usage_used_units
+      set_usage_details(usage)
+      set_usage_used_units(usage)
     end
 
-    def set_usage_details
-      booking_dates = booking.dates.map(&:iso8601)
+    def set_usage_details(usage) # rubocop:disable Naming/AccessorMethodName
+      booking_dates = usage.booking.dates.map(&:iso8601)
       usage.details = usage.details&.slice(*booking_dates)&.transform_values { it.presence&.to_f } || {}
     end
 
-    def set_usage_used_units
-      return unless used_units.blank? || (usage.details.present? || usage.details_has_changed?)
+    def set_usage_used_units(usage) # rubocop:disable Naming/AccessorMethodName
+      return unless usage.used_units.blank? || (usage.details.present? && usage.details_changed?)
 
       usage.used_units = usage.details.values.compact.sum
     end
