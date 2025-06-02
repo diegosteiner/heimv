@@ -81,6 +81,8 @@ it:
         accounting_cost_center_nr:
         booking_margin: Durata tra le prenotazioni
       organisation_settings:
+        available_begins_at_times:
+        available_ends_at_times:
         booking_window:
         closed_occupancy_color: Colore per le chiusure
         contract_sign_by_click_enabled:
@@ -104,6 +106,8 @@ it:
       booking_condition:
         one: Condizione
         other: Condizioni
+      booking_conditions/all_of:
+        one:
       booking_conditions/always:
         one: Sempre
         other:
@@ -111,7 +115,7 @@ it:
         one:
         other:
       booking_conditions/booking_category:
-        one: Categoria di affitto (condizione)
+        one: Categoria di affitto
         other:
       booking_conditions/booking_date_time:
         one:
@@ -120,16 +124,22 @@ it:
         one:
         other:
       booking_conditions/booking_state:
-        one: Stato (condizione)
+        one: stato
         other:
+      booking_conditions/duration:
+        one:
+      booking_conditions/never:
+        one:
       booking_conditions/occupancy_duration:
-        one: Durata dell'occupazione (condizione)
+        one:
         other:
       booking_conditions/occupiable:
-        one: Oggetto in affitto  (condizione)
+        one: Proprietà in affitto
         other:
+      booking_conditions/one_of:
+        one:
       booking_conditions/tarif:
-        one: Tariffa selezionata (condizione)
+        one:
         other:
       booking_conditions/tenant_attribute:
         one:
@@ -403,11 +413,14 @@ it:
         role: Ruolo
         token:
       payment:
+        accounting_account_nr: Conto contabile
+        accounting_cost_center_nr:
         amount: Importo
         confirm: Inviare automaticamente la conferma di pagamento
         invoice_id: Fattura
         paid_at: Pagato il
         remarks: Osservazioni
+        vat_category_id:
         write_off: Ammortamento
       plan_b_backup:
         created_at: Creato il
@@ -898,6 +911,7 @@ it:
     booking_attribute:
       attributes:
         approximate_headcount: Numero di persone previsto
+        booking_editable:
         days:
         nights: Notti
         overnight_stays:
@@ -910,6 +924,12 @@ it:
         ends_at: Fine dell'occupazione
         now: Oggi
         updated_at:
+    duration:
+      attributes:
+        begins_at_to_ends_at:
+        created_at_to_now:
+        now_to_begins_at:
+        now_to_ends_at:
     occupiable:
       attributes:
         home: Oggetto principale di affitto
@@ -917,6 +937,7 @@ it:
     tenant_attribute:
       attributes:
         country_code:
+        locale: Lingua
   booking_state_checklist_item:
     contract_created: Creare contratto
     contract_signed: Contratto firmato

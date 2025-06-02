@@ -81,6 +81,8 @@ fr:
         accounting_cost_center_nr: Centre de coûts
         booking_margin: Espacement/période entre les réservations
       organisation_settings:
+        available_begins_at_times:
+        available_ends_at_times:
         booking_window: Plage de réservation
         closed_occupancy_color: Couleur pour les clôtures
         contract_sign_by_click_enabled: Signature du contrat "en cochant" par le locataire
@@ -103,31 +105,39 @@ fr:
       accounting_settings: Paramètres de comptabilité
       booking_condition:
         one: Sélecteur de tarif
-        other: Sélecteur de tarif
+        other: Conditions
+      booking_conditions/all_of:
+        one:
       booking_conditions/always:
         one: Sélecteur de tarif toujours-un
         other:
       booking_conditions/booking_attribute:
-        one: Conditions de réservation
+        one:
         other:
       booking_conditions/booking_category:
-        one: Objet de la location Sélecteur de tarif
+        one: Catégorie de location
         other:
       booking_conditions/booking_date_time:
         one:
         other:
       booking_conditions/booking_question:
-        one: Informations supplémentaires (condition)
+        one: Infos supplémentaires
         other:
       booking_conditions/booking_state:
-        one: Status Bedingung
+        one: Status
         other:
+      booking_conditions/duration:
+        one:
+      booking_conditions/never:
+        one:
       booking_conditions/occupancy_duration:
-        one: Condition de la durée de location
+        one:
         other:
       booking_conditions/occupiable:
-        one: Condition de l'objet de location
+        one: Objet de location
         other:
+      booking_conditions/one_of:
+        one:
       booking_conditions/tarif:
         one: 'Condition du tarif sélectionné '
         other:
@@ -403,11 +413,14 @@ fr:
         role: Rôle
         token: Jeton
       payment:
+        accounting_account_nr: zugewiesenes Buchhaltungskonto
+        accounting_cost_center_nr: Centre de coûts
         amount: Montant
         confirm: Envoyer automatiquement une confirmation de paiement
         invoice_id: Facture
         paid_at: Payé le
         remarks: Remarques
+        vat_category_id:
         write_off: Amortissement
       plan_b_backup:
         created_at: Erstellt am
@@ -898,6 +911,7 @@ fr:
     booking_attribute:
       attributes:
         approximate_headcount: Nombre de personnes attendues
+        booking_editable:
         days: Jour
         nights: Nächte
         overnight_stays: Nombre de nuitées attendues
@@ -910,6 +924,12 @@ fr:
         ends_at: Fin de la location
         now: Aujourd'hui
         updated_at:
+    duration:
+      attributes:
+        begins_at_to_ends_at:
+        created_at_to_now:
+        now_to_begins_at:
+        now_to_ends_at:
     occupiable:
       attributes:
         home: Principal objet de location
@@ -917,6 +937,7 @@ fr:
     tenant_attribute:
       attributes:
         country_code: Code du pays
+        locale: Langue
   booking_state_checklist_item:
     contract_created: Créer un contrat
     contract_signed: Contrat signé
@@ -1382,9 +1403,7 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: 'Échec de l''importation :
-
-            '
+          failure: "Échec de l''importation :"
           success: Importation réussie
         prepare:
           missing_template:
@@ -1598,7 +1617,7 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: Échec de l'importation :"
+          failure: "Échec de l'importation :"
           success: Importation réussie
       confirm:
         title: Veuillez confirmer votre adresse e-mail
