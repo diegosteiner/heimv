@@ -20,6 +20,10 @@ class TemplateEnvironment
       nil
     end
 
+    def link(value, text)
+      "<a href=\"#{value}\">#{text.presence || value}</a>"
+    end
+
     def currency(value, unit = nil)
       ActiveSupport::NumberHelper.number_to_currency(value, **({ unit: } if unit.present?))
     end
