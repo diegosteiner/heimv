@@ -1183,7 +1183,7 @@ fr:
       reset_password_instructions:
         action: Changer mon mot de passe
         greeting: Bonjour %{recipient} !
-        instruction: "Quelqu'un a demandé un lien pour changer votre mot de passe, le voici :"
+        instruction: 'Quelqu''un a demandé un lien pour changer votre mot de passe, le voici :'
         instruction_2: Si vous n'avez pas émis cette demande, merci d'ignorer cet email.
         instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
         subject: Instructions pour changer le mot de passe
@@ -1284,8 +1284,8 @@ fr:
     template:
       body: 'Veuillez vérifier les champs suivants : '
       header:
-        one: "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
-        other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
+        one: 'Impossible d''enregistrer ce(tte) %{model} : 1 erreur'
+        other: 'Impossible d''enregistrer ce(tte) %{model} : %{count} erreurs'
   export:
     pdf:
       renderables:
@@ -1317,7 +1317,7 @@ fr:
     public:
       bookings:
         create:
-          notice: "Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n'avez pas reçu le mail, vérifiez dans les spams ou contactez l'administration: %{mailto_organisation}"
+          notice: 'Votre demande de réservation a été enregistrée. Vous venez de recevoir un e-mail avec un lien de confirmation sur <strong>%{email}</strong>. Cliquez sur le lien pour confirmer et finaliser votre demande. Si vous n''avez pas reçu le mail, vérifiez dans les spams ou contactez l''administration: %{mailto_organisation}'
         update:
           notice: Votre demande de réservation a été mise à jour. Vous pouvez fermer la fenêtre de votre navigateur.
   from: de
@@ -1403,7 +1403,7 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: "Échec de l''importation :"
+          failure: 'Échec de l''''importation :'
           success: Importation réussie
         prepare:
           missing_template:
@@ -1423,7 +1423,7 @@ fr:
         new: Nouveau
         new_closed_occupancy: Fermeture
         new_request: Demande de réservation
-        no_records_yet: "Aucune réservation n'a été trouvée. Ajouter une nouvelle réservation : %{options}."
+        no_records_yet: 'Aucune réservation n''a été trouvée. Ajouter une nouvelle réservation : %{options}.'
       navigation:
         costs: Tarifs & consommation
       not_committed_yet: La réservation n'est pas encore définitive.
@@ -1481,7 +1481,7 @@ fr:
         new_import: Importer des paiements à partir du fichier CAMT.054
       new_import:
         camt_file: Fichier CAMT.054 (.xml)
-        exception: "Le fichier de paiement n'a pas pu être traité : %{errors}"
+        exception: 'Le fichier de paiement n''a pas pu être traité : %{errors}'
     rich_text_templates:
       form:
         help_lead:
@@ -1617,7 +1617,7 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: "Échec de l'importation :"
+          failure: 'Échec de l''importation :'
           success: Importation réussie
       confirm:
         title: Veuillez confirmer votre adresse e-mail

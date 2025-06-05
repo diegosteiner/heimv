@@ -53,7 +53,7 @@ h3.mt-5.mb-4= Booking.model_name.human(count: 2)
           td
             = link_to booking.ref, manage_booking_path(booking)
           td
-            = render partial: 'public/occupancies/span', locals: { booking: booking }
+            = render partial: 'public/occupancies/span', locals: { booking: booking, show_conflicts: false }
           td 
             = booking.booking_state.t(:label)
           

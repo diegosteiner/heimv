@@ -1977,7 +1977,7 @@ de:
         <p>Deine Anfrage wurde angenommen. Über den folgenden Link kann die Reservation verlängert, aufgehoben oder für definitiv erklärt werden. Die provisorische Reservation gilt f&uuml;r 10 Tage und kann weitere 3 Tage verl&auml;ngert werden. Wenn die Reservation l&auml;nger reserviert werden soll, bitten wir Dich dies per Email mit dem Datum anzufragen.</p>
 
         <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
-      default_title: Bestätigung Deiner Vermittlungsanfrage
+      default_title: Eingangsbestätigung Deiner Vermittlungsanfrage
       description: Benachrichtigung für neue Vermittlungsanfrage (Vermittler)
     cancelled_notification:
       default_body: |
@@ -2310,7 +2310,7 @@ de:
         </ul>
 
         <p><a href="{{booking.agent_booking.links.edit}}">{{booking.agent_booking.links.edit}}</a></p>
-      default_title: Bestätigung Deiner Mietanfrage
+      default_title: Eingangsbestätigung Deiner Mietanfrage
       description: Benachrichtigung für offene Mietanfrage (Vermittler)
     open_request_notification:
       default_body: |
