@@ -47,7 +47,7 @@ module Tarifs
     end
 
     def set_usage_used_units(usage) # rubocop:disable Naming/AccessorMethodName
-      return unless usage.used_units.blank? || (usage.details.present? && usage.details_changed?)
+      return unless usage.details.present? && (usage.details_changed? || usage.used_units.blank?)
 
       usage.used_units = usage.details.values.compact.sum
     end
