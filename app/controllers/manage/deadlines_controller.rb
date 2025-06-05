@@ -11,7 +11,7 @@ module Manage
     end
 
     def update
-      @booking.create_deadline(**deadline_params) && booking.touch # rubocop:disable Rails/SkipsModelValidations
+      @booking.create_deadline(**deadline_params) && @booking.touch # rubocop:disable Rails/SkipsModelValidations
       respond_with :manage, @booking, location: manage_booking_path(@booking)
     end
 
