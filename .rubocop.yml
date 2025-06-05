@@ -41,6 +41,13 @@ Style/MixinUsage:
   Exclude:
     - "spec/**/*"
 
+Naming/PredicateMethod:
+  Enabled: false
+
+Style/ItBlockParameter:
+  Enabled: false
+
+
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"

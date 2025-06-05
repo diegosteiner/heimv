@@ -91,7 +91,7 @@ module BookingConditions
           next [value.to_s, value.id] if value.is_a?(ApplicationRecord)
           next [value.last, value.first] if value.is_a?(Array)
 
-          [value.to_s, value.to_sym || value.to_s]
+          [value.to_s, value.to_sym]
         end
       end
 

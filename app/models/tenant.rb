@@ -59,7 +59,7 @@ class Tenant < ApplicationRecord
 
   after_validation { errors.delete(:bookings) }
   before_save :sequence_number, :generate_ref
-  before_save { self.search_cache = contact_lines.flatten.join('\n') }
+  before_save { self.search_cache = contact_lines.join('\n') }
 
   def full_name
     [[first_name, last_name].compact_blank.join(' '), nickname].compact_blank.join(' / ')
