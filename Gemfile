@@ -21,6 +21,7 @@ gem 'devise_invitable'
 gem 'discard'
 gem 'dry-schema'
 gem 'email_address'
+gem 'exception_notification'
 gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'faraday', require: false
@@ -89,8 +90,4 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
-end
-
-group :production do
-  gem 'exception_notification'
 end
