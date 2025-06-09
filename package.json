@@ -57,9 +57,13 @@
         }
       ]
     ],
-    "plugins": ["@emotion"]
+    "plugins": [
+      "@emotion"
+    ]
   },
-  "browserslist": ["defaults"],
+  "browserslist": [
+    "defaults"
+  ],
   "repository": "git@github.com:diegosteiner/heimv.git",
   "author": "Diego Steiner <diego.steiner@u041.ch>",
   "private": true,
