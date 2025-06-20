@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationJob < ActiveJob::Base
+  include Bullet::ActiveJob unless Rails.env.production?
+
   after_discard do |job, exception|
     Rails.error.report(exception)
     ExceptionNotifier.notify_exception(exception, data: job.serialize) if defined?(ExceptionNotifier)
