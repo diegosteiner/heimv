@@ -1,5 +1,5 @@
-import i18n from "i18next";
 import type { i18n as I18nType } from "i18next";
+import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 // @ts-ignore

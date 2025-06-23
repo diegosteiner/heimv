@@ -1,11 +1,10 @@
 import Form from "react-bootstrap/esm/Form";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
-import {
-  type BookingCondition,
-  type BookingConditionComparableType,
-  type BookingConditionOptionsForSelect,
-  BookingConditionType,
+import type {
+  BookingCondition,
+  BookingConditionComparableType,
+  BookingConditionOptionsForSelect,
 } from "./BookingCondition";
 
 type Props = {

@@ -1,6 +1,5 @@
 import { cx } from "@emotion/css";
 import { addYears, format, getHours, getMinutes, getYear, isValid, parse, setHours, setMinutes } from "date-fns";
-import * as React from "react";
 import { useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";

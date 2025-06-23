@@ -1,8 +1,6 @@
 import { cx } from "@emotion/css";
-import { isAfter, isBefore } from "date-fns";
-import { formatISO, isSameDay, parseISO } from "date-fns";
+import { formatISO, isAfter, isBefore, isSameDay, parseISO } from "date-fns";
 import { use, useCallback, useRef, useState } from "react";
-import * as React from "react";
 import type { OccupancyWindow } from "../../models/OccupancyWindow";
 import { isBetweenDates, parseISOorUndefined, toInterval } from "../../services/date";
 import Calendar, { type ViewType } from "../calendar/Calendar";
