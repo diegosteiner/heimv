@@ -16,7 +16,7 @@ class BookingPreparationService
   def prepare_new(params)
     prepare_create(params).tap do |booking|
       settings = @organisation.settings
-      booking.occupiables = booking.home.occupiables if booking.home&.occupiables&.count == 1
+      booking.occupiables = booking.home.occupiables if booking.home&.occupiables&.one?
       booking.begins_at = adjust_time(booking.begins_at, settings&.default_begins_at_time)
       booking.ends_at = adjust_time(booking.ends_at, settings&.default_ends_at_time)
     end

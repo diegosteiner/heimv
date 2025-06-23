@@ -33,7 +33,7 @@ module BookingStates
       if booking.organisation.booking_state_settings.enable_waitlist
         !booking.conflicting?
       else
-        !booking.conflicting?(%i[occupied tentative])
+        !booking.conflicting?(%i[occupied tentative closed])
       end
     end
 

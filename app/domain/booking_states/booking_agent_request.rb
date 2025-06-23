@@ -13,7 +13,7 @@ module BookingStates
     end
 
     guard_transition do |booking|
-      booking.agent_booking.present? && !booking.conflicting?(%i[occupied tentative])
+      booking.agent_booking.present? && !booking.conflicting?(%i[occupied tentative closed])
     end
 
     after_transition do |booking|
