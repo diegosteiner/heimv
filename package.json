@@ -41,7 +41,7 @@
     "yaml-loader": "^0.8.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@types/sortablejs": "^1.15.7"

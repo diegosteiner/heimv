@@ -6,6 +6,10 @@
   .col-8.col-md-3.px-2.py-3
     label[for=f.field_id(:_destroy)]
       = usage.tarif.label
+      - if usage.tarif.vat_category.present?
+        small.text-muted.ms-2[title=usage.tarif.vat_category.label]
+          = usage.tarif.vat_category.percentage
+          | %
   .col-2.order-md-last.col-md-1.text-end.p-2
     .btn-group
       - if !usage.new_record?

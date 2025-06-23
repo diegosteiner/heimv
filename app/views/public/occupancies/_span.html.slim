@@ -4,7 +4,7 @@
   ul.list-unstyled.p-0.m-0.d-flex.flex-wrap.gap-2
     - booking.occupancies.each do |occupancy|
       li
-        - if defined?(show_conflicts) && show_conflicts && can?(:manage, occupancy) && occupancy.conflicting?(%i[occupied tentative])
+        - if defined?(show_conflicts) && show_conflicts && can?(:manage, occupancy) && occupancy.conflicting?(%i[occupied tentative closed])
           - tooltip = occupancy.conflicting.map(&:to_s).join(', ')
           = link_to manage_bookings_path(filter: { begins_at_before: occupancy.ends_at, ends_at_after: occupancy.begins_at, occupiable_ids: occupancy.occupiable_id }), { "data-bs-toggle": "tooltip", title: tooltip, class: "text-danger" } do
             i.fa.fa-exclamation-triangle<>

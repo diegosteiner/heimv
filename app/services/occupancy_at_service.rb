@@ -14,8 +14,8 @@ class OccupancyAtService
     if date && manage
       occupancies = at(date)
       bookings = occupancies.filter_map(&:booking)
-      return manage_booking_path(bookings.first, **defaults)               if bookings.count == 1
-      return edit_manage_occupancy_path(id: occupancies.first, **defaults) if occupancies.count == 1
+      return manage_booking_path(bookings.first, **defaults)               if bookings.one?
+      return edit_manage_occupancy_path(id: occupancies.first, **defaults) if occupancies.one?
 
       return manage_bookings_path(filter: booking_filter_params(date), **defaults)
     end

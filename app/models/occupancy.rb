@@ -70,7 +70,7 @@ class Occupancy < ApplicationRecord
     super
   end
 
-  def conflicting(conflicting_occupancy_types = %i[occupied], margin: occupiable&.settings&.booking_margin || 0)
+  def conflicting(conflicting_occupancy_types = %i[occupied closed], margin: occupiable&.settings&.booking_margin || 0)
     return unless valid?
 
     occupiable.occupancies.at(from: begins_at - margin - 1, to: ends_at + margin + 1)
