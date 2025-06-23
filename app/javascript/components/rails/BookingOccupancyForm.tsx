@@ -1,7 +1,7 @@
 import * as React from "react";
 import { type BookingJson, parse } from "../../models/Booking";
 import type { Organisation } from "../../types";
-import OccupancySelect, { OccupancySelectProps } from "../occupancies/OccupancySelect";
+import OccupancySelect from "../occupancies/OccupancySelect";
 import OrganisationProvider from "./OrganisationProvider";
 
 type BookingOccupancyFormProps = {

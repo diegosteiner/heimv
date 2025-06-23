@@ -1,5 +1,5 @@
 import { isSameDay, parseISO } from "date-fns";
-import { type ReactElement, memo } from "react";
+import { memo, type ReactElement } from "react";
 
 export type DateElementFactory = (dateString: string, label: (date: Date) => string) => ReactElement;
 

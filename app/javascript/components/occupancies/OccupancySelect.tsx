@@ -3,7 +3,6 @@ import { type ComponentProps, use, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import type { Organisation } from "../../types";
-import type { ViewType } from "../calendar/Calendar";
 import OccupiableSelect, { type OccupiableSelectState } from "../occupiables/OccupiableSelect";
 import { OrganisationContext } from "../rails/OrganisationProvider";
 import { OccupancyIntervalFormControl } from "./OccupancyIntervalFormControl";

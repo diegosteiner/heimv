@@ -1,6 +1,6 @@
 import { max } from "date-fns";
-import { type PropsWithChildren, createContext, use, useEffect, useState } from "react";
-import { type OccupancyWindowWithOccupiedDates, calculateOccupiedDates } from "../../models/OccupancyWindow";
+import { createContext, type PropsWithChildren, use, useEffect, useState } from "react";
+import { calculateOccupiedDates, type OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
 import { ApiClient } from "../../services/api_client";
 import type { Occupiable, Organisation } from "../../types";
 import { OrganisationContext } from "../rails/OrganisationProvider";

@@ -1,4 +1,4 @@
-import { type PropsWithChildren, createContext, useEffect, useState } from "react";
+import { createContext, type PropsWithChildren } from "react";
 import type { Organisation } from "../../types";
 
 export const OrganisationContext = createContext<Organisation | null>(null);

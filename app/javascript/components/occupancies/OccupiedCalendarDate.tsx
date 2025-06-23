@@ -1,8 +1,6 @@
-import { isFirstDayOfMonth, isWithinInterval } from "date-fns";
-import { addHours, endOfDay, isBefore, startOfDay } from "date-fns";
-import { isAfter } from "date-fns";
+import { addHours, isAfter, isBefore, startOfDay } from "date-fns";
 import { type MouseEventHandler, useMemo } from "react";
-import { type Occupancy, findMostRelevantOccupancy } from "../../models/Occupancy";
+import { findMostRelevantOccupancy, type Occupancy } from "../../models/Occupancy";
 import type { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
 import { parseDate } from "../../services/date";
 import { OccupancyPopover } from "./OccupancyPopover";

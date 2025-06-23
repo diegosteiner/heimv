@@ -1,7 +1,6 @@
 import "~/services/i18n";
 import "bootstrap/dist/js/bootstrap.bundle";
 import Rails from "@rails/ujs";
-import React from "react";
 import { createRoot } from "react-dom/client";
 
 function csrfForm() {
