@@ -7,7 +7,7 @@ class Payment
     end
 
     def from_import(payments_params)
-      payments = payments_params.values.filter_map { |payment_params| Payment.new(payment_params) }
+      payments = payments_params.values.filter_map { build(it) }
       payments = payments.select(&:applies)
 
       Payment.transaction do
@@ -15,6 +15,15 @@ class Payment
       end
 
       payments
+    end
+
+    def build(attributes = {})
+      Payment.new(attributes).tap do |payment|
+        payment.organisation = @organisation
+        payment.paid_at ||= Time.zone.now
+        payment.amount ||= payment.invoice&.amount_open
+        payment.accounting_account_nr = payment.accounting_account_nr.presence || @organisation&.accounting_settings&.payment_account_nr
+      end
     end
   end
 end
