@@ -1,5 +1,13 @@
 # Changelog
 
+## 25.6.2
+
+Released 24.06.2025
+
+- Fix: Block bookings during closedowns
+- Fix: Allow editing of deadlines
+- Fix: Don't overwrite used units by default with overnight_stays
+
 ## 25.6.1
 
 Released 02.06.2025

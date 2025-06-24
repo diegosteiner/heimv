@@ -5,7 +5,7 @@ fr:
       accounting_settings:
         debitor_account_nr: Compte client
         enabled: Activé
-        liable_for_vat:
+        liable_for_vat: Assujetti à la TVA
         payment_account_nr: Compte Paiements
         rental_yield_account_nr:
         rental_yield_vat_category_id:
@@ -30,10 +30,10 @@ fr:
         compare_value: Sélecteur de tarif
         type: Type
       booking_state_settings:
-        default_manage_transition_to_state:
-        editable_booking_states:
-        enable_provisional_request:
-        enable_waitlist:
+        default_manage_transition_to_state: Statut standard pour les écritures par l'administration
+        editable_booking_states: Statuts pour lesquel la réservation peut être traitée par le locataire
+        enable_provisional_request: Autoriser les demandes de réservation provisoires
+        enable_waitlist: Liste d'attente active
         occupied_booking_states: Statuts pour lesquels la réservation est considérée comme "définitive
       deadline_settings:
         awaiting_contract_deadline: Délai de réception du contrat
@@ -47,22 +47,22 @@ fr:
         unconfirmed_request_deadline: Délai pour la confirmation de l'adresse e-mail
       invoice/filter:
         invoice_type: Type de facture/facturation
-        issued_at_after: Délai de paiement après le
-        issued_at_before: Délai de paiement avant le
+        issued_at_after: Date de facturation à partir du
+        issued_at_before: Date de facturation jusqu'au
         paid: Statut de paiement
-        payable_until_after: Payable jusqu'au / après le
-        payable_until_before: Payable jusqu'au / avant le
+        payable_until_after: Payable au plus tard le
+        payable_until_before: Payable jusqu'au
       invoice_part/filter:
         homes: Chalets
-        issued_at_after: Délai de paiement après le
-        issued_at_before: Délai de paiement avant le
+        issued_at_after: Date de facturation à partir du
+        issued_at_before: Date de facturation jusqu'au
       journal_entry/filter:
-        date_after:
-        date_before:
-        processed:
-        processed_at_after:
-        processed_at_before:
-        triggers:
+        date_after: Date de réservation à partir du
+        date_before: Date de réservation jusqu'au
+        processed: Comptabilisé
+        processed_at_after: Comptabilisé à partir du
+        processed_at_before: Comptabilisé jusqu'au
+        triggers: Déclencheur
       meter_reading_period/filter:
         begins_at_after: Début de période du compteur à partir du
         begins_at_before: Début de période du compteur jusqu'au
@@ -99,15 +99,15 @@ fr:
       payment/filter:
         paid_at_after: Paiement à partir du
         paid_at_before: Paiement jusqu'au
-        ref:
-        sort:
+        ref: Référence de paiement
+        sort: Triage
     models:
       accounting_settings: Paramètres de comptabilité
       booking_condition:
         one: Sélecteur de tarif
         other: Conditions
       booking_conditions/all_of:
-        one:
+        one: Toutes les conditions
       booking_conditions/always:
         one: Sélecteur de tarif toujours-un
         other:
@@ -129,7 +129,7 @@ fr:
       booking_conditions/duration:
         one:
       booking_conditions/never:
-        one:
+        one: Jamais
       booking_conditions/occupancy_duration:
         one:
         other:
@@ -139,7 +139,7 @@ fr:
       booking_conditions/one_of:
         one:
       booking_conditions/tarif:
-        one: 'Condition du tarif sélectionné '
+        one:
         other:
       booking_conditions/tenant_attribute:
         one:
@@ -191,7 +191,7 @@ fr:
         home_id: Principal objet de location
         ignore_conflicting: Ignorer les conflits de dates
         internal_remarks: Remarques internes
-        invoice_address: Adresse de facturation (si différente)
+        invoice_address: adresse complète de facturation (si différente)
         locale: Langue
         nights: Nuits
         notifications_enabled: Envoyer des e-mails générés par l'application
@@ -244,7 +244,7 @@ fr:
         ordinal_position: Position de l'affichage
         validating_conditions:
       contract:
-        issuer: Bailleur
+        issuer: Propriétaire
         locale: Langue
         pdf: PDF
         sent_at: Date du contrat
@@ -295,8 +295,8 @@ fr:
         payment_info_type: Section paiement
         payment_required: Paiement obligatoire pour le transfert de statut
         percentage_paid: "% payé"
-        ref: Numéro de référence
-        sent_at: Date de facturation
+        ref: Numéro de facture
+        sent_at: Date de la facture
         text: Texte
         type: Type de facture
       invoice_part:
@@ -544,7 +544,7 @@ fr:
           agent_update:
           manage_create:
           manage_update:
-          public_create:
+          public_create: Création par le locataire
           public_update:
       data_digest:
         periods:
@@ -1027,7 +1027,7 @@ fr:
       relevant_time: Début de la location %{time}
     waitlisted_request:
       description:
-      label:
+      label: Demande de location (liste d'attente)
       public_info:
       relevant_time: Déposé %{time}
   clone: Dupliquer
@@ -1188,7 +1188,7 @@ fr:
         instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
         subject: Instructions pour changer le mot de passe
     omniauth_callbacks:
-      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : %{reason}.'
+      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : "%{reason}".'
       success: Autorisé par votre compte %{kind}.
     passwords:
       edit:
@@ -1403,7 +1403,7 @@ fr:
     bookings:
       booking_actions:
         invoke:
-          failure: 'Échec de l''''importation :'
+          failure: 'Échec de l''importation :'
           success: Importation réussie
         prepare:
           missing_template:
@@ -1412,9 +1412,7 @@ fr:
         private_ics_link:
       import:
         headers: En-têtes
-        import_error: 'Échec de l''importation :
-
-          '
+        import_error: 'Échec de l''importation : '
         import_file: Fichier d'importation (CSV)
         import_success: Importation réussie
       index:
@@ -1490,8 +1488,26 @@ fr:
         template_context:
           booking:
           contract:
-          invoice:
-          invoices:
+          invoice: |-
+            <h5>Facture</h5>
+            <dl>
+              <dt>Numéro de facture</dt>
+              <dd><pre>{{ invoice.ref }}</pre></dd>
+              <dt>Montant</dt>
+              <dd><pre>{{ invoice.amount | currency }}</pre></dd>
+              <dt>Date de la facture</dt>
+              <dd><pre>{{ invoice.issued_at | date_format }}</pre></dd>
+            </dl>
+          invoices: |-
+            <h5>Facture</h5>
+            <dl>
+              <dt>Numéro de facture</dt>
+              <dd><pre>{{ invoice.ref }}</pre></dd>
+              <dt>Montant</dt>
+              <dd><pre>{{ invoice.amount | currency }}</pre></dd>
+              <dt>Date de la facture</dt>
+              <dd><pre>{{ invoice.issued_at | date_format }}</pre></dd>
+            </dl>
           organisation:
           other:
       index:
@@ -1712,7 +1728,7 @@ fr:
     email_offer_notification:
       default_body:
       default_title:
-      description:
+      description: Notification pour l'envoi de l'offre (locataire)
     foreign_payment_info_text:
       description: Texte pour les informations de paiement pour les locataires étrangers
     invoices_deposit_text:
@@ -1816,7 +1832,21 @@ fr:
       default_title: Réservation provisoire confirmée
       description: Notification de demande de location provisoire (locataire)
     text_payment_info_text:
-      default_body:
+      default_body: |
+        <p><strong>Numéro de compte</strong>:
+        {{ payment_info.esr_beneficiary_account }}</p>
+
+        <p><strong>IBAN</strong>:
+        {{ payment_info.iban }}</p>
+
+        <p><strong>Montant de la facture</strong>:
+        CHF {{ payment_info.formatted_amount }}</p>
+
+        <p><strong>Numéro de référence</strong>:
+        {{ payment_info.formatted_ref }}</p>
+
+        <p><strong>Motif du paiement</strong>:
+        {{ payment_info.booking_ref }}</p>
       default_title: Informations sur le paiement
       description: Texte pour les informations de paiement
     unconfirmed_request_notification:
@@ -1844,7 +1874,7 @@ fr:
     waitlisted_request_notification:
       default_body:
       default_title:
-      description:
+      description: Notification de demande de location sur liste d'attente (locataire)
   show: Annonces
   support:
     array:
