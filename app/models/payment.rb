@@ -76,6 +76,10 @@ class Payment < ApplicationRecord
     @journal_entry_manager.handle
   end
 
+  # def accounting_account_nr_required?
+  #   !amount&.zero? && organisation&.accounting_settings&.enabled
+  # end
+
   def recalculate_invoice
     return if invoice.blank?
 

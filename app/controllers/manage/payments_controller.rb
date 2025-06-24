@@ -21,8 +21,7 @@ module Manage
     end
 
     def new
-      @payment.paid_at ||= Time.zone.now
-      @payment.amount ||= @payment.invoice&.amount_open
+      @payment = Payment::Factory.new(current_organisation).build(payment_params)
       respond_with :manage, @booking, @payment
     end
 
