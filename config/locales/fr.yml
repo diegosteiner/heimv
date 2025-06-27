@@ -56,7 +56,7 @@ fr:
         homes: Chalets
         issued_at_after: Date de facturation à partir du
         issued_at_before: Date de facturation jusqu'au
-      journal_entry/filter:
+      journal_entry_batch/filter:
         date_after: Date de réservation à partir du
         date_before: Date de réservation jusqu'au
         processed: Comptabilisé
@@ -310,7 +310,7 @@ fr:
         type: Type de poste de facturation
         vat: TVA incluse en pourcentage
         vat_category_id:
-      journal_entry:
+      journal_entry_batch:
         account_nr: Compte
         amount: Montant
         book_type: Type
@@ -579,7 +579,7 @@ fr:
         paid:
           only_paid: Uniquement les factures réglées
           only_unpaid: Seulement ouvert
-      journal_entry:
+      journal_entry_batch:
         book_types:
           cost:
           main:
@@ -594,7 +594,7 @@ fr:
           payment_created:
           payment_discarded:
           payment_updated:
-      journal_entry/filter:
+      journal_entry_batch/filter:
         processed:
           only_processed:
           only_unprocessed:
@@ -736,7 +736,7 @@ fr:
       data_digest_templates/invoice_part:
         one: Extrait des postes de la facture
         other: Extraits des postes de facturation
-      data_digest_templates/journal_entry:
+      data_digest_templates/journal_entry_batch:
         one:
         other:
       data_digest_templates/meter_reading_period:
@@ -784,7 +784,7 @@ fr:
       invoices/offer:
         one: Offre
         other: Offres
-      journal_entry:
+      journal_entry_batch:
         one:
         other:
       mail_template:
@@ -1452,7 +1452,7 @@ fr:
       form:
         payment_not_required_warning:
         suggested_invoice_parts: Positions proposées
-    journal_entries:
+    journal_entry_batches:
       index:
         process_all:
         processed_at:

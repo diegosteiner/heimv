@@ -17,24 +17,24 @@ module Export
         builder.blocks
       end
 
-      def journal_entry_fragment(fragment, override = {})
+      def journal_entry_batch_entry(entry, override = {})
         block(:Bk,
-              AccId: Value.cast(fragment.account_nr, as: :symbol),
+              AccId: Value.cast(entry.account_nr, as: :symbol),
 
               # Integer; Booking type: 1=cost booking, 2=tax booking
-              BType: { main: nil, cost: 1, vat: 2 }[fragment.book_type&.to_sym],
+              BType: { main: nil, cost: 1, vat: 2 }[entry.book_type&.to_sym],
 
               # Integer; This is the index of the booking that represents the cost booking which is attached to t
               # his booking
-              # CIdx: fragment.index,
+              # CIdx: entry.index,
 
               # String[9]; A user definable code.
               # Code: nil,
 
               # Date; The date of the booking.
-              Date: fragment.journal_entry.date,
+              Date: entry.journal_entry_batch.date,
 
-              # IntegerAuxilliary flags. This fragment consists of the sum of one or more of
+              # IntegerAuxilliary flags. This entry consists of the sum of one or more of
               # the following biases:
               # 1 - The booking is the first one into the specified OP.
               # 16 - This is a hidden booking. [Transitorische]
@@ -43,13 +43,13 @@ module Export
               Flags: nil,
 
               # String[5]; The Id of the tax. [MWSt-Kürzel]
-              TaxId: (fragment.book_type_main? && fragment.vat_category&.percentage&.positive? &&
-                            fragment.vat_category&.accounting_vat_code) || nil,
+              TaxId: (entry.book_type_main? && entry.vat_category&.percentage&.positive? &&
+                            entry.vat_category&.accounting_vat_code) || nil,
 
-              # MkTxB: fragment.vat_category&.accounting_vat_code.present?,
+              # MkTxB: entry.vat_category&.accounting_vat_code.present?,
 
               # String[61*]; This string specifies the first line of the booking text.
-              Text: fragment.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
+              Text: entry.text&.slice(0..59)&.lines&.first&.strip || '-', # rubocop:disable Style/SafeNavigationChainLength
 
               #  String[*]; This string specifies the second line of the booking text.
               # (*)Both fields Text and Text2 are stored in the same memory location,
@@ -58,77 +58,78 @@ module Export
               # Be careful not to put too many characters onto one single line, because
               # most Reports are not designed to display a full string containing 60
               # characters.
-              Text2: fragment.text&.slice(0..59)&.lines&.[](1..)&.join("\n").presence, # rubocop:disable Style/SafeNavigationChainLength
+              Text2: entry.text&.slice(0..59)&.lines&.[](1..)&.join("\n").presence, # rubocop:disable Style/SafeNavigationChainLength
 
               # Integer; This is the index of the booking that represents the tax booking
               # which is attached to this booking.
-              # TIdx: (fragment.amount_type&.to_sym == :tax && fragment.index) || nil,
+              # TIdx: (entry.amount_type&.to_sym == :tax && entry.index) || nil,
 
               # Boolean; Booking type.
               # 0 a debit booking [Soll]
               # 1 a credit booking [Haben]
-              Type: { soll: 0, haben: 1 }[fragment.side&.to_sym],
+              Type: { soll: 0, haben: 1 }[entry.side&.to_sym],
 
               # Currency; The net amount for this booking. [Netto-Betrag]
-              ValNt: fragment.amount,
+              ValNt: entry.amount,
 
               # Currency; The tax amount for this booking. [Brutto-Betrag]
-              # ValBt: fragment.amount,
+              # ValBt: entry.amount,
 
               # Currency; The tax amount for this booking. [Steuer-Betrag]
               ValTx: {
-                vat: fragment.vat_breakup&.[](:netto),
-                main: fragment.vat_breakup&.[](:vat)
-              }[fragment.book_type&.to_sym],
+                vat: entry.vat_breakup&.[](:netto),
+                main: entry.vat_breakup&.[](:vat)
+              }[entry.book_type&.to_sym],
 
               # Currency; The gross amount for this booking in the foreign currency specified
               # by currency of the account AccId. [FW-Betrag]
               # ValFW : not implemented
 
               # String[13], This is the cost type account
-              # CAcc: (Value.cast(fragment.cost_account_nr, as: :symbol) if fragment.cost_account_nr),
-              CAcc: fragment.book_type_cost? && Value.cast(fragment.related(:main)&.account_nr, as: :symbol),
+              # CAcc: (Value.cast(entry.cost_account_nr, as: :symbol) if entry.cost_account_nr),
+              CAcc: entry.book_type_cost? && Value.cast(entry.related(:main)&.account_nr, as: :symbol),
 
               # String[13]The OP id of this booking.
-              # OpId: fragment.ref,
+              # OpId: entry.ref,
 
               # The PK number of this booking.
               PkKey: nil,
               **override)
       end
 
-      def journal_entry(journal_entry)
-        op_id = Value.cast(journal_entry.invoice&.ref, as: :symbol)
-        pk_key = Value.cast(journal_entry.booking.tenant.ref, as: :symbol)
+      def journal_entry_batch(journal_entry_batch)
+        op_id = Value.cast(journal_entry_batch.invoice&.ref, as: :symbol)
+        pk_key = Value.cast(journal_entry_batch.booking.tenant.ref, as: :symbol)
 
-        case journal_entry.trigger&.to_sym
+        case journal_entry_batch.trigger&.to_sym
         when :invoice_created
-          tenant(journal_entry.booking.tenant)
-          open_position(journal_entry, op_id, pk_key)
-          default_journal_entry(journal_entry, { Orig: true }, { 0 => { Flags: 1, OpId: op_id, PkKey: pk_key } })
+          tenant(journal_entry_batch.booking.tenant)
+          open_position(journal_entry_batch, op_id, pk_key)
+          default_journal_entry_batch(journal_entry_batch, { Orig: true },
+                                      { 0 => { Flags: 1, OpId: op_id, PkKey: pk_key } })
         else
-          create = journal_entry.trigger_invoice_created? || journal_entry.trigger_payment_created?
-          default_journal_entry(journal_entry, { Orig: create }, { 0 => { OpId: op_id, PkKey: pk_key } })
+          create = journal_entry_batch.trigger_invoice_created? || journal_entry_batch.trigger_payment_created?
+          default_journal_entry_batch(journal_entry_batch, { Orig: create }, { 0 => { OpId: op_id, PkKey: pk_key } })
         end
       end
 
-      def default_journal_entry(journal_entry, override = {}, overrides = {})
-        return if journal_entry.fragments.blank?
+      def default_journal_entry_batch(journal_entry_batch, override = {}, overrides = {})
+        return if journal_entry_batch.entries.blank?
 
-        block(:Blg, Date: journal_entry.date, **override) do
-          journal_entry.fragments.each_with_index do |fragment, index|
-            cost_index = (fragment.book_type_main? && journal_entry.fragments.index(fragment.related(:cost))) || nil
-            vat_index = (fragment.book_type_main? && journal_entry.fragments.index(fragment.related(:vat))) || nil
+        block(:Blg, Date: journal_entry_batch.date, **override) do
+          journal_entry_batch.entries.each_with_index do |entry, index|
+            cost_index = (entry.book_type_main? && journal_entry_batch.entries.index(entry.related(:cost))) || nil
+            vat_index = (entry.book_type_main? && journal_entry_batch.entries.index(entry.related(:vat))) || nil
 
-            journal_entry_fragment(fragment, { CIdx: cost_index&.+(1), TIdx: vat_index&.+(1),
+            journal_entry_batch_entry(entry, { CIdx: cost_index&.+(1), TIdx: vat_index&.+(1),
                                                **overrides.fetch(:all, {}), **overrides.fetch(index, {}) })
           end
         end
       end
 
-      def open_position(journal_entry, op_id, pk_key)
-        block(:OPd, PkKey: pk_key, OpId: op_id, ZabId: '15T', Ref: journal_entry.invoice&.payment_ref,
-                    Text: journal_entry.text)
+      def open_position(journal_entry_batch, op_id, pk_key)
+        block(:OPd, PkKey: pk_key, OpId: op_id, ZabId: '15T', Ref: journal_entry_batch.invoice&.payment_ref,
+                    Text: journal_entry_batch.text)
       end
 
       def tenant(tenant, _override = {})

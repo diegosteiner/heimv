@@ -2,7 +2,10 @@
 
 module Manage
   class JournalEntrySerializer < ApplicationSerializer
-    identifier :id
-    fields :date, :ref, :currency, :soll_amount, :haben_amount, :booking_id, :invoice_id, :payment_id
+    fields :account_nr, :text, :amount, :side, :soll_amount, :haben_amount, :soll_account, :haben_account, :book_type,
+           :invoice_part_id
+
+    association :journal_entry_batch, blueprint: Manage::JournalEntryBatchSerializer
+    association :vat_category, blueprint: Public::VatCategorySerializer
   end
 end

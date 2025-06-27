@@ -56,7 +56,7 @@ de:
         homes: Hauptmietobjekte
         issued_at_after: Rechnungsdatum ab
         issued_at_before: Rechnungsdatum bis
-      journal_entry/filter:
+      journal_entry_batch/filter:
         date_after: Buchungsdatum ab
         date_before: Buchungsdatum bis
         processed: Verbucht
@@ -314,7 +314,7 @@ de:
         type: Art der Rechnungsposition
         vat: inkl. MwSt. in Prozent
         vat_category_id: MwSt. Kategorie
-      journal_entry:
+      journal_entry_batch:
         account_nr: Konto
         amount: Betrag
         book_type: Typ
@@ -583,7 +583,7 @@ de:
         paid:
           only_paid: Nur beglichene
           only_unpaid: Nur offene
-      journal_entry:
+      journal_entry_batch:
         book_types:
           cost: Kostenstellen
           main: Hauptbuch
@@ -598,7 +598,7 @@ de:
           payment_created: Zahlung erstellt
           payment_discarded: Zahlung gelöscht
           payment_updated: Zahlung geändert
-      journal_entry/filter:
+      journal_entry_batch/filter:
         processed:
           only_processed: Nur verbuchte
           only_unprocessed: Nur unverbuchte
@@ -740,7 +740,7 @@ de:
       data_digest_templates/invoice_part:
         one: Rechnungspositionen Auszug
         other: Rechnungspositionen Auszüge
-      data_digest_templates/journal_entry:
+      data_digest_templates/journal_entry_batch:
         one: Buchungssätze Auszug
         other: Buchungssätze Auszüge
       data_digest_templates/meter_reading_period:
@@ -788,7 +788,7 @@ de:
       invoices/offer:
         one: Offerte
         other: Offerten
-      journal_entry:
+      journal_entry_batch:
         one: Buchungssatz
         other: Buchungssätze
       mail_template:
@@ -1553,7 +1553,7 @@ de:
       form:
         payment_not_required_warning: Ohne diesen Haken wird die Belegung kann die Belegung automatisch in den nächsten Status wechseln, wenn sonst alle Bedingungen erfüllt sind.
         suggested_invoice_parts: Vorgeschlagene Positionen
-    journal_entries:
+    journal_entry_batches:
       index:
         process_all: Alle unverbuchten verbuchen
         processed_at: verbucht %{at}

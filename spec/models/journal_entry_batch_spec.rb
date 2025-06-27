@@ -2,12 +2,12 @@
 
 # == Schema Information
 #
-# Table name: journal_entries
+# Table name: journal_entry_batches
 #
 #  id           :bigint           not null, primary key
 #  currency     :string           not null
 #  date         :date             not null
-#  fragments    :jsonb
+#  entries    :jsonb
 #  processed_at :datetime
 #  ref          :string
 #  text         :string
@@ -21,35 +21,37 @@
 
 require 'rails_helper'
 
-RSpec.describe JournalEntry do
-  subject(:builder) { JournalEntry::Factory.new }
+RSpec.describe JournalEntryBatch do
+  subject(:builder) { JournalEntryBatch::Factory.new }
 
   let(:booking) { create(:booking, organisation:) }
   let(:invoice) { create(:invoice, booking:) }
   let(:organisation) { create(:organisation, :with_accounting) }
 
   describe '::new' do
-    subject(:journal_entries) do
+    subject(:journal_entry_batches) do
       [
-        described_class.new(booking:, ref: 'test1', date: 2.weeks.ago, trigger: :invoice_updated).tap do |journal_entry|
-          journal_entry.soll(account_nr: 6000, amount: 1000)
-          journal_entry.haben(account_nr: 1000, amount: 500)
-          journal_entry.haben(account_nr: 2000, amount: 500)
+        described_class.new(booking:, ref: 'test1', date: 2.weeks.ago,
+                            trigger: :invoice_updated).tap do |journal_entry_batch|
+          journal_entry_batch.soll(account_nr: 6000, amount: 1000)
+          journal_entry_batch.haben(account_nr: 1000, amount: 500)
+          journal_entry_batch.haben(account_nr: 2000, amount: 500)
         end,
-        described_class.new(booking:, ref: 'test2', date: 1.week.ago, trigger: :invoice_updated).tap do |journal_entry|
-          journal_entry.soll(account_nr: 6000, amount: 800)
-          journal_entry.haben(account_nr: 1000, amount: 800)
+        described_class.new(booking:, ref: 'test2', date: 1.week.ago,
+                            trigger: :invoice_updated).tap do |journal_entry_batch|
+          journal_entry_batch.soll(account_nr: 6000, amount: 800)
+          journal_entry_batch.haben(account_nr: 1000, amount: 800)
         end
       ]
     end
 
-    it 'builds the journal entry and fragments' do # rubocop:disable RSpec/ExampleLength
-      expect(journal_entries.map(&:save)).to all(be_truthy)
-      expect(journal_entries).to contain_exactly(
+    it 'builds the journal entry and entries' do # rubocop:disable RSpec/ExampleLength
+      expect(journal_entry_batches.map(&:save)).to all(be_truthy)
+      expect(journal_entry_batches).to contain_exactly(
         have_attributes(booking:, ref: 'test1'),
         have_attributes(booking:, ref: 'test2')
       )
-      expect(journal_entries.map(&:fragments)).to contain_exactly(
+      expect(journal_entry_batches.map(&:entries)).to contain_exactly(
         contain_exactly(
           have_attributes(side: 'soll', account_nr: '6000', amount: 1000),
           have_attributes(side: 'haben', account_nr: '1000', amount: 500),
@@ -63,8 +65,8 @@ RSpec.describe JournalEntry do
     end
   end
 
-  describe '::Factory.invoice_created_journal_entry' do
-    subject(:journal_entries) { invoice.journal_entries.invoice }
+  describe '::Factory.invoice_created_journal_entry_batch' do
+    subject(:journal_entry_batches) { invoice.journal_entry_batches.invoice }
 
     let(:organisation) { create(:organisation, :with_accounting) }
     let(:vat_category) { create(:vat_category, organisation:, percentage: 50, accounting_vat_code: 'VAT50') }
@@ -79,14 +81,14 @@ RSpec.describe JournalEntry do
       organisation.save
     end
 
-    it 'creates to correct journal_entries' do # rubocop:disable RSpec/ExampleLength
+    it 'creates to correct journal_entry_batches' do # rubocop:disable RSpec/ExampleLength
       is_expected.to all(be_balanced)
       is_expected.to match_array(
         have_attributes(date: Date.new(2024, 12, 27), trigger: 'invoice_created', ref: '250001', amount: 420.0)
       )
-      fragments = journal_entries.first.fragments
+      entries = journal_entry_batches.first.entries
 
-      expect(fragments).to contain_exactly(
+      expect(entries).to contain_exactly(
         have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main'),
         have_attributes(account_nr: '6000', haben_amount: -200.0, book_type: 'main'),
         have_attributes(account_nr: '9001', haben_amount: -200.0, book_type: 'cost'),
@@ -100,7 +102,7 @@ RSpec.describe JournalEntry do
     context 'with update after processed' do
       before do
         # create invoice, process journal entries and update invoice
-        invoice.journal_entries.update_all(processed_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+        invoice.journal_entry_batches.update_all(processed_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
         invoice.invoice_parts.last.update!(amount: 1000)
         invoice.save!
       end
@@ -116,14 +118,14 @@ RSpec.describe JournalEntry do
   end
 
   describe '::Factory.build_with_payment_write_off' do
-    subject(:journal_entry) { builder.build_with_payment(payment) }
+    subject(:journal_entry_batch) { builder.build_with_payment(payment) }
 
     context 'with normal payment' do
       let(:payment) { create(:payment, booking:, amount: 420.0, write_off: false, invoice: nil) }
 
       it 'creates new journal entry' do
         is_expected.to have_attributes(trigger: 'payment_created', amount: 420.0, processed?: false, payment:)
-        expect(journal_entry.fragments).to contain_exactly(
+        expect(journal_entry_batch.entries).to contain_exactly(
           have_attributes(account_nr: '1050', haben_amount: 420.0, book_type: 'main'),
           have_attributes(account_nr: '1025', soll_amount: 420.0, book_type: 'main')
         )
@@ -135,7 +137,7 @@ RSpec.describe JournalEntry do
 
       it 'creates new journal entry' do
         is_expected.to have_attributes(trigger: 'payment_created', amount: 420.0, processed?: false, payment:)
-        expect(journal_entry.fragments).to contain_exactly(
+        expect(journal_entry_batch.entries).to contain_exactly(
           have_attributes(account_nr: '6000', haben_amount: 420.0, book_type: 'main'),
           have_attributes(account_nr: '1050', soll_amount: 420.0, book_type: 'main')
         )

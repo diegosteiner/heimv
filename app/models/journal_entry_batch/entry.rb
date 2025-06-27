@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class JournalEntry
-  class Fragment
+class JournalEntryBatch
+  class Entry
     include StoreModel::Model
 
     attribute :amount, :decimal
@@ -32,7 +32,7 @@ class JournalEntry
       amount if haben?
     end
 
-    def journal_entry
+    def journal_entry_batch
       parent
     end
 
@@ -41,7 +41,7 @@ class JournalEntry
     end
 
     def related(book_type)
-      journal_entry.fragment_relations[invoice_part_id]&.fetch(book_type&.to_sym, nil)
+      journal_entry_batch.entry_relations[invoice_part_id]&.fetch(book_type&.to_sym, nil)
     end
 
     def invoice_part

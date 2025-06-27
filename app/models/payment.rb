@@ -29,7 +29,7 @@ class Payment < ApplicationRecord
 
   has_one :organisation, through: :booking
 
-  has_many :journal_entries, inverse_of: :payment, dependent: :destroy
+  has_many :journal_entry_batches, inverse_of: :payment, dependent: :destroy
 
   attribute :applies, :boolean, default: true
   attribute :confirm, :boolean, default: true
@@ -43,14 +43,14 @@ class Payment < ApplicationRecord
 
   scope :ordered, -> { order(paid_at: :DESC) }
 
-  attr_accessor :skip_journal_entries
+  attr_accessor :skip_journal_entry_batches
 
   delegate :accounting_settings, to: :organisation
 
   after_create :email_payment_confirmation, if: :confirm?
   after_destroy :recalculate_invoice
   after_save :recalculate_invoice
-  after_save :update_journal_entries, unless: :skip_journal_entries
+  after_save :update_journal_entry_batches, unless: :skip_journal_entry_batches
 
   before_validation do
     self.booking = invoice&.booking || booking
@@ -69,11 +69,11 @@ class Payment < ApplicationRecord
     MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
   end
 
-  def update_journal_entries
+  def update_journal_entry_batches
     return unless organisation.accounting_settings.enabled
 
-    @journal_entry_manager ||= JournalEntry::Manager[Payment].new(self)
-    @journal_entry_manager.handle
+    @journal_entry_batch_manager ||= JournalEntryBatch::Manager[Payment].new(self)
+    @journal_entry_batch_manager.handle
   end
 
   # def accounting_account_nr_required?

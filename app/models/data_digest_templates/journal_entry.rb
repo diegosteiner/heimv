@@ -21,32 +21,32 @@ module DataDigestTemplates
 
     DEFAULT_COLUMN_CONFIG = [
       {
-        header: ::JournalEntry.human_attribute_name(:date),
-        body: '{{ journal_entry_fragment.journal_entry.date | date_format }}'
+        header: ::JournalEntryBatch.human_attribute_name(:date),
+        body: '{{ journal_entry_batch_entry.journal_entry_batch.date | date_format }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:ref),
-        body: '{{ journal_entry_fragment.journal_entry.ref }}'
+        header: ::JournalEntryBatch.human_attribute_name(:ref),
+        body: '{{ journal_entry_batch_entry.journal_entry_batch.ref }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:text),
-        body: '{{ journal_entry_fragment.text }}'
+        header: ::JournalEntryBatch.human_attribute_name(:text),
+        body: '{{ journal_entry_batch_entry.text }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:soll_account),
-        body: '{{ journal_entry_fragment.soll_account }}'
+        header: ::JournalEntryBatch.human_attribute_name(:soll_account),
+        body: '{{ journal_entry_batch_entry.soll_account }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:haben_account),
-        body: '{{ journal_entry_fragment.haben_account }}'
+        header: ::JournalEntryBatch.human_attribute_name(:haben_account),
+        body: '{{ journal_entry_batch_entry.haben_account }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:amount),
-        body: '{{ journal_entry_fragment.amount | round: 2 }}'
+        header: ::JournalEntryBatch.human_attribute_name(:amount),
+        body: '{{ journal_entry_batch_entry.amount | round: 2 }}'
       },
       {
-        header: ::JournalEntry.human_attribute_name(:book_type),
-        body: '{{ journal_entry_fragment.book_type }}'
+        header: ::JournalEntryBatch.human_attribute_name(:book_type),
+        body: '{{ journal_entry_batch_entry.book_type }}'
       },
       {
         header: ::Booking.human_attribute_name(:ref),
@@ -55,10 +55,10 @@ module DataDigestTemplates
     ].freeze
 
     column_type :default do
-      body do |journal_entry_fragment, template_context_cache|
-        booking = journal_entry_fragment.parent.booking
-        context = template_context_cache[cache_key(journal_entry_fragment)] ||=
-          TemplateContext.new(booking:, organisation: booking.organisation, journal_entry_fragment:).to_h
+      body do |journal_entry_batch_entry, template_context_cache|
+        booking = journal_entry_batch_entry.parent.booking
+        context = template_context_cache[cache_key(journal_entry_batch_entry)] ||=
+          TemplateContext.new(booking:, organisation: booking.organisation, journal_entry_batch_entry:).to_h
         @templates[:body]&.render!(context)
       end
     end
@@ -67,17 +67,17 @@ module DataDigestTemplates
       record_ids = records.pluck(:id).uniq
       base_scope.where(id: record_ids).find_each(cursor: record_order.keys,
                                                  order: record_order.values).flat_map do |record|
-        record.fragments.map do |fragment|
+        record.entries.map do |entry|
           template_context_cache = {}
-          columns.map { |column| column.body(fragment, template_context_cache) }
+          columns.map { |column| column.body(entry, template_context_cache) }
         end
       end
     end
 
     formatter(:taf) do |_options = {}|
-      journal_entries = records
+      journal_entry_batches = records
       Export::Taf::Document.new do
-        journal_entries.each { journal_entry(it) }
+        journal_entry_batches.each { journal_entry_batch(it) }
       end.serialize
     end
 
@@ -86,14 +86,14 @@ module DataDigestTemplates
     end
 
     def filter_class
-      ::JournalEntry::Filter
+      ::JournalEntryBatch::Filter
     end
 
     protected
 
     def base_scope
-      @base_scope ||= ::JournalEntry.joins(:booking).where(bookings: { organisation_id: organisation })
-                                    .includes(booking: :organisation).ordered
+      @base_scope ||= ::JournalEntryBatch.joins(:booking).where(bookings: { organisation_id: organisation })
+                                         .includes(booking: :organisation).ordered
     end
   end
 end

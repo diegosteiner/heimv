@@ -18,17 +18,17 @@ describe Export::Taf::Builder, type: :model do
     organisation.save!
   end
 
-  describe '#journal_entry' do
-    context 'with journal_entry' do
-      let(:journal_entry) do
-        create(:journal_entry, booking:, date: Date.new(2024, 10, 5),
-                               ref: '1234', amount: 2091.75,
-                               vat_category_id: vat_category.id,
-                               text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
+  describe '#journal_entry_batch' do
+    context 'with journal_entry_batch' do
+      let(:journal_entry_batch) do
+        create(:journal_entry_batch, booking:, date: Date.new(2024, 10, 5),
+                                     ref: '1234', amount: 2091.75,
+                                     vat_category_id: vat_category.id,
+                                     text: "Lorem ipsum\nSecond Line, but its longer than sixty \"chars\", OMG!")
       end
 
       it do # rubocop:disable RSpec/ExampleLength
-        builder.journal_entry(journal_entry)
+        builder.journal_entry_batch(journal_entry_batch)
         expect(builder.blocks).to all(be_a(Export::Taf::Block))
         expect(builder.blocks.first.to_s).to eq(<<~TAF.chomp)
           {Blg
@@ -69,10 +69,10 @@ describe Export::Taf::Builder, type: :model do
                                     prepaid_amount: 300, vat_category:)
       end
       let(:invoice) { booking.invoices.last }
-      let(:journal_entry) { JournalEntry.where(booking:, invoice:, payment: nil).last }
+      let(:journal_entry_batch) { JournalEntryBatch.where(booking:, invoice:, payment: nil).last }
 
       it do # rubocop:disable RSpec/ExampleLength
-        builder.journal_entry(journal_entry)
+        builder.journal_entry_batch(journal_entry_batch)
         expect(builder.blocks.map(&:to_s).join("\n\n")).to eq(<<~TAF.chomp)
           {Adr
             AdrId=200002
@@ -193,8 +193,8 @@ describe Export::Taf::Builder, type: :model do
       end
 
       it 'does not include Orig=1 when update' do
-        journal_entry.trigger_invoice_updated!
-        builder.journal_entry(journal_entry)
+        journal_entry_batch.trigger_invoice_updated!
+        builder.journal_entry_batch(journal_entry_batch)
         expect(builder.blocks.map(&:to_s).join("\n\n")).not_to include('Orig=1')
       end
     end
@@ -205,15 +205,15 @@ describe Export::Taf::Builder, type: :model do
       end
       let(:invoice) { booking.invoices.last }
       let(:payment) { Payment.create!(booking:, invoice:, amount: 999.99, paid_at: '2024-12-24', write_off: false) }
-      let(:journal_entry) { JournalEntry.where(booking:, invoice:, payment:).last }
+      let(:journal_entry_batch) { JournalEntryBatch.where(booking:, invoice:, payment:).last }
 
       before do
         invoice.update!(sequence_year: 2024, ref: nil)
-        JournalEntry.where(booking:, invoice:, payment: nil).update_all(processed_at: 1.month.ago) # rubocop:disable Rails/SkipsModelValidations
+        JournalEntryBatch.where(booking:, invoice:, payment: nil).update_all(processed_at: 1.month.ago) # rubocop:disable Rails/SkipsModelValidations
       end
 
       it do # rubocop:disable RSpec/ExampleLength
-        builder.journal_entry(journal_entry)
+        builder.journal_entry_batch(journal_entry_batch)
         expect(builder.blocks).to all(be_a(Export::Taf::Block))
         expect(builder.blocks.first.to_s).to eq(<<~TAF.chomp)
           {Blg

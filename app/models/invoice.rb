@@ -45,12 +45,12 @@ class Invoice < ApplicationRecord
   has_many :superseded_by_invoices, class_name: :Invoice, dependent: :nullify,
                                     foreign_key: :supersede_invoice_id, inverse_of: :supersede_invoice
   has_many :payments, dependent: :nullify
-  has_many :journal_entries, -> { ordered }, dependent: :nullify, inverse_of: :invoice
+  has_many :journal_entry_batches, -> { ordered }, dependent: :nullify, inverse_of: :invoice
 
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
-  attr_accessor :skip_generate_pdf, :skip_journal_entries
+  attr_accessor :skip_generate_pdf, :skip_journal_entry_batches
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
   scope :not_offer, -> { where.not(type: 'Invoices::Offer') }
@@ -70,7 +70,7 @@ class Invoice < ApplicationRecord
   before_save :generate_pdf, if: :generate_pdf?
   after_create :supersede!
   after_save :recalculate!, :update_payments
-  after_save :update_journal_entries, unless: :skip_journal_entries
+  after_save :update_journal_entry_batches, unless: :skip_journal_entry_batches
 
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
   validate do
@@ -116,11 +116,11 @@ class Invoice < ApplicationRecord
     self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
   end
 
-  def update_journal_entries
+  def update_journal_entry_batches
     return unless organisation.accounting_settings.enabled
 
-    @journal_entry_manager ||= JournalEntry::Manager[Invoice].new(self)
-    @journal_entry_manager.handle
+    @journal_entry_batch_manager ||= JournalEntryBatch::Manager[Invoice].new(self)
+    @journal_entry_batch_manager.handle
   end
 
   def paid?

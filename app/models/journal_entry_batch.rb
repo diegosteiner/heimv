@@ -1,11 +1,11 @@
 # == Schema Information
 #
-# Table name: journal_entries
+# Table name: journal_entry_batches
 #
 #  id           :bigint           not null, primary key
 #  currency     :string           not null
 #  date         :date             not null
-#  fragments    :jsonb
+#  entries    :jsonb
 #  processed_at :datetime
 #  ref          :string
 #  text         :string
@@ -19,32 +19,32 @@
 
 # frozen_string_literal: true
 
-class JournalEntry < ApplicationRecord
+class JournalEntryBatch < ApplicationRecord
   include StoreModel::NestedAttributes
 
   belongs_to :booking
-  belongs_to :invoice, inverse_of: :journal_entries, optional: true
-  belongs_to :payment, inverse_of: :journal_entries, optional: true
+  belongs_to :invoice, inverse_of: :journal_entry_batches, optional: true
+  belongs_to :payment, inverse_of: :journal_entry_batches, optional: true
 
   has_one :organisation, through: :booking
 
   enum :trigger, { invoice_created: 11, invoice_updated: 12, invoice_discarded: 13,
                    payment_created: 21, payment_updated: 22, payment_discarded: 23 }, prefix: true
 
-  attribute :fragments, Fragment.to_array_type, default: -> { [] }
+  attribute :entries, Entry.to_array_type, default: -> { [] }
   attribute :processed, :boolean
 
-  accepts_nested_attributes_for :fragments, allow_destroy: true
+  accepts_nested_attributes_for :entries, allow_destroy: true
 
   before_validation :set_currency, :set_processed_at
 
   validates :ref, :currency, :date, :trigger, presence: true
-  validates :fragments, store_model: true
+  validates :entries, store_model: true
   validate { errors.add(:base, :invalid) unless balanced? }
   validate do
     accounts = {
-      soll: fragments.count { |fragment| fragment.soll_account.present? },
-      haben: fragments.count { |fragment| fragment.haben_account.present? }
+      soll: entries.count { |entry| entry.soll_account.present? },
+      haben: entries.count { |entry| entry.haben_account.present? }
     }
     errors.add(:base, :invalid) if accounts.values.min < 1
   end
@@ -60,30 +60,30 @@ class JournalEntry < ApplicationRecord
   end
 
   def related
-    @related ||= fragments.index_by(&:book_type).symbolize_keys
+    @related ||= entries.index_by(&:book_type).symbolize_keys
   end
 
   def soll_amount(book_type: %i[main vat])
-    fragments.filter_map { it.soll_amount || 0 if Array.wrap(book_type).include?(it.book_type&.to_sym) }.sum
+    entries.filter_map { it.soll_amount || 0 if Array.wrap(book_type).include?(it.book_type&.to_sym) }.sum
   end
 
   def haben_amount(book_type: %i[main vat])
-    fragments.filter_map { it.haben_amount || 0 if Array.wrap(book_type).include?(it.book_type&.to_sym) }.sum
+    entries.filter_map { it.haben_amount || 0 if Array.wrap(book_type).include?(it.book_type&.to_sym) }.sum
   end
 
   def haben(**args)
-    fragment = Fragment.new(side: :haben, **args)
-    fragments << fragment if fragment&.valid?
+    entry = Entry.new(side: :haben, **args)
+    entries << entry if entry&.valid?
   end
 
   def soll(**args)
-    fragment = Fragment.new(side: :soll, **args)
-    fragments << fragment if fragment&.valid?
+    entry = Entry.new(side: :soll, **args)
+    entries << entry if entry&.valid?
   end
 
   def to_s
-    soll_accounts = fragments.filter(&:soll?).uniq.map(&:account_nr).join(',')
-    haben_accounts = fragments.filter(&:haben?).uniq.map(&:account_nr).join(',')
+    soll_accounts = entries.filter(&:soll?).uniq.map(&:account_nr).join(',')
+    haben_accounts = entries.filter(&:haben?).uniq.map(&:account_nr).join(',')
     "##{id}: (#{soll_accounts}) => (#{haben_accounts}) " +
       ActiveSupport::NumberHelper.number_to_currency(soll_amount)
   end
@@ -115,18 +115,18 @@ class JournalEntry < ApplicationRecord
 
     attributes.slice(*%w[booking_id invoice_id payment_id]) ==
       other.attributes.slice(*%w[booking_id invoice_id payment_id]) &&
-      fragments.each_with_index.all? { |fragment, index| fragment.equivalent?(other.fragments[index]) }
+      entries.each_with_index.all? { |entry, index| entry.equivalent?(other.entries[index]) }
   end
 
   def invert
-    fragments.each(&:invert)
+    entries.each(&:invert)
     self
   end
 
   # TODO: check move
-  def fragment_relations
-    fragments.group_by(&:invoice_part_id).transform_values do |related_fragments|
-      related_fragments.group_by(&:book_type).transform_values(&:first).symbolize_keys
+  def entry_relations
+    entries.group_by(&:invoice_part_id).transform_values do |related_entries|
+      related_entries.group_by(&:book_type).transform_values(&:first).symbolize_keys
     end
   end
 
@@ -138,69 +138,69 @@ class JournalEntry < ApplicationRecord
     attribute :processed, :boolean
     attribute :triggers, array: true
 
-    filter :date do |journal_entries|
+    filter :date do |journal_entry_batches|
       next unless date_before.present? || date_after.present?
 
-      journal_entries.where(JournalEntry.arel_table[:date].between(date_after..date_before))
+      journal_entry_batches.where(JournalEntryBatch.arel_table[:date].between(date_after..date_before))
     end
 
-    filter :processed_at do |journal_entries|
+    filter :processed_at do |journal_entry_batches|
       next unless processed_at_before.present? || processed_at_after.present?
 
-      journal_entries.where(JournalEntry.arel_table[:date].between(processed_at_after..processed_at_before))
+      journal_entry_batches.where(JournalEntryBatch.arel_table[:date].between(processed_at_after..processed_at_before))
     end
 
-    filter :processed do |journal_entries|
+    filter :processed do |journal_entry_batches|
       next if processed.nil?
 
-      processed ? journal_entries.processed : journal_entries.unprocessed
+      processed ? journal_entry_batches.processed : journal_entry_batches.unprocessed
     end
 
-    filter :triggers do |journal_entries|
-      trigger = Array.wrap(triggers) & JournalEntry.triggers.keys
+    filter :triggers do |journal_entry_batches|
+      trigger = Array.wrap(triggers) & JournalEntryBatch.triggers.keys
       next if triggers.blank?
 
-      journal_entries.where(trigger:)
+      journal_entry_batches.where(trigger:)
     end
   end
 
   class Factory
     def build_with_invoice(invoice, attributes = {})
       text = "#{invoice.ref} - #{invoice.booking.tenant.last_name}"
-      JournalEntry.new(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking, text:,
-                       **attributes).tap do |journal_entry|
-        build_invoice_debitor(invoice, journal_entry)
-        invoice.invoice_parts.map { build_invoice_part(it, journal_entry) }
+      JournalEntryBatch.new(ref: invoice.ref, date: invoice.issued_at, invoice:, booking: invoice.booking, text:,
+                            **attributes).tap do |journal_entry_batch|
+        build_invoice_debitor(invoice, journal_entry_batch)
+        invoice.invoice_parts.map { build_invoice_part(it, journal_entry_batch) }
       end
     end
 
-    def build_invoice_debitor(invoice, journal_entry)
+    def build_invoice_debitor(invoice, journal_entry_batch)
       invoice.instance_eval do
         text = "#{ref} - #{booking.tenant.last_name}"
         # Der Betrag, welcher der Debitor noch schuldig ist. (inkl. MwSt.). Jak: «Erlösbuchung»
-        journal_entry.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr || 0, amount:, text:)
+        journal_entry_batch.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr || 0, amount:, text:)
       end
     end
 
-    def build_invoice_part(invoice_part, journal_entry)
+    def build_invoice_part(invoice_part, journal_entry_batch)
       case invoice_part
       when InvoiceParts::Add, InvoiceParts::Deposit
-        build_invoice_part_add(invoice_part, journal_entry)
+        build_invoice_part_add(invoice_part, journal_entry_batch)
       end
     end
 
-    def build_invoice_part_add(invoice_part, journal_entry) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    def build_invoice_part_add(invoice_part, journal_entry_batch) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       invoice_part.instance_eval do
         text = "#{invoice.ref} - #{invoice.booking.tenant.last_name}: #{label}"
         accounting_settings = organisation.accounting_settings
 
-        journal_entry.haben(account_nr: accounting_account_nr.presence ||
+        journal_entry_batch.haben(account_nr: accounting_account_nr.presence ||
                               accounting_settings&.rental_yield_account_nr.presence || 0,
-                            amount: vat_breakdown[:netto], invoice_part_id: id, vat_category_id:, text:)
-        journal_entry.haben(account_nr: accounting_cost_center_nr, book_type: :cost,
-                            amount: vat_breakdown[:netto], invoice_part_id: id, vat_category_id:, text:)
-        journal_entry.haben(account_nr: accounting_settings&.vat_account_nr, book_type: :vat,
-                            amount: vat_breakdown[:vat], invoice_part_id: id, vat_category_id:, text:)
+                                  amount: vat_breakdown[:netto], invoice_part_id: id, vat_category_id:, text:)
+        journal_entry_batch.haben(account_nr: accounting_cost_center_nr, book_type: :cost,
+                                  amount: vat_breakdown[:netto], invoice_part_id: id, vat_category_id:, text:)
+        journal_entry_batch.haben(account_nr: accounting_settings&.vat_account_nr, book_type: :vat,
+                                  amount: vat_breakdown[:vat], invoice_part_id: id, vat_category_id:, text:)
       end
     end
 
@@ -217,12 +217,12 @@ class JournalEntry < ApplicationRecord
     def build_with_payment_normal(payment, **attributes) # rubocop:disable Metrics/AbcSize
       payment.instance_eval do
         text = attributes[:text]
-        JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
-                         trigger: :payment_created).tap do |journal_entry|
-          journal_entry.soll(account_nr: accounting_account_nr.presence ||
+        JournalEntryBatch.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
+                              trigger: :payment_created).tap do |journal_entry_batch|
+          journal_entry_batch.soll(account_nr: accounting_account_nr.presence ||
           organisation&.accounting_settings&.payment_account_nr,
-                             amount:, text:)
-          journal_entry.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
+                                   amount:, text:)
+          journal_entry_batch.haben(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
         end
       end
     end
@@ -230,12 +230,12 @@ class JournalEntry < ApplicationRecord
     def build_with_payment_write_off(payment, **attributes) # rubocop:disable Metrics/AbcSize
       payment.instance_eval do
         text = attributes[:text]
-        JournalEntry.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
-                         trigger: :payment_created, **attributes).tap do |journal_entry|
-          journal_entry.haben(account_nr: accounting_account_nr.presence ||
+        JournalEntryBatch.new(ref: id, date: paid_at, invoice:, payment: self, booking:,
+                              trigger: :payment_created, **attributes).tap do |journal_entry_batch|
+          journal_entry_batch.haben(account_nr: accounting_account_nr.presence ||
           organisation&.accounting_settings&.rental_yield_account_nr,
-                              amount:, text:)
-          journal_entry.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
+                                    amount:, text:)
+          journal_entry_batch.soll(account_nr: organisation&.accounting_settings&.debitor_account_nr, amount:, text:)
         end
       end
     end
