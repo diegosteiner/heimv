@@ -5,32 +5,16 @@ class JournalEntryBatch
     include StoreModel::Model
 
     attribute :amount, :decimal
-    attribute :account_nr, :string
+    attribute :soll_account, :string
+    attribute :haben_account, :string
     attribute :text, :string
     attribute :invoice_part_id, :integer
     attribute :vat_category_id, :integer
 
-    enum :side, { soll: 1, haben: -1 }
     enum :book_type, { main: 0, cost: 1, vat: 2 }, _prefix: true, default: :main # rubocop:disable Rails/EnumSyntax
 
-    validates :account_nr, :side, :amount, :book_type, presence: true
+    validates :soll_account, :haben_account, :amount, :book_type, presence: true
     validates :amount, numericality: { other_than: 0 }
-
-    def soll_account
-      account_nr if soll?
-    end
-
-    def haben_account
-      account_nr if haben?
-    end
-
-    def soll_amount
-      amount if soll?
-    end
-
-    def haben_amount
-      amount if haben?
-    end
 
     def journal_entry_batch
       parent
@@ -40,9 +24,19 @@ class JournalEntryBatch
       attributes
     end
 
-    def related(book_type)
-      journal_entry_batch.entry_relations[invoice_part_id]&.fetch(book_type&.to_sym, nil)
+    def to_s
+      formatted_amount = ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.',
+                                                                                unit: parent.currency || '')
+      "#{soll_account} => #{haben_account} #{formatted_amount} (#{book_type}): #{text}"
     end
+
+    def related_entries
+      entries.filter { it.invoice_part_id = invoice_part_id }.group_by(&:book_type).symbolize_keys
+    end
+
+    # def related(book_type)
+    #   journal_entry_batch.entry_relations[invoice_part_id]&.fetch(book_type&.to_sym, nil)
+    # end
 
     def invoice_part
       @invoice_part ||= parent&.invoice&.invoice_parts&.find(invoice_part_id) if invoice_part_id.present?
@@ -60,15 +54,21 @@ class JournalEntryBatch
     end
 
     def equivalent?(other)
-      attributes.slice(*%w[account_nr side amount book_type]) ==
-        other.attributes.slice(*%w[account_nr side amount book_type])
+      attributes.slice(*%w[soll_account haben_account amount book_type invoice_part_id vat_category_id]) ==
+        other.attributes.slice(*%w[soll_account haben_account amount book_type invoice_part_id vat_category_id])
     end
 
     def invert
-      return self.side = :haben if soll?
-      return self.side = :soll if haben?
+      self.soll_account, self.haben_account = haben_account, soll_account
+      self
+    end
 
-      nil
+    def abs
+      return self unless amount.negative?
+
+      invert
+      self.amount = amount.abs
+      self
     end
   end
 end

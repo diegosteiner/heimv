@@ -72,8 +72,7 @@ class Payment < ApplicationRecord
   def update_journal_entry_batches
     return unless organisation.accounting_settings.enabled
 
-    @journal_entry_batch_manager ||= JournalEntryBatch::Manager[Payment].new(self)
-    @journal_entry_batch_manager.handle
+    JournalEntryBatches::Payment.handle(self)
   end
 
   # def accounting_account_nr_required?

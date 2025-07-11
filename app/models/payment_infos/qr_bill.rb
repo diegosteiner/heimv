@@ -85,8 +85,8 @@ module PaymentInfos
     end
 
     def formatted_amount(delimitter: ' ')
-      ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.',
-                                                             unit: '', delimiter: delimitter)
+      ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.', unit: '',
+                                                             delimiter: delimitter)
     end
 
     def checksum(ref)

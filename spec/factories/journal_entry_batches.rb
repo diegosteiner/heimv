@@ -7,11 +7,13 @@
 #  id           :bigint           not null, primary key
 #  currency     :string           not null
 #  date         :date             not null
-#  entries    :jsonb
+#  entries      :jsonb
+#  fragments    :jsonb
 #  processed_at :datetime
 #  ref          :string
 #  text         :string
 #  trigger      :integer          not null
+#  type         :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  booking_id   :uuid             not null

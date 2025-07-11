@@ -23,21 +23,20 @@ h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
   table.table.table-hover.align-middle
     thead 
       tr 
-        th=JournalEntryBatch.human_attribute_name(:id)
         th=
         th=JournalEntryBatch.human_attribute_name(:date)
-        th=JournalEntryBatch.human_attribute_name(:ref)
         th=JournalEntryBatch.human_attribute_name(:soll_account)
         th=JournalEntryBatch.human_attribute_name(:haben_account)
         th=JournalEntryBatch.human_attribute_name(:amount)
-        th=JournalEntryBatch.human_attribute_name(:book_type)
+        th=JournalEntryBatch.human_attribute_name(:text)
+        / th=JournalEntryBatch.human_attribute_name(:book_type)
         th=Booking.model_name.human
 
     tbody.shadow-sm
       - @journal_entry_batches.each do |journal_entry_batch|
         - journal_entry_batch.entries.each do |entry|
           tr
-            td= journal_entry_batch.id
+            / td= journal_entry_batch.id
             td.p-1
               - if journal_entry_batch.processed? 
                 = button_to manage_journal_entry_batch_path(journal_entry_batch), method: :patch, params: { journal_entry_batch: { processed: false } }, class: 'btn btn-default'
@@ -46,10 +45,10 @@ h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
                 = button_to manage_journal_entry_batch_path(journal_entry_batch), method: :patch, params: { journal_entry_batch: { processed: true } }, class: 'btn btn-default'
                   span.fa.fa-circle.text-muted[title=t('.unprocessed')]
             td= l(journal_entry_batch.date, format: :default)
-            td= journal_entry_batch.ref
             td= entry.soll_account
             td= entry.haben_account
             td= number_to_currency(entry.amount, unit: journal_entry_batch.currency)
-            td= JournalEntryBatch.human_enum(:book_types, entry.book_type)
+            td= entry.text
+            / td= JournalEntryBatch.human_enum(:book_types, entry.book_type)
             td= link_to journal_entry_batch.booking.ref, manage_booking_path(journal_entry_batch.booking)
 

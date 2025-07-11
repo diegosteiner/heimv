@@ -363,8 +363,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_151542) do
     t.integer "trigger", null: false
     t.uuid "booking_id", null: false
     t.datetime "processed_at"
-    t.jsonb "entries"
+    t.jsonb "fragments"
     t.string "text"
+    t.jsonb "entries"
+    t.string "type"
     t.index ["booking_id"], name: "index_journal_entry_batches_on_booking_id"
     t.index ["invoice_id"], name: "index_journal_entry_batches_on_invoice_id"
     t.index ["payment_id"], name: "index_journal_entry_batches_on_payment_id"
