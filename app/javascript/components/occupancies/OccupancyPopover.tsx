@@ -16,7 +16,7 @@ export const OccupancyPopover = React.memo(function OccupancyPopover({
   occupancyWindow,
 }: OccupancyPopoverProps) {
   const occupancies = occupancyWindow?.occupiedDates?.get(dateString) || new Set<Occupancy>();
-  if (!occupancies || occupancies.size <= 0) return <></>;
+  if (!occupancies || occupancies.size <= 0) return;
 
   return (
     <div className="occupancy-popover">

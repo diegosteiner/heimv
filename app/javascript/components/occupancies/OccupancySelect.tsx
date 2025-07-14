@@ -61,7 +61,7 @@ export default function OccupancySelect({
     }));
   }, [organisation]);
 
-  if (!organisation) return <>...</>;
+  if (!organisation) return "...";
   return (
     <Form.Group>
       <Form.Label className={cx({ required })}>{t("activerecord.attributes.booking.occupiable_ids")}</Form.Label>

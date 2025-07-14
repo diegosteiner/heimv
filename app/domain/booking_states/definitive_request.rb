@@ -60,6 +60,8 @@ module BookingStates
 
       MailTemplate.use(:manage_definitive_request_notification, booking, to: :administration, &:autodeliver!)
       MailTemplate.use(:definitive_request_notification, booking, to: :tenant, &:autodeliver!)
+
+      booking.conflicting_bookings.each(&:apply_transitions)
     end
 
     def relevant_time

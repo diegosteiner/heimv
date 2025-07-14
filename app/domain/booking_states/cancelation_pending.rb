@@ -25,6 +25,8 @@ module BookingStates
         MailTemplate.use(:operator_cancelation_pending_notification, booking, to:, &:autodeliver!)
       end
       MailTemplate.use(:manage_cancelation_pending_notification, booking, to: :administration, &:autodeliver!)
+
+      booking.conflicting_bookings.each(&:apply_transitions)
     end
 
     infer_transition(to: :cancelled) do |booking|

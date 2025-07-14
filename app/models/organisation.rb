@@ -138,21 +138,21 @@ class Organisation < ApplicationRecord
   end
 
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-  def initialize_copy(origin)
+  def initialize_copy(original)
     super
-    self.rich_text_templates = origin.rich_text_templates.map(&:dup)
-    self.booking_agents = origin.booking_agents.map(&:dup)
-    self.booking_categories = origin.booking_categories.map(&:dup)
-    self.tarifs = origin.tarifs.map(&:dup)
-    self.booking_questions = origin.booking_questions.map(&:dup)
-    self.designated_documents = origin.designated_documents.map(&:dup)
-    self.data_digest_templates = origin.data_digest_templates.map(&:dup)
+    self.rich_text_templates = original.rich_text_templates.map(&:dup)
+    self.booking_agents = original.booking_agents.map(&:dup)
+    self.booking_categories = original.booking_categories.map(&:dup)
+    self.tarifs = original.tarifs.map(&:dup)
+    self.booking_questions = original.booking_questions.map(&:dup)
+    self.designated_documents = original.designated_documents.map(&:dup)
+    self.data_digest_templates = original.data_digest_templates.map(&:dup)
 
-    return if origin.logo.blank?
+    return if original.logo.blank?
 
-    file.attach(io: StringIO.new(origin.logo.download),
-                filename: origin.logo.filename,
-                content_type: origin.logo.content_type)
+    file.attach(io: StringIO.new(original.logo.download),
+                filename: original.logo.filename,
+                content_type: original.logo.content_type)
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 end

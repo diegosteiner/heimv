@@ -229,10 +229,7 @@ describe 'Booking by tenant', :devise do
     end
 
     context 'with waitlist_enabled' do
-      before do
-        organisation.booking_state_settings.enable_waitlist = true
-        organisation.save!
-      end
+      before { organisation.tap { it.booking_state_settings.enable_waitlist = true }.save! }
 
       it 'returns no error' do
         visit new_booking_path
@@ -244,14 +241,15 @@ describe 'Booking by tenant', :devise do
     end
 
     context 'with waitlist_enabled and conflicting booking' do
-      before do
-        organisation.booking_state_settings.enable_waitlist = true
-        organisation.save!
+      let(:conflicting_booking) do
         create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
                          occupancy_type: :occupied, initial_state: :upcoming)
       end
 
+      before { organisation.tap { it.booking_state_settings.enable_waitlist = true }.save! }
+
       it 'returns error' do
+        conflicting_booking
         visit new_booking_path
         fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
                           home: booking.home)
