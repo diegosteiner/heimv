@@ -32,7 +32,7 @@ module JournalEntryBatches
       return new_batch.update!(trigger: :payment_created) if previous_batch.blank?
 
       date = payment.updated_at.to_date
-      previous_batch.dup.invert.update!(trigger: :payment_updated, date:, processed_at: nil)
+      previous_batch.dup.invert.update!(trigger: :payment_reverted, date:, processed_at: nil)
       new_batch.update!(trigger: :payment_updated, date:) unless payment.amount.zero?
     end
 
@@ -60,12 +60,12 @@ module JournalEntryBatches
         if payment.write_off
           build_with_payment_write_off(batch, payment, text:)
         else
-          build_with_payment_paid(batch, payment, text:)
+          build_with_paid_payment(batch, payment, text:)
         end
       end
     end
 
-    def self.build_with_payment_paid(batch, payment, text:)
+    def self.build_with_paid_payment(batch, payment, text:)
       batch.entry(amount: payment.amount, text:,
                   haben_account: payment.organisation.accounting_settings&.debitor_account_nr,
                   soll_account: payment.accounting_account_nr.presence ||

@@ -23,23 +23,21 @@ RSpec.describe JournalEntryBatches::Invoice do
       is_expected.to be_valid
       is_expected.to have_attributes(date: Date.new(2024, 12, 27), ref: '250001', amount: 420.0)
       expect(journal_entry_batch.entries).to contain_exactly(
-        have_attributes(soll_account: '1050', haben_account: '6000', amount: -200.0, book_type: 'main'),
-        have_attributes(soll_account: '1050', haben_account: '9001', amount: -200.0, book_type: 'cost'),
-        have_attributes(soll_account: '1050', haben_account: '2016', amount: -100.0, book_type: 'vat'),
-        have_attributes(soll_account: '1050', haben_account: '6000', amount: 480.0, book_type: 'main'),
-        have_attributes(soll_account: '1050', haben_account: '9001', amount: 480.0, book_type: 'cost'),
-        have_attributes(soll_account: '1050', haben_account: '2016', amount: 240.0, book_type: 'vat')
+        have_attributes(soll_account: '1050', haben_account: '6000', amount: -300.0, accounting_cost_center: '9001',
+                        vat_category_id: vat_category.id, vat_amount: -100.0),
+        have_attributes(soll_account: '1050', haben_account: '6000', amount: 720.0, accounting_cost_center: '9001',
+                        vat_category_id: vat_category.id, vat_amount: 240.0)
       )
     end
   end
 
   describe '::handle' do
-    before do
-      allow(described_class).to receive(:handle).and_call_original
-    end
+    subject(:journal_entry_batches) { invoice.journal_entry_batches.where(type: described_class.sti_name) }
+
+    before { allow(described_class).to receive(:handle).and_call_original }
 
     it 'creates, updates and deletes the journal_entry_batches' do # rubocop:disable RSpec/ExampleLength
-      expect(invoice.journal_entry_batches.where(type: described_class.sti_name).reload).to contain_exactly(
+      expect(journal_entry_batches.reload).to contain_exactly(
         have_attributes(trigger: 'invoice_created', amount: invoice.amount, processed?: be_falsy)
       )
       expect(described_class).to have_received(:handle).once
@@ -48,9 +46,9 @@ RSpec.describe JournalEntryBatches::Invoice do
       change_invoice_amount(invoice, amount: 77)
 
       expect(described_class).to have_received(:handle).twice
-      expect(invoice.journal_entry_batches.where(type: described_class.sti_name).reload).to contain_exactly(
+      expect(journal_entry_batches.reload).to contain_exactly(
         have_attributes(trigger: 'invoice_created', amount: 420, processed?: be_truthy),
-        have_attributes(trigger: 'invoice_updated', amount: 420, processed?: be_falsy),
+        have_attributes(trigger: 'invoice_reverted', amount: 420, processed?: be_falsy),
         have_attributes(trigger: 'invoice_updated', amount: 497, processed?: be_falsy)
       )
     end

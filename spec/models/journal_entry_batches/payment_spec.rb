@@ -42,34 +42,25 @@ RSpec.describe JournalEntryBatches::Payment do
   end
 
   describe '::handle' do
-    before do
-      allow(described_class).to receive(:handle).and_call_original
-    end
+    subject(:journal_entry_batches) { payment.journal_entry_batches.where(type: described_class.sti_name) }
 
-    it 'creates, updates and deletes the journal_entry_batches' do # rubocop:disable RSpec/NoExpectationExample
-      #   expect(invoice.journal_entry_batches.where(type: described_class.sti_name).reload).to contain_exactly(
-      #     have_attributes(trigger: 'invoice_created', amount: invoice.amount, processed?: be_falsy)
-      #   )
-      #   expect(described_class).to have_received(:handle).once
+    before { allow(described_class).to receive(:handle).and_call_original }
 
-      #   process_entries(invoice)
-      #   change_invoice_amount(invoice, amount: 77)
+    it 'creates, updates and deletes the journal_entry_batches' do # rubocop:disable RSpec/ExampleLength
+      expect(journal_entry_batches.reload).to contain_exactly(
+        have_attributes(trigger: 'payment_created', amount: payment.amount, processed?: be_falsy)
+      )
+      expect(described_class).to have_received(:handle).twice
 
-      #   expect(described_class).to have_received(:handle).twice
-      #   expect(invoice.journal_entry_batches.where(type: described_class.sti_name).reload).to contain_exactly(
-      #     have_attributes(trigger: 'invoice_created', amount: 420, processed?: be_truthy),
-      #     have_attributes(trigger: 'invoice_updated', amount: 420, processed?: be_falsy),
-      #     have_attributes(trigger: 'invoice_updated', amount: 497, processed?: be_falsy)
-      #   )
-      # end
+      journal_entry_batches.update_all(processed_at: Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+      payment.update(amount: 350)
 
-      # def process_entries(invoice)
-      #   invoice.journal_entry_batches.update_all(processed_at: Time.zone.now)
-      # end
-
-      # def change_invoice_amount(invoice, amount:)
-      #   invoice.invoice_parts.last.update(amount: invoice.invoice_parts.last.amount + amount)
-      #   invoice.save!
+      expect(described_class).to have_received(:handle).exactly(3).times
+      expect(journal_entry_batches.reload).to contain_exactly(
+        have_attributes(trigger: 'payment_created', amount: 300, processed?: be_truthy),
+        have_attributes(trigger: 'payment_reverted', amount: 300, processed?: be_falsy),
+        have_attributes(trigger: 'payment_updated', amount: 350, processed?: be_falsy)
+      )
     end
   end
 end

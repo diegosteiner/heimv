@@ -31,8 +31,8 @@ class JournalEntryBatch < ApplicationRecord
 
   has_one :organisation, through: :booking
 
-  enum :trigger, { invoice_created: 11, invoice_updated: 12, invoice_discarded: 13,
-                   payment_created: 21, payment_updated: 22, payment_discarded: 23 }, prefix: true
+  enum :trigger, { invoice_created: 11, invoice_updated: 12, invoice_discarded: 13, invoice_reverted: 14,
+                   payment_created: 21, payment_updated: 22, payment_discarded: 23, payment_reverted: 24 }, prefix: true
 
   attribute :entries, Entry.to_array_type, default: -> { [] }
   attribute :processed, :boolean

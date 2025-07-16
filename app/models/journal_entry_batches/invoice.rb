@@ -45,7 +45,7 @@ module JournalEntryBatches
       return new_batch.update!(trigger: :invoice_created, date:) if previous_batch.blank?
 
       date = invoice.updated_at.to_date
-      previous_batch.dup.invert.update!(trigger: :invoice_updated, date:, processed_at: nil)
+      previous_batch.dup.invert.update!(trigger: :invoice_reverted, date:, processed_at: nil)
       new_batch.update!(trigger: :invoice_updated, date:)
     end
 
@@ -78,42 +78,48 @@ module JournalEntryBatches
     end
 
     def self.build_with_invoice_part(batch, invoice_part)
-      return unless invoice_part.is_a?(InvoiceParts::Add) || invoice_part.is_a?(InvoiceParts::Deposit)
-
-      text = "#{invoice_part.invoice.ref} - #{invoice_part.invoice.booking.tenant.last_name}: #{invoice_part.label}"
-      soll_account = invoice_part.organisation.accounting_settings&.debitor_account_nr || 0
-
-      build_with_invoice_part_main(batch, invoice_part, soll_account:, text:)
-      build_with_invoice_part_cost_center(batch, invoice_part, soll_account:, text:)
-      build_with_invoice_part_vat_category(batch, invoice_part, soll_account:, text:)
+      case invoice_part
+      when InvoiceParts::Add, InvoiceParts::Deposit
+        build_with_add_invoice_part(batch, invoice_part)
+      end
     end
 
-    def self.build_with_invoice_part_main(batch, invoice_part, soll_account:, text:)
-      return if invoice_part.amount.zero?
+    def self.build_with_add_invoice_part(batch, invoice_part)
+      text = invoice_part_text(invoice_part)
 
-      invoice_part_id = invoice_part.id
-      haben_account = invoice_part.accounting_account_nr ||
-                      invoice_part.organisation.accounting_settings&.rental_yield_account_nr.presence || 0
-      batch.entry(soll_account:, text:, amount: invoice_part.vat_breakdown[:netto], invoice_part_id:, haben_account:,
-                  vat_category_id: invoice_part.vat_category_id)
+      invoice_part.instance_exec do
+        batch.entry(soll_account: organisation.accounting_settings&.debitor_account_nr || 0,
+                    haben_account: accounting_account_nr ||
+                        organisation.accounting_settings&.rental_yield_account_nr.presence || 0,
+                    text:, invoice_part_id: id, amount:, vat_amount: vat_breakdown[:vat], vat_category_id:,
+                    accounting_cost_center: accounting_cost_center_nr.presence)
+      end
     end
 
-    def self.build_with_invoice_part_cost_center(batch, invoice_part, soll_account:, text:)
-      return if invoice_part.accounting_cost_center_nr.blank? || invoice_part.amount.zero?
-
-      invoice_part_id = invoice_part.id
-      batch.entry(soll_account:, text:, haben_account: invoice_part.accounting_cost_center_nr,
-                  book_type: :cost, amount: invoice_part.vat_breakdown[:netto], invoice_part_id:,
-                  vat_category_id: invoice_part.vat_category_id)
+    def self.invoice_part_text(invoice_part)
+      "#{invoice_text(invoice_part.invoice)}: #{invoice_part.label}"
     end
 
-    def self.build_with_invoice_part_vat_category(batch, invoice_part, soll_account:, text:)
-      return if invoice_part.vat_category.blank? || invoice_part.amount.zero?
-
-      invoice_part_id = invoice_part.id
-      batch.entry(soll_account:, text:, haben_account: invoice_part.organisation.accounting_settings.vat_account_nr,
-                  book_type: :vat, amount: invoice_part.vat_breakdown[:vat], invoice_part_id:,
-                  vat_category_id: invoice_part.vat_category_id)
+    def self.invoice_text(invoice)
+      "#{invoice.ref} - #{invoice.booking.tenant.last_name}"
     end
+
+    # def self.build_with_invoice_part_cost_center(batch, invoice_part, soll_account:, text:)
+    #   return if invoice_part.accounting_cost_center_nr.blank? || invoice_part.amount.zero?
+
+    #   invoice_part_id = invoice_part.id
+    #   batch.entry(soll_account:, text:, haben_account: invoice_part.accounting_cost_center_nr,
+    #               book_type: :cost, amount: invoice_part.vat_breakdown[:netto], invoice_part_id:,
+    #               vat_category_id: invoice_part.vat_category_id)
+    # end
+
+    # def self.build_with_invoice_part_vat_category(batch, invoice_part, soll_account:, text:)
+    #   return if invoice_part.vat_category.blank? || invoice_part.amount.zero?
+
+    #   invoice_part_id = invoice_part.id
+    #   batch.entry(soll_account:, text:, haben_account: invoice_part.organisation.accounting_settings.vat_account_nr,
+    #               book_type: :vat, amount: invoice_part.vat_breakdown[:vat], invoice_part_id:,
+    #               vat_category_id: invoice_part.vat_category_id)
+    # end
   end
 end

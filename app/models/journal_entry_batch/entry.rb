@@ -10,6 +10,8 @@ class JournalEntryBatch
     attribute :text, :string
     attribute :invoice_part_id, :integer
     attribute :vat_category_id, :integer
+    attribute :vat_amount, :decimal
+    attribute :accounting_cost_center
 
     enum :book_type, { main: 0, cost: 1, vat: 2 }, _prefix: true, default: :main # rubocop:disable Rails/EnumSyntax
 
@@ -21,7 +23,7 @@ class JournalEntryBatch
     end
 
     def to_h
-      attributes
+      attributes.symbolize_keys
     end
 
     def to_s
@@ -30,9 +32,9 @@ class JournalEntryBatch
       "#{soll_account} => #{haben_account} #{formatted_amount} (#{book_type}): #{text}"
     end
 
-    def related_entries
-      entries.filter { it.invoice_part_id = invoice_part_id }.group_by(&:book_type).symbolize_keys
-    end
+    # def related_entries
+    #   entries.filter { it.invoice_part_id = invoice_part_id }.group_by(&:book_type).symbolize_keys
+    # end
 
     # def related(book_type)
     #   journal_entry_batch.entry_relations[invoice_part_id]&.fetch(book_type&.to_sym, nil)
@@ -54,8 +56,9 @@ class JournalEntryBatch
     end
 
     def equivalent?(other)
-      attributes.slice(*%w[soll_account haben_account amount book_type invoice_part_id vat_category_id]) ==
-        other.attributes.slice(*%w[soll_account haben_account amount book_type invoice_part_id vat_category_id])
+      irrelevant_attributes = %w[text]
+      parent == other&.parent &&
+        attributes.except(*irrelevant_attributes) == other&.attributes&.except(*irrelevant_attributes)
     end
 
     def invert
