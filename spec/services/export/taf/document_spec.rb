@@ -5,8 +5,8 @@ require 'rails_helper'
 describe Export::Taf::Document, type: :model do
   subject(:taf_document) do
     described_class.new do
-      block(:Blg, text: 'TAF is "great"', test: 1) do
-        block(:Bk, test: 2)
+      Export::Taf::Block.new(:Blg, text: 'TAF is "great"', test: 1) do
+        Export::Taf::Block.new(:Bk, test: 2)
       end
     end
   end

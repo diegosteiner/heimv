@@ -5,8 +5,10 @@ require 'rails_helper'
 RSpec.describe JournalEntryBatches::Payment do
   let(:organisation) { create(:organisation, :with_accounting) }
   let(:invoice) { booking.invoices.last }
-  let(:payment) { create(:payment, invoice:, booking:, amount: 300, paid_at: '2024-12-27') }
   let(:booking) { create(:booking, :invoiced, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27') }
+  let(:payment) do
+    create(:payment, invoice:, booking:, amount: 300, paid_at: '2024-12-27', accounting_cost_center_nr: '9001')
+  end
 
   describe '::build_with_payment' do
     subject(:journal_entry_batch) { described_class.build_with_payment(payment, trigger: :payment_created) }
@@ -35,7 +37,7 @@ RSpec.describe JournalEntryBatches::Payment do
         is_expected.to be_valid
         is_expected.to have_attributes(date: Date.new(2024, 12, 27), ref: payment.id.to_s, amount: 300.0)
         expect(journal_entry_batch.entries).to contain_exactly(
-          have_attributes(soll_account: '6000', haben_account: '1050', amount: 300.0, book_type: 'main')
+          have_attributes(soll_account: '6000', haben_account: '1050', amount: 300.0, cost_center: '9001')
         )
       end
     end
@@ -48,7 +50,7 @@ RSpec.describe JournalEntryBatches::Payment do
 
     it 'creates, updates and deletes the journal_entry_batches' do # rubocop:disable RSpec/ExampleLength
       expect(journal_entry_batches.reload).to contain_exactly(
-        have_attributes(trigger: 'payment_created', amount: payment.amount, processed?: be_falsy)
+        have_attributes(trigger: 'payment_created', amount: payment.amount, processed?: be_falsy, cost_center: '9001')
       )
       expect(described_class).to have_received(:handle).twice
 
@@ -57,9 +59,9 @@ RSpec.describe JournalEntryBatches::Payment do
 
       expect(described_class).to have_received(:handle).exactly(3).times
       expect(journal_entry_batches.reload).to contain_exactly(
-        have_attributes(trigger: 'payment_created', amount: 300, processed?: be_truthy),
-        have_attributes(trigger: 'payment_reverted', amount: 300, processed?: be_falsy),
-        have_attributes(trigger: 'payment_updated', amount: 350, processed?: be_falsy)
+        have_attributes(trigger: 'payment_created', amount: 300, processed?: be_truthy, cost_center: '9001'),
+        have_attributes(trigger: 'payment_reverted', amount: 300, processed?: be_falsy, cost_center: '9001'),
+        have_attributes(trigger: 'payment_updated', amount: 350, processed?: be_falsy, cost_center: '9001')
       )
     end
   end

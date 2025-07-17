@@ -23,9 +23,9 @@ RSpec.describe JournalEntryBatches::Invoice do
       is_expected.to be_valid
       is_expected.to have_attributes(date: Date.new(2024, 12, 27), ref: '250001', amount: 420.0)
       expect(journal_entry_batch.entries).to contain_exactly(
-        have_attributes(soll_account: '1050', haben_account: '6000', amount: -300.0, accounting_cost_center: '9001',
+        have_attributes(soll_account: '1050', haben_account: '6000', amount: -300.0, cost_center: '9001',
                         vat_category_id: vat_category.id, vat_amount: -100.0),
-        have_attributes(soll_account: '1050', haben_account: '6000', amount: 720.0, accounting_cost_center: '9001',
+        have_attributes(soll_account: '1050', haben_account: '6000', amount: 720.0, cost_center: '9001',
                         vat_category_id: vat_category.id, vat_amount: 240.0)
       )
     end

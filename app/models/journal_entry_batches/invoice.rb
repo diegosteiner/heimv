@@ -92,7 +92,7 @@ module JournalEntryBatches
                     haben_account: accounting_account_nr ||
                         organisation.accounting_settings&.rental_yield_account_nr.presence || 0,
                     text:, invoice_part_id: id, amount:, vat_amount: vat_breakdown[:vat], vat_category_id:,
-                    accounting_cost_center: accounting_cost_center_nr.presence)
+                    cost_center: accounting_cost_center_nr.presence)
       end
     end
 
@@ -103,23 +103,5 @@ module JournalEntryBatches
     def self.invoice_text(invoice)
       "#{invoice.ref} - #{invoice.booking.tenant.last_name}"
     end
-
-    # def self.build_with_invoice_part_cost_center(batch, invoice_part, soll_account:, text:)
-    #   return if invoice_part.accounting_cost_center_nr.blank? || invoice_part.amount.zero?
-
-    #   invoice_part_id = invoice_part.id
-    #   batch.entry(soll_account:, text:, haben_account: invoice_part.accounting_cost_center_nr,
-    #               book_type: :cost, amount: invoice_part.vat_breakdown[:netto], invoice_part_id:,
-    #               vat_category_id: invoice_part.vat_category_id)
-    # end
-
-    # def self.build_with_invoice_part_vat_category(batch, invoice_part, soll_account:, text:)
-    #   return if invoice_part.vat_category.blank? || invoice_part.amount.zero?
-
-    #   invoice_part_id = invoice_part.id
-    #   batch.entry(soll_account:, text:, haben_account: invoice_part.organisation.accounting_settings.vat_account_nr,
-    #               book_type: :vat, amount: invoice_part.vat_breakdown[:vat], invoice_part_id:,
-    #               vat_category_id: invoice_part.vat_category_id)
-    # end
   end
 end

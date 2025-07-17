@@ -11,7 +11,8 @@ module Export
       def initialize(type, children = nil, **properties, &)
         @type = type
         @properties = properties.transform_values { Value.cast(it) }
-        @children = Array.wrap(children) + Builder.build(&)
+        @children = Array.wrap(children)
+        @children += Array.wrap(yield(self)).flatten.compact if block_given?
       end
 
       def serialize(indent_level: 0, indent_with: '  ', separate_with: "\n")

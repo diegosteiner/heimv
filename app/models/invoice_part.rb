@@ -65,7 +65,7 @@ class InvoicePart < ApplicationRecord
   end
 
   def sum_of_predecessors
-    invoice.invoice_parts.ordered.inject(0) do |sum, invoice_part|
+    invoice.invoice_parts.ordered.reduce(0) do |sum, invoice_part|
       break sum if invoice_part == self
 
       invoice_part.to_sum(sum)

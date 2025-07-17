@@ -43,6 +43,10 @@ class JournalEntryBatch < ApplicationRecord
 
   validates :ref, :currency, :date, :trigger, presence: true
   validates :entries, store_model: true
+  validate do
+    # Ensure batch is only composed of one businesscase. This should never happen
+    error.add(:entries, :invalid) if !accounts[:soll].count == 1 && !accounts[:haben].count == 1
+  end
 
   scope :ordered, -> { order(date: :ASC, created_at: :ASC) }
   scope :processed, -> { where.not(processed_at: nil) }
@@ -97,7 +101,11 @@ class JournalEntryBatch < ApplicationRecord
     entries << Entry.new(soll_account:, haben_account:, amount:, **attributes)
   end
 
+  def accounts
+    { soll: Set[*entries.map(&:soll_account)], haben: Set[*entries.map(&:haben_account)] }
+  end
+
   def amount
-    entries.inject(0) { |sum, entry| entry.book_type_cost? ? sum : sum + entry.amount }
+    entries.reduce(0) { |sum, entry| entry.book_type_cost? ? sum : sum + entry.amount }
   end
 end

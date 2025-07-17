@@ -11,7 +11,7 @@ class JournalEntryBatch
     attribute :invoice_part_id, :integer
     attribute :vat_category_id, :integer
     attribute :vat_amount, :decimal
-    attribute :accounting_cost_center
+    attribute :cost_center
 
     enum :book_type, { main: 0, cost: 1, vat: 2 }, _prefix: true, default: :main # rubocop:disable Rails/EnumSyntax
 
@@ -32,14 +32,6 @@ class JournalEntryBatch
       "#{soll_account} => #{haben_account} #{formatted_amount} (#{book_type}): #{text}"
     end
 
-    # def related_entries
-    #   entries.filter { it.invoice_part_id = invoice_part_id }.group_by(&:book_type).symbolize_keys
-    # end
-
-    # def related(book_type)
-    #   journal_entry_batch.entry_relations[invoice_part_id]&.fetch(book_type&.to_sym, nil)
-    # end
-
     def invoice_part
       @invoice_part ||= parent&.invoice&.invoice_parts&.find(invoice_part_id) if invoice_part_id.present?
     end
@@ -49,10 +41,7 @@ class JournalEntryBatch
     end
 
     def vat_breakup
-      return vat_category&.breakup(vat: amount) if book_type_vat?
-      return vat_category&.breakup(netto: amount) if book_type_main?
-
-      nil
+      vat_category&.breakup(brutto: amount)
     end
 
     def equivalent?(other)

@@ -27,12 +27,13 @@ FactoryBot.define do
     date { '2024-12-12' }
     ref { 'JournalEntryBatchRef' }
     currency { booking.organisation.currency }
-    trigger { :invoice_updated }
+    trigger { :invoice_created }
     transient do
       soll_account_nr { '1050' }
       haben_account_nr { '6000' }
       amount { 1000 }
       vat_category_id { nil }
+      accounting_cost_center { nil }
       text { Faker::Commerce.department }
     end
 
@@ -41,16 +42,12 @@ FactoryBot.define do
 
       journal_entry_batch.assign_attributes(entries_attributes: [
                                               {
-                                                account_nr: evaluator.soll_account_nr,
+                                                soll_account: evaluator.soll_account_nr,
+                                                haben_account: evaluator.haben_account_nr,
                                                 amount: evaluator.amount,
-                                                text: evaluator.text, side: :soll,
-                                                vat_category_id: evaluator.vat_category_id
-                                              },
-                                              {
-                                                account_nr: evaluator.haben_account_nr,
-                                                amount: evaluator.amount,
-                                                text: evaluator.text, side: :haben,
-                                                vat_category_id: evaluator.vat_category_id
+                                                text: evaluator.text,
+                                                vat_category_id: evaluator.vat_category_id,
+                                                cost_center: evaluator.accounting_cost_center
                                               }
                                             ])
     end
