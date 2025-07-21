@@ -28,8 +28,8 @@ class JournalEntryBatch
     end
 
     filter :triggers do |journal_entry_batches|
-      trigger = Array.wrap(triggers) & JournalEntryBatch.triggers.keys
-      next if triggers.blank?
+      trigger = (Array.wrap(triggers) & JournalEntryBatch.triggers.keys).compact_blank
+      next if trigger.blank?
 
       journal_entry_batches.where(trigger:)
     end

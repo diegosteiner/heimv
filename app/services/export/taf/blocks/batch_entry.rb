@@ -91,7 +91,7 @@ module Export
           super(:Bk, **properties, &)
         end
 
-        def self.build_main_batch_entry(entry, side, **override) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/AbcSize,Metrics/PerceivedComplexity
+        def self.build_main_batch_entry(entry, side, **override) # rubocop:disable Metrics/CyclomaticComplexity
           return unless entry.valid?
 
           new(AccId: side.soll? ? entry.soll_account : entry.haben_account,
@@ -102,11 +102,11 @@ module Export
               # MkTxB: entry.vat_category&.accounting_vat_code.present?,
               Type: side.to_type,
               ValNt: entry.vat_breakup&.[](:netto) || entry.amount,
-              ValTx: entry.vat_breakup&.[](:vat),
+              ValTx: entry.vat_amount,
               CAcc: side.soll? ? entry.haben_account : entry.soll_account, **override)
         end
 
-        def self.build_vat_batch_entry(entry, side, **override) # rubocop:disable Metrics/AbcSize
+        def self.build_vat_batch_entry(entry, side, **override)
           return if entry.vat_category.blank? || entry.vat_breakup.blank?
 
           vat_account_nr = entry.journal_entry_batch.organisation.accounting_settings.vat_account_nr
@@ -115,7 +115,7 @@ module Export
               CAcc: side.soll? ? entry.haben_account : entry.soll_account,
               Date: entry.journal_entry_batch.date,
               Text: entry.text, Type: side.to_type,
-              ValNt: entry.vat_breakup.[](:vat),
+              ValNt: entry.vat_amount,
               ValTx: entry.vat_breakup.[](:netto),
               **override)
         end

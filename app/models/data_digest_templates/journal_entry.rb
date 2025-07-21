@@ -22,31 +22,39 @@ module DataDigestTemplates
     DEFAULT_COLUMN_CONFIG = [
       {
         header: ::JournalEntryBatch.human_attribute_name(:date),
-        body: '{{ journal_entry_batch_entry.journal_entry_batch.date | date_format }}'
+        body: '{{ journal_entry.journal_entry_batch.date | date_format }}'
       },
       {
-        header: ::JournalEntryBatch.human_attribute_name(:ref),
-        body: '{{ journal_entry_batch_entry.journal_entry_batch.ref }}'
+        header: ::JournalEntryBatch.model_name.human,
+        body: '{{ journal_entry.journal_entry_batch_id }}'
       },
       {
         header: ::JournalEntryBatch.human_attribute_name(:text),
-        body: '{{ journal_entry_batch_entry.text }}'
+        body: '{{ journal_entry.text }}'
       },
       {
-        header: ::JournalEntryBatch.human_attribute_name(:soll_account),
-        body: '{{ journal_entry_batch_entry.soll_account }}'
+        header: ::JournalEntryBatch::Entry.human_attribute_name(:soll_account),
+        body: '{{ journal_entry.soll_account }}'
       },
       {
-        header: ::JournalEntryBatch.human_attribute_name(:haben_account),
-        body: '{{ journal_entry_batch_entry.haben_account }}'
+        header: ::JournalEntryBatch::Entry.human_attribute_name(:haben_account),
+        body: '{{ journal_entry.haben_account }}'
       },
       {
         header: ::JournalEntryBatch.human_attribute_name(:amount),
-        body: '{{ journal_entry_batch_entry.amount | round: 2 }}'
+        body: '{{ journal_entry.amount | round: 2 }}'
       },
       {
-        header: ::JournalEntryBatch.human_attribute_name(:book_type),
-        body: '{{ journal_entry_batch_entry.book_type }}'
+        header: ::VatCategory.human_attribute_name(:accounting_vat_code),
+        body: '{{ journal_entry.vat_category.accounting_vat_code }}'
+      },
+      {
+        header: ::JournalEntryBatch::Entry.human_attribute_name(:vat_amount),
+        body: '{{ journal_entry.vat_amount | round: 2 }}'
+      },
+      {
+        header: ::JournalEntryBatch::Entry.human_attribute_name(:cost_center),
+        body: '{{ journal_entry.cost_center }}'
       },
       {
         header: ::Booking.human_attribute_name(:ref),
@@ -55,10 +63,10 @@ module DataDigestTemplates
     ].freeze
 
     column_type :default do
-      body do |journal_entry_batch_entry, template_context_cache|
-        booking = journal_entry_batch_entry.parent.booking
-        context = template_context_cache[cache_key(journal_entry_batch_entry)] ||=
-          TemplateContext.new(booking:, organisation: booking.organisation, journal_entry_batch_entry:).to_h
+      body do |journal_entry, template_context_cache|
+        booking = journal_entry.parent.booking
+        context = template_context_cache[cache_key(journal_entry)] ||=
+          TemplateContext.new(booking:, organisation: booking.organisation, journal_entry:).to_h
         @templates[:body]&.render!(context)
       end
     end
@@ -75,9 +83,8 @@ module DataDigestTemplates
     end
 
     formatter(:taf) do |_options = {}|
-      journal_entry_batches = records
       Export::Taf::Document.new do
-        journal_entry_batches.each { journal_entry_batch(it) }
+        records.map { Export::Taf::Blocks::Batch.build_with_journal_entry_batch(it) }
       end.serialize
     end
 
