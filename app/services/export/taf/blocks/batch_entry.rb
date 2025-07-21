@@ -91,7 +91,7 @@ module Export
           super(:Bk, **properties, &)
         end
 
-        def self.build_main_batch_entry(entry, side, **override) # rubocop:disable Metrics/CyclomaticComplexity
+        def self.build_main_batch_entry(entry, side, **override) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/AbcSize,Metrics/PerceivedComplexity
           return unless entry.valid?
 
           new(AccId: side.soll? ? entry.soll_account : entry.haben_account,
@@ -101,13 +101,13 @@ module Export
               Text: entry.text,
               # MkTxB: entry.vat_category&.accounting_vat_code.present?,
               Type: side.to_type,
-              ValNt: entry.vat_breakup&.[](:netto), ValTx: entry.vat_breakup&.[](:vat),
-              CAcc: side.soll? ? entry.haben_account : entry.soll_account,
-              **override)
+              ValNt: entry.vat_breakup&.[](:netto) || entry.amount,
+              ValTx: entry.vat_breakup&.[](:vat),
+              CAcc: side.soll? ? entry.haben_account : entry.soll_account, **override)
         end
 
-        def self.build_vat_batch_entry(entry, side, **override)
-          return if entry.vat_category.blank?
+        def self.build_vat_batch_entry(entry, side, **override) # rubocop:disable Metrics/AbcSize
+          return if entry.vat_category.blank? || entry.vat_breakup.blank?
 
           vat_account_nr = entry.journal_entry_batch.organisation.accounting_settings.vat_account_nr
           new(AccId: vat_account_nr,
@@ -115,8 +115,8 @@ module Export
               CAcc: side.soll? ? entry.haben_account : entry.soll_account,
               Date: entry.journal_entry_batch.date,
               Text: entry.text, Type: side.to_type,
-              ValNt: entry.vat_breakup&.[](:vat),
-              ValTx: entry.vat_breakup&.[](:netto),
+              ValNt: entry.vat_breakup.[](:vat),
+              ValTx: entry.vat_breakup.[](:netto),
               **override)
         end
 
@@ -127,7 +127,7 @@ module Export
               BType: 1,
               Date: entry.journal_entry_batch.date,
               Text: entry.text, Type: side.to_type,
-              ValNt: entry.vat_breakup&.[](:netto),
+              ValNt: entry.vat_breakup&.[](:netto) || entry.amount,
               CAcc: side.soll? ? entry.soll_account : entry.haben_account,
               **override)
         end
@@ -150,12 +150,20 @@ module Export
           blocks
         end
 
-        def self.determine_primary(journal_entry_batch)
+        def self.determine_primary(journal_entry_batch) # rubocop:disable Metrics/MethodLength
+          soll = [Side.new(:soll), journal_entry_batch.accounts[:soll].first]
+          haben = [Side.new(:haben), journal_entry_batch.accounts[:haben].first]
+
           case journal_entry_batch.trigger&.to_sym
           when :invoice_created, :invoice_updated, :payment_reverted, :payment_discarded
-            [Side.new(:soll), journal_entry_batch.accounts[:soll].first]
+            soll
           when :payment_created, :payment_updated, :invoice_reverted, :invoice_discarded
-            [Side.new(:haben), journal_entry_batch.accounts[:haben].first]
+            # special case: paybacks
+            if journal_entry_batch.is_a?(JournalEntryBatches::Payment) && journal_entry_batch.payment&.payback?
+              return soll
+            end
+
+            haben
           else
             raise NotImplementedError
           end

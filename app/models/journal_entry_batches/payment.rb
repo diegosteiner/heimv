@@ -52,11 +52,11 @@ module JournalEntryBatches
     end
 
     def self.build_with_payment(payment, **attributes)
-      text = "#{Payment.model_name.human} #{payment.invoice&.ref || payment&.paid_at}"
-      date =  payment.paid_at
+      text = "#{::Payment.model_name.human} #{payment.invoice&.ref || payment&.paid_at}"
+      invoice = payment.invoice
       booking = payment.booking
 
-      new(ref: payment.id, date:, invoice: payment.invoice, payment:, booking:, **attributes).tap do |batch|
+      new(ref: payment.id, date: payment.paid_at, text:, invoice:, payment:, booking:, **attributes).tap do |batch|
         if payment.write_off
           build_with_payment_write_off(batch, payment, text:)
         else
@@ -70,7 +70,7 @@ module JournalEntryBatches
                   haben_account: payment.organisation.accounting_settings&.debitor_account_nr,
                   soll_account: payment.accounting_account_nr.presence ||
                                 payment.organisation.accounting_settings&.payment_account_nr,
-                  cost_center: payment.accounting_cost_center_nr)
+                  cost_center: payment.accounting_cost_center_nr).abs
     end
 
     def self.build_with_payment_write_off(batch, payment, text:)

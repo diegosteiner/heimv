@@ -29,7 +29,7 @@ class JournalEntryBatch
     def to_s
       formatted_amount = ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.',
                                                                                 unit: parent.currency || '')
-      "#{soll_account} => #{haben_account} #{formatted_amount} (#{book_type}): #{text}"
+      "#{soll_account} => #{haben_account} #{formatted_amount}: #{text}"
     end
 
     def invoice_part

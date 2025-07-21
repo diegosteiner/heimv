@@ -98,7 +98,9 @@ class JournalEntryBatch < ApplicationRecord
   end
 
   def entry(soll_account:, haben_account:, amount:, **attributes)
-    entries << Entry.new(soll_account:, haben_account:, amount:, **attributes)
+    Entry.new(soll_account:, haben_account:, amount:, **attributes).tap do |entry|
+      entries << entry
+    end
   end
 
   def accounts

@@ -16,7 +16,7 @@ module Export
           build_with_default_journal_entry_batch(journal_entry_batch)
         end
 
-        def self.build_with_invoice_created_journal_entry_batch(journal_entry_batch, **override)
+        def self.build_with_invoice_created_journal_entry_batch(journal_entry_batch)
           [
             Address.build_with_tenant(journal_entry_batch.booking.tenant),
             PersonAccount.build_with_tenant(journal_entry_batch.booking.tenant),
@@ -26,8 +26,10 @@ module Export
           ]
         end
 
-        def self.build_with_default_journal_entry_batch(journal_entry_batch, **override)
-          new(BatchEntry.build_with_journal_entry_batch(journal_entry_batch), Date: journal_entry_batch.date)
+        def self.build_with_default_journal_entry_batch(journal_entry_batch)
+          new(BatchEntry.build_with_journal_entry_batch(journal_entry_batch),
+              Date: journal_entry_batch.date,
+              Orig: journal_entry_batch.trigger_payment_created? || journal_entry_batch.trigger_invoice_created?)
         end
       end
     end

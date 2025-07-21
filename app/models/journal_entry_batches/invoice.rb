@@ -25,7 +25,7 @@ module JournalEntryBatches
     JournalEntryBatch.register_subtype self
 
     def self.handle(invoice)
-      return unless invoice.is_a?(Invoices::Deposit) || invoice.is_a?(Invoices::Invoice)
+      return unless invoice.is_a?(::Invoices::Deposit) || invoice.is_a?(::Invoices::Invoice)
 
       existing_batches(invoice).unprocessed.destroy_all
       return handle_destroy(invoice) if invoice.destroyed?
@@ -66,7 +66,7 @@ module JournalEntryBatches
     end
 
     def self.build_with_invoice(invoice, **attributes)
-      return unless invoice.is_a?(Invoices::Deposit) || invoice.is_a?(Invoices::Invoice)
+      return unless invoice.is_a?(::Invoices::Deposit) || invoice.is_a?(::Invoices::Invoice)
 
       text = "#{invoice.ref} - #{invoice.booking.tenant.last_name}"
       booking = invoice.booking
@@ -79,7 +79,7 @@ module JournalEntryBatches
 
     def self.build_with_invoice_part(batch, invoice_part)
       case invoice_part
-      when InvoiceParts::Add, InvoiceParts::Deposit
+      when ::InvoiceParts::Add, ::InvoiceParts::Deposit
         build_with_add_invoice_part(batch, invoice_part)
       end
     end

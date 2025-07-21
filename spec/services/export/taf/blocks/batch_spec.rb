@@ -15,19 +15,18 @@ describe Export::Taf::Blocks::Batch, type: :model do
     organisation.tap { it.accounting_settings.rental_yield_vat_category_id = vat_category.id }.save!
   end
 
-  describe '#build_with_journal_entry_batch' do
+  describe 'JournalEntryBatches::Invoice' do
     subject(:blocks) { Array.wrap(described_class.build_with_journal_entry_batch(journal_entry_batch)) }
 
     let(:taf) { blocks.map(&:to_s).join("\n\n") }
+    let(:invoice) { booking.invoices.last }
+    let(:journal_entry_batch) { JournalEntryBatch.where(booking:, invoice:, payment: nil).last }
+    let(:booking) do
+      create(:booking, :invoiced, tenant:, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27',
+                                  prepaid_amount: 300, vat_category:)
+    end
 
-    context 'with invoice' do
-      let(:invoice) { booking.invoices.last }
-      let(:journal_entry_batch) { JournalEntryBatch.where(booking:, invoice:, payment: nil).last }
-      let(:booking) do
-        create(:booking, :invoiced, tenant:, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27',
-                                    prepaid_amount: 300, vat_category:)
-      end
-
+    context 'with invoice_created' do
       it do # rubocop:disable RSpec/ExampleLength
         expect(taf).to eq(<<~TAF.chomp)
           {Adr
@@ -158,7 +157,7 @@ describe Export::Taf::Blocks::Batch, type: :model do
       end
     end
 
-    context 'with payment' do
+    describe 'JournalEntryBatches::Payment' do
       let(:booking) do
         create(:booking, :invoiced, tenant:, organisation:, begins_at: '2024-12-20', ends_at: '2024-12-27')
       end
@@ -171,34 +170,70 @@ describe Export::Taf::Blocks::Batch, type: :model do
         JournalEntryBatch.where(booking:, invoice:, payment: nil).update_all(processed_at: 1.month.ago) # rubocop:disable Rails/SkipsModelValidations
       end
 
-      it do # rubocop:disable RSpec/ExampleLength
-        expect(blocks).to all(be_a(Export::Taf::Block))
-        expect(blocks.first.to_s).to eq(<<~TAF.chomp)
-          {Blg
-            Date=24.12.2024
-            Orig=1
-
-            {Bk
-              AccId=1025
+      context 'with payment_created' do
+        it do # rubocop:disable RSpec/ExampleLength
+          expect(taf).to eq(<<~TAF.chomp)
+            {Blg
               Date=24.12.2024
-              Text="Zahlung 240001"
-              Type=0
-              ValNt=999.99
-              PkKey=#{booking.tenant.ref}
-              OpId=240001
+              Orig=1
 
+              {Bk
+                AccId=1050
+                Date=24.12.2024
+                Text="Zahlung 240001"
+                Type=1
+                ValNt=999.99
+                PkKey=#{booking.tenant.ref}
+                OpId=240001
+
+              }
+
+              {Bk
+                AccId=1025
+                Date=24.12.2024
+                Text="Zahlung 240001"
+                Type=0
+                ValNt=999.99
+                CAcc=1050
+
+              }
             }
+          TAF
+        end
+      end
 
-            {Bk
-              AccId=1050
+      context 'with payment_created and negative amount' do
+        let(:payment) { Payment.create!(booking:, invoice:, amount: -300.0, paid_at: '2024-12-24', write_off: false) }
+
+        it do # rubocop:disable RSpec/ExampleLength
+          expect(taf).to eq(<<~TAF.chomp)
+            {Blg
               Date=24.12.2024
-              Text="Zahlung 240001"
-              Type=1
-              ValNt=999.99
+              Orig=1
 
+              {Bk
+                AccId=1050
+                Date=24.12.2024
+                Text="Zahlung 240001"
+                Type=0
+                ValNt=300.00
+                PkKey=#{booking.tenant.ref}
+                OpId=240001
+
+              }
+
+              {Bk
+                AccId=1025
+                Date=24.12.2024
+                Text="Zahlung 240001"
+                Type=1
+                ValNt=300.00
+                CAcc=1050
+
+              }
             }
-          }
-        TAF
+          TAF
+        end
       end
     end
   end

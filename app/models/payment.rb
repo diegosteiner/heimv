@@ -61,6 +61,10 @@ class Payment < ApplicationRecord
            .where.not(id: [id])
   end
 
+  def payback?
+    amount&.negative?
+  end
+
   def email_payment_confirmation
     return if write_off || !confirm?
 
