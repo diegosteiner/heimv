@@ -335,7 +335,6 @@ de:
         ref: Beleg
         text: Text
         trigger: Auslöser
-        vat_category_id: MwSt. Kategorie
       meter_reading_period:
         begins_at: Beginn
         end_value: Zählerstand neu
@@ -587,13 +586,6 @@ de:
           only_paid: Nur beglichene
           only_unpaid: Nur offene
       journal_entry_batch:
-        book_types:
-          cost: Kostenstellen
-          main: Hauptbuch
-          vat: Steuern
-        side:
-          haben: Haben
-          soll: Soll
         triggers:
           invoice_created: Rechnung erstellt
           invoice_discarded: Rechnung gelöscht

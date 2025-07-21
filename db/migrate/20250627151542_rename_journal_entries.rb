@@ -11,7 +11,7 @@ class RenameJournalEntries < ActiveRecord::Migration[8.0]
     reversible do |direction|
       direction.up do
         map_triggers
-        map_fragments
+        migrate_journal_entry_batches
       end
     end
   end
@@ -25,19 +25,39 @@ class RenameJournalEntries < ActiveRecord::Migration[8.0]
     trigger_map.each { |trigger, type| JournalEntryBatch.where(trigger:).update_all(type:) } # rubocop:disable Rails/SkipsModelValidations
   end
 
-  def map_fragments
-    JournalEntryBatch.find_each do |jeb|
-      fragments = jeb.fragments.dup
-      drop_fragment = fragments.shift
-      entries = fragments.filter_map do |fragment|
-        accounts = if drop_fragment['side'] == 'soll'
-                     { soll_account: drop_fragment['account_nr'], haben_account: fragment['account_nr'] }
-                   else
-                     { soll_account: fragment['account_nr'], haben_account: drop_fragment['account_nr'] }
-                   end
-        fragment.slice(*%w[text amount book_type invoice_part_id vat_category_id]).merge(accounts)
+  def migrate_journal_entry_batches
+    JournalEntryBatch.find_each { it.update!(entries: migrate_fragments(it.fragments.dup)) }
+  end
+
+  def migrate_fragments(fragments) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    missing_side = (%w[soll haben] - fragments.pluck('side').uniq).first
+    drop_fragment = missing_side ? { 'side' => missing_side, 'account_nr' => '0' } : fragments.shift
+    last_main_fragment = nil
+
+    fragments.filter_map do |fragment|
+      case fragment['book_type']
+      when 'main'
+        last_main_fragment = fragment
+      when 'vat'
+        last_main_fragment['amount'] = (last_main_fragment['amount'].to_f + fragment['amount'].to_f).round(4)
+        last_main_fragment['vat_amount'] ||= fragment['amount'].to_f.round(4)
+        last_main_fragment['vat_category_id'] ||= fragment['vat_category_id']
+        next
+      when 'cost'
+        last_main_fragment['cost_center'] ||= fragment['account_nr']
+        next
+      else
+        raise ArgumentError
       end
-      jeb.update!(entries:)
+
+      accounts = if drop_fragment['side'] == 'soll'
+                   { soll_account: drop_fragment['account_nr'], haben_account: fragment['account_nr'] }
+                 else
+                   { soll_account: fragment['account_nr'], haben_account: drop_fragment['account_nr'] }
+                 end
+      fragment.slice!(*%w[text amount invoice_part_id vat_category_id vat_amount])
+      fragment.merge!(accounts)
+      fragment
     end
   end
 end

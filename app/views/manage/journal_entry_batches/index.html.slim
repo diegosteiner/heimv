@@ -29,7 +29,6 @@ h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
         th=JournalEntryBatch.human_attribute_name(:haben_account)
         th=JournalEntryBatch.human_attribute_name(:amount)
         th=JournalEntryBatch.human_attribute_name(:text)
-        / th=JournalEntryBatch.human_attribute_name(:book_type)
         th=Booking.model_name.human
 
     tbody.shadow-sm
@@ -49,6 +48,5 @@ h1.mt-0.mb-5= JournalEntryBatch.model_name.human(count: 2)
             td= entry.haben_account
             td= number_to_currency(entry.amount, unit: journal_entry_batch.currency)
             td= entry.text
-            / td= JournalEntryBatch.human_enum(:book_types, entry.book_type)
             td= link_to journal_entry_batch.booking.ref, manage_booking_path(journal_entry_batch.booking)
 

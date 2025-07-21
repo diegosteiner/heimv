@@ -313,22 +313,14 @@ it:
       journal_entry_batch:
         account_nr:
         amount: Importo
-        book_type: Tipo
         booking_id: Prenotazione
         date:
-        haben_account:
-        haben_amount:
         invoice_id: Fattura
-        invoice_part_id:
         payment_id: Pagamento
         processed_at:
         ref:
-        side:
-        soll_account:
-        soll_amount:
         text: Testo
         trigger:
-        vat_category_id:
       meter_reading_period:
         begins_at: Inizio
         end_value: Lettura del contatore nuovo
@@ -580,13 +572,6 @@ it:
           only_paid: Solo pagate
           only_unpaid: Solo non pagate
       journal_entry_batch:
-        book_types:
-          cost:
-          main:
-          vat:
-        side:
-          haben:
-          soll:
         triggers:
           invoice_created:
           invoice_discarded:

@@ -311,24 +311,15 @@ fr:
         vat: TVA incluse en pourcentage
         vat_category_id:
       journal_entry_batch:
-        account_nr: Compte
         amount: Montant
-        book_type: Type
         booking_id: Réservation
         date: Date
-        haben_account:
-        haben_amount:
         invoice_id: Facture
-        invoice_part_id:
         payment_id: Paiement
         processed_at:
         ref:
-        side:
-        soll_account:
-        soll_amount:
         text: Texte
         trigger:
-        vat_category_id:
       meter_reading_period:
         begins_at: Début
         end_value: Nouvelle valeur du compteur
@@ -580,13 +571,6 @@ fr:
           only_paid: Uniquement les factures réglées
           only_unpaid: Seulement ouvert
       journal_entry_batch:
-        book_types:
-          cost:
-          main:
-          vat:
-        side:
-          haben:
-          soll:
         triggers:
           invoice_created:
           invoice_discarded:

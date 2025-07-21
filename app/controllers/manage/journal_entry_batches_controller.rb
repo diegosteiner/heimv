@@ -68,10 +68,5 @@ module Manage
     def journal_entry_batch_filter_params
       params[:filter]&.permit(%w[date_after date_before processed processed_before processed_after triggers])
     end
-
-    # def journal_entry_batch_params
-    #   params.require(:journal_entry_batch).permit(*%i[invoice_id source_type source_id vat_category_id account_nr side
-    #                                             amount date text currency ordinal ref book_type])
-    # end
   end
 end

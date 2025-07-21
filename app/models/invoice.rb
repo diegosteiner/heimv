@@ -117,9 +117,7 @@ class Invoice < ApplicationRecord
   end
 
   def update_journal_entry_batches
-    return unless organisation.accounting_settings.enabled
-
-    JournalEntryBatches::Invoice.handle(self)
+    JournalEntryBatches::Invoice.handle(self) if organisation.accounting_settings.enabled
   end
 
   def paid?

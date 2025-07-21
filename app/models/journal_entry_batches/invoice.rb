@@ -50,7 +50,7 @@ module JournalEntryBatches
     end
 
     def self.handle_discard(invoice)
-      previous_batch = existing_batches.processed.last
+      previous_batch = existing_batches(invoice).processed.last
       return if previous_batch.nil? || previous_batch.trigger_invoice_discarded?
 
       previous_batch.dup.invert.update(trigger: :invoice_discarded, date: invoice.discarded_at&.to_date,
@@ -58,7 +58,7 @@ module JournalEntryBatches
     end
 
     def self.handle_destroy(invoice)
-      existing_batches.destroy_all
+      existing_batches(invoice).destroy_all
     end
 
     def self.existing_batches(invoice)

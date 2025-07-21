@@ -13,10 +13,8 @@ class JournalEntryBatch
     attribute :vat_amount, :decimal
     attribute :cost_center
 
-    enum :book_type, { main: 0, cost: 1, vat: 2 }, _prefix: true, default: :main # rubocop:disable Rails/EnumSyntax
-
-    validates :soll_account, :haben_account, :amount, :book_type, presence: true
-    validates :amount, numericality: { other_than: 0 }
+    validates :soll_account, :haben_account, :amount, presence: true
+    validates :amount, numericality: true
 
     def journal_entry_batch
       parent
@@ -46,8 +44,7 @@ class JournalEntryBatch
 
     def equivalent?(other)
       irrelevant_attributes = %w[text]
-      parent == other&.parent &&
-        attributes.except(*irrelevant_attributes) == other&.attributes&.except(*irrelevant_attributes)
+      attributes.except(*irrelevant_attributes) == other&.attributes&.except(*irrelevant_attributes)
     end
 
     def invert

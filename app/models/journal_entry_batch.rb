@@ -62,10 +62,6 @@ class JournalEntryBatch < ApplicationRecord
     self.currency ||= organisation&.currency
   end
 
-  def related
-    @related ||= entries.index_by(&:book_type).symbolize_keys
-  end
-
   def to_s
     "##{id}@#{date}: #{text}\n" + entries.map(&:to_s).join("\n")
   end
@@ -108,6 +104,6 @@ class JournalEntryBatch < ApplicationRecord
   end
 
   def amount
-    entries.reduce(0) { |sum, entry| entry.book_type_cost? ? sum : sum + entry.amount }
+    entries.sum(&:amount)
   end
 end

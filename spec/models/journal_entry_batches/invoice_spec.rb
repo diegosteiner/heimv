@@ -1,5 +1,25 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: journal_entry_batches
+#
+#  id           :bigint           not null, primary key
+#  currency     :string           not null
+#  date         :date             not null
+#  entries      :jsonb
+#  fragments    :jsonb
+#  processed_at :datetime
+#  ref          :string
+#  text         :string
+#  trigger      :integer          not null
+#  type         :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  booking_id   :uuid             not null
+#  invoice_id   :bigint
+#  payment_id   :bigint
+#
 require 'rails_helper'
 
 RSpec.describe JournalEntryBatches::Invoice do
