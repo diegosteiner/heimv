@@ -1317,9 +1317,7 @@ it:
     public:
       bookings:
         create:
-          notice: 'La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un''e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l''e-mail, controllate lo spam o contattate l''amministrazione:  %{mailto_organisation}.
-
-            '
+          notice: 'La vostra richiesta di prenotazione è stata registrata. Avete appena ricevuto un''e-mail con il link di conferma a <strong>%{email}</strong>. Si prega di cliccare sul link per confermare e completare la richiesta. Se non avete ricevuto l''e-mail, controllate lo spam o contattate l''amministrazione:  %{mailto_organisation}. '
         update:
           notice: La richiesta di prenotazione è stata aggiornata. Potete chiudere la finestra del browser.
   from: da
@@ -1537,6 +1535,10 @@ it:
     percentage:
       format:
         delimiter: ' format: "%n%" precision: 1 precision: format: delimiter: '
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ''
   occupancy_calendar:
     months:
     - Januar
@@ -2172,4 +2174,5 @@ it:
     application: HeimV %{organisation}
   too_many_records:
   unauthorized: Non sei autorizzato a visualizzare questa pagina. Effettuare il login per favore.
+  unsupported:
   until: fino a

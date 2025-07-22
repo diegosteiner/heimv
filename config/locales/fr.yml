@@ -1899,4 +1899,5 @@ fr:
     application: HeimV %{organisation}
   too_many_records:
   unauthorized: Tu n'as pas l'autorisation d'accéder à cette page.
+  unsupported:
   until: jusqu'à

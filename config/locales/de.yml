@@ -2719,4 +2719,5 @@ de:
     application: HeimV %{organisation}
   too_many_records: Es wurden zu viele %{model_name} gefunden. Bitte schränke die Suche ein.
   unauthorized: Du hast keine Berechtigung für diese Seite.
+  unsupported: Dieses Feature ist experimentell und kann zu Problemen führen.
   until: bis
