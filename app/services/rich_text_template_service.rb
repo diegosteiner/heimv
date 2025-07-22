@@ -11,7 +11,7 @@ class RichTextTemplateService
 
   def load_defaults_from_organisation!
     load_defaults_from_organisation.each_pair do |locale_file, yaml|
-      File.open(locale_file, 'wb') { _1.write yaml.to_yaml }
+      File.open(locale_file, 'wb') { it.write yaml.to_yaml }
     end
   end
 

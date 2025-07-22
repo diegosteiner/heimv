@@ -10,7 +10,7 @@
 #  address                      :text
 #  bcc                          :string
 #  booking_flow_type            :string
-#  booking_ref_template         :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
+#  booking_ref_template         :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_ref_alpha>s")
 #  booking_state_settings       :jsonb
 #  cors_origins                 :text
 #  country_code                 :string           default("CH"), not null
@@ -67,6 +67,7 @@ FactoryBot.define do
       after(:create) do |organisation|
         onboarding = OnboardingService.new(organisation)
         onboarding.setup_missing_rich_text_templates
+        organisation.rich_text_templates.update_all(enabled: true) # rubocop:disable Rails/SkipsModelValidations
       end
     end
 
@@ -76,8 +77,13 @@ FactoryBot.define do
         organisation.accounting_settings.debitor_account_nr ||= '1050'
         organisation.accounting_settings.rental_yield_account_nr ||= '6000'
         organisation.accounting_settings.vat_account_nr ||= '2016'
-        organisation.accounting_settings.payment_account_nr ||= '4000'
-        organisation.accounting_settings.rental_yield_vat_category_id ||= build(:vat_category, organisation:).id
+        organisation.accounting_settings.payment_account_nr ||= '1025'
+        organisation.accounting_settings.liable_for_vat ||= true
+      end
+
+      after(:create) do |organisation|
+        organisation.accounting_settings.rental_yield_vat_category_id ||= create(:vat_category, organisation:).id
+        organisation.save
       end
     end
   end

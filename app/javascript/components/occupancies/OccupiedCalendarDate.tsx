@@ -1,8 +1,6 @@
-import { isFirstDayOfMonth, isWithinInterval } from "date-fns";
-import { addHours, endOfDay, isBefore, startOfDay } from "date-fns";
-import { isAfter } from "date-fns";
+import { addHours, isAfter, isBefore, startOfDay } from "date-fns";
 import { type MouseEventHandler, useMemo } from "react";
-import { type Occupancy, findMostRelevantOccupancy } from "../../models/Occupancy";
+import { findMostRelevantOccupancy, type Occupancy } from "../../models/Occupancy";
 import type { OccupancyWindowWithOccupiedDates } from "../../models/OccupancyWindow";
 import { parseDate } from "../../services/date";
 import { OccupancyPopover } from "./OccupancyPopover";
@@ -87,16 +85,18 @@ function splitSlots(date: Date, occupancies: Set<Occupancy>) {
 
     if (beginsBeforeDayMid && endsAfterDayMid) {
       slots.allday.add(occupancy);
-      break;
+      continue;
     }
     if (beginsBeforeDayMid && endsAfterDayStart) {
       slots.forenoon.add(occupancy);
-      break;
+      continue;
     }
     if (!beginsBeforeDayMid && endsAfterDayMid) {
       slots.afternoon.add(occupancy);
-      break;
+      continue;
     }
+
+    console.error("Occupancy has no slot", occupancy);
   }
 
   return slots;

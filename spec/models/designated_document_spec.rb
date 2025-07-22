@@ -5,6 +5,7 @@
 # Table name: designated_documents
 #
 #  id                   :bigint           not null, primary key
+#  attaching_conditions :jsonb
 #  designation          :integer
 #  locale               :string
 #  name                 :string
@@ -18,7 +19,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe DesignatedDocument, type: :model do
+RSpec.describe DesignatedDocument do
   let(:organisation) { create(:organisation) }
   let(:home) { create(:home, organisation:) }
   let(:document) { build(:designated_document, organisation:) }
@@ -58,9 +59,9 @@ RSpec.describe DesignatedDocument, type: :model do
 
     it do
       documents
-      expect(subject).to include(documents[:with_matching_locale])
-      expect(subject).to include(documents[:without_locale])
-      expect(subject).not_to include(documents[:without_matching_locale])
+      expect(with_locale).to include(documents[:with_matching_locale])
+      expect(with_locale).to include(documents[:without_locale])
+      expect(with_locale).not_to include(documents[:without_matching_locale])
     end
   end
 
@@ -70,15 +71,15 @@ RSpec.describe DesignatedDocument, type: :model do
     let(:booking) { create(:booking, organisation:) }
     let(:conditions) do
       {
-        always: [BookingConditions::AlwaysApply.new(organisation:)],
-        wrong_home: [BookingConditions::Occupiable.new(compare_value: home.id, compare_attribute: :home)],
-        correct_home: [BookingConditions::Occupiable.new(compare_value: booking.home_id, compare_attribute: :home)]
+        always: BookingConditions::Always.new(organisation:),
+        wrong_home: BookingConditions::Occupiable.new(compare_value: home.id, compare_attribute: :home),
+        correct_home: BookingConditions::Occupiable.new(compare_value: booking.home_id, compare_attribute: :home)
       }
     end
 
     let(:documents) do
       conditions.transform_values do |condition|
-        create(:designated_document, organisation:, attaching_conditions: condition)
+        create(:designated_document, organisation:, attaching_conditions: [condition])
       end
     end
 
@@ -86,9 +87,9 @@ RSpec.describe DesignatedDocument, type: :model do
       documents
 
       expect(for_booking.count).to eq(2)
-      expect(documents[:always].attach_to?(booking)).to be_truthy
-      expect(documents[:correct_home].attach_to?(booking)).to be_truthy
-      expect(documents[:wrong_home].attach_to?(booking)).to be_falsy
+      expect(documents[:always]).to be_attach_to(booking)
+      expect(documents[:correct_home]).to be_attach_to(booking)
+      expect(documents[:wrong_home]).not_to be_attach_to(booking)
     end
   end
 end

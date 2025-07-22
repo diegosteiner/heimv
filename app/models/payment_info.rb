@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PaymentInfo
+  extend RichTextTemplate::Definition
   extend ActiveModel::Translation
   extend ActiveModel::Naming
   include Subtypeable

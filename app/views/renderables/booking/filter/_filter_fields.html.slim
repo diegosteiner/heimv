@@ -17,7 +17,7 @@
   .col
     = f.collection_select :occupiables, current_organisation.occupiables.ordered, :id, :name, { include_blank: true }, multiple: true, size: 3
 .row
-  - states = current_organisation.booking_flow_class.all.map { |key, state| [state.t, key] }
+  - states = current_organisation.booking_flow_class.state_classes.map { |key, state| [state.t, key] }
   .col
     = f.select :current_booking_states, states, { include_blank: true }, multiple: true, size: 6
   .col

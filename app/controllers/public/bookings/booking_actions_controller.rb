@@ -9,8 +9,8 @@ module Public
         nil unless booking_action
       end
 
-      def invoke # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-        @result = booking_action.invoke(**booking_action_params)
+      def invoke # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
+        @result = booking_action.invoke(**booking_action_params, current_user:)
 
         if @result&.success
           write_booking_log
@@ -32,14 +32,14 @@ module Public
       end
 
       def booking_action
-        @booking_action ||= @booking.booking_state.public_actions.find { it.to_sym == params[:id]&.to_sym }
+        @booking_action ||= @booking.booking_flow.tenant_action(params[:id]&.to_sym)
         raise ActiveRecord::RecordNotFound if @booking_action.blank?
 
         @booking_action
       end
 
       def booking_action_params
-        booking_action.class.params_schema&.call(params.to_unsafe_h).to_h
+        booking_action.invoke_schema&.call(params.to_unsafe_h).to_h
       end
     end
   end

@@ -12,7 +12,7 @@
   #filter.modal.fade
     .modal-dialog.modal-lg
       .modal-content 
-        = form_with(model: @filter, url: manage_invoices_path, scope: 'filter', method: :GET, local: true) do |f|
+        = form_with(model: @filter, url: manage_invoices_path, scope: 'filter', method: :get, local: true) do |f|
           = hidden_field_tag :locale, I18n.locale
           .modal-body
             = render partial: @filter.to_partial_path('filter_fields'), locals: { f: f }
@@ -28,6 +28,13 @@
   p.text-center.my-5
     = t(:no_records_yet, model_name: Invoice.model_name.human(count: 2))
     =<> link_to(t(:add_record, model_name: Invoices::Deposit.model_name.human), new_manage_booking_invoice_path(@booking, invoice: { type: Invoices::Deposit }))
+
+- elsif @invoices.size >= Invoice::LIMIT
+  .alert.alert-danger.d-flex
+    .me-3
+      i.fa.fa-exclamation-circle
+    = t('too_many_records', model_name: Invoice.model_name.human(count: 2))
+
 - else
   .table-responsive
     table.table.table-hover.align-middle
@@ -98,11 +105,13 @@
                       = link_to new_manage_booking_payment_path(invoice.booking, payment: { invoice_id: invoice.id }), class: 'btn btn-default'
                         = t(:add_record, model_name: Payment.model_name.human)
                     - unless invoice.sent?
-                      = button_to manage_booking_invoke_action_path(invoice.booking), method: :post, params: { id: BookingActions::Manage::EmailInvoices.to_sym, invoice_ids: [invoice.id] }, class: 'btn btn-default'
-                        span.fa.fa-paper-plane-o[title= BookingActions::Manage::EmailInvoices.label]
-                    - unless invoice.is_a?(Invoices::LateNotice)
-                      = link_to new_manage_booking_invoice_path(invoice.booking, invoice: { type: Invoices::LateNotice, supersede_invoice_id: invoice.to_param }), class: 'btn btn-default', title: Invoices::LateNotice.model_name.human do
-                        span.fa.fa-bell-o
+                      - email_invoice_action = invoice.booking.booking_flow.manage_actions[:email_invoice]
+                      - if email_invoice_action.invokable?(invoice_id: invoice.id)
+                        = button_to manage_booking_invoke_action_path(invoice.booking), method: :post, params: { id: email_invoice_action.key, invoice_id: invoice.id }, class: 'btn btn-default'
+                          span.fa.fa-paper-plane-o[title= email_invoice_action.label]
+                    / - unless invoice.is_a?(Invoices::LateNotice)
+                    /   = link_to new_manage_booking_invoice_path(invoice.booking, invoice: { type: Invoices::LateNotice, supersede_invoice_id: invoice.to_param }), class: 'btn btn-default', title: Invoices::LateNotice.model_name.human do
+                    /     span.fa.fa-bell-o
                         
                   = link_to edit_manage_invoice_path(invoice), class: "btn btn-default border-0 p-2" do
                     span.fa.fa-edit
@@ -115,5 +124,6 @@
       = t(:add_record, model_name: Invoice.model_name.human)
     .dropdown-menu aria-labelledby="dropdownInvoiceTypesButton" 
       - Invoice.subtypes.values.each do |invoice_type|
+        - next if invoice_type == Invoices::LateNotice
         = link_to new_manage_booking_invoice_path(@booking, invoice: { type: invoice_type }), class: 'dropdown-item'
           = invoice_type.model_name.human

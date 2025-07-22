@@ -2,6 +2,11 @@
 
 .row.justify-content-center
   .col-lg-8
+    - if @invoice.is_a?(Invoices::LateNotice)
+      .alert.alert-warning[role="alert"]
+        p.m-0
+          = t('unsupported')
+          
     .card.shadow-sm
       .card-body
         == render 'form'

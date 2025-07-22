@@ -72,6 +72,9 @@
           = sf.text_field :default_begins_at_time, value: settings.default_begins_at_time
           = sf.text_field :default_ends_at_time, value: settings.default_ends_at_time
 
+          = sf.select :available_begins_at_times, OrganisationSettings.available_times.map { [it, it] }, { include_blank: false },  multiple: true
+          = sf.select :available_ends_at_times, OrganisationSettings.available_times.map { [it, it] }, { include_blank: false },  multiple: true
+
           = sf.text_field :last_minute_warning, value: settings.last_minute_warning&.iso8601
           = sf.text_field :booking_window, value: settings.booking_window&.iso8601
           = sf.text_field :upcoming_soon_window, value: settings.upcoming_soon_window&.iso8601
@@ -101,8 +104,10 @@
         .card.shadow-sm 
           .card-body
             = bsf.select :default_manage_transition_to_state, BookingStateSettings.manage_transition_to_states(@organisation).map { [_1.t(:label), _1.to_sym] }, value: booking_state_settings.default_manage_transition_to_state
-            = bsf.collection_select :occupied_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
-            = bsf.collection_select :editable_occupancy_states, @organisation.booking_flow_class.all.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
+            = bsf.collection_select :occupied_booking_states, @organisation.booking_flow_class.state_classes.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
+            = bsf.collection_select :editable_booking_states, @organisation.booking_flow_class.state_classes.values, :to_s, ->(state) { state&.t(:label) }, multiple: true
+            = bsf.check_box :enable_waitlist 
+            = bsf.check_box :enable_provisional_request
 
     - if current_user.role_admin?
       = f.fields_for :accounting_settings, @organisation.accounting_settings || AccountingSettings.new do |af|  
@@ -112,6 +117,7 @@
           .card.shadow-sm 
             .card-body
               = af.check_box :enabled
+              = af.check_box :liable_for_vat
               = af.text_field :debitor_account_nr
               = af.text_field :rental_yield_account_nr
               = af.text_field :payment_account_nr

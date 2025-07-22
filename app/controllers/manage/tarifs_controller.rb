@@ -18,8 +18,6 @@ module Manage
     end
 
     def edit
-      @tarif.selecting_conditions.build
-      @tarif.enabling_conditions.build
       respond_with :manage, @tarif
     end
 
@@ -64,6 +62,10 @@ module Manage
 
     def tarifs_params
       params.permit(tarifs: [TarifParams.permitted_keys + [:id]])
+    end
+
+    def flash_interpolation_options
+      { resource_name: Tarif.model_name.human }
     end
   end
 end

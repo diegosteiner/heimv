@@ -20,6 +20,8 @@ class OrganisationSettings
   attribute :default_ends_at_time, :string, default: -> { '16:00' }
   attribute :locales, array: true, default: -> { I18n.available_locales.map(&:to_s) }
   attribute :predefined_salutation_form, :string
+  attribute :available_begins_at_times, array: true, default: -> { available_times(hours: 8..22) }
+  attribute :available_ends_at_times, array: true, default: -> { available_times(hours: 8..22) }
 
   validates :tentative_occupancy_color, :occupied_occupancy_color,
             :closed_occupancy_color, format: { with: Occupancy::COLOR_REGEX }, allow_blank: true
@@ -30,6 +32,14 @@ class OrganisationSettings
             numericality: { less_than_or_equal: 5.years, greater_than_or_equal: 0 }
 
   validates :predefined_salutation_form, inclusion: { in: Tenant.salutation_forms.keys.map(&:to_s) }, allow_blank: true
+  validate do
+    errors.add(:available_ends_at_times, :invalid) unless available_ends_at_times&.compact_blank&.all? do
+      self.class.available_times.include?(it)
+    end
+    errors.add(:available_begins_at_times, :invalid) unless available_begins_at_times&.compact_blank&.all? do
+      self.class.available_times.include?(it)
+    end
+  end
 
   def occupancy_colors
     {
@@ -37,5 +47,9 @@ class OrganisationSettings
       occupied: occupied_occupancy_color,
       closed: closed_occupancy_color
     }.tap { |hash| hash.default = '#FFFFFF00' }
+  end
+
+  def self.available_times(hours: 0..23, minutes: [0, 15, 30, 45])
+    hours.flat_map { |hour| minutes.map { |minute| format('%<hour>02d:%<minute>02d', hour:, minute:) } }
   end
 end

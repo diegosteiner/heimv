@@ -5,14 +5,14 @@
       .card-header.bg-warning-subtle.text-center
         = @agent_booking.booking.booking_state.translate(:label)
     .card-body
-      - if @agent_booking.errors.any?
+      - errors = @agent_booking.errors.to_hash(true).except(%w[booking.tenant.bookings booking.agent_booking.tenant_email bookings.occupancies.base])
+      - if errors.any?
         .alert.alert-danger.d-flex
           .me-3
-            i.fa.fa-exclamation-circle               
-          - @agent_booking.errors.delete("booking.tenant.bookings")
-          - @agent_booking.errors.delete("booking.agent_booking.tenant_email")
-          - @agent_booking.errors.delete("booking.occupancies.base")
-          = @agent_booking.errors.full_messages.to_sentence
+            i.fa.fa-exclamation-circle
+          ul.mb-0.ps-3
+            - errors.values.flatten.each do |error|
+              li= error
 
       = f.fields_for :booking, (@agent_booking.booking || @agent_booking.build_booking) do |bf|
         h4.mt-0= Occupancy.model_name.human
@@ -32,6 +32,8 @@
               disabled: !@agent_booking.booking.editable?, \
               defaultBeginsAtTime: current_organisation&.settings&.default_begins_at_time, \
               defaultEndsAtTime: current_organisation&.settings&.default_ends_at_time, \
+              beginsAtTimes: current_organisation&.settings&.available_begins_at_times, \
+              endsAtTimes: current_organisation&.settings&.available_ends_at_times, \
               occupiableInvalidFeedback: @agent_booking.booking.errors.to_hash(true).slice(:occupiable_ids, :home_id).values.flatten.to_sentence, \
               occupancyInvalidFeedback: @agent_booking.booking.errors.to_hash(true).slice(:begins_at, :begins_at_time, :ends_at, :ends_at_time).values.flatten.to_sentence, \
               defaultView: current_user&.default_calendar_view || current_organisation&.settings&.default_calendar_view \
@@ -45,6 +47,7 @@
           = f.text_area :tenant_infos, required: false, rows: 3, help: t('.tenant_infos_help')
           = bf.text_area :remarks, required: false
           = f.email_field :tenant_email, required: false, disabled: !@agent_booking.booking_agent_responsible?, help: t('.tenant_email_help')
+          = bf.hidden_field :committed_request
   
         fieldset.mt-4
           h5.mt-0= BookingQuestion.model_name.human(count: 2)
@@ -65,9 +68,10 @@
       .form-actions.pt-4.mt-3
         - if @agent_booking.booking_agent_responsible?
           =<> f.submit
-          - @agent_booking.booking.booking_state&.public_actions&.filter(&:allowed?).each do |action|
-            - button_options = { name: :booking_action, value: action.to_sym}
-            - button_options[:class] = "me-1 btn btn-outline-#{action.variant}"
-            - button_options[:data] = { confirm: action.confirm } if action.confirm.present?
-            = f.button(**button_options)
-              = action.label 
+          - @agent_booking.booking.booking_flow.booking_agent_actions.values.each do |booking_action|
+            - Array.wrap(booking_action.invokable_with(current_user:)).compact.each do |invokable_with|
+              - label = invokable_with[:label] || booking_action.label
+              = f.button name: :booking_action, value: booking_action.key, method: :patch, \
+                data: { confirm: invokable_with[:confirm], disable_with: label }.compact, \
+                class: "me-2 btn btn-outline-#{invokable_with[:variant] || :primary}"
+                = label

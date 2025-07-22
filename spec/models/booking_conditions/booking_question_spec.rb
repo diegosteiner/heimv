@@ -1,26 +1,8 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: booking_conditions
-#
-#  id                :bigint           not null, primary key
-#  compare_attribute :string
-#  compare_operator  :string
-#  compare_value     :string
-#  group             :string
-#  must_condition    :boolean          default(TRUE)
-#  qualifiable_type  :string
-#  type              :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  organisation_id   :bigint
-#  qualifiable_id    :bigint
-#
-
 require 'rails_helper'
 
-RSpec.describe BookingConditions::BookingQuestion, type: :model do
+RSpec.describe BookingConditions::BookingQuestion do
   describe '#evaluate' do
     subject { booking_condition.evaluate!(booking) }
 
@@ -30,18 +12,22 @@ RSpec.describe BookingConditions::BookingQuestion, type: :model do
     let(:compare_attribute) { question.id }
     let(:organisation) { create(:organisation) }
     let(:booking_condition) do
-      described_class.create(compare_value:, organisation:,
-                             compare_operator:, compare_attribute:)
+      described_class.new(compare_value:, organisation:,
+                          compare_operator:, compare_attribute:)
+    end
+
+    before do
+      qualifiable = instance_double('Qualifiable') # rubocop:disable RSpec/VerifiedDoubleReference
+      allow(qualifiable).to receive(:organisation).and_return(organisation)
+      allow(booking_condition).to receive(:qualifiable).and_return(qualifiable)
     end
 
     context 'with a string question' do
       let(:question) do
-        create(:booking_question, type: BookingQuestions::String.to_s, label: 'Test',
-                                  required: false, organisation:)
+        create(:booking_question, type: BookingQuestions::String.to_s, label: 'Test', required: false, organisation:)
       end
-      let!(:response) do
-        booking.booking_question_responses.create(booking_question: question, value: 'Hello')
-      end
+
+      before { booking.booking_question_responses.create(booking_question: question, value: 'Hello') }
 
       it { is_expected.to be_falsy }
 
@@ -67,9 +53,8 @@ RSpec.describe BookingConditions::BookingQuestion, type: :model do
         create(:booking_question, type: BookingQuestions::Integer.to_s, label: 'Test',
                                   required: false, organisation:)
       end
-      let!(:response) do
-        booking.booking_question_responses.create(booking_question: question, value: 13)
-      end
+
+      before { booking.booking_question_responses.create(booking_question: question, value: 13) }
 
       it { is_expected.to be_falsy }
 

@@ -16,7 +16,6 @@ module Manage
     end
 
     def edit
-      @booking_question.applying_conditions.build
       respond_with :manage, @booking_question
     end
 

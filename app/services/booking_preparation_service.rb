@@ -9,13 +9,14 @@ class BookingPreparationService
     @organisation.bookings.new(params.reverse_merge({ notifications_enabled: true })).tap do |booking|
       booking.home ||= booking.occupiables.first&.home
       booking.locale = derive_locale(booking)
+      booking.committed_request ||= !@organisation.booking_state_settings&.enable_provisional_request
     end
   end
 
   def prepare_new(params)
     prepare_create(params).tap do |booking|
       settings = @organisation.settings
-      booking.occupiables = booking.home.occupiables if booking.home&.occupiables&.count == 1
+      booking.occupiables = booking.home.occupiables if booking.home&.occupiables&.one?
       booking.begins_at = adjust_time(booking.begins_at, settings&.default_begins_at_time)
       booking.ends_at = adjust_time(booking.ends_at, settings&.default_ends_at_time)
     end

@@ -17,12 +17,6 @@ module Manage
       respond_with :manage, @rich_text_template
     end
 
-    def new
-      dup = current_organisation.rich_text_templates.accessible_by(current_ability).find(params[:dup]) if params[:dup]
-      @rich_text_template = dup&.dup || RichTextTemplate.new
-      respond_with :manage, @rich_text_template
-    end
-
     def edit
       respond_with :manage, @rich_text_template
     end
@@ -32,7 +26,7 @@ module Manage
       redirect_to manage_rich_text_templates_path,
                   notice: t('manage.rich_text_templates.index.created_missing',
                             count: created.count,
-                            list: created.map { _1.title }.to_sentence)
+                            list: created.map(&:title).to_sentence)
     end
 
     def create
@@ -61,20 +55,27 @@ module Manage
     end
 
     def rich_text_templates_by_booking_state
-      current_organisation.booking_flow_class.state_classes.values.to_h do |booking_state|
-        templates = booking_state.templates.map { |definition| @rich_text_templates.find_by(key: definition[:key]) }
+      template_keys = current_organisation.booking_flow_class.state_classes.values
+      template_keys.to_h do |booking_state|
+        templates = booking_state.rich_text_templates.keys.map do |key|
+          @rich_text_templates.find_by(key:)
+        end
         [booking_state, templates.compact_blank]
       end
     end
 
     def rich_text_templates_by_booking_action
-      (BookingActions::Manage.all.values + BookingActions::Public.all.values).to_h do |booking_action|
-        templates = booking_action.templates.map { |definition| @rich_text_templates.find_by(key: definition[:key]) }
-        [booking_action, templates.compact_blank]
+      template_keys = current_organisation.booking_flow_class.manage_actions.values +
+                      current_organisation.booking_flow_class.tenant_actions.values
+      template_keys.to_h do |booking_action_class|
+        templates = booking_action_class.rich_text_templates.keys.map do |key|
+          @rich_text_templates.find_by(key:)
+        end
+        [booking_action_class, templates.compact_blank]
       end
     end
 
-    def rich_text_templates_by_document
+    def rich_text_templates_by_document # rubocop:disable Metrics/MethodLength
       {
         Invoices::Offer => @rich_text_templates.where(key: :invoices_offer_text),
         Invoices::Deposit => @rich_text_templates.where(key: :invoices_deposit_text),
@@ -82,7 +83,9 @@ module Manage
         Invoices::LateNotice => @rich_text_templates.where(key: :invoices_late_notice_text),
         Contract => @rich_text_templates.where(key: :contract_text),
         PaymentInfos::TextPaymentInfo => @rich_text_templates.where(key: :text_payment_info_text),
-        PaymentInfos::ForeignPaymentInfo => @rich_text_templates.where(key: :foreign_payment_info_text)
+        PaymentInfos::ForeignPaymentInfo => @rich_text_templates.where(key: :foreign_payment_info_text),
+        Payment => @rich_text_templates.where(key: %i[operator_payment_confirmation_notification
+                                                      payment_confirmation_notification])
       }.filter { _2.present? }
     end
 

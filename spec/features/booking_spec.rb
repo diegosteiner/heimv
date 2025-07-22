@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Booking', :devise, type: :feature do
+describe 'Booking', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
@@ -14,6 +14,7 @@ describe 'Booking', :devise, type: :feature do
 
   it 'can create new booking' do
     visit new_manage_booking_path
+    expect(page).to have_content Booking.model_name.human
   end
 
   it 'can see a booking' do

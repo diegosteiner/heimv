@@ -57,7 +57,7 @@ module PaymentInfos
         ref:,
         additional_information: '',
         trailer: EPD
-      }.transform_values { _1.to_s.strip }
+      }.transform_values { it.to_s.strip }
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
@@ -85,13 +85,13 @@ module PaymentInfos
     end
 
     def formatted_amount(delimitter: ' ')
-      ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.',
-                                                             unit: '', delimiter: delimitter)
+      ActiveSupport::NumberHelper.number_to_currency(amount, precision: 2, separator: '.', unit: '',
+                                                             delimiter: delimitter)
     end
 
     def checksum(ref)
-      base97_digits = ref.upcase.chars.map { CHAR_TABLE.index(_1) } + RF00
-      98 - (base97_digits.flatten.join.to_i % 97)
+      base97_digits = ref.upcase.chars.map { CHAR_TABLE.index(it) } + RF00
+      98 - (base97_digits.join.to_i % 97)
       # 98 - base97_digits.in_groups_of(7).reduce(base97_digits.shift(2)) do |check, digits|
       # ((check + digits).flatten.join.to_i % 97).to_s.chars
       # end.join.to_i

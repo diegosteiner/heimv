@@ -1,9 +1,8 @@
 import { cx } from "@emotion/css";
-import { use, useEffect, useState } from "react";
+import { type ComponentProps, use, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import type { Organisation } from "../../types";
-import type { ViewType } from "../calendar/Calendar";
 import OccupiableSelect, { type OccupiableSelectState } from "../occupiables/OccupiableSelect";
 import { OrganisationContext } from "../rails/OrganisationProvider";
 import { OccupancyIntervalFormControl } from "./OccupancyIntervalFormControl";
@@ -11,15 +10,12 @@ import { OccupancyWindowProvider } from "./OccupancyWindowContext";
 
 export type OccupancySelectProps = {
   initial: Partial<{ beginsAt: Date; endsAt: Date; occupiableIds: number[]; homeId: number }>;
-  namePrefix?: string;
-  required?: boolean;
-  disabled?: boolean;
-  defaultView?: ViewType;
-  defaultBeginsAtTime?: string;
-  defaultEndsAtTime?: string;
   occupiableInvalidFeedback?: string;
   occupancyInvalidFeedback?: string;
-};
+} & Pick<
+  ComponentProps<typeof OccupancyIntervalFormControl>,
+  "namePrefix" | "required" | "disabled" | "defaultBeginsAtTime" | "defaultEndsAtTime" | "beginsAtTimes" | "endsAtTimes"
+>;
 
 function inferOccupiableIds(organisation: Organisation): number[] {
   const occupiables = organisation.homes.flatMap((home) => home.occupiables.map((occupiable) => occupiable.id));
@@ -48,6 +44,8 @@ export default function OccupancySelect({
   occupiableInvalidFeedback,
   defaultBeginsAtTime,
   defaultEndsAtTime,
+  beginsAtTimes,
+  endsAtTimes,
 }: OccupancySelectProps) {
   const organisation = use(OrganisationContext) as Organisation;
   const { t } = useTranslation();
@@ -63,7 +61,7 @@ export default function OccupancySelect({
     }));
   }, [organisation]);
 
-  if (!organisation) return <>...</>;
+  if (!organisation) return "...";
   return (
     <Form.Group>
       <Form.Label className={cx({ required })}>{t("activerecord.attributes.booking.occupiable_ids")}</Form.Label>
@@ -85,6 +83,8 @@ export default function OccupancySelect({
           initialEndsAt={initial.endsAt}
           defaultBeginsAtTime={defaultBeginsAtTime}
           defaultEndsAtTime={defaultEndsAtTime}
+          beginsAtTimes={beginsAtTimes}
+          endsAtTimes={endsAtTimes}
           required={required}
           disabled={disabled}
         />

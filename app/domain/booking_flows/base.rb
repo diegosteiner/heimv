@@ -33,15 +33,17 @@ module BookingFlows
       end
     end
 
-    def initialize(object, options = {})
-      super(object, options.reverse_merge(transition_class: Booking::StateTransition,
-                                          association_name: :state_transitions))
+    delegate :organisation, to: :booking
+
+    def initialize(booking, options = {})
+      super(booking, options.reverse_merge(transition_class: Booking::StateTransition,
+                                           association_name: :state_transitions))
     end
 
     def booking_state
       return @booking_state if @booking_state&.to_s == current_state.to_s && @booking_state.booking == booking
 
-      @booking_state = BookingStates[current_state&.to_sym]&.new(booking)
+      @booking_state = self.class.state_classes[current_state&.to_sym]&.new(booking)
     end
 
     def booking
@@ -73,6 +75,36 @@ module BookingFlows
       booking.state_transitions.where(Booking::StateTransition.arel_table[:created_at].gt(state.created_at))
              .destroy_all && booking.touch
       # rubocop:enable Rails/SkipsModelValidations
+    end
+
+    def manage_actions
+      @manage_actions ||= booking.booking_flow_class.manage_actions.to_h do |key, action_klass|
+        [key, manage_action(key, action_klass)]
+      end
+    end
+
+    def manage_action(key, booking_action_klass = nil)
+      (booking_action_klass || booking.booking_flow_class.manage_actions[key])&.new(booking, key)
+    end
+
+    def tenant_actions
+      @tenant_actions ||= booking.booking_flow_class.tenant_actions.to_h do |key, action_klass|
+        [key, tenant_action(key, action_klass)]
+      end
+    end
+
+    def tenant_action(key, booking_action_klass = nil)
+      (booking_action_klass || booking.booking_flow_class.tenant_actions[key])&.new(booking, key)
+    end
+
+    def booking_agent_actions
+      @booking_agent_actions ||= booking.booking_flow_class.booking_agent_actions.to_h do |key, action_klass|
+        [key, booking_agent_action(key, action_klass)]
+      end
+    end
+
+    def booking_agent_action(key, booking_action_klass = nil)
+      (booking_action_klass || booking.booking_flow_class.booking_agent_actions[key])&.new(booking, key)
     end
 
     def infer_next_state

@@ -2,6 +2,14 @@
 
 require 'rails_helper'
 
-RSpec.describe OrganisationSettings, type: :model do
-  subject { described_class.new }
+RSpec.describe OrganisationSettings do
+  subject(:settings) { organisation.settings }
+
+  let(:organisation) { create(:organisation) }
+
+  before { organisation.settings = {} }
+
+  describe 'valid?' do
+    it { is_expected.to be_valid }
+  end
 end

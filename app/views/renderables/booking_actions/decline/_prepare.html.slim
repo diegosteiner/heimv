@@ -1,0 +1,11 @@
+
+.row.justify-content-center
+  .col-lg-8
+    .card.shadow-sm
+      .card-body
+        h2.mt-0= @booking_action.label
+        = form_with(url: invoke_path, method: :POST, local: true) do |f|
+          = f.text_area :cancellation_reason, label: Booking.human_attribute_name(:cancellation_reason), value: @booking_action.booking.cancellation_reason, help: t(:optional)
+          = f.button name: :id, value: @booking_action.key, type: :submit, class: 'btn btn-danger', data: { confirm: t(:confirm), disable_with: @booking_action.label }
+            = @booking_action.label
+          = link_to t(:back), back_path, class: 'btn btn-outline-primary ms-2'

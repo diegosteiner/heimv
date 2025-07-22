@@ -16,8 +16,8 @@ class OccupancyCalendar
   end
 
   def occupancies
-    @occupancies ||= Array.wrap(occupiables).flat_map do |occupiable|
-      occupiable.occupancies.occupancy_calendar.at(from: window_from, to: window_to).includes(booking: [:deadline])
-    end
+    @occupancies ||= Occupancy.occupancy_calendar.where(occupiable: occupiables)
+                              .at(from: window_from, to: window_to)
+                              .includes(booking: [:deadline])
   end
 end

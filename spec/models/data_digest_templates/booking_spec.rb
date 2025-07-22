@@ -17,12 +17,12 @@
 
 require 'rails_helper'
 
-RSpec.describe DataDigestTemplates::Booking, type: :model do
-  subject(:data_digest_template) do
-    build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
-  end
+RSpec.describe DataDigestTemplates::Booking do
   subject(:data_digest) { data_digest_template.data_digests.create }
 
+  let(:data_digest_template) do
+    build(:data_digest_template, columns_config:, organisation:).becomes(described_class).tap(&:save)
+  end
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:columns_config) { nil }
@@ -40,7 +40,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
         (period_from + 1.week)..(period_to - 1.week),    # is completely contained
         (period_to - 1.week)..(period_to + 1.week),      # overlaps, and begins after
         (period_to + 1.week)..(period_to + 2.weeks)      # no overlap
-      ].map { create(:booking, home:, organisation:, begins_at: _1.begin, ends_at: _1.end) }
+      ].map { create(:booking, home:, organisation:, begins_at: it.begin, ends_at: it.end) }
     end
 
     it do
@@ -60,6 +60,7 @@ RSpec.describe DataDigestTemplates::Booking, type: :model do
 
   describe '#data' do
     before { data_digest.crunch! }
+
     context 'with default columns' do
       it { expect(data_digest).to be_a(DataDigest) }
       it { expect(data_digest.data.count).to be(3) }

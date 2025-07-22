@@ -8,7 +8,7 @@ class BookingDeletionService
   def delete!(booking)
     return unless booking.organisation == @organisation
 
-    booking.notifications_enabled = false
+    booking.assign_attributes(notifications_enabled: false, skip_infer_transitions: true)
     delete_dependent!(booking)
     booking.destroy!
   end
@@ -24,6 +24,8 @@ class BookingDeletionService
   private
 
   def delete_dependent!(booking)
+    booking.deadline&.destroy
+    booking.agent_booking&.destroy
     dependent_associations = [booking.logs, booking.usages, booking.contracts, booking.invoices,
                               booking.payments, booking.notifications, booking.state_transitions]
 

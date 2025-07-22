@@ -17,6 +17,6 @@
 
 require 'rails_helper'
 
-RSpec.describe MeterReadingPeriod, type: :model do
+RSpec.describe MeterReadingPeriod do
   pending "add some examples to (or delete) #{__FILE__}"
 end

@@ -52,7 +52,6 @@ class Booking
       bookings.where(booking_category_id: category_ids)
     end
 
-    # rubocop:disable Performance/CollectionLiteralInLoop
     filter :concluded do |bookings|
       include_concluded = concluded.blank? || %w[all concluded 1].include?(concluded.to_s)
       include_inconcluded = concluded.blank? || %w[all inconcluded 0].include?(concluded.to_s)
@@ -60,8 +59,6 @@ class Booking
 
       bookings.where(concluded: arel_values)
     end
-    # rubocop:enable Performance/CollectionLiteralInLoop
-
     filter :q do |bookings|
       next bookings if q.blank?
 
@@ -70,7 +67,7 @@ class Booking
               .where(Tenant.arel_table[:search_cache].matches(match_part)
               .or(Booking.arel_table[:tenant_organisation].matches(match_part))
               .or(Booking.arel_table[:ref].matches(match_part)))
-              .or(Booking.where(AgentBooking.arel_table[:booking_agent_ref].matches(q)))
+              .or(bookings.where(AgentBooking.arel_table[:booking_agent_ref].matches(q)))
     end
 
     filter :has_booking_state do |bookings|

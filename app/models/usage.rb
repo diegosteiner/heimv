@@ -18,7 +18,7 @@
 #
 
 class Usage < ApplicationRecord
-  belongs_to :tarif, -> { include_conditions }, inverse_of: :usages
+  belongs_to :tarif, inverse_of: :usages
   belongs_to :booking, inverse_of: :usages, touch: true
   has_many :invoice_parts, dependent: :nullify
   has_one :organisation, through: :booking
@@ -84,13 +84,12 @@ class Usage < ApplicationRecord
     updated_at > booking.ends_at
   end
 
-  def enabled_by_condition?
-    tarif.enabling_conditions.none? || BookingCondition.fullfills_all?(booking, tarif.enabling_conditions)
+  def enabled_by_conditions?
+    tarif.enabling_conditions.blank? || tarif.enabling_conditions.all? { it.fullfills?(booking) }
   end
 
-  def selected_by_condition?
-    enabled_by_condition? &&
-      tarif.selecting_conditions.any? && BookingCondition.fullfills_all?(booking, tarif.selecting_conditions)
+  def selected_by_conditions?
+    tarif.selecting_conditions.presence&.all? { it.fullfills?(booking) }
   end
 
   def round_cents(amount, round_to: 5)

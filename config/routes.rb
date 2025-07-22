@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users, path: 'account', path_names: { sign_in: 'login', sign_out: 'logout' }
+  devise_for :users, path: 'account', controllers: {
+    sessions: 'accounts/sessions', passwords: 'accounts/passwords'
+  }, path_names: { sign_in: 'login', sign_out: 'logout' }
   resource :account, only: %i[edit update destroy]
 
-  get 'test', to: 'public/pages#test'
   get 'health', to: 'public/pages#health'
   get 'changelog', to: 'public/pages#changelog'
 
@@ -64,7 +65,7 @@ Rails.application.routes.draw do
       resources :booking_agents
       resources :booking_categories, except: :show
       resources :vat_categories, except: :show
-      resources :journal_entries, only: %i[index update destroy] do
+      resources :journal_entry_batches, only: %i[index update destroy] do
         post :process_all, on: :collection
       end
       resources :notifications, only: %i[index]

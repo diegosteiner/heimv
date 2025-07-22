@@ -6,8 +6,8 @@ module Manage
     before_action :set_filter, only: :index
 
     def index
-      @bookings = @bookings.where(organisation: current_organisation)
-      @bookings = @filter.apply(@bookings.with_default_includes.ordered, cached: false)
+      @bookings = @bookings.where(organisation: current_organisation).limit(Booking::LIMIT)
+      @bookings = @filter.apply(@bookings.with_default_includes.ordered, cached: 30.seconds)
 
       respond_with :manage, @bookings
     end
@@ -20,7 +20,7 @@ module Manage
     end
 
     def calendar
-      @occupiables = current_organisation.occupiables.occupiable.ordered
+      @occupiables = current_organisation.occupiables.kept.occupiable.ordered
       respond_with :manage, @booking
     end
 

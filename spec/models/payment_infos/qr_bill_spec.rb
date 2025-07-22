@@ -2,8 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe PaymentInfos::QrBill, type: :model do
+RSpec.describe PaymentInfos::QrBill do
   subject(:qr_bill) { described_class.new(invoice) }
+
   let(:iban) { 'CH72 0900 0000 1571 4845 3' }
   let(:qr_iban) { 'CH75 3000 0002 1571 4845 3' }
 
@@ -21,8 +22,7 @@ RSpec.describe PaymentInfos::QrBill, type: :model do
     subject { qr_bill.qr_data.values }
 
     before do
-      allow(invoice).to receive(:amount).and_return(1255.35)
-      allow(invoice).to receive(:payment_ref).and_return('00000123456789')
+      allow(invoice).to receive_messages(amount: 1255.35, payment_ref: '00000123456789')
     end
 
     let(:expected_payload) do

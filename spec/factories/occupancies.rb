@@ -24,6 +24,7 @@ FactoryBot.define do
     ends_at { (begins_at + 1.week).change(hour: 14, minute: 0) }
     occupancy_type { Occupancy.occupancy_types[:free] }
     occupiable
+    linked { false }
 
     trait :occupied do
       occupancy_type { Occupancy.occupancy_types[:occupied] }

@@ -9,6 +9,7 @@
 #  accounting_cost_center_nr         :string
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
+#  enabling_conditions               :jsonb
 #  label_i18n                        :jsonb
 #  minimum_price_per_night           :decimal(, )
 #  minimum_price_total               :decimal(, )
@@ -18,6 +19,7 @@
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
 #  price_per_unit                    :decimal(, )
+#  selecting_conditions              :jsonb
 #  tarif_group                       :string
 #  type                              :string
 #  unit_i18n                         :jsonb
@@ -32,7 +34,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Tarif, type: :model do
+RSpec.describe Tarif do
   let(:home) { create(:home) }
   let(:organisation) { home.organisation }
   let(:booking) { create(:booking, organisation:, home:) }
@@ -51,6 +53,7 @@ RSpec.describe Tarif, type: :model do
 
   describe '#minimum_prices' do
     subject(:minimum_prices) { usage.tarif.minimum_prices(usage) }
+
     before do
       tarif.update({
                      minimum_usage_per_night: 24,
@@ -72,6 +75,7 @@ RSpec.describe Tarif, type: :model do
 
   describe '#minimum_price' do
     subject(:minimum_price) { usage.tarif.minimum_price(usage) }
+
     before do
       tarif.update({
                      minimum_usage_per_night: 24,

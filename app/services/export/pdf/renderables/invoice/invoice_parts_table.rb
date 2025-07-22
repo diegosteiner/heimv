@@ -22,7 +22,7 @@ module Export
           end
 
           def render_invoice_parts_table
-            invoice_parts_data = invoice_parts.map { invoice_part_table_row_data(_1) }
+            invoice_parts_data = invoice_parts.map { invoice_part_table_row_data(it) }
             return if invoice_parts_data.blank?
 
             title_indexes = invoice_parts.map.with_index do |invoice_part, index|

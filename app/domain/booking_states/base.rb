@@ -2,6 +2,7 @@
 
 module BookingStates
   class Base
+    extend RichTextTemplate::Definition
     extend Translatable
     include Translatable
     attr_reader :booking
@@ -69,16 +70,8 @@ module BookingStates
         add_callback(callback_type: :guards, callback_class: Statesman::Guard, from:, &)
       end
 
-      def occupied_occupancy_state?(booking)
-        booking&.organisation&.booking_state_settings&.occupied_occupancy_states&.include?(to_sym.to_s) # rubocop:disable Style/SafeNavigationChainLength
-      end
-
-      def available_public_actions
-        BookingActions::Public.all.values
-      end
-
-      def available_manage_actions
-        BookingActions::Manage.all.values
+      def occupied_booking_state?(booking)
+        booking&.organisation&.booking_state_settings&.occupied_booking_states&.include?(to_sym.to_s) # rubocop:disable Style/SafeNavigationChainLength
       end
     end
 
@@ -110,18 +103,10 @@ module BookingStates
 
     def invoice_type; end
 
-    def public_actions
-      self.class.available_public_actions.filter_map { |action_klass| action_klass.new(@booking) }
-    end
-
-    def manage_actions
-      self.class.available_manage_actions.filter_map { |action_klass| action_klass.new(@booking) }
-    end
-
     def relevant_time; end
 
     def editable
-      @booking.organisation&.booking_state_settings&.editable_occupancy_states&.include?(to_sym.to_s)
+      @booking.organisation&.booking_state_settings&.editable_booking_states&.include?(to_sym.to_s)
     end
   end
 end

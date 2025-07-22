@@ -32,7 +32,7 @@ module RefBuilders
 
     def self.checksum(ref)
       check_table = [0, 9, 4, 6, 8, 2, 7, 1, 3, 5]
-      (10 - digits(ref).inject(0) { |carry, digit| check_table[(digit.to_i + carry) % check_table.size] }) % 10
+      (10 - digits(ref).reduce(0) { |carry, digit| check_table[(digit.to_i + carry) % check_table.size] }) % 10
     end
   end
 end

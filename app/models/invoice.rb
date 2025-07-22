@@ -4,29 +4,33 @@
 #
 # Table name: invoices
 #
-#  id                   :bigint           not null, primary key
-#  amount               :decimal(, )      default(0.0)
-#  amount_open          :decimal(, )
-#  discarded_at         :datetime
-#  issued_at            :datetime
-#  locale               :string
-#  payable_until        :datetime
-#  payment_info_type    :string
-#  payment_ref          :string
-#  payment_required     :boolean          default(TRUE)
-#  ref                  :string
-#  sent_at              :datetime
-#  sequence_number      :integer
-#  sequence_year        :integer
-#  text                 :text
-#  type                 :string
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  booking_id           :uuid
-#  supersede_invoice_id :bigint
+#  id                        :bigint           not null, primary key
+#  amount                    :decimal(, )      default(0.0)
+#  amount_open               :decimal(, )
+#  discarded_at              :datetime
+#  issued_at                 :datetime
+#  locale                    :string
+#  payable_until             :datetime
+#  payment_info_type         :string
+#  payment_ref               :string
+#  payment_required          :boolean          default(TRUE)
+#  ref                       :string
+#  sent_at                   :datetime
+#  sequence_number           :integer
+#  sequence_year             :integer
+#  text                      :text
+#  type                      :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  booking_id                :uuid
+#  sent_with_notification_id :bigint
+#  supersede_invoice_id      :bigint
 #
 
 class Invoice < ApplicationRecord
+  LIMIT = ENV.fetch('RECORD_LIMIT', 250)
+
+  extend RichTextTemplate::Definition
   include Subtypeable
   include Discard::Model
 
@@ -35,26 +39,28 @@ class Invoice < ApplicationRecord
 
   belongs_to :booking, inverse_of: :invoices, touch: true
   belongs_to :supersede_invoice, class_name: :Invoice, optional: true, inverse_of: :superseded_by_invoices
+  belongs_to :sent_with_notification, class_name: 'Notification', optional: true
 
   has_many :invoice_parts, -> { ordered }, inverse_of: :invoice, dependent: :destroy
   has_many :superseded_by_invoices, class_name: :Invoice, dependent: :nullify,
                                     foreign_key: :supersede_invoice_id, inverse_of: :supersede_invoice
   has_many :payments, dependent: :nullify
-  has_many :journal_entries, -> { ordered }, dependent: :nullify, inverse_of: :invoice
+  has_many :journal_entry_batches, -> { ordered }, dependent: :nullify, inverse_of: :invoice
 
   has_one :organisation, through: :booking
   has_one_attached :pdf
 
-  attr_accessor :skip_generate_pdf, :skip_journal_entries
+  attr_accessor :skip_generate_pdf, :skip_journal_entry_batches
 
   scope :ordered,   -> { order(payable_until: :ASC, created_at: :ASC) }
-  scope :unpaid,    -> { kept.where(arel_table[:amount_open].gt(0)) }
-  scope :unsettled, -> { kept.where.not(type: 'Invoices::Offer').where.not(arel_table[:amount_open].eq(0)) }
-  scope :refund,    -> { kept.where(arel_table[:amount_open].lt(0)) }
-  scope :paid,      -> { kept.where(arel_table[:amount_open].lteq(0)) }
-  scope :sent,      -> { where.not(sent_at: nil) }
+  scope :not_offer, -> { where.not(type: 'Invoices::Offer') }
+  scope :unpaid,    -> { kept.not_offer.where(arel_table[:amount_open].gt(0)) }
+  scope :unsettled, -> { kept.not_offer.where.not(arel_table[:amount_open].eq(0)) }
+  scope :refund,    -> { kept.not_offer.where(arel_table[:amount_open].lt(0)) }
+  scope :paid,      -> { kept.not_offer.where(arel_table[:amount_open].lteq(0)) }
+  scope :sent, -> { where.not(sent_at: nil) }
   scope :unsent,    -> { kept.where(sent_at: nil) }
-  scope :overdue,   ->(at = Time.zone.today) { kept.where(arel_table[:payable_until].lteq(at)) }
+  scope :overdue,   ->(at = Time.zone.today) { kept.not_offer.where(arel_table[:payable_until].lteq(at)) }
   scope :of,        ->(booking) { where(booking:) }
   scope :with_default_includes, -> { includes(%i[invoice_parts payments organisation]) }
 
@@ -64,7 +70,7 @@ class Invoice < ApplicationRecord
   before_save :generate_pdf, if: :generate_pdf?
   after_create :supersede!
   after_save :recalculate!, :update_payments
-  after_save :update_journal_entries, unless: :skip_journal_entries
+  after_save :update_journal_entry_batches, unless: :skip_journal_entry_batches
 
   validates :type, inclusion: { in: ->(_) { Invoice.subtypes.keys.map(&:to_s) } }
   validate do
@@ -83,7 +89,7 @@ class Invoice < ApplicationRecord
   end
 
   def update_payments
-    payments.each { _1.update!(booking_id:) }
+    payments.each { it.update!(booking_id:) }
   end
 
   def sequence_number
@@ -110,11 +116,8 @@ class Invoice < ApplicationRecord
     self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
   end
 
-  def update_journal_entries
-    return unless organisation.accounting_settings.enabled
-
-    @journal_entry_manager ||= JournalEntry::Manager[Invoice].new(self)
-    @journal_entry_manager.handle
+  def update_journal_entry_batches
+    JournalEntryBatches::Invoice.handle(self) if organisation.accounting_settings.enabled
   end
 
   def paid?
@@ -138,7 +141,7 @@ class Invoice < ApplicationRecord
   end
 
   def recalculate
-    self.amount = invoice_parts.inject(0) { |sum, invoice_part| invoice_part.to_sum(sum) }
+    self.amount = invoice_parts.reduce(0) { |sum, invoice_part| invoice_part.to_sum(sum) }
     self.amount_open = amount - amount_paid
   end
 
@@ -188,6 +191,6 @@ class Invoice < ApplicationRecord
   end
 
   def vat_breakdown
-    invoice_parts.group_by(&:vat_category).except(nil).transform_values { _1.sum(&:calculated_amount) }
+    invoice_parts.group_by(&:vat_category).except(nil).transform_values { it.sum(&:calculated_amount) }
   end
 end

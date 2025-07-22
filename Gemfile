@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.4.1'
+ruby '3.4.4'
 
 gem 'active_flag'
 gem 'aws-sdk-s3', require: false
@@ -21,6 +21,7 @@ gem 'devise_invitable'
 gem 'discard'
 gem 'dry-schema'
 gem 'email_address'
+gem 'exception_notification'
 gem 'factory_bot_rails', require: false
 gem 'faker', require: false
 gem 'faraday', require: false
@@ -35,6 +36,7 @@ gem 'mobility'
 gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
+gem 'oauth2'
 gem 'pg'
 gem 'prawn', '~> 2.5.0' # https://github.com/prawnpdf/prawn/issues/1346
 gem 'prawn-markup'
@@ -71,14 +73,16 @@ group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'database_cleaner'
-  gem 'debug'
+  gem 'debug', require: 'debug/prelude'
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'rubocop-capybara'
+  gem 'rubocop-factory_bot'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
-  gem 'rubocop-rspec'
+  gem 'rubocop-rspec_rails'
   gem 'simplecov', require: false
 end
 
@@ -86,8 +90,4 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
-end
-
-group :production do
-  gem 'exception_notification'
 end

@@ -10,7 +10,7 @@
 #  address                      :text
 #  bcc                          :string
 #  booking_flow_type            :string
-#  booking_ref_template         :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_day_alpha>s")
+#  booking_ref_template         :string           default("%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_ref_alpha>s")
 #  booking_state_settings       :jsonb
 #  cors_origins                 :text
 #  country_code                 :string           default("CH"), not null
@@ -43,7 +43,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Organisation, type: :model do
+RSpec.describe Organisation do
   let(:organisation) { build(:organisation) }
 
   describe '#save' do

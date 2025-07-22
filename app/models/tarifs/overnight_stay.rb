@@ -9,6 +9,7 @@
 #  accounting_cost_center_nr         :string
 #  associated_types                  :integer          default(0), not null
 #  discarded_at                      :datetime
+#  enabling_conditions               :jsonb
 #  label_i18n                        :jsonb
 #  minimum_price_per_night           :decimal(, )
 #  minimum_price_total               :decimal(, )
@@ -18,6 +19,7 @@
 #  pin                               :boolean          default(TRUE)
 #  prefill_usage_method              :string
 #  price_per_unit                    :decimal(, )
+#  selecting_conditions              :jsonb
 #  tarif_group                       :string
 #  type                              :string
 #  unit_i18n                         :jsonb
@@ -35,10 +37,19 @@ module Tarifs
     Tarif.register_subtype self
 
     def before_usage_validation(usage)
-      usage.instance_exec do
-        self.details = details&.slice(*booking.dates.map(&:iso8601))&.transform_values { _1.presence&.to_f } || {}
-        self.used_units = details.values.compact.sum if used_units.blank?
-      end
+      set_usage_details(usage)
+      set_usage_used_units(usage)
+    end
+
+    def set_usage_details(usage) # rubocop:disable Naming/AccessorMethodName
+      booking_dates = usage.booking.dates.map(&:iso8601)
+      usage.details = usage.details&.slice(*booking_dates)&.transform_values { it.presence&.to_f } || {}
+    end
+
+    def set_usage_used_units(usage) # rubocop:disable Naming/AccessorMethodName
+      return unless usage.details&.values&.any?(&:present?) && usage.details_changed?
+
+      usage.used_units = usage.details.values.compact.sum
     end
   end
 end

@@ -1,5 +1,85 @@
 # Changelog
 
+## 25.7.1
+
+Released 22.07.2025
+
+- Feature: Allow experimental late notices again
+- Feature: Revamp journal entries
+- Feature: Send unsent offers with contract
+- Fix: Allow longer addresses to be displayed in PDFs
+- Fix: Prevent duplicate booking references
+- Fix: Show concluded bookings in occpuancy calendar
+- Fix: Use end_of_day for data digest period_to
+- Fix: Validate conflicting bookings more correctly
+
+## 25.6.2
+
+Released 24.06.2025
+
+- Fix: Block bookings during closedowns
+- Fix: Allow editing of deadlines
+- Fix: Don't overwrite used units by default with overnight_stays
+
+## 25.6.1
+
+Released 02.06.2025
+
+- Fix: Allow no deadlines for overdue requests (manual)
+- Feature: Choose times for bookings which can be selected
+- Feature: Introduce new interface for conditions
+
+## 25.5.3
+
+Released 19.05.2025
+
+- Fix: Retry on SMTP errors
+- Fix: Fix broken booking deletion
+- Feature: Limit amount of bookings that can be displayed at the same time
+- Fix: Allow bookings to be waitlisted instead of accepted
+
+## 25.5.2
+
+Released 12.05.2025
+
+- Fix: Show only a maximum of 250 invoices
+- Fix: Allow to create manual occupancies again
+- Fix: Fix journal entry TAF export
+- Feature: Round VAT amounts
+
+## 25.5.1
+
+Released 01.05.2025
+
+- Fix: Fix operator responsibilty conditions
+- Feature: Introduce waitlist status and allow to book over provisional bookings
+- Refactor: Refactor state machine
+
+## 25.4.2
+
+Released 07.04.2025
+
+- Fix: Fix email_invoice action
+- Fix: Use booking_date for camt imports
+- Chore: Sync translations
+
+## 25.4.1
+
+Released 01.04.2025
+
+- Chore: Update translations
+- Fix: Prevent bookings from becoming overdue when sending an invoice
+- Fix: Redirect correctly after resetting the password
+- Feature: Add more operator notifications
+
+## 25.3.3
+
+Released 31.03.2025
+
+- Refactor: Refactor booking actions to be more flexible in the future
+- Feature: Show VAT in tarif table
+- Feature: Add new notification when tenant signed contract
+
 ## 25.3.2
 
 Released 14.03.2025

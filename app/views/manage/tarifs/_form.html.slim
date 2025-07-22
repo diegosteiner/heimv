@@ -48,24 +48,23 @@
       .col-md-6= f.collection_select :prefill_usage_booking_question_id, @tarif.prefill_usage_booking_questions, :id, :label, include_blank: true
       .col-md-6= f.select :prefill_usage_method, enum_options_for_select(Tarif, :prefill_usage_methods, @tarif.prefill_usage_method), include_blank: true
     
-  - if current_organisation.accounting_settings.enabled
+  - if current_organisation.accounting_settings&.enabled || @tarif.accounting_account_nr.present?
     fieldset 
       .row
-        .col-md-6= f.text_field :accounting_account_nr
+        .col-md-6= f.text_field :accounting_account_nr, required: false
         .col-md-6= f.text_field :accounting_cost_center_nr
 
-  - if current_organisation.vat_categories.any?
-    = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true
+  - if current_organisation.accounting_settings&.liable_for_vat || @tarif.vat_category.present?
+    = f.collection_select :vat_category_id, current_organisation.vat_categories, :id, :to_s, include_blank: true, required: false
 
-  fieldset.mt-4
+  fieldset.mt-4#selecting_conditions
     label.mb-2= Tarif.human_attribute_name(:selecting_conditions)
-    = f.fields_for :selecting_conditions, @tarif.selecting_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:selecting_conditions), value: @tarif.selecting_conditions }
 
+  fieldset.mt-4#enabling_conditions
     label.mb-2= Tarif.human_attribute_name(:enabling_conditions)
-    = f.fields_for :enabling_conditions, @tarif.enabling_conditions do |bcf|
-      = render partial: 'manage/booking_conditions/nested_form_fields', locals: { form: bcf }
+    = render partial: 'manage/booking_conditions/form_field', locals: { name: f.field_name(:enabling_conditions), value: @tarif.enabling_conditions }
 
   .form-actions.pt-4.mt-3
-    = f.submit
+    = f.submit class: 'btn btn-primary'
     =< link_to t(:back), manage_tarifs_path, class: 'btn btn-default'

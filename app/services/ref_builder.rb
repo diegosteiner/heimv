@@ -15,11 +15,12 @@ class RefBuilder
     ref_parts.merge!(hash)
   end
 
-  def generate_lazy(template_string)
+  def generate_lazy(template_string, **override)
     return if template_string.nil?
 
     ref_parts = self.class.ref_parts.select { |key| template_string.include?(key.to_s) }
                     .transform_values { |callable| instance_eval(&callable) }
+                    .merge(**override)
     format(template_string, ref_parts)
   end
 end

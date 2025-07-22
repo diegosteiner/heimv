@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_22_065453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -160,6 +160,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.datetime "updated_at", null: false
     t.integer "tenant_mode", default: 0, null: false
     t.integer "booking_agent_mode", default: 0
+    t.jsonb "applying_conditions"
     t.index ["discarded_at"], name: "index_booking_questions_on_discarded_at"
     t.index ["organisation_id"], name: "index_booking_questions_on_organisation_id"
     t.index ["type"], name: "index_booking_questions_on_type"
@@ -186,6 +187,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "check_on", default: 0, null: false
+    t.jsonb "validating_conditions"
+    t.jsonb "enabling_conditions"
     t.index ["organisation_id"], name: "index_booking_validations_on_organisation_id"
   end
 
@@ -242,7 +245,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "locale"
+    t.bigint "sent_with_notification_id"
     t.index ["booking_id"], name: "index_contracts_on_booking_id"
+    t.index ["sent_with_notification_id"], name: "index_contracts_on_sent_with_notification_id"
   end
 
   create_table "data_digest_templates", force: :cascade do |t|
@@ -296,6 +301,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.boolean "send_with_contract", default: false, null: false
     t.boolean "send_with_last_infos", default: false
     t.boolean "send_with_accepted", default: false, null: false
+    t.jsonb "attaching_conditions"
     t.index ["organisation_id"], name: "index_designated_documents_on_organisation_id"
   end
 
@@ -337,14 +343,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.integer "sequence_number"
     t.integer "sequence_year"
     t.string "ref"
+    t.bigint "sent_with_notification_id"
     t.index ["booking_id"], name: "index_invoices_on_booking_id"
     t.index ["discarded_at"], name: "index_invoices_on_discarded_at"
     t.index ["payment_ref"], name: "index_invoices_on_payment_ref"
+    t.index ["sent_with_notification_id"], name: "index_invoices_on_sent_with_notification_id"
     t.index ["supersede_invoice_id"], name: "index_invoices_on_supersede_invoice_id"
     t.index ["type"], name: "index_invoices_on_type"
   end
 
-  create_table "journal_entries", force: :cascade do |t|
+  create_table "journal_entry_batches", force: :cascade do |t|
     t.bigint "invoice_id"
     t.date "date", null: false
     t.string "currency", null: false
@@ -356,9 +364,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.uuid "booking_id", null: false
     t.datetime "processed_at"
     t.jsonb "fragments"
-    t.index ["booking_id"], name: "index_journal_entries_on_booking_id"
-    t.index ["invoice_id"], name: "index_journal_entries_on_invoice_id"
-    t.index ["payment_id"], name: "index_journal_entries_on_payment_id"
+    t.string "text"
+    t.jsonb "entries"
+    t.string "type"
+    t.index ["booking_id"], name: "index_journal_entry_batches_on_booking_id"
+    t.index ["invoice_id"], name: "index_journal_entry_batches_on_invoice_id"
+    t.index ["payment_id"], name: "index_journal_entry_batches_on_payment_id"
   end
 
   create_table "key_sequences", force: :cascade do |t|
@@ -405,6 +416,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.datetime "delivered_at"
     t.index ["booking_id"], name: "index_notifications_on_booking_id"
     t.index ["mail_template_id"], name: "index_notifications_on_mail_template_id"
+  end
+
+  create_table "oauth_tokens", force: :cascade do |t|
+    t.bigint "organisation_id", null: false
+    t.integer "audience", null: false
+    t.string "access_token"
+    t.string "refresh_token"
+    t.string "token_type"
+    t.datetime "expires_at"
+    t.string "client_id"
+    t.string "client_secret"
+    t.string "authorize_url"
+    t.string "token_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organisation_id"], name: "index_oauth_tokens_on_organisation_id"
   end
 
   create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -454,6 +481,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "organisation_id", null: false
+    t.jsonb "assigning_conditions"
     t.index ["booking_id"], name: "index_operator_responsibilities_on_booking_id"
     t.index ["operator_id"], name: "index_operator_responsibilities_on_operator_id"
     t.index ["ordinal"], name: "index_operator_responsibilities_on_ordinal"
@@ -507,7 +535,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.string "esr_ref_prefix"
     t.string "default_payment_info_type"
     t.string "invoice_payment_ref_template", default: ""
-    t.string "booking_ref_template", default: ""
+    t.string "booking_ref_template", default: "%<home_ref>s%<year>04d%<month>02d%<day>02d%<same_ref_alpha>s"
     t.jsonb "settings", default: {}
     t.text "creditor_address"
     t.string "country_code", default: "CH", null: false
@@ -707,6 +735,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
     t.decimal "minimum_price_total"
     t.string "accounting_cost_center_nr"
     t.bigint "vat_category_id"
+    t.jsonb "selecting_conditions"
+    t.jsonb "enabling_conditions"
     t.index ["discarded_at"], name: "index_tarifs_on_discarded_at"
     t.index ["organisation_id"], name: "index_tarifs_on_organisation_id"
     t.index ["prefill_usage_booking_question_id"], name: "index_tarifs_on_prefill_usage_booking_question_id"
@@ -823,6 +853,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
   add_foreign_key "booking_validations", "organisations"
   add_foreign_key "bookings", "organisations"
   add_foreign_key "contracts", "bookings"
+  add_foreign_key "contracts", "notifications", column: "sent_with_notification_id"
   add_foreign_key "data_digest_templates", "organisations"
   add_foreign_key "data_digests", "data_digest_templates"
   add_foreign_key "data_digests", "organisations"
@@ -832,7 +863,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
   add_foreign_key "invoice_parts", "vat_categories"
   add_foreign_key "invoices", "bookings"
   add_foreign_key "invoices", "invoices", column: "supersede_invoice_id"
-  add_foreign_key "journal_entries", "invoices"
+  add_foreign_key "invoices", "notifications", column: "sent_with_notification_id"
+  add_foreign_key "journal_entry_batches", "invoices"
   add_foreign_key "key_sequences", "organisations"
   add_foreign_key "mail_template_designated_documents", "designated_documents"
   add_foreign_key "mail_template_designated_documents", "rich_text_templates", column: "mail_template_id"
@@ -840,6 +872,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_143650) do
   add_foreign_key "meter_reading_periods", "usages"
   add_foreign_key "notifications", "bookings"
   add_foreign_key "notifications", "rich_text_templates", column: "mail_template_id"
+  add_foreign_key "oauth_tokens", "organisations"
   add_foreign_key "occupancies", "occupiables"
   add_foreign_key "occupiables", "organisations"
   add_foreign_key "operator_responsibilities", "bookings"

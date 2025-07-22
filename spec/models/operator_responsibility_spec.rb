@@ -4,20 +4,21 @@
 #
 # Table name: operator_responsibilities
 #
-#  id              :bigint           not null, primary key
-#  ordinal         :integer
-#  remarks         :text
-#  responsibility  :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  booking_id      :uuid
-#  operator_id     :bigint           not null
-#  organisation_id :bigint           not null
+#  id                   :bigint           not null, primary key
+#  assigning_conditions :jsonb
+#  ordinal              :integer
+#  remarks              :text
+#  responsibility       :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  booking_id           :uuid
+#  operator_id          :bigint           not null
+#  organisation_id      :bigint           not null
 #
 
 require 'rails_helper'
 
-RSpec.describe OperatorResponsibility, type: :model do
+RSpec.describe OperatorResponsibility do
   let(:organisation) { create(:organisation) }
   let(:operator) { create(:operator, organisation:) }
   let(:booking) { create(:booking, organisation:) }
@@ -41,7 +42,7 @@ RSpec.describe OperatorResponsibility, type: :model do
       before do
         create_list(:operator_responsibility, 4, organisation:, operator:,
                                                  responsibility: :administration, booking: nil,
-                                                 assigning_conditions: [BookingConditions::AlwaysApply.new])
+                                                 assigning_conditions: [BookingConditions::Always.new])
       end
 
       it { is_expected.to be_valid }

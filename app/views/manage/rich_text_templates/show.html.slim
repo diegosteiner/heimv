@@ -4,6 +4,7 @@ h3.mb-4= t(:description, scope: [:rich_text_templates, @rich_text_template.key],
 
 .card.shadow-sm
   .card-body
+    h4= @rich_text_template.title
     == @rich_text_template.body
 
 br

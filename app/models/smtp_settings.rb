@@ -21,4 +21,17 @@ class SmtpSettings
   def to_h
     attributes.symbolize_keys
   end
+
+  def to_config
+    case authentication&.to_s&.upcase
+    when 'XOAUTH2'
+      to_h.merge({ password: -> { xoauth2_token&.refreshed_token&.token } })
+    else
+      to_h
+    end
+  end
+
+  def xoauth2_token
+    @xoauth2_token ||= parent.oauth_tokens.find_by(audience: :smtp)
+  end
 end

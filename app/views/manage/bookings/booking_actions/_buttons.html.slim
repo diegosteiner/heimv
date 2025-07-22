@@ -1,11 +1,10 @@
-= form_with(url: manage_booking_invoke_action_path(booking), class: defined?(form_class) && form_class) do |f|
-	- booking.booking_state.manage_actions.filter(&:allowed?).each do |action|
-		- button_options = {}
-		- button_options[:class] = defined?(button_class) && button_class.is_a?(Proc) ? button_class.(action) : button_class&.to_s
-		- button_options[:data] = { confirm: action.confirm } if action.confirm.present?
-		- if action.prepare?
-			= link_to manage_booking_prepare_action_path(booking, id: action.to_sym), **button_options
-				= action.label 
-		- else
-			= f.button(**button_options.merge({ name: :id, value: action.to_sym}))
-				= action.label 
+- booking.booking_flow.manage_actions.values.each do |action| 
+  - Array.wrap(action.invokable_with(current_user:)).compact.each do |invokable_with|
+    - label = invokable_with[:label] || action.label
+    = button_to manage_booking_invoke_action_path(booking, id: action.key), \
+      name: :action, value: action.key, \
+      method: invokable_with[:prepare] ? :get : :post, \
+      params: invokable_with[:params].presence, \
+      data: { confirm: invokable_with[:confirm], disable_with: label }.compact, \
+      class: defined?(button_class) && (button_class.is_a?(Proc) ? button_class.(invokable_with[:variant].presence || :primary) : button_class)
+      = label

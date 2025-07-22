@@ -30,7 +30,11 @@
     details
       summary 
         = t('.help_title')
-      = t('.help_html')
+      == t('.help_lead')
+      - if @rich_text_template.definition.present?
+        - @rich_text_template.definition[:context].each do |context_key|
+          == t(context_key, scope: 'manage.rich_text_templates.form.template_context')
+      == t(:other, scope: 'manage.rich_text_templates.form.template_context')
 
   - if @rich_text_template.is_a?(MailTemplate)
     fieldset.mb-3
@@ -43,11 +47,9 @@
           label.form-check-label[for=html_id]
             = link_to edit_manage_designated_document_path(designated_document)
               = designated_document.name
-            - conditions_count = designated_document.attaching_conditions.count
-            - if conditions_count > 0
+            - if designated_document.attaching_conditions.present?
               span.ms-1.text-muted.text-sm
-                =<> conditions_count
-                = BookingCondition.model_name.human(count: conditions_count)
+                = BookingCondition.model_name.human
 
   .form-actions.pt-4
     = f.submit

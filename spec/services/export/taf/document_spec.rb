@@ -5,8 +5,8 @@ require 'rails_helper'
 describe Export::Taf::Document, type: :model do
   subject(:taf_document) do
     described_class.new do
-      block(:Blg, text: 'TAF is "great"', test: 1) do
-        block(:Bk, test: 2)
+      Export::Taf::Block.new(:Blg, text: 'TAF is "great"', test: 1) do
+        Export::Taf::Block.new(:Bk, test: 2)
       end
     end
   end
@@ -14,7 +14,7 @@ describe Export::Taf::Document, type: :model do
   describe '#initialize' do
     subject(:taf_block) { taf_document.children.first }
 
-    it 'works as DSL' do
+    it 'works as DSL' do # rubocop:disable RSpec/MultipleExpectations
       expect(taf_block.type).to eq(:Blg)
       expect(taf_block.properties.transform_values(&:value)).to eq({ test: '1', text: '"TAF is ""great"""' })
       expect(taf_block.children.count).to eq(1)

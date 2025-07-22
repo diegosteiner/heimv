@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
-describe 'Booking by tenant', :devise, type: :feature do
+describe 'Booking by tenant', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:org) { organisation.to_param }
   let(:organisation_user) { create(:organisation_user, :manager, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
   let(:tenant) { create(:tenant, organisation:) }
-  let!(:responsibilities) do
-    OperatorResponsibility.responsibilities.keys.map do |responsibility|
-      create(:operator_responsibility, organisation:, responsibility:,
-                                       assigning_conditions: [BookingConditions::AlwaysApply.new])
-    end
-  end
   let(:deposit_tarifs) do
     create(:tarif, organisation:, tarif_group: 'Akontorechnung',
                    associated_types: %i[deposit offer contract])
@@ -36,24 +30,22 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   let(:booking) do
     begins_at = Time.zone.local(Time.zone.now.year + 1, 2, 28, 8)
-    build(:booking,
-          begins_at:,
-          ends_at: begins_at + 1.week + 4.hours + 15.minutes,
-          organisation:,
-          home:, tenant: nil,
-          committed_request: false,
-          notifications_enabled: true)
+    build(:booking, begins_at:, ends_at: begins_at + 1.week + 4.hours + 15.minutes,
+                    organisation:, home:, tenant: nil, committed_request: false, notifications_enabled: true)
   end
 
   let(:expected_notifications) do
-    %w[payment_due_notification payment_confirmation_notification
+    %w[email_invoice_notification payment_confirmation_notification
        upcoming_notification operator_upcoming_notification operator_upcoming_notification
-       operator_upcoming_soon_notification operator_upcoming_soon_notification
-       upcoming_soon_notification awaiting_contract_notification
+       operator_upcoming_soon_notification operator_upcoming_soon_notification operator_upcoming_soon_notification
+       upcoming_soon_notification email_contract_notification past_notification
        definitive_request_notification manage_definitive_request_notification
-       provisional_request_notification open_request_notification
+       provisional_request_notification open_request_notification contract_signed_notification
        manage_new_booking_notification unconfirmed_request_notification completed_notification
-       operator_contract_sent_notification operator_invoice_sent_notification]
+       operator_email_contract_notification operator_email_contract_notification operator_email_contract_notification
+       operator_email_invoice_notification operator_payment_confirmation_notification
+       operator_contract_signed_notification operator_contract_signed_notification
+       operator_contract_signed_notification]
   end
 
   let(:expected_transitions) do
@@ -61,7 +53,14 @@ describe 'Booking by tenant', :devise, type: :feature do
        awaiting_contract upcoming upcoming_soon active past payment_due completed]
   end
 
-  it 'flows through happy path' do
+  before do
+    OperatorResponsibility.responsibilities.keys.map do |responsibility|
+      create(:operator_responsibility, organisation:, responsibility:,
+                                       assigning_conditions: [BookingConditions::Always.new])
+    end
+  end
+
+  it 'flows through happy path' do # rubocop:disable RSpec/NoExpectationExample,RSpec/ExampleLength
     create_request
     confirm_request
     signin(user, user.password)
@@ -93,8 +92,7 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def create_request
     visit new_booking_path
-    fill_request_form(email: tenant.email, begins_at: booking.begins_at,
-                      ends_at: booking.ends_at, home: booking.home)
+    fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at, home: booking.home)
     submit_form
     flash = Rails::Html::FullSanitizer.new.sanitize(I18n.t('flash.public.bookings.create.notice',
                                                            email: tenant.email,
@@ -125,13 +123,14 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def accept_booking
     visit manage_booking_path(@booking, org:)
-    click_on :accept
-    click_on :postpone_deadline
+    click_button BookingActions::Accept.t(:label)
+    click_button BookingActions::PostponeDeadline.t(:label)
   end
 
   def commit_request
     visit public_booking_path(id: @booking.token)
-    click_on :commit_request
+    click_button BookingActions::CommitRequest.t(:label)
+    page.driver.browser.switch_to.alert.accept
   end
 
   def choose_tarifs
@@ -160,11 +159,11 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def confirm_booking
     visit manage_booking_path(@booking, org:)
-    click_on :email_contract
-    submit_form
+    click_on BookingActions::EmailContract.translate(:label_with_invoice)
+    click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
-    click_on BookingActions::Manage::MarkContractSigned.label
-    submit_form
+    click_on BookingActions::MarkContractSigned.label
+    click_on BookingActions::MarkContractSigned.label # confirm
   end
 
   def perform_booking
@@ -195,13 +194,13 @@ describe 'Booking by tenant', :devise, type: :feature do
 
   def send_invoice
     visit manage_booking_path(@booking, org:)
-    click_on :email_invoices
-    submit_form
+    find_all('[name="action"][value="email_invoice"]').first.click
+    click_button I18n.t('manage.notifications.form.deliver')
     visit manage_booking_path(@booking, org:)
   end
 
   def finalize_booking
-    click_on :postpone_deadline
+    find_all('[name="action"][value="postpone_deadline"]').first.click
     visit manage_booking_invoices_path(@booking, org:)
     click_on I18n.t(:add_record, model_name: Payment.model_name.human)
     find_all('[type="submit"]').last.click
@@ -211,5 +210,52 @@ describe 'Booking by tenant', :devise, type: :feature do
     expect(@booking.notifications.map { |notification| notification.mail_template.key })
       .to match_array(expected_notifications)
     expect(@booking.state_transitions.ordered.map(&:to_state)).to match_array(expected_transitions)
+  end
+
+  describe 'check conflicting bookings' do
+    before do
+      create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                       occupancy_type: :tentative, initial_state: :provisional_request)
+    end
+
+    context 'without waitlist_enabled' do
+      it 'returns error' do
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        submit_form
+        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
+
+    context 'with waitlist_enabled' do
+      before { organisation.tap { it.booking_state_settings.enable_waitlist = true }.save! }
+
+      it 'returns no error' do
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        submit_form
+        expect(page).to have_no_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
+
+    context 'with waitlist_enabled and conflicting booking' do
+      let(:conflicting_booking) do
+        create(:booking, home:, organisation:, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                         occupancy_type: :occupied, initial_state: :upcoming)
+      end
+
+      before { organisation.tap { it.booking_state_settings.enable_waitlist = true }.save! }
+
+      it 'returns error' do
+        conflicting_booking
+        visit new_booking_path
+        fill_request_form(email: tenant.email, begins_at: booking.begins_at, ends_at: booking.ends_at,
+                          home: booking.home)
+        submit_form
+        expect(page).to have_content(I18n.t('activerecord.errors.messages.occupancy_conflict'))
+      end
+    end
   end
 end

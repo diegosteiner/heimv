@@ -2,15 +2,11 @@
 
 module BookingStates
   class UpcomingSoon < Base
-    templates << MailTemplate.define(:upcoming_soon_notification, context: %i[booking], optional: true)
-    templates << MailTemplate.define(:operator_upcoming_soon_notification, context: %i[booking], optional: true)
+    use_mail_template(:upcoming_soon_notification, context: %i[booking], optional: true)
+    use_mail_template(:operator_upcoming_soon_notification, context: %i[booking], optional: true)
 
     def checklist
       []
-    end
-
-    def invoice_type
-      Invoices::Deposit
     end
 
     def roles
@@ -22,9 +18,9 @@ module BookingStates
     end
 
     after_transition do |booking|
-      booking.occupied! if occupied_occupancy_state?(booking)
-      booking.operator_responsibilities.by_operator(:home_handover, :home_return).keys.map do |operator|
-        MailTemplate.use(:operator_upcoming_soon_notification, booking, to: operator, &:autodeliver!)
+      booking.occupied! if occupied_booking_state?(booking)
+      Notification.dedup(booking, to: %i[administration home_handover home_return]) do |to|
+        MailTemplate.use(:operator_upcoming_soon_notification, booking, to:, &:autodeliver!)
       end
       MailTemplate.use(:upcoming_soon_notification, booking, to: :tenant, &:autodeliver!)
     end

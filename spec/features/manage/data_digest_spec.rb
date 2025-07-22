@@ -1,32 +1,38 @@
 # frozen_string_literal: true
 
-describe 'Data Digests', :devise, type: :feature do
+describe 'Data Digests', :devise do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:organisation_user) { create(:organisation_user, :admin, organisation:) }
   let(:user) { organisation_user.user }
   let(:home) { create(:home, organisation:) }
   let(:booking) { create(:booking, organisation:, home:, skip_infer_transitions: false) }
-  let(:data_digest) { create(:data_digest, type: DataDigestTemplates::Booking, organisation:) }
+  let!(:data_digest_template) do
+    create(:data_digest_template, label: 'Testdigest', type: DataDigestTemplates::Booking, organisation:)
+  end
 
   before do
     signin(user, user.password)
   end
 
   it 'can create new data digest' do
-    name = 'Test Data Digest 123'
+    label = 'Test Data Digest 123'
     visit new_manage_data_digest_template_path(type: DataDigestTemplates::Booking, org: organisation)
-    fill_in :data_digest_template_label, with: name
+    fill_in :data_digest_template_label, with: label
     submit_form
 
     expect(page).to have_content I18n.t('flash.actions.create.notice',
                                         resource_name: DataDigestTemplates::Booking.model_name.human)
-    expect(page).to have_content name
+    expect(page).to have_content label
   end
 
-  it 'can see a booking', :skip do
-    visit manage_data_digest_path(data_digest, org: organisation)
+  it 'can see a booking', skip: 'broken on CI' do
+    visit manage_data_digest_templates_path(org: organisation)
+    click_on data_digest_template.label
     bookings = create_list(:booking, 3, organisation:, home:)
-    click_on I18n.t('activerecord.enums.data_digest.periods.ever')
+    select I18n.t('activerecord.enums.data_digest.periods.ever'), from: :data_digest_period
+    # click_button I18n.t('helpers.submit.create')
+    submit_form
+    click_on data_digest_template.label
     bookings.each { |booking| expect(page).to have_content booking.ref }
     click_on 'CSV'
     bookings.each { |booking| expect(page).to have_content booking.ref }

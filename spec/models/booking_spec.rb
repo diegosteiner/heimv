@@ -44,7 +44,13 @@
 
 require 'rails_helper'
 
-describe Booking, type: :model do
+RSpec::Matchers.define :have_state do |expected|
+  match do |actual|
+    actual.booking_flow.in_state?(expected.to_s)
+  end
+end
+
+describe Booking do
   let(:organisation) { home.organisation }
   let(:tenant) { create(:tenant, organisation:) }
   let(:home) { create(:home) }
@@ -67,20 +73,23 @@ describe Booking, type: :model do
 
   describe '#roles' do
     subject(:roles) { booking.roles }
+
     before do
       booking.save
       booking.reload
     end
 
     it { expect(roles).to eq({ administration: organisation, tenant: booking.tenant }) }
+
     it do
-      expect(Booking::ROLES).to contain_exactly(*%i[organisation tenant booking_agent administration
-                                                    home_handover home_return billing])
+      expect(Booking::ROLES).to match_array(%i[organisation tenant booking_agent administration
+                                               home_handover home_return billing])
     end
 
     context 'with agent_booking' do
       let(:booking_agent) { create(:booking_agent, organisation:) }
-      let!(:agent_booking) { create(:agent_booking, organisation:, booking:, booking_agent_code: booking_agent.code) }
+
+      before { create(:agent_booking, organisation:, booking:, booking_agent_code: booking_agent.code) }
 
       it { expect(roles[:booking_agent]).to eq(booking_agent) }
     end
@@ -94,6 +103,7 @@ describe Booking, type: :model do
           billing: create(:operator, organisation:)
         }
       end
+
       before do
         responsibilities.each do |responsibility, operator|
           booking.operator_responsibilities.create(responsibility:, operator:)
@@ -128,6 +138,60 @@ describe Booking, type: :model do
       it 'uses existing tenant when email is correct' do
         expect(booking.save).to be true
         expect(booking.tenant.id).to eq(existing_tenant.id)
+      end
+    end
+  end
+
+  describe '#apply_transitions' do
+    let(:target_state) { :open_request }
+
+    it 'add an error when trying to transition into invalid state' do
+      # booking.skip_infer_transitions = true
+      expect(booking.apply_transitions(:nonexistent)).to be_falsy
+      expect(booking.errors[:transition_to]).not_to be_empty
+    end
+
+    it 'transitions into valid state' do
+      expect(booking).to be_valid
+      expect(booking.save).to be true
+      expect(booking.apply_transitions(target_state)).not_to be_falsy
+      expect(booking).to have_state(target_state)
+      expect(booking.booking_state.to_s).to eq(target_state.to_s)
+    end
+  end
+
+  describe '#conflicting?' do
+    let(:booking) { build(:booking, home:, tenant:, organisation:, initial_state: :definitive_request) }
+    let(:begins_at) { booking.begins_at }
+    let(:ends_at) { booking.ends_at }
+    let(:conflicting_occupancy) do
+      create(:occupancy, occupancy_type: :occupied, organisation:, begins_at:, ends_at:, occupiable: home)
+    end
+
+    context 'with conflicting occupancy' do
+      it 'fails validation with :occupancy_conflict' do
+        conflicting_occupancy
+        expect(booking).not_to be_valid
+        expect(booking.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+      end
+    end
+
+    context 'with non-conflicting occupancy' do
+      it 'fails validation with :occupancy_conflict' do
+        conflicting_occupancy.free!
+        expect(booking).to be_valid
+      end
+    end
+
+    context 'with waitlist_enabled' do
+      before { allow(organisation.booking_state_settings).to receive(:enable_waitlist).and_return(true) }
+
+      it 'fails validation with :occupancy_conflict' do
+        conflicting_occupancy
+        expect(booking).not_to be_valid
+        expect(booking.errors).to be_added(:occupiable_ids, :occupancy_conflict)
+        conflicting_occupancy.tentative!
+        expect(booking).to be_valid
       end
     end
   end

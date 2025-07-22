@@ -13,7 +13,7 @@
             .col-md-6
               dl
                 dt= Occupancy.model_name.human
-                dd= render partial: 'public/occupancies/span', locals: { booking: @booking }
+                dd= render partial: 'public/occupancies/span', locals: { booking: @booking, show_conflicts: true }
 
             .col-md-6
               - if @booking.agent_booking.present?
@@ -69,18 +69,16 @@
 
             .col-md-6
               dl
-                dt
-                  =<> Booking.human_attribute_name(:tenant_organisation)
-                  | /
-                  =<> Booking.human_attribute_name(:purpose_description)
-                  - if @booking.tenant_organisation.present?
-                    dd= @booking.tenant_organisation
+                dt=<> Booking.human_attribute_name(:tenant_organisation)
+                - if @booking.tenant_organisation.present?
+                  dd= @booking.tenant_organisation
 
-                  - if @booking.category.present? || @booking.purpose_description.present?
-                    dd
-                      = @booking.purpose_description
-                      - if @booking.category
-                        = " (#{@booking.category})"
+                dt=<> Booking.human_attribute_name(:purpose_description)
+                - if @booking.category.present? || @booking.purpose_description.present?
+                  dd
+                    = @booking.purpose_description
+                    - if @booking.category
+                      = " (#{@booking.category})"
             
               dl
                 dt= Booking.human_attribute_name(:approximate_headcount)
@@ -102,10 +100,14 @@
                   dd.mb-2
                     div= response.booking_question.label
                     div
-                      - if lookup_context.template_exists? response.booking_question.to_partial_path('value'), [], true
-                        em= render partial: response.booking_question.to_partial_path('value'), locals: { value: response.value }
-                      - else 
-                        em= response.value
+                      em
+                        = render_partial_or_default response.booking_question.to_partial_path('value'), locals: { value: response.value }
+                          = response.value
+
+          .d-flex.justify-content-end.mt-2
+            = link_to edit_manage_booking_path(@booking), class: 'btn btn-primary'
+              span.fa.fa-edit
+              =< t(:edit)
 
       .card.shadow-sm.mt-4
         .card-body
@@ -144,7 +146,8 @@
 
           - if can?(:manage, @booking)
             .row.mt-4
-              = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking: @booking, form_class: 'col-md-8 d-flex gap-1 mt-2 align-items-start flex-wrap', button_class: proc { |action| "btn btn-outline-#{action.variant}" } }
+              .col-md-8.d-flex.gap-1.mt-2.align-items-start.flex-wrap 
+                = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking: @booking, button_class: proc { |variant| "btn btn-outline-#{variant}" } }
                       
               .col-md-4.d-flex.gap-1.justify-content-end.align-items-start.mt-2.flex-wrap
                 = form_with(url: manage_booking_path(@booking), method: :patch, local: true) do |f|
@@ -155,10 +158,6 @@
                       - @booking.booking_flow.allowed_transitions.each do |state|
                         = f.button name: :'booking[transition_to]', value: state, class: 'dropdown-item'
                           = t(:label, scope: [:booking_states, state])
-
-                = link_to edit_manage_booking_path(@booking), class: 'btn btn-primary'
-                  span.fa.fa-edit
-                  =< t(:edit)
     .col-md-3
       = render partial: 'timeline', locals: { booking_logs: @booking.logs.order(created_at: :desc) }
           

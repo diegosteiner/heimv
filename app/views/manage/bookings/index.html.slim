@@ -31,7 +31,7 @@ h1.my-0= Booking.model_name.human(count: 2)
 #filter.modal.fade
   .modal-dialog.modal-lg
     .modal-content 
-      = form_with(model: @filter, url: manage_bookings_path, scope: 'filter', method: :GET, local: true) do |f|
+      = form_with(model: @filter, url: manage_bookings_path, scope: 'filter', method: :get, local: true) do |f|
         = hidden_field_tag :locale, I18n.locale
         .modal-body
           = render partial: @filter.to_partial_path('filter_fields'), locals: { f: f }
@@ -47,14 +47,14 @@ h1.my-0= Booking.model_name.human(count: 2)
        link_to(Booking.model_name.human, new_manage_booking_path(booking: @filter&.derive_booking_attributes)) \
       ].join(" #{t(:or)} ")).html_safe
        
-- elsif @bookings.size > 250
+- elsif @bookings.size >= Booking::LIMIT
   .alert.alert-danger.d-flex
     .me-3
       i.fa.fa-exclamation-circle
-    = t('.too_many_records')
+    = t('too_many_records', model_name: Booking.model_name.human(count: 2))
 - else
   - grouped_bookings = @bookings.group_by { |booking| booking.booking_state_cache }
-  - current_organisation.booking_flow_class.all.values.each do |state|
+  - current_organisation.booking_flow_class.state_classes.values.each do |state|
     - bookings = grouped_bookings[state.to_s]
     - collapse_id = "collapse-#{CGI.escape(state.to_s)}"
     - next if bookings.blank?

@@ -2,15 +2,11 @@
 
 module BookingStates
   class CancelationPending < Base
-    templates << MailTemplate.define(:operator_cancelation_pending_notification, context: %i[booking], optional: true)
-    templates << MailTemplate.define(:manage_cancelation_pending_notification, context: %i[booking], optional: true)
+    use_mail_template(:operator_cancelation_pending_notification, context: %i[booking], optional: true)
+    use_mail_template(:manage_cancelation_pending_notification, context: %i[booking], optional: true)
 
     def checklist
       BookingStateChecklistItem.prepare(:invoices_settled, booking:)
-    end
-
-    def invoice_type
-      Invoices::Invoice
     end
 
     def self.to_sym
@@ -23,12 +19,14 @@ module BookingStates
 
     after_transition do |booking|
       booking.free!
-      booking.deadline&.clear
+      booking.deadline&.clear!
 
-      booking.operator_responsibilities.by_operator(:home_handover, :home_return).keys.map do |operator|
-        MailTemplate.use(:operator_cancelation_pending_notification, booking, to: operator, &:autodeliver!)
+      Notification.dedup(booking, to: %i[billing home_handover home_return]) do |to|
+        MailTemplate.use(:operator_cancelation_pending_notification, booking, to:, &:autodeliver!)
       end
       MailTemplate.use(:manage_cancelation_pending_notification, booking, to: :administration, &:autodeliver!)
+
+      booking.conflicting_bookings.each(&:apply_transitions)
     end
 
     infer_transition(to: :cancelled) do |booking|

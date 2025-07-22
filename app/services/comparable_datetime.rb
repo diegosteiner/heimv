@@ -21,7 +21,7 @@ class ComparableDatetime < Data.define(:year, :month, :day, :weekday, :hour, :mi
     match_data = REGEX.match(value)
     return unless match_data
 
-    new(**match_data.named_captures.symbolize_keys.transform_values { _1.presence })
+    new(**match_data.named_captures.symbolize_keys.transform_values(&:presence))
   end
 
   def self.from_value(value)
@@ -33,12 +33,8 @@ class ComparableDatetime < Data.define(:year, :month, :day, :weekday, :hour, :mi
     when String
       from_string(value)
     else
-      super
+      value
     end
-  end
-
-  def self.[](*)
-    from_value(*)
   end
 
   def initialize(year: nil, month: nil, day: nil, weekday: nil, hour: nil, minute: nil) # rubocop:disable Metrics/ParameterLists

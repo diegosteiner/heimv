@@ -7,7 +7,7 @@ module Implementable
 
   def [](klass_or_instance)
     klass = klass_or_instance.is_a?(Class) ? klass_or_instance : klass_or_instance.class
-    implementations[klass] || implementations.find { klass.ancestors.include?(_1) }
+    implementations[klass] || implementations.find { klass.ancestors.include?(it) }
   end
 
   def implement_for(klass, &)

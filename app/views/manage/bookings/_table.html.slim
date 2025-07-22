@@ -10,7 +10,7 @@
             = link_to manage_booking_path(booking), class: 'd-block'
               h5.m-0.text-center= booking.ref
         .col-md-4.col-lg-3.py-3
-          = render partial: 'public/occupancies/span', locals: { booking: booking }
+          = render partial: 'public/occupancies/span', locals: { booking: booking, show_conflicts: true }
 
           .d-flex.mt-2
             div.me-2
@@ -61,7 +61,7 @@
               i.fa.fa-angle-down
             .dropdown-menu.dropdown-menu-right
               - if can?(:manage, booking)
-                = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking:, button_class: proc { |action| "dropdown-item text-#{action.variant}" } }
+                = render partial: 'manage/bookings/booking_actions/buttons', locals: { booking:, button_class: proc { |variant| "dropdown-item text-#{variant}" } }
               .dropdown-divider
               = link_to t(:show), manage_booking_path(booking), class: 'dropdown-item' if can?(:show, booking)
               = link_to t(:edit), edit_manage_booking_path(booking), class: 'dropdown-item' if can?(:edit, booking)

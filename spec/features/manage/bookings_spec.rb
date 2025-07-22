@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Bookings', type: :feature do
+describe 'Bookings' do
   let(:organisation) { create(:organisation, :with_templates) }
   let(:organisation_user) { create(:organisation_user, :admin, organisation:) }
   let(:user) { organisation_user.user }
@@ -8,7 +8,7 @@ describe 'Bookings', type: :feature do
   let(:bookings) { create_list(:booking, 3, organisation:, home:) }
   let(:definitive_request) do
     create(:booking, organisation:, home:, begins_at: 3.months.from_now).tap do |booking|
-      booking.update(transition_to: :definitive_request)
+      booking.update(committed_request: true, transition_to: :definitive_request)
     end
   end
 
@@ -34,11 +34,11 @@ describe 'Bookings', type: :feature do
   context Booking::Filter.to_s do
     it 'can search with the searchbar' do
       visit manage_root_path
-      find('#searchbar_query').fill_in with: definitive_request.ref
-      find('#searchbar button[type=submit]').click
+      find_by_id('searchbar_query').fill_in with: definitive_request.ref
+      within(id: 'searchbar') { click_button }
 
       expect(page).to have_content definitive_request.ref
-      bookings.each { expect(page).not_to have_content(it.ref) }
+      bookings.each { expect(page).to have_no_content(it.ref) }
     end
 
     it 'can search with the filter' do
@@ -51,7 +51,7 @@ describe 'Bookings', type: :feature do
       submit_form
 
       expect(page).to have_content definitive_request.ref
-      bookings.each { expect(page).not_to have_content(it.ref) }
+      bookings.each { expect(page).to have_no_content(it.ref) }
     end
   end
 end

@@ -9,6 +9,7 @@ module Manage
     def index
       @invoices = @invoices.where(booking: { organisation: current_organisation })
                            .includes(:organisation, :payments).ordered.with_attached_pdf
+                           .limit(Invoice::LIMIT)
       @invoices = @invoices.where(booking: @booking) if @booking.present?
       @invoices = @filter.apply(@invoices, cached: false) if @filter.any? && @booking.blank?
 
@@ -36,6 +37,7 @@ module Manage
     end
 
     def create
+      @booking = @invoice.booking
       @invoice.save
       respond_with :manage, @invoice, location: manage_booking_invoices_path(@invoice.booking)
     end
@@ -53,13 +55,17 @@ module Manage
     private
 
     def set_filter
-      default_filter_params = { paid: false }.with_indifferent_access
+      invoice_types = if @booking.blank?
+                        %w[Invoices::Invoice Invoices::Deposit Invoices::LateNotice
+                           Invoices::LateNotice::Invoice]
+                      end
+      default_filter_params = { paid: false, invoice_types: }.with_indifferent_access
       @filter = Invoice::Filter.new(default_filter_params.merge(invoice_filter_params || {}))
     end
 
     def invoice_filter_params
-      params[:filter]&.permit(%w[issued_at_after issued_at_before payable_until_after payable_until_before
-                                 invoice_type paid])
+      params[:filter]&.permit(*%w[issued_at_after issued_at_before payable_until_after payable_until_before paid],
+                              invoice_types: [])
     end
 
     def invoice_params

@@ -33,6 +33,7 @@ class Deadline < ApplicationRecord
   end
 
   def exceeded?(other = Time.zone.now)
+    reload
     armed? && other > at
   end
 
@@ -43,14 +44,14 @@ class Deadline < ApplicationRecord
   def postpone
     return unless postponable?
 
-    update(at: postponable_until, postponable_for: nil)
+    update(at: postponable_until, postponable_for: nil) && booking.touch # rubocop:disable Rails/SkipsModelValidations
   end
 
   def postponable?
     postponable_for.present? && postponable_for.positive? && armed?
   end
 
-  def clear
+  def clear!
     update_columns(armed: false) # rubocop:disable Rails/SkipsModelValidations
   end
 end
