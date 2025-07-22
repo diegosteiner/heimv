@@ -17,10 +17,11 @@ module Export
 
         def render
           bounding_box [x_position, y_position], width: 200, height: @height do
+            approximate_lines = @address&.flat_map { (it.length / 45) + 1 }&.sum
             text @label, size: 10, style: :bold if @label
             move_down 5
 
-            text @address&.join("\n") || ''
+            text @address&.join("\n") || '', size: (13 - [approximate_lines, 4].compact.max).clamp(7, 9)
             move_down 5
 
             render_represented_by if @represented_by.present?
