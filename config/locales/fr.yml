@@ -879,7 +879,9 @@ fr:
       confirm:
       label: Envoyer le contrat
       label_with_deposit:
+      label_with_invoice: Envoyer le contrat avec facture
       label_without_deposit:
+      label_without_invoice: Envoyer le contrat sans facture
     email_invoice:
       label: Envoyer une facture
       label_with_ref:

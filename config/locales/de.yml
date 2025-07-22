@@ -888,8 +888,8 @@ de:
     email_contract:
       confirm: Den Vertrag wirklich ohne Akontorechnung verschicken?
       label: Vertrag versenden
-      label_with_deposit: Vertrag und Akontorechnung verschicken
-      label_without_deposit: Vertrag ohne Akontorechnung verschicken
+      label_with_invoice: Vertrag und Akontorechnung/Offerte verschicken
+      label_without_invoice: Vertrag ohne Akontorechnung/Offerte verschicken
     email_invoice:
       label: Rechnung verschicken
       label_with_ref: "%{type} %{ref} verschicken"

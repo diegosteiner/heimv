@@ -1,5 +1,18 @@
 # Changelog
 
+## 25.7.1
+
+Released 22.07.2025
+
+- Feature: Allow experimental late notices again
+- Feature: Revamp journal entries
+- Feature: Send unsent offers with contract
+- Fix: Allow longer addresses to be displayed in PDFs
+- Fix: Prevent duplicate booking references
+- Fix: Show concluded bookings in occpuancy calendar
+- Fix: Use end_of_day for data digest period_to
+- Fix: Validate conflicting bookings more correctly
+
 ## 25.6.2
 
 Released 24.06.2025
