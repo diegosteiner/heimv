@@ -50,10 +50,11 @@ module RefBuilders
       loop do
         ref = generate_lazy(template_string, same_ref_alpha:)
 
-        return ref unless @organisation.bookings.exists?(ref:)
+        return ref unless @organisation.bookings.where(ref:).where.not(id: @booking.id).exists?
         return nil if retries > 25
 
-        same_ref_alpha = ((retries += 1) + 95).chr
+        retries += 1
+        same_ref_alpha = (retries + 96).chr
       end
     end
   end
