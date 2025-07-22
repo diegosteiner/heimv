@@ -109,9 +109,9 @@
                       - if email_invoice_action.invokable?(invoice_id: invoice.id)
                         = button_to manage_booking_invoke_action_path(invoice.booking), method: :post, params: { id: email_invoice_action.key, invoice_id: invoice.id }, class: 'btn btn-default'
                           span.fa.fa-paper-plane-o[title= email_invoice_action.label]
-                    - unless invoice.is_a?(Invoices::LateNotice)
-                      = link_to new_manage_booking_invoice_path(invoice.booking, invoice: { type: Invoices::LateNotice, supersede_invoice_id: invoice.to_param }), class: 'btn btn-default', title: Invoices::LateNotice.model_name.human do
-                        span.fa.fa-bell-o
+                    / - unless invoice.is_a?(Invoices::LateNotice)
+                    /   = link_to new_manage_booking_invoice_path(invoice.booking, invoice: { type: Invoices::LateNotice, supersede_invoice_id: invoice.to_param }), class: 'btn btn-default', title: Invoices::LateNotice.model_name.human do
+                    /     span.fa.fa-bell-o
                         
                   = link_to edit_manage_invoice_path(invoice), class: "btn btn-default border-0 p-2" do
                     span.fa.fa-edit
