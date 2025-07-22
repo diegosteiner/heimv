@@ -53,6 +53,20 @@ class DataDigest < ApplicationRecord
     self.period_to ||= period_range&.end
   end
 
+  def period_from=(value)
+    value = Date.parse(value) if value.is_a?(String) && value.length <= 10
+    value = Time.zone.parse(value) if value.is_a?(String)
+    value = value.beginning_of_day if value.is_a?(Date)
+    super
+  end
+
+  def period_to=(value)
+    value = Date.parse(value) if value.is_a?(String) && value.length <= 10
+    value = Time.zone.parse(value) if value.is_a?(String)
+    value = value.end_of_day if value.is_a?(Date)
+    super
+  end
+
   def organisation
     super || self.organisation = data_digest_template&.organisation
   end
