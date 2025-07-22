@@ -878,9 +878,7 @@ it:
     email_contract:
       confirm:
       label:
-      label_with_deposit:
       label_with_invoice:
-      label_without_deposit:
       label_without_invoice:
     email_invoice:
       label: Inviare la fattura
