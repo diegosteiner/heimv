@@ -73,8 +73,8 @@ class Payment < ApplicationRecord
     MailTemplate.use(:payment_confirmation_notification, booking, to: :tenant, context:, &:autodeliver!)
   end
 
-  def update_journal_entry_batches
-    JournalEntryBatches::Payment.handle(self) if organisation.accounting_settings.enabled
+  def update_journal_entry_batches(force: false)
+    JournalEntryBatches::Payment.handle(self) if organisation.accounting_settings&.enabled || force
   end
 
   # def accounting_account_nr_required?

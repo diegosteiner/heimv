@@ -116,8 +116,8 @@ class Invoice < ApplicationRecord
     self.payment_ref = RefBuilders::InvoicePayment.new(self).generate if payment_ref.blank?
   end
 
-  def update_journal_entry_batches
-    JournalEntryBatches::Invoice.handle(self) if organisation.accounting_settings.enabled
+  def update_journal_entry_batches(force: false)
+    JournalEntryBatches::Invoice.handle(self) if organisation.accounting_settings&.enabled || force
   end
 
   def paid?
